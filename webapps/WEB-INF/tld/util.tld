@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+    <description>BGERP util library</description>
+	<display-name>BGERP util</display-name>
+	<tlib-version>1.1</tlib-version>
+	<short-name>util</short-name>
+	<uri>http://bgrcrm.ru/jsp/taglib/util</uri>
+	<tag>
+   		<description>Сохраняет pageContext</description>
+   		<name>sc</name>
+   		<tag-class>ru.bgcrm.servlet.jsp.SavePageContextTag</tag-class>
+   		<body-content>JSP</body-content> 
+   		<attribute>
+    		<description>Параметры через запятую, выходящие из тега с изменёнными значениями.</description>
+       		<name>export</name>
+       		<required>false</required>
+       		<rtexprvalue>true</rtexprvalue>
+   		</attribute>		
+ 	</tag> 
+ 	<tag>
+   		<description>
+   		     Создание объекта класса и сохранение его в конткесте. 
+   		     Параметры конструктора могут быть переданы с помощью ui:param.
+   		</description>
+   		<name>newInstance</name>
+   		<tag-class>ru.bgcrm.servlet.jsp.NewInstanceTag</tag-class>
+   		<body-content>JSP</body-content>
+   		<attribute>
+    		<description>Имя создаваемого класса.</description>
+       		<name>clazz</name>
+       		<required>true</required>
+       		<rtexprvalue>true</rtexprvalue>
+   		</attribute> 
+   		<attribute>
+    		<description>Имя для сохранения переменной в контексте.</description>
+       		<name>var</name>
+       		<required>true</required>
+       		<rtexprvalue>true</rtexprvalue>
+   		</attribute>		
+ 	</tag>
+ 	<tag>
+   		<description>Параметр.</description>
+   		<name>param</name>
+   		<tag-class>ru.bgcrm.servlet.jsp.ParamTag</tag-class>
+   		<body-content>JSP</body-content>
+   		<attribute>
+    		<description>Объект с параметром</description>
+       		<name>value</name>
+       		<required>true</required>
+       		<rtexprvalue>true</rtexprvalue>
+   		</attribute>
+ 	</tag>
+	<function>
+        <name>contains</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>boolean contains(java.lang.Object,java.lang.Object)</function-signature>
+	</function>
+	<function>
+        <name>concat</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String concat(java.lang.Object,java.lang.Object)</function-signature>
+	</function>
+	<function>
+        <name>append</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>Object append(java.lang.Object,java.lang.Object)</function-signature>
+	</function>
+	<function>
+        <name>addDay</name>
+        <function-class>ru.bgcrm.util.TimeUtils</function-class>
+        <function-signature>java.util.Date getNextDay(java.util.Date)</function-signature>
+	</function>
+	<function>
+        <name>checkedFromCollection</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String checked(java.lang.Object,java.lang.Object)</function-signature>
+	</function>
+	<function>
+        <name>checkedFromBool</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String checked(java.lang.Boolean)</function-signature>
+	</function>
+	<function>
+        <name>selectedFromCollection</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String selected(java.lang.Object,java.lang.Object)</function-signature>
+	</function>
+	<function>
+        <name>selectedFromBool</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String selected(java.lang.Boolean)</function-signature>
+	</function>
+	<function>
+        <name>uiid</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String uiid()</function-signature>
+	</function>
+	<function>
+        <name>urlEncode</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String urlEncode(java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>htmlEncode</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String htmlEncode(java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>quotEscape</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String quotEscape(java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>truncateHtml</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String truncateHtml(java.lang.String, java.lang.Integer)</function-signature>
+	</function>
+	<function>
+        <name>int</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>Integer getInt(java.lang.Object)</function-signature>
+	</function>
+	<function>
+        <name>formatDate</name>
+        <function-class>ru.bgcrm.util.TimeUtils</function-class>
+        <function-signature>String format(java.util.Date,java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>formatPeriod</name>
+        <function-class>ru.bgcrm.util.TimeUtils</function-class>
+        <function-signature>String formatPeriod(java.util.Date,java.util.Date,java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>getShortDateName</name>
+        <function-class>ru.bgcrm.util.TimeUtils</function-class>
+        <function-signature>String getShortDateName(java.util.Date)</function-signature>
+	</function>
+	<function>
+        <name>parseDate</name>
+        <function-class>ru.bgcrm.util.TimeUtils</function-class>
+        <function-signature>java.util.Date parse(java.lang.String,java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>getDateTypeFormat</name>
+        <function-class>ru.bgcrm.util.TimeUtils</function-class>
+        <function-signature>String getTypeFormat(java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>getDateHour</name>
+        <function-class>ru.bgcrm.util.TimeUtils</function-class>
+        <function-signature>java.util.Date getDateHour(java.util.Date, int)</function-signature>
+	</function>
+	<function>
+        <name>getDayOfWeek</name>
+        <function-class>ru.bgcrm.util.TimeUtils</function-class>
+        <function-signature>Integer getDayOfWeekPosition(java.util.Date)</function-signature>
+	</function>
+	<function>
+        <name>getFirst</name>
+        <function-class>ru.bgcrm.util.Utils</function-class>
+        <function-signature>Object getFirst(java.util.Collection)</function-signature>
+	</function>
+	<function>
+        <name>convertDateToTimestamp</name>
+        <function-class>ru.bgcrm.util.TimeUtils</function-class>
+        <function-signature>java.sql.Timestamp convertDateToTimestamp(java.util.Date)</function-signature>
+	</function>
+	<function>
+        <name>maskEmpty</name>
+        <function-class>ru.bgcrm.util.Utils</function-class>
+        <function-signature>String maskEmpty(java.lang.String,java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>toString</name>
+        <function-class>ru.bgcrm.util.Utils</function-class>
+        <function-signature>String toString(java.util.Collection)</function-signature>
+	</function>
+	<function>
+        <name>configToString</name>
+        <function-class>ru.bgcrm.util.ParameterMap</function-class>
+        <function-signature>String getDataString(ru.bgcrm.util.ParameterMap)</function-signature>
+	</function>
+	<function>
+        <name>toSet</name>
+        <function-class>ru.bgcrm.util.Utils</function-class>
+        <function-signature>Set toSet(java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>toIntegerList</name>
+        <function-class>ru.bgcrm.util.Utils</function-class>
+        <function-signature>List toIntegerList(java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>toList</name>
+        <function-class>ru.bgcrm.util.Utils</function-class>
+        <function-signature>List toList(java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>parseExecutosToIntegerList</name>
+        <function-class>ru.bgcrm.dao.process.ProcessExecutor</function-class>
+        <function-signature>List parseExecutosToIntegerList(java.lang.String)</function-signature>
+	</function>	
+	<function>
+        <name>toIntegerSet</name>
+        <function-class>ru.bgcrm.util.Utils</function-class>
+        <function-signature>Set toIntegerSet(java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>objectTitleList</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String getObjectTitles(java.util.List, java.util.Set)</function-signature>
+	</function>
+	<function>
+        <name>orderedObjectTitleList</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>String getObjectTitles(java.util.Map, java.util.List)</function-signature>
+	</function>
+	<function>
+        <name>objectList</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>List getObjectList(java.util.List, java.util.Set)</function-signature>
+	</function>
+	<function>
+        <name>orderedObjectList</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>List getObjectList(java.util.Map, java.util.List)</function-signature>
+	</function>
+	<function>
+        <name>intersection</name>
+        <function-class>org.apache.commons.collections.CollectionUtils</function-class>
+        <function-signature>java.util.Collection intersection(java.util.Collection, java.util.Collection)</function-signature>
+	</function>
+	<function>
+        <name>getConfig</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>java.lang.Object getConfig(ru.bgcrm.util.ParameterMap, java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>newInstance</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>java.lang.Object newInstance(java.lang.String)</function-signature>
+	</function>	
+	<function>
+        <name>getUserGroupLink</name>
+        <function-class>ru.bgcrm.cache.UserCache</function-class>
+        <function-signature>List getUserGroupLink(int, int, java.util.Date)</function-signature>
+	</function>
+	<function>
+        <name>fileNameWithLastModTime</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>java.lang.String fileNameWithLastModTime(java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>getObjectIds</name>
+        <function-class>ru.bgcrm.util.Utils</function-class>
+        <function-signature>java.lang.String getObjectIds(java.util.Collection)</function-signature>
+	</function>
+	<function>
+        <name>getFromPers</name>
+        <function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+        <function-signature>java.lang.String getFromPers(ru.bgcrm.model.user.User, java.lang.String, java.lang.String)</function-signature>
+	</function>
+	<function>
+        <name>booleanToStringInt</name>
+        <function-class>ru.bgcrm.util.Utils</function-class>
+        <function-signature>java.lang.String booleanToStringInt(boolean)</function-signature>
+	</function>
+</taglib>

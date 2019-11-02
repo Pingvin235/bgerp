@@ -1,0 +1,32 @@
+= Плагин Workload
+:toc:
+
+== О плагине
+Плагин предназначен для распределения процессов среди исполнителей.
+
+== Отображение в процессе назначенных групп
+На дополнительной вкладке процесса отображаются другие назначенные на выбранную дату процессы.
+Что позволяет быстро найти текущему процессу группу решения.
+
+image::_res/set_time.png[width="600px"]
+
+В конфигурации типа процесса добавить:
+[source]
+----
+workload:groupLoad.userGroupIds=<groupIds>
+workload:groupLoad.processTypeIds=<typeIds>
+workload:groupLoad.dateFromParamId=<paramDateFromId>
+workload:groupLoad.dateToParamId=<paramDateToId>
+workload:groupLoad.addressParamId=<paramAddressId>
+----
+
+Где:
+[square]
+* *<groupIds>* - коды групп решения через запятую;
+* *<typeIds>* - коды типов процессов через запятую;
+* *<paramDateFromId>* - код параметра типа datetime;
+* *<paramDateToId>* - код параметра типа datetime;
+* *<paramAddressId>* - код параметра типа address.
+
+
+

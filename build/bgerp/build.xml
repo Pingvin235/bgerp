@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<project name="BGERP" default="build" basedir=".">
+	<description>First installation package</description>
+	
+	<property name="rootfolder" value="BGERP"/>
+	
+	<import file="${basedir}/../common/import/module_build.xml"/>
+	<import file="${basedir}/../update/build.xml"/>	
+	<import file="${basedir}/../update_lib/build.xml"/>
+		
+	<!-- создание структуры каталогов -->
+	<target name="prepare_dir">
+		<delete dir="${rootpath}"/>
+				
+		<mkdir dir="${rootpath}"/>
+		<mkdir dir="${libextpath}"/>
+		<mkdir dir="${libapppath}"/>
+		<mkdir dir="${libcustompath}"/>
+		<mkdir dir="${webrootpath}"/>
+		<mkdir dir="${rootpath}/dyn/ru/bgcrm/dyn"/>
+		<mkdir dir="${rootpath}/log"/>
+		<mkdir dir="${rootpath}/filestorage"/>
+	</target>
+	
+	<!-- копирование -->
+	<target name="copy">
+		<copy todir="${rootpath}">
+			<fileset dir="${basedir}/files"/>
+		</copy>
+	</target>
+	
+	<!--дамп базы -->
+	<target name="table_dump">
+		<concat destfile="db.sql" encoding="UTF-8">
+			<fileset file="${basedir}/db_create"/>
+			<fileset file="${basedir}/../update/patch.sql"/>
+			<fileset file="${basedir}/../update/patch_*.sql"/>
+			<fileset file="${basedir}/db_init"/>
+		</concat>		
+	</target>
+	
+	<!--главный таргет -->
+	<target name="build" depends="prepare_dir, table_dump, copy">
+		<!-- версии модулей update и update_lib -->
+		<antcall target="put_props">
+			<param name="dir" value="${basedir}/../update"/>
+		</antcall>
+		<antcall target="put_props">
+			<param name="dir" value="${basedir}/../update_lib"/>
+		</antcall>
+		
+		<antcall target="build_bgerp_jar"/>
+		<antcall target="build_lib_jar"/>
+		
+		<!-- номер билда идентичен номеру билда обновления -->
+		<property prefix="module" file="${basedir}/../update/update.properties" />
+		
+		<delete dir="${basedir}" includes="bgerp*.zip"/>
+		<zip destfile="${basedir}/bgerp_${module.version}_${module.build.number}.zip">
+			<fileset dir="${basedir}" includes="${rootfolder}/**"/>
+			<fileset file="db.sql"/>
+		</zip>
+		
+		<delete file="db.sql"/>
+	</target>
+</project>

@@ -1,0 +1,1637 @@
+= Структура БД
+:toc:
+
+NOTE: Префиксы в названиях таблиц *n_* - исторические рудименты, вызваны уже существующими на момент создания старыми таблицами и поэтапным развитием BGERP. 
+
+== Ядро
+
+=== address_area
+
+Справочник районов
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|city_id
+|INT
+|код города
+
+|title
+|VARCHAR
+|название
+
+|last_update
+|TIMESTAMP	
+|дата последнего изменения
+|===
+
+=== address_city
+
+Справочник городов
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|country_id
+|INT
+|код страны
+
+|title
+|VARCHAR
+|название
+
+|last_update
+|TIMESTAMP	
+|дата последнего изменения
+|===
+
+=== address_country
+
+Справочник стран
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|title
+|VARCHAR
+|название
+
+|last_update
+|TIMESTAMP	
+|дата последнего изменения
+|===
+
+=== address_distribution
+
+Распределение пользователей по домам
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|distr_id
+|INT
+|код
+
+|user_id
+|INT
+|код пользователя
+
+|hid
+|INT
+|код дома
+|===
+
+=== address_house
+
+Справочник домов
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|area_id
+|INT
+|код района
+
+|quarter_id
+|INT
+|код квартала
+
+|street_id
+|INT
+|код улицы
+
+|house
+|INT
+|номер дома
+
+|frac
+|VARCHAR
+|дробь
+
+|post_index
+|VARCHAR
+|индекс
+
+|comment
+|VARCHAR
+|коментарий
+
+|last_update
+|TIMESTAMP	
+|дата последнего изменения
+|===
+
+=== address_quarter
+
+Справочник кварталов
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|city_id
+|INT
+|код города
+
+|title
+|VARCHAR
+|название
+
+|last_update
+|TIMESTAMP	
+|дата последнего изменения
+|===
+
+=== address_quarter_distribution
+
+Распределение групп пользователей по кварталам
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|distr_id
+|INT
+|код
+
+|group_id
+|INT
+|код группы
+
+|quarter_id
+|INT	
+|код квартала
+|===
+
+=== address_street
+
+Справочник улиц
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|city_id
+|INT
+|код города
+
+|title
+|VARCHAR
+|название
+
+|last_update
+|TIMESTAMP	
+|дата последнего изменения
+|===
+
+=== bgbilling_common_contract
+
+Единые договора
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|city_id
+|INT
+|код города
+
+|customer_id
+|INT
+|код контрагента
+
+|area_id
+|INT
+|код города(первые 2 цифры договора)
+
+|number
+|INT
+|хвост договора
+
+|pswd
+|VARCHAR
+|пароль доступа к статистике
+
+|date_from
+|DATE
+|дата создания договора
+
+|date_to
+|DATE	
+|дата закрытия договора
+|===
+
+=== customer
+
+Контрагенты
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|title
+|VARCHAR
+|название
+
+|title_pattern_id
+|INT
+|
+
+|title_pattern
+|VARCHAR
+|
+
+|param_group_id
+|INT
+|код группы параметров
+
+|date_created
+|DATETIME
+|время создания контрагента	
+
+|user_id_created
+|INT
+|создавший пользователь
+
+|pswd
+|VARCHAR	
+|
+|===
+
+=== customer_group_title
+
+Группы параметров контрагентов
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|title
+|VARCHAR
+|название
+
+|comment
+|VARCHAR	
+|
+|===
+
+=== file_data
+
+Данные файлов
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|title
+|VARCHAR
+|название документа
+
+|time
+|DATETIME
+|время сохранения документа
+
+|secret
+|CHAR	
+|секрет для запроса файла
+|===
+
+=== n_message
+
+Сообщения, дополнительные сведения о значениях полей - в исходном коде javadoc:ru.bgcrm.model.message.Message[]
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|system_id
+|VARCHAR	
+|внешний уникальный идентификатор, зависит от типа сообщения
+
+|process_id
+|INT
+|код процесса, ссылка на <<_process, process:id>>
+
+|direction
+|TINYINT	
+|направление, 1 - входящее, 2 - исходящее
+
+|user_id
+|INT	
+|код пользователя, ссылка на <<_user, user:id>>
+
+|sender
+|VARCHAR	
+|не используется
+
+|from
+|VARCHAR	
+|отправитель
+
+|to
+|VARCHAR
+|получатель
+
+|from_dt
+|DATETIME	
+|дата и время отправки
+
+|to_dt
+|DATETIME	
+|дата и время получения
+
+|subject
+|VARCHAR
+|тема
+
+|text
+|VARCHAR	
+|текст сообщения, описание звонка
+
+|processed
+|TINYINT	
+|1 - сообщение обработано
+
+|attach_data
+|TEXT	
+|наименования вложений
+|===
+
+=== n_param_list_value
+
+Значения списковых параметров
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код параметра
+
+|title
+|VARCHAR	
+|значение
+|===
+
+=== param_address
+
+Параметры типа "адрес"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|n
+|INT
+|
+
+|house_id
+|INT
+|код дома
+
+|flat
+|CHAR
+|квартира
+
+|room
+|VARCHAR
+|комната
+
+|pod
+|TINYINT
+|подъезд
+
+|floor
+|TINYINT
+|этаж
+
+|value
+|VARCHAR
+|тестовая строка с адресом
+
+|comment
+|VARCHAR
+|комментарий
+
+|custom
+|TEXT	
+|
+|===
+
+=== param_address_log
+
+Логи изменения параметров типа "адрес"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|house_id
+|INT
+|код дома
+
+|flat
+|CHAR
+|квартира
+
+|room
+|VARCHAR
+|комната
+
+|pod
+|TINYINT
+|подъезд
+
+|floor
+|TINYINT
+|этаж
+
+|value
+|VARCHAR
+|тестовая строка с адресом
+
+|comment
+|VARCHAR
+|комментарий
+
+|custom
+|TEXT
+|
+
+|date_changed
+|DATETIME
+|дата изменения
+
+|user_id_changed
+|INT	
+|код пользователя сделавшего изменение
+|===
+
+=== param_blob
+
+Текстовые параметры (более 255 символов)
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|TEXT	
+|значение
+|===
+
+=== param_date
+
+Параметры типа "дата"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|DATE	
+|значение
+|===
+
+=== param_date_log
+
+Логи изменения параметров типа "дата"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|DATE	
+|значение
+
+|date_changed
+|DATETIME
+|дата изменения
+
+|user_id_changed
+|INT	
+|код пользователя сделавшего изменение
+|===
+
+=== param_datetime
+
+Параметры типа "время"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|DATETIME	
+|значение
+|===
+
+=== param_datetime_log
+
+Логи изменения параметров типа "время"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|DATETIME	
+|значение
+
+|date_changed
+|DATETIME
+|дата изменения
+
+|user_id_changed
+|INT	
+|код пользователя сделавшего изменение
+|===
+
+=== param_email
+
+Параметры типа "e-mail"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|n
+|INT
+|порядковый номер в списке
+
+|value
+|VARCHAR
+|значение
+
+|comment
+|VARCHAR	
+|комментарий
+|===
+
+=== param_email_log
+
+Логи изменения параметров типа "e-mail"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|VARCHAR	
+|значение
+
+|date_changed
+|DATETIME
+|дата изменения
+
+|user_id_changed
+|INT	
+|код пользователя сделавшего изменение
+|===
+
+=== param_file
+
+Параметры типа "file"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|n
+|INT
+|порядковый номер в списке
+
+|value
+|INT
+|значение
+|===
+
+=== param_group
+
+Группы параметров
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|group_id
+|INT
+|код группы
+
+|param_id
+|INT
+|код парамера
+|===
+
+=== param_group_title
+
+Названия групп параметров
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|object
+|VARCHAR
+|тип объекта, к которому относится процесс
+
+|title
+|CHAR
+|название
+|===
+
+=== param_list
+
+Параметры спискового типа
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|INT
+|значение
+
+|comment
+|VARCHAR
+|комментарий
+
+|_comment
+|VARCHAR
+|название
+|===
+
+=== param_list_log
+
+Логи изменения спискового параметра
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|INT
+|значение
+
+|custom
+|VARCHAR
+|
+
+|date_changed
+|DATETIME
+|дата изменения
+
+|user_id_changed
+|INT
+|код пользователя сделавшего изменение
+|===
+
+=== param_listcount
+
+Параметры типа "listcount" с количественным полем
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|INT
+|значение
+
+|count
+|DOUBLE
+|кол-во
+
+|comment
+|VARCHAR
+|название
+|===
+
+=== param_listcount_value
+
+Значения параметров типа "listcount"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|title
+|VARCHAR
+|значение
+|===
+
+=== param_log
+
+Логи изменения списка параметров
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|dt
+|DATETIME
+|дата изменения
+
+|object_id
+|INT
+|код объекта, к которому относится параметр
+
+|user_id
+|INT
+|код пользователя сделавшего изменение	
+
+|param_id
+|INT
+|код парамера
+
+|text
+|VARCHAR
+|значение
+|===
+
+=== param_phone
+
+Параметры типа "телефон"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|TEXT
+|значение
+|===
+
+=== param_phone_item
+
+Телефоны
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|n
+|TINYINT
+|порядковый номер телефона в списке
+
+|phone
+|VARCHAR
+|телефонный номер, только цифры без форматирования
+
+|format
+|VARCHAR
+|формат номера
+
+|comment
+|VARCHAR
+|комментарий
+
+|flags
+|INT
+|значение
+|===
+
+=== param_phone_log
+
+Логи изменения параметра типа "телефон"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|TEXT
+|значение
+
+|item_data
+|TEXT
+|телефонный номер, только цифры без форматирования
+
+|date_changed
+|DATETIME
+|дата изменения
+
+|user_id_changed
+|INT
+|код пользователя сделавшего изменение
+|===
+
+=== param_pref
+
+Перечень параметров
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|object
+|VARCHAR
+|объект, к которому относится параметр
+
+|type
+|VARCHAR
+|тип параметра
+
+|title
+|VARCHAR
+|название
+
+|order
+|INT
+|порядковый номер(в интерфейсе crm)
+
+|script
+|TEXT
+|
+
+|config
+|TEXT
+|
+
+|comment
+|VARCHAR
+|комментарий
+|===
+
+=== param_text
+
+Cтроковые параметры
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|VARCHAR
+|значение
+|===
+
+=== param_text_log
+
+Логи изменения строкового параметра
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|VARCHAR
+|значение
+
+|date_changed
+|DATETIME
+|дата изменения
+
+|user_id_changed
+|INT
+|код пользователя сделавшего изменение
+|===
+
+=== param_tree
+
+Параметры типа "дерево"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|value
+|VARCHAR
+|значение
+|===
+
+=== param_tree_value
+
+Значения параметров типа "дерево"
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|param_id
+|INT
+|код парамера
+
+|parent_id
+|INT
+|код родителя
+
+|title
+|VARCHAR
+|значение
+|===
+
+=== process
+Процессы.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|уникальный код процесса
+
+|type_id
+|INT
+|код типа процесса, ссылка на <<_process_type, process_type:id>>
+
+|priority
+|TINYINT
+|приоритет процесса
+
+|status_id
+|INT
+|код статуса процесса, ссылка на <<_process_status_title, process_status_title:id>> 
+
+|status_dt
+|DATETIME
+|время последнего изменения статуса
+
+|status_user_id
+|INT
+|код пользователя, сделавшего последнее изменение статуса, ссылка на <<_user, user:id>> 
+
+|description
+|TEXT
+|описание процесса
+
+|create_dt
+|DATETIME
+|время создания процесса
+
+|create_user_id
+|INT
+|код пользователя, создавшего процесс, ссылка на <<_user, user:id>>
+
+|close_dt
+|DATETIME
+|время закрытия процесса
+
+|close_user_id
+|INT
+|код пользователя, закрывшего процесс, ссылка на <<_user, user:id>>
+
+|groups
+|CHAR(100)
+|коды групп решения с ролями, избыточное поле для ускорения выборки
+
+|executors
+|CHAR(100)
+|коды исполнителей, избыточное поле для ускорения выборки
+
+|title
+|CHAR(200)
+|не используется
+|===
+
+=== process_executor
+Исполнители процессов.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|process_id
+|INT
+|код процесса
+
+|group_id
+|INT
+|код группы
+
+|role_id
+|INT
+|код роли, которую исполняет группа в процессе
+
+|user_id
+|INT
+|код пользователя
+|===
+
+=== process_group
+Группы решения процессов.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|process_id
+|INT
+|код процесса, ссылка на <<_process, process:id>>
+
+|group_id
+|INT
+|код группы, ссылка на <<_user_group_title, user_group_title:id>> 
+
+|role_id
+|INT
+|код роли, которую исполняет группа в процессе
+|===
+
+=== process_link
+Привязка процессов к объектам, включая и другие процессы.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|process_id
+|INT
+|код процесса, ссылка на <<_process, process:id>>
+
+|object_type
+|VARCHAR
+|тип привязанного объекта, привязанные процессы: *processLink*, *processDepend*, *processMade*, контрагент: *customer*
+
+|object_id
+|INT
+|код привязанного объекта
+
+|object_title
+|VARCHAR
+|название привязанного объекта (избыточное поле)
+
+|dt_created
+|DATETIME
+|дата создания привязки
+
+|config
+|VARCHAR
+|конфигурация в формате ключ-значение
+|===
+
+=== process_log
+Лог изменений процессов.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код процесса, ссылка на <<_process, process:id>>
+
+|dt
+|DATETIME
+|время
+
+|user_id
+|INT
+|код пользователя сделавшего изменение
+
+|data
+|TEXT
+|текст с описанием изменения
+|===
+
+=== process_status
+Лог изменений статуса процессов.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|process_id
+|INT
+|код процесса
+
+
+|dt
+|DATETIME
+|время изменения статуса
+
+|status_id
+|INT
+|код статуса
+
+|user_id
+|INT
+|код пользователя изменившего статус
+
+|last
+|TINYINT
+|
+
+|comment
+|VARCHAR
+|комментарий
+|===
+
+=== process_status_title
+
+Статусы процессов
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|pos
+|INT
+|порядковый номер(в интерфейсе crm)
+
+|title
+|VARCHAR
+|название
+|===
+
+=== process_type
+
+типы процессов
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|title
+|VARCHAR
+|название
+
+|archive
+|TINYINT
+|
+
+|parent_id
+|INT
+|код типа-родителя
+
+|use_parent_props
+|TINYINT
+|1-дочерний тип наследует все св-ва родителя, 0-не неследует
+
+|child_count
+|INT
+|кол-во дочерних типов
+
+|data
+|TEXT
+|
+
+|config
+|TEXT
+|
+
+|last_modify_user_id
+|INT
+|код пользователя сделавшего последнее изменение
+
+|last_modify_dt
+|DATETIME
+|время последнего изменения
+|===
+
+=== process_type_param
+
+Конфигурация параметров типа процесса
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|type_id
+|INT
+|код типа
+
+|param_id
+|INT
+|код парамера
+|===
+
+=== process_type_status
+
+Конфигурация статусов типа процесса
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|type_id
+|INT
+|код типа
+
+|status_id
+|INT
+|код статуса
+
+|pos
+|INT
+|порядковый номер(в интерфейсе crm)
+|===
+
+=== user
+Пользователи.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|lu
+|TIMESTAMP
+|
+
+|id
+|INT
+|код
+
+|deleted
+|TINYINT
+|
+
+|title
+|VARCHAR
+|фио
+
+|login
+|VARCHAR
+|логин
+
+|pswd
+|VARCHAR
+|пароль
+
+|description
+|VARCHAR
+|описание
+
+|date_created
+|DATETIME
+|дата заведения
+
+|status
+|INT
+|статус (0-активен, 1-заблокирован)
+
+|ids
+|VARCHAR
+|
+
+|config
+|TEXT
+|конфиг пользователя
+
+|email
+|VARCHAR
+|адрес электронной почты
+
+|personalization
+|TEXT
+|конфиг персонализации пользователя
+|===
+
+=== user_group
+Группы пользователей.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|user_id
+|INT
+|код пользователя, ссылка на <<_user, user:id>>
+
+|group_id
+|INT
+|код группы, ссылка на <<_user_group_title, user_group_title:id>> 
+
+|date_from
+|DATE
+|в группе с
+
+|date_to
+|DATE
+|в группе до
+|===
+
+=== user_group_title
+Наименование групп пользователей.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Столбец
+|Тип
+|Описание
+
+|id
+|INT
+|код
+
+|title
+|VARCHAR
+|название
+
+|description
+|VARCHAR
+|описание
+
+|config
+|TEXT
+|
+
+|parent_id
+|INT
+|код родительской группы
+
+|archive
+|TINYINT
+|
+
+|child_count
+|DATE
+|кол-во дочерних типов
+|===
+
+include::../plugin/task/db.adocf[]

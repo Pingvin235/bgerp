@@ -1,0 +1,129 @@
+= Плагин Task
+:toc:
+
+Предназначен для создания отложенных либо (в перспективе) периодически выполняемых задач, как-то:
+[square]
+* напоминания о процессе;
+* создание периодических процессов по шаблону.
+
+[[config]]
+== Задачи
+Типы задач настраиваются в <<../../kernel/setup.adoc#config, конфигурации>>.
+[source, options="nowrap"]
+----
+task:type.<id>.id=<id>
+task:type.<id>.doExpression=<jexl>
+----
+Где:
+[square]
+* *<jexl>* - <<../../kernel/extension.adoc#jexl, JEXL>> скрипт.
+
+В контекст JEXL скрипта помимо <<../../kernel/extension.adoc#jexl-process-context, типового набора для обработки процесса>> передаются:
+[square]
+* *task* - объект класса javadoc:ru.bgcrm.plugin.task.model.Task[];
+* *taskType* - объект класса javadoc:ru.bgcrm.plugin.task.model.TaskType[].
+
+Проверку и выполнение задач выполняет класс *ru.bgcrm.plugin.task.TaskRunner*.
+Для теста он может быть выполнен в <<../../kernel/extension.adoc#dyn, редакторе динамического кода>>, 
+далее запуск настраивается в <<../../kernel/setup.adoc#scheduler, планировщике>>.
+
+[[example]]
+=== Пример
+==== Напоминание о процессе
+При изменении параметра процесса типа *date* с кодом *39* устанавливается напоминание, создаётся задача.
+Далее при наступлении момента времени задача отрабатывает и отправляет новость о процессе. 
+
+Конфигурация на изменение параметра в <<../../kernel/process/processing.adoc#, простом обработчике изменений процесса>>:
+[source]
+----
+onProcessEvent.1.doExpression=<<END
+    t = new("ru.bgcrm.plugin.task.model.Task", "reminder", process.getId(), event.getValue());
+    t.getConfig().set("userId", user.getId().toString());
+    task.setTask(t);
+END
+----
+
+Сама задача определяется в <<../../kernel/setup.adoc#config, конфигурации>>:
+[source]
+----
+task:type.1.id=reminder
+task:type.1.doExpression=<<END
+   text = 
+         "Необходимо обратить внимание на процесс, в котором вы числитесь исполнителем.<br/>" + 
+          "Описание:<br>" + process.getDescription();
+   text += "<br/><a href='#UNDEF' onClick='openProcess( " + process.getId() + " ); return false;'>Перейти к процессу</a>";
+   news = new("ru.bgcrm.model.News", true, "Напоминание о процессе #" + process.getId(), text);
+   news.setUserId(task.getConfig().getInt("userId", 0));
+   // отправка исполнителям процесса
+   new("ru.bgcrm.dao.NewsDAO", conSet.getConnection()).updateNewsUsers(news, process.getExecutorIds());
+   // либо произвольным пользователям
+   // new("ru.bgcrm.dao.NewsDAO", conSet.getConnection()).updateNewsUsers(news, {1,2});
+END
+----
+
+[[user-email-state-sender]]
+== E-Mail уведомления пользователей
+Класс позволяет периодически уведомлять пользователей через E-Mail о непрочитанных новостях и необработанных сообщениях.
+
+Настройка в <<../../kernel/setup.adoc#config, конфигурации>>:
+[source]
+----
+task:userStateSender.email.paramId=<paramId>
+task:userStateSender.email.doExpression=<jexl>
+----
+Где:
+[square]
+* *<paramId>* - код параметра пользователя типа email;
+* *<jexl>* - <<../../kernel/extension.adoc#jexl, JEXL>> скрипт, выполняющий отправку. 
+
+В контекст JEXL скрипта дополнительно передаются:
+[square]
+* *msg* - объект класса javadoc:ru.bgcrm.util.MailMsg[];
+* *emails* - List объектов класса javadoc:ru.bgcrm.model.param.ParameterEmailValue[].
+
+=== Пример настройки
+Параметр *79* - с типом email у пользователя. 
+[source]
+----
+task:userStateSender.email.paramId=79
+task:userStateSender.email.doExpression=<<END
+    if (event.getNewsCount() <= 0 && event.getMessagesCount() <= 0) {
+       log.debug("No messages.");
+       return 1;
+    }
+
+   subject = "BGERP cводка ";
+   text = "";
+   
+   if (event.getNewsCount() > 0)
+      text += "Непрочитанных новостей: " + event.getNewsCount();
+   if (event.getMessagesCount() > 0)
+      text += NEW_LINE + "Необработанных сообщений: " +  event.getMessagesCount();
+
+   email = u.getFirst(emails).getValue();
+
+   msg.sendMessage(email, subject, text);
+END
+----
+
+Проверку и выполнение задач выполняет класс *ru.bgcrm.plugin.task.UserStateSender*.
+Для теста он может быть выполнен в <<../../kernel/extension.adoc#dyn, редакторе динамического кода>>, 
+далее запуск настраивается в <<../../kernel/setup.adoc#scheduler, планировщике>>.
+
+== Отображение в карточке процесса
+Для включения карточки в <<../../kernel/process/index.adoc#type-config, конфигурации типа процесса>> добавить.
+[source]
+----
+task:processShowTasks=1
+----
+
+image::_res/process_tasks.png[width=600px]
+
+[[dev-plan]]
+== Планы дальнейшего развития
+Задачи могут исполняться многократно по расписанию. 
+Для этого в редакторе карточки процесса будет реализован визуальный редактор.
+После первого выполнения задача будет не помечаться исполненной, а ставить дату следующего выполнения.
+Такие задачи смогут быть использованы, например, для клонирования регулярных процессов по расписанию.
+
+

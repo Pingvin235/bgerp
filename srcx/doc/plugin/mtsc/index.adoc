@@ -1,0 +1,33 @@
+=  Плагин MTSC
+:toc:
+
+Плагин предоставляет возможность отправки SMS сообщений по протоколу MTS Communicator. 
+Отправка может быть осуществлена с использованием API для <<../../kernel/process/processing.adoc#, простого обработчика изменений процесса>>.
+
+== Настройка
+В конфигурации определите параметры доступа к сервису MTSC.
+[source]
+----
+mtsc:url=http://mcommunicator.ru/M2M/m2m_api.asmx/SendMessage
+mtsc:login=<login>
+mtsc:password=<password>
+mtsc:naming=BGERP
+----
+Где:
+[square]
+* *<login>* - логин доступа к сервису;
+* *<pasword>* - пароль.
+
+Теперь в скрипте doExpression простого обработчика событий возможна отправка сообщений.
+[source]
+----
+onProcessEvent.1.events=statusChanged
+onProcessEvent.1.doExpression=<<END
+ phone=processParam.getParamPhoneNoFormat(86);
+ if(phone) {
+    mtsc.sendSms(phone, "Изменился статус");
+ }
+END
+----
+
+Объект *mtsc* класса javadoc:ru.bgcrm.plugin.mtsc.DefaultProcessorFunctions[] с функциями API предоставляется плагином.

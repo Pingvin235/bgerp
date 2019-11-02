@@ -1,0 +1,14 @@
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<action-mappings>
+		<action path="/user/plugin/fias" parameter="action" type="ru.bgcrm.plugin.fias.struts.action.FiasAction" name="form" scope="request">
+			<forward name="default" path="/WEB-INF/jspf/user/plugin/fias/fias_sync.jsp"/>
+			<forward name="streetForm" path="/WEB-INF/jspf/user/plugin/fias/fias_street.jsp"/>
+			<forward name="houseForm" path="/WEB-INF/jspf/user/plugin/fias/fias_house.jsp"/>
+			<forward name="updateBaseForm" path="/WEB-INF/jspf/user/plugin/fias/fias_update.jsp"/>
+			<forward name="streetList" path="/WEB-INF/jspf/user/plugin/fias/fias_street_list.jsp"/>
+			<forward name="houseList" path="/WEB-INF/jspf/user/plugin/fias/fias_house_list.jsp"/>
+			<forward name="notLinkHouseList" path="/WEB-INF/jspf/user/plugin/fias/not_link_house_list.jsp"/>								
+		</action>
+	</action-mappings>
+</struts-config>

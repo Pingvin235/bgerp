@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<!-- 
+	<p><ru></ru><en></en></p>
+	-->
+	<p><ru>Свойства</ru><en>Properties</en></p>
+	<p><ru>Сохранить свойства</ru><en>Save properties</en></p>
+	<p><ru>Пароль</ru><en>Password</en></p>
+	<p><ru>Логин</ru><en>Login</en></p>
+	<p><ru>Имя</ru><en>Name</en></p>
+	<p><ru>Свойство</ru><en>Property</en></p>
+	<p><ru>Параметр</ru><en>Parameter</en></p>
+	<p><ru>Параметры (сохраняются сразу)</ru><en>Parameters (saved immediately)</en></p>
+	<p><ru>Опции интерфейса</ru><en>Interface options</en></p>
+	<p><ru>Да</ru><en>Yes</en></p>
+	<p><ru>Нет</ru><en>No</en></p>
+	<p><ru>Сохранять порядок объектов</ru><en>Preserve objects order</en></p>
+	<p><ru>Последний объект сверху</ru><en>Last object on top</en></p>
+	<p><ru>Открытие буфера объектов по долгому нажатию ЛКМ</ru><en>Open buffer on long left mouse press</en></p>
+	<p><ru>Порядок объектов в буфере</ru><en>Order of objects in buffer</en></p>
+	<p><ru>Максимальное число объектов в буфере</ru><en>Maximum objects in buffer</en></p>
+	<p><ru>Текст</ru><en>Text</en></p>
+	<p><ru>Показать текст конфигурации опций</ru><en>Show option's configuration text</en></p>
+	<p><ru>Послать персональную новость</ru><en>Send personal news</en></p>
+	<p><ru>Текст конфигурации опций</ru><en>Options configuration text</en></p>
+	<p><ru>Сохранить опции</ru><en>Save options</en></p>
+	<p><ru>Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5</ru><en>Saved, for applying reboot the interface by Ctrl+F5</en></p>
+	<p><ru>Мой профиль</ru><en>My profile</en></p>
+	<p><ru>Выход</ru><en>Logout</en></p>
+	<p><ru>Мои процессы</ru><en>My processes</en></p>
+	<p><ru>Профиль</ru><en>Profile</en></p>
+	<p><ru>Циклическая зависимость</ru><en>Cyclic dependency</en></p>
+	<p><ru>Вложение</ru><en>Attach</en></p>
+	<p><ru>Все</ru><en>All</en></p>
+	<p><ru>** Я **</ru><en>** Me **</en></p>
+	<p><ru>Выберите исполнителей</ru><en>Choose executors</en></p>
+	<p><ru>Завершить</ru><en>Finish</en></p>
+	<p><ru>Прервать создание</ru><en>Creation abort</en></p>
+	<p><ru>Прервать создание процесса?</ru><en>Abort process creation?</en></p>
+	<p><ru>Новый процесс</ru><en>New process</en></p>
+	<p><ru>не указан</ru><en>undefined</en></p>
+	<p><ru>Значение</ru><en>Value</en></p>	
+	<p><ru>Название</ru><en>Name</en></p>
+	<p><ru>К процессу привязаны</ru><en>Process links</en></p>
+	<p><ru>Процесс привязан к</ru><en>The process is linked to</en></p>
+	<p><ru>Связанные процессы</ru><en>Linked processes</en></p>
+	<p><ru>Параметры</ru><en>Parameters</en></p>
+	<p><ru>История статусов</ru><en>Status history</en></p>
+	<p><ru>Пользователь</ru><en>User</en></p>
+	<p><ru>Время</ru><en>Time</en></p>
+	<p><ru>Закрыть</ru><en>Close</en></p>
+	<p><ru>ИСПОЛНИТЕЛИ БЕЗ ГРУПП</ru><en>EXECUTORS WITHOUT GROUPS</en></p>
+	<p><ru>-Я</ru><en>-Me</en></p>
+	<p><ru>+Я</ru><en>+Me</en></p>
+	<p><ru>Добавить вас в исполнители?</ru><en>Add you to executors?</en></p>
+	<p><ru>Добавить меня в исполнители</ru><en>Add myself to executors</en></p>
+	<p><ru>Удалить вас из исполнителей?</ru><en>Remove you from executors?</en></p>
+	<p><ru>Удалить меня из исполнителей</ru><en>Remove myself from executors</en></p>
+	<p><ru>исполнители</ru><en>executors</en></p>
+	<p><ru>группы</ru><en>groups</en></p>
+	<p><ru>Группы / исполнители</ru><en>Groups / executors</en></p>
+	<p><ru>Отмена</ru><en>Cancel</en></p>
+	<p><ru>Добавить в конец описания текст с именем автора и временем</ru><en>Add to the description's end with author and time</en></p>
+	<p><ru>Править описание целиком (также можете кликнуть мышью по описанию)</ru><en>Edit the whole description, you may also click on it by mouse</en></p>
+	<p><ru>править целиком</ru><en>edit</en></p>
+	<p><ru>добавить</ru><en>add</en></p>
+	<p><ru>Описание</ru><en>Description</en></p>
+	<p><ru>история</ru><en>history</en></p>
+	<p><ru>Данный тип процесса был удален</ru><en>This process type was removed</en></p>
+	<p><ru>Удалить процесс?</ru><en>Delete process?</en></p>
+	<p><ru>Удалить процес</ru><en>Delete process</en></p>
+	<p><ru>Статус</ru><en>Status</en></p>
+	<p><ru>Создан</ru><en>Created</en></p>
+	<p><ru>лог изменений</ru><en>change log</en></p>
+	<p><ru>изменить тип</ru><en>type change</en></p>
+	<p><ru>приоритет</ru><en>priority</en></p>	
+	<p><ru>ПРЕДЫДУЩИЙ</ru><en>PREVIOUS</en></p>
+	<p><ru>Комментарий</ru><en>Comment</en></p>
+	<p><ru>в</ru><en>to</en></p>
+	<p><ru>Переключить из статуса </ru><en>Change status from </en></p>
+	<p><ru>Ещё</ru><en>More</en></p>
+	<p><ru>Сообщения</ru><en>Messages</en></p>
+	<p><ru>Объектов в буфере:</ru><en>Objects in buffer:</en></p>
+	<p><ru>BGERP 3.0 не будет корректно работать в вашем браузере!</ru><en>BGERP 3.0 will not work correctly in this browser!</en></p>
+	<p><ru>Поддерживаемые браузеры: Mozilla Firefox %s и новее, Google Chrome %s и новее, Safari %s и новее.</ru><en>Supported browsers: Mozilla Firefox %s and newer, Google Chrome %s and newer, Safari %s and newer.</en></p>
+	<p><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
+	<p><ru>При попытке аутентификации произошла ошибка:</ru><en>Authentication error:</en></p>
+	<p><ru>Войти</ru><en>Login</en></p>
+</data>

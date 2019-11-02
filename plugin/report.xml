@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin package="ru.bgcrm.plugin.report">
+	<endpoint id="user.menu.items.jsp" file="/WEB-INF/jspf/user/plugin/report/menu_items.jsp"/>
+</plugin>

@@ -1,0 +1,451 @@
+= Разработка
+:toc:
+:toclevels: 4
+
+Проект сконфигурирован в формате Gradle, конфигурационный файл link:../../build.gradle[build.gradle].
+
+[[ide]]
+== Настройки IDE
+=== Eclipse
+В данный момент наиболее удобное решение.  
+Загрузить Eclise for Java EE, эта сборка уже содержит GIT клиент, редакторы JSP и XML.
+
+Установить плагины:
+[square]
+* *Buildship Gradle* - поддержка Gradle;
+* *AsciiDoctor* - правка документации;
+* *MoreUnit* - удобная работа с Unit тестами.
+
+Вызвать правым кликом на проекте меню *Refresh Gradle Project*.
+Его же вызывать при любом изменении библиотек проекта.
+
+=== Форматирование Java
+Форматирование Java кода должно соответствовать *Java Conventions* со следующими изменениями.
+Настройки в *Windows - Preferences - Java - Code style - Formatter*. 
+Необходимо открыть стандартный форматтер и сохранить под новым именем, изменив параметры:
+[square]
+* *Indentation - Tab policy* - *Spaces only*
+* *Indentation* - *Tab size* - *4*
+* *Line Wrapping* - *Maximum line width*  - *150*
+
+*Windows - Preferences - Java - Code style - Organize Imports* в двух полях поставить 99 и 1.
+Файл форматера Eclipse: link:../../.vscode/formatter.xml[formatter.xml]
+
+=== VS Code
+Более быстрая чем Eclipse, лучше поддержка JavaScript. 
+Примеры настройки можно посмотреть в каталоге `.vscode` в корне проекта.
+Недостатки:
+[square]
+* почти нет поддержки JSP;
+* хуже редактор AsciiDoc.
+
+=== Запуск
+Параметры для запуска:
+[square]
+* Main class: ru.bgerp.Server
+* Program arguments: start
+* VM arguments: -Dbgerp.setup.data=bgerp_test
+* Classpath: *User entries - Advanced - Add folders* нажать и добавить каталог текущего проекта.
+
+bgerp_test.propertes файл должен лежать в корне проекта.
+Его можно скопировать из bgerp.properties, он не будет сохранён в GIT. 
+
+Изначальную БД взять из артифактов последнего запуска <<#integration-test, integration-test>> на основной ветке: http://git.pzdc.de/bgerp/bgerp/-/jobs 
+
+[[workflow]]
+== GIT workflow
+Основная ветка проекта - *master*, ветка *documentation* всегда включает последние изменения от основной ветки плюс актуальную документацию.
+[square]
+* Каждое *изменение* должно базироваться на процессе в BGERP BiTel, в котором происходит весь обмен информацией с заказчиками.
+* *Идентификатор изменения* - строка *p<идентификатор процесса>*, например *p13455*
+* Для каждого изменения создаётся отдельная ветка GitLab на базе *documentation* , название начинающееся с идентификатора изменения, разделители - дефисы. Например: *i2-link-customer-process*
+* В процессе разработки в ветке допускается любая стратегия коммитов: промежуточные коммиты, ответвления, откаты коммитов.
+* В ветке может быть изменён файл *.gitignore* для хранения кастомизаций в GIT, они не будут перенесены в основную ветку.
+* На ветку изменения могут быть периодически смерджены основная ветка и документация (всегда впереди основной с актуальными правками документации).
+* Необходимые правки документации производятся одновременно с модификацией исходного кода, могут быть отложены на последний момент перед *переносом*.
+* По завершению разработки необходимо запросить *перенос* ветки с изменением на основную ветку в процессе BGERP.
+* После обсуждения процесс закрывается, а изменение переносится в виде единственного коммита, с комментарием начинающимся с идентификатора изменения в основную ветку.
+* Ветка разработки впоследствии может быть удалена. Автор изменения может быть установлен по идентификатору в комментарии.
+* Пакеты обновления для клиента, равно как и документацию, рекомендуется предоставлять в сетевом каталоге, содержащем идентификатор процесса. 
+Например: http://bgerp.ru/patch/p10646 Установка обновлений производится клиентом с помощью *installer.sh install*
+
+[IMPORTANT]
+====
+Невозможно одновременно тестировать несколько изменений параллельно на одной системе BGERP и пользоваться ими.
+Каждое изменение будет вероятнее всего перетирать другое при установке обновления.
+По окончанию приёмки изменения уведомьте разработчиков и изменение будет включено в основную ветку со сборкой нового билда.
+====
+
+=== Настройка GIT
+Пример настройки *.gitconfig*:
+[source]
+----
+[user]
+	email = shamil@company.com
+	name = Shamil Vakhitov
+[credential]
+	helper = store
+[core]
+	autocrlf = false
+	fileMode = false
+[pull]
+	rebase = true
+----
+
+=== GIT команды
+Почистить все ссылки на несуществующие более удалённые ветки:
+[source]
+----
+git remote prune origin
+----
+
+Получение последних обновлений основной ветки не будучи в ней:
+[source]
+----
+git fetch origin master:master
+----
+
+=== Сборка
+Необходим установленный Apache Ant и Perl с модулями. На Linux, WSL, либо Mac.
+
+Сборка пакета обновления, например в разрабатываемой <<#workflow, ветке>>. В каталоге *build/update* выполнить:
+----
+bash -c ant
+----
+
+Сборка пакета обновления библиотек, можно также выполнять в отдельной ветке. Необходимо вызвать перед публикацией, если изменился состав библиотек.
+В каталоге *build/update_lib* выполнить:
+[source]
+----
+bash -c ant
+----
+
+Сборка пакета обновления и публикация. Вызвать каталоге *build* для WSL:
+[source]
+----
+bash -c build_and_copy.sh
+----
+
+Сборка и копирование JavaDoc, в том же каталоге:
+[source]
+----
+bash -c create_doc.sh
+----
+
+=== Документация
+Исходные файлы в формате AsciiDoctor размещаются в каталоге *srcx/doc* проекта.
+Модификация исходных кодов программы и документации выполняется одновременно в ветке изменения.
+Примеры форматирования и рекомендации можно посмотреть <<samples.adoc#, здесь>>.
+
+Сборка выполняется командой:
+[source]
+----
+gradlew clean buildDoc
+----
+Собранные HTML файлы доступны в каталоге *target/doc*. 
+
+Правка документации без привязки к изменениям (см. GIT workflow) происходит в ветке *documentation*, откуда при каждом коммите происходит публикация на: http://www.bgerp.ru/doc/3.0/manual
+Ветка *master* периодически мерджится на ветку документации, откуда в неё попадают все правки связанные с изменениями.
+
+[[dev]]
+== Код
+Принципиальная структура обработки запросов изображена ниже.
+[ditaa]
+----
++----------------+             AJAX
+|                |    +----+           +-------------+     +----------+
+|      HTML      |    | JS |           |             |     |{s}       |
+|                +-=->+    +-----+=+-->+ Java Action +<-=->+ MySQL DB |
+|                |    |    |           |             |     |          |
+|                |    |    +<----+=+---+             |     +----------+
+|                |    |    | CHANGE OK +------+------+
+|                |    |    | ANY ERROR        |
+|                |    |    |                  :
+|       +--------+    |    |                  |
+|       |  HTML  |    |    |                  v
+|       |        +<-=-+    |           +------+------+
+|       |Fragment|    |    +<----+=+---+     JSP     |
+|       +--------+    +----+   READ    +-------------+
+|                |
++----------------+
+----
+
+Этапы обработки:
+[square]
+. Запрос формируется с помощью JS из HTML формы и отправляется в метод класса Java Action.
+. На запрос изменения отправляется только подтверждение - JSON документ со статусом OK.
+. Любое исключение в процессе работы Action приводит к отправке на клиентскую сторону JSON со статусом ERROR.
+. На запрос чтения данных в случае корректной обработки отправляется фрагмент HTML документа, встраиваемый на клиенте в нужное место.
+Например, таблица со списком пользователей.
+
+[[action]]
+=== Actions
+Определяются в struts-config*.xml файлах, имя метода передаётся в параметре *action*.
+
+Пример объявления action с форвардом.
+
+[snippet, from="<ac", to="on>", remove-leading="		"]
+link:../../webapps/WEB-INF/struts-config-blow.xml#L4-L7[webapps/WEB-INF/struts-config-blow.xml]
+
+Акшены должны расширять класс javadoc:ru.bgcrm.struts.action.BaseAction[], методы возвращать результат через вызов *processUserTypedForward* либо *processJsonForward*.
+Первый метод обрабатывается JSP страницей-форвардом и высылает HTML на клиент. Второй - предназначен для выполнения изменений и возвращает только JSON формат с результатом выполнения.
+
+Все параметры запроса передаются в объекте javadoc:ru.bgcrm.struts.form.DynActionForm[], он содержит вспомогательные методы для получения параметров разных типов.
+
+CAUTION: Не использовать устаревший формат акшенов с параметрами HttpClientRequest и HttpClientResponse, они есть в form. 
+
+Фрагмент читающего акшен метода с форвардом.
+[snippet, from="pu", to="}", remove-leading="    "]
+link:../../src/ru/bgerp/plugin/blow/struts/action/BoardAction.java#L34-L53[ru.bgerp.plugin.blow.struts.action.BoardAction]
+
+Результат перенаправляется на JSP страницу:
+link:../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp].
+
+В этом же *form* следует передавать данные для отрисовки JSP, за исключением различных вспомогательных справочников.
+Для этого используется поле *response* формы.
+При *responseType=json*, всё отправленное в response сериализуется в JSON, именно поэтому справочники следует помещать в HttpResponse.
+Если метод не требует соединения к БД - используйте метод с параметром javadoc:ru.bgcrm.util.sql.ConnectionSet[].
+
+[snippet, from="pu", to="}", remove-leading="    "]
+link:../../src/ru/bgcrm/plugin/dispatch/struts/action/DispatchAction.java#L46-L52[ru.bgcrm.plugin.dispatch.struts.action.DispatchAction]
+
+Исключение прерывает выполнение акшена, возвращается ошибка. Всегда в JSON формате.
+Исключение с классом javadoc:ru.bgcrm.model.BGMessageException[] используется для прерывания акшена с высылкой уведомления. То есть это штатная ситуация.
+В методах акшенов рекомендуется указывать *throws java.lang.Exception*, для генерации своих исключений - *new BGExeption()*.
+
+Пример акшена с обработкой параметров, исключениями и <<#localization, локализацией>>.
+[snippet, from="pu", to="}", remove-leading="    "]
+link:../../src/ru/bgerp/plugin/blow/struts/action/BoardAction.java#L55-L74[ru.bgerp.plugin.blow.struts.action.BoardAction]
+
+Для логирования в акшенах использовать protected переменную *log*.
+
+=== Именование
+==== Переменные конфигураций, функции JS, HTTP StyleId
+[square]
+* Все переменные конфигурации от плагинов начинать как <plugin>:
+* Все функции JS плагинов начинать с префикса <plugin>-
+В других местах тире запретить в названии функции.
+* Все идентификаторы (style id) DOM элементов для плагинов начинать как <plugin>-
+В других местах тире запретить в названиях  идентификаторов.
+
+==== База данных
+1) Таблицы и поля в них именовать с нижним подчёркиванием.
+process_id
+param_id
+
+==== Переменные Java, параметры HTTP запросов, переменные в JSP
+В camelCase нотации:
+processId
+paramId
+
+==== Дата - поле сущности
+Если в поле только дата, то:
+createDate - Java - тип java.util.Date
+create_date - БД - тип date
+
+Если в поле дата + время, то:
+createTime - Java - тип java.util.Date
+create_dt - БД - тип datetime
+
+==== Дата - период сущности
+В бинах дату периода хранить с типом java.util.Date с именем:
+dateFrom
+dateTo
+
+Соответственно методы получения и установки:
+setDateFrom
+setDateTo
+getDateFrom
+getDateTo
+
+CAUTION: Не использовать для хранения в бинах Calendar.
+Если нужно конверить в календарь или из календаря - использовать TimeUtils.
+
+Если нужно хранить время, то делаем:
+timeFrom
+timeTo
+
+Также тип java.util.Date.
+
+Calendar использовать во всяких калькуляторах/тарификаторах, когда реально нужно постоянно двигать дату.
+
+В базе использовать поля from_date и to_date, тип date.
+
+from_dt, to_dt - тип datetime.
+
+Неограниченные даты - NULL.
+
+[[samples]]
+=== Примеры
+Так как система очень быстро меняется, то здесь собираются примеры актуального кода, рекомендуемого к использованию.
+Сниппеты извлекаются непосредственно из исходных файлов проекта, поэтому всегда достоверны.
+При необходимости воспользуйтесь IDE для поиска классов или файлов.
+
+==== Сохранение последних параметров запроса пользователя
+Например, фильтров интерфейса. Используется метод *restoreRequestParams* в: javadoc:ru.bgcrm.struts.action.BaseAction[]
+
+Сохранение значения:
+[snippet, from="pu", to=");", remove-leading="	"]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L61-L67[ru.bgcrm.struts.action.MessageAction]
+
+Восстановление:
+[snippet, from="pu", to="}", remove-leading="	"]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L232-L244[ru.bgcrm.struts.action.MessageAction]
+
+Сохранение плюс восстановление сразу:
+[snippet, from="//", to=");", remove-leading="    "]
+link:../../src/ru/bgcrm/struts/action/ProcessAction.java#L1086-L1090[ru.bgcrm.struts.action.ProcessAction]
+
+==== Отображение на вкладке количества элементов
+Например, количества связанных процессов. Сохраняется при первом вызове. 
+Используется класс javadoc:ru.bgcrm.model.IfaceState[]
+
+Обновление значения:
+[snippet, from="// п", to="m);", remove-leading="        "]
+link:../../src/ru/bgcrm/struts/action/ProcessAction.java#L1254-L1258[ru.bgcrm.struts.action.ProcessAction]
+
+Отображение в JSP:
+[snippet, from="<c:if", to="if>", remove-leading="						"]
+link:../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L85-L99[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
+
+:git-link: http://git.pzdc.de/bgerp/bgerp/tree/master/
+
+==== Java
+* Конфигурация с поддержкой валидации: link:{git-link}src/ru/bgcrm/model/config/IsolationConfig.java[IsolationConfig]
+* Логирование, пример: link:{git-link}src/ru/bgcrm/worker/MessageExchange.java#L19[], link:{git-link}src/ru/bgcrm/dao/message/MessageTypeEmail.java#L84[]
+
+==== JSP
+[square]
+* Елементы управления: link:{git-link}webapps/test.jsp[] IDE выводит подсказку при использовании тегов, работающий link:http://demo.bgerp.ru/test.jsp[пример].
+* Форматирование дат, постраничный вывод, получение конфигураций: link:{git-link}webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp[]
+* Рекурсивный инклуд: link:{git-link}webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp[]
+* Инклуд результата выполнения акшена: link:{git-link}webapps/WEB-INF/jspf/admin/user/user/update.jsp[]
+* Кнопка вывода рядом с полем, flex layout: link:{git-link}webapps/WEB-INF/jspf/user/search/search.jsp#L151[]
+* Использование констант из Java классов: link:{git-link}webapps/WEB-INF/jspf/user/search/search.jsp#L141[]
+
+==== JS
+[square]
+* Актуальный пример JS плагина link:{git-link}webapps/js/pl.blow.js[]
+* Формат определения функций в JS файлах (в верхней части файла): link:{git-link}webapps/js/crm.ui.js[]
+* Новый AJAX запрос link:{git-link}webapps/WEB-INF/jspf/user/search/search.jsp#L152[], link:{git-link}webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L184[], 
+* Вывод отладки вместо console.log link:{git-link}webapps/js/crm.shell.js[]
+* Обновление оснастки при её открытии link:{git-link}webapps/WEB-INF/jspf/user/log/log.jsp#L22[]
+* Блокировка кнопки при долгом выполнении действия link:{git-link}webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp#L26[]
+
+=== Плагины
+Всякая логически обособленная функциональность должна быть вынесена в плагин.
+Особенностью плагинов является их изолированность. Каждый плагин работает с ядром,
+ядро не знает особенностей конкретного плагина, плагины не знают друг о друге.
+Под *знанием* тут подразумевается полагание на конкретное API, вызовы.
+
+В каких местах производится правка для плагина:
+[square]
+* XML объявление плагина *plugin/name.xml*, там же объявляются точки расширений.
+* Таблицы БД при необходимости создаются и модифицируются в *build/update/patch.sql*
+* Java код плагина в пакете *ru.bgerp.plugin.name*
+* Java библиотеки подключать в *build.gradle* после комментария: "библиотеки, попадающие в сборку BGERP"
+* JS код плагина в файле *webapps/js/name.js*, подключается через точку расширения в XML объявлении.
+* Actions плагина в файле *webapps/WEB-INF/struts-config-name.xml*
+* Действия из обычного интерфейса должны быть объявлены в *action/plugin.xml* для контроля прав.
+* JSP плагина в *webapps/WEB-INF/jspf/user/plugin/name*
+* Для добавления плагина в сборку править *build/update/build.xml*
+
+==== XML декларация
+[snippet]
+link:../../plugin/blow.xml[]
+
+В файле определяются точки расширения:
+[square] 
+* JSP шаблоны;
+* JS файлы;
+* *package* - пакет плагина, в котором должен быть размещён главный класс.
+
+==== Java класс плагина
+link:../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
+
+В классе плагина могут определяться слушатели событий:
+[snippet, from="pu", to="}", remove-leading="	"]
+link:../../src/ru/bgcrm/plugin/slack/Plugin.java#L14-L20[ru.bgcrm.plugin.slack.Plugin]
+
+[[localization]]
+=== Локализация
+Все сообщения в логах не локализуются и выводятся на английском языке.
+Локализуется интерфейс и сообщения, адресованные пользователю системы.
+Язык системы задаётся глобально в <<kernel/setup.adoc#config, конфигурации>>.
+Файлы локализации размещаются в *plugin/i18n* в формате XML.
+
+Ключом локализирующей фразы выступает первая запись на любом языке, например русском:
+[source, xml]
+----
+<p><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
+----
+
+В коде JSP шаблона вызов выглядит следующим образом:
+[source, jsp]
+----
+$('#loginForm').dialog({
+	modal: true,
+	draggable: false,
+	resizable: false,
+    title: "${l.l('Требуется повторная авторизация')}",
+    position: { my: "center top", at: "center top+100px", of: window }
+});
+----
+
+Локализация может выполняться в JSP шаблонах и Java акшенах. В JS коде локализация доступна, только если он генерируется JSP.
+
+При выполнении акшена в объект *l* передаётся локализационный контекст, содержащий фразы для ядра и вызываемого плагина.
+
+Новые локализирующие фразы должны добавляться в начало списка в файле.
+При необходимости сторонние разработчики могут выполнять локализации в ветках и высылать запросы на портирования в ствол проекта аналогично любым другим патчам. 
+
+NOTE: Для отключения в момент разработки кэширования локализаций установите в конфигурации *localization.cache=0*
+
+== Запуск тестов
+=== Unit тесты
+[source]
+----
+./gradlew test
+----  
+
+[[integration-test]]
+=== Интеграционный тест создания БД
+Файл для установки должен быть собран предварительно командой.
+[source]
+----
+./gradlew buildErp
+----
+Команда делает вызов Ant сценария в *build/bgerp*, передавая классы, скомпилированные Gradle.
+
+Интеграционный тест, устанавливающий приложение и заполняющий тестовую базу. 
+Только под Linux либо WSL. sudo необходим для установки в стандартный */opt* каталог.
+
+WARNING: Тест пересоздаст базу с именем *bgerp* и переустановит сервер в */opt/BGERP*
+
+[source]
+----
+sudo GRADLE_OPTS=-Xmx1000m ./gradlew -Ptest.single='ru.bgerp.itest.RunServerTest' -Pdb.host=DB_HOST -Pdb.user=ROOT_USER -Pdb.pswd=ROOT_PSWD integrationTest
+----
+Параметры DB_HOST, ROOT_USER, ROOT_PSWD - для доступа к MySQL серверу, где будет создана тестовая БД.
+
+=== Selenium e-to-e тест
+Может выполнять впоследствия действия на запущенном сервере.
+Необходима установка *chromedriver* и указание его в пути.
+
+[source]
+----
+GRADLE_OPTS=-Xmx1000m ./gradlew -Ptest.single='ru.bgerp.itest.SeleniumTest' -Pwebdriver.chrome.driver=/usr/lib/chromium-browser/chromedriver integrationTest
+----
+
+[[devm]]
+== Методика разработки для клиента
+BGERP запускается в IDE, с подключением к удалённой базе и биллингу (при необходимости). 
+По окончании разработки удалённая база клиента наполнена актуальной конфигурацией и необходимо только обновить сам продукт.
+[square]
+* Подключаться к клиенту по SSH, пробрасывая соединение к БД и при необходимости к биллингу.
+Пример: *ssh user@X.X.X.X -L3307:127.0.0.1:3306 -L8081:Y.Y.Y.Y:8080* 
+* Создать свой *bgerp_customer.properties* файл, в нём можно прописывать параметры доступа и конфигурацию. Он не сохранится в GIT.
+В нём же можно переопределить URL для подключения к биллингу на locahost.
+* Переопределить порт для BGERP, тогда можно будет сохранять в браузере пароли под конкретного клиента.
+* Создать конфигурацию запуска в IDE с данным properties.
+* Можно поправить *.gitignore* для сохранения custom файлов клиента.

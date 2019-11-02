@@ -1,0 +1,17 @@
+{
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true,
+        "**/target": true,
+        "**/work": true,
+        "**/log": true,
+        "**/gradle": true,
+        "**/bin": true,
+        "**/.gradle": true        
+    },
+    "java.home": "C:/Java/jdk1.8.0_191",
+    "java.format.settings.url": "formatter.xml",
+    "java.configuration.updateBuildConfiguration": "automatic"
+}

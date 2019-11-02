@@ -1,0 +1,32 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
+
+<u:sc>
+	<c:set var="tabsId" value="${u:uiid()}"/>
+	<ul>
+		<c:forEach var="item" items="${ctxUserGroupRoleList}"><%--
+		--%><c:set var="count" value="0"/><%--
+		--%><c:forEach var="group" items="${groups}"><%--
+			--%><c:if test="${item.id == group.roleId}"><%--
+				--%><c:set var="count" value="${count + 1}"/><%--
+			--%></c:if><%--
+		--%></c:forEach><%--
+		--%><li>
+				<a href="#${tabsId}-${item.id}">${item.title} 
+					<c:if test="${count >0}">
+						(${count})
+					</c:if>
+				</a>
+			</li><%--
+	--%></c:forEach>					
+	</ul>
+	<c:forEach var="item" items="${ctxUserGroupRoleList}">	
+		<c:set var="role" value="${item}"/>
+		<%@ include file="/WEB-INF/jspf/groups_list.jsp"%>
+			
+		<ui:select-mult
+			id="${tabsId}-${item.id}"  hiddenName="${hiddenName}" 
+			showId="1" style="width:100%;" 
+			styleClass="layout-height-rest" list="${list}" values="${values}"/>
+	</c:forEach> 
+</u:sc>

@@ -1,0 +1,5 @@
+<item title="Плагин Workload">
+	<item title="Сводка">
+		<item action="ru.bgerp.plugin.workload.struts.action.GroupLoadAction:show" title="Сводка"/>
+	</item>	
+</item>

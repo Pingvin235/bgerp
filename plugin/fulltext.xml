@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin package="ru.bgcrm.plugin.fulltext">
+	<endpoint id="user.search.jsp" file="/WEB-INF/jspf/user/plugin/fulltext/search.jsp"/>
+</plugin>

@@ -1,0 +1,16 @@
+= Примеры документации
+:toc:
+
+== PzdcDoc
+Для генерации документации BGERP используется открытая система link:http://pzdcdoc.org[PzdcDoc].
+Вы всегда можете посмотреть примеры и рекомендуемые подходы по следующим ссылкам:
+[square]
+* Исходный файл: link:https://github.com/pzdcdoc/pzdcdoc/blob/master/src/doc/demo.adoc[]
+* Результат генерации: http://pzdcdoc.org/demo/src/doc/demo.html
+
+[[erp]]
+== В данном руководстве
+[square]
+* <<kernel/message.adoc#, Диаграмма>>
+* <<kernel/process/index.adoc#type-config, Конфигурация со ссылками из неё>>
+* <<kernel/process/wizard.adoc#, Сложная таблица и инклуды>>

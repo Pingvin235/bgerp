@@ -1,0 +1,204 @@
+= Установка
+:toc:
+
+[[system-requirements]]
+== Системные требования
+Минимальная конфигурация сервера BGERP + MySQL:
+[square]
+* Операционная система: Linux;
+* Процессорное ядро эквивалентное Intel x86 с тактовой частотой 500 МГц, рекомендуется - 1 ГГц;
+* 512 МБ ОЗУ, рекомендуется - 1 ГБ.
+
+Оптимальная конфигурация зависит напрямую от размера базы данных и количества пользователей.
+
+[[mysql]]
+== MySQL
+*Оригинальный* MySQL сервер и клиент версии *5.7* либо *8.0*, требования к конфигурации (скорректируйте в файле *my.cnf* либо *my.ini* для Windows):
+----
+# хранилище InnoDB с поддержкой транзакций
+default-storage-engine=INNODB
+# пустой sql-mode
+sql-mode=
+max_allowed_packet=100M
+innodb_file_per_table=1
+----
+link:http://wiki.bitel.ru/index.php/%D0%A0%D0%B5%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D0%B4%D0%B0%D1%86%D0%B8%D0%B8_%D0%BF%D0%BE_%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B5_MySQL[Дальнейшие оптимизации настройки].
+
+IMPORTANT: *sql-mode* должен быть установлен именно равным пустой строке, как в примере.
+
+[[java]]
+== Java
+Необходима версия *OpenJDK 11*, может быть загружена:
+[square]
+* Из репозитария дистрибутива (рекомендуется).
+* С сайта https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot
+* С сайта https://docs.aws.amazon.com/en_us/corretto/latest/corretto-11-ug/downloads-list.html
+* С сайта https://jdk.java.net/archive/ (более старые релизы)
+
+NOTE: Версия от Oracle запрещена для коммерческого использования.
+
+IMPORTANT: После установки JDK должны быть доступны интерпретатор и компилятор, команды *java* и *javac* соответственно.  
+
+[[install-linux]]
+== Установка на ОС Linux
+Все операции выполнять с пользователем root.
+
+Загрузите архив *bgerp_<version>_<build>.zip* с официального link:ftp://bgerp.ru/pub/bgerp/3.0[FTP], пример:
+[source,bash]
+----
+wget ftp://bgerp.ru/pub/bgerp/3.0/bgerp_3.0_1283.zip -O /tmp/bgerp.zip
+----
+
+Извлеките файл *db.sql* в каталог */tmp*, пример:
+[source, bash]
+----
+unzip /tmp/bgerp.zip 'db.sql*' -d /tmp
+----
+
+IMPORTANT: Измените пароль доступа к БД в *db.sql*, скорректируйте при необходимости закомментированные переменные с политиками паролей.
+
+Выполните создание БД, пример:
+[source, bash]
+----
+mysql --default-character-set=utf8 -uroot < /tmp/db.sql
+----
+
+При доступе к БД с другим логином - паролем, либо если база расположена на другой машине - скорректируйте команду.
+
+Извлеките каталог BGERP из него его в требуемый каталог установки, стандартно */opt*.
+Сделайте файлы исполняемыми, пример:
+[source, bash]
+----
+unzip /tmp/bgerp.zip 'BGERP/*' -d /opt
+chmod 744 /opt/BGERP/*.sh
+----
+
+Перейдите в каталог BGERP, поправьте *bgerp.properties* пароль подключения к БД, при необходимости сервер БД и имя. 
+Также там можно изменить HTTP порт и порт управления.
+
+Установите в *setenv.sh* путь к Java, например:
+[source, bash]
+----
+JAVA_HOME=/usr                                                                                                    
+if [ -z "$JAVA_HOME" ]; then
+  echo "The JAVA_HOME environment variable is not defined"
+  echo "This environment variable is needed to run this program"
+  exit 1
+fi
+----
+
+Интепретатор *java* будет искаться по пути *$JAVA_HOME/bin/java*
+
+Для запуска/останова сервера используйте *erp_start.sh/erp_stop.sh*. *erp_status.sh* - просмотр статуса запущенного сервера.
+После запуска проверьте *log/bgerp.log* и в *log/bgerp.out* на наличие ошибок (Exception).
+
+[[systemd]]
+=== Systemd
+Скрипт сервиса Systemd расположен в *scripts/bgerp.service*, переместите его в каталог */etc/systemd/system/*. 
+Затем выполните команды:
+[source, bash]
+----
+systemctl daemon-reload
+systemctl enable bgerp
+----
+Для автозапуска приложения при загрузке системы.
+
+[[installer]]
+== Установка обновлений на ОС Linux
+[CAUTION]
+====
+Перед установкой обновления всегда делайте резервную копию программы при помощи скрипта *backup.sh* 
+[square]
+* При указании параметра *db* скрипт создаст резервную копию БД, данные для подключения к серверу MySQL берутся из файла *bgerp.properties*
+* Резервные копии сохраняются в папке *backup* в файлах с форматом имени *год-месяц-дата-время(.db).zip*, наличие подстроки *db* означает, что в архиве есть дамп БД
+====
+
+IMPORTANT: Изучите link:https://bgerp.org#download[лог обновлений], там могут содержаться важные сведения либо инструкции. 
+
+Для обновления вызовите команду:
+[source, bash]
+----
+./installer.sh update
+----
+
+Для обновления системы на иную версию (не 3.0) вызовите команду:
+[source, bash]
+----
+./installer.sh update <version>
+----
+
+например:
+[source, bash]
+----
+./installer.sh update 3.0
+----
+
+Запуск скрипта без параметров выводит подсказку по дополнительным командам:
+[square]
+* *updatef* - принудительное обновлении на последнюю версию без сравнения её с установленной;
+* *update <version>* - установка другой версии BGERP, версия соответствует окончанию адреса FTP;
+* *killhash* - очистка хэшей применённых SQL обновлений с последующим выполнением всех команд, рекомендуется попробовать при наличии ошибок SQL запросов в обновлении;
+* *install <zip>* - установка обновления из ZIP архива.
+
+Рекомендованный однострочик для обновления (можете исключить db параметр для ускорения и выполнять бакап базы только эпизодически):
+[source, bash]
+----
+./backup.sh db && ./installer.sh update && ./erp_restart.sh
+----
+
+[[stored-procedures]]
+=== Хранимые процедуры обновления
+Для изменений структуры БД в скриптах внутри пакетов обновлении используются хранимые процедуры. Например:
+[source]
+----
+CALL add_column_if_not_exists('task', 'config', 'TEXT NOT NULL');
+----
+
+При восстановлении БД из резервной копии они пропадают. Процедура обновления происходит с ошибками. 
+В этом случае необходимо выполнить следующие команды:
+[source, bash]
+----
+./installer.sh killhash
+./installer.sh updatef
+----
+
+Первая удаляет из БД информацию о уже применённых обновлениях структуры, вторая - производит повторное выполнение всех скриптов.
+
+== Плагины
+Плагины дополняют функционал ядра, позволяя максимально гибко сконфигурировать систему под нужды конкретной организации-пользователя. В данный момент все доступные плагины включены в общую сборку. Для отключения функций плагина необходимо удалить XML файл описания из каталога *BGERP/plugin*.
+
+[[nginx]]
+== NGINX
+При классической схеме сервер BGERP располагается во внутренней сети организации, NGINX позволяет организовать доступ извне к открытому <<interface.adoc#, интерфейсу>> сервера.
+
+Документация по NGINX доступна здесь: http://sysoev.ru/nginx/docs/
+
+=== Пример
+BGERP запущен на внутреннем адресе crm.inner.bitel.ru. Снаружи на хосте crm.bitel.ru доступен только открытый интерфейс http://crm.bitel.ru/open
+----
+server {
+    listen          80;
+    server_name     crm.bitel.ru;
+
+    access_log      /var/log/nginx/crm.bitel.ru.access.log;
+    client_max_body_size    50m;
+
+    # для открытия обычного интерфейса - добавить login.do|user
+    location ~ ^/(open|img|images|css|lib|js)(.*)$ {
+        resolver                X.X.X.X;.
+        if ($args = '') {
+            proxy_pass  http://crm.inner.bitel.ru/$1$2;
+        }
+        if ($args != '') {
+            proxy_pass  http://crm.inner.bitel.ru/$1$2?$args;
+        }
+        proxy_redirect          http://crm.inner.bitel.ru/ http://crm.bitel.ru/;
+        proxy_set_header        Connection close;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_read_timeout      300;
+        gzip_proxied            expired no-cache no-store private no_last_modified no_etag auth;
+    }
+}
+----
+
+

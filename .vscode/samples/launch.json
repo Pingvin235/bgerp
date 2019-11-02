@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "request": "launch",
+            "name": "BGERP Local",
+            "mainClass": "ru.bgcrm.Server",
+            "projectName": "ERP",
+            "args": "start",
+            "vmArgs": "-Dbgerp.setup.data=bgerp_local"
+        },
+        {
+            "type": "java",
+            "request": "launch",
+            "name": "BGERP BiTel",
+            "mainClass": "ru.bgcrm.Server",
+            "projectName": "ERP",
+            "args": "start",
+            "vmArgs": "-Dbgerp.setup.data=bgerp_bitel"
+        },
+        {
+            "type": "java",
+            "request": "launch",
+            "name": "BGERP Atel",
+            "mainClass": "ru.bgcrm.Server",
+            "projectName": "ERP",
+            "args": "start",
+            "vmArgs": "-Dbgerp.setup.data=bgerp_atel"
+        }
+    ]
+}

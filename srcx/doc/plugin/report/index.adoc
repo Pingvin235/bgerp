@@ -1,0 +1,83 @@
+= Плагин Report
+:toc:
+
+Плагин предназначен для разработки отчётов в HTML формате с гибкими фильтрами.
+Логика и отображение отчёта реализуется с помощью <<../../kernel/extension.adoc#jsp, JSP>>. 
+
+[[config]]
+== Конфигурация
+Отчёты настраиваются в <<../../kernel/setup.adoc#config, конфигурации>>, желательно создать отдельную включаемую под отчёты.
+Для каждого отчёта добавляется запись вида:
+[source]
+----
+report:report.<id>.title=<title>
+report:report.<id>.jspFile=<jspFile>
+----
+
+Где:
+[square]
+* *<id>* - числовая идентификатор отчёта;
+* *<jspFile>* - путь к JSP шаблону, генерирующему отчёт, расположенный в каталоге *WEB-INF/custom/plugin/report/*.
+
+IMPORTANT: Перенести старые объявления отчётов из XML файлов каталога report в конфигурацию. Поддержка будет в скором времени отключена.
+
+== Оснастка "Отчеты"
+В оснастке отображаются все сконфигурированные в системе отчёты. При выборе кнопки отчёта вызывается связанный с отчётом JSP файл.
+
+image::_res/report_general.png[]
+
+[[samples]]
+== Примеры
+Числовые коды отчётов в конфигурациях примеров даны случайно и в реальной системе могут быть любыми.
+
+=== Пример отчёта
+Поставляется с системой для изучения. Отчёт выводит список процессов с различными фильтрами.
+В теле отчёта приведена ссылка на JSP страницу с доступными элементами ввода и выведен список справочников.
+
+image::_res/report_sample.png[width="600px"]
+
+Конфигурация:
+[source]
+----
+report:report.1.title=Пример отчёта
+report:report.1.jspFile=/WEB-INF/custom/plugin/report/example.jsp
+----
+
+=== Пример отчёта BGBilling
+Поставляется с системой для изучения. Осуществляет прямую работу с базой биллинга.
+Необходимое дополнительное конфигурирование описано в файле *example_bgbilling.jsp*
+
+Конфигурация:
+[source]
+----
+report:report.2.title=Пример отчёта BGBilling
+report:report.2.jspFile=/WEB-INF/custom/plugin/report/example_bgbilling.jsp
+----
+
+=== Смены ЦУС
+Конфигурация:
+[source]
+----
+report:report.3.title=Отчёт ЦУС по сменам
+report:report.3.jspFile=/WEB-INF/custom/plugin/report/ncc_smena.jsp
+----
+
+link:_res/ncc_smena.jsp[JSP файл]
+
+=== Должники BGBilling
+Выводит должников из базы BGBilling.
+
+image::_res/image_debtors.png[]
+
+Конфигурация:
+[source]
+----
+report:report.4.title=Отчет по должникам
+report:report.4.jspFile=/WEB-INF/custom/plugin/report/debtors.jsp
+----
+
+В JSP необходима дополнительная конфигурация.
+link:_res/debtors.jsp[JSP файл]
+
+В дин. коде установите корректные значения полей billingId, adressParamId, nameParamId и cityId.
+link:_res/ReportCustomDebtors.java[Dyn файл]

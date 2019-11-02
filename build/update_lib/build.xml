@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="UpdateLib" default="build" basedir=".">
+	<description>UpdateLib</description>
+	
+	<property name="rootfolder" value="content"/>
+	
+	<import file="${basedir}/../common/import/module_build.xml"/>
+	
+	<!-- подготовка каталогов -->
+	<target name="prepare_dir">
+		<delete dir="${rootpath}"/>
+		
+		<mkdir dir="${rootpath}"/>
+		<mkdir dir="${libapppath}"/>
+		<mkdir dir="${libextpath}"/>
+	</target>	
+	
+	<!-- копирование билиотек -->
+	<target name="copy_lib">
+		<copy todir="${libextpath}">
+			<fileset dir="${projectPath}/lib" includes="*.jar"/>
+			<fileset dir="${projectPath}/lib/tomcat9" includes="*.jar"/>			
+		</copy>
+		
+		<exec dir="${projectPath}" executable="sh">
+			<arg value="gradlew"/>
+			<arg value="copyLibBGCRM"/>
+		</exec>
+		<copy todir="${libextpath}">
+			<fileset dir="${projectPath}/target/lib" includes="*.jar"/>
+		</copy>	
+	</target>
+	
+	<!-- создание lib.jar -->
+	<target name="build_lib_jar" depends="copy_lib">
+		<jar destfile="${libapppath}/lib.jar">
+			<fileset dir="${classesPath}" includes="ru/bgcrm/version/update_lib.properties"/>
+		</jar>
+	</target>
+	
+	<!-- главный таргет -->
+	<target name="build" depends="prepare_dir">
+		<property name="dir" value="${basedir}"/>
+		
+		<antcall target="update_props"/>
+		<antcall target="put_props"/>
+		
+		<antcall target="build_lib_jar"/>
+		
+		<antcall target="build_module"/>
+		
+		<delete dir="${rootpath}"/>
+		
+		<!-- <ant dir="${basedir}/../bgerp" inheritall="false"/> --> 
+	</target>		
+</project>

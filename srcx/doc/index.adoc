@@ -1,0 +1,49 @@
+= BGERP 3.0 CD
+:nofooter:
+
+* <<changes.adoc#, Последние изменения>>
+* <<project.adoc#, Разработка>>
+** <<samples.adoc#, Примеры документации>>
+** <<kernel/db.adoc#, Структура БД>>
+* Ядро системы
+** <<kernel/install.adoc#, Установка>>
+** <<kernel/interface.adoc#, Интерфейс>>
+** <<kernel/setup.adoc#, Настройка>>
+** <<kernel/search.adoc#, Поиск>>
+** <<kernel/news.adoc#, Новости>>
+** <<kernel/customer.adoc#, Контрагенты>>
+** <<kernel/process/index.adoc#, Процессы>>
+*** <<kernel/process/queue.adoc#, Очереди>>
+*** <<kernel/process/processing.adoc#, Простая обработка событий>>
+**** <<kernel/process/processing_samples.adoc#, Примеры простой обработки событий>>
+*** <<kernel/process/wizard.adoc#, Мастер>>
+** <<kernel/message.adoc#, Сообщения>>
+** <<kernel/work.adoc#, Организация работ>>
+** <<kernel/extension.adoc#, Расширение функциональности>>
+
+*** <<ext/dyn_sample.adoc#, Примеры динамического кода>>
+* Плагины
+** <<plugin/bgbilling/index.adoc#, BGBilling>>
+** <<plugin/blow/index.adoc#, Blow>>
+** <<plugin/asterisk/index.adoc#, Asterisk>>
+** <<plugin/dispatch/index.adoc#, Dispatch>>
+** <<plugin/document/index.adoc#, Document>>
+** <<plugin/fulltext/index.adoc#, FullText>>
+** <<plugin/mobile/index.adoc#, Mobile>>
+** <<plugin/phpbb/index.adoc#, PHPBB>>
+** <<plugin/report/index.adoc#, Report>>
+** <<plugin/slack/index.adoc#, Slack>>
+** <<plugin/task/index.adoc#, Task>>
+** <<plugin/telegram/index.adoc#, Telegram>>
+** <<plugin/workload/index.adoc#, Workload>>
+** Отправка СМС
+*** <<plugin/mtsc/index.adoc#, MTSC>>
+*** <<plugin/tele2c/index.adoc#, Tele2c>>
+* Решения
+** <<ext/bgbilling.adoc#, Интеграция BGBilling>>
+** <<ext/letter.adoc#, Учёт писем>>
+** <<ext/service_desk.adoc#, Service Desk>>
+** <<ext/disconnect_debtors_ktv.adoc#, Организация отключения должников КТВ>>
+** <<ext/asterisk_integration.adoc#, Интеграция с Asterisk для обработки входящих звонков>>
+** <<ext/email_configure.adoc#, Настройка E-Mail сообщений>>
+** <<ext/blow_jira.adoc#, Blow JIRA>>

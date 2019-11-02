@@ -1,0 +1,283 @@
+= Примеры простой обработки событий
+:toc:
+
+== Ядро
+[[check-change]]
+=== Разрешение на правку процесса при различных условиях
+В различных статусах различным группам, исполнителю либо администратору и запрет правки закрытого процесса.
+[source]
+----
+onProcessEvent.1.checkExpression=process.getStatusId() !~ [9, 13, 36,39] or 8 =~ user.getGroupIds()
+onProcessEvent.1.checkErrorMessage=В этом статусе разрешена правка только сотрудникам КС
+onProcessEvent.2.checkExpression=process.getStatusId() != 9 or user.getId()  =~ process.getExecutorIds() or 33 =~ user.getPermsetIds()
+onProcessEvent.2.checkErrorMessage=В этом статусе разрешена правка только исполнителем процесса либо администратором КС
+onProcessEvent.3.checkExpression=empty process.getCloseTime()
+onProcessEvent.3.checkErrorMessage=Запрещена правка закрытого процесса
+----
+
+[[add-executor]]
+=== Добавление пользователя в исполнители и смена статуса
+Добавление текущего пользователя в исполнители и установка в статус с кодом 40, если процесс создан как привязанный к другому процессу.
+[source]
+----
+onProcessEvent.1.events=createdAsLink
+onProcessEvent.1.doExpression=addExecutors({user.getId()});setStatus(40, "")
+----
+
+[[set-status]]
+=== Установка статуса
+Изменение статуса процесса на 3 при получении в него нового сообщения. 
+[source]
+----
+onProcessEvent.1.events=messageAdded
+onProcessEvent.1.ifExpression=process.getStatusId() != 3
+onProcessEvent.1.doExpression=setStatus(3, "")
+#
+----
+
+[[send-mail-qa]]
+=== Отправка EMail по изменению в процессе
+В тему добавляется <<../message.adoc#qa, QA>> маркер для быстрого ответа.
+
+На адрес EMail указанный в параметре исполнителей с кодом 21 отправляется письмо. 
+[source]
+----
+onProcessEvent.1.events=messageAdded
+onProcessEvent.5.doExpression=<<END
+   text = "Новое сообщение в процессе, в котором вы числитесь исполнителем." + 
+       NEW_LINE2 + "Сообщение:" + NEW_LINE +
+       event.getMessage().getText() +
+       NEW_LINE2 + "Открыть процесс: http://crm.company.com/user/process#" + process.getId() +
+       NEW_LINE2 + "Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.";
+    
+    subject = "#" + process.getId() + 
+      " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "] " +
+      " QA:" + event.getMessage().getId(); 
+   
+   emailNotifyExecutors(21, subject, text);
+END
+----
+
+Уведомление о назначении процесса на исполнителя с текстом входящих сообщений.
+[source]
+----
+onProcessEvent.6.events=executorsChanged
+onProcessEvent.6.doExpression=<<END
+      text = "Изменён состав исполнителей процесса." + NEW_LINE2;
+    
+      searchResult = new("ru.bgcrm.model.SearchResult");
+      searchResult.getPage().setPageIndex(-1);
+      dao = new("ru.bgcrm.dao.message.MessageDAO", conSet.getConnection());
+      dao.searchMessageList(searchResult, process.getId(), null, 1, null, null, null, null, null, true);
+       
+      lastMsg = null;     
+      for (m : searchResult.getList()) {
+         if (lastMsg == null) lastMsg = m;      
+   
+         text += "Входящее сообщение #" + m.getId() + NEW_LINE;
+         text +=  "##########################" + NEW_LINE;
+         text +=  m.getText() +  NEW_LINE2;
+       }
+      
+      subject = "#" + process.getId() +
+       " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "] ";
+      if (lastMsg != null) subject += " QA:" + lastMsg.getId();
+     
+      emailNotifyExecutors(21, subject, text);
+END
+----
+
+Уведомление создателя процесса об изменении статуса. Пример без быстрого ответа.
+[source]
+----
+onProcessEvent.4.events=statusChanged
+onProcessEvent.4.doExpression=<<END
+     userId = process.getCreateUserId();
+     emailNotifyUsers({userId}, 79, "Процесс изменился", "Существенно");
+END
+----
+
+[[set-param-text]]
+=== Установка значения параметра типа text
+[source]
+----
+onProcessEvent.2.doExpression=<<END
+  dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+  dao.updateParamText(process.getId(), 63, "тест");
+END
+----
+
+[[set-param-list]]
+=== Установка значения параметра типа list 
+[source]
+----
+onProcessEvent.2.doExpression=<<END
+  dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+  dao.updateParamList(process.getId(), 63, {1});
+END
+----
+
+После изменения статуса если списковый параметр процесса 63 не содержит значений с кодами 1, 2 и 3 установка значения 1 в этот параметр. 
+[source]
+----
+onProcessEvent.1.events=statusChanged
+onProcessEvent.1.ifExpression=empty(cu.intersection(processParam.listValueIds(63), {1,2,3}))
+onProcessEvent.1.doExpression=<<END
+  dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+  dao.updateParamList(process.getId(), 63, {1});
+END
+----
+
+[[remove-executors-and-groups]]
+=== Удаление из процесса исполнителей и групп решения
+C кодом 2 и группы с кодом 37. 
+[source]
+----
+onProcessEvent.3.doExpression=<<END
+  deleteExecutors({2});
+  deleteGroups({37});  
+END
+----
+
+[[set-date-on-create]]
+=== При создании процесса установка параметра типа date
+При создании процесса внесение в параметр типа "date" с кодом 51 значения текущей даты + два дня, не учитывая вторников.
+[source]
+----
+onProcessEvent.1.events=created
+onProcessEvent.1.doExpression=<<END
+  dao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+  cal = new("java.util.GregorianCalendar");
+  addDays = 2;
+  while (addDays > 0) {
+      var dw = cal.get(cal.DAY_OF_WEEK);
+      if (dw != cal.TUESDAY)
+          addDays = addDays - 1;
+      cal.add(cal.DAY_OF_YEAR, 1);
+  } 
+  dao.updateParamDate(process.getId(), 51, cal.getTime());
+END
+----
+
+[[change-status-linked-process]]
+=== Смена статуса привязанного процесса
+Поиск процесса, к которому привязан текущий процесс и если он найден - смена его статуса.
+[source]
+----
+onProcessEvent.3.events=statusChanged
+onProcessEvent.3.doExpression=<<END
+   pld = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
+   linked = u.getFirst(pld.getLinkedProcessList(process.getId(), null, false, {1}));
+   if (linked != null) {
+        change = new("ru.bgcrm.model.process.StatusChange");
+	change.setDate(new("java.util.Date"));
+	change.setProcessId(linked.getId());
+	change.setUserId(event.getUser().getId());
+	change.setStatusId(9);
+        change.setComment("Автоматическая смена статуса");
+ 
+        pa = ru.bgcrm.struts.action.ProcessAction;
+        pa.processStatusUpdate(event.getForm(), conSet.getConnection(), linked, change); 
+   }
+END
+----
+
+[[set-priority-on-status-change]]
+=== Изменение приоритета процесса при смене статуса
+При смене статуса на 10 или 12 установка приоритета 5.
+----
+onProcessEvent.4.events=statusChanged:10,12
+onProcessEvent.4.doExpression=setPriority(5);
+----
+
+[[check-event-class]]
+=== Проверка класса события
+[source]
+----
+if (event.getClass().getName() == "ru.bgcrm.event.process.ProcessMessageAddedEvent") {
+   text += '<b>Сообщение</b>: ' + u.maskNull(event.getMessage().getText()) + ';';
+}
+----
+
+[[add-description-on-status-change]]
+=== Добавление текста в описание процесса при смене статуса
+[source]
+----
+onProcessEvent.2.events=statusChanging
+onProcessEvent.2.doExpression=<<END
+  dao = new("ru.bgcrm.dao.process.ProcessDAO", conSet.getConnection());
+  
+  change = event.getStatusChange();
+  change = ctxUserMap[change.getUserId()].getTitle() + " => " + ctxProcessStatusMap[change.getStatusId()].getTitle() + " [" + change.getComment() + "]"; 
+
+  process.setDescription(process.getDescription() + NEW_LINE + change);
+  dao.updateProcess(process);
+END
+----
+
+== Плагин <<../../plugin/bgbilling/index.adoc#, BGBilling>>
+[[bgbilling-copy-params]]
+=== Копирование параметров договора BGBilling
+Копирование параметра адрес с кодом 8 из привязанного договора в параметр процесса с кодом 4.
+Пример может быть легко расширен для переноса любых параметров.
+[source]
+----
+COPY_BGBILLING_PARAMS=<<END
+    paramDao = new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+    linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
+    contractLink = u.getFirst(linkDao.getObjectLinksWithType(process.getId(),"%contract%"));
+    if (contractLink != null) {
+         contractId =  contractLink.getLinkedObjectId();
+         billingId = su.substringAfter(contractLink.getLinkedObjectType(), ":");
+         contractParamDao = new("ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO", ctxUser, billingId);
+         address = contractParamDao.getAddressParam(contractId, 8);
+         if (address != null)
+            paramDao.updateParamAddress(process.getId(), 4, 1, address.toParameterAddressValue(conSet.getConnection()));
+         // копирование других параметров   
+    }
+END
+
+onProcessEvent.2.events=linkAdded;createdAsLink
+onProcessEvent.2.doExpression={@COPY_BGBILLING_PARAMS}
+----
+
+При привязке договора - копирование значений параметров с кодами 27 и 12 в описание процесса. 
+[source]
+----
+onProcessEvent.2.events=linkAdded
+onProcessEvent.2.commands=bgbilling:linkedContractParamToDescription:bg:27;bgbilling:linkedContractParamToDescription:bg:12
+----
+
+== Плагин <<../../plugin/mtsc/index.adoc#, MTSC>>
+[[mtsc-send-sms]]
+=== Отправка СМС
+Отправка СМС сообщения по созданию процесса, в случае наличия в значениях спискового параметра с кодом 26 1, 2 или 3. 
+Используется операция пересечения множеств. 
+Номер для СМС получается из параметра с кодом 20 типа Phone.
+[source]
+----
+onProcessEvent.1.events=createFinished
+onProcessEvent.1.ifExpression=cu.intersection(processParam.listValueIds(26), {1,2,3}).size() > 0
+onProcessEvent.1.doExpression=<<END
+  phone=processParam.getParamPhoneNoFormat(20);
+  if (phone) {
+     mtsc.sendSms(phone, "Заявка №".concat( process.getId().toString() ).concat(" принята"));
+  }
+END
+----
+
+== Плагин <<../../plugin/mobile/index.adoc#, Mobile>>
+[[mobile-send-push-notification]] 
+=== Отправка Push уведомления
+Отправлка уведомление с параметрами процесса диспетчеру аварийной бригады. 
+Установлена проверка типа работ из параметра list id 26, передаются номер процесса, адрес, телефоны, тип работ, дата и время приема, комментарий.
+[source]
+----
+onProcessEvent.5.events=createFinished
+onProcessEvent.5.ifExpression=cu.intersection(processParam.listValueIds(26), {2,3,7}).size() > 0
+onProcessEvent.5.doExpression=<<END
+ body=process.getTypeTitle();
+ text="№ " + process.getId().toString() + " Адрес: " + processParam.addressValues(1).toString() + " т. " + processParam.getValue(20) + " " + processParam.listValueTitles(26) + " Принята: " + process.getCreateTime() + " Комментарий: " + process.getDescription() + user.;
+ mobile.sendMessageToUsers(body, text, {5});
+END
+----

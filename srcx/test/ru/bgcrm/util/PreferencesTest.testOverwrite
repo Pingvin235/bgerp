@@ -1,0 +1,155 @@
+filter.1.type=openClose
+filter.1.defaultValue=open
+filter.4.type=param:4
+filter.4.title=Уровень
+filter.8.type=status
+filter.8.availableValues=1,2,3
+filter.10.type=groups
+filter.14.title=Исполнители
+filter.14.type=executors
+filter.24.type=code
+filter.25.type=create_date
+filter.26.type=close_date
+filter.27.type=type
+filter.27.width=200
+filter.28.type=linkedCustomer:title
+filter.29.type=description
+#
+sort.combo.count=2
+sort.combo.1.default=1
+#
+sort.mode.1.columnId=1
+sort.mode.1.title=Создан
+sort.mode.1.desc=true
+sort.mode.2.columnId=22
+sort.mode.2.title=Монтаж
+sort.mode.2.desc=1
+sort.mode.3.columnId=23
+sort.mode.3.title=Наладка
+sort.mode.3.desc=1
+sort.mode.4.columnId=5
+sort.mode.4.title=Адрес
+sort.mode.5.columnId=14
+sort.mode.5.title=Исполнители
+#sort.mode.5.desc=1
+#
+column.1.title=ID
+column.1.value=id
+column.2.title=Приор.
+column.2.value=priority
+column.3.title=Договор
+column.3.value=linkObject:contract
+column.4.title=Ф.И.О.
+column.4.value=param:6
+column.4.nowrap=1
+column.5.title=Адрес
+column.5.value=param:1
+column.5.nowrap=1
+column.6.title=Телефон
+column.6.value=param:5
+column.10.title=Группа
+column.10.value=groups
+column.14.title=Исполнители
+column.14.value=executors
+column.17.title=Статус
+column.17.value=status_title
+column.17.nowrap=1
+column.19.title=Создал
+column.19.value=create_user
+column.20.title=Создан
+column.20.value=create_dt
+column.22.title=монтаж
+column.22.value=param:3
+column.23.title=наладка
+column.23.value=param:2
+column.24.title=Задача
+column.24.value=param:7
+
+
+configHead="<tr>".concat( "<td>ID</td>" )
+configHead+=.concat( "<td>Договор</td>" )
+configHead+=.concat( "<td>Ф.И.О.</td>" )
+configHead+=.concat( "<td>Адрес</td>" )
+configHead+=.concat( "<td>Создан [Создал]</td>" )
+configHead+=.concat( "<td>Исполнители</td>" )
+configHead+=.concat( "<td>Задача</td></tr>" )
+
+configRow="<tr processid='".concat( process.getId().toString() ).concat( "'>" )
+configRow+=.concat( "<td>" ).concat( col1 ).concat( "</td>" )
+configRow+=.concat( "<td>" ).concat( col3 ).concat( "</td>" )
+configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col4 ).concat( "</td>" )
+configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col5 ).concat( "</td>" )
+configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col20 ).concat( "[" ).concat( col19 ).concat("]</td>" )
+configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col14 ).concat( "</td>" )
+configRow+=.concat( "<td>" ).concat( col24 ).concat( "</td></tr>" )
+
+#configRow=<<END
+#tr = "<tr processid='" + process.getId().toString() + "';
+#if (col24 == 1) 
+#tr += " bgcolor='red'";
+#tr += ">";
+#return tr;
+#END
+
+#configRow="<tr bgcolor='${color}' processid='".concat( process.getId().toString() ).concat("'")
+#if ( process.getId().toString() == 357 ) bgcolor='red'; 
+
+#var color;
+#if ( col24 == 1 ) {  color = 'red';  }  
+#else if ( col24 == 2 ) {  color = 'blue';  }  
+#else {  color = 'white';  } 
+
+#configRow+=.concat( ">" )
+#configRow+=.concat( "<td >" ).concat( col1 ).concat( "</td>" )
+#configRow+=.concat( "<td>" ).concat( col3 ).concat( "</td>" )
+#configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col4 ).concat( "</td>" )
+#configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col5 ).concat( "</td>" )
+#configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col20 ).concat( "[" ).concat( col19 ).concat("]</td>" )
+#configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col14 ).concat( "</td>" )
+#configRow+=.concat( "<td>" ).concat( col24 ).concat( "</td></tr>" )
+
+#configRow=<<END
+#tr = "<tr processid='" + process.getId() + "'";
+#if (col9 == 1)
+#tr += " bgcolor='red'";
+#tr += ">";
+#tr += "<td>" + col1 + "</td>";
+#....
+#tr += "</tr>";
+#return tr;
+#END 
+
+#if ((x * 2) == 5) {
+#                            y = 1;
+#                            } else {
+#                            y = 2;
+#                            }
+
+#configRow="<tr processid='".concat( process.getId().toString() ).concat( "'>" )
+#configRow+=.concat( "<td>" ).concat( col1 ).concat( "</td>" )
+#configRow+=.concat( "<td>" ).concat( col3 ).concat( "</td>" )
+#configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col4 ).concat( "</td>" )
+#configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col5 ).concat( "</td>" )
+#configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col20 ).concat( "[" ).concat( col19 ).concat("]</td>" )
+#configRow+=.concat( "<td nowrap='nowrap'>" ).concat( col14 ).concat( "</td>" )
+#configRow+=.concat( "<td>" ).concat( col24 ).concat( "</td></tr>" )
+
+configRow=<<END
+   tr = "<tr processid='" + process.getId() + "' ";  
+   if (col24.contains("консультация"))
+     tr += " bgcolor='green'";
+   tr += ">";
+   tr += "<td>" + col1 + "</td>";
+   tr += "<td>" + col3 + "</td>";
+   tr += "<td>" + col4 + "</td>";
+   tr += "<td>" + col5 + "</td>";
+   tr += "<td>" + col20 + " [" + col19 + "]</td>";
+   tr += "<td>" + col14 + "</td>";
+   tr += "<td>" + col24 + "</td>";
+   tr += "</tr>";
+   return tr;
+END
+
+rowConfig.1.media=html
+rowConfig.1.stringExpressionHead={@configHead}
+rowConfig.1.stringExpressionRow={@configRow}

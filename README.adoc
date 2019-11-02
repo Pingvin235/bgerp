@@ -1,0 +1,4 @@
+= Проект BGERP
+:toc:
+
+link:https://bgerp.ru/doc/3.0/manual/project.html[Описание проекта]

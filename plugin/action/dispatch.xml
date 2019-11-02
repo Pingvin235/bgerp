@@ -1,0 +1,14 @@
+<item title="Плагин Dispatch">
+	<item title="Рассылки">
+		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchList" title="Список"/>
+		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchGet" title="Редактирование"/>
+		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchUpdate" title="Изменение"/>
+		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchDelete" title="Удаление"/>
+	</item>
+	<item title="Сообщения">
+		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageList" title="Список"/>
+		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageGet" title="Редактирование"/>
+		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageUpdate" title="Изменение"/>
+		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageDelete" title="Удаление"/>
+	</item>
+</item>

@@ -1,0 +1,777 @@
+= Примеры динамического кода
+
+== Проверка уникальности контрагента по ИНН 
+
+При редактировании параметра ИНН если будет найден контрагент с таким же значением параметра, то он будет открыт в системе с выводом сообщения.
+Также скрипт заполняет значение параметра КПП на основании ИНН. Коды параметров ИНН и КПП заданы в константах.
+Класс-обработчик указывается для параметра ИНН.
+
+[source, java]
+----
+package ru.bgcrm.dyn.ufanet;
+ 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+ 
+import org.apache.log4j.Logger;
+ 
+import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.dao.Tables;
+import ru.bgcrm.event.Event;
+import ru.bgcrm.event.ParamChangingEvent;
+import ru.bgcrm.event.client.CustomerOpenEvent;
+import ru.bgcrm.event.listener.DynamicEventListener;
+import ru.bgcrm.model.param.Parameter;
+import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.sql.ConnectionSet;
+ 
+public class CustomerParameterUpdate
+	extends DynamicEventListener
+{
+	private static final int INN_PARAMETER_ID = 248;
+	private static final int KPP_PARAMETER_ID = 249;
+	private static final Logger log = Logger.getLogger( CustomerParameterUpdate.class );
+ 
+	@Override
+	public void notify( Event e, ConnectionSet connectionSet )
+	{
+		if( !(e instanceof ParamChangingEvent) )
+		{
+			return;
+		}
+ 
+		ParamChangingEvent event = (ParamChangingEvent)e;
+		DynActionForm form = event.getForm();
+		Connection con = connectionSet.getConnection();
+		Parameter parameter = event.getParameter();
+		int customerId = event.getObjectId();
+		try
+		{
+			if( INN_PARAMETER_ID == parameter.getId() )
+			{
+				//проверка дупликата
+				String sql = " SELECT * FROM " + Tables.TABLE_CUSTOMER + " AS c " +
+							 " INNER JOIN " + Tables.TABLE_PARAM_TEXT + " AS pt ON c.id=pt.id AND pt.param_id=" + INN_PARAMETER_ID +
+							 " WHERE pt.value=? AND c.id<>? ";
+ 
+				PreparedStatement ps = con.prepareStatement( sql );
+				ps.setString( 1, String.valueOf( event.getValue() ) );
+				ps.setInt( 2, customerId );
+ 
+				StringBuilder sb = new StringBuilder();
+ 
+				ResultSet rs = ps.executeQuery();
+				while( rs.next() )
+				{
+					int id = rs.getInt( "c.id" );
+					String title = rs.getString( "c.title" );
+ 
+					sb.append( "(ID: " ).append( id ).append( ") " );
+					sb.append( title ).append( "\n" );
+ 
+					form.getResponse().addEvent( new CustomerOpenEvent( id ) );
+				}
+ 
+				if( Utils.notBlankString( sb.toString() ) )
+				{
+					throw new BGMessageException( "Сущетвуют контрагенты с похожими данными:\n" + sb.toString() );
+				}
+				else
+				{
+					//вставка кпп
+					ParamValueDAO paramDao = new ParamValueDAO( con );
+					String kppValue = paramDao.getParamText( customerId, KPP_PARAMETER_ID );
+					if( Utils.isBlankString( kppValue ) )
+					{
+						kppValue = String.valueOf( event.getValue() ).substring( 0, 4 ) + "01001";
+						paramDao.updateParamText( customerId, KPP_PARAMETER_ID, kppValue );
+					}
+				}
+			}
+		}
+		catch( Exception ex )
+		{
+			log.error( ex.getMessage(), ex );
+		}
+	}
+}
+----
+
+== Проверка уникальности контрагента по паспортным данным 
+
+При редактировании параметров с паспортными данными, датой рождения производится проверка на совпадения. В случае их нахождения - выводится предупреждение и похожие контрагенты открываются.
+
+Класс-обработчик указывается для всех контроллируемых параметров. Коды параметров указываются в константах.
+
+[source, java]
+----
+package ru.bgcrm.dyn.ufanet;
+ 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+ 
+import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.dao.Tables;
+import ru.bgcrm.event.Event;
+import ru.bgcrm.event.ParamChangingEvent;
+import ru.bgcrm.event.client.CustomerOpenEvent;
+import ru.bgcrm.event.listener.DynamicEventListener;
+import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.TimeUtils;
+import ru.bgcrm.util.sql.ConnectionSet;
+ 
+/**
+ * При правке параметров контрагента.
+ * Если вводят в 74 параметр серию и номер парспорта другого контрагента - кидать ошибку и открывать контрагента у кого уже стоят такие серия и номер.
+ * Если вводят в ключевые параметры 73, 75, 77 значение идентичное с другим контрагентом с таким же наименованием кидать сообщение, что подозрительное совпадение полей и открывать так же этого контрагента, но при этом сохранять значения.
+ * @author danion
+ *
+ */
+public class DuplicateCustomerCreationBlocker
+	extends DynamicEventListener
+{
+	private static int CUSTOMER_PASSPORT_NUMBER_PARAM_ID = 74;
+	private static int CUSTOMER_BIRTHDAY_PARAM_ID = 73;
+	private static int CUSTOMER_PASSPORT_DATE_PARAM_ID = 75;
+	private static int CUSTOMER_ADDRESS = 77;
+ 
+	@Override
+	public void notify( Event e, ConnectionSet connectionSet )
+		throws BGMessageException, BGException
+	{
+		if( !(e instanceof ParamChangingEvent) )
+		{
+			return;
+		}
+ 
+		try
+		{
+			ParamChangingEvent event = (ParamChangingEvent)e;
+			Connection con = connectionSet.getConnection();
+			ParamValueDAO paramValueDAO = new ParamValueDAO( con );
+			DynActionForm form = event.getForm();
+			int paramId = event.getParameter().getId();
+			int customerId = event.getObjectId();
+ 
+			if( paramId == CUSTOMER_PASSPORT_NUMBER_PARAM_ID )
+			{
+				String value = (String)event.getValue();
+ 
+				String sql = " SELECT * FROM " + Tables.TABLE_CUSTOMER + " AS c " +
+							 " INNER JOIN " + Tables.TABLE_PARAM_TEXT + " AS pt ON c.id=pt.id AND pt.param_id=" + CUSTOMER_PASSPORT_NUMBER_PARAM_ID +
+							 " WHERE pt.value=? AND c.id<>? ";
+ 
+				PreparedStatement ps = con.prepareStatement( sql );
+				ps.setString( 1, value );
+				ps.setInt( 2, customerId );
+ 
+				ResultSet rs = ps.executeQuery();
+ 
+				StringBuilder duplicateCustomerInformation = new StringBuilder();
+				while( rs.next() )
+				{
+					int id = rs.getInt( "c.id" );
+					String title = rs.getString( "c.title" );
+ 
+					duplicateCustomerInformation.append( id + " [" + title + "]\n");
+ 
+					form.getResponse().addEvent( new CustomerOpenEvent( id ) );
+				}
+ 
+				if( duplicateCustomerInformation.length() > 0 )
+				{
+					throw new BGMessageException( "Существуют контрагенты с похожими данными:\n" + duplicateCustomerInformation.toString() );
+				}
+			}
+ 
+			if( paramId == CUSTOMER_BIRTHDAY_PARAM_ID || paramId == CUSTOMER_PASSPORT_DATE_PARAM_ID || paramId == CUSTOMER_ADDRESS )
+			{
+				Date customerBirthDate = paramValueDAO.getParamDate( customerId, CUSTOMER_BIRTHDAY_PARAM_ID );
+				Date customerPassportDate = paramValueDAO.getParamDate( customerId, CUSTOMER_PASSPORT_DATE_PARAM_ID );
+				String customerAddressValue = paramValueDAO.getParamText( customerId, CUSTOMER_ADDRESS );
+ 
+				String sql = " SELECT * FROM " + Tables.TABLE_CUSTOMER + " AS c " +
+							 " INNER JOIN " + Tables.TABLE_PARAM_DATE + " AS b ON c.id=b.id AND b.param_id=" + CUSTOMER_BIRTHDAY_PARAM_ID +
+							 " INNER JOIN " + Tables.TABLE_PARAM_DATE + " AS pd ON c.id=pd.id AND pd.param_id=" + CUSTOMER_PASSPORT_DATE_PARAM_ID +
+							 " INNER JOIN " + Tables.TABLE_PARAM_TEXT + " AS pt ON c.id=pt.id AND pt.param_id=" + CUSTOMER_ADDRESS +
+							 " WHERE b.value=? AND pd.value=? AND pt.value=? AND c.id<>? ";
+ 
+				PreparedStatement ps = con.prepareStatement( sql );
+				ps.setDate( 1, TimeUtils.convertDateToSqlDate( customerBirthDate ) );
+				ps.setDate( 2, TimeUtils.convertDateToSqlDate( customerPassportDate ) );
+				ps.setString( 3, customerAddressValue );
+				ps.setInt( 4, customerId );
+ 
+				StringBuilder sb = new StringBuilder();
+ 
+				ResultSet rs = ps.executeQuery();
+				while( rs.next() )
+				{
+					int id = rs.getInt( "c.id" );
+					String title = rs.getString( "c.title" );
+ 
+					sb.append( "(ID: " ).append( id ).append( ") " );
+					sb.append( title ).append( "\n" );
+ 
+					form.getResponse().addEvent( new CustomerOpenEvent( id ) );
+				}
+ 
+				form.getResponse().setStatus( "message" );
+				form.getResponse().setMessage( "Сущесвует контрагент с похожими данными!" );
+			}
+		}
+		catch( SQLException ex )
+		{
+			throw new BGException( ex );
+		}
+	}
+}
+----
+
+== Переключение статуса процессов по наступлению момента времени
+
+Класс выбирает процессы, находящиеся в статусе PROCESS_STATUS_PAY_WAIT (ожидание оплаты) у которых прошла дата повторного звонка. Эти процесс вновь становятся открытыми.
+
+Класс может быть запущен планировщиком либо командой консоли crm.sh runclass <className>.
+
+[source, java]
+----
+package ru.bgcrm.dyn.sofit;
+ 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Date;
+ 
+ 
+import org.apache.log4j.Logger;
+ 
+import ru.bgcrm.struts.action.ProcessAction;
+import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.Setup;
+import ru.bgcrm.util.sql.SQLUtils;
+import ru.bgcrm.dao.process.ProcessDAO;
+import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.StatusChange;
+import ru.bgcrm.model.user.User;
+ 
+import static ru.bgcrm.dao.process.Tables.*;
+import static ru.bgcrm.dao.Tables.*;
+ 
+public class KtvDebtWaitRestore
+	implements Runnable
+{
+	private static final Logger log = Logger.getLogger( KtvDebtWaitRestore.class );
+ 
+	private static final int PROCESS_TYPE_DEBTOR = 4;
+ 
+	private static final int PROCESS_STATUS_OPEN = 2;
+	private static final int PROCESS_STATUS_PAY_WAIT = 5;
+ 
+	private static final int PROCESS_PARAM_DATE_RECALL = 2;
+ 
+	@Override
+	public void run()
+	{
+		Connection con = null;
+		try
+		{
+			con = Setup.getSetup().getDBConnectionFromPool();
+ 
+			String query = 
+				"SELECT process.* FROM " + TABLE_PROCESS + " AS process " +
+				"INNER JOIN " + TABLE_PARAM_DATE + " AS pd ON process.id=pd.id AND pd.param_id=? AND pd.value<=CURDATE() " +
+				"WHERE close_dt IS NULL AND type_id=? AND status_id=?";
+			PreparedStatement ps = con.prepareStatement( query );
+			ps.setInt( 1, PROCESS_PARAM_DATE_RECALL );
+			ps.setInt( 2, PROCESS_TYPE_DEBTOR );
+			ps.setInt( 2, PROCESS_STATUS_PAY_WAIT );			
+ 
+			ResultSet rs = ps.executeQuery();
+			while( rs.next() )
+			{
+				Process process = ProcessDAO.getProcessFromRs( rs );
+ 
+				log.info( "Opening debt process: " + process.getId() );
+ 
+				StatusChange change = new StatusChange();
+				change.setProcessId( process.getId() );
+				change.setDate( new Date() );
+				change.setStatusId( PROCESS_STATUS_OPEN );
+				change.setUserId( User.USER_SYSTEM_ID );
+				change.setComment( "Настала дата повторного обзвона" );
+ 
+				ProcessAction.processStatusUpdate( DynActionForm.SERVER_FORM, con, process, change );
+ 
+				con.commit();
+			}
+			ps.close();
+		}
+		catch( Exception e )
+		{
+			log.error( e.getMessage(), e );
+		}
+		finally
+		{
+			SQLUtils.closeConnection( con );
+		}
+	}
+}
+----
+
+== Повышение приоритета процессов 
+
+Повышение приоритета для старых проблем.
+
+Класс может быть запущен планировщиком либо командой консоли crm.sh runclass <className>.
+
+[source, java]
+----
+package ru.bgcrm.dyn;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.GregorianCalendar;
+import java.util.concurrent.atomic.AtomicBoolean;
+import org.apache.log4j.Logger;
+ 
+import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.dao.process.ProcessDAO;
+import ru.bgcrm.dao.process.ProcessLinkDAO;
+import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.CommonObjectLink;
+import ru.bgcrm.model.Pair;
+import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.StatusChange;
+import ru.bgcrm.util.Setup;
+import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.sql.ConnectionSet;
+import ru.bgcrm.util.sql.PreparedDelay;
+import ru.bgcrm.util.sql.SQLUtils;
+import ru.bgcrm.util.TimeUtils;
+ 
+public class setprior
+    implements Runnable
+    {
+	private static final Logger log = Logger.getLogger(setprior.class );
+	private static AtomicBoolean working = new AtomicBoolean();
+	@Override
+	public void run(){
+		log.info( "Started" );
+ 
+		if( working.get() ){
+		    log.warn( "Already working" );
+		    return;
+		}
+		Connection con = Setup.getSetup().getDBConnectionFromPool();
+		try{
+		    working.set( true );
+		    ProcessDAO processDao = new ProcessDAO( con );
+		    String query = 
+			"SELECT *  FROM process " +  
+			"WHERE  process.close_dt IS NULL";  
+		    PreparedStatement ps = con.prepareStatement( query );
+		    ResultSet rs = ps.executeQuery();
+		    while( rs.next() ){
+			Process process = ProcessDAO.getProcessFromRs( rs );
+			int daysdelta =TimeUtils.daysDelta(TimeUtils.convertDateToCalendar(process.getStatusTime()), new GregorianCalendar())+1;
+			if ((daysdelta<9)&&(process.getPriority()<daysdelta))
+			    process.setPriority(daysdelta);
+			processDao.updateProcess(process);
+			con.commit();
+		    }
+	    	    ps.close();
+		}catch( Exception e ){
+			log.error( e.getMessage(), e );
+		}finally{
+			SQLUtils.closeConnection( con);
+			working.set( false );
+		}
+		log.info( "Finished" );
+	}
+}
+----
+
+== Проверка правки параметра процесса 
+
+Класс скрипта указывается в типе процесса. Скрипт можно дополнить обработкой других событий процесса.
+
+[source, java]
+----
+package ru.bgcrm.dyn.test;
+ 
+import ru.bgcrm.event.Event;
+import ru.bgcrm.event.ParamChangingEvent;
+import ru.bgcrm.event.listener.DynamicEventListener;
+import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.util.sql.ConnectionSet;
+ 
+public class TestProcessor
+	extends DynamicEventListener
+{
+	@Override
+	public void notify( Event e, ConnectionSet connectionSet )
+		throws BGException
+	{
+		//Connection con = connectionSet.getConnection();
+ 
+		if( e instanceof ParamChangingEvent )
+		{
+			ParamChangingEvent changingEvent = (ParamChangingEvent)e;
+ 
+			int paramId = changingEvent.getParameter().getId();
+			if( paramId == 1 )
+			{
+				// событие, чтобы перечиталась карточка процесса
+				changingEvent.getForm().getResponse().addEvent( new ru.bgcrm.event.client.ProcessChangedEvent( changingEvent.getObjectId() ) );
+				throw new BGMessageException( "Этот параметр править нельзя!" );
+			}
+			else if( paramId == 2 )
+			{
+				changingEvent.getForm().getResponse().setMessage( "Можно править, но приходит сообщение!" );
+			}
+		}		
+	}
+}
+----
+
+== Изменение описания процесса по правке параметра
+
+Класс скрипта указывается в типе процесса. Скрипт можно дополнить обработкой других событий процесса.
+
+[source, java]
+----
+package ru.bgcrm.dyn.test;
+ 
+import org.apache.log4j.Logger;
+ 
+import ru.bgcrm.dao.process.ProcessDAO;
+import ru.bgcrm.event.Event;
+import ru.bgcrm.event.ParamChangedEvent;
+import ru.bgcrm.event.client.ProcessChangedEvent;
+import ru.bgcrm.event.listener.DynamicEventListener;
+import ru.bgcrm.util.sql.ConnectionSet;
+ 
+public class ParamChangedEventListener
+    extends DynamicEventListener
+{
+    private static final Logger log = Logger.getLogger( ParamChangedEventListener.class );
+ 
+    @Override
+    public void notify( Event e, ConnectionSet connectionSet )
+    {
+	if( !(e instanceof ParamChangedEvent) )
+	{
+	    	return;
+	}
+ 
+	ParamChangedEvent pce = (ParamChangedEvent)e;			
+	try
+        {
+	    	ProcessDAO processDao = new ProcessDAO( connectionSet.getConnection() );
+ 
+	    	ru.bgcrm.model.process.Process process = processDao.getProcess( pce.getObjectId() );
+	    	process.setDescription( "Изменено!!\n" + process.getDescription()  );
+ 
+	    	processDao.updateProcess( process );
+ 
+	    	// чтобы в браузере обновилась вкладка
+	    	pce.getForm().getResponse().addEvent( new ProcessChangedEvent( pce.getObjectId() ) );
+        }
+        catch( Exception ex )
+        {
+	        log.error( ex.getMessage(), ex );
+        }
+    }
+}
+----
+
+== Обработка событий процесса согласования
+
+Класс скрипта указывается в типе процесса. Скрипт можно дополнить обработкой других событий процесса.
+
+При изменении статуса:
+
+Оповещает с помощью вспомогательного класса Notificator создателя процесса о переключении его статуса.
+Перед закрытием процесса:
+
+Проверяет, что в списковом параметре PARAMETER_SOGL_LIST проставлены все исполнители с процесса группой USER_GROUP_SOGL_DPT. Списковый параметр должен быть привязан к таблице user.
+При закрытии процесса:
+
+Заполняет текстовый параметр PROCESS_PARAM_REAL_EXECUTE_TIME временем выполнения процесса.
+
+[source, java]
+----
+package ru.bgcrm.dyn.ufanet.sogl;
+ 
+import java.sql.Connection;
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+ 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.log4j.Logger;
+ 
+import ru.bgcrm.cache.ProcessTypeCache;
+import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.dao.process.StatusChangeDAO;
+import ru.bgcrm.dyn.ufanet.Notificator;
+import ru.bgcrm.dyn.ufanet.Notificator.NotificationType;
+import ru.bgcrm.dyn.ufanet.Thesaurus;
+import ru.bgcrm.event.Event;
+import ru.bgcrm.event.ParamChangingEvent;
+import ru.bgcrm.event.listener.DynamicEventListener;
+import ru.bgcrm.event.process.ProcessChangedEvent;
+import ru.bgcrm.event.process.ProcessChangingEvent;
+import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.param.ParameterAddressValue;
+import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.ProcessExecutor;
+import ru.bgcrm.model.process.ProcessType;
+import ru.bgcrm.model.process.StatusChange;
+import ru.bgcrm.util.sql.ConnectionSet;
+ 
+public class SoglasEventProcessor
+	extends DynamicEventListener
+{
+	private static final int PROCESS_ACCEPT_STATUS_ID = 46;
+	private static final int PARAMETER_SOGL_LIST = 701;
+	private static final int USER_GROUP_SOGL_DPT = 60;
+	private static final int PROCESS_STATUS_AGREED = 17;
+	private static final int PROCESS_PARAM_REAL_EXECUTE_TIME = 804;
+ 
+	private static final Logger log = Logger.getLogger( SoglasEventProcessor.class );
+	private Connection con;
+ 
+	@Override
+	public void notify( Event e, ConnectionSet connectionSet )
+		throws BGException
+	{
+		con = connectionSet.getConnection();
+ 
+		if( e instanceof ParamChangingEvent )
+		{
+			onParameterChanging( e );
+		}
+ 
+		else if( e instanceof ProcessChangingEvent )
+		{
+			onProcessChanging( (ProcessChangingEvent)e );
+		}
+ 
+		else if( e instanceof ProcessChangedEvent )
+		{
+			onProcessChanged( (ProcessChangedEvent)e );
+		}
+	}
+ 
+	private void onProcessChanged( ProcessChangedEvent event )
+		throws BGException
+	{
+		int statusId = event.getProcess().getStatusId();
+		Process process = event.getProcess();
+		ProcessType type = ProcessTypeCache.getProcessType( process.getTypeId() );
+ 
+		int processId = process.getId();
+ 
+		if( event.isStatus() )
+		{
+			ParamValueDAO paramValueDAO = new ParamValueDAO( con );
+			ParameterAddressValue address = paramValueDAO.getParamAddress( process.getId(), Thesaurus.Process.PROCESS_PARAMETER_ADDRESS_ID, 1 );
+ 
+			if( address != null )
+			{
+ 
+				String title = "Изменение статуса процесса " + process.getId();
+				String text = " Статус процесса  " + process.getId() + " по адресу " + address.getValue() + " изменился на " + process.getStatusTitle();
+ 
+				Notificator.notificate( new HashSet<Integer>( Arrays.asList( process.getCreateUserId() ) ), title, text, new HashSet<NotificationType>( Arrays.asList( NotificationType.SMS, NotificationType.NEWS, NotificationType.EMAIL ) ) );
+			}
+		}
+ 
+		if( event.isStatus() && type.getProperties().getCloseStatusIds().contains( statusId ) )
+		{
+			StatusChangeDAO statusChangeDAO = new StatusChangeDAO( con );
+ 
+			List<StatusChange> statusHistory = statusChangeDAO.getProcessStatus( processId, PROCESS_ACCEPT_STATUS_ID );
+			if( statusHistory.isEmpty() )
+			{
+				return;
+			}
+ 
+			//вычисление времени решения процесса
+			long diffInMillis = process.getCloseTime().getTime() - statusHistory.iterator().next().getDate().getTime();
+			int diffInDays = (int)diffInMillis / 1000 / 86400;
+			int diffInHours = (int)(diffInMillis / 1000 - 86400 * diffInDays) / 3600;
+			int diffInMins = (int)(diffInMillis / 1000 - 86400 * diffInDays - 3600 * diffInHours) / 60;
+ 
+			GregorianCalendar cal = new GregorianCalendar( 0, 0, diffInDays, diffInHours, diffInMins, 0 );
+ 
+			String diffTime = String.format( "%d д. %tH:%tM", diffInDays, cal, cal );
+ 
+			new ParamValueDAO( con ).updateParamText( processId, PROCESS_PARAM_REAL_EXECUTE_TIME, diffTime );
+		}
+	}
+ 
+	private void onProcessChanging( ProcessChangingEvent event )
+		throws BGException
+	{
+		Process process = event.getProcess();
+		int processId = process.getId();
+ 
+		if( !event.isStatus() )
+		{
+			return;
+		}
+ 
+		int statusId = event.getStatusChange().getStatusId();
+		if( statusId != PROCESS_STATUS_AGREED )
+		{
+			return;
+		}
+ 
+		Set<Integer> soglSet = new ParamValueDAO( con ).getParamList( processId, PARAMETER_SOGL_LIST );
+ 
+		for( ProcessExecutor executor : process.getProcessExecutors() )
+		{
+			if( executor.getGroupId() == USER_GROUP_SOGL_DPT && !soglSet.contains( executor.getUserId() ) )
+			{
+				throw new BGException( "Процесс должен быть согласован всеми согласователями из списка исполнителей перед закрытием" );
+			}
+		}
+	}
+ 
+	private void onParameterChanging( Event e )
+		throws BGException
+	{
+		ParamChangingEvent event = (ParamChangingEvent)e;
+ 
+		if( event.getParameter() == null || event.getParameter().getId() != PARAMETER_SOGL_LIST )
+		{
+			return;
+		}
+ 
+		Set<Integer> newSet = null;
+ 
+		try
+		{
+			newSet = (Set<Integer>)event.getValue();
+		}
+		catch( Exception ex )
+		{
+			log.debug( ex );
+		}
+ 
+		if( newSet == null )
+		{
+			return;
+		}
+ 
+		checkPermission( event.getUser().getId(), new ParamValueDAO( con ).getParamList( event.getObjectId(), PARAMETER_SOGL_LIST ), newSet );
+	}
+ 
+	private void checkPermission( int userId, Set<Integer> source, Set<Integer> newSet )
+		throws BGException
+	{
+		List<Integer> disjSet = (List<Integer>)CollectionUtils.disjunction( source, newSet );
+ 
+		if( disjSet.size() > 1 || (disjSet.size() == 1 && !disjSet.contains( userId )) )
+		{
+			throw new BGException( "Вы можете проставить согласование только от своего имени" );
+		}
+	}
+}
+----
+
+== Генерация новостей исполнителям при изменении процессов
+
+Фрагмент кода обработчика событий процесса, генерирует новость по появлению в процессе новых сообщений. В заголовок новости помещается адресный параметр процесса и привязанный контрагент. В тексте сообщения отображается ссылка открытия карточки процесса.
+
+[source, java]
+----
+....
+private void generateNews( Connection con, Process process, UserEvent event )
+    throws BGException
+{
+	ProcessLinkDAO linkDao = new ProcessLinkDAO( con );
+	ParamValueDAO paramDao = new ParamValueDAO( con );
+	NewsDAO newsDao = new NewsDAO( con );
+ 
+	CommonObjectLink linkCustomer = Utils.getFirst( linkDao.getObjectLinksWithType( process.getId(), Customer.OBJECT_TYPE ) );
+ 	ParameterAddressValue address = Utils.getFirst( paramDao.getParamAddress( process.getId(), PROCESS_PARAM_ADDRESS ).values() );
+	if( address == null )
+	{
+		address = Utils.getFirst( paramDao.getParamAddress( process.getId(), PROCESS_PARAM_ADDRESSES ).values() );
+	}
+ 
+	if( linkCustomer == null || address == null) )
+	{
+		return;
+	}
+ 
+ 	News news = new News();
+	news.setCreateDate( new Date() );
+ 	news.setLifeTime( 200 );
+	news.setReadTime( 400 );
+	news.setUserId( event.getForm().getUserId() );
+ 
+ 	Set<Integer> userIds = new HashSet<Integer>( process.getExecutorIds() );
+ 
+	// обработка события "сообщение добавлено"
+	if( event instanceof ProcessMessageAddedEvent )
+	{
+		final int typeId = process.getTypeId();
+		ProcessType type = ProcessTypeCache.getProcessType( typeId );
+ 
+		news.setTitle( type.getTitle() + " " + linkCustomer.getLinkedObjectTitle() + " =&gt; новое сообщение" );
+ 
+                // описание и ссылка открытия процесса в теле сообщения
+		String text =
+		   type.getTitle() + " \"" + linkCustomer.getLinkedObjectTitle() + ", " + address.getValue() + "\" получено новое сообщение.<br/>" +
+		   "<a href='#UNDEF' onClick='openProcess( " + process.getId() + " )'>Перейти к процессу</a>";
+ 
+		news.setDescription( text );
+	}
+ 
+        // пользователь, добавивший сообщение, новость не получает 
+	userIds.remove( event.getForm().getUserId() );
+ 
+	if( userIds.size() > 0 &&
+	    Utils.notBlankString( news.getTitle() ) )
+	{
+		newsDao.updateNewsUsers( news, userIds );
+	}
+}
+....
+----
+ 
+== Уведомление на email
+
+Если требуется из скрипта отправить уведомление на email в конфигурации почты обязательно указать mail.from.email=
+
+[source, java]
+----
+....
+import ru.bgcrm.util.MailMsg;
+....
+new MailMsg( Setup.getSetup() ).sendMessage( to, title, text );
+...
+----

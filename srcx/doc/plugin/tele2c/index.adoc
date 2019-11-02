@@ -1,0 +1,34 @@
+=  Плагин Tele2c
+:toc:
+
+Плагин предоставляет возможность отправки SMS сообщений по протоколу оператора Tele2. 
+Отправка может быть осуществлена с использованием API для <<../../kernel/process/processing.adoc#, простого обработчика изменений процесса>>.
+
+== Настройка
+В конфигурации определите параметры доступа к сервису Tele2.
+[source]
+----
+tele2c:url=https://newbsms.tele2.ru/api/?operation=send
+tele2c:login=<login>
+tele2c:password=<password>
+tele2c:naming=<name>
+----
+Где:
+[square]
+* *<login>* - логин доступа к сервису;
+* *<pasword>* - пароль;
+* *<name>* - имя отправителя сообщения.
+
+Теперь в скрипте doExpression простого обработчика событий возможна отправка сообщений.
+[source]
+----
+onProcessEvent.1.events=statusChanged
+onProcessEvent.1.doExpression=<<END
+ phone = processParam.getParamPhoneNoFormat(86);
+ if (phone) {
+   tele2c.sendSms(phone, "Изменился статус");
+ }
+END
+----
+
+Объект tele2c класса javadoc:ru.bgcrm.plugin.tele2c.DefaultProcessorFunctions[] с функциями API предоставляется плагином.

@@ -1,0 +1,5 @@
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+<tiles-definitions>
+  <definition name="main" path="/WEB-INF/layout/main.jsp"/>
+  <definition name="bgbilling.action" path="/WEB-INF/layout/plugin/bgbilling/action.jsp"/>  
+</tiles-definitions>

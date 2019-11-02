@@ -1,0 +1,121 @@
+= Плагин Slack
+:toc:
+
+== О плагине
+Плагин предназначен для интеграции BGERP системой сообщений link:http://slack.com[Slack] и предоставляет функционал:
+[square]
+* привязка процесса к каналу Slack;
+* создание канала по событию;
+* установка параметров канала: тема, топик и т.п.;
+* приглашение исполнителей процесса в канал;
+* архивирование канала по событию;
+* отправка сообщений из BGERP в Slack;
+* загрузка выбранных сообщений из канала Slack в BGERP.
+
+== Настройка в Slack
+[arabic]
+. Создать домен Slack domain.slack.com, завести в нём пользователя, авторизоваться.
+. Создать приложение Slack с *ClientID* и *ClientSecret*. В секции OAuth Settings указать любой действительный *URL*.
+. Выполнить запрос: https://slack.com/oauth/authorize?client_id=*ClientID*&scope=channels:history%20channels:read%20channels:write%20users:read%20groups:read%20groups:write%20groups:history%20chat:write:user%20chat:write:bot
+Будет запрошено подтверждение на доступ под текущим пользователем, после согласия выполнен редирект на адрес *URL*/oauth?code=*CODE*
+. Выполнить запрос: https://slack.com/api/oauth.access?code=*CODE*&client_id=*ClientID*&client_secret=*ClientSecret*
+  Результат должен быть вида: {"ok":true,"access_token":"*TOKEN*","scope":"..
+. Сохраните полученный *TOKEN*, он необходим для настройки BGERP.
+
+== Настройка BGERP
+Создать текстовый <<../../kernel/setup.adoc#param, параметр>> пользователя для сохранения логина Slack.
+
+Настроить в конфигурации BGERP <<../../kernel/message.adoc#type, тип сообщения>>, для Slack может быть создан только один тип сообщения: 
+[source]
+----
+messageType.<id>.title=<title>
+messageType.<id>.class=ru.bgcrm.plugin.slack.dao.MessageTypeChannel
+messageType.<id>.authToken=<token>
+# необязательные параметры
+messageType.<id>.accountParamId=<slackLoginParamId>
+messageType.<id>.stringExpressionMessageExtract=<jexl>
+----
+
+Параметры, отличные от прочих типов сообщений:
+[square]
+* *<token>* - TOKEN авторизации, сохранённый ранее;
+* *<slackLoginParamId>* - код текстового параметра пользователя, хранящего логин Slack, позволяющий сопоставить пользователя BGERP с пользователем Slack;
+* *<jexl>* - <<../../kernel/extension.adoc#jexl, JEXL>> выражение для извлечения сообщения Slack в текст входящего сообщения, 
+исходное сообщение передаётся в параметре *message*, не null результат скрипта используется как текст входящего сообщения.
+
+Пример настройки типа сообщения. Входящие сообщения выбираются с подстрокой *bg*.
+[source]
+----
+messageType.5.title=Slack
+messageType.5.class=ru.bgcrm.plugin.slack.dao.MessageTypeChannel
+messageType.5.authToken=xoxp-112244252083-112987389558-112322797394-6aa31425be1725ee6ee0265a2dff1236
+messageType.5.accountParamId=88
+messageType.5.stringExpressionMessageExtract=<<END
+   pos = message.toLowerCase().indexOf("bg");
+   if (pos >= 0)
+        return message.substring(0, pos) + message.substring(pos + 2);
+   return null;
+END
+----
+
+Синхронизация с форумом производится <<../../kernel/message.adoc#scheduler, стандартной задачей>> обработки сообщений. 
+Отправка сообщений производится немедленно, задача синхронизации лишь производит импорт необходимых сообщений.
+
+== Работа с сообщениями
+После настройки в системе типа сообщения к любому процессу может быть привязан канал Slack. 
+Для выполнения этого в ручном режиме тип объекта выбирается в секции *Привязать иной объект*, наименование оставляется пустым. 
+Уже привязанный канал изображён на снимке экрана выше.
+
+image::_res/slack_1.png[]
+
+После того, как канал привязан к процессу в Сообщениях процесса возможна отправка постов в привязанный канал.
+
+image::_res/slack_2.png[]
+
+Входящие сообщение импортируются из канала при наличии скрипта *stringExpressionMessageExtract* в типе сообщения.
+
+== Настройка типа процесса
+В конфигурации типа процесса может быть настроена автоматизация работы со Slack с помощью скрипта в doExpression <<../../kernel/process/processing.adoc#, простого обработчика событий>>. 
+Ниже приведено несколько примеров возможных действий по различным событиям в процессе.
+
+При переходе процесса в статус 10:
+[square]
+* привязать если нет канал Slack к процессу;
+* пригласить исполнителей (они сопоставляются с пользователями Slack по логину в текстовом параметре пользователя BGERP);
+* установить топик канала, полученный из названия статуса процесса и привязанного к процессу контрагента.
+
+[source]
+----
+onProcessEvent.1.events=statusChanged:10
+onProcessEvent.1.doExpression=<<END
+     paramDao =  new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
+     linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());   
+     slack.linkChannel(process);
+     slack.inviteExecutors(process);
+     topic = "[" + process.getStatusTitle() + "]";
+     link = u.getFirst(linkDao.getObjectLinksWithType(process.getId(), "customer"));
+     if (link != null )
+        topic += " " + link.getLinkedObjectTitle();
+   slack.setTopic(process, topic);
+END
+----
+
+При переводе процесса в статус 8 перемещение привязанного канала в архив.
+[source]
+----
+onProcessEvent.2.events=statusChanged:8
+onProcessEvent.2.doExpression=<<END
+   slack.archive(process, true);
+END
+----
+
+При изменении исполнителей процесса - приглашение новых исполнителей.
+[source]
+----
+onProcessEvent.3.events=executorsChanged
+onProcessEvent.3.doExpression=<<END
+   slack.inviteExecutors(process);
+END
+----
+
+Объект *slack* класса javadoc:ru.bgcrm.plugin.slack.DefaultProcessorFunctions[] с функциями API предоставляется плагином.

@@ -1,0 +1,8 @@
+<item title="Плагин Document">
+	<item title="Документы">
+		<item action="ru.bgcrm.plugin.document.struts.action.DocumentAction:null" title="Просмотр документов"/>
+		<item action="ru.bgcrm.plugin.document.struts.action.DocumentAction:uploadDocument" title="Выгрузка документа"/>
+		<item action="ru.bgcrm.plugin.document.struts.action.DocumentAction:generateDocument" title="Генерация документа"/>
+		<item action="ru.bgcrm.plugin.document.struts.action.DocumentAction:deleteDocument" title="Удаление документа"/>
+	</item>
+</item>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<urlrewrite>
+    <rule>
+        <note>Redirect for open interface</note>
+        <from>open/[\w/#]+$</from>
+        <to>/open/shell.jsp</to>
+    </rule>
+</urlrewrite>

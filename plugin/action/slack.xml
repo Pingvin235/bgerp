@@ -1,0 +1,5 @@
+<item title="Плагин Slack">
+	<item title="Каналы">
+		<item action="ru.bgcrm.plugin.slack.struts.action.ChannelAction:addProcessChannelLink" title="Привязать канал к процессу"/>
+	</item>	
+</item>

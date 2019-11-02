@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- configuration file, may be placed in the same directory with root index.adoc file -->
+<pzdcdoc>
+	<!-- these attributes applied to each of processed files, may be overvritten inside -->
+	<attributes>
+		<favicon>https://bgerp.ru/img/favicon.png</favicon>
+		<pzdc-javadoc>http://www.bgcrm.ru/doc/3.0/javadoc/</pzdc-javadoc>
+		<!-- sample of labels customization
+		https://asciidoctor.org/docs/user-manual/#customizing-labels
+		https://github.com/asciidoctor/asciidoctor/blob/master/lib/asciidoctor/document.rb#L255
+		-->
+		<appendix-caption>Приложение</appendix-caption>
+		<caution-caption>Внимание</caution-caption>
+		<example-caption>Пример</example-caption>
+		<figure-caption>Рисунок</figure-caption>
+		<important-caption>Важно</important-caption>
+		<manname-title>НАЗВАНИЕ</manname-title>
+		<note-caption>Примечание</note-caption>
+		<table-caption>Таблица</table-caption>
+		<tip-caption>Подсказка</tip-caption>
+		<toc-title>Содержание</toc-title>
+		<untitled-label>Без названия</untitled-label>
+		<version-label>Версия</version-label>
+		<warning-caption>Предупреждение</warning-caption>
+	</attributes>
+</pzdcdoc>

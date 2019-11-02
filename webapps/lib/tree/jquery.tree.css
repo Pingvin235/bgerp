@@ -1,0 +1,78 @@
+.jquery-tree {
+    list-style: none;
+}
+
+.jquery-tree label {
+	margin-left: 0 !important;
+}
+
+.jquery-tree ul {
+    list-style: none;
+}
+
+.jquery-tree-handle {
+    cursor: pointer;
+	width: 10px;
+	overflow: hidden;
+	display: inline-block;
+	vertical-align: top;
+	padding: 0;
+	margin: 0;
+}
+
+.jquery-tree-collapsed ul {
+    display: none;
+}
+
+.jquery-tree-collapseall,
+.jquery-tree-expandall {
+	cursor: pointer;
+}
+
+.jquery-tree-collapseall {
+	margin-right: 1em;
+}
+
+.jquery-tree input {
+	position: absolute;
+	left: -1000px;
+}
+
+.jquery-tree-leaf {
+    padding-left: 25px;
+}
+
+.jquery-tree-node {
+    padding-left: 15px;
+}
+
+.jquery-tree-title {
+	display:inline-block;
+}
+
+.jquery-tree-checked-partial,
+.jquery-tree-checked,
+.jquery-tree-unchecked {
+	background-position: 5px 50%;
+	background-repeat: no-repeat;
+	cursor: default;
+	padding-left: 25px;
+	margin: 0;
+}
+
+.jquery-tree-checked-partial {
+	background-image: url('/lib/tree/img/checkbox-partial.png');
+}
+
+.jquery-tree-checked {
+	background-image: url('/lib/tree/img/checkbox-checked.png');
+}
+
+.jquery-tree-unchecked {
+	background-image: url('/lib/tree/img/checkbox-unchecked.png');
+}
+
+.jquery-tree-node label,
+.jquery-tree-handle {
+	-moz-user-select: none;
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+    <description>BGERP cache library</description>
+	<display-name>BGERP cache</display-name>
+	<tlib-version>1.1</tlib-version>
+	<short-name>util</short-name>
+	<uri>http://bgrcrm.ru/jsp/taglib/cache</uri>
+	<function>
+        <name>userWithGroupsList</name>
+        <function-class>ru.bgcrm.cache.UserCache</function-class>
+        <function-signature>List getUserList(java.util.Set)</function-signature>
+	</function>	
+	<function>
+        <name>getProcessQueue</name>
+        <function-class>ru.bgcrm.cache.ProcessQueueCache</function-class>
+        <function-signature>Queue getQueue(int)</function-signature>
+	</function>
+</taglib>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Update" default="build" basedir=".">
+	<description>Update package</description>
+	
+	<property name="rootfolder" value="content"/>
+	
+	<import file="${basedir}/../common/import/module_build.xml"/>		
+
+	<!-- подготовка каталогов-->
+	<target name="prepare_dir">
+		<delete dir="${rootpath}"/>
+		
+		<mkdir dir="${rootpath}"/>
+		<mkdir dir="${libapppath}"/>
+		
+		<mkdir dir="${rootpath}/dyn/ru/bgcrm/dyn"/>
+	</target>
+	
+	<!-- копирование -->
+	<target name="copy_bgerp">
+		<copy todir="${rootpath}">
+			<fileset dir="${projectPath}">
+				<include name="plugin/**"/>
+				<include name="docpattern"/>
+				<include name="docpattern/example/**"/>
+				<include name="docpattern/tabel_blank.xls"/>
+				<include name="dyn/ru/bgcrm/dyn/Example*.java"/>
+				<include name="webapps/**"/>
+				<exclude name="webapps/lib/jquery-ui-1.10.3/**"/>
+				<exclude name="webapps/WEB-INF/jspf/**/custom/**"/>
+			</fileset>
+			<fileset dir="${basedir}/../bgerp/files">
+				<include name="backup.sh"/>
+				<include name="erp*.sh"/>
+				<include name="log4j.properties"/>
+			</fileset>	
+			<fileset dir="${basedir}/../bgerp" includes="scripts/**"/>
+		</copy>
+	</target>
+	
+	<!-- создание bgerp.jar -->
+	<target name="build_bgerp_jar" depends="copy_bgerp">
+		<jar destfile="${libapppath}/bgerp.jar">
+			<fileset dir="${classesPath}">
+				<include name="ru/bgcrm/**"/>
+				<exclude name="ru/bgcrm/version/**"/>
+				<exclude name="ru/bgcrm/dyn/**"/>
+				<exclude name="ru/bgcrm/util/test/**"/>
+				<include name="ru/bgerp/**"/>
+				<exclude name="ru/bgerp/tool/**"/>
+			</fileset>
+			<fileset dir="${classesPath}" includes="ru/bgcrm/version/update.properties"/>
+		</jar>
+	</target>
+	
+	<!-- доп. файлы в update.zip -->
+	<target name="add_to_module_zip">
+		<echo message="Adding to update.zip"/>
+		
+		<patternset id="add.to.module.zip">
+			<include name="patch.sql"/>
+			<include name="patch_fulltext.sql"/>
+			<include name="patch_task.sql"/>
+		</patternset>
+	</target>
+	
+	<!--главный таргет-->
+	<target name="build" depends="prepare_dir">
+		<property name="dir" value="${basedir}"/>
+		
+		<antcall target="update_props"/>
+		<antcall target="put_props"/>
+		
+		<antcall target="build_bgerp_jar"/>
+		
+		<antcall target="build_module"/>
+		
+		<copy todir="${basedir}/newlib" file="${libapppath}/bgerp.jar"/>
+			
+		<delete dir="${rootpath}"/>
+		
+		<ant dir="${basedir}/../bgerp" inheritall="false"/>
+	</target>
+</project>

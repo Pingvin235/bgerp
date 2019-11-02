@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin package="ru.bgcrm.plugin.fias">
+	<endpoint id="js" file="/js/pl.fias.js"/>
+	<endpoint id="user.menu.items.jsp" file="/WEB-INF/jspf/user/plugin/fias/menu_items.jsp"/>
+</plugin>
