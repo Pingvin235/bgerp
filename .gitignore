@@ -16,4 +16,6 @@ webapps/WEB-INF/**/custom
 .DS_Store
 .vscode/launch.json
 .vscode/settings.json
+log4j.properties
+
 
