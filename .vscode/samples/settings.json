@@ -11,7 +11,8 @@
         "**/bin": true,
         "**/.gradle": true        
     },
-    "java.home": "C:/Java/jdk1.8.0_191",
+    "java.home": "C:/Java/jdk-11.0.3",
     "java.format.settings.url": "formatter.xml",
+    "editor.renderWhitespace": "all",
     "java.configuration.updateBuildConfiguration": "automatic"
 }

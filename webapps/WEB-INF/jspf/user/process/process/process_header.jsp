@@ -13,7 +13,7 @@
 					<c:param name="action" value="processDelete"/>
 	     			<c:param name="id" value="${process.id}"/>				
 				</c:url>
-				[<a href="#UNDEF" title=">${l.l('Удалить процес')}" onclick="if (confirm('${l.l('Удалить процесс?')}')) bgcrm.ajax.post('${url}').done(() => { ${returnBreakCommand} }); return false;"> X </a>]
+				[<a href="#UNDEF" title="${l.l('Удалить процес')}" onclick="if (confirm('${l.l('Удалить процесс?')}')) bgcrm.ajax.post('${url}').done(() => { ${returnBreakCommand} }); return false;"> X </a>]
 			</p:check>
 				
 			<b>

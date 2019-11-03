@@ -14,8 +14,8 @@
 		<tr>
 			<td>${item.object.id}</td>
 			<td><a href="#UNDEF" onclick="openCustomer( ${item.object.id} ); return false;">${item.object.title}</a></td>			
-			<td>${item.paramName}</td>
-			<td>${item.address}</td>
+			<td>${item.param.title}</td>
+			<td>${item.value}</td>
 		</tr>
 	</c:forEach>
 </table>

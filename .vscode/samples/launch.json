@@ -21,15 +21,6 @@
             "projectName": "ERP",
             "args": "start",
             "vmArgs": "-Dbgerp.setup.data=bgerp_bitel"
-        },
-        {
-            "type": "java",
-            "request": "launch",
-            "name": "BGERP Atel",
-            "mainClass": "ru.bgcrm.Server",
-            "projectName": "ERP",
-            "args": "start",
-            "vmArgs": "-Dbgerp.setup.data=bgerp_atel"
         }
     ]
 }

@@ -68,9 +68,9 @@
 						 	}
 						 </c:set>
 						
-						<button type="button" class="btn-grey ml1" onclick="${code}">Занять</button>
+						<button type="submit" class="btn-grey ml1" onclick="${code}">Занять</button>
 					</form>
-				</c:otherwise>						
+				</c:otherwise>
 			</c:choose>
 		</div>	
 	</c:if>	
