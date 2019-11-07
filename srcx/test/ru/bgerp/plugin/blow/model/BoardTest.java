@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.beust.jcommander.internal.Lists;
@@ -68,6 +69,7 @@ public class BoardTest {
         Assert.assertEquals(p3, children.get(1).getProcess());
     }
     
+    @Ignore
     @Test
     public void testGetQueues() {
         List<CommonObjectLink> links = new ArrayList<>();

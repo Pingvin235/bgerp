@@ -11,13 +11,14 @@ import java.sql.Statement;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.distr.ModuleInf;
 import ru.bgcrm.util.sql.ConnectionPool;
 import ru.bgcrm.util.sql.SQLUtils;
 
+@Ignore
 public class InstallerModuleTest
 {
 	private static final String TEST_CONFIG = "test.bgcrm_test";
