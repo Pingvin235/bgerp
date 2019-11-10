@@ -2,9 +2,6 @@
 :nofooter:
 
 * <<changes.adoc#, Последние изменения>>
-* <<project.adoc#, Разработка>>
-** <<samples.adoc#, Примеры документации>>
-** <<kernel/db.adoc#, Структура БД>>
 * Ядро системы
 ** <<kernel/install.adoc#, Установка>>
 ** <<kernel/interface.adoc#, Интерфейс>>
@@ -20,7 +17,6 @@
 ** <<kernel/message.adoc#, Сообщения>>
 ** <<kernel/work.adoc#, Организация работ>>
 ** <<kernel/extension.adoc#, Расширение функциональности>>
-
 *** <<ext/dyn_sample.adoc#, Примеры динамического кода>>
 * Плагины
 ** <<plugin/bgbilling/index.adoc#, BGBilling>>
@@ -47,3 +43,6 @@
 ** <<ext/asterisk_integration.adoc#, Интеграция с Asterisk для обработки входящих звонков>>
 ** <<ext/email_configure.adoc#, Настройка E-Mail сообщений>>
 ** <<ext/blow_jira.adoc#, Blow JIRA>>
+* <<project.adoc#, Разработка>>
+** <<samples.adoc#, Примеры документации>>
+** <<kernel/db.adoc#, Структура БД>>
