@@ -206,6 +206,12 @@ task buildDoc(type:JavaExec) {
     args 'NOTUSED', 'srcx/doc', 'target/doc'
 }
 
+task patchChanges(type:JavaExec, dependsOn: ['compileToolsJava']) {
+    classpath =  sourceSets.tools.runtimeClasspath
+    main = 'ru.bgerp.tool.PatchChanges'
+    args findProperty('build'), 'build/changes.txt'
+}
+
 task rss(type:JavaExec, dependsOn: ['compileToolsJava']) {
     classpath =  sourceSets.tools.runtimeClasspath
     main = 'ru.bgerp.tool.RssGenerator'

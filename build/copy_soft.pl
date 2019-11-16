@@ -11,8 +11,6 @@ my $branch = `git branch | grep "*"`;
 $branch =~ s/\*//;
 chomp( $branch );
 
-#print( substr( $branch, "master" ) );
-
 if( $branch != 'master' )
 {
 	die "Can't publish on $branch branch.\n";
@@ -27,7 +25,7 @@ foreach my $file ( @ls )
 	if( $file =~ /^\.+/ )
 	{
 		next;
-	}	
+	}
 
 	my @name_build = get_name_build( $file );
 	my $name = $name_build[0];
@@ -46,26 +44,26 @@ dir_sync( "bgerp" );
 dir_sync( "update" );
 dir_sync( "update_lib" );
 
-print( "\nPatching changes.txt:\n" );
+print( "\nPatching changes.txt\n" );
 
-my $build = add_build_to_changes();
+my $build = get_build();
+
+# patch changes.txt and generation changes.xml out of it	
+system("cd .. && ./gradlew -Pbuild=$build patchChanges rss");
 
 $sftp->put( "changes.txt", "$FTPDIR/changes.txt", copy_perms => 0 )
 	or die "Can't put changes.txt. ".$sftp->error;
-
-# generation changes.xml out of changes.txt	
-system("cd .. && ./gradlew rss");
 
 $sftp->put( "changes.xml", "$FTPDIR/changes.xml", copy_perms => 0 )
 	or die "Can't put changes.xml. ".$sftp->error;	
 
 if( $was_copy )
 {
-	system( "git commit *.properties changes.txt -m \"PUBLISH $build\" && git push origin master" ) == 0
+	system( "git commit *.properties changes.txt changes.*.txt -m \"PUBLISH $build\" && git push" ) == 0
 		or die "Error: $!.\n";
 }
 
-sub add_build_to_changes
+sub get_build
 {
  	open FILE, "<update/update.properties" or die "Can't find build.number\n";
 	my $build = undef;
@@ -78,35 +76,6 @@ sub add_build_to_changes
 		}	
 	}
 	close FILE;	
-
-	my $date = `TZ="UTC-5" date "+%d.%m.%Y %X"`;
-	chomp($date);
-	print("Build: $build; date: $date");
-
-	my $changes = "";
-	my $changes_started = undef;
-	my $dates_started = undef;
-
-	open FILE, "<changes.txt" or die "Can't open changes.txt\n";
-	while (my $line = <FILE>)
-	{
-		$dates_started = $dates_started || ($line =~ /^\d{2}\.\d{2}\.\d{4}/);	
-		if (!$dates_started && !$changes_started && ($changes_started = ($line =~ /^[FACАС]:/)))
-		{
-			$changes .= "$date $build\n";
-		}
-		$changes .= "$line";
-	}
-	close FILE;
-	
-    #print($changes);
-
-	if ($changes_started) 
-	{
-		open FILE, ">changes.txt" or die "Can't write changes.txt\n";
-		print FILE $changes;
-		close FILE;
-	}
 
 	return $build;		
 }
