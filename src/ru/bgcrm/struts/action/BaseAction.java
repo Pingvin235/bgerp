@@ -533,10 +533,14 @@ public class BaseAction extends DispatchAction {
 	        // параметр не пришёл в запросе - восстановление
 	        if (form.getParamArray(param) == null) {
 	            //TODO: Хранение с разделителями запятыми, может поправить потом.
-	            if (get && prefs.containsKey(key))
-	                form.setParamArray(param, Utils.toList(prefs.get(key)));
-	        } else if (set)
-	            prefs.set(key, Utils.toString(form.getSelectedValuesListStr(param)));
+				if (get && prefs.containsKey(key)) {
+					form.setParamArray(param, Utils.toList(prefs.get(key)));
+					log.debug("Restore param: %s, key: %s", param, key);
+				}
+			} else if (set) {
+				prefs.put(key, Utils.toString(form.getSelectedValuesListStr(param)));
+				log.debug("Store param: %s, key: %s", param, key);
+			}
 	    }
 	    new UserDAO(con).updatePersonalization(valueBefore, form.getUser());
 	}

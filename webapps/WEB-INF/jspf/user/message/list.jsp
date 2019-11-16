@@ -118,8 +118,8 @@
 		hiddenName="order" value="${form.param.order}" prefixText="Сортировка:" 
 		widthTextValue="20px" onSelect="${script}">
 		<jsp:attribute name="valuesHtml">
-			<li value="0">Прямая</li>
 			<li value="1">Обратная</li>
+			<li value="0">Прямая</li>
 		</jsp:attribute>
 	</ui:combo-single>	
 	

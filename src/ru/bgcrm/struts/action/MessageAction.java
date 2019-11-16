@@ -273,8 +273,10 @@ public class MessageAction extends BaseAction {
 
 	public ActionForward messageList(ActionMapping mapping, DynActionForm form, final ConnectionSet conSet)
 			throws BGException {
+		restoreRequestParams(conSet.getConnection(), form, true, true, "order", "typeId");
+		
 		boolean processed = form.getParamBoolean("processed", false);
-		final boolean reverseOrder = form.getParamBoolean("order", false);
+		final boolean reverseOrder = form.getParamBoolean("order", true);
 		
 		Set<Integer> allowedTypeIds = Utils.toIntegerSet(form.getPermission().get("allowedTypeIds", ""));
 		

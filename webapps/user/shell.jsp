@@ -78,18 +78,18 @@
 		<ul id="${uiidProfileMenu}" style="display: none;">
 			<li><a href="/user/profile" onclick="bgerp.shell.followLink(this.href, event)">${l.l('Профиль')}</a></li>
 			<li><a href="/user/userProcesses" onclick="bgerp.shell.followLink(this.href, event)">${l.l('Мои процессы')}</a></li>
-			<%-- отсутствие onclick отключит этот пункт меню --%>			
-			<li><a href="UNDEF" onclick="bgerp.ajax.post('/login.do?action=logout').done(() => window.location.href = '/user'); return false;">${l.l('Выход')}</a></li>			
+			<%-- отсутствие onclick отключит этот пункт меню --%>
+			<li><a href="UNDEF" onclick="bgerp.ajax.post('/login.do?action=logout').done(() => window.location.href = '/user'); return false;">${l.l('Выход')}</a></li>
 		</ul>
 	</div>
 	
-	<%-- TODO: Переместить большую часть функций в bgcrm.shell, файл crm.shell.js --%>		
+	<%-- TODO: Переместить большую часть функций в bgcrm.shell, файл crm.shell.js --%>
 	<script>
-		var menuItems = bgcrm.menuItems = {};
+		const menuItems = bgcrm.menuItems = {};
 		
 		${menuItemsJS}
 			
-		<%-- перенос настроек персонализации в bgcrm.pers для использования в JS скриптах --%>	
+		<%-- перенос настроек персонализации в bgcrm.pers для использования в JS скриптах --%>
 		<c:forEach var="pair" items="${ctxUser.personalizationMap}">
 			bgcrm.pers['${pair.key}'] = '${pair.value}';
 		</c:forEach>
@@ -98,7 +98,7 @@
 			let url = null;
 			let bgcolor = null;
 
-			let m = null;	
+			let m = null;
 			if (false) {}
 			<c:set var="endpoint" value="user.url.jsp"/>
 			<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
@@ -108,29 +108,8 @@
 
 		bgerp.shell.initBuffer();
 
-		$(function () {	
-			const createMenu = function($launcher, $menu, align) {
-				$menu.menu().hide();
-				
-				// пустые пункты меню
-				$menu.find( "a:not([onclick])" ).click(function (event) {
-					return false;
-				});
-				
-				$launcher.click(function () {
-					$menu.show().position({
-						my: align + " top",
-						at: align + " bottom",
-						of: this
-					});
-						 
-					$(document).one("click", function () {
-						$menu.hide();
-					});
-						 
-					return false;
-				});
-			};
+		$(function () {
+			const createMenu = $$.shell.createMenu;
 			
 			createMenu($("#${uiidButtonMenu}"), $("#${uiidCommandMenu}"), "left");
 			
@@ -144,11 +123,11 @@
 				timer();
 			</c:if>
 			
-			const setSize = function () {   
+			const setSize = function () {
 				// куда деваются ещё 10 пикселей - непонятно
 				const width = $('#headWrap').width() - 
 							$('#head > button').outerWidth() - 
-							$('#head > span.right').outerWidth() - 10;			
+							$('#head > span.right').outerWidth() - 10;
 				$('#taskPanel').css({'max-width': width});
 			};
 			
