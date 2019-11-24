@@ -1211,24 +1211,12 @@ public class ProcessAction extends BaseAction {
         request.setAttribute("processType", type);
 
         // указание типов процессов которые можно создавать с произвольным видом привязки
-        Set<Integer> createTypeIds = Utils.toIntegerSet(type.getProperties().getConfigMap().get("processCreateLinkProcessTypes"));
-        request.setAttribute("typeList", ProcessTypeCache.getTypeList(createTypeIds));
+        /*Set<Integer> createTypeIds = Utils.toIntegerSet(type.getProperties().getConfigMap().get("processCreateLinkProcessTypes"));
+        request.setAttribute("typeList", ProcessTypeCache.getTypeList(createTypeIds));*/
 
         // жёстко указанные в конфигурации типы процессов, с указанными видами привязки, фильтры по параметру процесса и т.п.
         final List<LinkProcessCreateConfigItem> createTypeList = type.getProperties().getConfigMap().getConfig(LinkProcessCreateConfig.class)
                 .getItemList(con, process);
-        /*
-        Если нужен - этот фильтр можно задать в checkExpression.
-        Iterator<LinkProcessCreateConfigItem> iterator = createTypeList.iterator();
-        while( iterator.hasNext() )
-        {
-        	LinkProcessCreateConfigItem item = iterator.next();
-        	ProcessType pt = ProcessTypeCache.getProcessType( item.getProcessTypeId() );
-        	if(CollectionUtils.retainAll( pt.getProperties().getAllowedGroupsSet(), form.getUser().getGroupIds() ).isEmpty() )
-        	{
-        		iterator.remove();
-        	}
-        }*/
 
         request.setAttribute("createTypeList", createTypeList);
 

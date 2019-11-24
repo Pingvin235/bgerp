@@ -10,25 +10,7 @@
 </c:if>
 
 <c:if test="${processType.properties.configMap['processShowProcessLinks.Links'] ne '0'}">
-	<c:if test="${not empty form.response.data.list}">
-		<u:sc>
-			<c:set var="uiid" value="${u:uiid()}"/>
-			<html:form action="user/process" styleId="${uiid}">
-				<div style="display: inline-block;" class="tt bold mt05 mb05">${l.l('К процессу привязаны')}:</div>
-						
-				<input type="hidden" name="action" value="linkProcessList"/>
-				<input type="hidden" name="id" value="${form.id}"/>
-				<c:set var="nextCommand" value="; openUrlToParent( formUrl( this.form ), $('#${uiid}') )"/>
-				<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
-			</html:form>
-		</u:sc>
-		
-		<c:set var="list" value="${form.response.data.list}"/>
-		<c:set var="mode" value="link"/>
-		<%@ include file="process_link_table.jsp"%>
-	</c:if>	
-	
-	<c:if test="${not empty typeList or processType.properties.configMap['processCreateLinkModeSelect'] eq '1'}">
+	<c:if test="${processType.properties.configMap['processCreateLinkModeSelect'] ne '0'}">
 		<c:set var="uiid" value="${u:uiid()}"/>
 		<div id="${uiid}">
 			<html:form action="user/process" styleId="addButton" styleClass="pt1">
@@ -42,7 +24,7 @@
 							<c:set var="valuesHtml">
 								<li value="processLink">Ссылается</li>
 								<li value="processDepend">Зависит</li>
-								<li value="processMade">Породил</li>								
+								<li value="processMade">Породил</li>
 							</c:set>
 							<c:set var="hiddenName" value="objectType"/>
 							<c:set var="style" value="width: 100%;"/>
@@ -62,7 +44,7 @@
 					</div>
 				</div>	
 				
-				<%-- устаревший метод, просто указывался тип, мало кому нужно --%>
+				<%-- устаревший метод, просто указывался тип, мало кому нужно 
 				<c:if test="${not empty typeList}">
 					<table style="width: 100%;" class="mt1">
 						<tr>
@@ -75,10 +57,11 @@
 							</td>
 							<td>
 								<input type="button" onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlContent( '${form.requestUrl}' ); }" value="Создать и привязать"/>
-							</td>					
+							</td>
 						</tr>
-					</table>	
+					</table>
 				</c:if>
+				--%>
 			</html:form>
 			
 			<%@ include file="process_link_exist_link.jsp"%>
@@ -87,4 +70,22 @@
 	
 	<c:set var="requestUrl" value="${form.requestUrl}"/>
 	<%@ include file="process_link_create_and_link.jsp"%>
+
+		<c:if test="${not empty form.response.data.list}">
+		<u:sc>
+			<c:set var="uiid" value="${u:uiid()}"/>
+			<html:form action="user/process" styleId="${uiid}">
+				<div style="display: inline-block;" class="tt bold mt05 mb05">${l.l('К процессу привязаны')}:</div>
+						
+				<input type="hidden" name="action" value="linkProcessList"/>
+				<input type="hidden" name="id" value="${form.id}"/>
+				<c:set var="nextCommand" value="; openUrlToParent( formUrl( this.form ), $('#${uiid}') )"/>
+				<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+			</html:form>
+		</u:sc>
+		
+		<c:set var="list" value="${form.response.data.list}"/>
+		<c:set var="mode" value="link"/>
+		<%@ include file="process_link_table.jsp"%>
+	</c:if>
 </c:if>

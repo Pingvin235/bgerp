@@ -326,7 +326,7 @@ link:../../src/ru/bgcrm/struts/action/ProcessAction.java#L1086-L1090[ru.bgcrm.st
 
 Обновление значения:
 [snippet, from="// п", to="m);", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/ProcessAction.java#L1254-L1258[ru.bgcrm.struts.action.ProcessAction]
+link:../../src/ru/bgcrm/struts/action/ProcessAction.java#L1242-L1246[ru.bgcrm.struts.action.ProcessAction]
 
 Отображение в JSP:
 [snippet, from="<c:if", to="if>", remove-leading="						"]

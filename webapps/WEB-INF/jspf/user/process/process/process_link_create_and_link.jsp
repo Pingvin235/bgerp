@@ -17,10 +17,10 @@
 						<c:set var="valuesHtml">
 							<li value="0">-- значение не установлено --</li>
 						</c:set>
-						<c:set var="list" value="${createTypeList}"/>					
+						<c:set var="list" value="${createTypeList}"/>
 						<c:set var="hiddenName" value="createTypeId"/>
 						<c:set var="style" value="width: 100%;"/>
-                        <c:set var="onSelect" value="openUrlTo('process.do?showGroupSelect=1&action=processRequest&parentTypeId=${typeId}&createTypeId=' + $hidden.val(), $('#${uiid}').parent().find('#additionalParamsSelect'));"/>
+						<c:set var="onSelect" value="openUrlTo('process.do?showGroupSelect=1&action=processRequest&parentTypeId=${typeId}&createTypeId=' + $hidden.val(), $('#${uiid}').parent().find('#additionalParamsSelect'));"/>
 						<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
 					</u:sc>
 				</div>
@@ -30,7 +30,7 @@
 						if( result )
 						{
 							if( result.data.process.id > 0 )
-							{ 
+							{
 								openUrlToParent( '${requestUrl}', $('#${uiid}') ); 
 							}
 							else
@@ -45,9 +45,9 @@
 				</div>
 			</div>
 
-            <div id="additionalParamsSelect">
-                <%-- сюда динамически грузятся доп параметры для данного типа процесса --%>
-            </div>
+			<div id="additionalParamsSelect">
+				<%-- сюда динамически грузятся доп параметры для данного типа процесса --%>
+			</div>
 		</html:form>
 	</c:if>
 

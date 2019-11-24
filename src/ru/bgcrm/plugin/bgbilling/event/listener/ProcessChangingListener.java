@@ -25,6 +25,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 /**
  * Слушатель изменений процессов.
  */
+@Deprecated
 public class ProcessChangingListener
 {
 	public ProcessChangingListener()

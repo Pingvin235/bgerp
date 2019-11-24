@@ -9,7 +9,6 @@ import ru.bgcrm.event.user.UserChangedEvent;
 import ru.bgcrm.plugin.bgbilling.event.listener.HelpDeskListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.LinkChangedListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.LinkChangingListener;
-import ru.bgcrm.plugin.bgbilling.event.listener.ProcessChangingListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.ProcessDoActionListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.RegisterExtensionListener;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -44,8 +43,6 @@ public class Plugin
 	    new LinkChangingListener();
 	    
 	    new LinkChangedListener();
-	    
-	    new ProcessChangingListener();
 	    
 	    new HelpDeskListener();
 	    
