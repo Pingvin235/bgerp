@@ -133,7 +133,7 @@ dependencies {
     testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
     
     // библиотеки для сборки документации
-    pzdcdoc group: 'org.pzdcdoc', name: 'pzdcdoc', version: '1.7'
+    pzdcdoc group: 'org.pzdcdoc', name: 'pzdcdoc', version: '1.8'
     
     // интеграционные тесты	
     itest group: 'org.testng', name: 'testng', version: '6.14.3'
