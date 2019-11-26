@@ -224,6 +224,58 @@ task buildErp(type: Exec, dependsOn: 'compileJava') {
     environment classesPath: "../../target/classes/java/main"
 }
 
+task buildUpdate(type: Exec, dependsOn: 'compileJava') {
+    workingDir "$projectDir/build/update"
+    commandLine "ant"
+    environment classesPath: "../../target/classes/java/main"
+    doLast {
+        println "Reset update.properties"
+        "git checkout -- $projectDir/build/update/update.properties".execute()
+    }
+}
+
+task publishUpdate {
+    mustRunAfter 'buildDoc'
+    mustRunAfter 'buildUpdate'
+    doFirst {
+        def branchName = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+        println "Branch name: $branchName"
+        
+        def m  = branchName =~ /^p(\d+)\-/
+        if (!m) throw new GradleException("Incorrect branch name: $branchName")
+        
+        def processId = m[0][1]
+        println "Process ID: $processId"
+
+        def changesFile = "$projectDir/build/changes.${processId}.txt"
+        "touch $changesFile".execute()
+
+        def updateDir = "$projectDir/build/update"
+        def updateFile = new FileNameFinder().getFileNames(updateDir, 'update_*.zip')
+        if (updateFile) updateFile = updateFile[0]
+
+        println "Update file: $updateFile"
+
+        println "Publish remotely"
+        
+        def sshLogin = "update@bgerp.ru"
+        def sshFolder = "/home/update/www/$processId"
+
+        println "Create dir if not exists"
+        println "ssh $sshLogin mkdir -p $sshFolder".execute().text
+        
+        println "Update doc"
+        println "rsync -ru --delete $projectDir/target/doc $sshLogin:$sshFolder".execute().text
+
+        if (updateFile) {
+            println "Copy $updateFile"
+            println "scp $updateFile $sshLogin:$sshFolder".execute().text
+        }
+
+        println "Update URL: https://bgerp.ru/update/$processId"
+    }
+}
+
 test {
     testLogging {
         showStandardStreams = true
