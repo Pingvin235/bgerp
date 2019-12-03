@@ -1,0 +1,74 @@
+task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
+    mustRunAfter 'buildDoc'
+    mustRunAfter 'buildUpdate'
+    doFirst {
+        def processId = getProcessId()
+        def updateFile = fileTree("$projectDir/build/update")
+            .matching {include "update_${version}_*.zip"}
+            .getSingleFile()
+        
+        println "Publish remotely"
+        
+        def sshLogin = "update@bgerp.ru"
+        def sshFolder = "/home/update/www/$processId"
+
+        println "Create dir if not exists"
+        println "ssh $sshLogin mkdir -p $sshFolder".execute().text
+        
+        println "Update doc"
+        println "rsync -ru --delete $projectDir/target/doc $sshLogin:$sshFolder".execute().text
+
+        if (updateFile) {
+            println "Copy $updateFile"
+            println "scp $updateFile $sshLogin:$sshFolder".execute().text
+        }
+
+        println "Update URL: https://bgerp.ru/update/$processId"
+    }
+}
+
+task publishBuild(dependsOn: ['patchChanges', 'rss']) {
+    mustRunAfter 'buildUpdate'
+    mustRunAfter 'buildUpdateLib'
+    doFirst {
+        publishFile("$projectDir/build/bgerp", "bgerp_${version}_*.zip", true)
+        publishFile("$projectDir/build/update", "update_${version}_*.zip", true)
+        publishFile("$projectDir/build/update_lib", "update_lib_${version}_*.zip", true)
+        publishFile("$projectDir/build", "changes.txt", false)
+        publishFile("$projectDir/build", "changes.xml", false)
+    }
+}
+
+def publishFile(String localDir, String mask, boolean versioned) {
+    println "Publish $localDir/$mask"
+
+    def localFile = fileTree(dir: localDir, include: mask).getFiles()
+    if (!localFile) return
+    localFile = localFile[0].getName()
+    println "Local: $localFile"
+
+    def sshLogin = 'www@bgerp.ru'
+    def sshFolder = "/var/ftp/pub/bgerp/$version"
+
+    def remoteFile
+    if (versioned) {
+        remoteFile = "ssh $sshLogin cd $sshFolder; ls $mask".execute().text.trim()
+        println "Remote: $remoteFile"
+
+        if (localFile == remoteFile) return
+    }
+
+    println "Copy $localFile"
+    "scp $localDir/$localFile $sshLogin:$sshFolder".execute()
+
+    if (versioned) {
+        println "Move $remoteFile to archive"
+        "ssh $sshLogin mv $sshFolder/$remoteFile $sshFolder/archive/$remoteFile".execute()
+    }
+}
+
+task publishCommit(type: Exec) {
+    mustRunAfter 'publishBuild'
+    workingDir "$projectDir/build"
+    commandLine 'git', 'commit', '*.properties', 'changes.txt', 'changes.*.txt', '-m PUBLISH ' + getBuild()
+}

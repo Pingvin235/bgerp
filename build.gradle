@@ -13,6 +13,8 @@ targetCompatibility = '1.8'
 // Eclipse and VS Code use bin
 buildDir = 'target'
 
+version = '3.0'
+
 eclipse {
     classpath {
         // при необходимости в документации или исходных кодах библиотек - закомментировать две строки ниже и вызвать "Refresh Gradle Project"
@@ -209,72 +211,73 @@ task buildDoc(type:JavaExec) {
 task patchChanges(type:JavaExec, dependsOn: ['compileToolsJava']) {
     classpath =  sourceSets.tools.runtimeClasspath
     main = 'ru.bgerp.tool.PatchChanges'
-    args findProperty('build'), 'build/changes.txt'
+    args getBuild(), 'build/changes.txt'
 }
 
-task rss(type:JavaExec, dependsOn: ['compileToolsJava']) {
+def getBuild() {
+    def buildProperties = new Properties()
+    file("$projectDir/build/update/update.properties").withInputStream { stream -> buildProperties.load(stream) }
+    def build = buildProperties.get('build.number')
+    println "Build: $build"
+    return build
+}
+
+task rss(type:JavaExec, dependsOn: ['compileToolsJava', 'patchChanges']) {
     classpath =  sourceSets.tools.runtimeClasspath
     main = 'ru.bgerp.tool.RssGenerator'
-    args '3.0', 'build/changes.txt', 'build/changes.xml'
-}
-
-task buildErp(type: Exec, dependsOn: 'compileJava') {
-    workingDir "$projectDir/build/bgerp"
-    commandLine "ant"
-    environment classesPath: "../../target/classes/java/main"
+    args version, 'build/changes.txt', 'build/changes.xml'
 }
 
 task buildUpdate(type: Exec, dependsOn: 'compileJava') {
     workingDir "$projectDir/build/update"
     commandLine "ant"
     environment classesPath: "../../target/classes/java/main"
-    doLast {
+}
+
+task buildUpdateLib(type: Exec) {
+    workingDir "$projectDir/build/update_lib"
+    commandLine "ant"
+}
+
+task buildClean(type: Delete) {
+    delete fileTree("$projectDir/build").matching {
+        include "bgerp/bgerp_${version}_*.zip"
+        include "update/update_${version}_*.zip"
+        include "update_lib/update_lib_${version}_*.zip"
+    }
+}
+
+task resetProperties {
+    doFirst {
         println "Reset update.properties"
         "git checkout -- $projectDir/build/update/update.properties".execute()
+        println "Reset update_lib.properties"
+        "git checkout -- $projectDir/build/update_lib/update_lib.properties".execute()
     }
 }
 
-task publishUpdate {
-    mustRunAfter 'buildDoc'
-    mustRunAfter 'buildUpdate'
+task touchChanges {
     doFirst {
-        def branchName = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
-        println "Branch name: $branchName"
-        
-        def m  = branchName =~ /^p(\d+)\-/
-        if (!m) throw new GradleException("Incorrect branch name: $branchName")
-        
-        def processId = m[0][1]
-        println "Process ID: $processId"
-
+        def processId = getProcessId()
         def changesFile = "$projectDir/build/changes.${processId}.txt"
         "touch $changesFile".execute()
-
-        def updateDir = "$projectDir/build/update"
-        def updateFile = new FileNameFinder().getFileNames(updateDir, 'update_*.zip')
-        if (updateFile) updateFile = updateFile[0]
-
-        println "Update file: $updateFile"
-
-        println "Publish remotely"
-        
-        def sshLogin = "update@bgerp.ru"
-        def sshFolder = "/home/update/www/$processId"
-
-        println "Create dir if not exists"
-        println "ssh $sshLogin mkdir -p $sshFolder".execute().text
-        
-        println "Update doc"
-        println "rsync -ru --delete $projectDir/target/doc $sshLogin:$sshFolder".execute().text
-
-        if (updateFile) {
-            println "Copy $updateFile"
-            println "scp $updateFile $sshLogin:$sshFolder".execute().text
-        }
-
-        println "Update URL: https://bgerp.ru/update/$processId"
     }
 }
+
+def getProcessId() {
+    def branchName = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+    println "Branch name: $branchName"
+        
+    def m  = branchName =~ /^p(\d+)\-/
+    if (!m) throw new GradleException("Incorrect branch name: $branchName")
+        
+    def processId = m[0][1]
+    println "Process ID: $processId"
+
+    return processId
+}
+
+apply from: "build/publish.gradle"
 
 test {
     testLogging {
