@@ -30,9 +30,11 @@ task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
     }
 }
 
-task publishBuild(dependsOn: ['patchChanges', 'rss']) {
+task publishBuild {
     mustRunAfter 'buildUpdate'
     mustRunAfter 'buildUpdateLib'
+    mustRunAfter 'patchChanges'
+    mustRunAfter 'rss'
     doFirst {
         publishFile("$projectDir/build/bgerp", "bgerp_${version}_*.zip", true)
         publishFile("$projectDir/build/update", "update_${version}_*.zip", true)

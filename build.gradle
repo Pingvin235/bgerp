@@ -222,7 +222,8 @@ def getBuild() {
     return build
 }
 
-task rss(type:JavaExec, dependsOn: ['compileToolsJava', 'patchChanges']) {
+task rss(type:JavaExec, dependsOn: ['compileToolsJava']) {
+    mustRunAfter 'patchChanges'
     classpath =  sourceSets.tools.runtimeClasspath
     main = 'ru.bgerp.tool.RssGenerator'
     args version, 'build/changes.txt', 'build/changes.xml'
