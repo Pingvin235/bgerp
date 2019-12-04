@@ -228,6 +228,13 @@ task rss(type:JavaExec, dependsOn: ['compileToolsJava', 'patchChanges']) {
     args version, 'build/changes.txt', 'build/changes.xml'
 }
 
+// used by test-integration
+task buildErp(type: Exec, dependsOn: 'compileJava') {
+    workingDir "$projectDir/build/bgerp"
+    commandLine "ant"
+    environment classesPath: "../../target/classes/java/main"
+}
+
 task buildUpdate(type: Exec, dependsOn: 'compileJava') {
     workingDir "$projectDir/build/update"
     commandLine "ant"
