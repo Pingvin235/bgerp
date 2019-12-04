@@ -15,7 +15,7 @@ task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
         println "Create dir if not exists"
         println "ssh $sshLogin mkdir -p $sshFolder".execute().text
         
-        println "Update doc"
+        println "Sync doc"
         println "rsync -ru --delete $projectDir/target/doc $sshLogin:$sshFolder".execute().text
 
         if (updateFile) {
@@ -23,7 +23,10 @@ task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
             println "scp $updateFile $sshLogin:$sshFolder".execute().text
         }
 
-        println "Update URL: https://bgerp.ru/update/$processId"
+        println "Update links:" 
+        println "https://bgerp.ru/update/$processId"
+        println "https://bgerp.ru/update/$processId/" + updateFile.getName()
+        println "https://bgerp.ru/update/$processId/doc"
     }
 }
 

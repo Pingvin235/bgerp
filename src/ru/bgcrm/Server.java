@@ -122,7 +122,7 @@ public class Server extends Tomcat {
 
             String connectorHttpThreadMax = setup.get("connector.http.thread.max", "25");
 
-            Connector connector = getConnector();
+            var connector = getConnector();
 
             if (StringUtils.isNotBlank(host))
                 IntrospectionUtils.setProperty(connector, "address", host);
