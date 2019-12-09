@@ -9000,8 +9000,9 @@ $.extend( Datepicker.prototype, {
 						otherMonth = ( printDate.getMonth() !== drawMonth );
 						unselectable = ( otherMonth && !selectOtherMonths ) || !daySettings[ 0 ] ||
 							( minDate && printDate < minDate ) || ( maxDate && printDate > maxDate );
-						tbody += "<td class='" +
-							( ( dow + firstDay + 6 ) % 7 >= 5 ? " ui-datepicker-week-end" : "" ) + // highlight weekends
+						// PATCH BGERP, style ID for colors in callboard
+						tbody += "<td id='ui-datepicker-calendar-day-" + (printDate.getMonth() + 1) + "-" + printDate.getDate() + "' class='" +
+							( ( dow + firstDay + 6 ) % 7 >= 5 ? " ui-da tepicker-week-end" : "" ) + // highlight weekends
 							( otherMonth ? " ui-datepicker-other-month" : "" ) + // highlight days from other months
 							( ( printDate.getTime() === selectedDate.getTime() && drawMonth === inst.selectedMonth && inst._keyEvent ) || // user pressed key
 							( defaultDate.getTime() === printDate.getTime() && defaultDate.getTime() === selectedDate.getTime() ) ?

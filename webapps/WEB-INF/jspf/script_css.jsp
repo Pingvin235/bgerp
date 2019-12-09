@@ -47,10 +47,10 @@
 <script src="/lib/jquery.selectboxes.js"></script>
 <script src="/lib/jquery.appear.js"></script>
 <script src="/lib/jquery.resize.js"></script>
+--%>
 
 <script src="/lib/combobox/combo.js"></script>
 <link type="text/css" href="/lib/combobox/combo.css" rel="stylesheet"/>
---%>
 
 <script src="/lib/date-time-format.js"></script>
 
