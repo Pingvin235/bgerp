@@ -498,6 +498,6 @@ bgerp.shell = new function () {
 };
 
 function contentLoad (href) {
-	console.warn("Deprecated");
+	console.warn($$.deprecated);
 	bgerp.shell.contentLoad(href);
 }

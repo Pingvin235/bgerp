@@ -196,6 +196,15 @@ public class TypeProperties {
             }
         }
 
+        if (result.isEmpty()) { // Если список пустой, то мы проверяем пустая ли матрица, если так, то разрешаем переход на любой статус( пустая матрица == полная матрица )
+            boolean emptyMatrix = transactionPropertiesMap.entrySet().stream()
+                    .noneMatch(t -> statusIds.contains(t.getKey().toStatus) && statusIds.contains(t.getKey().fromStatus) && t.getValue().isEnable());
+            if (emptyMatrix) {
+                result.addAll(statusIds);
+                result.remove(fromStatus); // вообще далее, в тех местах где используется, он будет снова добавлен. По этому вроде как можно и не удалять, но кто знает как будет в будущем использован(или скриптами), пусть содержание соответсвует названию.
+            }
+        }
+
         return result;
     }
 

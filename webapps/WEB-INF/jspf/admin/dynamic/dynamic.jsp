@@ -4,7 +4,7 @@
 <html:form action="admin/dynamic" onsubmit="return false;" style="display: inline-block;">
 	<input type="hidden" name="action" value="recompileAll"/>
 	
-	<button class="btn-grey" type="button" onclick="openUrlContent(formUrl(this.form ));">Скомпилировать всё</button>
+	<button class="btn-grey" type="button" onclick="$$.ajax.load(this.form, $$.shell.$content());">Скомпилировать всё</button>
 </html:form>
 <html:form 	action="admin/dynamic" onsubmit="return false;" style="display: inline-block;">
 	<input type="hidden" name="action" value="runDynamicClass"/>
@@ -15,7 +15,7 @@
 	
 	<button class="btn-grey ml1" type="button" onclick="
 		this.disabled = true;
-		bgerp.ajax.post(formUrl(this.form)).done(() => {
+		$$.ajax.post(this.form).done(() => {
 			this.disabled = false;
 			alert(this.form.sync.checked ? 'Класс выполнен, проверьте логи' : 'Класс запущен в отдельном потоке,\nвывод в логах.')
 		})">Выполнить</button>

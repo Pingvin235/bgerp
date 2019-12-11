@@ -27,7 +27,7 @@
 	<ul>
 		<li><a href="#${formUiid}-1">Свойства</a></li><%--
 	--%><li><a href="#${formUiid}-2">Матрица переходов</a></li><%--
-    --%><li><a href="#${formUiid}-3">Группы</a></li>
+	--%><li><a href="#${formUiid}-3">Группы</a></li>
 	</ul>
 	
 	<div id="${formUiid}-1">
@@ -37,8 +37,8 @@
 			<div style="min-width: 350px; max-width: 350px; vertical-align: top;" id="${selectorSample}">
 				<h2>Разрешённые статусы</h2>
 				<ui:select-mult hiddenName="status"
-				     showId="true" moveOn="true" style="width: 100%;" 
-				     list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"/>
+					 showId="true" moveOn="true" style="width: 100%;" 
+					 list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"/>
 				
 				<div class="in-table-cell">
 					<div style="width: 40%;"> 
@@ -46,20 +46,20 @@
 						<html:text property="create_status" style="width: 100%;" value="${properties.createStatus}"/>
 					</div>	
 					<div style="width: 60%;" class="pl1">
-					    <h2>Статусы кон. через ,</h2>
-					    <html:text property="close_status" style="width: 100%;" value="${u:toString( properties.closeStatusIds )}"/>
+						<h2>Статусы кон. через ,</h2>
+						<html:text property="close_status" style="width: 100%;" value="${u:toString( properties.closeStatusIds )}"/>
 					</div>
 				</div>	
 			
 				<h2>Параметры</h2>	
 				<ui:select-mult hiddenName="param"
-	                 showId="true" moveOn="true" showComment="true" style="width: 100%;" 
-	                 list="${parameterList}" map="${ctxParameterMap}" values="${properties.parameterIds}"/>
-	            
+					 showId="true" moveOn="true" showComment="true" style="width: 100%;" 
+					 list="${parameterList}" map="${ctxParameterMap}" values="${properties.parameterIds}"/>
+				
 				<h2>Скрипт</h2>
-	            <html:text property="script_name" style="width: 100%;" value="${properties.scriptName}"/>	        
+				<html:text property="script_name" style="width: 100%;" value="${properties.scriptName}"/>	        
 			</div>
-		    <div style="width: 100%; height: 100%;" class="pl1" id="${selectorTo}">
+			<div style="width: 100%; height: 100%;" class="pl1" id="${selectorTo}">
 				<div style="height: 100%; width: 100%; display: flex; flex-flow: column;">
 					<h2>Конфигурация</h2>
 					<%-- ресайз вертикальный в FF работает если поместить в div, но тогда дурит в Chrome установка размеров --%>
@@ -72,80 +72,84 @@
 	   </div>
 	</div>
 	<div id="${formUiid}-2" style="height: 500px;">    
-        <h2>Матрица разрешенных переходов статусов</h2>
-         
-	    <table style="width: 100%;" class="data">
-	        <tr>
-	            <td>С: &#8595; На: &#8594;</td>
-	            <c:forEach var="itemTo" items="${statusList}" varStatus="statusTo">
-	                <td>
-	                    ${itemTo.title} (${itemTo.id})              
-	                </td>
-	            </c:forEach>
-	        </tr>
-	        <c:forEach var="itemFrom" items="${statusList}" varStatus="statusFrom">
-	            <tr>
-	                <td width="200">${itemFrom.title} (${itemFrom.id})</td>
-	                
-	                <c:forEach var="itemTo" items="${statusList}" varStatus="statusTo">
-	                    <c:set var="cl" value="odd"/>
-	                    <c:if test="${(statusFrom.count + statusTo.count) mod 2 == 1}">
-	                        <c:set var="cl" value="even"/>
-	                    </c:if>
-	                    <td align="left">
-	                        <%
-	                            Status statusFrom = (Status)pageContext.getAttribute( "itemFrom" );
-	                            Status statusTo = (Status)pageContext.getAttribute( "itemTo" );
-	                            
-	                            ProcessType type = (ProcessType)request.getAttribute( "processType" );
-	                            if( type != null )
-	                            {           
-	                                TypeProperties typeProperties = type.getProperties();
-	                                TransactionProperties transProperties = typeProperties.getTransactionProperties( statusFrom.getId(), statusTo.getId() );
-	                                pageContext.setAttribute( "transProperties", transProperties );
-	                            }
-	                        %>
-	                        
-	                        <c:set var="checked" value=""/>
-	                        <c:set var="urlConfig" value=""/>
-	                        
-	                        <c:url var="url" value="/admin/process.do">
-	                            <c:param name="action" value="transactionCheck"/>
-	                            <c:param name="id" value="${processType.id}"/>
-	                            <c:param name="fromStatus" value="${itemFrom.id}"/>
-	                            <c:param name="toStatus" value="${itemTo.id}"/>
-	                        
-	                            <c:choose>
-	                                <c:when test="${transProperties.enable}">
-	                                        <c:set var="checked" value="checked='checked'"/>
-	                                        <c:param name="enable" value="false"/>                                  
-	                                </c:when>
-	                                <c:otherwise>
-	                                        <c:param name="enable" value="true"/>
-	                                </c:otherwise>
-	                            </c:choose>
-	                        </c:url>    
-	                        
-	                        <c:if test="${itemFrom.id ne itemTo.id}">
-	                            <c:choose>
-	                                <c:when test="${empty checked}">
-	                                    <c:set var="matrixValue" value="${itemFrom.id}-${itemTo.id}-false" />
-	                                </c:when>
-	                                <c:otherwise>
-	                                    <c:set var="matrixValue" value="${itemFrom.id}-${itemTo.id}-true" />
-	                                </c:otherwise>
-	                            </c:choose>
-	                            <input type="hidden" id="${itemFrom.id}-${itemTo.id}" name="matrix" value="${matrixValue}" />
-	                            <input onchange="$('#${itemFrom.id}-${itemTo.id}').val('${itemFrom.id}-${itemTo.id}-' + $(this).prop('checked'))" type="checkbox" ${checked}/>
-	                            <br/>
-	                            ${transProperties.reference}
-	                        </c:if> 
-	                    </td>
-	                </c:forEach>    
-	            </tr>               
-	        </c:forEach>    
-	    </table>
-    </div>
+		<h2>Матрица разрешенных переходов статусов</h2>
+		<table style="width: 100%;" class="data">
+			<tr>
+				<td>
+					<input type="checkbox" 
+						title="${l.l('Выделить или снять выделение всех')}" 
+						onchange="$('#${formUiid}-2 input[name=checker]').prop('checked', this.checked).trigger('change');"/>
+					С: &#8595; На: &#8594;
+				</td>
+				<c:forEach var="itemTo" items="${statusList}" varStatus="statusTo">
+					<td>
+						${itemTo.title} (${itemTo.id})
+					</td>
+				</c:forEach>
+			</tr>
+			<c:forEach var="itemFrom" items="${statusList}" varStatus="statusFrom">
+				<tr>
+					<td width="200">${itemFrom.title} (${itemFrom.id})</td>
+					
+					<c:forEach var="itemTo" items="${statusList}" varStatus="statusTo">
+						<c:set var="cl" value="odd"/>
+						<c:if test="${(statusFrom.count + statusTo.count) mod 2 == 1}">
+							<c:set var="cl" value="even"/>
+						</c:if>
+						<td align="left">
+							<%
+								Status statusFrom = (Status)pageContext.getAttribute( "itemFrom" );
+								Status statusTo = (Status)pageContext.getAttribute( "itemTo" );
+								
+								ProcessType type = (ProcessType)request.getAttribute( "processType" );
+								if( type != null )
+								{           
+									TypeProperties typeProperties = type.getProperties();
+									TransactionProperties transProperties = typeProperties.getTransactionProperties( statusFrom.getId(), statusTo.getId() );
+									pageContext.setAttribute( "transProperties", transProperties );
+								}
+							%>
+							
+							<c:set var="checked" value=""/>
+							<c:set var="urlConfig" value=""/>
+							
+							<c:url var="url" value="/admin/process.do">
+								<c:param name="action" value="transactionCheck"/>
+								<c:param name="id" value="${processType.id}"/>
+								<c:param name="fromStatus" value="${itemFrom.id}"/>
+								<c:param name="toStatus" value="${itemTo.id}"/>
+							
+								<c:choose>
+									<c:when test="${transProperties.enable}">
+										<c:set var="checked" value="checked='checked'"/>
+										<c:param name="enable" value="false"/>
+									</c:when>
+									<c:otherwise>
+											<c:param name="enable" value="true"/>
+									</c:otherwise>
+								</c:choose>
+							</c:url>
+							
+							<c:if test="${itemFrom.id ne itemTo.id}">
+								<c:choose>
+									<c:when test="${empty checked}">
+										<c:set var="matrixValue" value="${itemFrom.id}-${itemTo.id}-false" />
+									</c:when>
+									<c:otherwise>
+										<c:set var="matrixValue" value="${itemFrom.id}-${itemTo.id}-true" />
+									</c:otherwise>
+								</c:choose>
+								<input type="hidden" id="${itemFrom.id}-${itemTo.id}" name="matrix" value="${matrixValue}" />
+								<input name="checker" onchange="$('#${itemFrom.id}-${itemTo.id}').val('${itemFrom.id}-${itemTo.id}-' + $(this).prop('checked'))" type="checkbox" ${checked}/>
+								<br/>
+								${transProperties.reference}
+							</c:if> 
+						</td>
+					</c:forEach>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
 	<div id="${formUiid}-3" style="height: 500px;" class="in-inline-block">	
 		<div style="width: 50%; height: 500px;">
 			<h2>Начальные</h2>
@@ -181,17 +185,17 @@
 </script>
 
 <u:sc>
-    <c:set var="selectorSample" value="#${selectorSample}"/>
-    <c:set var="selectorTo" value="#${selectorTo}"/>
-    <c:set var="track" value="true"/>
-    <%@ include file="/WEB-INF/jspf/same_height.jsp"%>
+	<c:set var="selectorSample" value="#${selectorSample}"/>
+	<c:set var="selectorTo" value="#${selectorTo}"/>
+	<c:set var="track" value="true"/>
+	<%@ include file="/WEB-INF/jspf/same_height.jsp"%>
 </u:sc>
 
 <div class="mt1">
-	<button type="button" class="btn-grey mr1" onclick="bgcrm.ajax.post(formUrl($('#${formUiid}')[0]), {toPostNames: ['config', 'matrix']}).done(() => openUrlToParent('${editUrl}', $('#${formUiid}')));">ОК</button>		
-	<button type="button" class="btn-grey mr1" onclick="openUrlToParent('${editUrl}', $('#${formUiid}'))">Восстановить</button>
+	<button type="button" class="btn-grey mr1" onclick="$$.ajax.post($('#${formUiid}')[0], {toPostNames: ['config', 'matrix']}).done(() => $$.ajax.load('${editUrl}', $('#${formUiid}').parent()));">ОК</button>
+	<button type="button" class="btn-grey mr1" onclick="$$.ajax.load('${editUrl}', $('#${formUiid}').parent())">Восстановить</button>
 		
-	<button type="button" class="btn-grey ml1" onclick="openUrlToParent('${form.returnUrl}', $('#${formUiid}'))">К списку типов</button>	
+	<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${formUiid}').parent())">К списку типов</button>
 </div>
 
 <c:set var="state" value="Свойства типа: ${processType.title} #${processType.id}"/>

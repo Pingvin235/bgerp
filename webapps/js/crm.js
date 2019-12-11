@@ -49,6 +49,8 @@ bgerp.error = function () {
 	console.log.apply(console, arguments);
 }
 
+$$.deprecated = "Deprecated";
+
 // обработчики сообщений,пришедших от сервера
 bgcrm.eventProcessors = {};
 
@@ -357,7 +359,9 @@ function timer()
 		url += "&processCounterUrls=" + encodeURIComponent(urlArray);
 	}
 	
-	sendAJAXCommandAsync( url, ["processCounterUrls"], callback, null, null, callback );
+	$$.ajax
+		.post(url, {toPostNames: ["processCounterUrls"]})
+		.always(callback);
 }
 
 function encodeHtml( str )

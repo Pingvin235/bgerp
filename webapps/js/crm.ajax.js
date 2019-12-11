@@ -1,61 +1,163 @@
 // "use strict";
 
-bgerp.ajax = new function() {
-	const debug = bgerp.debug("ajax");
+$$.ajax = new function() {
+	const debug = $$.debug("ajax");
 	
-	/* Отправляет AJAX запрос и возвращает Promise. */
+	/**
+	 * Sends AJAX response and returns a promise.
+	 * By default the promise is processed by checkResponse() function.
+	 */
 	const post = (url, options) => {
-		if (!options) options = {}; 
+		debug("post", url);
+
+		options = options || {};
+
+		if (url.tagName === 'FORM')
+			url = formUrl(url);
 		
-		const separated = separatePostParams(url, options.toPostNames, false);
+		const separated = separatePostParams(url, options.toPostNames, !options.html);
 		
-		return $.ajax({ 
+		const result = $.ajax({ 
 			type: "POST",
 			url: separated.url,
 			data: separated.data,
 		}).fail(function (jqXHR, textStatus, errorThrown) {
 			onAJAXError(separated.url, jqXHR, textStatus, errorThrown);
-		});		
+		});
+
+		if (!options.html)
+			result.done(checkResponse);
+		
+		return result;
 	};
 	
 	/* 
-	 * Default - send request and add result HTML on element. 
-	 * vars.replace - replace element by HTML.
-	 * vars.append  - append HTML into the element.
+	 * Default - send request and set result HTML on element. 
+	 * options.replace - replace element by HTML.
+	 * options.append  - append HTML into the element.
 	 */
-	const openUrlTo = (url, $selector, vars) => {
-		debug("openUrlTo", url);
-		
-		if (url.tagName === 'FORM')
-			url = formUrl(url);
+	const load = (url, $selector, options) => {
+		debug("load", url, $selector);
+
+		options = options || {};
+		options.html = true;
 		
 		if (typeof $selector === 'string')
 			$selector = $($selector);
 		
-		return post(url, vars).done(function (result) {
-			if (vars && vars.replace)
+		// TODO: Previous $selector clean from openUrlToParentAsync.
+
+		return post(url, options).done(function (result) {
+			if (options.replace)
 				$selector.replaceWith(result);
-			else if (vars && vars.append)
+			else if (options.append)
 				$selector.append(result);
 			else
 				$selector.html(result);
 		});
+	};
+
+	/** 
+	 * Перенос в POST часть запроса определённых в массиве toPostNames параметров запроса 
+	 * либо начинающихся с благославенного префикса data
+	 */
+	const separatePostParams = function (url, toPostNames, json) {
+		let data = "";
+		
+		let dataStartPos = 0;
+		
+		// перемещает параметр в тело POST запроса
+		const move = function () {
+			let dataEndPos = url.indexOf( "&", dataStartPos + 1 );
+			if (dataEndPos <= 0)
+				dataEndPos = url.length;
+			
+			var length = dataEndPos - dataStartPos;
+			
+			data += url.substr(dataStartPos, length);
+			url = url.substr(0, dataStartPos) + url.substr(dataEndPos, url.length);
+		};
+		
+		// все переменные, могущие содержать большой объём данных должны начинаться с data
+		// перенос их в тело запроса
+		while ((dataStartPos = url.indexOf("&data")) > 0) 
+			move();
+		
+		// все переменные, имя которых есть в toPostNames тоже переносим в post запрос
+		if (toPostNames) {
+			for (index in toPostNames) {
+				dataStartPos = 0;			
+				while ((dataStartPos = url.indexOf("&" + toPostNames[index] + "=")) > 0) 
+					move();
+			}
+		}
+
+		if (json) {
+			if (url.indexOf( "?" ) > 0)
+				url += "&responseType=json";
+			else
+				url += "?responseType=json";
+		}
+		
+		return {"url" : url, "data" : data};
+	};
+
+	const checkResponse = function (data) {
+		var result = false;
+
+		//TODO: Убрать поддержку статуса 'message', отнести его к ошибкам.
+		if (data.status == 'ok' || data.status == 'message') {
+			result = data;
+			// обработка событий на обновления в интерфейсе
+			for (var i = 0; i < data.eventList.length; i++) {
+				if (data.eventList[i] != null) {
+					processEvent(data.eventList[i]);
+				}
+			}
+
+			if (data.message) {
+				alert(data.message);
+			}
+		}
+		else {
+			var message = undefined;
+
+			// старый формат
+			if (data.error) {
+				message = data.error;
+			}
+			// новый формат
+			else {
+				message = data.message;
+			}
+
+			alert("Ошибка: " + message);
+
+			// обработка событий на обновления в интерфейсе
+			for (var i = 0; i < data.eventList.length; i++) {
+				processEvent(data.eventList[i]);
+			}
+		}
+
+		return result;
 	}
-	
-	// TODO: Сделать функции.
-	// openUrl, openUrlPos, openUrlTo, openUrlToAsync, openUrlToParent -> queryTo(url, $selector, options) 
-	// 
-	
+
 	// доступные функции
 	this.post = post;
-	this.openUrlTo = openUrlTo;
-	
+	this.load = load;
+	this.checkResponse = checkResponse;
+	// устаревшее название
+	this.openUrlTo = load;
 	$$.openUrlTo = openUrlTo;
+	// временно доступные
+	this.separatePostParamsInt = separatePostParams;
 };
 
 //загружает URL на какой-то последний видимый элемент, selectorStart - селектор элемента
 function openUrl( url, selectorStart )
 {
+	console.warn($$.deprecated);
+
 	openUrlPos( url, selectorStart, "last" );
 }
 
@@ -64,18 +166,20 @@ function openUrl( url, selectorStart )
 //pos - 'last' - последний видимый, отр. число - отступ от конца массива найденных элементов
 function openUrlPos( url, selectorStart, pos )
 {
+	console.warn($$.deprecated);
+
 	var result = getAJAXHtml( url );
 	if( result )
 	{
 		if( pos == "last" )
-	    {
-	    	$( selectorStart + ':visible:last' ).html( result );
-	    }
-	    else if( pos < 0 )
-	    {
-	    	var $select = $( selectorStart + ":visible" );
-	    	$select.eq( $select.length + pos - 1 ).html( result );
-	    }
+		{
+			$( selectorStart + ':visible:last' ).html( result );
+		}
+		else if( pos < 0 )
+		{
+			var $select = $( selectorStart + ":visible" );
+			$select.eq( $select.length + pos - 1 ).html( result );
+		}
 	}
 	return result;
 }
@@ -84,6 +188,8 @@ function openUrlPos( url, selectorStart, pos )
 //selector - селектор
 function openUrlTo( url, $selector, vars )
 {
+	console.warn($$.deprecated);
+
 	var result = undefined;
 	if( vars )
 	{		
@@ -112,31 +218,12 @@ function openUrlTo( url, $selector, vars )
 	return result;
 }
 
-/*function openUrlToAsync(url, $selector, vars) {
-	var time = window.performance.now();
-	
-	bgcrm.debug('openUrl', "openUrlToAsync", url);
-	
-	getAJAXHtmlAsync(url, vars ? vars.toPostNames : {}, function (result) {
-		if (vars && vars.replace) {
-			$selector.replaceWith(result);
-		} else if (vars && vars.append) {
-			$selector.append(result);
-		} else {
-			$selector.html( result );
-		}
-		
-		if (vars && vars.then)
-			vars.then();
-
-		bgcrm.debug('openUrl', "openUrlToAsync", url, window.performance.now() - time);
-	});
-}*/
-
 //загружает URL на предка элемента, фактически перетирая элемент
 //selector - селектор
 function openUrlToParent( url, $selector )
 {
+	console.warn($$.deprecated);
+
 	// может быть так, что к данному моменту объекта уже нет 
 	if( $selector.length > 0 )
 	{
@@ -154,13 +241,15 @@ function openUrlToParent( url, $selector )
 // replace to bgerp.ajax.openUrlTo
 function openUrlToParentAsync( url, $selector )
 {
+	console.warn($$.deprecated);
+
 	// может быть так, что к данному моменту объекта уже нет 
 	if( $selector.length > 0 )
 	{
 		var time = window.performance.now();
 		
 		bgcrm.debug( 'openUrl', "openUrlToParentAsync", url );
-        		
+				
 		var $parent = $($selector[0].parentNode)
 		
 		/* По неведомой причине, если очистить предварительно элемент, то не выскакивают предупреждения о слишком долгом выполнении скрипта в FF,
@@ -186,9 +275,11 @@ function openUrlToParentAsync( url, $selector )
 //отправка AJAX с результатом HTML страница
 function getAJAXHtml( url, toPostNames )
 {
+	console.warn($$.deprecated);
+
 	var result = false;
 	
-	var separated = separatePostParams( url, toPostNames, false );
+	var separated = $$.ajax.separatePostParamsInt( url, toPostNames);
 	
 	$.ajax({ 
 		type: "POST",
@@ -210,6 +301,8 @@ function getAJAXHtml( url, toPostNames )
 	
 function getAJAXHtmlAsync( url, toPostNames, success )
 {
+	console.warn($$.deprecated);
+
 	var result = false;
 	
 	var separated = separatePostParams( url, toPostNames, false );	
@@ -230,6 +323,8 @@ function getAJAXHtmlAsync( url, toPostNames, success )
 
 function sendAJAXCommandAsync( url, toPostNames, callback, control, timeout, callbackError )
 {
+	console.warn($$.deprecated);
+
 	lock( control );
 	
 	var separated = separatePostParams( url, toPostNames, true );
@@ -242,7 +337,7 @@ function sendAJAXCommandAsync( url, toPostNames, callback, control, timeout, cal
 		dataType: "json",
 		success: function( data )
 		{
-			var result = checkAJAXCommandResult( data );
+			var result = $$.ajax.checkResponse( data );
 			if (callback) {
 				callback( result );
 			}
@@ -262,6 +357,8 @@ function sendAJAXCommandAsync( url, toPostNames, callback, control, timeout, cal
 //отправка AJAX команды c JSON ответом определённого формата
 function sendAJAXCommand( url, toPostNames )
 {
+	console.warn($$.deprecated);
+
 	var result = false;
 	
 	var separated = separatePostParams( url, toPostNames, true );
@@ -274,7 +371,7 @@ function sendAJAXCommand( url, toPostNames )
 		dataType: "json",
 		success: function( data )
 		{
-			result = checkAJAXCommandResult( data );		
+			result = $$.ajax.checkResponse( data );		
 		},
 		error: function( jqXHR, textStatus, errorThrown )
 		{
@@ -288,55 +385,24 @@ function sendAJAXCommand( url, toPostNames )
 //аналог предыдущей функции, за исключением, что для URL можно указывать параметры из хэша
 function sendAJAXCommandWithParams( url, requestParams )
 {
+	console.warn($$.deprecated);
+
 	return sendAJAXCommand( url + requestParamsToUrl( requestParams ) );
 }
 
 //перенос в POST часть запроса определённых в массиве toPostNames параметров запроса либо начинающихся
 //с благославенного имени data
 function separatePostParams(url, toPostNames, json) {
-	let data = "";
-	
-	let dataStartPos = 0;
-	
-	// перемещает параметр в тело POST запроса
-	const move = function () {
-		let dataEndPos = url.indexOf( "&", dataStartPos + 1 );
-		if (dataEndPos <= 0)
-			dataEndPos = url.length;
-		
-		var length = dataEndPos - dataStartPos;
-		
-		data += url.substr(dataStartPos, length);
-		url = url.substr(0, dataStartPos) + url.substr(dataEndPos, url.length);
-	};
-	
-	// все переменные, могущие содержать большой объём данных должны начинаться с data
-	// перенос их в тело запроса
-	while ((dataStartPos = url.indexOf("&data")) > 0) 
-		move();
-	
-	// все переменные, имя которых есть в toPostNames тоже переносим в post запрос
-	if (toPostNames) {
-		for (index in toPostNames) {
-			dataStartPos = 0;			
-			while ((dataStartPos = url.indexOf("&" + toPostNames[index] + "=")) > 0) 
-				move();
-		}
-	}
-	
-	// странный параметр, убрать
-	if (json) {
-		if (url.indexOf( "?" ) > 0)
-			url += "&responseType=json";
-		else
-			url += "?responseType=json";
-	}
-	
-	return {"url" : url, "data" : data};
+	console.warn($$.deprecated);
+
+	return $$.ajax.separatePostParamsInt(url, toPostNames, json);
 }
 
+// move to $$.ui
 function onAJAXError( url, jqXHR, textStatus, errorThrown )
 {
+	console.warn($$.deprecated);
+
 	if( jqXHR.status == 401 )
 	{
 		showLoginPopup( jqXHR.responseText );
@@ -353,55 +419,15 @@ function onAJAXError( url, jqXHR, textStatus, errorThrown )
 
 function checkAJAXCommandResult( data )
 {
-	var result = false;
-	
-	//TODO: Убрать поддержку статуса 'message', отнести его к ошибкам.
-	if( data.status == 'ok' || data.status == 'message' )
-	{
-		result = data;
-		// обработка событий на обновления в интерфейсе
-		for( var i = 0; i < data.eventList.length; i++ ) 
-		{
-			if( data.eventList[i] != null)
-			{
-				processEvent( data.eventList[i] );	
-			}
-		}
-		
-		if( data.message )
-		{
-			alert( data.message );
-		}
-	}
-	else
-	{
-		var message = undefined;
-		
-		// старый формат
-		if( data.error )
-		{
-			message = data.error;
-		}
-		// новый формат
-		else				
-		{
-			message = data.message;
-		}
-		
-		alert( "Ошибка: " + message );
-		
-		// обработка событий на обновления в интерфейсе
-		for( var i = 0; i < data.eventList.length; i++ ) 
-		{
-		    processEvent( data.eventList[i] );
-		}
-	}
-	
-	return result;
+	console.warn($$.deprecated);
+
+	return $$.ajax.checkResponse(data);
 }
 
 function requestParamsToUrl( requestParams, subParam )
 {
+	console.warn($$.deprecated);
+
 	var url = "";
 	for( var k in requestParams )
 	{
@@ -423,6 +449,8 @@ function requestParamsToUrl( requestParams, subParam )
 //генерирует URL строку на основании введённых в форму параметров
 function formUrl( forms, excludeParams )
 {
+	console.warn($$.deprecated);
+
 	if( forms instanceof HTMLFormElement )
 	{
 		forms = [ forms ];
@@ -475,20 +503,8 @@ function formUrl( forms, excludeParams )
 
 function openUrlContent( url )
 {
+	console.warn($$.deprecated);
+
 	openUrlTo( url, bgerp.shell.$content());
-}
-
-//загружает URL на последнюю открытую вкладку
-function openTabUrl( url ) 
-{
-	console.warn( "Use openUrlContent instead openTabUrl!" );
-	openUrlContent( url );
-}
-
-//загружает URL не на последнюю открытую вкладку а с неким отрицательным отступом в иерархии вкладок
-function openTabUrlPos( url, pos ) 
-{
-	console.error( "Function openTabUrlPos is incorrect!" );
-	openUrlPos( url, ".ui-tabs-panel", pos );
 }
 

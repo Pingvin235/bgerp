@@ -90,6 +90,7 @@ function bgbilling_openCommonContract( commonContractId )
 
 //отправка AJAX команды, с запросом к биллингу
 //возвращается XML документ, полученный от биллинга
+/*
 function bgbilling_urlCall( url, toPostNames )
 {
 	var result = false;
@@ -124,6 +125,7 @@ function bgbilling_urlCall( url, toPostNames )
 	
 	return result;
 }
+*/
 
 // загрзука шаблонов договоров в форму создания
 function bgbilling_getPatterns( billingId )

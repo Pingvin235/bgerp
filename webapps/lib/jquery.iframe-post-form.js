@@ -56,7 +56,7 @@
 						{
 							returnReponse = $.parseJSON( response.text() );
 							// обработка AJAX ответа от BGERP
-							var result = checkAJAXCommandResult( returnReponse );
+							var result = $$.ajax.checkResponse( returnReponse );
 							if( result )
 							{
 								options.complete.apply( this, [returnReponse] );

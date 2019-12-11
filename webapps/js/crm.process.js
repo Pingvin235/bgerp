@@ -1,9 +1,9 @@
 /*
- * Процессы и очереди. 
+ * Процессы и очереди.
  */
-bgcrm.process = new function() {
+$$.process = new function() {
 	const open = (id) => {
-		bgerp.shell.contentLoad("process#" + id);
+		$$.shell.contentLoad("process#" + id);
 	};
 	
 	// доступные функции
@@ -167,7 +167,7 @@ function updateExecutors($groups, $executors, paramNameGroup,
 }
 
 function openProcess(id) {
-	console.warn("Deprecated");
+	console.warn($$.deprecated);
 	bgerp.process.open(id);
 }
 

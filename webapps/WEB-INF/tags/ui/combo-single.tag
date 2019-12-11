@@ -112,7 +112,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 					};
 				</c:if>
 				
-				uiComboSingleInit( $('#${uiid}'), onSelect );
+				$$.ui.comboSingleInit($('#${uiid}'), onSelect);
 				
 				<c:if test="${not empty disable}">
 					$comboDiv.unbind( 'click' );

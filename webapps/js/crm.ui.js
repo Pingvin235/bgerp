@@ -258,37 +258,37 @@ bgcrm.ui = new function() {
 
 
 function uiComboSingleInit ($comboDiv, onSelect) {
-	console.warn("Deprecated");
+	console.warn($$.deprecated);
 	bgcrm.ui.comboSingleInit($comboDiv, onSelect);
 }
 
 function uiComboInputs ($div) {
-	console.warn("Deprecated");
+	console.warn($$.deprecated);
 	return bgcrm.ui.comboInputs($div);
 }
 
 function uiComboCheckUncheck (object) {
-	console.warn("Deprecated");
+	console.warn($$.deprecated);
 	bgcrm.ui.comboCheckUncheck(object);
 }
 
 function uiMonthDaysSelectInit ($div) {
-	console.warn("Deprecated");
+	console.warn($$.deprecated);
 	bgcrm.ui.monthDaysSelectInit($div);
 }
 
 function uiInputTextInit ($input, onSelect) {
-	console.warn("Deprecated");
+	console.warn($$.deprecated);
 	bgcrm.ui.inputTextInit($input, onSelect);
 }
 
 function layoutProcess ($selector) {
-	console.warn("Deprecated");
+	console.warn($$.deprecated);
 	bgcrm.ui.layout($selector);
 }
 
 function showErrorDialog (errorMessage) {
-	console.warn("Deprecated");
+	console.warn($$.deprecated);
 	bgcrm.ui.showError(errorMessage);
 }
 
