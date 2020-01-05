@@ -112,7 +112,7 @@ public class ContractAction extends BaseAction
 		
 		if (config == null) 
 		{
-			throw new BGMessageException( "Отсутствующая либо некорректная либо  конфигурация импорта контрагентов." );
+			throw new BGMessageException( "Отсутствующая либо некорректная конфигурация импорта контрагентов." );
 		}
 
 		ServerCustomerCreator serverCustomerCreator = config.getServerCustomerCreator( billingId, con );
