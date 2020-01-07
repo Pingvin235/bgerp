@@ -5,6 +5,9 @@ $$.ajax = new function() {
 	
 	/**
 	 * Sends AJAX response and returns a promise.
+	 * url - string, or form, or $(form)
+	 * options.toPostNames - array of names of POST body parameters
+	 * options.html = true - treat result as HTML 
 	 * By default the promise is processed by checkResponse() function.
 	 */
 	const post = (url, options) => {
@@ -12,9 +15,6 @@ $$.ajax = new function() {
 
 		options = options || {};
 
-		if (url.tagName === 'FORM')
-			url = formUrl(url);
-		
 		const separated = separatePostParams(url, options.toPostNames, !options.html);
 		
 		const result = $.ajax({ 
@@ -62,6 +62,8 @@ $$.ajax = new function() {
 	 * либо начинающихся с благославенного префикса data
 	 */
 	const separatePostParams = function (url, toPostNames, json) {
+		url = formUrl(url);
+
 		let data = "";
 		
 		let dataStartPos = 0;
@@ -142,6 +144,53 @@ $$.ajax = new function() {
 		return result;
 	}
 
+	const formUrl = function (url, excludeParams) {
+		if (typeof url === 'string')
+			return url;
+
+		let forms = url; 
+
+		if (forms instanceof HTMLFormElement) {
+			forms = [forms];
+		}
+
+		var commonUrl = "";
+
+		for (var k = 0; k < forms.length; k++) {
+			var form = forms[k];
+
+			var url = $(form).attr('action');
+			var params = $(form).serializeAnything(excludeParams);
+			if (params.length > 0) {
+				if (commonUrl.indexOf('?') > 0 || url.indexOf('?') > 0) {
+					url += "&" + params;
+				}
+				else {
+					url += "?" + params;
+				}
+			}
+
+			// удаление параметров page.
+			for (var i = 0; i < form.length; i++) {
+				var el = form.elements[i];
+				if (el.name == 'page.pageIndex') {
+					el.value = 1;
+				}
+				else if (el.name.indexOf("page.") == 0) {
+					form.removeChild(el);
+					i--;
+				}
+			}
+
+			if (commonUrl.length > 0) {
+				commonUrl += "&";
+			}
+			commonUrl += url;
+		}
+
+		return commonUrl;
+	}
+
 	// доступные функции
 	this.post = post;
 	this.load = load;
@@ -150,6 +199,7 @@ $$.ajax = new function() {
 	this.openUrlTo = load;
 	$$.openUrlTo = openUrlTo;
 	// временно доступные
+	this.formUrlInt = formUrl;
 	this.separatePostParamsInt = separatePostParams;
 };
 
@@ -279,7 +329,7 @@ function getAJAXHtml( url, toPostNames )
 
 	var result = false;
 	
-	var separated = $$.ajax.separatePostParamsInt( url, toPostNames);
+	var separated = $$.ajax.separatePostParamsInt(url, toPostNames);
 	
 	$.ajax({ 
 		type: "POST",
@@ -451,54 +501,7 @@ function formUrl( forms, excludeParams )
 {
 	console.warn($$.deprecated);
 
-	if( forms instanceof HTMLFormElement )
-	{
-		forms = [ forms ];
-	}
-	
-	var commonUrl = "";
-	
-	for( var k = 0; k < forms.length; k++ )
-	{
-		var form = forms[k];
-		
-		var url = $(form).attr('action');
-		var params =  $(form).serializeAnything( excludeParams );
-		if( params.length > 0 )
-		{
-			if( commonUrl.indexOf( '?' )  > 0 || url.indexOf( '?' ) > 0 )
-			{
-				url += "&" + params;
-			}
-			else
-			{
-				url += "?" + params;
-			}
-		}
-		
-		// удаление параметров page.
-		for( var i = 0; i < form.length; i++ )
-		{
-			var el = form.elements[i];
-			if( el.name == 'page.pageIndex' )
-			{
-				el.value = 1;
-			}
-			else if( el.name.indexOf( "page." ) == 0 )
-			{
-				form.removeChild( el );
-				i--;
-			}
-		}
-		
-		if( commonUrl.length > 0 )
-		{
-			commonUrl += "&";
-		}
-		commonUrl += url;
-	}
-		
-	return commonUrl;
+	return $$.ajax.formUrlInt(forms, excludeParams);
 }
 
 function openUrlContent( url )

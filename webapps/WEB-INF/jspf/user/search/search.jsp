@@ -149,7 +149,7 @@
 					</u:sc>
 					<div class="pl05">
 						<button type="button" class="btn-white btn-slim" style="white-space: nowrap;"
-							onclick="this.form.elements['searchBy'].value='userId'; $$.openUrlTo(this.form, '#searchResult');"
+							onclick="this.form.elements['searchBy'].value='userId'; $$.ajax.load(this.form, '#searchResult');"
 							title="Вывести">
 								<%-- &#x25B6; Unicode стрелки вправо, но слишком чёрная --%>
 								&nbsp;<img src="/images/arrow-right.png"> 
