@@ -1635,3 +1635,5 @@ Cтроковые параметры
 |===
 
 include::../plugin/task/db.adocf[]
+
+include::../plugin/fulltext/db.adocf[]

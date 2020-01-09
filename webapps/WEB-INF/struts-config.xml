@@ -100,8 +100,6 @@
 			<forward name="default" path="/WEB-INF/jspf/user/parameter/list.jsp"/>
 			<forward name="parameterLog" path="/WEB-INF/jspf/parameter_log.jsp"/>
 			<forward name="entityLog" path="/WEB-INF/jspf/entity_log.jsp"/>
-			
-		<!-- 	<forward name="unionLog" path="/WEB-INF/jspf/union_log.jsp"/> -->
 		</action>
 		
 		<action path="/user/link" parameter="action" type="ru.bgcrm.struts.action.LinkAction" name="form" scope="request"/>
@@ -129,16 +127,9 @@
 			<forward name="linkedProcessInfo" path="/WEB-INF/jspf/user/process/process/linked_process_info.jsp"/>
 			<forward name="processTypeChange" path="/WEB-INF/jspf/user/process/process/editor_type.jsp"/>
 			<forward name="unionLog" path="/WEB-INF/jspf/union_log.jsp"/>
-			<!--
-			<forward name="linkedProcessProcessList" path="/WEB-INF/jspf/user/process/process/linked_process_process_list.jsp"/>
-			-->
 			<forward name="linkProcessList" path="/WEB-INF/jspf/user/process/process/link_process_list.jsp"/>	
 			<forward name="messageRelatedProcessList" path="/WEB-INF/jspf/user/process/message_related_process_list.jsp"/>
-			
 			<forward name="userProcessList" path="/WEB-INF/jspf/user/process/user_process_list.jsp"/>
-			<!--	
-			<forward name="objectAddress" path="/WEB-INF/jspf/user/process/process/custom/additional_request/contract_object_address.jsp"/>
-			-->
 		</action>
 		
 		<action path="/user/distribution" parameter="action" type="ru.bgcrm.struts.action.AddressDistributionAction" name="form" scope="request">
@@ -190,24 +181,7 @@
 			<forward name="queue" path="/WEB-INF/jspf/usermob/process/queue/queue.jsp"/>
 			<forward name="queueShow" path="/WEB-INF/jspf/usermob/process/queue/show.jsp"/>
 			<forward name="process" path="/WEB-INF/jspf/usermob/process/process/process.jsp"/>
-			<!-- 
-			<forward name="queueFilter" path="/WEB-INF/jspf/user/process/queue/filter.jsp"/>
-			<forward name="processTypeTree" path="/WEB-INF/jspf/user/process/tree/process_type_tree.jsp"/>
-			<forward name="processExecutors" path="/WEB-INF/jspf/user/process/process/executors.jsp"/>
-			-->
 		</action>
-		
-		<!-- ######################## OPEN ######################
-		<action path="/open/dispatch" parameter="action" type="ru.bgcrm.struts.action.open.DispatchAction" name="form" scope="request"/>
-		  -->
-		 
-		<!-- ######################## TEST ###################### -->   
-		<action path="/dynTest" type="ru.bgcrm.struts.action.DynTestAction" name="form" scope="request">
-			<forward name="default" path="/WEB-INF/jspf/test_dyn.jsp"/>
-		</action>
-		<action path="/dynTest1" type="ru.bgcrm.struts.action.DynTestAction" name="form" scope="request">
-			<forward name="default" path="/WEB-INF/jspf/test_dyn.jsp"/>
-		</action>    
 	</action-mappings>
 	
 	<plug-in className="org.apache.struts.tiles.TilesPlugin">

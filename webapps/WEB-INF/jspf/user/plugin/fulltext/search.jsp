@@ -3,14 +3,14 @@
 
 <c:choose>
 	<c:when test="${mode eq 'items'}">
-		<c:if test="${empty allowedForms or allowedForms.contains('fulltext-search')}">
-			<li value="fulltext-search">Полнотекстовый поиск</li>
+		<c:if test="${empty allowedForms or allowedForms.contains('fulltext')}">
+			<li value="fulltext">Полнотекстовый поиск</li>
 		</c:if>
 	
 	</c:when>
 	<c:otherwise>
 		<html:form action="/user/plugin/fulltext/search.do" method="GET" 
-			styleId="searchForm-fulltext-search" styleClass="searchForm in-mb1 mt1 in-w100p">
+			styleId="searchForm-fulltext" styleClass="searchForm in-mb1 mt1 in-w100p">
 			<html:hidden property="action" value="search"/>
 						
 			<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgcrm.plugin.fulltext.model.Config')}"/>

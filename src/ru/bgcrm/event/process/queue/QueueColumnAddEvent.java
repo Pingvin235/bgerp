@@ -3,6 +3,7 @@ package ru.bgcrm.event.process.queue;
 import ru.bgcrm.event.Event;
 import ru.bgcrm.util.ParameterMap;
 
+@Deprecated
 public class QueueColumnAddEvent implements Event {
 	private ParameterMap col;
 	private StringBuilder selectPart;

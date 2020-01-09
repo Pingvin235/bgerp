@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -291,6 +293,13 @@ public class MessageDAO extends CommonDAO {
     public void searchMessageList(SearchResult<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder, Set<Integer> tagIds) throws BGException {
+        searchMessageList(searchResult, Collections.singleton(processId), typeId, direction, processed, withAttach, 
+                dateFrom, dateTo, from, true, null);
+    }
+
+    public void searchMessageList(SearchResult<Message> searchResult, Collection<Integer> processIds, Integer typeId,
+            Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
+            boolean reverseOrder, Set<Integer> tagIds) throws BGException {
         try {
             Page page = searchResult.getPage();
 
@@ -300,9 +309,10 @@ public class MessageDAO extends CommonDAO {
             if (CollectionUtils.isNotEmpty(tagIds))
                 ps.addQuery(SQL_INNER_JOIN + TABLE_MESSAGE_TAG + " AS mt ON m.id=mt.message_id AND mt.tag_id IN (" + Utils.toString(tagIds) + ")");
             ps.addQuery("WHERE 1>0 ");
-            if (processId != null) {
-                ps.addQuery(" AND m.process_id=?");
-                ps.addInt(processId);
+            if (processIds != null) {
+                ps.addQuery(" AND m.process_id IN (");
+                ps.addQuery(Utils.toString(processIds));
+                ps.addQuery(")");
             }
             if (typeId != null && typeId > 0) {
                 ps.addQuery(" AND m.type_id=?");
@@ -421,7 +431,7 @@ public class MessageDAO extends CommonDAO {
         return getMessageFromRs(rs, "");
     }
 
-    private Message getMessageFromRs(ResultSet rs, String prefix) throws SQLException {
+    public static Message getMessageFromRs(ResultSet rs, String prefix) throws SQLException {
         Message result = new Message();
 
         result.setId(rs.getInt(prefix + "id"));

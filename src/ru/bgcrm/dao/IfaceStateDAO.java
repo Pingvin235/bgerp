@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.IfaceState;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.PreparedDelay;
 
@@ -67,6 +68,11 @@ public class IfaceStateDAO extends CommonDAO{
 	}
 	
 	public void compareAndUpdateState(IfaceState old, IfaceState current, DynActionForm form) throws BGException {
+		if (Setup.getSetup().getBoolean("db.readonly", false)) {
+			log.debug("Skip compareAndUpdateState for db.readonly=1");
+			return;
+		}
+
 		boolean needBeUpdated = 
 				old.getState() == null || !old.getState().equals(current.getState());
 		if (needBeUpdated) {

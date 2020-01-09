@@ -1,10 +1,19 @@
-//открывает вкладку с контрагентом
-function openCustomer( customerId )
-{
-	//var url = "customer.do?id=" + customerId;
-	contentLoad( "customer#" + customerId );
-	//bgcrm.tabs.tabs( "select", bgcrm.customerTabsPos );
-	//addClosableTab( "customerTabs", customerId, url );
+/*
+ * Customers. 
+ */
+$$.customer = new function() {
+	const open = (id) => {
+		$$.shell.contentLoad("customer#" + id);
+	};
+	
+	// public functions
+	this.open = open;
+};
+
+
+function openCustomer(id) {
+	console.warn("Deprecated");
+	$$.customer.open(id);
 }
 
 

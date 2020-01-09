@@ -54,6 +54,7 @@ import ru.bgcrm.event.listener.TemporaryObjectOpenListener;
 import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.event.process.ProcessCreatedAsLinkEvent;
+import ru.bgcrm.event.process.ProcessRemovedEvent;
 import ru.bgcrm.event.process.ProcessRequestEvent;
 import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.BGException;
@@ -144,12 +145,12 @@ public class ProcessAction extends BaseAction {
 
             int createdSetId = config.addSavedFilterSet(queueId, title, url);
 
-            personalizationMap.set(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + queueId, String.valueOf(createdSetId));
+            personalizationMap.put(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + queueId, String.valueOf(createdSetId));
         } else if (command.equals("select")) {
             if (form.getId() < 0) {
                 throw new BGIllegalArgumentException();
             }
-            personalizationMap.set(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + queueId, String.valueOf(form.getId()));
+            personalizationMap.put(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + queueId, String.valueOf(form.getId()));
         } else if (command.equals("toFullFilter")) {
             // extracting from unexisting empty filter - reset full filter
             SavedFilterSet filter = config.getSavedFilterSetMap().get(form.getId());
@@ -194,7 +195,7 @@ public class ProcessAction extends BaseAction {
             }
             int createdSetId = config.addSavedFilterSet(queueId, title, url);
 
-            personalizationMap.set(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + queueId, String.valueOf(createdSetId));
+            personalizationMap.put(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + queueId, String.valueOf(createdSetId));
         } else if (command.equals("deleteCommon")) {
             String title = form.getParam("title");
             int id = form.getParamInt("id");
@@ -308,9 +309,9 @@ public class ProcessAction extends BaseAction {
         // выбранные в полном фильтре фильтры
         String selectedFilters = form.getParam("selectedFilters");
 
-        personalizationMap.set(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + form.getId(), String.valueOf(savedFilterSetId));
+        personalizationMap.put(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + form.getId(), String.valueOf(savedFilterSetId));
         if (selectedFilters != null) {
-            personalizationMap.set(QUEUE_FULL_FILTER_SELECTED_FILTERS + form.getId(), selectedFilters);
+            personalizationMap.put(QUEUE_FULL_FILTER_SELECTED_FILTERS + form.getId(), selectedFilters);
         }
 
         // полный фильтр - сохранение параметров запроса
@@ -653,6 +654,8 @@ public class ProcessAction extends BaseAction {
 
         Process process = getProcess(processDao, form.getId());
         processDao.deleteProcess(process.getId());
+
+        processDoEvent(form, process, new ProcessRemovedEvent(form, process), con);
 
         return processJsonForward(con, form);
     }
@@ -1241,8 +1244,9 @@ public class ProcessAction extends BaseAction {
 
         // проверка и обновление статуса вкладки, если нужно
         IfaceState ifaceState = new IfaceState(form);
-        IfaceState currentState = new IfaceState(Process.OBJECT_TYPE, id, form, String.valueOf(searchResultLink.getPage().getRecordCount()),
-                String.valueOf(searchResultLinked.getPage().getRecordCount()));
+        IfaceState currentState = new IfaceState(Process.OBJECT_TYPE, id, form, 
+                String.valueOf(searchResultLinked.getPage().getRecordCount()),
+                String.valueOf(searchResultLink.getPage().getRecordCount()));
         new IfaceStateDAO(con).compareAndUpdateState(ifaceState, currentState, form);
 
         return processUserTypedForward(con, mapping, form, "linkProcessList");

@@ -77,6 +77,7 @@
 								<c:param name="action" value="processMessageList"/>
 								<c:param name="processId" value="${process.id}"/>
 								<c:param name="ifaceState" value="${ifaceState.state}"/>
+								<c:param name="linkProcess" value="${processType.properties.configMap['show.messages.link.process']}"/>
 							</c:url>
 							
 							$tabs.tabs( "add", "${url}", "${l.l('Сообщения')}${ifaceState.getFormattedState()}", " id='process-messages'" );

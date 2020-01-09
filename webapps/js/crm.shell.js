@@ -123,7 +123,7 @@ bgerp.shell = new function () {
 		$("#objectBuffer .object-count").text( getBufferCount() );
 	};
 
-	const contentLoad = function (href, reopen) {
+	const contentLoad = function (href, reopen, pinned) {
 		debug("contentLoad: ", href);
 		
 		// удаление протокола, хоста, порта, если есть
@@ -151,7 +151,10 @@ bgerp.shell = new function () {
 				let $taskButton = $('#taskPanel > div#' + id);
 				
 				if ($taskButton.length == 0) {
-					$('#taskPanel').append(sprintf("<div class='btn-blue btn-task-active' id='%s' title='%s'><span class='title'>%s</span><span class='icon-close'><img src='/images/cross-white.png'/></span></div>", id, item.title, item.title));
+					$('#taskPanel')
+						.append(sprintf("<div class='btn-blue btn-task-active' id='%s' title='%s'><span class='title'>%s</span>" + 
+							(pinned ? "" : "<span class='icon-close'><img src='/images/cross-white.png'/></span>") + "</div>", 
+							id, item.title, item.title));
 					$taskButton = $('#taskPanel > div#' + id);
 					
 					var $commandDiv;
@@ -166,7 +169,7 @@ bgerp.shell = new function () {
 							
 							$("#taskPanel div[id!='" + id + "']")
 								.removeClass( "btn-task-active btn-blue" ).addClass( "btn-white btn-task" )
-								.find('img').attr('src','/images/cross.png');								
+								.find('img').attr('src','/images/cross.png');
 							$("#taskPanel div#" + id)
 								.removeClass( "btn-white btn-task" ).addClass( "btn-task-active btn-blue" )
 								.find('img').attr('src','/images/cross-white.png');
@@ -189,7 +192,7 @@ bgerp.shell = new function () {
 							// последняя неактивная кнопка становится активной
 							var $inactiveButtons =  $("#taskPanel > div.btn-task");
 							if ($inactiveButtons.length > 0)
-								$inactiveButtons[$inactiveButtons.length - 1].click();									
+								$inactiveButtons[$inactiveButtons.length - 1].click()
 							else
 								$("#title > #empty").show();	
 						}						

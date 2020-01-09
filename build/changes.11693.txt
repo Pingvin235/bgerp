@@ -1,0 +1,5 @@
+A: Опция конфигурации 'db.readonly', https://bgerp.ru/doc/3.0/manual/kernel/setup.html#config
+A: Опция конфигурации пользователя 'on.login.open.pinned', https://bgerp.ru/doc/3.0/manual/kernel/setup.html#user-action-tree
+A: Плагин FullText, поиск по процессам и сообщениям, https://bgerp.ru/doc/3.0/manual/plugin/fulltext/index.html#config
+A: Опция конфигурации типа процесса 'show.messages.link.process', https://bgerp.ru/doc/3.0/manual/kernel/process/index.html#type-config
+C: На вкладке процесса "Связанные процессы" в статусе порядок количеств процессов инвертирован на: родительские / дочерние.

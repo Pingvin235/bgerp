@@ -13,6 +13,8 @@ import ru.bgcrm.model.process.Process;
  * Одно входящее или исходящее сообщение.
  */
 public class Message extends Id {
+	public static final String OBJECT_TYPE = "message";
+
 	public static final int DIRECTION_INCOMING = 1;
 	public static final int DIRECTION_OUTGOING = 2;
 

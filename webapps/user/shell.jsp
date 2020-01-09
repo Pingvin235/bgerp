@@ -79,7 +79,7 @@
 			<li><a href="/user/profile" onclick="bgerp.shell.followLink(this.href, event)">${l.l('Профиль')}</a></li>
 			<li><a href="/user/userProcesses" onclick="bgerp.shell.followLink(this.href, event)">${l.l('Мои процессы')}</a></li>
 			<%-- отсутствие onclick отключит этот пункт меню --%>
-			<li><a href="UNDEF" onclick="bgerp.ajax.post('/login.do?action=logout').done(() => window.location.href = '/user'); return false;">${l.l('Выход')}</a></li>
+			<li><a href="UNDEF" onclick="$$.ajax.post('/login.do?action=logout').done(() => window.location.href = '/user'); return false;">${l.l('Выход')}</a></li>
 		</ul>
 	</div>
 	
@@ -100,6 +100,7 @@
 
 			let m = null;
 			if (false) {}
+			// add else expressions
 			<c:set var="endpoint" value="user.url.jsp"/>
 			<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
 
@@ -116,8 +117,15 @@
 			createMenu($("#messagesLink"), $("#messagesMenu"), "right");
 			
 			createMenu($("#${uiidProfile}"), $("#${uiidProfileMenu}"), "right");
+
+			const href = window.location.href;
+
+			<c:set var="openPinned" value="${ctxUser.configMap['on.login.open.pinned']}"/>
+			<c:if test="${not empty openPinned}">
+				$$.shell.contentLoad('${openPinned}', false, true);
+			</c:if>
 			
-			bgerp.shell.contentLoad(window.location.href);
+			$$.shell.contentLoad(href);
 			
 			<c:if test="${setup['pooling.enable'] ne 0 and ctxUser.configMap['pooling.enable'] ne 0}">
 				timer();

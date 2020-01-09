@@ -3,11 +3,11 @@ package ru.bgcrm.event.listener;
 import java.util.Set;
 
 import ru.bgcrm.dao.SphinxDAO;
-import ru.bgcrm.event.CustomerDeleteEvent;
-import ru.bgcrm.event.CustomerUpdateEvent;
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
+import ru.bgcrm.event.customer.CustomerRemovedEvent;
+import ru.bgcrm.event.customer.CustomerChangedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
@@ -20,8 +20,8 @@ public class SphinxSystemListener
 	public SphinxSystemListener()
 	{
     	EventProcessor.subscribe( this, ParamChangedEvent.class );
-    	EventProcessor.subscribe( this, CustomerDeleteEvent.class );
-    	EventProcessor.subscribe( this, CustomerUpdateEvent.class );
+    	EventProcessor.subscribe( this, CustomerRemovedEvent.class );
+    	EventProcessor.subscribe( this, CustomerChangedEvent.class );
     }
 	
 	@Override
@@ -40,15 +40,15 @@ public class SphinxSystemListener
         			SphinxDAO.customerCacheUpdate( connectionSet.getConnection(), event.getObjectId() );
         		}
         	}
-        	else if( e instanceof CustomerDeleteEvent )
+        	else if( e instanceof CustomerRemovedEvent )
     		{
-    			CustomerDeleteEvent event = (CustomerDeleteEvent)e;
+    			CustomerRemovedEvent event = (CustomerRemovedEvent)e;
     			SphinxDAO sphinxDAO = new SphinxDAO( connectionSet.getConnection() );
     			sphinxDAO.delete( event.getCustomerId() );
     		}
-        	else if( e instanceof CustomerUpdateEvent )
+        	else if( e instanceof CustomerChangedEvent )
     		{
-    			CustomerUpdateEvent event = (CustomerUpdateEvent)e;
+    			CustomerChangedEvent event = (CustomerChangedEvent)e;
     			SphinxDAO.customerCacheUpdate( connectionSet.getConnection(), event.getCustomerId() );
     		}
 		}

@@ -47,11 +47,12 @@ public class WebRequestLogDAO extends PeriodicDAO {
 
 	public int insertLogEntry(HttpServletRequest request, String action)
 			throws BGException, UnsupportedEncodingException {
-		if (!Boolean.parseBoolean(Setup.getSetup().get("isDbReadOnly"))) {
+		Setup setup = Setup.getSetup();
+		if (!setup.getBoolean("db.readonly", setup.getBoolean("isDbReadOnly", false))) {
 			checkAndCreatePeriodicTable();
 
 			try {
-				String headerNameRemoteAddress = Setup.getSetup().get(AccessLogValve.PARAM_HEADER_NAME_REMOTE_ADDR);
+				String headerNameRemoteAddress = setup.get(AccessLogValve.PARAM_HEADER_NAME_REMOTE_ADDR);
 
 				String queryString = "";
 

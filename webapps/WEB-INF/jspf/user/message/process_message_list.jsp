@@ -29,10 +29,10 @@
 		<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
-	<button class="btn-green" type="button" onclick="openUrlTo( '${url}', $('#${editorContainerUiid}') )">+</button>
+	<button class="btn-green" type="button" onclick="$$.ajax.openUrlTo('${url}', $('#${editorContainerUiid}'))">+</button>
 	
 	<html:hidden property="attach"/>
-	<c:set var="sendCommand">openUrlToParent( formUrl( $('#${formUiid}') ), $('#${formUiid}') )</c:set>
+	<c:set var="sendCommand">$$.ajax.openUrlTo($('#${formUiid}')[0], $('#${formUiid}').parent())</c:set>
 	
 	<c:set var="valuesHtml">
 		<li value="0">${l.l('Все')}</li>
@@ -94,27 +94,26 @@
 			
 			<c:set var="color" value="${messageType.getProcessMessageHeaderColor(message)}"/>
 						
-		  	<tr style="background-color: ${color}; ${style}">
-	      		<td align="left" width="100%" style="text-align: left; vertical-align: middle;" class="in-table-cell">
-	      			<div class="pr05">
-						<c:choose>
-							<c:when test="${message.incoming}">&gt;&gt;</c:when>
-							<c:when test="${typeNote}"></c:when>
-							<c:otherwise>&lt;&lt;</c:otherwise>
-						</c:choose>
+			<tr style="background-color: ${color}; ${style}">
+				<td align="left" width="100%" style="text-align: left; vertical-align: middle;" class="in-table-cell">
+					<div class="pr05">
+						<%@ include file="message_direction.jsp"%>
 						<%-- теги --%>
 						<c:set var="messageTagIds" value="${form.response.data.messageTagMap[message.id]}"/>
 						<c:forEach var="tagId" items="${messageTagIds}">
 							<c:set var="tag" value="${tagConfig.tagMap[tagId]}"/>
 							<span style="display: inline-block; 
-								 background-color: ${tag.color}; width: 1em; height: 1em;" 
-								 title="${tag.title}" class="mr05">&nbsp;</span>
+								background-color: ${tag.color}; width: 1em; height: 1em;" 
+								title="${tag.title}" class="mr05">&nbsp;</span>
 						</c:forEach>
-					</div> 	
+					</div>
 					<c:if test="${typeNote}">
 						<div style="width: 100%;">
-							 <div>
-							 	#${message.id}&nbsp;${messageType.title}: ${message.subject} 
+							<div>
+								#${message.id}&nbsp;${messageType.title}: ${message.subject} 
+								<c:if test="${message.processId ne form.param.processId}">
+									${l.l('из')}&#32;<ui:process-link id="${message.processId}"/>
+								</c:if>
 							 </div>
 							 <div class="mt05">
 							 	Создано: ${u:formatDate( message.fromTime, 'ymdhm' )}
@@ -243,7 +242,7 @@
 							</c:if>	
 						
 							<c:if test="${message.direction eq 1 and messageType.answerSupport}">
-			      				<c:set var="subject" value="${message.subject}"/>
+				  				<c:set var="subject" value="${message.subject}"/>
 								<c:if test="${not fn:startsWith( subject, 'Re:' ) }">
 									<c:set var="subject" value="Re: ${subject}"/>
 								</c:if>
@@ -285,40 +284,40 @@
 									bgerp.ajax.openUrlTo('${answerUrl}', $('#${editorContainerUiid}'), {toPostNames: ['text']})
 									.done(function () {$(window).scrollTop(150)});
 									return false;">Ответить</a></li>
-			           		</c:if>
-			           		
-			           		<c:if test="${messageType.isEditable(message)}">
-			           			<c:url var="editUrl" value="message.do">
+					   		</c:if>
+					   		
+					   		<c:if test="${messageType.isEditable(message)}">
+					   			<c:url var="editUrl" value="message.do">
 									<c:param name="forward" value="processMessageEdit"/>
 									<c:param name="id" value="${message.id}"/>
 									<c:param name="processId" value="${message.processId}"/>
 									<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
 									<c:param name="returnUrl" value="${form.requestUrl}"/>
 								</c:url>
-			           		
-			           			<li><a href="#UNDEF" onclick="if (bgcrm.lock.add('${message.lockEdit}')) {
-			           				  bgerp.ajax.openUrlTo('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
-			           				}; 
-			           				return false;">Редактировать</a></li>
-			           		</c:if>
-			           		
-			           		<c:if test="${messageType.isRemovable(message)}">
-			           			<c:url var="deleteUrl" value="message.do">
+					   		
+					   			<li><a href="#UNDEF" onclick="if (bgcrm.lock.add('${message.lockEdit}')) {
+					   				  bgerp.ajax.openUrlTo('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
+					   				}; 
+					   				return false;">Редактировать</a></li>
+					   		</c:if>
+					   		
+					   		<c:if test="${messageType.isRemovable(message)}">
+					   			<c:url var="deleteUrl" value="message.do">
 									<c:param name="action" value="messageDelete"/>
 									<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
 								</c:url>
-			           		
-			           			<li><a href="#UNDEF" onclick="if( confirm('Удалить сообщение?') && sendAJAXCommand('${deleteUrl}') ){ openUrlToParent( '${form.requestUrl}', $('#${editorContainerUiid}') ) };  return false;">Удалить</a></li>
-			           		</c:if>
-				         </ul>
-				     </div>   
-			         
-			         <c:set var="showMenuCode">
+					   		
+					   			<li><a href="#UNDEF" onclick="if( confirm('Удалить сообщение?') && sendAJAXCommand('${deleteUrl}') ){ openUrlToParent( '${form.requestUrl}', $('#${editorContainerUiid}') ) };  return false;">Удалить</a></li>
+					   		</c:if>
+						 </ul>
+					 </div>   
+					 
+					 <c:set var="showMenuCode">
 						var $menu = $('#${menuUiid}');
-			         	
-			         	$menu.menu().hide();
-			         	
-			         	$menu.menu().show().position({
+					 	
+					 	$menu.menu().hide();
+					 	
+					 	$menu.menu().show().position({
 							my: 'right top',
 							at: 'right bottom',
 							of: this
@@ -330,66 +329,66 @@
 						 
 						event.stopPropagation();
 					 </c:set>	 
-			         
-			         <button id="${actionButtonUiid}" class="btn-white" onclick="${showMenuCode}" title="Действие">М</button>
-	      		</td>
+					 
+					 <button id="${actionButtonUiid}" class="btn-white" onclick="${showMenuCode}" title="Действие">М</button>
+		  		</td>
 			</tr>
 		</table>
 		
 		<%-- разделено на отдельные таблицы, т.к. в случае общей таблицы Chrome начинает увеличивать размер правой верхней ячейки с кнопками --%>	
 		<table id="${messageTextUiid}" class="hdata" style="width: 100%; table-layout:fixed;">	
 			<tr>
-		    	<td id="msgBox" style="border-top: none; display: block; overflow-x: auto; padding-bottom: 0.5em; word-wrap: break-word;">
-		    		<c:set var="text" value="${message.text}"/>
-			    	<%@ include file="email_text_prepare.jsp"%>
-			    	
-			    	<c:set var="text" value="${u:htmlEncode(text)}"/>			    		
-			    	
-			    	<%
-			    		// ссылки на открытие процессов
-			    		String tx = (String)pageContext.getAttribute( "text" );
-			    		tx = tx.replaceAll( "#(\\d+)", "<a onclick='openProcess($1); return false;' href='#UNDEF'>$0</a>" );
+				<td id="msgBox" style="border-top: none; display: block; overflow-x: auto; padding-bottom: 0.5em; word-wrap: break-word;">
+					<c:set var="text" value="${message.text}"/>
+					<%@ include file="email_text_prepare.jsp"%>
+					
+					<c:set var="text" value="${u:htmlEncode(text)}"/>			    		
+					
+					<%
+						// ссылки на открытие процессов
+						String tx = (String)pageContext.getAttribute( "text" );
+						tx = tx.replaceAll( "#(\\d+)", "<a onclick='openProcess($1); return false;' href='#UNDEF'>$0</a>" );
 
-			    		// выделение URLов ссылками
-			    		// взято отсюда: http://blog.codinghorror.com/the-problem-with-urls/
-			    		// там ещё есть обработка скобок
-			    		Pattern pattern = Pattern.compile("\\(?\\bhttps?://[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]");
-			    		Matcher m = null;
-			    		int pos = 0;
+						// выделение URLов ссылками
+						// взято отсюда: http://blog.codinghorror.com/the-problem-with-urls/
+						// там ещё есть обработка скобок
+						Pattern pattern = Pattern.compile("\\(?\\bhttps?://[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]");
+						Matcher m = null;
+						int pos = 0;
 
-			    		while ((m = pattern.matcher(tx)).find(pos)) {
-			    			String url = m.group();
-			    			String link = "<a target=\"_blank\" href=\"" + url + "\">" + url + "</a>"; 
-			    			tx = tx.substring(0, m.start()) + 
-			    				link +
-			    				tx.substring(m.end());
-			    			pos = m.start() + link.length();	
-			    		}
+						while ((m = pattern.matcher(tx)).find(pos)) {
+							String url = m.group();
+							String link = "<a target=\"_blank\" href=\"" + url + "\">" + url + "</a>"; 
+							tx = tx.substring(0, m.start()) + 
+								link +
+								tx.substring(m.end());
+							pos = m.start() + link.length();	
+						}
 
-			    		pageContext.setAttribute("text", tx);
-			    	%>
-			    	
-			    	${text}
-		    		
-		    		<%-- TODO: может, вернуть опционально впоследствии
-		    		<c:choose>
-		    			<c:when test="${status.first}">${u:htmlEncode(text)}</c:when>
-		    			<c:otherwise>
-		    				<c:set var="text" value="${u:htmlEncode(text)}"/>
-	           				<c:set var="maxLength" value="500"/>
-	           				<%@ include file="/WEB-INF/jspf/short_text.jsp"%>
-		    			</c:otherwise>
-		    		</c:choose>	
-		    		--%>
-		    	</td>
-		    </tr>
-		    
-		    <c:if test="${not empty message.attachList}">
-		    	<tr>
-		    		<td style="border-top: none; display: block;">
-		    			Вложения:	    			
-	    				<c:if test="${typeEmail or typeNote}">
-				    		<c:forEach var="item" items="${message.attachList}" varStatus="status">
+						pageContext.setAttribute("text", tx);
+					%>
+					
+					${text}
+					
+					<%-- TODO: может, вернуть опционально впоследствии
+					<c:choose>
+						<c:when test="${status.first}">${u:htmlEncode(text)}</c:when>
+						<c:otherwise>
+							<c:set var="text" value="${u:htmlEncode(text)}"/>
+			   				<c:set var="maxLength" value="500"/>
+			   				<%@ include file="/WEB-INF/jspf/short_text.jsp"%>
+						</c:otherwise>
+					</c:choose>	
+					--%>
+				</td>
+			</tr>
+			
+			<c:if test="${not empty message.attachList}">
+				<tr>
+					<td style="border-top: none; display: block;">
+						Вложения:	    			
+						<c:if test="${typeEmail or typeNote}">
+							<c:forEach var="item" items="${message.attachList}" varStatus="status">
 								<c:url var="url" value="../user/file.do">
 									<c:param name="id" value="${item.id}"/>
 									<c:param name="title" value="${item.title}"/>
@@ -401,9 +400,9 @@
 							
 						<c:set var="endpoint" value="user.process.message.attaches.jsp"/>
 						<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
-		    		</td>
-		    	</tr>
-		    </c:if>		       
+					</td>
+				</tr>
+			</c:if>		       
 	   	</table>
 	</c:forEach>
 </div>

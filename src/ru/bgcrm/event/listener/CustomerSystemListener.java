@@ -3,9 +3,9 @@ package ru.bgcrm.event.listener;
 import org.apache.log4j.Logger;
 
 import ru.bgcrm.dao.CustomerDAO;
-import ru.bgcrm.event.CustomerDeleteEvent;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
+import ru.bgcrm.event.customer.CustomerRemovedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Customer;
 import ru.bgcrm.model.param.Parameter;
@@ -29,14 +29,14 @@ public class CustomerSystemListener
 
 		}, ParamChangedEvent.class );
 
-		EventProcessor.subscribe( new EventListener<CustomerDeleteEvent>()
+		EventProcessor.subscribe( new EventListener<CustomerRemovedEvent>()
 		{
 			@Override
-			public void notify( CustomerDeleteEvent e, ConnectionSet connectionSet )
+			public void notify( CustomerRemovedEvent e, ConnectionSet connectionSet )
 			{
 				customerDelete( e, connectionSet );
 			}
-		}, CustomerDeleteEvent.class );
+		}, CustomerRemovedEvent.class );
 	}
 
 	private void paramChanged( ParamChangedEvent e, ConnectionSet connectionSet )
@@ -63,7 +63,7 @@ public class CustomerSystemListener
 		}
 	}
 
-	private void customerDelete( CustomerDeleteEvent event, ConnectionSet connectionSet )
+	private void customerDelete( CustomerRemovedEvent event, ConnectionSet connectionSet )
 	{
 		try
 		{

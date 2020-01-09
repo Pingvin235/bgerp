@@ -1,25 +1,33 @@
 package ru.bgcrm.plugin.fulltext.dao;
 
+import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER;
+import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
+import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
+
 import java.sql.Connection;
-import static ru.bgcrm.dao.Tables.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.log4j.Logger;
+import java.util.function.Function;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerDAO;
+import ru.bgcrm.dao.message.MessageDAO;
+import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.message.Message;
+import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.model.SearchItem;
+import ru.bgerp.util.Log;
 
 public class SearchDAO extends CommonDAO {
     
-    private final static Logger log = Logger.getLogger(SearchDAO.class);
+    private final static Log log = Log.getLog();
     
     private final static String TABLE = " fulltext_data ";
 
@@ -33,24 +41,73 @@ public class SearchDAO extends CommonDAO {
      * @param filter строка запроса с символами + и - для добавления / удаления слов.
      * @throws SQLException
      */
-    public void searchCustomer(SearchResult<Customer> result, String filter) throws BGException {
-        try {
-            String query = SQL_SELECT_COUNT_ROWS + "c.* FROM " + TABLE + " AS ft "
-                    + SQL_INNER_JOIN + TABLE_CUSTOMER + " AS c ON ft.object_id=c.id"
-                    + SQL_WHERE + "ft.object_type=? AND MATCH(ft.data) AGAINST (? IN BOOLEAN MODE) "
-                    + getMySQLLimit(result.getPage());
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, Customer.OBJECT_TYPE);
-            ps.setString(2, filter);
+    public void searchCustomer(SearchResult<Customer> result, String filter) throws SQLException {
+        searchObjects(result, filter, TABLE_CUSTOMER, Customer.OBJECT_TYPE, rs -> {
+            try {
+                return CustomerDAO.getCustomerFromRs(rs, "o.");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next())
-                result.getList().add(CustomerDAO.getCustomerFromRs(rs, "c."));
-            result.getPage().setPageCount(getFoundRows(ps));
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+    /**
+     * Полнотекстовый поиск процессов.
+     * @param result
+     * @param filter строка запроса с символами + и - для добавления / удаления слов.
+     * @throws SQLException
+     */
+    public void searchProcess(SearchResult<Process> result, String filter) throws SQLException {
+        searchObjects(result, filter, TABLE_PROCESS, Process.OBJECT_TYPE, rs -> {
+            try {
+                return ProcessDAO.getProcessFromRs(rs, "o.");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+    
+    private <T> void searchObjects(SearchResult<T> result, String filter, 
+        String tableName, String objectType, Function<ResultSet, T> extractor) throws SQLException {
+        String query = SQL_SELECT_COUNT_ROWS + "o.* FROM " + TABLE + " AS ft "
+                + SQL_INNER_JOIN + tableName + " AS o ON ft.object_id=o.id"
+                + SQL_WHERE + "ft.object_type=? AND MATCH(ft.data) AGAINST (? IN BOOLEAN MODE) "
+                + getMySQLLimit(result.getPage());
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, objectType);
+        ps.setString(2, filter);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next())
+            result.getList().add(extractor.apply(rs));
+        result.getPage().setRecordCount(getFoundRows(ps));
+        ps.close();
+    }
+
+    /**
+     * Полнотекстовый поиск сообщений, привязанных к процессам.
+     * @param result
+     * @param filter строка запроса с символами + и - для добавления / удаления слов.
+     * @throws SQLException
+     */
+    public void searchMessages(SearchResult<Pair<Message, Process>> result, String filter) throws SQLException {
+        String query = SQL_SELECT_COUNT_ROWS + "m.*, p.* FROM " + TABLE + " AS ft "
+                + SQL_INNER_JOIN + TABLE_MESSAGE + " AS m ON ft.object_id=m.id "
+                + SQL_LEFT_JOIN + TABLE_PROCESS + " AS p ON m.process_id=p.id "
+                + SQL_WHERE + "ft.object_type=? AND MATCH(ft.data) AGAINST (? IN BOOLEAN MODE) "
+                + getMySQLLimit(result.getPage());
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, Message.OBJECT_TYPE);
+        ps.setString(2, filter);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Message m = MessageDAO.getMessageFromRs(rs, "m.");
+            Process p = ProcessDAO.getProcessFromRs(rs, "p.");
+            result.getList().add(new Pair<Message, Process>(m, p));
         }
+        result.getPage().setRecordCount(getFoundRows(ps));
+        ps.close();
     }
     
     /**
@@ -59,9 +116,8 @@ public class SearchDAO extends CommonDAO {
      * @param objectId
      * @throws BGException
      */
-    public void scheduleUpdate(String objectType, int objectId) throws BGException {
-        if (log.isDebugEnabled())
-            log.debug("Updated record, objectType: " + objectType + "; objectId: " + objectId);
+    public void scheduleUpdate(String objectType, int objectId) throws SQLException {
+        log.debug("Updated record, objectType: %s; objectId: %s", objectType, objectId);
         updateOrInsert(
                 SQL_UPDATE + TABLE + SQL_SET + "scheduled_dt=NOW()" + SQL_WHERE + "object_type=? AND object_id=?",
                 SQL_INSERT + TABLE + "(scheduled_dt, object_type, object_id) VALUES (NOW(),?,?)",
@@ -75,8 +131,7 @@ public class SearchDAO extends CommonDAO {
      * @throws BGException
      */
     public void delete(String objectType, int objectId) throws BGException {
-        if (log.isDebugEnabled())
-            log.debug("Deleted record, objectType: " + objectType + "; objectId: " + objectId);
+        log.debug("Deleted record, objectType: %s; objectId: %s", objectType, objectId);
         try {
             String query = SQL_DELETE + TABLE + SQL_WHERE + "object_type=? AND object_id=?";
             PreparedStatement ps = con.prepareStatement(query);

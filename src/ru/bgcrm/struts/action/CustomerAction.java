@@ -18,9 +18,9 @@ import ru.bgcrm.dao.ParamGroupDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.event.CustomerDeleteEvent;
-import ru.bgcrm.event.CustomerUpdateEvent;
 import ru.bgcrm.event.EventProcessor;
+import ru.bgcrm.event.customer.CustomerRemovedEvent;
+import ru.bgcrm.event.customer.CustomerChangedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
@@ -133,7 +133,7 @@ public class CustomerAction
 		customerDAO.updateCustomerTitle( titleBefore, customer, -1, form.getResponse() );
 		customerDAO.updateGroupIds( customer.getId(), form.getSelectedValues( "customerGroupId" ) );
 
-		CustomerUpdateEvent updateEvent = new CustomerUpdateEvent( form, form.getId() );
+		CustomerChangedEvent updateEvent = new CustomerChangedEvent( form, form.getId() );
 		EventProcessor.processEvent( updateEvent, conSet );
 
 		return processJsonForward( conSet, form, response );
@@ -152,7 +152,7 @@ public class CustomerAction
 		new ParamValueDAO( con ).deleteParams( Customer.OBJECT_TYPE, form.getId() );
 		new CustomerLinkDAO( con ).deleteObjectLinks( form.getId() );
 
-		CustomerDeleteEvent deleteEvent = new CustomerDeleteEvent( form, form.getId() );
+		CustomerRemovedEvent deleteEvent = new CustomerRemovedEvent( form, form.getId() );
 		EventProcessor.processEvent( deleteEvent, new SingleConnectionConnectionSet( con ) );
 
 		return processJsonForward( conSet, form, response );
@@ -357,12 +357,12 @@ public class CustomerAction
 			commonContractDAO.changeCustomerLink( commonContract.getId(), customerId );
 		}
 
-		EventProcessor.processEvent( new CustomerUpdateEvent( form, customerId ), conSet );
+		EventProcessor.processEvent( new CustomerChangedEvent( form, customerId ), conSet );
 		
 		/*sphinxDAO.delete( mergingCustomerId );
 		sphinxDAO.customerCacheUpdate( con, customerId );*/
 
-		EventProcessor.processEvent(  new CustomerDeleteEvent( form, mergingCustomerId ), conSet );
+		EventProcessor.processEvent(  new CustomerRemovedEvent( form, mergingCustomerId ), conSet );
 		
 		//удаление контрагента
 		customerDAO.deleteCustomer( mergingCustomerId );

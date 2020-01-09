@@ -100,20 +100,16 @@ public class CommonDAO {
         return getLikePattern(substring, "end");
     }
 
-    protected void updateOrInsert(String updatePsQuery, String insertPsQuery, Object... params) throws BGException {
-        try {
-            PreparedDelay pd = new PreparedDelay(con, updatePsQuery);
-            pd.addObjects(params);
-            if (pd.executeUpdate() == 0) {
-                pd.close();
-                pd.setQuery(insertPsQuery);
-                pd.addObjects(params);
-                pd.executeUpdate();
-            }
+    protected void updateOrInsert(String updatePsQuery, String insertPsQuery, Object... params) throws SQLException {
+        PreparedDelay pd = new PreparedDelay(con, updatePsQuery);
+        pd.addObjects(params);
+        if (pd.executeUpdate() == 0) {
             pd.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+            pd.setQuery(insertPsQuery);
+            pd.addObjects(params);
+            pd.executeUpdate();
         }
+        pd.close();
     }
 
     protected String getMySQLLimit(Page page) {
