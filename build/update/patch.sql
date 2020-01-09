@@ -1198,6 +1198,10 @@ CREATE TABLE IF NOT EXISTS message_tag (
     UNIQUE KEY message_tag(message_id, tag_id)
 );
 
+RENAME TABLE n_message TO message;
+RENAME TABLE n_param_list_value TO param_list_value;
+RENAME TABLE n_customer_log TO customer_log;
+RENAME TABLE n_news TO news;
 
 -- при добавлении в дамп не указывать: значения DEFAULT столбцов, если они 0 для чисел и '' для строк, названия движков
 -- использовать процедуры для модификации существующих таблиц add_key_if_not_exists и т.п.

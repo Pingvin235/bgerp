@@ -36,7 +36,7 @@
 * <<plugin/report/index.adoc#, 08.04.2019>> Пример отчёта "Вывод должников".
 * <<plugin/report/index.adoc#, 21.03.2019>> Выделены примеры отчётов.
 * <<ext/bgbilling.adoc#, 11.03.2019>> Интеграция с BGBilling.
-* <<kernel/db.adoc#_n_message, 10.03.2019>> Описание таблицы n_message.
+* <<kernel/db.adoc#_message, 10.03.2019>> Описание таблицы message.
 * <<kernel/process/queue.adoc#filters, 09.03.2019>> Фильтр очереди процессов message:systemId.
 * 02.03.2019 Методика разработки.
 * <<ext/disconnect_debtors_ktv.adoc#, 14.02.2019>> Отключение должников КТВ.
