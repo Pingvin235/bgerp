@@ -67,8 +67,6 @@ public class Item {
             return 0;
         if (process.getPriority() > 0)
             return process.getPriority();
-        if (parent != null)
-            return parent.getPriority();
         return 0;
     }
 
