@@ -1202,6 +1202,7 @@ RENAME TABLE n_message TO message;
 RENAME TABLE n_param_list_value TO param_list_value;
 RENAME TABLE n_customer_log TO customer_log;
 RENAME TABLE n_news TO news;
+RENAME TABLE n_config_global TO config_global;
 
 -- при добавлении в дамп не указывать: значения DEFAULT столбцов, если они 0 для чисел и '' для строк, названия движков
 -- использовать процедуры для модификации существующих таблиц add_key_if_not_exists и т.п.

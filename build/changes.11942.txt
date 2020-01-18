@@ -1,1 +1,1 @@
-C: Переименование таблиц в БД без префикса n_: n_message, n_param_list_value, n_customer_log, n_news.
+C: ПЕРЕИМЕНОВАНИЕ ТАБЛИЦ В БД без префикса n_: message, param_list_value, customer_log, news, config_global.

@@ -19,16 +19,15 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.util.Utils;
 
 public class ConfigDAO extends CommonDAO {
-    
-    public static final String TABLE_CONFIG = "config";
-    public static final String TABLE_CONFIG_GLOBAL = "n_config_global";
-
-    private String tableName = TABLE_CONFIG;
+    public static final String TABLE_CONFIG_GLOBAL = "config_global";
+    @Deprecated
+    private String tableName;
 
     public ConfigDAO(Connection con) {
-        this(con, TABLE_CONFIG);
+        super(con);
     }
 
+    @Deprecated
     public ConfigDAO(Connection con, String tableName) {
         super(con);
         this.tableName = tableName;
