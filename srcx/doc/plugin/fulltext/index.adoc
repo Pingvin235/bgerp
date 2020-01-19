@@ -32,16 +32,13 @@ fulltext:entry.message.paramIds=*
 При правильной настройке в оснастке <<../../kernel/search.adoc#, поиска>> появится ещё один выпадающий пункт *Полнотекстовый поиск*, см. снимок экрана ранее.
 
 В <<../../kernel/setup.adoc#scheduler, планировщике задач>> добавить запуск класса *ru.bgcrm.plugin.fulltext.FullTextUpdater* 
-либо выполнять его в период тестирования как <<../../kernel/extension.adoc#run, динамический класс>>.
+один раз в минуту, либо выполнять его в период тестирования как <<../../kernel/extension.adoc#run, динамический класс>>.
 
-=== SQL запросы для запуска первичной индексации
-После отладки корректности индексации изменённых объектов с помощью следующих запросов можно запустить реиндексацию всех объектов. 
-[source, sql]
-----
-INSERT INTO fulltext_data (object_type, object_id, scheduled_dt) SELECT 'customer', c.id, NOW() FROM customer AS c LEFT JOIN fulltext_data AS fd ON fd.object_type='customer' AND c.id=fd.object_id WHERE fd.object_id IS NULL;
-INSERT INTO fulltext_data (object_type, object_id, scheduled_dt) SELECT 'process', p.id, NOW() FROM process AS p LEFT JOIN fulltext_data AS fd ON fd.object_type='process' AND p.id=fd.object_id WHERE fd.object_id IS NULL;
-INSERT INTO fulltext_data (object_type, object_id, scheduled_dt) SELECT 'message', m.id, NOW() FROM n_message AS m LEFT JOIN fulltext_data AS fd ON fd.object_type='message' AND m.id=fd.object_id WHERE m.process_id>0 AND fd.object_id IS NULL;
-----
+[[init]]
+=== Запуск первичной индексации
+Индекс обновляется с задержкой после редактирования сущности, либо её параметров.
+Для инициации индексирования всех уже существующих объектов
+выполнить запуск *ru.bgcrm.plugin.fulltext.FullTextInit* как <<../../kernel/extension.adoc#run, динамический класс>>.
 
 == Формат запроса
 По-умолчанию поиск ищет по условию логическое *ИЛИ* для всех введённых слов, разделённых пробелами.

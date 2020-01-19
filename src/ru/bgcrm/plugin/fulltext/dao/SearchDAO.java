@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -26,7 +27,6 @@ import ru.bgcrm.plugin.fulltext.model.SearchItem;
 import ru.bgerp.util.Log;
 
 public class SearchDAO extends CommonDAO {
-    
     private final static Log log = Log.getLog();
     
     private final static String TABLE = " fulltext_data ";
@@ -202,6 +202,23 @@ public class SearchDAO extends CommonDAO {
         } catch (SQLException e) {
             throw new BGException(e);
         }
+    }
+
+    /**
+     * Initialize indexing for object types.
+     * @param objectType
+     * @param objectTable
+     * @throws SQLException
+     */
+    public void init(String objectType, String objectTable) throws SQLException {
+        String query = SQL_INSERT + TABLE + " (object_type, object_id, scheduled_dt) "
+            + "SELECT ?, t.id, NOW() FROM " + objectTable + " AS t " 
+            + "LEFT JOIN " + TABLE + " AS fd ON fd.object_type=? AND t.id=fd.object_id WHERE fd.object_id IS NULL";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, objectType);
+        ps.setString(2, objectType);
+        ps.executeUpdate();
+        ps.close();
     }
 
 }

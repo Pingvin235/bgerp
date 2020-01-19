@@ -1,0 +1,1 @@
+A: Плагин FullText, Runnable класс для инициации первичного индексирования: https://bgerp.ru/doc/3.0/manual/plugin/fulltext/index.html#init
