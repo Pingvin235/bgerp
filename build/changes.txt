@@ -1,6 +1,11 @@
 Дата Номер сборки (генерируются автоматически)
 A - Добавлено, C - Изменено, F - Исправлено
 
+19.01.2020 16:15:17 1341
+C: ПЕРЕИМЕНОВАНИЕ ТАБЛИЦ В БД без префикса n_: message, param_list_value, customer_log, news, config_global.
+C: Плагин Blow, наследование приоритета родительского процесса.
+A: Плагин FullText, Runnable класс для инициации первичного индексирования: https://bgerp.ru/doc/3.0/manual/plugin/fulltext/index.html#init
+
 09.01.2020 20:39:08 1340
 A: Опция конфигурации 'db.readonly', https://bgerp.ru/doc/3.0/manual/kernel/setup.html#config
 A: Опция конфигурации пользователя 'on.login.open.pinned', https://bgerp.ru/doc/3.0/manual/kernel/setup.html#user-action-tree

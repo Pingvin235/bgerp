@@ -1,1 +1,0 @@
-C: ПЕРЕИМЕНОВАНИЕ ТАБЛИЦ В БД без префикса n_: message, param_list_value, customer_log, news, config_global.
