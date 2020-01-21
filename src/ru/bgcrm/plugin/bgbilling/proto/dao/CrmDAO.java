@@ -906,16 +906,6 @@ public class CrmDAO
 		 return new ContractTariffDAO( user, dbInfo ).getContractTariffGroup( tariffGroupId );
      }
 
-	 /**
-	 * Использовать {@link ContractTariffDAO#activateContractOption(Integer, Integer, Integer)}.
-	 */
-	@Deprecated
-	public void activateContractOption( int contractId, int optionId, int modeId )
-		throws BGException
-	{
-		new ContractTariffDAO( user, dbInfo ).activateContractOption( contractId, optionId, modeId );
-	}
-
 	/**
      * Использовать {@link ContractTariffDAO#updateContractTariffPlan(Integer, Integer, Integer, Integer, String, String, String)}.
      */

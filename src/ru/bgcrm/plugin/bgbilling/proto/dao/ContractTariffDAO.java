@@ -686,12 +686,13 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 		return activateModeList;
 	}
 
-	public void activateContractOption(int contractId, int optionId, int modeId) throws BGException {
+	public void activateContractOption(int contractId, int optionId, int modeId, boolean web) throws BGException {
 	    if (dbInfo.versionCompare("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(TARIFF_OPTION_SERVICE_MODULE_ID, "TariffOptionService", "contractTariffOptionActivate");
             req.setParamContractId(contractId);
             req.setParam("optionId", optionId);
             req.setParam("modeId", modeId);
+            req.setParam("web", false);
 
             transferData.postData(req, user);   
         }

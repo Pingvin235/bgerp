@@ -251,7 +251,7 @@ public class ContractTariffAction extends BaseAction {
 		Integer modeId = form.getParamInt("modeId");
 
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
-		crmDAO.activateContractOption(contractId, optionId, modeId);
+		crmDAO.activateContractOption(contractId, optionId, modeId, false);
 
 		return processJsonForward(conSet, form);
 	}
