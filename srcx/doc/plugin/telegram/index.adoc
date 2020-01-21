@@ -6,6 +6,7 @@
 [square]
 * привязка процесса к чату группы или чату пользователя Telegram;
 * привязка пользователя к чату группы или чату пользователя Telegram;
+* использование Markdown разметки в тексте отправляемых сообщений.
 
 == Настройка 
 [arabic]
@@ -68,5 +69,30 @@ onProcessEvent.2.doExpression=<<END
 END
 ----
 
+== Форматирование текста сообщений Markdown
+В данный момент поддерживается только полужирное начертание, курсив, моноширинный шрифт и ссылки.
+[source]
+----
+*полужирный*
+_курсив_
+[ссылка](http://www.example.com/)
+`строчный моноширинный`
+```text
+блочный моноширинный (можно писать код)
+```
+----
+
+Пример использования:
+[source]
+----
+onProcessEvent.{@cnt}.doExpression=<<END
+    text = "*Тип процесса: * " + process.getTypeTitle().concat( NEW_LINE );
+    text+="_Код исполнителя_: " + process.getExecutorIds().toString().concat( NEW_LINE );
+    text+="`Описание:` " + process.getDescription();
+    telegram.sendMessage(process, text);
+END
+----
+
+image::_res/i0162.png[width="400px"]
 
 Объект *telegram* класса javadoc:ru.bgerp.plugin.telegram.DefaultProcessorFunctions[] с функциями API предоставляется плагином.

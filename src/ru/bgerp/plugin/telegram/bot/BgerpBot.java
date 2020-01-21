@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -23,37 +22,26 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgerp.plugin.telegram.Config;
+import ru.bgerp.util.Log;
 
 public class BgerpBot extends TelegramLongPollingBot {
-    public static void main(String[] args) {
-        init();
+    private static class UserData {
+        private String login;
     }
 
-    @SuppressWarnings("unused")
-    private static final Logger log = Logger.getLogger(TelegramLongPollingBot.class);
+    private static final Log log = Log.getLog();
 
     private static BgerpBot instance;
 
     private Map<Long, UserData> userMap = new HashMap<>();
 
-    private static BotSession botSession = null;
+    private static BotSession botSession;
 
-    private BgerpBot() {
-    };
+    private BgerpBot() {}
 
     public static BgerpBot getInstance() {
-
-        if (instance == null) {
+        if (instance == null) 
             reinit();
-            /*if (instance != null) {
-                EventProcessor.subscribe(new EventListener<SetupChangedEvent>() {
-                    @Override
-                    public void notify(SetupChangedEvent e, ConnectionSet connectionSet) {
-                        reinit();
-                    }
-                }, SetupChangedEvent.class);
-            }*/
-        }
         return instance;
     }
 
@@ -66,14 +54,12 @@ public class BgerpBot extends TelegramLongPollingBot {
         }
         try {
             instance = init();
-
         } catch (Throwable t) {
             log.error("telegramBot start ERROR", t);
         }
     }
 
     private static BgerpBot init() {
-
         // пробуем остановить старую, на всяий случай
         try {
             if (botSession != null) {
@@ -89,7 +75,6 @@ public class BgerpBot extends TelegramLongPollingBot {
         DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
         Config config = Setup.getSetup().getConfig(Config.class);
         if (config.getProxyHost() != null) {
-
             botOptions.setProxyHost(config.getProxyHost());
             botOptions.setProxyPort(Utils.parseInt(config.getProxyPort(), -1));
             DefaultBotOptions.ProxyType type = DefaultBotOptions.ProxyType.NO_PROXY;
@@ -101,9 +86,9 @@ public class BgerpBot extends TelegramLongPollingBot {
             botOptions.setProxyType(type);
 
         }
+        
         BgerpBot bot = new BgerpBot(botOptions);
         for (int i = 0; i < 3; i++) {
-
             try {
                 log.info("try start botSession...on " + config.getProxyType() + ":" + config.getProxyHost() + ":" + config.getProxyPort());
                 botSession = botapi.registerBot(bot);
@@ -130,7 +115,6 @@ public class BgerpBot extends TelegramLongPollingBot {
     public String getBotToken() {
         Config config = Setup.getSetup().getConfig(Config.class);
         return config.getToken();
-
     }
 
     @Override
@@ -165,7 +149,6 @@ public class BgerpBot extends TelegramLongPollingBot {
             } else {
                 User user = UserCache.getUser(userData.login);
                 if (user == null || !user.getPassword().equals(txt)) {
-
                     sendMessage(chatId, config.getMsgWronPassword());
                     userMap.put(chatId, new UserData());
                     sendMessage(chatId, config.getMsgAskLogin());
@@ -179,54 +162,27 @@ public class BgerpBot extends TelegramLongPollingBot {
                     con.commit();
                     userMap.put(chatId, null);
                     sendMessage(chatId, config.getMsgLinkChange());
-
                 } catch (Exception ex) {
                     log.error("Ощибка сохранения подписки в telegram", ex);
                 } finally {
-
                     SQLUtils.closeConnection(con);
                 }
             }
-
         }
         // просто ответ.
         sendMessage(chatId, config.getMsgStandartAnswer());
-
     }
 
     public void sendMessage(Long chanId, String text) {
         SendMessage s = new SendMessage();
         s.setChatId(chanId);
         s.setText(text);
-        /*
-         * try { executeAsync(s, new SentCallback<Message>() {
-         * 
-         * @Override public void onResult(BotApiMethod<Message> method, Message
-         * response) { System.out.println("Сообщение отправлено"); }
-         * 
-         * @Override public void onError(BotApiMethod<Message> method,
-         * TelegramApiRequestException apiException) { System.out.println("ERROR:" +
-         * apiException); }
-         * 
-         * @Override public void onException(BotApiMethod<Message> method, Exception
-         * exception) { System.out.println("EXCEPTION:" + exception); init(); } }); }
-         * catch (TelegramApiException e) { // TODO Auto-generated catch block //
-         * e.printStackTrace();
-         * 
-         * }
-         */
+        s.setParseMode("Markdown");
         try {
             execute(s);
         } catch (TelegramApiException e) {
             // TODO Auto-generated catch block
-            log.error("Message not send", e);
-
+            log.error("Message was not sent", e);
         }
-    }
-
-    private class UserData {
-
-        public String login = null;
-
     }
 }
