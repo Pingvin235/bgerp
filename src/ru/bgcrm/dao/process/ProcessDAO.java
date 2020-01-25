@@ -1370,10 +1370,11 @@ public class ProcessDAO extends CommonDAO {
 		try {
 			Process result = null;
 
-			String query = "SELECT process.*, ps.* FROM " + TABLE_PROCESS + " AS process " + "LEFT JOIN "
-					+ TABLE_PROCESS_STATUS
+			String query = "SELECT process.*, ps.* FROM " + TABLE_PROCESS + " AS process " 
+					+ "LEFT JOIN " + TABLE_PROCESS_STATUS
 					+ " AS ps ON process.id=ps.process_id AND ps.status_id=process.status_id AND ps.last "
-					+ "WHERE process.id=?";
+					+ getIsolationJoin(user)
+					+ " WHERE process.id=?";
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
@@ -1463,7 +1464,7 @@ public class ProcessDAO extends CommonDAO {
 
 	public void updateProcessExecutors(Set<ProcessExecutor> processExecutors, int processId) throws BGException {
 		if (history) {
-			Process oldValue = getProcess(processId);
+			Process oldValue = new ProcessDAO(con).getProcess(processId);
 			Process newValue = oldValue.clone();
 			newValue.setProcessExecutors(processExecutors);
 			logProcessChange(newValue, oldValue);
@@ -1835,6 +1836,8 @@ public class ProcessDAO extends CommonDAO {
                 pd.addQuery(SQL_ORDER_BY);
                 pd.addQuery("status_dt DESC");
             }
+
+            pd.addQuery(getIsolationJoin(user));
 
             pd.addQuery(getMySQLLimit(page));
 

@@ -362,19 +362,19 @@ public class ProcessAction extends BaseAction {
                     PrintQueueConfig config = queue.getConfigMap().getConfig(PrintQueueConfig.class);
                     PrintType printType = config.getPrintType(printTypeId);
 
-                    queue.processDataForColumns(connectionSet.getConnection(), list, queue.getColumnConfList(printType.getColumnIds()), false);
+                    queue.processDataForColumns(form, list, queue.getColumnConfList(printType.getColumnIds()), false);
                     EventProcessor.processEvent(new QueuePrintEvent(form, list, queue, printType), "", connectionSet);
                 } else {
                     // TODO: В метод необходимо вынести расшифровку всех справочников.
                     // FIXME: В данный момент это событие обрабатывает модуль отчётов, наверное нужно запретить печать, если этот модуль не установлен.
-                    queue.processDataForMedia(connectionSet.getConnection(), "print", list);
+                    queue.processDataForMedia(form, "print", list);
                     EventProcessor.processEvent(new QueuePrintEvent(form, list, queue, null), "", connectionSet);
                 }
                 return null;
             } else if (Utils.notBlankString(form.getParam("xls"))) {
                 List<Object[]> media = list;
 
-                queue.processDataForMedia(connectionSet.getConnection(), "xls", media);
+                queue.processDataForMedia(form, "xls", media);
 
                 HSSFWorkbook workbook = new HSSFWorkbook();
                 HSSFSheet sheet = workbook.createSheet("BGERP process");
@@ -411,7 +411,7 @@ public class ProcessAction extends BaseAction {
             }
 
             request.setAttribute("columnList", queue.getMediaColumnList("html"));
-            queue.processDataForMedia(connectionSet.getConnection(), "html", list);
+            queue.processDataForMedia(form, "html", list);
             request.setAttribute("queue", queue);
             if (aggregateValues.size() > 0) {
                 form.setResponseData("aggregateValues", aggregateValues);

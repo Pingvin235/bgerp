@@ -1,6 +1,5 @@
 package ru.bgcrm.model.process;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +33,7 @@ import ru.bgcrm.model.process.queue.SortMode;
 import ru.bgcrm.model.process.queue.SortSet;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
@@ -164,11 +164,11 @@ public class Queue {
             return title;
         }
 
-        public Object getValue(Connection con, boolean isHtmlMedia, Object[] rawData) throws SQLException {
+        public Object getValue(DynActionForm form, boolean isHtmlMedia, Object[] rawData) throws SQLException {
             Object data = null;
 
             for (ColumnRef ref : refList) {
-                Object dataAdd = decryptDir(con, (Process[]) rawData[0], isHtmlMedia, ref, rawData[ref.rawDataIndex]);
+                Object dataAdd = decryptDir(form, (Process[]) rawData[0], isHtmlMedia, ref, rawData[ref.rawDataIndex]);
                 if (data instanceof String && (dataAdd == null || dataAdd instanceof String)) {
                     data = (String) data + Utils.maskNull((String) dataAdd);
                 } else {
@@ -214,23 +214,23 @@ public class Queue {
         return result;
     }
 
-    public void processDataForMedia(Connection con, String media, List<Object[]> rawData) throws SQLException {
+    public void processDataForMedia(DynActionForm form, String media, List<Object[]> rawData) throws SQLException {
         List<ColumnConf> mediaColumns = getMediaColumnList(media);
 
         final boolean isHtmlMedia = "html".equals(media);
 
-        processDataForColumns(con, rawData, mediaColumns, isHtmlMedia);
+        processDataForColumns(form, rawData, mediaColumns, isHtmlMedia);
     }
 
     /**
      * Преобразует объект rowData, заменяя "сырые" данные в нём упорядоченными значениями столбцов.
      * 
-     * @param con
+     * @param form
      * @param rawData
      * @param mediaColumns
      * @param isHtmlMedia
      */
-    public void processDataForColumns(Connection con, List<Object[]> rawData, List<ColumnConf> mediaColumns, boolean isHtmlMedia) throws SQLException {
+    public void processDataForColumns(DynActionForm form, List<Object[]> rawData, List<ColumnConf> mediaColumns, boolean isHtmlMedia) throws SQLException {
         final int columnsForMedia = mediaColumns.size();
 
         // размер массива, 0ой элемент занят объектом Process для вывода в HTML
@@ -248,14 +248,14 @@ public class Queue {
                 for (int i = 1; i < size; i++) {
                     ColumnConf info = mediaColumns.get(i - 1);
                     if (info != null) {
-                        mediaData[i] = info.getValue(con, isHtmlMedia, data);
+                        mediaData[i] = info.getValue(form, isHtmlMedia, data);
                     }
                 }
             } else {
                 for (int i = 0; i < size; i++) {
                     ColumnConf info = mediaColumns.get(i);
                     if (info != null) {
-                        mediaData[i] = info.getValue(con, isHtmlMedia, data);
+                        mediaData[i] = info.getValue(form, isHtmlMedia, data);
                     }
                 }
             }
@@ -265,7 +265,7 @@ public class Queue {
     }
 
     // универсальная расшифровка справочных полей для вывода как в HTML так и на печать
-    private static Object decryptDir(Connection con, Process[] processArray, final boolean isHtml, ColumnRef ref, Object obj) throws SQLException {
+    private static Object decryptDir(DynActionForm form, Process[] processArray, final boolean isHtml, ColumnRef ref, Object obj) throws SQLException {
         Object value = null;
 
         String columnType = ref.columnConf.get("value");
@@ -328,7 +328,7 @@ public class Queue {
             boolean stateParam = stateFilter.equals("open");
             Set<Integer> typeParam = typeFilter.equals("*") ? null : Utils.toIntegerSet(typeFilter);
 
-            ProcessLinkDAO dao = new ProcessLinkDAO(con);
+            ProcessLinkDAO dao = new ProcessLinkDAO(form.getConnectionSet().getSlaveConnection(), form.getUser());
             
             if (columnType.startsWith("linkProcessList"))
                 value = dao.getLinkProcessList(process.getId(), linkTypeParam, stateParam, typeParam);

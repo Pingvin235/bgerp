@@ -189,6 +189,8 @@ public class BaseAction extends DispatchAction {
 
 		ActionForward forward = null;
 		ConnectionSet conSet = new ConnectionSet(setup.getConnectionPool(), false);
+
+		form.setConnectionSet(conSet);
 		
 		// обновляется поток отслеживаемого лога
 		SessionLogAppender.trackSession(request.getSession(), false);

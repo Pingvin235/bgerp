@@ -155,6 +155,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         PreparedDelay pd = new PreparedDelay(con);
         pd.addQuery("SELECT process.* FROM " + TABLE_PROCESS + " AS process ");
         pd.addQuery(joinQuery);
+        pd.addQuery(ProcessDAO.getIsolationJoin(user));
         pd.addInt(processId);
 
         pd.addQuery("WHERE 1>0 ");
@@ -427,8 +428,11 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         return result;
     }
     
+    
     /**
-     * Use: {@link Utils#getFirst(Collection)} and {@link #getLinkProcessList(int, String, boolean, Set)}
+     * Использовать: 
+     * Utils.getFirst(getLinkProcessList(Utils.getFirst(linkedProcessList).getId(), Process.LINK_TYPE_DEPEND,
+     *           false, Collections.singleton(linkTypeId)))
      */
     @Deprecated
     public Process getProcessLinkedForSame(int processId, int linkedTypeId, int linkTypeId) throws Exception {

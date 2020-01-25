@@ -33,6 +33,7 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgerp.i18n.Localizer;
 
 /**
@@ -66,6 +67,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 	private HttpServletRequest httpRequest;
 	private HttpServletResponse httpResponse;
 	private OutputStream httpResponseOutputStream;
+
+	/** Набор соединений к БД. */
+	private ConnectionSet connectionSet;
 
 	/** Параметры ответа, сериализуются в JSON. */
 	private Response response = new Response();
@@ -160,6 +164,14 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 		// TODO: Подумать, нужно ли кэширование.
 		return new PrintWriter(
 				new OutputStreamWriter(getHttpResponseOutputStream(), httpResponse.getCharacterEncoding()));
+	}
+
+	public ConnectionSet getConnectionSet() {
+		return connectionSet;
+	}
+
+	public void setConnectionSet(ConnectionSet value) {
+		this.connectionSet = value;
 	}
 
 	public Response getResponse() {

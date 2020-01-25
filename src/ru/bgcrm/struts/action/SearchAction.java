@@ -116,22 +116,20 @@ public class SearchAction extends BaseAction {
     }
 
     public ActionForward processSearch(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDao = new ProcessDAO(con);
+        ProcessDAO processDao = new ProcessDAO(con, form.getUser());
 
         String searchBy = form.getParam("searchBy");
 
         if ("userId".equals(searchBy)) {
             int mode = form.getParamInt("mode");
-            SearchResult<Process> result = new SearchResult<Process>(form);
-            processDao.searchProcessListForUser(result, form.getUserId(), mode);
+
+            processDao.searchProcessListForUser(new SearchResult<Process>(form), form.getUserId(), mode);
 
             return processUserTypedForward(con, mapping, form, "process");
-
         } else if ("id".equals(searchBy)) {
-            SearchResult<Process> result = new SearchResult<Process>(form);
+            SearchResult<Process> result = new SearchResult<>(form);
 
-            Process process = processDao.getProcess(form.getParamInt("id"));
-
+            Process process = processDao.getProcess(form.getId());
             if (process != null) {
                 result.getList().add(process);
                 result.getPage().setRecordCount(1);
@@ -141,7 +139,6 @@ public class SearchAction extends BaseAction {
         }
 
         return mapping.findForward(FORWARD_DEFAULT);
-
     }
 
     @Override
