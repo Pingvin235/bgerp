@@ -101,5 +101,5 @@ button.refreshButton {
 }
 
 button.refreshButton span.ui-icon-refresh {
-	background-image: url('/lib/jquery-ui-1.10.3/ui-start/images/ui-icons_0078ae_256x240.png');
+	background-image: url('/lib/jquery-ui-1.12.1/images/ui-icons_0078ae_256x240.png');
 }
