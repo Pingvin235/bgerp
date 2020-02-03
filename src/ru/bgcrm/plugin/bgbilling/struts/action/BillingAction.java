@@ -4,7 +4,6 @@ import java.sql.Connection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.stream.StreamResult;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -76,7 +75,7 @@ public class BillingAction
 			response.setContentType( "text/xml; charset='" + charset + ";" );
 			response.setHeader( "cache-control", "no-cache, no-store" );
 			
-			XMLUtils.serialize( doc, new StreamResult( response.getOutputStream() ), charset, false );			
+			XMLUtils.serialize( doc, response.getOutputStream(), charset, false );			
 	
 			return null;
 		}

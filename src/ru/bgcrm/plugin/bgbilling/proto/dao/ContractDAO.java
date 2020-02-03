@@ -394,7 +394,7 @@ public class ContractDAO extends BillingDAO {
         setPage(req, page);
 
         Document doc = transferData.postData(req, user);
-        XMLUtils.serialize(doc, System.out, "utf-8");
+        //XMLUtils.serialize(doc, System.out, "utf-8");
         Element contracts = XMLUtils.selectElement(doc, "/data/contracts");
         if (contracts != null) {
             getPage(page, contracts);

@@ -110,7 +110,7 @@ public class SearchAction
 			request.setAttribute( "result", result );
 		}
 
-		return processUserTypedForward( conSet, mapping, form, response, "searchContractResult" );
+		return processUserTypedForward( conSet, mapping, form, "searchContractResult" );
 	}
 
 	public ActionForward commonContractSearch( ActionMapping mapping,

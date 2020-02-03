@@ -4,6 +4,7 @@
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:searchContract" title="Поиск договоров" allowAll="1"/>
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getParamList" title="Поиск договоров(получение параметров)" allowAll="1"/>
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.SearchAction:commonContractSearch" title="Поиск единых договоров"/>
+			<item action="ru.bgcrm.plugin.bgbilling.struts.action.SearchAction:contractSearch" title="Поиск договоров"/>
 		</item>
 		<item title="Контрагент">
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:null;ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contract" title="Карточка договора"/>

@@ -37,7 +37,7 @@ public class LinkAction extends BaseAction {
     public ActionForward addLink(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         CommonObjectLink link = getLink(form);
         if (Utils.isBlankString(link.getObjectType()) || link.getObjectId() == 0 || Utils.isBlankString(link.getLinkedObjectType())
-                || link.getLinkedObjectId() <= 0 || link.getLinkedObjectTitle() == null) {
+                || link.getLinkedObjectTitle() == null) { // link.getLinkedObjectId() <= 0 || Убрана проверка, так как в мастере < 0
             throw new BGIllegalArgumentException();
         }
 

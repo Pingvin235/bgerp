@@ -7,32 +7,36 @@
 <div>
 	<table>
 	<tr>
-		<td>Номер договора:</td>
-		<td>
-			<form action="/user/plugin/bgbilling/search.do">
-			<input type="hidden" name="action" value="contractSearch"/>
-			<input type="hidden" name="searchBy" value="title"/>
-			<input type="hidden" name="forwardFile" value="/WEB-INF/jspf/usermob/plugin/bgbilling/step_find_contract_search_result.jsp"/>
-			<input type="hidden" name="billing" value="${stepData.billingId}"/>
-			<input name="title" type="text" size="20"/>
-		</td>
-		<td>
-			<input type="button" value="Найти" onclick="openUrlTo( formUrl( this.form ), $('#${resultId}') )">
-			</form>
-		</td>
+			<td>Номер договора:</td>
+			<td>
+				<input name="titleSearch" type="text" size="20" id="titleSearch" />
+			</td>
+			<td>
+				<form action="/user/plugin/bgbilling/search.do" >
+					<input type="hidden" name="action" value="contractSearch" />
+					<input type="hidden" name="searchBy" value="title" />
+					<input type="hidden" name="forwardFile"	value="/WEB-INF/jspf/usermob/plugin/bgbilling/step_find_contract_search_result.jsp" />
+					<input type="hidden" name="billing" value="${stepData.billingId}" />
+					
+					<input type="hidden" name="title" id="copyTitleSearch"/>
+					<input type="button" value="Найти" onclick="$('#copyTitleSearch').val($('#titleSearch').val()); openUrlTo( formUrl( this.form ), $('#${resultId}') )">
+				</form>
+			</td>
 	</tr>
 	<tr>
 		<td colspan="2" align="center">
-			<form action="/user/link.do">
-			<input type="hidden" name="action" value="addLink"/>
-			<input type="hidden" name="objectType" value="process"/>
-			<input type="hidden" name="objectId" value="${process.id}"/>
-			<input type="hidden" name="linkedObjectType" value="contract:${stepData.billingId}"/>
-			<input type="hidden" name="linkedObjectTitle" id="linkedObjectTitle"/>
-			<select id="${resultId}" style="width:100%;" onchange=" $('#linkedObjectTitle').val( $('#${resultId} option:selected').text() );"></select>
+				<select id="${resultId}" style="width:100%;" onchange=" $('#linkedObjectTitle').val( $('#${resultId} option:selected').text() ); $('#linkedObjectId').val( $('#${resultId} option:selected').val() );"></select>
 		</td>
 		<td>
-			<input type="button" value="Выбрать" onclick="sendAJAXCommand( this.form ); ${reopenProcessEditorCode}"/>
+			<form action="/user/link.do" >
+					<input type="hidden" name="action" value="addLink"/>
+					<input type="hidden" name="objectType" value="process"/>
+					<input type="hidden" name="id" value="${process.id}"/>
+					<input type="hidden" name="linkedObjectType" value="contract:${stepData.billingId}"/>
+					<input type="hidden" name="linkedObjectTitle" id="linkedObjectTitle"/>
+					<input type="hidden" name="linkedObjectId" id="linkedObjectId"/>
+					
+					<input type="button" value="Выбрать" onclick="sendAJAXCommand( formUrl( this.form ) ); ${reopenProcessEditorCode}"/>
 			</form>
 		</td>
 	</tr>

@@ -20,7 +20,6 @@ import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang.StringUtils;
@@ -137,7 +136,7 @@ public class CommonDocumentGenerator
     					writer.write( "Подготовленные данные:\n" );
     					
     					writer.flush();
-    					XMLUtils.serialize( processResult.getFirst(), new StreamResult(result), null, true );
+    					XMLUtils.serialize( processResult.getFirst(), result, null, true );
     					
     					if (processResult.getSecond() != null) 
     					{
@@ -269,7 +268,7 @@ public class CommonDocumentGenerator
 				for (int objectId : event.getObjectIds())
 				{
 					XMLUtils.serialize( processToDocument( objectId ).getFirst(), 
-					                    new StreamResult(result), null, true );
+					                    result, null, true );
 				}
 			}
 			else if (type == Pattern.TYPE_JSP_HTML)

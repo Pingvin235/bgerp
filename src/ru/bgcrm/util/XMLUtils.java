@@ -2,20 +2,15 @@ package ru.bgcrm.util;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Writer;
 import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
 import org.apache.xpath.XPathAPI;
@@ -27,6 +22,10 @@ import org.w3c.dom.EntityReference;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSOutput;
+import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
 
 public class XMLUtils {
@@ -340,64 +339,17 @@ public class XMLUtils {
 
     // методы сериализации
 
-    /**
-     * Сериализует в выходной поток с указанием кодировки.
-     * @param node
-     * @param os
-     * @param encoding
-     */
-    public static void serialize(Node node, OutputStream os, String encoding) {
-        serialize(node, new StreamResult(os), encoding);
-    }
-
-    /**
-     * Сериалует в Writer. Обычно используется для отладки, так как правильнее использовать сериализацию в OutputStream.
-     * @param node
-     * @param writer
-     */
-    public static void serialize(final Node node, final Writer writer) {
-        serialize(node, new StreamResult(writer), null);
-    }
-
-    /**
-     * Сериализует в Writer. Обычно используется для отладки, так как правильнее использовать сериализацию в OutputStream.
-     * @param node
-     * @param writer
-     */
-    public static void serialize(final Node node, final Writer writer, String encoding) {
-        serialize(node, new StreamResult(writer), encoding);
-    }
-
-    /**
-     * Сериализует в Result, отступ - false.
-     * @param node
-     * @param result
-     * @param encoding
-     */
-    public static void serialize(Node node, Result result, String encoding) {
-        serialize(node, result, encoding, false);
-    }
-
-    public static void serialize(Node node, Result result, String encoding, boolean indent) {
-        try {
-            TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer();
-            if (indent) {
-                transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "yes");
-                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            }
-            if (encoding != null) {
-                transformer.setOutputProperty(javax.xml.transform.OutputKeys.ENCODING, encoding);
-            }
-
-            transformer.transform(new DOMSource(node), result);
-        } catch (FactoryConfigurationError e) {
-            logger.error("Could not locate a factory class", e);
-        } catch (TransformerConfigurationException e) {
-            logger.error("TransformerConfigurationException", e);
-        } catch (TransformerException e) {
-            logger.error("TransformerException", e);
-        }
+    public static void serialize(Node xml, OutputStream result, String encoding, boolean pretty) throws Exception {
+        // https://github.com/AdoptOpenJDK/openjdk-jdk11/blob/master/test/jaxp/javax/xml/jaxp/unittest/common/prettyprint/PrettyPrintTest.java#L362
+        DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance(); 
+        DOMImplementationLS domImplementation = (DOMImplementationLS) registry.getDOMImplementation("LS"); 
+        LSOutput formattedOutput = domImplementation.createLSOutput(); 
+        formattedOutput.setByteStream(result);
+        formattedOutput.setEncoding(encoding);
+        LSSerializer domSerializer = domImplementation.createLSSerializer(); 
+        domSerializer.getDomConfig().setParameter("format-pretty-print", pretty); 
+        domSerializer.getDomConfig().setParameter("xml-declaration", false); 
+        domSerializer.write(xml, formattedOutput); 
     }
 
     /**
