@@ -64,17 +64,15 @@ wget ftp://bgerp.ru/pub/bgerp/3.0/bgerp_3.0_1283.zip -O /tmp/bgerp.zip
 unzip /tmp/bgerp.zip 'db.sql*' -d /tmp
 ----
 
-Измените пароль доступа к БД в *db.sql*, закомментируйте при ошибке строки с установкой переменных для отключения политики паролей:
+Измените пароль доступа к БД в *db.sql*,  при необходимости раскомментируйте и измените строки с установкой переменных политики паролей:
 [snippet, from="--", to="%';"]
-link:../../../build/bgerp/db_create#L7-L11[db.sql]
+link:../../../build/bgerp/db_create.sql#L7-L11[build/bgerp/db_create.sql]
 
 Выполните создание БД, пример:
 [source, bash]
 ----
-mysql --default-character-set=utf8 -uroot < /tmp/db.sql
+mysql --default-character-set=utf8 -uroot -p < /tmp/db.sql
 ----
-
-При доступе к БД с другим логином - паролем, либо если база расположена на другой машине - скорректируйте команду.
 
 Извлеките каталог BGERP из него его в требуемый каталог установки, стандартно */opt*.
 Сделайте файлы исполняемыми, пример:
