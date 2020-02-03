@@ -134,7 +134,7 @@ image::_res/ide_format.png[width='600px']
 . Все новые файлы должны быть корректно форматированы.
 . Ни в коем случае не применять оба символа отступов в одном файле: табуляторы и пробелы. Файл в таком случае становится нечитаемым в некоторых редакторах. 
 При обнаружении подобных случаев - приводить все отступы в файле к рекомендуемому формату.
-. Осторожно совмещать форматирование файлов с внесением <<#workflow, изменений>>, это может существенно усложнить анализ в дальнейшем.
+. Осторожно совмещать форматирование файлов с внесением <<workflow, изменений>>, это может существенно усложнить анализ в дальнейшем.
 
 [[format-java]]
 ==== Java
@@ -142,7 +142,7 @@ image::_res/ide_format.png[width='600px']
 Описано для форматера Eclipse.
 
 Настройки в *Windows - Preferences - Java - Code style - Formatter*. 
-Необходимо открыть стандартный форматтер и сохранить под новым именем, изменив параметры:
+Необходимо открыть стандартный форматер и сохранить под новым именем, изменив параметры:
 [square]
 * *Indentation - Tab policy* - *Spaces only*
 * *Indentation* - *Tab size* - *4*
@@ -167,7 +167,9 @@ image::_res/ide_format.png[width='600px']
 
 *Window - Preferences - General - Editors - Text Editors* установить галочку *Show whitespace characters*
 
-Импортировать <<#format-java, форматер Java>> в *Window - Preferences - Java - Codestyle - Formatter*.
+*Window - Preferences - Team - Git - History* снять галочку *Relative history*
+
+Импортировать <<format-java, форматер Java>> в *Window - Preferences - Java - Codestyle - Formatter*.
 
 === VS Code
 Более быстрая чем Eclipse, лучше поддержка JavaScript, Gradle. 
@@ -188,10 +190,21 @@ image::_res/ide_format.png[width='600px']
 * VM arguments: -Dbgerp.setup.data=bgerp_test
 * Classpath: *User entries - Advanced - Add folders* нажать и добавить каталог текущего проекта.
 
-bgerp_test.propertes файл должен лежать в корне проекта.
-Его можно скопировать из bgerp.properties, он не будет сохранён в GIT. 
+`bgerp_test.propertes` файл должен лежать в корне проекта.
+Его можно скопировать из `bgerp.properties`, он не будет сохранён в GIT. 
 
-Изначальную БД взять по ссылке http://demo.bgerp.ru/bgerp.sql , это результат запуска <<integration-test, интеграционного теста>>. 
+==== Создание БД
+Для создания БД использовать последовательно файлы:
+[square]
+* `db.sql` из пакета установки link:ftp://bgerp.ru/pub/bgerp/3.0[bgerp_3.0_xxxx.zip] - пользователь, база, таблицы;
+* `bgerp.sql` по ссылке http://demo.bgerp.ru/bgerp.sql - данные, результат запуска <<integration-test, интеграционного теста>>.
+
+Под пользователем MySQL *root* выполнить команды:
+[source, bash]
+----
+mysql --default-character-set=utf8 -uroot -p < db.sql
+mysql --default-character-set=utf8 -uroot -p < bgerp.sql
+----
 
 [[devm]]
 === Методика разработки для клиента
