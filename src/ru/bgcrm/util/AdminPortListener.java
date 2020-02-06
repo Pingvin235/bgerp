@@ -107,6 +107,7 @@ public class AdminPortListener implements Runnable {
         StringBuilder status = new StringBuilder(300);
 
         VersionInfo vi = VersionInfo.getVersionInfo("update");
+        VersionInfo viLib = VersionInfo.getVersionInfo("update_lib");
 
         status.append("BGERP v ");
         status.append(vi.getVersion());
@@ -114,6 +115,10 @@ public class AdminPortListener implements Runnable {
         status.append(vi.getBuildNumber());
         status.append(" from ");
         status.append(vi.getBuildTime());
+        status.append("; update_lib build ");
+        status.append(viLib.getBuildNumber());
+        status.append(" from ");
+        status.append(viLib.getBuildTime());
         status.append("\n");
         status.append(uptimeStatus());
         status.append("\n");

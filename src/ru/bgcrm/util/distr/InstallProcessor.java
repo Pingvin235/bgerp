@@ -21,8 +21,9 @@ public class InstallProcessor {
 
     private static Setup setup = Setup.getSetup();
 
-    private static String UPDATE_URL = setup.get("bgerp.update.url", setup.get("bgcrm.update.url", "ftp://ftp.bgerp.ru/pub/bgerp"));
-    private static String TMP_DIR_PATH = Utils.getTmpDir();
+    public static final String UPDATE_TO_CHANGE_URL = "https://bgerp.org/update/";
+    private static final String UPDATE_URL = setup.get("bgerp.update.url", "ftp://ftp.bgerp.ru/pub/bgerp");
+    private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
     private FTPClient ftp;
 

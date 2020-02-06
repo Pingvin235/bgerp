@@ -122,7 +122,7 @@ public class Log {
      * @param level
      * @param message
      */
-    private final void log(Priority level, Object message) {
+    public final void log(Priority level, Object message) {
         logger.log(level, message);
     }
 }

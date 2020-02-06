@@ -1,14 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="lic" value="${form.response.data.lic}"/>
-<c:set var="status" value="${form.response.data.status}"/>
 <c:set var="logged" value="${form.response.data.logged}"/>
 
 <div class="center1020">
-	<h2>Статус сервера</h2>
-	<pre>${status}</pre>	
-	
 	<h2>Авторизовавшиеся пользователи [ ${logged.size()} ]</h2>
 	
 	<table class="data" style="width: 100%;">
@@ -33,6 +28,6 @@
 	</table>
 </div>
 
-<c:set var="title" value="Статус сервера"/>
+<c:set var="title" value="Авторизовавшиеся пользователи"/>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

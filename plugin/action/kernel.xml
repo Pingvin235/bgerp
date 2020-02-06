@@ -19,13 +19,13 @@
 				<item action="ru.bgcrm.struts.action.admin.UserAction:userDelete" title="Удаление пользователя"/>
 				<item action="ru.bgcrm.struts.action.admin.UserAction:userGroupList" title="Просмотр групп пользователя"/>				
 				<item action="ru.bgcrm.struts.action.admin.UserAction:userAddGroup" title="Добавление группы пользователя">
-				    <b>allowOnlyGroups</b> - коды разрешенных к добавлению групп, коды групп через запятую<br/>
+					<b>allowOnlyGroups</b> - коды разрешенных к добавлению групп, коды групп через запятую<br/>
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.UserAction:userRemoveGroup" title="Удаление группы пользователя">
-				    <b>allowOnlyGroups</b> - коды разрешенных к удалению групп, коды групп через запятую<br/>
+					<b>allowOnlyGroups</b> - коды разрешенных к удалению групп, коды групп через запятую<br/>
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.UserAction:userClosePeriodGroup" title="Закрытие периода группы пользователя">
-				    <b>allowOnlyGroups</b> - коды разрешенных к закрытию периода групп, коды групп через запятую<br/>
+					<b>allowOnlyGroups</b> - коды разрешенных к закрытию периода групп, коды групп через запятую<br/>
 				</item>			
 			</item>
 			<item title="Группы">
@@ -44,10 +44,10 @@
 			</item>
 			
 			<item title="Должности">
-			    <item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentList" title="Просмотр должностей" />
-			    <item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentGet" title="Просмотр должности" />
-			    <item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentUpdate" title="Изменения должности" />
-			    <item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentDelete" title="Удаление должности" />
+				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentList" title="Просмотр должностей" />
+				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentGet" title="Просмотр должности" />
+				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentUpdate" title="Изменения должности" />
+				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentDelete" title="Удаление должности" />
 			</item>
 		</item>
 		
@@ -148,36 +148,41 @@
 			<item action="ru.bgcrm.struts.action.admin.WebRequestAction:findRequests" title="поиск WEB запросов" notLogging="1"/>
 		</item>
 		
-		<item action="ru.bgcrm.struts.action.admin.StateAction:null" title="Статус сервера"/>
+		<item title="Приложение">
+			<item action="ru.bgcrm.struts.action.admin.AppAction:status, ru.bgcrm.struts.action.admin.StateAction:null" title="Статус"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:update" title="Обновить"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:updateToChange" title="Обновить на изменение"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList" title="Сессии пользователей"/>
+		</item>
 		
 		<item title="Организация работ">
 			<!-- <item action="ru.bgcrm.struts.action.admin.WorkAction:null" title="Вкладка организация работ"/> -->
 			<item title="Виды работ">
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:workTypeList" title="Просмотр списка видов работ">
-				    <b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+					<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:workTypeGet" title="Просмотр вида работ">
-				    <b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+					<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
 				</item>			
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:workTypeUpdate" title="Добавление видов работ">
-				    <b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+					<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
 				</item>	
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:workTypeDelete" title="Удаление видов работ">
-				    <b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+					<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
 				</item>
 			</item>
 			<item title="Смены">			
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:shiftList" title="Редактор смен">
-				    <b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+					<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:shiftGet" title="Просмотр смен">
-				    <b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+					<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:shiftUpdate" title="Добавление смен">
-				    <b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+					<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:shiftDelete" title="Удаление смен">
-				    <b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+					<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
 				</item>
 			</item>
 			<item title="Календарь рабочих дней">
@@ -188,18 +193,18 @@
 			</item>
 			<item title="График дежурств">			
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardGet" title="Просмотр графика дежурств" >
-				    <b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
-				    <b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
-				    <b>allowOnlyGroups</b> - коды разрешенных групп<br/>
+					<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
+					<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+					<b>allowOnlyGroups</b> - коды разрешенных групп<br/>
 				</item>				
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardAvailableShift" title="Получение доступных шаблонов смен" >
-				    <b>allowOnlyCategories</b> - коды разрешенных категорий<br/>				    
+					<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>				    
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateShift" title="Редактирование графика дежурств" >
-				    <b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
+					<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateShiftTeam" title="Редактирование номера бригады" >
-				    <b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
+					<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateFilters" title="Обновление фильтров графика дежурств" allowAll="1"/>
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardGetTabel" title="Загрузка табеля" >
@@ -207,7 +212,7 @@
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardChangeOrder" title="Сортировка пользователей в пределах группы"/>
 				<!--				
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:setDynamicShiftTime" title="Установка конкретного времени для динамической смены">
-				    <font color="#ff0000"><b>all</b></font> - кому пользователь может назначать время: 1 - всем, 0 - только себе<br/>
+					<font color="#ff0000"><b>all</b></font> - кому пользователь может назначать время: 1 - всем, 0 - только себе<br/>
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.WorkAction:getDynamicShiftTime" title="Получение списка динамических смен" allowAll="1"/>
 				-->
@@ -215,9 +220,9 @@
 			</item>
 			<item title="План работ">			
 				<item action="ru.bgcrm.struts.action.WorkAction:planGet" title="Просмотр плана работ" >
-				    <b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
-				    <b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
-				    <b>allowOnlyGroups</b> - коды разрешенных групп<br/>
+					<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
+					<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+					<b>allowOnlyGroups</b> - коды разрешенных групп<br/>
 				</item>
 				<item action="ru.bgcrm.struts.action.WorkAction:processTimeLock" title="Блокировка времени"/>
 				<item action="ru.bgcrm.struts.action.WorkAction:processTimeUnlock" title="Разблокировка времени"/>
@@ -337,7 +342,7 @@
 		<item title="Сообщения">
 			<item action="ru.bgcrm.struts.action.MessageAction:null" title="Просмотр сообщения"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageList" title="Список сообщений">
-			     <b>allowedTypeIds</b> - id типов сообщений через запятую, разрешённых к просмотру<br/>
+				 <b>allowedTypeIds</b> - id типов сообщений через запятую, разрешённых к просмотру<br/>
 			</item>
 			<item action="ru.bgcrm.struts.action.MessageAction:newMessageLoad" title="Загрузка нового сообщения"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Изменение процесса сообщения"/>
@@ -393,15 +398,15 @@
 		<item action="ru.bgcrm.struts.action.LockAction:free" title="Удаление блокировки" allowAll="1"/>			
 		
 		<item title="Новости">
-		    <item action="ru.bgcrm.struts.action.NewsAction:newsList" title="Просмотр списка новостей" />
-		    <item action="ru.bgcrm.struts.action.NewsAction:newsGet" title="Просмотр тела новости" allowAll="1"/>
-		    <item action="ru.bgcrm.struts.action.NewsAction:newsSetRead" title="Пометка новости прочитанной" />
-		    <item action="ru.bgcrm.struts.action.NewsAction:newsSetAllRead" title="Пометка всех новостей прочитанными" />
-		    <item action="ru.bgcrm.struts.action.NewsAction:newsEdit" title="Открытие новости на правку"/>
-		    <item action="ru.bgcrm.struts.action.NewsAction:newsUpdate, ru.bgcrm.struts.action.NewsAction:newsCreate" title="Изменение новости">
-		    	<b>allowedGroupIds</b> - id групп через запятую, для которых разрешено добавление новостей<br/>
-		    </item>
-		    <item action="ru.bgcrm.struts.action.NewsAction:newsDelete" title="Удаление новости"/>
+			<item action="ru.bgcrm.struts.action.NewsAction:newsList" title="Просмотр списка новостей" />
+			<item action="ru.bgcrm.struts.action.NewsAction:newsGet" title="Просмотр тела новости" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.NewsAction:newsSetRead" title="Пометка новости прочитанной" />
+			<item action="ru.bgcrm.struts.action.NewsAction:newsSetAllRead" title="Пометка всех новостей прочитанными" />
+			<item action="ru.bgcrm.struts.action.NewsAction:newsEdit" title="Открытие новости на правку"/>
+			<item action="ru.bgcrm.struts.action.NewsAction:newsUpdate" title="Изменение новости">
+				<b>allowedGroupIds</b> - id групп через запятую, для которых разрешено добавление новостей<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.NewsAction:newsDelete" title="Удаление новости"/>
 		</item>
 		
 		<item title="Профиль пользователя">
@@ -412,12 +417,12 @@
 		</item>
 		
 		<item title="Логирование">
-		     <item action="ru.bgcrm.struts.action.LogAction:null" title="Состояние"/>
-		     <item action="ru.bgcrm.struts.action.LogAction:log" title="Включение"/>
-             <item action="ru.bgcrm.struts.action.LogAction:download" title="Загрузка лога сессии"/>
-        </item>
-        
-        <!-- Действие не видно в дереве действий. -->
+			 <item action="ru.bgcrm.struts.action.LogAction:null" title="Состояние"/>
+			 <item action="ru.bgcrm.struts.action.LogAction:log" title="Включение"/>
+			 <item action="ru.bgcrm.struts.action.LogAction:download" title="Загрузка лога сессии"/>
+		</item>
+		
+		<!-- Действие не видно в дереве действий. -->
 		<item action="ru.bgcrm.struts.action.LoginAction:null" title="Авторизация" allowAll="1" notLogging="1"/>
 		<item action="ru.bgcrm.struts.action.LoginAction:logout" title="Выход" allowAll="1" notLogging="1"/>
 	</item>

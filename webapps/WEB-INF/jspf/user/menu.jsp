@@ -118,9 +118,18 @@
 			action="ru.bgcrm.struts.action.admin.ConfigAction:list"
 			command="/admin/config.do?action=list" />
 		
-		<ui:menu-item title="Статус сервера" href="state"
-			action="ru.bgcrm.struts.action.admin.StateAction"
-			command="/admin/state.do" />
+		<ui:menu-group title="Приложение">
+			<jsp:attribute name="subitems">
+			
+				<ui:menu-item title="Статус приложения" href="app/status"
+					action="ru.bgcrm.struts.action.admin.AppAction:status"
+					command="/admin/app.do?action=status"/>
+					
+				<ui:menu-item title="Авторизовавашиеся пользователи" href="app/logged"
+					action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList"
+					command="/admin/app.do?action=userLoggedList"/>
+			</jsp:attribute>
+		</ui:menu-group>
 		
 		<c:set var="endpoint" value="user.admin.menu.items.jsp" />
 		<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
