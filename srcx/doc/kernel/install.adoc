@@ -74,6 +74,13 @@ link:../../../build/bgerp/db_create.sql#L7-L11[build/bgerp/db_create.sql]
 mysql --default-character-set=utf8 -uroot -p < /tmp/db.sql
 ----
 
+Опционально можно заполнить БД данными из Демо-системы:
+[source, bash]
+----
+wget http://demo.bgerp.ru/bgerp.sql -O /tmp/bgerp.sql
+mysql --default-character-set=utf8 -uroot -p < /tmp/bgerp.sql
+----
+
 Извлеките каталог BGERP из него его в требуемый каталог установки, стандартно */opt*.
 Сделайте файлы исполняемыми, пример:
 [source, bash]
