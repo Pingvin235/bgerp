@@ -140,6 +140,8 @@ IMPORTANT: Изучите link:https://bgerp.ru#download[лог обновлен
 ./backup.sh && ./installer.sh install update_3.0_xxxx.zip && ./erp_restart.sh
 ----
 
+NOTE: Повторное *Обновление* после *Обновления на изменение* позволит сбросить сервер в состояние последнего официального апдейта.
+
 [[installer]]
 === Консольные утилиты
 [CAUTION]
