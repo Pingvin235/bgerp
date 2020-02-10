@@ -798,6 +798,8 @@ link:../../src/ru/bgcrm/struts/action/ProcessAction.java#L1236-L1238[ru.bgcrm.st
 
 [[sample-jsp-ui]]
 === JSP UI
+Простой справочник с промотчиком страниц, вызов редактора AJAX: link:../../webapps/WEB-INF/jspf/admin/process/status/list.jsp[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
+
 Отправка AJAX для сохранения, выхода, либо восстановления данных в <<kernel/process/index.adoc#type, редакторе свойств типа процесса>>: 
 [snippet, from="<div", to="/div>"]
 link:../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L194-L199[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]

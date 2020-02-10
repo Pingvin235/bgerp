@@ -508,6 +508,6 @@ function openUrlContent( url )
 {
 	console.warn($$.deprecated);
 
-	openUrlTo( url, bgerp.shell.$content());
+	$$.ajax.load(url, $$.shell.$content());
 }
 
