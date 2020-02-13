@@ -227,7 +227,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
 
                     String[] pref = patternDot.split(suffix, 2);
                     try {
-                        new Integer(pref[0]);
+                        Integer.parseInt(pref[0]);
                     } catch (Exception ex) {
                         continue;
                     }
@@ -299,6 +299,11 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         return result;
     }
     
+    /**
+     * Use {@link #subKeyed(String...)}
+     * @param prefix
+     * @return
+     */
     @Deprecated
     public Map<String, Map<String, String>> parseObjectsNoOrder(String prefix) {
         Map<String, Map<String, String>> result = new HashMap<String, Map<String, String>>();

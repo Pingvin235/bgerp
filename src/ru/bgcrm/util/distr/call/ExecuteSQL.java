@@ -145,8 +145,10 @@ public class ExecuteSQL implements InstallationCall {
         Set<String> result = new HashSet<String>();
 
         if (!SQLUtils.tableExists(con, SQL_PATCHES_HISTORY)) {
-            String sql = "CREATE TABLE " + SQL_PATCHES_HISTORY + "( " + " `mid` varchar(20) NOT NULL, "
-                    + " `versions` text, " + " PRIMARY KEY  (`mid`) )";
+            String sql = "CREATE TABLE " + SQL_PATCHES_HISTORY + "( " 
+                + " `mid` varchar(20) NOT NULL, "
+                + " `versions` text, " + 
+                " PRIMARY KEY (`mid`))";
             con.createStatement().executeUpdate(sql);
 
             return result;

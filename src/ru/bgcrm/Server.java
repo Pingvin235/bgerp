@@ -150,7 +150,7 @@ public class Server extends Tomcat {
             log.info("Compile dyn classes result:");
             log.info(result.getLogString());
 
-            for (String className : Utils.toList(setup.get("runOnStart"))) {
+            for (String className : Utils.toSet(setup.get("runOnStart"))) {
                 log.info("Run class on start: " + className);
 
                 try {
