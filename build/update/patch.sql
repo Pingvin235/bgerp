@@ -1,121 +1,113 @@
 -- #BLOCK#;
 DROP PROCEDURE IF EXISTS drop_column_if_exists;
-
-delimiter $$ 
+delimiter $$
 CREATE PROCEDURE drop_column_if_exists(IN tbl CHAR(64), IN col CHAR(64))
 BEGIN
-	SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND column_name='", col, "')");
-    PREPARE stmt FROM @s;   
-    EXECUTE stmt; 
-    DEALLOCATE PREPARE stmt;
-    
-    IF (@cnt > 0) THEN 
-		SET @s = CONCAT("ALTER TABLE ", tbl, " DROP COLUMN ", col);
-        PREPARE stmt FROM @s;   
-		EXECUTE stmt;
-		DEALLOCATE PREPARE stmt;		
-    END IF;
+  SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND column_name='", col, "')");
+  PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  IF (@cnt > 0) THEN
+    SET @s = CONCAT("ALTER TABLE ", tbl, " DROP COLUMN ", col);
+    PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  END IF;
 END$$
 delimiter ;
--- CALL drop_column_if_exists('table', 'column'); 
+-- CALL drop_column_if_exists('table', 'column');
 
 DROP PROCEDURE IF EXISTS add_column_if_not_exists;
-
-delimiter $$ 
+delimiter $$
 CREATE PROCEDURE add_column_if_not_exists(IN tbl CHAR(64), IN col CHAR(64), IN def CHAR(64))
 BEGIN
-	SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND column_name='", col, "')");
-    PREPARE stmt FROM @s;   
-    EXECUTE stmt; 
-    DEALLOCATE PREPARE stmt;
-    
-    IF (@cnt = 0) THEN 
-		SET @s = CONCAT("ALTER TABLE ", tbl, " ADD COLUMN ", col, " ", def);
-        PREPARE stmt FROM @s;   
-		EXECUTE stmt;
-		DEALLOCATE PREPARE stmt;		
-    END IF;
+  SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND column_name='", col, "')");
+  PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  IF (@cnt = 0) THEN
+    SET @s = CONCAT("ALTER TABLE ", tbl, " ADD COLUMN ", col, " ", def);
+    PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  END IF;
 END$$
 delimiter ;
 -- CALL add_column_if_not_exists('table', 'column', ' VARCHAR (100) NOT NULL');
 
 DROP PROCEDURE IF EXISTS drop_key_if_exists;
-delimiter $$ 
+delimiter $$
 CREATE PROCEDURE drop_key_if_exists(IN tbl CHAR(64), IN name CHAR(64))
 BEGIN
-	SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND index_name='", name, "')");
-    PREPARE stmt FROM @s;
-    EXECUTE stmt;
-    DEALLOCATE PREPARE stmt;
-    IF (@cnt > 0) THEN 
-		SET @s = CONCAT("ALTER TABLE ", tbl, 
-			IF(name = 'PRIMARY', " DROP PRIMARY KEY", CONCAT(" DROP KEY ", name)));
-        PREPARE stmt FROM @s;
-		EXECUTE stmt;
-		DEALLOCATE PREPARE stmt;
-    END IF;
+  SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND index_name='", name, "')");
+  PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  IF (@cnt > 0) THEN
+    SET @s = CONCAT("ALTER TABLE ", tbl,
+      IF(name = 'PRIMARY', " DROP PRIMARY KEY", CONCAT(" DROP KEY ", name)));
+    PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  END IF;
 END$$
 delimiter ;
 -- CALL drop_key_if_exists('table', 'key');
 
 DROP PROCEDURE IF EXISTS add_key_if_not_exists_base;
-delimiter $$ 
+delimiter $$
 CREATE PROCEDURE add_key_if_not_exists_base(IN tbl CHAR(64), IN name CHAR(64), IN def CHAR(64), IN command CHAR(64))
 BEGIN
-	SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND index_name='", name, "')");
-    PREPARE stmt FROM @s;
-    EXECUTE stmt;
-    DEALLOCATE PREPARE stmt;
-    IF (@cnt = 0) THEN 
-		IF (LENGTH(command) > 0) THEN
-			SET @s = CONCAT("ALTER TABLE ", tbl, " ", command);
-        ELSE
-			SET @s = CONCAT("ALTER TABLE ", tbl,  " ",
-				IF(name ='PRIMARY', "ADD PRIMARY KEY", CONCAT(" ADD KEY ", name)),
-				" ", def);
-		END IF;
-        PREPARE stmt FROM @s;
-		EXECUTE stmt;
-		DEALLOCATE PREPARE stmt;
+  SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND index_name='", name, "')");
+  PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  IF (@cnt = 0) THEN
+    IF (LENGTH(command) > 0) THEN
+      SET @s = CONCAT("ALTER TABLE ", tbl, " ", command);
+    ELSE
+      SET @s = CONCAT("ALTER TABLE ", tbl,  " ",
+        IF(name ='PRIMARY', "ADD PRIMARY KEY", CONCAT(" ADD KEY ", name)),
+        " ", def);
     END IF;
+    PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  END IF;
 END$$
 delimiter ;
 
 DROP PROCEDURE IF EXISTS add_key_if_not_exists;
-delimiter $$ 
+delimiter $$
 CREATE PROCEDURE add_key_if_not_exists(IN tbl CHAR(64), IN name CHAR(64), IN def CHAR(64))
 BEGIN
-	CALL add_key_if_not_exists_base(tbl, name, def, "");
+  CALL add_key_if_not_exists_base(tbl, name, def, "");
 END$$
 delimiter ;
 -- CALL add_key_if_not_exists('table', 'key', '(col1,col2)');
 
 DROP PROCEDURE IF EXISTS add_unique_key_if_not_exists;
-delimiter $$ 
+delimiter $$
 CREATE PROCEDURE add_unique_key_if_not_exists(IN tbl CHAR(64), IN name CHAR(64), IN def CHAR(64))
 BEGIN
-	CALL add_key_if_not_exists_base(tbl, name, "", CONCAT("ADD UNIQUE KEY ", name, " ", def));
+  CALL add_key_if_not_exists_base(tbl, name, "", CONCAT("ADD UNIQUE KEY ", name, " ", def));
 END$$
 delimiter ;
 -- CALL add_unique_key_if_not_exists('table', 'key', '(col1,col2)');
 
 DROP PROCEDURE IF EXISTS alter_table_if_not_column_exists;
-delimiter $$ 
+delimiter $$
 CREATE PROCEDURE alter_table_if_not_column_exists(IN tbl CHAR(64), IN col CHAR(64), IN def CHAR(64))
 BEGIN
-	SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND column_name='", col, "')");
-    PREPARE stmt FROM @s;
-    EXECUTE stmt;
-    DEALLOCATE PREPARE stmt;
-    IF (@cnt = 0) THEN 
-		SET @s = CONCAT("ALTER TABLE ", tbl, " ", def);
-        PREPARE stmt FROM @s;
-		EXECUTE stmt;
-		DEALLOCATE PREPARE stmt;
-    END IF;
+  SET @s = CONCAT("SET @cnt:=(SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='", tbl, "' AND column_name='", col, "')");
+  PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  IF (@cnt = 0) THEN
+    SET @s = CONCAT("ALTER TABLE ", tbl, " ", def);
+    PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  END IF;
 END$$
 delimiter ;
 -- CALL alter_table_if_not_column_exists ('tt', 'm', 'CHANGE b m INT NOT NULL');
+
+DROP PROCEDURE IF EXISTS rename_table;
+delimiter $$
+CREATE PROCEDURE rename_table(IN name_old CHAR(64), IN name_new CHAR(64))
+BEGIN
+  SET @s = CONCAT("SET @cnt_old:=(SELECT COUNT(*) FROM information_schema.tables WHERE table_name='", name_old, "')");
+  PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  SET @s = CONCAT("SET @cnt_new:=(SELECT COUNT(*) FROM information_schema.tables WHERE table_name='", name_new, "')");
+  PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  IF (@cnt_old = 1 AND @cnt_new = 0) THEN
+    SET @s = CONCAT("RENAME TABLE ", name_old, " TO ", name_new);
+    PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  END IF;
+END$$
+delimiter ;
+-- CALL rename_table ('old_name', 'new_name');
 
 -- #ENDB#;
 
@@ -142,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `address_config` (
   `record_id` int(11) NOT NULL,
   `key` varchar(50) NOT NULL,
   `value` text,
-  PRIMARY KEY (`table_id`,`record_id`,`key`) 
+  PRIMARY KEY (`table_id`,`record_id`,`key`)
 );
 
 CREATE TABLE IF NOT EXISTS `address_country` (
@@ -189,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `analytic_house_capacity` (
   `service_type` varchar(25) NOT NULL,
   `dt` date NOT NULL,
   `value` int(11) NOT NULL,
-  PRIMARY KEY (`house_id`,`service_type`,`dt`) 
+  PRIMARY KEY (`house_id`,`service_type`,`dt`)
 );
 
 CREATE TABLE IF NOT EXISTS `n_config_global` (
@@ -463,7 +455,7 @@ CREATE TABLE IF NOT EXISTS `param_phone` (
   `id` int(11) NOT NULL,
   `param_id` int(11) NOT NULL,
   `value` text NOT NULL,
-  PRIMARY KEY (`id`,`param_id`) 
+  PRIMARY KEY (`id`,`param_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `param_phone_item` (
@@ -844,9 +836,9 @@ CREATE TABLE IF NOT EXISTS `process_common_filter` (
 );
 
 CREATE TABLE IF NOT EXISTS `user_group_permission` (
-	`group_id` INT(10) NOT NULL,
-	`action` VARCHAR(255) NOT NULL,
-	`config` VARCHAR(255) NOT NULL
+  `group_id` INT(10) NOT NULL,
+  `action` VARCHAR(255) NOT NULL,
+  `config` VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `dispatch` (
@@ -858,52 +850,52 @@ CREATE TABLE IF NOT EXISTS `dispatch` (
 );
 
 CREATE TABLE IF NOT EXISTS dispatch_message
-( 
-	id INT NOT NULL auto_increment PRIMARY KEY,
-	dispatch_ids VARCHAR(200) NOT NULL,
-	title VARCHAR(200) NOT NULL,
-	text TEXT NOT NULL,
-	ready TINYINT(1) NOT NULL,
-	create_dt DATETIME NOT NULL,
-	sent_dt DATETIME,
-	KEY create_dt(create_dt)
+(
+  id INT NOT NULL auto_increment PRIMARY KEY,
+  dispatch_ids VARCHAR(200) NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  text TEXT NOT NULL,
+  ready TINYINT(1) NOT NULL,
+  create_dt DATETIME NOT NULL,
+  sent_dt DATETIME,
+  KEY create_dt(create_dt)
 );
 
 CREATE TABLE IF NOT EXISTS dispatch_message_dispatch
-( 
-	message_id INT NOT NULL,
-	dispatch_id INT NOT NULL,
-	UNIQUE KEY message_dispatch(message_id, dispatch_id),
-	CONSTRAINT `fk_dispatch_message_dispatch_message` FOREIGN KEY (message_id) REFERENCES dispatch_message(id)
-		ON UPDATE RESTRICT
-		ON DELETE CASCADE,
-	CONSTRAINT `fk_dispatch_message_dispatch_dispatch` FOREIGN KEY (dispatch_id) REFERENCES dispatch(id)
-		ON UPDATE RESTRICT
-		ON DELETE CASCADE
+(
+  message_id INT NOT NULL,
+  dispatch_id INT NOT NULL,
+  UNIQUE KEY message_dispatch(message_id, dispatch_id),
+  CONSTRAINT `fk_dispatch_message_dispatch_message` FOREIGN KEY (message_id) REFERENCES dispatch_message(id)
+    ON UPDATE RESTRICT
+    ON DELETE CASCADE,
+  CONSTRAINT `fk_dispatch_message_dispatch_dispatch` FOREIGN KEY (dispatch_id) REFERENCES dispatch(id)
+    ON UPDATE RESTRICT
+    ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS dispatch_account_subscription
 (
-	account VARCHAR(100) NOT NULL,
-	dispatch_id INT NOT NULL,
-	KEY account (account),
-	CONSTRAINT `fk_dispatch_account_subscription_dispatch` FOREIGN KEY (dispatch_id) REFERENCES dispatch(id)
-		ON UPDATE RESTRICT
-		ON DELETE CASCADE
+  account VARCHAR(100) NOT NULL,
+  dispatch_id INT NOT NULL,
+  KEY account (account),
+  CONSTRAINT `fk_dispatch_account_subscription_dispatch` FOREIGN KEY (dispatch_id) REFERENCES dispatch(id)
+    ON UPDATE RESTRICT
+    ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `counter` (
-	`id` INT(10) NOT NULL AUTO_INCREMENT,
-	`title` VARCHAR(200) NOT NULL,
-	`value` INT(10) NOT NULL,
-	PRIMARY KEY (`id`)
+  `id` INT(10) NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(200) NOT NULL,
+  `value` INT(10) NOT NULL,
+  PRIMARY KEY (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS customer_cache (
-	customer_id INT NOT NULL,
-	cached INT UNSIGNED ZEROFILL NOT NULL,
-	cached_dt DATETIME NOT NULL,
-	PRIMARY KEY (`customer_id`)
+  customer_id INT NOT NULL,
+  cached INT UNSIGNED ZEROFILL NOT NULL,
+  cached_dt DATETIME NOT NULL,
+  PRIMARY KEY (`customer_id`)
 );
 
 CREATE  TABLE IF NOT EXISTS address_quarter_distribution (
@@ -1045,7 +1037,7 @@ UPDATE queue SET last_modify_dt=NOW() WHERE last_modify_dt='0000-00-00 00:00:00'
 CALL add_column_if_not_exists('queue', 'last_modify_user_id', 'INT NOT NULL');
 
 CALL add_column_if_not_exists('process', 'status_user_id', 'INT NOT NULL AFTER status_dt');
-	
+
 -- RENAME TABLE n_news_user TO news_user;
 -- ALTER  TABLE n_news_user ADD KEY user_id(user_id);
 -- ALTER TABLE n_news_user DROP COLUMN id, DROP PRIMARY KEY;
@@ -1065,7 +1057,7 @@ CALL add_column_if_not_exists('user_group_title', 'parent_id', 'INT NOT NULL');
 CALL add_column_if_not_exists('user_group_title', 'archive', 'TINYINT NOT NULL');
 CALL add_column_if_not_exists('user_group_title', 'child_count', 'INT NOT NULL');
 
-CALL add_column_if_not_exists('user', 'personalization', 'TEXT NOT NULL'); 
+CALL add_column_if_not_exists('user', 'personalization', 'TEXT NOT NULL');
 
 CALL add_column_if_not_exists('n_news', 'read_time', 'INT NOT NULL DEFAULT 24');
 
@@ -1096,7 +1088,7 @@ CALL add_column_if_not_exists('callboard_shift_user', 'shift', 'INT(11) NOT NULL
 ALTER TABLE process_status MODIFY comment VARCHAR(4096);
 CALL add_column_if_not_exists('callboard_work_type', 'non_work_hours', 'BIT NOT NULL AFTER config');
 CALL add_column_if_not_exists('callboard_work_type', 'shortcut', 'INT NOT NULL AFTER non_work_hours');
-								 
+
 CALL add_key_if_not_exists('n_message', 'from', '(`from`)');
 
 ALTER TABLE address_house MODIFY frac VARCHAR(50) NOT NULL;
@@ -1138,10 +1130,10 @@ CALL add_column_if_not_exists('callboard_task', 'time', 'DATETIME NOT NULL AFTER
 CALL add_column_if_not_exists('callboard_task', 'slot_from', 'INT NOT NULL AFTER time');
 CALL add_column_if_not_exists('callboard_task', 'duration', 'INT NOT NULL AFTER slot_from');
 CALL add_column_if_not_exists('callboard_task', 'reference', 'VARCHAR(200) NOT NULL AFTER duration');
-CALL add_key_if_not_exists('callboard_task', 'process_id', '(process_id)');	
+CALL add_key_if_not_exists('callboard_task', 'process_id', '(process_id)');
 CALL add_key_if_not_exists('callboard_task', 'graph', '(graph)');
 CALL add_key_if_not_exists('callboard_task', 'time', '(time)');
-	
+
 ALTER TABLE process_common_filter CHANGE COLUMN `url` `url` VARCHAR(2048) NOT NULL;
 
 CALL add_column_if_not_exists('n_news', 'groups', 'VARCHAR(250) NOT NULL');
@@ -1186,23 +1178,23 @@ CREATE TABLE IF NOT EXISTS iface_state (
 -- ALTER TABLE customer_link ADD UNIQUE KEY customer_object_u (customer_id, object_type, object_id, object_id_ext);
 
 CREATE TABLE IF NOT EXISTS properties (
-    param VARCHAR(100) NOT NULL PRIMARY KEY,
-    value VARCHAR(100) NOT NULL
+  param VARCHAR(100) NOT NULL PRIMARY KEY,
+  value VARCHAR(100) NOT NULL
 );
 
 CALL add_key_if_not_exists('process_link', 'object_title', '(object_title)');
 
 CREATE TABLE IF NOT EXISTS message_tag (
-	message_id INT NOT NULL,
-    tag_id INT NOT NULL,
-    UNIQUE KEY message_tag(message_id, tag_id)
+  message_id INT NOT NULL,
+  tag_id INT NOT NULL,
+  UNIQUE KEY message_tag(message_id, tag_id)
 );
 
-RENAME TABLE n_message TO message;
-RENAME TABLE n_param_list_value TO param_list_value;
-RENAME TABLE n_customer_log TO customer_log;
-RENAME TABLE n_news TO news;
-RENAME TABLE n_config_global TO config_global;
+CALL rename_table('n_message', 'message');
+CALL rename_table('n_param_list_value', 'param_list_value');
+CALL rename_table('n_customer_log', 'customer_log');
+CALL rename_table('n_news', 'news');
+CALL rename_table('n_config_global', 'config_global');
 
 -- при добавлении в дамп не указывать: значения DEFAULT столбцов, если они 0 для чисел и '' для строк, названия движков
 -- использовать процедуры для модификации существующих таблиц add_key_if_not_exists и т.п.
