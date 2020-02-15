@@ -15,8 +15,8 @@
 		<tr>
 			<td>${item.id}</td>
 			<td>${config.getType(item.typeId).title}</td>
-			<td>${u:formatDate(item.scheduledTime, 'ymd')}</td>
-			<td>${u:formatDate(item.executedTime, 'ymd')}</td>
+			<td>${u:formatDate(item.scheduledTime, 'ymdhms')}</td>
+			<td>${u:formatDate(item.executedTime, 'ymdhms')}</td>
 			<td nowrap="nowrap"></td>
 		</tr>
 	</c:forEach>	

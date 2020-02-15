@@ -12,10 +12,13 @@
 [source, options="nowrap"]
 ----
 task:type.<id>.id=<id>
+task:type.<id>.title=<title>
 task:type.<id>.doExpression=<jexl>
 ----
 Где:
 [square]
+* *<id>* - уникальный числовой идентификатор;
+* *<title>* - наименование задачи при отображении;
 * *<jexl>* - <<../../kernel/extension.adoc#jexl, JEXL>> скрипт.
 
 В контекст JEXL скрипта помимо <<../../kernel/extension.adoc#jexl-process-context, типового набора для обработки процесса>> передаются:
