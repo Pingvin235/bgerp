@@ -5,8 +5,8 @@
 <c:if test="${not empty board}">
 	<c:set var="uiid" value="${u:uiid()}"/>	
 
-    <%@ include file="filters.jsp"%>	
-    	
+	<%@ include file="filters.jsp"%>	
+		
 	<table id="${uiid}" class="data" style="width: 100%;">
 		<tr class="head">
 			<c:forEach var="column" items="${board.executors}">
@@ -20,15 +20,18 @@
 	<c:set var="uiidRcMenu" value="${u:uiid()}"/>
 	<ul style="display: none; z-index: 2000;" id="${uiidRcMenu}">
 		<li id="create"><a>${l.l('Новый процесс')}</a></li>
+		<li id="cut"><a>${l.l('Вырезать')}</a></li>
+		<li id="paste" style="display: none;"><a>${l.l('Вставить')}</a></li>
+		<li id="free" style="display: none;"><a>${l.l('Отделить')}</a></li>
 	</ul>
 	
 	<script>
 	$(function () {
 		bgerp.blow.initTable($('#${uiid}'), $('#${uiidRcMenu}'));
 		
-	    $('#content > #blow-board').data('onShow', function () {
-	    	openUrlContent("/user/plugin/blow/board.do?action=show&id=" + ${form.id});
-	    });
+		$('#content > #blow-board').data('onShow', function () {
+			openUrlContent("/user/plugin/blow/board.do?action=show&id=" + ${form.id});
+		});
 	})
 	</script>
 </c:if>
