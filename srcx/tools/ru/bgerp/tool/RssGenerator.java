@@ -29,8 +29,8 @@ public class RssGenerator {
     private final String downloadLink;
 
     private RssGenerator(String version, String fileIn, String fileOut) throws Exception {
-        this.title = "Обновление BGERP v." + version;
-        this.downloadLink = "ftp://bgerp.ru/pub/bgcrm/" + version;
+        this.title = "ChangeLog BGERP v." + version + " CI";
+        this.downloadLink = "ftp://bgerp.org/pub/bgerp/" + version;
 
         System.out.println("Generating RSS for version: " + version);
         
@@ -100,12 +100,12 @@ public class RssGenerator {
             if (description.length() == 0) 
                 description.append("\n");
             
-            if (line.startsWith("A:") || line.startsWith("А:"))
-                description.append("ДОБАВЛЕНО:").append(line.substring(2));
+            if (line.startsWith("A:") || line.startsWith("А:") || line.startsWith("N:"))
+                description.append("NEW:").append(line.substring(2));
             else if (line.startsWith("С:") || line.startsWith("C:"))
-                description.append("ИЗМЕНЕНО:").append(line.substring(2));
+                description.append("CHANGE:").append(line.substring(2));
             else if (line.startsWith("F:"))
-                description.append("ИСПРАВЛЕНО:").append(line.substring(2));
+                description.append("FIX:").append(line.substring(2));
             else
                 description.append(line);
             

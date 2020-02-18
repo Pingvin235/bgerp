@@ -1,5 +1,5 @@
-Дата Номер сборки (генерируются автоматически)
-A - Добавлено, C - Изменено, F - Исправлено
+Time Build (generated automatically)
+N(A) - NEW, C - CHANGE, F - FIX
 
 16.02.2020 13:27:46 1345
 A: Плагин Blow, пункты меню: "Вырезать", "Вставить", "Отделить", https://bgerp.ru/doc/3.0/manual/plugin/blow/index.html#using
