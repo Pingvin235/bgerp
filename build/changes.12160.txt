@@ -1,2 +1,0 @@
-F: Missing xalan-serializer library, SOAP error.
-C: ChangeLog on English.
