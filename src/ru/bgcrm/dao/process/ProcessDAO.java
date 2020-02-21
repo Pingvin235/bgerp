@@ -205,11 +205,11 @@ public class ProcessDAO extends CommonDAO {
 	    if (isolation.getIsolationProcess() != null)
 	        switch (isolation.getIsolationProcess()) {
     	        case EXECUTOR:
-    	            return " INNER JOIN " + TABLE_PROCESS_EXECUTOR + " AS isol_e ON process.id=isol_e.process_id AND isol_e.user_id=" + user.getId();
+    	            return " INNER JOIN " + TABLE_PROCESS_EXECUTOR + " AS isol_e ON process.id=isol_e.process_id AND isol_e.user_id=" + user.getId() + " ";
     	        case GROUP:
     	            return " INNER JOIN " + TABLE_PROCESS_GROUP + " AS isol_pg ON process.id=isol_pg.process_id " 
     	            + "INNER JOIN " + TABLE_USER_GROUP + " AS isol_ur ON isol_ur.group_id=isol_pg.group_id AND isol_ur.user_id=" + user.getId()
-    	            + " AND (isol_ur.date_to IS NULL OR CURDATE()<=isol_ur.date_to)";
+    	            + " AND (isol_ur.date_to IS NULL OR CURDATE()<=isol_ur.date_to) ";
     	        }
 	    return "";
 	}
