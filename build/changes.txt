@@ -1,6 +1,16 @@
 Time Build (generated automatically)
 N(A) - NEW, C - CHANGE, F - FIX
 
+28.02.2020 10:16:03 1347
+N: Plugin Report: enhanced UI, Java classes for data retrieving, https://bgerp.ru/doc/3.0/manual/plugin/report/index.html
+N: Plugin Report: report "Processes", https://bgerp.ru/doc/3.0/manual/plugin/report/index.html
+N: JSP tags "shell:title", "shell:state", "ui:user-link", "ui:page-control" instead of includes.
+C: Rewrite of deprecated code in JS and JSP.
+C: CSS "width: 100%" for table classes "data" and "hdata".
+F: Exception on refresh the table of linked processed.
+C: Increased width of date input fields.
+F: Process isolation SQL query.
+
 18.02.2020 18:35:22 1346
 F: Missing xalan-serializer library, SOAP error.
 C: ChangeLog on English.

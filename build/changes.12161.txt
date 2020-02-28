@@ -1,1 +1,0 @@
-F: Process isolation SQL query.
