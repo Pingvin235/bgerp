@@ -74,6 +74,10 @@ public class Setup extends Preferences {
 	public Connection getDBConnectionFromPool() {
 		return connectionPool.getDBConnectionFromPool();
 	}
+	
+    public Connection getDBSlaveConnectionFromPool() {
+        return connectionPool.getDBSlaveConnectionFromPool();
+    }
 
 	private void reloadConfig(Connection con) {
 		try {

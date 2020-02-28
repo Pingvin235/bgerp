@@ -59,9 +59,7 @@
 									<c:set var="executors"><%--
 									--%>${executors}<%--
 									--%><c:if test="${not empty executors}">, </c:if><%--
-																		
-									--%><c:set var="userId" value="${executor.userId}"/><%--
-									--%><%@ include file="/WEB-INF/jspf/user_link.jsp"%><%--  
+									--%><ui:user-link id="${executor.userId}"/><%--  
 								--%></c:set>
 									<c:set var="currentPresented" value="${currentPresented or executor.userId eq ctxUser.id}"/>
 								</c:if>

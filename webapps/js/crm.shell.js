@@ -184,7 +184,7 @@ bgerp.shell = new function () {
 					
 					$taskButton.click();
 					
-					openUrlTo(item.action + commandId, $commandDiv);
+					$$.ajax.load(item.action + commandId, $commandDiv);
 					
 					$taskButton.find('span.icon-close').click( function () { 
 						// закрытие активной оснастки

@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,9 +43,6 @@ public class CommonDAO {
     protected final static String SQL_DESC = " DESC ";
     protected final static String SQL_REPLACE = " REPLACE INTO ";
     protected final static String SQL_ON_DUP_KEY_UPDATE = " ON DUPLICATE KEY UPDATE ";
-
-    protected DateFormat dateFormat_DDMMYYYY = new SimpleDateFormat("dd.MM.yyyy");
-    protected DateFormat dateFormat_DDMMYYYY_HHMM = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
     protected final Log log = Log.getLog(this.getClass());
     protected Connection con;
@@ -111,8 +106,21 @@ public class CommonDAO {
         }
         pd.close();
     }
-
+    
+    /**
+     * Use {@link #getPageLimit(Page)}.
+     */
+    @Deprecated
     protected String getMySQLLimit(Page page) {
+        return getPageLimit(page);
+    }
+
+    /**
+     * Generates page limits.
+     * @param page
+     * @return
+     */
+    protected String getPageLimit(Page page) {
         StringBuilder sql = new StringBuilder();
         if (page != null && page.getPageSize() > 0) {
             sql.append(" LIMIT ");

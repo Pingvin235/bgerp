@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.DynaBean;
 import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaProperty;
-import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
 
@@ -35,611 +34,644 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgerp.i18n.Localizer;
+import ru.bgerp.util.Log;
 
 /**
  * Сохраняет параметры HTTP запроса и контекст его обработки: пользователь, соединение с БД.
  * В него же устанавливаются данные ответа.
- * 
+ *
  * @author Shamil
  */
 public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
-	public static final String KEY = "form";
+    private static final Log log = Log.getLog();
 
-	private static final String PARAM_RESPONSE = "response";
-	private static final String PARAM_FILE = "file";
-	private static final String PARAM_PAGE = "page";
-	private static final String PARAM_RETURN_URL = "returnUrl";
-	private static final String PARAM_REQUEST_URL = "requestUrl";
-	private static final String PARAM_RESPONSE_TYPE = "responseType";
-	private static final String PARAM_RETURN_CHILD_UIID = "returnChildUiid";
+    public static final String KEY = "form";
 
-	private static final Logger log = Logger.getLogger(DynActionForm.class);
+    private static final String PARAM_RESPONSE = "response";
+    private static final String PARAM_FILE = "file";
+    private static final String PARAM_PAGE = "page";
+    private static final String PARAM_RETURN_URL = "returnUrl";
+    private static final String PARAM_REQUEST_URL = "requestUrl";
+    private static final String PARAM_RESPONSE_TYPE = "responseType";
+    private static final String PARAM_RETURN_CHILD_UIID = "returnChildUiid";
+    private static final String PARAM_FORWARD = "forward";
+    private static final String PARAM_FORWARD_FILE = "forwardFile";
 
-	public static final String RESPONSE_TYPE_HTML = "html";
-	public static final String RESPONSE_TYPE_JSON = "json";
-	public static final String RESPONSE_TYPE_STREAM = "stream";
+    public static final String RESPONSE_TYPE_HTML = "html";
+    public static final String RESPONSE_TYPE_JSON = "json";
+    public static final String RESPONSE_TYPE_STREAM = "stream";
 
-	public static DynActionForm SERVER_FORM = new DynActionForm();
-	static {
-		SERVER_FORM.setUser(User.USER_SYSTEM);
-	}
+    public static DynActionForm SERVER_FORM = new DynActionForm();
+    static {
+        SERVER_FORM.setUser(User.USER_SYSTEM);
+    }
 
-	private HttpServletRequest httpRequest;
-	private HttpServletResponse httpResponse;
-	private OutputStream httpResponseOutputStream;
+    private HttpServletRequest httpRequest;
+    private HttpServletResponse httpResponse;
+    private OutputStream httpResponseOutputStream;
 
-	/** Набор соединений к БД. */
-	private ConnectionSet connectionSet;
+    /** Набор соединений к БД. */
+    private ConnectionSet connectionSet;
 
-	/** Параметры ответа, сериализуются в JSON. */
-	private Response response = new Response();
+    /** Параметры ответа, сериализуются в JSON. */
+    private Response response = new Response();
 
-	private User user;
-	private ParameterMap permission;
-	private Page page = new Page();
-	private FormFile file;
+    private User user;
+    private ParameterMap permission;
+    private Page page = new Page();
+    private FormFile file;
 
-	/** Параметры запроса. */
-	private ArrayHashMap param = new ArrayHashMap();
-	
-	public Localizer l;
+    /** Параметры запроса. */
+    private ArrayHashMap param = new ArrayHashMap();
 
-	public DynActionForm() {}
+    public Localizer l;
 
-	//FIXME: Возможно, следует оптимизировать.
-	public DynActionForm(String url) {
-		String params[] = url.split("\\?")[1].split("&");
+    public DynActionForm() {}
 
-		HashMap<String, ArrayList<String>> paramsForForm = new HashMap<String, ArrayList<String>>();
-		for (String param : params) {
-			if (param.split("=").length < 2) {
-				continue;
-			}
+    //FIXME: Возможно, следует оптимизировать.
+    public DynActionForm(String url) {
+        String params[] = url.split("\\?")[1].split("&");
 
-			try {
-				String key = URLDecoder.decode(param.split("=")[0], Utils.UTF8.name());
-				String value = URLDecoder.decode(param.split("=")[1], Utils.UTF8.name());
+        HashMap<String, ArrayList<String>> paramsForForm = new HashMap<String, ArrayList<String>>();
+        for (String param : params) {
+            if (param.split("=").length < 2) {
+                continue;
+            }
 
-				if (paramsForForm.get(key) == null) {
-					ArrayList<String> arrayValues = new ArrayList<String>();
-					arrayValues.add(value);
-					paramsForForm.put(key, arrayValues);
-				} else {
-					paramsForForm.get(key).add(value);
-				}
-			} catch (Exception e) {
-				log.error(e.getMessage(), e);
-			}
-		}
+            try {
+                String key = URLDecoder.decode(param.split("=")[0], Utils.UTF8.name());
+                String value = URLDecoder.decode(param.split("=")[1], Utils.UTF8.name());
 
-		HashMap<String, String[]> paramsForFormAsArray = new HashMap<String, String[]>();
-		for (String key : paramsForForm.keySet()) {
-			String[] paramsArray = new String[paramsForForm.get(key).size()];
-			paramsArray = paramsForForm.get(key).toArray(paramsArray);
-			paramsForFormAsArray.put(key, paramsArray);
-		}
+                if (paramsForForm.get(key) == null) {
+                    ArrayList<String> arrayValues = new ArrayList<String>();
+                    arrayValues.add(value);
+                    paramsForForm.put(key, arrayValues);
+                } else {
+                    paramsForForm.get(key).add(value);
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
+        }
 
-		ArrayHashMap ahm = new ArrayHashMap();
-		ahm.putAll(paramsForFormAsArray);
+        HashMap<String, String[]> paramsForFormAsArray = new HashMap<String, String[]>();
+        for (String key : paramsForForm.keySet()) {
+            String[] paramsArray = new String[paramsForForm.get(key).size()];
+            paramsArray = paramsForForm.get(key).toArray(paramsArray);
+            paramsForFormAsArray.put(key, paramsArray);
+        }
 
-		this.param = ahm;
-	}
+        ArrayHashMap ahm = new ArrayHashMap();
+        ahm.putAll(paramsForFormAsArray);
 
-	public DynActionForm(User user) {
-		this.user = user;
-	}
+        this.param = ahm;
+    }
 
-	public HttpServletRequest getHttpRequest() {
-		return httpRequest;
-	}
-	
-	public String getHttpRequestRemoteAddr() {
-		String headerNameRemoteAddress = Setup.getSetup().get(AccessLogValve.PARAM_HEADER_NAME_REMOTE_ADDR);
-		String result = httpRequest.getHeader(headerNameRemoteAddress);
-		if (result == null)
-			result = httpRequest.getRemoteAddr();
-		return result;
-	}
+    public DynActionForm(User user) {
+        this.user = user;
+    }
 
-	public void setHttpRequest(HttpServletRequest httpRequest) {
-		this.httpRequest = httpRequest;
-	}
+    public HttpServletRequest getHttpRequest() {
+        return httpRequest;
+    }
 
-	public HttpServletResponse getHttpResponse() {
-		return httpResponse;
-	}
+    public String getHttpRequestRemoteAddr() {
+        String headerNameRemoteAddress = Setup.getSetup().get(AccessLogValve.PARAM_HEADER_NAME_REMOTE_ADDR);
+        String result = httpRequest.getHeader(headerNameRemoteAddress);
+        if (result == null)
+            result = httpRequest.getRemoteAddr();
+        return result;
+    }
 
-	public void setHttpResponse(HttpServletResponse httpResponse) {
-		this.httpResponse = httpResponse;
-	}
+    public void setHttpRequest(HttpServletRequest httpRequest) {
+        this.httpRequest = httpRequest;
+    }
 
-	public OutputStream getHttpResponseOutputStream() throws IOException {
-		if (httpResponseOutputStream == null)
-			httpResponseOutputStream = httpResponse.getOutputStream();
+    public HttpServletResponse getHttpResponse() {
+        return httpResponse;
+    }
 
-		return httpResponseOutputStream;
-	}
+    public void setHttpResponse(HttpServletResponse httpResponse) {
+        this.httpResponse = httpResponse;
+    }
 
-	public PrintWriter getHttpResponseWriter() throws IOException {
-		// TODO: Подумать, нужно ли кэширование.
-		return new PrintWriter(
-				new OutputStreamWriter(getHttpResponseOutputStream(), httpResponse.getCharacterEncoding()));
-	}
+    public OutputStream getHttpResponseOutputStream() throws IOException {
+        if (httpResponseOutputStream == null)
+            httpResponseOutputStream = httpResponse.getOutputStream();
 
-	public ConnectionSet getConnectionSet() {
-		return connectionSet;
-	}
+        return httpResponseOutputStream;
+    }
 
-	public void setConnectionSet(ConnectionSet value) {
-		this.connectionSet = value;
-	}
+    public PrintWriter getHttpResponseWriter() throws IOException {
+        // TODO: Подумать, нужно ли кэширование.
+        return new PrintWriter(
+                new OutputStreamWriter(getHttpResponseOutputStream(), httpResponse.getCharacterEncoding()));
+    }
 
-	public Response getResponse() {
-		return response;
-	}
+    public ConnectionSet getConnectionSet() {
+        return connectionSet;
+    }
 
-	public void setResponseData(String key, Object value) {
-		response.setData(key, value);
-	}
+    public void setConnectionSet(ConnectionSet value) {
+        this.connectionSet = value;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public Response getResponse() {
+        return response;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setResponseData(String key, Object value) {
+        response.setData(key, value);
+    }
 
-	public int getUserId() {
-		return user != null ? user.getId() : -1;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public ParameterMap getPermission() {
-		return permission;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public void setPermission(ParameterMap permission) {
-		this.permission = permission;
-	}
+    public int getUserId() {
+        return user != null ? user.getId() : -1;
+    }
 
-	public Page getPage() {
-		return page;
-	}
+    public ParameterMap getPermission() {
+        return permission;
+    }
 
-	public FormFile getFile() {
-		return file;
-	}
+    public void setPermission(ParameterMap permission) {
+        this.permission = permission;
+    }
 
-	public void setFile(FormFile file) {
-		this.file = file;
-	}
+    public Page getPage() {
+        return page;
+    }
 
-	/**
-	 * Возвращает доступ к мапу параметров, для получения в JSP.
-	 * @return
-	 */
-	public ArrayHashMap getParam() {
-		return param;
-	}
+    public FormFile getFile() {
+        return file;
+    }
 
-	public void setParam(ArrayHashMap param) {
-		this.param = param;
-	}
+    public void setFile(FormFile file) {
+        this.file = file;
+    }
 
-	/**
-	 * Возвращает параметр запроса action.
-	 * @return
-	 */
-	public String getAction() {
-		return getParam("action");
-	}
+    /**
+     * Возвращает доступ к мапу параметров, для получения в JSP.
+     * @return
+     */
+    public ArrayHashMap getParam() {
+        return param;
+    }
 
-	/**
-	 * Возвращает параметр запроса id.
-	 * @return
-	 */
-	public int getId() {
-		return Utils.parseInt(getParam("id"));
-	}
+    public void setParam(ArrayHashMap param) {
+        this.param = param;
+    }
 
-	/**
-	 * Возвращает параметр запроса responseType.
-	 * @return
-	 */
-	public String getResponseType() {
-		return getParam(PARAM_RESPONSE_TYPE);
-	}
+    /**
+     * Возвращает параметр запроса action.
+     * @return
+     */
+    public String getAction() {
+        return getParam("action");
+    }
 
-	/**
-	 * Устанавливает параметр запроса responseType.
-	 * @param responseType
-	 */
-	public void setResponseType(String responseType) {
-		setParam(PARAM_RESPONSE_TYPE, responseType);
-	}
+    /**
+     * Возвращает параметр запроса id.
+     * @return
+     */
+    public int getId() {
+        return Utils.parseInt(getParam("id"));
+    }
 
-	/**
-	 * Возвращает параметр запроса forward.
-	 * @return
-	 */
-	public String getForward() {
-		return getParam("forward");
-	}
+    /**
+     * Возвращает параметр запроса responseType.
+     * @return
+     */
+    public String getResponseType() {
+        return getParam(PARAM_RESPONSE_TYPE);
+    }
 
-	/**
+    /**
+     * Устанавливает параметр запроса responseType.
+     * @param responseType
+     */
+    public void setResponseType(String responseType) {
+        setParam(PARAM_RESPONSE_TYPE, responseType);
+    }
+
+    /**
+     * Возвращает параметр запроса forward.
+     * @return
+     */
+    public String getForward() {
+        return getParam(PARAM_FORWARD);
+    }
+
+    public void setForward(String value) {
+        setParam(PARAM_FORWARD, value);
+    }
+
+    /**
      * Возвращает параметр запроса forwardFile.
      * @return
      */
-	public String getForwardFile() {
-		return getParam("forwardFile");
-	}
+    public String getForwardFile() {
+        return getParam(PARAM_FORWARD_FILE);
+    }
 
-	/**
+    public void setForwardFile(String value) {
+        setParam(PARAM_FORWARD_FILE, value);
+    }
+
+    /**
      * Возвращает параметр запроса requestUrl.
      * @return
      */
-	public String getRequestUrl() {
-		return getParam(PARAM_REQUEST_URL);
-	}
+    public String getRequestUrl() {
+        return getParam(PARAM_REQUEST_URL);
+    }
 
-	public void setRequestUrl(String requestUrl) {
-		setParam(PARAM_REQUEST_URL, requestUrl);
-	}
+    public void setRequestUrl(String requestUrl) {
+        setParam(PARAM_REQUEST_URL, requestUrl);
+    }
 
-	/**
-	 * Возвращает URL, который нужно загрузить для возвращения из редактора.
-	 * @return
-	 */
-	public String getReturnUrl() {
-		return getParam(PARAM_RETURN_URL);
-	}
-
-	public void setReturnUrl(String returnUrl) {
-		setParam(PARAM_RETURN_URL, returnUrl);
-	}
-
-	/**
-	 * Возвращает id HTML элемента на который нужно загрузить returnUrl для возвращения из редактора.
-	 * @return
-	 */
-	public String getReturnUiid() {
-		return getParam("returnUiid");
-	}
-
-	/**
-	 * Возвращает id HTML элемента на предка которого нужно загрузить returnUrl для возвращения из редактора.
-	 * @return
-	 */
-	public String getReturnChildUiid() {
-		return getParam(PARAM_RETURN_CHILD_UIID);
-	}
-
-	public void setReturnChildUiid(String value) {
-		setParam(PARAM_RETURN_CHILD_UIID, value);
-	}
-
-	/**
-	 * Возвращает параметр запроса returnScript.
-	 * @return
-	 */
-	public String getReturnScript() {
-		return getParam("returnScript");
-	}
-
-	/**
-	 * Возвращает параметр запроса pageableId либо склеенный URL запроса + action.
-	 * @return
-	 */
-	public String getPageableId() {
-		String result = getParam(Page.PAGEABLE_ID);
-		if (Utils.isBlankString(result)) {
-			result = httpRequest.getRequestURI() + "?" + getAction();
-		}
-		return result;
-	}
-	
-	/**
-     * Возвращает параметр запроса areaId либо склеенный URL запроса + action.
+    /**
+     * Возвращает URL, который нужно загрузить для возвращения из редактора.
      * @return
      */
-	public String getAreaId() {
-	    String result = getParam("areaId");
+    public String getReturnUrl() {
+        return getParam(PARAM_RETURN_URL);
+    }
+
+    public void setReturnUrl(String returnUrl) {
+        setParam(PARAM_RETURN_URL, returnUrl);
+    }
+
+    /**
+     * Возвращает id HTML элемента на который нужно загрузить returnUrl для возвращения из редактора.
+     * @return
+     */
+    public String getReturnUiid() {
+        return getParam("returnUiid");
+    }
+
+    /**
+     * Возвращает id HTML элемента на предка которого нужно загрузить returnUrl для возвращения из редактора.
+     * @return
+     */
+    public String getReturnChildUiid() {
+        return getParam(PARAM_RETURN_CHILD_UIID);
+    }
+
+    public void setReturnChildUiid(String value) {
+        setParam(PARAM_RETURN_CHILD_UIID, value);
+    }
+
+    /**
+     * Возвращает параметр запроса returnScript.
+     * @return
+     */
+    public String getReturnScript() {
+        return getParam("returnScript");
+    }
+
+    /**
+     * Возвращает параметр запроса pageableId либо склеенный URL запроса + action.
+     * @return
+     */
+    public String getPageableId() {
+        String result = getParam(Page.PAGEABLE_ID);
         if (Utils.isBlankString(result)) {
             result = httpRequest.getRequestURI() + "?" + getAction();
         }
         return result;
-	}
+    }
 
-	/**
-	 * Возвращает значение - строку одиночного параметра.
-	 * @param name
-	 * @return
-	 */
-	public String getParam(String name) {
-		return param.get(name);
-	}
+    /**
+     * Возвращает параметр запроса areaId либо склеенный URL запроса + action.
+     * @return
+     */
+    public String getAreaId() {
+        String result = getParam("areaId");
+        if (Utils.isBlankString(result)) {
+            result = httpRequest.getRequestURI() + "?" + getAction();
+        }
+        return result;
+    }
 
-	public Date getParamDate(String name, Date defaultValue) {
-		Date date = TimeUtils.parse(getParam(name), TimeUtils.FORMAT_TYPE_YMD);
-		return date != null ? date : defaultValue;
-	}
+    /**
+     * Gets HTTP request parameter.
+     * @param name parameter name.
+     * @param defaultValue default value if not presented in request.
+     * @param defaultSet  set default value back in request for using in JSP.
+     * @return
+     */
+    public String getParam(String name, String defaultValue, boolean defaultSet) {
+        String value = param.get(name);
+        if (value != null)
+            return value;
+        if (defaultSet)
+            setParam(name, defaultValue);
+        return defaultValue;
+    }
 
-	public Date getParamDate(String name) {
-		return TimeUtils.parse(getParam(name), TimeUtils.FORMAT_TYPE_YMD);
-	}
+    public String getParam(String name, String defaultValue) {
+        return getParam(name, defaultValue, false);
+    }
 
-	public Date getParamDateTime(String name, Date defaultValue) {
-		Date date = TimeUtils.parse(getParam(name), TimeUtils.FORMAT_TYPE_YMDHMS);
-		return date != null ? date : defaultValue;
-	}
+    public String getParam(String name) {
+        return getParam(name, null);
+    }
 
-	public Date getParamDateTime(String name) {
-		return TimeUtils.parse(getParam(name), TimeUtils.FORMAT_TYPE_YMDHMS);
-	}
+    public void setParam(String name, String value) {
+        param.put(name, value);
+    }
 
-	public int getParamInt(String name, int defaultValue) {
-		return Utils.parseInt(param.get(name), defaultValue);
-	}
+    /**
+     * Gets HTTP request parameter with type date, format {@link TimeUtils#FORMAT_TYPE_YMD}.
+     * @param name parameter name.
+     * @param defaultValue default value if not presented in request.
+     * @param defaultSet set default value back in request for using in JSP.
+     * @return
+     */
+    public Date getParamDate(String name, Date defaultValue, boolean defaultSet) {
+        Date value = TimeUtils.parse(getParam(name), TimeUtils.FORMAT_TYPE_YMD);
+        if (value != null)
+            return value;
+        if (defaultSet)
+            setParam(name, TimeUtils.format(defaultValue, TimeUtils.FORMAT_TYPE_YMD));
+        return defaultValue;
+    }
 
-	public int getParamInt(String name) {
-		return Utils.parseInt(param.get(name));
-	}
+    public Date getParamDate(String name, Date defaultValue) {
+        return getParamDate(name, defaultValue, false);
+    }
 
-	public long getParamLong(String name, long defaultValue) {
-		String value = param.get(name);
+    public Date getParamDate(String name) {
+        return getParamDate(name, null);
+    }
 
-		if (Utils.isBlankString(value)) {
-			return defaultValue;
-		}
+    public Date getParamDateTime(String name, Date defaultValue) {
+        Date value = TimeUtils.parse(getParam(name), TimeUtils.FORMAT_TYPE_YMDHMS);
+        return value != null ? value : defaultValue;
+    }
 
-		return Long.parseLong(value);
-	}
+    public Date getParamDateTime(String name) {
+        return getParamDateTime(name, null);
+    }
 
-	public long getParamLong(String name) {
-		return getParamLong(name, 0);
-	}
+    public int getParamInt(String name, int defaultValue) {
+        return Utils.parseInt(param.get(name), defaultValue);
+    }
 
-	public Boolean getParamBoolean(String name, Boolean defaultValue) {
-		return Utils.parseBoolean(getParam(name), defaultValue);
-	}
-	
-	public boolean getParamBoolean(String name) {
+    public int getParamInt(String name) {
+        return Utils.parseInt(param.get(name));
+    }
+
+    public long getParamLong(String name, long defaultValue) {
+        String value = param.get(name);
+
+        if (Utils.isBlankString(value)) {
+            return defaultValue;
+        }
+
+        return Long.parseLong(value);
+    }
+
+    public long getParamLong(String name) {
+        return getParamLong(name, 0);
+    }
+
+    public Boolean getParamBoolean(String name, Boolean defaultValue) {
+        return Utils.parseBoolean(getParam(name), defaultValue);
+    }
+
+    public boolean getParamBoolean(String name) {
         return Utils.parseBoolean(getParam(name), false);
     }
 
-	public void setParam(String name, String value) {
-		param.put(name, value);
-	}
+    /**
+     * Возвращает значения параметров HTTP запроса.
+     * @param name имя параметра.
+     * @return null, если параметр не установлен.
+     */
+    public String[] getParamArray(String name) {
+        return param.getArray(name);
+    }
 
-	public String getParam(String name, String defaultValue) {
-		String result = getParam(name);
-		if (result == null) {
-			result = defaultValue;
-		}
-		return result;
-	}
+    /**
+     * Устанавливает значения параметров HTTP запроса.
+     * @param name имя параметра.
+     * @param values значения.
+     */
+    public void setParamArray(String name, String[] values) {
+        param.put(name, values);
+    }
 
-	/**
-	 * Возвращает значения параметров HTTP запроса. 
-	 * @param name имя параметра.
-	 * @return null, если параметр не установлен.
-	 */
-	public String[] getParamArray(String name) {
-		return param.getArray(name);
-	}
+    public void setParamArray(String name, Collection<?> values) {
+        List<String> result = new ArrayList<String>(values.size());
+        for (Object value : values) {
+            result.add(String.valueOf(value));
+        }
+        param.putArray(name, result.toArray(Utils.STRING_ARRAY));
+    }
 
-	/**
-	 * Устанавливает значения параметров HTTP запроса.
-	 * @param name имя параметра.
-	 * @param values значения.
-	 */
-	public void setParamArray(String name, String[] values) {
-		param.put(name, values);
-	}
+    @Override
+    public Object get(String name) {
+        if (dynaClass.getDynaProperty(name).getType() == String.class) {
+            return getParam(name);
+        } else if (PARAM_PAGE.equals(name)) {
+            return page;
+        } else if (PARAM_FILE.equals(name)) {
+            return file;
+        } else if (PARAM_RESPONSE.equals(name)) {
+            return response;
+        } else {
+            return getParam(name);
+        }
+    }
 
-	public void setParamArray(String name, Collection<?> values) {
-		List<String> result = new ArrayList<String>(values.size());
-		for (Object value : values) {
-			result.add(String.valueOf(value));
-		}
-		param.putArray(name, result.toArray(Utils.STRING_ARRAY));
-	}
+    @Override
+    public void set(String name, Object value) {
+        Class<?> type = dynaClass.getDynaProperty(name).getType();
+        if (type == String.class) {
+            setParam(name, (String) value);
+        } else if (type == FormFile.class) {
+            file = (FormFile) value;
+        } else {
+            param.put(name, (String[]) value);
+        }
+    }
 
-	@Override
-	public Object get(String name) {
-		if (dynaClass.getDynaProperty(name).getType() == String.class) {
-			return getParam(name);
-		} else if (PARAM_PAGE.equals(name)) {
-			return page;
-		} else if (PARAM_FILE.equals(name)) {
-			return file;
-		} else if (PARAM_RESPONSE.equals(name)) {
-			return response;
-		} else {
-			return getParam(name);
-		}
-	}
+    /**
+     * Возвращает набор выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>",
+     * выбираются только целочисленные значения.
+     *
+     * @return
+     */
+    public Set<Integer> getSelectedValues(String name) {
+        Set<Integer> result = new HashSet<Integer>();
 
-	@Override
-	public void set(String name, Object value) {
-		Class<?> type = dynaClass.getDynaProperty(name).getType();
-		if (type == String.class) {
-			setParam(name, (String) value);
-		} else if (type == FormFile.class) {
-			file = (FormFile) value;
-		} else {
-			param.put(name, (String[]) value);
-		}
-	}
+        String[] array = param.getArray(name);
+        if (array != null) {
+            for (String value : array) {
+                try {
+                    result.add(Integer.parseInt(value.trim()));
+                } catch (Exception e) {
+                }
+            }
+        }
 
-	/**
-	 * Возвращает набор выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>",
-	 * выбираются только целочисленные значения.
-	 * 
-	 * @return
-	 */
-	public Set<Integer> getSelectedValues(String name) {
-		Set<Integer> result = new HashSet<Integer>();
+        return result;
+    }
 
-		String[] array = param.getArray(name);
-		if (array != null) {
-			for (String value : array) {
-				try {
-					result.add(Integer.parseInt(value.trim()));
-				} catch (Exception e) {
-				}
-			}
-		}
+    /**
+     * Возвращает набор выбранных строковых значений, переданных в форме несколько значений как param(<name>)="<value>",
+     * @return
+     */
+    public Set<String> getSelectedValuesStr(String name) {
+        Set<String> result = new LinkedHashSet<String>();
 
-		return result;
-	}
+        final String[] array = param.getArray(name);
+        if (array != null) {
+            for (String value : array) {
+                result.add(value);
+            }
+        }
 
-	/**
-	 * Возвращает набор выбранных строковых значений, переданных в форме несколько значений как param(<name>)="<value>",
-	 * @return
-	 */
-	public Set<String> getSelectedValuesStr(String name) {
-		Set<String> result = new LinkedHashSet<String>();
+        return result;
+    }
 
-		final String[] array = param.getArray(name);
-		if (array != null) {
-			for (String value : array) {
-				result.add(value);
-			}
-		}
+    /**
+     * Возвращает список выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>".
+     * @return
+     */
+    public List<String> getSelectedValuesListStr(String name) {
+        return getSelectedValuesListStr(name, null);
+    }
 
-		return result;
-	}
+    /**
+     * Возвращает список выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>",
+     * из списка исключаются значения равные exclude, если != null.
+     * @return
+     */
+    public List<String> getSelectedValuesListStr(String name, String exclude) {
+        List<String> result = new ArrayList<String>();
 
-	/**
-	 * Возвращает список выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>".
-	 * @return
-	 */
-	public List<String> getSelectedValuesListStr(String name) {
-		return getSelectedValuesListStr(name, null);
-	}
+        String[] array = param.getArray(name);
+        if (array != null) {
+            for (String value : array) {
+                if (exclude == null || !exclude.equals(value)) {
+                    result.add(value);
+                }
+            }
+        }
 
-	/**
-	 * Возвращает список выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>",
-	 * из списка исключаются значения равные exclude, если != null.
-	 * @return
-	 */
-	public List<String> getSelectedValuesListStr(String name, String exclude) {
-		List<String> result = new ArrayList<String>();
+        return result;
+    }
 
-		String[] array = param.getArray(name);
-		if (array != null) {
-			for (String value : array) {
-				if (exclude == null || !exclude.equals(value)) {
-					result.add(value);
-				}
-			}
-		}
+    /**
+     * Возвращает набор выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>",
+     * выбираются только ненулевые значения.
+     *
+     * @return
+     */
+    public List<Integer> getSelectedValuesList(String name) {
+        List<Integer> result = new ArrayList<Integer>();
 
-		return result;
-	}
+        String[] array = param.getArray(name);
+        if (array != null) {
+            for (String value : array) {
+                int valInt = Utils.parseInt(value);
+                if (valInt == 0) {
+                    continue;
+                }
+                result.add(valInt);
+            }
+        }
 
-	/**
-	 * Возвращает набор выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>",
-	 * выбираются только ненулевые значения.
-	 * 
-	 * @return
-	 */
-	public List<Integer> getSelectedValuesList(String name) {
-		List<Integer> result = new ArrayList<Integer>();
+        return result;
+    }
 
-		String[] array = param.getArray(name);
-		if (array != null) {
-			for (String value : array) {
-				int valInt = Utils.parseInt(value);
-				if (valInt == 0) {
-					continue;
-				}
-				result.add(valInt);
-			}
-		}
+    // /////////////////////////////////////////////
+    // добавлены из-за интерфейса DynBean
+    // /////////////////////////////////////////////
+    @Override
+    public boolean contains(String name, String key) {
+        throw new UnsupportedOperationException();
+    }
 
-		return result;
-	}
+    @Override
+    public Object get(String name, int index) {
+        throw new UnsupportedOperationException();
+    }
 
-	// /////////////////////////////////////////////
-	// добавлены из-за интерфейса DynBean
-	// /////////////////////////////////////////////
-	@Override
-	public boolean contains(String name, String key) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public Object get(String name, String key) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public Object get(String name, int index) {
-		throw new UnsupportedOperationException();
-	}
+    private static DynaClass dynaClass = new DynActionForm();
 
-	@Override
-	public Object get(String name, String key) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public DynaClass getDynaClass() {
+        return dynaClass;
+    }
 
-	private static DynaClass dynaClass = new DynActionForm();
+    @Override
+    public void remove(String name, String key) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public DynaClass getDynaClass() {
-		return dynaClass;
-	}
+    @Override
+    public void set(String name, int index, Object value) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public void remove(String name, String key) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public void set(String name, String key, Object value) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public void set(String name, int index, Object value) {
-		throw new UnsupportedOperationException();
-	}
+    ////////////////////////////////////////////////////
 
-	@Override
-	public void set(String name, String key, Object value) {
-		throw new UnsupportedOperationException();
-	}
+    // /////////////////////////////////////////////
+    // добавлены из-за интерфейса DynaClass
+    // /////////////////////////////////////////////
+    @Override
+    public String getName() {
+        throw new UnsupportedOperationException();
+    }
 
-	////////////////////////////////////////////////////
+    private static final Map<String, DynaProperty> propertyMap = new HashMap<String, DynaProperty>();
+    static {
+        for (String name : new String[] { "action", PARAM_REQUEST_URL, PARAM_FORWARD, PARAM_FORWARD_FILE,
+                PARAM_RESPONSE_TYPE }) {
+            propertyMap.put(name, new DynaProperty(name, String.class));
+        }
+        propertyMap.put(PARAM_PAGE, new DynaProperty(PARAM_PAGE, Page.class));
+        propertyMap.put(PARAM_RESPONSE, new DynaProperty(PARAM_RESPONSE, Page.class));
+        propertyMap.put(PARAM_FILE, new DynaProperty(PARAM_FILE, FormFile.class));
+    }
 
-	// /////////////////////////////////////////////
-	// добавлены из-за интерфейса DynaClass
-	// /////////////////////////////////////////////
-	@Override
-	public String getName() {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public DynaProperty getDynaProperty(String name) {
+        DynaProperty result = propertyMap.get(name);
+        if (result == null) {
+            result = new DynaProperty(name, String[].class);
+        }
+        return result;
+    }
 
-	private static final Map<String, DynaProperty> propertyMap = new HashMap<String, DynaProperty>();
-	static {
-		for (String name : new String[] { "action", PARAM_REQUEST_URL, "forward", "forwardFile",
-				PARAM_RESPONSE_TYPE }) {
-			propertyMap.put(name, new DynaProperty(name, String.class));
-		}
-		propertyMap.put(PARAM_PAGE, new DynaProperty(PARAM_PAGE, Page.class));
-		propertyMap.put(PARAM_RESPONSE, new DynaProperty(PARAM_RESPONSE, Page.class));
-		propertyMap.put(PARAM_FILE, new DynaProperty(PARAM_FILE, FormFile.class));
-	}
+    @Override
+    public DynaProperty[] getDynaProperties() {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public DynaProperty getDynaProperty(String name) {
-		DynaProperty result = propertyMap.get(name);
-		if (result == null) {
-			result = new DynaProperty(name, String[].class);
-		}
-		return result;
-	}
-
-	@Override
-	public DynaProperty[] getDynaProperties() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public DynaBean newInstance() throws IllegalAccessException, InstantiationException {
-		return new DynActionForm();
-	}
-	////////////////////////////////////////////////////	
+    @Override
+    public DynaBean newInstance() throws IllegalAccessException, InstantiationException {
+        return new DynActionForm();
+    }
+    ////////////////////////////////////////////////////
 }

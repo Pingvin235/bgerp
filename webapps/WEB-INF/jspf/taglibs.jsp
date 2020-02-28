@@ -10,5 +10,4 @@
 --%><%@ taglib uri="http://bgrcrm.ru/jsp/taglib/util" prefix="u"%><%--
 --%><%@ taglib uri="http://bgrcrm.ru/jsp/taglib/permission" prefix="p"%><%--
 --%><%@ taglib prefix="ui" tagdir="/WEB-INF/tags/ui"%><%--
-<%@ taglib uri="http://devsphere.com/articles/calltag/CallTag.tld" prefix="ct"%>
-<%@ taglib uri="http://bgrcrm.ru/jsp/taglib/cache" prefix="cache"%>--%>
+--%><%@ taglib prefix="shell" tagdir="/WEB-INF/tags/shell"%>

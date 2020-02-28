@@ -6,8 +6,7 @@ ${l.l('Статус')}&nbsp;<b>${process.statusTitle}</b>: ${u:formatDate( proce
 	"${process.statusChange.comment}"
 </c:if>
 <c:if test="${process.statusUserId gt 0}">
-	<c:set var="userId" value="${process.statusUserId}"/>
-	(<%@ include file="/WEB-INF/jspf/user_link.jsp"%>)
+	(<ui:user-link id="${process.statusUserId}"/>)
 </c:if>
 
 <p:check action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory">

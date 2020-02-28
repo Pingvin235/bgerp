@@ -22,6 +22,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.logging.log4j.util.Strings;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -376,36 +377,37 @@ public class ProcessAction extends BaseAction {
 
                 queue.processDataForMedia(form, "xls", media);
 
-                HSSFWorkbook workbook = new HSSFWorkbook();
-                HSSFSheet sheet = workbook.createSheet("BGERP process");
-
-                List<ColumnConf> columnList = queue.getMediaColumnList("xls");
-
-                Row titleRow = sheet.createRow(0);
-
-                for (int i = 0; i < columnList.size(); i++) {
-                    Cell titleCell = titleRow.createCell(i);
-                    titleCell.setCellValue(columnList.get(i).getTitle());
-                }
-
-                for (int k = 0; k < media.size(); k++) {
-                    //Create a new row in current sheet
-                    Row row = sheet.createRow(k + 1);
-                    Object[] dataRow = media.get(k);
-
-                    for (int i = 0; i < dataRow.length; i++) {
-                        if (dataRow[i].equals("null")) {
-                            continue;
-                        } else {
-                            //Create a new cell in current row
-                            Cell cell = row.createCell(i);
-                            cell.setCellValue(dataRow[i].toString());
+                try (HSSFWorkbook workbook = new HSSFWorkbook()) {
+                    HSSFSheet sheet = workbook.createSheet("BGERP process");
+    
+                    List<ColumnConf> columnList = queue.getMediaColumnList("xls");
+    
+                    Row titleRow = sheet.createRow(0);
+    
+                    for (int i = 0; i < columnList.size(); i++) {
+                        Cell titleCell = titleRow.createCell(i);
+                        titleCell.setCellValue(columnList.get(i).getTitle());
+                    }
+    
+                    for (int k = 0; k < media.size(); k++) {
+                        //Create a new row in current sheet
+                        Row row = sheet.createRow(k + 1);
+                        Object[] dataRow = media.get(k);
+    
+                        for (int i = 0; i < dataRow.length; i++) {
+                            if (dataRow[i].equals("null")) {
+                                continue;
+                            } else {
+                                //Create a new cell in current row
+                                Cell cell = row.createCell(i);
+                                cell.setCellValue(dataRow[i].toString());
+                            }
                         }
                     }
+                    response.setContentType("application/vnd.ms-excel");
+                    response.setHeader("Content-Disposition", "attachment; filename=bgcrm_process_list.xls");
+                    workbook.write(response.getOutputStream());
                 }
-                response.setContentType("application/vnd.ms-excel");
-                response.setHeader("Content-Disposition", "attachment; filename=bgcrm_process_list.xls");
-                workbook.write(response.getOutputStream());
 
                 return null;
             }
@@ -436,7 +438,7 @@ public class ProcessAction extends BaseAction {
         }
 
         String paramKey = QUEUE_FULL_FILTER_PARAMS + queueId;
-        personalizationMap.set(paramKey, Base64.getEncoder().encodeToString(SerializationUtils.serialize(ahm)));
+        personalizationMap.put(paramKey, Base64.getEncoder().encodeToString(SerializationUtils.serialize(ahm)));
     }
 
     public ActionForward process(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -1243,11 +1245,13 @@ public class ProcessAction extends BaseAction {
         }
 
         // проверка и обновление статуса вкладки, если нужно
-        IfaceState ifaceState = new IfaceState(form);
-        IfaceState currentState = new IfaceState(Process.OBJECT_TYPE, id, form, 
-                String.valueOf(searchResultLinked.getPage().getRecordCount()),
-                String.valueOf(searchResultLink.getPage().getRecordCount()));
-        new IfaceStateDAO(con).compareAndUpdateState(ifaceState, currentState, form);
+        if (Strings.isNotBlank(form.getParam(IfaceState.REQUEST_PARAM_IFACE_ID))) {
+            IfaceState ifaceState = new IfaceState(form);
+            IfaceState currentState = new IfaceState(Process.OBJECT_TYPE, id, form, 
+                    String.valueOf(searchResultLinked.getPage().getRecordCount()),
+                    String.valueOf(searchResultLink.getPage().getRecordCount()));
+            new IfaceStateDAO(con).compareAndUpdateState(ifaceState, currentState, form);
+        }
 
         return processUserTypedForward(con, mapping, form, "linkProcessList");
     }

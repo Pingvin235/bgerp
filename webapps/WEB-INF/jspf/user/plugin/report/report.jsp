@@ -6,25 +6,19 @@
 
 <c:set var="plugin" value="${ctxPluginManager.pluginMap.report}" />
 <c:set var="allowedReports" value="${form.response.data.allowedReports}" />
-<c:set var="uiid" value="${u:uiid()}" />
 
-<u:sc>
-	<c:set var="id" value="reportsList" />
+<c:set var="uiid" value="${u:uiid()}"/>
 
-	<c:set var="valuesHtml">
-		<li value="-1">не выбран отчет</li>
-	</c:set>
-	<c:set var="map" value="${plugin.reportMap}" />
-	<c:set var="list" value="${plugin.reportList}" />
-	<c:set var="hiddenName" value="reportId" />
-	<c:set var="prefixText" value="Отчет:" />
-	<c:set var="available" value="${allowedReports}" />
-	<c:set var="onSelect">
-		openUrlTo('empty.do?reportId='+$hidden.val()+'&forwardFile=/WEB-INF/jspf/user/plugin/report/report_load.jsp', $('#${uiid}') )
-	</c:set>
-	<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-</u:sc>
+<ui:combo-single id="${uiid}" hiddenName="reportId" 
+	map="${plugin.reportMap}" list="${plugin.reportList}" available="${allowedReports}"
+	widthTextValue="300px">
+	<jsp:attribute name="valuesHtml">
+		<li value="-1">-- ${l.l('выберите отчёт')} --</li>
+	</jsp:attribute>
+	<jsp:attribute name="onSelect">
+		if ($hidden.val()) 
+			$$.ajax.load('/user/plugin/report/report.do?action=get&reportId=' + $hidden.val(), $$.shell.$content());
+	</jsp:attribute>
+</ui:combo-single>
 
-
-
-<div class="tableIndent" id="${uiid}"></div>
+<shell:state moveSelector="#${uiid}"/>

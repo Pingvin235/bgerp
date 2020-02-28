@@ -43,25 +43,6 @@
 						<button type="button" class="btn-green" onclick="${script}" ${style}>+</button>
 					</div>
 				</div>	
-				
-				<%-- устаревший метод, просто указывался тип, мало кому нужно 
-				<c:if test="${not empty typeList}">
-					<table style="width: 100%;" class="mt1">
-						<tr>
-							<td width="100%">
-								<select name="typeId" style="width: 100%;">
-									<c:forEach var="item" items="${typeList}">
-										<option value="${item.id}">${item.title}</option>
-									</c:forEach>
-								</select>
-							</td>
-							<td>
-								<input type="button" onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlContent( '${form.requestUrl}' ); }" value="Создать и привязать"/>
-							</td>
-						</tr>
-					</table>
-				</c:if>
-				--%>
 			</html:form>
 			
 			<%@ include file="process_link_exist_link.jsp"%>
@@ -71,18 +52,16 @@
 	<c:set var="requestUrl" value="${form.requestUrl}"/>
 	<%@ include file="process_link_create_and_link.jsp"%>
 
-		<c:if test="${not empty form.response.data.list}">
-		<u:sc>
-			<c:set var="uiid" value="${u:uiid()}"/>
-			<html:form action="user/process" styleId="${uiid}">
-				<div style="display: inline-block;" class="tt bold mt05 mb05">${l.l('К процессу привязаны')}:</div>
-						
-				<input type="hidden" name="action" value="linkProcessList"/>
-				<input type="hidden" name="id" value="${form.id}"/>
-				<c:set var="nextCommand" value="; openUrlToParent( formUrl( this.form ), $('#${uiid}') )"/>
-				<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
-			</html:form>
-		</u:sc>
+	<c:if test="${not empty form.response.data.list}">
+		<c:set var="uiid" value="${u:uiid()}"/>
+		<html:form action="user/process" styleId="${uiid}">
+			<div style="display: inline-block;" class="tt bold mt05 mb05">${l.l('К процессу привязаны')}:</div>
+			
+			<input type="hidden" name="action" value="linkProcessList"/>
+			<input type="hidden" name="id" value="${form.id}"/>
+			
+			<ui:page-control nextCommand="; $$.ajax.load(this.form, $('#${uiid}').parent())"/>
+		</html:form>
 		
 		<c:set var="list" value="${form.response.data.list}"/>
 		<c:set var="mode" value="link"/>

@@ -8,6 +8,10 @@ table {
   border-spacing: 0;
 }
 
+table.data, table.hdata {
+	width: 100%;
+}
+
 table.hdata > thead > tr > td, 
 table.hdata > tbody > tr > td,
 table.data > tbody > tr > td {

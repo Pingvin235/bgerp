@@ -117,9 +117,8 @@
 							 </div>
 							 <div class="mt05">
 							 	Создано: ${u:formatDate( message.fromTime, 'ymdhm' )}
-											<c:set var="userId" value="${message.userId}"/>
-											(<%@ include file="/WEB-INF/jspf/user_link.jsp"%>)
-							 </div>						
+											(<ui:user-link id="${message.userId}"/>)
+							 </div>
 						</div>
 					</c:if>		 
 					<c:if test="${typeEmail}">
@@ -133,14 +132,11 @@
 										Отправлено: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
 										<nobr>
 											Обработано: ${u:formatDate( message.toTime, 'ymdhm' )} 
-												<c:set var="userId" value="${message.userId}"/>
-												(<%@ include file="/WEB-INF/jspf/user_link.jsp"%>)
+											(<ui:user-link id="${message.userId}"/>)
 										</nobr>
 									</c:when>
 									<c:otherwise>
-										Создано: ${u:formatDate( message.fromTime, 'ymdhm' )}
-											<c:set var="userId" value="${message.userId}"/>
-											(<%@ include file="/WEB-INF/jspf/user_link.jsp"%>)										
+										Создано: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
 										<nobr>	
 											Отправлено: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
 										</nobr>	
@@ -159,15 +155,11 @@
 									<c:when test="${message.direction eq 1}">
 										Принят: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
 										<nobr>
-											Обработано: ${u:formatDate( message.toTime, 'ymdhm' )} 
-												<c:set var="userId" value="${message.userId}"/>
-												(<%@ include file="/WEB-INF/jspf/user_link.jsp"%>)
+											Обработано: ${u:formatDate( message.toTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
 										</nobr>
 									</c:when>
 									<c:otherwise>
-										Создано: ${u:formatDate( message.fromTime, 'ymdhm' )}
-											<c:set var="userId" value="${message.userId}"/>
-											(<%@ include file="/WEB-INF/jspf/user_link.jsp"%>)										
+										Создано: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
 										<nobr>	
 											Отправлено: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
 										</nobr>	

@@ -83,16 +83,14 @@
 		<div class="pb05">
 			${l.l('Создан')}: ${u:formatDate( process.createTime, 'ymdhms' )} 
 			<c:if test="${process.createUserId gt 0}">
-				<c:set var="userId" value="${process.createUserId}"/>
-				(<%@ include file="/WEB-INF/jspf/user_link.jsp"%>)
+				(<ui:user-link id="${process.createUserId}"/>)
 			</c:if>
 		</div> 
 		<div class="pb05">
 			<%@ include file="process_status_current.jsp"%>
 		</div>
 		<c:if test="${process.closeUserId gt 0}">
-			<c:set var="userId" value="${process.closeUserId}"/>	
-			<div class="pb05">Закрыт: ${u:formatDate( process.closeTime, 'ymdhms' )} (<%@ include file="/WEB-INF/jspf/user_link.jsp"%>)</div>
+			<div class="pb05">Закрыт: ${u:formatDate( process.closeTime, 'ymdhms' )} (<ui:user-link id="${process.closeUserId}"/>)</div>
 		</c:if>
 	</div>
 </u:sc>	 

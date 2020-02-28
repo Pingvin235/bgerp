@@ -65,9 +65,7 @@
 	</div>
 </html:form>
 
-<c:set var="state" value="Редактор"/>
-<c:set var="help" value="http://www.bgcrm.ru/doc/3.0/manual/kernel/setup.html#config"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:state text="${l.l('Редактор')}" help="http://www.bgcrm.ru/doc/3.0/manual/kernel/setup.html#config"/>
 
 <script>
 	$(function () {

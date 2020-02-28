@@ -81,12 +81,7 @@
 					<c:otherwise>Неизвестный статус (${item.status})</c:otherwise>
 				</c:choose>
 			</td>
-			<td>
-				<u:sc>
-					<c:set var="userId" value="${item.id}"/>
-					<%@ include file="/WEB-INF/jspf/user_link.jsp"%>
-				</u:sc>	
-			</td>
+			<td><ui:user-link id="${item.id}"/></td>
 			<td>${item.login}</td>
 			<td>${u:orderedObjectTitleList( ctxUserPermsetMap, item.permsetIds )}</td>
 			<td>${u:objectTitleList( ctxUserGroupFullTitledList, item.groupIds )}</td>

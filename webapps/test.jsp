@@ -164,7 +164,11 @@
 					list.add( new IdTitle( 2, "Второе значение и длинный текст после" ) );
 					pageContext.setAttribute( "list", list );					
 				%>
-				<ui:combo-single hiddenName="param" value="2" widthTextValue="120px" onSelect="alert( 'test!' )" list="${list}"/>
+				<ui:combo-single hiddenName="param" widthTextValue="120px" onSelect="alert('test!')" list="${list}">
+					<jsp:attribute name="valuesHtml">
+						<li value="-1">-- выберите --</li>
+					</jsp:attribute>
+				</ui:combo-single>
 			</u:sc>
 		</div>
 		

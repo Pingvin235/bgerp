@@ -14,14 +14,11 @@
 					Создано: ${u:formatDate( message.fromTime, 'ymdhm' )}
 					Прочитано: ${u:formatDate( message.toTime, 'ymdhm' )}
 					<c:if test="${not empty message.toTime}">
-						<c:set var="userId" value="${message.userId}"/>
-						(<%@ include file="/WEB-INF/jspf/user_link.jsp"%>)					
+						(<ui:user-link id="${message.userId}"/>)
 					</c:if>	
 				</c:when>
 				<c:otherwise>
-					Создано: ${u:formatDate( message.fromTime, 'ymdhm' )}
-						<c:set var="userId" value="${message.userId}"/>
-						(<%@ include file="/WEB-INF/jspf/user_link.jsp"%>)
+					Создано: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
 					Прочитано: ${u:formatDate( message.toTime, 'ymdhm' )}
 				</c:otherwise>
 			</c:choose>

@@ -9,25 +9,18 @@
 	widthTextValue="220px"
 	prefixText="${l.l('План')}:"
 	list="${form.response.data.boardsConf.boards}"
-	onSelect="openUrlContent('/user/plugin/blow/board.do?action=show&id=' + $hidden.val()); 
+	onSelect="$$.ajax.load('/user/plugin/blow/board.do?action=show&id=' + $hidden.val(), $$.shell.$content()); 
 			  history.replaceState(history.state, null, '/user/blow/board#' + $hidden.val());"/>
 
-<script>
-$(function () {
-	const $state = $('#title > .status:visible > .wrap > .center');
-	$state.find(">div").remove();
-	$('#${uiid}').appendTo($state);						
-})
-</script>
+<shell:state moveSelector="#${uiid}"/>
 
-<c:set var="title" value="${l.l('Blow board')}"/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
+<shell:title text="${l.l('Blow board')}"/>
 
 <c:choose>
 	<c:when test="${form.id gt 0}">
 		<script>
 		$(function () {
-			openUrlContent('/user/plugin/blow/board.do?action=show&id=${form.id}');
+			$$.ajax.load('/user/plugin/blow/board.do?action=show&id=${form.id}', $$.shell.$content());
 		})
 		</script>
 	</c:when>
@@ -36,7 +29,7 @@ $(function () {
 		<c:if test="${boardId gt 0}">
 			<script>
 			$(function () {
-				bgerp.shell.contentLoad("/user/blow/board#${boardId}", true);
+				$$.shell.contentLoad("/user/blow/board#${boardId}", true);
 			})
 			</script>
 		</c:if>

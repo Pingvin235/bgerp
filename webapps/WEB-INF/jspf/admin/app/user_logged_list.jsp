@@ -12,11 +12,9 @@
 			<td>Сессии (вход / последняя активность)</td>
 		</tr>
 		<c:forEach var="item" items="${logged}">
-			<c:set var="userId" value="${item.key.id}"/>
 			<c:set var="sessions" value="${item.value}"/>
-			
 			<tr>
-				<td><%@ include file="/WEB-INF/jspf/user_link.jsp"%></td>
+				<td><ui:user-link id="${item.key.id}"/></td>
 				<td>
 					<c:forEach var="session" items="${sessions}">
 						${u:formatDate( session.loginTime, 'ymdhms' )} /

@@ -40,7 +40,7 @@
 <c:set var="dateFormat" value="${fn:replace(dateFormat, 'yyyy', 'yy')}"/>
 <c:set var="dateFormat" value="${fn:replace(dateFormat, 'MM', 'mm')}"/>
 
-<c:set var="size" value="7"/>
+<c:set var="size" value="8"/>
 <c:if test="${type eq 'ymdh'}">
 	<c:set var="size" value="10"/>
 </c:if>	

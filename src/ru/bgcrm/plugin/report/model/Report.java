@@ -8,19 +8,22 @@ import ru.bgcrm.util.ParameterMap;
 public class Report {
     private final String id;
     private final String title;
-    private final String jspFile;    
+    private final String daoClass;
+    private final String jspFile;
 
     @Deprecated
     public Report(Document doc) {
         Element docEl = doc.getDocumentElement();
 
         id = docEl.getAttribute("id");
+        daoClass = null;
         jspFile = docEl.getAttribute("jspFile");
         title = docEl.getAttribute("title");
     }
-    
+
     public Report(String id, ParameterMap config) {
         this.id = id;
+        this.daoClass = config.get("daoClass");
         this.jspFile = config.get("jspFile");
         this.title = config.get("title");
     }
@@ -31,6 +34,10 @@ public class Report {
 
     public String getTitle() {
         return title;
+    }
+    
+    public String getDaoClass() {
+        return daoClass;
     }
 
     public String getJspFile() {

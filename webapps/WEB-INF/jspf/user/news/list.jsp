@@ -47,9 +47,7 @@
 					</span>	
 					
 					<span style="float:right;">
-						Создал:
-						<c:set var="userId" value="${item.userId}"/>
-						<%@ include file="/WEB-INF/jspf/user_link.jsp"%>				
+						Создал: <ui:user-link id="${item.userId}"/>
 						&nbsp;${u:formatDate( item.createDate, 'ymdhms')} 
 						&nbsp;<c:if test="${item.popup}">Всплывающая</c:if>
 						

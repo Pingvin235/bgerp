@@ -79,7 +79,7 @@
 					</script>
 				</c:when>
 				<c:otherwise>
-					У пользователя <ui:doc-link url="83427342">нет разрешённых очередей</ui:doc-link>
+					У пользователя нет разрешённых очередей.
 				</c:otherwise>				
 			</c:choose>	
 		</td>
