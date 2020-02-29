@@ -34,17 +34,17 @@ bgbilling:processShowLinkedContractsInfo=memo
 # правила по распределению процессов определённых типов по исполнителям сразу после создания
 onProcessEvent.2.events=created
 onProcessEvent.2.ifExpression=process.getTypeId() =~ [6,7]
-onProcessEvent.2.commands=addExecutors(2)
+onProcessEvent.2.commands=addExecutors({2})
 #
 # если нет исполнителей и не HD - добавление создавшего
 onProcessEvent.3.events=created
 onProcessEvent.3.ifExpression=process.getTypeId() != 8 && process.getProcessExecutors().size() == 0
-onProcessEvent.3.doExpression= addExecutors({user.getId()})
+onProcessEvent.3.doExpression=addExecutors({user.getId()})
 #
-# при получении входящего сообщения извне - перевод процесса в статус "открыт"
+# при получении входящего сообщения с типом не "заметка" в процесс в статусе 6 "ожидание" - перевод процесса в статус 1 "открыт" 
 onProcessEvent.4.events=messageAdded
-onProcessEvent.4.ifExpression=process.getStatusId() != 1 && !event.getMessage().getClass().getSimpleName().equals("ProcessMessageAddedEvent")
-onProcessEvent.4.commands=setStatus:1
+onProcessEvent.4.ifExpression=process.getStatusId() =~ [6] && !ctxSetup.getConfig("ru.bgcrm.dao.message.config.MessageTypeConfig").getTypeMap().get(event.getMessage().getTypeId()).getClass().getSimpleName().equals("MessageTypeNote")
+onProcessEvent.4.doExpression=setStatus(1, "Открыто по сообщению");
 # 
 # уведомление исполнителей о новом сообщении в процессе
 onProcessEvent.5.events=messageAdded

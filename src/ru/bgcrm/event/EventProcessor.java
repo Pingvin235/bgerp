@@ -29,9 +29,10 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
+import ru.bgerp.util.Log;
 
 public class EventProcessor {
-    private static final Logger log = Logger.getLogger(EventProcessor.class);
+    private static final Log log = Log.getLog();
 
     private static Object sync = new Object();
     private static Map<Class<?>, List<EventListener<?>>> subscribers = new ConcurrentHashMap<Class<?>, List<EventListener<?>>>();
@@ -108,7 +109,7 @@ public class EventProcessor {
 
             try {
                 unsubscribe(className);
-                DynamicClassManager.getClass(className).newInstance();
+                DynamicClassManager.getClass(className).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }
@@ -127,6 +128,8 @@ public class EventProcessor {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static boolean processEvent(Event event, String className, ConnectionSet conSet,
             boolean systemListenerProcessing) throws Exception {
+        log.debug("Processing event: %s, className: %s", event, className);
+
         if (systemListenerProcessing) {
             // обработка системными зарегестрированными слушателями
             List<EventListener<?>> listeners = subscribers.get(event.getClass());
