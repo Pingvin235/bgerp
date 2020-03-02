@@ -1,0 +1,1 @@
+F: DB update SQL procedure rename_table takes on account existing tables in other databases.

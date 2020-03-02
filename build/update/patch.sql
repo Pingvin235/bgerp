@@ -97,9 +97,9 @@ DROP PROCEDURE IF EXISTS rename_table;
 delimiter $$
 CREATE PROCEDURE rename_table(IN name_old CHAR(64), IN name_new CHAR(64))
 BEGIN
-  SET @s = CONCAT("SET @cnt_old:=(SELECT COUNT(*) FROM information_schema.tables WHERE table_name='", name_old, "')");
+  SET @s = CONCAT("SET @cnt_old:=(SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name='", name_old, "')");
   PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
-  SET @s = CONCAT("SET @cnt_new:=(SELECT COUNT(*) FROM information_schema.tables WHERE table_name='", name_new, "')");
+  SET @s = CONCAT("SET @cnt_new:=(SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name='", name_new, "')");
   PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
   IF (@cnt_old = 1 AND @cnt_new = 0) THEN
     SET @s = CONCAT("RENAME TABLE ", name_old, " TO ", name_new);
