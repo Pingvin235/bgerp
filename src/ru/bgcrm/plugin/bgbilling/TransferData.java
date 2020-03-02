@@ -605,7 +605,7 @@ public class TransferData {
 					+ dbInfo.getId() + " вернул ошибку: " + rootNode.path("message").textValue();
 
 			if (exceptionType != null && exceptionType.equals("ru.bitel.bgbilling.common.BGMessageException")) {
-				throw new BGMessageException(exceptionType, text);
+				throw new BGMessageException(text);
 			} else {
 				throw new BGException(text);
 			}

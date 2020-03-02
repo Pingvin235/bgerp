@@ -21,13 +21,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserNewsCache;
@@ -42,6 +42,7 @@ import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.MessageRemovedEvent;
 import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.config.TagConfig;
@@ -168,21 +169,20 @@ public class MessageAction extends BaseAction {
         return processJsonForward(conSet, form);
     }
 
-    public ActionForward messageUpdateProcessToCopy(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws Exception {
-        Connection con = conSet.getConnection();
-
+    public ActionForward messageUpdateProcessToCopy(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         MessageDAO messageDao = new MessageDAO(con);
         ProcessDAO processDao = new ProcessDAO(con);
         ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
 
         Message message = messageDao.getMessageById(form.getId());
         if (message == null)
-            throw new BGException("Сообщение не найдено.");
+            throw new BGMessageException("Сообщение не найдено.");
 
         Process process = processDao.getProcess(message.getProcessId());
         if (process == null)
-            throw new BGException("Процесс не найден.");
+            throw new BGMessageException("Процесс не найден.");
+        
+        String linkType = form.getParam("linkType");
 
         Process newProcess = new Process();
         newProcess.setTypeId(process.getTypeId());
@@ -194,17 +194,23 @@ public class MessageAction extends BaseAction {
         newProcess.setCreateUserId(form.getUserId());
 
         processDao.updateProcess(newProcess);
+
         processDao.updateProcessGroups(process.getProcessGroups(), newProcess.getId());
         processDao.updateProcessExecutors(process.getProcessExecutors(), newProcess.getId());
 
-        linkDao.copyLinks(process.getId(), newProcess.getId(), null);
+        if (StringUtils.isBlank(linkType))
+            linkDao.copyLinks(process.getId(), newProcess.getId(), null);
+        else
+            linkDao.addLink(new CommonObjectLink(process.getId(), linkType, newProcess.getId(), ""));
 
         message.setProcessId(newProcess.getId());
-        messageDao.updateMessageProcess(message);
+        message.setText(l.l("Перенесено из процесса #%s", process.getId()) + "\n\n" + message.getText());
+
+        messageDao.updateMessage(message);
 
         form.setResponseData("process", newProcess);
 
-        return processJsonForward(conSet, form);
+        return processJsonForward(con, form);
     }
 
     public ActionForward messageDelete(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)

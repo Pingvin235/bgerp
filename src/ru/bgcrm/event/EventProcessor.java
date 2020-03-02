@@ -16,8 +16,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.dao.EventProcessorLogDAO;
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.event.listener.DynamicEventListener;
@@ -185,20 +183,12 @@ public class EventProcessor {
                     listener.notify(event, conSet);
                 }
             } catch (TimeoutException e) {
-                throw new BGMessageException("Время ожидания выполнения скрипта" + listener.getClass().getName()
-                        + " истекло! (" + timeout + " мс).");
+                throw new BGMessageException("Время ожидания выполнения скрипта '%s' истекло! (%s мс).", listener.getClass().getName(), timeout);
             } catch (InterruptedException | ExecutionException e) {
-                throw new BGMessageException("При выполнении скрипта " + listener.getClass().getName()
-                        + " возникло исключение " + e.getMessage());
+                throw new BGMessageException("При выполнении скрипта '%s' возникло исключение '%s'", listener.getClass().getName(), e.getMessage());
             }
 
             resultStatus = "Successful";
-        } catch (BGMessageException e) {
-            resultStatus = e.getMessage();
-            throw new BGMessageException(e.getMessage());
-        } catch (BGException e) {
-            resultStatus = e.getMessage();
-            throw new BGException(e);
         } finally {
             long timeEnd = Calendar.getInstance().getTimeInMillis();
 

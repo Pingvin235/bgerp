@@ -24,21 +24,26 @@ public class ProcessClosingListener {
 
         Process process = e.getProcess();
         if (process.getCloseTime() != null) {
-            ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-            String checkDirection = type.getProperties().getConfigMap().get("processDependCloseCheckDirection", DIRECTION_DOWN);
+            checkLinkedProcesses(connectionSet, process, Process.LINK_TYPE_DEPEND, DIRECTION_UP);
+            checkLinkedProcesses(connectionSet, process, Process.LINK_TYPE_MADE, DIRECTION_DOWN);
+        }
+    }
 
-            List<Process> result = null;
-            if (DIRECTION_DOWN.equals(checkDirection)) {
-                result = new ProcessLinkDAO(connectionSet.getConnection(), e.getUser()).getLinkProcessList(process.getId(), Process.LINK_TYPE_DEPEND, false, null);
-                for (Process link : result)
-                    if (link.getCloseTime() == null)
-                        throw new BGMessageException("Есть незакрытые зависящие процессы");
-            } else if (DIRECTION_UP.equals(checkDirection)) {
-                result = new ProcessLinkDAO(connectionSet.getConnection(), e.getUser()).getLinkedProcessList(process.getId(), Process.LINK_TYPE_DEPEND, false, null);
-                for (Process linked : result)
-                    if (linked.getCloseTime() == null)
-                        throw new BGMessageException("Есть незакрытые процессы, от которых зависит данный");
-            }
+    private void checkLinkedProcesses(ConnectionSet connectionSet, Process process, String linkType, String defaultDirection) throws Exception {
+        ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
+        String checkDirection = type.getProperties().getConfigMap().get("process.close.check." + linkType, defaultDirection);
+
+        List<Process> result = null;
+        if (DIRECTION_DOWN.equals(checkDirection)) {
+            result = new ProcessLinkDAO(connectionSet.getConnection()).getLinkProcessList(process.getId(), linkType, false, null);
+            for (Process link : result)
+                if (link.getCloseTime() == null)
+                    throw new BGMessageException("Есть незакрытые привязанные процессы типа: %s", linkType);
+        } else if (DIRECTION_UP.equals(checkDirection)) {
+            result = new ProcessLinkDAO(connectionSet.getConnection()).getLinkedProcessList(process.getId(), linkType, false, null);
+            for (Process linked : result)
+                if (linked.getCloseTime() == null)
+                    throw new BGMessageException("Есть незакрытые процессы, к которым привязан данный с типом: %s", linkType);
         }
     }
 }

@@ -1,10 +1,14 @@
 package ru.bgerp.i18n;
 
+import ru.bgerp.util.Log;
+
 /**
  * Translator to a wanted language.
  * @author Shamil
  */
 public class Localizer {
+    private static final Log log = Log.getLog();
+
     private final Localization[] localizations;
     private final String toLang;
     
@@ -21,6 +25,9 @@ public class Localizer {
             if (translation != null)
                 return String.format(translation, args);
         }
+
+        log.debug("Missing translation for pattern: '%s'", pattern);
+
         return String.format(pattern, args);
     }    
 }

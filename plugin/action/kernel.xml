@@ -345,8 +345,8 @@
 				 <b>allowedTypeIds</b> - id типов сообщений через запятую, разрешённых к просмотру<br/>
 			</item>
 			<item action="ru.bgcrm.struts.action.MessageAction:newMessageLoad" title="Загрузка нового сообщения"/>
-			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Изменение процесса сообщения"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateTags" title="Изменение тегов сообщения"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Изменение процесса сообщения"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Изменение процесса сообщения на копию текущего"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Создание/редактирование сообщения"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:processMessageList" title="Просмотр списка сообщений процесса"/>

@@ -22,7 +22,7 @@ public class ReportAction extends BaseAction {
     public ActionForward get(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         Report report = setup.getConfig(Config.class).getReportMap().get(form.get("reportId"));
         if (report == null) 
-            throw new BGMessageException(l.l("Report not found"));
+            throw new BGMessageException("Отчёт не найден.");
         
         if (StringUtils.isNotBlank(report.getDaoClass())) {
             log.debug("Creating Java DAO class: %s", report.getDaoClass());

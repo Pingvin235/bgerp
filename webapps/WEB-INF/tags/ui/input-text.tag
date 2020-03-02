@@ -16,20 +16,20 @@
 <%@ attribute name="onSelect" description="JS, что выполнять по выбору значения"%>
 
 <c:choose>
-    <c:when test="${not empty id}">
-        <c:set var="uiid" value="${id}"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="uiid" value="${u:uiid()}"/>
-    </c:otherwise>
-</c:choose>     
+	<c:when test="${not empty id}">
+		<c:set var="uiid" value="${id}"/>
+	</c:when>
+	<c:otherwise>
+		<c:set var="uiid" value="${u:uiid()}"/>
+	</c:otherwise>
+</c:choose>
 
 <input id="${uiid}" type="text" name="${name}" placeholder="${placeholder}" title="${title}"
-    style="${style}" class="${styleClass}" size="${size}" value="${value}"
-    onkeypress="if (enterPressed(event)){ ${onSelect} }"/>
+	style="${style}" class="${styleClass}" size="${size}" value="${value}"
+	onkeypress="if (enterPressed(event)){ ${onSelect} }"/>
 
 <script>
 	$(function() {
-	    uiInputTextInit($('#${uiid}'), function() { ${onSelect} });
+		$$.ui.inputTextInit($('#${uiid}'), function() { ${onSelect} });
 	})
 </script>

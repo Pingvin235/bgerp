@@ -3,16 +3,15 @@ package ru.bgcrm.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.util.SerialUtils;
+import ru.bgerp.util.Log;
 
 /**
  * Map для хранения параметров форм, в т.ч. типа checkbox, 
  * когда приходит несколько значений под одним именем.
  */
 public class ArrayHashMap extends HashMap<String, Object> {
-    private static final Logger log = Logger.getLogger(ArrayHashMap.class);
+    private static final Log log = Log.getLog();
 
     private static final long serialVersionUID = SerialUtils.generateSerialVersionUID(ArrayHashMap.class);
 

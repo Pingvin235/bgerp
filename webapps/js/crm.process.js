@@ -168,7 +168,7 @@ function updateExecutors($groups, $executors, paramNameGroup,
 
 function openProcess(id) {
 	console.warn($$.deprecated);
-	bgerp.process.open(id);
+	$$.process.open(id);
 }
 
 function openProcessTypeTreeNode(el, nodeId) {

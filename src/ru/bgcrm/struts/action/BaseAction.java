@@ -286,11 +286,12 @@ public class BaseAction extends DispatchAction {
 
             resultStatus = "Successful";
         } catch (BGMessageException ex) {
-            resultStatus = ex.getMessage();
-            return sendError(form, ex.getMessage());
+            resultStatus = l.l(ex.getMessage(), ex.getArgs());
+            return sendError(form, resultStatus);
         } catch (Throwable ex) {
             resultStatus = ex.getMessage();
-            log.error(ex.getMessage(), ex);
+
+            log.error(resultStatus, ex);
 
             StringWriter sw = new StringWriter();
             ex.printStackTrace(new PrintWriter(sw));

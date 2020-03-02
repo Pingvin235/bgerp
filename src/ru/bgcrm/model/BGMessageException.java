@@ -1,27 +1,17 @@
 package ru.bgcrm.model;
 
 /**
- * Исключение, сообщение которого необходимо показать пользователю и не надо писать в лог.
+ * Localized message, not written in log.
  */
-public class BGMessageException 
-	extends BGException
-{
-	// код с ошибкой для автоматической обработки, например, класс исключения при вызове Web сервиса
-	private final String exception;
-	
-	public BGMessageException( String exception, String message )
-	{
-		super( message );
-		this.exception = exception;
-	}
-	
-	public BGMessageException( String message )
-	{
-		this( null, message );		
-	}
+public class BGMessageException extends BGException {
+    private final Object[] args;
 
-	public String getException()
-	{
-		return exception;
-	}
+    public BGMessageException(String message, Object... args) {
+        super(message);
+        this.args = args;
+    }
+
+    public Object[] getArgs() {
+        return args;
+    }
 }

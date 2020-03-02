@@ -3,6 +3,7 @@
 	<!-- 
 	<p><ru></ru><en></en></p>
 	-->
+	<p><ru>Перенесено из процесса #%s</ru><en>Moved from process #%s</en></p>
 	<p><ru>Свойства</ru><en>Properties</en></p>
 	<p><ru>Сохранить свойства</ru><en>Save properties</en></p>
 	<p><ru>Пароль</ru><en>Password</en></p>

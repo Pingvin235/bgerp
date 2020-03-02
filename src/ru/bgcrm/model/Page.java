@@ -1,6 +1,7 @@
 package ru.bgcrm.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Page {
     public static final int DEFAULT_PAGE_SIZE = 25;
@@ -77,7 +78,7 @@ public class Page {
         this.recordCount = recordCount;
         if (recordCount > 0 && pageSize > 0) {
             BigDecimal a = new BigDecimal(recordCount);
-            BigDecimal b = a.divide(new BigDecimal(pageSize), BigDecimal.ROUND_UP);
+            BigDecimal b = a.divide(new BigDecimal(pageSize), RoundingMode.UP);
             pageCount = b.intValue();
             if (pageIndex > pageCount) {
                 pageIndex = pageCount;

@@ -1,0 +1,6 @@
+A: Moving messages to newly created and linked copy of current process, https://bgerp.ru/doc/3.0/manual/kernel/message.html#process
+A: Localization for BGMessageException, https://bgerp.ru/doc/3.0/manual/project.html#localization
+A: Checking on the process closing being closed all the 'processMade' links, https://bgerp.ru/doc/3.0/manual/kernel/process/index.html#linked-process
+F: Left red border on saving configuration of process queue.
+C: Rename configuration key 'processDependCloseCheckDirection' to 'process.close.check.processDepend', default value 'up'.
+C: Refactoring, cleanup of unused files.

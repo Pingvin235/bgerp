@@ -10,16 +10,14 @@
 	<span id="${uiid}" style="display:none;"></span>
 	
 	<script>
-		$(function()
-		{
-			layoutProcess( $('#${uiid}').parent() );
+		$(function () {
+			$$.ui.layout($('#${uiid}').parent());
 			
 			// повторный вызов обусловлен тем, что первый не всегда корректно отрабатывает, особенно если есть div табличного вида
 			// а если всегда вызывать второй то видно визуально растягивание интерфейса всегда
-			setTimeout( function()
-			{		
-				layoutProcess( $('#${uiid}').parent() );
+			setTimeout(function () {
+				$$.ui.layout($('#${uiid}').parent());
 			}, 0 );
-		})
+		});
 	</script>
-</u:sc>	
+</u:sc>

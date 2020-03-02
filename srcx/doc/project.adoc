@@ -334,6 +334,10 @@ git push
 Публикация документации <<publish-doc, производится>> с ветки <<workflow, ветке>> *p11862-documentation*.
 Для предложения правок документации следует создать ветку, начинающуюся с данной.
 
+[[localization-branch]]
+=== Локализация
+Ветки, содержащие только <<localization, локализацию>> интерфейса, следует начинать с долгоживущей ветки *p12136-localization*. 
+
 == Архитектура
 BGERP представляет из себя standalone Java приложение с динамическим Web интерфейсом.
 Запуск во время разработки может быть <<ide-run, произведён>> прямо в IDE.
@@ -455,14 +459,19 @@ link:../../plugin/action/kernel.xml#L151-L152[plugin/action/kernel.xml]
 
 Вспомогательные действия, которые должны быть постоянно разрешены помечаются атрибутом *allowAll="1"*.
 
+[[exception]]
 ==== Обработка ошибок
-Исключение прерывает выполнение акшена, возвращается ошибка. Ответ в таком случае отправляется всегда в JSON формате.
-Исключение с классом javadoc:ru.bgcrm.model.BGMessageException[] используется для прерывания акшена с высылкой уведомления, то есть это штатная ситуация.
-В методах акшенов рекомендуется указывать *throws java.lang.Exception*, для генерации своих исключений - *new BGExeption()*.
+Исключение прерывает выполнение акшена, прерывает тразакцию в <<db, БД>>, ответ отправляется всегда в JSON формате.
+Обработка исключений производится централизованно в javadoc:ru.bgcrm.struts.action.BaseAction[], методы DAO либо обработчики скриптов должны просто выбрасывать их все наружу. 
+Соответственно в декларациях методов акшенов и DAO должно значиться *throws java.lang.Exception*.
 
-Пример акшена с обработкой параметров, исключениями и <<localization, локализацией>>.
-[snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgerp/plugin/blow/struts/action/BoardAction.java#L55-L74[ru.bgerp.plugin.blow.struts.action.BoardAction]
+Класс javadoc:ru.bgcrm.model.BGException[] используется для исключений, генерируемых самой системой, в чистом виде нужен весьма редко.
+
+Его наследник класс javadoc:ru.bgcrm.model.BGMessageException[] используется для отправки <<localization, локализованного>> 
+уведомления пользователю, без записи сообщения в лог. Пример:
+
+[snippet, from="for (", to=");", remove-leading="            "]
+link:../../src/ru/bgcrm/event/listener/ProcessClosingListener.java#L39-L41[ru.bgcrm.event.listener.ProcessClosingListener]
 
 [[action-db]]
 ==== Работа с БД
@@ -637,6 +646,11 @@ JEXL скрипты либо динамический код могут быть
 Локализуется интерфейс и сообщения, адресованные пользователю системы.
 Язык системы задаётся глобально в <<kernel/setup.adoc#config, конфигурации>>.
 Файлы локализации размещаются в *plugin/i18n* в формате XML.
+Новые локализирующие фразы должны добавляться в начало списка в файле.
+
+Локализация отдельно от <<workflow, изменения>> может быть выполнена в <<localization-branch, отдельной ветке GIT>>.
+
+NOTE: Для отключения в момент разработки кэширования локализаций установите в конфигурации *localization.cache=0*
 
 Ключом локализирующей фразы выступает первая запись на любом языке, например русском:
 [source, xml]
@@ -644,7 +658,15 @@ JEXL скрипты либо динамический код могут быть
 <p><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
 ----
 
-В коде JSP шаблона вызов выглядит следующим образом:
+Возможно использование коротких сокращённых ключей, представляя их в виде записей на особом системном языке, например:
+[source, xml]
+----
+<p><sys>reauth.message</sys><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
+----
+
+Локализация может выполняться в JSP шаблонах и Java акшенах. В JS коде локализация доступна, только если он генерируется JSP.
+
+В коде JSP шаблона вызов локализации из примера выше выглядит следующим образом:
 [source, jsp]
 ----
 $('#loginForm').dialog({
@@ -656,14 +678,10 @@ $('#loginForm').dialog({
 });
 ----
 
-Локализация может выполняться в JSP шаблонах и Java акшенах. В JS коде локализация доступна, только если он генерируется JSP.
+При выполнении <<action, акшена>> в объект *l* передаётся локализационный контекст, содержащий фразы для ядра и вызываемого плагина.
 
-При выполнении акшена в объект *l* передаётся локализационный контекст, содержащий фразы для ядра и вызываемого плагина.
-
-Новые локализирующие фразы должны добавляться в начало списка в файле.
-При необходимости сторонние разработчики могут выполнять локализации в ветках и высылать запросы на портирования в ствол проекта аналогично любым другим патчам. 
-
-NOTE: Для отключения в момент разработки кэширования локализаций установите в конфигурации *localization.cache=0*
+[snippet, from="message.se", to="());", remove-leading="        "]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L207-L207[ru.bgcrm.struts.action.MessageAction]
 
 == Именование
 === Переменные конфигураций, функции JS, HTTP StyleId
@@ -732,11 +750,11 @@ from_dt, to_dt - тип datetime.
 
 Сохранение значения:
 [snippet, from="pu", to=");", remove-leading="	"]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L64-L70[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L65-L71[ru.bgcrm.struts.action.MessageAction]
 
 Восстановление:
 [snippet, from="pu", to="}", remove-leading="	"]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L237-L249[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L243-L255[ru.bgcrm.struts.action.MessageAction]
 
 Сохранение плюс восстановление сразу:
 [snippet, from="//", to=");", remove-leading="    "]
