@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -136,6 +137,8 @@ public class ConnectionPool
             properties.setProperty("characterEncoding", "UTF-8");
             properties.setProperty("zeroDateTimeBehavior", "convertToNull");
             properties.setProperty("allowMultiQueries", "true");
+            properties.setProperty("useLegacyDatetimeCode", "false");
+            properties.setProperty("serverTimezone", TimeZone.getDefault().getID());
 
             int maxIdle = prefs.getInt( prefix + "maxIdle", MAX_IDLE_DEFAULT );
             int maxActive = prefs.getInt( prefix + "maxActive", MAX_ACTIVE_DEFAULT );
