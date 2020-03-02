@@ -7,11 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.CommonDAO;
@@ -294,7 +293,7 @@ public class CommonContractDAO
 		}
 		catch( SQLException e )
 		{
-			if( e instanceof MySQLIntegrityConstraintViolationException )
+			if( e instanceof SQLIntegrityConstraintViolationException )
 			{
 				throw new BGMessageException( "Единый договор c таким номером уже существует!" );
 			}
