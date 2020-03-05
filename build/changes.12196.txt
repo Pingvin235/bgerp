@@ -1,3 +1,0 @@
-F: Error opening of process card with set parameters of type 'tree'.
-C: Cleanup old code in plugin Document.
-C: Refactor deprecated calls.
