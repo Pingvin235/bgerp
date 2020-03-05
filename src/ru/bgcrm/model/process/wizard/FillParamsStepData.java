@@ -36,7 +36,7 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
 	}
 
 	@Override
-	public boolean isFilled(DynActionForm form, Connection connection) throws BGException {
+	public boolean isFilled(DynActionForm form, Connection connection) throws Exception {
 		boolean filled = true;
 		objectId = getObjectId(connection);
 

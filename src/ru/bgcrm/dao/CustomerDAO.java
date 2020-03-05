@@ -827,10 +827,10 @@ public class CustomerDAO
 	 * @param changedParamId код изменённого параметра.
 	 * @param response если параметр передан, туда будет добавлено событие о изменении названия договора.
 	 * @return
-	 * @throws BGException
+	 * @throws Exception
 	 */
 	public void updateCustomerTitle( String titleBefore, Customer customer, int changedParamId, Response response )
-	    throws BGException
+	    throws Exception
 	{
 		PatternDAO patternDAO = new PatternDAO( con );
 		ParamValueDAO paramValueDAO = new ParamValueDAO( con );

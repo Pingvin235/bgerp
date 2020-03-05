@@ -1,6 +1,6 @@
 package ru.bgcrm.model;
 
-public class IdStringTitle {
+public class IdStringTitle implements Title {
     private String id;
     private String title;
     
@@ -19,11 +19,17 @@ public class IdStringTitle {
         this.id = id;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return title != null ? title : "null";
     }
 }

@@ -6,10 +6,6 @@ import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.io.StringReader;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -22,19 +18,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.apache.log4j.lf5.util.StreamUtils;
-import org.apache.xpath.XPathAPI;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.lf5.util.StreamUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import net.sf.saxon.s9api.DOMDestination;
 import net.sf.saxon.s9api.Destination;
@@ -42,15 +34,11 @@ import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltExecutable;
 import net.sf.saxon.s9api.XsltTransformer;
-import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.listener.DynamicEventListener;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.param.Parameter;
-import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.plugin.bgbilling.event.RegisterExtensionFunctionsEvent;
 import ru.bgcrm.plugin.document.PadegExtensionFunction;
 import ru.bgcrm.plugin.document.dao.DocumentDAO;
@@ -59,7 +47,6 @@ import ru.bgcrm.plugin.document.model.Pattern;
 import ru.bgcrm.servlet.CustomHttpServletResponse;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.RegexpStringUtils;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -467,298 +454,4 @@ public class CommonDocumentGenerator
 		throws BGException
 	{}
 
-	//TODO: Весь этот "язык" ниже удалить после перехода на XSLT обработчик.
-	private Map<Integer, String> paramValueCache = new HashMap<Integer, String>();
-
-	@Deprecated
-	private String processMacros( String macros )
-		throws BGException
-	{
-		String currentValue = "";
-
-		if( log.isDebugEnabled() )
-		{
-			log.debug( "Macros: " + macros );
-		}
-
-		macros = macros.replaceAll( "\\|\\|", "\u0000" );
-
-		String[] tokens = macros.split( "\\s*\\|\\s*" );
-		for( String token : tokens )
-		{
-			token = token.replace( "\u0000", "|" );
-
-			currentValue = processMacros( currentValue, token );
-
-			if( log.isDebugEnabled() )
-			{
-				log.debug( "Token: " + token + " => " + currentValue );
-			}
-
-			// если любая из функций возвращает пустую строку - прерываем цепочку
-			if( Utils.isBlankString( currentValue ) )
-			{
-				break;
-			}
-		}
-
-		if( log.isDebugEnabled() )
-		{
-			log.debug( " => " + currentValue );
-		}
-
-		return currentValue;
-	}
-
-	@Deprecated
-	private String getParamStringValue( int paramId )
-		throws BGException
-	{
-		Parameter param = ParameterCache.getParameter( paramId );
-		if( param == null )
-		{
-			return "";
-		}
-
-		String value = paramValueCache.get( paramId );
-		if( value == null )
-		{
-			ParameterValuePair paramValue = new ParameterValuePair( param );
-			new ParamValueDAO( conSet.getConnection() ).loadParameterValue( paramValue, event.getObjectId(), true );
-
-			value = paramValue.getValueTitle();
-			paramValueCache.put( paramId, value );
-		}
-
-		return value;
-	}
-
-	/**
-	 * Старая технология работы с макросами.
-	 */
-	@Deprecated
-	public String processMacros( String incomingValue, String macros )
-		throws BGException
-	{
-		if( macros.startsWith( "param:" ) )
-		{
-			int paramId = Utils.parseInt( StringUtils.substringAfter( macros, ":" ) );
-			if( paramId <= 0 )
-			{
-				return incomingValue;
-			}
-
-			return getParamStringValue( paramId );
-		}
-		else if( macros.startsWith( "params:" ) )
-		{
-			StringBuilder result = new StringBuilder();
-
-			List<Integer> paramIds = Utils.toIntegerList( StringUtils.substringAfter( macros, ":" ) );
-			for( int paramId : paramIds )
-			{
-				String value = getParamStringValue( paramId );
-				if( Utils.notBlankString( value ) )
-				{
-					Utils.addCommaSeparated( result, value );
-				}
-			}
-
-			return result.toString();
-		}
-		else if( macros.startsWith( "token" ) )
-		{
-			String[] vars = macros.split( ":" );
-			if( vars.length != 3 )
-			{
-				throw new BGException( "Incorrect token macros: " + macros );
-			}
-
-			int pos = Utils.parseInt( vars[2] );
-
-			String[] tokens = incomingValue.split( vars[1] );
-			if( pos >= 0 && pos < tokens.length )
-			{
-				return tokens[pos];
-			}
-		}
-		else if( macros.startsWith( "replace" ) )
-		{
-			String[] vars = macros.split( ":" );
-			if( vars.length != 2 && vars.length != 3 )
-			{
-				throw new BGException( "Incorrect token macros: " + macros );
-			}
-
-			String replaceTo = "";
-			if( vars.length == 3 )
-			{
-				replaceTo = vars[2];
-			}
-
-			return incomingValue.replaceAll( vars[1], replaceTo );
-		}
-		else if( macros.startsWith( "substr" ) )
-		{
-			String[] vars = macros.split( ":" );
-			if( vars.length < 2 )
-			{
-				throw new BGException( "Incorrect token macros: " + macros );
-			}
-
-			int posFrom = Utils.parseInt( vars[1] );
-			int posTo = incomingValue.length();
-			if( vars.length > 2 )
-			{
-				posTo = Utils.parseInt( vars[2] );
-			}
-
-			if( 0 <= posFrom && posFrom < posTo && posTo <= incomingValue.length() )
-			{
-				return incomingValue.substring( posFrom, posTo );
-			}
-			else
-			{
-				throw new BGException( "Incorrect substr positions: " + posFrom + ", " + posTo );
-			}
-		}
-		else if( macros.equals( "trim" ) )
-		{
-			return incomingValue.trim();
-		}
-		else if( macros.startsWith( "dateParse" ) )
-		{
-			String format = StringUtils.substringAfter( macros, ":" );
-			if( Utils.isBlankString( format ) )
-			{
-				throw new BGException( "Can't find date format in: " + macros );
-			}
-
-			Date date = TimeUtils.parse( incomingValue, format );
-			if( date != null )
-			{
-				return String.valueOf( date.getTime() );
-			}
-			return "";
-		}
-		else if( macros.startsWith( "dateFormat" ) )
-		{
-			String format = StringUtils.substringAfter( macros, ":" );
-			if( Utils.isBlankString( format ) )
-			{
-				throw new BGException( "Can't find date format in: " + macros );
-			}
-
-			return new SimpleDateFormat( format ).format( new Date( Utils.parseLong( incomingValue ) ) );
-		}
-		else if( macros.startsWith( "ifEq" ) )
-		{
-			String[] vars = macros.split( ":" );
-			if( vars.length != 3 )
-			{
-				throw new BGException( "Incorrect token macros: " + macros );
-			}
-
-			if( incomingValue.equals( vars[1] ) )
-			{
-				return vars[2];
-			}
-			return "";
-		}
-		else if( macros.startsWith( "ifNotEq" ) )
-		{
-			String[] vars = macros.split( ":" );
-			if( vars.length != 3 )
-			{
-				throw new BGException( "Incorrect token macros: " + macros );
-			}
-
-			if( !incomingValue.equals( vars[1] ) )
-			{
-				return vars[2];
-			}
-			return "";
-		}
-		else if( macros.startsWith( "indexOf" ) )
-		{
-			String[] vars = macros.split( ":" );
-			if( vars.length != 2 )
-			{
-				throw new BGException( "Incorrect token macros: " + macros );
-			}
-
-			return String.valueOf( incomingValue.indexOf( vars[1] ) );
-		}
-		else if( macros.startsWith( "ifInSet" ) )
-		{
-			String[] vars = macros.split( ":" );
-			if( vars.length != 3 )
-			{
-				throw new BGException( "Incorrect token macros: " + macros );
-			}
-
-			if( Utils.toSet( incomingValue )
-					 .contains( vars[1] ) )
-			{
-				return vars[2];
-			}
-			return "";
-		}
-		else if( macros.equals( "switch" ) )
-		{
-			String[] vars = macros.split( ":" );
-			if( vars.length != 3 )
-			{
-				throw new BGException( "Incorrect token macros: " + macros );
-			}
-
-			List<String> vars1 = Utils.toList( vars[1] );
-			List<String> vars2 = Utils.toList( vars[2] );
-
-			int length = Math.min( vars1.size(), vars2.size() );
-
-			for( int i = 0; i < length; i++ )
-			{
-				if( incomingValue.equals( vars1.get( i ) ) )
-				{
-					return vars2.get( i );
-				}
-			}
-			return "";
-		}
-		else if( macros.startsWith( "xpathSelect" ) )
-		{
-			String expression = StringUtils.substringAfter( macros, ":" );
-			if( Utils.isBlankString( expression ) )
-			{
-				throw new BGException( "Empty expression for macros: " + macros );
-			}
-
-			StringBuilder result = new StringBuilder();
-			try
-			{
-				Document doc = XMLUtils.parseDocument( new InputSource( new StringReader( incomingValue ) ) );
-				NodeList nodeList = XPathAPI.selectNodeList( doc, expression );
-
-				final int size = nodeList.getLength();
-				for( int i = 0; i < size; i++ )
-				{
-					if( result.length() != 0 )
-					{
-						result.append( "," );
-					}
-					result.append( nodeList.item( i )
-										   .getNodeValue() );
-				}
-			}
-			catch( Exception e )
-			{
-				throw new BGException( e );
-			}
-
-			return result.toString();
-		}
-
-		return incomingValue;
-	}
 }

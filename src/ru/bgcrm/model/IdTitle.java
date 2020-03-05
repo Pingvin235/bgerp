@@ -4,9 +4,10 @@ import org.w3c.dom.Element;
 
 import ru.bgcrm.util.Utils;
 
-public class IdTitle extends Id {
+public class IdTitle extends Id implements Title {
     protected String title;
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -27,6 +28,7 @@ public class IdTitle extends Id {
         this(Utils.parseInt(element.getAttribute("id")), element.getAttribute("title"));
     }
 
+    @Override
     public String toString() {
         return title != null ? title : "null";
     }

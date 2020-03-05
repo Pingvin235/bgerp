@@ -30,10 +30,10 @@ import org.w3c.dom.NodeList;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Id;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.ListItem;
+import ru.bgcrm.model.Title;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;
 
@@ -349,7 +349,7 @@ public class Utils {
             StringTokenizer st = new StringTokenizer(valuesStr.trim(), delims);
             while (st.hasMoreTokens()) {
                 try {
-                    result.add(new Integer(st.nextToken().trim()));
+                    result.add(Integer.valueOf(st.nextToken().trim()));
                 } catch (Exception e) {}
             }
         }
@@ -369,7 +369,7 @@ public class Utils {
             StringTokenizer st = new StringTokenizer(valuesStr.trim(), ",;");
             while (st.hasMoreTokens()) {
                 try {
-                    result.add(new Integer(st.nextToken().trim()));
+                    result.add(Integer.valueOf(st.nextToken().trim()));
                 } catch (Exception e) {}
             }
         }
@@ -547,7 +547,7 @@ public class Utils {
      * @param list
      * @return
      */
-    public static final <T extends IdTitle> String getObjectTitles(Collection<T> list) {
+    public static final <T extends Title> String getObjectTitles(Collection<T> list) {
         return getObjectTitles(list, null);
     }
 
@@ -557,7 +557,7 @@ public class Utils {
      * @param startValues начало строки.
      * @return
      */
-    public static final <T extends IdTitle> String getObjectTitles(Collection<T> list, String startValues) {
+    public static final <T extends Title> String getObjectTitles(Collection<T> list, String startValues) {
         return getObjectTitles(list, startValues, DEFAULT_DELIM);
     }
 
@@ -568,7 +568,7 @@ public class Utils {
      * @param delim разделитель наименований объектов.
      * @return
      */
-    public static <T extends IdTitle> String getObjectTitles(Collection<T> list, String startValues, String delim) {
+    public static <T extends Title> String getObjectTitles(Collection<T> list, String startValues, String delim) {
         StringBuilder result = new StringBuilder();
         if (notEmptyString(startValues)) {
             result.append(startValues);
@@ -718,9 +718,9 @@ public class Utils {
      * @param paramValueDAO
      * @param pattern
      * @return
-     * @throws BGException
+     * @throws Exception
      */
-    public static String formatPatternString(String object, int objectId, ParamValueDAO paramValueDAO, String pattern) throws BGException {
+    public static String formatPatternString(String object, int objectId, ParamValueDAO paramValueDAO, String pattern) throws Exception {
         String result = "";
         if (pattern != null) {
             result = pattern;
@@ -733,8 +733,7 @@ public class Utils {
                 }
                 last = found + 8;
                 found = pattern.indexOf("}", last);
-                Integer pid = new Integer(Utils.parseInt(pattern.substring(last, found)));
-                parameterIdList.add(pid);
+                parameterIdList.add(Utils.parseInt(pattern.substring(last, found)));
             }
 
             List<Parameter> paramList = ParameterCache.getObjectTypeParameterList(object, -1);

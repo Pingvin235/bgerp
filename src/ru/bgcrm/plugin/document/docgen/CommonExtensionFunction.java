@@ -3,18 +3,16 @@ package ru.bgcrm.plugin.document.docgen;
 import java.sql.Connection;
 import java.util.List;
 
-import net.sf.saxon.lib.ExtensionFunctionDefinition;
-import net.sf.saxon.om.StructuredQName;
-
 import org.w3c.dom.Element;
 
+import net.sf.saxon.lib.ExtensionFunctionDefinition;
+import net.sf.saxon.om.StructuredQName;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamListShowListEvent;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.model.process.Process;

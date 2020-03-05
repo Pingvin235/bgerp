@@ -16,19 +16,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Config;
+import ru.bgerp.util.Log;
 
 /**
  * Набор параметров, хранящийся в ConcurrentHashMap
  * @see ParameterMap
  */
 public class Preferences extends ParameterMap {
-    private static final Logger log = Logger.getLogger(Preferences.class);
+    private static final Log log = Log.getLog();
 
     private static final String INC = "inc";
     private static final String INSTRUCTION_DELIM = ":";
@@ -117,20 +116,15 @@ public class Preferences extends ParameterMap {
      * Загрузка файла конфигурации в Map, имя файла определено в поле {@link #bundleName}.
      */
     protected void loadBundle(String bundleName, Map<String, String> data, boolean validate) {
-        try {
+        File file = new File(bundleName.replace('.', '/') + ".properties");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), Utils.UTF8))) {
             MultilineContext context = new MultilineContext();
-            File file = new File(bundleName.replace('.', '/') + ".properties");
-
-            FileInputStream fis = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis, Utils.UTF8));
 
             String line = null;
             while ((line = reader.readLine()) != null) 
                 loadDataEntry(context, data, line.trim(), null, validate);
-
-            fis.close();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
     }
 
