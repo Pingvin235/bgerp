@@ -26,7 +26,7 @@
 			
 		<ui:select-mult
 			id="${tabsId}-${item.id}"  hiddenName="${hiddenName}" 
-			showId="1" style="width:100%;" 
+			showId="true" style="width:100%;" 
 			styleClass="layout-height-rest" list="${list}" values="${values}"/>
 	</c:forEach> 
 </u:sc>

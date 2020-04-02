@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.AbstractMap;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -12,24 +13,23 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGMessageException;
+import ru.bgerp.util.Log;
 
 /**
  * Исходный map параметров. Его главная функция - #{@link ParameterMap#get(String, String)}.
  * Остальные используют эту функцию для парсинга значений.
  */
 public abstract class ParameterMap extends AbstractMap<String, String> {
-    private static final Logger log = Logger.getLogger(ParameterMap.class);
+    private static final Log log = Log.getLog();
 
     /** 
      * Конфигурации, разбираются при первом обращении и кешируются далее.
      */
     protected volatile ConcurrentHashMap<Class<?>, Config> configMap;
 
-    public static class DefaultParameterMap extends ParameterMap {
+    private static class DefaultParameterMap extends ParameterMap {
         protected Map<String, String> data;
 
         public DefaultParameterMap(Map<String, String> data) {
@@ -47,6 +47,8 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
             return data.entrySet();
         }
     }
+
+    public static ParameterMap EMPTY = new DefaultParameterMap(Collections.emptyMap());
 
     protected String mapPrint = null;
 

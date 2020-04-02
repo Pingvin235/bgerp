@@ -129,6 +129,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     public DynActionForm(User user) {
         this.user = user;
+        this.permission = ParameterMap.EMPTY;
     }
 
     public HttpServletRequest getHttpRequest() {
@@ -370,7 +371,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     public String getParam(String name, String defaultValue, boolean defaultSet) {
         String value = param.get(name);
         if (value != null)
-            return value;
+            return value.trim();
         if (defaultSet)
             setParam(name, defaultValue);
         return defaultValue;
@@ -422,21 +423,15 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     public int getParamInt(String name, int defaultValue) {
-        return Utils.parseInt(param.get(name), defaultValue);
+        return Utils.parseInt(getParam(name), defaultValue);
     }
 
     public int getParamInt(String name) {
-        return Utils.parseInt(param.get(name));
+        return getParamInt(name, 0);
     }
 
     public long getParamLong(String name, long defaultValue) {
-        String value = param.get(name);
-
-        if (Utils.isBlankString(value)) {
-            return defaultValue;
-        }
-
-        return Long.parseLong(value);
+        return Utils.parseLong(getParam(name), defaultValue);
     }
 
     public long getParamLong(String name) {
@@ -448,7 +443,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     public boolean getParamBoolean(String name) {
-        return Utils.parseBoolean(getParam(name), false);
+        return getParamBoolean(name, false);
     }
 
     /**

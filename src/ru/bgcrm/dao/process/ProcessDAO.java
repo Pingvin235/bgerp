@@ -1410,7 +1410,7 @@ public class ProcessDAO extends CommonDAO {
 
 	public void updateProcessGroups(Set<ProcessGroup> processGroups, int processId) throws Exception {
 		if (history) {
-			Process oldValue = getProcess(processId);
+			Process oldValue = new ProcessDAO(con).getProcess(processId);
 			Process newValue = oldValue.clone();
 			newValue.setProcessGroups(processGroups);
 			logProcessChange(newValue, oldValue);

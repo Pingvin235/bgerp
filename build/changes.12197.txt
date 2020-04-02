@@ -1,0 +1,4 @@
+F: Update process groups with 'isolation.process' enabled.
+F: Show group IDs in process type editor.
+C: Trim whitespaces in HTTP request parameters.
+
