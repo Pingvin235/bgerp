@@ -102,5 +102,7 @@
 		</c:when>
 	</c:choose>
 	
-	additionalLinksForAdd.push( {objectType: '${item.linkedObjectType}', id: ${item.linkedObjectId}, title: '${item.linkedObjectTitle}', objectTypeTitle: '${title}' } );
+	additionalLinksForAdd.push( {
+		objectType: '${item.linkedObjectType}', id: ${item.linkedObjectId}, 
+		title: '${item.linkedObjectTitle.replace("'", "&#8217;").replace("\"", "&#8220;")}', objectTypeTitle: '${title}' } );
 </c:forEach>
