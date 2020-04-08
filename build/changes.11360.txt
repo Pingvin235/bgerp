@@ -1,2 +1,0 @@
-A: Auto creation processes from E-Mails, https://bgerp.ru/doc/3.0/manual/kernel/message.html#ac
-

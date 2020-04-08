@@ -1,6 +1,14 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, F - FIX
 
+08.04.2020 14:48:58 1350
+A: Auto creation processes from E-Mails, https://bgerp.ru/doc/3.0/manual/kernel/message.html#ac
+F: Add process links with special character in names.
+F: Update process groups with 'isolation.process' enabled.
+F: Show group IDs in process type editor.
+C: Trim whitespaces in HTTP request parameters.
+F: Show messages from linked processes on pagination refresh.
+
 05.03.2020 16:27:10 1349
 F: Error opening of process card with set parameters of type 'tree'.
 C: Cleanup old code in plugin Document.
