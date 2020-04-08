@@ -681,7 +681,7 @@ $('#loginForm').dialog({
 При выполнении <<action, акшена>> в объект *l* передаётся локализационный контекст, содержащий фразы для ядра и вызываемого плагина.
 
 [snippet, from="message.se", to="());", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L207-L207[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L213-L213[ru.bgcrm.struts.action.MessageAction]
 
 == Именование
 === Переменные конфигураций, функции JS, HTTP StyleId
@@ -749,12 +749,12 @@ from_dt, to_dt - тип datetime.
 Например, фильтров интерфейса. Используется метод *restoreRequestParams* в: javadoc:ru.bgcrm.struts.action.BaseAction[]
 
 Сохранение значения:
-[snippet, from="pu", to=");", remove-leading="	"]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L65-L71[ru.bgcrm.struts.action.MessageAction]
+[snippet, from="pu", to=");", remove-leading="    "]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L66-L72[ru.bgcrm.struts.action.MessageAction]
 
 Восстановление:
-[snippet, from="pu", to="}", remove-leading="	"]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L243-L255[ru.bgcrm.struts.action.MessageAction]
+[snippet, from="pu", to="}", remove-leading="    "]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L249-L261[ru.bgcrm.struts.action.MessageAction]
 
 Сохранение плюс восстановление сразу:
 [snippet, from="//", to=");", remove-leading="    "]
