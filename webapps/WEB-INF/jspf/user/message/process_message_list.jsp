@@ -21,6 +21,7 @@
 <html:form action="/user/message" styleId="${formUiid}">
 	<html:hidden property="action"/>
 	<html:hidden property="processId"/>
+	<html:hidden property="linkProcess"/>
 
 	<c:url var="url" value="message.do">
 		<c:param name="forward" value="processMessageEdit"/>
