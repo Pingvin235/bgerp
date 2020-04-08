@@ -1,5 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.dao;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.ConnectionSet;
 
 public class MessageTypeContactSaverPhone
 	extends ru.bgcrm.dao.message.MessageTypeContactSaver
@@ -38,11 +38,11 @@ public class MessageTypeContactSaverPhone
 	}
 
 	@Override
-	public void saveContact( DynActionForm form, ConnectionSet conSet, Message message, 
+	public void saveContact( DynActionForm form, Connection con, Message message, 
 	                         Process process, int saveMode )
 		throws BGException
 	{
-		CommonObjectLink contractLink = Utils.getFirst( new ProcessLinkDAO( conSet.getConnection() ).getObjectLinksWithType( process.getId(), Contract.OBJECT_TYPE + "%" ) );
+		CommonObjectLink contractLink = Utils.getFirst( new ProcessLinkDAO( con ).getObjectLinksWithType( process.getId(), Contract.OBJECT_TYPE + "%" ) );
 		if( contractLink == null )
 		{
 			return;

@@ -50,6 +50,7 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
+import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -110,9 +111,13 @@ public class MessageAction extends BaseAction {
     }
 
     public ActionForward messageUpdateProcess(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
-        MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
-
         Connection con = conSet.getConnection();
+        MessageAction.messageUpdateProcess(form, con);
+        return processJsonForward(conSet, form);
+    }
+
+    static public void messageUpdateProcess(DynActionForm form, Connection con) throws BGException {
+        MessageTypeConfig config = Setup.getSetup().getConfig(MessageTypeConfig.class);
 
         MessageDAO messageDao = new MessageDAO(con);
 
@@ -151,16 +156,17 @@ public class MessageAction extends BaseAction {
                 if (form.getParamBoolean("notification", false))
                     messageDao.updateMessage(type.messageLinkedToProcess(message));
                 else if (contactSaveMode > 0)
-                    type.getContactSaver().saveContact(form, conSet, message, process, contactSaveMode);
+                    type.getContactSaver().saveContact(form, con, message, process, contactSaveMode);
             }
         }
 
         messageDao.updateMessageProcess(message);
 
-        return processJsonForward(conSet, form);
+        
     }
-    
+	
     public ActionForward messageUpdateTags(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+
         Connection con = conSet.getConnection();
 
         MessageDAO messageDao = new MessageDAO(con);

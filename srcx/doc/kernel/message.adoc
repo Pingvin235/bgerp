@@ -386,6 +386,17 @@ messageType.<id>.class=ru.bgcrm.dao.message.MessageTypeEmail
 messageType.<id>.quickAnswerEmailParamId=21
 ----
 
+[[ac]]
+==== Автосоздание процесса
+Полученные по E-Mail уведомления о новых сообщениях процесса могут быть использованы для автоматического создания процесса по сообщению. 
+Для этого в конфигурации типа сообщения добавить:
+[source]
+----
+messageType.<id>.autoCreateProcessTypeId=<typeId>
+----
+
+Где *<typeId>* - код типа процесса.
+
 [[type-note]]
 === Тип Note
 *<messageTypeClassName>=ru.bgcrm.dao.message.MessageTypeNote*
