@@ -392,7 +392,8 @@ messageType.<id>.quickAnswerEmailParamId=21
 Для этого в конфигурации типа сообщения добавить:
 [source]
 ----
-messageType.<id>.autoCreateProcessTypeId=<typeId>
+messageType.<id>.autoCreateProcess.typeId=<typeId>
+messageType.<id>.autoCreateProcess.notification=1
 ----
 
 Где *<typeId>* - код типа процесса.

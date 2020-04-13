@@ -50,7 +50,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -110,14 +109,8 @@ public class MessageAction extends BaseAction {
         return processUserTypedForward(conSet, mapping, form, "message");
     }
 
-    public ActionForward messageUpdateProcess(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
-        Connection con = conSet.getConnection();
-        MessageAction.messageUpdateProcess(form, con);
-        return processJsonForward(conSet, form);
-    }
-
-    static public void messageUpdateProcess(DynActionForm form, Connection con) throws BGException {
-        MessageTypeConfig config = Setup.getSetup().getConfig(MessageTypeConfig.class);
+    public ActionForward messageUpdateProcess(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+        MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
 
         MessageDAO messageDao = new MessageDAO(con);
 
@@ -162,11 +155,10 @@ public class MessageAction extends BaseAction {
 
         messageDao.updateMessageProcess(message);
 
-        
+        return processJsonForward(con, form);
     }
-	
+    
     public ActionForward messageUpdateTags(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
-
         Connection con = conSet.getConnection();
 
         MessageDAO messageDao = new MessageDAO(con);

@@ -62,7 +62,6 @@ import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.action.FileAction.FileInfo;
 import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;
-import ru.bgcrm.struts.action.MessageAction;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AlarmErrorMessage;
@@ -90,6 +89,7 @@ public class MessageTypeEmail extends MessageType {
     private final Pattern quickAnswerPattern;
     private final int quickAnswerEmailParamId;
     private final int autoCreateProcessTypeId;
+    private final boolean autoCreateProcessNotification;
 
     private final String replayTo;
     private final MailConfig mailConfig;
@@ -118,7 +118,8 @@ public class MessageTypeEmail extends MessageType {
         // TODO: Сделать конфигурируемым
         quickAnswerPattern = Pattern.compile("QA:(\\d+)");
         quickAnswerEmailParamId = config.getInt("quickAnswerEmailParamId", -1);
-        autoCreateProcessTypeId = config.getInt("autoCreateProcessTypeId", -1);
+        autoCreateProcessTypeId = config.getInt("autoCreateProcess.typeId", -1);
+        autoCreateProcessNotification = config.getBoolean("autoCreateProcess.notification", true);
 
         if (!mailConfig.check() || Utils.isBlankString(folderIncoming) 
                 || Utils.isBlankString(folderProcessed)
@@ -563,7 +564,7 @@ public class MessageTypeEmail extends MessageType {
             // либо быстрый ответ
             for (javax.mail.Message message : incomingFolder.getMessages()) {
                 String subject = getMessageSubject(message);
-                if (autoCreateProcessTypeId > 0 || getProcessId(subject) > 0 || getQuickAnswerMessageId(subject) > 0) {
+                if (getProcessId(subject) > 0 || getQuickAnswerMessageId(subject) > 0 || autoCreateProcessTypeId > 0) {
                     processMessage(con, incomingFolder, processedFolder, skippedFolder, message);
                     continue;
                 }
@@ -673,14 +674,10 @@ public class MessageTypeEmail extends MessageType {
                 // TODO: Подумать, чтобы не хулиганили и не писали в чужие процессы..
                 // Может к коду процесса чего добавить.
                 process = processDAO.getProcess(processId);
-                if (process == null) {
+                if (process == null)
                     log.error("Not found process with code: " + processId);
-                } else {
-                    msg.setProcessId(processId);
-                    msg.setProcessed(true);
-                    msg.setToTime(new Date());
-                    msg.setUserId(User.USER_SYSTEM_ID);
-                }
+                else
+                    setMessageProcessed(msg, processId);
             }
             // сообщение переделывается в исходящее и отправляется 
             else if (quickAnsweredMessageId > 0) {
@@ -720,14 +717,22 @@ public class MessageTypeEmail extends MessageType {
                         quickAnsweredMessageType.updateMessage(con, new DynActionForm(user.getObject()), msg);
                         return msg;
                     }
-                    
                 }
+            } else if (autoCreateProcessTypeId > 0) {
+                process = new Process();
+                process.setTypeId(autoCreateProcessTypeId);
+                process.setDescription(msg.getSubject());
+                ProcessAction.processCreate(DynActionForm.SERVER_FORM, con, process);
+
+                log.info("Created process: %s", process.getId());
+
+                setMessageProcessed(msg, process.getId());
+
+                if (autoCreateProcessNotification)
+                    messageDAO.updateMessage(messageLinkedToProcess(msg));
             }
 
             messageDAO.updateMessage(msg);
-            if (autoCreateProcessTypeId > 0) {
-                createProcess(con, msg);
-            }
 
             if (process != null) {
                 ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
@@ -745,35 +750,22 @@ public class MessageTypeEmail extends MessageType {
             long time = System.currentTimeMillis();
 
             if (AlarmSender.needAlarmSend(key, time, 0)) {
-                AlarmSender.sendAlarm(new AlarmErrorMessage(key, "Ошибка разбора E-Mail", "Тема письма " + subject),
-                        time);
+                AlarmSender.sendAlarm(new AlarmErrorMessage(key, "Ошибка разбора E-Mail", "Тема письма " + subject), time);
             }
 
-            log.error(e.getMessage(), e);
+            log.error(e);
 
             throw new BGException(e);
         }
     }
-    
-    private void createProcess(Connection con, Message msg) throws Exception
-    {
-        //создаем процесс
-        DynActionForm processForm = new DynActionForm();
-        processForm.setUser(User.USER_SYSTEM);
-        processForm.setParam("typeId", String.valueOf(autoCreateProcessTypeId));
-        processForm.setParam("description", msg.getSubject());
-        processForm.setParam("wizard", "0");
-        ProcessAction.processCreate(processForm, con);
-        Process process = (Process)processForm.getResponse().getData().get("process");
-        // привязываем к процессу
-        DynActionForm msgForm = new DynActionForm();
-        msgForm.setUser(User.USER_SYSTEM);
-        msgForm.setParam("id", String.valueOf(msg.getId()));
-        msgForm.setParam("processId", String.valueOf(process.getId()));
-        msgForm.setParam("notification", "true");
-        MessageAction.messageUpdateProcess(msgForm, con);
-    }
 
+    private void setMessageProcessed(Message msg, int processId) {
+        msg.setProcessId(processId);
+        msg.setProcessed(true);
+        msg.setToTime(new Date());
+        msg.setUserId(User.USER_SYSTEM_ID);
+    }
+    
     private Message extractMessage(javax.mail.Message message, boolean extractText)
             throws Exception, MessagingException {
         Message msg = new Message();
