@@ -1,7 +1,5 @@
 package ru.bgcrm.model.param;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import ru.bgcrm.util.PatternFormatter;

@@ -268,7 +268,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             }
 
             pd.addQuery(" ORDER BY process.create_dt DESC");
-            pd.addQuery(getMySQLLimit(page));
+            pd.addQuery(getPageLimit(page));
             
             ResultSet rs = pd.executeQuery();
             while (rs.next()) {
@@ -349,7 +349,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
                     + ProcessDAO.getIsolationJoin(user)
                     + "WHERE link.process_id=? AND link.object_type LIKE 'process%' "
                     + "ORDER BY process.create_dt DESC ";
-            query += getMySQLLimit(page);
+            query += getPageLimit(page);
 
             try {
                 PreparedStatement ps = con.prepareStatement(query);

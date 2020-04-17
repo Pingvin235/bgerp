@@ -72,7 +72,7 @@ public class SearchDAO extends CommonDAO {
         String query = SQL_SELECT_COUNT_ROWS + "o.* FROM " + TABLE + " AS ft "
                 + SQL_INNER_JOIN + tableName + " AS o ON ft.object_id=o.id"
                 + SQL_WHERE + "ft.object_type=? AND MATCH(ft.data) AGAINST (? IN BOOLEAN MODE) "
-                + getMySQLLimit(result.getPage());
+                + getPageLimit(result.getPage());
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, objectType);
         ps.setString(2, filter);
@@ -95,7 +95,7 @@ public class SearchDAO extends CommonDAO {
                 + SQL_INNER_JOIN + TABLE_MESSAGE + " AS m ON ft.object_id=m.id "
                 + SQL_LEFT_JOIN + TABLE_PROCESS + " AS p ON m.process_id=p.id "
                 + SQL_WHERE + "ft.object_type=? AND MATCH(ft.data) AGAINST (? IN BOOLEAN MODE) "
-                + getMySQLLimit(result.getPage());
+                + getPageLimit(result.getPage());
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, Message.OBJECT_TYPE);
         ps.setString(2, filter);

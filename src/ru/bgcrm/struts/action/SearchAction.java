@@ -11,7 +11,6 @@ import org.apache.struts.action.ActionMapping;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerDAO;
-import ru.bgcrm.dao.SphinxDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.Customer;
 import ru.bgcrm.model.SearchResult;
@@ -53,7 +52,8 @@ public class SearchAction extends BaseAction {
             customerDao.searchCustomerList(result, CommonDAO.getLikePattern(title, "subs"));
 
             return processUserTypedForward(con, mapping, form, "customerTitle");
-        } else if ("any".equals(searchBy)) {
+        } 
+        /* else if ("any".equals(searchBy)) {
             SearchResult<Customer> result = new SearchResult<Customer>(form);
             String searchString = form.getParam("searchString");
 
@@ -61,7 +61,8 @@ public class SearchAction extends BaseAction {
             sphinxDAO.searchCustomer(result, searchString);
 
             return processUserTypedForward(con, mapping, form, "customerTitle");
-        } else if ("group".equals(searchBy)) {
+        } */ 
+        else if ("group".equals(searchBy)) {
             SearchResult<Customer> result = new SearchResult<Customer>(form);
 
             customerDao.searchCustomerList(result, form.getSelectedValues("groupId"));

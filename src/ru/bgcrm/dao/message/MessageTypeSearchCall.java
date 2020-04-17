@@ -21,61 +21,61 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class MessageTypeSearchCall extends MessageTypeSearch {
-	private static final Logger log = Logger.getLogger(MessageTypeSearchCall.class);
+    private static final Logger log = Logger.getLogger(MessageTypeSearchCall.class);
 
-	private String phonePreprocessJexl;
-	private List<String> commands;
+    private String phonePreprocessJexl;
+    private List<String> commands;
 
-	public MessageTypeSearchCall(ParameterMap config) throws BGException {
-		super(config);
+    public MessageTypeSearchCall(ParameterMap config) throws BGException {
+        super(config);
 
-		// может добавится customerByTextParam:<paramId>
-		this.commands = Utils.toList(config.get("commands"));
-		this.phonePreprocessJexl = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "NumberPreprocess");
-	}
+        // может добавится customerByTextParam:<paramId>
+        this.commands = Utils.toList(config.get("commands"));
+        this.phonePreprocessJexl = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "NumberPreprocess");
+    }
 
-	@Override
-	public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result)
-			throws BGException {
-		String numberFrom = preprocessNumber(message, phonePreprocessJexl);
+    @Override
+    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result)
+            throws BGException {
+        String numberFrom = preprocessNumber(message, phonePreprocessJexl);
 
-		if (log.isDebugEnabled()) {
-			log.debug("Search by numberFrom: " + numberFrom);
-		}
+        if (log.isDebugEnabled()) {
+            log.debug("Search by numberFrom: " + numberFrom);
+        }
 
-		for (String command : commands) {
-			if (command.startsWith("customerByPhoneParam:")) {
-				String paramIds = StringUtils.substringAfter(command, ":");
+        for (String command : commands) {
+            if (command.startsWith("customerByPhoneParam:")) {
+                String paramIds = StringUtils.substringAfter(command, ":");
 
-				SearchResult<Customer> searchResult = new SearchResult<Customer>();
+                SearchResult<Customer> searchResult = new SearchResult<Customer>();
 
-				new CustomerDAO(conSet.getConnection()).searchCustomerListByPhone(searchResult,
-						Utils.toIntegerSet(paramIds), numberFrom);
+                new CustomerDAO(conSet.getConnection()).searchCustomerListByPhone(searchResult,
+                        Utils.toIntegerSet(paramIds), numberFrom);
 
-				for (Customer customer : searchResult.getList()) {
-					result.add(new CommonObjectLink(0, Customer.OBJECT_TYPE, customer.getId(), customer.getTitle()));
-				}
-			}
-		}
-	}
+                for (Customer customer : searchResult.getList()) {
+                    result.add(new CommonObjectLink(0, Customer.OBJECT_TYPE, customer.getId(), customer.getTitle()));
+                }
+            }
+        }
+    }
 
-	public static String preprocessNumber(Message message, String phonePreprocessJexl) {
-		String numberFrom = message.getFrom();
+    public static String preprocessNumber(Message message, String phonePreprocessJexl) {
+        String numberFrom = message.getFrom();
 
-		if (Utils.notBlankString(phonePreprocessJexl)) {
-			if (log.isDebugEnabled()) {
-				log.debug("Using preprocess JEXL: '" + phonePreprocessJexl + "'");
-			}
+        if (Utils.notBlankString(phonePreprocessJexl)) {
+            if (log.isDebugEnabled()) {
+                log.debug("Using preprocess JEXL: '" + phonePreprocessJexl + "'");
+            }
 
-			Map<String, Object> map = new HashMap<String, Object>(1);
-			map.put("numberFrom", message.getFrom());
+            Map<String, Object> map = new HashMap<String, Object>(1);
+            map.put("numberFrom", message.getFrom());
 
-			numberFrom = new Expression(map).getString(phonePreprocessJexl);
+            numberFrom = new Expression(map).getString(phonePreprocessJexl);
 
-			if (log.isDebugEnabled()) {
-				log.debug("Number preprocessed: " + message.getFrom() + " => " + numberFrom);
-			}
-		}
-		return numberFrom;
-	}
+            if (log.isDebugEnabled()) {
+                log.debug("Number preprocessed: " + message.getFrom() + " => " + numberFrom);
+            }
+        }
+        return numberFrom;
+    }
 }

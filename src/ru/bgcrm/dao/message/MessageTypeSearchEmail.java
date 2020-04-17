@@ -16,28 +16,21 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 // TODO: Сделать параметры с конфигурацией что искать.
-public class MessageTypeSearchEmail
-	extends MessageTypeSearch
-{
-	public MessageTypeSearchEmail( ParameterMap config )
-		throws BGException
-	{
-		super( config );		
-	}
+public class MessageTypeSearchEmail extends MessageTypeSearch {
+    public MessageTypeSearchEmail(ParameterMap config) throws BGException {
+        super(config);
+    }
 
-	@Override
-	public void search( DynActionForm form, ConnectionSet conSet, 
-	                    Message message, Set<CommonObjectLink> result )
-		throws BGException
-	{
-		String email = message.getFrom();
-		
-		SearchResult<ParameterSearchedObject<Customer>> searchResult = new SearchResult<ParameterSearchedObject<Customer>>(  );
-		new CustomerDAO( conSet.getConnection() ).searchCustomerListByEmail( searchResult,  Utils.getObjectIdsList( ParameterCache.getObjectTypeParameterList( Customer.OBJECT_TYPE ) ), email );
-		
-		for( ParameterSearchedObject<Customer> object : searchResult.getList() )
-		{
-			result.add( new CommonObjectLink( 0, Customer.OBJECT_TYPE, object.getObject().getId(), object.getObject().getTitle() ) );
-		}
-	}
+    @Override
+    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) throws BGException {
+        String email = message.getFrom();
+
+        SearchResult<ParameterSearchedObject<Customer>> searchResult = new SearchResult<ParameterSearchedObject<Customer>>();
+        new CustomerDAO(conSet.getConnection()).searchCustomerListByEmail(searchResult,
+                Utils.getObjectIdsList(ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE)), email);
+
+        for (ParameterSearchedObject<Customer> object : searchResult.getList()) {
+            result.add(new CommonObjectLink(0, Customer.OBJECT_TYPE, object.getObject().getId(), object.getObject().getTitle()));
+        }
+    }
 }

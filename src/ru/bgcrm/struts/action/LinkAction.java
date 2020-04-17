@@ -142,7 +142,7 @@ public class LinkAction extends BaseAction {
         for (Map.Entry<String, Object> me : form.getParam().entrySet()) {
             String key = me.getKey();
             if (key.startsWith(PARAM_PREFIX)) {
-                link.getConfigMap().set(key.substring(PARAM_PREFIX_LENGTH), ((String[]) me.getValue())[0]);
+                link.getConfigMap().put(key.substring(PARAM_PREFIX_LENGTH), ((String[]) me.getValue())[0]);
             }
         }
 

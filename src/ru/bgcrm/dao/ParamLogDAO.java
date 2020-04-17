@@ -88,7 +88,7 @@ public class ParamLogDAO
 		pd.addQuery( " WHERE object_id= ? AND param_id IN ( " + Utils.getObjectIds( params ) + " ) "  );
 		pd.addInt(id);
 		pd.addQuery( " ORDER BY dt DESC " );
-		pd.addQuery( getMySQLLimit( page ) );
+		pd.addQuery( getPageLimit( page ) );
 		       
 		List<ParameterLogItem> result = searchResult.getList();
 		try

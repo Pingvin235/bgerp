@@ -27,7 +27,11 @@ public class ConfigDAO extends CommonDAO {
         super(con);
     }
 
-    @Deprecated
+    /**
+     * Used only in address editor, clean up later.
+     * @param con
+     * @param tableName
+     */
     public ConfigDAO(Connection con, String tableName) {
         super(con);
         this.tableName = tableName;

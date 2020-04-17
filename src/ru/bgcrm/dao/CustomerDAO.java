@@ -90,7 +90,7 @@ public class CustomerDAO
 				ps.addString( title );
 			}
 			query.append( " ORDER BY title" );
-			query.append( getMySQLLimit( page ) );
+			query.append( getPageLimit( page ) );
 
 			if( log.isDebugEnabled() )
 			{
@@ -133,7 +133,7 @@ public class CustomerDAO
 			query.append( "customer.* FROM " + TABLE_CUSTOMER + " AS customer" );
 			query.append( joinPart );
 			query.append( " ORDER BY title" );
-			query.append( getMySQLLimit( page ) );
+			query.append( getPageLimit( page ) );
 
 			if( log.isDebugEnabled() )
 			{
@@ -153,7 +153,7 @@ public class CustomerDAO
 		query.append( "customer.* FROM " + TABLE_CUSTOMER + " AS customer" );
 		query.append( joinPart );
 		query.append( " ORDER BY title" );
-		query.append( getMySQLLimit( page ) );
+		query.append( getPageLimit( page ) );
 
 		if( log.isDebugEnabled() )
 		{
@@ -357,7 +357,7 @@ public class CustomerDAO
 			}
 			query.append( SQL_ORDER_BY );
 			query.append( "c.title" );
-			query.append( getMySQLLimit( page ) );
+			query.append( getPageLimit( page ) );
 
 			PreparedStatement ps = con.prepareStatement( query.toString() );
 			ps.setString( 1, value );
@@ -448,7 +448,7 @@ public class CustomerDAO
 
 			ps.addQuery( SQL_ORDER_BY );
 			ps.addQuery( "c.title" );
-			ps.addQuery( getMySQLLimit( page ) );
+			ps.addQuery( getPageLimit( page ) );
 
 			ResultSet rs = ps.executeQuery();
 			while( rs.next() )
@@ -511,7 +511,7 @@ public class CustomerDAO
 
 			ps.addQuery( SQL_ORDER_BY );
 			ps.addQuery( "c.title" );
-			ps.addQuery( getMySQLLimit( page ) );
+			ps.addQuery( getPageLimit( page ) );
 
 			try
 			{
@@ -587,7 +587,7 @@ public class CustomerDAO
 			query.append( "1=1 " );
 
 			query.append( " ORDER BY customer.title " );
-			query.append( getMySQLLimit( page ) );
+			query.append( getPageLimit( page ) );
 
 			try
 			{
@@ -640,7 +640,7 @@ public class CustomerDAO
 			query.append( joinPart );
 
 			query.append( " ORDER BY customer.title " );
-			query.append( getMySQLLimit( page ) );
+			query.append( getPageLimit( page ) );
 
 			try
 			{

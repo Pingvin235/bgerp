@@ -196,7 +196,7 @@ public class SphinxDAO
 			query.append( INDEX_CUSTOMER_NAME );
 			query.append( SQL_WHERE );
 			query.append( " MATCH( ? )" );
-			query.append( getMySQLLimit( page ) );
+			query.append( getPageLimit( page ) );
 
 			int index = 1;
 			PreparedStatement ps = sphinxCon.prepareStatement( query.toString() );

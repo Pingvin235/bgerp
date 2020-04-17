@@ -79,7 +79,7 @@ public class FiasDAO
 			}
 
 			query.append( " ORDER BY crm_city_id, street_title" );
-			query.append( getMySQLLimit( page ) );
+			query.append( getPageLimit( page ) );
 
 			ps.addQuery( query.toString() );
 			ResultSet rs = ps.executeQuery();
@@ -129,7 +129,7 @@ public class FiasDAO
 			}
 
 			query.append( " ORDER BY crm_city_id, street_title" );
-			query.append( getMySQLLimit( page ) );
+			query.append( getPageLimit( page ) );
 
 			ps.addQuery( query.toString() );
 			ResultSet rs = ps.executeQuery();
@@ -282,7 +282,7 @@ public class FiasDAO
 		}
 
 		query.append( " ORDER BY post_index" );
-		query.append( getMySQLLimit( page ) );
+		query.append( getPageLimit( page ) );
 
 		ps.addQuery( query.toString() );
 		ps.addString( fiasStreetId );
@@ -468,7 +468,7 @@ public class FiasDAO
 			query.append( TABLE_FIAS_STREET );
 			query.append( " WHERE crm_street_id IS NOT NULL)" );
 			query.append( " ORDER BY item.title" );
-			query.append( getMySQLLimit( page ) );
+			query.append( getPageLimit( page ) );
 
 			ps = con.prepareStatement( query.toString() );
 			if( cityId > 0 )
@@ -534,7 +534,7 @@ public class FiasDAO
 			}
 
 			query.append( " ORDER BY ah.post_index-fd.postal_code, ah.house" );
-			query.append( getMySQLLimit( page ) );
+			query.append( getPageLimit( page ) );
 
 			ps.addQuery( query.toString() );
 			ps.addInt( cityId );

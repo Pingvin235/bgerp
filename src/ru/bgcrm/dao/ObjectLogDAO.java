@@ -38,7 +38,7 @@ public class ObjectLogDAO
 				query.append( " AND user_id=?" );
 			}
 			query.append( " ORDER BY dt DESC" );
-			query.append( getMySQLLimit( page ) );
+			query.append( getPageLimit( page ) );
 			ps = con.prepareStatement( query.toString() );
 			if( userId > 0 )
 			{

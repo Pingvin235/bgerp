@@ -355,7 +355,7 @@ public class MessageDAO extends CommonDAO {
             if (reverseOrder) {
                 ps.addQuery(" DESC");
             }
-            ps.addQuery(getMySQLLimit(page));
+            ps.addQuery(getPageLimit(page));
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

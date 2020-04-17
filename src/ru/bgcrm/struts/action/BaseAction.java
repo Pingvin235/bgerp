@@ -246,7 +246,7 @@ public class BaseAction extends DispatchAction {
 
                     int currentValue = user.getPersonalizationMap().getInt(key, -1);
                     if (currentValue != pageSize) {
-                        user.getPersonalizationMap().set(key, String.valueOf(pageSize));
+                        user.getPersonalizationMap().put(key, String.valueOf(pageSize));
                         new UserDAO(conSet.getConnection()).updatePersonalization(null, user);
                     }
                 }

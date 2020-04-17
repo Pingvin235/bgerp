@@ -40,7 +40,7 @@ public class TaskDAO extends CommonDAO {
         if (onlyOpen)
             pd.addQuery(" AND executed_dt IS NULL");
         
-        pd.addQuery(getMySQLLimit(result.getPage()));
+        pd.addQuery(getPageLimit(result.getPage()));
         
         ResultSet rs = pd.executeQuery();
         while (rs.next()) 

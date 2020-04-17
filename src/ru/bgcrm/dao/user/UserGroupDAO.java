@@ -68,7 +68,7 @@ public class UserGroupDAO
 				pd.addInt( parentId );
 			}
 
-			pd.addQuery( " ORDER BY title" + getMySQLLimit( page ) );
+			pd.addQuery( " ORDER BY title" + getPageLimit( page ) );
 
 			ResultSet rs = pd.executeQuery();
 			while( rs.next() )

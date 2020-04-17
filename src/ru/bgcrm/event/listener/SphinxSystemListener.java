@@ -1,4 +1,4 @@
-package ru.bgcrm.event.listener;
+/* package ru.bgcrm.event.listener;
 
 import java.util.Set;
 
@@ -53,4 +53,4 @@ public class SphinxSystemListener
     		}
 		}
 	}
-}
+} */

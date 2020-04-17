@@ -20,32 +20,32 @@ import ru.bgcrm.util.sql.ConnectionSet;
  * сообщений типа Call, поступивших на занятый пользователем номер.
  */
 public class MessageTypeCallListener extends DynamicEventListener {
-	public MessageTypeCallListener() {
-		EventProcessor.subscribe(this, GetPoolTasksEvent.class);
-	}
+    public MessageTypeCallListener() {
+        EventProcessor.subscribe(this, GetPoolTasksEvent.class);
+    }
 
-	@Override
-	public void notify(Event e, ConnectionSet connectionSet) throws BGException {
-		if (!(e instanceof GetPoolTasksEvent)) {
-			return;
-		}
+    @Override
+    public void notify(Event e, ConnectionSet connectionSet) throws BGException {
+        if (!(e instanceof GetPoolTasksEvent)) {
+            return;
+        }
 
-		GetPoolTasksEvent event = (GetPoolTasksEvent) e;
+        GetPoolTasksEvent event = (GetPoolTasksEvent) e;
 
-		MessageTypeConfig config = Setup.getSetup().getConfig(MessageTypeConfig.class);
-		for (MessageType type : config.getTypeMap().values()) {
-			if (!(type instanceof MessageTypeCall)) {
-				continue;
-			}
+        MessageTypeConfig config = Setup.getSetup().getConfig(MessageTypeConfig.class);
+        for (MessageType type : config.getTypeMap().values()) {
+            if (!(type instanceof MessageTypeCall)) {
+                continue;
+            }
 
-			CallRegistration reg = ((MessageTypeCall) type).getRegistrationByUser(event.getUser().getId());
-			if (reg != null) {
-				reg.setLastPooling(new Date());
-				if (reg.getMessageForOpenId() != null) {
-					event.getForm().getResponse().addEvent(new MessageOpenEvent(reg.getMessageForOpenId()));
-					reg.setMessageForOpenId(null);
-				}
-			}
-		}
-	}
+            CallRegistration reg = ((MessageTypeCall) type).getRegistrationByUser(event.getUser().getId());
+            if (reg != null) {
+                reg.setLastPooling(new Date());
+                if (reg.getMessageForOpenId() != null) {
+                    event.getForm().getResponse().addEvent(new MessageOpenEvent(reg.getMessageForOpenId()));
+                    reg.setMessageForOpenId(null);
+                }
+            }
+        }
+    }
 }

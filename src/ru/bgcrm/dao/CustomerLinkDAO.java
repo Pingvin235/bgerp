@@ -57,7 +57,7 @@ public class CustomerLinkDAO
 			      "SELECT * FROM " + TABLE_CUSTOMER_LINK + " AS link " +
 			      "INNER JOIN " + TABLE_CUSTOMER + " AS c ON link.customer_id=c.id " +
 			      "WHERE link.object_id=? AND link.object_type=? " +
-			      getMySQLLimit( page );
+			      getPageLimit( page );
 
 			PreparedStatement ps = con.prepareStatement( query );
 			ps.setInt( 1, link.getLinkedObjectId() );

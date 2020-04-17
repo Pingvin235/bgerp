@@ -7,44 +7,43 @@ import java.util.Map;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ParamValueFunction;
 import ru.bgcrm.dao.expression.ProcessLinkFunction;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 public abstract class StepData<T extends Step> {
-	protected T step;
-	protected WizardData data;
+    protected T step;
+    protected WizardData data;
 
-	public StepData(T step, WizardData data) {
-		this.step = step;
-		this.data = data;
-	}
+    public StepData(T step, WizardData data) {
+        this.step = step;
+        this.data = data;
+    }
 
-	public T getStep() {
-		return step;
-	}
+    public T getStep() {
+        return step;
+    }
 
-	/**
-	 * JEXL фильтр позволяющий включить или выключить шаг из списка.
-	 * @param con
-	 * @return
-	 */
-	public boolean check(Connection con) {
-		if (Utils.isBlankString(step.getExpression())) {
-			return true;
-		}
+    /**
+     * JEXL фильтр позволяющий включить или выключить шаг из списка.
+     * @param con
+     * @return
+     */
+    public boolean check(Connection con) {
+        if (Utils.isBlankString(step.getExpression())) {
+            return true;
+        }
 
-		Map<String, Object> context = new HashMap<String, Object>();
-		context.put(Process.OBJECT_TYPE, data.getProcess());
-		context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX,
-				new ParamValueFunction(con, data.getProcess().getId()));
-		context.put(ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction(con, data.getProcess().getId()));
-		context.put(User.OBJECT_TYPE, data.getUser());
+        Map<String, Object> context = new HashMap<String, Object>();
+        context.put(Process.OBJECT_TYPE, data.getProcess());
+        context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX,
+                new ParamValueFunction(con, data.getProcess().getId()));
+        context.put(ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction(con, data.getProcess().getId()));
+        context.put(User.OBJECT_TYPE, data.getUser());
 
-		return new Expression(context).check(step.getExpression());
-	}
+        return new Expression(context).check(step.getExpression());
+    }
 
-	public abstract boolean isFilled(DynActionForm form, Connection con) throws Exception;
+    public abstract boolean isFilled(DynActionForm form, Connection con) throws Exception;
 }

@@ -9,14 +9,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.Tables;
 import ru.bgcrm.dao.process.ProcessDAO;

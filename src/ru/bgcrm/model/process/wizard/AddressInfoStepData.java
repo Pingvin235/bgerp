@@ -9,47 +9,39 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.struts.form.DynActionForm;
 
-public class AddressInfoStepData
-    extends StepData<AddressInfoStep>
-{
-	private int houseId;
+public class AddressInfoStepData extends StepData<AddressInfoStep> {
+    private int houseId;
 
-	public AddressInfoStepData( AddressInfoStep step, WizardData data )
-	{
-		super( step, data );
-	}
+    public AddressInfoStepData(AddressInfoStep step, WizardData data) {
+        super(step, data);
+    }
 
-	@Override
-	public boolean isFilled( DynActionForm form, Connection con )
-	    throws BGException
-	{
-		List<StepData<?>> stepDataList = data.getStepDataList();
+    @Override
+    public boolean isFilled(DynActionForm form, Connection con) throws BGException {
+        List<StepData<?>> stepDataList = data.getStepDataList();
 
-		// находим первый предшествующий шаг заполнения параметров
-		// TODO: может в последствии сделать первый предшествующий с нужным параметром
-		for( int i = stepDataList.indexOf( this ); i >= 0; i-- )
-		{
-			StepData<?> stepData = stepDataList.get( i );
+        // находим первый предшествующий шаг заполнения параметров
+        // TODO: может в последствии сделать первый предшествующий с нужным параметром
+        for (int i = stepDataList.indexOf(this); i >= 0; i--) {
+            StepData<?> stepData = stepDataList.get(i);
 
-			if( stepData instanceof FillParamsStepData )
-			{
-				FillParamsStepData fpStepData = (FillParamsStepData)stepData;
-				
-				SortedMap<Integer, ParameterAddressValue> values = new ParamValueDAO( con ).getParamAddress( fpStepData.getObjectId(), step.getAddressParamId() );
-				if( values.size() > 0 )
-				{
-					houseId = values.values().iterator().next().getHouseId();
-				}
+            if (stepData instanceof FillParamsStepData) {
+                FillParamsStepData fpStepData = (FillParamsStepData) stepData;
 
-				break;
-			}
-		}
+                SortedMap<Integer, ParameterAddressValue> values = new ParamValueDAO(con).getParamAddress(fpStepData.getObjectId(),
+                        step.getAddressParamId());
+                if (values.size() > 0) {
+                    houseId = values.values().iterator().next().getHouseId();
+                }
 
-		return true;
-	}
+                break;
+            }
+        }
 
-	public int getHouseId()
-	{
-		return houseId;
-	}
+        return true;
+    }
+
+    public int getHouseId() {
+        return houseId;
+    }
 }

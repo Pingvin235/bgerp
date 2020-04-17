@@ -6,22 +6,22 @@ import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class ContinueStepData extends StepData<ContinueStep> {
-	private boolean filled = false;
+    private boolean filled = false;
 
-	public ContinueStepData(ContinueStep step, WizardData data) {
-		super(step, data);
-	}
+    public ContinueStepData(ContinueStep step, WizardData data) {
+        super(step, data);
+    }
 
-	@Override
-	public boolean isFilled(DynActionForm form, Connection con) throws Exception {
-		return filled = new ParamValueDAO(con).isParameterFilled(data.getProcess().getId(), step.getParam());
-	}
+    @Override
+    public boolean isFilled(DynActionForm form, Connection con) throws Exception {
+        return filled = new ParamValueDAO(con).isParameterFilled(data.getProcess().getId(), step.getParam());
+    }
 
-	public boolean isFilled() {
-		return filled;
-	}
+    public boolean isFilled() {
+        return filled;
+    }
 
-	public int getProcessId() {
-		return data.getProcess().getId();
-	}
+    public int getProcessId() {
+        return data.getProcess().getId();
+    }
 }

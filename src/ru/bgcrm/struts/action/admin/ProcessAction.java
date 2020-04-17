@@ -309,7 +309,7 @@ public class ProcessAction extends BaseAction {
             form.getResponse().setData("properties", type.getProperties());
             form.getResponse().setData("config", type.getProperties().getConfig());
 
-            request.setAttribute("statusList", typeDAO.getSortedProcessTypeStatusList(type, type.getProperties().getStatusIds()));
+            request.setAttribute("statusList", Utils.getObjectList(ProcessTypeCache.getStatusMap(), type.getProperties().getStatusIds()));
             request.setAttribute("processType", type);
 
             SearchResult<Permset> groupList = new SearchResult<Permset>();

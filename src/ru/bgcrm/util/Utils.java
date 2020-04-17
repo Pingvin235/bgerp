@@ -1008,9 +1008,7 @@ public class Utils {
         try {
             // application/octet-stream почему-то не предлагает открыть приложением по расширению
             response.setContentType("application/any");
-            //response.setHeader( "Content-disposition", " inline; filename=\"" + Translit.toTranslit( fileName ).replace( ' ', '_' ) + "\"" );
             response.setHeader("Content-Disposition", "attachment;filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
-            //response.setHeader("Content-Length", String.valueOf(file.size));
         } catch (UnsupportedEncodingException e) {
             log.error(e.getMessage(), e);
         }

@@ -28,54 +28,54 @@ import ru.bgcrm.util.sql.SQLUtils;
  * http://[host]:[port]/admin/dynamic.do?action=runDynamicClass&iface=event&class=ru.bgcrm.event.listener.MessageTypeCallRegister&j_username=[user]&j_password=[pswd]&typeId=[typeId]&from=num1&to=num2
  */
 public class MessageTypeCallRegister extends DynamicEventListener {
-	private static final Logger log = Logger.getLogger(MessageTypeCallRegister.class);
+    private static final Logger log = Logger.getLogger(MessageTypeCallRegister.class);
 
-	public MessageTypeCallRegister() {}
+    public MessageTypeCallRegister() {}
 
-	@Override
-	public void notify(Event e, ConnectionSet connectionSet) throws BGException {
-		RunClassRequestEvent event = (RunClassRequestEvent) e;
+    @Override
+    public void notify(Event e, ConnectionSet connectionSet) throws BGException {
+        RunClassRequestEvent event = (RunClassRequestEvent) e;
 
-		DynActionForm form = event.getForm();
+        DynActionForm form = event.getForm();
 
-		MessageTypeCall messageType = (MessageTypeCall) Setup.getSetup().getConfig(MessageTypeConfig.class)
-				.getTypeMap().get(form.getParamInt("typeId"));
-		if (messageType == null) {
-			throw new BGException("Не найден тип сообщения.");
-		}
+        MessageTypeCall messageType = (MessageTypeCall) Setup.getSetup().getConfig(MessageTypeConfig.class).getTypeMap()
+                .get(form.getParamInt("typeId"));
+        if (messageType == null) {
+            throw new BGException("Не найден тип сообщения.");
+        }
 
-		String from = form.getParam("from", "");
-		String to = form.getParam("to", "");
+        String from = form.getParam("from", "");
+        String to = form.getParam("to", "");
 
-		Connection con = Setup.getSetup().getDBConnectionFromPool();
-		try {
-			CallRegistration reg = messageType.getRegistrationByNumber(to);
-			if (reg != null)
-				log.info("Call to registred number: " + reg.getNumber());
-			
-			Message message = new Message();
-			message.setDirection(Message.DIRECTION_INCOMING);
-			message.setTypeId(messageType.getId());
-			message.setUserId(reg != null ? reg.getUserId() : 0);
-			message.setText("");
-			message.setFrom(from);
-			message.setTo(to);
-			message.setFromTime(new Date());
-			message.setSystemId(messageType.getId() + ":" + System.currentTimeMillis());
+        Connection con = Setup.getSetup().getDBConnectionFromPool();
+        try {
+            CallRegistration reg = messageType.getRegistrationByNumber(to);
+            if (reg != null)
+                log.info("Call to registred number: " + reg.getNumber());
 
-			// по сути там вызывается просто MessageDAO, сделано для единообразия
-			messageType.updateMessage(con, DynActionForm.SERVER_FORM, message);
+            Message message = new Message();
+            message.setDirection(Message.DIRECTION_INCOMING);
+            message.setTypeId(messageType.getId());
+            message.setUserId(reg != null ? reg.getUserId() : 0);
+            message.setText("");
+            message.setFrom(from);
+            message.setTo(to);
+            message.setFromTime(new Date());
+            message.setSystemId(messageType.getId() + ":" + System.currentTimeMillis());
 
-			con.commit();
+            // по сути там вызывается просто MessageDAO, сделано для единообразия
+            messageType.updateMessage(con, DynActionForm.SERVER_FORM, message);
 
-			log.info("Created message: " + message.getId());
+            con.commit();
 
-			if (reg != null)
-				reg.setMessageForOpenId(message.getId());
-		} catch (Exception ex) {
-			log.error(ex.getMessage(), ex);
-		} finally {
-			SQLUtils.closeConnection(con);
-		}
-	}
+            log.info("Created message: " + message.getId());
+
+            if (reg != null)
+                reg.setMessageForOpenId(message.getId());
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        } finally {
+            SQLUtils.closeConnection(con);
+        }
+    }
 }

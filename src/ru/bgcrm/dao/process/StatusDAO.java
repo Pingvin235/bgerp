@@ -16,159 +16,133 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Status;
 import ru.bgcrm.util.Utils;
 
-public class StatusDAO
-    extends CommonDAO
-{
-	public StatusDAO( Connection con )
-	{
-		super( con );
-	}
+public class StatusDAO extends CommonDAO {
+    public StatusDAO(Connection con) {
+        super(con);
+    }
 
-	public void searchStatus( SearchResult<Status> searchResult )
-	    throws SQLException
-	{
-		if( searchResult != null )
-		{
-			Page page = searchResult.getPage();
-			List<Status> list = searchResult.getList();
+    public void searchStatus(SearchResult<Status> searchResult) throws SQLException {
+        if (searchResult != null) {
+            Page page = searchResult.getPage();
+            List<Status> list = searchResult.getList();
 
-			ResultSet rs = null;
-			PreparedStatement ps = null;
-			StringBuilder query = new StringBuilder();
-			query.append( SQL_SELECT_COUNT_ROWS );
-			query.append( "*" );
-			query.append( SQL_FROM );
-			query.append( TABLE_PROCESS_STATUS_TITLE );
-			query.append( SQL_ORDER_BY );
-			query.append( "pos, title" );
-			query.append( getMySQLLimit( page ) );
-			ps = con.prepareStatement( query.toString() );
-			rs = ps.executeQuery();
-			while( rs.next() )
-			{
-				list.add( getStatusFromRs( rs ) );
-			}
-			page.setRecordCount( getFoundRows( ps ) );
-			ps.close();
-		}
-	}
+            ResultSet rs = null;
+            PreparedStatement ps = null;
+            StringBuilder query = new StringBuilder();
+            query.append(SQL_SELECT_COUNT_ROWS);
+            query.append("*");
+            query.append(SQL_FROM);
+            query.append(TABLE_PROCESS_STATUS_TITLE);
+            query.append(SQL_ORDER_BY);
+            query.append("pos, title");
+            query.append(getPageLimit(page));
+            ps = con.prepareStatement(query.toString());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(getStatusFromRs(rs));
+            }
+            page.setRecordCount(getFoundRows(ps));
+            ps.close();
+        }
+    }
 
-	public Status getStatus( int id )
-	    throws SQLException
-	{
-		Status result = null;
+    public Status getStatus(int id) throws SQLException {
+        Status result = null;
 
-		ResultSet rs = null;
-		PreparedStatement ps = null;
-		ps = con.prepareStatement( "SELECT * FROM " + TABLE_PROCESS_STATUS_TITLE + " WHERE id=?" );
-		ps.setInt( 1, id );
-		rs = ps.executeQuery();
-		while( rs.next() )
-		{
-			result = getStatusFromRs( rs );
-		}
-		ps.close();
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        ps = con.prepareStatement("SELECT * FROM " + TABLE_PROCESS_STATUS_TITLE + " WHERE id=?");
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            result = getStatusFromRs(rs);
+        }
+        ps.close();
 
-		return result;
-	}
+        return result;
+    }
 
-	public void deleteStatus( int id )
-	    throws SQLException
-	{
-		PreparedStatement ps = null;
+    public void deleteStatus(int id) throws SQLException {
+        PreparedStatement ps = null;
 
-		StringBuilder query = new StringBuilder();
-		query.append( SQL_DELETE );
-		query.append( TABLE_PROCESS_STATUS_TITLE );
-		query.append( SQL_WHERE );
-		query.append( "id=?" );
+        StringBuilder query = new StringBuilder();
+        query.append(SQL_DELETE);
+        query.append(TABLE_PROCESS_STATUS_TITLE);
+        query.append(SQL_WHERE);
+        query.append("id=?");
 
-		ps = con.prepareStatement( query.toString() );
-		ps.setInt( 1, id );
-		ps.executeUpdate();
+        ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.executeUpdate();
 
-		ps.close();
-	}
+        ps.close();
+    }
 
-	public void updateStatus( Status status )
-	    throws SQLException
-	{
-		int index = 1;
-		PreparedStatement ps = null;
+    public void updateStatus(Status status) throws SQLException {
+        int index = 1;
+        PreparedStatement ps = null;
 
-		if( status.getId() < 0 )
-		{
-			ps = con.prepareStatement( "INSERT INTO " + TABLE_PROCESS_STATUS_TITLE + " SET title=?, pos=?", PreparedStatement.RETURN_GENERATED_KEYS );
-			ps.setString( index++, status.getTitle() );
-			ps.setInt( index++, status.getPos() );
-			ps.executeUpdate();
-			status.setId( lastInsertId( ps ) );
-		}
-		else
-		{
-			ps = con.prepareStatement( "UPDATE " + TABLE_PROCESS_STATUS_TITLE + " SET title=?, pos=? WHERE id=?" );
-			ps.setString( index++, status.getTitle() );
-			ps.setInt( index++, status.getPos() );
-			ps.setInt( index++, status.getId() );
-			ps.executeUpdate();
-		}
-		ps.close();
-	}
+        if (status.getId() < 0) {
+            ps = con.prepareStatement("INSERT INTO " + TABLE_PROCESS_STATUS_TITLE + " SET title=?, pos=?", PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(index++, status.getTitle());
+            ps.setInt(index++, status.getPos());
+            ps.executeUpdate();
+            status.setId(lastInsertId(ps));
+        } else {
+            ps = con.prepareStatement("UPDATE " + TABLE_PROCESS_STATUS_TITLE + " SET title=?, pos=? WHERE id=?");
+            ps.setString(index++, status.getTitle());
+            ps.setInt(index++, status.getPos());
+            ps.setInt(index++, status.getId());
+            ps.executeUpdate();
+        }
+        ps.close();
+    }
 
-	public List<Status> getStatusList()
-	    throws SQLException
-	{
-		List<Status> result = new ArrayList<Status>();
+    public List<Status> getStatusList() throws SQLException {
+        List<Status> result = new ArrayList<Status>();
 
-		ResultSet rs = null;
-		PreparedStatement ps = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
 
-		ps = con.prepareStatement( "SELECT * FROM " + TABLE_PROCESS_STATUS_TITLE + " ORDER BY pos " );
-		rs = ps.executeQuery();
-		while( rs.next() )
-		{
-			result.add( getStatusFromRs( rs ) );
-		}
-		ps.close();
+        ps = con.prepareStatement("SELECT * FROM " + TABLE_PROCESS_STATUS_TITLE + " ORDER BY pos ");
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(getStatusFromRs(rs));
+        }
+        ps.close();
 
-		return result;
-	}
+        return result;
+    }
 
-	public List<Status> getStatusList( Set<Integer> ids )
-	    throws SQLException
-	{
-		List<Status> result = new ArrayList<Status>();
+    public List<Status> getStatusList(Set<Integer> ids) throws SQLException {
+        List<Status> result = new ArrayList<Status>();
 
-		ResultSet rs = null;
-		PreparedStatement ps = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
 
-		StringBuilder query = new StringBuilder( "SELECT * FROM " + TABLE_PROCESS_STATUS_TITLE  );
-		if( ids.size() > 0 )
-		{
-			query.append( " WHERE id IN(" );
-			query.append( Utils.toString( ids ) );
-			query.append( ") " ); 
-		}
-		query.append( " ORDER BY pos" );
+        StringBuilder query = new StringBuilder("SELECT * FROM " + TABLE_PROCESS_STATUS_TITLE);
+        if (ids.size() > 0) {
+            query.append(" WHERE id IN(");
+            query.append(Utils.toString(ids));
+            query.append(") ");
+        }
+        query.append(" ORDER BY pos");
 
-		ps = con.prepareStatement( query.toString() );
-		rs = ps.executeQuery();
-		while( rs.next() )
-		{
-			result.add( getStatusFromRs( rs ) );
-		}
-		ps.close();
+        ps = con.prepareStatement(query.toString());
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(getStatusFromRs(rs));
+        }
+        ps.close();
 
-		return result;
-	}
+        return result;
+    }
 
-	public static Status getStatusFromRs( ResultSet rs )
-	    throws SQLException
-	{
-		Status result = new Status();
-		result.setId( rs.getInt( "id" ) );
-		result.setTitle( rs.getString( "title" ) );
-		result.setPos( rs.getInt( "pos" ) );
-		return result;
-	}
+    public static Status getStatusFromRs(ResultSet rs) throws SQLException {
+        Status result = new Status();
+        result.setId(rs.getInt("id"));
+        result.setTitle(rs.getString("title"));
+        result.setPos(rs.getInt("pos"));
+        return result;
+    }
 }

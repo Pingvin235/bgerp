@@ -1,4 +1,4 @@
-package ru.bgcrm.cache;
+/* package ru.bgcrm.cache;
 
 import java.sql.Connection;
 
@@ -45,4 +45,4 @@ public class AddressCache
 		
 	    return result;
     }
-}
+} */

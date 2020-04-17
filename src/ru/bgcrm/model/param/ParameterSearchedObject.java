@@ -7,25 +7,25 @@ import ru.bgcrm.cache.ParameterCache;
  * @param <T>
  */
 public class ParameterSearchedObject<T> {
-	private final T object;
-	protected final Parameter param;
-	protected final Object value;
+    private final T object;
+    protected final Parameter param;
+    protected final Object value;
 
-	public ParameterSearchedObject(T object, int paramId, Object value) {
-		this.object = object;
-		this.param = ParameterCache.getParameter(paramId);
-		this.value = value;
-	}
+    public ParameterSearchedObject(T object, int paramId, Object value) {
+        this.object = object;
+        this.param = ParameterCache.getParameter(paramId);
+        this.value = value;
+    }
 
-	public T getObject() {
-		return object;
-	}
+    public T getObject() {
+        return object;
+    }
 
-	public Parameter getParam() {
-		return param;
-	}
+    public Parameter getParam() {
+        return param;
+    }
 
-	public Object getValue() {
-		return value;
-	}
+    public Object getValue() {
+        return value;
+    }
 }

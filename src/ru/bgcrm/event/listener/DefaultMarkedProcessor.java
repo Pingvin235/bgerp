@@ -2,7 +2,6 @@ package ru.bgcrm.event.listener;
 
 import java.io.OutputStream;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,11 +9,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
+
+import org.apache.commons.collections.CollectionUtils;
 
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.Event;
@@ -135,7 +134,7 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
                     out.write(docGenEvent.getResultBytes());
 
                     out.flush();
-                } else if (pattern.getType() == Pattern.TYPE_XSLT_PDF || pattern.getType() == Pattern.TYPE_PDF_FORM) {
+                } else if (pattern.getType() == Pattern.TYPE_PDF_FORM) {
                     Utils.setFileNameHeades(response, pattern.getDocumentTitle());
 
                     Document document = new Document();

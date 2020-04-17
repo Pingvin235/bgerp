@@ -2,9 +2,6 @@ package ru.bgcrm.struts.action;
 
 import java.util.Collections;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
@@ -24,78 +21,56 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class MessageCallAction
-    extends BaseAction
-{
-	 public ActionForward numberRegister( ActionMapping mapping,
-                                         DynActionForm form,
-                                         HttpServletRequest request,
-                                         HttpServletResponse response,
-                                         ConnectionSet conSet )
-		throws Exception
-	{
-    	MessageTypeCall type = getCallMessageType( form );
-		
-		String number = form.getParam( "number" );
-		if( Utils.isBlankString( number ) )
-		{
-			throw new BGIllegalArgumentException();
-		}
-		
-		CallRegistration reg = type.getRegistrationByNumber( number );
-		
-		boolean check = form.getParamBoolean( "check", true );
-		if( check && reg != null )
-		{
-			User user = UserCache.getUser( reg.getUserId() );
-			form.getResponse().setData( "regUser", new IdTitle( user.getId(), user.getTitle() ) );
-		}
-		else
-		{
-			if( reg != null )
-			{
-				News news = new News();
-				news.setUserId( User.USER_SYSTEM_ID );
-				news.setPopup( true );
-				news.setLifeTime( 1 );
-				news.setTitle( "Ваш номер занят" );
-				news.setDescription( "Пользователь " + form.getUser().getTitle() + " занял ваш номер " + number );
-				
-				new NewsDAO( conSet.getConnection() ).updateNewsUsers( news, Collections.singleton( reg.getUserId() ) );
-				
-				type.numberFree( reg.getUserId() );
-			}
-			
-			type.numberRegister( form.getUserId(), number );
-		}
-		
-		return processJsonForward( conSet, form, response );
-	}
-	
-    public ActionForward numberFree( ActionMapping mapping,
-                                     DynActionForm form,
-                                     HttpServletRequest request,
-                                     HttpServletResponse response,
-                                     ConnectionSet conSet )
-		throws BGException
-	{
-    	getCallMessageType( form ).numberFree( form.getUserId() );
-		
-		return processJsonForward( conSet, form, response );
-	}
+public class MessageCallAction extends BaseAction {
     
+    public ActionForward numberRegister(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+        MessageTypeCall type = getCallMessageType(form);
 
-	private MessageTypeCall getCallMessageType( DynActionForm form )
-		throws BGException
-	{
-		MessageTypeConfig config = Setup.getSetup().getConfig( MessageTypeConfig.class );
-		
-		MessageType type = config.getTypeMap().get( form.getParamInt( "typeId" ) );
-		if( type == null || !(type instanceof MessageTypeCall) )
-		{
-			throw new BGException( "Не найден тип сообщений либо он не MessageTypeCall." );
-		}
-		
-		return (MessageTypeCall)type;
-	}
+        String number = form.getParam("number");
+        if (Utils.isBlankString(number)) {
+            throw new BGIllegalArgumentException();
+        }
+
+        CallRegistration reg = type.getRegistrationByNumber(number);
+
+        boolean check = form.getParamBoolean("check", true);
+        if (check && reg != null) {
+            User user = UserCache.getUser(reg.getUserId());
+            form.getResponse().setData("regUser", new IdTitle(user.getId(), user.getTitle()));
+        } else {
+            if (reg != null) {
+                News news = new News();
+                news.setUserId(User.USER_SYSTEM_ID);
+                news.setPopup(true);
+                news.setLifeTime(1);
+                news.setTitle("Ваш номер занят");
+                news.setDescription("Пользователь " + form.getUser().getTitle() + " занял ваш номер " + number);
+
+                new NewsDAO(conSet.getConnection()).updateNewsUsers(news, Collections.singleton(reg.getUserId()));
+
+                type.numberFree(reg.getUserId());
+            }
+
+            type.numberRegister(form.getUserId(), number);
+        }
+
+        return processJsonForward(conSet, form);
+    }
+
+    public ActionForward numberFree(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+        getCallMessageType(form).numberFree(form.getUserId());
+
+        return processJsonForward(conSet, form);
+    }
+
+    private MessageTypeCall getCallMessageType(DynActionForm form) throws BGException {
+        MessageTypeConfig config = Setup.getSetup().getConfig(MessageTypeConfig.class);
+
+        MessageType type = config.getTypeMap().get(form.getParamInt("typeId"));
+        if (type == null || !(type instanceof MessageTypeCall)) {
+            throw new BGException("Не найден тип сообщений либо он не MessageTypeCall.");
+        }
+
+        return (MessageTypeCall) type;
+    }
 }

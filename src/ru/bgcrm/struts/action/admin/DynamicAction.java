@@ -13,52 +13,52 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class DynamicAction extends BaseAction {
-	@Override
-	protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-			throws Exception {
-		return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
-	}
+    @Override
+    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
+            throws Exception {
+        return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
+    }
 
-	// перекомпиляция всех файлов
-	public ActionForward recompileAll(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-			throws Exception {
-		CompilationResult result = DynamicClassManager.getInstance().recompileAll();
+    // перекомпиляция всех файлов
+    public ActionForward recompileAll(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
+            throws Exception {
+        CompilationResult result = DynamicClassManager.getInstance().recompileAll();
 
-		EventProcessor.subscribeDynamicClasses();
+        EventProcessor.subscribeDynamicClasses();
 
-		form.getResponse().setData("result", result);
+        form.getResponse().setData("result", result);
 
-		return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
-	}
+        return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
+    }
 
-	public ActionForward runDynamicClass(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-			throws Exception {
-		String className = form.getParam("class");
-		
-		String ifaceType = form.getParam("iface", "event");
-		// запуск интерфейса EventListener
-		if ("event".equals(ifaceType))
-			EventProcessor.processEvent(new RunClassRequestEvent(form), className, conSet);
-		// запуск интерфейса Runnable
-		else {
-			Class<?> clazz = null;
-			try {
-				clazz = DynamicClassManager.getClass(className);
-			} catch (ClassNotFoundException e) {
-				throw new BGMessageException("Класс не найден: " + className);
-			}
+    public ActionForward runDynamicClass(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
+            throws Exception {
+        String className = form.getParam("class");
 
-			if (Runnable.class.isAssignableFrom(clazz)) {
-			    boolean sync = form.getParamBoolean("sync");
-			    if (sync)
-			        ((Runnable) clazz.newInstance()).run();
-			    else			    
-			        new Thread((Runnable) clazz.newInstance()).start();
-			} else {
-				throw new BGMessageException("Класс не реализует java.land.Runnable: " + className);
-			}
-		}
+        String ifaceType = form.getParam("iface", "event");
+        // запуск интерфейса EventListener
+        if ("event".equals(ifaceType))
+            EventProcessor.processEvent(new RunClassRequestEvent(form), className, conSet);
+        // запуск интерфейса Runnable
+        else {
+            Class<?> clazz = null;
+            try {
+                clazz = DynamicClassManager.getClass(className);
+            } catch (ClassNotFoundException e) {
+                throw new BGMessageException("Класс не найден: " + className);
+            }
 
-		return processJsonForward(conSet, form);
-	}
+            if (Runnable.class.isAssignableFrom(clazz)) {
+                boolean sync = form.getParamBoolean("sync");
+                if (sync)
+                    ((Runnable) clazz.getDeclaredConstructor().newInstance()).run();
+                else
+                    new Thread((Runnable) clazz.getDeclaredConstructor().newInstance()).start();
+            } else {
+                throw new BGMessageException("Класс не реализует java.land.Runnable: " + className);
+            }
+        }
+
+        return processJsonForward(conSet, form);
+    }
 }

@@ -72,7 +72,7 @@ public class EventProcessor {
      * @param l
      */
     public static void unsubscribe(EventListener<?> l) {
-        subscribers.values().remove(l);
+        subscribers.values().remove((Object) l);
     }
 
     /**

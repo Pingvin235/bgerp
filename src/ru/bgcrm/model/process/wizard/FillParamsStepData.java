@@ -28,167 +28,167 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class FillParamsStepData extends StepData<FillParamsStep> {
-	private List<ParameterValuePair> values;
-	private int objectId = -1;
+    private List<ParameterValuePair> values;
+    private int objectId = -1;
 
-	public FillParamsStepData(FillParamsStep step, WizardData data) {
-		super(step, data);
-	}
+    public FillParamsStepData(FillParamsStep step, WizardData data) {
+        super(step, data);
+    }
 
-	@Override
-	public boolean isFilled(DynActionForm form, Connection connection) throws Exception {
-		boolean filled = true;
-		objectId = getObjectId(connection);
+    @Override
+    public boolean isFilled(DynActionForm form, Connection connection) throws Exception {
+        boolean filled = true;
+        objectId = getObjectId(connection);
 
-		ParamValueDAO paramValueDao = new ParamValueDAO(connection);
-		values = paramValueDao.loadParameters(step.getParamList(), objectId, false);
+        ParamValueDAO paramValueDao = new ParamValueDAO(connection);
+        values = paramValueDao.loadParameters(step.getParamList(), objectId, false);
 
-		if (step.getCheckParamIds().isEmpty()) {
-			for (ParameterValuePair pair : values) {
-				filled = pair.getValue() != null;
-				if (filled) {
-					break;
-				}
-			}
-		} else {
-			for (ParameterValuePair pair : values) {
-				if (step.getCheckParamIds().contains(pair.getParameter().getId())) {
-					if (pair.getValue() == null) {
-						filled = false;
-						break;
-					}
-				}
-			}
-		}
+        if (step.getCheckParamIds().isEmpty()) {
+            for (ParameterValuePair pair : values) {
+                filled = pair.getValue() != null;
+                if (filled) {
+                    break;
+                }
+            }
+        } else {
+            for (ParameterValuePair pair : values) {
+                if (step.getCheckParamIds().contains(pair.getParameter().getId())) {
+                    if (pair.getValue() == null) {
+                        filled = false;
+                        break;
+                    }
+                }
+            }
+        }
 
-		// Если в шаге обрабатываются параметры процесса, то проверим их с JEXL выражением
-		if (!"linkedCustomer".equals(step.getType()) && !"bgbilling-commonContract".equals(step.getType())) {
-			Process process = data.getProcess();
-			ProcessType processType = ProcessTypeCache.getProcessType(process.getTypeId());
-			Set<Entry<Integer, ParameterMap>> showParamSet = processType.getProperties().getConfigMap()
-					.subIndexed("showParam.").entrySet();
+        // Если в шаге обрабатываются параметры процесса, то проверим их с JEXL выражением
+        if (!"linkedCustomer".equals(step.getType()) && !"bgbilling-commonContract".equals(step.getType())) {
+            Process process = data.getProcess();
+            ProcessType processType = ProcessTypeCache.getProcessType(process.getTypeId());
+            Set<Entry<Integer, ParameterMap>> showParamSet = processType.getProperties().getConfigMap()
+                    .subIndexed("showParam.").entrySet();
 
-			Set<Integer> hideParamIds = new HashSet<Integer>();
-			// показывает параметры процесса только в том случае, если выполняется JEXL выражение: showParam.<paramId>.checkExpression=<expr>
-			for (Entry<Integer, ParameterMap> entry : showParamSet) {
-				String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
+            Set<Integer> hideParamIds = new HashSet<Integer>();
+            // показывает параметры процесса только в том случае, если выполняется JEXL выражение: showParam.<paramId>.checkExpression=<expr>
+            for (Entry<Integer, ParameterMap> entry : showParamSet) {
+                String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
 
-				Map<String, Object> context = new HashMap<String, Object>();
-				context.put(User.OBJECT_TYPE, data.getUser());
-				context.put(Process.OBJECT_TYPE, process);
-				context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX,
-						new ParamValueFunction(connection, process.getId()));
+                Map<String, Object> context = new HashMap<String, Object>();
+                context.put(User.OBJECT_TYPE, data.getUser());
+                context.put(Process.OBJECT_TYPE, process);
+                context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX,
+                        new ParamValueFunction(connection, process.getId()));
 
-				// TODO: Use DefaultProcessChangeListener#initExpression()
-				if (Utils.notBlankString(expression) && !(new Expression(context).check(expression))) {
-					hideParamIds.add(entry.getKey());
-				}
-			}
+                // TODO: Use DefaultProcessChangeListener#initExpression()
+                if (Utils.notBlankString(expression) && !(new Expression(context).check(expression))) {
+                    hideParamIds.add(entry.getKey());
+                }
+            }
 
-			Iterator<ParameterValuePair> iterator = values.iterator();
+            Iterator<ParameterValuePair> iterator = values.iterator();
 
-			while (iterator.hasNext()) {
-				ParameterValuePair parameterValuePair = iterator.next();
-				if (hideParamIds.contains(parameterValuePair.getParameter().getId())) {
-					iterator.remove();
-				}
-			}
-		}
+            while (iterator.hasNext()) {
+                ParameterValuePair parameterValuePair = iterator.next();
+                if (hideParamIds.contains(parameterValuePair.getParameter().getId())) {
+                    iterator.remove();
+                }
+            }
+        }
 
-		return filled;
-	}
+        return filled;
+    }
 
-	public List<ParameterValuePair> getValues() {
-		return values;
-	}
+    public List<ParameterValuePair> getValues() {
+        return values;
+    }
 
-	public int getObjectId() {
-		return objectId;
-	}
+    public int getObjectId() {
+        return objectId;
+    }
 
-	// в id возвращается код объекта
-	private int getObjectId(Connection connection) throws BGException {
-		int objectId = 0;
+    // в id возвращается код объекта
+    private int getObjectId(Connection connection) throws BGException {
+        int objectId = 0;
 
-		if ("linkedCustomer".equals(step.getType())) {
-			//TODO: Может сделать потом джойн.
-			if (data.getLinkedCustomer() != null) {
-				objectId = data.getLinkedCustomer().getId();
-			} else {
-				objectId = getLinkedCustomerId(connection);
-			}
-		} else if ("bgbilling-commonContract".equals(step.getType())) {
-			objectId = getLinkedCommonContractId();
+        if ("linkedCustomer".equals(step.getType())) {
+            //TODO: Может сделать потом джойн.
+            if (data.getLinkedCustomer() != null) {
+                objectId = data.getLinkedCustomer().getId();
+            } else {
+                objectId = getLinkedCustomerId(connection);
+            }
+        } else if ("bgbilling-commonContract".equals(step.getType())) {
+            objectId = getLinkedCommonContractId();
 
-			if (objectId == 0) {
-				getLinkedCommonContractId(connection);
-			}
-		} else {
-			objectId = data.getProcess().getId();
-		}
+            if (objectId == 0) {
+                getLinkedCommonContractId(connection);
+            }
+        } else {
+            objectId = data.getProcess().getId();
+        }
 
-		return objectId;
-	}
+        return objectId;
+    }
 
-	/**
-	 * Метод возвращает идентификатор контрагента, ранее привязанного
-	 * к процессу через поиск связей процесс-контрагент базе данных.
-	 * @param connection
-	 * @return
-	 * @throws BGException
-	 */
-	private int getLinkedCustomerId(Connection connection) throws BGException {
-		int customerId = 0;
-		ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(connection);
-		List<CommonObjectLink> processCustomerlinkList = processLinkDAO
-				.getObjectLinksWithType(data.getProcess().getId(), Customer.OBJECT_TYPE);
+    /**
+     * Метод возвращает идентификатор контрагента, ранее привязанного
+     * к процессу через поиск связей процесс-контрагент базе данных.
+     * @param connection
+     * @return
+     * @throws BGException
+     */
+    private int getLinkedCustomerId(Connection connection) throws BGException {
+        int customerId = 0;
+        ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(connection);
+        List<CommonObjectLink> processCustomerlinkList = processLinkDAO
+                .getObjectLinksWithType(data.getProcess().getId(), Customer.OBJECT_TYPE);
 
-		if (processCustomerlinkList.size() > 0) {
-			customerId = processCustomerlinkList.get(0).getLinkedObjectId();
-		}
+        if (processCustomerlinkList.size() > 0) {
+            customerId = processCustomerlinkList.get(0).getLinkedObjectId();
+        }
 
-		return customerId;
-	}
+        return customerId;
+    }
 
-	/**
-	 * Метод возвращает идентификатор единого договора, ранее привязанного
-	 * к процессу в первом из шагов класса LinkCommonContractStepData
-	 * @return
-	 */
-	private int getLinkedCommonContractId() {
-		int commonContractId = 0;
+    /**
+     * Метод возвращает идентификатор единого договора, ранее привязанного
+     * к процессу в первом из шагов класса LinkCommonContractStepData
+     * @return
+     */
+    private int getLinkedCommonContractId() {
+        int commonContractId = 0;
 
-		Iterator<StepData<?>> iterator = data.getStepDataList().iterator();
+        Iterator<StepData<?>> iterator = data.getStepDataList().iterator();
 
-		while (iterator.hasNext() && commonContractId == 0) {
-			StepData<?> stepData = iterator.next();
+        while (iterator.hasNext() && commonContractId == 0) {
+            StepData<?> stepData = iterator.next();
 
-			if (stepData instanceof LinkCommonContractStepData) {
-				CommonContract commonContract = ((LinkCommonContractStepData) stepData).getCommonContract();
-				commonContractId = commonContract.getId();
-			}
-		}
+            if (stepData instanceof LinkCommonContractStepData) {
+                CommonContract commonContract = ((LinkCommonContractStepData) stepData).getCommonContract();
+                commonContractId = commonContract.getId();
+            }
+        }
 
-		return commonContractId;
-	}
+        return commonContractId;
+    }
 
-	/**
-	 * Метод возвращает идентификатор единого договора, ранее привязанного
-	 * к процессу через поиск связей процесс-единый договор в базе данных.
-	 * @param connection
-	 * @return
-	 * @throws BGException
-	 */
-	private int getLinkedCommonContractId(Connection connection) throws BGException {
-		int commonContractId = 0;
-		ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(connection);
-		List<CommonObjectLink> processCustomerlinkList = processLinkDAO
-				.getObjectLinksWithType(data.getProcess().getId(), CommonContract.OBJECT_TYPE);
+    /**
+     * Метод возвращает идентификатор единого договора, ранее привязанного
+     * к процессу через поиск связей процесс-единый договор в базе данных.
+     * @param connection
+     * @return
+     * @throws BGException
+     */
+    private int getLinkedCommonContractId(Connection connection) throws BGException {
+        int commonContractId = 0;
+        ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(connection);
+        List<CommonObjectLink> processCustomerlinkList = processLinkDAO
+                .getObjectLinksWithType(data.getProcess().getId(), CommonContract.OBJECT_TYPE);
 
-		if (processCustomerlinkList.size() > 0) {
-			commonContractId = processCustomerlinkList.get(0).getLinkedObjectId();
-		}
+        if (processCustomerlinkList.size() > 0) {
+            commonContractId = processCustomerlinkList.get(0).getLinkedObjectId();
+        }
 
-		return commonContractId;
-	}
+        return commonContractId;
+    }
 }

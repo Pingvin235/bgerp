@@ -15,109 +15,89 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
-public class ProcessQueueCache
-	extends Cache<ProcessQueueCache>
-{
-	private static Logger log = Logger.getLogger( ProcessQueueCache.class );
-	
-	private static CacheHolder<ProcessQueueCache> holder = new CacheHolder<ProcessQueueCache>( new ProcessQueueCache() );
+public class ProcessQueueCache extends Cache<ProcessQueueCache> {
+    private static Logger log = Logger.getLogger(ProcessQueueCache.class);
 
-	public static Queue getQueue( int id, User user )
-	{
-		Queue result = holder.getInstance().queueMap.get( id );
-		// фильтр по разрешённым очередям процессов
-		if( result != null && user != null && !user.getQueueIds().contains( result.getId() ) )
-		{
-			result = null;
-		}
-		return result;
-	}
+    private static CacheHolder<ProcessQueueCache> holder = new CacheHolder<ProcessQueueCache>(new ProcessQueueCache());
 
-	public static Queue getQueue( int id )
-	{
-		return holder.getInstance().queueMap.get( id );
-	}
+    public static Queue getQueue(int id, User user) {
+        Queue result = holder.getInstance().queueMap.get(id);
+        // фильтр по разрешённым очередям процессов
+        if (result != null && user != null && !user.getQueueIds().contains(result.getId())) {
+            result = null;
+        }
+        return result;
+    }
 
-	public static Map<Integer, Queue> getQueueMap()
-	{
-		return holder.getInstance().queueMap;
-	}
+    public static Queue getQueue(int id) {
+        return holder.getInstance().queueMap.get(id);
+    }
 
-	public static List<Queue> getQueueList()
-	{
-		return holder.getInstance().queueList;
-	}
+    public static Map<Integer, Queue> getQueueMap() {
+        return holder.getInstance().queueMap;
+    }
 
-	public static List<Queue> getUserQueueList( User user )
-	{
-		List<Queue> result = new ArrayList<Queue>();
+    public static List<Queue> getQueueList() {
+        return holder.getInstance().queueList;
+    }
 
-		for( Queue queue : holder.getInstance().queueList )
-		{
-			if( user.getQueueIds().contains( queue.getId() ) )
-			{
-				result.add( queue );
-			}
-		}
+    public static List<Queue> getUserQueueList(User user) {
+        List<Queue> result = new ArrayList<Queue>();
 
-		return result;
-	}
+        for (Queue queue : holder.getInstance().queueList) {
+            if (user.getQueueIds().contains(queue.getId())) {
+                result.add(queue);
+            }
+        }
 
-	public static void flush( Connection con )
-	{
-		holder.flush( con );
-	}
+        return result;
+    }
 
-	// конец статической части
+    public static void flush(Connection con) {
+        holder.flush(con);
+    }
 
-	private Map<Integer, Queue> queueMap;
-	private List<Queue> queueList;
+    // конец статической части
 
-	@Override
-	protected ProcessQueueCache newInstance()
-	{
-		ProcessQueueCache result = new ProcessQueueCache();
+    private Map<Integer, Queue> queueMap;
+    private List<Queue> queueList;
 
-		Connection con = Setup.getSetup().getDBConnectionFromPool();
-		try
-		{
-			result.queueMap = new HashMap<Integer, Queue>();
-			result.queueList = new ArrayList<Queue>();
+    @Override
+    protected ProcessQueueCache newInstance() {
+        ProcessQueueCache result = new ProcessQueueCache();
 
-			QueueDAO queueDAO = new QueueDAO( con );
-			for( Queue queue : queueDAO.getQueueList() )
-			{
-				// выбор явно указанных в конфигурации очереди типов процессов
-				queue.setProcessTypeIds( queueDAO.getQueueProcessTypeIds( queue.getId() ) );
+        Connection con = Setup.getSetup().getDBConnectionFromPool();
+        try {
+            result.queueMap = new HashMap<Integer, Queue>();
+            result.queueList = new ArrayList<Queue>();
 
-				if( log.isDebugEnabled() )
-				{
-					log.debug( "Queue " + queue.getId() + " selected process types: " + Utils.toString( queue.getProcessTypeIds() ) );
-				}
+            QueueDAO queueDAO = new QueueDAO(con);
+            for (Queue queue : queueDAO.getQueueList()) {
+                // выбор явно указанных в конфигурации очереди типов процессов
+                queue.setProcessTypeIds(queueDAO.getQueueProcessTypeIds(queue.getId()));
 
-				// выбор дочерних типов привязанных процессов
-				queue.setProcessTypeIds( ProcessTypeCache.getTypeTreeRoot().getSelectedChildIds( queue.getProcessTypeIds() ) );
+                if (log.isDebugEnabled()) {
+                    log.debug("Queue " + queue.getId() + " selected process types: " + Utils.toString(queue.getProcessTypeIds()));
+                }
 
-				if( log.isDebugEnabled() )
-				{
-					log.debug( "Queue " + queue.getId() + " process types with childs: " + Utils.toString( queue.getProcessTypeIds() ) );
-				}
+                // выбор дочерних типов привязанных процессов
+                queue.setProcessTypeIds(ProcessTypeCache.getTypeTreeRoot().getSelectedChildIds(queue.getProcessTypeIds()));
 
-				queue.extractFiltersAndSorts();
+                if (log.isDebugEnabled()) {
+                    log.debug("Queue " + queue.getId() + " process types with childs: " + Utils.toString(queue.getProcessTypeIds()));
+                }
 
-				result.queueMap.put( queue.getId(), queue );
-				result.queueList.add( queue );
-			}
-		}
-		catch( Exception e )
-		{
-			log.error( e.getMessage(), e );
-		}
-		finally
-		{
-			SQLUtils.closeConnection( con );
-		}
+                queue.extractFiltersAndSorts();
 
-		return result;
-	}
+                result.queueMap.put(queue.getId(), queue);
+                result.queueList.add(queue);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        } finally {
+            SQLUtils.closeConnection(con);
+        }
+
+        return result;
+    }
 }

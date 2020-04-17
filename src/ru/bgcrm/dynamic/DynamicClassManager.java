@@ -220,19 +220,19 @@ public class DynamicClassManager {
      * 
      * @param implClassName полное имя класса
      * @return объект, реализующий интерфейс
-     * @throws BGException 
+     * @throws BGException, ClassNotFoundException
      */
     @SuppressWarnings("unchecked")
     public static final <T> T newInstance(String implClassName) throws BGException, ClassNotFoundException {
         try {
             Class<T> clazz = (Class<T>) getClass(implClassName);
             if (clazz != null) {
-                return clazz.newInstance();
+                return clazz.getDeclaredConstructor().newInstance();
             }
             return null;
-        } catch (InstantiationException ex) {
-            throw new BGException(ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException ex) {
+            throw ex;
+        } catch (Exception ex) {
             throw new BGException(ex);
         }
     }

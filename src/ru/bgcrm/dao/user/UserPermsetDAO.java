@@ -64,7 +64,7 @@ public class UserPermsetDAO
 				pd.addString( filterLike );
 			}			
 			pd.addQuery( " ORDER BY p.title" );
-			pd.addQuery( getMySQLLimit( page ) );
+			pd.addQuery( getPageLimit( page ) );
 						
 			ResultSet rs = pd.executeQuery();
 			while( rs.next() )

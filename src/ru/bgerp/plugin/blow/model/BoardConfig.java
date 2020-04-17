@@ -16,7 +16,7 @@ import ru.bgcrm.util.ParameterMap;
 
 public class BoardConfig extends IdTitle {
     private final Queue queue;
-    private final String columnHeadExpression;
+    // private final String columnHeadExpression;
     private final String cellExpression;
     private final String openUrl;
     private final List<BoardFilter> filters = new ArrayList<BoardConfig.BoardFilter>();
@@ -25,7 +25,7 @@ public class BoardConfig extends IdTitle {
         super(id, config.get("title"));
         this.queue = ProcessQueueCache.getQueue(config.getInt("queueId"));
         this.cellExpression = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "Cell", "process.getDescription()");
-        this.columnHeadExpression = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "ColumnHead");
+        // this.columnHeadExpression = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "ColumnHead");
         for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("filter.").entrySet())
             filters.add(new BoardFilter(me.getKey(), me.getValue()));
         this.openUrl = config.get("openUrl");

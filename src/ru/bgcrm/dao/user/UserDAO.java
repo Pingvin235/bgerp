@@ -52,7 +52,7 @@ public class UserDAO extends CommonDAO {
             query.append("SELECT SQL_CALC_FOUND_ROWS * FROM ");
             query.append(TABLE_USER);
             query.append(" ORDER BY title");
-            query.append(getMySQLLimit(page));
+            query.append(getPageLimit(page));
 
             PreparedStatement ps = con.prepareStatement(query.toString());
             ResultSet rs = ps.executeQuery();
@@ -148,7 +148,7 @@ public class UserDAO extends CommonDAO {
             }
 
             psDelay.addQuery(" ORDER BY title ");
-            psDelay.addQuery(getMySQLLimit(page));
+            psDelay.addQuery(getPageLimit(page));
 
             ResultSet rs = psDelay.executeQuery();
             while (rs.next()) {
@@ -473,7 +473,7 @@ public class UserDAO extends CommonDAO {
         deleteById(TABLE_USER, id);
     }
 
-    protected String getMySQLLimit(Page page) {
+    protected String getPageLimit(Page page) {
         StringBuilder sql = new StringBuilder();
 
         // ненулевой размер pageSize устанавливается в Response#addSearchResult

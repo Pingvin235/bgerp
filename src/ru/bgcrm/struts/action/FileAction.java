@@ -13,8 +13,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
@@ -29,257 +27,153 @@ import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
-public class FileAction
-	extends BaseAction
-{
-	@Override
-	protected ActionForward unspecified( ActionMapping mapping,
-										 DynActionForm form,
-										 HttpServletRequest request,
-										 HttpServletResponse response,
-										 Connection con )
-		throws Exception
-	{
-		FileData data = new FileData();
-		data.setId( form.getId() );
-		data.setSecret( form.getParam( "secret" ) );
-		data.setTitle( form.getParam( "title" ) );
+public class FileAction extends BaseAction {
+    @Override
+    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+        var response = form.getHttpResponse();
 
-		File file = new FileDataDAO( con ).getFile( data );
-		if( file != null )
-		{
-			OutputStream out = response.getOutputStream();
+        FileData data = new FileData();
+        data.setId(form.getId());
+        data.setSecret(form.getParam("secret"));
+        data.setTitle(form.getParam("title"));
 
-			String docTitle = data.getTitle();
+        File file = new FileDataDAO(con).getFile(data);
+        if (file != null) {
+            OutputStream out = response.getOutputStream();
 
-			/*if( docTitle.endsWith( ".pdf" ) )
-			{
-				response.setContentType( "application/pdf" );
-			}
-			else if( docTitle.endsWith( ".jpg" ) || docTitle.endsWith( ".jpeg" ) )
-			{
-				response.setContentType( "image/jpeg" );
-			}
-			else if( docTitle.endsWith( ".png" ) )
-			{
-				response.setContentType( "image/png" );
-			}
-			else
-			{
-				response.setContentType( "application/any" );
-			}*/
-			
-			// такой тип передаётся не случайно, в этом случае браузер выводит всплывающее окошко с предложением приложений
-			// а не пытается открыть файл в себе
-			
-			Utils.setFileNameHeades( response, docTitle );
+            Utils.setFileNameHeades(response, data.getTitle());
+            IOUtils.copy(new FileInputStream(file), out);
 
-			IOUtils.copy( new FileInputStream( file ), out );
+            out.flush();
+        }
+        return null;
+    }
 
-			out.flush();
-		}
-		return null;
-	}
+    public ActionForward temporaryUpload(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+        try {
+            FormFile file = form.getFile();
 
-	// Вроде нигде не используется.
-	/*
-	public ActionForward upload( ActionMapping mapping,
-								 DynActionForm form,
-								 HttpServletRequest request,
-								 HttpServletResponse response,
-								 Connection con )
-		throws BGException
-	{
-		try
-		{
-			FormFile file = form.getFile();
+            if (log.isDebugEnabled()) {
+                log.debug("Uploading temporary file: " + file.getFileName() + ", type: " + file.getContentType());
+            }
 
-			if( log.isDebugEnabled() )
-			{
-				log.debug( "Uploading file: " + file.getFileName() + ", type: " + file.getContentType() );
-			}
+            SessionTemporaryFiles files = null;
 
-			FileDataDAO fileDataDAO = new FileDataDAO( con );
+            HttpSession session = form.getHttpRequest().getSession(true);
 
-			FileData fileData = new FileData();
-			fileData.setTitle( file.getFileName() );
-			FileOutputStream fos = fileDataDAO.add( fileData );
+            synchronized (this) {
+                files = (SessionTemporaryFiles) session.getAttribute(SessionTemporaryFiles.STORE_KEY);
+                if (files == null) {
+                    session.setAttribute(SessionTemporaryFiles.STORE_KEY, files = new SessionTemporaryFiles());
+                }
+            }
 
-			fos.write( file.getFileData() );
-			fos.close();
-		}
-		catch( SQLException e )
-		{
-			throw new BGException( e.toString() );
-		}
-		catch( IOException e )
-		{
-			throw new BGException( e.toString() );
-		}
-		return null;
-	}*/
+            int fileId = files.fileIndex.incrementAndGet();
 
-	public ActionForward temporaryUpload( ActionMapping mapping,
-										  DynActionForm form,
-										  HttpServletRequest request,
-										  HttpServletResponse response,
-										  Connection con )
-		throws BGException
-	{
-		try
-		{
-			FormFile file = form.getFile();
+            String storeFileName = SessionTemporaryFiles.getStoreFilePath(session, fileId);
 
-			if( log.isDebugEnabled() )
-			{
-				log.debug( "Uploading temporary file: " + file.getFileName() + ", type: " + file.getContentType() );
-			}
+            FileOutputStream fos = new FileOutputStream(storeFileName);
+            fos.write(file.getFileData());
+            fos.close();
 
-			SessionTemporaryFiles files = null;
+            files.fileTitleMap.put(fileId, file.getFileName());
 
-			HttpSession session = request.getSession( true );
+            form.getResponse().setData("file", new IdTitle(fileId, file.getFileName()));
+        } catch (IOException e) {
+            throw new BGException(e);
+        }
 
-			synchronized( this )
-			{
-				files = (SessionTemporaryFiles)session.getAttribute( SessionTemporaryFiles.STORE_KEY );
-				if( files == null )
-				{
-					session.setAttribute( SessionTemporaryFiles.STORE_KEY, files = new SessionTemporaryFiles() );
-				}
-			}
+        return processJsonForward(con, form);
+    }
 
-			int fileId = files.fileIndex.incrementAndGet();
+    public ActionForward temporaryDelete(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+        if (log.isDebugEnabled()) {
+            log.debug("Deleting temporary file: " + form.getId());
+        }
 
-			String storeFileName = SessionTemporaryFiles.getStoreFilePath( session, fileId );
+        HttpSession session = form.getHttpRequest().getSession(true);
+        SessionTemporaryFiles files = (SessionTemporaryFiles) session.getAttribute(SessionTemporaryFiles.STORE_KEY);
 
-			FileOutputStream fos = new FileOutputStream( storeFileName );
-			fos.write( file.getFileData() );
-			fos.close();
+        if (files == null) {
+            throw new BGException("Не найдены временные файлы.");
+        }
 
-			files.fileTitleMap.put( fileId, file.getFileName() );
+        int fileId = form.getId();
 
-			form.getResponse().setData( "file", new IdTitle( fileId, file.getFileName() ) );
-		}
-		catch( IOException e )
-		{
-			throw new BGException( e );
-		}
+        String storeFileName = SessionTemporaryFiles.getStoreFilePath(session, fileId);
 
-		return processJsonForward( con, form, response );
-	}
+        new File(storeFileName).delete();
+        files.fileTitleMap.remove(fileId);
 
-	public ActionForward temporaryDelete( ActionMapping mapping,
-										  DynActionForm form,
-										  HttpServletRequest request,
-										  HttpServletResponse response,
-										  Connection con )
-		throws BGException
-	{
-		if( log.isDebugEnabled() )
-		{
-			log.debug( "Deleting temporary file: " + form.getId() );
-		}
+        return processJsonForward(con, form);
+    }
 
-		HttpSession session = request.getSession( true );
-		SessionTemporaryFiles files = (SessionTemporaryFiles)session.getAttribute( SessionTemporaryFiles.STORE_KEY );
+    public static class SessionTemporaryFiles {
+        public static final String STORE_KEY = "SessionTemporaryFiles";
 
-		if( files == null )
-		{
-			throw new BGException( "Не найдены временные файлы." );
-		}
+        public AtomicInteger fileIndex = new AtomicInteger(1);
+        public Map<Integer, String> fileTitleMap = new ConcurrentHashMap<Integer, String>();
 
-		int fileId = form.getId();
+        public static String getStoreFilePath(HttpSession session, int fileId) {
+            return Utils.getTmpDir() + "/" + session.getId() + "-" + fileId;
+        }
 
-		String storeFileName = SessionTemporaryFiles.getStoreFilePath( session, fileId );
+        public static Map<Integer, FileInfo> getFiles(DynActionForm form, String paramName) throws BGException {
+            Map<Integer, FileInfo> result = new HashMap<Integer, FileInfo>();
 
-		new File( storeFileName ).delete();
-		files.fileTitleMap.remove( fileId );
+            if (form.getHttpRequest() != null) {
+                HttpSession session = form.getHttpRequest().getSession(true);
+                SessionTemporaryFiles files = (SessionTemporaryFiles) session.getAttribute(STORE_KEY);
 
-		return processJsonForward( con, form, response );
-	}
+                String[] tmpFileIds = form.getParamArray("tmpFileId");
+                if (tmpFileIds != null) {
+                    for (String tmpFileId : tmpFileIds) {
+                        int tmpFileIdInt = Utils.parseInt(tmpFileId);
+                        if (tmpFileIdInt <= 0) {
+                            throw new BGException("Неверный код временного файла.");
+                        }
 
-	public static class SessionTemporaryFiles
-	{
-		public static final String STORE_KEY = "SessionTemporaryFiles";
+                        String path = SessionTemporaryFiles.getStoreFilePath(session, tmpFileIdInt);
+                        String fileTitle = files.fileTitleMap.get(tmpFileIdInt);
+                        if (Utils.isBlankString(fileTitle)) {
+                            throw new BGException("Не определено название файла с кодом: " + tmpFileIdInt);
+                        }
 
-		public AtomicInteger fileIndex = new AtomicInteger( 1 );
-		public Map<Integer, String> fileTitleMap = new ConcurrentHashMap<Integer, String>();
+                        try {
+                            result.put(tmpFileIdInt, new FileInfo(fileTitle, new FileInputStream(path)));
+                        } catch (FileNotFoundException e) {
+                            throw new BGException(e);
+                        }
+                    }
+                }
+            }
 
-		public static String getStoreFilePath( HttpSession session, int fileId )
-		{
-			return Utils.getTmpDir() + "/" + session.getId() + "-" + fileId;
-		}
-		
-		
-		public static  Map<Integer, FileInfo> getFiles( DynActionForm form, String paramName )
-			throws BGException
-		{
-			Map<Integer, FileInfo> result = new HashMap<Integer, FileInfo>();
+            return result;
+        }
 
-			if (form.getHttpRequest() != null) {
-				HttpSession session = form.getHttpRequest().getSession( true );
-				SessionTemporaryFiles files = (SessionTemporaryFiles)session.getAttribute( STORE_KEY );
-	
-				String[] tmpFileIds = form.getParamArray( "tmpFileId" );
-				if( tmpFileIds != null )
-				{
-					for( String tmpFileId : tmpFileIds )
-					{
-						int tmpFileIdInt = Utils.parseInt( tmpFileId );
-						if( tmpFileIdInt <= 0 )
-						{
-							throw new BGException( "Неверный код временного файла." );
-						}
-	
-						String path = SessionTemporaryFiles.getStoreFilePath( session, tmpFileIdInt );
-						String fileTitle = files.fileTitleMap.get( tmpFileIdInt );
-						if( Utils.isBlankString( fileTitle ) )
-						{
-							throw new BGException( "Не определено название файла с кодом: " + tmpFileIdInt );
-						}
-						
-						try
-						{
-							result.put( tmpFileIdInt, new FileInfo( fileTitle, new FileInputStream( path ) ) );
-						}
-						catch( FileNotFoundException e )
-						{
-							throw new BGException( e );
-						}
-					}
-				}
-			}
-			
-			return result;
-		}
-		
-		public static void deleteFiles( DynActionForm form, Set<Integer> ids )
-	    {
-			if (form.getHttpRequest() != null) {
-		    	HttpSession session = form.getHttpRequest().getSession( true );
-				SessionTemporaryFiles files = (SessionTemporaryFiles)session.getAttribute( STORE_KEY );
-		    	
-				// после успешного добавления в БД - удаление временных файлов
-				for( int tmpFileId : ids )
-				{
-					files.fileTitleMap.remove( tmpFileId );
-	
-					String path = SessionTemporaryFiles.getStoreFilePath( session, tmpFileId );
-					new File( path ).delete();
-				}
-			}
-	    }
-	}
-    	
-    public static class FileInfo
-    {
-    	public String title;
-    	public FileInputStream inputStream;
-    	
-    	public FileInfo( String title, FileInputStream inputStream )
-    	{
-    		this.title = title;
-    		this.inputStream = inputStream;
-    	}    	
+        public static void deleteFiles(DynActionForm form, Set<Integer> ids) {
+            if (form.getHttpRequest() != null) {
+                HttpSession session = form.getHttpRequest().getSession(true);
+                SessionTemporaryFiles files = (SessionTemporaryFiles) session.getAttribute(STORE_KEY);
+
+                // после успешного добавления в БД - удаление временных файлов
+                for (int tmpFileId : ids) {
+                    files.fileTitleMap.remove(tmpFileId);
+
+                    String path = SessionTemporaryFiles.getStoreFilePath(session, tmpFileId);
+                    new File(path).delete();
+                }
+            }
+        }
+    }
+
+    public static class FileInfo {
+        public String title;
+        public FileInputStream inputStream;
+
+        public FileInfo(String title, FileInputStream inputStream) {
+            this.title = title;
+            this.inputStream = inputStream;
+        }
     }
 }

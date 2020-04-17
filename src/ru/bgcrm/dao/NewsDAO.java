@@ -50,7 +50,7 @@ public class NewsDAO extends CommonDAO {
         }
 
         pd.addQuery("ORDER BY n.create_dt DESC ");
-        pd.addQuery(getMySQLLimit(page));
+        pd.addQuery(getPageLimit(page));
 
         ResultSet rs = pd.executeQuery();
         while (rs.next()) {

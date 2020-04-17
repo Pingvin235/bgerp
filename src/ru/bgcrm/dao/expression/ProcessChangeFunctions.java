@@ -34,22 +34,22 @@ import ru.bgcrm.util.Setup;
  * В перспективе этот набор функций заменит команды по изменению процесса из {@link ProcessCommandExecutor}.
  */
 public class ProcessChangeFunctions extends ExpressionBasedFunction {
-	private final Process process;
-	private final DynActionForm form;
-	private final Connection con;
+    private final Process process;
+    private final DynActionForm form;
+    private final Connection con;
 
-	public ProcessChangeFunctions(Process process, DynActionForm form, Connection con) {
-		this.process = process;
-		this.form = form;
-		this.con = con;
-	}
-	
-	/**
-	 * Добавляет группы решения в процесс.
-	 * @param groupIds
-	 * @param roleId
-	 * @throws Exception
-	 */
+    public ProcessChangeFunctions(Process process, DynActionForm form, Connection con) {
+        this.process = process;
+        this.form = form;
+        this.con = con;
+    }
+    
+    /**
+     * Добавляет группы решения в процесс.
+     * @param groupIds
+     * @param roleId
+     * @throws Exception
+     */
     @SuppressWarnings("unchecked")
     public void addGroups(Set<Integer> groupIds, int roleId) throws Exception {
         ProcessType type = ProcessAction.getProcessType(process.getTypeId());
@@ -65,26 +65,26 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
             ProcessAction.processGroupsUpdate(form, con, process, processGroups);
     }
 
-	/**
-	 * Удаляет группы решения процесса и связанных с ними исполнителей
-	 * @param ids коды групп решения.
-	 */
-	public void deleteGroups(Set<Integer> ids) throws Exception {
-		Set<ProcessGroup> processGroups = process.getProcessGroups().stream()
-				.filter(pg -> !ids.contains(pg.getGroupId())).collect(Collectors.toSet());
-		ProcessAction.processGroupsUpdate(form, con, process, processGroups);
+    /**
+     * Удаляет группы решения процесса и связанных с ними исполнителей
+     * @param ids коды групп решения.
+     */
+    public void deleteGroups(Set<Integer> ids) throws Exception {
+        Set<ProcessGroup> processGroups = process.getProcessGroups().stream()
+                .filter(pg -> !ids.contains(pg.getGroupId())).collect(Collectors.toSet());
+        ProcessAction.processGroupsUpdate(form, con, process, processGroups);
 
-		Set<ProcessExecutor> executors = process.getProcessExecutors().stream()
-				.filter(pe -> !ids.contains(pe.getGroupId())).collect(Collectors.toSet());
-		ProcessAction.processExecutorsUpdate(form, con, process, processGroups, executors);
-	}
+        Set<ProcessExecutor> executors = process.getProcessExecutors().stream()
+                .filter(pe -> !ids.contains(pe.getGroupId())).collect(Collectors.toSet());
+        ProcessAction.processExecutorsUpdate(form, con, process, processGroups, executors);
+    }
 
-	/**
-	 * Добавляет исполнителей в процесс. Группы решения уже должны быть установлены.
-	 * При этом каждый из добавляемых исполнителей должен входить только в одну из этих групп.
-	 * @param ids
-	 * @throws Exception
-	 */
+    /**
+     * Добавляет исполнителей в процесс. Группы решения уже должны быть установлены.
+     * При этом каждый из добавляемых исполнителей должен входить только в одну из этих групп.
+     * @param ids
+     * @throws Exception
+     */
     public void addExecutors(Set<Integer> ids) throws Exception {
         Set<Integer> addingExecutorIds = ids;
 
@@ -128,34 +128,34 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
 
         ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
     }
-		
-	/**
-	 * Удаляет исполнителей процесса.
-	 * @param ids коды пользователей.
-	 */
-	public void deleteExecutors(Set<Integer> ids) throws Exception {
-		Set<ProcessGroup> processGroups = process.getProcessGroups();
-		Set<ProcessExecutor> executors = process.getProcessExecutors().stream()
-				.filter(pe -> !ids.contains(pe.getUserId())).collect(Collectors.toSet());
-		ProcessAction.processExecutorsUpdate(form, con, process, processGroups, executors);
-	}
-	
-	/**
-	 * Отправляет E-Mail с оповещением исполнителям процесса за исключением текущего пользователя.
-	 * @param paramId код параметра пользователя с E-Mail.
-	 * @param subject тема письма.
-	 * @param text текст письма.
-	 * @throws Exception
-	 */
-	public void emailNotifyExecutors(int paramId, String subject, String text) throws Exception {
-		// исполнители исключая пользователя, совершившего действие
-		Set<Integer> executorIds = new HashSet<Integer>( process.getExecutorIds() );
-		executorIds.remove( form.getUserId() );
+        
+    /**
+     * Удаляет исполнителей процесса.
+     * @param ids коды пользователей.
+     */
+    public void deleteExecutors(Set<Integer> ids) throws Exception {
+        Set<ProcessGroup> processGroups = process.getProcessGroups();
+        Set<ProcessExecutor> executors = process.getProcessExecutors().stream()
+                .filter(pe -> !ids.contains(pe.getUserId())).collect(Collectors.toSet());
+        ProcessAction.processExecutorsUpdate(form, con, process, processGroups, executors);
+    }
+    
+    /**
+     * Отправляет E-Mail с оповещением исполнителям процесса за исключением текущего пользователя.
+     * @param paramId код параметра пользователя с E-Mail.
+     * @param subject тема письма.
+     * @param text текст письма.
+     * @throws Exception
+     */
+    public void emailNotifyExecutors(int paramId, String subject, String text) throws Exception {
+        // исполнители исключая пользователя, совершившего действие
+        Set<Integer> executorIds = new HashSet<Integer>( process.getExecutorIds() );
+        executorIds.remove( form.getUserId() );
 
-		emailNotifyUsers(executorIds, paramId, subject, text);
-	}
-	
-	/**
+        emailNotifyUsers(executorIds, paramId, subject, text);
+    }
+    
+    /**
      * Отправляет E-Mail с оповещением произвольным пользователям.
      * @param userIds коды пользователей.
      * @param paramId код параметра пользователя с E-Mail.
@@ -176,18 +176,18 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
             }
         }
     }
-	
-	/**
-	 * Устанавливает приоритет процесса.
-	 * @param value
-	 * @throws Exception
-	 */
-	public void setPriority(int value) throws Exception {
-	    process.setPriority(value);
-	    new ProcessDAO(con).updateProcess(process);
-	}
-	
-	/**
+    
+    /**
+     * Устанавливает приоритет процесса.
+     * @param value
+     * @throws Exception
+     */
+    public void setPriority(int value) throws Exception {
+        process.setPriority(value);
+        new ProcessDAO(con).updateProcess(process);
+    }
+    
+    /**
      * Устанавливает статус процесса.
      * @param value
      * @comment комментарий

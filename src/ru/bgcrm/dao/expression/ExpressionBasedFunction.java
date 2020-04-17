@@ -5,9 +5,9 @@ package ru.bgcrm.dao.expression;
  * Позволяет сократить запись функции.
  */
 public class ExpressionBasedFunction {
-	protected Expression expression;
+    protected Expression expression;
 
-	public void setExpression(Expression expression) {
-		this.expression = expression;
-	}
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+    }
 }

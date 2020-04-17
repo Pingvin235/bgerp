@@ -188,7 +188,7 @@ public class WebRequestLogDAO extends PeriodicDAO {
 				query.append(orders);
 			}
 
-			query.append(getMySQLLimit(page));
+			query.append(getPageLimit(page));
 
 			ps = con.prepareStatement(query.toString());
 
