@@ -20,7 +20,7 @@
 						<c:set var="list" value="${createTypeList}"/>
 						<c:set var="hiddenName" value="createTypeId"/>
 						<c:set var="style" value="width: 100%;"/>
-						<c:set var="onSelect" value="openUrlTo('process.do?showGroupSelect=1&action=processRequest&parentTypeId=${typeId}&createTypeId=' + $hidden.val(), $('#${uiid}').parent().find('#additionalParamsSelect'));"/>
+						<c:set var="onSelect" value="openUrlTo('/user/process.do?showGroupSelect=1&action=processRequest&parentTypeId=${typeId}&createTypeId=' + $hidden.val(), $('#${uiid}').parent().find('#additionalParamsSelect'));"/>
 						<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
 					</u:sc>
 				</div>

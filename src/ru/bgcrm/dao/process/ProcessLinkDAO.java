@@ -223,12 +223,12 @@ public class ProcessLinkDAO extends CommonLinkDAO {
      * @param typeIds опциональный фильтр по типам процессов.
      * @param statusIds опциональный фильтр по статусам процессов.
      * @param paramFilter опциональный фильтр по параметру, передаётся в {@link ParamValueDAO#getParamJoinFilters(String, String)}.
-     * @param closed опциональный фильтр по закрытости процесса.
+     * @param open опциональный фильтр по открытости процесса.
      * @throws BGException
      */
     public void searchLinkedProcessList(SearchResult<Pair<String, Process>> searchResult, 
             String objectType, int objectId, String objectTitle,
-            Set<Integer> typeIds, Set<Integer> statusIds, String paramFilter, Boolean closed)
+            Set<Integer> typeIds, Set<Integer> statusIds, String paramFilter, Boolean open)
             throws Exception {
         if (searchResult != null) {
             Page page = searchResult.getPage();
@@ -259,8 +259,8 @@ public class ProcessLinkDAO extends CommonLinkDAO {
                 pd.addQuery(" AND process.status_id IN (" + Utils.toString(statusIds) + ") ");
             }
 
-            if (closed != null) {
-                if (closed) {
+            if (open != null) {
+                if (open) {
                     pd.addQuery(" AND process.close_dt IS NULL");
                 } else {
                     pd.addQuery(" AND process.close_dt IS NOT NULL");

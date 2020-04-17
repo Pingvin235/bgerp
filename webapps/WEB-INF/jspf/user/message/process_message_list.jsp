@@ -30,10 +30,10 @@
 		<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
-	<button class="btn-green" type="button" onclick="$$.ajax.openUrlTo('${url}', $('#${editorContainerUiid}'))">+</button>
+	<button class="btn-green" type="button" onclick="$$.ajax.load('${url}', $('#${editorContainerUiid}'))">+</button>
 
 	<html:hidden property="attach"/>
-	<c:set var="sendCommand">$$.ajax.openUrlTo($('#${formUiid}')[0], $('#${formUiid}').parent())</c:set>
+	<c:set var="sendCommand">$$.ajax.load($('#${formUiid}')[0], $('#${formUiid}').parent())</c:set>
 
 	<c:set var="valuesHtml">
 		<li value="0">${l.l('Все')}</li>
@@ -288,7 +288,7 @@ pageContext.setAttribute( "singleQuot", "'" );
 								</c:url>
 
 								<li><a href="#UNDEF" onclick="
-									bgerp.ajax.openUrlTo('${answerUrl}', $('#${editorContainerUiid}'), {toPostNames: ['text']})
+									$$.ajax.load('${answerUrl}', $('#${editorContainerUiid}'), {toPostNames: ['text']})
 									.done(function () {$(window).scrollTop(150)});
 									return false;">Ответить</a></li>
 							</c:if>
@@ -303,7 +303,7 @@ pageContext.setAttribute( "singleQuot", "'" );
 								</c:url>
 
 								<li><a href="#UNDEF" onclick="if (bgcrm.lock.add('${message.lockEdit}')) {
-									  bgerp.ajax.openUrlTo('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
+									  $$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
 									};
 									return false;">Редактировать</a></li>
 							</c:if>

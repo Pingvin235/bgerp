@@ -82,7 +82,7 @@ public class AdminPortListener implements Runnable {
                         }
 
                         if (Runnable.class.isAssignableFrom(clazz)) {
-                            new Thread((Runnable) clazz.newInstance()).start();
+                            new Thread((Runnable) clazz.getDeclaredConstructor().newInstance()).start();
                         } else {
                             out.println("Incorrect Runnable class.");
                         }

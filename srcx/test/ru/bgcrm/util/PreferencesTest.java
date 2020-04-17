@@ -12,7 +12,6 @@ import org.junit.Test;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Config;
-import ru.bgcrm.util.Preferences;
 
 public class PreferencesTest {
     

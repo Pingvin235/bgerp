@@ -9,7 +9,7 @@ function contractOpenClientEvent( event )
 }
 
 function bgbilling_openContract( billingId, contractId ) {
-	if (bgcrm.pers['iface.bgbilling.contractOpenMode'] == 2) {
+	if ($$.pers['iface.bgbilling.contractOpenMode'] == 2) {
 		contentLoad( "contract_" + billingId + "#" + contractId );
 	} else {
 		const url = "/user/plugin/bgbilling/contract.do?billingId=" + billingId + "&id=" + contractId;

@@ -7,15 +7,11 @@
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
 </head>
 
-<body contextmenu="contextmenu">
+<body>
 	<c:set var="uiidButtonMenu" value="${u:uiid()}"/>
 	
 	<%@ include file="/WEB-INF/jspf/login_form.jsp"%>
 	<%@ include file="/WEB-INF/jspf/error_dialog.jsp"%>
-	
-	<menu type="context" id="contextmenu">
-		<menuitem label="BGERP: Запомнить текст" onclick="showPopupMessage( 'Запомненный текст', getSelected().toString() )"/>
-	</menu>
 	
 	<div id="headWrap">
 		<div id="head">
@@ -76,8 +72,8 @@
 		<c:set var="uiidProfileMenu" value="${u:uiid()}"/>
 		
 		<ul id="${uiidProfileMenu}" style="display: none;">
-			<li><a href="/user/profile" onclick="bgerp.shell.followLink(this.href, event)">${l.l('Профиль')}</a></li>
-			<li><a href="/user/userProcesses" onclick="bgerp.shell.followLink(this.href, event)">${l.l('Мои процессы')}</a></li>
+			<li><a href="/user/profile" onclick="$$.shell.followLink(this.href, event)">${l.l('Профиль')}</a></li>
+			<li><a href="/user/userProcesses" onclick="$$.shell.followLink(this.href, event)">${l.l('Мои процессы')}</a></li>
 			<%-- отсутствие onclick отключит этот пункт меню --%>
 			<li><a href="UNDEF" onclick="$$.ajax.post('/login.do?action=logout').done(() => window.location.href = '/user'); return false;">${l.l('Выход')}</a></li>
 		</ul>

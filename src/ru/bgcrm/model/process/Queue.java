@@ -10,8 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.lang3.StringUtils;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.UserCache;
@@ -28,6 +27,7 @@ import ru.bgcrm.model.process.queue.FilterLinkObject;
 import ru.bgcrm.model.process.queue.FilterList;
 import ru.bgcrm.model.process.queue.FilterOpenClose;
 import ru.bgcrm.model.process.queue.FilterParam;
+import ru.bgcrm.model.process.queue.FilterProcessType;
 import ru.bgcrm.model.process.queue.Processor;
 import ru.bgcrm.model.process.queue.SortMode;
 import ru.bgcrm.model.process.queue.SortSet;
@@ -37,22 +37,26 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
+import ru.bgerp.util.Log;
 
 public class Queue {
-    private static final Logger log = Logger.getLogger(Queue.class);
+    private static final Log log = Log.getLog();
 
     private int id;
     private String title;
     private String config;
+    private Set<Integer> processTypeIds = new HashSet<Integer>();
     private ParameterMap configMap;
     private List<ParameterMap> columnList;
     private SortedMap<Integer, ParameterMap> columnMap;
+    private SortSet sortSet = new SortSet();
+
     private final FilterList filterList = new FilterList();
+
     private final Map<Integer, Processor> processorMap = new HashMap<Integer, Processor>();
-    private final SortSet sortSet = new SortSet();
     private final List<Action> actionList = new ArrayList<Action>();
-    private Set<Integer> processTypeIds = new HashSet<Integer>();
     private final List<IdTitle> createAllowedProcessList = new ArrayList<IdTitle>();
+
     private LastModify lastModify = new LastModify();
 
     public int getId() {
@@ -93,6 +97,18 @@ public class Queue {
                 }
             }
         }
+
+        return result;
+    }
+
+    public Queue clone() {
+        Queue result = new Queue();
+
+        result.processTypeIds = processTypeIds;
+        result.configMap = configMap;
+        result.columnList = columnList;
+        result.columnMap = columnMap;
+        result.sortSet = sortSet;
 
         return result;
     }
@@ -423,10 +439,10 @@ public class Queue {
             try {
                 String type = filter.get("type", "");
 
-                if ("status".equals(type) || "groups".equals(type) || "executors".equals(type) || "type".equals(type) || "close_date".equals(type)
-                        || "create_date".equals(type) || "status_date".equals(type) || "code".equals(type) || "description".equals(type)
-                        || "message:systemId".equals(type)) {
+                if (StringUtils.equalsAny(type, "status", "groups", "executors", "close_date", "create_date", "status_date", "code", "description", "message:systemId")) {
                     filterList.add(new Filter(id, filter));
+                } else if ("type".equals(type)) {
+                    filterList.add(new FilterProcessType(id, filter));
                 } else if ("openClose".equals(type)) {
                     filterList.add(new FilterOpenClose(id, filter));
                 } else if ("grex".equals(type)) {

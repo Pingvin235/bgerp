@@ -81,15 +81,15 @@
 	</div>
 </div>
 <div class="mt1">
-    <c:set var="toPostNames" value="{toPostNames: ['comment']}"/>
+	<c:set var="toPostNames" value="{toPostNames: ['comment']}"/>
 	<c:choose>
 		<c:when test="${not empty form.param['hideLeftPanel']}">
-			<button type="button" class="btn-grey" onclick="bgerp.ajax.post(formUrl(this.form), ${toPostNames}).done(() => bgerp.ajax.openUrlTo('${form.returnUrl}', $('#${uiid}').closest('div')))">ОК</button>
-			<button type="button" class="btn-grey ml1" onclick="bgerp.ajax.openUrlTo('${form.returnUrl}', $('#${uiid}').closest('div'))">Отмена</button>
+			<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form, ${toPostNames}).done(() => $$.ajax.load('${form.returnUrl}', $('#${uiid}').closest('div')))">ОК</button>
+			<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').closest('div'))">Отмена</button>
 		</c:when>
 		<c:otherwise>
-			<button type="button" class="btn-grey" onclick="bgerp.ajax.post(formUrl(this.form), ${toPostNames}).done(() => bgerp.ajax.openUrlTo('${form.returnUrl}', bgerp.shell.$content()))">ОК</button>
-			<button type="button" class="btn-grey ml1" onclick="bgerp.ajax.openUrlTo('${form.returnUrl}', bgerp.shell.$content())">Отмена</button>
+			<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form, ${toPostNames}).done(() => $$.ajax.load('${form.returnUrl}', $$.shell.$content()))">ОК</button>
+			<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content())">Отмена</button>
 		</c:otherwise>
 	</c:choose>
 </div>

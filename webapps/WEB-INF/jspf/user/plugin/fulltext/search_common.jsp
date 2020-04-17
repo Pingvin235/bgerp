@@ -2,5 +2,5 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="pageFormId" value="searchForm-fulltext" scope="request"/>
-<c:set var="nextCommand" value="; $$.ajax.openUrlTo($('#searchForm-fulltext')[0], $('#searchResult'));" scope="request"/>
+<c:set var="nextCommand" value="; $$.ajax.load($('#searchForm-fulltext')[0], $('#searchResult'));" scope="request"/>
 <%@ include file="/WEB-INF/jspf/page_control.jsp"%>

@@ -50,6 +50,13 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
 
     public static ParameterMap EMPTY = new DefaultParameterMap(Collections.emptyMap());
 
+    public static ParameterMap of(String... keyValues) {
+        Map<String, String> map = new HashMap<>(keyValues.length / 2);
+        for (int i = 0; i < keyValues.length - 1; i += 2)
+            map.put(keyValues[i], keyValues[i + 1]);
+        return new DefaultParameterMap(map);
+    }
+
     protected String mapPrint = null;
 
     public abstract String get(String key, String def);

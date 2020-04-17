@@ -59,14 +59,14 @@
 
 <link type="text/css" href="/lib/themify/themify-icons.css" rel="stylesheet"/>
 
-<script src="${u:fileNameWithLastModTime('/js/crm.js')}"></script>
-<script src="${u:fileNameWithLastModTime('/js/crm.address.js')}"></script>
-<script src="${u:fileNameWithLastModTime('/js/crm.ajax.js')}"></script>
-<script src="${u:fileNameWithLastModTime('/js/crm.callboard.js')}"></script>
-<script src="${u:fileNameWithLastModTime('/js/crm.customer.js')}"></script>
-<script src="${u:fileNameWithLastModTime('/js/crm.process.js')}"></script>
-<script src="${u:fileNameWithLastModTime('/js/crm.ui.js')}"></script>
-<script src="${u:fileNameWithLastModTime('/js/crm.shell.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.address.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.ajax.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.callboard.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.customer.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.process.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.ui.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.shell.js')}"></script>
 
 <link rel="icon" type="image/png" href="/img/favicon.png" />
 

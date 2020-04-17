@@ -14,7 +14,7 @@
   display: inline-block;
   vertical-align: middle;
   *vertical-align: auto;
-  zoom: 1;
+  /*zoom: 1;*/
   *display: inline;
   position: relative;
 }

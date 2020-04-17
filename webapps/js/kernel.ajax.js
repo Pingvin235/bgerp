@@ -29,7 +29,7 @@ $$.ajax = new function() {
 			result.done(checkResponse);
 		
 		return result;
-	};
+	}
 	
 	/* 
 	 * Default - send request and set result HTML on element. 
@@ -55,7 +55,7 @@ $$.ajax = new function() {
 			else
 				$selector.html(result);
 		});
-	};
+	}
 
 	/** 
 	 * Перенос в POST часть запроса определённых в массиве toPostNames параметров запроса 
@@ -78,7 +78,7 @@ $$.ajax = new function() {
 			
 			data += url.substr(dataStartPos, length);
 			url = url.substr(0, dataStartPos) + url.substr(dataEndPos, url.length);
-		};
+		}
 		
 		// все переменные, могущие содержать большой объём данных должны начинаться с data
 		// перенос их в тело запроса
@@ -102,8 +102,12 @@ $$.ajax = new function() {
 		}
 		
 		return {"url" : url, "data" : data};
-	};
+	}
 
+	/**
+	 * Checks AJAX response.
+	 * @param {*} data param and values
+	 */ 
 	const checkResponse = function (data) {
 		var result = false;
 
@@ -144,11 +148,16 @@ $$.ajax = new function() {
 		return result;
 	}
 
-	const formUrl = function (url, excludeParams) {
-		if (typeof url === 'string')
-			return url;
+	/**
+	 * Builds URL string from form.
+	 * @param {*} param string with ready URL or form's selector or form itself
+	 * @param {*} excludeParams skipping params
+	 */
+	const formUrl = function (param, excludeParams) {
+		if (typeof param === 'string')
+			return param;
 
-		let forms = url; 
+		let forms = param; 
 
 		if (forms instanceof HTMLFormElement) {
 			forms = [forms];
@@ -159,14 +168,14 @@ $$.ajax = new function() {
 		for (var k = 0; k < forms.length; k++) {
 			var form = forms[k];
 
-			var url = $(form).attr('action');
+			var param = $(form).attr('action');
 			var params = $(form).serializeAnything(excludeParams);
 			if (params.length > 0) {
-				if (commonUrl.indexOf('?') > 0 || url.indexOf('?') > 0) {
-					url += "&" + params;
+				if (commonUrl.indexOf('?') > 0 || param.indexOf('?') > 0) {
+					param += "&" + params;
 				}
 				else {
-					url += "?" + params;
+					param += "?" + params;
 				}
 			}
 
@@ -185,23 +194,42 @@ $$.ajax = new function() {
 			if (commonUrl.length > 0) {
 				commonUrl += "&";
 			}
-			commonUrl += url;
+			commonUrl += param;
 		}
 
 		return commonUrl;
+	}
+
+	/**
+	 * Builds URL from key-value pairs.
+	 * @param {*} requestParams key value param pairs
+	 * @param {*} subParam NO IDEA
+	 */
+	const requestParamsToUrl = function (requestParams, subParam) {
+		let url = "";
+		for (const k in requestParams) {
+			url += "&";
+			if (subParam) {
+				url += subParam + "(";
+			}
+			url += encodeURIComponent(k);
+			if (subParam) {
+				url += ")";
+			}
+			url += "=" + encodeURIComponent(requestParams[k]); 
+		}
+		return url;
 	}
 
 	// доступные функции
 	this.post = post;
 	this.load = load;
 	this.checkResponse = checkResponse;
-	// устаревшее название
-	this.openUrlTo = load;
-	$$.openUrlTo = openUrlTo;
+	this.formUrl = formUrl;
+	this.requestParamsToUrl = requestParamsToUrl;
 	// временно доступные
-	this.formUrlInt = formUrl;
 	this.separatePostParamsInt = separatePostParams;
-};
+}
 
 //загружает URL на какой-то последний видимый элемент, selectorStart - селектор элемента
 function openUrl( url, selectorStart )
@@ -288,7 +316,7 @@ function openUrlToParent( url, $selector )
 	}
 }
 
-// replace to bgerp.ajax.openUrlTo
+// replace to $$.ajax.load
 function openUrlToParentAsync( url, $selector )
 {
 	console.warn($$.deprecated);
@@ -298,7 +326,7 @@ function openUrlToParentAsync( url, $selector )
 	{
 		var time = window.performance.now();
 		
-		bgcrm.debug( 'openUrl', "openUrlToParentAsync", url );
+		$$.debug( 'openUrl', "openUrlToParentAsync", url );
 				
 		var $parent = $($selector[0].parentNode)
 		
@@ -316,7 +344,7 @@ function openUrlToParentAsync( url, $selector )
 		{
 			$parent.html( response );
 			
-			bgcrm.debug( 'openUrl', "openUrlToParentAsync", url, window.performance.now() - time );
+			$$.debug( 'openUrl', "openUrlToParentAsync", url, window.performance.now() - time );
 		});
 	}
 }
@@ -451,16 +479,15 @@ function separatePostParams(url, toPostNames, json) {
 // move to $$.ui
 function onAJAXError( url, jqXHR, textStatus, errorThrown )
 {
-	console.warn($$.deprecated);
-
 	if( jqXHR.status == 401 )
 	{
 		showLoginPopup( jqXHR.responseText );
 	}
 	else if( jqXHR.status == 500 )
 	{
+		console.error("AJAX error, URL: ", url);
 		showErrorDialog( jqXHR.responseText );
-	}	
+	}
 	else
 	{
 		alert( "При открытии адреса " + url + " произошла ошибка: " + errorThrown );
@@ -478,22 +505,7 @@ function requestParamsToUrl( requestParams, subParam )
 {
 	console.warn($$.deprecated);
 
-	var url = "";
-	for( var k in requestParams )
-	{
-		url += "&";
-		if( subParam )
-		{
-			url += subParam + "(";
-		}
-		url += encodeURIComponent( k );
-		if( subParam )
-		{
-			url += ")";
-		}
-		url += "=" + encodeURIComponent( requestParams[k] ); 
-	}
-	return url;
+	return $$.ajax.requestParamsToUrl(requestParams, subParam);
 }
 
 //генерирует URL строку на основании введённых в форму параметров
@@ -501,7 +513,7 @@ function formUrl( forms, excludeParams )
 {
 	console.warn($$.deprecated);
 
-	return $$.ajax.formUrlInt(forms, excludeParams);
+	return $$.ajax.formUrl(forms, excludeParams);
 }
 
 function openUrlContent( url )

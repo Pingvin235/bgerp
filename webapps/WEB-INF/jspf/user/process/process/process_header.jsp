@@ -9,7 +9,7 @@
 	<div style="background-color: ${color}" class="pl05 pr05 box">
 		<div id="${uiid}" class="pt05 pb05">
 			<p:check action="ru.bgcrm.struts.action.ProcessAction:processDelete">
-				<c:url var="url" value="process.do">
+				<c:url var="url" value="/user/process.do">
 					<c:param name="action" value="processDelete"/>
 	     			<c:param name="id" value="${process.id}"/>				
 				</c:url>
@@ -45,7 +45,7 @@
 			</p:check>	
 			
 			<p:check action="ru.bgcrm.struts.action.ProcessAction:processTypeUpdate">
-				<c:url var="url" value="process.do">
+				<c:url var="url" value="/user/process.do">
 					<c:param name="action" value="processTypeEdit"/>
 	     			<c:param name="id" value="${process.id}"/>
 					<c:param name="typeId" value="${process.typeId}" />
@@ -57,7 +57,7 @@
 			</p:check>	
 		
 			<p:check action="ru.bgcrm.struts.action.ProcessAction:unionLog">
-				<c:url var="logUrl" value="process.do">  
+				<c:url var="logUrl" value="/user/process.do">  
 					<c:param name="action" value="unionLog"></c:param>  
 					<c:param name="id" value="${form.id}"></c:param>
 					<c:param name="type" value="process"></c:param>

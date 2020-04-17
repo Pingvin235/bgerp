@@ -22,7 +22,7 @@
   display: inline-block;
   vertical-align: middle;
   *vertical-align: auto;
-  zoom: 1;
+  /*zoom: 1;*/
   *display: inline;
    text-decoration: none;
   -webkit-box-shadow: 1px 1px 3px #c5c5c5;
@@ -64,7 +64,7 @@
   display: inline-block;
   vertical-align: middle;
   *vertical-align: auto;
-  zoom: 1;
+  /*zoom: 1;*/
   *display: inline;
    text-decoration: none;
   -webkit-box-shadow: 1px 1px 3px #c5c5c5;
@@ -106,7 +106,7 @@
   display: inline-block;
   vertical-align: middle;
   *vertical-align: auto;
-  zoom: 1;
+  /*zoom: 1;*/
   *display: inline;
    text-decoration: none;
   -webkit-box-shadow: 1px 1px 3px #c5c5c5;
@@ -148,7 +148,7 @@
   display: inline-block;
   vertical-align: middle;
   *vertical-align: auto;
-  zoom: 1;
+  /*zoom: 1;*/
   *display: inline;
   text-decoration: none;
   cursor: pointer;

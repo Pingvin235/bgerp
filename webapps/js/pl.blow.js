@@ -3,8 +3,8 @@
  */
 "use strict";
 
-bgerp.blow = new function() {
-	const debug = bgerp.debug("blow");
+$$.blow = new function() {
+	const debug = $$.debug("blow");
 
 	const ATTR_BG_ID = "bg-id";
 	const ATTR_BG_PARENT_ID = "bg-parent-id";
@@ -47,7 +47,7 @@ bgerp.blow = new function() {
 			});
 
 			if ($menu)
-				bgerp.blow.drag.init($td);
+				$$.blow.drag.init($td);
 
 			groupBorder($cells, $td);
 		});
@@ -71,10 +71,10 @@ bgerp.blow = new function() {
 			else
 				url = "/user/process.do?action=processCreate&typeId=" + $td.attr(ATTR_BG_TYPE_ID);
 
-			bgerp.ajax
+			$$.ajax
 				.post(url)
 				.done((resp) => {
-					bgerp.process.open(resp.data.process.id);
+					$$.process.open(resp.data.process.id);
 				});
 		});
 
@@ -201,10 +201,10 @@ bgerp.blow = new function() {
 		const targetProcessId = $tdTo.attr(ATTR_BG_ID);
 		const targetParentProcessId = $tdTo.attr(ATTR_BG_PARENT_ID);
 
-		bgerp.ajax
+		$$.ajax
 			.post("/user/plugin/blow/board.do?action=move&processId=" + $td.attr(ATTR_BG_ID) + "&fromParentProcessId=" + $td.attr(ATTR_BG_PARENT_ID) +
 					"&parentProcessId=" + (targetParentProcessId > 0 ? targetParentProcessId : targetProcessId))
-			.done(() => bgerp.shell.contentLoad("/user/blow/board"));
+			.done(() => $$.shell.contentLoad("/user/blow/board"));
 	};
 
 	// drag & drop

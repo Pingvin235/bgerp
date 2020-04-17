@@ -17,7 +17,7 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-			<c:url var="requestUrl" value="process.do">
+			<c:url var="requestUrl" value="/user/process.do">
 				<c:param name="action" value="processRequest"/>
 				<c:param name="objectId" value="${form.id}"/>
 				<c:param name="typeId" value="${node.id}"/>

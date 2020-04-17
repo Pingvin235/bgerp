@@ -23,7 +23,7 @@ $(function () {
 	<c:set var="endpoint" value="open.jsp"/>
 	<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
 
-	if (url) bgerp.ajax.openUrlTo(url, $("#main"), {replace: true});
+	if (url) $$.ajax.load(url, $("#main"), {replace: true});
 })
 </script>
 </div>

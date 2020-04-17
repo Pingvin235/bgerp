@@ -10,7 +10,7 @@ ${l.l('Статус')}&nbsp;<b>${process.statusTitle}</b>: ${u:formatDate( proce
 </c:if>
 
 <p:check action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory">
-	<c:url var="url" value="process.do">
+	<c:url var="url" value="/user/process.do">
 		<c:param name="id" value="${process.id}"/>
 		<c:param name="returnUrl" value="${requestUrl}"/>
 		<c:param name="action" value="processStatusHistory"/>

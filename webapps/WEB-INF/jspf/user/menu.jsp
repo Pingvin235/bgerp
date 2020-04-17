@@ -32,7 +32,7 @@
 	action="ru.bgcrm.struts.action.MessageAction:messageList"
 	command="/user/message.do?action=messageList" />
 
-<ui:menu-item title="Процессы" href="processQueue"
+<ui:menu-item title="Процессы" href="process/queue"
 	action="ru.bgcrm.struts.action.ProcessAction:queue"
 	command="/user/process.do?action=queue" />
 

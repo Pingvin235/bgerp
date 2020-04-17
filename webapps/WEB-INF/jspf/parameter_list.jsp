@@ -351,7 +351,7 @@
 									<c:param name="hideLeftPanel" value="1"/>
 									<c:param name="returnUrl" value="${form.requestUrl}"/>
 								</c:url>
-								[<a href="#UNDEF" onclick="bgerp.ajax.openUrlTo('${url}', $('#${tableId}').parent()); return false;">дом</a>]
+								[<a href="#UNDEF" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">дом</a>]
 								<%-- openUrlContent('?action=addressGet&returnUrl=%2fuser%2fdirectory%2faddress.do%3fselectTab%3dstreet%26addressItemId%3d3139%26searchMode%3dhouse&selectTab=street&addressCountryTitle=%d0%a0%d0%be%d1%81%d1%81%d0%b8%d1%8f&addressCityTitle=%d0%b3.+%d0%a3%d1%84%d0%b0&addressItemTitle=!%d0%a1%d0%a2%d0%a0%d0%9e%d0%98%d0%a2&addressCityId=1&addressItemId=3139&addressHouseId=29556  --%>
 							</p:check>
 							

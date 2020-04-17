@@ -30,5 +30,13 @@ public class ParameterMapTest {
         }
         assertTrue(thrown);
     }
+    
+    @Test
+    public void testOf() {
+        ParameterMap map = ParameterMap.of("key1", "1", "key2", "value2", "key3");
+        assertEquals(2, map.size());
+        assertEquals(1, map.getInt("key1"));
+        assertEquals("value2", map.get("key2"));
+    }
 
 }

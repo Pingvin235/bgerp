@@ -3,7 +3,7 @@
  */
 "use strict";
 
-bgcrm.ui = new function() {
+$$.ui = new function() {
 	const markChanged = ($element) => {
 		const originalConfig = $element.val();
 		$element.on("input", () => {
@@ -117,7 +117,7 @@ bgcrm.ui = new function() {
 			$dateFromHidden.val(new Date( date.getFullYear(), date.getMonth(), dayFrom).format( "dd.mm.yyyy" ));
 			$dateToHidden.val(new Date( date.getFullYear(), date.getMonth(), dayTo).format( "dd.mm.yyyy" ));
 			
-			bgcrm.debug('uiMonthDaysSelectInit', 'update: ', dayFrom, dayTo);
+			$$.debug('uiMonthDaysSelectInit', 'update: ', dayFrom, dayTo);
 		};
 		
 		update();
@@ -259,37 +259,37 @@ bgcrm.ui = new function() {
 
 function uiComboSingleInit ($comboDiv, onSelect) {
 	console.warn($$.deprecated);
-	bgcrm.ui.comboSingleInit($comboDiv, onSelect);
+	$$.ui.comboSingleInit($comboDiv, onSelect);
 }
 
 function uiComboInputs ($div) {
 	console.warn($$.deprecated);
-	return bgcrm.ui.comboInputs($div);
+	return $$.ui.comboInputs($div);
 }
 
 function uiComboCheckUncheck (object) {
 	console.warn($$.deprecated);
-	bgcrm.ui.comboCheckUncheck(object);
+	$$.ui.comboCheckUncheck(object);
 }
 
 function uiMonthDaysSelectInit ($div) {
 	console.warn($$.deprecated);
-	bgcrm.ui.monthDaysSelectInit($div);
+	$$.ui.monthDaysSelectInit($div);
 }
 
 function uiInputTextInit ($input, onSelect) {
 	console.warn($$.deprecated);
-	bgcrm.ui.inputTextInit($input, onSelect);
+	$$.ui.inputTextInit($input, onSelect);
 }
 
 function layoutProcess ($selector) {
 	console.warn($$.deprecated);
-	bgcrm.ui.layout($selector);
+	$$.ui.layout($selector);
 }
 
 function showErrorDialog (errorMessage) {
 	console.warn($$.deprecated);
-	bgcrm.ui.showError(errorMessage);
+	$$.ui.showError(errorMessage);
 }
 
 function optionTag( id, title, selected )

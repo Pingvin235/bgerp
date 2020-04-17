@@ -7,7 +7,6 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -79,6 +78,11 @@ import ru.bgcrm.model.process.Wizard;
 import ru.bgcrm.model.process.config.LinkProcessCreateConfig;
 import ru.bgcrm.model.process.config.LinkProcessCreateConfigItem;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
+import ru.bgcrm.model.process.queue.Filter;
+import ru.bgcrm.model.process.queue.FilterLinkObject;
+import ru.bgcrm.model.process.queue.FilterList;
+import ru.bgcrm.model.process.queue.FilterOpenClose;
+import ru.bgcrm.model.process.queue.FilterProcessType;
 import ru.bgcrm.model.process.queue.Processor;
 import ru.bgcrm.model.process.queue.config.SavedCommonFiltersConfig;
 import ru.bgcrm.model.process.queue.config.SavedFilter;
@@ -290,18 +294,6 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward queueShow(ActionMapping mapping, DynActionForm form, ConnectionSet connectionSet) throws Exception {
-        HttpServletRequest request = form.getHttpRequest();
-        HttpServletResponse response = form.getHttpResponse();
-
-        ProcessDAO processDAO = null;
-
-        boolean selectQueueFromSlave = setup.getBoolean("selectQueueFromSlave", false);
-        if (selectQueueFromSlave) {
-            processDAO = new ProcessDAO(connectionSet.getSlaveConnection(), form.getUser());
-        } else {
-            processDAO = new ProcessDAO(connectionSet.getConnection(), form.getUser());
-        }
-
         Preferences personalizationMap = form.getUser().getPersonalizationMap();
 
         String configBefore = personalizationMap.getDataString();
@@ -317,13 +309,8 @@ public class ProcessAction extends BaseAction {
 
         // полный фильтр - сохранение параметров запроса
         if (savedFilterSetId == 0) {
-            /* Вроде нигде не используется уже..
-            String key = "queueFilterParam." + form.getId() + ".";
-            personalizationMap.removeSub( key );*/
-
             //TODO: Сохранение параметров стоит сделать пробегая непосредственно по фильтрам
             //и сортировкам, это исключит различные посторонние параметры вроде requestUrl.
-
             saveFormFilters(form.getId(), form, personalizationMap);
         }
 
@@ -335,94 +322,29 @@ public class ProcessAction extends BaseAction {
         }
 
         Queue queue = ProcessQueueCache.getQueue(form.getId(), form.getUser());
-
         if (queue != null) {
             SearchResult<Object[]> searchResult = new SearchResult<Object[]>(form);
             List<String> aggregateValues = new ArrayList<>();
 
+            ProcessDAO processDAO = new ProcessDAO(connectionSet.getSlaveConnection(), form.getUser());
             processDAO.searchProcess(searchResult, aggregateValues, queue, form);
 
             final List<Object[]> list = searchResult.getList();
 
-            // печать только выбранных
-            Set<Integer> processIds = Utils.toIntegerSet(form.getParam("processIds"));
-            if (processIds.size() > 0) {
-                for (int i = 0; i < list.size(); i++) {
-                    Process process = ((Process[]) list.get(i)[0])[0];
-
-                    if (!processIds.contains(process.getId())) {
-                        list.remove(i--);
-                    }
-                }
-            }
-
-            if (Utils.notBlankString(form.getParam("print"))) {
-                int printTypeId = form.getParamInt("printTypeId");
-
-                if (printTypeId > 0) {
-                    PrintQueueConfig config = queue.getConfigMap().getConfig(PrintQueueConfig.class);
-                    PrintType printType = config.getPrintType(printTypeId);
-
-                    queue.processDataForColumns(form, list, queue.getColumnConfList(printType.getColumnIds()), false);
-                    EventProcessor.processEvent(new QueuePrintEvent(form, list, queue, printType), "", connectionSet);
-                } else {
-                    // TODO: В метод необходимо вынести расшифровку всех справочников.
-                    // FIXME: В данный момент это событие обрабатывает модуль отчётов, наверное нужно запретить печать, если этот модуль не установлен.
-                    queue.processDataForMedia(form, "print", list);
-                    EventProcessor.processEvent(new QueuePrintEvent(form, list, queue, null), "", connectionSet);
-                }
+            if (processNoHtmlResult(form, queue, connectionSet, list))
                 return null;
-            } else if (Utils.notBlankString(form.getParam("xls"))) {
-                List<Object[]> media = list;
 
-                queue.processDataForMedia(form, "xls", media);
-
-                try (HSSFWorkbook workbook = new HSSFWorkbook()) {
-                    HSSFSheet sheet = workbook.createSheet("BGERP process");
-    
-                    List<ColumnConf> columnList = queue.getMediaColumnList("xls");
-    
-                    Row titleRow = sheet.createRow(0);
-    
-                    for (int i = 0; i < columnList.size(); i++) {
-                        Cell titleCell = titleRow.createCell(i);
-                        titleCell.setCellValue(columnList.get(i).getTitle());
-                    }
-    
-                    for (int k = 0; k < media.size(); k++) {
-                        //Create a new row in current sheet
-                        Row row = sheet.createRow(k + 1);
-                        Object[] dataRow = media.get(k);
-    
-                        for (int i = 0; i < dataRow.length; i++) {
-                            if (dataRow[i].equals("null")) {
-                                continue;
-                            } else {
-                                //Create a new cell in current row
-                                Cell cell = row.createCell(i);
-                                cell.setCellValue(dataRow[i].toString());
-                            }
-                        }
-                    }
-                    response.setContentType("application/vnd.ms-excel");
-                    response.setHeader("Content-Disposition", "attachment; filename=bgcrm_process_list.xls");
-                    workbook.write(response.getOutputStream());
-                }
-
-                return null;
-            }
-
+            HttpServletRequest request = form.getHttpRequest();
             request.setAttribute("columnList", queue.getMediaColumnList("html"));
             queue.processDataForMedia(form, "html", list);
             request.setAttribute("queue", queue);
-            if (aggregateValues.size() > 0) {
+            if (aggregateValues.size() > 0)
                 form.setResponseData("aggregateValues", aggregateValues);
-            }
         } else {
             throw new BGMessageException("Очередь процессов с ID=" + form.getId() + " не найдена!");
         }
 
-        return processUserTypedForward(connectionSet, mapping, form, "queueShow");
+        return processUserTypedForward(connectionSet, mapping, form);
     }
 
     private void saveFormFilters(int queueId, DynActionForm form, Preferences personalizationMap) {
@@ -439,6 +361,79 @@ public class ProcessAction extends BaseAction {
 
         String paramKey = QUEUE_FULL_FILTER_PARAMS + queueId;
         personalizationMap.put(paramKey, Base64.getEncoder().encodeToString(SerializationUtils.serialize(ahm)));
+    }
+
+    private boolean processNoHtmlResult(DynActionForm form, Queue queue, ConnectionSet connectionSet, List<Object[]> list) throws Exception {
+        // печать только выбранных
+        Set<Integer> processIds = Utils.toIntegerSet(form.getParam("processIds"));
+        if (processIds.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                Process process = ((Process[]) list.get(i)[0])[0];
+
+                if (!processIds.contains(process.getId())) {
+                    list.remove(i--);
+                }
+            }
+        }
+
+        if (Utils.notBlankString(form.getParam("print"))) {
+            int printTypeId = form.getParamInt("printTypeId");
+
+            if (printTypeId > 0) {
+                PrintQueueConfig config = queue.getConfigMap().getConfig(PrintQueueConfig.class);
+                PrintType printType = config.getPrintType(printTypeId);
+
+                queue.processDataForColumns(form, list, queue.getColumnConfList(printType.getColumnIds()), false);
+                EventProcessor.processEvent(new QueuePrintEvent(form, list, queue, printType), "", connectionSet);
+            } else {
+                // TODO: В метод необходимо вынести расшифровку всех справочников.
+                // FIXME: В данный момент это событие обрабатывает модуль отчётов, наверное нужно запретить печать, если этот модуль не установлен.
+                queue.processDataForMedia(form, "print", list);
+                EventProcessor.processEvent(new QueuePrintEvent(form, list, queue, null), "", connectionSet);
+            }
+            return true;
+        } else if (Utils.notBlankString(form.getParam("xls"))) {
+            List<Object[]> media = list;
+
+            queue.processDataForMedia(form, "xls", media);
+
+            try (HSSFWorkbook workbook = new HSSFWorkbook()) {
+                HSSFSheet sheet = workbook.createSheet("BGERP process");
+
+                List<ColumnConf> columnList = queue.getMediaColumnList("xls");
+
+                Row titleRow = sheet.createRow(0);
+
+                for (int i = 0; i < columnList.size(); i++) {
+                    Cell titleCell = titleRow.createCell(i);
+                    titleCell.setCellValue(columnList.get(i).getTitle());
+                }
+
+                for (int k = 0; k < media.size(); k++) {
+                    //Create a new row in current sheet
+                    Row row = sheet.createRow(k + 1);
+                    Object[] dataRow = media.get(k);
+
+                    for (int i = 0; i < dataRow.length; i++) {
+                        if (dataRow[i].equals("null")) {
+                            continue;
+                        } else {
+                            //Create a new cell in current row
+                            Cell cell = row.createCell(i);
+                            cell.setCellValue(dataRow[i].toString());
+                        }
+                    }
+                }
+
+                HttpServletResponse response = form.getHttpResponse();
+                response.setContentType("application/vnd.ms-excel");
+                response.setHeader("Content-Disposition", "attachment; filename=bgcrm_process_list.xls");
+                workbook.write(response.getOutputStream());
+            }
+
+            return true;
+        }
+        return false;
     }
 
     public ActionForward process(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -1092,19 +1087,61 @@ public class ProcessAction extends BaseAction {
     public ActionForward linkedProcessList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con, form.getUser());
 
-        restoreRequestParams(con, form, true, true, "closed");
+        restoreRequestParams(con, form, true, true, "open");
 
         User user = form.getUser();
         String objectType = form.getParam("objectType");
         int id = form.getId();
 
-        SearchResult<Pair<String, Process>> searchResult = new SearchResult<Pair<String, Process>>(form);
-        processLinkDAO.searchLinkedProcessList(searchResult, CommonDAO.getLikePattern(objectType, "start"), id, null,
-                form.getSelectedValues("typeId"), form.getSelectedValues("statusId"), form.getParam("paramFilter"),
-                form.getParamBoolean("closed", null));
+        Boolean paramOpen = form.getParamBoolean("open", null);
+        Set<Integer> paramProcessTypeId = form.getSelectedValues("typeId");
 
+        Queue queue = ProcessQueueCache.getQueue(setup.getInt(objectType + ".processes.queue"));
+        if (queue != null) {
+            queue = queue.clone();
+
+            FilterList filters = queue.getFilterList();
+
+            FilterLinkObject filterLinkObject = new FilterLinkObject(0, ParameterMap.of(Filter.VALUES, String.valueOf(id)), objectType, FilterLinkObject.WHAT_FILTER_ID);
+            filters.add(filterLinkObject);
+
+            if (paramOpen != null) {
+                FilterOpenClose filterOpenClose = new FilterOpenClose(0, ParameterMap.of(Filter.VALUES, paramOpen ? FilterOpenClose.OPEN : FilterOpenClose.CLOSE));
+                filters.add(filterOpenClose);
+            }
+
+            if (!paramProcessTypeId.isEmpty()) {
+                FilterProcessType filterProcessType = new FilterProcessType(0, ParameterMap.of(Filter.ON_EMPTY_VALUES, Utils.toString(paramProcessTypeId)));
+                filters.add(filterProcessType);
+            }
+
+            SearchResult<Object[]> searchResult = new SearchResult<Object[]>(form);
+            List<String> aggregateValues = new ArrayList<>();
+
+            ProcessDAO processDAO = new ProcessDAO(con, form.getUser());
+            processDAO.searchProcess(searchResult, aggregateValues, queue, form);
+
+            final List<Object[]> list = searchResult.getList();
+
+            HttpServletRequest request = form.getHttpRequest();
+            request.setAttribute("columnList", queue.getMediaColumnList("html"));
+            queue.processDataForMedia(form, "html", list);
+            request.setAttribute("queue", queue);
+        } else {
+            SearchResult<Pair<String, Process>> searchResult = new SearchResult<Pair<String, Process>>(form);
+            processLinkDAO.searchLinkedProcessList(searchResult, CommonDAO.getLikePattern(objectType, "start"), id, null,
+                    paramProcessTypeId, form.getSelectedValues("statusId"), form.getParam("paramFilter"),
+                    paramOpen);
+
+            // generate references
+            for (Pair<String, Process> pair : searchResult.getList())
+                setProcessReference(con, form, pair.getSecond(), objectType);
+        }
+
+        // filter type list
         form.getResponse().setData("typeList", processLinkDAO.getLinkedProcessTypeIdList(objectType, id));
 
+        // type tree for creation
         List<ProcessType> typeList = ProcessTypeCache.getTypeList(con, objectType, id);
 
         boolean onlyPermittedTypes = form.getPermission().getBoolean("onlyPermittedTypes", false);
@@ -1119,23 +1156,7 @@ public class ProcessAction extends BaseAction {
 
         form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().clone(typeSet, onlyPermittedTypes));
 
-        Map<Integer, Boolean> wizardEnable = new HashMap<Integer, Boolean>(searchResult.getList().size());
-        form.getHttpRequest().setAttribute("wizardEnable", wizardEnable);
-
-        // генерация описаний процессов
-        for (Pair<String, Process> pair : searchResult.getList()) {
-            setProcessReference(con, form, pair.getSecond(), objectType);
-
-            ProcessType type = ProcessTypeCache.getProcessType(pair.getSecond().getTypeId());
-            if (type != null) {
-                Wizard wizard = type.getProperties().getCreateWizard();
-                if (wizard != null && wizard.check(con, form, pair.getSecond())) {
-                    wizardEnable.put(pair.getSecond().getId(), Boolean.TRUE);
-                }
-            }
-        }
-
-        return processUserTypedForward(con, mapping, form, "linkedProcessList");
+        return processUserTypedForward(con, mapping, form);
     }
 
     public ActionForward linkedProcessInfo(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -1193,10 +1214,12 @@ public class ProcessAction extends BaseAction {
 
         new ParamValueDAO(con).copyParams(id, process.getId(), configMap.get("create.in.copyParams"));
 
-        if (configMap.getBoolean("create.in." + objectType + ".wizardCreated", false)) {
+        final String key = "create.in." + objectType + ".openCreated";
+        if ("wizard".equals(configMap.get(key)) || 
+            configMap.getBoolean("create.in." + objectType + ".wizardCreated", false)) {
             form.getResponse().setData("wizard", 1);
             form.getResponse().getEventList().clear();
-        } else if (configMap.getBoolean("create.in." + objectType + ".openCreated", configMap.getBoolean("create.in.openCreated", true))) {
+        } else if (configMap.getBoolean(key, true)) {
             form.getResponse().addEvent(new ProcessOpenEvent(process.getId()));
         }
 

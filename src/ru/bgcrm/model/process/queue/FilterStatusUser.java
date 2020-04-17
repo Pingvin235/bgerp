@@ -8,38 +8,29 @@ import ru.bgcrm.model.process.Status;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
-public class FilterStatusUser
-	extends Filter
-{
-	private String statusTitle;
-	private int statusId;
+public class FilterStatusUser extends Filter {
+    private String statusTitle;
+    private int statusId;
 
-	public FilterStatusUser( int id, ParameterMap filter, String type )
-		throws BGException
-	{
-		super( id, filter );
-		
-		int statusId = Utils.parseInt( StringUtils.substringAfter( type, ":" ) );
-		Status status = ProcessTypeCache.getStatusMap().get( statusId );
+    public FilterStatusUser(int id, ParameterMap filter, String type) throws BGException {
+        super(id, filter);
 
-		if( status != null )
-		{
-			this.statusTitle = status.getTitle();
-			this.statusId = status.getId();
-		}
-		else
-		{
-			throw new BGException( "Incorrect status: " + statusId );
-		}
-	}
+        int statusId = Utils.parseInt(StringUtils.substringAfter(type, ":"));
+        Status status = ProcessTypeCache.getStatusMap().get(statusId);
 
-	public String getStatusTitle()
-	{
-		return statusTitle;
-	}
+        if (status != null) {
+            this.statusTitle = status.getTitle();
+            this.statusId = status.getId();
+        } else {
+            throw new BGException("Incorrect status: " + statusId);
+        }
+    }
 
-	public int getStatusId()
-	{
-		return statusId;
-	}
+    public String getStatusTitle() {
+        return statusTitle;
+    }
+
+    public int getStatusId() {
+        return statusId;
+    }
 }

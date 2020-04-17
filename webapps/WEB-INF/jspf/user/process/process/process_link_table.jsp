@@ -32,7 +32,7 @@
 		<c:forEach var="item" items="${list}">
 			<c:set var="process" value="${item.second}"/>
 			
-			<c:url var="url" value="process.do">
+			<c:url var="url" value="/user/process.do">
 				<c:param name="action" value="process"/>
 				<c:param name="id" value="${item.second.id}"/>
 				<c:param name="mode" value="linked"/>

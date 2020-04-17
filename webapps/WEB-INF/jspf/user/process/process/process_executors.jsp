@@ -8,7 +8,7 @@
 			<h2 style="display:inline;">${l.l('Группы / исполнители')}</h2>
 			
 			<p:check action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate">
-				<c:url var="url" value="process.do">
+				<c:url var="url" value="/user/process.do">
 					<c:param name="id" value="${process.id}"/>
 					<c:param name="returnUrl" value="${requestUrl}"/>
 					<c:param name="returnChildUiid" value="${tableId}"/>		
@@ -20,7 +20,7 @@
 			</p:check>
 			
 			<p:check action="ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate">	
-				<c:url var="url" value="process.do">
+				<c:url var="url" value="/user/process.do">
 					<c:param name="id" value="${process.id}"/>
 					<c:param name="returnUrl" value="${requestUrl}"/>
 					<c:param name="returnChildUiid" value="${tableId}"/>
@@ -73,7 +73,7 @@
 							<c:choose>
 								<c:when test="${currentPresented}">
 									<%-- полный список исполнителей без текущего в данной группе и роли --%>
-									<c:url var="url" value="process.do">
+									<c:url var="url" value="/user/process.do">
 										<c:param name="id" value="${process.id}"/>
 										<c:param name="action" value="processExecutorsUpdate"/>
 										<c:param name="group">${group.id}:${role.id}</c:param>										
@@ -91,7 +91,7 @@
 									<%-- текущий пользователь есть в этой группе --%>
 									<c:if test="${ctxUser.groupIds.contains(group.id)}">
 										<%-- полный список исполнителей в данной группе и роли --%>
-										<c:url var="url" value="process.do">
+										<c:url var="url" value="/user/process.do">
 											<c:param name="id" value="${process.id}"/>
 											<c:param name="action" value="processExecutorsUpdate"/>
 											<c:param name="group">${group.id}:${role.id}</c:param>										
