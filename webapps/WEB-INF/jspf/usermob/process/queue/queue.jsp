@@ -49,7 +49,7 @@
 	</html:form>
 	
 	<%-- processQueueFilter, невидиый фильтр - он же форма для вывода очереди --%>	
-	<html:form action="/usermob/process" styleId="processQueueFilter" style="display: none;">
+	<html:form action="/usermob/process/queue" styleId="processQueueFilter" style="display: none;">
 		<input type="hidden" name="action" value="queueShow"/>
 		<input type="hidden" name="id" value="${queue.id}"/>
 		<input type="hidden" name="page.pageIndex" value="-1"/>

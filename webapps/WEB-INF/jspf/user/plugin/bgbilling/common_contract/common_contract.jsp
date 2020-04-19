@@ -79,7 +79,7 @@
 			</c:url>
 			$tabs.tabs( 'add', "${url}", "Параметры" );
 			
-			<c:url var="url" value="process.do">
+			<c:url var="url" value="/user/process/link.do">
 		   		<c:param name="action" value="linkedProcessList"/>
 		   		<c:param name="objectType" value="bgbilling-commonContract"/>
 		   		<c:param name="objectTitle" value="${contract.formatedNumber}"/>

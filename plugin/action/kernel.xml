@@ -297,14 +297,14 @@
 			<item action="ru.bgcrm.struts.action.ParameterAction:entityLog" title="Просмотр лога изменений"/>
 		</item>		
 		<item title="Процесс">
-			<item action="ru.bgcrm.struts.action.ProcessAction:queue" title="Очереди процессов"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:queueGet" title="Получение свойств очереди процессов"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:queueShow" title="Просмотр очереди процессов"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet" title="Сохранённые наборы фильтров" allowAll="1"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet" title="Сохранённые наборы кнопок очередей процессов" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:queue;ru.bgcrm.struts.action.ProcessQueueAction:queue" title="Очереди процессов"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:queueGet;ru.bgcrm.struts.action.ProcessQueueAction:queueGet" title="Получение свойств очереди процессов"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:queueShow;ru.bgcrm.struts.action.ProcessQueueAction:queueShow" title="Просмотр очереди процессов"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet;ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet" title="Сохранённые наборы фильтров" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet;ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet" title="Сохранённые наборы кнопок очередей процессов" allowAll="1"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:null" title="Просмотр карточки процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:process" title="Просмотр карточки процесса"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:typeTree" title="Просмотр дерева типов процессов">
+			<item action="ru.bgcrm.struts.action.ProcessAction:typeTree;ru.bgcrm.struts.action.ProcessQueueAction:typeTree" title="Просмотр дерева типов процессов">
 				<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
 			</item>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processCreate" title="Создание процесса"/>
@@ -323,13 +323,13 @@
 			</item>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDelete" title="Удаление процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:process" title="Просмотр карточки процесса"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:linkedProcessList" title="Просмотр процессов с привязкой">
+			<item action="ru.bgcrm.struts.action.ProcessAction:linkedProcessList;ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessList" title="Просмотр процессов с привязкой">
 				<b>onlyPermittedTypes</b> - 1-только процессы в разрешенные группы котороых входит текущий пользователь , 0-без ограничений
 			</item>
-			<item action="ru.bgcrm.struts.action.ProcessAction:linkedProcessInfo" title="Просмотр информации о привязанном процессе"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate" title="Создание процесса с привязкой"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:linkProcessList" title="Просмотр привязанных процессов"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:linkProcessCreate" title="Создание привязанного процесса"/>
+			<!-- <item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessInfo" title="Просмотр информации о привязанном процессе"/> -->
+			<item action="ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate;ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate" title="Создание процесса с привязкой"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:linkProcessList;ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList" title="Просмотр привязанных процессов"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:linkProcessCreate;ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate" title="Создание привязанного процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke" title="Выполнение произвольного динамического класса для процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processRequest" title="Запрос дополнительных параметров создания процесса" allowAll="1"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processTypeEdit" title="Редактор изменения типа процесса"/>

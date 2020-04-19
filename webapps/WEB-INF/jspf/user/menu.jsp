@@ -34,7 +34,7 @@
 
 <ui:menu-item title="Процессы" href="process/queue"
 	action="ru.bgcrm.struts.action.ProcessAction:queue"
-	command="/user/process.do?action=queue" />
+	command="/user/process/queue.do?action=queue" />
 
 <ui:menu-item title="Распределения адресов" href="addressDistribution"
 	action="ru.bgcrm.struts.action.AddressDistributionAction"

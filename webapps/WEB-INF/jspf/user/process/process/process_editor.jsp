@@ -87,7 +87,7 @@
 						    <c:set var="ifaceId" value="link_process"/>
 						    <c:set var="ifaceState" value="${ifaceStateMap[ifaceId]}"/>
 						
-							<c:url var="url" value="/user/process.do">
+							<c:url var="url" value="/user/process/link.do">
 								<c:param name="action" value="linkProcessList"/>
 								<c:param name="id" value="${process.id}"/>
 								<c:param name="linkedReferenceName" value="linkedProcessList"/>

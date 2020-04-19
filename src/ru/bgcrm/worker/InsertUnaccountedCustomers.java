@@ -1,4 +1,4 @@
-package ru.bgcrm.worker;
+/*package ru.bgcrm.worker;
 
 import java.sql.Connection;
 
@@ -39,4 +39,4 @@ public class InsertUnaccountedCustomers
 	{
 		new InsertUnaccountedCustomers().run();
 	}
-}
+}*/

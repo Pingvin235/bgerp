@@ -758,7 +758,7 @@ link:../../src/ru/bgcrm/struts/action/MessageAction.java#L241-L253[ru.bgcrm.stru
 
 Сохранение плюс восстановление сразу:
 [snippet, from="//", to=");", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/ProcessAction.java#L1086-L1090[ru.bgcrm.struts.action.ProcessAction]
+link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L57-L61[ru.bgcrm.struts.action.ProcessLinkAction]
 
 === Отображение на вкладке количества элементов
 Например, количества связанных процессов. Сохраняется при первом вызове. 
@@ -766,7 +766,7 @@ link:../../src/ru/bgcrm/struts/action/ProcessAction.java#L1086-L1090[ru.bgcrm.st
 
 Обновление значения:
 [snippet, from="// п", to="}", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/ProcessAction.java#L1270-L1277[ru.bgcrm.struts.action.ProcessAction]
+link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L242-L249[ru.bgcrm.struts.action.ProcessLinkAction]
 
 Отображение в JSP:
 [snippet, from="<c:if", to="if>", remove-leading="						"]
@@ -830,7 +830,7 @@ link:../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L56-L
 
 Java action:
 [snippet, from="//", to="id);", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/ProcessAction.java#L1261-L1263[ru.bgcrm.struts.action.ProcessAction]
+link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L233-L235[ru.bgcrm.struts.action.ProcessLinkAction]
 
 [[sample-jsp-ui]]
 === JSP UI

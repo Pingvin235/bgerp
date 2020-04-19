@@ -31,7 +31,7 @@
 
 			$tabs.tabs("add", "${url}", "Параметры");
 
-			<c:url var="url" value="process.do">
+			<c:url var="url" value="/user/process/link.do">
 				<c:param name="action" value="linkedProcessList"/>
 				<c:param name="objectType" value="customer"/>
 				<c:param name="objectTitle" value="${customer.title}"/>

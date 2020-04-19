@@ -3,7 +3,6 @@ package ru.bgcrm.struts.action;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -14,426 +13,58 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.apache.logging.log4j.util.Strings;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
-import ru.bgcrm.dao.process.SavedFilterDAO;
 import ru.bgcrm.dao.process.StatusChangeDAO;
-import ru.bgcrm.dao.process.StatusDAO;
-import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.event.ProcessMarkedActionEvent;
-import ru.bgcrm.event.QueuePrintEvent;
 import ru.bgcrm.event.UserEvent;
-import ru.bgcrm.event.client.ProcessOpenEvent;
-import ru.bgcrm.event.link.LinkAddedEvent;
-import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.event.listener.TemporaryObjectOpenListener;
 import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
-import ru.bgcrm.event.process.ProcessCreatedAsLinkEvent;
 import ru.bgcrm.event.process.ProcessRemovedEvent;
 import ru.bgcrm.event.process.ProcessRequestEvent;
-import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.EntityLogItem;
-import ru.bgcrm.model.IfaceState;
-import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.model.process.Queue;
-import ru.bgcrm.model.process.Queue.ColumnConf;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.process.Wizard;
 import ru.bgcrm.model.process.config.LinkProcessCreateConfig;
-import ru.bgcrm.model.process.config.LinkProcessCreateConfigItem;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
-import ru.bgcrm.model.process.queue.Filter;
-import ru.bgcrm.model.process.queue.FilterLinkObject;
-import ru.bgcrm.model.process.queue.FilterList;
-import ru.bgcrm.model.process.queue.FilterOpenClose;
-import ru.bgcrm.model.process.queue.FilterProcessType;
-import ru.bgcrm.model.process.queue.Processor;
-import ru.bgcrm.model.process.queue.config.SavedCommonFiltersConfig;
-import ru.bgcrm.model.process.queue.config.SavedFilter;
-import ru.bgcrm.model.process.queue.config.SavedFiltersConfig;
-import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;
-import ru.bgcrm.model.process.queue.config.SavedPanelConfig;
 import ru.bgcrm.model.process.wizard.WizardData;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.plugin.report.model.PrintQueueConfig;
-import ru.bgcrm.plugin.report.model.PrintQueueConfig.PrintType;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.PatternFormatter;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgerp.util.Log;
 
 public class ProcessAction extends BaseAction {
-    private static final Logger log = Logger.getLogger(ProcessAction.class);
-
-    // выбранные в полном фильтре фильтры
-    private static final String QUEUE_FULL_FILTER_SELECTED_FILTERS = "queueSelectedFilters";
-    // параметры полного фильтра
-    private static final String QUEUE_FULL_FILTER_PARAMS = "queueCurrentSavedFiltersParam.";
+    private static final Log log = Log.getLog();
 
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm actionForm, Connection con) throws Exception {
         return process(mapping, actionForm, con);
-    }
-
-    public ActionForward queue(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        form.getResponse().setData("list", ProcessQueueCache.getUserQueueList(form.getUser()));
-
-        return processUserTypedForward(conSet, mapping, form, "queue");
-    }
-
-    public ActionForward queueSavedFilterSet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        Preferences personalizationMap = form.getUser().getPersonalizationMap();
-        SavedFiltersConfig config = personalizationMap.getConfig(SavedFiltersConfig.class);
-
-        String persConfigBefore = personalizationMap.getDataString();
-
-        String command = form.getParam("command");
-        int queueId = form.getParamInt("queueId");
-        if (Utils.isBlankString(command) || queueId <= 0) {
-            throw new BGIllegalArgumentException();
-        }
-
-        ArrayList<SavedFilter> commonFilters = new SavedFilterDAO(con).getFilters(queueId);
-        SavedCommonFiltersConfig commonConfig = new SavedCommonFiltersConfig(commonFilters);
-
-        if (command.equals("delete")) {
-            config.removeSavedFilterSet(queueId, form.getId());
-            personalizationMap.removeSub(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + queueId);
-        } else if (command.equals("add")) {
-            String title = form.getParam("title");
-            String url = form.getParam("url");
-
-            if (Utils.isBlankString(title) || Utils.isBlankString(url)) {
-                throw new BGIllegalArgumentException();
-            }
-
-            int createdSetId = config.addSavedFilterSet(queueId, title, url);
-
-            personalizationMap.put(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + queueId, String.valueOf(createdSetId));
-        } else if (command.equals("select")) {
-            if (form.getId() < 0) {
-                throw new BGIllegalArgumentException();
-            }
-            personalizationMap.put(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + queueId, String.valueOf(form.getId()));
-        } else if (command.equals("toFullFilter")) {
-            // extracting from unexisting empty filter - reset full filter
-            SavedFilterSet filter = config.getSavedFilterSetMap().get(form.getId());
-            DynActionForm savedFiltersForm = filter != null ? new DynActionForm(filter.getUrl()) : new DynActionForm();
-            saveFormFilters(queueId, savedFiltersForm, personalizationMap);
-            personalizationMap.remove(QUEUE_FULL_FILTER_SELECTED_FILTERS + queueId);
-        } else if (command.equals("updateFiltersOrder")) {
-            config.reorderSavedFilterSets(queueId, form.getSelectedValuesList("setId"));
-        } else if (command.equals("setRareStatus")) {
-            int filterId = form.getParamInt("filterId");
-            Boolean value = form.getParamBoolean("rare", false);
-
-            log.debug("set rare status: " + value + " " + filterId);
-            config.setRareStatus(queueId, filterId, value);
-        } else if (command.equals("setStatusCounterOnPanel")) {
-            int filterId = form.getParamInt("filterId");
-            Boolean value = form.getParamBoolean("statusCounterOnPanel", false);
-            String color = form.getParam("color");
-            String title = form.getParam("title");
-            String queueName = form.getParam("queueName");
-            log.debug("set counter on panel status: " + value + " " + filterId);
-            config.setStatusCounterOnPanel(queueId, filterId, color, value, title, queueName);
-        } else if (command.equals("addCommon")) {
-            String title = form.getParam("title");
-            String url = form.getParam("url");
-            log.debug("Adding common filter " + title + " " + url);
-            if (Utils.isBlankString(title) || Utils.isBlankString(url)) {
-                throw new BGIllegalArgumentException();
-            }
-            commonConfig.addSavedCommonFilter(queueId, title, url);
-
-            new SavedFilterDAO(con).updateFilter(commonConfig, queueId);
-        } else if (command.equals("importCommon")) {
-            String title = form.getParam("title");
-            int id = form.getParamInt("id");
-            String url = new SavedFilterDAO(con).getFilterUrlById(id);
-
-            log.debug("Importing common filter " + title + " " + url);
-
-            if (Utils.isBlankString(title) || Utils.isBlankString(url)) {
-                throw new BGIllegalArgumentException();
-            }
-            int createdSetId = config.addSavedFilterSet(queueId, title, url);
-
-            personalizationMap.put(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + queueId, String.valueOf(createdSetId));
-        } else if (command.equals("deleteCommon")) {
-            String title = form.getParam("title");
-            int id = form.getParamInt("id");
-            String url = new SavedFilterDAO(con).getFilterUrlById(id);
-
-            log.debug("Deleting common filter " + title + " " + url);
-
-            if (Utils.isBlankString(title) || Utils.isBlankString(url)) {
-                throw new BGIllegalArgumentException();
-            }
-            commonConfig.deleteSavedCommonFilter(queueId, title, url);
-
-            new SavedFilterDAO(con).deleteFilter(id);
-        }
-
-        config.updateConfig(personalizationMap);
-
-        new UserDAO(con).updatePersonalization(persConfigBefore, form.getUser());
-
-        return processJsonForward(con, form);
-    }
-
-    public ActionForward queueSavedPanelSet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        Preferences personalizationMap = form.getUser().getPersonalizationMap();
-        SavedPanelConfig config = personalizationMap.getConfig(SavedPanelConfig.class);
-
-        String persConfigBefore = personalizationMap.getDataString();
-
-        String command = form.getParam("command");
-        Integer queueId = form.getParamInt("queueId");
-        log.debug(command + " " + queueId);
-
-        if (Utils.isBlankString(command) || queueId <= 0) {
-            throw new BGIllegalArgumentException();
-        }
-
-        if (command.equals("add")) {
-            config.addSavedPanelSet(queueId);
-        } else if (command.equals("delete")) {
-            config.removeSavedPanelSet(queueId);
-        } else if (command.equals("updateSelected")) {
-            config.changeCurrentSelected(queueId);
-        }
-
-        config.updateConfig(personalizationMap);
-        new UserDAO(con).updatePersonalization(persConfigBefore, form.getUser());
-
-        return processJsonForward(con, form);
-
-    }
-
-    public ActionForward queueGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        User user = form.getUser();
-        HttpServletRequest request = form.getHttpRequest();
-
-        Queue queue = ProcessQueueCache.getQueue(form.getId(), user);
-        if (queue != null && form.getUser().getQueueIds().contains(queue.getId())) {
-            ArrayList<SavedFilter> commonFilters = new SavedFilterDAO(con).getFilters(queue.getId());
-            SavedCommonFiltersConfig commonConfig = new SavedCommonFiltersConfig(commonFilters);
-            request.setAttribute("commonConfig", commonConfig);
-
-            form.getResponse().setData("queue", queue);
-            form.getResponse().setData("statusList", new StatusDAO(con).getStatusList());
-
-            List<ProcessType> typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
-
-            boolean onlyPermittedTypes = form.getPermission().getBoolean("onlyPermittedTypes", false);
-            if (onlyPermittedTypes) {
-                applyProcessTypePermission(typeList, user);
-            }
-
-            form.getResponse().setData("typeList", typeList);
-
-            Preferences personalizationMap = user.getPersonalizationMap();
-            String persConfigBefore = personalizationMap.getDataString();
-
-            personalizationMap.put("queueLastSelected", String.valueOf(queue.getId()));
-
-            String filtersValues = personalizationMap.get(QUEUE_FULL_FILTER_PARAMS + form.getId());
-            if (!Utils.isEmptyString(filtersValues) || filtersValues != null) {
-                ArrayHashMap ahm = (ArrayHashMap) SerializationUtils.deserialize(Base64.getDecoder().decode(filtersValues));
-                DynActionForm savedParamsFilters = new DynActionForm();
-                savedParamsFilters.setParam(ahm);
-                request.setAttribute("savedParamsFilters", savedParamsFilters);
-            }
-
-            new UserDAO(con).updatePersonalization(persConfigBefore, user);
-        }
-
-        return processUserTypedForward(con, mapping, form, "queueFilter");
-    }
-
-    public ActionForward queueShow(ActionMapping mapping, DynActionForm form, ConnectionSet connectionSet) throws Exception {
-        Preferences personalizationMap = form.getUser().getPersonalizationMap();
-
-        String configBefore = personalizationMap.getDataString();
-
-        int savedFilterSetId = form.getParamInt("savedFilterSetId");
-        // выбранные в полном фильтре фильтры
-        String selectedFilters = form.getParam("selectedFilters");
-
-        personalizationMap.put(SavedFiltersConfig.QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX + form.getId(), String.valueOf(savedFilterSetId));
-        if (selectedFilters != null) {
-            personalizationMap.put(QUEUE_FULL_FILTER_SELECTED_FILTERS + form.getId(), selectedFilters);
-        }
-
-        // полный фильтр - сохранение параметров запроса
-        if (savedFilterSetId == 0) {
-            //TODO: Сохранение параметров стоит сделать пробегая непосредственно по фильтрам
-            //и сортировкам, это исключит различные посторонние параметры вроде requestUrl.
-            saveFormFilters(form.getId(), form, personalizationMap);
-        }
-
-        // параметры изменились
-        new UserDAO(connectionSet.getConnection()).updatePersonalization(configBefore, form.getUser());
-
-        if (!form.getUser().getQueueIds().contains(form.getId())) {
-            throw new BGMessageException("Вам не разрешён доступ к очереди процессов с ID=" + form.getId() + "!");
-        }
-
-        Queue queue = ProcessQueueCache.getQueue(form.getId(), form.getUser());
-        if (queue != null) {
-            SearchResult<Object[]> searchResult = new SearchResult<Object[]>(form);
-            List<String> aggregateValues = new ArrayList<>();
-
-            ProcessDAO processDAO = new ProcessDAO(connectionSet.getSlaveConnection(), form.getUser());
-            processDAO.searchProcess(searchResult, aggregateValues, queue, form);
-
-            final List<Object[]> list = searchResult.getList();
-
-            if (processNoHtmlResult(form, queue, connectionSet, list))
-                return null;
-
-            HttpServletRequest request = form.getHttpRequest();
-            request.setAttribute("columnList", queue.getMediaColumnList("html"));
-            queue.processDataForMedia(form, "html", list);
-            request.setAttribute("queue", queue);
-            if (aggregateValues.size() > 0)
-                form.setResponseData("aggregateValues", aggregateValues);
-        } else {
-            throw new BGMessageException("Очередь процессов с ID=" + form.getId() + " не найдена!");
-        }
-
-        return processUserTypedForward(connectionSet, mapping, form);
-    }
-
-    private void saveFormFilters(int queueId, DynActionForm form, Preferences personalizationMap) {
-        ArrayHashMap ahm = new ArrayHashMap();
-        for (String paramName : form.getParam().keySet()) {
-            if (!paramName.equals("requestUrl") && form.getParamArray(paramName) != null && form.getParamArray(paramName).length > 0) {
-                if (form.getParamArray(paramName).length > 1) {
-                    ahm.put(paramName, form.getParamArray(paramName));
-                } else if (Utils.notBlankString(form.getParam(paramName))) {
-                    ahm.put(paramName, form.getParam(paramName));
-                }
-            }
-        }
-
-        String paramKey = QUEUE_FULL_FILTER_PARAMS + queueId;
-        personalizationMap.put(paramKey, Base64.getEncoder().encodeToString(SerializationUtils.serialize(ahm)));
-    }
-
-    private boolean processNoHtmlResult(DynActionForm form, Queue queue, ConnectionSet connectionSet, List<Object[]> list) throws Exception {
-        // печать только выбранных
-        Set<Integer> processIds = Utils.toIntegerSet(form.getParam("processIds"));
-        if (processIds.size() > 0) {
-            for (int i = 0; i < list.size(); i++) {
-                Process process = ((Process[]) list.get(i)[0])[0];
-
-                if (!processIds.contains(process.getId())) {
-                    list.remove(i--);
-                }
-            }
-        }
-
-        if (Utils.notBlankString(form.getParam("print"))) {
-            int printTypeId = form.getParamInt("printTypeId");
-
-            if (printTypeId > 0) {
-                PrintQueueConfig config = queue.getConfigMap().getConfig(PrintQueueConfig.class);
-                PrintType printType = config.getPrintType(printTypeId);
-
-                queue.processDataForColumns(form, list, queue.getColumnConfList(printType.getColumnIds()), false);
-                EventProcessor.processEvent(new QueuePrintEvent(form, list, queue, printType), "", connectionSet);
-            } else {
-                // TODO: В метод необходимо вынести расшифровку всех справочников.
-                // FIXME: В данный момент это событие обрабатывает модуль отчётов, наверное нужно запретить печать, если этот модуль не установлен.
-                queue.processDataForMedia(form, "print", list);
-                EventProcessor.processEvent(new QueuePrintEvent(form, list, queue, null), "", connectionSet);
-            }
-            return true;
-        } else if (Utils.notBlankString(form.getParam("xls"))) {
-            List<Object[]> media = list;
-
-            queue.processDataForMedia(form, "xls", media);
-
-            try (HSSFWorkbook workbook = new HSSFWorkbook()) {
-                HSSFSheet sheet = workbook.createSheet("BGERP process");
-
-                List<ColumnConf> columnList = queue.getMediaColumnList("xls");
-
-                Row titleRow = sheet.createRow(0);
-
-                for (int i = 0; i < columnList.size(); i++) {
-                    Cell titleCell = titleRow.createCell(i);
-                    titleCell.setCellValue(columnList.get(i).getTitle());
-                }
-
-                for (int k = 0; k < media.size(); k++) {
-                    //Create a new row in current sheet
-                    Row row = sheet.createRow(k + 1);
-                    Object[] dataRow = media.get(k);
-
-                    for (int i = 0; i < dataRow.length; i++) {
-                        if (dataRow[i].equals("null")) {
-                            continue;
-                        } else {
-                            //Create a new cell in current row
-                            Cell cell = row.createCell(i);
-                            cell.setCellValue(dataRow[i].toString());
-                        }
-                    }
-                }
-
-                HttpServletResponse response = form.getHttpResponse();
-                response.setContentType("application/vnd.ms-excel");
-                response.setHeader("Content-Disposition", "attachment; filename=bgcrm_process_list.xls");
-                workbook.write(response.getOutputStream());
-            }
-
-            return true;
-        }
-        return false;
     }
 
     public ActionForward process(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -465,34 +96,7 @@ public class ProcessAction extends BaseAction {
         return processUserTypedForward(con, mapping, form, "process");
     }
 
-    // возвращает дерево типов для создания процесса
-    public ActionForward typeTree(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        int queueId = Utils.parseInt(form.getParam("queueId"));
-        Queue queue = ProcessQueueCache.getQueue(queueId, form.getUser());
-        User user = form.getUser();
-
-        // очередь не разрешена пользователю
-        if (queue == null)
-            return processUserTypedForward(con, mapping, form, "processTypeTree");
-
-        List<ProcessType> typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
-
-        boolean onlyPermittedTypes = form.getPermission().getBoolean("onlyPermittedTypes", false);
-        if (onlyPermittedTypes) {
-            applyProcessTypePermission(typeList, user);
-        }
-
-        Set<Integer> typeSet = new HashSet<Integer>();
-        for (ProcessType type : typeList) {
-            typeSet.add(type.getId());
-        }
-
-        form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().clone(typeSet, onlyPermittedTypes));
-
-        return processUserTypedForward(con, mapping, form, "processTypeTree");
-    }
-
-    private void applyProcessTypePermission(List<ProcessType> typeList, User user) {
+    protected void applyProcessTypePermission(List<ProcessType> typeList, User user) {
         List<Integer> typeForRemove = new ArrayList<Integer>();
         Iterator<ProcessType> iterator = typeList.iterator();
         while (iterator.hasNext()) {
@@ -1061,7 +665,7 @@ public class ProcessAction extends BaseAction {
         }
     }
 
-    private Process getProcess(ProcessDAO processDao, int id) throws BGException {
+    protected Process getProcess(ProcessDAO processDao, int id) throws BGException {
         Process process = processDao.getProcess(id);
         if (process == null) {
             throw new BGMessageException("Процесс не найдён.");
@@ -1083,301 +687,10 @@ public class ProcessAction extends BaseAction {
         return type;
     }
 
-    // процессы, к которым привязана сущность
-    public ActionForward linkedProcessList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con, form.getUser());
-
-        restoreRequestParams(con, form, true, true, "open");
-
-        User user = form.getUser();
-        String objectType = form.getParam("objectType");
-        int id = form.getId();
-
-        Boolean paramOpen = form.getParamBoolean("open", null);
-        Set<Integer> paramProcessTypeId = form.getSelectedValues("typeId");
-
-        Queue queue = ProcessQueueCache.getQueue(setup.getInt(objectType + ".processes.queue"));
-        if (queue != null) {
-            queue = queue.clone();
-
-            FilterList filters = queue.getFilterList();
-
-            FilterLinkObject filterLinkObject = new FilterLinkObject(0, ParameterMap.of(Filter.VALUES, String.valueOf(id)), objectType, FilterLinkObject.WHAT_FILTER_ID);
-            filters.add(filterLinkObject);
-
-            if (paramOpen != null) {
-                FilterOpenClose filterOpenClose = new FilterOpenClose(0, ParameterMap.of(Filter.VALUES, paramOpen ? FilterOpenClose.OPEN : FilterOpenClose.CLOSE));
-                filters.add(filterOpenClose);
-            }
-
-            if (!paramProcessTypeId.isEmpty()) {
-                FilterProcessType filterProcessType = new FilterProcessType(0, ParameterMap.of(Filter.ON_EMPTY_VALUES, Utils.toString(paramProcessTypeId)));
-                filters.add(filterProcessType);
-            }
-
-            SearchResult<Object[]> searchResult = new SearchResult<Object[]>(form);
-            List<String> aggregateValues = new ArrayList<>();
-
-            ProcessDAO processDAO = new ProcessDAO(con, form.getUser());
-            processDAO.searchProcess(searchResult, aggregateValues, queue, form);
-
-            final List<Object[]> list = searchResult.getList();
-
-            HttpServletRequest request = form.getHttpRequest();
-            request.setAttribute("columnList", queue.getMediaColumnList("html"));
-            queue.processDataForMedia(form, "html", list);
-            request.setAttribute("queue", queue);
-        } else {
-            SearchResult<Pair<String, Process>> searchResult = new SearchResult<Pair<String, Process>>(form);
-            processLinkDAO.searchLinkedProcessList(searchResult, CommonDAO.getLikePattern(objectType, "start"), id, null,
-                    paramProcessTypeId, form.getSelectedValues("statusId"), form.getParam("paramFilter"),
-                    paramOpen);
-
-            // generate references
-            for (Pair<String, Process> pair : searchResult.getList())
-                setProcessReference(con, form, pair.getSecond(), objectType);
-        }
-
-        // filter type list
-        form.getResponse().setData("typeList", processLinkDAO.getLinkedProcessTypeIdList(objectType, id));
-
-        // type tree for creation
-        List<ProcessType> typeList = ProcessTypeCache.getTypeList(con, objectType, id);
-
-        boolean onlyPermittedTypes = form.getPermission().getBoolean("onlyPermittedTypes", false);
-        if (onlyPermittedTypes) {
-            applyProcessTypePermission(typeList, user);
-        }
-
-        Set<Integer> typeSet = new HashSet<Integer>();
-        for (ProcessType type : typeList) {
-            typeSet.add(type.getId());
-        }
-
-        form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().clone(typeSet, onlyPermittedTypes));
-
-        return processUserTypedForward(con, mapping, form);
-    }
-
-    public ActionForward linkedProcessInfo(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
-        int id = form.getId();
-        if (id <= 0) {
-            throw new BGMessageException("process id error");
-        }
-        ProcessDAO processDAO = new ProcessDAO(con);
-
-        form.getResponse().setData("process", processDAO.getProcess(id));
-        new StatusChangeDAO(con).searchProcessStatus(new SearchResult<StatusChange>(form), form.getId(), form.getSelectedValues("statusId"));
-
-        return processUserTypedForward(con, mapping, form, "linkedProcessInfo");
-    }
-
-    private void setProcessReference(Connection con, DynActionForm form, Process process, String objectType) {
-        try {
-            ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-            if (type != null) {
-                ProcessReferenceConfig config = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
-                process.setReference(config.getReference(con, form, process, objectType));
-            }
-        } catch (Exception e) {
-            process.setReference(e.getMessage());
-            log.error(e.getMessage(), e);
-        }
-    }
-
-    // создание процесса с привязанной сущностью
-    public ActionForward linkedProcessCreate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        String objectType = form.getParam("objectType");
-        int id = form.getId();
-        String objectTitle = form.getParam("objectTitle");
-
-        Process process = ProcessAction.processCreate(form, con);
-
-        //TODO: Может потом вернуть поддержку пермишена.
-        /*	ParameterMap permission = form.getPermission();
-        	Set<Integer> processTypeIds = Utils.toIntegerSet( permission.get( "allowedProcessTypeIds" ) );
-        */
-
-        CommonObjectLink link = new CommonObjectLink(Process.OBJECT_TYPE, process.getId(), objectType, id, objectTitle);
-
-        EventProcessor.processEvent(new LinkAddingEvent(form, link),
-                ProcessTypeCache.getProcessType(process.getTypeId()).getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
-
-        new ProcessLinkDAO(con).addLink(link);
-
-        EventProcessor.processEvent(new LinkAddedEvent(form, link),
-                ProcessTypeCache.getProcessType(process.getTypeId()).getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
-
-        // копирование параметров
-        ProcessType type = ProcessTypeCache.getProcessType(form.getParamInt("typeId", 0));
-        ParameterMap configMap = type.getProperties().getConfigMap();
-
-        new ParamValueDAO(con).copyParams(id, process.getId(), configMap.get("create.in.copyParams"));
-
-        final String key = "create.in." + objectType + ".openCreated";
-        if ("wizard".equals(configMap.get(key)) || 
-            configMap.getBoolean("create.in." + objectType + ".wizardCreated", false)) {
-            form.getResponse().setData("wizard", 1);
-            form.getResponse().getEventList().clear();
-        } else if (configMap.getBoolean(key, true)) {
-            form.getResponse().addEvent(new ProcessOpenEvent(process.getId()));
-        }
-
-        return processJsonForward(con, form);
-    }
-
-    // процессы, привязанные к процессу
-    public ActionForward linkProcessList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        HttpServletRequest request = form.getHttpRequest();
-        ProcessLinkDAO processLinkDao = new ProcessLinkDAO(con, form.getUser());
-
-        int id = form.getId();
-
-        Process process = getProcess(new ProcessDAO(con), id);
-        ProcessType type = getProcessType(process.getTypeId());
-
-        request.setAttribute("processType", type);
-
-        // указание типов процессов которые можно создавать с произвольным видом привязки
-        /*Set<Integer> createTypeIds = Utils.toIntegerSet(type.getProperties().getConfigMap().get("processCreateLinkProcessTypes"));
-        request.setAttribute("typeList", ProcessTypeCache.getTypeList(createTypeIds));*/
-
-        // жёстко указанные в конфигурации типы процессов, с указанными видами привязки, фильтры по параметру процесса и т.п.
-        final List<LinkProcessCreateConfigItem> createTypeList = type.getProperties().getConfigMap().getConfig(LinkProcessCreateConfig.class)
-                .getItemList(con, process);
-
-        request.setAttribute("createTypeList", createTypeList);
-
-        // список процессов, к которым привязан данный процесс
-        SearchResult<Pair<String, Process>> searchResultLinked = new SearchResult<>();
-        processLinkDao.searchLinkedProcessList(searchResultLinked, Process.OBJECT_TYPE + "%", id, null, null, null, null, null);
-        form.getResponse().setData("linkedProcessList", searchResultLinked.getList());
-
-        // генерация описаний процессов
-        for (Pair<String, Process> pair : searchResultLinked.getList()) {
-            setProcessReference(con, form, pair.getSecond(), form.getParam("linkedReferenceName"));
-        }
-
-        // привязанные к процессу процессы
-        SearchResult<Pair<String, Process>> searchResultLink = new SearchResult<Pair<String, Process>>(form);
-        processLinkDao.searchLinkProcessList(searchResultLink, id);
-
-        // генерация описаний процессов
-        for (Pair<String, Process> pair : searchResultLink.getList()) {
-            setProcessReference(con, form, pair.getSecond(), form.getParam("linkReferenceName"));
-        }
-
-        // проверка и обновление статуса вкладки, если нужно
-        if (Strings.isNotBlank(form.getParam(IfaceState.REQUEST_PARAM_IFACE_ID))) {
-            IfaceState ifaceState = new IfaceState(form);
-            IfaceState currentState = new IfaceState(Process.OBJECT_TYPE, id, form, 
-                    String.valueOf(searchResultLinked.getPage().getRecordCount()),
-                    String.valueOf(searchResultLink.getPage().getRecordCount()));
-            new IfaceStateDAO(con).compareAndUpdateState(ifaceState, currentState, form);
-        }
-
-        return processUserTypedForward(con, mapping, form, "linkProcessList");
-    }
-
-    // создание процесса, привязанного к процессу
-    public ActionForward linkProcessCreate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        int id = form.getId();
-
-        // либо тип процесса + тип отношений
-        int typeId = form.getParamInt("typeId", -1);
-        String objectType = form.getParam("objectType", "");
-
-        // либо код из конфигурации
-        int createTypeId = form.getParamInt("createTypeId", -1);
-
-        String description = Utils.maskNull(form.getParam("description"));
-
-        Process linkedProcess = getProcess(new ProcessDAO(con), id);
-        linkProcessCreate(con, form, linkedProcess, typeId, objectType, createTypeId, description, form.getParamInt("groupId", -1));
-
-        return processJsonForward(con, form);
-    }
-
+    @Deprecated
     public static Process linkProcessCreate(Connection con, DynActionForm form, Process linkedProcess, int typeId, String objectType,
             int createTypeId, String description, int groupId) throws Exception {
-        final ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
-
-        int linkedId = linkedProcess.getId();
-
-        Process process = new Process();
-        if (createTypeId > 0) {
-            ProcessType linkedType = getProcessType(linkedProcess.getTypeId());
-
-            LinkProcessCreateConfigItem item = linkedType.getProperties().getConfigMap().getConfig(LinkProcessCreateConfig.class)
-                    .getItem(createTypeId);
-            if (item == null) {
-                throw new BGException("Не найдено правило с кодом: " + createTypeId);
-            }
-
-            objectType = item.getLinkType();
-
-            process.setTypeId(item.getProcessTypeId());
-            process.setDescription(description);
-
-            processCreate(form, con, process, groupId);
-
-            String copyParams = item.getCopyParamsMapping();
-            if ("all".equals(copyParams)) {
-                ProcessType type = getProcessType(process.getTypeId());
-                List<Integer> paramIds = type.getProperties().getParameterIds();
-                List<Integer> linkedParamIds = linkedType.getProperties().getParameterIds();
-                List<Integer> paramIdsBothHave = new ArrayList<Integer>(linkedParamIds);
-                paramIdsBothHave.retainAll(paramIds);
-
-                new ParamValueDAO(con).copyParams(linkedId, process.getId(), StringUtils.join(paramIdsBothHave, ","));
-            } else {
-                new ParamValueDAO(con).copyParams(linkedId, process.getId(), copyParams);
-            }
-
-            String copyLinks = item.getCopyLinks();
-
-            // пока копирование сразу всех привязок
-            if (Utils.notBlankString(copyLinks)) {
-                if (copyLinks.equals("1")) {
-                    linkDao.copyLinks(linkedId, process.getId(), null, Process.OBJECT_TYPE + "%");
-                } else {
-                    linkDao.copyLinks(linkedId, process.getId(), copyLinks, Process.OBJECT_TYPE + "%");
-                }
-            }
-        } else {
-            process.setTypeId(typeId);
-            process.setDescription(description);
-
-            processCreate(form, con, process, -1);
-        }
-
-        // добавление привязки
-        linkDao.addLink(new CommonObjectLink(linkedId, objectType, process.getId(), ""));
-
-        ProcessType createdProcessType = getProcessType(process.getTypeId());
-        EventProcessor.processEvent(new ProcessCreatedAsLinkEvent(form, linkedProcess, process),
-                createdProcessType.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
-
-        return process;
-    }
-
-    public ActionForward processCustomClassInvoke(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        Queue queue = ProcessQueueCache.getQueue(form.getParamInt("queueId"), form.getUser());
-        if (queue != null) {
-            Processor processor = queue.getProcessorMap().get(form.getParamInt("processorId"));
-            List<Integer> processIds = Utils.toIntegerList(form.getParam("processIds"));
-
-            ProcessMarkedActionEvent event = new ProcessMarkedActionEvent(form, processor, processIds);
-            EventProcessor.processEvent(event, processor.getClassName(), conSet);
-
-            if (event.isStreamResponse()) {
-                return null;
-            } else {
-                return processJsonForward(conSet, form);
-            }
-        }
-
-        return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
+        return ProcessAction.linkProcessCreate(con, form, linkedProcess, typeId, objectType, createTypeId, description, groupId);
     }
 
     public ActionForward processRequest(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -1439,7 +752,6 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward unionLog(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
-
         new ProcessDAO(con).searchProcessLog(getProcessType(getProcess(new ProcessDAO(con), form.getId()).getTypeId()), form.getId(),
                 new SearchResult<EntityLogItem>(form));
 

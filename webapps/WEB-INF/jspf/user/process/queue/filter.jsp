@@ -107,14 +107,14 @@
 			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}>
 				<a onclick="if( !confirm( 'Удалить сохранённый фильтр?' ) ){ return; }
 					${getSavedSetId}
-					$$.ajax.post('/user/process.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=delete').done(() => {
+					$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=delete').done(() => {
 						processQueueFilterSetSelect(${queue.id})
 					})">Фильтр - удалить</a>
 			</li>
 			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}>
 				<a onclick="
 					${getSavedSetId}
-					$$.ajax.post('/user/process.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=toFullFilter').done(() => {
+					$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=toFullFilter').done(() => {
 						$('#processQueueFilter > div#${queue.id}').remove();
 						$$.process.queue.changed(0);
 					})">Фильтр - извлечь в полный</a>
@@ -126,7 +126,7 @@
 			<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$('#${saveFilterFormUiid}').css('display','');">Фильтр - сохранить</a></li>
 			<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}>
 				<a onclick="if( !confirm( 'Сбросить полный фильтр?' ) ){ return; }
-					$$.ajax.post('/user/process.do?action=queueSavedFilterSet&queueId=${queue.id}&id=0&command=toFullFilter').done(() => {
+					$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=0&command=toFullFilter').done(() => {
 						$('#processQueueFilter > div#${queue.id}').remove();
 						$$.process.queue.changed(0);
 					})">Фильтр - сброс</a>
@@ -237,7 +237,7 @@
 	</div>
 
 	<%-- сохранение фильтра --%>
-	<form action="/user/process.do" style="display: none;" id="${saveFilterFormUiid}" class="mb1 mr1">
+	<form action="/user/process/queue.do" style="display: none;" id="${saveFilterFormUiid}" class="mb1 mr1">
 		Название фильтра:
 		<input type="hidden" name="action" value="queueSavedFilterSet"/>
 		<input type="hidden" name="queueId" value="${queue.id}"/>
@@ -247,17 +247,18 @@
 
 		<button type="button" class="btn-grey"
 			onclick="if( this.form.title.value == '' ){ alert( 'Введите название!'); return; }
-					 this.form.url.value = $$.ajax.formUrl($('#processQueueFilter').find('form#${queue.id}-0'), ['page.pageIndex', 'savedFilterSetId']).replace('/user/', '');
+					this.form.url.value = $$.ajax.formUrl($('#processQueueFilter').find('form#${queue.id}-0'), ['page.pageIndex', 'savedFilterSetId']);
 					$$.ajax.post(this.form).done(() => { processQueueFilterSetSelect(${queue.id}) })">OK</button>
-		<%--$('#${uiid} #buttons' ).show();  --%>
 		<button type="button" class="btn-grey" onclick="$(this.form).hide()">Отмена</button>
 	</form>
 
 	<%-- сохранённые фильтры --%>
 	<div id="savedFilters" ${hideWhenFullFilter} class="in-mb1-all mr1 in-mr05 dropFilterArea">
 		<c:forEach var="saved" items="${config.queueSavedFilterSetsMap[queue.id]}">
-			<%-- old URLs start from process.do --%>
-			<form action="${saved.url.startsWith('process.do') ? '/user/'.concat(saved.url) : saved.url}" id="${queue.id}-${saved.id}" ${currentSavedFilterSetId eq saved.id ? "active='1'" : ""} style="display: none;">
+			<%-- old URLs start from process.do, after some intermediate version /user/process.do --%>
+			<form 
+				action="${saved.url.replace('/user/process.do', '/user/process/queue.do').replace('process.do', '/user/process/queue.do')}" 
+				id="${queue.id}-${saved.id}" ${currentSavedFilterSetId eq saved.id ? "active='1'" : ""} style="display: none;">
 				<input type="hidden" name="savedFilterSetId" value="${saved.id}"/>
 			</form>
 				<div draggable="true" id="${saved.id}" class="${currentSavedFilterSetId eq saved.id ? 'btn-blue' : 'btn-white'}" onclick="$$.process.queue.changed(${saved.id})">${saved.title}</div>
@@ -311,7 +312,7 @@
 	<c:set var="selectedFilters" value="${u:toIntegerSet( selectedFiltersStr )}"/>
 
 	<%-- полный фильтр --%>
-	<form action="/user/process.do" id="${queue.id}-0" ${currentSavedFilterSetId le 0 ? "active='1'" : "style='display: none;'"} class="in-inline-block in-mr05 in-mb1-all">
+	<form action="/user/process/queue.do" id="${queue.id}-0" ${currentSavedFilterSetId le 0 ? "active='1'" : "style='display: none;'"} class="in-inline-block in-mr05 in-mb1-all">
 		<input type="hidden" name="savedFilterSetId" value="0"/>
 		<input type="hidden" name="selectedFilters" value="${selectedFiltersStr}"/>
 		<input type="hidden" name="action" value="queueShow"/>

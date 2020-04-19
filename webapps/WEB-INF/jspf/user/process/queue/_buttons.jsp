@@ -56,16 +56,17 @@
 					onclick="if( !confirm( 'Удалить выбранный набор?' ) ){ return; }
 
 							savedSetId = $('#processQueueButtons').find( 'span#${queue.id}' ).find( 'input[checked=checked]' ).val();
-							if( savedSetId <= 0 )
-							{
-								alert( 'Невозможно удалить полный фильтр' );
+							if (savedSetId <= 0) {
+								alert('Невозможно удалить полный фильтр');
 								return;
 							}
 
-							if( sendAJAXCommand( '/user/process.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=delete' ) ){ processQueueFilterSetSelect( ${queue.id} ) }"/>
+							$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=delete').done(() => {
+								processQueueFilterSetSelect(${queue.id});
+							});"/>
 			</span>
 			<span>
-				<form action="/user/process.do" id="editor" style="display: none;">
+				<form action="/user/process/queue.do" id="editor" style="display: none;">
 					Название:
 					<input type="hidden" name="action" value="queueSavedFilterSet"/>
 					<input type="hidden" name="queueId" value="${queue.id}"/>
@@ -74,9 +75,9 @@
 					<input type="text" name="title" size="20"/>
 
 					<input type="button" value="OK"
-						onclick="if( this.form.title.value == '' ){ alert( 'Введите название!'); return; }
-								 this.form.url.value = formUrl( $('#processQueueFilter').find('form#${queue.id}-0'), ['page.pageIndex', 'savedFilterSetId'] );
-								 if( sendAJAXCommand( formUrl( this.form ) ) ){ processQueueFilterSetSelect( ${queue.id} ) }"/>
+						onclick="if (this.form.title.value == '') {alert( 'Введите название!'); return;}
+								this.form.url.value = $$.ajax.formUrl($('#processQueueFilter').find('form#${queue.id}-0'), ['page.pageIndex', 'savedFilterSetId']);
+								$$.ajax.post(this.form).done(() => {processQueueFilterSetSelect(${queue.id})})"/>
 					<input type="button" value="Отмена" onclick="$('#${uiid} #buttons' ).show(); $(this.form).hide()"/>
 				</form>
 			</span>

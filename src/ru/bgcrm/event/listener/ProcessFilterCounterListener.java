@@ -3,13 +3,10 @@ package ru.bgcrm.event.listener;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.FilterCounterEvent;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;
@@ -18,16 +15,14 @@ import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.worker.FilterEntryCounter;
+import ru.bgerp.util.Log;
 
 public class ProcessFilterCounterListener {
-    private static final Logger log = Logger.getLogger(ProcessFilterCounterListener.class);
+    private static final Log log = Log.getLog();
 
     public ProcessFilterCounterListener() {
-        EventProcessor.subscribe(new EventListener<GetPoolTasksEvent>() {
-            @Override
-            public void notify(GetPoolTasksEvent e, ConnectionSet connectionSet) throws BGException {
-                processListener(e.getForm(), connectionSet);
-            }
+        EventProcessor.subscribe((e, conSet) -> {
+            processListener(e.getForm(), conSet);
         }, GetPoolTasksEvent.class);
     }
 
@@ -58,7 +53,7 @@ public class ProcessFilterCounterListener {
                 try {
                     count = FilterEntryCounter.getInstance().parseUrlAndGetCount(queue, url, form.getUser());
                 } catch (Exception e) {
-                    log.error(e.getMessage(), e);
+                    log.error(e);
                 }
 
                 HashMap<Integer, Integer> btnIdAndEntryCount = valuesToReturn.get(queueId);

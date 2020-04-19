@@ -167,7 +167,7 @@ public class BaseAction extends DispatchAction {
             }
 
             if (invoker == null)
-                throw new NoSuchMethodException();
+                throw new NoSuchMethodException(name);
 
             invokerMap.putIfAbsent(name, invoker);
         }

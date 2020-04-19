@@ -7,7 +7,7 @@
 	<c:if test="${not empty createTypeList}">
 		<c:set var="uiid" value="${u:uiid()}"/>
 	
-		<html:form action="user/process" styleId="${uiid}" >
+		<html:form action="/user/process/link" styleId="${uiid}" >
 			<input type="hidden" name="action" value="linkProcessCreate"/>
 			<input type="hidden" name="id" value="${form.id}"/>	
 					

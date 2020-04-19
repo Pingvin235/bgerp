@@ -13,7 +13,7 @@
 	<c:if test="${processType.properties.configMap['processCreateLinkModeSelect'] ne '0'}">
 		<c:set var="uiid" value="${u:uiid()}"/>
 		<div id="${uiid}">
-			<html:form action="user/process" styleId="addButton" styleClass="pt1">
+			<html:form action="/user/process/link" styleId="addButton" styleClass="pt1">
 				<input type="hidden" name="action" value="linkProcessCreate"/>
 				<input type="hidden" name="id" value="${form.id}"/>	
 						
@@ -54,7 +54,7 @@
 
 	<c:if test="${not empty form.response.data.list}">
 		<c:set var="uiid" value="${u:uiid()}"/>
-		<html:form action="user/process" styleId="${uiid}">
+		<html:form action="/user/process/link" styleId="${uiid}">
 			<div style="display: inline-block;" class="tt bold mt05 mb05">${l.l('К процессу привязаны')}:</div>
 			
 			<input type="hidden" name="action" value="linkProcessList"/>

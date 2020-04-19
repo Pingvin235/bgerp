@@ -5,7 +5,7 @@
 <c:set var="processTypeTree" value="processTypeTree-${u:uiid()}" scope="request" />
 
 <div id="${processTypeTree}" class="tableIndent center1020 editorStopReload" style="display: none;">
-	<form action="/user/process.do">
+	<form action="/user/process/link.do">
 		<input type="hidden" name="action" value="linkedProcessCreate" /> 
 		<input type="hidden" name="id" value="${form.id}" /> 
 		<input type="hidden" name="objectType" value="${form.param.objectType}" /> 
@@ -47,7 +47,7 @@
 <c:remove var="saveCommand" />
 
 <div id="${linkedProcessList}">
-	<html:form action="user/process" styleClass="mb05">
+	<html:form action="/user/process/link" styleClass="mb05">
 		<input type="hidden" name="action" value="linkedProcessList" />
 		<input type="hidden" name="objectType" value="${form.param.objectType}" />
 		<input type="hidden" name="id" value="${form.id}" />
