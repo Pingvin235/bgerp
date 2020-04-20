@@ -127,7 +127,7 @@ public class InstallerModule {
             boolean result = false;
             try {
                 String fullClassName = "ru.bgcrm.util.distr.call." + callClass;
-                InstallationCall call = (InstallationCall) Class.forName(fullClassName.toString()).newInstance();
+                InstallationCall call = (InstallationCall) Class.forName(fullClassName.toString()).getDeclaredConstructor().newInstance();
                 call.call(setup, zip, param);
                 result = true;
             } catch (Exception ex) {

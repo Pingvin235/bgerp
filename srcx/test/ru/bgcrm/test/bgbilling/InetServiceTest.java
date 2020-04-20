@@ -1,8 +1,8 @@
 package ru.bgcrm.test.bgbilling;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import junit.framework.Assert;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetService;
 
 public class InetServiceTest {

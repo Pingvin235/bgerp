@@ -6,18 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.beust.jcommander.internal.Lists;
+
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import com.beust.jcommander.internal.Lists;
 
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
-import ru.bgerp.plugin.blow.model.Board;
-import ru.bgerp.plugin.blow.model.Item;
 
 public class BoardTest {
     
