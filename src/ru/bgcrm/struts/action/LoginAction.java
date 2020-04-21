@@ -19,9 +19,9 @@ public class LoginAction extends BaseAction {
         //TODO: Когда будет сделано событие авторизации, сделать его слушателя в LoginEventListener.
         User user = form.getUser();
         if (user != null) {
-            String onLoginOpen = user.getConfigMap().get("onLoginOpen");
-            if (Utils.notBlankString(onLoginOpen))
-                LoginEventListener.addOnLoginEvent(form.getUserId(), new UrlOpenEvent(onLoginOpen));
+            String onLoginOpen = user.getConfigMap().getSok("on.login.open", "onLoginOpen");
+            for (String url : Utils.toList(onLoginOpen))
+                LoginEventListener.addOnLoginEvent(form.getUserId(), new UrlOpenEvent(url));
         }
         
         form.getHttpRequest().setAttribute("l", Localization.getLocalizer());

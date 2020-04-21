@@ -36,26 +36,9 @@
 	<button class="btn-white combo mr1 mb1" id="${uiidMoreButton}">
 		<div class="text-value">${l.l('Ещё')}</div>
 		<div class="icon"><img src="/images/arrow-down.png"/></div>
-
 		<script>
-			$(function()
-			{
-				var menu = $("#${uiidMoreMenu}").menu();
-
-				$("#${uiidMoreButton}").click( function()
-				{
-					menu.show().position({
-						my: "left top",
-						at: "left bottom",
-						of: this
-					});
-
-					$(document).one( "click", function() {
-						menu.hide();
-					});
-
-					return false;
-				});
+			$(function () {
+				$$.ui.menuInit($("#${uiidMoreButton}"), $("#${uiidMoreMenu}"), "left");
 			})
 		</script>
 	</button>

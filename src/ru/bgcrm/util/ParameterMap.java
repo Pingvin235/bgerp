@@ -66,6 +66,43 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         return get((String) key, null);
     }
 
+    /**
+     * Retrieve value using actual and old keys.
+     * @param def default value
+     * @param validate true - throw an exception on using old keys
+     * @param keys first element is actual ond, after - old values
+     * @return
+     * @throws BGMessageException
+     */
+    public String getSok(String def, boolean validate, String... keys) throws BGMessageException {
+        String value = get(keys[0]);
+        if (!Utils.isEmptyString(value))
+            return value;
+
+        for (int i = 1; i < keys.length; i++) {
+            value = get(keys[i]);
+            if (!Utils.isEmptyString(value)) {
+                var message = String.format("Using deprecated config key '%s'", keys[i]);
+                if (validate)
+                    throw new BGMessageException(message); 
+                log.warn(message);
+                return value;
+            }
+        }
+
+        return def;
+    }
+
+    /**
+     * Calls {@link #getSok(String, boolean, String...)} with def = null and validate = false.
+     * @param keys
+     * @return
+     * @throws BGMessageException
+     */
+    public String getSok(String... keys) throws BGMessageException {
+        return getSok(null, false, keys);
+    }
+
     public int getInt(String key, int def) {
         try {
             final String value = get(key, null);
@@ -80,18 +117,6 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     
     public int getInt(String key) {
         return getInt(key, 0);
-    }
-
-    public float getFloat(String key, float def) {
-        try {
-            final String value = get(key, null);
-            if (Utils.isEmptyString(value))
-                return def;
-            else
-                return Float.parseFloat(value.trim());
-        } catch (Exception ex) {
-            return def;
-        }
     }
 
     public long getLong(String key, long def) {
@@ -110,18 +135,6 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         return getLong(key, 0L);
     }
 
-    public double getDouble(String key, double def) {
-        try {
-            final String value = get(key, null);
-            if (Utils.isEmptyString(value))
-                return def;
-            else
-                return Double.parseDouble(value.trim());
-        } catch (Exception ex) {
-            return def;
-        }
-    }
-
     public final boolean getBoolean(String key, boolean defaultValue) {
         return Utils.parseBoolean(get(key, "").trim(), defaultValue);
     }
@@ -133,6 +146,34 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
                 return def;
             else
                 return new BigDecimal(value.trim());
+        } catch (Exception ex) {
+            return def;
+        }
+    }
+
+    /** The data type is not needed in business app. */
+    @Deprecated
+    public float getFloat(String key, float def) {
+        try {
+            final String value = get(key, null);
+            if (Utils.isEmptyString(value))
+                return def;
+            else
+                return Float.parseFloat(value.trim());
+        } catch (Exception ex) {
+            return def;
+        }
+    }
+
+    /** The data type is not needed in business app. */
+    @Deprecated
+    public double getDouble(String key, double def) {
+        try {
+            final String value = get(key, null);
+            if (Utils.isEmptyString(value))
+                return def;
+            else
+                return Double.parseDouble(value.trim());
         } catch (Exception ex) {
             return def;
         }

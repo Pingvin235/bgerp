@@ -20,29 +20,6 @@ $$.shell = new function () {
 			event.preventDefault();
 	};
 
-	const createMenu = function($launcher, $menu, align) {
-		$menu.menu().hide();
-
-		// пустые пункты меню
-		$menu.find( "a:not([onclick])" ).click(function (event) {
-			return false;
-		});
-
-		$launcher.click(function () {
-			$menu.show().position({
-				my: align + " top",
-				at: align + " bottom",
-				of: this
-			});
-
-			$(document).one("click", function () {
-				$menu.hide();
-			});
-
-			return false;
-		});
-	};
-
 	const getCommandDiv = function (command, closable) {
 		var $commandDiv = $("body > #content > div#" + command );
 
@@ -492,7 +469,6 @@ $$.shell = new function () {
 	};
 
 	// доступные функции
-	this.createMenu = createMenu;
 	this.initBuffer = initBuffer;
 	this.contentLoad = contentLoad;
 	this.followLink = followLink;

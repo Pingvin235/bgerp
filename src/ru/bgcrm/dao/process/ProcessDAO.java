@@ -1808,7 +1808,9 @@ public class ProcessDAO extends CommonDAO {
             pd.addQuery(SQL_FROM);
             pd.addQuery(TABLE_PROCESS);
 
-            if ( mode == MODE_USER_CREATED) {
+            pd.addQuery(getIsolationJoin(user));
+
+            if (mode == MODE_USER_CREATED) {
                 pd.addQuery("WHERE create_user_id=?");
                 pd.addInt(userId);
                 pd.addQuery(" AND close_dt is NULL");
@@ -1825,8 +1827,6 @@ public class ProcessDAO extends CommonDAO {
                 pd.addQuery(SQL_ORDER_BY);
                 pd.addQuery("status_dt DESC");
             }
-
-            pd.addQuery(getIsolationJoin(user));
 
             pd.addQuery(getPageLimit(page));
 

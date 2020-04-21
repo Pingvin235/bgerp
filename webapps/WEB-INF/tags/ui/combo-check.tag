@@ -1,11 +1,11 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Выпадающий список с возможностью выбора нескольких значений"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Выпадающий список с возможностью выбора нескольких значений"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%--
 Значения можно устанавливать двумя способами:
 
 1)
-list - List<IdTitle> элементов 
+list - List<IdTitle> элементов
 map - Map<Integer, IdTitle> элементов
 available - List<Integer> допустимых значений
 
@@ -46,13 +46,13 @@ styleTextValue / widthTextValue следует использовать, ког�
 	<c:otherwise>
 		<c:set var="uiid" value="${u:uiid()}"/>
 	</c:otherwise>
-</c:choose>		
+</c:choose>
 
 <div class="btn-white combo ${styleClass}" id="${uiid}" style="${style}">
 	<c:if test="${not empty prefixText}">
 		<div class="text-pref">${prefixText}</div>
-	</c:if>	
-	
+	</c:if>
+
 	<%-- ширину всего элемента можно задавать только шириной этого блока --%>
 	<div class="text-value" style="${styleTextValue}"></div>
 	<div class="icon"><img src="/images/cross.png"/></div>
@@ -61,21 +61,21 @@ styleTextValue / widthTextValue следует использовать, ког�
 			<li class="in-table-cell">
 				<c:set var="filterCode">
 					var mask = $(this).val().toLowerCase();
-					$(this).closest('ul').find('li:gt(0)').each( function() 
+					$(this).closest('ul').find('li:gt(0)').each( function()
 					{
 						var content = $(this).text().toLowerCase();
 						$(this).toggle( content.indexOf( mask ) >= 0 );
 					});
-				</c:set>			
+				</c:set>
 				<div style="width: 100%;"><input type="text" style="width: 100%;" placeholder="Фильтр" onkeyup="${filterCode}"/></div>
 				<div><div class="btn-white btn-small-selectAll ml05" onclick='uiComboCheckUncheck(this)' title="Выделить все / снять выделение">В</div></div>
 			</li>
-		</c:if>	
+		</c:if>
 		<data><%--
 		--%>${valuesHtml}<%--
 		--%><c:choose><%--
 			--%><c:when test="${empty available}"><%--
-				--%><c:forEach var="item" items="${list}"><%-- 
+				--%><c:forEach var="item" items="${list}"><%--
 					--%><li><%--
 						--%><input type="checkbox" name="${paramName}" value="${item.id}"  ${u:checkedFromCollection( values, item.id )}/> <%--
 						--%><span>${item.title}</span><%--
@@ -87,7 +87,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 					--%><c:when test="${map ne null}"><%--
 						--%><c:forEach var="availableId" items="${available}"><%--
 							--%><c:set var="item" value="${map[availableId]}"/><%--
-							--%><c:if test="${not empty item}"><%-- 
+							--%><c:if test="${not empty item}"><%--
 								--%><li><%--
 									--%><input type="checkbox" name="${paramName}" value="${item.id}"  ${u:checkedFromCollection( values, item.id )}/> <%--
 									--%><span>${item.title}</span><%--
@@ -98,7 +98,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 					--%><c:otherwise><%--
 						--%><c:forEach var="availableId" items="${available}"><%--
 							--%><c:forEach var="item" items="${list}"><%--
-								--%><c:if test="${availableId eq item.id}"><%-- 
+								--%><c:if test="${availableId eq item.id}"><%--
 									--%><li><%--
 										--%><input type="checkbox" name="${paramName}" value="${item.id}"  ${u:checkedFromCollection( values, item.id )}/> <%--
 										--%><span>${item.title}</span><%--
@@ -110,23 +110,23 @@ styleTextValue / widthTextValue следует использовать, ког�
 				--%></c:choose><%--
 			--%></c:otherwise>
 			</c:choose>
-		</data>	
+		</data>
 	</ul>
-	
+
 	<script>
 		$(function()
-		{	
+		{
 			var $comboDiv = $('#${uiid}');
 			var $drop = $comboDiv.find('ul.drop');
-			
+
 			var updateCurrentTitle = function()
 			{
 				var checkedCount = 0;
 				var titles = "";
-				
+
 				$comboDiv.find( "ul.drop li input[type=checkbox]" ).each( function()
 				{
-					if( this.checked )				
+					if( this.checked )
 					{
 						checkedCount++;
 						var title = $(this).next().text();
@@ -137,53 +137,43 @@ styleTextValue / widthTextValue следует использовать, ког�
 						titles += title;
 					}
 				});
-				
+
 				$comboDiv.find( '.text-value' ).text( "[" + checkedCount + "] " + titles );
-				
+
 				${onChange}
 			};
-						
- 			$comboDiv.find( "ul.drop" ).on( "click", "li input", function( event ) 
+
+ 			$comboDiv.find( "ul.drop" ).on( "click", "li input", function( event )
 			{
 				updateCurrentTitle();
 				event.stopPropagation();
 			});
-			
+
 			$comboDiv.find( "ul.drop" ).on( "click", "li", function()
 			{
 				var input = $(this).find( "input" )[0];
-				
+
 				input.checked = !(input.checked);
-				
+
 				updateCurrentTitle();
-				
+
 				return false;
-			})		
-			
-			$comboDiv.click( function() 
-			{
-				$drop.show();
-				
-				$(document).one( "click", function() 
-				{
-					$drop.hide();
-				});
-					 
-				return false;
-			});
-			
+			})
+
+			$$.ui.dropOnClick($comboDiv, $drop);
+
 			$comboDiv.find( "div.icon" ).click( function( event )
 			{
 				$comboDiv.find( "ul.drop li input" ).each( function()
 				{
-					this.checked = false;				
+					this.checked = false;
 				});
 				updateCurrentTitle();
-				
+
 				event.stopPropagation();
-			});		
-			
-			updateCurrentTitle();			
-		})	
+			});
+
+			updateCurrentTitle();
+		})
 	</script>
 </div>
