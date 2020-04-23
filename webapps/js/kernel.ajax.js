@@ -17,18 +17,27 @@ $$.ajax = new function() {
 
 		const separated = separatePostParams(url, options.toPostNames, !options.html);
 		
-		const result = $.ajax({ 
+		const def = $.Deferred();
+
+		$.ajax({ 
 			type: "POST",
 			url: separated.url,
 			data: separated.data,
 		}).fail(function (jqXHR, textStatus, errorThrown) {
 			onAJAXError(separated.url, jqXHR, textStatus, errorThrown);
+			def.reject();
+		}).done((data) => {
+			if (!options.html) {
+				if (checkResponse(data))
+					def.resolve(data);
+				else
+					def.reject();
+			}
+			else
+				def.resolve(data);
 		});
 
-		if (!options.html)
-			result.done(checkResponse);
-		
-		return result;
+		return def.promise();
 	}
 	
 	/* 
@@ -45,8 +54,11 @@ $$.ajax = new function() {
 		if (typeof $selector === 'string')
 			$selector = $($selector);
 		
-		// TODO: Previous $selector clean from openUrlToParentAsync.
-
+		// erasing of existing value, speeds up load process significantly in some cases
+		// the reason is not clear, was found in callboard, probably because of removing of onLoad listeners
+		if (!options || (!options.replace && !options.append))
+			$selector.html("");
+		
 		return post(url, options).done(function (result) {
 			if (options.replace)
 				$selector.replaceWith(result);

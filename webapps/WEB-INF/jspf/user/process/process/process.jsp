@@ -10,23 +10,23 @@
 <c:choose>
 	<%-- открытие где-то в списке процессов --%>
 	<c:when test="${not empty form.returnUrl}">
-		<c:set var="returnBreakCommand">openUrlToParent( '${form.returnUrl}', $('#${uiid}') )</c:set>
+		<c:set var="returnBreakCommand">$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent())</c:set>
 		<c:set var="returnOkCommand">${returnBreakCommand}</c:set>
 	</c:when>
 	<%-- открытие во вкладке вернего уровня --%>
 	<c:otherwise>
 		<%-- просто выход (в т.ч. после удаления временного процесса --%>
 		<c:set var="returnBreakCommand">
-			bgerp.closeObject = null;
+			$$.closeObject = null;
 			window.history.back();			
-			bgerp.shell.removeCommandDiv('process-${process.id}');
+			$$.shell.removeCommandDiv('process-${process.id}');
 		</c:set>
 		<%-- выход после преобразования временного процесса в постоянный --%>
 		<c:set var="returnOkCommand">
-			bgerp.closeObject = null;
-			bgerp.shell.removeCommandDiv('process-${process.id}');
+			$$.closeObject = null;
+			$$.shell.removeCommandDiv('process-${process.id}');
 			window.history.replaceState({href: 'process#${-process.id}'}, null, 'process#${-process.id}');
-			bgerp.process.open(${-process.id});
+			$$.process.open(${-process.id});
 		</c:set>
 	</c:otherwise>
 </c:choose>

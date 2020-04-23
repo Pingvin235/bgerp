@@ -175,31 +175,49 @@ pageContext.setAttribute( "singleQuot", "'" );
 				</td>
 				<td width="30px" style="white-space: nowrap;">
 					<c:set var="actionButtonUiid" value="${u:uiid()}"/>
+					<c:set var="actionButtonHideArea">$('#${actionButtonUiid}').closest('td').prev()</c:set>
+					<c:set var="actionButtonStartEdit">.show(); $('#${actionButtonUiid}').hide(); ${actionButtonHideArea}.hide(); return false;</c:set>
+					<c:set var="actionButtonCancelEdit">$(this.form).hide(); ${actionButtonHideArea}.show(); $('#${actionButtonUiid}').show();</c:set>
 
 					<c:set var="linkFormUiid" value="${u:uiid()}"/>
-					<html:form action="/user/message" styleId="${linkFormUiid}" style="white-space: nowrap; display: none;" styleClass="mr1" onsubmit="return false;">
+					<html:form action="/user/message" styleId="${linkFormUiid}" style="display: none;" onsubmit="return false;">
 						<input type="hidden" name="action" value="messageUpdateProcess"/>
 						<input type="hidden" name="id" value="${message.id}"/>
 
-						<c:set var="command">if( confirm( 'Привязать сообщение к указанному процессу?' ) && sendAJAXCommand( formUrl( this.form ) ) ){ openUrlToParent( '${form.requestUrl}', $('#${messagesUiid}') ) }</c:set>
+						<c:set var="command">
+							if (confirm('${l.l('Привязать сообщение к указанному процессу?')}'))
+								$$.ajax.post(this.form).done(() => {
+									$$.ajax.load('${form.requestUrl}', $('#${messagesUiid}').parent());
+								});
+						</c:set>
 
-						<input type="text" size="5" name="processId" class="ml1" onkeypress="if( enterPressed( event ) ){ ${command} }"/>
-						<button type="button" class="btn-grey ml1" title="Привязать к другому процессу" onclick="${command}">OK</button>
-						<button type="button" class="btn-grey ml1" onclick="$(this.form).hide();">Отмена</button>
+						<c:set var="targetProcessUiid" value="${u:uiid()}"/>
+						<ui:combo-single hiddenName="processId" id="${targetProcessUiid}" style="width: 100%;"/>
+
+						<c:set var="actionButtonStartEditMerge">
+							const processList = openedObjectList({'typesInclude' : ['process']});
+							let html = '';
+							$.each(processList, function() {
+								html += '<li value=\'' + this.id + '\'>' + this.title + '</li>';
+							});
+
+							$('#${targetProcessUiid} ul.drop').html(html);
+							$$.ui.comboSingleInit($('#${targetProcessUiid}'));
+						</c:set>
+
+						<%@ include file="process_message_list_editor_buttons.jsp"%>
 					</html:form>
 
 					<c:set var="tagFormUiid" value="${u:uiid()}"/>
-					<html:form action="/user/message" styleId="${tagFormUiid}" style="white-space: nowrap; display: none;" styleClass="mr1" onsubmit="return false;">
+					<html:form action="/user/message" styleId="${tagFormUiid}" style="display: none;" onsubmit="return false;">
 						<input type="hidden" name="action" value="messageUpdateTags"/>
 						<input type="hidden" name="id" value="${message.id}"/>
 
 						<ui:select-mult list="${tagConfig.tagList}" values="${messageTagIds}" hiddenName="tagId"/>
 
-						<br/>
-						<c:set var="command">if (sendAJAXCommand(formUrl(this.form))) {openUrlToParent('${form.requestUrl}', $('#${messagesUiid}'))}</c:set>
+						<c:set var="command">$$.ajax.post(this.form).done(() => { $$.ajax.load('${form.requestUrl}', $('#${messagesUiid}').parent()) });</c:set>
 
-						<button type="button" class="btn-grey ml1" title="Обновить теги" onclick="${command}">OK</button>
-						<button type="button" class="btn-grey ml1" onclick="$(this.form).hide();$('#${actionButtonUiid}').show();">Отмена</button>
+						<%@ include file="process_message_list_editor_buttons.jsp"%>
 					</html:form>
 
 					<c:set var="menuUiid" value="${u:uiid()}"/>
@@ -212,12 +230,12 @@ pageContext.setAttribute( "singleQuot", "'" );
 							</c:set>
 
 							<li><a href="#UNDEF" onclick="${command}">Вкл./выкл. разрывы строк</a></li>
-							<li><a href="#UNDEF" onclick="$('#${tagFormUiid}').css('display', 'inline-block'); $('#${actionButtonUiid}').hide(); return false;">Теги</a></li>
+							<li><a href="#UNDEF" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">Теги</a></li>
 							
 							<li>
 								<a href="#">${l.l('Изменить процесс на')}</a>
 								<ul>
-									<li><a href="#UNDEF" onclick="$('#${linkFormUiid}').css('display', 'inline-block'); return false;">Другой существующий</a></li>
+									<li><a href="#UNDEF" onclick="${actionButtonStartEditMerge} $('#${linkFormUiid}')${actionButtonStartEdit}">Другой существующий</a></li>
 
 									<c:if test="${messageType.processChangeSupport}">
 										<c:forTokens items = " ,processDepend,processMade,processLink" delims = "," var = "linkType">
@@ -303,7 +321,7 @@ pageContext.setAttribute( "singleQuot", "'" );
 								</c:url>
 
 								<li><a href="#UNDEF" onclick="if (bgcrm.lock.add('${message.lockEdit}')) {
-									  $$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
+										$$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
 									};
 									return false;">Редактировать</a></li>
 							</c:if>
@@ -314,7 +332,13 @@ pageContext.setAttribute( "singleQuot", "'" );
 									<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
 								</c:url>
 
-								<li><a href="#UNDEF" onclick="if( confirm('Удалить сообщение?') && sendAJAXCommand('${deleteUrl}') ){ openUrlToParent( '${form.requestUrl}', $('#${editorContainerUiid}') ) };  return false;">Удалить</a></li>
+								<li><a href="#UNDEF" onclick="
+									if (confirm('${l.l('Удалить сообщение?')}'))
+										$$.ajax.post('${deleteUrl}').done(() => {
+											$$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent());
+										});
+									return false;
+									">${l.l('Удалить')}</a></li>
 							</c:if>
 						 </ul>
 					 </div>

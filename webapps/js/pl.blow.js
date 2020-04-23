@@ -91,6 +91,11 @@ $$.blow = new function() {
 			move($tdCut, $td);
 		});
 
+		const $merge = $menu.find("#merge");
+		$merge.on("click", () => {
+			merge($tdCut, $td);
+		});
+
 		const $free = $menu.find("#free");
 		$free.on("click", () => {
 			move($td, $());
@@ -113,6 +118,7 @@ $$.blow = new function() {
 				$cut.toggle($td.attr(ATTR_BG_PARENT_ID) !== '');
 				$paste.toggle(!!$tdCut && $tdCut.attr(ATTR_BG_ID) > 0);
 				$free.toggle($td.attr(ATTR_BG_PARENT_ID) > 0);
+				$merge.toggle(!!$tdCut && $tdCut.attr(ATTR_BG_ID) > 0);
 			}
 			return false;
 		});
@@ -204,6 +210,13 @@ $$.blow = new function() {
 		$$.ajax
 			.post("/user/plugin/blow/board.do?action=move&processId=" + $td.attr(ATTR_BG_ID) + "&fromParentProcessId=" + $td.attr(ATTR_BG_PARENT_ID) +
 					"&parentProcessId=" + (targetParentProcessId > 0 ? targetParentProcessId : targetProcessId))
+			.done(() => $$.shell.contentLoad("/user/blow/board"));
+	};
+
+	const merge = ($td, $tdTo) => {
+		const targetProcessId = $tdTo.attr(ATTR_BG_ID);
+		$$.ajax
+			.post("/user/process.do?action=processMerge&id=" + $td.attr(ATTR_BG_ID) + "&processId=" + targetProcessId)
 			.done(() => $$.shell.contentLoad("/user/blow/board"));
 	};
 

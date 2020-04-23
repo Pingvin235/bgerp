@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<h1>Выберите приоритет</h1>
+<h1>${l.l('Выберите приоритет')}</h1>
 <html:form action="/user/process">
 	<html:hidden property="id"/>
 	<input type="hidden" name="action" value="processPriorityUpdate"/>

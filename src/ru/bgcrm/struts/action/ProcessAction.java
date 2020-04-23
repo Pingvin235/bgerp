@@ -22,6 +22,9 @@ import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.dao.message.MessageDAO;
+import ru.bgcrm.dao.message.MessageTypeNote;
+import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.dao.process.StatusChangeDAO;
@@ -30,6 +33,7 @@ import ru.bgcrm.event.UserEvent;
 import ru.bgcrm.event.listener.TemporaryObjectOpenListener;
 import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
+import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.event.process.ProcessRemovedEvent;
 import ru.bgcrm.event.process.ProcessRequestEvent;
 import ru.bgcrm.model.BGException;
@@ -38,6 +42,7 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.EntityLogItem;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
@@ -762,6 +767,47 @@ public class ProcessAction extends BaseAction {
         new ProcessDAO(con).searchProcessListForUser(new SearchResult<Process>(form), form.getUserId(), form.getParamBoolean("open", true));
 
         return processUserTypedForward(con, mapping, form, "userProcessList");
+    }
+
+    public ActionForward processMerge(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+        var processDao = new ProcessDAO(con);
+        var messageDao = new MessageDAO(con);
+        
+        var process = getProcess(processDao, form.getId());
+        var processTo = getProcess(processDao, form.getParamInt("processId"));
+
+        var mergeText = l.l("Merged from: %s\n", process.getId());
+
+        // TODO: Params as in customer!
+
+        for (var m : messageDao.getProcessMessageList(process.getId(), 0)) {
+            m.setText(mergeText + m.getText());
+            m.setProcessId(processTo.getId());
+            messageDao.updateMessage(m);
+        }
+
+        var typeConfig = setup.getConfig(MessageTypeConfig.class);
+        var noteMessage = typeConfig.getMessageType(MessageTypeNote.class);
+        if (noteMessage != null) {
+            var m = new Message();
+            m.setTypeId(noteMessage.getId());
+            m.setProcessId(processTo.getId());
+            m.setProcessed(true);
+            m.setText(mergeText + process.getDescription());
+            m.setFromTime(new Date());
+            m.setUserId(form.getUserId());
+            m.setToTime(new Date());
+            m.setFrom("");
+            m.setTo("");
+            messageDao.updateMessage(m);
+
+            processDoEvent(form, processTo, new ProcessMessageAddedEvent(form, m, processTo), con);
+        }
+
+        processDao.deleteProcess(process.getId());
+        processDoEvent(form, process, new ProcessRemovedEvent(form, process), con);
+
+        return processJsonForward(con, form);
     }
 
 }

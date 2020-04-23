@@ -199,10 +199,10 @@ function processTypeTreeNodeSelected(el, nodeId) {
 	$(parent).find("span").css("font-weight", "").css("color", "");
 	$(el).css("font-weight", "bold").css("color", "blue");
 
-	openUrlTo("/user/process.do?action=processCreateGroups&typeId=" + nodeId, $(el)
-			.closest("#typeTree").parent().find("#groupSelect"));
-	openUrlTo("/user/process.do?action=processRequest&typeId=" + nodeId, $(el)
-			.closest("#typeTree").parent().find("#additionalParamsSelect"));
+	$$.ajax.load("/user/process.do?action=processCreateGroups&typeId=" + nodeId, 
+			$(el).closest("#typeTree").parent().find("#groupSelect"));
+	$$.ajax.load("/user/process.do?action=processRequest&typeId=" + nodeId, 
+			$(el).closest("#typeTree").parent().find("#additionalParamsSelect"));
 }
 
 function statusChangeEditor(selector, selectedStatus, currentStatus,

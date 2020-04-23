@@ -374,26 +374,32 @@ public class MessageDAO extends CommonDAO {
         }
     }
 
-    public List<Message> getProcessMessageList(int processId, int beforeMessageId) throws BGException {
-        try {
-            List<Message> list = new ArrayList<Message>();
+    /**
+     * Retrieves process message list, sorted by ID.
+     * @param processId process ID.
+     * @param beforeMessageId if &gt; 0 - filter from message ID.
+     * @return
+     * @throws Exception
+     */
+    public List<Message> getProcessMessageList(int processId, int beforeMessageId) throws Exception {
+        List<Message> list = new ArrayList<Message>();
 
-            String query = SQL_SELECT_COUNT_ROWS + " * FROM " + TABLE_MESSAGE + "WHERE process_id=? AND id<? "
-                    + "ORDER BY id";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, processId);
-            ps.setInt(2, beforeMessageId);
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(getMessageFromRs(rs));
-            }
-            ps.close();
-
-            return list;
-        } catch (SQLException ex) {
-            throw new BGException(ex);
+        var pd = new PreparedDelay(con, 
+            SQL_SELECT_COUNT_ROWS + " * FROM " + TABLE_MESSAGE +  "WHERE process_id=?");
+        pd.addInt(processId);
+        if (beforeMessageId > 0) {
+            pd.addQuery(" AND id<?");
+            pd.addInt(beforeMessageId);
         }
+        pd.addQuery(" ORDER BY id");
+        
+        var rs = pd.executeQuery();
+        while (rs.next())
+            list.add(getMessageFromRs(rs));
+        
+        pd.close();
+
+        return list;
     }
     
     public Map<Integer, Set<Integer>> getProcessMessageTagMap(int processId) throws BGException {
@@ -439,7 +445,6 @@ public class MessageDAO extends CommonDAO {
         result.setTypeId(rs.getInt(prefix + "type_id"));
         result.setProcessId(rs.getInt(prefix + "process_id"));
         result.setDirection(rs.getInt(prefix + "direction"));
-        //result.setSender( rs.getString( "sender" ) );
         result.setFrom(rs.getString(prefix + "from"));
         result.setTo(rs.getString(prefix + "to"));
         result.setSubject(rs.getString(prefix + "subject"));

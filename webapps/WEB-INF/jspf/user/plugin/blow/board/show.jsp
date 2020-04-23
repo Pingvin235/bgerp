@@ -23,14 +23,15 @@
 		<li id="cut"><a>${l.l('Вырезать')}</a></li>
 		<li id="paste" style="display: none;"><a>${l.l('Вставить')}</a></li>
 		<li id="free" style="display: none;"><a>${l.l('Отделить')}</a></li>
+		<li id="merge" style="display: none;"><a>${l.l('Слить')}</a></li>
 	</ul>
 	
 	<script>
 	$(function () {
-		bgerp.blow.initTable($('#${uiid}'), $('#${uiidRcMenu}'));
+		$$.blow.initTable($('#${uiid}'), $('#${uiidRcMenu}'));
 		
 		$('#content > #blow-board').data('onShow', function () {
-			openUrlContent("/user/plugin/blow/board.do?action=show&id=" + ${form.id});
+			$$.ajax.load("/user/plugin/blow/board.do?action=show&id=" + ${form.id}, $$.shell.$content());
 		});
 	})
 	</script>

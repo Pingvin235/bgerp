@@ -1,0 +1,5 @@
+F: $$.ajax.post method error handling.
+C: $$.ajax.load speedup with pre-erase of content.
+A: Drop down process selection on moving messages to another process.
+A: Merge processes to existing, https://bgerp.ru/doc/3.0/manual/kernel/process/index.html#delete
+A: Plugin Blow, merge process in popup menu.
