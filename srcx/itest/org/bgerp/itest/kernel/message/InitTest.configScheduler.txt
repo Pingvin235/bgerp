@@ -1,0 +1,4 @@
+# messages exchange
+scheduler.task.{@inc:cnt}.class=ru.bgcrm.worker.MessageExchange
+scheduler.task.{@cnt}.minutes=*/4
+#

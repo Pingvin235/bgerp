@@ -139,7 +139,7 @@ dependencies {
     pzdcdoc group: 'org.pzdcdoc', name: 'pzdcdoc', version: '1.9'
     
     // интеграционные тесты	
-    itest group: 'org.testng', name: 'testng', version: '6.14.3'
+    itest group: 'org.testng', name: 'testng', version: '7.1.0' // '6.14.3' 
     itest group: 'com.beust', name: 'jcommander', version: '1.72'
     itest group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
     itest group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.141.59'
@@ -151,6 +151,7 @@ dependencies {
     itest group: 'com.squareup.okio', name: 'okio', version: '2.2.2'
     itest group: 'net.bytebuddy', name: 'byte-buddy', version: '1.9.10'
     itest group: 'org.apache.commons', name: 'commons-exec', version: '1.3'
+    itest group: 'net.lingala.zip4j', name: 'zip4j', version: '2.5.1'
 }
 
 // вызывается из сборщика на Ant
@@ -192,10 +193,10 @@ sourceSets {
         resources {
             srcDir 'srcx/itest'
         }
-        // makes warning on assigning simple output.classesDir 
-        output.resourcesDir = "${buildDir}/classes/java/itest"		
+        // makes warning on assigning simple output.classesDir
+        output.resourcesDir = "${buildDir}/classes/java/itest"
         compileClasspath = configurations.itest + sourceSets.main.output
-        runtimeClasspath = output + compileClasspath	
+        runtimeClasspath = output + compileClasspath
     }
 }
 
@@ -291,23 +292,41 @@ apply from: "build/publish.gradle"
 test {
     testLogging {
         showStandardStreams = true
+        exceptionFormat = "full"
         events "passed", "skipped", "failed"
     }
     outputs.upToDateWhen {false}
 }
 
+/*
+    Complete run:
+        gradlew integrationTest -Pdb.user=* -Pdb.pswd=* -Pdb.host=localhost
+    Only wanted groups with dependencies:
+        -Pgroups.include=initUsers
+    Skip heavy DB reset:
+        -Pskip.dbReset=true
+*/
 task integrationTest(type: Test) {
-    useTestNG()
+    // failFast = true SQL logs are not visible
+
+    useTestNG() {
+        def propInclude = findProperty("groups.include")
+        if (propInclude) { 
+            includeGroups propInclude
+        }
+    }
     classpath = sourceSets.itest.runtimeClasspath
     testClassesDirs = sourceSets.itest.output.classesDirs
     testLogging {
         showStandardStreams = true
+        exceptionFormat = "full"
         events "passed", "skipped", "failed"
     }
     outputs.upToDateWhen {false}
-    
+
     systemProperty "db.host", findProperty("db.host")
     systemProperty "db.user", findProperty("db.user")
     systemProperty "db.pswd", findProperty("db.pswd")
     systemProperty "webdriver.chrome.driver", findProperty("webdriver.chrome.driver")
+    systemProperty "skip.dbReset", findProperty("skip.dbReset")
 }

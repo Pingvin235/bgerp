@@ -1,0 +1,5 @@
+fulltext:index.delay=30
+fulltext:entry.customer.paramIds=*
+fulltext:entry.process.paramIds=*
+fulltext:entry.message.paramIds=*
+#

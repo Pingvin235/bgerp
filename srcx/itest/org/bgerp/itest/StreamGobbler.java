@@ -1,4 +1,4 @@
-package ru.bgerp.itest;
+package org.bgerp.itest;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

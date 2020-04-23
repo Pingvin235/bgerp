@@ -5,10 +5,11 @@ CREATE DATABASE IF NOT EXISTS bgerp DEFAULT CHARACTER SET utf8 COLLATE utf8_gene
 -- GRANT ALL PRIVILEGES ON bgerp.* TO 'bgerp'@'%' IDENTIFIED BY 'erp';
 
 -- MySQL 8
--- SET GLOBAL validate_password.length = 5;
--- SET GLOBAL validate_password.policy = LOW;
+SET GLOBAL validate_password.length = 5;
+SET GLOBAL validate_password.policy = LOW;
+
 CREATE USER IF NOT EXISTS 'bgerp'@'%' IDENTIFIED WITH mysql_native_password BY 'bgerp';
-GRANT SYSTEM_USER ON *.* TO 'bgerp'@'%';
+GRANT ALTER ROUTINE ON bgerp.* TO 'bgerp'@'%';
 GRANT ALL PRIVILEGES ON bgerp.* TO 'bgerp'@'%';
 
 USE bgerp;

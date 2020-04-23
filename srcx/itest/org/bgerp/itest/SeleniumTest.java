@@ -1,6 +1,5 @@
-package ru.bgerp.itest;
+package org.bgerp.itest;
 
-import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -9,11 +8,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
-@Test (groups = "selenium", dependsOnGroups = "runServer")
-public class SeleniumTest {
-    private static final Logger log = Logger.getLogger(SeleniumTest.class);
+import ru.bgerp.util.Log;
 
-    @Test
+@Test(groups = "selenium", dependsOnGroups = "runServer")
+public class SeleniumTest {
+    private static final Log log = Log.getLog();
+
+    @Test (enabled = false)
     public void init() throws Exception {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless", "--disable-gpu", "--no-sandbox");
