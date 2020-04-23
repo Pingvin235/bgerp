@@ -1,5 +1,0 @@
-A: GRANT SYSTEM_USER in DB creation script.
-F: Search with process.isolation=group.
-C: Hide all other popup menus or drop-downs on showing one.
-A: New getting parameter API, supporting old key names.
-A: Multiple values in 'on.login.open' and 'on.login.open.pinned', https://bgerp.ru/doc/3.0/manual/kernel/setup.html#user-action-tree

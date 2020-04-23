@@ -1,2 +1,0 @@
-F: Address quarter deletion.
-F: Incorrect page reload on Enter to address search field.

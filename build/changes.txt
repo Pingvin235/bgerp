@@ -1,6 +1,23 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, F - FIX
 
+23.04.2020 16:33:45 1353
+F: $$.ajax.post method error handling.
+C: $$.ajax.load speedup with pre-erase of content.
+A: Drop down process selection on moving messages to another process.
+A: Merge processes to existing, https://bgerp.ru/doc/3.0/manual/kernel/process/index.html#delete
+A: Plugin Blow, merge process in popup menu.
+C: Cleanup, format DAO, actions.
+A: HTTP parameter 'messageId' on process creation.
+C: Large refactoring, extracting two action classes from too overloaded ProcessAction.
+A: GRANT SYSTEM_USER in DB creation script.
+F: Search with process.isolation=group.
+C: Hide all other popup menus or drop-downs on showing one.
+A: New getting parameter API, supporting old key names.
+A: Multiple values in 'on.login.open' and 'on.login.open.pinned', https://bgerp.ru/doc/3.0/manual/kernel/setup.html#user-action-tree
+F: Address quarter deletion.
+F: Incorrect page reload on Enter to address search field.
+
 17.04.2020 10:00:14 1352
 F: Auto creating processes by E-Mail, incorrect work with responses.
 F: Process queue saved filters drag & drop.
