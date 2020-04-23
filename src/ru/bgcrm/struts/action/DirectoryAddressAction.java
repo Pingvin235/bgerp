@@ -462,7 +462,7 @@ public class DirectoryAddressAction extends BaseAction {
 
                 addressDAO.deleteAddressArea(addressItemId);
             } else if ("quarter".equals(itemType)) {
-                AddressItem item = addressDAO.getAddressArea(addressItemId, false, true);
+                AddressItem item = addressDAO.getAddressQuarter(addressItemId, false, true);
 
                 checkCityAllow(allowedCityIds, item.getCityId());
 
