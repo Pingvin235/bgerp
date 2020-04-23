@@ -40,7 +40,8 @@
 				<form action="process.do" style="width:100%;" onsubmit="return false;">
 					<input type="hidden" name="action" value="processCreate"/>
 					<input type="hidden" name="trans_id" value="${uiid}"/>
-					<input type="hidden" name="wizard" value="0"/>					
+					<input type="hidden" name="wizard" value="0"/>
+					<input type="hidden" name="messageId" value="${message.id}"/>
 					
 					<div id="typeTree">
 						<jsp:include page="/WEB-INF/jspf/user/process/tree/process_type_tree.jsp"/>
