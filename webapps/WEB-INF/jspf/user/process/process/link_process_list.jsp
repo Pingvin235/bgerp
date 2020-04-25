@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:if test="${processType.properties.configMap['processShowProcessLinks.Linked'] ne '0' and not empty form.response.data.linkedProcessList}">
+<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.links.process.up', 'processShowProcessLinks.Linked') ne '0' and not empty form.response.data.linkedProcessList}">
 	<h2>${l.l('Процесс привязан к')}:</h2>
 	
 	<c:set var="list" value="${form.response.data.linkedProcessList}"/>
@@ -9,8 +9,8 @@
 	<%@ include file="process_link_table.jsp"%>
 </c:if>
 
-<c:if test="${processType.properties.configMap['processShowProcessLinks.Links'] ne '0'}">
-	<c:if test="${processType.properties.configMap['processCreateLinkModeSelect'] ne '0'}">
+<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.links.process.down', 'processShowProcessLinks.Links') ne '0'}">
+	<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.links.process.add.from.buffer', 'processCreateLinkModeSelect') ne '0'}">
 		<c:set var="uiid" value="${u:uiid()}"/>
 		<div id="${uiid}">
 			<html:form action="/user/process/link" styleId="addButton" styleClass="pt1">

@@ -588,24 +588,20 @@ function processClientEvents( event )
 			}
 		}
 	}
-	else if( event.className == 'ru.bgcrm.event.client.MessageOpenEvent' )
-	{
-		contentLoad( "/user/messageQueue" );
-		openUrlContent( '/user/message.do?id=' + event.id + '&returnUrl=' + encodeURIComponent( '/user/message.do?action=messageList' ) );
+	else if (event.className == 'ru.bgcrm.event.client.MessageOpenEvent') {
+		$$.shell.contentLoad("/user/messageQueue");
+		$$.ajax.load('/user/message.do?id=' + event.id + '&returnUrl=' + encodeURIComponent('/user/message.do?action=messageList'), $$.shell.$content);
 	}
-	else if( event.className == 'ru.bgcrm.event.client.LockEvent' )
-	{
+	else if (event.className == 'ru.bgcrm.event.client.LockEvent') {
 		var lockId = event.lock.id;
 
-		if( $('#lock-' + lockId).length == 0 )
-		{
-			console.log( "Free lock: " + event.lock.id );
-			$$.lock.free( event.lock.id );
+		if ($('#lock-' + lockId).length == 0) {
+			console.log("Free lock: " + event.lock.id);
+			$$.lock.free(event.lock.id);
 		}
 	}
-	else if( event.className == 'ru.bgcrm.event.client.UrlOpenEvent' )
-	{
-		contentLoad( event.url );
+	else if (event.className == 'ru.bgcrm.event.client.UrlOpenEvent') {
+		$$.shell.contentLoad(event.url);
 	}
 
 	$messagesMenu.menu( "refresh" );

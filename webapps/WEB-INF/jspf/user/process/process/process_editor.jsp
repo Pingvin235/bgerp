@@ -16,15 +16,12 @@
 	<tr>
 		<%-- TODO: в будущем, можно и порядок табов задать тоже, ещё JEXL условие прикрутить --%>
 		<c:set var="components" value="${u:toList( 'header,status,description,executors,links,params' )}"/>
-		<c:set var="componentsDefault" value="${true}"/>
-
 		<c:if test="${not empty processType}">
 			<c:set var="componentsConfig" value="${u:getConfig( processType.properties.configMap, 'ru.bgcrm.model.process.config.ProcessCardConfig' )}"/>
 		</c:if>	
 		<c:set var="item" value="${componentsConfig.getItem( mode )}"/>
 		<c:if test="${not empty item}">
 			<c:set var="components" value="${item.componentList}"/>
-			<c:set var="componentsDefault" value="${false}"/>
 		</c:if>
 	
 		<c:choose>
@@ -44,21 +41,20 @@
 		<td id="processLeftDiv" valign="top" style="${leftStyle}">
 		  <div class="wrap">
 			<c:if test="${mode eq 'card' and not empty processType}">
-			    <u:newInstance var="ifaceStateDao" clazz="ru.bgcrm.dao.IfaceStateDAO">
-			        <u:param value="${ctxConSet.getSlaveConnection()}"/>
-			    </u:newInstance>
-			    <c:set var="ifaceStateMap" value="${ifaceStateDao.getIfaceStates('process', process.id)}"/>
+				<u:newInstance var="ifaceStateDao" clazz="ru.bgcrm.dao.IfaceStateDAO">
+					<u:param value="${ctxConSet.getSlaveConnection()}"/>
+				</u:newInstance>
+				<c:set var="ifaceStateMap" value="${ifaceStateDao.getIfaceStates('process', process.id)}"/>
 
-			    <script>
-				   $(function()
-				   {
-					    var $tabs = $("#${tableId} #processTabsDiv").tabs({refreshButton: true});
+				<script>
+					$(function () {
+						var $tabs = $("#${tableId} #processTabsDiv").tabs({refreshButton: true});
 		
 						<%-- зависимые процессы --%>
 						
 						<%-- 2 - отображение в теле процесса --%> 
-						<c:if test="${processType.properties.configMap['processShowLinks'] eq '1'}">
-						    <%-- TODO: ifaceState 'links' --%>
+						<c:if test="${processType.properties.configMap.getSok('', false, 'show.tab.links', 'processShowLinks') eq '1'}">
+							<%-- TODO: ifaceState 'links' --%>
 							<c:url var="url" value="link.do">
 								<c:param name="action" value="linkList"/>
 								<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/link_list.jsp"/>
@@ -70,9 +66,9 @@
 							$tabs.tabs( "add", "${url}", "Привязки" );
 						</c:if>
 					
-						<c:if test="${processType.properties.configMap['processShowMessages'] eq '1'}">
-						    <c:set var="ifaceState" value="${ifaceStateMap['messages']}"/>
-						    
+						<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.messages', 'processShowMessages') eq '1'}">
+							<c:set var="ifaceState" value="${ifaceStateMap['messages']}"/>
+							
 							<c:url var="url" value="message.do">
 								<c:param name="action" value="processMessageList"/>
 								<c:param name="processId" value="${process.id}"/>
@@ -83,9 +79,9 @@
 							$tabs.tabs( "add", "${url}", "${l.l('Сообщения')}${ifaceState.getFormattedState()}", " id='process-messages'" );
 						</c:if>
 						
-						<c:if test="${processType.properties.configMap['processShowProcessLinks'] eq '1'}">
-						    <c:set var="ifaceId" value="link_process"/>
-						    <c:set var="ifaceState" value="${ifaceStateMap[ifaceId]}"/>
+						<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.links.process', 'processShowProcessLinks') eq '1'}">
+							<c:set var="ifaceId" value="link_process"/>
+							<c:set var="ifaceState" value="${ifaceStateMap[ifaceId]}"/>
 						
 							<c:url var="url" value="/user/process/link.do">
 								<c:param name="action" value="linkProcessList"/>
@@ -133,9 +129,9 @@
 							
 							const show = function () {
 								$leftDivWrap.css("height", "").find(">div").show();
-                            	$leftTd.css("min-width", state.minWidth);
-                            	state = null;
-	                        }
+								$leftTd.css("min-width", state.minWidth);
+								state = null;
+							}
 							
 							if (state) {
 								if (bgcrm.isElementInView($leftDivWrap, 0)) 
@@ -147,28 +143,28 @@
 				</script>
 				
 				<u:sc>
-	    	  		<c:set var="title">
-			    	  	<c:choose>
-			    	  		<c:when test="${not empty process.reference}">
-			    	  			${process.reference}
-			    	  		</c:when>
-			    	  		<c:otherwise>
-			    	  			#${process.id}&nbsp;${fn:escapeXml( processType.title )}
-			    	  		</c:otherwise>
-			    	  	 </c:choose>
-			    	 </c:set> 
-	    	  	 
-	    	  		<%-- если описание не содержит HTML разметки - оборачиваем его в <span class='title'>--%>
-	    	  		<c:if test="${not title.contains( '<' ) }">
-	    	  			<c:set var="title">
-		    				<span class='title' id='process_title_${process.id}'>${title}</span>
-		    			</c:set>
-	    	  		</c:if>
-	    	  			
-		    		<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-		    		<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
-		    	</u:sc>
-		    </c:if>	
+			  		<c:set var="title">
+					  	<c:choose>
+					  		<c:when test="${not empty process.reference}">
+					  			${process.reference}
+					  		</c:when>
+					  		<c:otherwise>
+					  			#${process.id}&nbsp;${fn:escapeXml( processType.title )}
+					  		</c:otherwise>
+					  	 </c:choose>
+					 </c:set> 
+			  	 
+			  		<%-- если описание не содержит HTML разметки - оборачиваем его в <span class='title'>--%>
+			  		<c:if test="${not title.contains( '<' ) }">
+			  			<c:set var="title">
+							<span class='title' id='process_title_${process.id}'>${title}</span>
+						</c:set>
+			  		</c:if>
+			  			
+					<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
+					<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+				</u:sc>
+			</c:if>	
 			
 			<c:forEach var="c" items="${components}">
 				<c:choose>
@@ -188,7 +184,7 @@
 					</c:when>
 					<c:when test="${c eq 'links'}">
 						<%-- исключить отображение привязок в случае, если они отображаются справа --%>
-						<c:if test="${processType.properties.configMap['processShowLinks'] ne '1'}">
+						<c:if test="${processType.properties.configMap.getSok('', false, 'show.tab.links', 'processShowLinks') ne '1'}">
 							<div>
 								<c:url var="url" value="/user/link.do">
 									<c:param name="action" value="linkList"/>

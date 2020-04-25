@@ -245,9 +245,9 @@ document:processShowDocuments=1
 document:processCreateDocumentsAllowedTemplates+=,1
 #
 hideDescriptionChange=1
-processShowMessages=1
-processShowProcessLinks=1
-processShowLinks=1
+show.tab.messages=1
+show.tab.links.process=1
+show.tab.links=1
 #
 # проверка заполненных параметров
 #requireFillParamIdsBeforeStatusSet.11=5,6,7,27,10

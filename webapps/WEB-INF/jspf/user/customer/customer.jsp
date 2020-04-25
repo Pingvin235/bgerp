@@ -29,7 +29,7 @@
 				<c:param name="parameterGroup" value="${customer.paramGroupId}"/>
 			</c:url>
 
-			$tabs.tabs("add", "${url}", "Параметры");
+			$tabs.tabs("add", "${url}", "${l.l('Параметры')}");
 
 			<c:url var="url" value="/user/process/link.do">
 				<c:param name="action" value="linkedProcessList"/>
@@ -38,7 +38,7 @@
 				<c:param name="id" value="${customer.id}"/>
 			</c:url>
 
-			$tabs.tabs("add", "${url}", "Процессы");
+			$tabs.tabs("add", "${url}", ${l.l('"Процессы')}");
 
 			<c:set var="endpoint" value="user.customer.tabs.jsp"/>
 			<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>

@@ -23,10 +23,9 @@ image::_res/service_desk_process_type_groups.png[]
 ----
 create.in.objectTypes=customer;contract:bitel
 
-processShowMessages=1
-processShowLinks=2
-processShowProcessLinks=1
-processCreateLinkModeSelect=1
+show.tab.messages=1
+show.tab.links.process=1
+show.tab.links.process.add.from.buffer=1
 
 # отображение заметок привязанного к процессу договора
 bgbilling:processShowLinkedContractsInfo=memo

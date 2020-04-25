@@ -14,7 +14,6 @@ NOTE: Было бы логичнее данный статус назвать *�
 [source]
 ----
 create.in.objectTypes=customer
-processShowLinks=2
 
 processReference.1.objectTypes=customer
 processReference.1.stringExpression="" + process.getDescription() + " [" + u.maskNull(processParam.getValue(26)) + " отпр. " + u.maskNull(processParam.getValue(28)) + "]"

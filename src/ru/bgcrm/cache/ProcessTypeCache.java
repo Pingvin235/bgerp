@@ -3,10 +3,10 @@ package ru.bgcrm.cache;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 
@@ -53,72 +53,60 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         return result;
     }
 
-    //TODO: Возможно стоит создать Config класс, вынести в model.process.config.LinkedProcessCreateConfig, фильтр сделать на основе expression фильтра. 
-    @SuppressWarnings("rawtypes")
     public static List<ProcessType> getTypeList(Connection con, String objectType, int objectId) throws BGException {
         List<ProcessType> result = new ArrayList<ProcessType>();
 
-        ParamValueDAO paramValueDao = null;
-        Map paramValueCache = null;
-
+        var filter = new TypeFilter(con, objectType, objectId);
         for (ProcessType type : holder.getInstance().typeList) {
-            ParameterMap configMap = type.getProperties().getConfigMap();
-
-            Set<String> createInObjectTypes = Utils.toSet(configMap.get("create.in.objectTypes", ""));
-            if (!createInObjectTypes.contains(objectType)) {
-                continue;
-            }
-
-            //TODO: Переделать на JEXL
-            String paramFilter = configMap.get("create.in.filter");
-            if (Utils.notBlankString(paramFilter)) {
-                if (paramValueDao == null) {
-                    paramValueDao = new ParamValueDAO(con);
-                    paramValueCache = new HashMap();
-                }
-
-                if (!paramValueDao.paramValueFilter(paramFilter, objectId, paramValueCache)) {
-                    continue;
-                }
-            }
-
-            result.add(type);
+            if (filter.check(type))
+                result.add(type);
         }
 
         return result;
     }
 
-    @SuppressWarnings("rawtypes")
-    public static Set<Integer> getTypeSet(Connection con, String objectType, int objectId) throws BGException {
-        Set<Integer> result = new HashSet<Integer>();
+    @Deprecated
+    public static Set<Integer> getTypeSet(Connection con, String objectType, int objectId) throws Exception {
+        return getTypeList(con, objectType, objectId).stream().map(ProcessType::getId).collect(Collectors.toSet());
+    }
 
-        ParamValueDAO paramValueDao = null;
-        Map paramValueCache = null;
+    //TODO: Возможно стоит создать Config класс, вынести в model.process.config.LinkedProcessCreateConfig, фильтр сделать на основе expression фильтра. 
+    private static class TypeFilter {
+        private final Connection con;
+        private final String objectType;
+        private final int objectId;
 
-        for (ProcessType type : holder.getInstance().typeList) {
+        private ParamValueDAO paramValueDao;
+        private Map<?, ?> paramValueCache;
+
+        private TypeFilter(Connection con, String objectType, int objectId) {
+            this.con = con;
+            this.objectType = objectType;
+            this.objectId = objectId;
+        }
+
+        private boolean check(ProcessType type) throws BGException {
             ParameterMap configMap = type.getProperties().getConfigMap();
-
-            Set<String> createInObjectTypes = Utils.toSet(configMap.get("create.in.objectTypes", ""));
-            if (!createInObjectTypes.contains(objectType)) {
-                continue;
+            Set<String> createInObjectTypes = Utils.toSet(configMap.get("create.in.objectTypes", "*"));
+            if (!createInObjectTypes.contains(objectType) && !createInObjectTypes.contains("*")) {
+                return false;
             }
 
+            //TODO: Use JEXL and no DB access!
             String paramFilter = configMap.get("create.in.filter");
             if (Utils.notBlankString(paramFilter)) {
                 if (paramValueDao == null) {
                     paramValueDao = new ParamValueDAO(con);
-                    paramValueCache = new HashMap();
+                    paramValueCache = new HashMap<>();
                 }
 
                 if (!paramValueDao.paramValueFilter(paramFilter, objectId, paramValueCache)) {
-                    continue;
+                    return false;
                 }
             }
 
-            result.add(type.getId());
+            return true;
         }
-
-        return result;
     }
 
     public static TypeTreeItem getTypeTreeRoot() {

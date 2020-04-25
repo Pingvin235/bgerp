@@ -35,7 +35,7 @@ onProcessEvent.2.commands=bgbilling:getLinkedContractAddressParam:sofit:26:1
 #
 requireFillParamIdsBeforeStatusSet.5=2
  
-processShowProcessLinks=1
+show.tab.links.process=1
 ----
 
 Конфигурация типа "Отключение должника":
@@ -45,7 +45,7 @@ processShowProcessLinks=1
 processCard.1.mode=card
 processCard.1.components=header,status,description,executors,params,links
 #
-processShowProcessLinks=1
+show.tab.links.process=1
 ----
 
 Настройки очередей процессов "Должник" и "Отключение".

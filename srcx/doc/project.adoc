@@ -768,9 +768,9 @@ link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L57-L61[ru.bgcrm.st
 [snippet, from="// п", to="}", remove-leading="        "]
 link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L242-L249[ru.bgcrm.struts.action.ProcessLinkAction]
 
-Отображение в JSP:
+Show in JSP:
 [snippet, from="<c:if", to="if>", remove-leading="						"]
-link:../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L86-L100[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
+link:../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L82-L96[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
 
 [[sample-date-format]]
 === Форматирование даты и времени

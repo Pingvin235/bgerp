@@ -11,10 +11,10 @@ image::_res/bj_process_type.png[]
 Конфигурация с <<../kernel/process/wizard.adoc#, мастером>> создания:
 [source]
 ----
-processShowMessages=1
-processShowLinks=0
-processShowProcessLinks=1
-processCreateLinkModeSelect=1
+show.tab.messages=1
+show.tab.links=0
+show.tab.links.process=1
+show.tab.links.process.add.from.buffer=1
 #
 processReference.1.objectTypes=processCard
 processReference.1.stringExpression="#" + process.getId() + " " + u.escapeXml(process.getDescription())
