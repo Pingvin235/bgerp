@@ -900,7 +900,7 @@ bash -c "./gradlew clean buildClean buildDoc buildUpdateLib buildUpdate publishU
 в основную ветку и <<build-erp, публикуется>> очередное обновление.
 
 [[build-erp]]
-=== Обновление
+=== Update
 Сборка производится с *master* ветки и может включать несколько изменений, <<workflow, перенесённых>> на неё.
 
 IMPORTANT: Для каждого переноса делать отдельный GIT push, для корректной <<publish-source, публикации>> в открытом репозитарии. 
@@ -921,6 +921,8 @@ bash -c "./gradlew buildClean buildUpdateLib buildUpdate"
 ----
 bash -c "./gradlew patchChanges rss publishBuild publishCommit"
 ----
+
+Merge the latest state of the master on <<documentation, documentation>> branch.
 
 [[unit-test]]
 === Unit тесты
