@@ -72,7 +72,7 @@
 		<c:set var="uiidProfileMenu" value="${u:uiid()}"/>
 		
 		<ul id="${uiidProfileMenu}" style="display: none;">
-			<li><a href="/user/profile" onclick="$$.shell.followLink(this.href, event)">${l.l('Профиль')}</a></li>
+			<li><ui:user-link id="${ctxUser.id}" text="${l.l('Профиль')}"/></li>
 			<li><a href="/user/userProcesses" onclick="$$.shell.followLink(this.href, event)">${l.l('Мои процессы')}</a></li>
 			<%-- отсутствие onclick отключит этот пункт меню --%>
 			<li><a href="UNDEF" onclick="$$.ajax.post('/login.do?action=logout').done(() => window.location.href = '/user'); return false;">${l.l('Выход')}</a></li>

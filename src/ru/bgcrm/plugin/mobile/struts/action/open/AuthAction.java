@@ -48,7 +48,7 @@ public class AuthAction
 		
 		new MobileDAO( conSet.getConnection() ).registerAccount( account );
 		
-		return processJsonForward( conSet, form );
+		return status( conSet, form );
 	}
 	
 }

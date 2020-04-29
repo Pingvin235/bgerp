@@ -16,7 +16,7 @@ public class LockAction extends BaseAction {
 
         Locker.addLock(new Lock(lockId, form.getUserId()));
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public ActionForward free(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -24,7 +24,7 @@ public class LockAction extends BaseAction {
 
         Locker.freeLock(new Lock(lockId, form.getUserId()));
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     private String getLockId(DynActionForm form) throws BGIllegalArgumentException {

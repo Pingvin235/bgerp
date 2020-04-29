@@ -76,7 +76,7 @@ public class ContractBalanceAction
 			}
 		}
 		form.getResponse().setData( "date", new SimpleDateFormat( "dd.MM.yyyy" ).format( Calendar.getInstance().getTime() ) );
-		return processUserTypedForward( conSet, mapping, form, "balanceEditor" );
+		return data( conSet, mapping, form, "balanceEditor" );
 	}
 
 	private Set<Integer> getTypePermission( DynActionForm form, String billingId, String key )
@@ -121,7 +121,7 @@ public class ContractBalanceAction
 		form.getResponse().setData( "summs", balanceDAO.getContractBalanceList( contractId, period[0], period[1], balanceList ) );
 		form.getResponse().setData( "contractInfo", new ContractDAO( form.getUser(), billingId ).getContractInfo( contractId ) );
 		
-		return processUserTypedForward( conSet, mapping, form, "balance" );
+		return data( conSet, mapping, form, "balance" );
 	}
 
 	public ActionForward balanceDetail( ActionMapping mapping,
@@ -143,7 +143,7 @@ public class ContractBalanceAction
 		form.getResponse().setData( "summa", balanceDAO.getContractBalanceDetailList( contractId, period[0], period[1], balanceList ) );
 		form.getResponse().setData( "contractInfo", new ContractDAO( form.getUser(), billingId ).getContractInfo( contractId ) );
 
-		return processUserTypedForward( conSet, mapping, form, "balanceDetail" );
+		return data( conSet, mapping, form, "balanceDetail" );
 	}
 	
 	public ActionForward paymentList( ActionMapping mapping,
@@ -169,7 +169,7 @@ public class ContractBalanceAction
 		form.getResponse().setData( "summa", balanceDAO.getContractPaymentList( contractId, period[0], period[1], paymentList, subPaymentList ) );
 		form.getResponse().setData( "contractInfo", new ContractDAO( form.getUser(), billingId ).getContractInfo( contractId ) );
 
-		return processUserTypedForward( conSet, mapping, form, "paymentList" );
+		return data( conSet, mapping, form, "paymentList" );
 	}
 	
 	public ActionForward chargeList( ActionMapping mapping,
@@ -195,7 +195,7 @@ public class ContractBalanceAction
 		form.getResponse().setData( "summa", balanceDAO.getContractChargeList( contractId, period[0], period[1], chargeList, subChargeList ) );
 		form.getResponse().setData( "contractInfo", new ContractDAO( form.getUser(), billingId ).getContractInfo( contractId ) );
 		
-		return processUserTypedForward( conSet, mapping, form, "chargeList" );
+		return data( conSet, mapping, form, "chargeList" );
 	}
 
 	public ActionForward accountList( ActionMapping mapping,
@@ -221,7 +221,7 @@ public class ContractBalanceAction
 		form.getResponse().setData( "summa", balanceDAO.getContractAccountList( contractId, period[0], period[1], chargeList, subChargeList ) );
 		form.getResponse().setData( "contractInfo", new ContractDAO( form.getUser(), billingId ).getContractInfo( contractId ) );
 
-		return processUserTypedForward( conSet, mapping, form, "accountList" );
+		return data( conSet, mapping, form, "accountList" );
 	}
 
 	private Date[] getPeriod( DynActionForm form )
@@ -268,7 +268,7 @@ public class ContractBalanceAction
 		}
 		form.getResponse().setData( "id", id );
 
-		return processJsonForward( conSet, form );
+		return status( conSet, form );
 	}
 	
 	public ActionForward deletePayment( ActionMapping mapping,
@@ -285,7 +285,7 @@ public class ContractBalanceAction
 		BalanceDAO balanceDAO = new BalanceDAO( form.getUser(), billingId );
 		balanceDAO.deleteContractPayment( paymentId, contractId );
 
-		return processJsonForward( conSet, form);
+		return status( conSet, form);
 	}
 
 	public ActionForward deleteCharge( ActionMapping mapping,
@@ -302,6 +302,6 @@ public class ContractBalanceAction
 		BalanceDAO balanceDAO = new BalanceDAO( form.getUser(), billingId );
 		balanceDAO.deleteContractCharge( chargeId, contractId );
 
-		return processJsonForward( conSet, form );
+		return status( conSet, form );
 	}
 }

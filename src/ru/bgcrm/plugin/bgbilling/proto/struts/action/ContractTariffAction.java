@@ -75,7 +75,7 @@ public class ContractTariffAction extends BaseAction {
 			form.getResponse().setData("groups", "Нет прав просмотра");
 		}
 
-		return processUserTypedForward(conSet, mapping, form, "tariff");
+		return data(conSet, mapping, form, "tariff");
 	}
 
 	public ActionForward contractTariffList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -86,7 +86,7 @@ public class ContractTariffAction extends BaseAction {
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 		form.getResponse().setData("tariffList", crmDAO.contractTariffList(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "contractTariffList");
+		return data(conSet, mapping, form, "contractTariffList");
 	}
 
 	public ActionForward getContractTariff(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -105,7 +105,7 @@ public class ContractTariffAction extends BaseAction {
 				useFilter, showUsed, false, tariffList));
 		form.getResponse().setData("moduleList", new DirectoryDAO(form.getUser(), billingId).getBillingModuleList());
 
-		return processUserTypedForward(conSet, mapping, form, "contractTariffEditor");
+		return data(conSet, mapping, form, "contractTariffEditor");
 	}
 
 	public ActionForward addContractTariff(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -116,7 +116,7 @@ public class ContractTariffAction extends BaseAction {
 
 		contractDAO.addTariffPlan(form.getParamInt("contractId", -1), tariffId, form.getParamInt("position", 0));
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward setContractTariff(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -127,7 +127,7 @@ public class ContractTariffAction extends BaseAction {
 
 		contractDAO.setTariffPlan(form.getParamInt("contractId", -1), tariffId);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward updateContractTariff(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -144,7 +144,7 @@ public class ContractTariffAction extends BaseAction {
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 		crmDAO.updateContractTariffPlan(contractId, form.getId(), tariffPlanId, position, dateFrom, dateTo, comment);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward deleteСontractTariff(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -155,7 +155,7 @@ public class ContractTariffAction extends BaseAction {
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 		crmDAO.deleteContractTariffPlan(contractId, form.getId());
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward personalTariffList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -166,7 +166,7 @@ public class ContractTariffAction extends BaseAction {
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 		form.getResponse().setData("personalTariffList", crmDAO.contractPersonalTaraffList(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "personalTariffList");
+		return data(conSet, mapping, form, "personalTariffList");
 	}
 
 	public ActionForward getPersonalTariff(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -178,7 +178,7 @@ public class ContractTariffAction extends BaseAction {
 					new ContractTariffDAO(form.getUser(), billingId).getPersonalTaraff(form.getId()));
 		}
 
-		return processUserTypedForward(conSet, mapping, form, "personalTariffEditor");
+		return data(conSet, mapping, form, "personalTariffEditor");
 	}
 
 	public ActionForward updatePersonalTariff(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -193,7 +193,7 @@ public class ContractTariffAction extends BaseAction {
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 		crmDAO.updateContractPersonalTariff(contractId, form.getId(), title, position, dateFrom, dateTo);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward deletePersonalTariff(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -204,7 +204,7 @@ public class ContractTariffAction extends BaseAction {
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 		crmDAO.deleteContractPersonalTariff(contractId, form.getId());
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward tariffOptionList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -217,7 +217,7 @@ public class ContractTariffAction extends BaseAction {
 		form.getResponse().setData("list", crmDAO.contractTariffOptionList(contractId));
 		form.getResponse().setData("history", crmDAO.contractTariffOptionHistory(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "tariffOptionList");
+		return data(conSet, mapping, form, "tariffOptionList");
 	}
 
 	public ActionForward tariffOptionEditor(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -239,7 +239,7 @@ public class ContractTariffAction extends BaseAction {
 			form.getResponse().setData("activateModeList", crmDAO.activateModeList(contractId, optionId));
 		}
 
-		return processUserTypedForward(conSet, mapping, form, "tariffOptionEditor");
+		return data(conSet, mapping, form, "tariffOptionEditor");
 	}
 
 	public ActionForward activateTariffOption(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -253,7 +253,7 @@ public class ContractTariffAction extends BaseAction {
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 		crmDAO.activateContractOption(contractId, optionId, modeId, false);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward deleteTariffOption(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -265,7 +265,7 @@ public class ContractTariffAction extends BaseAction {
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 		crmDAO.deactivateContractOption(contractId, optionId);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward groupTariffList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -276,7 +276,7 @@ public class ContractTariffAction extends BaseAction {
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 		form.getResponse().setData("tariffGroupList", crmDAO.contractTariffGroupList(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "groupTariffList");
+		return data(conSet, mapping, form, "groupTariffList");
 	}
 
 	public ActionForward getContractTariffGroup(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -291,7 +291,7 @@ public class ContractTariffAction extends BaseAction {
 		form.getResponse().setData("registredTariffGroupList",
 				new DirectoryDAO(form.getUser(), billingId).getRegistredTariffGroupList(0));
 
-		return processUserTypedForward(conSet, mapping, form, "groupTariffEditor");
+		return data(conSet, mapping, form, "groupTariffEditor");
 	}
 
 	public ActionForward updateContractTariffGroup(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -306,7 +306,7 @@ public class ContractTariffAction extends BaseAction {
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 		crmDAO.updateContractTariffGroup(contractId, form.getId(), tariffGroupId, dateFrom, dateTo, comment);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward deleteContractTariffGroup(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -315,6 +315,6 @@ public class ContractTariffAction extends BaseAction {
 		ContractTariffDAO crmDAO = new ContractTariffDAO(form.getUser(), billingId);
 		crmDAO.deleteContractTariffGroup(form.getId());
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 }

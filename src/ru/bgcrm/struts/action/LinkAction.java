@@ -43,7 +43,7 @@ public class LinkAction extends BaseAction {
 
         addLink(form, conSet.getConnection(), link);
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public static void addLink(DynActionForm form, Connection con, CommonObjectLink link) throws Exception {
@@ -81,7 +81,7 @@ public class LinkAction extends BaseAction {
 
         EventProcessor.processEvent(new LinkRemovedEvent(form, link), new SingleConnectionConnectionSet(con));
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public ActionForward deleteLinksWithType(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -93,7 +93,7 @@ public class LinkAction extends BaseAction {
         //TODO: Может событие сделать.
         CommonLinkDAO.getLinkDAO(link.getObjectType(), conSet.getConnection()).deleteLinksWithType(link);
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public ActionForward deleteLinksTo(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -108,7 +108,7 @@ public class LinkAction extends BaseAction {
 
         EventProcessor.processEvent(new LinksToRemovedEvent(form, link), conSet);
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public ActionForward linkList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -128,7 +128,7 @@ public class LinkAction extends BaseAction {
             form.getHttpRequest().setAttribute("process", process);
         }
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     private CommonObjectLink getLink(DynActionForm form) {

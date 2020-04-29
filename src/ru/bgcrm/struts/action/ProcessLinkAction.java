@@ -127,7 +127,7 @@ public class ProcessLinkAction extends ProcessAction {
 
         form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().clone(typeSet, onlyPermittedTypes));
 
-        return processUserTypedForward(con, mapping, form);
+        return data(con, mapping, form);
     }
 
     /* Usages are not found. */
@@ -141,7 +141,7 @@ public class ProcessLinkAction extends ProcessAction {
         form.getResponse().setData("process", processDAO.getProcess(id));
         new StatusChangeDAO(con).searchProcessStatus(new SearchResult<StatusChange>(form), form.getId(), form.getSelectedValues("statusId"));
 
-        return processUserTypedForward(con, mapping, form, "linkedProcessInfo");
+        return data(con, mapping, form, "linkedProcessInfo");
     }
 
     private void setProcessReference(Connection con, DynActionForm form, Process process, String objectType) {
@@ -195,7 +195,7 @@ public class ProcessLinkAction extends ProcessAction {
             form.getResponse().addEvent(new ProcessOpenEvent(process.getId()));
         }
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     // процессы, привязанные к процессу
@@ -248,7 +248,7 @@ public class ProcessLinkAction extends ProcessAction {
             new IfaceStateDAO(con).compareAndUpdateState(ifaceState, currentState, form);
         }
 
-        return processUserTypedForward(con, mapping, form, "linkProcessList");
+        return data(con, mapping, form, "linkProcessList");
     }
 
     // создание процесса, привязанного к процессу
@@ -267,7 +267,7 @@ public class ProcessLinkAction extends ProcessAction {
         Process linkedProcess = getProcess(new ProcessDAO(con), id);
         linkProcessCreate(con, form, linkedProcess, typeId, objectType, createTypeId, description, form.getParamInt("groupId", -1));
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     public static Process linkProcessCreate(Connection con, DynActionForm form, Process linkedProcess, int typeId, String objectType,

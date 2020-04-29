@@ -14,7 +14,7 @@
 
 <shell:state moveSelector="#${uiid}"/>
 
-<shell:title text="${l.l('Blow board')}"/>
+<shell:title text="${l.l('Blow план')}"/>
 
 <c:choose>
 	<c:when test="${form.id gt 0}">

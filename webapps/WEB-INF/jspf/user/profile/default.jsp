@@ -30,64 +30,12 @@
 						<td>${l.l('Параметр')}</td>
 						<td width="100%">${l.l('Значение')}</td>
 					</tr>
-					<%--
-					<tr>
-						<td nowrap="nowrap">
-							Подсветка выбранной строки в очереди процессов
-						</td>
-						<td>	
-							<u:sc>
-								<c:set var="valuesHtml">
-									<li value="1">Да</li>
-									<li value="0">Нет</li>
-								</c:set>
-								<c:set var="key" value="iface.processQueue.rowHighlight"/>
-								<c:set var="hiddenName" value="${key.replace( '.', '_' )}"/>
-								<c:set var="value" value="${u:getFromPers( ctxUser, key, '1' )}"/>
-								<c:set var="widthTextValue" value="50px"/>
-								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
-							</u:sc>
-						</td>
-					</tr>
-										 
-					<tr>
-						<td nowrap="nowrap">
-							Открытие процесса по клику в произвольное место строки очереди
-						</td>
-						<td>
-							<u:sc>
-								<c:set var="valuesHtml">
-									<li value="1">Да</li>
-									<li value="0">Нет</li>
-								</c:set>
-								<c:set var="key" value="iface.processQueue.openOnClick"/>
-								<c:set var="hiddenName" value="${key.replace( '.', '_' )}"/>
-								<c:set var="value" value="${u:getFromPers( ctxUser, key, '1' )}"/>
-								<c:set var="widthTextValue" value="50px"/>
-								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
-							</u:sc>
-						</td>
-					</tr>
-					--%>
 					
 					<tr>
 						<td nowrap="nowrap">
 							${l.l('Открытие буфера объектов по долгому нажатию ЛКМ')}
 						</td>
 						<td>
-							<%--
-							<u:sc>
-								<c:set var="valuesHtml">
-									<li value="1">Да</li>
-									<li value="0">Нет</li>
-								</c:set>
-								<c:set var="key" value="iface.buffer.openOnLongPress"/>
-								<c:set var="hiddenName" value="${key.replace( '.', '_' )}"/>
-								<c:set var="value" value="${u:getFromPers( ctxUser, key, '1' )}"/>
-								<c:set var="widthTextValue" value="50px"/>
-								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
-							</u:sc>
-							--%>
 							<c:set var="key" value="iface.buffer.openOnLongPress"/>
 							<ui:combo-single hiddenName="${key.replace( '.', '_' )}" value="${u:getFromPers(ctxUser, key, '1')}" widthTextValue="50px">
 								<jsp:attribute name="valuesHtml">
@@ -103,19 +51,6 @@
 							${l.l('Порядок объектов в буфере')}
 						</td>
 						<td>
-							<%--
-							<u:sc>
-								<c:set var="valuesHtml">
-									<li value="1">Последний объект сверху</li>
-									<li value="2">Сохранять порядок объектов</li>
-								</c:set>
-								<c:set var="key" value="iface.buffer.behavior"/>
-								<c:set var="hiddenName" value="${key.replace( '.', '_' )}"/>
-								<c:set var="value" value="${u:getFromPers( ctxUser, key, '1' )}"/>
-								<c:set var="widthTextValue" value="200px"/>
-								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
-							</u:sc>
-							--%>
 							<c:set var="key" value="iface.buffer.behavior"/>
 							<ui:combo-single hiddenName="${key.replace( '.', '_' )}" value="${u:getFromPers(ctxUser, key, '1')}" widthTextValue="200px">
 								<jsp:attribute name="valuesHtml">
@@ -139,46 +74,6 @@
 						</td>
 					</tr>
 					
-					<%--
-					<tr>
-						<td nowrap="nowrap">
-							Правка описания процесса по клику мыши
-						</td>
-						<td>
-							<u:sc>
-								<c:set var="valuesHtml">
-									<li value="1">Да</li>
-									<li value="0">Нет</li>
-								</c:set>
-								<c:set var="key" value="iface.process.editDescriptionOnClick"/>
-								<c:set var="hiddenName" value="${key.replace( '.', '_' )}"/>
-								<c:set var="value" value="${u:getFromPers( ctxUser, key, '1' )}"/>
-								<c:set var="widthTextValue" value="50px"/>
-								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
-							</u:sc>
-						</td>
-					</tr>					
-					
-					<tr>
-						<td nowrap="nowrap">
-							Выбор строк таблицы на правку
-						</td>
-						<td>
-							<u:sc>
-								<c:set var="valuesHtml">
-									<li value="1">Подсветка строки / клик</li>
-									<li value="0">Кнопка со звёздочкой</li>
-								</c:set>
-								<c:set var="key" value="iface.table.rowHighlightClickEdit"/>
-								<c:set var="hiddenName" value="${key.replace( '.', '_' )}"/>
-								<c:set var="value" value="${u:getFromPers( ctxUser, key, '1' )}"/>
-								<c:set var="widthTextValue" value="150px"/>
-								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
-							</u:sc>
-						</td>
-					</tr>
-					 --%>
-					
 					<c:set var="endpoint" value="user.profile.options.jsp"/>
 					<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
 				</table>
@@ -189,21 +84,13 @@
 					<h2>${l.l('Текст конфигурации опций')}</h2>
 					
 					<textarea style="width: 100%; height: 400px;">${ctxUser.personalizationMap.getDataString()}</textarea>
-					<%--
-					<button class="btn-grey mt1" type="button" 
-						onclick="if (confirm('Перетереть все опции помимо выбранных?') && sendAJAXCommand(formUrl(this.form) + '&overwrite=1')) {alert('Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5.')}">Сохранить опции перетерев прочую конфигурацию</button>
-					--%>						
-				</div> 	
+				</div> 
 					
 				<button class="btn-grey mt1" type="button" 
-					onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ alert( '${l.l('Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5')}' ) }">${l.l('Сохранить опции')}</button>
+					onclick="$$.ajax.post(this.form).done(() => { alert('${l.l('Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5')}') })">${l.l('Сохранить опции')}</button>
 				<button class="btn-white mt1 ml2" type="button"
 					onclick="$('#${configTextUiid}').toggle()" title="${l.l('Показать текст конфигурации опций')}">${l.l('Текст')}</button>
 			</html:form>
-							
-			<c:set var="state">
-				<span>${l.l('Мой профиль')}</span>
-			</c:set>
 		</c:when>
 		<c:otherwise>
 			<div>
@@ -215,25 +102,12 @@
 				<c:import url="${url}"/>
 			</div>
 			
-			<button class="btn-grey mt1" type="button" onclick="openUrlContent( '${createUrl}' );">${l.l('Послать персональную новость')}</button>
-					
-			<c:set var="title">
-				<span id='user_title_${requestUserId}' class='title'>${l.l('Профиль')}: ${ctxUserMap[u:int(requestUserId)].title}</span>
-			</c:set>
-			<c:set var="state"></c:set>
-			
-			<%-- 
-				Убрано, т.к. при создание перс. новости в state выводится "Создание новости"	
-			<script>
-				$(function()
-				{
-					$('#title > .status:visible > .wrap > .left').attr( "style", "width: 100%; text-align: center;" );
-				})
-			</script> --%>
+			<button class="btn-grey mt1" type="button" onclick="$$.ajax.load('${createUrl}', $$.shell.$content());">${l.l('Послать персональную новость')}</button>
 		</c:otherwise>
 	</c:choose>
 </div>
 
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
-
+<shell:title>
+	<jsp:attribute name="text"><span id='user_title_${requestUserId}' class='title'>${ctxUserMap[u:int(requestUserId)].title}</span></jsp:attribute>
+</shell:title>
+<shell:state text=""/>

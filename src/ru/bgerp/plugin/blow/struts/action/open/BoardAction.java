@@ -38,7 +38,7 @@ public class BoardAction extends BaseAction {
             form.setResponseData("board", new Board(boardConf, processes, links));
         }
      
-        return processUserTypedForward(con, mapping, form, "show");
+        return data(con, mapping, form, "show");
     }
 
 }

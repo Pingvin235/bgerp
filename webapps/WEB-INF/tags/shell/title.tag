@@ -9,6 +9,6 @@
 
 <script>
 	$(function () {
-		$('#title > .status:visible h1.title').html( "${title}" );
+		$('#title > .status:visible h1.title').html("${title}");
 	})
 </script>

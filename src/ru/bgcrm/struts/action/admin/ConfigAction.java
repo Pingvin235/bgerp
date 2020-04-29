@@ -47,13 +47,13 @@ public class ConfigAction extends BaseAction {
             }
         }
 
-        return processUserTypedForward(conSet, mapping, form, "list");
+        return data(conSet, mapping, form, "list");
     }
 
     public ActionForward delete(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         new ConfigDAO(conSet.getConnection()).deleteGlobalConfig(form.getId());
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public ActionForward get(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -63,7 +63,7 @@ public class ConfigAction extends BaseAction {
         if (config != null)
             form.getResponse().setData("config", config);
 
-        return processUserTypedForward(conSet, mapping, form, "update");
+        return data(conSet, mapping, form, "update");
     }
 
     public ActionForward update(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -103,7 +103,7 @@ public class ConfigAction extends BaseAction {
 
         form.getResponse().setData("config", config);
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public void checkAllowedConfigIds(DynActionForm form) throws BGMessageException {

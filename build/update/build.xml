@@ -48,6 +48,7 @@
 				<exclude name="ru/bgcrm/util/test/**"/>
 				<include name="ru/bgerp/**"/>
 				<exclude name="ru/bgerp/tool/**"/>
+				<include name="org/bgerp/**"/>
 			</fileset>
 			<fileset dir="${classesPath}" includes="ru/bgcrm/version/update.properties"/>
 		</jar>

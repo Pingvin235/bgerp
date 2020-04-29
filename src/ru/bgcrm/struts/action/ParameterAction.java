@@ -84,7 +84,7 @@ public class ParameterAction extends BaseAction {
         boolean offEncrypt = form.getPermission().getBoolean("offEncrypt", false);
         form.getResponse().setData("log", new ParamLogDAO(con).getHistory(id, paramList, offEncrypt, new SearchResult<ParameterLogItem>(form)));
 
-        return processUserTypedForward(con, mapping, form, "parameterLog");
+        return data(con, mapping, form, "parameterLog");
     }
 
     public ActionForward entityLog(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -100,7 +100,7 @@ public class ParameterAction extends BaseAction {
 
         form.getResponse().setData("log", new EntityLogDAO(con, table).getHistory(id));
 
-        return processUserTypedForward(con, mapping, form, "entityLog");
+        return data(con, mapping, form, "entityLog");
     }
 
     public ActionForward parameterList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -186,7 +186,7 @@ public class ParameterAction extends BaseAction {
 
         form.getResponse().setData("list", parameterValuePairList);
 
-        return processUserTypedForward(con, mapping, form, FORWARD_DEFAULT);
+        return data(con, mapping, form, FORWARD_DEFAULT);
     }
 
     public ActionForward parameterGet(ActionMapping mapping, DynActionForm form, ConnectionSet connectionSet) throws Exception {
@@ -213,7 +213,7 @@ public class ParameterAction extends BaseAction {
             if (Parameter.TYPE_TEXT.equals(parameter.getType()) || Parameter.TYPE_BLOB.equals(parameter.getType())) {
                 resp.setData("value", "<ЗНАЧЕНИЕ ЗАШИФРОВАНО>");
 
-                return processUserTypedForward(connectionSet, mapping, form, "edit");
+                return data(connectionSet, mapping, form, "edit");
             }
         }
 
@@ -353,7 +353,7 @@ public class ParameterAction extends BaseAction {
 
         request.setAttribute("part2Rules", regexpList);
 
-        return processUserTypedForward(connectionSet, mapping, form, "edit");
+        return data(connectionSet, mapping, form, "edit");
     }
 
     public ActionForward parameterUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -627,7 +627,7 @@ public class ParameterAction extends BaseAction {
         EventProcessor.processEvent(changedEvent, className, new SingleConnectionConnectionSet(con));
         EventProcessor.processEvent(changedEvent, objectClassName, new SingleConnectionConnectionSet(con), false);
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     private void paramChangingProcess(Connection con, String className, String objectClassName, ParamChangingEvent event) throws Exception {

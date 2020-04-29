@@ -395,7 +395,7 @@ public class WorkAction extends ru.bgcrm.struts.action.admin.WorkAction {
             form.getResponse().setData("workTypeMap", CallboardCache.getWorkTypeMap());
         }
 
-        return processUserTypedForward(con, mapping, form, "plan");
+        return data(con, mapping, form, "plan");
     }
 
     public ActionForward processTime(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -442,7 +442,7 @@ public class WorkAction extends ru.bgcrm.struts.action.admin.WorkAction {
             form.setResponseData( "timeSet", timeSet );*/
         }
 
-        return processUserTypedForward(con, mapping, form, "processTimeSet");
+        return data(con, mapping, form, "processTimeSet");
     }
 
     private static final Object SET_TIME_MUTEX = new Object();
@@ -547,7 +547,7 @@ public class WorkAction extends ru.bgcrm.struts.action.admin.WorkAction {
             }
         }
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     public ActionForward processTimeLock(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -659,7 +659,7 @@ public class WorkAction extends ru.bgcrm.struts.action.admin.WorkAction {
             }
         }
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     private List<FreeSlotRange> getFreeSlots(Connection con, Process process, Callboard callboard, Date dateFrom, Date dateTo) throws BGException {

@@ -1,0 +1,948 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- https://github.com/hussachai/commons-lang-taglibs -->
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>Commons-lang-2.4 StringUtils functions library</description>
+	<display-name>Commons-lang StringUtils</display-name>
+	<tlib-version>2.4</tlib-version>
+	<short-name>su</short-name>
+	<uri>http://commons.apache.org/lang/StringUtils</uri>
+	
+	<function>
+		<description>
+			Abbreviates a String using ellipses.
+		</description>
+		<name>abbreviate</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String abbreviate(java.lang.String, int) </function-signature>
+		<example>
+			abbreviate("input", maxWidth)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Capitalizes a String changing the first letter to title case as per Character.toTitleCase(char).
+		</description>
+		<name>capitalize</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String capitalize(java.lang.String) </function-signature>
+		<example>
+			capitalize("input")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Centers a String in a larger String of size size.
+		</description>
+		<name>center</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String center(java.lang.String, int, java.lang.String) </function-signature>
+		<example>
+			center("input", size, "padStr")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Removes separator from the end of str if it's there, otherwise leave it alone.
+		</description>
+		<name>chomp</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String chomp(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			chomp("input", "separator")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Remove the last character from a String.
+		</description>
+		<name>chop</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String chop(java.lang.String) </function-signature>
+		<example>
+			chop("input")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if String contains a search String, handling null.
+		</description>
+		<name>contains</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean contains(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			contains("input", "searchStr")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if the String contains any character in the given set of characters.
+		</description>
+		<name>containsAny</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean containsAny(java.lang.String, char[]) </function-signature>
+		<example>
+			containsAny("input", searchChars)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if String contains a search String irrespective of case, handling null.
+		</description>
+		<name>containsIgnoreCase</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean containsIgnoreCase(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			containsIgnoreCase("input", "searchStr")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks that the String does not contain certain characters.
+		</description>
+		<name>containsNone</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean containsNone(java.lang.String, char[]) </function-signature>
+		<example>
+			containsNone("input", invalidChars)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if the String contains only certain characters.
+		</description>
+		<name>containsOnly</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean containsOnly(java.lang.String, char[]) </function-signature>
+		<example>
+			containsOnly("input", validChars)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Counts how many times the substring appears in the larger String.
+		</description>
+		<name>countMatches</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>int countMatches(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			countMatches("input", "subStr")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Returns either the passed in String, or if the String is empty or null, the value of defaultStr.
+		</description>
+		<name>defaultIfEmpty</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String defaultIfEmpty(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			defaultIfEmpty("input", "defaultStr")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Returns either the passed in String, or if the String is null, the value of defaultStr.
+		</description>
+		<name>defaultString</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String defaultString(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			defaultString("input", "defaultStr")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Deletes all whitespaces from a String as defined by Character.isWhitespace(char).
+		</description>
+		<name>deleteWhitespace</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String deleteWhitespace(java.lang.String str) </function-signature>
+		<example>
+			deleteWhitespace("input")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Compares two Strings, and returns the portion where they differ.
+		</description>
+		<name>difference</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String difference(java.lang.String str1, java.lang.String str2)</function-signature>
+		<example>
+			difference("str1", "str2")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Check if a String ends with a specified suffix.
+		</description>
+		<name>endsWith</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean endsWith(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			endsWith("input", "suffix")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Check if a String ends with a specified suffix.
+		</description>
+		<name>endsWithIgnoreCase</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean endsWithIgnoreCase(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			endsWithIgnoreCase("input", "suffix")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Compares two Strings, returning true if they are equal.
+		</description>
+		<name>equals</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean equals(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			equals("str1", "str2")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Compares two Strings, returning true if they are equal ignoring the case.
+		</description>
+		<name>equalsIgnoreCase</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean equalsIgnoreCase(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			equalsIgnoreCase("str1", "str2")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Compares all Strings in an array and returns the initial sequence 
+			of characters that is common to all of them.
+		</description>
+		<name>getCommonPrefix</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String getCommonPrefix(java.lang.String[])</function-signature>
+		<example>
+			getCommonPrefix(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Find the Levenshtein distance between two Strings.
+		</description>
+		<name>getLevenshteinDistance</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>int getLevenshteinDistance(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			getLevenshteinDistance("s", "t")
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Finds the first index within a String, handling null.
+		</description>
+		<name>indexOf</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>int indexOf(java.lang.String, java.lang.String, int)</function-signature>
+		<example>
+			indexOf("str", "searchStr", startPos)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Find the first index of any of a set of potential substrings.
+		</description>
+		<name>indexOfAny</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>int indexOfAny(java.lang.String, java.lang.String[])</function-signature>
+		<example>
+			indexOfAny("str", searchStrs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Search a String to find the first index of any character not in the given set of characters.
+		</description>
+		<name>indexOfAnyBut</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>int indexOfAnyBut(java.lang.String, char[])</function-signature>
+		<example>
+			indexOfAnyBut("str", searchChars)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Compares all Strings in an array and returns the index at which the Strings begin to differ.
+		</description>
+		<name>indexOfDifference</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>int indexOfDifference(java.lang.String[] strs)</function-signature>
+		<example>
+			indexOfDifference(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if the String contains only unicode letters.
+		</description>
+		<name>isAlpha</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isAlpha(java.lang.String)</function-signature>
+		<example>
+			isAlpha(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if the String contains only unicode letters or digits.
+		</description>
+		<name>isAlphanumeric</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isAlphanumeric(java.lang.String)</function-signature>
+		<example>
+			isAlphanumeric(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if the String contains only unicode letters, digits or space (' ').
+		</description>
+		<name>isAlphanumericSpace</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isAlphanumericSpace(java.lang.String)</function-signature>
+		<example>
+			isAlphanumericSpace(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if the String contains only unicode letters and space (' ').
+		</description>
+		<name>isAlphaSpace</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isAlphaSpace(java.lang.String)</function-signature>
+		<example>
+			isAlphaSpace(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if the string contains only ASCII printable characters.
+		</description>
+		<name>isAsciiPrintable</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isAsciiPrintable(java.lang.String)</function-signature>
+		<example>
+			isAsciiPrintable(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if a String is whitespace, empty ("") or null.
+		</description>
+		<name>isBlank</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isBlank(java.lang.String)</function-signature>
+		<example>
+			isBlank(strs)
+		</example>
+	</function>
+	
+ 	<function>
+		<description>
+			Checks if a String is empty ("") or null.
+		</description>
+		<name>isEmpty</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isEmpty(java.lang.String)</function-signature>
+		<example>
+			isEmpty(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if a String is not empty (""), not null and not whitespace only.
+		</description>
+		<name>isNotBlank</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isNotBlank(java.lang.String)</function-signature>
+		<example>
+			isNotBlank(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Checks if a String is not empty ("") and not null.
+		</description>
+		<name>isNotEmpty</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isNotEmpty(java.lang.String)</function-signature>
+		<example>
+			isNotEmpty(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if the String contains only unicode digits.
+		</description>
+		<name>isNumeric</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isNumeric(java.lang.String) </function-signature>
+		<example>
+			isNumeric(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if the String contains only unicode digits or space (' ').
+		</description>
+		<name>isNumericSpace</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isNumericSpace(java.lang.String) </function-signature>
+		<example>
+			isNumericSpace(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Checks if the String contains only whitespace.
+		</description>
+		<name>isWhitespace</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean isWhitespace(java.lang.String) </function-signature>
+		<example>
+			isWhitespace(strs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Joins the elements of the provided Collection into a single String 
+			 containing the provided elements.
+		</description>
+		<name>joinCollection</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String join(java.util.Collection, java.lang.String)</function-signature>
+		<example>
+			joinCollection(collection, separator)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Joins the elements of the provided Iterator into a single String 
+			containing the provided elements.
+		</description>
+		<name>joinIterator</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String join(java.util.Iterator, java.lang.String)</function-signature>
+		<example>
+			joinIterator(iterator, separator)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Joins the elements of the provided array into a single String containing 
+			the provided list of elements.
+		</description>
+		<name>join</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String join(java.lang.Object[] array, java.lang.String separator)</function-signature>
+		<example>
+			join(array, separator)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Finds the first index within a String, handling null.
+		</description>
+		<name>lastIndexOf</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>int lastIndexOf(java.lang.String, java.lang.String, int)</function-signature>
+		<example>
+			lastIndexOf(str, searchStr, startPos)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Find the latest index of any of a set of potential substrings.
+		</description>
+		<name>lastIndexOfAny</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>int lastIndexOfAny(java.lang.String, java.lang.String[])</function-signature>
+		<example>
+			lastIndexOfAny(str, searchStrs)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Gets the leftmost len characters of a String.
+		</description>
+		<name>left</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String left(java.lang.String, int)</function-signature>
+		<example>
+			left(str, len)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Left pad a String with a specified String.
+		</description>
+		<name>leftPad</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String leftPad(java.lang.String, int, java.lang.String) </function-signature>
+		<example>
+			leftPad(str, size, padStr)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Gets a String's length or 0 if the String is null.
+		</description>
+		<name>length</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>int length(java.lang.String str) </function-signature>
+		<example>
+			length(str)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Converts a String to lower case as per String.toLowerCase().
+		</description>
+		<name>lowerCase</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String lowerCase(java.lang.String)</function-signature>
+		<example>
+			lowerCase(str)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Gets len characters from the middle of a String.
+		</description>
+		<name>mid</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String mid(java.lang.String, int, int)</function-signature>
+		<example>
+			mid(str, pos, len)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Finds the n-th index within a String, handling null.
+		</description>
+		<name>ordinalIndexOf</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>int ordinalIndexOf(java.lang.String, java.lang.String, int) </function-signature>
+		<example>
+			ordinalIndexOf(str, searchStr, ordinal)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Overlays part of a String with another String.
+		</description>
+		<name>overlay</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String overlay(java.lang.String, java.lang.String, int, int) </function-signature>
+		<example>
+			overlay(str, overlay, start, end)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Removes all occurrences of a substring from within the source string.
+		</description>
+		<name>remove</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String remove(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			remove(str, removeStr)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Removes a substring only if it is at the end of a source string, otherwise returns the source string.
+		</description>
+		<name>removeEnd</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String removeEnd(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			removeEnd(str, removeStr)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Case insensitive removal of a substring if it is at the end of a source string, otherwise returns the source string.
+		</description>
+		<name>removeEndIgnoreCase</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String removeEndIgnoreCase(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			removeEndIgnoreCase(str, removeStr)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Removes a substring only if it is at the begining of a source string, otherwise returns the source string.
+		</description>
+		<name>removeStart</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String removeStart(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			removeStart(str, removeStr)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Case insensitive removal of a substring if it is at the begining of a source string, otherwise returns the source string.
+		</description>
+		<name>removeStartIgnoreCase</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String removeStartIgnoreCase(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			removeStartIgnoreCase(str, removeStr)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Repeat a String repeat times to form a new String.
+		</description>
+		<name>repeat</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String repeat(java.lang.String, int) </function-signature>
+		<example>
+			repeat(str, repeat)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Replaces all occurrences of a String within another String.
+		</description>
+		<name>replace</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String replace(java.lang.String, java.lang.String, java.lang.String)</function-signature>
+		<example>
+			replace(text, searchString, replacement)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Replaces a String with another String inside a larger String, once.
+		</description>
+		<name>replaceOnce</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String replaceOnce(java.lang.String, java.lang.String, java.lang.String)</function-signature>
+		<example>
+			replaceOnce(text, searchChar, replacement)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Reverses a String as per StringBuffer.reverse().
+		</description>
+		<name>reverse</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String reverse(java.lang.String str) </function-signature>
+		<example>
+			reverse(str)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Reverses a String that is delimited by a specific character.
+		</description>
+		<name>reverseDelimited</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String reverseDelimited(java.lang.String, char) </function-signature>
+		<example>
+			reverseDelimited(str, separatorChar)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			Gets the rightmost len characters of a String.
+		</description>
+		<name>right</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String right(java.lang.String, int) </function-signature>
+		<example>
+			right(str, len)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Right pad a String with a specified String.
+		</description>
+		<name>rightPad</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String rightPad(java.lang.String, int, java.lang.String) </function-signature>
+		<example>
+			rightPad(str, size, padStr)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Splits the provided text into an array, separators specified.
+		</description>
+		<name>split</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String[] split(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			split(str, separatorChars)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Check if a String starts with a specified prefix.
+		</description>
+		<name>startsWith</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean startsWith(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			startsWith(str, prefix)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Case insensitive check if a String starts with a specified prefix.
+		</description>
+		<name>startsWithIgnoreCase</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>boolean startsWithIgnoreCase(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			startsWithIgnoreCase(str, prefix)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Gets a substring from the specified String avoiding exceptions.
+		</description>
+		<name>substring</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String substring(java.lang.String, int, int) </function-signature>
+		<example>
+			substring(str, start, end)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Gets the substring after the first occurrence of a separator.
+		</description>
+		<name>substringAfter</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String substringAfter(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			substringAfter(str,separator)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Gets the substring after the last occurrence of a separator.
+		</description>
+		<name>substringAfterLast</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String substringAfterLast(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			substringAfterLast(str, separator)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Gets the substring before the first occurrence of a separator.
+		</description>
+		<name>substringBefore</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String substringBefore(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			substringBefore(str, separator)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Gets the substring before the last occurrence of a separator.
+		</description>
+		<name>substringBeforeLast</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String substringBeforeLast(java.lang.String, java.lang.String) </function-signature>
+		<example>
+			substringBeforeLast(str, separator)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Gets the String that is nested in between two Strings.
+		</description>
+		<name>substringBetween</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String substringBetween(java.lang.String, java.lang.String, java.lang.String) </function-signature>
+		<example>
+			substringBetween(str, open, close)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Gets the String that is nested in between two Strings.
+		</description>
+		<name>substringsBetween</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String[] substringsBetween(java.lang.String, java.lang.String, java.lang.String) </function-signature>
+		<example>
+			substringsBetween(str, open, close)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Swaps the case of a String changing upper and title case to lower case, and lower case to upper case.
+		</description>
+		<name>swapCase</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String swapCase(java.lang.String) </function-signature>
+		<example>
+			swapCase(str)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Removes control characters (char &lt;= 32) from both ends of this String, 
+			 handling null by returning null.
+		</description>
+		<name>trim</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String trim(java.lang.String)</function-signature>
+		<example>
+			trim(str)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Removes control characters (char &lt;= 32) from both ends of this String 
+			 returning an empty String ("") if the String is empty ("") after the trim 
+			 or if it is null.
+		</description>
+		<name>trimToEmpty</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String trimToEmpty(java.lang.String)</function-signature>
+		<example>
+			trimToEmpty(str)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Removes control characters (char &lt;= 32) from both ends of this String 
+			 returning null if the String is empty ("") after the trim or if it is null.
+		</description>
+		<name>trimToNull</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String trimToNull(java.lang.String)</function-signature>
+		<example>
+			trimToNull(str)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Uncapitalizes a String changing the first letter to title case as 
+			 per Character.toLowerCase(char).
+		</description>
+		<name>uncapitalize</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String uncapitalize(java.lang.String)</function-signature>
+		<example>
+			uncapitalize(str)
+		</example>
+	</function>
+	
+	<function>
+		<description>
+			 Converts a String to upper case as per String.toUpperCase()
+		</description>
+		<name>upperCase</name>
+		<function-class>org.apache.commons.lang.StringUtils</function-class>
+		<function-signature>java.lang.String upperCase(java.lang.String)</function-signature>
+		<example>
+			upperCase(str)
+		</example>
+	</function>
+	
+	
+</taglib>

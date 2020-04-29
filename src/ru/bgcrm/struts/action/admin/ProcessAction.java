@@ -47,7 +47,7 @@ public class ProcessAction extends BaseAction {
     public ActionForward statusList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new StatusDAO(con).searchStatus(new SearchResult<Status>(form));
 
-        return processUserTypedForward(con, mapping, form, "statusList");
+        return data(con, mapping, form, "statusList");
     }
 
     public ActionForward statusUseProcess(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -69,7 +69,7 @@ public class ProcessAction extends BaseAction {
 
         form.getResponse().setData("containProcess", containProcess);
 
-        return processUserTypedForward(con, mapping, form, "statusUseProcess");
+        return data(con, mapping, form, "statusUseProcess");
     }
 
     public ActionForward statusDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -77,7 +77,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessTypeCache.flush(con);
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     public ActionForward statusGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -88,7 +88,7 @@ public class ProcessAction extends BaseAction {
             form.getResponse().setData("status", status);
         }
 
-        return processUserTypedForward(con, mapping, form, "statusUpdate");
+        return data(con, mapping, form, "statusUpdate");
     }
 
     public ActionForward statusUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -103,7 +103,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessTypeCache.flush(con);
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     // типы
@@ -129,7 +129,7 @@ public class ProcessAction extends BaseAction {
             }
         }
 
-        return processUserTypedForward(con, mapping, form, "typeList");
+        return data(con, mapping, form, "typeList");
     }
 
     public ActionForward typeGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -140,7 +140,7 @@ public class ProcessAction extends BaseAction {
             form.getResponse().setData("type", type);
         }
 
-        return processUserTypedForward(con, mapping, form, "typeUpdate");
+        return data(con, mapping, form, "typeUpdate");
     }
 
     public ActionForward typeUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -162,7 +162,7 @@ public class ProcessAction extends BaseAction {
         processTypeDAO.updateProcessType(type, form.getUserId());
         ProcessTypeCache.flush(con);
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     public ActionForward typeDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -177,7 +177,7 @@ public class ProcessAction extends BaseAction {
         typeDAO.deleteProcessType(id);
         ProcessTypeCache.flush(con);
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     /*public ActionForward typeMark( ActionMapping mapping,
@@ -216,7 +216,7 @@ public class ProcessAction extends BaseAction {
             paramMap.put("markType", "0");
         }
         //form.setAction( "typeList" );
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     public ActionForward typeUsed(ActionMapping mapping, DynActionForm form, Connection conSet) throws BGException {
@@ -229,7 +229,7 @@ public class ProcessAction extends BaseAction {
                 .collect(Collectors.toList());
         form.getResponse().setData("queueTitleList", queueList);
 
-        return processUserTypedForward(conSet, mapping, form, "typeUsed");
+        return data(conSet, mapping, form, "typeUsed");
     }
 
     // очереди
@@ -238,7 +238,7 @@ public class ProcessAction extends BaseAction {
 
         new QueueDAO(con).searchQueue(new SearchResult<Queue>(form), queueIds, form.getParam("filter"));
 
-        return processUserTypedForward(con, mapping, form, "queueList");
+        return data(con, mapping, form, "queueList");
     }
 
     public ActionForward queueGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -258,7 +258,7 @@ public class ProcessAction extends BaseAction {
 
         request.setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
 
-        return processUserTypedForward(con, mapping, form, "queueUpdate");
+        return data(con, mapping, form, "queueUpdate");
     }
 
     public ActionForward queueUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -282,7 +282,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessQueueCache.flush(con);
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     public ActionForward queueDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -292,7 +292,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessQueueCache.flush(con);
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     public ActionForward properties(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -319,7 +319,7 @@ public class ProcessAction extends BaseAction {
             request.setAttribute("parameterList", paramDAO.getParameterList(Process.OBJECT_TYPE, 0));
         }
 
-        return processUserTypedForward(con, mapping, form, "typeProperties");
+        return data(con, mapping, form, "typeProperties");
     }
 
     public ActionForward propertiesUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -359,7 +359,7 @@ public class ProcessAction extends BaseAction {
             transactionCheck(mapping, form, con);
         }
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     private void transactionCheck(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {

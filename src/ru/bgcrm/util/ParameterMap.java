@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.util.Config.InitStopException;
 import ru.bgerp.util.Log;
 
 /**
@@ -24,7 +25,7 @@ import ru.bgerp.util.Log;
 public abstract class ParameterMap extends AbstractMap<String, String> {
     private static final Log log = Log.getLog();
 
-    /** 
+    /**
      * Конфигурации, разбираются при первом обращении и кешируются далее.
      */
     protected volatile ConcurrentHashMap<Class<?>, Config> configMap;
@@ -50,10 +51,10 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
 
     public static ParameterMap EMPTY = new DefaultParameterMap(Collections.emptyMap());
 
-    public static ParameterMap of(String... keyValues) {
+    public static ParameterMap of(Object... keyValues) {
         Map<String, String> map = new HashMap<>(keyValues.length / 2);
         for (int i = 0; i < keyValues.length - 1; i += 2)
-            map.put(keyValues[i], keyValues[i + 1]);
+            map.put(String.valueOf(keyValues[i]), String.valueOf(keyValues[i + 1]));
         return new DefaultParameterMap(map);
     }
 
@@ -84,7 +85,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
             if (!Utils.isEmptyString(value)) {
                 var message = String.format("Using deprecated config key '%s'", keys[i]);
                 if (validate)
-                    throw new BGMessageException(message); 
+                    throw new BGMessageException(message);
                 log.warn(message);
                 return value;
             }
@@ -114,7 +115,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
             return def;
         }
     }
-    
+
     public int getInt(String key) {
         return getInt(key, 0);
     }
@@ -130,7 +131,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
             return def;
         }
     }
-    
+
     public long getLong(String key) {
         return getLong(key, 0L);
     }
@@ -207,7 +208,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Сериализация набора параметров в строку <prefix><ключ>=<значение> с переносами строк. 
+     * Сериализация набора параметров в строку <prefix><ключ>=<значение> с переносами строк.
      * @return
      */
     public String getDataString() {
@@ -348,7 +349,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
 
         return result;
     }
-    
+
     /**
      * Use {@link #subKeyed(String...)}
      * @param prefix
@@ -382,10 +383,12 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Возвращает объект конфигурации и кэширует его. Кэш сбрасывается при изменении данного мапа параметров.
+     * Creates if needed and gets pre parsed and cached configuration. 
+     * Cache key - the class object of the configuration.
      * @param clazz
      * @return
-     */     
+     */
+    @SuppressWarnings("unchecked")
     public final <K extends Config> K getConfig(final Class<K> clazz) {
         synchronized (this) {
             if (configMap == null) {
@@ -393,24 +396,22 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
             }
         }
 
-        @SuppressWarnings("unchecked")
         K result = (K) configMap.get(clazz);
         if (result == null) {
-            try {
+           try {
                 result = createConfig(clazz, false);
+                if (result == null)
+                    result = (K) Config.EMPTY;
                 configMap.put(clazz, result);
-            } catch (InvocationTargetException e) {
-                System.err.println("InvocationTargetException caused by:");
-                e.getCause().printStackTrace();
             } catch (Exception e) {
-                log.error(e.getMessage(), e);
+                log.error(e);
             }
         }
-        return result;
+        return result == Config.EMPTY ? null : result;
     }
-    
+
     /**
-     * Создаёт конфигурацию по имени класса, необходимо для вызова из JSP и JEXL.
+     * Same with {@link #getConfig(Class)}, but with string parameter for calling from JSP and JEXL.
      * @param className
      * @return
      */
@@ -419,32 +420,39 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         try {
             return getConfig((Class<Config>) DynamicClassManager.getClass(className));
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
         return null;
+    }
+
+    /**
+     * Removes config from cache.
+     * @param <K>
+     * @param clazz
+     */
+    public <K extends Config> void removeConfig(Class<K> clazz) {
+        configMap.remove(clazz);
     }
 
     /**
      * Создаёт конфигурацию с целью валидации.
      * @param clazz
      * @return
-     */    
+     */
     public final <K extends Config> void validateConfig(final Class<K> clazz) throws BGMessageException {
         try {
             createConfig(clazz, true);
-        } 
-        catch (BGMessageException e) {
+        } catch (BGMessageException e) {
             throw e;
-        }
-        catch (Exception e) {
-            log.error(e.getMessage(), e);
+        } catch (Exception e) {
+            log.error(e);
             throw new BGMessageException(e.getMessage());
-        }        
+        }
     }
-    
+
     private static final Class<?>[] getConfigParamsValidate = new Class[] { ParameterMap.class, boolean.class };
     private static final Class<?>[] getConfigParams = new Class[] { ParameterMap.class };
-        
+
     private <K extends Config> K createConfig(final Class<K> clazz, boolean validate) throws Exception {
         try {
             try {
@@ -461,9 +469,14 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
                 return constr.newInstance(new Object[] { this });
             }
         } catch (InvocationTargetException e) {
-            throw (Exception) e.getTargetException();
-        }        
+            var target = (Exception) e.getTargetException();
+            if (target instanceof InitStopException)
+                return null;
+            if (validate || !(target instanceof BGMessageException))
+                throw target;
+            return null;
+        }
         return null;
     }
-    
+
 }

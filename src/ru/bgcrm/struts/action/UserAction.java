@@ -25,7 +25,7 @@ public class UserAction extends BaseAction {
 			user.setPassword("");
 		}
 		
-		return processUserTypedForward(conSet, mapping, form, "userList");
+		return data(conSet, mapping, form, "userList");
 	}
 
 }

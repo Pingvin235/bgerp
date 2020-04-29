@@ -199,9 +199,11 @@ public class BaseAction extends DispatchAction {
         int logEntryId = 0;
         String resultStatus = "";
         try {
-            // неавторизованный акшен - перенаправление на login.jsp
-            if (user != null) {
-                // проверка прав
+            // redirect to login.jsp or open interface
+            if (user == null) {
+                form.setPermission(ParameterMap.EMPTY);
+            } else {
+                // permission check
                 String action = this.getClass().getName() + ":" + form.getAction();
                 PermissionNode permissionNode = PermissionNode.getPermissionNode(action);
 
@@ -326,7 +328,7 @@ public class BaseAction extends DispatchAction {
             form.getResponse().setStatus("error");
             form.getResponse().setMessage(errorText);
 
-            return processJsonForward((ConnectionSet) null, form);
+            return status((ConnectionSet) null, form);
         } else {
             HttpServletResponse response = form.getHttpResponse();
 
@@ -342,115 +344,105 @@ public class BaseAction extends DispatchAction {
         }
     }
 
-    @Deprecated
-    protected ActionForward processUserTypedForward(Connection con, ActionMapping mapping, DynActionForm form,
-            HttpServletResponse response, String htmlForwardName) {
-        return processUserTypedForward(new SingleConnectionConnectionSet(con), mapping, form, htmlForwardName);
+    /**
+     * Returns Struts forward with name=form.getAction().
+     * @param con
+     * @param mapping
+     * @param form
+     * @return
+     */
+    protected ActionForward data(Connection con, ActionMapping mapping, DynActionForm form) {
+        return data(con, mapping, form, form.getAction());
     }
 
     /**
-     * Calls {@link #processUserTypedForward(Connection, ActionMapping, DynActionForm, String)} with htmlForwardName=form.getAction()
+     * Returns Struts forward by name.
+     * @param con
+     * @param mapping
+     * @param form
+     * @param name forward's name.
+     * @return
+     */
+    protected ActionForward data(Connection con, ActionMapping mapping, DynActionForm form, String name) {
+        return data(new SingleConnectionConnectionSet(con), mapping, form, name);
+    }
+
+    /**
+     * Returns Struts forward with name=form.getAction().
      * @param conSet
      * @param mapping
      * @param form
      * @return
      */
-    protected ActionForward processUserTypedForward(Connection con, ActionMapping mapping, DynActionForm form) {
-        return processUserTypedForward(con, mapping, form, form.getAction());
+    protected ActionForward data(ConnectionSet conSet, ActionMapping mapping, DynActionForm form) {
+        return data(conSet, mapping, form, form.getAction());
     }
 
     /**
-     * Отправляет ответ в JSON либо HTML форме. В зависимости от параметра
-     * responseType в form. По-умолчанию HTML. При отправке в JSON вызывается
-     * {@link #processJsonForward(Connection, DynActionForm, HttpServletResponse)}
-     * 
+     * Returns Struts forward by name.
      * @param con
-     *            TODO
-     * @param form
-     * @param response
-     * @param htmlForwardName
-     *            имя форварда из struts-config.xml
-     * @return
-     */
-    protected ActionForward processUserTypedForward(Connection con, ActionMapping mapping, DynActionForm form,
-            String htmlForwardName) {
-        return processUserTypedForward(new SingleConnectionConnectionSet(con), mapping, form, htmlForwardName);
-    }
-
-    @Deprecated
-    protected ActionForward processUserTypedForward(ConnectionSet conSet, ActionMapping mapping, DynActionForm form,
-            HttpServletResponse response, String htmlForwardName) {
-        return processUserTypedForward(conSet, mapping, form, htmlForwardName);
-    }
-
-    /**
-     * Calls {@link #processUserTypedForward(ConnectionSet, ActionMapping, DynActionForm, String)} with htmlForwardName=form.getAction()
-     * @param conSet
      * @param mapping
      * @param form
+     * @param name forward's name.
      * @return
      */
-    protected ActionForward processUserTypedForward(ConnectionSet conSet, ActionMapping mapping, DynActionForm form) {
-        return processUserTypedForward(conSet, mapping, form, form.getAction());
-    }
-
-    /**
-     * Отправляет ответ в JSON либо HTML форме. В зависимости от параметра
-     * responseType в form. По-умолчанию HTML. При отправке в JSON вызывается
-     * {@link #processJsonForward(Connection, DynActionForm, HttpServletResponse)}
-     * 
-     * @param con
-     *            TODO
-     * @param form
-     * @param response
-     * @param htmlForwardName
-     *            имя форварда из struts-config.xml
-     * @return
-     */
-    protected ActionForward processUserTypedForward(ConnectionSet conSet, ActionMapping mapping, DynActionForm form,
-            String htmlForwardName) {
+    protected ActionForward data(ConnectionSet conSet, ActionMapping mapping, DynActionForm form, String name) {
         String responseType = form.getResponseType();
-        // либо попросили ответ в JSON формате, либо данный акшен вообще не
-        // предполагает HTML ответа
+        // response requested in JSON (API call)
         if (DynActionForm.RESPONSE_TYPE_JSON.equalsIgnoreCase(responseType)) {
-            return processJsonForward(conSet, form);
+            return status(conSet, form);
         } else {
-            // желаемый форвард указан в запросе
+            // wanted forward defined in form
             if (Utils.notBlankString(form.getForward())) {
-                htmlForwardName = form.getForward();
+                name = form.getForward();
             } else if (Utils.notBlankString(form.getForwardFile())) {
                 return new ActionForward(form.getForwardFile());
             }
-            return mapping.findForward(htmlForwardName);
+            return mapping.findForward(name);
         }
     }
 
     @Deprecated
-    protected ActionForward processJsonForward(Connection con, DynActionForm form, HttpServletResponse response) {
-        return processJsonForward(new SingleConnectionConnectionSet(con), form, response);
+    protected ActionForward processUserTypedForward(Connection con, ActionMapping mapping, DynActionForm form, HttpServletResponse response,
+            String htmlForwardName) {
+        return data(new SingleConnectionConnectionSet(con), mapping, form, htmlForwardName);
     }
-    
-    /**
-     * Отправляет ответ в по-умолчанию в JSON форме. Если только не указан
-     * атрибут form.forwardFile
-     * @param con TODO
-     * @param form
-     * @return
-     */
-    protected ActionForward processJsonForward(Connection con, DynActionForm form) {
-        return processJsonForward(new SingleConnectionConnectionSet(con), form);
+
+    @Deprecated
+    protected ActionForward processUserTypedForward(Connection con, ActionMapping mapping, DynActionForm form, String htmlForwardName) {
+        return data(con, mapping, form, htmlForwardName);
+    }
+
+    @Deprecated
+    protected ActionForward processUserTypedForward(ConnectionSet conSet, ActionMapping mapping, DynActionForm form, HttpServletResponse response,
+            String htmlForwardName) {
+        return data(conSet, mapping, form, htmlForwardName);
+    }
+
+    @Deprecated
+    protected ActionForward processUserTypedForward(ConnectionSet conSet, ActionMapping mapping, DynActionForm form, String htmlForwardName) {
+        return data(conSet, mapping, form, htmlForwardName);
     }
 
     /**
-     * Отправляет ответ в по-умолчанию в JSON форме. Если только не указан
-     * атрибут form.forwardFile
-     * 
+     * Sends response result in JSON format.
+     * @param con
+     * @param form
+     * @return
+     */
+    protected ActionForward status(Connection con, DynActionForm form) {
+        return status(new SingleConnectionConnectionSet(con), form);
+    }
+
+    /**
+     * Sends response result in JSON format.
      * @param conSet
      * @param form
      * @return
      */
-    protected ActionForward processJsonForward(ConnectionSet conSet, DynActionForm form) {
+    protected ActionForward status(ConnectionSet conSet, DynActionForm form) {
         try {
+            // FIXME: Check this hack for usages and remove.
             if (Utils.notBlankString(form.getForwardFile())) {
                 return new ActionForward(form.getForwardFile());
             } else {
@@ -484,12 +476,24 @@ public class BaseAction extends DispatchAction {
         return null;
     }
 
-    /**
-     * Использовать {@link #processJsonForward(ConnectionSet, DynActionForm)}.
-     */
+    @Deprecated
+    protected ActionForward processJsonForward(ConnectionSet conSet, DynActionForm form) {
+        return status(conSet, form);
+    }
+
+    @Deprecated
+    protected ActionForward processJsonForward(Connection con, DynActionForm form) {
+        return status(con, form);
+    } 
+
+    @Deprecated
+    protected ActionForward processJsonForward(Connection con, DynActionForm form, HttpServletResponse response) {
+        return status(con, form);
+    }
+
     @Deprecated
     protected ActionForward processJsonForward(ConnectionSet conSet, DynActionForm form, HttpServletResponse response) {
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     protected boolean getAccess(String accessList, String accessItemKey, int value) {

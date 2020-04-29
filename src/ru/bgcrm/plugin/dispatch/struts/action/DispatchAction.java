@@ -21,14 +21,14 @@ public class DispatchAction extends BaseAction {
     public ActionForward dispatchList(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
         new DispatchDAO(con).searchDispatch(new SearchResult<Dispatch>(form));
 
-        return processUserTypedForward(con, mapping, form, "dispatchList");
+        return data(con, mapping, form, "dispatchList");
     }
 
     public ActionForward dispatchGet(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
         if (form.getId() > 0)
             form.getResponse().setData("dispatch", new DispatchDAO(con).dispatchGet(form.getId()));
 
-        return processUserTypedForward(con, mapping, form, "dispatchEdit");
+        return data(con, mapping, form, "dispatchEdit");
     }
 
     public ActionForward dispatchUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -40,7 +40,7 @@ public class DispatchAction extends BaseAction {
 
         new DispatchDAO(con).dispatchUpdate(dispatch);
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     public ActionForward messageList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -48,7 +48,7 @@ public class DispatchAction extends BaseAction {
 
         new DispatchDAO(conSet.getConnection()).messageSearch(new SearchResult<DispatchMessage>(form), form.getParamBoolean("sent", null));
 
-        return processUserTypedForward(conSet, mapping, form, "messageList");
+        return data(conSet, mapping, form, "messageList");
     }
 
     public ActionForward messageGet(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -60,7 +60,7 @@ public class DispatchAction extends BaseAction {
         }
         form.getResponse().setData("message", message);
 
-        return processUserTypedForward(conSet, mapping, form, "messageEdit");
+        return data(conSet, mapping, form, "messageEdit");
     }
 
     public ActionForward messageUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -83,7 +83,7 @@ public class DispatchAction extends BaseAction {
             throw new BGMessageException("Сообщение было разослано, правка запрещена.");
         }
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
     
 }

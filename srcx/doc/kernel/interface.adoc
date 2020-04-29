@@ -1,30 +1,33 @@
-= Интерфейс
+= Interface
 :toc:
 
-BGERP предоставляет следующие варианты Web-интерфейса:
+The program has the following types of Web-interface:
 [square]
-* *обычный* - для ПК с большим монитором, мышью и клавиатурой, полнофункционален и необходим для конфигурирования системы;
-* *мобильный* - для мобильных устройств с сенсорным экраном небольшого размера, без мыши и аппаратной клавиатуры;
-* *открытый* - для доступа извне к открытым сервисам системы без авторизации.
+* <<user, *user*>> - is the main one, for normal PC with mouse and keyboard;
+* <<mobile, *mobile*>> - restricted version for for mobile devices;
+* <<open, *open*>> - for accessing from outside to open services without authentication.
 
-Для обращения к запущеной системе введите в строке браузера адрес: http://<host>:<port>, где:
+[[server]]
+For calling of the running system use URL: http://<host>:<port> where:
 [square]
-* *<host>* - адрес сервера с запущенной системой;
-* *<port>* - порт сервера, по-умолчанию это *9088*.
+* *<host>* - IP address of the server;
+* *<port>* - port, by default is *9088*.
+
+On the opened page may be chosen <<user, user>> or <<mobile, mobile>> interfaces.
 
 image::_res/iface_login.png[width="600px"]
 
-На открывшейся странице будет предложен выбор интерфейса, в зависимости от 
-него адресная строка будет оканчиваться на */user* либо */usermob* соответственно.
+Configuration process has to be started from *user* interface.
+After creation database has only one superuser *admin* with password *admin*.
 
-При создании БД в системе присутствует единственный пользователь *admin*, пароль - *admin*.
+IMPORTANT: Change them after the first log in. The user with ID=1 is a special one, <<setup.adoc#user, permissions>> are ignored for him.
 
 image::_res/i0083.png[]
 
-Начать работу с системой в любом случае необходимо в обычном интерфейсе, что позволит в т.ч. произвести необходимые настройки для мобильного.
-
 [[user]]
-== Обычный интерфейс
+== User interface
+The interface is <<server, available>> by suffix */user*.
+
 Основные элементы обычного интерфейса пользователя.
 
 image::_res/i0082.png[]
@@ -105,7 +108,9 @@ iface.buffer.behavior=2
 Включит для всех пользователей редактирование с помощью отдельной кнопки со звёздочкой как поведение по-умолчанию.
 
 [[mobile]]
-== Мобильный интерфейс
+== Mobile interface
+The interface is <<server, available>> by suffix */usermob*. 
+
 В текущей версии мобильный интерфейс пользователя предоставляет доступ к мобильной очереди процессов. 
 В отличие от обычной она сильно ограничена функциональностью:
 [square]
@@ -162,11 +167,32 @@ createWizard.step.2.class=ru.bgcrm.model.process.wizard.SetDescriptionStep
 image::_res/iface_mob_wizard.png[]
 
 [[open]]
-== Открытый интерфейс
-Открытый интерфейс не предлагается при входе на корневую страницу BGERP, но доступен по постфиксу */open*. 
-Он работает в обход средств стандартной авторизации клиента и используется, например, 
-плагинами <<../plugin/dispatch/index.adoc#, Dispatch>> и <<../plugin/mobile/index.adoc#, Mobile>>.
-Настройка <<install.adoc#nginx, NGINX>> для проброса из внешней сети запросов на открытый интерфейс.
+== Open interface
+The interface is <<server, available>> by suffix */user*.
+
+Configuration sample of <<install.adoc#nginx, NGINX>> for accessing it from outside network.
+
+Beside of some kernel functionality, described below, this interface is also used by following plugins:
+[square]
+* <<../plugin/dispatch/index.adoc#, Dispatch>>; 
+* <<../plugin/mobile/index.adoc#, Mobile>>.
+
+[[open-user]]
+=== Open user profile
+For enabling showing user specific information by URL *<SERVER_PORT>/open/profile/<USER_ID>*:
+[arabic]
+. create user <<setup.adoc#param, parameter>> with type *list* and value *1=Yes*, ID of that is *<ENABLE_PARAM_ID>*;
+. add the following records in <<setup.adoc#config, configuration>>.
+
+[source]
+----
+user.open.enable.paramId=<ENABLE_PARAM_ID>
+user.open.show.paramIds=<PARAM1_ID>,<PARAM2_ID>..<PARAMX_ID>
+----
+
+Where:
+[square]
+* *<PARAM*_ID* - user parameter IDs to be shown, parameter type *file* is not supported 
 
 == Коды объектов
 Числовые коды объекты, они же *идентификаторы*, необходимы для однозначного определения различных объектов данных в системе. 

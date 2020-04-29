@@ -27,13 +27,13 @@ public class LoginAction extends BaseAction {
         form.getHttpRequest().setAttribute("l", Localization.getLocalizer());
 
         // вывод страницы авторизации если responseType=html
-        return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
+        return data(conSet, mapping, form, FORWARD_DEFAULT);
     }
     
     public ActionForward logout(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
             throws Exception {
         form.getHttpRequest().getSession(true).invalidate();
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
     
 }

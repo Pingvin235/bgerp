@@ -118,7 +118,7 @@ public class DirectoryAddressAction extends BaseAction {
             addressDAO.searchAddressCountryList(searchResult, CommonDAO.getLikePattern(addressCountryTitle, "subs"));
         }
 
-        return processUserTypedForward(con, mapping, form, FORWARD_DEFAULT);
+        return data(con, mapping, form, FORWARD_DEFAULT);
     }
 
     public ActionForward addressGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -204,7 +204,7 @@ public class DirectoryAddressAction extends BaseAction {
             form.getResponse().setData("country", addressCountry);
         }
 
-        return processUserTypedForward(con, mapping, form, FORWARD_DEFAULT);
+        return data(con, mapping, form, FORWARD_DEFAULT);
     }
 
     private boolean getAddressItem(DynActionForm form, Connection con) throws Exception {
@@ -352,7 +352,7 @@ public class DirectoryAddressAction extends BaseAction {
             addressDAO.updateAddressCountry(addressCountry);
         }
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     private boolean checkUpdatePermissions(boolean restrictUpdateMainParameters, AddressHouse newAddressHouse, AddressHouse oldAddressHouse) {
@@ -436,7 +436,7 @@ public class DirectoryAddressAction extends BaseAction {
             addressDAO.deleteAddressCountry(addressCountryId);
         }
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     private boolean deleteAddressItem(DynActionForm form, Connection con) throws Exception {
@@ -517,7 +517,7 @@ public class DirectoryAddressAction extends BaseAction {
         SearchResult<AddressItem> searchResult = new SearchResult<AddressItem>(form);
         addressDAO.searchAddressStreetList(searchResult, cityIds, CommonDAO.getLikePattern(title, "subs"), true, true);
 
-        return processUserTypedForward(con, mapping, form, "???");
+        return data(con, mapping, form, "???");
     }
 
     public ActionForward houseSearch(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -529,6 +529,6 @@ public class DirectoryAddressAction extends BaseAction {
         SearchResult<AddressHouse> searchResult = new SearchResult<AddressHouse>(form);
         addressDAO.searchAddressHouseList(searchResult, streetId, house);
 
-        return processUserTypedForward(con, mapping, form, "???");
+        return data(con, mapping, form, "???");
     }
 }

@@ -61,7 +61,7 @@ public class ProcessQueueAction extends ProcessAction {
     public ActionForward queue(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         form.getResponse().setData("list", ProcessQueueCache.getUserQueueList(form.getUser()));
 
-        return processUserTypedForward(conSet, mapping, form, "queue");
+        return data(conSet, mapping, form, "queue");
     }
     
     // возвращает дерево типов для создания процесса
@@ -72,7 +72,7 @@ public class ProcessQueueAction extends ProcessAction {
 
         // очередь не разрешена пользователю
         if (queue == null)
-            return processUserTypedForward(con, mapping, form, "processTypeTree");
+            return data(con, mapping, form, "processTypeTree");
 
         List<ProcessType> typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
 
@@ -88,7 +88,7 @@ public class ProcessQueueAction extends ProcessAction {
 
         form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().clone(typeSet, onlyPermittedTypes));
 
-        return processUserTypedForward(con, mapping, form, "processTypeTree");
+        return data(con, mapping, form, "processTypeTree");
     }
     
     public ActionForward processCustomClassInvoke(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -103,11 +103,11 @@ public class ProcessQueueAction extends ProcessAction {
             if (event.isStreamResponse()) {
                 return null;
             } else {
-                return processJsonForward(conSet, form);
+                return status(conSet, form);
             }
         }
 
-        return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
+        return data(conSet, mapping, form, FORWARD_DEFAULT);
     }
 
     public ActionForward queueSavedFilterSet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -208,7 +208,7 @@ public class ProcessQueueAction extends ProcessAction {
 
         new UserDAO(con).updatePersonalization(persConfigBefore, form.getUser());
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     public ActionForward queueSavedPanelSet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -236,7 +236,7 @@ public class ProcessQueueAction extends ProcessAction {
         config.updateConfig(personalizationMap);
         new UserDAO(con).updatePersonalization(persConfigBefore, form.getUser());
 
-        return processJsonForward(con, form);
+        return status(con, form);
 
     }
 
@@ -278,7 +278,7 @@ public class ProcessQueueAction extends ProcessAction {
             new UserDAO(con).updatePersonalization(persConfigBefore, user);
         }
 
-        return processUserTypedForward(con, mapping, form, "queueFilter");
+        return data(con, mapping, form, "queueFilter");
     }
 
     public ActionForward queueShow(ActionMapping mapping, DynActionForm form, ConnectionSet connectionSet) throws Exception {
@@ -332,7 +332,7 @@ public class ProcessQueueAction extends ProcessAction {
             throw new BGMessageException("Очередь процессов с ID=" + form.getId() + " не найдена!");
         }
 
-        return processUserTypedForward(connectionSet, mapping, form);
+        return data(connectionSet, mapping, form);
     }
 
     private void saveFormFilters(int queueId, DynActionForm form, Preferences personalizationMap) {

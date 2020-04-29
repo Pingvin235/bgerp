@@ -1,5 +1,6 @@
-<%@ page contentType="text/plain; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-else if ((m = href.match(/dispatch/)) != null)
-	url = "/open/plugin/dispatch/dispatch.do?action=dispatchList";
+<c:if test="${uri.startsWith('/open/dispatch')}">
+	<c:import url = "/open/plugin/dispatch/dispatch.do?action=dispatchList"/>
+</c:if>

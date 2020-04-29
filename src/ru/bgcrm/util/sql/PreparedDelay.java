@@ -1,5 +1,6 @@
 package ru.bgcrm.util.sql;
 
+import java.io.Closeable;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,157 +13,165 @@ import java.util.List;
 
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
+import ru.bgerp.util.Log;
 
 /**
- * Класс предназначен для построения всяческих динамических запросов, с использованием при этом PreparedStatements.
- * В этом случае подстановка параметров идёт сразу с выстраиванием запроса.
+ * Dynamically building of PreparedStatements with 
+ * setting params without position index.
  */
-public class PreparedDelay {
-	private Connection con;
-	private StringBuilder query;
+public class PreparedDelay implements Closeable {
+    private static final Log log = Log.getLog();
 
-	private List<Object> psSets = new ArrayList<>();
-	private PreparedStatement ps;
+    private Connection con;
+    private StringBuilder query;
 
-	private int pos;
+    private List<Object> psSets = new ArrayList<>();
+    private PreparedStatement ps;
 
-	public PreparedDelay(Connection con) {
-		this.con = con;
-	}
-	
-	public PreparedDelay(Connection con, String query) {
-		this.con = con;
-		addQuery(query);
-	}
+    private int pos;
 
-	public int getPos() {
-		return pos;
-	}
+    public PreparedDelay(Connection con) {
+        this.con = con;
+    }
+    
+    public PreparedDelay(Connection con, String query) {
+        this.con = con;
+        addQuery(query);
+    }
 
-	public PreparedStatement getPrepared() {
-		return ps;
-	}
+    public int getPos() {
+        return pos;
+    }
 
-	public StringBuilder getQuery() {
-		return query;
-	}
+    public PreparedStatement getPrepared() {
+        return ps;
+    }
 
-	/**
-	 * Добавляет часть запроса.
-	 * @param value
-	 */
-	public void addQuery(String value) {
-		if (Utils.isBlankString(value)) {
-			return;
-		}
+    public StringBuilder getQuery() {
+        return query;
+    }
 
-		if (query == null) {
-			query = new StringBuilder();
-		}
-		query.append(value);
-	}
-	
-	/**
-	 * Заменяет запрос, сбрасывает в null prepared statement.
-	 * @param value
-	 */
-	public void setQuery(String value) {
-	    query.setLength(0);
-	    query.append(value);
-	    
-	}
+    /**
+     * Добавляет часть запроса.
+     * @param value
+     */
+    public void addQuery(String value) {
+        if (Utils.isBlankString(value)) {
+            return;
+        }
 
-	/**
-	 * Добавить целочисленный параметр запроса.
-	 * @param value
-	 */
-	public void addInt(int value) {
-		psSets.add(value);
-	}
+        if (query == null) {
+            query = new StringBuilder();
+        }
+        query.append(value);
+    }
+    
+    /**
+     * Заменяет запрос, сбрасывает в null prepared statement.
+     * @param value
+     */
+    public void setQuery(String value) {
+        query.setLength(0);
+        query.append(value);
+        
+    }
 
-	/** Добавить long параметр запроса.
-	 * @param value
-	 */
-	public void addLong(long value) {
-		psSets.add(value);
-	}
+    /**
+     * Добавить целочисленный параметр запроса.
+     * @param value
+     */
+    public void addInt(int value) {
+        psSets.add(value);
+    }
 
-	/** Добавить Decimal параметр запроса.
-	 * @param value
-	 */
-	public void addBigDecimal(BigDecimal value) {
-		psSets.add(value);
-	}
+    /** Добавить long параметр запроса.
+     * @param value
+     */
+    public void addLong(long value) {
+        psSets.add(value);
+    }
 
-	/**
-	 * Добавить строковый параметр запроса.
-	 * @param value
-	 */
-	public void addString(String value) {
-		psSets.add(value);
-	}
+    /** Добавить Decimal параметр запроса.
+     * @param value
+     */
+    public void addBigDecimal(BigDecimal value) {
+        psSets.add(value);
+    }
 
-	/**
-	 * Добавить параметр запроса типа Дата
-	 * @param value
-	 */
-	public void addDate(Date value) {
-		psSets.add(TimeUtils.convertDateToSqlDate(value));
-	}
+    /**
+     * Добавить строковый параметр запроса.
+     * @param value
+     */
+    public void addString(String value) {
+        psSets.add(value);
+    }
 
-	/**
-	 * Добавляет параметр типа Timestamp.
-	 * @param value
-	 */
-	public void addTimestamp(Timestamp value) {
-		psSets.add(value);
-	}
+    /**
+     * Добавить параметр запроса типа Дата
+     * @param value
+     */
+    public void addDate(Date value) {
+        psSets.add(TimeUtils.convertDateToSqlDate(value));
+    }
 
-	/**
-	 * Добавляет параметр типа Boolean.
-	 * @param value
-	 */
-	public void addBoolean(Boolean value) {
-		psSets.add(value);
-	}
-	
-	/**
-	 * Добавляет произвольный набор параметров.
-	 * @param values
-	 */
-	public void addObjects(Object... values) {
-	    for (Object value : values)
-	        psSets.add(value);
-	}
-	
-	public ResultSet executeQuery() throws SQLException {
-		prepareStatementAndSetParameters();
-		return ps.executeQuery();
-	}
+    /**
+     * Добавляет параметр типа Timestamp.
+     * @param value
+     */
+    public void addTimestamp(Timestamp value) {
+        psSets.add(value);
+    }
 
-	public int executeUpdate() throws SQLException {
-		prepareStatementAndSetParameters();
-		return ps.executeUpdate();
-	}
+    /**
+     * Добавляет параметр типа Boolean.
+     * @param value
+     */
+    public void addBoolean(Boolean value) {
+        psSets.add(value);
+    }
+    
+    /**
+     * Добавляет произвольный набор параметров.
+     * @param values
+     */
+    public void addObjects(Object... values) {
+        for (Object value : values)
+            psSets.add(value);
+    }
+    
+    public ResultSet executeQuery() throws SQLException {
+        prepareStatementAndSetParameters();
+        return ps.executeQuery();
+    }
 
-	private void prepareStatementAndSetParameters() throws SQLException {
-		if (ps == null) {
-			ps = con.prepareStatement(query.toString());
-		}
-		setParameters();
-	}
+    public int executeUpdate() throws SQLException {
+        prepareStatementAndSetParameters();
+        return ps.executeUpdate();
+    }
 
-	protected void setParameters() throws SQLException {
-		final int size = psSets.size();
-		for (int i = 0; i < size; i++) {
-			ps.setObject(i + 1, psSets.get(i));
-		}
-	}
+    private void prepareStatementAndSetParameters() throws SQLException {
+        if (ps == null) {
+            ps = con.prepareStatement(query.toString());
+        }
+        setParameters();
+    }
 
-	public void close() throws SQLException {
-		if (ps != null)
-		    ps.close();
-		ps = null;
-		psSets.clear();
-	}
+    protected void setParameters() throws SQLException {
+        final int size = psSets.size();
+        for (int i = 0; i < size; i++) {
+            ps.setObject(i + 1, psSets.get(i));
+        }
+    }
+
+    @Override
+    public void close() {
+        try {
+            if (ps != null)
+                ps.close();
+            ps = null;
+            psSets.clear();
+        } catch (Exception e) {
+            log.error(e);
+        }
+    }
 }

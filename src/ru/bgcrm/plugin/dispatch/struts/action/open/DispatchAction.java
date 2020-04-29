@@ -24,7 +24,7 @@ public class DispatchAction extends BaseAction {
     
     public ActionForward dispatchList(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
         new DispatchDAO(con).searchDispatch(new SearchResult<Dispatch>(form));
-        return processUserTypedForward(con, mapping, form, "list");
+        return data(con, mapping, form, "list");
     }
     
     public ActionForward subscribe(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -44,7 +44,7 @@ public class DispatchAction extends BaseAction {
         Session session = config.getMailConfig().getSmtpSession(Setup.getSetup());
         CommandProcessor.sendDispatchStateList(con, config, session, email);
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
 }

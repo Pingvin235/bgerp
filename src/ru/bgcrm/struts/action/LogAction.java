@@ -18,7 +18,7 @@ public class LogAction extends BaseAction {
 		form.setResponseData("state", SessionLogAppender.isSessionTracked(session));
 		form.setResponseData("log", SessionLogAppender.getSessionLog(session));
 
-		return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
+		return data(conSet, mapping, form, FORWARD_DEFAULT);
 	}
 	
 	public ActionForward log(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -44,6 +44,6 @@ public class LogAction extends BaseAction {
 		else
 			SessionLogAppender.untrackSession(session);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 }

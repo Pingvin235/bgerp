@@ -28,7 +28,7 @@ public class BoardAction extends BaseAction {
     public ActionForward board(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         BoardsConfig boardsConf = setup.getConfig(BoardsConfig.class);
         form.setResponseData("boardsConf", boardsConf);
-        return processUserTypedForward(conSet, mapping, form, "board");
+        return data(conSet, mapping, form, "board");
     }
         
     public ActionForward show(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -49,7 +49,7 @@ public class BoardAction extends BaseAction {
             updatePersonalization(form, con, persMap -> persMap.put("blowBoardLastSelected", String.valueOf(form.getId())));
         }
      
-        return processUserTypedForward(con, mapping, form, "show");
+        return data(con, mapping, form, "show");
     }
     
     public ActionForward move(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -70,7 +70,7 @@ public class BoardAction extends BaseAction {
                 throw new BGMessageException(l.l("Циклическая зависимость"));
         }
         
-        return processJsonForward(con, form);
+        return status(con, form);
     }
     
 }

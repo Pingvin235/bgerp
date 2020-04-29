@@ -197,10 +197,14 @@ $$.blow = new function() {
 
 	const toggleFilterHighlight = ($table, $button) => {
 		const $cells = $table.find("td.filter-" + $button.attr(ATTR_BG_ID));
-		if ($button.toggleClass(CLASS_SELECTED_FILTER).hasClass(CLASS_SELECTED_FILTER))
+		if ($button.toggleClass(CLASS_SELECTED_FILTER).hasClass(CLASS_SELECTED_FILTER)) {
 			$cells.css("background-color", $button.css("color"));
+			if ($cells.length > 0)
+				$cells[0].scrollIntoView();
+		}
 		else
 			$cells.css("background-color", "");
+		
 	};
 
 	const move = ($td, $tdTo) => {

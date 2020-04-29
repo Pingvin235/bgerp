@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
-	<!-- 
-	<p><ru></ru><en></en></p>
-	-->
 	<p><ru>Перенесено из процесса #%s</ru><en>Moved from process #%s</en></p>
 	<p><ru>Свойства</ru><en>Properties</en></p>
 	<p><ru>Сохранить свойства</ru><en>Save properties</en></p>
@@ -87,4 +84,14 @@
 	<p><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
 	<p><ru>При попытке аутентификации произошла ошибка:</ru><en>Authentication error:</en></p>
 	<p><ru>Войти</ru><en>Login</en></p>
+	<p><ru>Открытый интерфейс</ru><en>Open interface</en></p>
+	<p><ru>Наименование</ru><en>Title</en></p>
+	<p><ru>Вырезать</ru><en>Cut</en></p>
+	<p><ru>Вставить</ru><en>Paste</en></p>
+	<p><ru>Отделить</ru><en>Split</en></p>
+	<p><ru>Слить</ru><en>Merge</en></p>
+	<p><ru>Сообщение об ошибке:</ru><en>Error:</en></p>
+	<!--
+	<p><ru></ru><en></en></p>
+	-->
 </data>

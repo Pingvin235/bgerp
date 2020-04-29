@@ -16,7 +16,7 @@ public class DynamicAction extends BaseAction {
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
             throws Exception {
-        return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
+        return data(conSet, mapping, form, FORWARD_DEFAULT);
     }
 
     // перекомпиляция всех файлов
@@ -28,7 +28,7 @@ public class DynamicAction extends BaseAction {
 
         form.getResponse().setData("result", result);
 
-        return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
+        return data(conSet, mapping, form, FORWARD_DEFAULT);
     }
 
     public ActionForward runDynamicClass(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -59,6 +59,6 @@ public class DynamicAction extends BaseAction {
             }
         }
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 }

@@ -86,7 +86,7 @@ public class GroupLoadAction extends BaseAction {
         form.setResponseData("configProcessTypeIds", config.getProcessTypeIds());
         form.setResponseData("configUserGroupIds", config.getUserGroupIds());
 
-        return processUserTypedForward(con, mapping, form, "show");
+        return data(con, mapping, form, "show");
     }
 
     /**

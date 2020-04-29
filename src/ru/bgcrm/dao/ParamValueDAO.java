@@ -2384,6 +2384,37 @@ public class ParamValueDAO extends CommonDAO {
             throw new BGException(e);
         }
     }
+
+    /**
+     * Searches object IDs by list parameter value.
+     * @param parameterId
+     * @param value
+     * @return
+     * @throws Exception
+     */
+    public Set<Integer> searchObjectByParameterList(int parameterId, int value) throws Exception {
+        Set<Integer> result = new HashSet<>();
+
+        try (var pd = new PreparedDelay(con)) {
+            pd.addQuery(SQL_SELECT);
+            pd.addQuery("list.id AS object_id");
+            pd.addQuery(SQL_FROM);
+            pd.addQuery(TABLE_PARAM_LIST);
+            pd.addQuery(" AS list ");
+            pd.addQuery(SQL_WHERE);
+            pd.addQuery("list.param_id=? AND list.value=?");
+
+            pd.addInt(parameterId);
+            pd.addInt(value);
+
+            try (var rs = pd.executeQuery()) {
+                while (rs.next())
+                    result.add(rs.getInt(1));
+            }
+        }
+
+        return result;
+    }
     
     public static ParameterPhoneValueItem getParamPhoneValueItemFromRs(ResultSet rs) throws SQLException { 
         ParameterPhoneValueItem item = new ParameterPhoneValueItem();

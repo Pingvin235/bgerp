@@ -212,7 +212,7 @@ $$.shell = new function () {
 				bgcolor = "#E6F7C0";
 			}
 			// профиль пользователя
-			else if ((m = href.match(/.*userProfile#(\d+)/)) != null) {
+			else if ((m = href.match(/.*profile#(\d+)/)) != null) {
 				url = "/user/profile.do?action=getUserProfile&userId=" + m[1];
 				bgcolor = "#C3A8D5";
 			}

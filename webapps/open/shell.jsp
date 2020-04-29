@@ -3,29 +3,21 @@
 
 <html>
 <head>
-	<title><%@ include file="/WEB-INF/jspf/version.jsp"%> : Открытый интерфейс</title>
+	<title><%@ include file="/WEB-INF/jspf/version.jsp"%> : ${l.l('Открытый интерфейс')}</title>
+	<%-- TODO: All the scripts are not needed here. --%>
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
 </head>
 
 <body>
-<%@ include file="/WEB-INF/jspf/error_dialog.jsp"%>
+	<div id="title" class="mt1"><div class="status"><h1 class="title"></h1></div></div>
+	<div id="content">
+		<%-- shortcut for param --%>
+		<c:set var="uri" scope="request"><%=request.getAttribute(org.bgerp.servlet.filter.OpenFilter.REQUEST_ATTRIBUTE_URI)%></c:set>
 
-<div id="main">
-<script>
-$(function () {
-	const href = window.location.href;
+		<%@ include file="/WEB-INF/jspf/open/profile/url.jsp"%>
 
-	let url = null; 
-	let m = null;
-		
-	if (false) {}
-	
-	<c:set var="endpoint" value="open.jsp"/>
-	<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
-
-	if (url) $$.ajax.load(url, $("#main"), {replace: true});
-})
-</script>
-</div>
+		<c:set var="endpoint" value="open.jsp"/>
+		<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+	</div>
 </body>
 </html>

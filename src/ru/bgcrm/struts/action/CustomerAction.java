@@ -56,7 +56,7 @@ public class CustomerAction extends BaseAction {
 
         form.getResponse().setData("customer", customer);
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public ActionForward customerGet(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -77,7 +77,7 @@ public class CustomerAction extends BaseAction {
             request.setAttribute("parameterGroupList", groupDAO.getParameterGroupList(Customer.OBJECT_TYPE));
         }
 
-        return processUserTypedForward(conSet, mapping, form, "edit");
+        return data(conSet, mapping, form, "edit");
     }
 
     public ActionForward customerUpdate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -106,7 +106,7 @@ public class CustomerAction extends BaseAction {
         CustomerChangedEvent updateEvent = new CustomerChangedEvent(form, form.getId());
         EventProcessor.processEvent(updateEvent, conSet);
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public ActionForward customerDelete(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
@@ -120,7 +120,7 @@ public class CustomerAction extends BaseAction {
         CustomerRemovedEvent deleteEvent = new CustomerRemovedEvent(form, form.getId());
         EventProcessor.processEvent(deleteEvent, new SingleConnectionConnectionSet(con));
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public ActionForward customer(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -132,7 +132,7 @@ public class CustomerAction extends BaseAction {
             form.getResponse().setData("customer", customer);
         }
 
-        return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
+        return data(conSet, mapping, form, FORWARD_DEFAULT);
     }
 
     public ActionForward customerTitleList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -140,7 +140,7 @@ public class CustomerAction extends BaseAction {
                 CommonDAO.getLikePattern(form.getParam("title"), form.getParam("mode", "subs")), setup.getInt("customer.search.by.title.count", 10));
         form.getResponse().setData("list", titles);
 
-        return processUserTypedForward(conSet, mapping, form, FORWARD_DEFAULT);
+        return data(conSet, mapping, form, FORWARD_DEFAULT);
     }
 
     public ActionForward customerMerge(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -276,7 +276,7 @@ public class CustomerAction extends BaseAction {
         customerDAO.deleteCustomer(mergingCustomerId);
         new CustomerLinkDAO(con).deleteObjectLinks(mergingCustomerId);
 
-        return processJsonForward(con, form);
+        return status(con, form);
     }
 
     protected void formatCustomerTitle(Customer customer, CustomerDAO customerDAO, ParamValueDAO paramDAO, Connection con) throws Exception {

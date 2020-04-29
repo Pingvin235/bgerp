@@ -1,36 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
-    version="2.0">
-    <description>BGERP permission library</description>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<description>BGERP permission library</description>
 	<display-name>BGERP permission</display-name>
 	<tlib-version>1.1</tlib-version>
 	<short-name>permission</short-name>
-	<uri>http://bgrcrm.ru/jsp/taglib/permission</uri>
+	<uri>http://bgerp.org/jsp/taglib/permission</uri>
 	
 	<tag>
-   		<description>Проверяет привилегии пользователя.</description>
-   		<name>check</name>
-   		<tag-class>ru.bgcrm.servlet.jsp.PermissionTag</tag-class>
-   		<body-content>JSP</body-content>
-   		<attribute>
-    		<description>Имя action'a, для которого необходимо произвести проверку привилегий для данного пользователя.</description>
-       		<name>action</name>
-       		<required>true</required>
-       		<rtexprvalue>true</rtexprvalue>
-   		</attribute>
+		<description>Проверяет привилегии пользователя.</description>
+		<name>check</name>
+		<tag-class>ru.bgcrm.servlet.jsp.PermissionTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>Имя action'a, для которого необходимо произвести проверку привилегий для данного пользователя.</description>
+			<name>action</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
  	</tag>
 	<function>
-        <name>get</name>
-        <function-class>ru.bgcrm.cache.UserCache</function-class>
-        <function-signature>ru.bgcrm.util.ParameterMap getPerm(int, java.lang.String)</function-signature>
+		<name>get</name>
+		<function-class>ru.bgcrm.cache.UserCache</function-class>
+		<function-signature>ru.bgcrm.util.ParameterMap getPerm(int, java.lang.String)</function-signature>
 	</function>
-	<!-- 
-	<function>
-		<name>getConfig</name>
-		<function-class>ru.bgcrm.servlet.jsp.PermissionTag</function-class>
-		<function-signature>java.lang.String getConfig(java.lang.String)</function-signature>
-	</function>
-	 -->
 </taglib>

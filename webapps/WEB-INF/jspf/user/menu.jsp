@@ -9,10 +9,6 @@
 	</jsp:attribute>
 </ui:menu-group>
 
-<ui:menu-item title="Профиль" href="profile"
-	action="ru.bgcrm.struts.action.SearchAction"
-	command="profile.do?action=getUserProfile" hidden="1" />
-
 <ui:menu-item title="Мои процессы" href="userProcesses"
 	action="ru.bgcrm.struts.action.ProcessAction"
 	command="/user/process.do?action=userProcessList" hidden="1" />

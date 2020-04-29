@@ -31,11 +31,11 @@ public class ReportAction extends BaseAction {
             dao.get(form);
             form.setForwardFile(dao.getJspFile());
             
-            return processUserTypedForward(conSet, mapping, form);
+            return data(conSet, mapping, form);
         }
         
         form.setForwardFile(report.getJspFile());
-        return processUserTypedForward(conSet, mapping, form);
+        return data(conSet, mapping, form);
     }
 
     @Override

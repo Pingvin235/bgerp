@@ -141,7 +141,7 @@ public class ContractAction extends BaseAction {
             }
 		}
 
-		return processUserTypedForward(conSet, mapping, form, "searchContractResult");
+		return data(conSet, mapping, form, "searchContractResult");
 	}
 	
     private Set<Integer> getParasmIdsSet(DynActionForm form) throws BGException {
@@ -185,7 +185,7 @@ public class ContractAction extends BaseAction {
 		form.getResponse().setData("contractParameterList",
 				filterParameterList(parameterListWithDir.getSecond(), requiredParameterIds));
 
-		return processUserTypedForward(conSet, mapping, form, "contractParameterList");
+		return data(conSet, mapping, form, "contractParameterList");
 	}
 
 	public ActionForward parameterGet(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -256,7 +256,7 @@ public class ContractAction extends BaseAction {
 			}
 		}
 
-		return processUserTypedForward(conSet, mapping, form, "parameterGet");
+		return data(conSet, mapping, form, "parameterGet");
 	}
 
 	public ActionForward parameterUpdate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -371,7 +371,7 @@ public class ContractAction extends BaseAction {
 			}
 		}
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward parameterGroupUpdate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -381,7 +381,7 @@ public class ContractAction extends BaseAction {
 
 		new ContractParamDAO(form.getUser(), billingId).updateParameterGroup(contractId, paramGroupId);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward objectLinkList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -392,7 +392,7 @@ public class ContractAction extends BaseAction {
 
 		form.getResponse().setData("links", baseLinks);
 
-		return processUserTypedForward(conSet, mapping, form, "objectLinkList");
+		return data(conSet, mapping, form, "objectLinkList");
 	}
 
 	public ActionForward additionalActionList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -403,7 +403,7 @@ public class ContractAction extends BaseAction {
 
 		form.getResponse().setData("additionalActionList", crmDAO.additionalActionList(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "additionalActionList");
+		return data(conSet, mapping, form, "additionalActionList");
 	}
 
 	public ActionForward executeAdditionalAction(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -416,7 +416,7 @@ public class ContractAction extends BaseAction {
 		form.getResponse().setData("executeResult", crmDAO.executeAdditionalAction(contractId, actionId));
 		form.getResponse().setData("additionalActionList", crmDAO.additionalActionList(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "additionalActionList");
+		return data(conSet, mapping, form, "additionalActionList");
 	}
 
 	public ActionForward groupList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -428,7 +428,7 @@ public class ContractAction extends BaseAction {
 		form.getResponse().setData("groupList", groupsGet.getFirst());
 		form.getResponse().setData("selectedGroupIds", groupsGet.getSecond());
 
-		return processUserTypedForward(conSet, mapping, form, "groupList");
+		return data(conSet, mapping, form, "groupList");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -448,7 +448,7 @@ public class ContractAction extends BaseAction {
 			contractDao.updateGroup("add", contractId, addGroup);
 		}
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward memoList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -458,7 +458,7 @@ public class ContractAction extends BaseAction {
 		ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
 		form.getResponse().setData("memoList", contractDAO.getMemoList(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "memoList");
+		return data(conSet, mapping, form, "memoList");
 	}
 
 	public ActionForward getMemo(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -470,7 +470,7 @@ public class ContractAction extends BaseAction {
 					new ContractDAO(form.getUser(), billingId).getMemo(contractId, form.getId()));
 		}
 
-		return processUserTypedForward(conSet, mapping, form, "memoEditor");
+		return data(conSet, mapping, form, "memoEditor");
 	}
 
 	public ActionForward updateMemo(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -483,7 +483,7 @@ public class ContractAction extends BaseAction {
 		ContractDAO crmDAO = new ContractDAO(form.getUser(), billingId);
 		crmDAO.updateMemo(contractId, memoId, memoTitle, memoText);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward deleteMemo(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -498,7 +498,7 @@ public class ContractAction extends BaseAction {
 		ContractDAO crmDAO = new ContractDAO(form.getUser(), billingId);
 		crmDAO.deleteMemo(contractId, memoId);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward contractObjectList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -508,7 +508,7 @@ public class ContractAction extends BaseAction {
 		ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
 		form.getResponse().setData("objectList", contractObjectDAO.getContractObjects(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "contractObjectList");
+		return data(conSet, mapping, form, "contractObjectList");
 	}
 
 	public ActionForward getContractObject(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -518,7 +518,7 @@ public class ContractAction extends BaseAction {
 		ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
 		form.getResponse().setData("object", contractObjectDAO.getContractObject(objectId));
 
-		return processUserTypedForward(conSet, mapping, form, "contractObjectEditor");
+		return data(conSet, mapping, form, "contractObjectEditor");
 	}
 
 	public ActionForward deleteContractObject(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -529,7 +529,7 @@ public class ContractAction extends BaseAction {
 		ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
 		contractObjectDAO.deleteContractObject(contractId, objectId);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward updateContractObject(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -543,7 +543,7 @@ public class ContractAction extends BaseAction {
 		ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
 		contractObjectDAO.updateContractObject(objectId, title, dateFrom, dateTo, typeId, 0);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward contractObjectParameterList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -553,7 +553,7 @@ public class ContractAction extends BaseAction {
 		ContractObjectParamDAO paramDAO = new ContractObjectParamDAO(form.getUser(), billingId);
 		form.getResponse().setData("parameterList", paramDAO.getParameterList(objectId));
 
-		return processUserTypedForward(conSet, mapping, form, "contractObjectParameterList");
+		return data(conSet, mapping, form, "contractObjectParameterList");
 	}
 
 	public ActionForward getObjectParameter(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -606,7 +606,7 @@ public class ContractAction extends BaseAction {
 			}
 		}
 
-		return processUserTypedForward(conSet, mapping, form, "getObjectParameter");
+		return data(conSet, mapping, form, "getObjectParameter");
 	}
 
 	public ActionForward updateObjectParameter(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -650,7 +650,7 @@ public class ContractAction extends BaseAction {
 				break;
 		}
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward contractObjectModuleInfo(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -660,7 +660,7 @@ public class ContractAction extends BaseAction {
 		CrmDAO crmDAO = new CrmDAO(form.getUser(), billingId);
 		form.getResponse().setData("moduleInfo", crmDAO.contractObjectModuleList(objectId));
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward contractObjectModuleSummaryTable(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -670,7 +670,7 @@ public class ContractAction extends BaseAction {
 		CrmDAO crmDAO = new CrmDAO(form.getUser(), billingId);
 		form.getResponse().setData("moduleInfo", crmDAO.contractObjectModuleList(objectId));
 
-		return processUserTypedForward(conSet, mapping, form, "contractObjectModuleSummaryTable");
+		return data(conSet, mapping, form, "contractObjectModuleSummaryTable");
 	}
 
 	public ActionForward contractSubcontractList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -681,7 +681,7 @@ public class ContractAction extends BaseAction {
 		form.getResponse().setData("subContractList", crmDAO.contractSubcontractList(contractId));
 		form.getResponse().setData("superContract", crmDAO.contractSupercontract(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "contractSubcontractList");
+		return data(conSet, mapping, form, "contractSubcontractList");
 	}
 
 	public ActionForward scriptList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -693,7 +693,7 @@ public class ContractAction extends BaseAction {
 
 		form.getHttpRequest().setAttribute("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "scriptList");
+		return data(conSet, mapping, form, "scriptList");
 	}
 
 	public ActionForward getScript(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -704,7 +704,7 @@ public class ContractAction extends BaseAction {
 		form.getResponse().setData("script", crmDAO.getContractScript(scriptId));
 		form.getResponse().setData("scriptTypeList", new DirectoryDAO(form.getUser(), billingId).scriptTypeList());
 
-		return processUserTypedForward(conSet, mapping, form, "scriptEditor");
+		return data(conSet, mapping, form, "scriptEditor");
 	}
 
 	public ActionForward scriptLog(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -719,7 +719,7 @@ public class ContractAction extends BaseAction {
 		ContractScriptDAO crmDAO = new ContractScriptDAO(form.getUser(), billingId);
 		crmDAO.contractScriptLogList(result, contractId, dateFrom, dateTo);
 
-		return processUserTypedForward(conSet, mapping, form, "scriptLog");
+		return data(conSet, mapping, form, "scriptLog");
 	}
 
 	public ActionForward deleteScript(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -729,7 +729,7 @@ public class ContractAction extends BaseAction {
 		ContractScriptDAO crmDAO = new ContractScriptDAO(form.getUser(), billingId);
 		crmDAO.deleteContractScript(scriptId);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward updateScript(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -744,7 +744,7 @@ public class ContractAction extends BaseAction {
 		ContractScriptDAO crmDAO = new ContractScriptDAO(form.getUser(), billingId);
 		crmDAO.updateContractScript(contractId, scriptId, scriptTypeId, comment, dateFrom, dateTo);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward faceLog(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -756,7 +756,7 @@ public class ContractAction extends BaseAction {
 
 		form.getResponse().setData("contractInfo", contractDao.getContractInfo(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "faceLog");
+		return data(conSet, mapping, form, "faceLog");
 	}
 
 	public ActionForward updateFace(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -765,7 +765,7 @@ public class ContractAction extends BaseAction {
 
 		new ContractDAO(form.getUser(), billingId).updateFace(contractId, form.getParamInt("value"));
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward modeLog(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -777,7 +777,7 @@ public class ContractAction extends BaseAction {
 
 		form.getResponse().setData("contractInfo", contractDao.getContractInfo(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "modeLog");
+		return data(conSet, mapping, form, "modeLog");
 	}
 
 	public ActionForward updateMode(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -786,7 +786,7 @@ public class ContractAction extends BaseAction {
 
 		new ContractDAO(form.getUser(), billingId).updateMode(contractId, form.getParamInt("value"));
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward moduleList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -797,7 +797,7 @@ public class ContractAction extends BaseAction {
 		form.getResponse().setData("selectedList", pair.getFirst());
 		form.getResponse().setData("availableList", pair.getSecond());
 
-		return processUserTypedForward(conSet, mapping, form, "moduleList");
+		return data(conSet, mapping, form, "moduleList");
 	}
 
 	public ActionForward updateModules(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -813,7 +813,7 @@ public class ContractAction extends BaseAction {
 			}
 		}
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward status(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -828,7 +828,7 @@ public class ContractAction extends BaseAction {
 
 		form.getHttpRequest().setAttribute("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "status");
+		return data(conSet, mapping, form, "status");
 	}
 
 	public ActionForward updateStatus(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -838,7 +838,7 @@ public class ContractAction extends BaseAction {
 		new ContractStatusDAO(form.getUser(), billingId).updateStatus(contractId, form.getParamInt("statusId"),
 				form.getParamDate("dateFrom"), form.getParamDate("dateTo"), form.getParam("comment"));
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward limit(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -853,7 +853,7 @@ public class ContractAction extends BaseAction {
 		form.getResponse().setData("limit", limit);
 		form.getResponse().setData("taskList", taskList);
 
-		return processUserTypedForward(conSet, mapping, form, "limit");
+		return data(conSet, mapping, form, "limit");
 	}
 
 	public ActionForward updateLimit(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -864,7 +864,7 @@ public class ContractAction extends BaseAction {
 				Utils.parseBigDecimal(form.getParam("value")), form.getParamInt("period"),
 				form.getParam("comment", ""));
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward deleteLimitTask(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -873,7 +873,7 @@ public class ContractAction extends BaseAction {
 
 		new ContractDAO(form.getUser(), billingId).deleteLimitTask(contractId, form.getId());
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward contractCards(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -884,7 +884,7 @@ public class ContractAction extends BaseAction {
 		form.getResponse().setData("cardTypeList", contractDao.getContractCardTypes(contractId));
 		form.getResponse().setData("fullCard", contractDao.getContractFullCard(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "cards");
+		return data(conSet, mapping, form, "cards");
 	}
 
 	public ActionForward getContractCard(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -911,7 +911,7 @@ public class ContractAction extends BaseAction {
 		form.getResponse().setData("list",
 				new ContractServiceDAO(form.getUser(), billingId).getContractServiceList(contractId, moduleId));
 
-		return processUserTypedForward(conSet, mapping, form, "serviceList");
+		return data(conSet, mapping, form, "serviceList");
 	}
 
 	public ActionForward serviceEdit(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -923,7 +923,7 @@ public class ContractAction extends BaseAction {
 				new ContractServiceDAO(form.getUser(), billingId).getContractService(contractId, moduleId, form.getId(),
 						form.getId() > 0 ? false : form.getParamBoolean("onlyUsing", true)));
 
-		return processUserTypedForward(conSet, mapping, form, "serviceEdit");
+		return data(conSet, mapping, form, "serviceEdit");
 	}
 
 	public ActionForward serviceUpdate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -944,7 +944,7 @@ public class ContractAction extends BaseAction {
 			serviceDAO.updateContractService(service);
 		}
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward serviceDelete(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -953,7 +953,7 @@ public class ContractAction extends BaseAction {
 
 		new ContractServiceDAO(form.getUser(), billingId).deleteContractService(contractId, form.getId());
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	// далее сомнительные функции, которые не очень идеологически ложатся в этот
@@ -966,7 +966,7 @@ public class ContractAction extends BaseAction {
 		ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
 		form.getResponse().setData("password", contractDAO.getContractStatisticPassword(contractId));
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward addressList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -977,7 +977,7 @@ public class ContractAction extends BaseAction {
 
 		form.getResponse().setData("contractAddressList", contractDAO.getContractAddress(contractId));
 
-		return processUserTypedForward(conSet, mapping, form, "contractAddressList");
+		return data(conSet, mapping, form, "contractAddressList");
 	}
 
 	public ActionForward bgbillingOpenContract(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -987,7 +987,7 @@ public class ContractAction extends BaseAction {
 		ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
 		contractDAO.bgbillingOpenContract(contractId);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward bgbillingUpdateContractTitleAndComment(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -998,7 +998,7 @@ public class ContractAction extends BaseAction {
 		ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
 		contractDAO.bgbillingUpdateContractTitleAndComment(contractId, comment, 0);
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward bgbillingGetContractPatternList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -1007,7 +1007,7 @@ public class ContractAction extends BaseAction {
 		ContractDAO contractDAO = new ContractDAO(form.getUser(), billingId);
 		form.getResponse().setData("patterns", contractDAO.bgbillingGetContractPatternList());
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward getSubContractList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -1017,7 +1017,7 @@ public class ContractAction extends BaseAction {
 		ContractHierarchyDAO contractDAO = new ContractHierarchyDAO(form.getUser(), billingId);
 		form.getResponse().setData("subContractList", contractDAO.getSubContracts(contractId));
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward openContract(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -1033,7 +1033,7 @@ public class ContractAction extends BaseAction {
 
 		form.getResponse().setData("openContract", new ContractDAO(form.getUser(), billingId).openContract());
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 
 	public ActionForward getStreetsByCity(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -1055,14 +1055,14 @@ public class ContractAction extends BaseAction {
 
 		form.getResponse().setData("streets", new ContractDAO(form.getUser(), billingId).getStreetsByCity(cityId));
 
-		return processJsonForward(conSet, form);
+		return status(conSet, form);
 	}
 	
     public ActionForward getParamList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
         form.getResponse().setData("paramType", form.getParamInt("paramType"));
         List<IdTitle> list = getParamListImpl(form);
         form.getResponse().setData("paramList", list);
-        return processUserTypedForward(conSet, mapping, form, "searchParameterList");
+        return data(conSet, mapping, form, "searchParameterList");
 
     }
 

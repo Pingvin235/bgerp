@@ -29,7 +29,7 @@ public class CustomerAction extends BaseAction {
             form.getResponse().setData("group", group);
         }
 
-        return processUserTypedForward(conSet, mapping, form, "groupUpdate");
+        return data(conSet, mapping, form, "groupUpdate");
     }
 
     public ActionForward groupUpdate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -44,7 +44,7 @@ public class CustomerAction extends BaseAction {
 
         CustomerGroupCache.flush(conSet.getConnection());
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public ActionForward groupDelete(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -53,6 +53,6 @@ public class CustomerAction extends BaseAction {
 
         CustomerGroupCache.flush(conSet.getConnection());
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 }

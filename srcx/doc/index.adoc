@@ -1,10 +1,10 @@
 = BGERP 3.0 CD
 :nofooter:
 
-* <<changes.adoc#, Последние изменения>>
+* <<changes.adoc#, Changes>>
 * Ядро системы
-** <<kernel/install.adoc#, Установка>>
-** <<kernel/interface.adoc#, Интерфейс>>
+** <<kernel/install.adoc#, Setup>>
+** <<kernel/interface.adoc#, Interface>>
 ** <<kernel/setup.adoc#, Настройка>>
 ** <<kernel/search.adoc#, Поиск>>
 ** <<kernel/news.adoc#, Новости>>

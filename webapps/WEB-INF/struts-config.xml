@@ -3,12 +3,12 @@
 	<form-beans>
 		<form-bean name="form" type="ru.bgcrm.struts.form.DynActionForm" />
 	</form-beans>
-	
+
 	<action-mappings>
 		<action path="/login" parameter="action" type="ru.bgcrm.struts.action.LoginAction" name="form" scope="request">
 			<forward name="default" path="/login.jsp"/>
 		</action>
-		
+
 		<action path="/admin/directory" parameter="action" type="ru.bgcrm.struts.action.admin.DirectoryAction" name="form" scope="request">
 			<forward name="default" path="/WEB-INF/jspf/admin/directory/directory.jsp" />
 			<forward name="patternList" path="/WEB-INF/jspf/admin/directory/pattern/list.jsp" />
@@ -19,12 +19,12 @@
 			<forward name="parameterGroupUpdate" path="/WEB-INF/jspf/admin/directory/parameter/group/update.jsp" />
 			<forward name="parameterUseProcess" path="/WEB-INF/jspf/admin/process/use_process.jsp" />
 		</action>
-		
+
 		<action path="/admin/customer" parameter="action" type="ru.bgcrm.struts.action.admin.CustomerAction" name="form" scope="request">
 			<forward name="groupList" path="/WEB-INF/jspf/admin/customer/group/list.jsp" />
 			<forward name="groupUpdate" path="/WEB-INF/jspf/admin/customer/group/update.jsp" />
 		</action>
-		 
+
 		<action path="/admin/process" parameter="action" type="ru.bgcrm.struts.action.admin.ProcessAction" name="form" scope="request">
 		 	<forward name="queueList" path="/WEB-INF/jspf/admin/process/queue/list.jsp" />
 		 	<forward name="queueUpdate" path="/WEB-INF/jspf/admin/process/queue/update.jsp" />
@@ -36,7 +36,7 @@
 		 	<forward name="typeUsed" path="/WEB-INF/jspf/admin/process/type/type_used.jsp" />
 		 	<forward name="statusUseProcess" path="/WEB-INF/jspf/admin/process/use_process.jsp" />
 		</action>
-		
+
 		<action path="/admin/user" parameter="action" type="ru.bgcrm.struts.action.admin.UserAction" name="form" scope="request">
 			<forward name="permsetUpdate" path="/WEB-INF/jspf/admin/user/permset/update.jsp" />
 			<forward name="permsetList" path="/WEB-INF/jspf/admin/user/permset/list.jsp" />
@@ -46,69 +46,69 @@
 			<forward name="userList" path="/WEB-INF/jspf/admin/user/user/list.jsp" />
 			<forward name="userGroupList" path="/WEB-INF/jspf/admin/user/user/update_usergroup.jsp" />
 		</action>
-		
+
 		<action path="/admin/config" parameter="action" type="ru.bgcrm.struts.action.admin.ConfigAction" name="form" scope="request" >
 			<forward name="list" path="/WEB-INF/jspf/admin/config/list.jsp" />
 			<forward name="update" path="/WEB-INF/jspf/admin/config/update.jsp" />
 		</action>
-		
+
 		<action path="/admin/work" parameter="action" type="ru.bgcrm.struts.action.admin.WorkAction" name="form" scope="request" >
 			<forward name="typeList" path="/WEB-INF/jspf/admin/work/type/list.jsp" />
-			<forward name="typeUpdate" path="/WEB-INF/jspf/admin/work/type/update.jsp" />			
+			<forward name="typeUpdate" path="/WEB-INF/jspf/admin/work/type/update.jsp" />
 			<forward name="shiftList" path="/WEB-INF/jspf/admin/work/shift/list.jsp" />
 			<forward name="shiftUpdate" path="/WEB-INF/jspf/admin/work/shift/update.jsp" />
 			<forward name="callboardUpdate" path="/WEB-INF/jspf/admin/work/callboard/update.jsp" />
 			<forward name="workDaysCalendarList" path="/WEB-INF/jspf/admin/work/calendar/list.jsp" />
 			<forward name="workDaysCalendarGet" path="/WEB-INF/jspf/admin/work/calendar/update.jsp" />
-			<forward name="availableShift" path="/WEB-INF/jspf/admin/work/callboard/available_shift.jsp" />			
+			<forward name="availableShift" path="/WEB-INF/jspf/admin/work/callboard/available_shift.jsp" />
 		</action>
-		
+
 		<action path="/admin/app" parameter="action" type="ru.bgcrm.struts.action.admin.AppAction" name="form" scope="request">
 			<forward name="status" path="/WEB-INF/jspf/admin/app/status.jsp"/>
 			<forward name="userLoggedList" path="/WEB-INF/jspf/admin/app/user_logged_list.jsp"/>
 		</action>
-		
+
 		<action path="/user/work" parameter="action" type="ru.bgcrm.struts.action.WorkAction" name="form" scope="request" >
 			<forward name="plan" path="/WEB-INF/jspf/user/work/plan.jsp" />
 			<forward name="processTimeSet" path="/WEB-INF/jspf/user/work/timeset.jsp" />
-		</action>		
+		</action>
 
 		<action path="/admin/dynamic" parameter="action" type="ru.bgcrm.struts.action.admin.DynamicAction" name="form" scope="request">
 			<forward name="default" path="/WEB-INF/jspf/admin/dynamic/dynamic.jsp" />
 		</action>
-		
+
 		<action path="/admin/webRequest" parameter="action" type="ru.bgcrm.struts.action.admin.WebRequestAction" name="form" scope="request">
 			<forward name="default" path="/WEB-INF/jspf/admin/webRequest/web_request.jsp" />
 			<forward name="findRequests" path="/WEB-INF/jspf/admin/webRequest/list.jsp" />
 		</action>
-		
+
 		<action path="/user/empty" parameter="action" type="ru.bgcrm.struts.action.EmptyAction" name="form" scope="request"/>
-		
+
 		<action path="/user/search" parameter="action" type="ru.bgcrm.struts.action.SearchAction" name="form" scope="request">
 			<forward name="default" path="/WEB-INF/jspf/user/search/search.jsp"/>
 			<forward name="customerTitle" path="/WEB-INF/jspf/user/search/result/customer_title.jsp"/>
 			<forward name="process" path="/WEB-INF/jspf/user/search/result/process.jsp"/>
 			<forward name="customerAddress" path="/WEB-INF/jspf/user/search/result/customer_address.jsp"/>
 		</action>
-		
+
 		<action path="/user/customer" parameter="action" type="ru.bgcrm.struts.action.CustomerAction" name="form" scope="request">
 			<forward name="default" path="/WEB-INF/jspf/user/customer/customer.jsp"/>
-			<forward name="edit" path="/WEB-INF/jspf/user/customer/edit.jsp"/>			
+			<forward name="edit" path="/WEB-INF/jspf/user/customer/edit.jsp"/>
 		</action>
-		
+
 		<action path="/user/parameter" parameter="action" type="ru.bgcrm.struts.action.ParameterAction" name="form" scope="request">
 			<forward name="edit" path="/WEB-INF/jspf/user/parameter/edit.jsp"/>
 			<forward name="default" path="/WEB-INF/jspf/user/parameter/list.jsp"/>
 			<forward name="parameterLog" path="/WEB-INF/jspf/parameter_log.jsp"/>
 			<forward name="entityLog" path="/WEB-INF/jspf/entity_log.jsp"/>
 		</action>
-		
+
 		<action path="/user/link" parameter="action" type="ru.bgcrm.struts.action.LinkAction" name="form" scope="request"/>
-		
+
 		<action path="/user/directory/address" parameter="action" type="ru.bgcrm.struts.action.DirectoryAddressAction" name="form" scope="request">
 			<forward name="default" path="/WEB-INF/jspf/user/directory/address/address.jsp"/>
 		</action>
-		
+
 		<action path="/user/directory/user" parameter="action" type="ru.bgcrm.struts.action.UserAction" name="form" scope="request">
 			<forward name="userList" path="/WEB-INF/jspf/user/directory/user/list.jsp" />
 		</action>
@@ -129,7 +129,7 @@
 		<action path="/user/process/link" parameter="action" type="ru.bgcrm.struts.action.ProcessLinkAction" name="form" scope="request">
 			<forward name="linkedProcessList" path="/WEB-INF/jspf/user/process/process/linked_process_list.jsp"/>
 			<!-- <forward name="linkedProcessInfo" path="/WEB-INF/jspf/user/process/process/linked_process_info.jsp"/> -->
-			<forward name="linkProcessList" path="/WEB-INF/jspf/user/process/process/link_process_list.jsp"/>	
+			<forward name="linkProcessList" path="/WEB-INF/jspf/user/process/process/link_process_list.jsp"/>
 		</action>
 
 		<action path="/user/process/queue" parameter="action" type="ru.bgcrm.struts.action.ProcessQueueAction" name="form" scope="request">
@@ -138,62 +138,70 @@
 			<forward name="queueFilter" path="/WEB-INF/jspf/user/process/queue/filter.jsp"/>
 			<forward name="queueShow" path="/WEB-INF/jspf/user/process/queue/show.jsp"/>
 		</action>
-		
+
 		<action path="/user/distribution" parameter="action" type="ru.bgcrm.struts.action.AddressDistributionAction" name="form" scope="request">
 			<forward name="default" path="/WEB-INF/jspf/user/distribution/default.jsp"/>
 			<forward name="userList" path="/WEB-INF/jspf/user/distribution/user.jsp"/>
 			<forward name="userHouses" path="/WEB-INF/jspf/user/distribution/user_house.jsp"/>
 			<forward name="undistributedHouses" path="/WEB-INF/jspf/user/distribution/undistributed_house.jsp"/>
-			<forward name="distrList" path="/WEB-INF/jspf/user/distribution/distr_list.jsp"/>			
+			<forward name="distrList" path="/WEB-INF/jspf/user/distribution/distr_list.jsp"/>
 			<forward name="quarterDistribution" path="/WEB-INF/jspf/user/distribution/quarter/default.jsp"/>
 			<forward name="groupList" path="/WEB-INF/jspf/user/distribution/quarter/group.jsp"/>
 			<forward name="undistGroups" path="/WEB-INF/jspf/user/distribution/quarter/undistributed_group.jsp"/>
-			<forward name="groupQuarters" path="/WEB-INF/jspf/user/distribution/quarter/group_quarter.jsp"/>			
+			<forward name="groupQuarters" path="/WEB-INF/jspf/user/distribution/quarter/group_quarter.jsp"/>
 		</action>
-		
+
 		<action path="/user/news" parameter="action" type="ru.bgcrm.struts.action.NewsAction" name="form" scope="request">
 			<forward name="update" path="/WEB-INF/jspf/user/news/update.jsp"/>
 			<forward name="newsBody" path="/WEB-INF/jspf/user/news/content.jsp"/>
 			<forward name="list" path="/WEB-INF/jspf/user/news/list.jsp"/>
 		</action>
-		
+
 		<action path="/user/message" parameter="action" type="ru.bgcrm.struts.action.MessageAction" name="form" scope="request">
 			<forward name="message" path="/WEB-INF/jspf/user/message/message.jsp"/>
-			<forward name="messageList" path="/WEB-INF/jspf/user/message/list.jsp"/>			
+			<forward name="messageList" path="/WEB-INF/jspf/user/message/list.jsp"/>
 			<forward name="processMessageList" path="/WEB-INF/jspf/user/message/process_message_list.jsp"/>
 			<forward name="processMessageEdit" path="/WEB-INF/jspf/user/message/process_message_edit.jsp"/>
 		</action>
-		
-		<action path="/user/messageCall" parameter="action" type="ru.bgcrm.struts.action.MessageCallAction" name="form" scope="request">			
-		</action>		
-				
+
+		<action path="/user/messageCall" parameter="action" type="ru.bgcrm.struts.action.MessageCallAction" name="form" scope="request">
+		</action>
+
 		<action path="/user/file" parameter="action" type="ru.bgcrm.struts.action.FileAction" name="form" scope="request"/>
-		
+
 		<action path="/user/pool" parameter="action" type="ru.bgcrm.struts.action.PoolAction" name="form" scope="request"/>
-		
+
 		<action path="/user/lock" parameter="action" type="ru.bgcrm.struts.action.LockAction" name="form" scope="request"/>
-		
+
 		<action path="/user/profile" parameter="action" type="ru.bgcrm.struts.action.ProfileAction" name="form" scope="request">
-		    <forward name="profile" path="/WEB-INF/jspf/user/profile/default.jsp"/>
-		    <forward name="settings" path="/WEB-INF/jspf/user/profile/settings.jsp"/>
-		    <forward name="parameters" path="/WEB-INF/jspf/user/profile/parameters.jsp"/>
+			<forward name="profile" path="/WEB-INF/jspf/user/profile/default.jsp"/>
+			<forward name="settings" path="/WEB-INF/jspf/user/profile/settings.jsp"/>
+			<forward name="parameters" path="/WEB-INF/jspf/user/profile/parameters.jsp"/>
 		</action>
-		
+
 		<action path="/user/log" parameter="action" type="ru.bgcrm.struts.action.LogAction" name="form" scope="request">
-		     <forward name="default" path="/WEB-INF/jspf/user/log/log.jsp"/> 
+			 <forward name="default" path="/WEB-INF/jspf/user/log/log.jsp"/>
 		</action>
-		
-		<!-- ######################## MOBI ###################### -->
+
 		<action path="/usermob/process" parameter="action" type="ru.bgcrm.struts.action.ProcessAction" name="form" scope="request">
 			<forward name="queue" path="/WEB-INF/jspf/usermob/process/queue/queue.jsp"/>
 			<forward name="queueShow" path="/WEB-INF/jspf/usermob/process/queue/show.jsp"/>
 			<forward name="process" path="/WEB-INF/jspf/usermob/process/process/process.jsp"/>
 		</action>
+
+		<action path="/open/profile" parameter="action" type="org.bgerp.action.open.ProfileAction" name="form" scope="request">
+			<forward name="show" path="/WEB-INF/jspf/open/profile/show.jsp"/>
+			<!--
+			<forward name="queue" path="/WEB-INF/jspf/usermob/process/queue/queue.jsp"/>
+			<forward name="queueShow" path="/WEB-INF/jspf/usermob/process/queue/show.jsp"/>
+			<forward name="process" path="/WEB-INF/jspf/usermob/process/process/process.jsp"/>
+			-->
+		</action>
 	</action-mappings>
-	
+
 	<plug-in className="org.apache.struts.tiles.TilesPlugin">
 		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml"/>
 		<set-property property="definitions-parser-validate" value="true"/>
 		<set-property property="moduleAware" value="true"/>
-	</plug-in>	
+	</plug-in>
 </struts-config>

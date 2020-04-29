@@ -16,7 +16,7 @@ public class CustomerAction
 	{
 		//dd	
 				
-		return processJsonForward( conSet, form );
+		return status( conSet, form );
 	}	
 	
 }

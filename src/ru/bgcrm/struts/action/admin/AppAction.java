@@ -38,7 +38,7 @@ public class AppAction extends BaseAction {
 
         form.getResponse().setData("logUpdateList", logFiles);
 
-        return processUserTypedForward(conSet, mapping, form);
+        return data(conSet, mapping, form);
     }
 
     public ActionForward update(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -48,7 +48,7 @@ public class AppAction extends BaseAction {
             "bash", "-c", "./backup.sh && ./installer.sh " + (force ? "updatef" : "update") + " && ./erp_restart.sh" })
             .run();
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
     
     public ActionForward updateToChange(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -82,13 +82,13 @@ public class AppAction extends BaseAction {
             "bash", "-c", "./backup.sh " + installerCommand.toString() + " && ./erp_restart.sh" })
             .run();
 
-        return processJsonForward(conSet, form);
+        return status(conSet, form);
     }
 
     public ActionForward userLoggedList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         form.getResponse().setData("logged", LoginStat.getLoginStat().getLoggedUserWithSessions());
 
-        return processUserTypedForward(conSet, mapping, form);
+        return data(conSet, mapping, form);
     }
 
 }
