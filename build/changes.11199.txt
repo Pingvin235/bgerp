@@ -1,9 +1,0 @@
-C: Remove Java library org.tuckey.urlrewritefilter.
-C: Open interface faster load without Java Script.
-F: Plugin Blow, open interface opening URL with #PROCESS_ID points on it.
-A: String Utils JSP tag library.
-C: Large refactoring in action's forwards, methods 'data' and 'status' instead of 'processUserTypedForward' and 'processJsonForward', https://bgerp.org/doc/3.0/manual/project.html#action
-A: New configuration's validation API.
-A: Show user profile in open interface, https://bgerp.org/doc/3.0/manual/kernel/interface.html#open
-C: Open user own profile and others profile with same way.
-A: Scroll into first filtered button on public Blow board.

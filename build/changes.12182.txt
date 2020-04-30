@@ -1,7 +1,0 @@
-C: Rename param 'processShowLinks' to 'show.tab.links', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Rename param 'processShowMessages' to 'show.tab.messages', default value is '1', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Rename param 'processShowProcessLinks' to 'show.tab.links.process', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Rename param 'processShowProcessLinks.Linked' to 'show.tab.links.process.up', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Rename param 'processShowProcessLinks.Links' to 'show.tab.links.process.down', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Rename param 'processCreateLinkModeSelect' to 'show.tab.links.process.add.from.buffer', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
-C: Param 'create.in.objectTypes' default value is '*', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#create-process-with-link

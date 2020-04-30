@@ -1,6 +1,24 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, F - FIX
 
+30.04.2020 09:22:07 1354
+C: Remove Java library org.tuckey.urlrewritefilter.
+C: Open interface faster load without Java Script.
+F: Plugin Blow, open interface opening URL with #PROCESS_ID points on it.
+A: String Utils JSP tag library.
+C: Large refactoring in action's forwards, methods 'data' and 'status' instead of 'processUserTypedForward' and 'processJsonForward', https://bgerp.org/doc/3.0/manual/project.html#action
+A: New configuration's validation API.
+A: Show user profile in open interface, https://bgerp.org/doc/3.0/manual/kernel/interface.html#open
+C: Open user own profile and others profile with same way.
+A: Scroll into first filtered button on public Blow board.
+C: Rename param 'processShowLinks' to 'show.tab.links', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
+C: Rename param 'processShowMessages' to 'show.tab.messages', default value is '1', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
+C: Rename param 'processShowProcessLinks' to 'show.tab.links.process', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
+C: Rename param 'processShowProcessLinks.Linked' to 'show.tab.links.process.up', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
+C: Rename param 'processShowProcessLinks.Links' to 'show.tab.links.process.down', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
+C: Rename param 'processCreateLinkModeSelect' to 'show.tab.links.process.add.from.buffer', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config
+C: Param 'create.in.objectTypes' default value is '*', https://bgerp.org/doc/3.0/manual/kernel/process/index.html#create-process-with-link
+
 23.04.2020 16:33:45 1353
 F: $$.ajax.post method error handling.
 C: $$.ajax.load speedup with pre-erase of content.
