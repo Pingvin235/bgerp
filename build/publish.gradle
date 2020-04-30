@@ -36,15 +36,20 @@ task publishBuild {
     mustRunAfter 'patchChanges'
     mustRunAfter 'rss'
     doFirst {
-        publishFile("$projectDir/build/bgerp", "bgerp_${version}_*.zip", true)
-        publishFile("$projectDir/build/update", "update_${version}_*.zip", true)
-        publishFile("$projectDir/build/update_lib", "update_lib_${version}_*.zip", true)
-        publishFile("$projectDir/build", "changes.txt", false)
-        publishFile("$projectDir/build", "changes.xml", false)
+        publishFile("$projectDir/build/bgerp", "bgerp_${version}_*.zip", true, "bgerp.zip")
+        publishFile("$projectDir/build/update", "update_${version}_*.zip", true, null)
+        publishFile("$projectDir/build/update_lib", "update_lib_${version}_*.zip", true, null)
+        publishFile("$projectDir/build", "changes.txt", false, null)
+        publishFile("$projectDir/build", "changes.xml", false, null)
+
+        def targetDir = "$projectDir/target"
+        def buildNumberFile = "build.number"
+        file(targetDir + "/" + buildNumberFile).text = getBuild()
+        publishFile(targetDir, buildNumberFile, false, null)
     }
 }
 
-def publishFile(String localDir, String mask, boolean versioned) {
+def publishFile(String localDir, String mask, boolean versioned, String link) {
     println "Publish $localDir/$mask"
 
     def localFile = fileTree(dir: localDir, include: mask).getFiles()
@@ -52,13 +57,18 @@ def publishFile(String localDir, String mask, boolean versioned) {
     localFile = localFile[0].getName()
     println "Local: $localFile"
 
-    def sshLogin = 'www@bgerp.ru'
+    def sshLogin = 'www@bgerp.org'
     def sshFolder = "/var/ftp/pub/bgerp/$version"
 
     def remoteFile
     if (versioned) {
         remoteFile = "ssh $sshLogin cd $sshFolder; ls $mask".execute().text.trim()
         println "Remote: $remoteFile"
+
+        if (link) {
+            println "Creating symlink $link"
+            println "ssh $sshLogin cd $sshFolder; ln -sf ./$remoteFile $link".execute().text
+        }
 
         if (localFile == remoteFile) return
     }
