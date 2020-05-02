@@ -1,6 +1,10 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, F - FIX
 
+02.05.2020 22:48:56 1355
+A: Simplified installation process with DB password generation.
+A: DB creation scripts with checking of sql-mode variable set.
+
 30.04.2020 09:22:07 1354
 C: Remove Java library org.tuckey.urlrewritefilter.
 C: Open interface faster load without Java Script.
