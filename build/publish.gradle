@@ -65,12 +65,10 @@ def publishFile(String localDir, String mask, boolean versioned, String link) {
         remoteFile = "ssh $sshLogin cd $sshFolder; ls $mask".execute().text.trim()
         println "Remote: $remoteFile"
 
-        if (link) {
-            println "Creating symlink $link"
-            println "ssh $sshLogin cd $sshFolder; ln -sf ./$remoteFile $link".execute().text
+        if (localFile == remoteFile) { 
+            createSymlink(sshLogin, sshFolder, link, remoteFile)
+            return
         }
-
-        if (localFile == remoteFile) return
     }
 
     println "Copy $localFile"
@@ -79,6 +77,14 @@ def publishFile(String localDir, String mask, boolean versioned, String link) {
     if (versioned) {
         println "Move $remoteFile to archive"
         "ssh $sshLogin mv $sshFolder/$remoteFile $sshFolder/archive/$remoteFile".execute()
+        createSymlink(sshLogin, sshFolder, link, localFile)
+    }
+}
+
+def createSymlink(String sshLogin, String sshFolder, String link, String target) {
+    if (link) {
+        println "Creating symlink $link"
+        println "ssh $sshLogin cd $sshFolder; ln -sf ./$target $link".execute().text
     }
 }
 
