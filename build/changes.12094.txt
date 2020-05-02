@@ -1,0 +1,2 @@
+A: Simplified installation process with DB password generation.
+A: DB creation scripts with checking of sql-mode variable set.

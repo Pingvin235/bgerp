@@ -2,7 +2,7 @@ package org.bgerp.itest.helper;
 
 import java.util.Date;
 
-import org.bgerp.itest.kernel.InitConfigTest;
+import org.bgerp.itest.kernel.config.InitTest;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.testng.Assert;
 
@@ -42,8 +42,8 @@ public class ConfigHelper {
     }
     
     private static void addMainConfigInclude(ConfigDAO dao, String title, int configId) throws Exception {
-        synchronized (InitConfigTest.class) {
-            var configMain = dao.getGlobalConfig(InitConfigTest.configMainId);
+        synchronized (InitTest.class) {
+            var configMain = dao.getGlobalConfig(InitTest.configMainId);
             configMain.setData(configMain.getData() + "\n#\n# " + title + "\ninclude." + configId + "=1");
             dao.updateGlobalConfig(configMain);
             
@@ -76,7 +76,7 @@ public class ConfigHelper {
                 .append("=")
                 .append(pairs[i + 1]);
         }
-        return config.toString();
+        return config.toString() + "\n";
     }
 
 }

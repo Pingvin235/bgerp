@@ -3,16 +3,19 @@ package org.bgerp.itest.kernel.user;
 import static org.bgerp.itest.kernel.db.DbTest.conPoolRoot;
 
 import java.util.Collections;
+import java.util.Date;
+
+import com.google.common.collect.Lists;
 
 import org.bgerp.itest.helper.UserHelper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.user.UserDAO;
-import ru.bgcrm.dao.user.UserGroupDAO;
 import ru.bgcrm.dao.user.UserPermsetDAO;
 import ru.bgcrm.model.user.Permset;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.model.user.UserGroup;
 
 @Test(groups = "initUser", dependsOnGroups = "dbInit")
 public class InitTest {
@@ -22,6 +25,7 @@ public class InitTest {
 
     @Test
     public void addPermissionSets() throws Exception {
+        // TODO: Enable permissions check before.
         try (var con = conPoolRoot.getDBConnectionFromPool()) {
             var admins = new Permset();
             admins.setTitle("Administrators");
@@ -31,28 +35,6 @@ public class InitTest {
             permsetAdminsId = admins.getId();
             Assert.assertTrue(permsetAdminsId > 0);
 
-            con.commit();
-        }
-    }
-
-    public static volatile int groupManagementId;
-    public static volatile int groupSupportId;
-
-    @Test(dependsOnMethods = { "addPermissionSets"})
-    public void addGroups() throws Exception {
-        try (var con = conPoolRoot.getDBConnectionFromPool()) {
-            var dao = new UserGroupDAO(con);
-            
-            groupManagementId = UserHelper.addGroup(dao, "Management", 0);
-            groupSupportId = UserHelper.addGroup(dao, "Support", 0);
-
-            con.commit();
-        }
-    }
-
-    @Test(dependsOnMethods = { "addPermissionSets", "addGroups" })
-    public void addUsers() throws Exception {
-        try (var con = conPoolRoot.getDBConnectionFromPool()) {
             var userDao = new UserDAO(con);
 
             User admin = userDao.getUser(USER_ADMIN_ID);
@@ -62,5 +44,19 @@ public class InitTest {
 
             con.commit();
         }
+    }
+
+    public static volatile int groupManagementId;
+    public static volatile int groupSupportId;
+
+    @Test(dependsOnMethods = { "addPermissionSets" })
+    public void addGroups() throws Exception {
+        groupManagementId = UserHelper.addGroup("Management", 0, null);
+        groupSupportId = UserHelper.addGroup("Support", 0, null);
+    }
+
+    @Test(dependsOnMethods = { "addPermissionSets", "addGroups" })
+    public void addUsers() throws Exception {
+        UserHelper.addUser("Karl Marx", "karl", Lists.newArrayList(new UserGroup(groupManagementId, new Date(), null)));
     }
 }

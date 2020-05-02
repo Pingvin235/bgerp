@@ -8,4 +8,4 @@ CREATE TABLE IF NOT EXISTS fulltext_data (
   UNIQUE KEY type_id (object_type, object_id)
 );
 
--- ! после должен быть только перенос строки !;
+-- ! after must be only a new line !;

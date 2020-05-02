@@ -1,112 +1,104 @@
-= Установка
+= Install
 :toc:
 
 [[system-requirements]]
-== Системные требования
-Минимальная конфигурация сервера BGERP + MySQL:
+== System requirements
+Minimal system requirements for running server with BGERP + MySQL:
 [square]
-* Операционная система: Linux;
-* Процессорное ядро эквивалентное Intel x86 с тактовой частотой 500 МГц, рекомендуется - 1 ГГц;
-* 512 МБ ОЗУ, рекомендуется - 1 ГБ.
-
-Оптимальная конфигурация зависит напрямую от размера базы данных и количества пользователей.
+* OS Linux, preferably RPM based: CentOS or RHEL, because the samples below;
+* CPU core equal Intel x86 500 MHz, recommended - 1 GHz;
+* 512 MB RAM, recommended - 1 GB.
 
 [[mysql]]
 == MySQL
-*Оригинальный* MySQL сервер и клиент версии *8.0*. 
-Далее указаны необходимые опции конфигурации, скорректируйте либо добавьте их при необходимости в секции *[mysqld]* файла *my.cnf*:
-----
-[mysqld]
-# хранилище InnoDB с поддержкой транзакций
-default-storage-engine=INNODB
-# хранение 
-innodb_file_per_table=1
-# метод аунтификации, используемый BGERP
-default_authentication_plugin=mysql_native_password
-# пустой sql-mode
-sql-mode=
-----
-IMPORTANT: *sql-mode* должен быть установлен именно равным пустой строке, как в примере.
+*Original* MySQL DB Server version *8.0* or newer. 
 
-link:http://wiki.bitel.ru/index.php/%D0%A0%D0%B5%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D0%B4%D0%B0%D1%86%D0%B8%D0%B8_%D0%BF%D0%BE_%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B5_MySQL[Дальнейшие оптимизации настройки].
-
-Различные клоны БД MySQL (Maria, Percona) не подходят из-за отсутствия поддержки <<../plugin/fulltext/index.adoc#, полнотекстового>> индекса.
-Тестовый запрос для проверки применимости БД:
+Different forks of MySQL (Maria, Percona) does not fit because of missing <<../plugin/fulltext/index.adoc#, fulltext>> index support.
+Here is the test query to verify it:
 [snippet, from="CREATE", to=");"]
 link:../../../build/update/patch_fulltext.sql#L1-L9[build/update/patch_fulltext.sql]
 
+Install instructions:
+[square]
+* link:https://www.mysqltutorial.org/install-mysql-centos[MySQL 8 on CentOS]
+* link:https://hub.docker.com/_/mysql[MySQL using Docker] - in case of already installed MySQL with different version on your server.
+
+Check the required options below in *[mysqld]* section in file *my.cnf*:
+----
+[mysqld]
+sql-mode=
+----
+IMPORTANT: *sql-mode* must be set exactly to empty string, as shown in the example. If sql-mode is not defined - add it, if missing - make value  DB creation script contains correctness of it any case.
+
+You will also need a root access to the MySQL Server one time.
+
 [[java]]
 == Java
-Необходима версия *OpenJDK 11*, может быть загружена:
-[square]
-* Из репозитария дистрибутива (рекомендуется).
-* С сайта https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot
-* С сайта https://docs.aws.amazon.com/en_us/corretto/latest/corretto-11-ug/downloads-list.html
-* С сайта https://jdk.java.net/archive/ (более старые релизы)
+Required version *OpenJDK 11*, may be installed so:
+[square, sh]
+----
+sudo yum update
+sudo yum install -y java-11-openjdk-devel
+----
 
-NOTE: Версия от Oracle запрещена для коммерческого использования.
-
-IMPORTANT: После установки JDK должны быть доступны интерпретатор и компилятор, команды *java* и *javac* соответственно.  
+IMPORTANT: Check, what commands *java* and *javac* are available after installation.
 
 [[install-linux]]
-== Установка
-Все операции выполнять с пользователем *root*.
+== The application
+All the operations require *root* user.
 
-Загрузите архив *bgerp_<version>_<build>.zip* с официального link:ftp://bgerp.ru/pub/bgerp/3.0[FTP], пример:
-[source,bash]
+Check and install if needed script dependencies:
+[source, sh]
 ----
-wget ftp://bgerp.ru/pub/bgerp/3.0/bgerp_3.0_1283.zip -O /tmp/bgerp.zip
-----
-
-Извлеките файл *db.sql* в каталог */tmp*, пример:
-[source, bash]
-----
-unzip /tmp/bgerp.zip 'db.sql*' -d /tmp
+sudo yum update
+sudo yum install -y zip pwgen wget mysql-community-client
 ----
 
-Измените пароль доступа к БД в *db.sql*,  при необходимости измените строки с установкой переменных политики паролей:
-[snippet, from="--", to="W;"]
-link:../../../build/bgerp/db_create.sql#L7-L9[build/bgerp/db_create.sql]
-
-Выполните создание БД, пример:
-[source, bash]
+Download archive and unpack it:
+[source, sh]
 ----
-mysql --default-character-set=utf8 -uroot -p < /tmp/db.sql
-----
-
-Опционально можно заполнить БД данными из Демо-системы:
-[source, bash]
-----
-wget http://demo.bgerp.ru/bgerp.sql -O /tmp/bgerp.sql
-mysql --default-character-set=utf8 -uroot -p < /tmp/bgerp.sql
-----
-
-Извлеките каталог BGERP из него его в требуемый каталог установки, стандартно */opt*.
-Сделайте файлы исполняемыми, пример:
-[source, bash]
-----
-unzip /tmp/bgerp.zip 'BGERP/*' -d /opt
+wget https://bgerp.org/download/3.0/bgerp.zip -O /tmp/bgerp.zip &&
+unzip /tmp/bgerp.zip -d /opt &&
 chmod 744 /opt/BGERP/*.sh
 ----
 
-Перейдите в каталог BGERP, поправьте *bgerp.properties* пароль подключения к БД, при необходимости сервер БД и имя. 
-Также там можно изменить HTTP порт и порт управления.
-
-Установите в *setenv.sh* путь к Java, например:
-[source, bash]
+Generate DB password ant put it in files:
+[source, sh]
 ----
-JAVA_HOME=/usr                                                                                                    
+ERP_DB_PWD=`pwgen` && export EPR_DB_PWD &&
+echo "Setting DB password: '$ERP_DB_PWD'" &&
+sed -i "s/GENERATED_PASSWORD/$ERP_DB_PWD/" /opt/BGERP/bgerp.properties &&
+sed -i "s/GENERATED_PASSWORD/'$ERP_DB_PWD'/" /opt/BGERP/db.sql
+----
+
+Run DB user and structure creation:
+[source, sh]
+----
+mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p < /opt/BGERP/db.sql
+----
+
+// TODO: Take filestorage from Demo.
+Apply data from the Demo-system:
+[source, sh]
+----
+wget https://demo.bgerp.org/bgerp.sql -O /opt/BGERP/bgerp.sql
+mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p < /opt/BGERP/bgerp.sql
+----
+
+Change if needed in *bgerp.properties* DB server host, HTTP and management ports, in *setenv.sh* *JAVA_HOME*:
+[source, sh]
+----
+JAVA_HOME=/usr
 if [ -z "$JAVA_HOME" ]; then
   echo "The JAVA_HOME environment variable is not defined"
   echo "This environment variable is needed to run this program"
   exit 1
 fi
 ----
+*java* and *javac* are looked in *$JAVA_HOME/bin/*
 
-Интепретатор *java* будет искаться по пути *$JAVA_HOME/bin/java*
-
-Для запуска/останова сервера используйте *erp_start.sh/erp_stop.sh*. *erp_status.sh* - просмотр статуса запущенного сервера.
-После запуска проверьте *log/bgerp.log* и в *log/bgerp.out* на наличие ошибок (Exception).
+For starting/stopping use *erp_start.sh/erp_stop.sh*. *erp_status.sh* - shows current status of the application.
+After starting check *log/bgerp.log* and *log/bgerp.out* on errors.
 
 [[systemd]]
 === Systemd

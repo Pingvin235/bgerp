@@ -1,7 +1,5 @@
 package org.bgerp.itest.configuration.company.department.it;
 
-import org.bgerp.itest.helper.UserHelper;
-
 public class IT {
     public static volatile int groupItId;
     

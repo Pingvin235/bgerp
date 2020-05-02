@@ -155,10 +155,12 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         return title.compareTo(o.getTitle());
     }
 
+    @Deprecated
     public List<String> getIds() {
         return ids;
     }
 
+    @Deprecated
     public void setIds(List<String> phoneNumbers) {
         this.ids = phoneNumbers;
     }

@@ -1,11 +1,7 @@
 package org.bgerp.itest.kernel.process;
 
-import static org.bgerp.itest.kernel.db.DbTest.conPoolRoot;
-
 import org.bgerp.itest.helper.ProcessHelper;
 import org.testng.annotations.Test;
-
-import ru.bgcrm.dao.process.StatusDAO;
 
 @Test(groups = "processInit", dependsOnGroups = "dbInit")
 public class InitTest {
@@ -19,27 +15,19 @@ public class InitTest {
 
     @Test
     public void addStatuses() throws Exception {
-        try (var con = conPoolRoot.getDBConnectionFromPool()) {
-            var dao = new StatusDAO(con);
-            
-            int pos = 0;
-            statusOpen = ProcessHelper.addStatus(dao, "Open", pos += 2);
-            statusToDo = ProcessHelper.addStatus(dao, "ToDo (postponed)", pos += 2);
-            statusProgress = ProcessHelper.addStatus(dao, "Progress", pos += 2);
-            statusWait = ProcessHelper.addStatus(dao, "Wait for..", pos += 2);
-            statusDoc = ProcessHelper.addStatus(dao, "Doc", pos += 2);
-            statusDone = ProcessHelper.addStatus(dao, "Done", pos += 2);
-            statusRejected = ProcessHelper.addStatus(dao, "Rejected", pos += 2);
-
-            con.commit();
-        }
+        int pos = 0;
+        statusOpen = ProcessHelper.addStatus("Open", pos += 2);
+        statusToDo = ProcessHelper.addStatus("ToDo (postponed)", pos += 2);
+        statusProgress = ProcessHelper.addStatus("Progress", pos += 2);
+        statusWait = ProcessHelper.addStatus("Wait for..", pos += 2);
+        statusDoc = ProcessHelper.addStatus("Doc", pos += 2);
+        statusDone = ProcessHelper.addStatus("Done", pos += 2);
+        statusRejected = ProcessHelper.addStatus("Rejected", pos += 2);
     }
 
     @Test
     public void addTypes() throws Exception {
-        try (var con = conPoolRoot.getDBConnectionFromPool()) {
-            
-        }
+        
     }
 
 }

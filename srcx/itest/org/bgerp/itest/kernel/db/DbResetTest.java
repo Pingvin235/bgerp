@@ -3,6 +3,7 @@ package org.bgerp.itest.kernel.db;
 import static org.bgerp.itest.kernel.db.DbInitTest.DBNAME;
 import static org.bgerp.itest.kernel.db.DbTest.conPoolRoot;
 
+import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,15 +12,11 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.itest.helper.ResourceHelper;
 import org.testng.annotations.Test;
 
-import net.lingala.zip4j.ZipFile;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.distr.call.ExecuteSQL;
-import org.bgerp.itest.DistributionTest;
-import org.bgerp.itest.helper.ResourceHelper;
-
 import ru.bgerp.util.Log;
 
 @Test(groups = "dbReset", dependsOnGroups = { "db", "distribution" })
@@ -35,7 +32,7 @@ public class DbResetTest {
     // 2. Test listeners and so on.
     private boolean conditionalSkip() {
         String group = this.getClass().getAnnotation(Test.class).groups()[0];
-        boolean result = !Utils.isBlankString(System.getProperty("skip." + group));
+        boolean result = Utils.parseBoolean(System.getProperty("skip." + group));
         if (result)
             log.info("Method is disabled");
         return result;
@@ -60,6 +57,10 @@ public class DbResetTest {
         @Override
         protected void doQuery(Statement st, String line, Set<String> hashes, boolean noHash) throws SQLException {
             try {
+                if (line.contains("GENERATED_PASSWORD")) {
+                    log.info("Skipping: %s", line);
+                    return;
+                }
                 log.debug("Executing: %s", line);
                 st.executeUpdate(line);
             } catch (SQLException ex) {
@@ -75,8 +76,7 @@ public class DbResetTest {
         log.info("Creating database..");
 
         try (var con = DbTest.conPoolRoot.getDBConnectionFromPool()) {
-            ZipFile zip = new ZipFile(DistributionTest.zip);
-            sqlCall.call(con, IOUtils.toString(zip.getInputStream(zip.getFileHeader("db.sql")), StandardCharsets.UTF_8));
+            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/BGERP/db.sql"), StandardCharsets.UTF_8));
         }
     }
 

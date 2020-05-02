@@ -1200,3 +1200,4 @@ CALL rename_table('n_config_global', 'config_global');
 -- использовать процедуры для модификации существующих таблиц add_key_if_not_exists и т.п.
 -- для плагинов создавать отдельные patch_plugin.sql файлы и переносить всё туда
 
+-- ! after must be only new line !;

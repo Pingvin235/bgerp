@@ -4,7 +4,7 @@ import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.testng.annotations.Test;
 
-@Test(groups = "mobileInit", dependsOnGroups = "configInit")
+@Test(groups = "mobileInit", priority = 100, dependsOnGroups = "configInit")
 public class InitTest {
     @Test
     public void initConfig() throws Exception {

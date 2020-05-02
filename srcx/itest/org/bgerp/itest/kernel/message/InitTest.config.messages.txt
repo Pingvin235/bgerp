@@ -30,7 +30,7 @@ messageType.1.search.1.class=ru.bgcrm.dao.message.MessageTypeSearchEmail
 messageType.1.search.2.title=Customer by title
 messageType.1.search.2.class=ru.bgcrm.dao.message.MessageTypeSearchCustomerByTitle
 messageType.1.saver.class=ru.bgcrm.dao.message.MessageTypeContactSaverEmail
-messageType.1.saver.paramId={@PARAM_CUSTOMER_EMAIL}
+messageType.1.saver.paramId={@PARAM_CUSTOMER_EMAIL_ID}
 #
 messageType.100.title=Note
 messageType.100.class=ru.bgcrm.dao.message.MessageTypeNote

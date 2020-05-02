@@ -50,7 +50,7 @@ public class ExecuteSQL implements InstallationCall {
                     call(con, query);
 
                     System.out.println("Executing database update...OK");
-                    result = true;                    
+                    result = true;
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -69,7 +69,7 @@ public class ExecuteSQL implements InstallationCall {
         String[] queries = query.split(";\\s*\n");
 
         executeSqlComands(con, queries, id);
-        
+
         con.commit();
     }
 
@@ -145,9 +145,9 @@ public class ExecuteSQL implements InstallationCall {
         Set<String> result = new HashSet<String>();
 
         if (!SQLUtils.tableExists(con, SQL_PATCHES_HISTORY)) {
-            String sql = "CREATE TABLE " + SQL_PATCHES_HISTORY + "( " 
+            String sql = "CREATE TABLE " + SQL_PATCHES_HISTORY + "( "
                 + " `mid` varchar(20) NOT NULL, "
-                + " `versions` text, " + 
+                + " `versions` text, " +
                 " PRIMARY KEY (`mid`))";
             con.createStatement().executeUpdate(sql);
 
@@ -187,9 +187,9 @@ public class ExecuteSQL implements InstallationCall {
     }
 
     public static void clearHashById(String mid) {
-        Connection con = Setup.getSetup().getDBConnectionFromPool();
-        try {
-            PreparedDelay pd = new PreparedDelay(con);
+        try (var con = Setup.getSetup().getDBConnectionFromPool();
+            var pd = new PreparedDelay(con);) {
+
             pd.addQuery("DELETE FROM " + SQL_PATCHES_HISTORY);
             if (Utils.notBlankString(mid)) {
                 pd.addQuery(" WHERE mid=?");
@@ -200,8 +200,6 @@ public class ExecuteSQL implements InstallationCall {
             con.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } finally {
-            SQLUtils.closeConnection(con);
         }
     }
 }

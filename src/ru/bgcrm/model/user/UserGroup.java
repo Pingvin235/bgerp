@@ -6,81 +6,68 @@ import java.util.List;
 
 import ru.bgcrm.cache.UserCache;
 
-public class UserGroup
-{
-	private int groupId;
-	private Date dateFrom;
-	private Date dateTo;
+public class UserGroup {
+    private int groupId;
+    private Date dateFrom;
+    private Date dateTo;
 
-	public UserGroup()
-	{}
+    public UserGroup() {}
 
-	public UserGroup( int groupId, Date dateFrom, Date dateTo )
-	{
-		this.groupId = groupId;
-		this.dateFrom = dateFrom;
-		this.dateTo = dateTo;
-	}
+    public UserGroup(int groupId, Date dateFrom, Date dateTo) {
+        this.groupId = groupId;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+    }
 
-	public int getGroupId()
-	{
-		return groupId;
-	}
+    public int getGroupId() {
+        return groupId;
+    }
 
-	public void setGroupId( int id )
-	{
-		this.groupId = id;
-	}
-	
-	public Date getDateFrom()
-	{
-		return dateFrom;
-	}
+    public void setGroupId(int id) {
+        this.groupId = id;
+    }
 
-	public void setDateFrom( Date dateFrom )
-	{
-		this.dateFrom = dateFrom;
-	}
+    public Date getDateFrom() {
+        return dateFrom;
+    }
 
-	public Date getDateTo()
-	{
-		return dateTo;
-	}
+    public void setDateFrom(Date dateFrom) {
+        this.dateFrom = dateFrom;
+    }
 
-	public void setDateTo( Date dateTo )
-	{
-		this.dateTo = dateTo;
-	}
+    public Date getDateTo() {
+        return dateTo;
+    }
 
-	public static List<Group> toGroupList( List<UserGroup> userGroupList )
-	{
-		List<Group> resultList = new ArrayList<Group>();
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
+    }
 
-		for( UserGroup userGroup : userGroupList )
-		{
-			resultList.add( UserCache.getUserGroup( userGroup.getGroupId() ) );
-		}
+    public static List<Group> toGroupList(List<UserGroup> userGroupList) {
+        List<Group> resultList = new ArrayList<Group>();
 
-		return resultList;
-	}
-	
-	/**
-	 * Использовать {@link #getGroupId()}.
-	 * @return
-	 */
-	@Deprecated
-	public int getId()
-	{
-		return groupId;
-	}
+        for (UserGroup userGroup : userGroupList) {
+            resultList.add(UserCache.getUserGroup(userGroup.getGroupId()));
+        }
 
-	/**
-	 * Использовать {@link #setGroupId(int)}.
-	 * @return
-	 */
-	@Deprecated
-	public void setId( int id )
-	{
-		this.groupId = id;
-	}
+        return resultList;
+    }
+
+    /**
+     * Использовать {@link #getGroupId()}.
+     * @return
+     */
+    @Deprecated
+    public int getId() {
+        return groupId;
+    }
+
+    /**
+     * Использовать {@link #setGroupId(int)}.
+     * @return
+     */
+    @Deprecated
+    public void setId(int id) {
+        this.groupId = id;
+    }
 }

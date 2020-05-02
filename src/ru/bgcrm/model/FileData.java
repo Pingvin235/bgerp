@@ -1,5 +1,6 @@
 package ru.bgcrm.model;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,9 +20,9 @@ public class FileData extends IdTitle {
     private User user;
     private String comment;
     private int version;
+    private OutputStream outputStream;
 
-    public FileData() {
-    }
+    public FileData() {}
 
     public FileData(int id, String title, String secret) {
         super(id, title);
@@ -102,5 +103,13 @@ public class FileData extends IdTitle {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public OutputStream getOutputStream() {
+        return outputStream;
+    }
+
+    public void setOutputStream(OutputStream outputStream) {
+        this.outputStream = outputStream;
     }
 }

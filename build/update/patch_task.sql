@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS task (
 
 CALL add_column_if_not_exists('task', 'config', 'TEXT NOT NULL');
 
--- ! после должен быть только перенос строки !;
+-- ! after must be only a new line !;
