@@ -1,2 +1,0 @@
-C: Installation directory /opt/BGERP to /opt/bgerp.
-C: Remove address distribution functionality.

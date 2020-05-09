@@ -1,6 +1,10 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, F - FIX
 
+09.05.2020 21:04:20 1356
+C: Installation directory /opt/BGERP to /opt/bgerp.
+C: Remove address distribution functionality.
+
 02.05.2020 22:48:56 1355
 A: Simplified installation process with DB password generation.
 A: DB creation scripts with checking of sql-mode variable set.
