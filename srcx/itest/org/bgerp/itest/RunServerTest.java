@@ -19,7 +19,7 @@ import ru.bgerp.util.Log;
 public class RunServerTest {
     private static final Log log = Log.getLog();
 
-    private static final String PATH = "/opt/BGERP";
+    private static final String PATH = "/opt/bgerp";
 
     @Test(dependsOnMethods = "initZip")
     public void cleanUp() throws Exception {

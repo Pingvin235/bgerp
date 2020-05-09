@@ -59,7 +59,7 @@ Download archive and unpack it:
 ----
 wget https://bgerp.org/download/3.0/bgerp.zip -O /tmp/bgerp.zip &&
 unzip /tmp/bgerp.zip -d /opt &&
-chmod 744 /opt/BGERP/*.sh
+chmod 744 /opt/bgerp/*.sh
 ----
 
 Generate DB password ant put it in files:
@@ -67,22 +67,22 @@ Generate DB password ant put it in files:
 ----
 ERP_DB_PWD=`pwgen` && export EPR_DB_PWD &&
 echo "Setting DB password: '$ERP_DB_PWD'" &&
-sed -i "s/GENERATED_PASSWORD/$ERP_DB_PWD/" /opt/BGERP/bgerp.properties &&
-sed -i "s/GENERATED_PASSWORD/'$ERP_DB_PWD'/" /opt/BGERP/db.sql
+sed -i "s/GENERATED_PASSWORD/$ERP_DB_PWD/" /opt/bgerp/bgerp.properties &&
+sed -i "s/GENERATED_PASSWORD/'$ERP_DB_PWD'/" /opt/bgerp/db.sql
 ----
 
 Run DB user and structure creation:
 [source, sh]
 ----
-mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p < /opt/BGERP/db.sql
+mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p < /opt/bgerp/db.sql
 ----
 
 // TODO: Take filestorage from Demo.
 Apply data from the Demo-system:
 [source, sh]
 ----
-wget https://demo.bgerp.org/bgerp.sql -O /opt/BGERP/bgerp.sql
-mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p < /opt/BGERP/bgerp.sql
+wget https://demo.bgerp.org/bgerp.sql -O /opt/bgerp/bgerp.sql
+mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p < /opt/bgerp/bgerp.sql
 ----
 
 Change if needed in *bgerp.properties* DB server host, HTTP and management ports, in *setenv.sh* *JAVA_HOME*:

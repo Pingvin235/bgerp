@@ -4,8 +4,8 @@ After=network.target
  
 [Service]
 Type=forking
-ExecStart=/opt/BGERP/erp.sh start
-ExecStop=/opt/BGERP/erp.sh stop
+ExecStart=/opt/bgerp/erp.sh start
+ExecStop=/opt/bgerp/erp.sh stop
  
 [Install]
 WantedBy=multi-user.target

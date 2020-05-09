@@ -32,10 +32,6 @@
 	action="ru.bgcrm.struts.action.ProcessAction:queue"
 	command="/user/process/queue.do?action=queue" />
 
-<ui:menu-item title="Распределения адресов" href="addressDistribution"
-	action="ru.bgcrm.struts.action.AddressDistributionAction"
-	command="/user/distribution.do" />
-
 <ui:menu-group title="Организация работ">
 	<jsp:attribute name="subitems">
 	

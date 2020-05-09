@@ -503,7 +503,7 @@ IMPORTANT: Рекомендуется всегда когда возможно �
 
 Редактирование справочников происходит напрямую с БД, после редактирования кэш сбрасывается.
 [snippet, from="pu", to="}"]
-link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L94-L100[ru.bgcrm.struts.action.admin.UserAction]
+link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L93-L99[ru.bgcrm.struts.action.admin.UserAction]
 
 [[ui]]
 === Представление JSP

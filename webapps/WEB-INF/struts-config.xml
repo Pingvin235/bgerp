@@ -139,18 +139,6 @@
 			<forward name="queueShow" path="/WEB-INF/jspf/user/process/queue/show.jsp"/>
 		</action>
 
-		<action path="/user/distribution" parameter="action" type="ru.bgcrm.struts.action.AddressDistributionAction" name="form" scope="request">
-			<forward name="default" path="/WEB-INF/jspf/user/distribution/default.jsp"/>
-			<forward name="userList" path="/WEB-INF/jspf/user/distribution/user.jsp"/>
-			<forward name="userHouses" path="/WEB-INF/jspf/user/distribution/user_house.jsp"/>
-			<forward name="undistributedHouses" path="/WEB-INF/jspf/user/distribution/undistributed_house.jsp"/>
-			<forward name="distrList" path="/WEB-INF/jspf/user/distribution/distr_list.jsp"/>
-			<forward name="quarterDistribution" path="/WEB-INF/jspf/user/distribution/quarter/default.jsp"/>
-			<forward name="groupList" path="/WEB-INF/jspf/user/distribution/quarter/group.jsp"/>
-			<forward name="undistGroups" path="/WEB-INF/jspf/user/distribution/quarter/undistributed_group.jsp"/>
-			<forward name="groupQuarters" path="/WEB-INF/jspf/user/distribution/quarter/group_quarter.jsp"/>
-		</action>
-
 		<action path="/user/news" parameter="action" type="ru.bgcrm.struts.action.NewsAction" name="form" scope="request">
 			<forward name="update" path="/WEB-INF/jspf/user/news/update.jsp"/>
 			<forward name="newsBody" path="/WEB-INF/jspf/user/news/content.jsp"/>

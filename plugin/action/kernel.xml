@@ -373,24 +373,6 @@
 			<item action="ru.bgcrm.struts.action.UserAction:userList" title="Получение списка пользователей"/>
 			<item action="ru.bgcrm.struts.action.UserAction:setPageConfig" title="Изменение настроек промотчика страниц для текущего юзера" allowAll="1"/>
 		</item>
-		<item title="Распределение адресов">
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:null" title="AddressDistributionAction:null"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:getHouses" title="AddressDistributionAction:getHouses"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:getUsers" title="AddressDistributionAction:getUsers"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:userList" title="AddressDistributionAction:userList"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:undistributedHouses" title="AddressDistributionAction:undistributedHouses"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:distrList" title="AddressDistributionAction:distrList"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:userHouses" title="AddressDistributionAction:userHouses"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:attachHouseToUser" title="AddressDistributionAction:attachHouseToUser"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:removeHouseFromUser" title="AddressDistributionAction:removeHouseFromUser"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:getUserByHouse" title="AddressDistributionAction:getUserByHouse"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:quarterDistribution" title="AddressDistributionAction:quarterDistribution"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:groupList" title="AddressDistributionAction:groupList"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:undistributedGroups" title="AddressDistributionAction:undistributedGroups"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:attachQuarterToGroup" title="AddressDistributionAction:attachQuarterToGroup"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:groupQuarters" title="AddressDistributionAction:groupQuarters"/>
-			<item action="ru.bgcrm.struts.action.AddressDistributionAction:removeQuarterFromGroup" title="AddressDistributionAction:removeQuarterFromGroup"/>
-		</item>
 
 		<item action="ru.bgcrm.struts.action.EmptyAction:null" title="Для унифицированного вызова JSP" allowAll="1" notLogging="1"/>
 		<item action="ru.bgcrm.struts.action.PoolAction:null" title="Для пулинга" allowAll="1" notLogging="1"/>

@@ -10,7 +10,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.dao.AddressDistributionDAO;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -40,7 +39,6 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.CrmDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 
@@ -252,7 +250,7 @@ extends StepData<CreateTasksStep>
 					.getGruopByQuarter( addressHouse.getQuarterId(), addressHouse.getAddressQuarter().getCityId(), AddressQuarterDAO.QNAME_FILTER_OFF );
 				}
 
-				if( !isNewScheme( con, addressHouse ) )
+				/* if( !isNewScheme( con, addressHouse ) )
 				{
 					// создание и привязка задач
 					String taskId = crmDAO.createTask( contract.getId(), 0, rule.taskTypeId, rule.taskGroupId, rule.taskStatusId,
@@ -265,7 +263,7 @@ extends StepData<CreateTasksStep>
 					link.setConfigMap( new Preferences( "taskTypeId=" + rule.taskTypeId ) );
 
 					processLinkDao.addLink( link );
-				}
+				} */
 			}
 		}
 
@@ -289,7 +287,7 @@ extends StepData<CreateTasksStep>
 		return isFilled;
 	}
 
-	private boolean isNewScheme( Connection con, AddressHouse addressHouse )
+	/* private boolean isNewScheme( Connection con, AddressHouse addressHouse )
 	throws BGException
 	{
 		AddressDistributionDAO distrDAO = new AddressDistributionDAO( con );
@@ -306,7 +304,7 @@ extends StepData<CreateTasksStep>
 			}
 		}
 		return false;
-	}
+	} */
 
 	private int searchContractIdByTitleInList( String title, List<CommonObjectLink> linkList )
 	{

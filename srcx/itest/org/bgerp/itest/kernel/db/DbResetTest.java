@@ -76,7 +76,7 @@ public class DbResetTest {
         log.info("Creating database..");
 
         try (var con = DbTest.conPoolRoot.getDBConnectionFromPool()) {
-            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/BGERP/db.sql"), StandardCharsets.UTF_8));
+            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/bgerp/db.sql"), StandardCharsets.UTF_8));
         }
     }
 

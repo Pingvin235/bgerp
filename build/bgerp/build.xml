@@ -2,7 +2,7 @@
 <project name="BGERP" default="build" basedir=".">
 	<description>First installation package</description>
 
-	<property name="rootfolder" value="BGERP"/>
+	<property name="rootfolder" value="bgerp"/>
 
 	<import file="${basedir}/../common/import/module_build.xml"/>
 	<import file="${basedir}/../update/build.xml"/>
