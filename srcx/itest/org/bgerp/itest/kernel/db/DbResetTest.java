@@ -45,6 +45,7 @@ public class DbResetTest {
         try (var con = conPoolRoot.getDBConnectionFromPool()) {
             log.info("Delete existing database..");
             con.createStatement().executeUpdate("DROP DATABASE IF EXISTS " + DBNAME);
+            con.createStatement().executeUpdate("CREATE DATABASE " + DBNAME);
         }
     }
 
@@ -57,10 +58,10 @@ public class DbResetTest {
         @Override
         protected void doQuery(Statement st, String line, Set<String> hashes, boolean noHash) throws SQLException {
             try {
-                if (line.contains("GENERATED_PASSWORD")) {
+                /* if (line.contains("GENERATED_PASSWORD")) {
                     log.info("Skipping: %s", line);
                     return;
-                }
+                } */
                 log.debug("Executing: %s", line);
                 st.executeUpdate(line);
             } catch (SQLException ex) {
@@ -73,10 +74,10 @@ public class DbResetTest {
     public void createDb() throws Exception {
         if (conditionalSkip()) return;
 
-        log.info("Creating database..");
+        log.info("Creating database content..");
 
         try (var con = DbTest.conPoolRoot.getDBConnectionFromPool()) {
-            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/bgerp/db.sql"), StandardCharsets.UTF_8));
+            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/bgerp/db_init.sql"), StandardCharsets.UTF_8));
         }
     }
 

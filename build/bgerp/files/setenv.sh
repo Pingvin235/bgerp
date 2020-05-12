@@ -1,4 +1,4 @@
-JAVA_HOME=
+#JAVA_HOME=
 
 if [ -z "$JAVA_HOME" ]; then
   echo "The JAVA_HOME environment variable is not defined"

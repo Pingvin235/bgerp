@@ -25,7 +25,7 @@
 * <<project.adoc#workflow, 28.09.2019>> Основная ветка GIT изменена на *master*.
 * <<ext/blow_jira.adoc#, 10.09.2019>> Blow JIRA.
 * <<project.adoc#, 23.08.2019>> Информация о проекте.
-* <<kernel/install.adoc#install-linux, 25.06.2019>> Генератор документации вынесен во внешний link:http://pzdcdoc.org[проект PzdcDoc]. Улучшенная навигация по подразделам.
+* <<kernel/install.adoc#application, 25.06.2019>> Генератор документации вынесен во внешний link:http://pzdcdoc.org[проект PzdcDoc]. Улучшенная навигация по подразделам.
 * <<kernel/process/processing.adoc#commands-bgbilling, 30.04.2019>> Пример скрипта копирования параметров договора BGBilling в процесс. 
 * <<kernel/interface.adoc#, 29.04.2019>> Уведомления интерфейса.
 * <<kernel/message.adoc#queue, 29.04.2019>> Обработка сообщений.
@@ -50,7 +50,7 @@
 * <<kernel/process/index.adoc#linked-process-howto, 06.02.2019>> Рекомендации по использованию связанных процессов.
 * <<ext/service_desk.adoc#, 23.01.2019>> Примеры настройки Workflow, ServiceDesk.
 * <<ext/letter.adoc#, 21.01.2019>> Примеры настройки Workflow, письма.
-* <<kernel/install.adoc#install-linux, 25.12.2018>> Обновлена инструкция по установке.
+* <<kernel/install.adoc#application, 25.12.2018>> Обновлена инструкция по установке.
 * <<kernel/extension.adoc#tech-choice, 24.12.2018>> Выбор технологии для расширения функциональности.
 * <<plugin/document/index.adoc#samples, 06.12.2018>> Примеры шаблонов Акт и Заявка для печати из очереди процессов.
 * <<kernel/message.adoc#dev-plan, 05.12.2018>> Планы развития функционала сообщений.

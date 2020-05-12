@@ -1,0 +1,4 @@
+A: Docker image 'bgerp/bgerp' including: MySQL, Java and BGERP.
+C: In script setenv.sh accepting default JAVA_HOME from env variables.
+F: Running admin commands listener on loopback IP only.
+C: DB creation script 'db.sql' separated on 'db_create.sql' and 'db_init.sql'.

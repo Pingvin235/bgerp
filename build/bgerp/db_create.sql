@@ -12,9 +12,3 @@ CREATE USER IF NOT EXISTS 'bgerp'@'%';
 ALTER USER 'bgerp'@'%' IDENTIFIED BY GENERATED_PASSWORD;
 GRANT ALTER ROUTINE ON bgerp.* TO 'bgerp'@'%';
 GRANT ALL PRIVILEGES ON bgerp.* TO 'bgerp'@'%';
-
-USE bgerp;
-
-CREATE TABLE IF NOT EXISTS _check_db_access(a INT, `check_sql-mode` VARCHAR(10) NOT NULL);
-INSERT INTO _check_db_access(a) VALUES (42);
-DROP TABLE _check_db_access;

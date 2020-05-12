@@ -104,31 +104,35 @@ image::_res/ide_format.png[width='600px']
 Форматер Java и отображение пробельных символов там уже включены.
 
 [[ide-run]]
-=== Запуск
-Параметры для запуска:
+=== Running in IDE
+Configuration:
 [square]
 * Main class: ru.bgerp.Server
 * Program arguments: start
 * VM arguments: -Dbgerp.setup.data=bgerp_test
 * Classpath: *User entries - Advanced - Add folders* нажать и добавить каталог текущего проекта.
 
-`bgerp_test.propertes` файл должен лежать в корне проекта.
-Его можно скопировать из `bgerp.properties`, он не будет сохранён в GIT. 
+Copy `bgerp.properties` to `bgerp_test.propertes`, replace *GENERATED_PASSWORD* on some value `pwgen`. 
 
-==== БД
-Для создания БД использовать последовательно файлы:
+==== Database
+MySQL server may be running on any supporting platform, check <<kernel/install.adoc#mysql, configuration>> of it.
+
+For database creation use sequentially the files:
 [square]
-* `db.sql` из пакета установки link:ftp://bgerp.ru/pub/bgerp/3.0[bgerp_3.0_xxxx.zip] - пользователь, база, таблицы;
-* `bgerp.sql` по ссылке http://demo.bgerp.ru/bgerp.sql - данные, результат запуска <<integration-test, интеграционного теста>>.
+* `db_create.sql`, `db_init.sql` from link:https://bgerp.org/download/3.0/bgerp.zip[bgerp.zip] - initial structure;
+* `bgerp.sql` https://demo.bgerp.bgerp/bgerp.sql - data after running of <<integration-test, integration test>>.
 
-Под пользователем MySQL *root* выполнить команды:
+Replace *GENERATED_PASSWORD* in `db_create.sql` to the value `bgerp_test.properties` but *surrounded by commas*.
+
+Execute mysql commands:
 [source, bash]
 ----
-mysql --default-character-set=utf8 -uroot -p < db.sql
+mysql --default-character-set=utf8 -uroot -p < db_create.sql
+mysql --default-character-set=utf8 -ubgerp -p < db_init.sql
 mysql --default-character-set=utf8 -uroot -p < bgerp.sql
 ----
 
-Для <<db, обновления БД>> в дальнейшем при каждом запуске в `.properties` файле должна быть установлен <<kernel/setup.adoc#config-on-start, параметр>>:
+For <<db, DB update>> on each start in `.properties` must be set <<kernel/setup.adoc#config-on-start, option>>:
 [source]
 ----
 runOnStart+=,ru.bgcrm.util.distr.DevDbUpdater
@@ -518,7 +522,7 @@ UI реализован из унифицированных компоненто
 image::_res/ide_jsp_tag.png[width='600px']
 
 Обзор использования тегов с элементами управления пользователя вы можете посмотреть в файле link:../../webapps/test.jsp[webapps/test.jsp], 
-для выполнения шаблона наберите в браузере http://<host>:<port>/test.jsp, для DEMO системы: http://demo.bgerp.ru/test.jsp
+для выполнения шаблона наберите в браузере http://<host>:<port>/test.jsp, для Demo системы: http://demo.bgerp.ru/test.jsp
 
 Пункты меню, устанавливающие соответствие между URL оснастки и Java Action определяются для ядра в файле 
 link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp], для плагинов - через точку <<plugin-ui-menu, расширения>>.
@@ -925,6 +929,22 @@ bash -c "./gradlew patchChanges rss publishBuild publishCommit"
 ----
 
 Merge the latest state of the master on <<documentation, documentation>> branch.
+
+[[build-docker]]
+=== Docker
+[source]
+----
+docker login --username bgerp
+----
+Input access token.
+
+Go in directory `build/docker`
+[source]
+----
+bash files.sh
+docker build . -t bgerp/bgerp
+docker push bgerp/bgerp
+----
 
 [[unit-test]]
 === Unit тесты

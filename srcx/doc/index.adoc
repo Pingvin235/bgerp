@@ -3,9 +3,9 @@
 
 * <<changes.adoc#, Changes>>
 * Ядро системы
-** <<kernel/install.adoc#, Setup>>
+** <<kernel/install.adoc#, Install>>
 ** <<kernel/interface.adoc#, Interface>>
-** <<kernel/setup.adoc#, Настройка>>
+** <<kernel/setup.adoc#, Setup>>
 ** <<kernel/search.adoc#, Поиск>>
 ** <<kernel/news.adoc#, Новости>>
 ** <<kernel/customer.adoc#, Контрагенты>>

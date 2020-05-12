@@ -9,8 +9,45 @@ Minimal system requirements for running server with BGERP + MySQL:
 * CPU core equal Intel x86 500 MHz, recommended - 1 GHz;
 * 512 MB RAM, recommended - 1 GB.
 
+[[docker]]
+== Docker
+The link:https://hub.docker.com/r/bgerp/bgerp[Docker image] is approximately *1 GB* and contains 
+the latest published build will all the required components: MySQL, Java. 
+The actual <<demo, Demo>> is also applied during first run.
+
+This variant perfectly fits for following purposes:
+[square]
+* having first look and playing with program;
+* running in different environment, e.g. already installed MySQL with not appropriate version.
+
+Run this script for initial install as well as for update.
+[source, bash]
+----
+docker pull bgerp/bgerp && docker run -d --name bgerp --restart always \
+    -v /srv/bgerp/data/mysql:/var/lib/mysql \
+    -v /srv/bgerp/data/filestorage:/opt/bgerp/filestorage \
+    -v /srv/bgerp/data/backup:/opt/bgerp/backup \
+    -v /srv/bgerp/conf:/opt/bgerp/conf \
+    -v /srv/bgerp/log:/opt/bgerp/log \
+    bgerp/bgerp && docker logs --follow bgerp
+----
+
+For removing container, also before update.
+[source, bash]
+----
+docker stop bgerp && docker rm bgerp
+----
+
+CAUTION: Completely remove all the related data.
+
+[source, bash]
+----
+rm -rf /srv/bgerp
+----
+
+== Linux server
 [[mysql]]
-== MySQL
+=== MySQL
 *Original* MySQL DB Server version *8.0* or newer. 
 
 Different forks of MySQL (Maria, Percona) does not fit because of missing <<../plugin/fulltext/index.adoc#, fulltext>> index support.
@@ -30,10 +67,16 @@ sql-mode=
 ----
 IMPORTANT: *sql-mode* must be set exactly to empty string, as shown in the example. If sql-mode is not defined - add it, if missing - make value  DB creation script contains correctness of it any case.
 
+Add missing *sql-mode* command:
+[source, bash]
+----
+sed -i '/\[mysqld\]/a sql-mode= ' /etc/mysql/my.cnf
+----
+
 You will also need a root access to the MySQL Server one time.
 
 [[java]]
-== Java
+=== Java
 Required version *OpenJDK 11*, may be installed so:
 [square, sh]
 ----
@@ -43,8 +86,8 @@ sudo yum install -y java-11-openjdk-devel
 
 IMPORTANT: Check, what commands *java* and *javac* are available after installation.
 
-[[install-linux]]
-== The application
+[[application]]
+=== Application
 All the operations require *root* user.
 
 Check and install if needed script dependencies:
@@ -68,21 +111,22 @@ Generate DB password ant put it in files:
 ERP_DB_PWD=`pwgen` && export EPR_DB_PWD &&
 echo "Setting DB password: '$ERP_DB_PWD'" &&
 sed -i "s/GENERATED_PASSWORD/$ERP_DB_PWD/" /opt/bgerp/bgerp.properties &&
-sed -i "s/GENERATED_PASSWORD/'$ERP_DB_PWD'/" /opt/bgerp/db.sql
+sed -i "s/GENERATED_PASSWORD/'$ERP_DB_PWD'/" /opt/bgerp/db_create.sql
 ----
 
 Run DB user and structure creation:
 [source, sh]
 ----
-mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p < /opt/bgerp/db.sql
+mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p < /opt/bgerp/db_create.sql
+mysql --default-character-set=utf8 -h127.0.0.1 -ubgerp -p$ERP_DB_PWD < /opt/bgerp/db_init.sql
 ----
 
 // TODO: Take filestorage from Demo.
-Apply data from the Demo-system:
+Apply data from the <<demo, Demo>>:
 [source, sh]
 ----
 wget https://demo.bgerp.org/bgerp.sql -O /opt/bgerp/bgerp.sql
-mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p < /opt/bgerp/bgerp.sql
+mysql --default-character-set=utf8 -h127.0.0.1 -uroot -p bgerp < /opt/bgerp/bgerp.sql
 ----
 
 Change if needed in *bgerp.properties* DB server host, HTTP and management ports, in *setenv.sh* *JAVA_HOME*:
@@ -110,6 +154,10 @@ systemctl daemon-reload
 systemctl enable bgerp
 ----
 Для автозапуска приложения при загрузке системы.
+
+[[demo]]
+== Demo
+The Demo system is running on https://demo.bgerp.org with the latest published builds of software and resets to initial state any 3rd hour.
 
 [[update]]
 == Обновление

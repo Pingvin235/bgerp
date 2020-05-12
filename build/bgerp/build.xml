@@ -31,11 +31,14 @@
 
 	<!--дамп базы -->
 	<target name="table_dump">
-		<concat destfile="${rootpath}/db.sql" encoding="UTF-8">
+		<concat destfile="${rootpath}/db_create.sql" encoding="UTF-8">
 			<fileset file="${basedir}/db_create.sql"/>
+		</concat>
+		<concat destfile="${rootpath}/db_init.sql" encoding="UTF-8">
+			<fileset file="${basedir}/db_init_begin.sql"/>
 			<fileset file="${basedir}/../update/patch.sql"/>
 			<fileset file="${basedir}/../update/patch_*.sql"/>
-			<fileset file="${basedir}/db_init.sql"/>
+			<fileset file="${basedir}/db_init_end.sql"/>
 		</concat>
 	</target>
 

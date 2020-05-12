@@ -35,9 +35,9 @@ public class AdminPortListener implements Runnable {
         logger.info("Starting listen admin port " + port);
         try {
             s = new ServerSocket();
-            s.bind(new InetSocketAddress(InetAddress.getByName("127.0.0.1"), port));
+            s.bind(new InetSocketAddress(InetAddress.getLoopbackAddress(), port));
         } catch (Exception ex) {
-            logger.error("Port " + port + " is bisy!!! [" + ex.getMessage() + "]");
+            logger.error("Port " + port + " is busy! [" + ex.getMessage() + "]");
             System.exit(1);
         }
 
