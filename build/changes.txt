@@ -1,6 +1,12 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, F - FIX
 
+12.05.2020 13:34:28 1357
+A: Docker image 'bgerp/bgerp' including: MySQL, Java and BGERP.
+C: In script setenv.sh accepting default JAVA_HOME from env variables.
+F: Running admin commands listener on loopback IP only.
+C: DB creation script 'db.sql' separated on 'db_create.sql' and 'db_init.sql'.
+
 09.05.2020 21:04:20 1356
 C: Installation directory /opt/BGERP to /opt/bgerp.
 C: Remove address distribution functionality.
