@@ -20,76 +20,60 @@ import ru.bgcrm.util.sql.ConnectionSet;
  * Слушаель событий Asterisk а.
  * @author shamil
  */
-public class AMIManager
-{
-	static final Logger log = Logger.getLogger( AMIManager.class );
-	
-	static final int CONNECT_TIMEOUT = 5 * 60 * 1000;
-	static final int RECONNECT_TIMEOUT = 60 * 1000;
-	
-	private List<AmiEventListener> threadList = new ArrayList<AmiEventListener>();
-	
-	public AMIManager()
-	{
-		init();
-		
-		EventProcessor.subscribe( new EventListener<SetupChangedEvent>()
- 	    {
- 	    	@Override
- 	    	public void notify( SetupChangedEvent e, ConnectionSet connectionSet )
- 	    	{
- 	    		init();
- 	    	}
- 	    }, SetupChangedEvent.class );
-		                     	    
-	}
+public class AMIManager {
+    static final Logger log = Logger.getLogger(AMIManager.class);
 
-	// http://www.asterisk-java.org/development/tutorial.html
-	private void init()
-	{
-		log.info( "Reinit.." );
-		
-		try
-		{
-			for( AmiEventListener listener : threadList )
-			{
-				listener.logoff();
-			}
-			threadList = new ArrayList<AmiEventListener>();
-			
-			Setup setup = Setup.getSetup();
-			
-			MessageTypeConfig mtConfig = setup.getConfig( MessageTypeConfig.class );		
-		   
-			for( ParameterMap config : setup.subIndexed( "asterisk:amiManager." ).values() )
-			{
-				int messageTypeId = config.getInt( "messageTypeId", 0 );
-				
-				MessageType messageType = mtConfig.getTypeMap().get( messageTypeId );
-				if( messageType == null || !(messageType instanceof MessageTypeCall) )
-				{
-					log.error( "Incorrect messageTypeId: " + messageTypeId );
-					continue;
-				}
-				
-				Class<?> listenerClass = DynamicClassManager.getClass(config.get( "listenerClass", 
-				                                                                  "ru.bgcrm.plugin.asterisk.AmiEventListener" ));
-				try
-				{
-					AmiEventListener listener = (AmiEventListener)listenerClass
-						.getConstructor( MessageTypeCall.class, ParameterMap.class )
-						.newInstance( (MessageTypeCall)messageType, config );
-					threadList.add( listener );
-				}
-				catch( Exception e )
-				{
-					log.error( e.getMessage(), e );
-				}	    			
-			}
-		}
-		catch( Exception e )
-		{
-			log.error( e.getMessage(), e );
-		}
-	}	
+    static final int CONNECT_TIMEOUT = 5 * 60 * 1000;
+    static final int RECONNECT_TIMEOUT = 60 * 1000;
+
+    private List<AmiEventListener> threadList = new ArrayList<AmiEventListener>();
+
+    public AMIManager() {
+        init();
+
+        EventProcessor.subscribe(new EventListener<SetupChangedEvent>() {
+            @Override
+            public void notify(SetupChangedEvent e, ConnectionSet connectionSet) {
+                init();
+            }
+        }, SetupChangedEvent.class);
+
+    }
+
+    // http://www.asterisk-java.org/development/tutorial.html
+    private void init() {
+        log.info("Reinit..");
+
+        try {
+            for (AmiEventListener listener : threadList) {
+                listener.logoff();
+            }
+            threadList = new ArrayList<AmiEventListener>();
+
+            Setup setup = Setup.getSetup();
+
+            MessageTypeConfig mtConfig = setup.getConfig(MessageTypeConfig.class);
+
+            for (ParameterMap config : setup.subIndexed("asterisk:amiManager.").values()) {
+                int messageTypeId = config.getInt("messageTypeId", 0);
+
+                MessageType messageType = mtConfig.getTypeMap().get(messageTypeId);
+                if (messageType == null || !(messageType instanceof MessageTypeCall)) {
+                    log.error("Incorrect messageTypeId: " + messageTypeId);
+                    continue;
+                }
+
+                Class<?> listenerClass = DynamicClassManager.getClass(config.get("listenerClass", "ru.bgcrm.plugin.asterisk.AmiEventListener"));
+                try {
+                    AmiEventListener listener = (AmiEventListener) listenerClass.getConstructor(MessageTypeCall.class, ParameterMap.class)
+                            .newInstance((MessageTypeCall) messageType, config);
+                    threadList.add(listener);
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
 }

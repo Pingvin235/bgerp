@@ -2,25 +2,54 @@
  * Customers. 
  */
 $$.customer = new function() {
+	/**
+	 * Open customer tab.
+	 * @param {*} id customer ID. 
+	 */
 	const open = (id) => {
-		$$.shell.contentLoad("customer#" + id);
-	};
-	
+		return $$.shell.contentLoad("customer#" + id);
+	}
+
+	/**
+	 * Create new customer and open it.
+	 * @param {*} options.disabled UI element to be disabled.
+	 */
+	const createAndEdit = (options) => {
+		options = options || {};
+
+		if (options.disabled)
+			options.disabled.disabled = true;
+
+		let url = "/user/customer.do?action=customerCreate";
+		$$.ajax
+			.post(url).done((result) => {
+				const customerId = result.data.customer.id;
+				open(customerId).done(() => {
+					url = "/user/customer.do?action=customerGet&id=" + customerId + "&returnUrl=" + encodeURIComponent("customer.do?id=" + customerId);
+					$$.ajax.load(url, $$.shell.$content());
+				})
+			})
+			.always(() => {
+				if (options.disabled)
+					options.disabled.disabled = false;
+			})
+	}
+
 	// public functions
 	this.open = open;
-};
-
+	this.createAndEdit = createAndEdit;
+}
 
 function openCustomer(id) {
-	console.warn("Deprecated");
+	console.warn($$.deprecated);
 	$$.customer.open(id);
 }
 
+function createCustomerAndEdit(sender) {
+	console.warn($$.deprecated);
+	$$.customer.createAndEdit(sender);
 
-// создаёт контрагента и открывает его редактор
-function createCustomerAndEdit( sender )
-{
-	var url = "customer.do?action=customerCreate";
+	/* var url = "/usercustomer.do?action=customerCreate";
 	sendAJAXCommandAsync( url, null,
 		function(result)
 		{
@@ -34,7 +63,7 @@ function createCustomerAndEdit( sender )
 			}
 		},
 		sender,
-		500 );
+		500 ); */
 }
 
 function addCustomerSearch( $selector )

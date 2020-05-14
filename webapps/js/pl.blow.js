@@ -28,7 +28,7 @@ $$.blow = new function() {
 				selectItem($(this), $cells);
 			});
 		}
-	};
+	}
 
 	const initTable = ($table, $menu) => {
 		const $cells = $table.find("> tbody > tr:gt(0) > td");
@@ -54,7 +54,7 @@ $$.blow = new function() {
 
 		if ($menu)
 			initRcMenu($table, $menu);
-	};
+	}
 
 	const initRcMenu = ($table, $menu) => {
 		const menu = $menu.menu();
@@ -122,7 +122,7 @@ $$.blow = new function() {
 			}
 			return false;
 		});
-	};
+	}
 
 	const groupBorder = ($cells, $td) => {
 		const itemId = $td.attr(ATTR_BG_ID);
@@ -178,22 +178,22 @@ $$.blow = new function() {
 			if (!$tr.is(":last-child") && neighborCellNeedBorder($tr.next(), $td))
 				$td.addClass(CLASS_BORDER_BOTTOM);
 		}
-	};
+	}
 
 	const neighborCellNeedBorder = ($tr, $td) => {
 		return isGroupMember(getCellInSameColumn($tr, $td));
-	};
+	}
 
 	const getCellInSameColumn = ($tr, $td) => {
 		const index = $td.index();
 		const $children = $tr.children();
 		debug("getCellInSameColumn", $tr, $children);
 		return  $children.length === 1 ?  $children.first() : $($children.get(index));
-	};
+	}
 
 	const isGroupMember = ($td) => {
 		return $td.attr(ATTR_BG_PARENT_ID) === "" || $td.attr(ATTR_BG_PARENT_ID) > 0;
-	};
+	}
 
 	const toggleFilterHighlight = ($table, $button) => {
 		const $cells = $table.find("td.filter-" + $button.attr(ATTR_BG_ID));
@@ -205,7 +205,7 @@ $$.blow = new function() {
 		else
 			$cells.css("background-color", "");
 		
-	};
+	}
 
 	const move = ($td, $tdTo) => {
 		const targetProcessId = $tdTo.attr(ATTR_BG_ID);
@@ -215,14 +215,14 @@ $$.blow = new function() {
 			.post("/user/plugin/blow/board.do?action=move&processId=" + $td.attr(ATTR_BG_ID) + "&fromParentProcessId=" + $td.attr(ATTR_BG_PARENT_ID) +
 					"&parentProcessId=" + (targetParentProcessId > 0 ? targetParentProcessId : targetProcessId))
 			.done(() => $$.shell.contentLoad("/user/blow/board"));
-	};
+	}
 
 	const merge = ($td, $tdTo) => {
 		const targetProcessId = $tdTo.attr(ATTR_BG_ID);
 		$$.ajax
 			.post("/user/process.do?action=processMerge&id=" + $td.attr(ATTR_BG_ID) + "&processId=" + targetProcessId)
 			.done(() => $$.shell.contentLoad("/user/blow/board"));
-	};
+	}
 
 	// drag & drop
 	this.drag = new function () {
@@ -233,12 +233,12 @@ $$.blow = new function() {
 			this.style.opacity = '0.4';
 			$tdDrag = $(this);
 			$cells = $(this).closest("table").find("td");
-		};
+		}
 
 		const dragEnd = function (e) {
 			this.style.opacity = '';
 			$cells.removeClass(CLASS_SELECTED);
-		};
+		}
 
 		const dragOver = (e) => {
 			debug("drag over", e);
@@ -277,7 +277,7 @@ $$.blow = new function() {
 			$td.on('dragend', dragEnd);
 			$td.on('dragover', dragOver);
 			$td.on('drop', dragDrop);
-		};
+		}
 
 		this.init = initDD;
 	}
@@ -285,6 +285,4 @@ $$.blow = new function() {
 	// public functions
 	this.initTable = initTable;
 	this.toggleFilterHighlight = toggleFilterHighlight;
-};
-
-
+}

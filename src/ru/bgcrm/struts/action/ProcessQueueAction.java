@@ -3,7 +3,6 @@ package ru.bgcrm.struts.action;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +21,6 @@ import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.SavedFilterDAO;
-import ru.bgcrm.dao.process.StatusDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
@@ -32,15 +30,14 @@ import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.Queue.ColumnConf;
 import ru.bgcrm.model.process.queue.Processor;
 import ru.bgcrm.model.process.queue.config.SavedCommonFiltersConfig;
 import ru.bgcrm.model.process.queue.config.SavedFilter;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig;
-import ru.bgcrm.model.process.queue.config.SavedPanelConfig;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;
+import ru.bgcrm.model.process.queue.config.SavedPanelConfig;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.report.model.PrintQueueConfig;
 import ru.bgcrm.plugin.report.model.PrintQueueConfig.PrintType;
@@ -68,25 +65,14 @@ public class ProcessQueueAction extends ProcessAction {
     public ActionForward typeTree(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         int queueId = Utils.parseInt(form.getParam("queueId"));
         Queue queue = ProcessQueueCache.getQueue(queueId, form.getUser());
-        User user = form.getUser();
 
         // очередь не разрешена пользователю
         if (queue == null)
             return data(con, mapping, form, "processTypeTree");
 
-        List<ProcessType> typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
-
-        boolean onlyPermittedTypes = form.getPermission().getBoolean("onlyPermittedTypes", false);
-        if (onlyPermittedTypes) {
-            applyProcessTypePermission(typeList, user);
-        }
-
-        Set<Integer> typeSet = new HashSet<Integer>();
-        for (ProcessType type : typeList) {
-            typeSet.add(type.getId());
-        }
-
-        form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().clone(typeSet, onlyPermittedTypes));
+        var typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
+        applyProcessTypePermission(typeList, form);
+        form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
 
         return data(con, mapping, form, "processTypeTree");
     }
@@ -251,15 +237,10 @@ public class ProcessQueueAction extends ProcessAction {
             request.setAttribute("commonConfig", commonConfig);
 
             form.getResponse().setData("queue", queue);
-            form.getResponse().setData("statusList", new StatusDAO(con).getStatusList());
+            // form.getResponse().setData("statusList", new StatusDAO(con).getStatusList());
 
-            List<ProcessType> typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
-
-            boolean onlyPermittedTypes = form.getPermission().getBoolean("onlyPermittedTypes", false);
-            if (onlyPermittedTypes) {
-                applyProcessTypePermission(typeList, user);
-            }
-
+            var typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
+            applyProcessTypePermission(typeList, form);
             form.getResponse().setData("typeList", typeList);
 
             Preferences personalizationMap = user.getPersonalizationMap();

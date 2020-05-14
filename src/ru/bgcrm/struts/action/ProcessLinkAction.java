@@ -2,7 +2,6 @@ package ru.bgcrm.struts.action;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,14 +19,12 @@ import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.dao.process.StatusChangeDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.client.ProcessOpenEvent;
 import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.event.process.ProcessCreatedAsLinkEvent;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.IfaceState;
 import ru.bgcrm.model.Pair;
@@ -35,7 +32,6 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Queue;
-import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.config.LinkProcessCreateConfig;
 import ru.bgcrm.model.process.config.LinkProcessCreateConfigItem;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
@@ -44,7 +40,6 @@ import ru.bgcrm.model.process.queue.FilterLinkObject;
 import ru.bgcrm.model.process.queue.FilterList;
 import ru.bgcrm.model.process.queue.FilterOpenClose;
 import ru.bgcrm.model.process.queue.FilterProcessType;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
@@ -60,7 +55,6 @@ public class ProcessLinkAction extends ProcessAction {
 
         restoreRequestParams(con, form, true, true, "open");
 
-        User user = form.getUser();
         String objectType = form.getParam("objectType");
         int id = form.getId();
 
@@ -113,24 +107,14 @@ public class ProcessLinkAction extends ProcessAction {
         form.getResponse().setData("typeList", processLinkDAO.getLinkedProcessTypeIdList(objectType, id));
 
         // type tree for creation
-        List<ProcessType> typeList = ProcessTypeCache.getTypeList(con, objectType, id);
-
-        boolean onlyPermittedTypes = form.getPermission().getBoolean("onlyPermittedTypes", false);
-        if (onlyPermittedTypes) {
-            applyProcessTypePermission(typeList, user);
-        }
-
-        Set<Integer> typeSet = new HashSet<Integer>();
-        for (ProcessType type : typeList) {
-            typeSet.add(type.getId());
-        }
-
-        form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().clone(typeSet, onlyPermittedTypes));
+        var typeList = ProcessTypeCache.getTypeList(con, objectType, id);
+        applyProcessTypePermission(typeList, form);
+        form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
 
         return data(con, mapping, form);
     }
 
-    /* Usages are not found. */
+    /* Usages were not found, 03.05.2020
     public ActionForward linkedProcessInfo(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
         int id = form.getId();
         if (id <= 0) {
@@ -142,7 +126,7 @@ public class ProcessLinkAction extends ProcessAction {
         new StatusChangeDAO(con).searchProcessStatus(new SearchResult<StatusChange>(form), form.getId(), form.getSelectedValues("statusId"));
 
         return data(con, mapping, form, "linkedProcessInfo");
-    }
+    } */
 
     private void setProcessReference(Connection con, DynActionForm form, Process process, String objectType) {
         try {
@@ -164,11 +148,6 @@ public class ProcessLinkAction extends ProcessAction {
         String objectTitle = form.getParam("objectTitle");
 
         Process process = ProcessAction.processCreate(form, con);
-
-        //TODO: Может потом вернуть поддержку пермишена.
-        /*  ParameterMap permission = form.getPermission();
-            Set<Integer> processTypeIds = Utils.toIntegerSet( permission.get( "allowedProcessTypeIds" ) );
-        */
 
         CommonObjectLink link = new CommonObjectLink(Process.OBJECT_TYPE, process.getId(), objectType, id, objectTitle);
 

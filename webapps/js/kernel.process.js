@@ -11,6 +11,8 @@ $$.process = new function() {
 
 	// sub namespace queue
 	this.queue = new function() {
+		const debug = $$.debug("processQueue");
+
 		const changed = (savedSetId) => {
 			const queueId = $("#processQueueSelect > input[type=hidden]").val();
 	
@@ -19,19 +21,19 @@ $$.process = new function() {
 
 			// поиск и создание нужного фильтра и кнопок
 			if ($("#processQueueFilter > div#" + queueId).length == 0) {
-				filterLoadDfd = $.Deferred();
-				$$.ajax
-					.load("/user/process/queue.do?action=queueGet&id=" + queueId, $('#processQueueFilter'), {append : true})
-					.done(() => {filterLoadDfd.resolve()});
+				filterLoadDfd = $$.ajax.load("/user/process/queue.do?action=queueGet&id=" + queueId, $('#processQueueFilter'), {append : true});
 			}
 			
 			if (savedSetId == undefined) {
-				typeTreeLoadDfd = $.Deferred()
 				// дерево типов для создания
-				$$.ajax
-					.load("/user/process/queue.do?action=typeTree&queueId=" + queueId, $("#processQueueCreateProcess > #typeTree"))
-					.done(() => {typeTreeLoadDfd.resolve()});
+				typeTreeLoadDfd = $$.ajax.load("/user/process/queue.do?action=typeTree&queueId=" + queueId, $("#processQueueCreateProcess > #typeTree"));
 			}
+
+			// workaround to make waiting, see logic in $$.ajax.load
+			const dfd = $.Deferred();
+			const $loader = $("<div class='loader'></div>");
+			$('#processQueueShow').append($loader);
+			$loader.data("dfd", {dfd: dfd, url: "queue.changed.filter"});
 			
 			return $.when(filterLoadDfd, typeTreeLoadDfd).done(() => {
 				$("#processQueueFilter > div[id!=" + queueId + "]").hide();
@@ -66,20 +68,59 @@ $$.process = new function() {
 					})
 				}
 
-				var url = $$.ajax.formUrl($filter.find("form[active=1]"));
+				const url = $$.ajax.formUrl($filter.find("form[active=1]"));
 				if (url) {
 					$$.ajax
 						.load(url, $('#processQueueData'))
 						.done(() => {
 							addProcessQueueIdToUrl(queueId);
+							dfd.resolve();
 						});
-				}
+				} else
+					dfd.resolve();
 			});
-		};
+		}
+
+		const showSelected = (id) => {
+			// очередь может быть сохранена, как последняя открытая, а потом удалена
+			if ($("#processQueueSelect li[value=" + id + "]").length === 0)
+				return;
+
+			if (id) {
+				$(".btn-panel input[type=hidden]").each(function () {
+					if ($(this).val() == id) {
+						$(this).parent().removeClass("btn-white");
+						$(this).parent().addClass("btn-blue");
+					}
+					else {
+						$(this).parent().removeClass("btn-blue");
+						$(this).parent().addClass("btn-white");
+					}
+				});
+
+				if (id != $('#processQueueSelect').find('input[type=hidden]').val()) {
+					$('#processQueueSelect').find('input[type=hidden]').val(id);
+				}
+
+				if ($(".btn-panel.btn-blue").length < 1) {
+					$("#processQueueSelect .drop li").each(function () {
+						if ($(this).val() == id) {
+							$("#processQueueSelect > .text-value").html($(this).html());
+							$('#processQueueSelect').find('.text-value div.icon-add').remove();
+							return;
+						}
+					});
+				}
+			}
+
+			$$.process.queue.changed();
+		}
 
 		// available functions
+		this.debug = debug;
 		this.changed = changed;
-	};
+		this.showSelected = showSelected;
+	}
 };
 
 function processQueueChanged(savedSetId) {
@@ -112,8 +153,8 @@ function processQueueMarkFilledFilters($form) {
 		$span.css("font-weight", "");
 		
 		if ($filterItem.find('input[type=text]').val() || 
-		    $filterItem.find('input[type=hidden]').val() ||
-		    $filterItem.find('input[type=checkbox]:checked').length) {
+			$filterItem.find('input[type=hidden]').val() ||
+			$filterItem.find('input[type=checkbox]:checked').length) {
 			$span.css("font-weight", "bold");
 		}
 	});
@@ -439,47 +480,9 @@ function updateSelectedQueue(id)
 		});
 }
 
-function showSelectedQueue(id)
-{
-	// очередь может быть сохранена, как последняя открытая, а потом удалена
-	if ($("#processQueueSelect li[value=" + id + "]").length === 0)
-		return;
-	
-	if (id) {
-		$(".btn-panel input[type=hidden]").each( function ()
-		{
-			if( $(this).val() == id )
-			{
-				$(this).parent().removeClass("btn-white");
-				$(this).parent().addClass("btn-blue");
-			}
-			else
-			{
-				$(this).parent().removeClass("btn-blue");
-				$(this).parent().addClass("btn-white");
-			}
-		});
-		
-		if( id != $('#processQueueSelect').find('input[type=hidden]').val() )
-		{
-			$('#processQueueSelect').find('input[type=hidden]').val(id);
-		}
-		
-		if( $(".btn-panel.btn-blue").length < 1 )
-		{
-			$("#processQueueSelect .drop li").each(function()
-			{
-				if ( $(this).val() == id )
-				{
-					$("#processQueueSelect > .text-value").html( $(this).html() );
-					$('#processQueueSelect').find('.text-value div.icon-add').remove();
-					return;
-				}
-			});			
-		}
-	}
-	
-	$$.process.queue.changed();
+function showSelectedQueue(id) {
+	console.warn($$.deprecated);
+	$$.process.queue.showSelected(id);
 }
 
 /*function showCommonFilters()
@@ -754,7 +757,7 @@ function updateSelectedFilterAndOpen( queueId, filterId )
 		.post("/user/process/queue.do?action=queueSavedFilterSet" + $$.ajax.requestParamsToUrl({"command":"select", "id":filterId, "queueId":queueId}))
 		.done(() => {
 			updateSelectedQueue(queueId);
-			showSelectedQueue(queueId);
+			$$.process.queue.showSelected(queueId);
 		});	
 }
 

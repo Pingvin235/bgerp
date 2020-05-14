@@ -36,9 +36,9 @@
 		
 						<div id="${configDialogId}" title="${node.title}" style="display:none;overflow:auto;">
 							${node.description}
-							<textarea id="${textareaId}" style="width:100%;height:200px;">${u:configToString( permConf )}</textarea><br/>
-							<input value="OK" type="button" onclick="$('#${configParamId}').val( '${node.action}' + '#' + $('#${textareaId}').val() ); $('#${linkId}').html( '[' + $('#${textareaId}').val() + ']' ); $('#${configDialogId}').dialog( 'close' );">
-							<input value="Отмена" type="button" onclick="$('#${configDialogId}').dialog( 'close' );">
+							<textarea id="${textareaId}" class="mt1 mb1" style="width:100%;height:200px;">${u:configToString( permConf )}</textarea><br/>
+							<button class="btn-white" onclick="$('#${configParamId}').val( '${node.action}' + '#' + $('#${textareaId}').val() ); $('#${linkId}').html( '[' + $('#${textareaId}').val() + ']' ); $('#${configDialogId}').dialog('close');">${l.l("OK")}</button>
+							<button class="btn-white ml1" onclick="$('#${configDialogId}').dialog( 'close' );">${l.l("Отмена")}</button>
 						</div>
 					</c:if>
 					

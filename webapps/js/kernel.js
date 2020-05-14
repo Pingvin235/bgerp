@@ -16,16 +16,16 @@ $$.keys.altPressed = function () {
 }
 
 $$.debugAreas = {
-	openUrl: false,
-	ajax: false,
-	shell: false,
-	buffer: false,
-	datepicker: false,
-	processQueue: false,
-	doOnClick: false,
-	uiMonthDaysSelectInit: false,
-	queueFilterDrag: false,
-	blow: false
+	openUrl: 0,
+	ajax: 0,
+	shell: 0,
+	buffer: 0,
+	datepicker: 0,
+	processQueue: 0,
+	doOnClick: 0,
+	uiMonthDaysSelectInit: 0,
+	queueFilterDrag: 0,
+	blow: 0
 };
 
 /*
@@ -589,8 +589,9 @@ function processClientEvents( event )
 		}
 	}
 	else if (event.className == 'ru.bgcrm.event.client.MessageOpenEvent') {
-		$$.shell.contentLoad("/user/messageQueue");
-		$$.ajax.load('/user/message.do?id=' + event.id + '&returnUrl=' + encodeURIComponent('/user/message.do?action=messageList'), $$.shell.$content);
+		$$.shell.contentLoad("/user/messageQueue").done(() => {
+			$$.ajax.load('/user/message.do?id=' + event.id + '&returnUrl=' + encodeURIComponent('/user/message.do?action=messageList'), $$.shell.$content());
+		});
 	}
 	else if (event.className == 'ru.bgcrm.event.client.LockEvent') {
 		var lockId = event.lock.id;

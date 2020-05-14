@@ -2,6 +2,10 @@
 
 $$.ajax = new function() {
 	const debug = $$.debug("ajax");
+
+	const trim100 = (value) => {
+		return value.length > 100 ? value.substr(0, 100) + "..." : value; 
+	}
 	
 	/**
 	 * Sends AJAX response and returns a promise.
@@ -11,7 +15,7 @@ $$.ajax = new function() {
 	 * By default the promise is processed by checkResponse() function.
 	 */
 	const post = (url, options) => {
-		debug("post", url);
+		debug("post", trim100(url));
 
 		options = options || {};
 
@@ -39,14 +43,24 @@ $$.ajax = new function() {
 
 		return def.promise();
 	}
+
+	let loadCnt = 0;
+	let loadDfd;
 	
+	const getLoadDfd = () => { 
+		return loadDfd ? loadDfd :  {
+			resolve: () => {}
+		}
+	}
+
 	/* 
-	 * Default - send request and set result HTML on element. 
-	 * options.replace - replace element by HTML.
-	 * options.append  - append HTML into the element.
+	 * Default - send request and set result HTML on element.
+	 * options.dfd - deferred, being resolved after all onLoad JS on chained loads are done. 
+	 * options.replace - replace element by HTML, deprecated.
+	 * options.append  - append HTML into the element, deprecated.
 	 */
 	const load = (url, $selector, options) => {
-		debug("load", url, $selector);
+		debug("load", trim100(url), $selector);
 
 		options = options || {};
 		options.html = true;
@@ -58,15 +72,102 @@ $$.ajax = new function() {
 		// the reason is not clear, was found in callboard, probably because of removing of onLoad listeners
 		if (!options || (!options.replace && !options.append))
 			$selector.html("");
-		
-		return post(url, options).done(function (result) {
-			if (options.replace)
-				$selector.replaceWith(result);
-			else if (options.append)
-				$selector.append(result);
-			else
-				$selector.html(result);
-		});
+
+		// parameter runs cascaded load
+		let dfd = options.dfd;
+		if (dfd) {
+			loadDfd = {
+				key: "dfd",
+
+				/** Wrapping object, contains Deffered + URL for debug. */
+				create: function (dfd, url) {
+					const result = {
+						dfd: dfd,
+						url: trim100(url)
+					};
+					debug("Create wrap", result);
+					return result;
+				},
+
+				resolve: function ($selector) {
+					const dfd = $selector.data(loadDfd.key);
+
+					const wait = [];
+					$selector.find(".loader").each(function () {
+						const subDfd = $(this).data(loadDfd.key);
+						if (subDfd)
+							wait.push(subDfd);
+					})
+
+					if (wait) {
+						debug("Resolve when", dfd.url, wait);
+						$.when.apply($, wait.map(el => el.dfd)).done(() => { 
+							debug("Resolve", dfd.url, wait);
+							dfd.dfd.resolve();
+						});
+					}
+					else {
+						debug("Resolve", dfd.url);
+						dfd.dfd.resolve();
+					}
+				}
+			}
+
+			dfd.done(() => {
+				debug("Set loadDfd null", url);
+				loadDfd = null;
+			})
+		}
+
+		if (!loadDfd) {
+			return post(url, options).done((result) => { 
+				if (options.replace)
+					$selector.replaceWith(result); 
+				else if (options.append)
+					$selector.append(result);
+				else
+					$selector.html(result);
+			});
+		}
+		else {
+			const existingDfd = $selector.data(loadDfd.key);
+			if (existingDfd) {
+				if (existingDfd.state() === 'resolved') {
+					debug("Existing resolved dfd", existingDfd, url);
+					$selector.removeData(loadDfd.key);
+				} else {
+					console.error("Existing not resolved dfd", existingDfd, url);
+					return existingDfd;
+				}
+			}
+
+			if (!dfd)
+				dfd = $.Deferred();
+
+			$selector
+				.addClass("loader")
+				.data(loadDfd.key, loadDfd.create(dfd, url));
+
+			post(url, options).done((result) => {
+				debug("Done", trim100(url));
+
+				const id = "load-" + (loadCnt++);
+				const afterLoadScript =
+					`<script id="${id}"> {
+						const $selector = $("#${id}").parent();
+						$(() => {
+							$$.ajax.loadDfd().resolve($selector);
+						})
+					} </script>`;
+
+				if (options.append)
+					$selector.append(result + afterLoadScript);
+				else
+					$selector.html(result + afterLoadScript);
+			});
+
+			return dfd;
+		}
 	}
 
 	/** 
@@ -233,9 +334,11 @@ $$.ajax = new function() {
 		return url;
 	}
 
-	// доступные функции
+	// public functions
+	this.debug = debug;
 	this.post = post;
 	this.load = load;
+	this.loadDfd = getLoadDfd;
 	this.checkResponse = checkResponse;
 	this.formUrl = formUrl;
 	this.requestParamsToUrl = requestParamsToUrl;

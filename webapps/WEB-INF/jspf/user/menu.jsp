@@ -5,7 +5,7 @@
 	<jsp:attribute name="subitems">
 		<ui:menu-item title="Контрагент"
 			action="ru.bgcrm.struts.action.CustomerAction:customerCreate"
-			command="createCustomerAndEdit(this)" />
+			command="$$.customer.createAndEdit()" />
 	</jsp:attribute>
 </ui:menu-group>
 

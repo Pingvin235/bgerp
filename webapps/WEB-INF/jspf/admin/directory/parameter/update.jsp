@@ -34,11 +34,11 @@
 			<h2>ID</h2>
 			<input type="text" name="id" value="${form.id}" disabled="disabled" style="width: 100%;"/>
 			
-			<h2>Название</h2>
-			<input type="text" name="title" style="width: 100%" value="${fn:escapeXml( parameter.title )}"/>			
-			<h2>Тип</h2>
-			
 			<div id="${selectorSample}">
+				<h2>Название</h2>
+				<input type="text" name="title" style="width: 100%" value="${fn:escapeXml( parameter.title )}"/>			
+				
+				<h2>Тип</h2>
 				<c:choose>
 					<c:when test="${form.id ne '-1'}">
 						<input type="text" name="type" value="${parameter.type}" disabled="disabled" style="width: 100%;"/>
@@ -105,8 +105,10 @@
 			<h2>Комментарий</h2>
 			<input type="text" name="comment" style="width: 100%" value="${fn:escapeXml( parameter.comment )}"/>
 			
+			<%--
 			<h2>Скрипт</h2>
-			<input type="text" name="script" style="width: 100%" value="${parameter.script}"/>
+			<input type="text" name="script" style="width: 100%" value="${parameter.script}"/> 
+			--%>
 			
 			<h2>Конфигурация</h2>
 			<textarea id="${selectorTo}" name="config" rows="7" style="width: 100%; resize:none;" wrap="off">${parameter.config}</textarea>

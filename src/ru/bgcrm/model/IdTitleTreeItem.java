@@ -10,8 +10,8 @@ public class IdTitleTreeItem<T extends IdTitleTreeItem<T>> extends IdTitle {
         return children;
     }
 
-    protected void setChildren(List<T> childs) {
-        this.children = childs;
+    protected void setChildren(List<T> children) {
+        this.children = children;
     }
 
     public void addChild(T child) {

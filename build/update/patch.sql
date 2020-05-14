@@ -1020,7 +1020,7 @@ CALL add_column_if_not_exists('address_house', 'post_index', 'VARCHAR(10) NOT NU
 UPDATE address_house SET post_index=(SELECT value FROM address_config WHERE table_id='address_house' AND record_id=address_house.id AND `key`='s.box.index' AND value!='' AND value!='0') WHERE post_index='';
 
 CALL add_column_if_not_exists('n_config_global', 'last_modify_dt', 'DATETIME NOT NULL');
-UPDATE n_config_global SET last_modify_dt=NOW() WHERE last_modify_dt='0000-00-00 00:00:00';
+-- UPDATE n_config_global SET last_modify_dt=NOW() WHERE last_modify_dt='0000-00-00 00:00:00';
 CALL add_column_if_not_exists('n_config_global', 'last_modify_user_id', 'INT NOT NULL');
 
 CALL add_column_if_not_exists('user_permset', 'pos', 'INT NOT NULL');
@@ -1029,11 +1029,11 @@ CALL add_column_if_not_exists('process', 'create_user_id', 'INT NOT NULL AFTER c
 CALL add_column_if_not_exists('process', 'close_user_id', 'INT NOT NULL AFTER close_dt');
 
 CALL add_column_if_not_exists('process_type', 'last_modify_dt', 'DATETIME NOT NULL');
-UPDATE process_type SET last_modify_dt=NOW() WHERE last_modify_dt='0000-00-00 00:00:00';
+-- UPDATE process_type SET last_modify_dt=NOW() WHERE last_modify_dt='0000-00-00 00:00:00';
 CALL add_column_if_not_exists('process_type', 'last_modify_user_id', 'INT NOT NULL');
 
 CALL add_column_if_not_exists('queue', 'last_modify_dt', 'DATETIME NOT NULL');
-UPDATE queue SET last_modify_dt=NOW() WHERE last_modify_dt='0000-00-00 00:00:00';
+-- UPDATE queue SET last_modify_dt=NOW() WHERE last_modify_dt='0000-00-00 00:00:00';
 CALL add_column_if_not_exists('queue', 'last_modify_user_id', 'INT NOT NULL');
 
 CALL add_column_if_not_exists('process', 'status_user_id', 'INT NOT NULL AFTER status_dt');

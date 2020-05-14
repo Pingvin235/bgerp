@@ -116,11 +116,6 @@
 
 			const href = window.location.href;
 
-			<%-- <c:set var="openPinned" value="${ctxUser.configMap['on.login.open.pinned']}"/>
-			<c:if test="${not empty openPinned}">
-				$$.shell.contentLoad('${openPinned}', false, true);
-			</c:if> --%>
-
 			<c:forEach var="openPinned" items="${u:toList(ctxUser.configMap['on.login.open.pinned'])}">
 				$$.shell.contentLoad('${openPinned}', false, true);
 			</c:forEach>

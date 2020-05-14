@@ -11,10 +11,12 @@ $$.shell = new function () {
 		}
 	};
 
+	/**
+	 * Follow the link with preventing default handling.
+	 */
 	const followLink = function (href, event) {
 		debug("followLink: ", href, event);
-
-		pushHistoryState(href);
+		// pushHistoryState(href);
 		contentLoad(href);
 		if (event)
 			event.preventDefault();
@@ -44,28 +46,27 @@ $$.shell = new function () {
 					<div class='wrap'>\
 						<div class='left'>\
 							<div class='title'>\
-								<h1 class='title' title='Обновить'></h1>";
+								<h1 class='title' title='Refresh'></h1>";
 			if (closable) {
 				divTemplate +=
-					"<span class='icon-close' title='Закрыть'></span> "
-					/*+"<span class='icon-refresh'></span>"*/;
+					"<span class='icon-close' title='Close'></span>";
 			}
 
 			divTemplate += "\
 							</div>\
-			 			</div>\
-				 		<div class='center'>\
+						</div>\
+						<div class='center'>\
 							<h1 class='state'></h1>\
-				 		</div>\
-				 	</div>\
-			 	</div>";
+						</div>\
+					</div>\
+				</div>";
 
 			$('#title #empty').after(sprintf(divTemplate, command));
 
 			$commandDiv.isNew = true;
 		}
 
-		debug("Reload: ", $commandDiv.isNew, $commandDiv);
+		debug("getCommandDiv", $commandDiv.isNew, $commandDiv);
 
 		$("body > #content > div[id!='" + command + "']").hide();
 		$commandDiv.show();
@@ -97,11 +98,27 @@ $$.shell = new function () {
 	};
 
 	const updateBufferCount = function () {
-		$("#objectBuffer .object-count").text( getBufferCount() );
+		$("#objectBuffer .object-count").text(getBufferCount());
 	};
 
+	// next contentLoad starts only after previous is done
+	let contentLoadDfd;
+
 	const contentLoad = function (href, reopen, pinned) {
-		debug("contentLoad: ", href);
+		debug("contentLoad", href, contentLoadDfd);
+		
+		const contentLoadCurrentDfd = contentLoadDfd;
+		const contentLoadNewDfd = $.Deferred();
+		$.when(contentLoadCurrentDfd).done(() => {
+			contentLoadAsync(href, reopen, pinned, contentLoadNewDfd);
+		});
+		contentLoadDfd = contentLoadNewDfd;
+
+		return contentLoadDfd.promise();
+	}
+
+	const contentLoadAsync = function (href, reopen, pinned, contentLoadDfd) {
+		debug("contentLoadAsync: ", href, contentLoadDfd);
 
 		// удаление протокола, хоста, порта, если есть
 		// может прийти при восстановлении адресной строки
@@ -123,7 +140,7 @@ $$.shell = new function () {
 			const id = commandBeforeSharp.substring(6).replace(/\//g, "-");
 
 			if (!item.allowed)
-				alert("Оснастка запрещена.");
+				alert("The menu item is now allowed.");
 			else {
 				let $taskButton = $('#taskPanel > div#' + id);
 
@@ -139,29 +156,28 @@ $$.shell = new function () {
 					$taskButton.data("href", href);
 
 					$taskButton.click(function () {
-							$commandDiv = getCommandDiv(id);
+						$commandDiv = getCommandDiv(id);
 
-							if (typeof $$.closeObject == 'function')
-								$$.closeObject();
+						if (typeof $$.closeObject == 'function')
+							$$.closeObject();
 
-							$("#taskPanel div[id!='" + id + "']")
-								.removeClass( "btn-task-active btn-blue" ).addClass( "btn-white btn-task" )
-								.find('img').attr('src','/images/cross.png');
-							$("#taskPanel div#" + id)
-								.removeClass( "btn-white btn-task" ).addClass( "btn-task-active btn-blue" )
-								.find('img').attr('src','/images/cross-white.png');
+						$("#taskPanel div[id!='" + id + "']")
+							.removeClass( "btn-task-active btn-blue" ).addClass( "btn-white btn-task" )
+							.find('img').attr('src','/images/cross.png');
+						$("#taskPanel div#" + id)
+							.removeClass( "btn-white btn-task" ).addClass( "btn-task-active btn-blue" )
+							.find('img').attr('src','/images/cross-white.png');
 
-							$(window).scrollTop($("#taskPanel div#" + id).attr('scroll'));
+						$(window).scrollTop($("#taskPanel div#" + id).attr('scroll'));
 
-							pushHistoryState($taskButton.data("href"));
+						pushHistoryState(href);
 
-							onCommandDivShow($commandDiv);
-						}
-					);
+						onCommandDivShow($commandDiv);
+					});
 
 					$taskButton.click();
 
-					$$.ajax.load(item.action + commandId, $commandDiv);
+					$$.ajax.load(item.action + commandId, $commandDiv, { dfd: contentLoadDfd });
 
 					$taskButton.find('span.icon-close').click( function () {
 						// закрытие активной оснастки
@@ -180,14 +196,16 @@ $$.shell = new function () {
 				else {
 					if (reopen) {
 						const $commandDiv = getCommandDiv(id);
-						$$.ajax.load(item.action + commandId, $commandDiv);
+						$$.ajax.load(item.action + commandId, $commandDiv, { dfd: contentLoadDfd });
 
 						const state = history.state;
 						history.replaceState(state, null, href);
 
 						$taskButton.data("href", href);
-					} else
+					} else {
 						$('#taskPanel #' + id).click();
+						contentLoadDfd.resolve();
+					}
 				}
 			}
 		}
@@ -317,7 +335,7 @@ $$.shell = new function () {
 				}
 
 				if ($commandDiv.isNew) {
-					$$.ajax.load(url, $commandDiv).done(() => {
+					$$.ajax.load(url, $commandDiv, { dfd: contentLoadDfd }).done(() => {
 						$("#title > .status:visible > .wrap > .left > .title .icon-close")
 							.one("click", function () {
 								if (objectId < 0)
@@ -335,17 +353,29 @@ $$.shell = new function () {
 								$$.ajax.load(url, $commandDiv);
 							});
 					});
-				}
-			}
+				} else
+					contentLoadDfd.resolve();
+			} else
+				contentLoadDfd.resolve();
 		}
 	};
+
+	/** Next action, when the latest contentLoad is done. 
+	const contentLoadDone = function (promise, callback) {
+		//const dfd = $.Deferred();
+		$.when(contentLoadDfd).done(() => {
+			callback();
+			//dfd.resolve();
+		});
+		contentLoadDfd = promise;
+	};*/
 
 	const initBuffer = function () {
 		window.addEventListener("popstate", function (e) {
 			// при переходе по #UNDEF ссылкам e.state=null
 			if (e.state) {
 				debug("popstate: ", e.state);
-		   		contentLoad(e.state.href);
+				contentLoad(e.state.href);
 			}
 			else {
 				//В Chrome выдаёт ошибку.
@@ -459,7 +489,7 @@ $$.shell = new function () {
 			// препятствие открытию буфера при выделении текста
 			$(window).mousemove(function (e) {
 				// вместо вызова stopTimer, т.к. очень много отладки идёт
-				window.clearTimeout( popupObjectBuffer.timer );
+				window.clearTimeout(popupObjectBuffer.timer);
 			});
 		}
 	};
@@ -468,7 +498,8 @@ $$.shell = new function () {
 		return $('#content > div:visible');
 	};
 
-	// доступные функции
+	// public functions
+	this.debug = debug;
 	this.initBuffer = initBuffer;
 	this.contentLoad = contentLoad;
 	this.followLink = followLink;

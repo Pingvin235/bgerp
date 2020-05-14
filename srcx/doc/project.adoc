@@ -555,7 +555,7 @@ JS используется для обеспечения динамическо
 
 Устаревшие JS функции помечаются следующим образом:
 [snippet, from="fun", to="}"]
-link:../../webapps/js/kernel.ajax.js#L247-L252[webapps/js/kernel.ajax.js]
+link:../../webapps/js/kernel.ajax.js#L350-L355[webapps/js/kernel.ajax.js]
 
 При их вызове в console бразузера выводится сообщение: "Deprecated", при клике по которому можно найти устаревший вызов.
 Использование подобных функций не допускается в новом коде и должно уменьшаться в существующем.
@@ -770,7 +770,7 @@ link:../../src/ru/bgcrm/struts/action/MessageAction.java#L241-L253[ru.bgcrm.stru
 
 Сохранение плюс восстановление сразу:
 [snippet, from="//", to=");", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L57-L61[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L52-L56[ru.bgcrm.struts.action.ProcessLinkAction]
 
 === Отображение на вкладке количества элементов
 Например, количества связанных процессов. Сохраняется при первом вызове. 
@@ -778,7 +778,7 @@ link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L57-L61[ru.bgcrm.st
 
 Обновление значения:
 [snippet, from="// п", to="}", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L242-L249[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L221-L228[ru.bgcrm.struts.action.ProcessLinkAction]
 
 Show in JSP:
 [snippet, from="<c:if", to="if>", remove-leading="						"]
@@ -831,9 +831,9 @@ link:../../src/ru/bgcrm/worker/MessageExchange.java#L60-L64[ru.bgcrm.worker.Mess
 [snippet, from="con", to="};"]
 link:../../webapps/js/kernel.shell.js#L5-L12[webapps/js/kernel.shell.js]
 
-Включение вывода отладки:
-[snippet, from="$$.", to="se,"]
-link:../../webapps/js/kernel.js#L18-L21[webapps/js/kernel.js]
+Enabling debug:
+[snippet, from="$$.", to="0,"]
+link:../../webapps/js/kernel.js#L18-L22[webapps/js/kernel.js]
 
 === Постраничный вывод
 Вывод результатов в JSP и отображение формы:
@@ -842,7 +842,7 @@ link:../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L56-L
 
 Java action:
 [snippet, from="//", to="id);", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L233-L235[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L212-L214[ru.bgcrm.struts.action.ProcessLinkAction]
 
 [[sample-jsp-ui]]
 === JSP UI
@@ -850,7 +850,7 @@ link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L233-L235[ru.bgcrm.
 
 Отправка AJAX для сохранения, выхода, либо восстановления данных в <<kernel/process/index.adoc#type, редакторе свойств типа процесса>>: 
 [snippet, from="<div", to="/div>"]
-link:../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L194-L199[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
+link:../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L191-L196[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
 
 Рекурсивный инклуд:
 [snippet, from="<c:", to="if>", remove-leading="					"]

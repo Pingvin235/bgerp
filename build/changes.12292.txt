@@ -1,0 +1,10 @@
+C: Removed from distributive not working plugin FIAS.
+C: Remove not working permission options 'allowedProcessTypeIds' and unused actions.
+C: Remove not supported permission option 'onlyPermittedTypes'.
+F: Process type tree restriction with option 'onlyPermittedTypes'.
+F: Multiple values in 'on.login.open' and 'on.login.open.pinned', including process queue.
+C: Cascaded AJAX loading mode.
+F: Close user profile.
+C: Hide not needed 'script' fields in process type and parameter editors.
+F: Open message processing on call.
+C: Use common way for getting SQL connection for update queries.

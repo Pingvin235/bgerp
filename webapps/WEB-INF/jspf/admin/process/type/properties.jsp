@@ -31,8 +31,8 @@
 	</ul>
 	
 	<div id="${formUiid}-1">
-	   <div class="in-table-cell">
-	   		<c:set var="selectorSample" value="${u:uiid()}"/>
+	<div class="in-table-cell">
+			<c:set var="selectorSample" value="${u:uiid()}"/>
 			<c:set var="selectorTo" value="${u:uiid()}"/>
 			<div style="min-width: 350px; max-width: 350px; vertical-align: top;" id="${selectorSample}">
 				<h2>Разрешённые статусы</h2>
@@ -53,11 +53,8 @@
 			
 				<h2>Параметры</h2>	
 				<ui:select-mult hiddenName="param"
-					 showId="true" moveOn="true" showComment="true" style="width: 100%;" 
-					 list="${parameterList}" map="${ctxParameterMap}" values="${properties.parameterIds}"/>
-				
-				<h2>Скрипт</h2>
-				<html:text property="script_name" style="width: 100%;" value="${properties.scriptName}"/>	        
+					showId="true" moveOn="true" showComment="true" style="width: 100%;" 
+					list="${parameterList}" map="${ctxParameterMap}" values="${properties.parameterIds}"/>
 			</div>
 			<div style="width: 100%; height: 100%;" class="pl1" id="${selectorTo}">
 				<div style="height: 100%; width: 100%; display: flex; flex-flow: column;">

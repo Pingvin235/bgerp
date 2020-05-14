@@ -155,7 +155,7 @@ public class DirectoryAction extends BaseAction {
 
         parameter.setTitle(form.getParam("title"));
         parameter.setOrder(Utils.parseInt(form.getParam("order")));
-        parameter.setScript(form.getParam("script"));
+        parameter.setScript(form.getParam("script", ""));
         parameter.setConfig(form.getParam("config"));
         parameter.setComment(form.getParam("comment"));
 

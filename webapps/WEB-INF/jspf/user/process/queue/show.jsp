@@ -30,6 +30,7 @@
 	});
 </script>
 
+
 <%@ include file="/WEB-INF/jspf/user/process/queue/show_table.jsp"%>
 
 <table style="width: 100%;">

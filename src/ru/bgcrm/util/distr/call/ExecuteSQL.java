@@ -3,7 +3,6 @@ package ru.bgcrm.util.distr.call;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +18,7 @@ import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.ZipUtils;
+import ru.bgcrm.util.sql.ConnectionPool;
 import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgcrm.util.sql.SQLUtils;
 
@@ -36,13 +36,8 @@ public class ExecuteSQL implements InstallationCall {
             if (!map.containsKey(param)) {
                 System.out.println("Can't find " + param + " in module zip!!!");
             } else {
-                String urlWithMultiQuery = setup.get("db.url") + "&allowMultiQueries=true";
-                String user = setup.get("db.user");
-                String pswd = setup.get("db.pswd");
-
-                Connection con = DriverManager.getConnection(urlWithMultiQuery, user, pswd);
-                con.setAutoCommit(false);
-                try {
+                var pool = new ConnectionPool("exec", setup);
+                try (var con = pool.getDBConnectionFromPool()) {
                     byte[] file = (byte[]) map.get(param);
 
                     String query = new String(file, Utils.UTF8);
@@ -53,9 +48,8 @@ public class ExecuteSQL implements InstallationCall {
                     result = true;
                 } catch (Exception e) {
                     e.printStackTrace();
-                } finally {
-                    SQLUtils.closeConnection(con);
                 }
+                pool.close();
             }
             fis.close();
         } catch (Exception ex) {

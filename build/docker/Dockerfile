@@ -125,6 +125,7 @@ RUN apt-get update \
 COPY files/bgerp.zip /tmp
 
 RUN unzip /tmp/bgerp.zip -d /opt \
+    && rm /tmp/bgerp.zip \
     && chmod 744 /opt/bgerp/*.sh \
     && mkdir /opt/bgerp/conf
 

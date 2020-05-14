@@ -101,29 +101,37 @@ public class ProcessAction extends BaseAction {
         return data(con, mapping, form, "process");
     }
 
-    protected void applyProcessTypePermission(List<ProcessType> typeList, User user) {
-        List<Integer> typeForRemove = new ArrayList<Integer>();
-        Iterator<ProcessType> iterator = typeList.iterator();
-        while (iterator.hasNext()) {
-            ProcessType type = iterator.next();
+    public static boolean applyProcessTypePermission(List<ProcessType> typeList, DynActionForm form) {
+        boolean onlyPermittedTypes = form.getPermission().getBoolean("onlyPermittedTypes", false);
+        if (onlyPermittedTypes) {
+            var user = form.getUser();
 
-            if (type.getProperties().getConfigMap().getBoolean("allowForNonExecutorsGroup", false)) {
-                continue;
+            List<Integer> typeForRemove = new ArrayList<Integer>();
+            Iterator<ProcessType> iterator = typeList.iterator();
+            while (iterator.hasNext()) {
+                ProcessType type = iterator.next();
+
+                /* Undocumented, remove later, 03.05.2020
+                if (type.getProperties().getConfigMap().getBoolean("allowForNonExecutorsGroup", false)) {
+                    continue;
+                } */
+
+                if (CollectionUtils.intersection(type.getProperties().getAllowedGroupsSet(), user.getGroupIds()).isEmpty()
+                        && CollectionUtils.intersection(type.getProperties().getGroupsSet(), user.getGroupIds()).isEmpty()) {
+                    typeForRemove.add(type.getId());
+                    // TODO: Only when type properties are inherited?
+                    typeForRemove.addAll(type.getAllChildIds());
+                }
             }
-
-            if (CollectionUtils.intersection(type.getProperties().getAllowedGroupsSet(), user.getGroupIds()).isEmpty()
-                    && CollectionUtils.intersection(type.getProperties().getGroupsSet(), user.getGroupIds()).isEmpty()) {
-                typeForRemove.add(type.getId());
-                typeForRemove.addAll(type.getAllChildIds());
+            iterator = typeList.iterator();
+            while (iterator.hasNext()) {
+                ProcessType type = iterator.next();
+                if (typeForRemove.contains(type.getId())) {
+                    iterator.remove();
+                }
             }
         }
-        iterator = typeList.iterator();
-        while (iterator.hasNext()) {
-            ProcessType type = iterator.next();
-            if (typeForRemove.contains(type.getId())) {
-                iterator.remove();
-            }
-        }
+        return onlyPermittedTypes;
     }
 
     public ActionForward processCreateGroups(ActionMapping mapping, DynActionForm form, Connection con) {

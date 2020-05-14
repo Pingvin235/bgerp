@@ -3,35 +3,27 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
+<c:set var="boardId" value="${form.id}"/>
+<c:if test="${not (boardId gt 0)}">
+	<c:set var="boardId" value="${ctxUser.personalizationMap['blowBoardLastSelected']}"/>
+</c:if>
+
 <c:set var="boardsConf" value="${form.response.data.boardsConf}"/>
 <ui:combo-single id="${uiid}" 
-	value="${form.id}"
+	value="${boardId}"
 	widthTextValue="220px"
 	prefixText="${l.l('План')}:"
 	list="${form.response.data.boardsConf.boards}"
-	onSelect="$$.ajax.load('/user/plugin/blow/board.do?action=show&id=' + $hidden.val(), $$.shell.$content()); 
-			  history.replaceState(history.state, null, '/user/blow/board#' + $hidden.val());"/>
+	onSelect="$$.blow.boardShow($hidden.val())"/>
 
 <shell:state moveSelector="#${uiid}"/>
 
 <shell:title text="${l.l('Blow план')}"/>
 
-<c:choose>
-	<c:when test="${form.id gt 0}">
-		<script>
-		$(function () {
-			$$.ajax.load('/user/plugin/blow/board.do?action=show&id=${form.id}', $$.shell.$content());
-		})
-		</script>
-	</c:when>
-	<c:otherwise>
-		<c:set var="boardId" value="${ctxUser.personalizationMap['blowBoardLastSelected']}"/>
-		<c:if test="${boardId gt 0}">
-			<script>
-			$(function () {
-				$$.shell.contentLoad("/user/blow/board#${boardId}", true);
-			})
-			</script>
-		</c:if>
-	</c:otherwise>
-</c:choose>
+<c:if test="${boardId gt 0}">
+	<c:url var="url" value="/user/plugin/blow/board.do">
+		<c:param name="action" value="show"/>
+		<c:param name="id" value="${boardId}"/>
+	</c:url>
+	<c:import url="${url}"/>
+</c:if>

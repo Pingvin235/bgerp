@@ -31,8 +31,10 @@
 		$$.blow.initTable($('#${uiid}'), $('#${uiidRcMenu}'));
 		
 		$('#content > #blow-board').data('onShow', function () {
-			$$.ajax.load("/user/plugin/blow/board.do?action=show&id=" + ${form.id}, $$.shell.$content());
+			$$.ajax.load('/user/plugin/blow/board.do?action=show&id=${form.id}', $$.shell.$content());
 		});
+
+		history.replaceState(history.state, null, '/user/blow/board#${form.id}');
 	})
 	</script>
 </c:if>

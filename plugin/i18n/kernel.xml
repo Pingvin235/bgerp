@@ -48,8 +48,8 @@
 	<p><ru>Время</ru><en>Time</en></p>
 	<p><ru>Закрыть</ru><en>Close</en></p>
 	<p><ru>ИСПОЛНИТЕЛИ БЕЗ ГРУПП</ru><en>EXECUTORS WITHOUT GROUPS</en></p>
-	<p><ru>-Я</ru><en>-Me</en></p>
-	<p><ru>+Я</ru><en>+Me</en></p>
+	<p><ru>-Я</ru><en>-I</en></p>
+	<p><ru>+Я</ru><en>+I</en></p>
 	<p><ru>Добавить вас в исполнители?</ru><en>Add you to executors?</en></p>
 	<p><ru>Добавить меня в исполнители</ru><en>Add myself to executors</en></p>
 	<p><ru>Удалить вас из исполнителей?</ru><en>Remove you from executors?</en></p>
@@ -57,6 +57,7 @@
 	<p><ru>исполнители</ru><en>executors</en></p>
 	<p><ru>группы</ru><en>groups</en></p>
 	<p><ru>Группы / исполнители</ru><en>Groups / executors</en></p>
+	<p><en>OK</en></p>
 	<p><ru>Отмена</ru><en>Cancel</en></p>
 	<p><ru>Добавить в конец описания текст с именем автора и временем</ru><en>Add to the description's end with author and time</en></p>
 	<p><ru>Править описание целиком (также можете кликнуть мышью по описанию)</ru><en>Edit the whole description, you may also click on it by mouse</en></p>
@@ -91,6 +92,9 @@
 	<p><ru>Отделить</ru><en>Split</en></p>
 	<p><ru>Слить</ru><en>Merge</en></p>
 	<p><ru>Сообщение об ошибке:</ru><en>Error:</en></p>
+	<p><ru>Выделить или снять выделение всех</ru><en>Select or deselect all</en></p>
+	<p><ru>Авторизация</ru><en>Authorization</en></p>
+	<p><ru>Процессы</ru><en>Processes</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

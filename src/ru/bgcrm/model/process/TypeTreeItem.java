@@ -1,128 +1,91 @@
 package ru.bgcrm.model.process;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.collections.CollectionUtils;
+import java.util.stream.Collectors;
 
 import ru.bgcrm.model.IdTitleTreeItem;
 
-public class TypeTreeItem
-	extends IdTitleTreeItem<TypeTreeItem>
-{
-	/**
-	 * Рекурсивно копирует дерево с ограничением по выбранным типам.
-	 * Если узел выбран в наборе - попадает он и все его дочерние узлы.
-	 * Если выбран дочерний узел - попадает они в все его родительские узлы.
-	 * 
-	 * @param typeSet
-	 * @return
-	 */
-	public TypeTreeItem clone( Set<Integer> typeSet )
-	{
-		return clone( typeSet, false );
-	}
+public class TypeTreeItem extends IdTitleTreeItem<TypeTreeItem> {
+    
+    public TypeTreeItem sub(Collection<ProcessType> typeList) {
+        var typeSet = typeList.stream().map(ProcessType::getId).collect(Collectors.toSet());
+        return sub(typeSet);
+    }
 
-	public TypeTreeItem clone( Set<Integer> typeSet, boolean onlyTypesInSet )
-	{
-		TypeTreeItem treeItem = new TypeTreeItem();
-		treeItem.setId( id );
-		treeItem.setTitle( title );
-		treeItem.setChildren( this.children );
+    /**
+     * Recursive copy of the tree with selected nodes with paths nodes to them.
+     * 
+     * @param typeSet each node is chosen, when presented in the set or any child is there.
+     * @return
+     */
+    private TypeTreeItem sub(Set<Integer> typeSet) {
+        if (typeSet == null) return this;
 
-		if( typeSet.contains( id ) )
-		{
-			return treeItem;
-		}
-		else
-		{
-			List<TypeTreeItem> childs = new ArrayList<TypeTreeItem>();
-			for( TypeTreeItem item : this.children )
-			{
-				TypeTreeItem tempItem = item.clone( typeSet, onlyTypesInSet );
+        var result = new TypeTreeItem();
+        result.setId(id);
+        result.setTitle(title);
 
-				if( tempItem != null )
-				{
-					if( onlyTypesInSet )
-					{
-						Set<Integer> childIds = tempItem.getAllChildIds();
-						childIds.remove( tempItem.getId() );
-						if( !childIds.isEmpty() && CollectionUtils.intersection( typeSet, childIds ).isEmpty() )
-						{
-							continue;
-						}
+        var children = new ArrayList<TypeTreeItem>(this.children.size());
+        for (var child : this.children) {
+            if (child.isInSet(typeSet))
+                children.add(child.sub(typeSet));
+        }
 
-						List<TypeTreeItem> acceptedChildList = new ArrayList<TypeTreeItem>();
-						for( TypeTreeItem child : tempItem.getChildren() )
-						{
-							if( !CollectionUtils.intersection( typeSet, child.getAllChildIds() ).isEmpty() )
-							{
-								acceptedChildList.add( child );
-							}
-						}
+        result.setChildren(children);
 
-						treeItem.setChildren( acceptedChildList );
-					}
-					childs.add( tempItem );
-				}
-			}
-			treeItem.setChildren( childs );
-			if( childs.isEmpty() )
-			{
-				return null;
-			}
-			return treeItem;
-		}
-	}
+        return result;
+    }
 
-	/**
-	 * Возвращает код узла и коды всех узлов-потомков данного узла.
-	 * 
-	 * @return
-	 */
-	public Set<Integer> getAllChildIds()
-	{
-		Set<Integer> result = new HashSet<Integer>();
+    private boolean isInSet(Set<Integer> ids) {
+        if (ids.contains(this.getId())) 
+            return true;
+        for (var child : children)
+            if (child.isInSet(ids))
+                return true;
+        return false;
+    }
 
-		result.add( id );
-		for( TypeTreeItem childItem : children )
-		{
-			result.addAll( childItem.getAllChildIds() );
-		}
+    /**
+     * Возвращает код узла и коды всех узлов-потомков данного узла.
+     * 
+     * @return
+     */
+    public Set<Integer> getAllChildIds() {
+        Set<Integer> result = new HashSet<Integer>();
 
-		return result;
-	}
+        result.add(id);
+        for (TypeTreeItem childItem : children) {
+            result.addAll(childItem.getAllChildIds());
+        }
 
-	/**
-	 * Возвращает коды типов процессов с фильтром по выбранным типам.
-	 * Если узел выбран в наборе - добавляются все его дочерние узлы.
-	 * 
-	 * @return
-	 */
-	public Set<Integer> getSelectedChildIds( Set<Integer> typeSet )
-	{
-		Set<Integer> result = new HashSet<Integer>( typeSet.size() );
+        return result;
+    }
 
-		for( TypeTreeItem childItem : children )
-		{
-			// если узел есть в результате - есть там и уже все его потомки
-			if( result.contains( childItem.getId() ) )
-			{
-				continue;
-			}
+    /**
+     * Возвращает коды типов процессов с фильтром по выбранным типам.
+     * Если узел выбран в наборе - добавляются все его дочерние узлы.
+     * 
+     * @return
+     */
+    public Set<Integer> getSelectedChildIds(Set<Integer> typeSet) {
+        Set<Integer> result = new HashSet<Integer>(typeSet.size());
 
-			if( typeSet.contains( childItem.getId() ) )
-			{
-				result.addAll( childItem.getAllChildIds() );
-			}
-			else
-			{
-				result.addAll( childItem.getSelectedChildIds( typeSet ) );
-			}
-		}
+        for (TypeTreeItem childItem : children) {
+            // если узел есть в результате - есть там и уже все его потомки
+            if (result.contains(childItem.getId())) {
+                continue;
+            }
 
-		return result;
-	}
+            if (typeSet.contains(childItem.getId())) {
+                result.addAll(childItem.getAllChildIds());
+            } else {
+                result.addAll(childItem.getSelectedChildIds(typeSet));
+            }
+        }
+
+        return result;
+    }
 }
