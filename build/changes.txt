@@ -1,6 +1,18 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, F - FIX
 
+14.05.2020 16:22:18 1358
+C: Removed from distributive not working plugin FIAS.
+C: Remove not working permission options 'allowedProcessTypeIds' and unused actions.
+C: Remove not supported permission option 'onlyPermittedTypes'.
+F: Process type tree restriction with option 'onlyPermittedTypes'.
+F: Multiple values in 'on.login.open' and 'on.login.open.pinned', including process queue.
+C: Cascaded AJAX loading mode.
+F: Close user profile.
+C: Hide not needed 'script' fields in process type and parameter editors.
+F: Open message processing on call.
+C: Use common way for getting SQL connection for update queries.
+
 12.05.2020 13:34:28 1357
 A: Docker image 'bgerp/bgerp' including: MySQL, Java and BGERP.
 C: In script setenv.sh accepting default JAVA_HOME from env variables.
