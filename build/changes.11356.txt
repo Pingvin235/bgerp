@@ -1,0 +1,2 @@
+F: Remove many E-Mails.
+A: Publish GitHub source copy with real authors.

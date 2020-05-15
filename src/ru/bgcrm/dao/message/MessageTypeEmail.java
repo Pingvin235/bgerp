@@ -264,7 +264,6 @@ public class MessageTypeEmail extends MessageType {
                 if (!Arrays.stream(messageIds).anyMatch(getSystemId(message)::equals))
                     continue;
                 message.setFlag(Flags.Flag.DELETED, true);
-                break;
             }
 
             incomingFolder.close(true);
@@ -830,6 +829,7 @@ public class MessageTypeEmail extends MessageType {
     }
 
     private String getSystemId(javax.mail.Message message) throws MessagingException {
+        // ((MimeMessage) message).getMessageID();  or so
         return message.getHeader("Message-ID")[0];
     }
 
