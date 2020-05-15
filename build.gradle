@@ -208,6 +208,14 @@ task buildDoc(type:JavaExec) {
     args 'NOTUSED', 'srcx/doc', 'target/doc'
 }
 
+task buildJavaDoc(type: Javadoc) {
+    options.encoding = 'UTF-8'
+    failOnError = false
+    classpath = configurations.bgerp
+    source = sourceSets.main.allJava
+    destinationDir = file("${buildDir}/javadoc")
+}
+
 task patchChanges(type:JavaExec, dependsOn: ['compileToolsJava']) {
     classpath =  sourceSets.tools.runtimeClasspath
     main = 'ru.bgerp.tool.PatchChanges'
