@@ -23,14 +23,19 @@ This variant perfectly fits for following purposes:
 Run this script for initial install as well as for update.
 [source, bash]
 ----
-docker pull bgerp/bgerp && docker run -d --name bgerp --restart always \
+docker pull bgerp/bgerp && docker run -d --name bgerp --restart unless-stopped \
     -v /srv/bgerp/data/mysql:/var/lib/mysql \
     -v /srv/bgerp/data/filestorage:/opt/bgerp/filestorage \
     -v /srv/bgerp/data/backup:/opt/bgerp/backup \
     -v /srv/bgerp/conf:/opt/bgerp/conf \
     -v /srv/bgerp/log:/opt/bgerp/log \
+    -p 9088:9088 \
     bgerp/bgerp && docker logs --follow bgerp
 ----
+
+The running container is available via <<interface.adoc#, Web-interface>>. Use <<nginx, NGINX>> for restricting access from outside network. 
+
+CAUTION: The container may also publish MySQL ports 3306, 33060, that might be create a security issue.
 
 For removing container, also before update.
 [source, bash]
@@ -143,6 +148,8 @@ fi
 
 For starting/stopping use *erp_start.sh/erp_stop.sh*. *erp_status.sh* - shows current status of the application.
 After starting check *log/bgerp.log* and *log/bgerp.out* on errors.
+
+The running application is available via <<interface.adoc#, Web-interface>>.
 
 [[systemd]]
 === Systemd

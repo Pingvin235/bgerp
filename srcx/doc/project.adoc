@@ -888,7 +888,7 @@ bash -c "./gradlew clean buildDoc"
 Собранные HTML файлы доступны в каталоге *target/doc*. Они автоматически проверяются на корректность внутренних ссылок.
 
 [[build-update]]
-=== Изменение
+=== Change
 Сборка и публикация на http://bgerp/update пакета обновления с <<workflow,  изменением>>.
 Открытый SSH ключ разработчика должен быть добавлен для сессии update@bgerp.ru.
 
@@ -912,7 +912,9 @@ bash -c "./gradlew clean buildClean buildDoc buildUpdateLib buildUpdate publishU
 в основную ветку и <<build-erp, публикуется>> очередное обновление.
 
 [[build-erp]]
-=== Update
+=== Release
+CAUTION: Check <<unit-test, Unit tests>> running.
+
 Сборка производится с *master* ветки и может включать несколько изменений, <<workflow, перенесённых>> на неё.
 
 IMPORTANT: Для каждого переноса делать отдельный GIT push, для корректной <<publish-source, публикации>> в открытом репозитарии. 
@@ -935,6 +937,8 @@ bash -c "./gradlew patchChanges rss publishBuild publishCommit"
 ----
 
 Merge the latest state of the master on <<documentation, documentation>> branch.
+
+Build <<build-docker, Docker image>>.
 
 [[build-docker]]
 === Docker
