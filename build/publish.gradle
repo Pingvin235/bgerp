@@ -3,12 +3,9 @@ task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
     mustRunAfter 'buildUpdate'
     doFirst {
         def processId = getProcessId()
-        def updateFile = fileTree("$projectDir/build/update")
-            .matching {include "update_${version}_*.zip"}
-            .getSingleFile()
-        
+
         println "Publish remotely"
-        
+
         def sshLogin = "update@bgerp.ru"
         def sshFolder = "/home/update/www/$processId"
 
@@ -18,16 +15,29 @@ task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
         println "Sync doc"
         println "rsync -ru --delete $projectDir/target/doc $sshLogin:$sshFolder".execute().text
 
-        if (updateFile) {
-            println "Copy $updateFile"
-            println "scp $updateFile $sshLogin:$sshFolder".execute().text
-        }
+        def updateFile = publishUpdateFile(sshLogin, sshFolder, "update")
+        def updateLibFile = publishUpdateFile(sshLogin, sshFolder, "update_lib")
 
         println "Update links:" 
         println "https://bgerp.ru/update/$processId"
         println "https://bgerp.ru/update/$processId/" + updateFile.getName()
+        println "https://bgerp.ru/update/$processId/" + updateLibFile.getName()
         println "https://bgerp.ru/update/$processId/doc"
     }
+}
+
+def publishUpdateFile(String sshLogin, String sshFolder, String name) {
+    def mask = "${name}_${version}_*.zip"
+    def file = fileTree("$projectDir/build/$name")
+            .matching {include mask}
+            .getSingleFile()
+    if (file) {
+        println "Remove existing $mask"
+        println "ssh $sshLogin rm $sshFolder/$mask".execute().text
+        println "Copy $file"
+        println "scp $file $sshLogin:$sshFolder".execute().text
+    }
+    return file
 }
 
 task publishBuild {
