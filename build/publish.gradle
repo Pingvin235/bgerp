@@ -21,21 +21,36 @@ task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
             println "rsync -ru --delete $projectDir/target/doc $sshLogin:$sshFolder".execute().text
         }
 
-        println "Update links:" 
-        println "https://bgerp.ru/update/$processId"
+        def changesName = "$projectDir/build/changes.${processId}.txt"
+        def changesFile = file(changesName)
+        if (changesFile.exists()) {
+            println "Copy changes"
+           
+            def content = changesFile.text.replaceAll("doc/3.0/manual", "update/$processId/doc")
+            println content
+
+            changesName = "$projectDir/target/changes.txt"
+            file(changesName).write(content)
+
+            println "scp $changesName $sshLogin:$sshFolder".execute().text
+        }
+
+        println "Update links:"
+        println "https://bgerp.org/update/$processId"
         if (updateFile)
-            println "https://bgerp.ru/update/$processId/" + updateFile.getName()
+            println "https://bgerp.org/update/$processId/" + updateFile.getName()
         if (updateLibFile)
-            println "https://bgerp.ru/update/$processId/" + updateLibFile.getName()
+            println "https://bgerp.org/update/$processId/" + updateLibFile.getName()
         if (docDir.exists())
-            println "https://bgerp.ru/update/$processId/doc"
+            println "https://bgerp.org/update/$processId/doc"
+        if (changesFile.exists())
+            println "https://bgerp.org/update/$processId/changes.txt"
     }
 }
 
 def publishUpdateFile(String sshLogin, String sshFolder, String name) {
     def mask = "${name}_${version}_*.zip"
-    def files = fileTree("$projectDir/build/$name")
-            .matching {include mask}
+    def files = fileTree("$projectDir/build/$name").matching {include mask}
     if (!files.isEmpty()) {
         def file = files.getSingleFile()
         println "Remove existing $mask"
