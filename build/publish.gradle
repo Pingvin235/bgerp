@@ -6,38 +6,45 @@ task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
 
         println "Publish remotely"
 
-        def sshLogin = "update@bgerp.ru"
+        def sshLogin = "update@bgerp.org"
         def sshFolder = "/home/update/www/$processId"
 
         println "Create dir if not exists"
         println "ssh $sshLogin mkdir -p $sshFolder".execute().text
         
-        println "Sync doc"
-        println "rsync -ru --delete $projectDir/target/doc $sshLogin:$sshFolder".execute().text
-
         def updateFile = publishUpdateFile(sshLogin, sshFolder, "update")
         def updateLibFile = publishUpdateFile(sshLogin, sshFolder, "update_lib")
 
+        def docDir = file("$projectDir/target/doc")
+        if (docDir.exists()) { 
+            println "Sync doc"
+            println "rsync -ru --delete $projectDir/target/doc $sshLogin:$sshFolder".execute().text
+        }
+
         println "Update links:" 
         println "https://bgerp.ru/update/$processId"
-        println "https://bgerp.ru/update/$processId/" + updateFile.getName()
-        println "https://bgerp.ru/update/$processId/" + updateLibFile.getName()
-        println "https://bgerp.ru/update/$processId/doc"
+        if (updateFile)
+            println "https://bgerp.ru/update/$processId/" + updateFile.getName()
+        if (updateLibFile)
+            println "https://bgerp.ru/update/$processId/" + updateLibFile.getName()
+        if (docDir.exists())
+            println "https://bgerp.ru/update/$processId/doc"
     }
 }
 
 def publishUpdateFile(String sshLogin, String sshFolder, String name) {
     def mask = "${name}_${version}_*.zip"
-    def file = fileTree("$projectDir/build/$name")
+    def files = fileTree("$projectDir/build/$name")
             .matching {include mask}
-            .getSingleFile()
-    if (file) {
+    if (!files.isEmpty()) {
+        def file = files.getSingleFile()
         println "Remove existing $mask"
         println "ssh $sshLogin rm $sshFolder/$mask".execute().text
         println "Copy $file"
         println "scp $file $sshLogin:$sshFolder".execute().text
+        return file
     }
-    return file
+    return null
 }
 
 task publishBuild {
