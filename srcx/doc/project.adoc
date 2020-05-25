@@ -17,20 +17,20 @@ IMPORTANT: Оставь место стоянки чище, чем оно был
 [[ide]]
 == Проект
 === Среда разработки
-// https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot
-
-Программа может разрабатываться в любой ОС, поддерживающей запуск Java IDE:
+The program may be developed at any Java supporting platform:
 [square]
-* Windows - основная рабочая ОС мейнейнера проекта, поэтому все примеры в документации указаны относительно неё;
+* Windows - this time the maintainer uses it;
 * Linux;
 * MacOS.
 
-Минимально необходимый набор ПО: 
+Minimal required set of software: 
 [square]
 * <<kernel/install.adoc#java, OpenJDK>>;
 * <<kernel/install.adoc#mysql, MySQL>>;
 * <<eclipse, IDE Eclipse>>.
 
+[[env-console]]
+==== Console environment
 Дополнительно рекомендуется link:https://git-scm.com/download/win[установить] консольный клиент системы контроля версий <<workflow, GIT>>.
 
 Система <<build, сборки и публикации>> реализована на bash скриптах, для Windows их можно выполнять с помощью:
@@ -112,7 +112,7 @@ Configuration:
 * VM arguments: -Dbgerp.setup.data=bgerp_test
 * Classpath: *User entries - Advanced - Add folders* нажать и добавить каталог текущего проекта.
 
-Copy `bgerp.properties` to `bgerp_test.propertes`, replace *GENERATED_PASSWORD* on some value `pwgen`. 
+Copy `bgerp.properties` to `bgerp_test.propertes`, replace *GENERATED_PASSWORD* on some random value, possible using `pwgen` or similar utility. 
 
 ==== Database
 MySQL server may be running on any supporting platform, check <<kernel/install.adoc#mysql, configuration>> of it.
@@ -122,7 +122,7 @@ For database creation use sequentially the files:
 * `db_create.sql`, `db_init.sql` from link:https://bgerp.org/download/3.0/bgerp.zip[bgerp.zip] - initial structure;
 * `bgerp.sql` https://demo.bgerp.bgerp/bgerp.sql - data after running of <<integration-test, integration test>>.
 
-Replace *GENERATED_PASSWORD* in `db_create.sql` to the value `bgerp_test.properties` but *surrounded by commas*.
+Replace *GENERATED_PASSWORD* in `db_create.sql` to the value from `bgerp_test.properties` but *surrounded by commas*.
 
 Execute mysql commands:
 [source, bash]
@@ -303,6 +303,7 @@ git fetch origin master:master
 
 image::_res/branch_compare.png[]
 
+[[change-file]]
 Также необходимо создать и заполнить файл с описанием изменений.
 Для этого может быть использована <<build, команда>>:
 [bash]
@@ -337,7 +338,7 @@ git push
 Примеры форматирования и рекомендации можно посмотреть <<samples.adoc#, здесь>>.
 Документация может быть <<build-doc, собрана>> локально с ветки и <<build-update, включена>> в пакет обновления.
 
-Публикация документации <<publish-doc, производится>> с ветки <<workflow, ветке>> *p11862-documentation*.
+Публикация основной документации <<publish-doc, производится>> с ветки <<workflow, ветке>> *p11862-documentation*.
 Для предложения правок документации следует создать ветку, начинающуюся с данной.
 
 [[localization-branch]]
@@ -873,9 +874,9 @@ link:../../webapps/WEB-INF/jspf/user/log/log.jsp#L22-L28[webapps/WEB-INF/jspf/us
 link:../../webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp#L16-L21[webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp]
 
 [[build]]
-== Сборка и публикация
+== Build and publish
 Проект сконфигурирован в формате Gradle, конфигурационный файл link:../../build.gradle[build.gradle].
-Для сборки и публикации помимо Java требуется Apache Ant и GNU утилиты, включая rsync.
+For build and publish except Java is required <<env-console, console enviroment>> with available *ant*, *ssh* and *rsync* packages.
 
 NOTE: Здесь и далее команды приведены в расчёте на WSL окружение, в *NIX системах префикс `bash -c` не требуется.
 
@@ -888,23 +889,48 @@ bash -c "./gradlew clean buildDoc"
 Собранные HTML файлы доступны в каталоге *target/doc*. Они автоматически проверяются на корректность внутренних ссылок.
 
 [[build-update]]
-=== Change
-Сборка и публикация на http://bgerp/update пакета обновления с <<workflow,  изменением>>.
-Открытый SSH ключ разработчика должен быть добавлен для сессии update@bgerp.ru.
+=== Change update
+Build and publish on https://bgerp.org/update update package with a <<workflow, change>>.
 
-Для выкладывания пакета выполнить:
+[IMPORTANT]
+====
+Public SSH key or the developer might be added for *update@bgerp.org*.
+Before you publish a change update, make sure, that `ssh update@bgerp.org` session works by you.
+====
+
+Clean before publish:
 [source, bash]
 ----
-bash -c "./gradlew clean buildClean buildDoc buildUpdate publishUpdate"
+bash -c "./gradlew clean buildClean "
 ----
 
-Если изменялись библиотеки, то:
-[source]
+If there are some <<documentation, documentation>> or <<java-lib, Java libraries>> changes:
+[source, bash]
 ----
-bash -c "./gradlew clean buildClean buildDoc buildUpdateLib buildUpdate publishUpdate"
+bash -c "./gradlew buildUpdateLib buildDoc"
 ----
 
-Пакет с изменением публикуется в каталог, содержащий код процесса, например: https://bgerp.ru/update/10646
+Or only application changes:
+[source, bash]
+----
+bash -c "./gradlew buildUpdate"
+----
+
+For publish operation make the command:
+[source, bash]
+----
+bash -c "./gradlew publishUpdate"
+----
+
+Of course, all the Gradle tasks might be started together, so the typical case is:
+[source, bash]
+----
+bash -c "./gradlew clean buildClean buildUpdate buildDoc publishUpdate"
+----
+
+All the updates packages are copies to Web directory: `https://bgerp.org/update/PROCESS_ID`
+The <<change-file, change file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc` 
+are automatically replaced to the `https://bgerp.org/update/PROCESS_ID/doc`.
 
 Пользователи имеют возможность <<kernel/install.adoc#installer, установить>> пакет с помощью команды *install*,
 сообщить о выявленных недочётах и откатиться на предыдущую версию командой *update* в случае невозможности работать с ними далее.

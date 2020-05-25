@@ -10,7 +10,9 @@ Minimal system requirements for running server with BGERP + MySQL:
 * 512 MB RAM, recommended - 1 GB.
 
 [[docker]]
-== Docker
+== Docker image
+Installation from Docker image.
+
 The link:https://hub.docker.com/r/bgerp/bgerp[Docker image] is approximately *1 GB* and contains 
 the latest published build will all the required components: MySQL, Java. 
 The actual <<demo, Demo>> is also applied during first run.
@@ -50,7 +52,10 @@ CAUTION: Completely remove all the related data.
 rm -rf /srv/bgerp
 ----
 
+[[linux-server]]
 == Linux server
+Installation on Linux server.
+
 [[mysql]]
 === MySQL
 *Original* MySQL DB Server version *8.0* or newer. 
@@ -163,7 +168,7 @@ systemctl enable bgerp
 Для автозапуска приложения при загрузке системы.
 
 [[demo]]
-== Demo
+== Demo system
 The Demo system is running on https://demo.bgerp.org with the latest published builds of software and resets to initial state any 3rd hour.
 
 [[update]]

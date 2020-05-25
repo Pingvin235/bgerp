@@ -182,6 +182,12 @@ log4j.appender.session.layout.ConversionPattern=%d{MM-dd/HH:mm:ss} %5p [%t] %c{1
 log4j.appender.file.Threshold=DEBUG
 ----
 
+And enable separaged logger for the wanted package or class, e.g.:
+[source]
+----
+log4j.logger.ru.bgcrm.plugin.asterisk=DEBUG, file
+----
+
 В конфигурационном файле возможно изменять формат информации в файле, фильтр по классам и другие параметры логирования.
 
 Ссылки:

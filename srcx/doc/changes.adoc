@@ -1,4 +1,4 @@
-= Последние изменения
+= Documentation change log
 :toc:
 
 Изменения в документации, не отражённые в link:https://bgerp.ru/changes.txt[ChangeLog].
@@ -9,6 +9,7 @@
 
 == Лог изменений
 [square]
+* <<project.adoc#build-update, 22.05.2020>> Publish change update.
 * <<project.adoc#longlife-branch, 16.02.2020>> Долгоживущие GIT ветки.
 * <<project.adoc#, 10.02.2020>> Множество дополнений в описании проекта для разработчиков: архитектура, workflow, стек технологий.
 * <<kernel/install.adoc#, 03.02.2020>> Уточнены настройки MySQL при установке.
