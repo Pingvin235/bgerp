@@ -1,6 +1,18 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+26.05.2020 16:19:30 1359
+F: Remove many E-Mails.
+A: Publish GitHub source copy with real authors.
+A: Process information in open interface, https://bgerp.org/doc/3.0/manual/kernel/interface.html#open-process
+C: Refactoring process references show.
+A: Support breaking changes in change log.
+B: Default process reference for 'processCard' is '#' + ID + description, https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config-reference-sample-type
+A: JSP tag u:set, properly handling 'null' body value.
+A: Call utils methods in JSP as in JEXL: cu., su., tu.
+C: Optimization in process messages list: build answer text on demand.
+F: Plugin Blow, change board in combo box.
+
 14.05.2020 16:22:18 1358
 C: Removed from distributive not working plugin FIAS.
 C: Remove not working permission options 'allowedProcessTypeIds' and unused actions.

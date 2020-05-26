@@ -1,8 +1,0 @@
-A: Process information in open interface, https://bgerp.org/doc/3.0/manual/kernel/interface.html#open-process
-C: Refactoring process references show.
-A: Support breaking changes in change log.
-B: Default process reference for 'processCard' is '#' + ID + description, https://bgerp.org/doc/3.0/manual/kernel/process/index.html#type-config-reference-sample-type
-A: JSP tag u:set, properly handling 'null' body value.
-A: Call utils methods in JSP as in JEXL: cu., su., tu.
-C: Optimization in process messages list: build answer text on demand.
-F: Plugin Blow, change board in combo box.
