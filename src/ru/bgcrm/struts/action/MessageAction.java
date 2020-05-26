@@ -65,48 +65,64 @@ public class MessageAction extends BaseAction {
     public ActionForward message(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
         MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
 
-        Message message = null;
-        MessageType type = null;
-        
-        restoreRequestParams(conSet.getConnection(), form, true, false, "messageTypeAdd");
-
-        int typeId = form.getParamInt("typeId");
-        String messageId = form.getParam("messageId");
-
-        // открытие существующего сообщения
-        if (form.getId() > 0) {
-            message = new MessageDAO(conSet.getConnection()).getMessageById(form.getId());
-            type = config.getTypeMap().get(message.getTypeId());
-        }
-        // нвового сообщения
-        else if (typeId > 0 && Utils.notBlankString(messageId)) {
-            type = config.getTypeMap().get(typeId);
+        var replyToId = form.getParamInt("replyToId");
+        if (replyToId > 0) {
+            var message = new MessageDAO(conSet.getConnection()).getMessageById(replyToId);
+            if (message == null)
+                throw new BGException("Message not found: " + replyToId);
+            
+            var type = config.getTypeMap().get(message.getTypeId());
             if (type == null) 
-                throw new BGException("Не найден тип сообщения.");
+                throw new BGException("Message type not found: " + replyToId);
 
-            message = type.newMessageGet(conSet, messageId);
+            form.getResponse().setData("message", type.getAnswerMessage(message));
+
+            return data(conSet, mapping, form, "processMessageEdit");
         }
+        else {
+            Message message = null;
+            MessageType type = null;
+            
+            restoreRequestParams(conSet.getConnection(), form, true, false, "messageTypeAdd");
 
-        if (message != null)
-            form.getResponse().setData("message", message);
+            int typeId = form.getParamInt("typeId");
+            String messageId = form.getParam("messageId");
 
-        // немного нечёткая логика, это для случая открытия сообщения на обработу
-        if (type != null) {
-            int searchId = form.getParamInt("searchId", 1);
+            // открытие существующего сообщения
+            if (form.getId() > 0) {
+                message = new MessageDAO(conSet.getConnection()).getMessageById(form.getId());
+                type = config.getTypeMap().get(message.getTypeId());
+            }
+            // нвового сообщения
+            else if (typeId > 0 && Utils.notBlankString(messageId)) {
+                type = config.getTypeMap().get(typeId);
+                if (type == null) 
+                    throw new BGException("Не найден тип сообщения.");
 
-            // автоматически ищет первым поиском
-            if (CollectionUtils.isNotEmpty(type.getSearchMap().values())) {
-                MessageTypeSearch search = type.getSearchMap().get(searchId);
-
-                Set<CommonObjectLink> searchedList = new LinkedHashSet<CommonObjectLink>();
-                search.search(form, conSet, message, searchedList);
-                form.getHttpRequest().setAttribute("searchedList", searchedList);
+                message = type.newMessageGet(conSet, messageId);
             }
 
-            form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
-        }
+            if (message != null)
+                form.getResponse().setData("message", message);
 
-        return data(conSet, mapping, form, "message");
+            // немного нечёткая логика, это для случая открытия сообщения на обработу
+            if (type != null) {
+                int searchId = form.getParamInt("searchId", 1);
+
+                // автоматически ищет первым поиском
+                if (CollectionUtils.isNotEmpty(type.getSearchMap().values())) {
+                    MessageTypeSearch search = type.getSearchMap().get(searchId);
+
+                    Set<CommonObjectLink> searchedList = new LinkedHashSet<CommonObjectLink>();
+                    search.search(form, conSet, message, searchedList);
+                    form.getHttpRequest().setAttribute("searchedList", searchedList);
+                }
+
+                form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
+            }
+
+            return data(conSet, mapping, form, "message");
+        }
     }
 
     public ActionForward messageUpdateProcess(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {

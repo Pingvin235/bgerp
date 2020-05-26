@@ -16,7 +16,7 @@ public class OpenFilter implements Filter {
     private static final Log log = Log.getLog();
 
     private static final String OPEN_URL_PREFIX = "/open/";
-    public static final String REQUEST_ATTRIBUTE_URI = OpenFilter.class.getName() + ".URI";
+    private static final String REQUEST_ATTRIBUTE_URI = OpenFilter.class.getName() + ".URI";
 
     public void init(FilterConfig filterConfig) throws ServletException {}
 
@@ -41,5 +41,13 @@ public class OpenFilter implements Filter {
         var requestDispatcher = request.getServletContext().getRequestDispatcher(OPEN_URL_PREFIX + "shell.jsp");
         request.setAttribute(REQUEST_ATTRIBUTE_URI, requestURI);
         requestDispatcher.forward(request, servletResponse);
+    }
+
+    /** 
+     * After forwarding to shell.jsp original requestURL is lost, so it is preserved as an attribute. 
+     * @return preserved URI or null
+     * */
+    public static final String getRequestURI(ServletRequest request) {
+        return (String) request.getAttribute(REQUEST_ATTRIBUTE_URI);
     }
 }

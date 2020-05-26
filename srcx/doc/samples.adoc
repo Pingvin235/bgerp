@@ -1,16 +1,13 @@
-= Примеры документации
+= Documentation samples
 :toc:
 
 == PzdcDoc
-Для генерации документации BGERP используется открытая система link:http://pzdcdoc.org[PzdcDoc].
-Вы всегда можете посмотреть примеры и рекомендуемые подходы по следующим ссылкам:
-[square]
-* Исходный файл: link:https://github.com/pzdcdoc/pzdcdoc/blob/master/src/doc/demo.adoc[]
-* Результат генерации: http://pzdcdoc.org/demo/src/doc/demo.html
+For building of the manual used Open Source tool link:https://pzdcdoc.org[PzdcDoc].
+Recommended approaches and samples may be always found link:http://pzdcdoc.org/demo/src/doc/demo.html[here].
 
 [[erp]]
-== В данном руководстве
+== Examples in this manual
 [square]
-* <<kernel/message.adoc#, Диаграмма>>
-* <<kernel/process/index.adoc#type-config, Конфигурация со ссылками из неё>>
-* <<kernel/process/wizard.adoc#, Сложная таблица и инклуды>>
+* <<kernel/message.adoc#, Diagram>>
+* <<kernel/process/index.adoc#type-config, Configuration from links from it>>
+* <<kernel/process/wizard.adoc#, Complex table and includes>>

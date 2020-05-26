@@ -294,7 +294,7 @@ public class MessageDAO extends CommonDAO {
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder, Set<Integer> tagIds) throws BGException {
         searchMessageList(searchResult, processId != null ? Collections.singleton(processId) : null, typeId, direction, processed, withAttach, 
-                dateFrom, dateTo, from, true, null);
+                dateFrom, dateTo, from, true, tagIds);
     }
 
     public void searchMessageList(SearchResult<Message> searchResult, Collection<Integer> processIds, Integer typeId,

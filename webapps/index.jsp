@@ -5,7 +5,7 @@
 
 <html>
 <head>
-	<title><%@ include file="/WEB-INF/jspf/version.jsp"%> : Выбор роли</title>
+	<title><%@ include file="/WEB-INF/jspf/version.jsp"%> : ${l.l('Интерфейс')}</title>
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
 </head>
 <body>

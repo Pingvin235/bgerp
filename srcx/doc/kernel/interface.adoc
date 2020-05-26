@@ -187,12 +187,29 @@ For enabling showing user specific information by URL *<SERVER_PORT>/open/profil
 [source]
 ----
 user.open.enable.paramId=<ENABLE_PARAM_ID>
-user.open.show.paramIds=<PARAM1_ID>,<PARAM2_ID>..<PARAMX_ID>
+user.open.show.paramIds=<PARAM_IDS>
 ----
 
 Where:
 [square]
-* *<PARAM*_ID* - user parameter IDs to be shown, parameter type *file* is not supported 
+* *<PARAM*_IDS* - comma separated user parameter IDs to be shown, parameter type *file* is not supported 
+
+[[open-process]]
+For enabling showing process information by URL  *<SERVER_PORT>/open/process/<PROCESS_ID>*
+define in <<setup.adoc#config, configuration>>:
+
+[source]
+----
+process.open.typeIds=<TYPE_IDS>
+process.open.show.paramIds=<PARAM_IDS>
+process.open.show.message.tagIds=<MESSAGE_TAG_IDS>
+----
+
+Where:
+[square]
+* *<TYPE*_IDS* - comma separated process type IDs to be shown;
+* *<PARAM*_IDS* - comma separated process parameter IDs to be shown, parameter type *file* is not supported;
+* *<MESSAGE*_TAG*_IDS* - comma separated <<message.adoc#message-tag, message tag>> IDs to be shown.
 
 == Коды объектов
 Числовые коды объекты, они же *идентификаторы*, необходимы для однозначного определения различных объектов данных в системе. 

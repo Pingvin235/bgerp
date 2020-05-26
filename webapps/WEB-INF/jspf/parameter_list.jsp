@@ -62,7 +62,8 @@
 			</c:if>
 		</c:if>
 
-		<c:if test="${form.param.globalReadOnly == '1'}">
+		<%-- TODO: globalReadOnly - backwards compatibility, remove in future --%>
+		<c:if test="${form.param.readOnly eq '1' or form.param.globalReadOnly eq '1'}">
 			<c:set var="readonly" value="true"/>
 		</c:if>
 

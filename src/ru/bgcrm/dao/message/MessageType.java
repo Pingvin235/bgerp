@@ -109,6 +109,55 @@ public abstract class MessageType extends IdTitle {
         return false;
     }
 
+    public Message getAnswerMessage(Message original) {
+        var result = new Message();
+        result.setTypeId(original.getTypeId());
+        result.setProcessId(original.getProcessId());
+
+        /* Extracted from JSP:
+            <% pageContext.setAttribute( "rChar", "\r" );
+            pageContext.setAttribute( "newLineChar", "\n" );
+            pageContext.setAttribute( "singleQuot", "'" );
+            %> 
+            
+            <c:set var="subject" value="${message.subject}"/>
+            <c:if test="${not fn:startsWith( subject, 'Re:' ) }">
+                <c:set var="subject" value="Re: ${subject}"/>
+            </c:if>
+
+            <c:set var="answerText" value=">${message.text}"/>
+            <c:set var="answerText" value="${fn:replace( answerText, rChar, '' )}"/>
+            <c:set var="answerText" value="${fn:replace( answerText, newLineChar, newLineChar.concat( '>' ) )}"/>
+        */
+
+        var subject = Utils.maskNull(original.getSubject());
+        subject = subject.startsWith("Re:") ? subject : "Re: " + subject;
+        result.setSubject(subject);
+
+        var text = original.getText();
+        text = ">" + text
+            .replace("\r", "")
+            .replace("\n", "\n>");
+        result.setText(text);
+
+        /* Extracted from JSP:
+        <%
+            Message message = (Message)request.getAttribute("message");
+            if (request.getAttribute( "messageType" ) instanceof MessageTypeEmail) {
+                MessageTypeEmail type = (MessageTypeEmail)request.getAttribute( "messageType" );
+                try {
+                    String answerTo = MessageTypeEmail.serializeAddresses(MessageTypeEmail.parseAddresses(message.getTo(), message.getFrom(), type.getEmail()));
+                    pageContext.setAttribute( "answerTo", answerTo );
+                }
+                catch( Exception e )
+                {}
+            }
+        %>*/
+        result.setTo(original.getFrom());
+
+        return result;
+    }
+
     public boolean isEditable(Message message) {
         return false;
     }

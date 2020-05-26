@@ -7,10 +7,10 @@
 	 min-width: 30px;
 	 max-width: 30px;
 	 width: 30px;
-	 
+
 	 user-select: none;
 	 -moz-user-select: none;
-     -webkit-user-select: none;	 
+	 -webkit-user-select: none;
 }
 
 #callboard .callboard table.minimal .sum {
@@ -29,7 +29,6 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-  	-o-text-overflow: ellipsis;
   	cursor: pointer;
 }
 
@@ -69,10 +68,9 @@
 }
 
 #callboard #editor #shiftArea .wrap .shift .text,
-#callboard #editor #shiftArea .wrap .shift .color { 
+#callboard #editor #shiftArea .wrap .shift .color {
 	overflow: hidden;
 	text-overflow: ellipsis;
-  	-o-text-overflow: ellipsis;
 }
 
 #callboard #editor #shiftArea .wrap .shift .text {
@@ -82,15 +80,15 @@
 
 #callboard #editor #shiftArea .wrap .shift .color {
 	padding-left: 0.5em;
-	padding-top: 0.2em;  
+	padding-top: 0.2em;
 	vertical-align: middle;
 	height: 40%;
-} 
+}
 
 #callboard #editor #shiftArea .wrap .shift {
  	border-style: solid;
-    border-width: 2px;
-    border-color: white;
+	border-width: 2px;
+	border-color: white;
 }
 
 #callboard #editor #shiftArea .wrap .shift.selected {
@@ -102,7 +100,7 @@
 	padding: 0.5em;
 }
 
-/* 
+/*
 #workPlan .plan table.plan td.shiftUser,
 #workPlan .plan table.plan td.timeHead {
 	padding: 0.5em;
@@ -117,43 +115,41 @@
 	 min-width: 50px;
 	 max-width: 50px;
 	 width: 50px;
-	 
+
 	 user-select: none;
 	 -moz-user-select: none;
-     -webkit-user-select: none;	 
+	 -webkit-user-select: none;
 }
 
 #workPlan .plan table.plan > tbody > tr > td.shiftUser {
 	min-width: 200px;
 	max-width: 200px;
-	
+
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-  	-o-text-overflow: ellipsis;
 }
 
 #workPlan .plan table.plan > tbody > tr > td.cell {
 	padding: 0em;
-} 
+}
 
-#workPlan .plan table.workTypeTime > tbody > tr > td:not(:last-child) {  
+#workPlan .plan table.workTypeTime > tbody > tr > td:not(:last-child) {
 	border-right: 1px solid ${UI_TABLE_BORDER_COLOR};
 }
 
-#workPlan .plan table.workTypeTime > tbody > tr > td {  
+#workPlan .plan table.workTypeTime > tbody > tr > td {
   	padding: 0.5em;
   	font-size: 0.8em;
   	cursor: pointer;
   	overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  	-o-text-overflow: ellipsis;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
-#workPlan .plan table.workTypeTime > tbody > tr > td.lock {  
+#workPlan .plan table.workTypeTime > tbody > tr > td.lock {
   	font-size: 1.2em;
-  	text-align: center;  	
+  	text-align: center;
 }
 
 
@@ -164,7 +160,7 @@ td.shiftUser > b {
 .contextMenu {
 
 	position: absolute;
-	width: 300px;	
+	width: 300px;
 	z-index: 999;
 	background: white;
 	text-align: center;
@@ -185,7 +181,7 @@ td.shiftUser > b {
 
 #addGroupToUserPopup input {
 	width: 80px;
-	
+
 }
 
 .available-day {
@@ -197,13 +193,13 @@ td.shiftUser > b {
 }
 
 .selected-cel {
-	background-color: #EDF551 !important; 
+	background-color: #EDF551 !important;
 }
 
 .contextMenu {
 
 	position: absolute;
-	width: 300px;	
+	width: 300px;
 	z-index: 999;
 	background: white;
 	text-align: center;
@@ -223,7 +219,7 @@ td.shiftUser > b {
 
 #addGroupToUserPopup input {
 	width: 80px;
-	
+
 }
 
 .available-day {
@@ -233,7 +229,7 @@ td.shiftUser > b {
 .nonavailable-day {
 	background-color: #CCCCCC;
 }
-<%-- 
+<%--
 a:focus {
 	outline: none;
 }

@@ -331,15 +331,38 @@ git push
 Процесс изменения при этом не закрывается, а <<accept, перенос>> производится многократно по мере готовности очередной порции изменений.
 
 [[documentation]]
-==== Документация
-Частным случаем долгоживущей ветки является документация.
-Исходные файлы в формате AsciiDoctor размещаются в каталоге *srcx/doc* проекта.
-Модификация исходных кодов программы и документации выполняется одновременно в ветке <<workflow, изменения>>.
-Примеры форматирования и рекомендации можно посмотреть <<samples.adoc#, здесь>>.
-Документация может быть <<build-doc, собрана>> локально с ветки и <<build-update, включена>> в пакет обновления.
+==== Documentation
+A particular case of long-life branch is documentation.
+The source AsciiDoctor and resource files are placed in `srcx/doc` directory.
+Publication of the product manual <<publish-doc, runs>> automcatically from <<workflow, branch>> *p11862-documentation*.
 
-Публикация основной документации <<publish-doc, производится>> с ветки <<workflow, ветке>> *p11862-documentation*.
-Для предложения правок документации следует создать ветку, начинающуюся с данной.
+Documentation might be <<build-doc, built>> also locally from any branch and together with a <<build-update, change update package>>.
+
+Documentation changes are recommended to be done at the end of <<workflow, branch development>>,
+using <<change-file, change file>> as an intermediate notes. The samples of documentation's format may be found <<samples.adoc#, here>>.
+
+Due the strict references and snippets checking, it is quite possible to have broken <<test-unit-and-doc, state>> of documentation
+even without .adoc files. Something like the following:
+[source]
+----
+2020-05-25 12:17:39,149 INFO DocGenerator [main] Processing: srcx/doc/project.adoc
+2020-05-25 12:17:39,844 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't start from: 'message.se', line number: 205, content: newProcess.setDescription(message.getSubject());
+2020-05-25 12:17:39,855 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't end on: ');', line number: 71, content: if (message == null)
+2020-05-25 12:17:39,859 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't start from: 'pu', line number: 241, content:
+2020-05-25 12:17:39,860 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't end on: '}', line number: 253, content:
+2020-05-25 12:17:39,911 ERROR Snippet [main] Snippet '../../webapps/WEB-INF/jspf/user/search/search.jsp' doesn't start from: '<div', line number: 1, content: <%@ page contentType="text/html; charset=UTF-8"%>
+2020-05-25 12:17:39,911 ERROR Snippet [main] Snippet '../../webapps/WEB-INF/jspf/user/search/search.jsp' doesn't end on: '/div>', line number: 134, content: <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
+2
+---- 
+
+For such cases here is the *fixing algorithm*.
+First, find the failing line in `.adoc` file:
+
+image::_res/snippet_fix_1.png[]
+
+After that, using branch comparism, find the new rows and change them in the `.adoc`:
+
+image::_res/snippet_fix_2.png[]
 
 [[localization-branch]]
 === Локализация
@@ -694,7 +717,7 @@ $('#loginForm').dialog({
 При выполнении <<action, акшена>> в объект *l* передаётся локализационный контекст, содержащий фразы для ядра и вызываемого плагина.
 
 [snippet, from="message.se", to="());", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L205-L205[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L221-L221[ru.bgcrm.struts.action.MessageAction]
 
 == Именование
 === Переменные конфигураций, функции JS, HTTP StyleId
@@ -762,12 +785,12 @@ from_dt, to_dt - тип datetime.
 Например, фильтров интерфейса. Используется метод *restoreRequestParams* в: javadoc:ru.bgcrm.struts.action.BaseAction[]
 
 Сохранение значения:
-[snippet, from="pu", to=");", remove-leading=    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L65-L71[ru.bgcrm.struts.action.MessageAction]
+[snippet, from="resto", to=");", remove-leading=    "]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L86-L86[ru.bgcrm.struts.action.MessageAction]
 
 Восстановление:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L241-L253[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L257-L269[ru.bgcrm.struts.action.MessageAction]
 
 Сохранение плюс восстановление сразу:
 [snippet, from="//", to=");", remove-leading="    "]
@@ -863,7 +886,7 @@ link:../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L161-L166[webapps/WEB
 
 Flex layout, использование констант из Java классов, кнопка вывода рядом с полем:
 [snippet, from="<div", to="/div>", remove-leading="				"]
-link:../../webapps/WEB-INF/jspf/user/search/search.jsp#L139-L158[webapps/WEB-INF/jspf/user/search/search.jsp]
+link:../../webapps/WEB-INF/jspf/user/search/search.jsp#L88-L107[webapps/WEB-INF/jspf/user/search/search.jsp]
 
 Обновление оснастки при повторном переходе в неё:
 [snippet, from="<script", to="/script>"]

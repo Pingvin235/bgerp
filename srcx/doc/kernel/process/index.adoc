@@ -223,7 +223,7 @@ create.in.objectTypes=customer
 create.in.copyParams=1:3;5:6
 ----
 
-[[type-config-descr]]
+[[type-config-reference]]
 ==== Описание процесса
 Макрос описаний процесса позволяет сгенерировать текст для заголовка вкладки процесса или для перечня процессов.
 Для генерации описаний в конфигурацию типа процесса добавляются записи вида:  
@@ -244,7 +244,8 @@ processReference.<n>.stringExpression=<macros>
 * *customer* - <<link-processes, вкладка>> *Процессы* контрагента;
 * *processCard* - заголовок вкладки процесса;
 * *linkedProcessList* - список процессов к которым привязан данный процесс;
-* *linkProcessList* - список процессов, привязанных к данному.
+* *linkProcessList* - список процессов, привязанных к данному;
+* *open.processCard* - process card in <<../interface.adoc#open-process, open>> interface.
 
 В JEXL процессор передаются объекты:
 [square]
@@ -254,13 +255,15 @@ processReference.<n>.stringExpression=<macros>
 
 Кроме того доступны переменные устанавливаемые в javadoc:ru.bgcrm.servlet.filter.SetRequestParamsFilter[].
 
+CAUTION: Retrieving parameters may be quite expensive.
+
 Пример конфигурации для генерации описания списке процессов контрагента из адреса и перечня услуг и на вкладке процесса из наименования контрагента и адреса:
 [source]
 ----
 processReference.1.objectTypes=customer
-processReference.1.stringExpression=u.toString( processParam.addressValues( 90, 'fromStreet' ) ) + " : " + u.toString( processParam.listValueTitles( 238 ) )
+processReference.1.stringExpression=u.toString(processParam.addressValues(90, 'fromStreet')) + " : " + u.toString(processParam.listValueTitles(238))
 processReference.2.objectTypes=processCard
-processReference.2.stringExpression="Запрос док. ОИО: " + u.escapeXml( u.toString( processLink:linkTitles( "customer" ) ) ) + "<br/>" + u.escapeXml( u.toString( processParam.addressValues( 90, 'fromStreet' ) )  ) + "&nbsp;"
+processReference.2.stringExpression="Запрос док. ОИО: " + u.escapeXml(u.toString(processLink:linkTitles("customer"))) + "<br/>" + u.escapeXml(u.toString( processParam.addressValues(90, 'fromStreet'))) + "&nbsp;"
 ----
 
 Пример вывода исполнителей процесса в описании. Выводится в связанных процессах контрагентов и договорах биллинга *bitel*.
@@ -280,11 +283,12 @@ image::_res/conf_title.png[]
 
 image::_res/conf_description.png[]
 
+[[type-config-reference-sample-type]]
 В описании возможно использование HTML разметки, с выделением части описания жирным шрифтом для отображения в буфере. Например:
 [source]
 ----
-processReference.2.objectTypes=processCard
-processReference.2.stringExpression="<span class='title'>#" + process.getId() +  " " + process.getTypeTitle() + " " +  "</span><span>" + u.escapeXml( process.getDescription() )  + "</span>"
+processReference.1.objectTypes=processCard
+processReference.1.stringExpression="<span class='title'>#" + process.getId() +  " " + process.getTypeTitle() + " " +  "</span><span>" + u.escapeXml(process.getDescription())  + "</span>"
 ----
 
 При закрытии в буфер, данный процесс будет выглядеть следующим образом:
@@ -300,7 +304,7 @@ image::_res/card.png[]
 В левой области расположены блоки редактирования свойства процесса и ссылки для их редактирования, настроенные для <<type,типа>> процесса <<../setup.adoc#param, параметры>>. 
 Вид левого блока можно <<type-config-left, настроить>> в конфигурации типа процесса.
 
-Строка с описанием процесса (по-умолчанию содержит код процесса и наименование его типа) может быть <<type-config-descr,настроена>> в конфигурации. 
+Строка с описанием процесса (по-умолчанию содержит код процесса и наименование его типа) может быть <<type-config-reference, настроена>> в конфигурации. 
 Эта же строка отображается в буфере закрытых объектов, позволяя вернуться на недавно открытый процесс.
 
 В правой области отображаются связанные с процессом данные, например <<linked-process,связанные процессы>>, либо различные расширения, предоставляемые плагинами.
@@ -338,7 +342,7 @@ image::_res/link.png[]
 
 image::_res/object_process.png[]
 
-По-умолчанию отображаются несколько обязательных полей процессов, возможна настройка <<type-config-descr, описания>> в конфигурации типа для области *customer*.
+По-умолчанию отображаются несколько обязательных полей процессов, возможна настройка <<type-config-reference, описания>> в конфигурации типа для области *customer*.
 Данный способ, однако, вызывает значительную дополнительную нагрузку на БД при выводе списка и не позволяет гибко настраивать отображаемые столбцы.
 Вместо стандартного списка может быть отображена <<queue.adoc#, очередь процессов>> с фильтром по данному объекту.
 

@@ -1,16 +1,17 @@
-= Documentation change log
+= Documentation changes
 :toc:
 
-Изменения в документации, не отражённые в link:https://bgerp.ru/changes.txt[ChangeLog].
+Changes in documentation itself, not related to link:https://bgerp.org/changes.txt[program].
 
-Исправления, уточнения, примеры и рекомендации.
-Вся документация актуальна для последней сборки BGERP.
-Лог изменений публикуется в обратном хронологическом порядке.
+Fixes,refinements, recommendations.
+The log is done it the date reverse order.
 
-== Лог изменений
+== Change log
 [square]
+* <<project.adoc#documentation, 25.05.2020>> Documentation write algorithm.
 * <<project.adoc#build-update, 22.05.2020>> Publish change update.
 * <<project.adoc#longlife-branch, 16.02.2020>> Долгоживущие GIT ветки.
+////
 * <<project.adoc#, 10.02.2020>> Множество дополнений в описании проекта для разработчиков: архитектура, workflow, стек технологий.
 * <<kernel/install.adoc#, 03.02.2020>> Уточнены настройки MySQL при установке.
 * <<project.adoc#ide-run, 26.01.2020>> Создание тестовой БД для разработчиков.
@@ -58,6 +59,5 @@
 * <<plugin/task/index.adoc#dev-plan, 04.12.2018>> Планы развития плагина Task.
 * <<kernel/install.adoc#stored-procedures, 30.12.2018>> Хранимые процедуры при обновлении БД.
 * <<kernel/db.adoc#, 29.12.2018>> Структура БД.
-
-// Возможно впоследствии и лог изменений будет перенесён сюда.
+////
 

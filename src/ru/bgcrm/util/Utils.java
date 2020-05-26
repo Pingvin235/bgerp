@@ -857,26 +857,6 @@ public class Utils {
         return result;
     }
 
-    /*
-     * Преобразует строку в тип Date с помошью SimpleDateFormat по шаблону dd.MM.yyyy
-     * @param str Строка для преобразования
-     * @return Дата, если не смогли отпарсить, то null
-    //TODO: Сделать в DynActionForm getDateParam и формат в зависимости от локали.
-    public static Date getDate( String str )
-    {	
-    	SimpleDateFormat format = new SimpleDateFormat( "dd.MM.yyyy" );
-    	try
-    	{
-    		Date date = format.parse( str );
-    		return date;
-    	}
-    	catch( Exception e )
-    	{
-    		return null;
-    	}
-    }
-     */
-
     public static Date getDateFromMinutes(int minutes) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, minutes / 60);
@@ -972,6 +952,7 @@ public class Utils {
      * @param str входная строка
      * @return
      */
+    @Deprecated
     public static String swapWords(String str) {
         StringBuilder result = new StringBuilder(str);
         final int size = result.length();
@@ -989,6 +970,7 @@ public class Utils {
      * @param objects
      * @return
      */
+    @Deprecated
     public static String dump(Object... objects) {
         StringBuilder result = new StringBuilder();
         for (Object object : objects)
@@ -1019,6 +1001,7 @@ public class Utils {
     * @param value
     * @return
     */
+    @Deprecated
     public static final int unsignedByteToInt(byte value) {
         int val = value;
         if (val < 0) {
@@ -1033,6 +1016,7 @@ public class Utils {
      * @param value
      * @return
      */
+    @Deprecated
     public static final long unsignedIntToLong(int value) {
         long val = value;
         if (val < 0) {
@@ -1048,6 +1032,7 @@ public class Utils {
      * @param bytes массив байтов: шестнадцатеричное число 
      * @return
      */
+    @Deprecated
     public static int convertBytesToInt(byte[] bytes) {
         int result = 0;
         if (bytes != null && bytes.length == 4) {
@@ -1062,6 +1047,7 @@ public class Utils {
      * @param value
      * @return
      */
+    @Deprecated
     public static byte[] convertIntToBytes(int value) {
         byte[] byteValue = new byte[4];
 

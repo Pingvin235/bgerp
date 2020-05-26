@@ -179,11 +179,11 @@
 
 		<action path="/open/profile" parameter="action" type="org.bgerp.action.open.ProfileAction" name="form" scope="request">
 			<forward name="show" path="/WEB-INF/jspf/open/profile/show.jsp"/>
-			<!--
-			<forward name="queue" path="/WEB-INF/jspf/usermob/process/queue/queue.jsp"/>
-			<forward name="queueShow" path="/WEB-INF/jspf/usermob/process/queue/show.jsp"/>
-			<forward name="process" path="/WEB-INF/jspf/usermob/process/process/process.jsp"/>
-			-->
+		</action>
+
+		<action path="/open/process" parameter="action" type="org.bgerp.action.open.ProcessAction" name="form" scope="request">
+			<forward name="show" path="/WEB-INF/jspf/open/process/show.jsp"/>
+			<forward name="messages" path="/WEB-INF/jspf/open/process/messages.jsp"/>
 		</action>
 	</action-mappings>
 

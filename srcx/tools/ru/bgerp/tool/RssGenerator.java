@@ -104,6 +104,8 @@ public class RssGenerator {
                 description.append("NEW:").append(line.substring(2));
             else if (line.startsWith("С:") || line.startsWith("C:"))
                 description.append("CHANGE:").append(line.substring(2));
+            else if (line.startsWith("B:") || line.startsWith("В:"))
+                description.append("BREAKING CHANGE:").append(line.substring(2));
             else if (line.startsWith("F:"))
                 description.append("FIX:").append(line.substring(2));
             else

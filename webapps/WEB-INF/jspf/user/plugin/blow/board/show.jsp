@@ -27,14 +27,23 @@
 	</ul>
 	
 	<script>
-	$(function () {
-		$$.blow.initTable($('#${uiid}'), $('#${uiidRcMenu}'));
-		
-		$('#content > #blow-board').data('onShow', function () {
-			$$.ajax.load('/user/plugin/blow/board.do?action=show&id=${form.id}', $$.shell.$content());
-		});
+		$(function () {
+			$$.blow.initTable($('#${uiid}'), $('#${uiidRcMenu}'));
+			
+			$('#content > #blow-board').data('onShow', function () {
+				$$.ajax.load('/user/plugin/blow/board.do?action=show&id=${form.id}', $$.shell.$content());
+			});
 
-		history.replaceState(history.state, null, '/user/blow/board#${form.id}');
-	})
+			history.replaceState(history.state, null, '/user/blow/board#${form.id}');
+		})
 	</script>
+
+	<c:if test="${not empty board.config.openUrl}">
+		<shell:title>
+			<jsp:attribute name="text">
+				<a target='_blank' href='/open/blow/${board.config.openUrl}' title='${l.l('Открытый интерфейс')}'>O</a>
+				${l.l('Blow план')}
+			</jsp:attribute>
+		</shell:title>
+	</c:if>
 </c:if>

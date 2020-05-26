@@ -62,7 +62,7 @@ public class ExpressionTest {
         ctx.put("t", testExpr);
 
         Expression exp = new Expression(ctx);
-        exp.executeScript("if (!cu:isEmpty(t.getIds())){t.setValue('testValue')};");
+        exp.executeScript("if (!cu.isEmpty(t.getIds())){t.setValue('testValue')};");
 
         assertEquals("testValue", testExpr.value);
     }

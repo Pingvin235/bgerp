@@ -19,32 +19,32 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  font-size: 100%;
-  vertical-align: middle;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	vertical-align: middle;
 }
 
 ol, ul {
-  list-style: none;
+	list-style: none;
 }
 
 
 html {
-  overflow-y: scroll;
+	overflow-y: scroll;
 }
 
 a {
-  color: #005589;
+	color: #005589;
 }
 
 @media all
 { 
 	body {
-	  font: 13px  Arial, Geneva CY, Kalimati, Geneva, sans-serif;
-	  color: black;
+		font: 13px  Arial, Geneva CY, Kalimati, Geneva, sans-serif;
+		color: black;
 	}
 }
 
@@ -63,71 +63,75 @@ a {
 <%@ include file="style.title.css.jsp"%>
 
 body > #content {
-  padding: 0px 2em;
-  margin-bottom: 2em;
+	padding: 0px 2em;
+	margin-bottom: 2em;
 }
 
 body > #content h1 {
-  color: #005589;
-  font-weight: bold;
-  margin: 1em 0 0.5em 0;
-  font-size: 1.1em;
+	color: #005589;
+	font-weight: bold;
+	margin: 1em 0 0.5em 0;
+	font-size: 1.1em;
 }
 
 body > #content h2 {
-  color: #353535;
-  font-weight: bold;
-  margin: 1em 0 0.5em 0;
-  font-size: 1.1em;
+	color: #353535;
+	font-weight: bold;
+	margin: 1em 0 0.5em 0;
+	font-size: 1.1em;
 }
 
 body > #content p {
-  color: #505050;
-  margin: 0.3em 0;
+	color: #505050;
+	margin: 0.3em 0;
 }
 
 body > #content label {
-  margin-left: 0.5em;
+	margin-left: 0.5em;
 }
 
 .separator {
-  margin: 0.7em 0;
-  border-bottom: 1px solid #e7e7e7;
+	margin: 0.7em 0;
+	border-bottom: 1px solid #e7e7e7;
 }
 
 .hint {
-  display: block;
-  font-size: 0.8em;
-  font-style: italic;
-  color: #707070;
-  padding: 0.5em 0;
+	display: block;
+	font-size: 0.8em;
+	font-style: italic;
+	color: #707070;
+	padding: 0.5em 0;
 }
 
 /* Title Text */
 .tt {
-  color: #353535;	
-  font-size: 1.1em;
+	color: #353535;	
+	font-size: 1.1em;
 }
 
 .red {
-  font-size: 1.3em;
-  color: #ff0000;
-  margin: 0 0.3em;
+	font-size: 1.3em;
+	color: #ff0000;
+	margin: 0 0.3em;
 }
 
 .bold {
-   font-size: 1.1em;
-   font-weight: bold;
+	 font-size: 1.1em;
+	 font-weight: bold;
 }   
 
 .center1020 {
-    margin: 0 auto;
-    width: 1020px;
+	margin: 0 auto;
+	width: 1020px;
 }
 
 .center500 {
-    margin: 0 auto;
-    width: 500px;
+	margin: 0 auto;
+	width: 500px;
+}
+
+.text-center {
+	text-align: center;
 }
 
 .nowrap {
@@ -174,20 +178,20 @@ body > #content label {
 <%@ include file="ui-correct.css.jsp"%>
 
 div, span {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -box-sizing: border-box; 
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-box-sizing: border-box; 
 }
 
 /* в адресном справочнике в одном месте используется */
 .sel {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 .box { 
-  border-radius: 3px; 
-  border: 1px solid #C5C5C5;
-  -moz-box-sizing: border-box; 
+	border-radius: 3px; 
+	border: 1px solid #C5C5C5;
+	-moz-box-sizing: border-box; 
 }
 
 <c:set var="endpoint" value="css.jsp"/>

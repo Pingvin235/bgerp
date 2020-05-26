@@ -3,7 +3,7 @@
 
 * <<changes.adoc#, Changes>>
 * <<project.adoc#, Development>>
-** <<samples.adoc#, Примеры документации>>
+** <<samples.adoc#, Documentation samples>>
 ** <<kernel/db.adoc#, Структура БД>>
 * Kernel
 ** <<kernel/install.adoc#, Install>>

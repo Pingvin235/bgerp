@@ -123,14 +123,7 @@
 							<td>${ctxProcessTypeMap[process.typeId]}</td>
 							<td>${ctxProcessStatusMap[process.statusId]}</td>
 							<td width="100%">
-								<c:choose>
-									<c:when test="${not empty process.reference}">
-										${process.reference}<br />
-									</c:when>
-									<c:otherwise>	
-										${process.description}
-									</c:otherwise>
-								</c:choose>
+								<%@ include file="/WEB-INF/jspf/user/process/reference.jsp"%>
 							</td>
 						</tr>
 					</c:if>

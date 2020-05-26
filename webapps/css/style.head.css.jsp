@@ -1,97 +1,96 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 
 #headWrap {
-  border: 1px solid #c5c5c5;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fcfcfc), color-stop(33.33333%, #f8f8f8), color-stop(66.66667%, #ededed), color-stop(100%, #e9e9e9));
-  background-image: -webkit-linear-gradient(top, #fcfcfc, #f8f8f8, #ededed, #e9e9e9);
-  background-image: -moz-linear-gradient(top, #fcfcfc, #f8f8f8, #ededed, #e9e9e9);
-  background-image: -o-linear-gradient(top, #fcfcfc, #f8f8f8, #ededed, #e9e9e9);
-  background-image: linear-gradient(top, #fcfcfc, #f8f8f8, #ededed, #e9e9e9);
-  margin-bottom: 1em;
-  padding: 0.6em 2em;
+	border: 1px solid #c5c5c5;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fcfcfc), color-stop(33.33333%, #f8f8f8), color-stop(66.66667%, #ededed), color-stop(100%, #e9e9e9));
+	background-image: -webkit-linear-gradient(top, #fcfcfc, #f8f8f8, #ededed, #e9e9e9);
+	background-image: -moz-linear-gradient(top, #fcfcfc, #f8f8f8, #ededed, #e9e9e9);
+	background-image: -o-linear-gradient(top, #fcfcfc, #f8f8f8, #ededed, #e9e9e9);
+	background-image: linear-gradient(top, #fcfcfc, #f8f8f8, #ededed, #e9e9e9);
+	margin-bottom: 1em;
+	padding: 0.6em 2em;
 }
 
 #head {
-  display: table-row;
+	display: table-row;
 }
 
 #head .btn-start {
-  margin-right: 0.5em;
+	margin-right: 0.5em;
 }
 
-#head .btn-task, 
+#head .btn-task,
 #head .btn-task-active {
-  margin-left: 0.5em;
+	margin-left: 0.5em;
 }
 
 #head .btn-start {
-  font-size: 1.1em;
-  font-weight: bold;
-  /*padding: 0.5em 2em 0.6em 0.8em;*/
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+	font-size: 1.1em;
+	font-weight: bold;
+	/*padding: 0.5em 2em 0.6em 0.8em;*/
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
 }
 
 #head .btn-task-active {
-  font-size: 1.1em;
-  font-weight: bold;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+	font-size: 1.1em;
+	font-weight: bold;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
 }
 
 #head .btn-task .title, .btn-task-active .title {
-  text-align: left;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;  
+	text-align: left;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 #head .btn-task span,
 #head .btn-task-active span {
-  display: table-cell;
+	display: table-cell;
 }
 
 #head .btn-task .title {
-  max-width: 5em;
+	max-width: 5em;
 }
 
 #head .btn-task-active .title {
-  max-width: 8em;
+	max-width: 8em;
 }
 
 #head > .right {
-  font-size: 1.1em;
-  white-space: nowrap;
+	font-size: 1.1em;
+	white-space: nowrap;
 }
 
 #head .icon-close {
-  padding-left: 0.5em;
+	padding-left: 0.5em;
 }
 
 #head > .right a {
-  text-decoration: none !important;
-  border-bottom: 1px dashed;
-  font-weight: bold;
-  color: #005589;
+	text-decoration: none !important;
+	border-bottom: 1px dashed;
+	font-weight: bold;
+	color: #005589;
 }
 
 #head >	* {
-  display: table-cell;	
+	display: table-cell;
 }
 
 #head > #taskPanelWrap {
-  width: 100%;
+	width: 100%;
 }
 
 #head #taskPanel {
-  white-space: nowrap;
-  overflow-x: auto;  
-  display: block;
+	white-space: nowrap;
+	overflow-x: auto;
+	display: block;
 }

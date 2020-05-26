@@ -12,6 +12,8 @@ public class Page {
     public static final String PAGE_SIZE = "pageSize";
     public static final String PAGEABLE_ID = "pageableId";
 
+    public static int PAGE_INDEX_NO_PAGING = -1;
+
     private int pageSize = 0;
     // по-умолчанию 1, чтобы по дефолту выводилась первая страница
     // передача page.pageIndex = -1 в запросе означает, что _не_ нужно постраничное разбиение

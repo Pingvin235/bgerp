@@ -9,11 +9,13 @@ ${l.l('Статус')}&nbsp;<b>${process.statusTitle}</b>: ${u:formatDate( proce
 	(<ui:user-link id="${process.statusUserId}"/>)
 </c:if>
 
-<p:check action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory">
-	<c:url var="url" value="/user/process.do">
-		<c:param name="id" value="${process.id}"/>
-		<c:param name="returnUrl" value="${requestUrl}"/>
-		<c:param name="action" value="processStatusHistory"/>
-	</c:url>
-	[<a href="#UNDEF" onclick="openUrlToParent( '${url}', $('#${tableId}') ); return false;">${l.l('история')}</a>]
-</p:check>	
+<ui:when type="user">
+	<p:check action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory">
+		<c:url var="url" value="/user/process.do">
+			<c:param name="id" value="${process.id}"/>
+			<c:param name="returnUrl" value="${requestUrl}"/>
+			<c:param name="action" value="processStatusHistory"/>
+		</c:url>
+		[<a href="#UNDEF" onclick="openUrlToParent( '${url}', $('#${tableId}') ); return false;">${l.l('история')}</a>]
+	</p:check>
+</ui:when>

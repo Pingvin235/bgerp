@@ -695,7 +695,7 @@ public class ProcessAction extends BaseAction {
     public static ProcessType getProcessType(int typeId) throws BGMessageException {
         ProcessType type = ProcessTypeCache.getProcessType(typeId);
         if (type == null) {
-            throw new BGMessageException("Не найден тип процесса: " + typeId);
+            throw new BGMessageException("Не найден тип процесса: %s", typeId);
         }
         return type;
     }

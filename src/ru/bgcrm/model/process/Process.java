@@ -7,6 +7,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.apache.commons.collections.CollectionUtils;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -150,6 +152,23 @@ public class Process extends SearchableIdTitle implements Comparable<Process>, C
         this.typeId = typeId;
     }
 
+    /** 
+     * @return process type object from {@link ProcessTypeCache}. 
+     */
+    @JsonIgnore
+    public ProcessType getType() {
+        var result = ProcessTypeCache.getProcessType(typeId);
+        return result;
+    }
+
+    /** 
+     * @return process types title or '??? (typeId)' case it not found in {@link ProcessTypeCache}. 
+     */
+    public String getTypeTitle() {
+        var processType = getType();
+        return processType != null ? processType.getTitle() : "??? (" + typeId + ")";
+    }
+
     public int getStatusId() {
         return statusId;
     }
@@ -220,11 +239,6 @@ public class Process extends SearchableIdTitle implements Comparable<Process>, C
 
     public void setCloseTime(Date closeTime) {
         this.closeTime = closeTime;
-    }
-
-    public String getTypeTitle() {
-        ProcessType processType = ProcessTypeCache.getProcessType(typeId);
-        return processType != null ? processType.getTitle() : "??? (" + typeId + ")";
     }
 
     public Set<Integer> getGroupIds() {

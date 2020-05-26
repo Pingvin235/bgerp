@@ -4,21 +4,21 @@
 <c:set var="UI_TABLE_HEAD_BACKGROUND_COLOR" value="#eaf3f9"/>
 
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
 table.data, table.hdata {
 	width: 100%;
 }
 
-table.hdata > thead > tr > td, 
+table.hdata > thead > tr > td,
 table.hdata > tbody > tr > td,
 table.data > tbody > tr > td {
 	text-align: left;
 	font-weight: normal;
 }
- 
+
 table.hdata > thead > tr > td,
 table.hdata > tbody > tr > td,
 table.data > tbody > tr > td {
@@ -29,13 +29,13 @@ table.hdata > thead > tr > td,
 table.hdata > tbody > tr > td,
 table.data > tbody > tr > td {
 	color: #505050;
-	border: 1px solid ${UI_TABLE_BORDER_COLOR}; 
+	border: 1px solid ${UI_TABLE_BORDER_COLOR};
 }
 
-table.hdata > thead > tr > td,  
+table.hdata > thead > tr > td,
 table.hdata > tbody > tr > th,
 table.hdata > tbody > tr > td.header,
-table.hdata > tbody > tr.header > td, 
+table.hdata > tbody > tr.header > td,
 table.data > tbody > tr:nth-child(1) > td {
 	color: #346484;
 	border: 1px solid ${UI_TABLE_BORDER_COLOR};
@@ -43,5 +43,5 @@ table.data > tbody > tr:nth-child(1) > td {
 }
 
 .border-table {
-	border: 1px solid ${UI_TABLE_BORDER_COLOR};	
+	border: 1px solid ${UI_TABLE_BORDER_COLOR};
 }

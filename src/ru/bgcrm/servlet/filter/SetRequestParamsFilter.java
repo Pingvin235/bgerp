@@ -18,6 +18,7 @@ import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.cache.UserGroupRoleCache;
+import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.process.TypeTreeItem;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;
@@ -31,9 +32,10 @@ public class SetRequestParamsFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         Map<String, Object> variables = getContextVariables((HttpServletRequest) request);
-        for (Map.Entry<String, Object> me : variables.entrySet()) {
+        Expression.setExpressionContextUtils(variables);
+
+        for (Map.Entry<String, Object> me : variables.entrySet())
             request.setAttribute(me.getKey(), me.getValue());
-        }
 
         //TODO: Документировать и переместить в общую функцию
         ConnectionSet conSet = new ConnectionSet(Setup.getSetup().getConnectionPool(), true);
@@ -130,10 +132,6 @@ public class SetRequestParamsFilter implements Filter {
         result.put("ctxProcessQueueList", ProcessQueueCache.getQueueList());
 
         result.put("ctxParameterMap", ParameterCache.getParameterMap());
-
-        //FIXME: Не описаны в JavaDoc, т.к. пока не реализовано
-        //result.put("ctxAppointmentList", AppointmentCache.getAppointmentList());
-        //result.put("ctxAppointmentMap", AppointmentCache.getAppointmentMapByIds());
 
         return result;
     }

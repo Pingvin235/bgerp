@@ -5,15 +5,15 @@
 
 <html:form action="user/process" styleClass="mb05" styleId="${uiid}">
 	<input type="hidden" name="action" value="userProcessList"/>
-	
+
 	<div class="tableIndent in-mb05-all">
-		Дата создания: 
+		Дата создания:
 		<input type="text" name="createDate" class="mr1" value="${form.param.createDate}" onchange=""/>
  		<c:set var="selector" value="#${uiid} input[name='createDate']" />
  		<c:set var="editable" value="1" />
 		<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-		
-		Дата закрытия: 
+
+		Дата закрытия:
 		<input type="text" name="closeDate" value="${form.param.closeDate}" onchange="" class="mr1"/>
 		<c:set var="selector" value="#${uiid} input[name='closeDate']" />
 		<c:set var="editable" value="1" />
@@ -26,7 +26,7 @@
 					<li value="${type}">${ctxProcessTypeMap[type]}</li>
 				</c:forEach>
 			</c:set>
-		 	<c:set var="styleClass" value="mr1"/> 
+		 	<c:set var="styleClass" value="mr1"/>
 			<c:set var="hiddenName" value="typeId" />
 			<c:set var="value" value="${form.param.typeId}" />
 			<c:set var="widthTextValue" value="200px" />
@@ -42,7 +42,7 @@
 				<li value="0">Закрытые</li>
 				<li value="">Все</li>
 			</c:set>
-			<c:set var="styleClass" value="mr1"/>	
+			<c:set var="styleClass" value="mr1"/>
 			<c:set var="hiddenName" value="open" />
 			<c:set var="value" value="${form.param.closed}" />
 			<c:set var="widthTextValue" value="100px" />
@@ -68,7 +68,7 @@
 			<td>Время закрытия</td>
 			<td>Тип</td>
 			<td>Статус</td>
-			<td>Описание</td>					
+			<td>Описание</td>
 		</tr>
 		<c:forEach var="process" items="${form.response.data.list}">
 			<tr openCommand="openProcess(${process.id })">
@@ -78,20 +78,13 @@
 				<td>${ctxProcessTypeMap[process.typeId].title}</td>
 				<td>${ctxProcessStatusMap[process.statusId].title}</td>
 				<td width="100%">
-					<c:choose>
-						<c:when test="${not empty process.reference}">
-							${process.reference}<br />
-						</c:when>
-						<c:otherwise>	
-							${process.description}
-						</c:otherwise>
-					</c:choose>
-				</td>							
+					<%@ include file="/WEB-INF/jspf/user/process/reference.jsp"%>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
-</c:if>	
+</c:if>
 
-<c:set var="state" value="Мои процессы"/>
+<c:set var="title" value="Мои процессы"/>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>

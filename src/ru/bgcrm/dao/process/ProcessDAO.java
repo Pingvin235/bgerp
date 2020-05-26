@@ -1095,6 +1095,9 @@ public class ProcessDAO extends CommonDAO {
                 joinPart.append(" LEFT JOIN user AS " + aliasPsu + " ON " + aliasPsu + ".id=" + alias + ".user_id ");
             } else if ("status_comment".equals(value)) {
                 selectPart.append(alias + ".comment");
+            } else {
+                log.error("Incorrect column value macros: " + value);
+                selectPart.append("'0' "); 
             }
         } else if ("priority".equals(value)) {
             selectPart.append(target + ".priority ");
@@ -1311,8 +1314,9 @@ public class ProcessDAO extends CommonDAO {
                 || value.startsWith("linkProcessList") || value.startsWith("linkedProcessList") || value.equals("N")) {
             selectPart.append("'0' ");
         } else {
+            // TODO: This fallback is the correct one, fix everythere.
             log.error("Incorrect column value macros: " + value);
-            return;
+            selectPart.append("'0' "); 
         }
 
         selectPart.append(modificator.getSecond());

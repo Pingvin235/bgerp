@@ -23,7 +23,7 @@ import ru.bgerp.util.Log;
 
 public class ProfileAction extends BaseAction {
 
-public static class Config extends ru.bgcrm.util.Config implements EventListener<ParamChangedEvent> {
+    public static class Config extends ru.bgcrm.util.Config implements EventListener<ParamChangedEvent> {
         private static final Log log = Log.getLog(); 
 
         /** Parameter type 'list', enabling opening of user with value=1.  */

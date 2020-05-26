@@ -17,7 +17,7 @@ version = '3.0'
 
 eclipse {
     classpath {
-        // при необходимости в документации или исходных кодах библиотек - закомментировать две строки ниже и вызвать "Refresh Gradle Project"
+        // speed up of initial start, change if needed
         downloadJavadoc = false
         downloadSources = false
     }

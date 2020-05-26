@@ -10,10 +10,10 @@ import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.JexlException;
 import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
+import ru.bgerp.util.Log;
 
 /**
  * Обработчик JEXL выражений.
@@ -22,16 +22,16 @@ import ru.bgcrm.util.Utils;
  * http://commons.apache.org/jexl/reference/syntax.html#Functions
  */
 public class Expression {
-    private static final Logger log = Logger.getLogger(Expression.class);
+    private static final Log log = Log.getLog();
     
     public static final String CHECK_EXPRESSION_CONFIG_KEY = "checkExpression";
     public static final String STRING_MAKE_EXPRESSION_CONFIG_KEY = "stringExpression";
     public static final String DO_EXPRESSION_CONFIG_KEY = "doExpression";
 
-    private static final Class<Utils> PREFIX_u = Utils.class;
-    private static final Class<TimeUtils> PREFIX_tu = TimeUtils.class;
-    private static final Class<StringUtils> PREFIX_su = StringUtils.class;
-    private static final Class<CollectionUtils> PREFIX_cu = CollectionUtils.class;
+    private static final Utils PREFIX_u = new Utils();
+    private static final TimeUtils PREFIX_tu = new TimeUtils();
+    private static final StringUtils PREFIX_su = new StringUtils();
+    private static final CollectionUtils PREFIX_cu = new CollectionUtils();
 
     private JexlEngine jexl;
 
@@ -72,10 +72,8 @@ public class Expression {
         //В будущем оставить только объекты, методы вызывать через точку.
 
         // стандартные объекты
-        contextVars.put("u", PREFIX_u);
-        contextVars.put("tu", PREFIX_tu);
-        contextVars.put("su", PREFIX_su);
-        contextVars.put("cu", PREFIX_cu);
+        setExpressionContextUtils(contextVars);
+
         contextVars.put("log", log);
 
         contextVars.put("NEW_LINE", "\n");
@@ -88,6 +86,13 @@ public class Expression {
         // установка ссылки на экспрешшен
         contextVars.values().stream().filter(v -> v instanceof ExpressionBasedFunction)
                 .forEach(v -> ((ExpressionBasedFunction) v).setExpression(this));
+    }
+
+    public static void setExpressionContextUtils(Map<String, Object> contextVars) {
+        contextVars.put("u", PREFIX_u);
+        contextVars.put("tu", PREFIX_tu);
+        contextVars.put("su", PREFIX_su);
+        contextVars.put("cu", PREFIX_cu);
     }
 
     public Object getContextObject(String name) {

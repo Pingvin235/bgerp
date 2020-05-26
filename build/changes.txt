@@ -1,5 +1,5 @@
 Time Build (generated automatically)
-A - ADD NEW, C - CHANGE, F - FIX
+A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
 14.05.2020 16:22:18 1358
 C: Removed from distributive not working plugin FIAS.

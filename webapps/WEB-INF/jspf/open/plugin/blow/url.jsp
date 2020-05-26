@@ -3,7 +3,7 @@
 
 <c:if test="${uri.startsWith('/open/blow')}">
 	<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgerp.plugin.blow.model.BoardsConfig')}"/>
-	<c:set var="boardName" value="${su:substringBefore(su:substringAfterLast(uri, '/'), '#')}"/>
+	<c:set var="boardName" value="${su.substringBefore(su.substringAfterLast(uri, '/'), '#')}"/>
 
 	<c:forEach var="board" items="${config.openBoards}">
 		<c:if test="${boardName eq board.openUrl}">

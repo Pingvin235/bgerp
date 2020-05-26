@@ -20,8 +20,8 @@
 				<c:param name="action" value="parameterList" />
 
 				<c:if test="${not empty requestUserId && requestUserId != form.userId}">
-					<c:param name="globalReadOnly" value="1" />
-					<c:param name="logDisable" value="1" />
+					<c:param name="readOnly" value="1"/>
+					<c:param name="logDisable" value="1"/>
 				</c:if>
 
 				<c:param name="id" value="${requestUserId > 0 ? requestUserId : form.userId}" />

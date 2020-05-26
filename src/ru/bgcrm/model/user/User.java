@@ -26,11 +26,11 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     static {
         USER_SYSTEM.setId(USER_SYSTEM_ID);
         USER_SYSTEM.setLogin("SYSTEM");
-        USER_SYSTEM.setTitle("Система");
+        USER_SYSTEM.setTitle("System");
 
         USER_CUSTOMER.setId(USER_CUSTOMER_ID);
         USER_CUSTOMER.setLogin("CUSTOMER");
-        USER_CUSTOMER.setTitle("Контрагент");
+        USER_CUSTOMER.setTitle("Customer");
     }
 
     private String login;

@@ -27,7 +27,6 @@
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
 }
 
 .combo .icon {

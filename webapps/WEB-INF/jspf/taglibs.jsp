@@ -7,8 +7,7 @@
 --%><%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %><%--
 --%><%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %><%--
 --%><%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %><%--
---%><%@ taglib uri="http://commons.apache.org/lang/StringUtils" prefix="su"%><%--
 --%><%@ taglib uri="http://bgerp.org/jsp/taglib/util" prefix="u"%><%--
 --%><%@ taglib uri="http://bgerp.org/jsp/taglib/permission" prefix="p"%><%--
---%><%@ taglib prefix="ui" tagdir="/WEB-INF/tags/ui"%><%--
---%><%@ taglib prefix="shell" tagdir="/WEB-INF/tags/shell"%>
+--%><%@ taglib tagdir="/WEB-INF/tags/ui" prefix="ui"%><%--
+--%><%@ taglib tagdir="/WEB-INF/tags/shell" prefix="shell"%>

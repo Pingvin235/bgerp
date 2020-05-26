@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
-
-import org.apache.log4j.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.IdTitle;
@@ -18,10 +18,15 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
+import ru.bgerp.util.Log;
 
+/**
+ * The functions called from util.tld library.
+ */
 public class JSPFunction {
-    private static final Logger log = Logger.getLogger(JSPFunction.class);
+    private static final Log log = Log.getLog();
 
+    @Deprecated
     public static boolean contains(Object collection, Object object) {
         if (collection == null || object == null) {
             return false;
@@ -45,6 +50,7 @@ public class JSPFunction {
         return collection.equals(object);
     }
 
+    @Deprecated
     public static String concat(Object str1, Object str2) {
         return str1.toString() + str2.toString();
     }
@@ -55,6 +61,7 @@ public class JSPFunction {
      * @param obj
      * @return
      */
+    @Deprecated
     public static Object append(Object col, Object obj) {
         ArrayList<Object> newCol = null;
         if (col instanceof Collection<?>) {
@@ -72,6 +79,7 @@ public class JSPFunction {
      * @param string
      * @return
      */
+    @Deprecated
     public static String string(Object collection, Object object, String string) {
         if (contains(collection, object)) {
             return string;
@@ -85,7 +93,7 @@ public class JSPFunction {
      * @param string
      * @return
      */
-    public static String string(Boolean object, String string) {
+    private static String string(Boolean object, String string) {
         if (object != null && object) {
             return string;
         }
@@ -165,6 +173,30 @@ public class JSPFunction {
         return result;
     }
 
+    private static final Pattern pattern = Pattern.compile("\\(?\\bhttps?://[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]");
+
+    /**
+     * Recognizes and replaces HTTP links to HTML code.
+     * http://blog.codinghorror.com/the-problem-with-urls/
+     * @param value
+     * @return
+     */
+    public static String httpLinksToHtml(String value) {
+        Matcher m = null;
+        int pos = 0;
+
+        while ((m = pattern.matcher(value)).find(pos)) {
+            String url = m.group();
+            String link = "<a target=\"_blank\" href=\"" + url + "\">" + url + "</a>";
+            value = value.substring(0, m.start()) +
+                link +
+                value.substring(m.end());
+            pos = m.start() + link.length();
+        }
+
+        return value;
+    }
+
     /**
      * Экранирует кавычки, используется для подготовки JS строк в JSP.
      * @param value
@@ -240,4 +272,5 @@ public class JSPFunction {
     public static String getFromPers(User user, String key, String defaultValue) {
         return user.getPersonalizationMap().get(key, Setup.getSetup().get(key, defaultValue));
     }
+
 }

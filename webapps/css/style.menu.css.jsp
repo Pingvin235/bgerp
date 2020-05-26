@@ -6,34 +6,34 @@
 
 /* выпадающий список для нередактируемого и редактируемого селекта */
 .select ul.ui-menu, .combo ul.drop {
-  width: 100%;
-  position: absolute;
-  left: -1px;
-  z-index: 999;  
+	width: 100%;
+	position: absolute;
+	left: -1px;
+	z-index: 999;
 }
 
 .ui-menu, .combo ul.drop, .ui-tabs.ui-widget-content .ui-menu {
-  border: 1px solid #d5d5d5;
-  background-color: #ffffff;
-  -webkit-box-shadow: 0 0 5px #cbcbcb;
-  -moz-box-shadow: 0 0 5px #cbcbcb;
-  box-shadow: 0 0 5px #cbcbcb;
-  text-align: left;
+	border: 1px solid #d5d5d5;
+	background-color: #ffffff;
+	-webkit-box-shadow: 0 0 5px #cbcbcb;
+	-moz-box-shadow: 0 0 5px #cbcbcb;
+	box-shadow: 0 0 5px #cbcbcb;
+	text-align: left;
 }
 
 .select ul.ui-menu {
-  overflow-x: hidden;
-  overflow-y: visible;
-  max-height: 300px;
-  min-width: 150px;
+	overflow-x: hidden;
+	overflow-y: visible;
+	max-height: 300px;
+	min-width: 150px;
 }
 
 .select ul.ui-menu li {
-  white-space: normal;
+	white-space: normal;
 }
 
 .ui-menu li a, .ui-menu li > div,
-.ui-menu li a.ui-state-hover, .ui-menu li > div.ui-state-hover, 
+.ui-menu li a.ui-state-hover, .ui-menu li > div.ui-state-hover,
 .ui-menu li a.ui-state-focus, .ui-menu li > div.ui-state-focus,
 .ui-menu li a.ui-state-active, .ui-menu li > div.ui-state-active,
 .combo ul.drop li {
@@ -45,13 +45,13 @@
 	cursor: pointer;
 }
 
-.ui-menu li a.ui-state-hover, .ui-menu li > div.ui-state-hover, 
+.ui-menu li a.ui-state-hover, .ui-menu li > div.ui-state-hover,
 .ui-menu li a.ui-state-focus, .ui-menu li > div.ui-state-focus,
 .ui-menu li a.ui-state-active, .ui-menu li > div.ui-state-active,
 .combo ul.drop li:hover {
-  background: #e5e5e5;
-  background-image: none;	
-  background-color: #e5e5e5;
+	background: #e5e5e5;
+	background-image: none;
+	background-color: #e5e5e5;
 }
 
 
