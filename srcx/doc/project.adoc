@@ -318,7 +318,23 @@ git checkout pXXXXX-short-change-description && git pull
 git commit --allow-empty -m "MERGED" && git push
 git checkout master && git pull
 git merge --squash pXXXXX-short-change-description
+----
+
+Commit with current GIT user.
+[source, bash]
+----
 git commit -am "pXXXXX Some change description."
+----
+
+Or for preserving the author in GitHub. Mapping internal to external mails is available in file `.gitlab-ci-publish-author.sh`
+[source, bash]
+----
+git commit -am "pXXXXX Some change description." --author="Developer Name <internal@gitlab.email>"
+----
+
+And final push.
+[source, bash]
+----
 git push
 ----
 
@@ -1070,5 +1086,5 @@ GRADLE_OPTS=-Xmx1000m ./gradlew -Ptest.single='ru.bgerp.itest.SeleniumTest' -Pwe
 
 [[publish-source]]
 ==== publish-source
-Публикует актуальные исходные коды из `master` в открытый репозитарий http://git.pzdc.de/pub/bgerp/bgerp/.
+Публикует актуальные исходные коды из `master` в открытый репозитарий https://github.com/pingvin235/bgerp
 Данный способ выбран для уменьшения размера открытого репозитария и сокрытия удалённых ранее файлов из истории. 
