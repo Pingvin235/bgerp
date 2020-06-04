@@ -146,7 +146,5 @@
 	</c:forEach>
 </table>
 
-<c:set var="title" value="Типы процессов"/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-<c:set var="help" value="http://www.bgcrm.ru/doc/3.0/manual/kernel/process/index.html#type"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:title ltext="Типы процессов"/>
+<shell:state help="kernel/process/index.html#type"/>

@@ -16,7 +16,7 @@
 	
 	<endpoint id="css.jsp" file="/css/style.bgbilling.css.jsp"/>
 	
-	<endpoint id="directory.param" entity="bgbilling-commonContract" title="Параметры единых договоров"/>
+	<!-- <endpoint id="directory.param" entity="bgbilling-commonContract" title="Параметры единых договоров"/> -->
 	
 	<endpoint id="user.process.message.header.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/helpdesk/process_message_header.jsp"/>
 	<endpoint id="user.process.message.attaches.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/helpdesk/process_message_attaches.jsp"/>

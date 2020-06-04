@@ -9,7 +9,7 @@
 	<html:hidden property="selectTab"/>
 	<html:hidden property="addressItemId"/>
 	<html:hidden property="addressCityId" value="${item.addressCity.id}"/>
-		
+
 	<table style="width: 100%;" class="data">
 		<tr>
 			<td width="100">Параметр</td>
@@ -30,19 +30,19 @@
 		<tr>
 			<td>Название</td>
 			<td><html:text property="title" style="width: 100%" value="${item.title}"/></td>
-		</tr>		
+		</tr>
 		<%@ include file="../edit_tr.jsp"%>
 	</table>
 </html:form>
 
 <c:set var="state">
-	<span class='title'>Редактирование  
+	<span class='title'>Редактирование
 		<c:choose>
 			<c:when test="${itemType eq 'quarter'}">квартала</c:when>
 			<c:when test="${itemType eq 'area'}">района</c:when>
 			<c:otherwise>улицы</c:otherwise>
-		</c:choose>	
+		</c:choose>
 	</span>
 </c:set>
-<c:set var="help" value="http://www.bgcrm.ru/doc/3.0/manual/kernel/setup.html#address"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+
+<shell:state text="${state}" help="kernel/setup.html#address"/>

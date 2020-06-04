@@ -76,6 +76,7 @@
 			<c:set var="typeEmail" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeEmail'}"/>
 			<c:set var="typeNote" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeNote'}"/>
 			<c:set var="typeCall" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeCall'}"/>
+			<c:set var="typeUnknown" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.config.MessageTypeConfig$MessageTypeUnknown'}"/>
 
 			<c:set var="color" value="${messageType.getProcessMessageHeaderColor(message)}"/>
 
@@ -92,70 +93,78 @@
 								title="${tag.title}" class="mr05">&nbsp;</span>
 						</c:forEach>
 					</div>
-					<c:if test="${typeNote}">
-						<div style="width: 100%;">
+					<c:choose>
+						<c:when test="${typeNote}">
+							<div style="width: 100%;">
+								<div>
+									#${message.id}&nbsp;${messageType.title}: ${message.subject}
+									<c:if test="${message.processId ne form.param.processId}">
+										&#32;${l.l('из')}&#32;<ui:process-link id="${message.processId}"/>
+									</c:if>
+								</div>
+								<div class="mt05">
+									Создано: ${u:formatDate( message.fromTime, 'ymdhm' )}
+												(<ui:user-link id="${message.userId}"/>)
+								</div>
+							</div>
+						</c:when>
+						<c:when test="${typeEmail}">
+							<div style="width: 100%;">
+								<div>
+									#${message.id} EMail [${messageType.email}]: ${message.subject}
+								</div>
+								<div class="mt05">
+									<c:choose>
+										<c:when test="${message.direction eq 1}">
+											Отправлено: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
+											<nobr>
+												Обработано: ${u:formatDate( message.toTime, 'ymdhm' )}
+												(<ui:user-link id="${message.userId}"/>)
+											</nobr>
+										</c:when>
+										<c:otherwise>
+											Создано: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+											<nobr>
+												Отправлено: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
+											</nobr>
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</div>
+						</c:when>
+						<c:when test="${typeCall}">
+							<div style="width: 100%;">
+								<div>
+									#${message.id} Звонок "${messageType.title}"
+								</div>
+								<div class="mt05">
+									<c:choose>
+										<c:when test="${message.direction eq 1}">
+											Принят: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
+											<nobr>
+												Обработано: ${u:formatDate( message.toTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+											</nobr>
+										</c:when>
+										<c:otherwise>
+											Создано: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+											<nobr>
+												Отправлено: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
+											</nobr>
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</div>
+						</c:when>
+						<c:when test="${typeUnknown}">
 							<div>
-								#${message.id}&nbsp;${messageType.title}: ${message.subject}
-								<c:if test="${message.processId ne form.param.processId}">
-									&#32;${l.l('из')}&#32;<ui:process-link id="${message.processId}"/>
-								</c:if>
+								#${message.id}&nbsp;${l.l('Несуществующий тип')}: "${messageType.title}"
 							</div>
-							<div class="mt05">
-								Создано: ${u:formatDate( message.fromTime, 'ymdhm' )}
-											(<ui:user-link id="${message.userId}"/>)
-							 </div>
-						</div>
-					</c:if>
-					<c:if test="${typeEmail}">
-						<div style="width: 100%;">
-							<div>
-								#${message.id} EMail [${messageType.email}]: ${message.subject}
-							</div>
-							<div class="mt05">
-								<c:choose>
-									<c:when test="${message.direction eq 1}">
-										Отправлено: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
-										<nobr>
-											Обработано: ${u:formatDate( message.toTime, 'ymdhm' )}
-											(<ui:user-link id="${message.userId}"/>)
-										</nobr>
-									</c:when>
-									<c:otherwise>
-										Создано: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
-										<nobr>
-											Отправлено: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
-										</nobr>
-									</c:otherwise>
-								</c:choose>
-							</div>
-						</div>
-					</c:if>
-					<c:if test="${typeCall}">
-						<div style="width: 100%;">
-							<div>
-								#${message.id} Звонок "${messageType.title}"
-							</div>
-							<div class="mt05">
-								<c:choose>
-									<c:when test="${message.direction eq 1}">
-										Принят: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
-										<nobr>
-											Обработано: ${u:formatDate( message.toTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
-										</nobr>
-									</c:when>
-									<c:otherwise>
-										Создано: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
-										<nobr>
-											Отправлено: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
-										</nobr>
-									</c:otherwise>
-								</c:choose>
-							</div>
-						</div>
-					</c:if>
-
-					<c:set var="endpoint" value="user.process.message.header.jsp"/>
-					<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+						</c:when>
+						<c:otherwise>
+							<c:set var="endpoint" value="user.process.message.header.jsp"/>
+							<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+						</c:otherwise>
+					</c:choose>
 				</td>
 				<td width="30px" style="white-space: nowrap;">
 					<c:set var="actionButtonUiid" value="${u:uiid()}"/>
@@ -328,6 +337,7 @@
 					<c:set var="text" value="${message.text}"/>
 					
 					<%@ include file="email_text_prepare.jsp"%>
+					<%-- TODO: htmlEncode includes two functions: u.escapeXml and \n \t replacement, split them --%>
 					<c:set var="text" value="${u:htmlEncode(text)}"/>
 
 					<ui:text-prepare text="${text}"/>

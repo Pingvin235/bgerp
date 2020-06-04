@@ -153,20 +153,18 @@ public class Process extends SearchableIdTitle implements Comparable<Process>, C
     }
 
     /** 
-     * @return process type object from {@link ProcessTypeCache}. 
+     * @return process type object from {@link ProcessTypeCache#getProcessTypeSafe(int)}. 
      */
     @JsonIgnore
     public ProcessType getType() {
-        var result = ProcessTypeCache.getProcessType(typeId);
-        return result;
+        return ProcessTypeCache.getProcessTypeSafe(typeId);
     }
 
     /** 
-     * @return process types title or '??? (typeId)' case it not found in {@link ProcessTypeCache}. 
+     * @return process types title from {@link #getType()}. 
      */
     public String getTypeTitle() {
-        var processType = getType();
-        return processType != null ? processType.getTitle() : "??? (" + typeId + ")";
+        return getType().getTitle();
     }
 
     public int getStatusId() {
@@ -175,6 +173,14 @@ public class Process extends SearchableIdTitle implements Comparable<Process>, C
 
     public void setStatusId(int statusId) {
         this.statusId = statusId;
+    }
+
+    /**
+     * @return process status object from {@link ProcessTypeCache#getStatusSafe(int)}.
+     */
+    @JsonIgnore
+    public Status getStatus() {
+        return ProcessTypeCache.getStatusSafe(statusId);
     }
 
     public Date getStatusTime() {

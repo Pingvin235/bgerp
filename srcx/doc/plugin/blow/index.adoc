@@ -10,42 +10,83 @@
 === Известные проблемы
 В браузерах отличных от Firefox некорректно отображаются границы групп по причине неверной подддержки CSS. 
  
+[[setup]]
 == Настройка
 Все настройки из данного раздела размещаются в <<../../kernel/setup.adoc#config, конфигурации сервера>>.
 Конфигурацию плагина рекомендуется сделать вложенной конфигурацией, включённой в основную.
 
 Доска отображает данные, полученные из <<../../kernel/process/queue.adoc#, очереди процессов>>.
-Очередь определяет типы процессов, выбираемые столбцы.
+Очередь определяет типы процессов, выбираемые столбцы с дополнительной информацией 
+и может быть использована для предварительного просмотра процессов из плана.
+Сортировку плана производит сам плагин.
 
-Пример настройки, *10* - код очереди процессов.
+Sample of :
 [source]
 ----
-blow:board.1.title=Тест
+# only for debug purposes
+filter.1.type=openClose
+filter.1.defaultValue=open
+
+column.1.title=ID
+column.1.value=id
+# optional columns with additional columns, used at board
+column.6.title=Telegram
+column.6.value=param:20
+column.7.title=Incoming messages
+column.7.value=messageInCount
+column.8.title=Unread incoming messages
+column.8.value=messageInUnreadCount
+column.9.title=Status changed
+column.9.value=status_dt:dd.MM.yyyy
+column.10.title=Tags
+column.10.value=param:42
+column.12.title=Customer
+column.12.value=linkedCustomer:title
+column.12.titleIfMore=100
+----
+
+The simplest board configuration requires only queue ID, as an example for queue ID *10*.
+[source]
+----
+blow:board.1.title=Test
 blow:board.1.queueId=10
-blow:board.1.stringExpressionCell=<<END
-     result = process.getDescription() + " [<b>" + ctxProcessStatusMap[process.getStatusId()] + "</b>]";
-     return result;
-END
 ----
 
 В <<../../kernel/extension.adoc#jexl, JEXL>> процессор для вычисления текста ячейки помимо стандартных переменных и *process* 
 передаются значения, выбранные в столбцах очереди процессов как переменные *colX*, где *X* - код столбца.
 
-С их помощью возможен вывод дополнительных данных в ячейках, например ссылок на JIRA тикеты, выводимые в колонке очереди с кодом *5*:
+Example of showing additional information using additional columns from the queue before.
 [source]
 ----
-blow:board.1.title=Product
-blow:board.1.queueId=1
+blow:board.1.title=BGERP
+blow:board.1.queueId=4
 blow:board.1.stringExpressionCell=<<END
-     result = process.getDescription() + " [<b>" + ctxProcessStatusMap[process.getStatusId()] + "</b>]";
-     jiraTicket = params.get("col5");
-     if (jiraTicket) {
-          for (ticketId : jiraTicket.split(","))
-             result += " <a target='_blank' href='https://jira/browse/" + ticketId + "'>" + ticketId + "</a>"; 
+     result = process.getDescription() + " [<b>" + ctxProcessStatusMap[process.getStatusId()];
+     if (process.getProcessExecutorsWithRole(0).size() > 0) {
+        result += " " + params.get("col9");
+     } 
+     result += "</b>]";
+     
+     telegramGroup = params.get("col6");
+     if (telegramGroup)
+          result += " <a target='_blank' href='https://t.me/" + telegramGroup + "'>@" + telegramGroup + "</a>";
+     
+     msgCnt = params.get("col7");
+     if (msgCnt) {
+         result += " " + msgCnt;
+         unreadCnt = params.get("col8");
+         if (unreadCnt)
+            result += " (<b>" + unreadCnt + "</b>)";
      }
+
+     tags = params.get("col10");
+     if (tags) {
+          result += " {" + tags + "}";
+     }
+     
      return result;
 END
----- 
+----
 
 [[using]]
 == Работа

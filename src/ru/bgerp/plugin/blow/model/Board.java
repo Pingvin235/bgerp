@@ -8,22 +8,21 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
+import ru.bgerp.util.Log;
 
 /**
  * Система распределения задач по исполнителям.
  * 
- * @author Shamil
+ * @author Shamil Vakhitov
  */
 public class Board {
-    private static final Logger log = Logger.getLogger(Board.class);
+    private static final Log log = Log.getLog();
     
     private boolean userMode = true;
     
@@ -44,7 +43,7 @@ public class Board {
     private final int lastIndex;
     
     public Board(BoardConfig config, List<Pair<Process, Map<String, Object>>> processes, Collection<CommonObjectLink> links) {
-        log.debug("## Build board, processes: " + processes.size() + "; links: " + links.size());
+        log.debug("## Build board, processes: %s; links: %s", processes.size(), links.size());
         this.config = config;
         this.items = buildTree(processes, links);
         this.lastIndex = addItem(root, -1, -1);

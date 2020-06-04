@@ -81,6 +81,4 @@
 	</div>
 </html:form>
 
-<c:set var="state" value="Редактор"/>
-<c:set var="help" value="http://www.bgcrm.ru/doc/3.0/manual/kernel/setup.html#user"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:state ltext="Редактор" help="kernel/setup.html#user"/>

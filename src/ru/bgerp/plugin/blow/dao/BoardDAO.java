@@ -42,7 +42,7 @@ public class BoardDAO extends ProcessDAO {
         qsp.wherePart.append(" AND process.close_dt IS NULL");
         
         final int columns = qsp.queue.getColumnMap().size();
-        // список имён колонок col1..colX
+        // column names col1..colX
         List<String> columnNames = qsp.queue.getColumnMap().keySet().stream()
                 .map(id -> "col" + id).collect(Collectors.toList());
         
@@ -52,8 +52,6 @@ public class BoardDAO extends ProcessDAO {
         query.append(" FROM " + TABLE_PROCESS + " AS process");
         query.append(qsp.joinPart);
         query.append(qsp.wherePart);
-        query.append(SQL_ORDER_BY);
-        query.append("process.priority DESC");
         
         PreparedStatement ps = con.prepareStatement(query.toString());
         ResultSet rs = ps.executeQuery();

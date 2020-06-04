@@ -139,11 +139,19 @@
 				<input type="text" name="to" style="width: 100%;" placeholder="Для EMail: addr1@domain.com, addr2@domain.com; CC: copy1@domain.com, copy2.domain.com" value="${message.to}"/>
 			</div>
 		</div>
+		<c:set var="tagConfig" value="${u:getConfig(ctxSetup, 'ru.bgcrm.model.config.TagConfig')}"/>
+		<c:if test="${not empty tagConfig and not empty tagConfig.tagList}">
+			<div>
+				<h2>${l.l('Теги')}</h2>
+				<input type="hidden" name="updateTags" value="1"/>
+				<ui:select-mult list="${tagConfig.tagList}" values="${form.response.data.messageTagIds}" hiddenName="tagId"/>
+			</div>
+		</c:if>
 		<div id="subject">
 			<h2>Тема</h2>
 			<input type="text" name="subject" style="width: 100%;" value="${message.subject}"/>
 		</div>
-		<div >
+		<div>
 			<h2>Сообщение</h2>
 			<textarea rows="20" style="width: 100%; resize: vertical;" name="text" class="tabsupport">${message.text}</textarea>
 			<span class="hint">Вы можете использовать #код для ссылок на другие процессы, подобные записи будут автоматически преобразованы в ссылки открытия карточек.</span>

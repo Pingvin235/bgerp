@@ -1,7 +1,9 @@
 package ru.bgerp.plugin.blow.struts.action;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,10 +12,12 @@ import java.util.stream.Collectors;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
+import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -45,6 +49,7 @@ public class BoardAction extends BaseAction {
             Board board = new Board(boardConf, processes, links);
            
             form.setResponseData("board", board);
+            form.setResponseData("processIds", processIds);
             
             updatePersonalization(form, con, persMap -> persMap.put("blowBoardLastSelected", String.valueOf(form.getId())));
         }
@@ -72,5 +77,55 @@ public class BoardAction extends BaseAction {
         
         return status(con, form);
     }
-    
+
+    public static class SearchItem {
+        private final int processId;
+        private final String processDescription;
+        private final List<String> hits = new ArrayList<>();
+        
+        private SearchItem(int processId, String processDescription) {
+            this.processId = processId;
+            this.processDescription = processDescription;
+        }
+
+        private void addHit(Message message, String filter) {
+            hits.add(message.getText());
+        }
+
+        public int getProcessId() {
+            return processId;
+        }
+
+        public String getProcessDescription() {
+            return processDescription;
+        }
+
+        public List<String> getHits() {
+            return hits;
+        }
+    }
+
+    public ActionForward search(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+        var dao = new MessageDAO(conSet.getSlaveConnection(), form.getUser());
+
+        var filter = form.getParam("filter");
+
+        var result = new LinkedHashMap<Integer, SearchItem>();
+        for (Message m : dao.getProcessMessageList(form.getSelectedValues("processId"), filter)) {
+            int processId = m.getProcessId();
+            result
+                .computeIfAbsent(processId, key -> new SearchItem(processId, m.getProcess().getDescription()))
+                .addHit(m, filter);
+        }
+
+        // backwards sorting by hits count
+        form.setResponseData("list", result.values().stream()
+            .sorted((i1, i2) -> {
+                return i2.getHits().size() - i1.getHits().size();
+            })
+            .collect(Collectors.toList()));
+
+        return data(conSet, mapping, form);
+    }
+
 }

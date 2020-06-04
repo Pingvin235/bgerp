@@ -224,6 +224,20 @@ $$.blow = new function() {
 			.done(() => $$.shell.contentLoad("/user/blow/board"));
 	}
 
+	const search = (form) => {
+		$$.ajax.post(form, { html: true }).done((result) => {
+			$(form).append(result);
+			const filterPos = $(form.filter).position();
+			const $drop = $(form).find(".drop");
+			
+			$$.ui.dropShow($drop);
+			$(document).one("click", function () {
+				$drop.parent().remove();
+			});
+		});
+		return false;
+	}
+
 	// drag & drop
 	this.drag = new function () {
 		let $tdDrag;
@@ -285,4 +299,5 @@ $$.blow = new function() {
 	// public functions
 	this.initTable = initTable;
 	this.toggleFilterHighlight = toggleFilterHighlight;
+	this.search = search;
 }

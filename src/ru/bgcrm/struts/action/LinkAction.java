@@ -120,7 +120,7 @@ public class LinkAction extends BaseAction {
         Connection con = conSet.getConnection();
 
         List<CommonObjectLink> list = CommonLinkDAO.getLinkDAO(link.getObjectType(), con).getObjectLinksWithType(link.getObjectId(),
-                CommonDAO.getLikePattern(link.getLinkedObjectType(), "start"));
+                CommonDAO.getLikePatternStart(link.getLinkedObjectType()));
         form.getResponse().setData("list", list);
 
         if (Process.OBJECT_TYPE.equals(link.getObjectType())) {

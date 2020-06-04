@@ -195,6 +195,4 @@
 	<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${formUiid}').parent())">К списку типов</button>
 </div>
 
-<c:set var="state" value="Свойства типа: ${processType.title} #${processType.id}"/>
-<c:set var="help" value="http://www.bgcrm.ru/doc/3.0/manual/kernel/process/index.html#type"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:state text="${l.l('Свойства типа')}: ${processType.title} #${processType.id}" help="kernel/process/index.html#type"/>

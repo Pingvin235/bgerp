@@ -22,9 +22,9 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.log4j.Logger;
+import org.apache.taglibs.standard.functions.Functions;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -937,14 +937,13 @@ public class Utils {
     }
 
     /**
-     * Кодирует символы XML форматирования (кавычки, теги)
-     * для нормального их отображения в HTML тексте. 
-     * 
+     * Calls {@link Functions#escapeXml(String)} - replaces XML markup symbols to special codes.
+     *
      * @param value
      * @return
      */
     public static String escapeXml(String value) {
-        return StringEscapeUtils.escapeXml(value);
+        return Functions.escapeXml(value);
     }
 
     /**

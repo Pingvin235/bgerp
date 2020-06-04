@@ -62,8 +62,9 @@ public class MessageAction extends BaseAction {
         return message(mapping, form, conSet);
     }
 
-    public ActionForward message(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
-        MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
+    public ActionForward message(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+        var request = form.getHttpRequest();
+        var config = setup.getConfig(MessageTypeConfig.class);
 
         var replyToId = form.getParamInt("replyToId");
         if (replyToId > 0) {
@@ -90,8 +91,14 @@ public class MessageAction extends BaseAction {
 
             // открытие существующего сообщения
             if (form.getId() > 0) {
-                message = new MessageDAO(conSet.getConnection()).getMessageById(form.getId());
+                var messageDao = new MessageDAO(conSet.getConnection());
+
+                message = messageDao.getMessageById(form.getId());
                 type = config.getTypeMap().get(message.getTypeId());
+                
+                var tagConfig = setup.getConfig(TagConfig.class);
+                if (tagConfig != null && !tagConfig.getTagList().isEmpty())
+                    form.setResponseData("messageTagIds", messageDao.getMessageTags(form.getId()));
             }
             // нвового сообщения
             else if (typeId > 0 && Utils.notBlankString(messageId)) {
@@ -115,10 +122,10 @@ public class MessageAction extends BaseAction {
 
                     Set<CommonObjectLink> searchedList = new LinkedHashSet<CommonObjectLink>();
                     search.search(form, conSet, message, searchedList);
-                    form.getHttpRequest().setAttribute("searchedList", searchedList);
+                    request.setAttribute("searchedList", searchedList);
                 }
 
-                form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
+                request.setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
             }
 
             return data(conSet, mapping, form, "message");
@@ -174,11 +181,10 @@ public class MessageAction extends BaseAction {
         return status(con, form);
     }
     
-    public ActionForward messageUpdateTags(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward messageUpdateTags(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         Connection con = conSet.getConnection();
 
-        MessageDAO messageDao = new MessageDAO(con);
-        messageDao.updateMessageTags(form.getId(), form.getSelectedValues("tagId"));
+        new MessageDAO(con).updateMessageTags(form.getId(), form.getSelectedValues("tagId"));
 
         return status(conSet, form);
     }
@@ -288,6 +294,11 @@ public class MessageAction extends BaseAction {
 
         type.updateMessage(conSet.getConnection(), form, message);
 
+        if (form.getParamBoolean("updateTags")) {
+            form.setParam("id", String.valueOf(message.getId()));
+            messageUpdateTags(mapping, form, conSet);
+        }
+
         form.getResponse().setData("message", message);
 
         return status(conSet, form);
@@ -314,7 +325,7 @@ public class MessageAction extends BaseAction {
             messageDao.searchMessageList(new SearchResult<Message>(form), null, form.getParamInt("typeId"),
                     Message.DIRECTION_INCOMING, true, form.getParamBoolean("attach", null),
                     form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null),
-                    CommonDAO.getLikePattern(form.getParam("from", null), "subs"), reverseOrder);
+                    CommonDAO.getLikePatternSub(form.getParam("from", null)), reverseOrder);
         } else {
             final List<Message> resultConc = new CopyOnWriteArrayList<>();
             final AtomicInteger unprocessedCount = new AtomicInteger();
@@ -404,7 +415,7 @@ public class MessageAction extends BaseAction {
                 form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null), form.getParam("from", null),
                 true, tagId > 0 ? Collections.singleton(tagId) : null);
         
-        Map<Integer, Set<Integer>> messageTagMap = messageDao.getProcessMessageTagMap(processId);
+        Map<Integer, Set<Integer>> messageTagMap = messageDao.getProcessMessageTagMap(processIds);
         form.setResponseData("messageTagMap", messageTagMap);
 
         Set<Integer> tagIds = messageTagMap.values().stream().flatMap(mt -> mt.stream()).collect(Collectors.toSet());

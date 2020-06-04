@@ -3,16 +3,16 @@ package ru.bgcrm.struts.action.admin;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.collect.Lists;
+
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.w3c.dom.Element;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -21,7 +21,7 @@ import ru.bgcrm.dao.ParamDAO;
 import ru.bgcrm.dao.ParamGroupDAO;
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.Customer;
-import ru.bgcrm.model.ListItem;
+import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterGroup;
@@ -30,63 +30,56 @@ import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.plugin.Plugin;
-import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.XMLUtils;
 
 public class DirectoryAction extends BaseAction {
-    protected String getConfigString(Map<String, String> configMap) {
-        StringBuilder config = new StringBuilder();
-        if (configMap != null) {
-            for (String key : configMap.keySet()) {
-                config.append(key);
-                config.append("=");
-                config.append(configMap.get(key));
-                config.append("\n");
-            }
+   public static final class Directory extends IdStringTitle {
+        private final String action;
+
+        public Directory(String id, String title, String action) {
+            super(id, title);
+            this.action = action;
         }
-        return config.toString();
+
+        public String getAction() {
+            return action;
+        }
     }
+    
+    private static final List<Directory> directoryList = Collections.unmodifiableList(Lists.newArrayList(
+        new Directory("processParameter", "Параметры процессов", "parameterList"),
+        new Directory("userParameter", "Параметры пользователей", "parameterList"),
+        new Directory("customerParameter", "Параметры контрагентов", "parameterList"),
+        new Directory("customerParameterGroup", "Группы параметров контрагентов", "parameterGroupList"),
+        new Directory("customerPatternTitle", "Шаблоны названия контрагентов", "patternTitleList"),
+        new Directory("addressParameter", "Параметры домов", "parameterList")
+    ));
 
-    private List<ListItem> directoryList = null;
-    private static Map<String, String> directoryMap = new HashMap<String, String>();
-    static {
-        directoryMap.put("customerParameter", "Параметры контрагентов");
-        directoryMap.put("customerParameterGroup", "Группы параметров контрагентов");
-        directoryMap.put("customerPatternTitle", "Шаблоны названия контрагентов");
-        directoryMap.put("processParameter", "Параметры процессов");
-        directoryMap.put("userParameter", "Параметры пользователей");
-        directoryMap.put("addressParameter", "Параметры домов");
+    // add from plugins
+    /* PluginManager pluginManager = PluginManager.getInstance();
+    for (Plugin plugin : pluginManager.getPluginList()) {
+        Iterable<Element> elements = XMLUtils.selectElements(plugin.getDocument(), "/plugin/endpoint[@id='directory.param']");
+        if (elements != null) {
+            for (Element endpoint : elements) {
+                String entity = endpoint.getAttribute("entity");
 
-        // добавляем сущности из xml-конфигов плагинов
-        PluginManager pluginManager = PluginManager.getInstance();
-        for (Plugin plugin : pluginManager.getPluginList()) {
-            Iterable<Element> elements = XMLUtils.selectElements(plugin.getDocument(), "/plugin/endpoint[@id='directory.param']");
-            if (elements != null) {
-                for (Element endpoint : elements) {
-                    String entity = endpoint.getAttribute("entity");
-
-                    if (!entity.equals("")) {
-                        directoryMap.put(entity + "Parameter", endpoint.getAttribute("title"));
-                    }
+                if (!entity.equals("")) {
+                    directoryMap.put(entity + "Parameter", endpoint.getAttribute("title"));
                 }
             }
         }
-    }
+    } */
+
+    private static final Map<String, Directory> directoryMap = Collections.unmodifiableMap(
+        directoryList.stream().collect(Collectors.toMap(d -> d.getId(), d -> d))
+    );
 
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        return directory(mapping, form);
-    }
-
-    public ActionForward directory(ActionMapping mapping, DynActionForm form) {
-        form.setParam("directoryId", "default");
-        setDirectoryList(form.getHttpRequest());
-
-        return mapping.findForward(FORWARD_DEFAULT);
+        form.setParam("directoryId", "processParameter");
+        return parameterList(mapping, form, con);
     }
 
     // параметры
@@ -99,8 +92,6 @@ public class DirectoryAction extends BaseAction {
 
         paramDAO.getParameterList(searchResult, getObjectType(form.getParam("directoryId")),
                 CommonDAO.getLikePattern(form.getParam("filter"), "subs"), 0, null);
-
-        request.setAttribute("parameterList", searchResult.getList());
 
         return mapping.findForward("parameterList");
     }
@@ -279,21 +270,6 @@ public class DirectoryAction extends BaseAction {
     }
 
     private void setDirectoryList(HttpServletRequest request) {
-        if (directoryList == null) {
-            directoryList = new ArrayList<ListItem>();
-            for (String key : directoryMap.keySet()) {
-                ListItem listItem = new ListItem();
-                listItem.setKey(key);
-                listItem.setTitle(directoryMap.get(key));
-                directoryList.add(listItem);
-            }
-            Collections.sort(directoryList, new Comparator<ListItem>() {
-                @Override
-                public int compare(ListItem o1, ListItem o2) {
-                    return o1.getKey().compareTo(o2.getKey());
-                }
-            });
-        }
         request.setAttribute("directoryList", directoryList);
     }
 
@@ -304,16 +280,13 @@ public class DirectoryAction extends BaseAction {
                 objectType = Customer.OBJECT_TYPE;
             } else if (directoryId.startsWith("user")) {
                 objectType = User.OBJECT_TYPE;
-            } else if (directoryId.startsWith("common")) {
-                objectType = "common";
-            }
-            else if (directoryId.startsWith("process")) {
+            } else if (directoryId.startsWith("process")) {
                 objectType = Process.OBJECT_TYPE;
             } else if (directoryId.startsWith("address")) {
                 objectType = AddressHouse.OBJECT_TYPE;
             }
-            // TODO: вариант для параметров плагинов
-            else {
+            // TODO: some outdated plugin parameters support
+            /* else {
                 PluginManager pluginManager = PluginManager.getInstance();
                 for (Plugin plugin : pluginManager.getPluginList()) {
                     Iterable<Element> endpoints = XMLUtils.selectElements(plugin.getDocument(), "/plugin/endpoint[@id='directory.param']");
@@ -329,7 +302,7 @@ public class DirectoryAction extends BaseAction {
                         }
                     }
                 }
-            }
+            } */
         }
         return objectType;
     }

@@ -14,11 +14,33 @@ import org.junit.Test;
 
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
+import ru.bgcrm.model.process.Status;
 
 public class BoardTest {
-    
+    private static final Status STATUS = new Status(0, "Test");
+
+    public static class Process extends ru.bgcrm.model.process.Process {
+        private Process(int id) {
+            setId(id);
+        }
+
+        @Override
+        public Status getStatus() {
+            return STATUS;
+        }
+    }
+
+    public static class ProcessWithExecutor extends Process {
+        private ProcessWithExecutor(int processId, int... executorIds) {
+            super(processId);
+            Set<ProcessExecutor> executors = new HashSet<>();
+            for (int executorId : executorIds)
+                executors.add(new ProcessExecutor(executorId, 0, 0));
+            setProcessExecutors(executors);
+        }
+    }
+
     private static class Link extends CommonObjectLink {
         private Link(int parentId, int childId) {
             super(parentId, Process.LINK_TYPE_MADE, childId, "");
@@ -26,17 +48,6 @@ public class BoardTest {
         
         private Link(Process parent, Process child) {
             super(parent.getId(), Process.LINK_TYPE_MADE, child.getId(), "");
-        }
-    }
-    
-    public static class ProcessWithExecutor extends Process {
-        private ProcessWithExecutor(int processId, int... executorIds) {
-            super();
-            setId(processId);
-            Set<ProcessExecutor> executors = new HashSet<>();
-            for (int executorId : executorIds)
-                executors.add(new ProcessExecutor(executorId, 0, 0));
-            setProcessExecutors(executors);
         }
     }
     
@@ -48,7 +59,7 @@ public class BoardTest {
         Process p4 = new Process(4);
         
         @SuppressWarnings("unchecked")
-        List<Pair<Process, Map<String, Object>>> processes = Lists.newArrayList(new Pair<>(p1, null), new Pair<>(p2, null), 
+        List<Pair<ru.bgcrm.model.process.Process, Map<String, Object>>> processes = Lists.newArrayList(new Pair<>(p1, null), new Pair<>(p2, null), 
                 new Pair<>(p3, null), new Pair<>(p4, null));
         List<CommonObjectLink> links = Lists.newArrayList(new Link(p1.getId(), p2.getId()), new Link(p1.getId(), p3.getId()));
         
@@ -96,7 +107,7 @@ public class BoardTest {
         Process p11 = new ProcessWithExecutor(11, 1, 2);
         
         @SuppressWarnings("unchecked")
-        List<Pair<Process, Map<String, Object>>> processes = Lists.newArrayList(new Pair<>(p1, null), new Pair<>(p2, null), new Pair<>(p3, null),
+        List<Pair<ru.bgcrm.model.process.Process, Map<String, Object>>> processes = Lists.newArrayList(new Pair<>(p1, null), new Pair<>(p2, null), new Pair<>(p3, null),
                 new Pair<>(p4, null), new Pair<>(p5, null), new Pair<>(p6, null), new Pair<>(p7, null), new Pair<>(p8, null), new Pair<>(p9, null),
                 new Pair<>(p10, null), new Pair<>(p11, null));
         

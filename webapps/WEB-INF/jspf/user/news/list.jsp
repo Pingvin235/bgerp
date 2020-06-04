@@ -109,8 +109,5 @@
 	})
 </script>
 
-<c:set var="title" value="Новости"/>
-<c:set var="state" value=""/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-<c:set var="help" value="http://www.bgcrm.ru/doc/3.0/manual/kernel/news.html"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:title ltext="Новости"/>
+<shell:state text="" help="kernel/news.html"/>

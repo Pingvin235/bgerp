@@ -1,7 +1,8 @@
-<item title="Плагин Blow">
-	<item title="План">
-		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:board" title="Список планов"/>
-		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:show" title="Просмотр плана"/>
-		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:move" title="Перемещение"/>
+<item title="Plugin Blow">
+	<item title="Board">
+		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:board" title="Board list"/>
+		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:show" title="View board"/>
+		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:move" title="Move"/>
+		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:search" title="Search"/>
 	</item>	
 </item>

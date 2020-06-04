@@ -59,7 +59,11 @@
 			<c:param name="returnUrl" value="${form.returnUrl}"/>
 		</c:url>
 
-		<button type="button" class="btn-grey" onclick="${saveCommand}.done($$.ajax.load('${editUrl}', $(this.form).parent()))" style="float: right;" title="Сохранить без выхода из редактора">Сохранить</button>
+		<button type="button" class="btn-grey" onclick="
+				${saveCommand}.done(() => { 
+					$$.ajax.load('${editUrl}', $(this.form).parent())
+				})"
+			style="float: right;" title="${l.l('Сохранить без выхода из редактора')}">Сохранить</button>
 	</div>
 </html:form>
 
@@ -69,8 +73,6 @@
 	});
 </script>
 
-<c:set var="state" value="Редактор"/>
-<c:set var="help" value="http://www.bgcrm.ru/doc/3.0/manual/kernel/process/queue.html#setup"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:state ltext="Редактор" help="kernel/process/queue.html#setup"/>
 
 <%@ include file="/WEB-INF/jspf/layout_process.jsp"%>

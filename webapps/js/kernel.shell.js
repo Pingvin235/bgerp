@@ -448,9 +448,9 @@ $$.shell = new function () {
 
 							// эти загадочные манипуляции исправляют артефакты отрисовки в Хроме при сокрытии буфера
 							$('<div></div>')
-								.css( 'position', 'absolute' )
-								.css( 'top', position.top )
-								.css( 'left', position.left )
+								.css('position', 'absolute')
+								.css('top', position.top)
+								.css('left', position.left)
 								.width( width )
 								.height( height )
 								.appendTo( $('<body>') )

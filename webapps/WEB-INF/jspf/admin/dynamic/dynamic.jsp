@@ -1,24 +1,30 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
-		
+
+<c:set var="runFormUiid" value="${u:uiid()}"/>
+
 <html:form action="admin/dynamic" onsubmit="return false;" style="display: inline-block;">
 	<input type="hidden" name="action" value="recompileAll"/>
-	
-	<button class="btn-grey" type="button" onclick="$$.ajax.load(this.form, $$.shell.$content());">Скомпилировать всё</button>
+	<input type="hidden" name="class"/>
+
+	<button class="btn-grey" type="button" onclick="
+		this.form.class.value = $('#${runFormUiid}')[0].class.value;
+		$$.ajax.load(this.form, $$.shell.$content());
+	">${l.l('Скомпилировать всё')}</button>
 </html:form>
-<html:form 	action="admin/dynamic" onsubmit="return false;" style="display: inline-block;">
+<html:form action="admin/dynamic" onsubmit="return false;" styleId="${runFormUiid}" style="display: inline-block;">
 	<input type="hidden" name="action" value="runDynamicClass"/>
 	<input type="hidden" name="iface" value="runnable"/>
 	
-	<input type="text" name="class" class="ml2" size="50" placeholder="Имя класса, реализующего java.lang.Runnable"/>
-	<input type="checkbox" name="sync" value="true" title="Ожидание окончания выполнения"/>&nbsp;${l.l('синхронно')}
+	<input type="text" name="class" value="${form.param['class']}" class="ml2" size="50" placeholder="${l.l('Имя класса, реализующего java.lang.Runnable')}"/>
+	<input type="checkbox" name="sync" value="true" title="${l.l('Ожидание окончания выполнения')}"/>&nbsp;${l.l('синхронно')}
 	
 	<button class="btn-grey ml1" type="button" onclick="
 		this.disabled = true;
 		$$.ajax.post(this.form).done(() => {
 			this.disabled = false;
-			alert(this.form.sync.checked ? 'Класс выполнен, проверьте логи' : 'Класс запущен в отдельном потоке,\nвывод в логах.')
-		})">Выполнить</button>
+			alert(this.form.sync.checked ? '${l.l('Класс выполнен, проверьте логи')}' : '${l.l('Класс запущен в отдельном потоке,\\nвывод в логах.')}')
+		})">${l.l('Выполнить')}</button>
 </html:form>
 
 <c:set var="result" value="${form.response.data.result}"/>
@@ -30,7 +36,5 @@
 	</div>
 </c:if>
 
-<c:set var="title" value="Динамический код"/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-<c:set var="help" value="http://www.bgcrm.ru/doc/3.0/manual/kernel/extension.html#dyn"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:title ltext="Динамический код"/>
+<shell:state help="kernel/extension.html#dyn"/>

@@ -10,56 +10,56 @@
 	<script>
 		var index = 0;
 		var jump_regexp = new Array;
-	
-		<c:forEach var="item" items="${part2Rules}">				
+
+		<c:forEach var="item" items="${part2Rules}">
 			jump_regexp[index] = new Object;
-			
+
 			<c:choose>
 			  <c:when test="${fn:startsWith(item.regexp, '/')==false}">
 			  	<c:choose>
 			  		<c:when test="${fn:endsWith(item.regexp, '/')==false}">
-			  			jump_regexp[index].regexp = /${item.regexp}/;	
+			  			jump_regexp[index].regexp = /${item.regexp}/;
 			  		</c:when>
-			  	</c:choose>	
-			  </c:when>				  
+			  	</c:choose>
+			  </c:when>
 			  <c:otherwise>
 			  	jump_regexp[index].regexp = ${item.regexp};
 			  </c:otherwise>
-			</c:choose>				
-			
+			</c:choose>
+
 			jump_regexp[index].moveLastChar = ${item.moveLastChar};
 			index++;
 		</c:forEach>
-		
-		$("input.paramPhone[name^=part2]").on('keyup', 
-				function() 
+
+		$("input.paramPhone[name^=part2]").on('keyup',
+				function()
 				{
 					var len = $( this ).val().length;
-					var value = $( this ).val(); 
-			
+					var value = $( this ).val();
+
 					if( len != 0 )
-					{	
+					{
 						for(var i = 0; i < jump_regexp.length; i++)
 						{
 							var expr = jump_regexp[i];
 							var nextInput = $( this ).parent().next().children();
-							
+
 							if( value.match(expr.regexp) != null )
-							{									
+							{
 								$(nextInput).focus();
-								
+
 								if( expr.moveLastChar == true )
-								{	
+								{
 									$( nextInput ).val( value.substring( len-1 ) );
 									$( this ).val( value.substring( 0, len - 1 ) );
 								}
-								
+
 								break;
 							}
 						}
 					}
 				});
-		
+
 	</script>
 </c:if>
 
@@ -67,8 +67,8 @@
 	<c:set var="phoneDefault" value="${setup['param.phone.part.1.default']}" />
 
 	<script type="text/javascript">
-		$("input.paramPhone[name^=part1]").on('click', 
-			function() 
+		$("input.paramPhone[name^=part1]").on('click',
+			function()
 			{
 				if( $( this ).val().length == 0 )
 				{
@@ -89,8 +89,8 @@
 
 <c:if test="${parameter.configMap['encrypt'] eq 'encrypted'}">
 	<c:set var="encrypt" value="1"/>
-	<c:set var="confirmEncryptedParam" value="if( !confirm( 'Вы действительно хотите записать значение \n'+ this.value + '\n в параметр \n'+'${parameter.title}' ) ) 
-	{ $('#${uiid} input').removeAttr('onblurstop'); 
+	<c:set var="confirmEncryptedParam" value="if( !confirm( 'Вы действительно хотите записать значение \n'+ this.value + '\n в параметр \n'+'${parameter.title}' ) )
+	{ $('#${uiid} input').removeAttr('onblurstop');
 	setTimeout( function(){ $('#${uiid} input').focus(); document.getSelection().removeAllRanges(); }, 0 ); return false; }"/>
 </c:if>
 
@@ -104,16 +104,16 @@
 	<input type="hidden" name="paramId" value="${parameter.id}" />
 
 	<c:set var="multiple" value="${not empty parameter.configMap.multiple}" />
-	
-	<h1>${parameter.title}</h1> 
-	
+
+	<h1>${parameter.title}</h1>
+
 	<%-- этот хитрый атрибут changed ловится в некоторых местах, например в мастере, чтобы перегрузить всё,
 		 кнопки сохранения в этом случае скрыты --%>
 	<c:set var="changeAttrs">onchange="$(this).attr( 'changed', '1');"</c:set>
 	<c:set var="onEnter">onkeypress="if( enterPressed( event ) ){ ${saveCommand} }"</c:set>
 	<c:set var="saveOn" value="${u:maskEmpty(parameter.configMap.saveOn, 'editor')}"/>
-	
-	<c:set var="onBlur" value=""/>	
+
+	<c:set var="onBlur" value=""/>
 	<c:if test="${saveOn eq 'focusLost'}">
 		<%-- popupObjectBuffer.stopTimer(); - чтобы по закрытию диалогового окна не вылезал буфер (до onBlur идёт событие mousedown)
 			 document.getSelection().removeAllRanges(); - чтобы по закрытию диалогового окна не продолжалось выделение текста по перемещению мыши
@@ -125,7 +125,7 @@
 	<div style="width: 100%;" id="${uiid}" >
 		<c:choose>
 			<c:when test="${parameter.type eq 'text'}">
-							
+
 				<c:choose>
 					<c:when test="${data.value eq '<ЗНАЧЕНИЕ ЗАШИФРОВАНО>'}">
 						<c:set var="checkedParamValue" value=""/>
@@ -134,22 +134,22 @@
 						<c:set var="checkedParamValue" value="${fn:escapeXml( data.value)}"/>
 					</c:otherwise>
 				</c:choose>
-				
+
 				<input id="${focusFieldUiid}" type="text" name="value" value="${checkedParamValue}" style="width: 100%;" ${changeAttrs} ${onBlur} ${onEnter}/>
 			</c:when>
-						
+
 			<c:when test="${parameter.type eq 'blob'}">
 				<c:set var="rows" value="rows='${u:maskEmpty(parameter.configMap.rows, '4')}'"/>
 				<textarea id="${focusFieldUiid}" name="value" ${rows}  style="width: 100%;" ${changeAttrs} ${onBlur}>${data.value}</textarea>
-			</c:when>			
-			
+			</c:when>
+
 			<c:when test="${parameter.type eq 'date' or parameter.type eq 'datetime'}">
 				<c:set var="selector">#${uiid} input[name='value']</c:set>
 				<c:set var="hideButtons" value="1"/>
-				
+
 				<c:set var="getCommand"></c:set>
 				<c:set var="getDateUrl"></c:set>
-				
+
 				<c:if test="${parameter.configMap.sendColorMapRequest eq 1}">
 					<c:url var="getDateUrl" value="parameter.do">
 						<c:param name="action" value="parameterGet"/>
@@ -157,7 +157,7 @@
 						<c:param name="paramId" value="${parameter.id}"/>
 					</c:url>
 				</c:if>
-				
+
 				<c:choose>
 					<c:when test="${parameter.type eq 'date'}">
 						<c:set var="type" value="ymd"/>
@@ -171,9 +171,9 @@
 					</c:when>
 				</c:choose>
 			</c:when>
-			
+
 			<c:when test="${parameter.type eq 'tree'}">
-                <c:set var="treeValueId" value="${u:uiid()}" />
+				<c:set var="treeValueId" value="${u:uiid()}" />
 
 				<ul id="${treeValueId}">
 					<c:set var="values" value="${data.value}" scope="request" />
@@ -189,27 +189,27 @@
 					{
 						$("#${treeValueId}").Tree({
 							 <c:if test="${not multiple}">singleSelect : 'singleSelect'</c:if>
-                        });
+						});
 					});
 				</script>
 			</c:when>
-			
+
 			<c:when test="${parameter.type eq 'listcount'}">
 				<c:set var="list" value="${listValues}" />
 				<c:set var="values" value="${data.value}" />
 				<c:set var="paramName">value</c:set>
 				<c:set var="config" value="${parameter.configMap}" />
-				
+
 				<%@ include file="edit_listcount.jsp"%>
 
 				<%-- <%@ include file="/WEB-INF/jspf/check_listcount_addremove.jsp"%> --%>
 			</c:when>
-			
+
 			<c:when test="${parameter.type eq 'list'}">
 				<c:set var="value" value="${data.value}"/>
 
 				<c:set var="listParamConfig" value="${u:getConfig( parameter.configMap, 'ru.bgcrm.model.param.config.ListParamConfig' )}"/>
-				
+
 				<c:choose>
 					<c:when test="${multiple}">
 						<c:forEach var="item" items="${listValues}">
@@ -245,7 +245,7 @@
 										<td>
 											${item.title}
 											<span id="${tdUiid}" ${hideStyle}>
-												<input type="text" size="30" value="${value[item.id]}" ${scriptInput} /> 
+												<input type="text" size="30" value="${value[item.id]}" ${scriptInput} />
 												<c:if test="${not empty listParamConfig.needCommentValues[item.id]}">
 													*
 												</c:if>
@@ -264,13 +264,13 @@
 						<c:set var="currentValue" value="0"/>
 						<c:set var="currentComment" value=""/>
 						<c:set var="currentFull" value=""/>
-						
+
 						<c:forEach var="item" items="${value}">
 							<c:set var="currentValue" value="${item.key}"/>
 							<c:set var="currentComment" value="${item.value}"/>
 							<c:set var="currentFull" value="${item.key}:${item.value}"/>
 						</c:forEach>
-						
+
 						<input id="${valueUiid}" type="hidden" value="${currentValue}" />
 						<input id="${fullUiid}" type="hidden" name="value" value="${currentFull}" />
 
@@ -284,21 +284,21 @@
 								<c:set var="commentValues" value="${commentValues}'${item.id}'" />
 							</c:if>
 						</c:forEach>
-						
+
 						<c:set var="commentValues" value="[${commentValues}]" />
 
 						<c:set var="changeScript">
-							var val = $('#${valueUiid}').val(); 
+							var val = $('#${valueUiid}').val();
 							console.log( val );
 							$('#${fullUiid}').val( val + ':' + $('#${commentUiid}').val() );
 							if( ${commentValues}.indexOf( val ) >= 0 ){ $('#${commentUiid}').show() } else { $('#${commentUiid}').hide() };
 							<c:if test="${saveOn eq 'select'}">
 								${saveCommand}
 							</c:if>
-						</c:set>	
+						</c:set>
 
 						<c:set var="editAs" value="${parameter.configMap.editAs}"/>
-						
+
 						<c:choose>
 							<c:when test="${editAs eq 'radio'}">
 								<div>
@@ -310,11 +310,11 @@
 								<c:forEach var="item" items="${listValues}">
 									<c:if test="${not( fn:startsWith(item.title, '@') )}">
 										<div class="mt05">
-											<input type="radio" id="${radioId}" name="rValue" 
+											<input type="radio" id="${radioId}" name="rValue"
 												value="${item.id}" ${u:checkedFromCollection( value, item.id )}
 												onchange="if( this.checked ){ $('#${valueUiid}').val( this.value );  ${changeScript} }"/>
 											&#160;${item.title}
-										</div>								
+										</div>
 									</c:if>
 								</c:forEach>
 							</c:when>
@@ -323,10 +323,10 @@
 									<%
 										List<IdTitle> list = new ArrayList<IdTitle>();
 										pageContext.setAttribute( "list", list );
-										
+
 										List<IdTitle> listValues = (List<IdTitle>)request.getAttribute( "listValues" );
 										Map<Integer, String> value = (Map<Integer, String>)pageContext.getAttribute( "value" );
-										
+
 										for( IdTitle item : listValues )
 										{
 											if( !item.getTitle().startsWith( "@" ) )
@@ -338,8 +338,8 @@
 									<c:set var="value" value="${currentValue}"/>
 									<c:set var="style" value="width: 100%;"/>
 									<c:set var="onSelect" value="$('#${valueUiid}').val( $hidden.val() ); ${changeScript}"/>
-									<%@ include file="/WEB-INF/jspf/select_single.jsp"%>	
-								</u:sc>	
+									<%@ include file="/WEB-INF/jspf/select_single.jsp"%>
+								</u:sc>
 							</c:when>
 							<c:otherwise>
 								<u:sc>
@@ -358,13 +358,13 @@
 								</u:sc>
 							</c:otherwise>
 						</c:choose>
-						
+
 						<c:set var="commentDisplayStyle">display:none;</c:set>
 						<c:if test="${not empty listParamConfig.commentValues[currentValue]}">
 							<c:remove var="commentDisplayStyle"/>
 						</c:if>
 
-						<input id="${commentUiid}" type="text" style="width: 100%; ${commentDisplayStyle}" onchange="${changeScript}" 
+						<input id="${commentUiid}" type="text" style="width: 100%; ${commentDisplayStyle}" onchange="${changeScript}"
 								value="${currentComment}" placeholder="Комментарий" class="mt1"/>
 					</c:otherwise>
 				</c:choose>
@@ -467,7 +467,7 @@
 						<td width="30%" nowrap="nowrap">
 							<div style="display: table-cell; width: 100%;">
 								<input type="text" name="house" value="${houseTitle}" onchange="this.form.houseId.value = ''" style="width: 100%" />
-							</div> 
+							</div>
 							<p:check action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate">
 								<c:url var="addUrl" value="directory/address.do">
 									<c:param name="action" value="addressUpdate" />
@@ -483,14 +483,14 @@
 										alert( 'Не указана улица' );
 										return;
 									}
-									
+
 									var house = this.form.house.value;
 									if( !house )
 									{
 										alert( 'Введите номер дома' );
 										return;
-									}	
-									
+									}
+
 									var url = '${addUrl}&addressItemId=' + streetId + '&house=' + encodeURIComponent( house );
 									if( sendAJAXCommand( url ) )
 									{
@@ -535,10 +535,10 @@
 			</c:when>
 		</c:choose>
 	</div>
-	
+
 	<c:if test="${empty hideButtons}">
 		<div class="hint">${parameter.comment}</div>
-	
+
 		<div class="mt1">
 			<c:if test="${empty hideOkButton}">
 				<input type="button" class="btn-grey mr1" value="ОК" onclick="${saveCommand}" />
@@ -546,17 +546,17 @@
 			<input type="button" class="btn-grey" value="${l.l('Отмена')}" onmousedown="$('#${uiid} input').attr('onblurstop','1');" onclick="openUrlToParent( '${form.returnUrl}', $('#${tableId}') )" />
 		</div>
 	</c:if>
-	
+
 	<c:remove var="hideButtons"/>
 </html:form>
 
 <script>
-	$( function() 
+	$( function()
 	{
 		// иначе в FF не работает
 		setTimeout( function()
-		{		
-			// mouseover() мыши нужно для datepicker а, чтобы отобразился редактор 
+		{
+			// mouseover() мыши нужно для datepicker а, чтобы отобразился редактор
 			$("#${focusFieldUiid}").mouseover().focus();
 		}, 0 );
 	});

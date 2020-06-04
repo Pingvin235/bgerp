@@ -31,7 +31,5 @@
 	</c:forEach>
 </table>
 
-<c:set var="title" value="Конфигурация"/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-<c:set var="help" value="http://www.bgcrm.ru/doc/3.0/manual/kernel/setup.html#config"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:title ltext="Конфигурация"/>
+<shell:state help="kernel/setup.html#config"/>

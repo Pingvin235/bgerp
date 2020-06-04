@@ -42,6 +42,7 @@ import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.EntityLogDAO;
 import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Customer;
@@ -69,8 +70,6 @@ import ru.bgcrm.model.process.queue.FilterList;
 import ru.bgcrm.model.process.queue.FilterOpenClose;
 import ru.bgcrm.model.process.queue.FilterParam;
 import ru.bgcrm.model.process.queue.FilterProcessType;
-import ru.bgcrm.model.process.queue.SortMode;
-import ru.bgcrm.model.process.queue.SortSet;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -88,7 +87,7 @@ public class ProcessDAO extends CommonDAO {
             + TABLE_PROCESS + " AS " + LINKED_PROCESS + " ON pllp.process_id=" + LINKED_PROCESS + ".id";
 
     private final int userId;
-    protected final User user;
+    private final User user;
     private boolean history;
 
     /**
@@ -226,26 +225,9 @@ public class ProcessDAO extends CommonDAO {
         
         addFilters(params.queue, form, params);
 
-        String orders = Utils.toString(form.getSelectedValuesListStr("sort", "0"));
-
-        SortSet sortSet = queue.getSortSet();
-        // сортировки жёстко заданы в очереди
-        if (sortSet.getSortValues().size() > 0) {
-            orders = "";
-            for (Integer value : sortSet.getSortValues().values()) {
-                int pos = value - 1;
-                if (pos < 0 || pos >= sortSet.getModeList().size()) {
-                    log.error("Incorrect sort value in queue: " + value);
-                    continue;
-                }
-
-                SortMode mode = sortSet.getModeList().get(pos);
-                if (orders.length() != 0) {
-                    orders += ",";
-                }
-                orders += mode.getOrderExpression();
-            }
-        }
+        String orders = queue.getSortSet().getOrders();
+        if (Utils.isBlankString(orders))
+            orders = Utils.toString(form.getSelectedValuesListStr("sort", "0"));
 
         if (searchResult != null) {
             Page page = searchResult.getPage();
@@ -506,17 +488,23 @@ public class ProcessDAO extends CommonDAO {
                         .replace("current", String.valueOf(form.getUserId()));
 
                 if (Utils.notBlankString(executorIds)) {
-                    if (executorIds.contains("empty")) {
-                        wherePart.append(" AND process.executors=''");
-                    } else {
-                        String tableAlias = "pe_" + filter.getRoleId();
+                    String tableAlias = "pe_" + filter.getRoleId();
 
+                    if (executorIds.contains("empty"))
+                        joinPart.append(SQL_LEFT_JOIN);
+                    else
                         joinPart.append(SQL_INNER_JOIN);
-                        joinPart.append(Tables.TABLE_PROCESS_EXECUTOR);
-                        joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND "
-                                + tableAlias + ".user_id IN(");
+
+                    joinPart.append(Tables.TABLE_PROCESS_EXECUTOR);
+                    joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND " + 
+                                    tableAlias + ".role_id=" + filter.getRoleId());
+                    
+                    if (executorIds.contains("empty"))
+                        wherePart.append(" AND " + tableAlias + ".user_id IS NULL ");
+                    else {
+                        joinPart.append(" AND " + tableAlias + ".user_id IN(");
                         joinPart.append(executorIds);
-                        joinPart.append(") AND " + tableAlias + ".role_id=" + filter.getRoleId());
+                        joinPart.append(") ");
                     }
                 }
             } else if (f instanceof FilterProcessType) {
@@ -1080,12 +1068,16 @@ public class ProcessDAO extends CommonDAO {
         } else if (value.startsWith("status_")) {
             String alias = addProcessStatusJoin(target, joinPart);
 
-            if ("status_title".equals(value)) {
+            if ("status_title".equals(value) || "status_pos".equals(value)) {
                 String aliasPst = "process_status_title_" + target;
 
-                selectPart.append(aliasPst + ".title ");
-                joinPart.append(" LEFT JOIN process_status_title AS " + aliasPst + " ON " + target + ".status_id="
-                        + aliasPst + ".id");
+                if ("status_title".equals(value))
+                    selectPart.append(aliasPst + ".title ");
+                else
+                    selectPart.append(aliasPst + ".pos ");
+
+                if (joinPart.indexOf(aliasPst) < 0)
+                    joinPart.append(" LEFT JOIN process_status_title AS " + aliasPst + " ON " + target + ".status_id=" + aliasPst + ".id");
             } else if (value.startsWith("status_dt")) {
                 addDateTimeParam(selectPart, alias + ".dt", value);
             } else if ("status_user".equals(value)) {
@@ -1564,6 +1556,8 @@ public class ProcessDAO extends CommonDAO {
                     "DELETE FROM " + TABLE_PROCESS_LINK + " WHERE object_id=? AND object_type LIKE 'process%'");
 
             new ParamValueDAO(con).deleteParams(Process.OBJECT_TYPE, processId);
+
+            new MessageDAO(con).deleteProcessMessages(processId);
 
             new EntityLogDAO(this.con, Tables.TABLE_PROCESS_LOG).deleteHistory(processId);
         } catch (SQLException e) {

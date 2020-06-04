@@ -69,6 +69,12 @@ public class CommonDAO {
         return id;
     }
 
+    /**
+     * Will be changed to private later, 
+     * use {@link #getLikePatternEnd(String)}, {@link #getLikePatternStart(String)}, {@link #getLikePatternSub(String)} 
+     * instead.
+     */
+    @Deprecated
     public static final String getLikePattern(String substring, String mode) {
         StringBuilder builder = new StringBuilder();
         if (Utils.notBlankString(substring)) {
@@ -83,14 +89,29 @@ public class CommonDAO {
         return builder.toString();
     }
 
+    /**
+     * Returns SQL LIKE pattern "%" + {@param substring} + "%"
+     * @param substring
+     * @return
+     */
     public static final String getLikePatternSub(String substring) {
         return getLikePattern(substring, "subs");
     }
 
+    /**
+     * Returns SQL LIKE pattern {@param substring} + "%"
+     * @param substring
+     * @return
+     */
     public static final String getLikePatternStart(String substring) {
         return getLikePattern(substring, "start");
     }
 
+    /**
+     * Returns SQL LIKE pattern "%" + {@param substring}
+     * @param substring
+     * @return
+     */
     public static final String getLikePatternEnd(String substring) {
         return getLikePattern(substring, "end");
     }

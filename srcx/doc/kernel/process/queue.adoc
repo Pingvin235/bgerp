@@ -78,7 +78,7 @@ WARNING: Использование агрегирующих функций пр
 |Да
 |Да
 
-|type_title		
+|type_title
 |Наименование типа процесса.
 |Да
 |Да
@@ -86,6 +86,12 @@ WARNING: Использование агрегирующих функций пр
 
 |status_title
 |Текущий статус процесса.
+|Да
+|Да
+|Да
+
+|status_pos
+|Position of the current process <<index.adoc#status, status>>.
 |Да
 |Да
 |Да

@@ -425,7 +425,7 @@ Action классы определяются в `struts-config*.xml` файла�
 
 Пример объявления акшена с форвардом:
 [snippet, from="<ac", to="on>", remove-leading="		"]
-link:../../webapps/WEB-INF/struts-config-blow.xml#L4-L7[webapps/WEB-INF/struts-config-blow.xml]
+link:../../webapps/WEB-INF/struts-config-blow.xml#L4-L8[webapps/WEB-INF/struts-config-blow.xml]
 
 Акшены должны расширять класс javadoc:ru.bgcrm.struts.action.BaseAction[], методы возвращать результат через вызов *data* либо *status*.
 Первый метод обрабатывается JSP страницей-форвардом и высылает HTML на клиент. Второй - предназначен для выполнения изменений и возвращает только JSON формат с результатом выполнения.
@@ -440,7 +440,7 @@ CAUTION: Не использовать устаревший формат акш�
 
 Фрагмент читающего акшен метода с форвардом.
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgerp/plugin/blow/struts/action/BoardAction.java#L34-L53[ru.bgerp.plugin.blow.struts.action.BoardAction]
+link:../../src/ru/bgerp/plugin/blow/struts/action/BoardAction.java#L38-L58[ru.bgerp.plugin.blow.struts.action.BoardAction]
 
 Результат перенаправляется на JSP страницу:
 link:../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp].
@@ -473,7 +473,7 @@ link:../../src/ru/bgcrm/plugin/dispatch/struts/action/DispatchAction.java#L46-L5
 
 Форвард рекомендуется называть так же как метод:
 [snippet, from="<action path=\"/admin", to="</action>", remove-leading="		"]
-link:../../webapps/WEB-INF/struts-config.xml#L66-L69[webapps/WEB-INF/struts-config.xml]
+link:../../webapps/WEB-INF/struts-config.xml#L65-L68[webapps/WEB-INF/struts-config.xml]
 
 ==== Проверка прав
 Все методы акшенов должны быть объявлены в файле `plugin/action/kernel.xml` для ядра либо `plugin/action/{PLUGIN}.xml` для плагина.
@@ -717,7 +717,7 @@ $('#loginForm').dialog({
 При выполнении <<action, акшена>> в объект *l* передаётся локализационный контекст, содержащий фразы для ядра и вызываемого плагина.
 
 [snippet, from="message.se", to="());", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L221-L221[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L227-L227[ru.bgcrm.struts.action.MessageAction]
 
 == Именование
 === Переменные конфигураций, функции JS, HTTP StyleId
@@ -786,11 +786,11 @@ from_dt, to_dt - тип datetime.
 
 Сохранение значения:
 [snippet, from="resto", to=");", remove-leading=    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L86-L86[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L87-L87[ru.bgcrm.struts.action.MessageAction]
 
 Восстановление:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L257-L269[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L263-L275[ru.bgcrm.struts.action.MessageAction]
 
 Сохранение плюс восстановление сразу:
 [snippet, from="//", to=");", remove-leading="    "]
@@ -894,7 +894,7 @@ link:../../webapps/WEB-INF/jspf/user/log/log.jsp#L22-L28[webapps/WEB-INF/jspf/us
 
 Отправка AJAX запроса, блокировка кнопки при долгом выполнении действия:
 [snippet, from="<bu", to="on>"]
-link:../../webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp#L16-L21[webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp]
+link:../../webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp#L22-L27[webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp]
 
 [[build]]
 == Build and publish

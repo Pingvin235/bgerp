@@ -95,8 +95,4 @@
 </div>
 </html:form>
 
-<c:set var="state">
-	<span class='title'>Редактирование дома</span>
-</c:set>
-<c:set var="help" value="http://www.bgcrm.ru/doc/3.0/manual/kernel/setup.html#address"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:state ltext="Редактирование дома" help="kernel/setup.html#address"/>

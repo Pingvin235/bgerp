@@ -10,7 +10,6 @@
 		</action>
 
 		<action path="/admin/directory" parameter="action" type="ru.bgcrm.struts.action.admin.DirectoryAction" name="form" scope="request">
-			<forward name="default" path="/WEB-INF/jspf/admin/directory/directory.jsp" />
 			<forward name="patternList" path="/WEB-INF/jspf/admin/directory/pattern/list.jsp" />
 			<forward name="patternUpdate" path="/WEB-INF/jspf/admin/directory/pattern/update.jsp" />
 			<forward name="parameterList" path="/WEB-INF/jspf/admin/directory/parameter/list.jsp" />

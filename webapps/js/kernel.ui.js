@@ -9,7 +9,7 @@ $$.ui = new function() {
 		$element.on("input", () => {
 			$element.css("border", originalConfig !== $element.val() ? "1px solid red" : "");
 		});
-	};
+	}
 
 	const comboSingleInit = ($comboDiv, onSelect) => {
 		var $drop = $comboDiv.find('ul.drop');
@@ -62,11 +62,11 @@ $$.ui = new function() {
 		});
 
 		updateCurrentTitle();
-	};
+	}
 
 	const comboInputs = ($div) => {
 		return $div.find("ul.drop li input");
-	};
+	}
 
 	const comboCheckUncheck = (object) => {
 		const $parent = $(object).closest("ul");
@@ -74,27 +74,30 @@ $$.ui = new function() {
 			$parent.find("input[type=checkbox]").prop("checked", true);
 		else
 			$parent.find("input[type=checkbox]").prop("checked", false);
-	};
+	}
 
 	// close all visible drop-downs
 	const dropsHide = () => {
 		$(document).find("ul.drop:visible").hide();
-	};
+	}
 
 	const dropOnClick = ($comboDiv, $drop) => {
 		$comboDiv.click(function () {
-			dropsHide();
-			menusHide();
-
-			$drop.show();
-
-			$(document).one("click", function () {
-				$drop.hide();
-			});
-
+			dropShow($drop);
 			return false;
 		});
-	};
+	}
+
+	const dropShow = ($drop) => {
+		dropsHide();
+		menusHide();
+
+		$drop.show();
+
+		$(document).one("click", function () {
+			$drop.hide();
+		});
+	}
 
 	const menuInit = ($launcher, $menu, align) => {
 		$menu.menu().hide();
@@ -121,12 +124,12 @@ $$.ui = new function() {
 
 			return false;
 		});
-	};
+	}
 
 	// close all visible menus
 	const menusHide = () => {
 		$(document).find("ul.ui-menu:visible[role=menu]").menu().hide();
-	};
+	}
 
 	const monthDaysSelectInit = ($div) => {
 		var date = new Date();
@@ -188,7 +191,7 @@ $$.ui = new function() {
 
 		$dayFrom.change(update);
 		$dayTo.change(update);
-	};
+	}
 
 	const inputTextInit = ($input, onSelect) => {
 		var $runIcon =
@@ -238,7 +241,7 @@ $$.ui = new function() {
 
 		if (onSelect)
 			$runIcon.click(function () { onSelect.call($input[0]); });
-	};
+	}
 
 	const layout = ($selector) =>  {
 		var debug = false;
@@ -270,13 +273,13 @@ $$.ui = new function() {
 
 			$(this).css( "height", height + "px" );
 		})
-	};
+	}
 
 	const showError = (errorMessage) => {
 		$("#errorDialogMessage").html(errorMessage.replace(/\\n/g, "<br/>"));
 		if (!$("#errorDialog").dialog("isOpen"))
 			$("#errorDialog").dialog("open");
-	};
+	}
 
 	const tabsLoaded = ($tabs, event, callback) => {
 		if ($tabs.data(event))
@@ -286,7 +289,7 @@ $$.ui = new function() {
 				$tabs.data(event, true);
 				callback();
 			});
-	};
+	}
 
 	// доступные функции
 	this.markChanged = markChanged;
@@ -295,6 +298,7 @@ $$.ui = new function() {
 	this.comboCheckUncheck = comboCheckUncheck;
 	this.dropsHide = dropsHide;
 	this.dropOnClick = dropOnClick;
+	this.dropShow = dropShow;
 	this.menuInit = menuInit;
 	this.monthDaysSelectInit = monthDaysSelectInit;
 	this.inputTextInit = inputTextInit;

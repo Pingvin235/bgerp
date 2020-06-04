@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
@@ -15,20 +16,20 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
+import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgerp.util.Log;
 
 public class MessageTypeConfig extends Config {
     private static final Log log = Log.getLog();
 
-    @SuppressWarnings("serial")
     private SortedMap<Integer, MessageType> typeMap = new TreeMap<Integer, MessageType>() {
         @Override
         public MessageType get(Object key) {
             MessageType result = super.get(key);
             if (result == null) {
                 try {
-                    result = new MessageTypeUncknown((Integer) key);
+                    result = new MessageTypeUnknown((Integer) key);
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 }
@@ -45,8 +46,7 @@ public class MessageTypeConfig extends Config {
 
             try {
                 @SuppressWarnings("unchecked")
-                Class<? extends MessageType> typeClass = (Class<? extends MessageType>) DynamicClassManager
-                        .getClass(config.get("class"));
+                Class<? extends MessageType> typeClass = (Class<? extends MessageType>) DynamicClassManager.getClass(config.get("class"));
 
                 MessageType type = typeClass.getConstructor(int.class, ParameterMap.class).newInstance(id, config);
                 type.setId(id);
@@ -65,14 +65,14 @@ public class MessageTypeConfig extends Config {
     public void setTypeMap(SortedMap<Integer, MessageType> typeMap) {
         this.typeMap = typeMap;
     }
-    
+
     @SuppressWarnings("unchecked")
-    public<T extends MessageType> T getMessageType(Class<T> clazz) {
-        return (T)typeMap.values().stream().filter(o -> clazz.isInstance(o)).findAny().orElse(null);
+    public <T extends MessageType> T getMessageType(Class<T> clazz) {
+        return (T) typeMap.values().stream().filter(o -> clazz.isInstance(o)).findAny().orElse(null);
     }
 
-    private static class MessageTypeUncknown extends MessageType {
-        public MessageTypeUncknown(int id) throws BGException {
+    private static class MessageTypeUnknown extends MessageType {
+        public MessageTypeUnknown(int id) throws BGException {
             super(id, "??? " + id, new Preferences());
         }
 
@@ -92,6 +92,17 @@ public class MessageTypeConfig extends Config {
         @Override
         public List<Message> newMessageList(ConnectionSet conSet) {
             return Collections.emptyList();
+        }
+
+        @Override
+        public boolean isRemovable(Message message) {
+            return true;
+        }
+
+        @Override
+        public void messageDelete(ConnectionSet conSet, String... messageIds) throws BGException {
+            for (String messageId : messageIds)
+                new MessageDAO(conSet.getConnection()).deleteMessage(Utils.parseInt(messageId));
         }
     }
 }

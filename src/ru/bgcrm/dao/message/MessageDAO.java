@@ -26,8 +26,11 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.config.IsolationConfig;
 import ru.bgcrm.model.config.TagConfig;
 import ru.bgcrm.model.message.Message;
+import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.PreparedDelay;
@@ -35,9 +38,17 @@ import ru.bgcrm.util.sql.SQLUtils;
 
 public class MessageDAO extends CommonDAO {
     private static final String TABLE_MESSAGE_TAG = "message_tag";
+
+    private final User user;
     
     public MessageDAO(Connection con) {
         super(con);
+        this.user = User.USER_SYSTEM;
+    }
+
+    public MessageDAO(Connection con, User user) {
+        super(con);
+        this.user = user;
     }
 
     public Message getMessageById(int id) throws BGException {
@@ -159,25 +170,25 @@ public class MessageDAO extends CommonDAO {
         }
     }
     
-    public void updateMessageTags(int messageId, Set<Integer> tagIds) throws BGException {
-        try {
-            String query = SQL_DELETE + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, messageId);
-            ps.executeUpdate();
-            ps.close();
+    public void updateMessageTags(int messageId, Set<Integer> tagIds) throws Exception {
+        String query = SQL_DELETE + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, messageId);
+        ps.executeUpdate();
+        ps.close();
 
-            query = SQL_INSERT + TABLE_MESSAGE_TAG + "(message_id, tag_id) VALUES (?,?)";
-            ps = con.prepareStatement(query);
-            ps.setInt(1, messageId);
-            for (int tagId : tagIds) {
-                ps.setInt(2, tagId);
-                ps.executeUpdate();
-            }   
-            ps.close();
-        } catch (SQLException ex) {
-            throw new BGException(ex);
-        }
+        query = SQL_INSERT + TABLE_MESSAGE_TAG + "(message_id, tag_id) VALUES (?,?)";
+        ps = con.prepareStatement(query);
+        ps.setInt(1, messageId);
+        for (int tagId : tagIds) {
+            ps.setInt(2, tagId);
+            ps.executeUpdate();
+        }   
+        ps.close();
+    }
+
+    public Set<Integer> getMessageTags(int messageId) throws Exception {
+        return getIds(TABLE_MESSAGE_TAG, "message_id", "tag_id", messageId);
     }
 
     public void deleteMessage(int id) throws BGException {
@@ -188,10 +199,13 @@ public class MessageDAO extends CommonDAO {
             }
 
             PreparedStatement ps = con.prepareStatement("DELETE FROM " + TABLE_MESSAGE + "WHERE id=?");
-
             ps.setInt(1, id);
             ps.executeUpdate();
+            ps.close();
 
+            ps = con.prepareStatement(SQL_DELETE + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?");
+            ps.setInt(1, id);
+            ps.executeUpdate();
             ps.close();
 
             if (message != null) {
@@ -200,6 +214,10 @@ public class MessageDAO extends CommonDAO {
         } catch (SQLException ex) {
             throw new BGException(ex);
         }
+    }
+
+    public void deleteProcessMessages(int processId) {
+        // TODO: Delete using join from: TABLE_MESSAGE, TABLE_MESSAGE_TAG, TABLE_PROCESS_MESSAGE_STATE
     }
 
     private void updateProcessLastMessageTime(Message message) throws BGException {
@@ -402,15 +420,17 @@ public class MessageDAO extends CommonDAO {
         return list;
     }
     
-    public Map<Integer, Set<Integer>> getProcessMessageTagMap(int processId) throws BGException {
-        try {
-            Map<Integer, Set<Integer>> result = new HashMap<>();
-            
-            String query = "SELECT m.id, m.attach_data, mt.tag_id FROM " + TABLE_MESSAGE + " AS m "
-                    + SQL_LEFT_JOIN + TABLE_MESSAGE_TAG + " AS mt ON m.id=mt.message_id "
-                    + SQL_WHERE + "m.process_id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, processId);
+    public Map<Integer, Set<Integer>> getProcessMessageTagMap(int processId) throws Exception {
+        return getProcessMessageTagMap(Collections.singleton(processId));
+    }
+
+    public Map<Integer, Set<Integer>> getProcessMessageTagMap(Collection<Integer> processIds) throws Exception {
+        Map<Integer, Set<Integer>> result = new HashMap<>();
+        
+        String query = "SELECT m.id, m.attach_data, mt.tag_id FROM " + TABLE_MESSAGE + " AS m "
+                + SQL_LEFT_JOIN + TABLE_MESSAGE_TAG + " AS mt ON m.id=mt.message_id "
+                + SQL_WHERE + "m.process_id IN (" + Utils.toString(processIds) + ")";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Set<Integer> messageTags = null;
@@ -425,12 +445,55 @@ public class MessageDAO extends CommonDAO {
                     messageTags.add(tagId);
                 }
             }
-            ps.close();
-            
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
+        
+        return result;
+    }
+
+    /**
+     * Searches messages in processes.
+     * @param processIds process IDs.
+     * @param text message substring.
+     * @return
+     * @throws Exception
+     */
+    public List<Message> getProcessMessageList(Set<Integer> processIds, String text) throws Exception {
+        var result = new ArrayList<Message>();
+        if (processIds.isEmpty() || Utils.isBlankString(text))
+            return result;
+        
+        var query = new StringBuilder(200);
+        query.append(SQL_SELECT + "message.*, p.description " + SQL_FROM + TABLE_MESSAGE + " AS message ");
+        query.append(getIsolationJoin(user));
+        query.append(SQL_LEFT_JOIN + TABLE_PROCESS + "AS p ON message.process_id=p.id");
+        query.append(SQL_WHERE + "message.process_id IN (");
+        query.append(Utils.toString(processIds));
+        query.append(") AND message.text LIKE ?");
+
+        try (var ps = con.prepareStatement(query.toString())) {
+            ps.setString(1, getLikePatternSub(text));
+
+            var rs = ps.executeQuery();
+            while (rs.next()) {
+                var m = getMessageFromRs(rs, "message.");
+                var p = new Process(m.getProcessId());
+                p.setDescription(rs.getString("p.description"));
+                m.setProcess(p);
+                result.add(m);
+            }
+        }
+
+        return result;
+    }
+
+    public static String getIsolationJoin(User user) {
+        var isolation = user.getConfigMap().getConfig(IsolationConfig.class);
+        if (isolation.getIsolationProcess() != null) {
+            return
+                SQL_INNER_JOIN + TABLE_PROCESS + " ON message.process_id=process.id " +
+                ProcessDAO.getIsolationJoin(user);
+        }
+        return "";
     }
 
     private Message getMessageFromRs(ResultSet rs) throws SQLException {

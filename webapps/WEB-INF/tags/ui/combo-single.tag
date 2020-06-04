@@ -1,11 +1,11 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Выпадающий список с возможностью выбора одного значения"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Выпадающий список с возможностью выбора одного значения"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%--
 Значения можно устанавливать двумя способами:
 
 1)
-list - List<IdTitle> элементов 
+list - List<IdTitle> элементов
 map - Map<Integer, IdTitle> элементов
 available - List<Integer> допустимых значений
 TODO: может по аналогии сделать с select_single availableIdList?
@@ -13,7 +13,7 @@ TODO: может по аналогии сделать с select_single available
 Если указано available, то выборка происходит по нему с получением значений из map.
 Иначе - по list и в его порядке
 
-2) 
+2)
 valuesHtml - HTML текст с li элементами - значениями
 
 Установку ширины следует выполнять с помощью style, либо styleTextValue либо  widthTextValue.
@@ -58,29 +58,29 @@ styleTextValue / widthTextValue следует использовать, ког�
 
 	<c:if test="${not empty prefixText}">
 		<div class="text-pref">${prefixText}</div>
-	</c:if>	
-	
+	</c:if>
+
 	<%-- ширину всего элемента можно задавать только шириной этого блока --%>
 	<div class="text-value" style="${styleTextValue}"></div>
 	<div class="icon"><img src="/images/arrow-down.png"/></div>
-	 
+
 	<ul class="drop" style="display: none;">
 		<c:if test="${showFilter}">
 			<li class="filter">
 				<c:set var="filterCode">
 					var mask = $(this).val().toLowerCase();
-					$(this.parentNode.parentNode).find('li:gt(0)').each( function() 
+					$(this.parentNode.parentNode).find('li:gt(0)').each( function()
 					{
 						var content = $(this).text().toLowerCase();
-						$(this).toggle( content.indexOf( mask ) >= 0 );  
+						$(this).toggle( content.indexOf( mask ) >= 0 );
 					});
-				</c:set>			
-				<input type="text" style="width: 100%;" placeholder="Фильтр" onkeyup="${filterCode}"/>					
+				</c:set>
+				<input type="text" style="width: 100%;" placeholder="Фильтр" onkeyup="${filterCode}"/>
 			</li>
 		</c:if>
-	
+
 		${valuesHtml}
-		
+
 		<c:choose>
 			<c:when test="${empty available}">
 				<c:forEach var="item" items="${list}">
@@ -88,34 +88,32 @@ styleTextValue / widthTextValue следует использовать, ког�
 				</c:forEach>
 			</c:when>
 			<c:otherwise>
-				<c:forEach var="availableId" items="${available}">			
+				<c:forEach var="availableId" items="${available}">
 					<c:set var="item" value="${map[availableId]}"/>
 					<c:if test="${not empty item }">
-						<li value="${item.id}">${item.title}</li>						
+						<li value="${item.id}">${item.title}</li>
 					</c:if>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
-		
+
 		<script style="display: none;">
-			$(function()
-			{	
+			$(function () {
 				var onSelect = undefined;
-				
+
 				var $comboDiv = $('#${uiid}');
-				
+
 				<c:if test="${not empty onSelect}">
-					onSelect = function( item )
-					{
+					onSelect = function (item) {
 						var $hidden = $comboDiv.find( 'input[type=hidden]' );
 						${onSelect}
 					};
 				</c:if>
-				
+
 				$$.ui.comboSingleInit($('#${uiid}'), onSelect);
-				
+
 				<c:if test="${not empty disable}">
-					$comboDiv.unbind( 'click' );
+					$comboDiv.unbind('click');
 				</c:if>
 			})
 		</script>

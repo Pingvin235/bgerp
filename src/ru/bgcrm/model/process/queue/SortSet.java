@@ -7,7 +7,12 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import ru.bgcrm.util.Utils;
+import ru.bgerp.util.Log;
+
 public class SortSet {
+    private static final Log log = Log.getLog();
+
     private int comboCount;
     private List<SortMode> modeList = new ArrayList<SortMode>();
     private Map<Integer, Integer> defaultSortValues = new HashMap<Integer, Integer>();
@@ -37,16 +42,6 @@ public class SortSet {
         sortValues.put(comboNum, value);
     }
 
-    /*public int getDefaultSortValue( int comboNum )
-    {
-        int result = 0;
-        if( defaultSortValues.containsKey( comboNum ) )
-        {
-            result = defaultSortValues.get( comboNum );
-        }
-        return result;
-    }*/
-
     public SortedMap<Integer, Integer> getSortValues() {
         return sortValues;
     }
@@ -54,4 +49,22 @@ public class SortSet {
     public Map<Integer, Integer> getDefaultSortValues() {
         return defaultSortValues;
     }
+
+    /**
+     * Returns strictly defined sort orders.
+     * @return
+     */
+    public String getOrders() {
+        var result = new StringBuilder("");
+        for (Integer value : sortValues.values()) {
+            int pos = value - 1;
+            if (pos < 0 || pos >= modeList.size()) {
+                log.error("Incorrect sort value in queue: " + value);
+                continue;
+            }
+            Utils.addCommaSeparated(result, modeList.get(pos).getOrderExpression());
+        }
+        return result.toString();
+    }
+
 }
