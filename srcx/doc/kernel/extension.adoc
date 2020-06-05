@@ -206,7 +206,9 @@ image::_res/ext_dyn_log.png[width='600px']
 Каждый раз при переходе в оснастку поле *Текущий лог* обновляется, то же действие производит повторное нажатие кнопки *Включить*.
 
 [[dyn]]
-== Динамический код
+== Dynamic code
+CAUTION: Due to the many classloader related problems the Dynamic code approach will be in future replaced to the <<custom-jar, custom JAR>>.
+
 Динамический код - это Java файлы, которые можно изменять и подгружать без перезапуска приложения. 
 С его помощью можно обрабатывать различные события в системе. Файлы с классами динамического кода располагаются в по-умолчанию каталоге *dyn*.
 
@@ -341,3 +343,32 @@ http://server.bgcrm.ru/user/process.do?action=queueShow&id=4&dateStatusStatus=10
 
 При изучении формата запросов и ответов возможно использование инструмента разработчика в браузере 
 с отслеживанием запросов отправляемых браузером при работе пользователя в BGERP.
+
+[[custom-jar]]
+== Custom JAR
+With custom JAR in the application might be added any wanted Java classes.
+
+[NOTE]
+====
+This sample describes deploing own annotated servlets in `WEB-INF/lib`. 
+Future plans about the functionality:
+[square]
+* such servlets have to be added in `META-INF/web-fragment.xml`;
+* the JAR itself assempled out of earlier <<dyn, dynamic code>> in interface and placed in `lib/custom.jar` 
+
+Links:
+[square]
+* https://tomcat.apache.org/tomcat-9.0-doc/class-loader-howto.html
+* link:https://github.com/apache/tomcat/blob/master/java/org/apache/tomcat/util/scan/StandardJarScanner.java[StandardJarScanner.java in Tomcat]
+====
+
+For making own servlet write annotated class extending *javax.servlet.http.HttpServlet*.
+[source, java]
+----
+@WebServlet(name="RestApi", urlPatterns = "/restapi")
+----
+
+Compile to **.class*, assemple to a JAR file, place it in previously created directory `webapps/WEB-INF/lib`
+
+To be loaded the JAR file has to be named with *custom* in name, 
+or you may change the marker string in configuration parameter *server.jar.marker*.

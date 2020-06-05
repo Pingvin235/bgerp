@@ -20,7 +20,6 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.tomcat.util.IntrospectionUtils;
 
@@ -34,9 +33,10 @@ import ru.bgcrm.util.AdminPortListener;
 import ru.bgcrm.util.AlarmSender;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
+import ru.bgerp.util.Log;
 
 public class Server extends Tomcat {
-    private final Logger log;
+    private final Log log;
 
     //private StandardHost host;
     private StandardContext context;
@@ -82,7 +82,7 @@ public class Server extends Tomcat {
         // подавление сообщений вида: 10-22/16:36:48  INFO [http-bio-9089-exec-4] Parameters - Invalid chunk starting at byte [0] and ending at byte [0] with a value of [null] ignored
         java.util.logging.Logger.getLogger("").setLevel(Level.WARNING);
 
-        log = Logger.getLogger(Server.class);
+        log = Log.getLog(Server.class);
 
         try {
             log.info("Starting BGERP..");
@@ -103,11 +103,17 @@ public class Server extends Tomcat {
 
             log.debug("create user context...");
 
+            var customJarMarker = setup.get("custom.jar.marker", "custom");
+
             StandardContext context = (StandardContext) addWebapp("", catalinaHome + "/webapps");
             context.setReloadable(false);
             context.setWorkDir("work");
             context.setUseNaming(false);
-            context.getJarScanner().setJarScanFilter((type, name) -> name.contains("struts") || name.contains("tag"));
+            context.getJarScanner().setJarScanFilter((type, name) -> {
+                boolean result = name.contains("struts") || name.contains("tag") || name.contains(customJarMarker);
+                log.debug("Scan type: %s, name: %s => %s", type, name, result);
+                return result;
+            });
 
             // логгер запросов
             context.addValve(new AccessLogValve());
