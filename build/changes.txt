@@ -1,6 +1,20 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+07.06.2020 22:24:09 1360
+A: 'status_pos' process queue column, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#columns
+F: Saving without exit in process queue editor, shown previous value of configuration.
+C: Plugin Blow, using orders, defined in process queue.
+F: 'empty' value in grex filter of process queue.
+C: Refactoring shell:title and shell:state.
+C: Preserve running class name on dynamic code recompilation.
+F: Select default directory on open without JS error.
+A: Handle not existing message types in process messages: show them, possibility to remove.
+A: Plugin Blow, search on a board by message text.
+A: Define message tags on message edit.
+F: XML markup symbols in process description.
+A: Custom JAR, https://bgerp.org/doc/3.0/manual/kernel/extension.html#custom-jar
+
 26.05.2020 16:19:30 1359
 F: Remove many E-Mails.
 A: Publish GitHub source copy with real authors.
