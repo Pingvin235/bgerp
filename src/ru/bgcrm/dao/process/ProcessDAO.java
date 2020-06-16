@@ -388,7 +388,7 @@ public class ProcessDAO extends CommonDAO {
         }
     }
 
-    private void addFilters(Queue queue, DynActionForm form, QueueSelectParams params) {
+    protected void addFilters(Queue queue, DynActionForm form, QueueSelectParams params) {
         StringBuilder joinPart = params.joinPart;
         StringBuilder wherePart = params.wherePart;
 
@@ -726,7 +726,7 @@ public class ProcessDAO extends CommonDAO {
                             joinPart.append(" )");
                         } else {
                             joinPart.append(" AS param_text ON process.id=param_text.id AND param_text.param_id="
-                                    + paramId + " AND param_text.value LIKE '" + getLikePattern(value, "subs") + "'");
+                                    + paramId + " AND param_text.value LIKE '" + getLikePatternSub(value) + "'");
                         }
                     }
                 } else if (Parameter.TYPE_DATE.equals(paramType) || Parameter.TYPE_DATETIME.equals(paramType)) {
@@ -798,7 +798,7 @@ public class ProcessDAO extends CommonDAO {
                     joinPart.append(TABLE_PROCESS_LINK);
                     joinPart.append(" AS " + linkedCustomerAlias + " ON process.id=" + linkedCustomerAlias
                             + ".process_id AND " + linkedCustomerAlias + ".object_type LIKE '"
-                            + getLikePattern(Customer.OBJECT_TYPE, "start") + "'");
+                            + getLikePatternStart(Customer.OBJECT_TYPE) + "'");
                     joinPart.append(SQL_LEFT_JOIN);
                     joinPart.append(TABLE_CUSTOMER);
                     joinPart.append(" AS " + customerAlias + " ON " + linkedCustomerAlias + ".object_id="
@@ -1868,7 +1868,7 @@ public class ProcessDAO extends CommonDAO {
      * @param processType
      * @param processId
      * @param result
-     * @throws BGException
+     * @throws Exception
      */
     public void searchProcessLog(ProcessType processType, int processId, SearchResult<EntityLogItem> result)
             throws BGException {
@@ -1898,7 +1898,7 @@ public class ProcessDAO extends CommonDAO {
 
         List<EntityLogItem> list = result.getList();
 
-        try {
+        try (pd) {
             ResultSet rs = pd.executeQuery();
             while (rs.next()) {
                 String text = " ??? ";
@@ -1924,7 +1924,6 @@ public class ProcessDAO extends CommonDAO {
                         rs.getInt(2), text));
             }
             setRecordCount(page, pd.getPrepared());
-            pd.close();
         } catch (SQLException ex) {
             throw new BGException(ex);
         }

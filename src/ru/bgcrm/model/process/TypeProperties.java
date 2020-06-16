@@ -179,6 +179,10 @@ public class TypeProperties {
         return result;
     }
 
+    public void clearTransactionProperties() {
+        transactionPropertiesMap.clear();
+    }
+
     @Deprecated
     public String getExecutor() {
         return configMap.get("setExecutor", "");

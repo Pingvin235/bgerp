@@ -440,14 +440,13 @@ public class CustomerDAO extends CommonDAO {
             ps.addQuery("c.title");
             ps.addQuery(getPageLimit(page));
 
-            try {
+            try (ps) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     list.add(new ParameterSearchedObject<Customer>(getCustomerFromRs(rs, "c."), rs.getInt(1), rs.getString(2)));
                 }
 
                 setRecordCount(page, ps.getPrepared());
-                ps.close();
             } catch (SQLException ex) {
                 throw new BGException(ex);
             }

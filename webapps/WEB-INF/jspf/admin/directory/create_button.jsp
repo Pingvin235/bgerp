@@ -6,6 +6,8 @@
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 		<c:param name="directoryId" value="${form.param.directoryId}"/>
 		<c:param name="id" value="-1"/>
-	</c:url>	
-	<button type="button" class="btn-green" onclick="var url='${url}&action='+ directoryType( '${form.param.directoryId}' ) + 'Get'; openUrlContent( url );">+</button> 	
-</u:sc>	    
+	</c:url>
+	<button 
+		type="button" class="btn-green" 
+		onclick="$$.ajax.load('${url}&action=' + this.form.action.value.replace('List', 'Get'), $$.shell.$content())">+</button>
+</u:sc>

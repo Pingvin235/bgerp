@@ -25,7 +25,8 @@
 			<%@ include file="/WEB-INF/jspf/user/process/process/process_header.jsp"%>
 			<u:sc>
 				<c:set var="objectType" value="process"/>
-				<c:set var="paramIds" value="${config.showParamIds}"/>
+				<c:set var="paramIds" value="${config.showParamIds.clone()}"/>
+				<c:set var="null">${paramIds.retainAll(process.type.properties.parameterIds)}</c:set>
 				<%@ include file="/WEB-INF/jspf/open/parameter_list.jsp"%>
 			</u:sc>
 		</div>

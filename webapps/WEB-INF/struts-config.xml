@@ -25,15 +25,16 @@
 		</action>
 
 		<action path="/admin/process" parameter="action" type="ru.bgcrm.struts.action.admin.ProcessAction" name="form" scope="request">
-		 	<forward name="queueList" path="/WEB-INF/jspf/admin/process/queue/list.jsp" />
-		 	<forward name="queueUpdate" path="/WEB-INF/jspf/admin/process/queue/update.jsp" />
-		 	<forward name="statusList" path="/WEB-INF/jspf/admin/process/status/list.jsp" />
-		 	<forward name="statusUpdate" path="/WEB-INF/jspf/admin/process/status/update.jsp" />
-		 	<forward name="typeList" path="/WEB-INF/jspf/admin/process/type/list.jsp" />
-		 	<forward name="typeUpdate" path="/WEB-INF/jspf/admin/process/type/update.jsp" />
-		 	<forward name="typeProperties" path="/WEB-INF/jspf/admin/process/type/properties.jsp" />
-		 	<forward name="typeUsed" path="/WEB-INF/jspf/admin/process/type/type_used.jsp" />
-		 	<forward name="statusUseProcess" path="/WEB-INF/jspf/admin/process/use_process.jsp" />
+			<forward name="queueList" path="/WEB-INF/jspf/admin/process/queue/list.jsp" />
+			<forward name="queueUpdate" path="/WEB-INF/jspf/admin/process/queue/update.jsp" />
+			<forward name="statusList" path="/WEB-INF/jspf/admin/process/status/list.jsp" />
+			<forward name="statusUpdate" path="/WEB-INF/jspf/admin/process/status/update.jsp" />
+			<forward name="typeList" path="/WEB-INF/jspf/admin/process/type/list.jsp" />
+			<forward name="typeUpdate" path="/WEB-INF/jspf/admin/process/type/update.jsp" />
+			<forward name="typeProperties" path="/WEB-INF/jspf/admin/process/type/properties.jsp" />
+			<forward name="typeUsed" path="/WEB-INF/jspf/admin/process/type/type_used.jsp" />
+			<forward name="typeCopy" path="/WEB-INF/jspf/admin/process/type/type_copy.jsp" />
+			<forward name="statusUseProcess" path="/WEB-INF/jspf/admin/process/use_process.jsp" />
 		</action>
 
 		<action path="/admin/user" parameter="action" type="ru.bgcrm.struts.action.admin.UserAction" name="form" scope="request">

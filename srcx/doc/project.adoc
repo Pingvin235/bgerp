@@ -489,7 +489,7 @@ link:../../src/ru/bgcrm/plugin/dispatch/struts/action/DispatchAction.java#L46-L5
 
 Форвард рекомендуется называть так же как метод:
 [snippet, from="<action path=\"/admin", to="</action>", remove-leading="		"]
-link:../../webapps/WEB-INF/struts-config.xml#L65-L68[webapps/WEB-INF/struts-config.xml]
+link:../../webapps/WEB-INF/struts-config.xml#L66-L69[webapps/WEB-INF/struts-config.xml]
 
 ==== Проверка прав
 Все методы акшенов должны быть объявлены в файле `plugin/action/kernel.xml` для ядра либо `plugin/action/{PLUGIN}.xml` для плагина.
@@ -501,7 +501,7 @@ link:../../webapps/WEB-INF/struts-config.xml#L65-L68[webapps/WEB-INF/struts-conf
 Это позволяет обеспечить обратную совместимость ранее записанных в БД привелегий. При следующем сохранении набора прав будет использован новый идентификатор.
 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
-link:../../plugin/action/kernel.xml#L151-L152[plugin/action/kernel.xml]
+link:../../plugin/action/kernel.xml#L152-L153[plugin/action/kernel.xml]
 
 Вспомогательные действия, которые должны быть постоянно разрешены помечаются атрибутом *allowAll="1"*.
 
@@ -595,7 +595,7 @@ JS используется для обеспечения динамическо
 
 Устаревшие JS функции помечаются следующим образом:
 [snippet, from="fun", to="}"]
-link:../../webapps/js/kernel.ajax.js#L350-L355[webapps/js/kernel.ajax.js]
+link:../../webapps/js/kernel.ajax.js#L352-L357[webapps/js/kernel.ajax.js]
 
 При их вызове в console бразузера выводится сообщение: "Deprecated", при клике по которому можно найти устаревший вызов.
 Использование подобных функций не допускается в новом коде и должно уменьшаться в существующем.

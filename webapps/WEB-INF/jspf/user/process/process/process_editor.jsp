@@ -69,7 +69,7 @@
 						<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.messages', 'processShowMessages') eq '1'}">
 							<c:set var="ifaceState" value="${ifaceStateMap['messages']}"/>
 
-							<c:url var="url" value="message.do">
+							<c:url var="url" value="/user/message.do">
 								<c:param name="action" value="processMessageList"/>
 								<c:param name="processId" value="${process.id}"/>
 								<c:param name="ifaceState" value="${ifaceState.state}"/>

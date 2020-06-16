@@ -91,7 +91,7 @@ public class DirectoryAction extends BaseAction {
         SearchResult<Parameter> searchResult = new SearchResult<Parameter>(form);
 
         paramDAO.getParameterList(searchResult, getObjectType(form.getParam("directoryId")),
-                CommonDAO.getLikePattern(form.getParam("filter"), "subs"), 0, null);
+                CommonDAO.getLikePatternSub(form.getParam("filter")), 0, null);
 
         return mapping.findForward("parameterList");
     }

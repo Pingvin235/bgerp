@@ -4,19 +4,14 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.process.Process;
 
 /**
- * Использовать {@link ProcessLinkDAO}.
+ * JEXL script functions for {@link ProcessLinkDAO}.
  */
-@Deprecated
 public class ProcessLinkFunction {
-    private static final Logger log = Logger.getLogger(ProcessLinkFunction.class);
-
     public static final String PROCESS_LINK_FUNCTION = "processLink";
 
     private final ProcessLinkDAO linkDao;
@@ -28,36 +23,26 @@ public class ProcessLinkFunction {
     }
 
     /**
-     * Использовать {@link ProcessLinkDAO#getObjectLinksWithType(int, String)}
+     * Calls {@link ProcessLinkDAO#getObjectLinksWithType(int, String)}
+     * @param typeLike SQL LIKE expression for link type.
+     * @return list of links.
      */
-    @Deprecated
-    public List<String> linkTitles(String typeLike) {
+    public List<String> linkTitles(String typeLike) throws Exception {
         List<String> result = new ArrayList<String>();
-
-        try {
-            for (CommonObjectLink link : linkDao.getObjectLinksWithType(processId, typeLike)) {
-                result.add(link.getLinkedObjectTitle());
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
+        for (CommonObjectLink link : linkDao.getObjectLinksWithType(processId, typeLike)) {
+            result.add(link.getLinkedObjectTitle());
         }
-
         return result;
     }
 
     /**
-     * Использовать {@link ProcessLinkDAO#getObjectLinksWithType(int, String)}
+     * Calls {@link #linkTitles(String)}, and returns first title link object.
+     * @return title of the the first link or null.
      */
-    @Deprecated
-    public String linkTitle(String typeLike) {
-        try {
-            for (CommonObjectLink link : linkDao.getObjectLinksWithType(processId, typeLike)) {
-                return link.getLinkedObjectTitle();
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
+    public String linkTitle(String typeLike) throws Exception {
+        for (CommonObjectLink link : linkDao.getObjectLinksWithType(processId, typeLike)) {
+            return link.getLinkedObjectTitle();
         }
-
         return null;
     }
 

@@ -30,7 +30,7 @@ public class ProcessAction extends BaseAction {
 
         protected Config(ParameterMap setup, boolean validate) throws Exception {
             super(setup);
-            processTypeIds= Utils.toIntegerSet(setup.get("process.open.typeIds"));
+            processTypeIds = Utils.toIntegerSet(setup.get("process.open.typeIds"));
             initWhen(CollectionUtils.isNotEmpty(processTypeIds));
 
             showParamIds = Utils.toIntegerList(setup.get("process.open.show.paramIds"));

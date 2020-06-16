@@ -6,6 +6,8 @@ import ru.bgcrm.model.IdTitle;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class ProcessType extends IdTitle {
     private boolean archive = false;
 
@@ -83,6 +85,7 @@ public class ProcessType extends IdTitle {
         return ids;
     }
 
+    @JsonIgnore
     public List<ProcessType> getPath() {
         return ProcessTypeCache.getTypePath(id);
     }

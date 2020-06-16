@@ -38,7 +38,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
     
     public ActionForward permsetList(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
         new UserPermsetDAO(con).searchPermset(new SearchResult<Permset>(form),
-                CommonDAO.getLikePattern(form.getParam("filter"), "subs"));
+                CommonDAO.getLikePatternSub(form.getParam("filter")));
 
         return data(con, mapping, form, "permsetList");
     }

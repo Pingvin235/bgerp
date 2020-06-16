@@ -5,79 +5,59 @@ import java.util.Date;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
 
-public class StatusChange
-{
-	private int processId;
-	private Date date;
-	private int userId;
-	private int statusId;
-	//private String statusTitle;
-	private String comment;
+public class StatusChange {
+    private int processId;
+    private Date date;
+    private int userId;
+    private int statusId;
+    private String comment;
 
-	public int getProcessId()
-	{
-		return processId;
-	}
+    public int getProcessId() {
+        return processId;
+    }
 
-	public void setProcessId( int processId )
-	{
-		this.processId = processId;
-	}
+    public void setProcessId(int processId) {
+        this.processId = processId;
+    }
 
-	public Date getDate()
-	{
-		return date;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	public void setDate( Date date )
-	{
-		this.date = date;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	public int getStatusId()
-	{
-		return statusId;
-	}
+    public int getStatusId() {
+        return statusId;
+    }
 
-	public void setStatusId( int statusId )
-	{
-		this.statusId = statusId;
-	}
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
+    }
 
-	public String getStatusTitle()
-	{
-		Status status = ProcessTypeCache.getStatusMap().get( statusId );		
-		return status == null ? "??? [" + statusId + "]" : status.getTitle();
-	}
+    public String getStatusTitle() {
+        Status status = ProcessTypeCache.getStatusMap().get(statusId);
+        return status == null ? "??? [" + statusId + "]" : status.getTitle();
+    }
 
-	@Deprecated
-	public void setStatusTitle( String statusTitle )
-	{
-		//this.statusTitle = statusTitle;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public String getComment()
-	{
-		return comment;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-	public void setComment( String comment )
-	{
-		this.comment = comment;
-	}
+    public int getUserId() {
+        return userId;
+    }
 
-	public int getUserId()
-	{
-		return userId;
-	}
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-	public void setUserId( int userId )
-	{
-		this.userId = userId;
-	}
-
-	public String getUserTitle()
-	{
-		return UserCache.getUser( userId ).getTitle();
-	}
+    public String getUserTitle() {
+        return UserCache.getUser(userId).getTitle();
+    }
 }

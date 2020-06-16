@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -49,6 +48,7 @@ import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
+import ru.bgcrm.model.process.TransactionProperties;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.process.Wizard;
 import ru.bgcrm.model.process.config.LinkProcessCreateConfig;
@@ -171,7 +171,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
         if (type == null) {
-            throw new BGMessageException("Неверный тип процесса.");
+            throw new BGMessageException("Неверный тип процесса");
         }
 
         TypeProperties typeProperties = type.getProperties();
@@ -186,11 +186,11 @@ public class ProcessAction extends BaseAction {
         change.setDate(new Date());
         change.setProcessId(process.getId());
         change.setUserId(form.getUserId());
-        change.setComment("Процесс создан");
+        change.setComment(form.l.l("Процесс создан"));
 
         change.setStatusId(type.getProperties().getCreateStatus());
         if (!ProcessTypeCache.getStatusMap().containsKey(change.getStatusId())) {
-            throw new BGException("Для типа процесса не определён существующий начальный статус.");
+            throw new BGException("Для типа процесса не определён существующий начальный статус");
         }
 
         changeDao.changeStatus(process, type, change);
@@ -205,18 +205,6 @@ public class ProcessAction extends BaseAction {
             process.setProcessGroups(new HashSet<ProcessGroup>(typeProperties.getGroups()));
         }
         processDAO.updateProcessGroups(process.getProcessGroups(), process.getId());
-
-        // FIXME: Старый метод установки исполнителя, ещё кое-где используется в Уфанете, пока оставить.
-        String typeExecutor = typeProperties.getConfigMap().get("setExecutor", "");
-        if (typeExecutor.startsWith("current")) {
-            log.warn("Using deprecated setExecutor=current option in process type config!");
-
-            ProcessGroup group = Utils.getFirst(process.getProcessGroupWithRole(0));
-            if (group != null) {
-                processDAO.updateProcessExecutors(ProcessExecutor.toProcessExecutorSet(Collections.singleton(form.getUserId()), group),
-                        process.getId());
-            }
-        }
 
         // wizard=0 в обработке сообщений
         if (form.getParamBoolean("wizard", true)) {
@@ -330,7 +318,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public static void processStatusUpdate(DynActionForm form, Connection con, Process process, StatusChange change) throws Exception {
-        StatusChangeDAO changeDao = new StatusChangeDAO(con);
+        StatusChangeDAO changeDao = new StatusChangeDAO(con, true);
 
         ProcessType type = getProcessType(process.getTypeId());
 
@@ -364,6 +352,10 @@ public class ProcessAction extends BaseAction {
         }
 
         processDoEvent(form, process, new ProcessChangingEvent(form, process, change, ProcessChangingEvent.MODE_STATUS_CHANGING), con);
+
+        TransactionProperties transactionProperties = type.getProperties().getTransactionProperties(process.getStatusId(), change.getStatusId());
+        if (process.getStatusId() != 0 && !transactionProperties.isEnable())
+            throw new BGMessageException("Переход со статуса %s на статус %s невозможен", process.getStatusId(), change.getStatusId());
 
         changeDao.changeStatus(process, type, change);
 

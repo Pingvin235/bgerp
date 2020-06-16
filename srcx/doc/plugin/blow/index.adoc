@@ -23,9 +23,12 @@
 Sample of :
 [source]
 ----
-# only for debug purposes
+# filter for show only opened processes 
 filter.1.type=openClose
-filter.1.defaultValue=open
+filter.1.value=open
+# optionally additional status filter
+#filter.2.type=status
+#filter.2.values=1,2,3
 
 column.1.title=ID
 column.1.value=id

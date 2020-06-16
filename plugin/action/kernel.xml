@@ -111,6 +111,7 @@
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeDelete" title="Удаление типа"/>
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeInsertMark" title="Вставка типа"/>
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeUsed" title="Где используется"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeCopy" title="Копировать тип"/>
 			</item>
 			<item title="Очереди">
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueList" title="Просмотр очередей">

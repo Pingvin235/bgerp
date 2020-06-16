@@ -71,7 +71,7 @@
 							
 							<c:set var="searchScript">
 								var searchId = this.form.searchId.value;
-								var url = 'message.do?id=${form.id}&typeId=${form.param.typeId}&messageId=' + encodeURIComponent( '${form.param.messageId}' ) +
+								var url = '/user/message.do?id=${form.id}&typeId=${form.param.typeId}&messageId=' + encodeURIComponent( '${form.param.messageId}' ) +
 									'&searchId=' + searchId + '&returnUrl=' + encodeURIComponent( '${form.returnUrl}' ) +
 									'&' + $(this.form).find( '.filter#' + searchId ).serializeAnything();
 								openUrlToParent( url, $('#${uiid}') );
@@ -149,16 +149,16 @@
 							});
 							
 							var url = 
-								'message.do?action=messageUpdateProcess&id=${form.id}&processId=' + processId + '&trans_id=${uiid}&trans_end=1' +
+								'/user/message.do?action=messageUpdateProcess&id=${form.id}&processId=' + processId + '&trans_id=${uiid}&trans_end=1' +
 								'&notification=' + $(this.form.notification).val() +
 								'&contactSaveMode=' + $(this.form.contactSaveMode).val() +
-							    '&typeId=${form.param.typeId}' +
-							    '&messageId=' + encodeURIComponent( '${form.param.messageId}' );
+								'&typeId=${form.param.typeId}' +
+								'&messageId=' + encodeURIComponent( '${form.param.messageId}' );
 							
 							var result = sendAJAXCommand( url ); 
 							if( result )
 							{
-								var url = 'message.do?id=' + result.data.id + '&returnUrl=${form.returnUrl}'; 
+								var url = '/user/message.do?id=' + result.data.id + '&returnUrl=${form.returnUrl}'; 
 								openUrlToParent( url, $('#${uiid}') );
 							}
 						</c:set>
@@ -255,7 +255,7 @@
 					var result = sendAJAXCommand( formUrl( this.form ) ); 
 					if( result )
 					{ 
-						var url = 'message.do?id=' + result.data.id + '&returnUrl=' + encodeURIComponent( '${form.returnUrl}' );
+						var url = '/user/message.do?id=' + result.data.id + '&returnUrl=' + encodeURIComponent( '${form.returnUrl}' );
 						openUrlToParent( url, $('#${uiid}') );
 					}
 				}

@@ -16,6 +16,7 @@ import ru.bgcrm.dao.process.QueueSelectParams;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgerp.plugin.blow.model.BoardConfig;
 
 public class BoardDAO extends ProcessDAO {
@@ -39,6 +40,7 @@ public class BoardDAO extends ProcessDAO {
         List<Pair<Process, Map<String, Object>>> result = new ArrayList<>(); 
         
         QueueSelectParams qsp = prepareQueueSelect(board.getQueue());
+        addFilters(board.getQueue(), DynActionForm.SERVER_FORM, qsp);
         qsp.wherePart.append(" AND process.close_dt IS NULL");
         
         final int columns = qsp.queue.getColumnMap().size();

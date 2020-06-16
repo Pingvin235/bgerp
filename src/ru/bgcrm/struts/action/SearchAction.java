@@ -49,7 +49,7 @@ public class SearchAction extends BaseAction {
             SearchResult<Customer> result = new SearchResult<Customer>(form);
 
             String title = form.getParam("title");
-            customerDao.searchCustomerList(result, CommonDAO.getLikePattern(title, "subs"));
+            customerDao.searchCustomerList(result, CommonDAO.getLikePatternSub(title));
 
             return data(con, mapping, form, "customerTitle");
         } 

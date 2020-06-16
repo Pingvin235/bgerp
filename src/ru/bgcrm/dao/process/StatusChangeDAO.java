@@ -10,68 +10,64 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
-import ru.bgcrm.model.process.TransactionProperties;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class StatusChangeDAO extends CommonDAO {
+    private boolean history;
+
     public StatusChangeDAO(Connection con) {
         super(con);
+        this.history = false;
     }
 
-    public void changeStatus(Process process, ProcessType type, StatusChange change) throws BGException {
-        try {
-            TransactionProperties transactionProperties = type.getProperties().getTransactionProperties(process.getStatusId(), change.getStatusId());
-            if (process.getStatusId() != 0 && !transactionProperties.isEnable()) {
-                throw new BGMessageException("Переход со статуса " + process.getStatusId() + " на статус " + change.getStatusId() + " невозможен.");
-            }
+    public StatusChangeDAO(Connection con, boolean history) {
+        super(con);
+        this.history = history;
+    }
 
-            ProcessDAO processDAO = new ProcessDAO(con, UserCache.getUser(change.getUserId()), true);
-            process.setStatusId(change.getStatusId());
-            process.setStatusTime(change.getDate());
-            process.setStatusUserId(change.getUserId());
-            if (type.getProperties().getCloseStatusIds().contains(change.getStatusId())) {
-                process.setCloseTime(change.getDate());
-                process.setCloseUserId(change.getUserId());
-            } else {
-                process.setCloseTime(null);
-                process.setCloseUserId(0);
-            }
-            processDAO.updateProcess(process);
-
-            // флаг last помечает именно "последнесть" конкретного статуса, т.е. может быть несколько last
-            String query = "UPDATE " + TABLE_PROCESS_STATUS + " SET last=0 WHERE process_id=? AND status_id=? AND last";
-
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, process.getId());
-            ps.setInt(2, change.getStatusId());
-            ps.executeUpdate();
-
-            ps.close();
-
-            query = "INSERT INTO " + TABLE_PROCESS_STATUS + " (process_id, dt, user_id, status_id, comment) " + "VALUES (?, ?, ?, ?, ?)";
-
-            ps = con.prepareStatement(query.toString());
-            ps.setInt(1, process.getId());
-            ps.setTimestamp(2, TimeUtils.convertDateToTimestamp(change.getDate()));
-            ps.setInt(3, change.getUserId());
-            ps.setInt(4, change.getStatusId());
-            ps.setString(5, change.getComment());
-            ps.executeUpdate();
-
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+    public void changeStatus(Process process, ProcessType type, StatusChange change) throws Exception {
+        ProcessDAO processDAO = new ProcessDAO(con, history);
+        process.setStatusId(change.getStatusId());
+        process.setStatusTime(change.getDate());
+        process.setStatusUserId(change.getUserId());
+        if (type.getProperties().getCloseStatusIds().contains(change.getStatusId())) {
+            process.setCloseTime(change.getDate());
+            process.setCloseUserId(change.getUserId());
+        } else {
+            process.setCloseTime(null);
+            process.setCloseUserId(0);
         }
+        processDAO.updateProcess(process);
+
+        // флаг last помечает именно "последнесть" конкретного статуса, т.е. может быть несколько last
+        String query = "UPDATE " + TABLE_PROCESS_STATUS + " SET last=0 WHERE process_id=? AND status_id=? AND last";
+
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, process.getId());
+        ps.setInt(2, change.getStatusId());
+        ps.executeUpdate();
+
+        ps.close();
+
+        query = "INSERT INTO " + TABLE_PROCESS_STATUS + " (process_id, dt, user_id, status_id, comment) " + "VALUES (?, ?, ?, ?, ?)";
+
+        ps = con.prepareStatement(query.toString());
+        ps.setInt(1, process.getId());
+        ps.setTimestamp(2, TimeUtils.convertDateToTimestamp(change.getDate()));
+        ps.setInt(3, change.getUserId());
+        ps.setInt(4, change.getStatusId());
+        ps.setString(5, change.getComment());
+        ps.executeUpdate();
+
+        ps.close();
     }
 
     public void searchProcessStatus(SearchResult<StatusChange> searchResult, int processId, Set<Integer> statusIds) throws BGException {

@@ -12,7 +12,7 @@
 		<html:hidden property="processId"/>
 		<html:hidden property="linkProcess"/>
 
-		<c:url var="url" value="message.do">
+		<c:url var="url" value="/user/message.do">
 			<c:param name="forward" value="processMessageEdit"/>
 			<c:param name="areaId" value="process-message-add"/>
 			<c:param name="processId" value="${form.param.processId}"/>
@@ -242,7 +242,7 @@
 												</c:set>
 												<c:set var="command">
 													if (confirm('${l.l('Изменить процесс сообщения на %s копию текущего процесса?', linkTypeTitle)}')) {
-														<c:url var="url" value="message.do">
+														<c:url var="url" value="/user/message.do">
 															<c:param name="action" value="messageUpdateProcessToCopy"/>
 															<c:param name="id" value="${message.id}"/>
 															<c:param name="linkType" value="${linkType}"/>
@@ -277,7 +277,7 @@
 								</c:if>
 							
 								<c:if test="${messageType.isEditable(message)}">
-									<c:url var="editUrl" value="message.do">
+									<c:url var="editUrl" value="/user/message.do">
 										<c:param name="forward" value="processMessageEdit"/>
 										<c:param name="id" value="${message.id}"/>
 										<c:param name="processId" value="${message.processId}"/>
@@ -292,7 +292,7 @@
 								</c:if>
 
 								<c:if test="${messageType.isRemovable(message)}">
-									<c:url var="deleteUrl" value="message.do">
+									<c:url var="deleteUrl" value="/user/message.do">
 										<c:param name="action" value="messageDelete"/>
 										<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
 									</c:url>

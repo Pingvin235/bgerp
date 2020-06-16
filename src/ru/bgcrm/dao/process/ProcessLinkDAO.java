@@ -189,6 +189,9 @@ public class ProcessLinkDAO extends CommonLinkDAO {
      */
     public Collection<CommonObjectLink> getLinksOver(Set<Integer> processIds) throws SQLException {
         List<CommonObjectLink> result = new ArrayList<>(processIds.size());
+
+        if (processIds.isEmpty())
+            return result;
         
         String ids = Utils.toString(processIds);
         
@@ -283,7 +286,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             if (page != null) {
                 page.setRecordCount(getFoundRows(ps));
             }
-            ps.close();
+            pd.close();
         }
     }
     

@@ -606,7 +606,7 @@ public class UserDAO extends CommonDAO {
         String configBefore = persMap.getDataString();
 
         for (Map.Entry<String, String> me : newProps.entrySet())
-            persMap.set(me.getKey(), me.getValue());
+            persMap.put(me.getKey(), me.getValue());
 
         updatePersonalization(configBefore, user);
     }

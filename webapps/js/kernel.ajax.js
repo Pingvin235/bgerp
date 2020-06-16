@@ -4,6 +4,8 @@ $$.ajax = new function() {
 	const debug = $$.debug("ajax");
 
 	const trim100 = (value) => {
+		if (typeof value !== "string")
+			return value;
 		return value.length > 100 ? value.substr(0, 100) + "..." : value; 
 	}
 	

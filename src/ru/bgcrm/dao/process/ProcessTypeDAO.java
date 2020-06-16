@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.CommonDAO;
@@ -37,51 +38,47 @@ public class ProcessTypeDAO extends CommonDAO {
      * @param parentId если больше либо равен 0 - фильтр по родительскому узлу
      * @param archive если не null - признак, что тип процесса помечен неиспользуемым
      * @param filterLike если не null - SQL LIKE выражение, фильтр по наименованию типа либо конфигурации
-     * @throws BGException
+     * @throws Exception
      */
-    public void searchProcessType(SearchResult<ProcessType> searchResult, int parentId, Boolean archive, String filterLike) throws BGException {
-        try {
-            if (searchResult != null) {
-                Page page = searchResult.getPage();
-                List<ProcessType> list = searchResult.getList();
+    public void searchProcessType(SearchResult<ProcessType> searchResult, int parentId, Boolean archive, String filterLike) throws Exception {
+        if (searchResult != null) {
+            Page page = searchResult.getPage();
+            List<ProcessType> list = searchResult.getList();
 
-                PreparedDelay ps = new PreparedDelay(con);
-                ;
+            PreparedDelay ps = new PreparedDelay(con);
+            ;
 
-                ps.addQuery(SQL_SELECT_COUNT_ROWS);
-                ps.addQuery(SHORT_COLUMN_LIST);
-                ps.addQuery(SQL_FROM);
-                ps.addQuery(TABLE_PROCESS_TYPE);
-                ps.addQuery(SQL_WHERE);
-                ps.addQuery("1>0");
+            ps.addQuery(SQL_SELECT_COUNT_ROWS);
+            ps.addQuery(SHORT_COLUMN_LIST);
+            ps.addQuery(SQL_FROM);
+            ps.addQuery(TABLE_PROCESS_TYPE);
+            ps.addQuery(SQL_WHERE);
+            ps.addQuery("1>0");
 
-                if (parentId >= 0) {
-                    ps.addQuery(" AND parent_id=?");
-                    ps.addInt(parentId);
-                }
-                if (Utils.notBlankString(filterLike)) {
-                    ps.addQuery(" AND (title LIKE ? OR config LIKE ?)");
-                    ps.addString(filterLike);
-                    ps.addString(filterLike);
-                }
-                if (archive != null) {
-                    ps.addQuery(" AND archive=?");
-                    ps.addBoolean(archive);
-                }
-
-                ps.addQuery(SQL_ORDER_BY);
-                ps.addQuery("title");
-                ps.addQuery(getPageLimit(page));
-
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    list.add(getTypeFromRs(rs, false));
-                }
-                page.setRecordCount(getFoundRows(ps.getPrepared()));
-                ps.close();
+            if (parentId >= 0) {
+                ps.addQuery(" AND parent_id=?");
+                ps.addInt(parentId);
             }
-        } catch (SQLException e) {
-            throw new BGException(e);
+            if (Utils.notBlankString(filterLike)) {
+                ps.addQuery(" AND (title LIKE ? OR config LIKE ?)");
+                ps.addString(filterLike);
+                ps.addString(filterLike);
+            }
+            if (archive != null) {
+                ps.addQuery(" AND archive=?");
+                ps.addBoolean(archive);
+            }
+
+            ps.addQuery(SQL_ORDER_BY);
+            ps.addQuery("title");
+            ps.addQuery(getPageLimit(page));
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(getTypeFromRs(rs, false));
+            }
+            page.setRecordCount(getFoundRows(ps.getPrepared()));
+            ps.close();
         }
     }
 
@@ -89,77 +86,87 @@ public class ProcessTypeDAO extends CommonDAO {
      * Выбирает тип процесса по коду.
      * @param id
      * @return
-     * @throws BGException
+     * @throws Exception
      */
-    public ProcessType getProcessType(int id) throws BGException {
-        try {
-            ProcessType result = null;
+    public ProcessType getProcessType(int id) throws Exception {
+        ProcessType result = null;
 
-            ResultSet rs = null;
-            PreparedStatement ps = null;
-            ps = con.prepareStatement("SELECT * FROM " + TABLE_PROCESS_TYPE + " WHERE id=?");
-            ps.setInt(1, id);
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        ps = con.prepareStatement("SELECT * FROM " + TABLE_PROCESS_TYPE + " WHERE id=?");
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            result = getTypeFromRs(rs, true);
+        }
+        ps.close();
+
+        if (result != null && result.getId() > 0) {
+            ps = con.prepareStatement("SELECT * FROM " + TABLE_PROCESS_TYPE + " WHERE parent_id=?");
+            ps.setInt(1, result.getId());
             rs = ps.executeQuery();
             while (rs.next()) {
-                result = getTypeFromRs(rs, true);
+                result.addChild(getTypeFromRs(rs, true));
             }
             ps.close();
-
-            if (result != null && result.getId() > 0) {
-                ps = con.prepareStatement("SELECT * FROM " + TABLE_PROCESS_TYPE + " WHERE parent_id=?");
-                ps.setInt(1, result.getId());
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    result.addChild(getTypeFromRs(rs, true));
-                }
-                ps.close();
-            }
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
+
+        return result;
+    }
+
+    public List<ProcessType> getTypeChildren(int parentId, Set<Integer> excludeIds) throws Exception {
+        var result = new ArrayList<ProcessType>();
+
+        var query = "SELECT * FROM " + TABLE_PROCESS_TYPE + SQL_WHERE + "parent_id=?";
+        if (excludeIds != null)
+            query += SQL_AND + "id NOT IN (" + Utils.toString(excludeIds) + ")";
+        query += SQL_ORDER_BY + "title";
+        try (var ps = con.prepareStatement(query)) {
+            ps.setInt(1, parentId);
+
+            var rs = ps.executeQuery();
+            while (rs.next())
+                result.add(getTypeFromRs(rs, false));
+        }
+
+        return result;
     }
 
     /**
      * Возвращает список всех типов процессов с сортировкой по наименованию.
      * @return
-     * @throws BGException
+     * @throws Exception
      */
-    public List<ProcessType> getFullProcessTypeList() throws BGException {
-        try {
-            List<ProcessType> result = new ArrayList<ProcessType>();
+    public List<ProcessType> getFullProcessTypeList() throws Exception {
+        List<ProcessType> result = new ArrayList<ProcessType>();
 
-            Map<Integer, ProcessType> typeMap = new HashMap<Integer, ProcessType>();
+        Map<Integer, ProcessType> typeMap = new HashMap<Integer, ProcessType>();
 
-            //TODO: Может сделать сортировку по parent_id, title, тогда бы можно было за один проход загружать всё.
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM " + TABLE_PROCESS_TYPE + " ORDER BY title");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                ProcessType type = getTypeFromRs(rs, true);
-                typeMap.put(type.getId(), type);
-                result.add(type);
-            }
-            ps.close();
-
-            for (ProcessType type : result) {
-                if (type.isUseParentProperties()) {
-                    setParentTypeProperties(type, typeMap, type.getParentId());
-                }
-            }
-
-            // добавляем дочерние типы процессов
-            for (ProcessType type : result) {
-                if (type.getParentId() > 0) {
-                    ProcessType parentType = typeMap.get(type.getParentId());
-                    parentType.addChild(type);
-                }
-            }
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        //TODO: Может сделать сортировку по parent_id, title, тогда бы можно было за один проход загружать всё.
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM " + TABLE_PROCESS_TYPE + " ORDER BY title");
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            ProcessType type = getTypeFromRs(rs, true);
+            typeMap.put(type.getId(), type);
+            result.add(type);
         }
+        ps.close();
+
+        for (ProcessType type : result) {
+            if (type.isUseParentProperties()) {
+                setParentTypeProperties(type, typeMap, type.getParentId());
+            }
+        }
+
+        // добавляем дочерние типы процессов
+        for (ProcessType type : result) {
+            if (type.getParentId() > 0) {
+                ProcessType parentType = typeMap.get(type.getParentId());
+                parentType.addChild(type);
+            }
+        }
+
+        return result;
     }
 
     private void setParentTypeProperties(ProcessType type, Map<Integer, ProcessType> typeMap, int parentId) {
@@ -173,7 +180,7 @@ public class ProcessTypeDAO extends CommonDAO {
         }
     }
 
-    /** Использовать {@link ProcessTypeCache} */
+    /** Use {@link ProcessTypeCache} */
     @Deprecated
     public List<Status> getSortedProcessTypeStatusList(ProcessType type, List<Integer> sortingId) throws BGException {
         List<Status> result = new ArrayList<Status>();
@@ -191,12 +198,8 @@ public class ProcessTypeDAO extends CommonDAO {
         return result;
     }
 
-    /**
-     * Возвращает список допустимых статусов для типа процесса.
-     * @param type
-     * @return
-     * @throws BGException
-     */
+    /** Use {@link ProcessTypeCache} */
+    @Deprecated
     public List<Status> getProcessTypeStatusList(ProcessType type) throws BGException {
         try {
             List<Status> result = new ArrayList<Status>();
@@ -226,42 +229,38 @@ public class ProcessTypeDAO extends CommonDAO {
      * @param userId
      * @throws BGException
      */
-    public void updateProcessType(ProcessType processType, int userId) throws BGException {
-        try {
-            //это надо если мы переносим в другую ветку
-            setChildCount(processType.getId(), -1);
+    public void updateProcessType(ProcessType processType, int userId) throws Exception {
+        //это надо если мы переносим в другую ветку
+        setChildCount(processType.getId(), -1);
 
-            int index = 1;
-            PreparedStatement ps = null;
+        int index = 1;
+        PreparedStatement ps = null;
 
-            if (processType.getId() <= 0) {
-                ps = con.prepareStatement("INSERT INTO " + TABLE_PROCESS_TYPE
-                        + " SET title=?, archive=?, parent_id=?, use_parent_props=?, data=?, config=?, last_modify_user_id=?, last_modify_dt=NOW()",
-                        PreparedStatement.RETURN_GENERATED_KEYS);
-                ps.setString(index++, processType.getTitle());
-                ps.setBoolean(index++, processType.isArchive());
-                ps.setInt(index++, processType.getParentId());
-                ps.setBoolean(index++, processType.isUseParentProperties());
-                ps.setString(index++, "");
-                ps.setString(index++, "");
-                ps.setInt(index++, userId);
-                ps.executeUpdate();
-                processType.setId(lastInsertId(ps));
-            } else {
-                ps = con.prepareStatement("UPDATE " + TABLE_PROCESS_TYPE + " SET title=?, archive=?, parent_id=?, use_parent_props=? WHERE id=?");
-                ps.setString(index++, processType.getTitle());
-                ps.setBoolean(index++, processType.isArchive());
-                ps.setInt(index++, processType.getParentId());
-                ps.setBoolean(index++, processType.isUseParentProperties());
-                ps.setInt(index++, processType.getId());
-                ps.executeUpdate();
-            }
-            ps.close();
-
-            setChildCount(processType.getId(), 0);
-        } catch (SQLException e) {
-            throw new BGException(e);
+        if (processType.getId() <= 0) {
+            ps = con.prepareStatement("INSERT INTO " + TABLE_PROCESS_TYPE
+                    + " SET title=?, archive=?, parent_id=?, use_parent_props=?, data=?, config=?, last_modify_user_id=?, last_modify_dt=NOW()",
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(index++, processType.getTitle());
+            ps.setBoolean(index++, processType.isArchive());
+            ps.setInt(index++, processType.getParentId());
+            ps.setBoolean(index++, processType.isUseParentProperties());
+            ps.setString(index++, "");
+            ps.setString(index++, "");
+            ps.setInt(index++, userId);
+            ps.executeUpdate();
+            processType.setId(lastInsertId(ps));
+        } else {
+            ps = con.prepareStatement("UPDATE " + TABLE_PROCESS_TYPE + " SET title=?, archive=?, parent_id=?, use_parent_props=? WHERE id=?");
+            ps.setString(index++, processType.getTitle());
+            ps.setBoolean(index++, processType.isArchive());
+            ps.setInt(index++, processType.getParentId());
+            ps.setBoolean(index++, processType.isUseParentProperties());
+            ps.setInt(index++, processType.getId());
+            ps.executeUpdate();
         }
+        ps.close();
+
+        setChildCount(processType.getId(), 0);
     }
 
     /**
@@ -295,10 +294,22 @@ public class ProcessTypeDAO extends CommonDAO {
     }
 
     /**
+     * Copy process type properties.
+     * @param fromTypeId
+     * @param toTypeId
+     * @throws Exception
+     */
+    public void copyTypeProperties(int fromTypeId, int toTypeId) throws Exception {
+        var type = getProcessType(fromTypeId);
+        type.setId(toTypeId);
+        updateTypeProperties(type);
+    }
+
+    /**
      * true если каталог пуст и можно удалять
      * @param id
      */
-    public boolean checkProcessTypeForDelete(int id) throws BGException {
+    public boolean checkProcessTypeForDelete(int id) throws Exception {
         setChildCount(id, 0);
         ProcessType processType = getProcessType(id);
         if (processType != null) {
@@ -312,26 +323,22 @@ public class ProcessTypeDAO extends CommonDAO {
      * Удаляет тип процесса.
      * @param id
      * @return
-     * @throws BGException
+     * @throws Exception
      */
-    public boolean deleteProcessType(int id) throws BGException {
-        try {
-            boolean result = false;
-            setChildCount(id, -1);
-            if (id > 0) {
-                int index = 1;
-                PreparedStatement ps = null;
+    public boolean deleteProcessType(int id) throws Exception {
+        boolean result = false;
+        setChildCount(id, -1);
+        if (id > 0) {
+            int index = 1;
+            PreparedStatement ps = null;
 
-                ps = con.prepareStatement("DELETE FROM " + TABLE_PROCESS_TYPE + " WHERE id=?");
-                ps.setInt(index++, id);
-                result = ps.executeUpdate() > 0;
-                ps.close();
-            }
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+            ps = con.prepareStatement("DELETE FROM " + TABLE_PROCESS_TYPE + " WHERE id=?");
+            ps.setInt(index++, id);
+            result = ps.executeUpdate() > 0;
+            ps.close();
         }
+
+        return result;
     }
 
     /**
@@ -442,31 +449,27 @@ public class ProcessTypeDAO extends CommonDAO {
      * @param name
      * @return
      */
-    public boolean checkType(int id, int parentId, String title) throws BGException {
-        try {
-            boolean result = false;
+    public boolean checkType(int id, int parentId, String title) throws Exception {
+        boolean result = false;
 
-            StringBuilder query = new StringBuilder();
-            query.append(SQL_SELECT);
-            query.append("COUNT(*)");
-            query.append(SQL_FROM);
-            query.append(TABLE_PROCESS_TYPE);
-            query.append(SQL_WHERE);
-            query.append("id !=? AND parent_id=? AND title=?");
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            int index = 1;
-            ps.setInt(index++, id);
-            ps.setInt(index++, parentId);
-            ps.setString(index++, title);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = rs.getInt(1) == 0;
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        StringBuilder query = new StringBuilder();
+        query.append(SQL_SELECT);
+        query.append("COUNT(*)");
+        query.append(SQL_FROM);
+        query.append(TABLE_PROCESS_TYPE);
+        query.append(SQL_WHERE);
+        query.append("id !=? AND parent_id=? AND title=?");
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        int index = 1;
+        ps.setInt(index++, id);
+        ps.setInt(index++, parentId);
+        ps.setString(index++, title);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            result = rs.getInt(1) == 0;
         }
+        ps.close();
+
+        return result;
     }
 }

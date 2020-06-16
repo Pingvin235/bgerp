@@ -48,6 +48,8 @@
 	<filter-mapping>
 		<filter-name>SetRequestParamsFilter</filter-name>
 		<url-pattern>*.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>SetRequestParamsFilter</filter-name>

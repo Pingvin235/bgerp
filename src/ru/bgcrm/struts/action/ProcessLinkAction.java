@@ -94,7 +94,7 @@ public class ProcessLinkAction extends ProcessAction {
             request.setAttribute("queue", queue);
         } else {
             SearchResult<Pair<String, Process>> searchResult = new SearchResult<Pair<String, Process>>(form);
-            processLinkDAO.searchLinkedProcessList(searchResult, CommonDAO.getLikePattern(objectType, "start"), id, null,
+            processLinkDAO.searchLinkedProcessList(searchResult, CommonDAO.getLikePatternStart(objectType), id, null,
                     paramProcessTypeId, form.getSelectedValues("statusId"), form.getParam("paramFilter"),
                     paramOpen);
 

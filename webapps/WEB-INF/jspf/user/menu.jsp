@@ -9,7 +9,7 @@
 	</jsp:attribute>
 </ui:menu-group>
 
-<ui:menu-item title="Мои процессы" href="userProcesses"
+<ui:menu-item title="Мои процессы" href="process/my"
 	action="ru.bgcrm.struts.action.ProcessAction"
 	command="/user/process.do?action=userProcessList" hidden="1" />
 
@@ -24,7 +24,7 @@
 	action="ru.bgcrm.struts.action.DirectoryAddressAction"
 	command="/user/directory/address.do" />
 
-<ui:menu-item title="Сообщения" href="messageQueue"
+<ui:menu-item title="Сообщения" href="message/queue"
 	action="ru.bgcrm.struts.action.MessageAction:messageList"
 	command="/user/message.do?action=messageList" />
 
@@ -35,23 +35,23 @@
 <ui:menu-group title="Организация работ">
 	<jsp:attribute name="subitems">
 	
-		<ui:menu-item title="Календарь рабочих дней" href="workCalendar"
+		<ui:menu-item title="Календарь рабочих дней" href="work/calendar"
 			action="ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarList"
 			command="/admin/work.do?action=workDaysCalendarList" />
 	
-		<ui:menu-item title="Типы работ" href="workTypes"
+		<ui:menu-item title="Типы работ" href="admin/work/type"
 			action="ru.bgcrm.struts.action.admin.WorkAction:workTypeList"
 			command="/admin/work.do?action=workTypeList" />
 	
-		<ui:menu-item title="Шаблоны смен" href="shiftTypes"
+		<ui:menu-item title="Шаблоны смен" href="admin/shift/type"
 			action="ru.bgcrm.struts.action.admin.WorkAction:shiftList"
 			command="/admin/work.do?action=shiftList" />
 	
-		<ui:menu-item title="График дежурств" href="callboard"
+		<ui:menu-item title="График дежурств" href="work/callboard"
 			action="ru.bgcrm.struts.action.admin.WorkAction:callboardGet"
 			command="/admin/work.do?action=callboardGet" />
 	
-		<ui:menu-item title="План работ" href="workPlan"
+		<ui:menu-item title="План работ" href="work/plan"
 			action="ru.bgcrm.struts.action.WorkAction:planGet"
 			command="/user/work.do?action=planGet" />
 	</jsp:attribute>
@@ -60,22 +60,22 @@
 <ui:menu-group title="Администрирование">
 	<jsp:attribute name="subitems">
 	
-		<ui:menu-item title="Параметры" href="param"
+		<ui:menu-item title="Параметры" href="admin/param"
 			action="ru.bgcrm.struts.action.admin.DirectoryAction"
 			command="/admin/directory.do" />
 		
 		<ui:menu-group title="Пользователи">
 			<jsp:attribute name="subitems">
 
-				<ui:menu-item title="Наборы прав" href="userPermset"
+				<ui:menu-item title="Наборы прав" href="admin/user/permset"
 					action="ru.bgcrm.struts.action.admin.UserAction:permsetList"
 					command="/admin/user.do?action=permsetList" />
 
-				<ui:menu-item title="Группы" href="userGroup"
+				<ui:menu-item title="Группы" href="admin/user/group"
 					action="ru.bgcrm.struts.action.admin.UserAction:groupList"
 					command="/admin/user.do?action=groupList" />
 
-				<ui:menu-item title="Пользователи" href="users"
+				<ui:menu-item title="Пользователи" href="admin/user"
 					action="ru.bgcrm.struts.action.admin.UserAction:userList"
 					command="/admin/user.do?action=userList" />
 			</jsp:attribute>
@@ -84,40 +84,40 @@
 		<ui:menu-group title="Процессы">
 			<jsp:attribute name="subitems">
 			
-				<ui:menu-item title="Статусы процессов" href="processStatus"
+				<ui:menu-item title="Статусы процессов" href="admin/process/status"
 					action="ru.bgcrm.struts.action.admin.ProcessAction:statusList"
 					command="/admin/process.do?action=statusList" />
 				
-				<ui:menu-item title="Типы процессов" href="processType"
+				<ui:menu-item title="Типы процессов" href="admin/process/type"
 					action="ru.bgcrm.struts.action.admin.ProcessAction:typeList"
 					command="/admin/process.do?action=typeList" />
 				
-				<ui:menu-item title="Очереди процессов" href="processQueueDir"
+				<ui:menu-item title="Очереди процессов" href="admin/process/queue"
 					action="ru.bgcrm.struts.action.admin.ProcessAction:queueList"
 					command="/admin/process.do?action=queueList" />
 			</jsp:attribute>
 		</ui:menu-group>
 		
-		<ui:menu-item title="Динамический код" href="dyncode"
+		<ui:menu-item title="Динамический код" href="admin/dyncode"
 			action="ru.bgcrm.struts.action.admin.DynamicAction"
 			command="/admin/dynamic.do" />
 		
-		<ui:menu-item title="WEB запросы" href="requestLog"
+		<ui:menu-item title="WEB запросы" href="admin/log/request"
 			action="ru.bgcrm.struts.action.admin.WebRequestAction"
 			command="/admin/webRequest.do" />
 		
-		<ui:menu-item title="Конфигурация" href="config"
+		<ui:menu-item title="Конфигурация" href="admin/config"
 			action="ru.bgcrm.struts.action.admin.ConfigAction:list"
 			command="/admin/config.do?action=list" />
 		
 		<ui:menu-group title="Приложение">
 			<jsp:attribute name="subitems">
 			
-				<ui:menu-item title="Статус приложения" href="app/status"
+				<ui:menu-item title="Статус приложения" href="admin/app/status"
 					action="ru.bgcrm.struts.action.admin.AppAction:status"
 					command="/admin/app.do?action=status"/>
 					
-				<ui:menu-item title="Авторизовавашиеся пользователи" href="app/logged"
+				<ui:menu-item title="Авторизовавашиеся пользователи" href="admin/app/logged"
 					action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList"
 					command="/admin/app.do?action=userLoggedList"/>
 			</jsp:attribute>
@@ -128,7 +128,7 @@
 	</jsp:attribute>
 </ui:menu-group>
 
-<ui:menu-item title="Логирование" href="log"
+<ui:menu-item title="Логирование" href="log/app"
 	action="ru.bgcrm.struts.action.LogAction" command="/user/log.do" />
 
 <c:set var="endpoint" value="user.menu.items.jsp"/>

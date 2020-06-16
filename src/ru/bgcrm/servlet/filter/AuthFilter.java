@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.authenticator.Constants;
 import org.apache.catalina.connector.RequestFacade;
-import org.apache.log4j.Logger;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.event.EventProcessor;
@@ -33,9 +32,10 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.distr.VersionInfo;
+import ru.bgerp.util.Log;
 
 public class AuthFilter implements Filter {
-    private static Logger log = Logger.getLogger(AuthFilter.class);
+    private static Log log = Log.getLog();
 
     public static final String REQUEST_ATTRIBUTE_USER_ID_NAME = "ru.bgcrm.servlet.filter.AuthFilter.session.USER_ID";
     public static final String REQUEST_ATTRIBUTE_USER_IP_ADDRESS_NAME = "ru.bgcrm.servlet.filter.AuthFilter.session.USER_IP_ADDRESS";
@@ -82,7 +82,7 @@ public class AuthFilter implements Filter {
                 HttpSession session = request.getSession(false);
                 if (session != null) {
                     Integer userId = (Integer) session.getAttribute(REQUEST_ATTRIBUTE_USER_ID_NAME);
-                    if (userId != null) 
+                    if (userId != null)
                         user = UserCache.getUser(userId);
                 }
             }
@@ -96,22 +96,22 @@ public class AuthFilter implements Filter {
 
                 for (Map.Entry<String, Object> me : SetRequestParamsFilter.getContextVariables(request).entrySet())
                     request.setAttribute(me.getKey(), me.getValue());
-                
+
                 String app = request.getParameter("app");
                 app = Utils.notBlankString(app) ? "?app=" + app : "";
-                
+
                 String realm = null;
-                // user либо usermod
+                // user or usermob
                 if (requestURI.startsWith("/user")) {
                     realm = requestURI.substring(1);
-                    
+
                     int pos = realm.indexOf('/');
                     if (pos > 0) {
-                        realm = realm.substring(0, pos);	            
+                        realm = realm.substring(0, pos);
                         forward(request, response, "/" + realm + SHELL_PAGE + app);
-                    } 
+                    }
                     // запрос заканчивается на /user или /usermob - редирект со слешем, так как это создаёт проблемы в вызове меню
-                    else 
+                    else
                         response.sendRedirect(requestURI + "/");
                 }
             } else {
@@ -144,7 +144,7 @@ public class AuthFilter implements Filter {
     /**
      * Процедура аутентификации пользователя по имени и паролю, переданных в
      * параметрах HTTP запроса.
-     * 
+     *
      * @param request
      * @param response
      * @return Объект аутентифицированного пользователя

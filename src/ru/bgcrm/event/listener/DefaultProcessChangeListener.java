@@ -14,6 +14,7 @@ import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ParamValueFunction;
 import ru.bgcrm.dao.expression.ProcessChangeFunctions;
+import ru.bgcrm.dao.expression.ProcessLinkFunction;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
@@ -385,7 +386,7 @@ public class DefaultProcessChangeListener {
         context.put(Process.OBJECT_TYPE, process);
         context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX,
                 new ParamValueFunction(con, process.getId()));
-        // context.put(ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction(con, process.getId()));
+        context.put(ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction(con, process.getId()));
         context.put(ConnectionSet.KEY, conSet);
         context.put(DynActionForm.KEY, form);
         if (event != null)

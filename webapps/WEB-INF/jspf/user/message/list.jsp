@@ -165,7 +165,7 @@
 			</tr>
 
 			<c:forEach var="item" items="${form.response.data.list}">
-				<c:url var="url" value="message.do">
+				<c:url var="url" value="/user/message.do">
 					<c:param name="id" value="${item.id}"/>
 					<c:param name="returnUrl" value="${form.requestUrl}"/>
 				</c:url>
@@ -185,7 +185,7 @@
 		</table>
 	</c:when>
 	<c:otherwise>
-		<form action="message.do">
+		<form action="/user/message.do">
 			<input type="hidden" name="action" value="messageDelete"/>
 			<table class="data mt1" style="width: 100%;" id="${uiid}">
 				<tr>
@@ -201,7 +201,7 @@
 					<td>Время</td>
 				</tr>
 				<c:forEach var="item" items="${form.response.data.list}">
-					<c:url var="url" value="message.do">
+					<c:url var="url" value="/user/message.do">
 						<c:param name="typeId" value="${item.typeId}"/>
 						<c:param name="messageId" value="${item.systemId}"/>
 						<c:param name="returnUrl" value="${form.requestUrl}"/>

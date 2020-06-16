@@ -2,6 +2,7 @@ package ru.bgcrm.struts.action.admin;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,6 @@ import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.Status;
-import ru.bgcrm.model.process.TransactionProperties;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.Permset;
 import ru.bgcrm.struts.action.BaseAction;
@@ -51,7 +51,6 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward statusUseProcess(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-
         Integer statusId = Utils.parseInt(form.getParam("statusId"));
         List<String> containProcess = new ArrayList<String>();
         Map<Integer, ProcessType> processTypeMap = ProcessTypeCache.getProcessTypeMap();
@@ -180,19 +179,6 @@ public class ProcessAction extends BaseAction {
         return status(con, form);
     }
 
-    /*public ActionForward typeMark( ActionMapping mapping,
-                                    DynActionForm form,
-                                    HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    Connection con )
-        throws Exception
-    {
-    	ArrayHashMap paramMap = form.getParam();
-    	paramMap.put( "markType", paramMap.get( "id" ) );
-    	//form.setAction( "typeList" );
-    	return typeList( mapping, form, request, response, con );
-    }*/
-
     public ActionForward typeInsertMark(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         ArrayHashMap paramMap = form.getParam();
         int parentId = Utils.parseInt(paramMap.get("parentTypeId"), 0);
@@ -219,17 +205,36 @@ public class ProcessAction extends BaseAction {
         return status(con, form);
     }
 
-    public ActionForward typeUsed(ActionMapping mapping, DynActionForm form, Connection conSet) throws BGException {
+    public ActionForward typeUsed(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         int typeId = form.getParamInt("typeId", 0);
-        if (typeId <= 0) {
+        if (typeId <= 0)
             throw new BGIllegalArgumentException();
-        }
 
-        List<String> queueList = ProcessQueueCache.getQueueList().stream().filter(q -> q.getProcessTypeIds().contains(typeId)).map(Queue::getTitle)
-                .collect(Collectors.toList());
+        List<String> queueList = ProcessQueueCache.getQueueList().stream()
+            .filter(q -> q.getProcessTypeIds().contains(typeId)).map(Queue::getTitle)
+            .collect(Collectors.toList());
         form.getResponse().setData("queueTitleList", queueList);
 
-        return data(conSet, mapping, form, "typeUsed");
+        return data(con, mapping, form);
+    }
+
+    public ActionForward typeCopy(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+        int typeId = form.getId();
+        if (typeId <= 0)
+            throw new BGIllegalArgumentException();
+        
+        var dao = new ProcessTypeDAO(con);
+
+        int fromTypeId = form.getParamInt("fromId");
+        if (fromTypeId > 0) {
+            dao.copyTypeProperties(fromTypeId, typeId);
+            return status(con, form);
+        }
+
+        var types = dao.getTypeChildren(form.getParamInt("parentId", 0), Collections.singleton(typeId));
+        form.setResponseData("types", types);
+
+        return data(con, mapping, form);
     }
 
     // очереди
@@ -362,7 +367,7 @@ public class ProcessAction extends BaseAction {
         return status(con, form);
     }
 
-    private void transactionCheck(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    private void transactionCheck(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         checkAllowedQueueIds(form);
 
         ProcessTypeDAO typeDAO = new ProcessTypeDAO(con);
@@ -370,23 +375,28 @@ public class ProcessAction extends BaseAction {
         ArrayHashMap paramMap = form.getParam();
 
         String[] matrixParamArray = form.getParamArray("matrix");
-
         if (matrixParamArray != null) {
             int id = Utils.parseInt(paramMap.get("id"), -1);
             if (id > 0) {
                 ProcessType type = typeDAO.getProcessType(id);
                 TypeProperties properties = type.getProperties();
 
-                for (int i = 0; i < matrixParamArray.length; i++) {
-                    String[] paramArray = matrixParamArray[i].split("-");
+                boolean anyEnable = false;
+
+                for (String transaction : matrixParamArray) {
+                    String[] paramArray = transaction.split("-");
 
                     int fromStatus = Utils.parseInt(paramArray[0]);
                     int toStatus = Utils.parseInt(paramArray[1]);
                     boolean enable = Utils.parseBoolean(paramArray[2]);
 
-                    TransactionProperties transProp = properties.getTransactionProperties(fromStatus, toStatus);
-                    transProp.setEnable(enable);
+                    anyEnable = anyEnable || enable;
+
+                    properties.getTransactionProperties(fromStatus, toStatus).setEnable(enable);
                 }
+
+                if (!anyEnable)
+                    properties.clearTransactionProperties();
 
                 typeDAO.updateTypeProperties(type);
                 ProcessTypeCache.flush(con);

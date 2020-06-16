@@ -81,6 +81,7 @@ public class Config implements LastModifySupport {
         if (includedList == null) 
             includedList = new ArrayList<>();
         includedList.add(included);
+        includedList.sort((c1, c2) -> c1.title.compareTo(c2.title));
     }
 
     public List<Config> getIncludedList() {
