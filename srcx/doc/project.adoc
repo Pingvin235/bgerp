@@ -30,15 +30,18 @@ Minimal required set of software:
 * <<eclipse, IDE Eclipse>>.
 
 [[env-console]]
-==== Console environment
-Дополнительно рекомендуется link:https://git-scm.com/download/win[установить] консольный клиент системы контроля версий <<workflow, GIT>>.
+==== Console environment Windows
+NOTE: Skip this chapter, when you use *NIX OS.
 
-Система <<build, сборки и публикации>> реализована на bash скриптах, для Windows их можно выполнять с помощью:
+Console link:https://git-scm.com/download/win[client] for version control system <<workflow, GIT>>.
+
+System of <<build, build and publish>> is written on Bash scripts and uses GNU utilities, for Windows may be used:
 [square]
-* link:https://git-scm.com/download/win[WSL] - встроенная в современные Windows виртуальная Linux машина, предпочтительный путь;
-* link:https://www.cygwin.com/[Cygwin] - Windows порты *NIX утилит.
+* link:https://www.windowscentral.com/install-windows-subsystem-linux-windows-10[WSL] - embedded in Windows virtual Linux machine, tested way;
+* link:https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10[WSL 2] - the new version of it, not tested yet;
+* link:https://www.cygwin.com/[Cygwin] - Windows ports of GNU utils, not tested.
 
-Как удобная консольная оболочка под OS Windows рекомендуется link:https://conemu.github.io/[ConEmu] со встроенным FAR Manager. 
+The best console emulator on Windows link:https://conemu.github.io/[ConEmu] with embedded FAR Manager. 
 
 === Форматирование 
 IDE либо редактор должны быть настроены для отображения пробельных символов.
@@ -1001,9 +1004,15 @@ bash -c "./gradlew buildClean buildUpdateLib buildUpdate"
 bash -c "./gradlew patchChanges rss publishBuild publishCommit"
 ----
 
-Merge the latest state of the master on <<documentation, documentation>> branch.
+Check the release commit and make:
+[source, bash]
+----
+git push
+----
 
 Build <<build-docker, Docker image>>.
+
+Merge the latest state of the master on <<documentation, documentation>> branch.
 
 [[build-docker]]
 === Docker

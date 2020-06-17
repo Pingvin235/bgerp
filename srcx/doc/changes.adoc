@@ -8,6 +8,7 @@ The log is done it the date reverse order.
 
 == Change log
 [square]
+* <<project.adoc#env-console, 17.06.2020>> Windows console environment.
 * <<project.adoc#documentation, 25.05.2020>> Documentation write algorithm.
 * <<project.adoc#build-update, 22.05.2020>> Publish change update.
 * <<project.adoc#longlife-branch, 16.02.2020>> Долгоживущие GIT ветки.
