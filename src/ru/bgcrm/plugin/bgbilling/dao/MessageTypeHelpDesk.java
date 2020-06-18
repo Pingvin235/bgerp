@@ -192,7 +192,7 @@ public class MessageTypeHelpDesk extends MessageType {
 			    activeHdProcessTopicIds.put(rs.getInt(1), rs.getInt(2));
 			ps.close();
 			
-			DynActionForm form = new DynActionForm(user);
+			DynActionForm form = DynActionForm.SERVER_FORM;
 			HelpDeskDAO hdDao = new HelpDeskDAO(user, dbInfo);
 		    
 			if (dbInfo.versionCompare("7.2") >= 0) {

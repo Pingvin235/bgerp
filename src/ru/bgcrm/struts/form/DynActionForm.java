@@ -33,6 +33,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
+import ru.bgerp.i18n.Localization;
 import ru.bgerp.i18n.Localizer;
 import ru.bgerp.util.Log;
 
@@ -64,6 +65,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     public static DynActionForm SERVER_FORM = new DynActionForm();
     static {
         SERVER_FORM.setUser(User.USER_SYSTEM);
+        SERVER_FORM.l = Localization.getLocalizer(); 
     }
 
     private HttpServletRequest httpRequest;
