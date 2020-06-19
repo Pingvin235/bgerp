@@ -1408,10 +1408,10 @@ public class ContractDAO extends BillingDAO {
     }
 
     public static class WebLimit {
-        private int configLimit;
-        private int count;
-        private int limit;
-        private int status;
+        private int configLimit = -1;
+        private int count = -1;
+        private int limit = -1;
+        private int status = -1;
 
         public int getConfigLimit() {
             return configLimit;
@@ -1446,6 +1446,9 @@ public class ContractDAO extends BillingDAO {
         }
 
         public WebLimit(Element element) {
+            if (element == null) {
+                return;
+            }
             setConfigLimit(Utils.parseInt(element.getAttribute("configLimit")));
             setCount(Utils.parseInt(element.getAttribute("count")));
             setLimit(Utils.parseInt(element.getAttribute("limit")));
@@ -1454,9 +1457,9 @@ public class ContractDAO extends BillingDAO {
     }
 
     public static class WebRequestLastLogon {
-        private int counter;
-        private Date datetime;
-        private String ip;
+        private int counter = 0;
+        private Date datetime = null;
+        private String ip = "";
 
         public int getCounter() {
             return counter;
@@ -1483,14 +1486,15 @@ public class ContractDAO extends BillingDAO {
         }
 
         public WebRequestLastLogon(Element element) throws BGException {
+            if (element == null) {
+                return;
+            }
             setCounter(Utils.parseInt(element.getAttribute("counter")));
-
             try {
                 setDatetime(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(element.getAttribute("datetime")));
             } catch (ParseException e) {
                 throw new BGException(e);
             }
-
             setIp(element.getAttribute("ip"));
         }
     }
@@ -1516,18 +1520,29 @@ public class ContractDAO extends BillingDAO {
         }
 
         public WebRequestLimit(Document document) throws BGException {
-            setWebLimit(new WebLimit(XMLUtils.selectElement(document, "/data/web_limit")));
-            setLastLogon(new WebRequestLastLogon(XMLUtils.selectElement(document, "/data/lastLogon")));
+            if (document == null) {
+                setWebLimit(new WebLimit(null));
+                setLastLogon(new WebRequestLastLogon(null));
+            } else {
+                setWebLimit(new WebLimit(XMLUtils.selectElement(document, "/data/web_limit")));
+                setLastLogon(new WebRequestLastLogon(XMLUtils.selectElement(document, "/data/lastLogon")));
+            }
         }
     }
 
     public WebRequestLimit getWebRequestLimit(int contractId) throws BGException {
+        
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("WebRequestLimit");
         request.setContractId(contractId);
-
-        return new WebRequestLimit(transferData.postData(request, user));
+        Document doc = null;
+        try {
+            doc = transferData.postData(request, user);
+        } catch (BGException e) {
+            logger.debug(e);//может быть отказ по правам, ошибка ли это?
+        }
+        return new WebRequestLimit(doc);
     }
 
     public static enum WebRequestLimitMode {
