@@ -1,6 +1,31 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+29.06.2020 08:49:39 1361
+F: [11268] Plugin BGBilling, correct reaction on missing /data/lastLogon and missing permission on WebRequestLimit.
+C: [12367] Interface URLs to slash separated.
+A: [12367] Copy process type properties from another type.
+F: [12367] JS function trim100, fail on no string values.
+A: [12367] Plugin Blow, use filters from process queue.
+C: [12367] Plugin Blow, correct behavior on empty process set.
+C: [12367] Default allowed any status change for processes.
+C: [12367] Alphabetical sort of included configurations.
+F: [12367] Add new parameters in editor.
+F: [12367] Get back 'processLink' JEXL object.
+C: [12367] Remove deprecated process config option setExecutor=current.
+F: [12367] Duplicated process creation in queue, when process isolation is enabled.
+F: [12367] Hidden "Profile" menu item.
+F: [12367] Undefined in process type parameters, shown in open interface.
+F: [13419] Plugin Blow, no draggable items on board in open interface.
+F: [13475] In DefaultMarkedProcessor setParam for types 'date' and 'datetime', https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#default-marked-processor
+A: [13475] In DefaultMarkedProcessor doExpression, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#default-marked-processor
+F: [13475] AuthFilter, app parameter in redirect.
+C: [13475] stateFragment JS function, generalized URL fragment setting way.
+A: [13475] Write incorrect action path in error message.
+A: [13475] Process ID in changes.txt and changes.xml files.
+F: [13475] UserMob interface.
+F: [13770] Localization for user USER_SYSTEM.
+
 07.06.2020 22:24:09 1360
 A: 'status_pos' process queue column, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#columns
 F: Saving without exit in process queue editor, shown previous value of configuration.

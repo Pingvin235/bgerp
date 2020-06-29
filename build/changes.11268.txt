@@ -1,1 +1,0 @@
-F: Plugin BGBilling, correct reaction on missing /data/lastLogon and missing permission on WebRequestLimit.

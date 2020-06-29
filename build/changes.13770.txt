@@ -1,1 +1,0 @@
-F: Localization for user USER_SYSTEM.

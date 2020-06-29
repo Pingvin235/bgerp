@@ -1,7 +1,0 @@
-F: In DefaultMarkedProcessor setParam for types 'date' and 'datetime', https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#default-marked-processor
-A: In DefaultMarkedProcessor doExpression, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#default-marked-processor
-F: AuthFilter, app parameter in redirect.
-C: stateFragment JS function, generalized URL fragment setting way.
-A: Write incorrect action path in error message.
-A: Process ID in changes.txt and changes.xml files.
-F: UserMob interface.
