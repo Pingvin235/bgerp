@@ -8,6 +8,7 @@ The log is done it the date reverse order.
 
 == Change log
 [square]
+* <<kernel/install.adoc#nginx, 18.06.2020>> NGINX configuration sample.
 * <<project.adoc#env-console, 17.06.2020>> Windows console environment.
 * <<project.adoc#documentation, 25.05.2020>> Documentation write algorithm.
 * <<project.adoc#build-update, 22.05.2020>> Publish change update.

@@ -259,35 +259,59 @@ CALL add_column_if_not_exists('task', 'config', 'TEXT NOT NULL');
 
 [[nginx]]
 == NGINX
-При классической схеме сервер BGERP располагается во внутренней сети организации, NGINX позволяет организовать доступ извне к открытому <<interface.adoc#, интерфейсу>> сервера.
+Typically the application is running in Intranet, access to restricted <<interface.adoc#, interfaces>> from outside as well as SSL may be organized using NGINX.
 
-Документация по NGINX доступна здесь: http://sysoev.ru/nginx/docs/
+NGINX docs: http://nginx.org/en/docs/
 
-=== Пример
-BGERP запущен на внутреннем адресе crm.inner.bitel.ru. Снаружи на хосте crm.bitel.ru доступен только открытый интерфейс http://crm.bitel.ru/open
+=== Sample
+The application is runnun on internal host *erp.int.bitel.ru*. 
+Outside on host *erp.bitel.ru* is available only <<interface.adoc#open, open interface>> http://erp.bitel.ru/open
+The configuration may be typically placed in file `/etc/nginx/conf.d/erp.bitel.ru`
 ----
 server {
-    listen          80;
-    server_name     crm.bitel.ru;
+    server_name             erp.bitel.ru;
 
-    access_log      /var/log/nginx/crm.bitel.ru.access.log;
+    access_log              /var/log/nginx/erp.bitel.ru.access.log;
     client_max_body_size    50m;
 
-    # для открытия обычного интерфейса - добавить login.do|user
+    # optionally close access without interface
+    #location / {
+    #    return 404;
+    #}
+
+    # for opening user interface - add admin|login.do|user
+    # for opening user mobile interface - add usermob
     location ~ ^/(open|img|images|css|lib|js)(.*)$ {
-        resolver                X.X.X.X;.
         if ($args = '') {
-            proxy_pass  http://crm.inner.bitel.ru/$1$2;
+            proxy_pass  http://erp.int.bitel.ru/$1$2;
         }
         if ($args != '') {
-            proxy_pass  http://crm.inner.bitel.ru/$1$2?$args;
+            proxy_pass  http://erp.int.bitel.ru/$1$2?$args;
         }
-        proxy_redirect          http://crm.inner.bitel.ru/ http://crm.bitel.ru/;
+        proxy_set_header        Host $host;
         proxy_set_header        Connection close;
         proxy_set_header        X-Real-IP $remote_addr;
         proxy_read_timeout      300;
-        gzip_proxied            expired no-cache no-store private no_last_modified no_etag auth;
+        gzip_proxied            any;
     }
+
+    # this part has to be generated first by CertBot: 
+    # certbot --nginx -d bgerp.ru -d www.bgerp.ru -d bgerp.de -d www.bgerp.de -d bgerp.org -d www.bgerp.org
+    listen 443 ssl; # managed by Certbot
+    listen [::]:443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/erp.bitel.ru/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/erp.bitel.ru/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+# redirect HTTP to HTTPS
+server {
+    listen      80;
+    listen      [::]:80;
+    server_name crm.bitel.ru;
+    server_name team.bgerp.org;
+    return 301  https://$host$request_uri;
 }
 ----
 
