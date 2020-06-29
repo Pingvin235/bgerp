@@ -696,7 +696,7 @@ public class ProcessAction extends BaseAction {
     @Deprecated
     public static Process linkProcessCreate(Connection con, DynActionForm form, Process linkedProcess, int typeId, String objectType,
             int createTypeId, String description, int groupId) throws Exception {
-        return ProcessAction.linkProcessCreate(con, form, linkedProcess, typeId, objectType, createTypeId, description, groupId);
+        return ProcessLinkAction.linkProcessCreate(con, form, linkedProcess, typeId, objectType, createTypeId, description, groupId);
     }
 
     public ActionForward processRequest(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
