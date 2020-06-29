@@ -15,6 +15,7 @@ import com.itextpdf.text.pdf.PdfReader;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
@@ -28,8 +29,11 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
+import ru.bgerp.util.Log;
 
 public class DefaultMarkedProcessor extends DynamicEventListener {
+    private static final Log log = Log.getLog();
+
     private static final String COMMAND_SET_STATUS = ProcessCommandExecutor.COMMAND_SET_STATUS;
     private static final String COMMAND_ADD_GROUPS = ProcessCommandExecutor.COMMAND_ADD_GROUPS;
     private static final String COMMAND_ADD_EXECUTORS = ProcessCommandExecutor.COMMAND_ADD_EXECUTORS;
@@ -38,14 +42,17 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
 
     public static class Config extends ru.bgcrm.util.Config {
         private final List<Command> commandList = new ArrayList<Command>();
+        private final String doExpression;
 
         public Config(ParameterMap setup) {
             super(setup);
             for (String command : setup.get("commands", "").split(";")) {
                 commandList.add(new Command(command));
             }
+            doExpression = setup.get(Expression.DO_EXPRESSION_CONFIG_KEY);
         }
 
+        // called from JSP
         public List<Command> getCommandList() {
             return commandList;
         }
@@ -105,10 +112,10 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
 
         Config config = event.getProcessor().getConfigMap().getConfig(Config.class);
 
-        Command firstCommand = Utils.getFirst(config.getCommandList());
+        Command firstCommand = Utils.getFirst(config.commandList);
 
         // команда печати может стоять только одна
-        if (config.getCommandList().size() == 1 && firstCommand.getName().equals(COMMAND_PRINT)) {
+        if (config.commandList.size() == 1 && firstCommand.getName().equals(COMMAND_PRINT)) {
             ru.bgcrm.plugin.document.Config documentConfig = Setup.getSetup()
                     .getConfig(ru.bgcrm.plugin.document.Config.class);
 
@@ -184,7 +191,7 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
                     // набор стандартных команд по обработке процесса   
                     List<String> commandList = new ArrayList<String>();
 
-                    for (Command command : config.getCommandList()) {
+                    for (Command command : config.commandList) {
                         String name = command.getName();
                         if (name.equals(COMMAND_SET_STATUS)) {
                             int statusId = event.getForm().getParamInt("statusId");
@@ -211,7 +218,12 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
 
                     ProcessCommandExecutor.processDoCommands(con, event.getForm(), process, null, commandList);
 
-                    con.commit();
+                    if (Utils.notBlankString(config.doExpression)) {
+                        log.debug("Executing expression: %s", config.doExpression);
+                        DefaultProcessChangeListener.initExpression(conSet, event, process).executeScript(config.doExpression);
+                    }
+
+                    conSet.commit();
                 }
             } catch (Exception ex) {
                 throw new BGException(ex);

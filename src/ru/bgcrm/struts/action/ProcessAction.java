@@ -281,6 +281,7 @@ public class ProcessAction extends BaseAction {
     public ActionForward processDoCommands(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         Process process = getProcess(new ProcessDAO(con), form.getId());
 
+        // FIXME: Security issue, send action ID instead with possibility there define doExpression or use these old commands.
         List<String> commands = Utils.toList(form.getParam("commands"), ";");
         if (commands.size() == 0) {
             throw new BGException("Пустой список команд");

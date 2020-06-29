@@ -23,7 +23,7 @@
 			{
 				$("#${uiid} button[name='pageControlRefreshButton']").click();
 				bgcrm.debug( 'processQueue', 'refresh queue', $("#${uiid} button[name='pageControlRefreshButton']") );
-				addProcessQueueIdToUrl( ${queue.id} );
+				$$.shell.stateFragment(${queue.id});
 			});
 			
 		bgcrm.debug( 'processQueue', 'added onShow callback on ', $contentDiv );

@@ -291,6 +291,14 @@ $$.ui = new function() {
 			});
 	}
 
+	const inputFocus = ($selector) => {
+		// иначе в FF не работает
+		setTimeout(function () {
+			// mouseover() мыши нужно для datepicker а, чтобы отобразился редактор
+			$selector.mouseover().focus();
+		}, 0);
+	}
+
 	// доступные функции
 	this.markChanged = markChanged;
 	this.comboSingleInit = comboSingleInit;
@@ -305,7 +313,8 @@ $$.ui = new function() {
 	this.layout = layout;
 	this.showError = showError;
 	this.tabsLoaded = tabsLoaded;
-};
+	this.inputFocus = inputFocus;
+}
 
 
 function uiComboSingleInit ($comboDiv, onSelect) {

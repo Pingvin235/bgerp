@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<form action="plugin/bgbilling/proto/contract.do">
+<form action="/user/plugin/bgbilling/proto/contract.do">
 	<input type="hidden" name="action" value="scriptLog" />
 	<input type="hidden" name="billingId" value="${form.param.billingId}" /> 
 	<input type="hidden" name="contractId" value="${form.param.contractId}" />

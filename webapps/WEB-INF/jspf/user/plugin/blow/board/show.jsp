@@ -49,7 +49,7 @@
 				$$.ajax.load('/user/plugin/blow/board.do?action=show&id=${form.id}', $$.shell.$content());
 			});
 
-			history.replaceState(history.state, null, '/user/blow/board#${form.id}');
+			$$.shell.stateFragment(${form.id});
 		})
 	</script>
 

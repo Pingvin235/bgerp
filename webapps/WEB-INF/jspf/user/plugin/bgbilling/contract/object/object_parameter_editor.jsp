@@ -5,7 +5,7 @@
 
 <c:choose>
 	<c:when test="${ not empty form.response.data.parameter}">
-		<form action="plugin/bgbilling/proto/contract.do">
+		<form action="/user/plugin/bgbilling/proto/contract.do">
 		
 			<c:set var="data" value="${form.response.data}"/>
 			<c:set var="parameter" value="${data.parameter}"/>

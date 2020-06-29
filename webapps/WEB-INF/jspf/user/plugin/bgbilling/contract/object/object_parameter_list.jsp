@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div id="${form.param.billingId }-${form.param.contractId }-objectParametersInfo">
-	<form action="plugin/bgbilling/proto/contract.do">
+	<form action="/user/plugin/bgbilling/proto/contract.do">
 			<input type="hidden" name="action" value="contractObjectParameterList"/>
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
@@ -27,7 +27,7 @@
 					<td>
 					<c:set var="viewEditDivId" value="${u:uiid()}"/>
 						<div id="${viewEditDivId}">
-							<form action="plugin/bgbilling/proto/contract.do">
+							<form action="/user/plugin/bgbilling/proto/contract.do">
 								<input type="hidden" name="action" value="getObjectParameter" />
 								<input type="hidden" name="billingId" value="${ form.param.billingId }" />
 								<input type="hidden" name="contractId" value="${ form.param.contractId }" />

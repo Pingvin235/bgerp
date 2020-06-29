@@ -4,8 +4,8 @@
 <c:set var="listUiid" value="${form.param.billingId }-${form.param.contractId }-parameters-info"/>
 
 <div id="${listUiid}">
-    <c:if test="${empty onlyData}">
-		<form action="plugin/bgbilling/proto/contract.do" class="mb1 in-mr1" style="display: inline-block;">
+	<c:if test="${empty onlyData}">
+		<form action="/user/plugin/bgbilling/proto/contract.do" class="mb1 in-mr1" style="display: inline-block;">
 			<input type="hidden" name="action" value="parameterList"/>
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
@@ -36,7 +36,7 @@
 				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
 			</u:sc>
 		</form>	
-		<form action="plugin/bgbilling/proto/contract.do" class="mb1 in-mr1" style="display: inline-block;">
+		<form action="/user/plugin/bgbilling/proto/contract.do" class="mb1 in-mr1" style="display: inline-block;">
 			<input type="hidden" name="action" value="parameterGroupUpdate"/>
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />

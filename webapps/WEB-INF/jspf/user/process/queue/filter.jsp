@@ -121,7 +121,7 @@
 						<c:choose>
 							<c:when test="${not empty processor.page}">
 								$('div[id*=${addActionFormUiid}]').hide();
-								$('#${addActionFormUiid}-${processor.id}').show();
+								$('#${addActionFormUiid}-${processor.id}').show().trigger('show');
 							</c:when>
 							<c:otherwise>
 								$('#${addActionFormUiid}-${processor.id} #okButton').click();
@@ -166,7 +166,7 @@
 	<%-- доп. действия --%>
 	<div style="display: inline-block;">
 		<c:forEach var="processor" items="${queue.processorMap.values()}">
-			<form action="/user/process.do" id="${addActionFormUiid}-${processor.id}" style="display: none;" class="in-mb1-all">
+			<form action="/user/process/queue.do" id="${addActionFormUiid}-${processor.id}" style="display: none;" class="in-mb1-all">
 				<input type="hidden" name="action" value="processCustomClassInvoke"/>
 				<input type="hidden" name="queueId" value="${queue.id}"/>
 				<input type="hidden" name="processorId" value="${processor.id}"/>

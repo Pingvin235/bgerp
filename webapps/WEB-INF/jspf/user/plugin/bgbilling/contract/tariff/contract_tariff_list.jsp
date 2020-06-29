@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:url var="url" value="plugin/bgbilling/proto/contractTariff.do">
+<c:url var="url" value="/user/plugin/bgbilling/proto/contractTariff.do">
 	<c:param name="action" value="getContractTariff"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>	
@@ -30,7 +30,7 @@
 			</c:url>
 			<c:set var="editCommand" value="openUrlToParent('${eUrl}', $('#${uiid}') )"/>
 			
-			<c:url var="deleteAjaxUrl" value="plugin/bgbilling/proto/contractTariff.do">
+			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/contractTariff.do">
 				<c:param name="action" value="deleteСontractTariff"/>
 				<c:param name="contractId" value="${form.param.contractId}"/>
 				<c:param name="billingId" value="${form.param.billingId}"/>

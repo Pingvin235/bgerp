@@ -7,7 +7,7 @@
 <input type="button" value="Назад к списку объектов" onclick="openUrlTo( '${form.param.returnUrl}',  $('#${form.param.billingId }-${form.param.contractId }-objectInfo'))"/>
 </br>
 
-<form action="plugin/bgbilling/proto/contract.do">
+<form action="/user/plugin/bgbilling/proto/contract.do">
 	<c:set var="object" value="${form.response.data.object}"/>
 	
 	<input type="hidden" name="action" value="updateContractObject"/>
@@ -53,7 +53,7 @@
      $(function() {
          var $objectEditorTabs = $( "#objectEditorTabs-${form.param.billingId}-${form.param.contractId}-Tabs" ).tabs( {spinner: '', refreshButton:true} );
 
-         <c:url var="url" value="plugin/bgbilling/proto/contract.do">
+         <c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
 		  	<c:param name="action" value="contractObjectParameterList"/>	
 		  	<c:param name="billingId" value="${form.param.billingId}"/>	
 		  	<c:param name="contractId" value="${form.param.contractId}"/>
@@ -62,7 +62,7 @@
 		  </c:url>
 	      $objectEditorTabs.tabs( "add", "${url}", "Параметры объекта" );	      
 
-	      <c:url var="url" value="empty.do">
+	      <c:url var="url" value="/user/empty.do">
 		  	<c:param name="forwardFile" value="/WEB-INF/jspf/user/plugin/bgbilling/contract/parameters/object/object_module_list.jsp"/>	
 		  	<c:param name="billingId" value="${form.param.billingId}"/>	
 		  	<c:param name="contractId" value="${form.param.contractId}"/>

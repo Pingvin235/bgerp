@@ -9,18 +9,17 @@ $$.shell = new function () {
 			debug("pushHistoryState: ", href, "; current: ", history.state);
 			history.pushState({href: href}, null, href);
 		}
-	};
+	}
 
 	/**
 	 * Follow the link with preventing default handling.
 	 */
 	const followLink = function (href, event) {
 		debug("followLink: ", href, event);
-		// pushHistoryState(href);
 		contentLoad(href);
 		if (event)
 			event.preventDefault();
-	};
+	}
 
 	const getCommandDiv = function (command, closable) {
 		var $commandDiv = $("body > #content > div#" + command );
@@ -75,7 +74,7 @@ $$.shell = new function () {
 		$("#title > div#" + command ).show();
 
 		return $commandDiv;
-	};
+	}
 
 	const onCommandDivShow = function ($commandDiv) {
 		// вызов onShow обработчика, если оснастка его повесила
@@ -84,22 +83,22 @@ $$.shell = new function () {
 			debug("call onShow");
 			onShow();
 		}
-	};
+	}
 
 	const removeCommandDiv = function (command) {
 		 $("body > #content > div#" + command ).remove();
 		 $("#title > div#" + command ).remove();
 		 $('#objectBuffer ul li[value=' + command +']').remove();
 		 updateBufferCount();
-	};
+	}
 
 	const getBufferCount = function () {
 		return $('#objectBuffer ul li:not([style*="display: none"])').length;
-	};
+	}
 
 	const updateBufferCount = function () {
 		$("#objectBuffer .object-count").text(getBufferCount());
-	};
+	}
 
 	// next contentLoad starts only after previous is done
 	let contentLoadDfd;
@@ -358,17 +357,7 @@ $$.shell = new function () {
 			} else
 				contentLoadDfd.resolve();
 		}
-	};
-
-	/** Next action, when the latest contentLoad is done. 
-	const contentLoadDone = function (promise, callback) {
-		//const dfd = $.Deferred();
-		$.when(contentLoadDfd).done(() => {
-			callback();
-			//dfd.resolve();
-		});
-		contentLoadDfd = promise;
-	};*/
+	}
 
 	const initBuffer = function () {
 		window.addEventListener("popstate", function (e) {
@@ -492,11 +481,20 @@ $$.shell = new function () {
 				window.clearTimeout(popupObjectBuffer.timer);
 			});
 		}
-	};
+	}
+
+	const stateFragment = (id) => {
+		var state = history.state;
+		if (id > 0 && state) {
+			var pos = state.href.indexOf('#');
+			state.href = (pos < 0 ? state.href : state.href.substring(0, pos)) + "#" + id;
+			history.replaceState(state, null, state.href)
+		}
+	}
 
 	const $content = function () {
 		return $('#content > div:visible');
-	};
+	}
 
 	// public functions
 	this.debug = debug;
@@ -504,8 +502,9 @@ $$.shell = new function () {
 	this.contentLoad = contentLoad;
 	this.followLink = followLink;
 	this.removeCommandDiv = removeCommandDiv;
+	this.stateFragment = stateFragment;
 	this.$content = $content;
-};
+}
 
 function contentLoad (href) {
 	console.warn($$.deprecated);

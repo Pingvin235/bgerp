@@ -554,7 +554,7 @@ function processClientEvents( event )
 
 		// сообщения
 		if (event.messagesCount > 0) {
-			itemCode = "<li><a href='/user/messageQueue' onclick='$$.shell.followLink(this.href, event)'>Сообщений необр.: <span style='font-weight: bold;";
+			itemCode = "<li><a href='/user/message/queue' onclick='$$.shell.followLink(this.href, event)'>Сообщений необр.: <span style='font-weight: bold;";
 			if (event.blinkMessages)
 				itemCode += "color: orange;";
 			itemCode += "'>" + event.messagesCount + "</span></a></li>";
@@ -589,7 +589,7 @@ function processClientEvents( event )
 		}
 	}
 	else if (event.className == 'ru.bgcrm.event.client.MessageOpenEvent') {
-		$$.shell.contentLoad("/user/messageQueue").done(() => {
+		$$.shell.contentLoad("/user/message/queue").done(() => {
 			$$.ajax.load('/user/message.do?id=' + event.id + '&returnUrl=' + encodeURIComponent('/user/message.do?action=messageList'), $$.shell.$content());
 		});
 	}

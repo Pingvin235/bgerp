@@ -22,28 +22,28 @@
      $(function() {
          var $tariffTabs = $( "#${uiid}" ).tabs( {spinner: '' , refreshButton: true} );
 
-         <c:url var="url" value="plugin/bgbilling/proto/contractTariff.do">
+         <c:url var="url" value="/user/plugin/bgbilling/proto/contractTariff.do">
 		  	<c:param name="action" value="contractTariffList"/>	
 		  	<c:param name="billingId" value="${form.param.billingId}"/>	
 		  	<c:param name="contractId" value="${form.param.contractId}"/>	
 		  </c:url>
 	      $tariffTabs.tabs( "add", "${url}", "Глобальные тарифы" );	      
 
-	      <c:url var="url" value="plugin/bgbilling/proto/contractTariff.do">
+	      <c:url var="url" value="/user/plugin/bgbilling/proto/contractTariff.do">
 		  	<c:param name="action" value="personalTariffList"/>	
 		  	<c:param name="billingId" value="${form.param.billingId}"/>	
 		  	<c:param name="contractId" value="${form.param.contractId}"/>	
 		  </c:url>
 	      $tariffTabs.tabs( "add", "${url}", "Персональные тарифы" );	      
 
-	      <c:url var="url" value="plugin/bgbilling/proto/contractTariff.do">
+	      <c:url var="url" value="/user/plugin/bgbilling/proto/contractTariff.do">
 		  	<c:param name="action" value="tariffOptionList"/>	
 		  	<c:param name="billingId" value="${form.param.billingId}"/>	
 		  	<c:param name="contractId" value="${form.param.contractId}"/>	
 		  </c:url>
 		  $tariffTabs.tabs( "add", "${url}", "Тарифные опции" );
 		  
-		  <c:url var="url" value="plugin/bgbilling/proto/contractTariff.do">
+		  <c:url var="url" value="/user/plugin/bgbilling/proto/contractTariff.do">
 		  	<c:param name="action" value="groupTariffList"/>	
 		  	<c:param name="billingId" value="${form.param.billingId}"/>	
 		  	<c:param name="contractId" value="${form.param.contractId}"/>	

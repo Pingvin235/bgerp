@@ -293,17 +293,17 @@
 		</item>
 		<item title="Process">
 			<item title="Queue">
-				<item action="ru.bgcrm.struts.action.ProcessAction:queue;ru.bgcrm.struts.action.ProcessQueueAction:queue" title="Queues"/>
+				<item action="ru.bgcrm.struts.action.ProcessAction:queue;org.bgerp.action.usermob.ProcessAction:queue;ru.bgcrm.struts.action.ProcessQueueAction:queue" title="Queues"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:queueGet;ru.bgcrm.struts.action.ProcessQueueAction:queueGet" title="Получение свойств очереди процессов"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:queueShow;ru.bgcrm.struts.action.ProcessQueueAction:queueShow" title="Просмотр очереди процессов"/>
+				<item action="ru.bgcrm.struts.action.ProcessAction:queueShow;org.bgerp.action.usermob.ProcessAction:queueShow;ru.bgcrm.struts.action.ProcessQueueAction:queueShow" title="Просмотр очереди процессов"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet;ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet" title="Сохранённые наборы фильтров" allowAll="1"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet;ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet" title="Сохранённые наборы кнопок очередей процессов" allowAll="1"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:typeTree;ru.bgcrm.struts.action.ProcessQueueAction:typeTree" title="Process creation editor">
 					<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
 				</item>
+				<item action="ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke;ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke" title="Run processor"/>
 			</item>
-			<item action="ru.bgcrm.struts.action.ProcessAction:null" title="Просмотр карточки процесса"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:process" title="Просмотр карточки процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:null;org.bgerp.action.usermob.ProcessAction:null;ru.bgcrm.struts.action.ProcessAction:process" title="Просмотр карточки процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processCreate" title="Создание процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processCreateGroups" title="Выбор группы решения при создании процесса" allowAll="1"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDoCommands" title="Выполнение макроса процесса"/>
@@ -331,7 +331,6 @@
 				<item action="ru.bgcrm.struts.action.ProcessAction:linkProcessList;ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList" title="Просмотр привязанных процессов"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:linkProcessCreate;ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate" title="Создание привязанного процесса"/>
 			</item>
-			<item action="ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke" title="Выполнение произвольного динамического класса для процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processRequest" title="Запрос дополнительных параметров создания процесса" allowAll="1"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processTypeEdit" title="Редактор изменения типа процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processTypeUpdate" title="Изменение типа процесса"/>

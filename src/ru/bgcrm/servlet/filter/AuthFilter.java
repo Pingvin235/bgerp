@@ -112,7 +112,7 @@ public class AuthFilter implements Filter {
                     }
                     // запрос заканчивается на /user или /usermob - редирект со слешем, так как это создаёт проблемы в вызове меню
                     else
-                        response.sendRedirect(requestURI + "/");
+                        response.sendRedirect(requestURI + "/" + app);
                 }
             } else {
                 request.setAttribute(REQUEST_ATTRIBUTE_USER_NAME, user);

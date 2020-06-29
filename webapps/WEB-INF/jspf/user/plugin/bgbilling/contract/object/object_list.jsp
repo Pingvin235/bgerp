@@ -4,7 +4,7 @@
 <c:set var="objectInfo" value="${form.param.billingId}-${form.param.contractId}-objectInfo"/>
 
 <div id="${objectInfo}">
-	<c:url var="url" value="plugin/bgbilling/proto/contract.do">
+	<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
 		<c:param name="action" value="addContractObject"/>
 		<c:param name="billingId" value="${form.param.billingId }" />
 		<c:param name="contractId" value="${form.param.contractId}" />
@@ -23,7 +23,7 @@
 		
 		<c:forEach var="object" items="${form.response.data.objectList}">
 				<tr>
-					<c:url var="url" value="plugin/bgbilling/proto/contract.do">
+					<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
 						<c:param name="action" value="getContractObject"/>
 						<c:param name="billingId" value="${form.param.billingId }" />
 						<c:param name="contractId" value="${form.param.contractId}" />
@@ -33,7 +33,7 @@
 					</c:url>
 					<c:set var="editCommand" value="openUrlTo('${url}', $('#${objectInfo}') )"/>
 					
-					<c:url var="deleteAjaxUrl" value="plugin/bgbilling/proto/contract.do">
+					<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/contract.do">
 						<c:param name="action" value="deleteContractObject"/>
 						<c:param name="billingId" value="${form.param.billingId }" />
 						<c:param name="contractId" value="${form.param.contractId}" />

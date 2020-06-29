@@ -871,7 +871,7 @@ link:../../src/ru/bgcrm/worker/MessageExchange.java#L60-L64[ru.bgcrm.worker.Mess
 
 ==== JS
 Вывод отладки вместо console.log:
-[snippet, from="con", to="};"]
+[snippet, from="con", to="}"]
 link:../../webapps/js/kernel.shell.js#L5-L12[webapps/js/kernel.shell.js]
 
 Enabling debug:

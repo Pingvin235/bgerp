@@ -8,7 +8,7 @@
     	 
          var $objectModuleListTabs = $( "#objectModuleListTabs-${form.param.billingId}-${form.param.contractId}-Tabs" ).tabs( {spinner: '', refreshButton:true} );
 
-         <c:url var="url" value="plugin/bgbilling/proto/contract.do">
+         <c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
 		  	<c:param name="action" value="contractObjectModuleSummaryTable"/>	
 		  	<c:param name="billingId" value="${form.param.billingId}"/>	
 		  	<c:param name="contractId" value="${form.param.contractId}"/>

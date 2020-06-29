@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:url var="baseUrl" value="plugin/bgbilling/proto/contract.do">
+<c:url var="baseUrl" value="/user/plugin/bgbilling/proto/contract.do">
 	<c:param name="moduleId" value="${form.param.moduleId}"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>

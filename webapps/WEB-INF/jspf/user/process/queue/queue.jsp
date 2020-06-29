@@ -35,27 +35,24 @@
 						onSelect="$('.text-value div.icon-add').remove()"
 						valuesHtml="${valuesHtml}"/>
 
+					<c:set var="queueId" value="${form.id}"/>
+					<c:if test="${not (queueId gt 0)}">
+						<c:set var="queueId" value="${ctxUser.personalizationMap['queueLastSelected']}"/>
+					</c:if>
+
 					<script>
 						$(function () {
 							$('#${id}').appendTo( $('#title > .status:visible > .wrap > .center') );
 
 							<c:forEach items="${form.response.data.list}" var="item">
 								<c:if test="${savedPanelMap.contains(item.id)}">
-										addToPanelScript('${item.id}', '${item.title}');
+									addToPanelScript('${item.id}', '${item.title}');
 								</c:if>
 							</c:forEach>
 
-							var queueId = "${ctxUser.personalizationMap['queueLastSelected']}";
-
-							var state = history.state;
-							var pos = state.href.indexOf('#');
-							if (state && pos > 0) {
-								queueId = state.href.substring(pos + 1);
-							}
-
 							//удаляем иконку добавления на панель из select при загрузке
 							$('#processQueueSelect').find('.text-value div.icon-add').remove();
-							$$.process.queue.showSelected(queueId);
+							$$.process.queue.showSelected(${queueId});
 						})
 					</script>
 				</c:when>

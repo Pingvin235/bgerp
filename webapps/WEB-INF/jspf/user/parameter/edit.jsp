@@ -15,16 +15,16 @@
 			jump_regexp[index] = new Object;
 
 			<c:choose>
-			  <c:when test="${fn:startsWith(item.regexp, '/')==false}">
-			  	<c:choose>
-			  		<c:when test="${fn:endsWith(item.regexp, '/')==false}">
-			  			jump_regexp[index].regexp = /${item.regexp}/;
-			  		</c:when>
-			  	</c:choose>
-			  </c:when>
-			  <c:otherwise>
-			  	jump_regexp[index].regexp = ${item.regexp};
-			  </c:otherwise>
+				<c:when test="${not fn:startsWith(item.regexp, '/')}">
+					<c:choose>
+						<c:when test="${not fn:endsWith(item.regexp, '/')}">
+							jump_regexp[index].regexp = /${item.regexp}/;
+						</c:when>
+					</c:choose>
+				</c:when>
+				<c:otherwise>
+					jump_regexp[index].regexp = ${item.regexp};
+				</c:otherwise>
 			</c:choose>
 
 			jump_regexp[index].moveLastChar = ${item.moveLastChar};
@@ -32,20 +32,16 @@
 		</c:forEach>
 
 		$("input.paramPhone[name^=part2]").on('keyup',
-				function()
-				{
+				function () {
 					var len = $( this ).val().length;
 					var value = $( this ).val();
 
-					if( len != 0 )
-					{
-						for(var i = 0; i < jump_regexp.length; i++)
-						{
+					if (len != 0) {
+						for (var i = 0; i < jump_regexp.length; i++) {
 							var expr = jump_regexp[i];
 							var nextInput = $( this ).parent().next().children();
 
-							if( value.match(expr.regexp) != null )
-							{
+							if (value.match(expr.regexp) != null) {
 								$(nextInput).focus();
 
 								if( expr.moveLastChar == true )
@@ -157,7 +153,11 @@
 						<c:param name="paramId" value="${parameter.id}"/>
 					</c:url>
 				</c:if>
-
+				
+				<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
+				<input type="text" name="value" value="${tu.format(data.value, type)}" id="${focusFieldUiid}" ${changeAttrs} onclick="${getCommand}"/>
+				<ui:date-time selector="#${focusFieldUiid}" type="${type}" saveCommand="${saveCommand}"/>
+				<%--
 				<c:choose>
 					<c:when test="${parameter.type eq 'date'}">
 						<c:set var="type" value="ymd"/>
@@ -170,6 +170,7 @@
 						<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 					</c:when>
 				</c:choose>
+				--%>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'tree'}">
@@ -201,8 +202,6 @@
 				<c:set var="config" value="${parameter.configMap}" />
 
 				<%@ include file="edit_listcount.jsp"%>
-
-				<%-- <%@ include file="/WEB-INF/jspf/check_listcount_addremove.jsp"%> --%>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'list'}">
@@ -551,13 +550,7 @@
 </html:form>
 
 <script>
-	$( function()
-	{
-		// иначе в FF не работает
-		setTimeout( function()
-		{
-			// mouseover() мыши нужно для datepicker а, чтобы отобразился редактор
-			$("#${focusFieldUiid}").mouseover().focus();
-		}, 0 );
+	$(function () {
+		$$.ui.inputFocus($("#${focusFieldUiid}"));
 	});
 </script>

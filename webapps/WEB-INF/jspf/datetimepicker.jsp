@@ -8,4 +8,4 @@
 
 <ui:date-time 
 	paramName="${paramName}" value="${initialDate}" type="${type}" selector="${selector}" 
-	editable="${editable}" saveCommand="${saveCommand}" parameter="${paremeter}"/>
+	editable="${editable}" saveCommand="${saveCommand}"/>

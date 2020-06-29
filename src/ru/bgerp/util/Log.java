@@ -64,7 +64,7 @@ public class Log {
     /**
      * Runs {@link #log(Priority, String, Object...)} with {@link Level#INFO}
      */
-    public void info(String pattern, Object params) {
+    public void info(String pattern, Object... params) {
         log(Level.INFO, pattern, params);
     }
     
@@ -78,7 +78,7 @@ public class Log {
     /**
      * Runs {@link #log(Priority, String, Object...)} with {@link Level#WARN}
      */
-    public void warn(String pattern, Object params) {
+    public void warn(String pattern, Object... params) {
         log(Level.WARN, pattern, params);
     }
     

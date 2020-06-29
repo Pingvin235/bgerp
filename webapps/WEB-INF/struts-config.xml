@@ -171,7 +171,7 @@
 			 <forward name="default" path="/WEB-INF/jspf/user/log/log.jsp"/>
 		</action>
 
-		<action path="/usermob/process" parameter="action" type="ru.bgcrm.struts.action.ProcessAction" name="form" scope="request">
+		<action path="/usermob/process" parameter="action" type="org.bgerp.action.usermob.ProcessAction" name="form" scope="request">
 			<forward name="queue" path="/WEB-INF/jspf/usermob/process/queue/queue.jsp"/>
 			<forward name="queueShow" path="/WEB-INF/jspf/usermob/process/queue/show.jsp"/>
 			<forward name="process" path="/WEB-INF/jspf/usermob/process/process/process.jsp"/>

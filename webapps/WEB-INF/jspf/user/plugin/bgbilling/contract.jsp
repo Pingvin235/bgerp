@@ -24,7 +24,7 @@
 
 			<%-- параметры и отчёты - ниже в DIV ке --%>
 
-			<c:url var="url" value="plugin/bgbilling/proto/contract.do">
+			<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
 				<c:param name="action" value="contractCards"/>
 				<c:param name="billingId" value="${billingId}"/>
 				<c:param name="contractId" value="${contractId}"/>
@@ -193,7 +193,7 @@
 				Биллинг: <b>${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</b>
 			</div>
 			<div>
-				<c:url var="openUrl" value="plugin/bgbilling/proto/contract.do">
+				<c:url var="openUrl" value="/user/plugin/bgbilling/proto/contract.do">
 					<c:param name="action" value="bgbillingOpenContract" />
 					<c:param name="billingId" value="${billingId }" />
 					<c:param name="contractId" value="${contractId }" />

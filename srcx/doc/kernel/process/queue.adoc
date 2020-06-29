@@ -335,7 +335,7 @@ WARNING: Использование агрегирующих функций пр
 |Да
 
 |actions
-|Ссылки с <<operation, операциями>> над процессом.
+|Links or buttons with <<action, process actions>>.
 |Нет
 |Нет
 |Нет
@@ -738,8 +738,8 @@ sort.mode.2.title=Создан обр.
 sort.mode.2.desc=1
 ----
 
-[[operation]]
-=== Операции
+[[action]]
+=== Actions
 Настраиваемые операции над процессом, ссылки которых выводятся в колонке с *value=actions*.
 Действия могут отображаться в виде ссылок либо кнопок.
 
@@ -771,7 +771,7 @@ action.<id>.style=<style>
 * *<id>* - уникальный числовой идентификатор режима сортировки;
 * *<title>* - наименование операции.
 * *<statusIds>* - коды статусов через запятую, в которых разрешена операция;
-* *<commands>* - команды макроса обработки процесса;
+* *<commands>* - <<processing.adoc#commands-kernel, команды>> макроса обработки процесса;
 * *<shortcut>* - сокрашённый текст на кнопке;
 * *<style>* - атрибут HTML style для кнопки.
 
@@ -797,7 +797,7 @@ action.3.commands=setStatus:13;clearExecutors;refreshCurrentQueue
 ----
 
 [[processor]]
-=== Обработчики
+=== Processor
 Обработчики позволяют производить пакетную обработку нескольких выделенных процессов. Например, менять статус или устанавливать исполнителя. 
 Обработчики добавляются в конфигурации очереди записями следующего вида:
 [source]
@@ -829,7 +829,7 @@ processor.2.class=ru.bgcrm.dyn.ufanet.stp.SetProcessExecutor
 processor.2.page=/WEB-INF/jspf/user/process/queue/custom/executor_list.jsp
 ----
 
-Обработчики отображаются в пункте меню Ещё очереди процессов наряду со стандартными пунктами.
+Обработчики отображаются в пункте меню *Ещё* очереди процессов наряду со стандартными пунктами.
 
 image::_res/i0105.png[]
 
@@ -842,6 +842,8 @@ image::_res/i0105.png[]
 processor.<id>.title=<title>
 processor.<id>.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
 processor.<id>.commands=<commands>
+# additional JEXL script, without UI defined params
+processor.<id>.doExpression=<doExpression>
 #
 # если не печать
 processor.<id>.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
@@ -854,7 +856,8 @@ processor.<id>.responseType=file
 Где:
 [square]
 * *<id>* - числовой идентификатор обработчика;
-* *<commands>* - команды, см. далее.
+* *<commands>* - команды, см. далее;
+* *<doExpression>* - <<../extension.adoc#jexl, JEXL>> script with <<../extension.adoc#jexl-process-context, standard context for process>>.
 
 Поддержанные команды:
 [square]
@@ -870,6 +873,16 @@ document:pattern.100.scope=processQueue
 document:pattern.100.script=ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator
 document:pattern.100.type=jspHtml
 document:pattern.100.jsp=/WEB-INF/jspf/user/plugin/document/template/example/process_queue_processor_html.jsp
+----
+
+Sample of processor, set parameter value and delete groups:
+[source]
+----
+processor.6.title=Set date, delete groups
+processor.6.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+processor.6.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
+processor.6.commands=setParam:40
+processor.6.doExpression=deleteGroups(process.getGroupIds())
 ----
 
 === Генерация печатной формы PDF

@@ -161,15 +161,9 @@ function processQueueMarkFilledFilters($form) {
 }
 
 //помещение в URL #<код очереди>
-function addProcessQueueIdToUrl( queueId )
-{
-	var state = history.state;
-	if (state)
-	{
-		var pos = state.href.indexOf( '#' );
-		state.href = ( pos < 0 ? state.href : state.href.substring( 0, pos ) ) + "#" + queueId;
-		history.replaceState( state, null, state.href )
-	}
+function addProcessQueueIdToUrl(queueId) {
+	console.warn($$.deprecated);
+	$$.shell.stateFragment(queueId);
 }
 
 function processQueueFilterSetSelect(queueId) {

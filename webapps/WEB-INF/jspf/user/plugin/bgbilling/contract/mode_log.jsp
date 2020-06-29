@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 	
 <div class="in-table-cell">
-	<form action="plugin/bgbilling/proto/contract.do">
+	<form action="/user/plugin/bgbilling/proto/contract.do">
 		<input type="hidden" name="action" value="updateMode"/>
 		<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 		<input type="hidden" name="billingId" value="${form.param.billingId}"/>
