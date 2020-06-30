@@ -62,12 +62,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     public static final String RESPONSE_TYPE_JSON = "json";
     public static final String RESPONSE_TYPE_STREAM = "stream";
 
-    public static DynActionForm SERVER_FORM = new DynActionForm();
-    static {
-        SERVER_FORM.setUser(User.USER_SYSTEM);
-        SERVER_FORM.l = Localization.getLocalizer(); 
-    }
-
+    public static DynActionForm SERVER_FORM = new DynActionForm(User.USER_SYSTEM);
+    
     private HttpServletRequest httpRequest;
     private HttpServletResponse httpResponse;
     private OutputStream httpResponseOutputStream;
@@ -132,6 +128,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     public DynActionForm(User user) {
         this.user = user;
         this.permission = ParameterMap.EMPTY;
+        this.l = Localization.getLocalizer();
     }
 
     public HttpServletRequest getHttpRequest() {

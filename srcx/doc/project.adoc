@@ -913,7 +913,7 @@ link:../../webapps/WEB-INF/jspf/user/log/log.jsp#L22-L28[webapps/WEB-INF/jspf/us
 
 Отправка AJAX запроса, блокировка кнопки при долгом выполнении действия:
 [snippet, from="<bu", to="on>"]
-link:../../webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp#L22-L27[webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp]
+link:../../webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp#L22-L30[webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp]
 
 [[build]]
 == Build and publish

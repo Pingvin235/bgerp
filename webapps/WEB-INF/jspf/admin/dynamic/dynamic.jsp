@@ -21,10 +21,13 @@
 	
 	<button class="btn-grey ml1" type="button" onclick="
 		this.disabled = true;
-		$$.ajax.post(this.form).done(() => {
-			this.disabled = false;
-			alert(this.form.sync.checked ? '${l.l('Класс выполнен, проверьте логи')}' : '${l.l('Класс запущен в отдельном потоке,\\nвывод в логах.')}')
-		})">${l.l('Выполнить')}</button>
+		$$.ajax.post(this.form)
+			.always(() => {
+				this.disabled = false;
+			})
+			.done(() => {
+				alert(this.form.sync.checked ? '${l.l('Класс выполнен, проверьте логи')}' : '${l.l('Класс запущен в отдельном потоке,\\nвывод в логах.')}')
+			})">${l.l('Выполнить')}</button>
 </html:form>
 
 <c:set var="result" value="${form.response.data.result}"/>

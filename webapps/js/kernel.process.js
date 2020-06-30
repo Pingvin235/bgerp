@@ -968,7 +968,7 @@ function processProcessClientEvents( event )
 		}
 		case 'ru.bgcrm.event.client.ProcessCurrentQueueRefreshEvent':
 		{
-			$("#content > #processQueue #processQueueData button[name='pageControlRefreshButton']").click();
+			$("#content > #process-queue #processQueueData button[name='pageControlRefreshButton']").first().click();
 			break;
 		}
 		case 'ru.bgcrm.event.client.TemporaryObjectEvent':
