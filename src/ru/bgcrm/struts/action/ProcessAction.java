@@ -73,7 +73,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward process(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDAO = new ProcessDAO(con);
+        ProcessDAO processDAO = new ProcessDAO(con, form.getUser());
 
         Process process = processDAO.getProcess(form.getId());
         if (process != null) {
