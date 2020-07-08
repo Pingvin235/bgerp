@@ -18,13 +18,13 @@
 **** <<kernel/process/processing_samples.adoc#, Примеры простой обработки событий>>
 *** <<kernel/process/wizard.adoc#, Мастер>>
 ** <<kernel/message.adoc#, Сообщения>>
-** <<kernel/work.adoc#, Организация работ>>
 ** <<kernel/extension.adoc#, Расширение функциональности>>
 *** <<ext/dyn_sample.adoc#, Примеры динамического кода>>
 * Plugins
+** <<plugin/asterisk/index.adoc#, Asterisk>>
 ** <<plugin/bgbilling/index.adoc#, BGBilling>>
 ** <<plugin/blow/index.adoc#, Blow>>
-** <<plugin/asterisk/index.adoc#, Asterisk>>
+** <<plugin/callboard/index.adoc#, CallBoard>>
 ** <<plugin/dispatch/index.adoc#, Dispatch>>
 ** <<plugin/document/index.adoc#, Document>>
 ** <<plugin/fulltext/index.adoc#, FullText>>

@@ -1,0 +1,334 @@
+<item title="Ядро">
+	<item title="Администрирование">
+		<item title="Группы и пользователи">
+			<item title="Пользователи">
+				<item action="ru.bgcrm.struts.action.admin.UserAction:userList" title="Просмотр пользователей">
+					<b>allowOnlyGroups</b> - коды разрешённых к просмотру групп, коды групп через запятую<br/>
+					<b>allowFilterGroups</b> - коды разрешённых к просмотру групп, которые будут отображаться в фильтре по группе, коды групп через запятую<br/>
+				</item>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:userGet" title="Просмотр пользователя"/>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:userUpdate" title="Изменение пользователя">
+					<b>setConfigVars</b> - переменные для установки в конфигурацию пользователя: переменная1=значение1;переменная2=значение2..<br/>
+					<b>groupSet</b> - принудительно устанавливаемые в создаваемом пользователе группы, коды групп через запятую.<br/>
+					<b>permsetSet</b> - принудительно устанавливаемые в создаваемом пользователе наборы прав, коды наборов через запятую.<br/>
+					<b>queueSet</b> - принудительно устанавливаемые в создаваемом пользователе очереди процессов, коды очередей через запятую.<br/>
+					<b>permDisable</b> - запрет обновления прав пользователя, 1<br/>
+					<b>configDisable</b> - запрет обновления конфигурации пользователя, 1<br/>
+					<b>allowPermsetSet</b> - ограничить список наборов прав, которые пользователь может указать при создании/изменении, коды наборов прав через запятую<br/>
+				</item>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:userDelete" title="Удаление пользователя"/>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:userGroupList" title="Просмотр групп пользователя"/>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:userAddGroup" title="Добавление группы пользователя">
+					<b>allowOnlyGroups</b> - коды разрешенных к добавлению групп, коды групп через запятую<br/>
+				</item>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:userRemoveGroup" title="Удаление группы пользователя">
+					<b>allowOnlyGroups</b> - коды разрешенных к удалению групп, коды групп через запятую<br/>
+				</item>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:userClosePeriodGroup" title="Закрытие периода группы пользователя">
+					<b>allowOnlyGroups</b> - коды разрешенных к закрытию периода групп, коды групп через запятую<br/>
+				</item>
+			</item>
+			<item title="Группы">
+				<item action="ru.bgcrm.struts.action.admin.UserAction:groupList" title="Просмотр групп"/>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:groupGet" title="Просмотр группы"/>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:groupUpdate" title="Изменение группы"/>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:groupDelete" title="Удаление группы"/>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:groupInsertMark" title="Перемещение группы"/>
+			</item>
+			<item title="Наборы прав">
+				<item action="ru.bgcrm.struts.action.admin.UserAction:permsetList" title="Просмотр наборов"/>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:permsetGet" title="Просмотр набора"/>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:permsetUpdate" title="Изменение набора"/>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:permsetDelete" title="Удаление набора"/>
+				<item action="ru.bgcrm.struts.action.admin.UserAction:permsetReplacePermissions" title="Замена прав в наборе"/>
+			</item>
+
+			<item title="Должности">
+				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentList" title="Просмотр должностей" />
+				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentGet" title="Просмотр должности" />
+				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentUpdate" title="Изменения должности" />
+				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentDelete" title="Удаление должности" />
+			</item>
+		</item>
+
+		<item title="Группы контрагентов">
+			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupList" title="Просмотр групп"/>
+			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupGet" title="Просмотр группы"/>
+			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupUpdate" title="Изменение группы"/>
+			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupDelete" title="Удаление группы"/>
+		</item>
+
+		<item title="Конфигурация">
+			<item action="ru.bgcrm.struts.action.admin.ConfigAction:list" title="Просмотр конфигураций">
+				<b>allowedConfigIds</b> - коды разрешённых к просмотру конфигураций через запятую<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.admin.ConfigAction:get" title="Просмотр конфигурации">
+				<b>allowedConfigIds</b> - коды разрешённых к просмотру конфигураций через запятую<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.admin.ConfigAction:delete" title="Удаление конфигурации"/>
+			<item action="ru.bgcrm.struts.action.admin.ConfigAction:update" title="Изменение конфигурации">
+				<b>allowedConfigIds</b> - коды разрешённых к просмотру конфигураций через запятую<br/>
+				<b>activeAllow</b> - 0, для запрета установки в активную<br/>
+			</item>
+		</item>
+
+		<item title="Справочники">
+			<item action="ru.bgcrm.struts.action.admin.DirectoryAction:null" title="Получение списка справочников"/>
+
+			<item title="Параметры">
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterList" title="Просмотр параметров"/>
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterGet" title="Просмотр параметра"/>
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterUpdate" title="Изменение параметра"/>
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterDelete" title="Удаление параметра"/>
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterUseProcess" title="Просмотр в каких процессах используется параметр"/>
+			</item>
+			<item title="Шаблоны названий">
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleList" title="Просмотр шаблонов названий"/>
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleGet" title="Просмотр шаблона названия"/>
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleUpdate" title="Изменение шаблона названия"/>
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:patternTitleDelete" title="Удаление шаблона названия"/>
+			</item>
+			<item title="Группы параметров">
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupList" title="Просмотр групп параметров"/>
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupGet" title="Просмотр группы параметров"/>
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupUpdate" title="Изменение группы параметров"/>
+				<item action="ru.bgcrm.struts.action.admin.DirectoryAction:parameterGroupDelete" title="Удаление группы параметров"/>
+			</item>
+		</item>
+
+		<item title="Процессы">
+			<item title="Статусы">
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:statusList" title="Просмотр статусов"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:statusGet" title="Просмотр статуса"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:statusDelete" title="Удаление статуса"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:statusUpdate" title="Изменение статуса"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:statusUseProcess" title="Просмотр в каких процессах используется статус"/>
+			</item>
+			<item title="Типы">
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeList" title="Просмотр типов"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeGet" title="Просмотр типа"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeUpdate" title="Изменение типа"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeDelete" title="Удаление типа"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeInsertMark" title="Вставка типа"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeUsed" title="Где используется"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeCopy" title="Копировать тип"/>
+			</item>
+			<item title="Очереди">
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueList" title="Просмотр очередей">
+					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+				</item>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueGet" title="Просмотр очереди">
+					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+				</item>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueUpdate" title="Изменение очереди">
+					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+				</item>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueDelete" title="Удаление очереди">
+					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+				</item>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:properties" title="Просмотр свойств очереди">
+					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+				</item>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:propertiesUpdate" title="Изменение свойств очереди">
+					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+				</item>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:transactionCheck" title="Изменение в матрице переходов очереди">
+					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+				</item>
+			</item>
+		</item>
+
+		<item title="Динамический код">
+			<item action="ru.bgcrm.struts.action.admin.DynamicAction:null" title="Динамический код" notLogging="1"/>
+			<item action="ru.bgcrm.struts.action.admin.DynamicAction:recompileAll" title="Перекомпиляция"/>
+			<item action="ru.bgcrm.struts.action.admin.DynamicAction:runDynamicClass" title="Запуск динамического класса извне"/>
+		</item>
+
+		<item title="WEB запросы">
+			<item action="ru.bgcrm.struts.action.admin.WebRequestAction:null" title="WEB запросы" notLogging="1"/>
+			<item action="ru.bgcrm.struts.action.admin.WebRequestAction:findRequests" title="поиск WEB запросов" notLogging="1"/>
+		</item>
+
+		<item title="Приложение">
+			<item action="ru.bgcrm.struts.action.admin.AppAction:status, ru.bgcrm.struts.action.admin.StateAction:null" title="Статус"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:update" title="Обновить"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:updateToChange" title="Обновить на изменение"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList" title="Сессии пользователей"/>
+		</item>
+	</item>
+
+	<item title="Пользователь">
+		<item title="Контрагент">
+			<item action="ru.bgcrm.struts.action.CustomerAction:customerGet" title="Открытие контрагента для изменения"/>
+			<item action="ru.bgcrm.struts.action.CustomerAction:customerCreate" title="Создание контрагента"/>
+			<item action="ru.bgcrm.struts.action.CustomerAction:customerUpdate" title="Изменение контрагента"/>
+			<item action="ru.bgcrm.struts.action.CustomerAction:customerDelete" title="Удаление контрагента"/>
+			<item action="ru.bgcrm.struts.action.CustomerAction:null;ru.bgcrm.struts.action.CustomerAction:customer" title="Просмотр карточки контрагента"/>
+			<item action="ru.bgcrm.struts.action.CustomerAction:customerTitleList" title="Контекстный поиск контрагентов"/>
+			<item action="ru.bgcrm.struts.action.CustomerAction:customerMerge" title="Слияние контрагентов"/>
+		</item>
+		<item title="Адреса">
+			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:null;ru.bgcrm.struts.action.DirectoryAddressAction:address" title="Просмотр справочника адресов"/>
+			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressGet" title="Просмотр дома"/>
+			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:getAddressItem" title="Просмотр иной кроме дома записи справочника"/>
+			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:streetSearch" title="Поиск по улицам">
+				<b>cityIds</b> - годы городов через запятую, в которых разрешён поиск улиц
+			</item>
+			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate" title="Изменение записи справочника">
+				<b>cityIds</b> - годы городов через запятую, разрешенных для редактирования
+				<b>restrictUpdateMainParameters</b> - запрет изменения параметров (Улица,Район,Квартал,Номер дома [с дробью])
+			</item>
+			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressDelete" title="Удаление записи справочника">
+				<b>cityIds</b> - годы городов через запятую, разрешенных для просмотра
+			</item>
+			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:houseSearch" title="Поиск домов в улице"/>
+		</item>
+		<item title="Файлы">
+			<item action="ru.bgcrm.struts.action.FileAction:null" title="Загрузка файла"/>
+			<item action="ru.bgcrm.struts.action.FileAction:temporaryUpload" title="Выгрузка временного файла" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.FileAction:temporaryDelete" title="Удаление временного файла" allowAll="1"/>
+		</item>
+		<item title="Привязки">
+			<item action="ru.bgcrm.struts.action.LinkAction:addLink" title="Добавление привязки"/>
+			<item action="ru.bgcrm.struts.action.LinkAction:deleteLink" title="Удаление привязки">
+				<b>allowProcessLinkDelete</b> - 0, если запрещено удалять привязки процессов
+			</item>
+			<item action="ru.bgcrm.struts.action.LinkAction:deleteLinksTo" title="Удаление привязок объекта"/>
+			<item action="ru.bgcrm.struts.action.LinkAction:linkList" title="Просмотр привязок"/>
+			<item action="ru.bgcrm.struts.action.LinkAction:deleteLinksWithType" title="Удаление привязок определённого типа"/>
+		</item>
+		<item title="Параметры">
+			<item action="ru.bgcrm.struts.action.ParameterAction:parameterList" title="Просмотр параметров">
+				<b>parameterIds</b> - id параметров через запятую разрешенных для просмотра<br/>
+				<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для просмотра<br/>
+				<b>tags</b> - теги через запятую тегированных параметров, которые разрешено отображать<br/>
+				<b>offEncrypt</b> - 1, если разрешено просматривать зашифрованные значения<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.ParameterAction:parameterGet" title="Просмотр параметра"/>
+			<item action="ru.bgcrm.struts.action.ParameterAction:parameterUpdate" title="Изменение параметра">
+				<b>parameterIds</b> - id параметров через запятую разрешенных для изменения<br/>
+				<b>restrictedParameterIds</b> - id параметров через запятую, запрещенных для изменения<br/>
+				<b>tags</b> - теги через запятую тегированных параметров, которые разрешено править<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.ParameterAction:parameterLog" title="Просмотр истории изменения параметров"/>
+			<item action="ru.bgcrm.struts.action.ParameterAction:entityLog" title="Просмотр лога изменений"/>
+		</item>
+		<item title="Process">
+			<item title="Queue">
+				<item action="ru.bgcrm.struts.action.ProcessAction:queue;org.bgerp.action.usermob.ProcessAction:queue;ru.bgcrm.struts.action.ProcessQueueAction:queue" title="Queues"/>
+				<item action="ru.bgcrm.struts.action.ProcessAction:queueGet;ru.bgcrm.struts.action.ProcessQueueAction:queueGet" title="Получение свойств очереди процессов"/>
+				<item action="ru.bgcrm.struts.action.ProcessAction:queueShow;org.bgerp.action.usermob.ProcessAction:queueShow;ru.bgcrm.struts.action.ProcessQueueAction:queueShow" title="Просмотр очереди процессов"/>
+				<item action="ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet;ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet" title="Сохранённые наборы фильтров" allowAll="1"/>
+				<item action="ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet;ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet" title="Сохранённые наборы кнопок очередей процессов" allowAll="1"/>
+				<item action="ru.bgcrm.struts.action.ProcessAction:typeTree;ru.bgcrm.struts.action.ProcessQueueAction:typeTree" title="Process creation editor">
+					<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
+				</item>
+				<item action="ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke;ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke" title="Run processor"/>
+			</item>
+			<item action="ru.bgcrm.struts.action.ProcessAction:null;org.bgerp.action.usermob.ProcessAction:null;ru.bgcrm.struts.action.ProcessAction:process" title="Просмотр карточки процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processCreate" title="Создание процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processCreateGroups" title="Выбор группы решения при создании процесса" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processDoCommands" title="Выполнение макроса процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate" title="Изменение статуса процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory" title="Просмотр истории статуса процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate" title="Изменение приоритета процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate" title="Изменение описание процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd" title="Добавление в описание процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate" title="Изменение групп процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate" title="Изменение исполнителей процесса">
+				<b>allowOnlyGroups</b> - id групп через запятую, в которых возможно изменение исполнителей<br/>
+				<b>allowOnlyUsers</b> - id исполнителей через запятую, которых можно удалять/добавлять<br/>
+				<b>allowOnlyProcessTypeIds</b> - id типов процессов через запятую, в которых разрешено изменение исполнителей<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processDelete" title="Delete"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:process" title="Process card view"/>
+			<item title="Links">
+				<item action="ru.bgcrm.struts.action.ProcessAction:linkedProcessList;ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessList" title="Просмотр процессов с привязкой">
+					<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
+				</item>
+				<!-- <item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessInfo" title="Просмотр информации о привязанном процессе"/> -->
+				<item action="ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate;ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate" title="Создание процесса с привязкой"/>
+			</item>
+			<item title="Links to processes">
+				<item action="ru.bgcrm.struts.action.ProcessAction:linkProcessList;ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList" title="Просмотр привязанных процессов"/>
+				<item action="ru.bgcrm.struts.action.ProcessAction:linkProcessCreate;ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate" title="Создание привязанного процесса"/>
+			</item>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processRequest" title="Запрос дополнительных параметров создания процесса" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processTypeEdit" title="Редактор изменения типа процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processTypeUpdate" title="Изменение типа процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:userProcessList" title="Мои процессы"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:unionLog" title="Просмотр полного лога изменений"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processDeleteTmp" title="Удаление временного процесса" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processFinishCreateTmp" title="Завершение создания процесса" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processMerge" title="Merge"/>
+		</item>
+		<item title="Сообщения">
+			<item action="ru.bgcrm.struts.action.MessageAction:null" title="Просмотр сообщения"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageList" title="Список сообщений">
+				 <b>allowedTypeIds</b> - id типов сообщений через запятую, разрешённых к просмотру<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.MessageAction:newMessageLoad" title="Загрузка нового сообщения"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateTags" title="Изменение тегов сообщения"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Изменение процесса сообщения"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Изменение процесса сообщения на копию текущего"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Создание/редактирование сообщения"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:processMessageList" title="Просмотр списка сообщений процесса"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageDelete" title="Удаление сообщения"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList" title="Просмотр возможно связанных с сообщением процессов"/>
+
+			<item title="Сообщения (телефония)">
+				<item action="ru.bgcrm.struts.action.MessageCallAction:numberRegister" title="Регистрация номера"/>
+				<item action="ru.bgcrm.struts.action.MessageCallAction:numberFree" title="Освобождение номера"/>
+			</item>
+		</item>
+
+		<item title="Поиск">
+			<item action="ru.bgcrm.struts.action.SearchAction:null" title="Поиск">
+				<b>allowedAreaIds</b> - id префиксов городов через запятую <br/>
+				<b>allowedForms</b> - через запятую разрешённые объекты поиска <br/>
+				<b>defaultForm</b> - форма поиска по-умолчанию
+			</item>
+			<item action="ru.bgcrm.struts.action.SearchAction:customerSearch" title="Поиск контрагента"/>
+			<item action="ru.bgcrm.struts.action.SearchAction:processSearch" title="Поиск процесса"/>
+		</item>
+		<item title="Справочник пользователей">
+			<item action="ru.bgcrm.struts.action.UserAction:userList" title="Получение списка пользователей"/>
+			<item action="ru.bgcrm.struts.action.UserAction:setPageConfig" title="Изменение настроек промотчика страниц для текущего юзера" allowAll="1"/>
+		</item>
+
+		<item action="ru.bgcrm.struts.action.EmptyAction:null" title="Для унифицированного вызова JSP" allowAll="1" notLogging="1"/>
+		<item action="ru.bgcrm.struts.action.PoolAction:null" title="Для пулинга" allowAll="1" notLogging="1"/>
+
+		<item action="ru.bgcrm.struts.action.LockAction:add" title="Добавление блокировки" allowAll="1"/>
+		<item action="ru.bgcrm.struts.action.LockAction:free" title="Удаление блокировки" allowAll="1"/>
+
+		<item title="Новости">
+			<item action="ru.bgcrm.struts.action.NewsAction:newsList" title="Просмотр списка новостей" />
+			<item action="ru.bgcrm.struts.action.NewsAction:newsGet" title="Просмотр тела новости" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.NewsAction:newsSetRead" title="Пометка новости прочитанной" />
+			<item action="ru.bgcrm.struts.action.NewsAction:newsSetAllRead" title="Пометка всех новостей прочитанными" />
+			<item action="ru.bgcrm.struts.action.NewsAction:newsEdit" title="Открытие новости на правку"/>
+			<item action="ru.bgcrm.struts.action.NewsAction:newsUpdate" title="Изменение новости">
+				<b>allowedGroupIds</b> - id групп через запятую, для которых разрешено добавление новостей<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.NewsAction:newsDelete" title="Удаление новости"/>
+		</item>
+
+		<item title="Профиль пользователя">
+			<item action="ru.bgcrm.struts.action.ProfileAction:getUserProfile" title="Просмотр профиля" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.ProfileAction:settings" title="Просмотр параметров профиля" allowAll="1"/>
+			<item action="ru.bgcrm.struts.action.ProfileAction:updateSettings" title="Изменение параметров профиля"/>
+			<item action="ru.bgcrm.struts.action.ProfileAction:updatePersonalization" title="Изменение параметров интерфейс" allowAll="1"/>
+		</item>
+
+		<item title="Логирование">
+			 <item action="ru.bgcrm.struts.action.LogAction:null" title="Состояние"/>
+			 <item action="ru.bgcrm.struts.action.LogAction:log" title="Включение"/>
+			 <item action="ru.bgcrm.struts.action.LogAction:download" title="Загрузка лога сессии"/>
+		</item>
+
+		<!-- Действие не видно в дереве действий. -->
+		<item action="ru.bgcrm.struts.action.LoginAction:null" title="Авторизация" allowAll="1" notLogging="1"/>
+		<item action="ru.bgcrm.struts.action.LoginAction:logout" title="Выход" allowAll="1" notLogging="1"/>
+	</item>
+</item>

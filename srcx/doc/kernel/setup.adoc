@@ -21,7 +21,7 @@ image::_res/i0084.png[]
 [example]
 :hardbreaks:
 ====
-# <<../project.adoc#localization, язык интерфейса>>, поддерживаются: ru, en
+# <<../project.adoc#l10n, язык интерфейса>>, поддерживаются: ru, en
 lang=en
 #
 # выводится в заголовке окна браузера при работе с BGERP
@@ -96,6 +96,9 @@ mail.smtp.pswd=
 # отладка почтового обмена SMTP
 #mail.debug=1
 #
+# EMail для экстренных уведомлений о проблемах в системе
+#alarm.mail= 
+#
 # <<message.adoc#process, теги>> сообщений [[config-message-tag]]
 tag.1.title=Реквизиты
 tag.1.color=red
@@ -107,6 +110,7 @@ tag.3.color=magenta
 # <<extension.adoc#dyn, динамический код>> и расширение функциональности [[config-dyn]]
 dynamic.src.dir=dyn
 dynamic.src.encoding=UTF-8
+#
 # максимальное время выполнения обработчика события в мс. до принудительного прерывания
 event.processTimeout=1000
 #
@@ -121,16 +125,11 @@ scheduler.start=1
 # сброс кэша новостей каждые указанное количество секунд, может быть необходимо лишь при импорте новостей извне в БД BGERP
 #flush.news.everySeconds=
 #
-# EMail для экстренных уведомлений о проблемах в системе
-#alarm.mail= 
-#
 # 1 - база доступна только на чтение, отключение записи логов и сохранения параметров интерфейса
 #db.readonly=1
 ====
 
 :hardbreaks!:
-
-Записи параметров плагинов начинаются с префикса *<plugin>:*, например *bgbilling:*.
 
 [[config-include]]
 === Инклуды
@@ -150,6 +149,34 @@ USER_PARAM_EMAIL=
 PROCESS_STATUS_OPEN=
 PROCESS_PARAM_CONTACT=
 PROCESS_PARAM_EMAIL=
+----
+
+[[config-plugin]]
+=== Plugins
+The most part of the product's functionality is available in form of plugins.
+By default the application searchs and enables all the plugins, that may be confusing users and overloading the system.
+To reduce visible functionality it is recommended to define in main <<config, configuration>>:
+[source]
+----
+plugin.enable.default=0
+----
+
+For every activated plugin make own <<config-include, included>> configuration named *Plugin <name>*, starting from key: *<plugin>:enable=1* 
+and with all other required keys after. In case of big size, multiple plugin configurations may be used. 
+Example of included configuration named *Plugin Blow BGERP Projects*, for marking skipped blocks used multiple points:
+[source]
+----
+blow:enable=1
+
+blow:board.2.title=BGERP Projects
+blow:board.2.queueId=6
+blow:board.2.stringExpressionCell=<<END
+     result = "";
+     ........
+     return result;
+END
+blow:board.2.openUrl=bgerp-is
+....
 ----
 
 [[user]]

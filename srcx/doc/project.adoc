@@ -383,10 +383,6 @@ After that, using branch comparism, find the new rows and change them in the `.a
 
 image::_res/snippet_fix_2.png[]
 
-[[localization-branch]]
-=== Локализация
-Ветки, содержащие только <<localization, локализацию>> интерфейса, следует начинать с долгоживущей ветки *p12136-localization*. 
-
 == Архитектура
 BGERP представляет из себя standalone Java приложение с динамическим Web интерфейсом.
 Запуск во время разработки может быть <<ide-run, произведён>> прямо в IDE.
@@ -434,17 +430,19 @@ IMPORTANT: Избегать смешения слоёв: логики вне Jav
 [[db]]
 === БД
 <<kernel/db.adoc#, Структура базы>> документируется в общем <<documentation, процессе>>, одновременно c внесением изменений.
-В приложение база создаётся и <<kernel/install.adoc#update, обновляется>> набором SQL patch скриптов `build/update/patch*.sql`.
-При <<ide-run, запуске в IDE>> скрипты могут быть выполнены автоматически.
+В приложение база создаётся и <<kernel/install.adoc#update, обновляется>> SQL скрипто `build/update/db.sql`.
+При <<ide-run, запуске в IDE>> этот скрипт может быть выполнен автоматически при каждом сатрте.
+
+Дополнительно плагины могут содержать собственные <<plugin-db, скрипты>>, выполняемые в момент их инициализации.
 
 [[action]]
 === Логика Java Actions
-Action классы определяются в `struts-config*.xml` файлах, и привязываются к URL запроса. Имя метода передаётся в HTTP параметре запроса *action*.
+Action классы определяются в `struts-config.xml` файлах, и привязываются к URL запроса. Имя метода передаётся в HTTP параметре запроса *action*.
 Если параметр отсутствует, то вызывается *unspecified* метод, подобный способ нежелателен.
 
 Пример объявления акшена с форвардом:
 [snippet, from="<ac", to="on>", remove-leading="		"]
-link:../../webapps/WEB-INF/struts-config-blow.xml#L4-L8[webapps/WEB-INF/struts-config-blow.xml]
+link:../../src/ru/bgerp/plugin/blow/struts-config.xml#L4-L8[src/ru/bgerp/plugin/blow/struts-config.xml]
 
 Акшены должны расширять класс javadoc:ru.bgcrm.struts.action.BaseAction[], методы возвращать результат через вызов *data* либо *status*.
 Первый метод обрабатывается JSP страницей-форвардом и высылает HTML на клиент. Второй - предназначен для выполнения изменений и возвращает только JSON формат с результатом выполнения.
@@ -471,8 +469,17 @@ link:../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp[webapps/WEB-INF/
 [snippet, from="pu", to="}", remove-leading="    "]
 link:../../src/ru/bgcrm/plugin/dispatch/struts/action/DispatchAction.java#L46-L52[ru.bgcrm.plugin.dispatch.struts.action.DispatchAction]
 
+[[action-name]]
 ==== Именование
-Классы акшенов должны располагаться в пакете `..struts.action`, имя класса оканчиваться на *Action*. 
+Классы акшенов <<plugin, плагинов>> должны располагаться в пакете `PLUGIN_PACKAGE.action`, имя класса оканчиваться на *Action*.
+Ранее акшены располагались в пакетах `struts.action`, такой подход является устаревшим.
+
+Акшены <<kernel/interface.adoc#, интерфейса>> *user* разделяются на /user и /admin.
+Деление это в будущем возможно будет использовано для выделения административных вызовов.
+
+Интерфейсы *usermob* и *open* содержат свои акшены, в имени пакетов и URL которых должно располагаться *usermob* и *open* соответственно.
+Пример такого акшена link:../../src/org/bgerp/action/usermob/ProcessAction.java[org.bgerp.action.usermob.ProcessAction]
+
 Рекомендуемая схема именования методов:
 [arabic]
 . опционально имя обрабатываемого объекта, если класс работает с несколькими объектами;
@@ -492,19 +499,19 @@ link:../../src/ru/bgcrm/plugin/dispatch/struts/action/DispatchAction.java#L46-L5
 
 Форвард рекомендуется называть так же как метод:
 [snippet, from="<action path=\"/admin", to="</action>", remove-leading="		"]
-link:../../webapps/WEB-INF/struts-config.xml#L66-L69[webapps/WEB-INF/struts-config.xml]
+link:../../webapps/WEB-INF/struts-config.xml#L55-L58[webapps/WEB-INF/struts-config.xml]
 
 ==== Проверка прав
-Все методы акшенов должны быть объявлены в файле `plugin/action/kernel.xml` для ядра либо `plugin/action/{PLUGIN}.xml` для плагина.
-Пример объявления акшенов плагина Blow: link:../../plugin/action/blow.xml[blow.xml]
+Все методы акшенов должны быть объявлены в файле `action.xml` для ядра либо для <<plugin, плагина>>.
+Пример объявления акшенов плагина Blow: link:../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml]
 Действия из данных файлов образуют дерево, использующееся для <<kernel/setup.adoc#user, разграничения доступа>>.
 
 Каждое действия идентифицируется классом и методом, разделёнными точкой с запятой. 
-Через запятую после основного идентификатора можно указать дополнительные, например, при переименовании классов либо методов.
+Через точку с запятой перед основным идентификатором можно указать дополнительные, например, при переименовании классов либо методов.
 Это позволяет обеспечить обратную совместимость ранее записанных в БД привелегий. При следующем сохранении набора прав будет использован новый идентификатор.
 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
-link:../../plugin/action/kernel.xml#L152-L153[plugin/action/kernel.xml]
+link:../../src/ru/bgcrm/model/user/action.xml#L152-L153[ru/bgcrm/model/user/action.xml]
 
 Вспомогательные действия, которые должны быть постоянно разрешены помечаются атрибутом *allowAll="1"*.
 
@@ -516,7 +523,7 @@ link:../../plugin/action/kernel.xml#L152-L153[plugin/action/kernel.xml]
 
 Класс javadoc:ru.bgcrm.model.BGException[] используется для исключений, генерируемых самой системой, в чистом виде нужен весьма редко.
 
-Его наследник класс javadoc:ru.bgcrm.model.BGMessageException[] используется для отправки <<localization, локализованного>> 
+Его наследник класс javadoc:ru.bgcrm.model.BGMessageException[] используется для отправки <<l10n, локализованного>> 
 уведомления пользователю, без записи сообщения в лог. Пример:
 
 [snippet, from="for (", to=");", remove-leading="            "]
@@ -568,7 +575,7 @@ image::_res/ide_jsp_tag.png[width='600px']
 для выполнения шаблона наберите в браузере http://<host>:<port>/test.jsp, для Demo системы: http://demo.bgerp.ru/test.jsp
 
 Пункты меню, устанавливающие соответствие между URL оснастки и Java Action определяются для ядра в файле 
-link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp], для плагинов - через точку <<plugin-ui-menu, расширения>>.
+link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp], для плагинов - через точку <<plugin-xml-ui-menu, расширения>>.
 
 ==== Функции
 JSP функции объявлены в каталоге `webapps/WEB-INF/tld`.
@@ -610,50 +617,70 @@ link:../../webapps/js/kernel.ajax.js#L352-L357[webapps/js/kernel.ajax.js]
 ядро не знает особенностей конкретного плагина, плагины не знают друг о друге.
 Под *знанием* тут подразумевается полагание на конкретное API, вызовы.
 
-В каких местах производится правка для плагина:
-[square]
-* XML объявление плагина *plugin/name.xml*, там же объявляются точки расширений.
-* Таблицы БД при необходимости создаются и модифицируются в *build/update/patch.sql*
-* Java код плагина в пакете *ru.bgerp.plugin.name*
-* Java библиотеки подключать в *build.gradle* после комментария: "библиотеки, попадающие в сборку BGERP"
-* JS код плагина в файле *webapps/js/name.js*, подключается через точку расширения в XML объявлении.
-* Actions плагина в файле *webapps/WEB-INF/struts-config-name.xml*
-* Действия из обычного интерфейса должны быть объявлены в *action/plugin.xml* для контроля прав.
-* JSP плагина в *webapps/WEB-INF/jspf/user/plugin/name*
-* Для добавления плагина в сборку править *build/update/build.xml*
+[[plugin-class]]
+==== Java класс плагина
+Плагины находятся программой при старте по обязательному Java классу, расширяющему javadoc:ru.bgcrm.plugin.Plugin[]
+Пример класса: link:../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
 
-==== XML декларация
+Каждый плагин должен уникальным *Java package*, содержащим данный класс.
+Далее пакет плагина будет обозначаться как *PLUGIN_PACKAGE*.
+
+В методе инициализации класса плагина могут определяться слушатели событий:
+[snippet, from="Eve", to="ss);", remove-leading="        "]
+link:../../src/ru/bgcrm/plugin/slack/Plugin.java#L21-L23[ru.bgcrm.plugin.slack.Plugin]
+
+В данном случае в <<kernel/extension.adoc#jexl, JEXL>> контекст помещается обработчик функций.
+
+Каждый плагин должен обладать уникальным строковым *идентификатором*, удовлетворяющим следующим условиям:
+[square]
+* одно уникальное для данного плагина английское слово без перемены регистра и спецсимволов;
+* <<db, таблицы БД>> плагина, если они есть, должны начинаться с идентификатора;
+* <<action, actions>> плагина, если они есть, должны начинаться с /user/plugin/идентификатор.
+
+[[plugin-db]]
+Если плагин использует <<db, БД>>, то в его пакете может находиться скрипт, создающий и изменяющий таблицы.
+Скрипт с именем `db.sql` вызывается при стандартной процедуре инициализации.
+
+Пример скрипта для плагина FullText.
 [snippet]
-link:../../plugin/blow.xml[]
+link:../../src/ru/bgcrm/plugin/fulltext/db.sql[src/ru/bgcrm/plugin/fulltext/db.sql]
+
+[[plugin-xml]]
+==== XML декларация
+Необязательный файл `plugin.xml`, располагающийся в *PLUGIN_PACKAGE*
 
 В файле определяются точки расширения:
 [square] 
 * JSP шаблоны;
-* JS файлы;
-* *package* - пакет плагина, в котором должен быть размещён главный класс.
+* JS файлы.
 
-==== Java класс плагина
-link:../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
-
-В классе плагина могут определяться слушатели событий:
-[snippet, from="pu", to="}", remove-leading="	"]
-link:../../src/ru/bgcrm/plugin/slack/Plugin.java#L14-L20[ru.bgcrm.plugin.slack.Plugin]
-
-[[plugin-ui-menu]]
-==== Пункты меню
+[[plugin-xml-ui-menu]]
+===== Пункты меню
 Объявление точки расширения в XML декларации:
 [snippet, from="<en", to=">", remove-leading="	"]
-link:../../plugin/blow.xml#L4-L4[plugin/blow.xml]
+link:../../src/ru/bgerp/plugin/blow/plugin.xml#L4-L4[blow/plugin.xml]
 
 Добавление пункта с помощью тега JSP: link:../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
 
-[[plugin-js]]
-==== JavaScript
+[[plugin-xml-js]]
+===== JavaScript
 Объявление точки расширения в XML декларации:
 [snippet, from="<en", to=">", remove-leading="	"]
-link:../../plugin/blow.xml#L5-L5[plugin/blow.xml]
+link:../../src/ru/bgerp/plugin/blow/plugin.xml#L5-L5[blow/plugin.xml]
 
 Файл со скриптом: link:../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
+
+[[plugin-action]]
+==== Actions
+<<action, Акшены>> плагина, если требуется, должны быть определены в *PLUGIN_PACKAGE.action* каталоге.
+Файлы `struts-config.xml` и `action.xml` должны находится в *PLUGIN_PACKAGE*.
+
+JSP шаблоны - `webapps/WEB-INF/jspf/user|open|usermob/plugin/идентификатор`.
+
+[[plugin-l10n]]
+==== Локализация
+Файл <<l10n, локализации>> плагина `i10n.xml` должен находиться в *PLUGIN_PACKAGE*.
+Он используется только для локализаций акшенов и JSP шаблонов в них.
 
 [[custom-level]]
 === Кастомизация
@@ -689,15 +716,15 @@ JEXL скрипты либо динамический код могут быть
 +--------------+           +-------------+ +-------------+
 ----
 
-[[localization]]
+[[l10n]]
 === Локализация
 Все сообщения в логах не локализуются и выводятся на английском языке.
+
 Локализуется интерфейс и сообщения, адресованные пользователю системы.
 Язык системы задаётся глобально в <<kernel/setup.adoc#config, конфигурации>>.
-Файлы локализации размещаются в *plugin/i18n* в формате XML.
-Новые локализирующие фразы должны добавляться в начало списка в файле.
 
-Локализация отдельно от <<workflow, изменения>> может быть выполнена в <<localization-branch, отдельной ветке GIT>>.
+XML файл локализации `l10n.xml` для ядра располагается в `src/ru/bgerp/l10n`, для <<plugin-l10n, плагинов>> - в их пакетах .
+Новые локализирующие фразы должны добавляться в начало списка в файле.
 
 NOTE: Для отключения в момент разработки кэширования локализаций установите в конфигурации *localization.cache=0*
 

@@ -1,0 +1,4 @@
+C: Move all plugin related data in plugin packages: action.xml, struts-config.xml, l10n.xml, DB scripts.
+A: Initialization of plugins with possibility to disable them, https://bgerp.org/doc/3.0/manual/kernel/setup.html#config-plugin
+C: Cleanup of DB init scripts, split over plugin related tables.
+C: Extracted DB scripts and struts-config.xml for plugin CallBoard.

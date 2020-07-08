@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<plugin package="ru.bgcrm.plugin.dispatch">
-	<endpoint id="user.menu.items.jsp" file="/WEB-INF/jspf/user/plugin/dispatch/menu_items.jsp"/>
-	<endpoint id="open.jsp" file="/WEB-INF/jspf/open/plugin/dispatch/url.jsp"/>
-</plugin>	

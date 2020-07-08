@@ -1,6 +1,6 @@
-<%@page import="ru.bgerp.i18n.Localization"%>
+<%@page import="ru.bgerp.l10n.Localization"%>
 <%@page import="ru.bgcrm.plugin.Plugin"%>
-<%@page import="ru.bgerp.i18n.Localizer"%>
+<%@page import="ru.bgerp.l10n.Localizer"%>
 
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>

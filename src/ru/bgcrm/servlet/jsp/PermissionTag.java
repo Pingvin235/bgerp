@@ -8,39 +8,39 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.filter.AuthFilter;
 
 public class PermissionTag extends ConditionalTagSupport {
-	private String[] actions;
+    private String[] actions;
 
-	public PermissionTag() {
-		super();
-		init();
-	}
+    public PermissionTag() {
+        super();
+        init();
+    }
 
-	public void release() {
-		super.release();
-		init();
-	}
+    public void release() {
+        super.release();
+        init();
+    }
 
-	protected boolean condition() {
-		User user = AuthFilter.getUser((HttpServletRequest) pageContext.getRequest());
+    protected boolean condition() {
+        User user = AuthFilter.getUser((HttpServletRequest) pageContext.getRequest());
 
-		for (int i = 0; i < actions.length; i++) {
-			String action = actions[i];
-			if (!action.contains(":")) {
-				action += ":null";
-			}
-			if (UserCache.getPerm(user.getId(), action) != null) {
-				return true;
-			}
-		}
+        for (int i = 0; i < actions.length; i++) {
+            String action = actions[i];
+            if (!action.contains(":")) {
+                action += ":null";
+            }
+            if (UserCache.getPerm(user.getId(), action) != null) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public void setAction(String allowdeActions) {
-		actions = allowdeActions.split(",");
-	}
+    public void setAction(String allowdeActions) {
+        actions = allowdeActions.split(",");
+    }
 
-	private void init() {
-		actions = null;
-	}
+    private void init() {
+        actions = null;
+    }
 }

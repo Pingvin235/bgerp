@@ -1,8 +1,7 @@
-<%@page import="ru.bgerp.i18n.Localizer"%>
-<%@page import="ru.bgerp.i18n.Localization"%>
+<%@page import="ru.bgerp.l10n.Localizer"%>
+<%@page import="ru.bgerp.l10n.Localization"%>
 <%@page import="ru.bgcrm.event.user.UserListEvent"%>
 <%@page import="ru.bgcrm.event.EventProcessor"%>
-<%@page import="javax.sql.DataSource"%>
 <%@page import="ru.bgcrm.struts.form.DynActionForm"%>
 <%@page import="ru.bgcrm.model.user.User"%>
 <%@page import="ru.bgcrm.model.process.Process"%>
@@ -106,9 +105,9 @@
 						Set<String> values = new HashSet<String>( executors.size() ); 
 						for( ProcessExecutor ex : executors )
 						{
-						    if( UserCache.getUser( ex.getUserId() ).getStatus() == 0 )
-						    {
-							    values.add( ex.getUserId() + ":" + ex.getGroupId() + ":" + ex.getRoleId() );
+							if( UserCache.getUser( ex.getUserId() ).getStatus() == 0 )
+							{
+								values.add( ex.getUserId() + ":" + ex.getGroupId() + ":" + ex.getRoleId() );
 							}
 						}
 						

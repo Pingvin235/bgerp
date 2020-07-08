@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<plugin package="ru.bgerp.plugin.workload">
-	<endpoint id="user.process.tabs.jsp" file="/WEB-INF/jspf/user/plugin/workload/process_tabs.jsp"/>
-<!-- 	<endpoint id="user.menu.items.jsp" file="/WEB-INF/jspf/user/plugin/blow/menu_items.jsp"/> -->
-<!-- 	<endpoint id="js" file="/js/pl.blow.js"/> -->
-<!-- 	<endpoint id="css.jsp" file="/css/style.blow.css.jsp"/> -->
-</plugin>

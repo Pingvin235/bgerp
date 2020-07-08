@@ -35,12 +35,12 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.Lock;
 import ru.bgcrm.model.Page;
+import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.LoginStat;
 import ru.bgcrm.servlet.filter.AuthFilter;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.PermissionNode;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.SessionLogAppender;
 import ru.bgcrm.util.Setup;
@@ -49,7 +49,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
-import ru.bgerp.i18n.Localizer;
+import ru.bgerp.l10n.Localizer;
 import ru.bgerp.util.Log;
 
 public class BaseAction extends DispatchAction {

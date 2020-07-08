@@ -1,0 +1,70 @@
+<item title="Плагин CallBoard">
+	<item title="Виды работ">
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:workTypeList" title="Просмотр списка видов работ">
+			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:workTypeGet" title="Просмотр вида работ">
+			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:workTypeUpdate" title="Добавление видов работ">
+			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:workTypeDelete" title="Удаление видов работ">
+			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+		</item>
+	</item>
+	<item title="Смены">
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:shiftList" title="Редактор смен">
+			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:shiftGet" title="Просмотр смен">
+			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:shiftUpdate" title="Добавление смен">
+			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:shiftDelete" title="Удаление смен">
+			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+		</item>
+	</item>
+	<item title="Календарь рабочих дней">
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarList" title="Просмотр списка доступных календарей"/>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarGet" title="Просмотр календаря"/>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarUpdate" title="Редактирование календаря"/>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarCopy" title="Копирование параметров календаря"/>
+	</item>
+	<item title="График дежурств">
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardGet" title="Просмотр графика дежурств" >
+			<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
+			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+			<b>allowOnlyGroups</b> - коды разрешенных групп<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardAvailableShift" title="Получение доступных шаблонов смен" >
+			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateShift" title="Редактирование графика дежурств" >
+			<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateShiftTeam" title="Редактирование номера бригады" >
+			<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateFilters" title="Обновление фильтров графика дежурств" allowAll="1"/>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardGetTabel" title="Загрузка табеля" >
+		</item>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardChangeOrder" title="Сортировка пользователей в пределах группы"/>
+		<item action="ru.bgcrm.struts.action.admin.WorkAction:userChangeGroup" title="Добавление пользователя в другую группу"/>
+	</item>
+	<item title="План работ">
+		<item action="ru.bgcrm.struts.action.WorkAction:planGet" title="Просмотр плана работ" >
+			<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
+			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
+			<b>allowOnlyGroups</b> - коды разрешенных групп<br/>
+		</item>
+		<item action="ru.bgcrm.struts.action.WorkAction:processTimeLock" title="Блокировка времени"/>
+		<item action="ru.bgcrm.struts.action.WorkAction:processTimeUnlock" title="Разблокировка времени"/>
+	</item>
+	<item title="Назначение времени в процессе">
+		<item action="ru.bgcrm.struts.action.WorkAction:processTime" title="Просмотр назначенного времени, получение слотов"/>
+		<item action="ru.bgcrm.struts.action.WorkAction:processTimeSet" title="Назначение времени"/>
+	</item>
+</item>

@@ -7,9 +7,6 @@ public class Tables {
     public final static String TABLE_CUSTOMER_GROUP = " customer_group ";
     public final static String TABLE_CUSTOMER_GROUP_TITLE = " customer_group_title ";
 
-    public final static String TABLE_ADDRESS_DISTRIBUTION = " address_distribution ";
-    public final static String TABLE_ADDRESS_QUARTER_DISTRIBUTION = " address_quarter_distribution ";
-
     public static final String TABLE_PARAM_PREF = " param_pref ";
     public static final String TABLE_PARAM_GROUP = " param_group ";
     public static final String TABLE_PARAM_DATE = " param_date ";
@@ -51,11 +48,6 @@ public class Tables {
     public static final String TABLE_NEWS_USER = " news_user ";
 
     public static final String TABLE_COUNTER = " counter ";
-
-    public static final String TABLE_FIAS_STREET = " fias_street ";
-    public static final String TABLE_FIAS_HOUSE = " fias_house ";
-    public static final String TABLE_FIAS_HOUSE_INTERVAL = " fias_house_interval ";
-    public static final String TABLE_FIAS_HOUSE_DATA = " fias_house_data ";
 
     public static final String TABLE_FILE_DATE = " file_data ";
 }

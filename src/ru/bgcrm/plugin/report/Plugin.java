@@ -2,36 +2,42 @@ package ru.bgcrm.plugin.report;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
+import com.google.common.collect.Streams;
+
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-
-import com.google.common.collect.Streams;
 
 import ru.bgcrm.plugin.report.event.listener.PrintQueueEventListener;
 import ru.bgcrm.plugin.report.model.Config;
 import ru.bgcrm.plugin.report.model.Report;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.XMLUtils;
+import ru.bgerp.util.Log;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
-    public static final String ID = "report";
+    private static final Log log = Log.getLog();
 
-    private static final Logger log = Logger.getLogger(Plugin.class);
+    public static final String ID = "report";
 
     @Deprecated
     private List<Report> reportList = new ArrayList<Report>();
     @Deprecated
     private Map<String, Report> reportMap = new HashMap<String, Report>();
 
-    public Plugin(Document doc) {
-        super(doc, ID);
+    public Plugin() {
+        super(ID);
+    }
+
+    @Override
+    public void init(Connection con) throws Exception {
+        super.init(con);
 
         new PrintQueueEventListener();
 
@@ -59,9 +65,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     public List<Report> getReportList() {
         Config config = Setup.getSetup().getConfig(Config.class);
-        return reportList.isEmpty() ? 
-                config.getReportList() : 
-                    Streams.concat(config.getReportList().stream(), reportList.stream()).collect(Collectors.toList());
+        return reportList.isEmpty() ? config.getReportList()
+                : Streams.concat(config.getReportList().stream(), reportList.stream()).collect(Collectors.toList());
     }
 
     public Map<String, Report> getReportMap() {
@@ -70,4 +75,5 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
                 : Streams.concat(reportMap.entrySet().stream(), config.getReportMap().entrySet().stream())
                         .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
     }
+
 }

@@ -1,29 +1,47 @@
 package ru.bgcrm.plugin;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.util.XMLUtils;
+import ru.bgcrm.util.distr.call.ExecuteSQL;
+import ru.bgerp.util.Log;
 
 public abstract class Plugin {
+    private static final Log log = Log.getLog();
+    
     private final String name;
     private final Document document;
-    private Map<String, String> endpoints = new HashMap<String, String>();
+    private final Map<String, String> endpoints = new HashMap<>();
 
-    // для каждого плагина должен быть определён public конструктор с параметром Document
-    protected Plugin(Document doc, String pluginId) {
-        document = doc;
+    protected Plugin(String pluginId) {
         name = pluginId;
-
-        for (Element endpoint : XMLUtils.selectElements(doc, "/plugin/endpoint")) {
+        document = getXml("plugin.xml", XMLUtils.newDocument());
+        for (Element endpoint : XMLUtils.selectElements(document, "/plugin/endpoint")) {
             String id = endpoint.getAttribute("id");
             String file = endpoint.getAttribute("file");
-            //String entity = endpoint.getAttribute("entity");
             endpoints.put(id, file);
         }
+    }
+
+    public Document getXml(String name, Document defaultValue) {
+        InputStream is = getClass().getResourceAsStream(name);
+        return is != null ? XMLUtils.parseDocument(is) : defaultValue;
+    }
+
+    public String getResourcePath(String name) {
+        URL resource = getClass().getResource(name);
+        return resource != null ? 
+            getClass().getPackageName().replace('.', '/') + "/" + name :
+            null;
     }
 
     public String getName() {
@@ -37,4 +55,14 @@ public abstract class Plugin {
     public Document getDocument() {
         return document;
     }
+
+    public void init(Connection con) throws Exception {
+        log.info("Plugin '%s', class '%s' init", getName(), getClass().getName());
+        InputStream script = getClass().getResourceAsStream("db.sql");
+        if (script != null) {
+            log.info("%s applying db.sql", getName());
+            new ExecuteSQL().call(con, IOUtils.toString(script, StandardCharsets.UTF_8));
+        }
+    }
+
 }

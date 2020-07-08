@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -29,7 +28,7 @@ import ru.bgerp.util.Log;
 public class SearchDAO extends CommonDAO {
     private final static Log log = Log.getLog();
     
-    private final static String TABLE = " fulltext_data ";
+    public final static String TABLE = " fulltext_data ";
 
     public SearchDAO(Connection con) {
         super(con);

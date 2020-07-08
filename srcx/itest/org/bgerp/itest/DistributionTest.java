@@ -3,8 +3,10 @@ package org.bgerp.itest;
 import java.io.File;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+@Ignore
 @Test(groups = "distribution")
 public class DistributionTest {
     public static File zip;

@@ -33,8 +33,8 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.i18n.Localization;
-import ru.bgerp.i18n.Localizer;
+import ru.bgerp.l10n.Localization;
+import ru.bgerp.l10n.Localizer;
 import ru.bgerp.util.Log;
 
 /**

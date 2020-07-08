@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin>
+	<endpoint id="user.customer.tabs.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/customer_tabs.jsp"/>
+	<endpoint id="user.search.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/search.jsp"/>
+	<endpoint id="user.url.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/url.jsp"/>
+	
+	<endpoint id="user.process.tabs.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/process_tabs.jsp"/>
+	<endpoint id="user.process.link.list.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/process_link_list.jsp"/>
+	<endpoint id="user.process.linked.list.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/process_linked_list.jsp"/>
+	<endpoint id="user.process.linkForAdd.list.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/process_link_for_add_list.jsp"/>
+	<endpoint id="user.process.linkForAddCustom.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/process_link_for_add_custom_list.jsp"/>
+	
+	<endpoint id="js" file="/js/pl.bgbilling.js"/>
+	<endpoint id="js.init" file="/WEB-INF/jspf/user/plugin/bgbilling/js_init.jsp"/>
+	
+	<endpoint id="css.jsp" file="/css/style.bgbilling.css.jsp"/>
+	
+	<!-- <endpoint id="directory.param" entity="bgbilling-commonContract" title="Параметры единых договоров"/> -->
+	
+	<endpoint id="user.process.message.header.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/helpdesk/process_message_header.jsp"/>
+	<endpoint id="user.process.message.attaches.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/helpdesk/process_message_attaches.jsp"/>
+	
+	<endpoint id="user.message.search.result.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/message_search_result.jsp"/>
+	
+	<endpoint id="user.profile.options.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/profile_options.jsp"/>	
+</plugin>

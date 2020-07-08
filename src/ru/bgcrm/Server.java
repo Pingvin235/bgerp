@@ -85,7 +85,9 @@ public class Server extends Tomcat {
         log = Log.getLog(Server.class);
 
         try {
-            log.info("Starting BGERP..");
+            log.info("Starting..");
+
+            PluginManager.init();
 
             String catalinaHome = (new File(".")).getAbsolutePath();
             catalinaHome = catalinaHome.substring(0, catalinaHome.length() - 2);
@@ -144,8 +146,6 @@ public class Server extends Tomcat {
 
             int adminPort = setup.getInt("server.port.admin", 8005);
             new AdminPortListener(adminPort);
-
-            PluginManager.init();
 
             new KernelSystemListeners();
 

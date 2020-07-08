@@ -8,18 +8,18 @@ import ru.bgcrm.struts.form.DynActionForm;
  * Событие генерируется после изменения свойств пользователя в редактора.
  */
 public class UserChangedEvent extends UserEvent {
-	private final User user;
+    private final User user;
 
-	public UserChangedEvent(DynActionForm form, User user) {
-		super(form);
-		this.user = user;
-	}
+    public UserChangedEvent(DynActionForm form, User user) {
+        super(form);
+        this.user = user;
+    }
 
-	/**
-	 * Возвращает изменённого пользователя
-	 * @return
-	 */
-	public User getChangedUser() {
-		return user;
-	}
+    /**
+     * Возвращает изменённого пользователя
+     * @return
+     */
+    public User getChangedUser() {
+        return user;
+    }
 }

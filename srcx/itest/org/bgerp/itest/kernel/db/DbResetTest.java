@@ -19,7 +19,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.distr.call.ExecuteSQL;
 import ru.bgerp.util.Log;
 
-@Test(groups = "dbReset", dependsOnGroups = { "db", "distribution" })
+@Test(groups = "dbReset", dependsOnGroups = { "db" })
 public class DbResetTest {
     private static final Log log = Log.getLog();
 
@@ -77,7 +77,9 @@ public class DbResetTest {
         log.info("Creating database content..");
 
         try (var con = DbTest.conPoolRoot.getDBConnectionFromPool()) {
-            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/bgerp/db_init.sql"), StandardCharsets.UTF_8));
+            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/db_init_begin.sql"), StandardCharsets.UTF_8));
+            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/update/db.sql"), StandardCharsets.UTF_8));
+            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/db_init_end.sql"), StandardCharsets.UTF_8));
         }
     }
 

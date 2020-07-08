@@ -1,0 +1,163 @@
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<form-beans>
+		<form-bean name="billingForm" type="ru.bgcrm.plugin.bgbilling.struts.form.BillingActionForm"/>
+	</form-beans>
+
+	<action-mappings>
+		<action path="/user/plugin/bgbilling/search" parameter="action" type="ru.bgcrm.plugin.bgbilling.struts.action.SearchAction" name="form" scope="request">
+			<forward name="searchCommonContractResult" path="/WEB-INF/jspf/user/plugin/bgbilling/search_common_contract_result.jsp"/>
+			<forward name="default" path="/WEB-INF/jspf/user/plugin/bgbilling/search.jsp"/>
+		</action>
+		<action path="/user/plugin/bgbilling/contract" parameter="action" type="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction" name="form" scope="request">
+			<forward name="customerContractList" path="/WEB-INF/jspf/user/plugin/bgbilling/customer_contract_list.jsp"/>
+			<forward name="contractParameterList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract_parameter_list.jsp"/>
+			<forward name="contractInfo" path="/WEB-INF/jspf/user/plugin/bgbilling/process_contract_info.jsp"/>
+			<forward name="default" path="/WEB-INF/jspf/user/plugin/bgbilling/contract.jsp"/>
+		</action>
+		<action path="/user/plugin/bgbilling/billing" parameter="action" type="ru.bgcrm.plugin.bgbilling.struts.action.BillingAction" name="billingForm" scope="request">
+			<forward name="billingDo" path="/WEB-INF/jspf/user/plugin/bgbilling/billing_data.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/commonContract" parameter="action" type="ru.bgcrm.plugin.bgbilling.struts.action.CommonContractAction" name="form" scope="request">
+			<forward name="list" path="/WEB-INF/jspf/user/plugin/bgbilling/common_contract/customer_common_contract_list.jsp"/>
+			<forward name="default" path="/WEB-INF/jspf/user/plugin/bgbilling/common_contract/common_contract.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/contract" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction" name="form" scope="request">
+			<forward name="contractInfo" path="/WEB-INF/jspf/user/plugin/bgbilling/contract_billing_data.jsp"/>
+			<forward name="contractAddressList" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/contract_address_list.jsp"/>
+			<forward name="searchContractResult" path="/WEB-INF/jspf/user/plugin/bgbilling/search_contract_result.jsp"/>
+			<forward name="searchParameterList" path="/WEB-INF/jspf/user/plugin/bgbilling/search_param_list.jsp"/>
+			<forward name="additionalActionList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/additional_action_list.jsp"/>
+			<forward name="groupList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/group_list.jsp"/>
+			<forward name="moduleList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/module_list.jsp"/>
+			<forward name="memoList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/memo/memo_list.jsp"/>
+			<forward name="memoEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/memo/memo_edit.jsp"/>
+			<forward name="faceLog" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/face_log.jsp"/>
+			<forward name="modeLog" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/mode_log.jsp"/>
+			<forward name="contractSubcontractList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/subcontract_list.jsp"/>
+			<forward name="scriptList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/script/script_list.jsp"/>
+			<forward name="scriptEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/script/script_editor.jsp"/>
+			<forward name="scriptLog" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/script/script_log.jsp"/>
+			<forward name="status" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/status.jsp"/>
+			<forward name="limit" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/limit.jsp"/>
+			<forward name="contractParameterList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/parameter_list.jsp"/>
+			<forward name="parameterGet" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/parameter_editor.jsp"/>
+			<forward name="parameterUpdate" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/parameter_list.jsp"/>
+			<forward name="cards" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/cards.jsp"/>
+			<forward name="objectLinkList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/object_link_list.jsp"/>
+
+			<forward name="serviceList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/service/list.jsp"/>
+			<forward name="serviceEdit" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/service/edit.jsp"/>
+
+			<forward name="contractObjectList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/object/object_list.jsp"/>
+			<forward name="contractObjectEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/object/object_editor.jsp"/>
+			<forward name="contractObjectParameterList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/object/object_parameter_list.jsp"/>
+			<forward name="getObjectParameter" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/object/object_parameter_editor.jsp"/>
+			<forward name="contractObjectModuleSummaryTable" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/object/object_module_summary_table.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/balance" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractBalanceAction" name="form" scope="request">
+			<forward name="balance" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/balance/balance_list.jsp"/>
+			<forward name="balanceDetail" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/balance/detail_balance_list.jsp"/>
+			<forward name="paymentList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/balance/payment_list.jsp"/>
+			<forward name="chargeList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/balance/charge_list.jsp"/>
+			<forward name="accountList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/balance/account_list.jsp"/>
+			<forward name="balanceEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/balance/balance_editor.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/contractTariff" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction" name="form" scope="request">
+			<forward name="tariff" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/tariff/tariff.jsp"/>
+			<forward name="contractTariffList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/tariff/contract_tariff_list.jsp"/>
+			<forward name="contractTariffEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/tariff/contract_tariff_editor.jsp"/>
+			<forward name="personalTariffList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/tariff/personal_tariff_list.jsp"/>
+			<forward name="personalTariffEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/tariff/personal_tariff_editor.jsp"/>
+			<forward name="tariffOptionList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/tariff/tariff_option_list.jsp"/>
+			<forward name="tariffOptionEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/tariff/tariff_option_editor.jsp"/>
+			<forward name="groupTariffList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/tariff/group_tariff_list.jsp"/>
+			<forward name="groupTariffEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/tariff/group_tariff_editor.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/billingCrm" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillingCrmAction" name="form" scope="request">
+			<forward name="callList" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/call/call_list.jsp"/>
+			<forward name="callTypeList" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/call/call_type_list.jsp"/>
+			<forward name="registerGroupList" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/register_group_list.jsp"/>
+			<forward name="registerExecutorList" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/register_executor_list.jsp"/>
+			<forward name="callCurrentProblemList" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/call/call_current_problem_list.jsp"/>
+			<forward name="taskList" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/task/task_list.jsp"/>
+			<forward name="taskTypeList" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/task/task_type_list.jsp"/>
+			<forward name="taskEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/task/task_editor.jsp"/>
+			<forward name="registerProblemListItem" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/problem/problem_list_item.jsp"/>
+			<forward name="getRegisterProblem" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/problem/problem_editor.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/bill" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillAction" name="form" scope="request">
+			<forward name="attributeList" path="/WEB-INF/jspf/user/plugin/bgbilling/bill/attribute_list.jsp"/>
+			<forward name="docTypeList" path="/WEB-INF/jspf/user/plugin/bgbilling/bill/doc_type_list.jsp"/>
+			<forward name="documentList" path="/WEB-INF/jspf/user/plugin/bgbilling/bill/document_list.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/cerbercrypt" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction" name="form" scope="request">
+			<forward name="cardList" path="/WEB-INF/jspf/user/plugin/bgbilling/cerbercrypt/card_list.jsp"/>
+			<forward name="cardPacketList" path="/WEB-INF/jspf/user/plugin/bgbilling/cerbercrypt/card_packet_list.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/dialup" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction" name="form" scope="request">
+			<forward name="sessionList" path="/WEB-INF/jspf/user/plugin/bgbilling/dialup/dialup_session_list.jsp"/>
+			<forward name="errorList" path="/WEB-INF/jspf/user/plugin/bgbilling/dialup/dialup_error_list.jsp"/>
+			<forward name="radiusLog" path="/WEB-INF/jspf/user/plugin/bgbilling/dialup/radius_log.jsp"/>
+			<forward name="terminateSession" path="/WEB-INF/jspf/user/plugin/bgbilling/dialup/dialup_session_list.jsp"/>
+			<forward name="loginList" path="/WEB-INF/jspf/user/plugin/bgbilling/dialup/login_list.jsp"/>
+			<forward name="loginEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/dialup/login_editor.jsp"/>
+			<forward name="contractInfo" path="/WEB-INF/jspf/user/plugin/bgbilling/dialup/contract.jsp"/>
+			<forward name="periodEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/dialup/period_editor.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/voiceip" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.VoiceIpAction" name="form" scope="request">
+			<forward name="contractInfo" path="/WEB-INF/jspf/user/plugin/bgbilling/voiceip/contract.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/ipn" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction" name="form" scope="request">
+			<forward name="rangeList" path="/WEB-INF/jspf/user/plugin/bgbilling/ipn/range_list.jsp"/>
+			<forward name="rangeEdit" path="/WEB-INF/jspf/user/plugin/bgbilling/ipn/range_edit.jsp"/>
+			<forward name="gateStatus" path="/WEB-INF/jspf/user/plugin/bgbilling/ipn/gate_status.jsp"/>
+			<forward name="gateSelect" path="/WEB-INF/jspf/user/plugin/bgbilling/ipn/gate_select.jsp"/>
+			<forward name="gateEdit" path="/WEB-INF/jspf/user/plugin/bgbilling/ipn/gate_edit.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/voip" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.VoiceIpAction" name="form" scope="request">
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/npay" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.NPayAction" name="form" scope="request">
+			<forward name="serviceList" path="/WEB-INF/jspf/user/plugin/bgbilling/npay/service_list.jsp"/>
+			<forward name="serviceEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/npay/service_editor.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/phone" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.PhoneAction" name="form" scope="request">
+			<forward name="sessionList" path="/WEB-INF/jspf/user/plugin/bgbilling/custom/contract/phone_session_list.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/inet" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction" name="form" scope="request">
+			<forward name="serviceTree" path="/WEB-INF/jspf/user/plugin/bgbilling/inet/service_tree.jsp"/>
+			<forward name="serviceEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/inet/service_editor.jsp"/>
+			<forward name="contractReport" path="/WEB-INF/jspf/user/plugin/bgbilling/inet/contract_report.jsp"/>
+			<forward name="serviceMenu" path="/WEB-INF/jspf/user/plugin/bgbilling/inet/service_menu.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/rscm" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction" name="form" scope="request">
+			<forward name="serviceList" path="/WEB-INF/jspf/user/plugin/bgbilling/rscm/service_list.jsp"/>
+			<forward name="serviceEditor" path="/WEB-INF/jspf/user/plugin/bgbilling/rscm/service_editor.jsp"/>
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/helpdesk" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.HelpDeskAction" name="form" scope="request">
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/cashcheck" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.CashCheckAction" name="form" scope="request">
+		</action>
+
+		<action path="/user/plugin/bgbilling/proto/card" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.CardAction" name="form" scope="request">
+			<forward name="contractInfo" path="/WEB-INF/jspf/user/plugin/bgbilling/card/contract.jsp"/>
+		</action>
+	</action-mappings>
+</struts-config>

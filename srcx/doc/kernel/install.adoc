@@ -60,10 +60,10 @@ Installation on Linux server.
 === MySQL
 *Original* MySQL DB Server version *8.0* or newer. 
 
-Different forks of MySQL (Maria, Percona) does not fit because of missing <<../plugin/fulltext/index.adoc#, fulltext>> index support.
+Different forks of MySQL (Maria, Percona) do not fit because of missing <<../plugin/fulltext/index.adoc#, fulltext>> index support.
 Here is the test query to verify it:
 [snippet, from="CREATE", to=");"]
-link:../../../build/update/patch_fulltext.sql#L1-L9[build/update/patch_fulltext.sql]
+link:../../../src/ru/bgcrm/plugin/fulltext/db.sql#L1-L9[src/ru/bgcrm/plugin/fulltext/db.sql]
 
 Install instructions:
 [square]

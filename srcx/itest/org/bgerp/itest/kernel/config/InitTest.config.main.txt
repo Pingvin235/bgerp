@@ -17,12 +17,15 @@ processGroupRoles=0:Execution;1:Follow
 #
 # E-Mail send options SMTP !!!
 mail.smtp.host=smtp.yandex.com
-mail.smtp.user=demo@bgcrm.ru
+mail.smtp.user=demo@bgerp.org
 mail.smtp.pswd=bgdemo
 #
 # comma separated list of Java normal or dynamic classes implementing java.lang.Runnable, running on server start
 #runOnStart=
 # comma separated list of Java normal or dynamic classes, instantiated on server start, recompilation of dynamic code re-creates them again
 #createOnStart=
-# 
+#
+# disable all plugins by default
+plugin.enable.default=0
+#
 # INCLUDES

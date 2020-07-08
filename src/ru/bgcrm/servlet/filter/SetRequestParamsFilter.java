@@ -24,7 +24,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.i18n.Localization;
+import ru.bgerp.l10n.Localization;
 
 public class SetRequestParamsFilter implements Filter {
 

@@ -1,12 +1,18 @@
 package ru.bgcrm.plugin.fulltext;
 
-import org.w3c.dom.Document;
+import java.sql.Connection;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "fulltext";
 
-    public Plugin(Document doc) {
-        super(doc, ID);
+    public Plugin() {
+        super(ID);
+    }
+
+    @Override
+    public void init(Connection con) throws Exception {
+        super.init(con);
+
         new EventListener();
     }
 }

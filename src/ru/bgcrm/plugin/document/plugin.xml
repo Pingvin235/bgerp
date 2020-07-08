@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin>
+	<endpoint id="user.process.tabs.jsp" file="/WEB-INF/jspf/user/plugin/document/process_tabs.jsp"/>
+</plugin>
