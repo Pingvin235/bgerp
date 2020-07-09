@@ -83,8 +83,8 @@ $$.process = new function() {
 
 		const showSelected = (id) => {
 			// очередь может быть сохранена, как последняя открытая, а потом удалена
-			if ($("#processQueueSelect li[value=" + id + "]").length === 0)
-				return;
+			/* if ($("#processQueueSelect li[value=" + id + "]").length === 0)
+				return; */
 
 			if (id) {
 				$(".btn-panel input[type=hidden]").each(function () {
