@@ -1,7 +1,0 @@
-F: Parameters editor combo box.
-C: Rename and move definition in plugin.xml pl.callboard.js.
-A: Open / closed filter in linked processes.
-F: JSON serialization exception for FileData.
-A: ExampleRunnable dyn class.
-F: Parameter group list show and edit.
-F: Remove duplicated Gradle dependencies for asterisk-java: reflections, javassist.

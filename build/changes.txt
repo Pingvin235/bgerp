@@ -1,6 +1,36 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+15.07.2020 13:52:46 1362
+C: [10441] E-Mail caching optimization for checking updates.
+A: [10441] E-Mail create missing folders, TODO: Doc link?
+B: [10441] E-Mail move removed items to Trash folder.
+F: [11094] Enable jQuery treetable UI library, used in BGBilling Inet module.
+C: [11094] Plugin Asterisk, update asterisk-java library.
+A: [11094] Plugin Asterisk, definition version in configuration.
+F: [11094] Messages process free 'number' call.
+C: [11094] publish.gradle extracted URL to var.
+F: [11094] Plugin BGBilling, action paths.
+C: [11094] Logging configuration, https://bgerp.org/doc/3.0/manual/kernel/extension.html#log4j
+A: [11094] Delete directories by RemoveFile installation call.
+F: [11815] Recursive call in ProcessAction.
+F: [11892] Parameters editor combo box.
+C: [11892] Rename and move definition in plugin.xml pl.callboard.js.
+A: [11892] Open / closed filter in linked processes.
+F: [11892] JSON serialization exception for FileData.
+A: [11892] ExampleRunnable dyn class.
+F: [11892] Parameter group list show and edit.
+F: [11892] Remove duplicated Gradle dependencies for asterisk-java: reflections, javassist.
+F: [12105] Gone button's selection on refresh process queue.
+C: [12357] Move all plugin related data in plugin packages: action.xml, struts-config.xml, l10n.xml, DB scripts.
+A: [12357] Initialization of plugins with possibility to disable them, https://bgerp.org/doc/3.0/manual/kernel/setup.html#config-plugin
+C: [12357] Cleanup of DB init scripts, split over plugin related tables.
+C: [12357] Extracted DB scripts and struts-config.xml for plugin CallBoard.
+F: [13862] Unlock button on dynamic classes compilation error.
+F: [13862] Set Localizer in User constructor for using in custom code.
+F: [13862] refreshCurrentQueue command in process queue action.
+F: [13864] Open process by direct link with isolation.process=group.
+
 29.06.2020 08:49:39 1361
 F: [11268] Plugin BGBilling, correct reaction on missing /data/lastLogon and missing permission on WebRequestLimit.
 C: [12367] Interface URLs to slash separated.

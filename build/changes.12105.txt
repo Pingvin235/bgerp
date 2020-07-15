@@ -1,1 +1,0 @@
-F: Gone button's selection on refresh process queue.

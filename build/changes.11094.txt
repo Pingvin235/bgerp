@@ -1,8 +1,0 @@
-F: Enable jQuery treetable UI library, used in BGBilling Inet module.
-C: Plugin Asterisk, update asterisk-java library.
-A: Plugin Asterisk, definition version in configuration.
-F: Messages process free 'number' call.
-C: publish.gradle extracted URL to var.
-F: Plugin BGBilling, action paths.
-C: Logging configuration, https://bgerp.org/doc/3.0/manual/kernel/extension.html#log4j
-A: Delete directories by RemoveFile installation call.

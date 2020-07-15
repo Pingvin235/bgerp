@@ -1,3 +1,0 @@
-F: Unlock button on dynamic classes compilation error.
-F: Set Localizer in User constructor for using in custom code.
-F: refreshCurrentQueue command in process queue action.
