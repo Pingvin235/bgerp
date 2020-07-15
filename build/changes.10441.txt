@@ -1,0 +1,3 @@
+C: E-Mail caching optimization for checking updates.
+A: E-Mail create missing folders, TODO: Doc link?
+B: E-Mail move removed items to Trash folder.

@@ -328,9 +328,14 @@ messageType.<id>.host=<host>
 messageType.<id>.login=<login>
 messageType.<id>.pswd=<pswd>
 messageType.<id>.folderIn=<inFolder>
-messageType.<id>.folderProcessed=<processedFolder>
-messageType.<id>.folderSkipped=<skippedFolder>
-messageType.<id>.folderSent=<sentFolder>
+# если не указан - CRM_PROCESSED 
+#messageType.<id>.folderProcessed=<processedFolder>
+# если не указан - CRM_SKIPPED 
+#messageType.<id>.folderSkipped=<skippedFolder>
+# если не указан - CRM_SENT 
+#messageType.<id>.folderSent=<sentFolder>
+# если не указан - TRASH 
+#messageType.<id>.folderTrash=<trashFolder>
 #
 # IMAP SSL протокол
 #messageType.<id>.store=imaps

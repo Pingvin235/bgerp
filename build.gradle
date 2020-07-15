@@ -82,7 +82,7 @@ dependencies {
     bgerp group: 'org.apache.struts', name: 'struts-taglib', version: '1.3.10'
     bgerp group: 'org.apache.struts', name: 'struts-tiles', version: '1.3.10'
     
-    bgerp group: 'com.sun.mail', name: 'javax.mail', version: '1.6.1'
+    bgerp group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
     bgerp group: 'javax.activation', name: 'activation', version: '1.1.1' //TODO: Fix using classes and remove library.
     bgerp group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
     bgerp group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'

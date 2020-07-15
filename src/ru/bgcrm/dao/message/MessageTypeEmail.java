@@ -1,22 +1,30 @@
 package ru.bgcrm.dao.message;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-import javax.activation.CommandMap;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
@@ -34,6 +42,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
+import javax.mail.search.FlagTerm;
+import javax.mail.search.MessageIDTerm;
 
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
@@ -83,6 +93,11 @@ public class MessageTypeEmail extends MessageType {
     private static final RecipientType[] RECIPIENT_TYPES = new RecipientType[] { RecipientType.TO, RecipientType.CC };
 
     private static final Log log = Log.getLog();
+    
+    private volatile static ConcurrentHashMap<String, ConcurrentHashMap<String, Message>> incommingFoldersCashe = new ConcurrentHashMap<>();
+    private volatile static Set<String> movingIdsMessages = ConcurrentHashMap.newKeySet();
+    private static Instant lastDateResetCash = Instant.now();
+    private long casheLifetime;
 
     private static final String RE_PREFIX = "Re: ";
     private final Pattern processIdPattern;
@@ -98,6 +113,7 @@ public class MessageTypeEmail extends MessageType {
     private final String folderSkipped;
     private final String folderProcessed;
     private final String folderSent;
+    private final String folderTrash;
     private final String signExpression;
     private final boolean signStandard;
 
@@ -109,9 +125,10 @@ public class MessageTypeEmail extends MessageType {
         replayTo = config.get("replayTo");
 
         folderIncoming = config.get("folderIn");  
-        folderProcessed = config.get("folderProcessed");
-        folderSkipped = config.get("folderSkipped");
-        folderSent = config.get("folderSent");
+        folderProcessed = config.get("folderProcessed", "CRM_PROCESSED");
+        folderSkipped = config.get("folderSkipped", "CRM_SKIPPED");
+        folderSent = config.get("folderSent", "CRM_SENT");
+        folderTrash = config.get("folderTrash", "TRASH");
         signExpression = config.get("signExpression");
         signStandard = config.getBoolean("signStandard", false);
         processIdPattern = Pattern.compile(mailConfig.getEmail().replaceAll("\\.", "\\\\.") + "#(\\d+)");
@@ -120,10 +137,9 @@ public class MessageTypeEmail extends MessageType {
         quickAnswerEmailParamId = config.getInt("quickAnswerEmailParamId", -1);
         autoCreateProcessTypeId = config.getInt("autoCreateProcess.typeId", -1);
         autoCreateProcessNotification = config.getBoolean("autoCreateProcess.notification", true);
+        casheLifetime = config.getLong("casheLifetimeHour", 12);
 
-        if (!mailConfig.check() || Utils.isBlankString(folderIncoming) 
-                || Utils.isBlankString(folderProcessed)
-                || Utils.isBlankString(folderSkipped)) {
+        if (!mailConfig.check() || Utils.isBlankString(folderIncoming) ) {
             throw new BGException("Incorrect message type, email: " + mailConfig.getEmail());
         }
     }  
@@ -158,119 +174,67 @@ public class MessageTypeEmail extends MessageType {
 
     @Override
     public List<Message> newMessageList(ConnectionSet conSet) throws BGException {
-        List<Message> result = new ArrayList<Message>();
-
-        try {
-            long time = System.currentTimeMillis();
-
-            Store store = mailConfig.getImapStore();
-
-            log.debug("Get imap store time: %s %s", System.currentTimeMillis() - time, "ms.");
-            
-            Folder incomingFolder = store.getFolder(folderIncoming);
-            incomingFolder.open(Folder.READ_ONLY);
-
-            javax.mail.Message[] messages = incomingFolder.getMessages();
-
-            log.debug("Message list time: %s %s", System.currentTimeMillis() - time, "ms.");
-
-            incomingFolder.fetch(messages, MailConfig.FETCH_PROFILE);
-
-            log.debug("Prefetch time: %s %s", System.currentTimeMillis() - time, "ms.");
-
-            // обработка только писем в теме которых установлена связка с
-            // процессом
-            for (javax.mail.Message message : messages) {
-                log.debug("Processing: %s", message.getSubject());
-
-                try {
-                    result.add(extractMessage(message, false));
-                } catch (Exception e) {
-                    Message msg = new Message();
-                    msg.setTypeId(id);
-                    msg.setSubject(e.getMessage() + " [" + message.getSubject() + "]");
-                    msg.setFromTime(new Date());
-                    result.add(msg);
-
-                    log.error(e.getMessage(), e);
-                }
-            }
-
-            incomingFolder.close(true);
-            store.close();
-
-            log.debug("New message list time: %s %s",  System.currentTimeMillis() - time, "ms.");
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
+        ConcurrentHashMap<String, Message> cache = incommingFoldersCashe.get(getEmail());
+        if (cache == null) {
+            CompletableFuture.runAsync(() -> {
+                readBox();
+            });
+            try {
+                Thread.sleep(5000); // will give time to load some messages
+            } catch (InterruptedException e) {}
+            cache = incommingFoldersCashe.get(getEmail()); // and return them
         }
 
-        unprocessedMessagesCount = result.size();
-
-        return result;
+        if (cache != null) {
+            unprocessedMessagesCount = cache.size();
+            return cache.values().stream().sorted((m1, m2) -> m1.getFromTime().compareTo(m2.getFromTime())).collect(Collectors.toList());
+        }
+        unprocessedMessagesCount = 0;
+        return Collections.emptyList();
     }
 
     @Override
     public Message newMessageGet(ConnectionSet conSet, String messageId) throws BGException {
-        Message result = null;
-
-        try {
-            Store store = mailConfig.getImapStore();
-
-            Folder incomingFolder = store.getFolder(folderIncoming);
-            incomingFolder.open(Folder.READ_ONLY);
-
-            // сброс некого кэша, в котором после вызова Web сервиса для
-            // загрузки файлов может оставаться неверный DataHandler,
-            // в итоге приводящий к получению объекта
-            // com.sun.xml.internal.messaging.saaj.packaging.mime.internet.MimeMultipart
-            // вместо to javax.mail.internet.MimeMultipart
-            CommandMap.setDefaultCommandMap(null);
-
-            // обработка только писем в теме которых установлена связка с
-            // процессом
-            for (javax.mail.Message message : incomingFolder.getMessages()) {
-                if (!getSystemId(message).equals(messageId)) {
-                    continue;
-                }
-
-                // клонирование сообщения для избежания ошибки "Unable to load
-                // BODYSTRUCTURE"
-                // http://www.oracle.com/technetwork/java/javamail/faq/index.html#imapserverbug
-                message = new MimeMessage((MimeMessage) message);
-                result = extractMessage(message, true);
-                addAttaches(message, result);
-
-                break;
-            }
-
-            incomingFolder.close(true);
-            store.close();
-        } catch (Exception e) {
-            throw new BGException(e.getMessage(), e);
+        ConcurrentHashMap<String, Message> cache = incommingFoldersCashe.get(getEmail());
+        if (cache != null) {
+            return cache.get(messageId);
         }
-
-        return result;
+        return null;
     }
 
     @Override
     public void messageDelete(ConnectionSet conSet, String... messageIds) throws BGException {
-        try {
-            Store store = mailConfig.getImapStore();
-
-            Folder incomingFolder = store.getFolder(folderIncoming);
-            incomingFolder.open(Folder.READ_WRITE);
-
-            for (javax.mail.Message message : incomingFolder.getMessages()) {
-                if (!Arrays.stream(messageIds).anyMatch(getSystemId(message)::equals))
-                    continue;
-                message.setFlag(Flags.Flag.DELETED, true);
+        ConcurrentHashMap<String, Message> cache = incommingFoldersCashe.get(getEmail());
+        if (cache != null) {
+            for (String id : messageIds) {
+                cache.remove(id);
+                movingIdsMessages.add(id);
             }
-
-            incomingFolder.close(true);
-            store.close();
-        } catch (Exception e) {
-            throw new BGException(e.getMessage(), e);
         }
+        CompletableFuture.runAsync(() -> {
+            try (Store store = mailConfig.getImapStore();
+                    Folder incomingFolder = store.getFolder(folderIncoming);
+                    Folder trashFolder = store.getFolder(folderTrash);) {
+
+                incomingFolder.open(Folder.READ_WRITE);
+                trashFolder.open(Folder.READ_WRITE);
+
+                int count = messageIds.length;
+                for (javax.mail.Message message : incomingFolder.getMessages()) {
+                    if (!Arrays.stream(messageIds).anyMatch(getSystemId(message)::equals))
+                        continue;
+                    incomingFolder.copyMessages(new javax.mail.Message[] { message }, trashFolder);
+                    message.setFlag(Flags.Flag.DELETED, true);
+                    count--;
+                    if (count == 0) // enough, if targets finished
+                        break;
+                }
+            } catch (Exception e) {
+                log.error(e);
+            } finally {
+                movingIdsMessages.removeAll(Arrays.asList(messageIds));
+            }
+        });
     }
 
     private void addAttaches(javax.mail.Message message, Message msg) throws Exception {
@@ -284,34 +248,77 @@ public class MessageTypeEmail extends MessageType {
     @Override
     public Message newMessageLoad(Connection con, String messageId) throws BGException {
         Message result = null;
+        
+        ConcurrentHashMap<String, Message> cache = incommingFoldersCashe.get(getEmail());
+        if (cache != null) {
+            result = cache.remove(messageId);
+            
+            if (result != null) {
+                final HashMap<String, Deque<FileOutputStream>> outputMap = new HashMap<>();
+                try {
+                    MessageDAO messageDAO = new MessageDAO(con);
+                    FileDataDAO fileDao = new FileDataDAO(con);
+                    for (FileData fileData : result.getAttachList()) {
+                        var queue = outputMap.get(fileData.getTitle());
+                        if (queue == null) {
+                            queue = new ArrayDeque<FileOutputStream>();
+                            outputMap.put(fileData.getTitle(), queue ); // creating the id, side effect we get output, so store and use them later for save files  
+                        }
+                        queue.offer(fileDao.add(fileData));
+                    }
+                    messageDAO.updateMessage(result);
 
-        try {
-            Store store = mailConfig.getImapStore();
-
-            Folder incomingFolder = store.getFolder(folderIncoming);
-            incomingFolder.open(Folder.READ_WRITE);
-
-            Folder processedFolder = store.getFolder(folderProcessed);
-            processedFolder.open(Folder.READ_WRITE);
-
-            Folder skippedFolder = store.getFolder(folderSkipped);
-            skippedFolder.open(Folder.READ_WRITE);
-
-            for (javax.mail.Message message : incomingFolder.getMessages()) {
-                if (!getSystemId(message).equals(messageId)) {
-                    continue;
+                    con.commit();
+                } catch (Exception e) {
+                    log.error(e);
                 }
-                result = processMessage(con, incomingFolder, processedFolder, skippedFolder, message);
-                break;
+                
+                movingIdsMessages.add(messageId);
+                CompletableFuture.runAsync(() -> { // moving from incoming to processed, download attach
+                    try (Store store = mailConfig.getImapStore();
+                         Folder incomingFolder = store.getFolder(folderIncoming);
+                         Folder processedFolder = store.getFolder(folderProcessed);
+                         Folder skippedFolder = store.getFolder(folderSkipped); ) {
+                        
+                        incomingFolder.open(Folder.READ_WRITE);
+                        processedFolder.open(Folder.READ_WRITE);
+                        skippedFolder.open(Folder.READ_WRITE);
+
+                        for (javax.mail.Message message : incomingFolder.search(new MessageIDTerm(messageId))) {
+                            if (!getSystemId(message).equals(messageId)) {
+                                continue;
+                            }
+
+                            try {
+                                for (MessageAttach attach : getAttachContent(message)) {
+                                    var queue = outputMap.get(attach.title);
+                                    if (queue != null && queue.size() > 0) {
+                                        FileOutputStream out = queue.poll();
+                                        IOUtils.copy(attach.inputStream, out);
+                                        out.close();
+                                    }
+                                    else {
+                                        log.error( "Don't have FileOutputStream for attach - " + attach.title );
+                                    }
+                                }
+                                incomingFolder.copyMessages(new javax.mail.Message[] { message }, processedFolder);
+                            } catch (Exception e) {
+                                log.error(e);
+                                incomingFolder.copyMessages(new javax.mail.Message[] { message }, skippedFolder);
+                            }
+                            
+                            message.setFlag(Flags.Flag.DELETED, true);
+                            break;
+                        }
+                    } catch (Exception e) {
+                        log.error(e);
+                    } 
+                    finally {
+                        movingIdsMessages.remove(messageId);
+                        SQLUtils.closeConnection(con);
+                    }
+                });
             }
-
-            incomingFolder.close(true);
-            processedFolder.close(true);
-            skippedFolder.close(true);
-
-            store.close();
-        } catch (Exception e) {
-            throw new BGException(e.getMessage(), e);
         }
 
         return result;
@@ -339,29 +346,17 @@ public class MessageTypeEmail extends MessageType {
     }
 
     private void sendMessages() {
-        Setup setup = Setup.getSetup();
-
         String encoding = MailMsg.getParamMailEncoding(Setup.getSetup());
         Session session = mailConfig.getSmtpSession(Setup.getSetup());
-
-        Store imapSentStore = null;
-        Folder imapSentFolder = null;
-
-        Transport transport = null;
-
-        Connection con = setup.getDBConnectionFromPool();
-        try {
+        Connection con = Setup.getSetup().getDBConnectionFromPool();
+        
+        try (Transport transport = session.getTransport();
+                Store imapStore = mailConfig.getImapStore();
+                Folder imapSentFolder = imapStore.getFolder(folderSent);) {
             MessageDAO messageDAO = new MessageDAO(con);
 
-            transport = session.getTransport();
             transport.connect();
-
-            if (Utils.notBlankString(folderSent)) {
-                imapSentStore = mailConfig.getImapStore();
-
-                imapSentFolder = imapSentStore.getFolder(folderSent);
-                imapSentFolder.open(Folder.READ_WRITE);
-            }
+            imapSentFolder.open(Folder.READ_WRITE);
 
             List<Message> toSendList = messageDAO.getUnsendMessageList(id, 100);
             for (Message msg : toSendList) {
@@ -410,7 +405,7 @@ public class MessageTypeEmail extends MessageType {
                         log.info("Saved copy to folder: " + folderSent);
                     }
                 } catch (Exception e) {
-                    log.error(e.getMessage(), e);
+                    log.error(e);
                 }
 
                 if (AUTOREPLY_SYSTEM_ID.equals(msg.getSystemId())) {
@@ -423,31 +418,9 @@ public class MessageTypeEmail extends MessageType {
                 con.commit();
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         } finally {
             SQLUtils.closeConnection(con);
-
-            if (transport != null) {
-                try {
-                    transport.close();
-                } catch (Exception ex) {
-                    log.error(ex.getMessage());
-                }
-            }
-            if (imapSentFolder != null) {
-                try {
-                    imapSentFolder.close(true);
-                } catch (Exception ex) {
-                    log.error(ex.getMessage());
-                }
-            }
-            if (imapSentStore != null) {
-                try {
-                    imapSentStore.close();
-                } catch (Exception ex) {
-                    log.error(ex.getMessage());
-                }
-            }
         }
     }
 
@@ -469,7 +442,7 @@ public class MessageTypeEmail extends MessageType {
         }
 
         if (signStandard) {
-            text.append("\nСообщение подготовлено системой BGERP ( http://www.bgcrm.ru ).");
+            text.append("\nСообщение подготовлено системой BGERP (https://bgerp.ru).");
             text.append("\nНе изменяйте, пожалуйста, тему сообщения и не цитируйте данное сообщение в ответе!");
             text.append("\nИсторию переписки вы можете посмотреть в приложенном файле History.txt");
         }
@@ -543,41 +516,92 @@ public class MessageTypeEmail extends MessageType {
         message.setContent(multipart);
     }
 
-    private void readBox() {
+    private synchronized void readBox() {
         Connection con = Setup.getSetup().getDBConnectionFromPool();
-        try {
-            Store store = mailConfig.getImapStore();
-
-            Folder incomingFolder = store.getFolder(folderIncoming);
+        try (Store store = mailConfig.getImapStore();
+                Folder incomingFolder = store.getFolder(folderIncoming);
+                Folder processedFolder = store.getFolder(folderProcessed);
+                Folder skippedFolder = store.getFolder(folderSkipped);) {
+            
             incomingFolder.open(Folder.READ_WRITE);
-
-            Folder processedFolder = store.getFolder(folderProcessed);
             processedFolder.open(Folder.READ_WRITE);
-
-            Folder skippedFolder = store.getFolder(folderSkipped);
             skippedFolder.open(Folder.READ_WRITE);
             
+            boolean isFirst = !incommingFoldersCashe.containsKey( getEmail() ); 
+            if (isFirst) { // check folders
+                Folder trashFolder = store.getFolder(folderTrash);
+                checkFolders( processedFolder, skippedFolder, trashFolder);
+            }
+            boolean isLifetimeEnd = Duration.between(lastDateResetCash, Instant.now()).abs().getSeconds() >= casheLifetime * 60 * 60;
+            
+            javax.mail.Message[] messages = null;
+            if (isFirst || isLifetimeEnd) { // first time - all of them
+                log.info( "Cache reset" );
+                lastDateResetCash = Instant.now();
+                messages = incomingFolder.getMessages();
+                incommingFoldersCashe.put(getEmail(), new ConcurrentHashMap<>());
+            }
+            else {  // next times - only unread
+                messages = (MimeMessage[]) incomingFolder.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
+            }
+            
+            ConcurrentHashMap<String, Message> cache = incommingFoldersCashe.get( getEmail() );
+            
             int unprocessedCount = 0;
-
-            // обработка только писем в теме которых установлена связка с процессом
-            // либо быстрый ответ
-            for (javax.mail.Message message : incomingFolder.getMessages()) {
+            for (javax.mail.Message message : messages) {
+                String messageId = getSystemId(message);
+                if (movingIdsMessages.contains(messageId)) // check, may be that message in transaction to the other folder
+                    continue;
+                
                 String subject = getMessageSubject(message);
                 if (getProcessId(subject) > 0 || getQuickAnswerMessageId(subject) > 0 || autoCreateProcessTypeId > 0) {
-                    processMessage(con, incomingFolder, processedFolder, skippedFolder, message);
+                    processMessage(con, incomingFolder, processedFolder, skippedFolder, message); // обработка только писем в теме которых установлена связка с процессом либо быстрый ответ
                     continue;
+                } else { // to cache
+                    try {
+                        MimeMessage msg = new MimeMessage((MimeMessage) message); // don't shure that is necessary now - https://javaee.github.io/javamail/FAQ#imapserverbug
+                        Message result = extractMessage(msg, true);
+                        addAttaches(msg, result);
+                        cache.put( getSystemId(message), result);
+                        message.setFlag(Flags.Flag.SEEN, true); // mark it as read
+                    } catch (Exception e) {
+                        Message result = new Message();
+                        result.setTypeId(id);
+                        result.setSubject(e.getMessage() + " [" + message.getSubject() + "]");
+                        result.setFromTime(new Date());
+                        cache.put( getSystemId(message), result);
+                        // don't mark, who know may be next time will be more successful  v(‘.’)v
+                        log.error(e);
+                    }
                 }
                 log.debug("Skipping message with subject: " + subject);
                 unprocessedCount++;
             }
             
-            incomingFolder.close(true);
-            processedFolder.close(true);
-            skippedFolder.close(true);
-
-            store.close();
-            
             unprocessedMessagesCount = unprocessedCount;
+
+            /* Optimization for the future.
+            if( isFirst ) {
+               ExecutorService es = Executors.newCachedThreadPool();
+               final IdleManager idleManager = new IdleManager(mailConfig.getImapSession(), es);
+               
+               Folder folder = store.getFolder(folderIncoming);
+               folder.open(Folder.READ_WRITE);
+               folder.addMessageCountListener(new MessageCountAdapter() {
+                   public void messagesAdded(MessageCountEvent ev) {
+                       Folder folder = (Folder)ev.getSource();
+                       javax.mail.Message[] msgs = ev.getMessages();
+                       System.out.println("Folder: " + folder + " got " + msgs.length + " new messages");
+                       try {
+                           // process new messages
+                           idleManager.watch(folder); // keep watching for new messages
+                       } catch (MessagingException mex) {
+                           // handle exception related to the Folder
+                       }
+                   }
+               });
+               idleManager.watch(folder);
+           }*/
         } catch (Exception e) {
             log.error("Read box " + mailConfig.getEmail() + ": " + e.getMessage(), e);
         } finally {
@@ -588,19 +612,31 @@ public class MessageTypeEmail extends MessageType {
     /**
      * Обрабатывает сообщение и производит перемещение между папками.
      */
-    private Message processMessage(Connection con, Folder incomingFolder, Folder processedFolder, Folder skippedFolder,
-            javax.mail.Message message) throws MessagingException {
+    private Message processMessage(Connection con, Folder incomingFolder, Folder processedFolder, Folder skippedFolder, javax.mail.Message message) throws MessagingException {
         Message result = null;
 
         try {
             // клонирование сообщения для избежания ошибки "Unable to load BODYSTRUCTURE"
             // http://www.oracle.com/technetwork/java/javamail/faq/index.html#imapserverbug
-            result = processMessage(con, new MimeMessage((MimeMessage) message));
+            Message msg = extractMessage(new MimeMessage((MimeMessage) message), true);
+            
+            FileDataDAO fileDao = new FileDataDAO(con);
+            for (MessageAttach attach : getAttachContent(message)) {
+                FileData file = new FileData();
+                file.setTitle(attach.title);
+
+                OutputStream out = fileDao.add(file);
+                IOUtils.copy(attach.inputStream, out);
+
+                msg.addAttach(file);
+            }
+            
+            result = processMessage(con, msg );
 
             incomingFolder.copyMessages(new javax.mail.Message[] { message }, processedFolder);
             con.commit();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
             incomingFolder.copyMessages(new javax.mail.Message[] { message }, skippedFolder);
         }
 
@@ -636,35 +672,20 @@ public class MessageTypeEmail extends MessageType {
             .compile("\\w{3}, \\d+ \\w{3} \\d{4} \\d{2}:\\d{2}:\\d{2} \\+\\d{4}");
     private static final MailDateFormat mailDateFormat = new MailDateFormat();
 
-    private Message processMessage(Connection con, javax.mail.Message message) throws BGException {
+    private Message processMessage(Connection con, Message msg) throws BGException {
         String subject = "";
 
         try {
             MessageDAO messageDAO = new MessageDAO(con);
             ProcessDAO processDAO = new ProcessDAO(con);
-            FileDataDAO fileDao = new FileDataDAO(con);
 
-            subject = getMessageSubject(message);
-
+            subject = msg.getSubject();
             int processId = getProcessId(subject);
             int quickAnsweredMessageId = getQuickAnswerMessageId(subject);
 
             log.info("Mailbox: " + mailConfig.getEmail() + " found message " + " From: "
-                    + (InternetAddress) message.getFrom()[0] + "\t Subject: " + subject + "\t Content-Type: "
-                    + message.getContentType() + "\t Content: " + message.getContent() + "\t Process ID: " + processId 
-                    + "\t Quick answer message ID: " + quickAnsweredMessageId);
-
-            Message msg = extractMessage(message, true);
-
-            for (MessageAttach attach : getAttachContent(message)) {
-                FileData file = new FileData();
-                file.setTitle(attach.title);
-
-                OutputStream out = fileDao.add(file);
-                IOUtils.copy(attach.inputStream, out);
-
-                msg.addAttach(file);
-            }
+                    + msg.getFrom() + "\t Subject: " + subject + "\t Content: " + msg.getText() + "\t Process ID: " + processId 
+                    + "\t Quick answer message ID: " + quickAnsweredMessageId); // + "\t Content-Type: " + message.getContentType()
 
             Process process = null;
 
@@ -706,9 +727,7 @@ public class MessageTypeEmail extends MessageType {
                     
                     // поиск пользователя по E-Mail
                     SearchResult<ParameterSearchedObject<User>> searchResult = new SearchResult<>();
-                    new UserDAO(con).searchUserListByEmail(searchResult, 
-                            Collections.singletonList(quickAnswerEmailParamId), 
-                            ((InternetAddress) message.getFrom()[0]).getAddress().toString());
+                    new UserDAO(con).searchUserListByEmail(searchResult, Collections.singletonList(quickAnswerEmailParamId), msg.getFrom());
                     ParameterSearchedObject<User> user = Utils.getFirst(searchResult.getList());
                     
                     if (user != null) {
@@ -876,8 +895,6 @@ public class MessageTypeEmail extends MessageType {
             textContent = getTextFromMultipartMixed((MimeMultipart) message.getContent());
         } else {
             return "Тип сообщения: " + contentType + " не поддерживается";
-            // throw new BGException( "This message type not supported now,
-            // skipping.." );
         }
 
         return textContent;
@@ -1041,14 +1058,17 @@ public class MessageTypeEmail extends MessageType {
         }
     }
 
-    // http://stackoverflow.com/questions/2513707/how-to-convert-html-to-text-keeping-linebreaks
     private String htmlToPlainText(String text) {
-        /*
-         * text = text.replace( "</div>", "\n" ); text = text.replace( "</p>",
-         * "\n" ); text = text.replaceAll( "<\\w+/?>", "" ); return text;
-         */
-
         return buildStringFromNode(Jsoup.parse(text).body(), "").toString();
+    }
+    
+    /** Create folders, if they don't exist */
+    private void checkFolders( Folder... folders ) throws MessagingException {
+        for( Folder folder : folders ) {
+            if( !folder.exists() ) {
+                folder.create( Folder.HOLDS_MESSAGES );
+            }
+        }
     }
 
     private static StringBuffer buildStringFromNode(Node node, String citation) {
@@ -1120,7 +1140,7 @@ public class MessageTypeEmail extends MessageType {
                         result.put(type, addressList);
                     }
                 } catch (Exception e) {
-                    log.error(e.getMessage(), e);
+                    log.error(e);
                 }
             }
 

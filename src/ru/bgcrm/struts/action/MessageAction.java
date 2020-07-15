@@ -1,5 +1,6 @@
 package ru.bgcrm.struts.action;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -293,6 +294,17 @@ public class MessageAction extends BaseAction {
             message.setSystemId(systemId);
 
         type.updateMessage(conSet.getConnection(), form, message);
+        
+        message.getAttachList().forEach(a -> { // remove output Fix
+            try {
+                if( a.getOutputStream() != null ) {
+                    a.getOutputStream().close();
+                    a.setOutputStream(null);
+                }
+            } catch (IOException e) {
+                log.error(e.getMessage(),e);
+            }
+        });
 
         if (form.getParamBoolean("updateTags")) {
             form.setParam("id", String.valueOf(message.getId()));

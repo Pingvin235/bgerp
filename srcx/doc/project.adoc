@@ -832,11 +832,11 @@ from_dt, to_dt - тип datetime.
 
 Сохранение значения:
 [snippet, from="resto", to=");", remove-leading=    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L87-L87[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L88-L88[ru.bgcrm.struts.action.MessageAction]
 
 Восстановление:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L263-L275[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L264-L276[ru.bgcrm.struts.action.MessageAction]
 
 Сохранение плюс восстановление сразу:
 [snippet, from="//", to=");", remove-leading="    "]
