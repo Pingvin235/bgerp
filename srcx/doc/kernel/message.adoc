@@ -327,6 +327,7 @@ messageType.<id>.email=<email>
 messageType.<id>.host=<host>
 messageType.<id>.login=<login>
 messageType.<id>.pswd=<pswd>
+#
 messageType.<id>.folderIn=<inFolder>
 # если не указан - CRM_PROCESSED 
 #messageType.<id>.folderProcessed=<processedFolder>
@@ -347,7 +348,6 @@ messageType.<id>.folderIn=<inFolder>
 # параметры SMTP, добавляются после префикса идентично опциям из основной конфигурации
 messageType.<id>....
 # необязательные параметры
-messageType.<id>.folderInProcessLinked=<inProcessedFolder>
 messageType.<id>.signExpression=<signExpression>
 # отключение стандартной подписи, что сообщение отправлено BGERP
 #messageType.<id>.signStandard=0
@@ -361,9 +361,6 @@ messageType.<id>.replayTo=<replayTo>
 После разбора текста сообщений и вложений сообщение перемещается в *<processedFolder>*, при возникновении ошибок - в *<skippedFolder>*.
 
 *<email>* подставляется в поле отправителя исходящего письма. 
-Папка *<inProcessedFolder>* указывает папку, из которой считываются ответные письма на отправленные из BGERP привязанные к процессу сообщения. 
-Определение привязки производится по теме письма, в которую при отправке из BGERP добавляется маркер с типом процесса.
-
 Поля *<from>* и *<replayTo>* используются в случае необходимости в момент отправки подставить в поле "От" (From) иной адрес и "Ответить на" (Replay-To).
 
 *<signExpression>* - <<extension.adoc#jexl, JEXL>> выражение, определяющее подпись письма при отправке его через данный тип сообщения.

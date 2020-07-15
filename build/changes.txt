@@ -3,8 +3,8 @@ A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
 15.07.2020 13:52:46 1362
 C: [10441] E-Mail caching optimization for checking updates.
-A: [10441] E-Mail create missing folders, TODO: Doc link?
-B: [10441] E-Mail move removed items to Trash folder.
+A: [10441] E-Mail create missing folders.
+B: [10441] E-Mail move removed items to Trash folder, https://bgerp.org/doc/3.0/manual/kernel/message.html#type-email
 F: [11094] Enable jQuery treetable UI library, used in BGBilling Inet module.
 C: [11094] Plugin Asterisk, update asterisk-java library.
 A: [11094] Plugin Asterisk, definition version in configuration.
