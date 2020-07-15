@@ -70,11 +70,11 @@
 			</ui:combo-single>
 
 			<ui:combo-single hiddenName="open" value="${form.param.open}" onSelect="${reloadCommand}"
-				prefixText="Открыт:" styleClass="mr1" widthTextValue="50px">
+				prefixText="${l.l('Открыт')}:" styleClass="mr1" widthTextValue="50px">
 				<jsp:attribute name="valuesHtml">
-					<li value="">Все</li>
-					<li value="1">Да</li>
-					<li value="0">Нет</li>
+					<li value="">${l.l('Все')}</li>
+					<li value="1">${l.l('Да')}</li>
+					<li value="0">${l.l('Нет')}</li>
 				</jsp:attribute>
 			</ui:combo-single>
 

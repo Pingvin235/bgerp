@@ -119,8 +119,6 @@ dependencies {
     bgerp group: 'org.reflections', name: 'reflections', version: '0.9.12' // required for asteriskjava
     bgerp group: 'org.javassist', name: 'javassist', version: '3.27.0-GA' // required for asteriskjava
     bgerp group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13'
-    bgerp group: 'org.reflections', name: 'reflections', version: '0.9.12'
-    bgerp group: 'org.javassist', name: 'javassist', version: '3.27.0-GA' // required for reflections
     
     // Telegram
     bgerp group: 'org.telegram', name: 'telegrambots', version: '4.2'

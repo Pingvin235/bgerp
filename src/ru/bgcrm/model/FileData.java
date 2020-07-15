@@ -6,20 +6,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.Logger;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.io.Base64;
+import ru.bgerp.util.Log;
 
 public class FileData extends IdTitle {
-    private static final Logger log = Logger.getLogger(FileData.class);
+    private static final Log log = Log.getLog();
 
     private String secret;
     private Date time;
     private User user;
     private String comment;
     private int version;
+    @JsonIgnore
     private OutputStream outputStream;
 
     public FileData() {}

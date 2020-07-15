@@ -3,13 +3,14 @@
 
 <%@ include file="/WEB-INF/jspf/admin/directory/directory.jsp"%>
 
-<html:form action="admin/directory" styleId="userFilterForm">
-	<input type="hidden" name="action" value="parameterList"/>
-	<input type="hidden" name="directoryId" value="${form.param.directoryId}" />
+<html:form action="admin/directory">
+	<html:hidden property="action"/>
+	<html:hidden property="directoryId"/>
 
 	<%@ include file="../create_button.jsp"%>
 
-	<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="Фильтр" size="40" title="По наименованию, комментарию, конфигурации"
+	<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Фильтр')}" size="40" 
+		title="${l.l('По наименованию, комментарию, конфигурации')}"
 		onSelect="openUrlContent( formUrl( this.form ) ); return false;"/>
 
 	<button class="btn-grey ml1" type="button" onclick="openUrlContent( formUrl( this.form) )">=&gt;</button>

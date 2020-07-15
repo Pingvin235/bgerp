@@ -220,9 +220,9 @@ public class DirectoryAction extends BaseAction {
 
         var request = form.getHttpRequest();
         setDirectoryList(request);
-        request.setAttribute("parameterList", paramGroupDAO.getParameterGroupList(form.getParam("directoryId")));
+        request.setAttribute("parameterList", paramGroupDAO.getParameterGroupList(getObjectType(form.getParam("directoryId"))));
 
-        return mapping.findForward("parameterGroupList");
+        return data(con, mapping, form);
     }
 
     //переписать "!" 

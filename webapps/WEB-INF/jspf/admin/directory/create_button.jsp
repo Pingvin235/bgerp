@@ -9,5 +9,5 @@
 	</c:url>
 	<button 
 		type="button" class="btn-green" 
-		onclick="$$.ajax.load('${url}&action=' + this.form.action.value.replace('List', 'Get'), $$.shell.$content())">+</button>
+		onclick="$$.ajax.load('${url}&action=${form.action.replace('List', 'Get')}', $$.shell.$content())">+</button>
 </u:sc>

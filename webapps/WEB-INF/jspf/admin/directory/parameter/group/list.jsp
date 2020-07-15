@@ -9,7 +9,7 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
-		<td>Название</td>
+		<td width="100%">${l.l('Название')}</td>
 	</tr>
 	<c:forEach var="item" items="${parameterList}">
 		<tr>

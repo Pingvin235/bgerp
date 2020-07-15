@@ -13,16 +13,16 @@ import ru.bgcrm.util.sql.ConnectionSet;
  * createOnStart+=,ru.bgcrm.dyn.ExampleCreateOnStart
  */
 public class ExampleCreateOnStart {
-	private static final Logger log = Logger.getLogger(ExampleCreateOnStart.class);
-	
-	public ExampleCreateOnStart() {
-		log.info("Подписка на события.");
-		EventProcessor.subscribe((e, connectionSet) -> {
-			processEvent(connectionSet, e);
-		}, UserAuthenticationEvent.class);
-	}
-	
-	private void processEvent(ConnectionSet connectionSet, UserAuthenticationEvent event) throws BGException {
-		log.info("Авторизован пользователь: " + event.getUser());
-	}
+    private static final Logger log = Logger.getLogger(ExampleCreateOnStart.class);
+    
+    public ExampleCreateOnStart() {
+        log.info("Подписка на события.");
+        EventProcessor.subscribe((e, connectionSet) -> {
+            processEvent(connectionSet, e);
+        }, UserAuthenticationEvent.class);
+    }
+    
+    private void processEvent(ConnectionSet connectionSet, UserAuthenticationEvent event) throws BGException {
+        log.info("Авторизован пользователь: " + event.getUser());
+    }
 }

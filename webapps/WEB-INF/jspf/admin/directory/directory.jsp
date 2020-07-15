@@ -8,10 +8,7 @@
 	
 	<ui:combo-single hiddenName="directoryId" value="${form.param.directoryId}" 
 		prefixText="${l.l('Справочник')}:" widthTextValue="200px"
-		onSelect="
-				this.form.action.value = $(item).attr('action'); 
-				this.form.directoryId.value = $hidden.val();
-				$$.ajax.load(this.form, $$.shell.$content())">
+		onSelect="$$.param.dirChanged($('#${uiid}')[0], item, $hidden)">
 		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" items="${directoryList}">
 				<li value="${item.id}" action="${item.action}">${l.l(item.title)}</li>

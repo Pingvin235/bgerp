@@ -182,16 +182,15 @@ public class ProcessLinkAction extends ProcessAction {
         HttpServletRequest request = form.getHttpRequest();
         ProcessLinkDAO processLinkDao = new ProcessLinkDAO(con, form.getUser());
 
+        restoreRequestParams(con, form, true, true, "open");
+
         int id = form.getId();
+        Boolean open = form.getParamBoolean("open", null);
 
         Process process = getProcess(new ProcessDAO(con), id);
         ProcessType type = getProcessType(process.getTypeId());
 
         request.setAttribute("processType", type);
-
-        // указание типов процессов которые можно создавать с произвольным видом привязки
-        /*Set<Integer> createTypeIds = Utils.toIntegerSet(type.getProperties().getConfigMap().get("processCreateLinkProcessTypes"));
-        request.setAttribute("typeList", ProcessTypeCache.getTypeList(createTypeIds));*/
 
         // жёстко указанные в конфигурации типы процессов, с указанными видами привязки, фильтры по параметру процесса и т.п.
         final List<LinkProcessCreateConfigItem> createTypeList = type.getProperties().getConfigMap().getConfig(LinkProcessCreateConfig.class)
@@ -201,7 +200,7 @@ public class ProcessLinkAction extends ProcessAction {
 
         // список процессов, к которым привязан данный процесс
         SearchResult<Pair<String, Process>> searchResultLinked = new SearchResult<>();
-        processLinkDao.searchLinkedProcessList(searchResultLinked, Process.OBJECT_TYPE + "%", id, null, null, null, null, null);
+        processLinkDao.searchLinkedProcessList(searchResultLinked, Process.OBJECT_TYPE + "%", id, null, null, null, null, open);
         form.getResponse().setData("linkedProcessList", searchResultLinked.getList());
 
         // генерация описаний процессов
@@ -211,7 +210,7 @@ public class ProcessLinkAction extends ProcessAction {
 
         // привязанные к процессу процессы
         SearchResult<Pair<String, Process>> searchResultLink = new SearchResult<Pair<String, Process>>(form);
-        processLinkDao.searchLinkProcessList(searchResultLink, id);
+        processLinkDao.searchLinkProcessList(searchResultLink, id, open);
 
         // генерация описаний процессов
         for (Pair<String, Process> pair : searchResultLink.getList()) {

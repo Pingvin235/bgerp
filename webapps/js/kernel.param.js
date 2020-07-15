@@ -1,3 +1,20 @@
+// "use strict";
+
+$$.param = new function() {
+	const debug = $$.debug("param");
+
+	const dirChanged = (form, item, $hidden) => {
+		form.action.value = $(item).attr('action');
+		form.directoryId.value = $hidden.val();
+		$$.ajax.load(form, $$.shell.$content())
+	}
+
+	// 
+	this.dirChanged = dirChanged;
+
+	// TODO: Move to $$.param.address address related functions.
+}
+
 
 // добавляет контекстный поиск по улице городу
 function addCustomCitySearch( selector ,cityIdSelector)

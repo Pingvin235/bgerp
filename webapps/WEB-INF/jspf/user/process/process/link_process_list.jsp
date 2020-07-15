@@ -1,6 +1,25 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
+<c:set var="uiid" value="${u:uiid()}"/>
+<html:form styleId="${uiid}" action="user/process/link">
+	<html:hidden property="action"/>
+	<html:hidden property="id"/>
+	<html:hidden property="linkedReferenceName"/>
+	<html:hidden property="linkReferenceName"/>
+	<html:hidden property="ifaceId"/>
+	<html:hidden property="ifaceState"/>
+
+	<ui:combo-single hiddenName="open" value="${form.param.open}" onSelect="$$.ajax.load($('#${uiid}'), $('#${uiid}').parent())"
+		prefixText="${l.l('Открыт')}:" styleClass="mr1" widthTextValue="50px">
+		<jsp:attribute name="valuesHtml">
+			<li value="">${l.l('Все')}</li>
+			<li value="1">${l.l('Да')}</li>
+			<li value="0">${l.l('Нет')}</li>
+		</jsp:attribute>
+	</ui:combo-single>
+</html:form>
+
 <c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.links.process.up', 'processShowProcessLinks.Linked') ne '0' and not empty form.response.data.linkedProcessList}">
 	<h2>${l.l('Процесс привязан к')}:</h2>
 	

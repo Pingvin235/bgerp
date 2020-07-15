@@ -262,13 +262,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
                 pd.addQuery(" AND process.status_id IN (" + Utils.toString(statusIds) + ") ");
             }
 
-            if (open != null) {
-                if (open) {
-                    pd.addQuery(" AND process.close_dt IS NULL");
-                } else {
-                    pd.addQuery(" AND process.close_dt IS NOT NULL");
-                }
-            }
+            addOpenFilter(pd, open);
 
             pd.addQuery(" ORDER BY process.create_dt DESC");
             pd.addQuery(getPageLimit(page));
@@ -287,6 +281,15 @@ public class ProcessLinkDAO extends CommonLinkDAO {
                 page.setRecordCount(getFoundRows(ps));
             }
             pd.close();
+        }
+    }
+
+    private void addOpenFilter(PreparedDelay pd, Boolean open) {
+        if (open != null) {
+            if (open)
+                pd.addQuery(" AND process.close_dt IS NULL ");
+            else
+                pd.addQuery(" AND process.close_dt IS NOT NULL ");
         }
     }
     
@@ -335,42 +338,49 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     /**
-     * Возвращает процессы, привязанные к процессу.
+     * Calls {@link #searchLinkProcessList(SearchResult, int, Boolean)} with open = null.
      * @param searchResult
      * @param processId
-     * @throws BGException
+     * @throws Exception
      */
     public void searchLinkProcessList(SearchResult<Pair<String, Process>> searchResult, int processId)
-            throws BGException {
-        if (searchResult != null) {
-            Page page = searchResult.getPage();
+        throws Exception {
+        searchLinkProcessList(searchResult, processId, null);
+    }
 
-            List<Pair<String, Process>> list = searchResult.getList();
+    /**
+     * Searches processes linked to the process.
+     * @param searchResult
+     * @param processId the process.
+     * @param open null or open / close filter.
+     * @throws Exception
+     */
+    public void searchLinkProcessList(SearchResult<Pair<String, Process>> searchResult, int processId, Boolean open)
+            throws Exception {
+        if (searchResult == null)
+            return;
 
-            String query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM " + TABLE_PROCESS_LINK + " AS link " 
-                    + "INNER JOIN " + TABLE_PROCESS + " AS process ON link.object_id=process.id "
-                    + ProcessDAO.getIsolationJoin(user)
-                    + "WHERE link.process_id=? AND link.object_type LIKE 'process%' "
-                    + "ORDER BY process.create_dt DESC ";
-            query += getPageLimit(page);
+        Page page = searchResult.getPage();
+        List<Pair<String, Process>> list = searchResult.getList();
 
-            try {
-                PreparedStatement ps = con.prepareStatement(query);
-                ps.setInt(1, processId);
+        var pd = new PreparedDelay(con);
+        pd.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM " + TABLE_PROCESS_LINK + " AS link ");
+        pd.addQuery("INNER JOIN " + TABLE_PROCESS + " AS process ON link.object_id=process.id ");
+        pd.addQuery(ProcessDAO.getIsolationJoin(user));
+        pd.addQuery("WHERE link.process_id=? AND link.object_type LIKE 'process%' ");
+        addOpenFilter(pd, open);
+        pd.addQuery("ORDER BY process.create_dt DESC ");
+        pd.addQuery(getPageLimit(page));
 
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    list.add(new Pair<String, Process>(rs.getString(1), ProcessDAO.getProcessFromRs(rs)));
-                }
+        pd.addInt(processId);
 
-                if (page != null) {
-                    page.setRecordCount(getFoundRows(ps));
-                }
-                ps.close();
-            } catch (SQLException e) {
-                throw new BGException(e);
-            }
+        ResultSet rs = pd.executeQuery();
+        while (rs.next()) {
+            list.add(new Pair<String, Process>(rs.getString(1), ProcessDAO.getProcessFromRs(rs)));
         }
+
+        if (page != null)
+            page.setRecordCount(getFoundRows(pd.getPrepared()));
     }
     
     /**

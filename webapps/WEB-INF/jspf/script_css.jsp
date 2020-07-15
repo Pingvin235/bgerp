@@ -60,10 +60,9 @@
 <link type="text/css" href="/lib/themify/themify-icons.css" rel="stylesheet"/>
 
 <script src="${u:fileNameWithLastModTime('/js/kernel.js')}"></script>
-<script src="${u:fileNameWithLastModTime('/js/kernel.address.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ajax.js')}"></script>
-<script src="${u:fileNameWithLastModTime('/js/kernel.callboard.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.customer.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.param.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.process.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.shell.js')}"></script>
