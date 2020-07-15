@@ -3,8 +3,6 @@ package ru.bgcrm.plugin.asterisk;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
@@ -15,13 +13,14 @@ import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
+import ru.bgerp.util.Log;
 
 /**
  * Слушаель событий Asterisk а.
  * @author shamil
  */
 public class AMIManager {
-    static final Logger log = Logger.getLogger(AMIManager.class);
+    private static final Log log = Log.getLog();
 
     static final int CONNECT_TIMEOUT = 5 * 60 * 1000;
     static final int RECONNECT_TIMEOUT = 60 * 1000;
@@ -69,11 +68,11 @@ public class AMIManager {
                             .newInstance((MessageTypeCall) messageType, config);
                     threadList.add(listener);
                 } catch (Exception e) {
-                    log.error(e.getMessage(), e);
+                    log.error(e);
                 }
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
     }
 }

@@ -173,6 +173,9 @@ log4j.appender.session.layout=org.apache.log4j.PatternLayout
 log4j.appender.session.layout.ConversionPattern=%d{MM-dd/HH:mm:ss} %5p [%t] %c{1} - %m%n
 ----
 
+[snippet, from="# lib"]
+link:../../../build/bgerp/files/log4j.properties[log4j.properties]
+
 Сообщения в логе разделяются на уровни (в порядке возрастания): *DEBUG*, *INFO*, *WARN*, *ERROR*, *FATAL*. 
 По-умолчанию настроен уровень INFO, т.е. выводятся информационные и ошибочные сообщения (INFO, FATAL, ERROR), отладка не выводится. Вывод осуществляется в файл *log/bgcrm.log*, который обрезается на размере 10МБ с созданием отдельных файлов.
 
@@ -182,11 +185,7 @@ log4j.appender.session.layout.ConversionPattern=%d{MM-dd/HH:mm:ss} %5p [%t] %c{1
 log4j.appender.file.Threshold=DEBUG
 ----
 
-And enable separaged logger for the wanted package or class, e.g.:
-[source]
-----
-log4j.logger.ru.bgcrm.plugin.asterisk=DEBUG, file
-----
+Samples, how to endble loggers wanted package or class in <<../plugin/asterisk/index.adoc#debug, Plugin Asterisk>>.
 
 В конфигурационном файле возможно изменять формат информации в файле, фильтр по классам и другие параметры логирования.
 
@@ -216,8 +215,9 @@ CAUTION: Due to the many classloader related problems the Dynamic code approach 
 
 NOTE: Параметры динамического кода могут быть настроены в <<setup.adoc#config-dyn, конфигурации>>.
 
+// TODO: Write AsciiDoc article.
 Для написания динамического кода возможно использование как простого текстового редактора, так и полноценные IDE для Java разработки. 
-Методология при этом аналогична применяемой для link:http://wiki.bgbilling.ru/index.php/%D0%A0%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0_%D0%B4%D0%B8%D0%BD%D0%B0%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%BA%D0%BE%D0%B4%D0%B0_%D0%B2_IDE_Eclipse[разработки в BGBilling].
+Методология при этом аналогична применяемой для link:https://web.archive.org/web/20180209130306/http://wiki.bitel.ru/index.php/%D0%A0%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0_%D0%B4%D0%B8%D0%BD%D0%B0%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%BA%D0%BE%D0%B4%D0%B0_%D0%B2_IDE_Eclipse[разработке в BGBilling].
 
 Компиляция динамического кода осуществляется в оснастке *Администрирование => Динамический код* интерфейса администратора. 
 Можно скомпилировать только все классы сразу. При успешной компиляции динамический код применяется также целиком.

@@ -35,16 +35,18 @@ task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
             println "scp $changesName $sshLogin:$sshFolder".execute().text
         }
 
+        def updateDir = "https://bgerp.org/update"
+
         println "Update links:"
-        println "https://bgerp.org/update/$processId"
+        println "$updateDir/$processId"
         if (updateFile)
-            println "https://bgerp.org/update/$processId/" + updateFile.getName()
+            println "$updateDir/$processId/" + updateFile.getName()
         if (updateLibFile)
-            println "https://bgerp.org/update/$processId/" + updateLibFile.getName()
+            println "$updateDir/$processId/" + updateLibFile.getName()
         if (docDir.exists())
-            println "https://bgerp.org/update/$processId/doc"
+            println "$updateDir/$processId/doc"
         if (changesFile.exists())
-            println "https://bgerp.org/update/$processId/changes.txt"
+            println "$updateDir/$processId/changes.txt"
     }
 }
 

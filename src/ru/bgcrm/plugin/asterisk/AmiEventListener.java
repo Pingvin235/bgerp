@@ -1,12 +1,10 @@
 package ru.bgcrm.plugin.asterisk;
 
-import java.sql.Connection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.asteriskjava.manager.ManagerConnection;
-import org.asteriskjava.manager.ManagerConnectionFactory;
 import org.asteriskjava.manager.ManagerConnectionState;
 import org.asteriskjava.manager.ManagerEventListener;
 import org.asteriskjava.manager.action.StatusAction;
@@ -21,9 +19,11 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.sql.SQLUtils;
+import ru.bgerp.util.Log;
 
 public class AmiEventListener extends Thread implements ManagerEventListener {
+    private static final Log log = Log.getLog();
+
     private final MessageTypeCall messageType;
     private final ParameterMap config;
 
@@ -41,14 +41,7 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
     public void run() {
         while (run) {
             try {
-                String host = config.get("host");
-                int port = config.getInt("port", 5038);
-                String login = config.get("login");
-                String pswd = config.get("pswd");
-
-                AMIManager.log.debug("Connecting AMI host: " + host + "; port: " + port + "; login: " + login + "; pswd: " + pswd);
-
-                managerConnection = new ManagerConnectionFactory(host, login, pswd).createManagerConnection();
+                managerConnection = new ru.bgcrm.plugin.asterisk.ManagerConnection(config);
 
                 managerConnection.addEventListener(this);
 
@@ -62,12 +55,12 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
                     managerConnection.logoff();
                 }
             } catch (Exception e) {
-                AMIManager.log.error(e.getMessage(), e);
+                log.error(e);
 
                 try {
                     sleep(AMIManager.RECONNECT_TIMEOUT);
                 } catch (Exception ex) {
-                    AMIManager.log.error(e.getMessage(), e);
+                    log.error(e);
                 }
             }
         }
@@ -81,24 +74,7 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
 
     @Override
     public void onManagerEvent(ManagerEvent e) {
-        if (AMIManager.log.isDebugEnabled())
-            AMIManager.log.debug("AMI event: " + e);
-
-        /*04-01/18:45:37  INFO [Asterisk-Java ManagerConnection-2-Reader-0] AMIManager - AMI event: org.asteriskjava.manager.event.BridgeEvent[dateReceived='Tue Apr 01 18:45:37 YEKT 2014',
-        privilege='call,all',uniqueid1='1396356317.899',uniqueid2='1396356318.902',sequencenumber=null,link='true',bridgestate='Link',
-        bridgetype='core',unlink='false',timestamp=null,channel1='Local/1005@from-queue-00000016;2',channel2='SIP/1005-0000034e',server=null,
-        callerid1='3472924823',callerid2='1005',systemHashcode=2631472]*/
-
-        /*Event: Newstate
-        Privilege: call,all
-        Channel: Local/904@from-queue-00000621;1
-        ChannelState: 6
-        ChannelStateDesc: Up
-        CallerIDNum: 904
-        CallerIDName: 904
-        ConnectedLineNum: 89075270744
-        ConnectedLineName: 89075270744
-        Uniqueid: 1406622918.6497 */
+        log.debug("AMI event: %s", e);
 
         if (!(e instanceof NewStateEvent))
             return;
@@ -108,7 +84,7 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
         if (!"Up".equals(event.getChannelStateDesc()))
             return;
 
-        String numberFrom = event.getConnectedlinenum();
+        String numberFrom = event.getConnectedLineNum();
         String numberTo = event.getCallerIdNum();
         boolean registerBecauseExpression = false;
         if (messageType.getCheckExpressionCallStore() != null) {
@@ -120,14 +96,13 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
 
         CallRegistration reg = messageType.getRegistrationByNumber(numberTo);
         // приходят 3 события о вызове, поэтому блокировка по первому путём установки messageForOpenId
-        if ((reg != null && reg.getMessageForOpenId() == null) || registerBecauseExpression) {
+        if ((reg != null && reg.getMessageForOpenId() == null && numberFrom != null) || registerBecauseExpression) {
             if (reg != null)
-                AMIManager.log.info("Call to registered number: " + reg.getNumber());
+                log.info("Call to registered number: %s, event: %s", reg.getNumber(), event);
             else
-                AMIManager.log.info("Call because of expression.");
+                log.info("Call because of expression.");
 
-            Connection con = Setup.getSetup().getDBConnectionFromPool();
-            try {
+            try (var con = Setup.getSetup().getDBConnectionFromPool()) {
                 Message message = new Message();
                 message.setDirection(Message.DIRECTION_INCOMING);
                 message.setTypeId(messageType.getId());
@@ -144,14 +119,12 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
 
                 con.commit();
 
-                AMIManager.log.info("Created message: " + message.getId());
+                log.info("Created message: " + message.getId());
 
                 if (reg != null)
                     reg.setMessageForOpenId(message.getId());
             } catch (Exception ex) {
-                AMIManager.log.error(ex.getMessage(), ex);
-            } finally {
-                SQLUtils.closeConnection(con);
+                log.error(ex);
             }
         }
     }

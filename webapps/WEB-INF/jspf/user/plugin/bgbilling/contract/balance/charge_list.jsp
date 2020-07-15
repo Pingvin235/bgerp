@@ -5,7 +5,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:url var="createUrl" value="plugin/bgbilling/proto/balance.do">
+<c:url var="createUrl" value="/user/plugin/bgbilling/proto/balance.do">
 	<c:param name="action" value="balanceEditor" />
 	<c:param name="billingId" value="${form.param.billingId}" />
 	<c:param name="contractId" value="${form.param.contractId}" />
@@ -26,7 +26,7 @@
 	</tr>
 	<c:forEach var="charge" items="${form.response.data.list}">
 		<tr>
-			<c:url var="url" value="plugin/bgbilling/proto/balance.do">
+			<c:url var="url" value="/user/plugin/bgbilling/proto/balance.do">
 				<c:param name="action" value="balanceEditor"/>
 				<c:param name="item" value="contractCharge" />	
 				<c:param name="billingId" value="${form.param.billingId}" />
@@ -36,7 +36,7 @@
 			</c:url>
 			<c:set var="editCommand" value="openUrlToParent('${url}', $('#${uiid}') )"/>
 			
-			<c:url var="deleteAjaxUrl" value="plugin/bgbilling/proto/balance.do">
+			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/balance.do">
 				<c:param name="action" value="deleteCharge"/>
 				<c:param name="billingId" value="${form.param.billingId}" />
 				<c:param name="contractId" value="${form.param.contractId}" />

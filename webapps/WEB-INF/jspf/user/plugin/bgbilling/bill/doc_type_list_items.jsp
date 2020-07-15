@@ -10,7 +10,7 @@
 		<tr>
 			<td>
 				<u:sc>
-					<c:url var="deleteAjaxUrl" value="plugin/bgbilling/proto/bill.do">
+					<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/bill.do">
 						<c:param name="action" value="docTypeDelete"/>
 						<c:param name="typeIds" value="${item.id}"/>
 						<c:param name="moduleId" value="${form.param.moduleId}"/>
@@ -26,7 +26,7 @@
 	</c:forEach>
 </table>
 
-<form class="in-table-cell mt1" action="plugin/bgbilling/proto/bill.do">
+<form class="in-table-cell mt1" action="/user/plugin/bgbilling/proto/bill.do">
 	<input type="hidden" name="action" value="docTypeAdd"/>
 	<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 	<input type="hidden" name="moduleId" value="${form.param.moduleId}"/>

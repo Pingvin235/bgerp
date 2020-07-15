@@ -20,8 +20,10 @@
 			<c:choose>
 				<c:when test="${not empty reg}">
 					<span class="tt">${type.title} номер <b>${reg.number}</b></span>
-					<c:set var="url" value="messageCall.do?typeId=${type.id}&action=numberFree"/>
-					<button type="button" class="btn-grey ml1" onclick="if( sendAJAXCommand( '${url}' ) ){ openUrlToParent( '${form.requestUrl}', $('#${uiid}') ) }" >Освободить</button>
+					<c:set var="url" value="/user/messageCall.do?typeId=${type.id}&action=numberFree"/>
+					<button 
+						type="button" class="btn-grey ml1" 
+						onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()) })" >${l.l('Освободить')}</button>
 				</c:when>
 				<c:otherwise>
 					<form action="/user/messageCall.do" style="display: inline-block;">

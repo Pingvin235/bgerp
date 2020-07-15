@@ -5,7 +5,7 @@
 
 <h2 id="${uiid}">Логины</h2>
 
-<c:url var="url" value="plugin/bgbilling/proto/dialup.do">
+<c:url var="url" value="/user/plugin/bgbilling/proto/dialup.do">
 	<c:param name="action" value="getLogin"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="moduleId" value="${form.param.moduleId}"/>
@@ -31,7 +31,7 @@
 			</c:url>
 			<c:set var="editCommand" value="openUrlToParent('${eUrl}', $('#${uiid}') )"/>
 			
-			<c:url var="deleteAjaxUrl" value="plugin/bgbilling/proto/dialup.do">
+			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/dialup.do">
 				<c:param name="action" value="deleteLogin"/>
 				<c:param name="contractId" value="${form.param.conractId}"/>
 				<c:param name="billingId" value="${form.param.billingId}"/>

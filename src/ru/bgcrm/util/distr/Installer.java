@@ -57,7 +57,7 @@ public class Installer {
         sb.append("\nCommands for installer:");
         sb.append("\n\t update           - update all modules.");
         sb.append("\n\t updatef          - update all modules forced.");
-        sb.append("\n\t update <version> - update to another version of BGERP.");
+        sb.append("\n\t update <version> - switch to another version (not build) of the program.");
         sb.append("\n\t killhash         - clear executed queries history.");
         sb.append("\n\t install <zip>    - install a module from the zip file.");
         return sb.toString();

@@ -114,7 +114,7 @@
 			<td>${dialUpSession['ipAddress'].getHostAddress()}</td>
 			<td>${dialUpSession['fromNumber']} / ${dialUpSession['toNumber']}</td>
 		
-			<c:url var="radiusLogUrl" value="plugin/bgbilling/proto/dialup.do">
+			<c:url var="radiusLogUrl" value="/user/plugin/bgbilling/proto/dialup.do">
 				<c:param name="action" value="radiusLog" />
 				<c:param name="splitter" value="</br>" />
 				<c:param name="moduleId" value="${form.param.moduleId}" />

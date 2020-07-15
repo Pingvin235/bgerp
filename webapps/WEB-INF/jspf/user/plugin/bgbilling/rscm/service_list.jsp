@@ -9,7 +9,7 @@
 	<html:hidden property="contractId"/>
 	<input type="hidden" name="action" value="serviceList"/>
 	
-	<c:url var="url" value="plugin/bgbilling/proto/rscm.do">
+	<c:url var="url" value="/user/plugin/bgbilling/proto/rscm.do">
 		<c:param name="action" value="serviceGet"/>
 		<c:param name="contractId" value="${form.param.contractId}"/>
 		<c:param name="billingId" value="${form.param.billingId}"/>
@@ -47,7 +47,7 @@
 			</c:url> 
 			<c:set var="editCommand" value="openUrlToParent('${editU}', $('#${uiid}') )"/>
 			
-			<c:url var="deleteAjaxUrl" value="plugin/bgbilling/proto/rscm.do">
+			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/rscm.do">
 				<c:param name="action" value="serviceDelete"/>
 				<c:param name="contractId" value="${form.param.contractId}"/>
 				<c:param name="billingId" value="${form.param.billingId}"/>
@@ -62,7 +62,7 @@
 			</td>
 			<td nowrap="nowrap">${u:formatDate(item.date, 'ymd')}</td>
 			<td>${item.serviceTitle}</td>
-			<td>${item.amount}</td>			
+			<td>${item.amount}</td>
 			<td>${item.unit}</td>
 			<td>${item.comment}</td>
 		</tr>

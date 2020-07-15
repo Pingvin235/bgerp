@@ -2,6 +2,8 @@ package ru.bgcrm.util.distr.call;
 
 import java.io.File;
 
+import org.apache.commons.io.FileUtils;
+
 import ru.bgcrm.util.Preferences;
 
 public class RemoveFile implements InstallationCall {
@@ -13,10 +15,9 @@ public class RemoveFile implements InstallationCall {
             File file = new File(param);
             if (file.exists()) {
                 System.out.println("Removing file: " + param);
-                file.deleteOnExit();
+                FileUtils.deleteQuietly(file);
                 result = true;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

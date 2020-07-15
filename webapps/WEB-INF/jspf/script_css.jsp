@@ -37,11 +37,11 @@
 <script src="${u:fileNameWithLastModTime('/lib/ctable/ctable.js')}"></script>
 <link type="text/css" href="${u:fileNameWithLastModTime('/lib/ctable/ctable.css')}" rel="stylesheet"/>
 
-<%-- remove later together with files
 <script src="/lib/treetable/jquery.treetable.js"></script>
 <link type="text/css" href="/lib/treetable/jquery.treetable.css" rel="stylesheet"/>
 <link type="text/css" href="/lib/treetable/jquery.treetable.theme.default.css" rel="stylesheet"/>
 
+<%-- remove later together with files
 <script src="/lib/jquery.autoresize.js"></script>
 
 <script src="/lib/jquery.selectboxes.js"></script>

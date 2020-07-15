@@ -327,7 +327,7 @@ function bgbilling_getRegistredGroups( itemId, billingId, selectedId )
 	var $groups = $("#"+ billingId+"-"+itemId+"-registerGroupList");
 	if( $groups.length > 0 )
 	{
-		var url = "plugin/bgbilling/proto/billingCrm.do?action=registerGroupList&billingId=" + billingId +"&contractId="+itemId;
+		var url = "/user/plugin/bgbilling/proto/billingCrm.do?action=registerGroupList&billingId=" + billingId +"&contractId="+itemId;
 		openUrlTo( url, $groups );
 	}
 	
@@ -443,7 +443,7 @@ function bgbilling_updateRegisterList( billingId )
 {
 	var select = $('select[name=selectedRegisterId]:visible');
 	
-	var ajaxResponse = sendAJAXCommandWithParams( "plugin/bgbilling/proto/cashcheck.do?", { "action" : "registratorList", "billingId": billingId } );
+	var ajaxResponse = sendAJAXCommandWithParams( "/user/plugin/bgbilling/proto/cashcheck.do?", { "action" : "registratorList", "billingId": billingId } );
 	if( ajaxResponse )
 	{
 		select.children().remove();

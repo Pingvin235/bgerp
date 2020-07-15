@@ -15,12 +15,11 @@
 
 
 
-	<c:url var="url" value="plugin/bgbilling/proto/card.do">
+	<c:url var="url" value="/user/plugin/bgbilling/proto/card.do">
 		<c:param name="action" value="contractInfo" />
 		<c:param name="billingId" value="${form.param.billingId}" />
 		<c:param name="moduleId" value="${form.param.moduleId}" />
 		<c:param name="contractId" value="${form.param.contractId}" />
-
 	</c:url>
 
 	<table>
