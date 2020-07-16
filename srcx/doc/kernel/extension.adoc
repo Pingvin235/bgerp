@@ -371,4 +371,4 @@ For making own servlet write annotated class extending *javax.servlet.http.HttpS
 Compile to **.class*, assemple to a JAR file, place it in previously created directory `webapps/WEB-INF/lib`
 
 To be loaded the JAR file has to be named with *custom* in name, 
-or you may change the marker string in configuration parameter *server.jar.marker*.
+or you may change the marker string in configuration parameter *custom.jar.marker*.

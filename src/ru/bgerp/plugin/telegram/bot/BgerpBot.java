@@ -163,7 +163,7 @@ public class BgerpBot extends TelegramLongPollingBot {
                     userMap.put(chatId, null);
                     sendMessage(chatId, config.getMsgLinkChange());
                 } catch (Exception ex) {
-                    log.error("Ощибка сохранения подписки в telegram", ex);
+                    log.error("Error storing subscription in Telegram", ex);
                 } finally {
                     SQLUtils.closeConnection(con);
                 }

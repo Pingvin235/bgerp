@@ -536,7 +536,7 @@ public class ParameterAction extends BaseAction {
         } else if (Parameter.TYPE_PHONE.equals(parameter.getType())) {
             ParameterPhoneValue phoneValue = new ParameterPhoneValue();
 
-            int paramCount = setup.getInt("param.phone.item.count", 0);
+            int paramCount = setup.getInt("param.phone.item.count", 4);
             List<ParameterPhoneValueItem> items = new ArrayList<ParameterPhoneValueItem>();
             for (int index = 1; index <= paramCount; index++) {
                 ParameterPhoneValueItem item = new ParameterPhoneValueItem();
