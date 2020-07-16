@@ -179,4 +179,21 @@ public class ParameterMapTest {
         assertTrue(thrown);
     }
 
+    @Test
+    public void testSokLong() throws Exception {
+        var map = ParameterMap.of("key.old", "1", "key.new", "2");
+        var value = map.getSokLong(22, "key.old");
+        assertEquals(1, value);
+        value = map.getSokLong(22, "key.wrong1", "key.wrong2");
+        assertEquals(22, value);
+        var thrown = false;
+        try {
+            map = ParameterMap.of("key.old", "10");
+            map.getSokLong(0, true, "key.new", "key.old");
+        } catch (BGMessageException e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+    }
+
 }

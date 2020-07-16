@@ -112,7 +112,7 @@ dynamic.src.dir=dyn
 dynamic.src.encoding=UTF-8
 #
 # максимальное время выполнения обработчика события в мс. до принудительного прерывания
-event.processTimeout=1000
+event.process.timeout=5000
 #
 # перечень через запятую динамических или обычных классов, реализующих интерфейс java.lang.Runnable, запускаемых при старте сервера [[config-on-start]]
 #runOnStart=

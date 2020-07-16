@@ -170,7 +170,8 @@ public class EventProcessor {
     private static void processingEvent(Event event, EventListener<Event> listener, ConnectionSet conSet)
             throws Exception {
         final Setup setup = Setup.getSetup();
-        final long timeout = setup.getLong("event.processTimeout", setup.getLong("dynamicEventListenerTimeOut", 1000L));
+        final var key = "event.process.timeout";
+        final long timeout = setup.getSokLong(5000L, key, "event.processTimeout", "dynamicEventListenerTimeOut");
 
         String resultStatus = "";
         long timeStart = Calendar.getInstance().getTimeInMillis();
@@ -183,7 +184,7 @@ public class EventProcessor {
                     listener.notify(event, conSet);
                 }
             } catch (TimeoutException e) {
-                throw new BGMessageException("Время ожидания выполнения скрипта '%s' истекло! (%s мс).", listener.getClass().getName(), timeout);
+                throw new BGMessageException("Время ожидания выполнения скрипта '%s' истекло! (%s=%s мс).", listener.getClass().getName(), key, timeout);
             } catch (InterruptedException | ExecutionException e) {
                 throw new BGMessageException("При выполнении скрипта '%s' возникло исключение '%s'", listener.getClass().getName(), e.getMessage());
             }
@@ -192,6 +193,7 @@ public class EventProcessor {
         } finally {
             long timeEnd = Calendar.getInstance().getTimeInMillis();
 
+            // TODO: Extract to some plugin. DBA?
             if (("Successful".equals(resultStatus) && setup.getBoolean("logSuccessfulEventsThrow", false))
                     || (!"Successful".equals(resultStatus) && setup.getBoolean("logErrorEventsThrow", false))
                     || setup.getBoolean("logAllEventsThrow", false)) {

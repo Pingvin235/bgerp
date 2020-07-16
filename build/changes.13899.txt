@@ -1,0 +1,1 @@
+C: Rename event processing timeout key to 'event.process.timeout', set default value to 5000 ms.

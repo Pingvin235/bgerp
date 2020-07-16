@@ -68,7 +68,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Retrieve value using actual and old keys.
+     * Retrieves value with Support of Old Keys.
      * @param def default value
      * @param validate true - throw an exception on using old keys
      * @param keys first element is actual ond, after - old values
@@ -134,6 +134,22 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
 
     public long getLong(String key) {
         return getLong(key, 0L);
+    }
+
+    /**
+     * Analog of {@link #getSok(String, boolean, String...)} for long values.
+     * @throws BGMessageException
+     */
+    public long getSokLong(long def, boolean validate, String... keys) throws BGMessageException {
+        return Utils.parseLong(getSok(String.valueOf(def), validate, keys), def);
+    }
+
+    /**
+     * Calls {@link #getSokLong(long, boolean, String...)} with validate=false.
+     * @throws BGMessageException
+     */ 
+    public long getSokLong(long def, String... keys) throws BGMessageException {
+        return getSokLong(def, false, keys);
     }
 
     public final boolean getBoolean(String key, boolean defaultValue) {
