@@ -292,8 +292,8 @@
 				<b>От:</b> <a href="mailto:${message.from}">${message.from}</a><br/>
 				<b>Текст:</b><br/>
 					<c:set var="text" value="${message.text}"/>
-					<%@ include file="email_text_prepare.jsp"%>
-					${u:htmlEncode( text )}
+					<c:set var="text" value="${u:htmlEncode(text)}"/>
+					<ui:text-prepare text="${text}"/>
 				<c:if test="${not empty message.attachList}">
 					<br/><br/><b>Вложения (можно загрузить только после привязки процесса):</b><br/>
 

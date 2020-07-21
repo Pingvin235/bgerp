@@ -2,10 +2,7 @@ package ru.bgcrm.dao.message;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.time.Duration;
 import java.time.Instant;
@@ -27,17 +24,14 @@ import java.util.stream.Collectors;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
-import javax.mail.BodyPart;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
-import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MailDateFormat;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -46,10 +40,8 @@ import javax.mail.search.FlagTerm;
 import javax.mail.search.MessageIDTerm;
 
 import org.apache.commons.io.IOUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.nodes.TextNode;
+import org.bgerp.plugin.msg.email.MessageParser;
+import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
@@ -221,7 +213,7 @@ public class MessageTypeEmail extends MessageType {
 
                 int count = messageIds.length;
                 for (javax.mail.Message message : incomingFolder.getMessages()) {
-                    if (!Arrays.stream(messageIds).anyMatch(getSystemId(message)::equals))
+                    if (!Arrays.stream(messageIds).anyMatch(new MessageParser(message).getSystemId()::equals))
                         continue;
                     incomingFolder.copyMessages(new javax.mail.Message[] { message }, trashFolder);
                     message.setFlag(Flags.Flag.DELETED, true);
@@ -237,8 +229,8 @@ public class MessageTypeEmail extends MessageType {
         });
     }
 
-    private void addAttaches(javax.mail.Message message, Message msg) throws Exception {
-        for (MessageAttach attach : getAttachContent(message)) {
+    private void addAttaches(MessageParser mp, Message msg) throws Exception {
+        for (MessageAttach attach : mp.getAttachContent()) {
             FileData file = new FileData();
             file.setTitle(attach.title);
             msg.addAttach(file);
@@ -285,12 +277,14 @@ public class MessageTypeEmail extends MessageType {
                         skippedFolder.open(Folder.READ_WRITE);
 
                         for (javax.mail.Message message : incomingFolder.search(new MessageIDTerm(messageId))) {
-                            if (!getSystemId(message).equals(messageId)) {
+                            MessageParser mp = new MessageParser(message);
+
+                            if (!mp.getSystemId().equals(messageId)) {
                                 continue;
                             }
 
                             try {
-                                for (MessageAttach attach : getAttachContent(message)) {
+                                for (MessageAttach attach : mp.getAttachContent()) {
                                     var queue = outputMap.get(attach.title);
                                     if (queue != null && queue.size() > 0) {
                                         FileOutputStream out = queue.poll();
@@ -549,27 +543,29 @@ public class MessageTypeEmail extends MessageType {
             
             int unprocessedCount = 0;
             for (javax.mail.Message message : messages) {
-                String messageId = getSystemId(message);
+                MessageParser mp = new MessageParser(message);
+
+                String messageId = mp.getSystemId();
                 if (movingIdsMessages.contains(messageId)) // check, may be that message in transaction to the other folder
                     continue;
                 
-                String subject = getMessageSubject(message);
+                String subject = mp.getMessageSubject();
                 if (getProcessId(subject) > 0 || getQuickAnswerMessageId(subject) > 0 || autoCreateProcessTypeId > 0) {
                     processMessage(con, incomingFolder, processedFolder, skippedFolder, message); // обработка только писем в теме которых установлена связка с процессом либо быстрый ответ
                     continue;
                 } else { // to cache
                     try {
-                        MimeMessage msg = new MimeMessage((MimeMessage) message); // don't shure that is necessary now - https://javaee.github.io/javamail/FAQ#imapserverbug
-                        Message result = extractMessage(msg, true);
-                        addAttaches(msg, result);
-                        cache.put( getSystemId(message), result);
+                        mp = new MessageParser(new MimeMessage((MimeMessage) message)); // don't sure that is necessary now - https://javaee.github.io/javamail/FAQ#imapserverbug
+                        Message result = extractMessage(mp, true);
+                        addAttaches(mp, result);
+                        cache.put(mp.getSystemId(), result);
                         message.setFlag(Flags.Flag.SEEN, true); // mark it as read
                     } catch (Exception e) {
                         Message result = new Message();
                         result.setTypeId(id);
                         result.setSubject(e.getMessage() + " [" + message.getSubject() + "]");
                         result.setFromTime(new Date());
-                        cache.put( getSystemId(message), result);
+                        cache.put(mp.getSystemId(), result);
                         // don't mark, who know may be next time will be more successful  v(‘.’)v
                         log.error(e);
                     }
@@ -618,10 +614,11 @@ public class MessageTypeEmail extends MessageType {
         try {
             // клонирование сообщения для избежания ошибки "Unable to load BODYSTRUCTURE"
             // http://www.oracle.com/technetwork/java/javamail/faq/index.html#imapserverbug
-            Message msg = extractMessage(new MimeMessage((MimeMessage) message), true);
+            MessageParser mp = new MessageParser(new MimeMessage((MimeMessage) message));
+            Message msg = extractMessage(mp, true);
             
             FileDataDAO fileDao = new FileDataDAO(con);
-            for (MessageAttach attach : getAttachContent(message)) {
+            for (MessageAttach attach : mp.getAttachContent()) {
                 FileData file = new FileData();
                 file.setTitle(attach.title);
 
@@ -644,33 +641,6 @@ public class MessageTypeEmail extends MessageType {
 
         return result;
     }
-
-    // разбор темы сообщений
-    // когда конструкция разбита на несколько частей вида, то стандартный парсер
-    // разбирает только первый токен
-    // =?koi8-r?Q?Re:_=FA=C1=D0=D2=CF=D3_=D4=C5=D3=D4=CF=D7=CF=CA_=CC?=
-    // =?koi8-r?Q?=C9=C3=C5=CE=DA=C9=C9_[info=40bgcrm.ru#2213]?=
-    private String getMessageSubject(javax.mail.Message message) throws Exception {
-        String subject = Utils.maskNull(message.getSubject());
-
-        int posFrom = -1, posTo = -1;
-        do {
-            posFrom = subject.indexOf("=?", posTo);
-            int posEndEncoding = subject.indexOf("?Q?", posFrom);
-            posTo = subject.indexOf("?=", posEndEncoding + 3);
-
-            if (posFrom >= 0 && posTo > posFrom) {
-                subject = subject.substring(0, posFrom) + MimeUtility.decodeText(subject.substring(posFrom, posTo + 2))
-                        + subject.substring(posTo + 2);
-            }
-        } while (posFrom >= 0 && posTo > posFrom);
-
-        return subject;
-    }
-
-    private static final Pattern datePattern = Pattern
-            .compile("\\w{3}, \\d+ \\w{3} \\d{4} \\d{2}:\\d{2}:\\d{2} \\+\\d{4}");
-    private static final MailDateFormat mailDateFormat = new MailDateFormat();
 
     private Message processMessage(Connection con, Message msg) throws BGException {
         String subject = "";
@@ -784,72 +754,24 @@ public class MessageTypeEmail extends MessageType {
         msg.setUserId(User.USER_SYSTEM_ID);
     }
     
-    private Message extractMessage(javax.mail.Message message, boolean extractText)
+    private Message extractMessage(MessageParser mp, boolean extractText)
             throws Exception, MessagingException {
         Message msg = new Message();
         msg.setTypeId(id);
-        msg.setFrom(((InternetAddress) message.getFrom()[0]).getAddress());
-
-        // адреса пришлось выбирать из заголовков, т.к. getReciepients выдавал
-        // только по одному адресу каждого типа
-        StringBuilder to = new StringBuilder(10);
-
-        final String[] headersTo = message.getHeader("To");
-        if (headersTo != null) {
-            for (String header : headersTo) {
-                for (InternetAddress addr : InternetAddress.parse(header)) {
-                    Utils.addSeparated(to, ", ", addr.getAddress());
-                }
-            }
-        }
-
-        String[] headersCc = message.getHeader("CC");
-        if (headersCc != null) {
-            StringBuilder ccAddresses = new StringBuilder(100);
-            for (String header : headersCc) {
-                for (InternetAddress addr : InternetAddress.parse(header)) {
-                    Utils.addSeparated(ccAddresses, ", ", addr.getAddress());
-                }
-            }
-
-            to.append("; CC: ");
-            to.append(ccAddresses);
-        }
-
-        msg.setTo(to.toString());
-        msg.setSystemId(getSystemId(message));
-
-        // приоритентна дата из заголовка Recieved - время получения нашим IMAP
-        // сервером
-        String[] headers = message.getHeader("Received");
-        if (headers != null && headers.length > 0) {
-            Matcher m = datePattern.matcher(headers[0]);
-            if (m.find()) {
-                try {
-                    msg.setFromTime(mailDateFormat.parse(m.group()));
-                } catch (Exception e) {
-                }
-            }
-        }
-
-        if (msg.getFromTime() == null) {
-            msg.setFromTime(message.getSentDate());
-        }
+        msg.setFrom(mp.getFrom());
+        msg.setTo(mp.getTo());
+        msg.setSystemId(mp.getSystemId());
+        msg.setFromTime(mp.getFromTime());
+        
         // время прочтения = времени получения, чтобы не считалось непрочитанным
         msg.setToTime(new Date());
         msg.setDirection(ru.bgcrm.model.message.Message.DIRECTION_INCOMING);
-        msg.setSubject(getMessageSubject(message));
+        msg.setSubject(mp.getMessageSubject());
 
-        if (extractText) {
-            msg.setText(getTextContent(message).trim());
-        }
+        if (extractText)
+            msg.setText(mp.getTextContent());
 
         return msg;
-    }
-
-    private String getSystemId(javax.mail.Message message) throws MessagingException {
-        // ((MimeMessage) message).getMessageID();  or so
-        return message.getHeader("Message-ID")[0];
     }
 
     /** Выделяет из темы письма код привязанного процесса. */
@@ -866,98 +788,6 @@ public class MessageTypeEmail extends MessageType {
         if (m.find()) 
             return Utils.parseInt(m.group(1));
         return -1;
-    }
-
-    private String getTextContent(javax.mail.Message message) throws Exception {
-        String textContent = new String();
-
-        String contentType = message.getContentType().toLowerCase();
-        Object content = message.getContent();
-
-        if (log.isDebugEnabled()) {
-            log.debug("Extracting content, contentType: " + contentType);
-        }
-
-        // если пришел обычный текст
-        if (contentType.startsWith("text/plain")) {
-            textContent = (String) content;
-        }
-        // если пришел текст в виде HTML
-        else if (contentType.startsWith("text/html")) {
-            textContent = htmlToPlainText((String) content);
-        }
-        // если пришел и обычный текст, и HTML текст
-        else if (contentType.startsWith("multipart/alternative")) {
-            textContent = getTextFromMultipartAlternative((MimeMultipart) message.getContent());
-        }
-        // если сообщение с файлами (multipart)
-        else if (contentType.startsWith("multipart/mixed") || contentType.startsWith("multipart/related")) {
-            textContent = getTextFromMultipartMixed((MimeMultipart) message.getContent());
-        } else {
-            return "Тип сообщения: " + contentType + " не поддерживается";
-        }
-
-        return textContent;
-    }
-
-    private String getTextFromMultipartAlternative(MimeMultipart content) {
-        String textContent = new String();
-        try {
-            for (int i = 0; i < content.getCount(); i++) {
-                BodyPart messagePart = content.getBodyPart(i);
-                String partContentType = messagePart.getContentType().toLowerCase();
-                Object partContent = messagePart.getContent();
-
-                if (log.isDebugEnabled()) {
-                    log.debug("Extracting nultipart part, contentType: " + partContentType);
-                }
-
-                if (partContentType.startsWith("text/plain")) {
-                    textContent = (String) partContent;
-                    break;
-                } else if (partContentType.startsWith("text/html")) {
-                    textContent = htmlToPlainText((String) partContent);
-                }
-            }
-        } catch (Exception ex) {
-            log.error("Multipart alternative message error: " + ex.getMessage(), ex);
-        }
-
-        return textContent;
-    }
-
-    private String getTextFromMultipartMixed(MimeMultipart content) {
-        String textContent = new String();
-        try {
-            for (int i = 0; i < content.getCount(); i++) {
-                BodyPart part = content.getBodyPart(i);
-
-                if (partIsAttachedFile(part)) {
-                    continue;
-                }
-
-                String partContentType = part.getContentType().toLowerCase();
-                Object partContent = part.getContent();
-
-                if (log.isDebugEnabled()) {
-                    log.debug("Processing multipart part, type: " + partContentType);
-                }
-
-                if (partContentType.startsWith("multipart/alternative")) {
-                    textContent = getTextFromMultipartAlternative((MimeMultipart) partContent);
-                } else if (partContentType.startsWith("text/plain")) {
-                    textContent = (String) partContent;
-                } else if (partContentType.startsWith("text/html")) {
-                    textContent = htmlToPlainText((String) partContent);
-                } else if (partContentType.startsWith("multipart/mixed")
-                        || partContentType.startsWith("multipart/related")) {
-                    textContent = getTextFromMultipartMixed((MimeMultipart) part.getContent());
-                }
-            }
-        } catch (Exception ex) {
-            log.error("Multipart mixed message error: " + ex.getMessage(), ex);
-        }
-        return textContent;
     }
 
     @Override
@@ -1000,8 +830,7 @@ public class MessageTypeEmail extends MessageType {
         result.setTypeId(id);
         result.setProcessId(message.getProcessId());
         result.setFrom(mailConfig.getEmail());
-        result.setTo(MessageTypeEmail
-                .serializeAddresses(parseAddresses(message.getTo(), message.getFrom(), mailConfig.getEmail())));
+        result.setTo(serializeAddresses(parseAddresses(message.getTo(), message.getFrom(), mailConfig.getEmail())));
         result.setFromTime(new Date());
         result.setText(text);
         result.setSubject(message.getSubject());
@@ -1012,99 +841,16 @@ public class MessageTypeEmail extends MessageType {
         return result;
     }
 
-    private static class MessageAttach {
-        public String title;
-        public InputStream inputStream;
-
-        public MessageAttach(String title, InputStream inputStream) {
-            this.title = title;
-            this.inputStream = inputStream;
-        }
-    }
-
-    private ArrayList<MessageAttach> getAttachContent(javax.mail.Message message) throws Exception {
-        ArrayList<MessageAttach> attachContent = new ArrayList<MessageAttach>();
-
-        String contentType = message.getContentType().toLowerCase();
-        if (contentType.startsWith("multipart/mixed") || contentType.startsWith("multipart/alternative")) {
-            MimeMultipart content = (MimeMultipart) message.getContent();
-            getAttaches(attachContent, content);
-        }
-
-        return attachContent;
-    }
-
-    private void getAttaches(ArrayList<MessageAttach> attachContent, MimeMultipart content)
-            throws MessagingException, UnsupportedEncodingException, IOException {
-        for (int i = 0; i < content.getCount(); i++) {
-            BodyPart part = content.getBodyPart(i);
-            if (part.getContentType().startsWith("multipart/")) {
-                getAttaches(attachContent, (MimeMultipart) part.getContent());
-            } else if (partIsAttachedFile(part)) {
-                String attachTitle = MimeUtility.decodeText(part.getFileName() == null ? "attach" : part.getFileName());
-                log.info("Attach: " + attachTitle);
-
-                MessageAttach attachData = new MessageAttach(attachTitle, part.getInputStream());
-                attachContent.add(attachData);
-            }
-        }
-    }
-
-    private boolean partIsAttachedFile(Part part) {
-        try {
-            return Utils.notBlankString(part.getFileName());
-        } catch (MessagingException e) {
-            return false;
-        }
-    }
-
-    private String htmlToPlainText(String text) {
-        return buildStringFromNode(Jsoup.parse(text).body(), "").toString();
-    }
-    
     /** Create folders, if they don't exist */
-    private void checkFolders( Folder... folders ) throws MessagingException {
-        for( Folder folder : folders ) {
-            if( !folder.exists() ) {
-                folder.create( Folder.HOLDS_MESSAGES );
+    private void checkFolders(Folder... folders) throws MessagingException {
+        for (Folder folder : folders) {
+            if (!folder.exists()) {
+                folder.create(Folder.HOLDS_MESSAGES);
             }
         }
     }
 
-    private static StringBuffer buildStringFromNode(Node node, String citation) {
-        StringBuffer buffer = new StringBuffer();
-
-        if (node instanceof Element) {
-            Element element = (Element) node;
-            String tagName = element.tagName();
-
-            if ("blockquote".equals(tagName)) {
-                citation = "> " + citation;
-            }
-        }
-
-        if (node instanceof TextNode) {
-            TextNode textNode = (TextNode) node;
-            buffer.append(citation + textNode.text().trim());
-        }
-
-        for (Node childNode : node.childNodes()) {
-            buffer.append(buildStringFromNode(childNode, citation));
-        }
-
-        if (node instanceof Element) {
-            Element element = (Element) node;
-            String tagName = element.tagName();
-
-            if ("p".equals(tagName) || "div".equals(tagName) || "br".equals(tagName)) {
-                buffer.append("\n");
-            }
-        }
-
-        return buffer;
-    }
-
-    public static Map<RecipientType, List<InternetAddress>> parseAddresses(String addresses, String addAddress,
+    private Map<RecipientType, List<InternetAddress>> parseAddresses(String addresses, String addAddress,
             String excludeAddress) throws BGException {
         Map<RecipientType, List<InternetAddress>> result = new HashMap<RecipientType, List<InternetAddress>>();
 
@@ -1157,7 +903,7 @@ public class MessageTypeEmail extends MessageType {
         return result;
     }
 
-    public static String serializeAddresses(Map<RecipientType, List<InternetAddress>> addressMap) {
+    private String serializeAddresses(Map<RecipientType, List<InternetAddress>> addressMap) {
         StringBuilder result = new StringBuilder();
 
         for (RecipientType type : RECIPIENT_TYPES) {

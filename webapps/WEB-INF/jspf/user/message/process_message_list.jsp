@@ -335,11 +335,7 @@
 			<tr>
 				<td id="msgBox" style="border-top: none; display: block; overflow-x: auto; padding-bottom: 0.5em; word-wrap: break-word;">
 					<c:set var="text" value="${message.text}"/>
-					
-					<%@ include file="email_text_prepare.jsp"%>
-					<%-- TODO: htmlEncode includes two functions: u.escapeXml and \n \t replacement, split them --%>
 					<c:set var="text" value="${u:htmlEncode(text)}"/>
-
 					<ui:text-prepare text="${text}"/>
 				</td>
 			</tr>
