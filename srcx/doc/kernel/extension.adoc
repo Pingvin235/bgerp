@@ -150,34 +150,12 @@ processReference.1.stringExpression=u.escapeXml( u.maskNull( u.getFirst( process
 Log4j - библиотека логирования для Java. Настройка логирования производится в файле *log4j.properties*, 
 изменение файла можно производить при работающем приложении. Вид файла при установке системы:
 
-[source]
-----
-log4j.rootLogger=INFO, file
-
-log4j.logger.ru.bgcrm=ALL, session
-log4j.additivity.ru.bgcrm=true
-
-log4j.appender.file=org.apache.log4j.RollingFileAppender
-log4j.appender.file.layout=org.apache.log4j.PatternLayout
-log4j.appender.file.layout.ConversionPattern=%d{MM-dd/HH:mm:ss} %5p [%t] %c{1} - %m%n
-log4j.appender.file.File=./log/bgcrm.log
-log4j.appender.file.Append=true
-log4j.appender.file.BufferedIO=false
-log4j.appender.file.BufferSize=1024
-log4j.appender.file.MaxBackupIndex=5
-log4j.appender.file.MaxFileSize=10MB
-log4j.appender.file.Threshold=INFO
-
-log4j.appender.session=ru.bgcrm.util.SessionLogAppender
-log4j.appender.session.layout=org.apache.log4j.PatternLayout
-log4j.appender.session.layout.ConversionPattern=%d{MM-dd/HH:mm:ss} %5p [%t] %c{1} - %m%n
-----
-
 [snippet, from="# lib"]
 link:../../../build/bgerp/files/log4j.properties[log4j.properties]
 
 Сообщения в логе разделяются на уровни (в порядке возрастания): *DEBUG*, *INFO*, *WARN*, *ERROR*, *FATAL*. 
-По-умолчанию настроен уровень INFO, т.е. выводятся информационные и ошибочные сообщения (INFO, FATAL, ERROR), отладка не выводится. Вывод осуществляется в файл *log/bgcrm.log*, который обрезается на размере 10МБ с созданием отдельных файлов.
+По-умолчанию настроен уровень INFO, т.е. выводятся информационные и ошибочные сообщения (INFO, FATAL, ERROR), отладка не выводится. 
+Вывод осуществляется в файл *log/bgerp.log*, который обрезается на размере 10МБ с созданием отдельных файлов.
 
 Для включения вывода отладочной информации необходимо установить:
 [source]
@@ -255,12 +233,12 @@ JAR файлы из *lib/ext* перетираются при получении
 === HTTP запросом
 [source]
 ----
-<crmUrl>/admin/dynamic.do?action=runDynamicClass&iface=<iface>&class=<className>&j_username=<user>&j_password=<pswd>&param1=value&param2=..
+<server>/admin/dynamic.do?action=runDynamicClass&iface=<iface>&class=<className>&j_username=<user>&j_password=<pswd>&param1=value&param2=..
 ----
 
 Где:
 [square]
-* *<crmUrl>* - URL и порт BGERP;
+* *<server>* - host and port of the server;
 * *<className>* - имя динамического класса;
 * *<user>* и *<pswd>* - логин и пароль пользователя BGERP, подробнее о запросах внешних систем;
 * *<iface>* - тип класса-обработчика, подробнее ниже.
