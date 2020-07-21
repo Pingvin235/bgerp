@@ -16,8 +16,8 @@ import org.w3c.dom.NodeList;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.UserAccount;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.model.user.UserAccount;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.Request;

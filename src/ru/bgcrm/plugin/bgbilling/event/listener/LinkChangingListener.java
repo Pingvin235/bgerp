@@ -9,7 +9,7 @@ import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO;

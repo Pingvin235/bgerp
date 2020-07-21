@@ -6,7 +6,7 @@ import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 
 import java.sql.Connection;
 
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.dao.SearchDAO;

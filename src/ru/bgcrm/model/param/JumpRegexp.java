@@ -1,4 +1,4 @@
-package ru.bgcrm.model;
+package ru.bgcrm.model.param;
 
 public class JumpRegexp {
     private String regexp;

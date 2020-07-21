@@ -1,4 +1,4 @@
-package ru.bgcrm.model;
+package ru.bgcrm.model.user;
 
 public interface UserAccount {
     public String getLogin();

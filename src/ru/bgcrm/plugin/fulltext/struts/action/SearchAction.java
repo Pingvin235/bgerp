@@ -5,9 +5,9 @@ import java.sql.Connection;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import ru.bgcrm.model.Customer;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.dao.SearchDAO;

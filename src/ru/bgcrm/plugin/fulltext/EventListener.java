@@ -10,7 +10,7 @@ import ru.bgcrm.event.listener.DynamicEventListener;
 import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.event.process.ProcessRemovedEvent;
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.dao.SearchDAO;

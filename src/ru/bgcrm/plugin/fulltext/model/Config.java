@@ -19,8 +19,8 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import ru.bgcrm.model.Customer;
 import ru.bgcrm.model.IdStringTitle;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;

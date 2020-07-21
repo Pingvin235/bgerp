@@ -16,7 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.dao.Tables;
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.util.XMLDatabaseElementSerializer;
 import ru.bgcrm.util.XMLUtils;
 

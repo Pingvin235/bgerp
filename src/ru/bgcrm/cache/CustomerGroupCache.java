@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import ru.bgcrm.dao.CustomerGroupDAO;
-import ru.bgcrm.model.CustomerGroup;
+import ru.bgcrm.model.customer.CustomerGroup;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.SQLUtils;
 

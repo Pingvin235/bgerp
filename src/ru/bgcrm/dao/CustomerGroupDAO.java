@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.CustomerGroup;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.customer.CustomerGroup;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class CustomerGroupDAO

@@ -9,7 +9,7 @@ import java.util.Set;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.wizard.LinkCustomerStepData;
 import ru.bgcrm.model.process.wizard.StepData;
 import ru.bgcrm.model.process.wizard.WizardData;

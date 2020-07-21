@@ -6,8 +6,8 @@ import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.Customer;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.util.Utils;
 

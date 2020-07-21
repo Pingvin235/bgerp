@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.Wizard;
 import ru.bgcrm.model.user.User;

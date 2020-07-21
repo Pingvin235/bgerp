@@ -24,11 +24,11 @@ import java.util.Set;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.Customer;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.IdTitleTree;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterHistory;
 import ru.bgcrm.util.TimeUtils;

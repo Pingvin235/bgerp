@@ -10,7 +10,7 @@ import java.util.List;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;

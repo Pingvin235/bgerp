@@ -11,8 +11,11 @@ import org.apache.commons.collections.CollectionUtils;
 import ru.bgcrm.cache.CustomerGroupCache;
 import ru.bgcrm.dao.ParamGroupDAO;
 import ru.bgcrm.dao.PatternDAO;
+import ru.bgcrm.model.customer.CustomerGroup;
 import ru.bgcrm.model.param.ParameterGroup;
 
+/** Use {@link ru.bgcrm.model.customer.Customer} instead, this class will be moved there soon. */
+@Deprecated
 public class Customer extends SearchableIdTitle implements Comparable<Customer> {
     public static final String OBJECT_TYPE = "customer";
 

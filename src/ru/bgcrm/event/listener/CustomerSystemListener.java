@@ -7,7 +7,7 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.customer.CustomerRemovedEvent;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.plugin.bgbilling.dao.CommonContractDAO;
 import ru.bgcrm.plugin.bgbilling.model.CommonContract;

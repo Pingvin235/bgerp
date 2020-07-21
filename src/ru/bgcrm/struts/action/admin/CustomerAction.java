@@ -5,8 +5,8 @@ import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.cache.CustomerGroupCache;
 import ru.bgcrm.dao.CustomerGroupDAO;
-import ru.bgcrm.model.CustomerGroup;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.customer.CustomerGroup;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;

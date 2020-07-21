@@ -966,7 +966,7 @@ link:../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L161-L166[webapps/WEB
 
 Flex layout, использование констант из Java классов, кнопка вывода рядом с полем:
 [snippet, from="<div", to="/div>", remove-leading="				"]
-link:../../webapps/WEB-INF/jspf/user/search/search.jsp#L88-L107[webapps/WEB-INF/jspf/user/search/search.jsp]
+link:../../webapps/WEB-INF/jspf/user/search/search.jsp#L77-L96[webapps/WEB-INF/jspf/user/search/search.jsp]
 
 Обновление оснастки при повторном переходе в неё:
 [snippet, from="<script", to="/script>"]

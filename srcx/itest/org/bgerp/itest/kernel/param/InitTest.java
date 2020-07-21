@@ -8,7 +8,7 @@ import org.bgerp.itest.helper.ResourceHelper;
 import org.testng.annotations.Test;
 import org.testng.collections.Sets;
 
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;

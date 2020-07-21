@@ -12,8 +12,8 @@ import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.model.Customer;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.bgbilling.CommonContractConfig;
@@ -144,6 +144,7 @@ public class SearchAction extends BaseAction {
 
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+        // areas supported only in bgbilling plugin, contract search
         HashSet<Integer> areaIds = new HashSet<Integer>();
         areaIds.addAll(setup.getConfig(CommonContractConfig.class).getCityAreaMap());
 

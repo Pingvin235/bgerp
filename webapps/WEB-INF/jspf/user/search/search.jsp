@@ -19,10 +19,10 @@
 			<c:set var="id" value="searchForm"/>
 			<c:set var="valuesHtml">
 				<c:if test="${empty allowedForms or allowedForms.contains( 'customer' ) }">
-					<li value="customer">Контрагент</li>
+					<li value="customer">${l.l('Контрагент')}</li>
 				</c:if>
 				<c:if test="${empty allowedForms or allowedForms.contains( 'process' ) }">
-					<li value="process">Процесс</li>
+					<li value="process">${l.l('Процесс')}</li>
 				</c:if>
 
 				<c:set var="endpoint" value="user.search.jsp"/>
@@ -30,7 +30,7 @@
 				<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
 			</c:set>
 			<c:set var="hiddenName" value="searchMode"/>
-			<c:set var="prefixText" value="Искать:"/>
+			<c:set var="prefixText" value=">${l.l('Искать')}:"/>
 			<c:set var="onSelect">
 				var value = $('#searchForm > input[type=hidden]').val();
 				$('.searchForm').hide(); $('#searchForm-' + value).show();
@@ -43,17 +43,6 @@
 				styleId="searchForm-customer" styleClass="searchForm in-mb1 mt1 in-w100p">
 				<html:hidden property="action" value="customerSearch" />
 				<html:hidden property="searchBy" />
-
-
-				<c:if test="${setup['sphinx.enable'] eq '1'}">
-					<c:set var="uiid" value="${u:uiid()}" />
-					<input type="text" name="searchString" placeholder="Мультипоиск"
-								onkeypress="if( enterPressed( event ) ){
-											  this.form.elements['searchBy'].value='any';
-											  openUrl( formUrl( this.form ), '#searchResult' ) }"
-								title="Для поиска введите подстроку названия и нажмите Enter"/>
-				</c:if>
-
 
 				<c:set var="minStringLength" value="${setup['searchCustomerTitleMinSubstringLength']}"/>
 				<c:if test="${empty minStringLength}">
@@ -81,8 +70,8 @@
 				styleId="searchForm-process" styleClass="searchForm in-mb1 mt1 in-w100p">
 				<html:hidden property="action" value="processSearch" />
 				<html:hidden property="searchBy" />
-				<ui:input-text name="id" placeholder="Поиск процесса по ID"
-							title="Для поиска введите код процесса и нажмите Enter"
+				<ui:input-text name="id" placeholder="${l.l('Поиск процесса по ID')}"
+							title="${l.l('Для поиска введите код процесса и нажмите Enter')}"
 							onSelect="this.form.elements['searchBy'].value='id';
 									  openUrl( formUrl( this.form ), '#searchResult' ); return false;" />
 				<div style="display: flex;">
@@ -122,9 +111,7 @@
 		</script>
 	</c:if>
 
-	<div id="searchResult"
-		class="pl1"
-		style="display: table-cell; width: 100%; vertical-align: top;">
+	<div id="searchResult" class="pl1" style="display: table-cell; width: 100%; vertical-align: top;">
 		<%--  сюда вставляются DIV ки --%>
 		&#160;
 	</div>

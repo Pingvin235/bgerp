@@ -42,8 +42,8 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.UserAccount;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.model.user.UserAccount;
 import ru.bgcrm.plugin.bgbilling.proto.dao.PluginDAO;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;

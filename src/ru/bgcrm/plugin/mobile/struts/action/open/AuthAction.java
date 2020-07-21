@@ -6,7 +6,7 @@ import org.apache.struts.action.ActionMapping;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.mobile.Plugin;
 import ru.bgcrm.plugin.mobile.dao.MobileDAO;

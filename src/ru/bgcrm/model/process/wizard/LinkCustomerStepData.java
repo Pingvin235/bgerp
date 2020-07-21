@@ -7,7 +7,7 @@ import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class LinkCustomerStepData extends StepData<LinkCustomerStep> {

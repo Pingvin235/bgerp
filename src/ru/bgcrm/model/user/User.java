@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import ru.bgcrm.model.IdTitle;
-import ru.bgcrm.model.UserAccount;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;

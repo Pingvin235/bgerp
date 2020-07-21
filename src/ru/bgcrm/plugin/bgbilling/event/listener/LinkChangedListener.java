@@ -15,7 +15,7 @@ import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.Customer;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.plugin.bgbilling.dao.ContractCustomerDAO;
