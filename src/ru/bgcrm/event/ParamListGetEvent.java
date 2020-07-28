@@ -7,6 +7,7 @@ import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.struts.form.DynActionForm;
 
+@Deprecated
 public class ParamListGetEvent
 	extends UserEvent
 {

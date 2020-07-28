@@ -3,6 +3,7 @@ package ru.bgcrm.event;
 import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.struts.form.DynActionForm;
 
+@Deprecated
 public class ParamListShowListEvent
 	extends UserEvent
 {

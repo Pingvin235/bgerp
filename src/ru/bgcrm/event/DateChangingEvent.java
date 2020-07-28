@@ -13,106 +13,87 @@ import ru.bgcrm.struts.form.DynActionForm;
  * List<DateInfo> test = new ArrayList<DateInfo>();
 
    if( e.getNewDate().getMonth() > 2 )
-	{
-			test.add( new DateInfo( "11-1", "red", "red" ) );
-			test.add( new DateInfo( "11-11", "green", "" ) );
-			test.add( new DateInfo( "11-21", "blue", "123" ) );
-			test.add( new DateInfo( "11-25", "", "123fsdgfdfgdf" ) );
-	}
-	e.getForm().getResponse().setData( "dayColorList", test );
-	
-	
+    {
+            test.add( new DateInfo( "11-1", "red", "red" ) );
+            test.add( new DateInfo( "11-11", "green", "" ) );
+            test.add( new DateInfo( "11-21", "blue", "123" ) );
+            test.add( new DateInfo( "11-25", "", "123fsdgfdfgdf" ) );
+    }
+    e.getForm().getResponse().setData( "dayColorList", test );
  *
  */
-public class DateChangingEvent
-	extends UserEvent
-{
-	public static class DateInfo
-	{
-		private String monthDay;
-		private String color;
-		private String comment;
-		private List<String> timeList;
+public class DateChangingEvent extends UserEvent {
+    public static class DateInfo {
+        private String monthDay;
+        private String color;
+        private String comment;
+        private List<String> timeList;
 
-		public DateInfo( String monthDay, String color, String comment )
-		{
-			setMonthDay( monthDay );
-			setColor( color );
-			setComment( comment );
-		}
-		
-		public DateInfo( String monthDay, String color, String comment, List<String>  timeList )
-		{
-			this( monthDay, color, comment );
-			setTimeList( timeList );
-		}
-		
-		public List<String> getTimeList() 
-		{
-			return timeList;			
-		}
-		
-		public void setTimeList(List<String> timeList)
-		{
-			this.timeList = timeList;
-		}
+        public DateInfo(String monthDay, String color, String comment) {
+            setMonthDay(monthDay);
+            setColor(color);
+            setComment(comment);
+        }
 
-		public String getColor()
-		{
-			return color;
-		}
+        public DateInfo(String monthDay, String color, String comment, List<String> timeList) {
+            this(monthDay, color, comment);
+            setTimeList(timeList);
+        }
 
-		public void setColor( String color )
-		{
-			this.color = color;
-		}
+        public List<String> getTimeList() {
+            return timeList;
+        }
 
-		public String getComment()
-		{
-			return comment;
-		}
+        public void setTimeList(List<String> timeList) {
+            this.timeList = timeList;
+        }
 
-		public void setComment( String comment )
-		{
-			this.comment = comment;
-		}
+        public String getColor() {
+            return color;
+        }
 
-		public String getMonthDay()
-		{
-			return monthDay;
-		}
+        public void setColor(String color) {
+            this.color = color;
+        }
 
-		public void setMonthDay( String monthDay )
-		{
-			this.monthDay = monthDay;
-		}
-	}
+        public String getComment() {
+            return comment;
+        }
 
-	private final int objectId;
-	private final Parameter parameter;
-	private final Date newDate;
+        public void setComment(String comment) {
+            this.comment = comment;
+        }
 
-	public DateChangingEvent( DynActionForm form, int objectId, Parameter parameter, Date newDate )		
-	{
-		super( form );
+        public String getMonthDay() {
+            return monthDay;
+        }
 
-		this.objectId = objectId;
-		this.parameter = parameter;
-		this.newDate = newDate;
-	}	
-	
-	public int getObjectId()
-	{
-		return objectId;
-	}
+        public void setMonthDay(String monthDay) {
+            this.monthDay = monthDay;
+        }
+    }
 
-	public Parameter getParameter()
-	{
-		return parameter;
-	}
+    private final int objectId;
+    private final Parameter parameter;
+    private final Date newDate;
 
-	public Date getNewDate()
-	{
-		return newDate;
-	}
+    public DateChangingEvent(DynActionForm form, int objectId, Parameter parameter, Date newDate) {
+        super(form);
+
+        this.objectId = objectId;
+        this.parameter = parameter;
+        this.newDate = newDate;
+    }
+
+    public int getObjectId() {
+        return objectId;
+    }
+
+    public Parameter getParameter() {
+        return parameter;
+    }
+
+    public Date getNewDate() {
+        return newDate;
+    }
 }

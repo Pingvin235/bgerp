@@ -24,7 +24,7 @@ import ru.bgcrm.dao.process.SavedFilterDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
-import ru.bgcrm.event.QueuePrintEvent;
+import ru.bgcrm.event.process.QueuePrintEvent;
 import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
