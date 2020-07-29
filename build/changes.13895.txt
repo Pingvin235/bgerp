@@ -1,3 +1,0 @@
-C: Default value for parameter param.phone.item.count=4.
-F: DB structure documentation.
-F: Telegram, log message.

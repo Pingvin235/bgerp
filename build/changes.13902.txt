@@ -1,2 +1,0 @@
-A: Extract links from HTML mails.
-F: Question marks in non-ASCII attachment file names.

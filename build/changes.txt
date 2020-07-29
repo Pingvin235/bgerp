@@ -1,6 +1,16 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+29.07.2020 10:28:49 1363
+C: [13895] Default value for parameter param.phone.item.count=4.
+F: [13895] DB structure documentation.
+F: [13895] Telegram, log message.
+C: [13899] Rename event processing timeout key to 'event.process.timeout', set default value to 5000 ms.
+A: [13902] Extract links from HTML mails.
+F: [13902] Question marks in non-ASCII attachment file names.
+C: [13909] Refactoring classes, move to other packages.
+C: [13921] Format, cleanup classes.
+
 15.07.2020 13:52:46 1362
 C: [10441] E-Mail caching optimization for checking updates.
 A: [10441] E-Mail create missing folders.
