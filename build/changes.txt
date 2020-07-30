@@ -1,6 +1,10 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+30.07.2020 16:33:29 1364
+F: [13922] Incorrect import in JSP.
+F: [13922] Print and export to XLS all the pages from process queue.
+
 29.07.2020 10:28:49 1363
 C: [13895] Default value for parameter param.phone.item.count=4.
 F: [13895] DB structure documentation.
