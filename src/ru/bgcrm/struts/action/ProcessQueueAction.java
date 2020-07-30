@@ -28,6 +28,7 @@ import ru.bgcrm.event.process.QueuePrintEvent;
 import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.Queue;
@@ -287,7 +288,7 @@ public class ProcessQueueAction extends ProcessAction {
         new UserDAO(connectionSet.getConnection()).updatePersonalization(configBefore, form.getUser());
 
         if (!form.getUser().getQueueIds().contains(form.getId())) {
-            throw new BGMessageException("Вам не разрешён доступ к очереди процессов с ID=" + form.getId() + "!");
+            throw new BGMessageException("Вам не разрешён доступ к очереди процессов с ID=%s!", form.getId());
         }
 
         Queue queue = ProcessQueueCache.getQueue(form.getId(), form.getUser());
@@ -295,22 +296,29 @@ public class ProcessQueueAction extends ProcessAction {
             SearchResult<Object[]> searchResult = new SearchResult<Object[]>(form);
             List<String> aggregateValues = new ArrayList<>();
 
+            var media = getMedia(form);
+            var noHtmlMedia = !Queue.MEDIA_HTML.equals(media);
+            if (noHtmlMedia)
+                searchResult.getPage().setPageIndex(Page.PAGE_INDEX_NO_PAGING);
+
             ProcessDAO processDAO = new ProcessDAO(connectionSet.getSlaveConnection(), form.getUser());
             processDAO.searchProcess(searchResult, aggregateValues, queue, form);
 
             final List<Object[]> list = searchResult.getList();
 
-            if (processNoHtmlResult(form, queue, connectionSet, list))
+            if (noHtmlMedia) {
+                processNoHtmlResult(media, form, queue, connectionSet, list);
                 return null;
+            }
 
             HttpServletRequest request = form.getHttpRequest();
-            request.setAttribute("columnList", queue.getMediaColumnList("html"));
-            queue.processDataForMedia(form, "html", list);
+            request.setAttribute("columnList", queue.getMediaColumnList(Queue.MEDIA_HTML));
+            queue.processDataForMedia(form, Queue.MEDIA_HTML, list);
             request.setAttribute("queue", queue);
             if (aggregateValues.size() > 0)
                 form.setResponseData("aggregateValues", aggregateValues);
         } else {
-            throw new BGMessageException("Очередь процессов с ID=" + form.getId() + " не найдена!");
+            throw new BGMessageException("Очередь процессов с ID=%s не найдена!", form.getId());
         }
 
         return data(connectionSet, mapping, form);
@@ -332,7 +340,15 @@ public class ProcessQueueAction extends ProcessAction {
         personalizationMap.put(paramKey, Base64.getEncoder().encodeToString(SerializationUtils.serialize(ahm)));
     }
 
-    private boolean processNoHtmlResult(DynActionForm form, Queue queue, ConnectionSet connectionSet, List<Object[]> list) throws Exception {
+    private String getMedia(DynActionForm form) {
+        if (Utils.notBlankString(form.getParam("print")))
+            return Queue.MEDIA_PRINT;
+        if (Utils.notBlankString(form.getParam("xls")))
+            return Queue.MEDIA_XLS;
+        return Queue.MEDIA_HTML;
+    }
+
+    private void processNoHtmlResult(String media, DynActionForm form, Queue queue, ConnectionSet connectionSet, List<Object[]> list) throws Exception {
         // печать только выбранных
         Set<Integer> processIds = Utils.toIntegerSet(form.getParam("processIds"));
         if (processIds.size() > 0) {
@@ -345,9 +361,8 @@ public class ProcessQueueAction extends ProcessAction {
             }
         }
 
-        if (Utils.notBlankString(form.getParam("print"))) {
+        if (Queue.MEDIA_PRINT.equals(media)) {
             int printTypeId = form.getParamInt("printTypeId");
-
             if (printTypeId > 0) {
                 PrintQueueConfig config = queue.getConfigMap().getConfig(PrintQueueConfig.class);
                 PrintType printType = config.getPrintType(printTypeId);
@@ -357,19 +372,16 @@ public class ProcessQueueAction extends ProcessAction {
             } else {
                 // TODO: В метод необходимо вынести расшифровку всех справочников.
                 // FIXME: В данный момент это событие обрабатывает модуль отчётов, наверное нужно запретить печать, если этот модуль не установлен.
-                queue.processDataForMedia(form, "print", list);
+                queue.processDataForMedia(form, media, list);
                 EventProcessor.processEvent(new QueuePrintEvent(form, list, queue, null), "", connectionSet);
             }
-            return true;
-        } else if (Utils.notBlankString(form.getParam("xls"))) {
-            List<Object[]> media = list;
-
-            queue.processDataForMedia(form, "xls", media);
+        } else if (Queue.MEDIA_XLS.equals(media)) {
+            queue.processDataForMedia(form, media, list);
 
             try (HSSFWorkbook workbook = new HSSFWorkbook()) {
-                HSSFSheet sheet = workbook.createSheet("BGERP process");
+                HSSFSheet sheet = workbook.createSheet("BGERP processes");
 
-                List<ColumnConf> columnList = queue.getMediaColumnList("xls");
+                List<ColumnConf> columnList = queue.getMediaColumnList(media);
 
                 Row titleRow = sheet.createRow(0);
 
@@ -378,10 +390,10 @@ public class ProcessQueueAction extends ProcessAction {
                     titleCell.setCellValue(columnList.get(i).getTitle());
                 }
 
-                for (int k = 0; k < media.size(); k++) {
+                for (int k = 0; k < list.size(); k++) {
                     //Create a new row in current sheet
                     Row row = sheet.createRow(k + 1);
-                    Object[] dataRow = media.get(k);
+                    Object[] dataRow = list.get(k);
 
                     for (int i = 0; i < dataRow.length; i++) {
                         if (dataRow[i].equals("null")) {
@@ -396,12 +408,9 @@ public class ProcessQueueAction extends ProcessAction {
 
                 HttpServletResponse response = form.getHttpResponse();
                 response.setContentType("application/vnd.ms-excel");
-                response.setHeader("Content-Disposition", "attachment; filename=bgcrm_process_list.xls");
+                response.setHeader("Content-Disposition", "attachment; filename=bgerp_process_list.xls");
                 workbook.write(response.getOutputStream());
             }
-
-            return true;
         }
-        return false;
     }
 }

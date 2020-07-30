@@ -143,7 +143,7 @@ public class CommonDAO {
      */
     protected String getPageLimit(Page page) {
         StringBuilder sql = new StringBuilder();
-        if (page != null && page.getPageSize() > 0) {
+        if (page != null && page.getPageSize() > 0 && page.getPageIndex() != Page.PAGE_INDEX_NO_PAGING) {
             sql.append(" LIMIT ");
             sql.append(page.getPageFirstRecordNumber());
             sql.append(", ");

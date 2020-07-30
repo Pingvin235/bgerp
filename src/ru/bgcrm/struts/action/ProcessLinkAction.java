@@ -89,8 +89,8 @@ public class ProcessLinkAction extends ProcessAction {
             final List<Object[]> list = searchResult.getList();
 
             HttpServletRequest request = form.getHttpRequest();
-            request.setAttribute("columnList", queue.getMediaColumnList("html"));
-            queue.processDataForMedia(form, "html", list);
+            request.setAttribute("columnList", queue.getMediaColumnList(Queue.MEDIA_HTML));
+            queue.processDataForMedia(form, Queue.MEDIA_HTML, list);
             request.setAttribute("queue", queue);
         } else {
             SearchResult<Pair<String, Process>> searchResult = new SearchResult<Pair<String, Process>>(form);

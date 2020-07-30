@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ page language="java" import="java.lang.*, java.util.*, java.text.*" %>
-<%@ page import="ru.bgcrm.util.PermissionNode"%>
+<%@ page import="ru.bgcrm.model.user.PermissionNode"%>
 
 <c:set var="uiid" value="webRequestSearchForm"/>
 

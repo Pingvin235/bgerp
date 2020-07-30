@@ -42,6 +42,10 @@ import ru.bgerp.util.Log;
 public class Queue {
     private static final Log log = Log.getLog();
 
+    public static final String MEDIA_HTML = "html";
+    public static final String MEDIA_PRINT = "print";
+    public static final String MEDIA_XLS = "xls";
+
     private int id;
     private String title;
     private String config;
@@ -90,7 +94,7 @@ public class Queue {
         List<String> result = Utils.toList(configMap.get("media." + media + ".columns", defaultValue));
 
         // в старых конфигурациях явно для html не указывались столбцы
-        if (result.size() == 0 && "html".equals(media)) {
+        if (result.size() == 0 && MEDIA_HTML.equals(media)) {
             for (Map.Entry<Integer, ParameterMap> me : columnMap.entrySet()) {
                 if (me.getValue().getBoolean("show", true)) {
                     result.add(String.valueOf(me.getKey()));
@@ -233,7 +237,7 @@ public class Queue {
     public void processDataForMedia(DynActionForm form, String media, List<Object[]> rawData) throws SQLException {
         List<ColumnConf> mediaColumns = getMediaColumnList(media);
 
-        final boolean isHtmlMedia = "html".equals(media);
+        final boolean isHtmlMedia = MEDIA_HTML.equals(media);
 
         processDataForColumns(form, rawData, mediaColumns, isHtmlMedia);
     }
@@ -508,14 +512,14 @@ public class Queue {
                             || Parameter.TYPE_BLOB.equals(paramType)) {
                         filterList.add(new FilterParam(id, filter, param));
                     } else {
-                        log.error("Ошибка конфигурации очереди " + this.id + " \"" + this.title + "\": в фильтре " + id
-                                + " настроено использование неподдерживаемого типа параметра - " + paramType);
+                        log.error("Queue configuration error " + this.id + " \"" + this.title + "\": in the filter " + id
+                                + " configured to unsupported parameter type - " + paramType);
                     }
                 } else {
-                    log.error("Ошибка конфигурации очереди " + this.id + " \"" + this.title + "\": некорректный тип фильтра " + id + " - " + type);
+                    log.error("Queue configuration error " + this.id + " \"" + this.title + "\": incorrect filter type " + id + " - " + type);
                 }
             } catch (Throwable t) {
-                log.error("Произошла ошибка при чтении конфигурации очереди " + this.id + " \"" + this.title + "\" ", t);
+                log.error("An error occurred while reading the queue configuration " + this.id + " \"" + this.title + "\" ", t);
             }
         }
 
@@ -557,7 +561,7 @@ public class Queue {
                 ParameterMap column = columnMap.get(columnId);
 
                 if (column == null) {
-                    log.error("Ошибка конфигурации очереди " + this.id + " \"" + this.title + "\": сортировка по несуществующему стобцу " + columnId);
+                    log.error("Queue configuration error " + this.id + " \"" + this.title + "\": sort by non existent column " + columnId);
                     continue;
                 }
 
