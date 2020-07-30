@@ -1071,12 +1071,10 @@ Check the release commit and make:
 git push
 ----
 
-Build <<build-docker, Docker image>>.
-
 Merge the latest state of the master on <<documentation, documentation>> branch.
 
 [[build-docker]]
-=== Docker
+==== Docker Image
 [source]
 ----
 docker login --username bgerp
@@ -1086,8 +1084,8 @@ Input access token.
 Go in directory `build/docker`
 [source]
 ----
-bash files.sh
-docker build . -t bgerp/bgerp
+bash files.sh &&
+docker build . -t bgerp/bgerp &&
 docker push bgerp/bgerp
 ----
 
