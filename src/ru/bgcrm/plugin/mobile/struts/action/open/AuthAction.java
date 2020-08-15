@@ -15,40 +15,40 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class AuthAction
-	extends BaseAction
+    extends BaseAction
 {
-	@Override
-	public ActionForward unspecified( ActionMapping mapping, DynActionForm form, ConnectionSet conSet ) throws BGException {
-		form.setResponseType( DynActionForm.RESPONSE_TYPE_JSON );
-		
-		String login = form.getParam( "login", "" );
-		String pswd = form.getParam( "pswd", "" );
-		String role = form.getParam( "role", "" );
-		String key = form.getParam( "key", "" );
-		String serverId = form.getParam( "serverId", "" );
-		
-		if (!Plugin.getServerId().equals( serverId ))
-			throw new BGException( "Wrong serverId." );
-		
-		Account account = new Account();
-		account.setObjectType( role );
-		account.setKey( key );
-		
-		switch( role ) {
-			case User.OBJECT_TYPE:
-				User user = UserCache.getUser( login );
-				if( user == null ) throw new BGMessageException( "Incorrect login" );
-				if( !user.getPassword().equals( pswd ) ) throw new BGMessageException( "Incorrect password" );
-				account.setObjectId( user.getId() );
-				break;
-			case Customer.OBJECT_TYPE:
-				break;
-			//TODO: Авторизация через договоры биллинга.
-		}
-		
-		new MobileDAO( conSet.getConnection() ).registerAccount( account );
-		
-		return status( conSet, form );
-	}
-	
+    @Override
+    public ActionForward unspecified( ActionMapping mapping, DynActionForm form, ConnectionSet conSet ) throws BGException {
+        form.setResponseType( DynActionForm.RESPONSE_TYPE_JSON );
+        
+        String login = form.getParam( "login", "" );
+        String pswd = form.getParam( "pswd", "" );
+        String role = form.getParam( "role", "" );
+        String key = form.getParam( "key", "" );
+        String serverId = form.getParam( "serverId", "" );
+        
+        if (!Plugin.getServerId().equals( serverId ))
+            throw new BGException( "Wrong serverId." );
+        
+        Account account = new Account();
+        account.setObjectType( role );
+        account.setKey( key );
+        
+        switch( role ) {
+            case User.OBJECT_TYPE:
+                User user = UserCache.getUser( login );
+                if( user == null ) throw new BGMessageException( "Incorrect login" );
+                if( !user.getPassword().equals( pswd ) ) throw new BGMessageException( "Incorrect password" );
+                account.setObjectId( user.getId() );
+                break;
+            case Customer.OBJECT_TYPE:
+                break;
+            //TODO: Авторизация через договоры биллинга.
+        }
+        
+        new MobileDAO( conSet.getConnection() ).registerAccount( account );
+        
+        return status( conSet, form );
+    }
+    
 }

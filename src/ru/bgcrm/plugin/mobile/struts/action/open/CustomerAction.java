@@ -9,14 +9,14 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class CustomerAction
-	extends BaseAction
+    extends BaseAction
 {
-	public ActionForward state( ActionMapping mapping, DynActionForm form, ConnectionSet conSet )
-		throws BGException
-	{
-		//dd	
-				
-		return status( conSet, form );
-	}	
-	
+    public ActionForward state( ActionMapping mapping, DynActionForm form, ConnectionSet conSet )
+        throws BGException
+    {
+        //dd	
+                
+        return status( conSet, form );
+    }	
+    
 }

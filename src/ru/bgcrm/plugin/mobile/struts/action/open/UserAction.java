@@ -25,50 +25,50 @@ import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.worker.FilterEntryCounter;
 
 public class UserAction
-	extends BaseAction
+    extends BaseAction
 {
-	public ActionForward state(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-		form.setResponseType(DynActionForm.RESPONSE_TYPE_JSON);
+    public ActionForward state(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+        form.setResponseType(DynActionForm.RESPONSE_TYPE_JSON);
 
-		String key = form.getParam("key");
-		if (Utils.isBlankString(key))
-			throw new IllegalArgumentException();
+        String key = form.getParam("key");
+        if (Utils.isBlankString(key))
+            throw new IllegalArgumentException();
 
-		Account account = new MobileDAO(conSet.getConnection()).findAccount(key, User.OBJECT_TYPE);
-		if (account == null)
-			throw new BGMessageException("Account isn't registred");
+        Account account = new MobileDAO(conSet.getConnection()).findAccount(key, User.OBJECT_TYPE);
+        if (account == null)
+            throw new BGMessageException("Account isn't registred");
 
-	    // непрочитанные новости и сообщения
-		NewsInfoEvent event = UserNewsCache.getUserEvent( conSet.getConnection(), account.getObjectId() );		
-		form.getResponse().setData("news", event);	
-		
-		// счётчики
-		List<Counter> counters = new ArrayList<>();
-		form.getResponse().setData("counters", counters);
+        // непрочитанные новости и сообщения
+        NewsInfoEvent event = UserNewsCache.getUserEvent( conSet.getConnection(), account.getObjectId() );		
+        form.getResponse().setData("news", event);	
+        
+        // счётчики
+        List<Counter> counters = new ArrayList<>();
+        form.getResponse().setData("counters", counters);
 
-		FilterEntryCounter counter = FilterEntryCounter.getInstance();
-		SavedFiltersConfig config = UserCache.getUser(account.getObjectId()).getPersonalizationMap()
-				.getConfig(SavedFiltersConfig.class);
+        FilterEntryCounter counter = FilterEntryCounter.getInstance();
+        SavedFiltersConfig config = UserCache.getUser(account.getObjectId()).getPersonalizationMap()
+                .getConfig(SavedFiltersConfig.class);
 
-		Map<Integer, SavedFilterSet> topFilters = config.getTopFilters();
-		for (SavedFilterSet topFilter : topFilters.values()) {
-			Queue queue = ProcessQueueCache.getQueue(topFilter.getQueueId());
-			int count = counter.parseUrlAndGetCountSync(queue, topFilter.getUrl(), form.getUser());
-			
-			Counter cnt = new Counter();
-			cnt.title = topFilter.getTitle();
-			cnt.color = topFilter.getColor();
-			cnt.value = count;
-			
-			counters.add(cnt);
-		}
+        Map<Integer, SavedFilterSet> topFilters = config.getTopFilters();
+        for (SavedFilterSet topFilter : topFilters.values()) {
+            Queue queue = ProcessQueueCache.getQueue(topFilter.getQueueId());
+            int count = counter.parseUrlAndGetCountSync(queue, topFilter.getUrl(), form.getUser());
+            
+            Counter cnt = new Counter();
+            cnt.title = topFilter.getTitle();
+            cnt.color = topFilter.getColor();
+            cnt.value = count;
+            
+            counters.add(cnt);
+        }
 
-		return status(conSet, form);
-	}
-	
-	public static class Counter {
-		public String title;
-		public int value;
-		public String color;
-	}
+        return status(conSet, form);
+    }
+    
+    public static class Counter {
+        public String title;
+        public int value;
+        public String color;
+    }
 }
