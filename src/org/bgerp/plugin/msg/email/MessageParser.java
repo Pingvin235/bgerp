@@ -133,11 +133,11 @@ public class MessageParser {
         else if (contentType.startsWith("multipart/alternative")) {
             textContent = getTextFromMultipartAlternative((MimeMultipart) message.getContent());
         }
-        // если сообщение с файлами (multipart)
-        else if (contentType.startsWith("multipart/mixed") || contentType.startsWith("multipart/related")) {
+        // если сообщение с файлами (multipart): multipart/mixed, multipart/related, multipart/alternate
+        else if (contentType.startsWith("multipart/")) {
             textContent = getTextFromMultipartMixed((MimeMultipart) message.getContent());
         } else {
-            return "Тип сообщения: " + contentType + " не поддерживается";
+            return "Message type '" + contentType + "' is not supported";
         }
 
         return textContent
@@ -256,7 +256,7 @@ public class MessageParser {
         ArrayList<MessageAttach> attachContent = new ArrayList<MessageAttach>();
 
         String contentType = message.getContentType().toLowerCase();
-        if (contentType.startsWith("multipart/mixed") || contentType.startsWith("multipart/alternative")) {
+        if (contentType.startsWith("multipart/")) {
             MimeMultipart content = (MimeMultipart) message.getContent();
             getAttaches(attachContent, content);
         }

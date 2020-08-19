@@ -46,4 +46,14 @@ public class MessageParserTest {
         Assert.assertEquals("Счёт №71 от 20 июля на сумму 41 500 р.pdf", attach.title);
     }
 
+    @Test
+    public void testMessageParse4() throws Exception {
+        MessageParser mp = new MessageParser(new MimeMessage(null, this.getClass().getResourceAsStream("mail4.eml")));
+        mp.getTextContent().contains("КОРРЕКТНО заполнять поле _Назначение платежа_");
+        List<MessageAttach> attaches = mp.getAttachContent();
+        Assert.assertEquals(3, attaches.size());
+        MessageAttach attach = attaches.get(0);
+        Assert.assertEquals("3244659_Cчет за Июль 2020.pdf", attach.title);
+    }
+
 }
