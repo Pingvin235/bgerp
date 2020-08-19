@@ -1,12 +1,14 @@
-= Разработка
+= Development
 :toc:
 :toclevels: 4
 
-BGERP - большой проект. Его разрабатывали живые люди, которые родились несовершенными и после долго учились.
-В основном - путём проб и ошибок. В данной статье собранны актуальные рекомендации, представленные однако малым количеством <<samples, кода>>.
-Поэтому следовать им необходимо, применяя *Правило бойскаута*. 
+BGERP is quite a large and complex project. It was created by a team consisting of ordinary humans, who may be imperfect and make 
+mistakes but try to learn continuously. This is a trial and error process, fortunately or not.
 
-IMPORTANT: Оставь место стоянки чище, чем оно было до твоего прихода.
+This article provides some recommendations collected during the learning process - these are accompanied by a very small amount of <<samples, code>> 
+for exactly the same reason. Said that, you have to follow those recommendations using *The Boy Scout Rule*.
+
+IMPORTANT: Always leave the campground cleaner than you found it.
 
 Редактируя тот или иной блок кода необходимо уменьшать использование устаревших подходов, методов, классов.
 Писать новый код, используя последние рекомендации и параллельно корректировать смежный код.
