@@ -136,7 +136,7 @@ MySQL server may be running on any supporting platform, check <<kernel/install.a
 For database creation use sequentially the files:
 [square]
 * `db_create.sql`, `db_init.sql` from link:https://bgerp.org/download/3.0/bgerp.zip[bgerp.zip] - initial structure;
-* `bgerp.sql` https://demo.bgerp.bgerp/bgerp.sql - data after running of <<integration-test, integration test>>.
+* `bgerp.sql` from link:https://demo.bgerp.org/bgerp.sql[bgerp.sql] - data after running of <<integration-test, integration test>>.
 
 Replace *GENERATED_PASSWORD* in `db_create.sql` to the value from `bgerp_test.properties` but *surrounded by commas*.
 
@@ -145,7 +145,7 @@ Execute mysql commands:
 ----
 mysql --default-character-set=utf8 -uroot -p < db_create.sql
 mysql --default-character-set=utf8 -ubgerp -p < db_init.sql
-mysql --default-character-set=utf8 -uroot -p < bgerp.sql
+mysql --default-character-set=utf8 -ubgerp -p bgerp < bgerp.sql
 ----
 
 For <<db, DB update>> on each start in `.properties` must be set <<kernel/setup.adoc#config-on-start, option>>:
