@@ -529,7 +529,7 @@ link:../../webapps/WEB-INF/struts-config.xml#L55-L58[webapps/WEB-INF/struts-conf
 Это позволяет обеспечить обратную совместимость ранее записанных в БД привелегий. При следующем сохранении набора прав будет использован новый идентификатор.
 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
-link:../../src/ru/bgcrm/model/user/action.xml#L152-L153[ru/bgcrm/model/user/action.xml]
+link:../../src/ru/bgcrm/model/user/action.xml#L145-L146[ru/bgcrm/model/user/action.xml]
 
 Вспомогательные действия, которые должны быть постоянно разрешены помечаются атрибутом *allowAll="1"*.
 
@@ -575,7 +575,7 @@ IMPORTANT: Рекомендуется всегда когда возможно �
 
 Редактирование справочников происходит напрямую с БД, после редактирования кэш сбрасывается.
 [snippet, from="pu", to="}"]
-link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L93-L99[ru.bgcrm.struts.action.admin.UserAction]
+link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L92-L98[ru.bgcrm.struts.action.admin.UserAction]
 
 [[ui]]
 === Представление JSP
@@ -888,7 +888,7 @@ link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L220-L227[ru.bgcrm.
 
 Show in JSP:
 [snippet, from="<c:if", to="if>", remove-leading="						"]
-link:../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L82-L96[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
+link:../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L81-L95[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
 
 [[sample-date-format]]
 === Форматирование даты и времени

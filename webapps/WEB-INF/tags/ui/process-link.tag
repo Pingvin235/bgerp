@@ -3,7 +3,7 @@
 
 <%@ attribute name="id" description="Process ID" required="true" type="java.lang.Integer"%>
 <%@ attribute name="process" description="Process itself" type="ru.bgcrm.model.process.Process"%>
-<%@ attribute name="text" description="Опционально - текст ссылки, если не указан - то используется код процесса"%>
+<%@ attribute name="text" description="Optional link text, if not defined - used process ID"%>
 
 <ui:when type="user">
 	<a href="/user/process#${id}" onclick="$$.process.open(${id}); return false;"><%--

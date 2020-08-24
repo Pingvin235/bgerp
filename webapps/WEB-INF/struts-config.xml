@@ -87,7 +87,9 @@
 			<forward name="entityLog" path="/WEB-INF/jspf/entity_log.jsp"/>
 		</action>
 
-		<action path="/user/link" parameter="action" type="ru.bgcrm.struts.action.LinkAction" name="form" scope="request"/>
+		<action path="/user/link" parameter="action" type="ru.bgcrm.struts.action.LinkAction" name="form" scope="request">
+			<forward name="linkList" path="/WEB-INF/jspf/user/process/process/link_list.jsp"/>
+		</action>
 
 		<action path="/user/directory/address" parameter="action" type="ru.bgcrm.struts.action.DirectoryAddressAction" name="form" scope="request">
 			<forward name="default" path="/WEB-INF/jspf/user/directory/address/address.jsp"/>

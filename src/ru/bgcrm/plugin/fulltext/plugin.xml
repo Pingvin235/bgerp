@@ -2,4 +2,5 @@
 
 <plugin>
 	<endpoint id="user.search.jsp" file="/WEB-INF/jspf/user/plugin/fulltext/search.jsp"/>
+	<endpoint id="user.process.linkForAddCustom.jsp" file="/WEB-INF/jspf/user/plugin/fulltext/process_link_for_add_custom_list.jsp"/>
 </plugin>

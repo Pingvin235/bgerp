@@ -217,11 +217,10 @@
 					<div>
 						<c:url var="url" value="/user/link.do">
 							<c:param name="action" value="linkList"/>
-							<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/link_list.jsp"/>
 							<c:param name="id" value="${process.id}"/>
 							<c:param name="objectType" value="process"/>
 							<c:param name="processTypeId" value="${process.typeId}"/>
-							<c:param name="header" value="Привязки"/>
+							<c:param name="header" value="${l.l('Привязки')}"/>
 						</c:url>
 
 						<c:remove var="form"/>

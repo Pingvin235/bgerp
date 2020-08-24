@@ -22,8 +22,22 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class SearchAction extends BaseAction {
-    public SearchAction() {
-        super();
+
+    @Override
+    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+        // areas supported only in bgbilling plugin, contract search
+        HashSet<Integer> areaIds = new HashSet<Integer>();
+        areaIds.addAll(setup.getConfig(CommonContractConfig.class).getCityAreaMap());
+
+        ParameterMap perm = form.getPermission();
+        Set<Integer> allowedAreaIds = Utils.toIntegerSet(perm.get("allowedAreaIds", ""));
+
+        if (!allowedAreaIds.isEmpty())
+            areaIds.retainAll(allowedAreaIds);
+
+        form.getResponse().setData("areas", areaIds);
+
+        return mapping.findForward(FORWARD_DEFAULT);
     }
 
     public ActionForward customerSearch(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -142,20 +156,4 @@ public class SearchAction extends BaseAction {
         return mapping.findForward(FORWARD_DEFAULT);
     }
 
-    @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        // areas supported only in bgbilling plugin, contract search
-        HashSet<Integer> areaIds = new HashSet<Integer>();
-        areaIds.addAll(setup.getConfig(CommonContractConfig.class).getCityAreaMap());
-
-        ParameterMap perm = form.getPermission();
-        Set<Integer> allowedAreaIds = Utils.toIntegerSet(perm.get("allowedAreaIds", ""));
-
-        if (!allowedAreaIds.isEmpty())
-            areaIds.retainAll(allowedAreaIds);
-
-        form.getResponse().setData("areas", areaIds);
-
-        return mapping.findForward(FORWARD_DEFAULT);
-    }
 }

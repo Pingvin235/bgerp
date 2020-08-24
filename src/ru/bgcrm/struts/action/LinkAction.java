@@ -128,7 +128,7 @@ public class LinkAction extends BaseAction {
             form.getHttpRequest().setAttribute("process", process);
         }
 
-        return status(conSet, form);
+        return data(conSet, mapping, form);
     }
 
     private CommonObjectLink getLink(DynActionForm form) {

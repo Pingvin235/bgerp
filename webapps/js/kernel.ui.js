@@ -195,13 +195,13 @@ $$.ui = new function() {
 
 	const inputTextInit = ($input, onSelect) => {
 		var $runIcon =
-			$("<span title='Искать'><img src='/images/arrow-right.png'/></span>")
+			$("<span><img src='/images/arrow-right.png'/></span>")
 			.css("position", "absolute")
 			.css("cursor", "pointer")
 			.hide();
 
 		var $clearIcon =
-			$("<span title='Очистить'><img src='/images/cross.png'/></span>")
+			$("<span><img src='/images/cross.png'/></span>")
 			.css("position", "absolute")
 			.css("cursor", "pointer")
 			.hide();

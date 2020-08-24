@@ -3,7 +3,6 @@
 
 <c:set var="pageFormId" value="searchForm-process" scope="request"/>
 <c:set var="nextCommand" value="; openUrl( formUrl( $( '#searchForm-process' )[0] ), '#searchResult');" scope="request"/>
-<button class="btn-green" onclick="createProcessAndEdit( this );" title="Создать новый процесс">+</button>
  
 <%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 <%@ include file="../process_search_constants.jsp"%>

@@ -41,7 +41,7 @@ address.format=(${city})(, ${street})(, д. ${house})(, кв. ${flat})( ${room})
 #customer.reference.pattern=
 #
 # минимальная длина подстроки в поиске контрагента
-searchCustomerTitleMinSubstringLength=2
+searchCustomerTitleMinSubstringLength=0
 #
 # форматирование <<#param-phone, параметра типа "phone">>, общий формат одного номера [[config-param-phone]]
 param.phone.format=(${number})( [${comment}]);

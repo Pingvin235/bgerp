@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <ul>
-	<c:forEach var="child" items="${node.childs}">
+	<c:forEach var="child" items="${node.children}">
 		<c:set var="node" value="${child}" scope="request" />
 			<c:if test="${not node.allowAll}">
 				<c:set var="configDialogId" value="${u:uiid()}"/>
@@ -45,7 +45,7 @@
 					<c:set var="selected" value=""/>
 					<c:set var="permConf" value=""/>
 				
-					<c:if test="${not empty node.childs}">
+					<c:if test="${not empty node.children}">
 						<jsp:include page="check_tree_item.jsp" />
 					</c:if>
 				</li>

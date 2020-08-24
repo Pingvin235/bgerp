@@ -1,6 +1,4 @@
-package ru.bgcrm.plugin.fulltext.struts.action;
-
-import java.sql.Connection;
+package ru.bgcrm.plugin.fulltext.action;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -13,17 +11,18 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.sql.ConnectionSet;
 
 public class SearchAction extends BaseAction {
 
-    public ActionForward search(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward search(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         String objectType = form.getParam("objectType");
-        String filter = form.getParam("filter", "");
+        String filter = form.getParam("filter", "").trim();
         
-        SearchDAO searchDao = new SearchDAO(con);
+        SearchDAO searchDao = new SearchDAO(conSet.getSlaveConnection());
         if (Customer.OBJECT_TYPE.equals(objectType)) {
             searchDao.searchCustomer(new SearchResult<Customer>(form), filter);
-            return mapping.findForward(objectType);
+            return data(conSet, mapping, form, objectType);
         } else if (Process.OBJECT_TYPE.equals(objectType)) {
             searchDao.searchProcess(new SearchResult<Process>(form), filter);
             return mapping.findForward(objectType);
@@ -34,5 +33,5 @@ public class SearchAction extends BaseAction {
 
         return mapping.findForward(FORWARD_DEFAULT);
     }
-    
+
 }

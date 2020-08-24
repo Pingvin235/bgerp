@@ -1,0 +1,7 @@
+C: Cleanup unused JSP files.
+C: Parameter 'searchCustomerTitleMinSubstringLength' default value to 0.
+C: Plugin BGBilling, hide search of common contracts.
+A: Add process customer link using substring or FullText search, https://bgerp.org/doc/3.0/manual/kernel/process/index.html#link
+C: Remove not working process creation button in search.
+C: Hide empty tables in adding process links.
+F: Suggesting to add already existing process links from buffer.

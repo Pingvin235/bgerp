@@ -53,8 +53,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
                     PermissionNode.addPermissionsSynonyms(permsetDao.getPermissions(permset.getId())));
         }
 
-        //TODO: Убрать в UserCache
-        form.getResponse().setData("allPermissions", PermissionNode.getPermissionTrees());
+        form.getHttpRequest().setAttribute("allPermissions", UserCache.getAllPermTree());
 
         return data(con, mapping, form, "permsetUpdate");
     }
@@ -250,8 +249,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             form.getHttpRequest().setAttribute("userGroupList", userDAO.getUserGroupList(user.getId(), form.getParamDate("date")));
         }
 
-        //TODO: Убрать в UserCache
-        form.getHttpRequest().setAttribute("allPermissions", PermissionNode.getPermissionTrees());
+        form.getHttpRequest().setAttribute("allPermissions", UserCache.getAllPermTree());
 
         return data(con, mapping, form, "userUpdate");
     }

@@ -42,13 +42,6 @@
 				<item action="ru.bgcrm.struts.action.admin.UserAction:permsetDelete" title="Удаление набора"/>
 				<item action="ru.bgcrm.struts.action.admin.UserAction:permsetReplacePermissions" title="Замена прав в наборе"/>
 			</item>
-
-			<item title="Должности">
-				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentList" title="Просмотр должностей" />
-				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentGet" title="Просмотр должности" />
-				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentUpdate" title="Изменения должности" />
-				<item action="ru.bgcrm.struts.action.admin.AppointmentAction:appointmentDelete" title="Удаление должности" />
-			</item>
 		</item>
 
 		<item title="Группы контрагентов">

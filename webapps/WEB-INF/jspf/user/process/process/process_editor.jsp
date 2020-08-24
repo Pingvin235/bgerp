@@ -55,15 +55,14 @@
 						<%-- 2 - отображение в теле процесса --%>
 						<c:if test="${processType.properties.configMap.getSok('', false, 'show.tab.links', 'processShowLinks') eq '1'}">
 							<%-- TODO: ifaceState 'links' --%>
-							<c:url var="url" value="link.do">
+							<c:url var="url" value="/user/link.do">
 								<c:param name="action" value="linkList"/>
-								<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/link_list.jsp"/>
 								<c:param name="id" value="${process.id}"/>
 								<c:param name="objectType" value="process"/>
 								<c:param name="processTypeId" value="${process.typeId}"/>
 							</c:url>
 
-							$tabs.tabs( "add", "${url}", "Привязки" );
+							$tabs.tabs( "add", "${url}", "${l.l('Привязки')}" );
 						</c:if>
 
 						<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.messages', 'processShowMessages') eq '1'}">
@@ -167,10 +166,9 @@
 							<div>
 								<c:url var="url" value="/user/link.do">
 									<c:param name="action" value="linkList"/>
-									<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/link_list.jsp"/>
 									<c:param name="id" value="${process.id}"/>
 									<c:param name="objectType" value="process"/>
-									<c:param name="header" value="Привязки"/>
+									<c:param name="header" value="${l.l('Привязки')}"/>
 									<c:param name="processTypeId" value="${process.typeId}"/>
 								</c:url>
 

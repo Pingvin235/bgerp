@@ -6,13 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.ParameterMap;
@@ -20,10 +21,10 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
 public class PermissionNode {
-    private static String FILE_NAME = "action.xml";
-    private static String DELIMETER = " -> ";
+    @VisibleForTesting
+    protected static String FILE_NAME = "action.xml";
+    private static String DELIMITER = " -> ";
 
-    private int id = -1;
     private String title;
     private String titlePath;
     private String action;
@@ -31,18 +32,23 @@ public class PermissionNode {
     private String description;
     private boolean allowAll = false;
     private boolean notLogging = false;
-    private List<PermissionNode> childs;
+    private List<PermissionNode> children;
 
     public PermissionNode() {
-        childs = new ArrayList<PermissionNode>();
+        children = new ArrayList<PermissionNode>();
     }
 
     public void addChild(PermissionNode child) {
-        childs.add(child);
+        children.add(child);
     }
 
+    @Deprecated
     public List<PermissionNode> getChilds() {
-        return childs;
+        return children;
+    }
+
+    public List<PermissionNode> getChildren() {
+        return children;
     }
 
     public void setTitle(String title) {
@@ -62,11 +68,7 @@ public class PermissionNode {
     }
 
     public void removeChild(PermissionNode node) {
-        childs.remove(node);
-    }
-
-    public int getId() {
-        return id;
+        children.remove(node);
     }
 
     public String getAction() {
@@ -103,9 +105,8 @@ public class PermissionNode {
         this.allowAll = allowAll;
     }
 
-    private static int nodeId = 0;
-
-    private static void buildTree(Node element, PermissionNode parentNode) {
+    @VisibleForTesting
+    protected static void buildTree(Node element, PermissionNode parentNode) {
         NamedNodeMap attrs = element.getAttributes();
         String title = attrs.getNamedItem("title") != null ? attrs.getNamedItem("title").getNodeValue() : null;
         String action = attrs.getNamedItem("action") != null ? attrs.getNamedItem("action").getNodeValue() : null;
@@ -115,10 +116,9 @@ public class PermissionNode {
         PermissionNode node = new PermissionNode();
         parentNode.addChild(node);
 
-        node.id = nodeId++;
         node.setTitle(title);
         if (Utils.notBlankString(parentNode.getTitle())) {
-            node.setTitlePath(parentNode.getTitlePath() + DELIMETER + title);
+            node.setTitlePath(parentNode.getTitlePath() + DELIMITER + title);
         } else {
             node.setTitlePath(title);
         }
@@ -138,9 +138,7 @@ public class PermissionNode {
         }
     }
 
-    public static List<PermissionNode> getPermissionTrees() throws BGMessageException {
-        nodeId = 0;
-
+    public static List<PermissionNode> getPermissionTrees() {
         List<PermissionNode> permissionNodes = new ArrayList<>();
 
         // kernel actions

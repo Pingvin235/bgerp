@@ -4,10 +4,35 @@
 $$.process = new function() {
 	const open = (id) => {
 		$$.shell.contentLoad("process#" + id);
-	};
+	}
 
 	// available functions
 	this.open = open;
+	
+	// sub namespace link
+	this.link = new function() {
+		const showForm = (uiid, id) => {
+			$(`#${uiid} #linkEditor > form`).hide();
+			$(`#${uiid} #linkEditor > form#${id}`).show();
+		}
+		
+		const add = (uiid, requestUrl) => {
+			const forms = $('#' + uiid + ' form:visible');
+			for (var i = 0; i < forms.length; i++) {
+				const form = forms[i];
+				if (form.check && form.check.checked) {
+					$$.ajax
+						.post(form)
+						.done(() => { $$.ajax.load(requestUrl, $('#' + uiid).parent()) });
+					break;
+				}
+			}
+		}
+
+		// available functions
+		this.showForm = showForm;
+		this.add = add;
+	}
 
 	// sub namespace queue
 	this.queue = new function() {
@@ -261,19 +286,12 @@ function statusChangeEditor(selector, selectedStatus, currentStatus,
 
 function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues, additionalLinksForAdd) 
 {
-	var html = '<table class="data" style="width: 100%;">\
-			<tr>\
-				<td>&nbsp;</td>\
-				<td>Тип</td>\
-				<td width="100%">Наименование</td>\
-			</tr>';
-
 	var objects = []; 
 		
 	if( !(additionalLinksForAdd) )
 	{
 		objects = openedObjectList({
-			"typesExclude" : [ 'process', 'workarea' ],
+			"typesExclude" : ['process'],
 			"selected" : selectedValues
 		});
 	}
@@ -281,9 +299,10 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 	{
 		objects = additionalLinksForAdd;
 	}
+	
+	var html = '';
 
-	for( var d in objects ) 
-	{
+	for (const d in objects) {
 		var data = objects[d];
 
 		var objectType = data.objectType;
@@ -299,12 +318,12 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 		var pos = objectType.lastIndexOf('_');
 		if( pos > 0 ) 
 		{
-			objectType = objectType.substring(0, pos) + ":" + objectType.substring(pos + 1);			
+			objectType = objectType.substring(0, pos) + ":" + objectType.substring(pos + 1);
 		}
 
 		html += '<tr>\
 				<td>\
-					<form action="link.do">\
+					<form action="/user/link.do">\
 						<input type="hidden" name="action" value="addLink"/>\
 						<input type="hidden" name="objectType" value="process"/>\
 						<input type="hidden" name="id" value="' + processId + '"/>\
@@ -341,19 +360,14 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 			</tr>';
 	}
 
-	/*
-	 * html += '<tr><td colspan="3" align="center">Ручная привязка</td></tr>\
-	 * <tr>\ <td colspan="3">\ <form action="link.do">\ <input type="checkbox"
-	 * name="check"/>\ <input type="hidden" name="action" value="addLink"/>\
-	 * <input type="hidden" name="objectType" value="process"/>\ <input
-	 * type="hidden" name="id" value="' + processId + '"/>\ Тип <input
-	 * name="linkedObjectType"/>\ ID <input name="linkedObjectId"/>\ Заголовок
-	 * <input name="linkedObjectTitle"/>\ </form>\ </td>\ </tr>';
-	 */
+	const show = objects.length > 0;
 
-	html += '</table>';
-
-	$uiid.html(html);
+	$uiid.toggle(show);
+	if (show) {
+		const $table = $uiid.find('table');
+		$table.find('tr:gt(0)').remove();
+		$table.append(html);
+	}
 }
 
 function processesToLinkTable($uiid, processId, linkType) {

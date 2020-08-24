@@ -6,8 +6,7 @@
 
 	<c:set var="permset" value="${form.response.data.permset}" scope="page" />
 	<c:set var="grantedPermission" value="${form.response.data.grantedPermission}" scope="request" />
-	<c:set var="allPermissions" value="${form.response.data.allPermissions}" scope="request" />
-
+	
 	<c:set var="uiidSample" value="${u:uiid()}"/>
 	<c:set var="uiidTo" value="${u:uiid()}"/>
 

@@ -30,7 +30,7 @@
 				<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
 			</c:set>
 			<c:set var="hiddenName" value="searchMode"/>
-			<c:set var="prefixText" value=">${l.l('Искать')}:"/>
+			<c:set var="prefixText" value="${l.l('Искать')}:"/>
 			<c:set var="onSelect">
 				var value = $('#searchForm > input[type=hidden]').val();
 				$('.searchForm').hide(); $('#searchForm-' + value).show();
@@ -39,34 +39,34 @@
 		</u:sc>
 
 		<div id="searchForms">
-			<html:form action="/user/search" method="GET"
+			<html:form action="/user/search"
 				styleId="searchForm-customer" styleClass="searchForm in-mb1 mt1 in-w100p">
 				<html:hidden property="action" value="customerSearch" />
 				<html:hidden property="searchBy" />
 
 				<c:set var="minStringLength" value="${setup['searchCustomerTitleMinSubstringLength']}"/>
 				<c:if test="${empty minStringLength}">
-					<c:set var="minStringLength" value="4"/>
+					<c:set var="minStringLength" value="0"/>
 				</c:if>
 
 				<ui:input-text
-					name="title" placeholder="Наименование" title="Для поиска введите подстороку названия и нажмите Enter"
+					name="title" placeholder="${l.l('Наименование')}" title="${l.l('Для поиска введите подстороку названия и нажмите Enter')}"
 					onSelect="if (this.value.length < ${minStringLength}) {alert('Строка поиска должна быть ${minStringLength} и более симоволов!' ); return;}
 							  this.form.elements['searchBy'].value='title';
-							  openUrl(formUrl(this.form), '#searchResult')"/>
+							  $$.ajax.load(this.form, '#searchResult')"/>
 
 				<%@ include file="search_address_filter.jsp"%>
 				<ui:input-text
-					name="id" placeholder="ID" title="Для поиска введите код контрагента и нажмите Enter"
+					name="id" placeholder="ID" title="${l.l('Для поиска введите код контрагента и нажмите Enter')}"
 					onSelect="this.form.elements['searchBy'].value='id';
-							  openUrl( formUrl( this.form ), '#searchResult' )" />
+							  $$.ajax.load(this.form, '#searchResult')"/>
 
 				<div>
 					<button type="button" class="btn-white" onclick="$('#searchForm-customer').each (function(){this.reset(); });">Очистить</button>
 				</div>
 			</html:form>
 
-			<html:form action="/user/search" method="GET"
+			<html:form action="/user/search"
 				styleId="searchForm-process" styleClass="searchForm in-mb1 mt1 in-w100p">
 				<html:hidden property="action" value="processSearch" />
 				<html:hidden property="searchBy" />
