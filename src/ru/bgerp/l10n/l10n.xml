@@ -95,6 +95,44 @@
 	<p><ru>Выделить или снять выделение всех</ru><en>Select or deselect all</en></p>
 	<p><ru>Авторизация</ru><en>Authorization</en></p>
 	<p><ru>Процессы</ru><en>Processes</en></p>
+	<p><ru>Контрагент</ru><en>Customer</en></p>
+	<p><ru>Создать</ru><en>Create</en></p>
+	<p><ru>Поиск</ru><en>Search</en></p>
+	<p><ru>Новости</ru><en>News</en></p>
+	<p><ru>Адреса</ru><en>Addresses</en></p>
+	<p><ru>Наборы прав</ru><en>Permission sets</en></p>
+	<p><ru>Группы</ru><en>Groups</en></p>
+	<p><ru>Пользователи</ru><en>Users</en></p>
+	<p><ru>Статусы процессов</ru><en>Statuses</en></p>
+	<p><ru>Типы процессов</ru><en>Types</en></p>
+	<p><ru>Очереди процессов</ru><en>Queues</en></p>
+	<p><ru>Динамический код</ru><en>Dynamic code</en></p>
+	<p><ru>WEB запросы</ru><en>HTTP requests</en></p>
+	<p><ru>Конфигурация</ru><en>Configuration</en></p>
+	<p><ru>Статус приложения</ru><en>App status</en></p>
+	<p><ru>Авторизовавашиеся пользователи</ru><en>Authenticated users</en></p>
+	<p><ru>Приложение</ru><en>App</en></p>
+	<p><ru>Администрирование</ru><en>Administration</en></p>
+	<p><ru>Логирование</ru><en>Logging</en></p>
+	<p><ru>Процесс</ru><en>Process</en></p>
+	<p><ru>Искать</ru><en>Search</en></p>
+	<p><ru>Для поиска введите подстороку названия и нажмите Enter</ru><en>For searching input title substring and press Enter</en></p>
+	<p><ru>Для поиска введите код контрагента и нажмите Enter</ru><en>For searching input customer ID and press Enter</en></p>
+	<p><ru>Поиск процесса по ID</ru><en>Search by Process ID</en></p>
+	<p><ru>Для поиска введите код процесса и нажмите Enter</ru><en>For searching input process ID and press Enter</en></p>
+	<p><ru>Дом/дробь</ru><en>House/frac</en></p>
+	<p><ru>Квартира</ru><en>Apartment</en></p>
+	<p><ru>Улица</ru><en>Street</en></p>
+	<p><ru>Очистить</ru><en>Clear</en></p>
+	<p><ru>Справочник</ru><en>Directory</en></p>
+	<p><ru>Параметры процессов</ru><en>Process parameters</en></p>
+	<p><ru>Параметры пользователей</ru><en>User parameters</en></p>
+	<p><ru>Параметры контрагентов</ru><en>Customer parameters</en></p>
+	<p><ru>Группы параметров контрагентов</ru><en>Customer parameters groups</en></p>
+	<p><ru>Шаблоны названия контрагентов</ru><en>Parameter title patters</en></p>
+	<p><ru>Параметры домов</ru><en>House parameters</en></p>
+	<p><ru>Фильтр</ru><en>Filter</en></p>
+	<p><ru>По наименованию, комментарию, конфигурации</ru><en>By title, comment, configuration</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

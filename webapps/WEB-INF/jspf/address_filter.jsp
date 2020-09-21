@@ -4,13 +4,13 @@
 <script>addCustomStreetSearch( 'input[name=${paramName}Street]', 'input[name=${paramName}StreetId]' );</script>
 <script>addCustomHouseSearch( 'input[name=${paramName}House]', 'input[name=${paramName}StreetId]', 'input[name=${paramName}HouseId]' );</script>
 
-Улица: <input type="text" name="${paramName}Street" style="width:100%" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }" onkeyup="if(this.form.${paramName}Street.value=='') this.form.${paramName}StreetId.value='';"/><br/>
-Дом/дробь: <input type="text" name="${paramName}House" style="width:100%" onkeypress="if( enterPressed( event ) ) { ${sendCommand} }" onkeyup="if(this.form.${paramName}House.value=='') this.form.${paramName}HouseId.value='';"/><br/>
-Квартира: <input type="text" name="${paramName}Flat" style="width:100%" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"/><br/>
+${l.l('Улица')}: <input type="text" name="${paramName}Street" style="width:100%" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }" onkeyup="if(this.form.${paramName}Street.value=='') this.form.${paramName}StreetId.value='';"/><br/>
+${l.l('Дом/дробь')}: <input type="text" name="${paramName}House" style="width:100%" onkeypress="if( enterPressed( event ) ) { ${sendCommand} }" onkeyup="if(this.form.${paramName}House.value=='') this.form.${paramName}HouseId.value='';"/><br/>
+${l.l('Квартира')}: <input type="text" name="${paramName}Flat" style="width:100%" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"/><br/>
 <input type="hidden" name="${paramName}StreetId"/>
 <input type="hidden" name="${paramName}HouseId"/>
 
-<input type="button" value="X" title="Очистить" 
+<input type="button" value="X" title="${l.l('Очистить')}" 
 	onclick="this.form.${paramName}StreetId.value='';
 			 this.form.${paramName}HouseId.value='';
 			 this.form.${paramName}Street.value='';

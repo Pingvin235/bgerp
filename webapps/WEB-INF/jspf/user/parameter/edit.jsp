@@ -460,7 +460,7 @@
 
 				<table style="width: 100%;">
 					<tr>
-						<td>Улица:</td>
+						<td>${l.l('Улица')}:</td>
 						<td width="70%"><input type="text" name="street" value="${streetTitle}" style="width: 100%" /></td>
 						<td nowrap="nowrap">Дом:</td>
 						<td width="30%" nowrap="nowrap">

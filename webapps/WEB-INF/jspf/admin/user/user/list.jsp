@@ -90,6 +90,5 @@
 	</c:forEach>
 </table>
 
-<c:set var="title" value="Пользователи"/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:title ltext="Пользователи"/>
+<shell:state text=""/>

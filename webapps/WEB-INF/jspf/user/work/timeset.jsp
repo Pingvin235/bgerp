@@ -28,7 +28,7 @@
 		<c:param name="action" value="processTimeSet"/>
 		<c:param name="processId" value="${form.param.processId}"/>
 	</c:url>
-	<button class="btn-grey ml2" type="button" title="Очистить занятое время" onclick="if( confirm( 'Очистить время?' ) && sendAJAXCommand( '${url}' ) ){ openUrlToParent( '${form.requestUrl }', $('#${uiid}') ) }">Очистить</button>
+	<button class="btn-grey ml2" type="button" title="Очистить занятое время" onclick="if( confirm( 'Очистить время?' ) && sendAJAXCommand( '${url}' ) ){ openUrlToParent( '${form.requestUrl }', $('#${uiid}') ) }">${l.l('Очистить')}</button>
 </html:form>
 
 <c:if test="${not empty slotList}">

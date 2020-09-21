@@ -55,7 +55,7 @@
 						
 						<table style="width: 100%;">
 							<tr>
-								<td>Улица: </td>
+								<td>${l.l('Улица')}: </td>
 								<td width="70%">
 									<html:text property="street" value="${streetTitle}" style="width: 100%"/>
 								</td>

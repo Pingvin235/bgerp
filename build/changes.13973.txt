@@ -1,0 +1,1 @@
+A: Localization of menu and other parts of UI.

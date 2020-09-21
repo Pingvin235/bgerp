@@ -62,7 +62,7 @@
 							  $$.ajax.load(this.form, '#searchResult')"/>
 
 				<div>
-					<button type="button" class="btn-white" onclick="$('#searchForm-customer').each (function(){this.reset(); });">Очистить</button>
+					<button type="button" class="btn-white" onclick="$('#searchForm-customer').each (function(){this.reset(); });">${l.l('Очистить')}</button>
 				</div>
 			</html:form>
 

@@ -35,7 +35,7 @@
 		<td>${form.param['addressCityTitle']}</td>
 	</tr>
 	<tr>
-		<td>Улица</td>
+		<td>${l.l('Улица')}</td>
 		<td>
 			<ui:select-single hiddenName="addressItemId" value="${house.addressStreet.id}" list="${parameterAddressStreetList}"/>
 		</td>

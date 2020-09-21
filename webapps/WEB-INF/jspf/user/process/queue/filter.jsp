@@ -757,19 +757,19 @@
 													<tr><td>Квартал:</td><td><input id="${quarterFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueQuarter') )}" name="param${filter.parameter.id}valueQuarter" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueQuarterId]').val('')"/></td></tr>
 												</c:if>
 												<c:if test="${fn:contains(show, 'street')}">
-													<tr><td>Улица:</td><td><input id="${streetFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueStreet') )}" name="param${filter.parameter.id}valueStreet" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueStreetId]').val('')"/></td></tr>
+													<tr><td>${l.l('Улица')}:</td><td><input id="${streetFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueStreet') )}" name="param${filter.parameter.id}valueStreet" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueStreetId]').val('')"/></td></tr>
 												</c:if>
 												<c:if test="${fn:contains(show, 'house')}">
 													<tr><td>Дом:</td><td><input id="${houseFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueHouse') )}" name="param${filter.parameter.id}valueHouse" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueHouseId]').val('')" /></td></tr>
 												</c:if>
 												<c:if test="${fn:contains(show, 'flat')}">
-													<tr><td>Квартира:</td><td><input id="${flatFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueFlat') )}" name="param${filter.parameter.id}valueFlat" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueFlat]').val('')" /></td></tr>
+													<tr><td>${l.l('Квартира')}:</td><td><input id="${flatFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueFlat') )}" name="param${filter.parameter.id}valueFlat" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueFlat]').val('')" /></td></tr>
 												</c:if>
 											</c:forTokens>
 
 											<tr><td colspan="2" align="center" class="in-table-cell pt1">
 												 <div>
-													 <input type="button" class="btn-white" value="Очистить"
+													 <input type="button" class="btn-white" value="${l.l('Очистить')}"
 															 onclick="
 																 $('#${cityFilterId}').val('').keyup();
 																 $('#${streetFilterId}').val('').keyup();

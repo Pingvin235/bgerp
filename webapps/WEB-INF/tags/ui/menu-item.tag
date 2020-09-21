@@ -2,14 +2,16 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 
-<%-- 
-  Пункт меню.
---%>
 <%@ attribute name="href" description="Ссылка"%>
 <%@ attribute name="action" description="Action class"%>
 <%@ attribute name="command" description="Команда"%>
-<%@ attribute name="title" description="Заголовок"%>
+<%@ attribute name="title" description="Title"%>
+<%@ attribute name="ltitle" description="Title to be localized"%>
 <%@ attribute name="hidden" description="скрывать" %>
+
+<c:if test="${not empty ltitle}">
+	<c:set var="title" value="${l.l(ltitle)}"/>
+</c:if>
 
 <c:if test="${not empty href and not fn:startsWith(href, '/user')}">
 	<c:set var="href" value="/user/${href}"/>
@@ -40,5 +42,3 @@
 		menuItems['${href}'] = {action: '${command}', title: '${title}', allowed: ${allowed}};
 	</c:set>
 </c:if>
-
-

@@ -5,14 +5,14 @@
 
 <table style="width: 100%;" class="data">
 	<tr>
-		<td width="30">&nbsp;</td>	
+		<td width="30">&nbsp;</td>
 		<td width="30">ID</td>
 		<td width="10%">Страна</td>
 		<td width="10%">Город</td>
-		<td width="10%">Улица</td>
-		<td>Дом</td>		
+		<td width="10%">${l.l('Улица')}</td>
+		<td>Дом</td>
 		<td>Индекс</td>
-		<td>Коментарий</td>		
+		<td>Коментарий</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
@@ -27,13 +27,13 @@
 				<c:param name="addressItemId" value="${form.param.addressItemId}"/>
 				<c:param name="addressHouseId" value="${item.id}"/>
 			</c:url>
-			
+
 			<c:url var="deleteAjaxUrl" value="${doUrl}">
 				<c:param name="action" value="addressDelete"/>
 				<c:param name="addressHouseId" value="${item.id}"/>
 			</c:url>
 			<c:set var="deleteAjaxCommandAfter">openUrlContent('${form.requestUrl}')</c:set>
-			
+
 			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
 			<td align="right">${item.id}</td>
 			<td nowrap="nowrap">${item.addressStreet.addressCity.addressCountry.title}</td>
