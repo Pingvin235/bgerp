@@ -29,9 +29,14 @@ $$.process = new function() {
 			}
 		}
 
+		const customerRoleChanged = ($hidden) => {
+			$hidden.closest('tr').find('form')[0].linkedObjectType.value = $hidden.val();
+		}
+
 		// available functions
 		this.showForm = showForm;
 		this.add = add;
+		this.customerRoleChanged = customerRoleChanged;
 	}
 
 	// sub namespace queue

@@ -28,7 +28,7 @@
 			<td>${item.id}</td>
 			<td><ui:customer-link id="${item.id}" text="${item.title}"/></td>
 			<td nowrap="nowrap">
-				<ui:combo-single list="${customerLinkRoleConfig.modeList}" onSelect="$(this).closest('tr').find('form')[0].linkedObjectType = $hidden.val"/>
+				<ui:combo-single style="width: 100%;" list="${customerLinkRoleConfig.modeList}" onSelect="$$.process.link.customerRoleChanged($hidden)"/>
 			</td>
 		</tr>
 	</c:forEach>
