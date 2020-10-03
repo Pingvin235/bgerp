@@ -11,7 +11,7 @@ onProcessEvent.1.checkExpression=process.getStatusId() !~ [9, 13, 36,39] or 8 =~
 onProcessEvent.1.checkErrorMessage=В этом статусе разрешена правка только сотрудникам КС
 onProcessEvent.2.checkExpression=process.getStatusId() != 9 or user.getId()  =~ process.getExecutorIds() or 33 =~ user.getPermsetIds()
 onProcessEvent.2.checkErrorMessage=В этом статусе разрешена правка только исполнителем процесса либо администратором КС
-onProcessEvent.3.checkExpression=empty process.getCloseTime()
+onProcessEvent.3.checkExpression=process.getCloseTime() == null
 onProcessEvent.3.checkErrorMessage=Запрещена правка закрытого процесса
 ----
 

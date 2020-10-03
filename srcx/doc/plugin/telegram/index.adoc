@@ -25,9 +25,9 @@ Eсли разговор один на один :
 
 [source]
 ----
-telegram:botStart=1
+telegram:bot_start=1
 
-# настройки прокси, для России желательны  
+# настройки прокси, в случае необходимости
 telegram:proxyHost=111.223.75.181  
 telegram:proxyPort=8888
 # SOCKS5 , HTTP
