@@ -1,6 +1,9 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+08.10.2020 10:44:39 1366
+C: [14015] Update via HTTP instead of FTP.
+
 29.09.2020 17:46:59 1365
 C: [13876] Cleanup unused JSP files.
 C: [13876] Parameter 'searchCustomerTitleMinSubstringLength' default value to 0.

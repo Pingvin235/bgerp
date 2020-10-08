@@ -1,1 +1,0 @@
-C: Update via HTTP instead of FTP.
