@@ -1,6 +1,6 @@
 package org.bgerp.itest.configuration.family;
 
-public class Family {
+public class FamilyTest {
     /* Family group, members. 
      * 
      * Shopping list with messages. 

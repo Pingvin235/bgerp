@@ -1,10 +1,14 @@
 package org.bgerp.itest.kernel.process;
 
+import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.testng.annotations.Test;
 
-@Test(groups = "processInit", dependsOnGroups = "dbInit")
-public class InitTest {
+import ru.bgcrm.model.param.Parameter;
+import ru.bgcrm.model.process.Process;
+
+@Test(groups = "process", dependsOnGroups = "dbInit")
+public class ProcessTest {
     public static volatile int statusOpen;
     public static volatile int statusToDo;
     public static volatile int statusProgress;
@@ -12,6 +16,9 @@ public class InitTest {
     public static volatile int statusDoc;
     public static volatile int statusDone;
     public static volatile int statusRejected;
+
+    public static volatile int paramProcessNextDateId;
+    public static volatile int paramProcessDeadlineDateId;
 
     @Test
     public void addStatuses() throws Exception {
@@ -26,8 +33,15 @@ public class InitTest {
     }
 
     @Test
+    public void addParams() throws Exception {
+        int pos = 0;
+        // TODO: Make date chooser configuration.
+        paramProcessNextDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Next date", pos += 2, "", "");
+        paramProcessDeadlineDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Deadline", pos += 2, "", "");
+    }
+
+    @Test
     public void addTypes() throws Exception {
         
     }
-
 }

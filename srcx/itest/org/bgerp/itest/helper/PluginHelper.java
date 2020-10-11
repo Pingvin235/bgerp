@@ -7,10 +7,11 @@ import ru.bgcrm.plugin.Plugin;
 public class PluginHelper {
 
     public static String initPlugin(Plugin p) throws Exception {
-        try (var con = DbTest.conPoolRoot.getDBConnectionFromPool()) {
-            p.init(con);
-            return p.getName() + ":enable=1\n\n";
-        }
+        var con = DbTest.conRoot;
+        con.setAutoCommit(false);
+        p.init(con);
+        con.setAutoCommit(true);
+        return p.getName() + ":enable=1\n\n";
     }
 
 }

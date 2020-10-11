@@ -1,0 +1,5 @@
+#
+# roles for linking customers in processes
+processCustomerLinkRoles=customer:Customer;customer-contact:Contact
+#
+

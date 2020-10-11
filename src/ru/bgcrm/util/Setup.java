@@ -6,13 +6,15 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import com.google.common.annotations.VisibleForTesting;
+
+import org.apache.commons.lang3.StringUtils;
+
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
-import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.Config;
 import ru.bgcrm.util.sql.ConnectionPool;
-import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgerp.util.Log;
 
@@ -21,7 +23,10 @@ public class Setup extends Preferences {
 
     private static volatile Setup setupData;
 
-    protected String bundleName;
+    /** ConnectionPool used for initial load. Used in integration tests. */
+    private static volatile ConnectionPool connectionPoolInit;
+
+    private String bundleName;
     private ConnectionPool connectionPool;
 
     // глобальные конфигурации, получаемые отдельно по коду
@@ -36,9 +41,19 @@ public class Setup extends Preferences {
     }
 
     public static Setup getSetup(String bundleName, boolean initConfig) {
-        if (setupData == null)
-            setupData = new Setup(bundleName, initConfig);
+        if (setupData == null) {
+            if (connectionPoolInit == null)
+                setupData = new Setup(bundleName, initConfig);
+            else
+                setupData = new Setup(connectionPoolInit);
+        }
         return setupData;
+    }
+
+    @VisibleForTesting
+    public static void resetSetup(ConnectionPool pool) {
+        setupData = null;
+        connectionPoolInit = pool;
     }
 
     public Setup(String bundleName, boolean initConfigAndPool) {
@@ -49,13 +64,18 @@ public class Setup extends Preferences {
             connectionPool = new ConnectionPool("MAIN", this);
             loadConfigMap(this.data);
 
-            EventProcessor.subscribe(new EventListener<SetupChangedEvent>() {
-                @Override
-                public void notify(SetupChangedEvent e, ConnectionSet connectionSet) {
-                    reloadConfig(connectionSet.getConnection());
-                }
+            EventProcessor.subscribe((e, conSet) -> {
+                reloadConfig(conSet.getConnection());
             }, SetupChangedEvent.class);
         }
+    }
+
+    private Setup(ConnectionPool pool) {
+        this.connectionPool = pool;
+        loadConfigMap(this.data);
+        EventProcessor.subscribe((e, conSet) -> {
+            reloadConfig(conSet.getConnection());
+        }, SetupChangedEvent.class);
     }
 
     public DataSource getDataSource() {
@@ -98,14 +118,12 @@ public class Setup extends Preferences {
     }
 
     private void loadConfigMap(Map<String, String> data) {
-        Connection con = getDBConnectionFromPool();
-        try {
+        try (var con = getDBConnectionFromPool()) {
             loadConfigMap(data, con);
-            loadBundle(bundleName, data, false);
+            if (StringUtils.isNotBlank(bundleName))
+                loadBundle(bundleName, data, false);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-        } finally {
-            SQLUtils.closeConnection(con);
         }
     }
 

@@ -113,7 +113,7 @@ public class Preferences extends ParameterMap {
     }
 
     /**
-     * Загрузка файла конфигурации в Map, имя файла определено в поле {@link #bundleName}.
+     * Загрузка файла конфигурации в Map, имя файла определено в поле {@link bundleName}.
      */
     protected void loadBundle(String bundleName, Map<String, String> data, boolean validate) {
         File file = new File(bundleName.replace('.', '/') + ".properties");

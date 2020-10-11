@@ -2,7 +2,7 @@ package org.bgerp.itest.helper;
 
 import java.util.Date;
 
-import org.bgerp.itest.kernel.config.InitTest;
+import org.bgerp.itest.kernel.config.ConfigTest;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.testng.Assert;
 
@@ -11,6 +11,7 @@ import ru.bgcrm.model.Config;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Preferences;
+import ru.bgcrm.util.Setup;
 
 public class ConfigHelper {
 
@@ -23,47 +24,45 @@ public class ConfigHelper {
     }
 
     public static int addIncludedConfig(String title, String content) throws Exception {
-        try (var con = DbTest.conPoolRoot.getDBConnectionFromPool()) {
-            var dao = new ConfigDAO(con);
+        var con = DbTest.conRoot;
 
-            var config = createConfig(title, content);
+        var dao = new ConfigDAO(con);
 
-            dao.updateGlobalConfig(config);
-            Preferences.processIncludes(dao, config.getData(), true);
+        var config = createConfig(title, content);
 
-            int configId = config.getId();
-            Assert.assertTrue(configId > 0);
+        dao.updateGlobalConfig(config);
+        Preferences.processIncludes(dao, config.getData(), true);
 
-            ConfigHelper.addMainConfigInclude(dao, title, configId);
-            con.commit();
-            
-            return configId;
-        }
+        int configId = config.getId();
+        Assert.assertTrue(configId > 0);
+
+        ConfigHelper.addMainConfigInclude(dao, title, configId);
+        
+        return configId;
     }
     
     private static void addMainConfigInclude(ConfigDAO dao, String title, int configId) throws Exception {
-        synchronized (InitTest.class) {
-            var configMain = dao.getGlobalConfig(InitTest.configMainId);
+        synchronized (ConfigTest.class) {
+            var configMain = dao.getGlobalConfig(ConfigTest.configMainId);
             configMain.setData(configMain.getData() + "\n#\n# " + title + "\ninclude." + configId + "=1");
             dao.updateGlobalConfig(configMain);
             
             Preferences.processIncludes(dao, configMain.getData(), true);
+
+            Setup.resetSetup(DbTest.conPoolRoot);
         }
     }
     
     public static void addToConfig(int configId, String content) throws Exception {
-        try (var con = DbTest.conPoolRoot.getDBConnectionFromPool()) {
-            var dao = new ConfigDAO(con);
+        var con = DbTest.conRoot;
+        var dao = new ConfigDAO(con);
 
-            var config = dao.getGlobalConfig(configId);
-            Assert.assertNotNull(config);
-            
-            config.setData(config.getData() + content);
-            
-            dao.updateGlobalConfig(config);
-            
-            con.commit();
-        }
+        var config = dao.getGlobalConfig(configId);
+        Assert.assertNotNull(config);
+        
+        config.setData(config.getData() + content);
+        
+        dao.updateGlobalConfig(config);
     }
     
     public static String generateConstants(Object... pairs) {

@@ -64,16 +64,18 @@ public class Message extends Id {
         return systemId;
     }
 
-    public void setSystemId(String systemId) {
-        this.systemId = systemId;
+    public Message setSystemId(String value) {
+        this.systemId = value;
+        return this;
     }
 
     public int getProcessId() {
         return processId;
     }
 
-    public void setProcessId(int processId) {
-        this.processId = processId;
+    public Message setProcessId(int value) {
+        this.processId = value;
+        return this;
     }
 
     public Process getProcess() {
@@ -89,40 +91,45 @@ public class Message extends Id {
         return fromTime;
     }
 
-    public void setFromTime(Date createDate) {
-        this.fromTime = createDate;
+    public Message setFromTime(Date value) {
+        this.fromTime = value;
+        return this;
     }
 
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public Message setText(String value) {
+        this.text = value;
+        return this;
     }
 
     public int getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(int type) {
-        this.typeId = type;
+    public Message setTypeId(int value) {
+        this.typeId = value;
+        return this;
     }
 
     public int getUserId() {
         return userId;
     }
 
-    public void setUserId(int createUserId) {
-        this.userId = createUserId;
+    public Message setUserId(int value) {
+        this.userId = value;
+        return this;
     }
 
     public Date getToTime() {
         return toTime;
     }
 
-    public void setToTime(Date readDate) {
-        this.toTime = readDate;
+    public Message setToTime(Date value) {
+        this.toTime = value;
+        return this;
     }
 
     public String getUserTitle() {
@@ -133,8 +140,9 @@ public class Message extends Id {
         return direction;
     }
 
-    public void setDirection(int direction) {
-        this.direction = direction;
+    public Message setDirection(int value) {
+        this.direction = value;
+        return this;
     }
 
     public boolean isIncoming() {
@@ -145,16 +153,18 @@ public class Message extends Id {
         return from;
     }
 
-    public void setFrom(String from) {
+    public Message setFrom(String from) {
         this.from = from;
+        return this;
     }
 
     public String getTo() {
         return to;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public Message setTo(String value) {
+        this.to = value;
+        return this;
     }
 
     public boolean isProcessed() {
@@ -169,8 +179,9 @@ public class Message extends Id {
         return subject;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public Message setSubject(String value) {
+        this.subject = value;
+        return this;
     }
 
     /**

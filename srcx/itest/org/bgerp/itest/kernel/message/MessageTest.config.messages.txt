@@ -9,19 +9,19 @@ tag.3.color=magenta
 #
 SIGN_TEXT=NEW_LINE + "Best regards, team BGERP DEMO" + NEW_LINE +  "tel. +7(347)29248xx" + NEW_LINE + "email. demo@bgerp.org" + NEW_LINE
 #
-messageType.1.title=demo@bgcrm.ru
+messageType.1.title=demo@bgerp.org
 messageType.1.class=ru.bgcrm.dao.message.MessageTypeEmail
 messageType.1.store=imaps
-messageType.1.email=demo@bgcrm.ru
+messageType.1.email=demo@bgerp.org
 messageType.1.host=imap.yandex.ru
-messageType.1.login=demo@bgcrm.ru
+messageType.1.login=demo@bgerp.org
 messageType.1.pswd=bgdemo
 messageType.1.folderIn=INBOX
 messageType.1.folderProcessed=CRM_PROCESSED
 messageType.1.folderSkipped=CRM_SKIPPED
 messageType.1.folderSent=CRM_SENT
 messageType.1.mail.transport.protocol=smtps
-messageType.1.mail.smtp.user=demo@bgcrm.ru
+messageType.1.mail.smtp.user=demo@bgerp.org
 messageType.1.mail.smtp.host=smtp.yandex.ru
 messageType.1.mail.smtp.pswd=bgdemo
 messageType.1.signExpression={@SIGN_TEXT}

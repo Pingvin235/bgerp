@@ -1,9 +1,7 @@
 package org.bgerp.itest.configuration.company.department.it;
 
-public class IT {
-    public static volatile int groupItId;
-    
-    
+public class ItTest {
+    public static volatile int groupId;
     
     /*
         

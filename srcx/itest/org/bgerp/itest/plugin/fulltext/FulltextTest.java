@@ -11,18 +11,17 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.util.sql.SQLUtils;
 
-@Test(groups = "fulltextInit", priority = 100, dependsOnGroups = { "configInit", "schedulerInit" })
-public class InitTest {
+@Test(groups = "fulltext", priority = 100, dependsOnGroups = { "config", "scheduler" })
+public class FulltextTest {
     @Test
     public void initConfig() throws Exception {
         ConfigHelper.addIncludedConfig("Plugin FullText", 
             PluginHelper.initPlugin(new ru.bgcrm.plugin.fulltext.Plugin()) + ResourceHelper.getResource(this, "config.fulltext.txt"));
         
-        ConfigHelper.addToConfig(org.bgerp.itest.kernel.scheduler.InitTest.configId, ResourceHelper.getResource(this, "config.scheduler.txt"));
+        ConfigHelper.addToConfig(org.bgerp.itest.kernel.scheduler.SchedulerTest.configId, ResourceHelper.getResource(this, "config.scheduler.txt"));
 
-        try (Connection con = DbTest.conPoolRoot.getDBConnectionFromPool()) {
-            Assert.assertTrue(SQLUtils.tableExists(con, ru.bgcrm.plugin.fulltext.dao.SearchDAO.TABLE.trim()));
-        }
+        Connection con = DbTest.conRoot;
+        Assert.assertTrue(SQLUtils.tableExists(con, ru.bgcrm.plugin.fulltext.dao.SearchDAO.TABLE.trim()));
         
         //TODO: Depends on customer and processes. Run initial indexing!
     }

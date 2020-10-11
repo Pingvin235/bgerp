@@ -39,7 +39,8 @@ import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 import ru.bgerp.util.Log;
 
-public class Queue {
+// TODO: Use IdTitleConfig
+public class Queue extends IdTitle {
     private static final Log log = Log.getLog();
 
     public static final String MEDIA_HTML = "html";
@@ -63,20 +64,10 @@ public class Queue {
 
     private LastModify lastModify = new LastModify();
 
-    public int getId() {
-        return id;
-    }
+    public Queue() {}
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public Queue(int id, String title) {
+        super(id, title);
     }
 
     public String getConfig() {

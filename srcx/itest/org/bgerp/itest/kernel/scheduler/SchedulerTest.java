@@ -4,8 +4,8 @@ import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.testng.annotations.Test;
 
-@Test(groups = "schedulerInit", dependsOnGroups = "configInit")
-public class InitTest {
+@Test(groups = "scheduler", dependsOnGroups = "config")
+public class SchedulerTest {
     public static volatile int configId;
     
     @Test

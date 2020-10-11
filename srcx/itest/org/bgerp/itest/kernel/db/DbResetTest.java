@@ -1,7 +1,6 @@
 package org.bgerp.itest.kernel.db;
 
 import static org.bgerp.itest.kernel.db.DbInitTest.DBNAME;
-import static org.bgerp.itest.kernel.db.DbTest.conPoolRoot;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
@@ -19,7 +18,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.distr.call.ExecuteSQL;
 import ru.bgerp.util.Log;
 
-@Test(groups = "dbReset", dependsOnGroups = { "db" })
+@Test(groups = "dbReset", dependsOnGroups = "db")
 public class DbResetTest {
     private static final Log log = Log.getLog();
 
@@ -42,11 +41,11 @@ public class DbResetTest {
     public void cleanUp() throws Exception {
         if (conditionalSkip()) return;
         
-        try (var con = conPoolRoot.getDBConnectionFromPool()) {
-            log.info("Delete existing database..");
-            con.createStatement().executeUpdate("DROP DATABASE IF EXISTS " + DBNAME);
-            con.createStatement().executeUpdate("CREATE DATABASE " + DBNAME);
-        }
+        var con = DbTest.conRoot;
+
+        log.info("Delete existing database..");
+        con.createStatement().executeUpdate("DROP DATABASE IF EXISTS " + DBNAME);
+        con.createStatement().executeUpdate("CREATE DATABASE " + DBNAME);
     }
 
     private static ExecuteSQL sqlCall = new ExecuteSQL() {
@@ -76,11 +75,13 @@ public class DbResetTest {
 
         log.info("Creating database content..");
 
-        try (var con = DbTest.conPoolRoot.getDBConnectionFromPool()) {
-            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/db_init_begin.sql"), StandardCharsets.UTF_8));
-            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/update/db.sql"), StandardCharsets.UTF_8));
-            sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/db_init_end.sql"), StandardCharsets.UTF_8));
-        }
+        var con = DbTest.conRoot;
+
+        con.setAutoCommit(false);
+        sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/db_init_begin.sql"), StandardCharsets.UTF_8));
+        sqlCall.call(con, IOUtils.toString(new FileInputStream("build/update/db.sql"), StandardCharsets.UTF_8));
+        sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/db_init_end.sql"), StandardCharsets.UTF_8));
+        con.setAutoCommit(true);
     }
 
     @Test(enabled = false, dependsOnMethods = "createDb")
@@ -89,8 +90,7 @@ public class DbResetTest {
 
         log.info("Applying database patch..");
 
-        try (var con = DbTest.conPoolRoot.getDBConnectionFromPool()) {
-            sqlCall.call(con, ResourceHelper.getResource(this, "patch.db.sql"));
-        }
+        var con = DbTest.conRoot;
+        sqlCall.call(con, ResourceHelper.getResource(this, "patch.db.sql"));
     }
 }
