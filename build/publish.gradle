@@ -6,17 +6,17 @@ task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
 
         println "Publish remotely"
 
-        def sshLogin = "update@bgerp.org"
-        def sshFolder = "/home/update/www/$processId"
+        def sshLogin = "bgerp-cdn@pzdc.de"
+        def sshFolder = "/home/bgerp-cdn/www/update/$processId"
 
         println "Create dir if not exists"
         println "ssh $sshLogin mkdir -p $sshFolder".execute().text
-        
+
         def updateFile = publishUpdateFile(sshLogin, sshFolder, "update")
         def updateLibFile = publishUpdateFile(sshLogin, sshFolder, "update_lib")
 
         def docDir = file("$projectDir/target/doc")
-        if (docDir.exists()) { 
+        if (docDir.exists()) {
             println "Sync doc"
             println "rsync -ru --delete $projectDir/target/doc $sshLogin:$sshFolder".execute().text
         }
@@ -25,7 +25,7 @@ task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
         def changesFile = file(changesName)
         if (changesFile.exists()) {
             println "Copy changes"
-           
+
             def content = changesFile.text.replaceAll("doc/3.0/manual", "update/$processId/doc")
             println content
 
@@ -75,12 +75,22 @@ task publishBuild {
         publishFile("$projectDir/build/update_lib", "update_lib_${version}_*.zip", true, null)
         publishFile("$projectDir/build", "changes.txt", false, null)
         publishFile("$projectDir/build", "changes.xml", false, null)
-
-        def targetDir = "$projectDir/target"
-        def buildNumberFile = "build.number"
-        file(targetDir + "/" + buildNumberFile).text = getBuild()
-        publishFile(targetDir, buildNumberFile, false, null)
+        publishBuildNumber()
     }
+}
+
+def publishBuildNumber() {
+    def targetDir = "$projectDir/target"
+    def buildNumberFile = "build.number"
+    file(targetDir + "/" + buildNumberFile).text = getBuild()
+
+    println "Publish $buildNumberFile"
+
+    def sshLogin = 'www@bgerp.org'
+    def sshFolder = "/home/www/www.bgerp.org/download/$version"
+    
+    println "Copy $buildNumberFile"
+    "scp $targetDir/$buildNumberFile $sshLogin:$sshFolder".execute()
 }
 
 def publishFile(String localDir, String mask, boolean versioned, String link) {
@@ -91,15 +101,15 @@ def publishFile(String localDir, String mask, boolean versioned, String link) {
     localFile = localFile[0].getName()
     println "Local: $localFile"
 
-    def sshLogin = 'www@bgerp.org'
-    def sshFolder = "/var/ftp/pub/bgerp/$version"
+    def sshLogin = 'bgerp-cdn@pzdc.de'
+    def sshFolder = "/home/bgerp-cdn/www/download/$version"
 
     def remoteFile
     if (versioned) {
         remoteFile = "ssh $sshLogin cd $sshFolder; ls $mask".execute().text.trim()
         println "Remote: $remoteFile"
 
-        if (localFile == remoteFile) { 
+        if (localFile == remoteFile) {
             createSymlink(sshLogin, sshFolder, link, remoteFile)
             return
         }
