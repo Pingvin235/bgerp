@@ -1,6 +1,9 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+12.10.2020 19:35:13 1367
+C: [14014] Switch publish update and build from bgerp.org to cdn.bgerp.org
+
 08.10.2020 10:44:39 1366
 C: [14015] Update via HTTP instead of FTP.
 

@@ -1,1 +1,0 @@
-C: Switch publish update and build from bgerp.org to cdn.bgerp.org
