@@ -168,11 +168,7 @@ In order to adjust it, copy the file to the project root (will not be handled by
 Project's folder listing along with decription.
 [square]
 * *bin* - IDE-compiled Java classes;
-<<<<<<< HEAD
-* *build* - files related to <build, build>>;
-=======
 * *build* - files related to <<build, build>>;
->>>>>>> p11862-documentation
 * *docpattern* - <<plugin/document/index.adoc#, Document>> plugin templates ;
 * *dyn* - <<kernel/extension.adoc#dyn, dynamic code>>, with examples;
 * *dyn.ext* - this folder can be used to mount dynamic classes on <<devm, developer's system>>;
@@ -642,11 +638,7 @@ Using semicolumn-separated JSP functions makes sence only for JSP specific thing
 image::_res/ide_jsp_tag.png[width='600px']
 
 Обзор использования тегов с элементами управления пользователя вы можете посмотреть в файле link:../../webapps/test.jsp[webapps/test.jsp],
-<<<<<<< HEAD
-для выполнения шаблона наберите в браузере http://<host>:<port>/test.jsp, для Demo системы: http://demo.bgerp.ru/test.jsp
-=======
 для выполнения шаблона наберите в браузере http://<host>:<port>/test.jsp, для Demo системы: https://demo.bgerp.org/test.jsp
->>>>>>> p11862-documentation
 
 Пункты меню, устанавливающие соответствие между URL оснастки и Java Action определяются для ядра в файле
 link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp], для плагинов - через точку <<plugin-xml-ui-menu, расширения>>.
