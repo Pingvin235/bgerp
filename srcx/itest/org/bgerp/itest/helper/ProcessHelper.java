@@ -75,7 +75,7 @@ public class ProcessHelper {
         dao.updateQueue(queue, User.USER_SYSTEM_ID);
     }
 
-    public static int addProcess(int typeId, int createUserId, String description) throws Exception {
+    public static Process addProcess(int typeId, int createUserId, String description) throws Exception {
         var con = DbTest.conRoot;
 
         Process process = new Process();
@@ -84,7 +84,7 @@ public class ProcessHelper {
 
         ProcessAction.processCreate(new DynActionForm(UserCache.getUser(createUserId)), con, process);
     
-        return process.getId();
+        return process;
     }
 
 }

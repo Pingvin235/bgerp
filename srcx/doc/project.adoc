@@ -2,36 +2,37 @@
 :toc:
 :toclevels: 4
 
-BGERP is quite a large and complex project. It was created by a team consisting of ordinary humans, who may be imperfect and make 
+BGERP is quite a large and complex project. It was created by a team consisting of ordinary humans, who may be imperfect and make
 mistakes but try to learn continuously. This is a trial and error process, fortunately or not.
 
-This article provides some recommendations collected during the learning process - these are accompanied by a very small amount of <<samples, code>> 
+This article provides some recommendations collected during the learning process - these are accompanied by a very small amount of <<samples, code>>
 for exactly the same reason. Said that, you have to follow those recommendations using *The Boy Scout Rule*.
 
 IMPORTANT: Always leave the campground cleaner than you found it.
 
-Редактируя тот или иной блок кода необходимо уменьшать использование устаревших подходов, методов, классов.
-Писать новый код, используя последние рекомендации и параллельно корректировать смежный код.
-При тестировании <<workflow, изменения>> будут одновременно проверены и улучшения кода.
-Таким образом постепенно качество кода будет расти.
-В дальнейшем будут внедрены формальные метрики качества кода: количество предупреждений компилятора, проверки формата и т.п.
+While changing a block of code, it is important to try to decrease the usage of outdated approaches, methods and classes.
+Write a new code and keep it compliant with the latest recommendations, but at the same time try to get neighboring/adjacent code improved.
+During <<workflow, changes>> testing, code improvements will be tested as well.
+All in all, gradually, we will improve overall code quality.
+We plan to introduce a set of formal code quality metrics: number of compiler warnings, format checks, etc.
+
 
 [[lang]]
 == Languages
-The project currently is in migration process from Russian to international one. 
-All the software documentation, including this article, log messages will be converted to English.
-Information, shown to the end used via interface have to be <<l10n, localized>>.
+The project currently undergoes a migration process from Russian language to an international one (English).
+All the software documentation, including this article, and all log messages will be converted to English.
+Information shown to the end-user via interface has to be <<l10n, localized>>.
 
 [[project]]
 == Project
 === Development environment
-The program may be developed at any Java supporting platform:
+The program can be developed on any Java-supported platform:
 [square]
-* Windows - this time the maintainer uses it;
+* Windows - currently used by the maintainer;
 * Linux;
 * MacOS.
 
-Minimal required set of software: 
+Minimal required set of software:
 [square]
 * <<kernel/install.adoc#java, OpenJDK>>;
 * <<kernel/install.adoc#mysql, MySQL>>;
@@ -39,85 +40,88 @@ Minimal required set of software:
 
 [[env-console]]
 ==== Bash for Windows
-NOTE: Skip this chapter, when you use *NIX OS.
+NOTE: Skip this chapter when using *NIX OS.
 
 Console link:https://git-scm.com/download/win[client] for version control system <<workflow, GIT>>.
 
-System of <<build, build and publish>> is written on Bash scripts and uses GNU utilities, for Windows may be used:
+System of <<build, build and publish>> is written on Bash scripts and uses GNU utilities, you can use the following when using Windows:
 [square]
-* link:https://www.windowscentral.com/install-windows-subsystem-linux-windows-10[WSL] - embedded in Windows virtual Linux machine, tested way;
+* link:https://www.windowscentral.com/install-windows-subsystem-linux-windows-10[WSL] - embedded in Windows virtual Linux machine, tested/approved;
 * link:https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10[WSL 2] - the new version of it, not tested yet;
 * link:https://www.cygwin.com/[Cygwin] - Windows ports of GNU utils, not tested.
 
-The best console emulator on Windows link:https://conemu.github.io/[ConEmu] with embedded FAR Manager. 
+The best console emulator on Windows with embedded FAR Manager - link:https://conemu.github.io/[ConEmu].
 
-=== Format 
+=== Format
 IDE or editor must be configured for displaying whitespace symbols.
 
 image::_res/ide_format.png[width='600px']
 
-The projects mostly follows recommended formatting rules for each of used programming languages.
+The projects mostly follow recommended formatting rules for each of programming languages they use.
 Intention:
 [square]
 * 4 whitespaces - Java;
 * 2 whitespaces - SQL <<db, scripts>>;
 * tabs - all the rest.
 
-However because of historical reasons many files formatted wrong, it has to be carefully fixed.
-As an example on the screenshot above in Java file used tabs.
+However because of historical reasons many files have been formatted in a wrong way, and have to be carefully fixed.
+Screenshot above shows an example of a Java file still using tabs.
 
-При приведении в норму формата файлов следует учитывать следующие правила:
+When working on fixing a file format, it is important to use the following rules:
 [arabic]
-. Все новые файлы должны быть корректно форматированы.
-. Ни в коем случае не применять оба символа отступов в одном файле: табуляторы и пробелы. Файл в таком случае становится нечитаемым в некоторых редакторах. 
-При обнаружении подобных случаев - приводить все отступы в файле к рекомендуемому формату.
-. Осторожно совмещать форматирование файлов с внесением <<workflow, изменений>>, это может существенно усложнить анализ в дальнейшем.
+. All new files should be formatted correctly.
+. Avoid using both indent symbols (tabs and spaces) inside a single file! Such file becomes unreadable in certain editors. If you notice a file/case like this,
+make sure to change all indent symbols in the file to the required format.
+. Be cautious when combining file formatting with making <<workflow, changes>> - this can significantly complicate analysis down the road.
+
 
 [[format-java]]
 ==== Java
-Форматирование Java кода должно соответствовать *Java Conventions* со следующими изменениями.
-Описано для форматера Eclipse.
+Jave code formatting should be *Java Conventions*-compliant, with the following additional changes (Eclipse formatter settings shown below)
 
-Настройки в *Windows - Preferences - Java - Code style - Formatter*. 
-Необходимо открыть стандартный форматер и сохранить под новым именем, изменив параметры:
+Use settings in  *Windows - Preferences - Java - Code style - Formatter*.
+Open a standard formatter and save it under a different name after changing the following parameters:
 [square]
 * *Indentation - Tab policy* - *Spaces only*
 * *Indentation* - *Tab size* - *4*
 * *Line Wrapping* - *Maximum line width*  - *150*
 
-*Window - Preferences - Java - Code style - Organize Imports* в двух полях поставить 99 и 1.
+*Window - Preferences - Java - Code style - Organize Imports* - put 99 and 1 in the respective fields.
 
-Готовый файл форматера в формате Eclipse: link:../../.vscode/formatter.xml[formatter.xml]
+Example/resulting Eclipse formatter file: link:../../.vscode/formatter.xml[formatter.xml]
+
 
 [[eclipse]]
 === Eclipse
-В данный момент наиболее удобное решение.  
-Загрузить *Eclipse for Java EE Developers*, эта сборка уже содержит GIT клиент, редакторы JSP и XML.
-
-Установить плагины:
+Currently one of the most handy platforms.
+Download *Eclipse for Java EE Developers*, as this build already includes GIT client as well as JSP and XML editors.
+Install the following plugins:
 [square]
-* *Buildship Gradle* - поддержка <<build, Gradle>>;
-* *AsciiDoctor* - правка <<documentation, документации>>;
-* *MoreUnit* - удобная работа с <<unit-test, тестами>>.
+* *Buildship Gradle* - <<build, Gradle>> support;
+* *AsciiDoctor* -  <<documentation, documentation>> editor;
+* *MoreUnit* - convenient plugin to work with <<unit-test, unit-tests>>.
 
-Вызвать правым кликом на проекте меню *Refresh Gradle Project*.
-Его же вызывать при любом изменении библиотек проекта.
+Right-click on the project and invoke *Refresh Gradle Project* menu item.
+Also use it every time you change any of the project's libraries.
 
-*Window - Preferences - General - Editors - Text Editors* установить галочку *Show whitespace characters*
+*Window - Preferences - General - Editors - Text Editors* - set a *Show whitespace characters* checkbox
 
-*Window - Preferences - Team - Git - History* снять галочку *Relative history*
+*Window - Preferences - Team - Git - History* remove  *Relative history* checkbox
 
-Импортировать <<format-java, форматер Java>> в *Window - Preferences - Java - Codestyle - Formatter*.
+Import <<format-java, Java formatter>> via *Window - Preferences - Java - Codestyle - Formatter*.
+
 
 === VS Code
-Более быстрая чем Eclipse, лучше поддержка JavaScript, Gradle. 
-Недостатки:
+A bit faster than Eclipse, has better JavaScript and Gradle support.
+
+Drawbacks:
 [square]
-* почти нет поддержки JSP;
+* JSP support is nearly absent;
 * external GIT client is required.
 
-Примеры настройки можно link:../../.vscode/readme.txt[посмотреть] в каталоге `.vscode` в корне проекта.
-Форматер Java и отображение пробельных символов там уже включены.
+Visit link:../../.vscode/readme.txt[open] and navigate to `.vscode` catalog in project's root in order to get some configuration examples.
+Jave formatter and space symbols indicators have been already enabled there.
+
 
 [[ide-run]]
 === Running in IDE
@@ -126,21 +130,21 @@ Configuration:
 * Main class: ru.bgerp.Server
 * Program arguments: start
 * VM arguments: -Dbgerp.setup.data=bgerp_test
-* Classpath: *User entries - Advanced - Add folders* нажать и добавить каталог текущего проекта.
+* Classpath: click on *User entries - Advanced - Add folders* and add project's current folder.
 
-Copy `bgerp.properties` to `bgerp_test.propertes`, replace *GENERATED_PASSWORD* on some random value, possible using `pwgen` or similar utility. 
+Copy `bgerp.properties` to `bgerp_test.propertes`, replace *GENERATED_PASSWORD* with some random value, possibly using `pwgen` or similar utility.
 
 ==== Database
-MySQL server may be running on any supporting platform, check <<kernel/install.adoc#mysql, configuration>> of it.
+MySQL server may be running on any supported platform, check <<kernel/install.adoc#mysql, configuration>> of it.
 
-For database creation use sequentially the files:
+For database creation use the following files sequentially:
 [square]
 * `db_create.sql`, `db_init.sql` from link:https://bgerp.org/download/3.0/bgerp.zip[bgerp.zip] - initial structure;
 * `bgerp.sql` from link:https://demo.bgerp.org/bgerp.sql[bgerp.sql] - data after running of <<integration-test, integration test>>.
 
-Replace *GENERATED_PASSWORD* in `db_create.sql` to the value from `bgerp_test.properties` but *surrounded by commas*.
+Replace *GENERATED_PASSWORD* in `db_create.sql` with the value from `bgerp_test.properties` but *surrounded by commas*.
 
-Execute mysql commands:
+Execute the following mysql commands:
 [source, bash]
 ----
 mysql --default-character-set=utf8 -uroot -p < db_create.sql
@@ -156,41 +160,42 @@ runOnStart+=,ru.bgcrm.util.distr.DevDbUpdater
 
 [[log4j]]
 ==== Logging
-By default the running in IDE application uses <<kernel/extension.adoc#log4j, logging configuration>> from `src/log4j.properties`.
-For ajusting it copy the file in the project root (will not be handled by GIT) and make needed changes.
+By default,  a running in IDE application uses <<kernel/extension.adoc#log4j, logging configuration>> from `src/log4j.properties`.
+In order to adjust it, copy the file to the project root (will not be handled by GIT) and make required changes.
 
 [[structure]]
-=== Файлы
-Перечень каталогов проекта с описанием.
+=== Files
+Project's folder listing along with decription.
 [square]
-* *bin* - скомпилированные IDE Java классы;
-* *build* - файлы, относящиеся к <<build, сборке>>;
-* *docpattern* - шаблоны плагина <<plugin/document/index.adoc#, Document>>;
-* *dyn* - <<kernel/extension.adoc#dyn, динамический код>> с примерами;
-* *dyn.ext* - в каталог можно смонтировать динамические классы на машине <<devm, клиента>>; 
-* *filestorage* - хранилище файлов при запуске в IDE;
-* *lib* - Java библиотеки, не подключенные через <<java-lib, Gradle>>;
-* *plugin* - объявления <<plugin, плагинов>>;
-* *src* - Java исходные коды;
-* *srcx* - исходные файлы <<documentation, документации>>, <<unit-test, Unit тестов>>, <<integration-test, интеграционного теста>>, утилит для сборки; 
-* *webapps* - корень <<js-lib, Web приложения>>;
-* *work* - каталог создаётся Tomcat для компиляции JSP файлов. 
+* *bin* - IDE-compiled Java classes;
+* *build* - files related to <build, build>>;
+* *docpattern* - <<plugin/document/index.adoc#, Document>> plugin templates ;
+* *dyn* - <<kernel/extension.adoc#dyn, dynamic code>>, with examples;
+* *dyn.ext* - this folder can be used to mount dynamic classes on <<devm, developer's system>>;
+* *filestorage* - file storage when launched from IDE;
+* *lib* - Java libraries, which are not linked via <<java-lib, Gradle>>;
+* *plugin* - <<plugin, plugin>> declarations;
+* *src* - Java source code;
+* *srcx* - <<documentation, documentation>>, <<unit-test, unit-tests>>, <<integration-test, integration tests>>, build utilities sources;
+* *webapps* -  <<js-lib, Web application>> root;
+* *work* - folder created by Tomcat for JSP file compilation.
+
 
 ==== Библиотеки
 [[java-lib]]
-===== Java  
+===== Java
 При link:../../build/bgerp/files/erp.sh[запуске] программы подключаются JAR файлы из следующих каталогов:
 [square]
 * *lib/app* - непосредственно <<build-erp, классы приложения>>;
 * *lib/ext* - сторонние библиотеки, необходимые для работы;
-* *lib/custom* - дополнительные библиотеки для <<kernel/extension.adoc#dyn, динамического кода>> и JEXL скриптов.  
+* *lib/custom* - дополнительные библиотеки для <<kernel/extension.adoc#dyn, динамического кода>> и JEXL скриптов.
 
-Сторонние библиотеки поставляются в отдельном <<build-update, пакете обновления>>. 
+Сторонние библиотеки поставляются в отдельном <<build-update, пакете обновления>>.
 Артефакты и версии указываются в файле link:../../build.gradle[build.gradle] для конфигурации *bgerp*.
 
 IMPORTANT: Для данной конфигурации не используются транзитивные зависимости, все необходимые версии библиотек должны быть явно указаны.
-Рекомендуемый подход - последовательное добавление минимального набора библиотек до получение работоспособного приложения. 
-Таким образом уменьшается размер пакета и упрощается сопровождение. 
+Рекомендуемый подход - последовательное добавление минимального набора библиотек до получение работоспособного приложения.
+Таким образом уменьшается размер пакета и упрощается сопровождение.
 
 Для IDE Eclipse для ускорения изначальной инициализации проекта по-умолчанию отключена загрузка исходных кодов и документации.
 [snippet, from="ec", to="}"]
@@ -211,11 +216,11 @@ link:../../webapps/lib/jquery-ui-1.12.1/jquery-ui.js#L8923-L8930[webapps/lib/jqu
 
 [[devm]]
 === Методика разработки для клиента
-BGERP запускается в IDE, с подключением к удалённой базе и биллингу (при необходимости). 
+BGERP запускается в IDE, с подключением к удалённой базе и биллингу (при необходимости).
 По окончании разработки удалённая база клиента наполнена актуальной конфигурацией и необходимо только обновить сам продукт.
 [square]
 * Подключаться к клиенту по SSH, пробрасывая соединение к БД и при необходимости к биллингу.
-Пример: *ssh user@X.X.X.X -L3307:127.0.0.1:3306 -L8081:Y.Y.Y.Y:8080* 
+Пример: *ssh user@X.X.X.X -L3307:127.0.0.1:3306 -L8081:Y.Y.Y.Y:8080*
 * Создать свой *bgerp_customer.properties* файл, в нём можно прописывать параметры доступа и конфигурацию. Он не сохранится в GIT.
 В нём же можно переопределить URL для подключения к биллингу на locahost.
 * Переопределить порт для BGERP, тогда можно будет сохранять в браузере пароли под конкретного клиента.
@@ -224,8 +229,8 @@ BGERP запускается в IDE, с подключением к удалён
 
 [[workflow]]
 == GIT Workflow
-В таблице описаны GIT ветки. 
-Для работы с ними используется link:https://docs.google.com/document/d/15NptRsx1qrdiWEew23EFz6gbxD6S12VQpnBQ6X9NbiQ/edit?usp=sharing[стандартный GIT Workflow], 
+В таблице описаны GIT ветки.
+Для работы с ними используется link:https://docs.google.com/document/d/15NptRsx1qrdiWEew23EFz6gbxD6S12VQpnBQ6X9NbiQ/edit?usp=sharing[стандартный GIT Workflow],
 сходный, например, с ядром Linux.
 Основная идея - мерджи производятся только "вниз": с основной ветки на вторичные для получения актуального состояния.
 На основную ветку всё переносится посредством патчей, поэтому она имеет линейную структуру.
@@ -263,7 +268,7 @@ BGERP запускается в IDE, с подключением к удалён
 [square]
 * Каждое *изменение* должно базироваться на процессе в BGERP BiTel, в котором происходит весь обмен информацией по нему.
 * *Идентификатор изменения* - строка *p<ID процесса>*, например *p13455*
-* Для каждого изменения создаётся отдельная ветка GIT на базе основной, название начинающееся с идентификатора изменения, разделители - дефисы. 
+* Для каждого изменения создаётся отдельная ветка GIT на базе основной, название начинающееся с идентификатора изменения, разделители - дефисы.
 Например: *p11788-link-filter-title*
 * В процессе разработки в ветке допускается любая стратегия коммитов: промежуточные коммиты, ответвления, откаты коммитов.
 Рекомендуется пушить промежуточные состояния, используя GIT репозитарий как резервную копию.
@@ -271,11 +276,11 @@ BGERP запускается в IDE, с подключением к удалён
 * Необходимые правки <<documentation, документации>> производятся одновременно с модификацией исходного кода.
 * Пакет тестового обновления для клиента, равно как и документацию, можно <<build-update, собирать и опубликовать>> из ветки.
 * Ветка должна добавлять файл *build/change.<ID процесса>.txt*, при его отсутствии он создаётся автоматически при <<build-update, сборке изменения>>.
-В файле на разных строках должны быть описаны новые функции, исправления и прочие изменения. 
-Формат идентичен с *changes.txt*, в который информация переносится автоматически при публикации <<build-erp, обновления>>. 
-* По завершению разработки и тестирования у клиента необходимо запросить *перенос* ветки с изменением на основную ветку, 
+В файле на разных строках должны быть описаны новые функции, исправления и прочие изменения.
+Формат идентичен с *changes.txt*, в который информация переносится автоматически при публикации <<build-erp, обновления>>.
+* По завершению разработки и тестирования у клиента необходимо запросить *перенос* ветки с изменением на основную ветку,
 для этого процесс BGERP перевести в статус *Приёмка*.
-* После проверки процесс закрывается, а изменение переносится в виде единственного коммита, 
+* После проверки процесс закрывается, а изменение переносится в виде единственного коммита,
 с комментарием начинающимся с идентификатора изменения в основную ветку.
 * Ветка разработки впоследствии может быть удалена. Автор изменения может быть установлен по идентификатору в комментарии.
 
@@ -302,7 +307,7 @@ BGERP запускается в IDE, с подключением к удалён
 	rebase = true
 ----
 
-NOTE: 
+NOTE:
 
 === Команды GIT
 Почистить все ссылки на несуществующие более удалённые ветки:
@@ -390,7 +395,7 @@ even without .adoc files. Something like the following:
 2020-05-25 12:17:39,911 ERROR Snippet [main] Snippet '../../webapps/WEB-INF/jspf/user/search/search.jsp' doesn't start from: '<div', line number: 1, content: <%@ page contentType="text/html; charset=UTF-8"%>
 2020-05-25 12:17:39,911 ERROR Snippet [main] Snippet '../../webapps/WEB-INF/jspf/user/search/search.jsp' doesn't end on: '/div>', line number: 134, content: <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 2
----- 
+----
 
 For such cases here is the *fixing algorithm*.
 First, find the failing line in `.adoc` file:
@@ -455,7 +460,7 @@ IMPORTANT: Избегать смешения слоёв: логики вне Jav
 
 [[cache]]
 ===== Cache
-Кэширование во внутренних Map и List используется для ускорения в сотни раз получения справочных значений при 
+Кэширование во внутренних Map и List используется для ускорения в сотни раз получения справочных значений при
 <<jsp, построении UI>>, либо <<kernel/extension.adoc#jexl-process-context, JEXL скриптах>>.
 Map объекты позволяют получать объекты по коду, List - упорядоченный по алфавиту список значений.
 Примеры кэшируемых объектов: пользователи, их группы, типы процессов, конфигурации.
@@ -490,11 +495,11 @@ link:../../src/ru/bgerp/plugin/blow/struts-config.xml#L4-L8[src/ru/bgerp/plugin/
 [[action-form]]
 ====== Form Object
 В каждый вызов акшена передаётся *супер объект form* javadoc:ru.bgcrm.struts.form.DynActionForm[], содержащий контекст выполнения:
-[square] 
+[square]
 * пользователь;
 * параметры запроса, вспомогательные методы для их разбора.
 
-CAUTION: Не использовать устаревший формат акшенов с параметрами HttpClientRequest и HttpClientResponse, они есть в form. 
+CAUTION: Не использовать устаревший формат акшенов с параметрами HttpClientRequest и HttpClientResponse, они есть в form.
 
 Фрагмент читающего акшен метода с форвардом.
 [snippet, from="pu", to="}", remove-leading="    "]
@@ -548,7 +553,7 @@ link:../../webapps/WEB-INF/struts-config.xml#L55-L58[webapps/WEB-INF/struts-conf
 Пример объявления акшенов плагина Blow: link:../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml]
 Действия из данных файлов образуют дерево, использующееся для <<kernel/setup.adoc#user, разграничения доступа>>.
 
-Каждое действия идентифицируется классом и методом, разделёнными точкой с запятой. 
+Каждое действия идентифицируется классом и методом, разделёнными точкой с запятой.
 Через точку с запятой перед основным идентификатором можно указать дополнительные, например, при переименовании классов либо методов.
 Это позволяет обеспечить обратную совместимость ранее записанных в БД привелегий. При следующем сохранении набора прав будет использован новый идентификатор.
 
@@ -560,12 +565,12 @@ link:../../src/ru/bgcrm/model/user/action.xml#L145-L146[ru/bgcrm/model/user/acti
 [[exception]]
 ===== Обработка ошибок
 Исключение прерывает выполнение акшена, прерывает тразакцию в <<db, БД>>, ответ отправляется всегда в JSON формате.
-Обработка исключений производится централизованно в javadoc:ru.bgcrm.struts.action.BaseAction[], методы DAO либо обработчики скриптов должны просто выбрасывать их все наружу. 
+Обработка исключений производится централизованно в javadoc:ru.bgcrm.struts.action.BaseAction[], методы DAO либо обработчики скриптов должны просто выбрасывать их все наружу.
 Соответственно в декларациях методов акшенов и DAO должно значиться *throws java.lang.Exception*.
 
 Класс javadoc:ru.bgcrm.model.BGException[] используется для исключений, генерируемых самой системой, в чистом виде нужен весьма редко.
 
-Его наследник класс javadoc:ru.bgcrm.model.BGMessageException[] используется для отправки <<l10n, локализованного>> 
+Его наследник класс javadoc:ru.bgcrm.model.BGMessageException[] используется для отправки <<l10n, локализованного>>
 уведомления пользователю, без записи сообщения в лог. Пример:
 
 [snippet, from="for (", to=");", remove-leading="            "]
@@ -573,12 +578,12 @@ link:../../src/ru/bgcrm/event/listener/ProcessClosingListener.java#L39-L41[ru.bg
 
 [[action-db]]
 ===== Работа с БД
-Работа с базой данных выполняется через отдельные Java DAO (Data Access Objects) классы. Непосредственно в акшенах используются уже они. 
+Работа с базой данных выполняется через отдельные Java DAO (Data Access Objects) классы. Непосредственно в акшенах используются уже они.
 Обработка запросов <<action, акшенами>> производится транзакционно: транзакция начинается перед вызовом метода, далее подверждается (COMMIT) при возврате
 результатов без ошибок либо отменяется (ROLLBACK) при выбросе исключения.
 
 Соединение с базой передаётся в параметрах *con* акшен методов. Также есть варианты методов с параметром *conSet* (javadoc:ru.bgcrm.util.sql.ConnectionSet[]), выдающим соединения по отдельному вызову.
-Данный способ подходит для методов не требующих соединения с БД, либо же наоборот, требующих несколько видов соединений: реплики или мусорной для некритичных данных БД (пока не поддержана).  
+Данный способ подходит для методов не требующих соединения с БД, либо же наоборот, требующих несколько видов соединений: реплики или мусорной для некритичных данных БД (пока не поддержана).
 
 Имена таблиц указываются в константах, для повышения связанности кода, например: javadoc:ru.bgcrm.dao.Tables[]
 Если таблица используется только в единственном DAO классе, то константу с её именем делать приватной: javadoc:ru.bgcrm.plugin.fulltext.dao.SearchDAO[]
@@ -620,8 +625,8 @@ Using semicolumn-separated JSP functions makes sence only for JSP specific thing
 
 [[jsp-function-uiid]]
 ====== Идентификация элементов
-В HTML DOM все идентификаторы элементов глобальные с использованием атрибутов `class` и `id`. Их довольно сложно отслеживать на предмет 
-используемости и уникальности, а кроме того приложение обязательно должно быть одностраничным, что мешает сохранять состояние на скрытых элементах. 
+В HTML DOM все идентификаторы элементов глобальные с использованием атрибутов `class` и `id`. Их довольно сложно отслеживать на предмет
+используемости и уникальности, а кроме того приложение обязательно должно быть одностраничным, что мешает сохранять состояние на скрытых элементах.
 Для обхода этого неудобства в проекте используется привязка JS обработчиков через HTML атрибуты onClick и т.п., с применением конекстной переменной `this`.
 Либо генерируется уникальный идентификатор с помощью JSP функции `u:uiid()`, который также подставляется в сгенерированный вызов JS.
 
@@ -632,10 +637,10 @@ Using semicolumn-separated JSP functions makes sence only for JSP specific thing
 
 image::_res/ide_jsp_tag.png[width='600px']
 
-Обзор использования тегов с элементами управления пользователя вы можете посмотреть в файле link:../../webapps/test.jsp[webapps/test.jsp], 
+Обзор использования тегов с элементами управления пользователя вы можете посмотреть в файле link:../../webapps/test.jsp[webapps/test.jsp],
 для выполнения шаблона наберите в браузере http://<host>:<port>/test.jsp, для Demo системы: http://demo.bgerp.ru/test.jsp
 
-Пункты меню, устанавливающие соответствие между URL оснастки и Java Action определяются для ядра в файле 
+Пункты меню, устанавливающие соответствие между URL оснастки и Java Action определяются для ядра в файле
 link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp], для плагинов - через точку <<plugin-xml-ui-menu, расширения>>.
 
 [[jsp-tag-u-sc]]
@@ -666,7 +671,7 @@ JS используется для обеспечения динамическо
 
 Функции системы разбиты по объектам, выстроенных в иерархию от корневого объекта *+++$$+++*.
 Например: link:../../webapps/js/kernel.ajax.js[+++$$+++.ajax], link:../../webapps/js/kernel.ui.js[$$.ui]
-Обычная схема привязки JS кода к HTML: установка обработчиков событий с вызовом функций, <<sample-jsp-ui, пример AJAX>>. 
+Обычная схема привязки JS кода к HTML: установка обработчиков событий с вызовом функций, <<sample-jsp-ui, пример AJAX>>.
 
 Устаревшие JS функции помечаются следующим образом:
 [snippet, from="fun", to="}"]
@@ -715,7 +720,7 @@ link:../../src/ru/bgcrm/plugin/fulltext/db.sql[src/ru/bgcrm/plugin/fulltext/db.s
 Необязательный файл `plugin.xml`, располагающийся в *PLUGIN_PACKAGE*
 
 В файле определяются точки расширения:
-[square] 
+[square]
 * JSP шаблоны;
 * JS файлы.
 
@@ -752,18 +757,18 @@ JSP шаблоны - `webapps/WEB-INF/jspf/user|open|usermob/plugin/иденти
 Одним из изначальных приоритетов системы была расширяемость и гибкость.
 Поэтому стандартный функционал может быть <<kernel/extension.adoc#tech-choice, расширен>> несколькими способами.
 
-Следует однако понимать, что наиболее эффективный путь разработки и долгосрочной поддержки функциональности 
+Следует однако понимать, что наиболее эффективный путь разработки и долгосрочной поддержки функциональности
 - реализация в виде штатного плагина либо части ядра, с вынесением необходимого минимума параметров в конфигурацию.
 JEXL скрипты либо динамический код могут быть использованы для быстрого прототипирования,
 либо реализации *исключительно специфичной для данной инсталляции* логики.
 
-Практика показывает, что из всего набора кастомизированных попыток постепенно 
+Практика показывает, что из всего набора кастомизированных попыток постепенно
 выявляются удачные решения, которые подходят значительному числу пользователей.
 Такие необходимо переносить в основной код, делая частью системы и совместно развивая её дальше.
 
 Следующая диаграмма визуально отображает данную динамику трансформации совокупной массы программного кода разных типов.
 Объём кода учитывается для всех клиентов, бОльший объём из разрозненных *решений* преобразуется в меньший объём более универсального кода единого *продукта*.
- 
+
 [ditaa]
 ----
 +--------------+   +--------------+  +-----------------------+
@@ -835,7 +840,7 @@ $('#loginForm').dialog({
 link:../../src/ru/bgcrm/struts/action/MessageAction.java#L227-L227[ru.bgcrm.struts.action.MessageAction]
 
 Localized key string may contain placeholders for some values, marked as *%s*.
-Such case may be seen for <<exception, BGMessageException sample>>. 
+Such case may be seen for <<exception, BGMessageException sample>>.
 
 ==== Development
 All the new code has to be written using localized strings.
@@ -926,7 +931,7 @@ link:../../src/ru/bgcrm/struts/action/MessageAction.java#L264-L276[ru.bgcrm.stru
 link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L52-L56[ru.bgcrm.struts.action.ProcessLinkAction]
 
 === Отображение на вкладке количества элементов
-Например, количества связанных процессов. Сохраняется при первом вызове. 
+Например, количества связанных процессов. Сохраняется при первом вызове.
 Используется класс javadoc:ru.bgcrm.model.IfaceState[]
 
 Обновление значения:
@@ -946,7 +951,7 @@ link:../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L81-L95[
 * *ymdhm* - год, месяц, день, час, минута;
 * *ymdhms* - год, месяц, день, час, минута, секунда.
 
-В Java коде для форматирования дат используется класс javadoc:ru.bgcrm.util.TimeUtils[], 
+В Java коде для форматирования дат используется класс javadoc:ru.bgcrm.util.TimeUtils[],
 в нём же есть константы с форматами.
 
 The same functions may be used in <<jsp, JSP>> using `tu` prefix:
@@ -1002,7 +1007,7 @@ link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L211-L213[ru.bgcrm.
 Простой справочник с промотчиком страниц, вызов редактора AJAX: link:../../webapps/WEB-INF/jspf/admin/process/status/list.jsp[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
 
 [[sample-jsp-ui-ajax]]
-Отправка AJAX для сохранения, выхода, либо восстановления данных в <<kernel/process/index.adoc#type, редакторе свойств типа процесса>>: 
+Отправка AJAX для сохранения, выхода, либо восстановления данных в <<kernel/process/index.adoc#type, редакторе свойств типа процесса>>:
 [snippet, from="<div", to="/div>"]
 link:../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L191-L196[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
 
@@ -1052,8 +1057,8 @@ Build and publish on https://bgerp.org/update update package with a <<workflow, 
 
 [IMPORTANT]
 ====
-Public SSH key or the developer might be added for *update@bgerp.org*.
-Before you publish a change update, make sure, that `ssh update@bgerp.org` session works by you.
+Public SSH key or the developer might be added for *bgerp-cdn@pzdc.de*.
+Before you publish a change update, make sure that `ssh bgerp-cdn@pzdc.de` sessions work for you.
 ====
 
 Clean before publish:
@@ -1087,21 +1092,27 @@ bash -c "./gradlew clean buildClean buildUpdate buildDoc publishUpdate"
 ----
 
 All the updates packages are copies to Web directory: `https://bgerp.org/update/PROCESS_ID`
-The <<change-file, change file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc` 
+The <<change-file, change file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc`
 are automatically replaced to the `https://bgerp.org/update/PROCESS_ID/doc`.
 
 Пользователи имеют возможность <<kernel/install.adoc#installer, установить>> пакет с помощью команды *install*,
 сообщить о выявленных недочётах и откатиться на предыдущую версию командой *update* в случае невозможности работать с ними далее.
-Возможна многократная публикация до выявления всех недочётов, после чего именение <<workflow, переносится>> 
+Возможна многократная публикация до выявления всех недочётов, после чего именение <<workflow, переносится>>
 в основную ветку и <<build-erp, публикуется>> очередное обновление.
 
 [[build-erp]]
 === Release
 CAUTION: Check <<unit-test, Unit tests>> running.
 
+[IMPORTANT]
+====
+Public SSH key or the developer might be added for *bgerp-cdn@pzdc.de* and *www@bgerp.org*.
+Before you publish a change update, make sure that `ssh bgerp-cdn@pzdc.de` and `ssh www@bgerp.org` sessions work for you.
+====
+
 Сборка производится с *master* ветки и может включать несколько изменений, <<workflow, перенесённых>> на неё.
 
-IMPORTANT: Для каждого переноса делать отдельный GIT push, для корректной <<publish-source, публикации>> в открытом репозитарии. 
+IMPORTANT: Для каждого переноса делать отдельный GIT push, для корректной <<publish-source, публикации>> в открытом репозитарии.
 
 В зависимости от наличия в обновлении <<java-lib, сторонних библиотек>> выполнить команды:
 [source, bash]
@@ -1146,7 +1157,7 @@ docker push bgerp/bgerp
 
 [[unit-test]]
 === Unit тесты
-Используется фреймворк JUnit, каталог `srcx/test`. 
+Используется фреймворк JUnit, каталог `srcx/test`.
 Проверка отдельных алгоритмов, тесты не зависят друг от друга, не работают с БД.
 
 Запуск локально командой:
@@ -1193,7 +1204,7 @@ GRADLE_OPTS=-Xmx1000m ./gradlew -Ptest.single='ru.bgerp.itest.SeleniumTest' -Pwe
 === GitLab CI
 В файле link:../../.gitlab-ci.yml[.gitlab-ci.yml] настроен автоматический запуск задач на каждый коммит в GIT.
 Различные задачи выполняются в разных ветках <<workflow, Workflow>>.
-Ниже описание CI задач. 
+Ниже описание CI задач.
 
 [[test-unit-and-doc]]
 ==== test-unit-and-doc
@@ -1210,4 +1221,4 @@ GRADLE_OPTS=-Xmx1000m ./gradlew -Ptest.single='ru.bgerp.itest.SeleniumTest' -Pwe
 [[publish-source]]
 ==== publish-source
 Публикует актуальные исходные коды из `master` в открытый репозитарий https://github.com/pingvin235/bgerp
-Данный способ выбран для уменьшения размера открытого репозитария и сокрытия удалённых ранее файлов из истории. 
+Данный способ выбран для уменьшения размера открытого репозитария и сокрытия удалённых ранее файлов из истории.

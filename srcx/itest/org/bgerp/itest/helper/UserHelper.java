@@ -12,6 +12,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
 
 public class UserHelper {
+    public static final String GROUP_CONFIG_ISOLATION = "\nisolation.process=group\n";
 
     public static int addGroup(String title, int parentId) throws Exception {
         var con = DbTest.conRoot;
@@ -19,7 +20,7 @@ public class UserHelper {
         Group group = new Group();
         group.setTitle(title);
         group.setComment("");
-        group.setConfig("");
+        group.setConfig(GROUP_CONFIG_ISOLATION);
         group.setParentId(parentId);
         new UserGroupDAO(con).updateGroup(group);
 

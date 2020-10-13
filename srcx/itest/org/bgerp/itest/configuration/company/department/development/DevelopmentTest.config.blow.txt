@@ -1,0 +1,102 @@
+blow:board.1.title=BGERP Work
+blow:board.1.queueId=4
+blow:board.1.stringExpressionCell=<<END
+     result = "";
+
+     // no group BGERP - internal
+     if (2 !~ process.getGroupIds()) {
+         result += "I: ";  
+     }
+
+     if (process.getTypeId() == 15) {
+          result += "G: ";
+     } else if (process.getTypeId() == 14) {
+          result += "P: ";
+     }
+ 
+     result += process.getDescription() + " [<b>" + ctxProcessStatusMap[process.getStatusId()];
+     if (process.getProcessExecutorsWithRole(0).size() > 0) {
+        result += " " + params.get("col9");
+     } 
+     result += "</b>]";
+     
+     /*forumId = params.get("col5");
+     if (forumId) 
+          result += " <a target='_blank' href='https://forum.bitel.ru/viewtopic.php?t=" + forumId + "'>" + forumId + "</a>";*/
+     
+     telegramGroup = params.get("col6");
+     if (telegramGroup)
+          result += " <a target='_blank' href='" + telegramGroup + "'>@TLG</a>";
+     
+     msgCnt = params.get("col7");
+     if (msgCnt) {
+         result += " " + msgCnt;
+         unreadCnt = params.get("col8");
+         if (unreadCnt)
+            result += " (<b>" + unreadCnt + "</b>)";
+     }
+
+     tags = params.get("col10");
+     if (tags) {
+          result += " {" + tags + "}";
+     }
+     
+     return result;
+END
+blow:board.1.openUrl=bgerp
+
+cnt=0
+
+blow:board.1.filter.{@inc:cnt}.stringExpression=<<END
+     return "All: <b>[" + items.size() + "]</b>";
+END
+     
+blow:board.1.filter.{@inc:cnt}.color=#ff9900
+blow:board.1.filter.{@cnt}.stringExpression=<<END
+     count = 0;
+     for (item : items) {
+           tags = item.getParams().get("col10");
+           if (tags && tags.contains("Beginners")) {
+               count += 1;
+               item.addFilterId(filter.getId());      
+          }
+     }
+    return "For beginners: <b>[" + count + "]</b>";
+END
+
+blow:board.1.filter.{@inc:cnt}.color=#31bc79
+blow:board.1.filter.{@cnt}.stringExpression=<<END
+     count = 0;
+     for (item : items) {
+          if (item.getProcess().getStatusId() =~ [8]) {
+               count += 1;
+               item.addFilterId(filter.getId());
+          }
+     }
+    return "Work: <b>[" + count + "]</b>";
+END
+
+blow:board.1.filter.{@inc:cnt}.color=#67c7db
+blow:board.1.filter.{@cnt}.stringExpression=<<END
+     count = 0;
+     for (item : items) {
+          if (item.getProcess().getStatusId() =~ [7]) {
+               count += 1;
+               item.addFilterId(filter.getId());      
+          }
+     }
+    return "Test: <b>[" + count + "]</b>";
+END
+
+blow:board.1.filter.{@inc:cnt}.color=#b2b02a
+blow:board.1.filter.{@cnt}.stringExpression=<<END
+    count = 0;    
+    for (item : items) {
+          // order = item.params.get("col6");
+          if (item.getProcess().getStatusId() =~ [9]) {
+               count += 1;
+               item.addFilterId(filter.getId());      
+          }
+     }
+     return "Accepting: <b>[" + count + "]</b>";
+END

@@ -6,8 +6,10 @@ import org.testng.annotations.Test;
 
 @Test(groups = "blow", priority = 100, dependsOnGroups = "config")
 public class BlowTest {
+    public static volatile int configId;
+
     @Test
     public void initConfig() throws Exception {
-        ConfigHelper.addIncludedConfig("Plugin Blow", ResourceHelper.getResource(this, "config.txt"));
+        configId = ConfigHelper.addIncludedConfig("Plugin Blow", ResourceHelper.getResource(this, "config.txt"));
     }
 }

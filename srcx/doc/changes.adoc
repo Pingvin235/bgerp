@@ -8,6 +8,7 @@ The log is done it the date reverse order.
 
 == Change log
 [square]
+* <<project.adoc#build-erp, 12.10.2020>> Publish on bgerp-cdn@pzdc.de. 
 * <<project.adoc#mvc, 09.10.2020>> Web MVC implementation. 
 * <<project.adoc#jsp, 06.10.2020>> Many changes regarding JSP development. 
 * <<project.adoc#log4j, 17.07.2020>> Logging for running in IDE.

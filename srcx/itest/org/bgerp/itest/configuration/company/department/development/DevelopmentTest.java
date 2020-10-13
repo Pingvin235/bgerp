@@ -22,15 +22,17 @@ import ru.bgcrm.model.user.UserGroup;
 
 @Test(groups = "depDev", dependsOnGroups = { "user", "configProcessNotification", "process", "blow", "param" })
 public class DevelopmentTest {
-    private int groupId;
+    public static volatile int groupId;
 
     public static volatile int processTypeProductId;
     public static volatile int processTypeSupportId;
-    public static volatile int processTypePluginId;
+    // public static volatile int processTypePluginId;
     public static volatile int processTypeTaskId;
 
     private int queueTasksId;
-    private int queuePlanId;
+    // private int queuePlanId;
+
+    public static volatile int userLeninId;
     
     @Test
     public void addGroups() throws Exception {
@@ -51,7 +53,7 @@ public class DevelopmentTest {
 
         processTypeProductId = ProcessHelper.addType("BGERP", 0, false, props);
         processTypeSupportId = ProcessHelper.addType("Support", processTypeProductId, true, null);
-        processTypePluginId = ProcessHelper.addType("Plugin", processTypeProductId, true, null);
+        // processTypePluginId = ProcessHelper.addType("Plugin", processTypeProductId, true, null);
         processTypeTaskId = ProcessHelper.addType("Task", processTypeProductId, true, null);
 
         /* deadline, next appointment */
@@ -59,16 +61,26 @@ public class DevelopmentTest {
 
     @Test (dependsOnMethods = "addTypes")
     public void addQueues() throws Exception {
-        queueTasksId = ProcessHelper.addQueue("Tasks", ResourceHelper.getResource(this, "queue.tasks.txt"), Sets.newHashSet(queueTasksId));
+        queueTasksId = ProcessHelper.addQueue("BGERP / Dev", ResourceHelper.getResource(this, "queue.tasks.txt"), Sets.newHashSet(processTypeTaskId));
         UserHelper.addGroupQueues(groupId, Sets.newHashSet(queueTasksId));
-        queuePlanId = ProcessHelper.addQueue("Plan", ResourceHelper.getResource(this, "queue.plan.txt"), Sets.newHashSet(queuePlanId));
-        UserHelper.addGroupQueues(groupId, Sets.newHashSet(queuePlanId));
+        /* queuePlanId = ProcessHelper.addQueue("BGERP / Plan", ResourceHelper.getResource(this, "queue.plan.txt"), Sets.newHashSet(queuePlanId));
+        UserHelper.addGroupQueues(groupId, Sets.newHashSet(queuePlanId)); */
     }
 
     @Test (dependsOnMethods = "addGroups")
     public void addUsers() throws Exception {
         // make from the date of entrance in party
-        UserHelper.addUser("Vladimir Lenin", "vladimir", Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
+        userLeninId = UserHelper.addUser("Vladimir Lenin", "vladimir", Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
         UserHelper.addUser("Leon Trotsky", "leon", Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
+    }
+
+    @Test (dependsOnMethods = "addUsers")
+    public void addTypeConfig() throws Exception {
+        // TODO: Configuration to assign Lenin on changing status.
+    }
+
+    @Test (dependsOnMethods = "addQueues")
+    public void addBlowBoard() throws Exception {
+        //f
     }
 }
