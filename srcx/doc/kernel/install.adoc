@@ -169,7 +169,7 @@ systemctl enable bgerp
 
 [[demo]]
 == Demo system
-The Demo system is running on https://demo.bgerp.org with the latest published builds of software and resets to initial state any 3rd hour.
+The link:https://bgerp.org/#demo[Demo system] is running on https://demo.bgerp.org with the latest published builds of software and resets to initial state any 3rd hour.
 
 [[update]]
 == Обновление
