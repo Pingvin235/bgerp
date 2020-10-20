@@ -75,6 +75,7 @@ public class ProcessHelper {
         dao.updateQueue(queue, User.USER_SYSTEM_ID);
     }
 
+    // TODO: Creation time is always current.
     public static Process addProcess(int typeId, int createUserId, String description) throws Exception {
         var con = DbTest.conRoot;
 

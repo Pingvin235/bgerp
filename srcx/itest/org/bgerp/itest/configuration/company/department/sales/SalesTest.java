@@ -114,16 +114,16 @@ public class SalesTest {
         var m = new Message()
             .setTypeId(messageTypeEmail.getId()).setDirection(Message.DIRECTION_INCOMING).setProcessId(process.getId())
             .setFrom("till.gates@corp.com").setTo(messageTypeEmail.getEmail())
-            .setFromTime(TimeUtils.getDateWithOffset(-10))
+            .setFromTime(TimeUtils.getDateWithOffset(-10)).setToTime(TimeUtils.getDateWithOffset(-9))
             .setSubject("BGERP order").setText(ResourceHelper.getResource(this, "process.1.message.1.txt"));
         m.addAttach(FileHelper.addFile(new File("srcx/doc/_res/image.png")));
         messageDao.updateMessage(m);
 
         // comment for developers from sales
-        m = new Message()
+        /* m = new Message()
             .setTypeId(messageTypeNote.getId()).setDirection(Message.DIRECTION_INCOMING).setProcessId(process.getId())
             .
-
+        */
         // var processDao = new ProcessDAO(DbTest.conRoot, new User(userLeninId));
         // var process = processDao.getProcess(processId);
 

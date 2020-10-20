@@ -41,7 +41,7 @@ public class SupportTest {
         // TODO: Saved filters and counters.
     }
 
-    @Test (dependsOnGroups = "addUsers")
+    @Test (dependsOnMethods = "addUsers")
     public void addProcesses() throws Exception {
         // TODO: Cases
         // 1) Send documentation link.
