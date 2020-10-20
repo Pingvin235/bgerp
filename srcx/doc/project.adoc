@@ -181,57 +181,59 @@ Project's folder listing along with decription.
 * *work* - folder created by Tomcat for JSP file compilation.
 
 
-==== Библиотеки
+==== Libraries
 [[java-lib]]
 ===== Java
-При link:../../build/bgerp/files/erp.sh[запуске] программы подключаются JAR файлы из следующих каталогов:
+When link:../../build/bgerp/files/erp.sh[running] a program, a number of JAR files are linked from the following folders:
 [square]
-* *lib/app* - непосредственно <<build-erp, классы приложения>>;
-* *lib/ext* - сторонние библиотеки, необходимые для работы;
-* *lib/custom* - дополнительные библиотеки для <<kernel/extension.adoc#dyn, динамического кода>> и JEXL скриптов.
+* *lib/app* - <<build-erp, application classes>>;
+* *lib/ext* - external libraries;
+* *lib/custom* - additional libraries required for <<kernel/extension.adoc#dyn, dynamic code>> and JEXL scripts.
 
-Сторонние библиотеки поставляются в отдельном <<build-update, пакете обновления>>.
-Артефакты и версии указываются в файле link:../../build.gradle[build.gradle] для конфигурации *bgerp*.
+External libraries are supplied with a separate <<build-update, build update>>.
+Artifacts and versions are indicated in the following file: link:../../build.gradle[build.gradle] (for *bgerp* configuration)
 
-IMPORTANT: Для данной конфигурации не используются транзитивные зависимости, все необходимые версии библиотек должны быть явно указаны.
-Рекомендуемый подход - последовательное добавление минимального набора библиотек до получение работоспособного приложения.
-Таким образом уменьшается размер пакета и упрощается сопровождение.
+IMPORTANT: This configuration does NOT use transitive dependencies  - all required libraries and versions have to be explicitly defined.
+We would suggest to gradually add a small set of libraries until getting a "workable" application - this will allow to decrease build's size and simplify further support and troubleshooting.
 
-Для IDE Eclipse для ускорения изначальной инициализации проекта по-умолчанию отключена загрузка исходных кодов и документации.
+In order to speed up project initialization, our default Eclipse IDE configuration does not load source code and documentation.
 [snippet, from="ec", to="}"]
 link:../../build.gradle#L18-L24[build.gradle]
 
 [[js-lib]]
 ===== JS
-JS библиотеки располагаются в следующих каталогах:
+JS libraries are located in the following folders:
 [square]
-* `webapps/js` - располагаются JS файлы самого приложения: ядра и <<plugin, плагинов>>;
-* `webapps/lib` - сторонние библиотеки.
+* `webapps/js` - application's JS files: kernel's and <<plugin, plugins'>>;
+* `webapps/lib` - external libraries.
 
-Для упрощения отладки используются не минифицированные версии библиотек.
+Non-minified libraries are used in order to simplify debugging.
 
-Некоторые сторонние библиотеки пропатчены, все изменения сопровождены комментариями, пример:
+Some of the external libraries have been patched and all changes are accompanied by relevant comments, for example:
 [snippet, from="con", to=");", remove-leading="		"]
 link:../../webapps/lib/jquery-ui-1.12.1/jquery-ui.js#L8923-L8930[webapps/lib/jquery-ui-1.12.1/jquery-ui.js]
 
 [[devm]]
-=== Методика разработки для клиента
-BGERP запускается в IDE, с подключением к удалённой базе и биллингу (при необходимости).
-По окончании разработки удалённая база клиента наполнена актуальной конфигурацией и необходимо только обновить сам продукт.
+=== Client's development methodology
+
+BGERP launches within IDE, gets connected to the database and, optinally, billing.
+At the end of the development/work session remote client database will have all the actual information, so it is only required to update the product itself.
+
 [square]
-* Подключаться к клиенту по SSH, пробрасывая соединение к БД и при необходимости к биллингу.
-Пример: *ssh user@X.X.X.X -L3307:127.0.0.1:3306 -L8081:Y.Y.Y.Y:8080*
-* Создать свой *bgerp_customer.properties* файл, в нём можно прописывать параметры доступа и конфигурацию. Он не сохранится в GIT.
-В нём же можно переопределить URL для подключения к биллингу на locahost.
-* Переопределить порт для BGERP, тогда можно будет сохранять в браузере пароли под конкретного клиента.
-* Создать конфигурацию запуска в IDE с данным properties.
-* Можно поправить *.gitignore* для сохранения custom файлов клиента, если работа происходит в форке.
+* Use SSH to connect to the client, utilize port-forwarding in order to connect to the database and, optionally, billing.
+Example: *ssh user@X.X.X.X -L3307:127.0.0.1:3306 -L8081:Y.Y.Y.Y:8080*
+* Create your own *bgerp_customer.properties* file - you can use it to keep your configuration and access parameters. This fill does not get pushed to GIT.
+You can also use this file to alter billing connection URL - for example, to a localhost.
+* Reconfigure BGERP port so you could save passwords in your browser for specific client(s).
+* Create IDE launch configuration using this properties file
+* Optionally, alter *.gitignore* in order to save custom client's files in case you are using fork.
+
 
 [[workflow]]
 == GIT Workflow
-В таблице описаны GIT ветки.
-Для работы с ними используется link:https://docs.google.com/document/d/15NptRsx1qrdiWEew23EFz6gbxD6S12VQpnBQ6X9NbiQ/edit?usp=sharing[стандартный GIT Workflow],
-сходный, например, с ядром Linux.
+Table below describes GIT branches - link:https://docs.google.com/document/d/15NptRsx1qrdiWEew23EFz6gbxD6S12VQpnBQ6X9NbiQ/edit?usp=sharing[standard GIT Workflow] is used here.
+Same workflow is used, for example, for Linux kernel development.
+
 Основная идея - мерджи производятся только "вниз": с основной ветки на вторичные для получения актуального состояния.
 На основную ветку всё переносится посредством патчей, поэтому она имеет линейную структуру.
 Вторичные ветки впоследствии могут быть удалены, поскольку вся агрегированная информация из них содержится в основной.
@@ -842,6 +844,7 @@ link:../../src/ru/bgcrm/struts/action/MessageAction.java#L227-L227[ru.bgcrm.stru
 Localized key string may contain placeholders for some values, marked as *%s*.
 Such case may be seen for <<exception, BGMessageException sample>>.
 
+[[l10n-dev]]
 ==== Development
 All the new code has to be written using localized strings.
 For legacy code recommended during other changes replace static strings to localized.
@@ -849,7 +852,12 @@ For legacy code recommended during other changes replace static strings to local
 For figuring out missing keys add in <<log4j, logging configuration>>:
 [source]
 ----
-log4j.logger.ru.bgerp.l10n.Localizer=DEBUG, stdout
+log4j.appender.l10n=org.apache.log4j.ConsoleAppender
+log4j.appender.l10n.Target=System.out
+log4j.appender.l10n.layout=org.apache.log4j.PatternLayout
+log4j.appender.l10n.layout.ConversionPattern=%d{MM-dd/HH:mm:ss} %5p [%t] %c{1} - %m%n
+
+log4j.logger.ru.bgerp.l10n.Localizer=DEBUG, l10n
 log4j.additivity.ru.bgerp.l10n.Localizer=false
 ----
 
