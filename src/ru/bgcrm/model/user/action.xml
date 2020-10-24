@@ -267,6 +267,7 @@
 			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Создание/редактирование сообщения"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:processMessageList" title="Просмотр списка сообщений процесса"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageDelete" title="Удаление сообщения"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes" title="Редактирование/удаление чужих сообщений"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList" title="Просмотр возможно связанных с сообщением процессов"/>
 
 			<item title="Сообщения (телефония)">

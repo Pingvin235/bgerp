@@ -22,15 +22,16 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import ru.bgcrm.cache.ProcessTypeCache;
+import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.cache.UserNewsCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.message.MessageDAO;
@@ -245,12 +246,23 @@ public class MessageAction extends BaseAction {
             MessageType type = config.getTypeMap().get(typeId);
             if (type == null)
                 throw new BGException("Не найден тип сообщения.");
-            
+
             List<String> systemIds = typeSystemIds.get(type);
             if (systemIds == null)
                 typeSystemIds.put(type, systemIds = new ArrayList<>(10));
             
             systemIds.add(StringUtils.substringAfter(pair, "-"));
+        }
+        
+        // если нет разрешения на удаления чужих, проверим, чтобы все сообщения принадлежали ему.
+        if (UserCache.getPerm(form.getUserId(), "ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes") == null) {
+            MessageDAO messageDao = new MessageDAO(conSet.getConnection());
+            for (Integer sysId : typeSystemIds.values().stream().flatMap(List::stream).map(Utils::parseInt).collect(Collectors.toSet())) {
+                Message message = messageDao.getMessageById(sysId);
+                if (message != null && message.getUserId() != form.getUserId()) {
+                    throw new BGMessageException("Удаление чужих сообщений запрещено!");
+                }
+            }
         }
         
         for (Map.Entry<MessageType, List<String>> me : typeSystemIds.entrySet())
@@ -279,6 +291,12 @@ public class MessageAction extends BaseAction {
         if (form.getId() > 0)
             message = new MessageDAO(conSet.getConnection()).getMessageById(form.getId());
 
+        if (message.getId() > 0 && message.getUserId() != form.getUserId()) {
+            if (UserCache.getPerm(form.getUserId(), "ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes") == null) {
+                throw new BGMessageException("Редактирование чужих сообщений запрещено!");
+            }
+        }
+        
         message.setId(form.getId());
         message.setUserId(form.getUserId());
         message.setTypeId(type.getId());

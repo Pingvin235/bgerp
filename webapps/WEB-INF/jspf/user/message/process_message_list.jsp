@@ -276,35 +276,39 @@
 										return false;">Ответить</a></li>
 								</c:if>
 							
-								<c:if test="${messageType.isEditable(message)}">
-									<c:url var="editUrl" value="/user/message.do">
-										<c:param name="forward" value="processMessageEdit"/>
-										<c:param name="id" value="${message.id}"/>
-										<c:param name="processId" value="${message.processId}"/>
-										<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
-										<c:param name="returnUrl" value="${form.requestUrl}"/>
-									</c:url>
-
-									<li><a href="#UNDEF" onclick="if (bgcrm.lock.add('${message.lockEdit}')) {
-											$$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
-										};
-										return false;">Редактировать</a></li>
+								<c:set var="perm" value="${p:get(form.user.id, 'ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes')}" />
+								<c:if test="${form.user.id == message.userId or perm ne null}">
+									<c:if test="${messageType.isEditable(message)}">
+										<c:url var="editUrl" value="/user/message.do">
+											<c:param name="forward" value="processMessageEdit"/>
+											<c:param name="id" value="${message.id}"/>
+											<c:param name="processId" value="${message.processId}"/>
+											<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
+											<c:param name="returnUrl" value="${form.requestUrl}"/>
+										</c:url>
+	
+										<li><a href="#UNDEF" onclick="if (bgcrm.lock.add('${message.lockEdit}')) {
+												$$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
+											};
+											return false;">Редактировать</a></li>
+									</c:if>
+	
+									<c:if test="${messageType.isRemovable(message)}">
+										<c:url var="deleteUrl" value="/user/message.do">
+											<c:param name="action" value="messageDelete"/>
+											<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
+										</c:url>
+	
+										<li><a href="#UNDEF" onclick="
+											if (confirm('${l.l('Удалить сообщение?')}'))
+												$$.ajax.post('${deleteUrl}').done(() => {
+													$$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent());
+												});
+											return false;
+											">${l.l('Удалить')}</a></li>
+									</c:if>
 								</c:if>
-
-								<c:if test="${messageType.isRemovable(message)}">
-									<c:url var="deleteUrl" value="/user/message.do">
-										<c:param name="action" value="messageDelete"/>
-										<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
-									</c:url>
-
-									<li><a href="#UNDEF" onclick="
-										if (confirm('${l.l('Удалить сообщение?')}'))
-											$$.ajax.post('${deleteUrl}').done(() => {
-												$$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent());
-											});
-										return false;
-										">${l.l('Удалить')}</a></li>
-								</c:if>
+								
 							</ui:when>
 						</ul>
 					</div>
