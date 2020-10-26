@@ -6,15 +6,15 @@
 	<html:hidden property="addressCountryId"/>
 	<table style="width: 100%;" class="data">
 		<tr>
-			<td width="100">Параметр</td>
+			<td width="100">${l.l('Параметр')}</td>
 			<td>Значение</td>
 		</tr>
 		<tr>
-			<td>ID</td>
+			<td>${l.l('ID')}</td>
 			<td>${form.param['addressCountryId']}</td>
 		</tr>
 		<tr>
-			<td>Название</td>
+			<td>${l.l('Название')}</td>
 			<td><html:text property="title" style="width: 100%"/></td>
 		</tr>
 		<%-- вроде нигде не используется
@@ -27,4 +27,4 @@
 	</table>
 </html:form>
 
-<shell:state ltext="Редактирование страны" help="kernel/setup.html#address"/>
+<shell:state ltext="${l.l('Редактирование страны')}" help="kernel/setup.html#address"/>

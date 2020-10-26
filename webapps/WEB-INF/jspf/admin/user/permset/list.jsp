@@ -24,7 +24,7 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
-		<td width="30%">Наименование</td>
+		<td width="30%">${l.l('Наименование')}</td>
 		<td width="70%">Комментарий</td>
 	</tr>
 	<c:forEach var="permset" items="${form.response.data.list}">

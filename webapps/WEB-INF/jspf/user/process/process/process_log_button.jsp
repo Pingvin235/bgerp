@@ -8,4 +8,4 @@
 	<c:param name="returnUrl" value="${requestUrl}"></c:param>
 </c:url>
 					
-<input type="button" onclick="openUrlToParent( '${entityLogUrl}', $('#${tableId}') );" value="Лог изменений"/>
+<input type="button" onclick="openUrlToParent( '${entityLogUrl}', $('#${tableId}') );" value="${l.l('Лог изменений')}"/>

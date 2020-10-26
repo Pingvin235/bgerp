@@ -15,7 +15,7 @@
 				
 	<input type="hidden" name="action" value="messageList"/>
 	    
-    <button class="btn-grey" type="button" onclick="${showCode}">Вывести</button>
+    <button class="btn-grey" type="button" onclick="${showCode}">${l.l('Вывести')}</button>
     
     <%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -24,11 +24,11 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
-		<td  width="50%">Наименование</td>
-		<td width="50%">Рассылки</td>
-		<td nowrap="nowrap">Время создания</td>
-		<td>Готово</td>
-		<td nowrap="nowrap">Время отправки</td>
+		<td  width="50%">${l.l('Наименование')}</td>
+		<td width="50%">${l.l('Рассылки')}</td>
+		<td nowrap="nowrap">${l.l('Время создания')}</td>
+		<td>${l.l('Готово')}</td>
+		<td nowrap="nowrap">${l.l('Время отправки')}</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>

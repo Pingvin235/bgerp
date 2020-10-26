@@ -44,7 +44,7 @@
 						<span class="ui-icon ui-icon-refresh"></span>
 					</button>
 				</td>
-				<td nowrap="nowrap">Записей: ${page.recordCount}&nbsp;&nbsp;&nbsp;Стр.: </td>
+				<td nowrap="nowrap">${l.l('Записей')}: ${page.recordCount}&nbsp;&nbsp;&nbsp;${l.l('Стр.')}: </td>
 				<c:set var="previousPageIndex" value="${page.pageIndex - 1}"/><c:if test="${previousPageIndex < 1}"><c:set var="previousPageIndex" value="1"/></c:if>
 				<td>
 					<button type="button" onclick="${command} 1, ${page.pageSize}, '${pagePrefix}' ) ${nextCommand}">
@@ -66,7 +66,7 @@
 						</c:forEach>
 					</select>
 				</td>
-				<td nowrap="nowrap">из ${page.pageCount}</td>
+				<td nowrap="nowrap">${l.l('из')} ${page.pageCount}</td>
 				<td nowrap="nowrap">
 				[<select name="pageSize" class="pageSize" onchange="${command} 1, this.value, '${pagePrefix}' ) ${nextCommand}">
 					<c:forTokens var="item" items="2 5 10 15 20 25 30 50 100 200 300" delims=" ">

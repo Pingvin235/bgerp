@@ -42,7 +42,7 @@
     <ui:select-single list="${ctxUserPermsetList}" hiddenName="permset" value="${form.param.permset}" 
     	onSelect="${showCode}" placeholder="Набор прав" style="width: 200px;"/>
     
-    <button class="btn-grey" type="button" onclick="${showCode}" title="Вывести">=&gt;</button>
+    <button class="btn-grey" type="button" onclick="${showCode}" title="${l.l('Вывести')}">=&gt;</button>
     
     <%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -52,7 +52,7 @@
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
 		<td>Статус</td>
-		<td>Наименование</td>
+		<td>${l.l('Наименование')}</td>
 		<td>Логин</td>
 		<td>Наборы прав</td>
 		<td>Группы</td>

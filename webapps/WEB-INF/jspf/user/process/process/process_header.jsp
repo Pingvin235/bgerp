@@ -19,7 +19,7 @@
 								<c:param name="id" value="${process.id}"/>
 							</c:url>
 							<li><a href="#UNDEF" 
-								onclick="if (confirm('${l.l('Удалить процесс?')}')) $$.ajax.post('${url}').done(() => { ${returnBreakCommand} }); return false;">${l.l('Удалить процесс')}</a>
+								onclick="if (confirm('${l.l('Удалить процесс')}?')) $$.ajax.post('${url}').done(() => { ${returnBreakCommand} }); return false;">${l.l('Удалить процесс')}</a>
 							</li>
 							
 							<c:url var="url" value="empty.do">

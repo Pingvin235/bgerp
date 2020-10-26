@@ -35,7 +35,7 @@
 	<ui:input-text name="filter" onSelect="${doFilterCommand}; return false;"
 			placeholder="Фильтр" size="40" value="${form.param['filter']}" title="Фильтр по наименованию, конфигурации"/>
 
-	<button class="btn-grey" type="button" onclick="${doFilterCommand}" title="Вывести">=&gt;</button>
+	<button class="btn-grey" type="button" onclick="${doFilterCommand}" title="${l.l('Вывести')}">=&gt;</button>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -64,7 +64,7 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
-		<td width="100%">Наименование</td>
+		<td width="100%">${l.l('Наименование')}</td>
 		<td>Подтипов</td>
 		<td>Свойства</td>
 		<td width="20%">&#160;</td>

@@ -4,7 +4,7 @@
 <c:choose>
 	<c:when test="${mode eq 'items'}">
 		<c:if test="${empty allowedForms or allowedForms.contains('fulltext')}">
-			<li value="fulltext">Полнотекстовый поиск</li>
+			<li value="fulltext">${l.l('Полнотекстовый поиск')}</li>
 		</c:if>
 	
 	</c:when>
@@ -14,9 +14,9 @@
 			<html:hidden property="action" value="search"/>
 						
 			<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgcrm.plugin.fulltext.model.Config')}"/>
-			<ui:combo-single hiddenName="objectType" prefixText="Искать:" list="${config.objectTypeList}"/>
+			<ui:combo-single hiddenName="objectType" prefixText="${l.l('Искать')}:" list="${config.objectTypeList}"/>
 			
-			<ui:input-text name="filter" placeholder="Строка поиска"
+			<ui:input-text name="filter" placeholder="${l.l('Строка поиска')}"
 				onSelect="openUrl(formUrl(this.form), '#searchResult'); return false;"/>
 		</html:form>		
 	</c:otherwise>

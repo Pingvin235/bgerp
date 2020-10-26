@@ -29,7 +29,7 @@
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
 		<td width="30">Обозн.</td>
-		<td width="50%">Наименование</td>		
+		<td width="50%">${l.l('Наименование')}</td>
 		<td width="50%">Комментарий</td>
 	</tr>
 	 

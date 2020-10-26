@@ -16,10 +16,10 @@
 			var $tabs = $("#content").tabs( { cache : true } );
 
 			<c:url var="url" value="process.do?action=queue"/>
-			$tabs.tabs( "add", "${url}", "Процессы" );
+			$tabs.tabs( "add", "${url}", "${l.l('Процессы')}" );
 
 			<c:url var="url" value="exit.jsp"/>
-			$tabs.tabs( "add", "${url}", "Выход", "class='ml2'" );
+			$tabs.tabs( "add", "${url}", "${l.l('Выход')}", "class='ml2'" );
 
 			<c:if test="${'embedded' eq app}">
 				$("#content > .ui-tabs-nav").hide();

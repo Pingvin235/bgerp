@@ -26,7 +26,7 @@
 		<c:set var="display"><c:if test="${not empty createAllowedProcessList}">display: table-cell;</c:if></c:set>
 		
 		<ui:combo-single hiddenName="id" valuesHtml="${valuesHtml}" value="${currentQueueId}"
-			prefixText="Очередь:" style="${display}width: 100%;"
+			prefixText="${l.l('Очередь')}:" style="${display}width: 100%;"
 			onSelect="openUrlToParent( formUrl( $hidden[0].form ), $('#processQueueShow') )"/>
 		
 		<c:if test="${not empty createAllowedProcessList}">

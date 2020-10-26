@@ -23,7 +23,7 @@
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
 		<td width="50">Активный</td>
-		<td width="100%">Наименование</td>
+		<td width="100%">${l.l('Наименование')}</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<c:set var="item" scope="request" value="${item}"/>

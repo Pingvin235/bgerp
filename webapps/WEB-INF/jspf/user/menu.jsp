@@ -92,7 +92,7 @@
 					action="ru.bgcrm.struts.action.admin.AppAction:status"
 					command="/admin/app.do?action=status"/>
 					
-				<ui:menu-item ltitle="Авторизовавашиеся пользователи" href="admin/app/logged"
+				<ui:menu-item ltitle="Авторизовавшиеся пользователи" href="admin/app/logged"
 					action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList"
 					command="/admin/app.do?action=userLoggedList"/>
 			</jsp:attribute>

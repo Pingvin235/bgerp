@@ -255,7 +255,7 @@
 		<u:sc>
 			<c:set var="styleClass" value="dropFilterArea"/>
 			<c:set var="style" value="display: inline-block"/>
-			<c:set var="prefixText" value="Фильтр:"/>
+			<c:set var="prefixText" value="${l.l('Фильтр')}:"/>
 			<c:set var="widthTextValue" value="40px"/>
 			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 		</u:sc>

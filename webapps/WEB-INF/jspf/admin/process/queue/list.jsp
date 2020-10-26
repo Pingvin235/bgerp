@@ -15,7 +15,7 @@
 	<ui:input-text styleClass="ml1" name="filter" value="${form.param.filter}" size="40" placeholder="Фильтр" title="Фильтр по наименованию, конфигурации"
 		onSelect="openUrlContent( formUrl( this.form ) ); return false;"/>
 		
-	<button class="btn-grey" type="button" onclick="openUrlContent( formUrl( this.form ) )" title="Вывести">=&gt;</button>
+	<button class="btn-grey" type="button" onclick="openUrlContent( formUrl( this.form ) )" title="${l.l('Вывести')}">=&gt;</button>
 	
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>	
@@ -25,7 +25,7 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
-		<td width="100%">Наименование</td>
+		<td width="100%">${l.l('Наименование')}</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>

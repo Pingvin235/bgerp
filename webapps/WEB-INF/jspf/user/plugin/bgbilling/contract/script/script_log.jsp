@@ -20,7 +20,7 @@
 	<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 	
 	<c:set var="nextCommand" value="; openUrlTo( formUrl( this.form ), $(this.form).parent());" scope="request"/>
-	<button type="button" class="btn-grey ml1" onclick="${nextCommand}">Вывести</button>
+	<button type="button" class="btn-grey ml1" onclick="${nextCommand}">${l.l('Вывести')}</button>
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </form>
 

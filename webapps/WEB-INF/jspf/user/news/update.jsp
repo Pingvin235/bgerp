@@ -12,29 +12,29 @@
 		<input type="hidden" name="requestUserId" value="${form.param.requestUserId}" />
 	</c:if>
 	
-	<h2>Заголовок</h2>		
+	<h2>${l.l('Заголовок')}</h2>
 	<input type="text" name="title" style="width: 100%;" value="${news.title}"/>
-	<h2>Полный текст ${isMsg == 1 ? 'сообщения' : 'новости'}</h2>
+	<h2>${l.l('Полный текст')} ${isMsg == 1 ? 'сообщения' : 'новости'}</h2>
 	<textarea style="width: 100%;" rows="10" name="description"></textarea>
-	<span class="hint">В тексте новости допустима HTML разметка.</span>
+	<span class="hint">${l.l('В тексте новости допустима HTML разметка.')}</span>
 	
 	<div>
 		<div style="width: 50%; display: inline-block;">
-			<h2>Время на прочтение</h2>	
+			<h2>${l.l('Время на прочтение')}</h2>
 			<input type="text" name="readTime" value="${not empty news ? news.readTime : 240}" style="text-align: center; width: 102px;"/>
-			<span class="hint">Через какое количество часов новость будет помечена прочитана для адресатов независимо от фактического прочтения.</span>
+			<span class="hint">${l.l('Через какое количество часов новость будет помечена прочитана для адресатов независимо от фактического прочтения.')}</span>
 			
-			<h2>Время жизни новости</h2>
+			<h2>${l.l('Время жизни новости')}</h2>
 			<input type="text" name="lifeTime" value="${not empty news ? news.lifeTime : 300}" style="text-align: center; width: 102px;"/>
-			<span class="hint">Через какое количество суток новость будет удалена для всех адресатов.</span>
+			<span class="hint">${l.l('Через какое количество суток новость будет удалена для всех адресатов.')}</span>
 			
-			<h2>Тип новости</h2>
+			<h2>${l.l('Тип новости')}</h2>
 			<u:sc>
 				<c:set var="style" value="width: 150px;"/>
 				<c:set var="valuesHtml">
-					<li value="-1">----</li>
-					<li value="0">Обычная</li>
-					<li value="1">Всплывающая</li>
+					<li value="-1">${l.l('----')}</li>
+					<li value="0">${l.l('Обычная')}</li>
+					<li value="1">${l.l('Всплывающая')}</li>
 				</c:set>
 				<c:set var="hiddenName" value="type"/>
 				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
@@ -42,7 +42,7 @@
 		 </div><%--
 	 --%><div style="width: 50%; display: inline-block; vertical-align: top;">
 	 		<c:if test="${not(form.param.requestUserId > 0 )}">
-				<h2>Группы</h2>
+				<h2>${l.l('Группы')}</h2>
 				
 				<u:sc>
 					<c:set var="list" value="${ctxUserGroupList}" />
@@ -52,7 +52,7 @@
 					<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>	
 				</u:sc>
 				
-				<span class="hint">Если группы не указаны - новость получают все пользователи.</span>
+				<span class="hint">${l.l('Если группы не указаны - новость получают все пользователи.')}</span>
 			</c:if>	
 		</div>
 	</div>
@@ -62,5 +62,5 @@
 	</div>				
 </form>
 
-<c:set var="state" value="Создание новости"/>
+<c:set var="state" value="${l.l('Создание новости')}"/>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

@@ -6,9 +6,9 @@
 <table style="width: 100%;" class="data mt1">
 	<tr>
 		<td width="30">ID</td>
-		<td>Наименование</td>
-		<td>Параметр</td>
-		<td>Значение</td>
+		<td>${l.l('Наименование')}</td>
+		<td>${l.l('Параметр')}</td>
+		<td>${l.l('Значение')}</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>

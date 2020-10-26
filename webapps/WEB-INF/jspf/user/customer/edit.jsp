@@ -11,14 +11,14 @@
 	<h2>ID</h2>
 	<input type="text" readonly="readonly" value="${customer.id}"/>
 
-	<h2>Название</h2>
+	<h2>${l.l('Название')}</h2>
 	<html:text property="title" value="${customer.title}" disabled="${customer.titlePatternId ne -1}"/>
 
-	<h2>Шаблон названия</h2>
+	<h2>${l.l('Шаблон названия')}</h2>
 	<u:sc>
 		<c:set var="valuesHtml">
-			<li value="-1">Без шаблона</li>
-			<li value="0">Персональный шаблон</li>
+			<li value="-1">${l.l('Без шаблона')}</li>
+			<li value="0">${l.l('Персональный шаблон')}</li>
 			<c:forEach var="item" items="${patternList}">
 				<li value="${item.id}">${item.title} (${item.pattern})</li>
 			</c:forEach>
@@ -33,13 +33,13 @@
 		<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 	</u:sc>
 
-	<h2>Персональный шаблон названия</h2>
+	<h2>${l.l('Персональный шаблон названия')}</h2>
 	<html:text property="titlePattern" disabled="${customer.titlePatternId ne 0}" value="${customer.titlePattern}"/>
 
-	<h2>Группа параметров</h2>
+	<h2>${l.l('Группа параметров')}</h2>
 	<u:sc>
 		<c:set var="valuesHtml">
-			<li value="0">Группа не установлена (все параметры)</li>
+			<li value="0">${l.l('Группа не установлена (все параметры)')}</li>
 			<c:forEach var="item" items="${parameterGroupList}">
 				<li value="${item.id}">${item.title}</li>
 			</c:forEach>
@@ -59,4 +59,4 @@
 	</div>
 </html:form>
 
-<shell:state ltext="Редактирование" help="kernel/customer.html"/>
+<shell:state ltext="${l.l('Редактирование')}" help="kernel/customer.html"/>

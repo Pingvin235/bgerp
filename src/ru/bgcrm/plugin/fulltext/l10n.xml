@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<p><ru>Полнотекстовый поиск</ru><en>Full text search</en></p>
+	<p><ru>Строка поиска</ru><en>Search string</en></p>
+	<p><ru>Контрагентов с таким наименованием не найдено.</ru><en>No customers with this name were found.</en></p>
+	<p><ru>FullText: Контрагент</ru><en>FullText: Customer</en></p>
+	<!--
+	<p><ru></ru><en></en></p>
+	-->
+</data>

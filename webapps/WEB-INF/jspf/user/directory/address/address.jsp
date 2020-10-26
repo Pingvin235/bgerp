@@ -27,8 +27,7 @@
 						</c:url>
 					
 						<tr><td nowrap="nowrap">
-							Страна:<br>
-							
+							${l.l('Страна')}:<br>
 							<html:text property="addressCountryTitle" style="width: 180px;" onkeypress="addressSearchCountry( this, event );"/>
 							<input type="button" value="X" onclick="addressClearCountry( this );"/>
 							<input type="button" value="+" onclick="openUrlContent('${url}');"/>
@@ -45,7 +44,7 @@
 						</c:url>
 						
 						<tr><td nowrap="nowrap">
-							Город:<br>
+							${l.l('Город')}:<br>
 							<html:text property="addressCityTitle" style="width: 180px;" onkeypress="addressSearchCity( this, event );"/>
 							<input type="button" value="X" onclick="addressClearCity( this );"/>
 							<input type="button" value="+" onclick="if ( '${form.param['addressCountryId']}' == '' ) { alert('Выберите страну'); } else { openUrlContent('${url}'); }"/>
@@ -60,13 +59,13 @@
 						<tr><td nowrap="nowrap" style="padding: 0px;">
 							<table class="menu"><tr>
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'street'}"><c:set var="cl" value="sel"/></c:if>
-							<td class="${cl}"><a href="#UNDEF" onclick="$('#${formUiid} #selectTab').attr( 'value', 'street' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">УЛИЦА</a></td>
+							<td class="${cl}"><a href="#UNDEF" onclick="$('#${formUiid} #selectTab').attr( 'value', 'street' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('УЛИЦА')}</a></td>
 							
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'area'}"><c:set var="cl" value="sel"/></c:if>
-							<td class="${cl}"><a href="#UNDEF" onclick="$('#${formUiid} #selectTab').attr( 'value', 'area' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">РАЙОН</a></td>
+							<td class="${cl}"><a href="#UNDEF" onclick="$('#${formUiid} #selectTab').attr( 'value', 'area' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('РАЙОН')}</a></td>
 							
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'quarter'}"><c:set var="cl" value="sel"/></c:if>
-							<td class="${cl}"><a href="#UNDEF" onclick="$('#${formUiid} #selectTab').attr( 'value', 'quarter' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">КВАРТАЛ</a></td>
+							<td class="${cl}"><a href="#UNDEF" onclick="$('#${formUiid} #selectTab').attr( 'value', 'quarter' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('КВАРТАЛ')}</a></td>
 							<td width="90%" style="border: 0px;">&nbsp;</td></tr></table>
 						</td></tr>	
 						 
@@ -100,7 +99,7 @@
 								<c:param name="addressHouseId" value="0"/>
 							</c:url>
 							<tr><td nowrap="nowrap">
-								Дом:<br>
+								${l.l('Дом')}:<br>
 								<html:text property="addressHouse" style="width: 180px;" onkeypress="addressSearchHouse( this, event );"/>
 								<input type="button" value="X"  onclick="addressClearHouse( this );"/>
 								<input type="button" value="+" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('Выберите улицу'); } else { openUrlContent('${url}'); }"/>
@@ -113,7 +112,7 @@
 			
 			<u:sc>
 				<c:set var="title">
-					<span class='title'>Адресный справочник</span>
+					<span class='title'>${l.l('Адресный справочник')}</span>
 				</c:set>
 				<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 				<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

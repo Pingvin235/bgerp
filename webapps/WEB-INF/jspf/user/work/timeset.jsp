@@ -12,8 +12,8 @@
 <html:form action="/user/work" styleId="${uiid}" styleClass="mt1">
 	<input type="hidden" name="action" value="processTime"/>
 	<input type="hidden" name="processId" value="${form.param.processId}"/>
-	
-	Вывести на дату:
+
+	${l.l('Вывести на дату')}:
 	<u:sc>
 		<c:set var="type" value="ymd"/>
 		<c:set var="uiid" value="${u:uiid()}"/>
@@ -22,7 +22,7 @@
 		<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 	</u:sc>
 	
-	<button type="button" class="btn-grey ml05" onclick="openUrlToParent( formUrl( this.form ), $(this.form) )">Вывести</button>
+	<button type="button" class="btn-grey ml05" onclick="openUrlToParent( formUrl( this.form ), $(this.form) )">${l.l('Вывести')}</button>
 		
 	<c:url var="url" value="/user/work.do">
 		<c:param name="action" value="processTimeSet"/>

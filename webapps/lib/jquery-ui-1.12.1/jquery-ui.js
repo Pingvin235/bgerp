@@ -17428,7 +17428,7 @@ $.widget( "ui.tabs", {
 			}
 			
 			// progress spinner
-		    ui.panel.html('<img src="/img/loading.gif"> Загрузка...');
+		    ui.panel.html('<img src="/img/loading.gif"> Loading...');
 			
 			ui.jqXHR.done(function () {
 				ui.tab.data("loaded", true);

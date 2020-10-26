@@ -48,7 +48,7 @@
 			
 				<c:set var="hiddenName" value="object"/>
 				<c:set var="prefixText">
-					${l.l('Объектов в буфере:')}&nbsp;<span class="object-count">0</span>
+					${l.l('Объектов в буфере')}:&nbsp;<span class="object-count">0</span>
 				</c:set>
 								
 				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>

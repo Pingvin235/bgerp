@@ -7,19 +7,19 @@
 	<html:hidden property="addressCountryId"/>
 	<table style="width: 100%;" class="data">
 		<tr>
-			<td width="100">Параметр</td>
-			<td>Значение</td>
+			<td width="100">${l.l('Параметр')}</td>
+			<td>${l.l('Значение')}</td>
 		</tr>
 		<tr>
-			<td>ID</td>
+			<td>${l.l('ID')}</td>
 			<td>${form.param['addressCityId']}</td>
 		</tr>
 		<tr>
-			<td>Страна</td>
+			<td>${l.l('Страна')}</td>
 			<td>${form.param['addressCountryTitle']}</td>
 		</tr>
 		<tr>
-			<td>Название</td>
+			<td>${l.l('Название')}</td>
 			<td><html:text property="title" style="width: 100%"/></td>
 		</tr>
 		<%-- вроде нигде не используется
@@ -32,4 +32,4 @@
 </table>
 </html:form>
 
-<shell:state ltext="Редактирование города" help="kernel/setup.html#address"/>
+<shell:state ltext="${l.l('Редактирование города')}" help="kernel/setup.html#address"/>

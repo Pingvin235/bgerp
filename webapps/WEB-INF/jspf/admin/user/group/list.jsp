@@ -39,7 +39,7 @@
 			<c:set var="hiddenName" value="archive"/>
 			<c:set var="value" value="${form.param['archive']}"/>
 			<c:set var="onSelect" value=" openUrlContent( formUrl( $('#${uiid}') ) ) "/>
-			<c:set var="prefixText" value="Вывести:"/>
+			<c:set var="prefixText" value="${l.l('Вывести')}:"/>
 			<c:set var="widthTextValue" value="50px"/>
 			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
 	    </u:sc>
@@ -77,7 +77,7 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>		
-		<td width="30%">Наименование</td>
+		<td width="30%">${l.l('Наименование')}</td>
 		<td width="50">Подгрупп</td>
 		<td width="40%">Наборы прав</td>	
 		<td width="50">Скрытая</td>		

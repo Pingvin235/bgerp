@@ -50,14 +50,13 @@
 	<p><ru>ИСПОЛНИТЕЛИ БЕЗ ГРУПП</ru><en>EXECUTORS WITHOUT GROUPS</en></p>
 	<p><ru>-Я</ru><en>-I</en></p>
 	<p><ru>+Я</ru><en>+I</en></p>
-	<p><ru>Добавить вас в исполнители?</ru><en>Add you to executors?</en></p>
+	<p><ru>Добавить вас в исполнители</ru><en>Add you to executors</en></p>
 	<p><ru>Добавить меня в исполнители</ru><en>Add myself to executors</en></p>
-	<p><ru>Удалить вас из исполнителей?</ru><en>Remove you from executors?</en></p>
+	<p><ru>Удалить вас из исполнителей</ru><en>Remove you from executors</en></p>
 	<p><ru>Удалить меня из исполнителей</ru><en>Remove myself from executors</en></p>
 	<p><ru>исполнители</ru><en>executors</en></p>
 	<p><ru>группы</ru><en>groups</en></p>
 	<p><ru>Группы / исполнители</ru><en>Groups / executors</en></p>
-	<p><en>OK</en></p>
 	<p><ru>Отмена</ru><en>Cancel</en></p>
 	<p><ru>Добавить в конец описания текст с именем автора и временем</ru><en>Add to the description's end with author and time</en></p>
 	<p><ru>Править описание целиком (также можете кликнуть мышью по описанию)</ru><en>Edit the whole description, you may also click on it by mouse</en></p>
@@ -66,8 +65,7 @@
 	<p><ru>Описание</ru><en>Description</en></p>
 	<p><ru>история</ru><en>history</en></p>
 	<p><ru>Данный тип процесса был удален</ru><en>This process type was removed</en></p>
-	<p><ru>Удалить процесс?</ru><en>Delete process?</en></p>
-	<p><ru>Удалить процес</ru><en>Delete process</en></p>
+	<p><ru>Удалить процесс</ru><en>Delete process</en></p>
 	<p><ru>Статус</ru><en>Status</en></p>
 	<p><ru>Создан</ru><en>Created</en></p>
 	<p><ru>лог изменений</ru><en>change log</en></p>
@@ -79,11 +77,11 @@
 	<p><ru>Переключить из статуса </ru><en>Change status from </en></p>
 	<p><ru>Ещё</ru><en>More</en></p>
 	<p><ru>Сообщения</ru><en>Messages</en></p>
-	<p><ru>Объектов в буфере:</ru><en>Objects in buffer:</en></p>
+	<p><ru>Объектов в буфере</ru><en>Objects in buffer</en></p>
 	<p><ru>BGERP 3.0 не будет корректно работать в вашем браузере!</ru><en>BGERP 3.0 will not work correctly in this browser!</en></p>
 	<p><ru>Поддерживаемые браузеры: Mozilla Firefox %s и новее, Google Chrome %s и новее, Safari %s и новее.</ru><en>Supported browsers: Mozilla Firefox %s and newer, Google Chrome %s and newer, Safari %s and newer.</en></p>
 	<p><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
-	<p><ru>При попытке аутентификации произошла ошибка:</ru><en>Authentication error:</en></p>
+	<p><ru>При попытке аутентификации произошла ошибка</ru><en>Authentication error</en></p>
 	<p><ru>Войти</ru><en>Login</en></p>
 	<p><ru>Открытый интерфейс</ru><en>Open interface</en></p>
 	<p><ru>Наименование</ru><en>Title</en></p>
@@ -91,7 +89,7 @@
 	<p><ru>Вставить</ru><en>Paste</en></p>
 	<p><ru>Отделить</ru><en>Split</en></p>
 	<p><ru>Слить</ru><en>Merge</en></p>
-	<p><ru>Сообщение об ошибке:</ru><en>Error:</en></p>
+	<p><ru>Сообщение об ошибке</ru><en>Error message</en></p>
 	<p><ru>Выделить или снять выделение всех</ru><en>Select or deselect all</en></p>
 	<p><ru>Авторизация</ru><en>Authorization</en></p>
 	<p><ru>Процессы</ru><en>Processes</en></p>
@@ -110,7 +108,7 @@
 	<p><ru>WEB запросы</ru><en>HTTP requests</en></p>
 	<p><ru>Конфигурация</ru><en>Configuration</en></p>
 	<p><ru>Статус приложения</ru><en>App status</en></p>
-	<p><ru>Авторизовавашиеся пользователи</ru><en>Authenticated users</en></p>
+	<p><ru>Авторизовавшиеся пользователи</ru><en>Authenticated users</en></p>
 	<p><ru>Приложение</ru><en>App</en></p>
 	<p><ru>Администрирование</ru><en>Administration</en></p>
 	<p><ru>Логирование</ru><en>Logging</en></p>
@@ -133,6 +131,62 @@
 	<p><ru>Параметры домов</ru><en>House parameters</en></p>
 	<p><ru>Фильтр</ru><en>Filter</en></p>
 	<p><ru>По наименованию, комментарию, конфигурации</ru><en>By title, comment, configuration</en></p>
+	<p><ru>Интерфейс</ru><en>Interface</en></p>
+	<p><ru>Выйти</ru><en>Log off</en></p>
+	<p><ru>Очередь</ru><en>Queue</en></p>
+	<p><ru>Период</ru><en>Period</en></p>
+	<p><ru>Группа</ru><en>Group</en></p>
+	<p><ru>Дата создания</ru><en>Date of creation</en></p>
+	<p><ru>Дата закрытия</ru><en>Сlosing date</en></p>
+	<p><ru>Любой</ru><en>Any</en></p>
+	<p><ru>Тип</ru><en>Type</en></p>
+	<p><ru>Открытые</ru><en>Open</en></p>
+	<p><ru>Закрытые</ru><en>Closed</en></p>
+	<p><ru>Закрыт</ru><en>Closed</en></p>
+	<p><ru>Записей</ru><en>Records</en></p>
+	<p><ru>Стр.</ru><en>Page</en></p>
+	<p><ru>из</ru><en>of</en></p>
+	<p><ru>Новый контрагент</ru><en>New customer</en></p>
+	<p><ru>Редактирование</ru><en>Editing</en></p>
+	<p><ru>Шаблон названия</ru><en>Title template</en></p>
+	<p><ru>Без шаблона</ru><en>No template</en></p>
+	<p><ru>Персональный шаблон</ru><en>Personal template</en></p>
+	<p><ru>Персональный шаблон названия</ru><en>Personal title template</en></p>
+	<p><ru>Группа параметров</ru><en>Parameter group</en></p>
+	<p><ru>Группа не установлена (все параметры)</ru><en>Group not set (all parameters)</en></p>
+	<p><ru>Нажатие Enter - поиск по улице</ru><en>Pressing Enter - street search</en></p>
+	<p><ru>Нажатие Enter - поиск по дому</ru><en>Pressing Enter - search by house</en></p>
+	<p><ru>Нажатие Enter - поиск по квартире</ru><en>Pressing Enter - search by apartment</en></p>
+	<p><ru>Цвет</ru><en>Colour</en></p>
+	<p><ru>Cозданные мной</ru><en>Created by me</en></p>
+	<p><ru>Закрытые мной</ru><en>Closed by me</en></p>
+	<p><ru>Статус изменён мной</ru><en>Status changed by me</en></p>
+	<p><ru>Вывести</ru><en>Show</en></p>
+	<p><ru>Вывести для</ru><en>Output for</en></p>
+	<p><ru>Вывести на дату</ru><en>Output to date</en></p>
+	<p><ru>Время создания</ru><en>Time of creation</en></p>
+	<p><ru>Открыть</ru><en>Open</en></p>
+	<p><ru>Создание новости</ru><en>News creation</en></p>
+	<p><ru>Заголовок</ru><en>Title</en></p>
+	<p><ru>Полный текст</ru><en>Full text</en></p>
+	<p><ru>В тексте новости допустима HTML разметка.</ru><en>HTML markup is allowed in the news text.</en></p>
+	<p><ru>Время на прочтение</ru><en>Time to read</en></p>
+	<p><ru>Через какое количество часов новость будет помечена прочитана для адресатов независимо от фактического прочтения.</ru><en>After how many hours the news will be marked as read for the addressees, regardless of the actual reading.</en></p>
+	<p><ru>Время жизни новости</ru><en>Life time news</en></p>
+	<p><ru>Через какое количество суток новость будет удалена для всех адресатов.</ru><en>After how many days the news will be deleted for all recipients.</en></p>
+	<p><ru>Тип новости</ru><en>News type</en></p>
+	<p><ru>Обычная</ru><en>Regular</en></p>
+	<p><ru>Всплывающая</ru><en>Popup</en></p>
+	<p><ru>Если группы не указаны - новость получают все пользователи.</ru><en>If groups are not specified, all users receive the news.</en></p>
+	<p><ru>Непрочитанные</ru><en>Unread</en></p>
+	<p><ru>Прочитанные</ru><en>Read</en></p>
+	<p><ru>Фильтр по тексту</ru><en>Filter by text</en></p>
+	<p><ru>Создал</ru><en>Created</en></p>
+	<p><ru>Удалить</ru><en>Delete</en></p>
+	<p><ru>Не прочитано</ru><en>Unread</en></p>
+	<p><ru>Прочитано</ru><en>Read</en></p>
+	<p><ru>Пометить все новости прочитанными</ru><en>Mark all news as read</en></p>
+	<p><ru>Все прочитаны</ru><en>All read</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

@@ -25,7 +25,7 @@
 		</c:forEach>
 	</table>
 	 
-	<c:set var="state" value="Лог изменений"/>
+	<c:set var="state" value="${l.l('Лог изменений')}"/>
 	<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
 </div>
 

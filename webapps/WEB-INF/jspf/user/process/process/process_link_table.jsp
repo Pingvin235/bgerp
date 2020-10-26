@@ -16,17 +16,17 @@
 			<c:if test="${adoeb}">
 				<td>&nbsp;</td>
 			</c:if>
-			<td>ID</td>
-			<td>Время создания</td>
-			<td>Тип</td>
-			<td>Статус</td>
+			<td>${l.l('ID')}</td>
+			<td>${l.l('Время создания')}</td>
+			<td>${l.l('Тип')}</td>
+			<td>${l.l('Статус')}</td>
 		</tr>
 		<tr class="header">
 			<c:choose>
 				<c:when test="${adoeb}"><td colspan="5"></c:when>
 				<c:otherwise><td colspan="4"></c:otherwise>
 			</c:choose>
-			Описание</td>
+	        ${l.l('Описание')}</td>
 		</tr>
 
 		<c:forEach var="item" items="${list}">
@@ -45,7 +45,7 @@
 						<c:if test="${editButton}">
 							<u:sc>
 								<c:set var="command" value="openUrlToParent( '${url}', $('#${uiid}') )"/>
-								<button type="button" class="btn-white btn-small" onclick="${command}" title="Открыть">*</button>
+								<button type="button" class="btn-white btn-small" onclick="${command}" title="${l.l('Открыть')}">*</button>
 							</u:sc>
 						</c:if>
 

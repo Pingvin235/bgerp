@@ -79,16 +79,16 @@
 						<%@ include file="process_search_constants.jsp"%>
 						<ui:combo-single hiddenName="mode" style="width: 100%;">
 							<jsp:attribute name="valuesHtml">
-								<li value="${MODE_USER_CREATED}">Cозданные мной</li>
-								<li value="${MODE_USER_CLOSED}">Закрытые мной</li>
-								<li value="${MODE_USER_STATUS_CHANGED}">Статус изменён мной</li>
+								<li value="${MODE_USER_CREATED}">${l.l('Cозданные мной')}</li>
+								<li value="${MODE_USER_CLOSED}">${l.l('Закрытые мной')}</li>
+								<li value="${MODE_USER_STATUS_CHANGED}">${l.l('Статус изменён мной')}</li>
 							</jsp:attribute>
 						</ui:combo-single>
 					</u:sc>
 					<div class="pl05">
 						<button type="button" class="btn-white btn-slim" style="white-space: nowrap;"
 							onclick="this.form.elements['searchBy'].value='userId'; $$.ajax.load(this.form, '#searchResult');"
-							title="Вывести">
+							title="${l.l('Вывести')}">
 								<%-- &#x25B6; Unicode стрелки вправо, но слишком чёрная --%>
 								&nbsp;<img src="/images/arrow-right.png">
 						</button>
@@ -117,5 +117,5 @@
 	</div>
 </div>
 
-<c:set var="title" value="Поиск"/>
+<c:set var="title" value="${l.l('Поиск')}"/>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>

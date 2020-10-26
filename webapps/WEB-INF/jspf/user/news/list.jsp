@@ -15,13 +15,13 @@
 		<input type="hidden" name="action" value="newsList"/>
 		<button class="btn-green" onclick="$$.ajax.load('${createUrl}', $$.shell.$content());">+</button>
 
-		<input type="text" size="30" onkeypress="if( enterPressed( event ) ){ ${showCode} }" placeholder="Фильтр по тексту" name="text" value="${form.param['text']}" class="ml1"/>
+		<input type="text" size="30" onkeypress="if( enterPressed( event ) ){ ${showCode} }" placeholder="${l.l('Фильтр по тексту')}" name="text" value="${form.param['text']}" class="ml1"/>
 
 		<u:sc>
 			<c:set var="valuesHtml">
-				<li value="0">Непрочитанные</li>
-				<li value="-1">Все</li>
-				<li value="1">Прочитанные</li>
+				<li value="0">${l.l('Непрочитанные')}</li>
+				<li value="-1">${l.l('Все')}</li>
+				<li value="1">${l.l('Прочитанные')}</li>
 			</c:set>
 			<c:set var="hiddenName" value="read"/>
 			<c:set var="value" value="${form.param['read']}"/>
@@ -30,7 +30,7 @@
 			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 		</u:sc>
 
-		<button class="btn-grey" onclick="${showCode}">Вывести</button>
+		<button class="btn-grey" onclick="${showCode}">${l.l('Вывести')}</button>
 
 		<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 	</html:form>
@@ -47,9 +47,9 @@
 					</span>
 
 					<span style="float:right;">
-						Создал: <ui:user-link id="${item.userId}"/>
+						${l.l('Создал')}: <ui:user-link id="${item.userId}"/>
 						&nbsp;${u:formatDate( item.createDate, 'ymdhms')}
-						&nbsp;<c:if test="${item.popup}">Всплывающая</c:if>
+						&nbsp;<c:if test="${item.popup}">${l.l('Всплывающая')}</c:if>
 
 						<%-- правка пока невозможна из-за персональных сообщений пользователям, поправить попозже, когда будут сообщения
 						правка
@@ -64,10 +64,10 @@
 							<c:param name="action" value="newsDelete"></c:param>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
-						[ <a title="Удалить" href="#UNDEF" onclick="if( confirm( 'Удалить новость?' ) && sendAJAXCommand( '${deleteUrl}' ) ){ ${showCode} }; return false;">X</a> ]
+						[ <a title="${l.l('Удалить')}" href="#UNDEF" onclick="if( confirm( 'Удалить новость?' ) && sendAJAXCommand( '${deleteUrl}' ) ){ ${showCode} }; return false;">X</a> ]
 
 						<c:if test="${not empty item.groupIds}">
-							<br/>Группы: ${u:objectTitleList( ctxUserGroupList, item.groupIds ) }
+							<br/>${l.l('Группы')}: ${u:objectTitleList( ctxUserGroupList, item.groupIds ) }
 						</c:if>
 					</span>
 				</td>
@@ -83,10 +83,10 @@
 				<td style="text-align: right;">
 					<c:choose>
 						<c:when test="${item.read}">
-							<button class="btn-white btn-small" onclick="if( sendAJAXCommand( '/user/news.do?action=newsSetRead&newsId=${item.id}&value=0' ) ){ ${showCode} }">Не прочитано</button>
+							<button class="btn-white btn-small" onclick="if( sendAJAXCommand( '/user/news.do?action=newsSetRead&newsId=${item.id}&value=0' ) ){ ${showCode} }">${l.l('Не прочитано')}</button>
 						</c:when>
 						<c:otherwise>
-							<button class="btn-white btn-small" onclick="if( sendAJAXCommand( '/user/news.do?action=newsSetRead&newsId=${item.id}&value=1' ) ){ ${showCode} }">Прочитано</button>
+							<button class="btn-white btn-small" onclick="if( sendAJAXCommand( '/user/news.do?action=newsSetRead&newsId=${item.id}&value=1' ) ){ ${showCode} }">${l.l('Прочитано')}</button>
 						</c:otherwise>
 					</c:choose>
 				</td>
@@ -96,7 +96,7 @@
 
 	<c:if test="${not empty form.response.data.list and form.param.read ne 1}">
 		<div style="text-align: right;">
-			<button class="btn-grey mt1" onclick="if( sendAJAXCommand( '/user/news.do?action=newsSetAllRead' ) ){ ${showCode} };" title="Пометить все новости прочитанными">Все прочитаны</button>
+			<button class="btn-grey mt1" onclick="if( sendAJAXCommand( '/user/news.do?action=newsSetAllRead' ) ){ ${showCode} };" title="${l.l('Пометить все новости прочитанными')}">${l.l('Все прочитаны')}</button>
 		</div>
 	</c:if>
 </div>
@@ -109,5 +109,5 @@
 	})
 </script>
 
-<shell:title ltext="Новости"/>
+<shell:title ltext="${l.l('Новости')}"/>
 <shell:state text="" help="kernel/news.html"/>

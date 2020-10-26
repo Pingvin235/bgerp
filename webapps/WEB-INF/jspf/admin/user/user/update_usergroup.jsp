@@ -63,8 +63,8 @@
 			<c:if test="${readOnly != true}">
 				<td width="100">Управление</td>
 			</c:if>
-			<td width="100">Период</td>
-			<td width="100%">Группа</td>
+			<td width="100">${l.l('Период')}</td>
+			<td width="100%">${l.l('Группа')}</td>
 		</tr>
 	    
 	    <c:set var="list" value="${ctxUserGroupList}" />

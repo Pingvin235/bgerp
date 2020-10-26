@@ -95,7 +95,7 @@
 								<td>&nbsp;</td>
 								<td>ID</td>
 								<td>Тип</td>
-								<td width="100%">Наименование</td>
+								<td width="100%">${l.l('Наименование')}</td>
 							</tr>
 
 							<c:forEach var="item" items="${searchedList}" varStatus="status">

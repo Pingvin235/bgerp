@@ -13,7 +13,7 @@
 	<button class="btn-white" type="button" onclick="openUrlToParent( '${form.returnUrl}', $('#${paramLinkId}') );">Закрыть</button>
 	
 	<%-- не выносится в title область, т.к. лог может быть открыт у зависимого процесса --%>
-	<h1 style="margin: 0; display: inline-block;" class="pl2">Лог изменений</h1>
+	<h1 style="margin: 0; display: inline-block;" class="pl2">${l.l('Лог изменений')}</h1>
 	
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 	

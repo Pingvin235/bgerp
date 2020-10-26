@@ -94,7 +94,7 @@
 			 <%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 		 </div>
 		 <div>
-		 	<button type="button" class="btn-grey ml05" onclick="openUrlToParentAsync( formUrl( this.form ), $('#${uiid}') )" title="Вывести">=&gt;</button>
+		 	<button type="button" class="btn-grey ml05" onclick="openUrlToParentAsync( formUrl( this.form ), $('#${uiid}') )" title="${l.l('Вывести')}">=&gt;</button>
 		 </div>
 	</form>
 

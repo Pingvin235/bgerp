@@ -23,7 +23,7 @@
 
 	<c:set var="sendForm">openUrlToParent( formUrl( $('#${uiid}') ), $('#${uiid}') );</c:set>
 	
-	<button type="button" class="ml2 btn-grey" onclick="${sendForm}" title="Вывести">=&gt;</button>
+	<button type="button" class="ml2 btn-grey" onclick="${sendForm}" title="${l.l('Вывести')}">=&gt;</button>
 	
 	<c:set var="nextCommand" value=";${sendForm}" scope="request"/>
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>

@@ -3,12 +3,12 @@
 
 <table class="page" cellpadding="0" cellspacing="0" border="0">
 		<tr>
-			<td nowrap="nowrap">Записей: ${list.size()}&nbsp;&nbsp;&nbsp;Стр.: </td>
+			<td nowrap="nowrap">${l.l('Записей')}: ${list.size()}&nbsp;&nbsp;&nbsp;${l.l('Стр')}.: </td>
 			<c:set var="previousPageIndex" value="${page.pageIndex - 1}"/><c:if test="${previousPageIndex < 1}"><c:set var="previousPageIndex" value="1"/></c:if>
 			<td><input type="button" class="pageButton" value="|&lt;" onclick="${command} 1, ${page.pageSize}, '${pagePrefix}' ) ${nextCommand}"/></td>
 			<td><input type="button" class="pageButton" value="&lt;" onclick="${command} ${previousPageIndex}, ${page.pageSize}, '${pagePrefix}' ) ${nextCommand}"/></td>
 			<td><input type="text" name="pageIndex" class="pageIndex" value="${page.pageIndex}"/></td>
-			<td nowrap="nowrap">из ${page.pageCount}</td>
+			<td nowrap="nowrap">${l.l('из')} ${page.pageCount}</td>
 			<td nowrap="nowrap">
 			[<select name="pageSize" class="pageSize" onchange="${command} 1, this.value, '${pagePrefix}' ) ${nextCommand}">
 				<c:forTokens var="item" items="2 5 10 15 20 25 30 50 100" delims=" ">

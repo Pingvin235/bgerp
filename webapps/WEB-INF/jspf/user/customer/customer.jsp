@@ -111,7 +111,7 @@
 				<c:param name="returnUrl" value="${form.requestUrl}"></c:param>
 			</c:url>
 
-			<button class="btn-white btn-small ml1 mr1" onclick="openUrlToParent( '${entityLogCommand}',  $('#${uiid}') );">Лог изменений</button>
+			<button class="btn-white btn-small ml1 mr1" onclick="openUrlToParent( '${entityLogCommand}',  $('#${uiid}') );">${l.l('Лог изменений')}</button>
 
 			<p:check action="ru.bgcrm.struts.action.CustomerAction:customerMerge">
 				<c:set var="uiid" value="${u:uiid()}"/>
