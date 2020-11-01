@@ -18,10 +18,9 @@ public class ProcessExecutor {
     private int groupId;
     private int roleId;
 
-    public ProcessExecutor() {
-    }
+    public ProcessExecutor() {}
 
-    public ProcessExecutor(int executor, int groupId, int roleId) {
+    public ProcessExecutor(int userId, int groupId, int roleId) {
         if (groupId < 0) {
             groupId = 0;
         }
@@ -31,8 +30,7 @@ public class ProcessExecutor {
 
         this.groupId = groupId;
         this.roleId = roleId;
-
-        this.userId = executor;
+        this.userId = userId;
     }
 
     public int getRoleId() {

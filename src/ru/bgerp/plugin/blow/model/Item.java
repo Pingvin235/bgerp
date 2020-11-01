@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
@@ -150,9 +149,9 @@ public class Item {
 
             if (process != null) {
                 if (board.isUserMode())
-                    executorIds.addAll(process.getProcessExecutorsWithRole(0).stream().map(pe -> pe.getUserId()).collect(Collectors.toList()));
+                    executorIds.addAll(process.getExecutorIdsWithRole(0));
                 else
-                    executorIds.addAll(process.getProcessGroupWithRole(0).stream().map(pg -> pg.getGroupId()).collect(Collectors.toList()));
+                    executorIds.addAll(process.getGroupIdsWithRole(0));
             }
         }
         return executorIds;

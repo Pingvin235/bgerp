@@ -299,8 +299,8 @@ public class Queue extends IdTitle {
             StringBuilder executors = new StringBuilder(50);
 
             Set<Integer> executorIds = process.getExecutorIds();
-            Set<Integer> allowedGroupsExecutors = ProcessExecutor.toExecutorSet(process.getProcessExecutorsWithGroups(allowedGroupIds));
-            Set<Integer> allowedRolesExecutors = ProcessExecutor.toExecutorSet(process.getProcessExecutorsWithRoles(allowedRoleIds));
+            Set<Integer> allowedGroupsExecutors = process.getExecutorIdsWithGroups(allowedGroupIds);
+            Set<Integer> allowedRolesExecutors = process.getExecutorIdsWithRoles(allowedRoleIds);
 
             for (User user : UserCache.getUserList()) {
                 if (executorIds.contains(user.getId()) && (allowedGroupIds.size() == 0 || allowedGroupsExecutors.contains(user.getId()))
@@ -315,8 +315,8 @@ public class Queue extends IdTitle {
 
             StringBuilder groups = new StringBuilder(50);
 
-            Set<Integer> groupIds = ProcessGroup.toGroupSet(process.getProcessGroups());
-            Set<Integer> allowedRolesGroups = ProcessGroup.toGroupSet(process.getProcessGroupWithRoles(allowedRoleIds));
+            Set<Integer> groupIds = process.getGroupIds();
+            Set<Integer> allowedRolesGroups = process.getGroupIdsWithRoles(allowedRoleIds);
 
             for (Group group : UserCache.getUserGroupList()) {
                 if (groupIds.contains(group.getId()) && (allowedRoleIds.size() == 0 || allowedRolesGroups.contains(group.getId()))) {

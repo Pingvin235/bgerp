@@ -103,7 +103,7 @@
 	</jsp:attribute>
 </ui:menu-group>
 
-<ui:menu-item ltitle="Логирование" href="log/app"
+<ui:menu-item ltitle="Логирование" href="log"
 	action="ru.bgcrm.struts.action.LogAction" command="/user/log.do" />
 
 <c:set var="endpoint" value="user.menu.items.jsp"/>

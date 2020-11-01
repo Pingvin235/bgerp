@@ -177,7 +177,6 @@ public class ProcessAction extends BaseAction {
         TypeProperties typeProperties = type.getProperties();
 
         process.setStatusId(0);
-        process.setTitle("");
         process.setCreateUserId(form.getUser().getId());
 
         processDAO.updateProcess(process);

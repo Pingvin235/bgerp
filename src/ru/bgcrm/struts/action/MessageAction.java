@@ -212,7 +212,6 @@ public class MessageAction extends BaseAction {
         newProcess.setStatusUserId(form.getUserId());
         newProcess.setDescription(message.getSubject());
         newProcess.setCreateUserId(form.getUserId());
-        newProcess.setTitle("");
         newProcess.setCreateUserId(form.getUserId());
 
         processDao.updateProcess(newProcess);

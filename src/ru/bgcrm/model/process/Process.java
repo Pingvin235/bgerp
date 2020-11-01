@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -14,12 +15,12 @@ import org.apache.commons.collections.CollectionUtils;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.SearchableIdTitle;
+import ru.bgcrm.model.Id;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
-public class Process extends SearchableIdTitle implements Comparable<Process>, Cloneable {
+public class Process extends Id implements Comparable<Process>, Cloneable {
     public static final String OBJECT_TYPE = "process";
 
     public static final String LINK_TYPE_LINK = "processLink";
@@ -68,58 +69,127 @@ public class Process extends SearchableIdTitle implements Comparable<Process>, C
         this.id = id;
     }
 
+    /**
+     * Use {@link #getExecutors()}.
+     */
+    @Deprecated
     public Set<ProcessExecutor> getProcessExecutors() {
+        return getExecutors();
+    }
+
+    public Set<ProcessExecutor> getExecutors() {
         return processExecutors;
     }
 
-    public Set<ProcessExecutor> getProcessExecutorsWithRole(int roleId) {
-        Set<ProcessExecutor> executorsWithRole = new HashSet<ProcessExecutor>();
-        for (ProcessExecutor executor : processExecutors) {
-            if (executor.getRoleId() == roleId) {
-                executorsWithRole.add(executor);
-            }
-        }
-        return executorsWithRole;
+    /**
+     * Use {@link #getExecutorIdsWithRole(int)}.
+     */
+    @Deprecated
+    public Set<Integer> getProcessExecutorsWithRole(int roleId) {
+        return getExecutorIdsWithRole(roleId);
     }
 
-    public Set<ProcessExecutor> getProcessExecutorsWithRoles(Set<Integer> roleIds) {
-        Set<ProcessExecutor> executorsWithRole = new HashSet<ProcessExecutor>();
-        for (ProcessExecutor executor : processExecutors) {
-            if (roleIds.contains(executor.getRoleId())) {
-                executorsWithRole.add(executor);
-            }
-        }
-        return executorsWithRole;
+    /**
+     * Returns the set of executor user IDs for the certain role.
+     * @param roleId
+     * @return
+     */
+    public Set<Integer> getExecutorIdsWithRole(int roleId) {
+        return processExecutors.stream()
+            .filter(pe -> pe.getRoleId() == roleId)
+            .map(ProcessExecutor::getUserId).collect(Collectors.toSet());
     }
 
-    public Set<ProcessExecutor> getProcessExecutorsInGroupWithRole(int roleId, int groupId) {
-        Set<ProcessExecutor> executorsWithRole = new HashSet<ProcessExecutor>();
-        for (ProcessExecutor executor : processExecutors) {
-            if (executor.getRoleId() == roleId && executor.getGroupId() == groupId) {
-                executorsWithRole.add(executor);
-            }
-        }
-        return executorsWithRole;
+    /**
+     * Use {@link #getExecutorIdsWithRoles(Set)}.
+     */
+    @Deprecated
+    public Set<Integer> getProcessExecutorsWithRoles(Set<Integer> roleIds) {
+        return getExecutorIdsWithRoles(roleIds);
     }
 
-    public Set<ProcessExecutor> getProcessExecutorsWithGroups(Set<Integer> groups) {
-        Set<ProcessExecutor> result = new HashSet<ProcessExecutor>();
-        for (ProcessExecutor executor : processExecutors) {
-            if (groups.contains(executor.getGroupId())) {
-                result.add(executor);
-            }
-        }
-        return result;
+    /**
+     * Returns the set of executor user IDs for the certain roles.
+     * @param roleIds
+     * @return
+     */
+    public Set<Integer> getExecutorIdsWithRoles(Set<Integer> roleIds) {
+        return processExecutors.stream()
+            .filter(pe -> roleIds.contains(pe.getRoleId()))
+            .map(ProcessExecutor::getUserId).collect(Collectors.toSet());
     }
 
+    /**
+     * Use {@link #getExecutorIdsWithGroupAndRole(int, int)}.
+     */
+    @Deprecated
+    public Set<Integer> getProcessExecutorsInGroupWithRole(int roleId, int groupId) {
+        return getExecutorIdsWithGroupAndRole(groupId, roleId);
+    }
+
+    /**
+     * Returns the set of executor user IDs for the certain role and group.
+     * @param groupId
+     * @param roleId
+     * @return
+     */
+    public Set<Integer> getExecutorIdsWithGroupAndRole(int groupId, int roleId) {
+        return processExecutors.stream()
+            .filter(pe -> roleId == pe.getRoleId() && groupId == pe.getGroupId())
+            .map(ProcessExecutor::getUserId).collect(Collectors.toSet());
+    }
+
+    /**
+     * Use {@link #getExecutorIdsWithGroups(Set)}.
+     */
+    @Deprecated
+    public Set<Integer> getProcessExecutorsWithGroups(Set<Integer> groupIds) {
+        return getExecutorIdsWithGroups(groupIds);
+    }
+
+    /**
+     * Returns the set of executor user IDs for the certain groups.
+     * @param groupIds
+     * @return
+     */
+    public Set<Integer> getExecutorIdsWithGroups(Set<Integer> groupIds) {
+        return processExecutors.stream()
+            .filter(pe -> groupIds.contains(pe.getGroupId()))
+            .map(ProcessExecutor::getUserId).collect(Collectors.toSet());
+    }
+
+    public Set<Integer> getExecutorIds() {
+        return Collections.unmodifiableSet(ProcessExecutor.toExecutorSet(processExecutors));
+    }
+    
+    /**
+     * Use {@link #setExecutors(Set)}.
+     */
+    @Deprecated
     public void setProcessExecutors(Set<ProcessExecutor> processExecutors) {
+        setExecutors(processExecutors);
+    }
+
+    public void setExecutors(Set<ProcessExecutor> processExecutors) {
         this.processExecutors = processExecutors;
     }
 
+    /**
+     * Use {@link #getGroups()}.
+     */
+    @Deprecated
     public Set<ProcessGroup> getProcessGroups() {
+        return getGroups();
+    }
+
+    public Set<ProcessGroup> getGroups() {
         return processGroups;
     }
 
+    /** 
+     * Use {@link #getGroupIdsWithRole(int)}.
+     */
+    @Deprecated
     public Set<ProcessGroup> getProcessGroupWithRole(int roleId) {
         Set<ProcessGroup> groupsWithRole = new HashSet<ProcessGroup>();
         for (ProcessGroup group : processGroups) {
@@ -130,6 +200,21 @@ public class Process extends SearchableIdTitle implements Comparable<Process>, C
         return groupsWithRole;
     }
 
+    /**
+     * Returns the set of execution group IDs for the certain role.
+     * @param roleId
+     * @return
+     */
+    public Set<Integer> getGroupIdsWithRole(int roleId) {
+        return processGroups.stream()
+            .filter(pg -> pg.getRoleId() == roleId)
+            .map(ProcessGroup::getGroupId).collect(Collectors.toSet());
+    }
+
+    /**
+     * Use {@link #getGroupIdsWithRoles(Set)}.
+     */
+    @Deprecated
     public Set<ProcessGroup> getProcessGroupWithRoles(Set<Integer> roleIds) {
         Set<ProcessGroup> groupsWithRole = new HashSet<ProcessGroup>();
         for (ProcessGroup group : processGroups) {
@@ -140,7 +225,30 @@ public class Process extends SearchableIdTitle implements Comparable<Process>, C
         return groupsWithRole;
     }
 
+    /**
+     * Returns the set of execution group IDs for the certain roles.
+     * @param roleIds
+     * @return
+     */
+    public Set<Integer> getGroupIdsWithRoles(Set<Integer> roleIds) {
+        return processGroups.stream()
+            .filter(pg -> roleIds.contains(pg.getRoleId()))
+            .map(ProcessGroup::getGroupId).collect(Collectors.toSet());
+    }
+
+    public Set<Integer> getGroupIds() {
+        return Collections.unmodifiableSet(ProcessGroup.toGroupSet(processGroups));
+    }
+
+    /**
+     * Use {@link #setGroups(Set)}.
+     */
+    @Deprecated
     public void setProcessGroups(Set<ProcessGroup> processGroups) {
+        setGroups(processGroups);
+    }
+
+    public void setGroups(Set<ProcessGroup> processGroups) {
         this.processGroups = processGroups;
     }
 
@@ -245,14 +353,6 @@ public class Process extends SearchableIdTitle implements Comparable<Process>, C
 
     public void setCloseTime(Date closeTime) {
         this.closeTime = closeTime;
-    }
-
-    public Set<Integer> getGroupIds() {
-        return new ProcessGroupsWrapper(processGroups);
-    }
-
-    public Set<Integer> getExecutorIds() {
-        return Collections.unmodifiableSet(ProcessExecutor.toExecutorSet(processExecutors));
     }
 
     public String getStatusTitle() {
@@ -445,7 +545,6 @@ public class Process extends SearchableIdTitle implements Comparable<Process>, C
         process.statusTime = statusTime;
         process.statusTitle = statusTitle;
         process.statusUserId = statusUserId;
-        process.title = title;
         process.typeId = typeId;
         process.typeTitle = typeTitle;
 

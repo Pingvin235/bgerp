@@ -133,7 +133,6 @@ public class ProcessDAO extends CommonDAO {
         Process process = new Process();
 
         process.setId(rs.getInt(prefix + "id"));
-        process.setTitle(rs.getString(prefix + "title"));
         process.setDescription(rs.getString(prefix + "description"));
         process.setTypeId(rs.getInt(prefix + "type_id"));
         process.setStatusId(rs.getInt(prefix + "status_id"));
@@ -1526,13 +1525,12 @@ public class ProcessDAO extends CommonDAO {
 
                 } else {
                     query.append("INSERT INTO " + TABLE_PROCESS
-                            + " SET type_id=?, status_id=?, status_user_id=?, status_dt=NOW(), description=?, title=?, create_dt=NOW(), executors=?, create_user_id=?");
+                            + " SET type_id=?, status_id=?, status_user_id=?, status_dt=NOW(), description=?, create_dt=NOW(), executors=?, create_user_id=?");
                     ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
                     ps.setInt(index++, process.getTypeId());
                     ps.setInt(index++, process.getStatusId());
                     ps.setInt(index++, process.getStatusUserId());
                     ps.setString(index++, process.getDescription());
-                    ps.setString(index++, process.getTitle());
                     ps.setString(index++, ProcessExecutor.serialize(process.getProcessExecutors()));
                     ps.setInt(index++, process.getCreateUserId());
                     ps.executeUpdate();
