@@ -642,10 +642,6 @@ CREATE TABLE IF NOT EXISTS `file_data` (
   PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `dynamic_class`;
-DROP TABLE IF EXISTS `dynamic_class_iface`;
-DROP TABLE IF EXISTS `address_distribution`;
-
 CREATE TABLE IF NOT EXISTS `param_log` (
   `dt` datetime NOT NULL,
   `object_id` int(11) NOT NULL,
@@ -692,9 +688,6 @@ CREATE TABLE IF NOT EXISTS `news_user` (
   KEY `user_id` (`user_id`)
 );
 
-DROP TABLE IF EXISTS `fias_house_interval`;
-DROP TABLE IF EXISTS `fias_street`;
-
 CREATE TABLE IF NOT EXISTS `process_common_filter` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `queue_id` int(10) NOT NULL,
@@ -716,12 +709,7 @@ CREATE TABLE IF NOT EXISTS `counter` (
   PRIMARY KEY (`id`)
 );
 
--- DROP TABLE IF EXISTS customer_cache;
-
-DROP TABLE IF EXISTS address_quarter_distribution;
-
 ALTER TABLE param_address CHANGE flat flat CHAR(10) NOT NULL;
-
 ALTER TABLE param_address MODIFY room VARCHAR(20) NOT NULL;
 
 CALL add_key_if_not_exists('customer_link', 'object_id', '(object_id)');
