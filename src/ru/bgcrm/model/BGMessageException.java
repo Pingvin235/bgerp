@@ -7,7 +7,7 @@ public class BGMessageException extends BGException {
     private final Object[] args;
 
     public BGMessageException(String message, Object... args) {
-        super(message);
+        super(String.format(message, args));
         this.args = args;
     }
 

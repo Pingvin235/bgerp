@@ -171,7 +171,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
         if (type == null) {
-            throw new BGMessageException("Неверный тип процесса");
+            throw new BGMessageException("Process type does not exist: %s", process.getTypeId());
         }
 
         TypeProperties typeProperties = type.getProperties();
