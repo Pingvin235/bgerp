@@ -15,7 +15,7 @@ onProcessEvent.{@inc:cnt}.events=messageAdded
 onProcessEvent.{@cnt}.doExpression=<<END
     text = "New message in your process" +
         NEW_LINE2 + "Message:" + NEW_LINE + event.getMessage().getText() +
-        {@EMAIL_MESSAGE_E};
+        {@EMAIL_MESSAGE_END};
        
     subject = {@EMAIL_SUBJECT} + " QA:" + event.getMessage().getId();
     # possible notifications: push message in Android app, Telegram, Slack, news in user interface

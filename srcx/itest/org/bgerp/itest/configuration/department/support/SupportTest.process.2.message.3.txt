@@ -1,0 +1,13 @@
+Hello, 
+
+sure, you may access the test server.
+
+HOST: test.ivan.me
+PORT: 9999
+USER: test
+
+Your SSH key is already there.
+
+Best regards,
+Ivan.
+

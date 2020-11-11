@@ -1,9 +1,11 @@
+#
 cnt=0
 #
 filter.{@inc:cnt}.type=openClose
-filter.{@cnt}.defaultValue=open
+#filter.{@cnt}.defaultValue=open
 filter.{@inc:cnt}.type=status
 filter.{@inc:cnt}.type=groups
+filter.{@cnt}.onEmptyValues={@GROUP_ID}
 filter.{@cnt}.show=0
 filter.{@inc:cnt}.title=Executors
 filter.{@cnt}.type=executors
@@ -32,11 +34,11 @@ column.8.title=Executors
 column.8.value=executors
 column.8.titleIfMore=15
 
-column.10.title=MIC
+column.10.title=Messages IN
 column.10.value=messageInCount
-column.12.title=MIUC
+column.12.title=Unread messages IN
 column.12.value=messageInUnreadCount
-column.14.title=MIL
+column.14.title=Last message
 column.14.value=messageInLastDt
 column.14.nowrap=1
 column.16.title=NONE
@@ -47,7 +49,8 @@ column.18.value=create_dt
 column.18.nowrap=1
 column.18.style=padding: 2px;
 
-media.html.columns=1,2,4,6,8,10,12,14,18
+# shown columns
+media.html.columns=1,2,4,6,8,14,18
 
 sort.combo.count=2
 sort.combo.1.default=3

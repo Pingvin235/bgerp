@@ -81,6 +81,7 @@ import ru.bgerp.util.Log;
 
 public class MessageTypeEmail extends MessageType {
     private static final String AUTOREPLY_SYSTEM_ID = "autoreply";
+    public static final String RE_PREFIX = "Re: ";
 
     private static final RecipientType[] RECIPIENT_TYPES = new RecipientType[] { RecipientType.TO, RecipientType.CC };
 
@@ -91,7 +92,6 @@ public class MessageTypeEmail extends MessageType {
     private static Instant lastDateResetCash = Instant.now();
     private long casheLifetime;
 
-    private static final String RE_PREFIX = "Re: ";
     private final Pattern processIdPattern;
     private final Pattern quickAnswerPattern;
     private final int quickAnswerEmailParamId;
@@ -384,7 +384,7 @@ public class MessageTypeEmail extends MessageType {
 
                     int processId = getProcessId(subject);
                     if (processId <= 0 && msg.getProcessId() > 0) {
-                        subject = subject + " [" + mailConfig.getEmail() + "#" + msg.getProcessId() + "]";
+                        subject = getSubjectWithProcessIdSuffix(msg);
                     }
 
                     message.setSubject(subject, encoding);
@@ -416,6 +416,10 @@ public class MessageTypeEmail extends MessageType {
         } finally {
             SQLUtils.closeConnection(con);
         }
+    }
+
+    public String getSubjectWithProcessIdSuffix(Message msg) {
+        return msg.getSubject() + " [" + mailConfig.getEmail() + "#" + msg.getProcessId() + "]";
     }
 
     private void createEmailText(MessageDAO messageDAO, MimeMessage message, String encoding, Message msg)

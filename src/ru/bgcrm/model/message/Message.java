@@ -48,7 +48,7 @@ public class Message extends Id {
     // для звонка - с номера, для EMail - с адреса, для HD - код контрагента в виде строки
     private String from = "";
     // для звонка - на номер, для EMail - на адрес, для HD - код контрагента в виде строки
-    private String to;
+    private String to = "";
 
     // для HD/E-Mail - тема сообщения
     private String subject = "";

@@ -7,10 +7,21 @@ import ru.bgcrm.cache.UserCache;
 
 public class StatusChange {
     private int processId;
+    // TODO: rename to time
     private Date date;
     private int userId;
     private int statusId;
     private String comment;
+
+    public StatusChange(int processId, Date dt, int userId, int statusId, String comment) {
+        this.processId = processId;
+        this.date = dt;
+        this.userId = userId;
+        this.statusId = statusId;
+        this.comment = comment;
+    }
+
+    public StatusChange() {}
 
     public int getProcessId() {
         return processId;

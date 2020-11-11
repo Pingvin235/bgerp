@@ -73,9 +73,10 @@ public class ConfigHelper {
             config
                 .append(pairs[i])
                 .append("=")
-                .append(pairs[i + 1]);
+                .append(pairs[i + 1])
+                .append("\n");
         }
-        return config.toString() + "\n";
+        return config.toString();
     }
 
 }

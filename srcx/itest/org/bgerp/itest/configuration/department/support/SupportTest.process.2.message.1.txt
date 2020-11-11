@@ -1,0 +1,54 @@
+Hello, 
+
+during the running of the latest update of your software 
+the following exceptions are coming in log.
+Disable the message text wrap to see it better. 
+
+---
+10-26/13:08:29  INFO [pool-2-thread-2] MessageTypeHelpDesk - staring class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+10-26/13:08:35  INFO [pool-2-thread-2] MessageTypeHelpDesk - finished class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+10-26/13:08:35  INFO [pool-2-thread-2] MessageTypeEmail - Starting EMail daemon, box: bgerpp@gmail.com
+10-26/13:08:39  INFO [pool-2-thread-2] Scheduler - Task ru.bgcrm.worker.MessageExchange@7b119683 finished. Executing time: 23412 ms.
+10-26/13:09:16  INFO [Thread-3] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@11c9abf0
+10-26/13:09:16  INFO [Thread-3] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@669b82c4
+10-26/13:09:19 ERROR [pool-2-thread-5] CommandProcessor - authentication failure
+javax.mail.AuthenticationFailedException: authentication failure
+	at com.sun.mail.imap.IMAPStore.protocolConnect(IMAPStore.java:732)
+	at javax.mail.Service.connect(Service.java:366)
+	at javax.mail.Service.connect(Service.java:246)
+	at ru.bgcrm.util.MailConfig.getImapStore(MailConfig.java:76)
+	at ru.bgcrm.plugin.dispatch.CommandProcessor.run(CommandProcessor.java:46)
+	at ru.bgcrm.Scheduler$1.run(Scheduler.java:162)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+10-26/13:10:16  INFO [Thread-3] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@73341084
+10-26/13:10:16  INFO [Thread-3] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@15a69736
+10-26/13:10:19 ERROR [pool-2-thread-1] CommandProcessor - authentication failure
+javax.mail.AuthenticationFailedException: authentication failure
+	at com.sun.mail.imap.IMAPStore.protocolConnect(IMAPStore.java:732)
+	at javax.mail.Service.connect(Service.java:366)
+	at javax.mail.Service.connect(Service.java:246)
+	at ru.bgcrm.util.MailConfig.getImapStore(MailConfig.java:76)
+	at ru.bgcrm.plugin.dispatch.CommandProcessor.run(CommandProcessor.java:46)
+	at ru.bgcrm.Scheduler$1.run(Scheduler.java:162)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+10-26/13:11:16  INFO [Thread-3] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@496c3859
+10-26/13:11:16  INFO [Thread-3] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@73db0e12
+10-26/13:11:19 ERROR [pool-2-thread-2] CommandProcessor - authentication failure
+javax.mail.AuthenticationFailedException: authentication failure
+	at com.sun.mail.imap.IMAPStore.protocolConnect(IMAPStore.java:732)
+	at javax.mail.Service.connect(Service.java:366)
+	at javax.mail.Service.connect(Service.java:246)
+	at ru.bgcrm.util.MailConfig.getImapStore(MailConfig.java:76)
+	at ru.bgcrm.plugin.dispatch.CommandProcessor.run(CommandProcessor.java:46)
+	at ru.bgcrm.Scheduler$1.run(Scheduler.java:162)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+---
+
+Best regards,
+Ivan.

@@ -5,11 +5,17 @@ import java.util.Set;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.testng.Assert;
 
+import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
+import ru.bgcrm.dao.process.ProcessDAO;
+import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.dao.process.QueueDAO;
 import ru.bgcrm.dao.process.StatusDAO;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.ProcessExecutor;
+import ru.bgcrm.model.process.ProcessLink;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.Status;
@@ -31,7 +37,7 @@ public class ProcessHelper {
         return status.getId();
     }
     
-    public static int addType(String title, int parentId, boolean useParentProperties,TypeProperties props) throws Exception {
+    public static int addType(String title, int parentId, boolean useParentProperties, TypeProperties props) throws Exception {
         var con = DbTest.conRoot;
         var dao = new ProcessTypeDAO(con);
 
@@ -41,10 +47,12 @@ public class ProcessHelper {
         dao.updateProcessType(type, User.USER_SYSTEM_ID);
         Assert.assertTrue(type.getId() > 0);
         
-        if (!useParentProperties) {
+        if (!useParentProperties && props != null) {
             type.setProperties(props);
             dao.updateTypeProperties(type);
         }
+
+        ProcessTypeCache.flush(DbTest.conRoot);
 
         return type.getId();
     }
@@ -75,17 +83,38 @@ public class ProcessHelper {
         dao.updateQueue(queue, User.USER_SYSTEM_ID);
     }
 
-    // TODO: Creation time is always current.
     public static Process addProcess(int typeId, int createUserId, String description) throws Exception {
+        return addProcess(typeId, createUserId, description, 0);
+    }
+
+    // TODO: Creation time is always current.
+    public static Process addProcess(int typeId, int createUserId, String description, int priority) throws Exception {
         var con = DbTest.conRoot;
 
         Process process = new Process();
         process.setTypeId(typeId);
         process.setDescription(description);
+        process.setPriority(priority);
 
         ProcessAction.processCreate(new DynActionForm(UserCache.getUser(createUserId)), con, process);
     
         return process;
     }
 
+    public static void addLink(ProcessLink link) throws Exception {
+        new ProcessLinkDAO(DbTest.conRoot).addLink(link);
+    }
+
+    public static void addCustomerLink(int processId, String linkType, Customer customer) throws Exception {
+        new ProcessLinkDAO(DbTest.conRoot).addLink(new ProcessLink(processId, linkType, customer.getId(), customer.getTitle()));
+    }
+
+    public static void addExecutor(Process process, int userId, int groupId) throws Exception {
+        addExecutor(process, userId, groupId, 0);
+    }
+
+    public static void addExecutor(Process process, int userId, int groupId, int roleId) throws Exception {
+        process.getExecutors().add(new ProcessExecutor(userId, groupId, roleId));
+        new ProcessDAO(DbTest.conRoot).updateProcessExecutors(process.getExecutors(), process.getId());
+    }
 }

@@ -6,15 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.beust.jcommander.internal.Lists;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.beust.jcommander.internal.Lists;
+
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.ProcessExecutor;
+import ru.bgcrm.model.process.ProcessLinkProcess.Made;
 import ru.bgcrm.model.process.Status;
 
 public class BoardTest {
@@ -37,20 +38,10 @@ public class BoardTest {
             Set<ProcessExecutor> executors = new HashSet<>();
             for (int executorId : executorIds)
                 executors.add(new ProcessExecutor(executorId, 0, 0));
-            setProcessExecutors(executors);
+            setExecutors(executors);
         }
     }
 
-    private static class Link extends CommonObjectLink {
-        private Link(int parentId, int childId) {
-            super(parentId, Process.LINK_TYPE_MADE, childId, "");
-        }
-        
-        private Link(Process parent, Process child) {
-            super(parent.getId(), Process.LINK_TYPE_MADE, child.getId(), "");
-        }
-    }
-    
     @Test
     public void testGetRoot() {
         Process p1 = new Process(1);
@@ -61,7 +52,7 @@ public class BoardTest {
         @SuppressWarnings("unchecked")
         List<Pair<ru.bgcrm.model.process.Process, Map<String, Object>>> processes = Lists.newArrayList(new Pair<>(p1, null), new Pair<>(p2, null), 
                 new Pair<>(p3, null), new Pair<>(p4, null));
-        List<CommonObjectLink> links = Lists.newArrayList(new Link(p1.getId(), p2.getId()), new Link(p1.getId(), p3.getId()));
+        List<CommonObjectLink> links = Lists.newArrayList(new Made(p1.getId(), p2.getId()), new Made(p1.getId(), p3.getId()));
         
         Item rootItem = new Board(null, processes, links).getRoot();
         Assert.assertNotNull(rootItem);
@@ -87,22 +78,22 @@ public class BoardTest {
         Process p2 = new ProcessWithExecutor(2, 2);
         
         Process p3 = new ProcessWithExecutor(3, 1);
-        links.add(new Link(p1, p3));
+        links.add(new Made(p1, p3));
         Process p4 = new ProcessWithExecutor(4, 2);
-        links.add(new Link(p2, p4));
+        links.add(new Made(p2, p4));
         
         Process p5 = new ProcessWithExecutor(5, 1);
-        links.add(new Link(p1, p5));
+        links.add(new Made(p1, p5));
         
         Process p6 = new ProcessWithExecutor(6, 1);
         Process p7 = new ProcessWithExecutor(7, 2);
-        links.add(new Link(p6, p7));
+        links.add(new Made(p6, p7));
         Process p8 = new ProcessWithExecutor(8, 2);
-        links.add(new Link(p6, p8));
+        links.add(new Made(p6, p8));
         
         Process p9 = new ProcessWithExecutor(9, 1);
         Process p10 = new ProcessWithExecutor(10, 1);
-        links.add(new Link(p9, p10));
+        links.add(new Made(p9, p10));
         
         Process p11 = new ProcessWithExecutor(11, 1, 2);
         

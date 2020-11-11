@@ -1,4 +1,4 @@
-package org.bgerp.itest.configuration.company.department.accounting;
+package org.bgerp.itest.configuration.department.accounting;
 
 public class AccountingTest {
     /*

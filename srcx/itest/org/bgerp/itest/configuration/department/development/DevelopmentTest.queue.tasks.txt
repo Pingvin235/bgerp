@@ -1,9 +1,11 @@
+#
 cnt=0
 #
 filter.{@inc:cnt}.type=openClose
 filter.{@cnt}.defaultValue=open
 filter.{@inc:cnt}.type=status
 filter.{@inc:cnt}.type=groups
+filter.{@cnt}.onEmptyValues={@GROUP_ID}
 filter.{@cnt}.show=0
 filter.{@inc:cnt}.title=Executors
 filter.{@cnt}.type=executors
@@ -17,7 +19,6 @@ column.1.title=ID
 column.1.value=id
 column.2.title=Customer
 column.2.value=linkedCustomerLink
-#column.2.value=linkedCustomer:title
 column.2.titleIfMore=100
 column.3.title=Priority
 column.3.value=priority
@@ -47,7 +48,10 @@ column.18.value=create_dt
 column.18.nowrap=1
 column.18.style=padding: 2px;
 
-media.html.columns=1,2,4,6,8,10,12,14,18
+column.20.title=Status changed
+column.20.value=status_dt:dd.MM.yyyy
+
+media.html.columns=1,4,6,8,10,12,14,18
 
 sort.combo.count=2
 sort.combo.1.default=3

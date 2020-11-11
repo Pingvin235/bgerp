@@ -1,4 +1,4 @@
-package org.bgerp.itest.configuration.company.department.personal;
+package org.bgerp.itest.configuration.department.personal;
 
 public class PersonalTest {
     /*

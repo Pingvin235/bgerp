@@ -42,7 +42,13 @@ public class CustomerTest {
     private int paramGroupOrgId;
     private int paramGroupPersonId;
 
+    public static final String CUSTOMER_ORG_NS_DOMAIN = "nicrosoft.com";
+    public static final String CUSTOMER_ORG_NS_TILL_MAIL = "till@" + CUSTOMER_ORG_NS_DOMAIN;
+    public static final String CUSTOMER_ORG_NS_TILL_NAME = "Till Gates";
     public static volatile Customer customerOrgNs;
+
+    public static final String CUSTOMER_PERS_IVAN_MAIL = "ivan@bgerp.org";
+    public static final String CUSTOMER_PERS_IVAN_NAME = "Ivan Drago";
     public static volatile Customer customerPersonIvan;
 
     @Test
@@ -87,18 +93,18 @@ public class CustomerTest {
 
         var paramDao = new ParamValueDAO(con);
 
-        customerPersonIvan = CustomerHelper.addCustomer(0, paramGroupPersonId, "Ivan Drago");
+        customerPersonIvan = CustomerHelper.addCustomer(0, paramGroupPersonId, CUSTOMER_PERS_IVAN_NAME);
         
         int customerId = customerPersonIvan.getId();
-        paramDao.updateParamEmail(customerId, paramEmailId, 0, new ParameterEmailValue("ivan@bgerp.org"));
+        paramDao.updateParamEmail(customerId, paramEmailId, 0, new ParameterEmailValue(CUSTOMER_PERS_IVAN_MAIL));
         paramDao.updateParamDate(customerId, paramBirthDateId, new GregorianCalendar(1983, Calendar.JULY, 1).getTime());
         paramDao.updateParamText(customerId, paramBirthPlaceId, "Uzgala village");
         paramDao.updateParamText(customerId, paramLivingAddressId, "Lenina Street 1, 450000, Ufa Russia");
 
         customerOrgNs = CustomerHelper.addCustomer(titlePatternOrgId, paramGroupOrgId, "");
         
-        paramDao.updateParamEmail(customerOrgNs.getId(), paramEmailId, 0, new ParameterEmailValue("bill@nicrosoft.com", "Till Gates"));
-        paramDao.updateParamEmail(customerOrgNs.getId(), paramEmailId, 0, new ParameterEmailValue("nicrosoft.com", "Domain"));
+        paramDao.updateParamEmail(customerOrgNs.getId(), paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_TILL_MAIL, CUSTOMER_ORG_NS_TILL_NAME));
+        paramDao.updateParamEmail(customerOrgNs.getId(), paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_DOMAIN, "Domain"));
         paramDao.updateParamText(customerOrgNs.getId(), paramOrgTitleId, "NicroSoft");
         paramDao.updateParamList(customerOrgNs.getId(), paramOrgFormId, Collections.singleton(2));
 

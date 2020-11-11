@@ -1,0 +1,54 @@
+#
+blow:board.1.title=BGERP Work
+blow:board.1.queueId={@PROCESS_QUEUE_ID}
+blow:board.1.stringExpressionCell=<<END
+     result = "";
+
+     result += process.getDescription() + " [<b>" + ctxProcessStatusMap[process.getStatusId()];
+     if (process.getProcessExecutorsWithRole(0).size() > 0) {
+        result += " " + params.get("col{@COL_STATUS_CHANGED}");
+     } 
+     result += "</b>]";
+
+     msgCnt = params.get("col{@COL_MESSAGES}");
+     if (msgCnt) {
+         result += " " + msgCnt;
+         unreadCnt = params.get("col{@COL_MESSAGES_UNREAD}");
+         if (unreadCnt)
+            result += " (<b>" + unreadCnt + "</b>)";
+     }
+
+     return result;
+END
+blow:board.1.openUrl=bgerp
+
+cnt=0
+
+blow:board.1.filter.{@inc:cnt}.stringExpression=<<END
+     return "All: <b>[" + items.size() + "]</b>";
+END
+
+blow:board.1.filter.{@inc:cnt}.color=#31bc79
+blow:board.1.filter.{@cnt}.stringExpression=<<END
+     count = 0;
+     for (item : items) {
+          if (item.getProcess().getStatusId() =~ [{@PROCESS_STATUS_PROGRESS_ID}]) {
+               count += 1;
+               item.addFilterId(filter.getId());
+          }
+     }
+    return "Work: <b>[" + count + "]</b>";
+END
+
+blow:board.1.filter.{@inc:cnt}.color=#67c7db
+blow:board.1.filter.{@cnt}.stringExpression=<<END
+     count = 0;
+     for (item : items) {
+          if (item.getProcess().getStatusId() =~ [{@PROCESS_STATUS_WAIT_ID}]) {
+               count += 1;
+               item.addFilterId(filter.getId());
+          }
+     }
+    return "Wait: <b>[" + count + "]</b>";
+END
+

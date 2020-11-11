@@ -1,0 +1,4 @@
+#
+# notifications config 
+include.{@CONFIG_PROCESS_NOTIFICATIONS_ID}=1
+#

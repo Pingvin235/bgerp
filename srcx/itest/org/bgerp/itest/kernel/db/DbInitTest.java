@@ -14,6 +14,8 @@ public class DbInitTest {
     public void init() throws Exception {
         DbTest.initPoolAndConnection("/" + DBNAME);
         Setup.resetSetup(DbTest.conPoolRoot);
+        // TODO: Workaround.
+        Setup.getSetup().put("plugin.enable.default", "0");
         PluginManager.init();
     }
 }
