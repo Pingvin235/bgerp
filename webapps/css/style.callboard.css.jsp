@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 /* таблица с графиком дежурств */
-#callboard .callboard table.minimal td {
+#work-callboard .callboard table.minimal td {
 	 padding: 0.2em;
 	 min-width: 30px;
 	 max-width: 30px;
@@ -13,16 +13,16 @@
 	 -webkit-user-select: none;
 }
 
-#callboard .callboard table.minimal .sum {
+#work-callboard .callboard table.minimal .sum {
 	background: #F2C777;
 	font-weight: bold;
 }
 
-#callboard .callboard table.minimal td.shiftDateHeader {
+#work-callboard .callboard table.minimal td.shiftDateHeader {
 	text-align: center;
 }
 
-#callboard .callboard table.minimal td.shiftUser {
+#work-callboard .callboard table.minimal td.shiftUser {
 	padding: 0.2em 0.5em;
 	min-width: 200px;
 	max-width: 200px;
@@ -32,28 +32,28 @@
   	cursor: pointer;
 }
 
-#callboard .callboard table.minimal .groupHeader td {
+#work-callboard .callboard table.minimal .groupHeader td {
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
 }
 
-#callboard .callboard table.minimal td.dayShift {
+#work-callboard .callboard table.minimal td.dayShift {
 	cursor: pointer;
 }
 
 /* выбор смен */
-#callboard #editor #shiftArea {
+#work-callboard #editor #shiftArea {
 	width: 100%;
 	overflow: hidden;
 }
 
-#callboard #editor #shiftArea .wrap {
+#work-callboard #editor #shiftArea .wrap {
 	height: 100%;
 	white-space: nowrap;
 	overflow-x: auto;
 }
 
-#callboard #editor #shiftArea .wrap .shift {
+#work-callboard #editor #shiftArea .wrap .shift {
 	white-space: normal;
 	display: inline-block;
 	height: 100%;
@@ -62,36 +62,36 @@
 	padding: 0.2em;
 }
 
-#callboard #editor #shiftArea .wrap .shift :first {
+#work-callboard #editor #shiftArea .wrap .shift :first {
 	vertical-align: middle;
 	text-align: center;
 }
 
-#callboard #editor #shiftArea .wrap .shift .text,
-#callboard #editor #shiftArea .wrap .shift .color {
+#work-callboard #editor #shiftArea .wrap .shift .text,
+#work-callboard #editor #shiftArea .wrap .shift .color {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-#callboard #editor #shiftArea .wrap .shift .text {
+#work-callboard #editor #shiftArea .wrap .shift .text {
 	font-size: 0.8em;
 	height: 60%;
 }
 
-#callboard #editor #shiftArea .wrap .shift .color {
+#work-callboard #editor #shiftArea .wrap .shift .color {
 	padding-left: 0.5em;
 	padding-top: 0.2em;
 	vertical-align: middle;
 	height: 40%;
 }
 
-#callboard #editor #shiftArea .wrap .shift {
+#work-callboard #editor #shiftArea .wrap .shift {
  	border-style: solid;
 	border-width: 2px;
 	border-color: white;
 }
 
-#callboard #editor #shiftArea .wrap .shift.selected {
+#work-callboard #editor #shiftArea .wrap .shift.selected {
 	border-color: red;
 }
 
