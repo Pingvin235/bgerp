@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="title" value="Очереди процессов"/>
+<c:set var="title" value="${l.l('Очереди процессов')}"/>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 
 <div id="processQueueShow" >
@@ -30,7 +30,7 @@
 					<ui:combo-single id="${id}"
 						value="${ctxUser.personalizationMap['queueLastSelected']}"
 						widthTextValue="220px"
-						prefixText="Очередь:"
+						prefixText="${l.l('Очередь')}:"
 						showFilter="1"
 						onSelect="$('.text-value div.icon-add').remove()"
 						valuesHtml="${valuesHtml}"/>

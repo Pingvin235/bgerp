@@ -101,7 +101,7 @@ public class Localization {
                     Document doc = XMLUtils.parseDocument(Localization.class.getResourceAsStream(FILE_NAME));
                     Localization l = new Localization(PLUGIN_KERNEL, doc);
                     localizations.put(l.pluginName, l);
-                    log.info("Loaded localization for kernel.");
+                    log.debug("Loaded localization for kernel.");
 
                     for (Plugin p : PluginManager.getInstance().getPluginList()) {
                         doc = p.getXml(FILE_NAME, null);
@@ -109,12 +109,12 @@ public class Localization {
                         
                         l = new Localization(p.getName(), doc);
                         localizations.put(l.pluginName, l);
-                        log.info("Loaded localization for: " + l.pluginName);
+                        log.debug("Loaded localization for: " + l.pluginName);
                     }
                     
                     lastLoadTime = System.currentTimeMillis();
                 } catch (Exception e) {
-                    log.error(e.getMessage(), e);
+                    log.error(e);
                 }
             }
         }

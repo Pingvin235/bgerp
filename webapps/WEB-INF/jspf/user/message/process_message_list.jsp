@@ -103,7 +103,7 @@
 									</c:if>
 								</div>
 								<div class="mt05">
-									Создано: ${u:formatDate( message.fromTime, 'ymdhm' )}
+									${l.l('Создано')}: ${u:formatDate( message.fromTime, 'ymdhm' )}
 												(<ui:user-link id="${message.userId}"/>)
 								</div>
 							</div>
@@ -116,16 +116,16 @@
 								<div class="mt05">
 									<c:choose>
 										<c:when test="${message.direction eq 1}">
-											Отправлено: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
+											${l.l('Отправлено')}: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
 											<nobr>
-												Обработано: ${u:formatDate( message.toTime, 'ymdhm' )}
+												${l.l('Обработано')}: ${u:formatDate( message.toTime, 'ymdhm' )}
 												(<ui:user-link id="${message.userId}"/>)
 											</nobr>
 										</c:when>
 										<c:otherwise>
-											Создано: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+											${l.l('Создано')}: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
 											<nobr>
-												Отправлено: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
+												${l.l('Отправлено')}: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
 											</nobr>
 										</c:otherwise>
 									</c:choose>
@@ -140,15 +140,15 @@
 								<div class="mt05">
 									<c:choose>
 										<c:when test="${message.direction eq 1}">
-											Принят: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
+											${l.l('Принят')}: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
 											<nobr>
-												Обработано: ${u:formatDate( message.toTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+												${l.l('Обработано')}: ${u:formatDate( message.toTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
 											</nobr>
 										</c:when>
 										<c:otherwise>
-											Создано: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+											${l.l('Создано')}: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
 											<nobr>
-												Отправлено: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
+												${l.l('Отправлено')}: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
 											</nobr>
 										</c:otherwise>
 									</c:choose>
@@ -222,13 +222,13 @@
 								return false;
 							</c:set>
 
-							<li><a href="#UNDEF" onclick="${command}">Вкл./выкл. разрывы строк</a></li>
+							<li><a href="#UNDEF" onclick="${command}">${l.l('Вкл./выкл. разрывы строк')}</a></li>
 							<ui:when type="user">
-								<li><a href="#UNDEF" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">Теги</a></li>
+								<li><a href="#UNDEF" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">${l.l('Теги')}</a></li>
 								<li>
 									<a href="#">${l.l('Изменить процесс на')}</a>
 									<ul>
-										<li><a href="#UNDEF" onclick="${actionButtonStartEditMerge} $('#${linkFormUiid}')${actionButtonStartEdit}">Другой существующий</a></li>
+										<li><a href="#UNDEF" onclick="${actionButtonStartEditMerge} $('#${linkFormUiid}')${actionButtonStartEdit}">${l.l('Другой существующий')}</a></li>
 
 										<c:if test="${messageType.processChangeSupport}">
 											<c:forTokens items = " ,processDepend,processMade,processLink" delims = "," var = "linkType">
@@ -273,7 +273,7 @@
 										$$.ajax
 											.load('${answerUrl}', $('#${editorContainerUiid}'))
 											.done(function () {$(window).scrollTop(150)});
-										return false;">Ответить</a></li>
+										return false;">${l.l('Ответить')}</a></li>
 								</c:if>
 							
 								<c:set var="perm" value="${p:get(form.user.id, 'ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes')}" />
@@ -290,7 +290,7 @@
 										<li><a href="#UNDEF" onclick="if (bgcrm.lock.add('${message.lockEdit}')) {
 												$$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
 											};
-											return false;">Редактировать</a></li>
+											return false;">${l.l('Редактировать')}</a></li>
 									</c:if>
 	
 									<c:if test="${messageType.isRemovable(message)}">

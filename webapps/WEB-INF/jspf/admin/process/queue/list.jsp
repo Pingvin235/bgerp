@@ -47,6 +47,5 @@
 	</c:forEach>
 </table>
 
-<c:set var="title" value="Очереди процессов"/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:title ltext="Очереди процессов"/>
+<shell:state text=""/>

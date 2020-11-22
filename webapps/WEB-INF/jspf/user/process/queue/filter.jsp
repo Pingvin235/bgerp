@@ -842,7 +842,7 @@
 
 			<c:set var="id" value="${u:uiid()}"/>
 			<c:set var="hiddenName" value="param"/>
-			<c:set var="prefixText" value="Фильтры:"/>
+			<c:set var="prefixText" value="${l.l('Фильтры')}:"/>
 			<c:set var="styleClass" value="mr1 filtersSelect"/>
 			<c:set var="widthTextValue" value="50px"/>
 			<c:set var="onChange">
@@ -886,7 +886,7 @@
 
 		<c:if test="${queue.sortSet.comboCount gt 0}">
 			<div>
-				Сорт.:
+				${l.l('Сорт.')}:
 				<c:forEach begin="1" end="${queue.sortSet.comboCount}" step="1" varStatus="status">
 					<c:set var="value" value="0"/>
 					<c:forEach var="mode" items="${queue.sortSet.modeList}" varStatus="statusItem">

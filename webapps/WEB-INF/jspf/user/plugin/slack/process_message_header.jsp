@@ -5,7 +5,7 @@
 	<div style="width: 100%;">
 		 <div>
 		 	#${message.id} Slack 
-		 	Создано: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+		 	${l.l('Создано')}: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
 		</div>
 	</div>
 </c:if>

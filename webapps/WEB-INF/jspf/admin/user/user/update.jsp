@@ -101,7 +101,7 @@
 	--%></c:if><%--
 	--%><c:if test="${empty perm['queueSet']}"><%--
 		--%><div style="width: 20%;">
-				<h2>Очереди процессов</h2>
+				<h2>${l.l('Очереди процессов')}</h2>
 
 				<u:sc>
 					<c:set var="list" value="${ctxProcessQueueList}" />

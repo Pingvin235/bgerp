@@ -11,14 +11,14 @@
 		 <div class="mt05">						 
 			<c:choose>
 				<c:when test="${message.direction eq 1}">
-					Создано: ${u:formatDate( message.fromTime, 'ymdhm' )}
+					${l.l('Создано')}: ${u:formatDate( message.fromTime, 'ymdhm' )}
 					Прочитано: ${u:formatDate( message.toTime, 'ymdhm' )}
 					<c:if test="${not empty message.toTime}">
 						(<ui:user-link id="${message.userId}"/>)
 					</c:if>	
 				</c:when>
 				<c:otherwise>
-					Создано: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+					${l.l('Создано')}: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
 					Прочитано: ${u:formatDate( message.toTime, 'ymdhm' )}
 				</c:otherwise>
 			</c:choose>

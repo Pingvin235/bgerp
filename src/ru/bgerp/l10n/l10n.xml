@@ -57,6 +57,7 @@
 	<p><ru>исполнители</ru><en>executors</en></p>
 	<p><ru>группы</ru><en>groups</en></p>
 	<p><ru>Группы / исполнители</ru><en>Groups / executors</en></p>
+	<p><en>ОК</en><ru>ОК</ru></p>
 	<p><ru>Отмена</ru><en>Cancel</en></p>
 	<p><ru>Добавить в конец описания текст с именем автора и временем</ru><en>Add to the description's end with author and time</en></p>
 	<p><ru>Править описание целиком (также можете кликнуть мышью по описанию)</ru><en>Edit the whole description, you may also click on it by mouse</en></p>
@@ -103,7 +104,7 @@
 	<p><ru>Пользователи</ru><en>Users</en></p>
 	<p><ru>Статусы процессов</ru><en>Statuses</en></p>
 	<p><ru>Типы процессов</ru><en>Types</en></p>
-	<p><ru>Очереди процессов</ru><en>Queues</en></p>
+	<p><ru>Очереди процессов</ru><en>Process queues</en></p>
 	<p><ru>Динамический код</ru><en>Dynamic code</en></p>
 	<p><ru>WEB запросы</ru><en>HTTP requests</en></p>
 	<p><ru>Конфигурация</ru><en>Configuration</en></p>
@@ -187,6 +188,37 @@
 	<p><ru>Прочитано</ru><en>Read</en></p>
 	<p><ru>Пометить все новости прочитанными</ru><en>Mark all news as read</en></p>
 	<p><ru>Все прочитаны</ru><en>All read</en></p>
+	<p><ru>Редактор</ru><en>Editor</en></p>
+	<p><ru>Помощь</ru><en>Help</en></p>
+	<p><ru>Фильтры</ru><en>Filters</en></p>
+	<p><ru>Сорт.</ru><en>Order</en></p>
+	<p><ru>Слить в существующий</ru><en>Merge to existing</en></p>
+	<p><ru>Привязки</ru><en>Links</en></p>
+	<p><ru>привязать</ru><en>add link</en></p>
+	<p><ru>Привязать объект из буфера</ru><en>Link object from buffer</en></p>
+	<p><ru>Привязать иной объект</ru><en>Link another object</en></p>
+	<p><ru>Строка поиска контрагента</ru><en>Customer search string</en></p>
+	<p><ru>нет</ru><en>no</en></p>
+	<p><ru>Произвольный объект</ru><en>Arbitary object</en></p>
+	<p><ru>Привязать сообщение к указанному процессу?</ru><en>Link the message to the process?</en></p>
+	<p><ru>Изменить процесс на</ru><en>Change process to</en></p>
+	<p><ru>Независимую</ru><en>Independent</en></p>
+	<p><ru>Изменить процесс сообщения на %s копию текущего процесса?</ru><en>Change process of the message to %s copy of the current process?</en></p>
+	<p><ru>%s копию текущего</ru><en>%s copy of the current</en></p>
+	<p><ru>Зависящую</ru><en>Dependent</en></p>
+	<p><ru>Порождённую</ru><en>Made</en></p>
+	<p><ru>Ссылаемую</ru><en>Linked</en></p>
+	<p><ru>Привязать связанный с уже привязаным объектом</ru><en>Link a transitive linked object</en></p>
+	<p><ru>Процесс создан</ru><en>Process created</en></p>
+	<p><ru>Создано</ru><en>Created</en></p>
+	<p><ru>Отправлено</ru><en>Sent</en></p>
+	<p><ru>Обработано</ru><en>Processed</en></p>
+	<p><ru>Вкл./выкл. разрывы строк</ru><en>Toggle line breaks</en></p>
+	<p><ru>Удалить сообщение?</ru><en>Delete the message?</en></p>
+	<p><ru>Теги</ru><en>Tags</en></p>
+	<p><ru>Ответить</ru><en>Respond</en></p>
+	<p><ru>Редактировать</ru><en>Edit</en></p>
+	<p><ru>Другой существующий</ru><en>Another existing</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

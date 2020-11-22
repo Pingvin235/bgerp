@@ -10,13 +10,13 @@
 	<input type="text" name="id" style="width: 100%" value="${message.id}" disabled="disabled"/>
 	
 	<c:if test="${not empty message.createTime }">	
-		<h2>Создано</h2>
+		<h2>${l.l('Создано')}</h2>
 		<h3>${u:formatDate( message.createTime, 'ymdhms' )}</h3>
 	</c:if>
 	
 	<c:choose>
 		<c:when test="${not empty message.sentTime }">	
-			<h2>Отправлено</h2>
+			<h2>${l.l('Отправлено')}</h2>
 			<h3>${u:formatDate( message.sentTime, 'ymdhms' )}</h3>
 			
 			<c:set var="disabled">disabled="disabled"</c:set>
