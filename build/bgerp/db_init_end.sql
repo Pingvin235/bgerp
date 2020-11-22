@@ -1,2 +1,2 @@
 
-INSERT INTO user (title, login, pswd, description) VALUES ("Administrator", "admin", "admin", "Administrator");
+INSERT INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

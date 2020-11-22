@@ -47,11 +47,12 @@ column.18.title=Created
 column.18.value=create_dt
 column.18.nowrap=1
 column.18.style=padding: 2px;
-
 column.20.title=Status changed
 column.20.value=status_dt:dd.MM.yyyy
+column.22.title=Type
+column.22.value=type_title
 
-media.html.columns=1,4,6,8,10,12,14,18
+media.html.columns=1,22,4,6,8,10,12,14,18
 
 sort.combo.count=2
 sort.combo.1.default=3

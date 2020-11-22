@@ -173,7 +173,7 @@ public class SupportTest {
         m = new Message()
             .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_INCOMING).setProcessId(process.getId())
             .setFrom(mail).setTo(MessageTest.messageTypeEmailDemo.getEmail())
-            .setFromTime(TimeUtils.getDateWithOffset(-3)).setToTime(TimeUtils.getDateWithOffset(-2)).setUserId(DevelopmentTest.userVladimirId)
+            .setFromTime(TimeUtils.getDateWithOffset(-3))
             .setSubject(subject).setText(ResourceHelper.getResource(this, "process.2.message.3.txt"));
         MessageHelper.addMessage(m);
         messageDao.updateMessageTags(m.getId(), Sets.newHashSet(MessageTest.tagAccess.getId()));

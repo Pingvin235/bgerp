@@ -31,7 +31,7 @@ END
 #
 onProcessEvent.{@inc:cnt}.events=statusChanged
 onProcessEvent.{@cnt}.doExpression=<<END
-    text = "Process status was changed" + {@EMAIL_MESSAGE_END} +
+    text = "Process status was changed" + {@EMAIL_MESSAGE_END};
     subject = {@EMAIL_SUBJECT};
     emailNotifyExecutors({@PARAM_USER_EMAIL_ID}, subject, text);
 END

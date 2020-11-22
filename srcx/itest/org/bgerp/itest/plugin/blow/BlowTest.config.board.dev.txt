@@ -1,8 +1,15 @@
 #
 blow:board.1.title=BGERP Work
 blow:board.1.queueId={@PROCESS_QUEUE_ID}
+blow:board.1.executor.groupIds={@GROUP_ID}
 blow:board.1.stringExpressionCell=<<END
      result = "";
+
+     if ({@PROCESS_TYPE_TASK_ID} == process.getTypeId()) {
+          result += "T: ";  
+     } else if ({@PROCESS_TYPE_SUPPORT_ID} == process.getTypeId()) {
+          result += "S: "; 
+     }
 
      result += process.getDescription() + " [<b>" + ctxProcessStatusMap[process.getStatusId()];
      if (process.getProcessExecutorsWithRole(0).size() > 0) {

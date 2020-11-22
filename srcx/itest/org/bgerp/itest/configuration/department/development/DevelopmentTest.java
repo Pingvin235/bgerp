@@ -18,7 +18,6 @@ import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.process.ProcessTest;
-import org.bgerp.itest.plugin.blow.BlowTest;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.model.param.Parameter;
@@ -28,7 +27,7 @@ import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.UserGroup;
 
-@Test(groups = "depDev", dependsOnGroups = { "user", "configProcessNotification", "process", "blow", "param" })
+@Test(groups = "depDev", dependsOnGroups = { "user", "configProcessNotification", "process", "param" })
 public class DevelopmentTest {
     public static volatile int groupId;
 
@@ -37,7 +36,7 @@ public class DevelopmentTest {
     public static volatile int processTypeProductId;
     public static volatile int processTypeTaskId;
 
-    private int queueTasksId;
+    public static volatile int queueTasksId;
 
     public static volatile int userVladimirId;
     public static volatile int userLeonId;
@@ -136,17 +135,4 @@ public class DevelopmentTest {
         return childProcess.getId();
     }
 
-    @Test (dependsOnMethods = "addQueues")
-    public void addBlowBoard() throws Exception {
-        ConfigHelper.addToConfig(BlowTest.configId, 
-            ConfigHelper.generateConstants(
-                "PROCESS_QUEUE_ID", queueTasksId, 
-                "COL_STATUS_CHANGED", 20,
-                "COL_MESSAGES", 10,
-                "COL_MESSAGES_UNREAD", 12,
-                "PROCESS_STATUS_PROGRESS_ID", ProcessTest.statusProgressId,
-                "PROCESS_STATUS_WAIT_ID", ProcessTest.statusWaitId) +
-            ResourceHelper.getResource(this, "config.blow.txt")
-        );
-    }
 }
