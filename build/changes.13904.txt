@@ -1,0 +1,3 @@
+C: Plugin Blow, select on the first open first board from the list.
+C: Plugin Blow, better sorting logic.
+A: Plugin Blow, parameter 'executor.groupIds' in board's configuration.

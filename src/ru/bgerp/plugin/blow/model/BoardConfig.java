@@ -1,9 +1,12 @@
 package ru.bgerp.plugin.blow.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.dao.expression.Expression;
@@ -13,22 +16,35 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.util.ParameterMap;
+import ru.bgcrm.util.Utils;
 
 public class BoardConfig extends IdTitle {
     private final int queueId;
-    // private final String columnHeadExpression;
     private final String cellExpression;
     private final String openUrl;
-    private final List<BoardFilter> filters = new ArrayList<BoardConfig.BoardFilter>();
+    private final List<BoardFilter> filters = new ArrayList<>();
+    private final List<ItemComparator> comparators;
+    private final Set<Integer> executorGroupIds;
     
     BoardConfig(int id, ParameterMap config) {
         super(id, config.get("title"));
         this.queueId = config.getInt("queueId");
         this.cellExpression = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "Cell", "process.getDescription()");
-        // this.columnHeadExpression = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "ColumnHead");
         for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("filter.").entrySet())
             filters.add(new BoardFilter(me.getKey(), me.getValue()));
         this.openUrl = config.get("openUrl");
+        this.comparators = parseComparators(config.get("sort", 
+            Utils.toString(List.of(ItemComparator.HAS_EXECUTOR, ItemComparator.HAS_CHILDREN, ItemComparator.PRIORITY, ItemComparator.STATUS_POS))));
+        this.executorGroupIds = Utils.toIntegerSet(config.get("executor.groupIds"));
+    }
+
+    private List<ItemComparator> parseComparators(String config) {
+        var result = new ArrayList<ItemComparator>();
+        for (String pair : Utils.toList(config, ";,")) {
+            String[] tokens = pair.split(":");
+            result.add(new ItemComparator(tokens[0], tokens.length > 1 ? tokens[1] : null));
+        }
+        return Collections.unmodifiableList(result);
     }
     
     public Queue getQueue() {
@@ -40,7 +56,7 @@ public class BoardConfig extends IdTitle {
     }
 
     /**
-     * Возвращает вычисленные для фильтров значения. 
+     * Returns calculated filters values. 
      * @param items
      * @return
      */
@@ -59,7 +75,7 @@ public class BoardConfig extends IdTitle {
     }
 
     /**
-     * Возвращает HTML содержимое ячейки с применением JEXL выражения.
+     * Builds HTML cell's content using JEXL expression.
      * @param item
      * @return
      */
@@ -70,12 +86,11 @@ public class BoardConfig extends IdTitle {
         context.putAll(SetRequestParamsFilter.getContextVariables(null));
         return new Expression(context).getString(cellExpression);
     }
-    
-    public String getHeadContent() {
-        // TODO
-        return "";
+
+    public Set<Integer> getExecutorGroupIds() {
+        return executorGroupIds;
     }
-    
+
     public static class BoardFilter extends IdTitle {
         private final String stringExpression;
         private final String color;
@@ -95,4 +110,14 @@ public class BoardConfig extends IdTitle {
         }
     }
 
+    public Comparator<Item> getItemComparator() {
+        return (o1, o2) -> {
+            for (var c : comparators) {
+                var result = c.compare(o1, o2);
+                if (result != 0)
+                    return result;
+            }
+            return 0;
+        };
+    }
 }

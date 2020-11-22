@@ -16,6 +16,7 @@ import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessLinkProcess.Made;
+import ru.bgcrm.util.Preferences;
 import ru.bgcrm.model.process.Status;
 
 public class BoardTest {
@@ -43,7 +44,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testGetRoot() {
+    public void testGetRoot() throws Exception{
         Process p1 = new Process(1);
         Process p2 = new Process(2);
         Process p3 = new Process(3);
@@ -54,7 +55,7 @@ public class BoardTest {
                 new Pair<>(p3, null), new Pair<>(p4, null));
         List<CommonObjectLink> links = Lists.newArrayList(new Made(p1.getId(), p2.getId()), new Made(p1.getId(), p3.getId()));
         
-        Item rootItem = new Board(null, processes, links).getRoot();
+        Item rootItem = new Board(new BoardConfig(0, new Preferences()), processes, links).getRoot();
         Assert.assertNotNull(rootItem);
         Assert.assertNull(rootItem.getProcess());
         

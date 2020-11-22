@@ -6,31 +6,31 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.ProcessExecutor;
 
 /**
- * Оболочка процесса для отображения на доске.
+ * Board's cell.
  *
- * @author Shamil
+ * @author Shamil Vakhitov
  */
 public class Item {
     private final Board board;
     private final Process process;
-    /** Столбцы, выбранные в очереди процессов. */
+    /** Column values from a process queue. */
     private final Map<String, Object> params;
-    /** Фильтры, в которые попадает ячейка. */
+    /** Filters, matched to this item. */
     private final Set<Integer> filterIds = new HashSet<>();
 
-    private Integer order;
-
-    // подпроцессы
+    /** Process hierarchy. */
     private Item parent;
     private boolean childrenSorted = false;
     private final List<Item> children = new ArrayList<>();
 
-    // коды исполнителей (подразделения либо люди)
+    /** Executor IDs: users or groups. */
     private Set<Integer> executorIds;
 
     public Item(Board board, Pair<Process, Map<String, Object>> pair) {
@@ -71,40 +71,10 @@ public class Item {
         return 0;
     }
 
-    public int getOrder() {
-        if (order != null)
-            return order;
-
-        order = 0;
-        if (process != null) {
-            order = process.getStatus().getPos() * 10000 + process.getPriority();
-            // taken the maximum order from child
-            for (var child : children) {
-                if (child.getOrder() > order)
-                    order = child.getOrder();
-            }
-        }
-
-        return order;
-    }
-
     public List<Item> getChildren() {
         synchronized (children) {
             if (!childrenSorted) {
-                // status pos desc, priority desc sorting are already done in process queue
-                Collections.sort(children, (i1, i2) -> {
-                    // if single executor is defined - than before
-                    if (i1.getExecutorId() > 0 && i2.getExecutorId() == 0)
-                        return -1;
-                    if (i1.getExecutorId() == 0 && i2.getExecutorId() > 0)
-                        return 1;
-                    // if has children - than before
-                    if (!i1.children.isEmpty() && i2.children.isEmpty())
-                        return -1;
-                    if (i1.children.isEmpty() && !i2.children.isEmpty())
-                        return 1;
-                    return i2.getOrder() - i1.getOrder();
-                });
+                Collections.sort(children, board.getConfig().getItemComparator());
                 childrenSorted = true;
             }
         }
@@ -148,9 +118,16 @@ public class Item {
             }
 
             if (process != null) {
-                if (board.isUserMode())
-                    executorIds.addAll(process.getExecutorIdsWithRole(0));
-                else
+                if (board.isUserMode()) {
+                    var groupIds = board.getConfig().getExecutorGroupIds();
+                    if (groupIds.isEmpty())
+                        executorIds.addAll(process.getExecutorIdsWithRole(0));
+                    else
+                        executorIds.addAll(process.getExecutors().stream()
+                            .filter(pe -> pe.getRoleId() == 0 && groupIds.contains(pe.getGroupId()))
+                            .map(ProcessExecutor::getUserId)
+                            .collect(Collectors.toList()));
+                } else
                     executorIds.addAll(process.getGroupIdsWithRole(0));
             }
         }

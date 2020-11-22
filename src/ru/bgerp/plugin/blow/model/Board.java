@@ -17,7 +17,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgerp.util.Log;
 
 /**
- * Система распределения задач по исполнителям.
+ * Blow board.
  * 
  * @author Shamil Vakhitov
  */

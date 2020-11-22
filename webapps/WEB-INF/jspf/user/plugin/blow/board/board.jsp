@@ -3,16 +3,21 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:set var="boardId" value="${form.id}"/>
-<c:if test="${not (boardId gt 0)}">
-	<c:set var="boardId" value="${ctxUser.personalizationMap['blowBoardLastSelected']}"/>
-</c:if>
-
 <c:url var="showUrl" value="/user/plugin/blow/board.do">
 	<c:param name="action" value="show"/>
 </c:url>
 
 <c:set var="boardsConf" value="${form.response.data.boardsConf}"/>
+
+<!-- search over boardId -->
+<c:set var="boardId" value="${form.id}"/>
+<c:if test="${not (boardId gt 0)}">
+	<c:set var="boardId" value="${ctxUser.personalizationMap['blowBoardLastSelected']}"/>
+</c:if>
+<c:if test="${not (boardId gt 0)}">
+	<c:set var="boardId" value="${u.getFirst(boardsConf.boards).id}"/>
+</c:if>
+
 <ui:combo-single id="${uiid}" 
 	value="${boardId}"
 	widthTextValue="220px"
