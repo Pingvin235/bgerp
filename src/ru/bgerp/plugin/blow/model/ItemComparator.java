@@ -24,7 +24,7 @@ public class ItemComparator implements java.util.Comparator<Item> {
         switch (type) {
             case STATUS_POS:
                 return (i1, i2) -> {
-                    return i1.getProcess().getStatus().getPos() - i2.getProcess().getStatus().getPos();
+                    return i2.getProcess().getStatus().getPos() - i1.getProcess().getStatus().getPos();
                 };
             case PRIORITY:
                 return (i1, i2) -> {
