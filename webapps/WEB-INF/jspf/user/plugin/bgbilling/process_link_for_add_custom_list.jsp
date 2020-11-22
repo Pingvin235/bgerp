@@ -13,7 +13,7 @@
 	<c:set var="linkObjectForms" scope="request"> 
 		${linkObjectForms}
 		<form action="/user/plugin/bgbilling/contract.do" id="${id}" style="display: none;">
-			<input type="checkbox" name="check" style="display: none;"/>
+			<input type="checkbox" name="check" style="display: none;" checked="true"/>
 			<input type="hidden" name="processId" value="${form.id}"/>
 			<input type="hidden" name="billingId" value="${billing.id}"/>			
 			<input type="hidden" name="action" value="addProcessContractLink"/>
