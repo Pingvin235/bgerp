@@ -1,6 +1,22 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+03.12.2020 17:47:38 1368
+A: [11476] Additional action for allowing edit/delete messages of other users.
+C: [13904] Plugin Blow, select on the first open first board from the list.
+C: [13904] Plugin Blow, better sorting logic.
+A: [13904] Plugin Blow, parameter 'executor.groupIds' in board's configuration.
+A: [14001] Support HTML in process description.
+F: [14055] Logging URL from 'user/log/app' to 'user/log'.
+F: [14055] Logging refresh on re-open it.
+C: [14055] Executors and groups API in Process class.
+C: [14055] Prevent using of title field in Process class.
+F: [14068] Cut button in users groups.
+F: [14098] Plugin Work, CSS styles in Callboard.
+F: [14100] Plugin BGBilling, incorrect user in HelpDesk synchronization.
+F: [14101] Plugin BGBilling, add contract link in process.
+F: [14101] Plugin Slack, add channel link in process.
+
 12.10.2020 19:35:13 1367
 C: [14014] Switch publish update and build from bgerp.org to cdn.bgerp.org
 

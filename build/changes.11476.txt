@@ -1,1 +1,0 @@
-A: Additional action for allowing edit/delete messages of other users.

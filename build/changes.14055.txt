@@ -1,4 +1,0 @@
-F: Logging URL from 'user/log/app' to 'user/log'.
-F: Logging refresh on re-open it.
-C: Executors and groups API in Process class.
-C: Prevent using of title field in Process class.
