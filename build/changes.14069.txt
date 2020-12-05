@@ -1,0 +1,1 @@
+A: Custom localization, https://bgerp.org/doc/3.0/manual/project.html#l10n

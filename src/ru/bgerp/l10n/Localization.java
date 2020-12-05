@@ -1,5 +1,8 @@
 package ru.bgerp.l10n;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +25,10 @@ import ru.bgerp.util.Log;
 public class Localization {
     private static final Log log = Log.getLog();
 
+    /** Custom localizations may be placed in the custom/l10n.xml file in the root of the program. */
+    private static final String PLUGIN_CUSTOM = "custom";
     private static final String PLUGIN_KERNEL = "kernel";
+
     private static final String FILE_NAME = "l10n.xml";
     // localizations of kernel and plugins
     private static Map<String, Localization> localizations;
@@ -73,17 +79,27 @@ public class Localization {
         return getLocalizer(plugin);
     }
 
+    /** 
+     * Retrieve localizer for a plugin. 
+     * The localizer includes the following localizations:
+     * custom if exists, than for kernel and after for the plugin itself.
+     * 
+     * @param plugin plugin name, null - for kernel
+     */
     public static Localizer getLocalizer(String plugin) {
         String toLang = Setup.getSetup().get("lang", "ru");
         
         loadLocalizations();
 
-        Localization[] localizations = new Localization[2];
-        localizations[0] = Localization.localizations.get(PLUGIN_KERNEL);
+        var localizations = new ArrayList<Localization>(3);
+        var custom = Localization.localizations.get(PLUGIN_CUSTOM);
+        if (custom != null)
+            localizations.add(custom);
+        localizations.add(Localization.localizations.get(PLUGIN_KERNEL));
         if (plugin != null)
-            localizations[1] = Localization.localizations.get(plugin);
+            localizations.add(Localization.localizations.get(plugin));
 
-        return new Localizer(localizations, toLang);
+        return new Localizer(localizations.toArray(new Localization[localizations.size()]), toLang);
     }
     
     public static Localizer getLocalizer() {
@@ -98,18 +114,16 @@ public class Localization {
 
                     localizations = new HashMap<>();
 
-                    Document doc = XMLUtils.parseDocument(Localization.class.getResourceAsStream(FILE_NAME));
-                    Localization l = new Localization(PLUGIN_KERNEL, doc);
-                    localizations.put(l.pluginName, l);
-                    log.debug("Loaded localization for kernel.");
+                    var customL10n = new File(PLUGIN_CUSTOM, FILE_NAME);
+                    if (customL10n.exists())
+                        loadL10n(PLUGIN_CUSTOM, XMLUtils.parseDocument(new FileInputStream(customL10n)));
+
+                    loadL10n(PLUGIN_KERNEL, XMLUtils.parseDocument(Localization.class.getResourceAsStream(FILE_NAME)));
 
                     for (Plugin p : PluginManager.getInstance().getPluginList()) {
-                        doc = p.getXml(FILE_NAME, null);
+                        var doc = p.getXml(FILE_NAME, null);
                         if (doc == null) continue;
-                        
-                        l = new Localization(p.getName(), doc);
-                        localizations.put(l.pluginName, l);
-                        log.debug("Loaded localization for: " + l.pluginName);
+                        loadL10n(p.getName(), doc);
                     }
                     
                     lastLoadTime = System.currentTimeMillis();
@@ -118,5 +132,11 @@ public class Localization {
                 }
             }
         }
+    }
+
+    private static void loadL10n(String plugin, Document doc) throws Exception {
+        Localization l = new Localization(plugin, doc);
+        localizations.put(l.pluginName, l);
+        log.debug("Loaded localization for: %s", l.pluginName);
     }
 }
