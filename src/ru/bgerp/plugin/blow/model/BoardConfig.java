@@ -34,7 +34,7 @@ public class BoardConfig extends IdTitle {
             filters.add(new BoardFilter(me.getKey(), me.getValue()));
         this.openUrl = config.get("openUrl");
         this.comparators = parseComparators(config.get("sort", 
-            Utils.toString(List.of(ItemComparator.HAS_EXECUTOR, ItemComparator.HAS_CHILDREN, ItemComparator.PRIORITY, ItemComparator.STATUS_POS))));
+            Utils.toString(List.of(ItemComparator.PRIORITY, ItemComparator.HAS_EXECUTOR, ItemComparator.STATUS_POS, ItemComparator.HAS_CHILDREN))));
         this.executorGroupIds = Utils.toIntegerSet(config.get("executor.groupIds"));
     }
 

@@ -18,30 +18,30 @@ import ru.bgerp.util.Log;
 
 /**
  * Blow board.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class Board {
     private static final Log log = Log.getLog();
-    
+
     private boolean userMode = true;
-    
+
     public boolean isUserMode() {
         return userMode;
     }
-    
+
     // корневой элемент
     private final Item root = new Item(this, null);
-    
+
     private final BoardConfig config;
-    
+
     // очереди задач по исполнителям, 0 - общая
     private final Map<Integer, List<Item>> queues = new HashMap<>();
     // все элементы
     private final Iterable<Item> items;
     // максимально занятый из юнитов в каждой из очередей
     private final int lastIndex;
-    
+
     public Board(BoardConfig config, List<Pair<Process, Map<String, Object>>> processes, Collection<CommonObjectLink> links) {
         log.debug("## Build board, processes: %s; links: %s", processes.size(), links.size());
         this.config = config;
@@ -52,7 +52,7 @@ public class Board {
     private Iterable<Item> buildTree(List<Pair<Process, Map<String, Object>>> processes, Collection<CommonObjectLink> links) {
         List<Item> itemList = processes.stream().map(p -> new Item(this, p)).collect(Collectors.toList());
         Map<Integer, Item> itemMap = itemList.stream().collect(
-                Collectors.toMap(item -> item.getProcess().getId(), 
+                Collectors.toMap(item -> item.getProcess().getId(),
                         Function.identity()));
 
         for (Item item : itemList) {
@@ -64,58 +64,58 @@ public class Board {
                     break;
                 }
             parent.addChild(item);
-        }        
+        }
         return itemList;
     }
-    
+
     public BoardConfig getConfig() {
         return config;
     }
-    
+
     public Item getRoot() {
         return root;
     }
-    
+
     public Iterable<Item> getItems() {
         return items;
     }
-    
+
     private int addItem(Item item, int lastIndex, int maxLastIndex) {
         if (item.getProcess() != null) {
             List<Item> queueCommon = queues.computeIfAbsent(0, id -> new ArrayList<>());
             List<Item> queue =  queues.computeIfAbsent(item.getExecutorId(), id -> new ArrayList<>());
-            
-            log.debug("Adding: " + item.getProcess().getId() + "; lastIndex: " + lastIndex + "; maxLastIndex: " + maxLastIndex 
-                    + "; executorId: " + item.getExecutorId() + "; queueSize: " + queue.size() + "; queueCommonSize: " + queueCommon.size());
-            
+
+            log.debug("Adding: %s; lastIndex: %s; maxLastIndex: %s; executorId: %s; queueSize: %s; queueCommonSize: %s",
+                    item.getProcess().getId(), lastIndex, maxLastIndex, item.getExecutorId(), queue.size(), queueCommon.size());
+
             if (item.getExecutorId() == 0) {
                 lastIndex = maxLastIndex + 1;
-                
+
                 while (queue.size() < lastIndex)
-                    queue.add(null);                
+                    queue.add(null);
                 queue.add(item);
             } else {
                 while (queue.size() <= lastIndex || queue.size() < queueCommon.size())
                     queue.add(null);
                 queue.add(item);
-                
+
                 lastIndex = queue.size() - 1;
             }
-            
-            log.debug("Added: " + item.getProcess().getId() + "; lastIndex: " + lastIndex);
+
+            log.debug("Added: %s; lastIndex: %s", item.getProcess().getId() , lastIndex);
         }
-        
+
         if (maxLastIndex < lastIndex) {
             maxLastIndex = lastIndex;
-            log.debug("maxLastIndex: " + maxLastIndex);
+            log.debug("maxLastIndex: %s", maxLastIndex);
         }
-        
+
         for (Item child : item.getChildren())
             maxLastIndex = addItem(child, lastIndex, maxLastIndex);
-        
+
         return maxLastIndex;
     }
-    
+
     /**
      * Возвращает максимальный номер строки среди очередей исполнителей.
      * @return
@@ -123,15 +123,15 @@ public class Board {
     public int getLastIndex() {
         return lastIndex;
     }
-    
+
     /**
-     * Возвращает столбцы с процессами по исполнителям либо общую очередь. 
+     * Возвращает столбцы с процессами по исполнителям либо общую очередь.
      * @return
      */
     public Map<Integer, List<Item>> getQueues() {
         return queues;
     }
-    
+
     /**
      * Возвращает количество процессов на исполнителе.
      * @param executorId
@@ -144,7 +144,7 @@ public class Board {
                 cnt++;
         return cnt;
     }
-    
+
     /**
      * Возвращает сортированный список исполнителей.
      * @return
@@ -153,12 +153,12 @@ public class Board {
         List<IdTitle> executorColumns = new ArrayList<>(queues.size());
         if (isUserMode()) {
             for (User user : UserCache.getUserList()) {
-                if (!queues.containsKey(user.getId())) 
+                if (!queues.containsKey(user.getId()))
                     continue;
                 executorColumns.add(user);
             }
-        } 
+        }
         return executorColumns;
     }
-    
+
 }
