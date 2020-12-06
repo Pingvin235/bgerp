@@ -36,7 +36,7 @@ import ru.bgcrm.util.TimeUtils;
 public class SalesTest {
     private int groupId;
 
-    private static volatile int processTypeSaleId;
+    public static volatile int processTypeSaleId;
 
     public static volatile int queueSalesId;
     
@@ -58,7 +58,7 @@ public class SalesTest {
         props.setConfig(ConfigHelper.generateConstants("CONFIG_PROCESS_NOTIFICATIONS_ID", ConfigTest.configProcessNotificationId) +
                         ResourceHelper.getResource(this, "config.processType.txt"));
 
-        processTypeSaleId = ProcessHelper.addType("Sale", 0, false, props);
+        processTypeSaleId = ProcessHelper.addType("Sale", DevelopmentTest.processTypeProductId, false, props);
 
         //TODO: deadline, next appointment
     }
@@ -97,10 +97,10 @@ public class SalesTest {
         // sales manager, Karl
         process.getExecutors().add(new ProcessExecutor(userKarlId, groupId, 0));
         
-        // connect development group and developer Vladimir
+        // connect development group and developer Leon
         process.getGroups().add(new ProcessGroup(DevelopmentTest.groupId));
         processDao.updateProcessGroups(process.getGroups(), process.getId());
-        process.getExecutors().add(new ProcessExecutor(DevelopmentTest.userVladimirId, DevelopmentTest.groupId, 0));
+        process.getExecutors().add(new ProcessExecutor(DevelopmentTest.userLeonId, DevelopmentTest.groupId, 0));
         processDao.updateProcessExecutors(process.getExecutors(), process.getId());
         
         // original message

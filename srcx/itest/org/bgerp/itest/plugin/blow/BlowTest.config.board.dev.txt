@@ -5,10 +5,13 @@ blow:board.1.executor.groupIds={@GROUP_ID}
 blow:board.1.stringExpressionCell=<<END
      result = "";
 
-     if ({@PROCESS_TYPE_TASK_ID} == process.getTypeId()) {
+     typeId = process.getTypeId();
+     if ({@PROCESS_TYPE_TASK_ID} == typeId) {
           result += "T: ";  
-     } else if ({@PROCESS_TYPE_SUPPORT_ID} == process.getTypeId()) {
-          result += "S: "; 
+     } else if ({@PROCESS_TYPE_SUPPORT_ID} == typeId) {
+          result += "SU: "; 
+     } else if ({@PROCESS_TYPE_SALES_ID} == typeId) {
+          result += "SL: "; 
      }
 
      result += process.getDescription() + " [<b>" + ctxProcessStatusMap[process.getStatusId()];
