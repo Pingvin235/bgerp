@@ -119,7 +119,7 @@ Drawbacks:
 * JSP support is nearly absent;
 * external GIT client is required.
 
-Visit link:../../.vscode/readme.txt[open] and navigate to `.vscode` catalog in project's root in order to get some configuration examples.
+Visit link:../../.vscode/readme.txt[open] and navigate to `.vscode` catalog in project's DB_USER in order to get some configuration examples.
 Jave formatter and space symbols indicators have been already enabled there.
 
 
@@ -147,7 +147,7 @@ Replace *GENERATED_PASSWORD* in `db_create.sql` with the value from `bgerp_test.
 Execute the following mysql commands:
 [source, bash]
 ----
-mysql --default-character-set=utf8 -uroot -p < db_create.sql
+mysql --default-character-set=utf8 -uDB_USER -p < db_create.sql
 mysql --default-character-set=utf8 -ubgerp -p < db_init.sql
 mysql --default-character-set=utf8 -ubgerp -p bgerp < bgerp.sql
 ----
@@ -161,7 +161,7 @@ runOnStart+=,ru.bgcrm.util.distr.DevDbUpdater
 [[log4j]]
 ==== Logging
 By default,  a running in IDE application uses <<kernel/extension.adoc#log4j, logging configuration>> from `src/log4j.properties`.
-In order to adjust it, copy the file to the project root (will not be handled by GIT) and make required changes.
+In order to adjust it, copy the file to the project DB_USER (will not be handled by GIT) and make required changes.
 
 [[structure]]
 === Files
@@ -177,7 +177,7 @@ Project's folder listing along with decription.
 * *plugin* - <<plugin, plugin>> declarations;
 * *src* - Java source code;
 * *srcx* - <<documentation, documentation>>, <<unit-test, unit-tests>>, <<integration-test, integration tests>>, build utilities sources;
-* *webapps* -  <<js-lib, Web application>> root;
+* *webapps* -  <<js-lib, Web application>> DB_USER;
 * *work* - folder created by Tomcat for JSP file compilation.
 
 
@@ -222,7 +222,7 @@ At the end of the development/work session remote client database will have all 
 [square]
 * Use SSH to connect to the client, utilize port-forwarding in order to connect to the database and, optionally, billing.
 Example: *ssh user@X.X.X.X -L3307:127.0.0.1:3306 -L8081:Y.Y.Y.Y:8080*
-* Create your own *bgerp_customer.properties* file - you can use it to keep your configuration and access parameters. This fill does not get pushed to GIT.
+* Create your own *bgerp_customer.properties* file - you can use it to keep your configuration and access parameters. This file does not get pushed to GIT.
 You can also use this file to alter billing connection URL - for example, to a localhost.
 * Reconfigure BGERP port so you could save passwords in your browser for specific client(s).
 * Create IDE launch configuration using this properties file
@@ -234,67 +234,68 @@ You can also use this file to alter billing connection URL - for example, to a l
 Table below describes GIT branches - link:https://docs.google.com/document/d/15NptRsx1qrdiWEew23EFz6gbxD6S12VQpnBQ6X9NbiQ/edit?usp=sharing[standard GIT Workflow] is used here.
 Same workflow is used, for example, for Linux kernel development.
 
-Основная идея - мерджи производятся только "вниз": с основной ветки на вторичные для получения актуального состояния.
-На основную ветку всё переносится посредством патчей, поэтому она имеет линейную структуру.
-Вторичные ветки впоследствии могут быть удалены, поскольку вся агрегированная информация из них содержится в основной.
+Main idea is that merging is only happening 'downstream', i.e. from the main branch to secondary branches, in order to get to the actual state.
+Main branch has linear structure as all changes are incorporated via 'patches'.
+Secondary branches can be then deleted, as all the aggregated information from secondary branches will be present in the main branch.
+
+
 
 [cols="a,a,a,a", options="header"]
 |===
-|Ветка
-|Базируется на
-|Назначение
+|Branch
+|Based On
+|Purpose
 |<<gitlab-ci, CI>>
 
 |*master*
 |
-|Стабильная версия программы.
+|Stable release.
 |<<test-integration>>, <<publish-source>>
 
-|*p<ID процесса>-short-description*
+|*p<Process ID>-short-description*
 |master
-|Изменение программы и документации.
+|Release and documentation changes.
 |<<test-unit-and-doc>>
 
 |*p11862-documentation*
 |master
-|Корректировки документации. <<longlife-branch, Долгоживущая ветка>>, периодически переносится на master.
+|Documentation changes. <<longlife-branch, Long-live branch>>, periodically gets incorporated into main.
 |<<publish-doc>>
 
 |*documentation-change-request*
 |p11862-documentation
-|Предложения по корректировке документации, могут быть смерджены обратно на p11862-documentation.
+|Documentation changes proposals, can be merged back to p11862-documentation.
 |<<test-unit-and-doc>>
 |===
 
-Основная ветка проекта - *master*, с неё собираются <<build, сборки>>.
+*master* is a main project branch and is used for <<build, builds>>.
 [square]
-* Каждое *изменение* должно базироваться на процессе в BGERP BiTel, в котором происходит весь обмен информацией по нему.
-* *Идентификатор изменения* - строка *p<ID процесса>*, например *p13455*
-* Для каждого изменения создаётся отдельная ветка GIT на базе основной, название начинающееся с идентификатора изменения, разделители - дефисы.
-Например: *p11788-link-filter-title*
-* В процессе разработки в ветке допускается любая стратегия коммитов: промежуточные коммиты, ответвления, откаты коммитов.
-Рекомендуется пушить промежуточные состояния, используя GIT репозитарий как резервную копию.
-* На ветку изменения могут быть периодически смерджена основная ветка для синхронизации с актуальным состоянием и *обязательно перед переносом*.
-* Необходимые правки <<documentation, документации>> производятся одновременно с модификацией исходного кода.
-* Пакет тестового обновления для клиента, равно как и документацию, можно <<build-update, собирать и опубликовать>> из ветки.
-* Ветка должна добавлять файл *build/change.<ID процесса>.txt*, при его отсутствии он создаётся автоматически при <<build-update, сборке изменения>>.
-В файле на разных строках должны быть описаны новые функции, исправления и прочие изменения.
-Формат идентичен с *changes.txt*, в который информация переносится автоматически при публикации <<build-erp, обновления>>.
-* По завершению разработки и тестирования у клиента необходимо запросить *перенос* ветки с изменением на основную ветку,
-для этого процесс BGERP перевести в статус *Приёмка*.
-* После проверки процесс закрывается, а изменение переносится в виде единственного коммита,
-с комментарием начинающимся с идентификатора изменения в основную ветку.
-* Ветка разработки впоследствии может быть удалена. Автор изменения может быть установлен по идентификатору в комментарии.
+* Each *change* should be based on the process within BGERP, which is used for all information exchange for a given *change*.
+* *Change ID* is a *p<Process ID>* string, for example *p13455*
+* For each change create a separate GIT branch (based on master). Branch's name should start from *Change ID*, then use "-" as delimiters.
+Example: *p11788-link-filter-title*
+* When developing, you can use any commit strategy within a branch: checkpoint commits, reverts/resets, commits to a new branch, etc.
+We would recommend to push intermediate commits, using GIT repository as a backup copy.
+* Main branch can be periodically merged to this "change" branch in order to synchronize with the actual state. *This HAS to be done before the merge to master*
+* All the necessary  <<documentation, documentation>> changes are done simultaneously with the code changes
+* Client's test build update and accompanying documentation can be <<build-update, built and published>> from the branch.
+* Branch has to add *build/change.<Process ID>.txt* file - if absent, it gets added automatically during <<build-update, update build>>
+This file has to describe new functions, fixes or other changes - each item on a separate row.
+Format is identical to *changes.txt*, which accumulates all *build/change.<Process ID>.txt* information when <<build-erp, update>> gets published.
+* Request branch *merge* to master once client-side development and testing completes for a given change by moving BGERP process into *Acceptance* status.
+* Process gets closed after check/acceptance, and change gets merged to master as a single commit with a comment starting with the change ID.
+* "Change" branch can be then deleted. Change author can be later identified by the change ID used in the comment.
+
 
 [IMPORTANT]
 ====
-Невозможно одновременно тестировать несколько изменений параллельно на одной системе и пользоваться ими.
-Каждое изменение будет перетирать другое при установке обновления.
-В крайнем случае допустимо создание сборочных веток, на которые смердживаются несколько веток изменений.
+One cannot test and use in parallel several changes  within a single system.
+Each change will overwrite the previous one when update gets installed.
+In principle it is allowed to use multiple build branches, which are used as targets for multiple change branches' merges.
 ====
 
-=== Настройка GIT
-Пример настройки в файле `$USER_HOME\.gitconfig`:
+=== GIT Configuration
+`$USER_HOME\.gitconfig` example configuration:
 [source]
 ----
 [user]
@@ -311,14 +312,14 @@ Same workflow is used, for example, for Linux kernel development.
 
 NOTE:
 
-=== Команды GIT
-Почистить все ссылки на несуществующие более удалённые ветки:
+=== GIT Commands
+Clean all links to non-existent/deleted branches:
 [source]
 ----
 git remote prune origin
 ----
 
-Получение последних обновлений основной ветки не будучи в ней:
+Fetch master branch and update remote-tracking branch origin/master:
 [source]
 ----
 git fetch origin master:master
@@ -329,17 +330,21 @@ git fetch origin master:master
 При принятии изменения производится сравнение ветки с основной.
 Поэтому перед передачей изменения необходимо смерджить на ветку актуальное состояние основной.
 
+=== Acceptance and merge
+When change is accepted, 'change' branch is compared with the master - so merge master to the 'change' branch before committing a change.
+
 image::_res/branch_compare.png[]
 
 [[change-file]]
-Также необходимо создать и заполнить файл с описанием изменений.
-Для этого может быть использована <<build, команда>>:
+It is also important to create and populate a file listing all changes.
+You can use the following <<build, command>> for this:
+
 [bash]
 ----
 bash -c "./gradlew touchChanges"
 ----
 
-GIT команды для переноса изменений из ветки *pXXXXX-short-change-description* в основную:
+GIT commands to be used for merging change from *pXXXXX-short-change-description* branch to master:
 [source, bash]
 ----
 git checkout pXXXXX-short-change-description && git pull
@@ -360,23 +365,22 @@ Or for preserving the author in GitHub. Mapping internal to external mails is av
 git commit -am "pXXXXX Some change description." --author="Developer Name <internal@gitlab.email>"
 ----
 
-And final push.
+And finally, push.
 [source, bash]
 ----
 git push
 ----
 
-Периодически с основной ветки <<build-erp, публикуется обновление>>.
+<<build-erp, Update is published>> periodically from the main branch.
 
 [[longlife-branch]]
-=== Долгоживущие ветки
-В долгоживущих ветках производятся изменения *не влияющие на функциональность продукта*.
-Как-то: корректировка локализации, документации, форматирование кода, тесты.
-Процесс изменения при этом не закрывается, а <<accept, перенос>> производится многократно по мере готовности очередной порции изменений.
+=== Long-lived branches
+Long-lived branches only get changes which *are not altering product functionality*, for example: localization and documentation fixes, code formatting, tests.
+BGERP process for a change does not get closed , and <<accept, acceptance>> is performed multiple times upon completion of specific change(s)
 
 [[documentation]]
 ==== Documentation
-A particular case of long-life branch is documentation.
+A particular case of long-lived branch is documentation.
 The source AsciiDoctor and resource files are placed in `srcx/doc` directory.
 Publication of the product manual <<publish-doc, runs>> automcatically from <<workflow, branch>> *p11862-documentation*.
 
@@ -409,10 +413,11 @@ After that, using branch comparism, find the new rows and change them in the `.a
 image::_res/snippet_fix_2.png[]
 
 == Architecture
-BGERP представляет из себя standalone Java приложение с динамическим Web интерфейсом.
-Запуск во время разработки может быть <<ide-run, произведён>> прямо в IDE.
+BGERP is a standalone Java application with a dynamic Web-interface.
+When developing, you can <<ide-run, launch>> BGERP directly from IDE
 
-Принципиальная структура обработки запросов изображена ниже.
+Figure below illustrates a request processing pipeline:
+
 [ditaa]
 ----
 +----------------+             AJAX
@@ -433,13 +438,12 @@ BGERP представляет из себя standalone Java приложени�
 +----------------+
 ----
 
-Этапы обработки:
+Request processing stages:
 [arabic]
-. Запрос формируется с помощью JS из HTML формы и отправляется в метод класса Java Action.
-. На запрос изменения отправляется только подтверждение - JSON документ со статусом OK.
-. Любое исключение в процессе работы Action приводит к отправке на клиентскую сторону JSON со статусом ERROR.
-. На запрос чтения данных в случае корректной обработки отправляется фрагмент HTML документа, встраиваемый на клиенте в нужное место.
-Например, таблица со списком пользователей.
+.	JS is used to form a request via HTML form , which is then sent to a Java Action class method.
+.	Upon a change request system sends only a confirmation - JSON response with OK status
+.	Any exception on Java Action side triggers a JSON with an ERROR status to be sent towards a client side.
+.	Any successful data read request returns an HTML Fragment (Table with a list of usernames as an example), which can then be embedded into resulting HTML on the client side.
 
 [[tech-stack]]
 Стек используемых технологий в порядке убывания важности:
@@ -1165,8 +1169,11 @@ docker build . -t bgerp/bgerp &&
 docker push bgerp/bgerp
 ----
 
+[[test]]
+== Tests
+
 [[unit-test]]
-=== Unit тесты
+=== Unit
 Используется фреймворк JUnit, каталог `srcx/test`.
 Проверка отдельных алгоритмов, тесты не зависят друг от друга, не работают с БД.
 
@@ -1177,7 +1184,7 @@ bash -c "./gradlew clean test"
 ----
 
 [[integration-test]]
-=== Интеграционный тест
+=== Integration
 Используется фреймворк TestNG, каталог `srcx/itest`.
 
 Интеграционный тест производит сборку, установку и запуск приложения с реальной БД.
@@ -1185,50 +1192,72 @@ bash -c "./gradlew clean test"
 Тесты образуют граф зависимостей, определяющий порядок и параллельность выполнения.
 После успешного прохождения тестов дамп заполненной БД <<test-integration, выгружается>> для https://demo.bgerp.org
 
-Файл для установки должен быть собран предварительно командой.
-[source, bash]
-----
-bash -c "./gradlew buildErp"
-----
-
-`sudo` необходим для установки в стандартный */opt* каталог.
-
-WARNING: Тест пересоздаст базу с именем *bgerp* и переустановит сервер в */opt/BGERP*
+WARNING: The tests recreate DB with name *bgerp*
 
 [source, bash]
 ----
-sudo GRADLE_OPTS=-Xmx1000m ./gradlew -Ptest.single='ru.bgerp.itest.RunServerTest' -Pdb.host=DB_HOST -Pdb.user=ROOT_USER -Pdb.pswd=ROOT_PSWD integrationTest
+./gradlew integrationTest -Pdb.host=DB_HOST -Pdb.user=DB_USER -Pdb.pswd=DB_PSWD
 ----
-Параметры DB_HOST, ROOT_USER, ROOT_PSWD - для доступа к MySQL серверу, где будет создана тестовая БД.
 
-==== Selenium e-to-e тест
-Может выполнять впоследствия действия на запущенном сервере.
-Необходима установка *chromedriver* и указание его в пути.
+Parameters *DB_HOST*, *DB_USER*, *DB_PSWD* - for accessing the MySQL server, there the test DB will be created.
 
+[[integration-test-opt]]
+==== Optimization
+Addtionally to the recommended MySQL <<kernel/install.adoc#mysql, configuration>>, check and set in `my.ini`:
+[source]
+----
+innodb_file_per_table=0
+----
+
+That will significally increase table creation speed.
+After the first successfully run, the structure o DB may be persisted and re-created faster by this way.
+
+Creation of dump for Windows:
 [source, bash]
 ----
-GRADLE_OPTS=-Xmx1000m ./gradlew -Ptest.single='ru.bgerp.itest.SeleniumTest' -Pwebdriver.chrome.driver=/usr/lib/chromium-browser/chromedriver integrationTest
+echo DROP DATABASE IF EXISTS bgerp; > ./dump.sql &&
+echo CREATE DATABASE bgerp DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; >> ./dump.sql &&
+echo USE bgerp; >> ./dump.sql &&
+mysqldump -uDB_USER -pDB_PSWD bgerp --add-drop-database --no-data >> ./dump.sql &&
+type build\bgerp\db_init_end.sql >> ./dump.sql
+----
+
+For *NIX:
+[source, bash]
+----
+echo "DROP DATABASE IF EXISTS bgerp;" > ./dump.sql &&
+echo "CREATE DATABASE bgerp DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;" >> ./dump.sql &&
+echo "USE bgerp;" >> ./dump.sql &&
+mysqldump -uDB_USER -pDB_PSWD bgerp --add-drop-database --no-data >> ./dump.sql &&
+cat build/bgerp/db_init_end.sql >> ./dump.sql
+----
+
+Running the tests after:
+[source, bash]
+----
+mysql -uDB_USER -pDB_PSWD < ./dump.sql && 
+gradlew integrationTest -Pdb.user=DB_USER -Pdb.pswd=DB_PSWD -Pskip.dbReset=true
 ----
 
 [[gitlab-ci]]
-=== GitLab CI
+== GitLab CI
 В файле link:../../.gitlab-ci.yml[.gitlab-ci.yml] настроен автоматический запуск задач на каждый коммит в GIT.
 Различные задачи выполняются в разных ветках <<workflow, Workflow>>.
 Ниже описание CI задач.
 
 [[test-unit-and-doc]]
-==== test-unit-and-doc
+=== test-unit-and-doc
 Запускает <<unit-test, Unit тесты>>, <<build-doc, сборку и проверку документации>>.
 
 [[test-integration]]
-==== test-integration
+=== test-integration
 Запускает <<integration-test, интеграционный тест>>.
 
 [[publish-doc]]
-==== publish-doc
+=== publish-doc
 Запускает <<build-doc, сборку и проверку документации>>, при отсутствии ошибок - публикует её на https://bgerp.org/doc/3.0/manual.
 
 [[publish-source]]
-==== publish-source
+=== publish-source
 Публикует актуальные исходные коды из `master` в открытый репозитарий https://github.com/pingvin235/bgerp
 Данный способ выбран для уменьшения размера открытого репозитария и сокрытия удалённых ранее файлов из истории.

@@ -8,6 +8,8 @@ The log is done it the date reverse order.
 
 == Change log
 [square]
+* <<project.adoc#workflow, 07.12.2020>> Translation of GIT workflow.
+* <<project.adoc#integration-test-opt, 12.11.2020>> Speed up of running of integration tests.
 * <<project.adoc#l10n-dev, 13.10.2020>> Debugging of localization.
 * <<project.adoc#build-erp, 12.10.2020>> Publish to bgerp-cdn@pzdc.de. 
 * <<project.adoc#mvc, 09.10.2020>> Web MVC implementation. 
