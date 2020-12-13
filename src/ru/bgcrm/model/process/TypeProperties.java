@@ -7,33 +7,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.model.LastModify;
+import ru.bgcrm.model.process.TransactionProperties.TransactionKey;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
+import ru.bgerp.util.Log;
 
 /**
- * Конфигурация типа инцидентов. 
- * Матрица переходов, таймеры и т.п.
+ * Process type properties.
+ * 
+ * @author Shamil Vakhitov
  */
 public class TypeProperties {
-    private static final Logger log = Logger.getLogger(TypeProperties.class);
+    private static final Log log = Log.getLog();
 
+    /** Initial status. */
     private int createStatus;
+    /** Closing statuses. */
     private Set<Integer> closeStatusIds;
-    private List<Integer> parameterIds = new ArrayList<Integer>();
-    private List<Integer> statusIds = new ArrayList<Integer>();
+    /** Statuses. */
+    private List<Integer> statusIds = new ArrayList<>();
+    /** Parameters. */
+    private List<Integer> parameterIds = new ArrayList<>();
+    @Deprecated
     private String scriptName = "";
-    // начальные группы решения
-
-    // разрешённые группы решения	
+    /** String configuration. */
     private String config = "";
+    /** Parsed configuration. */
     private ParameterMap configMap;
+    /** Initial groups. */
+    private Set<ProcessGroup> groups = new HashSet<>();
+    /** Allowed groups. */
+    private Set<ProcessGroup> allowedGroups = new HashSet<>();
+
     private LastModify lastModify = new LastModify();
-    private Set<ProcessGroup> groups;
-    private Set<ProcessGroup> allowedGroups;
 
     public Set<ProcessGroup> getGroups() {
         return groups;
@@ -100,7 +108,7 @@ public class TypeProperties {
     }
 
     // первый ключ - "с статуса", второй ключ - "на статус" 
-    private Map<TransactionKey, TransactionProperties> transactionPropertiesMap = new HashMap<TransactionKey, TransactionProperties>();
+    private Map<TransactionKey, TransactionProperties> transactionPropertiesMap = new HashMap<>();
 
     // мастер создания процесса через мобильный интерфейс
     private Wizard createWizard;
@@ -116,11 +124,9 @@ public class TypeProperties {
         Preferences setup = new Preferences(data);
 
         for (Map<String, String> transParam : setup.parseObjects("transaction.")) {
-            String id = transParam.get("id");
-            TransactionKey key = new TransactionKey(id);
-
-            TransactionProperties properties = new TransactionProperties();
-            properties.loadFromData(setup, "transaction." + id + ".");
+            var id = transParam.get("id");
+            var key = new TransactionKey(id);
+            var properties = new TransactionProperties(setup, "transaction." + id + ".");
             transactionPropertiesMap.put(key, properties);
         }
         scriptName = setup.get("script.name", "");
@@ -166,17 +172,32 @@ public class TypeProperties {
         return result.toString();
     }
 
+    /**
+     * Gets transaction properties.
+     * 
+     * @param fromStatus
+     * @param toStatus
+     * @return true, if transaction is enabled or do not defined.
+     */
     public TransactionProperties getTransactionProperties(int fromStatus, int toStatus) {
-        TransactionProperties result = null;
-        TransactionKey key = new TransactionKey(fromStatus, toStatus);
+        var key = new TransactionKey(fromStatus, toStatus);
 
-        result = transactionPropertiesMap.get(key);
-        if (result == null) {
-            result = new TransactionProperties();
-            transactionPropertiesMap.put(key, result);
-        }
+        var result = transactionPropertiesMap.get(key);
+        if (result == null)
+            return TransactionProperties.ENABLED;
 
         return result;
+    }
+
+    public void setTransactionProperties(int fromStatus, int toStatus, boolean enabled) {
+        var key = new TransactionKey(fromStatus, toStatus);
+
+        var props = transactionPropertiesMap.get(key);
+        if (props == null)
+            props = new TransactionProperties(enabled);
+        props.setEnable(enabled);
+
+        transactionPropertiesMap.put(key, props);
     }
 
     public void clearTransactionProperties() {
@@ -322,32 +343,5 @@ public class TypeProperties {
         }
 
         return resultSet;
-    }
-
-    private static class TransactionKey {
-        public int fromStatus;
-        public int toStatus;
-
-        public TransactionKey(int fromStatus, int toStatus) {
-            this.fromStatus = fromStatus;
-            this.toStatus = toStatus;
-        }
-
-        public TransactionKey(String fromToStatus) {
-            String[] from_to_status = fromToStatus.split("\\-");
-            this.fromStatus = Utils.parseInt(from_to_status[0]);
-            this.toStatus = Utils.parseInt(from_to_status[1]);
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            TransactionKey key = (TransactionKey) obj;
-            return key.fromStatus == fromStatus && key.toStatus == toStatus;
-        }
-
-        @Override
-        public int hashCode() {
-            return fromStatus;
-        }
     }
 }

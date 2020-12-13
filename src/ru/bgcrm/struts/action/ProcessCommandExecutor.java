@@ -93,7 +93,7 @@ public class ProcessCommandExecutor {
                 String groupIds = StringUtils.substringBetween(command, ":");
                 int roleId = Utils.parseInt(StringUtils.substringAfterLast(command, ":"), 0);
 
-                Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>(process.getProcessGroups());
+                Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>(process.getGroups());
                 Set<ProcessGroup> addingProcessGroups = ProcessGroup.toProcessGroupSet(Utils.toIntegerSet(groupIds), roleId);
                 if (type.getProperties().getAllowedGroups().size() > 0) {
                     addingProcessGroups = new HashSet<ProcessGroup>(
@@ -106,7 +106,7 @@ public class ProcessCommandExecutor {
             } else if (command.startsWith(COMMAND_ADD_GROUPS)) {
                 String param = StringUtils.substringAfter(command, ":");
 
-                Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>(process.getProcessGroups());
+                Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>(process.getGroups());
                 Set<ProcessGroup> addingProcessGroups = ProcessGroup.toProcessGroupSet(Utils.toIntegerSet(param));
                 if (type.getProperties().getAllowedGroups().size() > 0) {
                     addingProcessGroups = new HashSet<ProcessGroup>(
@@ -131,7 +131,7 @@ public class ProcessCommandExecutor {
                 Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringAfter(command, ":"));
 
                 GROUP_LOOP: for (Integer groupId : groupIds) {
-                    for (ProcessExecutor processExecutor : process.getProcessExecutors()) {
+                    for (ProcessExecutor processExecutor : process.getExecutors()) {
                         if (processExecutor.getGroupId() == groupId) {
                             continue GROUP_LOOP;
                         }
@@ -151,7 +151,7 @@ public class ProcessCommandExecutor {
                 ProcessGroup processGroup = getProcessGroup(process, groupIds, roleId);
 
                 // добавление в текущих исполнителей группороли
-                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getProcessExecutors(),
+                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(),
                         Collections.singleton(processGroup));
                 executors.addAll(ProcessExecutor.toProcessExecutorSet(userIds, processGroup));
 
@@ -165,7 +165,7 @@ public class ProcessCommandExecutor {
                 ProcessGroup processGroup = getProcessGroup(process, groupIds);
 
                 // добавление в текущих исполнителей группороли
-                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getProcessExecutors(),
+                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(),
                         Collections.singleton(processGroup));
                 executors.addAll(ProcessExecutor.toProcessExecutorSet(userIds, processGroup));
 
@@ -177,7 +177,7 @@ public class ProcessCommandExecutor {
 
                 // определение единственной группороли в которую добавляются исполнители
                 ProcessGroup processGroup = null;
-                for (ProcessGroup pg : process.getProcessGroups()) {
+                for (ProcessGroup pg : process.getGroups()) {
                     for (Integer executorId : addingExecutorIds) {
                         User user = UserCache.getUser(executorId);
                         if (user.getGroupIds().contains(pg.getGroupId())) {
@@ -194,7 +194,7 @@ public class ProcessCommandExecutor {
                 }
 
                 // добавление в текущих исполнителей группороли
-                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getProcessExecutors(),
+                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(),
                         Collections.singleton(processGroup));
                 executors.addAll(ProcessExecutor.toProcessExecutorSet(addingExecutorIds, processGroup));
 
@@ -206,7 +206,7 @@ public class ProcessCommandExecutor {
                 ProcessGroup processGroup = getProcessGroup(process, groupIds);
 
                 // добавление в текущих исполнителей группороли
-                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getProcessExecutors(),
+                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(),
                         Collections.singleton(processGroup));
                 if (executors.size() == 0) {
                     executors = ProcessExecutor.toProcessExecutorSet(userIds, processGroup);
@@ -238,7 +238,7 @@ public class ProcessCommandExecutor {
             } else if (command.equals("clearGroups")) {
                 ProcessAction.processGroupsUpdate(form, con, process, new HashSet<ProcessGroup>());
             } else if (command.equals("clearExecutors")) {
-                ProcessAction.processExecutorsUpdate(form, con, process, process.getProcessGroups(), new HashSet<ProcessExecutor>());
+                ProcessAction.processExecutorsUpdate(form, con, process, process.getGroups(), new HashSet<ProcessExecutor>());
             } else if (command.equals("refreshCurrentQueue")) {
                 form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessCurrentQueueRefreshEvent());
             } else if (command.equals("open")) {
@@ -468,7 +468,7 @@ public class ProcessCommandExecutor {
         if (roleId > -1) {
             processGroupSet = process.getProcessGroupWithRole(roleId);
         } else {
-            processGroupSet = process.getProcessGroups();
+            processGroupSet = process.getGroups();
         }
 
         for (ProcessGroup pg : processGroupSet) {

@@ -279,7 +279,7 @@ public class ProcessAction extends BaseAction {
         queue.setLastModify(new LastModify(form.getUserId(), new Date()));
 
         Queue oldQueue = queueDAO.getQueue(form.getId());
-        checkModifyed(oldQueue == null ? new LastModify() : oldQueue.getLastModify(), form);
+        checkModified(oldQueue == null ? new LastModify() : oldQueue.getLastModify(), form);
 
         queueDAO.updateQueue(queue, form.getUserId());
 
@@ -354,55 +354,42 @@ public class ProcessAction extends BaseAction {
                 throw new BGException("Попытка сохранения пустой конфигурации.");
             }
             
-            checkModifyed(properties.getLastModify(), form);
+            checkModified(properties.getLastModify(), form);
             
             Preferences.processIncludes(configDao, properties.getConfig(), true);
 
+            checkAllowedQueueIds(form);
+
+            updateTransactions(form, type);
+
             typeDAO.updateTypeProperties(type);
             ProcessTypeCache.flush(con);
-
-            transactionCheck(mapping, form, con);
         }
 
         return status(con, form);
     }
 
-    private void transactionCheck(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        checkAllowedQueueIds(form);
-
-        ProcessTypeDAO typeDAO = new ProcessTypeDAO(con);
-
-        ArrayHashMap paramMap = form.getParam();
-
+    private void updateTransactions(DynActionForm form, ProcessType type) throws Exception {
         String[] matrixParamArray = form.getParamArray("matrix");
         if (matrixParamArray != null) {
-            int id = Utils.parseInt(paramMap.get("id"), -1);
-            if (id > 0) {
-                ProcessType type = typeDAO.getProcessType(id);
-                TypeProperties properties = type.getProperties();
+            var properties = type.getProperties();
+            var anyEnabled = false;
+            
+            for (String transaction : matrixParamArray) {
+                String[] paramArray = transaction.split("-");
 
-                boolean anyEnable = false;
+                int fromStatus = Utils.parseInt(paramArray[0]);
+                int toStatus = Utils.parseInt(paramArray[1]);
+                boolean enabled = Utils.parseBoolean(paramArray[2]);
 
-                for (String transaction : matrixParamArray) {
-                    String[] paramArray = transaction.split("-");
-
-                    int fromStatus = Utils.parseInt(paramArray[0]);
-                    int toStatus = Utils.parseInt(paramArray[1]);
-                    boolean enable = Utils.parseBoolean(paramArray[2]);
-
-                    anyEnable = anyEnable || enable;
-
-                    properties.getTransactionProperties(fromStatus, toStatus).setEnable(enable);
-                }
-
-                if (!anyEnable)
-                    properties.clearTransactionProperties();
-
-                typeDAO.updateTypeProperties(type);
-                ProcessTypeCache.flush(con);
+                anyEnabled |= enabled;
+                
+                properties.setTransactionProperties(fromStatus, toStatus, enabled);
             }
-        }
 
+            if (!anyEnabled)
+                properties.clearTransactionProperties();
+        }
     }
 
     private void checkAllowedQueueIds(DynActionForm form) throws BGMessageException {

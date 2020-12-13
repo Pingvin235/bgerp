@@ -93,7 +93,7 @@ public class ConfigAction extends BaseAction {
         
         Preferences.processIncludes(configDAO, config.getData(), true);
 
-        checkModifyed(config.getLastModify(), form);
+        checkModified(config.getLastModify(), form);
         configDAO.updateGlobalConfig(config);
 
         if (config.isActive())

@@ -521,12 +521,12 @@ public class ProcessAction extends BaseAction {
 
         processDoEvent(form, process, new ProcessChangingEvent(form, process, processGroups, ProcessChangingEvent.MODE_GROUPS_CHANGING), con);
 
-        process.setProcessGroups(processGroups);
+        process.setGroups(processGroups);
         processDao.updateProcessGroups(processGroups, process.getId());
         
         // удаление исполнителей, привязанных к удалённым группоролям
         boolean updated = false;
-        Set<ProcessExecutor> processExecutors = process.getProcessExecutors();
+        Set<ProcessExecutor> processExecutors = process.getExecutors();
         Iterator<ProcessExecutor> processExecutorsIt = processExecutors.iterator();
         
         while (processExecutorsIt.hasNext()) {
@@ -599,12 +599,12 @@ public class ProcessAction extends BaseAction {
             if (group == null)
                 throw new BGException("Не найдена группа с кодом: " + processGroup.getGroupId());
 
-            if (!process.getProcessGroups().contains(processGroup))
+            if (!process.getGroups().contains(processGroup))
                 throw new BGMessageException("Группа: " + group.getTitle() + " с ролью: " + processGroup.getRoleId() + " не участвует в процессе.");
         }
 
         // текущие исполнители
-        Set<ProcessExecutor> executors = new LinkedHashSet<ProcessExecutor>(process.getProcessExecutors());
+        Set<ProcessExecutor> executors = new LinkedHashSet<ProcessExecutor>(process.getExecutors());
 
         // удаление исполнителей привязанных к обновляемым группоролям, они будут заменены
         Iterator<ProcessExecutor> currentExecutorsIt = executors.iterator();
@@ -619,7 +619,7 @@ public class ProcessAction extends BaseAction {
 
         processDoEvent(form, process, new ProcessChangingEvent(form, process, executors, ProcessChangingEvent.MODE_EXECUTORS_CHANGING), con);
 
-        process.setProcessExecutors(executors);
+        process.setExecutors(executors);
         processDao.updateProcessExecutors(executors, process.getId());
 
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_EXECUTORS_CHANGED), con);

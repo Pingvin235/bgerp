@@ -216,8 +216,8 @@ public class MessageAction extends BaseAction {
 
         processDao.updateProcess(newProcess);
 
-        processDao.updateProcessGroups(process.getProcessGroups(), newProcess.getId());
-        processDao.updateProcessExecutors(process.getProcessExecutors(), newProcess.getId());
+        processDao.updateProcessGroups(process.getGroups(), newProcess.getId());
+        processDao.updateProcessExecutors(process.getExecutors(), newProcess.getId());
 
         if (StringUtils.isBlank(linkType))
             linkDao.copyLinks(process.getId(), newProcess.getId(), null);

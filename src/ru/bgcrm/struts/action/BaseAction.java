@@ -527,7 +527,7 @@ public class BaseAction extends DispatchAction {
         return result;
     }
 
-    protected void checkModifyed(LastModify lastModify, DynActionForm form) throws BGException {
+    protected void checkModified(LastModify lastModify, DynActionForm form) throws BGException {
         if (lastModify.getTime() != null) {
             int lastModifyUserId = Utils.parseInt(form.getParam("lastModifyUserId"), 0);
             Date lastModifyTime = TimeUtils.parse(form.getParam("lastModifyTime"), TimeUtils.PATTERN_YYYYMMDDHHMMSS);
