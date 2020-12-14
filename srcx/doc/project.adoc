@@ -276,13 +276,13 @@ Secondary branches can be then deleted, as all the aggregated information from s
 Example: *p11788-link-filter-title*
 * When developing, you can use any commit strategy within a branch: checkpoint commits, reverts/resets, commits to a new branch, etc.
 We would recommend to push intermediate commits, using GIT repository as a backup copy.
-* Main branch can be periodically merged to this "change" branch in order to synchronize with the actual state. *This HAS to be done before the merge to master*
+* Main branch can be periodically merged to this "change" branch in order to synchronize with the actual state. *This HAS to be done before the 'merge --squash' to master*
 * All the necessary  <<documentation, documentation>> changes are done simultaneously with the code changes
 * Client's test build update and accompanying documentation can be <<build-update, built and published>> from the branch.
 * Branch has to add *build/change.<Process ID>.txt* file - if absent, it gets added automatically during <<build-update, update build>>
 This file has to describe new functions, fixes or other changes - each item on a separate row.
 Format is identical to *changes.txt*, which accumulates all *build/change.<Process ID>.txt* information when <<build-erp, update>> gets published.
-* Request branch *merge* to master once client-side development and testing completes for a given change by moving BGERP process into *Acceptance* status.
+* Request branch *merge --squash* to master once client-side development and testing completes for a given change by moving BGERP process into *Acceptance* status.
 * Process gets closed after check/acceptance, and change gets merged to master as a single commit with a comment starting with the change ID.
 * "Change" branch can be then deleted. Change author can be later identified by the change ID used in the comment.
 
@@ -326,11 +326,7 @@ git fetch origin master:master
 ----
 
 [[accept]]
-=== Приёмка и перенос
-При принятии изменения производится сравнение ветки с основной.
-Поэтому перед передачей изменения необходимо смерджить на ветку актуальное состояние основной.
-
-=== Acceptance and merge
+=== Acceptance and merge --squash
 When change is accepted, 'change' branch is compared with the master - so merge master to the 'change' branch before committing a change.
 
 image::_res/branch_compare.png[]
@@ -376,7 +372,7 @@ git push
 [[longlife-branch]]
 === Long-lived branches
 Long-lived branches only get changes which *are not altering product functionality*, for example: localization and documentation fixes, code formatting, tests.
-BGERP process for a change does not get closed , and <<accept, acceptance>> is performed multiple times upon completion of specific change(s)
+BGERP process for a change does not get closed , and <<accept, merge --squash>> is performed multiple times upon completion of specific change(s)
 
 [[documentation]]
 ==== Documentation
@@ -446,34 +442,34 @@ Request processing stages:
 .	Any successful data read request returns an HTML Fragment (Table with a list of usernames as an example), which can then be embedded into resulting HTML on the client side.
 
 [[tech-stack]]
-Стек используемых технологий в порядке убывания важности:
+Below is a summary of a technology stack used, in descending order of importance:
 [arabic]
-. Java - вся <<action, логика>> реализуется в Java коде, поскольку он предоставляет лучшие параметры по удобству разработки, надёжности и быстродействию;
-.. MySQL + JDBC - работа с <<db, данными>>;
-. HTML + CSS - язык разметки в браузере и таблицы стилей;
-. JSP + JSTL - шаблоны отрисовки HTML страниц, уровень <<jsp, представления>>;
-. JS + JQuery - скриптовый язык для динамических возможностей на странице браузера, используется минимально в виде готовых вызовов фреймворка.
+. Java - all <<action, application logic>> is implemented as Java code, as Java provides best options in terms of easy of development, reliability and performance.
+.. MySQL + JDBC - <<db, data>> processing.
+. HTML + CSS - browser's markup language and style tables.
+. JSP + JSTL - HTML page rendering templates,  <<jsp, presentation layer>>;
+. JS + JQuery - client-side scripting language for dynamic content, only used as predefined framework calls.
 
-IMPORTANT: Избегать смешения слоёв: логики вне Java, представления вне JSP, манипулирования данными вне MySQL.
+IMPORTANT: Pay attention to avoid mixing the layers, e.g. creating application logic outside of Java code, defining presentation layer without JSP, performing data manipulation without MySQL.
 
 [[db]]
 ==== Database
-<<kernel/db.adoc#, Структура базы>> документируется в общем <<documentation, процессе>>, одновременно c внесением изменений.
-В приложение база создаётся и <<kernel/install.adoc#update, обновляется>> SQL скрипто `build/update/db.sql`.
-При <<ide-run, запуске в IDE>> этот скрипт может быть выполнен автоматически при каждом старте.
+<<kernel/db.adoc#, DB Structure>> is documented in the common <<documentation, process>>, simultaneously with making changes.
+Use `build/update/db.sql` script to create and <<kernel/install.adoc#update, update>> DB within application.
+When <<ide-run, launching within IDE>>, this script can be executed automatically upon each run.
 
-Дополнительно плагины могут содержать собственные <<plugin-db, скрипты>>, выполняемые в момент их инициализации.
+In addition, plugins can have their own <<plugin-db, scripts>> run at the time of plugin initialization.
+
 
 [[cache]]
 ===== Cache
-Кэширование во внутренних Map и List используется для ускорения в сотни раз получения справочных значений при
-<<jsp, построении UI>>, либо <<kernel/extension.adoc#jexl-process-context, JEXL скриптах>>.
-Map объекты позволяют получать объекты по коду, List - упорядоченный по алфавиту список значений.
-Примеры кэшируемых объектов: пользователи, их группы, типы процессов, конфигурации.
+Caching is used within internal Map and List in order to significantly (100s of times) expedite directory data retrieval when <<jsp, building UI>> or when running <<kernel/extension.adoc#jexl-process-context, JEXL scripts>>
+Map allows to get specific value based on they kay (from a 'key-value' pair), list - an alphabetically sorted list.
+Users, User Groups, Process types, configurations are examples of such cached data.
 
-IMPORTANT: Рекомендуется всегда когда возможно использовать в первую очередь кэши для получения справочников, избегая лишних запросов к БД.
+IMPORTANT: Use caches as much as possible for getting reference values and avoid querying DB extensively.
 
-Редактирование справочников происходит напрямую с БД, после редактирования кэш сбрасывается.
+Directory data is edited directly in DB and cache is cleared after an edit.
 [snippet, from="pu", to="}"]
 link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L92-L98[ru.bgcrm.struts.action.admin.UserAction]
 
@@ -488,80 +484,83 @@ The project is using Apache Struts framework in a very own and customized way:
 
 [[action]]
 ==== Java Action
-Action классы определяются в `struts-config.xml` файлах, и привязываются к URL запроса. Имя метода передаётся в HTTP параметре запроса *action*.
-Если параметр отсутствует, то вызывается *unspecified* метод, подобный способ нежелателен.
+Action classes are defined within `struts-config.xml` files and then are used within request's URL, where *action* HTTP request's parameter is used to indicate method's name.
+If this HTTP parameter is not defined, then *unspecified* method gets invoked, however, this workflow is discouraged.
 
-Пример объявления акшена с форвардом:
+Action with forwarding definition example:
 [snippet, from="<ac", to="on>", remove-leading="		"]
 link:../../src/ru/bgerp/plugin/blow/struts-config.xml#L4-L8[src/ru/bgerp/plugin/blow/struts-config.xml]
 
-Акшены должны расширять класс javadoc:ru.bgcrm.struts.action.BaseAction[], методы возвращать результат через вызов *data* либо *status*.
-Первый метод обрабатывается JSP страницей-форвардом и высылает HTML на клиент. Второй - предназначен для выполнения изменений и возвращает только JSON формат с результатом выполнения.
+Action has to extend javadoc:ru.bgcrm.struts.action.BaseAction[] class, its methods have to return by invoking *data* or *status*.
+First method gets processed by JSP forward page and sends HTML back to the client. Second one is used to perform changes and only returns JSON-based change execution result.
 
 [[action-form]]
 ====== Form Object
 В каждый вызов акшена передаётся *супер объект form* javadoc:ru.bgcrm.struts.form.DynActionForm[], содержащий контекст выполнения:
+Each action class method call gets a *form object*  javadoc:ru.bgcrm.struts.form.DynActionForm[] as a parameter. This object contains a context of request's execution;
 [square]
-* пользователь;
-* параметры запроса, вспомогательные методы для их разбора.
+* User;
+* Request parameters and supplementary methods for parsing those parameters
 
-CAUTION: Не использовать устаревший формат акшенов с параметрами HttpClientRequest и HttpClientResponse, они есть в form.
+CAUTION: Do not use a legacy action format with HttpClientRequest and HttpClientResponse parameters (note that they are still present in the form)
 
-Фрагмент читающего акшен метода с форвардом.
+Below is a snippet of an ActionForward method:
 [snippet, from="pu", to="}", remove-leading="    "]
 link:../../src/ru/bgerp/plugin/blow/struts/action/BoardAction.java#L38-L58[ru.bgerp.plugin.blow.struts.action.BoardAction]
 
-Результат перенаправляется на JSP страницу:
+Result gets redirected to a JSP page:
 link:../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp].
 
-В этом же *form* следует передавать данные для отрисовки JSP, за исключением различных вспомогательных справочников.
-Для этого используется поле *response* формы.
-При *responseType=json*, всё отправленное в response сериализуется в JSON, именно поэтому справочники следует помещать в HttpResponse.
+Use the same *form* to pass data for JSP rendering, excluding some auxiliary directories.
+You can use form's *response* field for this.
+When set to *responseType=json*, all data in the response gets serialized into JSON - that's why it is important to put directories into HttpResponse.
 
 [snippet, from="pu", to="}", remove-leading="    "]
 link:../../src/ru/bgcrm/plugin/dispatch/struts/action/DispatchAction.java#L46-L52[ru.bgcrm.plugin.dispatch.struts.action.DispatchAction]
 
 [[action-name]]
-===== Именование
-Классы акшенов <<plugin, плагинов>> должны располагаться в пакете `PLUGIN_PACKAGE.action`, имя класса оканчиваться на *Action*.
-Ранее акшены располагались в пакетах `struts.action`, такой подход является устаревшим.
+===== Naming Convention
+<<plugin, Plugin's>> action classes have to be placed into `PLUGIN_PACKAGE.action` package, class name should end with *Action*.
+Previously Action classes have been located within `struts.action` packages - this approach is considered obsolete.
 
-Акшены <<kernel/interface.adoc#, интерфейса>> *user* разделяются на /user и /admin.
-Деление это в будущем возможно будет использовано для выделения административных вызовов.
+*User* <<kernel/interface.adoc#, interface>> actions are divided into /user and /admin
+This separation will be used in future for distinguishing administrative calls.
 
-Интерфейсы *usermob* и *open* содержат свои акшены, в имени пакетов и URL которых должно располагаться *usermob* и *open* соответственно.
-Пример такого акшена link:../../src/org/bgerp/action/usermob/ProcessAction.java[org.bgerp.action.usermob.ProcessAction]
+*Usermob* и *open* interfaces have their own actions - in this case package names and URL have to contain *usermob* и *open*, respectively.
+link:../../src/org/bgerp/action/usermob/ProcessAction.java[org.bgerp.action.usermob.ProcessAction] provides an example of such action.
 
-Рекомендуемая схема именования методов:
+We recommend to use the following naming convention for methods:
 [arabic]
-. опционально имя обрабатываемого объекта, если класс работает с несколькими объектами;
-. глагол, определяющий операцию, для CRUD это: *list*, *get*, *update*, *delete*;
+. [optional] Name of the object being handled in case a given class works with several objects.
+. Verb which defines method's operation. For example, for CRUD these are: *list*, *get*, *update*, *delete*.
 
-Примеры имён методов из javadoc:ru.bgcrm.struts.action.admin.UserAction[]:
+
+javadoc:ru.bgcrm.struts.action.admin.UserAction[] has some example method names:
 [square]
 * permsetList;
 * permsetGet;
 * permsetUpdate.
 
-В javadoc:ru.bgcrm.struts.action.admin.AppAction[]:
+Another set of examples from javadoc:ru.bgcrm.struts.action.admin.AppAction[]:
 [suare]
-* status - статус приложения;
-* update - установка обновления;
-* userLoggedList - список авторизовавшихся пользователей.
+* status - provides application status;
+* update - triggers update installation;
+* userLoggedList - provides a list of logged in users.
 
-Форвард рекомендуется называть так же как метод:
+It is recommended to use identical names for both method and forward:
 [snippet, from="<action path=\"/admin", to="</action>", remove-leading="		"]
 link:../../webapps/WEB-INF/struts-config.xml#L55-L58[webapps/WEB-INF/struts-config.xml]
 
 [[action-permission]]
-===== Проверка прав
-Все методы акшенов должны быть объявлены в файле link:../../src/ru/bgcrm/model/user/action.xml[ru/bgcrm/model/user/action.xml] для ядра либо для <<plugin, плагина>>.
-Пример объявления акшенов плагина Blow: link:../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml]
-Действия из данных файлов образуют дерево, использующееся для <<kernel/setup.adoc#user, разграничения доступа>>.
+===== Permissions check
+All action methods have to be defined within link:../../src/ru/bgcrm/model/user/action.xml[ru/bgcrm/model/user/action.xml] for the kernel or for the <<plugin, plugin>>.
+The following link provides an example for Blow plugin's actions definition: link:../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml]
+Actions from those files are forming a tree which is used for <<kernel/setup.adoc#user, access control>>.
 
-Каждое действия идентифицируется классом и методом, разделёнными точкой с запятой.
-Через точку с запятой перед основным идентификатором можно указать дополнительные, например, при переименовании классов либо методов.
-Это позволяет обеспечить обратную совместимость ранее записанных в БД привелегий. При следующем сохранении набора прав будет использован новый идентификатор.
+Each action is identified by a class AND method, separated by semicolon.
+
+Main identifier can be preceded by additional ones, also separated by a semicolon - for example, when renaming classes or methods.
+This allows to provide backwards compatibility with permissions already present in the DB. New identifier will be used upon the next save operation of the permission set
 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
 link:../../src/ru/bgcrm/model/user/action.xml#L145-L146[ru/bgcrm/model/user/action.xml]
@@ -801,7 +800,7 @@ JEXL скрипты либо динамический код могут быть
 
 [[l10n-files]]
 ==== Files
-XML localization file `l10n.xml` for the kernel is located in `src/ru/bgerp/l10n`, 
+XML localization file `l10n.xml` for the kernel is located in `src/ru/bgerp/l10n`,
 for <<plugin-l10n, plugins>> - in their packages.
 New localization phrases should be added to the end of the list in the file.
 
@@ -1235,7 +1234,7 @@ cat build/bgerp/db_init_end.sql >> ./dump.sql
 Running the tests after:
 [source, bash]
 ----
-mysql -uDB_USER -pDB_PSWD < ./dump.sql && 
+mysql -uDB_USER -pDB_PSWD < ./dump.sql &&
 gradlew integrationTest -Pdb.user=DB_USER -Pdb.pswd=DB_PSWD -Pskip.dbReset=true
 ----
 
