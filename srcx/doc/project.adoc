@@ -844,7 +844,7 @@ $('#loginForm').dialog({
 By doing <<action>> in object *l* the localization context is passed, containing phrases for the core and the plugin being called.
 
 [snippet, from="message.se", to="());", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L228-L228[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L235-L235[ru.bgcrm.struts.action.MessageAction]
 
 Localized key string may contain placeholders for some values, marked as *%s*.
 Such case may be seen for <<exception, BGMessageException sample>>.
@@ -933,15 +933,15 @@ from_dt, to_dt - тип datetime.
 
 Сохранение значения:
 [snippet, from="resto", to=");", remove-leading=    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L89-L89[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L90-L90[ru.bgcrm.struts.action.MessageAction]
 
 Восстановление:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L275-L287[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L282-L294[ru.bgcrm.struts.action.MessageAction]
 
 Сохранение плюс восстановление сразу:
 [snippet, from="//", to=");", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L52-L56[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L53-L57[ru.bgcrm.struts.action.ProcessLinkAction]
 
 === Отображение на вкладке количества элементов
 Например, количества связанных процессов. Сохраняется при первом вызове.
@@ -949,7 +949,7 @@ link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L52-L56[ru.bgcrm.st
 
 Обновление значения:
 [snippet, from="// п", to="}", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L220-L227[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L221-L228[ru.bgcrm.struts.action.ProcessLinkAction]
 
 Show in JSP:
 [snippet, from="<c:if", to="if>", remove-leading="						"]
@@ -1013,7 +1013,7 @@ link:../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L75-L
 
 Java action:
 [snippet, from="//", to="open);", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L211-L213[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L212-L214[ru.bgcrm.struts.action.ProcessLinkAction]
 
 [[sample-jsp-ui]]
 === JSP UI

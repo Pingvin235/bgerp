@@ -24,12 +24,13 @@ import ru.bgcrm.event.client.ProcessOpenEvent;
 import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.event.process.ProcessCreatedAsLinkEvent;
-import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.IfaceState;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.config.LinkProcessCreateConfig;
@@ -248,7 +249,7 @@ public class ProcessLinkAction extends ProcessAction {
         return status(con, form);
     }
 
-    public static Process linkProcessCreate(Connection con, DynActionForm form, Process linkedProcess, int typeId, String objectType,
+    public static Process linkProcessCreate(Connection con, DynActionForm form, Process linkedProcess, int typeId, String linkType,
             int createTypeId, String description, int groupId) throws Exception {
         final ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
 
@@ -261,10 +262,10 @@ public class ProcessLinkAction extends ProcessAction {
             LinkProcessCreateConfigItem item = linkedType.getProperties().getConfigMap().getConfig(LinkProcessCreateConfig.class)
                     .getItem(createTypeId);
             if (item == null) {
-                throw new BGException("Не найдено правило с кодом: " + createTypeId);
+                throw new BGMessageException("Не найдено правило с ID: %s", createTypeId);
             }
 
-            objectType = item.getLinkType();
+            linkType = item.getLinkType();
 
             process.setTypeId(item.getProcessTypeId());
             process.setDescription(description);
@@ -301,9 +302,8 @@ public class ProcessLinkAction extends ProcessAction {
             processCreate(form, con, process, -1);
         }
 
-        // добавление привязки
-        linkDao.addLink(new CommonObjectLink(linkedId, objectType, process.getId(), ""));
-
+        linkDao.addLink(new ProcessLinkProcess(linkedId, linkType, process.getId()));
+        
         ProcessType createdProcessType = getProcessType(process.getTypeId());
         EventProcessor.processEvent(new ProcessCreatedAsLinkEvent(form, linkedProcess, process),
                 createdProcessType.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));

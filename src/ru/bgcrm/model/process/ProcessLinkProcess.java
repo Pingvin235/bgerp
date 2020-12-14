@@ -4,7 +4,7 @@ package ru.bgcrm.model.process;
  * Link process to another process.
  */
 public class ProcessLinkProcess extends ProcessLink {
-    private ProcessLinkProcess(int processId, String linkType, int linkedProcessId) {
+    public ProcessLinkProcess(int processId, String linkType, int linkedProcessId) {
         super(processId, linkType, linkedProcessId, "");
     }
     

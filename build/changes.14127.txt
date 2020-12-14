@@ -1,0 +1,1 @@
+A: On extracting a message to a dependent process - create relation to a 'processMade' linked processes.

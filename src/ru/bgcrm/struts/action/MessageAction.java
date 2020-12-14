@@ -50,6 +50,7 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.config.TagConfig;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
@@ -221,8 +222,14 @@ public class MessageAction extends BaseAction {
 
         if (StringUtils.isBlank(linkType))
             linkDao.copyLinks(process.getId(), newProcess.getId(), null);
-        else
-            linkDao.addLink(new CommonObjectLink(process.getId(), linkType, newProcess.getId(), ""));
+        else {
+            linkDao.addLink(new ProcessLinkProcess(process.getId(), linkType, newProcess.getId()));
+            if (Process.LINK_TYPE_DEPEND.equals(linkType)) {
+                for (var linkedProcess : linkDao.getLinkedProcessList(process.getId(), Process.LINK_TYPE_MADE, false, null)) {
+                    linkDao.addLink(new ProcessLinkProcess.Made(linkedProcess.getId(), newProcess.getId()));
+                }
+            }
+        }
 
         message.setProcessId(newProcess.getId());
         message.setText(l.l("Перенесено из процесса #%s", process.getId()) + "\n\n" + message.getText());
