@@ -43,8 +43,6 @@
 			<c:set var="endpoint" value="user.customer.tabs.jsp"/>
 			<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
 
-			$tabs.trigger("tabsinit");
-
 			customerChangeTitle(${customer.id}, "${u:quotEscape(customer.title)}");
 
 			// обновление вкладки "Процессы", если она открыта

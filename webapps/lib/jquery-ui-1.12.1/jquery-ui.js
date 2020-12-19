@@ -18316,18 +18316,7 @@ $.widget( "ui.tabs", {
 			return true;
 		}
 		return false;
-	},
-	
-	/* // PATCH ADDITION BGERP, function doWhenInit
-	doWhenInit: function( callback ) {
-		if (this.data("init"))
-			callback();
-		else 
-			this.one("tabsinit", () => {
-				callback();
-				this.data("init", true);
-			});
-	} */
+	}
 } );
 
 // DEPRECATED

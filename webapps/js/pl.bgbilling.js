@@ -1,3 +1,54 @@
+$$.bgbilling = new function() {
+	const contractOpen = (billingId, contractId) => {
+		if ($$.pers['iface.bgbilling.contractOpenMode'] == 2) {
+			$$.shell.contentLoad("contract_" + billingId + "#" + contractId);
+		} else {
+			const url = "/user/plugin/bgbilling/contract.do?billingId=" + billingId + "&id=" + contractId;
+			
+			const result = sendAJAXCommand(url);
+			if (result.data.customer) {
+				const contractTitle = result.data.contract.title;
+				const customerId = result.data.customer.id;
+				
+				$$.shell.contentLoad("customer#" + customerId).done(() => {
+					const $tabs = $("div#customer-" + customerId + " > #customerViewTabs");
+					$tabs.tabs("showTab", "bgbilling-contracts");
+					
+					// TODO: Wait for contracts tab is loaded.
+					$$.ui.tabsLoaded($tabs, "tabsload", function () {
+						const $customerContractTabs = $("#bgbilling-customerContractList-" + customerId);
+						$$.ui.tabsLoaded($customerContractTabs, "tabsinit", function () {
+							if (!$customerContractTabs.tabs("showTab", billingId + "-" + contractId)) {
+								// договор возможно "спрятан" под субдоговором - поиск субдоговора по префиксу
+								let pos = 0;
+								$customerContractTabs.find("ul li").each(function () {
+									if (contractTitle.startsWith($(this).find("a").text())) {
+										// выделение вкладки субдоговора
+										$customerContractTabs.tabs("option", "active", pos);
+										// на вкладке субдоговора выделение договора					
+										const $subContractTabs = $($customerContractTabs.find(">div.ui-tabs-panel")[pos]).find(".ui-tabs");
+										$subContractTabs.one("tabsinit", function () {
+											$subContractTabs.tabs("showTab", billingId + "-" + contractId);
+										});
+										return false;
+									}
+									pos++;
+								}); 
+							}
+						});
+					});
+				});
+			} else {
+				$$.shell.contentLoad("contract_" + billingId + "#" + contractId);
+			}
+		}
+	}
+
+	// public functions
+	this.contractOpen = contractOpen;
+}
+
+
 addEventProcessor( 'ru.bgcrm.plugin.bgbilling.event.ContractOpenEvent', contractOpenClientEvent );
 
 function contractOpenClientEvent( event )
@@ -9,50 +60,8 @@ function contractOpenClientEvent( event )
 }
 
 function bgbilling_openContract( billingId, contractId ) {
-	if ($$.pers['iface.bgbilling.contractOpenMode'] == 2) {
-		contentLoad( "contract_" + billingId + "#" + contractId );
-	} else {
-		const url = "/user/plugin/bgbilling/contract.do?billingId=" + billingId + "&id=" + contractId;
-		
-		const result = sendAJAXCommand( url );
-		if (result.data.customer) {
-			const contractTitle = result.data.contract.title;
-			const customerId = result.data.customer.id;
-			
-			contentLoad( "customer#" + customerId );
-			
-			const $tabs = $("div#customer-" + customerId + " > #customerViewTabs");
-			$$.ui.tabsLoaded($tabs, "tabsinit", function () {
-				$tabs.tabs("showTab", "bgbilling-contracts");
-				
-				// TODO: Wait for contracts tab is loaded.
-				$$.ui.tabsLoaded($tabs, "tabsload", function () {
-					const $customerContractTabs = $("#bgbilling-customerContractList-" + customerId);
-					$$.ui.tabsLoaded($customerContractTabs, "tabsinit", function () {
-						if (!$customerContractTabs.tabs("showTab", billingId + "-" + contractId)) {
-							// договор возможно "спрятан" под субдоговором - поиск субдоговора по префиксу
-							let pos = 0;
-							$customerContractTabs.find("ul li").each(function () {
-								if (contractTitle.startsWith($(this).find("a").text())) {
-									// выделение вкладки субдоговора
-									$customerContractTabs.tabs("option", "active", pos);
-									// на вкладке субдоговора выделение договора					
-									const $subContractTabs = $($customerContractTabs.find(">div.ui-tabs-panel")[pos]).find(".ui-tabs");
-									$subContractTabs.one("tabsinit", function () {
-										$subContractTabs.tabs("showTab", billingId + "-" + contractId);
-									});
-									return false;
-								}
-								pos++;
-							}); 
-						}
-					});
-				});
-			});
-		} else {
-			contentLoad( "contract_" + billingId + "#" + contractId );
-		}
-	}
+	console.warn($$.deprecated);
+	$$.bgbilling.contractOpen(billingId, contractId);
 }
 
 /* Incorrect, but common contracts are deprecated anyway.
