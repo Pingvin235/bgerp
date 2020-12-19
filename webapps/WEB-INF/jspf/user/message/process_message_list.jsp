@@ -276,8 +276,12 @@
 										return false;">${l.l('Ответить')}</a></li>
 								</c:if>
 							
-								<c:set var="perm" value="${p:get(form.user.id, 'ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes')}" />
-								<c:if test="${form.user.id == message.userId or perm ne null}">
+								<c:set var="perm4NotMy" value="${p:get(form.user.id, 'ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes')}" />
+								<c:set var="perm2Update" value="${p:get( ctxUser.id, 'ru.bgcrm.struts.action.MessageAction:messageUpdate')}"/>
+								<c:set var="allowedTypeIds" value="${u:toIntegerSet( perm2Update['allowedTypeIds'] ) }"/>
+								<c:set var="checkEditByOwner" value="${form.user.id == message.userId or perm4NotMy ne null}"/>
+								<c:set var="checkEditByType" value="${empty allowedTypeIds or allowedTypeIds.contains(message.typeId)}"/>
+								<c:if test="${checkEditByOwner && checkEditByType}">
 									<c:if test="${messageType.isEditable(message)}">
 										<c:url var="editUrl" value="/user/message.do">
 											<c:param name="forward" value="processMessageEdit"/>

@@ -264,8 +264,13 @@
 			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateTags" title="Изменение тегов сообщения"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Изменение процесса сообщения"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Изменение процесса сообщения на копию текущего"/>
-			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Создание/редактирование сообщения"/>
-			<item action="ru.bgcrm.struts.action.MessageAction:processMessageList" title="Просмотр списка сообщений процесса"/>
+			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Создание/редактирование сообщения">
+				 <b>allowedTypeIds</b> - id типов сообщений через запятую, доступных для создания/редактирования<br/>
+				 <b>changeResponseAddress</b> - 1 можно редактировать адрес при ответе, доступных для создания/редактирования<br/>
+			</item>
+			<item action="ru.bgcrm.struts.action.MessageAction:processMessageList" title="Просмотр списка сообщений процесса">
+				 <b>allowedTypeIds</b> - id типов сообщений через запятую, выводимых в списке<br/>
+			</item>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageDelete" title="Удаление сообщения"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes" title="Редактирование/удаление чужих сообщений"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList" title="Просмотр возможно связанных с сообщением процессов"/>

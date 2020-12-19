@@ -311,11 +311,19 @@ public class MessageDAO extends CommonDAO {
     public void searchMessageList(SearchResult<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder, Set<Integer> tagIds) throws BGException {
-        searchMessageList(searchResult, processId != null ? Collections.singleton(processId) : null, typeId, direction, processed, withAttach, 
-                dateFrom, dateTo, from, true, tagIds);
+        searchMessageList(searchResult, processId != null ? Collections.singleton(processId) : null, typeId != null ? Collections.singleton(typeId) : null,
+                direction, processed, withAttach, dateFrom, dateTo, from, true, tagIds);
     }
 
+    @Deprecated
     public void searchMessageList(SearchResult<Message> searchResult, Collection<Integer> processIds, Integer typeId,
+            Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
+            boolean reverseOrder, Set<Integer> tagIds) throws BGException {
+        searchMessageList(searchResult, processIds, typeId != null ? Collections.singleton(typeId) : null, direction, processed, withAttach, 
+                dateFrom, dateTo, from, true, tagIds);
+    }
+    
+    public void searchMessageList(SearchResult<Message> searchResult, Collection<Integer> processIds, Set<Integer> typeIds,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder, Set<Integer> tagIds) throws BGException {
         try {
@@ -332,9 +340,10 @@ public class MessageDAO extends CommonDAO {
                 ps.addQuery(Utils.toString(processIds));
                 ps.addQuery(")");
             }
-            if (typeId != null && typeId > 0) {
-                ps.addQuery(" AND m.type_id=?");
-                ps.addInt(typeId);
+            if (CollectionUtils.isNotEmpty(typeIds)) {
+                ps.addQuery(" AND m.type_id IN (");
+                ps.addQuery(Utils.toString(typeIds));
+                ps.addQuery(")");
             }
             if (direction != null) {
                 ps.addQuery(" AND m.direction=?");

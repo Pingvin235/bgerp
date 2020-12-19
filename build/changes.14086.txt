@@ -1,0 +1,1 @@
+A: Permission options for message actions.

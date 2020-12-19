@@ -303,6 +303,11 @@ public class MessageAction extends BaseAction {
             }
         }
         
+        Set<Integer> allowedTypeIds = Utils.toIntegerSet(form.getPermission().get("allowedTypeIds", ""));
+        if (CollectionUtils.isNotEmpty(allowedTypeIds) && !allowedTypeIds.contains(type.getId())) {
+            throw new BGMessageException("Вам запрещено создавать/редактировать данный тип сообщения!");
+        }
+        
         message.setId(form.getId());
         message.setUserId(form.getUserId());
         message.setTypeId(type.getId());
@@ -445,9 +450,11 @@ public class MessageAction extends BaseAction {
 
         log.debug("processIds: %s", processIds);
 
+        Set<Integer> allowedTypeIds = Utils.toIntegerSet(form.getPermission().get("allowedTypeIds", ""));
+        
         MessageDAO messageDao = new MessageDAO(conSet.getConnection());
         messageDao.searchMessageList(new SearchResult<>(form),
-                processIds, null, null, null, tagId == TagConfig.Tag.TAG_ATTACH_ID ? true : null,
+                processIds, allowedTypeIds, null, null, tagId == TagConfig.Tag.TAG_ATTACH_ID ? true : null,
                 form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null), form.getParam("from", null),
                 true, tagId > 0 ? Collections.singleton(tagId) : null);
         

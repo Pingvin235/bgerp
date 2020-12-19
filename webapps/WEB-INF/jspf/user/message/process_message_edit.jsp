@@ -99,37 +99,42 @@
 						<c:set var="value" value="${form.param.messageTypeAdd}"/>
 					</c:when>
 				</c:choose>
+				
+				<c:set var="perm" value="${p:get( ctxUser.id, 'ru.bgcrm.struts.action.MessageAction:messageUpdate')}"/>
+				<c:set var="allowedTypeIds" value="${u:toIntegerSet( perm['allowedTypeIds'] ) }"/>
 
 				<ui:combo-single
 					id="${typeComboUiid}" hiddenName="typeId" widthTextValue="120px"
 					value="${value}" disable="${disable}" onSelect="${typeChangedScript}">
 					<jsp:attribute name="valuesHtml">
 						<c:forEach var="item" items="${config.typeMap}">
-							<c:set var="messageType" value="${item.value}"/>
-
-							<c:remove var="subject"/>
-							<c:remove var="address"/>
-							<c:remove var="attach"/>
-							<c:set var="subject">
-								<c:if test="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeEmail' or
-											 messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeNote'}">subject='true'</c:if>
-							</c:set>
-							<c:set var="address">
-								<c:if test="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeEmail'}">address='true'</c:if>
-							</c:set>
-							<c:set var="attach">
-								<c:if test="${messageType.attachmentSupport}">attach='true'</c:if>
-							</c:set>
-
-							<%-- специальный редактор сообщения либо стандартный --%>
-							<c:choose>
-								<c:when test="${messageType.specialEditor}">
-									<li value="${item.key}" editor="${messageType.getClass().getName()}">${item.value.title}</li>
-								</c:when>
-								<c:otherwise>
-									<li value="${item.key}" ${subject} ${address} ${attach}>${item.value.title}</li>
-								</c:otherwise>
-							</c:choose>
+							<c:if test="${empty allowedTypeIds or allowedTypeIds.contains(item.key)}">
+								<c:set var="messageType" value="${item.value}"/>
+	
+								<c:remove var="subject"/>
+								<c:remove var="address"/>
+								<c:remove var="attach"/>
+								<c:set var="subject">
+									<c:if test="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeEmail' or
+												 messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeNote'}">subject='true'</c:if>
+								</c:set>
+								<c:set var="address">
+									<c:if test="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeEmail'}">address='true'</c:if>
+								</c:set>
+								<c:set var="attach">
+									<c:if test="${messageType.attachmentSupport}">attach='true'</c:if>
+								</c:set>
+	
+								<%-- специальный редактор сообщения либо стандартный --%>
+								<c:choose>
+									<c:when test="${messageType.specialEditor}">
+										<li value="${item.key}" editor="${messageType.getClass().getName()}">${item.value.title}</li>
+									</c:when>
+									<c:otherwise>
+										<li value="${item.key}" ${subject} ${address} ${attach}>${item.value.title}</li>
+									</c:otherwise>
+								</c:choose>
+							</c:if>
 						</c:forEach>
 					</jsp:attribute>
 				</ui:combo-single>
