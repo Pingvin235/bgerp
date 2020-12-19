@@ -490,24 +490,20 @@ public class MessageTypeEmail extends MessageType {
         multipart.addBodyPart(historyPart);
 
         if (msg.getAttachList().size() > 0) {
-            Connection con = Setup.getSetup().getDBConnectionFromPool();
-            try {
+            try (var con = Setup.getSetup().getDBConnectionFromPool()) {
                 FileDataDAO fileDao = new FileDataDAO(con);
 
                 for (FileData attach : msg.getAttachList()) {
                     File file = fileDao.getFile(attach);
 
                     MimeBodyPart attachPart = new MimeBodyPart();
+                    attachPart.setHeader("Content-Type", "charset=\"UTF-8\"; format=\"flowed\"");
                     attachPart.setDataHandler(new DataHandler(new FileDataSource(file)));
-                    attachPart.setFileName(MimeUtility.encodeWord(attach.getTitle()));
+                    attachPart.setFileName(MimeUtility.encodeWord(attach.getTitle(), encoding, null));
                     multipart.addBodyPart(attachPart);
 
-                    if (log.isDebugEnabled()) {
-                        log.debug("Attach: " + attach.getTitle());
-                    }
+                    log.debug("Attach: %s", attach.getTitle());
                 }
-            } finally {
-                SQLUtils.closeConnection(con);
             }
         }
 
