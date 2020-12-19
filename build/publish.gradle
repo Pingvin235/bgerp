@@ -135,5 +135,5 @@ def createSymlink(String sshLogin, String sshFolder, String link, String target)
 task publishCommit(type: Exec) {
     mustRunAfter 'publishBuild'
     workingDir "$projectDir/build"
-    commandLine 'git', 'commit', '*.properties', 'changes.txt', 'changes.*.txt', '-m PUBLISH ' + getBuild()
+    commandLine 'git', 'commit', '*.properties', 'changes.txt', 'changes.*.txt', "-m PUBLISH ${->getBuild()}"
 }

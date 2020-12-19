@@ -1,0 +1,4 @@
+F: Lazy call of getBuild() in Gradle scripts.
+C: .gitlab-ci-publish-author.sh matching substrings.
+A: Gradle task 'startServer'.
+A: Check DB connection on starting server.

@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.logging.Level;
 
 import javax.net.ssl.HostnameVerifier;
@@ -85,15 +86,16 @@ public class Server extends Tomcat {
         log = Log.getLog(Server.class);
 
         try {
-            log.info("Starting..");
+            log.info("Starting with '%s.properties'..", Setup.getBundleName());
+
+            var setup = Setup.getSetup();
+            checkDBConnectionOrExit(setup); 
 
             PluginManager.init();
 
             String catalinaHome = (new File(".")).getAbsolutePath();
             catalinaHome = catalinaHome.substring(0, catalinaHome.length() - 2);
             setBaseDir(catalinaHome);
-
-            Setup setup = Setup.getSetup();
 
             String hostname = setup.get("server.host.name", "localhost");
             getEngine().setDefaultHost(hostname);
@@ -173,6 +175,16 @@ public class Server extends Tomcat {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             System.exit(1);
+        }
+    }
+
+    private void checkDBConnectionOrExit(Setup setup) {
+        try (var con = setup.getDBConnectionFromPool()) {
+            if (con == null)
+                throw new SQLException("SQL connection was null");
+        } catch (SQLException e) {
+            log.error("Problem with getting SQL connection, stopping..", e);
+            System.exit(2);
         }
     }
 

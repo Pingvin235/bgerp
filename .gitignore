@@ -9,8 +9,8 @@
 /filestorage
 /webapps/WEB-INF/custom
 /webapps/WEB-INF/**/custom
-/bgcrm_*.properties
-/bgerp_*.properties
+/bgcrm*.properties
+/bgerp*.properties
 /log4j.properties
 
 /.gradle

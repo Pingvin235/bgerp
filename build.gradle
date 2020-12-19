@@ -207,7 +207,7 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-task buildDoc(type:JavaExec) {
+task buildDoc(type: JavaExec) {
     classpath =  configurations.pzdcdoc
     main = 'org.pzdcdoc.DocGenerator'
     args 'NOTUSED', 'srcx/doc', 'target/doc'
@@ -221,10 +221,10 @@ task buildJavaDoc(type: Javadoc) {
     destinationDir = file("${buildDir}/javadoc")
 }
 
-task patchChanges(type:JavaExec, dependsOn: ['compileToolsJava']) {
+task patchChanges(type: JavaExec, dependsOn: 'compileToolsJava') {
     classpath =  sourceSets.tools.runtimeClasspath
     main = 'ru.bgerp.tool.PatchChanges'
-    args getBuild(), 'build/changes.txt'
+    args "${->getBuild()}", 'build/changes.txt'
 }
 
 def getBuild() {
@@ -235,27 +235,26 @@ def getBuild() {
     return build
 }
 
-task rss(type:JavaExec, dependsOn: ['compileToolsJava']) {
+task rss(type: JavaExec, dependsOn: 'compileToolsJava') {
     mustRunAfter 'patchChanges'
     classpath =  sourceSets.tools.runtimeClasspath
     main = 'ru.bgerp.tool.RssGenerator'
     args version, 'build/changes.txt', 'build/changes.xml'
 }
 
-// used by test-integration
-task buildErp(type: Exec, dependsOn: 'classes') {
+task buildDist(type: Exec, dependsOn: 'classes', description: 'Builds distribution archive') {
     workingDir "$projectDir/build/bgerp"
     commandLine "ant"
     environment classesPath: "../../target/classes/java/main"
 }
 
-task buildUpdate(type: Exec, dependsOn: 'classes') {
+task buildUpdate(type: Exec, dependsOn: 'classes', description: 'Builds distribution and update archives') {
     workingDir "$projectDir/build/update"
     commandLine "ant"
     environment classesPath: "../../target/classes/java/main"
 }
 
-task buildUpdateLib(type: Exec) {
+task buildUpdateLib(type: Exec, description: 'Builds library update archive') {
     workingDir "$projectDir/build/update_lib"
     commandLine "ant"
 }
@@ -266,6 +265,16 @@ task buildClean(type: Delete) {
         include "update/update_${version}_*.zip"
         include "update_lib/update_lib_${version}_*.zip"
     }
+}
+
+task startServer(type: JavaExec, dependsOn: 'classes', description: 'Starts server with bgerp.properties') {
+    classpath =  sourceSets.main.runtimeClasspath
+    main = 'ru.bgerp.Server'
+    args 'start'
+    systemProperties = [
+        'bgerp.setup.data': findProperty('bgerp.setup.data') ?: 'bgerp',
+        'java.net.preferIPv4Stack': true
+    ]
 }
 
 task resetProperties {
