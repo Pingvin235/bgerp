@@ -122,35 +122,46 @@ Drawbacks:
 Visit link:../../.vscode/readme.txt[open] and navigate to `.vscode` catalog in project's DB_USER in order to get some configuration examples.
 Jave formatter and space symbols indicators have been already enabled there.
 
-
 [[ide-run]]
 === Running in IDE
+
+[[ide-run-data]]
+==== Data container
+Use the Docker image for running developer DB instance.
+Run the following command inside of the project's directory.
+
+[source, bash]
+----
+docker pull bgerp/bgerp && docker run -p 3306:3306 --name bgerp-demo -d bgerp/bgerp
+----
+
+Make sure, that the container is running using the command:
+[source, bash]
+----
+docker exec bgerp-demo /opt/bgerp/erp_status.sh
+----
+
+Get configuration and data files from the container:
+[source, bash]
+----
+docker cp bgerp-demo:/opt/bgerp/bgerp.properties bgerp_test.properties
+docker cp bgerp-demo:/opt/bgerp/filestorage filestorage
+----
+
+NOTE: Use the command for removing the created container:
+[source, bash]
+----
+docker rm -f bgerp-demo
+----
+
+[[ide-run-launch]]
+==== Launch configuration
 Configuration:
 [square]
 * Main class: ru.bgerp.Server
 * Program arguments: start
 * VM arguments: -Dbgerp.setup.data=bgerp_test
 * Classpath: click on *User entries - Advanced - Add folders* and add project's current folder.
-
-Copy `bgerp.properties` to `bgerp_test.propertes`, replace *GENERATED_PASSWORD* with some random value, possibly using `pwgen` or similar utility.
-
-==== Database
-MySQL server may be running on any supported platform, check <<kernel/install.adoc#mysql, configuration>> of it.
-
-For database creation use the following files sequentially:
-[square]
-* `db_create.sql`, `db_init.sql` from link:https://bgerp.org/download/3.0/bgerp.zip[bgerp.zip] - initial structure;
-* `bgerp.sql` from link:https://demo.bgerp.org/bgerp.sql[bgerp.sql] - data after running of <<integration-test, integration test>>.
-
-Replace *GENERATED_PASSWORD* in `db_create.sql` with the value from `bgerp_test.properties` but *surrounded by commas*.
-
-Execute the following mysql commands:
-[source, bash]
-----
-mysql --default-character-set=utf8 -uDB_USER -p < db_create.sql
-mysql --default-character-set=utf8 -ubgerp -p < db_init.sql
-mysql --default-character-set=utf8 -ubgerp -p bgerp < bgerp.sql
-----
 
 For <<db, DB update>> on each start in `.properties` must be set <<kernel/setup.adoc#config-on-start, option>>:
 [source]
@@ -565,43 +576,43 @@ This allows to provide backwards compatibility with permissions already present 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
 link:../../src/ru/bgcrm/model/user/action.xml#L145-L146[ru/bgcrm/model/user/action.xml]
 
-Вспомогательные действия, которые должны быть постоянно разрешены помечаются атрибутом *allowAll="1"*.
+Additional/auxillary actions, which have to be permanently allowed, have to be marked with *allowAll="1"* attribute.
 
 [[exception]]
-===== Обработка ошибок
-Исключение прерывает выполнение акшена, прерывает тразакцию в <<db, БД>>, ответ отправляется всегда в JSON формате.
-Обработка исключений производится централизованно в javadoc:ru.bgcrm.struts.action.BaseAction[], методы DAO либо обработчики скриптов должны просто выбрасывать их все наружу.
-Соответственно в декларациях методов акшенов и DAO должно значиться *throws java.lang.Exception*.
+===== Exception handling
+Exception interrupts actions execution, also rolls back <<db, DB>> transaction - response will be always sent back as JSON.
+All Exception handling is defined centrally in javadoc:ru.bgcrm.struts.action.BaseAction[], DAO methods or script handlers just need to raise a given exception.
+Said that, action methods declarations and DAO just need to use *throws java.lang.Exception*.
 
-Класс javadoc:ru.bgcrm.model.BGException[] используется для исключений, генерируемых самой системой, в чистом виде нужен весьма редко.
+javadoc:ru.bgcrm.model.BGException[] class is typically used for system-generated exceptions and is rarely used elsewhere.
 
-Его наследник класс javadoc:ru.bgcrm.model.BGMessageException[] используется для отправки <<l10n, локализованного>>
-уведомления пользователю, без записи сообщения в лог. Пример:
+javadoc:ru.bgcrm.model.BGMessageException[] which inherits from javadoc:ru.bgcrm.model.BGException[], is used to sent a <<l10n, localized>> message to the user,
+without writing this message in the log.
+For example:
 
 [snippet, from="for (", to=");", remove-leading="            "]
 link:../../src/ru/bgcrm/event/listener/ProcessClosingListener.java#L39-L41[ru.bgcrm.event.listener.ProcessClosingListener]
 
 [[action-db]]
-===== Работа с БД
-Работа с базой данных выполняется через отдельные Java DAO (Data Access Objects) классы. Непосредственно в акшенах используются уже они.
-Обработка запросов <<action, акшенами>> производится транзакционно: транзакция начинается перед вызовом метода, далее подверждается (COMMIT) при возврате
-результатов без ошибок либо отменяется (ROLLBACK) при выбросе исключения.
+===== DB Operations
+DB-related operations are performed via separate Java DAO (Data Access Objects) classes which are then used within actions.
+Actions are using transactional request processing: transaction starts before method gets invoked, then a) gets committed (COMMIT) if there are no errors when returning results
+or b) gets rolled back (ROLLBACK) if exception is thrown.
 
-Соединение с базой передаётся в параметрах *con* акшен методов. Также есть варианты методов с параметром *conSet* (javadoc:ru.bgcrm.util.sql.ConnectionSet[]), выдающим соединения по отдельному вызову.
-Данный способ подходит для методов не требующих соединения с БД, либо же наоборот, требующих несколько видов соединений: реплики или мусорной для некритичных данных БД (пока не поддержана).
+DB connection details have to be specified via action methods' *con* parameters. Some methods use *conSet* (javadoc:ru.bgcrm.util.sql.ConnectionSet[]) parameter, which invoke DB connection via a separate call.
+The latter is more suitable for methods which do not demand a DB connection, or, on the contrary, for the ones demanding several connection types: to replica or "trash" DB for non-critical data (currently not supported)
 
-Имена таблиц указываются в константах, для повышения связанности кода, например: javadoc:ru.bgcrm.dao.Tables[]
-Если таблица используется только в единственном DAO классе, то константу с её именем делать приватной: javadoc:ru.bgcrm.plugin.fulltext.dao.SearchDAO[]
+Table names have to be specified via constants in order to improve code cohesion (see javadoc:ru.bgcrm.dao.Tables[] as example).
+If a given table is only used in a single DAO class, then this constant has to be defined as private (javadoc:ru.bgcrm.plugin.fulltext.dao.SearchDAO[] as example)
 
-Для сборки запросов рекомендуется использование класса link:https://docs.oracle.com/en/java/javase/11/docs/api/java.sql/java/sql/PreparedStatement.html[java.sql.PreparedStatement]
-либо более удобной его обёрткой ru.bgcrm.util.sql.PreparedDelay[]. Второй класс удобен возможностью склеивать как запросы, так и параметры и не указывать
-номер позиции устанавливаемых параметров.
+Use link:https://docs.oracle.com/en/java/javase/11/docs/api/java.sql/java/sql/PreparedStatement.html[java.sql.PreparedStatement] class for building queries or. alternatively,
+use its wrapper - ru.bgcrm.util.sql.PreparedDelay[]. The latter allows to 'glue' both queries and parameters and does not require to specify parameters' positions.
 
 [[jsp]]
 ==== JSP View
-HTML страницы отрисовываются на серверной стороне <<kernel/extension.adoc#jsp, JSP шаблонами>>, получая даннные от Action.
-UI реализован из унифицированных компонентов таким образом, что в большинстве случаев что не требуется устанавливать стили,
-писать дополнительные JS обработчики. Примеры <<sample-jsp-ui, кода JSP UI>>.
+HTML gets rendered on server-side using <<kernel/extension.adoc#jsp, JSP templates>> after receiving data from Action.
+UI uses a set of unified components - thanks to that in most cases there is no need to install additional styles or create additional JS handlers.
+<<sample-jsp-ui, JSP UI code>> examples.
 
 [[jsp-request-params]]
 ===== SetRequestParamsFilter
@@ -629,33 +640,32 @@ IMPORTANT: Most of the functions there are deprecated because of possibility to 
 Using semicolumn-separated JSP functions makes sence only for JSP specific things, like in the following cases.
 
 [[jsp-function-uiid]]
-====== Идентификация элементов
-В HTML DOM все идентификаторы элементов глобальные с использованием атрибутов `class` и `id`. Их довольно сложно отслеживать на предмет
-используемости и уникальности, а кроме того приложение обязательно должно быть одностраничным, что мешает сохранять состояние на скрытых элементах.
-Для обхода этого неудобства в проекте используется привязка JS обработчиков через HTML атрибуты onClick и т.п., с применением конекстной переменной `this`.
-Либо генерируется уникальный идентификатор с помощью JSP функции `u:uiid()`, который также подставляется в сгенерированный вызов JS.
+====== Element IDs
+HTML DOM model assumes all element IDs are globally defined using `class` and `id` attributes. Due to that it is quite tricky to track their usage and ensure their
+uniqueness. Moreover, developer has to create a single-page application, which prevents to keep state for hidden elements.
+In order to overcome this limitation, project attaches JS handlers via HTML onClick (and the like) attributes  using context variable 'this'.
+Another method used for that is using `u:uiid()` function to generate a unique identifier, which is then used in auto-generated JS call.
 
 [[jsp-tag]]
 ===== Tags
-Компоненты выполнены как JSP теги, объявлены в каталоге `webapps/WEB-INF/tags`.
-<<eclipse, IDE Eclipse>> поддерживает автодополнение при их использовании.
+Components are defined within JSP tags and are declared in `webapps/WEB-INF/tags`
+<<eclipse, IDE Eclipse>> supports autocomplete when using them in the code.
 
 image::_res/ide_jsp_tag.png[width='600px']
 
-Обзор использования тегов с элементами управления пользователя вы можете посмотреть в файле link:../../webapps/test.jsp[webapps/test.jsp],
-для выполнения шаблона наберите в браузере http://<host>:<port>/test.jsp, для Demo системы: https://demo.bgerp.org/test.jsp
+link:../../webapps/test.jsp[webapps/test.jsp] provides several examples of using JSP tags with user control elements.
+Navigate to http://<host>:<port>/test.jsp in order to invoke template execution, alternatively visit a Demo server: https://demo.bgerp.org/test.jsp
 
-Пункты меню, устанавливающие соответствие между URL оснастки и Java Action определяются для ядра в файле
-link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp], для плагинов - через точку <<plugin-xml-ui-menu, расширения>>.
+For kernel, link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp] file defines menu items which are used to match URL and Java Action. For plugins this is done via <<plugin-xml-ui-menu, extension>> points.
 
 [[jsp-tag-u-sc]]
 ====== u:sc
-JSP страница хранит все переменные глобально. В сочетании с инклудами и большими шаблонами это может создавать неудобства.
-Для обхода проблемы используется тег восстановления контекста `<u:sc>`, все переменные созданные внутри него сбрасываются при выходе.
+JSP page stores all variables as global ones. Combined with includes and long templates, this can cause certain inconvenience.
+`<u:sc>` context recovery tag is used to overcome this problem - all variables defined with this tag are cleared upon exit.
 
 [[jsp-tag-p-check]]
 ====== p:check
-The tag enabling code inside only when mentioned <<action, action>> is <<action-permission, allowed>> for the current user.
+The tag enables code inside it only when mentioned <<action, action>> is <<action-permission, allowed>> for the current user.
 [snippet, from="<p:ch", to=">"]
 link:../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp#L11-L14[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp]
 
@@ -668,111 +678,109 @@ link:../../webapps/WEB-INF/jspf/admin/config/list.jsp#L34-L35[webapps/WEB-INF/js
 
 [[js]]
 ==== Java Script
-JS используется для обеспечения динамического поведения на странице клиента.
-Скрипты и библиотеки к ним располагаются по следующим <<js-lib, путям>>, <<plugin, плагины>> могут обладать собственными скриптами.
+JS is used to enabled dynamic content on the client side.
+Scripts and associated libraries are located within <<js-lib, this path>>. <<plugin, plugins>> can have their own scripts.
 
-В некоторых местах код JS генерируется на стороне сервера в JSP шаблонах.
-Данный способ не очень предпочтителен, поскольку сложен для отладки в браузере.
+In certain cases JS gets dynamically generated via JSP templates on a server-side.
+This method is generally discouraged as it significantly complicates broweser-side debugging.
 
-Функции системы разбиты по объектам, выстроенных в иерархию от корневого объекта *+++$$+++*.
-Например: link:../../webapps/js/kernel.ajax.js[+++$$+++.ajax], link:../../webapps/js/kernel.ui.js[$$.ui]
-Обычная схема привязки JS кода к HTML: установка обработчиков событий с вызовом функций, <<sample-jsp-ui, пример AJAX>>.
+System functions are organized as object hierarchy built from the *+++$$+++* root object.
+For example: link:../../webapps/js/kernel.ajax.js[+++$$+++.ajax], link:../../webapps/js/kernel.ui.js[$$.ui]
+A typical scheme for attaching JS code to HTML is to setup event handler with a function call - <<sample-jsp-ui, AJAX example>>
 
-Устаревшие JS функции помечаются следующим образом:
+Deprecated JS functions are marked using the following method:
 [snippet, from="fun", to="}"]
 link:../../webapps/js/kernel.ajax.js#L352-L357[webapps/js/kernel.ajax.js]
 
-При их вызове в console бразузера выводится сообщение: "Deprecated", при клике по которому можно найти устаревший вызов.
-Использование подобных функций не допускается в новом коде и должно уменьшаться в существующем.
+When such a function gets invoked, browser console gets a "clickable" "Deprecated" message which allows to find a this deprecated function call
+It is forbidden to use those functions in the new code, usage has to be decreased in the existing code over time.
 
 [[plugin]]
-=== Плагины
-Всякая логически обособленная функциональность должна быть вынесена в плагин.
-Особенностью плагинов является их изолированность. Каждый плагин работает с ядром,
-ядро не знает особенностей конкретного плагина, плагины не знают друг о друге.
-Под *знанием* тут подразумевается полагание на конкретное API, вызовы.
+=== Plugins
+Any logically detached functionality has to be moved into a plugin.
+Isolation is a primary trait of a plugin. Each plugin works with a kernel and kernel has no knowledge of the inner works of a given plugin.
+Plugins do not have to 'know' how other plugins work, either.
+'Knowing' here means a necessity to rely on certain APIs or specific method calls.
 
 [[plugin-class]]
-==== Java класс плагина
-Плагины находятся программой при старте по обязательному Java классу, расширяющему javadoc:ru.bgcrm.plugin.Plugin[]
-Пример класса: link:../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
+==== Plugin's Java class
+Application detects plugin upon start by a mandatory Java class, extended from javadoc:ru.bgcrm.plugin.Plugin[]
+Class example; link:../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
 
-Каждый плагин должен уникальным *Java package*, содержащим данный класс.
-Далее пакет плагина будет обозначаться как *PLUGIN_PACKAGE*.
+Each plugin has a corresponding (and unique) *Java package* which includes this specific class.
+Plugin package will be then designated as, surprise-surprise, *PLUGIN_PACKAGE*.
 
-В методе инициализации класса плагина могут определяться слушатели событий:
+Plugin class initialization method can also define event listeners:
 [snippet, from="Eve", to="ss);", remove-leading="        "]
 link:../../src/ru/bgcrm/plugin/slack/Plugin.java#L21-L23[ru.bgcrm.plugin.slack.Plugin]
 
-В данном случае в <<kernel/extension.adoc#jexl, JEXL>> контекст помещается обработчик функций.
+In the particular case shown above, function handler gets included into <<kernel/extension.adoc#jexl, JEXL>> context.
 
-Каждый плагин должен обладать уникальным строковым *идентификатором*, удовлетворяющим следующим условиям:
+Each plugin has to have a unique string identified which satisfies the following requirements:
 [square]
-* одно уникальное для данного плагина английское слово без перемены регистра и спецсимволов;
-* <<db, таблицы БД>> плагина, если они есть, должны начинаться с идентификатора;
-* <<action, actions>> плагина, если они есть, должны начинаться с /user/plugin/идентификатор.
+* A single and unique for a plugin English word, all single case (no upper/lower mix) and without special symbols
+* Plugin's <<db, DB tables>>, if present, have to start from this identifier.
+* Plugin's <<action, actions>>, if present, have to start from /user/plugin/<identifier>.
 
 [[plugin-db]]
-Если плагин использует <<db, БД>>, то в его пакете может находиться скрипт, создающий и изменяющий таблицы.
-Скрипт с именем `db.sql` вызывается при стандартной процедуре инициализации.
+If plugin uses <<db, DB>>, then plugin package can contain a script which creates or modifies tables.
+As mentioned earlier, `db.sql script gets invoked during standard initialization routine.
 
-Пример скрипта для плагина FullText.
+Below is an example of a script for a FullText plugin
 [snippet]
 link:../../src/ru/bgcrm/plugin/fulltext/db.sql[src/ru/bgcrm/plugin/fulltext/db.sql]
 
 [[plugin-xml]]
-==== XML декларация
-Необязательный файл `plugin.xml`, располагающийся в *PLUGIN_PACKAGE*
+==== XML declaration
+Optional `plugin.xml` file located within *PLUGIN_PACKAGE*
 
-В файле определяются точки расширения:
+This file defines extension points:
 [square]
-* JSP шаблоны;
-* JS файлы.
+* JSP templates;
+* JS files.
 
 [[plugin-xml-ui-menu]]
-===== Пункты меню
-Объявление точки расширения в XML декларации:
+===== Menu items
+Extension points definition within XML declaration:
 [snippet, from="<en", to=">", remove-leading="	"]
 link:../../src/ru/bgerp/plugin/blow/plugin.xml#L4-L4[blow/plugin.xml]
 
-Добавление пункта с помощью тега JSP: link:../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
+Example of adding a menu item using JSP tag: link:../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
 
 [[plugin-xml-js]]
 ===== JavaScript
-Объявление точки расширения в XML декларации:
+Extension points definition within XML declaration:
 [snippet, from="<en", to=">", remove-leading="	"]
 link:../../src/ru/bgerp/plugin/blow/plugin.xml#L5-L5[blow/plugin.xml]
 
-Файл со скриптом: link:../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
+File containing script: link:../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
 
 [[plugin-action]]
 ==== Actions
-<<action, Акшены>> плагина, если требуется, должны быть определены в *PLUGIN_PACKAGE.action* каталоге.
-Файлы `struts-config.xml` и `action.xml` должны находится в *PLUGIN_PACKAGE*.
+Plugin <<action, actions>>, if used, have to be declared in *PLUGIN_PACKAGE.action* directory.
+`struts-config.xml` and `action.xml` have to be located in *PLUGIN_PACKAGE*.
 
-JSP шаблоны - `webapps/WEB-INF/jspf/user|open|usermob/plugin/идентификатор`.
+JSP templates - `webapps/WEB-INF/jspf/user|open|usermob/plugin/<identifier>`.
 
 [[plugin-l10n]]
-==== Локализация
-Файл <<l10n, локализации>> плагина `i10n.xml` должен находиться в *PLUGIN_PACKAGE*.
-Он используется только для локализаций акшенов и JSP шаблонов в них.
+==== Localizatioin
+Plugin's <<l10n, localization>> file (`i10n.xml`) has to be located in *PLUGIN_PACKAGE*.
+It is only used for localizing actions and action's JSP templates
 
 [[custom-level]]
-=== Кастомизация
-Одним из изначальных приоритетов системы была расширяемость и гибкость.
-Поэтому стандартный функционал может быть <<kernel/extension.adoc#tech-choice, расширен>> несколькими способами.
+=== Customization
+One of the main solution's prioritized features are extensibility and flexibility.
+Said that, standard functions can be <<kernel/extension.adoc#tech-choice, extended>> by using several methods.
 
-Следует однако понимать, что наиболее эффективный путь разработки и долгосрочной поддержки функциональности
-- реализация в виде штатного плагина либо части ядра, с вынесением необходимого минимума параметров в конфигурацию.
-JEXL скрипты либо динамический код могут быть использованы для быстрого прототипирования,
-либо реализации *исключительно специфичной для данной инсталляции* логики.
+However, it is important to understand that the most effective way to efficiently develop and maintain functionality longer-term is to either use built-in plugin system or include as part of the kernel and at the same time
+keep configurable parameters to a minimum.
+JEXL scripts or dynamic code can be used for a quick prototyping or in order to implement certain application logic *which is extremely specific to a given installation*.
 
-Практика показывает, что из всего набора кастомизированных попыток постепенно
-выявляются удачные решения, которые подходят значительному числу пользователей.
-Такие необходимо переносить в основной код, делая частью системы и совместно развивая её дальше.
+Our experience shows that all such customizations over time crystallize successful solutions suitable for a much larger group of users.
+Such customizations have to be moved into a main code to make them part of the system and to then allow further community development and improvement.
 
-Следующая диаграмма визуально отображает данную динамику трансформации совокупной массы программного кода разных типов.
-Объём кода учитывается для всех клиентов, бОльший объём из разрозненных *решений* преобразуется в меньший объём более универсального кода единого *продукта*.
+The following diagram illustrates above-mentioned transformation dynamics for a code of different types. Size of a given rectangle correlates with a code size for a specific type.
+Code size is a cumulative value for all Customers - larger size from scattered customizations gets translated into a much smaller universal code within a single *product*.
 
 [ditaa]
 ----
@@ -793,10 +801,10 @@ JEXL скрипты либо динамический код могут быть
 
 [[l10n]]
 === Localization
-Все сообщения в логах не локализуются и выводятся на английском языке.
+All log messages are produced in English only.
 
-Локализуется интерфейс и сообщения, адресованные пользователю системы.
-Язык системы задаётся глобально в <<kernel/setup.adoc#config, конфигурации>>.
+Localization gets applied to a user interface and messages addresses to a system user.
+System language is defined globally within <<kernel/setup.adoc#config, configuration>>.
 
 [[l10n-files]]
 ==== Files
@@ -866,88 +874,88 @@ log4j.logger.ru.bgerp.l10n.Localizer=DEBUG, l10n
 log4j.additivity.ru.bgerp.l10n.Localizer=false
 ----
 
-== Именование
-=== Переменные конфигураций, функции JS, HTTP StyleId
+== Naming conventions
+=== Configuration variables, JS functions, HTTP StyleId
 [square]
-* Все переменные конфигурации от плагинов начинать как <plugin>:
-* Все функции JS плагинов начинать с префикса <plugin>-
-В других местах тире запретить в названии функции.
-* Все идентификаторы (style id) DOM элементов для плагинов начинать как <plugin>-
-В других местах тире запретить в названиях  идентификаторов.
+* All plugin configuration variable names have to start with <plugin>.
+* All plugin's JS function names have to start with <plugin>- prefix.
+"-" cannot be used within a function name in other places.
+* All DOM element identifiers (style id) for a plugin have to start with <plugin>-
+"-" cannot be used within a DOM element identifier name in other places.
 
-=== База данных
-1) Таблицы и поля в них именовать с нижним подчёркиванием.
+=== Database
+1) Database and field names have to use underscore:
 process_id
 param_id
 
-=== Переменные Java, параметры HTTP запросов, переменные в JSP
-В camelCase нотации:
+=== Java variables, HTTP request parameters, JSP variables
+Have to use camelCase notation:
 processId
 paramId
 
-=== Дата - поле сущности
-Если в поле только дата, то:
-createDate - Java - тип java.util.Date
-create_date - БД - тип date
+=== Date - field entity
+If a field has only date, then:
+createDate - Java - java.util.Date type
+create_date - DB - date type
 
-Если в поле дата + время, то:
-createTime - Java - тип java.util.Date
-create_dt - БД - тип datetime
+If a field has date + time, then:
+createTime - Java - java.util.Date type
+create_dt - DB - datetime type
 
-=== Дата - период сущности
-В бинах дату периода хранить с типом java.util.Date с именем:
+=== Date - period entity
+If saving in bins, period has to use java.util.Date type with the following naming convention:
 dateFrom
 dateTo
 
-Соответственно методы получения и установки:
+Corresponding set and get methods:
 setDateFrom
 setDateTo
 getDateFrom
 getDateTo
 
-CAUTION: Не использовать для хранения в бинах Calendar.
-Если нужно конверить в календарь или из календаря - использовать TimeUtils.
+CAUTION: Do not use Calendar bins!
+Use TimeUtils to convert into Calendar or from Calendar.
 
-Если нужно хранить время, то делаем:
+For storing 'time', use:
 timeFrom
 timeTo
 
-Также тип java.util.Date.
+.. and also java.util.Date type.
 
-Calendar использовать во всяких калькуляторах/тарификаторах, когда реально нужно постоянно двигать дату.
+Use Calendar for various calculators/billings when you need to constantly adjust dates.
 
-В базе использовать поля from_date и to_date, тип date.
+Use from_date and to_date in the database ('date' type)
 
-from_dt, to_dt - тип datetime.
+from_dt, to_dt - datetime type.
 
-Неограниченные даты - NULL.
+Infinity time/date - NULL.
 
 [[samples]]
 == Code samples
-Так как система очень быстро меняется, то здесь собираются примеры актуального кода, рекомендуемого к использованию.
-Сниппеты извлекаются непосредственно из исходных файлов проекта, поэтому всегда достоверны.
-При необходимости воспользуйтесь IDE для поиска классов или файлов.
+As system evolves and gets a lot of changes, this section contains "recommended"/"best practice" code examples.
+Snippets below gets extracted from an actual project code, so these are always reliable.
+Use IDE, if needed, in order to search for specific classes or files.
 
-=== Сохранение последних параметров запроса пользователя
-Например, фильтров интерфейса. Используется метод *restoreRequestParams* в: javadoc:ru.bgcrm.struts.action.BaseAction[]
+=== Saving latest/last user request parameters
+Let's take interface filters, as example - use *restoreRequestParams* method in javadoc:ru.bgcrm.struts.action.BaseAction[]
 
-Сохранение значения:
+Saving a value:
 [snippet, from="resto", to=");", remove-leading=    "]
 link:../../src/ru/bgcrm/struts/action/MessageAction.java#L90-L90[ru.bgcrm.struts.action.MessageAction]
 
-Восстановление:
+Restoring a value:
 [snippet, from="pu", to="}", remove-leading="    "]
 link:../../src/ru/bgcrm/struts/action/MessageAction.java#L282-L294[ru.bgcrm.struts.action.MessageAction]
 
-Сохранение плюс восстановление сразу:
+Saving and restoring a value at once:
 [snippet, from="//", to=");", remove-leading="    "]
 link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L53-L57[ru.bgcrm.struts.action.ProcessLinkAction]
 
-=== Отображение на вкладке количества элементов
-Например, количества связанных процессов. Сохраняется при первом вызове.
-Используется класс javadoc:ru.bgcrm.model.IfaceState[]
+=== Depicting element count on a tab.
+For example, showing associated processes count. Gets saved on the first call.
+Use javadoc:ru.bgcrm.model.IfaceState[] class
 
-Обновление значения:
+Refreshing value:
 [snippet, from="// п", to="}", remove-leading="        "]
 link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L221-L228[ru.bgcrm.struts.action.ProcessLinkAction]
 
@@ -957,48 +965,46 @@ link:../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L81-L95[
 
 [[sample-date-format]]
 === Date and time format
-При форматировании дат и времени в Java либо JSP для независимости от текущей локали и унификации используются форматы вида:
+When formatting date and time values in Java or JSP , use the following formats in order to keep unified approach and maintain independence from the current locale:
 [square]
-* *ymd* - год, месяц, день;
-* *ymdh* - год, месяц, день, час;
-* *ymdhm* - год, месяц, день, час, минута;
-* *ymdhms* - год, месяц, день, час, минута, секунда.
+* *ymd* - year, month, dat;
+* *ymdh* - year, month, day, hour;
+* *ymdhm* - year, month, day, hour, minute;
+* *ymdhms* - year, month, day, hour, minute, second.
 
-В Java коде для форматирования дат используется класс javadoc:ru.bgcrm.util.TimeUtils[],
-в нём же есть константы с форматами.
+Java code uses javadoc:ru.bgcrm.util.TimeUtils[] class for date formatting, this class also contains format constants.
 
 The same functions may be used in <<jsp, JSP>> using `tu` prefix:
 [snippet, from="<input type=", to="d}\"/>", remove-leading="				"]
 link:../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L158-L158[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
 
-=== Бины конфигурации
-Для ускорения парсинга и валидации используются Java объекты с классом, наследующим javadoc:ru.bgcrm.util.Config[].
-Например: link:../../src/ru/bgcrm/model/config/IsolationConfig.java[ru.bgcrm.model.config.IsolationConfig].
-Данная конфигурация поддерживает конструктор с флагом валидации, что позволяет проверять синтаксис при сохранении.
+=== Configuration bins
+In order to speed up parsing and validation, use Java class objects inherited from javadoc:ru.bgcrm.util.Config[]
+For example: link:../../src/ru/bgcrm/model/config/IsolationConfig.java[ru.bgcrm.model.config.IsolationConfig].
+This configuration supports constructor with a validation flag, which allows to check syntax when saving.
 
-Бины конфигурации могут быть получены и в JSP:
+Configuration bin can be also obtained in JSP:
 [snippet, from="<c:", to="/>"]
 link:../../webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp#L4-L4[webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp]
 
 [[sample-logging]]
 === Logging
 ==== Java
-Используется класс логгер javadoc:ru.bgerp.util.Log[], базирующийся на фрейморке <<kernel/extension.adoc#log4j, Log4j>>.
-При запуске в IDE конфигурационный файл из дистрибутива link:../../build/bgerp/files/log4j.properties[build/bgerp/files/log4j.properties]
-может быть скопирован в корень проекта и изменён требуемым образом.
+javadoc:ru.bgerp.util.Log[] logger class is used, which is based on <<kernel/extension.adoc#log4j, Log4j>> framework.
+When launching from IDE, you can copy link:../../build/bgerp/files/log4j.properties[build/bgerp/files/log4j.properties] file from distribution kit into project's root folder and adapt, as needed.
 
-Для логирования в <<action, actions>> использовать *protected* переменную `log`.
+Use `log` protected variable when logging within <<action, actions>>
 
-В Java классах создавать *static final* переменную класса:
+Create *static final* class variable within Java classes:
 [snippet, from="pub", to=");"]
 link:../../src/ru/bgcrm/worker/MessageExchange.java#L16-L19[ru.bgcrm.worker.MessageExchange]
 
-Вывод сообщения при исключении:
+Exception message output:
 [snippet, from="try", to="}", remove-leading="					"]
 link:../../src/ru/bgcrm/worker/MessageExchange.java#L60-L64[ru.bgcrm.worker.MessageExchange]
 
 ==== JS
-Вывод отладки вместо console.log:
+Show debug data instead of console.log:
 [snippet, from="con", to="}"]
 link:../../webapps/js/kernel.shell.js#L5-L12[webapps/js/kernel.shell.js]
 
@@ -1006,8 +1012,8 @@ Enabling debug:
 [snippet, from="$$.", to="0,"]
 link:../../webapps/js/kernel.js#L18-L22[webapps/js/kernel.js]
 
-=== Постраничный вывод
-Вывод результатов в JSP и отображение формы:
+=== Pagination
+Putting results into JSP and rendering a form;
 [snippet, from="<c:", to="rm>", remove-leading="		"]
 link:../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L75-L83[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
 
@@ -1017,30 +1023,30 @@ link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L212-L214[ru.bgcrm.
 
 [[sample-jsp-ui]]
 === JSP UI
-Простой справочник с промотчиком страниц, вызов редактора AJAX: link:../../webapps/WEB-INF/jspf/admin/process/status/list.jsp[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
+A simple dictionary with pagination, AJAX editor invocation: link:../../webapps/WEB-INF/jspf/admin/process/status/list.jsp[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
 
 [[sample-jsp-ui-ajax]]
-Отправка AJAX для сохранения, выхода, либо восстановления данных в <<kernel/process/index.adoc#type, редакторе свойств типа процесса>>:
+Sending AJAX for sending, exiting or restoring data in <<kernel/process/index.adoc#type, process type properties editor>>:
 [snippet, from="<div", to="/div>"]
 link:../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L191-L196[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
 
-Рекурсивный инклуд:
+Recursive include:
 [snippet, from="<c:", to="if>", remove-leading="					"]
 link:../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L48-L50[webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp]
 
-Инклуд результата выполнения акшена:
+Action execution result include:
 [snippet, from="<c:", to="/>", remove-leading="			"]
 link:../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L161-L166[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
 
-Flex layout, использование констант из Java классов, кнопка вывода рядом с полем:
+Flex layout, using constants from Java classes, print button close to a field:
 [snippet, from="<div", to="/div>", remove-leading="				"]
 link:../../webapps/WEB-INF/jspf/user/search/search.jsp#L77-L96[webapps/WEB-INF/jspf/user/search/search.jsp]
 
-Обновление оснастки при повторном переходе в неё:
+Snap-in refresh upon moving back to it:
 [snippet, from="<script", to="/script>"]
 link:../../webapps/WEB-INF/jspf/user/log/log.jsp#L22-L28[webapps/WEB-INF/jspf/user/log/log.jsp]
 
-Отправка AJAX запроса, блокировка кнопки при долгом выполнении действия:
+Sending AJAX request and blocking a button during a long(er) action execution:
 [snippet, from="<bu", to="on>"]
 link:../../webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp#L22-L30[webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp]
 
@@ -1051,18 +1057,19 @@ link:../../webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp#L8-L1
 
 [[build]]
 == Build and publish
-Проект сконфигурирован в формате Gradle, конфигурационный файл link:../../build.gradle[build.gradle].
-For build and publish except Java is required <<env-console, console enviroment>> with available *ant*, *ssh* and *rsync* packages.
+Project is configured in Gradle format (configuration file: link:../../build.gradle[build.gradle])
 
-NOTE: Здесь и далее команды приведены в расчёте на WSL окружение, в *NIX системах префикс `bash -c` не требуется.
+For building and publishing, apart from Java you will need <<env-console, console environment>> with available *ant*, *ssh* and *rsync* packages.
+
+NOTE: Here and below all commands are shown for WSL environment, *NIX will not need `bash -c` prefix.
 
 [[build-doc]]
-=== Документация
+=== Documentation
 [source]
 ----
 bash -c "./gradlew clean buildDoc"
 ----
-Собранные HTML файлы доступны в каталоге *target/doc*. Они автоматически проверяются на корректность внутренних ссылок.
+Resulting HTML files will be present in *target/doc*. Internal link validation is performed automatically.
 
 [[build-update]]
 === Change update
@@ -1108,10 +1115,9 @@ All the updates packages are copies to Web directory: `https://bgerp.org/update/
 The <<change-file, change file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc`
 are automatically replaced to the `https://bgerp.org/update/PROCESS_ID/doc`.
 
-Пользователи имеют возможность <<kernel/install.adoc#installer, установить>> пакет с помощью команды *install*,
-сообщить о выявленных недочётах и откатиться на предыдущую версию командой *update* в случае невозможности работать с ними далее.
-Возможна многократная публикация до выявления всех недочётов, после чего именение <<workflow, переносится>>
-в основную ветку и <<build-erp, публикуется>> очередное обновление.
+Users have a capability to <<kernel/install.adoc#installer, install>> a package using *install* command,  report issues and caveats and, if new version is not operational/suitable, rollback to a previous
+version using *update* command.
+Multiple package publication is possible until all bugs/caveats are found - after that that change <<workflow, gets merged (with --squash)>> into a main branch and a new build gets <<build-erp, published>
 
 [[build-erp]]
 === Release
@@ -1123,22 +1129,22 @@ Public SSH key or the developer might be added for *bgerp-cdn@pzdc.de* and *www@
 Before you publish a change update, make sure that `ssh bgerp-cdn@pzdc.de` and `ssh www@bgerp.org` sessions work for you.
 ====
 
-Сборка производится с *master* ветки и может включать несколько изменений, <<workflow, перенесённых>> на неё.
+Build is performed from a *master* branch and can include several <<workflow, merges (with --squash)>>.
 
-IMPORTANT: Для каждого переноса делать отдельный GIT push, для корректной <<publish-source, публикации>> в открытом репозитарии.
+IMPORTANT: Perform a separate GIT Push for each 'merge --squash' in order to correctly <<publish-source, publish>> in the open repository.
 
-В зависимости от наличия в обновлении <<java-lib, сторонних библиотек>> выполнить команды:
+Depending on the presence of <<java-lib, 3d-party libraries>> in an update, perform the following:
 [source, bash]
 ----
 bash -c "./gradlew buildClean buildUpdate"
 ----
-либо:
+or:
 [source, bash]
 ----
 bash -c "./gradlew buildClean buildUpdateLib buildUpdate"
 ----
 
-Далее:
+Then:
 [source, bash]
 ----
 bash -c "./gradlew patchChanges rss publishBuild publishCommit"
@@ -1173,10 +1179,10 @@ docker push bgerp/bgerp
 
 [[unit-test]]
 === Unit
-Используется фреймворк JUnit, каталог `srcx/test`.
-Проверка отдельных алгоритмов, тесты не зависят друг от друга, не работают с БД.
+JUnit framework is used (`srcx/test' directory)
+Used to test specific algorithms, test do not depend on each other and do not work with DB.
 
-Запуск локально командой:
+Test are launched locally using the following command:
 [source, bash]
 ----
 bash -c "./gradlew clean test"
@@ -1184,21 +1190,20 @@ bash -c "./gradlew clean test"
 
 [[integration-test]]
 === Integration
-Используется фреймворк TestNG, каталог `srcx/itest`.
+TestNG framework is used (`srcx/itest' directory)
 
-Интеграционный тест производит сборку, установку и запуск приложения с реальной БД.
-Далее в браузере эмулируется различные действия пользователя с проверкой результата.
-Тесты образуют граф зависимостей, определяющий порядок и параллельность выполнения.
-После успешного прохождения тестов дамп заполненной БД <<test-integration, выгружается>> для https://demo.bgerp.org
-
-WARNING: The tests recreate DB with name *bgerp*
+Integration test performs build, installation and execution of an application with an actual DB.
+Then certain user actions are emulated in a browser, each result is checked.
+Tests form a dependencies graph which defined order and execution parallelism
+Upon successful tests execution, written in DB dump <<test-integration, gets extracted>> for https://demo.bgerp.org
 
 [source, bash]
 ----
 ./gradlew integrationTest -Pdb.host=DB_HOST -Pdb.user=DB_USER -Pdb.pswd=DB_PSWD
 ----
 
-Parameters *DB_HOST*, *DB_USER*, *DB_PSWD* - for accessing the MySQL server, there the test DB will be created.
+Parameters *DB_HOST*, *DB_USER*, *DB_PSWD* are used for accessing the MySQL server, where a test DB will be created.
+Use <<ide-run-data, Docker DB Instance>> for the that.
 
 [[integration-test-opt]]
 ==== Optimization
@@ -1208,8 +1213,8 @@ Addtionally to the recommended MySQL <<kernel/install.adoc#mysql, configuration>
 innodb_file_per_table=0
 ----
 
-That will significally increase table creation speed.
-After the first successfully run, the structure o DB may be persisted and re-created faster by this way.
+That will significantly increase table creation speed.
+After the first successful run, the structure of a DB will remain persistent and re-created faster by this way.
 
 Creation of dump for Windows:
 [source, bash]
@@ -1240,23 +1245,23 @@ gradlew integrationTest -Pdb.user=DB_USER -Pdb.pswd=DB_PSWD -Pskip.dbReset=true
 
 [[gitlab-ci]]
 == GitLab CI
-В файле link:../../.gitlab-ci.yml[.gitlab-ci.yml] настроен автоматический запуск задач на каждый коммит в GIT.
-Различные задачи выполняются в разных ветках <<workflow, Workflow>>.
-Ниже описание CI задач.
+link:../../.gitlab-ci.yml[.gitlab-ci.yml] file has configuration for runnign certain tasks automatically upon each GIT commit.
+Different tasks are executed within different <<workflow, Workflow>> branches.
+Please find below description of CI tasks
 
 [[test-unit-and-doc]]
 === test-unit-and-doc
-Запускает <<unit-test, Unit тесты>>, <<build-doc, сборку и проверку документации>>.
+Launches <<unit-test, Unit tests>> and  <<build-doc, documentation build and validity check>.
 
 [[test-integration]]
 === test-integration
-Запускает <<integration-test, интеграционный тест>>.
+Runs <<integration-test, integration test>>.
 
 [[publish-doc]]
 === publish-doc
-Запускает <<build-doc, сборку и проверку документации>>, при отсутствии ошибок - публикует её на https://bgerp.org/doc/3.0/manual.
+Launches <<build-doc, documentation build and validity check>>, if no errors are found, publishes on https://bgerp.org/doc/3.0/manual.
 
 [[publish-source]]
 === publish-source
-Публикует актуальные исходные коды из `master` в открытый репозитарий https://github.com/pingvin235/bgerp
-Данный способ выбран для уменьшения размера открытого репозитария и сокрытия удалённых ранее файлов из истории.
+Publishes actual source code from `master`into an open repository https://github.com/pingvin235/bgerp
+This method has been chosen in order to limit an open repository size and in order to hide previously deleted files from history.
