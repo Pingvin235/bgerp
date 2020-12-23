@@ -25,34 +25,108 @@ Information shown to the end-user via interface has to be <<l10n, localized>>.
 
 [[project]]
 == Project
-=== Development environment
+[[env]]
+=== Environment
 The program can be developed on any Java-supported platform:
 [square]
-* Windows - currently used by the maintainer;
+* Windows;
 * Linux;
 * MacOS.
 
 Minimal required set of software:
 [square]
 * <<kernel/install.adoc#java, OpenJDK>>;
-* <<kernel/install.adoc#mysql, MySQL>>;
-* <<eclipse, IDE Eclipse>>.
+* Docker or <<kernel/install.adoc#mysql, MySQL Server>>.
 
 [[env-console]]
-==== Bash for Windows
+==== Shell for Windows
 NOTE: Skip this chapter when using *NIX OS.
 
 Console link:https://git-scm.com/download/win[client] for version control system <<workflow, GIT>>.
 
 System of <<build, build and publish>> is written on Bash scripts and uses GNU utilities, you can use the following when using Windows:
 [square]
-* link:https://www.windowscentral.com/install-windows-subsystem-linux-windows-10[WSL] - embedded in Windows virtual Linux machine, tested/approved;
-* link:https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10[WSL 2] - the new version of it, not tested yet;
+* link:https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10[WSL 2] - embedded in Windows virtual Linux machine;
 * link:https://www.cygwin.com/[Cygwin] - Windows ports of GNU utils, not tested.
 
 The best console emulator on Windows with embedded FAR Manager - link:https://conemu.github.io/[ConEmu].
 
-=== Format
+[[checkout]]
+=== Checkout
+Checkout the project using GIT to an wanted directory, e.g.: `bgerp`.
+
+Configure GIT inside the directory. Use your name and email instead.
+[source]
+----
+git config user.name "Shamil Vakhitov"
+git config user.email shamil@bgerp.org
+git config pull.rebase true
+git config core.fileMode false
+git config core.longpaths true
+git config core.autocrlf false
+----
+
+[[run]]
+=== Running
+
+[[run-data]]
+==== DB container
+Use the Docker image for running developer DB instance.
+Run the following command inside of the project's directory.
+
+[source, bash]
+----
+docker pull bgerp/bgerp && docker run -p 3306:3306 --name bgerp-demo -d bgerp/bgerp
+----
+
+Make sure, that the container is running using the command:
+[source, bash]
+----
+docker exec bgerp-demo /opt/bgerp/erp_status.sh
+----
+
+Get configuration and data files from the container:
+[source, bash]
+----
+docker cp bgerp-demo:/opt/bgerp/bgerp.properties bgerp.properties
+docker cp bgerp-demo:/opt/bgerp/log4j.properties log4j.properties
+docker cp bgerp-demo:/opt/bgerp/filestorage filestorage
+----
+
+For <<db, DB update>> on each start at the end of `bgerp.properties` must be added <<kernel/setup.adoc#config-on-start, option>>:
+[source]
+----
+runOnStart+=,ru.bgcrm.util.distr.DevDbUpdater
+----
+
+NOTE: Use the command for removing the created container:
+[source, bash]
+----
+docker rm -f bgerp-demo
+----
+
+[[run-gradle]]
+==== Command line
+Execute command:
+[source]
+----
+gradlew startServer
+----
+
+After correct start of the server, Web interface has to be available at URL: http://localhost:9088/user
+Use *admin* - *admin* credentials.
+
+[[run-launch]]
+==== Inside IDE
+Configuration for running inside IDE:
+[square]
+* Main class: ru.bgerp.Server
+* Program arguments: start
+* VM arguments: -Dbgerp.setup.data=bgerp
+* Classpath: click on *User entries - Advanced - Add folders* and add project's current folder.
+
+[[format]]
+=== Code formatting
 IDE or editor must be configured for displaying whitespace symbols.
 
 image::_res/ide_format.png[width='600px']
@@ -74,7 +148,6 @@ When working on fixing a file format, it is important to use the following rules
 make sure to change all indent symbols in the file to the required format.
 . Be cautious when combining file formatting with making <<workflow, changes>> - this can significantly complicate analysis down the road.
 
-
 [[format-java]]
 ==== Java
 Jave code formatting should be *Java Conventions*-compliant, with the following additional changes (Eclipse formatter settings shown below)
@@ -90,9 +163,10 @@ Open a standard formatter and save it under a different name after changing the 
 
 Example/resulting Eclipse formatter file: link:../../.vscode/formatter.xml[formatter.xml]
 
-
-[[eclipse]]
-=== Eclipse
+[[ide]]
+=== IDE
+[[ide-eclipse]]
+==== Eclipse
 Currently one of the most handy platforms.
 Download *Eclipse for Java EE Developers*, as this build already includes GIT client as well as JSP and XML editors.
 Install the following plugins:
@@ -110,64 +184,26 @@ Also use it every time you change any of the project's libraries.
 
 Import <<format-java, Java formatter>> via *Window - Preferences - Java - Codestyle - Formatter*.
 
-
-=== VS Code
-A bit faster than Eclipse, has better JavaScript and Gradle support.
+[[ide-vscode]]
+==== VS Code
+A much faster than Eclipse, has better JavaScript and Gradle support.
 
 Drawbacks:
 [square]
 * JSP support is nearly absent;
 * external GIT client is required.
 
-Visit link:../../.vscode/readme.txt[open] and navigate to `.vscode` catalog in project's DB_USER in order to get some configuration examples.
-Jave formatter and space symbols indicators have been already enabled there.
-
-[[ide-run]]
-=== Running in IDE
-
-[[ide-run-data]]
-==== Data container
-Use the Docker image for running developer DB instance.
-Run the following command inside of the project's directory.
-
-[source, bash]
-----
-docker pull bgerp/bgerp && docker run -p 3306:3306 --name bgerp-demo -d bgerp/bgerp
-----
-
-Make sure, that the container is running using the command:
-[source, bash]
-----
-docker exec bgerp-demo /opt/bgerp/erp_status.sh
-----
-
-Get configuration and data files from the container:
-[source, bash]
-----
-docker cp bgerp-demo:/opt/bgerp/bgerp.properties bgerp_test.properties
-docker cp bgerp-demo:/opt/bgerp/filestorage filestorage
-----
-
-NOTE: Use the command for removing the created container:
-[source, bash]
-----
-docker rm -f bgerp-demo
-----
-
-[[ide-run-launch]]
-==== Launch configuration
-Configuration:
+Install VS Code itself and the following extensions:
 [square]
-* Main class: ru.bgerp.Server
-* Program arguments: start
-* VM arguments: -Dbgerp.setup.data=bgerp_test
-* Classpath: click on *User entries - Advanced - Add folders* and add project's current folder.
+* *Java Extension Pack*
+* *GitLens*
+* *Git Graph*
+* *Git History*
+* *AsciiDoc*
+* *Eclipse Keymap* - optionally
 
-For <<db, DB update>> on each start in `.properties` must be set <<kernel/setup.adoc#config-on-start, option>>:
-[source]
-----
-runOnStart+=,ru.bgcrm.util.distr.DevDbUpdater
-----
+Visit link:../../.vscode/readme.txt[open] and navigate to `.vscode` catalog in project's DB_USER in order to get some configuration examples.
+Java formatter and space symbols indicators have been already enabled there.
 
 [[log4j]]
 ==== Logging
@@ -175,8 +211,8 @@ By default,  a running in IDE application uses <<kernel/extension.adoc#log4j, lo
 In order to adjust it, copy the file to the project DB_USER (will not be handled by GIT) and make required changes.
 
 [[structure]]
-=== Files
-Project's folder listing along with decription.
+=== File's structure
+Project's folder listing along with description.
 [square]
 * *bin* - IDE-compiled Java classes;
 * *build* - files related to <<build, build>>;
@@ -191,10 +227,9 @@ Project's folder listing along with decription.
 * *webapps* -  <<js-lib, Web application>> DB_USER;
 * *work* - folder created by Tomcat for JSP file compilation.
 
-
-==== Libraries
+=== Libraries
 [[java-lib]]
-===== Java
+==== Java
 When link:../../build/bgerp/files/erp.sh[running] a program, a number of JAR files are linked from the following folders:
 [square]
 * *lib/app* - <<build-erp, application classes>>;
@@ -212,7 +247,7 @@ In order to speed up project initialization, our default Eclipse IDE configurati
 link:../../build.gradle#L18-L24[build.gradle]
 
 [[js-lib]]
-===== JS
+==== JS
 JS libraries are located in the following folders:
 [square]
 * `webapps/js` - application's JS files: kernel's and <<plugin, plugins'>>;
@@ -226,7 +261,6 @@ link:../../webapps/lib/jquery-ui-1.12.1/jquery-ui.js#L8923-L8930[webapps/lib/jqu
 
 [[devm]]
 === Client's development methodology
-
 BGERP launches within IDE, gets connected to the database and, optinally, billing.
 At the end of the development/work session remote client database will have all the actual information, so it is only required to update the product itself.
 
@@ -239,7 +273,6 @@ You can also use this file to alter billing connection URL - for example, to a l
 * Create IDE launch configuration using this properties file
 * Optionally, alter *.gitignore* in order to save custom client's files in case you are using fork.
 
-
 [[workflow]]
 == GIT Workflow
 Table below describes GIT branches - link:https://docs.google.com/document/d/15NptRsx1qrdiWEew23EFz6gbxD6S12VQpnBQ6X9NbiQ/edit?usp=sharing[standard GIT Workflow] is used here.
@@ -248,8 +281,6 @@ Same workflow is used, for example, for Linux kernel development.
 Main idea is that merging is only happening 'downstream', i.e. from the main branch to secondary branches, in order to get to the actual state.
 Main branch has linear structure as all changes are incorporated via 'patches'.
 Secondary branches can be then deleted, as all the aggregated information from secondary branches will be present in the main branch.
-
-
 
 [cols="a,a,a,a", options="header"]
 |===
@@ -304,24 +335,6 @@ One cannot test and use in parallel several changes  within a single system.
 Each change will overwrite the previous one when update gets installed.
 In principle it is allowed to use multiple build branches, which are used as targets for multiple change branches' merges.
 ====
-
-=== GIT Configuration
-`$USER_HOME\.gitconfig` example configuration:
-[source]
-----
-[user]
-	email = shamil@company.com
-	name = Shamil Vakhitov
-[credential]
-	helper = store
-[core]
-	autocrlf = false
-	fileMode = false
-[pull]
-	rebase = true
-----
-
-NOTE:
 
 === GIT Commands
 Clean all links to non-existent/deleted branches:
@@ -421,7 +434,7 @@ image::_res/snippet_fix_2.png[]
 
 == Architecture
 BGERP is a standalone Java application with a dynamic Web-interface.
-When developing, you can <<ide-run, launch>> BGERP directly from IDE
+When developing, you can <<run, launch>> BGERP directly from IDE
 
 Figure below illustrates a request processing pipeline:
 
@@ -467,7 +480,7 @@ IMPORTANT: Pay attention to avoid mixing the layers, e.g. creating application l
 ==== Database
 <<kernel/db.adoc#, DB Structure>> is documented in the common <<documentation, process>>, simultaneously with making changes.
 Use `build/update/db.sql` script to create and <<kernel/install.adoc#update, update>> DB within application.
-When <<ide-run, launching within IDE>>, this script can be executed automatically upon each run.
+When <<run, launching within IDE>>, this script can be executed automatically upon each run.
 
 In addition, plugins can have their own <<plugin-db, scripts>> run at the time of plugin initialization.
 
@@ -649,7 +662,7 @@ Another method used for that is using `u:uiid()` function to generate a unique i
 [[jsp-tag]]
 ===== Tags
 Components are defined within JSP tags and are declared in `webapps/WEB-INF/tags`
-<<eclipse, IDE Eclipse>> supports autocomplete when using them in the code.
+<<ide-eclipse, IDE Eclipse>> supports autocomplete when using them in the code.
 
 image::_res/ide_jsp_tag.png[width='600px']
 
@@ -660,7 +673,7 @@ For kernel, link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/u
 
 [[jsp-tag-u-sc]]
 ====== u:sc
-JSP page stores all variables as global ones. Combined with includes and long templates, this can cause certain inconvenience.
+JSP page stores all variables  ones. Combined with includes and long templates, this can cause certain inconvenience.
 `<u:sc>` context recovery tag is used to overcome this problem - all variables defined with this tag are cleared upon exit.
 
 [[jsp-tag-p-check]]
@@ -707,8 +720,7 @@ Plugins do not have to 'know' how other plugins work, either.
 Application detects plugin upon start by a mandatory Java class, extended from javadoc:ru.bgcrm.plugin.Plugin[]
 Class example; link:../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
 
-Each plugin has a corresponding (and unique) *Java package* which includes this specific class.
-Plugin package will be then designated as, surprise-surprise, *PLUGIN_PACKAGE*.
+Each plugin has a corresponding (and unique) Java *PLUGIN_PACKAGE* which includes this specific class.
 
 Plugin class initialization method can also define event listeners:
 [snippet, from="Eve", to="ss);", remove-leading="        "]
@@ -763,7 +775,7 @@ Plugin <<action, actions>>, if used, have to be declared in *PLUGIN_PACKAGE.acti
 JSP templates - `webapps/WEB-INF/jspf/user|open|usermob/plugin/<identifier>`.
 
 [[plugin-l10n]]
-==== Localizatioin
+==== Localization
 Plugin's <<l10n, localization>> file (`i10n.xml`) has to be located in *PLUGIN_PACKAGE*.
 It is only used for localizing actions and action's JSP templates
 
@@ -812,7 +824,7 @@ XML localization file `l10n.xml` for the kernel is located in `src/ru/bgerp/l10n
 for <<plugin-l10n, plugins>> - in their packages.
 New localization phrases should be added to the end of the list in the file.
 
-Custom localization may ovewrite all of them and read out `custom/l10n.xml` file in case of existing that.
+Custom localization may overwrite all of them and read out `custom/l10n.xml` file in case of existing that.
 
 NOTE: To disable caching of localizations at the time of development, set in the configuration *localization.cache=0*
 
@@ -877,10 +889,10 @@ log4j.additivity.ru.bgerp.l10n.Localizer=false
 == Naming conventions
 === Configuration variables, JS functions, HTTP StyleId
 [square]
-* All plugin configuration variable names have to start with <plugin>.
-* All plugin's JS function names have to start with <plugin>- prefix.
+* All plugin configuration variable names have to start with *<plugin>:*
+* All plugin's JS function names have to start with *<plugin>-* prefix.
 "-" cannot be used within a function name in other places.
-* All DOM element identifiers (style id) for a plugin have to start with <plugin>-
+* All DOM element identifiers (style id) for a plugin have to start with *<plugin>-*
 "-" cannot be used within a DOM element identifier name in other places.
 
 === Database
@@ -932,7 +944,7 @@ Infinity time/date - NULL.
 
 [[samples]]
 == Code samples
-As system evolves and gets a lot of changes, this section contains "recommended"/"best practice" code examples.
+As system evolves and gets a lot of changes, this section contains referencing code examples.
 Snippets below gets extracted from an actual project code, so these are always reliable.
 Use IDE, if needed, in order to search for specific classes or files.
 
@@ -967,7 +979,7 @@ link:../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L81-L95[
 === Date and time format
 When formatting date and time values in Java or JSP , use the following formats in order to keep unified approach and maintain independence from the current locale:
 [square]
-* *ymd* - year, month, dat;
+* *ymd* - year, month, date;
 * *ymdh* - year, month, day, hour;
 * *ymdhm* - year, month, day, hour, minute;
 * *ymdhms* - year, month, day, hour, minute, second.
@@ -978,7 +990,7 @@ The same functions may be used in <<jsp, JSP>> using `tu` prefix:
 [snippet, from="<input type=", to="d}\"/>", remove-leading="				"]
 link:../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L158-L158[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
 
-=== Configuration bins
+=== Configuration Java Beans
 In order to speed up parsing and validation, use Java class objects inherited from javadoc:ru.bgcrm.util.Config[]
 For example: link:../../src/ru/bgcrm/model/config/IsolationConfig.java[ru.bgcrm.model.config.IsolationConfig].
 This configuration supports constructor with a validation flag, which allows to check syntax when saving.
@@ -1115,9 +1127,11 @@ All the updates packages are copies to Web directory: `https://bgerp.org/update/
 The <<change-file, change file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc`
 are automatically replaced to the `https://bgerp.org/update/PROCESS_ID/doc`.
 
-Users have a capability to <<kernel/install.adoc#installer, install>> a package using *install* command,  report issues and caveats and, if new version is not operational/suitable, rollback to a previous
-version using *update* command.
-Multiple package publication is possible until all bugs/caveats are found - after that that change <<workflow, gets merged (with --squash)>> into a main branch and a new build gets <<build-erp, published>
+Users have a capability to <<kernel/install.adoc#installer, install>> a package using *install* command,  report issues and caveats and, 
+if new version is not operational/suitable, rollback to the latest published version using *update* command.
+
+Multiple update publications are possible until all bugs/caveats are found - after that that change <<workflow, gets merged (with --squash)>> 
+into a main branch and a new build gets <<build-erp, published>>
 
 [[build-erp]]
 === Release
@@ -1192,9 +1206,8 @@ bash -c "./gradlew clean test"
 === Integration
 TestNG framework is used (`srcx/itest' directory)
 
-Integration test performs build, installation and execution of an application with an actual DB.
-Then certain user actions are emulated in a browser, each result is checked.
-Tests form a dependencies graph which defined order and execution parallelism
+Integration test performs initialization an empty DB and filling after it with configuration.
+Tests form a dependencies graph which defined order and execution parallelism.
 Upon successful tests execution, written in DB dump <<test-integration, gets extracted>> for https://demo.bgerp.org
 
 [source, bash]
@@ -1203,7 +1216,7 @@ Upon successful tests execution, written in DB dump <<test-integration, gets ext
 ----
 
 Parameters *DB_HOST*, *DB_USER*, *DB_PSWD* are used for accessing the MySQL server, where a test DB will be created.
-Use <<ide-run-data, Docker DB Instance>> for the that.
+Use <<run-data, Docker DB Instance>> for the that.
 
 [[integration-test-opt]]
 ==== Optimization
