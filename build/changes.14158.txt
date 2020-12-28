@@ -1,0 +1,2 @@
+F: Installation doc, missing commands.
+A: More secure password generation.

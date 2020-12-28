@@ -104,7 +104,8 @@ Check and install if needed script dependencies:
 [source, sh]
 ----
 sudo yum update
-sudo yum install -y zip pwgen wget mysql-community-client
+sudo yum install -y epel-release
+sudo yum install -y zip pwgen wget mysql-community-client unzip
 ----
 
 Download archive and unpack it:
@@ -118,7 +119,7 @@ chmod 744 /opt/bgerp/*.sh
 Generate DB password ant put it in files:
 [source, sh]
 ----
-ERP_DB_PWD=`pwgen` && export EPR_DB_PWD &&
+ERP_DB_PWD=`pwgen -y -c 20` && export EPR_DB_PWD &&
 echo "Setting DB password: '$ERP_DB_PWD'" &&
 sed -i "s/GENERATED_PASSWORD/$ERP_DB_PWD/" /opt/bgerp/bgerp.properties &&
 sed -i "s/GENERATED_PASSWORD/'$ERP_DB_PWD'/" /opt/bgerp/db_create.sql
