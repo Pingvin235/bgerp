@@ -1,6 +1,22 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+28.12.2020 17:16:37 1369
+A: [14069] Custom localization, https://bgerp.org/doc/3.0/manual/project.html#l10n
+A: [14086] Permission options for message actions.
+F: [14113] E-Mail attachment title encoding.
+C: [14125] Plugin Blow, default sorting order.
+A: [14127] On extracting a message to a dependent process - create relation to a 'processMade' linked processes.
+A: [14131] JUnit 5 tests support.
+F: [14131] Status transaction matrix.
+F: [14136] Plugin BGBilling, open contract contract tab in customer on open it.
+F: [14141] Lazy call of getBuild() in Gradle scripts.
+C: [14141] .gitlab-ci-publish-author.sh matching substrings.
+A: [14141] Gradle task 'startServer'.
+A: [14141] Check DB connection on starting server.
+F: [14158] Installation doc, missing commands.
+A: [14158] More secure password generation.
+
 03.12.2020 17:47:38 1368
 A: [11476] Additional action for allowing edit/delete messages of other users.
 C: [13904] Plugin Blow, select on the first open first board from the list.
