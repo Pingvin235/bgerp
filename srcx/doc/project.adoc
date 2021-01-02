@@ -5,7 +5,7 @@
 BGERP is quite a large and complex project. It was created by a team consisting of ordinary humans, who may be imperfect and make
 mistakes but try to learn continuously. This is a trial and error process, fortunately or not.
 
-This article provides some recommendations collected during the learning process - these are accompanied by a very small amount of <<samples, code>>
+This article provides some recommendations collected during the learning process - these are accompanied by a very small amount of <<sample, code>>
 for exactly the same reason. Said that, you have to follow those recommendations using *The Boy Scout Rule*.
 
 IMPORTANT: Always leave the campground cleaner than you found it.
@@ -93,12 +93,6 @@ docker cp bgerp-demo:/opt/bgerp/log4j.properties log4j.properties
 docker cp bgerp-demo:/opt/bgerp/filestorage filestorage
 ----
 
-For <<db, DB update>> on each start at the end of `bgerp.properties` must be added <<kernel/setup.adoc#config-on-start, option>>:
-[source]
-----
-runOnStart+=,ru.bgcrm.util.distr.DevDbUpdater
-----
-
 NOTE: Use the command for removing the created container:
 [source, bash]
 ----
@@ -135,7 +129,7 @@ The projects mostly follow recommended formatting rules for each of programming 
 Intention:
 [square]
 * 4 whitespaces - Java;
-* 2 whitespaces - SQL <<db, scripts>>;
+* 2 whitespaces - SQL <<plugin-db, scripts>>;
 * tabs - all the rest.
 
 However because of historical reasons many files have been formatted in a wrong way, and have to be carefully fixed.
@@ -428,13 +422,18 @@ First, find the failing line in `.adoc` file:
 
 image::_res/snippet_fix_1.png[]
 
-After that, using branch comparism, find the new rows and change them in the `.adoc`:
+After that, using branch comparison, find the new rows and change them in the `.adoc`:
 
 image::_res/snippet_fix_2.png[]
 
+Hints:
+[square]
+* If documentation was already corrected in the current branch, you can create a mock branch on the last working state.
+* Use line numbers for searching over failing snippets.
+
 == Architecture
 BGERP is a standalone Java application with a dynamic Web-interface.
-When developing, you can <<run, launch>> BGERP directly from IDE
+When developing, you can <<run, launch>> it directly from IDE.
 
 Figure below illustrates a request processing pipeline:
 
@@ -469,21 +468,49 @@ Request processing stages:
 Below is a summary of a technology stack used, in descending order of importance:
 [arabic]
 . Java - all <<action, application logic>> is implemented as Java code, as Java provides best options in terms of easy of development, reliability and performance.
-.. MySQL + JDBC - <<db, data>> processing.
+.. MySQL + JDBC - <<plugin-db, data>> processing.
 . HTML + CSS - browser's markup language and style tables.
 . JSP + JSTL - HTML page rendering templates,  <<jsp, presentation layer>>;
 . JS + JQuery - client-side scripting language for dynamic content, only used as predefined framework calls.
 
 IMPORTANT: Pay attention to avoid mixing the layers, e.g. creating application logic outside of Java code, defining presentation layer without JSP, performing data manipulation without MySQL.
 
-[[db]]
+[[plugin]]
+=== Plugin
+Any logically detached functionality has to be moved into a plugin.
+Isolation is a primary trait of a plugin. Each plugin works with a kernel and kernel has no knowledge of the inner works of a given plugin.
+Plugins do not have to 'know' how other plugins work, either.
+'Knowing' here means a necessity to rely on certain APIs or specific method calls.
+
+[[plugin-class]]
+==== Plugin's Java class
+Application detects plugin upon start by a mandatory Java class, extended from javadoc:ru.bgcrm.plugin.Plugin[]
+Class example; link:../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
+
+Each plugin has a corresponding (and unique) Java *PLUGIN_PACKAGE* which includes this specific class.
+
+Plugin class initialization method can also define event listeners:
+[snippet, from="Eve", to="ss);", remove-leading="        "]
+link:../../src/ru/bgcrm/plugin/slack/Plugin.java#L22-L24[ru.bgcrm.plugin.slack.Plugin]
+
+In the particular case shown above, function handler gets included into <<kernel/extension.adoc#jexl, JEXL>> context.
+
+Each plugin has to have a unique string identified which satisfies the following requirements:
+[square]
+* A single and unique for a plugin English word, all single case (no upper/lower mix) and without special symbols
+* Plugin's <<plugin-db, DB tables>>, if present, have to start from this identifier.
+* Plugin's <<action, action's>> URLs, if present, have to start from `/user|usermob|open/plugin/<identifier>`.
+
+[[plugin-db]]
 ==== Database
+If plugin uses <<mvc, DB>>, then plugin package can contain a script which creates or modifies tables.
+`db.sql` script gets invoked during standard initialization routine.
+
+Below is an example of a script for a FullText plugin
+[snippet]
+link:../../src/ru/bgcrm/plugin/fulltext/db.sql[src/ru/bgcrm/plugin/fulltext/db.sql]
+
 <<kernel/db.adoc#, DB Structure>> is documented in the common <<documentation, process>>, simultaneously with making changes.
-Use `build/update/db.sql` script to create and <<kernel/install.adoc#update, update>> DB within application.
-When <<run, launching within IDE>>, this script can be executed automatically upon each run.
-
-In addition, plugins can have their own <<plugin-db, scripts>> run at the time of plugin initialization.
-
 
 [[cache]]
 ===== Cache
@@ -496,6 +523,50 @@ IMPORTANT: Use caches as much as possible for getting reference values and avoid
 Directory data is edited directly in DB and cache is cleared after an edit.
 [snippet, from="pu", to="}"]
 link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L92-L98[ru.bgcrm.struts.action.admin.UserAction]
+
+[[plugin-xml]]
+==== XML declaration
+Optional `plugin.xml` file located within *PLUGIN_PACKAGE*
+
+This file defines extension points:
+[square]
+* JSP templates;
+* JS files.
+
+[[plugin-xml-ui-menu]]
+===== Menu items
+Extension points definition within XML declaration:
+[snippet, from="<en", to=">", remove-leading="	"]
+link:../../src/ru/bgerp/plugin/blow/plugin.xml#L4-L4[blow/plugin.xml]
+
+Example of adding a menu item using JSP tag: link:../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
+
+[[plugin-xml-js]]
+===== JavaScript
+Extension points definition within XML declaration:
+[snippet, from="<en", to=">", remove-leading="	"]
+link:../../src/ru/bgerp/plugin/blow/plugin.xml#L5-L5[blow/plugin.xml]
+
+File containing script: link:../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
+
+[[plugin-action]]
+==== Action
+Plugin <<action, actions>> classes, if used, have to be declared in *PLUGIN_PACKAGE.action* package.
+`struts-config.xml` and `action.xml` have to be located in *PLUGIN_PACKAGE*.
+JSP templates - `webapps/WEB-INF/jspf/user|open|usermob/plugin/<identifier>`.
+
+<<plugin-kernel, Kernel>> plugin is different one.
+
+[[plugin-l10n]]
+==== Localization
+Plugin's <<l10n, localization>> file (`i10n.xml`) has to be located in *PLUGIN_PACKAGE*.
+It is only used for localizing actions and action's JSP templates
+
+[[plugin-kernel]]
+==== Kernel
+The special javadoc:org.bgerp.plugin.kernel.Plugin[kernel] plugin is responsible for keeping <<plugin-db, DB update script>>,
+<<plugin-l10n, Localizations>> for application's kernel. This plugin is always enabled.
+Kernel <<plugin-action, Action>> classes spreads over many packages, but definitions of them stays in *PLUGIN_PACKAGE*.
 
 [[mvc]]
 === MVC
@@ -520,7 +591,6 @@ First method gets processed by JSP forward page and sends HTML back to the clien
 
 [[action-form]]
 ====== Form Object
-В каждый вызов акшена передаётся *супер объект form* javadoc:ru.bgcrm.struts.form.DynActionForm[], содержащий контекст выполнения:
 Each action class method call gets a *form object*  javadoc:ru.bgcrm.struts.form.DynActionForm[] as a parameter. This object contains a context of request's execution;
 [square]
 * User;
@@ -558,7 +628,6 @@ We recommend to use the following naming convention for methods:
 . [optional] Name of the object being handled in case a given class works with several objects.
 . Verb which defines method's operation. For example, for CRUD these are: *list*, *get*, *update*, *delete*.
 
-
 javadoc:ru.bgcrm.struts.action.admin.UserAction[] has some example method names:
 [square]
 * permsetList;
@@ -573,12 +642,16 @@ Another set of examples from javadoc:ru.bgcrm.struts.action.admin.AppAction[]:
 
 It is recommended to use identical names for both method and forward:
 [snippet, from="<action path=\"/admin", to="</action>", remove-leading="		"]
-link:../../webapps/WEB-INF/struts-config.xml#L55-L58[webapps/WEB-INF/struts-config.xml]
+link:../../src/org/bgerp/plugin/kernel/struts-config.xml#L51-L54[org/bgerp/plugin/kernel/struts-config.xml]
 
 [[action-permission]]
 ===== Permissions check
-All action methods have to be defined within link:../../src/ru/bgcrm/model/user/action.xml[ru/bgcrm/model/user/action.xml] for the kernel or for the <<plugin, plugin>>.
-The following link provides an example for Blow plugin's actions definition: link:../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml]
+All action methods have to be defined within <<plugin-action, plugin packages>>.
+Examples:
+[square]
+* link:../../src/org/bgerp/plugin/kernel/action.xml[org/bgerp/plugin/kernel/action.xml] - for <<plugin-kernel, Kernel>> plugin
+* link:../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml] - for Blow plugin 
+
 Actions from those files are forming a tree which is used for <<kernel/setup.adoc#user, access control>>.
 
 Each action is identified by a class AND method, separated by semicolon.
@@ -587,13 +660,13 @@ Main identifier can be preceded by additional ones, also separated by a semicolo
 This allows to provide backwards compatibility with permissions already present in the DB. New identifier will be used upon the next save operation of the permission set
 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
-link:../../src/ru/bgcrm/model/user/action.xml#L145-L146[ru/bgcrm/model/user/action.xml]
+link:../../src/org/bgerp/plugin/kernel/action.xml#L147-L148[org/bgerp/plugin/kernel/action.xml]
 
 Additional/auxillary actions, which have to be permanently allowed, have to be marked with *allowAll="1"* attribute.
 
 [[exception]]
 ===== Exception handling
-Exception interrupts actions execution, also rolls back <<db, DB>> transaction - response will be always sent back as JSON.
+Exception interrupts actions execution, also rolls back <<plugin-db, DB>> transaction - response will be always sent back as JSON.
 All Exception handling is defined centrally in javadoc:ru.bgcrm.struts.action.BaseAction[], DAO methods or script handlers just need to raise a given exception.
 Said that, action methods declarations and DAO just need to use *throws java.lang.Exception*.
 
@@ -687,7 +760,7 @@ link:../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp#L11-L14[webapps/
 Set the left area and the right areas of <<kernel/interface.adoc#user-top-line, top line>> in user interface.
 <<l10n, Localization>> is supported using *ltext* attribute. Tag shell:state may create a documentation help link.
 [snippet, from="<shell:t", to=">"]
-link:../../webapps/WEB-INF/jspf/admin/config/list.jsp#L34-L35[webapps/WEB-INF/jspf/admin/config/list.jsp]
+link:../../webapps/WEB-INF/jspf/admin/config/list.jsp#L92-L93[webapps/WEB-INF/jspf/admin/config/list.jsp]
 
 [[js]]
 ==== Java Script
@@ -703,81 +776,10 @@ A typical scheme for attaching JS code to HTML is to setup event handler with a 
 
 Deprecated JS functions are marked using the following method:
 [snippet, from="fun", to="}"]
-link:../../webapps/js/kernel.ajax.js#L352-L357[webapps/js/kernel.ajax.js]
+link:../../webapps/js/kernel.ajax.js#L375-L380[webapps/js/kernel.ajax.js]
 
 When such a function gets invoked, browser console gets a "clickable" "Deprecated" message which allows to find a this deprecated function call
 It is forbidden to use those functions in the new code, usage has to be decreased in the existing code over time.
-
-[[plugin]]
-=== Plugins
-Any logically detached functionality has to be moved into a plugin.
-Isolation is a primary trait of a plugin. Each plugin works with a kernel and kernel has no knowledge of the inner works of a given plugin.
-Plugins do not have to 'know' how other plugins work, either.
-'Knowing' here means a necessity to rely on certain APIs or specific method calls.
-
-[[plugin-class]]
-==== Plugin's Java class
-Application detects plugin upon start by a mandatory Java class, extended from javadoc:ru.bgcrm.plugin.Plugin[]
-Class example; link:../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
-
-Each plugin has a corresponding (and unique) Java *PLUGIN_PACKAGE* which includes this specific class.
-
-Plugin class initialization method can also define event listeners:
-[snippet, from="Eve", to="ss);", remove-leading="        "]
-link:../../src/ru/bgcrm/plugin/slack/Plugin.java#L21-L23[ru.bgcrm.plugin.slack.Plugin]
-
-In the particular case shown above, function handler gets included into <<kernel/extension.adoc#jexl, JEXL>> context.
-
-Each plugin has to have a unique string identified which satisfies the following requirements:
-[square]
-* A single and unique for a plugin English word, all single case (no upper/lower mix) and without special symbols
-* Plugin's <<db, DB tables>>, if present, have to start from this identifier.
-* Plugin's <<action, actions>>, if present, have to start from /user/plugin/<identifier>.
-
-[[plugin-db]]
-If plugin uses <<db, DB>>, then plugin package can contain a script which creates or modifies tables.
-As mentioned earlier, `db.sql script gets invoked during standard initialization routine.
-
-Below is an example of a script for a FullText plugin
-[snippet]
-link:../../src/ru/bgcrm/plugin/fulltext/db.sql[src/ru/bgcrm/plugin/fulltext/db.sql]
-
-[[plugin-xml]]
-==== XML declaration
-Optional `plugin.xml` file located within *PLUGIN_PACKAGE*
-
-This file defines extension points:
-[square]
-* JSP templates;
-* JS files.
-
-[[plugin-xml-ui-menu]]
-===== Menu items
-Extension points definition within XML declaration:
-[snippet, from="<en", to=">", remove-leading="	"]
-link:../../src/ru/bgerp/plugin/blow/plugin.xml#L4-L4[blow/plugin.xml]
-
-Example of adding a menu item using JSP tag: link:../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
-
-[[plugin-xml-js]]
-===== JavaScript
-Extension points definition within XML declaration:
-[snippet, from="<en", to=">", remove-leading="	"]
-link:../../src/ru/bgerp/plugin/blow/plugin.xml#L5-L5[blow/plugin.xml]
-
-File containing script: link:../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
-
-[[plugin-action]]
-==== Actions
-Plugin <<action, actions>>, if used, have to be declared in *PLUGIN_PACKAGE.action* directory.
-`struts-config.xml` and `action.xml` have to be located in *PLUGIN_PACKAGE*.
-
-JSP templates - `webapps/WEB-INF/jspf/user|open|usermob/plugin/<identifier>`.
-
-[[plugin-l10n]]
-==== Localization
-Plugin's <<l10n, localization>> file (`i10n.xml`) has to be located in *PLUGIN_PACKAGE*.
-It is only used for localizing actions and action's JSP templates
 
 [[custom-level]]
 === Customization
@@ -820,13 +822,10 @@ System language is defined globally within <<kernel/setup.adoc#config, configura
 
 [[l10n-files]]
 ==== Files
-XML localization file `l10n.xml` for the kernel is located in `src/ru/bgerp/l10n`,
-for <<plugin-l10n, plugins>> - in their packages.
+XML localization file `l10n.xml` are located in <<plugin-l10n, plugin's packages>>.
 New localization phrases should be added to the end of the list in the file.
 
 Custom localization may overwrite all of them and read out `custom/l10n.xml` file in case of existing that.
-
-NOTE: To disable caching of localizations at the time of development, set in the configuration *localization.cache=0*
 
 The key of the localizing phrase is the first entry in any language, for example Russian:
 [source, xml]
@@ -874,17 +873,13 @@ Such case may be seen for <<exception, BGMessageException sample>>.
 All the new code has to be written using localized strings.
 For legacy code recommended during other changes replace static strings to localized.
 
-For figuring out missing keys add in <<log4j, logging configuration>>:
+For missing keys the following messages appear in <<log4j, log output>>:
 [source]
 ----
-log4j.appender.l10n=org.apache.log4j.ConsoleAppender
-log4j.appender.l10n.Target=System.out
-log4j.appender.l10n.layout=org.apache.log4j.PatternLayout
-log4j.appender.l10n.layout.ConversionPattern=%d{MM-dd/HH:mm:ss} %5p [%t] %c{1} - %m%n
-
-log4j.logger.ru.bgerp.l10n.Localizer=DEBUG, l10n
-log4j.additivity.ru.bgerp.l10n.Localizer=false
+01-02/00:44:01  WARN [http-nio-9088-exec-2] Localizer - Missing translation for pattern: 'Иниациализировать плагины'
 ----
+
+After adding missing patterns, application server has to be re-started.
 
 == Naming conventions
 === Configuration variables, JS functions, HTTP StyleId
@@ -942,62 +937,11 @@ from_dt, to_dt - datetime type.
 
 Infinity time/date - NULL.
 
-[[samples]]
+[[sample]]
 == Code samples
 As system evolves and gets a lot of changes, this section contains referencing code examples.
 Snippets below gets extracted from an actual project code, so these are always reliable.
 Use IDE, if needed, in order to search for specific classes or files.
-
-=== Saving latest/last user request parameters
-Let's take interface filters, as example - use *restoreRequestParams* method in javadoc:ru.bgcrm.struts.action.BaseAction[]
-
-Saving a value:
-[snippet, from="resto", to=");", remove-leading=    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L90-L90[ru.bgcrm.struts.action.MessageAction]
-
-Restoring a value:
-[snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L282-L294[ru.bgcrm.struts.action.MessageAction]
-
-Saving and restoring a value at once:
-[snippet, from="//", to=");", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L53-L57[ru.bgcrm.struts.action.ProcessLinkAction]
-
-=== Depicting element count on a tab.
-For example, showing associated processes count. Gets saved on the first call.
-Use javadoc:ru.bgcrm.model.IfaceState[] class
-
-Refreshing value:
-[snippet, from="// п", to="}", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L221-L228[ru.bgcrm.struts.action.ProcessLinkAction]
-
-Show in JSP:
-[snippet, from="<c:if", to="if>", remove-leading="						"]
-link:../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L81-L95[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
-
-[[sample-date-format]]
-=== Date and time format
-When formatting date and time values in Java or JSP , use the following formats in order to keep unified approach and maintain independence from the current locale:
-[square]
-* *ymd* - year, month, date;
-* *ymdh* - year, month, day, hour;
-* *ymdhm* - year, month, day, hour, minute;
-* *ymdhms* - year, month, day, hour, minute, second.
-
-Java code uses javadoc:ru.bgcrm.util.TimeUtils[] class for date formatting, this class also contains format constants.
-
-The same functions may be used in <<jsp, JSP>> using `tu` prefix:
-[snippet, from="<input type=", to="d}\"/>", remove-leading="				"]
-link:../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L158-L158[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
-
-=== Configuration Java Beans
-In order to speed up parsing and validation, use Java class objects inherited from javadoc:ru.bgcrm.util.Config[]
-For example: link:../../src/ru/bgcrm/model/config/IsolationConfig.java[ru.bgcrm.model.config.IsolationConfig].
-This configuration supports constructor with a validation flag, which allows to check syntax when saving.
-
-Configuration bin can be also obtained in JSP:
-[snippet, from="<c:", to="/>"]
-link:../../webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp#L4-L4[webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp]
 
 [[sample-logging]]
 === Logging
@@ -1024,6 +968,61 @@ Enabling debug:
 [snippet, from="$$.", to="0,"]
 link:../../webapps/js/kernel.js#L18-L22[webapps/js/kernel.js]
 
+[[sample-save-req-params]]
+=== Saving latest/last user request parameters
+Let's take interface filters, as example - use *restoreRequestParams* method in javadoc:ru.bgcrm.struts.action.BaseAction[]
+
+Saving a value:
+[snippet, from="resto", to=");", remove-leading=    "]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L90-L90[ru.bgcrm.struts.action.MessageAction]
+
+Restoring a value:
+[snippet, from="pu", to="}", remove-leading="    "]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L282-L294[ru.bgcrm.struts.action.MessageAction]
+
+Saving and restoring a value at once:
+[snippet, from="//", to=");", remove-leading="    "]
+link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L53-L57[ru.bgcrm.struts.action.ProcessLinkAction]
+
+[[sample-tab-element-count]]
+=== Depicting element count on a tab
+For example, showing associated processes count. Gets saved on the first call.
+Use javadoc:ru.bgcrm.model.IfaceState[] class
+
+Refreshing value:
+[snippet, from="// п", to="}", remove-leading="        "]
+link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L221-L228[ru.bgcrm.struts.action.ProcessLinkAction]
+
+Show in JSP:
+[snippet, from="<c:if", to="if>", remove-leading="						"]
+link:../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L81-L95[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
+
+[[sample-date-format]]
+=== Date and time format
+When formatting date and time values in Java or JSP , use the following formats in order to keep unified approach and maintain independence from the current locale:
+[square]
+* *ymd* - year, month, date;
+* *ymdh* - year, month, day, hour;
+* *ymdhm* - year, month, day, hour, minute;
+* *ymdhms* - year, month, day, hour, minute, second.
+
+Java code uses javadoc:ru.bgcrm.util.TimeUtils[] class for date formatting, this class also contains format constants.
+
+The same functions may be used in <<jsp, JSP>> using `tu` prefix:
+[snippet, from="<input type=", to="d}\"/>", remove-leading="				"]
+link:../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L158-L158[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
+
+[[sample-configuration-java-beans]]
+=== Configuration Java Beans
+In order to speed up parsing and validation, use Java class objects inherited from javadoc:ru.bgcrm.util.Config[]
+For example: link:../../src/ru/bgcrm/model/config/IsolationConfig.java[ru.bgcrm.model.config.IsolationConfig].
+This configuration supports constructor with a validation flag, which allows to check syntax when saving.
+
+Configuration bin can be also obtained in JSP:
+[snippet, from="<c:", to="/>"]
+link:../../webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp#L4-L4[webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp]
+
+[[sample-pagination]]
 === Pagination
 Putting results into JSP and rendering a form;
 [snippet, from="<c:", to="rm>", remove-leading="		"]
@@ -1033,14 +1032,22 @@ Java action:
 [snippet, from="//", to="open);", remove-leading="        "]
 link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L212-L214[ru.bgcrm.struts.action.ProcessLinkAction]
 
+[[sample-upload-file]]
+=== File upload
+JSP page:
+link:../../webapps/WEB-INF/jspf/admin/config/list.jsp#L69-L80[webapps/WEB-INF/jspf/admin/config/list.jsp]
+
+Action:
+link:../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L127-L134[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
+
 [[sample-jsp-ui]]
-=== JSP UI
+=== UI Only
 A simple dictionary with pagination, AJAX editor invocation: link:../../webapps/WEB-INF/jspf/admin/process/status/list.jsp[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
 
 [[sample-jsp-ui-ajax]]
 Sending AJAX for sending, exiting or restoring data in <<kernel/process/index.adoc#type, process type properties editor>>:
 [snippet, from="<div", to="/div>"]
-link:../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L191-L196[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
+link:../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L187-L192[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
 
 Recursive include:
 [snippet, from="<c:", to="if>", remove-leading="					"]

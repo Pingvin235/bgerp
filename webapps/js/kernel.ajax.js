@@ -336,6 +336,28 @@ $$.ajax = new function() {
 		return url;
 	}
 
+	/**
+	 * File upload.
+	 * @param {*} formId hidden form's CSS ID.
+	 * @param {*} complete callback function on upload is done.
+	 */
+	const upload = function (formId, complete) {
+		const $form = $('#' + formId);
+		$form.iframePostForm({
+			json: true,
+			iframeID: formId + '-iframe',
+			post: function () {
+				if (!$form.find('input[type=file]').val()) {
+					alert("Missing file!");
+					return false;
+				}
+			},
+			complete: function (response) {
+				complete(response);
+			}
+		});
+	}
+
 	// public functions
 	this.debug = debug;
 	this.post = post;
@@ -344,7 +366,8 @@ $$.ajax = new function() {
 	this.checkResponse = checkResponse;
 	this.formUrl = formUrl;
 	this.requestParamsToUrl = requestParamsToUrl;
-	// временно доступные
+	this.upload = upload;
+	// deprecated
 	this.separatePostParamsInt = separatePostParams;
 }
 

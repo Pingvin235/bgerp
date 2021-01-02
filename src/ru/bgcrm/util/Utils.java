@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +23,6 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.log4j.Logger;
 import org.apache.taglibs.standard.functions.Functions;
 import org.w3c.dom.Element;
@@ -38,7 +38,8 @@ import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;
 
 public class Utils {
-    public static final Charset UTF8 = Charset.forName("UTF-8");
+    /** Use {@link java.nio.charset.StandardCharsets}. */
+    public static final Charset UTF8 = StandardCharsets.UTF_8;
 
     /**
      * Разделитель по-умолчанию: ", "
@@ -947,40 +948,6 @@ public class Utils {
     }
 
     /**
-     * Меняет местами четные символы с соответствующими нечетными
-     * @param str входная строка
-     * @return
-     */
-    @Deprecated
-    public static String swapWords(String str) {
-        StringBuilder result = new StringBuilder(str);
-        final int size = result.length();
-        for (int i = 0; i < size - 1; i += 2) {
-            char oneChar = result.charAt(i);
-            char twoChar = result.charAt(i + 1);
-            result.setCharAt(i, twoChar);
-            result.setCharAt(i + 1, oneChar);
-        }
-        return result.toString();
-    }
-
-    /**
-     * Дамп полей объектов в строку.
-     * @param objects
-     * @return
-     */
-    @Deprecated
-    public static String dump(Object... objects) {
-        StringBuilder result = new StringBuilder();
-        for (Object object : objects)
-            if (object instanceof String)
-                result.append(object.toString());
-            else
-                result.append(new ReflectionToStringBuilder(object).toString());
-        return result.toString();
-    }
-
-    /**
      * Устанавливает заголовки HTTP запроса при выгрузке файла.
      * @param response
      * @param fileName
@@ -1057,4 +1024,16 @@ public class Utils {
 
         return byteValue;
     }
+
+    /**
+     * Writes error message and exists the running application.
+     * @param code exit code.
+     * @param message message.
+     */
+    public static void errorAndExit(int code, String message) {
+        System.err.println(message);
+        System.err.flush();
+        System.exit(code);
+    }
+
 }

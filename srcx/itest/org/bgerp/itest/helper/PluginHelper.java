@@ -11,7 +11,7 @@ public class PluginHelper {
         con.setAutoCommit(false);
         p.init(con);
         con.setAutoCommit(true);
-        return p.getName() + ":enable=1\n\n";
+        return p.getId() + ":enable=1\n\n";
     }
 
 }

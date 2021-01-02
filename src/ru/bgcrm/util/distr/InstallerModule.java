@@ -3,18 +3,18 @@ package ru.bgcrm.util.distr;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.apache.commons.io.IOUtils;
-
 import com.google.common.annotations.VisibleForTesting;
 
+import org.apache.commons.io.IOUtils;
+
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.ZipUtils;
 import ru.bgcrm.util.distr.call.InstallationCall;
 
@@ -68,7 +68,7 @@ public class InstallerModule {
             }
             if (infFound) {
                 byte[] infFile = IOUtils.toByteArray(zis);
-                mi = new ModuleInf(new String(infFile, Utils.UTF8));
+                mi = new ModuleInf(new String(infFile, StandardCharsets.UTF_8));
             } else {
                 System.out.println("Error: module.properties not found in zip");
             }

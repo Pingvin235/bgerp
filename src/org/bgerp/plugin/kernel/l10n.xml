@@ -219,6 +219,13 @@
 	<p><ru>Ответить</ru><en>Respond</en></p>
 	<p><ru>Редактировать</ru><en>Edit</en></p>
 	<p><ru>Другой существующий</ru><en>Another existing</en></p>
+	<p><ru>Плагины</ru><en>Plugins</en></p>
+	<p><ru>Фильтр по содержимому конфигурации</ru><en>Filter by configuration's content</en></p>
+	<p><ru>Активный</ru><en>Active</en></p>
+	<p><ru>Активные плагины</ru><en>Enabled plugins</en></p>
+	<p><ru>Лицензия</ru><en>License</en></p>
+	<p><ru>Иниациализировать плагины</ru><en>Initialize plugins</en></p>
+	<p><ru>Загрузить файл лицензии</ru><en>Upload file with license</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

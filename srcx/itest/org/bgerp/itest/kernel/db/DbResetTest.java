@@ -78,9 +78,7 @@ public class DbResetTest {
         var con = DbTest.conRoot;
 
         con.setAutoCommit(false);
-        sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/db_init_begin.sql"), StandardCharsets.UTF_8));
-        sqlCall.call(con, IOUtils.toString(new FileInputStream("build/update/db.sql"), StandardCharsets.UTF_8));
-        sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/db_init_end.sql"), StandardCharsets.UTF_8));
+        sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/db_init.sql"), StandardCharsets.UTF_8));
         con.setAutoCommit(true);
     }
 

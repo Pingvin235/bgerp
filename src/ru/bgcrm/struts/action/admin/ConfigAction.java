@@ -1,5 +1,6 @@
 package ru.bgcrm.struts.action.admin;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
@@ -17,6 +19,8 @@ import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Config;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.plugin.License;
+import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
@@ -46,6 +50,8 @@ public class ConfigAction extends BaseAction {
                 config.addIncluded(included);
             }
         }
+
+        form.getHttpRequest().setAttribute("license", License.getInstance());
 
         return data(conSet, mapping, form, "list");
     }
@@ -109,7 +115,21 @@ public class ConfigAction extends BaseAction {
     public void checkAllowedConfigIds(DynActionForm form) throws BGMessageException {
         Set<Integer> allowedConfigIds = Utils.toIntegerSet(form.getPermission().get("allowedConfigIds"));
         if (CollectionUtils.isNotEmpty(allowedConfigIds) && !allowedConfigIds.contains(form.getId())) {
-            throw new BGMessageException("Работа с данной конфигурацией запрещена.");
+            throw new BGMessageException("Работа с данной конфигурацией запрещена");
         }
+    }
+
+    public ActionForward pluginsInit(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+        PluginManager.init(); 
+        return status(conSet, form);
+    }
+
+    public ActionForward licenseUpload(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+        var file = form.getFile();
+
+        IOUtils.copy(file.getInputStream(), new FileOutputStream(License.FILE_NAME));
+        License.init();
+
+        return status(conSet, form);
     }
 }

@@ -1,6 +1,7 @@
 package ru.bgcrm.plugin.bgbilling;
 
 import java.sql.Connection;
+import java.util.Set;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
@@ -11,6 +12,7 @@ import ru.bgcrm.plugin.bgbilling.event.listener.LinkChangedListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.LinkChangingListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.ProcessDoActionListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.RegisterExtensionListener;
+import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
@@ -53,8 +55,16 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         } catch (ClassNotFoundException e) {}
     }
 
+    /**
+     * Actively used in JSP pages.
+     * @return
+     */
     public DBInfoManager getDbInfoManager() {
         return DBInfoManager.getInstance();
     }
 
+    @Override
+    public Set<String> getObjectTypes() {
+        return Set.of(Contract.OBJECT_TYPE);
+    }
 }

@@ -1,0 +1,8 @@
+A: New plugin's system with signed license.
+A: Plugin 'kernel', common logic for plugin's configuration.
+C: Enhanced exit with error.
+C: Unified dependencies format build.gradle.
+A: Enhanced message with process ID on checking dependent processes by closing.
+A: Shown list of enabled plugins and content of a license.
+C: Disabled periodic reload of l10n.
+C: Missing translation message to WARN level.

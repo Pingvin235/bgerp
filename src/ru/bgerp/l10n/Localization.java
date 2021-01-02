@@ -19,27 +19,25 @@ import ru.bgcrm.util.XMLUtils;
 import ru.bgerp.util.Log;
 
 /**
- * A localization unit, loaded from a file. 
- * @author Shamil
+ * A localization unit, loaded from a resource.
+ * @author Shamil Vakhitov
  */
 public class Localization {
     private static final Log log = Log.getLog();
 
     /** Custom localizations may be placed in the custom/l10n.xml file in the root of the program. */
     private static final String PLUGIN_CUSTOM = "custom";
-    private static final String PLUGIN_KERNEL = "kernel";
 
     private static final String FILE_NAME = "l10n.xml";
     // localizations of kernel and plugins
     private static Map<String, Localization> localizations;
-    private static long lastLoadTime;
 
     // end of static part
-    private final String pluginName;
+    private final String pluginId;
     private final Map<String, Map<String, String>> translations;
 
-    private Localization(String name, Document doc) throws Exception {
-        this.pluginName = name;
+    private Localization(String pluginId, Document doc) throws Exception {
+        this.pluginId = pluginId;
         this.translations = new HashMap<>(300);
         parseFile(doc);
     }
@@ -95,7 +93,7 @@ public class Localization {
         var custom = Localization.localizations.get(PLUGIN_CUSTOM);
         if (custom != null)
             localizations.add(custom);
-        localizations.add(Localization.localizations.get(PLUGIN_KERNEL));
+        localizations.add(Localization.localizations.get(PluginManager.KERNEL_PLUGIN_ID));
         if (plugin != null)
             localizations.add(Localization.localizations.get(plugin));
 
@@ -108,7 +106,7 @@ public class Localization {
 
     private static void loadLocalizations() {
         synchronized (Localization.class) {
-            if (localizations == null || (!Setup.getSetup().getBoolean("localization.cache", true) && lastLoadTime + 10000  < System.currentTimeMillis())) {
+            if (localizations == null) {
                 try {
                     log.info("Loading localizations..");
 
@@ -118,15 +116,11 @@ public class Localization {
                     if (customL10n.exists())
                         loadL10n(PLUGIN_CUSTOM, XMLUtils.parseDocument(new FileInputStream(customL10n)));
 
-                    loadL10n(PLUGIN_KERNEL, XMLUtils.parseDocument(Localization.class.getResourceAsStream(FILE_NAME)));
-
                     for (Plugin p : PluginManager.getInstance().getPluginList()) {
                         var doc = p.getXml(FILE_NAME, null);
                         if (doc == null) continue;
-                        loadL10n(p.getName(), doc);
+                        loadL10n(p.getId(), doc);
                     }
-                    
-                    lastLoadTime = System.currentTimeMillis();
                 } catch (Exception e) {
                     log.error(e);
                 }
@@ -136,7 +130,7 @@ public class Localization {
 
     private static void loadL10n(String plugin, Document doc) throws Exception {
         Localization l = new Localization(plugin, doc);
-        localizations.put(l.pluginName, l);
-        log.debug("Loaded localization for: %s", l.pluginName);
+        localizations.put(l.pluginId, l);
+        log.debug("Loaded localization for: %s", l.pluginId);
     }
 }

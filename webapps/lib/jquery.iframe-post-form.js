@@ -1,6 +1,6 @@
 /**
  * jQuery plugin for posting form including file inputs.
- * 
+ *
  * Copyright (c) 2010 - 2011 Ewen Elder
  *
  * Licensed under the MIT and GPL licenses:
@@ -19,43 +19,43 @@
 			element,
 			status = true,
 			iframe;
-		
+
 		options = $.extend( {}, $.fn.iframePostForm.defaults, options );
-		
+
 		// Add the iframe.
 		if( !$('#' + options.iframeID).length )
 		{
 			$('body').append('<iframe id="' + options.iframeID + '" name="' + options.iframeID + '" style="display:none" />');
 		}
-		
+
 		return $(this).each(function ()
 		{
 			element = $(this);
-			
+
 			// Target the iframe.
 			element.attr('target', options.iframeID);
-			
+
 			// Submit listener.
 			element.submit( function()
 			{
 				// If status is false then abort.
 				status = options.post.apply(this);
-				
+
 				if( status === false )
 				{
 					return status;
-				}				
-				
+				}
+
 				iframe = $( '#' + options.iframeID ).on("load", function ()
 				{
 					response = iframe.contents().find( 'body' );
-					
+
 					if( options.json )
 					{
 						try
 						{
 							returnReponse = $.parseJSON( response.text() );
-							// обработка AJAX ответа от BGERP
+							// check AJAX response from BGERP
 							var result = $$.ajax.checkResponse( returnReponse );
 							if( result )
 							{
@@ -64,19 +64,19 @@
 						}
 						catch( ex )
 						{
-							alert( "Некорректный ответ сервера, возможно требуется переавторизация" );
+							alert( "Incorrect server response" );
 							throw ex;
-						}						
+						}
 					}
 					else
 					{
 						returnReponse = response.html();
-						
+
 						options.complete.apply( this, [returnReponse] );
-					}					
-					
+					}
+
 					iframe.unbind( 'load' );
-					
+
 					setTimeout( function ()
 					{
 						response.html( '' );
@@ -85,8 +85,8 @@
 			});
 		});
 	};
-	
-	
+
+
 	$.fn.iframePostForm.defaults =
 	{
 		iframeID : 'iframe-post-form',       // Iframe ID.

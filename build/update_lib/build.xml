@@ -21,10 +21,9 @@
 			<fileset dir="${projectPath}/lib" includes="*.jar"/>
 			<fileset dir="${projectPath}/lib/tomcat9" includes="*.jar"/>			
 		</copy>
-		
 		<exec dir="${projectPath}" executable="sh">
 			<arg value="gradlew"/>
-			<arg value="copyLibBGCRM"/>
+			<arg value="copyLibExt"/>
 		</exec>
 		<copy todir="${libextpath}">
 			<fileset dir="${projectPath}/target/lib" includes="*.jar"/>

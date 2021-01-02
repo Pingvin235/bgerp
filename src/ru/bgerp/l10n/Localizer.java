@@ -11,7 +11,7 @@ public class Localizer {
 
     private final Localization[] localizations;
     private final String toLang;
-    
+
     public Localizer(Localization[] localizations, String toLang) {
         this.localizations = localizations;
         this.toLang = toLang;
@@ -20,14 +20,14 @@ public class Localizer {
     public String l(String pattern, Object... args) {
         for (Localization localization : localizations) {
             if (localization == null) break;
-            
+
             String translation = localization.getTranslation(pattern, toLang);
             if (translation != null)
                 return String.format(translation, args);
         }
 
-        log.debug("Missing translation for pattern: '%s'", pattern);
+        log.warn("Missing translation for pattern: '%s'", pattern);
 
         return String.format(pattern, args);
-    }    
+    }
 }

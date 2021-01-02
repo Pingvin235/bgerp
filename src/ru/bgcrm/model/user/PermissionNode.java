@@ -141,16 +141,11 @@ public class PermissionNode {
     public static List<PermissionNode> getPermissionTrees() {
         List<PermissionNode> permissionNodes = new ArrayList<>();
 
-        // kernel actions
-        PermissionNode node = new PermissionNode();
-        buildTree(XMLUtils.parseDocument(PermissionNode.class.getResourceAsStream(FILE_NAME)).getDocumentElement(), node);
-        permissionNodes.add(node);
-
-        for (Plugin p : PluginManager.getInstance().getPluginList()) {
+       for (Plugin p : PluginManager.getInstance().getPluginList()) {
             Document doc = p.getXml(FILE_NAME, null);
             if (doc == null) continue;
 
-            node = new PermissionNode();
+            var node = new PermissionNode();
             buildTree(doc.getDocumentElement(), node);
             permissionNodes.add(node);
         }

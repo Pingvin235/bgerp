@@ -38,12 +38,12 @@ public class ProcessClosingListener {
             result = new ProcessLinkDAO(connectionSet.getConnection()).getLinkProcessList(process.getId(), linkType, false, null);
             for (Process link : result)
                 if (link.getCloseTime() == null)
-                    throw new BGMessageException("Есть незакрытые привязанные процессы типа: %s", linkType);
+                    throw new BGMessageException("Есть незакрытый процесс: %s, привязанный к данному с типом: %s", link.getId(), linkType);
         } else if (DIRECTION_UP.equals(checkDirection)) {
             result = new ProcessLinkDAO(connectionSet.getConnection()).getLinkedProcessList(process.getId(), linkType, false, null);
             for (Process linked : result)
                 if (linked.getCloseTime() == null)
-                    throw new BGMessageException("Есть незакрытые процессы, к которым привязан данный с типом: %s", linkType);
+                    throw new BGMessageException("Есть незакрытый процесс: %s, к которому привязан данный с типом: %s", linked.getId(), linkType);
         }
     }
 }

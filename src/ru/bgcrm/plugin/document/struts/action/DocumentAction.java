@@ -35,116 +35,116 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class DocumentAction extends BaseAction {
-	
-	public ActionForward documentList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-		Config config = setup.getConfig(Config.class);
+    
+    public ActionForward documentList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+        Config config = setup.getConfig(Config.class);
 
-		DocumentDAO documentDao = new DocumentDAO(con);
+        DocumentDAO documentDao = new DocumentDAO(con);
 
-		String scope = form.getParam("scope");
-		String objectType = form.getParam("objectType");
-		String objectTitle = form.getParam("objectTitle");
-		int objectId = Utils.parseInt(form.getParam("objectId"));
+        String scope = form.getParam("scope");
+        String objectType = form.getParam("objectType");
+        String objectTitle = form.getParam("objectTitle");
+        int objectId = Utils.parseInt(form.getParam("objectId"));
 
-		documentDao.searchObjectDocuments(new SearchResult<Document>(form), objectType, objectId);
-		Collection<Pattern> patterns = config.getPatterns(scope, objectType, objectTitle);
+        documentDao.searchObjectDocuments(new SearchResult<Document>(form), objectType, objectId);
+        Collection<Pattern> patterns = config.getPatterns(scope, objectType, objectTitle);
 
-		if (Process.OBJECT_TYPE.equals(scope)) {
-			ProcessType type = ProcessTypeCache.getProcessType(new ProcessDAO(con).getProcess(objectId).getTypeId());
-			Set<Integer> allowedPatternIds = Utils.toIntegerSet(
-					type.getProperties().getConfigMap().get("document:processCreateDocumentsAllowedTemplates"));
+        if (Process.OBJECT_TYPE.equals(scope)) {
+            ProcessType type = ProcessTypeCache.getProcessType(new ProcessDAO(con).getProcess(objectId).getTypeId());
+            Set<Integer> allowedPatternIds = Utils.toIntegerSet(
+                    type.getProperties().getConfigMap().get("document:processCreateDocumentsAllowedTemplates"));
 
-			patterns = patterns.stream().filter(p -> allowedPatternIds.contains(p.getId()))
-					.collect(Collectors.toList());
-		}
+            patterns = patterns.stream().filter(p -> allowedPatternIds.contains(p.getId()))
+                    .collect(Collectors.toList());
+        }
 
-		form.getHttpRequest().setAttribute("patternList", patterns);
+        form.getHttpRequest().setAttribute("patternList", patterns);
 
-		return data(con, mapping, form, FORWARD_DEFAULT);
-	}
+        return data(con, mapping, form, FORWARD_DEFAULT);
+    }
 
-	public ActionForward uploadDocument(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-		String objectType = form.getParam("objectType");
-		int objectId = Utils.parseInt(form.getParam("objectId"));
-		FormFile file = form.getFile();
+    public ActionForward uploadDocument(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+        String objectType = form.getParam("objectType");
+        int objectId = Utils.parseInt(form.getParam("objectId"));
+        FormFile file = form.getFile();
 
-		new DocumentDAO(con).add(objectType, objectId, file.getFileData(), file.getFileName());
+        new DocumentDAO(con).add(objectType, objectId, file.getFileData(), file.getFileName());
 
-		return status(con, form);
-	}
+        return status(con, form);
+    }
 
-	public ActionForward deleteDocument(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-		DocumentDAO docDao = new DocumentDAO(con);
+    public ActionForward deleteDocument(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+        DocumentDAO docDao = new DocumentDAO(con);
 
-		Document doc = docDao.getDocumentById(form.getId());
-		if (doc != null)
-			docDao.delete(doc);
+        Document doc = docDao.getDocumentById(form.getId());
+        if (doc != null)
+            docDao.delete(doc);
 
-		return status(con, form);
-	}
+        return status(con, form);
+    }
 
-	public ActionForward generateDocument(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-		Config config = setup.getConfig(Config.class);
+    public ActionForward generateDocument(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+        Config config = setup.getConfig(Config.class);
 
-		String scope = form.getParam("scope");
-		String objectType = form.getParam("objectType");
-		int objectId = Utils.parseInt(form.getParam("objectId"));
-		int patternId = Utils.parseInt(form.getParam("patternId"));
+        String scope = form.getParam("scope");
+        String objectType = form.getParam("objectType");
+        int objectId = Utils.parseInt(form.getParam("objectId"));
+        int patternId = Utils.parseInt(form.getParam("patternId"));
 
-		Pattern pattern = config.getPattern(scope, patternId);
-		if (pattern == null) {
-			throw new BGException("Не найден шаблон.");
-		}
+        Pattern pattern = config.getPattern(scope, patternId);
+        if (pattern == null) {
+            throw new BGException("Не найден шаблон.");
+        }
 
-		DocumentGenerateEvent event = new DocumentGenerateEvent(form, pattern, objectType,
-				Collections.singletonList(objectId));
-		if (!EventProcessor.processEvent(event, pattern.getScript(), conSet)) {
-			throw new BGException("Не найден класс генерации.");
-		}
+        DocumentGenerateEvent event = new DocumentGenerateEvent(form, pattern, objectType,
+                Collections.singletonList(objectId));
+        if (!EventProcessor.processEvent(event, pattern.getScript(), conSet)) {
+            throw new BGException("Не найден класс генерации.");
+        }
 
-		Document document = event.getResultDocument();
-		
-		HttpServletResponse response = form.getHttpResponse();
+        Document document = event.getResultDocument();
+        
+        HttpServletResponse response = form.getHttpResponse();
 
-		/*
-		 * Что-то уфанетоспецифичное. Вроде как сгенерировать и сразу открыть?
-		 */
-		if ("document".equals(form.getResponseType())) {
-			FileData fileData = new DocumentDAO(conSet.getConnection()).getDocumentById(document.getId()).getFileData();
+        /*
+         * Что-то уфанетоспецифичное. Вроде как сгенерировать и сразу открыть?
+         */
+        if ("document".equals(form.getResponseType())) {
+            FileData fileData = new DocumentDAO(conSet.getConnection()).getDocumentById(document.getId()).getFileData();
 
-			Utils.setFileNameHeades(response, fileData.getTitle());
+            Utils.setFileNameHeades(response, fileData.getTitle());
 
-			OutputStream out = response.getOutputStream();
-			IOUtils.copy(new FileInputStream(new FileDataDAO(conSet.getConnection()).getFile(fileData)), out);
-			out.flush();
+            OutputStream out = response.getOutputStream();
+            IOUtils.copy(new FileInputStream(new FileDataDAO(conSet.getConnection()).getFile(fileData)), out);
+            out.flush();
 
-			return null;
-		}
+            return null;
+        }
 
-		// режим stream
-		if (event.getResultBytes() != null) {
-			// режим отладки
-			if (event.isDebug()) {
-				response.setContentType("text/plain; charset=" + Utils.UTF8.name());
-			} else if (pattern.getType() == Pattern.TYPE_JSP_HTML || pattern.getType() == Pattern.TYPE_XSLT_HTML) {
-				response.setContentType("text/html; charset=" + Utils.UTF8.name());
-			} else {
-				Utils.setFileNameHeades(response, pattern.getDocumentTitle());
-			}
+        // режим stream
+        if (event.getResultBytes() != null) {
+            // режим отладки
+            if (event.isDebug()) {
+                response.setContentType("text/plain; charset=" + Utils.UTF8.name());
+            } else if (pattern.getType() == Pattern.TYPE_JSP_HTML || pattern.getType() == Pattern.TYPE_XSLT_HTML) {
+                response.setContentType("text/html; charset=" + Utils.UTF8.name());
+            } else {
+                Utils.setFileNameHeades(response, pattern.getDocumentTitle());
+            }
 
-			OutputStream out = response.getOutputStream();
-			out.write(event.getResultBytes());
-			out.flush();
+            OutputStream out = response.getOutputStream();
+            out.write(event.getResultBytes());
+            out.flush();
 
-			return null;
-		} else {
-			form.getResponse().setData("document", document);
-			return status(conSet, form);
-		}
-	}
+            return null;
+        } else {
+            form.getResponse().setData("document", document);
+            return status(conSet, form);
+        }
+    }
 
-	@Override
-	protected ActionForward unspecified(ActionMapping mapping, DynActionForm actionForm, Connection con) throws Exception {
-		return documentList(mapping, actionForm, con);
-	}
+    @Override
+    protected ActionForward unspecified(ActionMapping mapping, DynActionForm actionForm, Connection con) throws Exception {
+        return documentList(mapping, actionForm, con);
+    }
 }

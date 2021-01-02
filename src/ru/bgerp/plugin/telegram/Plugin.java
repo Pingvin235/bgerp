@@ -18,9 +18,9 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         super.init(con);
 
         BgerpBot.getInstance();
-        
+
         EventProcessor.subscribe((e, conSet) -> {
             e.getContext().put(ID, new DefaultProcessorFunctions());
-        }, DefaultProcessorChangeContextEvent.class );
+        }, DefaultProcessorChangeContextEvent.class);
     }
 }

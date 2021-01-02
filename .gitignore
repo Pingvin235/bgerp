@@ -13,6 +13,8 @@
 /bgerp*.properties
 /log4j.properties
 
+/lic.data
+
 /.gradle
 /target
 /bin

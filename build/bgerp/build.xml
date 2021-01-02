@@ -35,9 +35,7 @@
 			<fileset file="${basedir}/db_create.sql"/>
 		</concat>
 		<concat destfile="${rootpath}/db_init.sql" encoding="UTF-8">
-			<fileset file="${basedir}/db_init_begin.sql"/>
-			<fileset file="${basedir}/../update/db.sql"/>
-			<fileset file="${basedir}/db_init_end.sql"/>
+			<fileset file="${basedir}/db_init.sql"/>
 		</concat>
 	</target>
 

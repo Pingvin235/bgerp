@@ -20,16 +20,16 @@
 	<input type="hidden" name="action" value="propertiesUpdate"/>
 	<input type="hidden" name="returnUrl" value="${form.returnUrl}"/>
 	<html:hidden property="id"/>
-	
+
 	<c:set var="lastModifyObject" value="${form.response.data.properties}"/>
 	<%@ include file="/WEB-INF/jspf/last_modify_hiddens.jsp"%>
-	
+
 	<ul>
 		<li><a href="#${formUiid}-1">Свойства</a></li><%--
 	--%><li><a href="#${formUiid}-2">Матрица переходов</a></li><%--
 	--%><li><a href="#${formUiid}-3">Группы</a></li>
 	</ul>
-	
+
 	<div id="${formUiid}-1">
 	<div class="in-table-cell">
 			<c:set var="selectorSample" value="${u:uiid()}"/>
@@ -37,23 +37,23 @@
 			<div style="min-width: 350px; max-width: 350px; vertical-align: top;" id="${selectorSample}">
 				<h2>Разрешённые статусы</h2>
 				<ui:select-mult hiddenName="status"
-					 showId="true" moveOn="true" style="width: 100%;" 
+					 showId="true" moveOn="true" style="width: 100%;"
 					 list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"/>
-				
+
 				<div class="in-table-cell">
-					<div style="width: 40%;"> 
+					<div style="width: 40%;">
 						<h2>Статус нач. код</h2>
 						<html:text property="create_status" style="width: 100%;" value="${properties.createStatus}"/>
-					</div>	
+					</div>
 					<div style="width: 60%;" class="pl1">
 						<h2>Статусы кон. через ,</h2>
 						<html:text property="close_status" style="width: 100%;" value="${u:toString( properties.closeStatusIds )}"/>
 					</div>
-				</div>	
-			
-				<h2>Параметры</h2>	
+				</div>
+
+				<h2>Параметры</h2>
 				<ui:select-mult hiddenName="param"
-					showId="true" moveOn="true" showComment="true" style="width: 100%;" 
+					showId="true" moveOn="true" showComment="true" style="width: 100%;"
 					list="${parameterList}" map="${ctxParameterMap}" values="${properties.parameterIds}"/>
 			</div>
 			<div style="width: 100%; height: 100%;" class="pl1" id="${selectorTo}">
@@ -63,18 +63,18 @@
 					<div style="flex: 1;">
 						<c:set var="taUiid" value="${u:uiid()}"/>
 						<textarea id="${taUiid}" name="config" style="resize: vertical; height: 100%; width: 100%;" wrap="off">${form.response.data.config}</textarea>
-					</div>	
-				</div>	
+					</div>
+				</div>
 			</div>
-	   </div>
+		</div>
 	</div>
-	<div id="${formUiid}-2" style="height: 500px;">    
+	<div id="${formUiid}-2" style="height: 500px;">
 		<h2>Матрица разрешенных переходов статусов</h2>
 		<table style="width: 100%;" class="data">
 			<tr>
 				<td>
-					<input type="checkbox" 
-						title="${l.l('Выделить или снять выделение всех')}" 
+					<input type="checkbox"
+						title="${l.l('Выделить или снять выделение всех')}"
 						onchange="$('#${formUiid}-2 input[name=checker]').prop('checked', this.checked).trigger('change');"/>
 					С: &#8595; На: &#8594;
 				</td>
@@ -87,7 +87,7 @@
 			<c:forEach var="itemFrom" items="${statusList}" varStatus="statusFrom">
 				<tr>
 					<td width="200">${itemFrom.title} (${itemFrom.id})</td>
-					
+
 					<c:forEach var="itemTo" items="${statusList}" varStatus="statusTo">
 						<c:set var="cl" value="odd"/>
 						<c:if test="${(statusFrom.count + statusTo.count) mod 2 == 1}">
@@ -97,25 +97,25 @@
 							<%
 								Status statusFrom = (Status)pageContext.getAttribute( "itemFrom" );
 								Status statusTo = (Status)pageContext.getAttribute( "itemTo" );
-								
+
 								ProcessType type = (ProcessType)request.getAttribute( "processType" );
 								if( type != null )
-								{           
+								{
 									TypeProperties typeProperties = type.getProperties();
 									TransactionProperties transProperties = typeProperties.getTransactionProperties( statusFrom.getId(), statusTo.getId() );
 									pageContext.setAttribute( "transProperties", transProperties );
 								}
 							%>
-							
+
 							<c:set var="checked" value=""/>
 							<c:set var="urlConfig" value=""/>
-							
+
 							<c:url var="url" value="/admin/process.do">
 								<c:param name="action" value="transactionCheck"/>
 								<c:param name="id" value="${processType.id}"/>
 								<c:param name="fromStatus" value="${itemFrom.id}"/>
 								<c:param name="toStatus" value="${itemTo.id}"/>
-							
+
 								<c:choose>
 									<c:when test="${transProperties.enable}">
 										<c:set var="checked" value="checked='checked'"/>
@@ -126,7 +126,7 @@
 									</c:otherwise>
 								</c:choose>
 							</c:url>
-							
+
 							<c:if test="${itemFrom.id ne itemTo.id}">
 								<c:choose>
 									<c:when test="${empty checked}">
@@ -140,14 +140,14 @@
 								<input name="checker" onchange="$('#${itemFrom.id}-${itemTo.id}').val('${itemFrom.id}-${itemTo.id}-' + $(this).prop('checked'))" type="checkbox" ${checked}/>
 								<br/>
 								${transProperties.reference}
-							</c:if> 
+							</c:if>
 						</td>
 					</c:forEach>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
-	<div id="${formUiid}-3" style="height: 500px;" class="in-inline-block">	
+	<div id="${formUiid}-3" style="height: 500px;" class="in-inline-block">
 		<div style="width: 50%; height: 500px;">
 			<h2>Начальные</h2>
 			<div id="roleTabsBegin${formUiid}" class="layout-height-rest">
@@ -155,7 +155,7 @@
 				<c:set var="hiddenName" value="beginGroupRole"/>
 				<%@ include file="groups_editor.jsp"%>
 			</div>
-		</div><%-- 
+		</div><%--
 	--%><div style="width: 50%; height: 500px;" class="pl1">
 			<h2>Разрешённые</h2>
 			<div id="roleTabsAllowed${formUiid}" class="layout-height-rest">
@@ -169,14 +169,10 @@
 
 <script>
 	$(function() {
-		$( '#${formUiid}' ).tabs();
-		var $tabs = $( "div#roleTabsBegin${formUiid}" ).tabs( {  spinner: "", refreshButton: false });
-		var $tabs = $( "div#roleTabsAllowed${formUiid}" ).tabs( {  spinner: "", refreshButton: false });
-	})	
-</script>
+		$('#${formUiid}').tabs();
+		$("div#roleTabsBegin${formUiid}").tabs();
+		$("div#roleTabsAllowed${formUiid}").tabs();
 
-<script>
-	$(function () {
 		$$.ui.markChanged($('#${taUiid}'));
 	});
 </script>
@@ -190,9 +186,9 @@
 
 <div class="mt1">
 	<button type="button" class="btn-grey mr1" onclick="$$.ajax.post($('#${formUiid}')[0], {toPostNames: ['config', 'matrix']}).done(() => $$.ajax.load('${editUrl}', $('#${formUiid}').parent()));">ОК</button>
-	<button type="button" class="btn-grey mr1" onclick="$$.ajax.load('${editUrl}', $('#${formUiid}').parent())">Восстановить</button>
-		
-	<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${formUiid}').parent())">К списку типов</button>
+	<button type="button" class="btn-grey mr1" onclick="$$.ajax.load('${editUrl}', $('#${formUiid}').parent())">${l.l('Восстановить')}</button>
+
+	<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${formUiid}').parent())">${l.l('К списку типов')}</button>
 </div>
 
 <shell:state text="${l.l('Свойства типа')}: ${processType.title} #${processType.id}" help="kernel/process/index.html#type"/>

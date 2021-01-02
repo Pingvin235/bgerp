@@ -63,6 +63,8 @@
 				<b>allowedConfigIds</b> - коды разрешённых к просмотру конфигураций через запятую<br/>
 				<b>activeAllow</b> - 0, для запрета установки в активную<br/>
 			</item>
+			<item action="ru.bgcrm.struts.action.admin.ConfigAction:pluginsInit" title="Init plugins"/>
+			<item action="ru.bgcrm.struts.action.admin.ConfigAction:licenseUpload" title="License upload"/>
 		</item>
 
 		<item title="Справочники">

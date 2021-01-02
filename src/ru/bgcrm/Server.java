@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
@@ -138,7 +139,7 @@ public class Server extends Tomcat {
             
             connector.setPort(portHttp);
             connector.setEnableLookups(false);
-            connector.setURIEncoding(Utils.UTF8.name());
+            connector.setURIEncoding(StandardCharsets.UTF_8.name());
             connector.setUseBodyEncodingForURI(true);
             connector.setMaxPostSize(setup.getInt("max.post.size", 10000000));
             connector.setMaxSavePostSize(1000000);
@@ -183,8 +184,8 @@ public class Server extends Tomcat {
             if (con == null)
                 throw new SQLException("SQL connection was null");
         } catch (SQLException e) {
-            log.error("Problem with getting SQL connection, stopping..", e);
-            System.exit(2);
+            log.error(e);
+            Utils.errorAndExit(2, "Problem with getting SQL connection, stopping. See log for details.");
         }
     }
 

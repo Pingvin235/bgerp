@@ -2,6 +2,7 @@ package ru.bgcrm.util.distr.call;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,7 +41,7 @@ public class ExecuteSQL implements InstallationCall {
                 try (var con = pool.getDBConnectionFromPool()) {
                     byte[] file = (byte[]) map.get(param);
 
-                    String query = new String(file, Utils.UTF8);
+                    String query = new String(file, StandardCharsets.UTF_8);
 
                     call(con, query);
 
