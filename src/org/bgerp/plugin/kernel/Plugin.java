@@ -55,7 +55,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     public Iterable<String> getUnusedPaths() {
         return List.of(
             "lib/app/bgcrm.jar", 
-            "plugin"
+            "plugin",
+            "webapps/img/favicon.png"
         );
     }
 }

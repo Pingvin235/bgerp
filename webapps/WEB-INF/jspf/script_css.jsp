@@ -67,7 +67,7 @@
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.shell.js')}"></script>
 
-<link rel="icon" type="image/png" href="/img/favicon.png" />
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
 
 <%--
    МАГИЯ, чтобы input ы, баттоны и div ы одного стиля были одного размера 
