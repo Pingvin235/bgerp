@@ -8,6 +8,7 @@ The log is done it the date reverse order.
 
 == Change log
 [square]
+* <<project.adoc#sample-upload-file, 03.01.2021>> Sample of file upload.
 * <<project.adoc#, 19.12.2020>> Finished translation of project article.
 * <<project.adoc#workflow, 07.12.2020>> Translation of GIT workflow.
 * <<project.adoc#integration-test-opt, 12.11.2020>> Speed up of running of integration tests.
@@ -22,53 +23,4 @@ The log is done it the date reverse order.
 * <<project.adoc#documentation, 25.05.2020>> Documentation write algorithm.
 * <<project.adoc#build-update, 22.05.2020>> Publish change update.
 * <<project.adoc#longlife-branch, 16.02.2020>> Долгоживущие GIT ветки.
-////
-* <<project.adoc#, 10.02.2020>> Множество дополнений в описании проекта для разработчиков: архитектура, workflow, стек технологий.
-* <<kernel/install.adoc#, 03.02.2020>> Уточнены настройки MySQL при установке.
-* <<project.adoc#ide-run, 26.01.2020>> Создание тестовой БД для разработчиков.
-* <<kernel/install.adoc#mysql, 26.01.2020>> Требования и запрос проверки пригодности БД.
-* <<project.adoc#, 28.12.2019>> Существенные дополнения описания проекта для разработчиков: примеры кода, процесс сборки, тесты.
-* <<project.adoc#, 09.11.2019>> Раздел для разработчиков перемещён в конец оглавления.
-* <<project.adoc#ide, 03.11.2019>> Требования к форматированию кода для разработчиков.
-* <<project.adoc#workflow, 01.11.2019>> Значительно переработан и упрощён GIT Workflow.
-* <<project.adoc#action, 29.10.2019>> Информация для разработчиков об обработке запросов, примеры кода.
-* <<project.adoc#, 24.10.2019>> Множественные изменения в "Информации о проекте": настройка IDE, файл с форматером, ссылка на первичную БД.
-* <<project.adoc#samples, 17.10.2019>> "Live Snippets" с примерами кода.
-* <<samples.adoc#erp, 09.10.2019>> Поддержка диаграмм Ditaa, ссылка на примеры из PzdcDoc.
-* <<project.adoc#workflow, 28.09.2019>> Основная ветка GIT изменена на *master*.
-* <<ext/blow_jira.adoc#, 10.09.2019>> Blow JIRA.
-* <<project.adoc#, 23.08.2019>> Информация о проекте.
-* <<kernel/install.adoc#application, 25.06.2019>> Генератор документации вынесен во внешний link:http://pzdcdoc.org[проект PzdcDoc]. Улучшенная навигация по подразделам.
-* <<kernel/process/processing.adoc#commands-bgbilling, 30.04.2019>> Пример скрипта копирования параметров договора BGBilling в процесс. 
-* <<kernel/interface.adoc#, 29.04.2019>> Уведомления интерфейса.
-* <<kernel/message.adoc#queue, 29.04.2019>> Обработка сообщений.
-* <<ext/email_configure.adoc#, 29.04.2019>> Настройка EMail сообщений: общий случай, Yandex, GMail.
-* <<kernel/interface.adoc#user, 27.04.2019>> Более подробное описание обычного интерфейса.
-* <<kernel/install.adoc#installer, 26.04.2019>> Возможность создания резервных копий БД скриптом backup.sh.
-* <<kernel/install.adoc#java, 23.04.2019>> В рекомендуемые версии Java добавлен OpenJDK 1.8.0.
-* 18.04.2019 Более компактное оформление документации.
-* <<kernel/work.adoc#, 16.04.2019>> Актуализирован раздел "Организация работ".
-* <<kernel/process/processing.adoc#commands-kernel, 13.04.2019>> Помечены устаревшие команды.
-* <<kernel/setup.adoc#address, 11.04.2019>> Встроенная в BGBillingClient утилита согласования адресных справочников.
-* 08.04.2019 Описание процесса разработки.
-* <<plugin/report/index.adoc#, 08.04.2019>> Пример отчёта "Вывод должников".
-* <<plugin/report/index.adoc#, 21.03.2019>> Выделены примеры отчётов.
-* <<ext/bgbilling.adoc#, 11.03.2019>> Интеграция с BGBilling.
-* <<kernel/db.adoc#_message, 10.03.2019>> Описание таблицы message.
-* <<kernel/process/queue.adoc#filters, 09.03.2019>> Фильтр очереди процессов message:systemId.
-* 02.03.2019 Методика разработки.
-* <<ext/disconnect_debtors_ktv.adoc#, 14.02.2019>> Отключение должников КТВ.
-* <<ext/asterisk_integration.adoc#, 14.02.2019>> Интеграция с Asterisk.
-* <<ext/dyn_sample.adoc#, 14.02.2019>> Примеры динамического кода.
-* <<kernel/process/index.adoc#linked-process-howto, 06.02.2019>> Рекомендации по использованию связанных процессов.
-* <<ext/service_desk.adoc#, 23.01.2019>> Примеры настройки Workflow, ServiceDesk.
-* <<ext/letter.adoc#, 21.01.2019>> Примеры настройки Workflow, письма.
-* <<kernel/install.adoc#application, 25.12.2018>> Обновлена инструкция по установке.
-* <<kernel/extension.adoc#tech-choice, 24.12.2018>> Выбор технологии для расширения функциональности.
-* <<plugin/document/index.adoc#samples, 06.12.2018>> Примеры шаблонов Акт и Заявка для печати из очереди процессов.
-* <<kernel/message.adoc#dev-plan, 05.12.2018>> Планы развития функционала сообщений.
-* <<plugin/task/index.adoc#dev-plan, 04.12.2018>> Планы развития плагина Task.
-* <<kernel/install.adoc#stored-procedures, 30.12.2018>> Хранимые процедуры при обновлении БД.
-* <<kernel/db.adoc#, 29.12.2018>> Структура БД.
-////
 

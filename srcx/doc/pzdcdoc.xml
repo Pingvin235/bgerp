@@ -3,12 +3,11 @@
 <pzdcdoc>
 	<!-- these attributes applied to each of processed files, may be overvritten inside -->
 	<attributes>
-		<favicon>https://bgerp.ru/img/favicon.png</favicon>
-		<pzdc-javadoc>http://www.bgcrm.ru/doc/3.0/javadoc/</pzdc-javadoc>
+		<favicon>https://bgerp.org/img/favicon-doc.svg</favicon>
+		<pzdc-javadoc>https://bgerp.org/doc/3.0/javadoc/</pzdc-javadoc>
 		<!-- sample of labels customization
 		https://asciidoctor.org/docs/user-manual/#customizing-labels
 		https://github.com/asciidoctor/asciidoctor/blob/master/lib/asciidoctor/document.rb#L255
-		-->
 		<appendix-caption>Приложение</appendix-caption>
 		<caution-caption>Внимание</caution-caption>
 		<example-caption>Пример</example-caption>
@@ -22,5 +21,6 @@
 		<untitled-label>Без названия</untitled-label>
 		<version-label>Версия</version-label>
 		<warning-caption>Предупреждение</warning-caption>
+		-->
 	</attributes>
 </pzdcdoc>

@@ -1035,9 +1035,11 @@ link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L212-L214[ru.bgcrm.
 [[sample-upload-file]]
 === File upload
 JSP page:
-link:../../webapps/WEB-INF/jspf/admin/config/list.jsp#L69-L80[webapps/WEB-INF/jspf/admin/config/list.jsp]
+[snippet, from="<c:set", to="script>", remove-leading="				"]
+link:../../webapps/WEB-INF/jspf/admin/config/list.jsp#L68-L80[webapps/WEB-INF/jspf/admin/config/list.jsp]
 
 Action:
+[snippet, from="public", to="}", remove-leading="    "]
 link:../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L127-L134[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
 
 [[sample-jsp-ui]]
