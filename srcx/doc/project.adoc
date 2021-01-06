@@ -196,13 +196,13 @@ Install VS Code itself and the following extensions:
 * *AsciiDoc*
 * *Eclipse Keymap* - optionally
 
-Visit link:../../.vscode/readme.txt[open] and navigate to `.vscode` catalog in project's DB_USER in order to get some configuration examples.
+Visit link:../../.vscode/readme.txt[open] and navigate to `.vscode` catalog in project's directory in order to get some configuration examples.
 Java formatter and space symbols indicators have been already enabled there.
 
 [[log4j]]
 ==== Logging
 By default,  a running in IDE application uses <<kernel/extension.adoc#log4j, logging configuration>> from `src/log4j.properties`.
-In order to adjust it, copy the file to the project DB_USER (will not be handled by GIT) and make required changes.
+In order to adjust it, copy the file to the project directory (will not be handled by GIT) and make required changes.
 
 [[structure]]
 === File's structure
@@ -210,7 +210,7 @@ Project's folder listing along with description.
 [square]
 * *bin* - IDE-compiled Java classes;
 * *build* - files related to <<build, build>>;
-* *docpattern* - <<plugin/document/index.adoc#, Document>> plugin templates ;
+* *docpattern* - <<plugin/document/index.adoc#, Document>> plugin templates;
 * *dyn* - <<kernel/extension.adoc#dyn, dynamic code>>, with examples;
 * *dyn.ext* - this folder can be used to mount dynamic classes on <<devm, developer's system>>;
 * *filestorage* - file storage when launched from IDE;
@@ -218,7 +218,7 @@ Project's folder listing along with description.
 * *plugin* - <<plugin, plugin>> declarations;
 * *src* - Java source code;
 * *srcx* - <<documentation, documentation>>, <<unit-test, unit-tests>>, <<integration-test, integration tests>>, build utilities sources;
-* *webapps* -  <<js-lib, Web application>> DB_USER;
+* *webapps* -  <<arch, Web application's>> root directory;
 * *work* - folder created by Tomcat for JSP file compilation.
 
 === Libraries
@@ -431,6 +431,7 @@ Hints:
 * If documentation was already corrected in the current branch, you can create a mock branch on the last working state.
 * Use line numbers for searching over failing snippets.
 
+[[arch]]
 == Architecture
 BGERP is a standalone Java application with a dynamic Web-interface.
 When developing, you can <<run, launch>> it directly from IDE.
@@ -719,11 +720,11 @@ All the request parameters are set in class link:../../src/ru/bgcrm/servlet/filt
 [[jsp-function]]
 ===== Functions
 JSP functions are defined in the directory `webapps/WEB-INF/tld`.
-Same as for tags IDEs support autocomplition for them.
+Same as for tags IDEs support autocompletion for them.
 
 IMPORTANT: Most of the functions there are deprecated because of possibility to <<jsp-request-params, call>> Java analogs.
 
-Using semicolumn-separated JSP functions makes sence only for JSP specific things, like in the following cases.
+Using semicolon-separated JSP functions makes sense only for JSP specific things, like in the following cases.
 
 [[jsp-function-uiid]]
 ====== Element IDs
