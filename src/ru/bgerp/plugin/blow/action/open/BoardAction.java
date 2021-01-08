@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.blow.struts.action.open;
+package ru.bgerp.plugin.blow.action.open;
 
 import java.sql.Connection;
 import java.util.Collection;
@@ -16,6 +16,7 @@ import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgerp.plugin.blow.Plugin;
 import ru.bgerp.plugin.blow.dao.BoardDAO;
 import ru.bgerp.plugin.blow.model.Board;
 import ru.bgerp.plugin.blow.model.BoardConfig;
@@ -38,7 +39,7 @@ public class BoardAction extends BaseAction {
             form.setResponseData("board", new Board(boardConf, processes, links));
         }
      
-        return data(con, mapping, form, "show");
+        return data(con, null, Plugin.PATH_JSP_OPEN + "/show.jsp");
     }
 
 }

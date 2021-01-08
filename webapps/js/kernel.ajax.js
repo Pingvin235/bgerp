@@ -339,13 +339,14 @@ $$.ajax = new function() {
 	/**
 	 * File upload.
 	 * @param {*} formId hidden form's CSS ID.
+	 * @param {*} iframeId hidden iframe's CSS ID.
 	 * @param {*} complete callback function on upload is done.
 	 */
-	const upload = function (formId, complete) {
+	const upload = function (formId, iframeId, complete) {
 		const $form = $('#' + formId);
 		$form.iframePostForm({
 			json: true,
-			iframeID: formId + '-iframe',
+			iframeID: iframeId,
 			post: function () {
 				if (!$form.find('input[type=file]').val()) {
 					alert("Missing file!");

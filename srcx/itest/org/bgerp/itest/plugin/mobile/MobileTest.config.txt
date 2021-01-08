@@ -1,3 +1,4 @@
+#
 # Mobile application is available for Android platform. 
 # Request your own server ID by E-Mail !!!
 mobile:serverId=demo

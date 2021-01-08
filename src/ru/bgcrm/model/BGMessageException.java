@@ -1,7 +1,8 @@
 package ru.bgcrm.model;
 
 /**
- * Localized message, not written in log.
+ * Localized message, shown to end user and not written in log.
+ * @author Shamil Vakhitov
  */
 public class BGMessageException extends BGException {
     private final Object[] args;

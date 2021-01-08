@@ -366,7 +366,7 @@ public class MessageAction extends BaseAction {
             messageDao.searchMessageList(new SearchResult<Message>(form), null, form.getParamInt("typeId"),
                     Message.DIRECTION_INCOMING, true, form.getParamBoolean("attach", null),
                     form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null),
-                    CommonDAO.getLikePatternSub(form.getParam("from", null)), reverseOrder);
+                    CommonDAO.getLikePatternSub(form.getParam("from")), reverseOrder);
         } else {
             final List<Message> resultConc = new CopyOnWriteArrayList<>();
             final AtomicInteger unprocessedCount = new AtomicInteger();
@@ -455,7 +455,7 @@ public class MessageAction extends BaseAction {
         MessageDAO messageDao = new MessageDAO(conSet.getConnection());
         messageDao.searchMessageList(new SearchResult<>(form),
                 processIds, allowedTypeIds, null, null, tagId == TagConfig.Tag.TAG_ATTACH_ID ? true : null,
-                form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null), form.getParam("from", null),
+                form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null), form.getParam("from"),
                 true, tagId > 0 ? Collections.singleton(tagId) : null);
         
         Map<Integer, Set<Integer>> messageTagMap = messageDao.getProcessMessageTagMap(processIds);

@@ -176,6 +176,7 @@ Configuration sample of <<install.adoc#nginx, NGINX>> for accessing it from outs
 Beside of some kernel functionality, described below, this interface is also used by following plugins:
 [square]
 * <<../plugin/dispatch/index.adoc#, Dispatch>>; 
+* <<../plugin/feedback/index.adoc#, Feedback>>; 
 * <<../plugin/mobile/index.adoc#, Mobile>>.
 
 [[open-user]]

@@ -1,6 +1,6 @@
 package ru.bgcrm.plugin.document;
 
-import java.util.List;
+import java.util.Set;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "document";
@@ -10,7 +10,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    public Iterable<String> getUnusedPaths() {
-        return List.of("docpattern");
+    public Set<String> getUnusedPaths() {
+        return Set.of("docpattern");
     }
 }

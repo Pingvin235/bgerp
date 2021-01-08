@@ -1,6 +1,5 @@
 package org.bgerp.plugin.kernel;
 
-import java.util.List;
 import java.util.Set;
 
 import ru.bgcrm.dao.IfaceStateDAO;
@@ -52,11 +51,11 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    public Iterable<String> getUnusedPaths() {
-        return List.of(
+    public Set<String> getUnusedPaths() {
+        return Set.of(
             "lib/app/bgcrm.jar", 
             "plugin",
-            "webapps/img/favicon.png"
+            PATH_WEBAPP + "/img/favicon.png"
         );
     }
 }

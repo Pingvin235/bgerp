@@ -17,6 +17,10 @@
 			text-overflow: ellipsis;
 		}
 	</style>
+	<script>
+		// overwrite function from 'user' interface
+		$$.shell.$content = () => $('#content');
+	</script>
 </head>
 
 <body>
@@ -28,8 +32,7 @@
 		<%@ include file="/WEB-INF/jspf/open/profile/url.jsp"%>
 		<%@ include file="/WEB-INF/jspf/open/process/url.jsp"%>
 
-		<c:set var="endpoint" value="open.jsp"/>
-		<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+		<plugin:include endpoint="open.jsp"/>
 	</div>
 </body>
 </html>

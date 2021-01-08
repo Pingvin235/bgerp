@@ -1,0 +1,8 @@
+C: Application version and build format.
+F: License upload, creation of many hidden iframes.
+A: JSP tag plugin:include.
+A: Plugin Feedback, https://bgerp.org/doc/3.0/manual/plugin/feedback/index.html
+A: JSP forwards defined in action.
+A: Plugin's endpoints defined in plugin's Java class.
+A: Better log messages for l10n.
+A: Exception's improvements, getParam() method with validation.

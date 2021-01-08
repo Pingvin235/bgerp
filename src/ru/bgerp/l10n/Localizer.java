@@ -1,9 +1,11 @@
 package ru.bgerp.l10n;
 
+import java.util.List;
+
 import ru.bgerp.util.Log;
 
 /**
- * Translator to a wanted language.
+ * Translator to a wanted language using many {@link Localization} sequentially.
  * @author Shamil
  */
 public class Localizer {
@@ -26,7 +28,7 @@ public class Localizer {
                 return String.format(translation, args);
         }
 
-        log.warn("Missing translation for pattern: '%s'", pattern);
+        log.warn("Missing translation for pattern: '%s', localizations: %s", pattern, List.of(localizations));
 
         return String.format(pattern, args);
     }

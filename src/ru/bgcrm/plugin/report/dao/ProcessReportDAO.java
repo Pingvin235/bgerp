@@ -31,7 +31,7 @@ public class ProcessReportDAO extends ReportDAO {
         Date dateFrom = form.getParamDate("dateFrom", new Date(), true);
         Date dateTo = form.getParamDate("dateTo", new Date(), true);
 
-        String type = form.getParam("type", "create", true);
+        String type = form.getParam("type", "create", true, null);
         if (!StringUtils.equalsAny(type, "create", "close"))
             throw new BGIllegalArgumentException();
         

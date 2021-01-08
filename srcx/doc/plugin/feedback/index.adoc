@@ -1,0 +1,17 @@
+= Plugin FeedBack
+:toc:
+
+The plugin provides adding messages in <<../../kernel/interface.adoc#open, Open>> interface.
+
+[[config]]
+== Configuration
+In <<../../kernel/setup.adoc#config, configuration>> enable plugin and add message <<../../kernel/message.adoc#type-email, type>> of E-Mail, 
+which will be used for saved messages.
+
+Example:
+[source]
+----
+feedback:enable=1
+#
+feedback:messageTypeEmailId=1
+----

@@ -53,7 +53,7 @@ public class CustomerTest {
 
     @Test
     public void addConfig() throws Exception {
-        ConfigHelper.addIncludedConfig("Customer", ResourceHelper.getResource(this, "config.txt"));
+        ConfigHelper.addIncludedConfig("Kernel Customer", ResourceHelper.getResource(this, "config.txt"));
     }
 
     @Test

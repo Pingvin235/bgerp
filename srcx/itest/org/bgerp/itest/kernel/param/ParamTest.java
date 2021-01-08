@@ -11,6 +11,6 @@ public class ParamTest {
     
     @Test
     public void addConfig() throws Exception {
-        ConfigHelper.addIncludedConfig("Parameters", ResourceHelper.getResource(this, "config.txt"));
+        ConfigHelper.addIncludedConfig("Kernel Parameters", ResourceHelper.getResource(this, "config.txt"));
     }
 }

@@ -1,5 +1,9 @@
 package ru.bgcrm.model;
 
+/**
+ * Unexpected situation, not shown to user.
+ * @author Shamil Vakhitov
+ */
 public class BGException extends Exception {
     public BGException() {}
 
@@ -16,7 +20,7 @@ public class BGException extends Exception {
     }
 
     /**
-     * Для вызова в JEXL скриптах.
+     * For calling from scripts.
      * @param message
      * @throws BGException
      */

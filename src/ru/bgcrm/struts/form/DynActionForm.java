@@ -14,6 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
 
 import ru.bgcrm.model.ArrayHashMap;
+import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.AccessLogValve;
@@ -364,24 +366,47 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      * Gets HTTP request parameter.
      * @param name parameter name.
      * @param defaultValue default value if not presented in request.
-     * @param defaultSet  set default value back in request for using in JSP.
+     * @param defaultSet set default value back in request for using in JSP.
+     * @param validate optional value validator.
+     * @throws BGIllegalArgumentException if validation fails.
      * @return
      */
-    public String getParam(String name, String defaultValue, boolean defaultSet) {
-        String value = param.get(name);
+    public String getParam(String name, String defaultValue, boolean defaultSet, Predicate<String> validate) throws BGIllegalArgumentException {
+        var value = getParam(name);
+        
+        if (validate != null && !validate.test(value))
+            throw new BGIllegalArgumentException(name);
+        
         if (value != null)
-            return value.trim();
+            return value;
+            
         if (defaultSet)
             setParam(name, defaultValue);
         return defaultValue;
     }
 
-    public String getParam(String name, String defaultValue) {
-        return getParam(name, defaultValue, false);
+    public String getParam(String name, String defaultValue, Predicate<String> validate) throws BGIllegalArgumentException {
+        return getParam(name, defaultValue, false, validate);
     }
 
+    public String getParam(String name, String defaultValue) throws BGIllegalArgumentException {
+        return getParam(name, defaultValue, null);
+    }
+
+    public String getParam(String name, Predicate<String> validate) throws BGIllegalArgumentException {
+        return getParam(name, null, validate);
+    }
+
+    /**
+     * Gets HTTP request parameter.
+     * @param name
+     * @return a value with applied {@link String#trim()} or null.
+     */
     public String getParam(String name) {
-        return getParam(name, null);
+        var value = param.get(name);
+        if (value != null)
+            value = value.trim();
+        return value;
     }
 
     public void setParam(String name, String value) {

@@ -27,6 +27,7 @@
 ** <<plugin/callboard/index.adoc#, CallBoard>>
 ** <<plugin/dispatch/index.adoc#, Dispatch>>
 ** <<plugin/document/index.adoc#, Document>>
+** <<plugin/feedback/index.adoc#, Feedback>>
 ** <<plugin/fulltext/index.adoc#, FullText>>
 ** <<plugin/mobile/index.adoc#, Mobile>>
 ** <<plugin/phpbb/index.adoc#, PHPBB>>

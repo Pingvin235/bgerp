@@ -6,16 +6,16 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.util.ParameterMap;
 
 /**
- * Принцип изоляции пользователя.
+ * User isolation rules.
  * 
- * @author Shamil
+ * @author Shamil Vakhitov
  */
 public class IsolationConfig extends ru.bgcrm.util.Config {
     private final IsolationProcess isolationProcess; 
     
-    protected IsolationConfig(ParameterMap setup, boolean validate) throws BGMessageException {
-        super(setup, validate);
-        isolationProcess = loadProcessIsolation(setup);
+    protected IsolationConfig(ParameterMap config, boolean validate) throws BGMessageException {
+        super(config, validate);
+        isolationProcess = loadProcessIsolation(config);
     }
     
     public IsolationProcess getIsolationProcess() {

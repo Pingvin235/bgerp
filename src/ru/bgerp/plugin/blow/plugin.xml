@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<plugin>
-	<endpoint id="user.menu.items.jsp" file="/WEB-INF/jspf/user/plugin/blow/menu_items.jsp"/>
-	<endpoint id="js" file="/js/pl.blow.js"/>
-	<endpoint id="css.jsp" file="/css/style.blow.css.jsp"/>
-	<endpoint id="open.jsp" file="/WEB-INF/jspf/open/plugin/blow/url.jsp"/>
-</plugin>

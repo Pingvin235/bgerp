@@ -29,16 +29,26 @@ import ru.bgerp.util.Log;
 public abstract class Plugin {
     private static final Log log = Log.getLog();
 
+    protected static final String PATH_WEBAPP = "webapps";
+
+    protected static final String PATH_JS = "/js";
+    protected static final String PATH_CSS = "/css";
+
+    protected static final String PATH_JSP = "/WEB-INF/jspf";
+    public static final String PATH_JSP_USER = PATH_JSP + "/user";
+    protected static final String PATH_JSP_USER_PLUGIN = PATH_JSP_USER + "/plugin";
+    public static final String PATH_JSP_OPEN = PATH_JSP + "/open";
+    protected static final String PATH_JSP_OPEN_PLUGIN = PATH_JSP_OPEN + "/plugin";
+
     private final String id;
+    /** Old way of plugin definition. XML document storing at most only endpoints. */
     private final Document document;
-    private final Map<String, String> endpoints = new HashMap<>();
+    private final Map<String, String> endpoints;
 
     protected Plugin(String id) {
         this.id = id;
         this.document = getXml("plugin.xml", XMLUtils.newDocument());
-        for (Element endpoint : XMLUtils.selectElements(document, "/plugin/endpoint")) {
-            this.endpoints.put(endpoint.getAttribute("id"), endpoint.getAttribute("file"));
-        }
+        this.endpoints = loadEndpoints();
     }
 
     /**
@@ -76,6 +86,21 @@ public abstract class Plugin {
     }
 
     /**
+     * Default implementation, loads endpoints from the XML {@link #document}.
+     * Deprecated way, for backward compatibility only.
+     * @return
+     */
+    protected Map<String, String> loadEndpoints() {
+        Map<String, String> endpoints = new HashMap<>(20);
+        if (this.document != null) {
+            for (Element endpoint : XMLUtils.selectElements(document, "/plugin/endpoint")) {
+                endpoints.put(endpoint.getAttribute("id"), endpoint.getAttribute("file"));
+            }
+        }
+        return Collections.unmodifiableMap(endpoints);
+    }
+
+    /**
      * Gets path of a file, placed int the plugin's package.
      * @param name name of the file.
      * @return
@@ -86,7 +111,7 @@ public abstract class Plugin {
     }
 
     /**
-     * Endpoints from plugin's document {@link #getDocument()}.
+     * Endpoints for connecting the plugin in JSP templates.
      * @return
      */
     public Map<String, String> getEndpoints() {
@@ -159,11 +184,19 @@ public abstract class Plugin {
     }
 
     /**
+     * Owned directories, used for removing of excess files on unpacking of update.zip.
+     * @return
+     */
+    public Set<String> getOwnedPaths() {
+        return Collections.emptySet();
+    }
+
+    /**
      * Outdated path, used by plugin. Related to the application's root directory.
      * May be used for cleaning up of old files and directories.
      * @return
      */
-    public Iterable<String> getUnusedPaths() {
-        return Collections.emptyList();
+    public Set<String> getUnusedPaths() {
+        return Collections.emptySet();
     }
 }

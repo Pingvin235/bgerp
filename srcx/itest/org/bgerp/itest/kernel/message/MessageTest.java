@@ -23,13 +23,14 @@ public class MessageTest {
     public static volatile Tag tagAccess;
     public static volatile Tag tagSpecification;
     public static volatile Tag tagTodo;
+    public static volatile Tag tagOpen;
     
     @Test
     public void addConfig() throws Exception {
         var config = 
                 ConfigHelper.generateConstants("PARAM_CUSTOMER_EMAIL_ID", CustomerTest.paramEmailId) +
                 ResourceHelper.getResource(this, "config.messages.txt");
-        configId = ConfigHelper.addIncludedConfig("Messages", config);
+        configId = ConfigHelper.addIncludedConfig("Kernel Messages", config);
         
         ConfigHelper.addToConfig(org.bgerp.itest.kernel.scheduler.SchedulerTest.configId, ResourceHelper.getResource(this, "config.scheduler.txt"));
 
@@ -41,5 +42,6 @@ public class MessageTest {
         Assert.assertNotNull(tagAccess = tagsConfig.getTagMap().get(1));
         Assert.assertNotNull(tagSpecification = tagsConfig.getTagMap().get(2));
         Assert.assertNotNull(tagTodo = tagsConfig.getTagMap().get(3));
+        Assert.assertNotNull(tagOpen = tagsConfig.getTagMap().get(4));
     }
 }

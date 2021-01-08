@@ -73,7 +73,7 @@
 				</form>
 				<script>
 					$(function () {
-						$$.ajax.upload('${uploadFormId}', function () {
+						$$.ajax.upload('${uploadFormId}', 'lic-upload-iframe', function () {
 							$$.ajax.load('${form.requestUrl}', $$.shell.$content());
 						});
 					});

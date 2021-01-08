@@ -10,4 +10,5 @@
 --%><%@ taglib uri="http://bgerp.org/jsp/taglib/util" prefix="u"%><%--
 --%><%@ taglib uri="http://bgerp.org/jsp/taglib/permission" prefix="p"%><%--
 --%><%@ taglib tagdir="/WEB-INF/tags/ui" prefix="ui"%><%--
---%><%@ taglib tagdir="/WEB-INF/tags/shell" prefix="shell"%>
+--%><%@ taglib tagdir="/WEB-INF/tags/shell" prefix="shell"%><%--
+--%><%@ taglib tagdir="/WEB-INF/tags/plugin" prefix="plugin"%>

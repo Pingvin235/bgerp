@@ -10,6 +10,6 @@ public class SchedulerTest {
     
     @Test
     public void addConfig() throws Exception {
-        configId = ConfigHelper.addIncludedConfig("Scheduler", ResourceHelper.getResource(this, "config.txt"));
+        configId = ConfigHelper.addIncludedConfig("Kernel Scheduler", ResourceHelper.getResource(this, "config.txt"));
     }
 }

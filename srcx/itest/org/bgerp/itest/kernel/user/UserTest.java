@@ -27,9 +27,10 @@ public class UserTest {
 
     public static volatile int permsetAdminsId;
 
+    public static int pos = 0;
+
     @Test
     public void addParams() throws Exception {
-        int pos = 0;
         paramEmailId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_EMAIL, "E-Mail(s)", pos += 2, ParamTest.MULTIPLE, "");
         paramCellPhoneId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_PHONE, "Cell phone(s)", pos += 2, "", "");
     }

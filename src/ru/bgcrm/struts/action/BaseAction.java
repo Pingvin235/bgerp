@@ -31,6 +31,7 @@ import ru.bgcrm.dao.Locker;
 import ru.bgcrm.dao.WebRequestLogDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.Lock;
@@ -286,9 +287,11 @@ public class BaseAction extends DispatchAction {
                 LoginStat.getLoginStat().actionWasCalled(request.getSession());
             }
 
-            resultStatus = "Successful";
+            resultStatus = "Successfully";
         } catch (BGMessageException ex) {
             resultStatus = l.l(ex.getMessage(), ex.getArgs());
+            if (ex instanceof BGIllegalArgumentException)
+                form.setResponseData("paramName", ((BGIllegalArgumentException) ex).getName());
             return sendError(form, resultStatus);
         } catch (Throwable ex) {
             resultStatus = ex.getMessage();
@@ -380,7 +383,7 @@ public class BaseAction extends DispatchAction {
 
     /**
      * Returns Struts forward by name.
-     * @param con
+     * @param conSet
      * @param mapping
      * @param form
      * @param name forward's name.
@@ -399,6 +402,33 @@ public class BaseAction extends DispatchAction {
                 return new ActionForward(form.getForwardFile());
             }
             return mapping.findForward(name);
+        }
+    }
+
+    /**
+     * Returns Struts forward by file path.
+     * @param con
+     * @param form
+     * @param path JSP path.
+     * @return
+     */
+    protected ActionForward data(Connection con, DynActionForm form, String path) {
+        return data(new SingleConnectionConnectionSet(con), form, path);
+    }
+
+    /**
+     * Returns Struts forward by file path.
+     * @param conSet
+     * @param form
+     * @param path JSP path.
+     * @return
+     */
+    protected ActionForward data(ConnectionSet conSet, DynActionForm form, String path) {
+        // response requested in JSON (API call)
+        if (form != null && DynActionForm.RESPONSE_TYPE_JSON.equalsIgnoreCase(form.getResponseType())){
+            return status(conSet, form);
+        } else {
+            return new ActionForward(path);
         }
     }
 

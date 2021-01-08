@@ -163,10 +163,7 @@
 			<forward name="show" path="/WEB-INF/jspf/open/profile/show.jsp"/>
 		</action>
 
-		<action path="/open/process" parameter="action" type="org.bgerp.action.open.ProcessAction" name="form" scope="request">
-			<forward name="show" path="/WEB-INF/jspf/open/process/show.jsp"/>
-			<forward name="messages" path="/WEB-INF/jspf/open/process/messages.jsp"/>
-		</action>
+		<action path="/open/process" parameter="action" type="org.bgerp.action.open.ProcessAction" name="form" scope="request"/>
 	</action-mappings>
 
 	<plug-in className="org.apache.struts.tiles.TilesPlugin">

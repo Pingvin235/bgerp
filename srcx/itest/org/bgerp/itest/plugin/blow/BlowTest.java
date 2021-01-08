@@ -4,6 +4,7 @@ import org.bgerp.itest.configuration.department.development.DevelopmentTest;
 import org.bgerp.itest.configuration.department.sales.SalesTest;
 import org.bgerp.itest.configuration.department.support.SupportTest;
 import org.bgerp.itest.helper.ConfigHelper;
+import org.bgerp.itest.helper.PluginHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.testng.annotations.Test;
@@ -14,7 +15,8 @@ public class BlowTest {
 
     @Test
     public void initConfig() throws Exception {
-        configId = ConfigHelper.addIncludedConfig("Plugin Blow", ResourceHelper.getResource(this, "config.txt"));
+        configId = ConfigHelper.addIncludedConfig("Plugin Blow", 
+            PluginHelper.initPlugin(new ru.bgerp.plugin.blow.Plugin()) + ResourceHelper.getResource(this, "config.txt"));
     }
 
     @Test (dependsOnMethods = "initConfig")

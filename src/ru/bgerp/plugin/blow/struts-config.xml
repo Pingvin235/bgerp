@@ -6,8 +6,6 @@
 			<forward name="show" path="/WEB-INF/jspf/user/plugin/blow/board/show.jsp"/>
 			<forward name="search" path="/WEB-INF/jspf/user/plugin/blow/board/search.jsp"/>
 		</action>
-		<action path="/open/plugin/blow/board" parameter="action" type="ru.bgerp.plugin.blow.struts.action.open.BoardAction" name="form" scope="request">
-			<forward name="show" path="/WEB-INF/jspf/open/plugin/blow/show.jsp"/>
-		</action>
+		<action path="/open/plugin/blow/board" parameter="action" type="ru.bgerp.plugin.blow.action.open.BoardAction" name="form" scope="request"/>
 	</action-mappings>
 </struts-config>

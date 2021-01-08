@@ -1,11 +1,13 @@
 #
 # message tags
-tag.1.title=Access
+tag.1.title=ACCESS
 tag.1.color=red
-tag.2.title=Specification
+tag.2.title=SPEC
 tag.2.color=green
 tag.3.title=TODO
 tag.3.color=magenta
+tag.4.title=OPEN
+tag.4.color=green
 #
 SIGN_TEXT=NEW_LINE + "Best regards, team BGERP DEMO" + NEW_LINE +  "tel. +7(347)29248xx" + NEW_LINE + "email. demo@bgerp.org" + NEW_LINE
 #

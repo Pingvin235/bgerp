@@ -13,7 +13,9 @@ import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
+import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
+import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
@@ -21,6 +23,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class ProcessAction extends BaseAction {
+    private static final String PATH_JSP =  Plugin.PATH_JSP_OPEN + "/process";
 
     public static class Config extends ru.bgcrm.util.Config {
         private final Set<Integer> processTypeIds;
@@ -42,6 +45,10 @@ public class ProcessAction extends BaseAction {
             
             showMessagesTagIds = Utils.toIntegerSet(setup.get("process.open.show.message.tagIds"));
             showLinkCustomer = setup.getBoolean("process.open.show.link.customer", false);
+        }
+
+        public boolean isOpen(Process process) {
+            return process != null && processTypeIds.contains(process.getTypeId());
         }
 
         public Set<Integer> getProcessTypeIds() {
@@ -69,7 +76,7 @@ public class ProcessAction extends BaseAction {
         var con = conSet.getSlaveConnection();
 
         var process = new ProcessDAO(con).getProcess(form.getId());
-        if (process == null || !config.getProcessTypeIds().contains(process.getTypeId()))
+        if (config == null || !config.isOpen(process))
             return null;
 
         var type = ru.bgcrm.struts.action.ProcessAction.getProcessType(process.getTypeId());
@@ -79,12 +86,14 @@ public class ProcessAction extends BaseAction {
         form.getHttpRequest().setAttribute("config", config);
         form.setResponseData("process", process);
 
-        return data(conSet, mapping, form);
+        return data(conSet, form, PATH_JSP + "/show.jsp");
     }
 
     public ActionForward messages(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         var config = setup.getConfig(Config.class);
-        if (config == null || config.getShowMessagesTagIds().isEmpty()) 
+        var process = new ProcessDAO(conSet.getSlaveConnection()).getProcess(form.getId());
+        if (config == null || !config.isOpen(process)
+            || config.getShowMessagesTagIds().isEmpty()) 
             return null;
 
         var dao = new MessageDAO(conSet.getSlaveConnection());
@@ -96,6 +105,6 @@ public class ProcessAction extends BaseAction {
                 form.getId(), null, null, null, null,
                 null, null, null, true, config.getShowMessagesTagIds());
         
-        return data(conSet, mapping, form);
+        return data(conSet, form, PATH_JSP + "/messages.jsp");
     }
 }

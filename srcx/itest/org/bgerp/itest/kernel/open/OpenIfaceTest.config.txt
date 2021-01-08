@@ -1,0 +1,7 @@
+#
+user.open.enable.paramId={@USER_ENABLE_PARAM_ID}
+user.open.show.paramIds={@USER_SHOW_PARAM_IDS}
+#
+process.open.typeIds={@PROCESS_IDS}
+process.open.show.paramIds={@PROCESS_SHOW_PARAM_IDS}
+process.open.show.message.tagIds={@MESSAGE_OPEN_TAG_IDS}

@@ -1,2 +1,3 @@
+#
 report:report.3.title=Processes
 report:report.3.daoClass=ru.bgcrm.plugin.report.dao.ProcessReportDAO

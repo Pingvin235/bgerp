@@ -534,19 +534,19 @@ This file defines extension points:
 * JSP templates;
 * JS files.
 
-[[plugin-xml-ui-menu]]
+[[plugin-ui-menu]]
 ===== Menu items
-Extension points definition within XML declaration:
-[snippet, from="<en", to=">", remove-leading="	"]
-link:../../src/ru/bgerp/plugin/blow/plugin.xml#L4-L4[blow/plugin.xml]
+Extension points definition within Plugin class:
+[snippet, from="Endpoint.USER_MENU", to=",", remove-leading="            "]
+link:../../src/ru/bgerp/plugin/blow/Plugin.java#L22-L22[ru.bgerp.plugin.blow.Plugin]
 
-Example of adding a menu item using JSP tag: link:../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
+Adding a menu item using JSP tag: link:../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
 
-[[plugin-xml-js]]
+[[plugin-js]]
 ===== JavaScript
-Extension points definition within XML declaration:
-[snippet, from="<en", to=">", remove-leading="	"]
-link:../../src/ru/bgerp/plugin/blow/plugin.xml#L5-L5[blow/plugin.xml]
+Extension points definition within Plugin declaration:
+[snippet, from="Endpoint.JS", to=",", remove-leading="            "]
+link:../../src/ru/bgerp/plugin/blow/Plugin.java#L20-L20[ru.bgerp.plugin.blow.Plugin]
 
 File containing script: link:../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
 
@@ -591,7 +591,7 @@ Action has to extend javadoc:ru.bgcrm.struts.action.BaseAction[] class, its meth
 First method gets processed by JSP forward page and sends HTML back to the client. Second one is used to perform changes and only returns JSON-based change execution result.
 
 [[action-form]]
-====== Form Object
+===== Form Object
 Each action class method call gets a *form object*  javadoc:ru.bgcrm.struts.form.DynActionForm[] as a parameter. This object contains a context of request's execution;
 [square]
 * User;
@@ -743,7 +743,7 @@ image::_res/ide_jsp_tag.png[width='600px']
 link:../../webapps/test.jsp[webapps/test.jsp] provides several examples of using JSP tags with user control elements.
 Navigate to http://<host>:<port>/test.jsp in order to invoke template execution, alternatively visit a Demo server: https://demo.bgerp.org/test.jsp
 
-For kernel, link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp] file defines menu items which are used to match URL and Java Action. For plugins this is done via <<plugin-xml-ui-menu, extension>> points.
+For kernel, link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp] file defines menu items which are used to match URL and Java Action. For plugins this is done via <<plugin-ui-menu, extension>> points.
 
 [[jsp-tag-u-sc]]
 ====== u:sc
@@ -777,7 +777,7 @@ A typical scheme for attaching JS code to HTML is to setup event handler with a 
 
 Deprecated JS functions are marked using the following method:
 [snippet, from="fun", to="}"]
-link:../../webapps/js/kernel.ajax.js#L375-L380[webapps/js/kernel.ajax.js]
+link:../../webapps/js/kernel.ajax.js#L376-L381[webapps/js/kernel.ajax.js]
 
 When such a function gets invoked, browser console gets a "clickable" "Deprecated" message which allows to find a this deprecated function call
 It is forbidden to use those functions in the new code, usage has to be decreased in the existing code over time.
