@@ -173,7 +173,7 @@
 		$("div#roleTabsBegin${formUiid}").tabs();
 		$("div#roleTabsAllowed${formUiid}").tabs();
 
-		$$.ui.markChanged($('#${taUiid}'));
+		$$.ui.codeMirror('${taUiid}');
 	});
 </script>
 

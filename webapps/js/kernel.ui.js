@@ -4,13 +4,6 @@
 "use strict";
 
 $$.ui = new function() {
-	const markChanged = ($element) => {
-		const originalConfig = $element.val();
-		$element.on("input", () => {
-			$element.css("border", originalConfig !== $element.val() ? "1px solid red" : "");
-		});
-	}
-
 	const comboSingleInit = ($comboDiv, onSelect) => {
 		var $drop = $comboDiv.find('ul.drop');
 
@@ -299,8 +292,26 @@ $$.ui = new function() {
 		}, 0);
 	}
 
+	const codeMirror = (id) => {
+		const ta = document.getElementById(id);
+		const editor = CodeMirror.fromTextArea(ta, {
+			mode:"properties",
+			lineNumbers: true,
+			styleActiveLine: true,
+			matchBrackets: true
+		});
+
+		const $ta = $(ta);
+		const originalConfig = editor.getValue();
+		editor.on('change', () => {
+			$ta.next('.CodeMirror').toggleClass('CodeMirror-changed', editor.getValue() !== originalConfig);
+			$ta.val(editor.getValue());
+		});
+		
+		return editor;
+	}
+
 	// доступные функции
-	this.markChanged = markChanged;
 	this.comboSingleInit = comboSingleInit;
 	this.comboInputs = comboInputs;
 	this.comboCheckUncheck = comboCheckUncheck;
@@ -314,6 +325,7 @@ $$.ui = new function() {
 	this.showError = showError;
 	this.tabsLoaded = tabsLoaded;
 	this.inputFocus = inputFocus;
+	this.codeMirror = codeMirror;
 }
 
 

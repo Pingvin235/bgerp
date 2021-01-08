@@ -65,10 +65,10 @@
 	</div>
 </html:form>
 
-<shell:state text="${l.l('Редактор')}" help="http://www.bgcrm.ru/doc/3.0/manual/kernel/setup.html#config"/>
+<shell:state text="${l.l('Редактор')}" help="kernel/setup.html#config"/>
 
 <script>
 	$(function () {
-		$$.ui.markChanged($('#${taUiid}'));
+		$$.ui.codeMirror('${taUiid}');
 	});
 </script>

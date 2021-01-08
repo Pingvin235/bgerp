@@ -69,7 +69,7 @@
 
 <script>
 	$(function () {
-		$$.ui.markChanged($('#${taUiid}'));
+		$$.ui.codeMirror('${taUiid}');
 	});
 </script>
 

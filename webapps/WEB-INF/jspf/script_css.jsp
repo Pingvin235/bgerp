@@ -77,6 +77,13 @@
 --%>
 <link type="text/css" href="/css/normalize.css" rel="stylesheet"/>
 
+<%-- codemirror --%>
+<link type="text/css" href="/lib/codemirror/lib/codemirror.css" rel ="stylesheet">
+<link type="text/css" href="/lib/codemirror/bgerp.css" rel ="stylesheet">
+<script src="/lib/codemirror/lib/codemirror.js"></script>
+<script src="/lib/codemirror/mode/properties/properties.js"></script>
+<script src="/lib/codemirror/addon/selection/active-line.js"></script>
+<script src="/lib/codemirror/addon/edit/matchbrackets.js"></script>
 
 <style type="text/css">
 	<%@include file="/css/style.css.jsp"%>
