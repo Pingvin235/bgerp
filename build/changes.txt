@@ -1,6 +1,26 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+09.01.2021 13:07:39 1370
+C: [12333] Application version and build format.
+F: [12333] License upload, creation of many hidden iframes.
+A: [12333] JSP tag plugin:include.
+A: [12333] Plugin Feedback, https://bgerp.org/doc/3.0/manual/plugin/feedback/index.html
+A: [12333] JSP forwards defined in action.
+A: [12333] Plugin's endpoints defined in plugin's Java class.
+A: [12333] Better log messages for l10n.
+A: [12333] Exception's improvements, getParam() method with validation.
+C: [13836] SVG icon.
+A: [13875] Highlight on changes in configurations.
+A: [13901] New plugin's system with signed license.
+A: [13901] Plugin 'kernel', common logic for plugin's configuration.
+C: [13901] Enhanced exit with error.
+C: [13901] Unified dependencies format build.gradle.
+A: [13901] Enhanced message with process ID on checking dependent processes by closing.
+A: [13901] Shown list of enabled plugins and content of a license.
+C: [13901] Disabled periodic reload of l10n.
+C: [13901] Missing translation message to WARN level.
+
 28.12.2020 17:16:37 1369
 A: [14069] Custom localization, https://bgerp.org/doc/3.0/manual/project.html#l10n
 A: [14086] Permission options for message actions.
