@@ -238,7 +238,7 @@ public class JSPFunction {
     }
 
     public static Object getConfig(ParameterMap setup, String className) {
-        return setup == null ? null :setup.getConfig(className);
+        return setup == null ? null : setup.getConfig(className);
     }
 
     public static Object newInstance(String className) throws Exception {

@@ -24,8 +24,8 @@ public class LoginAction extends BaseAction {
                 LoginEventListener.addOnLoginEvent(form.getUserId(), new UrlOpenEvent(url));
         }
         
-        form.getHttpRequest().setAttribute("l", Localization.getLocalizer());
-
+        form.setRequestAttribute("l", Localization.getSysLocalizer());
+        
         // вывод страницы авторизации если responseType=html
         return data(conSet, mapping, form, FORWARD_DEFAULT);
     }

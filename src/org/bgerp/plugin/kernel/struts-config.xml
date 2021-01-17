@@ -164,6 +164,7 @@
 		</action>
 
 		<action path="/open/process" parameter="action" type="org.bgerp.action.open.ProcessAction" name="form" scope="request"/>
+		<action path="/open/process/queue" parameter="action" type="org.bgerp.action.open.ProcessQueueAction" name="form" scope="request"/>
 	</action-mappings>
 
 	<plug-in className="org.apache.struts.tiles.TilesPlugin">

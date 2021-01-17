@@ -38,8 +38,8 @@ public class ParameterMapTest {
     private static class TestConfigCache extends Config {
         private static final AtomicInteger constructorCalled = new AtomicInteger();
 
-        protected TestConfigCache(ParameterMap setup, boolean validate) {
-            super(setup, validate);
+        protected TestConfigCache(ParameterMap setup) {
+            super(setup);
             constructorCalled.incrementAndGet();
         }
     }

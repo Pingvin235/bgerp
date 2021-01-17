@@ -7,17 +7,26 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgerp.util.Log;
 
+/**
+ * Queue sort options. Sorting is defined in list of comboboxes.
+ * @author Shamil Vakhitov
+ */
 public class SortSet {
     private static final Log log = Log.getLog();
 
     private int comboCount;
-    private List<SortMode> modeList = new ArrayList<SortMode>();
-    private Map<Integer, Integer> defaultSortValues = new HashMap<Integer, Integer>();
-    private SortedMap<Integer, Integer> sortValues = new TreeMap<Integer, Integer>();
+    private final List<SortMode> modeList = new ArrayList<>();
+    private final Map<Integer, Integer> defaultSortValues = new HashMap<>();
+    private final SortedMap<Integer, Integer> sortValues = new TreeMap<>();
 
+    /**
+     * Quantity of sequential comboboxes, available for sorting.
+     * @return
+     */
     public int getComboCount() {
         return comboCount;
     }
@@ -26,6 +35,10 @@ public class SortSet {
         this.comboCount = comboCount;
     }
 
+    /**
+     * List of modes, available for choose in each of combos.
+     * @return
+     */
     public List<SortMode> getModeList() {
         return modeList;
     }
@@ -34,27 +47,46 @@ public class SortSet {
         this.modeList.add(mode);
     }
 
-    public void setDefaultSortValue(int comboNum, int value) {
-        defaultSortValues.put(comboNum, value);
+    /**
+     * Strictly defined sort modes for each of combo.
+     * Key - 0 based combo id, value - ID of a sort mode.
+     * @return
+     */
+    public SortedMap<Integer, Integer> getSortValues() {
+        return sortValues;
     }
 
     public void setSortValue(int comboNum, int value) {
         sortValues.put(comboNum, value);
     }
 
-    public SortedMap<Integer, Integer> getSortValues() {
-        return sortValues;
-    }
-
+    /**
+     * Default sort modes for each of combo, if nope of {@link #getSortValues()} and HTTP request options set.
+     * @return
+     */
     public Map<Integer, Integer> getDefaultSortValues() {
         return defaultSortValues;
     }
 
+    public void setDefaultSortValue(int comboNum, int value) {
+        defaultSortValues.put(comboNum, value);
+    }
+
     /**
-     * Returns strictly defined sort orders.
+     * Comma separated SQL column numbers, using for sorting.
+     * @param form request's parameters.
      * @return
      */
-    public String getOrders() {
+    public String getOrders(DynActionForm form) {
+        String orders = getOrders(sortValues);
+        if (Utils.isBlankString(orders) && form != null )
+            orders = Utils.toString(form.getSelectedValuesListStr("sort", "0"));
+        if (Utils.isBlankString(orders))
+            orders = getOrders(defaultSortValues);
+        return orders;
+    }
+
+    private String getOrders(Map<Integer, Integer> sortValues) {
         var result = new StringBuilder("");
         for (Integer value : sortValues.values()) {
             int pos = value - 1;

@@ -25,6 +25,9 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class ProcessAction extends BaseAction {
     private static final String PATH_JSP =  Plugin.PATH_JSP_OPEN + "/process";
 
+    /**
+     * Configuration for open processes.
+     */
     public static class Config extends ru.bgcrm.util.Config {
         private final Set<Integer> processTypeIds;
         private final List<Integer> showParamIds;

@@ -10,7 +10,7 @@ public class FilterOpenClose extends Filter {
 
     public FilterOpenClose(int id, ParameterMap filter) {
         super(id, filter);
-        defaultValue = filter.get("defaultValue");
+        defaultValue = filter.get("defaultValue", OPEN);
     }
 
     public String getDefaultValue() {

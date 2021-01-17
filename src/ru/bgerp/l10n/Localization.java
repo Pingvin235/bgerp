@@ -8,14 +8,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import ru.bgcrm.plugin.Lang;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
+import ru.bgcrm.servlet.filter.AuthFilter;
 import ru.bgcrm.util.Setup;
+import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 import ru.bgerp.util.Log;
 
@@ -26,12 +30,21 @@ import ru.bgerp.util.Log;
 public class Localization {
     private static final Log log = Log.getLog();
 
+    public static final String LANG_RU = Lang.RU.getId();
+    public static final String LANG_EN = Lang.EN.getId();
+    public static final String LANG_DE = Lang.DE.getId();
+
     /** Custom localizations may be placed in the custom/l10n.xml file in the application's directory. */
     private static final String PLUGIN_CUSTOM = "custom";
 
     private static final String FILE_NAME = "l10n.xml";
     /** Localizations of plugins. */
     private static volatile Map<String, Localization> localizations;
+
+    private static final String PLUGIN_URI_PREFIX = "/plugin/";
+    private static final int PLUGIN_URI_PREFIX_LENGTH = PLUGIN_URI_PREFIX.length();
+
+    private static final String LANG_KEY_NAME = "lang";
 
     // end of static part
     private final String pluginId;
@@ -82,16 +95,38 @@ public class Localization {
      * @return
      */
     public static Localizer getLocalizer(HttpServletRequest request) {
-        final String pluginUrl = "/plugin/";
+        return getLocalizer(getPluginIdFromURI(request), getToLang(request));
+    }
 
-        String plugin = null;
+    private static String getPluginIdFromURI(HttpServletRequest request) {
+        String pluginId = null;
 
-        String url = ((HttpServletRequest) request).getRequestURI();
-        int pos = url.indexOf(pluginUrl);
+        String url = request.getRequestURI();
+        int pos = url.indexOf(PLUGIN_URI_PREFIX);
         if (pos > 0)
-            plugin = StringUtils.substringBefore(url.substring(pos + pluginUrl.length()), "/");
+            pluginId = StringUtils.substringBefore(url.substring(pos + PLUGIN_URI_PREFIX_LENGTH), "/");
 
-        return getLocalizer(plugin);
+        return pluginId;
+    }
+
+    public static String getToLang(HttpServletRequest request) {
+        String result = null;
+        
+        // open interface
+        if (AuthFilter.getUser(request) == null) {
+            result = request.getParameter(LANG_KEY_NAME);
+            
+            HttpSession session = request.getSession(false);
+            if (Utils.isBlankString(result) && session != null)
+                result = (String) session.getAttribute(LANG_KEY_NAME);
+
+            request.getSession().setAttribute(LANG_KEY_NAME, result);
+        }
+
+        if (Utils.isBlankString(result))
+            result  = Setup.getSetup().get("lang", LANG_RU);
+
+        return result;
     }
 
     /**
@@ -100,10 +135,9 @@ public class Localization {
      * custom if exists, than for kernel and after for the plugin itself.
      *
      * @param pluginId plugin ID, null - for kernel
+     * @param toLang target language's ID: {@link #LANG_RU}, {@link #LANG_EN}, {@link #LANG_DE}
      */
-    public static Localizer getLocalizer(String pluginId) {
-        String toLang = Setup.getSetup().get("lang", "ru");
-
+    public static Localizer getLocalizer(String pluginId, String toLang) {
         loadLocalizations();
 
         var localizations = new ArrayList<Localization>(3);
@@ -127,12 +161,11 @@ public class Localization {
     }
 
     /**
-     * Localizer for kernel only.
+     * Localizer for kernel only to English.
      * @return
      */
-    @Deprecated
-    public static Localizer getLocalizer() {
-        return getLocalizer((String) null);
+    public static Localizer getSysLocalizer() {
+        return getLocalizer((String) null, LANG_EN);
     }
 
     private static void loadLocalizations() {

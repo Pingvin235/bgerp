@@ -29,6 +29,7 @@ import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.servlet.AccessLogValve;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
@@ -40,10 +41,8 @@ import ru.bgerp.l10n.Localizer;
 import ru.bgerp.util.Log;
 
 /**
- * Сохраняет параметры HTTP запроса и контекст его обработки: пользователь, соединение с БД.
- * В него же устанавливаются данные ответа.
- *
- * @author Shamil
+ * HTTP request execution's context, contains: request, DB connection and response data.
+ * @author Shamil Vakhitov
  */
 public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private static final Log log = Log.getLog();
@@ -70,10 +69,10 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private HttpServletResponse httpResponse;
     private OutputStream httpResponseOutputStream;
 
-    /** Набор соединений к БД. */
+    /** DB connections. */
     private ConnectionSet connectionSet;
 
-    /** Параметры ответа, сериализуются в JSON. */
+    /** Response data, may be serialized to JSON. */
     private Response response = new Response();
 
     private User user;
@@ -81,26 +80,27 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private Page page = new Page();
     private FormFile file;
 
-    /** Параметры запроса. */
+    /** Parsed HTTP request params. */
     private ArrayHashMap param = new ArrayHashMap();
 
     public Localizer l;
 
+    /** Empty constructor for Struts. */
     public DynActionForm() {}
 
-    //FIXME: Возможно, следует оптимизировать.
+    /** Constructor from string URL. */
     public DynActionForm(String url) {
         String params[] = url.split("\\?")[1].split("&");
 
         HashMap<String, ArrayList<String>> paramsForForm = new HashMap<String, ArrayList<String>>();
         for (String param : params) {
-            if (param.split("=").length < 2) {
+            int pos = param.indexOf('=');
+            if (pos < 0)
                 continue;
-            }
-
+            
             try {
-                String key = URLDecoder.decode(param.split("=")[0], Utils.UTF8.name());
-                String value = URLDecoder.decode(param.split("=")[1], Utils.UTF8.name());
+                String key = URLDecoder.decode(param.substring(0, pos), Utils.UTF8.name());
+                String value = URLDecoder.decode(param.substring(pos + 1), Utils.UTF8.name());
 
                 if (paramsForForm.get(key) == null) {
                     ArrayList<String> arrayValues = new ArrayList<String>();
@@ -110,7 +110,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
                     paramsForForm.get(key).add(value);
                 }
             } catch (Exception e) {
-                log.error(e.getMessage(), e);
+                log.error(e);
             }
         }
 
@@ -121,16 +121,15 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
             paramsForFormAsArray.put(key, paramsArray);
         }
 
-        ArrayHashMap ahm = new ArrayHashMap();
-        ahm.putAll(paramsForFormAsArray);
-
-        this.param = ahm;
+        this.param.putAll(paramsForFormAsArray);
     }
 
     public DynActionForm(User user) {
         this.user = user;
         this.permission = ParameterMap.EMPTY;
-        this.l = Localization.getLocalizer();
+        // for tests
+        if (PluginManager.getInstance() != null)
+            this.l = Localization.getSysLocalizer();
     }
 
     public HttpServletRequest getHttpRequest() {
@@ -182,8 +181,22 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return response;
     }
 
+    /**
+     * Set response object data.
+     * @param key
+     * @param value
+     */
     public void setResponseData(String key, Object value) {
         response.setData(key, value);
+    }
+
+    /**
+     * Set HTTP request attribute. Unlike response data, not serialized to JSON.
+     * @param key
+     * @param value
+     */
+    public void setRequestAttribute(String key, Object value) {
+        httpRequest.setAttribute(key, value);
     }
 
     public User getUser() {
@@ -389,8 +402,15 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return getParam(name, defaultValue, false, validate);
     }
 
-    public String getParam(String name, String defaultValue) throws BGIllegalArgumentException {
-        return getParam(name, defaultValue, null);
+    /**
+     * Gets HTTP request parameter.
+     * @param name
+     * @param defaultValue
+     * @return the value of parameter with {@param name} or {@param defaultValue} if not presented. 
+     */
+    public String getParam(String name, String defaultValue) {
+        var value = getParam(name);
+        return value == null ? defaultValue : value;
     }
 
     public String getParam(String name, Predicate<String> validate) throws BGIllegalArgumentException {
@@ -400,7 +420,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     /**
      * Gets HTTP request parameter.
      * @param name
-     * @return a value with applied {@link String#trim()} or null.
+     * @return a value with applied {@link String#trim()} or null if missing or empty.
      */
     public String getParam(String name) {
         var value = param.get(name);
@@ -498,7 +518,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     @Override
     public Object get(String name) {
-        if (dynaClass.getDynaProperty(name).getType() == String.class) {
+        if (getDynaProperty(name).getType() == String.class) {
             return getParam(name);
         } else if (PARAM_PAGE.equals(name)) {
             return page;
@@ -513,7 +533,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     @Override
     public void set(String name, Object value) {
-        Class<?> type = dynaClass.getDynaProperty(name).getType();
+        Class<?> type = getDynaProperty(name).getType();
         if (type == String.class) {
             setParam(name, (String) value);
         } else if (type == FormFile.class) {
@@ -614,7 +634,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     // /////////////////////////////////////////////
-    // добавлены из-за интерфейса DynBean
+    // DynBean
     // /////////////////////////////////////////////
     @Override
     public boolean contains(String name, String key) {
@@ -631,11 +651,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         throw new UnsupportedOperationException();
     }
 
-    private static DynaClass dynaClass = new DynActionForm();
-
     @Override
     public DynaClass getDynaClass() {
-        return dynaClass;
+        return this;
     }
 
     @Override
@@ -656,7 +674,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     ////////////////////////////////////////////////////
 
     // /////////////////////////////////////////////
-    // добавлены из-за интерфейса DynaClass
+    // DynaClass
     // /////////////////////////////////////////////
     @Override
     public String getName() {

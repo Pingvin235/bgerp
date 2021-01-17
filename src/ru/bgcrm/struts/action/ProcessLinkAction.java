@@ -67,25 +67,20 @@ public class ProcessLinkAction extends ProcessAction {
             queue = queue.clone();
 
             FilterList filters = queue.getFilterList();
-
-            FilterLinkObject filterLinkObject = new FilterLinkObject(0, ParameterMap.of(Filter.VALUES, String.valueOf(id)), objectType, FilterLinkObject.WHAT_FILTER_ID);
-            filters.add(filterLinkObject);
+            filters.add(new FilterLinkObject(0, ParameterMap.of(Filter.VALUES, String.valueOf(id)), objectType, FilterLinkObject.WHAT_FILTER_ID));
 
             if (paramOpen != null) {
-                FilterOpenClose filterOpenClose = new FilterOpenClose(0, ParameterMap.of(Filter.VALUES, paramOpen ? FilterOpenClose.OPEN : FilterOpenClose.CLOSE));
-                filters.add(filterOpenClose);
+                filters.add(new FilterOpenClose(0, ParameterMap.of(Filter.VALUES, paramOpen ? FilterOpenClose.OPEN : FilterOpenClose.CLOSE)));
             }
 
             if (!paramProcessTypeId.isEmpty()) {
-                FilterProcessType filterProcessType = new FilterProcessType(0, ParameterMap.of(Filter.ON_EMPTY_VALUES, Utils.toString(paramProcessTypeId)));
-                filters.add(filterProcessType);
+                filters.add(new FilterProcessType(0, ParameterMap.of(Filter.ON_EMPTY_VALUES, Utils.toString(paramProcessTypeId))));
             }
 
             SearchResult<Object[]> searchResult = new SearchResult<Object[]>(form);
-            List<String> aggregateValues = new ArrayList<>();
 
             ProcessDAO processDAO = new ProcessDAO(con, form.getUser());
-            processDAO.searchProcess(searchResult, aggregateValues, queue, form);
+            processDAO.searchProcess(searchResult, null, queue, form);
 
             final List<Object[]> list = searchResult.getList();
 

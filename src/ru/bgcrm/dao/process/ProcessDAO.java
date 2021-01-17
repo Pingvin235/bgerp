@@ -156,8 +156,8 @@ public class ProcessDAO extends CommonDAO {
             processGroups.add(processGroup);
         }
 
-        process.setProcessGroups(processGroups);
-        process.setProcessExecutors(ProcessExecutor.parseSafe(rs.getString(prefix + "executors"), processGroups));
+        process.setGroups(processGroups);
+        process.setExecutors(ProcessExecutor.parseSafe(rs.getString(prefix + "executors"), processGroups));
 
         return process;
     }
@@ -212,163 +212,162 @@ public class ProcessDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает процессы и связанные данные для очереди процессов.
+     * Selects processes for a queue's.
      * @param searchResult
-     * @param aggregateValues
+     * @param aggregatedValues if not null - aggregated values are stored there.
      * @param queue
      * @param form
      * @throws Exception
      */
-    public void searchProcess(SearchResult<Object[]> searchResult, List<String> aggregateValues, Queue queue, DynActionForm form) throws Exception {
+    public void searchProcess(SearchResult<Object[]> searchResult, List<String> aggregatedValues, Queue queue, DynActionForm form) throws Exception {
         QueueSelectParams params = prepareQueueSelect(queue);
         
         addFilters(params.queue, form, params);
 
-        String orders = queue.getSortSet().getOrders();
-        if (Utils.isBlankString(orders))
-            orders = Utils.toString(form.getSelectedValuesListStr("sort", "0"));
+        String orders = queue.getSortSet().getOrders(form);
 
-        if (searchResult != null) {
-            Page page = searchResult.getPage();
+        Page page = searchResult.getPage();
 
-            List<Object[]> list = searchResult.getList();
+        List<Object[]> list = searchResult.getList();
 
-            final int columns = params.queue.getColumnList().size();
+        final int columns = params.queue.getColumnList().size();
 
-            ResultSet rs = null;
-            PreparedStatement ps = null;
-            StringBuilder query = new StringBuilder();
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        StringBuilder query = new StringBuilder();
 
-            query.append("SELECT DISTINCT SQL_CALC_FOUND_ROWS ");
-            query.append(params.selectPart);
-            query.append(" FROM " + TABLE_PROCESS + " AS process");
-            query.append(params.joinPart);
-            query.append(params.wherePart);
-            if (Utils.notBlankString(orders)) {
-                query.append(SQL_ORDER_BY);
-                query.append(orders);
+        query.append("SELECT DISTINCT SQL_CALC_FOUND_ROWS ");
+        query.append(params.selectPart);
+        query.append(" FROM " + TABLE_PROCESS + " AS process");
+        query.append(params.joinPart);
+        query.append(params.wherePart);
+        if (Utils.notBlankString(orders)) {
+            query.append(SQL_ORDER_BY);
+            query.append(orders);
+        }
+        query.append(getPageLimit(page));
+
+        if (log.isDebugEnabled()) {
+            log.debug(query.toString());
+        }
+
+        ps = con.prepareStatement(query.toString());
+
+        final boolean selectLinked = params.joinPart.indexOf(LINKED_PROCESS_JOIN) > 0;
+
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            Process process = getProcessFromRs(rs, "process.");
+            Process linkedProcess = selectLinked ? getProcessFromRs(rs, LINKED_PROCESS + ".") : null;
+
+            Object[] row = new Object[columns + 1];
+
+            // 0 столбец - под Process
+            row[0] = new Process[] { process, linkedProcess };
+
+            for (int i = 1; i <= columns; i++) {
+                row[i] = rs.getString(i);
             }
-            query.append(getPageLimit(page));
+            list.add(row);
+        }
 
-            if (log.isDebugEnabled()) {
-                log.debug(query.toString());
+        if (page != null) {
+            page.setRecordCount(getFoundRows(ps));
+        }
+        ps.close();
+
+        loadFormattedAddressParamValues(searchResult, queue);
+
+        if (aggregatedValues != null && params.selectAggregatePart != null)
+            selectAggregatedValues(aggregatedValues, params, columns);
+    }
+
+    private void loadFormattedAddressParamValues(SearchResult<Object[]> searchResult, Queue queue) throws BGException {
+        final List<ParameterMap> columnList = queue.getColumnList();
+        final int length = columnList.size();
+
+        for (int i = 0; i < length; i++) {
+            ParameterMap col = columnList.get(i);
+
+            String value = col.get("value");
+            if (!value.startsWith("param:")) {
+                continue;
             }
 
-            ps = con.prepareStatement(query.toString());
-
-            final boolean selectLinked = params.joinPart.indexOf(LINKED_PROCESS_JOIN) > 0;
-
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Process process = getProcessFromRs(rs, "process.");
-                Process linkedProcess = selectLinked ? getProcessFromRs(rs, LINKED_PROCESS + ".") : null;
-
-                Object[] row = new Object[columns + 1];
-
-                // 0 столбец - под Process
-                row[0] = new Process[] { process, linkedProcess };
-
-                for (int i = 1; i <= columns; i++) {
-                    row[i] = rs.getString(i);
-                }
-                list.add(row);
+            // если код параметра между двоеточиями, то указан либо формат либо поле адресного параметра
+            // либо :value для параметра date(time) 
+            int paramId = Utils.parseInt(StringUtils.substringBetween(value, ":"));
+            if (paramId <= 0) {
+                continue;
             }
 
-            if (page != null) {
-                page.setRecordCount(getFoundRows(ps));
+            Parameter param = ParameterCache.getParameter(paramId);
+            if (param == null) {
+                log.warn("Queue: " + queue.getId() + "; incorrect column expression, param not found: " + value);
+                continue;
             }
-            ps.close();
 
-            // подгрузка адресов с произвольным форматированием
-            final List<ParameterMap> columnList = queue.getColumnList();
-            final int length = columnList.size();
+            // это не ошибка, просто параметр не того типа
+            if (!Parameter.TYPE_ADDRESS.equals(param.getType())) {
+                continue;
+            }
 
-            for (int i = 0; i < length; i++) {
-                ParameterMap col = columnList.get(i);
+            String formatName = StringUtils.substringAfterLast(value, ":");
 
-                String value = col.get("value");
-                if (!value.startsWith("param:")) {
+            // это не формат а поле адресного параметра
+            if (ParamValueDAO.PARAM_ADDRESS_FIELDS.contains(formatName)) {
+                continue;
+            }
+
+            for (Object[] row : searchResult.getList()) {
+                StringBuilder newValue = new StringBuilder(100);
+
+                if (row[i + 1] == null) {
                     continue;
                 }
 
-                // если код параметра между двоеточиями, то указан либо формат либо поле адресного параметра
-                // либо :value для параметра date(time) 
-                int paramId = Utils.parseInt(StringUtils.substringBetween(value, ":"));
-                if (paramId <= 0) {
-                    continue;
+                for (String token : Utils.maskNull(row[i + 1].toString()).split("\\|")) {
+                    String[] addressData = token.split(":", -1);
+
+                    ParameterAddressValue addrValue = new ParameterAddressValue();
+                    addrValue.setHouseId(Utils.parseInt(addressData[0]));
+                    addrValue.setFlat(addressData[1]);
+                    addrValue.setRoom(addressData[2]);
+                    addrValue.setPod(Utils.parseInt(addressData[3]));
+                    addrValue.setFloor(Utils.parseInt(addressData[4]));
+                    addrValue.setComment(addressData[5]);
+
+                    Utils.addSeparated(newValue, "; ", AddressUtils.buildAddressValue(addrValue, con, formatName));
                 }
 
-                Parameter param = ParameterCache.getParameter(paramId);
-                if (param == null) {
-                    log.warn("Queue: " + queue.getId() + "; incorrect column expression, param not found: " + value);
-                    continue;
-                }
-
-                // это не ошибка, просто параметр не того типа
-                if (!Parameter.TYPE_ADDRESS.equals(param.getType())) {
-                    continue;
-                }
-
-                String formatName = StringUtils.substringAfterLast(value, ":");
-
-                // это не формат а поле адресного параметра
-                if (ParamValueDAO.PARAM_ADDRESS_FIELDS.contains(formatName)) {
-                    continue;
-                }
-
-                for (Object[] row : searchResult.getList()) {
-                    StringBuilder newValue = new StringBuilder(100);
-
-                    if (row[i + 1] == null) {
-                        continue;
-                    }
-
-                    for (String token : Utils.maskNull(row[i + 1].toString()).split("\\|")) {
-                        String[] addressData = token.split(":", -1);
-
-                        ParameterAddressValue addrValue = new ParameterAddressValue();
-                        addrValue.setHouseId(Utils.parseInt(addressData[0]));
-                        addrValue.setFlat(addressData[1]);
-                        addrValue.setRoom(addressData[2]);
-                        addrValue.setPod(Utils.parseInt(addressData[3]));
-                        addrValue.setFloor(Utils.parseInt(addressData[4]));
-                        addrValue.setComment(addressData[5]);
-
-                        Utils.addSeparated(newValue, "; ", AddressUtils.buildAddressValue(addrValue, con, formatName));
-                    }
-
-                    row[i + 1] = newValue.toString();
-                }
-            }
-
-            // агрегатные функции
-            if (params.selectAggregatePart != null) {
-                query.setLength(0);
-                query.append("SELECT ");
-                query.append(params.selectAggregatePart);
-                query.append(" FROM " + TABLE_PROCESS + " AS process");
-                query.append(params.joinPart);
-                query.append(params.wherePart);
-
-                if (log.isDebugEnabled()) {
-                    log.debug(query.toString());
-                }
-
-                ps = con.prepareStatement(query.toString());
-
-                rs = ps.executeQuery();
-                if (rs.next()) {
-                    for (int i = 0; i < columns; i++) {
-                        aggregateValues.add(rs.getString(i + 1));
-                    }
-                }
-                ps.close();
-
-                if (log.isDebugEnabled()) {
-                    log.debug("Aggregated values: " + aggregateValues);
-                }
+                row[i + 1] = newValue.toString();
             }
         }
+    }
+
+    private void selectAggregatedValues(List<String> aggregateValues, QueueSelectParams params, int columns) throws SQLException {
+        var query = new StringBuilder(100);
+        query.append("SELECT ");
+        query.append(params.selectAggregatePart);
+        query.append(" FROM " + TABLE_PROCESS + " AS process");
+        query.append(params.joinPart);
+        query.append(params.wherePart);
+
+        if (log.isDebugEnabled()) {
+            log.debug(query.toString());
+        }
+
+        var ps = con.prepareStatement(query.toString());
+
+        var rs = ps.executeQuery();
+        if (rs.next()) {
+            for (int i = 0; i < columns; i++) {
+                aggregateValues.add(rs.getString(i + 1));
+            }
+        }
+        ps.close();
+
+        log.debug("Aggregated values: %s", aggregateValues);
     }
 
     public String getCountQuery(Queue queue, DynActionForm form) throws BGException {
@@ -536,7 +535,7 @@ public class ProcessDAO extends CommonDAO {
                             + paramId + " AND " + alias + ".value IN(" + values + ") ");
                 }
             } else if (f instanceof FilterOpenClose) {
-                String openCloseFilterValue = form.getParam("openClose");
+                String openCloseFilterValue = form.getParam("openClose", ((FilterOpenClose) f).getDefaultValue());
 
                 if (f.getValues().size() > 0)
                     openCloseFilterValue = f.getValues().iterator().next();
@@ -1396,7 +1395,7 @@ public class ProcessDAO extends CommonDAO {
         if (history) {
             Process oldValue = new ProcessDAO(con).getProcess(processId);
             Process newValue = oldValue.clone();
-            newValue.setProcessGroups(processGroups);
+            newValue.setGroups(processGroups);
             logProcessChange(newValue, oldValue);
         }
         
@@ -1450,7 +1449,7 @@ public class ProcessDAO extends CommonDAO {
         if (history) {
             Process oldValue = new ProcessDAO(con).getProcess(processId);
             Process newValue = oldValue.clone();
-            newValue.setProcessExecutors(processExecutors);
+            newValue.setExecutors(processExecutors);
             logProcessChange(newValue, oldValue);
         }
 
@@ -1531,7 +1530,7 @@ public class ProcessDAO extends CommonDAO {
                     ps.setInt(index++, process.getStatusId());
                     ps.setInt(index++, process.getStatusUserId());
                     ps.setString(index++, process.getDescription());
-                    ps.setString(index++, ProcessExecutor.serialize(process.getProcessExecutors()));
+                    ps.setString(index++, ProcessExecutor.serialize(process.getExecutors()));
                     ps.setInt(index++, process.getCreateUserId());
                     ps.executeUpdate();
                     process.setId(lastInsertId(ps));

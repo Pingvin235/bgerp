@@ -20,6 +20,8 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 import ru.bgcrm.util.distr.call.ExecuteSQL;
+import ru.bgerp.l10n.Localization;
+import ru.bgerp.l10n.Localizer;
 import ru.bgerp.util.Log;
 
 /**
@@ -167,6 +169,15 @@ public abstract class Plugin {
         return List.of(Lang.RU);
     }
     
+    /**
+     * Localizer to target language.
+     * @param toLang
+     * @return
+     */
+    public Localizer getLocalizer(String toLang) {
+        return Localization.getLocalizer(getId(), toLang);
+    }
+
     /**
      * Used DB tables.
      * @return

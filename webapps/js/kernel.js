@@ -713,46 +713,6 @@ function doOnClick( $selector, filter, callback )
 	})
 }
 
-function tableRowHl($table, rows) {
-	if (!rows) rows = 1;
-
-	var getFirstTr = function ($tr) {
-		return $($tr.parent().children().get($tr.index() - $tr.index() % rows));
-	};
-
-	$table.find('> tbody > tr:gt(' + (rows - 1) + ')' ).each( function () {
-		var $tr = $(this);
-		$tr.mouseover( function () {
-			var $ftr = getFirstTr($tr);
-
-			var bgcolor = $ftr.attr( 'bgcolor' );
-			if( !bgcolor ) {
-				bgcolor = 'white';
-			}
-
-			if( !$ftr.attr( 'bgcolor-orig' ) ) {
-				$ftr.attr( 'bgcolor-orig', bgcolor );
-				for (var i = 0; i < rows; i++) {
-					$ftr.attr( 'bgcolor', '#A9F5F2' );
-					$ftr = $ftr.next();
-				}
-			}
-		});
-		$tr.mouseleave( function() {
-			var $ftr = getFirstTr($tr);
-
-			var bgcolorOrig = $ftr.attr( 'bgcolor-orig' );
-			if( bgcolorOrig ) {
-				for (var i = 0; i < rows; i++) {
-					$ftr.attr( 'bgcolor', bgcolorOrig );
-					$ftr.attr( 'bgcolor-orig', '' );
-					$ftr = $ftr.next();
-				}
-			}
-		});
-	});
-}
-
 // проверка видимости элемента после скроллинга
 $$.isElementInView = function (element, offset) {
 	var pageTop = $(window).scrollTop();

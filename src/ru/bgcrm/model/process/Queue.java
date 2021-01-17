@@ -44,6 +44,7 @@ public class Queue extends IdTitle {
     private static final Log log = Log.getLog();
 
     public static final String MEDIA_HTML = "html";
+    public static final String MEDIA_HTML_OPEN = "html.open";
     public static final String MEDIA_PRINT = "print";
     public static final String MEDIA_XLS = "xls";
 
@@ -77,15 +78,10 @@ public class Queue extends IdTitle {
     private List<String> getMediaColumns(String media) {
         ParameterMap configMap = getConfigMap();
 
-        String defaultValue = null;
-        if ("print".equals(media)) {
-            defaultValue = configMap.get("printColumns");
-        }
+        List<String> result = Utils.toList(configMap.get("media." + media + ".columns"));
 
-        List<String> result = Utils.toList(configMap.get("media." + media + ".columns", defaultValue));
-
-        // в старых конфигурациях явно для html не указывались столбцы
-        if (result.size() == 0 && MEDIA_HTML.equals(media)) {
+        // fallback for media 'html' only
+        if (result.isEmpty() && MEDIA_HTML.equals(media)) {
             for (Map.Entry<Integer, ParameterMap> me : columnMap.entrySet()) {
                 if (me.getValue().getBoolean("show", true)) {
                     result.add(String.valueOf(me.getKey()));
@@ -228,7 +224,7 @@ public class Queue extends IdTitle {
     public void processDataForMedia(DynActionForm form, String media, List<Object[]> rawData) throws SQLException {
         List<ColumnConf> mediaColumns = getMediaColumnList(media);
 
-        final boolean isHtmlMedia = MEDIA_HTML.equals(media);
+        final boolean isHtmlMedia = MEDIA_HTML.equals(media) || MEDIA_HTML_OPEN.equals(media);
 
         processDataForColumns(form, rawData, mediaColumns, isHtmlMedia);
     }
@@ -415,12 +411,14 @@ public class Queue extends IdTitle {
         this.lastModify = lastModify;
     }
 
-    public void extractFiltersAndSorts() {
-        if (log.isDebugEnabled()) {
-            log.debug("Extract queue id: " + id + "; title: " + title);
-        }
+    public String getOpenUrl() {
+        return getConfigMap().get("openUrl");
+    }
 
-        Preferences config = new Preferences(this.config);
+    public void extractFiltersAndSorts() {
+        log.debug("Extract queue id: %s ;title: %s", id, title);
+
+        var config = new Preferences(this.config);
 
         columnMap = config.subIndexed("column.");
 
@@ -521,14 +519,14 @@ public class Queue extends IdTitle {
 
         sortSet.setComboCount(config.getInt("sort.combo.count", 0));
 
-        for (Map<String, String> defaultValues : config.parseObjects("sort.combo.")) {
-            int id = Utils.parseInt(defaultValues.get("id"));
+        for (Map<String, String> sortComboValues : config.parseObjects("sort.combo.")) {
+            int id = Utils.parseInt(sortComboValues.get("id"));
             if (id > 0) {
-                int defaultValue = Utils.parseInt(defaultValues.get("default"));
+                int defaultValue = Utils.parseInt(sortComboValues.get("default"));
                 if (defaultValue > 0) {
                     sortSet.setDefaultSortValue(id, defaultValue);
                 }
-                int value = Utils.parseInt(defaultValues.get("value"));
+                int value = Utils.parseInt(sortComboValues.get("value"));
                 if (value > 0) {
                     sortSet.setSortValue(id, value);
                 }

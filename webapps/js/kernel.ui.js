@@ -311,7 +311,47 @@ $$.ui = new function() {
 		return editor;
 	}
 
-	// доступные функции
+	const tableRowHl = ($table, rows) => {
+		if (!rows) rows = 1;
+	
+		var getFirstTr = function ($tr) {
+			return $($tr.parent().children().get($tr.index() - $tr.index() % rows));
+		};
+	
+		$table.find('> tbody > tr:gt(' + (rows - 1) + ')' ).each( function () {
+			var $tr = $(this);
+			$tr.mouseover( function () {
+				var $ftr = getFirstTr($tr);
+	
+				var bgcolor = $ftr.attr( 'bgcolor' );
+				if( !bgcolor ) {
+					bgcolor = 'white';
+				}
+	
+				if( !$ftr.attr( 'bgcolor-orig' ) ) {
+					$ftr.attr( 'bgcolor-orig', bgcolor );
+					for (var i = 0; i < rows; i++) {
+						$ftr.attr( 'bgcolor', '#A9F5F2' );
+						$ftr = $ftr.next();
+					}
+				}
+			});
+			$tr.mouseleave( function() {
+				var $ftr = getFirstTr($tr);
+	
+				var bgcolorOrig = $ftr.attr( 'bgcolor-orig' );
+				if( bgcolorOrig ) {
+					for (var i = 0; i < rows; i++) {
+						$ftr.attr( 'bgcolor', bgcolorOrig );
+						$ftr.attr( 'bgcolor-orig', '' );
+						$ftr = $ftr.next();
+					}
+				}
+			});
+		});
+	}
+
+	// public functions
 	this.comboSingleInit = comboSingleInit;
 	this.comboInputs = comboInputs;
 	this.comboCheckUncheck = comboCheckUncheck;
@@ -326,6 +366,7 @@ $$.ui = new function() {
 	this.tabsLoaded = tabsLoaded;
 	this.inputFocus = inputFocus;
 	this.codeMirror = codeMirror;
+	this.tableRowHl = tableRowHl;
 }
 
 
@@ -362,6 +403,11 @@ function layoutProcess ($selector) {
 function showErrorDialog (errorMessage) {
 	console.warn($$.deprecated);
 	$$.ui.showError(errorMessage);
+}
+
+function tableRowHl ($table, rows) {
+	console.warn($$.deprecated);
+	$$.ui.tableRowHl($table, rows);
 }
 
 function optionTag( id, title, selected )

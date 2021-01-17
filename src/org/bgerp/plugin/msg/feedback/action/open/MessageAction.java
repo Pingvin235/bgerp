@@ -30,6 +30,9 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class MessageAction extends BaseAction {
+    /**
+     * Configuration for open feedback messages.
+     */
     public static class Config extends ru.bgcrm.util.Config {
         /** Message type, used for creating incoming messages. */
         private final MessageTypeEmail messageTypeEmail;

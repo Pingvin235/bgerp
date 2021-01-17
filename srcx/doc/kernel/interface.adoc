@@ -180,7 +180,7 @@ Beside of some kernel functionality, described below, this interface is also use
 * <<../plugin/mobile/index.adoc#, Mobile>>.
 
 [[open-user]]
-=== Open user profile
+=== User profile
 For enabling showing user specific information by URL *<SERVER_PORT>/open/profile/<USER_ID>*:
 [arabic]
 . create user <<setup.adoc#param, parameter>> with type *list* and value *1=Yes*, ID of that is *<ENABLE_PARAM_ID>*;
@@ -194,9 +194,10 @@ user.open.show.paramIds=<PARAM_IDS>
 
 Where:
 [square]
-* *<PARAM*_IDS* - comma separated user parameter IDs to be shown, parameter type *file* is not supported 
+* *<PARAM_IDS>* - comma separated user parameter IDs to be shown, parameter type *file* is not supported 
 
 [[open-process]]
+=== Process
 For enabling showing process information by URL  *<SERVER_PORT>/open/process/<PROCESS_ID>*
 define in <<setup.adoc#config, configuration>>:
 
@@ -209,9 +210,27 @@ process.open.show.message.tagIds=<MESSAGE_TAG_IDS>
 
 Where:
 [square]
-* *<TYPE*_IDS* - comma separated process type IDs to be shown;
-* *<PARAM*_IDS* - comma separated process parameter IDs to be shown, parameter type *file* is not supported;
-* *<MESSAGE*_TAG*_IDS* - comma separated <<message.adoc#message-tag, message tag>> IDs to be shown.
+* *<TYPE_IDS>* - comma separated process type IDs to be shown;
+* *<PARAM_IDS>* - comma separated process parameter IDs to be shown, parameter type *file* is not supported;
+* *<MESSAGE_TAG_IDS>* - comma separated <<message.adoc#message-tag, message tag>> IDs to be shown.
+
+[[open-process-queue]]
+=== Process Queue
+For enabling showing process queue by URL *<SERVER_PORT>/open/process/queue/<OPEN_NAME>*
+define in <<process/queue.adoc#setup, configuration>> of the queue:
+[source]
+----
+openUrl=<OPEN_NAME>
+media.html.open.columns=<COLUMN_IDS>
+----
+
+Where:
+[square]
+* *<COLUMN_IDS>* - comma separated list of queue <<process/queue.adoc#setup, columns>>.
+
+[[open-l10n]]
+=== Localization
+For <<../project.adoc#l10n, localization>> of the Open interface add HTTP request parameter *lang=<LANG>*, where *<LANG>* - shortcut of the wanted language.
 
 == Коды объектов
 Числовые коды объекты, они же *идентификаторы*, необходимы для однозначного определения различных объектов данных в системе. 

@@ -69,3 +69,6 @@ sort.mode.3.desc=true
 sort.mode.4.columnId=3
 sort.mode.4.title=Priority desc
 sort.mode.4.desc=true
+
+# url ending for open interface
+openUrl=dev

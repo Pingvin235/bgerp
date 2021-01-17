@@ -5,15 +5,13 @@
 
 <%@tag import="ru.bgerp.l10n.Localization"%>
 <%@tag import="ru.bgcrm.plugin.Plugin"%>
-<%@tag import="ru.bgerp.l10n.Localizer"%>
 
 <c:forEach items="${ctxPluginManager.pluginList}" var="plugin">
 	<c:set var="plugin" value="${plugin}" scope="request"/>
 	
 	<%
 		Plugin p = (Plugin) request.getAttribute("plugin");
-		Localizer l = Localization.getLocalizer(p.getName());
-		request.setAttribute("l", l);
+		request.setAttribute("l", p.getLocalizer(Localization.getToLang(request)));
 	%>
 
 	<c:set var="page" value="${plugin.endpoints[endpoint]}"/>

@@ -451,7 +451,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Создаёт конфигурацию с целью валидации.
+     * Creates a configuration for validation purposes only..
      * @param clazz
      * @return
      */
@@ -469,6 +469,14 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     private static final Class<?>[] getConfigParamsValidate = new Class[] { ParameterMap.class, boolean.class };
     private static final Class<?>[] getConfigParams = new Class[] { ParameterMap.class };
 
+    /**
+     * Creates a configuration.
+     * @param <K>
+     * @param clazz
+     * @param validate run validation.
+     * @return
+     * @throws Exception
+     */
     private <K extends Config> K createConfig(final Class<K> clazz, boolean validate) throws Exception {
         try {
             try {
@@ -488,9 +496,9 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
             var target = (Exception) e.getTargetException();
             if (target instanceof InitStopException)
                 return null;
-            if (validate || !(target instanceof BGMessageException))
-                throw target;
-            return null;
+            if (!validate && (target instanceof BGMessageException))
+                return null;
+            throw target;
         }
         return null;
     }

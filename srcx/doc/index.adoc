@@ -1,4 +1,4 @@
-= BGERP 3.0 CD
+= BGERP 3.CD
 :nofooter:
 
 * <<changes.adoc#, Changes>>

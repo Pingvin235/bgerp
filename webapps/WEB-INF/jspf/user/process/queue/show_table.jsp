@@ -4,9 +4,9 @@
 <%-- генератор строк таблицы JEXL выражением --%>
 <c:set var="rowExpression" value="${u:getConfig( queue.configMap, 'ru.bgcrm.model.process.config.RowExpressionConfig' )}"/>
 
-<c:set var="uiid" value="${u:uiid()}"/>
+<c:set var="tableUiid" value="${u:uiid()}"/>
 
-<table class="data" id="${uiid}">
+<table class="data" id="${tableUiid}">
 	<jsp:useBean id="headData" class="java.util.HashMap"/>
 
 	<c:set var="checkAll">
@@ -75,16 +75,16 @@
 			<c:set var="columnRef" value="${columnList[status.index - 1]}"/>
 			<c:set var="column" value="${columnRef.columnConf}"/>
 
-		    <%-- процесс в зависимости от колонки либо основной либо связанный --%>
-		    <c:set var="process" value="${columnRef.firstColumn.getProcess(row[0])}"/>
+			<%-- процесс в зависимости от колонки либо основной либо связанный --%>
+			<c:set var="process" value="${columnRef.firstColumn.getProcess(row[0])}"/>
 
-		    <c:set target="${rowData}" property="col${columnRef.columnId}">
-		    	<c:choose>
+			<c:set target="${rowData}" property="col${columnRef.columnId}">
+				<c:choose>
 					<c:when test="${column.value eq 'N'}">
 						${status_from.count}
 					</c:when>
 					<c:when test="${column.value eq 'id' and not mob}">
-						<ui:process-link id="${col}"/>
+						<ui:process-link process="${process}"/>
 					</c:when>
 
 					<c:when test="${fn:startsWith(column.value,'linkCustomerLink') or
@@ -167,11 +167,6 @@
 							<c:set var="col">${fn:substring(col, 0, column.titleIfMore)}...</c:set>
 						</c:if>
 
-						<c:set var="linkOnClick" value=""/>
-						<c:if test="${column.value eq 'descriptionLink'}">
-							<c:set var="linkOnClick">openProcess( ${process.id} ); return false;</c:set>
-						</c:if>
-
 						<c:if test="${not empty column.formatToHtml}">
 							<c:set var="col" value="${u:htmlEncode( col )}"/>
 						</c:if>
@@ -193,8 +188,8 @@
 										</c:choose>
 									</a>
 								</c:when>
-								<c:when test="${not empty linkOnClick}">
-									<a href="#UNDEF" onclick="${linkOnClick}">${col}</a>
+								<c:when test="${column.value eq 'descriptionLink'}">
+									<ui:process-link text="${col}" process="${process}"/>
 								</c:when>
 								<c:otherwise>${col}</c:otherwise>
 							</c:choose>
@@ -212,11 +207,17 @@
 		<c:set var="process" value="${row[0][0]}"/>
 
 		<c:choose>
-		 	<c:when test="${not empty rowExpressionHtml}">
-		 		${rowExpressionHtml}
-		 	</c:when>
-		 	<c:otherwise>
-				 <tr ${bgcolor} processId="${process.id}">
+			<c:when test="${not empty rowExpressionHtml}">
+				${rowExpressionHtml}
+			</c:when>
+			<c:otherwise>
+				<c:set var="openProcessId">
+					<ui:when type="open">
+						<c:if test="${u:getConfig(ctxSetup, 'org.bgerp.action.open.ProcessAction$Config').isOpen(process)}">${process.id}</c:if>
+					</ui:when>
+				</c:set>
+
+				<tr ${bgcolor} processId="${process.id}" openProcessId="${openProcessId}">
 					<c:set var="onceFlag" value="0"/>
 					<c:forEach begin="1" var="col" items="${row}" varStatus="status">
 						<c:set var="columnRef" value="${columnList[status.index - 1]}"/>
@@ -253,24 +254,3 @@
 		</c:choose>
 	</c:forEach>
 </table>
-
-<script>
-	$(function () {
-		const $dataTable = $('#${uiid}');
-
-		tableRowHl( $dataTable );
-
-		const callback = function ($clicked) {
-			const $row = $clicked;
-
-			const processId = $row.attr('processId');
-			if (processId) {
-				$$.process.open(processId);
-			} else {
-				alert('Не найден атрибут строки processId!');
-			}
-		};
-
-		doOnClick($dataTable, 'tr:gt(0)', callback);
-	});
-</script>

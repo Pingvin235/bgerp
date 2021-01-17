@@ -1,13 +1,12 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" description="Пункт меню"%> 
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-
-<%@ attribute name="href" description="Ссылка"%>
+<%@ attribute name="href" description="URL"%>
 <%@ attribute name="action" description="Action class"%>
-<%@ attribute name="command" description="Команда"%>
+<%@ attribute name="command" description="Command"%>
 <%@ attribute name="title" description="Title"%>
 <%@ attribute name="ltitle" description="Title to be localized"%>
-<%@ attribute name="hidden" description="скрывать" %>
+<%@ attribute name="hidden" description="Hidden menu item"%>
 
 <c:if test="${not empty ltitle}">
 	<c:set var="title" value="${l.l(ltitle)}"/>

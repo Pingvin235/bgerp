@@ -1,39 +1,43 @@
 package ru.bgcrm.util;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgerp.util.Log;
 
 /**
  * Configuration, created on demand in {@link ParameterMap#getConfig(Class)} and cached before it has changed.
+ * @author Shamil Vakhitov
  */
 public abstract class Config {
     protected static final Log log = Log.getLog();
 
     public static final Config EMPTY = new Config (null) {};
-
-    public static class InitStopException extends BGException {}
+    /**
+     * The exception, thrown on empty configuration.
+     */
+    public static class InitStopException extends BGMessageException {
+        public InitStopException() {
+            super("Init stop");
+        }
+    }
 
     protected final ParameterMap setup;
-    
-    /**
-     * Validation mode {@link BGMessageException}.
-     */
-    protected final boolean validate;
 
+    /**
+     * The constructor has to be overwritten and implement parameters parsing.
+     * Old-style constructor, without deprecated keys validation support.
+     * @param setup configuration.
+     */
     protected Config(ParameterMap setup) {
-        this.setup = setup;
-        this.validate = false;
+        this(setup, false);
     }
-    
+
     /**
      * The constructor has to be overwritten and implement parameters parsing.
      * @param setup configuration.
-     * @param validate validation on parse.
+     * @param validate validation old configuration keys.
      */
     protected Config(ParameterMap setup, boolean validate) {
         this.setup = setup;
-        this.validate = validate;
     }
 
     /**

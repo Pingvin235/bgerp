@@ -7,14 +7,13 @@ import ru.bgcrm.util.ParameterMap;
 
 /**
  * User isolation rules.
- * 
  * @author Shamil Vakhitov
  */
 public class IsolationConfig extends ru.bgcrm.util.Config {
     private final IsolationProcess isolationProcess; 
     
-    protected IsolationConfig(ParameterMap config, boolean validate) throws BGMessageException {
-        super(config, validate);
+    protected IsolationConfig(ParameterMap config) throws BGMessageException {
+        super(config);
         isolationProcess = loadProcessIsolation(config);
     }
     
@@ -22,7 +21,7 @@ public class IsolationConfig extends ru.bgcrm.util.Config {
         return isolationProcess;
     }
     
-    private IsolationProcess loadProcessIsolation (ParameterMap config) throws BGMessageException {
+    private IsolationProcess loadProcessIsolation(ParameterMap config) throws BGMessageException {
         IsolationProcess result = null;
         
         String isolation = config.get("isolation.process");
@@ -31,7 +30,7 @@ public class IsolationConfig extends ru.bgcrm.util.Config {
         if ("group".equals(isolation) || "executor_group".equals(isolation))
             return IsolationProcess.GROUP;
         
-        if (validate && StringUtils.isNotBlank(isolation))
+        if (StringUtils.isNotBlank(isolation))
             throw new BGMessageException("Unsupported isolation level: " + config);
         
         return result;
