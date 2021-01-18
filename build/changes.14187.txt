@@ -5,3 +5,4 @@ A: Open process queue, https://bgerp.org/3.0/manual/kernel/interface.html#open-p
 B: Removed support for key 'printColumns' from configuration of process queue, 'media.print.columns' has to be used instead.
 C: Optimization and test coverage for DynActionForm.
 A: Localization of open interface: https://bgerp.org/doc/3.0/manual/kernel/interface.html#open-l10n
+F: Duplicated items in search of processes.

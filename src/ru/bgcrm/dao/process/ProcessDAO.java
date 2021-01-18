@@ -1802,23 +1802,27 @@ public class ProcessDAO extends CommonDAO {
             pd.addQuery("*");
             pd.addQuery(SQL_FROM);
             pd.addQuery(TABLE_PROCESS);
-
             pd.addQuery(getIsolationJoin(user));
+
+            final String groupBy = SQL_GROUP_BY + TABLE_PROCESS.trim() + ".id ";
 
             if (mode == MODE_USER_CREATED) {
                 pd.addQuery("WHERE create_user_id=?");
                 pd.addInt(userId);
                 pd.addQuery(" AND close_dt is NULL");
+                pd.addQuery(groupBy);
                 pd.addQuery(SQL_ORDER_BY);
                 pd.addQuery("create_dt DESC");
             } else if (mode == MODE_USER_CLOSED) {
                 pd.addQuery("WHERE close_user_id=?");
                 pd.addInt(userId);
+                pd.addQuery(groupBy);
                 pd.addQuery(SQL_ORDER_BY);
                 pd.addQuery("close_dt DESC");
             } else if (mode == MODE_USER_STATUS_CHANGED) {
                 pd.addQuery("WHERE status_user_id=?");
                 pd.addInt(userId);
+                pd.addQuery(groupBy);
                 pd.addQuery(SQL_ORDER_BY);
                 pd.addQuery("status_dt DESC");
             }
@@ -1827,7 +1831,7 @@ public class ProcessDAO extends CommonDAO {
 
             ResultSet rs = pd.executeQuery();
             while (rs.next())
-                list.add(getProcessFromRs(rs, ""));
+                list.add(getProcessFromRs(rs));
 
             setRecordCount(page, pd.getPrepared());
             pd.close();

@@ -30,11 +30,11 @@
 <html:form action="/user/process" styleId="${mainUiid}">
 	<html:hidden property="id"/>
 	<input type="hidden" name="action" value="processExecutorsUpdate"/>
-	
+
 	<c:set var="uiid" value="${u:uiid()}"/>
 	<c:set var="perm" value="${p:get( form.user.id, 'ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate' )}"/>
 	<c:set var="allowedGroups"  value="${u:toIntegerSet( perm['allowOnlyGroups'] )}"/>
-	
+
 	<c:forEach var="role" items="${ctxUserGroupRoleList}">
 		<c:forEach var="group" items="${ctxUserGroupFullTitledList}">
 			<c:remove var="groupIs"/>
@@ -43,29 +43,29 @@
 					<c:set var="groupIs" value="true"/>
 				</c:if>
 			</c:forEach>
-			
-			<c:if test="${groupIs and group.allowExecutorsSet and 
+
+			<c:if test="${groupIs and group.allowExecutorsSet and
 							(empty allowedGroups or u:contains(allowedGroups, group.id)) }">
-			
+
 				<h2>${group.title}
 					<c:if test="${role.id ne 0}">
 						(${role.title})
 					</c:if>
 				</h2>
-				
+
 				<input type="hidden" name="group" value="${group.id}:${role.id}"/>
-				
+
 				<u:sc>
 					<%
-						DynActionForm form = (DynActionForm)request.getAttribute( "form" ); 
-					
+						DynActionForm form = (DynActionForm)request.getAttribute( "form" );
+
 						IdTitle role = (IdTitle)pageContext.getAttribute( "role" );
 						IdTitle group = (IdTitle)pageContext.getAttribute( "group" );
-						
+
 						Set<ProcessExecutor> executors = ((Process)pageContext.getAttribute( "process" )).getProcessExecutors();
-						
+
 						String meGroupAndRole = null;
-						
+
 						List<Map<String, String>> list = new ArrayList<Map<String, String>>( executors.size() );
 						for( User user : UserCache.getUserList() )
 						{
@@ -75,34 +75,34 @@
 							{
 								continue;
 							}
-							
+
 							String userGroupAndRole = user.getId() + ":" + group.getId() + ":" + role.getId();
-							
+
 							Map<String, String> idTitle = new HashMap<String, String>();
 							list.add( idTitle );
-							
+
 							idTitle.put( "id", userGroupAndRole );
 							idTitle.put( "title", user.getTitle() );
-							
+
 							if( user.getId() == form.getUserId() )
 							{
-								meGroupAndRole = userGroupAndRole;									
+								meGroupAndRole = userGroupAndRole;
 							}
 						}
-						
-						Localizer l = Localization.getLocalizer();
-						
+
+						Localizer l = (Localizer) request.getAttribute("l");
+
 						if( meGroupAndRole != null )
 						{
 							Map<String, String> idTitle = new HashMap<String, String>();
 							list.add( 0, idTitle );
-							
+
 							idTitle.put( "id", meGroupAndRole );
 							idTitle.put( "title", l.l("** Я **") );
 							idTitle.put( "fake", "1" );
 						}
-						
-						Set<String> values = new HashSet<String>( executors.size() ); 
+
+						Set<String> values = new HashSet<String>( executors.size() );
 						for( ProcessExecutor ex : executors )
 						{
 							if( UserCache.getUser( ex.getUserId() ).getStatus() == 0 )
@@ -110,30 +110,30 @@
 								values.add( ex.getUserId() + ":" + ex.getGroupId() + ":" + ex.getRoleId() );
 							}
 						}
-						
+
 						EventProcessor.processEvent(new UserListEvent(form, list), null);
-						 
+
 						pageContext.setAttribute( "list", list );
 						pageContext.setAttribute( "values", values );
 					%>
-									
-					<ui:select-mult 
-					   hiddenName="executor" list="${list}" values="${values}" 
+
+					<ui:select-mult
+					   hiddenName="executor" list="${list}" values="${values}"
 					   style="width: 100%;" fakeHide="true"
 					/>
 				</u:sc>
-			</c:if>	
-			
+			</c:if>
+
 		</c:forEach>
 	</c:forEach>
-	
+
 	<%-- TODO: ИСПОЛНИТЕЛИ БЕЗ ГРУПП --%>
 
-	<c:set var="closeEditor">openUrlToParent( '${form.returnUrl}', $('#${form.returnChildUiid}') );</c:set>	
+	<c:set var="closeEditor">openUrlToParent( '${form.returnUrl}', $('#${form.returnChildUiid}') );</c:set>
 	<c:set var="saveCommand">if( sendAJAXCommand( formUrl( this.form ) ) ){ ${closeEditor} }</c:set>
-		
+
 	<div class="mt1">
 		<button class="btn-grey" type="button" onclick="${saveCommand}">ОК</button>
 		<button class="btn-grey ml1" type="button" onclick="${closeEditor}">${l.l('Отмена')}</button>
-	</div>				
+	</div>
 </html:form>
