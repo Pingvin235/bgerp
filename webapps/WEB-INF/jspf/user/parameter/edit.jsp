@@ -343,7 +343,7 @@
 							<c:otherwise>
 								<u:sc>
 									<c:set var="valuesHtml">
-										<li value="0">-- значение не установлено --</li>
+										<li value="0">-- ${l.l('значение не установлено')} --</li>
 										<c:forEach var="item" items="${listValues}">
 											<c:if test="${not( fn:startsWith(item.title, '@') )}">
 												<li value="${item.id}"	${u:selectedFromCollection( value, item.id )}>${item.title}</li>
@@ -364,7 +364,7 @@
 						</c:if>
 
 						<input id="${commentUiid}" type="text" style="width: 100%; ${commentDisplayStyle}" onchange="${changeScript}"
-								value="${currentComment}" placeholder="Комментарий" class="mt1"/>
+								value="${currentComment}" placeholder="${l.l('Комментарий')}" class="mt1"/>
 					</c:otherwise>
 				</c:choose>
 			</c:when>

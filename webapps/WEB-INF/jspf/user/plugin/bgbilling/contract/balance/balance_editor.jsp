@@ -93,5 +93,5 @@
 				}
 				openUrlToParent('${form.param.returnUrl}',this.form);
 			}">OK</button>
-	<button type="button" class="btn-grey ml1" onClick="openUrlToParent('${form.param.returnUrl}',this.form);">Отмена</button>
+	<button type="button" class="btn-grey ml1" onClick="openUrlToParent('${form.param.returnUrl}',this.form);">${l.l('Отмена')}</button>
 </form>

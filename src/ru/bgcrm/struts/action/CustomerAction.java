@@ -47,7 +47,7 @@ public class CustomerAction extends BaseAction {
     }
 
     public ActionForward customerCreate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        String title = form.getParam("title", "Новый контрагент");
+        String title = form.getParam("title", l.l("Новый контрагент"));
 
         Customer customer = new Customer();
         customer.setTitle(title);

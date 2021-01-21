@@ -46,7 +46,7 @@
 	</div>
 	 --%>
 
-	<ui:input-text name="filter" onSelect="openUrlContent( formUrl( this.form ) ); return false;" placeholder="Фильтр" size="40" value="${form.param['filter']}" title="Фильтр по наименованию, конфигурации"/>
+	<ui:input-text name="filter" onSelect="openUrlContent( formUrl( this.form ) ); return false;" placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" title="Фильтр по наименованию, конфигурации"/>
 
 	<button class="btn-grey" type="button" onclick="openUrlContent( formUrl( this.form ) )">=&gt;</button>
 
@@ -78,10 +78,10 @@
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
 		<td width="30%">${l.l('Наименование')}</td>
-		<td width="50">Подгрупп</td>
-		<td width="40%">Наборы прав</td>
-		<td width="50">Скрытая</td>
-		<td width="30%">Комментарий</td>
+		<td width="50">${l.l('Подгрупп')}</td>
+		<td width="40%">${l.l('Наборы прав')}</td>
+		<td width="50">${l.l('Скрытая')}</td>
+		<td width="30%">${l.l('Комментарий')}</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
@@ -129,8 +129,8 @@
 
 			<td>
 				<c:choose>
-					<c:when test="${item.archive == 1}">Да</c:when>
-					<c:otherwise>Нет</c:otherwise>
+					<c:when test="${item.archive == 1}">${l.l('Да</c:when>
+					<c:otherwise>${l.l('Нет</c:otherwise>
 				</c:choose>
 			</td>
 
@@ -139,6 +139,6 @@
 	</c:forEach>
 </table>
 
-<c:set var="title" value="Группы пользователей"/>
+<c:set var="title" value="${l.l('Группы пользователей')}"/>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

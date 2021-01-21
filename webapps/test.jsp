@@ -100,7 +100,7 @@
 
 			<button class="btn-grey">Текст</button>
 
-			<input type="text" placeholder="Фильтр"/>
+			<input type="text" placeholder="${l.l('Фильтр')}"/>
 
 			<button class="btn-white">Кнопка BUTTON</button>
 

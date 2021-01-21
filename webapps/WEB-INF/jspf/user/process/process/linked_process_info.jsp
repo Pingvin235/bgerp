@@ -7,23 +7,23 @@
 	<c:set var="priority" value="${process.priority}"/>
 	<%@ include file="/WEB-INF/jspf/process_color.jsp"%>
 	
-	<h2>Процесс</h2>
+	<h2>${l.l('Процесс')}</h2>
 	<h2 style="background-color:${color};">${process.typeTitle} (<a href="#UNDEF" onclick="openProcess(${process.id}); return false;">${process.id}</a>)</h2> 
 	<table class="oddeven" style="width: 100%;">
 		<tr>
-			<td nowrap="nowrap">Создан (статус)</td>
+			<td nowrap="nowrap">${l.l('Создан (статус)')}</td>
 			<td width="100%">${u:formatDate( process.createTime, 'ymdhms' )} ( ${process.statusTitle} )</td>
 		</tr>
 		<tr>
-			<td nowrap="nowrap">Закрыт</td>
+			<td nowrap="nowrap">${l.l('Закрыт')}</td>
 			<td width="100%">${u:formatDate( process.closeTime, 'ymdhms' )}</td>
 		</tr>
 		<tr>
-			<td nowrap="nowrap">Исполнители</td>
+			<td nowrap="nowrap">${l.l('Исполнители')}</td>
 			<td width="100%">${u:objectTitleList( ctxUserList, process.executorIds )}</td>
 		</tr>
 		<tr>
-			<td nowrap="nowrap">Отделы</td>
+			<td nowrap="nowrap">${l.l('Отделы')}</td>
 			<td width="100%">${u:objectTitleList( ctxUserGroupList, process.groupIds )}</td>
 		</tr>
 		<tr>
@@ -36,10 +36,10 @@
 				<h2>ИСТОРИЯ ИЗМЕНЕНИЯ СТАТУСА</h2>
 				<table style="width: 100%;" class="data">
 					<tr>
-						<td>Статус</td>
-						<td>Комментарий</td>
-						<td>Дата</td>
-						<td>Пользователь</td>
+						<td>${l.l('Статус')}</td>
+						<td>${l.l('Комментарий')}</td>
+						<td>${l.l('Дата')}</td>
+						<td>${l.l('Пользователь')}</td>
 					</tr>
 					<c:forEach var="item" items="${form.response.data.list}">
 						<tr>

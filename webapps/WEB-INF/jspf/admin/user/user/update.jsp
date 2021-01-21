@@ -139,7 +139,7 @@
 			<button class="btn-grey" onclick="if( sendAJAXCommand( formUrl( $('#${formUiid}') ), ${toPostNames} ) ){ openUrlContent( '${form.returnUrl}' ) }">ОК</button>
 		</c:otherwise>
 	</c:choose>
-	<button class="btn-grey" onclick="openUrlContent( '${form.returnUrl}' )">Отмена</button>
+	<button class="btn-grey" onclick="openUrlContent( '${form.returnUrl}' )">${l.l('Отмена')}</button>
 </div>
 
 <c:if test="${form.id gt 0}">

@@ -71,7 +71,7 @@
 				</c:url>
 			
 				<button type="button" class="btn-grey" onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlToParent( '${returnUrl}', $('#${uiid}') ) }">ОК</button> 
-				<button type="button" class="btn-grey" onclick="openUrlToParent( '${returnUrl}', $('#${uiid}') )">Отмена</button>
+				<button type="button" class="btn-grey" onclick="openUrlToParent( '${returnUrl}', $('#${uiid}') )">${l.l('Отмена')}</button>
 			</td>
 		</tr>		
 		</table>

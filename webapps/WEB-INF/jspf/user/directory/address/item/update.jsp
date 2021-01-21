@@ -12,23 +12,23 @@
 
 	<table style="width: 100%;" class="data">
 		<tr>
-			<td width="100">Параметр</td>
-			<td>Значение</td>
+			<td width="100">${l.l('Параметр')}</td>
+			<td>${l.l('Значение')}</td>
 		</tr>
 		<tr>
 			<td>ID</td>
 			<td>${form.param.addressItemId}</td>
 		</tr>
 		<tr>
-			<td>Страна</td>
+			<td>${l.l('Страна')}</td>
 			<td>${item.addressCity.addressCountry.title}</td>
 		</tr>
 		<tr>
-			<td>Город</td>
+			<td>${l.l('Город')}</td>
 			<td>${item.addressCity.title}</td>
 		</tr>
 		<tr>
-			<td>Название</td>
+			<td>${l.l('Название')}</td>
 			<td><html:text property="title" style="width: 100%" value="${item.title}"/></td>
 		</tr>
 		<%@ include file="../edit_tr.jsp"%>
@@ -36,11 +36,11 @@
 </html:form>
 
 <c:set var="state">
-	<span class='title'>Редактирование
+	<span class='title'>${l.l('Редактирование')}
 		<c:choose>
-			<c:when test="${itemType eq 'quarter'}">квартала</c:when>
-			<c:when test="${itemType eq 'area'}">района</c:when>
-			<c:otherwise>улицы</c:otherwise>
+			<c:when test="${itemType eq 'quarter'}">${l.l('квартала')}</c:when>
+			<c:when test="${itemType eq 'area'}">${l.l('района')}</c:when>
+			<c:otherwise>${l.l('улицы')}</c:otherwise>
 		</c:choose>
 	</span>
 </c:set>

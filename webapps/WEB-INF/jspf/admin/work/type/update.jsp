@@ -17,7 +17,7 @@
 			<div id="sample"></div>					
 			<input type="text" name="title" style="width: 100%" value="${workType.title}"/>
 					
-			<h2>Категория</h2>
+			<h2>${l.l('Категория')}</h2>
 			<u:sc>
 				<c:set var="list" value="${allowOnlyCategories}"/> 
 				<c:set var="hiddenName" value="categoryId"/>
@@ -26,7 +26,7 @@
 				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 			</u:sc>
 			
-			<h2>Цвет</h2>
+			<h2>${l.l('Цвет')}</h2>
 			<div class="controlset">
 				<input type="text" name="color" value="${workType.color}" />					
 			</div>
@@ -36,8 +36,8 @@
    			<h2>Учитывать в рабочих часах</h2>
 			<u:sc>
 				<c:set var="valuesHtml">						
-					<li value="0">Да</li>			
-					<li value="1">Нет</li>										
+					<li value="0">${l.l('Да')}</li>			
+					<li value="1">${l.l('Нет')}</li>										
 				</c:set>		 
 				<c:set var="hiddenName" value="nonWorkHours"/>
 				<c:set var="value" value="${workType.nonWorkHours ? 1 : 0}"/>
@@ -66,7 +66,7 @@
 			</u:sc>
 			 --%>
    	
-   			<h2>Комментарий</h2>
+   			<h2>${l.l('Комментарий')}</h2>
 			<html:textarea property="comment" style="width: 100%; resize: none;" value="${workType.comment}"/>
 			
 		</div><%--	
@@ -142,11 +142,11 @@
 		<td><html:text property="title" style="width: 100%" value="${workType.title}" /></td>
 	</tr>
 	<tr>
-		<td>Комментарий</td>
+		<td>${l.l('Комментарий')}</td>
 		<td><html:textarea property="comment" style="width: 100%" value="${workType.comment}" /></td>
 	</tr>		
 	<tr>
-		<td>Цвет:</td>
+		<td>${l.l('Цвет')}:</td>
 		<td>
 			<div class="controlset">
 				<input type="text" name="color" id="ruleColor${uiid}" value="${workType.workTypeConfig.color}" />					
@@ -154,15 +154,15 @@
 		</td>
 	</tr>
 	<tr valign="top">
-		<td>Правила</td>
+		<td>${l.l('Правила')}</td>
 		<td>
 			<input id="newRuleButton${uiid}" type="button" value="Добавить правило" />
 			<table id="ruleList${uiid}" style="margin-top: 10px; width: 100%;" class="data">
 				<tr style="font-weight: bold; text-align: center;">
 					<td style="width: 30px;"></td>
-					<td>Процессы</td>
-					<td>Услуги</td>
-					<td>Продолжительность</td>
+					<td>${l.l('Процессы')}</td>
+					<td>${l.l('Услуги')}</td>
+					<td>${l.l('Продолжительность')}</td>
 				</tr>				
 				<c:forEach var="item" items="${workType.workTypeConfig.rulesMap}">
 					<tr>
@@ -179,7 +179,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td>Обозначение</td>
+		<td>${l.l('Обозначение')}</td>
 		<td>
 			<select name="shortcutId">						
 				<option value="0">Не установлено</option>			

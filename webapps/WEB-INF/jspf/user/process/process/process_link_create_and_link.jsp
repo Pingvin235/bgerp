@@ -15,7 +15,7 @@
 				<div style="width: 100%;">
 					<u:sc>
 						<c:set var="valuesHtml">
-							<li value="0">-- значение не установлено --</li>
+							<li value="0">-- ${l.l('значение не установлено')} --</li>
 						</c:set>
 						<c:set var="list" value="${createTypeList}"/>
 						<c:set var="hiddenName" value="createTypeId"/>

@@ -33,7 +33,7 @@
 	<c:set var="doFilterCommand">this.form.parentTypeId.value = this.form.filter.value ? -1 : 0; openUrlContent( formUrl( this.form ) )</c:set>
 
 	<ui:input-text name="filter" onSelect="${doFilterCommand}; return false;"
-			placeholder="Фильтр" size="40" value="${form.param['filter']}" title="Фильтр по наименованию, конфигурации"/>
+			placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" title="Фильтр по наименованию, конфигурации"/>
 
 	<button class="btn-grey" type="button" onclick="${doFilterCommand}" title="${l.l('Вывести')}">=&gt;</button>
 

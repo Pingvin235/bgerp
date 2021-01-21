@@ -98,7 +98,7 @@
 
 		<div class="mt1 in-mr1">
 			<button class="btn-grey" type="button" onclick="${saveCommand}">ОК</button>
-			<button class="btn-grey" type="button" onclick="${returnToShow}">Отмена</button>
+			<button class="btn-grey" type="button" onclick="${returnToShow}">${l.l('Отмена')}</button>
 		</div>
 	</div>
 </html:form>

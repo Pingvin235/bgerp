@@ -23,9 +23,9 @@
 <table class="data mt1" style="width: 100%;">
 	<tr>
 		<td>ID</td>
-		<td>Описание</td>
-		<td>Статус</td>
-		<td>Создан</td>
+		<td>${l.l('Описание')}</td>
+		<td>${l.l('Статус')}</td>
+		<td>${l.l('Создан')}</td>
 	</tr>
 	
 	<c:forEach var="item" items="${form.response.data.list}">

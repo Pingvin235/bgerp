@@ -2,5 +2,5 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div class="tableIndent">
-	Создано ${fn:length( stepData.taskLinkList )} задач.
+	${l.l('Создано')} ${fn:length( stepData.taskLinkList )} ${l.l('задач')}.
 </div>

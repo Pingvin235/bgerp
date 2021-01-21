@@ -74,7 +74,7 @@
 		<tr>
 			<c:choose>
 				<c:when test="${not empty stepData.customer}">
-					<td width="50%"><button type="button" class="btn-grey" onclick="$('#${uiid} #select').hide(); $('#${uiid} #selected').show(); $('#${uiid} *.searchResult').hide ();" style="width: 100%">Отмена</button></td>
+					<td width="50%"><button type="button" class="btn-grey" onclick="$('#${uiid} #select').hide(); $('#${uiid} #selected').show(); $('#${uiid} *.searchResult').hide ();" style="width: 100%">${l.l('Отмена')}</button></td>
 					<td width="50%"><button type="button" class="btn-grey ml1" onclick="${createAndLinkCode}" style="width: 100%">Создать контрагента</button></td>
 				</c:when>
 				<c:otherwise>

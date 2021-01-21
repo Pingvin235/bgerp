@@ -11,7 +11,7 @@
 	<input type="text" disabled="disabled" disabled="true" style="width: 100%" value="${form.id}"/>
 	<h2>${l.l('Наименование')}</h2>
 	<html:text property="title" value="${appointment.title }" style="width:100%;"/>
-	<h2>Комментарий</h2>
+	<h2>${l.l('Комментарий')}</h2>
 	<html:textarea property="description" rows="3" value="${appointment.description}" style="width:100%"/>
 			
 	<div class="mt1">
@@ -19,5 +19,5 @@
 	</div>
 </html:form>
 
-<c:set var="state" value="Редактор"/>
+<c:set var="state" value="${l.l('Редактор')}"/>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>					

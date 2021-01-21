@@ -86,10 +86,10 @@
 
 	<ui:combo-single
 		hiddenName="typeId" value="${form.param.typeId}"
-		prefixText="Тип сообщения:" widthTextValue="50px"
+		prefixText="${l.l('Тип сообщения')}:" widthTextValue="50px"
 		onSelect="${script}">
 		<jsp:attribute name="valuesHtml">
-			<li value="-1">-- все --</li>
+			<li value="-1">-- ${l.l('все')} --</li>
 			<c:forEach var="item" items="${typeMap}">
 				<li value="${item.key}">
 					${item.value.title}
@@ -102,11 +102,11 @@
 
 	<ui:combo-single
 		hiddenName="processed" value="${form.param.processed}"
-		prefixText="Обработаны:" widthTextValue="20px"
+		prefixText="${l.l('Обработаны')}:" widthTextValue="20px"
 		onSelect="${script}">
 		<jsp:attribute name="valuesHtml">
-			<li value="0">Нет</li>
-			<li value="1">Да</li>
+			<li value="0">${l.l('Нет')}</li>
+			<li value="1">${l.l('Да')}</li>
 		</jsp:attribute>
 	</ui:combo-single>
 
@@ -117,11 +117,11 @@
 	</c:if>
 
 	<ui:combo-single
-		hiddenName="order" value="${form.param.order}" prefixText="Сортировка:"
+		hiddenName="order" value="${form.param.order}" prefixText="${l.l('Сортировка')}:"
 		widthTextValue="20px" onSelect="${script}">
 		<jsp:attribute name="valuesHtml">
-			<li value="1">Обратная</li>
-			<li value="0">Прямая</li>
+			<li value="1">${l.l('Обратная')}</li>
+			<li value="0">${l.l('Прямая')}</li>
 		</jsp:attribute>
 	</ui:combo-single>
 
@@ -159,11 +159,11 @@
 			<tr>
 				<td width="30">&nbsp;</td>
 				<td width="30">ID</td>
-				<td>Тип</td>
-				<td>Тема</td>
-				<td>От -&gt; На</td>
-				<td>Время</td>
-				<td>Процесс</td>
+				<td>${l.l('Тип')}</td>
+				<td>${l.l('Тема')}</td>
+				<td>${l.l('От')} -&gt; ${l.l('Кому')}</td>
+				<td>${l.l('Время')}</td>
+				<td>${l.l('Процесс')}</td>
 			</tr>
 
 			<c:forEach var="item" items="${form.response.data.list}">
@@ -197,10 +197,10 @@
 									   ${script}
 								   }">X</button>
 					</td>
-					<td>Тип</td>
-					<td>Тема</td>
-					<td>От -&gt; На</td>
-					<td>Время</td>
+					<td>${l.l('Тип')}</td>
+					<td>${l.l('Тема')}</td>
+					<td>${l.l('От')} -&gt; ${l.l('Кому')}</td>
+					<td>${l.l('Время')}</td>
 				</tr>
 				<c:forEach var="item" items="${form.response.data.list}">
 					<c:url var="url" value="/user/message.do">

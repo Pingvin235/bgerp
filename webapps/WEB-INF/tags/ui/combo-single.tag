@@ -75,7 +75,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 						$(this).toggle( content.indexOf( mask ) >= 0 );
 					});
 				</c:set>
-				<input type="text" style="width: 100%;" placeholder="Фильтр" onkeyup="${filterCode}"/>
+				<input type="text" style="width: 100%;" placeholder="${l.l('Фильтр')}" onkeyup="${filterCode}"/>
 			</li>
 		</c:if>
 

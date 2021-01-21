@@ -53,5 +53,5 @@
     </c:set>
 
     <button class="btn-grey mr1" type="button" onclick="${okCommand}">ОК</button>
-    <button class="btn-grey" type="button" onclick="${cancelCommand}">Отмена</button>
+    <button class="btn-grey" type="button" onclick="${cancelCommand}">${l.l('Отмена')}</button>
 </div>

@@ -17,18 +17,18 @@
 			<div id="${uiidSample}">
 				<input type="text" name="id" style="width: 100%" value="${group.id}" disabled="disabled"/>
 
-				<h2>Название</h2>
+				<h2>${l.l('Название')}</h2>
 				<input type="text" name="title" style="width: 100%" value="${group.title}"/>
 
-				<h2>Комментарий</h2>
+				<h2>${l.l('Комментарий')}</h2>
 				<input type="text" name="comment" style="width: 100%" value="${group.comment}"/>
 
-				<h2>Скрытая</h2>
+				<h2>${l.l('Скрытая')}</h2>
 
 				<u:sc>
 					<c:set var="valuesHtml">
-						<li value="0">Нет</li>
-						<li value="1">Да</li>
+						<li value="0">${l.l('Нет')}</li>
+						<li value="1">${l.l('Да')}</li>
 					</c:set>
 					<c:set var="hiddenName" value="archive"/>
 					<c:set var="value" value="${group.archive}"/>
@@ -38,7 +38,7 @@
 			</div>
 		</div><%--
    	--%><div style="width: 50%;">
-   			<h2>Конфигурация</h2>
+   			<h2>${l.l('Конфигурация')}</h2>
 			<textarea name="groupConfig" style="width:100%; resize: none;" wrap="off" id="${uiidTo}">${group.config}</textarea>
 		</div>
 	</div>
@@ -51,7 +51,7 @@
 
 	<div class="in-inline-block in-pr1 in-va-top">
 		<div style="width: 50%;">
-			<h2>Наборы прав</h2>
+			<h2>${l.l('Наборы прав')}</h2>
 
 			<u:sc>
 				<c:set var="list" value="${ctxUserPermsetList}"/>

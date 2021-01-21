@@ -87,7 +87,7 @@
 			<c:set var="uiidOk" value="${u:uiid()}"/>
 			<div class="mt1">
 				<button type="button" class="btn-grey" id="${uiidOk}">ОK</button>
-				<button type="button" class="btn-grey ml1" onclick="$('#${uiidEditor}').hide();">Отмена</button>
+				<button type="button" class="btn-grey ml1" onclick="$('#${uiidEditor}').hide();">${l.l('Отмена')}</button>
 			</div>
 		</div>
 	</c:if>	

@@ -7,8 +7,8 @@
 	<tr>
 		<td width="30">&nbsp;</td>
 		<td width="30">ID</td>
-		<td width="30">Страна</td>
-		<td width="100%">Город</td>
+		<td width="30">${l.l('Страна')}</td>
+		<td width="100%">${l.l('Город')}</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>

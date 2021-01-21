@@ -42,7 +42,7 @@
 		<div>
 			<button type="button" class="btn-grey" 
 				onclick="var result; if( confirm( 'Создать новый единый договор с выбранным адресом?' ) && (result = sendAJAXCommand( formUrl( this.form ) ) ) ){ ${reopenCommand}; $('#${tabsUiid}').tabs( 'showTab', 'commonContract-' + result.data.contract.id ) }">ОК</button>
-			<button type="button" class="btn-grey ml05" onclick="$('#${createCommonContractUiid}').hide(); $('#${createButtonsUiid}').show();">Отмена</button>	
+			<button type="button" class="btn-grey ml05" onclick="$('#${createCommonContractUiid}').hide(); $('#${createButtonsUiid}').show();">${l.l('Отмена')}</button>	
 		</div>	
 	</html:form> 
 </c:if>
@@ -158,7 +158,7 @@
 	</div>
 	<div>
 		<button type="button" class="btn-grey ml1" onclick="${contractCreateCode};">ОК</button>
-		<button type="button" class="btn-grey ml05" onclick="$('#${createContractUiid}').hide(); $('#${createButtonsUiid}').show();">Отмена</button>
+		<button type="button" class="btn-grey ml05" onclick="$('#${createContractUiid}').hide(); $('#${createButtonsUiid}').show();">${l.l('Отмена')}</button>
 	</div>
 </html:form>
 

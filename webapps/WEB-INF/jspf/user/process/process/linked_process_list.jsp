@@ -39,7 +39,7 @@
 
 			<div class="mt1">
 				<button type="button" class="btn-grey mr1" onclick="${saveCommand}">ОК</button>
-				<button type="button" class="btn-grey" onclick="${returnToShow}">Отмена</button>
+				<button type="button" class="btn-grey" onclick="${returnToShow}">${l.l('Отмена')}</button>
 			</div>
 		</div>
 	</form>
@@ -60,9 +60,9 @@
 			<c:set var="reloadCommand" value="$$.ajax.load($('#${linkedProcessList} > form'), $('#${linkedProcessList}').parent())"/>
 
 			<ui:combo-single hiddenName="typeId" value="${form.param.typeId}" onSelect="${reloadCommand}" 
-				prefixText="Тип:" showFilter="true" styleClass="mr1" widthTextValue="200px">
+				prefixText="${l.l('Тип')}:" showFilter="true" styleClass="mr1" widthTextValue="200px">
 				<jsp:attribute name="valuesHtml">
-					<li value="">Любой</li>
+					<li value="">${l.l('Любой')}</li>
 					<c:forEach var="type" items="${form.response.data.typeList}">
 						<li value="${type}">${ctxProcessTypeMap[type]}</li>
 					</c:forEach>
@@ -93,12 +93,12 @@
 			<table class="data">
 				<tr>
 					<td>ID</td>
-					<td>Создан</td>
-					<td>Закрыт</td>
-					<td>Роль</td>
-					<td>Тип</td>
-					<td>Статус</td>
-					<td>Описание</td>
+					<td>${l.l('Создан')}</td>
+					<td>${l.l('Закрыт')}</td>
+					<td>${l.l('Роль')}</td>
+					<td>${l.l('Тип')}</td>
+					<td>${l.l('Статус')}</td>
+					<td>${l.l('Описание')}</td>
 				</tr>
 				<c:forEach var="item" items="${form.response.data.list}">
 					<c:set var="process" value="${item.second}" />

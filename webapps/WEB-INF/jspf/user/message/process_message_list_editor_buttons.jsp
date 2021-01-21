@@ -3,5 +3,5 @@
 
 <div style="text-align: right;" class="pt1">
 	<button type="button" class="btn-grey mr1" onclick="${command}">OK</button>
-	<button type="button" class="btn-grey" onclick="${actionButtonCancelEdit}">Отмена</button>
+	<button type="button" class="btn-grey" onclick="${actionButtonCancelEdit}">${l.l('Отмена')}</button>
 </div>

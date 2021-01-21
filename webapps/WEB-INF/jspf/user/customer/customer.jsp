@@ -81,7 +81,7 @@
 		--%>
 
 		<div>
-			Создан: <b><fmt:formatDate value="${customer.createdDate}" pattern="dd.MM.yyyy"/></b>
+			${l.l('Создан')}: <b><fmt:formatDate value="${customer.createdDate}" pattern="dd.MM.yyyy"/></b>
 		</div>
 
 		<div class="in-inline-block">
@@ -132,7 +132,7 @@
 						$('#${mergeCustomersUiid} ul.drop' ).html( html );
 						uiComboSingleInit( $('#${mergeCustomersUiid}') );
 					</c:set>
-					<button class="btn-white btn-small" onclick="${script}" id="${mergeButtonUiid}">Слияние</button>
+					<button class="btn-white btn-small" onclick="${script}" id="${mergeButtonUiid}">${l.l('Слияние')}</button>
 
 					<div style="display:none" id="${mergeFormUiid}">
 						<form action="customer.do">
@@ -154,7 +154,7 @@
 									removeCommandDiv( 'customer-'.concat(this.form.mergingCustomerId.value) );
 									openUrlContent( '${form.requestUrl}' );
 								}">ОК</button>
-							<button type="button" class="btn-grey ml05 mr1" onclick="$('#${mergeButtonUiid}').toggle(); $('#${mergeFormUiid}').toggle();">Отмена</button>
+							<button type="button" class="btn-grey ml05 mr1" onclick="$('#${mergeButtonUiid}').toggle(); $('#${mergeFormUiid}').toggle();">${l.l('Отмена')}</button>
 						</form>
 					</div>
 				</div>

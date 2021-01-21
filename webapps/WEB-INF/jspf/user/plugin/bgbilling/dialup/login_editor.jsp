@@ -142,6 +142,6 @@
 	</c:set>
 
 	<button class="btn-grey" onclick="${saveScript}">OK</button>
-	<button class="btn-grey ml1" onclick="openUrlToParent( '${form.returnUrl}', $('#${uiid}') )">Отмена</button>
+	<button class="btn-grey ml1" onclick="openUrlToParent( '${form.returnUrl}', $('#${uiid}') )">${l.l('Отмена')}</button>
 </div>
 

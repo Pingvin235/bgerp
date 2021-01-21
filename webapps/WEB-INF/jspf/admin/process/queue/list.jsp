@@ -12,7 +12,7 @@
 		
 	<button type="button" class="btn-green" onclick="openUrlContent( '${url}' )">+</button>
 	
-	<ui:input-text styleClass="ml1" name="filter" value="${form.param.filter}" size="40" placeholder="Фильтр" title="Фильтр по наименованию, конфигурации"
+	<ui:input-text styleClass="ml1" name="filter" value="${form.param.filter}" size="40" placeholder="${l.l('Фильтр')}" title="Фильтр по наименованию, конфигурации"
 		onSelect="openUrlContent( formUrl( this.form ) ); return false;"/>
 		
 	<button class="btn-grey" type="button" onclick="openUrlContent( formUrl( this.form ) )" title="${l.l('Вывести')}">=&gt;</button>

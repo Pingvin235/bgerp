@@ -12,7 +12,7 @@
   	</c:url>
   	<button type="button" class="btn-green mr1" onclick="openUrlContent( '${url}' )">+</button>
 			
-	<ui:input-text name="filter" styleClass="ml1" value="${form.param.filter}" placeholder="Фильтр" size="40" title="Фильтр по наименованию, комментарию, конфигурации, параметрам действий"
+	<ui:input-text name="filter" styleClass="ml1" value="${form.param.filter}" placeholder="${l.l('Фильтр')}" size="40" title="Фильтр по наименованию, комментарию, конфигурации, параметрам действий"
 		onSelect="openUrlContent( formUrl( this.form ) ); return false;"/>
 			
 	<button class="btn-grey ml1" type="button" onclick="openUrlContent( formUrl( this.form ) )">=&gt;</button>
@@ -25,7 +25,7 @@
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
 		<td width="30%">${l.l('Наименование')}</td>
-		<td width="70%">Комментарий</td>
+		<td width="70%">${l.l('Комментарий')}</td>
 	</tr>
 	<c:forEach var="permset" items="${form.response.data.list}">
 		<tr>
@@ -66,7 +66,7 @@
 						onclick="if( confirm( 'Вы уверены, что хотите заменить права\nна права из выбранного набора?' ) && sendAJAXCommand( formUrl( this.form ) ) ){ $('#${uiid} > form').hide(); $('#${uiid} > input').show(); }">OK</button>
 					<button 
 						type="button" class="btn-grey" 
-						onclick="$('#${uiid} > form').hide(); $('#${uiid} > input').show();">Отмена</button>
+						onclick="$('#${uiid} > form').hide(); $('#${uiid} > input').show();">${l.l('Отмена')}</button>
 				</html:form>
 			</td>
 			

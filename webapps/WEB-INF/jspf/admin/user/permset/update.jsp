@@ -17,17 +17,17 @@
 			<div id="${uiidSample}">
 				<input type="text" name="id" style="width: 100%" value="${permset.id}" disabled="disabled"/>
 
-				<h2>Название</h2>
+				<h2>${l.l('Название')}</h2>
 				<input type="text" name="title" style="width: 100%" value="${permset.title}"/>
 
 				<div style="display: none;">
-					<h2>Роли</h2>
+					<h2>${l.l('Роли')}</h2>
 					<input type="text" name="roles" style="width: 100%" value="${permset.roles}"/>
 				</div>
 			</div>
 		</div><%--
 	--%><div style="width: 50%;" class="pl1">
-			<h2>Комментарий</h2>
+			<h2>${l.l('Комментарий')}</h2>
 			<textarea name="comment" id="${uiidTo}" style="width: 100%; resize: none;">${permset.comment}</textarea>
 		</div>
 	</div>
@@ -40,7 +40,7 @@
 
 	<div class="in-inline-block mt1 mb1">
 		<div style="width: 50%;">
-			<h2>Права</h2>
+			<h2>${l.l('Права')}</h2>
 			<div style="width:100%; height: 500px;">
 				<c:set var="permissionTreeId" value="${u:uiid()}"/>
 				<ul id="${permissionTreeId}" class="layout-height-rest" style="overflow: auto;">
@@ -59,7 +59,7 @@
 			</div>
 		</div><%--
 	--%><div style="width: 50%;" class="pl1">
-			<h2>Конфигурация</h2>
+			<h2>${l.l('Конфигурация')}</h2>
 			<textarea name="permsetConfig" style="width:100%; height: 500px; resize: none;" wrap="off">${permset.config}</textarea>
 		</div>
 	</div>
@@ -68,6 +68,6 @@
 	<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
 </html:form>
 
-<shell:state ltext="Редактор" help="kernel/setup.html#user"/>
+<shell:state ltext="${l.l('Редактор')}" help="kernel/setup.html#user"/>
 
 <%@ include file="/WEB-INF/jspf/layout_process.jsp"%>

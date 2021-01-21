@@ -188,6 +188,6 @@
 	
 	<div class="mt1 mb1">
 		<button class="btn-grey" type="button" onclick="if (sendAJAXCommand(formUrl(this.form))){openUrlToParent('${form.returnUrl}', $('#${uiid}'))}">OK</button>
-		<button class="btn-grey ml1" type="button" onclick="openUrlToParent( '${form.returnUrl}', $('#${uiid}') )">Отмена</button>
+		<button class="btn-grey ml1" type="button" onclick="openUrlToParent( '${form.returnUrl}', $('#${uiid}') )">${l.l('Отмена')}</button>
 	</div>	
 </html:form>

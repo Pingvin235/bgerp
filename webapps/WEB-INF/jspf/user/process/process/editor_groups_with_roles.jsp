@@ -63,6 +63,6 @@
 		
 	<div class="mt1">
 		<button class="btn-grey" type="button" onclick="${saveCommand}">ОК</button>
-		<button class="btn-grey ml1" type="button" onclick="${closeEditor}">Отмена</button>
+		<button class="btn-grey ml1" type="button" onclick="${closeEditor}">${l.l('Отмена')}</button>
 	</div>	
 </html:form>

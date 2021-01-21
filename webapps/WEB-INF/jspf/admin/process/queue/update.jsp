@@ -51,7 +51,7 @@
 		<c:set var="returnCommand" value="$$.ajax.load('${form.returnUrl}', $$.shell.$content())"/>
 
 		<button type="button" class="btn-grey mr1"  onclick="${saveCommand}.done(${returnCommand})">ОК</button>
-		<button type="button" class="btn-grey" onclick="${returnCommand}">Отмена</button>
+		<button type="button" class="btn-grey" onclick="${returnCommand}">${l.l('Отмена')}</button>
 
 		<c:url var="editUrl" value="/admin/process.do">
 			<c:param name="action" value="queueGet"/>

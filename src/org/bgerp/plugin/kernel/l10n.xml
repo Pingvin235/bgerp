@@ -226,6 +226,73 @@
 	<p><ru>Лицензия</ru><en>License</en></p>
 	<p><ru>Иниациализировать плагины</ru><en>Initialize plugins</en></p>
 	<p><ru>Загрузить файл лицензии</ru><en>Upload file with license</en></p>
+	<p><ru>Порядок</ru><en>Order</en></p>
+	<p><ru>Скрипт</ru><en>Script</en></p>
+	<p><ru>Где используется</ru><en>Usage</en></p>
+	<p><ru>Показать</ru><en>Show</en></p>
+	<p><ru>Лог изменений</ru><en>Change log</en></p>
+	<p><ru>Создан (статус)</ru><en>Created (status)</en></p>
+	<p><ru>Исполнители</ru><en>Executors</en></p>
+	<p><ru>Роль</ru><en>Role</en></p>
+	<p><ru>Создан с</ru><en>Created from</en></p>
+	<p><ru>по</ru><en>to</en></p>
+	<p><ru>Закрыт с</ru><en>Closed from</en></p>
+	<p><ru>с</ru><en>from</en></p>
+	<p><ru>задач</ru><en>tasks</en></p>
+	<p><ru>Слияние</ru><en>Merge</en></p>
+	<p><ru>Страна</ru><en>Country</en></p>
+	<p><ru>Город</ru><en>City</en></p>
+	<p><ru>УЛИЦА</ru><en>STREET</en></p>
+	<p><ru>РАЙОН</ru><en>AREA</en></p>
+	<p><ru>КВАРТАЛ</ru><en>QUATER</en></p>
+	<p><ru>Дом</ru><en>House</en></p>
+	<p><ru>Адресный справочник</ru><en>Address catalog</en></p>
+	<p><ru>Создать нового контрагента</ru><en>Create new customer</en></p>
+	<p><ru>Редактор дома</ru><en>House editor</en></p>
+	<p><ru>Район</ru><en>Area</en></p>
+	<p><ru>Квартал</ru><en>Quarter</en></p>
+	<p><ru>Номер дома с дробью</ru><en>House number with fraction</en></p>
+	<p><ru>Почтовый индекс</ru><en>Postcode</en></p>
+	<p><ru>Коментарий</ru><en>Comment</en></p>
+	<p><ru>ПАРАМЕТРЫ</ru><en>PARAMETERS</en></p>
+	<p><ru>Индекс</ru><en>Postcode</en></p>
+	<p><ru>квартала</ru><en>quater</en></p>
+	<p><ru>района</ru><en>area</en></p>
+	<p><ru>улицы</ru><en>street</en></p>
+	<p><ru>Открыт</ru><en>Opened</en></p>
+	<p><ru>Сумма</ru><en>Total</en></p>
+	<p><ru>Дата</ru><en>Date</en></p>
+	<p><ru>Подгрупп</ru><en>Subgroups</en></p>
+	<p><ru>Скрытая</ru><en>Hidden</en></p>
+	<p><ru>Группы пользователей</ru><en>Groups of users</en></p>
+	<p><ru>Роли</ru><en>Roles</en></p>
+	<p><ru>Права</ru><en>Rights</en></p>
+	<p><ru>Фильтр по наименованию</ru><en>Filter by title</en></p>
+	<p><ru>значение не установлено</ru><en>value is undefined</en></p>
+	<p><ru>Включить</ru><en>Turn on</en></p>
+	<p><ru>Выключить</ru><en>Turn off</en></p>
+	<p><ru>Текущий лог</ru><en>Current log</en></p>
+	<p><ru>Тип сообщения</ru><en>Message type</en></p>
+	<p><ru>все</ru><en>all</en></p>
+	<p><ru>Обратная</ru><en>Descending</en></p>
+	<p><ru>Прямая</ru><en>Ascending</en></p>
+	<p><ru>Тема</ru><en>Subject</en></p>
+	<p><ru>От</ru><en>From</en></p>
+	<p><ru>Кому</ru><en>To</en></p>
+	<p><ru>Обработаны</ru><en>Processed</en></p>
+	<p><ru>Сортировка</ru><en>Sorting</en></p>
+	<p><ru>Создать процесс</ru><en>Create process</en></p>
+	<p><ru>Фильтр - вернуться в полный</ru><en>Filter - return to full</en></p>
+	<p><ru>Фильтр - удалить</ru><en>Filter - delete</en></p>
+	<p><ru>Фильтр - извлечь в полный</ru><en>Filter - extract to full</en></p>
+	<p><ru>Фильтр - счетчик на панель</ru><en>Filter - counter on panel</en></p>
+	<p><ru>Фильтр - счетчик убрать с панели</ru><en>Filter - remove counter from panel</en></p>
+	<p><ru>Фильтр - сохранённые</ru><en>Filter - saved</en></p>
+	<p><ru>Фильтр - сохранить</ru><en>Filter - save</en></p>
+	<p><ru>Фильтр - сброс</ru><en>Filter - reset</en></p>
+	<p><ru>Фильтр не выбран</ru><en>Filter - not selected</en></p>
+	<p><ru>Удалить сохранённый фильтр</ru><en>Delete saved filter</en></p>
+	<p><ru>Выгрузка в Excel</ru><en>Export to Excel</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

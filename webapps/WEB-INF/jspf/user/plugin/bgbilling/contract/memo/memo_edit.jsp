@@ -20,6 +20,6 @@
 	<c:set var="returnCommand" value="openUrlToParent('${form.returnUrl}',$(this.form));"/>
 	<div class="mt1">
 		<button type="button" class="btn-grey" onclick="if( sendAJAXCommand( formUrl(this.form) ) ){ ${returnCommand} }">OK</button>
-		<button type="button" class="btn-grey ml1" onclick="${returnCommand}">Отмена</button>
+		<button type="button" class="btn-grey ml1" onclick="${returnCommand}">${l.l('Отмена')}</button>
 	</div>
 </form>

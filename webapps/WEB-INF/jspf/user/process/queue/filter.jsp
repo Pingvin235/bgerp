@@ -46,7 +46,7 @@
 	<div style="height: 0px; max-height: 0px; width: 0px; max-width: 0px;">
 		<ul style="display: none; z-index: 2000;" id="${uiidMoreMenu}">
 			<c:if test="${queue.configMap['allowCreateProcess'] ne 0}">
-				<li draggable="true"><a onclick="$('#processQueueShow').hide(); $('#processQueueCreateProcess').show();">Создать процесс</a></li>
+				<li draggable="true"><a onclick="$('#processQueueShow').hide(); $('#processQueueCreateProcess').show();">${l.l('Создать процесс')}</a></li>
 			</c:if>
 
 			<c:if test="${not empty queue.getMediaColumnList('print') or not empty queue.configMap['allowPrint']}">
@@ -79,20 +79,20 @@
 				</c:forEach>
 			</c:if>
 
-			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="$$.process.queue.changed(0);">Фильтр - вернуться в полный</a></li>
+			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="$$.process.queue.changed(0);">${l.l('Фильтр - вернуться в полный')}</a></li>
 			<c:set var="getSavedSetId">
 				var savedSetId = $('#processQueueFilter > #${queue.id}').find( '#savedFilters div.btn-blue' ).attr( 'id' ) ;
 				if( !savedSetId )
 				{
-					alert( 'Фильтр не выбран!' );return;
+					alert( '${l.l('Фильтр не выбран')}!' );return;
 				}
 			</c:set>
 			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}>
-				<a onclick="if( !confirm( 'Удалить сохранённый фильтр?' ) ){ return; }
+				<a onclick="if( !confirm( '${l.l('Удалить сохранённый фильтр')}?' ) ){ return; }
 					${getSavedSetId}
 					$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=delete').done(() => {
 						processQueueFilterSetSelect(${queue.id})
-					})">Фильтр - удалить</a>
+					})">${l.l('Фильтр - удалить')}</a>
 			</li>
 			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}>
 				<a onclick="
@@ -100,19 +100,19 @@
 					$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=' + savedSetId + '&command=toFullFilter').done(() => {
 						$('#processQueueFilter > div#${queue.id}').remove();
 						$$.process.queue.changed(0);
-					})">Фильтр - извлечь в полный</a>
+					})">${l.l('Фильтр - извлечь в полный')}</a>
 			</li>
-			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="addCounterToPanel();">Фильтр - счетчик на панель</a></li>
-			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="delCounterFromPanel();">Фильтр - счетчик убрать с панели</a></li>
+			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="addCounterToPanel();">${l.l('Фильтр - счетчик на панель')}</a></li>
+			<li draggable="true" id="savedFilters" ${hideWhenFullFilter}><a onclick="delCounterFromPanel();">${l.l('Фильтр - счетчик убрать с панели')}</a></li>
 
-			<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$$.process.queue.changed(1);">Фильтр - сохранённые</a></li>
-			<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$('#${saveFilterFormUiid}').css('display','');">Фильтр - сохранить</a></li>
+			<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$$.process.queue.changed(1);">${l.l('Фильтр - сохранённые')}</a></li>
+			<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}><a onclick="$('#${saveFilterFormUiid}').css('display','');">${l.l('Фильтр - сохранить')}</a></li>
 			<li draggable="true" id="${queue.id}-0" ${hideWhenSavedFilter}>
 				<a onclick="if( !confirm( 'Сбросить полный фильтр?' ) ){ return; }
 					$$.ajax.post('/user/process/queue.do?action=queueSavedFilterSet&queueId=${queue.id}&id=0&command=toFullFilter').done(() => {
 						$('#processQueueFilter > div#${queue.id}').remove();
 						$$.process.queue.changed(0);
-					})">Фильтр - сброс</a>
+					})">${l.l('Фильтр - сброс')}</a>
 			</li>
 
 			<c:forEach var="processor" items="${queue.processorMap.values()}">
@@ -140,7 +140,7 @@
 						}
 						window.location.href = formUrl( $('#processQueueFilter form#' + ${queue.id} + '-' + savedSetId )) +'&xls=1';
 				</c:set>
-				<li><a onclick="${xls}">Выгрузка в Excel</a></li>
+				<li><a onclick="${xls}">${l.l('Выгрузка в Excel')}</a></li>
 			</c:if>
 		</ul>
 	</div>
@@ -214,7 +214,7 @@
 				</c:set>
 
 				<button id="okButton" type="button" class="btn-grey" onclick="${doScript}">ОК</button>
-				<button type="button" class="btn-grey ml05 mr1" onclick="$(this.form).hide();">Отмена</button>
+				<button type="button" class="btn-grey ml05 mr1" onclick="$(this.form).hide();">${l.l('Отмена')}</button>
 			</form>
 		</c:forEach>
 	</div>
@@ -232,7 +232,7 @@
 			onclick="if( this.form.title.value == '' ){ alert( 'Введите название!'); return; }
 					this.form.url.value = $$.ajax.formUrl($('#processQueueFilter').find('form#${queue.id}-0'), ['page.pageIndex', 'savedFilterSetId']);
 					$$.ajax.post(this.form).done(() => { processQueueFilterSetSelect(${queue.id}) })">OK</button>
-		<button type="button" class="btn-grey" onclick="$(this.form).hide()">Отмена</button>
+		<button type="button" class="btn-grey" onclick="$(this.form).hide()">${l.l('Отмена')}</button>
 	</form>
 
 	<%-- сохранённые фильтры --%>
@@ -328,7 +328,7 @@
 						<c:set var="title" value="Типы"/>
 						<c:set var="code">
 							<u:sc>
-								<c:set var="prefixText" value="Тип:"/>
+								<c:set var="prefixText" value="${l.l('Тип')}:"/>
 								<c:set var="paramName" value="type"/>
 								<c:set var="list" value="${form.response.data.typeList}"/>
 								<c:set var="map" value="${ctxProcessTypeMap}"/>
@@ -355,9 +355,9 @@
 								<span class="dontResetOnHideFilter"></span>
 
 								<c:set var="valuesHtml">
-									<li value="none">Все</li>
-									<li value="open">Нет</li>
-									<li value="close">Да</li>
+									<li value="none">${l.l('Все')}</li>
+									<li value="open">${l.l('Нет')}</li>
+									<li value="close">${l.l('Да')}</li>
 								</c:set>
 
 								<c:set var="hiddenName" value="openClose"/>
@@ -485,8 +485,8 @@
 
 						<c:set var="title" value="Дата создания"/>
 						<c:set var="code">
-							Создан с: <input type="text" name="dateCreateFrom" value="${dateFrom}"/>
-							по: <input type="text" name="dateCreateTo" value="${dateTo}"/>
+							${l.l('Создан с')}: <input type="text" name="dateCreateFrom" value="${dateFrom}"/>
+							${l.l('по')}: <input type="text" name="dateCreateTo" value="${dateTo}"/>
 						</c:set>
 
 						<u:sc>
@@ -527,9 +527,9 @@
 
 						<c:set var="title" value="Дата закрытия"/>
 						<c:set var="code">
-							Закрыт с:
+							${l.l('Закрыт с')}:
 							<input type="text" name="dateCloseFrom" value="${dateFrom}"/>
-							по <input type="text" name="dateCloseTo" value="${dateTo}"/>
+							${l.l('по')} <input type="text" name="dateCloseTo" value="${dateTo}"/>
 						</c:set>
 
 						<u:sc>
@@ -570,18 +570,18 @@
 							</u:sc>
 							<c:choose>
 								<c:when test="${not empty savedParamsFilters.get( 'dateStatusFrom' ) }">
-									с <input type="text" value="${savedParamsFilters.get( 'dateStatusFrom' )}" name="dateStatusFrom"/>
+									${l.l('с')} <input type="text" value="${savedParamsFilters.get( 'dateStatusFrom' )}" name="dateStatusFrom"/>
 								</c:when>
 								<c:otherwise>
-									с <input type="text" name="dateStatusFrom"/>
+									${l.l('с')} <input type="text" name="dateStatusFrom"/>
 								</c:otherwise>
 							</c:choose>
 							<c:choose>
 								<c:when test="${not empty savedParamsFilters.get( 'dateStatusTo' ) }">
-									по <input type="text" value="${savedParamsFilters.get( 'dateStatusTo' )}" name="dateStatusFrom"/>
+									${l.l('по')} <input type="text" value="${savedParamsFilters.get( 'dateStatusTo' )}" name="dateStatusFrom"/>
 								</c:when>
 								<c:otherwise>
-									по <input type="text" name="dateStatusTo"/>
+									${l.l('по')} <input type="text" name="dateStatusTo"/>
 								</c:otherwise>
 							</c:choose>
 						</c:set>
@@ -648,18 +648,18 @@
 									${title}
 									<c:choose>
 										<c:when test="${not empty savedParamsFilters.get( 'dateTimeParam'.concat(filter.parameter.id).concat('From') ) }">
-											с <input type="text" value="${savedParamsFilters.get('dateTimeParam'.concat(filter.parameter.id).concat('From')) }" name="dateTimeParam${filter.parameter.id}From" />
+											${l.l('с')} <input type="text" value="${savedParamsFilters.get('dateTimeParam'.concat(filter.parameter.id).concat('From')) }" name="dateTimeParam${filter.parameter.id}From" />
 										</c:when>
 										<c:otherwise>
-											с <input type="text" name="dateTimeParam${filter.parameter.id}From" />
+											${l.l('с')} <input type="text" name="dateTimeParam${filter.parameter.id}From" />
 										</c:otherwise>
 									</c:choose>
 									<c:choose>
 										<c:when test="${not empty savedParamsFilters.get( 'dateTimeParam'.concat(filter.parameter.id).concat('To') ) }">
-											по <input type="text" value="${savedParamsFilters.get('dateTimeParam'.concat(filter.parameter.id).concat('To')) }" name="dateTimeParam${filter.parameter.id}To" />
+											${l.l('по')} <input type="text" value="${savedParamsFilters.get('dateTimeParam'.concat(filter.parameter.id).concat('To')) }" name="dateTimeParam${filter.parameter.id}To" />
 										</c:when>
 										<c:otherwise>
-											по <input type="text" name="dateTimeParam${filter.parameter.id}To" />
+											${l.l('по')} <input type="text" name="dateTimeParam${filter.parameter.id}To" />
 										</c:otherwise>
 									</c:choose>
 								</c:set>
@@ -897,7 +897,7 @@
 
 					<ui:combo-single value="${value}" hiddenName="sort" widthTextValue="50px">
 						<jsp:attribute name="valuesHtml">
-							<li value="0">- нет -</li>
+							<li value="0">- ${l.l('нет')} -</li>
 							<c:forEach var="mode" items="${queue.sortSet.modeList}" varStatus="statusItem">
 								<li value="${mode.orderExpression}">${mode.title}</li>
 							</c:forEach>

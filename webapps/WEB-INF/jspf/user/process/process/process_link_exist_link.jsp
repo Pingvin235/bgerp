@@ -28,6 +28,6 @@
 		</c:set>
 		
 		<button class="btn-grey" type="button" onclick="${script}">OK</button>
-		<button class="btn-grey ml05" type="button" onclick="$('#${uiid} #linkObjects').hide(); $('#${uiid} #addButton').show();">Отмена</button>
+		<button class="btn-grey ml05" type="button" onclick="$('#${uiid} #linkObjects').hide(); $('#${uiid} #addButton').show();">${l.l('Отмена')}</button>
 	</div>
 </div>

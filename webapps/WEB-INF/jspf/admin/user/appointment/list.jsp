@@ -13,7 +13,7 @@
 <html:form action="admin/appointment" onsubmit="return false;" styleClass="mb1 in-mr1" styleId="${uiid}">
 	<input type="hidden" name="action" value="appointmentList"/>
 	<button type="button" class="btn-green" onclick="openUrlContent( '${createUrl}' )">+</button>
-	<ui:input-text size="30" onSelect="${showCode}" name="title" value="${form.param['title']}" placeholder="Фильтр" styleClass="ml1"/>
+	<ui:input-text size="30" onSelect="${showCode}" name="title" value="${form.param['title']}" placeholder="${l.l('Фильтр')}" styleClass="ml1"/>
 	<button type="button" class="btn-grey" onclick="${showCode}">=&gt;</button>		
 	
 	<div style="display: inline-block; float: right; vertical-align: middle;" class="pt05 pb05">
@@ -27,7 +27,7 @@
 			<td width="30">&#160;</td>
 			<td width="30">ID</td>		
 			<td width="20%">${l.l('Наименование')}</td>
-			<td width="80%">Комментарий</td>
+			<td width="80%">${l.l('Комментарий')}</td>
 		</tr>
 	
 	<c:forEach var="item" items="${form.response.data.list}">
@@ -53,6 +53,6 @@
 	</tbody>	
 </table>
 
-<c:set var="title" value="Должности"/>
+<c:set var="title" value="${l.l('Должности')}"/>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

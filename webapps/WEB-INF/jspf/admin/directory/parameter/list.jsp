@@ -23,16 +23,16 @@
 		<tr>
 			<td width="30">&#160;</td>
 			<td width="30">ID</td>
-			<td width="50">Тип</td>
-			<td width="50">Порядок</td>
-			<td width="35%">Название</td>
+			<td width="50">${l.l('Тип')}</td>
+			<td width="50">${l.l('Порядок')}</td>
+			<td width="35%">${l.l('Название')}</td>
 
-			<td>Скрипт</td>
+			<td>${l.l('Скрипт')}</td>
 
-			<td width="20%">Комментарий</td>
-			<td width="35%">Конфигурация</td>
+			<td width="20%">${l.l('Комментарий')}</td>
+			<td width="35%">${l.l('Конфигурация')}</td>
 			<c:if test="${form.param.directoryId eq 'processParameter'}">
-				<td width="20%">Где используется</td>
+				<td width="20%">${l.l('Где используется')}</td>
 			</c:if>
 		</tr>
 
@@ -77,7 +77,7 @@
 									<c:param name="parameterId" value="${parameterId}" />
 								</c:url>
 
-								<button type="button" class="btn-white btn-small" style="width: 100%" onclick="$(this).hide(); openUrlTo('${showUrl}', $('#${showId}') );">Показать</button>
+								<button type="button" class="btn-white btn-small" style="width: 100%" onclick="$(this).hide(); openUrlTo('${showUrl}', $('#${showId}') );">${l.l('Показать')}</button>
 
 								<div id="${showId}">
 								</div>

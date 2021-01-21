@@ -13,7 +13,7 @@
 		<div id="${addDialogId}" title="Родительский элимент - ${node.title}" style="display:none;overflow:auto;">
 			<textarea id="${textareaId}" style="width:100%;height:200px;">${node.title} - </textarea><br/>
 			<input value="OK" type="button" onclick="">
-			<input value="Отмена" type="button" onclick="$('#${addDialogId}').dialog( 'close' );">
+			<input value="${l.l('Отмена')}" type="button" onclick="$('#${addDialogId}').dialog( 'close' );">
 		</div>
 		
 		<c:choose>

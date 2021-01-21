@@ -167,7 +167,7 @@
 									<c:choose>
 										<c:when test="${parameter.configMap.needComment}">
 											<input type="file" name="file" style="visibility: block" />
-											Комментарий<input type="text" name="comment" value="" />
+											${l.l('Комментарий')}<input type="text" name="comment" value="" />
 											<input type="button" class="btn-white btn-small" value="Выгрузить" onclick="$(this.form).submit();" />
 										</c:when>
 										<c:otherwise>

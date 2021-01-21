@@ -180,7 +180,7 @@
 			<button type="button" class="btn-grey ml1"
 						onclick="${changeCustomerScript}">OK</button>
 			<button type="button" class="btn-grey ml05"
-						onclick="$('#${editTdId}').hide(); $('#${showTdId}').show();">Отмена</button>
+						onclick="$('#${editTdId}').hide(); $('#${showTdId}').show();">${l.l('Отмена')}</button>
 		</div>
 
 		<c:if test="${not empty contract.title}">
@@ -199,7 +199,7 @@
 					<c:param name="contractId" value="${contractId }" />
 				</c:url>
 
-				<button type="button" class="btn-white btn-small" onclick="sendAJAXCommand('${openUrl}')">Открыть в биллинге</button>
+				<button type="button" class="btn-white btn-small" onclick="sendAJAXCommand('${openUrl}')">${l.l('Открыть в биллинге')}</button>
 			</div>
 		</c:if>
 	</div>
@@ -207,8 +207,8 @@
 	<c:if test="${not empty contract.title}">
 		<div id="${tabsUiid}">
 			<ul><%--
-			--%><li><a href='#params'>Параметры</a></li><%--
-			--%><li><a href='#reports'>Отчёты</a></li><%--
+			--%><li><a href='#params'>${l.l('Параметры')}</a></li><%--
+			--%><li><a href='#reports'>${l.l('Отчёты')}</a></li><%--
 		--%></ul>
 			<div id="params">
 				<%@ include file="contract_billing_data.jsp"%>

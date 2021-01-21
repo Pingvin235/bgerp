@@ -199,7 +199,7 @@
 	<c:if test="${empty hideButtons}">
 		<div style="display: inline-block;">			
 			<button type="button" class="btn-grey" onclick="${saveCommand}">ОК</button> 
-			<button type="button" class="btn-grey ml1" onclick="openUrlToParent( '${form.returnUrl}',  $('#${parametersInfo}'))">Отмена</button>
+			<button type="button" class="btn-grey ml1" onclick="openUrlToParent( '${form.returnUrl}',  $('#${parametersInfo}'))">${l.l('Отмена')}</button>
 		</div> 
 	</c:if>	
 </form>
