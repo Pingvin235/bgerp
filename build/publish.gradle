@@ -1,67 +1,9 @@
-task publishUpdate(dependsOn: ['touchChanges', 'resetProperties']) {
+task publishUpdate(type: JavaExec, dependsOn: ['compileToolsJava', 'touchChanges', 'resetProperties']) {
     mustRunAfter 'buildDoc'
     mustRunAfter 'buildUpdate'
-    doFirst {
-        def processId = getProcessId()
-
-        println "Publish remotely"
-
-        def sshLogin = "bgerp-cdn@pzdc.de"
-        def sshFolder = "/home/bgerp-cdn/www/update/$processId"
-
-        println "Create dir if not exists"
-        println "ssh $sshLogin mkdir -p $sshFolder".execute().text
-
-        def updateFile = publishUpdateFile(sshLogin, sshFolder, "update")
-        def updateLibFile = publishUpdateFile(sshLogin, sshFolder, "update_lib")
-
-        def docDir = file("$projectDir/target/doc")
-        if (docDir.exists()) {
-            println "Sync doc"
-            println "rsync -ru --delete $projectDir/target/doc $sshLogin:$sshFolder".execute().text
-        }
-
-        def changesName = "$projectDir/build/changes.${processId}.txt"
-        def changesFile = file(changesName)
-        if (changesFile.exists()) {
-            println "Copy changes"
-
-            def content = changesFile.text.replaceAll("doc/3.0/manual", "update/$processId/doc")
-            println content
-
-            changesName = "$projectDir/target/changes.txt"
-            file(changesName).write(content)
-
-            println "scp $changesName $sshLogin:$sshFolder".execute().text
-        }
-
-        def updateDir = "https://bgerp.org/update"
-
-        println "Update links:"
-        println "$updateDir/$processId"
-        if (updateFile)
-            println "$updateDir/$processId/" + updateFile.getName()
-        if (updateLibFile)
-            println "$updateDir/$processId/" + updateLibFile.getName()
-        if (docDir.exists())
-            println "$updateDir/$processId/doc"
-        if (changesFile.exists())
-            println "$updateDir/$processId/changes.txt"
-    }
-}
-
-def publishUpdateFile(String sshLogin, String sshFolder, String name) {
-    def mask = "${name}_${version}_*.zip"
-    def files = fileTree("$projectDir/build/$name").matching {include mask}
-    if (!files.isEmpty()) {
-        def file = files.getSingleFile()
-        println "Remove existing $mask"
-        println "ssh $sshLogin rm $sshFolder/$mask".execute().text
-        println "Copy $file"
-        println "scp $file $sshLogin:$sshFolder".execute().text
-        return file
-    }
-    return null
+    classpath =  sourceSets.tools.runtimeClasspath
+    main = 'ru.bgerp.tool.PublishUpdate'
+    args projectDir, version, "${->getProcessId()}"
 }
 
 task publishBuild {

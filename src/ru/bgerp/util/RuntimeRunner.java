@@ -10,9 +10,14 @@ import com.google.common.collect.Lists;
 import org.apache.log4j.Level;
 import org.apache.log4j.Priority;
 
+/**
+ * Runner of OS commands, writing STDOUT and STDERR output
+ * to a log with levels INFO and ERROR.
+ * @author Shamil Vakhitov
+ */
 public class RuntimeRunner {
     private static final Log log = Log.getLog();
-    
+
     private static class StreamGobbler extends Thread {
         private final InputStream is;
         private final Priority logLevel;
@@ -34,10 +39,9 @@ public class RuntimeRunner {
             }
         }
     }
-    
-    
+
     private final String[] commands;
-    
+
     public RuntimeRunner(String[] commands) {
         this.commands = commands;
     }

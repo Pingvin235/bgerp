@@ -17,6 +17,10 @@ import org.apache.commons.io.IOUtils;
 
 import ru.bgerp.util.Log;
 
+/**
+ * Appender separated branch-based changes files to changes.txt.
+ * @author Shamil Vakhitov
+ */
 public class PatchChanges {
     private static final Log LOG = Log.getLog();
     

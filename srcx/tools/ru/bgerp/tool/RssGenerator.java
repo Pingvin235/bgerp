@@ -20,6 +20,10 @@ import com.google.common.base.Charsets;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
+/**
+ * Convertor changes.txt to RSS changes.xml.
+ * @author Shamil Vakhitov
+ */
 public class RssGenerator {
 
     // Mon, 06 Mar 2017 15:05:02 +0500

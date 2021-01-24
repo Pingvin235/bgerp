@@ -1,0 +1,2 @@
+C: Task 'publishUpdate' rewritten to Java.
+A: Automatically publish branch updates using GitLab CI.
