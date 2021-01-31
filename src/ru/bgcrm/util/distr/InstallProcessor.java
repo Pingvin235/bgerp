@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InstallProcessor {
-    private static VersionInfo serverVersionInfo = VersionInfo.getVersionInfo("update");
+    private static VersionInfo serverVersionInfo = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE);
 
     private static Setup setup = Setup.getSetup();
 

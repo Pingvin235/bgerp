@@ -1,8 +1,8 @@
 <item title="Plugin Blow">
 	<item title="Board">
-		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:board" title="Board list"/>
-		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:show" title="View board"/>
-		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:move" title="Move"/>
-		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:search" title="Search"/>
-	</item>	
+		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:board, ru.bgerp.plugin.blow.action.BoardAction:board" title="Board list"/>
+		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:show, ru.bgerp.plugin.blow.action.BoardAction:show" title="View board"/>
+		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:move, ru.bgerp.plugin.blow.action.BoardAction:move" title="Move"/>
+		<item action="ru.bgerp.plugin.blow.struts.action.BoardAction:search, ru.bgerp.plugin.blow.action.BoardAction:search" title="Search"/>
+	</item>
 </item>

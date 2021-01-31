@@ -483,33 +483,47 @@ Isolation is a primary trait of a plugin. Each plugin works with a kernel and ke
 Plugins do not have to 'know' how other plugins work, either.
 'Knowing' here means a necessity to rely on certain APIs or specific method calls.
 
+[[plugin-kernel]]
+==== Kernel
+The special javadoc:org.bgerp.plugin.kernel.Plugin[kernel] <<plugin-class, plugin>> is responsible for keeping the kernel functionality of the system.
+
+This plugin is a specific one, because:
+[square]
+* always <<kernel/setup.adoc#config-plugin, enabled>> and required for normal work of the program
+* because that do not need <<plugin-endpoint, endpoints>>
+* Java classes spread outside a single *PLUGIN_PACKAGE*
+* JSP files are also in many directories
+
+Using those assumptions the system may be presented as set of plugins.
+
 [[plugin-class]]
 ==== Plugin's Java class
 Application detects plugin upon start by a mandatory Java class, extended from javadoc:ru.bgcrm.plugin.Plugin[]
 Class example; link:../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
 
-Each plugin has a corresponding (and unique) Java *PLUGIN_PACKAGE* which includes this specific class.
+Each plugin has a corresponding and unique:
+[square]
+* *PLUGIN_ID* - a single and unique for a plugin English word, all single case (no upper/lower mix) and without special symbols.
+* Java *PLUGIN_PACKAGE* which includes this specific class.
 
-Plugin class initialization method can also define event listeners:
+[[plugin-init]]
+===== Init
+Plugin class *init* method is called for all <<kernel/setup.adoc#config-plugin, enabled>> plugins during the server start.
 [snippet, from="Eve", to="ss);", remove-leading="        "]
 link:../../src/ru/bgcrm/plugin/slack/Plugin.java#L22-L24[ru.bgcrm.plugin.slack.Plugin]
 
 In the particular case shown above, function handler gets included into <<kernel/extension.adoc#jexl, JEXL>> context.
 
-Each plugin has to have a unique string identified which satisfies the following requirements:
-[square]
-* A single and unique for a plugin English word, all single case (no upper/lower mix) and without special symbols
-* Plugin's <<plugin-db, DB tables>>, if present, have to start from this identifier.
-* Plugin's <<action, action's>> URLs, if present, have to start from `/user|usermob|open/plugin/<identifier>`.
-
 [[plugin-db]]
 ==== Database
 If plugin uses <<mvc, DB>>, then plugin package can contain a script which creates or modifies tables.
-`db.sql` script gets invoked during standard initialization routine.
+When `db.sql` script presented in *PLUGIN_PACKAGE* it gets invoked during standard <<plugin-init, initialization>> routine.
 
 Below is an example of a script for a FullText plugin
 [snippet]
 link:../../src/ru/bgcrm/plugin/fulltext/db.sql[src/ru/bgcrm/plugin/fulltext/db.sql]
+
+Plugin DB table names have to start from <<plugin-class, PLUGIN_ID>>.
 
 <<kernel/db.adoc#, DB Structure>> is documented in the common <<documentation, process>>, simultaneously with making changes.
 
@@ -525,22 +539,14 @@ Directory data is edited directly in DB and cache is cleared after an edit.
 [snippet, from="pu", to="}"]
 link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L92-L98[ru.bgcrm.struts.action.admin.UserAction]
 
-[[plugin-xml]]
-==== XML declaration
-Optional `plugin.xml` file located within *PLUGIN_PACKAGE*
+[[plugin-endpoint]]
+==== Endpoints
+NOTE: Earlier plugin endpoints were described in `plugin.xml` file located within *PLUGIN_PACKAGE*
 
-This file defines extension points:
+Endpoints used for connecting non-Java plugin parts:
 [square]
-* JSP templates;
+* JSP includes;
 * JS files.
-
-[[plugin-ui-menu]]
-===== Menu items
-Extension points definition within Plugin class:
-[snippet, from="Endpoint.USER_MENU", to=",", remove-leading="            "]
-link:../../src/ru/bgerp/plugin/blow/Plugin.java#L22-L22[ru.bgerp.plugin.blow.Plugin]
-
-Adding a menu item using JSP tag: link:../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
 
 [[plugin-js]]
 ===== JavaScript
@@ -550,45 +556,62 @@ link:../../src/ru/bgerp/plugin/blow/Plugin.java#L20-L20[ru.bgerp.plugin.blow.Plu
 
 File containing script: link:../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
 
+[[plugin-ui-menu]]
+===== Menu items
+Menu item in <<kernel/interface.adoc#user, user>> interface.
+
+Extension points definition within <<plugin-class, Plugin class>>:
+[snippet, from="Endpoint.USER_MENU", to=",", remove-leading="            "]
+link:../../src/ru/bgerp/plugin/blow/Plugin.java#L22-L22[ru.bgerp.plugin.blow.Plugin]
+
+Adding a menu item using JSP tag: link:../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
+
 [[plugin-action]]
 ==== Action
 Plugin <<action, actions>> classes, if used, have to be declared in *PLUGIN_PACKAGE.action* package.
-`struts-config.xml` and `action.xml` have to be located in *PLUGIN_PACKAGE*.
-JSP templates - `webapps/WEB-INF/jspf/user|open|usermob/plugin/<identifier>`.
 
-<<plugin-kernel, Kernel>> plugin is different one.
+`action.xml` with <<action-permission, permission tree>> for <<kernel/interface.adoc#user, user>> interface actions have to be located in *PLUGIN_PACKAGE*.
+
+JSP templates:
+[square]
+* <<kernel/interface.adoc#user, user>> interface in `webapps/WEB-INF/jspf/user/plugin/<PLUGIN_ID>` or `webapps/WEB-INF/jspf/admin/plugin/<PLUGIN_ID>`
+* <<kernel/interface.adoc#open, open>> interface in `webapps/WEB-INF/jspf/open/plugin/<PLUGIN_ID>`
 
 [[plugin-l10n]]
 ==== Localization
 Plugin's <<l10n, localization>> file (`i10n.xml`) has to be located in *PLUGIN_PACKAGE*.
 It is only used for localizing actions and action's JSP templates
 
-[[plugin-kernel]]
-==== Kernel
-The special javadoc:org.bgerp.plugin.kernel.Plugin[kernel] plugin is responsible for keeping <<plugin-db, DB update script>>,
-<<plugin-l10n, Localizations>> for application's kernel. This plugin is always enabled.
-Kernel <<plugin-action, Action>> classes spreads over many packages, but definitions of them stays in *PLUGIN_PACKAGE*.
-
 [[mvc]]
 === MVC
 The project is using Apache Struts framework in a very own and customized way:
 [square]
 * requests are sent using <<sample-jsp-ui-ajax, AJAX>> and responses update HTML partially
-* from Struts's JSP <<jsp-tag, tags>> <<sample-jsp-ui-restore-form, used>> only *<html:form* with *<html:param* inside
+* from Struts JSP <<jsp-tag, tags>> <<sample-jsp-ui-restore-form, used>> only *<html:form* with *<html:param* inside
 * <<action, action>> methods have different signature as standard
 * the <<action-form, form>> object has always the same class
 
 [[action]]
 ==== Java Action
-Action classes are defined within `struts-config.xml` files and then are used within request's URL, where *action* HTTP request's parameter is used to indicate method's name.
-If this HTTP parameter is not defined, then *unspecified* method gets invoked, however, this workflow is discouraged.
+NOTE: Action definition in `struts-confing.xml` files is deprecated.
 
-Action with forwarding definition example:
-[snippet, from="<ac", to="on>", remove-leading="		"]
-link:../../src/ru/bgerp/plugin/blow/struts-config.xml#L4-L8[src/ru/bgerp/plugin/blow/struts-config.xml]
+Action classes have to extend javadoc:ru.bgcrm.struts.action.BaseAction[] class marked by *Action* annotation.
+[snippet, from="@", to=";", remove-leading=""]
+link:../../src/org/bgerp/action/admin/RunAction.java#L15-L17[org.bgerp.action.admin.RunAction]
 
-Action has to extend javadoc:ru.bgcrm.struts.action.BaseAction[] class, its methods have to return by invoking *data* or *status*.
-First method gets processed by JSP forward page and sends HTML back to the client. Second one is used to perform changes and only returns JSON-based change execution result.
+The sample above means that HTTP requests with URL */admin/run.do* mapped to the class.
+An *action* HTTP request's parameter is used to indicate method's name.
+If this HTTP parameter is not defined, then *unspecified* method gets invoked.
+
+Action methods have to return by invoking *data* or *status*.
+
+First method gets processed by JSP forward page and sends HTML back to the client. 
+[snippet, from="@O", to="}", remove-leading=""]
+link:../../src/org/bgerp/action/admin/RunAction.java#L21-L25[org.bgerp.action.admin.RunAction]
+
+Second one is used to perform changes and only returns JSON-based change execution result.
+[snippet, from="pu", to="}", remove-leading=""]
+link:../../src/org/bgerp/action/admin/RunAction.java#L27-L56[org.bgerp.action.admin.RunAction]
 
 [[action-form]]
 ===== Form Object
@@ -599,9 +622,9 @@ Each action class method call gets a *form object*  javadoc:ru.bgcrm.struts.form
 
 CAUTION: Do not use a legacy action format with HttpClientRequest and HttpClientResponse parameters (note that they are still present in the form)
 
-Below is a snippet of an ActionForward method:
+A snippet of an action method:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgerp/plugin/blow/struts/action/BoardAction.java#L38-L58[ru.bgerp.plugin.blow.struts.action.BoardAction]
+link:../../src/ru/bgerp/plugin/blow/action/BoardAction.java#L40-L60[ru.bgerp.plugin.blow.action.BoardAction]
 
 Result gets redirected to a JSP page:
 link:../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp].
@@ -618,7 +641,7 @@ link:../../src/ru/bgcrm/plugin/dispatch/struts/action/DispatchAction.java#L46-L5
 <<plugin, Plugin's>> action classes have to be placed into `PLUGIN_PACKAGE.action` package, class name should end with *Action*.
 Previously Action classes have been located within `struts.action` packages - this approach is considered obsolete.
 
-*User* <<kernel/interface.adoc#, interface>> actions are divided into /user and /admin
+*User* <<kernel/interface.adoc#user, interface>> actions are divided into /user and /admin
 This separation will be used in future for distinguishing administrative calls.
 
 *Usermob* и *open* interfaces have their own actions - in this case package names and URL have to contain *usermob* и *open*, respectively.
@@ -641,29 +664,30 @@ Another set of examples from javadoc:ru.bgcrm.struts.action.admin.AppAction[]:
 * update - triggers update installation;
 * userLoggedList - provides a list of logged in users.
 
-It is recommended to use identical names for both method and forward:
-[snippet, from="<action path=\"/admin", to="</action>", remove-leading="		"]
-link:../../src/org/bgerp/plugin/kernel/struts-config.xml#L51-L54[org/bgerp/plugin/kernel/struts-config.xml]
+It is recommended to use identical names for both method and forward JSP files.
 
 [[action-permission]]
 ===== Permissions check
-All action methods have to be defined within <<plugin-action, plugin packages>>.
+All action methods for <<kernel/interface.adoc#user, user>> interface have to be defined within `PLUGIN_PACKAGE/action.xml` files.
 Examples:
 [square]
 * link:../../src/org/bgerp/plugin/kernel/action.xml[org/bgerp/plugin/kernel/action.xml] - for <<plugin-kernel, Kernel>> plugin
 * link:../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml] - for Blow plugin 
 
-Actions from those files are forming a tree which is used for <<kernel/setup.adoc#user, access control>>.
+Definitions from those files are forming a tree which is used for <<kernel/setup.adoc#user, access control>>.
 
 Each action is identified by a class AND method, separated by semicolon.
 
-Main identifier can be preceded by additional ones, also separated by a semicolon - for example, when renaming classes or methods.
-This allows to provide backwards compatibility with permissions already present in the DB. New identifier will be used upon the next save operation of the permission set
+Main identifier can be preceded by additional ones, separated by a comma - for example, when renaming classes or methods.
+This allows to provide backwards compatibility with permissions already present in the DB. 
+
+The actual main identifier stays always last and will be used upon the next save operation of the permission set.
+In the following example an action class was renamed and action method changed to *unspecified*, defined in the configuration by *null*.
 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
-link:../../src/org/bgerp/plugin/kernel/action.xml#L147-L148[org/bgerp/plugin/kernel/action.xml]
+link:../../src/org/bgerp/plugin/kernel/action.xml#L157-L158[org/bgerp/plugin/kernel/action.xml]
 
-Additional/auxillary actions, which have to be permanently allowed, have to be marked with *allowAll="1"* attribute.
+Auxillary actions, which have to be permanently allowed, have to be marked with *allowAll="1"* attribute.
 
 [[exception]]
 ===== Exception handling
@@ -673,10 +697,9 @@ Said that, action methods declarations and DAO just need to use *throws java.lan
 
 javadoc:ru.bgcrm.model.BGException[] class is typically used for system-generated exceptions and is rarely used elsewhere.
 
-javadoc:ru.bgcrm.model.BGMessageException[] which inherits from javadoc:ru.bgcrm.model.BGException[], is used to sent a <<l10n, localized>> message to the user,
-without writing this message in the log.
+javadoc:ru.bgcrm.model.BGMessageException[] which inherits from javadoc:ru.bgcrm.model.BGException[], 
+is used to sent a <<l10n, localized>> message to the user, without writing this message in the log.
 For example:
-
 [snippet, from="for (", to=");", remove-leading="            "]
 link:../../src/ru/bgcrm/event/listener/ProcessClosingListener.java#L39-L41[ru.bgcrm.event.listener.ProcessClosingListener]
 

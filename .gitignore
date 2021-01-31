@@ -5,14 +5,14 @@
 /.vscode/settings.json
 /.idea
 
+/custom
 /work
 /filestorage
-/webapps/WEB-INF/custom
-/webapps/WEB-INF/**/custom
 /bgcrm*.properties
 /bgerp*.properties
 /log4j.properties
 
+/lib/app
 /lic.data
 
 /.gradle

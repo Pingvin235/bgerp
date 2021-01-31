@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.blow.struts.action;
+package ru.bgerp.plugin.blow.action;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -22,17 +22,19 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
+import ru.bgerp.plugin.blow.Plugin;
 import ru.bgerp.plugin.blow.dao.BoardDAO;
 import ru.bgerp.plugin.blow.model.Board;
 import ru.bgerp.plugin.blow.model.BoardConfig;
 import ru.bgerp.plugin.blow.model.BoardsConfig;
 
 public class BoardAction extends BaseAction {
+    private static final String JSP_PATH = Plugin.PATH_JSP_USER + "/board";
     
     public ActionForward board(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         BoardsConfig boardsConf = setup.getConfig(BoardsConfig.class);
         form.setResponseData("boardsConf", boardsConf);
-        return data(conSet, mapping, form, "board");
+        return data(conSet, form, JSP_PATH + "/board.jsp");
     }
         
     public ActionForward show(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -54,7 +56,7 @@ public class BoardAction extends BaseAction {
             updatePersonalization(form, con, persMap -> persMap.put("blowBoardLastSelected", String.valueOf(form.getId())));
         }
      
-        return data(con, mapping, form, "show");
+        return data(con, form, JSP_PATH + "/show.jsp");
     }
     
     public ActionForward move(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -125,7 +127,7 @@ public class BoardAction extends BaseAction {
             })
             .collect(Collectors.toList()));
 
-        return data(conSet, mapping, form);
+        return data(conSet, form, JSP_PATH + "/search.jsp");
     }
 
 }

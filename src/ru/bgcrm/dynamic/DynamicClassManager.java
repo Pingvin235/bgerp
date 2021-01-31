@@ -12,9 +12,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
-import ru.bgcrm.dynamic.CompilerWrapper.CompilationFailedException;
-import ru.bgcrm.dynamic.CompilerWrapper.CompiledUnit;
-import ru.bgcrm.dynamic.model.CompilationResult;
+import org.bgerp.custom.java.CompilationResult;
+import org.bgerp.custom.java.CompilerWrapper.CompilationFailedException;
+import org.bgerp.custom.java.CompilerWrapper.CompiledUnit;
+
 import ru.bgcrm.dynamic.model.DynamicClass;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
@@ -117,10 +118,13 @@ public class DynamicClassManager {
 
             result = recompile(getDynamicClassNames());
 
-            log.info("Successfully recompiled dyn classess.");
+            log.info("Successfully recompiled dyn classes.");
         } catch (CompilationFailedException ex) {
             result = ex.getCompilationResult();
         }
+
+        log.info("Compile dyn classes result:");
+        log.info(result.getLogString());
 
         return result;
     }

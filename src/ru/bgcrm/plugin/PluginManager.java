@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.reflections.Reflections;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
 
 import ru.bgcrm.util.Setup;
 import ru.bgerp.util.Log;
@@ -19,8 +17,6 @@ import ru.bgerp.util.Log;
  */
 public class PluginManager {
     private static final Log log = Log.getLog();
-
-    public static final String KERNEL_PLUGIN_ID = org.bgerp.plugin.kernel.Plugin.ID;
 
     private static PluginManager instance;
 
@@ -55,26 +51,20 @@ public class PluginManager {
     private List<Plugin> loadFullSortedPluginList() {
         List<Plugin> result = new ArrayList<>();
 
-        var r = new Reflections(new ConfigurationBuilder()
-            .addUrls(ClasspathHelper.forPackage("org.bgerp"))
-            .addUrls(ClasspathHelper.forPackage("ru.bgerp"))
-            .addUrls(ClasspathHelper.forPackage("ru.bgcrm"))
-        );
-
+        var r = new Reflections("org.bgerp", "ru.bgerp", "ru.bgcrm");
         for (Class<? extends Plugin> pc : r.getSubTypesOf(Plugin.class)) {
             log.debug("Found plugin: %s", pc);
             try {
-                var p = pc.getDeclaredConstructor().newInstance();
-                result.add(p);
+                result.add(pc.getDeclaredConstructor().newInstance());
             } catch (Exception e) {
                 log.error("Error loading of plugin: " + pc, e);
             }
         }
 
         result.sort((p1, p2) -> { 
-            if (KERNEL_PLUGIN_ID.equals(p1.getId()))
+            if (p1.isSystem() && !p2.isSystem())
                 return -1;
-            if (KERNEL_PLUGIN_ID.equals(p2.getId()))
+            if (p2.isSystem() && !p1.isSystem())
                 return 1;
             return p1.getId().compareTo(p2.getId());
         });

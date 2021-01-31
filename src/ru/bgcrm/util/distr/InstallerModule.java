@@ -22,6 +22,8 @@ public class InstallerModule {
     protected static final String MESSAGE_ERROR = "ERROR";
     protected static final String MESSAGE_OK = "OK";
 
+    private static final String LIB_EXT_PATH = "lib/ext";
+
     /** Все файлы пакета. */
     private final List<String> files = new ArrayList<>();
     /** Изменившиеся файлы. */
@@ -196,9 +198,8 @@ public class InstallerModule {
         
         System.out.println("Checking of excess files.");
         
-        final String path = "lib/ext";
         try {
-            for (File file : new File(path).listFiles()) {
+            for (File file : new File(LIB_EXT_PATH).listFiles()) {
                 String filePath = file.getPath().replace('\\', '/');
                 // файл не был заменён - значит удаление
                 if (!files.stream().filter(filePath::endsWith).findFirst().isPresent()) {

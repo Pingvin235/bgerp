@@ -2,6 +2,8 @@ package org.bgerp.plugin.kernel;
 
 import java.util.Set;
 
+import org.bgerp.action.admin.RunAction;
+
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.Tables;
 import ru.bgcrm.model.customer.Customer;
@@ -9,6 +11,7 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.Table;
 import ru.bgcrm.plugin.Table.Type;
+import ru.bgcrm.struts.action.admin.AppAction;
 import ru.bgcrm.util.ParameterMap;
 
 /**
@@ -23,8 +26,20 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
+    public boolean isSystem() {
+        return true;
+    }
+
+    @Override
     public boolean isEnabled(ParameterMap config, String defaultValue) {
         return true;
+    }
+
+    public Set<String> getActionPackages() {
+        return Set.of(
+            "org.bgerp.action",
+            "ru.bgcrm.struts.action"
+        );
     }
 
     @Override
@@ -48,6 +63,14 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
             User.OBJECT_TYPE,
             Process.OBJECT_TYPE,
             Customer.OBJECT_TYPE);
+    }
+
+    public Set<String> getOwnedPaths() {
+        return Set.of(
+            RunAction.JSP_PATH,
+            AppAction.JSP_PATH,
+            RunAction.JSP_PATH
+        );
     }
 
     @Override

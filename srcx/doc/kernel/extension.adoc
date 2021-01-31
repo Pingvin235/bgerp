@@ -182,9 +182,22 @@ image::_res/ext_dyn_log.png[width='600px']
 Количество строк лога ограничено, отображаются только последние 1000 строк. 
 Каждый раз при переходе в оснастку поле *Текущий лог* обновляется, то же действие производит повторное нажатие кнопки *Включить*.
 
+[[custom]]
+== Custom
+Custom application code has to be placed `custom` directory in the project root.
+Content of the directory may be stored using VCS like GIT and developed in normal IDE.
+
+Inside `custom/src` placed regular Java code, incluing plugins <<../project.adoc#plugin, plugins>>.
+*PLUGIN_ID* for those has to be *custom*, that is the reserved name.
+That code has equal possibilities as the native application's, can use API and connected libraries.
+After compilation *Administration - Customization* this code is persisted to `lib/app/custom.jar`.
+
+Subdirectory `custom/webapps` is searched parallel with `webapps` from root directory
+and should be used for placing custom JSP and JS files.
+
 [[dyn]]
 == Dynamic code
-CAUTION: Due to the many classloader related problems the Dynamic code approach will be in future replaced to the <<custom-jar, custom JAR>>.
+CAUTION: This approach is deprecated, use <<custom, Customization>> instead.
 
 Динамический код - это Java файлы, которые можно изменять и подгружать без перезапуска приложения. 
 С его помощью можно обрабатывать различные события в системе. Файлы с классами динамического кода располагаются в по-умолчанию каталоге *dyn*.
@@ -324,6 +337,8 @@ http://server.bgcrm.ru/user/process.do?action=queueShow&id=4&dateStatusStatus=10
 
 [[custom-jar]]
 == Custom JAR
+CAUTION: This approach is deprecated, use <<custom, Customization>> instead.
+
 With custom JAR in the application might be added any wanted Java classes.
 
 [NOTE]

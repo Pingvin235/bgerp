@@ -1,6 +1,16 @@
 package ru.bgcrm.servlet;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 import javax.servlet.ServletException;
+
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.BaseAction;
+import org.apache.struts.config.ModuleConfig;
+import org.reflections.Reflections;
 
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
@@ -21,16 +31,53 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
 
         for (Plugin p : PluginManager.getInstance().getPluginList()) {
             String path = p.getResourcePath(FILE_NAME);
-            if (path == null) continue;
-            paths
-                .append(",")
-                .append(path);
+            if (path == null)
+                continue;
+            paths.append(",").append(path);
         }
 
         this.config = paths.toString();
 
-        log.info("Actions config: %s", this.config);
+        log.info("Action config paths: %s", this.config);
 
         super.init();
+    }
+
+    /**
+     * Annotation for marking action classes.
+     */
+    @Target({ElementType.TYPE})
+    @Retention(RetentionPolicy.RUNTIME)
+    public static @interface Action {
+        String path();
+    }
+
+    /**
+     * Loads annotated actions.
+     */
+    @Override
+    protected ModuleConfig initModuleConfig(String prefix, String paths) throws ServletException {
+        var result = super.initModuleConfig(prefix, paths);
+
+        for (var p : PluginManager.getInstance().getPluginList()) {
+            var r = new Reflections(p.getActionPackages());
+            for (Class<? extends BaseAction> ac : r.getSubTypesOf(BaseAction.class)) {
+                var a = ac.getDeclaredAnnotation(Action.class);
+                if (a == null) continue;
+
+                var action = new ActionMapping();
+                action.setPath(a.path());
+                action.setParameter("action");
+                action.setType(ac.getCanonicalName());
+                action.setName("form");
+                action.setScope("request");
+
+                log.debug("Add action for plugin: %s, class: %s, path: %s", p.getId(), ac.getCanonicalName(), a.path());
+
+                result.addActionConfig(action);
+            }
+        } 
+
+        return result;
     }
 }

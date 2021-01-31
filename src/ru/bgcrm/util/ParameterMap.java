@@ -19,8 +19,8 @@ import ru.bgcrm.util.Config.InitStopException;
 import ru.bgerp.util.Log;
 
 /**
- * Исходный map параметров. Его главная функция - #{@link ParameterMap#get(String, String)}.
- * Остальные используют эту функцию для парсинга значений.
+ * Key - value strings map.
+ * @author Shamil Vakhitov
  */
 public abstract class ParameterMap extends AbstractMap<String, String> {
     private static final Log log = Log.getLog();
@@ -51,6 +51,11 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
 
     public static ParameterMap EMPTY = new DefaultParameterMap(Collections.emptyMap());
 
+    /**
+     * Creates ParameterMap object from key values pairs.
+     * @param keyValues key1, value1,... String.valueOf() is applied to each argument.
+     * @return
+     */
     public static ParameterMap of(Object... keyValues) {
         Map<String, String> map = new HashMap<>(keyValues.length / 2);
         for (int i = 0; i < keyValues.length - 1; i += 2)

@@ -221,8 +221,7 @@ public class BaseAction extends DispatchAction {
                 form.setPermission(perm);
                 
                 if (permissionNode == null) {
-                    // TODO: Возможно тоже нужно бросать BGMessageException?
-                    log.error("PermissionNode is null for action: " + action);
+                    throw new BGException("PermissionNode is null for action: " + action);
                 }
 
                 // логирование запроса
@@ -348,17 +347,53 @@ public class BaseAction extends DispatchAction {
     }
 
     /**
+     * Returns JSP forward by file path.
+     * @param con
+     * @param form must be 'null' for open interface.
+     * @param path JSP path.
+     * @return
+     */
+    protected ActionForward data(Connection con, DynActionForm form, String path) {
+        return data(new SingleConnectionConnectionSet(con), form, path);
+    }
+
+    /**
+     * Returns JSP forward by file path.
+     * @param conSet
+     * @param form must be 'null' for open interface.
+     * @param path JSP path.
+     * @return
+     */
+    protected ActionForward data(ConnectionSet conSet, DynActionForm form, String path) {
+        if (form != null && AuthFilter.getUser(form.getHttpRequest()) == null) {
+            throw new IllegalArgumentException("For open interface 'form' parameter must be null");
+        }
+
+        // response requested in JSON (API call)
+        if (form != null && DynActionForm.RESPONSE_TYPE_JSON.equalsIgnoreCase(form.getResponseType())){
+            return status(conSet, form);
+        } else {
+            return new ActionForward(path);
+        }
+    }
+
+    /**
+     * Use {@link #data(Connection, DynActionForm, String)}.
+     * 
      * Returns Struts forward with name=form.getAction().
      * @param con
      * @param mapping
      * @param form
      * @return
      */
+    @Deprecated
     protected ActionForward data(Connection con, ActionMapping mapping, DynActionForm form) {
         return data(con, mapping, form, form.getAction());
     }
 
     /**
+     * Use {@link #data(Connection, DynActionForm, String)}.
+     * 
      * Returns Struts forward by name.
      * @param con
      * @param mapping
@@ -366,22 +401,28 @@ public class BaseAction extends DispatchAction {
      * @param name forward's name.
      * @return
      */
+    @Deprecated
     protected ActionForward data(Connection con, ActionMapping mapping, DynActionForm form, String name) {
         return data(new SingleConnectionConnectionSet(con), mapping, form, name);
     }
 
     /**
+     * Use {@link #data(ConnectionSet, DynActionForm, String)}.
+     * 
      * Returns Struts forward with name=form.getAction().
      * @param conSet
      * @param mapping
      * @param form
      * @return
      */
+    @Deprecated
     protected ActionForward data(ConnectionSet conSet, ActionMapping mapping, DynActionForm form) {
         return data(conSet, mapping, form, form.getAction());
     }
 
     /**
+     * Use {@link #data(ConnectionSet, DynActionForm, String)}.
+     * 
      * Returns Struts forward by name.
      * @param conSet
      * @param mapping
@@ -389,6 +430,7 @@ public class BaseAction extends DispatchAction {
      * @param name forward's name.
      * @return
      */
+    @Deprecated
     protected ActionForward data(ConnectionSet conSet, ActionMapping mapping, DynActionForm form, String name) {
         String responseType = form.getResponseType();
         // response requested in JSON (API call)
@@ -402,33 +444,6 @@ public class BaseAction extends DispatchAction {
                 return new ActionForward(form.getForwardFile());
             }
             return mapping.findForward(name);
-        }
-    }
-
-    /**
-     * Returns Struts forward by file path.
-     * @param con
-     * @param form
-     * @param path JSP path.
-     * @return
-     */
-    protected ActionForward data(Connection con, DynActionForm form, String path) {
-        return data(new SingleConnectionConnectionSet(con), form, path);
-    }
-
-    /**
-     * Returns Struts forward by file path.
-     * @param conSet
-     * @param form
-     * @param path JSP path.
-     * @return
-     */
-    protected ActionForward data(ConnectionSet conSet, DynActionForm form, String path) {
-        // response requested in JSON (API call)
-        if (form != null && DynActionForm.RESPONSE_TYPE_JSON.equalsIgnoreCase(form.getResponseType())){
-            return status(conSet, form);
-        } else {
-            return new ActionForward(path);
         }
     }
 

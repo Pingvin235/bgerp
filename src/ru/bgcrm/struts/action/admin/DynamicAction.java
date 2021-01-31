@@ -4,7 +4,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
-import ru.bgcrm.dynamic.model.CompilationResult;
+import org.bgerp.custom.java.CompilationResult;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.RunClassRequestEvent;
 import ru.bgcrm.model.BGMessageException;
@@ -45,7 +45,7 @@ public class DynamicAction extends BaseAction {
             try {
                 clazz = DynamicClassManager.getClass(className);
             } catch (ClassNotFoundException e) {
-                throw new BGMessageException("Класс не найден: " + className);
+                throw new BGMessageException("Класс не найден: %s", className);
             }
 
             if (Runnable.class.isAssignableFrom(clazz)) {
@@ -55,7 +55,7 @@ public class DynamicAction extends BaseAction {
                 else
                     new Thread((Runnable) clazz.getDeclaredConstructor().newInstance()).start();
             } else {
-                throw new BGMessageException("Класс не реализует java.land.Runnable: " + className);
+                throw new BGMessageException("Класс не реализует java.land.Runnable: %s", className);
             }
         }
 

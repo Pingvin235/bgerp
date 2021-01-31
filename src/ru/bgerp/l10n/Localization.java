@@ -148,7 +148,7 @@ public class Localization {
             localizations.add(custom);
 
         // kernel plugin
-        localizations.add(Localization.localizations.get(PluginManager.KERNEL_PLUGIN_ID));
+        localizations.add(Localization.localizations.get(org.bgerp.plugin.kernel.Plugin.ID));
 
         // the defined plugin, if it has localization
         if (pluginId != null) {

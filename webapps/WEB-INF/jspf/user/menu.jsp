@@ -4,15 +4,15 @@
 <ui:menu-item ltitle="Поиск" href="search"
 	action="ru.bgcrm.struts.action.SearchAction" command="/user/search.do" />
 
-<ui:menu-item ltitle="${l.l('Новости')}" href="news"
+<ui:menu-item ltitle="Новости" href="news"
 	action="ru.bgcrm.struts.action.NewsAction:newsList"
 	command="/user/news.do?action=newsList&read=0" />
 
-<ui:menu-item ltitle="${l.l('Адреса')}" href="directory/address"
+<ui:menu-item ltitle="Адреса" href="directory/address"
 	action="ru.bgcrm.struts.action.DirectoryAddressAction"
 	command="/user/directory/address.do" />
 
-<ui:menu-item ltitle="${l.l('Сообщения')}" href="message/queue"
+<ui:menu-item ltitle="Сообщения" href="message/queue"
 	action="ru.bgcrm.struts.action.MessageAction:messageList"
 	command="/user/message.do?action=messageList" />
 
@@ -70,6 +70,14 @@
 			command="/admin/process.do?action=queueList" />
 	</ui:menu-group>
 	
+	<ui:menu-item ltitle="Выполнить" href="admin/run"
+		action="org.bgerp.action.RunAction"
+		command="/admin/run.do" />
+
+	<ui:menu-item ltitle="Кастомизация" href="admin/custom"
+		action="org.bgerp.action.CustomAction"
+		command="/admin/custom.do" />
+
 	<ui:menu-item ltitle="Динамический код" href="admin/dyncode"
 		action="ru.bgcrm.struts.action.admin.DynamicAction"
 		command="/admin/dynamic.do" />

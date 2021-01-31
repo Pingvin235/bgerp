@@ -27,7 +27,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     @Override
     public Set<String> getOwnedPaths() {
         return Set.of(
-            PATH_WEBAPP + "/" + PATH_JSP_USER, PATH_WEBAPP + "/" + PATH_JSP_OPEN
+            PATH_WEBAPP + "/" + PATH_JSP_USER,
+            PATH_WEBAPP + "/" + PATH_JSP_OPEN
         );
     }
 }

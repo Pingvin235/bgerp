@@ -106,8 +106,8 @@ public class AdminPortListener implements Runnable {
     public static String getStatus() {
         StringBuilder status = new StringBuilder(300);
 
-        VersionInfo vi = VersionInfo.getVersionInfo("update");
-        VersionInfo viLib = VersionInfo.getVersionInfo("update_lib");
+        VersionInfo vi = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE);
+        VersionInfo viLib = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE_LIB);
 
         status.append("BGERP ");
         status.append(vi.getVersion());

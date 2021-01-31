@@ -129,8 +129,8 @@
 
 			<td>
 				<c:choose>
-					<c:when test="${item.archive == 1}">${l.l('Да</c:when>
-					<c:otherwise>${l.l('Нет</c:otherwise>
+					<c:when test="${item.archive == 1}">${l.l('Да')}</c:when>
+					<c:otherwise>${l.l('Нет')}</c:otherwise>
 				</c:choose>
 			</td>
 

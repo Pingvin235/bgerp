@@ -2,10 +2,11 @@ package org.bgerp.itest.kernel.db;
 
 import java.sql.Connection;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.util.Preferences;
+import ru.bgcrm.util.ParameterMap;
+import ru.bgcrm.util.Setup;
+import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionPool;
 
 @Test(groups = "db")
@@ -28,24 +29,47 @@ public class DbTest {
      * @return is not used, only to not be executed as an test.
      * @throws Exception
      */
-    public static Object initPoolAndConnection(String db) throws Exception {
+    public static int initPoolAndConnection(String db) throws Exception {
         if (conPoolRoot != null)
             conPoolRoot.close();
 
         conPoolRoot = initConnectionPool(db);
 
         conRoot = conPoolRoot.getDBConnectionFromPool();
+        if (conRoot == null) {
+            Utils.errorAndExit(10, "SQL connection error");
+        }
         conRoot.setAutoCommit(true);
-        Assert.assertNotNull(conRoot);
 
-        return null;
+        return 0;
     }
     
+    /**
+     * Creates DB connection pool using JVM arguments, or properties file.
+     * @param db
+     * @return
+     */
     public static ConnectionPool initConnectionPool(String db) {
-        String cfg =
-            "db.url=jdbc:mysql://" + System.getProperty("db.host", "localhost") + ":3306" + db + "\n" +
-            "db.user=" + System.getProperty("db.user") + "\n" +
-            "db.pswd=" + System.getProperty("db.pswd") + "\n";
-        return new ConnectionPool("root", new Preferences(cfg));
+        var setup = new Setup(Setup.getBundleName(), false);
+        
+        final var dbUserKey = "db.user";
+        final var dbPswdKey = "db.pswd";
+        final var dbUrlKey = "db.url";
+
+        final var dbUser = System.getProperty(dbUserKey);
+        final var dbPswd = System.getProperty(dbPswdKey);
+
+        final var cfg =
+            // if some of parameters defined as VM arguments
+            Utils.notBlankString(dbUser) || Utils.notBlankString(dbPswd) ?
+            ParameterMap.of(
+                dbUrlKey, "jdbc:mysql://" + System.getProperty("db.host", "localhost") + ":3306" + db,
+                dbUserKey, dbUser,
+                dbPswdKey, dbPswd
+            ) :
+            // bgerp.properties, 'db' parameter is ignored in this case
+            setup;
+
+        return new ConnectionPool("root", cfg);
     }
 }

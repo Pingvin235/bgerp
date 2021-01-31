@@ -37,6 +37,7 @@ public abstract class Plugin {
     protected static final String PATH_CSS = "/css";
 
     protected static final String PATH_JSP = "/WEB-INF/jspf";
+    public static final String PATH_JSP_ADMIN = PATH_JSP + "/admin";
     public static final String PATH_JSP_USER = PATH_JSP + "/user";
     protected static final String PATH_JSP_USER_PLUGIN = PATH_JSP_USER + "/plugin";
     public static final String PATH_JSP_OPEN = PATH_JSP + "/open";
@@ -67,6 +68,13 @@ public abstract class Plugin {
         return getId();
     }
 
+    /**
+     * System plugins are always loaded, enabled and not show in the list.
+     * @return
+     */
+    public boolean isSystem() {
+        return false;
+    }
 
     /**
      * Plugin's XML document from 'plugin.xml'.
@@ -110,6 +118,14 @@ public abstract class Plugin {
     public String getResourcePath(String name) {
         URL resource = getClass().getResource(name);
         return resource != null ? getClass().getPackageName().replace('.', '/') + "/" + name : null;
+    }
+
+    /**
+     * Packages for searching annotated actions.
+     * @return
+     */
+    public Set<String> getActionPackages() {
+        return Set.of(this.getClass().getPackageName());
     }
 
     /**

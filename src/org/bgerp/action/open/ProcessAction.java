@@ -89,7 +89,7 @@ public class ProcessAction extends BaseAction {
         form.getHttpRequest().setAttribute("config", config);
         form.setResponseData("process", process);
 
-        return data(conSet, form, PATH_JSP + "/show.jsp");
+        return data(conSet, null, PATH_JSP + "/show.jsp");
     }
 
     public ActionForward messages(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -108,6 +108,6 @@ public class ProcessAction extends BaseAction {
                 form.getId(), null, null, null, null,
                 null, null, null, true, config.getShowMessagesTagIds());
         
-        return data(conSet, form, PATH_JSP + "/messages.jsp");
+        return data(conSet, null, PATH_JSP + "/messages.jsp");
     }
 }

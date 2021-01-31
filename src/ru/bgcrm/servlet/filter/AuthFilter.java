@@ -44,7 +44,7 @@ public class AuthFilter implements Filter {
     private static final String LOGIN_ACTION = "/login.do";
     private static final String SHELL_PAGE = "/shell.jsp";
 
-    private static final String version = Utils.maskEmpty(VersionInfo.getVersionInfo("update").getVersion(), "UNDEF");
+    private static final String version = Utils.maskEmpty(VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE).getVersion(), "UNDEF");
 
     public void init(FilterConfig filterConfig) throws ServletException {}
 

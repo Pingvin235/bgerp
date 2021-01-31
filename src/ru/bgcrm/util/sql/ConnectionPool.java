@@ -110,8 +110,8 @@ public class ConnectionPool {
     private GuardSupportedPool initConnectionPool(ParameterMap prefs, String prefix) throws Exception {
         GenericObjectPool<Connection> connectionPool = null;
 
-        String dbURL = prefs.get(prefix + "url", null);
-
+        final var dbURL = prefs.get(prefix + "url", null);
+        log.info("url: " + dbURL);
         if (Utils.notBlankString(dbURL)) {
             Properties properties = new Properties();
             properties.setProperty(PROPERTY_USER, prefs.get(prefix + "user"));

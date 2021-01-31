@@ -80,6 +80,6 @@ public class ProcessQueueAction extends BaseAction {
         queue.processDataForMedia(form, Queue.MEDIA_HTML_OPEN, searchResult.getList());
         form.setRequestAttribute("queue", queue);
 
-        return data(conSet, form, PATH_JSP + "/show.jsp");
+        return data(conSet, null, PATH_JSP + "/show.jsp");
     }
 }

@@ -1,0 +1,8 @@
+A: Customization engine, https://bgerp.org/doc/3.0/manual/kernel/extension.html#custom
+A: Run classes tool.
+A: Annotated actions, https://bgerp.org/doc/3.0/manual/project.html#action
+C: Plugin Blow, refactor actions to modern directories and JSP forwards.
+C: Deprecate data() methods with old signatures in BaseAction.
+A: Running 'gradlew integrationTest' with DB configuration from bgerp.properties file.
+F: Localizations in menu.
+F: Localization of parametrized BGMessageException.

@@ -19,14 +19,15 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.catalina.LifecycleException;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.tomcat.util.IntrospectionUtils;
+import org.bgerp.custom.Custom;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
-import ru.bgcrm.dynamic.model.CompilationResult;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.listener.KernelSystemListeners;
 import ru.bgcrm.plugin.PluginManager;
@@ -37,14 +38,147 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgerp.util.Log;
 
+/**
+ * Web server, the entry point of the application.
+ * @author Shamil Vakhitov
+ */
 public class Server extends Tomcat {
-    private final Log log;
+    public static final String WEBAPPS_DIR_NAME = "webapps";
 
-    //private StandardHost host;
-    private StandardContext context;
-    protected Thread shutdownHook;
+    private final Log log = Log.getLog();
+    private final Setup setup;
 
-    static {
+    private Server() {
+        installTrustManager();
+        setTomcatProperties();
+        configureLogging();
+
+        log.info("Starting with '%s.properties'..", Setup.getBundleName());
+
+        setup = Setup.getSetup();
+        try {
+            checkDBConnectionOrExit(); 
+
+            PluginManager.init();
+
+            String catalinaHome = new File(".").getAbsolutePath();
+            catalinaHome = catalinaHome.substring(0, catalinaHome.length() - 2);
+            setBaseDir(catalinaHome);
+
+            log.info("catalinaHome: %s; hostname: %s", catalinaHome, hostname);
+
+            configureContext(catalinaHome);
+
+            startServer();
+
+            new AdminPortListener(setup.getInt("server.port.admin", 8005));
+
+            new KernelSystemListeners();
+
+            // TODO: Replace by Custom logic.
+            DynamicClassManager.getInstance().recompileAll();
+
+            doOnStart();
+
+            Scheduler.getInstance();
+
+            AlarmSender.initSender(setup);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            System.exit(1);
+        }
+    }
+
+    private void configureLogging() {
+        PropertyConfigurator.configureAndWatch("log4j.properties");
+        // suppress messages like: 10-22/16:36:48  INFO [http-bio-9089-exec-4] Parameters - Invalid chunk starting at byte [0] and ending at byte [0] with a value of [null] ignored
+        java.util.logging.Logger.getLogger("").setLevel(Level.WARNING);
+    }
+
+    private void setTomcatProperties() {
+        // for the patched Tomcat, do not inherit params to includes
+        System.setProperty("ru.bgcrm.tomcat.not.copy.include.params", "true");
+        // prevents incomplete HTML result in JSP
+        System.setProperty("org.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER", "true");
+    }
+
+    private void configureContext(String catalinaHome) {
+        var customJarMarker = setup.get("custom.jar.marker", "custom");
+
+        var context = (StandardContext) addWebapp("", catalinaHome + "/" + WEBAPPS_DIR_NAME);
+        context.setReloadable(false);
+        context.setWorkDir("work");
+        context.setUseNaming(false);
+        context.getJarScanner().setJarScanFilter((type, name) -> {
+            boolean result = name.contains("struts") || name.contains("tag") || name.contains(customJarMarker);
+            log.debug("Scan type: %s, name: %s => %s", type, name, result);
+            return result;
+        });
+
+        // TODO: Extract to secure.log plugin.
+        context.addValve(new AccessLogValve());
+
+        Custom.getInstance().webapps(catalinaHome, context);
+    }
+
+    /**
+     * Starts Web server.
+     * @param setup
+     * @throws LifecycleException
+     */
+    private void startServer() throws LifecycleException {
+        int port = setup.getInt("server.port.http", 8080);
+        var address = setup.get("server.listen.address", null);
+
+        log.info("Starting server HTTP port: %s; listen address: %s", port, address);
+
+        var connector = getConnector();
+
+        if (StringUtils.isNotBlank(address))
+            IntrospectionUtils.setProperty(connector, "address", address);
+        
+        connector.setPort(port);
+        connector.setEnableLookups(false);
+        connector.setURIEncoding(StandardCharsets.UTF_8.name());
+        connector.setUseBodyEncodingForURI(true);
+        connector.setMaxPostSize(setup.getInt("max.post.size", 10000000));
+        connector.setMaxSavePostSize(1000000);
+        connector.setProperty("maxThreads", setup.get("connector.http.thread.max", "25"));
+
+        start();
+    }
+
+    /**
+     * Processes runOnStart and createOnStart configuration parameters.
+     * @param setup
+     */
+    private void doOnStart() {
+        for (String className : Utils.toSet(setup.get("runOnStart"))) {
+            log.info("Run class on start: " + className);
+            try {
+                ((Runnable) DynamicClassManager.newInstance(className)).run();
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
+        }
+
+        EventProcessor.subscribeDynamicClasses();
+    }
+
+    private void checkDBConnectionOrExit() {
+        try (var con = setup.getDBConnectionFromPool()) {
+            if (con == null)
+                throw new SQLException("SQL connection was null");
+        } catch (SQLException e) {
+            log.error(e);
+            Utils.errorAndExit(2, "Problem with getting SQL connection, stopping. See log for details.");
+        }
+    }
+
+    /**
+     * Sets trust manager, accepting all server certificates.
+     */
+    private void installTrustManager() {
         // Create a trust manager that does not validate certificate chains
         TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -69,128 +203,7 @@ public class Server extends Tomcat {
             sc.init(null, trustAllCerts, new java.security.SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
             HttpsURLConnection.setDefaultHostnameVerifier(hv);
-        } catch (Exception e) {
-        }
-    }
-
-    private Server() {
-        // указание для пропатченного томкэта, чтобы при инклуде не переносил параметры
-        System.setProperty("ru.bgcrm.tomcat.not.copy.include.params", "true");
-        
-        System.setProperty("org.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER", "true");
-
-        PropertyConfigurator.configureAndWatch("log4j.properties");
-
-        // подавление сообщений вида: 10-22/16:36:48  INFO [http-bio-9089-exec-4] Parameters - Invalid chunk starting at byte [0] and ending at byte [0] with a value of [null] ignored
-        java.util.logging.Logger.getLogger("").setLevel(Level.WARNING);
-
-        log = Log.getLog(Server.class);
-
-        try {
-            log.info("Starting with '%s.properties'..", Setup.getBundleName());
-
-            var setup = Setup.getSetup();
-            checkDBConnectionOrExit(setup); 
-
-            PluginManager.init();
-
-            String catalinaHome = (new File(".")).getAbsolutePath();
-            catalinaHome = catalinaHome.substring(0, catalinaHome.length() - 2);
-            setBaseDir(catalinaHome);
-
-            String hostname = setup.get("server.host.name", "localhost");
-            getEngine().setDefaultHost(hostname);
-
-            getHost().setName(hostname);
-            getHost().setAppBase(catalinaHome + "/webapps");
-
-            log.info("catalinaHome => " + catalinaHome + "; hostname => " + hostname);
-
-            log.debug("create user context...");
-
-            var customJarMarker = setup.get("custom.jar.marker", "custom");
-
-            StandardContext context = (StandardContext) addWebapp("", catalinaHome + "/webapps");
-            context.setReloadable(false);
-            context.setWorkDir("work");
-            context.setUseNaming(false);
-            context.getJarScanner().setJarScanFilter((type, name) -> {
-                boolean result = name.contains("struts") || name.contains("tag") || name.contains(customJarMarker);
-                log.debug("Scan type: %s, name: %s => %s", type, name, result);
-                return result;
-            });
-
-            // логгер запросов
-            context.addValve(new AccessLogValve());
-            
-            log.debug("create connector..");
-
-            int portHttp = setup.getInt("server.port.http", 8080);
-            String host = setup.get("server.listen.address", null);
-
-            log.info("Try start server HTTP port: " + portHttp + "; listen address: " + host);
-
-            String connectorHttpThreadMax = setup.get("connector.http.thread.max", "25");
-
-            var connector = getConnector();
-
-            if (StringUtils.isNotBlank(host))
-                IntrospectionUtils.setProperty(connector, "address", host);
-            
-            connector.setPort(portHttp);
-            connector.setEnableLookups(false);
-            connector.setURIEncoding(StandardCharsets.UTF_8.name());
-            connector.setUseBodyEncodingForURI(true);
-            connector.setMaxPostSize(setup.getInt("max.post.size", 10000000));
-            connector.setMaxSavePostSize(1000000);
-            connector.setProperty("maxThreads", connectorHttpThreadMax);
-
-            start();
-
-            int adminPort = setup.getInt("server.port.admin", 8005);
-            new AdminPortListener(adminPort);
-
-            new KernelSystemListeners();
-
-            // перекомпиляция динамического кода
-            CompilationResult result = DynamicClassManager.getInstance().recompileAll();
-
-            log.info("Compile dyn classes result:");
-            log.info(result.getLogString());
-
-            for (String className : Utils.toSet(setup.get("runOnStart"))) {
-                log.info("Run class on start: " + className);
-
-                try {
-                    ((Runnable) DynamicClassManager.newInstance(className)).run();
-                } catch (Exception e) {
-                    log.error(e.getMessage(), e);
-                }
-            }
-
-            EventProcessor.subscribeDynamicClasses();
-
-            Scheduler.getInstance();
-
-            AlarmSender.initSender(setup);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            System.exit(1);
-        }
-    }
-
-    private void checkDBConnectionOrExit(Setup setup) {
-        try (var con = setup.getDBConnectionFromPool()) {
-            if (con == null)
-                throw new SQLException("SQL connection was null");
-        } catch (SQLException e) {
-            log.error(e);
-            Utils.errorAndExit(2, "Problem with getting SQL connection, stopping. See log for details.");
-        }
-    }
-
-    public void reloadRoot() {
-        context.reload();
+        } catch (Exception e) {}
     }
 
     public static void main(String[] args) {
@@ -255,4 +268,5 @@ public class Server extends Tomcat {
 
         System.out.println(sb.toString());
     }
+
 }

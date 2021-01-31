@@ -7,6 +7,10 @@ import java.util.List;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.distr.call.ExecuteSQL;
 
+/**
+ * Installer util, running from command line.
+ * @author Shamil Vakhitov
+ */
 public class Installer {
     public static void main(String[] args) {
         Setup.getSetup();
@@ -22,10 +26,10 @@ public class Installer {
         }
     }
 
-    private static final String K_KILLHASH = "killhash";
-    private static final String K_UPDATE = "update";
-    private static final String K_UPDATEF = "updatef";
-    private static final String K_INSTALL = "install";
+    static final String K_KILLHASH = "killhash";
+    static final String K_UPDATE = "update";
+    static final String K_UPDATEF = "updatef";
+    static final String K_INSTALL = "install";
 
     private static void parseArgs(String[] args) throws WrongArgumentsException {
         if (args == null || args.length == 0) {

@@ -48,11 +48,10 @@
 			<forward name="update" path="/WEB-INF/jspf/admin/config/update.jsp" />
 		</action>
 
-		<action path="/admin/app" parameter="action" type="ru.bgcrm.struts.action.admin.AppAction" name="form" scope="request">
-			<forward name="status" path="/WEB-INF/jspf/admin/app/status.jsp"/>
-			<forward name="userLoggedList" path="/WEB-INF/jspf/admin/app/user_logged_list.jsp"/>
-		</action>
+		<action path="/admin/app" parameter="action" type="ru.bgcrm.struts.action.admin.AppAction" name="form" scope="request"/>
 
+		<action path="/admin/custom" parameter="action" type="org.bgerp.action.admin.CustomAction" name="form" scope="request"/>
+		
 		<action path="/admin/dynamic" parameter="action" type="ru.bgcrm.struts.action.admin.DynamicAction" name="form" scope="request">
 			<forward name="default" path="/WEB-INF/jspf/admin/dynamic/dynamic.jsp" />
 		</action>

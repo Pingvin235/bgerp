@@ -1,5 +1,7 @@
 package ru.bgcrm.struts.action.admin;
 
+import static ru.bgcrm.util.distr.InstallProcessor.UPDATE_TO_CHANGE_URL;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.net.URL;
@@ -12,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.plugin.kernel.Plugin;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,32 +25,26 @@ import ru.bgcrm.servlet.LoginStat;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AdminPortListener;
+import ru.bgcrm.util.distr.Scripts;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.util.RuntimeRunner;
-
-import static ru.bgcrm.util.distr.InstallProcessor.UPDATE_TO_CHANGE_URL;
 
 public class AppAction extends BaseAction {
+    public static final String JSP_PATH = Plugin.PATH_JSP_ADMIN + "/app";
 
     public ActionForward status(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        form.getResponse().setData("status", AdminPortListener.getStatus());
+        form.setResponseData("status", AdminPortListener.getStatus());
 
         FileFilter fileFilter = new WildcardFileFilter("log_update*");
         List<File> logFiles = Lists.newArrayList(new File(".").listFiles(fileFilter)) ;
         logFiles.sort((f1, f2) -> (int) (f2.lastModified() - f1.lastModified()));
 
-        form.getResponse().setData("logUpdateList", logFiles);
+        form.setResponseData("logUpdateList", logFiles);
 
-        return data(conSet, mapping, form);
+        return data(conSet, form, JSP_PATH + "/status.jsp");
     }
 
     public ActionForward update(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        boolean force = form.getParamBoolean("force");
-
-        new RuntimeRunner(new String[] { 
-            "bash", "-c", "./backup.sh && ./installer.sh " + (force ? "updatef" : "update") + " && ./erp_restart.sh" })
-            .run();
-
+        Scripts.backupUpdateRestart(form.getParamBoolean("force"));
         return status(conSet, form);
     }
     
@@ -71,24 +68,15 @@ public class AppAction extends BaseAction {
 
         if (updateFiles.isEmpty())
             throw new BGMessageException("Не найдены файлы обновлений");
-        
-        StringBuilder installerCommand = new StringBuilder(100);
-        for (String file : updateFiles) {
-            installerCommand.append("&& ./installer.sh install ");
-            installerCommand.append(file);
-        }
-    
-        new RuntimeRunner(new String[] { 
-            "bash", "-c", "./backup.sh " + installerCommand.toString() + " && ./erp_restart.sh" })
-            .run();
+
+        Scripts.backupInstallRestart(updateFiles);
 
         return status(conSet, form);
     }
 
     public ActionForward userLoggedList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        form.getResponse().setData("logged", LoginStat.getLoginStat().getLoggedUserWithSessions());
-
-        return data(conSet, mapping, form);
+        form.setResponseData("logged", LoginStat.getLoginStat().getLoggedUserWithSessions());
+        return data(conSet, form, JSP_PATH + "/user_logged_list.jsp");
     }
 
 }
