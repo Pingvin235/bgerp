@@ -65,20 +65,11 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
             Customer.OBJECT_TYPE);
     }
 
-    public Set<String> getOwnedPaths() {
-        return Set.of(
-            RunAction.JSP_PATH,
-            AppAction.JSP_PATH,
-            RunAction.JSP_PATH
-        );
-    }
-
     @Override
     public Set<String> getUnusedPaths() {
         return Set.of(
             "lib/app/bgcrm.jar", 
-            "plugin",
-            PATH_WEBAPP + "/img/favicon.png"
+            "plugin"
         );
     }
 }

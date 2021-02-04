@@ -2,12 +2,13 @@ package org.bgerp.plugin.msg.feedback;
 
 import java.sql.Connection;
 import java.util.Map;
-import java.util.Set;
+
+import ru.bgcrm.struts.action.BaseAction;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "feedback";
 
-    public static final String PATH_JSP_OPEN = PATH_JSP_OPEN_PLUGIN + "/" + ID;
+    public static final String PATH_JSP_OPEN = BaseAction.PATH_JSP_OPEN_PLUGIN + "/" + ID;
 
     public Plugin() {
         super(ID);
@@ -21,10 +22,5 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     @Override
     protected Map<String, String> loadEndpoints() {
         return Map.of("open.process.message.add.jsp", PATH_JSP_OPEN + "/message_add.jsp");
-    }
-
-    @Override
-    public Set<String> getOwnedPaths() {
-        return Set.of(PATH_WEBAPP + "/" + PATH_JSP_OPEN);
     }
 }

@@ -15,7 +15,6 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
-import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
@@ -23,7 +22,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class ProcessAction extends BaseAction {
-    private static final String PATH_JSP =  Plugin.PATH_JSP_OPEN + "/process";
+    private static final String PATH_JSP =  PATH_JSP_OPEN + "/process";
 
     /**
      * Configuration for open processes.

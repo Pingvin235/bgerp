@@ -11,7 +11,7 @@ import ru.bgcrm.util.sql.SQLUtils;
 public class CacheHolder<C extends Cache<C>> {
     private C factory;
     private volatile C cache;
-    private volatile Date lastAcces;
+    private volatile Date lastAccess;
 
     private Logger log = Logger.getLogger(this.getClass());
 
@@ -21,10 +21,10 @@ public class CacheHolder<C extends Cache<C>> {
 
     public C getInstance() {
         synchronized (factory) {
-            if (cache == null || !DateUtils.isSameDay(lastAcces, new Date())) {
+            if (cache == null || !DateUtils.isSameDay(lastAccess, new Date())) {
                 log.debug("cache newInstance");
                 cache = factory.newInstance();
-                lastAcces = new Date();
+                lastAccess = new Date();
             }
         }
         return cache;
@@ -33,6 +33,6 @@ public class CacheHolder<C extends Cache<C>> {
     public void flush(Connection con) {
         SQLUtils.commitConnection(con);
         cache = null;
-        lastAcces = null;
+        lastAccess = null;
     }
 }

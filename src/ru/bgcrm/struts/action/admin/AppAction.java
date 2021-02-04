@@ -29,7 +29,7 @@ import ru.bgcrm.util.distr.Scripts;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class AppAction extends BaseAction {
-    public static final String JSP_PATH = Plugin.PATH_JSP_ADMIN + "/app";
+    private static final String JSP_PATH = PATH_JSP_ADMIN + "/app";
 
     public ActionForward status(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         form.setResponseData("status", AdminPortListener.getStatus());

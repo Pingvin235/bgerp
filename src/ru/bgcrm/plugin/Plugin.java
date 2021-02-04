@@ -31,17 +31,8 @@ import ru.bgerp.util.Log;
 public abstract class Plugin {
     private static final Log log = Log.getLog();
 
-    protected static final String PATH_WEBAPP = "webapps";
-
     protected static final String PATH_JS = "/js";
     protected static final String PATH_CSS = "/css";
-
-    protected static final String PATH_JSP = "/WEB-INF/jspf";
-    public static final String PATH_JSP_ADMIN = PATH_JSP + "/admin";
-    public static final String PATH_JSP_USER = PATH_JSP + "/user";
-    protected static final String PATH_JSP_USER_PLUGIN = PATH_JSP_USER + "/plugin";
-    public static final String PATH_JSP_OPEN = PATH_JSP + "/open";
-    protected static final String PATH_JSP_OPEN_PLUGIN = PATH_JSP_OPEN + "/plugin";
 
     private final String id;
     /** Old way of plugin definition. XML document storing at most only endpoints. */
@@ -211,16 +202,9 @@ public abstract class Plugin {
     }
 
     /**
-     * Owned directories, used for removing of excess files on unpacking of update.zip.
-     * @return
-     */
-    public Set<String> getOwnedPaths() {
-        return Collections.emptySet();
-    }
-
-    /**
      * Outdated path, used by plugin. Related to the application's root directory.
      * May be used for cleaning up of old files and directories.
+     * TODO: For webapps is used separated logic.
      * @return
      */
     public Set<String> getUnusedPaths() {

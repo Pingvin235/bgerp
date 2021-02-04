@@ -105,6 +105,8 @@ public class ProfileAction extends BaseAction {
 
         userDAO.updatePersonalization(persConfigBefore, user);
 
+        UserCache.flush(con);
+
         return status(con, form);
     }
     
