@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
@@ -172,7 +173,7 @@ public class JSPFunction {
         return result;
     }
 
-    private static final Pattern PATTERN_LINKS = Pattern.compile("(?<!<a[^<]*)(?!<\\/a>)(\\(*\\b)((https?|ftp)://[-A-Za-z0-9+&@#/%?=~_\\(\\)|!:,.;]*[-A-Za-z0-9+&@#/%=~_\\(\\)|])");
+    private static final Pattern pattern = Pattern.compile("\\(?\\bhttps?://[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]");
 
     /**
      * Recognizes and replaces HTTP links to HTML code.
@@ -181,7 +182,39 @@ public class JSPFunction {
      * @return
      */
     public static String httpLinksToHtml(String value) {
-        return PATTERN_LINKS.matcher(value).replaceAll("$1<a target=\"_blank\" href=\"$2\">$2</a>");
+        Matcher m = null;
+        int pos = 0;
+
+        boolean foundInAttr = false;
+
+        while ((m = pattern.matcher(value)).find(pos)) {
+            // URLs in attributes
+            if (m.end() < value.length()) {
+                var nextChar = value.charAt(m.end());
+                if (nextChar == '"' || nextChar == '\'') {
+                    pos = m.end();
+                    foundInAttr = true;
+                    continue;
+                }
+            }
+
+            // URL in <a> body.
+            if (foundInAttr) {
+                pos = m.end();
+                foundInAttr = false;
+                continue;
+            }
+
+            final var url = m.group();
+            final var link = "<a target=\"_blank\" href=\"" + url + "\">" + url + "</a>";
+            value = value.substring(0, m.start()) +
+                link +
+                value.substring(m.end());
+
+            pos = m.start() + link.length();
+        }
+
+        return value;
     }
 
     /**
