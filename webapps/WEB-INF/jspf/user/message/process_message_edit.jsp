@@ -33,7 +33,7 @@
 				var fileId = response.data.file.id;
 				var fileTitle = response.data.file.title;
 
-				var deleteCode = "if( sendAJAXCommand( '../user/file.do?action=temporaryDelete&id=" + fileId + "') ){ $(this.parentNode).remove() }";
+				var deleteCode = "if( sendAJAXCommand( '/user/file.do?action=temporaryDelete&id=" + fileId + "') ){ $(this.parentNode).remove() }";
 
 				$('#${uploadListId}').append(
 					"<div>" +
@@ -148,7 +148,7 @@
 			<div id="${uploadListId}" class="in-mb05-all">
 				<%-- уже загруженные вложения --%>
 				<c:forEach var="item" items="${message.attachList}">
-					<c:url var="url" value="../user/file.do">
+					<c:url var="url" value="/user/file.do">
 						<c:param name="id" value="${item.id}"/>
 						<c:param name="title" value="${item.title}"/>
 						<c:param name="secret" value="${item.secret}"/>
