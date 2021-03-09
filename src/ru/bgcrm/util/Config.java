@@ -41,9 +41,9 @@ public abstract class Config {
     }
 
     /**
-     * Check, is the configuration inited.
+     * Check, is the configuration initialized.
      * @param criteria
-     * @throws InitStopException
+     * @throws InitStopException if {@param criteria} is false.
      */
     protected void initWhen(boolean criteria) throws InitStopException {
         if (!criteria)

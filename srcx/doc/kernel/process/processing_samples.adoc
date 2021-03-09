@@ -248,8 +248,8 @@ onProcessEvent.2.events=linkAdded
 onProcessEvent.2.commands=bgbilling:linkedContractParamToDescription:bg:27;bgbilling:linkedContractParamToDescription:bg:12
 ----
 
-== Плагин <<../../plugin/mtsc/index.adoc#, MTSC>>
-[[mtsc-send-sms]]
+== Плагин <<../../plugin/sms/index.adoc#, SMS>>
+[[sms-send-sms]]
 === Отправка СМС
 Отправка СМС сообщения по созданию процесса, в случае наличия в значениях спискового параметра с кодом 26 1, 2 или 3. 
 Используется операция пересечения множеств. 
@@ -261,7 +261,7 @@ onProcessEvent.1.ifExpression=cu.intersection(processParam.listValueIds(26), {1,
 onProcessEvent.1.doExpression=<<END
   phone=processParam.getParamPhoneNoFormat(20);
   if (phone) {
-     mtsc.sendSms(phone, "Заявка №".concat( process.getId().toString() ).concat(" принята"));
+     sms.sendSms(phone, "Заявка №".concat( process.getId().toString() ).concat(" принята"));
   }
 END
 ----

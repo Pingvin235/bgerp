@@ -35,10 +35,9 @@
 ** <<plugin/slack/index.adoc#, Slack>>
 ** <<plugin/task/index.adoc#, Task>>
 ** <<plugin/telegram/index.adoc#, Telegram>>
+** <<plugin/sms/index.adoc#, SMS>>
 ** <<plugin/workload/index.adoc#, Workload>>
-** Отправка СМС
-*** <<plugin/mtsc/index.adoc#, MTSC>>
-*** <<plugin/tele2c/index.adoc#, Tele2c>>
+
 * Решения
 ** <<ext/bgbilling.adoc#, Интеграция BGBilling>>
 ** <<ext/letter.adoc#, Учёт писем>>

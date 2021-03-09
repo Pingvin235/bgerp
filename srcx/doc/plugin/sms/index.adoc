@@ -1,0 +1,71 @@
+=  Plugin SMS
+:toc:
+
+The plugin provides the ability to send SMS messages over several protocols.
+Submitting can be done using the API for <<../../kernel/process/processing.adoc#, simple process change handler>>.
+
+== Configuration
+Configuration has to be done depending of using provider.
+
+=== link:https://www.mcommunicator.ru[MTS communicator]
+Required parameters:
+[source]
+----
+sms:type=mts
+sms:login=<login>
+sms:password=<password>
+----
+
+Optional (with default values):
+[source]
+----
+sms:shortcode=bgerp.org
+sms:url=http://mcommunicator.ru/M2M/m2m_api.asmx/SendMessage
+----
+
+=== link:https://target.tele2.ru[TELE2 target]
+Required parameters:
+[source]
+----
+sms:type=tele2
+sms:login=<login>
+sms:password=<password>
+----
+
+Optional (with default values):
+[source]
+----
+sms:shortcode=bgerp.org
+sms:url=https://newbsms.tele2.ru/api/?operation=send
+----
+
+=== link:https://smsc.ru[SMSC.ru]
+Required parameters:
+[source]
+----
+sms:type=smsc
+sms:login=<login>
+sms:password=<password>
+----
+
+Optional (with default values):
+[source]
+----
+sms:url=https://smsc.ru/sys/send.php
+----
+
+== Using
+It is now possible to send messages in the *doExpression* script of a <<../../kernel/process/processing.adoc#, simple event handling>>.
+[source]
+----
+onProcessEvent.1.events=statusChanged
+onProcessEvent.1.doExpression=<<END
+// phone process paramId 86
+phone = processParam.getParamPhoneNoFormat(86);
+if (phone) {
+  sms.sendSms(phone, "Your appeal is registered with a number " + process.getId());
+}
+END
+----
+
+SMS class object javadoc:org.bgerp.plugin.msg.sms.DefaultProcessorFunctions[] with API functions is provided by the plugin.

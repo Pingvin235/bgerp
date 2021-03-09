@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import ru.bgcrm.model.BGMessageException;
@@ -144,7 +145,29 @@ public class ParameterMapTest {
         }
         assertTrue(thrown);
     }
-    
+
+    private static class TestConfigInitWhen extends Config {
+        private final String value;
+
+        protected TestConfigInitWhen(ParameterMap setup) throws InitStopException {
+            super(setup);
+            value = setup.get("key");
+            initWhen(StringUtils.isNoneBlank(value));
+        }
+    }
+
+    @Test
+    public void testConfigInitWhen() {
+        var setup = ParameterMap.of("key.wrong", "value");
+        var config = setup.getConfig(TestConfigInitWhen.class);
+        assertNull(config);
+
+        setup = ParameterMap.of("key", "value");
+        config = setup.getConfig(TestConfigInitWhen.class);
+        assertNotNull(config);
+        assertEquals("value", config.value);
+    }
+       
     @Test
     public void testOf() {
         ParameterMap map = ParameterMap.of("key1", "1", "key2", "value2", "key3");
