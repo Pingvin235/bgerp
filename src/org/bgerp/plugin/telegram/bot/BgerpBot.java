@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.telegram.bot;
+package org.bgerp.plugin.telegram.bot;
 
 import java.sql.Connection;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgerp.plugin.telegram.Config;
+import org.bgerp.plugin.telegram.Config;
 import ru.bgerp.util.Log;
 
 public class BgerpBot extends TelegramLongPollingBot {
@@ -37,16 +37,17 @@ public class BgerpBot extends TelegramLongPollingBot {
 
     private static BotSession botSession;
 
-    private BgerpBot() {}
+    private BgerpBot() {
+    }
 
     public static BgerpBot getInstance() {
-        if (instance == null) 
+        if (instance == null)
             reinit();
         return instance;
     }
 
     private static void reinit() {
-        log.info( "Reinit..telegramBot" );
+        log.info("Re init.... telegramBot");
         Config config = Setup.getSetup().getConfig(Config.class);
         if (!config.isBotStart()) {
             log.info("Skipping telegramBot start.");
@@ -60,7 +61,7 @@ public class BgerpBot extends TelegramLongPollingBot {
     }
 
     private static BgerpBot init() {
-        // пробуем остановить старую, на всяий случай
+        // пробуем остановить старую, на всякий случай
         try {
             if (botSession != null) {
                 botSession.stop();
@@ -86,16 +87,16 @@ public class BgerpBot extends TelegramLongPollingBot {
             botOptions.setProxyType(type);
 
         }
-        
+
         BgerpBot bot = new BgerpBot(botOptions);
         for (int i = 0; i < 3; i++) {
             try {
-                log.info("try start botSession...on " + config.getProxyType() + ":" + config.getProxyHost() + ":" + config.getProxyPort());
+                log.info("try start botSession... on " + config.getProxyType() + ":" + config.getProxyHost() + ":" + config.getProxyPort());
                 botSession = botapi.registerBot(bot);
                 log.info("botSession=" + botSession);
                 break;
             } catch (TelegramApiException e) {
-                log.error("Error start telegramm bot", e);
+                log.error("Error start telegram bot", e);
             }
         }
         return bot;
@@ -131,12 +132,12 @@ public class BgerpBot extends TelegramLongPollingBot {
         }
         if (txt.equals("/getid")) {
             userMap.put(chatId, null);
-            sendMessage(chatId, "Ваш telegramId=" + chatId);
+            sendMessage(chatId, "Your telegramId=" + chatId);
             return;
         }
         if (txt.equals("/cancel")) {
             userMap.put(chatId, null);
-            sendMessage(chatId, config.getMsgStandartAnswer());
+            sendMessage(chatId, config.getMsgDefaultAnswer());
             return;
         }
         UserData userData = userMap.get(chatId);
@@ -149,7 +150,7 @@ public class BgerpBot extends TelegramLongPollingBot {
             } else {
                 User user = UserCache.getUser(userData.login);
                 if (user == null || !user.getPassword().equals(txt)) {
-                    sendMessage(chatId, config.getMsgWronPassword());
+                    sendMessage(chatId, config.getMsgWrongPassword());
                     userMap.put(chatId, new UserData());
                     sendMessage(chatId, config.getMsgAskLogin());
                     return;
@@ -170,12 +171,12 @@ public class BgerpBot extends TelegramLongPollingBot {
             }
         }
         // просто ответ.
-        sendMessage(chatId, config.getMsgStandartAnswer());
+        sendMessage(chatId, config.getMsgDefaultAnswer());
     }
 
-    public void sendMessage(Long chanId, String text) {
+    public void sendMessage(Long chatId, String text) {
         SendMessage s = new SendMessage();
-        s.setChatId(chanId);
+        s.setChatId(chatId);
         s.setText(text);
         s.setParseMode("Markdown");
         try {

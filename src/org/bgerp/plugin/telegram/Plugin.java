@@ -1,10 +1,10 @@
-package ru.bgerp.plugin.telegram;
+package org.bgerp.plugin.telegram;
 
 import java.sql.Connection;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.listener.DefaultProcessChangeListener.DefaultProcessorChangeContextEvent;
-import ru.bgerp.plugin.telegram.bot.BgerpBot;
+import org.bgerp.plugin.telegram.bot.BgerpBot;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "telegram";

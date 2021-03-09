@@ -1,0 +1,1 @@
+A: Plugin Telegram enhanced API, https://bgerp.org/doc/3.0/manual/plugin/telegram/index.html

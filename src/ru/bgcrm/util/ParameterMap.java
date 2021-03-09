@@ -161,6 +161,22 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         return Utils.parseBoolean(get(key, "").trim(), defaultValue);
     }
 
+    /**
+     * Analog of {@link #getSok(String, boolean, String...)} for boolean values.
+     * @throws BGMessageException
+     */
+    public boolean getSokBoolean(boolean def, boolean validate, String... keys) throws BGMessageException {
+        return Utils.parseBoolean(getSok(String.valueOf(def), validate, keys), def);
+    }
+
+    /**
+     * Calls {@link #getSokLong(boolean, boolean, String...)} with validate=false.
+     * @throws BGMessageException
+     */ 
+    public boolean getSokBoolean(boolean def, String... keys) throws BGMessageException {
+        return getSokBoolean(def, false, keys);
+    }
+
     public BigDecimal getBigDecimal(final String key, final BigDecimal def) {
         try {
             final String value = get(key, null);

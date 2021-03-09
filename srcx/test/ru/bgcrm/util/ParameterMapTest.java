@@ -196,4 +196,20 @@ public class ParameterMapTest {
         assertTrue(thrown);
     }
 
+    @Test
+    public void testSokBoolean() throws Exception {
+        var map = ParameterMap.of("key.old", "1", "key.new", "2");
+        var value = map.getSokBoolean(false, "key.old");
+        assertEquals(true, value);
+        value = map.getSokBoolean(true, "key.wrong1", "key.wrong2");
+        assertEquals(true, value);
+        var thrown = false;
+        try {
+            map = ParameterMap.of("key.old", "0");
+            map.getSokBoolean(false, true, "key.new", "key.old");
+        } catch (BGMessageException e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+    }
 }
