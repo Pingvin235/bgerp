@@ -1,2 +1,0 @@
-A: Plugin SMS, including existing MTSC, Tele2 senders same as a new SMSC, https://bgerp.org/doc/3.0/manual/plugin/sms/index.html
- 

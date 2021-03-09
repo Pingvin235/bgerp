@@ -1,8 +1,0 @@
-C: ui:menu-group tag with direct ui:menu-item children, without 'subitems' attribute.
-C: Restructure of menu, show 'My processes item'.
-C: Simplified Config API, validated keys.
-A: Open process queue, https://bgerp.org/3.0/manual/kernel/interface.html#open-process-queue
-B: Removed support for key 'printColumns' from configuration of process queue, 'media.print.columns' has to be used instead.
-C: Optimization and test coverage for DynActionForm.
-A: Localization of open interface: https://bgerp.org/doc/3.0/manual/kernel/interface.html#open-l10n
-F: Duplicated items in search of processes.

@@ -1,1 +1,0 @@
-C: Optimization JSPFunction.httpLinksToHtml, tests.

@@ -1,4 +1,0 @@
-C: Extract to JS file function 'editorTypeChanged'.
-C: Delete Plugin's method getOwnedPaths().
-C: Move constants with JSP paths.
-F: Flush user cache on saving options in profile.

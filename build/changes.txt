@@ -1,6 +1,37 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+09.03.2021 21:25:24 1371
+A: [14070] Plugin Mobile, hidden servers.
+C: [14132] Extract to JS file function 'editorTypeChanged'.
+C: [14132] Delete Plugin's method getOwnedPaths().
+C: [14132] Move constants with JSP paths.
+F: [14132] Flush user cache on saving options in profile.
+A: [14148] Kernel localization.
+C: [14148] Remove unused JSP.
+A: [14182] Plugin Telegram enhanced API, https://bgerp.org/doc/3.0/manual/plugin/telegram/index.html
+C: [14187] ui:menu-group tag with direct ui:menu-item children, without 'subitems' attribute.
+C: [14187] Restructure of menu, show 'My processes item'.
+C: [14187] Simplified Config API, validated keys.
+A: [14187] Open process queue, https://bgerp.org/3.0/manual/kernel/interface.html#open-process-queue
+B: [14187] Removed support for key 'printColumns' from configuration of process queue, 'media.print.columns' has to be used instead.
+C: [14187] Optimization and test coverage for DynActionForm.
+A: [14187] Localization of open interface: https://bgerp.org/doc/3.0/manual/kernel/interface.html#open-l10n
+F: [14187] Duplicated items in search of processes.
+A: [14192] Customization engine, https://bgerp.org/doc/3.0/manual/kernel/extension.html#custom
+A: [14192] Run classes tool.
+A: [14192] Annotated actions, https://bgerp.org/doc/3.0/manual/project.html#action
+C: [14192] Plugin Blow, refactor actions to modern directories and JSP forwards.
+C: [14192] Deprecate data() methods with old signatures in BaseAction.
+A: [14192] Running 'gradlew integrationTest' with DB configuration from bgerp.properties file.
+F: [14192] Localizations in menu.
+F: [14192] Localization of parametrized BGMessageException.
+C: [14210] Task 'publishUpdate' rewritten to Java.
+A: [14210] Automatically publish branch updates using GitLab CI.
+C: [14214] Optimization JSPFunction.httpLinksToHtml, tests.
+A: [14268] Plugin SMS, including existing MTSC, Tele2 senders same as a new SMSC, https://bgerp.org/doc/3.0/manual/plugin/sms/index.html
+F: [14272] Open file error.
+
 09.01.2021 13:07:39 1370
 C: [12333] Application version and build format.
 F: [12333] License upload, creation of many hidden iframes.
