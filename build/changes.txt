@@ -1,6 +1,12 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+11.03.2021 21:37:06 1372
+F: [14289] Missing menu items 'Administration - Customization' and 'Administration - Run'.
+F: [14289] Update to process ID, incorrect shell command.
+C: [14289] Remove unused ExecuteSQL call from update package.
+A: [14289] Remove old log_update files.
+
 09.03.2021 21:25:24 1371
 A: [14070] Plugin Mobile, hidden servers.
 C: [14132] Extract to JS file function 'editorTypeChanged'.

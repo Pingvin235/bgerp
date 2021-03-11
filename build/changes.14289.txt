@@ -1,4 +1,0 @@
-F: Missing menu items 'Administration - Customization' and 'Administration - Run'.
-F: Update to process ID, incorrect shell command.
-C: Remove unused ExecuteSQL call from update package.
-A: Remove old log_update files.
