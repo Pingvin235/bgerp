@@ -71,11 +71,11 @@
 	</ui:menu-group>
 	
 	<ui:menu-item ltitle="Выполнить" href="admin/run"
-		action="org.bgerp.action.RunAction"
+		action="org.bgerp.action.admin.RunAction"
 		command="/admin/run.do" />
 
 	<ui:menu-item ltitle="Кастомизация" href="admin/custom"
-		action="org.bgerp.action.CustomAction"
+		action="org.bgerp.action.admin.CustomAction"
 		command="/admin/custom.do" />
 
 	<ui:menu-item ltitle="Динамический код" href="admin/dyncode"

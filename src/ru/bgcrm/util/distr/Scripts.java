@@ -22,7 +22,7 @@ public class Scripts {
     public static void backupInstallRestart(List<String> updateFiles) throws Exception {
         var installerCommand = new StringBuilder(100);
         for (String file : updateFiles) {
-            installerCommand.append("&&" + INSTALLER + Installer.K_INSTALL);
+            installerCommand.append("&&" + INSTALLER + Installer.K_INSTALL + " ");
             installerCommand.append(file);
         }
     

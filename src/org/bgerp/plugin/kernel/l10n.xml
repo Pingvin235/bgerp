@@ -295,7 +295,7 @@
 	<p><ru>Выгрузка в Excel</ru><en>Export to Excel</en></p>
 	<p><ru>Класс выполнен, проверьте логи</ru><en>Class was exectuted, check logs</en></p>
 	<p><ru>Класс запущен в отдельном потоке,\nвывод в логах.</ru><en>Class was started in separated thread,\nsee output in logs.</en></p>
-	<p><ru>Выполнить</ru><en>Execute</en></p>
+	<p><ru>Выполнить</ru><en>Run</en></p>
 	<p><ru>Ожидание окончания выполнения</ru><en>Wait of execution is done</en></p>
 	<p><ru>синхронно</ru><en>synch</en></p>
 	<p><ru>Скомпилировать всё</ru><en>Recompile all</en></p>

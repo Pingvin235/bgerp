@@ -2,8 +2,6 @@ package org.bgerp.plugin.kernel;
 
 import java.util.Set;
 
-import org.bgerp.action.admin.RunAction;
-
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.Tables;
 import ru.bgcrm.model.customer.Customer;
@@ -11,7 +9,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.Table;
 import ru.bgcrm.plugin.Table.Type;
-import ru.bgcrm.struts.action.admin.AppAction;
 import ru.bgcrm.util.ParameterMap;
 
 /**

@@ -36,8 +36,8 @@ public class PermissionTag extends ConditionalTagSupport {
         return false;
     }
 
-    public void setAction(String allowdeActions) {
-        actions = allowdeActions.split(",");
+    public void setAction(String allowedActions) {
+        actions = allowedActions.split(",");
     }
 
     private void init() {

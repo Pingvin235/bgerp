@@ -26,11 +26,10 @@
 				<include name="docpattern/tabel_blank.xls"/>
 				<include name="dyn/ru/bgcrm/dyn/Example*.java"/>
 				<include name="webapps/**"/>
-				<exclude name="webapps/lib/jquery-ui-1.10.3/**"/>
-				<exclude name="webapps/WEB-INF/jspf/**/custom/**"/>
 			</fileset>
 			<fileset dir="${basedir}/../bgerp/files">
 				<include name="backup.sh"/>
+				<include name="installer.sh"/>
 				<include name="erp*.sh"/>
 				<include name="log4j.properties"/>
 			</fileset>	

@@ -16,7 +16,7 @@ PARAMS="-Dbgerp.setup.data=bgerp -Dbgerpnet.preferIPv4Stack=true -Dnetworkaddres
 
 ${JAVA_HOME}/bin/java ${PARAMS} -cp ${CLASSPATH} ru.bgcrm.util.distr.Installer $1 $2 $3 2>&1 | ${TEE} ./log_update_${time}
 
-# remove log_update older than 30 days 
-#find . -type f -name 'log_update*' -mtime +30 -exec rm {} \;
+# remove more that 10 oldest log_update files
+ls -1t | grep "log_update_" | tail -n +11 | xargs rm
 
 rm -rf ./work/*

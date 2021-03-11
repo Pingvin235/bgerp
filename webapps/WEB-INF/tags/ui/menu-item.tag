@@ -12,7 +12,7 @@
 	<c:set var="title" value="${l.l(ltitle)}"/>
 </c:if>
 
-<c:if test="${not empty href and not fn:startsWith(href, '/user')}">
+<c:if test="${not empty href and not href.startsWith('/user')}">
 	<c:set var="href" value="/user/${href}"/>
 </c:if>
 
@@ -25,7 +25,7 @@
 				 если нет - то JS код --%>
 			<c:choose>
 				<c:when test="${not empty href}">
-					<a href="${href}" onclick="bgerp.shell.followLink(this.href, event)">${title}</a>
+					<a href="${href}" onclick="$$.shell.followLink(this.href, event)">${title}</a>
 				</c:when>
 				<c:otherwise>
 					<a href="#" onclick="${command}; return false;">${title}</a>
