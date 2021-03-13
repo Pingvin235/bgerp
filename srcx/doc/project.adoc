@@ -107,6 +107,8 @@ Execute command:
 gradlew startServer
 ----
 
+CAUTION: The Gradle tasks ends on 75%.
+
 After correct start of the server, Web interface has to be available at URL: http://localhost:9088/user
 Use *admin* - *admin* credentials.
 
@@ -255,7 +257,7 @@ link:../../webapps/lib/jquery-ui-1.12.1/jquery-ui.js#L8923-L8930[webapps/lib/jqu
 
 [[devm]]
 === Client's development methodology
-BGERP launches within IDE, gets connected to the database and, optinally, billing.
+BGERP launches within IDE, gets connected to the database and, optionally, billing.
 At the end of the development/work session remote client database will have all the actual information, so it is only required to update the product itself.
 
 [square]
@@ -1180,15 +1182,17 @@ Build is performed from a *master* branch and can include several <<workflow, me
 
 IMPORTANT: Perform a separate GIT Push for each 'merge --squash' in order to correctly <<publish-source, publish>> in the open repository.
 
+IMPORTANT: If using <<kernel/extension.adoc#custom, custom>> directory rename it for the time of release, e.g. to `_custom`.
+
 Depending on the presence of <<java-lib, 3d-party libraries>> in an update, perform the following:
 [source, bash]
 ----
-bash -c "./gradlew buildClean buildUpdate"
+bash -c "./gradlew clean buildClean buildUpdate"
 ----
 or:
 [source, bash]
 ----
-bash -c "./gradlew buildClean buildUpdateLib buildUpdate"
+bash -c "./gradlew clean buildClean buildUpdateLib buildUpdate"
 ----
 
 Then:
