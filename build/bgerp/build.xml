@@ -36,6 +36,7 @@
 		</concat>
 		<concat destfile="${rootpath}/db_init.sql" encoding="UTF-8">
 			<fileset file="${basedir}/db_init.sql"/>
+			<fileset file="${basedir}/../update/db_init.sql"/>
 		</concat>
 	</target>
 

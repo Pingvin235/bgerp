@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Update" default="build" basedir=".">
 	<description>Update package</description>
-	
-	<property name="rootfolder" value="content"/>
-	
-	<import file="${basedir}/../common/import/module_build.xml"/>		
 
-	<!-- подготовка каталогов-->
+	<property name="rootfolder" value="content"/>
+
+	<import file="${basedir}/../common/import/module_build.xml"/>
+
+	<!-- prepare dirs -->
 	<target name="prepare_dir">
 		<delete dir="${rootpath}"/>
-		
+
 		<mkdir dir="${rootpath}"/>
 		<mkdir dir="${libapppath}"/>
-		
+
 		<mkdir dir="${rootpath}/dyn/ru/bgcrm/dyn"/>
 	</target>
-	
-	<!-- копирование -->
+
+	<!-- copy files -->
 	<target name="copy_bgerp">
 		<copy todir="${rootpath}">
 			<fileset dir="${projectPath}">
@@ -32,12 +32,12 @@
 				<include name="installer.sh"/>
 				<include name="erp*.sh"/>
 				<include name="log4j.properties"/>
-			</fileset>	
+			</fileset>
 			<fileset dir="${basedir}/../bgerp" includes="scripts/**"/>
 		</copy>
 	</target>
-	
-	<!-- создание bgerp.jar -->
+
+	<!-- creation bgerp.jar -->
 	<target name="build_bgerp_jar" depends="copy_bgerp">
 		<jar destfile="${libapppath}/bgerp.jar">
 			<fileset dir="${classesPath}">
@@ -54,33 +54,31 @@
 			<fileset dir="${classesPath}" includes="ru/bgcrm/version/update.properties"/>
 		</jar>
 	</target>
-	
-	<!-- доп. файлы в update.zip -->
+
+	<!-- extra files to в update.zip -->
 	<target name="add_to_module_zip">
 		<echo message="Adding to update.zip"/>
-		
-		<patternset id="add.to.module.zip">
-			<include name="patch.sql"/>
-			<include name="patch_fulltext.sql"/>
-			<include name="patch_task.sql"/>
-		</patternset>
+
+		<fileset id="add.to.module.zip" dir="${basedir}">
+			<include name="db_init.sql"/>
+		</fileset>
 	</target>
-	
-	<!--главный таргет-->
+
+	<!-- main target -->
 	<target name="build" depends="prepare_dir">
 		<property name="dir" value="${basedir}"/>
-		
+
 		<antcall target="update_props"/>
 		<antcall target="put_props"/>
-		
+
 		<antcall target="build_bgerp_jar"/>
-		
+
 		<antcall target="build_module"/>
-		
+
 		<copy todir="${basedir}/newlib" file="${libapppath}/bgerp.jar"/>
-			
+
 		<delete dir="${rootpath}"/>
-		
+
 		<ant dir="${basedir}/../bgerp" inheritall="false"/>
 	</target>
 </project>

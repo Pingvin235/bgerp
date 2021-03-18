@@ -103,30 +103,40 @@ public class AdminPortListener implements Runnable {
         }
     }
 
+    public static String getVersionInfo() {
+        var result = new StringBuilder(200);
+        
+        var vi = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE);
+        var viLib = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE_LIB);
+
+        result
+            .append("BGERP ")
+            .append(vi.getVersion())
+            .append(".")
+            .append(vi.getBuildNumber())
+            .append(" from ")
+            .append(vi.getBuildTime())
+            .append("; lib set ")
+            .append(viLib.getBuildNumber())
+            .append(" from ")
+            .append(viLib.getBuildTime());
+
+        return result.toString();
+    }
+
     public static String getStatus() {
-        StringBuilder status = new StringBuilder(300);
+        var result = new StringBuilder(1000);
 
-        VersionInfo vi = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE);
-        VersionInfo viLib = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE_LIB);
+        result
+            .append(getVersionInfo())
+            .append("\n")
+            .append(uptimeStatus())
+            .append("\n")
+            .append(memoryStatus())
+            .append("\n")
+            .append(Setup.getSetup().getPoolStatus());
 
-        status.append("BGERP ");
-        status.append(vi.getVersion());
-        status.append(".");
-        status.append(vi.getBuildNumber());
-        status.append(" from ");
-        status.append(vi.getBuildTime());
-        status.append("; lib set ");
-        status.append(viLib.getBuildNumber());
-        status.append(" from ");
-        status.append(viLib.getBuildTime());
-        status.append("\n");
-        status.append(uptimeStatus());
-        status.append("\n");
-        status.append(memoryStatus());
-        status.append("\n");
-        status.append(Setup.getSetup().getPoolStatus());
-
-        return status.toString();
+        return result.toString();
     }
 
     private static java.util.Date startTime = new java.util.Date();

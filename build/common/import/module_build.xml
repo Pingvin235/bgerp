@@ -37,9 +37,9 @@
 		<echo message="Copy ${dir}/${modprop.name}.properties"/>
 	</target>
 	
-	<!-- заглушка. "переопределить" чтобы добавить в пакет модуля какие-то файлы -->
+	<!-- overwrite to add some module files -->
 	<target name="add_to_module_zip">
-		<patternset id="add.to.module.zip"/>
+		<fileset id="add.to.module.zip"/>
 	</target>
 	
 	<target name="build_module" depends="add_to_module_zip">
@@ -52,9 +52,8 @@
 			<fileset dir="${basedir}">
 				<include name="${rootfolder}/**"/>
 				<include name="module.properties"/>
-				
-				<patternset refid="add.to.module.zip"/>
 			</fileset>
+			<fileset refid="add.to.module.zip"/>
 		</zip>
 	</target>
 </project>

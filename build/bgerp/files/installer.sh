@@ -17,6 +17,6 @@ PARAMS="-Dbgerp.setup.data=bgerp -Dbgerpnet.preferIPv4Stack=true -Dnetworkaddres
 ${JAVA_HOME}/bin/java ${PARAMS} -cp ${CLASSPATH} ru.bgcrm.util.distr.Installer $1 $2 $3 2>&1 | ${TEE} ./log_update_${time}
 
 # remove more that 10 oldest log_update files
-ls -1t | grep "log_update_" | tail -n +11 | xargs rm
+ls -1t | grep "log_update_" | tail -n +11 | xargs rm -f
 
 rm -rf ./work/*

@@ -1,0 +1,3 @@
+F: Cleaning old 'log_update' logs in case of missing files.
+F: Add ExecuteSQL call in update package with db_init.sql.
+A: Write in log server version info on start.

@@ -54,6 +54,7 @@ public class Server extends Tomcat {
         configureLogging();
 
         log.info("Starting with '%s.properties'..", Setup.getBundleName());
+        log.info(AdminPortListener.getVersionInfo());
 
         setup = Setup.getSetup();
         try {

@@ -23,7 +23,7 @@ import ru.bgcrm.util.sql.ConnectionPool;
 import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgcrm.util.sql.SQLUtils;
 
-public class ExecuteSQL {
+public class ExecuteSQL implements InstallationCall {
     private static final String SQL_PATCHES_HISTORY = "sql_patches_history";
     private String id = "";
 
