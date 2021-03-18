@@ -1,6 +1,11 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+18.03.2021 21:05:47 1373
+F: [14291] Cleaning old 'log_update' logs in case of missing files.
+F: [14291] Add ExecuteSQL call in update package with db_init.sql.
+A: [14291] Write in log server version info on start.
+
 11.03.2021 21:37:06 1372
 F: [14289] Missing menu items 'Administration - Customization' and 'Administration - Run'.
 F: [14289] Update to process ID, incorrect shell command.
