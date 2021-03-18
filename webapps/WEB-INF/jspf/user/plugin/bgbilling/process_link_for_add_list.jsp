@@ -94,7 +94,7 @@
 		</c:when>
 		<c:when test="${fn:startsWith( item.linkedObjectType, 'contract:' )}">
 			<c:set var="billingId" value="${fn:substringAfter( item.linkedObjectType, ':')}"/>
-			<c:set var="title" value="Договор:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
+			<c:set var="title" value="${l.l('Договор')}:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
 		</c:when>
 		<c:when test="${fn:startsWith( item.linkedObjectType, 'bgbilling-task:' )}">
 			<c:set var="billingId" value="${fn:substringAfter( item.linkedObjectType, ':')}"/>

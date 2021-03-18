@@ -4,12 +4,12 @@
 <c:set var="logged" value="${form.response.data.logged}"/>
 
 <div class="center1020">
-	<h2>Авторизовавшиеся пользователи [ ${logged.size()} ]</h2>
+	<h2>${l.l('Авторизовавшиеся пользователи')} [ ${logged.size()} ]</h2>
 	
 	<table class="data" style="width: 100%;">
 		<tr>
-			<td>Пользователь</td>
-			<td>Сессии (вход / последняя активность)</td>
+			<td>${l.l('Пользователь')}</td>
+			<td>${l.l('Сессии (вход / последняя активность)')}</td>
 		</tr>
 		<c:forEach var="item" items="${logged}">
 			<c:set var="sessions" value="${item.value}"/>
@@ -26,6 +26,6 @@
 	</table>
 </div>
 
-<c:set var="title" value="Авторизовавшиеся пользователи"/>
+<c:set var="title" value="${l.l('Авторизовавшиеся пользователи')}"/>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

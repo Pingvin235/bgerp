@@ -18,14 +18,14 @@
 	<h2>ID</h2>
 	<input type="text" name="id" value="${form.param['id']}" disabled="disabled" style="width: 100%;"/>
 	
-	<h2>Название</h2>
+	<h2>${l.l('Название')}</h2>
 	<html:text property="title" style="width: 100%" value="${type.title}"/>
 		
-	<h2>Наследовать свойства от предка</h2>
+	<h2>${l.l('Наследовать свойства от предка')}</h2>
 	<u:sc>
 		<c:set var="valuesHtml">
-			<li value="0">Нет</li>
-			<li value="1">Да</li>			
+			<li value="0">${l.l('Нет')}</li>
+			<li value="1">${l.l('Да')}</li>
 		</c:set>
 		<c:set var="hiddenName" value="useParent"/>
 		<c:if test="${type.useParentProperties}">
@@ -40,4 +40,4 @@
 	</div>
 </html:form>
 
-<shell:state ltext="Редактор типа" help="kernel/process/index.html#type"/>
+<shell:state ltext="${l.l('Редактор типа')}" help="kernel/process/index.html#type"/>

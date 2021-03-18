@@ -62,7 +62,7 @@
 	<c:set var="saveCommand">if( sendAJAXCommand( formUrl( this.form ) ) ){ ${closeEditor} }</c:set>
 		
 	<div class="mt1">
-		<button class="btn-grey" type="button" onclick="${saveCommand}">ОК</button>
+		<button class="btn-grey" type="button" onclick="${saveCommand}">OK</button>
 		<button class="btn-grey ml1" type="button" onclick="${closeEditor}">${l.l('Отмена')}</button>
 	</div>	
 </html:form>

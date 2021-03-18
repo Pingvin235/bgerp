@@ -87,7 +87,7 @@
 		</tr>
 		<tr>
 			<td colspan="2" align="right">
-				<input type="button" value="ОК" onclick="bgbilling_registerProblemUpdate( formUrl( this.form ), '${form.param.processId}', '${form.param.billingId}', '${problem.getId()}' )"/>
+				<input type="button" value="OK" onclick="bgbilling_registerProblemUpdate( formUrl( this.form ), '${form.param.processId}', '${form.param.billingId}', '${problem.getId()}' )"/>
 				<input type="button" value="Отмена" onclick="refreshCurrentSelectedTab();"/>
 			</td>
 		</tr>

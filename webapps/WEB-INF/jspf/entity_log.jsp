@@ -12,9 +12,9 @@
 	<button class="btn-white mb1" onclick="openUrlToParent( '${form.returnUrl}', $('#${paramLinkId}') );">Закрыть</button>
 	<table style="width:100%" class="data">
 		<tr ${hideTr}>
-			<td>Дата</td>
-			<td>Пользователь</td>
-			<td width="100%">Текст</td>
+			<td>${l.l('Дата')}</td>
+			<td>${l.l('Пользователь')}</td>
+			<td width="100%">${l.l('Текст')}</td>
 		</tr>	
 		<c:forEach var="logItem" items="${log}">
 			<tr>

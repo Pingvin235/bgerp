@@ -9,8 +9,8 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
-		<td width="50%">Название</td>
-		<td width="50%">Шаблон</td>
+		<td width="50%">${l.l('Название')}</td>
+		<td width="50%">${l.l('Шаблон')}</td>
 	</tr>
 	<c:forEach var="item" items="${patternList}">
 		<tr>

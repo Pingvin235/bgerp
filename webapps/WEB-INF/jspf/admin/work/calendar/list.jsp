@@ -43,6 +43,6 @@
 	</c:forEach>
 </table>
 
-<c:set var="title" value="Календарь рабочих дней"/>
+<c:set var="title" value="${l.l('Календарь рабочих дней')}"/>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

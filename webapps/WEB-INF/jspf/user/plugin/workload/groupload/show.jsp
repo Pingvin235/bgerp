@@ -37,7 +37,7 @@
 	</ui:combo-single>
 	&#160;
 	<button class="btn-grey" type="button"
-		onclick="openUrlToParent( formUrl(this.form), $('#${uiid}') )">ОК</button>
+		onclick="openUrlToParent( formUrl(this.form), $('#${uiid}') )">OK</button>
 </html:form>
 
 <br>

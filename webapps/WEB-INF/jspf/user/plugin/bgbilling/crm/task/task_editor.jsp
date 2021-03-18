@@ -48,7 +48,7 @@
 				<td valign="top" width="100%">
 					<table class="box" width="100%">
 						<tr>
-							<td colspan="4"><b>Договор:</b></td>
+							<td colspan="4"><b>${l.l('Договор')}:</b></td>
 						</tr>
 						<tr>
 							<td valign="bottom"><input type="text" style="width: 100%" name="contractTitle" value="${task.getContract()}" disabled /></td>

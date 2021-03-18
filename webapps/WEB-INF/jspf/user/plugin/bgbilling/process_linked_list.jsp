@@ -4,7 +4,7 @@
 <c:choose>
 	<c:when test="${fn:startsWith( linkedObjectType, 'contract:' )}">
 		<c:set var="billingId" value="${fn:substringAfter( linkedObjectType, ':')}"/>
-		Договор:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}
+		${l.l('Договор')}:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}
 	</c:when>
 	<c:when test="${linkedObjectType eq 'bgbilling-commonContract'}">Единый договор</c:when>
 </c:choose>	

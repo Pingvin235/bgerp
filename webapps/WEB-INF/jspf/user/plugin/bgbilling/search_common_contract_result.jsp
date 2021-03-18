@@ -6,9 +6,9 @@
 
 <table style="width: 100%; text-align: center;" class="data">	
 		<tr>
-			<td width="30">ID</td>		
-			<td>Договор</td>
-			<td>Адрес</td>
+			<td width="30">ID</td>
+			<td>${l.l('Договор')}</td>
+			<td>${l.l('Адрес')}</td>
 		</tr>
 	
 		<c:forEach var="item" items="${form.response.data.list}">

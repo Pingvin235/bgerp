@@ -42,7 +42,7 @@
 					<ui:select-single hiddenName="selectStreet"  style="width: 250px;" list="${data.getStreetList()}" value="${streetF}"/>
                 	</td>
                 	<td valign="top">
-                		Дом<br/>
+						${l.l('Дом')}<br/>
             		<ui:input-text name="home" value="${homeF}" />
                 	</td>
                 	<td valign="top">
@@ -81,12 +81,12 @@
 		
 	    <table style="width: 100%;" class="data mt1">
             <tr>
-            	<td width="30">№</td>
-                <td width="70">Id</td>
-                <td>Договор</td>
-                <td>ФИО</td>
-                <td>Адрес подключения</td>
-                <td width="100">Баланс</td>
+            	<td width="30">${l.l('№')}</td>
+                <td width="70">${l.l('Id')}</td>
+                <td>${l.l('Договор')}</td>
+                <td>${l.l('ФИО')}</td>
+                <td>${l.l('Адрес подключения')}</td>
+                <td width="100">${l.l('Баланс')}</td>
             </tr>   
 		    <c:forEach var="debtor" items="${data.getDebters(groupsF,statusesF,streetF,homeF,balanceFromF,balanceToF,sortF)}">
 			    <tr>

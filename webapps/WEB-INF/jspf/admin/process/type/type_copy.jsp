@@ -16,7 +16,7 @@
 		/>
 	</div>
 	<div>
-		<button type="button" class="btn-grey mr1 ok" style="display: none;" onclick="$$.ajax.post(this.form).done(() => { ${closeScript} })">${l.l('OK')}</button>
+		<button type="button" class="btn-grey mr1 ok" style="display: none;" onclick="$$.ajax.post(this.form).done(() => { ${closeScript} })">OK</button>
 		<button type="button" class="btn-white" onclick="${closeScript}">${l.l('Закрыть')}</button>
 	</div>
 </form>	

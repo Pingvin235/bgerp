@@ -12,10 +12,10 @@
 	<h2>ID</h2>
 	<input type="text" name="id" value="${group.id}" disabled="disabled" style="width: 100%;"/>
 			
-	<h2>Название</h2>
+	<h2>${l.l('Название')}</h2>
 	<input type="text" name="title" style="width: 100%" value="${group.title}"/>	
 	
-	<h2>Параметры</h2>
+	<h2>${l.l('Параметры')}</h2>
 	<u:sc>
 		<c:set var="list" value="${parameterList}" />
 		<c:set var="hiddenName" value="param"/>
@@ -29,5 +29,5 @@
 	</div>
 </html:form>
 
-<c:set var="state" value="Редактор"/>
+<c:set var="state" value="${l.l('Редактор')}"/>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

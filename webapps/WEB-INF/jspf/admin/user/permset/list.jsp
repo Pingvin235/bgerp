@@ -77,6 +77,6 @@
 	</c:forEach>
 </table>
 
-<c:set var="title" value="Наборы прав"/>
+<c:set var="title" value="${l.l('Наборы прав')}"/>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

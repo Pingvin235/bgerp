@@ -52,6 +52,6 @@
 	</c:forEach>
 </table>
 
-<c:set var="title" value="Сообщения рассылок"/>
+<c:set var="title" value="${l.l('Сообщения рассылок')}"/>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

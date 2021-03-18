@@ -39,7 +39,7 @@
 			</tr>		
 		</table>	
 		
-		<button type="button" class="btn-grey mr1" onclick="if ( sendAJAXCommand( formUrl( $('#addGroup${uiid}') ) ) ) { ${reloadScript} }">ОК</button>
+		<button type="button" class="btn-grey mr1" onclick="if ( sendAJAXCommand( formUrl( $('#addGroup${uiid}') ) ) ) { ${reloadScript} }">OK</button>
 		<button type="button" class="btn-grey" onclick="$('#addGroup${uiid}').hide(); $('#showGroup${uiid}').show();">${l.l('Отмена')}</button>
 	</html:form>
 </c:if>
@@ -108,7 +108,7 @@
 	</div>
 	
 	<div class="in-ml1">
-		<button type="button" class="btn-grey" onclick="if( confirm( 'Вы уверены, что хотите закрыть период группы?' ) && sendAJAXCommand( formUrl( this.form ) ) ){ ${reloadScript} }">ОК</button>
+		<button type="button" class="btn-grey" onclick="if( confirm( 'Вы уверены, что хотите закрыть период группы?' ) && sendAJAXCommand( formUrl( this.form ) ) ){ ${reloadScript} }">OK</button>
 		<button type="button" class="btn-grey" onclick="$('#closeGroup${uiid}').hide(); $('#showGroup${uiid}').show();">${l.l('Отмена')}</button>
 	</div>
 </html:form>

@@ -12,10 +12,10 @@
 	<h2>ID</h2>
 	<input type="text" name="id" value="${pattern.id}" disabled="disabled" style="width: 100%;"/>
 	
-	<h2>Название</h2>
+	<h2>${l.l('Название')}</h2>
 	<input type="text" name="title" style="width: 100%" value="${pattern.title}"/>
 	
-	<h2>Шаблон</h2>
+	<h2>${l.l('Шаблон')}</h2>
 	<input type="text" name="pattern" style="width: 100%" value="${fn:escapeXml( pattern.pattern )}"/>
 	
 	<div class="mt1">
@@ -23,5 +23,5 @@
 	</div>
 </html:form>
 
-<c:set var="state" value="Редактор"/>
+<c:set var="state" value="${l.l('Редактор')}"/>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

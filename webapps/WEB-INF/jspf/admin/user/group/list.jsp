@@ -26,7 +26,7 @@
 		<c:param name="parentGroupId" value="${form.param.parentGroupId}"/>
 		<c:param name="markGroup" value="${form.param.markGroup}"/>
 	</c:url>
-	<button type="button" id="markGroupButton" class="btn-grey ml1" onclick="if( sendAJAXCommand( '${url}' ) ){ openUrlContent('${urlList}');  }">Вставить [${markGroupString}]</button>
+	<button type="button" id="markGroupButton" class="btn-grey ml1" onclick="if( sendAJAXCommand( '${url}' ) ){ openUrlContent('${urlList}');  }">${l.l('Вставить')} [${markGroupString}]</button>
 
 	<%--
 	<div class="ml1" style="display: inline-block;">
@@ -61,7 +61,7 @@
 	</c:url>
 
 	&nbsp;
-	<a href="#UNDEF" onClick="openUrlContent('${url}'); return false;">Группы</a>
+	<a href="#UNDEF" onClick="openUrlContent('${url}'); return false;">${l.l('Группы')}</a>
 
 	<c:forEach var="item" items="${groupPath}" varStatus="status">
 		<c:url var="url" value="/admin/user.do">

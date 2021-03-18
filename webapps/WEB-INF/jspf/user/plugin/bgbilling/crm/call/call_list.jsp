@@ -30,12 +30,12 @@
 	</table>
 	<table class="data" width="100%">	
 		<tr>
-			<td>Код</td>
-			<td>Договор</td>
-			<td>Тип</td>
-			<td>Время</td>
-			<td>Принят</td>
-			<td>Проблема</td>
+			<td>${l.l('Код')}</td>
+			<td>${l.l('Договор')}</td>
+			<td>${l.l('Тип')}</td>
+			<td>${l.l('Время')}</td>
+			<td>${l.l('Принят')}</td>
+			<td>${l.l('Проблема')}</td>
 		</tr>
 		
 		<c:forEach var="call" items="${form.response.data.list}">

@@ -38,7 +38,7 @@
 			</c:set>
 
 			<div class="mt1">
-				<button type="button" class="btn-grey mr1" onclick="${saveCommand}">ОК</button>
+				<button type="button" class="btn-grey mr1" onclick="${saveCommand}">OK</button>
 				<button type="button" class="btn-grey" onclick="${returnToShow}">${l.l('Отмена')}</button>
 			</div>
 		</div>

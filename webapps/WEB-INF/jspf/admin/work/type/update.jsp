@@ -278,7 +278,7 @@
 <table>
 	<tr>
 		<td>
-			<input id="addButton${uiid}" type="button" value="ОК" />
+			<input id="addButton${uiid}" type="button" value="OK" />
 			<input type="button" value="Отмена" onclick="$('#workTypeNewRule${uiid}').hide(); $('#workTypeRules${uiid}').show();"/>
 		</td>
 		</tr>

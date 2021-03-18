@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div class="mb1">
-	<b>Типы процессов:</b>
+	<b>${l.l('Типы процессов')}:</b>
 </div>
 <div class="mb1">
 	${u:toString( form.response.data.containProcess)}

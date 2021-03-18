@@ -125,7 +125,7 @@
 	</div>	
 	
 	<div>
-		<button type="button" class="btn-grey" onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlToParent( '${form.returnUrl}', $('#${uiid}') ) }">ОК</button>
+		<button type="button" class="btn-grey" onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlToParent( '${form.returnUrl}', $('#${uiid}') ) }">OK</button>
 		<button type="button" class="btn-grey ml1" onclick="openUrlToParent( '${form.returnUrl}', $('#${uiid}') )">${l.l('Отмена')}</button>
 	</div>		
 </html:form>

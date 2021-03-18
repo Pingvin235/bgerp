@@ -84,11 +84,11 @@
 	<c:set var="toPostNames" value="{toPostNames: ['comment']}"/>
 	<c:choose>
 		<c:when test="${not empty form.param['hideLeftPanel']}">
-			<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form, ${toPostNames}).done(() => $$.ajax.load('${form.returnUrl}', $('#${uiid}').closest('div')))">ОК</button>
+			<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form, ${toPostNames}).done(() => $$.ajax.load('${form.returnUrl}', $('#${uiid}').closest('div')))">OK</button>
 			<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').closest('div'))">${l.l('Отмена')}</button>
 		</c:when>
 		<c:otherwise>
-			<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form, ${toPostNames}).done(() => $$.ajax.load('${form.returnUrl}', $$.shell.$content()))">ОК</button>
+			<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form, ${toPostNames}).done(() => $$.ajax.load('${form.returnUrl}', $$.shell.$content()))">OK</button>
 			<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content())">${l.l('Отмена')}</button>
 		</c:otherwise>
 	</c:choose>

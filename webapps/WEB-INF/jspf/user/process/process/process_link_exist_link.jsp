@@ -5,7 +5,7 @@
 	<div id="linkTable">
 		<%-- сюда сгенерируется таблица с процессами --%>
 	</div>
-	<div class="hint">Для привязки доступны процессы, выбранные в буфер.</div>
+	<div class="hint">${l.l('Для привязки доступны процессы, выбранные в буфер')}.</div>
 	
 	<div class="tableIndent mt1">
 		<c:set var="script">

@@ -102,8 +102,8 @@
 								${l.l('Дом')}:<br>
 								<html:text property="addressHouse" style="width: 180px;" onkeypress="addressSearchHouse( this, event );"/>
 								<input type="button" value="X"  onclick="addressClearHouse( this );"/>
-								<input type="button" value="+" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('Выберите улицу'); } else { openUrlContent('${url}'); }"/>
-								<input type="button" value=">" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('Выберите улицу'); } else { addressSearchHouse( this ); }"/>
+								<input type="button" value="+" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('${l.l('Выберите улицу')}'); } else { openUrlContent('${url}'); }"/>
+								<input type="button" value=">" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('${l.l('Выберите улицу')}'); } else { addressSearchHouse( this ); }"/>
 							</td></tr>
 						</c:if>
 					</table>	

@@ -55,7 +55,7 @@
 
 			<textarea name="description" class="mb1" rows="15" style="width: 100%; resize: vertical;">${process.description}</textarea>
 
-			<button class="btn-grey" type="button" onClick="${command}">ОК</button>
+			<button class="btn-grey" type="button" onClick="${command}">OK</button>
 			<button class="btn-grey ml1" type="button" onClick="$('#${uiid} #editorChange').hide(); $('#${uiid} #show').show(); return false;">${l.l('Отмена')}</button>
 		</html:form>
 

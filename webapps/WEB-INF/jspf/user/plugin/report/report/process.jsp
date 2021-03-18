@@ -30,7 +30,7 @@
 	
 	<table class="data mt1">
 		<tr>
-			<td>${l.l('ID')}</td>
+			<td>ID</td>
 			<td>${l.l('Тип')}</td>
 			<td>${l.l('Пользователь')}</td>
 			<td>${l.l('Описание')}</td>

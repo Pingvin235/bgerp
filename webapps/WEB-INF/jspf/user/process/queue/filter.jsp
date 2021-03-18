@@ -213,7 +213,7 @@
 					$(this.form).hide();
 				</c:set>
 
-				<button id="okButton" type="button" class="btn-grey" onclick="${doScript}">ОК</button>
+				<button id="okButton" type="button" class="btn-grey" onclick="${doScript}">OK</button>
 				<button type="button" class="btn-grey ml05 mr1" onclick="$(this.form).hide();">${l.l('Отмена')}</button>
 			</form>
 		</c:forEach>
@@ -349,7 +349,7 @@
 
 					<c:if test="${filterFromList.type == 'openClose'}">
 						<c:set var="filter" value="${filterFromList}"/>
-						<c:set var="title" value="Открыт"/>
+						<c:set var="title" value="${l.l('Открыт')}"/>
 						<c:set var="code">
 							<u:sc>
 								<span class="dontResetOnHideFilter"></span>
@@ -754,13 +754,13 @@
 													<tr><td>Город:</td><td><input id="${cityFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueCity') )}" name="param${filter.parameter.id}valueCity" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueCityId]').val('')"/></td></tr>
 												</c:if>
 												<c:if test="${fn:contains(show, 'quarter')}">
-													<tr><td>Квартал:</td><td><input id="${quarterFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueQuarter') )}" name="param${filter.parameter.id}valueQuarter" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueQuarterId]').val('')"/></td></tr>
+													<tr><td>${l.l('Квартал')}:</td><td><input id="${quarterFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueQuarter') )}" name="param${filter.parameter.id}valueQuarter" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueQuarterId]').val('')"/></td></tr>
 												</c:if>
 												<c:if test="${fn:contains(show, 'street')}">
 													<tr><td>${l.l('Улица')}:</td><td><input id="${streetFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueStreet') )}" name="param${filter.parameter.id}valueStreet" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueStreetId]').val('')"/></td></tr>
 												</c:if>
 												<c:if test="${fn:contains(show, 'house')}">
-													<tr><td>Дом:</td><td><input id="${houseFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueHouse') )}" name="param${filter.parameter.id}valueHouse" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueHouseId]').val('')" /></td></tr>
+													<tr><td>${l.l('Дом')}:</td><td><input id="${houseFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueHouse') )}" name="param${filter.parameter.id}valueHouse" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueHouseId]').val('')" /></td></tr>
 												</c:if>
 												<c:if test="${fn:contains(show, 'flat')}">
 													<tr><td>${l.l('Квартира')}:</td><td><input id="${flatFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueFlat') )}" name="param${filter.parameter.id}valueFlat" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueFlat]').val('')" /></td></tr>

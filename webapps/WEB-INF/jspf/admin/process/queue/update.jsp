@@ -18,10 +18,10 @@
 			<h2>ID</h2>
 			<input type="text" name="id" style="width: 100%;" value="${queue.id}" disabled="disabled"/>
 
-			<h2>Название</h2>
+			<h2>${l.l('Название')}</h2>
 			<input type="text" name="title" style="width: 100%" value="${queue.title}"/>
 
-			<h2>Типы процессов</h2>
+			<h2>${l.l('Типы процессов')}</h2>
 
 			<c:set var="processTypeIds" value="${queue.processTypeIds}" scope="request"/>
 
@@ -40,7 +40,7 @@
 			</script>
 		</div><%--
 	--%><div style="width: 50%; height: 100%;" class="pl1">
-			<h2>Конфигурация</h2>
+			<h2>${l.l('Конфигурация')}</h2>
 			<c:set var="taUiid" value="${u:uiid()}"/>
 			<textarea id="${taUiid}" name="config" class="layout-height-rest" style="width: 100%; resize: none;" wrap="off">${queue.config}</textarea>
 		</div>
@@ -50,7 +50,7 @@
 		<c:set var="saveCommand" value="$$.ajax.post(this.form, {toPostNames: ['config']})"/>
 		<c:set var="returnCommand" value="$$.ajax.load('${form.returnUrl}', $$.shell.$content())"/>
 
-		<button type="button" class="btn-grey mr1"  onclick="${saveCommand}.done(${returnCommand})">ОК</button>
+		<button type="button" class="btn-grey mr1"  onclick="${saveCommand}.done(${returnCommand})">OK</button>
 		<button type="button" class="btn-grey" onclick="${returnCommand}">${l.l('Отмена')}</button>
 
 		<c:url var="editUrl" value="/admin/process.do">
@@ -73,6 +73,6 @@
 	});
 </script>
 
-<shell:state ltext="Редактор" help="kernel/process/queue.html#setup"/>
+<shell:state ltext="${l.l('Редактор')}" help="kernel/process/queue.html#setup"/>
 
 <%@ include file="/WEB-INF/jspf/layout_process.jsp"%>

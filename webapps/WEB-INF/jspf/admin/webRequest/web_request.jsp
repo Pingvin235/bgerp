@@ -13,7 +13,7 @@
 	<table>
 		<tr>
 			<td style="vertical-align:top">
-				<b>С даты</b>
+				<b>${l.l('С даты')}</b>
 				</br>
 				<input type="text" name="dateFrom" value=""/>
 				<c:set var="type" value="ymdhm"/>
@@ -22,7 +22,7 @@
 				<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 				</br>
 				
-				<b>По дату</b>
+				<b>${l.l('По дату')}</b>
 				</br>
 				<input type="text" name="dateTo" value=""/>
 				<c:set var="type" value="ymdhm"/>
@@ -31,12 +31,12 @@
 				<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 				</br>				
 				
-				<b>Фильтр по IP адресу</b>
+				<b>${l.l('Фильтр по IP адресу')}</b>
 				</br>
 				<input type="text" name="ipAddress" value=""/>
 				</br>
 				
-				<b>Фильтр по Параметрам</b>
+				<b>${l.l('Фильтр по Параметрам')}</b>
 				</br>
 				<input type="text" name="parameter" value=""/>
 			</td>	
@@ -54,7 +54,7 @@
 							<c:set var="list" value="${ctxUserGroupList}"/>
 							<c:set var="values" value="${filter.defaultValues}"/>
 							<c:set var="available" value="${filter.availableValues}"/>
-							<c:set var="prefixText" value="Группы:"/>
+							<c:set var="prefixText" value="${l.l('Группы')}:"/>
 							<c:set var="widthTextValue" value="300px"/>
 							<c:set var="onChange">updateExecutors( $('#${groupListId}'), $('#${executorListId}'), 'group', 'user' , '', '' );</c:set>
 							<%@ include file="/WEB-INF/jspf/combo_check.jsp"%>
@@ -65,7 +65,7 @@
 					<div style="width:200px; display:table">
 						<u:sc>
 							<c:set var="id" value="${executorListId}"/>		
-							<c:set var="prefixText" value="Исполнители:"/>
+							<c:set var="prefixText" value="${l.l('Исполнители')}:"/>
 							<c:set var="paramName" value="executor"/>
 							<c:set var="list" value="${ctxUserGroupList}"/>		
 							<c:set var="values" value="${filter.defaultValues}"/>
@@ -78,7 +78,7 @@
 			</td>			
 			
 			<td  style="vertical-align:top">
-				<b>Фильтр по действию</b>
+				<b>${l.l('Фильтр по действию')}</b>
 				</br>
 				<c:set var="permissionTreeId" value="${u:uiid()}"/>
 
@@ -102,13 +102,13 @@
 				<u:sc>
 					<c:set var="valuesHtml">
 						<li value="0">---</option>
-						<li value="uid">Пользователю</li>
-						<li value="action">Действию</li>
-						<li value="ipAddress">IP адресу</li>
+						<li value="uid">${l.l('Пользователю')}</li>
+						<li value="action">${l.l('Действию')}</li>
+						<li value="ipAddress">${l.l('IP адресу')}</li>
 					</c:set>
 					
 					<c:set var="hiddenName" value="sort"/>
-					<c:set var="prefixText" value="Сортировать:"/>
+					<c:set var="prefixText" value="${l.l('Сортировать')}:"/>
 					<c:set var="widthTextValue" value="40px"/>
 					<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
 				</u:sc>
@@ -117,7 +117,7 @@
 			</td>
 			
 			<td style="vertical-align:top">
-				<input type="button" value="Применить" onclick="openUrlTo(formUrl(this.form),$('#${uiid}-requestList'));"/>
+				<input type="button" value="${l.l('Применить')}" onclick="openUrlTo(formUrl(this.form),$('#${uiid}-requestList'));"/>
 			</td>
 		</tr>
 	</table>

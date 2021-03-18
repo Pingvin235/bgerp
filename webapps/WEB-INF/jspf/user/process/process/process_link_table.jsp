@@ -16,7 +16,7 @@
 			<c:if test="${adoeb}">
 				<td>&nbsp;</td>
 			</c:if>
-			<td>${l.l('ID')}</td>
+			<td>ID</td>
 			<td>${l.l('Время создания')}</td>
 			<td>${l.l('Тип')}</td>
 			<td>${l.l('Статус')}</td>

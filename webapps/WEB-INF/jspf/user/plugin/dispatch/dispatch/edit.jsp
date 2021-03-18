@@ -9,10 +9,10 @@
 	<h2>ID</h2>
 	<input type="text" name="id" style="width: 100%" value="${dispatch.id}" disabled="disabled"/>
 	
-	<h2>Название</h2>
+	<h2>${l.l('Название')}</h2>
 	<input type="text" name="title" style="width: 100%" value="${dispatch.title}"/>
 	
-	<h2>Описание</h2>
+	<h2>${l.l('Описание')}</h2>
 	<input type="text" name="comment" style="width: 100%" value="${dispatch.comment}"/>			
 	
 	<div class="mt1">
@@ -20,5 +20,5 @@
 	</div>
 </html:form>
 
-<c:set var="state" value="Редактор"/>
+<c:set var="state" value="${l.l('Редактор')}"/>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

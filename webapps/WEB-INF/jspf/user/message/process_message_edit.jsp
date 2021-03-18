@@ -168,7 +168,7 @@
 	</div>
 
 	<div class="mt1 mb1">
-		<button class="btn-grey" type="button" onclick="if( sendAJAXCommand( formUrl( this.form ), ['text'] ) ){ openUrlToParent( '${form.returnUrl}', $('#${form.returnChildUiid}') ) }">ОК</button>
+		<button class="btn-grey" type="button" onclick="if( sendAJAXCommand( formUrl( this.form ), ['text'] ) ){ openUrlToParent( '${form.returnUrl}', $('#${form.returnChildUiid}') ) }">OK</button>
 		<button class="btn-grey ml1" type="button" onclick="$('#${form.returnChildUiid}').empty();">${l.l('Отмена')}</button>
 	</div>
 </html:form>

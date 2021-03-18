@@ -185,7 +185,7 @@
 </u:sc>
 
 <div class="mt1">
-	<button type="button" class="btn-grey mr1" onclick="$$.ajax.post($('#${formUiid}')[0], {toPostNames: ['config', 'matrix']}).done(() => $$.ajax.load('${editUrl}', $('#${formUiid}').parent()));">ОК</button>
+	<button type="button" class="btn-grey mr1" onclick="$$.ajax.post($('#${formUiid}')[0], {toPostNames: ['config', 'matrix']}).done(() => $$.ajax.load('${editUrl}', $('#${formUiid}').parent()));">OK</button>
 	<button type="button" class="btn-grey mr1" onclick="$$.ajax.load('${editUrl}', $('#${formUiid}').parent())">${l.l('Восстановить')}</button>
 
 	<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${formUiid}').parent())">${l.l('К списку типов')}</button>

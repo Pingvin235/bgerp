@@ -59,6 +59,6 @@
 	</c:forEach>
 </table>
 
-<c:set var="title" value="Шаблоны смен"/>
+<c:set var="title" value="${l.l('Шаблоны смен')}"/>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

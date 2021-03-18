@@ -462,7 +462,7 @@
 					<tr>
 						<td>${l.l('Улица')}:</td>
 						<td width="70%"><input type="text" name="street" value="${streetTitle}" style="width: 100%" /></td>
-						<td nowrap="nowrap">Дом:</td>
+						<td nowrap="nowrap">${l.l('Дом')}:</td>
 						<td width="30%" nowrap="nowrap">
 							<div style="display: table-cell; width: 100%;">
 								<input type="text" name="house" value="${houseTitle}" onchange="this.form.houseId.value = ''" style="width: 100%" />
@@ -540,7 +540,7 @@
 
 		<div class="mt1">
 			<c:if test="${empty hideOkButton}">
-				<input type="button" class="btn-grey mr1" value="ОК" onclick="${saveCommand}" />
+				<input type="button" class="btn-grey mr1" value="OK" onclick="${saveCommand}" />
 			</c:if>
 			<input type="button" class="btn-grey" value="${l.l('Отмена')}" onmousedown="$('#${uiid} input').attr('onblurstop','1');" onclick="openUrlToParent( '${form.returnUrl}', $('#${tableId}') )" />
 		</div>

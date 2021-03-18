@@ -8,7 +8,7 @@
 
 	<c:set var="linkObjectItems" scope="request">
 		${linkObjectItems}
-		<li value="${id}">Договор ${billing.title}</li>
+		<li value="${id}">${l.l('Договор')} ${billing.title}</li>
 	</c:set>
 	<c:set var="linkObjectForms" scope="request"> 
 		${linkObjectForms}

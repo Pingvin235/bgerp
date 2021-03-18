@@ -11,7 +11,7 @@
 	<input type="hidden" name="action" value="userUpdate" />
 	<html:hidden property="id" />
 
-	<h1>Основные свойства (сохранение/отмена по ОК/Отмена)</h1>
+	<h1>Основные свойства (сохранение/отмена по OK/Отмена)</h1>
 
 	<div class="separator"/>
 
@@ -64,7 +64,7 @@
 	    </div><%--
     --%><c:if test="${empty perm['permsetSet']}"><%--
 	    --%><div style="width: 20%;">
-		    	<h2>Наборы прав</h2>
+		    	<h2>${l.l('Наборы прав')}</h2>
 
 		    	<u:sc>
 		    		<c:set var="list" value="${ctxUserPermsetList}"/>
@@ -136,7 +136,7 @@
 			<button class="btn-grey" onclick="${script}">Промежуточное сохранение</button>
 		</c:when>
 		<c:otherwise>
-			<button class="btn-grey" onclick="if( sendAJAXCommand( formUrl( $('#${formUiid}') ), ${toPostNames} ) ){ openUrlContent( '${form.returnUrl}' ) }">ОК</button>
+			<button class="btn-grey" onclick="if( sendAJAXCommand( formUrl( $('#${formUiid}') ), ${toPostNames} ) ){ openUrlContent( '${form.returnUrl}' ) }">OK</button>
 		</c:otherwise>
 	</c:choose>
 	<button class="btn-grey" onclick="openUrlContent( '${form.returnUrl}' )">${l.l('Отмена')}</button>

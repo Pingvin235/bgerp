@@ -11,7 +11,7 @@
 			<td>${l.l('Значение')}</td>
 		</tr>
 		<tr>
-			<td>${l.l('ID')}</td>
+			<td>ID</td>
 			<td>${form.param['addressCityId']}</td>
 		</tr>
 		<tr>

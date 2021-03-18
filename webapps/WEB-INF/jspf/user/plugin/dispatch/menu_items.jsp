@@ -6,7 +6,7 @@
 		action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchList"
 		command="/user/plugin/dispatch/dispatch.do?action=dispatchList" />
 
-	<ui:menu-item ltitle="Сообщения рассылок" href="dispatch/message"
+	<ui:menu-item ltitle="${l.l('Сообщения рассылок')}" href="dispatch/message"
 		action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageList"
 		command="/user/plugin/dispatch/dispatch.do?action=messageList" />
 </ui:menu-group>

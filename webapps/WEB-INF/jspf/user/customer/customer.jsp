@@ -153,7 +153,7 @@
 									alert('Слияние успешно');
 									removeCommandDiv( 'customer-'.concat(this.form.mergingCustomerId.value) );
 									openUrlContent( '${form.requestUrl}' );
-								}">ОК</button>
+								}">OK</button>
 							<button type="button" class="btn-grey ml05 mr1" onclick="$('#${mergeButtonUiid}').toggle(); $('#${mergeFormUiid}').toggle();">${l.l('Отмена')}</button>
 						</form>
 					</div>

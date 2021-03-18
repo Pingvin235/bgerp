@@ -57,7 +57,6 @@
 	<p><ru>исполнители</ru><en>executors</en></p>
 	<p><ru>группы</ru><en>groups</en></p>
 	<p><ru>Группы / исполнители</ru><en>Groups / executors</en></p>
-	<p><en>ОК</en><ru>ОК</ru></p>
 	<p><ru>Отмена</ru><en>Cancel</en></p>
 	<p><ru>Добавить в конец описания текст с именем автора и временем</ru><en>Add to the description's end with author and time</en></p>
 	<p><ru>Править описание целиком (также можете кликнуть мышью по описанию)</ru><en>Edit the whole description, you may also click on it by mouse</en></p>
@@ -103,7 +102,7 @@
 	<p><ru>Группы</ru><en>Groups</en></p>
 	<p><ru>Пользователи</ru><en>Users</en></p>
 	<p><ru>Статусы процессов</ru><en>Statuses</en></p>
-	<p><ru>Типы процессов</ru><en>Types</en></p>
+	<p><ru>Типы процессов</ru><en>Process types</en></p>
 	<p><ru>Очереди процессов</ru><en>Process queues</en></p>
 	<p><ru>Динамический код</ru><en>Dynamic code</en></p>
 	<p><ru>WEB запросы</ru><en>HTTP requests</en></p>
@@ -304,6 +303,52 @@
 	<p><ru>Результат компиляции</ru><en>Compilation result</en></p>
 	<p><ru>Класс не найден: %s</ru><en>Class not found: %s</en></p>
 	<p><ru>Класс не реализует java.lang.Runnable: %s</ru><en>Class does not implement java.lang.Runnable: %s</en></p>
+	<p><ru>Отчёт не найден.</ru><en>Report not found.</en></p>
+	<p><ru>Созданные</ru><en>Created</en></p>
+	<p><ru>Вам не разрешён доступ к очереди процессов с ID=%s</ru><en>You are not allowed to access the process queue with ID=%s</en></p>
+	<p><ru>Освободить</ru><en>Release</en></p>
+	<p><ru>Ошибка в параметрах запроса</ru><en>Error in request parameters</en></p>
+	<p><ru>Принят</ru><en>Accepted</en></p>
+	<p><ru>Сессии (вход / последняя активность)</ru><en>Sessions (login / last activity)</en></p>
+	<p><ru>Обновление</ru><en>Update</en></p>
+	<p><ru>Принудительно</ru><en>Forcibly</en></p>
+	<p><ru>Обновить</ru><en>Refresh</en></p>
+	<p><ru>Обновление на изменение</ru><en>Update on change</en></p>
+	<p><ru>Код процесса</ru><en>Process code</en></p>
+	<p><ru>Логи обновлений</ru><en>Update logs</en></p>
+	<p><ru>Файл</ru><en>File</en></p>
+	<p><ru>Размер</ru><en>Size</en></p>
+	<p><ru>Выберите улицу</ru><en>Choose a street</en></p>
+	<p><ru>Ссылается</ru><en>Referred to</en></p>
+	<p><ru>Зависит</ru><en>Depends</en></p>
+	<p><ru>Породил</ru><en>Spawned</en></p>
+	<p><ru>С</ru><en>R</en></p>
+	<p><ru>З</ru><en>D</en></p>
+	<p><ru>П</ru><en>S</en></p>
+	<p><ru>Для привязки доступны процессы, выбранные в буфер</ru><en>The processes selected in the buffer are available for binding</en></p>
+	<p><ru>Шаблон</ru><en>Template</en></p>
+	<p><ru>С даты</ru><en>From the date of</en></p>
+	<p><ru>По дату</ru><en>By date</en></p>
+	<p><ru>Фильтр по IP адресу</ru><en>Filter by IP address</en></p>
+	<p><ru>Фильтр по Параметрам</ru><en>Filter by Parameters</en></p>
+	<p><ru>Фильтр по действию</ru><en>Filter by action</en></p>
+	<p><ru>Сортировать</ru><en>Sort</en></p>
+	<p><ru>Пользователю</ru><en>User</en></p>
+	<p><ru>Действию</ru><en>Action</en></p>
+	<p><ru>IP адресу</ru><en>IP address</en></p>
+	<p><ru>Применить</ru><en>Apply</en></p>
+	<p><ru>Сохранить без выхода из редактора</ru><en>Save without exiting the editor</en></p>
+	<p><ru>Сохранить</ru><en>Save</en></p>
+	<p><ru>Позиция</ru><en>Position</en></p>
+	<p><ru>Позиция статуса в различных перечнях</ru><en>Position of status in various lists</en></p>
+	<p><ru>Наследовать свойства от предка</ru><en>Inherit properties from ancestor</en></p>
+	<p><ru>Редактор типа</ru><en>Type editor</en></p>
+	<p><ru>Значения</ru><en>Values</en></p>
+	<p><ru>Использующие очереди</ru><en>Using queues</en></p>
+	<p><ru>Копировать свойства другого типа</ru><en>Copy properties of another type</en></p>
+	<p><ru>Восстановить</ru><en>Reestablish</en></p>
+	<p><ru>К списку типов</ru><en>To the list of types</en></p>
+	<p><ru>Свойства типа</ru><en>Type properties</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

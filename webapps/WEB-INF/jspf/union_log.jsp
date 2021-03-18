@@ -10,7 +10,7 @@
 	<input type="hidden" name="id" value="${form.id}"/>
 	<html:hidden property="returnUrl"/>
 	
-	<button class="btn-white" type="button" onclick="openUrlToParent( '${form.returnUrl}', $('#${paramLinkId}') );">Закрыть</button>
+	<button class="btn-white" type="button" onclick="openUrlToParent( '${form.returnUrl}', $('#${paramLinkId}') );">${l.l('Закрыть')}</button>
 	
 	<%-- не выносится в title область, т.к. лог может быть открыт у зависимого процесса --%>
 	<h1 style="margin: 0; display: inline-block;" class="pl2">${l.l('Лог изменений')}</h1>
@@ -19,9 +19,9 @@
 	
 	<table style="width:100%" class="data mt1">
 		<tr ${hideTr}>
-			<td>Дата</td>
-			<td>Пользователь</td>
-			<td width="100%">Значение</td>
+			<td>${l.l('Дата')}</td>
+			<td>${l.l('Пользователь')}</td>
+			<td width="100%">${l.l('Значение')}</td>
 		</tr>	
 		<c:forEach var="logItem" items="${form.response.data.list}">
 			<tr>
@@ -34,7 +34,7 @@
 	
 	<%-- 
 	убрано, т.к. лог 
-	<c:set var="state" value="Лог изменений"/>
+	<c:set var="state" value="${l.l('Лог изменений')}"/>
 	<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%> --%>
 </html:form>

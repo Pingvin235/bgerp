@@ -7,12 +7,12 @@
 	<table class="data" width="100%">
 	<tr>
 		<td>ID</td>
-		<td>Договор</td>
-		<td>Комментарий</td>
-		<td>Дата заключения</td>
-		<td>Баланс</td>
-		<td>Тариф</td>
-		<td>Статус</td>
+		<td>${l.l('Договор')}</td>
+		<td>${l.l('Комментарий')}</td>
+		<td>${l.l('Дата заключения')}</td>
+		<td>${l.l('Баланс')}</td>
+		<td>${l.l('Тариф')}</td>
+		<td>${l.l('Статус')}</td>
 	</tr>
 		<c:forEach var="db" items="${result}" >
 			<c:set var="dbResult" value="${db.value}"/>

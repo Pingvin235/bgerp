@@ -26,15 +26,15 @@
 			<h2>ID</h2>
 			<input type="text" name="id" style="width: 100%" value="${config.id}" disabled="disabled"/>
 			
-			<h2>Название</h2>
+			<h2>${l.l('Название')}</h2>
 			<html:text property="title" style="width: 100%" value="${config.title}"/>
 				
 			<c:if test="${empty perm['activeAllow'] or perm['activeAllow'] eq '1'}">
-				<h2>Активный</h2>
+				<h2>${l.l('Активный')}</h2>
 				<u:sc>
 					<c:set var="valuesHtml">
-						<li value="0">Нет</li>
-						<li value="1">Да</li>									
+						<li value="0">${l.l('Нет')}</li>
+						<li value="1">${l.l('Да')}</li>
 					</c:set>
 					<c:set var="hiddenName" value="active"/>
 					<c:set var="value" value="${config.active ? 1 : 0}"/>
@@ -44,7 +44,7 @@
 			</c:if>	
 		</div><%-- 
 	--%><div style="width: 70%;" class="pl1">
-			<h2>Конфигурация</h2>
+			<h2>${l.l('Конфигурация')}</h2>
 			<c:set var="taUiid" value="${u:uiid()}"/>
 			<textarea id="${taUiid}" name="data" style="width: 100%; resize: vertical;" wrap="off" rows="40">${config.data}</textarea>
 		</div>
@@ -61,7 +61,7 @@
 			if (result)
 				openUrlToParent('${editUrl}', $('#${formUiid}'));
 		</c:set>		
-		<button type="button" class="btn-grey" onclick="${saveScript}" style="float: right;" title="Сохранить без выхода из редактора">Сохранить</button>
+		<button type="button" class="btn-grey" onclick="${saveScript}" style="float: right;" title="${l.l('Сохранить без выхода из редактора')}">${l.l('Сохранить')}</button>
 	</div>
 </html:form>
 

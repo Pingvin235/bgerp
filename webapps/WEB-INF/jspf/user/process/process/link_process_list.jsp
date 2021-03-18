@@ -41,9 +41,9 @@
 						<u:sc>
 							<c:remove var="list"/>
 							<c:set var="valuesHtml">
-								<li value="processLink">Ссылается</li>
-								<li value="processDepend">Зависит</li>
-								<li value="processMade">Породил</li>
+								<li value="processLink">${l.l('Ссылается')}</li>
+								<li value="processDepend">${l.l('Зависит')}</li>
+								<li value="processMade">${l.l('Породил')}</li>
 							</c:set>
 							<c:set var="hiddenName" value="objectType"/>
 							<c:set var="style" value="width: 100%;"/>

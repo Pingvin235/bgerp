@@ -21,9 +21,9 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
-		<td>Позиция</td>
+		<td>${l.l('Позиция')}</td>
 		<td width="80%">${l.l('Наименование')}</td>
-		<td width="20%">Где используется</td>
+		<td width="20%">${l.l('Где используется')}</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>

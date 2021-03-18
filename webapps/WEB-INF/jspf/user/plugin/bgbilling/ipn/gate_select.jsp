@@ -25,7 +25,7 @@
 	</div>	
 	
 	<div class="mt1">
-		<button type="button" class="btn-grey" onclick="openUrlToParent( formUrl( this.form ), $('#${uiid}') )">ОК</button>
+		<button type="button" class="btn-grey" onclick="openUrlToParent( formUrl( this.form ), $('#${uiid}') )">OK</button>
 		<button type="button" class="btn-grey ml1" onclick="openUrlToParent( '${form.returnUrl}', $('#${uiid}') )">${l.l('Отмена')}</button>
 	</div>
 	

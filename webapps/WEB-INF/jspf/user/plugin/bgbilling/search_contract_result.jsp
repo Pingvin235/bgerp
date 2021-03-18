@@ -56,9 +56,9 @@
 			<c:when test="${searchBy.startsWith( 'dialUpLogin' ) }">
 				<tr>
 					<td width="30">ID</td>
-					<td>Договор</td>
-					<td>Логин</td>						
-					<td>Алиас(ы)</td>
+					<td>${l.l('Договор')}</td>
+					<td>${l.l('Логин')}</td>
+					<td>${l.l('Алиас(ы)')}</td>
 				</tr>
 				<c:forEach var="login" items="${result}">
 					<tr>

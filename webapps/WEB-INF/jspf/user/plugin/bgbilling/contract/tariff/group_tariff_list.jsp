@@ -14,9 +14,9 @@
 <table class="data mt1" width="100%" id="${uiid}">
 	<tr>
 		<td width="30"></td>
-		<td nowrap="nowrap">Группа тарифов</td>
-		<td nowrap="nowrap">Период действия</td>
-		<td width="100%">Комментарий</td>
+		<td nowrap="nowrap">${l.l('Группа тарифов')}</td>
+		<td nowrap="nowrap">${l.l('Период действия')}</td>
+		<td width="100%">${l.l('Комментарий')}</td>
 	</tr>
 	
 	<c:forEach var="tariffGroup" items="${form.response.data.tariffGroupList}">

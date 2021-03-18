@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="title" value="Отчеты"/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
+
 
 <c:set var="plugin" value="${ctxPluginManager.pluginMap.report}" />
 <c:set var="allowedReports" value="${form.response.data.allowedReports}" />
@@ -21,4 +20,5 @@
 	</jsp:attribute>
 </ui:combo-single>
 
+<shell:title ltext="Отчёты"/>
 <shell:state moveSelector="#${uiid}"/>

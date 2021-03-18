@@ -63,7 +63,7 @@
 					<td width="70%">
 						<html:text property="street" value="${streetTitle}" style="width: 100%"/>
 					</td>
-					<td nowrap="nowrap">Дом:</td>
+					<td nowrap="nowrap">${l.l('Дом')}:</td>
 					<td width="30%">
 						<html:text property="house" value="${houseTitle}" style="width: 100%"/>
 					</td>
@@ -198,7 +198,7 @@
 	
 	<c:if test="${empty hideButtons}">
 		<div style="display: inline-block;">			
-			<button type="button" class="btn-grey" onclick="${saveCommand}">ОК</button> 
+			<button type="button" class="btn-grey" onclick="${saveCommand}">OK</button>
 			<button type="button" class="btn-grey ml1" onclick="openUrlToParent( '${form.returnUrl}',  $('#${parametersInfo}'))">${l.l('Отмена')}</button>
 		</div> 
 	</c:if>	

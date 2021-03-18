@@ -6,7 +6,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="title" value="План работ"/>
+<c:set var="title" value="${l.l('План работ')}"/>
 <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 
 <c:set var="callboardList" value="${form.response.data.callboardList}"/>

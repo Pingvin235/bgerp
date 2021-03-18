@@ -7,7 +7,7 @@
 </br> 
 <input type="text" style="width:100%" id="${paramName}City" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"
 	onkeyup="if(this.form.${paramName}City.value=='') this.form.${paramName}CityId.value='';"/></br>
-Квартал:
+${l.l('Квартал')}:
 </br>
 <input type="text" style="width:100%" id="${paramName}Quarter" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"
 	onkeyup="if(this.form.${paramName}Quarter.value=='') this.form.${paramName}QuarterId.value='';"/>
