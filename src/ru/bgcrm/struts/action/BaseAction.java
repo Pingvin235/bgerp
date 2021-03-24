@@ -507,6 +507,7 @@ public class BaseAction extends DispatchAction {
                 response.setContentType("application/json; charset=" + Utils.UTF8.name());
                 PrintWriter out = form.getHttpResponseWriter();
 
+                // TODO: Remove the callback magic together with sendAJAXCommandAsync JS function on FE.
                 String callback = form.getParam("callback");
                 if (!Utils.isEmptyString(callback)) {
                     out.write(callback + "(");

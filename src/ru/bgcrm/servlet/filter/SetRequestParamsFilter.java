@@ -12,6 +12,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.bgerp.Interface;
+
 import ru.bgcrm.cache.CustomerGroupCache;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessQueueCache;
@@ -99,7 +101,9 @@ public class SetRequestParamsFilter implements Filter {
 
         if (request != null) {
             result.put("ctxUser", AuthFilter.getUser(request));
+            result.put("ctxIface", Interface.getIface(request));
         }
+
         result.put("ctxPluginManager", PluginManager.getInstance());
 
         result.put("ctxUserList", UserCache.getUserList());

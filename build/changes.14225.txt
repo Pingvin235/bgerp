@@ -1,0 +1,16 @@
+C: Opening object buffer on long mouse press disabled by default.
+A: <ui:button>, <ui:form-ok-cancel> JSP tags.
+A: Font icons, started using in buttons.
+C: Unified buttons color meanings, https://bgerp.org/doc/3.0/manual/kernel/interface.html#elements
+A: Message to STDOUT with URL on server start.
+C: Cleanup button CSS.
+C: Remove unused JS libs, images.
+F: Add a process parameter right after opening editor.
+A: Filter for iface in process queue processors, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#processor-open
+A: 'ctxIface' variable in request.
+F: Failing on custom compilation errors.
+A: Restart server button after successful compilation.
+B: 'Dynamic code' hidden by default, may be shown using a feature flag in user profile.
+A: Fluent with methods in Message class.
+A: Mark incorrect form fields by red border.
+C: Remove old XSLT related classes.

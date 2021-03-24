@@ -94,7 +94,28 @@
 		</div>
 
 		<div>
-			<b>Кнопки реализованные с помощью button либо div:</b><br/>
+			<b>Buttons NEW</b><br/>
+
+			<button class="btn-grey"><i class="ti-check mr05"></i>OK</button>
+			<button class="btn-white"><i class="ti-cross mr05"></i>Отмена</button>
+			<button class="btn-green">+</button>
+			<ui:button type="add"/>
+			<button class="btn-green">+</button>
+
+			<br/><b>Small</b><br/>
+
+			<button class="btn-white btn-small">*</button>
+			<ui:button type="edit" styleClass="btn-small mr05"/>
+
+			<button class="btn-white btn-small">X</button>
+			<ui:button type="del" styleClass="btn-small mr05"/>
+
+			<button class="btn-white btn-small">M</button>
+			<button class="btn-white btn-small"><i class="ti-settings"></i></button>
+		</div>
+
+		<div>
+			<b>Buttons:</b><br/>
 
 			<button class="btn-grey">Текст</button>
 

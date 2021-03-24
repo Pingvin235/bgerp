@@ -74,13 +74,15 @@
 		action="org.bgerp.action.admin.RunAction"
 		command="/admin/run.do" />
 
-	<ui:menu-item ltitle="Кастомизация" href="admin/custom"
+	<ui:menu-item title="Custom" href="admin/custom"
 		action="org.bgerp.action.admin.CustomAction"
 		command="/admin/custom.do" />
 
-	<ui:menu-item ltitle="Динамический код" href="admin/dyncode"
-		action="ru.bgcrm.struts.action.admin.DynamicAction"
-		command="/admin/dynamic.do" />
+	<c:if test="${ctxUser.personalizationMap.get('iface.dyncode') eq '1'}">
+		<ui:menu-item ltitle="Динамический код" href="admin/dyncode"
+			action="ru.bgcrm.struts.action.admin.DynamicAction"
+			command="/admin/dynamic.do" />
+	</c:if>
 	
 	<ui:menu-item ltitle="WEB запросы" href="admin/log/request"
 		action="ru.bgcrm.struts.action.admin.WebRequestAction"

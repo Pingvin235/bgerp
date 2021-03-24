@@ -58,7 +58,7 @@
 	<h2>Виды работ</h2>
 	<%@ include file="/WEB-INF/jspf/admin/work/shift/work_type_time_editor.jsp"%>							
 	
-	<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
+	<ui:form-ok-cancel/>
 </html:form>
 
 <script>

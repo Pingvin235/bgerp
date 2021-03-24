@@ -24,7 +24,7 @@
 	<h2>${l.l('Обновление на изменение')}</h2>
 	<html:form action="admin/app">
 		<input type="hidden" name="action" value="updateToChange"/>
-		<input type="text" name="processId" size="10" style="text-align: center;" placeholder="${l.l('Код процесса')}"/>
+		<input type="text" name="processId" size="10" style="text-align: center;" placeholder="${l.l('ID процесса')}"/>
 		<button class="btn-grey ml1" type="button" onclick="
 			this.disabled = true;
 			$$.ajax.post(this.form).always(() => {

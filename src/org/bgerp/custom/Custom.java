@@ -18,6 +18,7 @@ import org.bgerp.custom.java.CompilerWrapper;
 import org.bgerp.custom.java.CompilerWrapper.CompilationFailedException;
 
 import ru.bgcrm.Server;
+import ru.bgcrm.util.Utils;
 import ru.bgerp.util.Log;
 
 /**
@@ -54,7 +55,7 @@ public class Custom {
      * Compiles all Java sources in {@link #CUSTOM_DIR}/src.
      * @return null or compilation result.
      */
-    public CompilationResult compileJava() throws CompilationFailedException, IOException {
+    public CompilationResult compileJava() throws IOException {
         if (!SRC_DIR.isDirectory()) {
             // TODO: Message about missing src directory.
             return null;
@@ -63,14 +64,14 @@ public class Custom {
         var srcFiles = new ArrayList<String>(100);
         traverse(srcFiles, SRC_DIR);
 
-        var javac = new CompilerWrapper(SRC_DIR, new File(System.getProperty("java.io.tmpdir")));
+        var javac = new CompilerWrapper(SRC_DIR, new File(Utils.getTmpDir()));
         log.info("Compiling %s java files to %s", srcFiles.size(), javac.getOutputDir());
         
         CompilationResult result = javac.compile(srcFiles).getFirst();
         result.addLog(String.format("Compiling %s java files to %s", srcFiles.size(), javac.getOutputDir()));
 
-        buildCustomJar(javac, result);
-        javac.deleteClassDir();
+        if (result.isResult())
+            buildCustomJar(javac, result);
 
         return result;
     }

@@ -51,10 +51,7 @@
 	</div>		
 			
 	<div class="mt1">
-		<c:set var="toPostNames" value="['data']"/>
-		<c:set var="saveCommand" value="sendAJAXCommand(formUrl(this.form), ${toPostNames})"/>
-		
-		<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
+		<ui:form-ok-cancel toPostNames="['data']"/>
 		
 		<c:set var="saveScript">
 			var result = ${saveCommand}; 

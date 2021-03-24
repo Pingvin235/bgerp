@@ -115,7 +115,7 @@
 					})">${l.l('Фильтр - сброс')}</a>
 			</li>
 
-			<c:forEach var="processor" items="${queue.processorMap.values()}">
+			<c:forEach var="processor" items="${queue.getProcessors('user')}">
 				<li>
 					<c:set var="script">
 						<c:choose>
@@ -163,9 +163,9 @@
 		</script>
 	</div>
 
-	<%-- доп. действия --%>
+	<%-- processors --%>
 	<div style="display: inline-block;">
-		<c:forEach var="processor" items="${queue.processorMap.values()}">
+		<c:forEach var="processor" items="${queue.getProcessors('user')}">
 			<form action="/user/process/queue.do" id="${addActionFormUiid}-${processor.id}" style="display: none;" class="in-mb1-all">
 				<input type="hidden" name="action" value="processCustomClassInvoke"/>
 				<input type="hidden" name="queueId" value="${queue.id}"/>
@@ -178,25 +178,14 @@
 				</c:if>
 
 				<c:set var="doScript">
-					var processIds = getCheckedProcessIds();
-					var debug = '';
-
-					if( !processIds )
-					{
-						alert( 'Выберите процессы!' );
+					const processIds = getCheckedProcessIds();
+					if (!processIds) {
+						alert('${l.l('Выберите процессы!')}');
 						return;
 					}
 
-					// Alt нажат
-					if (bgcrm.keys.altPressed())
-					{
-						debug = '&debug=true';
-					}
-
 					this.form.processIds.value = processIds;
-
-					if( '${processor.responseType}' === 'file' )
-					{
+					if ('${processor.responseType}' === 'file') {
 						const w = window.open( formUrl(this.form) + '&responseType=stream' + debug, 'Print', 'menubar=1, scrollbars=1, height=800, width=800');
 						<c:if test="${processor.configMap.openPrintDialog eq '1'}">
 							w.addEventListener('load', () => {
@@ -204,10 +193,9 @@
 								w.print();
 							}, false);
 						</c:if>
-					}
-					else
-					{
-						$$.ajax.post($$.ajax.formUrl(this.form) + debug).done(() => { ${sendCommand} })
+					} else {
+						const debug = $$.keys.altPressed() ? '&debug=true' : '';
+						$$.ajax.post($$.ajax.formUrl(this.form) + debug).done(() => { ${sendCommand} });
 					}
 
 					$(this.form).hide();
@@ -219,9 +207,9 @@
 		</c:forEach>
 	</div>
 
-	<%-- сохранение фильтра --%>
+	<%-- saving filter --%>
 	<form action="/user/process/queue.do" style="display: none;" id="${saveFilterFormUiid}" class="mb1 mr1">
-		Название фильтра:
+		${l.l('Название фильтра')}:
 		<input type="hidden" name="action" value="queueSavedFilterSet"/>
 		<input type="hidden" name="queueId" value="${queue.id}"/>
 		<input type="hidden" name="command" value="add"/>
@@ -229,13 +217,13 @@
 		<input type="text" name="title" size="20"/>
 
 		<button type="button" class="btn-grey"
-			onclick="if( this.form.title.value == '' ){ alert( 'Введите название!'); return; }
+			onclick="if( this.form.title.value == '' ){ alert('${l.l('Введите название!')}'); return; }
 					this.form.url.value = $$.ajax.formUrl($('#processQueueFilter').find('form#${queue.id}-0'), ['page.pageIndex', 'savedFilterSetId']);
 					$$.ajax.post(this.form).done(() => { processQueueFilterSetSelect(${queue.id}) })">OK</button>
 		<button type="button" class="btn-grey" onclick="$(this.form).hide()">${l.l('Отмена')}</button>
 	</form>
 
-	<%-- сохранённые фильтры --%>
+	<%-- saved filters --%>
 	<div id="savedFilters" ${hideWhenFullFilter} class="in-mb1-all mr1 in-mr05 dropFilterArea">
 		<c:forEach var="saved" items="${config.queueSavedFilterSetsMap[queue.id]}">
 			<%-- old URLs start from process.do, after some intermediate version /user/process.do --%>
@@ -308,7 +296,7 @@
 				<c:forEach var="filterFromList" items="${queue.filterList.filterList}">
 					<c:if test="${filterFromList.type == 'code'}">
 						<c:set var="filter" value="${filterFromList}"/>
-						<c:set var="title" value="Код процесса"/>
+						<c:set var="title" value="ID процесса"/>
 						<c:set var="code">
 							<c:choose>
 								<c:when test="${not empty savedParamsFilters.get( 'code' ) }">
@@ -886,7 +874,6 @@
 
 		<c:if test="${queue.sortSet.comboCount gt 0}">
 			<div>
-				${l.l('Сорт.')}:
 				<c:forEach begin="1" end="${queue.sortSet.comboCount}" step="1" varStatus="status">
 					<c:set var="value" value="0"/>
 					<c:forEach var="mode" items="${queue.sortSet.modeList}" varStatus="statusItem">
@@ -895,7 +882,7 @@
 						</c:if>
 					</c:forEach>
 
-					<ui:combo-single value="${value}" hiddenName="sort" widthTextValue="50px">
+					<ui:combo-single value="${value}" hiddenName="sort" prefixText="${l.l('Сорт.')}:" widthTextValue="50px" >
 						<jsp:attribute name="valuesHtml">
 							<li value="0">- ${l.l('нет')} -</li>
 							<c:forEach var="mode" items="${queue.sortSet.modeList}" varStatus="statusItem">

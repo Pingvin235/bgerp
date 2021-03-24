@@ -23,6 +23,11 @@ $$.ajax = new function () {
 
 		const separated = separatePostParams(url, options.toPostNames, !options.html);
 
+		const form = getForm(url);
+		if (form) {
+			$(form).find("input").removeClass("error");
+		}
+		
 		const def = $.Deferred();
 
 		$.ajax({
@@ -34,7 +39,7 @@ $$.ajax = new function () {
 			def.reject();
 		}).done((data) => {
 			if (!options.html) {
-				if (checkResponse(data))
+				if (checkResponse(data, form))
 					def.resolve(data);
 				else
 					def.reject();
@@ -219,13 +224,15 @@ $$.ajax = new function () {
 	/**
 	 * Checks AJAX response.
 	 * @param {*} data param and values
-	 */
-	const checkResponse = function (data) {
+	 * @param {*} form optional form object, to mark incorrect fields there 
+	 */ 
+	const checkResponse = function (data, form) {
 		var result = false;
 
 		//TODO: Убрать поддержку статуса 'message', отнести его к ошибкам.
 		if (data.status == 'ok' || data.status == 'message') {
 			result = data;
+
 			// обработка событий на обновления в интерфейсе
 			for (var i = 0; i < data.eventList.length; i++) {
 				if (data.eventList[i] != null) {
@@ -236,19 +243,17 @@ $$.ajax = new function () {
 			if (data.message) {
 				alert(data.message);
 			}
-		} else {
-			var message = undefined;
+		}
+		else {
+			const message = data.message;
 
-			// старый формат
-			if (data.error) {
-				message = data.error;
-			}
-			// новый формат
-			else {
-				message = data.message;
+			if (form) {
+				const paramName = data.data && data.data.paramName;
+				if (paramName)
+					$(form).find("input[name='" + paramName + "']").addClass("error");
 			}
 
-			alert("Ошибка: " + message);
+			alert("Error: " + message);
 
 			// обработка событий на обновления в интерфейсе
 			for (var i = 0; i < data.eventList.length; i++) {
@@ -257,6 +262,18 @@ $$.ajax = new function () {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Get HTMLFormElement object if it has passed.
+	 * @param {*} obj - array of forms, or a single form
+	 */
+	const getForm = function (obj) {
+		if (obj instanceof Array)
+			obj = obj[0];
+		if (obj instanceof HTMLFormElement)
+			return obj;
+		return null;
 	}
 
 	/**

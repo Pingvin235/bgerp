@@ -76,9 +76,7 @@
 		</div>
 	</div>
 
-	<div class="mt1">
-		<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
-	</div>
+	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>
 
 <shell:state ltext="Редактор" help="kernel/setup.html#user"/>

@@ -12,12 +12,11 @@ import javax.tools.Diagnostic;
 import javax.tools.DiagnosticListener;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaCompiler.CompilationTask;
-
-import org.apache.tomcat.util.http.fileupload.FileUtils;
-
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
+
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
@@ -47,7 +46,8 @@ public class CompilerWrapper {
     public CompilerWrapper(File srcDir, File outputDirRoot) {
         this.srcDir = srcDir;
         removeOldTmpDirs(outputDirRoot);
-        this.outputDir = new File(outputDirRoot, DIR_PREFIX + System.currentTimeMillis());
+        outputDir = new File(outputDirRoot, DIR_PREFIX + System.currentTimeMillis());
+        outputDir.mkdir();
     }
 
     private void removeOldTmpDirs(File outputDirRoot) {
@@ -71,26 +71,8 @@ public class CompilerWrapper {
      * @param srcFiles список полных путей к файлам
      * @return пара: результат компиляции и список скомпилированных файлов
      */
-    public Pair<CompilationResult, List<CompiledUnit>> compile(List<String> srcFiles)
-            throws CompilationFailedException {
-        // берем конпейлятор
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-
-        // добавляем диагностик листенера
-        DiagnosticListenerImpl listener = new DiagnosticListenerImpl();
-
-        // берем файл-менеджера
-        StandardJavaFileManager fileManager = compiler.getStandardFileManager(listener, null, null);
-
-        // получаем ява-объекты из сорцов
-        Iterable<? extends JavaFileObject> fileObjects = fileManager.getJavaFileObjectsFromStrings(srcFiles);
-
-        // говорим куда и как конпейлять
-        Setup setup = Setup.getSetup();
-        String encoding = setup.get("dynamic.src.encoding", Utils.UTF8.name());
-
-        // устанавливаем временную папку для скомпилированных файлов с уникальным именем
-        outputDir.mkdir();
+    public Pair<CompilationResult, List<CompiledUnit>> compile(List<String> srcFiles) {
+        String encoding = Setup.getSetup().get("custom.src.encoding", Utils.UTF8.name());
 
         String[] options;
         if (Utils.notBlankString(encoding)) {
@@ -101,17 +83,20 @@ public class CompilerWrapper {
                     outputDir.getAbsolutePath(), "-verbose", "-Xlint:deprecation" };
         }
 
-        // создаем задание на конпейляцию
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+
+        DiagnosticListenerImpl listener = new DiagnosticListenerImpl();
+
+        StandardJavaFileManager fileManager = compiler.getStandardFileManager(listener, null, null);
+
+        Iterable<? extends JavaFileObject> fileObjects = fileManager.getJavaFileObjectsFromStrings(srcFiles);
+
         StringWriter sw = new StringWriter();
         CompilationTask task = compiler.getTask(sw, fileManager, listener, Arrays.asList(options), null, fileObjects);
 
-        // конпейлируем!
         boolean callResult = task.call();
         CompilationResult result = listener.getCompilationResult();
-
-        if (!callResult) {
-            throw new CompilationFailedException(result);
-        }
+        result.setResult(callResult);
 
         return new Pair<CompilationResult, List<CompiledUnit>>(result, compiledFiles(outputDir));
     }
@@ -210,21 +195,21 @@ public class CompilerWrapper {
             message.setSource(diagnostic.getSource() != null ? diagnostic.getSource().getName() : null);
 
             switch (diagnostic.getKind()) {
-            case ERROR: {
-                result.addError(message);
-                break;
-            }
-            case WARNING:
-            case MANDATORY_WARNING: {
-                result.addWarning(message);
-                break;
-            }
-            case NOTE:
-                break;
-            case OTHER:
-                break;
-            default:
-                break;
+                case ERROR: {
+                    result.addError(message);
+                    break;
+                }
+                case WARNING:
+                case MANDATORY_WARNING: {
+                    result.addWarning(message);
+                    break;
+                }
+                case NOTE:
+                    break;
+                case OTHER:
+                    break;
+                default:
+                    break;
             }
 
             if (log.isDebugEnabled()) {
@@ -247,6 +232,7 @@ public class CompilerWrapper {
         public File srcFile;
     }
 
+    @Deprecated
     public static class CompilationFailedException extends BGException {
         private CompilationResult result;
 

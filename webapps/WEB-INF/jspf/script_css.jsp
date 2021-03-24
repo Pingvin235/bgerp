@@ -41,14 +41,6 @@
 <link type="text/css" href="/lib/treetable/jquery.treetable.css" rel="stylesheet"/>
 <link type="text/css" href="/lib/treetable/jquery.treetable.theme.default.css" rel="stylesheet"/>
 
-<%-- remove later together with files
-<script src="/lib/jquery.autoresize.js"></script>
-
-<script src="/lib/jquery.selectboxes.js"></script>
-<script src="/lib/jquery.appear.js"></script>
-<script src="/lib/jquery.resize.js"></script>
---%>
-
 <script src="/lib/combobox/combo.js"></script>
 <link type="text/css" href="/lib/combobox/combo.css" rel="stylesheet"/>
 
@@ -57,7 +49,7 @@
 <script src="${u:fileNameWithLastModTime('/lib/preview/preview.js')}"></script>
 <link type="text/css" href="${u:fileNameWithLastModTime('/lib/preview/style.css')}" rel="stylesheet"/>
 
-<link type="text/css" href="/lib/themify/themify-icons.css" rel="stylesheet"/>
+<link type="text/css" href="${u:fileNameWithLastModTime('/lib/themify/themify-icons.css')}" rel="stylesheet"/>
 
 <script src="${u:fileNameWithLastModTime('/js/kernel.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ajax.js')}"></script>
@@ -89,7 +81,6 @@
 <style type="text/css">
 	<%@include file="/css/style.css.jsp"%>
 </style>
-
 
 <c:forEach items="${ctxPluginManager.pluginList}" var="plugin">
 	<c:set var="js" value="${plugin.endpoints['js']}" scope="request"/>

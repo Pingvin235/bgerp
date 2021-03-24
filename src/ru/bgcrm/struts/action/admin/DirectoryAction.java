@@ -57,21 +57,6 @@ public class DirectoryAction extends BaseAction {
         new Directory("addressParameter", "Параметры домов", "parameterList")
     ));
 
-    // add from plugins
-    /* PluginManager pluginManager = PluginManager.getInstance();
-    for (Plugin plugin : pluginManager.getPluginList()) {
-        Iterable<Element> elements = XMLUtils.selectElements(plugin.getDocument(), "/plugin/endpoint[@id='directory.param']");
-        if (elements != null) {
-            for (Element endpoint : elements) {
-                String entity = endpoint.getAttribute("entity");
-
-                if (!entity.equals("")) {
-                    directoryMap.put(entity + "Parameter", endpoint.getAttribute("title"));
-                }
-            }
-        }
-    } */
-
     private static final Map<String, Directory> directoryMap = Collections.unmodifiableMap(
         directoryList.stream().collect(Collectors.toMap(d -> d.getId(), d -> d))
     );
@@ -79,6 +64,7 @@ public class DirectoryAction extends BaseAction {
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         form.setParam("directoryId", "processParameter");
+        form.setParam("action", "parameterList");
         return parameterList(mapping, form, con);
     }
 

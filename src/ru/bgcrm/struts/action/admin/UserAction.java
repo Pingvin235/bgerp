@@ -181,7 +181,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         List<User> userInGroupList = new UserDAO(con).getUserList(Collections.singleton(form.getId()));
 
         if (!userInGroupList.isEmpty()) {
-            throw new BGMessageException("Удаление группы невозможно. В группе содержаться пользователи.");
+            throw new BGMessageException("Удаление группы невозможно. В группе содержатся пользователи.");
         }
 
         new UserGroupDAO(con).deleteGroup(form.getId());

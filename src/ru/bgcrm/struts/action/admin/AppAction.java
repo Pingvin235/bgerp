@@ -42,6 +42,11 @@ public class AppAction extends BaseAction {
         return data(conSet, form, JSP_PATH + "/status.jsp");
     }
 
+    public ActionForward restart(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+        Scripts.restart();
+        return status(conSet, form);
+    }
+
     public ActionForward update(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         Scripts.backupUpdateRestart(form.getParamBoolean("force"));
         return status(conSet, form);
@@ -66,7 +71,7 @@ public class AppAction extends BaseAction {
         }
 
         if (updateFiles.isEmpty())
-            throw new BGMessageException("Не найдены файлы обновлений");
+            throw new BGMessageException("Не найдены файлы обновлений.");
 
         Scripts.backupInstallRestart(updateFiles);
 

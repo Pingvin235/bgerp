@@ -1,8 +1,7 @@
 = BGERP 3.CD
 :nofooter:
 
-* <<changes.adoc#, Changes>>
-* <<project.adoc#, Development>>
+* <<project.adoc#, Project>>
 ** <<samples.adoc#, Documentation samples>>
 ** <<kernel/db.adoc#, Структура БД>>
 * Kernel

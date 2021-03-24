@@ -82,21 +82,21 @@ public class MessageAction extends BaseAction {
             throw new BGSecureException("Feedback is not enabled", form);
         
         var subject = form.getParam("subject", Utils::notBlankString);
-        var email = form.getParam("email", Utils::notBlankString);
+        var email = form.getParam("email", Utils::isValidEmail);
         var text = form.getParam("text", Utils::notBlankString);
 
         var messageType = config.getMessageTypeEmail();
 
         var message = new Message()
-            .setUserId(form.getUserId())
-            .setTypeId(messageType.getId())
-            .setDirection(Message.DIRECTION_INCOMING)
-            .setFrom(email)
-            .setFromTime(new Date())
-            .setTo(messageType.getEmail())
-            .setProcessId(processId)
-            .setSubject(subject)
-            .setText(text);
+            .withUserId(form.getUserId())
+            .withTypeId(messageType.getId())
+            .withDirection(Message.DIRECTION_INCOMING)
+            .withFrom(email)
+            .withFromTime(new Date())
+            .withTo(messageType.getEmail())
+            .withProcessId(processId)
+            .withSubject(subject)
+            .withText(text);
 
         new MessageDAO(conSet.getConnection()).updateMessage(message);
 

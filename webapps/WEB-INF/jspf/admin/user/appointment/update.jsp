@@ -13,11 +13,9 @@
 	<html:text property="title" value="${appointment.title }" style="width:100%;"/>
 	<h2>${l.l('Комментарий')}</h2>
 	<html:textarea property="description" rows="3" value="${appointment.description}" style="width:100%"/>
-			
-	<div class="mt1">
-		<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
-	</div>
+
+	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>
 
 <c:set var="state" value="${l.l('Редактор')}"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>					
+<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>

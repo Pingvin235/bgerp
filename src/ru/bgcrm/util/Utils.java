@@ -21,6 +21,8 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -287,6 +289,22 @@ public class Utils {
      */
     public static final boolean notBlankString(String value) {
         return value != null && value.trim().length() > 0;
+    }
+
+    /**
+     * Is the string a valid E-Mail address.
+     * @param value
+     * @return
+     */
+    public static final boolean isValidEmail(String value) {
+        if (isBlankString(value))
+            return false;
+        try {
+            new InternetAddress(value).validate();
+            return true;
+        } catch (AddressException ex) {
+            return false;
+        }
     }
 
     /**
@@ -805,8 +823,12 @@ public class Utils {
         return passwdDigest.length() == 0 ? null : passwdDigest.toString();
     }
 
+    /**
+     * System temp directory.
+     * @return value of system property 'java.io.tmpdir', or '/tmp' if it is missing.
+     */
     public static String getTmpDir() {
-        return System.getProperty("java.io.tmpdir");
+        return System.getProperty("java.io.tmpdir", "/tmp");
     }
 
     private static final Pattern rfc2822 = Pattern.compile(

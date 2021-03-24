@@ -8,9 +8,18 @@ import java.util.List;
  * @author Shamil Vakhitov
  */
 public class CompilationResult {
+    private boolean result;
     private List<CompilationMessage> errors = new ArrayList<>();
     private List<CompilationMessage> warnings = new ArrayList<>();
     private List<String> log = new ArrayList<>();
+
+    public boolean isResult() {
+        return result;
+    }
+
+    public void setResult(boolean result) {
+        this.result = result;
+    }
 
     public void addWarning(CompilationMessage warning) {
         warnings.add(warning);

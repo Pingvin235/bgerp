@@ -40,7 +40,7 @@ processor.5.responseType=file
 			
 			<table class="data" style="width: 100%;">
 				<tr>
-					<td>Код процесса</td>
+					<td>ID процесса</td>
 					<td>Исполнители</td>
 					<td>Адрес</td>
 					<td>Услуги</td>

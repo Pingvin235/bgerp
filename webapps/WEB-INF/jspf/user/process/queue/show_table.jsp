@@ -33,7 +33,7 @@
 		</c:when>
 		<c:otherwise>
 			<tr>
-				<c:if test="${not empty queue.processorMap}">
+				<c:if test="${not empty queue.getProcessors(ctxIface)}">
 					<td width="20">${headData["checkAllLink"]}</td>
 				</c:if>
 				<c:forEach var="column" items="${columnList}" varStatus="status">
@@ -241,7 +241,7 @@
 
 						<c:set var="nas" value="${nowrap} ${align} ${style}"/>
 
-						<c:if test="${(not empty queue.processorMap or not empty queue.configMap.checkColumn) and onceFlag ne '1'}">
+						<c:if test="${(not empty queue.getProcessors(ctxIface) or not empty queue.configMap.checkColumn) and onceFlag ne '1'}">
 							<c:set var="onceFlag" value="1"/>
 							<td align="center"><input type="checkbox" name="processId" value="${process.id}"/></td>
 						</c:if>

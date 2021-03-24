@@ -154,8 +154,9 @@
 			<item action="ru.bgcrm.struts.action.admin.WebRequestAction:findRequests" title="поиск WEB запросов" notLogging="1"/>
 		</item>
 
-		<item title="Приложение">
+		<item title="App">
 			<item action="ru.bgcrm.struts.action.admin.AppAction:status, ru.bgcrm.struts.action.admin.StateAction:null" title="Статус"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:restart" title="Restart"/>
 			<item action="ru.bgcrm.struts.action.admin.AppAction:update" title="Обновить"/>
 			<item action="ru.bgcrm.struts.action.admin.AppAction:updateToChange" title="Обновить на изменение"/>
 			<item action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList" title="Сессии пользователей"/>

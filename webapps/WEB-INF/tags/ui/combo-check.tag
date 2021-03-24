@@ -1,4 +1,4 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Выпадающий список с возможностью выбора нескольких значений"%>
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Drop down list with multiselect"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%--

@@ -18,9 +18,7 @@
 	<h2>${l.l('Шаблон')}</h2>
 	<input type="text" name="pattern" style="width: 100%" value="${fn:escapeXml( pattern.pattern )}"/>
 	
-	<div class="mt1">
-		<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
-	</div>
+	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>
 
 <c:set var="state" value="${l.l('Редактор')}"/>

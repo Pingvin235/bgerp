@@ -1,38 +1,40 @@
-= Расширение функциональности
+= Extension
 :toc:
 
-NOTE: Вы можете пропустить данный раздел целиком при первичном знакомстве с системой.
+NOTE: This chapter may be skipped at first time of using the system.
 
 Система BGERP является в первую очередь платформой, поэтому значительный эффект от её применения достигается путём 
 реализации различного рода расширений под специфику пользователя. 
 
 [[tech-choice]]
-== Выбор технологии
+== Choose technology CCC
 BGERP предоставляет сразу несколько уровней для расширения либо модификации стандартной логики.
 Способы перечислены в порядке возрастания сложности и функциональности.
 Рекомендуемая практика - переход от простого к более сложному. 
 
-=== Конфигурирование
+=== Config
 Изменение конфигураций продукта согласно документации. 
 Полная обратная совместимость, поведение описано документацией.
 Нет валидации ошибок, среды разработки.
 
-=== JEXL и JSP
-Использование JEXL скриптов для изменения логики и JSP страниц для отображения. 
-Хорошая обратная совместимость, в случае использования стандартного Java DAO API.
-Нет валидации ошибок, среды разработки.
-
-=== Динамический код
+=== Custom
+// TODO: Migration to custom. Merge the chapter with project.adoc#custom-level
 Замена JEXL скриптов динамическим кодом. 
 Более громоздко в написании, но можно пользоваться Java в полнофункциональной IDE. 
 Код проверяется компилятором, есть автодополнение кода, подсветка синтаксиса.
 
-=== Собственный плагин либо изменение исходного кода
+Использование JEXL скриптов для изменения логики и JSP страниц для отображения. 
+Хорошая обратная совместимость, в случае использования стандартного Java DAO API.
+Нет валидации ошибок, среды разработки.
+
+=== Contribute
 Обобщение функциональности, есть требования к оформлению передаваемого кода и документации.
 Переданный код постоянно находится "под присмотром", учитывается при изменениях продукта, равно как и используемые библиотеки.
 
+== Configuration
+
 [[jexl]]
-== JEXL
+=== JEXL
 JEXL - язык коротких выражений.
 
 Используется для написания в конфигурации макросов условных выражений, гибкого вычисления небольших строк. 
@@ -119,7 +121,7 @@ processReference.1.stringExpression=u.escapeXml( u.maskNull( u.getFirst( process
 ----
 
 [[regexp]]
-== Java REGEXP
+=== Java REGEXP
 Регулярные выражения позволяют гибко описывать шаблоны строк.
 
 Описание строк осуществляется путём подстановки определённых макросов, обозначающих части строки либо символы определённого типа.
@@ -146,7 +148,7 @@ processReference.1.stringExpression=u.escapeXml( u.maskNull( u.getFirst( process
 
 
 [[log4j]]
-== Логирование
+=== Логирование
 Log4j - библиотека логирования для Java. Настройка логирования производится в файле *log4j.properties*, 
 изменение файла можно производить при работающем приложении. Вид файла при установке системы:
 
@@ -172,7 +174,7 @@ Samples, how to endble loggers wanted package or class in <<../plugin/asterisk/i
 * http://artamonov.ru/2007/04/06/vvedenie-v-log4j/ - вводная статья на русском.
 
 [[log-dyn]]
-=== Динамическое логирование
+==== Динамическое логирование
 Для более удобной отладки JEXL скриптов, конфигураций либо динамического кода 
 возможно получение логов только текущей сессии с помощью оснастки *Пуск => Логирование*.
 
@@ -185,19 +187,75 @@ image::_res/ext_dyn_log.png[width='600px']
 [[custom]]
 == Custom
 Custom application code has to be placed `custom` directory in the project root.
-Content of the directory may be stored using VCS like GIT and developed in normal IDE.
 
+[[custom-workflow]]
+=== Git Workflow
+Content of the directory may be stored using GIT and developed in normal <<../project.adoc#ide, IDE>>.
+
+The `custom` directory is ignored in the root directory of the <<../project.adoc#checkout-reader, project>>, 
+and has to be checked out independigly, e.g.:
+[source]
+----
+git clone https://github.com/Pingvin235/bgerp-custom-bitel.git custom
+----
+
+As `custom` directory stored in a separated GIT repo, the whole project state has separated over two repositories.
+On the schema below is shown iteraction over directories and repositories.
+
+[ditaa]
+----
++--------------+                        +------------+
+| PROJECT dirs |     +------------+     |  APP dirs  |
++--------------+     |{s}         |     +------------+
+| src          |<----+ BGERP GIT  |     |            |
+| ...          |     +------------+     |   backup   |
+| build        |                        |   ...      |
+| custom ------|--+  +------------+  +--|-> custom   |
+| ...          |  +->|{s}         +--+  |   ...      |
+| webapps      |     | CUSTOM GIT |     |   lib      |
++--------------+     +------------+     +------------+
+----
+
+For *CUSTOM GIT* is recommended to use the same <<../project.adoc#workflow, GIT workflow>> 
+as for the main project's code. Any change has to be placed in a separated branch. 
+Case of parallel changing of project and custom codes use the same branch name for both repositories.
+
+`custom` directory from *PROJECT* can be delivered to *APP* through *CUSTOM GIT* repo.
+For checking out may be used approach with *DETACHED HEAD*:
+[source]
+----
+git fetch && git checkout origin/p14225-subscriptions
+----
+
+[[custom-using]]
+=== Using
 Inside `custom/src` placed regular Java code, incluing plugins <<../project.adoc#plugin, plugins>>.
-*PLUGIN_ID* for those has to be *custom*, that is the reserved name.
-That code has equal possibilities as the native application's, can use API and connected libraries.
-After compilation *Administration - Customization* this code is persisted to `lib/app/custom.jar`.
+*PLUGIN_ID* for those has to be prefixied by *custom.*, e.g. *custom.bitel*.
+Respectively plugin files have to be stored under paths: *custom/org/bgerp/plugin/custom/<some-name>* .
 
-Subdirectory `custom/webapps` is searched parallel with `webapps` from root directory
-and should be used for placing custom JSP and JS files.
+That code has equal possibilities as the native application's, can use API and connected libraries.
+After compilation *Administration - Custom* this code is persisted to `lib/app/custom.jar`.
+
+NOTE: The application must be restarted to reload the `custom.jar`. There is *Restart* button available after successfull compilation.
+
+Subdirectory `custom/webapps` is searched *before* `webapps` from root directory
+and should be used for placing custom JSP and JS files. Both types are applied immediatelly after change.
+
+CAUTION: Each file from the original `webapps` may be "replaced" for Web server. That can brake built-in functionality.
+
+[[custom-l10n]]
+=== Custom localization
+In file `custom/l10n.xml` has a special meaning for <<../project.adoc#l10n-files, localization>> system, 
+it allows to re-define each localized string in the system.
+
+[[javalib]]
+=== Java библиотеки
+Пользовательские Java библиотеки, используемые в динамическом коде, JEXL выражениях либо JSP страницах должны быть размещены в каталоге *lib/custom*
+JAR файлы из *lib/ext* перетираются при получении обновления библиотек. 
 
 [[dyn]]
-== Dynamic code
-CAUTION: This approach is deprecated, use <<custom, Customization>> instead.
+=== Dynamic code
+CAUTION: This approach is deprecated, use <<custom, Custom>> instead.
 
 Динамический код - это Java файлы, которые можно изменять и подгружать без перезапуска приложения. 
 С его помощью можно обрабатывать различные события в системе. Файлы с классами динамического кода располагаются в по-умолчанию каталоге *dyn*.
@@ -219,18 +277,44 @@ image::_res/ext_dyn.png[]
 Кроме данного способа возможны перечисленные в последующих разделах способы создания и применения объектов динамических классов.
 Синхронный запуск происходит в потоке запроса и позволяет легко изучить <<#log-dyn, логи>>.
 
-=== Примеры
+[[custom-jar]]
+=== Custom JAR
+CAUTION: This approach is deprecated, use <<custom, Custom>> instead.
+
+With custom JAR in the application might be added any wanted Java classes.
+
+[NOTE]
+====
+This sample describes deploing own annotated servlets in `WEB-INF/lib`. 
+Future plans about the functionality:
+[square]
+* such servlets have to be added in `META-INF/web-fragment.xml`;
+* the JAR itself assempled out of earlier <<dyn, dynamic code>> in interface and placed in `lib/custom.jar` 
+
+Links:
+[square]
+* https://tomcat.apache.org/tomcat-9.0-doc/class-loader-howto.html
+* link:https://github.com/apache/tomcat/blob/master/java/org/apache/tomcat/util/scan/StandardJarScanner.java[StandardJarScanner.java in Tomcat]
+====
+
+For making own servlet write annotated class extending *javax.servlet.http.HttpServlet*.
+[source, java]
+----
+@WebServlet(name="RestApi", urlPatterns = "/restapi")
+----
+
+Compile to **.class*, assemple to a JAR file, place it in previously created directory `webapps/WEB-INF/lib`
+
+To be loaded the JAR file has to be named with *custom* in name, 
+or you may change the marker string in configuration parameter *custom.jar.marker*.
+
+==== Примеры
 В составе поставки доступны примеры динамических классов в *dyn/ru/bgcrm/dyn* поименованные как *Example..* с описанием в комментариях. 
 Помимо этого вы можете найти примеры динамического кода <<../ext/dyn_sample.adoc#, здесь>>.
 
-[[javalib]]
-== Java библиотеки
-Пользовательские Java библиотеки, используемые в динамическом коде, JEXL выражениях либо JSP страницах должны быть размещены в каталоге *lib/custom*
-JAR файлы из *lib/ext* перетираются при получении обновления библиотек. 
-
 [[run]]
 == Запуск кода
-Во всех данных примерах могут использоватся как классы из библиотек системы, так и динамические. 
+Во всех данных примерах могут использоватся как классы из библиотек системы, так и <<custom, custom>>. 
 
 === Обработчики событий процессов
 Имя класса-обработчика может быть указано в свойствах <<process/index.adoc#type, типа процесса>>. 
@@ -262,6 +346,7 @@ JAR файлы из *lib/ext* перетираются при получении
 
 //TODO: processCustomClassInvoke
 
+[[run-cmd]]
 === Из командной строки
 Для запуска любого класса, статического или динамического в контексте сервера BGERP вызовите:
 [source, bash]
@@ -274,50 +359,25 @@ JAR файлы из *lib/ext* перетираются при получении
 Запуск в контексте сервера обозначает, что класс будет выполнен в рамках отдельного потока процесса сервера, 
 получив доступ к соединению с БД, конфигурациям и другим объектам контекста. Результаты работы можно выводить в логи.
 
+[[run-scheduler]]
 === Планировщик
 Для периодического выполнения класса необходимо использовать <<setup.adoc#scheduler, планировщик>>.
 
-[[jsp]]
-== JSP
-JSP шаблоны используются в BGERP для генерации всего HTML интерфейса, а также как шаблоны печатных форм в плагине <<../plugin/document/index.adoc#, Document>>. 
-В сочетании с библиотекой тегов и возможностью лёгкого вызова Java кода, JSP предоставляет обширные возможности по адаптации интерфейса.
+[[run-iface]]
+=== User interface
+In menu *Administration - Run* can be executed any Java class, implementing *java.lang.Runnable*.
 
-[CAUTION]
-====
-Пользовательские JSP файлы располагайте в каталогах *WEB-INF/jspf/custom/..*, это гарантирует вас от перетирания названия каталога 
-штатными шаблонами и позволит легко контролировать все кастомизации в одном месте. 
-Например: */WEB-INF/custom/process_jur_zayavka.jsp*.
+[[file-orig]]
+== Изменение файлов системы
+CAUTION: This logic is outdated, use <<custom, Custom>> instead.
 
-Внутри пользовательского шаблона должно быть указано в комментарии, в какой файл и каким образом он должен быть включён.
-====
-
-Вкратце схема работы JSP шаблона представлена на схеме ниже.
-
-На вход шаблона передаётся объект Request. Изначально это чаще всего HTTP запрос с параметрами, но в общем и целом это просто некий Map c Java объектами.
-По мере обработки запроса в этот Map помещаются:
- 
-image::_res/ext_jsp_schema.png[]
-
-[square]
-* ссылки на объекты контекста, чаще всего различные справочники в фильтре javadoc:ru.bgcrm.servlet.filter.SetRequestParamsFilter[];
-* объект с параметрами запроса javadoc:ru.bgcrm.struts.form.DynActionForm[];
-* различные данные после отработки серверных Action ов.
-
-Любой объект в Request доступен в JSP шаблоне как *${object}*. Для вызова метода *${object.method()}*. 
-На выходе шаблона образуется по сути текст, который указан в шаблоне, за исключением специальных инструкций. 
-Это может быть HTML, передаваемый на клиента, либо простой текст. 
-Специальные инструкции, оперируя с объектами из Request, добавляют в этот текст дополнительные данные.
-
-JSP технология предоставляет возможность расширения функциональности с использованием библиотек тегов и функций.
-Подробнее о разработке <<../project.adoc#jsp, UI>>. 
-
-== Изменение файлов системы 
 При корректировке штатных файлов системы: JSP страниц, конфигурационных файлов, библиотек и т.п. предварительно необходимо 
 создать файл с аналогичным именем но дополненным *.orig* в конце. Например: *process_color.jsp* -> *process_color.jsp.orig*. 
 В противном случае изменённый файл будет перетёрт при следующем обновлении. 
 При наличии .orig файла программа сверит файл из обновления с ним и перетрёт файл в дистрибутиве только в случае несовпадения, 
 сохранив резервную копию перетираемого файла. .orig файл обозначает версию оригинального файла, относительно которого был создан изменённый.
 
+[[ext-request]]
 == Интеграция с внешними системами
 Все запросы на изменение данных в возвращают результат в JSON формате. Запросы выборки данных возвращают результат в HTML формате, 
 однако возможно получение данных и в JSON формате, путём добавления в запрос параметра *responseType=json*.
@@ -335,33 +395,3 @@ http://server.bgcrm.ru/user/process.do?action=queueShow&id=4&dateStatusStatus=10
 При изучении формата запросов и ответов возможно использование инструмента разработчика в браузере 
 с отслеживанием запросов отправляемых браузером при работе пользователя в BGERP.
 
-[[custom-jar]]
-== Custom JAR
-CAUTION: This approach is deprecated, use <<custom, Customization>> instead.
-
-With custom JAR in the application might be added any wanted Java classes.
-
-[NOTE]
-====
-This sample describes deploing own annotated servlets in `WEB-INF/lib`. 
-Future plans about the functionality:
-[square]
-* such servlets have to be added in `META-INF/web-fragment.xml`;
-* the JAR itself assempled out of earlier <<dyn, dynamic code>> in interface and placed in `lib/custom.jar` 
-
-Links:
-[square]
-* https://tomcat.apache.org/tomcat-9.0-doc/class-loader-howto.html
-* link:https://github.com/apache/tomcat/blob/master/java/org/apache/tomcat/util/scan/StandardJarScanner.java[StandardJarScanner.java in Tomcat]
-====
-
-For making own servlet write annotated class extending *javax.servlet.http.HttpServlet*.
-[source, java]
-----
-@WebServlet(name="RestApi", urlPatterns = "/restapi")
-----
-
-Compile to **.class*, assemple to a JAR file, place it in previously created directory `webapps/WEB-INF/lib`
-
-To be loaded the JAR file has to be named with *custom* in name, 
-or you may change the marker string in configuration parameter *custom.jar.marker*.

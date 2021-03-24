@@ -4,6 +4,6 @@
 <tr>
 	<td>&nbsp;</td>
 	<td>
-		<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
+		<ui:form-ok-cancel/>
 	</td>
 </tr>

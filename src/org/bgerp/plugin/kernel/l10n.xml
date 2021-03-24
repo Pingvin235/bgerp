@@ -258,14 +258,14 @@
 	<p><ru>квартала</ru><en>quater</en></p>
 	<p><ru>района</ru><en>area</en></p>
 	<p><ru>улицы</ru><en>street</en></p>
-	<p><ru>Открыт</ru><en>Opened</en></p>
+	<p><ru>Открыт</ru><en>Open</en></p>
 	<p><ru>Сумма</ru><en>Total</en></p>
 	<p><ru>Дата</ru><en>Date</en></p>
 	<p><ru>Подгрупп</ru><en>Subgroups</en></p>
 	<p><ru>Скрытая</ru><en>Hidden</en></p>
 	<p><ru>Группы пользователей</ru><en>Groups of users</en></p>
 	<p><ru>Роли</ru><en>Roles</en></p>
-	<p><ru>Права</ru><en>Rights</en></p>
+	<p><ru>Права</ru><en>Permissions</en></p>
 	<p><ru>Фильтр по наименованию</ru><en>Filter by title</en></p>
 	<p><ru>значение не установлено</ru><en>value is undefined</en></p>
 	<p><ru>Включить</ru><en>Turn on</en></p>
@@ -299,11 +299,28 @@
 	<p><ru>синхронно</ru><en>synch</en></p>
 	<p><ru>Скомпилировать всё</ru><en>Recompile all</en></p>
 	<p><ru>Имя класса, реализующего java.lang.Runnable</ru><en>Class name, implementing java.lang.Runnable</en></p>
-	<p><ru>Кастомизация</ru><en>Customization</en></p>
+	<p><ru>Custom</ru><en>Custom</en></p>
 	<p><ru>Результат компиляции</ru><en>Compilation result</en></p>
 	<p><ru>Класс не найден: %s</ru><en>Class not found: %s</en></p>
 	<p><ru>Класс не реализует java.lang.Runnable: %s</ru><en>Class does not implement java.lang.Runnable: %s</en></p>
-	<p><ru>Отчёт не найден.</ru><en>Report not found.</en></p>
+	<p><ru>Вы уверены, что хотите удалить?</ru><en>Are you sure you want to delete it?</en></p>
+	<p><ru>Такое имя уже существует в данной ветке.</ru><en>Such name already exists here.</en></p>
+	<p><ru>Фильтр по наименованию, конфигурации</ru><en>Filter by title, configuration</en></p>
+	<p><ru>Не найдены файлы обновлений.</ru><en>Update files not found.</en></p>
+	<p><ru>Использующие очереди</ru><en>Using queues</en></p>
+	<p><ru>Копировать свойства другого типа</ru><en>Copy properties from another type</en></p>
+	<p><ru>Редактор типа</ru><en>Type editor</en></p>
+	<p><ru>Восстановить</ru><en>Restore</en></p>
+	<p><ru>Свойства типа</ru><en>Type properties</en></p>
+	<p><ru>К списку типов</ru><en>To types list</en></p>
+	<p><ru>Название фильтра</ru><en>Filter title</en></p>
+	<p><ru>Введите название!</ru><en>Input title!</en></p>
+	<p><ru>Скрыть</ru><en>Hide</en></p>
+	<p><ru>Отобразить</ru><en>Show</en></p>
+	<p><ru>Перезапустить</ru><en>Restart</en></p>
+	<p><ru>Ошибка в параметрах запроса</ru><en>Error in request params</en></p>
+	<p><ru>Сохранить без выхода из редактора</ru><en>Save without leaving editor</en></p>
+	<!-- <p><ru>Отчёт не найден.</ru><en>Report not found.</en></p> -->
 	<p><ru>Созданные</ru><en>Created</en></p>
 	<p><ru>Вам не разрешён доступ к очереди процессов с ID=%s</ru><en>You are not allowed to access the process queue with ID=%s</en></p>
 	<p><ru>Освободить</ru><en>Release</en></p>
@@ -311,24 +328,24 @@
 	<p><ru>Принят</ru><en>Accepted</en></p>
 	<p><ru>Сессии (вход / последняя активность)</ru><en>Sessions (login / last activity)</en></p>
 	<p><ru>Обновление</ru><en>Update</en></p>
-	<p><ru>Принудительно</ru><en>Forcibly</en></p>
-	<p><ru>Обновить</ru><en>Refresh</en></p>
+	<p><ru>Принудительно</ru><en>Force</en></p>
+	<p><ru>Обновить</ru><en>Update</en></p>
 	<p><ru>Обновление на изменение</ru><en>Update on change</en></p>
-	<p><ru>Код процесса</ru><en>Process code</en></p>
+	<p><ru>ID процесса</ru><en>Process ID</en></p>
 	<p><ru>Логи обновлений</ru><en>Update logs</en></p>
 	<p><ru>Файл</ru><en>File</en></p>
 	<p><ru>Размер</ru><en>Size</en></p>
 	<p><ru>Выберите улицу</ru><en>Choose a street</en></p>
-	<p><ru>Ссылается</ru><en>Referred to</en></p>
+	<p><ru>Ссылается</ru><en>Linked</en></p>
 	<p><ru>Зависит</ru><en>Depends</en></p>
-	<p><ru>Породил</ru><en>Spawned</en></p>
-	<p><ru>С</ru><en>R</en></p>
+	<p><ru>Породил</ru><en>Made</en></p>
+	<p><ru>С</ru><en>L</en></p>
 	<p><ru>З</ru><en>D</en></p>
-	<p><ru>П</ru><en>S</en></p>
+	<p><ru>П</ru><en>M</en></p>
 	<p><ru>Для привязки доступны процессы, выбранные в буфер</ru><en>The processes selected in the buffer are available for binding</en></p>
 	<p><ru>Шаблон</ru><en>Template</en></p>
-	<p><ru>С даты</ru><en>From the date of</en></p>
-	<p><ru>По дату</ru><en>By date</en></p>
+	<p><ru>С даты</ru><en>From date</en></p>
+	<p><ru>По дату</ru><en>To date</en></p>
 	<p><ru>Фильтр по IP адресу</ru><en>Filter by IP address</en></p>
 	<p><ru>Фильтр по Параметрам</ru><en>Filter by Parameters</en></p>
 	<p><ru>Фильтр по действию</ru><en>Filter by action</en></p>
@@ -337,12 +354,10 @@
 	<p><ru>Действию</ru><en>Action</en></p>
 	<p><ru>IP адресу</ru><en>IP address</en></p>
 	<p><ru>Применить</ru><en>Apply</en></p>
-	<p><ru>Сохранить без выхода из редактора</ru><en>Save without exiting the editor</en></p>
 	<p><ru>Сохранить</ru><en>Save</en></p>
 	<p><ru>Позиция</ru><en>Position</en></p>
 	<p><ru>Позиция статуса в различных перечнях</ru><en>Position of status in various lists</en></p>
-	<p><ru>Наследовать свойства от предка</ru><en>Inherit properties from ancestor</en></p>
-	<p><ru>Редактор типа</ru><en>Type editor</en></p>
+	<p><ru>Наследовать свойства от предка</ru><en>Inherit properties from parent</en></p>
 	<p><ru>Значения</ru><en>Values</en></p>
 	<p><ru>Использующие очереди</ru><en>Using queues</en></p>
 	<p><ru>Копировать свойства другого типа</ru><en>Copy properties of another type</en></p>

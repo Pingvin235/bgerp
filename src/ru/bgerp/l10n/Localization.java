@@ -41,11 +41,6 @@ public class Localization {
     /** Localizations of plugins. */
     private static volatile Map<String, Localization> localizations;
 
-    private static final String PLUGIN_URI_PREFIX = "/plugin/";
-    private static final int PLUGIN_URI_PREFIX_LENGTH = PLUGIN_URI_PREFIX.length();
-
-    private static final String LANG_KEY_NAME = "lang";
-
     // end of static part
     private final String pluginId;
     private final Map<String, Map<String, String>> translations;
@@ -95,36 +90,54 @@ public class Localization {
      * @return
      */
     public static Localizer getLocalizer(HttpServletRequest request) {
-        return getLocalizer(getPluginIdFromURI(request), getToLang(request));
+        return getLocalizer(getPluginIdFromURI(request), getLang(request));
     }
 
+    /**
+     * Retrieves a plugin ID as substring after '/plugin/' and the next '/'.
+     * @param request
+     * @return
+     */
     private static String getPluginIdFromURI(HttpServletRequest request) {
+        final String pluginUriPrefix = "/plugin/";
+        final int pluginUriPrefixLength = pluginUriPrefix.length();
+
         String pluginId = null;
 
         String url = request.getRequestURI();
-        int pos = url.indexOf(PLUGIN_URI_PREFIX);
+        int pos = url.indexOf(pluginUriPrefix);
         if (pos > 0)
-            pluginId = StringUtils.substringBefore(url.substring(pos + PLUGIN_URI_PREFIX_LENGTH), "/");
+            pluginId = StringUtils.substringBefore(url.substring(pos + pluginUriPrefixLength), "/");
 
         return pluginId;
     }
 
-    public static String getToLang(HttpServletRequest request) {
+    /**
+     * Retrieves language from the request params or session.
+     * Once defined lang has persisted in the session attribute as well.
+     * If not found language is taken from configuration parameter 'lang'.
+     * @param request
+     * @return
+     */
+    public static String getLang(HttpServletRequest request) {
+        final String langKeyName = "lang";
+
         String result = null;
         
-        // open interface
-        if (AuthFilter.getUser(request) == null) {
-            result = request.getParameter(LANG_KEY_NAME);
+        // open interface, no user
+        if (request != null && AuthFilter.getUser(request) == null) {
+            result = request.getParameter(langKeyName);
             
             HttpSession session = request.getSession(false);
             if (Utils.isBlankString(result) && session != null)
-                result = (String) session.getAttribute(LANG_KEY_NAME);
+                result = (String) session.getAttribute(langKeyName);
 
-            request.getSession().setAttribute(LANG_KEY_NAME, result);
+            request.getSession().setAttribute(langKeyName, result);
         }
 
+        // user interface or not defined in session / params
         if (Utils.isBlankString(result))
-            result  = Setup.getSetup().get("lang", LANG_RU);
+            result  = Setup.getSetup().get(langKeyName, LANG_RU);
 
         return result;
     }

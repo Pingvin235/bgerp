@@ -1,4 +1,4 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Выбора месяца и диапазона дней"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Input day's range in month"%> 
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="dateFromHiddenName" description="имя скрытого поля с началом диапазона (по-умолчанию dateFrom)"%>

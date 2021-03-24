@@ -4,14 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.log4j.Logger;
 
 import ru.bgcrm.dao.ParamDAO;
 import ru.bgcrm.model.IdTitle;
@@ -21,11 +18,12 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.TableChangeMonitor;
+import ru.bgerp.util.Log;
 
 public class ParameterCache extends Cache<ParameterCache> {
-    private static final Logger log = Logger.getLogger(ParameterCache.class);
+    private static final Log log = Log.getLog();
 
-    private static CacheHolder<ParameterCache> holder = new CacheHolder<ParameterCache>(new ParameterCache());
+    private static CacheHolder<ParameterCache> holder = new CacheHolder<>(new ParameterCache());
 
     public static Parameter getParameter(int id) {
         return holder.getInstance().parameterMap.get(id);
@@ -63,11 +61,11 @@ public class ParameterCache extends Cache<ParameterCache> {
     }
 
     /**
-     * Вывод параметров по порядку с ограничением по типам.
-     * @param pids
+     * Parameters with defined IDs.
+     * @param pids - IDs.
      * @return
      */
-    public static List<Parameter> getParameterList(Collection<Integer> pids) {
+    public static List<Parameter> getParameterList(List<Integer> pids) {
         List<Parameter> result = new ArrayList<Parameter>();
 
         for (Integer paramId : pids) {
@@ -77,6 +75,23 @@ public class ParameterCache extends Cache<ParameterCache> {
         return result;
     }
 
+    /**
+     * List of values for parameter with type 'list'.
+     * @param param
+     * @return
+     */
+    public static List<IdTitle> getListParamValues(int paramId) {
+        var param = getParameter(paramId);
+        if (param == null)
+            throw new IllegalArgumentException("Parameter not found: " + paramId);
+        return getListParamValues(param);
+    }
+
+    /**
+     * List of values for parameter with type 'list'.
+     * @param param
+     * @return
+     */
     public static List<IdTitle> getListParamValues(final Parameter param) {
         final ParameterCache instance = holder.getInstance();
 

@@ -15,9 +15,9 @@ public class MessageHelper {
     
     public static Message addNoteMessage(int processId, int userId, int timeOffset, String subject, String text) throws Exception {
         var m = new Message()
-            .setTypeId(MessageTest.messageTypeNote.getId()).setDirection(Message.DIRECTION_INCOMING).setProcessId(processId)
-            .setFromTime(TimeUtils.getDateWithOffset(timeOffset)).setToTime(TimeUtils.getDateWithOffset(timeOffset)).setUserId(userId)
-            .setSubject(subject).setText(text);
+            .withTypeId(MessageTest.messageTypeNote.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(processId)
+            .withFromTime(TimeUtils.getDateWithOffset(timeOffset)).withToTime(TimeUtils.getDateWithOffset(timeOffset)).withUserId(userId)
+            .withSubject(subject).withText(text);
         new MessageDAO(DbTest.conRoot).updateMessage(m);
         return m;
     }

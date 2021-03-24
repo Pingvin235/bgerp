@@ -1,9 +1,5 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Выпадающий список с возможностью выбора нескольких значений в т.ч. с указанием порядка"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Input field with reset and action icons"%> 
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
-
-<%-- 
- Текстовое поле ввода с иконкой сброса и выбора.
---%>
 
 <%@ attribute name="id" description="id input, если не указан - генерируется"%>
 <%@ attribute name="name" description="имя input"%>

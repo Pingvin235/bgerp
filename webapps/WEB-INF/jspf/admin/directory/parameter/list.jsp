@@ -13,7 +13,7 @@
 		title="${l.l('По наименованию, комментарию, конфигурации')}"
 		onSelect="openUrlContent( formUrl( this.form ) ); return false;"/>
 
-	<button class="btn-grey ml1" type="button" onclick="openUrlContent( formUrl( this.form) )">=&gt;</button>
+	<ui:button type="out" styleClass="ml1" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -26,9 +26,6 @@
 			<td width="50">${l.l('Тип')}</td>
 			<td width="50">${l.l('Порядок')}</td>
 			<td width="35%">${l.l('Название')}</td>
-
-			<td>${l.l('Скрипт')}</td>
-
 			<td width="20%">${l.l('Комментарий')}</td>
 			<td width="35%">${l.l('Конфигурация')}</td>
 			<c:if test="${form.param.directoryId eq 'processParameter'}">
@@ -49,15 +46,13 @@
 					<c:param name="action" value="parameterDelete" />
 					<c:param name="id" value="${item.id}" />
 				</c:url>
-				<c:url var="deleteAjaxCommandAfter"
-					value="openUrlContent( '${form.requestUrl}' )" />
+				<c:url var="deleteAjaxCommandAfter" value="openUrlContent('${form.requestUrl}')"/>
 
 				<td nowrap="nowrap"><%@ include	file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
 				<td align="right">${item.id}</td>
 				<td>${item.type}</td>
 				<td>${item.order}</td>
 				<td>${fn:escapeXml( item.title )}</td>
-				<td>${item.script}</td>
 				<td>${fn:escapeXml( item.comment )}</td>
 				<td>
 					<c:set var="maxLength" value="100"/>

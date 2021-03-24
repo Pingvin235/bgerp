@@ -85,7 +85,7 @@ public class Server extends Tomcat {
 
             AlarmSender.initSender(setup);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
             System.exit(1);
         }
     }
@@ -147,6 +147,8 @@ public class Server extends Tomcat {
         connector.setProperty("maxThreads", setup.get("connector.http.thread.max", "25"));
 
         start();
+
+        System.out.println(String.format("Server URL: 'http://%s:%s', see logs in 'log' directory", hostname, port));
     }
 
     /**

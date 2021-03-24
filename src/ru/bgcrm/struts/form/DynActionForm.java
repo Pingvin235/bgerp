@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -136,8 +137,14 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return httpRequest;
     }
 
+    /**
+     * Gets IP address of request from
+     * HTTP header 'X-Real-IP' or another defined in configuration param {@link AccessLogValve#PARAM_HEADER_NAME_REMOTE_ADDR} 
+     * or {@link ServletRequest#getRemoteAddr()}
+     * @return
+     */
     public String getHttpRequestRemoteAddr() {
-        String headerNameRemoteAddress = Setup.getSetup().get(AccessLogValve.PARAM_HEADER_NAME_REMOTE_ADDR);
+        String headerNameRemoteAddress = Setup.getSetup().get(AccessLogValve.PARAM_HEADER_NAME_REMOTE_ADDR, "X-Real-IP");
         String result = httpRequest.getHeader(headerNameRemoteAddress);
         if (result == null)
             result = httpRequest.getRemoteAddr();
@@ -420,13 +427,10 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     /**
      * Gets HTTP request parameter.
      * @param name
-     * @return a value with applied {@link String#trim()} or null if missing or empty.
+     * @return parameter value or null if missing or empty.
      */
     public String getParam(String name) {
-        var value = param.get(name);
-        if (value != null)
-            value = value.trim();
-        return value;
+        return param.get(name);
     }
 
     public void setParam(String name, String value) {

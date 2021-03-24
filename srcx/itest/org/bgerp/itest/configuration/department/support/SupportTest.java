@@ -106,27 +106,27 @@ public class SupportTest {
         processDao.updateProcessExecutors(process.getExecutors(), process.getId());
 
         var m = new Message()
-            .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_INCOMING).setProcessId(process.getId())
-            .setFrom(mail).setTo(MessageTest.messageTypeEmailDemo.getEmail())
-            .setFromTime(TimeUtils.getDateWithOffset(-7)).setToTime(TimeUtils.getDateWithOffset(-6)).setUserId(userFelixId)
-            .setSubject(subject).setText(ResourceHelper.getResource(this, "process.1.message.1.txt"));
+            .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
+            .withFrom(mail).withTo(MessageTest.messageTypeEmailDemo.getEmail())
+            .withFromTime(TimeUtils.getDateWithOffset(-7)).withToTime(TimeUtils.getDateWithOffset(-6)).withUserId(userFelixId)
+            .withSubject(subject).withText(ResourceHelper.getResource(this, "process.1.message.1.txt"));
         MessageHelper.addMessage(m);
 
         statusDao.changeStatus(process, ProcessTypeCache.getProcessType(process.getTypeId()),
             new StatusChange(process.getId(), m.getToTime(), m.getUserId(), ProcessTest.statusProgressId, ""));
 
         m = new Message()
-            .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_OUTGOING).setProcessId(process.getId())
-            .setFrom(MessageTest.messageTypeEmailDemo.getEmail()).setTo(mail)
-            .setFromTime(TimeUtils.getDateWithOffset(-6)).setToTime(TimeUtils.getDateWithOffset(-5)).setUserId(userFelixId)
-            .setSubject(subject = (MessageTypeEmail.RE_PREFIX + subject)).setText(ResourceHelper.getResource(this, "process.1.message.2.txt"));
+            .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(process.getId())
+            .withFrom(MessageTest.messageTypeEmailDemo.getEmail()).withTo(mail)
+            .withFromTime(TimeUtils.getDateWithOffset(-6)).withToTime(TimeUtils.getDateWithOffset(-5)).withUserId(userFelixId)
+            .withSubject(subject = (MessageTypeEmail.RE_PREFIX + subject)).withText(ResourceHelper.getResource(this, "process.1.message.2.txt"));
         MessageHelper.addMessage(m);
         
         m = new Message()
-            .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_INCOMING).setProcessId(process.getId())
-            .setFrom(mail).setTo(MessageTest.messageTypeEmailDemo.getEmail())
-            .setFromTime(TimeUtils.getDateWithOffset(-4)).setToTime(TimeUtils.getDateWithOffset(-4)).setUserId(userFelixId)
-            .setSubject(subject).setText(ResourceHelper.getResource(this, "process.1.message.3.txt"));
+            .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
+            .withFrom(mail).withTo(MessageTest.messageTypeEmailDemo.getEmail())
+            .withFromTime(TimeUtils.getDateWithOffset(-4)).withToTime(TimeUtils.getDateWithOffset(-4)).withUserId(userFelixId)
+            .withSubject(subject).withText(ResourceHelper.getResource(this, "process.1.message.3.txt"));
         MessageHelper.addMessage(m);
 
         statusDao.changeStatus(process, ProcessTypeCache.getProcessType(process.getTypeId()),
@@ -154,27 +154,27 @@ public class SupportTest {
         processDao.updateProcessExecutors(process.getExecutors(), process.getId());
 
         var m = new Message()
-            .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_INCOMING).setProcessId(process.getId())
-            .setFrom(mail).setTo(MessageTest.messageTypeEmailDemo.getEmail())
-            .setFromTime(TimeUtils.getDateWithOffset(-5)).setToTime(TimeUtils.getDateWithOffset(-4)).setUserId(userVyacheslavId)
-            .setSubject(subject).setText(ResourceHelper.getResource(this, "process.2.message.1.txt"));
+            .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
+            .withFrom(mail).withTo(MessageTest.messageTypeEmailDemo.getEmail())
+            .withFromTime(TimeUtils.getDateWithOffset(-5)).withToTime(TimeUtils.getDateWithOffset(-4)).withUserId(userVyacheslavId)
+            .withSubject(subject).withText(ResourceHelper.getResource(this, "process.2.message.1.txt"));
         MessageHelper.addMessage(m);
 
         statusDao.changeStatus(process, ProcessTypeCache.getProcessType(process.getTypeId()),
             new StatusChange(process.getId(), m.getToTime(), m.getUserId(), ProcessTest.statusProgressId, ""));
 
         m = new Message()
-            .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_OUTGOING).setProcessId(process.getId())
-            .setFrom(MessageTest.messageTypeEmailDemo.getEmail()).setTo(mail)
-            .setFromTime(TimeUtils.getDateWithOffset(-4)).setToTime(TimeUtils.getDateWithOffset(-4)).setUserId(DevelopmentTest.userVladimirId)
-            .setSubject(MessageTypeEmail.RE_PREFIX + subject).setText(ResourceHelper.getResource(this, "process.2.message.2.txt"));
+            .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(process.getId())
+            .withFrom(MessageTest.messageTypeEmailDemo.getEmail()).withTo(mail)
+            .withFromTime(TimeUtils.getDateWithOffset(-4)).withToTime(TimeUtils.getDateWithOffset(-4)).withUserId(DevelopmentTest.userVladimirId)
+            .withSubject(MessageTypeEmail.RE_PREFIX + subject).withText(ResourceHelper.getResource(this, "process.2.message.2.txt"));
         MessageHelper.addMessage(m);
 
         m = new Message()
-            .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_INCOMING).setProcessId(process.getId())
-            .setFrom(mail).setTo(MessageTest.messageTypeEmailDemo.getEmail())
-            .setFromTime(TimeUtils.getDateWithOffset(-3))
-            .setSubject(subject).setText(ResourceHelper.getResource(this, "process.2.message.3.txt"));
+            .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
+            .withFrom(mail).withTo(MessageTest.messageTypeEmailDemo.getEmail())
+            .withFromTime(TimeUtils.getDateWithOffset(-3))
+            .withSubject(subject).withText(ResourceHelper.getResource(this, "process.2.message.3.txt"));
         MessageHelper.addMessage(m);
         messageDao.updateMessageTags(m.getId(), Sets.newHashSet(MessageTest.tagAccess.getId()));
     }
@@ -187,10 +187,10 @@ public class SupportTest {
         var process = ProcessHelper.addProcess(processTypeSupportId, userVyacheslavId, subject);
         
         var m = new Message()
-            .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_OUTGOING).setProcessId(process.getId())
-            .setFrom(MessageTest.messageTypeEmailDemo.getEmail()).setTo(mail)
-            .setFromTime(new Date()).setUserId(DevelopmentTest.userVladimirId)
-            .setSubject(subject).setText(ResourceHelper.getResource(this, "process.3.message.1.txt"));
+            .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(process.getId())
+            .withFrom(MessageTest.messageTypeEmailDemo.getEmail()).withTo(mail)
+            .withFromTime(new Date()).withUserId(DevelopmentTest.userVladimirId)
+            .withSubject(subject).withText(ResourceHelper.getResource(this, "process.3.message.1.txt"));
         MessageHelper.addMessage(m);
     }
 }

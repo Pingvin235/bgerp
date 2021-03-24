@@ -64,8 +64,7 @@
 		</div>
 	</div>
 
-	<c:set var="toPostNames" value="['config','userConfig']"/>
-	<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
+	<ui:form-ok-cancel toPostNames="['config','userConfig']"/>
 </html:form>
 
 <shell:state ltext="${l.l('Редактор')}" help="kernel/setup.html#user"/>

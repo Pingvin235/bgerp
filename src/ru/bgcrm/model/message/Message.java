@@ -64,8 +64,12 @@ public class Message extends Id {
         return systemId;
     }
 
-    public Message setSystemId(String value) {
+    public void setSystemId(String value) {
         this.systemId = value;
+    }
+
+    public Message withSystemId(String value) {
+        setSystemId(value);
         return this;
     }
 
@@ -73,8 +77,12 @@ public class Message extends Id {
         return processId;
     }
 
-    public Message setProcessId(int value) {
+    public void setProcessId(int value) {
         this.processId = value;
+    }
+
+    public Message withProcessId(int value) {
+        setProcessId(value);
         return this;
     }
 
@@ -82,17 +90,26 @@ public class Message extends Id {
         return process;
     }
 
-    public void setProcess(Process process) {
-        this.process = process;
-        this.processId = process.getId();
+    public void setProcess(Process value) {
+        this.process = value;
+        this.processId = value.getId();
+    }
+
+    public Message withProcess(Process value) {
+        setProcess(value);
+        return this;
     }
 
     public Date getFromTime() {
         return fromTime;
     }
 
-    public Message setFromTime(Date value) {
+    public void setFromTime(Date value) {
         this.fromTime = value;
+    }
+
+    public Message withFromTime(Date value) {
+        setFromTime(value);
         return this;
     }
 
@@ -100,8 +117,12 @@ public class Message extends Id {
         return text;
     }
 
-    public Message setText(String value) {
+    public void setText(String value) {
         this.text = value;
+    }
+
+    public Message withText(String value) {
+        setText(value);
         return this;
     }
 
@@ -109,8 +130,12 @@ public class Message extends Id {
         return typeId;
     }
 
-    public Message setTypeId(int value) {
+    public void setTypeId(int value) {
         this.typeId = value;
+    }
+
+    public Message withTypeId(int value) {
+        setTypeId(value);
         return this;
     }
 
@@ -118,8 +143,12 @@ public class Message extends Id {
         return userId;
     }
 
-    public Message setUserId(int value) {
+    public void setUserId(int value) {
         this.userId = value;
+    }
+
+    public Message withUserId(int value) {
+        setUserId(value);
         return this;
     }
 
@@ -127,8 +156,12 @@ public class Message extends Id {
         return toTime;
     }
 
-    public Message setToTime(Date value) {
+    public void setToTime(Date value) {
         this.toTime = value;
+    }
+
+    public Message withToTime(Date value) {
+        setToTime(value);
         return this;
     }
 
@@ -140,8 +173,12 @@ public class Message extends Id {
         return direction;
     }
 
-    public Message setDirection(int value) {
+    public void setDirection(int value) {
         this.direction = value;
+    }
+
+    public Message withDirection(int value) {
+        setDirection(value);
         return this;
     }
 
@@ -153,8 +190,12 @@ public class Message extends Id {
         return from;
     }
 
-    public Message setFrom(String from) {
+    public void setFrom(String from) {
         this.from = from;
+    }
+
+    public Message withFrom(String from) {
+        setFrom(from);
         return this;
     }
 
@@ -162,8 +203,12 @@ public class Message extends Id {
         return to;
     }
 
-    public Message setTo(String value) {
+    public void setTo(String value) {
         this.to = value;
+    }
+
+    public Message withTo(String value) {
+        setTo(value);
         return this;
     }
 
@@ -179,8 +224,12 @@ public class Message extends Id {
         return subject;
     }
 
-    public Message setSubject(String value) {
+    public void setSubject(String value) {
         this.subject = value;
+    }
+
+    public Message withSubject(String value) {
+        setSubject(value);
         return this;
     }
 

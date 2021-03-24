@@ -16,9 +16,7 @@
 	<html:text property="pos" style="width: 100%" value="${status.pos}"/>
 	<div class="hint">${l.l('Позиция статуса в различных перечнях')}.</div>
 	
-	<div class="mt1">		
-		<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
-	</div>
+	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>
 
 <shell:state ltext="${l.l('Редактор')}" help="kernel/process/index.html#status"/>

@@ -11,7 +11,7 @@
 	
 	<%
 		Plugin p = (Plugin) request.getAttribute("plugin");
-		request.setAttribute("l", p.getLocalizer(Localization.getToLang(request)));
+		request.setAttribute("l", p.getLocalizer(Localization.getLang(request)));
 	%>
 
 	<c:set var="page" value="${plugin.endpoints[endpoint]}"/>

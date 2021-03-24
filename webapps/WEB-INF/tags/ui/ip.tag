@@ -1,4 +1,4 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Выбор даты с временем или нет"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="IP address"%> 
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="paramName" description="имя инпута"%>

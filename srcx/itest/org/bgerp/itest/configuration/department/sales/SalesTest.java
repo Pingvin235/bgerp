@@ -105,28 +105,28 @@ public class SalesTest {
         
         // original message
         var m = new Message()
-            .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_INCOMING).setProcessId(process.getId())
-            .setFrom(mail).setTo(MessageTest.messageTypeEmailDemo.getEmail())
-            .setFromTime(TimeUtils.getDateWithOffset(-10)).setToTime(TimeUtils.getDateWithOffset(-9)).setUserId(userKarlId)
-            .setSubject(subject).setText(ResourceHelper.getResource(this, "process.1.message.1.txt"));
+            .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
+            .withFrom(mail).withTo(MessageTest.messageTypeEmailDemo.getEmail())
+            .withFromTime(TimeUtils.getDateWithOffset(-10)).withToTime(TimeUtils.getDateWithOffset(-9)).withUserId(userKarlId)
+            .withSubject(subject).withText(ResourceHelper.getResource(this, "process.1.message.1.txt"));
         m.addAttach(FileHelper.addFile(new File("srcx/doc/_res/image.png")));
         MessageHelper.addMessage(m);
 
         // comment for developers -> sales
         m = new Message()
-            .setTypeId(MessageTest.messageTypeNote.getId()).setDirection(Message.DIRECTION_INCOMING).setProcessId(process.getId())
-            .setFromTime(TimeUtils.getDateWithOffset(-9)).setUserId(userKarlId)
-            .setSubject("Check possibility").setText(ResourceHelper.getResource(this, "process.1.message.2.txt"));
+            .withTypeId(MessageTest.messageTypeNote.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
+            .withFromTime(TimeUtils.getDateWithOffset(-9)).withUserId(userKarlId)
+            .withSubject("Check possibility").withText(ResourceHelper.getResource(this, "process.1.message.2.txt"));
         MessageHelper.addMessage(m);
 
         //TODO: message 3 - response note from developer with link to related process
 
         // clarification
         m = new Message()
-            .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_OUTGOING).setProcessId(process.getId())
-            .setFrom(MessageTest.messageTypeEmailDemo.getEmail()).setTo(mail)
-            .setFromTime(TimeUtils.getDateWithOffset(-4)).setToTime(TimeUtils.getDateWithOffset(-4)).setUserId(userKarlId)
-            .setSubject(MessageTypeEmail.RE_PREFIX + subject).setText(ResourceHelper.getResource(this, "process.1.message.4.txt"));
+            .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(process.getId())
+            .withFrom(MessageTest.messageTypeEmailDemo.getEmail()).withTo(mail)
+            .withFromTime(TimeUtils.getDateWithOffset(-4)).withToTime(TimeUtils.getDateWithOffset(-4)).withUserId(userKarlId)
+            .withSubject(MessageTypeEmail.RE_PREFIX + subject).withText(ResourceHelper.getResource(this, "process.1.message.4.txt"));
         MessageHelper.addMessage(m);
     }
 
@@ -145,17 +145,17 @@ public class SalesTest {
         processDao.updateProcessExecutors(process.getExecutors(), process.getId());
 
         var m = new Message()
-            .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_INCOMING).setProcessId(process.getId())
-            .setFrom(mail).setTo(MessageTest.messageTypeEmailDemo.getEmail())
-            .setFromTime(TimeUtils.getDateWithOffset(-5)).setToTime(TimeUtils.getDateWithOffset(-4)).setUserId(userFriedrichId)
-            .setSubject(subject).setText(ResourceHelper.getResource(this, "process.2.message.1.txt"));
+            .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
+            .withFrom(mail).withTo(MessageTest.messageTypeEmailDemo.getEmail())
+            .withFromTime(TimeUtils.getDateWithOffset(-5)).withToTime(TimeUtils.getDateWithOffset(-4)).withUserId(userFriedrichId)
+            .withSubject(subject).withText(ResourceHelper.getResource(this, "process.2.message.1.txt"));
         MessageHelper.addMessage(m);
         
         m = new Message()
-            .setTypeId(MessageTest.messageTypeEmailDemo.getId()).setDirection(Message.DIRECTION_OUTGOING).setProcessId(process.getId())
-            .setFrom(MessageTest.messageTypeEmailDemo.getEmail()).setTo(mail)
-            .setFromTime(TimeUtils.getDateWithOffset(-4)).setToTime(TimeUtils.getDateWithOffset(-3)).setUserId(userFriedrichId)
-            .setSubject(MessageTypeEmail.RE_PREFIX + subject).setText(ResourceHelper.getResource(this, "process.2.message.2.txt"));
+            .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(process.getId())
+            .withFrom(MessageTest.messageTypeEmailDemo.getEmail()).withTo(mail)
+            .withFromTime(TimeUtils.getDateWithOffset(-4)).withToTime(TimeUtils.getDateWithOffset(-3)).withUserId(userFriedrichId)
+            .withSubject(MessageTypeEmail.RE_PREFIX + subject).withText(ResourceHelper.getResource(this, "process.2.message.2.txt"));
         MessageHelper.addMessage(m);
     }
 }

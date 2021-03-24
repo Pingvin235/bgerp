@@ -146,7 +146,7 @@ $$.shell = new function () {
 				if ($taskButton.length == 0) {
 					$('#taskPanel')
 						.append(sprintf("<div class='btn-blue btn-task-active' id='%s' title='%s'><span class='title'>%s</span>" +
-							(pinned ? "" : "<span class='icon-close'><img src='/images/cross-white.png'/></span>") + "</div>",
+						(pinned ? "" : "<span class='icon-close'><img src='/images/cross-white.png'/></span>") + "</div>",
 							id, item.title, item.title));
 					$taskButton = $('#taskPanel > div#' + id);
 
@@ -377,7 +377,7 @@ $$.shell = new function () {
 			stopTimer: function () {}
 		};
 
-		if ($$.pers["iface.buffer.openOnLongPress"] || 1 === 1)	{
+		if (($$.pers["iface.buffer.openOnLongPress"] || 0) === 1)	{
 			const debug = $$.debug("buffer");
 
 			var $buffer = $("#objectBuffer");
@@ -385,7 +385,7 @@ $$.shell = new function () {
 
 			popupObjectBuffer =  {
 				startTimer: function (event) {
-					// буфер уже отображается
+					// buffer is shown
 					if ($bufferDrop.is(":visible"))
 						return;
 

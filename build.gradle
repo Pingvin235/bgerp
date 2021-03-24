@@ -42,8 +42,8 @@ configurations {
 }
 
 dependencies {
-    // OpenJDK 11 
-    // http://qaru.site/questions/16251978/migration-jaxws-application-from-java-8-to-java-11 
+    // OpenJDK 11
+    // http://qaru.site/questions/16251978/migration-jaxws-application-from-java-8-to-java-11
     // https://www.jesperdj.com/2018/09/30/jaxb-on-java-9-10-11-and-beyond/
     bgerp 'javax.xml.bind:jaxb-api:2.3.1'
     bgerp 'org.glassfish.jaxb:jaxb-runtime:2.3.1' // 2.4.0-b180830.0438
@@ -59,13 +59,13 @@ dependencies {
     bgerp 'com.sun.xml.messaging.saaj:saaj-impl:1.5.0'
     bgerp 'org.glassfish.gmbal:gmbal-api-only:3.1.0-b001'
     bgerp 'org.jvnet.mimepull:mimepull:1.9.10'
-    
+
     // библиотеки для BGERP, утилит и плагинов (добавлять после новые библиотеки)
     bgerp 'org.apache.commons:commons-lang3:3.8.1'
     bgerp 'log4j:log4j:1.2.17'
     // needed only for StackLocatorUtils
-    bgerp 'org.apache.logging.log4j:log4j-api:2.11.2'	
-    
+    bgerp 'org.apache.logging.log4j:log4j-api:2.11.2'
+
     bgerp 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.12'
     bgerp 'org.eclipse.jdt.core.compiler:ecj:4.6.1'
     bgerp 'org.apache.tomcat.embed:tomcat-embed-el:9.0.12'
@@ -73,15 +73,15 @@ dependencies {
     bgerp files('lib/tomcat9/tomcat-embed-core-9.0.12.jar')
     // uncomment the following dependency and comment previous line for retriving sources and debug
     //bgerp 'org.apache.tomcat.embed:tomcat-embed-core:9.0.12'
-    
+
     bgerp 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2'
     bgerp 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
-    
+
     bgerp 'org.apache.struts:struts-core:1.3.10'
     bgerp 'org.apache.struts:struts-extras:1.3.10'
     bgerp 'org.apache.struts:struts-taglib:1.3.10'
     bgerp 'org.apache.struts:struts-tiles:1.3.10'
-    
+
     bgerp 'com.sun.mail:javax.mail:1.6.2'
     bgerp 'javax.activation:activation:1.1.1' //TODO: Fix using classes and remove library.
     bgerp 'com.google.guava:guava:27.0.1-jre'
@@ -102,17 +102,17 @@ dependencies {
     bgerp 'org.apache.httpcomponents:fluent-hc:4.5.7'
     bgerp 'org.apache.httpcomponents:httpclient:4.5.7'
     bgerp 'org.apache.httpcomponents:httpcore:4.4.11'
-    bgerp 'com.fasterxml.jackson.core:jackson-annotations:2.9.8' // TODO: get rid together with XSLT
-    bgerp 'com.fasterxml.jackson.core:jackson-core:2.9.8' // TODO: get rid together with XSLT
-    bgerp 'com.fasterxml.jackson.core:jackson-databind:2.4.1.3'  // 2.9.8 TODO: get rid together with XSLT
+    bgerp 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
+    bgerp 'com.fasterxml.jackson.core:jackson-core:2.9.8'
+    bgerp 'com.fasterxml.jackson.core:jackson-databind:2.4.1.3'
     bgerp 'net.sf.jasperreports:jasperreports:6.7.0'
     bgerp 'org.jsoup:jsoup:1.11.3'
     bgerp 'mysql:mysql-connector-java:8.0.19'
     bgerp 'org.apache.poi:poi:4.0.1'
     bgerp 'org.apache.commons:commons-collections4:4.3' // required for poi
-    bgerp 'xalan:xalan:2.7.1'
-    bgerp 'xalan:serializer:2.7.1'
-    bgerp 'net.sf.saxon:Saxon-HE:9.4'
+    bgerp 'xalan:xalan:2.7.1' // TODO: get rid together with XSLT
+    bgerp 'xalan:serializer:2.7.1' // TODO: get rid together with XSLT
+    bgerp 'net.sf.saxon:Saxon-HE:9.4' // 2.9.8 TODO: get rid together with XSLT
     bgerp 'javax.annotation:javax.annotation-api:1.3.2'
     bgerp 'org.asteriskjava:asterisk-java:3.3.0'
     bgerp 'org.reflections:reflections:0.9.12' // required for asteriskjava
@@ -139,7 +139,7 @@ dependencies {
 
     // documentation library
     doc 'org.pzdcdoc:pzdcdoc:1.9'
-    
+
     // Unit tests of the main code
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-core:1.3'
@@ -147,16 +147,16 @@ dependencies {
     // testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
     // testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
     // testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.1.0'
-    
+
     // integration test
-    itest 'org.testng:testng:7.1.0' // '6.14.3' 
+    itest 'org.testng:testng:7.1.0' // '6.14.3'
     itest 'com.beust:jcommander:1.72'
     itest 'org.seleniumhq.selenium:selenium-java:3.141.59'
     itest 'org.seleniumhq.selenium:selenium-api:3.141.59'
     itest 'org.seleniumhq.selenium:selenium-remote-driver:3.141.59'
     itest 'org.seleniumhq.selenium:selenium-support:3.141.59'
     itest 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
-    itest 'com.squareup.okhttp3:okhttp:3.13.1'	
+    itest 'com.squareup.okhttp3:okhttp:3.13.1'
     itest 'org.jetbrains.kotlin:kotlin-stdlib:1.3.21'
     itest 'com.squareup.okio:okio:2.2.2'
     itest 'net.bytebuddy:byte-buddy:1.9.10'
@@ -296,10 +296,10 @@ task touchChanges {
 def getProcessId() {
     def branchName = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
     println "Branch name: $branchName"
-        
+
     def m  = branchName =~ /^p(\d+)\-/
     if (!m) throw new GradleException("Incorrect branch name: $branchName")
-        
+
     def processId = m[0][1]
     println "Process ID: $processId"
 
@@ -347,7 +347,7 @@ task integrationTest(type: Test) {
 
     useTestNG() {
         def propInclude = findProperty("groups.include")
-        if (propInclude) { 
+        if (propInclude) {
             includeGroups propInclude
         }
     }

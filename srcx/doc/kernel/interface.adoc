@@ -232,6 +232,19 @@ Where:
 === Localization
 For <<../project.adoc#l10n, localization>> of the Open interface add HTTP request parameter *lang=<LANG>*, where *<LANG>* - shortcut of the wanted language.
 
+[[elements]]
+== UI elements
+Button colors have the following meanings.
+[ditaa]
+----
+/-----\              /-----\                              /-----\              
+|c4F3 | Add / create |c666 | DB action (select or change) |cEEE | Other actions
+\-----/              \-----/                              \-----/              
+----
+
+In the documentation UI schemes are show using special notation, <<install.adoc#installer-iface, example>>.
+
+[[id]]
 == Коды объектов
 Числовые коды объекты, они же *идентификаторы*, необходимы для однозначного определения различных объектов данных в системе. 
 Например, параметров, статусов и т.п. Генерируются при создании и не меняются в течении всего срока жизни объекта. 
@@ -243,6 +256,7 @@ image::_res/i0118.png[]
 Также в конфигурациях могут потребоваться коды объектов внешних систем, например, 
 link:https://bgbilling.ru/v6.1/doc/ch01s08.html[BGBilling] (получение кодов описано в разделе "Горячие клавиши").
 
+[[config]]
 == Конфигурации
 Очень большое количество редко меняющихся настроек поведения системы вынесено в конфигурации. 
 Конфигурация - это текстовый блок, состоящих из записей вида: *<ключ>=<значение>*. 

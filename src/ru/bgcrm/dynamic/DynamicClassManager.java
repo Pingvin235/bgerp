@@ -77,7 +77,7 @@ public class DynamicClassManager {
 
     private DynamicClassManager(ClassLoader parentClassLoader) {
         this.parentClassLoader = parentClassLoader;
-        this.javac = new CompilerWrapper(getScriptsDir(), new File(System.getProperty("java.io.tmpdir")));
+        this.javac = new CompilerWrapper(getScriptsDir(), new File(Utils.getTmpDir()));
     }
 
     /**
@@ -117,6 +117,9 @@ public class DynamicClassManager {
             loadedClasses.clear();
 
             result = recompile(getDynamicClassNames());
+
+            if (!result.isResult())
+                throw new CompilationFailedException(result);
 
             log.info("Successfully recompiled dyn classes.");
         } catch (CompilationFailedException ex) {

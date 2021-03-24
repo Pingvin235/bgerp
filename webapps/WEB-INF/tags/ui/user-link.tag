@@ -1,4 +1,4 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Ссылка на открытие процесса"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Link for opening of user"%> 
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="id" description="User ID" required="true" type="java.lang.Integer"%>

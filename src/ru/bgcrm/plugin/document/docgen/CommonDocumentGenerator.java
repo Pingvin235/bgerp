@@ -1,22 +1,18 @@
 package ru.bgcrm.plugin.document.docgen;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
@@ -28,19 +24,11 @@ import org.apache.log4j.lf5.util.StreamUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import net.sf.saxon.s9api.DOMDestination;
-import net.sf.saxon.s9api.Destination;
 import net.sf.saxon.s9api.Processor;
-import net.sf.saxon.s9api.XsltCompiler;
-import net.sf.saxon.s9api.XsltExecutable;
-import net.sf.saxon.s9api.XsltTransformer;
 import ru.bgcrm.event.Event;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.listener.DynamicEventListener;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.plugin.bgbilling.event.RegisterExtensionFunctionsEvent;
-import ru.bgcrm.plugin.document.PadegExtensionFunction;
 import ru.bgcrm.plugin.document.dao.DocumentDAO;
 import ru.bgcrm.plugin.document.event.DocumentGenerateEvent;
 import ru.bgcrm.plugin.document.model.Pattern;
@@ -68,12 +56,12 @@ public class CommonDocumentGenerator
 		this.conSet = conSet;
 	}
 
-	private static final void addParamElement( Element requestEl, String name, String val )
+	/* private static final void addParamElement( Element requestEl, String name, String val )
 	{
 		Element paramEl = XMLUtils.newElement( requestEl, "param" );
 		paramEl.setAttribute( "name", name );
 		paramEl.setAttribute( "value", val );
-	}
+	} */
 
 	@Override
 	public void notify( Event e, ConnectionSet conSet )
@@ -364,7 +352,8 @@ public class CommonDocumentGenerator
 		}
 		else
 		{
-			processXslt( objectId, new DOMDestination( result.getFirst() ) );
+			throw new IllegalArgumentException("JSP is empty");
+			// processXslt( objectId, new DOMDestination( result.getFirst() ) );
 		}
 
 		return result;
@@ -387,7 +376,7 @@ public class CommonDocumentGenerator
 		}
 	}
 
-	private void processXslt( int objectId, Destination result )
+	/* private void processXslt( int objectId, Destination result )
 		throws Exception
 	{
 		Processor proc = new Processor( false );
@@ -442,7 +431,7 @@ public class CommonDocumentGenerator
 		transformer.setDestination( result );
 
 		transformer.transform();
-	}
+	} */
 
 	// функцию можно переопределить для регистрации произвольных функций XSLT
 	protected void registerExtensionFunctions( ConnectionSet conSet, Processor proc )

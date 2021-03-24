@@ -27,23 +27,17 @@ Information shown to the end-user via interface has to be <<l10n, localized>>.
 == Project
 [[env]]
 === Environment
-The program can be developed on any Java-supported platform:
-[square]
-* Windows;
-* Linux;
-* MacOS.
+The program can be developed on any Java-supported platform.
 
+==== Windows
 Minimal required set of software:
 [square]
-* <<kernel/install.adoc#java, OpenJDK>>;
-* Docker or <<kernel/install.adoc#mysql, MySQL Server>>.
+* link:https://adoptopenjdk.net[OpenJDK 11];
+* link:https://hub.docker.com/editions/community/docker-ce-desktop-windows[Docker for Windows];
+* link:https://git-scm.com/download/win[GIT].
 
 [[env-console]]
-==== Shell for Windows
-NOTE: Skip this chapter when using *NIX OS.
-
-Console link:https://git-scm.com/download/win[client] for version control system <<workflow, GIT>>.
-
+===== Shell
 System of <<build, build and publish>> is written on Bash scripts and uses GNU utilities, you can use the following when using Windows:
 [square]
 * link:https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10[WSL 2] - embedded in Windows virtual Linux machine;
@@ -51,9 +45,24 @@ System of <<build, build and publish>> is written on Bash scripts and uses GNU u
 
 The best console emulator on Windows with embedded FAR Manager - link:https://conemu.github.io/[ConEmu].
 
+==== Linux
+Install using a package manager:
+[square]
+* <<kernel/install.adoc#java, OpenJDK 11>>;
+* Docker;
+* GIT.
+
 [[checkout]]
 === Checkout
-Checkout the project using GIT to an wanted directory, e.g.: `bgerp`.
+Checkout the project using GIT to an wanted directory, e.g.: `BGERP`.
+
+[[checkout-contrib]]
+==== Contributors
+For project's contributors, internal repo with <<workflow, branches>>:
+[source]
+----
+git clone https://git.pzdc.de/bgerp/bgerp.git BGERP
+----
 
 Configure GIT inside the directory. Use your name and email instead.
 [source]
@@ -64,6 +73,15 @@ git config pull.rebase true
 git config core.fileMode false
 git config core.longpaths true
 git config core.autocrlf false
+----
+
+[[checkout-reader]]
+==== Read-only access
+For only readers, including <<kernel/extension.adoc#custom, custom>> developers.
+
+[source]
+----
+git clone https://github.com/Pingvin235/bgerp BGERP
 ----
 
 [[run]]
@@ -722,9 +740,12 @@ use its wrapper - ru.bgcrm.util.sql.PreparedDelay[]. The latter allows to 'glue'
 
 [[jsp]]
 ==== JSP View
-HTML gets rendered on server-side using <<kernel/extension.adoc#jsp, JSP templates>> after receiving data from Action.
+HTML gets rendered on server-side using JSP templates after receiving data from Action.
 UI uses a set of unified components - thanks to that in most cases there is no need to install additional styles or create additional JS handlers.
 <<sample-jsp-ui, JSP UI code>> examples.
+
+The principal schema of JSP work looks like: 
+image::_res/project_jsp_schema.png[]
 
 [[jsp-request-params]]
 ===== SetRequestParamsFilter
@@ -802,13 +823,14 @@ A typical scheme for attaching JS code to HTML is to setup event handler with a 
 
 Deprecated JS functions are marked using the following method:
 [snippet, from="fun", to="}"]
-link:../../webapps/js/kernel.ajax.js#L398-L402[webapps/js/kernel.ajax.js]
+link:../../webapps/js/kernel.ajax.js#L413-L417[webapps/js/kernel.ajax.js]
 
 When such a function gets invoked, browser console gets a "clickable" "Deprecated" message which allows to find a this deprecated function call
 It is forbidden to use those functions in the new code, usage has to be decreased in the existing code over time.
 
 [[custom-level]]
 === Customization
+//TODO: Merge the chapter with extension.adoc#tech-choice
 One of the main solution's prioritized features are extensibility and flexibility.
 Said that, standard functions can be <<kernel/extension.adoc#tech-choice, extended>> by using several methods.
 
@@ -851,7 +873,7 @@ System language is defined globally within <<kernel/setup.adoc#config, configura
 XML localization file `l10n.xml` are located in <<plugin-l10n, plugin's packages>>.
 New localization phrases should be added to the end of the list in the file.
 
-Custom localization may overwrite all of them and read out `custom/l10n.xml` file in case of existing that.
+<<kernel/extension.adoc#custom-l10n, Custom>> localization may overwrite all of them and read out `custom/l10n.xml` file in case of existing that.
 
 The key of the localizing phrase is the first entry in any language, for example Russian:
 [source, xml]
@@ -1009,6 +1031,17 @@ link:../../src/ru/bgcrm/struts/action/MessageAction.java#L282-L294[ru.bgcrm.stru
 Saving and restoring a value at once:
 [snippet, from="//", to=");", remove-leading="    "]
 link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L53-L57[ru.bgcrm.struts.action.ProcessLinkAction]
+
+[[sample-personalization-map-ff]]
+=== Feature flag for UI
+Option stored in user personalization map. UI dropbox available in user profile settings.
+[snippet, from="<c:s", to="le>", remove-leading="							"]
+link:../../webapps/WEB-INF/jspf/user/profile/default.jsp#L39-L45[webapps/WEB-INF/jspf/user/profile/default.jsp]
+
+Stored values may be read in JSP pages using in the same *ctxUser.personalizationMap* way,
+but also available in JS like for this case.
+[snippet, from="if (", to=");", remove-leading="		"]
+link:../../webapps/js/kernel.shell.js#L380-L381[webapps/js/kernel.shell.js]
 
 [[sample-tab-element-count]]
 === Depicting element count on a tab

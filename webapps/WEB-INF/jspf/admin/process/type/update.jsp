@@ -13,8 +13,8 @@
 		<c:otherwise>
 			<html:hidden property="parentTypeId"/>
 		</c:otherwise>
-	</c:choose>	
-			
+	</c:choose>
+
 	<h2>ID</h2>
 	<input type="text" name="id" value="${form.param['id']}" disabled="disabled" style="width: 100%;"/>
 	
@@ -30,14 +30,13 @@
 		<c:set var="hiddenName" value="useParent"/>
 		<c:if test="${type.useParentProperties}">
 			<c:set var="value" value="1"/>
-		</c:if>	
+		</c:if>
 		<c:set var="style" value="width: 100px;"/>
 		<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 	</u:sc>
-	
-	<div class="mt1">
-		<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
+	<div>
+		<ui:form-ok-cancel styleClass="mt1"/>
 	</div>
 </html:form>
 
-<shell:state ltext="${l.l('Редактор типа')}" help="kernel/process/index.html#type"/>
+<shell:state ltext="Редактор типа" help="kernel/process/index.html#type"/>

@@ -6,28 +6,28 @@
 <form id="newsCreateForm" class="center1020" action="/user/news.do" method="post" name="dynForm" onsubmit="return false;">
 	<input type="hidden" name="action" value="newsUpdate" />
 	<input type="hidden" name="id" value="${news.id}" />
-		
-		
+
+
 	<c:if test="${form.param.requestUserId > 0}">
 		<input type="hidden" name="requestUserId" value="${form.param.requestUserId}" />
 	</c:if>
-	
+
 	<h2>${l.l('Заголовок')}</h2>
 	<input type="text" name="title" style="width: 100%;" value="${news.title}"/>
 	<h2>${l.l('Полный текст')} ${isMsg == 1 ? 'сообщения' : 'новости'}</h2>
 	<textarea style="width: 100%;" rows="10" name="description"></textarea>
 	<span class="hint">${l.l('В тексте новости допустима HTML разметка.')}</span>
-	
+
 	<div>
 		<div style="width: 50%; display: inline-block;">
 			<h2>${l.l('Время на прочтение')}</h2>
 			<input type="text" name="readTime" value="${not empty news ? news.readTime : 240}" style="text-align: center; width: 102px;"/>
 			<span class="hint">${l.l('Через какое количество часов новость будет помечена прочитана для адресатов независимо от фактического прочтения.')}</span>
-			
+
 			<h2>${l.l('Время жизни новости')}</h2>
 			<input type="text" name="lifeTime" value="${not empty news ? news.lifeTime : 300}" style="text-align: center; width: 102px;"/>
 			<span class="hint">${l.l('Через какое количество суток новость будет удалена для всех адресатов.')}</span>
-			
+
 			<h2>${l.l('Тип новости')}</h2>
 			<u:sc>
 				<c:set var="style" value="width: 150px;"/>
@@ -37,29 +37,27 @@
 					<li value="1">${l.l('Всплывающая')}</li>
 				</c:set>
 				<c:set var="hiddenName" value="type"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
-			</u:sc>			
+				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
+			</u:sc>
 		 </div><%--
 	 --%><div style="width: 50%; display: inline-block; vertical-align: top;">
 	 		<c:if test="${not(form.param.requestUserId > 0 )}">
 				<h2>${l.l('Группы')}</h2>
-				
+
 				<u:sc>
 					<c:set var="list" value="${ctxUserGroupList}" />
 					<c:set var="hiddenName" value="group"/>
 					<c:set var="values" value="${news.groupIds}"/>
 					<c:set var="style" value="width: 100%;"/>
-					<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>	
+					<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>
 				</u:sc>
-				
+
 				<span class="hint">${l.l('Если группы не указаны - новость получают все пользователи.')}</span>
-			</c:if>	
+			</c:if>
 		</div>
 	</div>
-	
-	<div class="mt1">
-		<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
-	</div>				
+
+	<ui:form-ok-cancel styleClass="mt1"/>
 </form>
 
 <c:set var="state" value="${l.l('Создание новости')}"/>

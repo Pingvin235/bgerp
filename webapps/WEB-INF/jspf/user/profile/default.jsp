@@ -37,10 +37,10 @@
 						</td>
 						<td>
 							<c:set var="key" value="iface.buffer.openOnLongPress"/>
-							<ui:combo-single hiddenName="${key.replace( '.', '_' )}" value="${u:getFromPers(ctxUser, key, '1')}" widthTextValue="50px">
+							<ui:combo-single hiddenName="${key}" value="${ctxUser.personalizationMap.get(key, '')}" widthTextValue="50px">
 								<jsp:attribute name="valuesHtml">
-									<li value="1">${l.l('Да')}</li>
 									<li value="0">${l.l('Нет')}</li>
+									<li value="1">${l.l('Да')}</li>
 								</jsp:attribute>
 							</ui:combo-single>
 						</td>
@@ -52,7 +52,7 @@
 						</td>
 						<td>
 							<c:set var="key" value="iface.buffer.behavior"/>
-							<ui:combo-single hiddenName="${key.replace( '.', '_' )}" value="${u:getFromPers(ctxUser, key, '1')}" widthTextValue="200px">
+							<ui:combo-single hiddenName="${key}" value="${ctxUser.personalizationMap.get(key, '1')}" widthTextValue="200px">
 								<jsp:attribute name="valuesHtml">
 									<li value="1">${l.l('Последний объект сверху')}</li>
 									<li value="2">${l.l('Сохранять порядок объектов')}</li>
@@ -67,10 +67,22 @@
 						</td>
 						<td>
 							<c:set var="key" value="iface.buffer.maxObjects"/>
-							<c:set var="inputName" value="${key.replace( '.', '_' )}"/>
-							<c:set var="value" value="${u:getFromPers( ctxUser, key, '15' )}"/>
-								
-							<input type="text" name="${inputName}" value="${value}" size="10"/>
+							<input type="text" name="${key}" value="${ctxUser.personalizationMap.get(key, '15')}" size="10"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td nowrap="nowrap">
+							${l.l('Динамический код')}
+						</td>
+						<td>
+							<c:set var="key" value="iface.dyncode"/>
+							<ui:combo-single hiddenName="${key}" value="${ctxUser.personalizationMap.get(key, '')}" widthTextValue="200px">
+								<jsp:attribute name="valuesHtml">
+									<li value="0">${l.l('Скрыть')}</li>
+									<li value="1">${l.l('Отобразить')}</li>
+								</jsp:attribute>
+							</ui:combo-single>
 						</td>
 					</tr>
 					

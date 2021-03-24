@@ -10,10 +10,15 @@
 
 <c:if test="${not empty result}">
 	<div class="mt1">
-		<b>${l.l('Результат компиляции')}:</b><br/><br/>
+		<b>${l.l('Результат компиляции')}:</b><br/>
 		${u:htmlEncode(result.logString)}
 	</div>
+	<p:check action="ru.bgcrm.struts.action.admin.AppAction:restart">
+		<c:if test="${result.result}">
+			<button class="mt1 btn-grey" type="button" onclick="$$.ajax.post('/admin/app.do?action=restart')">${l.l('Перезапустить')}</button>
+		</c:if>
+	</p:check>
 </c:if>
 
-<shell:title ltext="Кастомизация"/>
+<shell:title ltext="Custom"/>
 <shell:state help="kernel/extension.html#custom"/>

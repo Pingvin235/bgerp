@@ -15,9 +15,7 @@
 	<h2>${l.l('Описание')}</h2>
 	<input type="text" name="comment" style="width: 100%" value="${dispatch.comment}"/>			
 	
-	<div class="mt1">
-		<%@ include file="/WEB-INF/jspf/send_and_cancel_form.jsp"%>
-	</div>
+	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>
 
 <c:set var="state" value="${l.l('Редактор')}"/>

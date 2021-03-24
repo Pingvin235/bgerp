@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -387,8 +388,20 @@ public class Queue extends IdTitle {
         return filterList;
     }
 
+    @Deprecated
     public Map<Integer, Processor> getProcessorMap() {
         return processorMap;
+    }
+
+    /**
+     * Processors for interface.
+     * @param iface value from {@link org.bgerp.Interface}.
+     * @return
+     */
+    public List<Processor> getProcessors(String iface) {
+        return processorMap.values().stream()
+            .filter(p -> p.getIface().equals(iface))
+            .collect(Collectors.toList());
     }
 
     public SortSet getSortSet() {
