@@ -70,42 +70,24 @@
 	</html:form>		
 
 	<p:check action="ru.bgcrm.plugin.document.struts.action.DocumentAction:uploadDocument">
-		<form id="${uploadFormId}" action="../user/plugin/document/document.do" method="POST" enctype="multipart/form-data" name="form">
+		<form id="${uploadFormId}" action="/user/plugin/document/document.do" method="POST" enctype="multipart/form-data" name="form">
 			<input type="hidden" name="action" value="uploadDocument"/>
 			<input type="hidden" name="responseType" value="json"/>
 			<input type="hidden" name="id" value="${id}"/>
 			<input type="hidden" name="objectType" value="${form.param.objectType}"/>
 			<input type="hidden" name="objectId" value="${form.param.objectId}"/>
 			<div style="display: none; max-width: 0; max-height: 0;">
-				<input type="file" name="file" onchange="$(this.form).submit();" style="visibility:hidden; display: none;"/>
+				<input type="file" name="file" style="visibility:hidden; display: none;"/>
 			</div>	
-			<button type="button" class="btn-green ml1" onclick="$(this.form).find('input[name=file]').click();" title="Загрузить документ">+?</button>
+			<button type="button" class="btn-green ml1" onclick="$$.ajax.triggerUpload('${uploadFormId}');" title="Загрузить документ">+?</button>
 		</form>
 	</p:check>
 </div>
 
 
 <script>
-	$(function()
-	{
-		${onChangeCode}
-		
-		$('#${uploadFormId}').iframePostForm
-		({
-			json : true,
-			post : function()
-			{
-				if( $('#${uploadFormId} input[type=file]').val().length == 0 )
-				{
-					alert( "Не выбран файл!" );
-					return false;
-				}	
-			},
-			complete : function( response )
-			{
-				openUrlToParent( '${form.requestUrl}', $('#${uiid}') );
-			}
-		});
+	$$.ajax.upload('${uploadFormId}', 'document-upload', function () {
+		$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent());
 	});
 </script>
 

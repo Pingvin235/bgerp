@@ -164,53 +164,16 @@
 									<input type="hidden" name="responseType" value="json" />
 									<input type="hidden" name="id" value="${id}" />
 									<input type="hidden" name="paramId" value="${parameter.id}" />
-									<c:choose>
-										<c:when test="${parameter.configMap.needComment}">
-											<input type="file" name="file" style="visibility: block" />
-											${l.l('Комментарий')}<input type="text" name="comment" value="" />
-											<input type="button" class="btn-white btn-small" value="Выгрузить" onclick="$(this.form).submit();" />
-										</c:when>
-										<c:otherwise>
-											<input type="button" class="btn-white btn-small" value="+" onclick="$(this.form).find('input[name=file]').click();"/>
-											<input type="file" name="file" onchange="$(this.form).submit();" style="visibility:hidden"/>
-										</c:otherwise>
-									</c:choose>
+									
+									<input type="button" class="btn-white btn-small" value="+" onclick="$$.ajax.triggerUpload('${uploadFormId}');"/>
+									<input type="file" name="file" style="visibility:hidden;"/>
 								</form>
 							</div>
 
 							<script>
-								$(function()
-								{
-									$('#${uploadFormId}').iframePostForm
-									({
-										json : true,
-										post : function()
-										{
-											var filePath = $('#${uploadFormId} input[type=file]').val();
-											var fileName = filePath.substr(filePath.lastIndexOf('\\') + 1);
-
-											if( fileName.length == 0 )
-											{
-												alert( "Не выбран файл!" );
-												return false;
-											}
-											if($('#${uploadFormId} input[name=comment]').size > 0)
-											{
-												if($('#${uploadFormId} input[name=comment]').val().length == 0 && $('a:contains(' + fileName + ')').length != 0 )
-												{
-													alert( "Отсутствует комментарий" );
-													return false;
-												}
-											}
-										},
-										complete : function( response )
-										{
-											openUrlToParent( '${form.requestUrl}', $('#${tableId}') )
-											//openProcess('${id}');
-										}
-									});
+								$$.ajax.upload('${uploadFormId}', 'param-file-upload', function () {
+									$$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());
 								});
-								$('div[overrided=1]').toggle();
 							</script>
 						</c:if>
 					</c:when>

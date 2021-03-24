@@ -349,6 +349,7 @@
 	<p><ru>Восстановить</ru><en>Reestablish</en></p>
 	<p><ru>К списку типов</ru><en>To the list of types</en></p>
 	<p><ru>Свойства типа</ru><en>Type properties</en></p>
+	<p><ru>Запрещено повторное добавление файла с одинаковым именем.</ru><en>Adding file with same name two times is denied.</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

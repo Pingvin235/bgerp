@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.document.struts.action;
+package ru.bgcrm.plugin.document.action;
 
 import java.io.FileInputStream;
 import java.io.OutputStream;
@@ -25,16 +25,20 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.plugin.document.Config;
+import ru.bgcrm.plugin.document.Plugin;
 import ru.bgcrm.plugin.document.dao.DocumentDAO;
 import ru.bgcrm.plugin.document.event.DocumentGenerateEvent;
 import ru.bgcrm.plugin.document.model.Document;
 import ru.bgcrm.plugin.document.model.Pattern;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/user/plugin/document/document")
 public class DocumentAction extends BaseAction {
+    private static final String JSP_PATH = Plugin.PATH_JSP_USER;
     
     public ActionForward documentList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         Config config = setup.getConfig(Config.class);
@@ -60,7 +64,7 @@ public class DocumentAction extends BaseAction {
 
         form.getHttpRequest().setAttribute("patternList", patterns);
 
-        return data(con, mapping, form, FORWARD_DEFAULT);
+        return data(con, form, JSP_PATH + "/document_list.jsp");
     }
 
     public ActionForward uploadDocument(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {

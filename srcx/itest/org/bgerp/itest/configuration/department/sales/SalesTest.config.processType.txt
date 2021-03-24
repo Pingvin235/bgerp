@@ -1,3 +1,6 @@
 #
 # notifications config 
 include.{@CONFIG_PROCESS_NOTIFICATIONS_ID}=1
+#
+document:processShowDocuments=1
+#

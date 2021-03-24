@@ -32,7 +32,7 @@ import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.util.TimeUtils;
 
-@Test(groups = "depSales", dependsOnGroups = { "user", "configProcessNotification", "process", "param", "depDev" })
+@Test(groups = "depSales", dependsOnGroups = { "user", "configProcessNotification", "process", "param", "depDev", "document" })
 public class SalesTest {
     private int groupId;
 

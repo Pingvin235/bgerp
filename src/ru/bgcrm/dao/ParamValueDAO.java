@@ -900,101 +900,97 @@ public class ParamValueDAO extends CommonDAO {
      * @param version версия файла.
      * @param comment примечение.
      * @param fileData значение параметра данной версии, если null - удаление значения с позиции.
-     * @throws BGException
+     * @throws Exception
      */
     public void updateParamFile(int id, int paramId, int position, int version, String comment, FileData fileData)
-            throws BGException {
-        try {
-            //TODO: При position=-1 - сделать удаление всех значений параметра, как в #updateParameterEmail.
-            if (fileData == null) {
-                FileData currentValue = getParamFile(id, paramId, position, version);
-                if (currentValue != null) {
+            throws Exception {
+        //TODO: При position=-1 - сделать удаление всех значений параметра, как в #updateParameterEmail.
+        if (fileData == null) {
+            FileData currentValue = getParamFile(id, paramId, position, version);
+            if (currentValue != null) {
 
-                    String query = "DELETE FROM " + TABLE_PARAM_FILE
-                            + " WHERE id=? AND param_id=? AND n=? AND version=?";
+                String query = "DELETE FROM " + TABLE_PARAM_FILE
+                        + " WHERE id=? AND param_id=? AND n=? AND version=?";
 
-                    PreparedStatement ps = con.prepareStatement(query);
-                    ps.setInt(1, id);
-                    ps.setInt(2, paramId);
-                    ps.setInt(3, position);
-                    ps.setInt(4, version);
-                    ps.executeUpdate();
-                    ps.close();
-
-                    //проверка на оставшиеся ссылки на файл
-                    query = "SELECT COUNT(*) FROM " + TABLE_PARAM_FILE + " AS pf " + " LEFT JOIN " + TABLE_FILE_DATE
-                            + " AS fd ON fd.id = pf.value " + " WHERE fd.secret =? ";
-                    ps = con.prepareStatement(query);
-                    ps.setString(1, currentValue.getSecret());
-
-                    ResultSet rs = ps.executeQuery();
-                    int count = 0;
-                    if (rs.next()) {
-                        count = rs.getInt(1);
-                    }
-
-                    if (count == 0) {
-                        new FileDataDAO(con).delete(currentValue);
-                    }
-
-                    ps.close();
-                }
-            } else {
-                version = 1;
-                position = 0;
-                String query = " SELECT MAX(version)+1,n " + " FROM " + TABLE_PARAM_FILE + " AS pf " + " LEFT JOIN "
-                        + TABLE_FILE_DATE + " AS fd on fd.id = pf.value " + " WHERE pf.id = ? AND fd.title = ? ";
                 PreparedStatement ps = con.prepareStatement(query);
                 ps.setInt(1, id);
-                ps.setString(2, fileData.getTitle());
-
-                ResultSet rs = ps.executeQuery();
-                if (rs.next() && rs.getObject(1) != null) {
-                    position = rs.getInt(2);
-                    version = rs.getInt(1);
-                }
+                ps.setInt(2, paramId);
+                ps.setInt(3, position);
+                ps.setInt(4, version);
+                ps.executeUpdate();
                 ps.close();
 
-                if (position == 0) {
-                    query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_FILE + " WHERE id=? AND param_id=?";
-                    ps = con.prepareStatement(query);
-                    ps.setInt(1, id);
-                    ps.setInt(2, paramId);
+                //проверка на оставшиеся ссылки на файл
+                query = "SELECT COUNT(*) FROM " + TABLE_PARAM_FILE + " AS pf " + " LEFT JOIN " + TABLE_FILE_DATE
+                        + " AS fd ON fd.id = pf.value " + " WHERE fd.secret =? ";
+                ps = con.prepareStatement(query);
+                ps.setString(1, currentValue.getSecret());
 
-                    rs = ps.executeQuery();
-                    if (rs.next() && rs.getObject(1) != null) {
-                        position = rs.getInt(1);
-                    } else {
-                        position = 1;
-                    }
-                    ps.close();
+                ResultSet rs = ps.executeQuery();
+                int count = 0;
+                if (rs.next()) {
+                    count = rs.getInt(1);
                 }
 
-                query = "INSERT INTO " + TABLE_PARAM_FILE
-                        + "(id, param_id, n, value, user_id, comment,version) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-                PreparedStatement insertPs = con.prepareStatement(query);
-                insertPs.setInt(1, id);
-                insertPs.setInt(2, paramId);
-                insertPs.setInt(3, position);
-                insertPs.setInt(4, fileData.getId());
-
-                insertPs.setInt(5, userId);
-                insertPs.setString(6, comment);
-                insertPs.setInt(7, version);
-
-                insertPs.executeUpdate();
-                insertPs.close();
-
-                //TODO: Разобраться с логированием.
-                if (history) {
-                    String fileName = fileData.getTitle();
-                    ParamLogDAO paramLogDAO = new ParamLogDAO(this.con);
-                    paramLogDAO.insertParamLog(id, paramId, userId, fileName);
+                if (count == 0) {
+                    new FileDataDAO(con).delete(currentValue);
                 }
+
+                ps.close();
             }
-        } catch (SQLException e) {
-            throw new BGException(e);
+        } else {
+            version = 1;
+            position = 0;
+            String query = " SELECT MAX(version)+1,n " + " FROM " + TABLE_PARAM_FILE + " AS pf " + " LEFT JOIN "
+                    + TABLE_FILE_DATE + " AS fd on fd.id = pf.value " + " WHERE pf.id = ? AND fd.title = ? ";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.setString(2, fileData.getTitle());
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getObject(1) != null) {
+                position = rs.getInt(2);
+                version = rs.getInt(1);
+            }
+            ps.close();
+
+            if (position == 0) {
+                query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_FILE + " WHERE id=? AND param_id=?";
+                ps = con.prepareStatement(query);
+                ps.setInt(1, id);
+                ps.setInt(2, paramId);
+
+                rs = ps.executeQuery();
+                if (rs.next() && rs.getObject(1) != null) {
+                    position = rs.getInt(1);
+                } else {
+                    position = 1;
+                }
+                ps.close();
+            }
+
+            query = "INSERT INTO " + TABLE_PARAM_FILE
+                    + "(id, param_id, n, value, user_id, comment,version) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement insertPs = con.prepareStatement(query);
+            insertPs.setInt(1, id);
+            insertPs.setInt(2, paramId);
+            insertPs.setInt(3, position);
+            insertPs.setInt(4, fileData.getId());
+
+            insertPs.setInt(5, userId);
+            insertPs.setString(6, comment);
+            insertPs.setInt(7, version);
+
+            insertPs.executeUpdate();
+            insertPs.close();
+
+            //TODO: Разобраться с логированием.
+            if (history) {
+                String fileName = fileData.getTitle();
+                ParamLogDAO paramLogDAO = new ParamLogDAO(this.con);
+                paramLogDAO.insertParamLog(id, paramId, userId, fileName);
+            }
         }
     }
 

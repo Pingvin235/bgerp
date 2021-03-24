@@ -596,12 +596,13 @@ public class BaseAction extends DispatchAction {
     }
     
     /**
-     * Выставляет параметры запроса из сохранённых значений в случае, если они не переданы явно.
+     * Saves and restores HTTP request parameters.
+     * As storage used {@link User#getPersonalizationMap()}, key is 'param.' + digest from {@link DynActionForm#getAreaId()}.
      * @param con
-     * @param form
-     * @param get восстанавливать
-     * @param set сохранять 
-     * @param params
+     * @param form there params are taken and restored, also contains 'areaId' param.
+     * @param get restore
+     * @param set saves
+     * @param params parameter names
      * @throws BGException
      */
     protected void restoreRequestParams(Connection con, DynActionForm form, 
@@ -611,9 +612,9 @@ public class BaseAction extends DispatchAction {
         String valueBefore = prefs.getDataString();
         for (String param : params) {
             String key = "param." + Utils.getDigest(form.getAreaId());
-            // параметр не пришёл в запросе - восстановление
+            // param doesn't present in the request - restoring
             if (form.getParamArray(param) == null) {
-                //TODO: Хранение с разделителями запятыми, может поправить потом.
+                // storing values comma-separated
                 if (get && prefs.containsKey(key)) {
                     form.setParamArray(param, Utils.toList(prefs.get(key)));
                     log.debug("Restore param: %s, key: %s", param, key);

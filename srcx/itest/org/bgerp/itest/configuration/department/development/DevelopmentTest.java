@@ -32,6 +32,7 @@ public class DevelopmentTest {
     public static volatile int groupId;
 
     public static volatile int paramGitBranchId;
+    private static volatile int paramSpecId;
 
     public static volatile int processTypeProductId;
     public static volatile int processTypeTaskId;
@@ -50,6 +51,8 @@ public class DevelopmentTest {
     @Test
     public void addParams() throws Exception {
         paramGitBranchId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, "GIT branch", ProcessTest.posParam += 2, "", "");
+        paramSpecId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, "SPEC", ProcessTest.posParam += 2, 
+            "multiple=1\n", "");
     }
     
     @Test(dependsOnMethods = { "addGroups", "addParams" })
@@ -60,6 +63,7 @@ public class DevelopmentTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusWaitId, ProcessTest.statusDoneId, ProcessTest.statusRejectId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId, ProcessTest.statusRejectId));
+        props.setParameterIds(List.of(paramGitBranchId, paramSpecId));
         props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(groupId), ROLE_EXECUTION_ID));
         props.setAllowedGroups(ProcessGroup.toProcessGroupSet(Sets.newHashSet(groupId), ROLE_EXECUTION_ID));
         props.setConfig(ConfigHelper.generateConstants("CONFIG_PROCESS_NOTIFICATIONS_ID", configProcessNotificationId) +
@@ -70,7 +74,7 @@ public class DevelopmentTest {
         processTypeTaskId = ProcessHelper.addType("Task", processTypeProductId, false, props);
 
         //TODO: deadline, next appointment
-        //TODO: branch name with link
+        //TODO: generated branch name
     }
 
     @Test (dependsOnMethods = "addTypes")

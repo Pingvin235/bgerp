@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -532,7 +533,11 @@ public class ParameterAction extends BaseAction {
 
             paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue = fileData));
 
-            paramValueDAO.updateParamFile(id, paramId, position, version, form.getParam("comment"), fileData);
+            try {
+                paramValueDAO.updateParamFile(id, paramId, position, version, form.getParam("comment"), fileData);
+            } catch (SQLIntegrityConstraintViolationException e) {
+                throw new BGMessageException("Запрещено повторное добавление файла с одинаковым именем.");
+            }
         } else if (Parameter.TYPE_PHONE.equals(parameter.getType())) {
             ParameterPhoneValue phoneValue = new ParameterPhoneValue();
 

@@ -7,42 +7,26 @@
 <c:set var="message" scope="request" value="${form.response.data.message}"/>
 <c:set var="config" value="${u:getConfig( ctxSetup, 'ru.bgcrm.dao.message.config.MessageTypeConfig' ) }"/>
 
-<form id="${uploadFormId}" action="../user/file.do" method="POST" enctype="multipart/form-data" name="form" style="position: absolute; top: -100px;">
+<form id="${uploadFormId}" action="/user/file.do" method="POST" enctype="multipart/form-data" name="form" style="position: absolute; top: -100px;">
 	<input type="hidden" name="action" value="temporaryUpload"/>
 	<input type="hidden" name="responseType" value="json"/>
-	<input type="file" name="file" onchange="$(this.form).submit();"/>
+	<input type="file" name="file" />
 </form>
 
 
 <script>
-	$(function()
-	{
-		$('#${uploadFormId}').iframePostForm
-		({
-			json : true,
-			post : function()
-			{
-				if( $('#${uploadFormId} input[type=file]').val().length == 0 )
-				{
-					alert( "Не выбран файл!" );
-					return false;
-				}
-			},
-			complete : function( response )
-			{
-				var fileId = response.data.file.id;
-				var fileTitle = response.data.file.title;
+	$$.ajax.upload('${uploadFormId}', 'message-attach-upload', function (response) {
+		const fileId = response.data.file.id;
+		const fileTitle = response.data.file.title;
 
-				var deleteCode = "if( sendAJAXCommand( '/user/file.do?action=temporaryDelete&id=" + fileId + "') ){ $(this.parentNode).remove() }";
+		const deleteCode = "$$.ajax.post('/user/file.do?action=temporaryDelete&id=" + fileId + "').done(() => {$(this.parentNode).remove()})";
 
-				$('#${uploadListId}').append(
-					"<div>" +
-						 "<input type=\"hidden\" name=\"tmpFileId\" value=\""+ fileId + "\"/>" +
-						 "<button class=\"btn-white btn-small mr1\" type=\"button\" value=\"X\" onclick=\"" + deleteCode + "\">X</button>" + fileTitle +
-					 "</div>"
-				);
-			}
-		});
+		$('#${uploadListId}').append(
+				"<div>" +
+				"<input type=\"hidden\" name=\"tmpFileId\" value=\""+ fileId + "\"/>" +
+				"<button class=\"btn-white btn-small mr1\" type=\"button\" value=\"X\" onclick=\"" + deleteCode + "\">X</button>" + fileTitle +
+				"</div>"
+		);
 	});
 </script>
 
@@ -57,6 +41,7 @@
 	<input type="hidden" name="action" value="messageUpdate"/>
 	<html:hidden property="processId"/>
 	<html:hidden property="id"/>
+	<html:hidden property="areaId"/>
 
 	<c:if test="${not empty message}">
 		<input type="hidden" id="lock-${message.lockEdit}" name="lockFree"/>
@@ -163,7 +148,7 @@
 
 				<%-- сюда генерируется список загруженных --%>
 			</div>
-			<button type="button" class="btn-white btn-small" onclick="$('#${uploadFormId}').find('input[name=file]').click();">+</button>
+			<button type="button" class="btn-white btn-small" onclick="$$.ajax.triggerUpload('${uploadFormId}');">+</button>
 		</div>
 	</div>
 
