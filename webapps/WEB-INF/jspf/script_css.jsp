@@ -97,19 +97,20 @@
 	});
 </script>
 
-<%--
+<%-- Disabled since custom exists, fails for open interface /open/test
    Для подключения своих CSS и JS создайте файл script_css.custom.jsp и используйте в нём конструкции как в этом файле:
     <script src="..."></script>
-   <link type="text/css" href="..." rel="stylesheet"/>   	
---%>
+   <link type="text/css" href="..." rel="stylesheet"/>
+
 <%
 	String realPath = getServletContext().getRealPath( "/WEB-INF/jspf/script_css.custom.jsp" );
 	if( new java.io.File( realPath ).exists() )
 	{
-		pageContext.setAttribute( "includeCustom", true );	
+		pageContext.setAttribute( "includeCustom", true );
 	}
 %>
 
 <c:if test="${not empty includeCustom}">
 	<jsp:include page="/WEB-INF/jspf/script_css.custom.jsp"/>
 </c:if>  
+--%>

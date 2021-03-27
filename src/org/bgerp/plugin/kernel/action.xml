@@ -310,6 +310,7 @@
 
 		<item action="ru.bgcrm.struts.action.EmptyAction:null" title="Для унифицированного вызова JSP" allowAll="1" notLogging="1"/>
 		<item action="ru.bgcrm.struts.action.PoolAction:null" title="Для пулинга" allowAll="1" notLogging="1"/>
+		<item action="org.bgerp.action.TestAction:null" title="Test" allowAll="1" notLogging="1"/>
 
 		<item action="ru.bgcrm.struts.action.LockAction:add" title="Добавление блокировки" allowAll="1"/>
 		<item action="ru.bgcrm.struts.action.LockAction:free" title="Удаление блокировки" allowAll="1"/>

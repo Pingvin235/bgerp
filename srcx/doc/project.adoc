@@ -274,7 +274,7 @@ Some of the external libraries have been patched and all changes are accompanied
 link:../../webapps/lib/jquery-ui-1.12.1/jquery-ui.js#L8923-L8930[webapps/lib/jquery-ui-1.12.1/jquery-ui.js]
 
 [[devm]]
-=== Client's development methodology
+=== Remote development methodology
 BGERP launches within IDE, gets connected to the database and, optionally, billing.
 At the end of the development/work session remote client database will have all the actual information, so it is only required to update the product itself.
 
@@ -611,6 +611,73 @@ The project is using Apache Struts framework in a very own and customized way:
 * <<action, action>> methods have different signature as standard
 * the <<action-form, form>> object has always the same class
 
+[[mvc-iface]]
+==== Interfaces
+There are three user <<kernel/interface.adoc#, interfaces>> exist in the program. 
+
+The following table shows rules for path and packages of <<action, actions>> and <<jsp, JSP>> templates.
+Shortcuts there mean:
+[square]
+* *ppp* - plugin ID;
+* *aaa* - action.
+
+NOTE: JSP paths are defined starting from `webapps/WEB-INF` directory.
+
+[cols="10%,20%,35%,35%", options="header"]
+|===
+| Interface | Action path | Action class | JSP path
+
+.2+|user
+|/admin/aaa +
+/admin/plugin/ppp/aaa
+
+|...action.admin.AaaAction +
+...plugin.ppp.action.admin.AaaAction
+|jspf/admin/.../aaa.jsp +
+jspf/admin/.../plugin/ppp/.../aaa.jsp
+
+|/user/aaa +
+/user/plugin/ppp/aaa
+|...action.AaaAction +
+...plugin.ppp.action.AaaAction
+|jspf/user/../aaa.jsp +
+jspf/user/../plugin/ppp/.../aaa.jsp
+
+|usermob
+|/usermob/aaa
+|...action.usermob.AaaAction
+|jspf/usermob/../aaa.jsp
+
+|open
+|/open/aaa +
+/open/plugin/ppp/aaa
+|...action.open.AaaAction +
+...plugin.ppp.action.open.AaaAction
+|jspf/open/../aaa.jsp +
+jspf/open/../plugin/ppp/.../aaa.jsp
+
+|===
+
+For testing MVC framework available special hidden zones.
+
+[cols="10%,20%,35%,35%", options="header"]
+|===
+| Interface | Action path, mapping JSP | Action class | JSP path
+
+|user
+|/user/test +
+jspf/user/menu.jsp
+|org.bgerp.action.TestAction
+|jspf/user/test.jsp
+
+|open
+|/open/test +
+jspf/open/test/url.jsp
+|org.bgerp.action.open.TestAction
+|jspf/open/test.jsp
+
+|===
+
 [[action]]
 ==== Java Action
 NOTE: Action definition in `struts-confing.xml` files is deprecated.
@@ -661,10 +728,10 @@ link:../../src/ru/bgcrm/plugin/dispatch/struts/action/DispatchAction.java#L46-L5
 <<plugin, Plugin's>> action classes have to be placed into `PLUGIN_PACKAGE.action` package, class name should end with *Action*.
 Previously Action classes have been located within `struts.action` packages - this approach is considered obsolete.
 
-*User* <<kernel/interface.adoc#user, interface>> actions are divided into /user and /admin
+*user* <<kernel/interface.adoc#user, interface>> actions are divided into /user and /admin
 This separation will be used in future for distinguishing administrative calls.
 
-*Usermob* и *open* interfaces have their own actions - in this case package names and URL have to contain *usermob* и *open*, respectively.
+*usermob* и *open* interfaces have their own actions - in this case package names and URL have to contain *usermob* и *open*, respectively.
 link:../../src/org/bgerp/action/usermob/ProcessAction.java[org.bgerp.action.usermob.ProcessAction] provides an example of such action.
 
 We recommend to use the following naming convention for methods:
@@ -929,6 +996,7 @@ For missing keys the following messages appear in <<log4j, log output>>:
 
 After adding missing patterns, application server has to be re-started.
 
+[[naming]]
 == Naming conventions
 === Configuration variables, JS functions, HTTP StyleId
 [square]
