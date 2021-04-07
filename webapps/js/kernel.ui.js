@@ -92,6 +92,12 @@ $$.ui = new function() {
 		});
 	}
 
+	/**
+	 * Init popup menu.
+	 * @param {*} $launcher jQuery selector of start button.
+	 * @param {*} $menu jQuery selector to <ul> of menu.
+	 * @param {*} align 'left' or 'right'. 
+	 */
 	const menuInit = ($launcher, $menu, align) => {
 		$menu.menu().hide();
 

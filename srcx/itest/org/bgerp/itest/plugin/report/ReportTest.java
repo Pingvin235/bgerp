@@ -10,6 +10,6 @@ public class ReportTest {
     @Test
     public void initConfig() throws Exception {
         ConfigHelper.addIncludedConfig("Plugin Report", 
-            PluginHelper.initPlugin(new ru.bgcrm.plugin.report.Plugin()) + ResourceHelper.getResource(this, "config.txt"));
+            PluginHelper.initPlugin(new org.bgerp.plugin.report.Plugin()) + ResourceHelper.getResource(this, "config.txt"));
     }
 }

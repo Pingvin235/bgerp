@@ -1,17 +1,16 @@
 package ru.bgcrm.model.user;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import org.bgerp.action.TitledAction;
+import org.bgerp.action.TitledActionFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.plugin.Plugin;
@@ -19,52 +18,92 @@ import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
+import ru.bgerp.l10n.Localization;
+import ru.bgerp.l10n.Localizer;
 
+/**
+ * Node of permissions tree.
+ * 
+ * @author Shamil Vakhitov
+ */
 public class PermissionNode {
     @VisibleForTesting
-    protected static String FILE_NAME = "action.xml";
+    static String FILE_NAME = "action.xml";
     private static String DELIMITER = " -> ";
 
     private String title;
     private String titlePath;
     private String action;
-    private List<String> actionList = Collections.emptyList();
+    private List<String> actionList = new ArrayList<>();
     private String description;
-    private boolean allowAll = false;
-    private boolean notLogging = false;
-    private List<PermissionNode> children;
+    private boolean allowAll;
+    private boolean notLogging;
+    private List<PermissionNode> children = new ArrayList<>();
 
-    public PermissionNode() {
-        children = new ArrayList<PermissionNode>();
+    private PermissionNode() {}
+
+    /**
+     * Simplified constructor, no children supported.
+     * 
+     * @param action
+     * @param title
+     */
+    public PermissionNode(String action, String title) {
+        setAction(action);
+        this.title = title;
     }
 
-    public void addChild(PermissionNode child) {
+    PermissionNode(PermissionNode parent, Localizer l, Element node) {
+        this(node.getAttribute("action"), node.getAttribute("title"));
+        
+        var ltitle = node.getAttribute("ltitle");
+        if (Utils.notBlankString(ltitle)) {
+            title = l.l(ltitle);
+        }
+
+        allowAll = Utils.parseBoolean(node.getAttribute("allowAll"));
+        notLogging = Utils.parseBoolean(node.getAttribute("notLogging"));
+
+        if (parent != null && Utils.notBlankString(parent.getTitle())) {
+            titlePath = parent.getTitlePath() + DELIMITER + title;
+        } else {
+            titlePath = title;
+        }
+       
+        if (Utils.notEmptyString(action)) {
+            description = XMLUtils.getElementText(node);
+            return;
+        }
+
+        loadChildren(l, node);
+    }
+
+    private void loadChildren(Localizer l, Element node) {
+        var actionFactory = node.getAttribute("actionFactory");
+        if (Utils.notBlankString(actionFactory)) {
+            for (TitledAction action : TitledActionFactory.create(actionFactory, l))
+                addChild(new PermissionNode(action.getAction(), action.getTitle(l)));
+        } else {
+            for (Element child : XMLUtils.elements(node.getChildNodes())) {
+                addChild(new PermissionNode(this, l, child));
+            }
+        }
+    }
+
+    void addChild(PermissionNode child) {
         children.add(child);
-    }
-
-    @Deprecated
-    public List<PermissionNode> getChilds() {
-        return children;
     }
 
     public List<PermissionNode> getChildren() {
         return children;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getTitle() {
-        return (title != null) ? title : action;
+        return title;
     }
 
     public String getTitlePath() {
         return titlePath;
-    }
-
-    public void setTitlePath(String titlePath) {
-        this.titlePath = titlePath;
     }
 
     public void removeChild(PermissionNode node) {
@@ -101,41 +140,8 @@ public class PermissionNode {
         return allowAll;
     }
 
-    public void setAllowAll(boolean allowAll) {
-        this.allowAll = allowAll;
-    }
-
-    @VisibleForTesting
-    protected static void buildTree(Node element, PermissionNode parentNode) {
-        NamedNodeMap attrs = element.getAttributes();
-        String title = attrs.getNamedItem("title") != null ? attrs.getNamedItem("title").getNodeValue() : null;
-        String action = attrs.getNamedItem("action") != null ? attrs.getNamedItem("action").getNodeValue() : null;
-        boolean allowAll = attrs.getNamedItem("allowAll") != null;
-        boolean notLogging = attrs.getNamedItem("notLogging") != null;
-
-        PermissionNode node = new PermissionNode();
-        parentNode.addChild(node);
-
-        node.setTitle(title);
-        if (Utils.notBlankString(parentNode.getTitle())) {
-            node.setTitlePath(parentNode.getTitlePath() + DELIMITER + title);
-        } else {
-            node.setTitlePath(title);
-        }
-        node.setAction(action);
-        node.setAllowAll(allowAll);
-        node.setNotLogging(notLogging);
-        if (Utils.notEmptyString(action)) {
-            node.setDescription(XMLUtils.getElementText(element));
-            return;
-        }
-
-        NodeList nodeList = element.getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                buildTree(nodeList.item(i), node);
-            }
-        }
+    public boolean isNotLogging() {
+        return notLogging;
     }
 
     public static List<PermissionNode> getPermissionTrees() {
@@ -145,9 +151,11 @@ public class PermissionNode {
             Document doc = p.getXml(FILE_NAME, null);
             if (doc == null) continue;
 
-            var node = new PermissionNode();
-            buildTree(doc.getDocumentElement(), node);
-            permissionNodes.add(node);
+            var emptyParent = new PermissionNode();
+            emptyParent.addChild(new PermissionNode(null,
+                Localization.getLocalizer(p.getId(), Localization.getSysLang()),
+                doc.getDocumentElement()));
+            permissionNodes.add(emptyParent);
         }
        
         return permissionNodes;
@@ -177,7 +185,7 @@ public class PermissionNode {
     public static PermissionNode getPermissionNode(String action) {
         PermissionNode node = null;
         for (PermissionNode treeNode : UserCache.getAllPermTree()) {
-            node = findPermissionNode(treeNode, action);
+            node = treeNode.findPermissionNode(action);
             if (node != null) {
                 return node;
             }
@@ -185,26 +193,19 @@ public class PermissionNode {
         return null;
     }
 
-    private static PermissionNode findPermissionNode(PermissionNode node, String action) {
+    PermissionNode findPermissionNode(String action) {
+        PermissionNode node = this;
         if (action.equals(node.getAction()) || node.getActionList().contains(action)) {
             return node;
         }
 
-        for (PermissionNode child : node.getChilds()) {
-            PermissionNode permNode = findPermissionNode(child, action);
+        for (PermissionNode child : node.children) {
+            PermissionNode permNode = child.findPermissionNode(action);
             if (permNode != null) {
                 return permNode;
             }
         }
 
         return null;
-    }
-
-    public boolean isNotLogging() {
-        return notLogging;
-    }
-
-    public void setNotLogging(boolean notLogging) {
-        this.notLogging = notLogging;
     }
 }

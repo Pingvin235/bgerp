@@ -18,6 +18,8 @@ import ru.bgerp.util.Log;
 public class PluginManager {
     private static final Log log = Log.getLog();
 
+    public static final Object[] ERP_PACKAGES = { "org.bgerp", "ru.bgerp", "ru.bgcrm" };
+
     private static PluginManager instance;
 
     public static void init() throws Exception {
@@ -51,7 +53,7 @@ public class PluginManager {
     private List<Plugin> loadFullSortedPluginList() {
         List<Plugin> result = new ArrayList<>();
 
-        var r = new Reflections("org.bgerp", "ru.bgerp", "ru.bgcrm");
+        var r = new Reflections(ERP_PACKAGES);
         for (Class<? extends Plugin> pc : r.getSubTypesOf(Plugin.class)) {
             log.debug("Found plugin: %s", pc);
             try {

@@ -896,12 +896,12 @@ processor.{@cnt}.page=/WEB-INF/jspf/open/plugin/custom.bitel/calculate_processor
 ----
 Only one open processor per queue is supported. JSP template here placed in <<../extension.adoc#custom, custom>> area.
 
-=== Генерация печатной формы PDF
+[[pdf]]
+=== PDF generation
 Пример конфигурации. В очереди появляются галочки для выбора процессов, в меню *Ещё* появляется пункт *Бегунок*.
 В *columns* указываются разделённые двоеточиями коды колонок и относительные ширины.  
 [source]
 ----
-checkColumn=1
 media.print.1.title=Бегунок
 media.print.1.columns=1:10;4:10;36:10;30:10;31:10;32:10
 # может быть landscape 

@@ -24,7 +24,6 @@ import ru.bgcrm.dao.process.SavedFilterDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
-import ru.bgcrm.event.process.QueuePrintEvent;
 import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
@@ -33,15 +32,16 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.Queue.ColumnConf;
+import ru.bgcrm.model.process.queue.JasperReport;
 import ru.bgcrm.model.process.queue.Processor;
+import ru.bgcrm.model.process.queue.config.PrintQueueConfig;
 import ru.bgcrm.model.process.queue.config.SavedCommonFiltersConfig;
 import ru.bgcrm.model.process.queue.config.SavedFilter;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;
 import ru.bgcrm.model.process.queue.config.SavedPanelConfig;
+import ru.bgcrm.model.process.queue.config.PrintQueueConfig.PrintType;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.plugin.report.model.PrintQueueConfig;
-import ru.bgcrm.plugin.report.model.PrintQueueConfig.PrintType;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
@@ -368,12 +368,11 @@ public class ProcessQueueAction extends ProcessAction {
                 PrintType printType = config.getPrintType(printTypeId);
 
                 queue.processDataForColumns(form, list, queue.getColumnConfList(printType.getColumnIds()), false);
-                EventProcessor.processEvent(new QueuePrintEvent(form, list, queue, printType), "", connectionSet);
+                printQueue(form, list, queue, printType);
             } else {
                 // TODO: В метод необходимо вынести расшифровку всех справочников.
-                // FIXME: В данный момент это событие обрабатывает модуль отчётов, наверное нужно запретить печать, если этот модуль не установлен.
                 queue.processDataForMedia(form, media, list);
-                EventProcessor.processEvent(new QueuePrintEvent(form, list, queue, null), "", connectionSet);
+                printQueue(form, list, queue, null);
             }
         } else if (Queue.MEDIA_XLS.equals(media)) {
             queue.processDataForMedia(form, media, list);
@@ -412,5 +411,14 @@ public class ProcessQueueAction extends ProcessAction {
                 workbook.write(response.getOutputStream());
             }
         }
+    }
+
+    private void printQueue(DynActionForm form, List<Object[]> data, Queue queue, PrintType printType) throws Exception {
+        var response = form.getHttpResponse();
+
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=" + (printType == null ? "queue.pdf" : printType.getFileName()));
+
+        new JasperReport().addPrintQueueDocumentToOutputStream(form, data, queue, printType, response.getOutputStream());
     }
 }

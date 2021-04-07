@@ -1,13 +1,17 @@
-package ru.bgcrm.plugin.report.model;
+package org.bgerp.plugin.report.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ru.bgcrm.plugin.report.Plugin;
+import org.bgerp.plugin.report.Plugin;
 import ru.bgcrm.util.ParameterMap;
 
+/**
+ * Old way of reports configuration.
+ */
+@Deprecated
 public class Config extends ru.bgcrm.util.Config {
     private final List<Report> reportList = new ArrayList<>();
     /** Key - report ID. */

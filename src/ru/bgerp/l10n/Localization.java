@@ -24,7 +24,7 @@ import ru.bgcrm.util.XMLUtils;
 import ru.bgerp.util.Log;
 
 /**
- * A localization unit, loaded from a resource for a plugin.
+ * A localization unit, loaded from l10n.xml for a plugin.
  * @author Shamil Vakhitov
  */
 public class Localization {
@@ -45,13 +45,25 @@ public class Localization {
     private final String pluginId;
     private final Map<String, Map<String, String>> translations;
 
-    private Localization(String pluginId, Document doc) throws Exception {
+    private Localization(String pluginId, Document doc) {
         this.pluginId = pluginId;
         this.translations = new HashMap<>(300);
         parseFile(doc);
     }
 
-    private void parseFile(Document doc) throws Exception {
+    /**
+     * Gets localization for the plugin.
+     * @param p the plugin.
+     * @return localization if {@link #FILE_NAME} exists for the plugin, or null if missing.
+     */
+    public static Localization getLocalization(Plugin p) {
+        var doc = p.getXml(FILE_NAME, null);
+        if (doc == null)
+            return null;
+        return new Localization(p.getId(), doc);
+    }
+
+    private void parseFile(Document doc) {
         for (Element phrase : XMLUtils.elements(doc.getDocumentElement().getChildNodes())) {
             Map<String, String> phraseMap = null;
 
@@ -116,6 +128,7 @@ public class Localization {
      * Retrieves language from the request params or session.
      * Once defined lang has persisted in the session attribute as well.
      * If not found language is taken from configuration parameter 'lang'.
+     * If not defined there - returned 'ru'.
      * @param request
      * @return
      */
@@ -143,6 +156,15 @@ public class Localization {
     }
 
     /**
+     * Default system language.
+     * Calls {@link #getLang(HttpServletRequest)} with 'null'.
+     * @return
+     */
+    public static final String getSysLang() {
+        return getLang(null);
+    }
+
+    /**
      * Retrieve localizer for a plugin.
      * The localizer includes the following localizations:
      * custom if exists, than for kernel and after for the plugin itself.
@@ -164,21 +186,21 @@ public class Localization {
         localizations.add(Localization.localizations.get(org.bgerp.plugin.kernel.Plugin.ID));
 
         // the defined plugin, if it has localization
-        if (pluginId != null) {
+        if (pluginId != null && !org.bgerp.plugin.kernel.Plugin.ID.equals(pluginId)) {
             var pluginL10n = Localization.localizations.get(pluginId);
             if (pluginL10n != null)
                 localizations.add(pluginL10n);
         }
 
-        return new Localizer(localizations.toArray(new Localization[localizations.size()]), toLang);
+        return new Localizer(toLang, localizations.toArray(new Localization[0]));
     }
 
     /**
-     * Localizer for kernel only to English.
+     * Localizer for kernel only to the language, taken from {@link #getSysLang()}.
      * @return
      */
     public static Localizer getSysLocalizer() {
-        return getLocalizer((String) null, LANG_EN);
+        return getLocalizer((String) null, getSysLang());
     }
 
     private static void loadLocalizations() {

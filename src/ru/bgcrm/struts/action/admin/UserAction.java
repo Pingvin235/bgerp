@@ -72,13 +72,9 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             throw new BGMessageException("Группа не найдена.");
         }
 
-        permset.setTitle(form.getParam("title"));
+        permset.setTitle(form.getParam("title", Utils::notBlankString));
         permset.setComment(form.getParam("comment", ""));
         permset.setConfig(form.getParam("permsetConfig", ""));
-
-        if (Utils.isBlankString(permset.getTitle())) {
-            throw new BGMessageException("Не указано название.");
-        }
 
         permsetDAO.updatePermset(permset);
         Set<String> config = form.getSelectedValuesStr("config");

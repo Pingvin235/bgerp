@@ -62,7 +62,7 @@ processCreateLink.1.copyLinks=1
 [square]
 * *u* - статический контекст объекта javadoc:ru.bgcrm.util.Utils[] - возможность вызова статических функций;
 * *tu* - статический контекст объекта javadoc:ru.bgcrm.util.TimeUtils[] - возможность вызова статических функций;
-* *su* - статический контекст объекта link:https://commons.apache.org/proper/commons-lang/javadocs/api-2.5/org/apache/commons/lang/StringUtils.html[org.apache.commons.lang.StringUtils] - возможность вызова статических функций;
+* *su* - статический контекст объекта link:https://commons.apache.org/proper/commons-lang/javadocs/api-3.8.1/org/apache/commons/lang3/StringUtils.html[org.apache.commons.lang3.StringUtils] - возможность вызова статических функций;
 * *сu* - статический контекст объекта link:https://commons.apache.org/proper/commons-collections/javadocs/api-3.2.2/org/apache/commons/collections/CollectionUtils.html[org.apache.commons.collections.CollectionUtils] - возможность вызова статических функций;
 * *log* - объект класса link:https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Logger.html[org.apache.log4j.Logger], позволяет вести <<log-dyn, отладку>> с помощью *log.debug* и других вызовов;
 * *NEW_LINE* - перенос строки;

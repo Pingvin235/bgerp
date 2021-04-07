@@ -14,9 +14,9 @@ public class Localizer {
     private final Localization[] localizations;
     private final String toLang;
 
-    public Localizer(Localization[] localizations, String toLang) {
-        this.localizations = localizations;
+    public Localizer(String toLang, Localization... localizations) {
         this.toLang = toLang;
+        this.localizations = localizations;
     }
 
     public String l(String pattern, Object... args) {

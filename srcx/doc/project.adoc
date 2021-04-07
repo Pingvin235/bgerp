@@ -258,7 +258,7 @@ We would suggest to gradually add a small set of libraries until getting a "work
 
 In order to speed up project initialization, our default Eclipse IDE configuration does not load source code and documentation.
 [snippet, from="ec", to="}"]
-link:../../build.gradle#L18-L24[build.gradle]
+link:../../build.gradle#L21-L27[build.gradle]
 
 [[js-lib]]
 ==== JS
@@ -557,7 +557,7 @@ IMPORTANT: Use caches as much as possible for getting reference values and avoid
 
 Directory data is edited directly in DB and cache is cleared after an edit.
 [snippet, from="pu", to="}"]
-link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L92-L98[ru.bgcrm.struts.action.admin.UserAction]
+link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L88-L94[ru.bgcrm.struts.action.admin.UserAction]
 
 [[plugin-endpoint]]
 ==== Endpoints
@@ -684,7 +684,7 @@ NOTE: Action definition in `struts-confing.xml` files is deprecated.
 
 Action classes have to extend javadoc:ru.bgcrm.struts.action.BaseAction[] class marked by *Action* annotation.
 [snippet, from="@", to=";", remove-leading=""]
-link:../../src/org/bgerp/action/admin/RunAction.java#L14-L16[org.bgerp.action.admin.RunAction]
+link:../../src/org/bgerp/action/admin/RunAction.java#L13-L15[org.bgerp.action.admin.RunAction]
 
 The sample above means that HTTP requests with URL */admin/run.do* mapped to the class.
 An *action* HTTP request's parameter is used to indicate method's name.
@@ -694,11 +694,11 @@ Action methods have to return by invoking *data* or *status*.
 
 First method gets processed by JSP forward page and sends HTML back to the client. 
 [snippet, from="@O", to="}", remove-leading=""]
-link:../../src/org/bgerp/action/admin/RunAction.java#L20-L24[org.bgerp.action.admin.RunAction]
+link:../../src/org/bgerp/action/admin/RunAction.java#L19-L23[org.bgerp.action.admin.RunAction]
 
 Second one is used to perform changes and only returns JSON-based change execution result.
 [snippet, from="pu", to="}", remove-leading=""]
-link:../../src/org/bgerp/action/admin/RunAction.java#L26-L55[org.bgerp.action.admin.RunAction]
+link:../../src/org/bgerp/action/admin/RunAction.java#L25-L54[org.bgerp.action.admin.RunAction]
 
 [[action-form]]
 ===== Form Object
@@ -890,7 +890,7 @@ A typical scheme for attaching JS code to HTML is to setup event handler with a 
 
 Deprecated JS functions are marked using the following method:
 [snippet, from="fun", to="}"]
-link:../../webapps/js/kernel.ajax.js#L413-L417[webapps/js/kernel.ajax.js]
+link:../../webapps/js/kernel.ajax.js#L416-L420[webapps/js/kernel.ajax.js]
 
 When such a function gets invoked, browser console gets a "clickable" "Deprecated" message which allows to find a this deprecated function call
 It is forbidden to use those functions in the new code, usage has to be decreased in the existing code over time.

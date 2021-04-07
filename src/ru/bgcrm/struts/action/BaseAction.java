@@ -7,9 +7,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.util.Date;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 
 import javax.servlet.RequestDispatcher;
@@ -40,6 +40,7 @@ import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.LoginStat;
 import ru.bgcrm.servlet.filter.AuthFilter;
+import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
@@ -54,15 +55,21 @@ import ru.bgerp.l10n.Localizer;
 import ru.bgerp.util.Log;
 
 public class BaseAction extends DispatchAction {
-    private static final Class<?>[] TYPES_CONSET_DYNFORM = { ActionMapping.class, DynActionForm.class,
+    private static final Class<?>[] TYPES_CONSET_DYNFORM = { DynActionForm.class,
+        ConnectionSet.class };
+    private static final Class<?>[] TYPES_CON_DYNFORM = { DynActionForm.class,
+        Connection.class };
+    @Deprecated
+    private static final Class<?>[] TYPES_MAPPING_CONSET_DYNFORM = { ActionMapping.class, DynActionForm.class,
             ConnectionSet.class };
-    private static final Class<?>[] TYPES_CON_DYNFORM = { ActionMapping.class, DynActionForm.class,
+    @Deprecated
+    private static final Class<?>[] TYPES_MAPPING_CON_DYNFORM = { ActionMapping.class, DynActionForm.class,
             Connection.class };
     @Deprecated
-    private static final Class<?>[] TYPES_CONSET_DYNFORM_SEVLETREQRESP = { ActionMapping.class, DynActionForm.class,
+    private static final Class<?>[] TYPES_MAPPING_CONSET_DYNFORM_SEVLETREQRESP = { ActionMapping.class, DynActionForm.class,
             HttpServletRequest.class, HttpServletResponse.class, ConnectionSet.class };
     @Deprecated
-    private static final Class<?>[] TYPES_CON_DYNFORM_SEVLETREQRESP = { ActionMapping.class, DynActionForm.class,
+    private static final Class<?>[] TYPES_MAPPING_CON_DYNFORM_SEVLETREQRESP = { ActionMapping.class, DynActionForm.class,
             HttpServletRequest.class, HttpServletResponse.class, Connection.class };
 
     public static final ObjectMapper mapper = new ObjectMapper();
@@ -88,9 +95,12 @@ public class BaseAction extends DispatchAction {
 
     protected final Log log = Log.getLog(this.getClass());
 
-    protected Setup setup = Setup.getSetup();
+    protected final Setup setup = Setup.getSetup();
     
-    private ConcurrentMap<String, Invoker> invokerMap = new ConcurrentHashMap<>();
+    /**
+     * Cache for method invokers for the action class. Key - method name.
+     */
+    private final Map<String, Invoker> invokerMap = new ConcurrentHashMap<>();
     
     protected Localizer l;
 
@@ -100,7 +110,7 @@ public class BaseAction extends DispatchAction {
     
 
     /** 
-     * Метод сделан, чтобы не переопределяли его, переопределять нужно с коннекшеном.
+     * Standard Struts method, shouldn't be used.
      */
     @Override
     protected final ActionForward unspecified(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -114,14 +124,7 @@ public class BaseAction extends DispatchAction {
         return mapping.findForward(FORWARD_DEFAULT);
     }
     
-    /**
-     * Акшен метод по-умолчанию, именованные делать по образцу.
-     * @param mapping
-     * @param form
-     * @param con
-     * @return
-     * @throws Exception
-     */
+    @Deprecated
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         return mapping.findForward(FORWARD_DEFAULT);
     }
@@ -132,54 +135,88 @@ public class BaseAction extends DispatchAction {
         return mapping.findForward(FORWARD_DEFAULT);
     }
     
+    @Deprecated
+    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+        return mapping.findForward(FORWARD_DEFAULT);
+    }
+
     /**
-     * Акшен метод по-умолчанию, именованные делать по образцу.
-     * @param mapping
+     * Default action method if no parameter 'action' passed. Overwrite and implement.
      * @param form
      * @param conSet
      * @return
      * @throws Exception
      */
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        return mapping.findForward(FORWARD_DEFAULT);
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Default action method if no parameter 'action' passed. Overwrite and implement.
+     * @param form
+     * @param con
+     * @return
+     * @throws Exception
+     */
+    public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
+        throw new UnsupportedOperationException();
     }
 
     @SuppressWarnings("unchecked")
-    private Invoker getInvoker(String name) throws NoSuchMethodException {
-        Invoker invoker = invokerMap.get(name);
-        if (invoker == null) {
+    private Invoker getInvoker(String method) throws NoSuchMethodException {
+        log.debug("Looking for invoker: %s", method);
+
+        Invoker result = invokerMap.get(method);
+        if (result == null) {
             try {
-                invoker = new Invoker(clazz.getDeclaredMethod(name, TYPES_CONSET_DYNFORM));
+                result = new Invoker(clazz.getDeclaredMethod(method, TYPES_CONSET_DYNFORM));
             } catch (Exception e) {}
 
-            if (invoker == null) {
+            if (result == null) {
                 try {
-                    invoker = new InvokerCon(clazz.getDeclaredMethod(name, TYPES_CON_DYNFORM));
+                    result = new InvokerCon(clazz.getDeclaredMethod(method, TYPES_CON_DYNFORM));
                 } catch (Exception e) {}
             }
 
-            if (invoker == null) {
+            if (result == null) {
                 try {
-                    invoker = new InvokerWithRequest(clazz.getDeclaredMethod(name, TYPES_CONSET_DYNFORM_SEVLETREQRESP));
-                    if (invoker != null)
-                        log.warn("Deprecated action's method signature: " + name);
+                    result = new InvokerMapping(clazz.getDeclaredMethod(method, TYPES_MAPPING_CONSET_DYNFORM));
                 } catch (Exception e) {}
             }
 
-            if (invoker == null) {
+            if (result == null) {
                 try {
-                    invoker = new InvokerWithRequestCon(clazz.getDeclaredMethod(name, TYPES_CON_DYNFORM_SEVLETREQRESP));
-                    if (invoker != null)
-                        log.warn("Deprecated action's method signature: " + name);
+                    result = new InvokerMappingCon(clazz.getDeclaredMethod(method, TYPES_MAPPING_CON_DYNFORM));
                 } catch (Exception e) {}
             }
 
-            if (invoker == null)
-                throw new NoSuchMethodException(name);
+            if (result == null) {
+                try {
+                    result = new InvokerWithRequest(clazz.getDeclaredMethod(method, TYPES_MAPPING_CONSET_DYNFORM_SEVLETREQRESP));
+                    if (result != null)
+                        log.warn("Deprecated action's method signature: " + method);
+                } catch (Exception e) {}
+            }
 
-            invokerMap.putIfAbsent(name, invoker);
+            if (result == null) {
+                try {
+                    result = new InvokerWithRequestCon(clazz.getDeclaredMethod(method, TYPES_MAPPING_CON_DYNFORM_SEVLETREQRESP));
+                    if (result != null)
+                        log.warn("Deprecated action's method signature: " + method);
+                } catch (Exception e) {}
+            }
+
+            if (result == null)
+                throw new NoSuchMethodException(method);
+
+            invokerMap.putIfAbsent(method, result);
+        } else {
+            log.debug("Cache hit");
         }
-        return invoker;
+
+        log.debug("Found invoker: %s", result.getClass().getSimpleName());
+
+        return result;
     }
 
     @Override
@@ -193,7 +230,7 @@ public class BaseAction extends DispatchAction {
         User user = AuthFilter.getUser(request);
         form.setUser(user);
         
-        form.l = this.l = (Localizer) request.getAttribute("l");
+        form.l = this.l = (Localizer) request.getAttribute(SetRequestParamsFilter.REQUEST_KEY_LOCALIZER);
 
         ActionForward forward = null;
         ConnectionSet conSet = new ConnectionSet(setup.getConnectionPool(), false);
@@ -277,7 +314,7 @@ public class BaseAction extends DispatchAction {
 
             try {
                 name = Utils.maskEmpty(name, "unspecified");
-                forward = (ActionForward) getInvoker(name).invoke(mapping, form, request, response, conSet);
+                forward = (ActionForward) getInvoker(name).invoke(this, mapping, form, request, response, conSet);
             } catch (InvocationTargetException e) {
                 throw e.getCause();
             }
@@ -644,7 +681,8 @@ public class BaseAction extends DispatchAction {
         
         new UserDAO(con).updatePersonalization(persConfigBefore, user);
     }
-    private class Invoker {
+
+    private static class Invoker {
         protected final Method method;
 
         public Invoker(Method method) {
@@ -652,51 +690,75 @@ public class BaseAction extends DispatchAction {
             method.setAccessible(true);
         }
 
-        public Object invoke(ActionMapping mapping, DynActionForm actionForm, HttpServletRequest request,
+        public Object invoke(BaseAction action, ActionMapping mapping, DynActionForm actionForm, HttpServletRequest request,
                 HttpServletResponse response, ConnectionSet conSet)
                         throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-            return method.invoke(BaseAction.this, new Object[] { mapping, actionForm, conSet });
+            return method.invoke(action, actionForm, conSet);
         }
     }
     
-    private class InvokerCon extends Invoker {
+    private static class InvokerCon extends Invoker {
         public InvokerCon(Method method) {
             super(method);
         }
 
         @Override
-        public Object invoke(ActionMapping mapping, DynActionForm actionForm, HttpServletRequest request,
+        public Object invoke(BaseAction action, ActionMapping mapping, DynActionForm actionForm, HttpServletRequest request,
                 HttpServletResponse response, ConnectionSet conSet)
                         throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-            return method.invoke(BaseAction.this,
-                    new Object[] { mapping, actionForm, conSet.getConnection() });
+            return method.invoke(action, actionForm, conSet.getConnection());
         }
     }
 
-    private class InvokerWithRequest extends Invoker {
+    private static class InvokerMapping extends Invoker {
+        public InvokerMapping(Method method) {
+            super(method);
+        }
+
+        @Override
+        public Object invoke(BaseAction action, ActionMapping mapping, DynActionForm actionForm, HttpServletRequest request,
+                HttpServletResponse response, ConnectionSet conSet)
+                        throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+            return method.invoke(action, mapping, actionForm, conSet);
+        }
+    }
+    
+    private static class InvokerMappingCon extends Invoker {
+        public InvokerMappingCon(Method method) {
+            super(method);
+        }
+
+        @Override
+        public Object invoke(BaseAction action, ActionMapping mapping, DynActionForm actionForm, HttpServletRequest request,
+                HttpServletResponse response, ConnectionSet conSet)
+                        throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+            return method.invoke(action, mapping, actionForm, conSet.getConnection());
+        }
+    }
+
+    private static class InvokerWithRequest extends Invoker {
         public InvokerWithRequest(Method method) {
             super(method);
         }
 
         @Override
-        public Object invoke(ActionMapping mapping, DynActionForm actionForm, HttpServletRequest request,
+        public Object invoke(BaseAction action, ActionMapping mapping, DynActionForm actionForm, HttpServletRequest request,
                 HttpServletResponse response, ConnectionSet conSet)
                         throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-            return method.invoke(BaseAction.this, new Object[] { mapping, actionForm, request, response, conSet });
+            return method.invoke(action, mapping, actionForm, request, response, conSet);
         }
     }
 
-    private class InvokerWithRequestCon extends Invoker {
+    private static class InvokerWithRequestCon extends Invoker {
         public InvokerWithRequestCon(Method method) {
             super(method);
         }
 
         @Override
-        public Object invoke(ActionMapping mapping, DynActionForm actionForm, HttpServletRequest request,
+        public Object invoke(BaseAction action, ActionMapping mapping, DynActionForm actionForm, HttpServletRequest request,
                 HttpServletResponse response, ConnectionSet conSet)
                         throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-            return method.invoke(BaseAction.this,
-                    new Object[] { mapping, actionForm, request, response, conSet.getConnection() });
+            return method.invoke(action, mapping, actionForm, request, response, conSet.getConnection());
         }
     }
 }

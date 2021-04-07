@@ -1,10 +1,11 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Ссылка на открытие процесса"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Ссылка на открытие процесса"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="pageFormSelectorFunc" description="jQuery selector function of form"%>
 <%@ attribute name="pageFormSelector" description="jQuery selector of form (only string)"%>
 <%@ attribute name="pageFormId" description="CSS ID of form"%>
 <%@ attribute name="nextCommand" description="JS command after page switch"%>
+<%@ attribute name="styleClass" description="CSS classes of external DIV"%>
 
 <c:set var="page" value="${form.response.data['page']}"/>
 
@@ -20,23 +21,23 @@
 		</c:when>
 		<%-- выбор формы по id--%>
 		<c:when test="${not empty pageFormId}">
-			<c:set var="pageControlForm" value="document.getElementById( '${pageFormId}' )	"/>
+			<c:set var="pageControlForm" value="document.getElementById( '${pageFormId}' )"/>
 			<c:if test="${empty nextCommand}">
 				<c:set var="nextCommand" value="; openUrlTo( formUrl( ${pageControlForm} ), $(this.parentNode.parentNode.parentNode.parentNode.parentNode) )"/>
-			</c:if>				
+			</c:if>
 		</c:when>
 		<%-- промотчик страниц прямо в форме --%>
 		<c:otherwise>
 			<c:set var="pageControlForm" value="this.form"/>
 			<c:if test="${empty nextCommand}">
 				<c:set var="nextCommand" value="; openUrlContent( formUrl( ${pageControlForm} ) )"/>
-			</c:if>	
+			</c:if>
 		</c:otherwise>
-	</c:choose>		
-	
+	</c:choose>
+
 	<c:set var="command" value="toPage(${pageControlForm},"/>
 
-	<div style="display: inline-block; float: right;" class="pt05 pb05">
+	<div style="display: inline-block; float: right;" class="pt05 pb05 ${styleClass}">
 		<table class="page" align="right" cellpadding="0" cellspacing="0" border="0">
 			<tr>
 				<td>
@@ -87,7 +88,7 @@
 						<span class="ui-icon ui-icon-seek-end"></span>
 					</button>
 				</td>
-			</tr>			
+			</tr>
 		</table>
-	</div>	
+	</div>
 </c:if>

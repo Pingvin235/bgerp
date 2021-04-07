@@ -29,6 +29,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgerp.l10n.Localization;
 
 public class SetRequestParamsFilter implements Filter {
+    public static final String REQUEST_KEY_LOCALIZER = "l";
 
     public void destroy() {}
 
@@ -43,7 +44,7 @@ public class SetRequestParamsFilter implements Filter {
         ConnectionSet conSet = new ConnectionSet(Setup.getSetup().getConnectionPool(), true);
         request.setAttribute("ctxConSet", conSet);
 
-        request.setAttribute("l", Localization.getLocalizer((HttpServletRequest) request));
+        request.setAttribute(REQUEST_KEY_LOCALIZER, Localization.getLocalizer((HttpServletRequest) request));
 
         chain.doFilter(request, response);
 
@@ -140,6 +141,5 @@ public class SetRequestParamsFilter implements Filter {
         return result;
     }
 
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
+    public void init(FilterConfig filterConfig) throws ServletException {}
 }

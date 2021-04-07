@@ -302,6 +302,11 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return getParam(PARAM_FORWARD_FILE);
     }
 
+    /**
+     * Return JSP template directly.
+     * @param value
+     */
+    @Deprecated
     public void setForwardFile(String value) {
         setParam(PARAM_FORWARD_FILE, value);
     }

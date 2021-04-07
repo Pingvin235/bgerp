@@ -32,4 +32,4 @@
 </table>
 </html:form>
 
-<shell:state ltext="${l.l('Редактирование города')}" help="kernel/setup.html#address"/>
+<shell:state ltext="Редактирование города" help="kernel/setup.html#address"/>

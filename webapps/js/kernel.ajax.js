@@ -76,8 +76,9 @@ $$.ajax = new function () {
 
 		// erasing of existing value, speeds up load process significantly in some cases
 		// the reason is not clear, was found in callboard, probably because of removing of onLoad listeners
-		if (!options || (!options.replace && !options.append))
-			$selector.html("");
+		// !!! the erasing was disabled because of problems with generation URL from form elements, which already were gone
+		/* if (!options || (!options.replace && !options.append))
+			$selector.html(""); */
 
 		// parameter runs cascaded load
 		let dfd = options.dfd;
@@ -229,16 +230,10 @@ $$.ajax = new function () {
 	const checkResponse = function (data, form) {
 		var result = false;
 
-		//TODO: Убрать поддержку статуса 'message', отнести его к ошибкам.
-		if (data.status == 'ok' || data.status == 'message') {
+		if (data.status == 'ok') {
 			result = data;
 
-			// обработка событий на обновления в интерфейсе
-			for (var i = 0; i < data.eventList.length; i++) {
-				if (data.eventList[i] != null) {
-					processEvent(data.eventList[i]);
-				}
-			}
+			processClientEvents(data);
 
 			if (data.message) {
 				alert(data.message);
@@ -249,19 +244,27 @@ $$.ajax = new function () {
 
 			if (form) {
 				const paramName = data.data && data.data.paramName;
-				if (paramName)
-					$(form).find("input[name='" + paramName + "']").addClass("error");
+				if (paramName) {
+					const $input = $(form).find("input[name='" + paramName + "']");
+					$input.addClass("error");
+					$input[0].scrollIntoView();
+				}
 			}
 
 			alert("Error: " + message);
 
-			// обработка событий на обновления в интерфейсе
-			for (var i = 0; i < data.eventList.length; i++) {
-				processEvent(data.eventList[i]);
-			}
+			processClientEvents(data);
 		}
 
 		return result;
+	}
+
+	const processClientEvents = function (data) {
+		for (var i = 0; i < data.eventList.length; i++) {
+			if (data.eventList[i] != null) {
+				processEvent(data.eventList[i]);
+			}
+		}
 	}
 
 	/**

@@ -73,6 +73,6 @@
 	});
 </script>
 
-<shell:state ltext="${l.l('Редактор')}" help="kernel/process/queue.html#setup"/>
+<shell:state ltext="Редактор" help="kernel/process/queue.html#setup"/>
 
 <%@ include file="/WEB-INF/jspf/layout_process.jsp"%>

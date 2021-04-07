@@ -3,47 +3,48 @@ package ru.bgcrm.struts.action;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.SessionLogAppender;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class LogAction extends BaseAction {
-	@Override
-	protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-			throws Exception {
-		HttpSession session = form.getHttpRequest().getSession();
-		
-		form.setResponseData("state", SessionLogAppender.isSessionTracked(session));
-		form.setResponseData("log", SessionLogAppender.getSessionLog(session));
+    private static final String JSP = PATH_JSP_USER + "/log/log.jsp";
 
-		return data(conSet, mapping, form, FORWARD_DEFAULT);
-	}
-	
-	public ActionForward log(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-			throws Exception {
-		boolean value = form.getParamBoolean("enable", false);
-		
-		HttpSession session = form.getHttpRequest().getSession();
-		if (value)
-			SessionLogAppender.trackSession(session, true);
-		else
-			SessionLogAppender.untrackSession(session);
+    @Override
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet)
+            throws Exception {
+        HttpSession session = form.getHttpRequest().getSession();
+        
+        form.setResponseData("state", SessionLogAppender.isSessionTracked(session));
+        form.setResponseData("log", SessionLogAppender.getSessionLog(session));
 
-		return unspecified(mapping, form, conSet);
-	}
-	
-	public ActionForward download(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-			throws Exception {
-		boolean value = form.getParamBoolean("enable", false);
-		
-		HttpSession session = form.getHttpRequest().getSession();
-		if (value)
-			SessionLogAppender.trackSession(session, true);
-		else
-			SessionLogAppender.untrackSession(session);
+        return data(conSet, form, JSP);
+    }
+    
+    public ActionForward log(DynActionForm form, ConnectionSet conSet)
+            throws Exception {
+        boolean value = form.getParamBoolean("enable", false);
+        
+        HttpSession session = form.getHttpRequest().getSession();
+        if (value)
+            SessionLogAppender.trackSession(session, true);
+        else
+            SessionLogAppender.untrackSession(session);
 
-		return status(conSet, form);
-	}
+        return unspecified(form, conSet);
+    }
+    
+    public ActionForward download(DynActionForm form, ConnectionSet conSet)
+            throws Exception {
+        boolean value = form.getParamBoolean("enable", false);
+        
+        HttpSession session = form.getHttpRequest().getSession();
+        if (value)
+            SessionLogAppender.trackSession(session, true);
+        else
+            SessionLogAppender.untrackSession(session);
+
+        return status(conSet, form);
+    }
 }

@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.report.model;
+package ru.bgcrm.model.process.queue.config;
 
 import java.util.ArrayList;
 import java.util.Collection;

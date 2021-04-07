@@ -27,4 +27,4 @@
 	</table>
 </html:form>
 
-<shell:state ltext="${l.l('Редактирование страны')}" help="kernel/setup.html#address"/>
+<shell:state ltext="Редактирование страны" help="kernel/setup.html#address"/>

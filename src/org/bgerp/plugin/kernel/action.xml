@@ -1,7 +1,7 @@
-<item title="Ядро">
-	<item title="Администрирование">
-		<item title="Группы и пользователи">
-			<item title="Пользователи">
+<item ltitle="Ядро">
+	<item ltitle="Администрирование">
+		<item ltitle="Группы и пользователи">
+			<item ltitle="Пользователи">
 				<item action="ru.bgcrm.struts.action.admin.UserAction:userList" title="Просмотр пользователей">
 					<b>allowOnlyGroups</b> - коды разрешённых к просмотру групп, коды групп через запятую<br/>
 					<b>allowFilterGroups</b> - коды разрешённых к просмотру групп, которые будут отображаться в фильтре по группе, коды групп через запятую<br/>

@@ -1,8 +1,12 @@
-package ru.bgcrm.plugin.report.dao;
+package org.bgerp.plugin.report.dao;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.struts.form.DynActionForm;
 
+/**
+ * Old report definition before switched to actions.
+ */
+@Deprecated
 public abstract class ReportDAO extends CommonDAO {
 
     public ReportDAO() {

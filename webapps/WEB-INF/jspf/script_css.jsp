@@ -78,6 +78,8 @@
 <script src="/lib/codemirror/addon/selection/active-line.js"></script>
 <script src="/lib/codemirror/addon/edit/matchbrackets.js"></script>
 
+<script src="/lib/d3/d3.js"></script>
+
 <style type="text/css">
 	<%@include file="/css/style.css.jsp"%>
 </style>

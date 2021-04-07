@@ -59,4 +59,4 @@
 	</div>
 </html:form>
 
-<shell:state ltext="${l.l('Редактирование')}" help="kernel/customer.html"/>
+<shell:state ltext="Редактирование" help="kernel/customer.html"/>

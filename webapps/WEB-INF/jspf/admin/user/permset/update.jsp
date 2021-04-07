@@ -67,6 +67,6 @@
 	<ui:form-ok-cancel toPostNames="['config','userConfig']"/>
 </html:form>
 
-<shell:state ltext="${l.l('Редактор')}" help="kernel/setup.html#user"/>
+<shell:state ltext="Редактор" help="kernel/setup.html#user"/>
 
 <%@ include file="/WEB-INF/jspf/layout_process.jsp"%>

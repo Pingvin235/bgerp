@@ -6,6 +6,7 @@ import org.apache.struts.action.ActionMapping;
 import ru.bgcrm.event.client.UrlOpenEvent;
 import ru.bgcrm.event.listener.LoginEventListener;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -24,7 +25,7 @@ public class LoginAction extends BaseAction {
                 LoginEventListener.addOnLoginEvent(form.getUserId(), new UrlOpenEvent(url));
         }
         
-        form.setRequestAttribute("l", Localization.getSysLocalizer());
+        form.setRequestAttribute(SetRequestParamsFilter.REQUEST_KEY_LOCALIZER, Localization.getSysLocalizer());
         
         // вывод страницы авторизации если responseType=html
         return data(conSet, mapping, form, FORWARD_DEFAULT);

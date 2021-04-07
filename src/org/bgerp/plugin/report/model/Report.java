@@ -1,10 +1,12 @@
-package ru.bgcrm.plugin.report.model;
+package org.bgerp.plugin.report.model;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.util.ParameterMap;
 
+/** Old way of reports configuration. */
+@Deprecated
 public class Report {
     private final String id;
     private final String title;

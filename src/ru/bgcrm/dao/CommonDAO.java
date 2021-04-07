@@ -24,6 +24,8 @@ import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgerp.util.Log;
 
 public class CommonDAO {
+    protected final Log log = Log.getLog(this.getClass());
+
     protected final static String SQL_SELECT = "SELECT ";
     protected final static String SQL_SELECT_ALL_FROM = "SELECT * FROM";
     protected final static String SQL_SELECT_COUNT_ROWS = "SELECT SQL_CALC_FOUND_ROWS ";
@@ -44,8 +46,9 @@ public class CommonDAO {
     protected final static String SQL_REPLACE = " REPLACE INTO ";
     protected final static String SQL_ON_DUP_KEY_UPDATE = " ON DUPLICATE KEY UPDATE ";
 
-    protected final Log log = Log.getLog(this.getClass());
     protected Connection con;
+
+    protected CommonDAO() {}
 
     protected CommonDAO(Connection con) {
         this.con = con;

@@ -7,6 +7,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 
 /**
  * Pagination supporting list.
+ * 
  * @author Shamil
  */
 // TODO: Rename to PagedData.

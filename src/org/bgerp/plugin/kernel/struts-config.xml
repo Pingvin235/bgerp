@@ -148,9 +148,7 @@
 			<forward name="parameters" path="/WEB-INF/jspf/user/profile/parameters.jsp"/>
 		</action>
 
-		<action path="/user/log" parameter="action" type="ru.bgcrm.struts.action.LogAction" name="form" scope="request">
-			 <forward name="default" path="/WEB-INF/jspf/user/log/log.jsp"/>
-		</action>
+		<action path="/user/log" parameter="action" type="ru.bgcrm.struts.action.LogAction" name="form" scope="request"/>
 
 		<action path="/usermob/process" parameter="action" type="org.bgerp.action.usermob.ProcessAction" name="form" scope="request">
 			<forward name="queue" path="/WEB-INF/jspf/usermob/process/queue/queue.jsp"/>

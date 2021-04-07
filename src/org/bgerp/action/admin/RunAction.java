@@ -1,7 +1,6 @@
 package org.bgerp.action.admin;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.RunClassRequestEvent;
@@ -18,12 +17,12 @@ public class RunAction extends BaseAction {
     private static final String JSP_CUSTOM = JSP_PATH + "/run.jsp";
 
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet)
             throws Exception {
         return data(conSet, form, JSP_CUSTOM);
     }
     
-    public ActionForward runClass(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
+    public ActionForward runClass(DynActionForm form, ConnectionSet conSet)
         throws Exception {
         String className = form.getParam("class");
 

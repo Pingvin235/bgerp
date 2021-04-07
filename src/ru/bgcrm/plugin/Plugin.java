@@ -123,7 +123,7 @@ public abstract class Plugin {
      * Endpoints for connecting the plugin in JSP templates.
      * @return
      */
-    public Map<String, String> getEndpoints() {
+    public final Map<String, String> getEndpoints() {
         return endpoints;
     }
 

@@ -83,9 +83,6 @@ public class DevelopmentTest {
             ConfigHelper.generateConstants("GROUP_ID", groupId) +
             ResourceHelper.getResource(this, "queue.tasks.txt"), Sets.newHashSet(processTypeProductId));
         UserHelper.addGroupQueues(groupId, Sets.newHashSet(queueTasksId));
-
-        /* queuePlanId = ProcessHelper.addQueue("BGERP / Plan", ResourceHelper.getResource(this, "queue.plan.txt"), Sets.newHashSet(queuePlanId));
-        UserHelper.addGroupQueues(groupId, Sets.newHashSet(queuePlanId)); */
     }
 
     @Test (dependsOnMethods = "addGroups")
