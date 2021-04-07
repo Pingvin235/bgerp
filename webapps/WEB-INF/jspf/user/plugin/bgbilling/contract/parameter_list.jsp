@@ -63,29 +63,36 @@
 				</tr>
 			</c:if>
 			<c:forEach var="contractParameter" items="${form.response.data.contractParameterList}">
-				<c:if test="${form.param.showEmptyParameters eq 1 or not empty contractParameter.value}">	
+				<c:if test="${form.param.showEmptyParameters eq 1 or not empty contractParameter.value or contractParameter.paramType eq 10}">	
 					<tr>
-						<c:if test="${empty onlyData}"><td align="center">${contractParameter.getParamId()}</td></c:if>
-						<td nowrap="nowrap">${contractParameter.getTitle() }</td>
-						<td>
-						<c:set var="viewEditDivId" value="${u:uiid()}"/>
-							<div id="${viewEditDivId}">
-								<form action="/user/plugin/bgbilling/proto/contract.do">
-									<input type="hidden" name="action" value="parameterGet" />
-									<input type="hidden" name="billingId" value="${form.param.billingId}"/>
-									<input type="hidden" name="contractId" value="${form.param.contractId}"/>
-									<input type="hidden" name="paramId" value="${contractParameter.paramId}"/>
-									<input type="hidden" name="paramType" value="${contractParameter.paramType}"/>
-									<input type="hidden" name="value" value="${fn:escapeXml( contractParameter.value )}"/>
-									<input type="hidden" name="returnUrl" value="${form.requestUrl}" />
-															
-									<a href="#UNDEF" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') ); return false;">${fn:escapeXml( contractParameter.value )}</a>
-									<c:if test="${empty contractParameter.getValue()}">
-										<a href="#UNDEF" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') ); return false;">не указан</a>
-									</c:if>
-								</form>
-							</div>
-						</td>
+						<c:choose>
+	    					<c:when test="${contractParameter.paramType eq 10}">
+								<td colspan="3" class="header" >${contractParameter.getTitle()}</td>
+							</c:when>
+							<c:otherwise>
+								<c:if test="${empty onlyData}"><td align="center">${contractParameter.getParamId()}</td></c:if>
+								<td nowrap="nowrap">${contractParameter.getTitle()}</td>
+								<td>
+								<c:set var="viewEditDivId" value="${u:uiid()}"/>
+									<div id="${viewEditDivId}">
+										<form action="/user/plugin/bgbilling/proto/contract.do">
+											<input type="hidden" name="action" value="parameterGet" />
+											<input type="hidden" name="billingId" value="${form.param.billingId}"/>
+											<input type="hidden" name="contractId" value="${form.param.contractId}"/>
+											<input type="hidden" name="paramId" value="${contractParameter.paramId}"/>
+											<input type="hidden" name="paramType" value="${contractParameter.paramType}"/>
+											<input type="hidden" name="value" value="${fn:escapeXml( contractParameter.value )}"/>
+											<input type="hidden" name="returnUrl" value="${form.requestUrl}" />
+																	
+											<a href="#UNDEF" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') ); return false;">${fn:escapeXml( contractParameter.value )}</a>
+											<c:if test="${empty contractParameter.getValue()}">
+												<a href="#UNDEF" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') ); return false;">не указан</a>
+											</c:if>
+										</form>
+									</div>
+								</td>
+							</c:otherwise>
+						</c:choose>
 					</tr>
 				</c:if>
 			</c:forEach>
