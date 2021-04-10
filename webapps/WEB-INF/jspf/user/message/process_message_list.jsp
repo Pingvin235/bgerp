@@ -19,7 +19,7 @@
 			<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
-		<button class="btn-green" type="button" onclick="$$.ajax.load('${url}', $('#${editorContainerUiid}'))">+</button>
+		<button class="btn-green" type="button" onclick="$$.ajax.load('${url}', $('#${editorContainerUiid}'))"><i class="ti-plus"></i></button>
 
 		<html:hidden property="attach"/>
 		<c:set var="sendCommand">$$.ajax.load($('#${formUiid}')[0], $('#${formUiid}').parent())</c:set>

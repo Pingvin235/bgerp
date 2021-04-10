@@ -14,7 +14,7 @@
 <div class="btn-white combo" id="${uiid}">
 	<input type="hidden" name="${hiddenName}" value="${value}"/>
 
-	<div class="text-pref">Текст:</div>
+	<div class="text-pref">${l.l('Текст')}:</div>
 	
 	<%-- ширину всего элемента можно задавать только шириной этого блока --%>
 	<div class="text-value" style="width: 100px; max-width: 100px;">[8] Значение, значени2, значение3 </div>

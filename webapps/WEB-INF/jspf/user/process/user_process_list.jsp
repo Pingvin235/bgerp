@@ -64,11 +64,11 @@
 	<table class="data" class="center1020" id="${uiid}" style="width: 100%;">
 		<tr>
 			<td>ID</td>
-			<td>Время создания</td>
-			<td>Время закрытия</td>
-			<td>Тип</td>
-			<td>Статус</td>
-			<td>Описание</td>
+			<td>${l.l('Время создания')}</td>
+			<td>${l.l('Время закрытия')}</td>
+			<td>${l.l('Тип')}</td>
+			<td>${l.l('Статус')}</td>
+			<td>${l.l('Описание')}</td>
 		</tr>
 		<c:forEach var="process" items="${form.response.data.list}">
 			<tr openCommand="openProcess(${process.id })">

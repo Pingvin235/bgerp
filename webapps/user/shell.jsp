@@ -15,7 +15,7 @@
 
 	<div id="headWrap">
 		<div id="head">
-			<button id="${uiidButtonMenu}" class="btn-green btn-start">+</button>
+			<button id="${uiidButtonMenu}" class="btn-green btn-start icon"><i class="ti-plus"></i></button>
 
 			<div id="taskPanelWrap"><span id="taskPanel"></span></div>
 

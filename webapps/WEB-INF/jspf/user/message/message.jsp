@@ -12,7 +12,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 <div id="${uiid}" class="in-ml1">
-	<h1 style="display: inline-block;"><a href="#UNDEF" onclick="openUrlContent('${form.requestUrl}'); return false;">Обработка</a></h1>
+	<h1 style="display: inline-block;"><a href="#UNDEF" onclick="openUrlContent('${form.requestUrl}'); return false;">${l.l('Обработка')}</a></h1>
 	<button  type="button" class="ml1 btn-white" onClick="openUrlContent('${form.returnUrl}')" title="Закрыть">&lt;</button>
 </div>
 
@@ -35,7 +35,7 @@
 		<c:choose>
 			<%-- процесс ещё не привязан --%>
 			<c:when test="${empty message.process}">
-				<h2>Создать новый процесс</h2>
+				<h2>${l.l('Создать новый процесс')}</h2>
 
 				<form action="/user/process.do" style="width:100%;" onsubmit="return false;">
 					<input type="hidden" name="action" value="processCreate"/>
@@ -50,7 +50,7 @@
 					<c:set var="customerLinkRoleConfig" value="${u:getConfig( setup, 'ru.bgcrm.model.customer.config.ProcessLinkModesConfig' )}"/>
 
 					<div class="mt1">
-						<b>Привязать:</b><br/>
+						<b>${l.l('Привязать')}:</b><br/>
 
 						<c:set var="searchBlockId" value="${u:uiid()}"/>
 
@@ -63,7 +63,7 @@
 								</c:set>
 								<c:set var="hiddenName" value="searchId"/>
 								<c:set var="value" value="${form.param.searchId}"/>
-								<c:set var="prefixText" value="Поиск:"/>
+								<c:set var="prefixText" value="${l.l('Поиск')}:"/>
 								<c:set var="styleClass" value="mr1"/>
 								<c:set var="onSelect">$('#${searchBlockId} > .filter').hide();$('#${searchBlockId} > .filter#' + $hidden.val() ).show();</c:set>
 								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
@@ -87,14 +87,14 @@
 								</c:if>
 							</c:forEach>
 
-							<button type="button" class="btn-grey" onclick="${searchScript}">Искать</button>
+							<button type="button" class="btn-grey" onclick="${searchScript}">${l.l('Искать')}</button>
 						</div>
 
 						<table class="data mt05" style="width: 100%;">
 							<tr>
 								<td>&nbsp;</td>
 								<td>ID</td>
-								<td>Тип</td>
+								<td>${l.l('Тип')}</td>
 								<td width="100%">${l.l('Наименование')}</td>
 							</tr>
 
@@ -122,10 +122,10 @@
 					</div>
 
 					<div class="mt1">
-						<b>Описание:</b><br/>
+						<b>${l.l('Описание')}:</b><br/>
 
 						<textarea name="description" rows="5" style="width: 100%; resize: vertical;">${message.subject}</textarea>
-						<div class="hint">Краткое описание процесса</div>
+						<div class="hint">${l.l('Краткое описание процесса')}</div>
 
 						<c:set var="createCommand">
 							var result = sendAJAXCommand( formUrl( this.form ) );
@@ -166,12 +166,12 @@
 						<div class="mt1">
 							<%@ include file="process_link_params.jsp"%>
 
-							<button class="btn-grey" type="button" onclick="${createCommand}">Создать процесс</button>
+							<button class="btn-grey" type="button" onclick="${createCommand}">${l.l('Создать процесс')}</button>
 						</div>
 					</div>
 				</form>
 
-				<h2>Возможные процессы</h2>
+				<h2>${l.l('Возможные процессы')}</h2>
 
 				<div>
 					<c:url var="url" value="/user/process.do">
@@ -192,7 +192,7 @@
 					<c:set var="requestUrl" value="${form.requestUrl}"/>
 					<c:set var="tableId" value="${uiid}"/>
 
-					<h2>ПРОЦЕСС</h2>
+					<h2>${l.l('ПРОЦЕСС')}</h2>
 
 					<table style="width: 100%;" class="oddeven">
 						<%@ include file="/WEB-INF/jspf/user/process/process/process_header.jsp"%>
@@ -232,7 +232,7 @@
 			</c:otherwise>
 		</c:choose>
 
-		<h2>Привязать процесс</h2>
+		<h2>${l.l('Привязать процесс')}</h2>
 
 		<html:form action="/user/message" styleClass="mt1 in-table-cell" onsubmit="return false;">
 			<input type="hidden" name="action" value="messageUpdateProcess"/>
@@ -249,7 +249,7 @@
 			<input type="text" size="3" name="processId" class="mr1 text-center"/>
 
 			<c:set var="linkScript">
-				if( confirm( 'Привязать сообщение к указанному процессу?' ) )
+				if( confirm( '${l.l('Привязать сообщение к указанному процессу?')}' ) )
 				{
 					var result = sendAJAXCommand( formUrl( this.form ) );
 					if( result )
@@ -262,10 +262,10 @@
 
 			<%@ include file="process_link_params.jsp"%>
 
-			<button class="btn-grey" type="button" onclick="${linkScript}">Привязать</button>
+			<button class="btn-grey" type="button" onclick="${linkScript}">${l.l('Привязать')}</button>
 
 			<div class="hint">
-				Укажите код для привязки процесса. Код "0" - для отвязки сообщения от процесса.
+					${l.l('Укажите код для привязки процесса. Код "0" - для отвязки сообщения от процесса.')}
 			</div>
 		</html:form>
 
@@ -285,16 +285,16 @@
 			</c:when>
 
 			<c:when test="${typeEmail}">
-				<h2>Сообщение</h2>
+				<h2>${l.l('Сообщение')}</h2>
 
-				<b>Тема:</b> ${message.subject}<br/>
-				<b>От:</b> <a href="mailto:${message.from}">${message.from}</a><br/>
-				<b>Текст:</b><br/>
+				<b>${l.l('Тема')}:</b> ${message.subject}<br/>
+				<b>${l.l('От')}:</b> <a href="mailto:${message.from}">${message.from}</a><br/>
+				<b>${l.l('Текст')}:</b><br/>
 					<c:set var="text" value="${message.text}"/>
 					<c:set var="text" value="${u:htmlEncode(text)}"/>
 					<ui:text-prepare text="${text}"/>
 				<c:if test="${not empty message.attachList}">
-					<br/><br/><b>Вложения (можно загрузить только после привязки процесса):</b><br/>
+					<br/><br/><b>${l.l('Вложения (можно загрузить только после привязки процесса)')}:</b><br/>
 
 					<c:forEach var="item" items="${message.attachList}">
 						<c:choose>
@@ -314,11 +314,11 @@
 				</c:if>
 			</c:when>
 			<c:when test="${typeCall}">
-				<h2>Звонок</h2>
+				<h2>${l.l('Звонок')}</h2>
 				<div class="tt in-mt05">
-					<div>С номера: <b>${message.from}</b></div>
-					<div>На номер: <b>${message.to}</b></div>
-					<div>Время начала: <b>${u:formatDate( message.fromTime, 'ymdhms' )}</b></div>
+					<div>${l.l('С номера')}: <b>${message.from}</b></div>
+					<div>${l.l('На номер')}: <b>${message.to}</b></div>
+					<div>${l.l('Время начала')}: <b>${u:formatDate( message.fromTime, 'ymdhms' )}</b></div>
 				</div>
 			</c:when>
 		</c:choose>

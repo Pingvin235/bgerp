@@ -7,15 +7,18 @@
 		<c:param name="id" value="${item.id}"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
-	<c:url var="deleteAjaxUrl" value="/admin/config.do">
+	<c:url var="deleteUrl" value="/admin/config.do">
 		<c:param name="action" value="delete"/>
 		<c:param name="id" value="${item.id}"/>
 	</c:url>
-	<c:url var="deleteAjaxCommandAfter" value="openUrlContent( '${form.requestUrl}' )"/>
 
-	<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
+	<td nowrap="nowrap">
+		<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content())"/>
+		<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content()) })"/>
+	</td>
+
 	<td>${item.id}</td>
-	<td style="text-align: center;"><c:if test="${item.active}">X</c:if></td>
+	<td style="text-align: center;"><c:if test="${item.active}"><i class="ti-check"></i></c:if></td>
 	<td>${indent} ${item.title}</td>
 </tr>
 

@@ -21,9 +21,9 @@
     var CLASS_JQUERY_TREE_FILTER_INPUT = 'jquery-tree-filter-input';
     var CLASS_JQUERY_TREE_SELECT_NODE = 'select_node';
 
-    var COLLAPSE_ALL_CODE = '<span class="' + CLASS_JQUERY_TREE_COLLAPSE_ALL + '">Свернуть все</span>';
-    var EXPAND_ALL_CODE = '<span class="' + CLASS_JQUERY_TREE_EXPAND_ALL + '">Развернуть все</span>';
-    var FILTER_CODE = '<div style="padding-bottom: 5px; padding-top: 0px;"><input class="' + CLASS_JQUERY_TREE_FILTER_INPUT + '" type="text" placeholder="Фильтр"/><button class="ml1 btn-grey ' + CLASS_JQUERY_TREE_FILTER_BUTTON + '" type="button" title="Искать">=&gt;</button></div>';
+    var COLLAPSE_ALL_CODE = '<span class="' + CLASS_JQUERY_TREE_COLLAPSE_ALL + ' ti-plus" title="Collapse all"></span>';
+    var EXPAND_ALL_CODE = '<span class="' + CLASS_JQUERY_TREE_EXPAND_ALL + ' ti-minus" title="Expand all"></span>';
+    var FILTER_CODE = '<div style="padding-bottom: 5px; padding-top: 0px;"><input class="' + CLASS_JQUERY_TREE_FILTER_INPUT + '" type="text" placeholder="Filter"/><button class="ml1 btn-grey icon ' + CLASS_JQUERY_TREE_FILTER_BUTTON + '" type="button" title="Filter"><i class="ti-control-play"></i></button></div>';
     var TREE_CONTROLS_CODE = '<div class="mb05 ' + CLASS_JQUERY_TREE_CONTROLS + '">' +
         FILTER_CODE +
         COLLAPSE_ALL_CODE +

@@ -19,23 +19,23 @@
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 		<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 	</c:url>
-	<button type="button" class="btn-green" onclick="openUrlContent( '${url}' )">+</button>
+	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
 
 	<c:url var="url" value="/admin/process.do">
 		<c:param name="action" value="typeInsertMark"/>
 		<c:param name="markType" value="${form.param.markType}"/>
 		<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 	</c:url>
-	<button type="button" id="markTypeButton" class="btn-grey ml1" onclick="if( sendAJAXCommand( '${url}' ) ){ openUrlContent( '${urlList}' ); }">Вставить [${markTypeString}]</button>
+	<button type="button" id="markTypeButton" class="btn-grey ml1" onclick="if( sendAJAXCommand( '${url}' ) ){ openUrlContent( '${urlList}' ); }">${l.l('Вставить')} [${markTypeString}]</button>
 
-	<button type="button" class="btn-grey ml1" onclick="openUrlContent( '${urlList}' )">Сбросить выделение</button>
+	<button type="button" class="btn-grey ml1" onclick="openUrlContent( '${urlList}' )">${l.l('Сбросить выделение')}</button>
 
 	<c:set var="doFilterCommand">this.form.parentTypeId.value = this.form.filter.value ? -1 : 0; openUrlContent( formUrl( this.form ) )</c:set>
 
 	<ui:input-text name="filter" onSelect="${doFilterCommand}; return false;"
-			placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" title="Фильтр по наименованию, конфигурации"/>
+			placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" title="${l.l('Фильтр по наименованию, конфигурации')}"/>
 
-	<button class="btn-grey" type="button" onclick="${doFilterCommand}" title="${l.l('Вывести')}">=&gt;</button>
+	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -48,7 +48,7 @@
 	</c:url>
 
 	&#160;
-	<a href="#UNDEF" onClick="openUrlContent('${url}'); return false;">Типы процессов</a>
+	<a href="#UNDEF" onClick="openUrlContent('${url}'); return false;">${l.l('Типы процессов')}</a>
 
 	<c:forEach var="item" items="${typePath}" varStatus="status">
 		<c:url var="url" value="/admin/process.do">
@@ -80,7 +80,7 @@
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 				<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 			</c:url>
-			<c:url var="deleteAjaxUrl" value="/admin/process.do">
+			<c:url var="deleteUrl" value="/admin/process.do">
 				<c:param name="action" value="typeDelete"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
@@ -88,12 +88,19 @@
 			<c:url var="deleteAjaxCommandAfter" value="openUrlContent( '${form.requestUrl}' )"/>
 
 			<td nowrap="nowrap">
-				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+				<%-- <%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%> --%>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content())"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content()) })"/>
 				<%-- TODO: некорректно работает, когда выбрана не первая страница, решение см. редактор групп --%>
-				<c:url var="url" value="${urlList}">
+				<%-- <c:url var="url" value="${urlList}">
 					<c:param name="markType" value="${item.id}"/>
-				</c:url>
-				<button type="button" class="btn-white btn-small" onclick="openUrlContent( '${url}' )" title="Вырезать">C</button>
+				</c:url> --%>
+				<%-- <button type="button" class="btn-white btn-small" onclick="openUrlContent( '${url}' )" title="Вырезать">C</button> --%>
+
+				<ui:button type="cut" styleClass="btn-small"
+					onclick="$('#${uiid}')[0].markGroup.value=${item.id};
+							toPage($('#${uiid}')[0], ${form.page.pageIndex}, ${form.page.pageSize}, '');
+							$$.ajax.load($('#${uiid}'), $$.shell.$content())"/>
 			</td>
 
 			<td>${item.id}</td>

@@ -6,12 +6,12 @@
 <c:set var="paramLinkId" value="${u:uiid()}"></c:set>
 <c:set var="nextCommand" value="; openUrlToParent( formUrl( this.form ), $('#${paramLinkId}') )"/>
 
-<h1>Лог изменений параметров</h1>
+<h1>${l.l('Лог изменений параметров')}</h1>
 
 <html:form action="/user/parameter.do" style="width: 100%;"  styleId="${paramLinkId}">
 	<table style="width: 100%;" id="${paramLinkId}">
 		<tr><td>
-			<button class="btn-white mb0.5" onclick="openUrlToParent( '${form.returnUrl}', $('#${paramLinkId}') ); return false;">Закрыть</button>
+			<button class="btn-white mb0.5" onclick="openUrlToParent( '${form.returnUrl}', $('#${paramLinkId}') ); return false;">${l.l('Закрыть')}</button>
 			<%@ include file="/WEB-INF/jspf/page_control.jsp"%>			
 		</td></tr>
 	</table>
@@ -22,10 +22,10 @@
 	<html:hidden property="returnUrl"/>
 	<table id="${paramLinkId}" style="width:100%" class="data mt05">
 		<tr>
-			<td>Дата</td>
-			<td>Пользователь</td>
-			<td>Параметр</td>
-			<td width="100%">Значение</td>
+			<td>${l.l('Дата')}</td>
+			<td>${l.l('Пользователь')}</td>
+			<td>${l.l('Параметр')}</td>
+			<td width="100%">${l.l('Значение')}</td>
 		</tr>
 		<c:forEach var="logItem" items="${log}">
 			<tr>

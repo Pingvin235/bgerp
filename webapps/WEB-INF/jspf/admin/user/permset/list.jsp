@@ -4,19 +4,19 @@
 <html:form action="admin/user">
 	<input type="hidden" name="action" value="permsetList"/>
 	<input type="hidden" name="pageableId" value="permsetList"/>
-	
+
 	<c:url var="url" value="/admin/user.do">
 	    <c:param name="action" value="permsetGet"/>
 	    <c:param name="id" value="-1"/>
 	    <c:param name="returnUrl" value="${form.requestUrl}"/>
   	</c:url>
-  	<button type="button" class="btn-green mr1" onclick="openUrlContent( '${url}' )">+</button>
-			
-	<ui:input-text name="filter" styleClass="ml1" value="${form.param.filter}" placeholder="${l.l('Фильтр')}" size="40" title="Фильтр по наименованию, комментарию, конфигурации, параметрам действий"
+	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
+
+	<ui:input-text name="filter" styleClass="ml1" value="${form.param.filter}" placeholder="${l.l('Фильтр')}" size="40" title="${l.l('Фильтр по наименованию, комментарию, конфигурации, параметрам действий')}"
 		onSelect="openUrlContent( formUrl( this.form ) ); return false;"/>
-			
-	<button class="btn-grey ml1" type="button" onclick="openUrlContent( formUrl( this.form ) )">=&gt;</button>
-			
+
+	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
+
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
 
@@ -34,25 +34,26 @@
 				<c:param name="id" value="${permset.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
-			<c:url var="deleteAjaxUrl" value="/admin/user.do">
+			<c:url var="deleteUrl" value="/admin/user.do">
 				<c:param name="action" value="permsetDelete"/>
 				<c:param name="id" value="${permset.id}"/>
 			</c:url>
 			<c:url var="deleteAjaxCommandAfter" value="openUrlContent( '${form.requestUrl}' )"/>
-			
+
 			<c:set var="uiid" value="${u:uiid()}"/>
-			
+
 			<td nowrap="nowrap" id="${uiid}">
-				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
-				
-				<button type="button" class="btn-white btn-small"
-					title="Заменить права набора на права из другого набора"
-					onclick="$('#${uiid} > input').hide(); $('#${uiid} > form').css('display', 'inline');">R</button>				
-							
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content())"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content()) })"/>
+
+				<button type="button" class="btn-white btn-small icon"
+					title="${l.l('Заменить права набора на права из другого набора')}"
+					onclick="$('#${uiid} > input').hide(); $('#${uiid} > form').css('display', 'inline');"><i class="ti-import"></i></button>
+
 				<html:form style="display: none;" action="/admin/user" onsubmit="return false;" styleClass="ml1">
 					<input type="hidden" name="action" value="permsetReplacePermissions"/>
 					<input type="hidden" name="id" value="${permset.id}"/>
-					
+
 					<u:sc>
 						<c:set var="list" value="${ctxUserPermsetList}"/>
 						<c:set var="hiddenName" value="fromId"/>
@@ -60,16 +61,16 @@
 						<c:set var="style" value="width: 200px;"/>
 						<%@ include file="/WEB-INF/jspf/select_single.jsp"%>
 					</u:sc>
-					
-					<button 
-						type="button" class="btn-grey ml1"  
+
+					<button
+						type="button" class="btn-grey ml1"
 						onclick="if( confirm( 'Вы уверены, что хотите заменить права\nна права из выбранного набора?' ) && sendAJAXCommand( formUrl( this.form ) ) ){ $('#${uiid} > form').hide(); $('#${uiid} > input').show(); }">OK</button>
-					<button 
-						type="button" class="btn-grey" 
+					<button
+						type="button" class="btn-grey"
 						onclick="$('#${uiid} > form').hide(); $('#${uiid} > input').show();">${l.l('Отмена')}</button>
 				</html:form>
 			</td>
-			
+
 			<td>${permset.id}</td>
 			<td>${permset.title}</td>
 			<td>${permset.comment}</td>

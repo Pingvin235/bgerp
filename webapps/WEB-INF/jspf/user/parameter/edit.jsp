@@ -542,7 +542,7 @@
 			<c:if test="${empty hideOkButton}">
 				<input type="button" class="btn-grey mr1" value="OK" onclick="${saveCommand}" />
 			</c:if>
-			<input type="button" class="btn-grey" value="${l.l('Отмена')}" onmousedown="$('#${uiid} input').attr('onblurstop','1');" onclick="openUrlToParent( '${form.returnUrl}', $('#${tableId}') )" />
+			<input type="button" class="btn-white" value="${l.l('Отмена')}" onmousedown="$('#${uiid} input').attr('onblurstop','1');" onclick="openUrlToParent( '${form.returnUrl}', $('#${tableId}') )" />
 		</div>
 	</c:if>
 

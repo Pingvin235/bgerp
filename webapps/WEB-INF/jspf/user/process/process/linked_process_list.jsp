@@ -55,7 +55,7 @@
 
 		<div class="tableIndent in-mb05-all">
 			<button class="btn-green mr1" type="button" 
-					onclick="$('#${processTypeTree}').show(); $('#${linkedProcessList}').hide();">+</button>
+					onclick="$('#${processTypeTree}').show(); $('#${linkedProcessList}').hide();"><i class="ti-plus"></i></button>
 
 			<c:set var="reloadCommand" value="$$.ajax.load($('#${linkedProcessList} > form'), $('#${linkedProcessList}').parent())"/>
 

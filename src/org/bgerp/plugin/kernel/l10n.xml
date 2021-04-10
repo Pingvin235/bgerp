@@ -310,21 +310,20 @@
 	<p><ru>Использующие очереди</ru><en>Using queues</en></p>
 	<p><ru>Копировать свойства другого типа</ru><en>Copy properties from another type</en></p>
 	<p><ru>Редактор типа</ru><en>Type editor</en></p>
-	<p><ru>Восстановить</ru><en>Restore</en></p>
+	<p><ru>Восстановить</ru><en>Reestablish</en></p>
 	<p><ru>Свойства типа</ru><en>Type properties</en></p>
-	<p><ru>К списку типов</ru><en>To types list</en></p>
+	<p><ru>К списку типов</ru><en>To the list of types</en></p>
 	<p><ru>Название фильтра</ru><en>Filter title</en></p>
 	<p><ru>Введите название!</ru><en>Input title!</en></p>
 	<p><ru>Скрыть</ru><en>Hide</en></p>
 	<p><ru>Отобразить</ru><en>Show</en></p>
 	<p><ru>Перезапустить</ru><en>Restart</en></p>
-	<p><ru>Ошибка в параметрах запроса</ru><en>Error in request params</en></p>
+	<p><ru>Ошибка в параметрах запроса</ru><en>Error in request parameters</en></p>
 	<p><ru>Сохранить без выхода из редактора</ru><en>Save without leaving editor</en></p>
 	<!-- <p><ru>Отчёт не найден.</ru><en>Report not found.</en></p> -->
 	<p><ru>Созданные</ru><en>Created</en></p>
 	<p><ru>Вам не разрешён доступ к очереди процессов с ID=%s</ru><en>You are not allowed to access the process queue with ID=%s</en></p>
 	<p><ru>Освободить</ru><en>Release</en></p>
-	<p><ru>Ошибка в параметрах запроса</ru><en>Error in request parameters</en></p>
 	<p><ru>Принят</ru><en>Accepted</en></p>
 	<p><ru>Сессии (вход / последняя активность)</ru><en>Sessions (login / last activity)</en></p>
 	<p><ru>Обновление</ru><en>Update</en></p>
@@ -359,12 +358,31 @@
 	<p><ru>Позиция статуса в различных перечнях</ru><en>Position of status in various lists</en></p>
 	<p><ru>Наследовать свойства от предка</ru><en>Inherit properties from parent</en></p>
 	<p><ru>Значения</ru><en>Values</en></p>
-	<p><ru>Использующие очереди</ru><en>Using queues</en></p>
-	<p><ru>Копировать свойства другого типа</ru><en>Copy properties of another type</en></p>
-	<p><ru>Восстановить</ru><en>Reestablish</en></p>
-	<p><ru>К списку типов</ru><en>To the list of types</en></p>
-	<p><ru>Свойства типа</ru><en>Type properties</en></p>
 	<p><ru>Запрещено повторное добавление файла с одинаковым именем.</ru><en>Adding file with same name two times is denied.</en></p>
+	<p><ru>Заменить права набора на права из другого набора</ru><en>Replace set permissions with permissions from another set</en></p>
+	<p><ru>Фильтр по наименованию, комментарию, конфигурации, параметрам действий</ru><en>Filter by name, comment, configuration, action parameters</en></p>
+	<p><ru>Сбросить выделение</ru><en>Reset selection</en></p>
+	<p><ru>Лог изменений параметров</ru><en>Parameter change log</en></p>
+	<p><ru>Обработка</ru><en>Processing</en></p>
+	<p><ru>Создать новый процесс</ru><en>Create a new process</en></p>
+	<p><ru>Привязать</ru><en>Bind</en></p>
+	<p><ru>Укажите код для привязки процесса. Код "0" - для отвязки сообщения от процесса.</ru><en>Provide the code to bind the process. Code "0" - to decouple the message from the process.</en></p>
+	<p><ru>Вложения (можно загрузить только после привязки процесса)</ru><en>Attachments (can only be downloaded after linking the process)</en></p>
+	<p><ru>С номера</ru><en>From number</en></p>
+	<p><ru>На номер</ru><en>To the number</en></p>
+	<p><ru>Время начала</ru><en>Start time</en></p>
+	<p><ru>Привязать процесс</ru><en>Link a process</en></p>
+	<p><ru>Возможные процессы</ru><en>Possible processes</en></p>
+	<p><ru>Выберите тип</ru><en>Select type</en></p>
+	<p><ru>Краткое описание процесса</ru><en>Brief description of the process</en></p>
+	<p><ru>Сообщение</ru><en>Message</en></p>
+	<p><ru>Уведомление</ru><en>Notification</en></p>
+	<p><ru>Контакт</ru><en>Contact</en></p>
+	<p><ru>Только открытые</ru><en>Open only</en></p>
+	<p><ru>Не сохранять</ru><en>Do not save</en></p>
+	<p><ru>Cохранить EMail</ru><en>Save EMail</en></p>
+	<p><ru>Cохранить EMail домен</ru><en>Save EMail domain</en></p>
+	<p><ru>Время закрытия</ru><en>Closing time</en></p>
 	<p><ru>Дата генерации</ru><en>Generation date</en></p>
 	<p><ru>Тест title</ru><en>Test title</en></p>
 	<p><ru>Тест state</ru><en>Test state</en></p>

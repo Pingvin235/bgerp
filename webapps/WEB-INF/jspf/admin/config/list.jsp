@@ -16,7 +16,7 @@
 				<c:param name="id" value="-1"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
-			<button type="button" class="btn-green" onclick="$$.ajax.load('${url}', $$.shell.$content());">+</button>
+			<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
 			
 			<ui:input-text name="filter" value="${form.param['filter']}" size="20" placeholder="${l.l('Фильтр')}" 
 				title="${l.l('Фильтр по содержимому конфигурации')}"

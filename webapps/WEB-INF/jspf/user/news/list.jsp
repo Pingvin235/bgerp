@@ -13,7 +13,7 @@
 <div class="center1020">
 	<html:form action="user/news" onsubmit="return false;" styleClass="mb1 in-mr1" styleId="${uiid}">
 		<input type="hidden" name="action" value="newsList"/>
-		<button class="btn-green" onclick="$$.ajax.load('${createUrl}', $$.shell.$content());">+</button>
+		<button class="btn-green" onclick="$$.ajax.load('${createUrl}', $$.shell.$content());"><i class="ti-plus"></i></button>
 
 		<input type="text" size="30" onkeypress="if( enterPressed( event ) ){ ${showCode} }" placeholder="${l.l('Фильтр по тексту')}" name="text" value="${form.param['text']}" class="ml1"/>
 

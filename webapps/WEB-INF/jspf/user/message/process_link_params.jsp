@@ -2,28 +2,22 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:if test="${typeEmail}">
-	<u:sc>
-		<c:set var="valuesHtml">
-			<li value="0">Нет</li>
-			<li value="1">Да</li>
-		</c:set>
-		<c:set var="hiddenName" value="notification"/>
-		<c:set var="value" value=""/>
-		<c:set var="prefixText" value="Уведомление:"/>
-		<c:set var="styleClass" value="mr1"/>							
-		<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
-	</u:sc>
+	<ui:combo-single hiddenName="notification" prefixText="${l.l('Уведомление')}:" styleClass="mr1">
+		<jsp:attribute name="valuesHtml">
+			<li value="0">${l.l('Нет')}</li>
+			<li value="1">${l.l('Да')}</li>
+		</jsp:attribute>
+	</ui:combo-single>
 </c:if>
 
 <c:if test="${not empty messageType.contactSaver}">
-	<u:sc>
-		<c:set var="list" value="${messageType.contactSaver.saveModeList}"/>
-		<c:set var="hiddenName" value="contactSaveMode"/>
-		<c:set var="value" value=""/>
-		<c:set var="prefixText" value="Контакт:"/>
-		<c:set var="styleClass" value="mr1"/>							
-		<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
-	</u:sc>
+	<ui:combo-single hiddenName="contactSaveMode" prefixText="${l.l('Контакт')}" styleClass="mr1">
+		<jsp:attribute name="valuesHtml">
+			<c:forEach var="item" items="${messageType.contactSaver.saveModeList}">
+				<li value="${item.id}">${item.getTitle(l)}</li>
+			</c:forEach>
+		</jsp:attribute>
+	</ui:combo-single>
 </c:if>
 
 <% out.flush(); %>

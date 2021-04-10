@@ -44,7 +44,7 @@
 			<c:forEach var="item" items="${shift.workTypeTimeList}">
 				<div>
 					<input type="checkbox" name="rule" value="${item.workTypeId}:${item.dayMinuteFrom}:${item.dayMinuteTo}:${item.isDynamic ? 1 : 0}" checked="checked" hidden="hidden"/>
-					<button type="button" class="btn-white btn-small" onclick="$(this).parent().remove();" title="Удалить">X</button>
+					<button type="button" class="btn-white btn-small" onclick="$(this).parent().remove();" title="${l.l('Удалить')}"><i class="ti-close"></i></button>
 					<a class="pl05">${workTypeMap[item.workTypeId].title} (${item.workTypeId}) (с ${item.formatedTimeFrom} по ${item.formatedTimeTo})${item.isDynamic ? " <b style='color: red;'>(динамический)</b>" : ""}</a>				
 				</div>
 			</c:forEach>

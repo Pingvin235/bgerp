@@ -11,7 +11,7 @@
 	   <c:param name="id" value="-1"/>	
 	   <c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
-	<button type="button" class="btn-green" onclick="openUrlContent( '${url}' )">+</button>
+	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
 				
 	<input type="hidden" name="action" value="userList"/>
 	<input type="hidden" name="pageableId" value="userList"/>
@@ -41,8 +41,8 @@
     
     <ui:select-single list="${ctxUserPermsetList}" hiddenName="permset" value="${form.param.permset}" 
     	onSelect="${showCode}" placeholder="Набор прав" style="width: 200px;"/>
-    
-    <button class="btn-grey" type="button" onclick="${showCode}" title="${l.l('Вывести')}">=&gt;</button>
+
+	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
     
     <%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -65,13 +65,16 @@
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
-			<c:url var="deleteAjaxUrl" value="/admin/user.do">
+			<c:url var="deleteUrl" value="/admin/user.do">
 				<c:param name="action" value="userDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 			<c:url var="deleteAjaxCommandAfter" value="${showCode}"/>
 				
-			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
+			<td nowrap="nowrap">
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content())"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content()) })"/>
+			</td>
 			
 			<td>${item.id}</td>
 			<td>

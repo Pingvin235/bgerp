@@ -1,7 +1,6 @@
 package ru.bgcrm.dao.message;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -12,7 +11,7 @@ import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.IdTitle;
+import ru.bgcrm.model.IdTitled;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.ParameterEmailValue;
@@ -22,12 +21,11 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class MessageTypeContactSaverEmail extends MessageTypeContactSaver {
-    private static final List<IdTitle> MODE_LIST = new ArrayList<IdTitle>();
-    static {
-        MODE_LIST.add(new IdTitle(0, "Не сохранять"));
-        MODE_LIST.add(new IdTitle(1, "Cохранить EMail"));
-        MODE_LIST.add(new IdTitle(2, "Cохранить EMail домен"));
-    }
+    private static final List<IdTitled> MODE_LIST = List.of(
+        new IdTitled(0, "Не сохранять"),
+        new IdTitled(1, "Cохранить EMail"),
+        new IdTitled(2, "Cохранить EMail домен")
+    );
 
     private int paramId;
 
@@ -41,7 +39,7 @@ public class MessageTypeContactSaverEmail extends MessageTypeContactSaver {
     }
 
     @Override
-    public List<IdTitle> getSaveModeList() {
+    public List<IdTitled> getSaveModeList() {
         return MODE_LIST;
     }
 

@@ -14,7 +14,7 @@
 
 	<button type="button"
 			onclick="this.form.open.value = this.form.open.value ? '' : 'true'; ${sendCommand}" 
-			class="mr1 ${form.param.open eq 'true' ? 'btn-blue' : 'btn-white'}">Только открытые</button>	
+			class="mr1 ${form.param.open eq 'true' ? 'btn-blue' : 'btn-white'}">${l.l('Только открытые')}</button>
 
 	<c:set var="nextCommand" value="; ${sendCommand}"/>
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>		
