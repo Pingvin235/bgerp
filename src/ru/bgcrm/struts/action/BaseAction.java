@@ -374,7 +374,7 @@ public class BaseAction extends DispatchAction {
             form.getResponse().setStatus("error");
             form.getResponse().setMessage(errorText);
 
-            return status((ConnectionSet) null, form);
+            return json((ConnectionSet) null, form);
         } else {
             HttpServletResponse response = form.getHttpResponse();
 
@@ -397,8 +397,8 @@ public class BaseAction extends DispatchAction {
      * @param path JSP path.
      * @return
      */
-    protected ActionForward data(Connection con, DynActionForm form, String path) {
-        return data(new SingleConnectionConnectionSet(con), form, path);
+    protected ActionForward html(Connection con, DynActionForm form, String path) {
+        return html(new SingleConnectionConnectionSet(con), form, path);
     }
 
     /**
@@ -408,21 +408,21 @@ public class BaseAction extends DispatchAction {
      * @param path JSP path.
      * @return
      */
-    protected ActionForward data(ConnectionSet conSet, DynActionForm form, String path) {
+    protected ActionForward html(ConnectionSet conSet, DynActionForm form, String path) {
         if (form != null && AuthFilter.getUser(form.getHttpRequest()) == null) {
             throw new IllegalArgumentException("For open interface 'form' parameter must be null");
         }
 
         // response requested in JSON (API call)
         if (form != null && DynActionForm.RESPONSE_TYPE_JSON.equalsIgnoreCase(form.getResponseType())){
-            return status(conSet, form);
+            return json(conSet, form);
         } else {
             return new ActionForward(path);
         }
     }
 
     /**
-     * Use {@link #data(Connection, DynActionForm, String)}.
+     * Use {@link #html(Connection, DynActionForm, String)}.
      * 
      * Returns Struts forward with name=form.getAction().
      * @param con
@@ -431,12 +431,12 @@ public class BaseAction extends DispatchAction {
      * @return
      */
     @Deprecated
-    protected ActionForward data(Connection con, ActionMapping mapping, DynActionForm form) {
-        return data(con, mapping, form, form.getAction());
+    protected ActionForward html(Connection con, ActionMapping mapping, DynActionForm form) {
+        return html(con, mapping, form, form.getAction());
     }
 
     /**
-     * Use {@link #data(Connection, DynActionForm, String)}.
+     * Use {@link #html(Connection, DynActionForm, String)}.
      * 
      * Returns Struts forward by name.
      * @param con
@@ -446,12 +446,12 @@ public class BaseAction extends DispatchAction {
      * @return
      */
     @Deprecated
-    protected ActionForward data(Connection con, ActionMapping mapping, DynActionForm form, String name) {
-        return data(new SingleConnectionConnectionSet(con), mapping, form, name);
+    protected ActionForward html(Connection con, ActionMapping mapping, DynActionForm form, String name) {
+        return html(new SingleConnectionConnectionSet(con), mapping, form, name);
     }
 
     /**
-     * Use {@link #data(ConnectionSet, DynActionForm, String)}.
+     * Use {@link #html(ConnectionSet, DynActionForm, String)}.
      * 
      * Returns Struts forward with name=form.getAction().
      * @param conSet
@@ -460,12 +460,12 @@ public class BaseAction extends DispatchAction {
      * @return
      */
     @Deprecated
-    protected ActionForward data(ConnectionSet conSet, ActionMapping mapping, DynActionForm form) {
-        return data(conSet, mapping, form, form.getAction());
+    protected ActionForward html(ConnectionSet conSet, ActionMapping mapping, DynActionForm form) {
+        return html(conSet, mapping, form, form.getAction());
     }
 
     /**
-     * Use {@link #data(ConnectionSet, DynActionForm, String)}.
+     * Use {@link #html(ConnectionSet, DynActionForm, String)}.
      * 
      * Returns Struts forward by name.
      * @param conSet
@@ -475,11 +475,11 @@ public class BaseAction extends DispatchAction {
      * @return
      */
     @Deprecated
-    protected ActionForward data(ConnectionSet conSet, ActionMapping mapping, DynActionForm form, String name) {
+    protected ActionForward html(ConnectionSet conSet, ActionMapping mapping, DynActionForm form, String name) {
         String responseType = form.getResponseType();
         // response requested in JSON (API call)
         if (DynActionForm.RESPONSE_TYPE_JSON.equalsIgnoreCase(responseType)) {
-            return status(conSet, form);
+            return json(conSet, form);
         } else {
             // wanted forward defined in form
             if (Utils.notBlankString(form.getForward())) {
@@ -494,23 +494,23 @@ public class BaseAction extends DispatchAction {
     @Deprecated
     protected ActionForward processUserTypedForward(Connection con, ActionMapping mapping, DynActionForm form, HttpServletResponse response,
             String htmlForwardName) {
-        return data(new SingleConnectionConnectionSet(con), mapping, form, htmlForwardName);
+        return html(new SingleConnectionConnectionSet(con), mapping, form, htmlForwardName);
     }
 
     @Deprecated
     protected ActionForward processUserTypedForward(Connection con, ActionMapping mapping, DynActionForm form, String htmlForwardName) {
-        return data(con, mapping, form, htmlForwardName);
+        return html(con, mapping, form, htmlForwardName);
     }
 
     @Deprecated
     protected ActionForward processUserTypedForward(ConnectionSet conSet, ActionMapping mapping, DynActionForm form, HttpServletResponse response,
             String htmlForwardName) {
-        return data(conSet, mapping, form, htmlForwardName);
+        return html(conSet, mapping, form, htmlForwardName);
     }
 
     @Deprecated
     protected ActionForward processUserTypedForward(ConnectionSet conSet, ActionMapping mapping, DynActionForm form, String htmlForwardName) {
-        return data(conSet, mapping, form, htmlForwardName);
+        return html(conSet, mapping, form, htmlForwardName);
     }
 
     /**
@@ -519,8 +519,8 @@ public class BaseAction extends DispatchAction {
      * @param form
      * @return
      */
-    protected ActionForward status(Connection con, DynActionForm form) {
-        return status(new SingleConnectionConnectionSet(con), form);
+    protected ActionForward json(Connection con, DynActionForm form) {
+        return json(new SingleConnectionConnectionSet(con), form);
     }
 
     /**
@@ -529,7 +529,7 @@ public class BaseAction extends DispatchAction {
      * @param form
      * @return
      */
-    protected ActionForward status(ConnectionSet conSet, DynActionForm form) {
+    protected ActionForward json(ConnectionSet conSet, DynActionForm form) {
         try {
             // FIXME: Check this hack for usages and remove.
             if (Utils.notBlankString(form.getForwardFile())) {
@@ -568,22 +568,22 @@ public class BaseAction extends DispatchAction {
 
     @Deprecated
     protected ActionForward processJsonForward(ConnectionSet conSet, DynActionForm form) {
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     @Deprecated
     protected ActionForward processJsonForward(Connection con, DynActionForm form) {
-        return status(con, form);
+        return json(con, form);
     } 
 
     @Deprecated
     protected ActionForward processJsonForward(Connection con, DynActionForm form, HttpServletResponse response) {
-        return status(con, form);
+        return json(con, form);
     }
 
     @Deprecated
     protected ActionForward processJsonForward(ConnectionSet conSet, DynActionForm form, HttpServletResponse response) {
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     protected boolean getAccess(String accessList, String accessItemKey, int value) {

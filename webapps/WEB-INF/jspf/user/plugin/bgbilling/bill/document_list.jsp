@@ -59,10 +59,10 @@
 					<div style="max-height: 0px; max-width: 0px;">
 						<c:set var="uiid" value="${u:uiid()}"/>
 						<ul id="${uiid}" style="display: none;">
-							<li><a href="#UNDEF" date="${u:formatDate( currentDay, 'dd.MM.yyyy' )}">Оплачено сегодня (${u:formatDate( currentDay, 'dd.MM E')})</a></li>
-							<li><a href="#UNDEF" date="${u:formatDate( prevDay, 'dd.MM.yyyy' )}">Оплачено вчера (${u:formatDate( prevDay, 'dd.MM E')})</a></li>
-							<li><a href="#UNDEF" date="select">Оплачено на дату</a></li>
-							<li><a href="#UNDEF">Не оплачено</a></li>
+							<li><a href="#" date="${u:formatDate( currentDay, 'dd.MM.yyyy' )}">Оплачено сегодня (${u:formatDate( currentDay, 'dd.MM E')})</a></li>
+							<li><a href="#" date="${u:formatDate( prevDay, 'dd.MM.yyyy' )}">Оплачено вчера (${u:formatDate( prevDay, 'dd.MM E')})</a></li>
+							<li><a href="#" date="select">Оплачено на дату</a></li>
+							<li><a href="#">Не оплачено</a></li>
 						</ul>						
 					</div>	
 					

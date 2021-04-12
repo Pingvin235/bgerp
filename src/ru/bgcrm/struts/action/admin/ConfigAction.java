@@ -53,13 +53,13 @@ public class ConfigAction extends BaseAction {
 
         form.getHttpRequest().setAttribute("license", License.getInstance());
 
-        return data(conSet, mapping, form, "list");
+        return html(conSet, mapping, form, "list");
     }
 
     public ActionForward delete(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         new ConfigDAO(conSet.getConnection()).deleteGlobalConfig(form.getId());
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     public ActionForward get(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -69,7 +69,7 @@ public class ConfigAction extends BaseAction {
         if (config != null)
             form.getResponse().setData("config", config);
 
-        return data(conSet, mapping, form, "update");
+        return html(conSet, mapping, form, "update");
     }
 
     public ActionForward update(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -109,7 +109,7 @@ public class ConfigAction extends BaseAction {
 
         form.getResponse().setData("config", config);
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     public void checkAllowedConfigIds(DynActionForm form) throws BGMessageException {
@@ -121,7 +121,7 @@ public class ConfigAction extends BaseAction {
 
     public ActionForward pluginsInit(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         PluginManager.init(); 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     public ActionForward licenseUpload(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -130,6 +130,6 @@ public class ConfigAction extends BaseAction {
         IOUtils.copy(file.getInputStream(), new FileOutputStream(License.FILE_NAME));
         License.init();
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 }

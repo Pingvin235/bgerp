@@ -78,6 +78,6 @@ public class ProfileAction extends BaseAction {
             form.getHttpRequest().setAttribute("config", config);
             form.setResponseData("user", UserCache.getUser(form.getId()));
         }
-        return data(conSet, mapping, form);
+        return html(conSet, mapping, form);
     }
 }

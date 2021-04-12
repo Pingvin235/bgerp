@@ -56,7 +56,7 @@
 						 <c:url var="editUrl" value="${createUrl }">
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
-						[ <a title="Править" href="#UNDEF" onclick="openUrlContent( '${editUrl}' ); return false;">${item.id}</a> ] --%>
+						[ <a title="Править" href="#" onclick="openUrlContent( '${editUrl}' ); return false;">${item.id}</a> ] --%>
 
 						[ ${item.id} ]
 
@@ -64,7 +64,7 @@
 							<c:param name="action" value="newsDelete"></c:param>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
-						[ <a title="${l.l('Удалить')}" href="#UNDEF" onclick="if( confirm( 'Удалить новость?' ) && sendAJAXCommand( '${deleteUrl}' ) ){ ${showCode} }; return false;">X</a> ]
+						[ <a title="${l.l('Удалить')}" href="#" onclick="if( confirm( 'Удалить новость?' ) && sendAJAXCommand( '${deleteUrl}' ) ){ ${showCode} }; return false;">X</a> ]
 
 						<c:if test="${not empty item.groupIds}">
 							<br/>${l.l('Группы')}: ${u:objectTitleList( ctxUserGroupList, item.groupIds ) }

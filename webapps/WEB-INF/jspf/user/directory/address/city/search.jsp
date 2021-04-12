@@ -34,7 +34,7 @@
 			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
 			<td>${item.id}</td>
 			<td nowrap="nowrap">${item.addressCountry.title}</td>
-			<td><a href="#UNDEF" onclick="openUrlContent('${url}'); return false">${item.title}</a></td>			
+			<td><a href="#" onclick="openUrlContent('${url}'); return false">${item.title}</a></td>			
 		</tr>
 	</c:forEach>
 </table>

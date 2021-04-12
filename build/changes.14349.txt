@@ -1,0 +1,7 @@
+A: Publish updates from master branch.
+C: Global rename #UNDEF links to #.
+F: Open interface always showing test.jsp.
+A: Function delete() in DefaultProcessFunctions.
+A: DbTimeUpdate for keeping up to date demo DB.
+A: Doc how to access DB in a running container, https://bgerp.org/doc/3.0/manual/project.html#run-data
+C: Rename action return  methods 'data' and 'status' to 'html' and 'json', https://bgerp.org/doc/3.0/manual/project.html#action

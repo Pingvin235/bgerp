@@ -81,7 +81,7 @@ public class MessageAction extends BaseAction {
 
             form.getResponse().setData("message", type.getAnswerMessage(message));
 
-            return data(conSet, mapping, form, "processMessageEdit");
+            return html(conSet, mapping, form, "processMessageEdit");
         }
         else {
             Message message = null;
@@ -131,7 +131,7 @@ public class MessageAction extends BaseAction {
                 request.setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
             }
 
-            return data(conSet, mapping, form, "message");
+            return html(conSet, mapping, form, "message");
         }
     }
 
@@ -181,7 +181,7 @@ public class MessageAction extends BaseAction {
 
         messageDao.updateMessageProcess(message);
 
-        return status(con, form);
+        return json(con, form);
     }
     
     public ActionForward messageUpdateTags(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -189,7 +189,7 @@ public class MessageAction extends BaseAction {
 
         new MessageDAO(con).updateMessageTags(form.getId(), form.getSelectedValues("tagId"));
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     public ActionForward messageUpdateProcessToCopy(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -238,7 +238,7 @@ public class MessageAction extends BaseAction {
 
         form.setResponseData("process", newProcess);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward messageDelete(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -276,7 +276,7 @@ public class MessageAction extends BaseAction {
 
         EventProcessor.processEvent(new MessageRemovedEvent(form, form.getId()), conSet);
 
-        return data(conSet, mapping, form, "message");
+        return html(conSet, mapping, form, "message");
     }
 
     public ActionForward messageUpdate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -342,7 +342,7 @@ public class MessageAction extends BaseAction {
 
         form.getResponse().setData("message", message);
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     private static final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(0, 10, 10, TimeUnit.MINUTES,
@@ -430,7 +430,7 @@ public class MessageAction extends BaseAction {
         
         form.getHttpRequest().setAttribute("typeMap", typeMap);
 
-        return data(conSet, mapping, form, "messageList");
+        return html(conSet, mapping, form, "messageList");
     }
 
     public ActionForward processMessageList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -464,7 +464,7 @@ public class MessageAction extends BaseAction {
         Set<Integer> tagIds = messageTagMap.values().stream().flatMap(mt -> mt.stream()).collect(Collectors.toSet());
         form.setResponseData("tagIds", tagIds);
         
-        return data(conSet, mapping, form, "processMessageList");
+        return html(conSet, mapping, form, "processMessageList");
     }
 
     public ActionForward newMessageLoad(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -480,6 +480,6 @@ public class MessageAction extends BaseAction {
 
         type.newMessageLoad(conSet.getConnection(), messageId);
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 }

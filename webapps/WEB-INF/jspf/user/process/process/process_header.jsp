@@ -18,7 +18,7 @@
 								<c:param name="action" value="processDelete"/>
 								<c:param name="id" value="${process.id}"/>
 							</c:url>
-							<li><a href="#UNDEF" 
+							<li><a href="#" 
 								onclick="if (confirm('${l.l('Удалить процесс')}?')) $$.ajax.post('${url}').done(() => { ${returnBreakCommand} }); return false;">${l.l('Удалить процесс')}</a>
 							</li>
 							
@@ -28,14 +28,14 @@
 								<c:param name="id" value="${process.id}"/>
 								<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/editor_merge.jsp"/>
 							</c:url>
-							<li><a href="#UNDEF" 
+							<li><a href="#" 
 								onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">${l.l('Слить в существующий')}</a>
 							</li>
 						</ul>
 					</div>
 
 					<c:set var="uiidDelMenuLink" value="${u:uiid()}"/>
-					[<a href="#UNDEF" id="${uiidDelMenuLink}"> X </a>]
+					[<a href="#" id="${uiidDelMenuLink}"> X </a>]
 					<script>
 						$(() => {
 							$$.ui.menuInit($("#${uiidDelMenuLink}"), $("#${uiidDelMenu}"), "left");
@@ -72,7 +72,7 @@
 							<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/editor_priority.jsp"/>
 							<c:param name="priority" value="${process.priority}"/>
 						</c:url>
-						[<a href="#UNDEF" onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">${l.l('приоритет')}</a>]
+						[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">${l.l('приоритет')}</a>]
 					</c:if>
 				</p:check>
 
@@ -85,7 +85,7 @@
 						<c:param name="returnChildUiid" value="${tableId}"/>
 						<c:param name="forward" value="processTypeChange"/>
 					</c:url>
-					[<a href="#UNDEF" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('изменить тип')}</a>]
+					[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('изменить тип')}</a>]
 				</p:check>
 
 				<p:check action="ru.bgcrm.struts.action.ProcessAction:unionLog">
@@ -97,7 +97,7 @@
 						<c:param name="returnUrl" value="${requestUrl}"></c:param>
 					</c:url>
 					<c:if test="${not empty processType}">
-						[<a href="#UNDEF" onclick="$$.ajax.load('${logUrl}', $('#${tableId}').parent()); return false;">${l.l('лог изменений')}</a>]
+						[<a href="#" onclick="$$.ajax.load('${logUrl}', $('#${tableId}').parent()); return false;">${l.l('лог изменений')}</a>]
 					</c:if>
 				</p:check>
 			</ui:when>	

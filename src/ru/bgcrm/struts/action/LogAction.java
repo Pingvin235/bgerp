@@ -19,7 +19,7 @@ public class LogAction extends BaseAction {
         form.setResponseData("state", SessionLogAppender.isSessionTracked(session));
         form.setResponseData("log", SessionLogAppender.getSessionLog(session));
 
-        return data(conSet, form, JSP);
+        return html(conSet, form, JSP);
     }
     
     public ActionForward log(DynActionForm form, ConnectionSet conSet)
@@ -45,6 +45,6 @@ public class LogAction extends BaseAction {
         else
             SessionLogAppender.untrackSession(session);
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 }

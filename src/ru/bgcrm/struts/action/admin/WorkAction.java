@@ -68,7 +68,7 @@ public class WorkAction extends BaseAction {
 
         new WorkTypeDAO(con).searchWorkType(new SearchResult<WorkType>(form), categoryId);
 
-        return data(con, mapping, form, "typeList");
+        return html(con, mapping, form, "typeList");
     }
 
     public ActionForward workTypeGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -87,7 +87,7 @@ public class WorkAction extends BaseAction {
         request.setAttribute("shortcutMap", setup.getConfig(ShortcutConfig.class).getShortcutMap());
         request.setAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
 
-        return data(con, mapping, form, "typeUpdate");
+        return html(con, mapping, form, "typeUpdate");
     }
 
     public ActionForward workTypeUpdate(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
@@ -135,7 +135,7 @@ public class WorkAction extends BaseAction {
 
         CallboardCache.flush(con);
 
-        return data(con, mapping, form, "typeList");
+        return html(con, mapping, form, "typeList");
     }
 
     public ActionForward workTypeDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -143,7 +143,7 @@ public class WorkAction extends BaseAction {
 
         CallboardCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward shiftList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -153,7 +153,7 @@ public class WorkAction extends BaseAction {
 
         new ShiftDAO(con).searchShift(new SearchResult<Shift>(form), categoryId);
 
-        return data(con, mapping, form, "shiftList");
+        return html(con, mapping, form, "shiftList");
     }
 
     public ActionForward shiftGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -176,7 +176,7 @@ public class WorkAction extends BaseAction {
         form.getHttpRequest().setAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
         form.getResponse().setData("workTypeList", new ArrayList<WorkType>(workTypeMap.values()));
 
-        return data(con, mapping, form, "shiftUpdate");
+        return html(con, mapping, form, "shiftUpdate");
     }
 
     public ActionForward shiftUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -227,13 +227,13 @@ public class WorkAction extends BaseAction {
 
         new ShiftDAO(con).updateShift(shift);
 
-        return data(con, mapping, form, "shiftList");
+        return html(con, mapping, form, "shiftList");
     }
 
     public ActionForward shiftDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new ShiftDAO(con).deleteShift(form.getId());
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward callboardGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -332,7 +332,7 @@ public class WorkAction extends BaseAction {
             log.debug("callboardGet: " + (System.currentTimeMillis() - time) + " ms.");
         }
 
-        return data(con, mapping, form, "callboardUpdate");
+        return html(con, mapping, form, "callboardUpdate");
     }
 
     public ActionForward callboardGetTabel(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -380,7 +380,7 @@ public class WorkAction extends BaseAction {
             form.getResponse().setData("minimalVersion", 0);
         }
 
-        return data(con, mapping, form, "availableShift");
+        return html(con, mapping, form, "availableShift");
     }
 
     private Calendar convertToCalendarAndTruncateTime(Date date) {
@@ -439,7 +439,7 @@ public class WorkAction extends BaseAction {
         callboard.setHideEmptyGroups(hideEmptyGroups);
         callboard.setHideEmptyShifts(hideEmptyShifts);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward callboardUpdateShift(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -560,12 +560,12 @@ public class WorkAction extends BaseAction {
             form.getResponse().setData("minutes", 0);
         }
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward workDaysCalendarList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         form.getResponse().setData("workDaysCalendarList", setup.getConfig(CalendarConfig.class).getCalendars());
-        return data(con, mapping, form, "workDaysCalendarList");
+        return html(con, mapping, form, "workDaysCalendarList");
     }
 
     public ActionForward workDaysCalendarGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -601,7 +601,7 @@ public class WorkAction extends BaseAction {
         form.getResponse().setData("calendar", calendar);
         form.getResponse().setData("dayTypes", dayTypesConfig.getTypes());
 
-        return data(con, mapping, form, "workDaysCalendarGet");
+        return html(con, mapping, form, "workDaysCalendarGet");
     }
 
     public ActionForward workDaysCalendarUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -627,7 +627,7 @@ public class WorkAction extends BaseAction {
 
         new WorkTypeDAO(con).updateWorkDaysCalendar(calendarId, type, date);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward workDaysCalendarCopy(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -645,7 +645,7 @@ public class WorkAction extends BaseAction {
 
         new WorkTypeDAO(con).copyWorkDaysCalendar(calendarId, from, to);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward callboardChangeOrder(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -664,7 +664,7 @@ public class WorkAction extends BaseAction {
             new ShiftDAO(con).updateShiftOrder(graphId, groupId, userOrderMap);
         }
 
-        return status(con, form);
+        return json(con, form);
     }
 
     // Список групп
@@ -837,6 +837,6 @@ public class WorkAction extends BaseAction {
 
         UserAction.class.getDeclaredConstructor().newInstance().addGroup(form, con, dateFrom, null, oldGroupId, userId);
 
-        return status(con, form);
+        return json(con, form);
     }
 }

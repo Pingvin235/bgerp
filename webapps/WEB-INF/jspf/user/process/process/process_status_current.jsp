@@ -16,6 +16,6 @@ ${l.l('Статус')}&nbsp;<b>${process.statusTitle}</b>: ${u:formatDate( proce
 			<c:param name="returnUrl" value="${requestUrl}"/>
 			<c:param name="action" value="processStatusHistory"/>
 		</c:url>
-		[<a href="#UNDEF" onclick="openUrlToParent( '${url}', $('#${tableId}') ); return false;">${l.l('история')}</a>]
+		[<a href="#" onclick="openUrlToParent( '${url}', $('#${tableId}') ); return false;">${l.l('история')}</a>]
 	</p:check>
 </ui:when>

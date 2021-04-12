@@ -100,7 +100,7 @@ public class DirectoryAction extends BaseAction {
 
         form.getResponse().setData("containProcess", containProcess);
 
-        return data(con, mapping, form, "parameterUseProcess");
+        return html(con, mapping, form, "parameterUseProcess");
     }
 
     public ActionForward parameterGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -115,7 +115,7 @@ public class DirectoryAction extends BaseAction {
         setDirectoryList(request);
         request.setAttribute("directoryTitle", directoryMap.get(form.getParam("directoryId")));
 
-        return data(con, mapping, form, "parameterUpdate");
+        return html(con, mapping, form, "parameterUpdate");
     }
 
     public ActionForward parameterUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -145,7 +145,7 @@ public class DirectoryAction extends BaseAction {
 
         ParameterCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward parameterDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -153,7 +153,7 @@ public class DirectoryAction extends BaseAction {
 
         ParameterCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     // шаблоны названия
@@ -178,7 +178,7 @@ public class DirectoryAction extends BaseAction {
         setDirectoryList(request);
         request.setAttribute("directoryTitle", directoryMap.get(form.getParam("directoryId")));
 
-        return data(con, mapping, form, "patternUpdate");
+        return html(con, mapping, form, "patternUpdate");
     }
 
     public ActionForward patternTitleUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -191,13 +191,13 @@ public class DirectoryAction extends BaseAction {
         pattern.setPattern(form.getParam("pattern"));
         paramDAO.updatePattern(pattern);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward patternTitleDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new PatternDAO(con).deletePattern(form.getId());
 
-        return status(con, form);
+        return json(con, form);
     }
 
     // группы параметров
@@ -208,7 +208,7 @@ public class DirectoryAction extends BaseAction {
         setDirectoryList(request);
         request.setAttribute("parameterList", paramGroupDAO.getParameterGroupList(getObjectType(form.getParam("directoryId"))));
 
-        return data(con, mapping, form);
+        return html(con, mapping, form);
     }
 
     //переписать "!" 
@@ -229,7 +229,7 @@ public class DirectoryAction extends BaseAction {
         request.setAttribute("parameterList", paramDAO.getParameterList(getObjectType(form.getParam("directoryId")), 0)); //!!!
         request.setAttribute("directoryTitle", directoryMap.get(form.getParam("directoryId")));
 
-        return data(con, mapping, form, "parameterGroupUpdate");
+        return html(con, mapping, form, "parameterGroupUpdate");
     }
 
     public ActionForward parameterGroupUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -244,7 +244,7 @@ public class DirectoryAction extends BaseAction {
 
         ParameterCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward parameterGroupDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -252,7 +252,7 @@ public class DirectoryAction extends BaseAction {
 
         ParameterCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     private void setDirectoryList(HttpServletRequest request) {

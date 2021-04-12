@@ -27,7 +27,7 @@ public class ProfileAction extends BaseAction {
 
     public ActionForward getUserProfile(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
             throws Exception {
-        return data(conSet, mapping, form, "profile");
+        return html(conSet, mapping, form, "profile");
     }
 
     public ActionForward settings(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -44,10 +44,10 @@ public class ProfileAction extends BaseAction {
         }
 
         if (subAction.equals("parameters")) {
-            return data(con, mapping, form, "parameters");
+            return html(con, mapping, form, "parameters");
         }
 
-        return data(con, mapping, form, "settings");
+        return html(con, mapping, form, "settings");
     }
 
     public ActionForward updateSettings(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -81,7 +81,7 @@ public class ProfileAction extends BaseAction {
 
         UserCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward updatePersonalization(ActionMapping mapping, DynActionForm form, Connection con)
@@ -105,7 +105,7 @@ public class ProfileAction extends BaseAction {
 
         UserCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
     
 }

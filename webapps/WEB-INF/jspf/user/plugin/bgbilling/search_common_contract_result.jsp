@@ -14,7 +14,7 @@
 		<c:forEach var="item" items="${form.response.data.list}">
 			<tr>
 				<td>${item.id}</td>
-				<td><a href="#UNDEF" onclick="bgbilling_openCommonContract( '${item.id}' ); return false;">${item.formatedNumber}</a></td>			
+				<td><a href="#" onclick="bgbilling_openCommonContract( '${item.id}' ); return false;">${item.formatedNumber}</a></td>			
 				<td>${item.address.value}</td>			
 			</tr>
 		</c:forEach>

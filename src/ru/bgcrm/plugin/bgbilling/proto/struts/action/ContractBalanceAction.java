@@ -64,7 +64,7 @@ public class ContractBalanceAction extends BaseAction {
             }
         }
         form.getResponse().setData("date", new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()));
-        return data(conSet, mapping, form, "balanceEditor");
+        return html(conSet, mapping, form, "balanceEditor");
     }
 
     private Set<Integer> getTypePermission(DynActionForm form, String billingId, String key) {
@@ -99,7 +99,7 @@ public class ContractBalanceAction extends BaseAction {
         form.getResponse().setData("summs", balanceDAO.getContractBalanceList(contractId, period[0], period[1], balanceList));
         form.getResponse().setData("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
-        return data(conSet, mapping, form, "balance");
+        return html(conSet, mapping, form, "balance");
     }
 
     public ActionForward balanceDetail(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
@@ -116,7 +116,7 @@ public class ContractBalanceAction extends BaseAction {
         form.getResponse().setData("summa", balanceDAO.getContractBalanceDetailList(contractId, period[0], period[1], balanceList));
         form.getResponse().setData("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
-        return data(conSet, mapping, form, "balanceDetail");
+        return html(conSet, mapping, form, "balanceDetail");
     }
 
     public ActionForward paymentList(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
@@ -137,7 +137,7 @@ public class ContractBalanceAction extends BaseAction {
         form.getResponse().setData("summa", balanceDAO.getContractPaymentList(contractId, period[0], period[1], paymentList, subPaymentList));
         form.getResponse().setData("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
-        return data(conSet, mapping, form, "paymentList");
+        return html(conSet, mapping, form, "paymentList");
     }
 
     public ActionForward chargeList(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
@@ -158,7 +158,7 @@ public class ContractBalanceAction extends BaseAction {
         form.getResponse().setData("summa", balanceDAO.getContractChargeList(contractId, period[0], period[1], chargeList, subChargeList));
         form.getResponse().setData("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
-        return data(conSet, mapping, form, "chargeList");
+        return html(conSet, mapping, form, "chargeList");
     }
 
     public ActionForward accountList(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
@@ -179,7 +179,7 @@ public class ContractBalanceAction extends BaseAction {
         form.getResponse().setData("summa", balanceDAO.getContractAccountList(contractId, period[0], period[1], chargeList, subChargeList));
         form.getResponse().setData("contractInfo", new ContractDAO(form.getUser(), billingId).getContractInfo(contractId));
 
-        return data(conSet, mapping, form, "accountList");
+        return html(conSet, mapping, form, "accountList");
     }
 
     private Date[] getPeriod(DynActionForm form) throws BGIllegalArgumentException
@@ -226,7 +226,7 @@ public class ContractBalanceAction extends BaseAction {
         }
         form.getResponse().setData( "id", id );
 
-        return status( conSet, form );
+        return json( conSet, form );
     }
     
     public ActionForward deletePayment( ActionMapping mapping,
@@ -243,7 +243,7 @@ public class ContractBalanceAction extends BaseAction {
         BalanceDAO balanceDAO = new BalanceDAO( form.getUser(), billingId );
         balanceDAO.deleteContractPayment( paymentId, contractId );
 
-        return status( conSet, form);
+        return json( conSet, form);
     }
 
     public ActionForward deleteCharge( ActionMapping mapping,
@@ -260,6 +260,6 @@ public class ContractBalanceAction extends BaseAction {
         BalanceDAO balanceDAO = new BalanceDAO( form.getUser(), billingId );
         balanceDAO.deleteContractCharge( chargeId, contractId );
 
-        return status( conSet, form );
+        return json( conSet, form );
     }
 }

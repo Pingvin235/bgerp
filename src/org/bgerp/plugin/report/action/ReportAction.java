@@ -34,17 +34,17 @@ public class ReportAction extends BaseAction {
             ReportDAO dao = DynamicClassManager.newInstance(report.getDaoClass());
             dao.get(form);
             
-            return data(conSet, form, dao.getJspFile());
+            return html(conSet, form, dao.getJspFile());
         }
 
         // form.setForwardFile(report.getJspFile()); // for backward compatibility
-        return data(conSet, form, report.getJspFile());
+        return html(conSet, form, report.getJspFile());
     }
 
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         form.getResponse().setData("allowedReports", Utils.toSet(form.getPermission().get("allowedReports")));
 
-        return data(conSet, form, Plugin.PATH_JSP_USER + "/report.jsp");
+        return html(conSet, form, Plugin.PATH_JSP_USER + "/report.jsp");
     }
 }

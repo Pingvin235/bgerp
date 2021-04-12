@@ -98,7 +98,7 @@ public class ProcessAction extends BaseAction {
             }
         }
 
-        return data(con, mapping, form, "process");
+        return html(con, mapping, form, "process");
     }
 
     public static boolean applyProcessTypePermission(List<ProcessType> typeList, DynActionForm form) {
@@ -147,7 +147,7 @@ public class ProcessAction extends BaseAction {
             form.getResponse().setData("groups", groups);
         }
 
-        return data(con, mapping, form, "processCreateGroup");
+        return html(con, mapping, form, "processCreateGroup");
     }
 
     public static Process processCreate(DynActionForm form, Connection con) throws Exception {
@@ -232,7 +232,7 @@ public class ProcessAction extends BaseAction {
     public ActionForward processCreate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         ProcessAction.processCreate(form, con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward processDeleteTmp(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -247,18 +247,18 @@ public class ProcessAction extends BaseAction {
 
         TemporaryObjectOpenListener.flushUserData(form.getUserId());
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward processDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDao = new ProcessDAO(con);
+        var process = getProcess(new ProcessDAO(con), form.getId());
+        processDelete(form, con, process);
+        return json(con, form);
+    }
 
-        Process process = getProcess(processDao, form.getId());
-        processDao.deleteProcess(process.getId());
-
+    public static void processDelete(DynActionForm form, Connection con, Process process) throws Exception {
+        new ProcessDAO(con).deleteProcess(process.getId());
         processDoEvent(form, process, new ProcessRemovedEvent(form, process), con);
-
-        return status(con, form);
     }
 
     public ActionForward processFinishCreateTmp(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -274,7 +274,7 @@ public class ProcessAction extends BaseAction {
 
         TemporaryObjectOpenListener.flushUserData(form.getUserId());
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward processDoCommands(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -288,7 +288,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessCommandExecutor.processDoCommands(con, form, process, null, commands);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward processStatusUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -314,7 +314,7 @@ public class ProcessAction extends BaseAction {
 
         processStatusUpdate(form, con, process, change);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public static void processStatusUpdate(DynActionForm form, Connection con, Process process, StatusChange change) throws Exception {
@@ -365,7 +365,7 @@ public class ProcessAction extends BaseAction {
     public ActionForward processStatusHistory(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new StatusChangeDAO(con).searchProcessStatus(new SearchResult<StatusChange>(form), form.getId(), form.getSelectedValues("statusId"));
 
-        return data(con, mapping, form, "processStatusHistory");
+        return html(con, mapping, form, "processStatusHistory");
     }
 
     public ActionForward processPriorityUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -376,7 +376,7 @@ public class ProcessAction extends BaseAction {
 
         processPriorityUpdate(form, process, con, priority);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public static void processPriorityUpdate(DynActionForm form, Process process, Connection con, Integer priority) throws Exception {
@@ -391,7 +391,7 @@ public class ProcessAction extends BaseAction {
     public ActionForward processTypeEdit(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
 
-        return data(con, mapping, form, "processTypeChange");
+        return html(con, mapping, form, "processTypeChange");
     }
 
     public ActionForward processTypeUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -400,7 +400,7 @@ public class ProcessAction extends BaseAction {
         int typeId = Utils.parseInt(form.getParam("typeId"));
         processTypeUpdate(form, process, con, typeId);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     private static void processTypeUpdate(DynActionForm form, Process process, Connection con, Integer typeId) throws Exception {
@@ -424,7 +424,7 @@ public class ProcessAction extends BaseAction {
         processDAO.updateProcess(process);
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_DESCRIPTION_CHANGED), con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward processDescriptionAdd(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -469,7 +469,7 @@ public class ProcessAction extends BaseAction {
         processDAO.updateProcess(process);
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_DESCRIPTION_ADDED), con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward processGroupsUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -513,7 +513,7 @@ public class ProcessAction extends BaseAction {
 
         processGroupsUpdate(form, con, process, processGroupList);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public static void processGroupsUpdate(DynActionForm form, Connection con, Process process, Set<ProcessGroup> processGroups) throws Exception {
@@ -553,7 +553,7 @@ public class ProcessAction extends BaseAction {
         
         processExecutorsUpdate(form, con, process, updateGroups, executors);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     @SuppressWarnings("unchecked")
@@ -729,9 +729,9 @@ public class ProcessAction extends BaseAction {
         EventProcessor.processEvent(processRequestEvent, type.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
 
         if (Utils.notBlankString(processRequestEvent.getForwardJspName())) {
-            return data(con, mapping, form, processRequestEvent.getForwardJspName());
+            return html(con, mapping, form, processRequestEvent.getForwardJspName());
         } else {
-            return status(con, form);
+            return json(con, form);
         }
     }
 
@@ -753,20 +753,20 @@ public class ProcessAction extends BaseAction {
         SearchResult<Process> processSearchResult = new SearchResult<Process>(form);
         new ProcessDAO(con, form.getUser()).searchProcessListForMessage(processSearchResult, addressFrom, objects, open);
 
-        return data(con, mapping, form, "messageRelatedProcessList");
+        return html(con, mapping, form, "messageRelatedProcessList");
     }
 
     public ActionForward unionLog(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
         new ProcessDAO(con).searchProcessLog(getProcessType(getProcess(new ProcessDAO(con), form.getId()).getTypeId()), form.getId(),
                 new SearchResult<EntityLogItem>(form));
 
-        return data(con, mapping, form, "unionLog");
+        return html(con, mapping, form, "unionLog");
     }
 
     public ActionForward userProcessList(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
         new ProcessDAO(con).searchProcessListForUser(new SearchResult<Process>(form), form.getUserId(), form.getParamBoolean("open", true));
 
-        return data(con, mapping, form, "userProcessList");
+        return html(con, mapping, form, "userProcessList");
     }
 
     public ActionForward processMerge(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -807,7 +807,7 @@ public class ProcessAction extends BaseAction {
         processDao.deleteProcess(process.getId());
         processDoEvent(form, process, new ProcessRemovedEvent(form, process), con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
 }

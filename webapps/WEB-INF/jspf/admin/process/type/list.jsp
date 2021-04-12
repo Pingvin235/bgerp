@@ -48,7 +48,7 @@
 	</c:url>
 
 	&#160;
-	<a href="#UNDEF" onClick="openUrlContent('${url}'); return false;">${l.l('Типы процессов')}</a>
+	<a href="#" onClick="openUrlContent('${url}'); return false;">${l.l('Типы процессов')}</a>
 
 	<c:forEach var="item" items="${typePath}" varStatus="status">
 		<c:url var="url" value="/admin/process.do">
@@ -56,7 +56,7 @@
 			<c:param name="parentTypeId" value="${item.id}"/>
 			<c:param name="markType" value="${form.param.markType}"/>
 		</c:url>
-		-> <a href="#UNDEF" onClick="openUrlContent('${url}'); return false;">${item.title}</a>
+		-> <a href="#" onClick="openUrlContent('${url}'); return false;">${item.title}</a>
 	</c:forEach>
 </div>
 
@@ -113,10 +113,10 @@
 						<c:param name="parentTypeId" value="${item.id}"/>
 					</c:url>
 					<c:if test="${status.last}">
-						<a href="#UNDEF" onclick="openUrlContent('${url}'); return false;">${itemPath.title}</a>
+						<a href="#" onclick="openUrlContent('${url}'); return false;">${itemPath.title}</a>
 					</c:if>
 					<c:if test="${not empty form.param.filter && not status.last}">
-						<a href="#UNDEF" onclick="openUrlContent('${url}'); return false;">${itemPath.title}</a> ->
+						<a href="#" onclick="openUrlContent('${url}'); return false;">${itemPath.title}</a> ->
 					</c:if>
 				</c:forEach>
 			</td>
@@ -133,7 +133,7 @@
 					<c:when test="${item.useParentProperties}">
 						[унаследованы]
 					</c:when>
-					<c:otherwise><a href="#UNDEF" onclick="openUrlContent('${url}'); return false;">[свойства]</a></c:otherwise>
+					<c:otherwise><a href="#" onclick="openUrlContent('${url}'); return false;">[свойства]</a></c:otherwise>
 				</c:choose>
 			</td>
 

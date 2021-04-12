@@ -17,8 +17,10 @@
 		);
 	</c:set>
 
+	<c:set var="showCheckColumn" value="${not empty queue.getProcessors(ctxIface) or not empty queue.configMap.checkColumn}"/>
+
 	<c:set target="${headData}" property="checkAllLink">
-		<a href="#UNDEF" onclick="${checkAll}; return false;">✓</a>
+		<a href="#" onclick="${checkAll}; return false;">✓</a>
 	</c:set>
 
 	<c:if test="${not empty rowExpression}">
@@ -33,7 +35,7 @@
 		</c:when>
 		<c:otherwise>
 			<tr>
-				<c:if test="${not empty queue.getProcessors(ctxIface)}">
+				<c:if test="${showCheckColumn}">
 					<td width="20">${headData["checkAllLink"]}</td>
 				</c:if>
 				<c:forEach var="column" items="${columnList}" varStatus="status">
@@ -94,7 +96,7 @@
 							<c:set var="customerTitle" value="${fn:split(customer,':')[1]}"/>
 							<c:choose>
 								<c:when test="${mob}">${customerTitle}</c:when>
-								<c:otherwise><a href="#UNDEF" onclick="openCustomer(${customerId}); return false;">${customerTitle}</a></c:otherwise>
+								<c:otherwise><a href="#" onclick="openCustomer(${customerId}); return false;">${customerTitle}</a></c:otherwise>
 							</c:choose>
 							<c:if test="${not status.last}">,</c:if>
 						</c:forEach>
@@ -116,7 +118,7 @@
 							<c:set var="info" value="${fn:split( contractInfo, ':' )}"/>
 							<c:choose>
 								<c:when test="${mob}">${info[2]}</c:when>
-								<c:otherwise><a href="#UNDEF" onclick="bgbilling_openContract( '${info[0]}', '${info[1]}' ); return false;">${info[2]}</a></c:otherwise>
+								<c:otherwise><a href="#" onclick="bgbilling_openContract( '${info[0]}', '${info[1]}' ); return false;">${info[2]}</a></c:otherwise>
 							</c:choose>
 						</c:forEach>
 					</c:when>
@@ -137,7 +139,7 @@
 										<button class="btn-white btn-small" onclick="sendAJAXCommand( '${url}' );" title="${action.title}" style="${action.style}">${action.shortcut}</button>
 									</c:when>
 									<c:otherwise>
-										<a href="#UNDEF" onclick="sendAJAXCommand( '${url}' ); return false;" style="${action.style}">${action.title}</a><br/>
+										<a href="#" onclick="sendAJAXCommand( '${url}' ); return false;" style="${action.style}">${action.title}</a><br/>
 									</c:otherwise>
 								</c:choose>
 							</c:if>
@@ -241,7 +243,7 @@
 
 						<c:set var="nas" value="${nowrap} ${align} ${style}"/>
 
-						<c:if test="${(not empty queue.getProcessors(ctxIface) or not empty queue.configMap.checkColumn) and onceFlag ne '1'}">
+						<c:if test="${showCheckColumn and onceFlag ne '1'}">
 							<c:set var="onceFlag" value="1"/>
 							<td align="center"><input type="checkbox" name="processId" value="${process.id}"/></td>
 						</c:if>

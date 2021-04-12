@@ -21,7 +21,7 @@
 		</tr>
 		<tr>				
 			<td class="box" nowrap="nowrap">
-				Контрагент: <a href="#UNDEF" onclick="openCustomer( ${customer.id} ); return false;">${customer.title}</a>
+				Контрагент: <a href="#" onclick="openCustomer( ${customer.id} ); return false;">${customer.title}</a>
 			</td>
 			<td class="box" nowrap="nowrap">
 				Адрес: ${contract.address.value}

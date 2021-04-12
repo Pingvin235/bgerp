@@ -59,13 +59,13 @@
 						<tr><td nowrap="nowrap" style="padding: 0px;">
 							<table class="menu"><tr>
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'street'}"><c:set var="cl" value="sel"/></c:if>
-							<td class="${cl}"><a href="#UNDEF" onclick="$('#${formUiid} #selectTab').attr( 'value', 'street' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('УЛИЦА')}</a></td>
+							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'street' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('УЛИЦА')}</a></td>
 							
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'area'}"><c:set var="cl" value="sel"/></c:if>
-							<td class="${cl}"><a href="#UNDEF" onclick="$('#${formUiid} #selectTab').attr( 'value', 'area' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('РАЙОН')}</a></td>
+							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'area' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('РАЙОН')}</a></td>
 							
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'quarter'}"><c:set var="cl" value="sel"/></c:if>
-							<td class="${cl}"><a href="#UNDEF" onclick="$('#${formUiid} #selectTab').attr( 'value', 'quarter' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('КВАРТАЛ')}</a></td>
+							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'quarter' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('КВАРТАЛ')}</a></td>
 							<td width="90%" style="border: 0px;">&nbsp;</td></tr></table>
 						</td></tr>	
 						 

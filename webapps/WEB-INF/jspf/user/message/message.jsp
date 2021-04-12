@@ -12,7 +12,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 <div id="${uiid}" class="in-ml1">
-	<h1 style="display: inline-block;"><a href="#UNDEF" onclick="openUrlContent('${form.requestUrl}'); return false;">${l.l('Обработка')}</a></h1>
+	<h1 style="display: inline-block;"><a href="#" onclick="openUrlContent('${form.requestUrl}'); return false;">${l.l('Обработка')}</a></h1>
 	<button  type="button" class="ml1 btn-white" onClick="openUrlContent('${form.returnUrl}')" title="Закрыть">&lt;</button>
 </div>
 
@@ -111,7 +111,7 @@
 
 									<c:if test="${not empty customerLinkRole}">
 										<td>${customerLinkRole}</td>
-										<td><a href="#UNDEF" onclick="openCustomer( ${item.linkedObjectId} ); return false;">${fn:escapeXml( item.linkedObjectTitle )}</a></td>
+										<td><a href="#" onclick="openCustomer( ${item.linkedObjectId} ); return false;">${fn:escapeXml( item.linkedObjectTitle )}</a></td>
 									</c:if>
 
 									<c:set var="endpoint" value="user.message.search.result.jsp"/>

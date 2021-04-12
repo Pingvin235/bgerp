@@ -34,7 +34,7 @@ public class CerberCryptAction extends BaseAction {
 
         form.setResponseData("list", cardPacketList);
 
-        return data(conSet, mapping, form, "cardPacketList");
+        return html(conSet, mapping, form, "cardPacketList");
     }
 
     public ActionForward contractCards(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -53,7 +53,7 @@ public class CerberCryptAction extends BaseAction {
 
         form.setResponseData("list", cards);
 
-        return data(conSet, mapping, form, "cardList");
+        return html(conSet, mapping, form, "cardList");
     }
 
     public ActionForward updateCardPacket(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -76,7 +76,7 @@ public class CerberCryptAction extends BaseAction {
         CerberCryptDAO cerbercryptDAO = new CerberCryptDAO(form.getUser(), billingId, form.getParamInt("moduleId"));
         cerbercryptDAO.updateCardPacket(contractId, id, cardNumber, packetId, date1, date2);
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     public ActionForward updateCard(ActionMapping mapping, DynActionForm form, HttpServletRequest request,
@@ -120,7 +120,7 @@ public class CerberCryptAction extends BaseAction {
         WSUserCard userCardWs = new UserCardWebServiceDAO( billingId, form.getUser() ).getWSUserCard();
         userCardWs.updateUserCard( userCard );*/
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     public ActionForward getFreeCards(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -132,7 +132,7 @@ public class CerberCryptAction extends BaseAction {
         CerberCryptDAO cerbercryptDAO = new CerberCryptDAO(form.getUser(), billingId, moduleId);
         form.getResponse().getData().put("cards", cerbercryptDAO.getFreeCards());
 
-        return data(conSet, mapping, form, FORWARD_DEFAULT);
+        return html(conSet, mapping, form, FORWARD_DEFAULT);
     }
 
     public ActionForward getPacketList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -143,6 +143,6 @@ public class CerberCryptAction extends BaseAction {
         CerberCryptDAO cerbercryptDAO = new CerberCryptDAO(form.getUser(), billingId, form.getParamInt("moduleId"));
         form.getResponse().getData().put("packets", cerbercryptDAO.getPacketList(virtualCinema));
 
-        return data(conSet, mapping, form, FORWARD_DEFAULT);
+        return html(conSet, mapping, form, FORWARD_DEFAULT);
     }
 }

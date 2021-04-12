@@ -15,7 +15,7 @@
 					<c:param name="forward" value="processGroupsWithRoles"/>
 				</c:url>
 				<c:if test="${not empty processType}">
-					[<a href="#UNDEF" onclick="openUrlToParent( '${url}', $('#${uiid}') ); return false;">${l.l('группы')}</a>]
+					[<a href="#" onclick="openUrlToParent( '${url}', $('#${uiid}') ); return false;">${l.l('группы')}</a>]
 				</c:if>
 			</p:check>
 			
@@ -27,7 +27,7 @@
 					<c:param name="forward" value="processExecutors"/>
 				</c:url>
 				<c:if test="${not empty processType}">
-					[<a href="#UNDEF" onclick="openUrlToParent( '${url}', $('#${uiid}') ); return false;">${l.l('исполнители')}</a>]
+					[<a href="#" onclick="openUrlToParent( '${url}', $('#${uiid}') ); return false;">${l.l('исполнители')}</a>]
 				</c:if>
 			</p:check>	
 		</div>
@@ -83,7 +83,7 @@
 											</c:if>
 										</c:forEach>	
 									</c:url>
-									[<a href="#UNDEF" 
+									[<a href="#" 
 										title="${l.l('Удалить меня из исполнителей')}" 
 										onclick="if (confirm('${l.l('Удалить вас из исполнителей')}?') && sendAJAXCommand('${url}')) openUrlToParent('${requestUrl}',$('#${tableId}')); return false;">${l.l('-Я')}</a>]
 								</c:when>
@@ -102,7 +102,7 @@
 											</c:forEach>
 											<c:param name="executor">${ctxUser.id}:${group.id}:${role.id}</c:param>
 										</c:url>
-										[<a href="#UNDEF" 
+										[<a href="#" 
 											title="${l.l('Добавить меня в исполнители')}" 
 											onclick="if (confirm('${l.l('Добавить вас в исполнители')}?') && sendAJAXCommand('${url}')) openUrlToParent('${requestUrl}',$('#${tableId}')); return false;">${l.l('+Я')}</a>]
 										</c:if>

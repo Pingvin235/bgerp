@@ -35,9 +35,9 @@
 								<input type="hidden" name="paramId" value="${parameter.getParamId()}" />
 								<input type="hidden" name="returnUrl" value="${form.requestUrl}" />
 														
-								<a href="#UNDEF" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') )">${parameter.getValue() }</a>
+								<a href="#" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') )">${parameter.getValue() }</a>
 								<c:if test="${empty parameter.getValue()}">
-									<a href="#UNDEF" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') )">не указан</a>
+									<a href="#" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') )">не указан</a>
 								</c:if>
 							</form>
 						</div>

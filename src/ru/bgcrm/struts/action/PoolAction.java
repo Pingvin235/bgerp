@@ -20,6 +20,6 @@ public class PoolAction extends BaseAction {
         if (session != null && !LoginStat.getLoginStat().isSessionValid(session))
             session.invalidate();
 
-        return status(con, form);
+        return json(con, form);
     }
 }

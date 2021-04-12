@@ -25,6 +25,6 @@ public class EmptyAction extends BaseAction {
         if (log.isDebugEnabled())
             log.debug("r:" + request + "; f:" + form + "; q: " + request.getQueryString());
 
-        return status(con, form);
+        return json(con, form);
     }
 }

@@ -29,7 +29,7 @@
 		<%-- shortcut for param --%>
 		<u:set var="uri" scope="request"><%=org.bgerp.servlet.filter.OpenFilter.getRequestURI(request)%></u:set>
 
-		<%@ include file="/WEB-INF/jspf/open/test/test.jsp"%>
+		<%@ include file="/WEB-INF/jspf/open/test/url.jsp"%>
 		<%@ include file="/WEB-INF/jspf/open/profile/url.jsp"%>
 		<%@ include file="/WEB-INF/jspf/open/process/url.jsp"%>
 

@@ -117,6 +117,12 @@ NOTE: Use the command for removing the created container:
 docker rm -f bgerp-demo
 ----
 
+NOTE: For accessing the DB instance with console SQL client use the command:
+[source, bash]
+----
+docker exec -it bgerp-demo mysql -ubgerp -p<PASSWORD_FROM_PROPERTIES> bgerp
+----
+
 [[run-gradle]]
 ==== Command line
 Execute command:
@@ -690,7 +696,7 @@ The sample above means that HTTP requests with URL */admin/run.do* mapped to the
 An *action* HTTP request's parameter is used to indicate method's name.
 If this HTTP parameter is not defined, then *unspecified* method gets invoked.
 
-Action methods have to return by invoking *data* or *status*.
+Action methods have to return by invoking *html* or *json*.
 
 First method gets processed by JSP forward page and sends HTML back to the client. 
 [snippet, from="@O", to="}", remove-leading=""]

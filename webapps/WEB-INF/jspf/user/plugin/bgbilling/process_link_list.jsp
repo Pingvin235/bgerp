@@ -10,7 +10,7 @@
 			<td>${l.l('Договор')}:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 
 			<c:set var="contractId" value="${item.linkedObjectId}" scope="request"/>
-			<td><a href="#UNDEF" onclick="bgbilling_openContract( '${billingId}', ${contractId} ); return false;">${item.linkedObjectTitle}</a></td>
+			<td><a href="#" onclick="bgbilling_openContract( '${billingId}', ${contractId} ); return false;">${item.linkedObjectTitle}</a></td>
 		</tr>	
 		
 		<c:set var="processTypeConfig" value="${ctxProcessTypeMap[u:int( form.param['processTypeId'] )].properties.configMap}"/>
@@ -44,7 +44,7 @@
 			<td><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
 			<td>${item.linkedObjectId}</td>
 			<td nowrap="nowrap">Единый договор</td>
-			<td><a href="#UNDEF" onclick="bgbilling_openCommonContract( ${item.linkedObjectId} ); return false;">${item.linkedObjectTitle}</a></td>
+			<td><a href="#" onclick="bgbilling_openCommonContract( ${item.linkedObjectId} ); return false;">${item.linkedObjectTitle}</a></td>
 		</tr>
 	</c:when>
 	<c:when test="${fn:startsWith( item.linkedObjectType, 'bgbilling-task:' )}">

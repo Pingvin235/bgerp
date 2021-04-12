@@ -21,7 +21,7 @@
 	</c:choose>
 	
 	<div id="selected" class="tableIndent" ${displaySelected}>
-		Контрагент: <a href="#UNDEF" onclick="${editCommand}">${stepData.customer.title}</a>
+		Контрагент: <a href="#" onclick="${editCommand}">${stepData.customer.title}</a>
 	</div>
 	
 	<c:set var="sendFormCommand">if( openUrlTo( formUrl( this.form ), $('#${uiid} #searchResult') ) ){ $('#${uiid} *.searchResult').show(); };</c:set>

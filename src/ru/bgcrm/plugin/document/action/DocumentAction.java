@@ -64,7 +64,7 @@ public class DocumentAction extends BaseAction {
 
         form.getHttpRequest().setAttribute("patternList", patterns);
 
-        return data(con, form, JSP_PATH + "/document_list.jsp");
+        return html(con, form, JSP_PATH + "/document_list.jsp");
     }
 
     public ActionForward uploadDocument(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -74,7 +74,7 @@ public class DocumentAction extends BaseAction {
 
         new DocumentDAO(con).add(objectType, objectId, file.getFileData(), file.getFileName());
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward deleteDocument(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -84,7 +84,7 @@ public class DocumentAction extends BaseAction {
         if (doc != null)
             docDao.delete(doc);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward generateDocument(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -143,7 +143,7 @@ public class DocumentAction extends BaseAction {
             return null;
         } else {
             form.getResponse().setData("document", document);
-            return status(conSet, form);
+            return json(conSet, form);
         }
     }
 

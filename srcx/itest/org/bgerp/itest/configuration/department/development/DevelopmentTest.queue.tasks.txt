@@ -82,5 +82,20 @@ media.print.1.columns=1:2;4:10;18:4
 media.print.1.orientation=portrait
 media.print.1.fileName=queue.pdf
 
+# Processors
+cnt=0
+processor.{@inc:cnt}.title=Set status
+processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+processor.{@cnt}.commands=setStatus:{@STATUS_OPEN_ID},{@STATUS_PROGRESS_ID},{@STATUS_WAIT_ID}
+processor.{@cnt}.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
+#
+processor.{@inc:cnt}.title=Delete process
+processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+processor.{@cnt}.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
+processor.{@cnt}.doExpression=delete()
+#
+# TODO: setDate, deleteGroups
+
+
 # url ending for open interface
 openUrl=dev

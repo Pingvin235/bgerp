@@ -26,7 +26,7 @@ public class InetAction extends BaseAction {
 
 		form.getResponse().setData("list", inetDao.getServiceList(form.getParamInt("contractId")));
 
-		return data(conSet, mapping, form, "serviceTree");
+		return html(conSet, mapping, form, "serviceTree");
 	}
 
 	public ActionForward serviceGet(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -42,7 +42,7 @@ public class InetAction extends BaseAction {
 			form.getResponse().setData("service", service);
 		}
 
-		return data(conSet, mapping, form, "serviceEditor");
+		return html(conSet, mapping, form, "serviceEditor");
 	}
 
 	public ActionForward serviceUpdate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -74,7 +74,7 @@ public class InetAction extends BaseAction {
 		inetDao.updateService(service, optionList, form.getParamBoolean("generateLogin", false),
 				form.getParamBoolean("generatePassword", false), 0L);
 
-		return status(conSet, form);
+		return json(conSet, form);
 	}
 
 	public ActionForward serviceDelete(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
@@ -82,7 +82,7 @@ public class InetAction extends BaseAction {
 
 		inetDao.deleteService(form.getId());
 
-		return status(conSet, form);
+		return json(conSet, form);
 	}
 
 	public ActionForward sessionAliveContractList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -91,7 +91,7 @@ public class InetAction extends BaseAction {
 
 		inetDao.getContractSessionAlive(new SearchResult<InetSessionLog>(form), form.getParamInt("contractId"));
 
-		return data(conSet, mapping, form, "contractReport");
+		return html(conSet, mapping, form, "contractReport");
 	}
 
 	public ActionForward sessionLogContractList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -104,7 +104,7 @@ public class InetAction extends BaseAction {
 				TimeUtils.clear_HOUR_MIN_MIL_SEC(
 						form.getParamDate("dateTo", TimeUtils.getEndMonth(new GregorianCalendar()).getTime())));
 
-		return data(conSet, mapping, form, "contractReport");
+		return html(conSet, mapping, form, "contractReport");
 	}
 	
 	public ActionForward serviceMenu(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -116,7 +116,7 @@ public class InetAction extends BaseAction {
 		InetDevice device = inetDao.getDevice(deviceId);
 		form.setResponseData("deviceMethods", inetDao.getDeviceManagerMethodList(device.getDeviceTypeId()));
 		
-		return data(conSet, mapping, form, "serviceMenu");
+		return html(conSet, mapping, form, "serviceMenu");
 	}
 	
 	public ActionForward serviceDeviceManage(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -130,7 +130,7 @@ public class InetAction extends BaseAction {
 		
 		form.setResponseData("response", inetDao.deviceManage(device.getInvDeviceId(), form.getId(), 0, operation));
 		
-		return status(conSet, form);
+		return json(conSet, form);
 	}
 	
 	public ActionForward serviceStateModify(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -140,6 +140,6 @@ public class InetAction extends BaseAction {
 		int state = form.getParamInt("state");
 		inetDao.updateServiceState(form.getId(), state);
 		
-		return status(conSet, form);
+		return json(conSet, form);
 	}
 }

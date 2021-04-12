@@ -1,31 +1,32 @@
+
 # system language
 lang=en
-#
+
 # HTML title !!!
 title=BGERP DEMO
-#
+
 # password check rules
 user.password.chars=1234567890qwertyupasdfghjkzxcvbnmiloQWERTYUIOPASDFGHJKLZXCVBNM
 user.password.length.min=5
 user.password.length.max=10
-#
+
 # check user permissions, 1 - enable 
 user.permission.check=0
-#
+
 # group roles in processes, semicolon separated pairs <id>:<title> 
 processGroupRoles=0:Execution;1:Follow
-#
+
 # E-Mail send options SMTP !!!
 mail.smtp.host=smtp.yandex.com
 mail.smtp.user=demo@bgerp.org
 mail.smtp.pswd=bgdemo
-#
+
 # comma separated list of Java normal or dynamic classes implementing java.lang.Runnable, running on server start
 #runOnStart=
 # comma separated list of Java normal or dynamic classes, instantiated on server start, recompilation of dynamic code re-creates them again
 #createOnStart=
-#
+
 # disable all plugins by default
 plugin.enable.default=0
-#
+
 # INCLUDES

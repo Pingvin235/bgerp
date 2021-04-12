@@ -17,12 +17,15 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.PeriodSet;
 
 public class TimeUtils {
-    // переделать, чтобы настраивалось
+    // TODO: Use Java API.
+    @Deprecated
     public static final String[] monthNames = { "январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь",
             "ноябрь", "декабрь" };
+    @Deprecated
     public static final String[] monthNamesRod = { "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября",
             "ноября", "декабря" };
 
+    @Deprecated
     public static final String[] shortDayNames = { "пн", "вт", "ср", "чт", "пт", "сб", "вс" };
 
     public static final String PATTERN_DDMMYYYY = "dd.MM.yyyy";
@@ -36,24 +39,23 @@ public class TimeUtils {
     public static final String FORMAT_TYPE_YMDHMS = "ymdhms";
 
     /**
-     * Возвращает формат даты в формате {@link SimpleDateFormat}.
-     * @param type типа даты {@link #FORMAT_TYPE_YMD},{@link #FORMAT_TYPE_YMDH}, {@link #FORMAT_TYPE_YMDHM}, {@link #FORMAT_TYPE_YMDHMS}. 
-     * @return
+     * Date and time format string compatible with {@link SimpleDateFormat}.
+     * @param type type of date-time: {@link #FORMAT_TYPE_YMD},{@link #FORMAT_TYPE_YMDH}, {@link #FORMAT_TYPE_YMDHM}, {@link #FORMAT_TYPE_YMDHMS}.
+     * @return matching date format or {@param type} itself. 
      */
     public static String getTypeFormat(String type) {
-        if (FORMAT_TYPE_YMD.equals(type)) {
-            return Setup.getSetup().get("date.default.format.ymd", "dd.MM.yyyy");
+        switch (type) {
+            case FORMAT_TYPE_YMD:
+                return System.getProperty("date.default.format.ymd", "dd.MM.yyyy");
+            case FORMAT_TYPE_YMDH:
+                return System.getProperty("date.default.format.ymdh", "dd.MM.yyyy HH");
+            case FORMAT_TYPE_YMDHM:
+                return System.getProperty("date.default.format.ymdhm", "dd.MM.yyyy HH:mm");
+            case FORMAT_TYPE_YMDHMS:
+                return System.getProperty("date.default.format.ymdhms", "dd.MM.yyyy HH:mm:ss");
+            default:
+                return type;
         }
-        if (FORMAT_TYPE_YMDHM.equals(type)) {
-            return Setup.getSetup().get("date.default.format.ymdhm", "dd.MM.yyyy HH:mm");
-        }
-        if (FORMAT_TYPE_YMDH.equals(type)) {
-            return Setup.getSetup().get("date.default.format.ymdh", "dd.MM.yyyy HH");
-        }
-        if (FORMAT_TYPE_YMDHMS.equals(type)) {
-            return Setup.getSetup().get("date.default.format.ymdhms", "dd.MM.yyyy HH:mm:ss");
-        }
-        return type;
     }
 
     // ########################################################################################

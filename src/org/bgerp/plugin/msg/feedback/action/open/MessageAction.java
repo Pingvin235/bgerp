@@ -65,7 +65,7 @@ public class MessageAction extends BaseAction {
     }
 
     public ActionForward edit(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        return data(conSet, null, Plugin.PATH_JSP_OPEN + "/editor.jsp");
+        return html(conSet, null, Plugin.PATH_JSP_OPEN + "/editor.jsp");
     }
 
     public ActionForward add(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -106,7 +106,7 @@ public class MessageAction extends BaseAction {
 
         form.getResponse().setMessage(l.l("Сообщение получено, ждите ответа на указанный E-Mail"));
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     private void linkCustomers(ConnectionSet conSet, String email, int processId) throws BGException {

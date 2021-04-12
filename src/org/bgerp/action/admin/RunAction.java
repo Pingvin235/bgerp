@@ -19,7 +19,7 @@ public class RunAction extends BaseAction {
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet)
             throws Exception {
-        return data(conSet, form, JSP_CUSTOM);
+        return html(conSet, form, JSP_CUSTOM);
     }
     
     public ActionForward runClass(DynActionForm form, ConnectionSet conSet)
@@ -50,6 +50,6 @@ public class RunAction extends BaseAction {
             }
         }
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 }

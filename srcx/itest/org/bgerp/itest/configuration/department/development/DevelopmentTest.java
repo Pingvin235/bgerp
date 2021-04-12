@@ -80,7 +80,10 @@ public class DevelopmentTest {
     @Test (dependsOnMethods = "addTypes")
     public void addQueues() throws Exception {
         queueTasksId = ProcessHelper.addQueue("Development", 
-            ConfigHelper.generateConstants("GROUP_ID", groupId) +
+            ConfigHelper.generateConstants("GROUP_ID", groupId, 
+                "STATUS_OPEN_ID", ProcessTest.statusOpenId, 
+                "STATUS_PROGRESS_ID", ProcessTest.statusProgressId,
+                "STATUS_WAIT_ID", ProcessTest.statusWaitId) +
             ResourceHelper.getResource(this, "queue.tasks.txt"), Sets.newHashSet(processTypeProductId));
         UserHelper.addGroupQueues(groupId, Sets.newHashSet(queueTasksId));
     }

@@ -88,7 +88,7 @@
 	</div>
 
 	<div id="constPart" class="mt05">
-		<b>Описание:</b><br/>
+		<b>${l.l('Описание')}:</b><br/>
 		<textarea name="description" rows="10" style="width: 100%;"></textarea>
 
 		<c:set var="returnToShow">$('#processQueueCreateProcess').hide(); $('#processQueueShow').show();</c:set>
@@ -98,7 +98,7 @@
 
 		<div class="mt1 in-mr1">
 			<button class="btn-grey" type="button" onclick="${saveCommand}">OK</button>
-			<button class="btn-grey" type="button" onclick="${returnToShow}">${l.l('Отмена')}</button>
+			<button class="btn-white" type="button" onclick="${returnToShow}">${l.l('Отмена')}</button>
 		</div>
 	</div>
 </html:form>

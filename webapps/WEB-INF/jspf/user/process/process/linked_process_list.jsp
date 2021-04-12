@@ -105,7 +105,7 @@
 					<c:if test="${ fn:trim(form.param.createDate) eq u:formatDate( process.createTime, 'ymd' ) or empty form.param.createDate or
 									(fn:trim(form.param.closeDate) eq u:formatDate( process.closeTime, 'ymd' ) and not empty form.param.closeDate) }">
 						<tr id="${linkedProcessList}-linkedObject-${process.id}">
-							<td nowrap="nowrap"><a href="#UNDEF" onclick="openProcess(${process.id}); return false;">${process.id}</a></td>
+							<td nowrap="nowrap"><a href="#" onclick="openProcess(${process.id}); return false;">${process.id}</a></td>
 							<td>${u:formatDate( process.createTime, 'ymdhms' )}</td>
 							<td>${u:formatDate( process.closeTime, 'ymdhms' )}</td>
 							<td nowrap="nowrap">

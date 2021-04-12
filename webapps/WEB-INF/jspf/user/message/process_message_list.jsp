@@ -19,7 +19,7 @@
 			<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
-		<button class="btn-green" type="button" onclick="$$.ajax.load('${url}', $('#${editorContainerUiid}'))"><i class="ti-plus"></i></button>
+		<ui:button type="add" onclick="$$.ajax.load('${url}', $('#${editorContainerUiid}'))"/>
 
 		<html:hidden property="attach"/>
 		<c:set var="sendCommand">$$.ajax.load($('#${formUiid}')[0], $('#${formUiid}').parent())</c:set>
@@ -222,13 +222,13 @@
 								return false;
 							</c:set>
 
-							<li><a href="#UNDEF" onclick="${command}">${l.l('Вкл./выкл. разрывы строк')}</a></li>
+							<li><a href="#" onclick="${command}">${l.l('Вкл./выкл. разрывы строк')}</a></li>
 							<ui:when type="user">
-								<li><a href="#UNDEF" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">${l.l('Теги')}</a></li>
+								<li><a href="#" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">${l.l('Теги')}</a></li>
 								<li>
 									<a href="#">${l.l('Изменить процесс на')}</a>
 									<ul>
-										<li><a href="#UNDEF" onclick="${actionButtonStartEditMerge} $('#${linkFormUiid}')${actionButtonStartEdit}">${l.l('Другой существующий')}</a></li>
+										<li><a href="#" onclick="${actionButtonStartEditMerge} $('#${linkFormUiid}')${actionButtonStartEdit}">${l.l('Другой существующий')}</a></li>
 
 										<c:if test="${messageType.processChangeSupport}">
 											<c:forTokens items = " ,processDepend,processMade,processLink" delims = "," var = "linkType">
@@ -255,7 +255,7 @@
 													}
 													return false;
 												</c:set>
-												<li><a href="#UNDEF" onclick="${command}">${l.l('%s копию текущего', linkTypeTitle)}</a></li>
+												<li><a href="#" onclick="${command}">${l.l('%s копию текущего', linkTypeTitle)}</a></li>
 											</c:forTokens>
 										</c:if>
 									</ul>
@@ -269,7 +269,7 @@
 										<c:param name="replyToId" value="${message.id}"/>
 									</c:url>
 								
-									<li><a href="#UNDEF" onclick="
+									<li><a href="#" onclick="
 										$$.ajax
 											.load('${answerUrl}', $('#${editorContainerUiid}'))
 											.done(function () {$(window).scrollTop(150)});
@@ -291,7 +291,7 @@
 											<c:param name="returnUrl" value="${form.requestUrl}"/>
 										</c:url>
 	
-										<li><a href="#UNDEF" onclick="if (bgcrm.lock.add('${message.lockEdit}')) {
+										<li><a href="#" onclick="if (bgcrm.lock.add('${message.lockEdit}')) {
 												$$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
 											};
 											return false;">${l.l('Редактировать')}</a></li>
@@ -303,7 +303,7 @@
 											<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
 										</c:url>
 	
-										<li><a href="#UNDEF" onclick="
+										<li><a href="#" onclick="
 											if (confirm('${l.l('Удалить сообщение?')}'))
 												$$.ajax.post('${deleteUrl}').done(() => {
 													$$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent());
@@ -333,7 +333,7 @@
 						event.stopPropagation();
 					</c:set>
 
-					<button id="${actionButtonUiid}" class="btn-white" onclick="${showMenuCode}" title="Действие">М</button>
+					<ui:button id="${actionButtonUiid}" type="more" onclick="${showMenuCode}"/>
 				</td>
 			</tr>
 		</table>

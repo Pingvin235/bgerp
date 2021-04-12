@@ -39,7 +39,7 @@
 					}
 				</c:if>
 			</c:set>
-			<td><a href="#UNDEF" onclick="${linkCode}">${contract.formatedNumber} [${customerMap[contract.id].title}]</a></td>
+			<td><a href="#" onclick="${linkCode}">${contract.formatedNumber} [${customerMap[contract.id].title}]</a></td>
 		</tr>
 	</c:forEach>
 </table>

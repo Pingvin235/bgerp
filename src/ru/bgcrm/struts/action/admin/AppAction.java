@@ -39,17 +39,17 @@ public class AppAction extends BaseAction {
 
         form.setResponseData("logUpdateList", logFiles);
 
-        return data(conSet, form, JSP_PATH + "/status.jsp");
+        return html(conSet, form, JSP_PATH + "/status.jsp");
     }
 
     public ActionForward restart(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         Scripts.restart();
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     public ActionForward update(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         Scripts.backupUpdateRestart(form.getParamBoolean("force"));
-        return status(conSet, form);
+        return json(conSet, form);
     }
     
     public ActionForward updateToChange(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -75,12 +75,12 @@ public class AppAction extends BaseAction {
 
         Scripts.backupInstallRestart(updateFiles);
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     public ActionForward userLoggedList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         form.setResponseData("logged", LoginStat.getLoginStat().getLoggedUserWithSessions());
-        return data(conSet, form, JSP_PATH + "/user_logged_list.jsp");
+        return html(conSet, form, JSP_PATH + "/user_logged_list.jsp");
     }
 
 }

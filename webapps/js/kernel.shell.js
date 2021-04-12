@@ -361,7 +361,7 @@ $$.shell = new function () {
 
 	const initBuffer = function () {
 		window.addEventListener("popstate", function (e) {
-			// при переходе по #UNDEF ссылкам e.state=null
+			// при переходе по # ссылкам e.state=null
 			if (e.state) {
 				debug("popstate: ", e.state);
 				contentLoad(e.state.href);

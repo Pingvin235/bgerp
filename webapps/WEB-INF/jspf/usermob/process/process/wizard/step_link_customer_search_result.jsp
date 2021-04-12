@@ -11,7 +11,7 @@
 			<c:forEach var="item" items="${form.response.data.list}">
 				<tr>
 					<td>
-						<a href="#UNDEF" 
+						<a href="#" 
 							onclick="if( deleteLinksWithType( 'process', ${processId}, 'customer' ) && addLink( 'process', ${processId}, 'customer', ${item.id}, '${fn:escapeXml( item.title )}' ) ){ ${reopenProcessEditorCode } }; return false;">
 							${item.title} (${item.reference})
 						</a>

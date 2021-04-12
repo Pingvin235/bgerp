@@ -47,7 +47,7 @@ public class ProcessAction extends BaseAction {
     public ActionForward statusList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new StatusDAO(con).searchStatus(new SearchResult<Status>(form));
 
-        return data(con, mapping, form, "statusList");
+        return html(con, mapping, form, "statusList");
     }
 
     public ActionForward statusUseProcess(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -68,7 +68,7 @@ public class ProcessAction extends BaseAction {
 
         form.getResponse().setData("containProcess", containProcess);
 
-        return data(con, mapping, form, "statusUseProcess");
+        return html(con, mapping, form, "statusUseProcess");
     }
 
     public ActionForward statusDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -76,7 +76,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessTypeCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward statusGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -87,7 +87,7 @@ public class ProcessAction extends BaseAction {
             form.getResponse().setData("status", status);
         }
 
-        return data(con, mapping, form, "statusUpdate");
+        return html(con, mapping, form, "statusUpdate");
     }
 
     public ActionForward statusUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -102,7 +102,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessTypeCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     // типы
@@ -128,7 +128,7 @@ public class ProcessAction extends BaseAction {
             }
         }
 
-        return data(con, mapping, form, "typeList");
+        return html(con, mapping, form, "typeList");
     }
 
     public ActionForward typeGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -139,7 +139,7 @@ public class ProcessAction extends BaseAction {
             form.getResponse().setData("type", type);
         }
 
-        return data(con, mapping, form, "typeUpdate");
+        return html(con, mapping, form, "typeUpdate");
     }
 
     public ActionForward typeUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -161,7 +161,7 @@ public class ProcessAction extends BaseAction {
         processTypeDAO.updateProcessType(type, form.getUserId());
         ProcessTypeCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward typeDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -176,7 +176,7 @@ public class ProcessAction extends BaseAction {
         typeDAO.deleteProcessType(id);
         ProcessTypeCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward typeInsertMark(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -202,7 +202,7 @@ public class ProcessAction extends BaseAction {
             paramMap.put("markType", "0");
         }
         //form.setAction( "typeList" );
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward typeUsed(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -215,7 +215,7 @@ public class ProcessAction extends BaseAction {
             .collect(Collectors.toList());
         form.getResponse().setData("queueTitleList", queueList);
 
-        return data(con, mapping, form);
+        return html(con, mapping, form);
     }
 
     public ActionForward typeCopy(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -228,13 +228,13 @@ public class ProcessAction extends BaseAction {
         int fromTypeId = form.getParamInt("fromId");
         if (fromTypeId > 0) {
             dao.copyTypeProperties(fromTypeId, typeId);
-            return status(con, form);
+            return json(con, form);
         }
 
         var types = dao.getTypeChildren(form.getParamInt("parentId", 0), Collections.singleton(typeId));
         form.setResponseData("types", types);
 
-        return data(con, mapping, form);
+        return html(con, mapping, form);
     }
 
     // очереди
@@ -243,7 +243,7 @@ public class ProcessAction extends BaseAction {
 
         new QueueDAO(con).searchQueue(new SearchResult<Queue>(form), queueIds, form.getParam("filter"));
 
-        return data(con, mapping, form, "queueList");
+        return html(con, mapping, form, "queueList");
     }
 
     public ActionForward queueGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -263,7 +263,7 @@ public class ProcessAction extends BaseAction {
 
         request.setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
 
-        return data(con, mapping, form, "queueUpdate");
+        return html(con, mapping, form, "queueUpdate");
     }
 
     public ActionForward queueUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -287,7 +287,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessQueueCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward queueDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -297,7 +297,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessQueueCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward properties(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -324,7 +324,7 @@ public class ProcessAction extends BaseAction {
             request.setAttribute("parameterList", paramDAO.getParameterList(Process.OBJECT_TYPE, 0));
         }
 
-        return data(con, mapping, form, "typeProperties");
+        return html(con, mapping, form, "typeProperties");
     }
 
     public ActionForward propertiesUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -366,7 +366,7 @@ public class ProcessAction extends BaseAction {
             ProcessTypeCache.flush(con);
         }
 
-        return status(con, form);
+        return json(con, form);
     }
 
     private void updateTransactions(DynActionForm form, ProcessType type) throws Exception {

@@ -30,7 +30,7 @@
 	
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
-			<td><a href="#UNDEF" onclick="openProcess( ${item.id} ); return false;">${item.id}</a></td>
+			<td><a href="#" onclick="openProcess( ${item.id} ); return false;">${item.id}</a></td>
 			<td>${item.description}</td>
 			<td>${item.statusTitle}</td>
 			<td>${u:formatDate( item.createTime, 'ymdhms' ) }</td>

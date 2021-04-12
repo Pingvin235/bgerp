@@ -34,7 +34,7 @@ public class BoardAction extends BaseAction {
     public ActionForward board(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         BoardsConfig boardsConf = setup.getConfig(BoardsConfig.class);
         form.setResponseData("boardsConf", boardsConf);
-        return data(conSet, form, JSP_PATH + "/board.jsp");
+        return html(conSet, form, JSP_PATH + "/board.jsp");
     }
         
     public ActionForward show(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -56,7 +56,7 @@ public class BoardAction extends BaseAction {
             updatePersonalization(form, con, persMap -> persMap.put("blowBoardLastSelected", String.valueOf(form.getId())));
         }
      
-        return data(con, form, JSP_PATH + "/show.jsp");
+        return html(con, form, JSP_PATH + "/show.jsp");
     }
     
     public ActionForward move(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -77,7 +77,7 @@ public class BoardAction extends BaseAction {
                 throw new BGMessageException(l.l("Циклическая зависимость"));
         }
         
-        return status(con, form);
+        return json(con, form);
     }
 
     public static class SearchItem {
@@ -127,7 +127,7 @@ public class BoardAction extends BaseAction {
             })
             .collect(Collectors.toList()));
 
-        return data(conSet, form, JSP_PATH + "/search.jsp");
+        return html(conSet, form, JSP_PATH + "/search.jsp");
     }
 
 }

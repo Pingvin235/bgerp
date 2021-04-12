@@ -63,7 +63,7 @@ public class UserAction
             counters.add(cnt);
         }
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
     
     public static class Counter {

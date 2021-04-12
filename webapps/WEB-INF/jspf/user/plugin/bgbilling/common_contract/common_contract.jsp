@@ -39,12 +39,12 @@
 					<c:param name="id" value="${contract.id}"/>
 					<c:param name="forwardFile" value="/WEB-INF/jspf/user/plugin/bgbilling/common_contract/common_contract_edit.jsp"/>
 				</c:url>
-				[<a href="#UNDEF" onclick="openTabUrlPos('${url}', -1)">Редактировать</a>]
+				[<a href="#" onclick="openTabUrlPos('${url}', -1)">Редактировать</a>]
 			</td>
 		</tr>
 		<tr>				
 			<td class="box" nowrap="nowrap">
-				Контрагент: <a href="#UNDEF" onclick="openCustomer( ${customer.id} ); return false;">${customer.title}</a>
+				Контрагент: <a href="#" onclick="openCustomer( ${customer.id} ); return false;">${customer.title}</a>
 			</td>
 			<td class="box" nowrap="nowrap" style="width: 100%;">
 				Адрес: ${contract.address.value}

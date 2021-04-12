@@ -42,7 +42,7 @@
 						<c:param name="addressItemId" value="${item.id}"/>
 						<c:param name="searchMode" value="house"/>
 					</c:url>
-					<td><a href="#UNDEF" onclick="openUrlContent('${url}'); return false">${item.title}</a></td>
+					<td><a href="#" onclick="openUrlContent('${url}'); return false">${item.title}</a></td>
 				</c:when>
 				<c:otherwise><td>${item.title}</td></c:otherwise>
 			</c:choose>

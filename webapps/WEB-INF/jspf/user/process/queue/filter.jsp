@@ -63,7 +63,7 @@
 			</c:if>
 
 			<%-- обращение к плагину, не совсем корректно, в перспективе лучше сделать точку расширения --%>
-			<c:set var="printConfig" value="${u:getConfig( queue.configMap, 'ru.bgcrm.plugin.report.model.PrintQueueConfig' )}"/>
+			<c:set var="printConfig" value="${u:getConfig(queue.configMap, 'ru.bgcrm.model.process.queue.config.PrintQueueConfig')}"/>
 			<c:if test="${not empty printConfig and not empty printConfig.printTypes}">
 				<c:forEach var="item" items="${printConfig.printTypes}">
 					<c:set var="script">
@@ -202,7 +202,7 @@
 				</c:set>
 
 				<button id="okButton" type="button" class="btn-grey" onclick="${doScript}">OK</button>
-				<button type="button" class="btn-grey ml05 mr1" onclick="$(this.form).hide();">${l.l('Отмена')}</button>
+				<button type="button" class="btn-white ml05 mr1" onclick="$(this.form).hide();">${l.l('Отмена')}</button>
 			</form>
 		</c:forEach>
 	</div>
@@ -894,6 +894,6 @@
 			</div>
 		</c:if>
 
-		<button type="button" title="Применить" class="btn-grey" onclick="var $form = $('${selectorForm}'); processQueueMarkFilledFilters($form); openUrlTo( formUrl( $form ), $('#processQueueData') );">=&gt;</button>
+		<ui:button type="out" onclick="var $form = $('${selectorForm}'); processQueueMarkFilledFilters($form); $$.ajax.load($form, $('#processQueueData'));"/>
 	</form>
 </div>

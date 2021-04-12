@@ -28,13 +28,13 @@
 			<h2 style="display:inline;">${l.l('Описание')}</h2>
 			<c:if test="${not empty processType}">
 				<p:check action="ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd">
-					[<a href="#UNDEF" title="${l.l('Добавить в конец описания текст с именем автора и временем')}"
+					[<a href="#" title="${l.l('Добавить в конец описания текст с именем автора и временем')}"
 						onclick="$('#${uiid} #editorChange').hide(); $('#${uiid} #editorAdd').show(); return false;">${l.l('добавить')}</a>]
 				</p:check>
 
 				<p:check action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate">
 					<c:if test="${processType.properties.configMap['hideDescriptionChange'] ne 1}">
-						[<a href="#UNDEF" title="${l.l('Править описание целиком (также можете кликнуть мышью по описанию)')}"
+						[<a href="#" title="${l.l('Править описание целиком (также можете кликнуть мышью по описанию)')}"
 							onclick="${editCommand}">${l.l('править целиком')}</a>]
 					</c:if>
 				</p:check>

@@ -83,7 +83,7 @@ public class FileAction extends BaseAction {
             throw new BGException(e);
         }
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward temporaryDelete(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -105,7 +105,7 @@ public class FileAction extends BaseAction {
         new File(storeFileName).delete();
         files.fileTitleMap.remove(fileId);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public static class SessionTemporaryFiles {

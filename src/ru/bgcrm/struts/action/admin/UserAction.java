@@ -40,7 +40,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         new UserPermsetDAO(con).searchPermset(new SearchResult<Permset>(form),
                 CommonDAO.getLikePatternSub(form.getParam("filter")));
 
-        return data(con, mapping, form, "permsetList");
+        return html(con, mapping, form, "permsetList");
     }
 
     public ActionForward permsetGet(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -55,7 +55,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         form.getHttpRequest().setAttribute("allPermissions", UserCache.getAllPermTree());
 
-        return data(con, mapping, form, "permsetUpdate");
+        return html(con, mapping, form, "permsetUpdate");
     }
 
     public ActionForward permsetUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -82,7 +82,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         UserCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward permsetDelete(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -90,7 +90,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         UserCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward permsetReplacePermissions(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -98,7 +98,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         UserCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward groupList(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -121,7 +121,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             }
         }
 
-        return data(con, mapping, form, "groupList");
+        return html(con, mapping, form, "groupList");
     }
 
     public ActionForward groupGet(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -135,7 +135,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             form.getResponse().setData("group", group);
         }
 
-        return data(con, mapping, form, "groupUpdate");
+        return html(con, mapping, form, "groupUpdate");
     }
 
     public ActionForward groupUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -169,7 +169,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         UserCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward groupDelete(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
@@ -184,7 +184,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         UserCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward groupInsertMark(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -210,7 +210,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             paramMap.put("markGroup", "0");
         }
 
-        return status(con, form);
+        return json(con, form);
     }
 
     // пользователи
@@ -231,7 +231,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         new UserDAO(con).searchUser(new SearchResult<User>(form), CommonDAO.getLikePatternSub(form.getParam("title")),
                 groups, null, actualDate, permsets, status);
 
-        return data(con, mapping, form, "userList");
+        return html(con, mapping, form, "userList");
     }
 
     public ActionForward userGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -247,7 +247,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         form.getHttpRequest().setAttribute("allPermissions", UserCache.getAllPermTree());
 
-        return data(con, mapping, form, "userUpdate");
+        return html(con, mapping, form, "userUpdate");
     }
 
     public ActionForward userUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -341,7 +341,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         form.getResponse().setData("newUserId", user.getId());
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward userDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -354,7 +354,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         UserCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward userGroupList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -380,7 +380,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         form.getHttpRequest().setAttribute("userGroupList", UserCache.getUserGroupList(form.getId(), form.getParamDate("date")));
 
-        return data(con, mapping, form, "userGroupList");
+        return html(con, mapping, form, "userGroupList");
     }
 
     public ActionForward userAddGroup(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -396,7 +396,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         
         addGroup(form, con, fromDate, toDate, groupId, userId);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public void addGroup(DynActionForm form, Connection con, Date fromDate, Date toDate, int groupId, int userId)
@@ -448,7 +448,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         new UserDAO(con).removeUserGroup(userId, groupId, dateFrom, dateTo);
         UserCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward userClosePeriodGroup(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -462,7 +462,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         closeGroup(form, con, userId, groupId, date, dateFrom, dateTo);
         UserCache.flush(con);
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public void closeGroup(DynActionForm form, Connection con, int userId, int groupId, Date date, Date dateFrom,

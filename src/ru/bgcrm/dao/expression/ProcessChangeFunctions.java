@@ -43,6 +43,13 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
         this.form = form;
         this.con = con;
     }
+
+    /**
+     * Delete the current process. 
+    */
+    public void delete() throws Exception {
+        ProcessAction.processDelete(form, con, process);
+    }
     
     /**
      * Добавляет группы решения в процесс.
@@ -54,7 +61,7 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
     public void addGroups(Set<Integer> groupIds, int roleId) throws Exception {
         ProcessType type = ProcessAction.getProcessType(process.getTypeId());
 
-        Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>(process.getProcessGroups());
+        Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>(process.getGroups());
         Set<ProcessGroup> addingProcessGroups = ProcessGroup.toProcessGroupSet(groupIds, roleId);
         if (type.getProperties().getAllowedGroups().size() > 0) {
             addingProcessGroups = new HashSet<ProcessGroup>(
@@ -70,11 +77,11 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
      * @param ids коды групп решения.
      */
     public void deleteGroups(Set<Integer> ids) throws Exception {
-        Set<ProcessGroup> processGroups = process.getProcessGroups().stream()
+        Set<ProcessGroup> processGroups = process.getGroups().stream()
                 .filter(pg -> !ids.contains(pg.getGroupId())).collect(Collectors.toSet());
         ProcessAction.processGroupsUpdate(form, con, process, processGroups);
 
-        Set<ProcessExecutor> executors = process.getProcessExecutors().stream()
+        Set<ProcessExecutor> executors = process.getExecutors().stream()
                 .filter(pe -> !ids.contains(pe.getGroupId())).collect(Collectors.toSet());
         ProcessAction.processExecutorsUpdate(form, con, process, processGroups, executors);
     }
@@ -90,7 +97,7 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
 
         // определение единственной группороли в которую добавляются исполнители
         ProcessGroup processGroup = null;
-        for (ProcessGroup pg : process.getProcessGroups()) {
+        for (ProcessGroup pg : process.getGroups()) {
             for (Integer executorId : addingExecutorIds) {
                 User user = UserCache.getUser(executorId);
                 if (user.getGroupIds().contains(pg.getGroupId())) {
@@ -105,7 +112,7 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
             throw new BGMessageException("Устанавливаемые исполнители не входят в группы, исполняющие процесс.");
 
         // добавление в текущих исполнителей группороли
-        Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getProcessExecutors(), Collections.singleton(processGroup));
+        Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(), Collections.singleton(processGroup));
         executors.addAll(ProcessExecutor.toProcessExecutorSet(addingExecutorIds, processGroup));
         
         ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
@@ -123,7 +130,7 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
         ProcessGroup processGroup = ProcessCommandExecutor.getProcessGroup(process, groupIds, roleId);
 
         // добавление в текущих исполнителей группороли
-        Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getProcessExecutors(), Collections.singleton(processGroup));
+        Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(), Collections.singleton(processGroup));
         executors.addAll(ProcessExecutor.toProcessExecutorSet(userIds, processGroup));
 
         ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
@@ -134,8 +141,8 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
      * @param ids коды пользователей.
      */
     public void deleteExecutors(Set<Integer> ids) throws Exception {
-        Set<ProcessGroup> processGroups = process.getProcessGroups();
-        Set<ProcessExecutor> executors = process.getProcessExecutors().stream()
+        Set<ProcessGroup> processGroups = process.getGroups();
+        Set<ProcessExecutor> executors = process.getExecutors().stream()
                 .filter(pe -> !ids.contains(pe.getUserId())).collect(Collectors.toSet());
         ProcessAction.processExecutorsUpdate(form, con, process, processGroups, executors);
     }

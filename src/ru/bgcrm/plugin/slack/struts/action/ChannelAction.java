@@ -19,6 +19,6 @@ public class ChannelAction extends ru.bgcrm.struts.action.BaseAction {
 
         new DefaultProcessorFunctions().linkChannel(process);
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 }

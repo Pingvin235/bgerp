@@ -8,7 +8,7 @@
 	<%@ include file="/WEB-INF/jspf/process_color.jsp"%>
 	
 	<h2>${l.l('Процесс')}</h2>
-	<h2 style="background-color:${color};">${process.typeTitle} (<a href="#UNDEF" onclick="openProcess(${process.id}); return false;">${process.id}</a>)</h2> 
+	<h2 style="background-color:${color};">${process.typeTitle} (<a href="#" onclick="openProcess(${process.id}); return false;">${process.id}</a>)</h2> 
 	<table class="oddeven" style="width: 100%;">
 		<tr>
 			<td nowrap="nowrap">${l.l('Создан (статус)')}</td>

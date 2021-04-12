@@ -16,7 +16,7 @@ public class WebRequestAction extends ru.bgcrm.struts.action.BaseAction {
 
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        return data(conSet, mapping, form, FORWARD_DEFAULT);
+        return html(conSet, mapping, form, FORWARD_DEFAULT);
     }
 
     public ActionForward findRequests(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -25,6 +25,6 @@ public class WebRequestAction extends ru.bgcrm.struts.action.BaseAction {
         WebRequestLogDAO webRequestLogDAO = new WebRequestLogDAO(conSet.getConnection());
         webRequestLogDAO.serchRequest(searchResult, form);
 
-        return data(conSet, mapping, form, "findRequests");
+        return html(conSet, mapping, form, "findRequests");
     }
 }

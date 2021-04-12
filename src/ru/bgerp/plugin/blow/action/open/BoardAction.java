@@ -39,7 +39,7 @@ public class BoardAction extends BaseAction {
             form.setResponseData("board", new Board(boardConf, processes, links));
         }
      
-        return data(con, null, Plugin.PATH_JSP_OPEN + "/show.jsp");
+        return html(con, null, Plugin.PATH_JSP_OPEN + "/show.jsp");
     }
 
 }

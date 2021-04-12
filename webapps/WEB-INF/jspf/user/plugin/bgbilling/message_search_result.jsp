@@ -7,7 +7,7 @@
 		<td>${l.l('Договор')}:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 
 		<c:set var="contractId" value="${item.linkedObjectId}" scope="request"/>
-		<td><a href="#UNDEF" onclick="bgbilling_openContract( '${billingId}', ${contractId} ); return false;">${item.linkedObjectTitle} [ ${item.linkedObjectComment} ]</a></td>
+		<td><a href="#" onclick="bgbilling_openContract( '${billingId}', ${contractId} ); return false;">${item.linkedObjectTitle} [ ${item.linkedObjectComment} ]</a></td>
 		
 		<c:set var="uiid" value="${u:uiid()}"/>
 		<script id="${uiid}">

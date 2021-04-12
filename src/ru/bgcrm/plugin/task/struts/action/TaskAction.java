@@ -13,16 +13,16 @@ public class TaskAction extends ru.bgcrm.struts.action.BaseAction {
 
     public ActionForward list(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new TaskDAO(con).searchTasks(new SearchResult<>(form), form.getParamInt("processId"), 0, true);
-        return data(con, mapping, form, "list");
+        return html(con, mapping, form, "list");
     }
     
     public ActionForward update(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         // TODO: Реализовать.
-        return status(con, form);
+        return json(con, form);
     }
     
     public ActionForward delete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         // TODO: Реализовать.
-        return status(con, form);
+        return json(con, form);
     }
 }

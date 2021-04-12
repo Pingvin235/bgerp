@@ -8,8 +8,8 @@
 </tr>
 	<c:forEach var="link" items="${form.response.data.list}">
 	<tr>
-		<td><a href="#UNDEF" onclick="openCustomer( ${link.id} ); return false;">${link.id}</a></td>
-		<td><a href="#UNDEF" onclick="openCustomer( ${link.id} ); return false;">${link.title}</a></td>
+		<td><a href="#" onclick="openCustomer( ${link.id} ); return false;">${link.id}</a></td>
+		<td><a href="#" onclick="openCustomer( ${link.id} ); return false;">${link.title}</a></td>
 	<tr>
 	</c:forEach>
 </table>

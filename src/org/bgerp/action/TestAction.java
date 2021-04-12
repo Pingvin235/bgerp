@@ -13,7 +13,7 @@ public class TestAction extends BaseAction {
     @Override
     public ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
             throws Exception {
-        return data(conSet, form, PATH_JSP_USER + "/test.jsp");
+        return html(conSet, form, PATH_JSP_USER + "/test.jsp");
     }
 
     // TODO: Some helper methods for testing parameters validatation and so on.

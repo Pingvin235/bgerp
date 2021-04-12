@@ -16,8 +16,10 @@ import ru.bgcrm.util.Utils;
 import ru.bgerp.util.Log;
 
 /**
- * Dynamically building of PreparedStatements with 
- * setting params without position index.
+ * Dynamically building of PreparedStatements with
+ * adding params without definition of position index.
+ *
+ * @author Shamil Vakhitov
  */
 public class PreparedDelay implements Closeable {
     private static final Log log = Log.getLog();
@@ -33,7 +35,7 @@ public class PreparedDelay implements Closeable {
     public PreparedDelay(Connection con) {
         this.con = con;
     }
-    
+
     public PreparedDelay(Connection con, String query) {
         this.con = con;
         addQuery(query);
@@ -52,46 +54,49 @@ public class PreparedDelay implements Closeable {
     }
 
     /**
-     * Добавляет часть запроса.
+     * Adds SQL string to the query.
      * @param value
+     * @return the current object.
      */
-    public void addQuery(String value) {
+    public PreparedDelay addQuery(String value) {
         if (Utils.isBlankString(value)) {
-            return;
+            return this;
         }
 
         if (query == null) {
             query = new StringBuilder();
         }
         query.append(value);
+
+        return this;
     }
-    
+
     /**
-     * Заменяет запрос, сбрасывает в null prepared statement.
+     * Replace the current query.
      * @param value
      */
     public void setQuery(String value) {
         query.setLength(0);
         query.append(value);
-        
+
     }
 
     /**
-     * Добавить целочисленный параметр запроса.
+     * Add int parameter in the prepared statement.
      * @param value
      */
     public void addInt(int value) {
         psSets.add(value);
     }
 
-    /** Добавить long параметр запроса.
+    /** Add long parameter in the prepared statement
      * @param value
      */
     public void addLong(long value) {
         psSets.add(value);
     }
 
-    /** Добавить Decimal параметр запроса.
+    /** Add Decimal parameter in the prepared statement.
      * @param value
      */
     public void addBigDecimal(BigDecimal value) {
@@ -99,7 +104,7 @@ public class PreparedDelay implements Closeable {
     }
 
     /**
-     * Добавить строковый параметр запроса.
+     * Add int parameter in the prepared statement.
      * @param value
      */
     public void addString(String value) {
@@ -107,7 +112,7 @@ public class PreparedDelay implements Closeable {
     }
 
     /**
-     * Добавить параметр запроса типа Дата
+     * Add Date parameter in the prepared statement.
      * @param value
      */
     public void addDate(Date value) {
@@ -115,7 +120,7 @@ public class PreparedDelay implements Closeable {
     }
 
     /**
-     * Добавляет параметр типа Timestamp.
+     * Add Timestamp parameter in the prepared statement.
      * @param value
      */
     public void addTimestamp(Timestamp value) {
@@ -123,27 +128,37 @@ public class PreparedDelay implements Closeable {
     }
 
     /**
-     * Добавляет параметр типа Boolean.
+     * Add Boolean parameter in the prepared statement.
      * @param value
      */
     public void addBoolean(Boolean value) {
         psSets.add(value);
     }
-    
+
     /**
-     * Добавляет произвольный набор параметров.
+     * Add parameters with obitary types in the prepared statement.
      * @param values
      */
     public void addObjects(Object... values) {
         for (Object value : values)
             psSets.add(value);
     }
-    
+
+    /**
+     * Execute the prepared statement for select.
+     * @return
+     * @throws SQLException
+     */
     public ResultSet executeQuery() throws SQLException {
         prepareStatementAndSetParameters();
         return ps.executeQuery();
     }
 
+    /**
+     * Execute the prepared statement for update.
+     * @return
+     * @throws SQLException
+     */
     public int executeUpdate() throws SQLException {
         prepareStatementAndSetParameters();
         return ps.executeUpdate();
@@ -173,5 +188,10 @@ public class PreparedDelay implements Closeable {
         } catch (Exception e) {
             log.error(e);
         }
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Prepared query: %s, params: %s", query, psSets);
     }
 }

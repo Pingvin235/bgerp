@@ -77,7 +77,7 @@
 	<c:set var="uiid" value="${u:uiid()}"/>
 
 	<div class="in-table-cell nowrap in-pr1 mb05" id="${uiid}">
-		<div>ID: <b><a title="Открыть договор отдельно" href="#UNDEF" onclick="bgbilling_openContract( '${billingId}', ${contractId} ); return false;">${contractId}</a></b></div>
+		<div>ID: <b><a title="Открыть договор отдельно" href="#" onclick="bgbilling_openContract( '${billingId}', ${contractId} ); return false;">${contractId}</a></b></div>
 
 		<c:set var="customerSelectUiid" value="${u:uiid()}"/>
 
@@ -85,7 +85,7 @@
 			Контрагент:
 			<span><c:choose>
 				<c:when test="${not empty customer}">
-					<a href="#UNDEF" onclick="openCustomer( ${customer.id} ); return false;">${customer.title}</a>
+					<a href="#" onclick="openCustomer( ${customer.id} ); return false;">${customer.title}</a>
 					<c:set var="customerId" value="${customer.id}"/>
 				</c:when>
 				<c:otherwise>

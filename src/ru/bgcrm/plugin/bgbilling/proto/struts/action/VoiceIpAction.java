@@ -27,7 +27,7 @@ public class VoiceIpAction extends BaseAction {
 		VoiceIpDAO voipDAO = new VoiceIpDAO(form.getUser(), billingId, form.getParamInt( "moduleId" ) );
 		form.getResponse().setData("logins", voipDAO.getVoiceIpLogins(contractId));
 
-		return data(conSet, mapping, form, "contractInfo");
+		return html(conSet, mapping, form, "contractInfo");
 	}
 
 	@Deprecated
@@ -44,7 +44,7 @@ public class VoiceIpAction extends BaseAction {
 		VoiceIpDAO voipDAO = new VoiceIpDAO(form.getUser(), billingId);
 		form.getResponse().setData("login", voipDAO.getVoiceIpLogin(loginId));
 
-		return status(conSet, form);
+		return json(conSet, form);
 	}
 
 	public ActionForward updateLogin(ActionMapping mapping, DynActionForm form, HttpServletRequest request,
@@ -74,6 +74,6 @@ public class VoiceIpAction extends BaseAction {
 				form.getParamInt("objectId"), form.getParam("comment"), dateFrom, dateTo, form.getParam("type"),
 				form.getParam("loginPassword"), form.getParamBoolean("setPassword", false));
 
-		return status(conSet, form);
+		return json(conSet, form);
 	}
 }

@@ -16,7 +16,7 @@ public class CustomAction extends BaseAction {
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
             throws Exception {
-        return data(conSet, form, JSP_CUSTOM);
+        return html(conSet, form, JSP_CUSTOM);
     }
     
     public ActionForward compile(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -24,6 +24,6 @@ public class CustomAction extends BaseAction {
         var result = Custom.getInstance().compileJava();
         form.setResponseData("result", result);
 
-        return data(conSet, form, JSP_CUSTOM);
+        return html(conSet, form, JSP_CUSTOM);
     }
 }

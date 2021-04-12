@@ -33,7 +33,7 @@
 	<c:when test="${not empty form.param.header}">
 		<div class="mt1 mb05">
 			<h2 style="display: inline;">${form.param.header}</h2>
-			<span id="${uiid}addButton" style="vertical-align: top;">[<a href="#UNDEF" onclick="${script}; return false;">${l.l('привязать')}</a>]</span>
+			<span id="${uiid}addButton" style="vertical-align: top;">[<a href="#" onclick="${script}; return false;">${l.l('привязать')}</a>]</span>
 		</div>
 	</c:when>
 	<c:otherwise>

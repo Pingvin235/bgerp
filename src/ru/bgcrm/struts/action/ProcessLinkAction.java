@@ -107,7 +107,7 @@ public class ProcessLinkAction extends ProcessAction {
         applyProcessTypePermission(typeList, form);
         form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
 
-        return data(con, mapping, form);
+        return html(con, mapping, form);
     }
 
     /* Usages were not found, 03.05.2020
@@ -170,7 +170,7 @@ public class ProcessLinkAction extends ProcessAction {
             form.getResponse().addEvent(new ProcessOpenEvent(process.getId()));
         }
 
-        return status(con, form);
+        return json(con, form);
     }
 
     // процессы, привязанные к процессу
@@ -222,7 +222,7 @@ public class ProcessLinkAction extends ProcessAction {
             new IfaceStateDAO(con).compareAndUpdateState(ifaceState, currentState, form);
         }
 
-        return data(con, mapping, form, "linkProcessList");
+        return html(con, mapping, form, "linkProcessList");
     }
 
     // создание процесса, привязанного к процессу
@@ -241,7 +241,7 @@ public class ProcessLinkAction extends ProcessAction {
         Process linkedProcess = getProcess(new ProcessDAO(con), id);
         linkProcessCreate(con, form, linkedProcess, typeId, objectType, createTypeId, description, form.getParamInt("groupId", -1));
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public static Process linkProcessCreate(Connection con, DynActionForm form, Process linkedProcess, int typeId, String linkType,

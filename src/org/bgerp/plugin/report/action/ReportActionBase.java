@@ -113,6 +113,6 @@ public abstract class ReportActionBase extends BaseAction implements Titled {
 
         getSelector().select(conSet, data);
 
-        return data(conSet, form, getJsp());
+        return html(conSet, form, getJsp());
     }
 }

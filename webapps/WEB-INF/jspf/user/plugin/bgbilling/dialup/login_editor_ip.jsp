@@ -25,7 +25,7 @@
 	
 		<h2 style="display: inline;">IP адреса</h2>
 		<c:if test="${not empty enable}">
-			[<a href="#UNDEF" onclick="${script}">+</a>]
+			[<a href="#" onclick="${script}">+</a>]
 		</c:if>	
 	</div>
 	

@@ -72,7 +72,7 @@ public class ContractAction extends BaseAction
 		CommonContractConfig config = setup.getConfig( CommonContractConfig.class );
 		request.setAttribute( "customerAddressMap", new ParamValueDAO( con ).getParamAddress( customerId, config.getCustomerAddressParamId() ) );
 
-		return data( con, mapping, form, "customerContractList" );
+		return html( con, mapping, form, "customerContractList" );
 	}
 
 	public ActionForward contract( ActionMapping mapping,
@@ -97,7 +97,7 @@ public class ContractAction extends BaseAction
 			}
 		}
 
-		return data( conSet, mapping, form, FORWARD_DEFAULT );
+		return html( conSet, mapping, form, FORWARD_DEFAULT );
 	}
 
 	public ActionForward createCustomerFromContract( ActionMapping mapping,
@@ -124,7 +124,7 @@ public class ContractAction extends BaseAction
 
 		serverCustomerCreator.createCustomer( billingId, con, form.getParamInt( "contractId", -1 ), form.getParamInt( "customerId", -1 ) );
 
-		return status( con, form );
+		return json( con, form );
 	}
 
 	public ActionForward copyCustomerParamCascade( ActionMapping mapping,
@@ -139,7 +139,7 @@ public class ContractAction extends BaseAction
 
 		ContractDAO.copyParametersToAllContracts( con, user, customerId );
 
-		return data( con, mapping, form, FORWARD_DEFAULT );
+		return html( con, mapping, form, FORWARD_DEFAULT );
 	}
 
 	public ActionForward copyCustomerParamToContract( ActionMapping mapping,
@@ -157,7 +157,7 @@ public class ContractAction extends BaseAction
 		ContractDAO contractDAO = new ContractDAO( form.getUser(), form.getParam( "billingId" ) );
 		contractDAO.copyParametersToBilling( con, customerId, contractId, contractTitle );
 
-		return status( con, form );
+		return json( con, form );
 	}
 
 	public ActionForward contractFind( ActionMapping mapping,
@@ -194,7 +194,7 @@ public class ContractAction extends BaseAction
 		new ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO( form.getUser(), billingId ).searchContractByTitleComment(searchResult, title, null, null);
 		form.getResponse().setData("contract",  Utils.getFirst(searchResult.getList()));
 
-		return status( con, form );
+		return json( con, form );
 	}
 
 	public ActionForward contractCreate( ActionMapping mapping,
@@ -261,7 +261,7 @@ public class ContractAction extends BaseAction
 		
 		form.getResponse().setData("contract", contract);
 
-		return status(con, form);
+		return json(con, form);
 	}
 
 	public ActionForward getContractCreatePattern( ActionMapping mapping,

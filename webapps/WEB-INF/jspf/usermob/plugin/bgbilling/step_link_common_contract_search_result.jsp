@@ -12,7 +12,7 @@
 			<c:forEach var="item" items="${form.response.data.list}">
 				<tr>
 					<td>
-						<a href="#UNDEF" 
+						<a href="#" 
 							onclick="if( deleteLinksWithType( 'process', ${processId}, 'bgbilling-commonContract' ) && addLink( 'process', ${processId}, 'bgbilling-commonContract', ${item.id}, '' ) ){ ${reopenProcessEditorCode } }">
 							${item.formatedNumber} (${item.address.value})
 						</a>

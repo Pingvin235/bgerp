@@ -79,7 +79,7 @@ public class NewsAction extends BaseAction {
             new NewsDAO(con).updateNewsUsers(news, userSet);
         }
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward newsEdit(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -88,7 +88,7 @@ public class NewsAction extends BaseAction {
             form.getResponse().setData("news", news);
         }
 
-        return data(con, mapping, form, "update");
+        return html(con, mapping, form, "update");
     }
 
     public ActionForward newsList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -110,7 +110,7 @@ public class NewsAction extends BaseAction {
             new UserDAO(con).updatePersonalization(configBefore, user);
         }
 
-        return data(con, mapping, form, "list");
+        return html(con, mapping, form, "list");
     }
 
     public ActionForward newsGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -122,7 +122,7 @@ public class NewsAction extends BaseAction {
 
         UserNewsCache.flushCache(con, Collections.singleton(form.getUserId()));
 
-        return data(con, mapping, form, "newsBody");
+        return html(con, mapping, form, "newsBody");
     }
 
     public ActionForward newsSetRead(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -131,7 +131,7 @@ public class NewsAction extends BaseAction {
 
         UserNewsCache.flushCache(con, Collections.singleton(form.getUserId()));
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward newsSetAllRead(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -139,12 +139,12 @@ public class NewsAction extends BaseAction {
 
         UserNewsCache.flushCache(con, Collections.singleton(form.getUserId()));
 
-        return status(con, form);
+        return json(con, form);
     }
 
     public ActionForward newsDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new NewsDAO(con).deleteNews(form.getId());
         
-        return status(con, form);
+        return json(con, form);
     }
 }

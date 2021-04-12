@@ -54,13 +54,13 @@ public class MessageCallAction extends BaseAction {
             type.numberRegister(form.getUserId(), number);
         }
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     public ActionForward numberFree(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
         getCallMessageType(form).numberFree(form.getUserId());
 
-        return status(conSet, form);
+        return json(conSet, form);
     }
 
     private MessageTypeCall getCallMessageType(DynActionForm form) throws BGException {

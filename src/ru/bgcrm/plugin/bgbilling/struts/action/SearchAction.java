@@ -110,7 +110,7 @@ public class SearchAction
 			request.setAttribute( "result", result );
 		}
 
-		return data( conSet, mapping, form, "searchContractResult" );
+		return html( conSet, mapping, form, "searchContractResult" );
 	}
 
 	public ActionForward commonContractSearch( ActionMapping mapping,

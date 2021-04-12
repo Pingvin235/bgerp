@@ -34,7 +34,7 @@ public class CardAction extends BaseAction {
         cardList = new ArrayList<>();
         form.getResponse().setData("serviceList", new CardDAO(form.getUser(), billingId, moduleId).CardContractInfo(contractId, serviceId, cardList));
         form.getResponse().setData("cardList", cardList);
-        return data(conSet, mapping, form, "contractInfo");
+        return html(conSet, mapping, form, "contractInfo");
     }
 
     public ActionForward activateCard(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {

@@ -25,7 +25,7 @@ public class UserAction extends BaseAction {
             user.setPassword("");
         }
         
-        return data(conSet, mapping, form, "userList");
+        return html(conSet, mapping, form, "userList");
     }
 
 }

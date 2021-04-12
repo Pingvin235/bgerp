@@ -11,7 +11,7 @@
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
 			<td>${item.id}</td>
-			<td><a href="#UNDEF" onclick="openCustomer( ${item.id} ); return false;">${item.title}
+			<td><a href="#" onclick="openCustomer( ${item.id} ); return false;">${item.title}
 					<c:if test="${not empty item.reference}">
 						(${item.reference})
 					</c:if>	

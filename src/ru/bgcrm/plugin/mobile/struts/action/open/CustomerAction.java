@@ -16,7 +16,7 @@ public class CustomerAction
     {
         //dd	
                 
-        return status( conSet, form );
+        return json( conSet, form );
     }	
     
 }

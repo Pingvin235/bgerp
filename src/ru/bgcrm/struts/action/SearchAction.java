@@ -58,14 +58,14 @@ public class SearchAction extends BaseAction {
                 result.getPage().setRecordCount(0);
             }
 
-            return data(con, mapping, form, "customerTitle");
+            return html(con, mapping, form, "customerTitle");
         } else if ("title".equals(searchBy)) {
             SearchResult<Customer> result = new SearchResult<Customer>(form);
 
             String title = form.getParam("title");
             customerDao.searchCustomerList(result, CommonDAO.getLikePatternSub(title));
 
-            return data(con, mapping, form, "customerTitle");
+            return html(con, mapping, form, "customerTitle");
         } 
         /* else if ("any".equals(searchBy)) {
             SearchResult<Customer> result = new SearchResult<Customer>(form);
@@ -81,7 +81,7 @@ public class SearchAction extends BaseAction {
 
             customerDao.searchCustomerList(result, form.getSelectedValues("groupId"));
 
-            return data(con, mapping, form, "customerTitle");
+            return html(con, mapping, form, "customerTitle");
         } else if ("address".equals(searchBy)) {
             SearchResult<ParameterSearchedObject<Customer>> result = new SearchResult<ParameterSearchedObject<Customer>>(form);
 
@@ -93,7 +93,7 @@ public class SearchAction extends BaseAction {
             customerDao.searchCustomerListByAddress(result, Utils.getObjectIdsList(ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE)),
                     streetId, house, flat, room);
 
-            return data(con, mapping, form, "customerAddress");
+            return html(con, mapping, form, "customerAddress");
         } else if ("email".equals(searchBy)) {
             SearchResult<ParameterSearchedObject<Customer>> result = new SearchResult<ParameterSearchedObject<Customer>>(form);
 
@@ -102,7 +102,7 @@ public class SearchAction extends BaseAction {
             customerDao.searchCustomerListByEmail(result, Utils.getObjectIdsList(ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE)),
                     email);
 
-            return data(con, mapping, form, "customerTitle");
+            return html(con, mapping, form, "customerTitle");
         } else if ("phone".equals(searchBy)) {
             SearchResult<Customer> result = new SearchResult<Customer>(form);
             String phone = form.getParam("phone");
@@ -115,7 +115,7 @@ public class SearchAction extends BaseAction {
                         phone);
             }
 
-            return data(con, mapping, form, "customerTitle");
+            return html(con, mapping, form, "customerTitle");
         } else if ("linkedObjectTitle".equals(searchBy)) {
             SearchResult<Customer> result = new SearchResult<Customer>(form);
 
@@ -124,7 +124,7 @@ public class SearchAction extends BaseAction {
 
             customerDao.searchCustomerByLinkedObjectTitle(result, linkedObjectTypeLike, linkedObjectTitle);
 
-            return data(con, mapping, form, "customerTitle");
+            return html(con, mapping, form, "customerTitle");
         }
 
         return mapping.findForward(FORWARD_DEFAULT);
@@ -140,7 +140,7 @@ public class SearchAction extends BaseAction {
 
             processDao.searchProcessListForUser(new SearchResult<Process>(form), form.getUserId(), mode);
 
-            return data(con, mapping, form, "process");
+            return html(con, mapping, form, "process");
         } else if ("id".equals(searchBy)) {
             SearchResult<Process> result = new SearchResult<>(form);
 
@@ -150,7 +150,7 @@ public class SearchAction extends BaseAction {
                 result.getPage().setRecordCount(1);
             }
 
-            return data(con, mapping, form, "process");
+            return html(con, mapping, form, "process");
         }
 
         return mapping.findForward(FORWARD_DEFAULT);

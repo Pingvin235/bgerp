@@ -20,7 +20,7 @@
 	      $crmTabs.tabs( "add", "${url}", "Задачи" );	      
 
 	      <%--
-	      <c:url var="url" value="#UNDEF">		
+	      <c:url var="url" value="#">		
 		  </c:url>
 		  $crmTabs.tabs( "add", "${url}", "Работы" );
 		  --%>		  

@@ -10,6 +10,8 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 
 /**
  * Logic for Gradle task 'publishUpdate'.
+ * Uses utilities: 'ssh', 'scp', 'rsync'. 
+ * 
  * @author Shamil Vakhitov
  */
 public class PublishUpdate {

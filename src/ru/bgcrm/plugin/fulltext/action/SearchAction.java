@@ -22,7 +22,7 @@ public class SearchAction extends BaseAction {
         SearchDAO searchDao = new SearchDAO(conSet.getSlaveConnection());
         if (Customer.OBJECT_TYPE.equals(objectType)) {
             searchDao.searchCustomer(new SearchResult<Customer>(form), filter);
-            return data(conSet, mapping, form, objectType);
+            return html(conSet, mapping, form, objectType);
         } else if (Process.OBJECT_TYPE.equals(objectType)) {
             searchDao.searchProcess(new SearchResult<Process>(form), filter);
             return mapping.findForward(objectType);

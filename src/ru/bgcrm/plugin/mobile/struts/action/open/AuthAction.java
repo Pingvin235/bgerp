@@ -48,7 +48,7 @@ public class AuthAction
         
         new MobileDAO( conSet.getConnection() ).registerAccount( account );
         
-        return status( conSet, form );
+        return json( conSet, form );
     }
     
 }

@@ -17,7 +17,7 @@
 
 <c:if test="${not empty form.param.header}">
 	<div class="mt1 mb05">
-		<h2 style="display: inline;">${form.param.header}</h2> [<a href="#UNDEF" onclick="$$.ajax.load('${paramLogUrl}', $('#${tableId}').parent()); return false;">${l.l('лог изменений')}</a>]
+		<h2 style="display: inline;">${form.param.header}</h2> [<a href="#" onclick="$$.ajax.load('${paramLogUrl}', $('#${tableId}').parent()); return false;">${l.l('лог изменений')}</a>]
 	</div>
 </c:if>
 
@@ -213,7 +213,7 @@
 										<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
 										<input type="hidden" name="tableId" value="${tableId}"/>
 
-										<a href="#UNDEF" onclick="if( openUrlTo( formUrl( $('#${editFormId}')[0] ), $('#${editDivId}') ) ) ${startEdit}">
+										<a href="#" onclick="if( openUrlTo( formUrl( $('#${editFormId}')[0] ), $('#${editDivId}') ) ) ${startEdit}">
 											${value}
 										</a>
 									</html:form>
@@ -269,7 +269,7 @@
 										<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
 										<input type="hidden" name="tableId" value="${tableId}"/>
 
-										<a href="#UNDEF" onclick="if( openUrlTo( formUrl( $('#${editFormId}')[0] ), $('#${editDivId}') ) ) ${startEdit}">
+										<a href="#" onclick="if( openUrlTo( formUrl( $('#${editFormId}')[0] ), $('#${editDivId}') ) ) ${startEdit}">
 											${value.value}
 										</a>
 									</html:form>
@@ -284,7 +284,7 @@
 									<c:param name="hideLeftPanel" value="1"/>
 									<c:param name="returnUrl" value="${form.requestUrl}"/>
 								</c:url>
-								[<a href="#UNDEF" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">дом</a>]
+								[<a href="#" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">дом</a>]
 								<%-- openUrlContent('?action=addressGet&returnUrl=%2fuser%2fdirectory%2faddress.do%3fselectTab%3dstreet%26addressItemId%3d3139%26searchMode%3dhouse&selectTab=street&addressCountryTitle=%d0%a0%d0%be%d1%81%d1%81%d0%b8%d1%8f&addressCityTitle=%d0%b3.+%d0%a3%d1%84%d0%b0&addressItemTitle=!%d0%a1%d0%a2%d0%a0%d0%9e%d0%98%d0%a2&addressCityId=1&addressItemId=3139&addressHouseId=29556  --%>
 							</p:check>
 
@@ -342,7 +342,7 @@
 									<input type="hidden" name="tableId" value="${tableId}"/>
 									<input type="hidden" name="paramId" value="${parameter.id}"/>
 
-									<a href="#UNDEF" onclick="if( openUrlTo( formUrl( $('#${editFormId}')[0] ), $('#${editDivId}') ) ) ${startEdit}">
+									<a href="#" onclick="if( openUrlTo( formUrl( $('#${editFormId}')[0] ), $('#${editDivId}') ) ) ${startEdit}">
 										${valueTitle}
 										<c:if test="${empty item.valueTitle}">${l.l('не указан')}</c:if>
 										<c:if test="${showAsLink}">

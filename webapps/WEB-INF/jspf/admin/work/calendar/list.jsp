@@ -37,7 +37,7 @@
 			</c:url>			
 						
 			<td>${item.id}</td>
-			<td><a href="#UNDEF" onclick="openUrlContent( '${editUrl}' ); return false;">${item.title}</a></td>
+			<td><a href="#" onclick="openUrlContent( '${editUrl}' ); return false;">${item.title}</a></td>
 			<td>${item.comment}</td>
 		</tr>
 	</c:forEach>
