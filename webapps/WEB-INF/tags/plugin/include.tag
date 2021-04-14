@@ -14,8 +14,7 @@
 		request.setAttribute("l", p.getLocalizer(Localization.getLang(request)));
 	%>
 
-	<c:set var="page" value="${plugin.endpoints[endpoint]}"/>
-	<c:if test="${not empty page}">
+	<c:forEach items="${plugin.getEndpoints(endpoint)}" var="page">
 		<jsp:include page="${page}"/>
-	</c:if>
+	</c:forEach>
 </c:forEach>

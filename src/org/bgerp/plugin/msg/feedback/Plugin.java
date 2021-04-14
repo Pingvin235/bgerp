@@ -1,6 +1,7 @@
 package org.bgerp.plugin.msg.feedback;
 
 import java.sql.Connection;
+import java.util.List;
 import java.util.Map;
 
 import ru.bgcrm.struts.action.BaseAction;
@@ -20,7 +21,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    protected Map<String, String> loadEndpoints() {
-        return Map.of("open.process.message.add.jsp", PATH_JSP_OPEN + "/message_add.jsp");
+    protected Map<String, List<String>> loadEndpoints() {
+        return Map.of("open.process.message.add.jsp", List.of(PATH_JSP_OPEN + "/message_add.jsp"));
     }
 }

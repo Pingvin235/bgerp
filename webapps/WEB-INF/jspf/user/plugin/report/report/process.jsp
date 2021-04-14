@@ -7,7 +7,7 @@
 
 <div class="report center1020">
 	<html:form action="/user/plugin/report/report/process">
-		<ui:combo-single hiddenName="type">
+		<ui:combo-single hiddenName="type" widthTextValue="5em" value="${form.param.type}">
 			<jsp:attribute name="valuesHtml">
 				<li value="create">${l.l('Созданные')}</li>
 				<li value="close">${l.l('Закрытые')}</li>
@@ -19,14 +19,9 @@
 		${l.l("по")}:
 		<ui:date-time paramName="dateTo" value="${form.param.dateTo}"/>
 		
-		<ui:button type="out" styleClass="ml1 mr1 more" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
+		<ui:button type="out" styleClass="ml1 mr1 more out" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
 
-		<report:more data="${form.response.data.data}">
-			<%-- TODO: <report:export-csv data=""/> --%>
-			<c:if test="${su.equalsAny(form.getParam('type'), 'create', 'close')}">
-				<report:chart-bar data="${form.response.data.data}" categories="time, type_title" values="COUNT()"/>
-			</c:if>
-		</report:more>
+		<report:more data="${data}"/>
 
 		<ui:page-control nextCommand="; $$.ajax.load(this.form, $$.shell.$content())" styleClass="more"/>
 	</html:form>

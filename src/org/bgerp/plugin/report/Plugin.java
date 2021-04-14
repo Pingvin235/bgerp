@@ -1,5 +1,6 @@
 package org.bgerp.plugin.report;
 
+import java.util.List;
 import java.util.Map;
 
 import ru.bgcrm.plugin.Endpoint;
@@ -15,10 +16,13 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    protected Map<String, String> loadEndpoints() {
+    protected Map<String, List<String>> loadEndpoints() {
        return Map.of(
-            Endpoint.JS, Endpoint.getPathPluginJS(ID),
-            Endpoint.USER_MENU_ITEMS, PATH_JSP_USER + "/menu_items.jsp"
+            Endpoint.JS, List.of(
+                Endpoint.getPathPluginJS(ID),
+                PATH_LIB + "/echarts-5.0.2/echarts.js"
+            ),
+            Endpoint.USER_MENU_ITEMS, List.of(PATH_JSP_USER + "/menu_items.jsp")
        );
     }
 }

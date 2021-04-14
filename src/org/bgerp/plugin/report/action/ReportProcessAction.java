@@ -2,12 +2,13 @@ package org.bgerp.plugin.report.action;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.plugin.report.Plugin;
-import org.bgerp.plugin.report.model.Chart;
+import org.bgerp.plugin.report.model.chart.Chart;
+import org.bgerp.plugin.report.model.chart.ChartBar;
+import org.bgerp.plugin.report.model.chart.ChartPie;
 import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Columns;
 import org.bgerp.plugin.report.model.Data;
@@ -105,11 +106,20 @@ public class ReportProcessAction extends ReportActionBase {
         COL_DESCRIPTION
     );
 
-    private final Set<Chart> CHARTS = Set.of(
-        new Chart.ChartBar(
-            List.of(COL_TIME),
-            List.of(new Column.ColumnCount(COL_ID))
+    private final List<Chart> CHARTS = List.of(
+        new ChartBar(
+            "Количества по типам процессов",
+            COL_TYPE_TITLE,
+            new Column.ColumnCount(COL_ID)
+        ),
+        new ChartPie(
+            "Количества по типам процессов",
+            COL_TYPE_TITLE,
+            new Column.ColumnCount(COL_ID)
         )
+        // TODO: Add obitary param like 'cost' for making summs.
+        // TODO: Created by hour of the day.
+        // TODO: Closed by executor (support many).
     );
 
     @Override
@@ -118,7 +128,7 @@ public class ReportProcessAction extends ReportActionBase {
     }
 
     @Override
-    public Set<Chart> getCharts() {
+    public List<Chart> getCharts() {
         return CHARTS;
     }
 }

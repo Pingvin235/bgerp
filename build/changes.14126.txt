@@ -1,0 +1,2 @@
+A: Multiple endpoints with same ID in Plugin API>
+A: Report, charts using ECharts library.

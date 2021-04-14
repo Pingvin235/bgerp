@@ -578,7 +578,7 @@ Endpoints used for connecting non-Java plugin parts:
 ===== JavaScript
 Extension points definition within Plugin declaration:
 [snippet, from="Endpoint.JS", to=",", remove-leading="            "]
-link:../../src/ru/bgerp/plugin/blow/Plugin.java#L21-L21[ru.bgerp.plugin.blow.Plugin]
+link:../../src/ru/bgerp/plugin/blow/Plugin.java#L22-L22[ru.bgerp.plugin.blow.Plugin]
 
 File containing script: link:../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
 
@@ -588,7 +588,7 @@ Menu item in <<kernel/interface.adoc#user, user>> interface.
 
 Extension points definition within <<plugin-class, Plugin class>>:
 [snippet, from="Endpoint.USER_MENU", to=",", remove-leading="            "]
-link:../../src/ru/bgerp/plugin/blow/Plugin.java#L23-L23[ru.bgerp.plugin.blow.Plugin]
+link:../../src/ru/bgerp/plugin/blow/Plugin.java#L24-L24[ru.bgerp.plugin.blow.Plugin]
 
 Adding a menu item using JSP tag: link:../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
 

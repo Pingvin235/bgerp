@@ -78,25 +78,20 @@
 <script src="/lib/codemirror/addon/selection/active-line.js"></script>
 <script src="/lib/codemirror/addon/edit/matchbrackets.js"></script>
 
-<script src="/lib/d3/d3.js"></script>
-
 <style type="text/css">
 	<%@include file="/css/style.css.jsp"%>
 </style>
 
 <c:forEach items="${ctxPluginManager.pluginList}" var="plugin">
-	<c:set var="js" value="${plugin.endpoints['js']}" scope="request"/>
-	<c:if test="${not empty js}">
-		<script src="${u:fileNameWithLastModTime(js)}"></script>		
-	</c:if>
+	<c:forEach items="${plugin.getEndpoints('js')}" var="js">
+		<script src="${u:fileNameWithLastModTime(js)}"></script>
+	</c:forEach>
 </c:forEach>
 
 <script>
-	$(function()
-	{
-		<c:set var="endpoint" value="js.init"/>
-		<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
-	});
+	$(function () {
+		<plugin:include endpoint="js.init"/>
+	})
 </script>
 
 <%-- Disabled since custom exists, fails for open interface /open/test

@@ -32,12 +32,13 @@ public abstract class Plugin {
     private static final Log log = Log.getLog();
 
     protected static final String PATH_JS = "/js";
+    protected static final String PATH_LIB = "/lib";
     protected static final String PATH_CSS = "/css";
 
     private final String id;
     /** Old way of plugin definition. XML document storing at most only endpoints. */
     private final Document document;
-    private final Map<String, String> endpoints;
+    private final Map<String, List<String>> endpoints;
 
     protected Plugin(String id) {
         this.id = id;
@@ -91,11 +92,11 @@ public abstract class Plugin {
      * Deprecated way, for backward compatibility only.
      * @return
      */
-    protected Map<String, String> loadEndpoints() {
-        Map<String, String> endpoints = new HashMap<>(20);
+    protected Map<String, List<String>> loadEndpoints() {
+        Map<String, List<String>> endpoints = new HashMap<>(20);
         if (this.document != null) {
             for (Element endpoint : XMLUtils.selectElements(document, "/plugin/endpoint")) {
-                endpoints.put(endpoint.getAttribute("id"), endpoint.getAttribute("file"));
+                endpoints.put(endpoint.getAttribute("id"), Collections.singletonList(endpoint.getAttribute("file")));
             }
         }
         return Collections.unmodifiableMap(endpoints);
@@ -123,8 +124,8 @@ public abstract class Plugin {
      * Endpoints for connecting the plugin in JSP templates.
      * @return
      */
-    public final Map<String, String> getEndpoints() {
-        return endpoints;
+    public final List<String> getEndpoints(String key) {
+        return endpoints.get(key);
     }
 
     /**

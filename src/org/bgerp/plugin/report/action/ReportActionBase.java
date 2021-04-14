@@ -3,17 +3,17 @@ package org.bgerp.plugin.report.action;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
-import org.bgerp.plugin.report.model.Chart;
+import org.bgerp.plugin.report.model.chart.Chart;
 import org.bgerp.plugin.report.model.Columns;
 import org.bgerp.plugin.report.model.Data;
 import org.reflections.Reflections;
 
 import ru.bgcrm.dao.CommonDAO;
+import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.action.BaseAction;
@@ -75,11 +75,11 @@ public abstract class ReportActionBase extends BaseAction implements Titled {
     protected abstract Columns getColumns();
 
     /**
-     * Supported charts.
+     * Supported charts. Position in the list identifies a chart.
      * @return
      */
-    public Set<Chart> getCharts() {
-        return Collections.emptySet();
+    public List<Chart> getCharts() {
+        return Collections.emptyList();
     };
 
     /**
@@ -111,8 +111,33 @@ public abstract class ReportActionBase extends BaseAction implements Titled {
         // here 'data' key is placed in request attribute
         form.setRequestAttribute("data", data);
 
+        // report specific data selection
         getSelector().select(conSet, data);
 
+        charts(form, data);
+
         return html(conSet, form, getJsp());
+    }
+
+    /**
+     * Prepare chart's data.
+     * @param form
+     * @param data
+     * @throws BGIllegalArgumentException
+     */
+    private void charts(DynActionForm form, Data data) throws BGIllegalArgumentException {
+        final var charts = getCharts();
+        if (charts.isEmpty())
+            return;
+
+        int chartIndex = form.getParamInt("chartIndex");
+        if (chartIndex <= 0) 
+             return;
+
+        if (charts.size() < chartIndex)
+            throw new BGIllegalArgumentException();
+        
+        final var chart = charts.get(chartIndex - 1);
+        form.setResponseData("chart", chart.json(form.l, data));
     }
 }
