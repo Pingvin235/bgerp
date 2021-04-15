@@ -8,7 +8,7 @@
 	<h2>${l.l('Обновление')}</h2>
 	<html:form action="admin/app">
 		<input type="hidden" name="action" value="update"/>
-		<ui:combo-single hiddenName="force" prefixText="${l.l('Принудительно')}:">
+		<ui:combo-single hiddenName="force" widthTextValue="3em" prefixText="${l.l('Принудительно')}:">
 			<jsp:attribute name="valuesHtml">
 				<li value="0">${l.l('Нет')}</li>
 				<li value="1">${l.l('Да')}</li>
@@ -24,7 +24,14 @@
 	<h2>${l.l('Обновление на изменение')}</h2>
 	<html:form action="admin/app">
 		<input type="hidden" name="action" value="updateToChange"/>
-		<input type="text" name="processId" size="10" style="text-align: center;" placeholder="${l.l('ID процесса')}"/>
+		<ui:combo-single hiddenName="changeId" widthTextValue="5em" prefixText="ID:">
+			<jsp:attribute name="valuesHtml">
+				<c:forEach var="item" items="${form.response.data.changeIds}">
+					<li value="${item}">${item}</li>
+				</c:forEach>
+			</jsp:attribute>
+		</ui:combo-single>
+
 		<button class="btn-grey ml1" type="button" onclick="
 			this.disabled = true;
 			$$.ajax.post(this.form).always(() => {

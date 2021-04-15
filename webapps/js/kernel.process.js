@@ -103,7 +103,7 @@ $$.process = new function() {
 					$$.ajax
 						.load(url, $('#processQueueData'))
 						.done(() => {
-							addProcessQueueIdToUrl(queueId);
+							$$.shell.stateFragment(queueId)
 							dfd.resolve();
 						});
 				} else
@@ -112,10 +112,6 @@ $$.process = new function() {
 		}
 
 		const showSelected = (id) => {
-			// очередь может быть сохранена, как последняя открытая, а потом удалена
-			/* if ($("#processQueueSelect li[value=" + id + "]").length === 0)
-				return; */
-
 			if (id) {
 				$(".btn-panel input[type=hidden]").each(function () {
 					if ($(this).val() == id) {
@@ -188,12 +184,6 @@ function processQueueMarkFilledFilters($form) {
 			$span.css("font-weight", "bold");
 		}
 	});
-}
-
-//помещение в URL #<код очереди>
-function addProcessQueueIdToUrl(queueId) {
-	console.warn($$.deprecated);
-	$$.shell.stateFragment(queueId);
 }
 
 function processQueueFilterSetSelect(queueId) {

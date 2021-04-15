@@ -1,0 +1,3 @@
+F: Update mode combo width under Chrome.
+F: Process creation.
+A: Selectable list of change IDs in UI, https://bgerp.org/doc/3.0/manual/kernel/install.html#installer-iface

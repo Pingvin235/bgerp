@@ -16,7 +16,7 @@ public class Installer {
         Setup.getSetup();
         try {
             parseArgs(args);
-        } catch (WrongArgumentsException ex) {
+        } catch (IllegalArgumentException ex) {
             System.out.println(ex.toString());
             System.out.println(getHelp());
             System.exit(1);
@@ -30,10 +30,11 @@ public class Installer {
     static final String K_UPDATE = "update";
     static final String K_UPDATEF = "updatef";
     static final String K_INSTALL = "install";
+    static final String K_INSTALLC = "installc";
 
-    private static void parseArgs(String[] args) throws WrongArgumentsException {
+    private static void parseArgs(String[] args) throws Exception {
         if (args == null || args.length == 0) {
-            throw new WrongArgumentsException("No arguments!");
+            throw new IllegalArgumentException("No arguments!");
         } else if (args.length == 1 && args[0].equals(K_UPDATE)) {
             new InstallProcessor().update(false);
         } else if (args.length == 1 && args[0].equals(K_UPDATEF)) {
@@ -50,33 +51,29 @@ public class Installer {
             List<String> replacedFiles = new ArrayList<>();
             new InstallerModule(new File(args[1]), replacedFiles);
             InstallerModule.replacedReport(replacedFiles);
+        } else if (args.length == 2 && args[0].endsWith(K_INSTALLC)) {
+            var updateFiles = new UpdateProcessor(args[1]).getUpdateFiles();
+            if (updateFiles.isEmpty()) {
+                System.out.println("No update files found for change ID: " + args[1]);
+            } else {
+                System.out.println("Installing: " + updateFiles);
+                Scripts.backupInstallRestart(updateFiles);
+            }
         }
         else {
-            throw new WrongArgumentsException("Argument error!");
+            throw new IllegalArgumentException("Argument error!");
         }
     }
 
     private static String getHelp() {
         StringBuffer sb = new StringBuffer();
         sb.append("\nCommands for installer:");
-        sb.append("\n\t update           - update all modules.");
-        sb.append("\n\t updatef          - update all modules forced.");
-        sb.append("\n\t update <version> - switch to another version (not build) of the program.");
-        sb.append("\n\t killhash         - clear executed queries history.");
-        sb.append("\n\t install <zip>    - install a module from the zip file.");
+        sb.append("\n\t update            - update to the actual builds if they differ from currents.");
+        sb.append("\n\t updatef           - update to the actual builds without comparison.");
+        sb.append("\n\t update <version>  - switch to another version (not build) of the program.");
+        sb.append("\n\t killhash          - clear executed queries history.");
+        sb.append("\n\t install <zip>     - install a module from the zip file.");
+        sb.append("\n\t installc <change> - download update files from <change> and install them.");
         return sb.toString();
-    }
-
-    private static class WrongArgumentsException extends Exception {
-        private String message;
-
-        public WrongArgumentsException(String message) {
-            this.message = "Wrong arguments: " + message;
-        }
-
-        @Override
-        public String toString() {
-            return message;
-        }
     }
 }

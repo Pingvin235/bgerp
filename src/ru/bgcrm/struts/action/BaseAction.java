@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.Map;
@@ -688,6 +689,8 @@ public class BaseAction extends DispatchAction {
         public Invoker(Method method) {
             this.method = method;
             method.setAccessible(true);
+            if (Modifier.isStatic(method.getModifiers()))
+                throw new IllegalArgumentException("Action method can't be static");
         }
 
         public Object invoke(BaseAction action, ActionMapping mapping, DynActionForm actionForm, HttpServletRequest request,

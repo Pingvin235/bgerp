@@ -1,37 +1,41 @@
 package ru.bgcrm.util.distr;
 
-import org.apache.commons.io.FileUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.Utils;
-
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.annotations.VisibleForTesting;
+
+import org.apache.commons.io.FileUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import ru.bgcrm.util.Utils;
+
+/**
+ * Installer of update packages.
+ * 
+ * @author Shamil Vakhitov
+ */
 public class InstallProcessor {
-    private static VersionInfo serverVersionInfo = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE);
-
-    private static Setup setup = Setup.getSetup();
-
-    public static final String UPDATE_TO_CHANGE_URL = "https://bgerp.org/update/";
-    private static final String UPDATE_URL = setup.get("bgerp.download.url", "https://bgerp.org/download");
+    private static final String UPDATE_URL = System.getProperty("bgerp.download.url", "https://bgerp.org/download");
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
-    private Map<String, FileInfo> remoteFileMap = new HashMap<>();
-    private List<FileInfo> listForInstall = new ArrayList<>();
+    private static final String VERSION_CURRENT = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE).getVersion();
+    /** Explicit version for update. */
+    private final String version;
 
-    private String updateVersion;
+    private final Map<String, FileInfo> remoteFileMap = new HashMap<>();
+    private final List<FileInfo> listForInstall = new ArrayList<>();
 
-    public InstallProcessor(String updateVersion) {
-        this.updateVersion = updateVersion;
+    public InstallProcessor(String version) {
+        this.version = version;
         loadRemoteFileList();
     }
 
@@ -40,7 +44,8 @@ public class InstallProcessor {
     }
 
     /**
-     * Обновление установленных модулей до последней версии.
+     * Update to the latest
+     * @param force compare remote build with locally installed.
      */
     public void update(boolean force) {
         selectModulesForUpdate(force);
@@ -48,46 +53,28 @@ public class InstallProcessor {
     }
 
     /**
-     * Regexp to determine zip-files.
-     */
-    private static final Pattern pattern = java.util.regex.Pattern
-            .compile("^(\\w+)_((?:[\\d\\.]+)|(?:release-[a-zA-Z]+))_(\\d+)\\.zip$");
-
-    /**
-     * Loading a list of remote zip-files.
+     * Load a list of remote zip-files.
      */
     private void loadRemoteFileList() {
         System.out.println("Update starting..");
         System.out.println("Update from " + UPDATE_URL);
 
         try {
-            String kernelVersion = updateVersion;
-
-            if (Utils.isBlankString(kernelVersion)) {
-                kernelVersion = serverVersionInfo.getVersion();
-
-                if (Utils.isBlankString(kernelVersion)) {
-                    System.out.println("ERROR: Can't take BGERP server version, exiting");
-                    System.exit(1);
-                }
-            }
+            String kernelVersion = getVersion();
 
             System.out.println("Version is " + kernelVersion);
 
             String updateUrl = String.format("%s/%s/", UPDATE_URL, kernelVersion);
             // connecting via http(s) and parsing the page
-            Document doc = Jsoup.connect(updateUrl).get();
+            Document doc = getRemoteHtml(updateUrl);
 
             // iterating over the all hyperlinks
             for (Element link : doc.select("a")) {
                 String href = link.attr("href");
-
-                // filtering only update*.zip files
-                if (href.endsWith(".zip") && href.startsWith("update_") || href.startsWith("update_lib_")) {
-                    Matcher m = pattern.matcher(href);
-
+                if (FileInfo.isValidFileName(href)) {
+                    var m = FileInfo.PATTERN_ZIP.matcher(href);
                     if (m.find()) {
-                        FileInfo fi = new FileInfo(m.group(1), m.group(3), href, new URL( String.format( "%s%s", updateUrl, href ) ));
+                        var fi = new FileInfo(m.group(1), m.group(2), href, new URL(updateUrl + href));
                         remoteFileMap.put(fi.name, fi);
                     }
                 }
@@ -97,6 +84,28 @@ public class InstallProcessor {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    @VisibleForTesting
+    protected Document getRemoteHtml(String updateUrl) throws IOException {
+        return Jsoup.connect(updateUrl).get();
+    }
+
+    @VisibleForTesting
+    protected Map<String, FileInfo> getRemoteFileMap() {
+        return remoteFileMap;
+    }
+
+    private String getVersion() {
+        String result = this.version;
+
+        if (Utils.isBlankString(result))
+            result = VERSION_CURRENT;
+
+        if (Utils.isBlankString(result))
+            throw new IllegalStateException("Can't get the server version");
+
+        return result;
     }
 
     private void installSelected() {
@@ -165,17 +174,31 @@ public class InstallProcessor {
     /**
      * Additional bean to store update info per each file.
      */
-    private static class FileInfo {
-        public String name;
-        public String build;
-        public String fileName;
-        public URL url;
+    static class FileInfo {
+        /**
+         * Regexp for parsing zip file names.
+         */
+        private static final Pattern PATTERN_ZIP = java.util.regex.Pattern.compile("^(\\w+)_[\\d\\.]+_(\\d+)\\.zip$");
 
-        public FileInfo(String name, String build, String fullName, URL url) {
+        final String name;
+        final String build;
+        final String fileName;
+        final URL url;
+
+        FileInfo(String name, String build, String fullName, URL url) {
             this.name = name;
             this.build = build;
             this.fileName = fullName;
             this.url = url;
+        }
+
+        /**
+         * Check file name starts from 'update_' and ends by '.zip'.
+         * @param name
+         * @return
+         */
+        static boolean isValidFileName(String name) {
+            return name.startsWith("update_") && name.endsWith(".zip");
         }
     }
 }

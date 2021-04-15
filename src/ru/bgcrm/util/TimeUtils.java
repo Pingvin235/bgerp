@@ -17,6 +17,11 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.PeriodSet;
 
 public class TimeUtils {
+    public static final String CONF_KEY_FORMAT_YMD = "bgerp.format.ymd";
+    public static final String CONF_KEY_FORMAT_YMDH = "bgerp.format.ymdh";
+    public static final String CONF_KEY_FORMAT_YMDHM = "bgerp.format.ymdhm";
+    public static final String CONF_KEY_FORMAT_YMDHMS = "bgerp.format.ymdhms";
+
     // TODO: Use Java API.
     @Deprecated
     public static final String[] monthNames = { "январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь",
@@ -46,13 +51,13 @@ public class TimeUtils {
     public static String getTypeFormat(String type) {
         switch (type) {
             case FORMAT_TYPE_YMD:
-                return System.getProperty("date.default.format.ymd", "dd.MM.yyyy");
+                return System.getProperty(CONF_KEY_FORMAT_YMD, "dd.MM.yyyy");
             case FORMAT_TYPE_YMDH:
-                return System.getProperty("date.default.format.ymdh", "dd.MM.yyyy HH");
+                return System.getProperty(CONF_KEY_FORMAT_YMDH, "dd.MM.yyyy HH");
             case FORMAT_TYPE_YMDHM:
-                return System.getProperty("date.default.format.ymdhm", "dd.MM.yyyy HH:mm");
+                return System.getProperty(CONF_KEY_FORMAT_YMDHM, "dd.MM.yyyy HH:mm");
             case FORMAT_TYPE_YMDHMS:
-                return System.getProperty("date.default.format.ymdhms", "dd.MM.yyyy HH:mm:ss");
+                return System.getProperty(CONF_KEY_FORMAT_YMDHMS, "dd.MM.yyyy HH:mm:ss");
             default:
                 return type;
         }

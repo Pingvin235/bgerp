@@ -330,7 +330,6 @@
 	<p><ru>Принудительно</ru><en>Force</en></p>
 	<p><ru>Обновить</ru><en>Update</en></p>
 	<p><ru>Обновление на изменение</ru><en>Update on change</en></p>
-	<p><ru>ID процесса</ru><en>Process ID</en></p>
 	<p><ru>Логи обновлений</ru><en>Update logs</en></p>
 	<p><ru>Файл</ru><en>File</en></p>
 	<p><ru>Размер</ru><en>Size</en></p>
@@ -389,7 +388,7 @@
 	<p><ru>Ядро</ru><en>Kernel</en></p>
 	<p><ru>Группы и пользователи</ru><en>Groups and users</en></p>
 	<p><ru>Больше</ru><en>More</en></p>
-	<p><ru>График</ru><en>Chart</en></p>
+	<p><ru>Выберите процессы!</ru><en>Select processes!</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

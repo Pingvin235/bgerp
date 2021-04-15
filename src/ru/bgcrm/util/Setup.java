@@ -63,7 +63,7 @@ public class Setup extends Preferences {
         if (initConfigAndPool) {
             connectionPool = new ConnectionPool("MAIN", this);
             loadConfigMap(this.data);
-
+            setSystemProperties(TimeUtils.CONF_KEY_FORMAT_YMD, TimeUtils.CONF_KEY_FORMAT_YMDH, TimeUtils.CONF_KEY_FORMAT_YMDHM, TimeUtils.CONF_KEY_FORMAT_YMDHMS);
             EventProcessor.subscribe((e, conSet) -> {
                 reloadConfig(conSet.getConnection());
             }, SetupChangedEvent.class);
@@ -78,10 +78,30 @@ public class Setup extends Preferences {
         }, SetupChangedEvent.class);
     }
 
+    /**
+     * Set system properties out of the setup.
+     * @param keys
+     */
+    private void setSystemProperties(String... keys) {
+        for (String key : keys) {
+            var value = get(key);
+            if (!Utils.isBlankString(value))
+                System.setProperty(key, value);
+        }
+    }
+
+    /**
+     * Use {@link #getDBConnectionFromPool()}.
+     */
+    @Deprecated
     public DataSource getDataSource() {
         return connectionPool.getDataSource();
     }
 
+    /**
+    * Use {@link #getDBSlaveConnectionFromPool()}.
+    */
+    @Deprecated
     public DataSource getSlaveDataSource() {
         return connectionPool.getSlaveDataSource();
     }
