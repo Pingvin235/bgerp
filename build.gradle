@@ -268,8 +268,8 @@ task buildUpdate(type: Exec, dependsOn: 'classes', description: 'Builds distribu
 }
 
 task buildUpdateLib(type: Exec, description: 'Builds library update archive') {
-    doFirst {
-        assert file("build/changes.lib.txt").exists()
+    onlyIf {
+        file("build/changes.lib.txt").exists()
     }
     workingDir "$projectDir/build/update_lib"
     commandLine "ant"
