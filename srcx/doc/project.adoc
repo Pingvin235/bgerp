@@ -259,12 +259,15 @@ When link:../../build/bgerp/files/erp.sh[running] a program, a number of JAR fil
 External libraries are supplied with a separate <<build-update, build update>>.
 Artifacts and versions are indicated in the following file: link:../../build.gradle[build.gradle] (for *bgerp* configuration)
 
-IMPORTANT: This configuration does NOT use transitive dependencies  - all required libraries and versions have to be explicitly defined.
+NOTE: This configuration does NOT use transitive dependencies  - all required libraries and versions have to be explicitly defined.
 We would suggest to gradually add a small set of libraries until getting a "workable" application - this will allow to decrease build's size and simplify further support and troubleshooting.
 
 In order to speed up project initialization, our default Eclipse IDE configuration does not load source code and documentation.
 [snippet, from="ec", to="}"]
 link:../../build.gradle#L21-L27[build.gradle]
+
+After adding new libraries in `build.gradle` create an empty `build/changes.lib.txt` file.
+Existence of the file causes build library update package during <<build-erp, release build>>.
 
 [[js-lib]]
 ==== JS
@@ -338,13 +341,13 @@ Secondary branches can be then deleted, as all the aggregated information from s
 Example: *p11788-link-filter-title*
 * When developing, you can use any commit strategy within a branch: checkpoint commits, reverts/resets, commits to a new branch, etc.
 We would recommend to push intermediate commits, using GIT repository as a backup copy.
-* Main branch can be periodically merged to this "change" branch in order to synchronize with the actual state. *This HAS to be done before the 'merge --squash' to master*
+* Main branch can be periodically merged to this "change" branch in order to synchronize with the actual state. *This HAS to be done before 'acceptance' to master*
 * All the necessary  <<documentation, documentation>> changes are done simultaneously with the code changes
 * Client's test build update and accompanying documentation can be <<build-update, built and published>> from the branch.
 * Branch has to add *build/change.<Process ID>.txt* file - if absent, it gets added automatically during <<build-update, update build>>
 This file has to describe new functions, fixes or other changes - each item on a separate row.
 Format is identical to *changes.txt*, which accumulates all *build/change.<Process ID>.txt* information when <<build-erp, update>> gets published.
-* Request branch *merge --squash* to master once client-side development and testing completes for a given change by moving BGERP process into *Acceptance* status.
+* Request branch <<accept, acceptance>> to master once development and testing completes for a given change by moving BGERP process into *Acceptance* status.
 * Process gets closed after check/acceptance, and change gets merged to master as a single commit with a comment starting with the change ID.
 * "Change" branch can be then deleted. Change author can be later identified by the change ID used in the comment.
 
@@ -370,18 +373,19 @@ git fetch origin master:master
 ----
 
 [[accept]]
-=== Acceptance and merge --squash
-When change is accepted, 'change' branch is compared with the master - so merge master to the 'change' branch before committing a change.
+=== Acceptance
+When change is being accepted, 'change' branch is compared with the master.
+So merge the latest state of master to the 'change' branch before passing a change to acceptance.
 
 image::_res/branch_compare.png[]
 
-[[change-file]]
+[[changes-file]]
 It is also important to create and populate a file listing all changes.
 You can use the following <<build, command>> for this:
 
 [bash]
 ----
-bash -c "./gradlew touchChanges"
+./gradlew touchChanges
 ----
 
 GIT commands to be used for merging change from *pXXXXX-short-change-description* branch to master:
@@ -416,7 +420,7 @@ git push
 [[longlife-branch]]
 === Long-lived branches
 Long-lived branches only get changes which *are not altering product functionality*, for example: localization and documentation fixes, code formatting, tests.
-BGERP process for a change does not get closed , and <<accept, merge --squash>> is performed multiple times upon completion of specific change(s)
+BGERP process for a change does not get closed , and <<accept, acceptance>> is performed multiple times upon completion of specific change(s).
 
 [[documentation]]
 ==== Documentation
@@ -427,7 +431,7 @@ Publication of the product manual <<publish-doc, runs>> automcatically from <<wo
 Documentation might be <<build-doc, built>> also locally from any branch and together with a <<build-update, change update package>>.
 
 Documentation changes are recommended to be done at the end of <<workflow, branch development>>,
-using <<change-file, change file>> as an intermediate notes. The samples of documentation's format may be found <<samples.adoc#, here>>.
+using <<changes-file, changes file>> as an intermediate notes. The samples of documentation's format may be found <<samples.adoc#, here>>.
 
 Due the strict references and snippets checking, it is quite possible to have broken <<test-unit-and-doc, state>> of documentation
 even without .adoc files. Something like the following:
@@ -1266,13 +1270,13 @@ bash -c "./gradlew clean buildClean buildUpdate buildDoc publishUpdate"
 ----
 
 All the updates packages are copies to Web directory: `https://bgerp.org/update/PROCESS_ID`
-The <<change-file, change file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc`
+The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc`
 are automatically replaced to the `https://bgerp.org/update/PROCESS_ID/doc`.
 
 Users have a capability to <<kernel/install.adoc#installer, install>> a package using *install* command,  report issues and caveats and, 
 if new version is not operational/suitable, rollback to the latest published version using *update* command.
 
-Multiple update publications are possible until all bugs/caveats are found - after that that change <<workflow, gets merged (with --squash)>> 
+Multiple update publications are possible until all bugs/caveats are found - after that that change <<workflow, accepted>> 
 into a main branch and a new build gets <<build-erp, published>>
 
 [[build-erp]]
@@ -1285,18 +1289,13 @@ Public SSH key or the developer might be added for *bgerp-cdn@pzdc.de* and *www@
 Before you publish a change update, make sure that `ssh bgerp-cdn@pzdc.de` and `ssh www@bgerp.org` sessions work for you.
 ====
 
-Build is performed from a *master* branch and can include several <<workflow, merges (with --squash)>>.
+Build is performed from a *master* branch and can include many <<workflow, accepted changes>>.
 
-IMPORTANT: Perform a separate GIT Push for each 'merge --squash' in order to correctly <<publish-source, publish>> in the open repository.
+IMPORTANT: Perform a separate GIT Push after each <<accept, acceptance>> in order to correctly <<publish-source, publish>> in the open repository.
 
 IMPORTANT: If using <<kernel/extension.adoc#custom, custom>> directory rename it for the time of release, e.g. to `_custom`.
 
-Depending on the presence of <<java-lib, 3d-party libraries>> in an update, perform the following:
-[source, bash]
-----
-bash -c "./gradlew clean buildClean buildUpdate"
-----
-or:
+Perform the following:
 [source, bash]
 ----
 bash -c "./gradlew clean buildClean buildUpdateLib buildUpdate"

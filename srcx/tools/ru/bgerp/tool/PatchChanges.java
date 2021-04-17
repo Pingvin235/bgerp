@@ -14,17 +14,19 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import ru.bgerp.util.Log;
 
 /**
- * Appender separated branch-based changes files to changes.txt.
+ * Concat separated branch-based changes files to changes.txt.
+ * 
  * @author Shamil Vakhitov
  */
 public class PatchChanges {
     private static final Log LOG = Log.getLog();
     
-    private final Pattern changesPattern = Pattern.compile("changes\\.(\\d+)\\.txt");
+    private final Pattern changesPattern = Pattern.compile("changes\\.(\\w+)\\.txt");
     private final Pattern datePattern = Pattern.compile("^\\d{2}\\.\\d{2}\\.\\d{4}");
     private final Pattern changePattern = Pattern.compile("^[FACАСBВ]:");
 
@@ -46,14 +48,17 @@ public class PatchChanges {
             if (!m.matches()) continue;
 
             var processId = m.group(1);
-            LOG.info("Add changes file: %s, processId: %s", file.getName(), processId);
+            // can be 'changes.lib.txt'
+            if (StringUtils.isNumeric(processId)) {
+                LOG.info("Add changes file: %s, processId: %s", file.getName(), processId);
 
-            for (String line : IOUtils.readLines(new StringReader(IOUtils.toString(file.toURI(), StandardCharsets.UTF_8).trim()))) {
-                m = changePattern.matcher(line);
-                if (m.find())
-                    changesLines.add(m.group() + " [" + processId + "] " + line.substring(m.end() + 1));
-                else
-                    changesLines.add(line);
+                for (String line : IOUtils.readLines(new StringReader(IOUtils.toString(file.toURI(), StandardCharsets.UTF_8).trim()))) {
+                    m = changePattern.matcher(line);
+                    if (m.find())
+                        changesLines.add(m.group() + " [" + processId + "] " + line.substring(m.end() + 1));
+                    else
+                        changesLines.add(line);
+                }
             }
             file.delete();
         }

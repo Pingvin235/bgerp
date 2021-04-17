@@ -39,7 +39,8 @@
 	
 	<!-- overwrite to add some module files -->
 	<target name="add_to_module_zip">
-		<fileset id="add.to.module.zip"/>
+		<!-- empty fileset, can be overwritten -->
+		<fileset id="add.to.module.zip" dir="${basedir}"/>
 	</target>
 	
 	<target name="build_module" depends="add_to_module_zip">
