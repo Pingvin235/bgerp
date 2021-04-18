@@ -55,7 +55,7 @@
 		</c:url>
 
 		<button class="btn-grey" onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlContent( '${url}' ) }">OK</button>
-		<button class="btn-grey" onclick="openUrlContent( '${url}' )">${l.l('Отмена')}</button>
+		<button class="btn-white" onclick="openUrlContent( '${url}' )">${l.l('Отмена')}</button>
 	</div>
 </html:form>
 

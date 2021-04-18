@@ -24,7 +24,7 @@
 		$('#${uploadListId}').append(
 				"<div>" +
 				"<input type=\"hidden\" name=\"tmpFileId\" value=\""+ fileId + "\"/>" +
-				"<button class=\"btn-white btn-small mr1\" type=\"button\" value=\"X\" onclick=\"" + deleteCode + "\">X</button>" + fileTitle +
+				"<button class=\"btn-white btn-small mr1 icon\" type=\"button\" value=\"X\" onclick=\"" + deleteCode + "\"><i class=\"ti-close\"></i></button>" + fileTitle +
 				"</div>"
 		);
 	});
@@ -50,7 +50,7 @@
 	<div style="display: table; width: 100%;">
 		<div class="in-table-cell">
 			<div style="vertical-align: top; width: 30px;" id="typeSelectContainer">
-				<h2>Тип</h2>
+				<h2>${l.l('Тип')}</h2>
 
 				<c:remove var="disable"/>
 				<c:choose>
@@ -107,8 +107,8 @@
 				</ui:combo-single>
 			</div>
 			<div id="address" class="pl1" style="width: 100%; vertical-align: top;">
-				<h2>Получатель</h2>
-				<input type="text" name="to" style="width: 100%;" placeholder="Для EMail: addr1@domain.com, addr2@domain.com; CC: copy1@domain.com, copy2.domain.com" value="${message.to}"/>
+				<h2>${l.l('Получатель')}</h2>
+				<input type="text" name="to" style="width: 100%;" placeholder="${l.l('Для')} EMail: addr1@domain.com, addr2@domain.com; CC: copy1@domain.com, copy2.domain.com" value="${message.to}"/>
 			</div>
 		</div>
 		<c:set var="tagConfig" value="${u:getConfig(ctxSetup, 'ru.bgcrm.model.config.TagConfig')}"/>
@@ -120,16 +120,16 @@
 			</div>
 		</c:if>
 		<div id="subject">
-			<h2>Тема</h2>
+			<h2>${l.l('Тема')}</h2>
 			<input type="text" name="subject" style="width: 100%;" value="${message.subject}"/>
 		</div>
 		<div>
-			<h2>Сообщение</h2>
+			<h2>${l.l('Сообщение')}</h2>
 			<textarea rows="20" style="width: 100%; resize: vertical;" name="text" class="tabsupport">${message.text}</textarea>
-			<span class="hint">Вы можете использовать #код для ссылок на другие процессы, подобные записи будут автоматически преобразованы в ссылки открытия карточек.</span>
+			<span class="hint">${l.l('Вы можете использовать #ID для ссылок на другие процессы, подобные записи будут автоматически преобразованы в ссылки открытия карточек')}.</span>
 		</div>
 		<div id="attach">
-			<h2>Вложения</h2>
+			<h2>${l.l('Вложения')}</h2>
 			<div id="${uploadListId}" class="in-mb05-all">
 				<%-- уже загруженные вложения --%>
 				<c:forEach var="item" items="${message.attachList}">
@@ -148,13 +148,13 @@
 
 				<%-- сюда генерируется список загруженных --%>
 			</div>
-			<button type="button" class="btn-white btn-small" onclick="$$.ajax.triggerUpload('${uploadFormId}');">+</button>
+			<button type="button" class="btn-white btn-small icon" onclick="$$.ajax.triggerUpload('${uploadFormId}');"><i class="ti-plus"></i></button>
 		</div>
 	</div>
 
 	<div class="mt1 mb1">
 		<button class="btn-grey" type="button" onclick="if( sendAJAXCommand( formUrl( this.form ), ['text'] ) ){ openUrlToParent( '${form.returnUrl}', $('#${form.returnChildUiid}') ) }">OK</button>
-		<button class="btn-grey ml1" type="button" onclick="$('#${form.returnChildUiid}').empty();">${l.l('Отмена')}</button>
+		<button class="btn-white ml1" type="button" onclick="$('#${form.returnChildUiid}').empty();">${l.l('Отмена')}</button>
 	</div>
 </html:form>
 

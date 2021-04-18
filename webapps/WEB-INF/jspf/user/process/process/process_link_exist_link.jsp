@@ -26,8 +26,8 @@
 			
 			openUrlToParent( '${form.requestUrl}', $('#${uiid}') );
 		</c:set>
-		
-		<button class="btn-grey" type="button" onclick="${script}">OK</button>
-		<button class="btn-grey ml05" type="button" onclick="$('#${uiid} #linkObjects').hide(); $('#${uiid} #addButton').show();">${l.l('Отмена')}</button>
+
+		<ui:button type="ok" onclick="${script}"/>
+		<ui:button type="cancel" onclick="$('#${uiid} #linkObjects').hide(); $('#${uiid} #addButton').show();"/>
 	</div>
 </div>

@@ -7,17 +7,17 @@
 		<c:if test="${empty form.param['hideLeftPanel']}">
 			<td width="20px" valign="top">
 				<c:set var="formUiid" value="${u:uiid()}"/>
-			
+
 				<html:form action="/user/directory/address" disabled="${disabled}" styleId="${formUiid}">
 					<html:hidden property="action" value="address"/>
-					
+
 					<html:hidden property="selectTab" styleId="selectTab"/>
 					<html:hidden property="searchMode"/>
 					<html:hidden property="addressCountryId"/>
 					<html:hidden property="addressCityId"/>
 					<html:hidden property="addressItemId"/>
-					<html:hidden property="addressHouseId"/>				
-					
+					<html:hidden property="addressHouseId"/>
+
 					<table style="width: 100%;">
 						<c:url var="url" value="/user/directory/address.do">
 							<c:param name="action" value="addressGet"/>
@@ -25,15 +25,15 @@
 							<c:param name="selectTab" value="${form.param.selectTab}"/>
 							<c:param name="addressCountryId" value="0"/>
 						</c:url>
-					
+
 						<tr><td nowrap="nowrap">
 							${l.l('Страна')}:<br>
-							<html:text property="addressCountryTitle" style="width: 180px;" onkeypress="addressSearchCountry( this, event );"/>
-							<input type="button" value="X" onclick="addressClearCountry( this );"/>
-							<input type="button" value="+" onclick="openUrlContent('${url}');"/>
-							<input type="button" value=">" onclick="addressSearchCountry( this );"/>
+							<html:text property="addressCountryTitle" style="width: 180px;" onkeypress="addressSearchCountry( this, event );"/>&nbsp;
+							<ui:button type="clear" onclick="addressClearCountry( this );"/>
+							<ui:button type="add" onclick="openUrlContent('${url}');"/>
+							<ui:button type="out" onclick="addressSearchCountry( this );"/>
 						</td></tr>
-					
+
 						<c:url var="url" value="/user/directory/address.do">
 							<c:param name="action" value="addressGet"/>
 							<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -42,33 +42,33 @@
 							<c:param name="addressCountryId" value="${form.param.addressCountryId}"/>
 							<c:param name="addressCityId" value="0"/>
 						</c:url>
-						
+
 						<tr><td nowrap="nowrap">
 							${l.l('Город')}:<br>
-							<html:text property="addressCityTitle" style="width: 180px;" onkeypress="addressSearchCity( this, event );"/>
-							<input type="button" value="X" onclick="addressClearCity( this );"/>
-							<input type="button" value="+" onclick="if ( '${form.param['addressCountryId']}' == '' ) { alert('Выберите страну'); } else { openUrlContent('${url}'); }"/>
-							<input type="button" value=">" onclick="addressSearchCity( this );"/>
+							<html:text property="addressCityTitle" style="width: 180px;" onkeypress="addressSearchCity( this, event );"/>&nbsp;
+							<ui:button type="clear" onclick="addressClearCity( this );"/>
+							<ui:button type="add" onclick="if ( '${form.param['addressCountryId']}' == '' ) { alert('Выберите страну'); } else { openUrlContent('${url}'); }"/>
+							<ui:button type="out" onclick="addressSearchCity( this );"/>
 						</td></tr>
-				
+
 						<c:set var="selectTab" value="${form.param.selectTab}"/>
 						<c:if test="${empty selectTab}">
 							<c:set var="selectTab" value="street"/>
-						</c:if>			
-						
+						</c:if>
+
 						<tr><td nowrap="nowrap" style="padding: 0px;">
 							<table class="menu"><tr>
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'street'}"><c:set var="cl" value="sel"/></c:if>
 							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'street' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('УЛИЦА')}</a></td>
-							
+
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'area'}"><c:set var="cl" value="sel"/></c:if>
 							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'area' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('РАЙОН')}</a></td>
-							
+
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'quarter'}"><c:set var="cl" value="sel"/></c:if>
 							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'quarter' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('КВАРТАЛ')}</a></td>
 							<td width="90%" style="border: 0px;">&nbsp;</td></tr></table>
-						</td></tr>	
-						 
+						</td></tr>
+
 						<c:url var="url" value="/user/directory/address.do">
 							<c:param name="action" value="addressGet"/>
 							<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -78,14 +78,14 @@
 							<c:param name="addressCountryTitle" value="${form.param.addressCountryTitle}"/>
 							<c:param name="addressCityTitle" value="${form.param.addressCityTitle}"/>
 						</c:url>
-						
+
 						<tr><td nowrap="nowrap">
-							<html:text property="addressItemTitle" style="width: 180px;" onkeypress="addressSearchItem( this, event );"/>
-							<input type="button" value="X" onclick="addressClearItem( this );"/>
-							<input type="button" value="+" onclick="if ( '${form.param['addressCityId']}' == '' ) { alert('Выберите город'); } else { openUrlContent('${url}'); }"/>
-							<input type="button" value=">" onclick="addressSearchItem( this );"/>
+							<html:text property="addressItemTitle" style="width: 180px;" onkeypress="addressSearchItem( this, event );"/>&nbsp;
+							<ui:button type="clear" onclick="addressClearItem( this );"/>
+							<ui:button type="add" onclick="if ( '${form.param['addressCityId']}' == '' ) { alert('Выберите город'); } else { openUrlContent('${url}'); }"/>
+							<ui:button type="out" onclick="addressSearchItem( this );"/>
 						</td></tr>
-						
+
 						<c:if test="${selectTab eq 'street'}">
 							<c:url var="url" value="/user/directory/address.do">
 								<c:param name="action" value="addressGet"/>
@@ -100,16 +100,16 @@
 							</c:url>
 							<tr><td nowrap="nowrap">
 								${l.l('Дом')}:<br>
-								<html:text property="addressHouse" style="width: 180px;" onkeypress="addressSearchHouse( this, event );"/>
-								<input type="button" value="X"  onclick="addressClearHouse( this );"/>
-								<input type="button" value="+" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('${l.l('Выберите улицу')}'); } else { openUrlContent('${url}'); }"/>
-								<input type="button" value=">" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('${l.l('Выберите улицу')}'); } else { addressSearchHouse( this ); }"/>
+								<html:text property="addressHouse" style="width: 180px;" onkeypress="addressSearchHouse( this, event );"/>&nbsp;
+								<ui:button type="clear" onclick="addressClearHouse( this );"/>
+								<ui:button type="add" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('${l.l('Выберите улицу')}'); } else { openUrlContent('${url}'); }"/>
+								<ui:button type="out" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('${l.l('Выберите улицу')}'); } else { addressSearchHouse( this ); }"/>
 							</td></tr>
 						</c:if>
-					</table>	
+					</table>
 				</html:form>
 			</td>
-			
+
 			<u:sc>
 				<c:set var="title">
 					<span class='title'>${l.l('Адресный справочник')}</span>
@@ -117,14 +117,14 @@
 				<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 				<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
 			</u:sc>
-			
+
 			<c:set var="paddingLeft" value="pl1"/>
-		</c:if>	
-		
+		</c:if>
+
 		<td valign="top" class="${paddingLeft}">
 			<c:set var="data" value="${form.response.data}"/>
 			<c:set var="searchMode" value="${form.param.searchMode}"/>
-					
+
 			<c:set var="doUrl" value="/user/directory/address.do" scope="request"/>
 			<c:choose>
 				<c:when test="${form.action eq 'addressGet'}">

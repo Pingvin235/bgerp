@@ -59,7 +59,7 @@
 							$('#${uiid} #linkObjects').show();
 						</c:set>
 					
-						<button type="button" class="btn-green" onclick="${script}" ${style}><i class="ti-plus"></i></button>
+						<ui:button type="add" onclick="${script}"/>
 					</div>
 				</div>	
 			</html:form>

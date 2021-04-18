@@ -14,7 +14,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<h1>Выберите группы решения</h1>
+<h1>${l.l('Выберите группы решения')}</h1>
 
 <c:set var="process" value="${form.response.data.process}" />
 <c:set var="processType" value="${ctxProcessTypeMap[process.typeId]}"/>
@@ -63,6 +63,6 @@
 		
 	<div class="mt1">
 		<button class="btn-grey" type="button" onclick="${saveCommand}">OK</button>
-		<button class="btn-grey ml1" type="button" onclick="${closeEditor}">${l.l('Отмена')}</button>
+		<button class="btn-white ml1" type="button" onclick="${closeEditor}">${l.l('Отмена')}</button>
 	</div>	
 </html:form>

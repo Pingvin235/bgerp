@@ -6,7 +6,7 @@
    	<html:hidden property="id"/> 
 	<input type="hidden" name="action" value="processTypeUpdate"/>	
 
-	<h1>Выберите тип:</h1>
+	<h1>${l.l('Выберите тип')}:</h1>
 	<c:set var="uiid" value="${u:uiid()}"/>
 	<div style="background-color: #ffffff; cursor: pointer;" id="${uiid}">
 		<c:forEach var="node" items="${typeTreeRoot.childs}">

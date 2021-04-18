@@ -164,7 +164,11 @@
 									<input type="hidden" name="responseType" value="json" />
 									<input type="hidden" name="id" value="${id}" />
 									<input type="hidden" name="paramId" value="${parameter.id}" />
-									
+
+									<%--
+									TODO: Doing like that causes "Missing file!" error on click.
+									<button class="btn-white btn-small icon" onclick="$$.ajax.triggerUpload('${uploadFormId}');"><i class="ti-plus"></i></button>
+									--%>
 									<input type="button" class="btn-white btn-small" value="+" onclick="$$.ajax.triggerUpload('${uploadFormId}');"/>
 									<input type="file" name="file" style="visibility:hidden;"/>
 								</form>

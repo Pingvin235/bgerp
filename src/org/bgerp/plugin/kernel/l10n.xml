@@ -243,7 +243,7 @@
 	<p><ru>Город</ru><en>City</en></p>
 	<p><ru>УЛИЦА</ru><en>STREET</en></p>
 	<p><ru>РАЙОН</ru><en>AREA</en></p>
-	<p><ru>КВАРТАЛ</ru><en>QUATER</en></p>
+	<p><ru>КВАРТАЛ</ru><en>QUARTER</en></p>
 	<p><ru>Дом</ru><en>House</en></p>
 	<p><ru>Адресный справочник</ru><en>Address catalog</en></p>
 	<p><ru>Создать нового контрагента</ru><en>Create new customer</en></p>
@@ -388,6 +388,13 @@
 	<p><ru>Ядро</ru><en>Kernel</en></p>
 	<p><ru>Группы и пользователи</ru><en>Groups and users</en></p>
 	<p><ru>Больше</ru><en>More</en></p>
+	<p><ru>Получатель</ru><en>Recipient</en></p>
+	<p><ru>Для</ru><en>For</en></p>
+	<p><ru>Вы можете использовать #ID для ссылок на другие процессы, подобные записи будут автоматически преобразованы в ссылки открытия карточек</ru><en>You can use the #ID to link to other processes, such records will be automatically converted to links to open cards</en></p>
+	<p><ru>Вложения</ru><en>Attachments</en></p>
+	<p><ru>Выберите приоритет</ru><en>Select priority</en></p>
+	<p><ru>Выберите группы решения</ru><en>Select execution groups</en></p>
+	<p><ru>Добавить</ru><en>Add</en></p>
 	<p><ru>Выберите процессы!</ru><en>Select processes!</en></p>
 	<!--
 	<p><ru></ru><en></en></p>

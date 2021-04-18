@@ -365,6 +365,7 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 	}
 }
 
+// TODO: Move to action call + JSP with proper l10n there. Send IDs of open processes to the action.
 function processesToLinkTable($uiid, processId, linkType) {
 	var html = '<table class="data mt1" style="width: 100%;">\
 			<tr>\
@@ -378,7 +379,7 @@ function processesToLinkTable($uiid, processId, linkType) {
 	for ( var i in processes) {
 		var process = processes[i];
 
-		// привязка самого к себе запрещена
+		// link process to itself is denied
 		if (process.id == processId) {
 			continue;
 		}
