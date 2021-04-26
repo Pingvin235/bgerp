@@ -35,7 +35,7 @@ public class PermissionNode {
     private String titlePath;
     private String action;
     private List<String> actionList = new ArrayList<>();
-    private String description;
+    private String description = "";
     private boolean allowAll;
     private boolean notLogging;
     private List<PermissionNode> children = new ArrayList<>();
@@ -69,13 +69,12 @@ public class PermissionNode {
         } else {
             titlePath = title;
         }
-       
-        if (Utils.notEmptyString(action)) {
-            description = XMLUtils.getElementText(node);
-            return;
-        }
 
         loadChildren(l, node);
+       
+        if (Utils.notEmptyString(action) && children.isEmpty()) {
+            description = XMLUtils.getElementText(node);
+        }
     }
 
     private void loadChildren(Localizer l, Element node) {
@@ -84,7 +83,7 @@ public class PermissionNode {
             for (TitledAction action : TitledActionFactory.create(actionFactory, l))
                 addChild(new PermissionNode(action.getAction(), action.getTitle(l)));
         } else {
-            for (Element child : XMLUtils.elements(node.getChildNodes())) {
+            for (Element child : XMLUtils.selectElements(node, "item")) {
                 addChild(new PermissionNode(this, l, child));
             }
         }

@@ -1,0 +1,6 @@
+<item title="Plugin Backup">
+	<item action="org.bgerp.plugin.svc.backup.action.BackupAction:null" title="Backup">
+		<item action="org.bgerp.plugin.svc.backup.action.BackupAction:backup" ltitle="Создать Backup"/>
+		<item action="org.bgerp.plugin.svc.backup.action.BackupAction:downloadFileBackup" ltitle="Загрузить файл"/>
+	</item>
+</item>

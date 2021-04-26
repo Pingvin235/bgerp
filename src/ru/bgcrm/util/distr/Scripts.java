@@ -6,36 +6,33 @@ import ru.bgerp.util.RuntimeRunner;
 
 /**
  * Distribution's scripts.
+ * 
  * @author Shamil Vakhitov
  */
 public class Scripts {
     private static final String BACKUP = "./backup.sh ";
     private static final String INSTALLER = " ./installer.sh ";
-    private static final String RESTART = " ./erp_restart.sh";
+    private static final String RESTART = " ./erp_restart.sh ";
 
-    public static void backupUpdateRestart(boolean updateForce) throws Exception {
-        new RuntimeRunner(new String[] { 
-            "sh", "-c", BACKUP + "&&" + INSTALLER + (updateForce ? Installer.K_UPDATEF : Installer.K_UPDATE) + " &&" + RESTART })
-            .run();
+    public Scripts backup(boolean db) throws Exception {
+        new RuntimeRunner("sh", "-c", BACKUP + (db ? "db" : "")).run();
+        return this;
     }
 
-    public static void backupInstallRestart(List<String> updateFiles) throws Exception {
-        var installerCommand = new StringBuilder(100);
-        for (String file : updateFiles) {
-            installerCommand
-                .append("&&" + INSTALLER + Installer.K_INSTALL)
-                .append(" ")
-                .append(file);
+    public Scripts update(boolean force) throws Exception {
+        new RuntimeRunner("sh", "-c", INSTALLER + (force ? Installer.K_UPDATEF : Installer.K_UPDATE)).run();
+        return this;
+    }
+
+    public Scripts restart(boolean force) throws Exception {
+        new RuntimeRunner("sh", "-c", RESTART + (force ? "force" : "")).run();
+        return this;
+    }
+
+    public Scripts install(List<String> files) throws Exception {
+        for (String file : files) {
+            new RuntimeRunner("sh", "-c", INSTALLER + Installer.K_INSTALL + " " + file).run();
         }
-    
-        new RuntimeRunner(new String[] { 
-            "sh", "-c", BACKUP + " " + installerCommand.toString() + " &&" + RESTART })
-            .run();
-    }
-
-    public static void restart() throws Exception {
-        new RuntimeRunner(new String[] { 
-            "sh", "-c", RESTART })
-            .run();
+        return this;
     }
 }

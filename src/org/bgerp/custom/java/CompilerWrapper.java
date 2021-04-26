@@ -26,6 +26,7 @@ import ru.bgerp.util.Log;
 
 /**
  * Java compiler wrapper.
+ * 
  * @author Kirill Berezin
  * @author Kirill Sergeev
  * @author Amir Absalilov

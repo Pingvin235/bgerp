@@ -14,30 +14,32 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import ru.bgcrm.Scheduler;
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.distr.VersionInfo;
+import ru.bgerp.util.Log;
 
 public class AdminPortListener implements Runnable {
-    private Logger logger = Logger.getLogger(AdminPortListener.class);
-    
+    private Log log = Log.getLog();
+
+    private static final java.util.Date START_TIME = new java.util.Date();
     public static final String RESPONSE_SCHEDULER_HAS_TASKS = "Scheduler has running tasks, need wait to stop.";
 
     protected ServerSocket s = null;
     protected boolean run = true;
 
     public AdminPortListener(int port) {
-        logger.info("Starting listen admin port " + port);
+        log.info("Starting listen admin port " + port);
         try {
             s = new ServerSocket();
             s.bind(new InetSocketAddress(InetAddress.getLoopbackAddress(), port));
         } catch (Exception ex) {
-            logger.error("Port " + port + " is busy! [" + ex.getMessage() + "]");
+            log.error("Port " + port + " is busy! [" + ex.getMessage() + "]");
             System.exit(1);
         }
 
@@ -57,7 +59,7 @@ public class AdminPortListener implements Runnable {
                 try {
                     final String command = in.readLine().trim();
 
-                    logger.info("Executing " + command);
+                    log.info("Executing " + command);
 
                     if (command.equals("stop")) {
                         if (Scheduler.getInstance().getActiveTaskCount() > 0) {
@@ -93,12 +95,12 @@ public class AdminPortListener implements Runnable {
                     }
                 } catch (Exception ex) {
                     out.println(ex.getMessage());
-                    logger.error(ex.getMessage(), ex);
+                    log.error(ex.getMessage(), ex);
                 } finally {
                     socket.close();
                 }
             } catch (Exception ex) {
-                logger.error(ex.getMessage(), ex);
+                log.error(ex.getMessage(), ex);
             }
         }
     }
@@ -139,8 +141,6 @@ public class AdminPortListener implements Runnable {
         return result.toString();
     }
 
-    private static java.util.Date startTime = new java.util.Date();
-
     /**
      * Возвращает строковый статус uptime чего либо (с момента инициации Java-приложения). 
      * Используется в отдельнозапущенных серверах для информации в статусе. 
@@ -150,10 +150,13 @@ public class AdminPortListener implements Runnable {
         StringBuilder report = new StringBuilder(100);
 
         report.append("Started: ");
-        report.append(TimeUtils.format(startTime, TimeUtils.FORMAT_TYPE_YMDHMS));
+        report.append(TimeUtils.format(START_TIME, TimeUtils.FORMAT_TYPE_YMDHMS));
+        report.append("\t");
+        report.append("Now: ");
+        report.append(new Date());
         report.append("\t");
 
-        long delta = (System.currentTimeMillis() - startTime.getTime()) / 1000L;
+        long delta = (System.currentTimeMillis() - START_TIME.getTime()) / 1000L;
 
         int days = (int) (delta / 86400);
         delta -= days * 86400;

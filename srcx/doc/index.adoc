@@ -36,6 +36,8 @@
 ** <<plugin/telegram/index.adoc#, Telegram>>
 ** <<plugin/sms/index.adoc#, SMS>>
 ** <<plugin/workload/index.adoc#, Workload>>
+* Plugins for service
+** <<plugin/svc/backup/index.adoc#, Backup>>
 
 * Решения
 ** <<ext/bgbilling.adoc#, Интеграция BGBilling>>

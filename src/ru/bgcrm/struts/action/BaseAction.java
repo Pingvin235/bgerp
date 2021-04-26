@@ -87,6 +87,7 @@ public class BaseAction extends DispatchAction {
 
     private static final String PATH_JSP = "/WEB-INF/jspf";
     protected static final String PATH_JSP_ADMIN = PATH_JSP + "/admin";
+    public static final String PATH_JSP_ADMIN_PLUGIN = PATH_JSP_ADMIN + "/plugin";
     protected static final String PATH_JSP_USER = PATH_JSP + "/user";
     public static final String PATH_JSP_USER_PLUGIN = PATH_JSP_USER + "/plugin";
     protected static final String PATH_JSP_OPEN = PATH_JSP + "/open";

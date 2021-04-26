@@ -61,7 +61,7 @@ Checkout the project using GIT to an wanted directory, e.g.: `BGERP`.
 For project's contributors, internal repo with <<workflow, branches>>:
 [source]
 ----
-git clone https://git.pzdc.de/bgerp/bgerp.git BGERP
+git clone https://git.bgerp.org/bgerp/bgerp.git BGERP
 ----
 
 Configure GIT inside the directory. Use your name and email instead.
@@ -315,22 +315,17 @@ Secondary branches can be then deleted, as all the aggregated information from s
 |*master*
 |
 |Stable release.
-|<<test-integration>>, <<publish-source>>
+|<<test-and-publish-update-master>>, <<test-integration>>, <<publish-source>>
 
 |*p<Process ID>-short-description*
 |master
-|Release and documentation changes.
-|<<test-unit-and-doc>>
+|Code and documentation changes.
+|<<test-and-publish-update>>
 
 |*p11862-documentation*
 |master
 |Documentation changes. <<longlife-branch, Long-live branch>>, periodically gets incorporated into main.
 |<<publish-doc>>
-
-|*documentation-change-request*
-|p11862-documentation
-|Documentation changes proposals, can be merged back to p11862-documentation.
-|<<test-unit-and-doc>>
 |===
 
 *master* is a main project branch and is used for <<build, builds>>.
@@ -426,14 +421,14 @@ BGERP process for a change does not get closed , and <<accept, acceptance>> is p
 ==== Documentation
 A particular case of long-lived branch is documentation.
 The source AsciiDoctor and resource files are placed in `srcx/doc` directory.
-Publication of the product manual <<publish-doc, runs>> automcatically from <<workflow, branch>> *p11862-documentation*.
+Publication of the product manual <<publish-doc, runs>> automatically from <<workflow, branch>> *p11862-documentation*.
 
 Documentation might be <<build-doc, built>> also locally from any branch and together with a <<build-update, change update package>>.
 
 Documentation changes are recommended to be done at the end of <<workflow, branch development>>,
 using <<changes-file, changes file>> as an intermediate notes. The samples of documentation's format may be found <<samples.adoc#, here>>.
 
-Due the strict references and snippets checking, it is quite possible to have broken <<test-unit-and-doc, state>> of documentation
+Due the strict references and snippets checking, it is quite possible to have broken <<test-and-publish-update, state>> of documentation
 even without .adoc files. Something like the following:
 [source]
 ----
@@ -600,7 +595,7 @@ Adding a menu item using JSP tag: link:../../webapps/WEB-INF/jspf/user/plugin/bl
 ==== Action
 Plugin <<action, actions>> classes, if used, have to be declared in *PLUGIN_PACKAGE.action* package.
 
-`action.xml` with <<action-permission, permission tree>> for <<kernel/interface.adoc#user, user>> interface actions have to be located in *PLUGIN_PACKAGE*.
+`action.xml` with <<action-permission, permission tree>> for <<kernel/interface.adoc#user, user>> interface actions has to be located in *PLUGIN_PACKAGE*.
 
 JSP templates:
 [square]
@@ -783,6 +778,12 @@ In the following example an action class was renamed and action method changed t
 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
 link:../../src/org/bgerp/plugin/kernel/action.xml#L157-L158[org/bgerp/plugin/kernel/action.xml]
+
+Actions may be hierarchically organized when some parent action is required for accessing children.
+[snippet, from="<item ac", to="em>", remove-leading="	"]
+link:../../src/org/bgerp/plugin/svc/backup/action.xml#L2-L5[org/bgerp/plugin/svc/backup/action.xml]
+
+In the latest example notice also attribute *ltitle*, which means that the title goes through <<l10n, localization system>>.
 
 Auxillary actions, which have to be permanently allowed, have to be marked with *allowAll="1"* attribute.
 
@@ -1233,41 +1234,7 @@ Resulting HTML files will be present in *target/doc*. Internal link validation i
 === Change update
 Build and publish on https://bgerp.org/update update package with a <<workflow, change>>.
 
-[IMPORTANT]
-====
-Public SSH key or the developer might be added for *bgerp-cdn@pzdc.de*.
-Before you publish a change update, make sure that `ssh bgerp-cdn@pzdc.de` sessions work for you.
-====
-
-Clean before publish:
-[source, bash]
-----
-bash -c "./gradlew clean buildClean "
-----
-
-If there are some <<documentation, documentation>> or <<java-lib, Java libraries>> changes:
-[source, bash]
-----
-bash -c "./gradlew buildUpdateLib buildDoc"
-----
-
-Or only application changes:
-[source, bash]
-----
-bash -c "./gradlew buildUpdate"
-----
-
-For publish operation make the command:
-[source, bash]
-----
-bash -c "./gradlew publishUpdate"
-----
-
-Of course, all the Gradle tasks might be started together, so the typical case is:
-[source, bash]
-----
-bash -c "./gradlew clean buildClean buildUpdate buildDoc publishUpdate"
-----
+NOTE: This task is automatically run by <<test-and-publish-update, CI>>.
 
 All the updates packages are copies to Web directory: `https://bgerp.org/update/PROCESS_ID`
 The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc`
@@ -1285,8 +1252,8 @@ CAUTION: Check <<unit-test, Unit tests>> running.
 
 [IMPORTANT]
 ====
-Public SSH key or the developer might be added for *bgerp-cdn@pzdc.de* and *www@bgerp.org*.
-Before you publish a change update, make sure that `ssh bgerp-cdn@pzdc.de` and `ssh www@bgerp.org` sessions work for you.
+Public SSH key or the developer might be added for *bgerp-cdn@bgerp.org* and *www@bgerp.org*.
+Before you publish a change update, make sure that `ssh bgerp-cdn@bgerp.org` and `ssh www@bgerp.org` sessions work for you.
 ====
 
 Build is performed from a *master* branch and can include many <<workflow, accepted changes>>.
@@ -1300,6 +1267,8 @@ Perform the following:
 ----
 bash -c "./gradlew clean buildClean buildUpdateLib buildUpdate"
 ----
+
+NOTE: `buildUpdateLib` task checks existance of file `build/changes.lib.txt`, marking changes in <<java-lib, Java libraries>>.
 
 Then:
 [source, bash]
@@ -1401,13 +1370,19 @@ gradlew integrationTest -Pdb.user=DB_USER -Pdb.pswd=DB_PSWD -Pskip.dbReset=true
 
 [[gitlab-ci]]
 == GitLab CI
-link:../../.gitlab-ci.yml[.gitlab-ci.yml] file has configuration for runnign certain tasks automatically upon each GIT commit.
-Different tasks are executed within different <<workflow, Workflow>> branches.
-Please find below description of CI tasks
+link:../../.gitlab-ci.yml[.gitlab-ci.yml] file has configuration for runnign certain jobs automatically upon each GIT commit.
+Different jobs are executed within different <<workflow, Workflow>> branches.
+Please find below description of CI jobs.
 
-[[test-unit-and-doc]]
-=== test-unit-and-doc
-Launches <<unit-test, Unit tests>> and  <<build-doc, documentation build and validity check>.
+[[test-and-publish-update]]
+=== test-and-publish-update
+Launches <<unit-test, Unit tests>> and <<build-doc, documentation build and validity check>.
+If everything is wents without error then publishing <<build-update, update>> from the branch to https://bgerp.org/update
+
+[[test-and-publish-update-master]]
+=== test-and-publish-update-master
+Does the same as *test-and-publish-update* but for master branch.
+As there is not process ID, update files are <<build-update, published>> in https://bgerp.org/update/00000.
 
 [[test-integration]]
 === test-integration

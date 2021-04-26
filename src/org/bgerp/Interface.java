@@ -9,6 +9,7 @@ import ru.bgcrm.util.Utils;
 
 /**
  * Types of user interfaces.
+ * 
  * @author Shamil Vakhitov
  */
 public class Interface {

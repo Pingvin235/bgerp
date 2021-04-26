@@ -155,11 +155,13 @@
 		</item>
 
 		<item title="App">
-			<item action="ru.bgcrm.struts.action.admin.AppAction:status, ru.bgcrm.struts.action.admin.StateAction:null" title="Статус"/>
-			<item action="ru.bgcrm.struts.action.admin.AppAction:restart" title="Restart"/>
-			<item action="ru.bgcrm.struts.action.admin.AppAction:update" title="Обновить"/>
-			<item action="ru.bgcrm.struts.action.admin.AppAction:updateToChange" title="Обновить на изменение"/>
-			<item action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList" title="Сессии пользователей"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:status, ru.bgcrm.struts.action.admin.StateAction:null, org.bgerp.action.admin.AppAction:status" ltitle="Статус"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:restart, org.bgerp.action.admin.AppAction:restart" title="Restart"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:update, org.bgerp.action.admin.AppAction:update" ltitle="Обновить"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:updateToChange, org.bgerp.action.admin.AppAction:updateToChange" ltitle="Обновить на изменение"/>
+			<item action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList, org.bgerp.action.admin.AppAction:userLoggedList" ltitle="Сессии пользователей"/>
+			<item action="org.bgerp.action.admin.AppAction:downloadLogUpdate" ltitle="Загрузка логов обновлений"/>
+			<item action="org.bgerp.action.admin.AppAction:downloadLogApp" ltitle="Загрузка логов приложения"/>
 		</item>
 	</item>
 

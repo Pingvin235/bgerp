@@ -4,7 +4,26 @@
 <div class="center1020">
 	<h2>${l.l('Статус')}</h2>
 	<pre>${form.response.data.status}</pre>
+
+	<h2>${l.l('Перезапуск')}</h2>
+	<html:form action="admin/app">
+		<input type="hidden" name="action" value="restart"/>
+		<ui:combo-single hiddenName="force" widthTextValue="5em" prefixText="${l.l('Перезапуск')}:">
+			<jsp:attribute name="valuesHtml">
+				<li value="0">${l.l('Нормальный')}</li>
+				<li value="1">${l.l('Принудительный')}</li>
+			</jsp:attribute>
+		</ui:combo-single>
+		<button class="btn-grey ml1" type="button" onclick="
+			this.disabled = true;
+			$$.ajax.post(this.form).always(() => {
+				this.disabled = false;
+			});">${l.l('Перезапустить')}</button>
+	</html:form>
 	
+	<h2>${l.l('Логи приложения')}</h2>
+	<ui:files files="<%=org.bgerp.action.admin.AppAction.LOG_APP%>" maxCount="20"/>
+
 	<h2>${l.l('Обновление')}</h2>
 	<html:form action="admin/app">
 		<input type="hidden" name="action" value="update"/>
@@ -12,6 +31,12 @@
 			<jsp:attribute name="valuesHtml">
 				<li value="0">${l.l('Нет')}</li>
 				<li value="1">${l.l('Да')}</li>
+			</jsp:attribute>
+		</ui:combo-single>
+		<ui:combo-single hiddenName="restartForce" widthTextValue="5em" prefixText="${l.l('Перезапуск')}:" styleClass="ml05">
+			<jsp:attribute name="valuesHtml">
+				<li value="0">${l.l('Нормальный')}</li>
+				<li value="1">${l.l('Принудительный')}</li>
 			</jsp:attribute>
 		</ui:combo-single>
 		<button class="btn-grey ml1" type="button" onclick="
@@ -31,6 +56,12 @@
 				</c:forEach>
 			</jsp:attribute>
 		</ui:combo-single>
+		<ui:combo-single hiddenName="restartForce" widthTextValue="5em" prefixText="${l.l('Перезапуск')}:" styleClass="ml05">
+			<jsp:attribute name="valuesHtml">
+				<li value="0">${l.l('Нормальный')}</li>
+				<li value="1">${l.l('Принудительный')}</li>
+			</jsp:attribute>
+		</ui:combo-single>
 
 		<button class="btn-grey ml1" type="button" onclick="
 			this.disabled = true;
@@ -40,18 +71,7 @@
 	</html:form>
 
 	<h2>${l.l('Логи обновлений')}</h2>
-	<table class="data" style="width: 100%;">
-		<tr>
-			<td>${l.l('Файл')}</td>
-			<td>${l.l('Размер')}</td>
-		</tr>
-		<c:forEach var="file" items="${form.response.data.logUpdateList}">
-			<tr>
-				<td>${file.name}</td>
-				<td>${file.length()}</td>
-			</tr>
-		</c:forEach>
-	</table>
+	<ui:files files="<%=org.bgerp.action.admin.AppAction.LOG_UPDATE%>" maxCount="20"/>
 </div>
 </div>
 

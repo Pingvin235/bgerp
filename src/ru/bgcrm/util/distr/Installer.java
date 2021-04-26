@@ -9,6 +9,7 @@ import ru.bgcrm.util.distr.call.ExecuteSQL;
 
 /**
  * Installer util, running from command line.
+ * 
  * @author Shamil Vakhitov
  */
 public class Installer {
@@ -52,12 +53,12 @@ public class Installer {
             new InstallerModule(new File(args[1]), replacedFiles);
             InstallerModule.replacedReport(replacedFiles);
         } else if (args.length == 2 && args[0].endsWith(K_INSTALLC)) {
-            var updateFiles = new UpdateProcessor(args[1]).getUpdateFiles();
-            if (updateFiles.isEmpty()) {
+            var files = new UpdateProcessor(args[1]).getUpdateFiles();
+            if (files.isEmpty()) {
                 System.out.println("No update files found for change ID: " + args[1]);
             } else {
-                System.out.println("Installing: " + updateFiles);
-                Scripts.backupInstallRestart(updateFiles);
+                System.out.println("Installing: " + files);
+                new Scripts().install(files);
             }
         }
         else {

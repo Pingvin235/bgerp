@@ -1,11 +1,12 @@
 package ru.bgcrm.model;
 
 /**
- * Блокировка пользователем ресурса (обычно для правки).
- * @author shamil
+ * Lock edited resource for a editor used.
+ * 
+ * @author Shamil Vakhitov
  */
 public class Lock {
-    // стандартная блокировка - 20 секунд
+    /** Default time - 20 seconds. */
     public static final long LOCK_TIME = 20 * 1000;
 
     private final String id;

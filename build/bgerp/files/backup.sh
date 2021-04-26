@@ -9,7 +9,7 @@ ZIP=/usr/bin/zip
 MYSQLDUMP=/usr/bin/mysqldump
 
 # list of included folders and files
-BACKUP_STRING="docpattern lib plugin report webapps"
+BACKUP_STRING="lib webapps"
 
 mkdir -p $DIR
 time=`$DATE +%Y-%m-%d_%H_%M`
@@ -26,7 +26,11 @@ backup_db() {
     if [ "$PORT" = "$HOST" ] ; then
       PORT=3306
     fi
-    $MYSQLDUMP -h $HOST -P $PORT -u $USER -p$PWD -A -R > dump.sql
+    DB=`grep db.url $FILE | cut -d'?' -f1 | cut -d'/' -f4`
+    CMD="$MYSQLDUMP --no-tablespaces -h $HOST -P $PORT -u $USER $DB"
+    echo "dump command: $CMD"
+    CMD="$CMD -p$PWD"
+    $CMD > dump.sql
     BACKUP_STRING="$BACKUP_STRING dump.sql"
     file="$file.db"
 }

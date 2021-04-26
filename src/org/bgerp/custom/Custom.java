@@ -23,6 +23,7 @@ import ru.bgerp.util.Log;
 
 /**
  * Customization manager.
+ * 
  * @author Shamil Vakhitov
  */
 public class Custom {

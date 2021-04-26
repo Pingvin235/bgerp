@@ -18,6 +18,7 @@ import ru.bgerp.util.Log;
 
 /**
  * Overwritten ActionServlet, loads struts-config.xml also for enabled plugins.
+ * 
  * @author Shamil Vakhitov
  */
 public class ActionServlet extends org.apache.struts.action.ActionServlet {
@@ -79,5 +80,18 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
         } 
 
         return result;
+    }
+
+    /**
+     * Selects an action's path, declared in annotation {@link Action}.
+     * @param clazz the action class.
+     * @return string from the class annotation.
+     * @throws IllegalArgumentException if no annotation defined.
+     */
+    public static String getActionPath(Class<? extends BaseAction> clazz) {
+        var a = clazz.getDeclaredAnnotation(Action.class);
+        if (a == null)
+            throw new IllegalArgumentException();
+        return a.path();
     }
 }

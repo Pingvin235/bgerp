@@ -6,6 +6,7 @@ import ru.bgerp.util.Log;
 
 /**
  * Translator to a wanted language using many {@link Localization} sequentially.
+ * 
  * @author Shamil
  */
 public class Localizer {

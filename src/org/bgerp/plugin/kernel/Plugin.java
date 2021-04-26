@@ -13,6 +13,7 @@ import ru.bgcrm.util.ParameterMap;
 
 /**
  * Special plugin for application's kernel.
+ * 
  * @author Shamil Vakhitov
  */
 public class Plugin extends ru.bgcrm.plugin.Plugin {
@@ -64,6 +65,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     @Override
     public Set<String> getUnusedPaths() {
+        // TODO: docpattern, report, action, scripts - move to svc.clean ?
         return Set.of(
             "lib/app/bgcrm.jar", 
             "plugin"

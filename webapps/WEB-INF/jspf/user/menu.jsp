@@ -41,6 +41,10 @@
 <plugin:include endpoint="user.menu.items.jsp"/>
 
 <ui:menu-group ltitle="Администрирование">
+	<ui:menu-item ltitle="Конфигурация" href="admin/config"
+		action="ru.bgcrm.struts.action.admin.ConfigAction:list"
+		command="/admin/config.do?action=list" />
+
 	<ui:menu-item ltitle="Параметры" href="admin/param"
 		action="ru.bgcrm.struts.action.admin.DirectoryAction"
 		command="/admin/directory.do" />
@@ -91,17 +95,13 @@
 		action="ru.bgcrm.struts.action.admin.WebRequestAction"
 		command="/admin/webRequest.do" />
 	
-	<ui:menu-item ltitle="Конфигурация" href="admin/config"
-		action="ru.bgcrm.struts.action.admin.ConfigAction:list"
-		command="/admin/config.do?action=list" />
-	
 	<ui:menu-group ltitle="Приложение">
 		<ui:menu-item ltitle="Статус приложения" href="admin/app/status"
-			action="ru.bgcrm.struts.action.admin.AppAction:status"
+			action="org.bgerp.action.admin.AppAction:status"
 			command="/admin/app.do?action=status"/>
 			
 		<ui:menu-item ltitle="Авторизовавшиеся пользователи" href="admin/app/logged"
-			action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList"
+			action="org.bgerp.action.admin.AppAction:userLoggedList"
 			command="/admin/app.do?action=userLoggedList"/>
 	</ui:menu-group>
 	

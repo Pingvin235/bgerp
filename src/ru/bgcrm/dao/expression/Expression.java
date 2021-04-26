@@ -3,6 +3,7 @@ package ru.bgcrm.dao.expression;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.jexl3.JexlArithmetic;
 import org.apache.commons.jexl3.JexlBuilder;
 import org.apache.commons.jexl3.JexlContext;
@@ -32,6 +33,7 @@ public class Expression {
     private static final TimeUtils PREFIX_tu = new TimeUtils();
     private static final StringUtils PREFIX_su = new StringUtils();
     private static final CollectionUtils PREFIX_cu = new CollectionUtils();
+    private static final FileUtils PREFIX_fu = new FileUtils(); 
 
     private JexlEngine jexl;
 
@@ -93,6 +95,7 @@ public class Expression {
         contextVars.put("tu", PREFIX_tu);
         contextVars.put("su", PREFIX_su);
         contextVars.put("cu", PREFIX_cu);
+        contextVars.put("fu", PREFIX_fu);
     }
 
     public Object getContextObject(String name) {

@@ -13,6 +13,7 @@ import org.apache.log4j.Priority;
 /**
  * Runner of OS commands, writing STDOUT and STDERR output
  * to a log with levels INFO and ERROR.
+ * 
  * @author Shamil Vakhitov
  */
 public class RuntimeRunner {
@@ -42,7 +43,7 @@ public class RuntimeRunner {
 
     private final String[] commands;
 
-    public RuntimeRunner(String[] commands) {
+    public RuntimeRunner(String... commands) {
         this.commands = commands;
     }
 

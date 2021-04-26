@@ -18,6 +18,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
  * Deprecated action for supporting JSP reports.
+ * 
  * @author Shamil Vakhitov
  */
 @Action(path = "/user/plugin/report/report")

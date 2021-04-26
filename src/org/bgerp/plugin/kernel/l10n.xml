@@ -396,6 +396,18 @@
 	<p><ru>Выберите группы решения</ru><en>Select execution groups</en></p>
 	<p><ru>Добавить</ru><en>Add</en></p>
 	<p><ru>Выберите процессы!</ru><en>Select processes!</en></p>
+	<p><ru>Обновить на изменение</ru><en>Update to change</en></p>
+	<p><ru>Сессии пользователей</ru><en>Sessions of users</en></p>
+	<p><ru>Время изменения</ru><en>Modification time</en></p>
+	<p><ru>Загрузка логов обновлений</ru><en>Download update logs</en></p>
+	<p><ru>Логи приложения</ru><en>Application logs</en></p>
+	<p><ru>Загрузка логов приложения</ru><en>Download application logs</en></p>
+	<p><ru>Копировать свойства из</ru><en>Copy properties from</en></p>
+	<p><ru>Файлы</ru><en>Files</en></p>
+	<p><ru>Загрузить файл</ru><en>Download file</en></p>
+	<p><ru>Перезапуск</ru><en>Restart</en></p>
+	<p><ru>Нормальный</ru><en>Regular</en></p>
+	<p><ru>Принудительный</ru><en>Force</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

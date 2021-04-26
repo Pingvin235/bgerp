@@ -147,8 +147,8 @@
 							<c:param name="typeId" value="${item.id}" />
 						</c:url>
 	
-						<button type="button" class="btn-white btn-small" title="${l.l('Использующие очереди')}"
-							onclick="${hideButtonsScript} $$.ajax.load('${showUrl}', $('#${showId}'));">Q?</button>
+						<button type="button" class="btn-white btn-small icon" title="${l.l('Использующие очереди')}"
+							onclick="${hideButtonsScript} $$.ajax.load('${showUrl}', $('#${showId}'));"><i class="ti-search"></i></button>
 					</p:check>
 					<p:check action="ru.bgcrm.struts.action.admin.ProcessAction:typeCopy">
 						<c:url var="showUrl" value="/admin/process.do">
@@ -157,8 +157,8 @@
 							<c:param name="parentId" value="${form.param.parentTypeId}"/>
 						</c:url>
 	
-						<button type="button" class="btn-white btn-small" title="${l.l('Копировать свойства другого типа')}"
-							onclick="${hideButtonsScript} $$.ajax.load('${showUrl}', $('#${showId}'));">PI</button>
+						<button type="button" class="btn-white btn-small icon" title="${l.l('Копировать свойства другого типа')}"
+							onclick="${hideButtonsScript} $$.ajax.load('${showUrl}', $('#${showId}'));"><i class="ti-import"></i></button>
 					</p:check>
 				</div>
 				<div id="${showId}" class="editor"></div>

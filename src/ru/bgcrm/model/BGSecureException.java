@@ -4,6 +4,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 
 /**
  * Suspicious situation, to be monitored.
+ *
  * @author Shamil Vakhitov
  */
 public class BGSecureException extends BGException {

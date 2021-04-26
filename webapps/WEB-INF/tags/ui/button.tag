@@ -33,6 +33,9 @@
 	<c:when test="${type eq 'out'}">
 		<button type="button" id="${id}" title="${l.l('Вывести')}" class="btn-grey icon ${styleClass}" onclick="${onclick}"><i class="ti-control-play"></i></button>
 	</c:when>
+	<c:when test="${type eq 'run'}">
+		<button type="button" id="${id}" title="${l.l('Выполнить')}" class="btn-grey icon ${styleClass}" onclick="${onclick}"><i class="ti-control-play"></i></button>
+	</c:when>
 	<c:when test="${type eq 'more'}">
 		<button type="button" id="${id}" title="${l.l('Больше')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-more"></i></button>
 	</c:when>

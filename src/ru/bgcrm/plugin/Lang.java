@@ -2,6 +2,7 @@ package ru.bgcrm.plugin;
 
 /**
  * Plugin's supported language.
+ * 
  * @author Shamil Vakhitov
  */
 public enum Lang {
