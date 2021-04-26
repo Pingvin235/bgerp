@@ -1,1 +1,0 @@
-C: Unification of button colors, font icons, localization.

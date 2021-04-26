@@ -1,2 +1,0 @@
-A: Gradle task 'buildUpdateLib' depends on existence of 'build/change.lib.txt' file.
-C: Gradle task 'touchChanges' without using 'touch' command.

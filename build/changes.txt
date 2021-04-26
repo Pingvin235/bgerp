@@ -1,6 +1,61 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+26.04.2021 21:02:08 1374
+F: [11229] Attach to message second time a file with same name.
+C: [11229] Unification of JS upload API.
+A: [11229] Plugin 'document', parameter type 'file' in integration tests.
+F: [11229] Restore previously chosen message type for adding in process.
+C: [12341] Refactoring of PDF generation in process queue.
+F: [12341] PDF generation in process queue, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#pdf
+B: [12341] Plugin Report, removed support old XML defined reports.
+F: [12341] Disabled erasing output HTML in $$.ajax.load, caused problem in formUrl function.
+A: [12341] Scroll to a failing param in validation.
+A: [12341] Localized titles in action XML descriptions.
+A: [12341] Plugin Report, new API, https://bgerp.org/doc/3.0/manual/plugin/report/index.html
+A: [12341] New action methods signature, without ActionMapping parameter.
+C: [12341] Class of 'su' changed from StringUtils to StringUtils3, https://bgerp.org/doc/3.0/manual/kernel/extension.html#jexl-standard-context
+A: [14126] Multiple endpoints with same ID in Plugin API>
+A: [14126] Report, charts using ECharts library.
+C: [14225] Opening object buffer on long mouse press disabled by default.
+A: [14225] <ui:button>, <ui:form-ok-cancel> JSP tags.
+A: [14225] Font icons, started using in buttons.
+C: [14225] Unified buttons color meanings, https://bgerp.org/doc/3.0/manual/kernel/interface.html#elements
+A: [14225] Message to STDOUT with URL on server start.
+C: [14225] Cleanup button CSS.
+C: [14225] Remove unused JS libs, images.
+F: [14225] Add a process parameter right after opening editor.
+A: [14225] Filter for iface in process queue processors, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#processor-open
+A: [14225] 'ctxIface' variable in request.
+F: [14225] Failing on custom compilation errors.
+A: [14225] Restart server button after successful compilation.
+B: [14225] 'Dynamic code' hidden by default, may be shown using a feature flag in user profile.
+A: [14225] Fluent with methods in Message class.
+A: [14225] Mark incorrect form fields by red border.
+C: [14225] Remove old XSLT related classes.
+A: [14253] L10n of user interface.
+A: [14304] Using font icons for buttons, localizations, asynchronous AJAX.
+A: [14319] Test zones in MVC, https://bgerp.org/doc/3.0/manual/project.html#mvc-iface
+A: [14336] Plugin BGBilling, show parameters separator.
+C: [14348] Unification of button colors, font icons, localization.
+A: [14349] Publish updates from master branch.
+C: [14349] Global rename #UNDEF links to #.
+F: [14349] Open interface always showing test.jsp.
+A: [14349] Function delete() in DefaultProcessFunctions.
+A: [14349] DbTimeUpdate for keeping up to date demo DB.
+A: [14349] Doc how to access DB in a running container, https://bgerp.org/doc/3.0/manual/project.html#run-data
+C: [14349] Rename action return  methods 'data' and 'status' to 'html' and 'json', https://bgerp.org/doc/3.0/manual/project.html#action
+F: [14357] Update mode combo width under Chrome.
+F: [14357] Process creation.
+A: [14357] Selectable list of change IDs in UI, https://bgerp.org/doc/3.0/manual/kernel/install.html#installer-iface
+A: [14363] Gradle task 'buildUpdateLib' depends on existence of 'build/change.lib.txt' file.
+C: [14363] Gradle task 'touchChanges' without using 'touch' command.
+A: [14364] Download in UI update and other log files.
+A: [14364] Dependent actions in permission tree, https://bgerp.org/doc/3.0/manual/project.html#action-permission
+A: [14364] Parameter 'force' for erp_restart.sh script.
+A: [14364] Restart in UI, choosing of restart mode after update.
+A: [14364] Plugin Backup, https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.html
+
 18.03.2021 21:05:47 1373
 F: [14291] Cleaning old 'log_update' logs in case of missing files.
 F: [14291] Add ExecuteSQL call in update package with db_init.sql.

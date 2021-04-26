@@ -1,5 +1,0 @@
-F: Attach to message second time a file with same name.
-C: Unification of JS upload API.
-A: Plugin 'document', parameter type 'file' in integration tests.
-F: Restore previously chosen message type for adding in process.
-

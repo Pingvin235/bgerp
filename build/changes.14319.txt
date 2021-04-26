@@ -1,1 +1,0 @@
-A: Test zones in MVC, https://bgerp.org/doc/3.0/manual/project.html#mvc-iface

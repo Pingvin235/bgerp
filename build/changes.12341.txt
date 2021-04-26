@@ -1,9 +1,0 @@
-C: Refactoring of PDF generation in process queue.
-F: PDF generation in process queue, https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#pdf
-B: Plugin Report, removed support old XML defined reports.
-F: Disabled erasing output HTML in $$.ajax.load, caused problem in formUrl function.
-A: Scroll to a failing param in validation.
-A: Localized titles in action XML descriptions.
-A: Plugin Report, new API, https://bgerp.org/doc/3.0/manual/plugin/report/index.html
-A: New action methods signature, without ActionMapping parameter.
-C: Class of 'su' changed from StringUtils to StringUtils3, https://bgerp.org/doc/3.0/manual/kernel/extension.html#jexl-standard-context

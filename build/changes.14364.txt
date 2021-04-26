@@ -1,5 +1,0 @@
-A: Download in UI update and other log files.
-A: Dependent actions in permission tree, https://bgerp.org/doc/3.0/manual/project.html#action-permission
-A: Parameter 'force' for erp_restart.sh script.
-A: Restart in UI, choosing of restart mode after update.
-A: Plugin Backup, https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.html
