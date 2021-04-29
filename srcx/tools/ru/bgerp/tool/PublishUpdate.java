@@ -15,8 +15,8 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
  * @author Shamil Vakhitov
  */
 public class PublishUpdate {
-    private final static String SSH_LOGIN = "bgerp-cdn@pzdc.de";
-    private final static String SSH_DIR = "/home/bgerp-cdn/www/update/";
+    private final static String SSH_LOGIN = "cdn@bgerp.org";
+    private final static String SSH_DIR = "/home/cdn/www/update/";
     private final static String[] SSH_OPTIONS = { "-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null" };
 
     private final String projectDir;

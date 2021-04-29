@@ -1252,8 +1252,8 @@ CAUTION: Check <<unit-test, Unit tests>> running.
 
 [IMPORTANT]
 ====
-Public SSH key or the developer might be added for *bgerp-cdn@bgerp.org* and *www@bgerp.org*.
-Before you publish a change update, make sure that `ssh bgerp-cdn@bgerp.org` and `ssh www@bgerp.org` sessions work for you.
+Public SSH key or the developer might be added for *cdn@bgerp.org* and *www@bgerp.org*.
+Before you publish a change update, make sure that `ssh cdn@bgerp.org` and `ssh www@bgerp.org` sessions work for you.
 ====
 
 Build is performed from a *master* branch and can include many <<workflow, accepted changes>>.

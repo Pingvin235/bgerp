@@ -6,6 +6,7 @@ task publishUpdate(type: JavaExec, dependsOn: ['compileToolsJava', 'touchChanges
     args projectDir, version, "${->getProcessId()}"
 }
 
+/* TODO: Rewrite to Java, share code with PublishUpdate.java */
 task publishBuild {
     mustRunAfter 'buildUpdate'
     mustRunAfter 'buildUpdateLib'
@@ -43,8 +44,8 @@ def publishFile(String localDir, String mask, boolean versioned, String link) {
     localFile = localFile[0].getName()
     println "Local: $localFile"
 
-    def sshLogin = 'bgerp-cdn@pzdc.de'
-    def sshFolder = "/home/bgerp-cdn/www/download/$version"
+    def sshLogin = 'cdn@bgerp.org'
+    def sshFolder = "/home/cdn/www/download/$version"
 
     def remoteFile
     if (versioned) {
