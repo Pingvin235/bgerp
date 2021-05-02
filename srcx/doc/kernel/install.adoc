@@ -20,9 +20,30 @@ The actual <<demo, Demo>> is also applied during first run.
 This variant perfectly fits for following purposes:
 [square]
 * having first look and playing with program;
+* running on Windows machines;
 * running in different environment, e.g. already installed MySQL with not appropriate version.
 
-Run this script for initial install as well as for update.
+For removing container, also before update.
+[source, bash]
+----
+docker rm -f bgerp
+----
+
+The running container is available via <<interface.adoc#, Web-interface>>. Use <<nginx, NGINX>> for restricting access from outside network.
+
+[[docker-volumes-inside]]
+=== Data volumes inside (Win and *NIX)
+In this case all the data volumes are hidden inside Docker.
+
+CAUTION: All the related data is removed together with container.
+
+[source, bash]
+----
+docker pull bgerp/bgerp && docker run -d --name bgerp --restart unless-stopped -p 9088:9088 bgerp/bgerp && docker logs --follow bgerp
+----
+
+[[docker-volumes-outside]]
+=== Data volumes outside (*NIX only)
 [source, bash]
 ----
 docker pull bgerp/bgerp && docker run -d --name bgerp --restart unless-stopped \
@@ -33,16 +54,6 @@ docker pull bgerp/bgerp && docker run -d --name bgerp --restart unless-stopped \
     -v /srv/bgerp/log:/opt/bgerp/log \
     -p 9088:9088 \
     bgerp/bgerp && docker logs --follow bgerp
-----
-
-The running container is available via <<interface.adoc#, Web-interface>>. Use <<nginx, NGINX>> for restricting access from outside network. 
-
-CAUTION: The container may also publish MySQL ports 3306, 33060, that might be create a security issue.
-
-For removing container, also before update.
-[source, bash]
-----
-docker stop bgerp && docker rm bgerp
 ----
 
 CAUTION: Completely remove all the related data.

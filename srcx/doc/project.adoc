@@ -92,9 +92,11 @@ git clone https://github.com/Pingvin235/bgerp BGERP
 Use the Docker image for running developer DB instance.
 Run the following command inside of the project's directory.
 
+NOTE: We expose non-standard MySQL port *3388* to avoid possible conflicts with a running locally MySQL server.
+
 [source, bash]
 ----
-docker pull bgerp/bgerp && docker run -p 3306:3306 --name bgerp-demo -d bgerp/bgerp
+docker pull bgerp/bgerp && docker run -p 3388:3306 --name bgerp-demo -d bgerp/bgerp
 ----
 
 Make sure, that the container is running using the command:
@@ -106,7 +108,7 @@ docker exec bgerp-demo /opt/bgerp/erp_status.sh
 Get configuration and data files from the container:
 [source, bash]
 ----
-docker cp bgerp-demo:/opt/bgerp/bgerp.properties bgerp.properties
+docker exec bgerp-demo cat /opt/bgerp/bgerp.properties | bash -c "sed 's#127.0.0.1/#127.0.0.1:3388/#'" > bgerp.properties
 docker cp bgerp-demo:/opt/bgerp/log4j.properties log4j.properties
 docker cp bgerp-demo:/opt/bgerp/filestorage filestorage
 ----

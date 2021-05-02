@@ -250,10 +250,12 @@ public class Server extends Tomcat {
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                    Utils.errorAndExit(1, ex.getMessage());
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+            Utils.errorAndExit(1, ex.getMessage());
         }
     }
 

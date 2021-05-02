@@ -129,8 +129,6 @@ RUN unzip /tmp/bgerp.zip -d /opt \
     && chmod 744 /opt/bgerp/*.sh \
     && mkdir /opt/bgerp/conf
 
-COPY files/update.zip /opt/bgerp
-
 RUN mkdir /opt/bgerp/backup
 
 # demo
