@@ -665,6 +665,8 @@ jspf/open/../plugin/ppp/.../aaa.jsp
 
 |===
 
+[[mvc-iface-test]]
+===== Test zones
 For testing MVC framework available special hidden zones.
 
 [cols="10%,20%,35%,35%", options="header"]
@@ -834,7 +836,7 @@ The following objects prefixes are available:
 [[square]]
 * *u.* javadoc:ru.bgcrm.util.Utils[]
 * *tu.* javadoc:ru.bgcrm.util.TimeUtils[]
-// duplicated in kernel/extension.adoc
+// TODO: duplicated in kernel/extension.adoc, extract to include
 * *su* link:https://commons.apache.org/proper/commons-lang/javadocs/api-2.5/org/apache/commons/lang/StringUtils.html[org.apache.commons.lang.StringUtils]
 * *сu* link:https://commons.apache.org/proper/commons-collections/javadocs/api-3.2.2/org/apache/commons/collections/CollectionUtils.html[org.apache.commons.collections.CollectionUtils]
 
@@ -866,8 +868,7 @@ Components are defined within JSP tags and are declared in `webapps/WEB-INF/tags
 
 image::_res/ide_jsp_tag.png[width='600px']
 
-link:../../webapps/test.jsp[webapps/test.jsp] provides several examples of using JSP tags with user control elements.
-Navigate to http://<host>:<port>/test.jsp in order to invoke template execution, alternatively visit a Demo server: https://demo.bgerp.org/test.jsp
+<<mvc-iface-test, UI test zones>> provide several examples of using JSP tags with user control elements.
 
 For kernel, link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp] file defines menu items which are used to match URL and Java Action. For plugins this is done via <<plugin-ui-menu, extension>> points.
 
@@ -881,6 +882,10 @@ JSP page stores all variables  ones. Combined with includes and long templates, 
 The tag enables code inside it only when mentioned <<action, action>> is <<action-permission, allowed>> for the current user.
 [snippet, from="<p:ch", to=">"]
 link:../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp#L11-L14[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp]
+
+For combining permission check with other checks use function <<jsp-request-params, p.check>>.
+[snippet, from="<c:if", to=">"]
+link:../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L32-L33[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
 
 [[jsp-tags-top-line]]
 ====== shell:title and shell:state
@@ -903,7 +908,7 @@ A typical scheme for attaching JS code to HTML is to setup event handler with a 
 
 Deprecated JS functions are marked using the following method:
 [snippet, from="fun", to="}"]
-link:../../webapps/js/kernel.ajax.js#L416-L420[webapps/js/kernel.ajax.js]
+link:../../webapps/js/kernel.ajax.js#L441-L445[webapps/js/kernel.ajax.js]
 
 When such a function gets invoked, browser console gets a "clickable" "Deprecated" message which allows to find a this deprecated function call
 It is forbidden to use those functions in the new code, usage has to be decreased in the existing code over time.
@@ -1122,7 +1127,7 @@ link:../../webapps/WEB-INF/jspf/user/profile/default.jsp#L39-L45[webapps/WEB-INF
 Stored values may be read in JSP pages using in the same *ctxUser.personalizationMap* way,
 but also available in JS like for this case.
 [snippet, from="if (", to=");", remove-leading="		"]
-link:../../webapps/js/kernel.shell.js#L380-L381[webapps/js/kernel.shell.js]
+link:../../webapps/js/kernel.shell.js#L377-L378[webapps/js/kernel.shell.js]
 
 [[sample-tab-element-count]]
 === Depicting element count on a tab
@@ -1166,7 +1171,7 @@ link:../../webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp#L4-L4[webapps/WEB
 === Pagination
 Putting results into JSP and rendering a form;
 [snippet, from="<c:", to="rm>", remove-leading="		"]
-link:../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L75-L83[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
+link:../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L91-L99[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
 
 Java action:
 [snippet, from="//", to="open);", remove-leading="        "]
@@ -1201,15 +1206,19 @@ link:../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L161-L166[webapps/WEB
 
 Flex layout, using constants from Java classes, print button close to a field:
 [snippet, from="<div", to="/div>", remove-leading="				"]
-link:../../webapps/WEB-INF/jspf/user/search/search.jsp#L77-L96[webapps/WEB-INF/jspf/user/search/search.jsp]
+link:../../webapps/WEB-INF/jspf/user/search/search.jsp#L77-L91[webapps/WEB-INF/jspf/user/search/search.jsp]
 
 Snap-in refresh upon moving back to it:
 [snippet, from="<script", to="/script>"]
 link:../../webapps/WEB-INF/jspf/user/log/log.jsp#L22-L28[webapps/WEB-INF/jspf/user/log/log.jsp]
 
-Sending AJAX request and blocking a button during a long(er) action execution:
+Sending AJAX request and showing progress indicator on button during execution:
 [snippet, from="<bu", to="on>"]
-link:../../webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp#L22-L30[webapps/WEB-INF/jspf/admin/dynamic/dynamic.jsp]
+link:../../webapps/WEB-INF/jspf/admin/run/run.jsp#L20-L24[webapps/WEB-INF/jspf/admin/run/run.jsp]
+
+The same but for *$$.ajax.load* function:
+[snippet, from="<ui:button", remove-leading="		"]
+link:../../webapps/WEB-INF/jspf/user/process/queue/filter.jsp#L897-L897[webapps/WEB-INF/jspf/admin/run/run.jsp]
 
 [[sample-jsp-ui-restore-form]]
 Restore form parameter values:

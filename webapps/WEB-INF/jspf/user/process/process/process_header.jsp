@@ -22,7 +22,7 @@
 								onclick="if (confirm('${l.l('Удалить процесс')}?')) $$.ajax.post('${url}').done(() => { ${returnBreakCommand} }); return false;">${l.l('Удалить процесс')}</a>
 							</li>
 							
-							<c:url var="url" value="empty.do">
+							<c:url var="url" value="/user/empty.do">
 								<c:param name="returnUrl" value="${requestUrl}"/>
 								<c:param name="returnChildUiid" value="${tableId}"/>
 								<c:param name="id" value="${process.id}"/>
@@ -65,7 +65,7 @@
 			<ui:when type="user">
 				<p:check action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate">
 					<c:if test="${processType.properties.configMap['hidePriority'] ne 1}">
-						<c:url var="url" value="empty.do">
+						<c:url var="url" value="/user/empty.do">
 							<c:param name="returnUrl" value="${requestUrl}"/>
 							<c:param name="returnChildUiid" value="${tableId}"/>
 							<c:param name="id" value="${process.id}"/>

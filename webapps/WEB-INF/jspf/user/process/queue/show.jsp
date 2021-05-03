@@ -22,11 +22,11 @@
 			function()
 			{
 				$("#${uiid} button[name='pageControlRefreshButton']").click();
-				bgcrm.debug( 'processQueue', 'refresh queue', $("#${uiid} button[name='pageControlRefreshButton']") );
+				$$.debug( 'processQueue', 'refresh queue', $("#${uiid} button[name='pageControlRefreshButton']") );
 				$$.shell.stateFragment(${queue.id});
 			});
 			
-		bgcrm.debug( 'processQueue', 'added onShow callback on ', $contentDiv );
+		$$.debug( 'processQueue', 'added onShow callback on ', $contentDiv );
 	});
 </script>
 

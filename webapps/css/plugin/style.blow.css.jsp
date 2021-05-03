@@ -1,5 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 
+/* Plugin Blow */
 #blow-board tr.head td {
 	width: 1%;
 }

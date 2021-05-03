@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 
 <c:set var="UI_TABLE_BORDER_COLOR" value="#cadee9"/>
 <c:set var="UI_TABLE_HEAD_BACKGROUND_COLOR" value="#eaf3f9"/>

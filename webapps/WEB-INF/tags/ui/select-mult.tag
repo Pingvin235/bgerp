@@ -1,10 +1,10 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Выпадающий список с возможностью выбора нескольких значений в т.ч. с указанием порядка"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Выпадающий список с возможностью выбора нескольких значений в т.ч. с указанием порядка"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%-- 
-Значения устанавиваются атрибутами: 
+<%--
+Значения устанавиваются атрибутами:
 
-list - List<IdTitle> элементов 
+list - List<IdTitle> элементов
 map - Map<Integer, IdTitle> элементов
 availableIdList - List id допустимых значений
 availableIdSet - Set id допустимых значений
@@ -39,34 +39,11 @@ availableIdSet - Set id допустимых значений
 	<c:otherwise>
 		<c:set var="uiid" value="${u:uiid()}"/>
 	</c:otherwise>
-</c:choose>	
-
-<%-- TODO: В дальнейшем функцию перенести в JS файл, пока сдесь для предотвращения конфликтов. --%>
-<script>
-	function liUp( el )
-	{
-		var currentLi = el.parentNode;
-		var $prev = $(currentLi).prev();	
-		if( $prev.length > 0 )
-		{
-			$(currentLi).insertBefore( $prev );
-		}
-	}
-	
-	function liDown( el )
-	{
-		var currentLi = el.parentNode;
-		var $next = $(currentLi).next();	
-		if( $next.length > 0 )
-		{
-			$(currentLi).insertAfter( $next );
-		}
-	}
-</script>
+</c:choose>
 
 <c:set var="upDownIcons">
-	<span class='up' onClick='liUp(this);'></span><span class='down' onClick='liDown(this);'></span>
-</c:set>	
+	<span class='up ti-angle-up' onClick='$$.ui.selectMult.liUp(this);'></span><span class='down ti-angle-down' onClick='$$.ui.selectMult.liDown(this);'></span>
+</c:set>
 
 <div class="select-mult ${styleClass}" style="${style}" id="${uiid}">
 	<div style="display:table; width: 100%;">
@@ -78,7 +55,7 @@ availableIdSet - Set id допустимых значений
 					{
 						selectedValues[$(this).val()] = 1;
 					});
-					
+
 					var filteredSourceWithoutSelected = [];
 					for( var i = 0; i < filteredSource.length; i++ )
 					{
@@ -87,7 +64,7 @@ availableIdSet - Set id допустимых значений
 							filteredSourceWithoutSelected.push( filteredSource[i] );
 						}
 					}
-					
+
 					filteredSource = filteredSourceWithoutSelected;
 				</c:set>
 				<c:set var="onSelect">
@@ -97,24 +74,24 @@ availableIdSet - Set id допустимых значений
 						alert( 'Выберите значение' );
 						return;
 					}
-					
+
 					var title = $input.val();
-					
-					$('#${uiid} ul.drop-list').append( 
-						sprintf( '<li>\
-						            <span class=\'delete\' onclick=\'$(this.parentNode).remove();\'></span>\
-						            ${fn:replace( upDownIcons, "'", "\\'")}\
-						            <span class=\'title\'>%s</span>\
-								    <input type=\'hidden\' name=\'${hiddenName}\' value=\'%s\'/>\
-							       </li>', title, id ) );
-					
-					$input.val( '' );
-					$hidden.val( '' );
-					
+
+					$('#${uiid} ul.drop-list').append(
+						sprintf('<li>\
+									<span class=\'delete ti-close\' onclick=\'$(this.parentNode).remove();\'></span>\
+									${upDownIcons.replace("'", "\\'")}\
+									<span class=\'title\'>%s</span>\
+									<input type=\'hidden\' name=\'${hiddenName}\' value=\'%s\'/>\
+								</li>', title, id ) );
+
+					$input.val('');
+					$hidden.val('');
+
 					// иначе опять ставит в $input текст
-					return false;					
+					return false;
 				</c:set>
-				
+
 				<%-- иначе при явном указании id для select_mult такой же попадёт и в select_single, выпадающий ul добавится не туда --%>
 				<c:remove var="id"/>
 				<ui:select-single hiddenName="${uiid}-addingValue" style="width: 100%;"
@@ -124,7 +101,7 @@ availableIdSet - Set id допустимых значений
 			</u:sc>
 		</div>
 	</div>
-	
+
 	<div class="layout-height-rest" style="overflow-y: auto;">
 		<c:choose>
 			<c:when test="${moveOn}">
@@ -132,7 +109,7 @@ availableIdSet - Set id допустимых значений
 					<c:forEach var="id" items="${values}">
 						<c:set var="item" value="${map[id]}"/>
 						<c:if test="${not empty item}">
-						    <%@ include file="/WEB-INF/jspf/tag_select_mult_li.jsp"%>
+							<%@ include file="/WEB-INF/jspf/tag_select_mult_li.jsp"%>
 						</c:if>
 					</c:forEach>
 				</ul>
@@ -148,10 +125,10 @@ availableIdSet - Set id допустимых значений
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<c:forEach var="availableId" items="${availableIdList}">			
+							<c:forEach var="availableId" items="${availableIdList}">
 								<c:set var="item" value="${map[availableId]}"/>
 								<c:if test="${values.contains( item.id ) and (not fakeHide or empty item.fake)}">
-									<%@ include file="/WEB-INF/jspf/tag_select_mult_li.jsp"%>	
+									<%@ include file="/WEB-INF/jspf/tag_select_mult_li.jsp"%>
 								</c:if>
 							</c:forEach>
 						</c:otherwise>
@@ -159,5 +136,5 @@ availableIdSet - Set id допустимых значений
 				</ul>
 			</c:otherwise>
 		</c:choose>
-	</div>	
-</div>	
+	</div>
+</div>

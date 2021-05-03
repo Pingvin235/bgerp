@@ -45,7 +45,7 @@ availableIdSet - Set id допустимых значений
 <div class="select ${styleClass}" style="${style}" id="${uiid}">
 	<input type="hidden" name="${hiddenName}" value="${value}"/>
 	<input type="text" name="data" ${inputAttrs} style="width: 100%;" placeholder="${placeholder}"/>
-	<span class="icon"></span>
+	<span class="icon"><i class="ti-angle-down"></i></span>
 
 	<script>
 		$(function()

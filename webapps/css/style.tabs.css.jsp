@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 
 .ui-tabs.ui-widget-content,
 .ui-tabs .ui-widget-header,
@@ -17,13 +17,13 @@
 }
 
 .ui-tabs .ui-widget-header {
-	 border-top: none;
-	 border-left: none;
-	 border-right: none;
+	border-top: none;
+	border-left: none;
+	border-right: none;
 }
 
 .ui-tabs.ui-tabs-nav .ui-widget-header {
-	 border-bottom: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
 }
 
 .ui-tabs-nav {
@@ -58,28 +58,16 @@
 }
 
 .ui-tabs-nav li:last-child {
-	-webkit-border-radius: 0 3px 0 0;
-	-moz-border-radius: 0 3px 0 0;
-	-ms-border-radius: 0 3px 0 0;
-	-o-border-radius: 0 3px 0 0;
 	border-radius: 0 3px 0 0;
 }
 
 .ui-tabs-nav li:first-child {
-	-webkit-border-radius: 3px 0 0 0;
-	-moz-border-radius: 3px 0 0 0;
-	-ms-border-radius: 3px 0 0 0;
-	-o-border-radius: 3px 0 0 0;
 	border-radius: 3px 0 0 0;
 }
 
 .ui-tabs-nav li.ui-state-active {
 	font-weight: bold;
 	background-color: #fafafa;
-	-webkit-border-radius: 3px 3px 0 0;
-	-moz-border-radius: 3px 3px 0 0;
-	-ms-border-radius: 3px 3px 0 0;
-	-o-border-radius: 3px 3px 0 0;
 	border-radius: 3px 3px 0 0;
 	padding-top: 0.8em;
 	border-top: 1px solid #cccccc;
@@ -98,8 +86,4 @@ button.refreshButton-hidden {
 button.refreshButton {
 	float: right;
 	display: inline-block;
-}
-
-button.refreshButton span.ui-icon-refresh {
-	background-image: url('/lib/jquery-ui-1.12.1/images/ui-icons_0078ae_256x240.png');
 }

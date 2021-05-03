@@ -4,6 +4,29 @@
 "use strict";
 
 $$.ui = new function() {
+	// sub namespace selectMult
+	this.selectMult = new function () {
+		const liUp = function (el) {
+			var currentLi = el.parentNode;
+			var $prev = $(currentLi).prev();
+			if ($prev.length > 0) {
+				$(currentLi).insertBefore($prev);
+			}
+		}
+
+		const liDown = function (el) {
+			var currentLi = el.parentNode;
+			var $next = $(currentLi).next();
+			if ($next.length > 0) {
+				$(currentLi).insertAfter($next);
+			}
+		}
+
+		// public functions
+		this.liUp = liUp;
+		this.liDown = liDown;
+	}
+
 	const comboSingleInit = ($comboDiv, onSelect) => {
 		var $drop = $comboDiv.find('ul.drop');
 
@@ -192,41 +215,23 @@ $$.ui = new function() {
 		$dayTo.change(update);
 	}
 
-	const inputTextInit = ($input, onSelect) => {
-		var $runIcon =
-			$("<span><img src='/images/arrow-right.png'/></span>")
-			.css("position", "absolute")
-			.css("cursor", "pointer")
-			.hide();
-
+	const inputTextInit = ($input) => {
 		var $clearIcon =
-			$("<span><img src='/images/cross.png'/></span>")
+			$("<span class='ti-close'></span>")
 			.css("position", "absolute")
 			.css("cursor", "pointer")
 			.hide();
 
-		$input.parent().append($runIcon).append($clearIcon);
+		$input.parent().append($clearIcon);
 
 		var updateClear = function () {
 			var position = $input.offset();
 			var show = $input.val().length > 0;
 			$clearIcon
-				.css("top", position.top + $input.height() / 2 + 3 /*TODO: replace "+ 3" to the calculated value!*/)
-				.css("left", position.left + $input.width() - 20)
+				.css("top", position.top + $input.height() / 2 + 2 /*TODO: calculate "+ 2" em based */)
+				.css("left", position.left + $input.width() - 6 /*TODO: calculate "- 6" em based */)
 				.toggle(show);
 		};
-
-		$input.on("mouseenter focusin", function () {
-			var position = $input.offset();
-			$runIcon
-				.css("top", position.top + $input.height() / 2 + 3 /*TODO: replace "+ 3" to the calculated value!*/)
-				.css("left", position.left + $input.width())
-				.show();
-		});
-
-		$input.on("focusout", function () {
-			$runIcon.hide();
-		});
 
 		$input.on("propertychange change click keyup input paste", function () {
 			updateClear();
@@ -237,9 +242,6 @@ $$.ui = new function() {
 			$input.focus();
 			updateClear();
 		});
-
-		if (onSelect)
-			$runIcon.click(function () { onSelect.call($input[0]); });
 	}
 
 	const layout = ($selector) =>  {

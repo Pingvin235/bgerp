@@ -1,10 +1,10 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 /* Welcome to Compass.
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
- * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> 
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
  */
 html, body, div, убрал, <%-- т.к. span съезжал помещённый в строку span, --%> applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -41,7 +41,7 @@ a {
 }
 
 @media all
-{ 
+{
 	body {
 		font: 13px  Arial, Geneva CY, Kalimati, Geneva, sans-serif;
 		color: black;
@@ -50,7 +50,7 @@ a {
 
 @media print
 {
-	#head, 
+	#head,
 	#processQueueFilter,
 	table.page,
 	.printHide {
@@ -105,7 +105,7 @@ body > #content label {
 
 /* Title Text */
 .tt {
-	color: #353535;	
+	color: #353535;
 	font-size: 1.1em;
 }
 
@@ -118,7 +118,7 @@ body > #content label {
 .bold {
 	 font-size: 1.1em;
 	 font-weight: bold;
-}   
+}
 
 .center1020 {
 	margin: 0 auto;
@@ -148,7 +148,7 @@ body > #content label {
 
 .in-inline-block > * {
 	display: inline-block;
-}	
+}
 
 .in-va-top > * {
 	vertical-align: top;
@@ -162,6 +162,7 @@ body > #content label {
 	white-space: nowrap;
 }
 
+
 <%@ include file="style.indent.css.jsp"%>
 <%@ include file="style.tabs.css.jsp"%>
 <%@ include file="style.table.css.jsp"%>
@@ -172,15 +173,13 @@ body > #content label {
 <%@ include file="style.icon.css.jsp"%>
 <%@ include file="style.menu.css.jsp"%>
 <%@ include file="style.date.css.jsp"%>
-<%@ include file="style.callboard.css.jsp"%>
-
-<%-- приведение JQueryUI стилей к оформлению BGERP --%>
+<%-- patch JQueryUI styles to BGERP --%>
 <%@ include file="ui-correct.css.jsp"%>
 
 div, span {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	-box-sizing: border-box; 
+	-box-sizing: border-box;
 }
 
 /* в адресном справочнике в одном месте используется */
@@ -188,11 +187,14 @@ div, span {
 	font-weight: bold;
 }
 
-.box { 
-	border-radius: 3px; 
+.box {
+	border-radius: 3px;
 	border: 1px solid #C5C5C5;
-	-moz-box-sizing: border-box; 
+	-moz-box-sizing: border-box;
 }
 
-<c:set var="endpoint" value="css.jsp"/>
-<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+.ajax-loading {
+	filter: blur(0.7px);
+}
+
+<plugin:include endpoint="css.jsp"/>

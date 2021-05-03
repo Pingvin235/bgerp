@@ -6,11 +6,11 @@
 <u:sc>
 	<c:if test="${not empty createTypeList}">
 		<c:set var="uiid" value="${u:uiid()}"/>
-	
+
 		<html:form action="/user/process/link" styleId="${uiid}" >
 			<input type="hidden" name="action" value="linkProcessCreate"/>
-			<input type="hidden" name="id" value="${form.id}"/>	
-					
+			<input type="hidden" name="id" value="${form.id}"/>
+
 			<div class="in-table-cell pt1">
 				<div style="width: 100%;">
 					<u:sc>
@@ -21,27 +21,22 @@
 						<c:set var="hiddenName" value="createTypeId"/>
 						<c:set var="style" value="width: 100%;"/>
 						<c:set var="onSelect" value="openUrlTo('/user/process.do?showGroupSelect=1&action=processRequest&parentTypeId=${typeId}&createTypeId=' + $hidden.val(), $('#${uiid}').parent().find('#additionalParamsSelect'));"/>
-						<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
+						<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 					</u:sc>
 				</div>
 				<div style="white-space: nowrap;" class="pl1">
 					<c:set var="command">
-						var result = sendAJAXCommand( formUrl( this.form ) );
-						if( result )
-						{
-							if( result.data.process.id > 0 )
-							{
-								openUrlToParent( '${requestUrl}', $('#${uiid}') ); 
+						$$.ajax.post(this.form).done((result) => {
+							if (result.data.process.id > 0) {
+								$$.ajax.load('${requestUrl}', $('#${uiid}').parent());
+							} else {
+								<%-- open with wizard --%>
+								var url = '/user/process.do?id=' + result.data.process.id + '&returnUrl=' + encodeURIComponent('${requestUrl}');
+								$$.ajax.load(url, $('#${uiid}').parent());
 							}
-							else
-							{	
-								<%-- открытие мастером --%>
-								var url = 'process.do?id=' + result.data.process.id + '&returnUrl=' + encodeURIComponent( '${requestUrl}' );
-								openUrlToParent( url, $('#${uiid}') );
-							}
-						}
+						});
 					</c:set>
-					<button type="button" class="btn-grey" onclick="${command}">Создать и привязать</button>
+					<button type="button" class="btn-grey" onclick="${command}">${l.l('Создать и привязать')}</button>
 				</div>
 			</div>
 

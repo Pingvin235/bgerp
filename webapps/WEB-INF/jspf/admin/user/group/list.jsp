@@ -26,12 +26,10 @@
 		<c:param name="parentGroupId" value="${form.param.parentGroupId}"/>
 		<c:param name="markGroup" value="${form.param.markGroup}"/>
 	</c:url>
-	<button type="button" id="markGroupButton" class="btn-grey ml1" 
+	<button type="button" class="btn-grey" 
 		onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${urlList}', $$.shell.$content()) })">${l.l('Вставить')} [${markGroupString}]</button>
 
-	<ui:input-text name="filter" onSelect="openUrlContent( formUrl( this.form ) ); return false;" placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" title="${l.l('Фильтр по наименованию, конфигурации')}"/>
-
-	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
+	<ui:input-text name="filter" onSelect="$$.ajax.load(this.form, $$.shell.$content())" placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" title="${l.l('Фильтр по наименованию, конфигурации')}"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>

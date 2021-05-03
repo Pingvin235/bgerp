@@ -10,6 +10,9 @@
 <%@ attribute name="placeholder" description="placeholder input"%>
 <%@ attribute name="title" description="title input"%>
 <%@ attribute name="onSelect" description="JS, что выполнять по выбору значения"%>
+<%@ attribute name="showOutButton" type="java.lang.Boolean" description="Show out button, default is 'true'"%>
+
+<c:set var="showOutButton" value="${(empty showOutButton) ? true : showOutButton}" />
 
 <c:choose>
 	<c:when test="${not empty id}">
@@ -20,12 +23,19 @@
 	</c:otherwise>
 </c:choose>
 
-<input id="${uiid}" type="text" name="${name}" placeholder="${placeholder}" title="${title}"
-	style="${style}" class="${styleClass}" size="${size}" value="${value}"
-	onkeypress="if (enterPressed(event)){ ${onSelect} }"/>
+<div style="display: inline-block;">
+	<div style="display: flex;">
+		<input id="${uiid}" type="text" name="${name}" placeholder="${placeholder}" title="${title}"
+			style="${style}" class="${styleClass} w100p" size="${size}" value="${value}"
+			onkeypress="if (enterPressed(event)){ ${onSelect}; return false;};"/>
+		<c:if test="${showOutButton}">
+			<ui:button type="out" onclick="${onSelect}" styleClass="ml05"/>
+		</c:if>
+	</div>
+</div>
 
 <script>
 	$(function() {
-		$$.ui.inputTextInit($('#${uiid}'), function() { ${onSelect} });
+		$$.ui.inputTextInit($('#${uiid}'));
 	})
 </script>

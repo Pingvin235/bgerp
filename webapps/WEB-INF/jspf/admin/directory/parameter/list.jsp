@@ -11,9 +11,7 @@
 
 	<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Фильтр')}" size="40" 
 		title="${l.l('По наименованию, комментарию, конфигурации')}"
-		onSelect="openUrlContent( formUrl( this.form ) ); return false;"/>
-
-	<ui:button type="out" styleClass="ml1" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
+		onSelect="$$.ajax.load(this.form, $$.shell.$content())"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>

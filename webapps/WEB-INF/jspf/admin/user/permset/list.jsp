@@ -6,16 +6,15 @@
 	<input type="hidden" name="pageableId" value="permsetList"/>
 
 	<c:url var="url" value="/admin/user.do">
-	    <c:param name="action" value="permsetGet"/>
-	    <c:param name="id" value="-1"/>
-	    <c:param name="returnUrl" value="${form.requestUrl}"/>
-  	</c:url>
+		<c:param name="action" value="permsetGet"/>
+		<c:param name="id" value="-1"/>
+		<c:param name="returnUrl" value="${form.requestUrl}"/>
+	</c:url>
 	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
 
-	<ui:input-text name="filter" styleClass="ml1" value="${form.param.filter}" placeholder="${l.l('Фильтр')}" size="40" title="${l.l('Фильтр по наименованию, комментарию, конфигурации, параметрам действий')}"
-		onSelect="openUrlContent( formUrl( this.form ) ); return false;"/>
-
-	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
+	<ui:input-text name="filter" styleClass="ml1" value="${form.param.filter}" placeholder="${l.l('Фильтр')}" size="40" 
+		onSelect="$$.ajax.load(this.form, $$.shell.$content())"
+		title="${l.l('Фильтр по наименованию, комментарию, конфигурации, параметрам действий')}"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>

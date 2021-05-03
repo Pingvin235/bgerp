@@ -53,7 +53,7 @@
 		<c:set var="item" value="${item}" scope="request"/>
 
 		<%-- scope="request", чтобы были доступны в jsp:include --%>
-		<c:url var="deleteAjaxUrl" value="link.do" scope="request">
+		<c:url var="deleteAjaxUrl" value="/user/link.do" scope="request">
 			<c:param name="action" value="deleteLink"/>
 			<c:param name="objectType" value="process"/>
 			<c:param name="id" value="${form.id}"/>

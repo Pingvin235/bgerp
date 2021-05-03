@@ -43,6 +43,6 @@
 		<button type="button" id="${id}" title="${l.l('Закрыть')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-close"></i></button>
 	</c:when>
 	<c:when test="${type eq 'clear'}">
-		<button type="button" id="${id}" title="${l.l('Очистить')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-eraser"></i></button>
+		<button type="button" id="${id}" title="${l.l('Очистить')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-close"></i></button>
 	</c:when>
 </c:choose>

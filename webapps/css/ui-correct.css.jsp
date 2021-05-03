@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 
 .ui-tabs { padding: 0;}
 .ui-tabs .ui-tabs-panel { padding: 0; }

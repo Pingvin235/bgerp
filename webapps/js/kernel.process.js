@@ -142,10 +142,23 @@ $$.process = new function() {
 			$$.process.queue.changed();
 		}
 
+		const updateSelected = (id) => {
+			$$.ajax
+				.post("/user/process/queue.do?action=queueSavedPanelSet" + $$.ajax.requestParamsToUrl({command: "updateSelected",  queueId: id}))
+				.done(() => {
+					$(".btn-panel input[type=hidden]").each(function () {
+						if ($(this).val() == id) {
+							$("#processQueueSelect").find(".text-value").empty();
+						}
+					});
+				});
+		}
+
 		// available functions
 		this.debug = debug;
 		this.changed = changed;
 		this.showSelected = showSelected;
+		this.updateSelected = updateSelected;
 	}
 };
 
@@ -365,51 +378,6 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 	}
 }
 
-// TODO: Move to action call + JSP with proper l10n there. Send IDs of open processes to the action.
-function processesToLinkTable($uiid, processId, linkType) {
-	var html = '<table class="data mt1" style="width: 100%;">\
-			<tr>\
-				<td>&nbsp;</td>\
-				<td width="100%">Наименование</td>\
-			</tr>';
-
-	var processes = openedObjectList({
-		"typesInclude" : [ 'process' ]
-	});
-	for ( var i in processes) {
-		var process = processes[i];
-
-		// link process to itself is denied
-		if (process.id == processId) {
-			continue;
-		}
-
-		html += '<tr>\
-				<td>\
-					<form action="link.do" class="mt1">\
-						<input type="hidden" name="action" value="addLink"/>\
-						<input type="hidden" name="objectType" value="process"/>\
-						<input type="hidden" name="id" value="'
-				+ processId
-				+ '"/>\
-						<input type="hidden" name="linkedObjectType" value="'
-				+ linkType
-				+ '"/>\
-						<input type="hidden" name="linkedObjectId" value="'
-				+ process.id
-				+ '"/>\
-						<input type="hidden" name="linkedObjectTitle" value=""/>\
-						<input type="checkbox" name="check"/>\
-					</form>\
-				</td>\
-				<td>'
-				+ process.title + '</td>\
-			</tr>';
-	}
-
-	$uiid.html(html);
-}
-
 function setListItemsClick(e) {
 	$(e).find('tr td:nth-child(2)').on('click', function() {
 		$(this).parent().find('input').trigger('click');
@@ -429,10 +397,9 @@ function addToPanelScript(id, title, isNew)
 
 	$( '#processQueueSelect' ).before(	"<div onclick=$('#processQueueSelect').find('input[type=hidden]').val("+id+");$$.process.queue.changed();updateSelectedQueue("+id+"); class='btn-white btn-panel'>" +
 			"<input type='hidden' value="+id+" />" +
-			"<span class='icon' style='margin-right:5px;'>" +
-			"<img src='/images/cross.png'></span>" +
-			"<span title='"+title+"' class='title'>" + title + "</span>" +
-		"</div>"  );
+			"<span class='icon ti-close mr05'></span>" +
+			"<span title='" + title + "' class='title'>" + title + "</span>" +
+		"</div>");
 	
 	$(".btn-panel").find("input[value="+id+"]").parent().find("span.icon").click(function(event){
 		event.stopPropagation();
@@ -471,39 +438,15 @@ function removeFromPanel(id, title)
 		});
 }
 
-function updateSelectedQueue(id)
-{
-	$$.ajax
-		.post("/user/process/queue.do?action=queueSavedPanelSet" + $$.ajax.requestParamsToUrl({command: "updateSelected",  queueId: id}))
-		.done(() => {
-			$(".btn-panel input[type=hidden]").each(function () {
-				if ($(this).val() == id) {
-					$("#processQueueSelect").find(".text-value").empty();
-				}
-			});
-		});
+function updateSelectedQueue(id) {
+	console.warn($$.deprecated);
+	$$.process.queue.updateSelected(id);
 }
 
 function showSelectedQueue(id) {
 	console.warn($$.deprecated);
 	$$.process.queue.showSelected(id);
 }
-
-/*function showCommonFilters()
-{
-	var queueId = $("#processQueueSelect > input[type=hidden]").val();
-	
-	// отображение нужного фильтра, нужных кнопок
-	var $filter = $("#processQueueFilter").find("div#" + queueId);
-	$filter.find("*[id=savedCommonFilters]").toggle(true);
-	$filter.find("*[id=savedFilters]").toggle(false);
-	$filter.find("*[id='" + queueId + "-0']").toggle(false);
-
-	$filter.find("#savedCommonFilters button").each(function() 
-	{
-		$(this).addClass("btn-white");
-	});
-}*/
 
 function exportFilterToCommons()
 {

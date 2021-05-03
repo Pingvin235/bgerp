@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 
 .datemonthdays #dayFrom, 
 .datemonthdays #dayTo {

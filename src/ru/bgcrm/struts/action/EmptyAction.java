@@ -1,17 +1,15 @@
 package ru.bgcrm.struts.action;
 
-import java.sql.Connection;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Специальный акшен, ничего не делает - а передаёт управление на JSP ку, 
- * указанную в параметрах запроса.
+ * Empty action, does nothing except passing to a JSP in parameter.
+ * 
+ * @author Shamil Vakhitov
  */
 public class EmptyAction extends BaseAction {
     public EmptyAction() {
@@ -19,12 +17,9 @@ public class EmptyAction extends BaseAction {
     }
 
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        HttpServletRequest request = form.getHttpRequest();
-        
-        if (log.isDebugEnabled())
-            log.debug("r:" + request + "; f:" + form + "; q: " + request.getQueryString());
-
-        return json(con, form);
+    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) {
+        var request = form.getHttpRequest();
+        log.debug("r: %s; f: %s; q: %s", request, form, request.getQueryString());
+        return html(conSet, form, form.getForwardFile());
     }
 }

@@ -78,9 +78,7 @@
 <script src="/lib/codemirror/addon/selection/active-line.js"></script>
 <script src="/lib/codemirror/addon/edit/matchbrackets.js"></script>
 
-<style type="text/css">
-	<%@include file="/css/style.css.jsp"%>
-</style>
+<link type="text/css" href="${u:fileNameWithLastModTime('/css/style.css.jsp')}" rel="stylesheet"/>
 
 <c:forEach items="${ctxPluginManager.pluginList}" var="plugin">
 	<c:forEach items="${plugin.getEndpoints('js')}" var="js">

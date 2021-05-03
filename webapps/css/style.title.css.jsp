@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 
 #title {
 	padding: 0 2em;
@@ -55,12 +55,10 @@
 	text-overflow: ellipsis;
 }
 
-#title > .status > .wrap > .left > .title .icon-close,
 #title #objectBuffer li > .icon-close {
-	background: url("/images/cross.png") no-repeat;
 	position: absolute;
 	right: 0.7em;
-	top: 0.8em;
+	top: 0.6em;
 	width: 12px;
 	height: 11px;
 	cursor: pointer;

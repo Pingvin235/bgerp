@@ -11,9 +11,7 @@
 		</jsp:attribute>
 	</ui:combo-single>
 	<ui:button type="run" styleClass="ml1" onclick="
-		this.disabled = true;
-		$$.ajax.post(this.form).done(() => {
-			this.disabled = false;
+		$$.ajax.post(this.form, {control: this}).done(() => {
 			$$.ajax.load('${form.requestUrl}', $$.shell.$content());
 		});"/>
 </html:form>

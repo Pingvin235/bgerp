@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 
 /* можно посмотреть http://www.howtomake.com.ua/html-and-css/stilizaciya-vsex-elementov-form-s-pomoshhyu-css-i-jquery.html */
 .combo .text-pref {
@@ -26,22 +26,22 @@
 }
 
 .combo {
-   position: relative;  
-   padding-right: 0;
-   padding-left: 0;
+	position: relative;
+	padding-right: 0;
+	padding-left: 0;
 }
 
 .combo ul.drop {
-  margin-top: 0.6em;
-  overflow-x: hidden;
-  overflow-y: visible;
-  max-height: 300px;
-  min-width: 150px;
+	margin-top: 0.6em;
+	overflow-x: hidden;
+	overflow-y: visible;
+	max-height: 300px;
+	min-width: 150px;
 }
 
 .combo ul.drop li {
-  overflow: hidden;
-  text-overflow: ellipsis;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .combo ul.drop li span {

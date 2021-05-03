@@ -9,7 +9,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html>
+<%-- <html>
 <head>
 	<title>TEST</title>
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
@@ -17,9 +17,9 @@
 	<style>
 		.ui-menu { width: 150px; }
 	</style>
-</head>
+</head> --%>
 
-<body style="padding: 0.5em;">
+<div style="padding: 0.5em;">
 	<ul id="menu" class="menu">
 		<li class="ui-state-disabled"><a href="#">Aberdeen</a></li>
 		<li><a href="#">Ada</a></li>
@@ -207,7 +207,7 @@
 					values.add( 2 );
 					pageContext.setAttribute( "values", values );
 				%>
-				<ui:combo-check prefixText="Статус:" paramName="param" list="${list}" values="${values}" widthTextValue="150px"/>
+				<ui:combo-check prefixText="Статус:" paramName="param" list="${list}" values="${values}" widthTextValue="150px" showFilter="true"/>
 			</u:sc>
 		</div>
 
@@ -338,5 +338,5 @@
 	<ul>
 		<li><a href="https://themify.me/themify-icons">Themify Icons</a></li>
 	</ul>
-</body>
-</html>
+</div>
+<%-- </html> --%>

@@ -62,7 +62,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 
 	<%-- ширину всего элемента можно задавать только шириной этого блока --%>
 	<div class="text-value" style="${styleTextValue}"></div>
-	<div class="icon"><img src="/images/arrow-down.png"/></div>
+	<div class="icon ti-angle-down"></div>
 
 	<ul class="drop" style="display: none;">
 		<c:if test="${showFilter}">

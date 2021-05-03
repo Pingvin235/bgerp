@@ -17,6 +17,6 @@ public class Endpoint {
     }
 
     public static final String getPathPluginCSS(String pluginId) {
-        return Plugin.PATH_CSS + "/style." + pluginId + ".css.jsp";
+        return Plugin.PATH_CSS + "/plugin/style." + pluginId + ".css.jsp";
     }
 }

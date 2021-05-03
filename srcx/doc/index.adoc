@@ -1,4 +1,4 @@
-= BGERP 3.CD
+= BGERP 3.0 CD
 :nofooter:
 
 * <<project.adoc#, Project>>
@@ -47,4 +47,3 @@
 ** <<ext/asterisk_integration.adoc#, Интеграция с Asterisk для обработки входящих звонков>>
 ** <<ext/email_configure.adoc#, Настройка E-Mail сообщений>>
 ** <<ext/blow_jira.adoc#, Blow JIRA>>
-

@@ -3,4 +3,4 @@
 
 <shell:title ltext="Тест title"/>
 
-<%@ include file="/test.jsp"%>
+<%@ include file="/WEB-INF/jspf/test.jsp"%>

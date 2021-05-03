@@ -17,15 +17,11 @@
 			</jsp:attribute>
 		</ui:combo-single>
 
-		<button class="btn-grey ml1" type="button" onclick="
-			this.disabled = true;
-			$$.ajax.post(this.form)
-				.always(() => {
-					this.disabled = false;
-				})
+		<button class="btn-grey ml1 icon" type="button" onclick="
+			$$.ajax.post(this.form, {control: this})
 				.done(() => {
 					alert(this.form.sync.checked ? '${l.l('Класс выполнен, проверьте логи')}' : '${l.l('Класс запущен в отдельном потоке,\\nвывод в логах.')}')
-				})">${l.l('Выполнить')}</button>
+				})"><i class="ti-control-play"></i></button>
 	</html:form>
 </p:check>
 

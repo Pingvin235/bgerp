@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 
 #headWrap {
 	border: 1px solid #c5c5c5;
@@ -27,21 +27,11 @@
 #head .btn-start {
 	font-size: 1.1em;
 	font-weight: bold;
-	/*padding: 0.5em 2em 0.6em 0.8em;*/
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-ms-border-radius: 5px;
-	-o-border-radius: 5px;
 	border-radius: 5px;
 }
 
 #head .btn-task-active {
-	font-size: 1.1em;
 	font-weight: bold;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-ms-border-radius: 5px;
-	-o-border-radius: 5px;
 	border-radius: 5px;
 }
 
@@ -62,6 +52,7 @@
 }
 
 #head .btn-task-active .title {
+	font-size: 1.1em;
 	max-width: 8em;
 }
 

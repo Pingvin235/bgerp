@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 
 /* выпадающие списки и меню */
 
@@ -15,8 +15,6 @@
 .ui-menu, .combo ul.drop, .ui-tabs.ui-widget-content .ui-menu {
 	border: 1px solid #d5d5d5;
 	background-color: #ffffff;
-	-webkit-box-shadow: 0 0 5px #cbcbcb;
-	-moz-box-shadow: 0 0 5px #cbcbcb;
 	box-shadow: 0 0 5px #cbcbcb;
 	text-align: left;
 }

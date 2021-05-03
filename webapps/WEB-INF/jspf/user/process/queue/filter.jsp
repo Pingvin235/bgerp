@@ -22,7 +22,7 @@
 
 <div id="${queue.id}" style="display:none;" class="in-inline-block" ${hideForm}>
 	<c:set var="selectorForm">#processQueueFilter form[id=${queue.id}-0]</c:set>
-	<c:set var="sendCommand">openUrlTo( formUrl( $('${selectorForm}') ), $('#processQueueData') );</c:set>
+	<c:set var="sendCommand">$('${selectorForm}').find('button.out').click();</c:set>
 
 	<c:set var="uiidMoreButton" value="${u:uiid()}"/>
 	<c:set var="uiidMoreMenu" value="${u:uiid()}"/>
@@ -35,7 +35,7 @@
 
 	<button class="btn-white combo mr1 mb1" id="${uiidMoreButton}">
 		<div class="text-value">${l.l('Ещё')}</div>
-		<div class="icon"><img src="/images/arrow-down.png"/></div>
+		<div class="icon ti-angle-down"></div>
 		<script>
 			$(function () {
 				$$.ui.menuInit($("#${uiidMoreButton}"), $("#${uiidMoreMenu}"), "left");
@@ -261,15 +261,15 @@
 			$(".dropFilterArea").on('dragleave', filterHandleDragLeave);
 		</script>
 
-		<button class="btn-white" onclick="showCommonFiltersMenu()" title="Общие фильтры">*</button>
+		<button class="btn-white btn-icon" onclick="showCommonFiltersMenu()" title="${l.l('Общие фильтры')}"><i class="ti-filter"></i></button>
 
 		<div id="commonFiltersPanel" class="box" style="display:none;">
-			<button onclick="importFilterFromCommons()" title="Импорт себе общего фильтра" class="btn-white"><</button>
-			<button onclick="exportFilterToCommons()" title="Экспорт своего фильтра в общие" class="btn-white">></button>
-			<button onclick="deleteFilterFromCommons()" title="Удалить общий фильтр" class="btn-white">X</button>
+			<button onclick="importFilterFromCommons()" title="${l.l('Импорт себе общего фильтра')}" class="btn-white btn-icon"><i class="ti-arrow-left"></i></button>
+			<button onclick="exportFilterToCommons()" title="${l.l('Экспорт своего фильтра в общие')}" class="btn-white btn-icon"><i class="ti-arrow-right"></i></button>
+			<button onclick="deleteFilterFromCommons()" title="${l.l('Удалить общий фильтр')}" class="btn-white btn-icon"><i class="ti-trash"></i></button>
 			<u:sc>
 				<c:set var="hiddenName" value="currentCommonFilter"/>
-				<c:set var="prefixText" value="Общий фильтр:"/>
+				<c:set var="prefixText" value="${l.l('Общий фильтр')}:"/>
 				<c:set var="list" value="${commonConfig.queueSavedCommonFilterSetsMap[queue.id]}"/>
 				<c:set var="style" value="display: inline-block;"/>
 				<c:set var="widthTextValue" value="100px"/>
@@ -313,7 +313,7 @@
 					<c:if test="${filterFromList.type == 'type'}">
 						<c:set var="filter" value="${filterFromList}"/>
 
-						<c:set var="title" value="Типы"/>
+						<c:set var="title" value="${l.l('Типы')}"/>
 						<c:set var="code">
 							<u:sc>
 								<c:set var="prefixText" value="${l.l('Тип')}:"/>
@@ -353,7 +353,7 @@
 								<c:if test="${not empty savedParamsFilters.get( hiddenName ) }">
 									<c:set var="value" value="${savedParamsFilters.get( hiddenName ) }"/>
 								</c:if>
-								<c:set var="prefixText" value="Закрыт:"/>
+								<c:set var="prefixText" value="${l.l('Закрыт')}:"/>
 								<c:set var="widthTextValue" value="40px"/>
 								<c:set var="onSelect" value="${sendCommand}"/>
 								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
@@ -367,7 +367,7 @@
 
 					<c:if test="${filterFromList.type == 'status'}">
 						<c:set var="filter" value="${filterFromList}"/>
-						<c:set var="title" value="Статусы"/>
+						<c:set var="title" value="${l.l('Статусы')}"/>
 						<c:set var="code">
 							<u:sc>
 								<c:set var="paramName" value="status"/>
@@ -396,14 +396,14 @@
 
 					<c:if test="${filterFromList.type == 'description'}">
 						<c:set var="filter" value="${filterFromList}"/>
-						<c:set var="title" value="Описание"/>
+						<c:set var="title" value="${l.l('Описание')}"/>
 						<c:set var="code">
 							<c:choose>
 								<c:when test="${not empty savedParamsFilters.get( 'description' ) }">
-									<input type="text" value="${savedParamsFilters.get( 'description' )}" name="description" placeholder="Описание" size="20" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
+									<input type="text" value="${savedParamsFilters.get( 'description' )}" name="description" placeholder="${l.l('Описание')}" size="20" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
 								</c:when>
 								<c:otherwise>
-									<input type="text" name="description" placeholder="Описание" size="20" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
+									<input type="text" name="description" placeholder="${l.l('Описание')}" size="20" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
 								</c:otherwise>
 							</c:choose>
 						</c:set>
@@ -413,9 +413,9 @@
 					<c:if test="${filterFromList.type == 'linkedCustomer:title'}">
 						<c:set var="filter" value="${filterFromList}"/>
 
-						<c:set var="title" value="Контрагент"/>
+						<c:set var="title" value="${l.l('Контрагент')}"/>
 						<c:set var="code">
-							<input type="text" value="${ savedParamsFilters.get( 'linkedCustomer:title' ) }" name="linkedCustomer:title" placeholder="Контрагент" size="20" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"/>
+							<input type="text" value="${ savedParamsFilters.get( 'linkedCustomer:title' ) }" name="linkedCustomer:title" placeholder="${l.l('Контрагент')}" size="20" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"/>
 						</c:set>
 						<%@ include file="filter_item.jsp"%>
 					</c:if>
@@ -471,7 +471,7 @@
 							<c:set var="dateTo" value="${savedParamsFilters.get('dateCreateTo')}"/>
 						</c:if>
 
-						<c:set var="title" value="Дата создания"/>
+						<c:set var="title" value="${l.l('Дата создания')}"/>
 						<c:set var="code">
 							${l.l('Создан с')}: <input type="text" name="dateCreateFrom" value="${dateFrom}"/>
 							${l.l('по')}: <input type="text" name="dateCreateTo" value="${dateTo}"/>
@@ -513,7 +513,7 @@
 							<c:set var="dateTo" value="${savedParamsFilters.get('dateCloseTo')}"/>
 						</c:if>
 
-						<c:set var="title" value="Дата закрытия"/>
+						<c:set var="title" value="${l.l('Дата закрытия')}"/>
 						<c:set var="code">
 							${l.l('Закрыт с')}:
 							<input type="text" name="dateCloseFrom" value="${dateFrom}"/>
@@ -538,7 +538,7 @@
 					<c:if test="${filterFromList.type == 'status_date' }">
 						<c:set var="filter" value="${filterFromList}"/>
 
-						<c:set var="title" value="Дата статуса"/>
+						<c:set var="title" value="${l.l('Дата статуса')}"/>
 						<c:set var="code">
 							<u:sc>
 								<c:set var="hiddenName" value="dateStatusStatus"/>
@@ -894,6 +894,6 @@
 			</div>
 		</c:if>
 
-		<ui:button type="out" onclick="var $form = $('${selectorForm}'); processQueueMarkFilledFilters($form); $$.ajax.load($form, $('#processQueueData'));"/>
+		<ui:button type="out" styleClass="out" onclick="const $form = $('${selectorForm}'); processQueueMarkFilledFilters($form); $$.ajax.load($form, $('#processQueueData'), {control: this});"/>
 	</form>
 </div>

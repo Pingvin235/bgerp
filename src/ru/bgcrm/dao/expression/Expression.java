@@ -12,6 +12,7 @@ import org.apache.commons.jexl3.JexlException;
 import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang3.StringUtils;
 
+import ru.bgcrm.servlet.jsp.PermissionTag;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgerp.util.Log;
@@ -33,7 +34,8 @@ public class Expression {
     private static final TimeUtils PREFIX_tu = new TimeUtils();
     private static final StringUtils PREFIX_su = new StringUtils();
     private static final CollectionUtils PREFIX_cu = new CollectionUtils();
-    private static final FileUtils PREFIX_fu = new FileUtils(); 
+    private static final FileUtils PREFIX_fu = new FileUtils();
+    private static final PermissionTag PREFIX_p = new PermissionTag();
 
     private JexlEngine jexl;
 
@@ -96,6 +98,7 @@ public class Expression {
         contextVars.put("su", PREFIX_su);
         contextVars.put("cu", PREFIX_cu);
         contextVars.put("fu", PREFIX_fu);
+        contextVars.put("p", PREFIX_p);
     }
 
     public Object getContextObject(String name) {

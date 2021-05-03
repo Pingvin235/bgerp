@@ -7,44 +7,44 @@
 
 <html:form action="admin/user" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
 	<c:url var="url" value="/admin/user.do">
-	   <c:param name="action" value="userGet"/>
-	   <c:param name="id" value="-1"/>	
-	   <c:param name="returnUrl" value="${form.requestUrl}"/>
+		<c:param name="action" value="userGet"/>
+		<c:param name="id" value="-1"/>
+		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
 	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
-				
+
 	<input type="hidden" name="action" value="userList"/>
 	<input type="hidden" name="pageableId" value="userList"/>
-   
-    <ui:input-text name="title" value="${form.param['title']}" size="20" placeholder="${l.l('Фильтр')}" styleClass="ml1" title="${l.l('Фильтр по наименованию')}"
-    	onSelect="openUrlContent( formUrl( this.form ) ); return false;"/>
-    
-    <ui:combo-single hiddenName="status" value="${form.param.status}" onSelect="${showCode}" 
-    	prefixText="Статус:" widthTextValue="70px">
-    	<jsp:attribute name="valuesHtml">
-    		<li value="0">${l.l('Активные')}</li>
-			<li value="1">${l.l('Заблокированные')}</li>			
-			<li value="-1">${l.l('Все')}</li>
-    	</jsp:attribute>
-    </ui:combo-single>
-    
-    <c:set var="perm" value="${p:get(form.user.id, 'ru.bgcrm.struts.action.admin.UserAction:userList')}"/>
-    <c:if test="${empty perm['allowOnlyGroups'] or not empty perm['allowFilterGroups']}">
-	   	<ui:select-single hiddenName="group" 
-	    	list="${ctxUserGroupFullTitledList}" map="${ctxUserGroupFullTitledMap}"
-	    	availableIdSet="${u:toIntegerSet(perm['allowFilterGroups'])}"
-	    	value="${form.param.group}"
-	    	onSelect="${showCode}" placeholder="Группа" style="width: 200px;"/>
-	    	
-	    <ui:date-time paramName="date" placeholder="Гр. на дату" value="${form.param.date}"/>       	
-    </c:if>
-    
-    <ui:select-single list="${ctxUserPermsetList}" hiddenName="permset" value="${form.param.permset}" 
-    	onSelect="${showCode}" placeholder="Набор прав" style="width: 200px;"/>
 
-	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
-    
-    <%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:input-text name="title" showOutButton="false" value="${form.param['title']}" size="20" placeholder="${l.l('Фильтр')}" title="${l.l('Фильтр по наименованию')}"
+		onSelect="$$.ajax.load(this.form, $$.shell.$content());"/>
+
+	<ui:combo-single hiddenName="status" value="${form.param.status}" onSelect="${showCode}"
+		prefixText="${l.l('Статус')}:" widthTextValue="70px">
+		<jsp:attribute name="valuesHtml">
+			<li value="0">${l.l('Активные')}</li>
+			<li value="1">${l.l('Заблокированные')}</li>
+			<li value="-1">${l.l('Все')}</li>
+		</jsp:attribute>
+	</ui:combo-single>
+
+	<c:set var="perm" value="${p:get(form.user.id, 'ru.bgcrm.struts.action.admin.UserAction:userList')}"/>
+	<c:if test="${empty perm['allowOnlyGroups'] or not empty perm['allowFilterGroups']}">
+		<ui:select-single hiddenName="group"
+			list="${ctxUserGroupFullTitledList}" map="${ctxUserGroupFullTitledMap}"
+			availableIdSet="${u:toIntegerSet(perm['allowFilterGroups'])}"
+			value="${form.param.group}"
+			onSelect="${showCode}" placeholder="${l.l('Группа')}" style="width: 200px;"/>
+
+		<ui:date-time paramName="date" placeholder="${l.l('Гр. на дату')}" value="${form.param.date}"/>
+	</c:if>
+
+	<ui:select-single list="${ctxUserPermsetList}" hiddenName="permset" value="${form.param.permset}"
+		onSelect="${showCode}" placeholder="${l.l('Набор прав')}" style="width: 200px;"/>
+
+	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content());"/>
+
+	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
 
 <table style="width: 100%;" class="data">
@@ -70,12 +70,12 @@
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 			<c:url var="deleteAjaxCommandAfter" value="${showCode}"/>
-				
+
 			<td nowrap="nowrap">
 				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content())"/>
 				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content()) })"/>
 			</td>
-			
+
 			<td>${item.id}</td>
 			<td>
 				<c:choose>
@@ -88,10 +88,10 @@
 			<td>${item.login}</td>
 			<td>${u:orderedObjectTitleList( ctxUserPermsetMap, item.permsetIds )}</td>
 			<td>${u:objectTitleList( ctxUserGroupFullTitledList, item.groupIds )}</td>
-			<td>${item.description}</td>			
+			<td>${item.description}</td>
 		</tr>
 	</c:forEach>
 </table>
 
-<shell:title ltext="${l.l('Пользователи')}"/>
+<shell:title ltext="Пользователи"/>
 <shell:state text=""/>

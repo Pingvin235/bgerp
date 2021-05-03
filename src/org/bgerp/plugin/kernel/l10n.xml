@@ -136,7 +136,7 @@
 	<p><ru>Очередь</ru><en>Queue</en></p>
 	<p><ru>Период</ru><en>Period</en></p>
 	<p><ru>Группа</ru><en>Group</en></p>
-	<p><ru>Дата создания</ru><en>Date of creation</en></p>
+	<p><ru>Дата создания</ru><en>Creation date</en></p>
 	<p><ru>Дата закрытия</ru><en>Сlosing date</en></p>
 	<p><ru>Любой</ru><en>Any</en></p>
 	<p><ru>Тип</ru><en>Type</en></p>
@@ -310,14 +310,13 @@
 	<p><ru>Использующие очереди</ru><en>Using queues</en></p>
 	<p><ru>Копировать свойства другого типа</ru><en>Copy properties from another type</en></p>
 	<p><ru>Редактор типа</ru><en>Type editor</en></p>
-	<p><ru>Восстановить</ru><en>Reestablish</en></p>
+	<p><ru>Восстановить</ru><en>Restore</en></p>
 	<p><ru>Свойства типа</ru><en>Type properties</en></p>
 	<p><ru>К списку типов</ru><en>To the list of types</en></p>
 	<p><ru>Название фильтра</ru><en>Filter title</en></p>
 	<p><ru>Введите название!</ru><en>Input title!</en></p>
 	<p><ru>Скрыть</ru><en>Hide</en></p>
 	<p><ru>Отобразить</ru><en>Show</en></p>
-	<p><ru>Перезапустить</ru><en>Restart</en></p>
 	<p><ru>Ошибка в параметрах запроса</ru><en>Error in request parameters</en></p>
 	<p><ru>Сохранить без выхода из редактора</ru><en>Save without leaving editor</en></p>
 	<!-- <p><ru>Отчёт не найден.</ru><en>Report not found.</en></p> -->
@@ -328,7 +327,6 @@
 	<p><ru>Сессии (вход / последняя активность)</ru><en>Sessions (login / last activity)</en></p>
 	<p><ru>Обновление</ru><en>Update</en></p>
 	<p><ru>Принудительно</ru><en>Force</en></p>
-	<p><ru>Обновить</ru><en>Update</en></p>
 	<p><ru>Обновление на изменение</ru><en>Update on change</en></p>
 	<p><ru>Логи обновлений</ru><en>Update logs</en></p>
 	<p><ru>Файл</ru><en>File</en></p>
@@ -396,6 +394,8 @@
 	<p><ru>Выберите группы решения</ru><en>Select execution groups</en></p>
 	<p><ru>Добавить</ru><en>Add</en></p>
 	<p><ru>Выберите процессы!</ru><en>Select processes!</en></p>
+	<p><ru>Статусы</ru><en>Statuses</en></p>
+	<p><en>Update</en><ru>Обновить</ru></p>
 	<p><ru>Обновить на изменение</ru><en>Update to change</en></p>
 	<p><ru>Сессии пользователей</ru><en>Sessions of users</en></p>
 	<p><ru>Время изменения</ru><en>Modification time</en></p>
@@ -408,6 +408,20 @@
 	<p><ru>Перезапуск</ru><en>Restart</en></p>
 	<p><ru>Нормальный</ru><en>Regular</en></p>
 	<p><ru>Принудительный</ru><en>Force</en></p>
+	<p><ru>Выполнен перезапуск, обновите страницу браузера.</ru><en>Restart has been done, refresh the browser site.</en></p>
+	<p><ru>Буфер открытых объектов</ru><en>Buffer of opened objects</en></p>
+	<p><ru>Выделить все / снять выделение</ru><en>Select / deselect all</en></p>
+	<p><ru>Создать и привязать</ru><en>Create and link</en></p>
+	<p><ru>Общие фильтры</ru><en>Common filters</en></p>
+	<p><ru>Импорт себе общего фильтра</ru><en>Import common filter</en></p>
+	<p><ru>Экспорт своего фильтра в общие</ru><en>Export filter to common</en></p>
+	<p><ru>Удалить общий фильтр</ru><en>Remove common filter</en></p>
+	<p><ru>Общий фильтр</ru><en>Common filter</en></p>
+	<p><ru>Активные</ru><en>Active</en></p>
+	<p><ru>Заблокированные</ru><en>Blocked</en></p>
+	<p><ru>Активен</ru><en>Active</en></p>
+	<p><ru>Набор прав</ru><en>Permission set</en></p>
+	<p><ru>Гр. на дату</ru><en>Gr. on date</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

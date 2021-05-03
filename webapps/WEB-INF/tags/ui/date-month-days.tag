@@ -17,9 +17,9 @@
 	<input type="hidden" id="dateFrom" name="${dateFromHiddenName}" value="${form.param[dateFromHiddenName]}"/>
 	<input type="hidden" id="dateTo" name="${dateToHiddenName}" value="${form.param[dateToHiddenName]}"/>
 	
-	<button class="btn-white" id="prev" onclick="return false"><img src="/images/arrow-left.png"/>&nbsp;</button>
+	<button class="btn-white icon" id="prev" onclick="return false"><i class="ti-angle-left"></i></button>
 	<button class="btn-white" id="month" onclick="return false">&nbsp;</button>
-	<button class="btn-white" id="next" onclick="return false" >&nbsp;<img src="/images/arrow-right.png"/></button>
+	<button class="btn-white icon" id="next" onclick="return false"><i class="ti-angle-right"></i></button>
 	с
 	<input type="text" id="dayFrom" maxlength="2" name="${dateFromHiddenName}Day" value="${form.param[dateFromHiddenName.concat('Day')]}"/>
 	по

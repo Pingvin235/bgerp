@@ -55,7 +55,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 
 	<%-- ширину всего элемента можно задавать только шириной этого блока --%>
 	<div class="text-value" style="${styleTextValue}"></div>
-	<div class="icon"><img src="/images/cross.png"/></div>
+	<div class="icon"><i class="ti-close"></i></div>
 	<ul class="drop" style="display: none;">
 		<c:if test="${showFilter}">
 			<li class="in-table-cell">
@@ -68,7 +68,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 					});
 				</c:set>
 				<div style="width: 100%;"><input type="text" style="width: 100%;" placeholder="Фильтр" onkeyup="${filterCode}"/></div>
-				<div><div class="btn-white btn-small-selectAll ml05" onclick='uiComboCheckUncheck(this)' title="Выделить все / снять выделение">В</div></div>
+				<div class="pl05"><div class="btn-white btn-icon" onclick='uiComboCheckUncheck(this)' title="${l.l('Выделить все / снять выделение')}"><i class="ti-check"></i></div></div>
 			</li>
 		</c:if>
 		<data><%--

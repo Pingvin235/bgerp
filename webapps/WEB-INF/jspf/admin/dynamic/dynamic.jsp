@@ -20,11 +20,7 @@
 	<input type="checkbox" name="sync" value="true" title="${l.l('Ожидание окончания выполнения')}"/>&nbsp;${l.l('синхронно')}
 	
 	<button class="btn-grey ml1" type="button" onclick="
-		this.disabled = true;
 		$$.ajax.post(this.form)
-			.always(() => {
-				this.disabled = false;
-			})
 			.done(() => {
 				alert(this.form.sync.checked ? '${l.l('Класс выполнен, проверьте логи')}' : '${l.l('Класс запущен в отдельном потоке,\\nвывод в логах.')}')
 			})">${l.l('Выполнить')}</button>

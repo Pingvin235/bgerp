@@ -12,11 +12,9 @@
 
 	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
 	
-	<ui:input-text styleClass="ml1" name="filter" value="${form.param.filter}" size="40" placeholder="${l.l('Фильтр')}" title="${l.l('Фильтр по наименованию, конфигурации')}"
+	<ui:input-text name="filter" value="${form.param.filter}" size="40" placeholder="${l.l('Фильтр')}" title="${l.l('Фильтр по наименованию, конфигурации')}"
 		onSelect="$$.ajax.load(this.form, $$.shell.$content()); return false;"/>
 
-	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
-	
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>	
 

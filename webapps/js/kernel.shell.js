@@ -48,7 +48,7 @@ $$.shell = new function () {
 								<h1 class='title' title='Refresh'></h1>";
 			if (closable) {
 				divTemplate +=
-					"<span class='icon-close' title='Close'></span>";
+					"<div class='icon-close btn-white-hover icon' title='Close'><i class='ti-close'></i></div>";
 			}
 
 			divTemplate += "\
@@ -146,7 +146,7 @@ $$.shell = new function () {
 				if ($taskButton.length == 0) {
 					$('#taskPanel')
 						.append(sprintf("<div class='btn-blue btn-task-active' id='%s' title='%s'><span class='title'>%s</span>" +
-						(pinned ? "" : "<span class='icon-close'><img src='/images/cross-white.png'/></span>") + "</div>",
+						(pinned ? "" : "<span class='icon-close ti-close'></span>") + "</div>",
 							id, item.title, item.title));
 					$taskButton = $('#taskPanel > div#' + id);
 
@@ -161,11 +161,9 @@ $$.shell = new function () {
 							$$.closeObject();
 
 						$("#taskPanel div[id!='" + id + "']")
-							.removeClass( "btn-task-active btn-blue" ).addClass( "btn-white btn-task" )
-							.find('img').attr('src','/images/cross.png');
+							.removeClass("btn-task-active btn-blue").addClass("btn-white btn-task");
 						$("#taskPanel div#" + id)
-							.removeClass( "btn-white btn-task" ).addClass( "btn-task-active btn-blue" )
-							.find('img').attr('src','/images/cross-white.png');
+							.removeClass("btn-white btn-task").addClass("btn-task-active btn-blue");
 
 						$(window).scrollTop($("#taskPanel div#" + id).attr('scroll'));
 
@@ -178,7 +176,7 @@ $$.shell = new function () {
 
 					$$.ajax.load(item.action + commandId, $commandDiv, { dfd: contentLoadDfd });
 
-					$taskButton.find('span.icon-close').click( function () {
+					$taskButton.find('.icon-close').click(function () {
 						// закрытие активной оснастки
 						if ($taskButton.hasClass( "btn-task-active")) {
 							// последняя неактивная кнопка становится активной
@@ -254,8 +252,7 @@ $$.shell = new function () {
 
 				$("#taskPanel div.btn-task-active").attr('scroll',$(window).scrollTop());
 				$("#taskPanel div")
-					.removeClass("btn-task-active btn-blue").addClass("btn-white btn-task")
-					.find('img').attr('src','/images/cross.png');
+					.removeClass("btn-task-active btn-blue").addClass("btn-white btn-task");
 
 				var $commandLi = $(sprintf("#objectBuffer ul>li[value='%s']", id));
 				if ($commandLi.length) {
@@ -297,7 +294,7 @@ $$.shell = new function () {
 					// функция перемещения текущего объекта в буфер
 					$$.closeObject = function () {
 						var liCode = sprintf("<li style='border-left: 8px solid %s;' value='%s'>%s</li>", bgcolor, id,
-											 "<span class='icon-close'></span>" + $("#title #" + id + " h1.title").html());
+											 "<span class='icon-close ti-close'></span>" + $("#title #" + id + " h1.title").html());
 
 						if (bufferBehavior == 1)
 							$('#objectBuffer ul').prepend( liCode );

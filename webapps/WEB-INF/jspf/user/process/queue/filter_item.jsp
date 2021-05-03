@@ -8,15 +8,15 @@
 	<c:otherwise>
 		<c:set var="uiid" value="${u:uiid()}"/>
 	</c:otherwise>
-</c:choose>	
+</c:choose>
 
 <c:if test="${empty filter.show or filter.show}">
 	<li>
 		<input id="${uiid}" type="checkbox" ${u:checkedFromCollection( selectedFilters, filter.id )} value="${filter.id}"/>
 		<span>${title}</span>
 	</li>
-</c:if>	
-<c:set var="filters">	
+</c:if>
+<c:set var="filters">
 	${filters}
 	<div id="${uiid}" style="display: none;" class="filter-item">
 		${code}
@@ -25,7 +25,7 @@
 <script>
 	<%-- раскрытие фильтра, если в нём установлены текстовые поля --%>
 	var $filterItem = $('div#${uiid}');
-	if( $filterItem.find('input[type=text]').val() 
+	if( $filterItem.find('input[type=text]').val()
 		<%-- || $filterItem.find('input[type=hidden]').val() --%> ) {
 		$('input#${uiid}')[0].checked = true;
 	}

@@ -1,155 +1,105 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 
-.btn-blue, .btn-grey, .btn-white, .btn-green {
+.btn-blue, .btn-grey, .btn-white, .btn-green, .btn-white-hover {
 	padding: 0.6em 1em;
 	text-align: center;
 }
 
-.btn-blue.icon, .btn-grey.icon, .btn-white.icon, .btn-green.icon {
+.btn-blue.icon, .btn-grey.icon, .btn-white.icon, .btn-green.icon, .btn-white-hover.icon,
+.btn-blue.btn-icon, .btn-grey.btn-icon, .btn-white.btn-icon, .btn-green.btn-icon, .btn-white-hover.btn-icon {
 	padding: 0.68em 0.8em;
-}
-
-.btn-blue {
-	color: #fff;
-	border-radius: 3px;
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #297aae), color-stop(33.33333%, #2875a4), color-stop(66.66667%, #276d96), color-stop(100%, #256587));
-	background-image: -webkit-linear-gradient(top, #297aae, #2875a4, #276d96, #256587);
-	background-image: -moz-linear-gradient(top, #297aae, #2875a4, #276d96, #256587);
-	background-image: -o-linear-gradient(top, #297aae, #2875a4, #276d96, #256587);
-	background-image: linear-gradient(top, #297aae, #2875a4, #276d96, #256587);
-	border: 1px solid #0b67a1;
-	display: inline-block;
-	vertical-align: middle;
-	text-decoration: none;
-	box-shadow: 1px 1px 3px #c5c5c5;
-	cursor: pointer;
-}
-
-.btn-blue:hover {
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #0b6aa7), color-stop(33.33333%, #0a649c), color-stop(66.66667%, #085a89), color-stop(100%, #055078));
-	background-image: -webkit-linear-gradient(top, #0b6aa7, #0a649c, #085a89, #055078);
-	background-image: -moz-linear-gradient(top, #0b6aa7, #0a649c, #085a89, #055078);
-	background-image: -o-linear-gradient(top, #0b6aa7, #0a649c, #085a89, #055078);
-	background-image: linear-gradient(top, #0b6aa7, #0a649c, #085a89, #055078);
-}
-
-.btn-blue:active, .btn-blue:disabled {
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #055076), color-stop(33.33333%, #075784), color-stop(66.66667%, #0a6399), color-stop(100%, #0b6aa6));
-	background-image: -webkit-linear-gradient(top, #055076, #075784, #0a6399, #0b6aa6);
-	background-image: -moz-linear-gradient(top, #055076, #075784, #0a6399, #0b6aa6);
-	background-image: -o-linear-gradient(top, #055076, #075784, #0a6399, #0b6aa6);
-	background-image: linear-gradient(top, #055076, #075784, #0a6399, #0b6aa6);
-}
-
-.btn-green {
-	color: #fff;
-	border-radius: 3px;
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #5aaa4f), color-stop(33.33333%, #55a14d), color-stop(66.66667%, #4a8f49), color-stop(100%, #468846));
-	background-image: -webkit-linear-gradient(top, #5aaa4f, #55a14d, #4a8f49, #468846);
-	background-image: -moz-linear-gradient(top, #5aaa4f, #55a14d, #4a8f49, #468846);
-	background-image: -o-linear-gradient(top, #5aaa4f, #55a14d, #4a8f49, #468846);
-	background-image: linear-gradient(top, #5aaa4f, #55a14d, #4a8f49, #468846);
-	border: 1px solid #46a438;
-	display: inline-block;
-	vertical-align: middle;
-	text-decoration: none;
-	box-shadow: 1px 1px 3px #c5c5c5;
-	cursor: pointer;
-}
-
-.btn-green:hover {
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #45a338), color-stop(33.33333%, #3d9634), color-stop(66.66667%, #328330), color-stop(100%, #2d7b2d));
-	background-image: -webkit-linear-gradient(top, #45a338, #3d9634, #328330, #2d7b2d);
-	background-image: -moz-linear-gradient(top, #45a338, #3d9634, #328330, #2d7b2d);
-	background-image: -o-linear-gradient(top, #45a338, #3d9634, #328330, #2d7b2d);
-	background-image: linear-gradient(top, #45a338, #3d9634, #328330, #2d7b2d);
-}
-
-.btn-green:active, .btn-green:disabled {
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #2c7a2d), color-stop(33.33333%, #328330), color-stop(66.66667%, #3f9a35), color-stop(100%, #45a338));
-	background-image: -webkit-linear-gradient(top, #2c7a2d, #328330, #3f9a35, #45a338);
-	background-image: -moz-linear-gradient(top, #2c7a2d, #328330, #3f9a35, #45a338);
-	background-image: -o-linear-gradient(top, #2c7a2d, #328330, #3f9a35, #45a338);
-	background-image: linear-gradient(top, #2c7a2d, #328330, #3f9a35, #45a338);
-}
-
-.btn-grey {
-	color: #fff;
-	border-radius: 3px;
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #8c8e94), color-stop(33.33333%, #81848b), color-stop(66.66667%, #717277), color-stop(100%, #666769));
-	background-image: -webkit-linear-gradient(top, #8c8e94, #81848b, #717277, #666769);
-	background-image: -moz-linear-gradient(top, #8c8e94, #81848b, #717277, #666769);
-	background-image: -o-linear-gradient(top, #8c8e94, #81848b, #717277, #666769);
-	background-image: linear-gradient(top, #8c8e94, #81848b, #717277, #666769);
-	border: 1px solid #81838a;
-	display: inline-block;
-	vertical-align: middle;
-	text-decoration: none;
-	box-shadow: 1px 1px 3px #c5c5c5;
-	cursor: pointer;
-}
-
-.btn-grey:hover {
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7f8289), color-stop(33.33333%, #6e7179), color-stop(66.66667%, #5d6064), color-stop(100%, #525354));
-	background-image: -webkit-linear-gradient(top, #7f8289, #6e7179, #5d6064, #525354);
-	background-image: -moz-linear-gradient(top, #7f8289, #6e7179, #5d6064, #525354);
-	background-image: -o-linear-gradient(top, #7f8289, #6e7179, #5d6064, #525354);
-	background-image: linear-gradient(top, #7f8289, #6e7179, #5d6064, #525354);
-}
-
-.btn-grey:active, .btn-grey:disabled {
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #525354), color-stop(33.33333%, #5d6064), color-stop(66.66667%, #747880), color-stop(100%, #7f8289));
-	background-image: -webkit-linear-gradient(top, #525354, #5d6064, #747880, #7f8289);
-	background-image: -moz-linear-gradient(top, #525354, #5d6064, #747880, #7f8289);
-	background-image: -o-linear-gradient(top, #525354, #5d6064, #747880, #7f8289);
-	background-image: linear-gradient(top, #525354, #5d6064, #747880, #7f8289);
-}
-
-.btn-white {
-	color: #000;
-	border-radius: 3px;
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f5f5f5), color-stop(33.33333%, #f2f2f2), color-stop(66.66667%, #ededed), color-stop(100%, #eaeaea));
-	background-image: -webkit-linear-gradient(top, #f5f5f5, #f2f2f2, #ededed, #eaeaea);
-	background-image: -moz-linear-gradient(top, #f5f5f5, #f2f2f2, #ededed, #eaeaea);
-	background-image: -o-linear-gradient(top, #f5f5f5, #f2f2f2, #ededed, #eaeaea);
-	background-image: linear-gradient(top, #f5f5f5, #f2f2f2, #ededed, #eaeaea);
-	border: 1px solid #c8c8c8;
-	display: inline-block;
-	vertical-align: middle;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.btn-white:hover {
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fcfcfc), color-stop(33.33333%, #f6f6f6), color-stop(66.66667%, #eeeeee), color-stop(100%, #ececec));
-	background-image: -webkit-linear-gradient(top, #fcfcfc, #f6f6f6, #eeeeee, #ececec);
-	background-image: -moz-linear-gradient(top, #fcfcfc, #f6f6f6, #eeeeee, #ececec);
-	background-image: -o-linear-gradient(top, #fcfcfc, #f6f6f6, #eeeeee, #ececec);
-	background-image: linear-gradient(top, #fcfcfc, #f6f6f6, #eeeeee, #ececec);
-}
-
-.btn-white:active, .btn-white:disabled {
-	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ebebeb), color-stop(33.33333%, #eeeeee), color-stop(66.66667%, #f5f5f5), color-stop(100%, #fcfcfc));
-	background-image: -webkit-linear-gradient(top, #ebebeb, #eeeeee, #f5f5f5, #fcfcfc);
-	background-image: -moz-linear-gradient(top, #ebebeb, #eeeeee, #f5f5f5, #fcfcfc);
-	background-image: -o-linear-gradient(top, #ebebeb, #eeeeee, #f5f5f5, #fcfcfc);
-	background-image: linear-gradient(top, #ebebeb, #eeeeee, #f5f5f5, #fcfcfc);
 }
 
 .btn-small {
 	padding: 0.4em 0.6em;
 }
 
-.btn-small.icon {
+.btn-small.icon,
+.btn-small.btn-icon {
 	padding: 0.4em 0.4em;
-}
-
-.btn-small-selectAll {
-	padding: 0.6em 0.6em;
 }
 
 .btn-slim {
 	padding: 0.6em 0.6em;
+}
+
+.btn-blue {
+	color: #fff;
+	border-radius: 3px;
+	border: 1px solid #0b67a1;
+	box-shadow: 1px 1px 3px #c5c5c5;
+	<%@ include file="/WEB-INF/jspf/css/button.common.jsp"%>
+	<%@ include file="/WEB-INF/jspf/css/button.blue.gradient.jsp"%>
+}
+
+.btn-blue:hover {
+	<%@ include file="/WEB-INF/jspf/css/button.blue.hover.gradient.jsp"%>
+}
+
+.btn-blue:active, .btn-blue:disabled {
+	<%@ include file="/WEB-INF/jspf/css/button.blue.active.gradient.jsp"%>
+}
+
+.btn-green {
+	color: #fff;
+	border-radius: 3px;
+	border: 1px solid #46a438;
+	box-shadow: 1px 1px 3px #c5c5c5;
+	<%@ include file="/WEB-INF/jspf/css/button.common.jsp"%>
+	<%@ include file="/WEB-INF/jspf/css/button.green.gradient.jsp"%>
+}
+
+.btn-green:hover {
+	<%@ include file="/WEB-INF/jspf/css/button.green.hover.gradient.jsp"%>
+}
+
+.btn-green:active, .btn-green:disabled {
+	<%@ include file="/WEB-INF/jspf/css/button.green.active.gradient.jsp"%>
+}
+
+.btn-grey {
+	color: #fff;
+	border-radius: 3px;
+	border: 1px solid #81838a;
+	box-shadow: 1px 1px 3px #c5c5c5;
+	<%@ include file="/WEB-INF/jspf/css/button.common.jsp"%>
+	<%@ include file="/WEB-INF/jspf/css/button.grey.gradient.jsp"%>
+}
+
+.btn-grey:hover {
+	<%@ include file="/WEB-INF/jspf/css/button.grey.hover.gradient.jsp"%>
+}
+
+.btn-grey:active, .btn-grey:disabled {
+	<%@ include file="/WEB-INF/jspf/css/button.grey.active.gradient.jsp"%>
+}
+
+.btn-white {
+	color: #000;
+	border-radius: 3px;
+	border: 1px solid #c8c8c8;
+	<%@ include file="/WEB-INF/jspf/css/button.common.jsp"%>
+	<%@ include file="/WEB-INF/jspf/css/button.white.gradient.jsp"%>
+}
+
+.btn-white:hover {
+	<%@ include file="/WEB-INF/jspf/css/button.white.hover.gradient.jsp"%>
+}
+
+.btn-white:active, .btn-white:disabled {
+	<%@ include file="/WEB-INF/jspf/css/button.white.active.gradient.jsp"%>
+}
+
+.btn-white-hover {
+	border-radius: 3px;
+	border: 1px solid transparent;
+	background-color: transparent;
+	<%@ include file="/WEB-INF/jspf/css/button.common.jsp"%>
+}
+
+.btn-white-hover:hover {
+	border-color: #c8c8c8;
+	<%@ include file="/WEB-INF/jspf/css/button.white.hover.gradient.jsp"%>
 }
 
 .btn-panel {
@@ -159,4 +109,19 @@
 	text-overflow: ellipsis; 
 	white-space: nowrap; 
 	overflow: hidden;
+}
+
+<%-- not only button related  --%>
+.progress-icon {
+	display: inline-block;
+	animation: spin 2s infinite linear;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(359deg); }
+}
+
+button > .progress > .progress-icon {
+	margin-right: 0.5em;
 }

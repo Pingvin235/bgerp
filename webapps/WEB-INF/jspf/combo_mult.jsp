@@ -18,7 +18,7 @@
 	
 	<%-- ширину всего элемента можно задавать только шириной этого блока --%>
 	<div class="text-value" style="width: 100px; max-width: 100px;">[8] Значение, значени2, значение3 </div>
-	<div class="icon"><img src="/images/arrow-down.png"/></div>
+	<div class="icon ti-angle-down"></div>
 	 
 	<ul class="drop" style="display: none;">
 		${valuesHtml}

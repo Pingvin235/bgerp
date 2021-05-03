@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/css; charset=UTF-8"%>
 
 input, textarea {
 	outline: none;
@@ -14,15 +14,9 @@ input:active, textarea:active {
 
 textarea {
 	border: 1px solid #c5c5c5;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-ms-border-radius: 3px;
-	-o-border-radius: 3px;
 	border-radius: 3px;
-	-webkit-box-shadow: 0px 3px 6px #e2e2e2 inset;
-	-moz-box-shadow: 0px 3px 6px #e2e2e2 inset;
 	box-shadow: 0px 3px 6px #e2e2e2 inset;
-	padding: 0.7em 0.2em 0.2em 0.7em;  
+	padding: 0.7em 0.2em 0.2em 0.7em;
 }
 
 textarea:focus {
@@ -31,17 +25,11 @@ textarea:focus {
 
 input {
 	border: 1px solid #c5c5c5;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-ms-border-radius: 3px;
-	-o-border-radius: 3px;
 	border-radius: 3px;
-	-webkit-box-shadow: 0px 3px 6px #e2e2e2 inset;
-	-moz-box-shadow: 0px 3px 6px #e2e2e2 inset;
 	box-shadow: 0px 3px 6px #e2e2e2 inset;
 	padding: 0.6em 0.5em;
 	display: inline-block;
-	vertical-align: middle;  
+	vertical-align: middle;
 }
 
 input:focus {

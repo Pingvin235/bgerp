@@ -15,7 +15,7 @@
 	</div>
 	<p:check action="ru.bgcrm.struts.action.admin.AppAction:restart">
 		<c:if test="${result.result}">
-			<button class="mt1 btn-grey" type="button" onclick="$$.ajax.post('/admin/app.do?action=restart')">${l.l('Перезапустить')}</button>
+			<button class="mt1 btn-grey" type="button" onclick="$$.ajax.post('/admin/app.do?action=restart', {control: this})">${l.l('Перезапустить')}</button>
 		</c:if>
 	</p:check>
 </c:if>

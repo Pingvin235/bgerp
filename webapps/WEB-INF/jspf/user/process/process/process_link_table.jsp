@@ -9,9 +9,9 @@
 	<c:set var="rows" value="2"/>
 	<%@ include file="/WEB-INF/jspf/table_row_edit_mode.jsp"%>
 
-	<c:set var="adoeb" value="${allowLinkDelete or editButton}"/>
+	<c:set var="adoeb" value="${allowLinkDelete}"/>
 
-	<table class="hdata" style="width: 100%;" id="${uiid}">
+	<table class="hdata" id="${uiid}">
 		<tr class="header">
 			<c:if test="${adoeb}">
 				<td>&nbsp;</td>
@@ -42,16 +42,8 @@
 			<tr openUrl="${url}">
 				<c:if test="${adoeb}">
 					<td nowrap="nowrap" >
-						<c:if test="${editButton}">
-							<u:sc>
-								<c:set var="command" value="openUrlToParent( '${url}', $('#${uiid}') )"/>
-								<%--TODO: could not find the button in the interface--%>
-								<button type="button" class="btn-white btn-small" onclick="${command}" title="${l.l('Открыть')}">*</button>
-							</u:sc>
-						</c:if>
-
 						<c:if test="${allowLinkDelete}">
-							<c:url var="deleteAjaxUrl" value="link.do" scope="request">
+							<c:url var="deleteUrl" value="/user/link.do" scope="request">
 								<c:param name="action" value="deleteLink"/>
 								<c:param name="objectType" value="process"/>
 								<c:param name="linkedObjectType" value="${item.first}"/>
@@ -76,8 +68,12 @@
 									<c:set var="deleteAjaxCommandAfter" scope="request">openUrlToParent( '${form.requestUrl}', $('#${uiid}') );</c:set>
 								</c:otherwise>
 							</c:choose>
+							<ui:button type="del" styleClass="btn-small" onclick="
+								$$.ajax.post('${deleteUrl}').done(() => {
+									$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent());
+								})
+							"/>
 						</c:if>
-						<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 					</td>
 				</c:if>
 				<td nowrap="nowrap">

@@ -41,8 +41,7 @@
 
 	<div id="title">
 		<div id="empty" class="status"></div>
-		<div title="Буфер открытых объектов,
-вызвать можно также длительным нажатем ЛКМ.">
+		<div title="${l.l('Буфер открытых объектов')}">
 			<u:sc>
 				<c:set var="id" value="objectBuffer"/>
 

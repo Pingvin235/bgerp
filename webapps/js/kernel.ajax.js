@@ -14,6 +14,8 @@ $$.ajax = new function () {
 	 * url - string, or form, or $(form)
 	 * options.toPostNames - array of names of POST body parameters
 	 * options.html = true - treat result as HTML
+	 * options.control - button to add there progress spinner
+	 * options.failAlert = false - do now show alert on failing promise
 	 * By default the promise is processed by checkResponse() function.
 	 */
 	const post = (url, options) => {
@@ -27,7 +29,22 @@ $$.ajax = new function () {
 		if (form) {
 			$(form).find("input").removeClass("error");
 		}
-		
+
+		// handling process spinner
+		let requestDone = () => {};
+		if (options.control) {
+			options.control.disabled = true;
+
+			const $control = $(options.control);
+			$control.prepend("<span class='progress'><i class='progress-icon ti-settings'></i></span>");
+			const $progress = $control.find(">.progress");
+			
+			requestDone = () => {
+				options.control.disabled = false;
+				$progress.remove();
+			}
+		}
+
 		const def = $.Deferred();
 
 		$.ajax({
@@ -35,9 +52,12 @@ $$.ajax = new function () {
 			url: separated.url,
 			data: separated.data,
 		}).fail(function (jqXHR, textStatus, errorThrown) {
-			onAJAXError(separated.url, jqXHR, textStatus, errorThrown);
+			requestDone();
+			if (options.failAlert !== false)
+				onAJAXError(separated.url, jqXHR, textStatus, errorThrown);
 			def.reject();
 		}).done((data) => {
+			requestDone();
 			if (!options.html) {
 				if (checkResponse(data, form))
 					def.resolve(data);
@@ -64,6 +84,7 @@ $$.ajax = new function () {
 	 * options.dfd - deferred, being resolved after all onLoad JS on chained loads are done.
 	 * options.replace - replace element by HTML, deprecated.
 	 * options.append  - append HTML into the element, deprecated.
+	 * options.control - will be passed to post functions.
 	 */
 	const load = (url, $selector, options) => {
 		debug("load", trim100(url), $selector);
@@ -77,9 +98,7 @@ $$.ajax = new function () {
 		// erasing of existing value, speeds up load process significantly in some cases
 		// the reason is not clear, was found in callboard, probably because of removing of onLoad listeners
 		// !!! the erasing was disabled because of problems with generation URL from form elements, which already were gone
-		/* if (!options || (!options.replace && !options.append))
-			$selector.html(""); */
-
+		
 		// parameter runs cascaded load
 		let dfd = options.dfd;
 		if (dfd) {
@@ -126,6 +145,7 @@ $$.ajax = new function () {
 		}
 
 		if (!loadDfd) {
+			$selector.toggleClass("ajax-loading");
 			return post(url, options).done((result) => {
 				if (options.replace)
 					$selector.replaceWith(result);
@@ -133,6 +153,8 @@ $$.ajax = new function () {
 					$selector.append(result);
 				else
 					$selector.html(result);
+			}).always(() => {
+				$selector.toggleClass("ajax-loading");
 			});
 		} else {
 			const existingDfd = $selector.data(loadDfd.key);
@@ -151,6 +173,7 @@ $$.ajax = new function () {
 
 			$selector
 				.addClass("loader")
+				.toggleClass("ajax-loading")
 				.data(loadDfd.key, loadDfd.create(dfd, url));
 
 			post(url, options).done((result) => {
@@ -169,6 +192,8 @@ $$.ajax = new function () {
 					$selector.append(result + afterLoadScript);
 				else
 					$selector.html(result + afterLoadScript);
+			}).always(() => {
+				$selector.toggleClass("ajax-loading");
 			});
 
 			return dfd;

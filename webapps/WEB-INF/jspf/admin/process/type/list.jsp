@@ -9,9 +9,10 @@
 	<c:param name="filter" value="${form.param.filter}"/>
 </c:url>
 
-<html:form  action="admin/process" styleClass="in-mr1">
+<html:form  action="admin/process" styleClass="in-mr1" styleId="${uiid}">
 	<input type="hidden" name="action" value="typeList"/>
-	<input type="hidden" name="parentTypeId" value="${form.param.parentTypeId}"/>
+	<html:hidden property="parentTypeId"/>
+	<html:hidden property="markType"/>
 
 	<c:url var="url" value="/admin/process.do">
 		<c:param name="action" value="typeGet"/>
@@ -26,16 +27,14 @@
 		<c:param name="markType" value="${form.param.markType}"/>
 		<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 	</c:url>
-	<button type="button" id="markTypeButton" class="btn-grey ml1" onclick="if( sendAJAXCommand( '${url}' ) ){ openUrlContent( '${urlList}' ); }">${l.l('Вставить')} [${markTypeString}]</button>
+	<button type="button" class="btn-grey" 
+		onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${urlList}', $$.shell.$content()) })">${l.l('Вставить')} [${markTypeString}]</button>
 
-	<button type="button" class="btn-grey ml1" onclick="openUrlContent( '${urlList}' )">${l.l('Сбросить выделение')}</button>
+	<%-- <button type="button" class="btn-grey ml1" onclick="openUrlContent( '${urlList}' )">${l.l('Сбросить выделение')}</button> --%>
 
-	<c:set var="doFilterCommand">this.form.parentTypeId.value = this.form.filter.value ? -1 : 0; openUrlContent( formUrl( this.form ) )</c:set>
-
-	<ui:input-text name="filter" onSelect="${doFilterCommand}; return false;"
-			placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" title="${l.l('Фильтр по наименованию, конфигурации')}"/>
-
-	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
+	<ui:input-text name="filter" placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" 
+		onSelect="$$.ajax.load(this.form, $$.shell.$content())"
+		title="${l.l('Фильтр по наименованию, конфигурации')}"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -98,7 +97,7 @@
 				<%-- <button type="button" class="btn-white btn-small" onclick="openUrlContent( '${url}' )" title="Вырезать">C</button> --%>
 
 				<ui:button type="cut" styleClass="btn-small"
-					onclick="$('#${uiid}')[0].markGroup.value=${item.id};
+					onclick="$('#${uiid}')[0].markType.value=${item.id};
 							toPage($('#${uiid}')[0], ${form.page.pageIndex}, ${form.page.pageSize}, '');
 							$$.ajax.load($('#${uiid}'), $$.shell.$content())"/>
 			</td>

@@ -86,12 +86,7 @@
 						</ui:combo-single>
 					</u:sc>
 					<div class="pl05">
-						<button type="button" class="btn-white btn-slim" style="white-space: nowrap;"
-							onclick="this.form.elements['searchBy'].value='userId'; $$.ajax.load(this.form, '#searchResult');"
-							title="${l.l('Вывести')}">
-								<%-- &#x25B6; Unicode стрелки вправо, но слишком чёрная --%>
-								&nbsp;<img src="/images/arrow-right.png">
-						</button>
+						<ui:button type="out" onclick="this.form.elements['searchBy'].value='userId'; $$.ajax.load(this.form, '#searchResult');"/>
 					</div>
 				</div>
 			</html:form>

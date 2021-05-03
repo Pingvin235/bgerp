@@ -2,7 +2,7 @@
 
 $(function()
 {
-	bgcrm.debug( 'datepicker', 'Init inputmasks' );
+	$$.debug( 'datepicker', 'Init inputmasks' );
 
 	<%-- TODO: Вынести все функции в JS файл!! --%>
 	var setFocusAndRangeForDate = function(Selector, from, end, event, preventDefault )
@@ -433,7 +433,7 @@ $(function()
 	<%--  Focus  --%>
 	$( "${selector}" ).focus( function( event )
 	{
-		bgcrm.debug( 'datepicker', "Focus process" );
+		$$.debug( 'datepicker', "Focus process" );
 
 		var start = this.selectionStart;
 		this.setSelectionRange( 0 , 0 );

@@ -17428,7 +17428,7 @@ $.widget( "ui.tabs", {
 			}
 			
 			// progress spinner
-		    ui.panel.html('<img src="/img/loading.gif"> Loading...');
+			ui.panel.html('<i class="progress-icon ti-reload"></i> Loading...');
 			
 			ui.jqXHR.done(function () {
 				ui.tab.data("loaded", true);
@@ -18014,8 +18014,8 @@ $.widget( "ui.tabs", {
 		
 		// PATCH ADDITION BGERP, show refresh
 		if (this.options.refreshButton) {
-	  		eventData.oldTab.children("button").attr('class', 'refreshButton-hidden');
-	  		eventData.newTab.children("button").attr('class', 'refreshButton');
+			eventData.oldTab.children("button").addClass('refreshButton-hidden').removeClass('refreshButton');
+			eventData.newTab.children("button").addClass('refreshButton').removeClass('refreshButton-hidden');
 		};
 		// END PATCH
 
@@ -18273,7 +18273,7 @@ $.widget( "ui.tabs", {
 		
 		if( this.options.refreshButton )
 		{
-			liCode += "<button class='refreshButton-hidden'><span class='ui-icon ui-icon-refresh'></span></button>";
+			liCode += "<button class='refreshButton-hidden btn-white-hover btn-small'><span class='ti-reload'></span></button>";
 		}
 		liCode += "<a href='" + url.replace( "'", "&#39;" ) + "'>" + label + "</a></li>";
 		
