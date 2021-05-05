@@ -301,6 +301,22 @@ task touchChanges {
     }
 }
 
+task checkChanges {
+    doFirst {
+        def processId = getProcessId()
+        def changesFileName = "build/changes.${processId}.txt"
+        def changesFile = file("$projectDir/$changesFileName")
+        if (!changesFile.exists() || changesFile.text.isBlank())
+            throw new GradleException("Changes file '$changesFileName' not found or blank. Create it using './gradlew touchChanges' and fill out.")
+        
+    }
+}
+
+def getChangesFileName() {
+     def processId = getProcessId()
+        def changesFile = file("$projectDir/build/changes.${processId}.txt")
+}
+
 def getProcessId() {
     def branchName = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
     println "Branch name: $branchName"
