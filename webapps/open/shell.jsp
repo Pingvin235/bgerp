@@ -26,6 +26,8 @@
 <body>
 	<div id="title" class="mt1"><div class="status"><h1 class="title"></h1></div></div>
 	<div id="content">
+		<% out.flush(); %>
+
 		<%-- shortcut for param --%>
 		<u:set var="uri" scope="request"><%=org.bgerp.servlet.filter.OpenFilter.getRequestURI(request)%></u:set>
 

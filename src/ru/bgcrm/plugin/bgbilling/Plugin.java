@@ -1,12 +1,15 @@
 package ru.bgcrm.plugin.bgbilling;
 
 import java.sql.Connection;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.event.user.UserChangedEvent;
+import ru.bgcrm.plugin.Endpoint;
 import ru.bgcrm.plugin.bgbilling.event.listener.HelpDeskListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.LinkChangedListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.LinkChangingListener;
@@ -53,6 +56,14 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
             Class.forName("ru.bgcrm.plugin.document.Plugin");
             new RegisterExtensionListener();
         } catch (ClassNotFoundException e) {}
+    }
+
+    @Override
+    protected Map<String, List<String>> loadEndpoints() {
+       return Map.of(
+            Endpoint.JS, List.of(Endpoint.getPathPluginJS(ID)),
+            Endpoint.CSS, List.of(Endpoint.getPathPluginCSS(ID))
+        );
     }
 
     /**
