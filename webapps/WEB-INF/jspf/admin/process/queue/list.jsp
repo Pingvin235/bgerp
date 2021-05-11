@@ -10,10 +10,10 @@
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
 
-	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
+	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
 	
 	<ui:input-text name="filter" value="${form.param.filter}" size="40" placeholder="${l.l('Фильтр')}" title="${l.l('Фильтр по наименованию, конфигурации')}"
-		onSelect="$$.ajax.load(this.form, $$.shell.$content()); return false;"/>
+		onSelect="$$.ajax.load(this.form, $$.shell.$content(this)); return false;"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>	
@@ -41,8 +41,8 @@
 			<%-- <td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td> --%>
 
 			<td nowrap="nowrap">
-					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content())"/>
-					<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content()) })"/>
+					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
+					<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
 			</td>
 
 			<td>${item.id}</td>

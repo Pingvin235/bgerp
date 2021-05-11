@@ -22,13 +22,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
@@ -135,7 +135,7 @@ public class MessageAction extends BaseAction {
         }
     }
 
-    public ActionForward messageUpdateProcess(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward messageUpdateProcess(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
 
         MessageDAO messageDao = new MessageDAO(con);
@@ -153,7 +153,7 @@ public class MessageAction extends BaseAction {
         }
 
         if (message == null)
-            throw new BGException("Сообщение не найдено.");
+            throw new BGMessageException("Сообщение не найдено.");
 
         message.setProcessed(true);
 

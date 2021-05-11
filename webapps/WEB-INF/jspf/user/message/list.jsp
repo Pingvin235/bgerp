@@ -125,7 +125,7 @@
 		</jsp:attribute>
 	</ui:combo-single>
 
-	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
+	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content(this))"/>
 
 	<c:if test="${form.param['processed'] eq 1}">
 		<%@ include file="/WEB-INF/jspf/page_control.jsp"%>

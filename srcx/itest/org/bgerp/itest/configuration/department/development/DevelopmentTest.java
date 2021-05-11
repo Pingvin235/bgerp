@@ -91,8 +91,8 @@ public class DevelopmentTest {
     @Test (dependsOnMethods = "addGroups")
     public void addUsers() throws Exception {
         // make from the date of entrance in party
-        userVladimirId = UserHelper.addUser("Vladimir Lenin", "vladimir", Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
-        userLeonId = UserHelper.addUser("Leon Trotsky", "leon", Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
+        userVladimirId = UserHelper.addUser("Vladimir Lenin", "vladimir", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
+        userLeonId = UserHelper.addUser("Leon Trotsky", "leon", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
     }
 
     @Test (dependsOnMethods = "addUsers")

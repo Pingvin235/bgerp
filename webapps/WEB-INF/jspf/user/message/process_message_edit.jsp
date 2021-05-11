@@ -153,8 +153,8 @@
 	</div>
 
 	<div class="mt1 mb1">
-		<button class="btn-grey" type="button" onclick="if( sendAJAXCommand( formUrl( this.form ), ['text'] ) ){ openUrlToParent( '${form.returnUrl}', $('#${form.returnChildUiid}') ) }">OK</button>
-		<button class="btn-white ml1" type="button" onclick="$('#${form.returnChildUiid}').empty();">${l.l('Отмена')}</button>
+		<ui:button type="ok" onclick="$$.ajax.post(this.form, ['text']).done(() => { $$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent()) })"/>
+		<ui:button type="cancel" onclick="$('#${form.returnChildUiid}').empty();" styleClass="ml1"/>
 	</div>
 </html:form>
 

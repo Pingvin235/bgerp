@@ -56,6 +56,7 @@ import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.model.process.wizard.WizardData;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.PatternFormatter;
@@ -64,8 +65,11 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 import ru.bgerp.util.Log;
 
+@Action(path = "/user/process")
 public class ProcessAction extends BaseAction {
     private static final Log log = Log.getLog();
+
+    private static final String JSP_PATH = PATH_JSP_USER + "/process";
 
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm actionForm, Connection con) throws Exception {
@@ -75,10 +79,14 @@ public class ProcessAction extends BaseAction {
     public ActionForward process(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDAO = new ProcessDAO(con, form.getUser());
 
-        Process process = processDAO.getProcess(form.getId());
-        if (process != null) {
+        var process = processDAO.getProcess(form.getId());
+        if (process == null) {
+            process = new Process(form.getId());
+            process.setReference(l.l("ПРОЦЕСС ДЛЯ ВАС НЕ СУЩЕСТВУЕТ"));
+            form.setResponseData("process", process);
+        } else {
             ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-            form.getResponse().setData("process", process);
+            form.setResponseData("process", process);
 
             form.getHttpRequest().setAttribute("processType", type);
 
@@ -98,7 +106,7 @@ public class ProcessAction extends BaseAction {
             }
         }
 
-        return html(con, mapping, form, "process");
+        return html(con, form, JSP_PATH + "/process/process.jsp");
     }
 
     public static boolean applyProcessTypePermission(List<ProcessType> typeList, DynActionForm form) {
@@ -147,7 +155,7 @@ public class ProcessAction extends BaseAction {
             form.getResponse().setData("groups", groups);
         }
 
-        return html(con, mapping, form, "processCreateGroup");
+        return html(con, form, JSP_PATH + "/tree/group_select.jsp");
     }
 
     public static Process processCreate(DynActionForm form, Connection con) throws Exception {
@@ -198,12 +206,12 @@ public class ProcessAction extends BaseAction {
             // если вручную указали группу из списка в конфига типа процесса onCreateSelectGroup, то выбраем ее
             Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>();
             processGroups.add(new ProcessGroup(groupId, 0));
-            process.setProcessGroups(processGroups);
+            process.setGroups(processGroups);
         } else {
             // иначе выставляем то что указано в конфигурации типа процесса
-            process.setProcessGroups(new HashSet<ProcessGroup>(typeProperties.getGroups()));
+            process.setGroups(new HashSet<ProcessGroup>(typeProperties.getGroups()));
         }
-        processDAO.updateProcessGroups(process.getProcessGroups(), process.getId());
+        processDAO.updateProcessGroups(process.getGroups(), process.getId());
 
         // wizard=0 в обработке сообщений
         if (form.getParamBoolean("wizard", true)) {
@@ -364,8 +372,7 @@ public class ProcessAction extends BaseAction {
 
     public ActionForward processStatusHistory(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new StatusChangeDAO(con).searchProcessStatus(new SearchResult<StatusChange>(form), form.getId(), form.getSelectedValues("statusId"));
-
-        return html(con, mapping, form, "processStatusHistory");
+        return html(con, form, JSP_PATH + "/process/status_history.jsp");
     }
 
     public ActionForward processPriorityUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -391,7 +398,7 @@ public class ProcessAction extends BaseAction {
     public ActionForward processTypeEdit(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
 
-        return html(con, mapping, form, "processTypeChange");
+        return html(con, form, JSP_PATH + "/process/editor_type.jsp");
     }
 
     public ActionForward processTypeUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -670,7 +677,7 @@ public class ProcessAction extends BaseAction {
         }
     }
 
-    protected Process getProcess(ProcessDAO processDao, int id) throws BGException {
+    protected Process getProcess(ProcessDAO processDao, int id) throws Exception {
         Process process = processDao.getProcess(id);
         if (process == null) {
             throw new BGMessageException("Процесс не найдён.");
@@ -729,7 +736,7 @@ public class ProcessAction extends BaseAction {
         EventProcessor.processEvent(processRequestEvent, type.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
 
         if (Utils.notBlankString(processRequestEvent.getForwardJspName())) {
-            return html(con, mapping, form, processRequestEvent.getForwardJspName());
+            return html(con, form, processRequestEvent.getForwardJspName());
         } else {
             return json(con, form);
         }
@@ -753,20 +760,20 @@ public class ProcessAction extends BaseAction {
         SearchResult<Process> processSearchResult = new SearchResult<Process>(form);
         new ProcessDAO(con, form.getUser()).searchProcessListForMessage(processSearchResult, addressFrom, objects, open);
 
-        return html(con, mapping, form, "messageRelatedProcessList");
+        return html(con, form, JSP_PATH + "/message_related_process_list.jsp");
     }
 
-    public ActionForward unionLog(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward unionLog(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new ProcessDAO(con).searchProcessLog(getProcessType(getProcess(new ProcessDAO(con), form.getId()).getTypeId()), form.getId(),
                 new SearchResult<EntityLogItem>(form));
 
-        return html(con, mapping, form, "unionLog");
+        return html(con, form, "/WEB-INF/jspf/union_log.jsp");
     }
 
     public ActionForward userProcessList(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
         new ProcessDAO(con).searchProcessListForUser(new SearchResult<Process>(form), form.getUserId(), form.getParamBoolean("open", true));
 
-        return html(con, mapping, form, "userProcessList");
+        return html(con, form, JSP_PATH + "/user_process_list.jsp");
     }
 
     public ActionForward processMerge(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {

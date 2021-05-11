@@ -12,7 +12,7 @@
 	</ui:combo-single>
 	<ui:button type="run" styleClass="ml1" onclick="
 		$$.ajax.post(this.form, {control: this}).done(() => {
-			$$.ajax.load('${form.requestUrl}', $$.shell.$content());
+			$$.ajax.load('${form.requestUrl}', $$.shell.$content(this));
 		});"/>
 </html:form>
 

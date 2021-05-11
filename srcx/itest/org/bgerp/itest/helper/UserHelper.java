@@ -42,7 +42,7 @@ public class UserHelper {
         dao.updateGroup(group);
     }
 
-    public static int addUser(String title, String login, Iterable<UserGroup> groups) throws Exception {
+    public static User addUser(String title, String login, Iterable<UserGroup> groups) throws Exception {
         var con = DbTest.conRoot;
 
         var dao = new UserDAO(con);
@@ -59,7 +59,7 @@ public class UserHelper {
             for (var group : groups)
                 dao.addUserGroup(user.getId(), group);
 
-        return user.getId();
+        return user;
     }
 
     public static void addUserGroups(int userId, Iterable<UserGroup> groups) throws Exception {

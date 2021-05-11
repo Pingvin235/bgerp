@@ -31,7 +31,7 @@ public class ProcessDoActionListener
  	    {
  	    	@Override
  	    	public void notify( ProcessDoActionEvent e, ConnectionSet connectionSet )
- 	    		throws BGException
+ 	    		throws Exception
  	    	{
  	    		doCommand( e, connectionSet );
  	    	}
@@ -39,7 +39,7 @@ public class ProcessDoActionListener
 	}
 	
 	private void doCommand( ProcessDoActionEvent e, ConnectionSet conSet )
-		throws BGException
+		throws Exception
 	{
 		final String prefix = "bgbilling:";
 		
@@ -227,7 +227,7 @@ public class ProcessDoActionListener
 	}
 	
 	private void addToDescription( ConnectionSet conSet, Process process, String textForAdd, boolean before )
-		throws BGException
+		throws Exception
 	{
 		String description = process.getDescription();
 		

@@ -3,7 +3,7 @@
 
 <html:form action="admin/custom" onsubmit="return false;" style="display: inline-block;">
 	<input type="hidden" name="action" value="compile"/>
-	<button class="btn-grey" type="button" onclick="$$.ajax.load(this.form, $$.shell.$content());">${l.l('Скомпилировать всё')}</button>
+	<button class="btn-grey" type="button" onclick="$$.ajax.load(this.form, $$.shell.$content(this));">${l.l('Скомпилировать всё')}</button>
 </html:form>
 
 <c:set var="result" value="${form.response.data.result}"/>

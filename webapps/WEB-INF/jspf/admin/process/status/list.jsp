@@ -12,8 +12,8 @@
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
 
-	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
-	
+	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
+
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
 
@@ -36,19 +36,16 @@
 				<c:param name="action" value="statusDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
-			<c:url var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}', $$.shell.$content())"/>
-			
-			<%-- <td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%> --%>
 
 			<td nowrap="nowrap">
-				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content())"/>
-				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content()) })"/>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
 			</td>
 
 			<td>${item.id}</td>
 			<td>${item.pos}</td>
 			<td>${item.title}</td>
-			
+
 			<c:set var="showId" value="${u:uiid()}" />
 			<c:set var="statusId" value="${item.id}" />
 
@@ -56,10 +53,10 @@
 				<c:url var="showUrl" value="/admin/process.do">
 					<c:param name="action" value="statusUseProcess" />
 					<c:param name="statusId" value="${statusId}" />
-				</c:url> 							
-								
+				</c:url>
+
 				<button type="button" class="btn-white btn-small" style="width: 100%" onclick="$(this).hide(); $$.ajax.load('${showUrl}', $('#${showId}'));">Показать</button>
-								
+
 				<div id="${showId}">
 				</div>
 			</td>

@@ -398,7 +398,7 @@ public class WorkAction extends ru.bgcrm.struts.action.admin.WorkAction {
         return html(con, mapping, form, "plan");
     }
 
-    public ActionForward processTime(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward processTime(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         int processId = form.getParamInt("processId");
 
         if (processId <= 0) {

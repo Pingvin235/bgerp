@@ -139,7 +139,7 @@ public class DispatchDAO extends CommonDAO {
         return result;
     }
 
-    public void accountSubsriptionUpdate(String email, Set<Integer> dispatchIds) throws BGException {
+    public void accountSubsriptionUpdate(String email, Set<Integer> dispatchIds) throws Exception {
         updateIds(TABLE_ACCOUNT_SUBSCRIPTION, "account", "dispatch_id", email, dispatchIds);
         dispatchUpdateAccountCounts();
     }
@@ -234,7 +234,7 @@ public class DispatchDAO extends CommonDAO {
         return message;
     }
 
-    public void messageUpdate(DispatchMessage message) throws BGException {
+    public void messageUpdate(DispatchMessage message) throws Exception {
         update(message, new RecordUpdater<DispatchMessage>() {
             @Override
             public String getInsertQuery() throws SQLException {

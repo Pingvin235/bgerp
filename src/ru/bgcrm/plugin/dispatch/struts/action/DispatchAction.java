@@ -63,7 +63,7 @@ public class DispatchAction extends BaseAction {
         return html(conSet, mapping, form, "messageEdit");
     }
 
-    public ActionForward messageUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward messageUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         DispatchMessage message = new DispatchMessage();
         message.setCreateTime(new Date());
 

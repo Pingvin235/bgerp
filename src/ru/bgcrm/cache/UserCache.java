@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Logger;
 
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.dao.user.UserGroupDAO;
@@ -26,11 +25,12 @@ import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.sql.SQLUtils;
+import ru.bgerp.util.Log;
 
 public class UserCache extends Cache<UserCache> {
-    private static final Logger log = Logger.getLogger(UserCache.class);
+    private static final Log log = Log.getLog();
 
-    private static CacheHolder<UserCache> holder = new CacheHolder<UserCache>(new UserCache());
+    private static CacheHolder<UserCache> holder = new CacheHolder<>(new UserCache());
 
     private static final ParameterMap EMPTY_PERMISSION = new Preferences();
 
@@ -441,9 +441,6 @@ public class UserCache extends Cache<UserCache> {
                 }
 
                 user.setConfig(fullUserConfig.toString() + groupConfig.toString() + user.getConfig());
-
-                // специальные переменные контекста пользователя
-                user.addContextVariablesToConfig();
 
                 // персональные права
                 Map<String, ParameterMap> personalPermMap = allUserPermById.get(user.getId());

@@ -1,5 +1,6 @@
 package ru.bgcrm.model.process;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -170,8 +171,13 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         setExecutors(processExecutors);
     }
 
-    public void setExecutors(Set<ProcessExecutor> processExecutors) {
-        this.processExecutors = processExecutors;
+    public void setExecutors(Set<ProcessExecutor> value) {
+        this.processExecutors = value;
+    }
+
+    public Process withExecutors(Set<ProcessExecutor> value) {
+        setExecutors(value);
+        return this;
     }
 
     /**
@@ -248,16 +254,26 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         setGroups(processGroups);
     }
 
-    public void setGroups(Set<ProcessGroup> processGroups) {
-        this.processGroups = processGroups;
+    public void setGroups(Set<ProcessGroup> value) {
+        this.processGroups = value;
+    }
+
+    public Process withGroups(Set<ProcessGroup> value) {
+        setGroups(value);
+        return this;
     }
 
     public int getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public void setTypeId(int value) {
+        this.typeId = value;
+    }
+
+    public Process withTypeId(int value) {
+        setTypeId(value);
+        return this;
     }
 
     /** 
@@ -311,8 +327,13 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String value) {
+        this.description = value;
+    }
+
+    public Process withDescription(String value) {
+        setDescription(value);
+        return this;
     }
 
     public String getReference() {
@@ -418,7 +439,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         return result;
     }
 
-    public String getChangesLog(Process oldProcess) throws BGException {
+    public String getChangesLog(Process oldProcess) throws SQLException {
         StringBuilder result = new StringBuilder();
 
         final String separator = "; ";

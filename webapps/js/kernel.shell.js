@@ -489,7 +489,19 @@ $$.shell = new function () {
 		}
 	}
 
-	const $content = function () {
+	/**
+	 * Content block for the UI element.
+	 * @param {*} el 
+	 */
+	const $content = function (el) {
+		if (el) {
+			while (el) {
+				const parent = el.parentElement;
+				if (parent && parent.id === 'content')
+					return $(el);
+				el = parent; 
+			}
+		}
 		return $('#content > div:visible');
 	}
 

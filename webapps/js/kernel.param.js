@@ -6,7 +6,7 @@ $$.param = new function() {
 	const dirChanged = (form, item, $hidden) => {
 		form.action.value = $(item).attr('action');
 		form.directoryId.value = $hidden.val();
-		$$.ajax.load(form, $$.shell.$content())
+		$$.ajax.load(form, $$.shell.$content(form))
 	}
 
 	// 

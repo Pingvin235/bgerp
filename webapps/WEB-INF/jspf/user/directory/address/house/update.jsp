@@ -88,8 +88,8 @@
 			<button type="button" class="btn-white" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').closest('div'))">${l.l('Отмена')}</button>
 		</c:when>
 		<c:otherwise>
-			<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form, ${toPostNames}).done(() => $$.ajax.load('${form.returnUrl}', $$.shell.$content()))">OK</button>
-			<button type="button" class="btn-white" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content())">${l.l('Отмена')}</button>
+			<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form, ${toPostNames}).done(() => $$.ajax.load('${form.returnUrl}', $$.shell.$content(this)))">OK</button>
+			<button type="button" class="btn-white" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content(this))">${l.l('Отмена')}</button>
 		</c:otherwise>
 	</c:choose>
 </div>

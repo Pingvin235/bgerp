@@ -366,29 +366,22 @@ public class CommonDAO {
     }
 
     protected void updateIds(String tableName, String linkColumn, String valueColumn, Object id, Set<Integer> values)
-            throws BGException {
-        String query = null;
-        PreparedStatement ps = null;
+            throws SQLException {
+        var query = SQL_DELETE + tableName + " WHERE " + linkColumn + "=?";
+        var ps = con.prepareStatement(query);
+        ps.setObject(1, id);
+        ps.executeUpdate();
+        ps.close();
 
-        try {
-            query = SQL_DELETE + tableName + " WHERE " + linkColumn + "=?";
-            ps = con.prepareStatement(query);
-            ps.setObject(1, id);
+        query = SQL_INSERT + tableName + "(" + linkColumn + "," + valueColumn + ") VALUES (?, ?)";
+        ps = con.prepareStatement(query);
+        ps.setObject(1, id);
+
+        for (Integer paramId : values) {
+            ps.setInt(2, paramId);
             ps.executeUpdate();
-            ps.close();
-
-            query = SQL_INSERT + tableName + "(" + linkColumn + "," + valueColumn + ") VALUES (?, ?)";
-            ps = con.prepareStatement(query);
-            ps.setObject(1, id);
-
-            for (Integer paramId : values) {
-                ps.setInt(2, paramId);
-                ps.executeUpdate();
-            }
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
+        ps.close();
     }
 
     protected void updateIds(String tableName, String linkColumn, String valueColumn, String posColumn, int id,
@@ -421,17 +414,13 @@ public class CommonDAO {
         }
     }
 
-    public void updateColumn(String tableName, int id, String columnName, String value) throws BGException {
-        try {
-            String query = "UPDATE " + tableName + " SET `" + columnName + "`=? WHERE id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, value);
-            ps.setInt(2, id);
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
-        }
+    public void updateColumn(String tableName, int id, String columnName, String value) throws SQLException {
+        String query = "UPDATE " + tableName + " SET `" + columnName + "`=? WHERE id=?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, value);
+        ps.setInt(2, id);
+        ps.executeUpdate();
+        ps.close();
     }
 
     protected void sqlToBgException(SQLException e) throws BGMessageException, BGException {

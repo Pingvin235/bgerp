@@ -16,7 +16,7 @@
 	</jsp:attribute>
 	<jsp:attribute name="onSelect">
 		if ($hidden.val()) 
-			$$.ajax.load('/user/plugin/report/report.do?action=get&reportId=' + $hidden.val(), $$.shell.$content());
+			$$.ajax.load('/user/plugin/report/report.do?action=get&reportId=' + $hidden.val(), $$.shell.$content(this));
 	</jsp:attribute>
 </ui:combo-single>
 

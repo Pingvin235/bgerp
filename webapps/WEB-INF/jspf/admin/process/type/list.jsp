@@ -20,7 +20,7 @@
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 		<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 	</c:url>
-	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
+	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
 
 	<c:url var="url" value="/admin/process.do">
 		<c:param name="action" value="typeInsertMark"/>
@@ -28,12 +28,12 @@
 		<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 	</c:url>
 	<button type="button" class="btn-grey" 
-		onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${urlList}', $$.shell.$content()) })">${l.l('Вставить')} [${markTypeString}]</button>
+		onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${urlList}', $$.shell.$content(this)) })">${l.l('Вставить')} [${markTypeString}]</button>
 
 	<%-- <button type="button" class="btn-grey ml1" onclick="openUrlContent( '${urlList}' )">${l.l('Сбросить выделение')}</button> --%>
 
 	<ui:input-text name="filter" placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" 
-		onSelect="$$.ajax.load(this.form, $$.shell.$content())"
+		onSelect="$$.ajax.load(this.form, $$.shell.$content(this))"
 		title="${l.l('Фильтр по наименованию, конфигурации')}"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
@@ -84,22 +84,15 @@
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 			</c:url>
-			<c:url var="deleteAjaxCommandAfter" value="openUrlContent( '${form.requestUrl}' )"/>
 
 			<td nowrap="nowrap">
-				<%-- <%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%> --%>
-				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content())"/>
-				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content()) })"/>
-				<%-- TODO: некорректно работает, когда выбрана не первая страница, решение см. редактор групп --%>
-				<%-- <c:url var="url" value="${urlList}">
-					<c:param name="markType" value="${item.id}"/>
-				</c:url> --%>
-				<%-- <button type="button" class="btn-white btn-small" onclick="openUrlContent( '${url}' )" title="Вырезать">C</button> --%>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
 
 				<ui:button type="cut" styleClass="btn-small"
 					onclick="$('#${uiid}')[0].markType.value=${item.id};
 							toPage($('#${uiid}')[0], ${form.page.pageIndex}, ${form.page.pageSize}, '');
-							$$.ajax.load($('#${uiid}'), $$.shell.$content())"/>
+							$$.ajax.load($('#${uiid}'), $$.shell.$content(this))"/>
 			</td>
 
 			<td>${item.id}</td>

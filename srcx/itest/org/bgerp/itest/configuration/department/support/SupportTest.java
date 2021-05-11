@@ -69,8 +69,8 @@ public class SupportTest {
 
     @Test(dependsOnMethods = "addGroups")
     public void addUsers() throws Exception {
-        userFelixId = UserHelper.addUser("Feliks Dserschinski", "felix", Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
-        userVyacheslavId = UserHelper.addUser("Vyacheslav Menzhinsky", "vyacheslav", Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
+        userFelixId = UserHelper.addUser("Feliks Dserschinski", "felix", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
+        userVyacheslavId = UserHelper.addUser("Vyacheslav Menzhinsky", "vyacheslav", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
     }
 
     @Test (dependsOnMethods =  "addTypes")

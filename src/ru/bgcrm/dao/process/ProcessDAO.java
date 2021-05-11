@@ -51,6 +51,7 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.config.IsolationConfig;
+import ru.bgcrm.model.config.IsolationConfig.IsolationProcess;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
@@ -198,16 +199,26 @@ public class ProcessDAO extends CommonDAO {
     }
     
     public static String getIsolationJoin(User user) {
-        IsolationConfig isolation = user.getConfigMap().getConfig(IsolationConfig.class);
-        if (isolation.getIsolationProcess() != null)
-            switch (isolation.getIsolationProcess()) {
-                case EXECUTOR:
-                    return " INNER JOIN " + TABLE_PROCESS_EXECUTOR + " AS isol_e ON process.id=isol_e.process_id AND isol_e.user_id=" + user.getId() + " ";
-                case GROUP:
-                    return " INNER JOIN " + TABLE_PROCESS_GROUP + " AS isol_pg ON process.id=isol_pg.process_id " 
-                    + "INNER JOIN " + TABLE_USER_GROUP + " AS isol_ur ON isol_ur.group_id=isol_pg.group_id AND isol_ur.user_id=" + user.getId()
+        IsolationProcess isolation = user.getConfigMap().getConfig(IsolationConfig.class).getIsolationProcess();
+        if (isolation == IsolationProcess.EXECUTOR)
+            return " INNER JOIN " + TABLE_PROCESS_EXECUTOR
+                    + " AS isol_e ON " + TABLE_PROCESS + ".id=isol_e.process_id AND isol_e.user_id=" + user.getId() + " ";
+        if (isolation == IsolationProcess.GROUP) {
+            var result = " INNER JOIN " + TABLE_PROCESS_GROUP + " AS isol_pg ON " + TABLE_PROCESS + ".id=isol_pg.process_id "
+                    + "INNER JOIN " + TABLE_USER_GROUP
+                    + " AS isol_ur ON isol_ur.group_id=isol_pg.group_id AND isol_ur.user_id=" + user.getId()
                     + " AND (isol_ur.date_to IS NULL OR CURDATE()<=isol_ur.date_to) ";
-                }
+            if (StringUtils.isNotBlank(isolation.getExecutorTypeIds())) {
+                result += " INNER JOIN " + TABLE_PROCESS + " AS isol_ge ON " + TABLE_PROCESS + ".id=isol_ge.id AND ("
+                    + TABLE_PROCESS + ".type_id NOT IN (" + isolation.getExecutorTypeIds() + ") " 
+                    + "OR isol_ge.executors LIKE '" + user.getId() + ":%'"
+                    + "OR POSITION(', " + user.getId() + ":' IN isol_ge.executors) > 0 "
+                    // for future case of changing store format without white spaces
+                    + "OR POSITION('," + user.getId() + ":' IN isol_ge.executors) > 0 "
+                    + " )";
+            }
+            return result;
+        }
         return "";
     }
 
@@ -1349,28 +1360,31 @@ public class ProcessDAO extends CommonDAO {
         return alias;
     }
 
-    public Process getProcess(int id) throws BGException {
-        try {
-            Process result = null;
+    /**
+     * Selects process by ID with the last {@link Process#getStatusChange()}.
+     * Selection respects {@link #user} isolations.
+     * @param id DB record ID.
+     * @return
+     * @throws SQLException
+     */
+    public Process getProcess(int id) throws SQLException {
+        Process result = null;
 
-            String query = "SELECT process.*, ps.* FROM " + TABLE_PROCESS + " AS process " 
-                    + "LEFT JOIN " + TABLE_PROCESS_STATUS
-                    + " AS ps ON process.id=ps.process_id AND ps.status_id=process.status_id AND ps.last "
-                    + getIsolationJoin(user)
-                    + " WHERE process.id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = getProcessFromRs(rs);
-                result.setStatusChange(StatusChangeDAO.getProcessStatusFromRs(rs, "ps."));
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        String query = "SELECT process.*, ps.* FROM " + TABLE_PROCESS + " AS process " 
+                + "LEFT JOIN " + TABLE_PROCESS_STATUS
+                + " AS ps ON process.id=ps.process_id AND ps.status_id=process.status_id AND ps.last "
+                + getIsolationJoin(user)
+                + " WHERE process.id=?";
+        var ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        var rs = ps.executeQuery();
+        if (rs.next()) {
+            result = getProcessFromRs(rs);
+            result.setStatusChange(StatusChangeDAO.getProcessStatusFromRs(rs, "ps."));
         }
+        ps.close();
+
+        return result;
     }
 
     public List<Process> getProcessList(Collection<Integer> processIds) throws BGException {
@@ -1426,7 +1440,7 @@ public class ProcessDAO extends CommonDAO {
      * Использовать {@link #updateProcessExecutors(Set, int)}.
      */
     @Deprecated
-    public void updateProcessExecutors(int processId, Set<Integer> executorIds) throws BGException {
+    public void updateProcessExecutors(int processId, Set<Integer> executorIds) throws SQLException {
         if (history) {
             String executorString = "";
 
@@ -1445,7 +1459,7 @@ public class ProcessDAO extends CommonDAO {
         updateIds(Tables.TABLE_PROCESS_EXECUTOR, "process_id", "user_id", processId, executorIds);
     }
 
-    public void updateProcessExecutors(Set<ProcessExecutor> processExecutors, int processId) throws BGException {
+    public void updateProcessExecutors(Set<ProcessExecutor> processExecutors, int processId) throws SQLException {
         if (history) {
             Process oldValue = new ProcessDAO(con).getProcess(processId);
             Process newValue = oldValue.clone();
@@ -1455,91 +1469,84 @@ public class ProcessDAO extends CommonDAO {
 
         updateColumn(TABLE_PROCESS, processId, "executors", ProcessExecutor.serialize(processExecutors));
 
-        try {
-            String query = "DELETE FROM " + Tables.TABLE_PROCESS_EXECUTOR + " WHERE process_id=?";
+        String query = "DELETE FROM " + Tables.TABLE_PROCESS_EXECUTOR + " WHERE process_id=?";
 
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, processId);
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, processId);
+        ps.executeUpdate();
+        ps.close();
+
+        query = "INSERT INTO " + Tables.TABLE_PROCESS_EXECUTOR
+                + " ( process_id, group_id, role_id, user_id ) VALUES ( ?, ?, ?, ? ) ";
+        ps = con.prepareStatement(query);
+        ps.setInt(1, processId);
+
+        for (ProcessExecutor processExecutor : processExecutors) {
+            ps.setInt(2, processExecutor.getGroupId());
+            ps.setInt(3, processExecutor.getRoleId());
+            ps.setInt(4, processExecutor.getUserId());
             ps.executeUpdate();
-            ps.close();
-
-            query = "INSERT INTO " + Tables.TABLE_PROCESS_EXECUTOR
-                    + " ( process_id, group_id, role_id, user_id ) VALUES ( ?, ?, ?, ? ) ";
-            ps = con.prepareStatement(query);
-            ps.setInt(1, processId);
-
-            for (ProcessExecutor processExecutor : processExecutors) {
-                ps.setInt(2, processExecutor.getGroupId());
-                ps.setInt(3, processExecutor.getRoleId());
-                ps.setInt(4, processExecutor.getUserId());
-                ps.executeUpdate();
-            }
-
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
+
+        ps.close();
     }
 
-    private void logProcessChange(Process process, Process oldProcess) throws BGException {
+    private void logProcessChange(Process process, Process oldProcess) throws SQLException {
         String changes = process.getChangesLog(oldProcess);
         if (changes.length() > 0) {
             logProcessChange(process.getId(), changes.toString());
         }
     }
 
-    private void logProcessChange(int processId, String log) throws BGException {
+    private void logProcessChange(int processId, String log) throws SQLException {
         new EntityLogDAO(this.con, Tables.TABLE_PROCESS_LOG).insertEntityLog(processId, userId, log);
     }
 
-    public void updateProcess(Process process) throws BGException {
+    public Process updateProcess(Process process) throws SQLException {
         if (process != null) {
-            try {
-                Process oldProcess = getProcess(process.getId());
-                if (history) {
-                    if (oldProcess != null && !oldProcess.isEqualProperties(process)) {
-                        logProcessChange(process, oldProcess);
-                    }
+            Process oldProcess = getProcess(process.getId());
+            if (history) {
+                if (oldProcess != null && !oldProcess.isEqualProperties(process)) {
+                    logProcessChange(process, oldProcess);
                 }
-
-                int index = 1;
-                PreparedStatement ps = null;
-                StringBuilder query = new StringBuilder();
-                // раньше была прроверка на положительный ID, но он может быть отрицательным в случае, если процесс временный
-                if (oldProcess != null) {
-                    query.append("UPDATE " + TABLE_PROCESS
-                            + " SET status_id=?, status_dt=?, status_user_id=?, description=?, close_dt=?, priority=?, close_user_id=?, type_id=? WHERE id=?");
-                    ps = con.prepareStatement(query.toString());
-                    ps.setInt(index++, process.getStatusId());
-                    ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(process.getStatusTime()));
-                    ps.setInt(index++, process.getStatusUserId());
-                    ps.setString(index++, process.getDescription());
-                    ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(process.getCloseTime()));
-                    ps.setInt(index++, process.getPriority());
-                    ps.setInt(index++, process.getCloseUserId());
-                    ps.setInt(index++, process.getTypeId());
-                    //ps.setTimestamp( index++, TimeUtils.convertDateToTimestamp( process.getLastMessageTime() ) );
-                    ps.setInt(index++, process.getId());
-                    ps.executeUpdate();
-
-                } else {
-                    query.append("INSERT INTO " + TABLE_PROCESS
-                            + " SET type_id=?, status_id=?, status_user_id=?, status_dt=NOW(), description=?, create_dt=NOW(), executors=?, create_user_id=?");
-                    ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-                    ps.setInt(index++, process.getTypeId());
-                    ps.setInt(index++, process.getStatusId());
-                    ps.setInt(index++, process.getStatusUserId());
-                    ps.setString(index++, process.getDescription());
-                    ps.setString(index++, ProcessExecutor.serialize(process.getExecutors()));
-                    ps.setInt(index++, process.getCreateUserId());
-                    ps.executeUpdate();
-                    process.setId(lastInsertId(ps));
-                }
-                ps.close();
-            } catch (SQLException e) {
-                throw new BGException(e);
             }
+
+            int index = 1;
+            PreparedStatement ps = null;
+            StringBuilder query = new StringBuilder();
+            // раньше была прроверка на положительный ID, но он может быть отрицательным в случае, если процесс временный
+            if (oldProcess != null) {
+                query.append("UPDATE " + TABLE_PROCESS
+                        + " SET status_id=?, status_dt=?, status_user_id=?, description=?, close_dt=?, priority=?, close_user_id=?, type_id=? WHERE id=?");
+                ps = con.prepareStatement(query.toString());
+                ps.setInt(index++, process.getStatusId());
+                ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(process.getStatusTime()));
+                ps.setInt(index++, process.getStatusUserId());
+                ps.setString(index++, process.getDescription());
+                ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(process.getCloseTime()));
+                ps.setInt(index++, process.getPriority());
+                ps.setInt(index++, process.getCloseUserId());
+                ps.setInt(index++, process.getTypeId());
+                //ps.setTimestamp( index++, TimeUtils.convertDateToTimestamp( process.getLastMessageTime() ) );
+                ps.setInt(index++, process.getId());
+                ps.executeUpdate();
+
+            } else {
+                query.append("INSERT INTO " + TABLE_PROCESS
+                        + " SET type_id=?, status_id=?, status_user_id=?, status_dt=NOW(), description=?, create_dt=NOW(), executors=?, create_user_id=?");
+                ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
+                ps.setInt(index++, process.getTypeId());
+                ps.setInt(index++, process.getStatusId());
+                ps.setInt(index++, process.getStatusUserId());
+                ps.setString(index++, process.getDescription());
+                ps.setString(index++, ProcessExecutor.serialize(process.getExecutors()));
+                ps.setInt(index++, process.getCreateUserId());
+                ps.executeUpdate();
+                process.setId(lastInsertId(ps));
+            }
+            ps.close();
         }
+        return process;
     }
 
     public void deleteProcess(int processId) throws BGException {

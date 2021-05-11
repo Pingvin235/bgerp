@@ -22,7 +22,7 @@
 		<textarea name="text" class="w100p" rows="20"/>
 	</div>
 	<div class="pt1">
-		<c:set var="returnCommand">$$.ajax.load('/open/process.do?action=show&id=${form.param.processId}', $$.shell.$content())</c:set>
+		<c:set var="returnCommand">$$.ajax.load('/open/process.do?action=show&id=${form.param.processId}', $$.shell.$content(this))</c:set>
 		<button type="button" class="btn-grey"
 			onclick="$$.ajax.post(this.form).done(() => ${returnCommand})"
 		>OK</button>

@@ -8,7 +8,7 @@
 	<c:set var="toPostNames" value="[]"/>
 </c:if>
 
-<c:set var="loadReturn" value="$$.ajax.load('${form.returnUrl}', $$.shell.$content())"/>
+<c:set var="loadReturn" value="$$.ajax.load('${form.returnUrl}', $$.shell.$content(this))"/>
 
 <ui:button type="ok" styleClass="mr1 ${styleClass}"
 	onclick="$$.ajax.post(this.form, {toPostNames: ${toPostNames}}).done(() => {${loadReturn}})"/>

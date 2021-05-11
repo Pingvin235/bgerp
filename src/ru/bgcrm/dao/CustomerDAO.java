@@ -784,7 +784,7 @@ public class CustomerDAO extends CommonDAO {
         return getIds(TABLE_CUSTOMER_GROUP, "customer_id", "group_id", customerId);
     }
 
-    public void updateGroupIds(int customerId, Set<Integer> groupIds) throws BGException {
+    public void updateGroupIds(int customerId, Set<Integer> groupIds) throws SQLException {
         updateIds(TABLE_CUSTOMER_GROUP, "customer_id", "group_id", customerId, groupIds);
     }
 

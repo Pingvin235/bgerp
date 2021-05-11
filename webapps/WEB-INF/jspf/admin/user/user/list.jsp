@@ -11,13 +11,13 @@
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
-	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
+	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
 
 	<input type="hidden" name="action" value="userList"/>
 	<input type="hidden" name="pageableId" value="userList"/>
 
 	<ui:input-text name="title" showOutButton="false" value="${form.param['title']}" size="20" placeholder="${l.l('Фильтр')}" title="${l.l('Фильтр по наименованию')}"
-		onSelect="$$.ajax.load(this.form, $$.shell.$content());"/>
+		onSelect="$$.ajax.load(this.form, $$.shell.$content(this));"/>
 
 	<ui:combo-single hiddenName="status" value="${form.param.status}" onSelect="${showCode}"
 		prefixText="${l.l('Статус')}:" widthTextValue="70px">
@@ -42,7 +42,7 @@
 	<ui:select-single list="${ctxUserPermsetList}" hiddenName="permset" value="${form.param.permset}"
 		onSelect="${showCode}" placeholder="${l.l('Набор прав')}" style="width: 200px;"/>
 
-	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content());"/>
+	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content(this));"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -72,8 +72,8 @@
 			<c:url var="deleteAjaxCommandAfter" value="${showCode}"/>
 
 			<td nowrap="nowrap">
-				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content())"/>
-				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content()) })"/>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
 			</td>
 
 			<td>${item.id}</td>

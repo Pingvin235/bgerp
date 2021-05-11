@@ -90,22 +90,14 @@
 			<forward name="userList" path="/WEB-INF/jspf/user/directory/user/list.jsp" />
 		</action>
 
-		<action path="/user/process" parameter="action" type="ru.bgcrm.struts.action.ProcessAction" name="form" scope="request">
-			<forward name="process" path="/WEB-INF/jspf/user/process/process/process.jsp"/>
-			<forward name="processCreateGroup" path="/WEB-INF/jspf/user/process/tree/group_select.jsp"/>
+		<!-- <action path="/user/process" parameter="action" type="ru.bgcrm.struts.action.ProcessAction" name="form" scope="request">
 			<forward name="processGroups" path="/WEB-INF/jspf/user/process/process/editor_groups.jsp"/>
 			<forward name="processGroupsWithRoles" path="/WEB-INF/jspf/user/process/process/editor_groups_with_roles.jsp"/>
 			<forward name="processExecutors" path="/WEB-INF/jspf/user/process/process/editor_executors.jsp"/>
-			<forward name="processStatusHistory" path="/WEB-INF/jspf/user/process/process/status_history.jsp"/>
-			<forward name="processTypeChange" path="/WEB-INF/jspf/user/process/process/editor_type.jsp"/>
-			<forward name="unionLog" path="/WEB-INF/jspf/union_log.jsp"/>
-			<forward name="messageRelatedProcessList" path="/WEB-INF/jspf/user/process/message_related_process_list.jsp"/>
-			<forward name="userProcessList" path="/WEB-INF/jspf/user/process/user_process_list.jsp"/>
-		</action>
+		</action> -->
 
 		<action path="/user/process/link" parameter="action" type="ru.bgcrm.struts.action.ProcessLinkAction" name="form" scope="request">
 			<forward name="linkedProcessList" path="/WEB-INF/jspf/user/process/process/linked_process_list.jsp"/>
-			<!-- <forward name="linkedProcessInfo" path="/WEB-INF/jspf/user/process/process/linked_process_info.jsp"/> -->
 			<forward name="linkProcessList" path="/WEB-INF/jspf/user/process/process/link_process_list.jsp"/>
 		</action>
 

@@ -8,7 +8,6 @@ import java.util.Set;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
-import ru.bgcrm.util.Utils;
 
 public class User extends IdTitle implements Comparable<User>, Cloneable, UserAccount {
     public static final String OBJECT_TYPE = "user";
@@ -172,19 +171,6 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         if (queueIds != null) {
             this.queueIds = queueIds;
         }
-    }
-
-    public void addContextVariablesToConfig() {
-        StringBuilder config = new StringBuilder(this.config);
-
-        config.append("\nctxUserId=");
-        config.append(String.valueOf(id));
-        config.append("\nctxUserGroupIds=");
-        config.append(Utils.toString(groupIds));
-        config.append("\nctxUserPermsetIds=");
-        config.append(Utils.toString(permsetIds));
-
-        setConfig(config.toString());
     }
 
     public String getPersonalization() {

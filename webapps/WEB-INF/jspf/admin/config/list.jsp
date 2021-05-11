@@ -16,11 +16,11 @@
 				<c:param name="id" value="-1"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
-			<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content())"/>
+			<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
 			
 			<ui:input-text name="filter" value="${form.param['filter']}" size="20" placeholder="${l.l('Фильтр')}" 
 				title="${l.l('Фильтр по содержимому конфигурации')}"
-				onSelect="$$.ajax.load(this.form, $$.shell.$content()); return false;"/>
+				onSelect="$$.ajax.load(this.form, $$.shell.$content(this)); return false;"/>
 
 			<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 		</html:form>
@@ -55,7 +55,7 @@
 				<button class="btn-grey mt1 w100p" type="button"
 					onclick="$$.ajax
 						.post('/admin/config.do?action=pluginsInit')
-						.done(() => {$$.ajax.load('${form.requestUrl}', $$.shell.$content())})
+						.done(() => {$$.ajax.load('${form.requestUrl}', $$.shell.$content(this))})
 					">${l.l('Иниациализировать плагины')}</button>
 			</p:check>
 		</div><%--
@@ -74,7 +74,7 @@
 				<script>
 					$(function () {
 						$$.ajax.upload('${uploadFormId}', 'lic-upload-iframe', function () {
-							$$.ajax.load('${form.requestUrl}', $$.shell.$content());
+							$$.ajax.load('${form.requestUrl}', $$.shell.$content(this));
 						});
 					});
 				</script>

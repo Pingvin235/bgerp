@@ -23,7 +23,7 @@
 	widthTextValue="220px"
 	prefixText="${l.l('План')}:"
 	list="${form.response.data.boardsConf.boards}"
-	onSelect="$$.ajax.load('${showUrl}&id=' + $hidden.val(), $$.shell.$content())"/>
+	onSelect="$$.ajax.load('${showUrl}&id=' + $hidden.val(), $$.shell.$content(this))"/>
 
 <shell:state moveSelector="#${uiid}"/>
 

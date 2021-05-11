@@ -74,8 +74,8 @@ public class SalesTest {
 
     @Test (dependsOnMethods = "addGroups")
     public void addUsers() throws Exception {
-        userKarlId = UserHelper.addUser("Karl Marx", "karl", Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
-        userFriedrichId = UserHelper.addUser("Friedrich Engels", "friedrich", Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
+        userKarlId = UserHelper.addUser("Karl Marx", "karl", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
+        userFriedrichId = UserHelper.addUser("Friedrich Engels", "friedrich", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
     }
 
     @Test(dependsOnMethods = "addUsers")

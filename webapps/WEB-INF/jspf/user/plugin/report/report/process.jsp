@@ -19,11 +19,11 @@
 		${l.l("по")}:
 		<ui:date-time paramName="dateTo" value="${form.param.dateTo}"/>
 		
-		<ui:button type="out" styleClass="ml1 mr1 more out" onclick="$$.ajax.load(this.form, $$.shell.$content())"/>
+		<ui:button type="out" styleClass="ml1 mr1 more out" onclick="$$.ajax.load(this.form, $$.shell.$content(this))"/>
 
 		<report:more data="${data}"/>
 
-		<ui:page-control nextCommand="; $$.ajax.load(this.form, $$.shell.$content())" styleClass="more"/>
+		<ui:page-control nextCommand="; $$.ajax.load(this.form, $$.shell.$content(this))" styleClass="more"/>
 	</html:form>
 
 	<%-- TODO: move to tag together with table --%>
