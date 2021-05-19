@@ -4,7 +4,7 @@
 <c:choose>
 	<c:when test="${fn:startsWith( item.linkedObjectType, 'contract:' )}">
 		<tr>
-			<td><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
+			<td>${delButton}</td>
 			<td>${item.linkedObjectId}</td>
 			<c:set var="billingId" value="${fn:substringAfter( item.linkedObjectType, ':')}" scope="request"/>
 			<td>${l.l('Договор')}:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
@@ -39,7 +39,7 @@
 			</script>
 		</c:if>
 	</c:when>
-	<c:when test="${item.linkedObjectType eq 'bgbilling-commonContract'}">
+	<%-- <c:when test="${item.linkedObjectType eq 'bgbilling-commonContract'}">
 		<tr>
 			<td><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
 			<td>${item.linkedObjectId}</td>
@@ -55,10 +55,10 @@
 			<td>Задача:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 			<td>${item.linkedObjectTitle}</td>
 		</tr>
-	</c:when>
+	</c:when> --%>
 	<c:when test="${fn:startsWith( item.linkedObjectType, 'bgbilling-helpdesk:' )}">
 		<tr>
-			<td><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
+			<td>${delButton}</td>
 			<td>${item.linkedObjectId}</td>
 			<c:set var="billingId" value="${fn:substringAfter( item.linkedObjectType, ':')}"/>
 			<td>HelpDesk:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>

@@ -3,17 +3,17 @@
 
 <c:set var="pageFormId" value="searchForm-process" scope="request"/>
 <c:set var="nextCommand" value="; openUrl( formUrl( $( '#searchForm-process' )[0] ), '#searchResult');" scope="request"/>
- 
+
 <%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 <%@ include file="../process_search_constants.jsp"%>
 
-<table style="width: 100%;" class="data mt1">
+<table class="data mt1">
 	<c:choose>
 		<c:when test="${form.param.mode eq MODE_USER_CREATED}">
 			<tr>
 				<td width="30">ID</td>
-				<td width="120">Время создания</td>
-				<td>Описание</td>
+				<td width="120">${l.l('Время создания')}</td>
+				<td>${l.l('Описание')}</td>
 			</tr>
 			<c:forEach var="item" items="${form.response.data.list}">
 			<tr>
@@ -28,8 +28,8 @@
 		<c:when test="${form.param.mode eq MODE_USER_CLOSED}">
 			<tr>
 				<td width="30">ID</td>
-				<td width="120">Время закрытия</td>
-				<td>Описание</td>
+				<td width="120">${l.l('Время закрытия')}</td>
+				<td>${l.l('Описание')}</td>
 			</tr>
 			<c:forEach var="item" items="${form.response.data.list}">
 			<tr>
@@ -37,16 +37,16 @@
 				<td nowrap="nowrap">${u:formatDate(item.closeTime, 'ymdhms')}</td>
 				<td>${item.description}
 					<c:if test="${not empty item.reference}">(${item.reference})</c:if>
-				</td>			
+				</td>
 			</tr>
 			</c:forEach>
 		</c:when>
 		<c:when test="${form.param.mode eq MODE_USER_STATUS_CHANGED}">
 			<tr>
 				<td width="30">ID</td>
-				<td width="120">Время изменения</td>
-				<td width="120">Статус</td>
-				<td>Описание</td>
+				<td width="120">${l.l('Время изменения')}</td>
+				<td width="120">${l.l('Статус')}</td>
+				<td>${l.l('Описание')}</td>
 			</tr>
 			<c:forEach var="item" items="${form.response.data.list}">
 			<tr>
@@ -55,7 +55,7 @@
 				<td>${ctxProcessStatusMap[item.statusId].title}</td>
 				<td>${item.description}
 					<c:if test="${not empty item.reference}">(${item.reference})</c:if>
-				</td>			
+				</td>
 			</tr>
 			</c:forEach>
 		</c:when>

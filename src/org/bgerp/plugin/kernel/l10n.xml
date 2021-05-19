@@ -164,7 +164,7 @@
 	<p><ru>Вывести</ru><en>Show</en></p>
 	<p><ru>Вывести для</ru><en>Output for</en></p>
 	<p><ru>Вывести на дату</ru><en>Output to date</en></p>
-	<p><ru>Время создания</ru><en>Time of creation</en></p>
+	<p><ru>Время создания</ru><en>Creation time</en></p>
 	<p><ru>Открыть</ru><en>Open</en></p>
 	<p><ru>Создание новости</ru><en>News creation</en></p>
 	<p><ru>Заголовок</ru><en>Title</en></p>
@@ -423,6 +423,8 @@
 	<p><ru>Набор прав</ru><en>Permission set</en></p>
 	<p><ru>Гр. на дату</ru><en>Gr. on date</en></p>
 	<p><ru>ПРОЦЕСС ДЛЯ ВАС НЕ СУЩЕСТВУЕТ</ru><en>PROCESS FOR YOU DOESN'T EXIST</en></p>
+	<p><ru>Найдено</ru><en>Found</en></p>
+	<p><ru>отображено</ru><en>shown</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

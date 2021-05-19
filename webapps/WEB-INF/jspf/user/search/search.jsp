@@ -73,7 +73,7 @@
 				<ui:input-text name="id" placeholder="${l.l('Поиск процесса по ID')}"
 							title="${l.l('Для поиска введите код процесса и нажмите Enter')}"
 							onSelect="this.form.elements['searchBy'].value='id';
-									  openUrl( formUrl( this.form ), '#searchResult' ); return false;" />
+									  $$.ajax.load(this.form, $('#searchResult')); return false;" />
 				<div style="display: flex;">
 					<u:sc>
 						<%@ include file="process_search_constants.jsp"%>

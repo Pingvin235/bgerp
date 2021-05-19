@@ -106,7 +106,10 @@ public class ProcessAction extends BaseAction {
             }
         }
 
-        return html(con, form, JSP_PATH + "/process/process.jsp");
+        return html(con, form, Map.of(
+            "processGroupsWithRoles", JSP_PATH + "/process/editor_groups_with_roles.jsp", 
+            "processExecutors", JSP_PATH + "/process/editor_executors.jsp", 
+            "", JSP_PATH + "/process/process.jsp"));
     }
 
     public static boolean applyProcessTypePermission(List<ProcessType> typeList, DynActionForm form) {

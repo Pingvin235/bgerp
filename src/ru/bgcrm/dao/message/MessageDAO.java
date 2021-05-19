@@ -499,8 +499,8 @@ public class MessageDAO extends CommonDAO {
         var isolation = user.getConfigMap().getConfig(IsolationConfig.class);
         if (isolation.getIsolationProcess() != null) {
             return
-                SQL_INNER_JOIN + TABLE_PROCESS + " ON message.process_id=process.id " +
-                ProcessDAO.getIsolationJoin(user);
+                SQL_INNER_JOIN + TABLE_PROCESS + " AS process ON message.process_id=process.id " +
+                ProcessDAO.getIsolationJoin(user, "process");
         }
         return "";
     }

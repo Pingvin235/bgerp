@@ -393,7 +393,18 @@ public class BaseAction extends DispatchAction {
     }
 
     /**
-     * Returns JSP forward by file path.
+     * JSP forward file path calculated using {@link #getForwardJspPath(DynActionForm, Map)} function.
+     * @param con
+     * @param form
+     * @param mapping
+     * @return
+     */
+    protected ActionForward html(Connection con, DynActionForm form, Map<String, String> mapping) {
+        return html(con, form, getForwardJspPath(form, mapping));
+    }
+
+    /**
+     * JSP forward file path.
      * @param con
      * @param form must be 'null' for open interface.
      * @param path JSP path.
@@ -404,7 +415,7 @@ public class BaseAction extends DispatchAction {
     }
 
     /**
-     * Returns JSP forward by file path.
+     * JSP forward file path.
      * @param conSet
      * @param form must be 'null' for open interface.
      * @param path JSP path.
@@ -421,6 +432,29 @@ public class BaseAction extends DispatchAction {
         } else {
             return new ActionForward(path);
         }
+    }
+
+    /**
+     * JSP forward path.
+     * @param form    complete path may be defined in
+     *                {@link DynActionForm#getForwardFile()} or
+     *                {@link DynActionForm#getForward()} used as key to
+     *                mapping
+     * @param mapping mapping forward names from {@link DynActionForm#getForward()}
+     *                to JSP paths, default mapping key - empty string.
+     * @return JSP path.
+     * @throws IllegalArgumentException no JSP found in mapping.
+     */
+    private String getForwardJspPath(DynActionForm form, Map<String, String> mapping) throws IllegalArgumentException {
+        var forwardFile = form.getForwardFile();
+        if (Utils.notBlankString(forwardFile))
+            return forwardFile;
+
+        var forward = Utils.maskNull(form.getForward());
+        if (!mapping.containsKey(forward))
+            throw new IllegalArgumentException("Not found JSP for forward: " + forward);
+        
+        return mapping.get(forward);
     }
 
     /**

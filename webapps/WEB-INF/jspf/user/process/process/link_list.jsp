@@ -52,21 +52,25 @@
 	<c:forEach var="item" items="${form.response.data.list}">
 		<c:set var="item" value="${item}" scope="request"/>
 
-		<%-- scope="request", чтобы были доступны в jsp:include --%>
-		<c:url var="deleteAjaxUrl" value="/user/link.do" scope="request">
+		<c:url var="deleteAjaxUrl" value="/user/link.do">
 			<c:param name="action" value="deleteLink"/>
 			<c:param name="objectType" value="process"/>
 			<c:param name="id" value="${form.id}"/>
 			<c:param name="linkedObjectType" value="${item.linkedObjectType}"/>
 			<c:param name="linkedObjectId" value="${item.linkedObjectId}"/>
 		</c:url>
-		<c:set var="deleteAjaxCommandAfter" scope="request">$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent());</c:set>
+
+		<%-- scope="request", for jsp:include --%>
+		<c:set var="delButton" scope="request">
+			<ui:button type="del" styleClass="btn-small" 
+						onclick="$$.ajax.post('${deleteAjaxUrl}').done(() =>{ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); })"/>
+		</c:set>
 
 		<c:set var="customerLinkRole" value="${customerLinkRoleConfig.modeMap[item.linkedObjectType]}"/>
 
 		<c:if test="${not empty customerLinkRole}">
 			<tr>
-				<td><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
+				<td>${delButton}</td>
 				<td>${item.linkedObjectId}</td>
 				<td>${customerLinkRole}</td>
 				<td><ui:customer-link id="${item.linkedObjectId}" text="${item.linkedObjectTitle}"/></td>
@@ -75,9 +79,6 @@
 
 		<c:set var="endpoint" value="user.process.link.list.jsp"/>
 		<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
-
-		<%-- некоторые привязки (процессы) тут не отображаются, и ссылка на кнопку удаления остаётся --%>
-		<c:remove var="deleteAjaxUrl"/>
 	</c:forEach>
 </table>
 

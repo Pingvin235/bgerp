@@ -193,24 +193,24 @@ public class ProcessDAO extends CommonDAO {
             result.selectPart.append("," + LINKED_PROCESS + ".*");
         }
         
-        result.joinPart.append(getIsolationJoin(user));
+        result.joinPart.append(getIsolationJoin(user, "process"));
         
         return result;
     }
     
-    public static String getIsolationJoin(User user) {
+    public static String getIsolationJoin(User user, String tableProcess) {
         IsolationProcess isolation = user.getConfigMap().getConfig(IsolationConfig.class).getIsolationProcess();
         if (isolation == IsolationProcess.EXECUTOR)
             return " INNER JOIN " + TABLE_PROCESS_EXECUTOR
-                    + " AS isol_e ON " + TABLE_PROCESS + ".id=isol_e.process_id AND isol_e.user_id=" + user.getId() + " ";
+                    + " AS isol_e ON " + tableProcess + ".id=isol_e.process_id AND isol_e.user_id=" + user.getId() + " ";
         if (isolation == IsolationProcess.GROUP) {
-            var result = " INNER JOIN " + TABLE_PROCESS_GROUP + " AS isol_pg ON " + TABLE_PROCESS + ".id=isol_pg.process_id "
+            var result = " INNER JOIN " + TABLE_PROCESS_GROUP + " AS isol_pg ON " + tableProcess + ".id=isol_pg.process_id "
                     + "INNER JOIN " + TABLE_USER_GROUP
                     + " AS isol_ur ON isol_ur.group_id=isol_pg.group_id AND isol_ur.user_id=" + user.getId()
                     + " AND (isol_ur.date_to IS NULL OR CURDATE()<=isol_ur.date_to) ";
             if (StringUtils.isNotBlank(isolation.getExecutorTypeIds())) {
-                result += " INNER JOIN " + TABLE_PROCESS + " AS isol_ge ON " + TABLE_PROCESS + ".id=isol_ge.id AND ("
-                    + TABLE_PROCESS + ".type_id NOT IN (" + isolation.getExecutorTypeIds() + ") " 
+                result += " INNER JOIN " + TABLE_PROCESS + " AS isol_ge ON " + tableProcess + ".id=isol_ge.id AND ("
+                    + tableProcess + ".type_id NOT IN (" + isolation.getExecutorTypeIds() + ") " 
                     + "OR isol_ge.executors LIKE '" + user.getId() + ":%'"
                     + "OR POSITION(', " + user.getId() + ":' IN isol_ge.executors) > 0 "
                     // for future case of changing store format without white spaces
@@ -1373,7 +1373,7 @@ public class ProcessDAO extends CommonDAO {
         String query = "SELECT process.*, ps.* FROM " + TABLE_PROCESS + " AS process " 
                 + "LEFT JOIN " + TABLE_PROCESS_STATUS
                 + " AS ps ON process.id=ps.process_id AND ps.status_id=process.status_id AND ps.last "
-                + getIsolationJoin(user)
+                + getIsolationJoin(user, "process")
                 + " WHERE process.id=?";
         var ps = con.prepareStatement(query);
         ps.setInt(1, id);
@@ -1808,37 +1808,37 @@ public class ProcessDAO extends CommonDAO {
             pd.addQuery(SQL_SELECT_COUNT_ROWS);
             pd.addQuery("*");
             pd.addQuery(SQL_FROM);
-            pd.addQuery(TABLE_PROCESS);
-            pd.addQuery(getIsolationJoin(user));
+            pd.addQuery(TABLE_PROCESS + " AS p ");
+            pd.addQuery(getIsolationJoin(user, "p"));
 
-            final String groupBy = SQL_GROUP_BY + TABLE_PROCESS.trim() + ".id ";
+            final String groupBy = SQL_GROUP_BY + "p.id ";
 
             if (mode == MODE_USER_CREATED) {
-                pd.addQuery("WHERE create_user_id=?");
+                pd.addQuery("WHERE p.create_user_id=?");
                 pd.addInt(userId);
-                pd.addQuery(" AND close_dt is NULL");
+                pd.addQuery(" AND p.close_dt is NULL");
                 pd.addQuery(groupBy);
                 pd.addQuery(SQL_ORDER_BY);
-                pd.addQuery("create_dt DESC");
+                pd.addQuery("p.create_dt DESC");
             } else if (mode == MODE_USER_CLOSED) {
-                pd.addQuery("WHERE close_user_id=?");
+                pd.addQuery("WHERE p.close_user_id=?");
                 pd.addInt(userId);
                 pd.addQuery(groupBy);
                 pd.addQuery(SQL_ORDER_BY);
-                pd.addQuery("close_dt DESC");
+                pd.addQuery("p.close_dt DESC");
             } else if (mode == MODE_USER_STATUS_CHANGED) {
-                pd.addQuery("WHERE status_user_id=?");
+                pd.addQuery("WHERE p.status_user_id=?");
                 pd.addInt(userId);
                 pd.addQuery(groupBy);
                 pd.addQuery(SQL_ORDER_BY);
-                pd.addQuery("status_dt DESC");
+                pd.addQuery("p.status_dt DESC");
             }
 
             pd.addQuery(getPageLimit(page));
 
             ResultSet rs = pd.executeQuery();
             while (rs.next())
-                list.add(getProcessFromRs(rs));
+                list.add(getProcessFromRs(rs, "p."));
 
             setRecordCount(page, pd.getPrepared());
             pd.close();

@@ -1,6 +1,8 @@
 package ru.bgcrm.plugin.bgbilling;
 
 import java.sql.Connection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,10 +62,12 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     @Override
     protected Map<String, List<String>> loadEndpoints() {
-       return Map.of(
+        var result = new HashMap<>(super.loadEndpoints());
+        result.putAll(Map.of(
             Endpoint.JS, List.of(Endpoint.getPathPluginJS(ID)),
             Endpoint.CSS, List.of(Endpoint.getPathPluginCSS(ID))
-        );
+        ));
+        return Collections.unmodifiableMap(result);
     }
 
     /**

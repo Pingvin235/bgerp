@@ -4,7 +4,7 @@
 <c:choose>
 	<c:when test="${item.linkedObjectType eq 'slack-channel'}">
 		<tr>
-			<td><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
+			<td>${delButton}</td>
 			<td>0</td>
 			<td>Slack</td>
 			<td>${item.linkedObjectTitle}</td>

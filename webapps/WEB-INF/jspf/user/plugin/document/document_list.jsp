@@ -96,8 +96,8 @@
 <table style="width: 100%;" class="data mt05">
 	<tr>
 		<td width="30">ID</td>
-		<td>Название</td>
-		<td>Время создания</td>
+		<td>${l.l('Название')}</td>
+		<td>${l.l('Время создания')}</td>
 		<td width="30">&#160;</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}" >

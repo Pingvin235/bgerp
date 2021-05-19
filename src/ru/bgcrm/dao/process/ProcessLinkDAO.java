@@ -155,7 +155,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         PreparedDelay pd = new PreparedDelay(con);
         pd.addQuery("SELECT process.* FROM " + TABLE_PROCESS + " AS process ");
         pd.addQuery(joinQuery);
-        pd.addQuery(ProcessDAO.getIsolationJoin(user));
+        pd.addQuery(ProcessDAO.getIsolationJoin(user, "process"));
         pd.addInt(processId);
 
         pd.addQuery("WHERE 1>0 ");
@@ -240,7 +240,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
 
             String query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM" + TABLE_PROCESS + " AS process " 
                     + "INNER JOIN " + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id AND link.object_id=? AND link.object_type LIKE ? "
-                    + ProcessDAO.getIsolationJoin(user);
+                    + ProcessDAO.getIsolationJoin(user, "process");
             PreparedDelay pd = new PreparedDelay(con, query);
             
             pd.addInt(objectId);
@@ -366,7 +366,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         var pd = new PreparedDelay(con);
         pd.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM " + TABLE_PROCESS_LINK + " AS link ");
         pd.addQuery("INNER JOIN " + TABLE_PROCESS + " AS process ON link.object_id=process.id ");
-        pd.addQuery(ProcessDAO.getIsolationJoin(user));
+        pd.addQuery(ProcessDAO.getIsolationJoin(user, "process"));
         pd.addQuery("WHERE link.process_id=? AND link.object_type LIKE 'process%' ");
         addOpenFilter(pd, open);
         pd.addQuery("ORDER BY process.create_dt DESC ");

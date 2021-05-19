@@ -92,8 +92,6 @@
 
 		<!-- <action path="/user/process" parameter="action" type="ru.bgcrm.struts.action.ProcessAction" name="form" scope="request">
 			<forward name="processGroups" path="/WEB-INF/jspf/user/process/process/editor_groups.jsp"/>
-			<forward name="processGroupsWithRoles" path="/WEB-INF/jspf/user/process/process/editor_groups_with_roles.jsp"/>
-			<forward name="processExecutors" path="/WEB-INF/jspf/user/process/process/editor_executors.jsp"/>
 		</action> -->
 
 		<action path="/user/process/link" parameter="action" type="ru.bgcrm.struts.action.ProcessLinkAction" name="form" scope="request">
