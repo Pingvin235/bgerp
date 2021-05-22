@@ -4,7 +4,7 @@
 
 	<property name="rootfolder" value="bgerp"/>
 
-	<import file="${basedir}/../common/import/module_build.xml"/>
+	<import file="${basedir}/../common/module_build.xml"/>
 	<import file="${basedir}/../update/build.xml"/>
 	<import file="${basedir}/../update_lib/build.xml"/>
 

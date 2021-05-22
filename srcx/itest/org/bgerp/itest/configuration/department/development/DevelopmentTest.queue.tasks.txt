@@ -14,6 +14,8 @@ filter.{@inc:cnt}.type=create_date
 filter.{@inc:cnt}.type=close_date
 filter.{@inc:cnt}.type=linkedCustomer:title
 filter.{@inc:cnt}.type=description
+filter.{@inc:cnt}.type=create_user
+filter.{@inc:cnt}.type=close_user
 #
 column.1.title=ID
 column.1.value=id

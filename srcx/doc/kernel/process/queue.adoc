@@ -656,6 +656,14 @@ filter.36.title=Устройство
 * *values* - "current", если необходимо отображать только процессы с текущим пользователем в исполнителях, фильтр в этом случае желательно скрыть;
 * *showEmptyExecutor* - "1", отображение в фильтре исполнителей пункта "не указан" для выбора процессов без исполнителя.
 
+|create_user
+|User created of process.
+|User list includes the current one and other users, having the same groups as the current.
+
+|close_user
+|User closed of process.
+|User list includes the current one and other users, having the same groups as the current.
+
 |description
 |Подстрока в описании процесса.
 |

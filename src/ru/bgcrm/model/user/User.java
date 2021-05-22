@@ -4,11 +4,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections.CollectionUtils;
+
+import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 
+/**
+ * Application user.
+ * 
+ * @author Shamil Vakhitov
+ */
 public class User extends IdTitle implements Comparable<User>, Cloneable, UserAccount {
     public static final String OBJECT_TYPE = "user";
 
@@ -34,25 +43,23 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     private String login;
     private String password;
     private int status = STATUS_ENABLE;
-    // возможно, не нужен, т.к. есть параметр типа EMail
+    // not used because of EMail parameter
     private String email = "";
     private String roles = "";
     private String config = "";
     private String personalization = "";
-    // TODO: Везде это называется comment.
+    // TODO: Rename to comment similar with others?.
     private String description = "";
     private ParameterMap configMap = new Preferences();
     private Preferences personalizationMap = new Preferences();
-    private List<Integer> permsetIds = new ArrayList<Integer>();
-    private Set<Integer> groupIds = new HashSet<Integer>();
-    private Set<Integer> queueIds = new HashSet<Integer>();
+    private List<Integer> permsetIds = new ArrayList<>();
+    private Set<Integer> groupIds = new HashSet<>();
+    private Set<Integer> queueIds = new HashSet<>();
 
-    // идентификаторы, тут вроде как планировались номера телефонов логина
-    // пока не используется
+    // planned identifiers like phone numbers, currently not used
     private List<String> ids = new ArrayList<String>();
 
-    public User() {
-    }
+    public User() {}
 
     public User(String login, String password) {
         this.login = login;
@@ -135,7 +142,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     }
 
     /**
-     * Возвращает группы, активные на _текущий_ момент времени с учётом периодов.
+     * Set of group IDs active on the current date. 
      * @return
      */
     public Set<Integer> getGroupIds() {
@@ -186,20 +193,34 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         return personalizationMap;
     }
 
+    /**
+     * List of users, fist is the current one. 
+     * After collected from {@link UserCache#getUserList()} users with intersected groups with the current one. 
+     * @return
+     */
+    public List<User> getUserListWithSameGroups() {
+        var list = new ArrayList<User>(200);
+        list.add(this);
+        list.addAll(UserCache.getUserList().stream()
+            .filter(u -> u.getId() != this.getId() && !CollectionUtils.intersection(this.getGroupIds(), u.getGroupIds()).isEmpty())
+            .collect(Collectors.toList()));
+        return list;
+    }
+
     public User clone() {
-        User user = new User();
+        var user = new User();
 
         user.setConfig(config);
         user.setDescription(description);
         user.setEmail(email);
-        user.setGroupIds(new HashSet<Integer>(groupIds));
+        user.setGroupIds(new HashSet<>(groupIds));
         user.setId(id);
-        user.setIds(new ArrayList<String>(ids));
+        user.setIds(new ArrayList<>(ids));
         user.setLogin(login);
         user.setPassword(password);
-        user.setPermsetIds(new ArrayList<Integer>(permsetIds));
+        user.setPermsetIds(new ArrayList<>(permsetIds));
         user.setPersonalization(personalization);
-        user.setQueueIds(new HashSet<Integer>(queueIds));
+        user.setQueueIds(new HashSet<>(queueIds));
         user.setRoles(roles);
         user.setStatus(status);
         user.setTitle(title);

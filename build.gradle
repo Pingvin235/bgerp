@@ -38,6 +38,7 @@ configurations {
         transitive = true
     }
     bgerp
+    bgerpRun.extendsFrom(bgerp)
     itest.extendsFrom(bgerp)
     tools.extendsFrom(bgerp)
     // for running inside IDE
@@ -113,7 +114,7 @@ dependencies {
     bgerp 'org.jsoup:jsoup:1.11.3'
     bgerp 'mysql:mysql-connector-java:8.0.19'
     bgerp 'org.apache.poi:poi:4.0.1'
-    bgerp 'org.apache.commons:commons-collections4:4.3' // required for poi
+    bgerpRun 'org.apache.commons:commons-collections4:4.3' // required for poi
     bgerp 'xalan:xalan:2.7.1' // TODO: get rid together with XSLT
     bgerp 'xalan:serializer:2.7.1' // TODO: get rid together with XSLT
     bgerp 'net.sf.saxon:Saxon-HE:9.4' // 2.9.8 TODO: get rid together with XSLT
@@ -142,7 +143,7 @@ dependencies {
     bgerp fileTree(dir: 'lib', include: ['*.jar'])
 
     // documentation library
-    doc 'org.pzdcdoc:pzdcdoc:1.9'
+    doc 'org.pzdcdoc:pzdcdoc:2.1'
 
     // Unit tests of the main code
     testImplementation 'junit:junit:4.12'
@@ -170,7 +171,7 @@ dependencies {
 // called from ant build/update_lib/build.xml
 task copyLibExt(type: Copy) {
     into "$buildDir/lib"
-    from configurations.bgerp
+    from configurations.bgerpRun
 }
 
 sourceSets {
@@ -186,6 +187,8 @@ sourceSets {
         }
         // makes warning on assigning simple output.classesDir
         output.resourcesDir = "${buildDir}/classes/java/main"
+        compileClasspath = configurations.bgerp
+        runtimeClasspath = output + configurations.bgerpRun
     }
     test {
         java {
@@ -267,10 +270,15 @@ task buildUpdate(type: Exec, dependsOn: 'classes', description: 'Builds distribu
     environment classesPath: "../../target/classes/java/main"
 }
 
-task buildUpdateLib(type: Exec, description: 'Builds library update archive') {
+task buildUpdateLib(type: Exec, description: 'Builds library update archive if exists file build/changes.lib.txt') {
     onlyIf {
         file("build/changes.lib.txt").exists()
     }
+    workingDir "$projectDir/build/update_lib"
+    commandLine "ant"
+}
+
+task buildUpdateLibForce(type: Exec, description: 'Builds library update archive') {
     workingDir "$projectDir/build/update_lib"
     commandLine "ant"
 }

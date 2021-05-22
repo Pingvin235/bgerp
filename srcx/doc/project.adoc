@@ -1218,7 +1218,7 @@ link:../../webapps/WEB-INF/jspf/admin/run/run.jsp#L20-L24[webapps/WEB-INF/jspf/a
 
 The same but for *$$.ajax.load* function:
 [snippet, from="<ui:button", remove-leading="		"]
-link:../../webapps/WEB-INF/jspf/user/process/queue/filter.jsp#L897-L897[webapps/WEB-INF/jspf/admin/run/run.jsp]
+link:../../webapps/WEB-INF/jspf/user/process/queue/filter.jsp#L914-L914[webapps/WEB-INF/jspf/user/process/queue/filter.jsp]
 
 [[sample-jsp-ui-restore-form]]
 Restore form parameter values:

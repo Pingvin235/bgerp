@@ -90,10 +90,10 @@ public class SetRequestParamsFilter implements Filter {
      * <br/>
      */
     public static Map<String, Object> getContextVariables(HttpServletRequest request) {
-        Map<String, Object> result = new HashMap<String, Object>(30);
+        Map<String, Object> result = new HashMap<>(30);
 
-        //TODO: Убрать не ctx переменные в дальнейшем, после проверки, что нигде не используется.
-        //Переменные ctx запрещено использовать в акшенах.
+        // TODO: Убрать не ctx переменные в дальнейшем, после проверки, что нигде не используется.
+        // Переменные ctx запрещено использовать в акшенах.
         result.put("ctxSetup", Setup.getSetup());
         result.put("setup", Setup.getSetup());
 

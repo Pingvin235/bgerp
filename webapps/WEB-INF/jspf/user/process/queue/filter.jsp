@@ -606,6 +606,23 @@
 						<%@ include file="filter_executors.jsp"%>
 					</c:if>
 
+					<c:if test="${filterFromList.type == 'create_user' or filterFromList.type == 'close_user'}">
+						<c:set var="filter" value="${filterFromList}"/>
+						<c:set var="title">
+							<c:if test="${filterFromList.type == 'create_user'}">
+								${l.l('Создал')}
+							</c:if>
+							<c:if test="${filterFromList.type == 'close_user'}">
+								${l.l('Закрыл')}
+							</c:if>
+						</c:set>
+						<c:set var="code">
+							<ui:combo-check list="${ctxUser.getUserListWithSameGroups()}" paramName="${filter.type}" 
+								prefixText="${title}:" widthTextValue="5em"/>
+						</c:set>
+						<%@ include file="filter_item.jsp"%>
+					</c:if>
+					
 					<c:if test="${filterFromList.type.startsWith('date')}">
 						<%@ include file="filter_display.jsp"%>
 						 <div style="width:${leftFilterColumnWidth}px;">

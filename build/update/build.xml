@@ -4,7 +4,7 @@
 
 	<property name="rootfolder" value="content"/>
 
-	<import file="${basedir}/../common/import/module_build.xml"/>
+	<import file="${basedir}/../common/module_build.xml"/>
 
 	<!-- prepare dirs -->
 	<target name="prepare_dir">

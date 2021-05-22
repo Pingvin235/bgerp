@@ -445,7 +445,8 @@ public class Queue extends IdTitle {
             try {
                 String type = filter.get("type", "");
 
-                if (StringUtils.equalsAny(type, "status", "groups", "executors", "close_date", "create_date", "status_date", "code", "description", "message:systemId")) {
+                if (StringUtils.equalsAny(type, "status", "groups", "executors", "close_date", "create_date",
+                        "status_date", "code", "description", "message:systemId", "create_user", "close_user")) {
                     filterList.add(new Filter(id, filter));
                 } else if ("type".equals(type)) {
                     filterList.add(new FilterProcessType(id, filter));

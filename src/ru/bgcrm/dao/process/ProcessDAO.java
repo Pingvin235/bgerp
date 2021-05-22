@@ -92,7 +92,7 @@ public class ProcessDAO extends CommonDAO {
     private boolean history;
 
     /**
-     * Конструктор с полным доступом, без поддержки изоляций.
+     * Constructor without user isolation.
      * @param con
      */
     public ProcessDAO(Connection con) {
@@ -102,7 +102,7 @@ public class ProcessDAO extends CommonDAO {
     }
     
     /**
-     * Конструктор с поддержкой изоляции процессов.
+     * Constructor with isolation support.
      * @param con
      * @param user
      */
@@ -431,7 +431,7 @@ public class ProcessDAO extends CommonDAO {
                     executorIds.add(String.valueOf(form.getUserId()));
                 }
 
-                // режим жёсткого фильтра ТОЛЬКО текущий исполнитель
+                // hard filter with only the current executor
                 if (filter.getValues().contains("current")) {
                     executorIds = Collections.singleton(String.valueOf(form.getUserId()));
                 }
@@ -441,14 +441,8 @@ public class ProcessDAO extends CommonDAO {
                     includeCreateUser = true;
                 }
 
-                /*if( currentUserMode )
-                {
-                    executorIds = String.valueOf( form.getUserId() );
-                }*/
-
                 if (executorIds.size() > 0) {
                     if (executorIds.contains("empty")) {
-                        //joinPart.append( "AS ie ON process.id=ie.process_id AND ie.user_id =''" );
                         wherePart.append(" AND process.executors=''");
                     } else {
                         executorIds.remove("empty");
@@ -471,24 +465,36 @@ public class ProcessDAO extends CommonDAO {
                         wherePart.append(") ");
                     }
                 }
+            } else if ("create_user".equals(type)) {
+                var userIds = form.getSelectedValues("create_user");
+                if (!userIds.isEmpty()) {
+                    wherePart
+                        .append(" AND process.create_user_id IN (")
+                        .append(Utils.toString(userIds))
+                        .append(") ");
+                }
+            } else if ("close_user".equals(type)) {
+                var userIds = form.getSelectedValues("close_user");
+                if (!userIds.isEmpty()) {
+                    wherePart
+                        .append(" AND process.close_user_id IN (")
+                        .append(Utils.toString(userIds))
+                        .append(") ");
+                }
             } else if (f instanceof FilterGrEx) {
                 FilterGrEx filter = (FilterGrEx) f;
-
-                //currentUserMode = Utils.parseBoolean( form.getParam( "currentUserMode" + filter.getRoleId() ) );
 
                 String groupIds = Utils.toString(form.getSelectedValues("group" + filter.getRoleId()));
                 if (Utils.isBlankString(groupIds) && filter.getOnEmptyValues().size() > 0) {
                     groupIds = Utils.toString(filter.getOnEmptyValues());
                 }
 
-                if (Utils.notBlankString(groupIds))//&& !currentUserMode )
-                {
+                if (Utils.notBlankString(groupIds)) {
                     String tableAlias = "pg_" + filter.getRoleId();
 
                     joinPart.append(SQL_INNER_JOIN);
                     joinPart.append(Tables.TABLE_PROCESS_GROUP);
-                    joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND "
-                            + tableAlias + ".group_id IN(");
+                    joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND " + tableAlias + ".group_id IN(");
                     joinPart.append(groupIds);
                     joinPart.append(") AND " + tableAlias + ".role_id=" + filter.getRoleId());
                 }
@@ -1606,74 +1612,70 @@ public class ProcessDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает процессы по адресному параметру.
-     * @param searchResult
-     * @param addressParamIdList
-     * @param houseId код дома
-     * @param houseFlat квартира
-     * @param houseRoom комната
+     * Search processes by 'address' param.
+     * @param searchResult result
+     * @param addressParamIds param IDs used for search.
+     * @param houseId house ID
+     * @param houseFlat flat
+     * @param houseRoom room
      * @throws SQLException
      */
     public void searchProcessListByAddress(SearchResult<ParameterSearchedObject<Process>> searchResult,
-            Set<Integer> typeIds, Set<Integer> addressParamIdList, int houseId, String houseFlat, String houseRoom)
-                    throws BGException {
-        try {
-            if (searchResult != null) {
-                Page page = searchResult.getPage();
-                List<ParameterSearchedObject<Process>> list = searchResult.getList();
+            Set<Integer> typeIds, Set<Integer> addressParamIds, int houseId, String houseFlat, String houseRoom)
+                    throws SQLException {
+        if (searchResult != null) {
+            Page page = searchResult.getPage();
+            List<ParameterSearchedObject<Process>> list = searchResult.getList();
 
-                PreparedDelay ps = new PreparedDelay(con);
-                String ids = Utils.toString(addressParamIdList);
+            PreparedDelay ps = new PreparedDelay(con);
+            String ids = Utils.toString(addressParamIds);
 
-                ps.addQuery(SQL_SELECT_COUNT_ROWS);
-                ps.addQuery("DISTINCT param.param_id, param.value, process.*, type.title, status.title ");
-                ps.addQuery(SQL_FROM);
-                ps.addQuery(TABLE_PROCESS);
-                ps.addQuery("AS process");
+            ps.addQuery(SQL_SELECT_COUNT_ROWS);
+            ps.addQuery("DISTINCT param.param_id, param.value, process.*, type.title, status.title ");
+            ps.addQuery(SQL_FROM);
+            ps.addQuery(TABLE_PROCESS);
+            ps.addQuery("AS process");
 
-                ps.addQuery(SQL_INNER_JOIN);
-                ps.addQuery(TABLE_PARAM_ADDRESS);
-                ps.addQuery("AS param ON c.id=param.id AND param.param_id IN (");
-                ps.addQuery(ids);
-                ps.addQuery(")");
+            ps.addQuery(SQL_INNER_JOIN);
+            ps.addQuery(TABLE_PARAM_ADDRESS);
+            ps.addQuery("AS param ON c.id=param.id AND param.param_id IN (");
+            ps.addQuery(ids);
+            ps.addQuery(")");
 
-                ps.addQuery(" AND param.house_id=?");
-                ps.addInt(houseId);
+            ps.addQuery(" AND param.house_id=?");
+            ps.addInt(houseId);
 
-                if (Utils.notBlankString(houseFlat)) {
-                    ps.addQuery(" AND param.flat=?");
-                    ps.addString(houseFlat);
-                }
-                if (Utils.notBlankString(houseRoom)) {
-                    ps.addQuery(" AND param.room=?");
-                    ps.addString(houseRoom);
-                }
-
-                ps.addQuery(" LEFT JOIN " + TABLE_PROCESS_TYPE + " AS type ON process.type_id=type.id ");
-                ps.addQuery(
-                        " LEFT JOIN " + TABLE_PROCESS_STATUS_TITLE + " AS status ON status.id = process.status_id ");
-
-                ps.addQuery(" WHERE 1>0 ");
-                if (typeIds != null && typeIds.size() > 0) {
-                    ps.addQuery(" AND process.type_id IN ");
-                    ps.addQuery(Utils.toString(typeIds));
-                    ps.addQuery(" )");
-                }
-
-                ps.addQuery(SQL_ORDER_BY);
-                ps.addQuery("p.create_dt");
-                ps.addQuery(getPageLimit(page));
-
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    list.add(new ParameterSearchedObject<>(getProcessFromRs(rs), rs.getInt(1), rs.getString(2)));
-                }
-
-                setRecordCount(page, ps.getPrepared());
-                ps.close();
+            if (Utils.notBlankString(houseFlat)) {
+                ps.addQuery(" AND param.flat=?");
+                ps.addString(houseFlat);
             }
-        } catch (SQLException e) {
-            throw new BGException(e);
+            if (Utils.notBlankString(houseRoom)) {
+                ps.addQuery(" AND param.room=?");
+                ps.addString(houseRoom);
+            }
+
+            ps.addQuery(" LEFT JOIN " + TABLE_PROCESS_TYPE + " AS type ON process.type_id=type.id ");
+            ps.addQuery(
+                    " LEFT JOIN " + TABLE_PROCESS_STATUS_TITLE + " AS status ON status.id = process.status_id ");
+
+            ps.addQuery(" WHERE 1>0 ");
+            if (typeIds != null && typeIds.size() > 0) {
+                ps.addQuery(" AND process.type_id IN ");
+                ps.addQuery(Utils.toString(typeIds));
+                ps.addQuery(" )");
+            }
+
+            ps.addQuery(SQL_ORDER_BY);
+            ps.addQuery("p.create_dt");
+            ps.addQuery(getPageLimit(page));
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ParameterSearchedObject<>(getProcessFromRs(rs), rs.getInt(1), rs.getString(2)));
+            }
+
+            setRecordCount(page, ps.getPrepared());
+            ps.close();
         }
     }
 

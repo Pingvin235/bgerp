@@ -40,7 +40,7 @@
 	<!-- overwrite to add some module files -->
 	<target name="add_to_module_zip">
 		<!-- empty fileset, can be overwritten -->
-		<fileset id="add.to.module.zip" dir="${basedir}"/>
+		<fileset id="add.to.module.zip" dir="missing_dir" erroronmissingdir="false"/>
 	</target>
 	
 	<target name="build_module" depends="add_to_module_zip">
