@@ -30,7 +30,7 @@ $$.shell = new function () {
 
 			// процесс уже был открыт, если нет открытых с классом editorStopReload редакторов - то перезагрузка
 			if(command.match( /process(\-*\d+)/ ) &&
-			   $commandDiv.find( ".editorStopReload:visible" ).length == 0) {
+				$commandDiv.find( ".editorStopReload:visible" ).length == 0) {
 				removeCommandDiv( command );
 				$commandDiv = $();
 			}
@@ -100,6 +100,26 @@ $$.shell = new function () {
 		$("#objectBuffer .object-count").text(getBufferCount());
 	}
 
+	const menuItems = {
+		titles: [],
+		icons: [],
+		add: function (item) {
+			item.titlePath = item.title;
+			if (this.titles.length) {
+				const sep = " -> ";
+				item.titlePath = this.titles.join(sep) + sep + item.title;
+			}
+
+			if (this.icons.length)
+				item.icons = this.icons.slice();
+
+			// TODO: Place items in separated sub object to avoid collisions.
+			menuItems[item.href] = item;
+
+			debug("menuItems add()", item);
+		}
+	}
+
 	// next contentLoad starts only after previous is done
 	let contentLoadDfd;
 
@@ -132,8 +152,8 @@ $$.shell = new function () {
 		const commandBeforeSharp = pos > 0 ? command.substring(0, pos) : command;
 		const commandId = pos > 0 ? "&id=" + command.substring(pos + 1) : "";
 
-		var item = menuItems[commandBeforeSharp];
-		// открытие оснастки меню
+		const item = menuItems[commandBeforeSharp];
+		// open menu tool
 		if (item) {
 			// берём после префикса /user , для сохранения обратной совместимости
 			const id = commandBeforeSharp.substring(6).replace(/\//g, "-");
@@ -144,10 +164,22 @@ $$.shell = new function () {
 				let $taskButton = $('#taskPanel > div#' + id);
 
 				if ($taskButton.length == 0) {
-					$('#taskPanel')
-						.append(sprintf("<div class='btn-blue btn-task-active' id='%s' title='%s'><span class='title'>%s</span>" +
-						(pinned ? "" : "<span class='icon-close ti-close'></span>") + "</div>",
-							id, item.title, item.title));
+					let taskButton = sprintf("<div class='btn-blue btn-task-active' id='%s' title='%s'>", id, item.titlePath);
+
+					if (item.icons) {
+						item.icons.forEach((icon) => {
+							taskButton += sprintf("<span class='%s'>&nbsp;</span>", icon);
+						});
+					}
+
+					taskButton += sprintf("<span class='title'>%s</span>", item.title);
+
+					if (!pinned)
+						taskButton += "<span class='icon-close ti-close'></span>";
+
+					taskButton += "</div>";
+
+					$('#taskPanel').append(taskButton);
 					$taskButton = $('#taskPanel > div#' + id);
 
 					var $commandDiv;
@@ -206,7 +238,7 @@ $$.shell = new function () {
 				}
 			}
 		}
-		// открытие контрагентов и др. объектов
+		// open object
 		else {
 			var m = null;
 			var url = null;
@@ -507,6 +539,7 @@ $$.shell = new function () {
 
 	// public functions
 	this.debug = debug;
+	this.menuItems = menuItems;
 	this.initBuffer = initBuffer;
 	this.contentLoad = contentLoad;
 	this.followLink = followLink;

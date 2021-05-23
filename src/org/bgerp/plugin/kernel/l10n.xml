@@ -181,7 +181,7 @@
 	<p><ru>Непрочитанные</ru><en>Unread</en></p>
 	<p><ru>Прочитанные</ru><en>Read</en></p>
 	<p><ru>Фильтр по тексту</ru><en>Filter by text</en></p>
-	<p><ru>Создал</ru><en>Created</en></p>
+	<p><ru>Создал</ru><en>Created by</en></p>
 	<p><ru>Удалить</ru><en>Delete</en></p>
 	<p><ru>Не прочитано</ru><en>Unread</en></p>
 	<p><ru>Прочитано</ru><en>Read</en></p>
@@ -426,7 +426,7 @@
 	<p><ru>Найдено</ru><en>Found</en></p>
 	<p><ru>отображено</ru><en>shown</en></p>
 	<p><ru>Закрыл</ru><en>Closed by</en></p>
-	<p><ru>Создал</ru><en>Created by</en></p>
+	<p><ru>Цвет для счетчика фильтра</ru><en>Color for filter's counter</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

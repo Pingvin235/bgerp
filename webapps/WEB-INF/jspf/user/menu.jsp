@@ -40,7 +40,7 @@
 
 <plugin:include endpoint="user.menu.items.jsp"/>
 
-<ui:menu-group ltitle="Администрирование">
+<ui:menu-group ltitle="Администрирование" icon="ti-settings">
 	<ui:menu-item ltitle="Конфигурация" href="admin/config"
 		action="ru.bgcrm.struts.action.admin.ConfigAction:list"
 		command="/admin/config.do?action=list" />

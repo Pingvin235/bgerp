@@ -1,0 +1,2 @@
+A: Icon paths in menu items.
+A: Title paths for running tools.

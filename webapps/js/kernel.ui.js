@@ -122,7 +122,11 @@ $$.ui = new function() {
 	 * @param {*} align 'left' or 'right'. 
 	 */
 	const menuInit = ($launcher, $menu, align) => {
-		$menu.menu().hide();
+		$menu.menu({
+			icons: {
+				submenu: "ti-angle-right" 
+			}
+		}).hide();
 
 		// empty menu items
 		$menu.find( "a:not([onclick])" ).click(function (event) {

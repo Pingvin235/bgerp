@@ -1127,7 +1127,7 @@ link:../../webapps/WEB-INF/jspf/user/profile/default.jsp#L39-L45[webapps/WEB-INF
 Stored values may be read in JSP pages using in the same *ctxUser.personalizationMap* way,
 but also available in JS like for this case.
 [snippet, from="if (", to=");", remove-leading="		"]
-link:../../webapps/js/kernel.shell.js#L377-L378[webapps/js/kernel.shell.js]
+link:../../webapps/js/kernel.shell.js#L409-L410[webapps/js/kernel.shell.js]
 
 [[sample-tab-element-count]]
 === Depicting element count on a tab

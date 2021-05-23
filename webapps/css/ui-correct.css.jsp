@@ -20,6 +20,11 @@
 	margin-top: 0;
 }
 
+.ui-menu .ui-menu-item .ui-icon {
+	text-indent: 0;
+	background-image: none;
+}
+
 .ui-autocomplete, .ui-menu, .ui-menu a,
 .ui-tabs.ui-corner-all, .ui-tabs .ui-corner-all, .ui-tabs .ui-corner-top {
 	border-bottom-right-radius: 0;

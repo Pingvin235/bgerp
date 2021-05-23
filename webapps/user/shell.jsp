@@ -23,7 +23,7 @@
 				<span id="filterCounterPanel"></span>
 
 				<div id="colorPickerModal" style="display: none;">
-					<span>Цвет для счетчика фильтра:</span>
+					<span>${l.l('Цвет для счетчика фильтра')}:</span>
 					<span class='colorPicker-picker' style='display: inline-block;'></span>
 					<script>$(".colorPicker-picker").colorPicker();</script>
 				</div>
@@ -62,7 +62,7 @@
 		<c:set var="uiidCommandMenu" value="${u:uiid()}"/>
 
 		<ul id="${uiidCommandMenu}" style="display: none;" class="menu">
-			<%-- инклуд собирает инициализацию меню в переменную menuItemsJS --%>
+			<%-- the include collects menu init to JSP variable menuItemsJS --%>
 			<%@ include file="/WEB-INF/jspf/user/menu.jsp"%>
 		</ul>
 
@@ -73,14 +73,13 @@
 		<ul id="${uiidProfileMenu}" style="display: none;">
 			<li><ui:user-link id="${ctxUser.id}" text="${l.l('Профиль')}"/></li>
 			<li><a href="/user/process/my" onclick="$$.shell.followLink(this.href, event)">${l.l('Мои процессы')}</a></li>
-			<%-- отсутствие onclick отключит этот пункт меню --%>
-			<li><a href="UNDEF" onclick="$$.ajax.post('/login.do?action=logout').done(() => window.location.href = '/user'); return false;">${l.l('Выход')}</a></li>
+			<%-- href is required for menu item --%>
+			<li><a href="#" onclick="$$.ajax.post('/login.do?action=logout').done(() => window.location.href = '/user'); return false;">${l.l('Выход')}</a></li>
 		</ul>
 	</div>
 
 	<script>
-		const menuItems = $$.menuItems = {};
-
+		<%-- generated string, filling out $$.shell.menuItems --%>
 		${menuItemsJS}
 
 		<%-- move personal settings to $$.pers for using in JS --%>
@@ -88,6 +87,7 @@
 			$$.pers['${pair.key}'] = '${pair.value}';
 		</c:forEach>
 
+		<%-- mapping for opened objects URLs --%>
 		$$.shell.mapUrl = function (href) {
 			let url = null;
 			let bgcolor = null;
