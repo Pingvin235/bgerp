@@ -21,9 +21,9 @@ import org.bgerp.itest.kernel.customer.CustomerTest;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.message.MessageTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
+import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.dao.message.MessageTypeEmail;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.ProcessExecutor;

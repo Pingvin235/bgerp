@@ -13,9 +13,7 @@
 
 <li>
 	<a href="#">
-		<c:if test="${not empty icon}">
-			<span class="${icon}"></span>
-		</c:if>
+		<ui:menu-icon icon="${icon}"/>
 		${title}
 	</a>
 	<ul>
@@ -30,9 +28,9 @@
 
 		<c:set var="menuItemsJS" scope="request">
 			${menuItemsJS}
-			$$.shell.menuItems.titles.push('${title}');
+			menuItems.titles.push('${title}');
 			<c:if test="${not empty icon}">
-				$$.shell.menuItems.icons.push('${icon}');
+				menuItems.icons.push('${icon}');
 			</c:if>
 		</c:set>
 
@@ -40,9 +38,9 @@
 
 		<c:set var="menuItemsJS" scope="request">
 			${menuItemsJS}
-			$$.shell.menuItems.titles.pop();
+			menuItems.titles.pop();
 			<c:if test="${not empty icon}">
-				$$.shell.menuItems.icons.pop();
+				menuItems.icons.pop();
 			</c:if>
 		</c:set>
 	</ul>

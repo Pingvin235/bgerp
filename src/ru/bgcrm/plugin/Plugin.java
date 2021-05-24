@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -126,6 +127,15 @@ public abstract class Plugin {
      */
     public final List<String> getEndpoints(String key) {
         return endpoints.get(key);
+    }
+
+    /**
+     * Message type class, supported by the plugin.
+     * @param name name of the type, must start from the plugin ID.
+     * @return
+     */
+    public Class<? extends MessageTypeEmail> getMessageTypeClass(String name) {
+        return null;
     }
 
     /**

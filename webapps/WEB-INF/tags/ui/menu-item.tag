@@ -7,6 +7,7 @@
 <%@ attribute name="title" description="Title"%>
 <%@ attribute name="ltitle" description="Title to be localized"%>
 <%@ attribute name="hidden" description="Hidden menu item"%>
+<%@ attribute name="icon" description="Font icon"%>
 
 <c:if test="${not empty ltitle}">
 	<c:set var="title" value="${l.l(ltitle)}"/>
@@ -31,6 +32,7 @@
 					<a href="#" onclick="${command}; return false;">
 				</c:otherwise>
 			</c:choose>
+			<ui:menu-icon icon="${icon}"/>
 			${title}</a>
 		</li>
 	</c:if>
@@ -39,6 +41,12 @@
 <c:if test="${not empty href}">
 	<c:set var="menuItemsJS" scope="request">
 		${menuItemsJS}
-		$$.shell.menuItems.add({href: '${href}', action: '${command}', title: '${title}', allowed: ${allowed}});
+		<c:if test="${not empty icon}">
+			menuItems.icons.push('${icon}');
+		</c:if>
+		menuItems.add({href: '${href}', action: '${command}', title: '${title}', allowed: ${allowed}});
+		<c:if test="${not empty icon}">
+			menuItems.icons.pop();
+		</c:if>
 	</c:set>
 </c:if>

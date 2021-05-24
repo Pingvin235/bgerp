@@ -79,7 +79,8 @@
 	</div>
 
 	<script>
-		<%-- generated string, filling out $$.shell.menuItems --%>
+		const menuItems = $$.shell.menuItems;
+		<%-- generated string, filling out menuItems --%>
 		${menuItemsJS}
 
 		<%-- move personal settings to $$.pers for using in JS --%>

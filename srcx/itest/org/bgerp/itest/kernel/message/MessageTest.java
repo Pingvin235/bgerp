@@ -3,10 +3,10 @@ package org.bgerp.itest.kernel.message;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.customer.CustomerTest;
+import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.dao.message.MessageTypeEmail;
 import ru.bgcrm.dao.message.MessageTypeNote;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.model.config.TagConfig;

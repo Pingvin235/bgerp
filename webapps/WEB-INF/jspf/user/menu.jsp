@@ -1,22 +1,22 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<ui:menu-item ltitle="Поиск" href="search"
+<ui:menu-item ltitle="Поиск" href="search" icon="ti-search"
 	action="ru.bgcrm.struts.action.SearchAction" command="/user/search.do" />
 
-<ui:menu-item ltitle="Новости" href="news"
+<ui:menu-item ltitle="Новости" href="news" icon="ti-bell"
 	action="ru.bgcrm.struts.action.NewsAction:newsList"
 	command="/user/news.do?action=newsList&read=0" />
 
-<ui:menu-item ltitle="Адреса" href="directory/address"
+<ui:menu-item ltitle="Адреса" href="directory/address" icon="ti-book"
 	action="ru.bgcrm.struts.action.DirectoryAddressAction"
 	command="/user/directory/address.do" />
 
-<ui:menu-item ltitle="Сообщения" href="message/queue"
+<ui:menu-item ltitle="Сообщения" href="message/queue" icon="ti-email"
 	action="ru.bgcrm.struts.action.MessageAction:messageList"
 	command="/user/message.do?action=messageList" />
 
-<ui:menu-group ltitle="Процессы">
+<ui:menu-group ltitle="Процессы" icon="ti-control-shuffle">
 	<ui:menu-item ltitle="Очереди процессов" href="process/queue"
 		action="ru.bgcrm.struts.action.ProcessAction:queue"
 		command="/user/process/queue.do?action=queue" />
@@ -26,13 +26,13 @@
 		command="/user/process.do?action=userProcessList"/>
 </ui:menu-group>
 
-<ui:menu-group ltitle="Контрагент">
+<ui:menu-group ltitle="Контрагент" icon="ti-face-smile">
 	<ui:menu-item ltitle="Создать"
 		action="ru.bgcrm.struts.action.CustomerAction:customerCreate"
 		command="$$.customer.createAndEdit()" />
 </ui:menu-group>
 
-<ui:menu-item ltitle="Логирование" href="log"
+<ui:menu-item ltitle="Логирование" href="log" icon="ti-receipt"
 	action="ru.bgcrm.struts.action.LogAction" command="/user/log.do" />
 
 <ui:menu-item title="Test" href="/user/test" hidden="true"
@@ -41,15 +41,15 @@
 <plugin:include endpoint="user.menu.items.jsp"/>
 
 <ui:menu-group ltitle="Администрирование" icon="ti-settings">
-	<ui:menu-item ltitle="Конфигурация" href="admin/config"
+	<ui:menu-item ltitle="Конфигурация" href="admin/config" icon="ti-panel"
 		action="ru.bgcrm.struts.action.admin.ConfigAction:list"
 		command="/admin/config.do?action=list" />
 
-	<ui:menu-item ltitle="Параметры" href="admin/param"
+	<ui:menu-item ltitle="Параметры" href="admin/param" icon="ti-palette"
 		action="ru.bgcrm.struts.action.admin.DirectoryAction"
 		command="/admin/directory.do" />
 	
-	<ui:menu-group ltitle="Пользователи">
+	<ui:menu-group ltitle="Пользователи" icon="ti-user">
 		<ui:menu-item ltitle="Наборы прав" href="admin/user/permset"
 			action="ru.bgcrm.struts.action.admin.UserAction:permsetList"
 			command="/admin/user.do?action=permsetList" />
@@ -63,7 +63,7 @@
 			command="/admin/user.do?action=userList" />
 	</ui:menu-group>
 	
-	<ui:menu-group ltitle="Процессы">
+	<ui:menu-group ltitle="Процессы" icon="ti-control-shuffle">
 		<ui:menu-item ltitle="Статусы процессов" href="admin/process/status"
 			action="ru.bgcrm.struts.action.admin.ProcessAction:statusList"
 			command="/admin/process.do?action=statusList" />
@@ -77,11 +77,11 @@
 			command="/admin/process.do?action=queueList" />
 	</ui:menu-group>
 	
-	<ui:menu-item ltitle="Выполнить" href="admin/run"
+	<ui:menu-item ltitle="Выполнить" href="admin/run" icon="ti-rocket"
 		action="org.bgerp.action.admin.RunAction"
 		command="/admin/run.do" />
 
-	<ui:menu-item title="Custom" href="admin/custom"
+	<ui:menu-item title="Custom" href="admin/custom" icon="ti-hummer"
 		action="org.bgerp.action.admin.CustomAction"
 		command="/admin/custom.do" />
 
@@ -95,7 +95,7 @@
 		action="ru.bgcrm.struts.action.admin.WebRequestAction"
 		command="/admin/webRequest.do" />
 	
-	<ui:menu-group ltitle="Приложение">
+	<ui:menu-group ltitle="Приложение" icon="ti-package">
 		<ui:menu-item ltitle="Статус приложения" href="admin/app/status"
 			action="org.bgerp.action.admin.AppAction:status"
 			command="/admin/app.do?action=status"/>

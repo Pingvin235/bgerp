@@ -5,11 +5,11 @@ import java.util.Date;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.bgerp.action.open.ProcessAction;
+import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.bgerp.plugin.msg.feedback.Plugin;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.message.MessageDAO;
-import ru.bgcrm.dao.message.MessageTypeEmail;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
