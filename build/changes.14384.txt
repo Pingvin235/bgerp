@@ -1,1 +1,0 @@
-C: Use cdn@bgerp.org account for publishing updates.

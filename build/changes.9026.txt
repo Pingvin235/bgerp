@@ -1,3 +1,0 @@
-A: Filters in process queues: 'create_user', 'close_user'. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#filters
-F: Duplicated JARs in update_lib.
-A: Gradle configuration 'bgerpRun' for runtime dependencies.

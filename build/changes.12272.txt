@@ -1,7 +1,0 @@
-A: AJAX progress indicators: blur on loaded area, spinner on trigger button.
-C: Replace icons to icon fonts.
-C: JS optimizations.
-C: Separated load style.css.jsp for easier debug.
-A: Method p.check in JEXL and JSP contexts for checking is action allowed, https://bgerp.org/doc/3.0/manual/project.html#jsp-tag-p-check
-A: Schema of process relation types, https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process
-C: Download application CSS as separated resource.

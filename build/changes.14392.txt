@@ -1,2 +1,0 @@
-F: Plugins CSS and JS paths.
-F: Use out.flush() magic in open JSP.

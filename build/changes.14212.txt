@@ -1,4 +1,0 @@
-A: Process isolation mode 'isolation.process.group.executor.typeIds', https://bgerp.org/doc/3.0/manual/kernel/setup.html#user-isolation
-B: Removed calculated user config variables 'ctxUserId', 'ctxUserGroupIds', 'ctxUserPermsetIds', https://bgerp.org/doc/3.0/manual/kernel/setup.html#united-user-config
-A: Parameter with DOM element for JS function $$.shell.$content().
-C: BGException to Exception, fluent methods.

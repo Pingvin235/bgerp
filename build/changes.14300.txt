@@ -1,3 +1,0 @@
-C: Docker image building cleanup.
-A: Doc, start Docker image with internal volumes, https://bgerp.org/doc/3.0/manual/kernel/install.html#docker
-A: Doc, start Docker image with custom MySQL port, https://bgerp.org/doc/3.0/manual/project.html#run-data

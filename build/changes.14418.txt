@@ -1,2 +1,0 @@
-C: E-Mail support extracted to plugin 'email'. 
-A: Menu icons.

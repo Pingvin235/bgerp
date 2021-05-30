@@ -1,6 +1,36 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+30.05.2021 09:43:49 1375
+A: [12272] AJAX progress indicators: blur on loaded area, spinner on trigger button.
+C: [12272] Replace icons to icon fonts.
+C: [12272] JS optimizations.
+C: [12272] Separated load style.css.jsp for easier debug.
+A: [12272] Method p.check in JEXL and JSP contexts for checking is action allowed, https://bgerp.org/doc/3.0/manual/project.html#jsp-tag-p-check
+A: [12272] Schema of process relation types, https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process
+C: [12272] Download application CSS as separated resource.
+A: [14212] Process isolation mode 'isolation.process.group.executor.typeIds', https://bgerp.org/doc/3.0/manual/kernel/setup.html#user-isolation
+B: [14212] Removed calculated user config variables 'ctxUserId', 'ctxUserGroupIds', 'ctxUserPermsetIds', https://bgerp.org/doc/3.0/manual/kernel/setup.html#united-user-config
+A: [14212] Parameter with DOM element for JS function $$.shell.$content().
+C: [14212] BGException to Exception, fluent methods.
+A: [14240] Icon paths in menu items.
+A: [14240] Title paths for running tools.
+C: [14300] Docker image building cleanup.
+A: [14300] Doc, start Docker image with internal volumes, https://bgerp.org/doc/3.0/manual/kernel/install.html#docker
+A: [14300] Doc, start Docker image with custom MySQL port, https://bgerp.org/doc/3.0/manual/project.html#run-data
+C: [14384] Use cdn@bgerp.org account for publishing updates.
+A: [14390] Gradle task 'checkChanges'.
+F: [14392] Plugins CSS and JS paths.
+F: [14392] Use out.flush() magic in open JSP.
+F: [14407] Edit process groups and executors links.
+F: [14407] Plugin BGBilling, JSP endpoints.
+F: [14407] Process isolation DB selects.
+C: [14418] E-Mail support extracted to plugin 'email'. 
+A: [14418] Menu icons.
+A: [9026] Filters in process queues: 'create_user', 'close_user'. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#filters
+F: [9026] Duplicated JARs in update_lib.
+A: [9026] Gradle configuration 'bgerpRun' for runtime dependencies.
+
 26.04.2021 21:02:08 1374
 F: [11229] Attach to message second time a file with same name.
 C: [11229] Unification of JS upload API.
