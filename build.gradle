@@ -6,7 +6,8 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven {
-        url "http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts"
+        // for com.lowagie:itext:2.1.7.js6
+        url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts"
     }
 }
 
@@ -110,7 +111,7 @@ dependencies {
     bgerp 'com.fasterxml.jackson.core:jackson-core:2.9.8'
     bgerp 'com.fasterxml.jackson.core:jackson-databind:2.4.1.3'
     bgerp 'net.sf.jasperreports:jasperreports:6.7.0'
-    bgerp 'com.lowagie:itext:2.1.7.js6'
+    bgerpRun 'com.lowagie:itext:2.1.7.js6'
     bgerp 'org.jsoup:jsoup:1.11.3'
     bgerp 'mysql:mysql-connector-java:8.0.19'
     bgerp 'org.apache.poi:poi:4.0.1'

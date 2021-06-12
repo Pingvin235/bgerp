@@ -153,7 +153,7 @@
 	</div>
 
 	<div class="mt1 mb1">
-		<ui:button type="ok" onclick="$$.ajax.post(this.form, ['text']).done(() => { $$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent()) })"/>
+		<ui:button type="ok" onclick="$$.ajax.post(this.form, {toPostNames: ['text']}).done(() => { $$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent()) })"/>
 		<ui:button type="cancel" onclick="$('#${form.returnChildUiid}').empty();" styleClass="ml1"/>
 	</div>
 </html:form>

@@ -35,7 +35,7 @@
 <ui:menu-item ltitle="Логирование" href="log" icon="ti-receipt"
 	action="ru.bgcrm.struts.action.LogAction" command="/user/log.do" />
 
-<ui:menu-item title="Test" href="/user/test" hidden="true"
+<ui:menu-item title="Test" href="test" hidden="true"
 	action="org.bgerp.action.TestAction" command="/user/test.do" />
 
 <plugin:include endpoint="user.menu.items.jsp"/>

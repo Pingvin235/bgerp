@@ -7,7 +7,7 @@
 <c:set var="uiid" value="webRequestSearchForm"/>
 
 </br>
-<form action="../admin/webRequest.do" id="${uiid}">
+<form action="/admin/webRequest.do" id="${uiid}">
 	<input type="hidden" name="action" value="findRequests"/>
 
 	<table>
