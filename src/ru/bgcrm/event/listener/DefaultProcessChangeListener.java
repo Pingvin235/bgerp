@@ -29,6 +29,7 @@ import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.event.process.ProcessCreatedAsLinkEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
+import ru.bgcrm.event.process.ProcessRemovedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.process.Process;
@@ -44,64 +45,59 @@ import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgerp.util.Log;
 
 /**
- * Стандартный слушатель событий с процессом.
- * Возможность определять простейшие действия на события.
+ * Default configurable event processor.
+ * 
+ * @author Shamil Vakhitov
  */
-//TODO: Многие из событий нельзя определить отдельно, доработать.
 public class DefaultProcessChangeListener {
     private static final Log log = Log.getLog();
 
     public DefaultProcessChangeListener() {
-        EventProcessor.subscribe((e, connectionSet) -> {
-            processEvent(connectionSet, e, e.getProcess());
-        }, ProcessChangingEvent.class);
+        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getProcess()), ProcessChangingEvent.class);
 
-        EventProcessor.subscribe((e, connectionSet) -> {
-            processEvent(connectionSet, e, e.getProcess());
-        }, ProcessChangedEvent.class);
+        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getProcess()), ProcessChangedEvent.class);
 
-        EventProcessor.subscribe((e, connectionSet) -> {
-            processEvent(connectionSet, e, e.getProcess());
-        }, ProcessCreatedAsLinkEvent.class);
+        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getProcess()),
+                ProcessCreatedAsLinkEvent.class);
 
-        EventProcessor.subscribe((e, connectionSet) -> {
-            processEvent(connectionSet, e, e.getProcess());
-        }, ProcessMessageAddedEvent.class);
+        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getProcess()),
+                ProcessMessageAddedEvent.class);
 
-        EventProcessor.subscribe((e, connectionSet) -> {
-            processEvent(connectionSet, e, e.getParameter().getObject(), e.getObjectId());
-        }, ParamChangingEvent.class);
+        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getProcess()),
+                ProcessRemovedEvent.class);
 
-        EventProcessor.subscribe((e, connectionSet) -> {
-            processEvent(connectionSet, e, e.getParameter().getObject(), e.getObjectId());
-        }, ParamChangedEvent.class);
+        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getParameter().getObject(), e.getObjectId()),
+                ParamChangingEvent.class);
 
-        EventProcessor.subscribe((e, connectionSet) -> {
-            processEvent(connectionSet, e, e.getLink().getObjectType(), e.getLink().getObjectId());
-        }, LinkAddingEvent.class);
+        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e, e.getParameter().getObject(), e.getObjectId()),
+                ParamChangedEvent.class);
 
-        EventProcessor.subscribe((e, connectionSet) -> {
-            processEvent(connectionSet, e, e.getLink().getObjectType(), e.getLink().getObjectId());
-        }, LinkAddedEvent.class);
+        EventProcessor.subscribe(
+                (e, conSet) -> processEvent(conSet, e, e.getLink().getObjectType(), e.getLink().getObjectId()),
+                LinkAddingEvent.class);
 
-        EventProcessor.subscribe((e, connectionSet) -> {
-            processEvent(connectionSet, e, e.getLink().getObjectType(), e.getLink().getObjectId());
-        }, LinkRemovingEvent.class);
+        EventProcessor.subscribe(
+                (e, conSet) -> processEvent(conSet, e, e.getLink().getObjectType(), e.getLink().getObjectId()),
+                LinkAddedEvent.class);
 
-        EventProcessor.subscribe((e, connectionSet) -> {
-            processEvent(connectionSet, e, e.getLink().getObjectType(), e.getLink().getObjectId());
-        }, LinkRemovedEvent.class);
+        EventProcessor.subscribe(
+                (e, conSet) -> processEvent(conSet, e, e.getLink().getObjectType(), e.getLink().getObjectId()),
+                LinkRemovingEvent.class);
+
+        EventProcessor.subscribe(
+                (e, conSet) -> processEvent(conSet, e, e.getLink().getObjectType(), e.getLink().getObjectId()),
+                LinkRemovedEvent.class);
     }
 
-    private void processEvent(ConnectionSet connectionSet, UserEvent event, String objectType, int objectId)
+    private void processEvent(ConnectionSet conSet, UserEvent event, String objectType, int objectId)
             throws Exception {
         if (Process.OBJECT_TYPE.equals(objectType)) {
-            Process process = new ProcessDAO(connectionSet.getConnection()).getProcess(objectId);
-            processEvent(connectionSet, event, process);
+            Process process = new ProcessDAO(conSet.getConnection()).getProcess(objectId);
+            processEvent(conSet, event, process);
         }
     }
 
-    private void processEvent(ConnectionSet connectionSet, UserEvent event, Process process) throws Exception {
+    private void processEvent(ConnectionSet conSet, UserEvent event, Process process) throws Exception {
         final int typeId = process.getTypeId();
 
         ProcessType type = ProcessTypeCache.getProcessType(typeId);
@@ -110,9 +106,9 @@ public class DefaultProcessChangeListener {
             return;
         }
 
-        DefaultProcessChangingListenerConfig config = type.getProperties().getConfigMap().getConfig(DefaultProcessChangingListenerConfig.class);
+        var config = type.getProperties().getConfigMap().getConfig(DefaultProcessChangingListenerConfig.class);
         for (ConfigRule rule : config.getRuleList()) {
-            rule.processEvent(connectionSet, event, process);
+            rule.processEvent(conSet, event, process);
         }
     }
 
@@ -142,29 +138,30 @@ public class DefaultProcessChangeListener {
     }
 
     private static class ConfigRule {
-        public static final int EVENT_STATUS_CHANGED = 1;
-        public static final int EVENT_CLOSED = 2;
-        public static final int EVENT_CREATED = 3;
-        public static final int EVENT_CREATED_AS_LINK = 4;
-        public static final int EVENT_STATUS_CHANGING = 5;
-        public static final int EVENT_ALL = 6;
-        public static final int EVENT_DESCRIPTION_ADDING = 7;
-        public static final int EVENT_DESCRIPTION_ADDED = 8;
-        public static final int EVENT_DESCRIPTION_CHANGING = 9;
-        public static final int EVENT_DESCRIPTION_CHANGED = 10;
-        public static final int EVENT_PARAM_CHANGING = 11;
-        public static final int EVENT_PARAM_CHANGED = 12;
-        public static final int EVENT_LINK_ADDING = 14;
-        public static final int EVENT_LINK_ADDED = 15;
-        public static final int EVENT_LINK_REMOVING = 16;
-        public static final int EVENT_LINK_REMOVED = 17;
-        public static final int EVENT_MESSAGE_ADDED = 18;
-        public static final int EVENT_EXECUTORS_CHANGING = 19;
-        public static final int EVENT_EXECUTORS_CHANGED = 20;
-        public static final int EVENT_CREATE_FINISHED = 21;
+        private static final String EVENT_STATUS_CHANGED = "statusChanged";
+        private static final String EVENT_CLOSED = "closed";
+        private static final String EVENT_CREATED = "created";
+        private static final String EVENT_REMOVED = "removed";
+        private static final String EVENT_CREATED_AS_LINK = "createdAsLink";
+        private static final String EVENT_STATUS_CHANGING = "statusChanging";
+        private static final String EVENT_ALL = "*";
+        private static final String EVENT_DESCRIPTION_ADDING = "descriptionAdding";
+        private static final String EVENT_DESCRIPTION_ADDED = "descriptionAdded";
+        private static final String EVENT_DESCRIPTION_CHANGING = "descriptionChanging";
+        private static final String EVENT_DESCRIPTION_CHANGED = "descriptionChanged";
+        private static final String EVENT_PARAM_CHANGING = "paramChanging";
+        private static final String EVENT_PARAM_CHANGED = "paramChanged";
+        private static final String EVENT_LINK_ADDING = "linkAdding";
+        private static final String EVENT_LINK_ADDED = "linkAdded";
+        private static final String EVENT_LINK_REMOVING = "linkRemoving";
+        private static final String EVENT_LINK_REMOVED = "linkRemoved";
+        private static final String EVENT_MESSAGE_ADDED = "messageAdded";
+        private static final String EVENT_EXECUTORS_CHANGING = "executorsChanging";
+        private static final String EVENT_EXECUTORS_CHANGED = "executorsChanged";
+        private static final String EVENT_CREATE_FINISHED = "createFinished";
 
-        private final Map<Integer, Object> eventMap = new HashMap<Integer, Object>();
-        private final Map<Integer, Object> eventExcludeMap = new HashMap<Integer, Object>();
+        private final Map<String, Object> eventMap = new HashMap<>();
+        private final Map<String, Object> eventExcludeMap = new HashMap<>();
 
         private String ifExpression;
         private String doExpression;
@@ -187,47 +184,49 @@ public class DefaultProcessChangeListener {
             this.commands = Utils.toList(config.get("commands", ""), ";");
         }
 
-        private void extractEvents(ParameterMap config, List<String> eventList, Map<Integer, Object> eventMap) {
+        private void extractEvents(ParameterMap config, List<String> eventList, Map<String, Object> eventMap) {
             for (String token : eventList) {
-                if (token.startsWith("statusChanged")) {
+                if (token.startsWith(EVENT_STATUS_CHANGED)) {
                     eventMap.put(EVENT_STATUS_CHANGED, Utils.toIntegerSet(StringUtils.substringAfter(token, ":")));
-                } else if (token.startsWith("statusChanging")) {
+                } else if (token.startsWith(EVENT_STATUS_CHANGING)) {
                     eventMap.put(EVENT_STATUS_CHANGING, Utils.toIntegerSet(StringUtils.substringAfter(token, ":")));
-                } else if (token.startsWith("closed")) {
+                } else if (token.startsWith(EVENT_CLOSED)) {
                     eventMap.put(EVENT_CLOSED, Utils.toIntegerSet(StringUtils.substringAfter(token, ":")));
-                } else if (token.equals("created")) {
+                } else if (token.equals(EVENT_CREATED)) {
                     eventMap.put(EVENT_CREATED, "");
-                } else if (token.equals("createdAsLink")) {
+                } else if (token.equals(EVENT_REMOVED)) {
+                    eventMap.put(EVENT_REMOVED, "");
+                } else if (token.equals(EVENT_CREATED_AS_LINK)) {
                     eventMap.put(EVENT_CREATED_AS_LINK, "");
-                } else if (token.equals("createFinished")) {
+                } else if (token.equals(EVENT_CREATE_FINISHED)) {
                     eventMap.put(EVENT_CREATE_FINISHED, "");
-                } else if (token.equals("descriptionAdding")) {
+                } else if (token.equals(EVENT_DESCRIPTION_ADDING)) {
                     eventMap.put(EVENT_DESCRIPTION_ADDING, "");
-                } else if (token.equals("descriptionAdded")) {
+                } else if (token.equals(EVENT_DESCRIPTION_ADDED)) {
                     eventMap.put(EVENT_DESCRIPTION_ADDED, "");
-                } else if (token.equals("descriptionChanging")) {
+                } else if (token.equals(EVENT_DESCRIPTION_CHANGING)) {
                     eventMap.put(EVENT_DESCRIPTION_CHANGING, "");
-                } else if (token.equals("descriptionChanged")) {
+                } else if (token.equals(EVENT_DESCRIPTION_CHANGED)) {
                     eventMap.put(EVENT_DESCRIPTION_CHANGED, "");
-                } else if (token.startsWith("linkAdding")) {
+                } else if (token.startsWith(EVENT_LINK_ADDING)) {
                     eventMap.put(EVENT_LINK_ADDING, "");
-                } else if (token.startsWith("linkAdded")) {
+                } else if (token.startsWith(EVENT_LINK_ADDED)) {
                     eventMap.put(EVENT_LINK_ADDED, "");
-                } else if (token.startsWith("paramChanging")) {
+                } else if (token.startsWith(EVENT_PARAM_CHANGING)) {
                     eventMap.put(EVENT_PARAM_CHANGING, Utils.toIntegerSet(StringUtils.substringAfter(token, ":")));
-                } else if (token.startsWith("paramChanged")) {
+                } else if (token.startsWith(EVENT_PARAM_CHANGED)) {
                     eventMap.put(EVENT_PARAM_CHANGED, Utils.toIntegerSet(StringUtils.substringAfter(token, ":")));
-                } else if (token.startsWith("linkRemoving")) {
+                } else if (token.startsWith(EVENT_LINK_REMOVING)) {
                     eventMap.put(EVENT_LINK_REMOVING, "");
-                } else if (token.startsWith("linkRemoved")) {
+                } else if (token.startsWith(EVENT_LINK_REMOVED)) {
                     eventMap.put(EVENT_LINK_REMOVED, "");
-                } else if (token.equals("messageAdded")) {
+                } else if (token.equals(EVENT_MESSAGE_ADDED)) {
                     eventMap.put(EVENT_MESSAGE_ADDED, "");
-                } else if (token.equals("executorsChanging")) {
+                } else if (token.equals(EVENT_EXECUTORS_CHANGING)) {
                     eventMap.put(EVENT_EXECUTORS_CHANGING, "");
-                } else if (token.equals("executorsChanged")) {
+                } else if (token.equals(EVENT_EXECUTORS_CHANGED)) {
                     eventMap.put(EVENT_EXECUTORS_CHANGED, "");
-                } else if (token.equals("*")) {
+                } else if (token.equals(EVENT_ALL)) {
                     eventMap.put(EVENT_ALL, "");
                 }
             }
@@ -272,7 +271,7 @@ public class DefaultProcessChangeListener {
             }
         }
 
-        private boolean checkEvent(UserEvent e, Process process, Map<Integer, Object> eventMap) throws BGException {
+        private boolean checkEvent(UserEvent e, Process process, Map<String, Object> eventMap) throws BGException {
             if (eventMap.containsKey(EVENT_ALL)) {
                 return true;
             }
@@ -319,6 +318,8 @@ public class DefaultProcessChangeListener {
                 }
             } else if (eventClass == ProcessMessageAddedEvent.class) {
                 return eventMap.containsKey(EVENT_MESSAGE_ADDED);
+            } else if (eventClass == ProcessRemovedEvent.class) {
+                return eventMap.containsKey(EVENT_REMOVED);
             } else if (eventClass == ParamChangingEvent.class) {
                 ParamChangingEvent event = (ParamChangingEvent) e;
 

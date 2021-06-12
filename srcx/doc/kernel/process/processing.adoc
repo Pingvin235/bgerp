@@ -19,7 +19,7 @@ onProcessEvent.<n>.checkErrorMessage=<checkErrorMessage>
 ----
 Где:
 [square]
-* *<n>* - подядковый числовой номер правила;
+* *<n>* - ordered int rule's number;
 * *<events>* - обрабатываемые правилом события через точку с запятой, если параметр не указывается - то обрабатываются все события связанные с данным типом процесса;
 * *<eventsExclude>* - исключаемые из обработки правилом события через точку с запятой, если параметр не указывается - то никакие событие не исключаются;
 * *<ifExpression>* - <<../extension.adoc#jexl, JEXL>> выражение проверки условия при котором отрабатывают команды макроса;
@@ -29,29 +29,94 @@ onProcessEvent.<n>.checkErrorMessage=<checkErrorMessage>
 * *<doExpression>* - выполняемый JEXL скрипт, более гибкий аналог *<commands>*.
 
 В *<events>* поддержаны следующие события:
-[square]
-* *statusChanging:<statusIds>* - статус изменяется на одно на одно из значений, коды которых указаны через запятую в *<statusIds>*;
-* *statusChanged:<statusIds>* - статус изменился на одно из значений, коды которых указаны через запятую в *<statusIds>*;
-* *created* - процесс создан;
-* *createdAsLink* - процесс создан как привязанный к другому процессу;
-* *createFinished* - завершено создание процесса в <<wizard.adoc#, мастере>>;
-* *descriptionAdding* - в описание процесса добавляется текст;
-* *descriptionAdded* - в описание процесса добавлен текст;
-* *descriptionChanging* - описание процесса изменяется целиком;
-* *descriptionChanged* - описание процесса изменилось целиком;
-* *linkAdding* - к процессу добавляется привязка;
-* *linkAdded* - к процессу добавлена привязка;
-* *linkRemoving* - удаляется привязка процесса;
-* *linkRemoved* - удалена привязка процесса;
-* *messageAdded* - в процесс поступило новое сообщение;
-* *paramChanging:<paramIds>* - изменяется параметр процесса, код которого указан через запятую в *<paramIds>*;
-* *paramChanged:<paramIds>* - изменился параметр процесса, код которого указан через запятую в *<paramIds>*;
-* *executorsChanging* - изменяются исполнители процесса;
-* *executorsChanged* - изменились исполнители процесса.
+[cols="2,3,1", options="header"]
+|===
+|Event
+|Description
+|<<event-object, event>> class
+
+|statusChanging:<statusIds>
+|Cтатус изменяется на одно на одно из значений, коды которых указаны через запятую в *<statusIds>*
+|javadoc:ru.bgcrm.event.process.ProcessChangingEvent[]
+
+|descriptionAdding
+|В описание процесса добавляется текст.
+|javadoc:ru.bgcrm.event.process.ProcessChangingEvent[]
+
+|descriptionChanging
+|Описание процесса изменяется целиком.
+|javadoc:ru.bgcrm.event.process.ProcessChangingEvent[]
+
+|executorsChanging
+|Изменяются исполнители процесса.
+|javadoc:ru.bgcrm.event.process.ProcessChangingEvent[]
+
+|linkAdding
+|К процессу добавляется привязка.
+|javadoc:ru.bgcrm.event.link.LinkAddingEvent[]
+
+|linkRemoving
+|Удаляется привязка процесса.
+|javadoc:ru.bgcrm.event.link.LinkRemovingEvent[]
+
+|paramChanging:<paramIds>
+|Изменяется параметр процесса, код которого указан через запятую в *<paramIds>*.
+|javadoc:ru.bgcrm.event.ParamChangingEvent[]
+
+|statusChanged:<statusIds>
+|Cтатус изменился на одно из значений, коды которых указаны через запятую в *<statusIds>*
+|javadoc:ru.bgcrm.event.process.ProcessChangedEvent[]
+
+|created
+|Process was created.
+|javadoc:ru.bgcrm.event.process.ProcessChangedEvent[]
+
+|createFinished
+|Завершено создание процесса в <<wizard.adoc#, мастере>>
+|javadoc:ru.bgcrm.event.process.ProcessChangedEvent[]
+
+|createdAsLink
+|Процесс создан как привязанный к другому процессу.
+|javadoc:ru.bgcrm.event.process.ProcessCreatedAsLinkEvent[]
+
+|removed
+|Process was removed.
+|javadoc:ru.bgcrm.event.process.ProcessRemovedEvent[]
+
+|descriptionAdded
+|В описание процесса добавлен текст.
+|javadoc:ru.bgcrm.event.process.ProcessChangedEvent[]
+
+|descriptionChanged
+|Описание процесса изменилось целиком.
+|javadoc:ru.bgcrm.event.process.ProcessChangedEvent[]
+
+|executorsChanged
+|Изменились исполнители процесса.
+|javadoc:ru.bgcrm.event.process.ProcessChangedEvent[]
+
+|linkAdded
+|К процессу добавлена привязка.
+|javadoc:ru.bgcrm.event.link.LinkAddedEvent[]
+
+|linkRemoved
+|Удалена привязка процесса.
+|javadoc:ru.bgcrm.event.link.LinkRemovedEvent[]
+
+|messageAdded
+|В процесс поступило новое сообщение.
+|javadoc:ru.bgcrm.event.process.ProcessMessageAddedEvent[]
+
+|paramChanged:<paramIds>
+|Изменился параметр процесса, код которого указан через запятую в *<paramIds>*.
+|javadoc:ru.bgcrm.event.ParamChangedEvent[]
+
+|===
 
 События *ing отличаются от *ed событий тем, что они гененрируются до момента записи в БД.
 
 В JEXL процессор передаётся <<../extension.adoc#jexl-process-context, типовой набор объектов для обработки процесса>> плюс:
+[[event-object]]
 [square]
 * *event* - объект события, расширяющий класс javadoc:ru.bgcrm.event.UserEvent[].
 

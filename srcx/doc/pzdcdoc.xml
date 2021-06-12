@@ -5,6 +5,8 @@
 	<attributes>
 		<favicon>https://bgerp.org/img/favicon-doc.svg</favicon>
 		<pzdc-javadoc>https://bgerp.org/doc/3.0/javadoc/</pzdc-javadoc>
+		<!-- source link root -->
+		<pzdc-source-link-root>https://github.com/Pingvin235/bgerp/blob/master</pzdc-source-link-root>
 		<!-- sample of labels customization
 		https://asciidoctor.org/docs/user-manual/#customizing-labels
 		https://github.com/asciidoctor/asciidoctor/blob/master/lib/asciidoctor/document.rb#L255

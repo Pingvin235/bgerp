@@ -1,0 +1,2 @@
+A: 'removed' event in DefaultProcessor, https://bgerp.org/doc/3.0/manual/kernel/process/processing.html
+C: Update PzdcDoc to version 2.2
