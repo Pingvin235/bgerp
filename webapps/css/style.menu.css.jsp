@@ -17,6 +17,7 @@
 	background-color: #ffffff;
 	box-shadow: 0 0 5px #cbcbcb;
 	text-align: left;
+	z-index: 999;
 }
 
 .select ul.ui-menu {

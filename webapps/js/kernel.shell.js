@@ -166,6 +166,12 @@ $$.shell = new function () {
 				if ($taskButton.length == 0) {
 					let taskButton = sprintf("<div class='btn-blue btn-task-active' id='%s' title='%s'>", id, item.titlePath);
 
+					// progress button and removing it after load has done
+					taskButton += "<span class='progress'><i class='progress-icon ti-reload'></i>&nbsp;</span>";
+					contentLoadDfd.done(() => {
+						$taskButton.find(".progress").remove();
+					});
+
 					if (item.icons) {
 						item.icons.forEach((icon) => {
 							taskButton += sprintf("<span class='%s'>&nbsp;</span>", icon);
@@ -246,24 +252,24 @@ $$.shell = new function () {
 			var bgcolor = "";
 			var objectId = 0;
 
-			// открытие контрагента
+			// open customer
 			if ((m = href.match(/.*customer#(\d+)/)) != null) {
 				url = "/user/customer.do?id=" + m[1];
 				bgcolor = "#A1D0C9";
 			}
-			// открытие процесса
+			// open process
 			else if ((m = href.match(/.*process#(\-*\d+)/)) != null) {
 				url = "/user/process.do?id=" + (objectId = m[1]);
 				if (objectId < 0)
 					url += "&wizard=1";
 				bgcolor = "#E6F7C0";
 			}
-			// профиль пользователя
+			// open user profile
 			else if ((m = href.match(/.*profile#(\d+)/)) != null) {
 				url = "/user/profile.do?action=getUserProfile&userId=" + m[1];
 				bgcolor = "#C3A8D5";
 			}
-			// плагины
+			// plugin defined mappings
 			else {
 				const mapping = $$.shell.mapUrl(href)
 				if (mapping) {

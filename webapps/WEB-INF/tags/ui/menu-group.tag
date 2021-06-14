@@ -17,6 +17,14 @@
 		${title}
 	</a>
 	<ul>
+		<c:set var="menuItemsJS" scope="request">
+			${menuItemsJS}
+			menuItems.titles.push('${title}');
+			<c:if test="${not empty icon}">
+				menuItems.icons.push('${icon}');
+			</c:if>
+		</c:set>
+
 		<c:if test="${not empty actionFactory}">
 			<c:forEach var="action" items="${u:newInstance(actionFactory).create(l)}">
 				<ui:menu-item title="${action.getTitle(l)}"
@@ -25,14 +33,6 @@
 					command="${action.actionUrl}"/>
 			</c:forEach>
 		</c:if>
-
-		<c:set var="menuItemsJS" scope="request">
-			${menuItemsJS}
-			menuItems.titles.push('${title}');
-			<c:if test="${not empty icon}">
-				menuItems.icons.push('${icon}');
-			</c:if>
-		</c:set>
 
 		<jsp:doBody/>
 

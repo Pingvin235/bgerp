@@ -36,7 +36,7 @@ $$.ajax = new function () {
 			options.control.disabled = true;
 
 			const $control = $(options.control);
-			$control.prepend("<span class='progress'><i class='progress-icon ti-settings'></i></span>");
+			$control.prepend("<span class='progress'><i class='progress-icon ti-reload'></i></span>");
 			const $progress = $control.find(">.progress");
 			
 			requestDone = () => {

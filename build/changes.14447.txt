@@ -1,0 +1,4 @@
+C: On running buttons icon 'ti-reload'.
+A: Rotating 'ti-reload' on being opened toolbar buttons.
+F: Icons for actionFactory.
+A: Message respond button.

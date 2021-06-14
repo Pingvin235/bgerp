@@ -84,7 +84,7 @@
 				<td align="left" width="100%" style="text-align: left; vertical-align: middle;" class="in-table-cell">
 					<div class="pr05">
 						<%@ include file="message_direction.jsp"%>
-						<%-- теги --%>
+						<%-- tags --%>
 						<c:set var="messageTagIds" value="${form.response.data.messageTagMap[message.id]}"/>
 						<c:forEach var="tagId" items="${messageTagIds}">
 							<c:set var="tag" value="${tagConfig.tagMap[tagId]}"/>
@@ -268,12 +268,12 @@
 										<c:param name="processId" value="${message.processId}"/>
 										<c:param name="replyToId" value="${message.id}"/>
 									</c:url>
-								
-									<li><a href="#" onclick="
-										$$.ajax
+
+									<c:set var="answerCommand" value="$$.ajax
 											.load('${answerUrl}', $('#${editorContainerUiid}'))
-											.done(function () {$(window).scrollTop(150)});
-										return false;">${l.l('Ответить')}</a></li>
+											.done(function () {$(window).scrollTop(150)});"/>
+								
+									<li><a href="#" onclick="${answerCommand}return false;">${l.l('Ответить')}</a></li>
 								</c:if>
 							
 								<c:set var="perm4NotMy" value="${p:get(form.user.id, 'ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes')}" />
@@ -332,6 +332,10 @@
 
 						event.stopPropagation();
 					</c:set>
+
+					<c:if test="${not empty answerCommand}">
+						<ui:button type="reply" onclick="${answerCommand}" styleClass="mr05"/>
+					</c:if>
 
 					<ui:button id="${actionButtonUiid}" type="more" onclick="${showMenuCode}"/>
 				</td>
