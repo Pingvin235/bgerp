@@ -1,0 +1,2 @@
+F: Double click protection on message saving.
+C: Icons of message attachments.

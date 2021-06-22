@@ -24,7 +24,7 @@
 		$('#${uploadListId}').append(
 				"<div>" +
 				"<input type=\"hidden\" name=\"tmpFileId\" value=\""+ fileId + "\"/>" +
-				"<button class=\"btn-white btn-small mr1 icon\" type=\"button\" value=\"X\" onclick=\"" + deleteCode + "\"><i class=\"ti-close\"></i></button>" + fileTitle +
+				"<button class=\"btn-white btn-small mr1 icon\" type=\"button\" onclick=\"" + deleteCode + "\"><i class=\"ti-trash\"></i></button> " + fileTitle +
 				"</div>"
 		);
 	});
@@ -131,7 +131,7 @@
 		<div id="attach">
 			<h2>${l.l('Вложения')}</h2>
 			<div id="${uploadListId}" class="in-mb05-all">
-				<%-- уже загруженные вложения --%>
+				<%-- already stored attachments --%>
 				<c:forEach var="item" items="${message.attachList}">
 					<c:url var="url" value="/user/file.do">
 						<c:param name="id" value="${item.id}"/>
@@ -140,20 +140,20 @@
 					</c:url>
 
 					<div>
-						 <input type="hidden" name="fileId" value="${item.id}"/>
-						 <button class="btn-white btn-small mr1" type="button" onclick="if( confirm( 'Удалить вложение?' ) ){ $(this.parentNode).remove() }">X</button>
-						 <a href="${url}">${item.title}</a>
+						<input type="hidden" name="fileId" value="${item.id}"/>
+						<ui:button styleClass="btn-small mr1" type="del" onclick="$(this.parentNode).remove()"/>
+						<a href="${url}">${item.title}</a>
 					</div>
 				</c:forEach>
 
-				<%-- сюда генерируется список загруженных --%>
+				<%-- here is generated a list of newly uploaded attachments --%>
 			</div>
 			<button type="button" class="btn-white btn-small icon" onclick="$$.ajax.triggerUpload('${uploadFormId}');"><i class="ti-plus"></i></button>
 		</div>
 	</div>
 
 	<div class="mt1 mb1">
-		<ui:button type="ok" onclick="$$.ajax.post(this.form, {toPostNames: ['text']}).done(() => { $$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent()) })"/>
+		<ui:button type="ok" onclick="$$.ajax.post(this.form, {toPostNames: ['text'], control: this}).done(() => { $$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent()) })"/>
 		<ui:button type="cancel" onclick="$('#${form.returnChildUiid}').empty();" styleClass="ml1"/>
 	</div>
 </html:form>
