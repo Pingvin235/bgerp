@@ -6,8 +6,8 @@ import java.io.File;
  */
 @Deprecated
 public final class CompilerWrapper extends org.bgerp.custom.java.CompilerWrapper {
-    public CompilerWrapper(File srcDir, File outputDirRoot) {
-        super(srcDir, outputDirRoot);
+    public CompilerWrapper(File srcDir) {
+        super(srcDir);
     }
 
     @Override

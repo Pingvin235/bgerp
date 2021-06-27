@@ -15,10 +15,8 @@ import org.apache.catalina.webresources.StandardRoot;
 import org.apache.commons.io.IOUtils;
 import org.bgerp.custom.java.CompilationResult;
 import org.bgerp.custom.java.CompilerWrapper;
-import org.bgerp.custom.java.CompilerWrapper.CompilationFailedException;
 
 import ru.bgcrm.Server;
-import ru.bgcrm.util.Utils;
 import ru.bgerp.util.Log;
 
 /**
@@ -65,7 +63,7 @@ public class Custom {
         var srcFiles = new ArrayList<String>(100);
         traverse(srcFiles, SRC_DIR);
 
-        var javac = new CompilerWrapper(SRC_DIR, new File(Utils.getTmpDir()));
+        var javac = new CompilerWrapper(SRC_DIR);
         log.info("Compiling %s java files to %s", srcFiles.size(), javac.getOutputDir());
         
         CompilationResult result = javac.compile(srcFiles).getFirst();

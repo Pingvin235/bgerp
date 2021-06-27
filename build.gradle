@@ -22,8 +22,8 @@ version = '3.0'
 eclipse {
     classpath {
         // speed up of initial start, change if needed
-        downloadJavadoc = false
-        downloadSources = false
+        downloadJavadoc = true
+        downloadSources = true
     }
 }
 

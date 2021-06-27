@@ -44,8 +44,9 @@ public class CompilerWrapper {
     private final File srcDir;
     private final File outputDir;
     
-    public CompilerWrapper(File srcDir, File outputDirRoot) {
+    public CompilerWrapper(File srcDir) {
         this.srcDir = srcDir;
+        var outputDirRoot = new File(Utils.getTmpDir());
         removeOldTmpDirs(outputDirRoot);
         outputDir = new File(outputDirRoot, DIR_PREFIX + System.currentTimeMillis());
         outputDir.mkdir();

@@ -1,110 +1,160 @@
 package ru.bgcrm.util.distr;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.bgerp.util.TestUtils.addDir;
+import static org.bgerp.util.TestUtils.addFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileFilter;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.Map;
+import java.util.zip.ZipOutputStream;
 
-import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.sql.ConnectionPool;
-import ru.bgcrm.util.sql.SQLUtils;
+import ru.bgcrm.util.ZipUtils;
 
-@Ignore
-public class InstallerModuleTest
-{
-	private static final String TEST_CONFIG = "test.bgcrm_test";
-	private Setup setup;
-	
-	private static class InstallerModule extends ru.bgcrm.util.distr.InstallerModule
-	{
-		InstallerModule() {
-            super(null, null);
+public class InstallerModuleTest extends InstallerModule {
+    private File testDir;
+
+    @Before
+    public void before() throws Exception {
+        testDir = Files.createTempDirectory("installer-module-test-").toFile();
+        FileUtils.cleanDirectory(testDir);
+    }
+
+    @After
+    public void clean() throws IOException {
+        FileUtils.deleteDirectory(testDir);
+    }
+
+    private File getUpdateZip(String name, Map<String, String> entries) throws IOException {
+        var zip = new File(testDir, name + ".zip");
+        if (zip.exists())
+            return zip;
+
+        var bos = new ByteArrayOutputStream(1000);
+        try (var zos = new ZipOutputStream(bos, StandardCharsets.UTF_8)) {
+            ZipUtils.addEntry(zos, "module.properties",
+                "module.version=1.0\n" +
+                "name=" + name + "\n");
+
+            ZipUtils.addEntry(zos, "content/", null);
+            for (var me : entries.entrySet())
+                ZipUtils.addEntry(zos, me.getKey(), me.getValue());
         }
 
-        @Override
-		public ModuleInf getModuleInf( File zip )
-		{
-			return super.getModuleInf( zip );
-		}
+        try (var fos = new FileOutputStream(zip)) {
+            IOUtils.write(bos.toByteArray(), fos);
+        }
 
-		@Override
-		public boolean copyFiles( File zip, ModuleInf mi )
-		{
-			return super.copyFiles( zip, mi );
-		}
+        return zip;
+    }
 
-		@Override
-		public void executeCalls( ModuleInf mi, Setup setup, File zip )
-		{
-			super.executeCalls( mi, setup, zip );
-		}
-	}
-	
-	@Before
-	public void init()
-		throws Exception
-	{
-        setup = new Setup(TEST_CONFIG, false);
-		
-		Connection con = new ConnectionPool( "TEST", setup ).getDBConnectionFromPool();
-		
-		ResultSet rs = con.createStatement().executeQuery( "SELECT DATABASE()" );
-		assertTrue( rs.next() );
-		
-		String database = rs.getString( 1 );
-		
-		Statement st = con.createStatement();
-		
-		st.executeUpdate( "DROP DATABASE " + database );
-		st.executeUpdate( "CREATE DATABASE " + database );
-		st.executeQuery( "USE " + database );
-		st.executeUpdate( "CREATE TABLE `n_config_global` ( " +
-    		  "`id` int(11) NOT NULL AUTO_INCREMENT," +
-    		  "`active` tinyint(1) NOT NULL," +
-    		  "`title` varchar(255) NOT NULL," +
-    		  "`data` longtext," +
-    		  "`dt` datetime NOT NULL," +
-    		  "`user_id` int(11) NOT NULL," +
-    		  "`last_modify_user_id` int(11) NOT NULL," +
-    		  "`last_modify_dt` datetime NOT NULL," +
-    		  "PRIMARY KEY (`id`))" );
-		
-		SQLUtils.closeConnection( con );
-		
-		setup = Setup.getSetup( TEST_CONFIG, true );
-		
-		con = setup.getDBConnectionFromPool();
-		
-		con.createStatement().executeUpdate( "DROP TABLE n_config_global" );
-		
-		SQLUtils.closeConnection( con );
-	}
-	
-	@Test
-	public void testParse() 
-	{
-		File dir = new File("build/update");
-		FileFilter fileFilter = new WildcardFileFilter("update*.zip");
-		File[] files = dir.listFiles(fileFilter);
-		
-		assertTrue( "update_..zip not found", files.length > 0 );
-		
-		File updateFile = files[0];
-		InstallerModule installer = new InstallerModule();
-		
-		final ModuleInf moduleInf = installer.getModuleInf( updateFile );
-		
-		assertNotNull( "module inf hasn't extracted", moduleInf );
-		
-		installer.executeCalls( moduleInf, setup, updateFile );
-	}
+    @Test
+    public void testGetModuleInf() throws IOException {
+        var zip = getUpdateZip("update_lib", Map.of());
+        var mi = getModuleInf(zip);
+        Assert.assertNotNull(mi);
+        Assert.assertEquals(mi.getName(), "update_lib");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUseWrongModuleInf() throws IOException {
+        var zip = getUpdateZip("xxx", Map.of());
+        new InstallerModule(null, null, zip);
+    }
+
+    @Test
+    public void testFilesUpdateLib() throws IOException {
+        var zip = getUpdateZip("update_lib", Map.of(
+            "content/lib/ext/lib1.jar", "new",
+            "content/lib/ext/lib2.jar", "new"
+        ));
+
+        var target = addDir(testDir, "test-files-update-lib");
+
+        var libExt = addDir(target, "lib/ext");
+        addFile(libExt, "lib1.jar", "old");
+
+        addFile(libExt, "lib2.jar", "old-changed");
+        addFile(libExt, "lib2.jar.orig", "old");
+
+        addFile(libExt, "lib4_old.jar", "");
+
+        var report = new InstallerModule(null, target, zip).getReport();
+        var replaced = report.getReplaced();
+        var removed = report.getRemoved();
+        var removeSoon = report.getRemoveSoon();
+
+        Assert.assertEquals(2, replaced.size());
+        Assert.assertTrue(replaced.contains("lib/ext/lib1.jar"));
+        Assert.assertEquals("new", IOUtils.toString(new File(libExt, "lib1.jar").toURI(), StandardCharsets.UTF_8));
+
+        Assert.assertTrue(replaced.contains("lib/ext/lib2.jar"));
+        Assert.assertEquals("new", IOUtils.toString(new File(libExt, "lib2.jar").toURI(), StandardCharsets.UTF_8));
+        var lib2bak = libExt.listFiles(f -> f.getName().startsWith("lib2.jar.bak"));
+        Assert.assertEquals(1, lib2bak.length);
+        Assert.assertEquals("old-changed", IOUtils.toString(lib2bak[0].toURI(), StandardCharsets.UTF_8));
+        Assert.assertTrue(removeSoon.contains("lib/ext/lib2.jar.orig"));
+        Assert.assertTrue(new File(libExt, "lib2.jar.orig").exists());
+
+        Assert.assertTrue(removed.contains("lib/ext/lib4_old.jar"));
+        Assert.assertFalse(new File(libExt, "lib4_old.jar").exists());
+
+        System.out.println(report);
+    }
+
+    @Test
+    public void testFilesUpdate() throws IOException {
+        var zip = getUpdateZip("update", Map.of(
+            "content/webapps/js/sub/file3.js", "new"
+        ));
+
+        var target = addDir(testDir, "test-files-update");
+
+        var webappsJs = addDir(target, "webapps/js");
+
+        var webappsJsSub = addDir(webappsJs, "sub");
+        addFile(webappsJsSub, "file3.js", "new-changed");
+        addFile(webappsJsSub, "file3.js.orig", "new");
+
+        var webappsJsOldSubDir = addDir(webappsJs, "old-subdir");
+        addFile(webappsJsOldSubDir, "old-file", "old");
+
+        var plugin = addDir(target, "plugin");
+
+        var libExt = addDir(testDir, "lib/ext");
+        var libExtLib = addFile(libExt, "test.jar", "jar");
+
+        var report = new InstallerModule(null, target, zip).getReport();
+        var replaced = report.getReplaced();
+        var removed = report.getRemoved();
+        var removeSoon = report.getRemoveSoon();
+
+        Assert.assertEquals(0, replaced.size());
+        
+        Assert.assertTrue(removeSoon.contains("webapps/js/sub/file3.js.orig"));
+        Assert.assertEquals("new", IOUtils.toString(new File(webappsJsSub, "file3.js.orig").toURI(), StandardCharsets.UTF_8));
+        Assert.assertEquals("new-changed", IOUtils.toString(new File(webappsJsSub, "file3.js").toURI(), StandardCharsets.UTF_8));
+
+        Assert.assertTrue(removed.contains("webapps/js/old-subdir"));
+        Assert.assertFalse(webappsJsOldSubDir.exists());
+
+        Assert.assertFalse(removed.contains("action"));
+        Assert.assertTrue(removed.contains("plugin"));
+        Assert.assertFalse(plugin.exists());
+
+        Assert.assertTrue(libExt.exists());
+        Assert.assertTrue(libExtLib.exists());
+
+        System.out.println(report);
+    }
 }

@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-
 import org.bgerp.custom.java.CompilationResult;
 import org.bgerp.custom.java.CompilerWrapper.CompilationFailedException;
 import org.bgerp.custom.java.CompilerWrapper.CompiledUnit;
@@ -77,7 +76,7 @@ public class DynamicClassManager {
 
     private DynamicClassManager(ClassLoader parentClassLoader) {
         this.parentClassLoader = parentClassLoader;
-        this.javac = new CompilerWrapper(getScriptsDir(), new File(Utils.getTmpDir()));
+        this.javac = new CompilerWrapper(getScriptsDir());
     }
 
     /**

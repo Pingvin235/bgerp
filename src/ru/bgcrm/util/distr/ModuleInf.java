@@ -10,13 +10,13 @@ import java.util.StringTokenizer;
  * @author Shamil Vakhitov
  */
 public class ModuleInf {
-    private static final String supportedModuleVersion = "1.0";
+    private static final String SUPPORTED_MODULE_VERSION = "1.0";
 
     private boolean errors = false;
     private String moduleVersion;
     private String inf;
     private String name;
-    private List<String[]> calls = new ArrayList<String[]>();
+    private List<String[]> calls = new ArrayList<>();
 
     public ModuleInf(String moduleInf) {
         inf = moduleInf;
@@ -43,7 +43,7 @@ public class ModuleInf {
                     calls.add(class_param);
                 }
             } else if (key.equals("module.version")) {
-                if (!value.equals(supportedModuleVersion)) {
+                if (!value.equals(SUPPORTED_MODULE_VERSION)) {
                     System.out.println("Error: modules version " + value + " is not supported.");
                     errors = true;
                 } else {

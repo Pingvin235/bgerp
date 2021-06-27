@@ -16,6 +16,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -110,7 +111,7 @@ public class InstallProcessor {
 
     private void installSelected() {
         try {
-            if (listForInstall.size() == 0) {
+            if (listForInstall.isEmpty()) {
                 System.out.println("Not updates found, press Enter for exit..");
                 System.in.read();
                 System.exit(0);
@@ -124,17 +125,13 @@ public class InstallProcessor {
                 }
 
                 System.out.println("Start installing..");
-                Thread.sleep(2000);
-
-                List<String> replacedFiles = new ArrayList<String>();
 
                 for (FileInfo fi : listForInstall) {
                     File file = new File(TMP_DIR_PATH + "/" + fi.fileName);
-                    new InstallerModule(file, replacedFiles);
+                    var im = new InstallerModule(Setup.getSetup(), new File("."), file);
+                    System.out.println(im.getReport());
                     file.deleteOnExit();
                 }
-
-                InstallerModule.replacedReport(replacedFiles);
             }
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());

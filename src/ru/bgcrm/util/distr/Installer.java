@@ -1,8 +1,6 @@
 package ru.bgcrm.util.distr;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.distr.call.ExecuteSQL;
@@ -49,9 +47,8 @@ public class Installer {
             ExecuteSQL.clearHashById(killHashVal);
             System.out.println("Hash killing for " + killHashVal + " finished!");
         } else if (args.length == 2 && args[0].equals(K_INSTALL)) {
-            List<String> replacedFiles = new ArrayList<>();
-            new InstallerModule(new File(args[1]), replacedFiles);
-            InstallerModule.replacedReport(replacedFiles);
+            var im = new InstallerModule(Setup.getSetup(), new File("."), new File(args[1]));
+            System.out.println(im.getReport());
         } else if (args.length == 2 && args[0].endsWith(K_INSTALLC)) {
             var files = new UpdateProcessor(args[1]).getUpdateFiles();
             if (files.isEmpty()) {

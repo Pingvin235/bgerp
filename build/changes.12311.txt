@@ -1,0 +1,2 @@
+A: Remove unneeded more files from 'webapps' subdirs during update.
+F: Progress rotation direction.
