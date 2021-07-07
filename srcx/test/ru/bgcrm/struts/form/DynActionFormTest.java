@@ -44,6 +44,13 @@ public class DynActionFormTest {
     }
 
     @Test
+    public void testGetSelectedValuesStr() {
+        var form = new DynActionForm();
+        form.set("a", new String[] { "v1", "", "v2", null });
+        Assert.assertEquals(Set.of("v1", "v2"), form.getSelectedValuesStr("a"));
+    }
+
+    @Test
     public void testGetParamValidate() {
         var form = new DynActionForm("url?a=1&k=&");
         checkGetParamValidate(form);

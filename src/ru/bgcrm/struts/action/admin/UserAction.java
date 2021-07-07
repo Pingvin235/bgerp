@@ -58,7 +58,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         return html(con, mapping, form, "permsetUpdate");
     }
 
-    public ActionForward permsetUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward permsetUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         UserPermsetDAO permsetDAO = new UserPermsetDAO(con);
 
         int id = form.getId();

@@ -519,34 +519,34 @@ public class UserDAO extends CommonDAO {
         return getAllPermissions(Tables.TABLE_USER_PERMISSION, "user_id");
     }
 
-    public void updatePermissions(Set<String> action, Set<String> config, int userId) throws BGException {
-        try {
-            PreparedStatement ps = con.prepareStatement("DELETE FROM " + TABLE_USER_PERMISSION + " WHERE user_id=?");
-            ps.setInt(1, userId);
-            ps.executeUpdate();
-            ps.close();
+    public void updatePermissions(Set<String> action, Set<String> config, int userId) throws SQLException {
+        updatePermissions(action, config, TABLE_USER_PERMISSION, "user_id", userId);
+    }
 
-            for (String newAction : action) {
-                String newConfig = "";
-                for (String c : config) {
-                    if (c.startsWith(newAction + "#")) {
-                        newConfig = StringUtils.substringAfter(c, newAction + "#");
-                        break;
-                    }
-                }
+    protected void updatePermissions(Set<String> action, Set<String> config, String table, String column, int id) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("DELETE FROM " + table + " WHERE " + column + "=?");
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        ps.close();
 
-                if (Utils.notEmptyString(newAction)) {
-                    ps = con.prepareStatement("INSERT INTO " + TABLE_USER_PERMISSION + " ( user_id, action, config ) "
-                            + "VALUES ( ? , ? , ? )");
-                    ps.setInt(1, userId);
-                    ps.setString(2, newAction);
-                    ps.setString(3, newConfig);
-                    ps.executeUpdate();
-                    ps.close();
+        for (String newAction : action) {
+            String newConfig = "";
+            for (String c : config) {
+                if (c.startsWith(newAction + "#")) {
+                    newConfig = StringUtils.substringAfter(c, newAction + "#");
+                    break;
                 }
             }
-        } catch (SQLException e) {
-            throw new BGException();
+
+            if (Utils.notEmptyString(newAction)) {
+                ps = con.prepareStatement("INSERT INTO " + table + " (" + column + ", action, config) "
+                    + "VALUES ( ? , ? , ? )");
+                ps.setInt(1, id);
+                ps.setString(2, newAction);
+                ps.setString(3, newConfig);
+                ps.executeUpdate();
+                ps.close();
+            }
         }
     }
 

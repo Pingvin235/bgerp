@@ -7,14 +7,16 @@ import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -575,20 +577,15 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Возвращает набор выбранных строковых значений, переданных в форме несколько значений как param(<name>)="<value>",
-     * @return
+     * Values of HTTP request parameter.
+     * @param name parameter name.
+     * @return set with {@code name} parameter values.
      */
     public Set<String> getSelectedValuesStr(String name) {
-        Set<String> result = new LinkedHashSet<String>();
-
         final String[] array = param.getArray(name);
-        if (array != null) {
-            for (String value : array) {
-                result.add(value);
-            }
-        }
-
-        return result;
+        if (array != null)
+            return Stream.of(array).filter(Utils::notBlankString).collect(Collectors.toSet());
+        return Collections.emptySet();
     }
 
     /**
