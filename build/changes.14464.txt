@@ -1,0 +1,14 @@
+C: Massive replacing BGException to SQLException.
+C: Rewritten DB update code, applied updates stored in new table 'db_update_log' with executing time.
+C: Unique index and removed unneeded column '_comment' for 'param_list' table.
+B: If server start fails with error "Duplicate entry 'd-d-d' for key 'param_list.id_param_value'", use the fixing query:
+ CREATE TABLE _param_list SELECT * FROM param_list;
+ TRUNCATE TABLE param_list;
+ CALL add_unique_key_if_not_exists('param_list', 'id_param_value', '(id, param_id, value)');
+ INSERT IGNORE INTO param_list SELECT * from _param_list;
+B: If server start fails with error "Duplicate entry 'd-d-d' for key 'PRIMARY'" for table 'param_file', use the fixing query:
+ CREATE TABLE _param_file SELECT * FROM param_file;
+ TRUNCATE TABLE param_file;
+ CALL add_key_if_not_exists('param_file', 'PRIMARY', '(id, param_id, n)');
+ INSERT IGNORE INTO param_file SELECT * FROM param_file;
+C: PzdcDoc version 2.3.

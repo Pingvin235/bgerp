@@ -1,8 +1,8 @@
 package ru.bgcrm.plugin.bgbilling.proto.model;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.Utils;
@@ -171,9 +171,9 @@ public class ParamAddressValue {
      * Конвертирует объект в формат ERP.
      * @param con
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public ParameterAddressValue toParameterAddressValue(Connection con) throws BGException {
+    public ParameterAddressValue toParameterAddressValue(Connection con) throws SQLException {
         ParameterAddressValue crmItem = new ParameterAddressValue();
 
         crmItem.setComment(getComment());

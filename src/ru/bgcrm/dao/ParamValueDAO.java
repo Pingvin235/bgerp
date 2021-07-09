@@ -49,7 +49,6 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Logger;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
@@ -69,9 +68,10 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgcrm.util.sql.SQLUtils;
+import ru.bgerp.util.Log;
 
 public class ParamValueDAO extends CommonDAO {
-    private static final Logger log = Logger.getLogger(ParamValueDAO.class);
+    private static final Log log = Log.getLog();
 
     public static final String DIRECTORY_TYPE_PARAMETER = "parameter";
 
@@ -99,26 +99,22 @@ public class ParamValueDAO extends CommonDAO {
      * @param paramId - код параметра.
      * @param position - позиция, начиная от 1, если в параметре установлены несколько значений.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public ParameterAddressValue getParamAddress(int id, int paramId, int position) throws BGException {
+    public ParameterAddressValue getParamAddress(int id, int paramId, int position) throws SQLException {
         ParameterAddressValue result = null;
 
-        try {
-            String query = "SELECT * FROM " + TABLE_PARAM_ADDRESS + "WHERE id=? AND param_id=? AND n=? " + "LIMIT 1";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ps.setInt(3, position);
+        String query = "SELECT * FROM " + TABLE_PARAM_ADDRESS + "WHERE id=? AND param_id=? AND n=? " + "LIMIT 1";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ps.setInt(3, position);
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = getParameterAddressValueFromRs(rs);
-            }
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            result = getParameterAddressValueFromRs(rs);
         }
+        ps.close();
 
         return result;
     }
@@ -128,9 +124,9 @@ public class ParamValueDAO extends CommonDAO {
      * @param id - код объекта.
      * @param paramId - код параметра.
      * @return ключ - позиция, значение - значение на позиции.
-     * @throws BGException
+     * @throws SQLException
      */
-    public SortedMap<Integer, ParameterAddressValue> getParamAddress(int id, int paramId) throws BGException {
+    public SortedMap<Integer, ParameterAddressValue> getParamAddress(int id, int paramId) throws SQLException {
         return getParamAddressExt(id, paramId, false, null);
     }
 
@@ -140,10 +136,10 @@ public class ParamValueDAO extends CommonDAO {
      * @param paramId - код параметра.
      * @param loadDirs - признак необходимости загрузить справочники, чтобы был корректно заполнен {@link ParameterAddressValue#getHouse()}/
      * @return ключ - позиция, значение - значение на позиции.
-     * @throws BGException
+     * @throws SQLException
      */
     public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs)
-            throws BGException {
+            throws SQLException {
         return getParamAddressExt(id, paramId, loadDirs, null);
     }
 
@@ -154,32 +150,28 @@ public class ParamValueDAO extends CommonDAO {
      * @param loadDirs - признак необходимости загрузить справочники, чтобы был корректно заполнен {@link ParameterAddressValue#getHouse()}.
      * @param formatName - наименование формата адреса из конфигурации, с помощью которого форматировать значение адреса.
      * @return ключ - позиция, значение - значение на позиции.
-     * @throws BGException
+     * @throws SQLException
      */
     public SortedMap<Integer, ParameterAddressValue> getParamAddressExt(int id, int paramId, boolean loadDirs,
-            String formatName) throws BGException {
+            String formatName) throws SQLException {
         SortedMap<Integer, ParameterAddressValue> result = new TreeMap<Integer, ParameterAddressValue>();
 
-        try {
-            StringBuilder query = new StringBuilder(300);
-            query.append("SELECT * FROM " + TABLE_PARAM_ADDRESS + " AS param ");
-            if (loadDirs) {
-                query.append(" LEFT JOIN " + TABLE_ADDRESS_HOUSE + " AS house ON param.house_id=house.id ");
-                AddressDAO.addHouseSelectQueryJoins(query, LOAD_LEVEL_COUNTRY);
-            }
-            query.append(" WHERE param.id=? AND param.param_id=? ORDER BY param.n");
-
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.put(rs.getInt("n"), getParameterAddressValueFromRs(rs, "param.", loadDirs, formatName));
-            }
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+        StringBuilder query = new StringBuilder(300);
+        query.append("SELECT * FROM " + TABLE_PARAM_ADDRESS + " AS param ");
+        if (loadDirs) {
+            query.append(" LEFT JOIN " + TABLE_ADDRESS_HOUSE + " AS house ON param.house_id=house.id ");
+            AddressDAO.addHouseSelectQueryJoins(query, LOAD_LEVEL_COUNTRY);
         }
+        query.append(" WHERE param.id=? AND param.param_id=? ORDER BY param.n");
+
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.put(rs.getInt("n"), getParameterAddressValueFromRs(rs, "param.", loadDirs, formatName));
+        }
+        ps.close();
 
         return result;
     }
@@ -191,32 +183,28 @@ public class ParamValueDAO extends CommonDAO {
      * @param position номер значения (если значений несколько).
      * @param version номер версии файла.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public FileData getParamFile(int id, int paramId, int position, int version) throws BGException {
-        try {
-            FileData result = null;
+    public FileData getParamFile(int id, int paramId, int position, int version) throws SQLException {
+        FileData result = null;
 
-            String query = "SELECT fd.*,pf.comment,pf.user_id,pf.version,pf.n " + "FROM " + TABLE_PARAM_FILE + " AS pf "
-                    + "INNER JOIN " + TABLE_FILE_DATE + " AS fd ON pf.value=fd.id "
-                    + "WHERE pf.id=? AND pf.param_id=? AND pf.n = ? AND pf.version=? " + "LIMIT 1";
+        String query = "SELECT fd.*,pf.comment,pf.user_id,pf.version,pf.n " + "FROM " + TABLE_PARAM_FILE + " AS pf "
+                + "INNER JOIN " + TABLE_FILE_DATE + " AS fd ON pf.value=fd.id "
+                + "WHERE pf.id=? AND pf.param_id=? AND pf.n = ? AND pf.version=? " + "LIMIT 1";
 
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ps.setInt(3, position);
-            ps.setInt(4, version);
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ps.setInt(3, position);
+        ps.setInt(4, version);
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = FileDataDAO.getFromRs(rs, "fd.", true);
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            result = FileDataDAO.getFromRs(rs, "fd.", true);
         }
+        ps.close();
+
+        return result;
     }
 
     /**
@@ -224,30 +212,24 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return ключ - строка позиция + '_' + версия, значение - данные.
-     * @throws BGException
+     * @throws SQLException
      */
-    public SortedMap<String, FileData> getParamFile(int id, int paramId) throws BGException {
+    public SortedMap<String, FileData> getParamFile(int id, int paramId) throws SQLException {
         SortedMap<String, FileData> fileMap = new TreeMap<String, FileData>();
 
-        try {
+        String query = "SELECT fd.*,pf.comment,pf.user_id, pf.n, pf.version " + "FROM " + TABLE_PARAM_FILE
+                + " AS pf " + "INNER JOIN " + TABLE_FILE_DATE + " AS fd ON pf.value=fd.id "
+                + "WHERE pf.id=? AND pf.param_id=? ";
 
-            String query = "SELECT fd.*,pf.comment,pf.user_id, pf.n, pf.version " + "FROM " + TABLE_PARAM_FILE
-                    + " AS pf " + "INNER JOIN " + TABLE_FILE_DATE + " AS fd ON pf.value=fd.id "
-                    + "WHERE pf.id=? AND pf.param_id=? ";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
 
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                fileMap.put(rs.getInt("pf.n") + "-" + rs.getInt("pf.version"), FileDataDAO.getFromRs(rs, "fd.", true));
-            }
-            ps.close();
-
-        } catch (SQLException e) {
-            throw new BGException(e);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            fileMap.put(rs.getInt("pf.n") + "-" + rs.getInt("pf.version"), FileDataDAO.getFromRs(rs, "fd.", true));
         }
+        ps.close();
 
         return fileMap;
     }
@@ -257,9 +239,9 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public Date getParamDate(int id, int paramId) throws BGException {
+    public Date getParamDate(int id, int paramId) throws SQLException {
         return getParamDate(id, paramId, TABLE_PARAM_DATE);
     }
 
@@ -268,31 +250,27 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public Date getParamDateTime(int id, int paramId) throws BGException {
+    public Date getParamDateTime(int id, int paramId) throws SQLException {
         return getParamDate(id, paramId, TABLE_PARAM_DATETIME);
     }
 
-    private Date getParamDate(int id, int paramId, String table) throws BGException {
-        try {
-            Date result = null;
+    private Date getParamDate(int id, int paramId, String table) throws SQLException {
+        Date result = null;
 
-            String query = "SELECT value FROM " + table + " WHERE id=? AND param_id=? LIMIT 1";
+        String query = "SELECT value FROM " + table + " WHERE id=? AND param_id=? LIMIT 1";
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = TimeUtils.convertTimestampToDate(rs.getTimestamp(1));
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException ex) {
-            throw new BGException(ex);
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            result = TimeUtils.convertTimestampToDate(rs.getTimestamp(1));
         }
+        ps.close();
+
+        return result;
     }
 
     /**
@@ -300,9 +278,9 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public String getParamText(int id, int paramId) throws BGException {
+    public String getParamText(int id, int paramId) throws SQLException {
         return getTextParam(id, paramId, TABLE_PARAM_TEXT);
     }
 
@@ -311,38 +289,34 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public String getParamBlob(int id, int paramId) throws BGException {
+    public String getParamBlob(int id, int paramId) throws SQLException {
         return getTextParam(id, paramId, TABLE_PARAM_BLOB);
     }
 
-    private String getTextParam(int id, int paramId, String table) throws BGException {
-        try {
-            String result = null;
+    private String getTextParam(int id, int paramId, String table) throws SQLException {
+        String result = null;
 
-            StringBuilder query = new StringBuilder();
+        StringBuilder query = new StringBuilder();
 
-            query.append(SQL_SELECT);
-            query.append("value");
-            query.append(SQL_FROM);
-            query.append(table);
-            query.append(SQL_WHERE);
-            query.append("id=? AND param_id=? LIMIT 1");
+        query.append(SQL_SELECT);
+        query.append("value");
+        query.append(SQL_FROM);
+        query.append(table);
+        query.append(SQL_WHERE);
+        query.append("id=? AND param_id=? LIMIT 1");
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = rs.getString(1);
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            result = rs.getString(1);
         }
+        ps.close();
+
+        return result;
     }
 
     /**
@@ -351,26 +325,24 @@ public class ParamValueDAO extends CommonDAO {
      * @param paramId код параметра.
      * @position позиция параметра, если значений несколько.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public ParameterEmailValue getParamEmail(int id, int paramId, int position) throws BGException {
+    public ParameterEmailValue getParamEmail(int id, int paramId, int position) throws SQLException {
         ParameterEmailValue emailItem = null;
-        try {
-            String query = "SELECT * FROM " + TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? AND n=? " + "LIMIT 1";
+            
+        String query = "SELECT * FROM " + TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? AND n=? " + "LIMIT 1";
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ps.setInt(3, position);
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ps.setInt(3, position);
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                emailItem = new ParameterEmailValue(rs.getString("value"), rs.getString("comment"));
-            }
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            emailItem = new ParameterEmailValue(rs.getString("value"), rs.getString("comment"));
         }
+        ps.close();
+
         return emailItem;
     }
 
@@ -379,27 +351,22 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return ключ - позиция значения, значение - данные по параметру.
-     * @throws BGException
+     * @throws SQLException
      */
-    public SortedMap<Integer, ParameterEmailValue> getParamEmail(int id, int paramId) throws BGException {
+    public SortedMap<Integer, ParameterEmailValue> getParamEmail(int id, int paramId) throws SQLException {
         SortedMap<Integer, ParameterEmailValue> emailItems = new TreeMap<Integer, ParameterEmailValue>();
 
-        try {
+        String query = "SELECT * FROM " + TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? " + "ORDER BY n ";
 
-            String query = "SELECT * FROM " + TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? " + "ORDER BY n ";
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                emailItems.put(rs.getInt("n"), new ParameterEmailValue(rs.getString("value"), rs.getString("comment")));
-            }
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+        while (rs.next()) {
+            emailItems.put(rs.getInt("n"), new ParameterEmailValue(rs.getString("value"), rs.getString("comment")));
         }
+        ps.close();
 
         return emailItems;
     }
@@ -409,42 +376,38 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public ParameterPhoneValue getParamPhone(int id, int paramId) throws BGException {
-        try {
-            boolean notEmpty = false;
-            ParameterPhoneValue result = new ParameterPhoneValue();
+    public ParameterPhoneValue getParamPhone(int id, int paramId) throws SQLException {
+        boolean notEmpty = false;
+        ParameterPhoneValue result = new ParameterPhoneValue();
 
-            String query = " SELECT value FROM " + TABLE_PARAM_PHONE + " WHERE id=? AND param_id=? LIMIT 1";
-            PreparedStatement ps = con.prepareStatement(query.toString());
+        String query = " SELECT value FROM " + TABLE_PARAM_PHONE + " WHERE id=? AND param_id=? LIMIT 1";
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            notEmpty = true;
+        }
+        ps.close();
+
+        if (notEmpty) {
+            List<ParameterPhoneValueItem> itemList = new ArrayList<ParameterPhoneValueItem>();
+
+            query = " SELECT phone, format, comment, flags FROM " + TABLE_PARAM_PHONE_ITEM
+                    + "WHERE id=? AND param_id=? ORDER BY n";
+            ps = con.prepareStatement(query.toString());
             ps.setInt(1, id);
             ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                notEmpty = true;
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                itemList.add(getParamPhoneValueItemFromRs(rs));
             }
+            result.setItemList(itemList);
             ps.close();
-
-            if (notEmpty) {
-                List<ParameterPhoneValueItem> itemList = new ArrayList<ParameterPhoneValueItem>();
-
-                query = " SELECT phone, format, comment, flags FROM " + TABLE_PARAM_PHONE_ITEM
-                        + "WHERE id=? AND param_id=? ORDER BY n";
-                ps = con.prepareStatement(query.toString());
-                ps.setInt(1, id);
-                ps.setInt(2, paramId);
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    itemList.add(getParamPhoneValueItemFromRs(rs));
-                }
-                result.setItemList(itemList);
-                ps.close();
-            }
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
+        return result;
     }
 
     /**
@@ -452,27 +415,23 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId
      * @return Set с кодами значений.
-     * @throws BGException
+     * @throws SQLException
      */
-    public Set<Integer> getParamList(int id, int paramId) throws BGException {
-        try {
-            Set<Integer> result = new HashSet<Integer>();
+    public Set<Integer> getParamList(int id, int paramId) throws SQLException {
+        Set<Integer> result = new HashSet<Integer>();
 
-            String query = "SELECT value FROM " + TABLE_PARAM_LIST + "WHERE id=? AND param_id=?";
+        String query = "SELECT value FROM " + TABLE_PARAM_LIST + "WHERE id=? AND param_id=?";
 
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(rs.getInt(1));
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(rs.getInt(1));
         }
+        ps.close();
+
+        return result;
     }
 
     /**
@@ -480,9 +439,9 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public List<IdTitle> getParamListWithTitles(int id, int paramId) throws BGException {
+    public List<IdTitle> getParamListWithTitles(int id, int paramId) throws SQLException {
         List<IdTitleComment> values = getParamListWithTitlesAndComments(id, paramId);
         return new ArrayList<IdTitle>(values);
     }
@@ -492,27 +451,23 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return ключ - код значения, значение - комментарий.
-     * @throws BGException
+     * @throws SQLException
      */
-    public Map<Integer, String> getParamListWithComments(int id, int paramId) throws BGException {
-        try {
-            Map<Integer, String> result = new LinkedHashMap<Integer, String>();
+    public Map<Integer, String> getParamListWithComments(int id, int paramId) throws SQLException {
+        Map<Integer, String> result = new LinkedHashMap<Integer, String>();
 
-            String query = "SELECT value, comment FROM " + TABLE_PARAM_LIST + "WHERE id=? AND param_id=?";
+        String query = "SELECT value, comment FROM " + TABLE_PARAM_LIST + "WHERE id=? AND param_id=?";
 
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.put(rs.getInt(1), rs.getString(2));
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.put(rs.getInt(1), rs.getString(2));
         }
+        ps.close();
+
+        return result;
     }
 
     /**
@@ -520,36 +475,32 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public List<IdTitleComment> getParamListWithTitlesAndComments(int id, int paramId) throws BGException {
-        try {
-            List<IdTitleComment> result = new ArrayList<IdTitleComment>();
+    public List<IdTitleComment> getParamListWithTitlesAndComments(int id, int paramId) throws SQLException {
+        List<IdTitleComment> result = new ArrayList<IdTitleComment>();
 
-            StringBuilder query = new StringBuilder();
+        StringBuilder query = new StringBuilder();
 
-            query.append(SQL_SELECT);
-            query.append(" val.value, dir.title, val.comment ");
-            query.append(SQL_FROM);
-            query.append(TABLE_PARAM_LIST);
-            query.append(" AS val ");
-            addListParamJoin(query, paramId);
-            query.append(SQL_WHERE);
-            query.append(" val.id=? AND val.param_id=? ");
+        query.append(SQL_SELECT);
+        query.append(" val.value, dir.title, val.comment ");
+        query.append(SQL_FROM);
+        query.append(TABLE_PARAM_LIST);
+        query.append(" AS val ");
+        addListParamJoin(query, paramId);
+        query.append(SQL_WHERE);
+        query.append(" val.id=? AND val.param_id=? ");
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(new IdTitleComment(rs.getInt(1), rs.getString(2), rs.getString(3)));
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(new IdTitleComment(rs.getInt(1), rs.getString(2), rs.getString(3)));
         }
+        ps.close();
+
+        return result;
     }
 
     /**
@@ -557,36 +508,32 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public List<IdTitle> getParamListCountWithTitles(int id, int paramId) throws BGException {
-        try {
-            List<IdTitle> result = new ArrayList<IdTitle>();
+    public List<IdTitle> getParamListCountWithTitles(int id, int paramId) throws SQLException {
+        List<IdTitle> result = new ArrayList<IdTitle>();
 
-            StringBuilder query = new StringBuilder();
+        StringBuilder query = new StringBuilder();
 
-            query.append(SQL_SELECT);
-            query.append("val.value, dir.title");
-            query.append(SQL_FROM);
-            query.append(TABLE_PARAM_LISTCOUNT);
-            query.append("AS val");
-            addListCountParamJoin(query, paramId);
-            query.append(SQL_WHERE);
-            query.append("val.id=? AND val.param_id=?");
+        query.append(SQL_SELECT);
+        query.append("val.value, dir.title");
+        query.append(SQL_FROM);
+        query.append(TABLE_PARAM_LISTCOUNT);
+        query.append("AS val");
+        addListCountParamJoin(query, paramId);
+        query.append(SQL_WHERE);
+        query.append("val.id=? AND val.param_id=?");
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(new IdTitle(rs.getInt(1), rs.getString(2)));
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(new IdTitle(rs.getInt(1), rs.getString(2)));
         }
+        ps.close();
+
+        return result;
     }
 
     /**
@@ -594,27 +541,23 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return ключ - код значения, значение - доп. данные. 
-     * @throws BGException
+     * @throws SQLException
      */
-    public Map<Integer, ParameterListCountValue> getParamListCount(int id, int paramId) throws BGException {
-        try {
-            Map<Integer, ParameterListCountValue> result = new HashMap<Integer, ParameterListCountValue>();
+    public Map<Integer, ParameterListCountValue> getParamListCount(int id, int paramId) throws SQLException {
+        Map<Integer, ParameterListCountValue> result = new HashMap<Integer, ParameterListCountValue>();
 
-            String query = "SELECT value,count,comment FROM " + TABLE_PARAM_LISTCOUNT + "WHERE id=? AND param_id=?";
+        String query = "SELECT value,count,comment FROM " + TABLE_PARAM_LISTCOUNT + "WHERE id=? AND param_id=?";
 
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.put(rs.getInt(1), new ParameterListCountValue(rs.getBigDecimal(2), rs.getString(3)));
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.put(rs.getInt(1), new ParameterListCountValue(rs.getBigDecimal(2), rs.getString(3)));
         }
+        ps.close();
+
+        return result;
     }
 
     /**
@@ -622,30 +565,26 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return набор значений.
-     * @throws BGException
+     * @throws SQLException
      */
-    public Set<String> getParamTree(int id, int paramId) throws BGException {
-        try {
-            Set<String> result = new HashSet<String>();
+    public Set<String> getParamTree(int id, int paramId) throws SQLException {
+        Set<String> result = new HashSet<String>();
 
-            String query = "SELECT value FROM " + TABLE_PARAM_TREE + "WHERE id=? AND param_id=?";
+        String query = "SELECT value FROM " + TABLE_PARAM_TREE + "WHERE id=? AND param_id=?";
 
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(rs.getString(1));
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(rs.getString(1));
         }
+        ps.close();
+
+        return result;
     }
 
-    private void logParam(int id, int paramId, int userId, String newValue) throws BGException {
+    private void logParam(int id, int paramId, int userId, String newValue) throws SQLException {
         if (Utils.isBlankString(newValue)) {
             newValue = null;
         }
@@ -664,9 +603,9 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @param value значение, null или пустая строка - удалить значение.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamText(int id, int paramId, String value) throws BGException {
+    public void updateParamText(int id, int paramId, String value) throws SQLException {
         if (Utils.isBlankString(value)) {
             value = null;
         }
@@ -683,9 +622,9 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @param value значение, null или пустая строка - удалить значение.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamBlob(int id, int paramId, String value) throws BGException {
+    public void updateParamBlob(int id, int paramId, String value) throws SQLException {
         if (Utils.isBlankString(value)) {
             value = null;
         }
@@ -703,77 +642,73 @@ public class ParamValueDAO extends CommonDAO {
      * @param paramId - код параметра.
      * @param position - позиция значения, начинается с 1, 0 - добавить новое значение с позицией MAX+1.
      * @param value - значение, null - удаление параметра на указанной позиции, если position>0; иначе - удаление всех значений.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamEmail(int id, int paramId, int position, ParameterEmailValue value) throws BGException {
-        try {
-            int index = 1;
+    public void updateParamEmail(int id, int paramId, int position, ParameterEmailValue value) throws SQLException {
+        int index = 1;
 
-            if (value == null) {
-                PreparedDelay psDelay = new PreparedDelay(con);
+        if (value == null) {
+            PreparedDelay psDelay = new PreparedDelay(con);
 
-                psDelay.addQuery(SQL_DELETE + TABLE_PARAM_EMAIL + SQL_WHERE + "id=? AND param_id=?");
-                psDelay.addInt(id);
-                psDelay.addInt(paramId);
+            psDelay.addQuery(SQL_DELETE + TABLE_PARAM_EMAIL + SQL_WHERE + "id=? AND param_id=?");
+            psDelay.addInt(id);
+            psDelay.addInt(paramId);
 
-                if (position > 0) {
-                    psDelay.addQuery(" AND n=?");
-                    psDelay.addInt(position);
+            if (position > 0) {
+                psDelay.addQuery(" AND n=?");
+                psDelay.addInt(position);
+            }
+
+            psDelay.executeUpdate();
+
+            psDelay.close();
+        } else {
+            if (position <= 0) {
+                position = 1;
+
+                String query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_EMAIL + " WHERE id=? AND param_id=?";
+                PreparedStatement ps = con.prepareStatement(query);
+                ps.setInt(1, id);
+                ps.setInt(2, paramId);
+
+                ResultSet rs = ps.executeQuery();
+                if (rs.next() && rs.getObject(1) != null) {
+                    position = rs.getInt(1);
                 }
+                ps.close();
 
-                psDelay.executeUpdate();
+                query = "INSERT INTO " + TABLE_PARAM_EMAIL + " SET id=?, param_id=?, n=?, value=?, comment=?";
+                ps = con.prepareStatement(query);
+                ps.setInt(index++, id);
+                ps.setInt(index++, paramId);
+                ps.setInt(index++, position);
+                ps.setString(index++, value.getValue());
+                ps.setString(index++, value.getComment());
 
-                psDelay.close();
+                ps.executeUpdate();
+
+                ps.close();
             } else {
-                if (position <= 0) {
-                    position = 1;
+                String query = "UPDATE " + TABLE_PARAM_EMAIL + " SET value=?, comment=?"
+                        + " WHERE id=? AND param_id=? AND n=?";
+                PreparedStatement ps = con.prepareStatement(query);
 
-                    String query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_EMAIL + " WHERE id=? AND param_id=?";
-                    PreparedStatement ps = con.prepareStatement(query);
-                    ps.setInt(1, id);
-                    ps.setInt(2, paramId);
+                ps.setString(index++, value.getValue());
+                ps.setString(index++, value.getComment());
+                ps.setInt(index++, id);
+                ps.setInt(index++, paramId);
+                ps.setInt(index++, position);
 
-                    ResultSet rs = ps.executeQuery();
-                    if (rs.next() && rs.getObject(1) != null) {
-                        position = rs.getInt(1);
-                    }
-                    ps.close();
+                ps.executeUpdate();
 
-                    query = "INSERT INTO " + TABLE_PARAM_EMAIL + " SET id=?, param_id=?, n=?, value=?, comment=?";
-                    ps = con.prepareStatement(query);
-                    ps.setInt(index++, id);
-                    ps.setInt(index++, paramId);
-                    ps.setInt(index++, position);
-                    ps.setString(index++, value.getValue());
-                    ps.setString(index++, value.getComment());
-
-                    ps.executeUpdate();
-
-                    ps.close();
-                } else {
-                    String query = "UPDATE " + TABLE_PARAM_EMAIL + " SET value=?, comment=?"
-                            + " WHERE id=? AND param_id=? AND n=?";
-                    PreparedStatement ps = con.prepareStatement(query);
-
-                    ps.setString(index++, value.getValue());
-                    ps.setString(index++, value.getComment());
-                    ps.setInt(index++, id);
-                    ps.setInt(index++, paramId);
-                    ps.setInt(index++, position);
-
-                    ps.executeUpdate();
-
-                    ps.close();
-                }
+                ps.close();
             }
+        }
 
-            // Лог изменений.
-            if (history) {
-                logParam(id, paramId, userId, ParameterEmailValue
-                        .getEmails(new ArrayList<ParameterEmailValue>(getParamEmail(id, paramId).values())));
-            }
-        } catch (SQLException e) {
-            throw new BGException(e);
+        // Лог изменений.
+        if (history) {
+            logParam(id, paramId, userId, ParameterEmailValue
+                    .getEmails(new ArrayList<ParameterEmailValue>(getParamEmail(id, paramId).values())));
         }
     }
 
@@ -782,30 +717,26 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @param values ключ - значение параметра, значение - текстовое примечание.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamList(int id, int paramId, Map<Integer, String> values) throws BGException {
-        try {
-            deleteFromParamTable(id, paramId, TABLE_PARAM_LIST);
+    public void updateParamList(int id, int paramId, Map<Integer, String> values) throws SQLException {
+        deleteFromParamTable(id, paramId, TABLE_PARAM_LIST);
 
-            String query = "INSERT INTO " + TABLE_PARAM_LIST + "(id, param_id, value, comment) VALUES (?,?,?,?)";
+        String query = "INSERT INTO " + TABLE_PARAM_LIST + "(id, param_id, value, comment) VALUES (?,?,?,?)";
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            for (Map.Entry<Integer, String> value : values.entrySet()) {
-                ps.setInt(3, value.getKey());
-                ps.setString(4, value.getValue());
-                ps.executeUpdate();
-            }
-            ps.close();
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        for (Map.Entry<Integer, String> value : values.entrySet()) {
+            ps.setInt(3, value.getKey());
+            ps.setString(4, value.getValue());
+            ps.executeUpdate();
+        }
+        ps.close();
 
-            // Лог изменений.
-            if (history) {
-                logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
-            }
-        } catch (SQLException e) {
-            throw new BGException(e);
+        // change log
+        if (history) {
+            logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
         }
     }
 
@@ -814,29 +745,25 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @param values набор с кодами значений.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamList(int id, int paramId, Set<Integer> values) throws BGException {
-        try {
-            deleteFromParamTable(id, paramId, TABLE_PARAM_LIST);
+    public void updateParamList(int id, int paramId, Set<Integer> values) throws SQLException {
+        deleteFromParamTable(id, paramId, TABLE_PARAM_LIST);
 
-            String query = "INSERT INTO " + TABLE_PARAM_LIST + "(id, param_id, value) VALUES (?,?,?)";
+        String query = "INSERT INTO " + TABLE_PARAM_LIST + "(id, param_id, value) VALUES (?,?,?)";
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            for (Integer value : values) {
-                ps.setInt(3, value);
-                ps.executeUpdate();
-            }
-            ps.close();
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        for (int value : values) {
+            ps.setInt(3, value);
+            ps.executeUpdate();
+        }
+        ps.close();
 
-            // Лог изменений.
-            if (history) {
-                logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
-            }
-        } catch (SQLException e) {
-            throw new BGException(e);
+        // change log
+        if (history) {
+            logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
         }
     }
 
@@ -845,38 +772,34 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @param values значения, ключ - код значение, значение - количество.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamListCount(int id, int paramId, Map<Integer, BigDecimal> values) throws BGException {
-        try {
-            List<IdTitle> existIdTitles = getParamListCountWithTitles(id, paramId);
+    public void updateParamListCount(int id, int paramId, Map<Integer, BigDecimal> values) throws SQLException {
+        List<IdTitle> existIdTitles = getParamListCountWithTitles(id, paramId);
 
-            PreparedStatement ps = null;
+        PreparedStatement ps = null;
 
-            if (existIdTitles.size() > 0) {
-                deleteFromParamTable(id, paramId, TABLE_PARAM_LISTCOUNT);
-            }
+        if (existIdTitles.size() > 0) {
+            deleteFromParamTable(id, paramId, TABLE_PARAM_LISTCOUNT);
+        }
 
-            String query = "INSERT INTO " + TABLE_PARAM_LISTCOUNT
-                    + "(id, param_id, value, count, comment) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO " + TABLE_PARAM_LISTCOUNT
+                + "(id, param_id, value, count, comment) VALUES (?,?,?,?,?)";
 
-            ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            for (Integer value : values.keySet()) {
-                ps.setInt(3, value);
-                ps.setBigDecimal(4, values.get(value));
-                ps.setString(5, /*valuesComments.get( value )*/ "");
-                ps.executeUpdate();
-            }
-            ps.close();
+        ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        for (Integer value : values.keySet()) {
+            ps.setInt(3, value);
+            ps.setBigDecimal(4, values.get(value));
+            ps.setString(5, /*valuesComments.get( value )*/ "");
+            ps.executeUpdate();
+        }
+        ps.close();
 
-            // Лог изменений.
-            if (history) {
-                logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
-            }
-        } catch (SQLException e) {
-            throw new BGException(e);
+        // Лог изменений.
+        if (history) {
+            logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
         }
     }
 
@@ -885,7 +808,7 @@ public class ParamValueDAO extends CommonDAO {
      */
     @Deprecated
     public void updateParamListCount(int id, int paramId, Map<Integer, Double> values,
-            Map<Integer, String> valuesComments) throws BGException {
+            Map<Integer, String> valuesComments) throws SQLException {
         Map<Integer, BigDecimal> valuesFixed = new HashMap<>(values.size());
         for (Map.Entry<Integer, Double> me : values.entrySet())
             valuesFixed.put(me.getKey(), new BigDecimal(me.getValue()));
@@ -1000,86 +923,82 @@ public class ParamValueDAO extends CommonDAO {
      * @param paramId - код параметра.
      * @param position - позиция значения, начинается с 1, 0 - добавить новое значение с позицией MAX+1.
      * @param value - значение, null - удаление параметра на указанной позиции, если position>0; иначе - удаление всех значений.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamAddress(int id, int paramId, int position, ParameterAddressValue value) throws BGException {
-        try {
-            int index = 1;
+    public void updateParamAddress(int id, int paramId, int position, ParameterAddressValue value) throws SQLException {
+        int index = 1;
 
-            if (value == null) {
-                PreparedDelay psDelay = new PreparedDelay(con);
+        if (value == null) {
+            PreparedDelay psDelay = new PreparedDelay(con);
 
-                psDelay.addQuery("DELETE FROM " + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=? ");
-                psDelay.addInt(id);
-                psDelay.addInt(paramId);
+            psDelay.addQuery("DELETE FROM " + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=? ");
+            psDelay.addInt(id);
+            psDelay.addInt(paramId);
 
-                if (position > 0) {
-                    psDelay.addQuery(" AND n=?");
-                    psDelay.addInt(position);
+            if (position > 0) {
+                psDelay.addQuery(" AND n=?");
+                psDelay.addInt(position);
+            }
+
+            psDelay.executeUpdate();
+            psDelay.close();
+        } else {
+            if (position <= 0) {
+                position = 1;
+
+                String query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
+                PreparedStatement ps = con.prepareStatement(query);
+                ps.setInt(1, id);
+                ps.setInt(2, paramId);
+
+                ResultSet rs = ps.executeQuery();
+                if (rs.next() && rs.getObject(1) != null) {
+                    position = rs.getInt(1);
                 }
+                ps.close();
 
-                psDelay.executeUpdate();
-                psDelay.close();
+                insertParamAddress(id, paramId, position, value);
             } else {
-                if (position <= 0) {
-                    position = 1;
+                String query = "UPDATE " + TABLE_PARAM_ADDRESS
+                        + " SET value=?, house_id=?, flat=?, room=?, pod=?, floor=?, comment=?, custom=?"
+                        + " WHERE id=? AND param_id=? AND n=?";
+                PreparedStatement ps = con.prepareStatement(query);
 
-                    String query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
-                    PreparedStatement ps = con.prepareStatement(query);
-                    ps.setInt(1, id);
-                    ps.setInt(2, paramId);
+                ps.setString(index++, value.getValue());
+                ps.setInt(index++, value.getHouseId());
+                ps.setString(index++, value.getFlat());
+                ps.setString(index++, value.getRoom());
+                ps.setInt(index++, value.getPod());
+                ps.setInt(index++, value.getFloor());
+                ps.setString(index++, value.getComment());
+                ps.setString(index++, value.getCustom());
+                ps.setInt(index++, id);
+                ps.setInt(index++, paramId);
+                ps.setInt(index++, position);
 
-                    ResultSet rs = ps.executeQuery();
-                    if (rs.next() && rs.getObject(1) != null) {
-                        position = rs.getInt(1);
-                    }
-                    ps.close();
+                int cnt = ps.executeUpdate();
 
+                ps.close();
+                
+                if (cnt == 0)
                     insertParamAddress(id, paramId, position, value);
-                } else {
-                    String query = "UPDATE " + TABLE_PARAM_ADDRESS
-                            + " SET value=?, house_id=?, flat=?, room=?, pod=?, floor=?, comment=?, custom=?"
-                            + " WHERE id=? AND param_id=? AND n=?";
-                    PreparedStatement ps = con.prepareStatement(query);
-
-                    ps.setString(index++, value.getValue());
-                    ps.setInt(index++, value.getHouseId());
-                    ps.setString(index++, value.getFlat());
-                    ps.setString(index++, value.getRoom());
-                    ps.setInt(index++, value.getPod());
-                    ps.setInt(index++, value.getFloor());
-                    ps.setString(index++, value.getComment());
-                    ps.setString(index++, value.getCustom());
-                    ps.setInt(index++, id);
-                    ps.setInt(index++, paramId);
-                    ps.setInt(index++, position);
-
-                    int cnt = ps.executeUpdate();
-
-                    ps.close();
-                    
-                    if (cnt == 0)
-                        insertParamAddress(id, paramId, position, value);
-                }
             }
+        }
 
-            // Лог изменений.
-            if (history) {
-                StringBuffer result = new StringBuffer();
-                SortedMap<Integer, ParameterAddressValue> addresses = getParamAddress(id, paramId);
-                Iterator<Integer> it = addresses.keySet().iterator();
-                while (it.hasNext()) {
-                    if (result.length() > 0) {
-                        result.append(" ");
-                    }
-                    Integer key = it.next();
-                    result.append(addresses.get(key).getValue());
-                    result.append(";");
+        // Лог изменений.
+        if (history) {
+            StringBuffer result = new StringBuffer();
+            SortedMap<Integer, ParameterAddressValue> addresses = getParamAddress(id, paramId);
+            Iterator<Integer> it = addresses.keySet().iterator();
+            while (it.hasNext()) {
+                if (result.length() > 0) {
+                    result.append(" ");
                 }
-                logParam(id, paramId, userId, result.toString());
+                Integer key = it.next();
+                result.append(addresses.get(key).getValue());
+                result.append(";");
             }
-        } catch (SQLException e) {
-            throw new BGException(e);
+            logParam(id, paramId, userId, result.toString());
         }
     }
 
@@ -1110,30 +1029,26 @@ public class ParamValueDAO extends CommonDAO {
      * Обновляет строки адресных параметров для дома. Используется после изменений в адресных справочников,
      * для генерации корректных строк с адресными параметрами.
      * @param houseId код дома.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamsAddressOnHouseUpdate(int houseId) throws BGException {
-        try {
-            String query = "SELECT * FROM " + TABLE_PARAM_ADDRESS + " WHERE house_id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, houseId);
+    public void updateParamsAddressOnHouseUpdate(int houseId) throws SQLException {
+        String query = "SELECT * FROM " + TABLE_PARAM_ADDRESS + " WHERE house_id=?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, houseId);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                int paramId = rs.getInt("param_id");
-                int pos = rs.getInt("n");
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            int paramId = rs.getInt("param_id");
+            int pos = rs.getInt("n");
 
-                ParameterAddressValue value = getParameterAddressValueFromRs(rs);
-                value.setValue(AddressUtils.buildAddressValue(value, con));
+            ParameterAddressValue value = getParameterAddressValueFromRs(rs);
+            value.setValue(AddressUtils.buildAddressValue(value, con));
 
-                updateParamAddress(id, paramId, pos, value);
-            }
-
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+            updateParamAddress(id, paramId, pos, value);
         }
+
+        ps.close();
     }
 
     /**
@@ -1141,53 +1056,49 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @param value значения, null либо пустой itemList - удаление значения.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamPhone(int id, int paramId, ParameterPhoneValue value) throws BGException {
-        try {
-            if (value == null || value.getItemList().size() == 0) {
-                deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE);
-                deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE_ITEM);
-            } else {
-                String newPhones = ParameterPhoneValueItem.getPhones(value.getItemList());
+    public void updateParamPhone(int id, int paramId, ParameterPhoneValue value) throws SQLException {
+        if (value == null || value.getItemList().size() == 0) {
+            deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE);
+            deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE_ITEM);
+        } else {
+            String newPhones = ParameterPhoneValueItem.getPhones(value.getItemList());
 
-                updateSimpleParam(id, paramId, newPhones, TABLE_PARAM_PHONE, TABLE_PARAM_PHONE_LOG);
+            updateSimpleParam(id, paramId, newPhones, TABLE_PARAM_PHONE, TABLE_PARAM_PHONE_LOG);
 
-                deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE_ITEM);
+            deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE_ITEM);
 
-                int index = 1;
+            int index = 1;
 
-                String query = "INSERT INTO" + TABLE_PARAM_PHONE_ITEM
-                        + "SET id=?, param_id=?, n=?, phone=?, format=?, comment=?, flags=?";
-                PreparedStatement ps = con.prepareStatement(query.toString());
-                ps.setInt(index++, id);
-                ps.setInt(index++, paramId);
+            String query = "INSERT INTO" + TABLE_PARAM_PHONE_ITEM
+                    + "SET id=?, param_id=?, n=?, phone=?, format=?, comment=?, flags=?";
+            PreparedStatement ps = con.prepareStatement(query.toString());
+            ps.setInt(index++, id);
+            ps.setInt(index++, paramId);
 
-                int n = 1;
-                for (ParameterPhoneValueItem item : value.getItemList()) {
-                    index = 3;
-                    ps.setInt(index++, n++);
-                    ps.setString(index++, item.getPhone());
-                    ps.setString(index++, item.getFormat());
-                    ps.setString(index++, item.getComment());
-                    ps.setInt(index++, item.getFlags());
-                    ps.executeUpdate();
-                }
-                ps.close();
+            int n = 1;
+            for (ParameterPhoneValueItem item : value.getItemList()) {
+                index = 3;
+                ps.setInt(index++, n++);
+                ps.setString(index++, item.getPhone());
+                ps.setString(index++, item.getFormat());
+                ps.setString(index++, item.getComment());
+                ps.setInt(index++, item.getFlags());
+                ps.executeUpdate();
+            }
+            ps.close();
+        }
+
+        if (history) {
+            String newValue = null;
+
+            ParameterPhoneValue newPhones = getParamPhone(id, paramId);
+            if (newPhones != null) {
+                newValue = ParameterPhoneValueItem.getPhones(newPhones.getItemList());
             }
 
-            if (history) {
-                String newValue = null;
-
-                ParameterPhoneValue newPhones = getParamPhone(id, paramId);
-                if (newPhones != null) {
-                    newValue = ParameterPhoneValueItem.getPhones(newPhones.getItemList());
-                }
-
-                logParam(id, paramId, userId, newValue);
-            }
-        } catch (SQLException e) {
-            throw new BGException(e);
+            logParam(id, paramId, userId, newValue);
         }
     }
 
@@ -1196,9 +1107,9 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @param value значение, null - удаление.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamDate(int id, int paramId, Date value) throws BGException {
+    public void updateParamDate(int id, int paramId, Date value) throws SQLException {
         updateSimpleParam(id, paramId, value, TABLE_PARAM_DATE, TABLE_PARAM_DATE_LOG);
 
         if (history) {
@@ -1211,9 +1122,9 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @param value значение, null - удаление.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamDateTime(int id, int paramId, Date value) throws BGException {
+    public void updateParamDateTime(int id, int paramId, Date value) throws SQLException {
         updateSimpleParam(id, paramId, value, TABLE_PARAM_DATETIME, TABLE_PARAM_DATETIME_LOG);
 
         if (history) {
@@ -1282,9 +1193,9 @@ public class ParamValueDAO extends CommonDAO {
      * @param fromObjectId исходный объект.
      * @param toObjectId целевой объект.
      * @param copyMapping конфигурация.
-     * @throws BGException
+     * @throws SQLException, BGException
      */
-    public void copyParams(int fromObjectId, int toObjectId, String copyMapping) throws BGException {
+    public void copyParams(int fromObjectId, int toObjectId, String copyMapping) throws SQLException, BGException {
         if (Utils.isBlankString(copyMapping)) {
             return;
         }
@@ -1310,9 +1221,9 @@ public class ParamValueDAO extends CommonDAO {
      * @param fromObjectId код объекта исходного.
      * @param toObjectId код объекта целевого.
      * @param paramIds коды параметров.
-     * @throws BGException
+     * @throws SQLException, BGException
      */
-    public void copyParams(int fromObjectId, int toObjectId, Collection<Integer> paramIds) throws BGException {
+    public void copyParams(int fromObjectId, int toObjectId, Collection<Integer> paramIds) throws SQLException, BGException {
         for (int paramId : paramIds) {
             copyParam(fromObjectId, paramId, toObjectId, paramId);
         }
@@ -1323,9 +1234,9 @@ public class ParamValueDAO extends CommonDAO {
      * @param fromObjectId код объекта исходного.
      * @param toObjectId код объекта целевого.
      * @param paramId коды параметра.
-     * @throws BGException
+     * @throws SQLException, BGException
      */
-    public void copyParam(int fromObjectId, int toObjectId, int paramId) throws BGException {
+    public void copyParam(int fromObjectId, int toObjectId, int paramId) throws SQLException, BGException {
         copyParam(fromObjectId, paramId, toObjectId, paramId);
     }
 
@@ -1335,98 +1246,94 @@ public class ParamValueDAO extends CommonDAO {
      * @param fromParamId код параметра исходного.
      * @param toObjectId код объекта целевого
      * @param toParamId код параметра целевого.
-     * @throws BGException
+     * @throws SQLException, BGException
      */
-    public void copyParam(int fromObjectId, int fromParamId, int toObjectId, int toParamId) throws BGException {
-        try {
-            String query = null;
-            ArrayList<PreparedStatement> psList = new ArrayList<PreparedStatement>();
+    public void copyParam(int fromObjectId, int fromParamId, int toObjectId, int toParamId) throws SQLException, BGException {
+        String query = null;
+        ArrayList<PreparedStatement> psList = new ArrayList<PreparedStatement>();
 
-            Parameter paramFrom = ParameterCache.getParameter(fromParamId);
-            if (paramFrom == null) {
-                throw new BGException("Param not found: " + fromParamId);
-            }
+        Parameter paramFrom = ParameterCache.getParameter(fromParamId);
+        if (paramFrom == null) {
+            throw new BGException("Param not found: " + fromParamId);
+        }
 
-            Parameter paramTo = ParameterCache.getParameter(toParamId);
-            if (paramTo == null) {
-                throw new BGException("Param not found: " + toParamId);
-            }
+        Parameter paramTo = ParameterCache.getParameter(toParamId);
+        if (paramTo == null) {
+            throw new BGException("Param not found: " + toParamId);
+        }
 
-            if (!paramFrom.getType().equals(paramTo.getType())) {
-                throw new BGException("Different copy param types.");
-            }
+        if (!paramFrom.getType().equals(paramTo.getType())) {
+            throw new BGException("Different copy param types.");
+        }
 
-            final String paramType = paramFrom.getType();
+        final String paramType = paramFrom.getType();
 
-            // адрес
-            if (Parameter.TYPE_ADDRESS.equals(paramType)) {
-                query = "INSERT INTO " + TABLE_PARAM_ADDRESS
-                        + " (id, param_id, n, house_id, flat, room, pod, floor, value, comment, custom) "
-                        + "SELECT ?, ?, n, house_id, flat, room, pod, floor, value, comment, custom " + "FROM "
-                        + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
-                psList.add(con.prepareStatement(query));
-            }
-            // E-Mail
-            else if (Parameter.TYPE_EMAIL.equals(paramType)) {
-                query = "INSERT INTO " + TABLE_PARAM_EMAIL + " (id, param_id, n, value) " + "SELECT ?, ?, n, value "
-                        + "FROM " + TABLE_PARAM_EMAIL + " WHERE id=? AND param_id=?";
-                psList.add(con.prepareStatement(query));
-            }
-            // list
-            else if (Parameter.TYPE_LIST.equals(paramType)) {
-                query = "INSERT INTO " + TABLE_PARAM_LIST + "(id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
-                        + TABLE_PARAM_LIST + " WHERE id=? AND param_id=?";
-                psList.add(con.prepareStatement(query));
-            }
-            // listcount
-            else if (Parameter.TYPE_LISTCOUNT.equals(paramType)) {
-                query = "INSERT INTO " + TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count) "
-                        + "SELECT ?, ?, value, count " + "FROM " + TABLE_PARAM_LISTCOUNT + " WHERE id=? AND param_id=?";
-                psList.add(con.prepareStatement(query));
-            }
-            // tree
-            else if (Parameter.TYPE_TREE.equals(paramType)) {
-                query = "INSERT INTO " + TABLE_PARAM_TREE + "(id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
-                        + TABLE_PARAM_TREE + " WHERE id=? AND param_id=?";
-                psList.add(con.prepareStatement(query));
-            }
-            // дата, дата+время, текст, блоб, телефон
-            else if (Parameter.TYPE_DATE.equals(paramType) || Parameter.TYPE_DATETIME.equals(paramType)
-                    || Parameter.TYPE_TEXT.equals(paramType) || Parameter.TYPE_BLOB.equals(paramType)
-                    || Parameter.TYPE_PHONE.equals(paramType)) {
-                String tableName = "param_" + paramType;
+        // адрес
+        if (Parameter.TYPE_ADDRESS.equals(paramType)) {
+            query = "INSERT INTO " + TABLE_PARAM_ADDRESS
+                    + " (id, param_id, n, house_id, flat, room, pod, floor, value, comment, custom) "
+                    + "SELECT ?, ?, n, house_id, flat, room, pod, floor, value, comment, custom " + "FROM "
+                    + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
+            psList.add(con.prepareStatement(query));
+        }
+        // E-Mail
+        else if (Parameter.TYPE_EMAIL.equals(paramType)) {
+            query = "INSERT INTO " + TABLE_PARAM_EMAIL + " (id, param_id, n, value) " + "SELECT ?, ?, n, value "
+                    + "FROM " + TABLE_PARAM_EMAIL + " WHERE id=? AND param_id=?";
+            psList.add(con.prepareStatement(query));
+        }
+        // list
+        else if (Parameter.TYPE_LIST.equals(paramType)) {
+            query = "INSERT IGNORE INTO " + TABLE_PARAM_LIST + "(id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
+                    + TABLE_PARAM_LIST + " WHERE id=? AND param_id=?";
+            psList.add(con.prepareStatement(query));
+        }
+        // listcount
+        else if (Parameter.TYPE_LISTCOUNT.equals(paramType)) {
+            query = "INSERT INTO " + TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count) "
+                    + "SELECT ?, ?, value, count " + "FROM " + TABLE_PARAM_LISTCOUNT + " WHERE id=? AND param_id=?";
+            psList.add(con.prepareStatement(query));
+        }
+        // tree
+        else if (Parameter.TYPE_TREE.equals(paramType)) {
+            query = "INSERT INTO " + TABLE_PARAM_TREE + "(id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
+                    + TABLE_PARAM_TREE + " WHERE id=? AND param_id=?";
+            psList.add(con.prepareStatement(query));
+        }
+        // дата, дата+время, текст, блоб, телефон
+        else if (Parameter.TYPE_DATE.equals(paramType) || Parameter.TYPE_DATETIME.equals(paramType)
+                || Parameter.TYPE_TEXT.equals(paramType) || Parameter.TYPE_BLOB.equals(paramType)
+                || Parameter.TYPE_PHONE.equals(paramType)) {
+            String tableName = "param_" + paramType;
 
-                query = "INSERT INTO " + tableName + " (id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
-                        + tableName + " WHERE id=? AND param_id=?";
-                psList.add(con.prepareStatement(query));
+            query = "INSERT INTO " + tableName + " (id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
+                    + tableName + " WHERE id=? AND param_id=?";
+            psList.add(con.prepareStatement(query));
 
-                if (Parameter.TYPE_PHONE.equals(paramType)) {
-                    query = "INSERT INTO " + TABLE_PARAM_PHONE_ITEM
-                            + " (id, param_id, n, phone, format, comment, flags) "
-                            + "SELECT ?, ?, n, phone, format, comment, flags " + "FROM " + TABLE_PARAM_PHONE_ITEM
-                            + " WHERE id=? AND param_id=?";
-                    psList.add(con.prepareStatement(query));
-                }
-            } else if (Parameter.TYPE_FILE.equals(paramType)) {
-                query = "INSERT INTO " + TABLE_PARAM_FILE + "(id, param_id, n,value,user_id,comment,version) "
-                        + "SELECT ?, ?, n,value,user_id,comment,version " + "FROM " + TABLE_PARAM_FILE
+            if (Parameter.TYPE_PHONE.equals(paramType)) {
+                query = "INSERT INTO " + TABLE_PARAM_PHONE_ITEM
+                        + " (id, param_id, n, phone, format, comment, flags) "
+                        + "SELECT ?, ?, n, phone, format, comment, flags " + "FROM " + TABLE_PARAM_PHONE_ITEM
                         + " WHERE id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
-            } else {
-                throw new BGException("Param type not supported for copy yet.");
             }
+        } else if (Parameter.TYPE_FILE.equals(paramType)) {
+            query = "INSERT INTO " + TABLE_PARAM_FILE + "(id, param_id, n,value,user_id,comment,version) "
+                    + "SELECT ?, ?, n,value,user_id,comment,version " + "FROM " + TABLE_PARAM_FILE
+                    + " WHERE id=? AND param_id=?";
+            psList.add(con.prepareStatement(query));
+        } else {
+            throw new BGException("Param type not supported for copy yet.");
+        }
 
-            for (PreparedStatement ps : psList) {
-                ps.setInt(1, toObjectId);
-                ps.setInt(2, toParamId);
-                ps.setInt(3, fromObjectId);
-                ps.setInt(4, fromParamId);
-                ps.executeUpdate();
+        for (PreparedStatement ps : psList) {
+            ps.setInt(1, toObjectId);
+            ps.setInt(2, toParamId);
+            ps.setInt(3, fromObjectId);
+            ps.setInt(4, fromParamId);
+            ps.executeUpdate();
 
-                ps.close();
-            }
-        } catch (SQLException e) {
-            throw new BGException(e);
+            ps.close();
         }
     }
 
@@ -1905,50 +1812,45 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     private void updateSimpleParam(int id, int paramId, Object value, String tableName, String tableLogName)
-            throws BGException {
-        try {
-            if (value == null) {
-                deleteFromParamTable(id, paramId, tableName);
-            } else {
-                StringBuilder query = new StringBuilder(200);
+            throws SQLException {
+        if (value == null) {
+            deleteFromParamTable(id, paramId, tableName);
+        } else {
+            StringBuilder query = new StringBuilder(200);
 
-                query.append(SQL_UPDATE);
-                query.append(tableName);
-                query.append("SET value=?");
-                query.append(SQL_WHERE);
-                query.append("id=? AND param_id=?");
+            query.append(SQL_UPDATE);
+            query.append(tableName);
+            query.append("SET value=?");
+            query.append(SQL_WHERE);
+            query.append("id=? AND param_id=?");
 
-                PreparedStatement ps = con.prepareStatement(query.toString());
-                ps.setObject(1, value);
-                ps.setInt(2, id);
-                ps.setInt(3, paramId);
+            PreparedStatement ps = con.prepareStatement(query.toString());
+            ps.setObject(1, value);
+            ps.setInt(2, id);
+            ps.setInt(3, paramId);
 
-                if (ps.executeUpdate() == 0) {
-                    ps.close();
-
-                    query.setLength(0);
-                    query.append(SQL_INSERT);
-                    query.append(tableName);
-                    query.append("(id, param_id, value) VALUES (?,?,?)");
-
-                    ps = con.prepareStatement(query.toString());
-                    ps.setInt(1, id);
-                    ps.setInt(2, paramId);
-                    ps.setObject(3, value);
-                    ps.executeUpdate();
-                }
+            if (ps.executeUpdate() == 0) {
                 ps.close();
+
+                query.setLength(0);
+                query.append(SQL_INSERT);
+                query.append(tableName);
+                query.append("(id, param_id, value) VALUES (?,?,?)");
+
+                ps = con.prepareStatement(query.toString());
+                ps.setInt(1, id);
+                ps.setInt(2, paramId);
+                ps.setObject(3, value);
+                ps.executeUpdate();
             }
-        } catch (SQLException ex) {
-            throw new BGException(ex);
+            ps.close();
         }
     }
 
     private void deleteFromParamTable(int id, int paramId, String tableName) throws SQLException {
-        PreparedStatement ps;
         String query = "DELETE FROM " + tableName + " WHERE id=? AND param_id=?";
 
-        ps = con.prepareStatement(query.toString());
+        var ps = con.prepareStatement(query);
         ps.setInt(1, id);
         ps.setInt(2, paramId);
         ps.executeUpdate();
@@ -1990,36 +1892,32 @@ public class ParamValueDAO extends CommonDAO {
         }
     }
 
-    public static ParameterAddressValue getParameterAddressValueFromRs(ResultSet rs) throws BGException {
+    public static ParameterAddressValue getParameterAddressValueFromRs(ResultSet rs) throws SQLException {
         return getParameterAddressValueFromRs(rs, "");
     }
 
-    public static ParameterAddressValue getParameterAddressValueFromRs(ResultSet rs, String prefix) throws BGException {
+    public static ParameterAddressValue getParameterAddressValueFromRs(ResultSet rs, String prefix) throws SQLException {
         return getParameterAddressValueFromRs(rs, "", false, null);
     }
 
     public static ParameterAddressValue getParameterAddressValueFromRs(ResultSet rs, String prefix, boolean loadDirs,
-            String formatName) throws BGException {
+            String formatName) throws SQLException {
         ParameterAddressValue result = new ParameterAddressValue();
 
-        try {
-            result.setHouseId(rs.getInt(prefix + "house_id"));
-            result.setFlat(rs.getString(prefix + "flat"));
-            result.setRoom(rs.getString(prefix + "room"));
-            result.setPod(rs.getInt(prefix + "pod"));
-            result.setFloor(rs.getInt(prefix + "floor"));
-            result.setValue(rs.getString(prefix + "value"));
-            result.setComment(rs.getString(prefix + "comment"));
-            result.setCustom(rs.getString(prefix + "custom"));
+        result.setHouseId(rs.getInt(prefix + "house_id"));
+        result.setFlat(rs.getString(prefix + "flat"));
+        result.setRoom(rs.getString(prefix + "room"));
+        result.setPod(rs.getInt(prefix + "pod"));
+        result.setFloor(rs.getInt(prefix + "floor"));
+        result.setValue(rs.getString(prefix + "value"));
+        result.setComment(rs.getString(prefix + "comment"));
+        result.setCustom(rs.getString(prefix + "custom"));
 
-            if (loadDirs) {
-                result.setHouse(AddressDAO.getAddressHouseFromRs(rs, "house.", LOAD_LEVEL_COUNTRY));
-                if (Utils.notBlankString(formatName)) {
-                    result.setValue(AddressUtils.buildAddressValue(result, null, formatName));
-                }
+        if (loadDirs) {
+            result.setHouse(AddressDAO.getAddressHouseFromRs(rs, "house.", LOAD_LEVEL_COUNTRY));
+            if (Utils.notBlankString(formatName)) {
+                result.setValue(AddressUtils.buildAddressValue(result, null, formatName));
             }
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
 
         return result;
@@ -2036,7 +1934,7 @@ public class ParamValueDAO extends CommonDAO {
      */
     //TODO: Стоит эту функцию переделать на использование getJoinFilters.
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public boolean paramValueFilter(String expression, int objectId, Map valuesCache) throws BGException {
+    public boolean paramValueFilter(String expression, int objectId, Map valuesCache) throws SQLException {
         String[] tokens = expression.split("\\s+");
         if (tokens.length != 3) {
             log.error("Incorrect filter expression: " + expression);
@@ -2109,7 +2007,7 @@ public class ParamValueDAO extends CommonDAO {
      * @param equation
      * @return
      */
-    public static String getParamJoinFilters(String expression, String objectId) throws BGException {
+    public static String getParamJoinFilters(String expression, String objectId) throws SQLException {
         StringBuilder result = new StringBuilder();
 
         String[] tokens = expression.split("\\s+");
@@ -2162,37 +2060,32 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @param values значения.
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updateParamTree(int id, int paramId, Set<String> values) throws BGException {
-        try {
-            List<IdStringTitle> existIdTitles = getParamTreeWithTitles(id, paramId);
+    public void updateParamTree(int id, int paramId, Set<String> values) throws SQLException {
+        List<IdStringTitle> existIdTitles = getParamTreeWithTitles(id, paramId);
 
-            PreparedStatement ps = null;
+        PreparedStatement ps = null;
 
-            if (existIdTitles.size() > 0) {
-                deleteFromParamTable(id, paramId, TABLE_PARAM_TREE);
-            }
-
-            String query = "INSERT INTO " + TABLE_PARAM_TREE + "(id, param_id, value) VALUES (?,?,?)";
-
-            ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            for (String value : values) {
-                ps.setString(3, value);
-                ps.executeUpdate();
-            }
-            ps.close();
-
-            // Лог изменений.
-            if (history) {
-                logParam(id, paramId, userId, Utils.getObjectTitles(getParamTreeWithTitles(id, paramId)));
-            }
-        } catch (SQLException e) {
-            throw new BGException(e);
+        if (existIdTitles.size() > 0) {
+            deleteFromParamTable(id, paramId, TABLE_PARAM_TREE);
         }
 
+        String query = "INSERT INTO " + TABLE_PARAM_TREE + "(id, param_id, value) VALUES (?,?,?)";
+
+        ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        for (String value : values) {
+            ps.setString(3, value);
+            ps.executeUpdate();
+        }
+        ps.close();
+
+        // Лог изменений.
+        if (history) {
+            logParam(id, paramId, userId, Utils.getObjectTitles(getParamTreeWithTitles(id, paramId)));
+        }
     }
 
     /**
@@ -2200,36 +2093,32 @@ public class ParamValueDAO extends CommonDAO {
      * @param id код объекта.
      * @param paramId код параметра.
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public List<IdStringTitle> getParamTreeWithTitles(int id, int paramId) throws BGException {
-        try {
-            List<IdStringTitle> result = new ArrayList<>();
+    public List<IdStringTitle> getParamTreeWithTitles(int id, int paramId) throws SQLException {
+        List<IdStringTitle> result = new ArrayList<>();
 
-            StringBuilder query = new StringBuilder();
+        StringBuilder query = new StringBuilder();
 
-            query.append(SQL_SELECT);
-            query.append("val.value, dir.title");
-            query.append(SQL_FROM);
-            query.append(TABLE_PARAM_TREE);
-            query.append("AS val");
-            addTreeParamJoin(query, paramId);
-            query.append(SQL_WHERE);
-            query.append("val.id=? AND val.param_id=?");
+        query.append(SQL_SELECT);
+        query.append("val.value, dir.title");
+        query.append(SQL_FROM);
+        query.append(TABLE_PARAM_TREE);
+        query.append("AS val");
+        addTreeParamJoin(query, paramId);
+        query.append(SQL_WHERE);
+        query.append("val.id=? AND val.param_id=?");
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.setInt(2, paramId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(new IdStringTitle(rs.getString(1), rs.getString(2)));
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.setInt(2, paramId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(new IdStringTitle(rs.getString(1), rs.getString(2)));
         }
+        ps.close();
+
+        return result;
     }
 
     private void addTreeParamJoin(StringBuilder query, int paramId) throws SQLException {
@@ -2346,39 +2235,35 @@ public class ParamValueDAO extends CommonDAO {
      * @param parameterId код параметра.
      * @param parameterTextValue точное значение.
      * @return список с кодами объектов.
-     * @throws BGException
+     * @throws SQLException
      */
-    public Set<Integer> searchObjectByParameterText(int parameterId, String parameterTextValue) throws BGException {
-        try {
-            Set<Integer> result = new HashSet<Integer>();
+    public Set<Integer> searchObjectByParameterText(int parameterId, String parameterTextValue) throws SQLException {
+        Set<Integer> result = new HashSet<Integer>();
 
-            StringBuilder query = new StringBuilder();
-            query.append(SQL_SELECT);
-            query.append("text.id AS object_id ");
-            query.append(SQL_FROM);
-            query.append(TABLE_PARAM_TEXT);
-            query.append(" AS text ");
-            query.append(SQL_WHERE);
-            query.append("text.param_id = ? ");
-            query.append("AND text.value = ? ");
+        StringBuilder query = new StringBuilder();
+        query.append(SQL_SELECT);
+        query.append("text.id AS object_id ");
+        query.append(SQL_FROM);
+        query.append(TABLE_PARAM_TEXT);
+        query.append(" AS text ");
+        query.append(SQL_WHERE);
+        query.append("text.param_id = ? ");
+        query.append("AND text.value = ? ");
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
+        PreparedStatement ps = con.prepareStatement(query.toString());
 
-            ps.setInt(1, parameterId);
-            ps.setString(2, parameterTextValue);
+        ps.setInt(1, parameterId);
+        ps.setString(2, parameterTextValue);
 
-            ResultSet rs = ps.executeQuery();
+        ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                result.add(rs.getInt("object_id"));
-            }
-
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        while (rs.next()) {
+            result.add(rs.getInt("object_id"));
         }
+
+        ps.close();
+
+        return result;
     }
 
     /**

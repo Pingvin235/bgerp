@@ -175,7 +175,7 @@ public class ProcessDoActionListener
 	}
 
 	private void updateTextParam( ConnectionSet conSet, Process process, int crmParamId, String paramValue )
-		throws BGException
+		throws Exception
 	{
 		if( Utils.notBlankString( paramValue ) )
 		{

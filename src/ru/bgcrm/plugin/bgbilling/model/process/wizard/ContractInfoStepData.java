@@ -39,7 +39,7 @@ public class ContractInfoStepData
 
 	@Override
 	public boolean isFilled( DynActionForm form, Connection con )
-		throws BGException
+		throws Exception
 	{
 		ParamValueDAO paramValueDAO = new ParamValueDAO( con );
 		CommonLinkDAO linkDAO = CommonLinkDAO.getLinkDAO( Process.OBJECT_TYPE, con );

@@ -36,7 +36,7 @@ public class LinkCommonContractStepData
 
 	@Override
 	public boolean isFilled( DynActionForm form, Connection connection )
-	    throws BGException
+	    throws Exception
 	{
 		loadCustomer( connection );
 		loadAddress( connection );
@@ -116,7 +116,7 @@ public class LinkCommonContractStepData
 	}
 
 	private void loadAddress( Connection connection )
-	    throws BGException
+	    throws Exception
 	{
 		List<StepData<?>> stepDataList = data.getStepDataList();
 
@@ -159,7 +159,7 @@ public class LinkCommonContractStepData
 	}
 
 	private void copyAddressToCustomer( Connection connection )
-	    throws BGException
+	    throws Exception
 	{
 		// добавляем адреса единого договора в контрагент
 		if( customer != null && address != null && step.getCustomerAddressParamId() > 0 )

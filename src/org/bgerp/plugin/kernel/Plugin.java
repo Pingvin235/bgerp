@@ -10,6 +10,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.Table;
 import ru.bgcrm.plugin.Table.Type;
 import ru.bgcrm.util.ParameterMap;
+import ru.bgcrm.util.distr.call.ExecuteSQL;
 
 /**
  * Special plugin for application's kernel.
@@ -51,7 +52,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
             new Table(Tables.TABLE_ADDRESS_HOUSE, Type.DIRECTORY),
             new Table(Tables.TABLE_ADDRESS_QUARTER, Type.DIRECTORY),
             new Table(Tables.TABLE_ADDRESS_STREET, Type.DIRECTORY),
-            new Table(IfaceStateDAO.TABLE_NAME, Type.TRASH)
+            new Table(IfaceStateDAO.TABLE_NAME, Type.TRASH),
+            new Table(ExecuteSQL.TABLE_SQL_PATCHES_HISTORY, Type.DEPRECATED)
         );
     }
 

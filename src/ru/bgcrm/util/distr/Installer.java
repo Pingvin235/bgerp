@@ -43,9 +43,8 @@ public class Installer {
         } else if (args.length == 2 && args[0].equals(K_UPDATEF)) {
             new InstallProcessor(args[1]).update(true);
         } else if (args.length >= 1 && args[0].equals(K_KILLHASH)) {
-            String killHashVal = args.length >= 2 ? args[1] : "";
-            ExecuteSQL.clearHashById(killHashVal);
-            System.out.println("Hash killing for " + killHashVal + " finished!");
+            ExecuteSQL.clearHashes();
+            System.out.println("DB update hashes cleanup finished!");
         } else if (args.length == 2 && args[0].equals(K_INSTALL)) {
             var im = new InstallerModule(Setup.getSetup(), new File("."), new File(args[1]));
             System.out.println(im.getReport());

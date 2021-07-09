@@ -8,13 +8,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.dao.process.StatusDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.process.TypeTreeItem;
@@ -23,11 +20,12 @@ import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
+import ru.bgerp.util.Log;
 
 public class ProcessTypeCache extends Cache<ProcessTypeCache> {
-    private static Logger log = Logger.getLogger(ProcessTypeCache.class);
+    private static Log log = Log.getLog();
 
-    private static CacheHolder<ProcessTypeCache> holder = new CacheHolder<ProcessTypeCache>(new ProcessTypeCache());
+    private static CacheHolder<ProcessTypeCache> holder = new CacheHolder<>(new ProcessTypeCache());
 
     public static Map<Integer, ProcessType> getProcessTypeMap() {
         return holder.getInstance().typeMap;
@@ -53,7 +51,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         return result;
     }
 
-    public static List<ProcessType> getTypeList(Connection con, String objectType, int objectId) throws BGException {
+    public static List<ProcessType> getTypeList(Connection con, String objectType, int objectId) throws Exception {
         List<ProcessType> result = new ArrayList<ProcessType>();
 
         var filter = new TypeFilter(con, objectType, objectId);
@@ -85,7 +83,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
             this.objectId = objectId;
         }
 
-        private boolean check(ProcessType type) throws BGException {
+        private boolean check(ProcessType type) throws Exception {
             ParameterMap configMap = type.getProperties().getConfigMap();
             Set<String> createInObjectTypes = Utils.toSet(configMap.get("create.in.objectTypes", "*"));
             if (!createInObjectTypes.contains(objectType) && !createInObjectTypes.contains("*")) {

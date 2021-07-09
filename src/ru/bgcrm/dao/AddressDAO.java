@@ -421,35 +421,31 @@ public class AddressDAO extends CommonDAO {
         }
     }
 
-    public AddressHouse getAddressHouse(int id, boolean loadCountryData, boolean loadCityData, boolean loadStreetData) throws BGException {
+    public AddressHouse getAddressHouse(int id, boolean loadCountryData, boolean loadCityData, boolean loadStreetData) throws SQLException {
         AddressHouse addressHouse = null;
 
-        try {
-            ResultSet rs = null;
-            PreparedStatement ps = null;
-            StringBuilder query = new StringBuilder();
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        StringBuilder query = new StringBuilder();
 
-            int loadLevel = getHouseLoadLevel(loadCountryData, loadCityData, loadStreetData);
+        int loadLevel = getHouseLoadLevel(loadCountryData, loadCityData, loadStreetData);
 
-            query.append("SELECT * FROM ");
-            query.append(TABLE_ADDRESS_HOUSE);
-            query.append(" AS house");
-            addHouseSelectQueryJoins(query, loadLevel);
-            query.append(" WHERE house.id=?");
-            ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                addressHouse = getAddressHouseFromRs(rs, "house.", loadLevel);
+        query.append("SELECT * FROM ");
+        query.append(TABLE_ADDRESS_HOUSE);
+        query.append(" AS house");
+        addHouseSelectQueryJoins(query, loadLevel);
+        query.append(" WHERE house.id=?");
+        ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            addressHouse = getAddressHouseFromRs(rs, "house.", loadLevel);
 
-            }
-            ps.close();
-            if (addressHouse != null) {
-                ConfigDAO configDAO = new ConfigDAO(con, TABLE_ADDRESS_CONFIG);
-                addressHouse.setConfig(configDAO.getConfigRecordMap(TABLE_ADDRESS_HOUSE, addressHouse.getId()));
-            }
-        } catch (SQLException e) {
-            throw new BGException(e);
+        }
+        ps.close();
+        if (addressHouse != null) {
+            ConfigDAO configDAO = new ConfigDAO(con, TABLE_ADDRESS_CONFIG);
+            addressHouse.setConfig(configDAO.getConfigRecordMap(TABLE_ADDRESS_HOUSE, addressHouse.getId()));
         }
 
         return addressHouse;

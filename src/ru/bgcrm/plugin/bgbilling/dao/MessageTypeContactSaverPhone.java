@@ -26,7 +26,7 @@ public class MessageTypeContactSaverPhone
 	private final String format;
 	
 	public MessageTypeContactSaverPhone( ParameterMap config )
-		throws BGException
+		throws Exception
 	{
 		super( config );
 		this.paramId = config.getInt( "paramId", -1 );

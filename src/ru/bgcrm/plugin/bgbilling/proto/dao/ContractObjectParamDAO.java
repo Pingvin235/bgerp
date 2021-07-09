@@ -1,6 +1,7 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -236,7 +237,7 @@ public class ContractObjectParamDAO extends BillingDAO {
      * Use {@link ParamAddressValue#toParameterAddressValue(ParamAddressValue, Connection)}
      */
     @Deprecated
-    public static ParameterAddressValue toCrmObject(ParamAddressValue item, Connection con) throws BGException {
+    public static ParameterAddressValue toCrmObject(ParamAddressValue item, Connection con) throws SQLException {
         return item.toParameterAddressValue(con);
     }
 

@@ -50,21 +50,21 @@ public class DbResetTest {
 
     private static ExecuteSQL sqlCall = new ExecuteSQL() {
         @Override
-        protected Set<String> getQueryHashes(Connection con, String mid) throws SQLException {
+        protected Set<String> getQueryHashes(Connection con) throws SQLException {
             return Collections.emptySet();
         }
 
         @Override
-        protected void doQuery(Statement st, String line, Set<String> hashes, boolean noHash) throws SQLException {
+        protected void doQuery(Statement st, String query, Set<String> existingHashes, Set<String> newHashes) throws SQLException {
             try {
                 /* if (line.contains("GENERATED_PASSWORD")) {
                     log.info("Skipping: %s", line);
                     return;
                 } */
-                log.debug("Executing: %s", line);
-                st.executeUpdate(line);
+                log.debug("Executing: %s", query);
+                st.executeUpdate(query);
             } catch (SQLException ex) {
-                throw new SQLException("QUERY: " + line, ex);
+                throw new SQLException("QUERY: " + query, ex);
             }
         }
     };

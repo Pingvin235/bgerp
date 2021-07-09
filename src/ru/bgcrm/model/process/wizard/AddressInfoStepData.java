@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.SortedMap;
 
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.struts.form.DynActionForm;
 
@@ -17,7 +16,7 @@ public class AddressInfoStepData extends StepData<AddressInfoStep> {
     }
 
     @Override
-    public boolean isFilled(DynActionForm form, Connection con) throws BGException {
+    public boolean isFilled(DynActionForm form, Connection con) throws Exception {
         List<StepData<?>> stepDataList = data.getStepDataList();
 
         // находим первый предшествующий шаг заполнения параметров

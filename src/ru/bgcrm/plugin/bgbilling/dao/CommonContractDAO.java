@@ -196,7 +196,7 @@ public class CommonContractDAO
 	private static final Object createMutex = new Object();
 
 	public CommonContract createCommonContract( int customerId, ParameterAddressValue address )
-	    throws BGException
+	    throws Exception
 	{
 		CommonContract result = new CommonContract();
 
@@ -324,7 +324,7 @@ public class CommonContractDAO
 
 	// TODO: быстрый костыль! индусский фикс! надо будет либо убрать, либо сделать нормально
 	public CommonContract createCommonContractWithTitle( int customerId, String title, ParameterAddressValue address )
-	    throws BGException
+	    throws Exception
 	{
 		CommonContract result = new CommonContract();
 

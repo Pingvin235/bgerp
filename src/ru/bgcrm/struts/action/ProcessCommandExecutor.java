@@ -421,7 +421,7 @@ public class ProcessCommandExecutor {
     }
 
     private static void emailSend(Connection con, DynActionForm form, UserEvent event, Process process, ProcessType type, String subject,
-            String exprText, int paramId, Set<Integer> userIds, String defaultSubject) throws BGException {
+            String exprText, int paramId, Set<Integer> userIds, String defaultSubject) throws Exception {
         // вычисление subject с помощью JEXL
         String subjectExpr = type.getProperties().getConfigMap().get(subject);
         if (Utils.notBlankString(subjectExpr)) {

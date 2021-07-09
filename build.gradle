@@ -22,8 +22,8 @@ version = '3.0'
 eclipse {
     classpath {
         // speed up of initial start, change if needed
-        downloadJavadoc = true
-        downloadSources = true
+        downloadJavadoc = false
+        downloadSources = false
     }
 }
 
@@ -144,7 +144,7 @@ dependencies {
     bgerp fileTree(dir: 'lib', include: ['*.jar'])
 
     // documentation library
-    doc 'org.pzdcdoc:pzdcdoc:2.2'
+    doc 'org.pzdcdoc:pzdcdoc:2.3'
 
     // Unit tests of the main code
     testImplementation 'junit:junit:4.12'

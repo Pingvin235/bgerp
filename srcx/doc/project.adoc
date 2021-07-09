@@ -1024,16 +1024,18 @@ After adding missing patterns, application server has to be re-started.
 * All DOM element identifiers (style id) for a plugin have to start with *<plugin>-*
 "-" cannot be used within a DOM element identifier name in other places.
 
+[[naming-db]]
 === Database
-1) Database and field names have to use underscore:
-process_id
-param_id
+* Database table and column names have to use underscore: *process_id*, *param_id*
+* Use PRIMARY key only for auto incremented ID, otherwise prefer named UNIQUE key.
 
+[[naming-camel]]
 === Java variables, HTTP request parameters, JSP variables
 Have to use camelCase notation:
 processId
 paramId
 
+[[naming-date]]
 === Date - field entity
 If a field has only date, then:
 createDate - Java - java.util.Date type
@@ -1043,6 +1045,7 @@ If a field has date + time, then:
 createTime - Java - java.util.Date type
 create_dt - DB - datetime type
 
+[[naming-date-period]]
 === Date - period entity
 If saving in bins, period has to use java.util.Date type with the following naming convention:
 dateFrom
@@ -1054,7 +1057,7 @@ setDateTo
 getDateFrom
 getDateTo
 
-CAUTION: Do not use Calendar bins!
+CAUTION: Do not use Calendar beans!
 Use TimeUtils to convert into Calendar or from Calendar.
 
 For storing 'time', use:

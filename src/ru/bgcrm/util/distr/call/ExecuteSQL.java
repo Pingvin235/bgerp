@@ -4,13 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.zip.ZipInputStream;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -20,19 +18,27 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.ZipUtils;
 import ru.bgcrm.util.sql.ConnectionPool;
-import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgcrm.util.sql.SQLUtils;
 
+/**
+ * Executer of SQL queries for updating DB structure. 
+ * Running as {@link InstallationCall} and also directly.
+ * 
+ * @author Shamil Vakhitov
+ */
 public class ExecuteSQL implements InstallationCall {
-    private static final String SQL_PATCHES_HISTORY = "sql_patches_history";
-    private String id = "";
+    /** Old table, not used anymore. */
+    public static final String TABLE_SQL_PATCHES_HISTORY = "sql_patches_history";
+    /** Table for storing applied SQL updates. */
+    private static final String TABLE_DB_UPDATE = "db_update_log";
+    /** Column with query hash. */
+    private static final String HASH_COLUMN = "query_hash";
 
+    @Override
     public boolean call(Preferences setup, File zip, String param) {
         boolean result = false;
 
-        try {
-            FileInputStream fis = new FileInputStream(zip);
-
+        try (var fis = new FileInputStream(zip)) {
             Map<String, byte[]> map = ZipUtils.getEntriesFromZip(new ZipInputStream(fis), param);
             if (!map.containsKey(param)) {
                 System.out.println("Can't find " + param + " in module zip!!!");
@@ -52,7 +58,6 @@ public class ExecuteSQL implements InstallationCall {
                 }
                 pool.close();
             }
-            fis.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -60,138 +65,148 @@ public class ExecuteSQL implements InstallationCall {
         return result;
     }
 
+    /**
+     * Executes multiline SQL script.
+     * @param con connection.
+     * @param query SQL script, tokenized to commands by {@code ;}.
+     * @throws SQLException
+     */
     public void call(Connection con, String query) throws SQLException {
         String[] queries = query.split(";\\s*\n");
 
-        executeSqlComands(con, queries, id);
+        executeSqlCommands(con, queries);
 
         con.commit();
     }
 
-    private void executeSqlComands(Connection con, String[] lines, String midStr) throws SQLException {
-        Set<String> hashes = getQueryHashes(con, midStr);
-        StringBuilder blockQuery = new StringBuilder();
-        boolean blockStarted = false;
-        boolean noHash = false;
+    /**
+     * Executes SQL commands.
+     * @param con
+     * @param queries
+     * @throws SQLException
+     */
+    private void executeSqlCommands(Connection con, String[] queries) throws SQLException {
+        Set<String> existingHashes = getQueryHashes(con);
+        Set<String> executedHashes = new TreeSet<>();
+
+        StringBuilder blockQuery = null;
 
         Statement st = con.createStatement();
-        for (String line : lines) {
-            if (Utils.isBlankString(line)) {
+        for (String query : queries) {
+            if (Utils.isBlankString(query)) {
                 continue;
             }
 
-            if (line.indexOf("#BLOCK#") >= 0) {
-                blockStarted = true;
+            if (query.indexOf("#BLOCK#") >= 0) {
+                blockQuery = new StringBuilder();
                 continue;
-            } else if (line.indexOf("#ENDB#") >= 0) {
-                blockStarted = false;
+            } else if (query.indexOf("#ENDB#") >= 0) {
+                if (blockQuery == null)
+                    throw new IllegalStateException("Block query hasn't started.");
 
-                String query = blockQuery.toString().replaceAll("delimiter\\s*\\$\\$", "")
-                        .replaceAll("delimiter\\s*;", "").replaceAll("END\\$\\$", "END;");
-                doQuery(st, query, hashes, noHash);
+                String blockQueryStr = blockQuery.toString()
+                        .replaceAll("delimiter\\s*\\$\\$", "")
+                        .replaceAll("delimiter\\s*;", "")
+                        .replaceAll("END\\$\\$", "END;");
+                doQuery(st, blockQueryStr, existingHashes, executedHashes);
 
-                blockQuery.setLength(0);
+                blockQuery = null;
                 continue;
-            } else if (line.indexOf("#NOHASH#") >= 0) {
-                noHash = true;
-            } else if (line.indexOf("#ENDNO#") >= 0) {
-                noHash = false;
-            } else if (line.startsWith("--")) {
-                continue;
-            }
-
-            //если читаем блок, то добавляем запросы в коллекцию
-            if (blockStarted) {
-                blockQuery.append(line);
-                blockQuery.append(";\n");
+            } else if (query.startsWith("--")) {
                 continue;
             }
 
-            doQuery(st, line, hashes, noHash);
+            if (blockQuery != null) {
+                blockQuery.append(query).append(";\n");
+                continue;
+            }
+
+            doQuery(st, query, existingHashes, executedHashes);
         }
         st.close();
 
-        if (!hashes.isEmpty())
-            updateHashes(con, Utils.toString(hashes), midStr);
+        if (!existingHashes.isEmpty())
+            addHashes(con, executedHashes);
     }
 
+    /**
+     * Executes SQL query.
+     * @param st SQL statement, running the query.
+     * @param query the query.
+     * @param existingHashes hashes of already applied queries.
+     * @param newHashes set there added hash of executed {@code query} if it wasn't presented in {@code hashes}.
+     * @throws SQLException
+     */
     @VisibleForTesting
-    protected void doQuery(Statement st, String line, Set<String> hashes, boolean noHash) throws SQLException {
-        String hash = Utils.getDigest(line);
-        if (noHash || !hashes.contains(hash)) {
-            try {
-                long time = System.currentTimeMillis();
-                st.executeUpdate(line);
-                System.out.println("OK (" + (System.currentTimeMillis() - time) + " ms.) => " + line);
-
-                if (!noHash) {
-                    hashes.add(hash);
-                }
-            } catch (SQLException ex) {
-                System.err.println("ERROR (" + ex.getErrorCode() + ") " + ex.getMessage() + " => " + line);
-                throw ex;
-            }
+    protected void doQuery(Statement st, String query, Set<String> existingHashes, Set<String> newHashes) throws SQLException {
+        String hash = Utils.getDigest(query);
+        if (existingHashes.contains(hash)) {
+            return;
+        }
+        try {
+            long time = System.currentTimeMillis();
+            st.executeUpdate(query);
+            System.out.println("OK (" + (System.currentTimeMillis() - time) + " ms.) => " + query);
+            newHashes.add(hash);
+        } catch (SQLException ex) {
+            throw new SQLException(ex.getMessage() + " => " + query, ex);
         }
     }
 
-    // mid столбец никак не используется в данный момент, скопирован из биллинга
+    /**
+     * Loads applied query hashes.
+     * @param con SQL connection.
+     * @return set with hashes.
+     * @throws SQLException
+     */
     @VisibleForTesting
-    protected Set<String> getQueryHashes(Connection con, String mid) throws SQLException {
-        Set<String> result = new HashSet<String>();
+    protected Set<String> getQueryHashes(Connection con) throws SQLException {
+        Set<String> result = new TreeSet<>();
 
-        if (!SQLUtils.tableExists(con, SQL_PATCHES_HISTORY)) {
-            String sql = "CREATE TABLE " + SQL_PATCHES_HISTORY + "( "
-                + " `mid` varchar(20) NOT NULL, "
-                + " `versions` text, " +
-                " PRIMARY KEY (`mid`))";
+        if (!SQLUtils.tableExists(con, TABLE_DB_UPDATE)) {
+            String sql = 
+                "CREATE TABLE IF NOT EXISTS " + TABLE_DB_UPDATE 
+                + "(dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "
+                + HASH_COLUMN + " CHAR(32) NOT NULL, " +
+                " PRIMARY KEY (" + HASH_COLUMN + "))";
             con.createStatement().executeUpdate(sql);
 
             return result;
         }
 
-        String query = "SELECT versions FROM " + SQL_PATCHES_HISTORY + " WHERE mid=?";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, mid);
-
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            result = Utils.toSet(rs.getString(1));
+        String query = "SELECT " + HASH_COLUMN + " FROM " + TABLE_DB_UPDATE;
+        try (var ps = con.prepareStatement(query)) {
+            var rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getString(1));
+            }
         }
-        ps.close();
 
         return result;
     }
 
-    private void updateHashes(Connection con, String versions, String mid) throws SQLException {
-        String query = "UPDATE " + SQL_PATCHES_HISTORY + " SET versions=? WHERE mid=?";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, versions);
-        ps.setString(2, mid);
+    /**
+     * Stores executed queries hashes.
+     * @param con SQL connection.
+     * @param hashes set with hashes.
+     * @throws SQLException
+     */
+    private void addHashes(Connection con, Set<String> hashes) throws SQLException {
+        if (hashes.isEmpty())
+            return;
 
-        if (ps.executeUpdate() == 0) {
-            ps.close();
-
-            query = "INSERT INTO " + SQL_PATCHES_HISTORY + "(versions, mid) VALUES (?,?)";
-            ps = con.prepareStatement(query);
-            ps.setString(1, versions);
-            ps.setString(2, mid);
-
-            ps.executeUpdate();
+        var sql = "INSERT INTO " + TABLE_DB_UPDATE + "(" + HASH_COLUMN + ") VALUES (?)";
+        try (var ps = con.prepareStatement(sql)) {
+            for (var hash : hashes) {
+                ps.setString(1, hash);
+                ps.executeUpdate();
+            }
         }
-        ps.close();
     }
 
-    public static void clearHashById(String mid) {
-        try (var con = Setup.getSetup().getDBConnectionFromPool();
-            var pd = new PreparedDelay(con);) {
-
-            pd.addQuery("DELETE FROM " + SQL_PATCHES_HISTORY);
-            if (Utils.notBlankString(mid)) {
-                pd.addQuery(" WHERE mid=?");
-                pd.addString(mid);
-            }
-            pd.executeUpdate();
-
+    public static void clearHashes() {
+        try (var con = Setup.getSetup().getDBConnectionFromPool()) {
+            con.createStatement().executeUpdate("DELETE FROM " + TABLE_DB_UPDATE);
             con.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();

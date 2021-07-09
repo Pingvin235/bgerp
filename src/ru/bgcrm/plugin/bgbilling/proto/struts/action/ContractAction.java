@@ -188,7 +188,7 @@ public class ContractAction extends BaseAction {
 		return html(conSet, mapping, form, "contractParameterList");
 	}
 
-	public ActionForward parameterGet(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+	public ActionForward parameterGet(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
 		String billingId = form.getParam("billingId");
 		Integer contractId = form.getParamInt("contractId");
 		Integer paramId = form.getParamInt("paramId");
@@ -556,7 +556,7 @@ public class ContractAction extends BaseAction {
 		return html(conSet, mapping, form, "contractObjectParameterList");
 	}
 
-	public ActionForward getObjectParameter(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+	public ActionForward getObjectParameter(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
 		String billingId = form.getParam("billingId");
 		Integer objectId = form.getParamInt("objectId");
 		Integer paramId = form.getParamInt("paramId");

@@ -72,6 +72,10 @@ public class Table {
         /**
          * Trash table, monthly broken.
          */
-        TRASH_MONTHLY
+        TRASH_MONTHLY,
+        /**
+         * Not more used table.
+         */
+        DEPRECATED
     }
 }

@@ -8,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.IdTitled;
@@ -29,7 +28,7 @@ public class MessageTypeContactSaverEmail extends MessageTypeContactSaver {
 
     private int paramId;
 
-    public MessageTypeContactSaverEmail(ParameterMap config) throws BGException {
+    public MessageTypeContactSaverEmail(ParameterMap config) throws Exception {
         super(config);
 
         this.paramId = config.getInt("paramId", -1);
@@ -44,7 +43,7 @@ public class MessageTypeContactSaverEmail extends MessageTypeContactSaver {
     }
 
     @Override
-    public void saveContact(DynActionForm form, Connection con, Message message, Process process, int saveMode) throws BGException {
+    public void saveContact(DynActionForm form, Connection con, Message message, Process process, int saveMode) throws Exception {
         CommonObjectLink customerLink = Utils.getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(process.getId(), Customer.OBJECT_TYPE));
         if (customerLink == null) {
             return;

@@ -1,6 +1,7 @@
 package ru.bgcrm.dao.expression;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,7 +17,6 @@ import org.apache.log4j.Logger;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.param.Parameter;
@@ -63,7 +63,7 @@ public class ParamValueFunction {
                 value = paramDao.getParamAddressExt(objectId, param.getId(), true, formatName).values();
                 valuesCache.put(paramId, value);
             }
-        } catch (BGException e) {
+        } catch (SQLException e) {
             log.error(e.getMessage(), e);
         }
 
@@ -180,7 +180,7 @@ public class ParamValueFunction {
                 result = paramDao.getParamList(objectId, paramId);
                 valuesCache.put(paramId, result);
             }
-        } catch (BGException e) {
+        } catch (SQLException e) {
             log.error(e.getMessage(), e);
         }
 
@@ -211,7 +211,7 @@ public class ParamValueFunction {
                 }
                 valuesCache.put(paramId, result);
             }
-        } catch (BGException e) {
+        } catch (SQLException e) {
             log.error(e.getMessage(), e);
         }
 
@@ -269,7 +269,7 @@ public class ParamValueFunction {
                 break;
             }
 
-        } catch (BGException e) {
+        } catch (SQLException e) {
             log.error(e.getMessage(), e);
         }
 
@@ -280,9 +280,9 @@ public class ParamValueFunction {
      * Возвращает значение текстового параметра процесса.
      * @param paramId
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public String getParamText(int paramId) throws BGException {
+    public String getParamText(int paramId) throws SQLException {
         return paramDao.getParamText(objectId, paramId);
     }
 
@@ -290,9 +290,9 @@ public class ParamValueFunction {
      * Возвращает значение date параметра процесса.
      * @param paramId
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public Date getParamDate(int paramId) throws BGException {
+    public Date getParamDate(int paramId) throws SQLException {
         return paramDao.getParamDate(objectId, paramId);
     }
 
@@ -300,9 +300,9 @@ public class ParamValueFunction {
      * Возвращает значение datetime параметра процесса.
      * @param paramId
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public Date getParamDateTime(int paramId) throws BGException {
+    public Date getParamDateTime(int paramId) throws SQLException {
         return paramDao.getParamDateTime(objectId, paramId);
     }
 
@@ -310,9 +310,9 @@ public class ParamValueFunction {
      * Возвращает первое значение параметра типа phone без форматирования, т.е. только цифры.
      * @param paramId
      * @return
-     * @throws BGException
+     * @throws SQLException
      */
-    public String getParamPhoneNoFormat(int paramId) throws BGException {
+    public String getParamPhoneNoFormat(int paramId) throws SQLException {
         ParameterPhoneValue value = paramDao.getParamPhone(objectId, paramId);
         if (!value.getItemList().isEmpty()) {
             return value.getItemList().get(0).getPhone();

@@ -801,4 +801,8 @@ CALL rename_table('n_param_list_value', 'param_list_value');
 CALL rename_table('n_customer_log', 'customer_log');
 CALL rename_table('n_news', 'news');
 
+CALL drop_column_if_exists('param_list', '_comment');
+CALL add_unique_key_if_not_exists('param_list', 'id_param_value', '(id, param_id, value)');
+CALL drop_key_if_exists('param_list', 'id_param');
+
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

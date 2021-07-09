@@ -139,7 +139,7 @@ public class ShowContractsByAddrParamStepData
 
 	@Override
 	public boolean isFilled( DynActionForm form, Connection con )
-		throws BGException
+		throws Exception
 	{
 		if( contracts == null )
 		{

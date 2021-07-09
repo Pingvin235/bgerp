@@ -3,7 +3,6 @@ package ru.bgcrm.dao.message;
 import java.sql.Connection;
 import java.util.List;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.IdTitled;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
@@ -16,7 +15,7 @@ public abstract class MessageTypeContactSaver {
         new IdTitled(1, "Cохранить")
     );
 
-    public MessageTypeContactSaver(ParameterMap config) throws BGException {}
+    public MessageTypeContactSaver(ParameterMap config) throws Exception {}
 
     /**
      * Different save modes, e.g E-Mail or domain.
@@ -26,5 +25,5 @@ public abstract class MessageTypeContactSaver {
         return STANDARD_MODE_LIST;
     }
 
-    public abstract void saveContact(DynActionForm form, Connection con, Message message, Process process, int saveMode) throws BGException;
+    public abstract void saveContact(DynActionForm form, Connection con, Message message, Process process, int saveMode) throws Exception;
 }

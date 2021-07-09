@@ -89,9 +89,9 @@ public class ContractDAO
 	}
 
 	public void copyParametersToBilling( Connection con, int customerId, int contractId, String title )
-		throws BGException
+		throws Exception
 	{
-		CommonContract commonContract = new CommonContractDAO( con ).getContractCommon( customerId, title );
+		CommonContract commonContract = null/* new CommonContractDAO( con ).getContractCommon( customerId, title ) */;
 		Customer customer = new CustomerDAO( con ).getCustomerById( customerId );
 
 		String copyParamsMapping = dbInfo.getSetup().get( "copyParamMapping", "" );
@@ -105,7 +105,7 @@ public class ContractDAO
 	}
 
 	public void copyObjectParamsToContract( Connection con, String copyParamsMapping, int objectId, int contractId, Customer customer, CommonContract commonContract )
-		throws BGException
+		throws Exception
 	{
 		ParamValueDAO paramDAO = new ParamValueDAO( con );
 
@@ -300,7 +300,7 @@ public class ContractDAO
 	}
 
 	public static void copyParametersToAllContracts( Connection con, User user, int customerId )
-		throws BGException
+		throws Exception
 	{
 		CustomerLinkDAO linkDao = new CustomerLinkDAO( con );
 		for( CommonObjectLink link : linkDao.getObjectLinksWithType( customerId, Contract.OBJECT_TYPE + "%" ) )

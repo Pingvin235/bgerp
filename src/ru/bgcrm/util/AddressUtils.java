@@ -3,9 +3,9 @@ package ru.bgcrm.util;
 import static ru.bgcrm.util.PatternFormatter.processPattern;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import ru.bgcrm.dao.AddressDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.address.AddressCity;
 import ru.bgcrm.model.param.address.AddressHouse;
@@ -15,11 +15,11 @@ import ru.bgcrm.util.PatternFormatter.PatternItemProcessor;
 public class AddressUtils {
     private final static String ADDRESS_FORMAT = "(${index})(, ${city})(, ${area})(, ${quarter})(, ${street})(, д. ${house})(, кв. ${flat})( ${room})(, ${pod} под.)(, ${floor} эт.)( [${comment}])";
 
-    public static final String buildAddressValue(final ParameterAddressValue value, Connection con) throws BGException {
+    public static final String buildAddressValue(final ParameterAddressValue value, Connection con) throws SQLException {
         return buildAddressValue(value, con, null);
     }
 
-    public static final String buildAddressValue(final ParameterAddressValue value, Connection con, String formatName) throws BGException {
+    public static final String buildAddressValue(final ParameterAddressValue value, Connection con, String formatName) throws SQLException {
         int houseId = value.getHouseId();
 
         AddressDAO addressDAO = new AddressDAO(con);

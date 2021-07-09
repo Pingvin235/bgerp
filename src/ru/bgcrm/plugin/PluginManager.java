@@ -22,6 +22,7 @@ public class PluginManager {
 
     private static PluginManager instance;
 
+
     public static void init() throws Exception {
         instance = new PluginManager();
         instance.initPlugins();
@@ -88,17 +89,15 @@ public class PluginManager {
     }
 
     /**
-     * On start init for enabled plugins.
-     * @param pluginList
+     * Runs {@link Plugin#init(Connection)} for enabled plugins.
+     * @throws Exception
      */
-    private void initPlugins() {
+    private void initPlugins() throws Exception {
         log.info("Running init() for enabled plugins.");
         for (Plugin p : pluginList) {
             try (Connection con = Setup.getSetup().getDBConnectionFromPool()) {
                 p.init(con);
                 con.commit();
-            } catch (Exception e) {
-                log.error(e);
             }
         }
     }

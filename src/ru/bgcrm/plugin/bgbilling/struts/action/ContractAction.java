@@ -56,7 +56,7 @@ public class ContractAction extends BaseAction
 											   HttpServletRequest request,
 											   HttpServletResponse response,
 											   Connection con )
-		throws BGException
+		throws Exception
 	{
 		int customerId = form.getParamInt( "customerId", 0 );
 
@@ -132,7 +132,7 @@ public class ContractAction extends BaseAction
 												   HttpServletRequest request,
 												   HttpServletResponse response,
 												   Connection con )
-		throws BGException
+		throws Exception
 	{
 		int customerId = form.getParamInt( "customerId", -1 );
 		User user = form.getUser();
@@ -147,7 +147,7 @@ public class ContractAction extends BaseAction
 													  HttpServletRequest request,
 													  HttpServletResponse response,
 													  Connection con )
-		throws BGException
+		throws Exception
 	{
 		int customerId = form.getParamInt( "customerId", -1 );
 

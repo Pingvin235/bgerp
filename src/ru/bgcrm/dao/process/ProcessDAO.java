@@ -293,7 +293,7 @@ public class ProcessDAO extends CommonDAO {
             selectAggregatedValues(aggregatedValues, params, columns);
     }
 
-    private void loadFormattedAddressParamValues(SearchResult<Object[]> searchResult, Queue queue) throws BGException {
+    private void loadFormattedAddressParamValues(SearchResult<Object[]> searchResult, Queue queue) throws SQLException {
         final List<ParameterMap> columnList = queue.getColumnList();
         final int length = columnList.size();
 

@@ -285,6 +285,23 @@
 |
 |===
 
+=== db_update_log
+DB updates log.
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|dt
+|DATETIME
+|Execution time
+
+|query_hash
+|CHAR
+|Query hash
+|===
+
 === event_processor_log
 Помесячная таблица логов обработки событий.
 // TODO

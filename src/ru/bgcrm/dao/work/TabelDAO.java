@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -69,7 +70,7 @@ public class TabelDAO
 	}
 	
 	public HSSFWorkbook generateTabel( Callboard callboard, final Date dateFrom, Date dateTo )
-		throws BGException, FileNotFoundException, IOException
+		throws BGException, FileNotFoundException, IOException, SQLException
     {
 		DayTypeConfig dayTypeConfig = Setup.getSetup().getConfig( DayTypeConfig.class );
 		

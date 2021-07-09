@@ -1,6 +1,7 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,7 +53,7 @@ public class ContractParamDAO extends BillingDAO {
 		super(user, dbInfo);
 	}
 
-	public static ParameterAddressValue toCrmObject(ParamAddressValue item, Connection con) throws BGException {
+	public static ParameterAddressValue toCrmObject(ParamAddressValue item, Connection con) throws SQLException {
 		ParameterAddressValue crmItem = new ParameterAddressValue();
 
 		if (item != null) {
@@ -70,7 +71,7 @@ public class ContractParamDAO extends BillingDAO {
 
 	@Deprecated
 	public static ParamAddressValue toBillingObject(ParameterAddressValue parameterAddressValue, Connection connection)
-			throws BGException {
+			throws SQLException {
 		ParamAddressValue paramAddressValue = null;
 
 		if (parameterAddressValue != null) {
@@ -522,7 +523,7 @@ public class ContractParamDAO extends BillingDAO {
 		transferData.postData(req, user);
 	}
 
-	public void copyObjectParamsToContract(Connection con, int objectId, int contractId) throws BGException {
+	public void copyObjectParamsToContract(Connection con, int objectId, int contractId) throws SQLException, BGMessageException {
 		String copyParamsMapping = dbInfo.getSetup().get("copyParamMapping", "");
 
 		if (Utils.isBlankString(copyParamsMapping)) {
@@ -541,7 +542,7 @@ public class ContractParamDAO extends BillingDAO {
 	}
 
 	public void copyObjectParamToContract(int objectId, int contractId, int fromParamId, Connection con)
-			throws BGException {
+			throws SQLException, BGMessageException {
 		if (objectId == 0 || contractId == 0 || fromParamId == 0) {
 			throw new BGMessageException(
 					"Ошибка входных параметров при копировании параметра в биллинг " + dbInfo.getId() + "!");

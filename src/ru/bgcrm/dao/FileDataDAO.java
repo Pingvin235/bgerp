@@ -14,7 +14,6 @@ import java.util.Random;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
@@ -29,27 +28,23 @@ public class FileDataDAO extends CommonDAO {
         storeDir = Utils.createDirectoryIfNoExistInWorkDir("filestorage");
     }
 
-    public static FileData getFromRs(ResultSet rs, String prefix, boolean loadAdditionalParameters) throws BGException {
+    public static FileData getFromRs(ResultSet rs, String prefix, boolean loadAdditionalParameters) throws SQLException {
         FileData result = new FileData();
 
-        try {
-            result.setId(rs.getInt(prefix + "id"));
-            result.setTitle(rs.getString(prefix + "title"));
-            result.setTime(TimeUtils.convertTimestampToDate(rs.getTimestamp(prefix + "time")));
-            result.setSecret(rs.getString("secret"));
+        result.setId(rs.getInt(prefix + "id"));
+        result.setTitle(rs.getString(prefix + "title"));
+        result.setTime(TimeUtils.convertTimestampToDate(rs.getTimestamp(prefix + "time")));
+        result.setSecret(rs.getString("secret"));
 
-            if (loadAdditionalParameters) {
-                int userId = rs.getInt("user_id");
-                if (userId > 0)
-                    result.setUser(UserCache.getUser(userId));
+        if (loadAdditionalParameters) {
+            int userId = rs.getInt("user_id");
+            if (userId > 0)
+                result.setUser(UserCache.getUser(userId));
 
-                result.setComment(rs.getString("comment"));
-                result.setVersion(rs.getInt("version"));
-            }
-        } catch (SQLException exp) {
-            throw new BGMessageException(exp.getMessage());
+            result.setComment(rs.getString("comment"));
+            result.setVersion(rs.getInt("version"));
         }
-
+       
         return result;
     }
 

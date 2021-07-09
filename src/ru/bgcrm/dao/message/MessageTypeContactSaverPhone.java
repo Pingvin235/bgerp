@@ -21,7 +21,7 @@ public class MessageTypeContactSaverPhone extends ru.bgcrm.dao.message.MessageTy
     private final int paramId;
     private final String format;
 
-    public MessageTypeContactSaverPhone(ParameterMap config) throws BGException {
+    public MessageTypeContactSaverPhone(ParameterMap config) throws Exception {
         super(config);
         this.paramId = config.getInt("paramId", -1);
         this.format = config.get("format", "13");
@@ -31,7 +31,7 @@ public class MessageTypeContactSaverPhone extends ru.bgcrm.dao.message.MessageTy
     }
 
     @Override
-    public void saveContact(DynActionForm form, Connection con, Message message, Process process, int saveMode) throws BGException {
+    public void saveContact(DynActionForm form, Connection con, Message message, Process process, int saveMode) throws Exception {
         CommonObjectLink customerLink = Utils.getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(process.getId(), Customer.OBJECT_TYPE));
         if (customerLink == null) {
             return;
