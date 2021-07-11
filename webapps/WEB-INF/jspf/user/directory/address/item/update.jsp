@@ -10,7 +10,7 @@
 	<html:hidden property="addressItemId"/>
 	<html:hidden property="addressCityId" value="${item.addressCity.id}"/>
 
-	<table style="width: 100%;" class="data">
+	<table class="data">
 		<tr>
 			<td width="100">${l.l('Параметр')}</td>
 			<td>${l.l('Значение')}</td>
@@ -35,14 +35,22 @@
 	</table>
 </html:form>
 
-<c:set var="state">
-	<span class='title'>${l.l('Редактирование')}
+<%-- <c:set var="state">
+	<span class='title'>
 		<c:choose>
-			<c:when test="${itemType eq 'quarter'}">${l.l('квартала')}</c:when>
-			<c:when test="${itemType eq 'area'}">${l.l('района')}</c:when>
-			<c:otherwise>${l.l('улицы')}</c:otherwise>
+			<c:when test="${itemType eq 'quarter'}">${l.l('Редактор квартала')}</c:when>
+			<c:when test="${itemType eq 'area'}">${l.l('Редактор района')}</c:when>
+			<c:otherwise>${l.l('Редактор улицы')}</c:otherwise>
 		</c:choose>
 	</span>
-</c:set>
+</c:set> --%>
 
-<shell:state text="${state}" help="kernel/setup.html#address"/>
+<shell:state help="kernel/setup.html#address">
+	<jsp:attribute name="ltext">
+		<c:choose>
+			<c:when test="${itemType eq 'quarter'}">Редактор квартала</c:when>
+			<c:when test="${itemType eq 'area'}">Редактор района</c:when>
+			<c:otherwise>Редактор улицы</c:otherwise>
+		</c:choose>
+	</jsp:attribute>
+</shell:state>

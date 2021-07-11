@@ -12,13 +12,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
@@ -28,7 +28,6 @@ import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.param.address.AddressHouse;
-import ru.bgcrm.model.param.address.AddressSearchedObject;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
@@ -206,7 +205,7 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public void searchContractByAddressParam(SearchResult<AddressSearchedObject<Contract>> result, SearchOptions options, Set<Integer> paramIds,
+    public void searchContractByAddressParam(SearchResult<ParameterSearchedObject<Contract>> result, SearchOptions options, Set<Integer> paramIds,
             int streetId, String house, String flat, String room) throws BGException {
         final Page page = result.getPage();
 
@@ -239,13 +238,13 @@ public class ContractDAO extends BillingDAO {
         if (contracts != null) {
             getPage(page, contracts);
 
-            List<AddressSearchedObject<Contract>> list = result.getList();
+            List<ParameterSearchedObject<Contract>> list = result.getList();
             for (Element item : XMLUtils.selectElements(contracts, "item")) {
                 final String fullTitle = item.getAttribute("title");
 
                 Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")),
                         StringUtils.substringBefore(fullTitle, "[").trim(), StringUtils.substringBetween(fullTitle, "[", "]").trim());
-                list.add(new AddressSearchedObject<Contract>(contract, 0, StringUtils.substringAfterLast(fullTitle, "]").trim()));
+                list.add(new ParameterSearchedObject<Contract>(contract, 0, StringUtils.substringAfterLast(fullTitle, "]").trim()));
             }
         }
     }

@@ -3,7 +3,7 @@
 
 <%@ include file="../address_page_control.jsp"%>
 
-<table style="width: 100%;" class="data">
+<table class="data">
 	<tr>
 		<td width="30">&nbsp;</td>
 		<td width="30">ID</td>
@@ -20,21 +20,20 @@
 				<c:param name="addressCityId" value="${form.param.addressCityId}"/>
 				<c:param name="addressItemId" value="${item.id}"/>
 				<c:param name="addressCountryTitle" value="${form.param.addressCountryTitle}"/>
-				<c:param name="addressCityTitle" value="${form.param.addressCityTitle}"/>				
+				<c:param name="addressCityTitle" value="${form.param.addressCityTitle}"/>
 			</c:url>
-			
-			<c:url var="deleteAjaxUrl" value="${doUrl}">
+
+			<c:url var="delUrl" value="${doUrl}">
 				<c:param name="action" value="addressDelete"/>
 				<c:param name="selectTab" value="${form.param.selectTab}"/>
 				<c:param name="addressItemId" value="${item.id}"/>
 			</c:url>
-			<c:set var="deleteAjaxCommandAfter">openUrlContent('${form.requestUrl}')</c:set>
-			
-			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
+
+			<%@ include file="../edit_td.jsp"%>
 			<td>${item.id}</td>
 			<td nowrap="nowrap">${item.addressCity.addressCountry.title}</td>
 			<td nowrap="nowrap">${item.addressCity.title}</td>
-			
+
 			<c:choose>
 				<c:when test="${form.param.selectTab eq 'street'}">
 					<c:url var="url" value="${doUrl}">
@@ -42,7 +41,7 @@
 						<c:param name="addressItemId" value="${item.id}"/>
 						<c:param name="searchMode" value="house"/>
 					</c:url>
-					<td><a href="#" onclick="openUrlContent('${url}'); return false">${item.title}</a></td>
+					<td><a href="#" onclick="$$.ajax.loadContent('${url}', this); return false">${item.title}</a></td>
 				</c:when>
 				<c:otherwise><td>${item.title}</td></c:otherwise>
 			</c:choose>

@@ -162,8 +162,8 @@
 								${removeContractTab}
 							</c:when>
 							<c:otherwise>
-								bgcrm.closeObject = null;
-								removeCommandDiv( 'contract_${billingId}-${contractId}' );
+								$$.closeObject = null;
+								$$.shell.removeCommandDiv('contract_${billingId}-${contractId}');
 								bgbilling_openContract( '${billingId}', ${contractId} );
 							</c:otherwise>
 						</c:choose>
@@ -171,8 +171,8 @@
 					else
 					{
 						<%-- для обновления обозначения в буфере --%>
-						bgcrm.closeObject = null;
-						removeCommandDiv( 'contract_${billingId}-${contractId}' );
+						$$.closeObject = null;
+						$$.shell.removeCommandDiv('contract_${billingId}-${contractId}');
 						bgbilling_openContract( '${billingId}', ${contractId} );
 					}
 				}

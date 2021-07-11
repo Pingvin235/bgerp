@@ -245,7 +245,7 @@
 	<p><ru>РАЙОН</ru><en>AREA</en></p>
 	<p><ru>КВАРТАЛ</ru><en>QUARTER</en></p>
 	<p><ru>Дом</ru><en>House</en></p>
-	<p><ru>Адресный справочник</ru><en>Address catalog</en></p>
+	<p><ru>Адресный справочник</ru><en>Address directory</en></p>
 	<p><ru>Создать нового контрагента</ru><en>Create new customer</en></p>
 	<p><ru>Редактор дома</ru><en>House editor</en></p>
 	<p><ru>Район</ru><en>Area</en></p>
@@ -427,6 +427,29 @@
 	<p><ru>отображено</ru><en>shown</en></p>
 	<p><ru>Закрыл</ru><en>Closed by</en></p>
 	<p><ru>Цвет для счетчика фильтра</ru><en>Color for filter's counter</en></p>
+	<p><ru>выберите контрагента</ru><en>choose customer</en></p>
+	<p><ru>Слить с</ru><en>Merge with</en></p>
+	<p><ru>Выберите контрагента</ru><en>Choose customer</en></p>
+	<p><ru>Вы уверены, что хотите объединить?</ru><en>Are you sure want to merge?</en></p>
+	<p><ru>Слияние прошло успешно</ru><en>Merging has successfully done</en></p>
+	<p><ru>Редактор страны</ru><en>Country editor</en></p>
+	<p><ru>Редактор города</ru><en>City editor</en></p>
+	<p><ru>Редактор улицы</ru><en>Street editor</en></p>
+	<p><ru>Редактор квартала</ru><en>Quarter editor</en></p>
+	<p><ru>Редактор района</ru><en>Area editor</en></p>
+	<p><ru>Не удалось найти дом с таким номером, либо таких домов несколько. Выберите дом из всплывающей подсказки!</ru>
+		<en>House with a given number wasn't found or there are many of them. Choose house in drop down list!</en>
+	</p>
+	<p><ru>дом</ru><en>house</en></p>
+	<p><ru>Добавить дом</ru><en>Add house</en></p>
+	<p><ru>Не указана улица</ru><en>Street undefined</en></p>
+	<p><ru>Введите номер дома</ru><en>Input house number</en></p>
+	<p><ru>Дом добавлен</ru><en>House added</en></p>
+	<p><ru>Квартира / офис</ru><en>Flat / office</en></p>
+	<p><ru>Комната</ru><en>Room</en></p>
+	<p><ru>Подъезд</ru><en>Entrance</en></p>
+	<p><ru>Этаж</ru><en>Floor</en></p>
+	<p><ru>&lt;ЗНАЧЕНИЕ ЗАШИФРОВАНО&gt;</ru><en>&lt;VALUE ENCRYPTED&gt;</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

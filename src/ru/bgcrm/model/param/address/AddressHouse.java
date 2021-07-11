@@ -1,169 +1,170 @@
 package ru.bgcrm.model.param.address;
 
-public class AddressHouse
-	extends AddressBase
-{
-	private int areaId = -1;
-	private int quarterId = -1;
-	private int streetId = -1;
-	private int house = -1;
-	private String frac;
-	private String postIndex;
-	private String comment;
-	private AddressItem addressArea;
-	private AddressItem addressQuarter;
-	private AddressItem addressStreet;
+public class AddressHouse extends AddressBase {
+    public static final String OBJECT_TYPE = "address_house";
 
-	public static final String OBJECT_TYPE = "address_house";
+    private int areaId = -1;
+    private int quarterId = -1;
+    private int streetId = -1;
+    /** House number only. */
+    private int house = -1;
+    /** Additional after number part: frac, letter. */
+    private String frac;
+    private String postIndex;
+    private String comment = "";
+    private AddressItem addressArea;
+    private AddressItem addressQuarter;
+    private AddressItem addressStreet;
 
-	public int getAreaId()
-	{
-		return areaId;
-	}
+    public int getAreaId() {
+        return areaId;
+    }
 
-	public void setAreaId( int areaId )
-	{
-		this.areaId = areaId;
-	}
+    public void setAreaId(int value) {
+        this.areaId = value;
+    }
 
-	public int getQuarterId()
-	{
-		return quarterId;
-	}
+    public AddressHouse withAreaId(int value) {
+        setAreaId(value);
+        return this;
+    }
 
-	public void setQuarterId( int quarterId )
-	{
-		this.quarterId = quarterId;
-	}
+    public int getQuarterId() {
+        return quarterId;
+    }
 
-	public int getStreetId()
-	{
-		return streetId;
-	}
+    public void setQuarterId(int value) {
+        this.quarterId = value;
+    }
 
-	public void setStreetId( int streetId )
-	{
-		this.streetId = streetId;
-	}
+    public AddressHouse withQuarterId(int value) {
+        setQuarterId(value);
+        return this;
+    }
 
-	public int getHouse()
-	{
-		return house;
-	}
+    public int getStreetId() {
+        return streetId;
+    }
 
-	public void setHouse( int house )
-	{
-		this.house = house;
-	}
+    public void setStreetId(int value) {
+        this.streetId = value;
+    }
 
-	public String getHouseAndFrac()
-	{
-		StringBuilder buf = new StringBuilder();
-		if( house > 0 )
-		{
-			buf.append( house );
-		}
-		if( frac != null )
-		{
-			buf.append( frac );
-		}
-		return buf.toString();
-	}
+    public AddressHouse withStreetId(int value) {
+        setStreetId(value);
+        return this;
+    }
 
-	public static AddressHouse extractHouseAndFrac( String house )
-	{
-		AddressHouse result = new AddressHouse();
-		result.setHouseAndFrac( house );
-		return result;
-	}
+    public int getHouse() {
+        return house;
+    }
 
-	public void setHouseAndFrac( String house )
-	{
-		if( house != null )
-		{
-		    this.frac = "";
-			StringBuilder str = new StringBuilder();
-			for( int i = 0; i < house.length(); i++ )
-			{
-				if( Character.isDigit( house.charAt( i ) ) )
-				{
-					str.append( house.charAt( i ) );
-				}
-				else
-				{
-					this.frac = house.substring( i );
-					break;
-				}
-			}
-			if( str.length() > 0 )
-			{
-				this.house = Integer.parseInt( str.toString() );
-			}
-		}
-		else
-		{
-			this.house = 0;
-			this.frac = null;
-		}
-	}
+    public void setHouse(int value) {
+        this.house = value;
+    }
 
-	public String getFrac()
-	{
-		return frac;
-	}
+    public String getFrac() {
+        return frac;
+    }
 
-	public void setFrac( String frac )
-	{
-		this.frac = frac;
-	}
-	
-	public String getPostIndex()
-	{
-		return postIndex;
-	}
+    public void setFrac(String value) {
+        this.frac = value;
+    }
 
-	public void setPostIndex( String postIndex )
-	{
-		this.postIndex = postIndex;
-	}
+    public String getHouseAndFrac() {
+        StringBuilder buf = new StringBuilder();
+        if (house > 0) {
+            buf.append(house);
+        }
+        if (frac != null) {
+            buf.append(frac);
+        }
+        return buf.toString();
+    }
 
-	public String getComment()
-	{
-		return comment;
-	}
+    public void setHouseAndFrac(String value) {
+        if (value != null) {
+            this.frac = "";
+            StringBuilder str = new StringBuilder();
+            for (int i = 0; i < value.length(); i++) {
+                if (Character.isDigit(value.charAt(i))) {
+                    str.append(value.charAt(i));
+                } else {
+                    this.frac = value.substring(i);
+                    break;
+                }
+            }
+            if (str.length() > 0) {
+                this.house = Integer.parseInt(str.toString());
+            }
+        } else {
+            this.house = 0;
+            this.frac = null;
+        }
+    }
 
-	public void setComment( String comment )
-	{
-		this.comment = comment;
-	}
+    public AddressHouse withHouseAndFrac(String value) {
+        setHouseAndFrac(value);
+        return this;
+    }
 
-	public AddressItem getAddressArea()
-	{
-		return addressArea;
-	}
+    /**
+     * Use {@link #withHouseAndFrac(String)}.
+     */
+    @Deprecated
+    public static AddressHouse extractHouseAndFrac(String house) {
+        AddressHouse result = new AddressHouse();
+        result.setHouseAndFrac(house);
+        return result;
+    }
 
-	public void setAddressArea( AddressItem addressArea )
-	{
-		this.addressArea = addressArea;
-	}
+    public String getPostIndex() {
+        return postIndex;
+    }
 
-	public AddressItem getAddressQuarter()
-	{
-		return addressQuarter;
-	}
+    public void setPostIndex(String value) {
+        this.postIndex = value;
+    }
 
-	public void setAddressQuarter( AddressItem addressQuarter )
-	{
-		this.addressQuarter = addressQuarter;
-	}
+    public AddressHouse withPostIndex(String value) {
+        setPostIndex(value);
+        return this;
+    }
 
-	public AddressItem getAddressStreet()
-	{
-		return addressStreet;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public void setAddressStreet( AddressItem addressStreet )
-	{
-		this.addressStreet = addressStreet;
-	}
+    public void setComment(String value) {
+        this.comment = value;
+    }
+
+    public AddressHouse withComment(String value) {
+        setComment(value);
+        return this;
+    }
+
+    public AddressItem getAddressArea() {
+        return addressArea;
+    }
+
+    public void setAddressArea(AddressItem value) {
+        this.addressArea = value;
+    }
+
+    public AddressItem getAddressQuarter() {
+        return addressQuarter;
+    }
+
+    public void setAddressQuarter(AddressItem value) {
+        this.addressQuarter = value;
+    }
+
+    public AddressItem getAddressStreet() {
+        return addressStreet;
+    }
+
+    public void setAddressStreet(AddressItem value) {
+        this.addressStreet = value;
+    }
 }

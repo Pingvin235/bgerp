@@ -85,7 +85,7 @@ public class BaseAction extends DispatchAction {
         mapper.setTimeZone(TimeZone.getDefault());
     }
 
-    private static final String PATH_JSP = "/WEB-INF/jspf";
+    protected static final String PATH_JSP = "/WEB-INF/jspf";
     protected static final String PATH_JSP_ADMIN = PATH_JSP + "/admin";
     public static final String PATH_JSP_ADMIN_PLUGIN = PATH_JSP_ADMIN + "/plugin";
     protected static final String PATH_JSP_USER = PATH_JSP + "/user";

@@ -148,7 +148,7 @@
 
 				<%-- here is generated a list of newly uploaded attachments --%>
 			</div>
-			<button type="button" class="btn-white btn-small icon" onclick="$$.ajax.triggerUpload('${uploadFormId}');"><i class="ti-plus"></i></button>
+			<ui:button type="add" styleClass="btn-small" onclick="$$.ajax.triggerUpload('${uploadFormId}');"/>
 		</div>
 	</div>
 

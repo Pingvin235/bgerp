@@ -67,7 +67,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     @Override
     public Set<String> getUnusedPaths() {
-        // TODO: docpattern, report, action, scripts - move to svc.clean ?
         return Set.of(
             "lib/app/bgcrm.jar", 
             "plugin"

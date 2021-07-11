@@ -202,9 +202,8 @@
 										<input type="hidden" name="paramId" value="${parameter.id}"/>
 										<input type="hidden" name="position" value="${position}"/>
 
-										<c:set var="deleteCommand" value="formUrl( this.form )"/>
-										<c:set var="deleteAjaxCommandAfter">openUrlToParent( '${form.requestUrl}', $('#${tableId}') )</c:set>
-										<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+										<ui:button type="del" styleClass="btn-small"
+											onclick="$$.ajax.post(this.form).done(() => { $$.ajax.load('${form.requestUrl}', $('#${tableId}').parent()) })"/>
 									</html:form>
 
 									<c:set var="editFormId" value="${u:uiid()}"/>
@@ -217,7 +216,7 @@
 										<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
 										<input type="hidden" name="tableId" value="${tableId}"/>
 
-										<a href="#" onclick="if( openUrlTo( formUrl( $('#${editFormId}')[0] ), $('#${editDivId}') ) ) ${startEdit}">
+										<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} }); return false;">
 											${value}
 										</a>
 									</html:form>
@@ -228,7 +227,7 @@
 						</c:forEach>
 
 						<c:if test="${(not empty multiple or empty item.value) and not readonly}">
-							<%-- добавить --%>
+							<%-- adding new --%>
 							<html:form action="/user/parameter" style="display: inline;">
 								<input type="hidden" name="action" value="parameterGet"/>
 								<html:hidden property="objectType"/>
@@ -238,8 +237,8 @@
 								<input type="hidden" name="tableId" value="${tableId}"/>
 								<input type="hidden" name="paramId" value="${parameter.id}"/>
 
-								<c:set var="addCommand">if( openUrlTo( formUrl( this.form ), $('#${editDivId}') ) ) ${startEdit}</c:set>
-								<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+								<ui:button type="add" styleClass="btn-small"
+									onclick="$$.ajax.load(this.form, $('#${editDivId}')).done(() => { ${startEdit} })"/>
 							</html:form>
 						</c:if>
 					</c:when>
@@ -258,9 +257,11 @@
 										<input type="hidden" name="paramId" value="${parameter.id}"/>
 										<input type="hidden" name="position" value="${position}"/>
 
-										<c:set var="deleteCommand" value="formUrl( this.form )"/>
-										<c:set var="deleteAjaxCommandAfter">openUrlToParent( '${form.requestUrl}', $('#${tableId}') )</c:set>
-										<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+										<ui:button type="del" styleClass="btn-small" onclick="
+											$$.ajax.post(this.form).done(() => {
+												$$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());
+											})
+										"/>
 									</html:form>
 
 									<c:set var="editFormId" value="${u:uiid()}"/>
@@ -273,7 +274,7 @@
 										<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
 										<input type="hidden" name="tableId" value="${tableId}"/>
 
-										<a href="#" onclick="if( openUrlTo( formUrl( $('#${editFormId}')[0] ), $('#${editDivId}') ) ) ${startEdit}">
+										<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} })">
 											${value.value}
 										</a>
 									</html:form>
@@ -282,21 +283,18 @@
 							</c:choose>
 
 							<p:check action="ru.bgcrm.struts.action.DirectoryAddressAction:addressGet">
-								<c:url var="url" value="directory/address.do">
+								<c:url var="url" value="/user/directory/address.do">
 									<c:param name="action" value="addressGet"/>
 									<c:param name="addressHouseId" value="${value.houseId}"/>
 									<c:param name="hideLeftPanel" value="1"/>
 									<c:param name="returnUrl" value="${form.requestUrl}"/>
 								</c:url>
-								[<a href="#" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">дом</a>]
-								<%-- openUrlContent('?action=addressGet&returnUrl=%2fuser%2fdirectory%2faddress.do%3fselectTab%3dstreet%26addressItemId%3d3139%26searchMode%3dhouse&selectTab=street&addressCountryTitle=%d0%a0%d0%be%d1%81%d1%81%d0%b8%d1%8f&addressCityTitle=%d0%b3.+%d0%a3%d1%84%d0%b0&addressItemTitle=!%d0%a1%d0%a2%d0%a0%d0%9e%d0%98%d0%a2&addressCityId=1&addressItemId=3139&addressHouseId=29556  --%>
+								<div style="display: inline;">[<a href="#" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">${l.l('дом')}</a>]</div>
 							</p:check>
-
-							<br/>
 						</c:forEach>
 
 						<c:if test="${(not empty multiple or empty item.value) and not readonly}">
-							<%-- добавить --%>
+							<%-- adding --%>
 							<c:set var="editFormId" value="${u:uiid()}"/>
 
 							<html:form action="/user/parameter" styleId="${editFormId}"  style="display: inline;">
@@ -308,8 +306,11 @@
 								<input type="hidden" name="tableId" value="${tableId}"/>
 								<input type="hidden" name="paramId" value="${parameter.id}"/>
 
-								<c:set var="addCommand">if( openUrlTo( formUrl( $('#${editFormId}')[0] ), $('#${editDivId}') ) ) ${startEdit}</c:set>
-								<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+								<ui:button type="add" styleClass="btn-small" onclick="
+									$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => {
+										${startEdit}
+									})
+								"/>
 							</html:form>
 						</c:if>
 					</c:when>

@@ -121,9 +121,9 @@
 </html:form>
 
 <script>
-	$(function()
-	{
+	$(function () {
 		${typeChangedScript}
+		$$.ui.codeMirror('${selectorTo}');
 	})
 </script>
 

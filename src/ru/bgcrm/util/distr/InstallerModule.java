@@ -48,6 +48,7 @@ public class InstallerModule {
     public static final String ENTRY_MODULE_PROPERTIES = "module.properties";
 
     private static final Set<String> CLEANED_DIRS_UPDATE = Set.of(
+        // TODO: docpattern, report, scripts
         // dirs for removing
         "action",
         "plugin",

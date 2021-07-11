@@ -908,7 +908,7 @@ A typical scheme for attaching JS code to HTML is to setup event handler with a 
 
 Deprecated JS functions are marked using the following method:
 [snippet, from="fun", to="}"]
-link:../../webapps/js/kernel.ajax.js#L441-L445[webapps/js/kernel.ajax.js]
+link:../../webapps/js/kernel.ajax.js#L453-L457[webapps/js/kernel.ajax.js]
 
 When such a function gets invoked, browser console gets a "clickable" "Deprecated" message which allows to find a this deprecated function call
 It is forbidden to use those functions in the new code, usage has to be decreased in the existing code over time.
@@ -1158,7 +1158,7 @@ Java code uses javadoc:ru.bgcrm.util.TimeUtils[] class for date formatting, this
 
 The same functions may be used in <<jsp, JSP>> using `tu` prefix:
 [snippet, from="<input type=", to="d}\"/>", remove-leading="				"]
-link:../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L158-L158[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
+link:../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L155-L155[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
 
 [[sample-configuration-java-beans]]
 === Configuration Java Beans

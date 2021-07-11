@@ -87,9 +87,12 @@ public class ProcessDAO extends CommonDAO {
             + " AS pllp ON pllp.object_id=process.id AND pllp.object_type LIKE 'process%' " + " LEFT JOIN "
             + TABLE_PROCESS + " AS " + LINKED_PROCESS + " ON pllp.process_id=" + LINKED_PROCESS + ".id";
 
-    private final int userId;
+    
     private final User user;
+    /** Write param changes history. */
     private boolean history;
+     /** User ID for changes history. */
+    private final int userId;
 
     /**
      * Constructor without user isolation.
@@ -104,7 +107,7 @@ public class ProcessDAO extends CommonDAO {
     /**
      * Constructor with isolation support.
      * @param con
-     * @param user
+     * @param user user with possible isolation configuration.
      */
     public ProcessDAO(Connection con, User user) {
         super(con);

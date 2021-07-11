@@ -73,10 +73,10 @@ public class ProcessAction extends BaseAction {
 
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm actionForm, Connection con) throws Exception {
-        return process(mapping, actionForm, con);
+        return process(actionForm, con);
     }
 
-    public ActionForward process(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward process(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDAO = new ProcessDAO(con, form.getUser());
 
         var process = processDAO.getProcess(form.getId());
@@ -145,7 +145,7 @@ public class ProcessAction extends BaseAction {
         return onlyPermittedTypes;
     }
 
-    public ActionForward processCreateGroups(ActionMapping mapping, DynActionForm form, Connection con) {
+    public ActionForward processCreateGroups(DynActionForm form, Connection con) {
         int typeId = form.getParamInt("typeId", 0);
         ProcessType type = ProcessTypeCache.getProcessType(typeId);
 
@@ -246,7 +246,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward processDeleteTmp(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processDeleteTmp(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDao = new ProcessDAO(con);
 
         if (form.getId() > 0) {
@@ -261,7 +261,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward processDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processDelete(DynActionForm form, Connection con) throws Exception {
         var process = getProcess(new ProcessDAO(con), form.getId());
         processDelete(form, con, process);
         return json(con, form);
@@ -272,7 +272,7 @@ public class ProcessAction extends BaseAction {
         processDoEvent(form, process, new ProcessRemovedEvent(form, process), con);
     }
 
-    public ActionForward processFinishCreateTmp(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processFinishCreateTmp(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDao = new ProcessDAO(con);
 
         Process process = getProcess(processDao, form.getId());
@@ -288,7 +288,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward processDoCommands(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processDoCommands(DynActionForm form, Connection con) throws Exception {
         Process process = getProcess(new ProcessDAO(con), form.getId());
 
         // FIXME: Security issue, send action ID instead with possibility there define doExpression or use these old commands.
@@ -302,7 +302,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward processStatusUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processStatusUpdate(DynActionForm form, Connection con) throws Exception {
         Process process = getProcess(new ProcessDAO(con), form.getId());
 
         int statusId = Utils.parseInt(form.getParam("statusId"));
@@ -373,12 +373,12 @@ public class ProcessAction extends BaseAction {
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_STATUS_CHANGED), con);
     }
 
-    public ActionForward processStatusHistory(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processStatusHistory(DynActionForm form, Connection con) throws Exception {
         new StatusChangeDAO(con).searchProcessStatus(new SearchResult<StatusChange>(form), form.getId(), form.getSelectedValues("statusId"));
         return html(con, form, JSP_PATH + "/process/status_history.jsp");
     }
 
-    public ActionForward processPriorityUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processPriorityUpdate(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDAO = new ProcessDAO(con, form.getUser(), true);
 
         Process process = getProcess(processDAO, form.getId());
@@ -398,13 +398,13 @@ public class ProcessAction extends BaseAction {
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_PRIORITY_CHANGED), con);
     }
 
-    public ActionForward processTypeEdit(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processTypeEdit(DynActionForm form, Connection con) throws Exception {
         form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
 
         return html(con, form, JSP_PATH + "/process/editor_type.jsp");
     }
 
-    public ActionForward processTypeUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processTypeUpdate(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDAO = new ProcessDAO(con, form.getUser(), true);
         Process process = getProcess(processDAO, form.getId());
         int typeId = Utils.parseInt(form.getParam("typeId"));
@@ -423,7 +423,7 @@ public class ProcessAction extends BaseAction {
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_TYPE_CHANGED), con);
     }
 
-    public ActionForward processDescriptionUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processDescriptionUpdate(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDAO = new ProcessDAO(con, form.getUser(), true);
 
         Process process = getProcess(processDAO, form.getId());
@@ -437,7 +437,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward processDescriptionAdd(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processDescriptionAdd(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDAO = new ProcessDAO(con, form.getUser(), true);
 
         final Process process = getProcess(processDAO, form.getId());
@@ -482,7 +482,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward processGroupsUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processGroupsUpdate(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDao = new ProcessDAO(con, form.getUser(), true);
 
         Process process = getProcess(processDao, form.getId());
@@ -554,7 +554,7 @@ public class ProcessAction extends BaseAction {
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_GROUPS_CHANGED), con);
     }
 
-    public ActionForward processExecutorsUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processExecutorsUpdate(DynActionForm form, Connection con) throws Exception {
         Process process = getProcess(new ProcessDAO(con, form.getUser(), true), form.getId());
 
         // группороли в которых обновляются исполнители
@@ -708,7 +708,7 @@ public class ProcessAction extends BaseAction {
         return ProcessLinkAction.linkProcessCreate(con, form, linkedProcess, typeId, objectType, createTypeId, description, groupId);
     }
 
-    public ActionForward processRequest(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processRequest(DynActionForm form, Connection con) throws Exception {
         ProcessTypeDAO pDao = new ProcessTypeDAO(con);
         int typeId = form.getParamInt("typeId");
 
@@ -745,7 +745,7 @@ public class ProcessAction extends BaseAction {
         }
     }
 
-    public ActionForward messageRelatedProcessList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward messageRelatedProcessList(DynActionForm form, Connection con) throws Exception {
         String addressFrom = form.getParam("from");
         Boolean open = form.getParamBoolean("open", null);
 
@@ -766,20 +766,20 @@ public class ProcessAction extends BaseAction {
         return html(con, form, JSP_PATH + "/message_related_process_list.jsp");
     }
 
-    public ActionForward unionLog(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward unionLog(DynActionForm form, Connection con) throws Exception {
         new ProcessDAO(con).searchProcessLog(getProcessType(getProcess(new ProcessDAO(con), form.getId()).getTypeId()), form.getId(),
                 new SearchResult<EntityLogItem>(form));
 
         return html(con, form, "/WEB-INF/jspf/union_log.jsp");
     }
 
-    public ActionForward userProcessList(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward userProcessList(DynActionForm form, Connection con) throws BGException {
         new ProcessDAO(con).searchProcessListForUser(new SearchResult<Process>(form), form.getUserId(), form.getParamBoolean("open", true));
 
         return html(con, form, JSP_PATH + "/user_process_list.jsp");
     }
 
-    public ActionForward processMerge(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processMerge(DynActionForm form, Connection con) throws Exception {
         var processDao = new ProcessDAO(con);
         var messageDao = new MessageDAO(con);
         

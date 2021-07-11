@@ -71,28 +71,13 @@
 			<forward name="edit" path="/WEB-INF/jspf/user/customer/edit.jsp"/>
 		</action>
 
-		<action path="/user/parameter" parameter="action" type="ru.bgcrm.struts.action.ParameterAction" name="form" scope="request">
-			<forward name="edit" path="/WEB-INF/jspf/user/parameter/edit.jsp"/>
-			<forward name="default" path="/WEB-INF/jspf/user/parameter/list.jsp"/>
-			<forward name="parameterLog" path="/WEB-INF/jspf/parameter_log.jsp"/>
-			<forward name="entityLog" path="/WEB-INF/jspf/entity_log.jsp"/>
-		</action>
-
 		<action path="/user/link" parameter="action" type="ru.bgcrm.struts.action.LinkAction" name="form" scope="request">
 			<forward name="linkList" path="/WEB-INF/jspf/user/process/process/link_list.jsp"/>
-		</action>
-
-		<action path="/user/directory/address" parameter="action" type="ru.bgcrm.struts.action.DirectoryAddressAction" name="form" scope="request">
-			<forward name="default" path="/WEB-INF/jspf/user/directory/address/address.jsp"/>
 		</action>
 
 		<action path="/user/directory/user" parameter="action" type="ru.bgcrm.struts.action.UserAction" name="form" scope="request">
 			<forward name="userList" path="/WEB-INF/jspf/user/directory/user/list.jsp" />
 		</action>
-
-		<!-- <action path="/user/process" parameter="action" type="ru.bgcrm.struts.action.ProcessAction" name="form" scope="request">
-			<forward name="processGroups" path="/WEB-INF/jspf/user/process/process/editor_groups.jsp"/>
-		</action> -->
 
 		<action path="/user/process/link" parameter="action" type="ru.bgcrm.struts.action.ProcessLinkAction" name="form" scope="request">
 			<forward name="linkedProcessList" path="/WEB-INF/jspf/user/process/process/linked_process_list.jsp"/>

@@ -81,86 +81,90 @@
 		--%>
 
 		<div>
-			${l.l('Создан')}: <b><fmt:formatDate value="${customer.createdDate}" pattern="dd.MM.yyyy"/></b>
+			${l.l('Создан')}: <b>${tu.format(customer.createdDate, 'ymd')}</b>
 		</div>
 
 		<div class="in-inline-block">
-			<c:url var="url" value="customer.do">
-				<c:param name="id" value="${customer.id}"/>
-				<c:param name="action" value="customerGet"/>
-			</c:url>
-			<c:set var="editCommand">openUrlToParent('${url}', $('#${uiid}') )</c:set>
-
-			<c:url var="deleteAjaxUrl" value="customer.do">
-				<c:param name="action" value="customerDelete"/>
-				<c:param name="id" value="${customer.id}"/>
-			</c:url>
-
-			<c:set var="deleteAjaxCommandAfter">
-				bgcrm.closeObject = null;
-				removeCommandDiv( 'customer-${customer.id }' );
-				window.history.back();
-			</c:set>
-
-			<c:url var="entityLogCommand" value="../user/parameter.do">
+			<c:url var="entityLogCommand" value="/user/parameter.do">
 				<c:param name="action" value="entityLog"></c:param>
 				<c:param name="id" value="${form.id}"></c:param>
 				<c:param name="type" value="customer"></c:param>
 				<c:param name="returnUrl" value="${form.requestUrl}"></c:param>
 			</c:url>
 
-			<button class="btn-white btn-small ml1 mr1" onclick="openUrlToParent( '${entityLogCommand}',  $('#${uiid}') );">${l.l('Лог изменений')}</button>
+			<button class="btn-white btn-small ml1 mr1" onclick="$$.ajax.load('${entityLogCommand}',  $('#${uiid}').parent());">${l.l('Лог изменений')}</button>
 
 			<p:check action="ru.bgcrm.struts.action.CustomerAction:customerMerge">
-				<c:set var="uiid" value="${u:uiid()}"/>
-				<div>
-					<c:set var="mergeButtonUiid" value="${u:uiid()}"/>
-					<c:set var="mergeFormUiid" value="${u:uiid()}"/>
-					<c:set var="mergeCustomersUiid" value="${u:uiid()}"/>
+				<u:sc>
+					<c:set var="uiid" value="${u:uiid()}"/>
+					<div>
+						<c:set var="mergeButtonUiid" value="${u:uiid()}"/>
+						<c:set var="mergeFormUiid" value="${u:uiid()}"/>
+						<c:set var="mergeCustomersUiid" value="${u:uiid()}"/>
 
-					<c:set var="script">
-						$('#${mergeButtonUiid}').toggle();
-						$('#${mergeFormUiid}').toggle();
+						<c:set var="script">
+							$('#${mergeButtonUiid}').toggle();
+							$('#${mergeFormUiid}').toggle();
 
-						var customerList = openedObjectList( {'selected': ['customer-${customer.id}'], 'typesInclude' : ['customer'] } );
+							var customerList = openedObjectList( {'selected': ['customer-${customer.id}'], 'typesInclude' : ['customer'] } );
 
-						var html = '<li value=\'-1\'>-- выберите контрагента --</li>';
-						$.each(customerList, function() {
-							html += '<li value=\'' + this.id + '\'>' + this.title + '</li>';
-						});
+							var html = '<li value=\'-1\'>-- ${l.l('выберите контрагента')} --</li>';
+							$.each(customerList, function() {
+								html += '<li value=\'' + this.id + '\'>' + this.title + '</li>';
+							});
 
-						$('#${mergeCustomersUiid} ul.drop' ).html( html );
-						uiComboSingleInit( $('#${mergeCustomersUiid}') );
-					</c:set>
-					<button class="btn-white btn-small" onclick="${script}" id="${mergeButtonUiid}">${l.l('Слияние')}</button>
+							$('#${mergeCustomersUiid} ul.drop' ).html( html );
+							uiComboSingleInit( $('#${mergeCustomersUiid}') );
+						</c:set>
+						<button class="btn-white btn-small mr1" onclick="${script}" id="${mergeButtonUiid}">${l.l('Слияние')}</button>
 
-					<div style="display:none" id="${mergeFormUiid}">
-						<form action="customer.do">
-							<input type="hidden" name="action" value="customerMerge"/>
-							<input type="hidden" name="customerId" value="${customer.id}"/>
+						<div style="display:none" id="${mergeFormUiid}">
+							<form action="customer.do">
+								<input type="hidden" name="action" value="customerMerge"/>
+								<input type="hidden" name="customerId" value="${customer.id}"/>
 
-							Слить с:
-							<ui:combo-single hiddenName="mergingCustomerId" id="${mergeCustomersUiid}"/>
+								${l.l('Слить с')}:
+								<ui:combo-single hiddenName="mergingCustomerId" id="${mergeCustomersUiid}"/>
 
-							<button type="button" class="btn-grey ml1"
-								onclick="
-								if (!(this.form.mergingCustomerId.value > 0)) {
-										alert('Выберите контрагента');
+								<button type="button" class="btn-grey ml1"
+									onclick="
+									if (!(this.form.mergingCustomerId.value > 0)) {
+										alert('${l.l('Выберите контрагента')}');
 										return false;
-								}
-								if( confirm( 'Вы уверены, что хотите объединить?' ) && sendAJAXCommand( formUrl(this.form)))
-								{
-									alert('Слияние успешно');
-									removeCommandDiv( 'customer-'.concat(this.form.mergingCustomerId.value) );
-									openUrlContent( '${form.requestUrl}' );
-								}">OK</button>
-							<button type="button" class="btn-grey ml05 mr1" onclick="$('#${mergeButtonUiid}').toggle(); $('#${mergeFormUiid}').toggle();">${l.l('Отмена')}</button>
-						</form>
+									}
+									if (!confirm('${l.l('Вы уверены, что хотите объединить?')}')
+										return false;
+									
+									$$.ajax.post(this.form).done(() => {
+										alert('${l.l('Слияние прошло успешно')}');
+										$$.shell.removeCommandDiv('customer-'.concat(this.form.mergingCustomerId.value));
+										$$.ajax.load('${form.requestUrl}', $$.shell.$content());
+									})">OK</button>
+								<button type="button" class="btn-white ml05 mr1" onclick="$('#${mergeButtonUiid}').toggle(); $('#${mergeFormUiid}').toggle();">${l.l('Отмена')}</button>
+							</form>
+						</div>
 					</div>
-				</div>
+				</u:sc>
 			</p:check>
 
-			<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+			<c:url var="url" value="/user/customer.do">
+				<c:param name="id" value="${customer.id}"/>
+				<c:param name="action" value="customerGet"/>
+			</c:url>
+			<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
+
+			<c:url var="deleteUrl" value="/user/customer.do">
+				<c:param name="action" value="customerDelete"/>
+				<c:param name="id" value="${customer.id}"/>
+			</c:url>
+
+			<ui:button type="del" styleClass="btn-small" onclick="
+				$$.ajax.post('${deleteUrl}').done(() => {
+					$$.closeObject = null;
+					$$.shell.removeCommandDiv('customer-${customer.id}');
+					window.history.back();
+				})
+			"/>
 		</div>
 	</div>
 

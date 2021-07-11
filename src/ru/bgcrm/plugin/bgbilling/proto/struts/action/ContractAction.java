@@ -32,7 +32,6 @@ import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.param.address.AddressHouse;
-import ru.bgcrm.model.param.address.AddressSearchedObject;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
@@ -91,7 +90,7 @@ public class ContractAction extends BaseAction {
 			ContractDAO contractDAO = new ContractDAO(user, billingId);
 
 			if ("address".equals(searchBy)) {
-				SearchResult<AddressSearchedObject<Contract>> res = new SearchResult<>(form);
+				SearchResult<ParameterSearchedObject<Contract>> res = new SearchResult<>(form);
 				contractDAO.searchContractByAddressParam(res, searchOptions, null, 
 						form.getParamInt("streetId"), form.getParam("house"), form.getParam("flat"), form.getParam("room"));
 			} else if ("addressObject".equals(searchBy)) {

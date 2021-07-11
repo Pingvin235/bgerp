@@ -51,7 +51,7 @@ public class DevelopmentTest {
     @Test
     public void addParams() throws Exception {
         paramGitBranchId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, "GIT branch", ProcessTest.posParam += 2, "", "");
-        paramSpecId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, "SPEC", ProcessTest.posParam += 2, 
+        paramSpecId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, "Specification", ProcessTest.posParam += 2, 
             "multiple=1\n", "");
     }
     

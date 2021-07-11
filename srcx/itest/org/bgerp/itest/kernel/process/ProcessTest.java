@@ -15,8 +15,9 @@ public class ProcessTest {
     public static volatile int statusDoneId;
     public static volatile int statusRejectId;
 
-    public static volatile int paramProcessNextDateId;
-    public static volatile int paramProcessDeadlineDateId;
+    public static volatile int paramAddressId;
+    public static volatile int paramNextDateId;
+    public static volatile int paramDeadlineDateId;
 
     @Test
     public void addStatuses() throws Exception {
@@ -32,9 +33,10 @@ public class ProcessTest {
 
     @Test
     public void addParams() throws Exception {
+        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, "Address", posParam += 2, "", "");
         // TODO: Make date chooser configuration.
-        paramProcessNextDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Next date", posParam += 2, "", "");
-        paramProcessDeadlineDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Deadline", posParam += 2, "", "");
+        paramNextDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Next date", posParam += 2, "", "");
+        paramDeadlineDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Deadline", posParam += 2, "", "");
     }
 
     @Test

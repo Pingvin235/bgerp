@@ -3,8 +3,7 @@ package org.bgerp.itest.kernel.customer;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
-
-import com.google.common.collect.Sets;
+import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.CustomerHelper;
@@ -32,6 +31,8 @@ public class CustomerTest {
     private int paramBirthDateId;
     private int paramBirthPlaceId;
     private int paramLivingAddressId;
+    private int paramReligionId;
+    private int paramServiceAddressId;
     
     private int paramOrgTitleId;
     private int paramOrgFormId;
@@ -65,6 +66,8 @@ public class CustomerTest {
         paramBirthDateId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_DATE, "Birth date", pos += 2, "", "");
         paramBirthPlaceId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Birth place", pos += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
         paramLivingAddressId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Residential address", pos += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
+        paramReligionId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Religion", pos += 2, ParamTest.ENCRYPTED, "");
+        paramServiceAddressId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_ADDRESS, "Service address", pos += 2, "", "");
         
         paramOrgTitleId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Organization title", pos += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
         paramOrgFormId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_LIST, "Organization form", pos += 2, "", ResourceHelper.getResource(this, "orgforms.txt"));
@@ -76,8 +79,10 @@ public class CustomerTest {
     
     @Test(dependsOnMethods = "addParams")
     public void addParamGroups() throws Exception {
-        paramGroupOrgId = ParamHelper.addParamGroup(Customer.OBJECT_TYPE, "Organization", Sets.newHashSet(paramEmailId, paramOrgFormId, paramOrgTitleId));
-        paramGroupPersonId = ParamHelper.addParamGroup(Customer.OBJECT_TYPE, "Person", Sets.newHashSet(paramEmailId, paramBirthDateId, paramBirthPlaceId, paramLivingAddressId));
+        paramGroupOrgId = ParamHelper.addParamGroup(Customer.OBJECT_TYPE, "Organization",
+                Set.of(paramEmailId, paramOrgFormId, paramOrgTitleId, paramServiceAddressId));
+        paramGroupPersonId = ParamHelper.addParamGroup(Customer.OBJECT_TYPE, "Person",
+                Set.of(paramEmailId, paramBirthDateId, paramBirthPlaceId, paramLivingAddressId, paramReligionId));
     }
     
     @Test(dependsOnMethods = "addParams")

@@ -2,8 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <tr>
-	<td>&nbsp;</td>
-	<td>
+	<td colspan="2">
 		<ui:form-ok-cancel/>
 	</td>
 </tr>

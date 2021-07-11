@@ -36,9 +36,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.PreparedDelay;
 
 public class AddressDAO extends CommonDAO {
-    // Уровни загрузки адресных данных.
     public static final int LOAD_LEVEL_HOUSE = 1;
-    // По этому уровню загружаются улицы, районы и дома.
     public static final int LOAD_LEVEL_STREET = 2;
     public static final int LOAD_LEVEL_CITY = 3;
     public static final int LOAD_LEVEL_COUNTRY = 4;
@@ -477,130 +475,115 @@ public class AddressDAO extends CommonDAO {
         }
     }
 
-    public void updateAddressCountry(AddressCountry addressCountry) throws BGException {
-        try {
-            if (addressCountry != null) {
-                PreparedStatement ps = null;
-                StringBuilder query = new StringBuilder();
-
-                if (addressCountry.getId() <= 0) {
-                    query.append("INSERT INTO ");
-                    query.append(TABLE_ADDRESS_COUNTRY);
-                    query.append(" SET title=?, last_update = NOW()");
-                    ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-                    ps.setString(1, addressCountry.getTitle());
-                    ps.executeUpdate();
-                    addressCountry.setId(lastInsertId(ps));
-                    ps.close();
-                } else {
-                    query.append("UPDATE ");
-                    query.append(TABLE_ADDRESS_COUNTRY);
-                    query.append(" SET title=?, last_update = NOW() WHERE id=?");
-                    ps = con.prepareStatement(query.toString());
-                    ps.setString(1, addressCountry.getTitle());
-                    ps.setInt(2, addressCountry.getId());
-                    ps.executeUpdate();
-                    ps.close();
-                }
-
-                new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_COUNTRY, addressCountry.getId(),
-                        addressCountry.getConfig());
-            }
-        } catch (SQLException e) {
-            sqlToBgException(e);
-        }
-    }
-
-    public void deleteAddressCountry(int id) throws BGException {
-        try {
+    public AddressCountry updateAddressCountry(AddressCountry value) throws SQLException {
+        if (value != null) {
+            PreparedStatement ps = null;
             StringBuilder query = new StringBuilder();
 
-            query.append("SELECT COUNT(*) FROM ");
-            query.append(TABLE_ADDRESS_CITY);
-            query.append("WHERE country_id=?");
-
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next() && rs.getInt(1) > 0) {
-                throw new BGMessageException("Страна используется в городах.");
+            if (value.getId() <= 0) {
+                query.append("INSERT INTO ");
+                query.append(TABLE_ADDRESS_COUNTRY);
+                query.append(" SET title=?, last_update = NOW()");
+                ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
+                ps.setString(1, value.getTitle());
+                ps.executeUpdate();
+                value.setId(lastInsertId(ps));
+                ps.close();
+            } else {
+                query.append("UPDATE ");
+                query.append(TABLE_ADDRESS_COUNTRY);
+                query.append(" SET title=?, last_update = NOW() WHERE id=?");
+                ps = con.prepareStatement(query.toString());
+                ps.setString(1, value.getTitle());
+                ps.setInt(2, value.getId());
+                ps.executeUpdate();
+                ps.close();
             }
-            ps.close();
 
-            query.setLength(0);
-            query.append(SQL_DELETE);
-            query.append(TABLE_ADDRESS_COUNTRY);
-            query.append("WHERE id=?");
-
-            ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            ps.close();
-
-            new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_COUNTRY, id, new ArrayList<ConfigRecord>());
-        } catch (SQLException e) {
-            throw new BGException(e);
+            new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_COUNTRY, value.getId(),
+                    value.getConfig());
         }
+        return value;
     }
 
-    public void updateAddressCity(AddressCity addressCity) throws BGException {
-        try {
-            if (addressCity != null) {
-                PreparedStatement ps = null;
-                StringBuilder query = new StringBuilder();
+    public void deleteAddressCountry(int id) throws SQLException, BGMessageException {
+        StringBuilder query = new StringBuilder();
 
-                if (addressCity.getId() <= 0) {
-                    query.append("INSERT INTO ");
-                    query.append(TABLE_ADDRESS_CITY);
-                    query.append(" SET country_id=?, title=?, last_update = NOW()");
-                    ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-                    ps.setInt(1, addressCity.getCountryId());
-                    ps.setString(2, addressCity.getTitle());
-                    ps.executeUpdate();
-                    addressCity.setId(lastInsertId(ps));
-                    ps.close();
-                } else {
-                    query.append("UPDATE ");
-                    query.append(TABLE_ADDRESS_CITY);
-                    query.append(" SET title=?, last_update = NOW() WHERE id=?");
-                    ps = con.prepareStatement(query.toString());
-                    ps.setString(1, addressCity.getTitle());
-                    ps.setInt(2, addressCity.getId());
-                    ps.executeUpdate();
-                    ps.close();
-                }
-                new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_CITY, addressCity.getId(), addressCity.getConfig());
-            }
-        } catch (SQLException e) {
-            sqlToBgException(e);
+        query.append("SELECT COUNT(*) FROM ");
+        query.append(TABLE_ADDRESS_CITY);
+        query.append("WHERE country_id=?");
+
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next() && rs.getInt(1) > 0) {
+            throw new BGMessageException("Страна используется в городах.");
         }
+        ps.close();
+
+        query.setLength(0);
+        query.append(SQL_DELETE);
+        query.append(TABLE_ADDRESS_COUNTRY);
+        query.append("WHERE id=?");
+
+        ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        ps.close();
+
+        new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_COUNTRY, id, new ArrayList<ConfigRecord>());
     }
 
-    public void deleteAddressCity(int id) throws BGException {
-        try {
-            checkItem(id, TABLE_ADDRESS_STREET, "улицах");
-            checkItem(id, TABLE_ADDRESS_QUARTER, "кварталах");
-            checkItem(id, TABLE_ADDRESS_AREA, "районах");
-
+    public AddressCity updateAddressCity(AddressCity city) throws SQLException {
+        if (city != null) {
+            PreparedStatement ps = null;
             StringBuilder query = new StringBuilder();
-            query.append(SQL_DELETE);
-            query.append(TABLE_ADDRESS_CITY);
-            query.append("WHERE id=?");
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            ps.close();
-
-            new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_CITY, id, new ArrayList<ConfigRecord>());
-        } catch (SQLException e) {
-            throw new BGException(e);
+            if (city.getId() <= 0) {
+                query.append("INSERT INTO ");
+                query.append(TABLE_ADDRESS_CITY);
+                query.append(" SET country_id=?, title=?, last_update = NOW()");
+                ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
+                ps.setInt(1, city.getCountryId());
+                ps.setString(2, city.getTitle());
+                ps.executeUpdate();
+                city.setId(lastInsertId(ps));
+                ps.close();
+            } else {
+                query.append("UPDATE ");
+                query.append(TABLE_ADDRESS_CITY);
+                query.append(" SET title=?, last_update = NOW() WHERE id=?");
+                ps = con.prepareStatement(query.toString());
+                ps.setString(1, city.getTitle());
+                ps.setInt(2, city.getId());
+                ps.executeUpdate();
+                ps.close();
+            }
+            new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_CITY, city.getId(), city.getConfig());
         }
+        return city;
     }
 
-    //TODO: Убедиться в необходимости возврата PreparedStatement
-    public PreparedStatement checkItem(int id, String table, String title) throws SQLException, BGMessageException {
+    public void deleteAddressCity(int id) throws SQLException, BGMessageException {
+        checkItem(id, TABLE_ADDRESS_STREET, "улицах");
+        checkItem(id, TABLE_ADDRESS_QUARTER, "кварталах");
+        checkItem(id, TABLE_ADDRESS_AREA, "районах");
+
+        StringBuilder query = new StringBuilder();
+        query.append(SQL_DELETE);
+        query.append(TABLE_ADDRESS_CITY);
+        query.append("WHERE id=?");
+
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        ps.close();
+
+        new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_CITY, id, new ArrayList<ConfigRecord>());
+    }
+
+    private void checkItem(int id, String table, String title) throws SQLException, BGMessageException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT COUNT(*) FROM ");
         query.append(table);
@@ -614,103 +597,95 @@ public class AddressDAO extends CommonDAO {
             throw new BGMessageException("Город используется в " + title + ".");
         }
         ps.close();
-        return ps;
     }
 
-    public void updateAddressArea(AddressItem addressItem) throws BGException {
-        updateAddressItem(TABLE_ADDRESS_AREA, addressItem);
+    public AddressItem updateAddressArea(AddressItem item) throws SQLException {
+        return updateAddressItem(TABLE_ADDRESS_AREA, item);
     }
 
-    public void updateAddressQuarter(AddressItem addressItem) throws BGException {
-        updateAddressItem(TABLE_ADDRESS_QUARTER, addressItem);
+    public AddressItem updateAddressQuarter(AddressItem addressItem) throws SQLException {
+        return updateAddressItem(TABLE_ADDRESS_QUARTER, addressItem);
     }
 
-    public void updateAddressStreet(AddressItem addressItem) throws BGException {
-        updateAddressItem(TABLE_ADDRESS_STREET, addressItem);
+    public AddressItem updateAddressStreet(AddressItem addressItem) throws SQLException {
+        return updateAddressItem(TABLE_ADDRESS_STREET, addressItem);
     }
 
-    public void deleteAddressArea(int id) throws BGException {
+    public void deleteAddressArea(int id) throws SQLException, BGMessageException {
         deleteAddressItem(TABLE_ADDRESS_AREA, "area_id", id);
     }
 
-    public void deleteAddressQuarter(int id) throws BGException {
+    public void deleteAddressQuarter(int id) throws SQLException, BGMessageException {
         deleteAddressItem(TABLE_ADDRESS_QUARTER, "quarter_id", id);
     }
 
-    public void deleteAddressStreet(int id) throws BGException {
+    public void deleteAddressStreet(int id) throws SQLException, BGMessageException {
         deleteAddressItem(TABLE_ADDRESS_STREET, "street_id", id);
     }
 
-    private void updateAddressItem(String tableName, AddressItem addressItem) throws BGException {
-        try {
-            if (addressItem != null) {
-                PreparedStatement ps = null;
-                StringBuilder query = new StringBuilder();
-
-                if (addressItem.getId() <= 0) {
-                    query.append("INSERT INTO ");
-                    query.append(tableName);
-                    query.append(" SET city_id=?, title=?, last_update = NOW()");
-                    ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
-                    ps.setInt(1, addressItem.getCityId());
-                    ps.setString(2, addressItem.getTitle());
-                    ps.executeUpdate();
-                    addressItem.setId(lastInsertId(ps));
-                    ps.close();
-                } else {
-                    query.append("UPDATE ");
-                    query.append(tableName);
-                    query.append(" SET title=?, last_update = NOW() WHERE id=?");
-                    ps = con.prepareStatement(query.toString());
-                    ps.setString(1, addressItem.getTitle());
-                    ps.setInt(2, addressItem.getId());
-                    ps.executeUpdate();
-                    ps.close();
-                }
-                new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(tableName, addressItem.getId(), addressItem.getConfig());
-            }
-        } catch (SQLException e) {
-            sqlToBgException(e);
-        }
-    }
-
-    private void deleteAddressItem(String tableName, String columnName, int id) throws BGException {
-        try {
+    private AddressItem updateAddressItem(String tableName, AddressItem addressItem) throws SQLException {
+        if (addressItem != null) {
+            PreparedStatement ps = null;
             StringBuilder query = new StringBuilder();
 
-            query.append(SQL_SELECT);
-            query.append("COUNT(*)");
-            query.append(SQL_FROM);
-            query.append(TABLE_ADDRESS_HOUSE);
-            query.append(SQL_WHERE);
-            query.append(columnName + "=?");
-
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                throw new BGMessageException("Сущность привязана к дому.");
+            if (addressItem.getId() <= 0) {
+                query.append("INSERT INTO ");
+                query.append(tableName);
+                query.append(" SET city_id=?, title=?, last_update = NOW()");
+                ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
+                ps.setInt(1, addressItem.getCityId());
+                ps.setString(2, addressItem.getTitle());
+                ps.executeUpdate();
+                addressItem.setId(lastInsertId(ps));
+                ps.close();
+            } else {
+                query.append("UPDATE ");
+                query.append(tableName);
+                query.append(" SET title=?, last_update = NOW() WHERE id=?");
+                ps = con.prepareStatement(query.toString());
+                ps.setString(1, addressItem.getTitle());
+                ps.setInt(2, addressItem.getId());
+                ps.executeUpdate();
+                ps.close();
             }
-            ps.close();
-
-            query.setLength(0);
-            query.append(SQL_DELETE);
-            query.append(tableName);
-            query.append(SQL_WHERE);
-            query.append("id=?");
-
-            ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            ps.close();
-
-            new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(tableName, id, new ArrayList<ConfigRecord>());
-        } catch (SQLException e) {
-            sqlToBgException(e);
+            new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(tableName, addressItem.getId(), addressItem.getConfig());
         }
+        return addressItem;
     }
 
-    public void updateAddressHouse(AddressHouse addressHouse) throws SQLException {
+    private void deleteAddressItem(String tableName, String columnName, int id) throws SQLException, BGMessageException {
+        StringBuilder query = new StringBuilder();
+
+        query.append(SQL_SELECT);
+        query.append("COUNT(*)");
+        query.append(SQL_FROM);
+        query.append(TABLE_ADDRESS_HOUSE);
+        query.append(SQL_WHERE);
+        query.append(columnName + "=?");
+
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next() && rs.getInt(1) > 0) {
+            throw new BGMessageException("Сущность привязана к дому.");
+        }
+        ps.close();
+
+        query.setLength(0);
+        query.append(SQL_DELETE);
+        query.append(tableName);
+        query.append(SQL_WHERE);
+        query.append("id=?");
+
+        ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        ps.close();
+
+        new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(tableName, id, new ArrayList<ConfigRecord>());
+    }
+
+    public AddressHouse updateAddressHouse(AddressHouse addressHouse) throws SQLException {
         if (addressHouse != null) {
             int index = 1;
             PreparedStatement ps = null;
@@ -749,39 +724,36 @@ public class AddressDAO extends CommonDAO {
             }
             new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_HOUSE, addressHouse.getId(), addressHouse.getConfig());
         }
+        return addressHouse;
     }
 
-    public void deleteAddressHouse(int id) throws BGException {
-        try {
-            StringBuilder query = new StringBuilder();
+    public void deleteAddressHouse(int id) throws SQLException, BGMessageException {
+        StringBuilder query = new StringBuilder();
 
-            query.append("SELECT COUNT(*) FROM");
-            query.append(TABLE_PARAM_ADDRESS);
-            query.append("WHERE house_id=?");
+        query.append("SELECT COUNT(*) FROM");
+        query.append(TABLE_PARAM_ADDRESS);
+        query.append("WHERE house_id=?");
 
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
+        PreparedStatement ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                throw new BGMessageException("Дом используется в параметрах.");
-            }
-            ps.close();
-
-            query.setLength(0);
-            query.append(SQL_DELETE);
-            query.append(TABLE_ADDRESS_HOUSE);
-            query.append("WHERE id=?");
-
-            ps = con.prepareStatement(query.toString());
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            ps.close();
-
-            new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_HOUSE, id, new ArrayList<ConfigRecord>());
-        } catch (SQLException e) {
-            throw new BGException(e);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next() && rs.getInt(1) > 0) {
+            throw new BGMessageException("Дом используется в параметрах.");
         }
+        ps.close();
+
+        query.setLength(0);
+        query.append(SQL_DELETE);
+        query.append(TABLE_ADDRESS_HOUSE);
+        query.append("WHERE id=?");
+
+        ps = con.prepareStatement(query.toString());
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        ps.close();
+
+        new ConfigDAO(con, TABLE_ADDRESS_CONFIG).updateConfigForRecord(TABLE_ADDRESS_HOUSE, id, new ArrayList<ConfigRecord>());
     }
 
     public static AddressHouse getAddressHouseFromRs(ResultSet rs, String prefix, int loadLevel) throws SQLException {

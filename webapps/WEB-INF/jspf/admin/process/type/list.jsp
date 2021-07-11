@@ -55,7 +55,7 @@
 			<c:param name="parentTypeId" value="${item.id}"/>
 			<c:param name="markType" value="${form.param.markType}"/>
 		</c:url>
-		-> <a href="#" onClick="openUrlContent('${url}'); return false;">${item.title}</a>
+		/ <a href="#" onClick="openUrlContent('${url}'); return false;">${item.title}</a>
 	</c:forEach>
 </div>
 
@@ -108,7 +108,7 @@
 						<a href="#" onclick="openUrlContent('${url}'); return false;">${itemPath.title}</a>
 					</c:if>
 					<c:if test="${not empty form.param.filter && not status.last}">
-						<a href="#" onclick="openUrlContent('${url}'); return false;">${itemPath.title}</a> ->
+						<a href="#" onclick="openUrlContent('${url}'); return false;">${itemPath.title}</a> /
 					</c:if>
 				</c:forEach>
 			</td>

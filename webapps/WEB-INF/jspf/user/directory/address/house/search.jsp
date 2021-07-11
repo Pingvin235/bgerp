@@ -3,7 +3,7 @@
 
 <%@ include file="../address_page_control.jsp"%>
 
-<table style="width: 100%;" class="data">
+<table class="data">
 	<tr>
 		<td width="30">&nbsp;</td>
 		<td width="30">ID</td>
@@ -28,13 +28,12 @@
 				<c:param name="addressHouseId" value="${item.id}"/>
 			</c:url>
 
-			<c:url var="deleteAjaxUrl" value="${doUrl}">
+			<c:url var="delUrl" value="${doUrl}">
 				<c:param name="action" value="addressDelete"/>
 				<c:param name="addressHouseId" value="${item.id}"/>
 			</c:url>
-			<c:set var="deleteAjaxCommandAfter">openUrlContent('${form.requestUrl}')</c:set>
 
-			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
+			<%@ include file="../edit_td.jsp"%>
 			<td align="right">${item.id}</td>
 			<td nowrap="nowrap">${item.addressStreet.addressCity.addressCountry.title}</td>
 			<td nowrap="nowrap">${item.addressStreet.addressCity.title}</td>

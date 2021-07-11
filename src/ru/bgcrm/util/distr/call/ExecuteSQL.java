@@ -87,7 +87,7 @@ public class ExecuteSQL implements InstallationCall {
      */
     private void executeSqlCommands(Connection con, String[] queries) throws SQLException {
         Set<String> existingHashes = getQueryHashes(con);
-        Set<String> executedHashes = new TreeSet<>();
+        Set<String> newHashes = new TreeSet<>();
 
         StringBuilder blockQuery = null;
 
@@ -108,7 +108,7 @@ public class ExecuteSQL implements InstallationCall {
                         .replaceAll("delimiter\\s*\\$\\$", "")
                         .replaceAll("delimiter\\s*;", "")
                         .replaceAll("END\\$\\$", "END;");
-                doQuery(st, blockQueryStr, existingHashes, executedHashes);
+                doQuery(st, blockQueryStr, existingHashes, newHashes);
 
                 blockQuery = null;
                 continue;
@@ -121,12 +121,12 @@ public class ExecuteSQL implements InstallationCall {
                 continue;
             }
 
-            doQuery(st, query, existingHashes, executedHashes);
+            doQuery(st, query, existingHashes, newHashes);
         }
         st.close();
 
-        if (!existingHashes.isEmpty())
-            addHashes(con, executedHashes);
+        if (!newHashes.isEmpty())
+            addHashes(con, newHashes);
     }
 
     /**

@@ -50,7 +50,7 @@
 			<c:param name="parentGroupId" value="${item.id}"/>
 			<c:param name="markGroup" value="${form.param.markGroup}"/>
 		</c:url>
-		-> <a href="#" onClick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${item.title}</a>
+		/ <a href="#" onClick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${item.title}</a>
 	</c:forEach>
 </div>
 
@@ -99,7 +99,7 @@
 						<a href="#" onclick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${items.title}</a>
 					</c:if>
 					<c:if test="${not empty form.param.filter && not status.last}">
-						<a href="#" onclick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${items.title}</a> ->
+						<a href="#" onclick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${items.title}</a> /
 					</c:if>
 				</c:forEach>
 			</td>

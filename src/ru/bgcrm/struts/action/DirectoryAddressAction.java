@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -24,17 +23,23 @@ import ru.bgcrm.model.param.address.AddressCity;
 import ru.bgcrm.model.param.address.AddressCountry;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.param.address.AddressItem;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/user/directory/address")
 public class DirectoryAddressAction extends BaseAction {
-    public DirectoryAddressAction() {
-        super();
+    private static final String JSP_PATH_ADDRESS = PATH_JSP_USER + "/directory/address/address.jsp";
+
+    @Override
+    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+        return address(form, con);
     }
 
-    public ActionForward address(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward address(DynActionForm form, Connection con) throws Exception {
         ParameterMap permission = form.getPermission();
         AddressDAO addressDAO = new AddressDAO(con);
 
@@ -96,32 +101,32 @@ public class DirectoryAddressAction extends BaseAction {
             if ("area".equals(selectTab)) {
                 String addressItemTitle = form.getParam("addressItemTitle");
                 SearchResult<AddressItem> searchResult = new SearchResult<AddressItem>(form);
-                addressDAO.searchAddressAreaList(searchResult, addressCityId, CommonDAO.getLikePattern(addressItemTitle, "subs"), true, true);
+                addressDAO.searchAddressAreaList(searchResult, addressCityId, CommonDAO.getLikePatternSub(addressItemTitle), true, true);
             } else if ("quarter".equals(selectTab)) {
                 String addressItemTitle = form.getParam("addressItemTitle");
                 SearchResult<AddressItem> searchResult = new SearchResult<AddressItem>(form);
-                addressDAO.searchAddressQuarterList(searchResult, addressCityId, CommonDAO.getLikePattern(addressItemTitle, "subs"), true, true);
+                addressDAO.searchAddressQuarterList(searchResult, addressCityId, CommonDAO.getLikePatternSub(addressItemTitle), true, true);
             } else if ("street".equals(selectTab)) {
                 String addressItemTitle = form.getParam("addressItemTitle");
                 SearchResult<AddressItem> searchResult = new SearchResult<AddressItem>(form);
                 addressDAO.searchAddressStreetList(searchResult, Collections.singleton(addressCityId),
-                        CommonDAO.getLikePattern(addressItemTitle, "subs"), true, true);
+                        CommonDAO.getLikePatternSub(addressItemTitle), true, true);
             }
         } else if ("city".equals(searchMode)) {
             String addressCityTitle = form.getParam("addressCityTitle");
             SearchResult<AddressCity> searchResult = new SearchResult<AddressCity>(form);
-            addressDAO.searchAddressCityList(searchResult, addressCountryId, CommonDAO.getLikePattern(addressCityTitle, "subs"), true,
+            addressDAO.searchAddressCityList(searchResult, addressCountryId, CommonDAO.getLikePatternSub(addressCityTitle), true,
                     allowedCityIds);
         } else if ("country".equals(searchMode)) {
             String addressCountryTitle = form.getParam("addressCountryTitle");
             SearchResult<AddressCountry> searchResult = new SearchResult<AddressCountry>(form);
-            addressDAO.searchAddressCountryList(searchResult, CommonDAO.getLikePattern(addressCountryTitle, "subs"));
+            addressDAO.searchAddressCountryList(searchResult, CommonDAO.getLikePatternSub(addressCountryTitle));
         }
 
-        return html(con, mapping, form, FORWARD_DEFAULT);
+        return html(con, form, JSP_PATH_ADDRESS);
     }
 
-    public ActionForward addressGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward addressGet(DynActionForm form, Connection con) throws Exception {
         AddressDAO addressDAO = new AddressDAO(con);
         AnalyticDAO analyticDAO = new AnalyticDAO(con);
 
@@ -204,7 +209,7 @@ public class DirectoryAddressAction extends BaseAction {
             form.getResponse().setData("country", addressCountry);
         }
 
-        return html(con, mapping, form, FORWARD_DEFAULT);
+        return html(con, form, JSP_PATH_ADDRESS);
     }
 
     private boolean getAddressItem(DynActionForm form, Connection con) throws Exception {
@@ -243,7 +248,7 @@ public class DirectoryAddressAction extends BaseAction {
         return false;
     }
 
-    public ActionForward addressUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward addressUpdate(DynActionForm form, Connection con) throws Exception {
         AddressDAO addressDAO = new AddressDAO(con);
         AnalyticDAO analyticDAO = new AnalyticDAO(con);
 
@@ -262,12 +267,12 @@ public class DirectoryAddressAction extends BaseAction {
             addressHouse.setStreetId(addressStreetId);
             addressHouse.setAddressStreet(addressDAO.getAddressStreet(addressStreetId, true, true));
 
-            //TODO: Переписать на единую систему параметров!!!
-            String boxIndexKey = setup.get("directory.address.config.post_index.key", "s.box.index");
+            // TODO: Переписать на единую систему параметров!!!
+            /* String boxIndexKey = setup.get("directory.address.config.post_index.key", "s.box.index");
             String flatAmountKey = setup.get("directory.address.config.flat_amount.key", ".i.flat.amount");
             String commentInternetKey = setup.get("directory.address.config.comment_internet.key", "billing.service.type.internet");
             String commentKtvKey = setup.get("directory.address.config.comment_ktv.key", "billing.service.type.tv");
-            String routeKey = setup.get("directory.address.config.route.key", "s.route");
+            String routeKey = setup.get("directory.address.config.route.key", "s.route");*/
 
             checkCityAllow(allowedCityIds, addressHouse.getAddressStreet().getCityId());
 
@@ -286,7 +291,7 @@ public class DirectoryAddressAction extends BaseAction {
             String postIndex = form.getParam("postIndex", "");
             addressHouse.setPostIndex(postIndex);
 
-            // оставлено для совместимости на уровне БД, может кто-то ещё берёт из address_config индексы
+            /* // оставлено для совместимости на уровне БД, может кто-то ещё берёт из address_config индексы
             if (postIndex != null && !postIndex.isEmpty()) {
                 addressHouse.getConfig().put(boxIndexKey, postIndex);
             }
@@ -305,7 +310,7 @@ public class DirectoryAddressAction extends BaseAction {
             String route = form.getParam("route");
             if (route != null && !route.isEmpty()) {
                 addressHouse.getConfig().put(routeKey, route.trim());
-            }
+            }*/
             addressDAO.updateAddressHouse(addressHouse);
             //
             List<HouseCapacityItem> houseCapacityItems = new ArrayList<HouseCapacityItem>();
@@ -330,7 +335,8 @@ public class DirectoryAddressAction extends BaseAction {
                 }
             }
 
-            new ParamValueDAO(con).updateParamsAddressOnHouseUpdate(addressHouseId);
+            if (addressHouseId > 0)
+                new ParamValueDAO(con).updateParamsAddressOnHouseUpdate(addressHouseId);
         } else if (updateAddressItem(form, con)) {
         } else if (addressCityId >= 0) {
             AddressCity addressCity = new AddressCity();
@@ -403,7 +409,7 @@ public class DirectoryAddressAction extends BaseAction {
         return false;
     }
 
-    public ActionForward addressDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward addressDelete(DynActionForm form, Connection con) throws Exception {
         ParameterMap permission = form.getPermission();
         Set<Integer> allowedCityIds = Utils.toIntegerSet(permission.get("cityIds"));
 
@@ -499,15 +505,8 @@ public class DirectoryAddressAction extends BaseAction {
         return config.toString();
     }
 
-    @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        return address(mapping, form, con);
-    }
-
-    // поиск для редакторов по подстроке
-    public ActionForward streetSearch(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
-            Connection con) throws Exception {
-        AddressDAO addressDAO = new AddressDAO(con);
+    public ActionForward streetSearch(DynActionForm form, ConnectionSet conSet) throws Exception {
+        AddressDAO addressDAO = new AddressDAO(conSet.getSlaveConnection());
 
         String title = form.getParam("title", "");
 
@@ -515,13 +514,13 @@ public class DirectoryAddressAction extends BaseAction {
         Set<Integer> cityIds = Utils.toIntegerSet(form.getPermission().get("cityIds"));
 
         SearchResult<AddressItem> searchResult = new SearchResult<AddressItem>(form);
-        addressDAO.searchAddressStreetList(searchResult, cityIds, CommonDAO.getLikePattern(title, "subs"), true, true);
+        addressDAO.searchAddressStreetList(searchResult, cityIds, CommonDAO.getLikePatternSub(title), true, true);
 
-        return html(con, mapping, form, "???");
+        return json(conSet, form);
     }
 
-    public ActionForward houseSearch(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        AddressDAO addressDAO = new AddressDAO(con);
+    public ActionForward houseSearch(DynActionForm form, ConnectionSet conSet) throws Exception {
+        AddressDAO addressDAO = new AddressDAO(conSet.getSlaveConnection());
 
         int streetId = Utils.parseInt(form.getParam("streetId"));
         String house = form.getParam("house", "");
@@ -529,6 +528,6 @@ public class DirectoryAddressAction extends BaseAction {
         SearchResult<AddressHouse> searchResult = new SearchResult<AddressHouse>(form);
         addressDAO.searchAddressHouseList(searchResult, streetId, house);
 
-        return html(con, mapping, form, "???");
+        return json(conSet, form);
     }
 }

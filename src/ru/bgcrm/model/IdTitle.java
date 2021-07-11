@@ -16,8 +16,7 @@ public class IdTitle extends Id implements Title {
         this.title = value;
     }
 
-    public IdTitle() {
-    }
+    public IdTitle() {}
 
     public IdTitle(int id, String title) {
         this.id = id;

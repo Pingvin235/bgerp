@@ -201,8 +201,19 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * Перенос в POST часть запроса определённых в массиве toPostNames параметров запроса
-	 * либо начинающихся с благославенного префикса data
+	 * Calls load with $selector $$.shell.$content()
+	 * @param {*} url URL to be loaded.
+	 * @param {*} obj DOM element, placed in the loaded area.
+	 */
+	const loadContent =  (url, obj) => {
+		return load(url, $$.shell.$content(obj));
+	}
+
+	/**
+	 * Moves to POST part HTTP request parameters. Separated param names have to be placed in toPostNames or start from prefix 'data'.
+	 * @param {*} url initial URL.
+	 * @param {*} toPostNames array with POST params.
+	 * @param {*} json object with properties url and data.
 	 */
 	const separatePostParams = function (url, toPostNames, json) {
 		url = formUrl(url);
@@ -428,6 +439,7 @@ $$.ajax = new function () {
 	this.post = post;
 	this.load = load;
 	this.loadDfd = getLoadDfd;
+	this.loadContent = loadContent;
 	this.checkResponse = checkResponse;
 	this.formUrl = formUrl;
 	this.requestParamsToUrl = requestParamsToUrl;

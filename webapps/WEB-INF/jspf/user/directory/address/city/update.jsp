@@ -5,7 +5,7 @@
 	<input type="hidden" name="action" value="addressUpdate"/>
 	<html:hidden property="addressCityId"/>
 	<html:hidden property="addressCountryId"/>
-	<table style="width: 100%;" class="data">
+	<table class="data">
 		<tr>
 			<td width="100">${l.l('Параметр')}</td>
 			<td>${l.l('Значение')}</td>
@@ -32,4 +32,4 @@
 </table>
 </html:form>
 
-<shell:state ltext="Редактирование города" help="kernel/setup.html#address"/>
+<shell:state ltext="Редактор города" help="kernel/setup.html#address"/>

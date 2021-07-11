@@ -1,0 +1,7 @@
+C: Icon fonts, modern AJAX.
+F: JS call removeCommandDiv.
+A: Config editor in parameters editor.
+A: Fluent address API, address directory in demo DB.
+A: JS function $$.ajax.loadContent.
+C: Right slash as path separator.
+F: Re-execution DB updates.

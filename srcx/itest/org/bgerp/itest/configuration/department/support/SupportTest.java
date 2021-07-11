@@ -42,6 +42,8 @@ public class SupportTest {
     public static volatile int groupId;
 
     public static volatile int processTypeSupportId;
+    // Visit with address, process linked to support process.
+    //public static volatile int processTypeVisitId;
 
     private int userFelixId;
     private int userVyacheslavId;
@@ -59,6 +61,7 @@ public class SupportTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusWaitId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
+        props.setParameterIds(List.of(ProcessTest.paramAddressId));
         props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(groupId), ROLE_EXECUTION_ID));
         props.setAllowedGroups(ProcessGroup.toProcessGroupSet(Set.of(groupId, DevelopmentTest.groupId), ROLE_EXECUTION_ID));
         props.setConfig(ConfigHelper.generateConstants("CONFIG_PROCESS_NOTIFICATIONS_ID", ConfigTest.configProcessNotificationId) +

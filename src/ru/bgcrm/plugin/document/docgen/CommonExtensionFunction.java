@@ -11,15 +11,11 @@ import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.event.ParamListShowListEvent;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.XMLUtils;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 
 public abstract class CommonExtensionFunction
 	extends ExtensionFunctionDefinition
@@ -63,7 +59,7 @@ public abstract class CommonExtensionFunction
 
 		List<ParameterValuePair> parameterValuePairList = new ParamValueDAO( con ).loadParameters( paramList, objectId, true );
 
-		for( ParameterValuePair pvp : parameterValuePairList )
+		/* for( ParameterValuePair pvp : parameterValuePairList )
 		{
 			Parameter parameter = pvp.getParameter();
 			EventProcessor.processEvent( new ParamListShowListEvent( new DynActionForm(), pvp, objectId, objectType ), parameter.getScript(), new SingleConnectionConnectionSet( con ) );
@@ -74,7 +70,7 @@ public abstract class CommonExtensionFunction
 				ProcessType type = ProcessTypeCache.getProcessType( process.getTypeId() );
 				EventProcessor.processEvent( new ParamListShowListEvent( new DynActionForm(), pvp, objectId, objectType ), type.getProperties().getActualScriptName(), new SingleConnectionConnectionSet( con ) );
 			}
-		}
+		} */
 
 		for( ParameterValuePair pair : parameterValuePairList )
 		{

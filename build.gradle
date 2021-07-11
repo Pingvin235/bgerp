@@ -369,13 +369,13 @@ test {
 
 /*
     Complete run:
-        gradlew integrationTest -Pdb.user=* -Pdb.pswd=* -Pdb.host=localhost
+        gradlew itest -Pdb.user=* -Pdb.pswd=* -Pdb.host=localhost
     Only wanted groups with dependencies:
         -Pgroups.include=initUsers
     Skip heavy DB reset:
         -Pskip.dbReset=true
 */
-task integrationTest(type: Test) {
+task itest(type: Test, description: 'Integration tests') {
     // failFast = true SQL logs are not visible
 
     useTestNG() {
@@ -398,4 +398,10 @@ task integrationTest(type: Test) {
     systemProperty "db.pswd", findProperty("db.pswd")
     systemProperty "webdriver.chrome.driver", findProperty("webdriver.chrome.driver")
     systemProperty "skip.dbReset", findProperty("skip.dbReset")
+}
+
+task integrationTest(dependsOn: 'itest', description: 'Backward compatible name for itest') {
+    doFirst {
+        logger.warn("Use 'itest' task")
+    }
 }

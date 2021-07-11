@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -46,14 +45,13 @@ import ru.bgcrm.event.DateChangingEvent;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.ParamChangingEvent;
-import ru.bgcrm.event.ParamListGetEvent;
-import ru.bgcrm.event.ParamListShowListEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.IdTitleTree;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.JumpRegexp;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
@@ -68,6 +66,7 @@ import ru.bgcrm.model.param.config.ListParamConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.struts.form.Response;
 import ru.bgcrm.util.AddressUtils;
@@ -77,34 +76,40 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 
+@Action(path = "/user/parameter")
 public class ParameterAction extends BaseAction {
-    public ActionForward parameterLog(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    private static final String JSP_PATH = PATH_JSP_USER + "/parameter";
+
+    public ActionForward parameterLog(DynActionForm form, ConnectionSet conSet) throws BGException {
         int id = form.getId();
         String objectType = form.getParam("objectType");
         List<Parameter> paramList = ParameterCache.getObjectTypeParameterList(objectType);
         boolean offEncrypt = form.getPermission().getBoolean("offEncrypt", false);
-        form.getResponse().setData("log", new ParamLogDAO(con).getHistory(id, paramList, offEncrypt, new SearchResult<ParameterLogItem>(form)));
+        form.setResponseData("log", new ParamLogDAO(conSet.getSlaveConnection()).getHistory(id, paramList,
+                offEncrypt, new SearchResult<ParameterLogItem>(form)));
 
-        return html(con, mapping, form, "parameterLog");
+        // TODO: Move the JSP to JSP_PATH.
+        return html(conSet, form, PATH_JSP + "/parameter_log.jsp");
     }
 
-    public ActionForward entityLog(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward entityLog(DynActionForm form, ConnectionSet con) throws BGException {
         int id = form.getId();
         String type = form.getParam("type");
         String table = "";
 
-        if (type.equals("process")) {
+        if (type.equals(Process.OBJECT_TYPE)) {
             table = Tables.TABLE_PROCESS_LOG;
-        } else if (type.equals("customer")) {
+        } else if (type.equals(Customer.OBJECT_TYPE)) {
             table = TABLE_CUSTOMER_LOG;
         }
 
-        form.getResponse().setData("log", new EntityLogDAO(con, table).getHistory(id));
+        form.setResponseData("log", new EntityLogDAO(con.getSlaveConnection(), table).getHistory(id));
 
-        return html(con, mapping, form, "entityLog");
+        // TODO: Move the JSP to JSP_PATH.
+        return html(con, form, PATH_JSP + "/entity_log.jsp");
     }
 
-    public ActionForward parameterList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward parameterList(DynActionForm form, Connection con) throws Exception {
         int id = form.getId();
         String objectType = form.getParam("objectType");
         int parameterGroupId = form.getParamInt("parameterGroup", -1); // doesn't work with 0!!
@@ -122,7 +127,7 @@ public class ParameterAction extends BaseAction {
         if ("process".equals(objectType)) {
             Process process = new ProcessDAO(con).getProcess(id);
             if (process == null) {
-                throw new BGException("Не найден процесс с кодом: " + id);
+                throw new BGException("Process not found: " + id);
             }
 
             ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
@@ -169,6 +174,7 @@ public class ParameterAction extends BaseAction {
 
         List<ParameterValuePair> parameterValuePairList = new ParamValueDAO(con).loadParameters(paramList, id, offEncryption);
 
+        /* Strange logic, commented out 10.07.21
         for (ParameterValuePair pvp : parameterValuePairList) {
             Parameter parameter = pvp.getParameter();
 
@@ -183,22 +189,22 @@ public class ParameterAction extends BaseAction {
                             new SingleConnectionConnectionSet(con));
                 }
             }
-        }
+        }*/
 
         form.getResponse().setData("list", parameterValuePairList);
 
-        return html(con, mapping, form, FORWARD_DEFAULT);
+        return html(con, form, JSP_PATH + "/list.jsp");
     }
 
-    public ActionForward parameterGet(ActionMapping mapping, DynActionForm form, ConnectionSet connectionSet) throws Exception {
+    public ActionForward parameterGet(DynActionForm form, ConnectionSet conSet) throws Exception {
         int id = form.getId();
         int paramId = Utils.parseInt(form.getParam("paramId"));
 
         HttpServletRequest request = form.getHttpRequest();
         HttpServletResponse response = form.getHttpResponse();
 
-        ParamValueDAO paramDAO = new ParamValueDAO(connectionSet.getConnection());
-        AddressDAO addressDAO = new AddressDAO(connectionSet.getConnection());
+        ParamValueDAO paramDAO = new ParamValueDAO(conSet.getConnection());
+        AddressDAO addressDAO = new AddressDAO(conSet.getConnection());
 
         Parameter parameter = ParameterCache.getParameter(paramId);
         if (parameter == null) {
@@ -208,13 +214,13 @@ public class ParameterAction extends BaseAction {
         Response resp = form.getResponse();
         request.setAttribute("parameter", parameter);
 
-        boolean offEncription = form.getPermission().getBoolean("offEncrypt", false);
+        boolean offEncryption = form.getPermission().getBoolean("offEncrypt", false);
 
-        if ("encrypted".equals(parameter.getConfigMap().get("encrypt")) && !offEncription) {
+        if ("encrypted".equals(parameter.getConfigMap().get("encrypt")) && !offEncryption) {
             if (Parameter.TYPE_TEXT.equals(parameter.getType()) || Parameter.TYPE_BLOB.equals(parameter.getType())) {
-                resp.setData("value", "<ЗНАЧЕНИЕ ЗАШИФРОВАНО>");
+                resp.setData("value", l.l("<ЗНАЧЕНИЕ ЗАШИФРОВАНО>"));
 
-                return html(connectionSet, mapping, form, "edit");
+                return html(conSet,  form, JSP_PATH + "/edit.jsp");
             }
         }
 
@@ -234,6 +240,7 @@ public class ParameterAction extends BaseAction {
                 });
             }
 
+            /* Strange logic, commented out 10.07.21
             String objectClassName = "";
             if (Process.OBJECT_TYPE.equals(parameter.getObject())) {
                 Process process = new ProcessDAO(connectionSet.getConnection()).getProcess(id);
@@ -242,7 +249,7 @@ public class ParameterAction extends BaseAction {
             }
 
             EventProcessor.processEvent(new ParamListGetEvent(form, "process", id, param, values, listValues), param.getScript(), connectionSet);
-            EventProcessor.processEvent(new ParamListGetEvent(form, "process", id, param, values, listValues), objectClassName, connectionSet);
+            EventProcessor.processEvent(new ParamListGetEvent(form, "process", id, param, values, listValues), objectClassName, connectionSet); */
 
             request.setAttribute("listValues", listValues);
             // для сторонних систем - значения спискового параметра
@@ -284,7 +291,7 @@ public class ParameterAction extends BaseAction {
             response.setContentType("image/jpeg");
             FileData fileData = paramDAO.getParamFile(id, paramId, 1, 1);
 
-            File file = new FileDataDAO(connectionSet.getConnection()).getFile(fileData);
+            File file = new FileDataDAO(conSet.getConnection()).getFile(fileData);
 
             FileInputStream in = new FileInputStream(file);
             ServletOutputStream out = response.getOutputStream();
@@ -321,17 +328,17 @@ public class ParameterAction extends BaseAction {
             if (Utils.notBlankString(form.getParam("newDate"))) {
                 EventProcessor.processEvent(
                         new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),
-                        parameter.getScript(), connectionSet);
+                        parameter.getScript(), conSet);
 
                 String objectClassName = "";
                 if (Process.OBJECT_TYPE.equals(parameter.getObject())) {
-                    Process process = new ProcessDAO(connectionSet.getConnection()).getProcess(id);
+                    Process process = new ProcessDAO(conSet.getConnection()).getProcess(id);
                     ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
                     objectClassName = type.getProperties().getActualScriptName();
                 }
                 EventProcessor.processEvent(
                         new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),
-                        objectClassName, connectionSet);
+                        objectClassName, conSet);
             }
 
             if (Parameter.TYPE_DATE.equals(parameter.getType())) {
@@ -354,10 +361,10 @@ public class ParameterAction extends BaseAction {
 
         request.setAttribute("part2Rules", regexpList);
 
-        return html(connectionSet, mapping, form, "edit");
+        return html(conSet, form, JSP_PATH + "/edit.jsp");
     }
 
-    public ActionForward parameterUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward parameterUpdate(DynActionForm form, Connection con) throws Exception {
         int id = form.getId();
         int paramId = Utils.parseInt(form.getParam("paramId"));
         int userId = form.getUserId();

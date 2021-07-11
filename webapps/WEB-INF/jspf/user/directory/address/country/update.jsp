@@ -4,10 +4,10 @@
 <html:form action="user/directory/address">
 	<input type="hidden" name="action" value="addressUpdate"/>
 	<html:hidden property="addressCountryId"/>
-	<table style="width: 100%;" class="data">
+	<table class="data">
 		<tr>
 			<td width="100">${l.l('Параметр')}</td>
-			<td>Значение</td>
+			<td>${l.l('Значение')}</td>
 		</tr>
 		<tr>
 			<td>ID</td>
@@ -27,4 +27,4 @@
 	</table>
 </html:form>
 
-<shell:state ltext="Редактирование страны" help="kernel/setup.html#address"/>
+<shell:state ltext="Редактор страны" help="kernel/setup.html#address"/>

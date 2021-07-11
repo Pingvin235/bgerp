@@ -111,9 +111,6 @@
 
 	<c:set var="onBlur" value=""/>
 	<c:if test="${saveOn eq 'focusLost'}">
-		<%-- popupObjectBuffer.stopTimer(); - чтобы по закрытию диалогового окна не вылезал буфер (до onBlur идёт событие mousedown)
-			 document.getSelection().removeAllRanges(); - чтобы по закрытию диалогового окна не продолжалось выделение текста по перемещению мыши
-		--%>
 		<c:set var="onBlur">onBlur="if( $(this).attr('onblurstop') ){ return; }<c:if test="${empty encrypt}">if( $(this).attr( 'changed' ) == '1' )</c:if>{ popupObjectBuffer.stopTimer(); ${saveCommand}; document.getSelection().removeAllRanges(); } <c:if test="${empty encrypt}">else { ${refreshCommand}  }</c:if>"</c:set>
 		<c:set var="hideOkButton" value="1"/>
 	</c:if>
@@ -157,20 +154,6 @@
 				<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
 				<input type="text" name="value" value="${tu.format(data.value, type)}" id="${focusFieldUiid}" ${changeAttrs} onclick="${getCommand}"/>
 				<ui:date-time selector="#${focusFieldUiid}" type="${type}" saveCommand="${saveCommand}"/>
-				<%--
-				<c:choose>
-					<c:when test="${parameter.type eq 'date'}">
-						<c:set var="type" value="ymd"/>
-						<input type="text" name="value" value="${u:formatDate(data.value, 'ymd')}" id="${focusFieldUiid}" ${changeAttrs} onclick="${getCommand}"/>
-						<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-					</c:when>
-					<c:when test="${parameter.type eq 'datetime'}">
-						<c:set var="type" value="${u:maskEmpty(parameter.configMap.type, 'ymd')}"/>
-						<input type="text" name="value" value="${u:formatDate(data.value, type)}" id="${focusFieldUiid}" onclick="${getCommand}"/>
-						<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-					</c:when>
-				</c:choose>
-				--%>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'tree'}">
@@ -459,76 +442,67 @@
 				<input type="hidden" name="houseId" value="${house.id}" />
 
 				<table style="width: 100%;">
-					<tr>
-						<td>${l.l('Улица')}:</td>
-						<td width="70%"><input type="text" name="street" value="${streetTitle}" style="width: 100%" /></td>
-						<td nowrap="nowrap">${l.l('Дом')}:</td>
+					<tr class="in-pl05">
+						<td width="70%">
+							<input type="text" name="street" value="${streetTitle}" 
+								placeholder="${l.l('Улица')}" title="${l.l('Улица')}" style="width: 100%"/>
+						</td>
 						<td width="30%" nowrap="nowrap">
 							<div style="display: table-cell; width: 100%;">
-								<input type="text" name="house" value="${houseTitle}" onchange="this.form.houseId.value = ''" style="width: 100%" />
+								<input type="text" name="house" value="${houseTitle}" onchange="this.form.houseId.value = ''" 
+									placeholder="${l.l('Дом')}" title="${l.l('Дом')}" style="width: 100%" />
 							</div>
 							<p:check action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate">
-								<c:url var="addUrl" value="directory/address.do">
+								<c:url var="addUrl" value="/user/directory/address.do">
 									<c:param name="action" value="addressUpdate" />
 									<c:param name="addressHouseId" value="0" />
-									<%-- TODO: Убрать потом 04.07.2013 --%>
-									<c:param name="capacity" value="" />
 								</c:url>
 
 								<c:set var="addScript">
-									var streetId = this.form.streetId.value;
-									if( !streetId )
-									{
-										alert( 'Не указана улица' );
+									const streetId = this.form.streetId.value;
+									if (!streetId) {
+										alert('${l.l("Не указана улица")}');
 										return;
 									}
 
-									var house = this.form.house.value;
-									if( !house )
-									{
-										alert( 'Введите номер дома' );
+									const house = this.form.house.value;
+									if (!house) {
+										alert('${l.l("Введите номер дома")}');
 										return;
 									}
 
-									var url = '${addUrl}&addressItemId=' + streetId + '&house=' + encodeURIComponent( house );
-									if( sendAJAXCommand( url ) )
-									{
-										alert( 'Дом добавлен' );
-									}
+									const url = '${addUrl}&addressItemId=' + streetId + '&house=' + encodeURIComponent(house);
+									$$.ajax.post(url).done(() => alert('${l.l("Дом добавлен")}'));
 								</c:set>
 								<div style="display: table-cell;">
-									<input type="button" onclick="${addScript}" value="+"
-										title="Добавить дом" />
+									<button onclick="${addScript}" title="${l.l("Добавить дом")}" class="btn-green btn-icon ml05"><i class="ti-plus"></i></button>
 								</div>
 							</p:check>
 						</td>
 					</tr>
-					<tr>
-						<td nowrap="nowrap">Кв./оф.</td>
+					<tr class="in-pt05 in-pl05">
 						<td><input type="text" name="flat" value="${address.flat}"
-							style="width: 100%"
+							placeholder="${l.l("Квартира / офис")}" title="${l.l("Квартира / офис")}" style="width: 100%"
 							onkeyup="if($(this).val().length>0) {$(this.form).find('input[name=room]').removeAttr('disabled');}	else {$(this.form).find('input[name=room]').attr('disabled',true);}" /></td>
 
 						<c:set var="roomState" value="" />
 						<c:if test="${ empty address.flat }">
 							<c:set var="roomState" value="disabled" />
 						</c:if>
-						<td>Комн.</td>
 						<td><input type="text" name="room" value="${address.room}"
-							style="width: 100%" ${roomState} /></td>
+							placeholder="${l.l("Комната")}" title="${l.l("Комната")}" style="width: 100%" ${roomState} /></td>
 					</tr>
-					<tr>
-						<td>Подъ.:</td>
+					<tr class="in-pt05 in-pl05">
 						<td><input type="text" name="pod" value="${pod}"
-							style="width: 100%" /></td>
-						<td>Этаж:</td>
+							placeholder="${l.l("Подъезд")}" title="${l.l("Подъезд")}" style="width: 100%" /></td>
 						<td><input type="text" name="floor" value="${floor}"
-							style="width: 100%" /></td>
+							placeholder="${l.l("Этаж")}" title="${l.l("Этаж")}"  style="width: 100%" /></td>
 					</tr>
-					<tr>
-						<td>Ком.:</td>
-						<td colspan="3"><input type="text" name="comment"
-							value="${address.comment}" style="width: 100%" /></td>
+					<tr class="in-pt05 in-pl05">
+						<td colspan="2">
+							<input type="text" name="comment" value="${address.comment}"
+								placeholder="${l.l("Комментарий")}" title="${l.l("Комментарий")}" style="width: 100%" />
+						</td>
 					</tr>
 				</table>
 			</c:when>
@@ -540,9 +514,9 @@
 
 		<div class="mt1">
 			<c:if test="${empty hideOkButton}">
-				<input type="button" class="btn-grey mr1" value="OK" onclick="${saveCommand}" />
+				<ui:button type="ok" styleClass="mr1" onclick="${saveCommand}"/>
 			</c:if>
-			<input type="button" class="btn-white" value="${l.l('Отмена')}" onmousedown="$('#${uiid} input').attr('onblurstop','1');" onclick="openUrlToParent( '${form.returnUrl}', $('#${tableId}') )" />
+			<ui:button type="cancel" onclick="$$.ajax.load('${form.returnUrl}', $('#${tableId}').parent())"/>
 		</div>
 	</c:if>
 

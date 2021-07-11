@@ -26,9 +26,8 @@ public class AddressUtils {
         AddressHouse house = value.getHouse();
         if (house == null) {
             house = addressDAO.getAddressHouse(houseId, true, true, true);
-            if (house == null) {
-                return "НЕ НАЙДЕН ДОМ С КОДОМ: " + houseId;
-            }
+            if (house == null)
+                throw new IllegalArgumentException("House not found: " + houseId);
         }
 
         final AddressHouse addressHouse = house;
@@ -73,33 +72,6 @@ public class AddressUtils {
 
         return result;
     }
-
-    /*public static final String buildAddressJEXL( ParameterAddressValue address, String pattern )
-    {
-        JexlContext context = new MapContext();
-    
-        context.set( "city", address.getHouse().getAddressStreet().getAddressCity().getTitle() );
-    
-        context.set( "street", address.getHouse().getAddressStreet().getTitle() );
-    
-        context.set( "area", address.getHouse().getAddressArea().getTitle() );
-        context.set( "quarter", address.getHouse().getAddressQuarter().getTitle() );
-    
-        context.set( "house", address.getHouse().getHouse() );
-        context.set( "frac", address.getHouse().getFrac() );
-        context.set( "houseNfrac", address.getHouse().getHouseAndFrac() );
-    
-        context.set( "pod", address.getPod() );
-        context.set( "floor", address.getFloor() );
-    
-        context.set( "flat", address.getFlat() );
-        context.set( "room", address.getRoom() );
-    
-        JexlEngine jexl = new JexlEngine();
-        Expression expression = jexl.createExpression( pattern );
-    
-        return (String)expression.evaluate( context );
-    }*/
 
     public static String getHouseFlat(String value) {
         StringBuffer buf = new StringBuffer();

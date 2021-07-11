@@ -4,23 +4,23 @@
 <c:set var="id" value="${form.param.id}"/>
 <c:set var="log" value="${form.response.data.log}"/>
 <c:set var="paramLinkId" value="${u:uiid()}"></c:set>
-<c:set var="nextCommand" value="; openUrlToParent( formUrl( this.form ), $('#${paramLinkId}') )"/>
+<c:set var="nextCommand" value="; $$.ajax.load(this.form, $('#${paramLinkId}').parent())"/>
 
 <h1>${l.l('Лог изменений параметров')}</h1>
 
-<html:form action="/user/parameter.do" style="width: 100%;"  styleId="${paramLinkId}">
+<html:form action="/user/parameter" style="width: 100%;" styleId="${paramLinkId}">
 	<table style="width: 100%;" id="${paramLinkId}">
 		<tr><td>
-			<button class="btn-white mb0.5" onclick="openUrlToParent( '${form.returnUrl}', $('#${paramLinkId}') ); return false;">${l.l('Закрыть')}</button>
-			<%@ include file="/WEB-INF/jspf/page_control.jsp"%>			
+			<ui:button type="close" onclick="$$.ajax.load('${form.returnUrl}', $('#${paramLinkId}').parent())"/>
+			<ui:page-control nextCommand="${nextCommand}"/>
 		</td></tr>
 	</table>
-	
+
 	<input type="hidden" name="action" value="parameterLog"/>
 	<input type="hidden" name="id" value="${form.id}"/>
-	<html:hidden property="objectType"/>	
+	<html:hidden property="objectType"/>
 	<html:hidden property="returnUrl"/>
-	<table id="${paramLinkId}" style="width:100%" class="data mt05">
+	<table id="${paramLinkId}" class="data mt05">
 		<tr>
 			<td>${l.l('Дата')}</td>
 			<td>${l.l('Пользователь')}</td>
@@ -36,7 +36,7 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control nextCommand="${nextCommand}"/>
 </html:form>
 
 

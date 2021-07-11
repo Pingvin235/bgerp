@@ -80,7 +80,9 @@ public class ParamValueDAO extends CommonDAO {
             TABLE_PARAM_TREE, TABLE_PARAM_TREE_VALUE, TABLE_PARAM_LISTCOUNT, TABLE_PARAM_LISTCOUNT_VALUE,  
             TABLE_PARAM_ADDRESS, TABLE_PARAM_FILE};
 
-    private boolean history = true;
+    /** Write param changes history. */
+    private boolean history;
+    /** User ID for changes history. */
     private int userId;
 
     public ParamValueDAO(Connection con) {
