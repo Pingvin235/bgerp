@@ -55,7 +55,7 @@ public class PermissionTag extends ConditionalTagSupport {
             }
 
             if (PermissionNode.getPermissionNode(action) == null) {
-                log.error("Action not found: %s", action);
+                log.error("Action not found: {}", action);
                 return false;
             }
 

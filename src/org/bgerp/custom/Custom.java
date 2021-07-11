@@ -43,7 +43,7 @@ public class Custom {
         if (!WEBAPPS_DIR.isDirectory())
             return;
 
-        log.info("Connecting custom webapps: %s", WEBAPPS_DIR);
+        log.info("Connecting custom webapps: {}", WEBAPPS_DIR);
         var webResourceRoot = new StandardRoot(context);
         webResourceRoot.addPreResources(new DirResourceSet(webResourceRoot, "/",
             catalinaHome + "/" + CUSTOM_DIR_NAME + "/" + Server.WEBAPPS_DIR_NAME, "/"));
@@ -64,10 +64,10 @@ public class Custom {
         traverse(srcFiles, SRC_DIR);
 
         var javac = new CompilerWrapper(SRC_DIR);
-        log.info("Compiling %s java files to %s", srcFiles.size(), javac.getOutputDir());
+        log.info("Compiling {} java files to {}", srcFiles.size(), javac.getOutputDir());
         
         CompilationResult result = javac.compile(srcFiles).getFirst();
-        result.addLog(String.format("Compiling %s java files to %s", srcFiles.size(), javac.getOutputDir()));
+        result.addLog(Log.format("Compiling {} java files to {}", srcFiles.size(), javac.getOutputDir()));
 
         if (result.isResult())
             buildCustomJar(javac, result);

@@ -55,7 +55,7 @@ public class CompilerWrapper {
     private void removeOldTmpDirs(File outputDirRoot) {
         try {
             for (File dir : outputDirRoot.listFiles(f -> f.getName().startsWith(DIR_PREFIX))) {
-                log.info("Removing: %s", dir);
+                log.info("Removing: {}", dir);
                 FileUtils.deleteDirectory(dir);
             }
         } catch (IOException e) {

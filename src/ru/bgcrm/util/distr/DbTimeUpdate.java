@@ -27,15 +27,15 @@ public class DbTimeUpdate implements Runnable {
     @Override
     public void run() {
         var time = TimeUtils.parse(Setup.getSetup().get(SETUP_KEY), TimeUtils.FORMAT_TYPE_YMDHMS);
-        log.info("%s: %s", SETUP_KEY, time);
+        log.info("{}: {}", SETUP_KEY, time);
         if (time == null) {
-            log.warn("No %s found, isn't this DB a production one?");
+            log.warn("No {} found, isn't this DB a production one?");
             return;
         }
 
         // TODO: For some data it has to be the same day of week. E.g. callboard.
         daysDelta = TimeUtils.daysDelta(TimeUtils.convertDateToCalendar(time), new GregorianCalendar());
-        log.info("daysDelta: %s", daysDelta);
+        log.info("daysDelta: {}", daysDelta);
         if (daysDelta <= 0)
             return;
         
@@ -53,7 +53,7 @@ public class DbTimeUpdate implements Runnable {
                 final var table = rs.getString(1);
                 final var column = rs.getString(2);
 
-                log.debug("Table: %s, column: %s", table, column);
+                log.debug("Table: {}, column: {}", table, column);
 
                 // new table has started
                 if ((currentTable != null && !table.equals(currentTable))) {
@@ -86,7 +86,7 @@ public class DbTimeUpdate implements Runnable {
                 first = false;
             }
 
-            log.info("Running query: %s", pd);
+            log.info("Running query: {}", pd);
             pd.executeUpdate();
 
             columns.clear();

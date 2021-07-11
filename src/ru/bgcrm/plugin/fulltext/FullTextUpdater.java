@@ -69,7 +69,7 @@ public class FullTextUpdater implements Runnable {
                     if (Customer.OBJECT_TYPE.equals(item.getObjectType())) {
                         Customer customer = new CustomerDAO(conSlave).getCustomerById(item.getObjectId());
                         if (customer == null) {
-                            log.warn("Customer not found: %s", item.getObjectId());
+                            log.warn("Customer not found: {}", item.getObjectId());
                             searchDao.delete(item);
                             continue;
                         }
@@ -78,7 +78,7 @@ public class FullTextUpdater implements Runnable {
                     } else if (Process.OBJECT_TYPE.equals(item.getObjectType())) {
                         Process process = new ProcessDAO(conSlave).getProcess(item.getObjectId());
                         if (process == null) {
-                            log.warn("Process not found: %s", item.getObjectId());
+                            log.warn("Process not found: {}", item.getObjectId());
                             searchDao.delete(item);
                             continue;
                         }
@@ -87,7 +87,7 @@ public class FullTextUpdater implements Runnable {
                     } else if (Message.OBJECT_TYPE.equals(item.getObjectType())) {
                         Message message = new MessageDAO(conSlave).getMessageById(item.getObjectId());
                         if (message == null) {
-                            log.warn("Message not found: %s", item.getObjectId());
+                            log.warn("Message not found: {}", item.getObjectId());
                             searchDao.delete(item);
                             continue;
                         }
@@ -160,7 +160,7 @@ public class FullTextUpdater implements Runnable {
                     
                     con.commit();
                     
-                    log.debug("Item type: %s; id: %s; data: %s", item.getObjectType(), item.getObjectId(), text);
+                    log.debug("Item type: {}; id: {}; data: {}", item.getObjectType(), item.getObjectId(), text);
                 }
             }
         } 

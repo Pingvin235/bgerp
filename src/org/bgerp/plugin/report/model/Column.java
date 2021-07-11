@@ -7,6 +7,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgerp.l10n.Localizer;
 import ru.bgerp.l10n.Titled;
+import ru.bgerp.util.Log;
 
 /**
  * Report's column.
@@ -58,7 +59,7 @@ public abstract class Column implements Titled {
     }
 
     public Object accept(Object value) {
-        throw new IllegalArgumentException(String.format("Incorrect object class: '%s' for column: '%s'", 
+        throw new IllegalArgumentException(Log.format("Incorrect object class: '{}' for column: '{}'", 
             value.getClass().getName(), getId()));
     }
 

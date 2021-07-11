@@ -29,7 +29,7 @@ public class OpenFilter implements Filter {
 
         var requestURI = request.getRequestURI();
         if (requestURI.endsWith(".jsp")) {
-            log.warn("Attempt to access JSP: %s", requestURI);
+            log.warn("Attempt to access JSP: {}", requestURI);
             return;
         }
 

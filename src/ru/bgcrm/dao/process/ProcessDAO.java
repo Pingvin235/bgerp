@@ -381,7 +381,7 @@ public class ProcessDAO extends CommonDAO {
         }
         ps.close();
 
-        log.debug("Aggregated values: %s", aggregateValues);
+        log.debug("Aggregated values: {}", aggregateValues);
     }
 
     public String getCountQuery(Queue queue, DynActionForm form) throws BGException {

@@ -68,7 +68,6 @@ dependencies {
     // библиотеки для BGERP, утилит и плагинов (добавлять после новые библиотеки)
     bgerp 'org.apache.commons:commons-lang3:3.8.1'
     bgerp 'log4j:log4j:1.2.17'
-    // needed only for StackLocatorUtils
     bgerp 'org.apache.logging.log4j:log4j-api:2.11.2'
 
     bgerp 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.12'

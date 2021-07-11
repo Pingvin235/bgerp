@@ -116,7 +116,7 @@ public class SearchDAO extends CommonDAO {
      * @throws BGException
      */
     public void scheduleUpdate(String objectType, int objectId) throws SQLException {
-        log.debug("Updated record, objectType: %s; objectId: %s", objectType, objectId);
+        log.debug("Updated record, objectType: {}; objectId: {}", objectType, objectId);
         updateOrInsert(
                 SQL_UPDATE + TABLE + SQL_SET + "scheduled_dt=NOW()" + SQL_WHERE + "object_type=? AND object_id=?",
                 SQL_INSERT + TABLE + "(scheduled_dt, object_type, object_id) VALUES (NOW(),?,?)",
@@ -130,7 +130,7 @@ public class SearchDAO extends CommonDAO {
      * @throws BGException
      */
     public void delete(String objectType, int objectId) throws BGException {
-        log.debug("Deleted record, objectType: %s; objectId: %s", objectType, objectId);
+        log.debug("Deleted record, objectType: {}; objectId: {}", objectType, objectId);
         try {
             String query = SQL_DELETE + TABLE + SQL_WHERE + "object_type=? AND object_id=?";
             PreparedStatement ps = con.prepareStatement(query);

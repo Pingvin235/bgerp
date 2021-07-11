@@ -436,7 +436,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         }
         st.close();
 
-        log.debug("getLinkProcessIds %s => %s", typeProcessIds, result);
+        log.debug("getLinkProcessIds {} => {}", typeProcessIds, result);
         
         return result;
     }

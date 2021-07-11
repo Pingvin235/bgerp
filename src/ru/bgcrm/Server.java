@@ -53,7 +53,7 @@ public class Server extends Tomcat {
         setTomcatProperties();
         configureLogging();
 
-        log.info("Starting with '%s.properties'..", Setup.getBundleName());
+        log.info("Starting with '{}.properties'..", Setup.getBundleName());
         log.info(AdminPortListener.getVersionInfo());
 
         setup = Setup.getSetup();
@@ -66,7 +66,7 @@ public class Server extends Tomcat {
             catalinaHome = catalinaHome.substring(0, catalinaHome.length() - 2);
             setBaseDir(catalinaHome);
 
-            log.info("catalinaHome: %s; hostname: %s", catalinaHome, hostname);
+            log.info("catalinaHome: {}; hostname: {}", catalinaHome, hostname);
 
             configureContext(catalinaHome);
 
@@ -112,7 +112,7 @@ public class Server extends Tomcat {
         context.setUseNaming(false);
         context.getJarScanner().setJarScanFilter((type, name) -> {
             boolean result = name.contains("struts") || name.contains("tag") || name.contains(customJarMarker);
-            log.debug("Scan type: %s, name: %s => %s", type, name, result);
+            log.debug("Scan type: {}, name: {} => {}", type, name, result);
             return result;
         });
 
@@ -131,7 +131,7 @@ public class Server extends Tomcat {
         int port = setup.getInt("server.port.http", 8080);
         var address = setup.get("server.listen.address", null);
 
-        log.info("Starting server HTTP port: %s; listen address: %s", port, address);
+        log.info("Starting server HTTP port: {}; listen address: {}", port, address);
 
         var connector = getConnector();
 
@@ -148,7 +148,7 @@ public class Server extends Tomcat {
 
         start();
 
-        System.out.println(String.format("Server URL: 'http://%s:%s', see logs in 'log' directory", hostname, port));
+        System.out.println(String.format("Server URL: 'http://{}:{}', see logs in 'log' directory", hostname, port));
     }
 
     /**

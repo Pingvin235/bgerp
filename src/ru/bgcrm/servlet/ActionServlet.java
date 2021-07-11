@@ -39,7 +39,7 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
 
         this.config = paths.toString();
 
-        log.info("Action config paths: %s", this.config);
+        log.info("Action config paths: {}", this.config);
 
         super.init();
     }

@@ -219,7 +219,7 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
                     ProcessCommandExecutor.processDoCommands(con, event.getForm(), process, null, commandList);
 
                     if (Utils.notBlankString(config.doExpression)) {
-                        log.debug("Executing expression: %s", config.doExpression);
+                        log.debug("Executing expression: {}", config.doExpression);
                         DefaultProcessChangeListener.initExpression(conSet, event, process).executeScript(config.doExpression);
                     }
 

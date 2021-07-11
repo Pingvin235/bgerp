@@ -166,7 +166,7 @@ public class BaseAction extends DispatchAction {
 
     @SuppressWarnings("unchecked")
     private Invoker getInvoker(String method) throws NoSuchMethodException {
-        log.debug("Looking for invoker: %s", method);
+        log.debug("Looking for invoker: {}", method);
 
         Invoker result = invokerMap.get(method);
         if (result == null) {
@@ -216,7 +216,7 @@ public class BaseAction extends DispatchAction {
             log.debug("Cache hit");
         }
 
-        log.debug("Found invoker: %s", result.getClass().getSimpleName());
+        log.debug("Found invoker: {}", result.getClass().getSimpleName());
 
         return result;
     }
@@ -691,11 +691,11 @@ public class BaseAction extends DispatchAction {
                 // storing values comma-separated
                 if (get && prefs.containsKey(key)) {
                     form.setParamArray(param, Utils.toList(prefs.get(key)));
-                    log.debug("Restore param: %s, key: %s", param, key);
+                    log.debug("Restore param: {}, key: {}", param, key);
                 }
             } else if (set) {
                 prefs.put(key, Utils.toString(form.getSelectedValuesListStr(param)));
-                log.debug("Store param: %s, key: %s", param, key);
+                log.debug("Store param: {}, key: {}", param, key);
             }
         }
         new UserDAO(con).updatePersonalization(valueBefore, form.getUser());

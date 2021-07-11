@@ -429,7 +429,7 @@ public class Queue extends IdTitle {
     }
 
     public void extractFiltersAndSorts() {
-        log.debug("Extract queue id: %s ;title: %s", id, title);
+        log.debug("Extract queue id: {}; title: {}", id, title);
 
         var config = new Preferences(this.config);
 

@@ -274,7 +274,7 @@
 										<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
 										<input type="hidden" name="tableId" value="${tableId}"/>
 
-										<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} })">
+										<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} }); return false;">
 											${value.value}
 										</a>
 									</html:form>

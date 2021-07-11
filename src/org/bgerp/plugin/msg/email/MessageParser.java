@@ -192,7 +192,7 @@ public class MessageParser {
                 String partContentType = messagePart.getContentType().toLowerCase();
                 Object partContent = messagePart.getContent();
 
-                log.debug("Extracting multipart part, contentType: %s", partContentType);
+                log.debug("Extracting multipart part, contentType: {}", partContentType);
 
                 if (partContentType.startsWith("text/plain")) {
                     textContent = (String) partContent;

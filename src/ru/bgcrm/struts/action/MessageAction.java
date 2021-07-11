@@ -232,7 +232,7 @@ public class MessageAction extends BaseAction {
         }
 
         message.setProcessId(newProcess.getId());
-        message.setText(l.l("Перенесено из процесса #%s", process.getId()) + "\n\n" + message.getText());
+        message.setText(l.l("Перенесено из процесса #{}", process.getId()) + "\n\n" + message.getText());
 
         messageDao.updateMessage(message);
 

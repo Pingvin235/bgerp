@@ -7,7 +7,7 @@ import ru.bgerp.util.Log;
 /**
  * Translator to a wanted language using many {@link Localization} sequentially.
  * 
- * @author Shamil
+ * @author Shamil Vakhitov
  */
 public class Localizer {
     private static final Log log = Log.getLog();
@@ -29,8 +29,8 @@ public class Localizer {
                 return String.format(translation, args);
         }
 
-        log.warn("Missing translation for pattern: '%s', localizations: %s", pattern, List.of(localizations));
+        log.warn("Missing translation for pattern: '{}', localizations: {}", pattern, List.of(localizations));
 
-        return String.format(pattern, args);
+        return Log.format(pattern, args);
     }
 }

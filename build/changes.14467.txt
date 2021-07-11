@@ -1,0 +1,2 @@
+A: Support {} substitutions for logging and l10n, https://bgerp.org/doc/3.0/manual/project.html#sample-logging-java
+F: Save configuration without closing.

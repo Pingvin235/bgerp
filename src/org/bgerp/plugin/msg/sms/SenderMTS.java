@@ -38,9 +38,9 @@ public class SenderMTS extends Sender {
             url.addParameter("message", text);
 
             Request req = Request.Get(url.build());
-            log.debug("Sending: %s", req);
+            log.debug("Sending: {}", req);
             String response = req.execute().returnContent().asString(StandardCharsets.UTF_8);
-            log.debug("=> %s", response);
+            log.debug("=> {}", response);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

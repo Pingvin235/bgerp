@@ -144,14 +144,14 @@ public abstract class Plugin {
      * @throws Exception
      */
     public void init(Connection con) throws Exception {
-        log.info("Plugin '%s', class '%s' init", getId(), getClass().getName());
+        log.info("Plugin '{}', class '{}' init", getId(), getClass().getName());
         initDB(con);
     }
 
     private void initDB(Connection con) throws SQLException, IOException {
         var script = getClass().getResourceAsStream("db.sql");
         if (script != null) {
-            log.info("%s applying db.sql", getId());
+            log.info("{} applying db.sql", getId());
             new ExecuteSQL().call(con, IOUtils.toString(script, StandardCharsets.UTF_8));
         }
     }
