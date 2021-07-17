@@ -642,7 +642,7 @@ ALTER TABLE param_address CHANGE pod pod TINYINT(4)  NOT NULL;
 
 ALTER TABLE param_list CHANGE value value INT NOT NULL;
 
-ALTER TABLE param_address DROP PRIMARY KEY;
+CALL drop_key_if_exists('param_address', 'PRIMARY');
 ALTER TABLE param_address ADD KEY id_param(id, param_id);
 
 CALL add_column_if_not_exists('param_address', 'n', 'INT NOT NULL AFTER param_id');
