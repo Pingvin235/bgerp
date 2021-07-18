@@ -1,6 +1,0 @@
-F: HTTP requests.
-F: Plugin Callboard, menu items.
-A: Plugin Callboard, enabled in integration tests.
-F: Maven repo link to HTTPS.
-F: Save large messages.
-

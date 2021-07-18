@@ -1,4 +1,0 @@
-C: Massive replacing BGException to SQLException.
-C: Rewritten DB update code, applied updates stored in new table 'db_update_log' with executing time.
-C: Unique index and removed unneeded column '_comment' for 'param_list' table.
-C: PzdcDoc version 2.3.

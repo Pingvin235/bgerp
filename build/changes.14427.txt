@@ -1,1 +1,0 @@
-A: Run button on address search fields.

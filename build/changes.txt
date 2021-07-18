@@ -1,6 +1,43 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+18.07.2021 20:19:01 1376
+A: [12311] Remove unneeded more files from 'webapps' subdirs during update.
+F: [12311] Progress rotation direction.
+F: [14376] Filter out blank values for HTTP request parameter.
+C: [14426] Icon fonts, modern AJAX.
+F: [14426] JS call removeCommandDiv.
+A: [14426] Config editor in parameters editor.
+A: [14426] Fluent address API, address directory in demo DB.
+A: [14426] JS function $$.ajax.loadContent.
+C: [14426] Right slash as path separator.
+F: [14426] Re-execution DB updates.
+A: [14427] Run button on address search fields.
+F: [14436] HTTP requests.
+F: [14436] Plugin Callboard, menu items.
+A: [14436] Plugin Callboard, enabled in integration tests.
+F: [14436] Maven repo link to HTTPS.
+F: [14436] Save large messages.
+A: [14445] 'removed' event in DefaultProcessor, https://bgerp.org/doc/3.0/manual/kernel/process/processing.html
+C: [14445] Update PzdcDoc to version 2.2
+C: [14447] On running buttons icon 'ti-reload'.
+A: [14447] Rotating 'ti-reload' on being opened toolbar buttons.
+F: [14447] Icons for actionFactory.
+A: [14447] Message respond button.
+F: [14454] Double click protection on message saving.
+C: [14454] Icons of message attachments.
+C: [14464] Massive replacing BGException to SQLException.
+C: [14464] Rewritten DB update code, applied updates stored in new table 'db_update_log' with executing time.
+C: [14464] Unique index and removed unneeded column '_comment' for 'param_list' table.
+C: [14464] PzdcDoc version 2.3.
+A: [14467] Support {} substitutions for logging and l10n, https://bgerp.org/doc/3.0/manual/project.html#sample-logging-java
+F: [14467] Save configuration without closing.
+F: [14478] SQL update of param_address table.
+A: [14480] MySQL stored procedure 'add_unique_key_if_not_exists' handling duplicates.
+F: [14480] Using Log.format method instead of String.format.
+F: [14480] Removing only temp directories in CompilerWrapper.
+F: [14480] Parameters in open interface.
+
 30.05.2021 09:43:49 1375
 A: [12272] AJAX progress indicators: blur on loaded area, spinner on trigger button.
 C: [12272] Replace icons to icon fonts.
