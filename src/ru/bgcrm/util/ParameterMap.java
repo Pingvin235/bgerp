@@ -88,7 +88,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         for (int i = 1; i < keys.length; i++) {
             value = get(keys[i]);
             if (!Utils.isEmptyString(value)) {
-                var message = String.format("Using deprecated config key '%s', new one is: '%s'", keys[i], keys[0]);
+                var message = Log.format("Using deprecated config key '%s', new one is: '%s'", keys[i], keys[0]);
                 if (validate)
                     throw new BGMessageException(message);
                 log.warn(message);

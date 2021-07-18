@@ -3,7 +3,7 @@
 
 <h2>${l.l('Параметры')}</h2>
 
-<c:url var="url" value="/user/parameter.do">
+<c:url var="url" value="/open/parameter.do">
 	<c:param name="action" value="parameterList" />
 	<c:param name="objectType" value="${objectType}"/>
 	<c:param name="id" value="${form.id}"/>

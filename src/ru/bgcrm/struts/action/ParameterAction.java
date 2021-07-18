@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,7 +79,7 @@ import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 
 @Action(path = "/user/parameter")
 public class ParameterAction extends BaseAction {
-    private static final String JSP_PATH = PATH_JSP_USER + "/parameter";
+    protected static final String JSP_PATH = PATH_JSP_USER + "/parameter";
 
     public ActionForward parameterLog(DynActionForm form, ConnectionSet conSet) throws BGException {
         int id = form.getId();
@@ -110,6 +111,11 @@ public class ParameterAction extends BaseAction {
     }
 
     public ActionForward parameterList(DynActionForm form, Connection con) throws Exception {
+        parameterListInternal(form, con);
+        return html(con, form, JSP_PATH + "/list.jsp");
+    }
+
+    protected void parameterListInternal(DynActionForm form, Connection con) throws Exception {
         int id = form.getId();
         String objectType = form.getParam("objectType");
         int parameterGroupId = form.getParamInt("parameterGroup", -1); // doesn't work with 0!!
@@ -192,8 +198,6 @@ public class ParameterAction extends BaseAction {
         }*/
 
         form.getResponse().setData("list", parameterValuePairList);
-
-        return html(con, form, JSP_PATH + "/list.jsp");
     }
 
     public ActionForward parameterGet(DynActionForm form, ConnectionSet conSet) throws Exception {

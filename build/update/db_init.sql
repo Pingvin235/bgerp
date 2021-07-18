@@ -74,6 +74,28 @@ DROP PROCEDURE IF EXISTS add_unique_key_if_not_exists;
 delimiter $$
 CREATE PROCEDURE add_unique_key_if_not_exists(IN tbl CHAR(64), IN name CHAR(64), IN def CHAR(64))
 BEGIN
+-- duplicate key, https://www.mysqltutorial.org/mysql-error-handling-in-stored-procedures/
+  DECLARE EXIT HANDLER FOR 1062
+  BEGIN
+    SELECT CONCAT("Error, duplicate key occurred. Table: ", tbl, ", key name: ", name);
+
+    SET @tmp_tbl = CONCAT("_", tbl, "_", DATE_FORMAT(NOW(), "%Y%m%d_%H%i%s"));
+
+    SELECT CONCAT("Creating: ", @tmp_tbl);
+
+    SET @s = CONCAT("CREATE TABLE ", @tmp_tbl, " SELECT * FROM ", tbl);
+    PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+    SET @s = CONCAT("TRUNCATE TABLE ", tbl);
+    PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+    SET @s = CONCAT("ALTER TABLE ", tbl, " ADD UNIQUE KEY ", name, " ", def);
+    PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+    SET @s = CONCAT("INSERT IGNORE INTO ", tbl, " SELECT * FROM ", @tmp_tbl);
+    PREPARE stmt FROM @s; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+  END;
+
   CALL add_key_if_not_exists_base(tbl, name, "", CONCAT("ADD UNIQUE KEY ", name, " ", def));
 END$$
 delimiter ;

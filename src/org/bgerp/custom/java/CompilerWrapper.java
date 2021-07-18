@@ -12,11 +12,12 @@ import javax.tools.Diagnostic;
 import javax.tools.DiagnosticListener;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaCompiler.CompilationTask;
+
+import org.apache.commons.io.FileUtils;
+
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
-
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
@@ -54,7 +55,7 @@ public class CompilerWrapper {
 
     private void removeOldTmpDirs(File outputDirRoot) {
         try {
-            for (File dir : outputDirRoot.listFiles(f -> f.getName().startsWith(DIR_PREFIX))) {
+            for (File dir : outputDirRoot.listFiles(f -> f.isDirectory() && f.getName().startsWith(DIR_PREFIX))) {
                 log.info("Removing: {}", dir);
                 FileUtils.deleteDirectory(dir);
             }

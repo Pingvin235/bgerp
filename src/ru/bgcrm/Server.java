@@ -148,7 +148,7 @@ public class Server extends Tomcat {
 
         start();
 
-        System.out.println(String.format("Server URL: 'http://{}:{}', see logs in 'log' directory", hostname, port));
+        System.out.println(Log.format("Server URL: 'http://{}:{}', see logs in 'log' directory", hostname, port));
     }
 
     /**

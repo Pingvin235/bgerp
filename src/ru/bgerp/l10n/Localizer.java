@@ -26,7 +26,7 @@ public class Localizer {
 
             String translation = localization.getTranslation(pattern, toLang);
             if (translation != null)
-                return String.format(translation, args);
+                return Log.format(translation, args);
         }
 
         log.warn("Missing translation for pattern: '{}', localizations: {}", pattern, List.of(localizations));

@@ -192,6 +192,6 @@ public class PreparedDelay implements Closeable {
 
     @Override
     public String toString() {
-        return String.format("Prepared query: %s, params: %s", query, psSets);
+        return Log.format("Prepared query: %s, params: %s", query, psSets);
     }
 }

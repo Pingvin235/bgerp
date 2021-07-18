@@ -1,0 +1,4 @@
+A: MySQL stored procedure 'add_unique_key_if_not_exists' handling duplicates.
+F: Using Log.format method instead of String.format.
+F: Removing only temp directories in CompilerWrapper.
+F: Parameters in open interface.
