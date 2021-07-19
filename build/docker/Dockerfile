@@ -1,28 +1,35 @@
+# https://github.com/docker-library/mysql/blob/master/8.0/Dockerfile.debian
 FROM mysql:8
 
 # mysql
 #======
-# empty sql-mode
-RUN sed -i '/\[mysqld\]/a sql-mode= ' /etc/mysql/my.cnf
+# logging dir
+RUN mkdir /var/log/mysql; chown mysql:mysql /var/log/mysql
 
-# java, taken from: https://github.com/docker-library/openjdk/blob/master/11/jdk/slim/Dockerfile
-#===============================================================================================
+# my.cnf parameters: empty sql-mode, logs
+RUN sed -i '/\[mysqld\]/a sql-mode= ' /etc/mysql/my.cnf; \
+	sed -i '/\[mysqld\]/a log_error=/var/log/mysql/mysql_error.log ' /etc/mysql/my.cnf; \
+	sed -i '/\[mysqld\]/a general_log_file=/var/log/mysql/mysql.log ' /etc/mysql/my.cnf; \
+	sed -i '/\[mysqld\]/a general_log=0 ' /etc/mysql/my.cnf; \
+	sed -i '/\[mysqld\]/a slow_query_log_file=/var/log/mysql/mysql_slow.log ' /etc/mysql/my.cnf; \
+	sed -i '/\[mysqld\]/a slow_query_log=1 ' /etc/mysql/my.cnf;
+
+# java, taken from: https://github.com/docker-library/openjdk/blob/master/11/jdk/slim-buster/Dockerfile
+#======================================================================================================
 RUN set -eux; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
 # utilities for keeping Debian and OpenJDK CA certificates in sync
-        ca-certificates p11-kit \
-    ; \
-    rm -rf /var/lib/apt/lists/*
+		ca-certificates p11-kit \
+	; \
+	rm -rf /var/lib/apt/lists/*
+
+ENV JAVA_HOME /usr/local/openjdk-11
+RUN { echo '#/bin/sh'; echo 'echo "$JAVA_HOME"'; } > /usr/local/bin/docker-java-home && chmod +x /usr/local/bin/docker-java-home && [ "$JAVA_HOME" = "$(docker-java-home)" ] # backwards compatibility
+ENV PATH $JAVA_HOME/bin:$PATH
 
 # Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
-
-ENV JAVA_HOME /usr/local/openjdk-11
-ENV PATH $JAVA_HOME/bin:$PATH
-
-# backwards compatibility shim
-RUN { echo '#/bin/sh'; echo 'echo "$JAVA_HOME"'; } > /usr/local/bin/docker-java-home && chmod +x /usr/local/bin/docker-java-home && [ "$JAVA_HOME" = "$(docker-java-home)" ]
 
 # https://adoptopenjdk.net/upstream.html
 # >
@@ -30,9 +37,7 @@ RUN { echo '#/bin/sh'; echo 'echo "$JAVA_HOME"'; } > /usr/local/bin/docker-java-
 # >
 # > These binaries are built by Red Hat on their infrastructure on behalf of the OpenJDK jdk8u and jdk11u projects. The binaries are created from the unmodified source code at OpenJDK. Although no formal support agreement is provided, please report any bugs you may find to https://bugs.java.com/.
 # >
-ENV JAVA_VERSION 11.0.7
-ENV JAVA_BASE_URL https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/releases/download/jdk-11.0.7%2B10/OpenJDK11U-jdk_
-ENV JAVA_URL_VERSION 11.0.7_10
+ENV JAVA_VERSION 11.0.11+9
 # https://github.com/docker-library/openjdk/issues/320#issuecomment-494050246
 # >
 # > I am the OpenJDK 8 and 11 Updates OpenJDK project lead.
@@ -41,93 +46,97 @@ ENV JAVA_URL_VERSION 11.0.7_10
 # >
 
 RUN set -eux; \
-    \
-    dpkgArch="$(dpkg --print-architecture)"; \
-    case "$dpkgArch" in \
-        amd64) upstreamArch='x64' ;; \
-        arm64) upstreamArch='aarch64' ;; \
-        *) echo >&2 "error: unsupported architecture: $dpkgArch" ;; \
-    esac; \
-    \
-    savedAptMark="$(apt-mark showmanual)"; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
-        dirmngr \
-        gnupg \
-        wget \
-    ; \
-    rm -rf /var/lib/apt/lists/*; \
-    \
-    wget -O openjdk.tgz.asc "${JAVA_BASE_URL}${upstreamArch}_linux_${JAVA_URL_VERSION}.tar.gz.sign"; \
-    wget -O openjdk.tgz "${JAVA_BASE_URL}${upstreamArch}_linux_${JAVA_URL_VERSION}.tar.gz" --progress=dot:giga; \
-    \
-    export GNUPGHOME="$(mktemp -d)"; \
+	\
+	arch="$(dpkg --print-architecture)"; \
+	case "$arch" in \
+		'amd64') \
+			downloadUrl='https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/releases/download/jdk-11.0.11%2B9/OpenJDK11U-jdk_x64_linux_11.0.11_9.tar.gz'; \
+			;; \
+		'arm64') \
+			downloadUrl='https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/releases/download/jdk-11.0.11%2B9/OpenJDK11U-jdk_aarch64_linux_11.0.11_9.tar.gz'; \
+			;; \
+		*) echo >&2 "error: unsupported architecture: '$arch'"; exit 1 ;; \
+	esac; \
+	\
+	savedAptMark="$(apt-mark showmanual)"; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+		dirmngr \
+		gnupg \
+		wget \
+	; \
+	rm -rf /var/lib/apt/lists/*; \
+	\
+	wget --progress=dot:giga -O openjdk.tgz "$downloadUrl"; \
+	wget --progress=dot:giga -O openjdk.tgz.asc "$downloadUrl.sign"; \
+	\
+	export GNUPGHOME="$(mktemp -d)"; \
+# pre-fetch Andrew Haley's (the OpenJDK 8 and 11 Updates OpenJDK project lead) key so we can verify that the OpenJDK key was signed by it
+# (https://github.com/docker-library/openjdk/pull/322#discussion_r286839190)
+# we pre-fetch this so that the signature it makes on the OpenJDK key can survive "import-clean" in gpg
+	gpg --batch --keyserver keyserver.ubuntu.com --recv-keys EAC843EBD3EFDB98CC772FADA5CD6035332FA671; \
 # TODO find a good link for users to verify this key is right (https://mail.openjdk.java.net/pipermail/jdk-updates-dev/2019-April/000951.html is one of the only mentions of it I can find); perhaps a note added to https://adoptopenjdk.net/upstream.html would make sense?
 # no-self-sigs-only: https://salsa.debian.org/debian/gnupg2/commit/c93ca04a53569916308b369c8b218dad5ae8fe07
-    gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options no-self-sigs-only --recv-keys CA5F11C6CE22644D42C6AC4492EF8D39DC13168F; \
-# also verify that key was signed by Andrew Haley (the OpenJDK 8 and 11 Updates OpenJDK project lead)
-# (https://github.com/docker-library/openjdk/pull/322#discussion_r286839190)
-    gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys EAC843EBD3EFDB98CC772FADA5CD6035332FA671; \
-    gpg --batch --list-sigs --keyid-format 0xLONG CA5F11C6CE22644D42C6AC4492EF8D39DC13168F \
-        | tee /dev/stderr \
-        | grep '0xA5CD6035332FA671' \
-        | grep 'Andrew Haley'; \
-    gpg --batch --verify openjdk.tgz.asc openjdk.tgz; \
-    gpgconf --kill all; \
-    rm -rf "$GNUPGHOME"; \
-    \
-    mkdir -p "$JAVA_HOME"; \
-    tar --extract \
-        --file openjdk.tgz \
-        --directory "$JAVA_HOME" \
-        --strip-components 1 \
-        --no-same-owner \
-    ; \
-    rm openjdk.tgz*; \
-    \
-# TODO strip "demo" and "man" folders?
-    \
-    apt-mark auto '.*' > /dev/null; \
-    [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
-    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-    \
+	gpg --batch --keyserver keyserver.ubuntu.com --keyserver-options no-self-sigs-only --recv-keys CA5F11C6CE22644D42C6AC4492EF8D39DC13168F; \
+	gpg --batch --list-sigs --keyid-format 0xLONG CA5F11C6CE22644D42C6AC4492EF8D39DC13168F \
+		| tee /dev/stderr \
+		| grep '0xA5CD6035332FA671' \
+		| grep 'Andrew Haley'; \
+	gpg --batch --verify openjdk.tgz.asc openjdk.tgz; \
+	gpgconf --kill all; \
+	rm -rf "$GNUPGHOME"; \
+	\
+	mkdir -p "$JAVA_HOME"; \
+	tar --extract \
+		--file openjdk.tgz \
+		--directory "$JAVA_HOME" \
+		--strip-components 1 \
+		--no-same-owner \
+	; \
+	rm openjdk.tgz*; \
+	\
+	apt-mark auto '.*' > /dev/null; \
+	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+	\
 # update "cacerts" bundle to use Debian's CA certificates (and make sure it stays up-to-date with changes to Debian's store)
 # see https://github.com/docker-library/openjdk/issues/327
 #     http://rabexc.org/posts/certificates-not-working-java#comment-4099504075
 #     https://salsa.debian.org/java-team/ca-certificates-java/blob/3e51a84e9104823319abeb31f880580e46f45a98/debian/jks-keystore.hook.in
 #     https://git.alpinelinux.org/aports/tree/community/java-cacerts/APKBUILD?id=761af65f38b4570093461e6546dcf6b179d2b624#n29
-    { \
-        echo '#!/usr/bin/env bash'; \
-        echo 'set -Eeuo pipefail'; \
-        echo 'if ! [ -d "$JAVA_HOME" ]; then echo >&2 "error: missing JAVA_HOME environment variable"; exit 1; fi'; \
-# 8-jdk uses "$JAVA_HOME/jre/lib/security/cacerts" and 8-jre and 11+ uses "$JAVA_HOME/lib/security/cacerts" directly (no "jre" directory)
-        echo 'cacertsFile=; for f in "$JAVA_HOME/lib/security/cacerts" "$JAVA_HOME/jre/lib/security/cacerts"; do if [ -e "$f" ]; then cacertsFile="$f"; break; fi; done'; \
-        echo 'if [ -z "$cacertsFile" ] || ! [ -f "$cacertsFile" ]; then echo >&2 "error: failed to find cacerts file in $JAVA_HOME"; exit 1; fi'; \
-        echo 'trust extract --overwrite --format=java-cacerts --filter=ca-anchors --purpose=server-auth "$cacertsFile"'; \
-    } > /etc/ca-certificates/update.d/docker-openjdk; \
-    chmod +x /etc/ca-certificates/update.d/docker-openjdk; \
-    /etc/ca-certificates/update.d/docker-openjdk; \
-    \
+	{ \
+		echo '#!/usr/bin/env bash'; \
+		echo 'set -Eeuo pipefail'; \
+		echo 'trust extract --overwrite --format=java-cacerts --filter=ca-anchors --purpose=server-auth "$JAVA_HOME/lib/security/cacerts"'; \
+	} > /etc/ca-certificates/update.d/docker-openjdk; \
+	chmod +x /etc/ca-certificates/update.d/docker-openjdk; \
+	/etc/ca-certificates/update.d/docker-openjdk; \
+	\
 # https://github.com/docker-library/openjdk/issues/331#issuecomment-498834472
-    find "$JAVA_HOME/lib" -name '*.so' -exec dirname '{}' ';' | sort -u > /etc/ld.so.conf.d/docker-openjdk.conf; \
-    ldconfig; \
-    \
+	find "$JAVA_HOME/lib" -name '*.so' -exec dirname '{}' ';' | sort -u > /etc/ld.so.conf.d/docker-openjdk.conf; \
+	ldconfig; \
+	\
+# https://github.com/docker-library/openjdk/issues/212#issuecomment-420979840
+# https://openjdk.java.net/jeps/341
+	java -Xshare:dump; \
+	\
 # basic smoke test
-    javac --version; \
-    java --version
+	fileEncoding="$(echo 'System.out.println(System.getProperty("file.encoding"))' | jshell -s -)"; [ "$fileEncoding" = 'UTF-8' ]; rm -rf ~/.java; \
+	javac --version; \
+	java --version
 
 # bgerp
 #======
 # java layer removes those with 'apt-get purge'
 RUN apt-get update \
-    && apt-get install -y unzip wget
+	&& apt-get install -y unzip wget
 
 COPY files/bgerp.zip /tmp
 
 RUN unzip /tmp/bgerp.zip -d /opt \
-    && rm /tmp/bgerp.zip \
-    && chmod 744 /opt/bgerp/*.sh \
-    && mkdir /opt/bgerp/conf
+	&& rm /tmp/bgerp.zip \
+	&& chmod 744 /opt/bgerp/*.sh \
+	&& mkdir /opt/bgerp/conf
 
 RUN mkdir /opt/bgerp/backup
 

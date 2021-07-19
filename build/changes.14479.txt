@@ -1,0 +1,2 @@
+C: OpenJDK in Docker image version update from 11.0.7_10 to 11.0.11_9.
+A: MySQL logs in Docker image.
