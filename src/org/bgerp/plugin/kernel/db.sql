@@ -670,7 +670,6 @@ CALL add_column_if_not_exists('param_email', 'comment', 'VARCHAR(1024) NOT NULL 
 CALL add_column_if_not_exists('param_email', 'n', 'INT(10) NOT NULL AFTER param_id');
 
 CALL add_unique_key_if_not_exists('user_permset', 'user_permset', '(user_id, permset_id)');
-CALL add_unique_key_if_not_exists('user_group', 'user_group', '(user_id, group_id)');
 
 CALL drop_key_if_exists('param_address', 'id_param');
 CALL add_key_if_not_exists('param_address', 'PRIMARY', '(id, param_id, n)');
