@@ -700,7 +700,6 @@ CALL add_column_if_not_exists('queue', 'last_modify_user_id', 'INT NOT NULL');
 
 CALL add_column_if_not_exists('process', 'status_user_id', 'INT NOT NULL AFTER status_dt');
 
-ALTER TABLE user_group DROP KEY user_group;
 CALL add_key_if_not_exists('user_group', 'user_id', '(user_id)');
 CALL add_key_if_not_exists('user_group', 'group_id', '(group_id)');
 
