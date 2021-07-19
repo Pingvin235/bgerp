@@ -1,1 +1,0 @@
-F: Removing not existing 'user_group' index.

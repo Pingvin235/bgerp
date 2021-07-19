@@ -1,6 +1,11 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+19.07.2021 19:20:17 1378
+C: [14479] OpenJDK in Docker image version update from 11.0.7_10 to 11.0.11_9.
+A: [14479] MySQL logs in Docker image.
+F: [14482] Removing not existing 'user_group' index.
+
 19.07.2021 08:05:16 1377
 F: [14481] Incorrect unique index on table 'user_group'.
 
