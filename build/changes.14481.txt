@@ -1,1 +1,0 @@
-F: Incorrect unique index on table 'user_group'.

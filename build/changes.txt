@@ -1,6 +1,9 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+19.07.2021 08:05:16 1377
+F: [14481] Incorrect unique index on table 'user_group'.
+
 18.07.2021 20:19:01 1376
 A: [12311] Remove unneeded more files from 'webapps' subdirs during update.
 F: [12311] Progress rotation direction.
