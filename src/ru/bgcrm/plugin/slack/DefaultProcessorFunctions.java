@@ -53,12 +53,12 @@ public class DefaultProcessorFunctions extends ExpressionBasedFunction {
             ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
             MessageTypeChannel type = MessageTypeChannel.getMessageType();
 
-            SlackProto proto = new SlackProto(type.getToken(), true);
+            SlackProto proto = new SlackProto(type.getToken());
 
             CommonObjectLink link = Utils
                     .getFirst(linkDao.getObjectLinksWithType(process.getId(), Plugin.LINK_TYPE_CHANNEL));
             if (link == null) {
-                String channelId = proto.channelCreate(channelName != null ? channelName : String.valueOf(process.getId()));
+                String channelId = proto.channelCreate(channelName != null ? channelName : String.valueOf(process.getId()), true);
                 link = new CommonObjectLink(Process.OBJECT_TYPE, process.getId(), Plugin.LINK_TYPE_CHANNEL, 
                         1, channelId);
                 LinkAction.addLink(DynActionForm.SERVER_FORM, con, link);
@@ -85,7 +85,7 @@ public class DefaultProcessorFunctions extends ExpressionBasedFunction {
             ParamValueDAO paramDAO = new ParamValueDAO(con);
 
             MessageTypeChannel type = MessageTypeChannel.getMessageType();
-            SlackProto proto = new SlackProto(type.getToken(), true);
+            SlackProto proto = new SlackProto(type.getToken());
 
             // приглашение исполнителей
             if (type.getAccountParam() != null && !process.getExecutorIds().isEmpty()) {
@@ -212,7 +212,7 @@ public class DefaultProcessorFunctions extends ExpressionBasedFunction {
             ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
             MessageTypeChannel type = MessageTypeChannel.getMessageType();
 
-            SlackProto proto = new SlackProto(type.getToken(), true);
+            SlackProto proto = new SlackProto(type.getToken());
             CommonObjectLink link = Utils
                     .getFirst(linkDao.getObjectLinksWithType(process.getId(), Plugin.LINK_TYPE_CHANNEL));
             if (link != null) {

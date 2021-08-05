@@ -9,7 +9,7 @@ import ru.bgcrm.struts.action.BaseAction;
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "backup";
 
-    public static final String PATH_JSP_ADMIN = BaseAction.PATH_JSP_ADMIN_PLUGIN + "/" + ID;
+    private static final String PATH_JSP_ADMIN = BaseAction.PATH_JSP_ADMIN_PLUGIN + "/" + ID;
 
     public Plugin() {
         super(ID);
