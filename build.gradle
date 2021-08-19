@@ -70,14 +70,10 @@ dependencies {
     bgerp 'log4j:log4j:1.2.17'
     bgerp 'org.apache.logging.log4j:log4j-api:2.11.2'
 
-    bgerp 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.12'
-    bgerp 'org.eclipse.jdt.core.compiler:ecj:4.6.1'
-    bgerp 'org.apache.tomcat.embed:tomcat-embed-el:9.0.12'
-    // modified Tomcat
-    bgerp files('lib/tomcat9/tomcat-embed-core-9.0.12.jar')
-    // uncomment the following dependency and comment previous line for retriving sources and debug
-    //bgerp 'org.apache.tomcat.embed:tomcat-embed-core:9.0.12'
-
+    bgerp 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.50'
+    bgerp 'org.eclipse.jdt:ecj:3.26.0'
+    bgerp 'org.apache.tomcat.embed:tomcat-embed-el:9.0.50'
+    bgerp 'org.apache.tomcat.embed:tomcat-embed-core:9.0.51.bgerp' // TODO: Remove lib/tomcat9
     bgerp 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2'
     bgerp 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
 
@@ -147,16 +143,12 @@ dependencies {
     // documentation library
     doc 'org.pzdcdoc:pzdcdoc:2.3'
 
-    // Unit tests of the main code
+    // unit tests of the main code
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-core:1.3'
-    // TODO: JUnit5
-    // testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
-    // testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
-    // testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.1.0'
 
     // integration test
-    itest 'org.testng:testng:7.1.0' // '6.14.3'
+    itest 'org.testng:testng:7.1.0'
     itest 'com.beust:jcommander:1.72'
     itest 'org.seleniumhq.selenium:selenium-java:3.141.59'
     itest 'org.seleniumhq.selenium:selenium-api:3.141.59'
