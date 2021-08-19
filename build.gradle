@@ -6,8 +6,8 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven {
-        // for com.lowagie:itext:2.1.7.js6
-        url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts"
+        // com.lowagie:itext:2.1.7.js6
+        url "http://repo.bgerp.org/repository/maven-public"
     }
 }
 
@@ -88,6 +88,8 @@ dependencies {
 
     bgerp 'com.sun.mail:javax.mail:1.6.2'
     bgerp 'javax.activation:activation:1.1.1' //TODO: Fix using classes and remove library.
+    bgerp 'org.apache.james:apache-mime4j-dom:0.8.5.bgerp'
+    bgerp 'org.apache.james:apache-mime4j-core:0.8.5.bgerp'
     bgerp 'com.google.guava:guava:27.0.1-jre'
     bgerp 'commons-beanutils:commons-beanutils:1.9.3'
     bgerp 'commons-chain:commons-chain:1.2'
@@ -300,7 +302,7 @@ task resetProperties {
     }
 }
 
-task touchChanges {
+task touchChanges(description: "Creates file 'build/changes.<PROCESS_ID>.txt' if missing") {
     doFirst {
         def processId = getProcessId()
         def changesFile = file("$projectDir/build/changes.${processId}.txt")
@@ -309,7 +311,15 @@ task touchChanges {
     }
 }
 
-task checkChanges {
+task touchChangesLib(description: "Creates file 'build/changes.lib.txt' if missing") {
+    doFirst {
+        def changesLibFile = file("$projectDir/build/changes.lib.txt")
+        if (!changesLibFile.exists())
+            changesLibFile.text = ""
+    }
+}
+
+task checkChanges(description: 'Checks existance of build/changes.<PROCESS_ID>.txt file') {
     doFirst {
         def processId = getProcessId()
         def changesFileName = "build/changes.${processId}.txt"

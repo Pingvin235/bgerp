@@ -268,7 +268,7 @@ In order to speed up project initialization, our default Eclipse IDE configurati
 [snippet, from="ec", to="}"]
 link:../../build.gradle#L22-L28[build.gradle]
 
-After adding new libraries in `build.gradle` create an empty `build/changes.lib.txt` file.
+After adding new libraries in `build.gradle` create an empty `build/changes.lib.txt` file using `gradlew touchChangesLib` command.
 Existence of the file causes build library update package during <<build-erp, release build>>.
 
 [[js-lib]]

@@ -1,9 +1,16 @@
 package org.bgerp.plugin.msg.email;
 
 import java.util.List;
+import java.util.Properties;
 
+import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.james.mime4j.dom.Message;
+import org.apache.james.mime4j.dom.MessageBuilder;
+import org.apache.james.mime4j.dom.Multipart;
+import org.apache.james.mime4j.message.BodyPart;
+import org.apache.james.mime4j.message.DefaultMessageBuilder;
 import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
 import org.junit.Assert;
 import org.junit.Test;
@@ -49,11 +56,43 @@ public class MessageParserTest {
     @Test
     public void testMessageParse4() throws Exception {
         MessageParser mp = new MessageParser(new MimeMessage(null, this.getClass().getResourceAsStream("mail4.eml")));
-        mp.getTextContent().contains("КОРРЕКТНО заполнять поле _Назначение платежа_");
+        Assert.assertTrue(mp.getTextContent().contains("КОРРЕКТНО заполнять поле _Назначение платежа_"));
         List<MessageAttach> attaches = mp.getAttachContent();
         Assert.assertEquals(3, attaches.size());
         MessageAttach attach = attaches.get(0);
         Assert.assertEquals("3244659_Cчет за Июль 2020.pdf", attach.title);
     }
 
+    @Test
+    public void testMessageParse5() throws Exception {
+        var props = new Properties();
+        // https://javaee.github.io/javamail/docs/api/index.html?javax/mail/internet/package-summary.html
+        props.setProperty("mail.mime.allowutf8", "true");
+        System.setProperty("mail.mime.windowsfilenames", "true");
+        MessageParser mp = new MessageParser(new MimeMessage(Session.getInstance(props), this.getClass().getResourceAsStream("mail5.eml")));
+        Assert.assertEquals("Счет для ООО \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" от ООО \"Цифровые системы\"", mp.getMessageSubject());
+        //attaches are not parsed properly, switched to Mime4j
+        //List<MessageAttach> attaches = mp.getAttachContent();
+        //Assert.assertEquals(1, attaches.size());
+    }
+
+    @Test
+    public void testMessageParse4Mime4j() throws Exception {
+        final MessageBuilder builder = new DefaultMessageBuilder();
+        final Message message = builder.parseMessage(this.getClass().getResourceAsStream("mail4.eml"));
+        Assert.assertEquals("ООО \"Станция Виртуальная\"_БИЛЛИНГ ООО \"Наука-Связь\"", message.getSubject());
+    }
+
+    @Test
+    public void testMessageParse5Mime4j() throws Exception {
+        final MessageBuilder builder = new DefaultMessageBuilder();
+        final Message message = builder.parseMessage(this.getClass().getResourceAsStream("mail5.eml"));
+
+        Assert.assertEquals("Счет для ООО \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" от ООО \"Цифровые системы\"", message.getSubject());
+
+        Multipart multipart = (Multipart) message.getBody();
+        BodyPart attachment = (BodyPart) multipart.getBodyParts().get(0);
+
+        Assert.assertEquals("УПД ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" 01-05-21.pdf", attachment.getFilename());
+    }
 }
