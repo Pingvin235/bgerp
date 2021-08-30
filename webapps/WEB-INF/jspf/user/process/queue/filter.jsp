@@ -185,6 +185,8 @@
 					}
 
 					this.form.processIds.value = processIds;
+
+					const debug = $$.keys.altPressed() ? '&debug=true' : '';
 					if ('${processor.responseType}' === 'file') {
 						const w = window.open( formUrl(this.form) + '&responseType=stream' + debug, 'Print', 'menubar=1, scrollbars=1, height=800, width=800');
 						<c:if test="${processor.configMap.openPrintDialog eq '1'}">
@@ -194,7 +196,6 @@
 							}, false);
 						</c:if>
 					} else {
-						const debug = $$.keys.altPressed() ? '&debug=true' : '';
 						$$.ajax.post($$.ajax.formUrl(this.form) + debug).done(() => { ${sendCommand} });
 					}
 
