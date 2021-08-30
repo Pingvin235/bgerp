@@ -98,7 +98,7 @@ public class Server extends Tomcat {
 
     private void setTomcatProperties() {
         // for the patched Tomcat, do not inherit params to includes
-        System.setProperty("ru.bgcrm.tomcat.not.copy.include.params", "true");
+        System.setProperty("org.apache.catalina.core.ApplicationHttpRequest.INHERIT_REQUEST_PARAMETERS", "false");
         // prevents incomplete HTML result in JSP
         System.setProperty("org.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER", "true");
     }

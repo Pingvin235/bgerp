@@ -27,7 +27,6 @@
 		<action path="/user/plugin/bgbilling/proto/contract" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction" name="form" scope="request">
 			<forward name="contractInfo" path="/WEB-INF/jspf/user/plugin/bgbilling/contract_billing_data.jsp"/>
 			<forward name="contractAddressList" path="/WEB-INF/jspf/user/plugin/bgbilling/crm/contract_address_list.jsp"/>
-			<forward name="searchContractResult" path="/WEB-INF/jspf/user/plugin/bgbilling/search_contract_result.jsp"/>
 			<forward name="searchParameterList" path="/WEB-INF/jspf/user/plugin/bgbilling/search_param_list.jsp"/>
 			<forward name="additionalActionList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/additional_action_list.jsp"/>
 			<forward name="groupList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/group_list.jsp"/>
@@ -42,7 +41,6 @@
 			<forward name="scriptLog" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/script/script_log.jsp"/>
 			<forward name="status" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/status.jsp"/>
 			<forward name="limit" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/limit.jsp"/>
-			<forward name="contractParameterList" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/parameter_list.jsp"/>
 			<forward name="parameterGet" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/parameter_editor.jsp"/>
 			<forward name="parameterUpdate" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/parameter_list.jsp"/>
 			<forward name="cards" path="/WEB-INF/jspf/user/plugin/bgbilling/contract/cards.jsp"/>

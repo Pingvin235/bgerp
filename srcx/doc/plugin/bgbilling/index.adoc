@@ -9,6 +9,7 @@
 * копирование параметров контрагентов в договора;
 * создание базы контрагентов по базе договоров.
 
+[[howto]]
 == Методика использования
 Интеграция с BGBilling не является необходимой для BGERP. BGERP не сохраняет данные биллинга, но предоставляет интерфейс доступа к 
 ним и позволяет привязывать объекты биллинга к процессам. В CRM может производится учёт процессов обслуживания, подключения, отключения абонентов. 
@@ -29,10 +30,15 @@
 Если биллинг один и на первом этапе интеграции возможна настройка обратной синхронизации, когда адреса переносятся из биллинга в CRM.
 <<address_load.adoc#, Подробнее о синхронизации адресов>>.
 
+[[config]]
 == Конфигурация
 Все настройки из данного раздела размещаются в <<../../kernel/setup.adoc#config, конфигурации сервера>>, предпочтительно отдельно с инклудом в общую.
 
+[[config-search]]
 === Поиск
+
+[[config-search-dialup]]
+==== DialUp module
 Возможность <<../../kernel/search.adoc#, поиска>> договоров по логину/алиасу DialUp модуля.
 [source]
 ----
@@ -55,6 +61,18 @@ bgbilling:search.contract.1.title=Логин VPN
 bgbilling:search.contract.1.billingId=bg
 bgbilling:search.contract.1.moduleId=1
 ----
+
+[[config-search-param-address]]
+==== Address param
+Specifying which parameters are used by address search:
+[source]
+----
+bgbilling:search.contract.param.address.paramIds=<paramIds>
+----
+
+Where:
+[square]
+* *<paramIds>* - comma separated list of BGBilling parameter IDs.
 
 [[config-server]]
 === Серверы биллинга
