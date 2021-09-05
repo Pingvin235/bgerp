@@ -1,0 +1,205 @@
+= Plugin E-Mail
+:toc:
+
+The plugin allows to organize E-Mail exchange in the program.
+Incoming E-Mail messages may be processed via <<../../../kernel/message.adoc#queue, Message Queue>>.
+
+[[message-type]]
+== Message Type
+The following configuration has to be added to <<../../../kernel/message.adoc#type, message types>>.
+
+Пример конфигурации:
+[source]
+----
+messageType.<id>.title=<title>
+messageType.<id>.class=org.bgerp.plugin.msg.email.MessageTypeEmail
+messageType.<id>.email=<email>
+messageType.<id>.host=<host>
+messageType.<id>.login=<login>
+messageType.<id>.pswd=<pswd>
+#
+messageType.<id>.folderIn=<inFolder>
+# если не указан - CRM_PROCESSED 
+#messageType.<id>.folderProcessed=<processedFolder>
+# если не указан - CRM_SKIPPED 
+#messageType.<id>.folderSkipped=<skippedFolder>
+# если не указан - CRM_SENT 
+#messageType.<id>.folderSent=<sentFolder>
+# если не указан - Trash 
+#messageType.<id>.folderTrash=<trashFolder>
+#
+# IMAP SSL протокол
+#messageType.<id>.store=imaps
+# порт, если не указано - 143 для IMAP, 993 для IMAP SSL
+#messageType.<id>.port=
+# отладка почтового обмена IMAP и SMTP
+#messageType.<id>.debug=1
+#
+# параметры SMTP, добавляются после префикса идентично опциям из основной конфигурации
+messageType.<id>....
+# необязательные параметры
+messageType.<id>.signExpression=<signExpression>
+# отключение стандартной подписи, что сообщение отправлено BGERP
+#messageType.<id>.signStandard=0
+# иной адрес отправителя письма
+messageType.<id>.from=<from>
+# адрес для ответов в письме
+messageType.<id>.replayTo=<replayTo>
+----
+Входящие сообщения считываются с EMail ящика по протоколу IMAP. Сообщения считываются из папки *<inFolder>*. 
+Параметры подключения IMAP задаются параметрами *<host>*, *<login>*, *<pswd>*. 
+После разбора текста сообщений и вложений сообщение перемещается в *<processedFolder>*, при возникновении ошибок - в *<skippedFolder>*.
+
+*<email>* подставляется в поле отправителя исходящего письма. 
+Поля *<from>* и *<replayTo>* используются в случае необходимости в момент отправки подставить в поле "От" (From) иной адрес и "Ответить на" (Replay-To).
+
+*<signExpression>* - <<../../../kernel/extension.adoc#jexl, JEXL>> выражение, определяющее подпись письма при отправке его через данный тип сообщения.
+
+Отправка исходящих сообщений осуществляется через протокол SMTP, 
+параметры настраиваются для каждого типа отдельно аналогично <<../../../kernel/setup.adoc#config, основной конфигурации>> (см. пример).
+
+[[qa]]
+=== Быстрый ответ
+Полученные по E-Mail уведомления о новых сообщениях процесса могут быть использованы для быстрого ответа на них. 
+Для этого в тему уведомлений добавляется маркер *QA:код сообщения*. Быстрый ответ может быть произведён на любой тип сообщения 
+и идентичен написанию ответа из интерфейса BGERP. Пользователь идентифицируется по EMail, сохранённому в параметре типа EMail, 
+код которого указывается в опции *quickAnswerEmailParamId* типа сообщения.
+
+На адрес, с которого было отправлено уведомление, должен быть настроен тип сообщения с конфигурацией.
+[source]
+----
+messageType.<id>.title=Наименование
+messageType.<id>.class=ru.bgcrm.dao.message.MessageTypeEmail
+...
+messageType.<id>.quickAnswerEmailParamId=21
+----
+
+[[qa-sample]]
+==== Пример настройки
+Отправка EMail по изменению в процессе с функцией быстрого ответа с помощью <<../../../kernel/process/processing.adoc#, простой обработки изменений процессов>>.
+
+В тему добавляется QA маркер для быстрого ответа.
+
+На адрес EMail указанный в параметре исполнителей с кодом 21 отправляется письмо. 
+[source]
+----
+onProcessEvent.1.events=messageAdded
+onProcessEvent.5.doExpression=<<END
+   text = "Новое сообщение в процессе, в котором вы числитесь исполнителем." + 
+       NEW_LINE2 + "Сообщение:" + NEW_LINE +
+       event.getMessage().getText() +
+       NEW_LINE2 + "Открыть процесс: https://erp.company.com/user/process#" + process.getId() +
+       NEW_LINE2 + "Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.";
+    
+    subject = "#" + process.getId() + 
+      " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "] " +
+      " QA:" + event.getMessage().getId(); 
+   
+   emailNotifyExecutors(21, subject, text);
+END
+----
+
+[[ac]]
+=== Автосоздание процесса по E-Mail
+Для создания новых процессов из всех полученных E-Mail в конфигурации типа сообщения добавить:
+[source]
+----
+messageType.<id>.autoCreateProcess.typeId=<typeId>
+messageType.<id>.autoCreateProcess.notification=1
+----
+
+Где *<typeId>* - код типа процесса.
+
+[[config-example]]
+== Configuration Examples
+
+[[config-example-common]]
+== Простой случай
+Нешифрованные протоколы IMAP и SMTP.
+[source]
+----
+messageType.1.title=billing@bitel.ru
+messageType.1.class=ru.bgcrm.dao.message.MessageTypeEmail
+messageType.1.email=billing@bitel.ru
+messageType.1.host=imap.ufamail.ru
+messageType.1.login=billing@bitel.ru
+messageType.1.pswd=*****
+messageType.1.folderIn=INBOX
+messageType.1.folderProcessed=INBOX.CRM_PROCESSED
+messageType.1.folderSkipped=INBOX.CRM_SKIPPED
+messageType.1.folderSent=INBOX.CRM_SENT
+messageType.1.signExpression=<<END
+    sign = NEW_LINE + user.getTitle() + NEW_LINE + "Служба технической поддержки" + NEW_LINE;
+    sign += "ОАО \"Инет\"" + NEW_LINE + "тел. 2232333" + NEW_LINE + "email. mastea@inet.ru" + NEW_LINE;
+END    
+messageType.1.mail.transport.protocol=smtp
+messageType.1.mail.smtp.user=billing@inet.ru
+messageType.1.mail.smtp.host=smtp.ufamail.ru
+messageType.1.mail.smtp.pswd=******
+----
+
+[[config-example-yandex]]
+== Yandex
+IMAP и SMTP через SSL, подключены режимы поиска.
+*21* - код параметра пользователя EMail.
+*17* - код параметра контрагента EMail.
+[source]
+----
+signBms=NEW_LINE + "С уважением, команда Бител" + NEW_LINE +  "email. crm@bitel.ru" + NEW_LINE
+
+messageType.3.title=info@bgcrm.ru
+messageType.3.class=ru.bgcrm.dao.message.MessageTypeEmail
+messageType.3.store=imaps
+messageType.3.email=info@bgcrm.ru
+messageType.3.host=imap.yandex.com
+messageType.3.login=info@bgcrm.ru
+messageType.3.pswd=*****
+messageType.3.folderIn=INBOX
+messageType.3.folderProcessed=CRM_PROCESSED
+messageType.3.folderSkipped=CRM_SKIPPED
+messageType.3.folderSent=CRM_SENT
+messageType.3.signExpression={@signBms}
+messageType.3.quickAnswerEmailParamId=21
+messageType.3.search.1.title=Авто по EMail
+messageType.3.search.1.class=ru.bgcrm.dao.message.MessageTypeSearchEmail
+messageType.3.search.2.title=Контрагент по названию
+messageType.3.search.2.class=ru.bgcrm.dao.message.MessageTypeSearchCustomerByTitle
+messageType.3.search.3.title=Договор по параметру EMail
+messageType.3.search.3.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchEmail
+messageType.3.search.3.billingId=bitel
+messageType.3.search.3.paramIds=7
+messageType.3.saver.class=ru.bgcrm.dao.message.MessageTypeContactSaverEmail
+messageType.3.saver.paramId=17
+messageType.3.mail.transport.protocol=smtps
+messageType.3.mail.smtp.user=info@bgcrm.ru
+messageType.3.mail.smtp.host=smtp.yandex.com
+messageType.3.mail.smtp.pswd=*****
+----
+
+[[config-example-gmail]]
+== GMail
+IMAP и SMTP через SSL.
+
+Для получения пароля к приложению включите двухфакторную авторизацию и сгенерируйте пароль 
+согласно инструкции: https://support.google.com/accounts/answer/185833
+Либо с link:https://support.google.com/accounts/answer/1064203?hl=ru[выключенной двухэтапной аутентификацией] используйте пароль от учётной записи( Аккаунт - Безопасность - Вход в аккаунт Google ), 
+также должен быть включен меннее защищённый доступ приложениям ( Аккаунт - Безопасность - link:https://myaccount.google.com/lesssecureapps[Ненадёжные приложения, у которых есть доступ к аккаунту] )
+
+[source]
+----
+messageType.5.title=bgerpp@gmail.com
+messageType.5.class=ru.bgcrm.dao.message.MessageTypeEmail
+messageType.5.store=imaps
+messageType.5.email=bgerpp@gmail.com
+messageType.5.host=imap.gmail.com
+messageType.5.login=bgerpp@gmail.com
+messageType.5.pswd=*****
+messageType.5.folderIn=INBOX
+messageType.5.folderProcessed=INBOX.CRM_PROCESSED
+messageType.5.folderSkipped=INBOX.CRM_SKIPPED
+messageType.5.folderSent=INBOX.CRM_SENT
+messageType.5.mail.transport.protocol=smtps
+messageType.5.mail.smtp.user=bgerpp@gmail.com
+messageType.5.mail.smtp.host=smtp.gmail.com
+messageType.5.mail.smtp.pswd=****
+----

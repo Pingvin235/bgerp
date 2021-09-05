@@ -352,7 +352,7 @@ public class WorkAction extends BaseAction {
         HSSFWorkbook book = new TabelDAO(con).generateTabel(callboard, fromDate, toDate);
 
         var response = form.getHttpResponse();
-        Utils.setFileNameHeades(response, "tabel_" + TimeUtils.format(fromDate, TimeUtils.FORMAT_TYPE_YMD) + "_"
+        Utils.setFileNameHeaders(response, "tabel_" + TimeUtils.format(fromDate, TimeUtils.FORMAT_TYPE_YMD) + "_"
                 + TimeUtils.format(toDate, TimeUtils.FORMAT_TYPE_YMD) + ".xls");
 
         book.write(response.getOutputStream());

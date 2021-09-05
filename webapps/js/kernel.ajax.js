@@ -84,7 +84,7 @@ $$.ajax = new function () {
 	 * options.dfd - deferred, being resolved after all onLoad JS on chained loads are done.
 	 * options.replace - replace element by HTML, deprecated.
 	 * options.append  - append HTML into the element, deprecated.
-	 * options.control - will be passed to post functions.
+	 * options.control - will be passed to 'post' function.
 	 */
 	const load = (url, $selector, options) => {
 		debug("load", trim100(url), $selector);

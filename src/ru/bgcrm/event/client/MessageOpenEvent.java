@@ -1,13 +1,12 @@
 package ru.bgcrm.event.client;
 
 /**
- * Сообщение о необходимости открыть сообщение для обработки. 
+ * Open message for processing.
+ * 
+ * @author Shamil Vakhitov
  */
-public class MessageOpenEvent
-	extends ClientEventWithId
-{
-	public MessageOpenEvent( int id )
-	{
-		super( id );
-	}
+public class MessageOpenEvent extends ClientEventWithId {
+    public MessageOpenEvent(int id) {
+        super(id);
+    }
 }

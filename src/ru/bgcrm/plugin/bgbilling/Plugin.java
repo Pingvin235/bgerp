@@ -18,10 +18,13 @@ import ru.bgcrm.plugin.bgbilling.event.listener.LinkChangingListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.ProcessDoActionListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.RegisterExtensionListener;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
+import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "bgbilling";
+
+    public static final String PATH_JSP_USER = BaseAction.PATH_JSP_USER_PLUGIN + "/" + ID;
 
     public Plugin() {
         super(ID);

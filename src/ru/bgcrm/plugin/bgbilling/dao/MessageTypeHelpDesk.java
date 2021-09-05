@@ -41,6 +41,7 @@ import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
+import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.HelpDeskDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdMessage;
@@ -112,6 +113,12 @@ public class MessageTypeHelpDesk extends MessageType {
         newMessageEvent = config.getBoolean("newMessageEvent", false);
         markMessagesReadStatusIds = Utils.toIntegerSet(config.get("markMessagesReadStatusIds", ""));
         addFirstMessageInDescription = config.getBoolean("addFirstMessageInDescription", false);
+    }
+
+    @Override
+    public String getHeaderJsp() {
+        // <endpoint id="user.process.message.header.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/helpdesk/process_message_header.jsp"/>
+        return Plugin.PATH_JSP_USER + "/helpdesk/process_message_header.jsp";
     }
 
     public User getUser() {

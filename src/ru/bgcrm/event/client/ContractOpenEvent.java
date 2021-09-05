@@ -7,6 +7,7 @@ import java.util.Map;
  * Сообщение о необходимости открыть вкладку договора,
  * либо обновить, если она уже открыта.
  */
+// TODO: Move to BGBilling plugin.
 public class ContractOpenEvent
 	extends ClientEventWithParamMap
 {

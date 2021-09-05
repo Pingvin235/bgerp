@@ -116,7 +116,7 @@ public class DocumentAction extends BaseAction {
         if ("document".equals(form.getResponseType())) {
             FileData fileData = new DocumentDAO(conSet.getConnection()).getDocumentById(document.getId()).getFileData();
 
-            Utils.setFileNameHeades(response, fileData.getTitle());
+            Utils.setFileNameHeaders(response, fileData.getTitle());
 
             OutputStream out = response.getOutputStream();
             IOUtils.copy(new FileInputStream(new FileDataDAO(conSet.getConnection()).getFile(fileData)), out);
@@ -133,7 +133,7 @@ public class DocumentAction extends BaseAction {
             } else if (pattern.getType() == Pattern.TYPE_JSP_HTML || pattern.getType() == Pattern.TYPE_XSLT_HTML) {
                 response.setContentType("text/html; charset=" + Utils.UTF8.name());
             } else {
-                Utils.setFileNameHeades(response, pattern.getDocumentTitle());
+                Utils.setFileNameHeaders(response, pattern.getDocumentTitle());
             }
 
             OutputStream out = response.getOutputStream();

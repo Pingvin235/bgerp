@@ -12,7 +12,7 @@ tag.4.color=green
 SIGN_TEXT=NEW_LINE + "Best regards, team BGERP DEMO" + NEW_LINE +  "tel. +7(347)29248xx" + NEW_LINE + "email. demo@bgerp.org" + NEW_LINE
 #
 messageType.1.title=demo@bgerp.org
-messageType.1.class=ru.bgcrm.dao.message.MessageTypeEmail
+messageType.1.class=org.bgerp.plugin.msg.email.MessageTypeEmail
 messageType.1.store=imaps
 messageType.1.email=demo@bgerp.org
 messageType.1.host=imap.yandex.ru

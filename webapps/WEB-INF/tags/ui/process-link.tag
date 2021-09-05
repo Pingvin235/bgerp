@@ -16,12 +16,12 @@
 	</c:choose>
 </c:set>
 
-<ui:when type="user">
-	<a href="/user/process#${id}" onclick="$$.process.open(${id}); return false;">${text}</a>
-</ui:when>
+<ui:when type="user"><%--
+--%><a href="/user/process#${id}" onclick="$$.process.open(${id}); return false;">${text}</a><%--
+--%></ui:when>
 <ui:when type="open">
 	<c:set var="config" value="${u:getConfig(ctxSetup, 'org.bgerp.action.open.ProcessAction$Config')}"/>
 	<c:if test="${config.isOpen(process)}"><%--
 	--%><a id="${id}" href="/open/process/${id}">${text}</a><%--
-	--%></c:if>
+--%></c:if>
 </ui:when>

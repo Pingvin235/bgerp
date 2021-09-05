@@ -323,39 +323,45 @@ $$.ui = new function() {
 		return editor;
 	}
 
+	/**
+	 * Table rows highlighter. Preserving and restoring original row background color.
+	 * Can highlight multiple rows together. 
+	 * @param {*} $table table selector.
+	 * @param {*} rows how many rows to highlight, if not defined - 1.
+	 */
 	const tableRowHl = ($table, rows) => {
 		if (!rows) rows = 1;
+
+		const attrBgColor = 'bgcolor';
+		const attrBgColorOrig = 'bgcolor-orig';
+		const classHl = 'hl';
 	
-		var getFirstTr = function ($tr) {
-			return $($tr.parent().children().get($tr.index() - $tr.index() % rows));
-		};
+		const getFirstTr = ($tr) => $($tr.parent().children().get($tr.index() - $tr.index() % rows));
 	
-		$table.find('> tbody > tr:gt(' + (rows - 1) + ')' ).each( function () {
-			var $tr = $(this);
-			$tr.mouseover( function () {
-				var $ftr = getFirstTr($tr);
+		$table.find('> tbody > tr:gt(' + (rows - 1) + ')' ).each(function () {
+			const $tr = $(this);
+			$tr.mouseover(function () {
+				const $ftr = getFirstTr($tr);
 	
-				var bgcolor = $ftr.attr( 'bgcolor' );
-				if( !bgcolor ) {
-					bgcolor = 'white';
-				}
-	
-				if( !$ftr.attr( 'bgcolor-orig' ) ) {
-					$ftr.attr( 'bgcolor-orig', bgcolor );
+				const bgcolor = $ftr.attr(attrBgColor) || 'white';
+				
+				if (!$ftr.attr(attrBgColorOrig)) {
+					$ftr.attr(attrBgColorOrig, bgcolor);
 					for (var i = 0; i < rows; i++) {
-						$ftr.attr( 'bgcolor', '#A9F5F2' );
+						$ftr.addClass(classHl);
 						$ftr = $ftr.next();
 					}
 				}
 			});
-			$tr.mouseleave( function() {
-				var $ftr = getFirstTr($tr);
+
+			$tr.mouseleave(function () {
+				const $ftr = getFirstTr($tr);
 	
-				var bgcolorOrig = $ftr.attr( 'bgcolor-orig' );
-				if( bgcolorOrig ) {
+				const bgcolorOrig = $ftr.attr(attrBgColorOrig);
+				if (bgcolorOrig) {
 					for (var i = 0; i < rows; i++) {
-						$ftr.attr( 'bgcolor', bgcolorOrig );
-						$ftr.attr( 'bgcolor-orig', '' );
+						$ftr.removeClass(classHl);
+						$ftr.removeAttr(attrBgColorOrig);
 						$ftr = $ftr.next();
 					}
 				}

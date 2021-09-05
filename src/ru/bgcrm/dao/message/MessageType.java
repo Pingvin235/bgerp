@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dynamic.DynamicClassManager;
@@ -27,14 +26,17 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
+import ru.bgerp.util.Log;
 
 public abstract class MessageType extends IdTitle {
-    private static final Logger log = Logger.getLogger(MessageType.class);
+    private static final Log log = Log.getLog();
 
-    private final LinkedHashMap<Integer, MessageTypeSearch> searchMap = new LinkedHashMap<Integer, MessageTypeSearch>();
+    private final LinkedHashMap<Integer, MessageTypeSearch> searchMap = new LinkedHashMap<>();
+
     private MessageTypeContactSaver contactSaver;
     protected final ParameterMap configMap;
-    // количество необработанных сообщений, null - если неизвестно
+
+    protected volatile boolean reading;
     protected volatile Integer unprocessedMessagesCount; 
 
     protected MessageType(int id, String title, ParameterMap config) throws BGException {
@@ -63,7 +65,7 @@ public abstract class MessageType extends IdTitle {
                         searchMap.put(searchId, search);
                     }
                 } catch (Exception e) {
-                    log.error(e.getMessage(), e);
+                    log.error(e);
                 }
             }
         }
@@ -79,7 +81,7 @@ public abstract class MessageType extends IdTitle {
                     contactSaver = (MessageTypeContactSaver) constr.newInstance(saver);
                 }
             } catch (Exception e) {
-                log.error(e.getMessage(), e);
+                log.error(e);
             }
         }
     }
@@ -95,14 +97,28 @@ public abstract class MessageType extends IdTitle {
     public MessageTypeContactSaver getContactSaver() {
         return contactSaver;
     }
-    
+
+    /**
+     * Message type is currently running {@link #newMessageList(ConnectionSet)}.
+     * @return
+     */
+    public boolean isReading() {
+        return reading;
+    }
+
+    /**
+     * Count of unprocessed messages.
+     * @return value or null if unknown.
+     */
     public Integer getUnprocessedMessagesCount() {
         return configMap.getBoolean("unprocessedMessageNotify", true) ?
                 unprocessedMessagesCount :
                     null;
     }
 
-    // извлечение и отправка сообщений
+    /**
+     * Send and extract messages.
+     */
     public void process() {}
 
     public boolean isAnswerSupport() {
@@ -114,22 +130,6 @@ public abstract class MessageType extends IdTitle {
         result.setTypeId(original.getTypeId());
         result.setProcessId(original.getProcessId());
 
-        /* Extracted from JSP:
-            <% pageContext.setAttribute( "rChar", "\r" );
-            pageContext.setAttribute( "newLineChar", "\n" );
-            pageContext.setAttribute( "singleQuot", "'" );
-            %> 
-            
-            <c:set var="subject" value="${message.subject}"/>
-            <c:if test="${not fn:startsWith( subject, 'Re:' ) }">
-                <c:set var="subject" value="Re: ${subject}"/>
-            </c:if>
-
-            <c:set var="answerText" value=">${message.text}"/>
-            <c:set var="answerText" value="${fn:replace( answerText, rChar, '' )}"/>
-            <c:set var="answerText" value="${fn:replace( answerText, newLineChar, newLineChar.concat( '>' ) )}"/>
-        */
-
         var subject = Utils.maskNull(original.getSubject());
         subject = subject.startsWith("Re:") ? subject : "Re: " + subject;
         result.setSubject(subject);
@@ -140,19 +140,6 @@ public abstract class MessageType extends IdTitle {
             .replace("\n", "\n>");
         result.setText(text);
 
-        /* Extracted from JSP:
-        <%
-            Message message = (Message)request.getAttribute("message");
-            if (request.getAttribute( "messageType" ) instanceof MessageTypeEmail) {
-                MessageTypeEmail type = (MessageTypeEmail)request.getAttribute( "messageType" );
-                try {
-                    String answerTo = MessageTypeEmail.serializeAddresses(MessageTypeEmail.parseAddresses(message.getTo(), message.getFrom(), type.getEmail()));
-                    pageContext.setAttribute( "answerTo", answerTo );
-                }
-                catch( Exception e )
-                {}
-            }
-        %>*/
         result.setTo(original.getFrom());
 
         return result;
@@ -170,8 +157,12 @@ public abstract class MessageType extends IdTitle {
         return false;
     }
 
-    public boolean isSpecialEditor() {
-        return false;
+    public String getHeaderJsp() {
+        return null;
+    }
+    
+    public String getEditorJsp() {
+        return null;
     }
     
     public boolean isAttachmentSupport() {
@@ -182,19 +173,45 @@ public abstract class MessageType extends IdTitle {
         return message.isIncoming() ? "#c3f6b6" : "#aceae7";
     }
 
-    public List<Message> newMessageList(ConnectionSet conSet) throws BGException {
+    /**
+     * List of unprocessed messages from storage, for example - E-Mails from IMAP folder.
+     * @param conSet
+     * @return
+     * @throws Exception
+     */
+    public List<Message> newMessageList(ConnectionSet conSet) throws Exception {
         return Collections.emptyList();
     }
 
-    public Message newMessageGet(ConnectionSet conSet, String messageId) throws BGException {
+    /**
+     * Gets unprocessed message from storage.
+     * @param conSet
+     * @param messageId unique ID.
+     * @return
+     * @throws Exception
+     */
+    public Message newMessageGet(ConnectionSet conSet, String messageId) throws Exception {
         return null;
     }
 
-    public void messageDelete(ConnectionSet conSet, String... messageIds) throws BGException {
+    /**
+     * Deletes both processed and unprocessed messages.
+     * @param conSet
+     * @param messageIds set with int DB IDs or type related string IDs.
+     * @throws Exception
+     */
+    public void messageDelete(ConnectionSet conSet, String... messageIds) throws Exception {
         throw new UnsupportedOperationException();
     }
 
-    public Message newMessageLoad(Connection con, String messageId) throws BGException {
+    /**
+     * Gets unprocessed message from storage and persists it in DB.
+     * @param con
+     * @param messageId
+     * @return
+     * @throws Exception
+     */
+    public Message newMessageLoad(Connection con, String messageId) throws Exception {
         return null;
     }
 
@@ -208,7 +225,7 @@ public abstract class MessageType extends IdTitle {
         return Collections.emptyList();
     }
 
-    public Message messageLinkedToProcess(Message message) throws BGException {
+    public Message messageLinkedToProcess(Message message) throws Exception {
         return null;
     }
 

@@ -217,10 +217,16 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-task buildDoc(type: JavaExec) {
+task doc(type: JavaExec, description: 'Build manual') {
     classpath =  configurations.doc
     main = 'org.pzdcdoc.DocGenerator'
     args 'NOTUSED', 'srcx/doc', 'target/doc'
+}
+
+task buildDoc(dependsOn: 'doc', description: 'Backward compatible name for doc') {
+    doFirst {
+        logger.warn("Use 'doc' task")
+    }
 }
 
 task buildJavaDoc(type: Javadoc) {
@@ -231,7 +237,7 @@ task buildJavaDoc(type: Javadoc) {
     destinationDir = file("${buildDir}/javadoc")
 }
 
-task patchChanges(type: JavaExec, dependsOn: 'compileToolsJava') {
+task patchChanges(type: JavaExec, dependsOn: 'compileToolsJava', description: 'Concatenates build/changes.*.txt files to build/changes.txt') {
     classpath =  sourceSets.tools.runtimeClasspath
     main = 'ru.bgerp.tool.PatchChanges'
     args "${->getBuild()}", 'build/changes.txt'
@@ -245,7 +251,7 @@ def getBuild() {
     return build
 }
 
-task rss(type: JavaExec, dependsOn: 'compileToolsJava') {
+task rss(type: JavaExec, dependsOn: 'compileToolsJava', description: 'Generates build/changes.rss out of build/changes.txt') {
     mustRunAfter 'patchChanges'
     classpath =  sourceSets.tools.runtimeClasspath
     main = 'ru.bgerp.tool.RssGenerator'

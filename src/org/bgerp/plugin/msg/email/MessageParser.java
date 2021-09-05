@@ -13,6 +13,7 @@ import javax.mail.MessagingException;
 import javax.mail.Part;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MailDateFormat;
+import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
@@ -30,22 +31,21 @@ public class MessageParser {
     private static final Pattern DATE_PATTERN = Pattern.compile("\\w{3}, \\d+ \\w{3} \\d{4} \\d{2}:\\d{2}:\\d{2} \\+\\d{4}");
     private static final MailDateFormat MAIL_DATE_FORMAT = new MailDateFormat();
 
-    private final Message message;
+    private final MimeMessage message;
 
     public MessageParser(Message message) {
-        this.message = message;
+        this.message = (MimeMessage) message;
     }
 
-    public String getSystemId() throws MessagingException {
-        // ((MimeMessage) message).getMessageID();  or so
-        return message.getHeader("Message-ID")[0];
+    public String getMessageId() throws MessagingException {
+        return message.getMessageID();
     }
 
-    public String getFrom() throws Exception {
+    public String getFrom() throws MessagingException {
         return ((InternetAddress) message.getFrom()[0]).getAddress();
     }
 
-    public Date getFromTime() throws Exception {
+    public Date getFromTime() throws MessagingException {
         // приоритентна дата из заголовка Recieved - время получения нашим IMAP сервером
         String[] headers = message.getHeader("Received");
         if (headers != null && headers.length > 0) {

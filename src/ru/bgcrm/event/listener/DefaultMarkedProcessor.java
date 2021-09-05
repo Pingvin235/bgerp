@@ -142,7 +142,7 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
 
                     out.flush();
                 } else if (pattern.getType() == Pattern.TYPE_PDF_FORM) {
-                    Utils.setFileNameHeades(response, pattern.getDocumentTitle());
+                    Utils.setFileNameHeaders(response, pattern.getDocumentTitle());
 
                     Document document = new Document();
 

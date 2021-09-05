@@ -97,16 +97,6 @@
 			<forward name="list" path="/WEB-INF/jspf/user/news/list.jsp"/>
 		</action>
 
-		<action path="/user/message" parameter="action" type="ru.bgcrm.struts.action.MessageAction" name="form" scope="request">
-			<forward name="message" path="/WEB-INF/jspf/user/message/message.jsp"/>
-			<forward name="messageList" path="/WEB-INF/jspf/user/message/list.jsp"/>
-			<forward name="processMessageList" path="/WEB-INF/jspf/user/message/process_message_list.jsp"/>
-			<forward name="processMessageEdit" path="/WEB-INF/jspf/user/message/process_message_edit.jsp"/>
-		</action>
-
-		<action path="/user/messageCall" parameter="action" type="ru.bgcrm.struts.action.MessageCallAction" name="form" scope="request">
-		</action>
-
 		<action path="/user/file" parameter="action" type="ru.bgcrm.struts.action.FileAction" name="form" scope="request"/>
 
 		<action path="/user/pool" parameter="action" type="ru.bgcrm.struts.action.PoolAction" name="form" scope="request"/>

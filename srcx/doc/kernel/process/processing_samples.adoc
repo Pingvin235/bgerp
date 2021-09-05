@@ -35,29 +35,6 @@ onProcessEvent.1.doExpression=setStatus(3, "")
 #
 ----
 
-[[send-mail-qa]]
-=== Отправка EMail по изменению в процессе
-В тему добавляется <<../message.adoc#qa, QA>> маркер для быстрого ответа.
-
-На адрес EMail указанный в параметре исполнителей с кодом 21 отправляется письмо. 
-[source]
-----
-onProcessEvent.1.events=messageAdded
-onProcessEvent.5.doExpression=<<END
-   text = "Новое сообщение в процессе, в котором вы числитесь исполнителем." + 
-       NEW_LINE2 + "Сообщение:" + NEW_LINE +
-       event.getMessage().getText() +
-       NEW_LINE2 + "Открыть процесс: http://crm.company.com/user/process#" + process.getId() +
-       NEW_LINE2 + "Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.";
-    
-    subject = "#" + process.getId() + 
-      " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "] " +
-      " QA:" + event.getMessage().getId(); 
-   
-   emailNotifyExecutors(21, subject, text);
-END
-----
-
 Уведомление о назначении процесса на исполнителя с текстом входящих сообщений.
 [source]
 ----

@@ -130,7 +130,7 @@ public class BillAction
 		try
 		{
 			OutputStream out = response.getOutputStream();			
-			Utils.setFileNameHeades( response, type + ".pdf" );
+			Utils.setFileNameHeaders( response, type + ".pdf" );
 			out.write( new BillDAO( form.getUser(), billingId, moduleId ).getDocumentsPdf( ids, type ) );
 		}
 		catch( Exception ex )

@@ -77,7 +77,7 @@ public class HelpDeskAction
 			
 			byte[] attach = hdDao.getAttach( topic.getContractId(), attachId );
 			
-			Utils.setFileNameHeades( response, title );
+			Utils.setFileNameHeaders( response, title );
 
 			OutputStream out = response.getOutputStream();
 

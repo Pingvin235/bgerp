@@ -37,6 +37,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.Config.InitStopException;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 import ru.bgerp.util.Log;
@@ -60,8 +61,10 @@ public class MessageTypeChannel extends MessageType {
     public MessageTypeChannel(int id, ParameterMap config) throws BGException {
         super(id, config.get("title"), config);
         token = config.get("authToken");
-        if (token == null)
-            throw new BGException("authToken is not defined.");
+        if (token == null) {
+            log.info("authToken is not defined.");
+            throw new InitStopException();
+        }
         this.purposeExpression = config.get("puproseExpression");
         this.postExpression = config.get("postExpression");
         this.accountParam = ParameterCache.getParameter(config.getInt("accountParamId", 0));
@@ -97,6 +100,12 @@ public class MessageTypeChannel extends MessageType {
     @Override
     public boolean isAttachmentSupport() {
         return false;
+    }
+
+    @Override
+    public String getHeaderJsp() {
+        // "user.process.message.header.jsp", List.of(PATH_JSP_USER + "/process_link_list.jsp")
+        return Plugin.PATH_JSP_USER + "/process_link_list.jsp";
     }
 
     @Override

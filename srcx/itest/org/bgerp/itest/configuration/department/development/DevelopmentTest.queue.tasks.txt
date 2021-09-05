@@ -22,6 +22,7 @@ column.1.value=id
 column.2.title=Customer
 column.2.value=linkedCustomerLink
 column.2.titleIfMore=100
+# the column isn't visible, but paints rows depending on priority
 column.3.title=Priority
 column.3.value=priority
 
@@ -54,7 +55,7 @@ column.20.value=status_dt:dd.MM.yyyy
 column.22.title=Type
 column.22.value=type_title
 
-media.html.columns=1,22,4,6,8,10,12,14,18
+media.html.columns=3,1,22,4,6,8,10,12,14,18
 
 sort.combo.count=2
 sort.combo.1.default=3

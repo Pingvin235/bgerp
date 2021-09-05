@@ -1,6 +1,7 @@
-package ru.bgcrm.model.config;
+package ru.bgcrm.model.message;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,10 +34,27 @@ public class TagConfig extends Config{
         return tagMap;
     }
 
+    /**
+     * Returns value of selected history storing tag.
+     * @param messageTagIds all message tags.
+     * @return {@link Tag#TAG_HISTORY_ALL_ID}, {@link Tag#TAG_HISTORY_WITH_ADDRESS_ID} or 0 if none is selected.
+     */
+    public int getSelectedHistoryTag(Collection<Integer> messageTagIds) {
+        return messageTagIds.stream()
+            .filter(tagId -> tagId == Tag.TAG_HISTORY_WITH_ADDRESS_ID || tagId == Tag.TAG_HISTORY_ALL_ID)
+            .findFirst()
+            .orElse(0);
+    }
+
     public static final class Tag extends IdTitle {
         private final String color;
 
+        /** Pseudo tag for filtering messages. Used in JSP. */
         public static final int TAG_ATTACH_ID = -1;
+        /** Tag for attaching History.txt with messages from address. Used in JSP. */
+        public static final int TAG_HISTORY_WITH_ADDRESS_ID = -2;
+        /** Tag for attaching History.txt with all messages. Used in JSP. */
+        public static final int TAG_HISTORY_ALL_ID = -3;
 
         private Tag(int id, String title, String color) {
             super(id, title);

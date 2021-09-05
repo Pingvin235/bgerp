@@ -4,7 +4,8 @@
 <c:set var="formUiid" value="${u:uiid()}"/>
 <c:set var="editorContainerUiid" value="${u:uiid()}" scope="request"/>
 
-<c:set var="tagConfig" value="${u:getConfig(ctxSetup, 'ru.bgcrm.model.config.TagConfig')}"/>
+<c:set var="tagConfig" value="${u:getConfig(ctxSetup, 'ru.bgcrm.model.message.TagConfig')}"/>
+<c:set var="TAG_ATTACH_ID"><%=ru.bgcrm.model.message.TagConfig.Tag.TAG_ATTACH_ID%></c:set>
 
 <ui:when type="user">
 	<html:form action="/user/message" styleId="${formUiid}">
@@ -13,7 +14,7 @@
 		<html:hidden property="linkProcess"/>
 
 		<c:url var="url" value="/user/message.do">
-			<c:param name="forward" value="processMessageEdit"/>
+			<c:param name="action" value="processMessageEdit"/>
 			<c:param name="areaId" value="process-message-add"/>
 			<c:param name="processId" value="${form.param.processId}"/>
 			<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
@@ -26,7 +27,7 @@
 
 		<c:set var="valuesHtml">
 			<li value="0">${l.l('Все')}</li>
-			<c:if test="${form.response.data.tagIds.contains(u:int(-1))}">
+			<c:if test="${form.response.data.tagIds.contains(u:int(TAG_ATTACH_ID))}">
 				<li value="-1">${l.l('Вложение')}</li>
 			</c:if>
 			<c:forEach var="item" items="${tagConfig.tagList}">
@@ -73,7 +74,6 @@
 			<c:set var="message" value="${message}" scope="request"/>
 			<c:set var="messageType" value="${config.typeMap[message.typeId]}" scope="request"/>
 
-			<c:set var="typeEmail" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeEmail'}"/>
 			<c:set var="typeNote" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeNote'}"/>
 			<c:set var="typeCall" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeCall'}"/>
 			<c:set var="typeUnknown" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.config.MessageTypeConfig$MessageTypeUnknown'}"/>
@@ -93,7 +93,13 @@
 								title="${tag.title}" class="mr05">&nbsp;</span>
 						</c:forEach>
 					</div>
+
+					<c:set var="headerJsp" value="${messageType.headerJsp}"/>
+
 					<c:choose>
+						<c:when test="${not empty headerJsp}">
+							<jsp:include page="${headerJsp}"/>
+						</c:when>
 						<c:when test="${typeNote}">
 							<div style="width: 100%;">
 								<div>
@@ -108,34 +114,10 @@
 								</div>
 							</div>
 						</c:when>
-						<c:when test="${typeEmail}">
-							<div style="width: 100%;">
-								<div>
-									#${message.id} EMail [${messageType.email}]: ${message.subject}
-								</div>
-								<div class="mt05">
-									<c:choose>
-										<c:when test="${message.direction eq 1}">
-											${l.l('Отправлено')}: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
-											<nobr>
-												${l.l('Обработано')}: ${u:formatDate( message.toTime, 'ymdhm' )}
-												(<ui:user-link id="${message.userId}"/>)
-											</nobr>
-										</c:when>
-										<c:otherwise>
-											${l.l('Создано')}: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
-											<nobr>
-												${l.l('Отправлено')}: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
-											</nobr>
-										</c:otherwise>
-									</c:choose>
-								</div>
-							</div>
-						</c:when>
 						<c:when test="${typeCall}">
 							<div style="width: 100%;">
 								<div>
-									#${message.id} Звонок "${messageType.title}"
+									#${message.id} ${l.l('Звонок')} "${messageType.title}"
 								</div>
 								<div class="mt05">
 									<c:choose>
@@ -155,14 +137,10 @@
 								</div>
 							</div>
 						</c:when>
-						<c:when test="${typeUnknown}">
-							<div>
-								#${message.id}&nbsp;${l.l('Несуществующий тип')}: "${messageType.title}"
-							</div>
-						</c:when>
 						<c:otherwise>
-							<c:set var="endpoint" value="user.process.message.header.jsp"/>
-							<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+							<div>
+								#${message.id}&nbsp;${l.l('Несуществующий тип')} ID: ${messageType.id}
+							</div>
 						</c:otherwise>
 					</c:choose>
 				</td>
@@ -263,6 +241,7 @@
 
 								<c:if test="${message.direction eq 1 and messageType.answerSupport}">
 									<c:url var="answerUrl" value="/user/message.do">
+										<c:param name="action" value="processMessageEdit"/>
 										<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
 										<c:param name="returnUrl" value="${form.requestUrl}"/>
 										<c:param name="processId" value="${message.processId}"/>
@@ -284,7 +263,7 @@
 								<c:if test="${checkEditByOwner && checkEditByType}">
 									<c:if test="${messageType.isEditable(message)}">
 										<c:url var="editUrl" value="/user/message.do">
-											<c:param name="forward" value="processMessageEdit"/>
+											<c:param name="action" value="processMessageEdit"/>
 											<c:param name="id" value="${message.id}"/>
 											<c:param name="processId" value="${message.processId}"/>
 											<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
@@ -355,17 +334,15 @@
 			<c:if test="${not empty message.attachList}">
 				<tr>
 					<td style="border-top: none; display: block;">
-						Вложения:
-						<c:if test="${typeEmail or typeNote}">
-							<c:forEach var="item" items="${message.attachList}" varStatus="status">
-								<c:url var="url" value="/user/file.do">
-									<c:param name="id" value="${item.id}"/>
-									<c:param name="title" value="${item.title}"/>
-									<c:param name="secret" value="${item.secret}"/>
-								</c:url>
-								<a href="${url}" class="preview">${item.title}</a><c:if test="${not status.last}">, </c:if>
-							</c:forEach>
-						</c:if>
+						${l.l('Вложения')}:
+						<c:forEach var="item" items="${message.attachList}" varStatus="status">
+							<c:url var="url" value="/user/file.do">
+								<c:param name="id" value="${item.id}"/>
+								<c:param name="title" value="${item.title}"/>
+								<c:param name="secret" value="${item.secret}"/>
+							</c:url>
+							<a href="${url}" class="preview">${item.title}</a><c:if test="${not status.last}">, </c:if>
+						</c:forEach>
 
 						<c:set var="endpoint" value="user.process.message.attaches.jsp"/>
 						<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>

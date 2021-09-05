@@ -22,28 +22,29 @@
 * Plugins
 ** <<plugin/asterisk/index.adoc#, Asterisk>>
 ** <<plugin/bgbilling/index.adoc#, BGBilling>>
-** <<plugin/blow/index.adoc#, Blow>>
-** <<plugin/callboard/index.adoc#, CallBoard>>
 ** <<plugin/dispatch/index.adoc#, Dispatch>>
 ** <<plugin/document/index.adoc#, Document>>
 ** <<plugin/feedback/index.adoc#, Feedback>>
 ** <<plugin/fulltext/index.adoc#, FullText>>
 ** <<plugin/mobile/index.adoc#, Mobile>>
-** <<plugin/phpbb/index.adoc#, PHPBB>>
 ** <<plugin/report/index.adoc#, Report>>
-** <<plugin/slack/index.adoc#, Slack>>
 ** <<plugin/task/index.adoc#, Task>>
+* Plugins planning
+** <<plugin/blow/index.adoc#, Blow>>
+** <<plugin/callboard/index.adoc#, CallBoard>>
+** <<plugin/workload/index.adoc#, Workload>>
+* Plugins messaging
+** <<plugin/msg/email/index.adoc#, E-Mail>>
+** <<plugin/phpbb/index.adoc#, PHPBB>>
+** <<plugin/slack/index.adoc#, Slack>>
 ** <<plugin/telegram/index.adoc#, Telegram>>
 ** <<plugin/sms/index.adoc#, SMS>>
-** <<plugin/workload/index.adoc#, Workload>>
-* Plugins for service
+* Plugins service
 ** <<plugin/svc/backup/index.adoc#, Backup>>
-
 * Решения
 ** <<ext/bgbilling.adoc#, Интеграция BGBilling>>
 ** <<ext/letter.adoc#, Учёт писем>>
 ** <<ext/service_desk.adoc#, Service Desk>>
 ** <<ext/disconnect_debtors_ktv.adoc#, Организация отключения должников КТВ>>
 ** <<ext/asterisk_integration.adoc#, Интеграция с Asterisk для обработки входящих звонков>>
-** <<ext/email_configure.adoc#, Настройка E-Mail сообщений>>
 ** <<ext/blow_jira.adoc#, Blow JIRA>>

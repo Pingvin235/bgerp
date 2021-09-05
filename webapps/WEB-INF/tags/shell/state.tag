@@ -15,12 +15,12 @@ $(function () {
 	const $state = $('#title > .status:visible > .wrap > .center');
 	<c:choose>
 		<c:when test="${not empty moveSelector}">
-			$state.find(">div").remove();
+			$state.html("");
 			$('${moveSelector}').appendTo($state);
 		</c:when>
 		<c:otherwise>
 			<c:if test="${not empty text}">
-				<c:set var="state" value="${text.replaceAll('\\\\n', '')}"/>	
+				<c:set var="state" value="${text.replaceAll('\\\\n', '')}"/>
 			</c:if>
 			<c:if test="${not empty help}">
 				<c:if test="${not help.startsWith('http')}">

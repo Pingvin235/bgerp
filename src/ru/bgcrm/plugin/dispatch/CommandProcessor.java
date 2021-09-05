@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.mail.FetchProfile;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message.RecipientType;
@@ -15,7 +16,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;
@@ -24,9 +24,19 @@ import ru.bgcrm.util.MailMsg;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
+import ru.bgerp.util.Log;
 
 public class CommandProcessor implements Runnable {
-    private static final Logger log = Logger.getLogger(CommandProcessor.class);
+    private static final Log log = Log.getLog();
+
+    private static final FetchProfile FETCH_PROFILE = new FetchProfile();
+    static {
+        FETCH_PROFILE.add(FetchProfile.Item.ENVELOPE);
+        FETCH_PROFILE.add("To");
+        FETCH_PROFILE.add("CC");
+        FETCH_PROFILE.add("Message-ID");
+        FETCH_PROFILE.add("Received");
+    }
     
     @Override
     public void run() {
@@ -50,7 +60,7 @@ public class CommandProcessor implements Runnable {
 
                 javax.mail.Message[] messages = incomingFolder.getMessages();
 
-                incomingFolder.fetch(messages, MailConfig.FETCH_PROFILE);
+                incomingFolder.fetch(messages, FETCH_PROFILE);
 
                 for (javax.mail.Message message : messages) {
                     try {

@@ -2,7 +2,6 @@ package ru.bgcrm.util;
 
 import java.util.Properties;
 
-import javax.mail.FetchProfile;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
@@ -16,15 +15,6 @@ public class MailConfig {
     private final int port;
     private final String login;
     private final String pswd;
-
-    public static final FetchProfile FETCH_PROFILE = new FetchProfile();
-    static {
-        FETCH_PROFILE.add(FetchProfile.Item.ENVELOPE);
-        FETCH_PROFILE.add("To");
-        FETCH_PROFILE.add("CC");
-        FETCH_PROFILE.add("Message-ID");
-        FETCH_PROFILE.add("Received");
-    }
 
     public MailConfig(ParameterMap config) {
         configMap = config;

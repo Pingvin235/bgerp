@@ -42,6 +42,16 @@ table.data > tbody > tr:nth-child(1) > td {
 	background-color: #eaf3f9;
 }
 
+table.data.hl tr:hover, 
+table tr.hl {
+	background-color: #A9F5F2;
+}
+
+table.fixed-header tr:nth-child(1) td {
+	position: sticky; 
+	top: 0;
+}
+
 .border-table {
 	border: 1px solid ${UI_TABLE_BORDER_COLOR};
 }

@@ -1,14 +1,12 @@
 package ru.bgcrm.event.client;
 
 /**
- * Сообщение о необходимости открыть вкладку контрагента,
- * либо обновить, если она уже открыта.
+ * Open customer in UI or refresh if already opened.
+ * 
+ * @author Shamil Vakhitov
  */
-public class CustomerOpenEvent
-	extends ClientEventWithId
-{
-	public CustomerOpenEvent( int id )
-	{
-		super( id );
-	}
+public class CustomerOpenEvent extends ClientEventWithId {
+    public CustomerOpenEvent(int id) {
+        super(id);
+    }
 }

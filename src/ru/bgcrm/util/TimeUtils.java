@@ -486,23 +486,31 @@ public class TimeUtils {
      * @param date2
      * @return
      */
+    @Deprecated
     public static final int getDays(Calendar date1, Calendar date2) {
         int days = (date2.get(Calendar.YEAR) - date1.get(Calendar.YEAR)) * 365 + date2.get(Calendar.DAY_OF_YEAR) - date1.get(Calendar.DAY_OF_YEAR);
         return days;
     }
 
     /**
-     * Возвращает разницу в днях.
+     * Days difference.
      * @param dayFrom 
      * @param dayTo
      * @return
      */
-    public static final int daysDelta(Calendar dayFrom, Calendar dayTo) {
-        long time1 = dayFrom.getTimeInMillis();
-        long time2 = dayTo.getTimeInMillis();
+    public static final int daysDelta(Date dayFrom, Date dayTo) {
+        long time1 = dayFrom.getTime();
+        long time2 = dayTo.getTime();
         int days1 = (int) (time1 / 86400000L);
         int days2 = (int) (time2 / 86400000L);
         return days2 - days1;
+    }
+
+    /**
+     * Use {@link #daysDelta(Date, Date)}.
+     */
+    public static final int daysDelta(Calendar dayFrom, Calendar dayTo) {
+        return daysDelta(dayFrom.getTime(), dayTo.getTime());
     }
 
     /**

@@ -8,10 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -25,7 +23,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.apache.taglibs.standard.functions.Functions;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -38,9 +35,11 @@ import ru.bgcrm.model.ListItem;
 import ru.bgcrm.model.Title;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;
+import ru.bgerp.util.Log;
 
 public class Utils {
     /** Use {@link java.nio.charset.StandardCharsets}. */
+    @Deprecated
     public static final Charset UTF8 = StandardCharsets.UTF_8;
 
     /**
@@ -51,7 +50,7 @@ public class Utils {
     public static final char[] HEX = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
     public static final char[] HEX_LOWERCASE = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-    public static final Logger log = Logger.getLogger(Utils.class);
+    public static final Log log = Log.getLog();
 
     public static final String[] STRING_ARRAY = new String[0];
     public static final Integer[] INTEGER_ARRAY = new Integer[0];
@@ -838,13 +837,6 @@ public class Utils {
         return rfc2822.matcher(email).matches();
     }
 
-    private static final Pattern ipv4_pattern = Pattern
-            .compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
-
-    public static final boolean validateIPv4(String ip) {
-        return ipv4_pattern.matcher(ip).matches();
-    }
-
     public static final File createDirectoryIfNoExistInWorkDir(String dirName) {
         File dir = new File(dirName);
         if (!dir.exists()) {
@@ -880,21 +872,14 @@ public class Utils {
         return result;
     }
 
-    public static Date getDateFromMinutes(int minutes) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, minutes / 60);
-        calendar.set(Calendar.MINUTE, minutes % 60);
-        calendar.set(Calendar.SECOND, 0);
-
-        return calendar.getTime();
-    }
-
     /**
      * Преобразование массива байт в HEX строку.
      * @param bytes массив байт
      * @param upperCase если true, то символы результата в верхнем регистре
      * @return
      */
+    // TODO: Move in XMLDatabaseSerializer if needed.
+    @Deprecated
     public static String bytesToString(byte[] bytes, boolean upperCase) {
         if (bytes == null || bytes.length == 0) {
             return "";
@@ -916,6 +901,8 @@ public class Utils {
      * @param s строка вида 0bcf224ba2 или 0BCF224BA2
      * @return
      */
+    // TODO: Move in XMLDatabaseSerializer if needed.
+    @Deprecated
     public static byte[] stringToBytes(final String s) {
         if (Utils.isBlankString(s)) {
             return null;
@@ -974,77 +961,14 @@ public class Utils {
      * @param response
      * @param fileName
      */
-    public static void setFileNameHeades(HttpServletResponse response, String fileName) {
+    public static void setFileNameHeaders(HttpServletResponse response, String fileName) {
         try {
             // application/octet-stream почему-то не предлагает открыть приложением по расширению
             response.setContentType("application/any");
             response.setHeader("Content-Disposition", "attachment;filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
         } catch (UnsupportedEncodingException e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
-    }
-
-    /**
-    * Преобразование байта в целое без знака.
-    * @param value
-    * @return
-    */
-    @Deprecated
-    public static final int unsignedByteToInt(byte value) {
-        int val = value;
-        if (val < 0) {
-            val &= 0x000000ff;
-            val |= 0x00000080;
-        }
-        return val;
-    }
-
-    /**
-     * Преобразование целого лонг без знака.
-     * @param value
-     * @return
-     */
-    @Deprecated
-    public static final long unsignedIntToLong(int value) {
-        long val = value;
-        if (val < 0) {
-            val &= 0x00000000ffffffffL;
-            val |= 0x0000000080000000L;
-        }
-
-        return val;
-    }
-
-    /**
-     * Возвращает десятичное число, полученное преобразованием шестнадцатеричного
-     * @param bytes массив байтов: шестнадцатеричное число 
-     * @return
-     */
-    @Deprecated
-    public static int convertBytesToInt(byte[] bytes) {
-        int result = 0;
-        if (bytes != null && bytes.length == 4) {
-            result = 0x000000ff & bytes[3] | 0x0000ff00 & (bytes[2] << 8) | 0x00ff0000 & (bytes[1] << 16) | 0xff000000 & (bytes[0] << 24);
-        }
-
-        return result;
-    }
-
-    /**
-     * Возвращает шестнадцатеричное число (массив байтов), полученное преобразованием десятичного
-     * @param value
-     * @return
-     */
-    @Deprecated
-    public static byte[] convertIntToBytes(int value) {
-        byte[] byteValue = new byte[4];
-
-        for (int i = 0; i < 4; i++) {
-            byteValue[3 - i] = (byte) (value & 0x000000ff);
-            value >>= 8;
-        }
-
-        return byteValue;
     }
 
     /**
@@ -1056,6 +980,21 @@ public class Utils {
         System.err.println(message);
         System.err.flush();
         System.exit(code);
+    }
+
+    /**
+     * Checks if object is instance one of classes.
+     * @param o the object to check.
+     * @param names class names.
+     * @return if object {@code o} is instance any of {@code names} classes.
+     */
+    public static boolean hasClass(Object o, String... names) {
+        for (String name : names) {
+            if (o.getClass().getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

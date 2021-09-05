@@ -896,7 +896,7 @@ public class ContractAction extends BaseAction {
 
         try {
             OutputStream out = form.getHttpResponse().getOutputStream();
-            Utils.setFileNameHeades(form.getHttpResponse(), "card.pdf");
+            Utils.setFileNameHeaders(form.getHttpResponse(), "card.pdf");
             out.write(new ContractDAO(form.getUser(), billingId).getContractCard2Pdf(contractId, cardType));
         } catch (Exception ex) {
             throw new BGException(ex);

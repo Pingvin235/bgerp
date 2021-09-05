@@ -41,7 +41,7 @@ public class FileAction extends BaseAction {
         if (file != null) {
             OutputStream out = response.getOutputStream();
 
-            Utils.setFileNameHeades(response, data.getTitle());
+            Utils.setFileNameHeaders(response, data.getTitle());
             IOUtils.copy(new FileInputStream(file), out);
 
             out.flush();

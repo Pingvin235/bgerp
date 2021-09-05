@@ -8,17 +8,11 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 public class NewsEventListener {
     public NewsEventListener() {
-        EventProcessor.subscribe(new EventListener<GetPoolTasksEvent>() {
-            @Override
-            public void notify(GetPoolTasksEvent e, ConnectionSet connectionSet) throws Exception {
-                processEvent(connectionSet, e);
-            }
-
-        }, GetPoolTasksEvent.class);
+        EventProcessor.subscribe((e, conSet) -> processEvent(conSet, e), GetPoolTasksEvent.class);
     }
 
-    private void processEvent(ConnectionSet connectionSet, GetPoolTasksEvent e) throws Exception {
-        NewsInfoEvent event = UserNewsCache.getUserEvent(connectionSet.getConnection(), e.getUser().getId());
+    private void processEvent(ConnectionSet conSet, GetPoolTasksEvent e) throws Exception {
+        NewsInfoEvent event = UserNewsCache.getUserEvent(conSet.getConnection(), e.getUser().getId());
         e.getForm().getResponse().addEvent(event);
     }
 }

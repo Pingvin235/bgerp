@@ -362,7 +362,7 @@
 	<p><ru>Лог изменений параметров</ru><en>Parameter change log</en></p>
 	<p><ru>Обработка</ru><en>Processing</en></p>
 	<p><ru>Создать новый процесс</ru><en>Create a new process</en></p>
-	<p><ru>Привязать</ru><en>Bind</en></p>
+	<p><ru>Привязать</ru><en>Link</en></p>
 	<p><ru>Укажите код для привязки процесса. Код "0" - для отвязки сообщения от процесса.</ru><en>Provide the code to bind the process. Code "0" - to decouple the message from the process.</en></p>
 	<p><ru>Вложения (можно загрузить только после привязки процесса)</ru><en>Attachments (can only be downloaded after linking the process)</en></p>
 	<p><ru>С номера</ru><en>From number</en></p>
@@ -427,6 +427,11 @@
 	<p><ru>отображено</ru><en>shown</en></p>
 	<p><ru>Закрыл</ru><en>Closed by</en></p>
 	<p><ru>Цвет для счетчика фильтра</ru><en>Color for filter's counter</en></p>
+	<p><ru>Удалить выбранные</ru><en>Remove selected</en></p>
+	<p><ru>ПРОЦЕСС</ru><en>PROCESS</en></p>
+	<p><ru>Дата от</ru><en>Date from</en></p>
+	<p><ru>Дата по</ru><en>Date to</en></p>
+	<p><ru>Отправитель</ru><en>Sender</en></p>
 	<p><ru>выберите контрагента</ru><en>choose customer</en></p>
 	<p><ru>Слить с</ru><en>Merge with</en></p>
 	<p><ru>Выберите контрагента</ru><en>Choose customer</en></p>

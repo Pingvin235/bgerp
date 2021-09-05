@@ -107,7 +107,7 @@ public class Files {
         var name = form.getParam("name", Utils::notBlankString);
 
         var response = form.getHttpResponse();
-        Utils.setFileNameHeades(response, name);
+        Utils.setFileNameHeaders(response, name);
 
         IOUtils.copy(getInputStream(name), response.getOutputStream());
 

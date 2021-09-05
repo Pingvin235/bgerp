@@ -117,7 +117,7 @@ public class SQLUtils {
                 }
             }
         } catch (Exception ex) {
-            Utils.log.error(ex.getMessage(), ex);
+            Utils.log.error(ex);
         }
 
         return result;

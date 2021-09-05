@@ -1,34 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="uploadFormId" value="${u:uiid()}"/>
-<c:set var="uploadListId" value="${u:uiid()}"/>
+<%@ include file="process_message_edit_upload.jsp"%>
 
 <c:set var="message" scope="request" value="${form.response.data.message}"/>
-<c:set var="config" value="${u:getConfig( ctxSetup, 'ru.bgcrm.dao.message.config.MessageTypeConfig' ) }"/>
-
-<form id="${uploadFormId}" action="/user/file.do" method="POST" enctype="multipart/form-data" name="form" style="position: absolute; top: -100px;">
-	<input type="hidden" name="action" value="temporaryUpload"/>
-	<input type="hidden" name="responseType" value="json"/>
-	<input type="file" name="file" />
-</form>
-
-
-<script>
-	$$.ajax.upload('${uploadFormId}', 'message-attach-upload', function (response) {
-		const fileId = response.data.file.id;
-		const fileTitle = response.data.file.title;
-
-		const deleteCode = "$$.ajax.post('/user/file.do?action=temporaryDelete&id=" + fileId + "').done(() => {$(this.parentNode).remove()})";
-
-		$('#${uploadListId}').append(
-				"<div>" +
-				"<input type=\"hidden\" name=\"tmpFileId\" value=\""+ fileId + "\"/>" +
-				"<button class=\"btn-white btn-small mr1 icon\" type=\"button\" onclick=\"" + deleteCode + "\"><i class=\"ti-trash\"></i></button> " + fileTitle +
-				"</div>"
-		);
-	});
-</script>
+<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
 
 <c:set var="editorUiid" value="${u:uiid()}"/>
 <c:set var="typeComboUiid" value="${u:uiid()}"/>
@@ -67,7 +43,7 @@
 					</c:when>
 				</c:choose>
 				
-				<c:set var="perm" value="${p:get( ctxUser.id, 'ru.bgcrm.struts.action.MessageAction:messageUpdate')}"/>
+				<c:set var="perm" value="${p:get(ctxUser.id, 'ru.bgcrm.struts.action.MessageAction:messageUpdate')}"/>
 				<c:set var="allowedTypeIds" value="${u:toIntegerSet( perm['allowedTypeIds'] ) }"/>
 
 				<ui:combo-single
@@ -77,28 +53,14 @@
 						<c:forEach var="item" items="${config.typeMap}">
 							<c:if test="${empty allowedTypeIds or allowedTypeIds.contains(item.key)}">
 								<c:set var="messageType" value="${item.value}"/>
-	
-								<c:remove var="subject"/>
-								<c:remove var="address"/>
-								<c:remove var="attach"/>
-								<c:set var="subject">
-									<c:if test="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeEmail' or
-												 messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeNote'}">subject='true'</c:if>
-								</c:set>
-								<c:set var="address">
-									<c:if test="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeEmail'}">address='true'</c:if>
-								</c:set>
-								<c:set var="attach">
-									<c:if test="${messageType.attachmentSupport}">attach='true'</c:if>
-								</c:set>
-	
-								<%-- специальный редактор сообщения либо стандартный --%>
+
+								<%-- special editor or default one for notes --%>
 								<c:choose>
-									<c:when test="${messageType.specialEditor}">
+									<c:when test="${not empty messageType.editorJsp}">
 										<li value="${item.key}" editor="${messageType.getClass().getName()}">${item.value.title}</li>
 									</c:when>
 									<c:otherwise>
-										<li value="${item.key}" ${subject} ${address} ${attach}>${item.value.title}</li>
+										<li value="${item.key}">${item.value.title}</li>
 									</c:otherwise>
 								</c:choose>
 							</c:if>
@@ -106,75 +68,40 @@
 					</jsp:attribute>
 				</ui:combo-single>
 			</div>
-			<div id="address" class="pl1" style="width: 100%; vertical-align: top;">
-				<h2>${l.l('Получатель')}</h2>
-				<input type="text" name="to" style="width: 100%;" placeholder="${l.l('Для')} EMail: addr1@domain.com, addr2@domain.com; CC: copy1@domain.com, copy2.domain.com" value="${message.to}"/>
-			</div>
+			<c:set var="tagConfig" value="${u:getConfig(ctxSetup, 'ru.bgcrm.model.message.TagConfig')}"/>
+			<c:if test="${not empty tagConfig and not empty tagConfig.tagList}">
+				<div class="pl1 w100p">
+					<h2>${l.l('Теги')}</h2>
+					<input type="hidden" name="updateTags" value="1"/>
+					<ui:select-mult list="${tagConfig.tagList}" values="${form.response.data.messageTagIds}" hiddenName="tagId"/>
+				</div>
+			</c:if>
 		</div>
-		<c:set var="tagConfig" value="${u:getConfig(ctxSetup, 'ru.bgcrm.model.config.TagConfig')}"/>
-		<c:if test="${not empty tagConfig and not empty tagConfig.tagList}">
-			<div>
-				<h2>${l.l('Теги')}</h2>
-				<input type="hidden" name="updateTags" value="1"/>
-				<ui:select-mult list="${tagConfig.tagList}" values="${form.response.data.messageTagIds}" hiddenName="tagId"/>
-			</div>
-		</c:if>
-		<div id="subject">
-			<h2>${l.l('Тема')}</h2>
-			<input type="text" name="subject" style="width: 100%;" value="${message.subject}"/>
-		</div>
+		<%@ include file="process_message_edit_text.jsp"%>
 		<div>
-			<h2>${l.l('Сообщение')}</h2>
-			<textarea rows="20" style="width: 100%; resize: vertical;" name="text" class="tabsupport">${message.text}</textarea>
-			<span class="hint">${l.l('Вы можете использовать #ID для ссылок на другие процессы, подобные записи будут автоматически преобразованы в ссылки открытия карточек')}.</span>
-		</div>
-		<div id="attach">
-			<h2>${l.l('Вложения')}</h2>
-			<div id="${uploadListId}" class="in-mb05-all">
-				<%-- already stored attachments --%>
-				<c:forEach var="item" items="${message.attachList}">
-					<c:url var="url" value="/user/file.do">
-						<c:param name="id" value="${item.id}"/>
-						<c:param name="title" value="${item.title}"/>
-						<c:param name="secret" value="${item.secret}"/>
-					</c:url>
-
-					<div>
-						<input type="hidden" name="fileId" value="${item.id}"/>
-						<ui:button styleClass="btn-small mr1" type="del" onclick="$(this.parentNode).remove()"/>
-						<a href="${url}">${item.title}</a>
-					</div>
-				</c:forEach>
-
-				<%-- here is generated a list of newly uploaded attachments --%>
-			</div>
-			<ui:button type="add" styleClass="btn-small" onclick="$$.ajax.triggerUpload('${uploadFormId}');"/>
+			<%@ include file="process_message_edit_upload_list.jsp"%>
 		</div>
 	</div>
 
-	<div class="mt1 mb1">
-		<ui:button type="ok" onclick="$$.ajax.post(this.form, {toPostNames: ['text'], control: this}).done(() => { $$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent()) })"/>
-		<ui:button type="cancel" onclick="$('#${form.returnChildUiid}').empty();" styleClass="ml1"/>
-	</div>
+	<%@ include file="process_message_edit_ok_cancel.jsp"%>
 </html:form>
 
-<%-- подготовка форм со специальными редакторами --%>
+<%-- preparation editor forms --%>
 <c:forEach var="messageType" items="${config.typeMap.values()}">
-	<c:if test="${messageType.specialEditor}">
+	<c:set var="editorJsp" value="${messageType.editorJsp}"/>
+	<c:if test="${not empty editorJsp}">
 		<html:form action="/user/message" styleId="${editorUiid}-${messageType.getClass().getName()}" styleClass="editorStopReload" style="display: none;">
 			<input type="hidden" name="action" value="messageUpdate"/>
 			<html:hidden property="processId"/>
 			<html:hidden property="id"/>
 
-			<c:set var="endpoint" value="user.process.message.editor.jsp"/>
-			<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+			<jsp:include page="${editorJsp}"/>
 		</html:form>
 	</c:if>
 </c:forEach>
 
 <script>
-	$(function()
-	{
+	$(function () {
 		${typeChangedScript}
 	})
 </script>

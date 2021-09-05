@@ -173,6 +173,9 @@ body > #content label {
 <%@ include file="style.icon.css.jsp"%>
 <%@ include file="style.menu.css.jsp"%>
 <%@ include file="style.date.css.jsp"%>
+
+<%@ include file="/WEB-INF/jspf/css/message.css.jsp"%>
+
 <%-- patch JQueryUI styles to BGERP --%>
 <%@ include file="ui-correct.css.jsp"%>
 

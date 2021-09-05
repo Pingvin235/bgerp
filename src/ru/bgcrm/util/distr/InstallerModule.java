@@ -54,10 +54,7 @@ public class InstallerModule {
         "plugin",
         // report,
         // actual dirs
-        "webapps/css",
-        "webapps/img",
-        "webapps/js",
-        "webapps/lib"
+        "webapps"
     );
 
     private static final Set<String> CLEANED_DIRS_UPDATE_LIB = Set.of(

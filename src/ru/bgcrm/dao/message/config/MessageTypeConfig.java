@@ -1,5 +1,6 @@
 package ru.bgcrm.dao.message.config;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.util.Collections;
 import java.util.List;
@@ -52,8 +53,12 @@ public class MessageTypeConfig extends Config {
                 type.setId(id);
 
                 typeMap.put(type.getId(), type);
+            } catch (InvocationTargetException e) {
+                if (!(e.getCause() instanceof InitStopException)) {
+                    log.error(e);
+                }
             } catch (Exception e) {
-                log.error(e.getMessage(), e);
+                log.error(e);
             }
         }
     }
@@ -69,6 +74,15 @@ public class MessageTypeConfig extends Config {
     @SuppressWarnings("unchecked")
     public <T extends MessageType> T getMessageType(Class<T> clazz) {
         return (T) typeMap.values().stream().filter(o -> clazz.isInstance(o)).findAny().orElse(null);
+    }
+
+    public int getUnprocessedMessagesCount() {
+        int result = 0;
+        for (MessageType type : typeMap.values()) {
+            if (type.getUnprocessedMessagesCount() != null)
+                result += type.getUnprocessedMessagesCount();
+        }
+        return result;
     }
 
     private static class MessageTypeUnknown extends MessageType {

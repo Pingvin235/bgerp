@@ -161,19 +161,19 @@ public class InetService extends IdTitleTreeItem<InetService> {
     }
 
     public String getAddrFromStr() {
-        return IPUtils.convertIpToString(Utils.convertBytesToInt(addrFrom));
+        return IPUtils.convertIpToString(IPUtils.convertBytesToInt(addrFrom));
     }
 
     public void setAddrFromStr(String addrFrom) {
-        this.addrFrom = Utils.convertIntToBytes(IPUtils.convertStringIPtoInt(addrFrom));
+        this.addrFrom = IPUtils.convertIntToBytes(IPUtils.convertStringIPtoInt(addrFrom));
     }
 
     public String getAddrToStr() {
-        return IPUtils.convertIpToString(Utils.convertBytesToInt(addrTo));
+        return IPUtils.convertIpToString(IPUtils.convertBytesToInt(addrTo));
     }
 
     public void setAddrToStr(String addrTo) {
-        this.addrTo = Utils.convertIntToBytes(IPUtils.convertStringIPtoInt(addrTo));;
+        this.addrTo = IPUtils.convertIntToBytes(IPUtils.convertStringIPtoInt(addrTo));;
     }
 
     public int getIfaceId() {

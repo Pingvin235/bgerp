@@ -9,8 +9,8 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.message.MessageTypeNote;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
-import ru.bgcrm.model.config.TagConfig;
-import ru.bgcrm.model.config.TagConfig.Tag;
+import ru.bgcrm.model.message.TagConfig;
+import ru.bgcrm.model.message.TagConfig.Tag;
 import ru.bgcrm.util.Setup;
 
 @Test(groups = "message", dependsOnGroups = { "customer", "process", "scheduler" })

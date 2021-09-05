@@ -21,12 +21,10 @@ public class ProcessFilterCounterListener {
     private static final Log log = Log.getLog();
 
     public ProcessFilterCounterListener() {
-        EventProcessor.subscribe((e, conSet) -> {
-            processListener(e.getForm(), conSet);
-        }, GetPoolTasksEvent.class);
+        EventProcessor.subscribe((e, conSet) -> processListener(e.getForm(), conSet), GetPoolTasksEvent.class);
     }
 
-    private void processListener(DynActionForm form, ConnectionSet connectionSet) {
+    private void processListener(DynActionForm form, ConnectionSet conSet) {
         Preferences personalizationMap = form.getUser().getPersonalizationMap();
 
         // впоследствии они вернуться в это же место кода в processCounterUrls параметре запроса

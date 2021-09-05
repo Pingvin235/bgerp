@@ -12,4 +12,10 @@ public class UtilsTest {
         Assert.assertTrue(Utils.isValidEmail("vasya@server.com"));
         Assert.assertTrue(Utils.isValidEmail("vova <vasya@server.com>"));
     }
+
+    @Test
+    public void testHasClass() {
+        Assert.assertTrue("Should has class", Utils.hasClass("", "a.b.c", "java.lang.String"));
+        Assert.assertFalse("Should hasn't class", Utils.hasClass("", "t.b.c"));
+    }
 }

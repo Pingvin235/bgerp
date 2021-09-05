@@ -1,5 +1,6 @@
 package ru.bgcrm.event.client;
 
+@Deprecated
 public class UrlOpenEvent
 	extends ClientEvent
 {

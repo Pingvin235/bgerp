@@ -15,7 +15,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     public static final String LINK_TYPE_CHANNEL = "slack-channel";
 
-    private static final String PATH_JSP_USER = BaseAction.PATH_JSP_USER_PLUGIN + "/" + ID;
+    public static final String PATH_JSP_USER = BaseAction.PATH_JSP_USER_PLUGIN + "/" + ID;
     private static final String PATH_JSP_ADMIN = BaseAction.PATH_JSP_ADMIN_PLUGIN + "/" + ID;
 
     public Plugin() {
@@ -41,8 +41,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         return Map.of(
             Endpoint.USER_ADMIN_MENU_ITEMS, List.of(PATH_JSP_ADMIN + "/menu_items.jsp"),
             "user.process.link.list.jsp", List.of(PATH_JSP_USER + "/process_link_list.jsp"),
-            "user.process.linkForAddCustom.jsp", List.of(PATH_JSP_USER + "/process_link_for_add_custom_list.jsp"),
-            "user.process.message.header.jsp", List.of(PATH_JSP_USER + "/process_link_list.jsp")
+            "user.process.linkForAddCustom.jsp", List.of(PATH_JSP_USER + "/process_link_for_add_custom_list.jsp")
         );
     }
 }

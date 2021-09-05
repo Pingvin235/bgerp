@@ -11,48 +11,39 @@
 <c:set var="typeCall" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeCall'}"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>
-<div id="${uiid}" class="in-ml1">
-	<h1 style="display: inline-block;"><a href="#" onclick="openUrlContent('${form.requestUrl}'); return false;">${l.l('Обработка')}</a></h1>
-	<button  type="button" class="ml1 btn-white" onClick="openUrlContent('${form.returnUrl}')" title="Закрыть">&lt;</button>
+
+<c:set var="stateUiid" value="${u:uiid()}"/>
+<div id="${stateUiid}">
+	<h1 style="display: inline-block;"><a href="#" onclick="$$.ajax.load('${form.requestUrl}', $$.shell.$content($('#${uiid}'))); return false;">${l.l('Обработка')}</a></h1>
+	<ui:button type="close" styleClass="ml1" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content($('#${uiid}')))"/>
 </div>
+<shell:state moveSelector="#${stateUiid}"/>
 
-<script>
-	$(function()
-	{
-		var $state = $('#title > .status:visible > .wrap > .center');
-		$state.html( "" );
-
-		$('#${uiid}').appendTo( $state );
-	})
-</script>
-
-<c:set var="uiid" value="${u:uiid()}"/>
 <%-- добавляются табы с найденными объектами, в т.ч. договорами биллинга --%>
 <c:set var="searchTabsUiid" value="${u:uiid()}" scope="request"/>
 
-<div style="width: 100%;" id="${uiid}" class="in-inline-block in-va-top">
+<div id="${uiid}" class="in-inline-block in-va-top">
 	<div style="width: 50%;">
 		<c:choose>
 			<%-- процесс ещё не привязан --%>
 			<c:when test="${empty message.process}">
 				<h2>${l.l('Создать новый процесс')}</h2>
 
-				<form action="/user/process.do" style="width:100%;" onsubmit="return false;">
+				<form action="/user/message.do" onsubmit="return false;">
 					<input type="hidden" name="action" value="processCreate"/>
-					<input type="hidden" name="trans_id" value="${uiid}"/>
 					<input type="hidden" name="wizard" value="0"/>
-					<input type="hidden" name="messageId" value="${message.id}"/>
+					<input type="hidden" name="messageTypeId" value="${form.param.typeId}"/>
+					<input type="hidden" name="messageId" value="${form.param.messageId}"/>
 
 					<div id="typeTree">
 						<jsp:include page="/WEB-INF/jspf/user/process/tree/process_type_tree.jsp"/>
 					</div>
 
-					<c:set var="customerLinkRoleConfig" value="${u:getConfig( setup, 'ru.bgcrm.model.customer.config.ProcessLinkModesConfig' )}"/>
-
 					<div class="mt1">
 						<b>${l.l('Привязать')}:</b><br/>
 
 						<c:set var="searchBlockId" value="${u:uiid()}"/>
+						<c:set var="searchResultId" value="${u:uiid()}"/>
 
 						<div class="in-inline-block" id="${searchBlockId}">
 							<u:sc>
@@ -70,11 +61,11 @@
 							</u:sc>
 
 							<c:set var="searchScript">
-								var searchId = this.form.searchId.value;
-								var url = '/user/message.do?id=${form.id}&typeId=${form.param.typeId}&messageId=' + encodeURIComponent( '${form.param.messageId}' ) +
-									'&searchId=' + searchId + '&returnUrl=' + encodeURIComponent( '${form.returnUrl}' ) +
+								const searchId = this.form.searchId.value;
+								const url = '/user/message.do?action=linksSearch&id=${form.id}&typeId=${form.param.typeId}&messageId=' + encodeURIComponent('${form.param.messageId}') +
+									'&searchId=' + searchId + '&returnUrl=' + encodeURIComponent('${form.returnUrl}') +
 									'&' + $(this.form).find( '.filter#' + searchId ).serializeAnything();
-								openUrlToParent( url, $('#${uiid}') );
+								$$.ajax.load(url, $('#${searchResultId}'), {control: this.button});
 							</c:set>
 
 							<c:set var="searchOnEnter" scope="request">onkeypress="if( enterPressed( event ) ){ ${searchScript}; return false;}"</c:set>
@@ -90,35 +81,9 @@
 							<button type="button" class="btn-grey" onclick="${searchScript}">${l.l('Искать')}</button>
 						</div>
 
-						<table class="data mt05" style="width: 100%;">
-							<tr>
-								<td>&nbsp;</td>
-								<td>ID</td>
-								<td>${l.l('Тип')}</td>
-								<td width="100%">${l.l('Наименование')}</td>
-							</tr>
-
-							<c:forEach var="item" items="${searchedList}" varStatus="status">
-								<c:set var="item" value="${item}" scope="request"/>
-
-								<tr>
-									<td>
-										<input type="checkbox" name="linked" value="${item.linkedObjectType}*${item.linkedObjectId}*${fn:escapeXml( item.linkedObjectTitle )}">
-									</td>
-									<td>${item.linkedObjectId}</td>
-
-									<c:set var="customerLinkRole" value="${customerLinkRoleConfig.modeMap[item.linkedObjectType]}"/>
-
-									<c:if test="${not empty customerLinkRole}">
-										<td>${customerLinkRole}</td>
-										<td><a href="#" onclick="openCustomer( ${item.linkedObjectId} ); return false;">${fn:escapeXml( item.linkedObjectTitle )}</a></td>
-									</c:if>
-
-									<c:set var="endpoint" value="user.message.search.result.jsp"/>
-									<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
-								</tr>
-							</c:forEach>
-						</table>
+						<div id="${searchResultId}">
+							<%@ include file="message_search_result.jsp"%>
+						</div>
 					</div>
 
 					<div class="mt1">
@@ -127,46 +92,21 @@
 						<textarea name="description" rows="5" style="width: 100%; resize: vertical;">${message.subject}</textarea>
 						<div class="hint">${l.l('Краткое описание процесса')}</div>
 
+
 						<c:set var="createCommand">
-							var result = sendAJAXCommand( formUrl( this.form ) );
-							if( !result )
-							{
-								return;
-							}
-
-							var processId = result.data.process.id;
-							$( '#${uiid} input:checkbox:checked' ).each( function()
-							{
-								var tokens = $(this).val().split( '*' );
-
-								var url =
-									'/user/link.do?action=addLink&objectType=process&id=' + processId + '&linkedObjectType=' + tokens[0] +
-									'&linkedObjectId=' + tokens[1] + '&linkedObjectTitle=' + encodeURIComponent( tokens[2] );
-								if( !sendAJAXCommand( url) )
-								{
-									return;
-								}
+							$$.ajax.post(this.form).done((result) => {
+								$$.process.open(result.data.process.id);
+								<%-- TODO: Reload messages list --%>
 							});
-
-							var url =
-								'/user/message.do?action=messageUpdateProcess&id=${form.id}&processId=' + processId + '&trans_id=${uiid}&trans_end=1' +
-								'&notification=' + $(this.form.notification).val() +
-								'&contactSaveMode=' + $(this.form.contactSaveMode).val() +
-								'&typeId=${form.param.typeId}' +
-								'&messageId=' + encodeURIComponent( '${form.param.messageId}' );
-
-							var result = sendAJAXCommand( url );
-							if( result )
-							{
-								var url = '/user/message.do?id=' + result.data.id + '&returnUrl=${form.returnUrl}';
-								openUrlToParent( url, $('#${uiid}') );
-							}
 						</c:set>
 
 						<div class="mt1">
 							<%@ include file="process_link_params.jsp"%>
 
-							<button class="btn-grey" type="button" onclick="${createCommand}">${l.l('Создать процесс')}</button>
+							<%-- Is it needed to hide the buttome without permission? --%>
+							<p:check action="ru.bgcrm.struts.action.MessageAction:processCreate">
+								<button class="btn-grey" type="button" onclick="${createCommand}">${l.l('Создать процесс')}</button>
+							</p:check>
 						</div>
 					</div>
 				</form>
@@ -184,7 +124,7 @@
 					<c:import url="${url}"/>
 				</div>
 			</c:when>
-			<%-- процесс привязан --%>
+			<%-- has a process --%>
 			<c:otherwise>
 				<u:sc>
 					<c:set var="process" value="${message.process}"/>
@@ -268,10 +208,6 @@
 					${l.l('Укажите код для привязки процесса. Код "0" - для отвязки сообщения от процесса.')}
 			</div>
 		</html:form>
-
-		<%--
-		<button class="btn-grey mt1" type="button" onclick="openUrlContent( '${form.returnUrl}' )">Закрыть</button>
-		--%>
 	</div><%--
 --%><div style="width: 50%;" class="pl1">
 		<c:choose>
@@ -328,3 +264,4 @@
 <div id="${searchTabsUiid}">
 	<ul></ul>
 </div>
+

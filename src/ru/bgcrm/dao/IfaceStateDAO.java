@@ -2,6 +2,7 @@ package ru.bgcrm.dao;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +14,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.IfaceState;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgerp.util.Log;
 
@@ -83,7 +83,7 @@ public class IfaceStateDAO extends CommonDAO{
                 //TODO: Параметр просто записывается последним, необходимо парсить URL, заменять значение.
                 form.setRequestUrl(form.getRequestUrl() + 
                         "&" + IfaceState.REQUEST_PARAM_STATE + "=" + 
-                        URLEncoder.encode(current.getState(), Utils.UTF8.toString()));
+                        URLEncoder.encode(current.getState(), StandardCharsets.UTF_8.name()));
             } catch (UnsupportedEncodingException e) {
                 throw new BGException(e);
             }

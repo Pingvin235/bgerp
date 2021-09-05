@@ -9,16 +9,10 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 public class ParamValidatorSystemListener {
     public ParamValidatorSystemListener() {
-        EventProcessor.subscribe(new EventListener<ParamChangingEvent>() {
-            @Override
-            public void notify(ParamChangingEvent e, ConnectionSet connectionSet) throws BGException {
-                paramChanging(e, connectionSet);
-            }
-
-        }, ParamChangingEvent.class);
+        EventProcessor.subscribe((e, conSet) -> paramChanging(e, conSet), ParamChangingEvent.class);
     }
 
-    private void paramChanging(ParamChangingEvent e, ConnectionSet connectionSet) throws BGException {
+    private void paramChanging(ParamChangingEvent e, ConnectionSet conSet) throws BGException {
         Parameter param = e.getParameter();
 
         if (!Parameter.TYPE_TEXT.equals(param.getType())) {

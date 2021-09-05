@@ -16,11 +16,13 @@ import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/user/messageCall")
 public class MessageCallAction extends BaseAction {
     
     public ActionForward numberRegister(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {

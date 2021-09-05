@@ -996,7 +996,7 @@ $('#loginForm').dialog({
 By doing <<action>> in object *l* the localization context is passed, containing phrases for the core and the plugin being called.
 
 [snippet, from="message.se", to="());", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L235-L235[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L191-L191[ru.bgcrm.struts.action.MessageAction]
 
 Localized key string may contain placeholders for some values, marked as *{}*.
 Such case may be seen for <<exception, BGMessageException sample>>.
@@ -1038,31 +1038,31 @@ paramId
 [[naming-date]]
 === Date - field entity
 If a field has only date, then:
-createDate - Java - java.util.Date type
-create_date - DB - date type
+* Java: *createDate* type *java.util.Date*
+* DB: *create_date* type *DATE* 
 
 If a field has date + time, then:
-createTime - Java - java.util.Date type
-create_dt - DB - datetime type
+* Java: *createTime* type *java.util.Date*
+* DB: *create_dt* type *DATETIME*
 
 [[naming-date-period]]
 === Date - period entity
 If saving in bins, period has to use java.util.Date type with the following naming convention:
-dateFrom
-dateTo
+* dateFrom
+* dateTo
 
 Corresponding set and get methods:
-setDateFrom
-setDateTo
-getDateFrom
-getDateTo
+* setDateFrom
+* setDateTo
+* getDateFrom
+* getDateTo
 
 CAUTION: Do not use Calendar beans!
 Use TimeUtils to convert into Calendar or from Calendar.
 
 For storing 'time', use:
-timeFrom
-timeTo
+* timeFrom
+* timeTo
 
 .. and also java.util.Date type.
 
@@ -1117,11 +1117,11 @@ Let's take interface filters, as example - use *restoreRequestParams* method in 
 
 Saving a value:
 [snippet, from="resto", to=");", remove-leading=    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L90-L90[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L64-L64[ru.bgcrm.struts.action.MessageAction]
 
 Restoring a value:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L282-L294[ru.bgcrm.struts.action.MessageAction]
+link:../../src/ru/bgcrm/struts/action/MessageAction.java#L415-L423[ru.bgcrm.struts.action.MessageAction]
 
 Saving and restoring a value at once:
 [snippet, from="//", to=");", remove-leading="    "]
@@ -1213,9 +1213,11 @@ Action execution result include:
 [snippet, from="<c:", to="/>", remove-leading="			"]
 link:../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L161-L166[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
 
-Flex layout, using constants from Java classes, print button close to a field:
+Flex layout, using constants from Java classes (defined in link:../../webapps/WEB-INF/jspf/user/search/process_search_constants.jsp[process_search_constants.jsp]), print button close to a field:
 [snippet, from="<div", to="/div>", remove-leading="				"]
 link:../../webapps/WEB-INF/jspf/user/search/search.jsp#L77-L91[webapps/WEB-INF/jspf/user/search/search.jsp]
+
+IMPORTANT: For some reason a class, containing included constant must not contain `config` word in package path.
 
 Snap-in refresh upon moving back to it:
 [snippet, from="<script", to="/script>"]
@@ -1246,7 +1248,7 @@ NOTE: Here and below all commands are shown for WSL environment, *NIX will not n
 === Documentation
 [source]
 ----
-bash -c "./gradlew clean buildDoc"
+bash -c "./gradlew clean doc"
 ----
 Resulting HTML files will be present in *target/doc*. Internal link validation is performed automatically.
 

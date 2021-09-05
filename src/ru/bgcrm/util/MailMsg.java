@@ -1,5 +1,6 @@
 package ru.bgcrm.util;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +54,7 @@ public class MailMsg {
     }
 
     public static String getParamMailEncoding(ParameterMap paramMap) {
-        return paramMap.get("mail.encoding", Utils.UTF8.name());
+        return paramMap.get("mail.encoding", StandardCharsets.UTF_8.name());
     }
 
     /**

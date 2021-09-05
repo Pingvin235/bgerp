@@ -27,7 +27,7 @@ import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.config.IsolationConfig;
-import ru.bgcrm.model.config.TagConfig;
+import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
@@ -294,6 +294,8 @@ public class MessageDAO extends CommonDAO {
         return result;
     }
 
+    /** Use {@link MessageSearchDAO}. */
+    @Deprecated
     public void searchMessageList(SearchResult<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from)
             throws BGException {
@@ -301,6 +303,8 @@ public class MessageDAO extends CommonDAO {
                 dateFrom, dateTo, from, true);
     }
     
+    /** Use {@link MessageSearchDAO}. */
+    @Deprecated
     public void searchMessageList(SearchResult<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder) throws BGException {
@@ -308,6 +312,8 @@ public class MessageDAO extends CommonDAO {
                 dateFrom, dateTo, from, true, null);
     }
 
+    /** Use {@link MessageSearchDAO}. */
+    @Deprecated
     public void searchMessageList(SearchResult<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder, Set<Integer> tagIds) throws BGException {
@@ -315,6 +321,7 @@ public class MessageDAO extends CommonDAO {
                 direction, processed, withAttach, dateFrom, dateTo, from, true, tagIds);
     }
 
+    /** Use {@link MessageSearchDAO}. */
     @Deprecated
     public void searchMessageList(SearchResult<Message> searchResult, Collection<Integer> processIds, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
@@ -323,6 +330,8 @@ public class MessageDAO extends CommonDAO {
                 dateFrom, dateTo, from, true, tagIds);
     }
     
+    /** Use {@link MessageSearchDAO}. */
+    @Deprecated
     public void searchMessageList(SearchResult<Message> searchResult, Collection<Integer> processIds, Set<Integer> typeIds,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder, Set<Integer> tagIds) throws BGException {
