@@ -1,0 +1,2 @@
+F: Duplicated process status change logging.
+C: Button's icon for exiting from objects Close (ti-close) to Back (ti-arrow-left).

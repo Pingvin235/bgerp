@@ -10,6 +10,7 @@ import java.util.List;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.EntityLogItem;
 import ru.bgcrm.util.TimeUtils;
+import ru.bgcrm.util.Utils;
 
 public class EntityLogDAO extends CommonDAO {
     private String table;
@@ -20,7 +21,7 @@ public class EntityLogDAO extends CommonDAO {
     }
 
     public void insertEntityLog(int id, int userId, String text) throws SQLException {
-        if (text.length() > 0) {
+        if (Utils.notBlankString(text)) {
             String query = "INSERT INTO" + table + "( dt, id, user_id, data) VALUES( NOW(), ?, ?, ?)";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);

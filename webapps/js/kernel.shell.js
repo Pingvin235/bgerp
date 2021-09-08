@@ -48,7 +48,7 @@ $$.shell = new function () {
 								<h1 class='title' title='Refresh'></h1>";
 			if (closable) {
 				divTemplate +=
-					"<div class='icon-close btn-white-hover icon' title='Close'><i class='ti-close'></i></div>";
+					"<div class='icon-close btn-white-hover icon' title='Back'><i class='ti-arrow-left'></i></div>";
 			}
 
 			divTemplate += "\

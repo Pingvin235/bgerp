@@ -15,7 +15,6 @@ import org.apache.commons.collections.CollectionUtils;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Id;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.TimeUtils;
@@ -444,9 +443,9 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
 
         final String separator = "; ";
 
-        if (statusId != oldProcess.getStatusId()) {
+        /*if (statusId != oldProcess.getStatusId()) {
             Utils.addSeparated(result, separator, "Статус: " + ProcessTypeCache.getStatusSafe(statusId).getTitle());
-        }
+        }*/
 
         if (!description.equals(oldProcess.getDescription())) {
             Utils.addSeparated(result, separator, "Описание");

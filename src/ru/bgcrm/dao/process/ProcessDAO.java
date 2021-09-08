@@ -1501,10 +1501,7 @@ public class ProcessDAO extends CommonDAO {
     }
 
     private void logProcessChange(Process process, Process oldProcess) throws SQLException {
-        String changes = process.getChangesLog(oldProcess);
-        if (changes.length() > 0) {
-            logProcessChange(process.getId(), changes.toString());
-        }
+        logProcessChange(process.getId(), process.getChangesLog(oldProcess));
     }
 
     private void logProcessChange(int processId, String log) throws SQLException {
@@ -1514,10 +1511,8 @@ public class ProcessDAO extends CommonDAO {
     public Process updateProcess(Process process) throws SQLException {
         if (process != null) {
             Process oldProcess = getProcess(process.getId());
-            if (history) {
-                if (oldProcess != null && !oldProcess.isEqualProperties(process)) {
-                    logProcessChange(process, oldProcess);
-                }
+            if (history && oldProcess != null && !oldProcess.isEqualProperties(process)) {
+                logProcessChange(process, oldProcess);
             }
 
             int index = 1;
