@@ -10,6 +10,11 @@ user.password.chars=1234567890qwertyupasdfghjkzxcvbnmiloQWERTYUIOPASDFGHJKLZXCVB
 user.password.length.min=5
 user.password.length.max=10
 
+# custom process priorities
+#process.priority.0.color=yellow
+#process.priority.1.color=#00FF00
+#process.priority.2.color=#F00
+
 # check user permissions, 1 - enable 
 user.permission.check=0
 

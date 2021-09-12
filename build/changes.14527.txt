@@ -1,0 +1,1 @@
+A: Configurable process priorities. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config-process-priority

@@ -82,6 +82,11 @@ user.password.length.max=10
 # <<process/index.adoc#group-executor-role, роли>> [[config-group-executor-role]] групп в процессах, добавляются через точку с запятой в виде <id>:<title>
 processGroupRoles=0:Выполнение
 #
+# custom process <<process/index.adoc#priority, priorities>> [[config-process-priority]]
+#process.priority.0.color=yellow
+#process.priority.1.color=#00FF00
+#process.priority.2.color=#F00
+#
 # параметры EMail
 mail.from.email=bgcrm@xxxxxxx
 mail.from.name=BGERP
