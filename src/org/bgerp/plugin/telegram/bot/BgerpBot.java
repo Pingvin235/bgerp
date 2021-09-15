@@ -1,28 +1,27 @@
 package org.bgerp.plugin.telegram.bot;
 
-import java.sql.Connection;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.telegram.telegrambots.ApiContextInitializer;
+import org.bgerp.plugin.telegram.Config;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.BotSession;
-
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
-import org.bgerp.plugin.telegram.Config;
 import ru.bgerp.util.Log;
+
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BgerpBot extends TelegramLongPollingBot {
     private static class UserData {
@@ -33,7 +32,7 @@ public class BgerpBot extends TelegramLongPollingBot {
 
     private static BgerpBot instance;
 
-    private Map<Long, UserData> userMap = new HashMap<>();
+    private final Map<Long, UserData> userMap = new HashMap<>();
 
     private static BotSession botSession;
 
@@ -60,8 +59,9 @@ public class BgerpBot extends TelegramLongPollingBot {
         }
     }
 
-    private static BgerpBot init() {
-        // пробуем остановить старую, на всякий случай
+    private static BgerpBot init() throws Exception {
+
+        // trying to stop the old one
         try {
             if (botSession != null) {
                 botSession.stop();
@@ -70,10 +70,9 @@ public class BgerpBot extends TelegramLongPollingBot {
         } catch (Exception e) {
             log.error("Catch exception", e);
         }
-        ApiContextInitializer.init(); // Инициализируем апи
 
-        TelegramBotsApi botapi = new TelegramBotsApi();
-        DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+        TelegramBotsApi botapi = new TelegramBotsApi(DefaultBotSession.class);
+        DefaultBotOptions botOptions = new DefaultBotOptions();
         Config config = Setup.getSetup().getConfig(Config.class);
         if (config.getProxyHost() != null) {
             botOptions.setProxyHost(config.getProxyHost());
@@ -120,70 +119,76 @@ public class BgerpBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update e) {
-        // Тут будет то, что выполняется при получении сообщения
-        Config config = Setup.getSetup().getConfig(Config.class);
-        Message msg = e.getMessage();
-        String txt = msg.getText();
-        Long chatId = msg.getChatId();
-        if (txt.equals("/start")) {
-            userMap.put(chatId, new UserData());
-            sendMessage(chatId, config.getMsgAskLogin());
-            return;
-        }
-        if (txt.equals("/getid")) {
-            userMap.put(chatId, null);
-            sendMessage(chatId, "Your telegramId=" + chatId);
-            return;
-        }
-        if (txt.equals("/cancel")) {
-            userMap.put(chatId, null);
-            sendMessage(chatId, config.getMsgDefaultAnswer());
-            return;
-        }
-        UserData userData = userMap.get(chatId);
-        if (userData != null) {
-            if (userData.login == null) {
-                // ожидаем ввод логина
-                userData.login = txt;
-                sendMessage(chatId, config.getMsgAskPassword());
+        // This will be what is executed when a private message is received.
+        if (e.getMessage().isUserMessage() && e.hasMessage() && e.getMessage().hasText()) {
+            Config config = Setup.getSetup().getConfig(Config.class);
+            Message msg = e.getMessage();
+            String text = msg.getText();
+            Long chatId = msg.getChatId();
+
+            if (text.equals("/start")) {
+                sendMessage(chatId, config.getMsgDefaultAnswer());
                 return;
-            } else {
-                User user = UserCache.getUser(userData.login);
-                if (user == null || !user.getPassword().equals(txt)) {
-                    sendMessage(chatId, config.getMsgWrongPassword());
-                    userMap.put(chatId, new UserData());
-                    sendMessage(chatId, config.getMsgAskLogin());
-                    return;
-                }
-                // сохраняем в параметре
-                Connection con = Setup.getSetup().getDBConnectionFromPool();
-                try {
-                    ParamValueDAO paramDAO = new ParamValueDAO(con);
-                    paramDAO.updateParamText(user.getId(), config.getParamId(), String.valueOf(chatId));
-                    con.commit();
-                    userMap.put(chatId, null);
-                    sendMessage(chatId, config.getMsgLinkChange());
-                } catch (Exception ex) {
-                    log.error("Error storing subscription in Telegram", ex);
-                } finally {
-                    SQLUtils.closeConnection(con);
+            }
+            if (text.equals("/login")) {
+                userMap.put(chatId, new UserData());
+                sendMessage(chatId, config.getMsgAskLogin());
+                return;
+            }
+            if (text.equals("/getid")) {
+                userMap.put(chatId, null);
+                sendMessage(chatId, "Your telegramId=" + chatId);
+                return;
+            }
+            if (text.equals("/help")) {
+                userMap.put(chatId, null);
+                sendMessage(chatId, config.getMsgUrlHelp());
+                return;
+            }
+
+            UserData userData = userMap.get(chatId);
+            if (userData != null) {
+                if (userData.login == null) {
+                    // waiting for input login
+                    userData.login = text;
+                    sendMessage(chatId, config.getMsgAskPassword());
+                } else {
+                    User user = UserCache.getUser(userData.login);
+                    if (user == null || !user.getPassword().equals(text)) {
+                        sendMessage(chatId, config.getMsgWrongPassword());
+                        userMap.put(chatId, new UserData());
+                        sendMessage(chatId, config.getMsgAskLogin());
+                        return;
+                    }
+                    // Save in user param
+                    Connection con = Setup.getSetup().getDBConnectionFromPool();
+                    try {
+                        ParamValueDAO paramDAO = new ParamValueDAO(con);
+                        paramDAO.updateParamText(user.getId(), config.getParamId(), String.valueOf(chatId));
+                        con.commit();
+                        userMap.put(chatId, null);
+                        sendMessage(chatId, config.getMsgLinkChange());
+                    } catch (Exception ex) {
+                        log.error("Error storing subscription in Telegram ", ex);
+                    } finally {
+                        SQLUtils.closeConnection(con);
+                    }
                 }
             }
         }
-        // просто ответ.
-        sendMessage(chatId, config.getMsgDefaultAnswer());
     }
 
     public void sendMessage(Long chatId, String text) {
-        SendMessage s = new SendMessage();
-        s.setChatId(chatId);
-        s.setText(text);
-        s.setParseMode("Markdown");
+        SendMessage message = SendMessage.builder()
+                .chatId(Long.toString(chatId))
+                .text(text)
+                .parseMode(ParseMode.MARKDOWN)
+                .build();
         try {
-            execute(s);
+            execute(message);
         } catch (TelegramApiException e) {
-            // TODO Auto-generated catch block
-            log.error("Message was not sent", e);
+            log.error("Message was not sent ", e);
         }
     }
+
 }

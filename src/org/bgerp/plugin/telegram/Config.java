@@ -16,6 +16,7 @@ public class Config extends ru.bgcrm.util.Config {
     private final String msgAskPassword;
     private final String msgLinkChange;
     private final String msgDefaultAnswer;
+    private final String msgUrlHelp;
     private final String proxyHost;
     private final String proxyPort;
     private final String proxyType;
@@ -40,7 +41,8 @@ public class Config extends ru.bgcrm.util.Config {
         msgAskLogin = setup.get("msgAskLogin", "Для подключение к уведомлениям bgerp введите свой логин");
         msgAskPassword = setup.get("msgAskPassword", "Введите пароль");
         msgLinkChange = setup.get("msgLinkChange", "Теперь вы будете получать уведомления");
-        msgDefaultAnswer = setup.get("msgDefaultAnswer", "Введите /start для подписки, или /getid,чтобы получить свой telegramId ");
+        msgDefaultAnswer = setup.get("msgDefaultAnswer", "Введите /login для подписки, или /getid,чтобы получить свой telegramId");
+        msgUrlHelp = setup.get("msgUrlHelp", "https://bgerp.org/doc/3.0/manual/plugin/telegram/index.html");
     }
 
     public String getProxyType() {
@@ -93,6 +95,10 @@ public class Config extends ru.bgcrm.util.Config {
 
     public String getMsgDefaultAnswer() {
         return msgDefaultAnswer;
+    }
+
+    public String getMsgUrlHelp() {
+        return msgUrlHelp;
     }
 
 }

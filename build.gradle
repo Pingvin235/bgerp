@@ -129,8 +129,8 @@ dependencies {
     bgerp 'net.i2p.crypto:eddsa:0.3.0'
 
     // Telegram
-    bgerp 'org.telegram:telegrambots:4.2'
-    bgerp 'org.telegram:telegrambots-meta:4.2'
+    bgerp 'org.telegram:telegrambots:5.3.0'
+    bgerp 'org.telegram:telegrambots-meta:5.3.0'
     bgerp 'aopalliance:aopalliance:1.0'
     bgerp 'org.json:json:20180813'
     bgerp 'com.google.guava:failureaccess:1.0.1'
