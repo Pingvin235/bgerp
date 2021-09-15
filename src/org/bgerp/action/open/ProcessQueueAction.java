@@ -10,16 +10,18 @@ import org.apache.struts.action.ActionMapping;
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGSecureException;
+import ru.bgcrm.model.BGSecurityException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Queue;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/open/process/queue")
 public class ProcessQueueAction extends BaseAction {
     private static final String PATH_JSP =  PATH_JSP_OPEN + "/process/queue";
 
@@ -63,7 +65,7 @@ public class ProcessQueueAction extends BaseAction {
 
         var config = setup.getConfig(Config.class);
         if (config == null || !config.isOpen(queueId))
-            throw new BGSecureException("Not opened queue was directly requested", form);
+            throw new BGSecurityException("Not opened queue was directly requested", form);
 
         Queue queue = ProcessQueueCache.getQueue(queueId);
         if (queue == null)

@@ -88,7 +88,7 @@
 			<td width="100%"><%-- style="padding: 2px;" --%>
 				<c:choose>
 					<c:when test="${'file' eq parameter.type}">
-						<%-- TODO: Cleanup all these showForOwnerOnly, showForOwnerGroupOnly and version specific things. --%>
+						<%-- TODO: Cleanup all these showForOwnerOnly, showForOwnerGroupOnly and version specific things.
 						<c:set var="showForOwnerOnly" value="${parameter.configMap.showForOwnerOnly}" />
 						<c:set var="showForOwnerGroupOnly" value="${parameter.configMap.showForOwnerGroupOnly}" />
 
@@ -96,6 +96,7 @@
 							<input type="button" value="Только последние/все версии"
 								onclick="$('div[overrided=1]').toggle(); $('div[version]').each( function() { var padding=parseInt($(this).css('padding-left'))>0?0:20*($(this).attr('version')-1);  $(this).css('padding-left',padding); } );" />
 						</c:if>
+						--%>
 
 						<c:forEach var="file" items="${item.value}" varStatus="status">
 							<c:set var="value" value="${file.value}" />
@@ -121,7 +122,6 @@
 												<input type="hidden" name="id" value="${id}" />
 												<input type="hidden" name="paramId" value="${parameter.id}" />
 												<input type="hidden" name="position" value="${position}" />
-												<input type="hidden" name="version" value="${version}" />
 
 												<c:set var="deleteCommand" value="formUrl( this.form )" />
 												<c:set var="deleteAjaxCommandAfter">openUrlToParent( '${form.requestUrl}', $('#${tableId}') )</c:set>

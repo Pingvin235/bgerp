@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
@@ -807,17 +808,31 @@ public class Utils {
      * @return строка
      */
     public static String getDigest(String value, String charset) {
-        StringBuffer passwdDigest = new StringBuffer();
+        try {
+            return getDigest(value.getBytes(charset));
+        } catch (UnsupportedEncodingException e) {
+            log.error(e);
+            return null;
+        }
+    }
+
+    /**
+     * HEX representation of MD5 digest.
+     * @param value digest basic.
+     * @return digest HEX string or {@code null} in case of any error.
+     */
+    public static String getDigest(byte[] value) {
+        StringBuffer passwdDigest = new StringBuffer(32);
         try {
             MessageDigest digest = MessageDigest.getInstance("MD5");
-            digest.update(value.getBytes(charset));
+            digest.update(value);
             byte[] digestBytes = digest.digest();
             for (int i = 0; i < digestBytes.length; i++) {
                 passwdDigest.append(HEX[(digestBytes[i] & 0xF0) >> 4]);
                 passwdDigest.append(HEX[digestBytes[i] & 0x0F]);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex);
         }
         return passwdDigest.length() == 0 ? null : passwdDigest.toString();
     }
@@ -873,74 +888,20 @@ public class Utils {
     }
 
     /**
-     * Преобразование массива байт в HEX строку.
-     * @param bytes массив байт
-     * @param upperCase если true, то символы результата в верхнем регистре
-     * @return
+     * @return generated random string with 32 ASCII chars.
      */
-    // TODO: Move in XMLDatabaseSerializer if needed.
-    @Deprecated
-    public static String bytesToString(byte[] bytes, boolean upperCase) {
-        if (bytes == null || bytes.length == 0) {
-            return "";
-        }
-
-        final char[] hex = upperCase ? Utils.HEX : Utils.HEX_LOWERCASE;
-        final StringBuilder sb = new StringBuilder(bytes.length * 2);
-
-        for (int i = 0, size = bytes.length; i < size; i++) {
-            sb.append(hex[(bytes[i] & 0xF0) >> 4]);
-            sb.append(hex[bytes[i] & 0x0F]);
-        }
-
-        return sb.toString();
+    public static final String generateSecret() {
+        byte[] random = new byte[32];
+        new Random().nextBytes(random);
+        return Utils.getDigest(random);
     }
 
     /**
-     * Конвертирование HEX строки вида 0bcf224ba2 или 0BCF224BA2 в массив байт.
-     * @param s строка вида 0bcf224ba2 или 0BCF224BA2
-     * @return
-     */
-    // TODO: Move in XMLDatabaseSerializer if needed.
-    @Deprecated
-    public static byte[] stringToBytes(final String s) {
-        if (Utils.isBlankString(s)) {
-            return null;
-        }
-
-        final int size = s.length();
-
-        int i, j;
-        final byte[] result;
-        // если количество цифр нечетное - считаем что первая цифра - 0
-        if (size % 2 == 0) {
-            i = j = 0;
-            result = new byte[size / 2];
-        } else {
-            i = j = 1;
-            result = new byte[size / 2 + 1];
-
-            result[0] = (byte) Character.digit(s.charAt(0), 16);
-        }
-
-        while (i < size) {
-            int digit1 = Character.digit(s.charAt(i++), 16);
-            int digit2 = Character.digit(s.charAt(i++), 16);
-
-            result[j++] = (byte) (digit1 * 16 + digit2);
-        }
-
-        return result;
-    }
-
-    /**
-     * Возвращает первый элемент коллекции либо null если коллекция пуста.
-     * 
-     * @param collection
-     * @return
+     * @param collection collection of elements.
+     * @return the first element from {@code collection}, or {@code null} if collection is {@code null} or empty.
      */
     public static <T> T getFirst(Collection<T> collection) {
-        if (collection.size() > 0) {
+        if (collection != null && collection.size() > 0) {
             return collection.iterator().next();
         }
         return null;
@@ -948,12 +909,33 @@ public class Utils {
 
     /**
      * Calls {@link Functions#escapeXml(String)} - replaces XML markup symbols to special codes.
-     *
      * @param value
      * @return
      */
     public static String escapeXml(String value) {
         return Functions.escapeXml(value);
+    }
+
+    /**
+     * Extracts entity ID from URL.
+     * @param url URL.
+     * @return extracted positive ID or {@code 0} if couldn't extract.
+     */
+    public static int getOpenId(String url) {
+        if (isBlankString(url))
+            return 0;
+
+        int posFrom = url.lastIndexOf('/');
+        if (posFrom == -1)
+            return 0;
+
+        int posTo = url.indexOf('?', posFrom);
+        if (posTo == -1)
+            posTo = url.indexOf('#', posFrom);
+        if (posTo == -1)
+            posTo = url.length();
+
+        return parseInt(url.substring(posFrom + 1, posTo));
     }
 
     /**

@@ -1,0 +1,9 @@
+C: Plugin Feedback refactoring.
+A: Plugin E-Mail select attached history. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#work-process
+C: Remove unneeded columns from 'param_file' table.
+C: Update PzdcDoc to 2.4 version.
+C: Expression API.
+C: Better unique secret generation.
+A: Plugin Secret. https://bgerp.org/doc/3.0/manual/plugin/sec/secret
+A: Unique access secrets in open interface. https://bgerp.org/doc/3.0/kernel/interface.html#open-process
+A: Configurable 'url.open' for open interface. https://bgerp.org/doc/3.0/kernel/interface.html#open-config

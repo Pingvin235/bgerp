@@ -7,10 +7,10 @@ import ru.bgcrm.struts.form.DynActionForm;
  *
  * @author Shamil Vakhitov
  */
-public class BGSecureException extends BGException {
+public class BGSecurityException extends BGException {
     private final DynActionForm form;
 
-    public BGSecureException(String message, DynActionForm form) {
+    public BGSecurityException(String message, DynActionForm form) {
         super(message);
         this.form = form;
     }

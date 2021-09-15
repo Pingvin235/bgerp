@@ -17,6 +17,7 @@ public class OpenFilter implements Filter {
 
     private static final String OPEN_URL_PREFIX = "/open/";
     private static final String REQUEST_ATTRIBUTE_URI = OpenFilter.class.getName() + ".URI";
+    private static final String REQUEST_ATTRIBUTE_SECRET = OpenFilter.class.getName() + ".Secret";
 
     public void init(FilterConfig filterConfig) throws ServletException {}
 
@@ -40,14 +41,23 @@ public class OpenFilter implements Filter {
         
         var requestDispatcher = request.getServletContext().getRequestDispatcher(OPEN_URL_PREFIX + "shell.jsp");
         request.setAttribute(REQUEST_ATTRIBUTE_URI, requestURI);
+        request.setAttribute(REQUEST_ATTRIBUTE_SECRET, request.getParameter("secret"));
         requestDispatcher.forward(request, servletResponse);
     }
 
     /** 
-     * After forwarding to shell.jsp original requestURL is lost, so it is preserved as an attribute. 
-     * @return preserved URI or null
-     * */
+     * After forwarding to shell.jsp original requestURL is lost, so it is preserved as attribute. 
+     * @return preserved URI or {@code null}
+     **/
     public static final String getRequestURI(ServletRequest request) {
         return (String) request.getAttribute(REQUEST_ATTRIBUTE_URI);
+    }
+
+    /** 
+     * After forwarding to shell.jsp secret parameter is lost, so it is preserved as attribute. 
+     * @return preserved secret or {@code null}
+     **/
+    public static final String getRequestSecret(ServletRequest request) {
+        return (String) request.getAttribute(REQUEST_ATTRIBUTE_SECRET);
     }
 }

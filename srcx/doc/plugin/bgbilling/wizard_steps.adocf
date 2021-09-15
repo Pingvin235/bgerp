@@ -38,6 +38,6 @@ ShowContractsByAddrParamStep
 [square]
 * конфигурация биллинга с префиксом *billing.*;
 * *addressParamId* - код адресного параметра процесса.
-|=== 
+|===
 
 // image::../plugin/bgbilling/_res/image.png[]

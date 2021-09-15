@@ -1,7 +1,8 @@
 package ru.bgcrm.model;
 
 /**
- * Unexpected situation, not shown to user.
+ * Unexpected situation, not shown to user, but written in log.
+ * 
  * @author Shamil Vakhitov
  */
 public class BGException extends Exception {

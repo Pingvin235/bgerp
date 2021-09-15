@@ -537,7 +537,7 @@ Each plugin has a corresponding and unique:
 ===== Init
 Plugin class *init* method is called for all <<kernel/setup.adoc#config-plugin, enabled>> plugins during the server start.
 [snippet, from="Eve", to="ss);", remove-leading="        "]
-link:../../src/ru/bgcrm/plugin/slack/Plugin.java#L29-L31[ru.bgcrm.plugin.slack.Plugin]
+link:../../src/ru/bgcrm/plugin/slack/Plugin.java#L31-L33[ru.bgcrm.plugin.slack.Plugin]
 
 In the particular case shown above, function handler gets included into <<kernel/extension.adoc#jexl, JEXL>> context.
 
@@ -966,12 +966,16 @@ The key of the localizing phrase is the first entry in any language, for example
 <p><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
 ----
 
+[[l10n-lang-sys]]
+==== SYS language
 It is possible to use short abbreviated keys, representing them as records in a special system language, for example:
-[source, xml]
-----
-<p><sys>reauth.message</sys><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
-----
+[snippet, from="<p>", to="</p>"]
+link:../../src/org/bgerp/plugin/msg/email/l10n.xml#L3-L9[src/org/bgerp/plugin/msg/email/l10n.xml]
 
+In the example also might be seen how to use multiline phrases.
+
+[[l10n-lang-own]]
+==== Own language
 To change the labels on the buttons in the interface, add a separate localization (you cannot change the Russian localization, since it is used as a key), for example, change the button in the creation wizard, through the my language:
 [source, xml]
 ----
@@ -1027,7 +1031,9 @@ After adding missing patterns, application server has to be re-started.
 [[naming-db]]
 === Database
 * Database table and column names have to use underscore: *process_id*, *param_id*
-* Use PRIMARY key only for auto incremented ID, otherwise prefer named UNIQUE key.
+* Use PRIMARY key only for auto incremented INT columns, otherwise prefer named UNIQUE key.
+[snippet, from="UNIQUE", to="`),", remove-leading="  "]
+link:../../src/org/bgerp/plugin/kernel/db.sql#L422-L422[src/org/bgerp/plugin/kernel/db.sql]
 
 [[naming-camel]]
 === Java variables, HTTP request parameters, JSP variables

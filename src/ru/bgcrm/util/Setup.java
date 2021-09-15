@@ -32,6 +32,12 @@ public class Setup extends Preferences {
     // глобальные конфигурации, получаемые отдельно по коду
     private Map<Integer, ParameterMap> globalConfigMap = new HashMap<Integer, ParameterMap>();
 
+    /**
+     * Use this singleton call wisely, because introducing that makes
+     * code hardly testable.
+     * @return
+     */
+    @Deprecated
     public static Setup getSetup() {
         return getSetup(getBundleName(), true);
     }

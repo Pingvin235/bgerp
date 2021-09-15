@@ -4,10 +4,12 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionForward;
 
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.SessionLogAppender;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path ="/user/log")
 public class LogAction extends BaseAction {
     private static final String JSP = PATH_JSP_USER + "/log/log.jsp";
 

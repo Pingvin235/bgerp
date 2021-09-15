@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<p>
+		<sys>email.sign.standard</sys>
+		<ru>Сообщение подготовлено системой BGERP (https://bgerp.ru).
+Не изменяйте, пожалуйста, тему и не цитируйте данное сообщение в ответе!</ru>
+		<en>The message was prepared by BGERP system (https://bgerp.org).
+Please, do not change response subject and to not citate the message there!</en>
+	</p>
+	<p>
+		<ru>История сообщений по процессу #{}</ru>
+		<en>Messages history for process #{}</en>
+	</p>
+	<p><ru>Историю переписки вы можете посмотреть в приложенном файле History.txt</ru><en>Exchange history you can see in History.txt attachment.</en></p>
+	<p><ru>Вложить историю</ru><en>Attach history</en></p>
+	<p><ru>Переписка с данным адресом</ru><en>Exchange with the address</en></p>
+	<p><ru>Все сообщения</ru><en>All messages</en></p>
+	<p><ru>Карточка процесса: {}</ru><en>Process card: {}</en></p>
+	<p><ru>получено: </ru><en>recieved: </en></p>
+	<p><ru>отправлено: </ru><en>sent: </en></p>
+	<!--
+	<p><ru></ru><en></en></p>
+	-->
+</data>

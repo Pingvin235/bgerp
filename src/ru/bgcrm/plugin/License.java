@@ -44,6 +44,7 @@ import ru.bgerp.util.Log;
 
 /**
  * License for plugins.
+ *
  * @author Shamil Vakhitov
  */
 public class License {

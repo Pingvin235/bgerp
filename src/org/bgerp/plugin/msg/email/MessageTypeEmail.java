@@ -1,6 +1,5 @@
 package org.bgerp.plugin.msg.email;
 
-import java.io.File;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -12,8 +11,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
 import javax.mail.FetchProfile;
 import javax.mail.Flags;
 import javax.mail.Folder;
@@ -22,19 +19,14 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
 
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.Locker;
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
@@ -47,8 +39,6 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
-import ru.bgcrm.model.message.TagConfig;
-import ru.bgcrm.model.message.TagConfig.Tag;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
@@ -67,6 +57,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgerp.l10n.Localization;
 import ru.bgerp.util.Log;
 
 public class MessageTypeEmail extends MessageType {
@@ -76,6 +67,8 @@ public class MessageTypeEmail extends MessageType {
     public static final String RE_PREFIX = "Re: ";
 
     private static final RecipientType[] RECIPIENT_TYPES = new RecipientType[] { RecipientType.TO, RecipientType.CC };
+
+    private final String encoding;
 
     private final Pattern processIdPattern;
     private final Pattern quickAnswerPattern;
@@ -91,13 +84,14 @@ public class MessageTypeEmail extends MessageType {
     private final String folderProcessed;
     private final String folderSent;
     private final String folderTrash;
-    private final String signExpression;
-    private final boolean signStandard;
+    private final MessageContent messageBuilder;
 
     private final FolderCache incomingCache = new FolderCache(this);
 
-    public MessageTypeEmail(int id, ParameterMap config) throws BGException {
-        super(id, config.get("title"), config);
+    public MessageTypeEmail(Setup setup, int id, ParameterMap config) throws BGException {
+        super(setup, id, config.get("title"), config);
+
+        encoding = MailMsg.getParamMailEncoding(setup);
 
         mailConfig = new MailConfig(config);
 
@@ -108,13 +102,14 @@ public class MessageTypeEmail extends MessageType {
         folderSkipped = config.get("folderSkipped", "CRM_SKIPPED");
         folderSent = config.get("folderSent", "CRM_SENT");
         folderTrash = config.get("folderTrash", "Trash");
-        signExpression = config.get("signExpression");
-        signStandard = config.getBoolean("signStandard", false);
+        
         processIdPattern = Pattern.compile(mailConfig.getEmail().replaceAll("\\.", "\\\\.") + "#(\\d+)");
         quickAnswerPattern = Pattern.compile("QA:(\\d+)");
         quickAnswerEmailParamId = config.getInt("quickAnswerEmailParamId", -1);
         autoCreateProcessTypeId = config.getInt("autoCreateProcess.typeId", -1);
         autoCreateProcessNotification = config.getBoolean("autoCreateProcess.notification", true);
+
+        messageBuilder = new MessageContent(setup, encoding, config);
 
         if (!mailConfig.check() || Utils.isBlankString(folderIncoming) ) {
             throw new BGException("Incorrect message type, email: " + mailConfig.getEmail());
@@ -127,7 +122,7 @@ public class MessageTypeEmail extends MessageType {
 
     @Override
     public void process() {
-        log.info("Starting EMail daemon, box: " + mailConfig.getEmail());
+        log.info("Starting EMail daemon, box: {}", mailConfig.getEmail());
 
         readBox();
         sendMessages();
@@ -155,13 +150,18 @@ public class MessageTypeEmail extends MessageType {
     }
 
     @Override
+    public String getViewerJsp() {
+        return Plugin.ENDPOINT_MESSAGE_VIEWER;
+    }
+
+    @Override
     public String getHeaderJsp() {
-        return Plugin.PATH_JSP_USER + "/process_message_header.jsp";
+        return Plugin.ENDPOINT_MESSAGE_HEADER;
     }
 
     @Override
     public String getEditorJsp() {
-        return Plugin.PATH_JSP_USER + "/process_message_editor.jsp";
+        return Plugin.ENDPOINT_MESSAGE_EDITOR;
     }
 
     private static final FetchProfile FETCH_PROFILE = new FetchProfile();
@@ -177,13 +177,13 @@ public class MessageTypeEmail extends MessageType {
         try (var store = mailConfig.getImapStore();
             var incomingFolder = store.getFolder(folderIncoming);) {
 
-            log.debug("Get imap store time: %s %s", System.currentTimeMillis() - time, "ms.");
+            log.debug("Get imap store time: {} ms.", System.currentTimeMillis() - time);
 
             incomingFolder.open(Folder.READ_ONLY);
 
             result = incomingCache.list(incomingFolder);
 
-            log.debug("New message list time: %s %s",  System.currentTimeMillis() - time, "ms.");
+            log.debug("New message list time: {} ms.", System.currentTimeMillis() - time);
         }
 
         unprocessedMessagesCount = result.size();
@@ -263,32 +263,37 @@ public class MessageTypeEmail extends MessageType {
         }
     }
 
-    public String getMessageDescription(Message message) {
-        StringBuilder result = new StringBuilder(200);
+    @Override
+    public String getMessageDescription(String lang, Message message) {
+        var l = Localization.getLocalizer(Plugin.ID, lang);
 
-        result.append("EMail: \"");
-        result.append(message.getSubject());
-        result.append("\"; ");
-        result.append(message.getFrom());
-        result.append(" => ");
-        result.append(message.getTo());
-        result.append("; ");
+        var result = new StringBuilder(200);
+
+        result
+            .append("EMail: \"")
+            .append(message.getSubject())
+            .append("\"; ")
+            .append(message.getFrom())
+            .append(" => ")
+            .append(message.getTo())
+            .append("; ");
         if (message.getDirection() == Message.DIRECTION_INCOMING) {
-            result.append("получено: ");
-            result.append(TimeUtils.format(message.getFromTime(), TimeUtils.FORMAT_TYPE_YMDHM));
+            result
+                .append(l.l("получено: "))
+                .append(TimeUtils.format(message.getFromTime(), TimeUtils.FORMAT_TYPE_YMDHM));
         } else {
-            result.append("отправлено: ");
-            result.append(TimeUtils.format(message.getToTime(), TimeUtils.FORMAT_TYPE_YMDHM));
+            result
+                .append(l.l("отправлено: "))
+                .append(TimeUtils.format(message.getToTime(), TimeUtils.FORMAT_TYPE_YMDHM));
         }
 
         return result.toString();
     }
 
     private void sendMessages() {
-        String encoding = MailMsg.getParamMailEncoding(Setup.getSetup());
-        Session session = mailConfig.getSmtpSession(Setup.getSetup());
+        Session session = mailConfig.getSmtpSession(setup);
 
-        try (var con = Setup.getSetup().getDBConnectionFromPool();
+        try (var con = setup.getDBConnectionFromPool();
             var transport = session.getTransport();
             var imapStore = mailConfig.getImapStore();
             var imapSentFolder = imapStore.getFolder(folderSent);) {
@@ -300,7 +305,7 @@ public class MessageTypeEmail extends MessageType {
 
             List<Message> toSendList = messageDAO.getUnsendMessageList(id, 100);
             for (Message msg : toSendList) {
-                log.info("Send message subject: {} to: {}", msg.getSubject(), msg.getTo());
+                log.info("Sending message ID: {}, subject: {}, to: {}", msg.getId(), msg.getSubject(), msg.getTo());
 
                 if (Locker.checkLock(msg.getLockEdit())) {
                     log.info("Skipping message on lock");
@@ -336,14 +341,14 @@ public class MessageTypeEmail extends MessageType {
                     message.setSubject(subject, encoding);
                     message.setSentDate(new Date());
 
-                    createEmailText(message, encoding, msg);
+                    messageBuilder.create(message, Localization.getSysLang(), msg);
 
                     transport.sendMessage(message, message.getAllRecipients());
 
                     if (imapSentFolder != null) {
                         message.setFlag(Flags.Flag.SEEN, true);
                         imapSentFolder.appendMessages(new javax.mail.Message[] { message });
-                        log.info("Saved copy to folder: " + folderSent);
+                        log.info("Saved copy to folder: {}", folderSent);
                     }
                 } catch (Exception e) {
                     log.error(e);
@@ -363,115 +368,12 @@ public class MessageTypeEmail extends MessageType {
         }
     }
 
-    public String getSubjectWithProcessIdSuffix(Message msg) {
+    private String getSubjectWithProcessIdSuffix(Message msg) {
         return msg.getSubject() + " [" + mailConfig.getEmail() + "#" + msg.getProcessId() + "]";
     }
 
-    private void createEmailText(MimeMessage message, String encoding, Message msg)
-            throws Exception {
-        MessageTypeConfig typeConfig = Setup.getSetup().getConfig(MessageTypeConfig.class);
-
-        StringBuilder text = new StringBuilder();
-        text.append(msg.getText());
-        text.append("\n");
-        text.append("\n-- ");
-
-        if (Utils.notBlankString(signExpression)) {
-            Map<String, Object> context = new HashMap<String, Object>();
-            context.put(User.OBJECT_TYPE, UserCache.getUser(msg.getUserId()));
-            context.put("message", msg);
-
-            text.append(new Expression(context).getString(signExpression));
-        }
-
-        if (signStandard) {
-            text.append("\nСообщение подготовлено системой BGERP (https://bgerp.ru).");
-            text.append("\nНе изменяйте, пожалуйста, тему сообщения и не цитируйте данное сообщение в ответе!");
-            text.append("\nИсторию переписки вы можете посмотреть в приложенном файле History.txt");
-        }
-
-        MimeBodyPart textPart = new MimeBodyPart();
-        textPart.setText(text.toString(), encoding);
-
-        MimeMultipart multipart = new MimeMultipart();
-        multipart.addBodyPart(textPart);
-
-        addHistory(encoding, msg, typeConfig, multipart);
-
-        if (msg.getAttachList().size() > 0) {
-            try (var con = Setup.getSetup().getDBConnectionFromPool()) {
-                FileDataDAO fileDao = new FileDataDAO(con);
-
-                for (FileData attach : msg.getAttachList()) {
-                    File file = fileDao.getFile(attach);
-
-                    MimeBodyPart attachPart = new MimeBodyPart();
-                    attachPart.setHeader("Content-Type", "charset=\"UTF-8\"; format=\"flowed\"");
-                    attachPart.setDataHandler(new DataHandler(new FileDataSource(file)));
-                    attachPart.setFileName(MimeUtility.encodeWord(attach.getTitle(), encoding, null));
-                    multipart.addBodyPart(attachPart);
-
-                    log.debug("Attach: %s", attach.getTitle());
-                }
-            }
-        }
-
-        message.setContent(multipart);
-    }
-
-    private void addHistory(String encoding, Message msg, MessageTypeConfig typeConfig, MimeMultipart multipart)
-            throws Exception, MessagingException {
-        var history = new StringBuilder(1000);
-
-        int processId = msg.getProcessId();
-        if (processId > 0) {
-            history
-                .append("История сообщений по процессу #")
-                .append(processId)
-                .append(":\n------------------------------------------");
-
-            String to = msg.getTo();
-
-            var tagsConfig = Setup.getSetup().getConfig(TagConfig.class);
-
-            int historyModeTag = 0;
-            List<Message> messageList = null;
-            
-            try (var con = Setup.getSetup().getDBSlaveConnectionFromPool()) {
-                var dao = new MessageDAO(con);
-                historyModeTag = tagsConfig.getSelectedHistoryTag(dao.getMessageTags(msg.getId()));
-                if (historyModeTag != 0) {
-                    messageList = dao.getProcessMessageList(processId, msg.getId());
-                }
-            }
-
-            if (historyModeTag != 0) {
-                for (Message historyItem : messageList) {
-                    if (historyModeTag == Tag.TAG_HISTORY_WITH_ADDRESS_ID &&
-                        !historyItem.getFrom().equals(to) &&
-                        !historyItem.getTo().equals(to)) {
-                        continue;
-                    }
-
-                    var type = typeConfig.getTypeMap().get(historyItem.getTypeId());
-                    history
-                        .append("\n\n")
-                        .append(type.getMessageDescription(historyItem))
-                        .append("\n------------------------------------------")
-                        .append("\n")
-                        .append(historyItem.getText());
-                }
-            }
-        }
-
-        var historyPart = new MimeBodyPart();
-        historyPart.setText(history.toString(), encoding);
-        historyPart.setFileName("History.txt");
-        multipart.addBodyPart(historyPart);
-    }
-
     private void readBox() {
-        try (Connection con = Setup.getSetup().getDBConnectionFromPool();
+        try (Connection con = setup.getDBConnectionFromPool();
             Store store = mailConfig.getImapStore();
             Folder incomingFolder = store.getFolder(folderIncoming);
             Folder processedFolder = store.getFolder(folderProcessed);
@@ -579,7 +481,7 @@ public class MessageTypeEmail extends MessageType {
                 }
                 else {
                     MessageType quickAnsweredMessageType =
-                            Setup.getSetup().getConfig(MessageTypeConfig.class)
+                            setup.getConfig(MessageTypeConfig.class)
                             .getTypeMap().get(quickAnsweredMessage.getTypeId());
 
                     // изменение входящего сообщения в исходящее

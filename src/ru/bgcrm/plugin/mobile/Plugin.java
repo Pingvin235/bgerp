@@ -1,7 +1,7 @@
 package ru.bgcrm.plugin.mobile;
 
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.event.listener.DefaultProcessChangeListener.DefaultProcessorChangeContextEvent;
+import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
 import ru.bgcrm.util.Setup;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
@@ -14,6 +14,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     public Plugin() {
         super(ID);
 
-        EventProcessor.subscribe((e, conSet) -> e.getContext().put(ID, new DefaultProcessorFunctions()), DefaultProcessorChangeContextEvent.class);
+        EventProcessor.subscribe((e, conSet) -> 
+            e.getContext().put(ID, new DefaultProcessorFunctions()), 
+        ContextInitEvent.class);
     }
 }

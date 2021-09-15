@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.bgerp.servlet.filter.OpenFilter;
 
 import ru.bgcrm.servlet.filter.AuthFilter;
+import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -30,5 +31,9 @@ public class Interface {
             return USER;
         
         return "undef";
+    }
+
+    public static String getUrlOpen(ParameterMap setup) {
+        return setup.get("url.open", "/open");
     }
 }

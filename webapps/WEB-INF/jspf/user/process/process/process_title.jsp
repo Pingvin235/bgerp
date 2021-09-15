@@ -11,8 +11,8 @@
 		<c:set var="title">
 			<span class='title' id='process_title_${process.id}'>
 				<c:set var="config" value="${u:getConfig(ctxSetup, 'org.bgerp.action.open.ProcessAction$Config')}"/>
-				<c:if test="${config.getProcessTypeIds().contains(process.typeId)}">
-					<a target='_blank' href='/open/process/${process.id}' title='${l.l('Открытый интерфейс')}'>O</a>
+				<c:if test="${config.isOpenForUser(process)}">
+					<a target='_blank' href='${config.url(process)}' title='${l.l('Открытый интерфейс')}'>O</a>
 				</c:if>
 				${title}
 			</span>

@@ -17,9 +17,9 @@ public class MessageExchange extends ConfigurableTask {
     private static final AtomicBoolean run = new AtomicBoolean(false);
 
     private static final Log log = Log.getLog();
-    
+
     private final Set<Integer> types;
-    
+
     // пустой конструктор для запуска извне без конфигурации
     public MessageExchange() {
         super(null);
@@ -30,7 +30,7 @@ public class MessageExchange extends ConfigurableTask {
         super(config);
         types = Utils.toIntegerSet(config.get("messageTypeIds"));
     }
-    
+
     private MessageExchange(Set<Integer> types) {
         super(null);
         this.types = types;
@@ -42,12 +42,12 @@ public class MessageExchange extends ConfigurableTask {
             log.info("Task already working..");
             return;
         }
-        
+
         long time = System.currentTimeMillis();
 
         synchronized (run) {
             run.set(true);
-            
+
             if (!types.isEmpty())
                 log.info("Message types: " + types);
 
@@ -56,7 +56,7 @@ public class MessageExchange extends ConfigurableTask {
                 for (MessageType type : config.getTypeMap().values()) {
                     if (!types.isEmpty() && !types.contains(type.getId()))
                         continue;
-                    
+
                     try {
                         type.process();
                     } catch (Exception e) {
@@ -65,12 +65,12 @@ public class MessageExchange extends ConfigurableTask {
                 }
             } finally {
                 run.set(false);
-                
+
                 Scheduler.logExecutingTime( this, time );
             }
         }
     }
-    
+
     public static void main(String[] args) {
         new MessageExchange(Utils.toIntegerSet(args[0])).run();
     }

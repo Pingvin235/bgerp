@@ -18,4 +18,22 @@ public class UtilsTest {
         Assert.assertTrue("Should has class", Utils.hasClass("", "a.b.c", "java.lang.String"));
         Assert.assertFalse("Should hasn't class", Utils.hasClass("", "t.b.c"));
     }
+
+    @Test
+    public void testGetOpenId() {
+        Assert.assertEquals(0, Utils.getOpenId(null));
+        Assert.assertEquals(0, Utils.getOpenId(""));
+        Assert.assertEquals(0, Utils.getOpenId("bla-bla"));
+        Assert.assertEquals(5, Utils.getOpenId("/open/process/5"));
+        Assert.assertEquals(5, Utils.getOpenId("/open/process/5#43"));
+        Assert.assertEquals(5, Utils.getOpenId("/open/process/5?param=value#43"));
+    }
+
+    @Test
+    public void testGenerateSecret() {
+        var secret = Utils.generateSecret();
+        Assert.assertEquals(32, secret.length());
+        Assert.assertEquals(secret, secret.toUpperCase());
+        Assert.assertNotEquals(Utils.generateSecret(), secret);
+    }
 }

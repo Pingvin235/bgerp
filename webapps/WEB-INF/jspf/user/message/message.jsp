@@ -94,19 +94,18 @@
 
 
 						<c:set var="createCommand">
-							$$.ajax.post(this.form).done((result) => {
-								$$.process.open(result.data.process.id);
-								<%-- TODO: Reload messages list --%>
-							});
+							
 						</c:set>
 
 						<div class="mt1">
 							<%@ include file="process_link_params.jsp"%>
 
-							<%-- Is it needed to hide the buttome without permission? --%>
-							<p:check action="ru.bgcrm.struts.action.MessageAction:processCreate">
-								<button class="btn-grey" type="button" onclick="${createCommand}">${l.l('Создать процесс')}</button>
-							</p:check>
+							<%-- TODO: Make button disabled <p:check action="ru.bgcrm.struts.action.MessageAction:processCreate"> --%>
+							<button class="btn-grey" type="button" onclick="
+								$$.ajax.post(this.form, {control: this}).done((result) => {
+									$$.process.open(result.data.process.id);
+									// TODO: Reload messages list
+								});">${l.l('Создать процесс')}</button>
 						</div>
 					</div>
 				</form>
@@ -210,44 +209,11 @@
 		</html:form>
 	</div><%--
 --%><div style="width: 50%;" class="pl1">
+		<c:set var="viewerJsp" value="${messageType.viewerJsp}"/>
+		<c:set var="typeCall" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeCall'}"/>
 		<c:choose>
-			<c:when test="${message.processId gt 0}">
-				<c:url var="url" value="/user/message.do">
-					<c:param name="action" value="processMessageList"/>
-					<c:param name="markMessageId" value="${message.id}"/>
-					<c:param name="processId" value="${message.processId}"/>
-				</c:url>
-				<c:import url="${url}"/>
-			</c:when>
-
-			<c:when test="${typeEmail}">
-				<h2>${l.l('Сообщение')}</h2>
-
-				<b>${l.l('Тема')}:</b> ${message.subject}<br/>
-				<b>${l.l('От')}:</b> <a href="mailto:${message.from}">${message.from}</a><br/>
-				<b>${l.l('Текст')}:</b><br/>
-					<c:set var="text" value="${message.text}"/>
-					<c:set var="text" value="${u:htmlEncode(text)}"/>
-					<ui:text-prepare text="${text}"/>
-				<c:if test="${not empty message.attachList}">
-					<br/><br/><b>${l.l('Вложения (можно загрузить только после привязки процесса)')}:</b><br/>
-
-					<c:forEach var="item" items="${message.attachList}">
-						<c:choose>
-							<c:when test="${message.id gt 0}">
-								<c:url var="url" value="/user/file.do">
-									<c:param name="id" value="${item.id}"/>
-									<c:param name="title" value="${item.title}"/>
-									<c:param name="secret" value="${item.secret}"/>
-								</c:url>
-								<a href="${url}">${item.title}</a><br/>
-							</c:when>
-							<c:otherwise>
-								${item.title}
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</c:if>
+			<c:when test="${not empty viewerJsp}">
+				<plugin:include endpoint="${viewerJsp}"/>
 			</c:when>
 			<c:when test="${typeCall}">
 				<h2>${l.l('Звонок')}</h2>

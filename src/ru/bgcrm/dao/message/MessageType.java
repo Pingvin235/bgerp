@@ -24,6 +24,7 @@ import ru.bgcrm.struts.action.FileAction.FileInfo;
 import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
+import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgerp.util.Log;
@@ -34,12 +35,15 @@ public abstract class MessageType extends IdTitle {
     private final LinkedHashMap<Integer, MessageTypeSearch> searchMap = new LinkedHashMap<>();
 
     private MessageTypeContactSaver contactSaver;
+
+    protected final Setup setup;
     protected final ParameterMap configMap;
 
     protected volatile boolean reading;
     protected volatile Integer unprocessedMessagesCount; 
 
-    protected MessageType(int id, String title, ParameterMap config) throws BGException {
+    protected MessageType(Setup setup, int id, String title, ParameterMap config) throws BGException {
+        this.setup = setup;
         this.configMap = config;
 
         this.id = id;
@@ -157,10 +161,26 @@ public abstract class MessageType extends IdTitle {
         return false;
     }
 
+    /**
+     * Plugin's endpoint for unprocessed message viewing.
+     * @return
+     */
+    public String getViewerJsp() {
+        return null;
+    }
+
+    /**
+     * Plugin's endpoint for process message header.
+     * @return
+     */
     public String getHeaderJsp() {
         return null;
     }
     
+    /**
+     * Plugin's endpoint for process message editor.
+     * @return
+     */
     public String getEditorJsp() {
         return null;
     }
@@ -217,7 +237,13 @@ public abstract class MessageType extends IdTitle {
 
     public abstract void updateMessage(Connection con, DynActionForm form, Message message) throws Exception;
 
-    public String getMessageDescription(Message message) {
+    /**
+     * Generates short message description.
+     * @param lang language.
+     * @param message message with the type.
+     * @return
+     */
+    public String getMessageDescription(String lang, Message message) {
         return "";
     }
 

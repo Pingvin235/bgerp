@@ -38,9 +38,9 @@ messageType.<id>.folderIn=<inFolder>
 # параметры SMTP, добавляются после префикса идентично опциям из основной конфигурации
 messageType.<id>....
 # необязательные параметры
-messageType.<id>.signExpression=<signExpression>
+messageType.<id>.sign.expression=<signExpression>
 # отключение стандартной подписи, что сообщение отправлено BGERP
-#messageType.<id>.signStandard=0
+#messageType.<id>.sign.standard=0
 # иной адрес отправителя письма
 messageType.<id>.from=<from>
 # адрес для ответов в письме
@@ -110,11 +110,23 @@ messageType.<id>.autoCreateProcess.notification=1
 
 Где *<typeId>* - код типа процесса.
 
+[[work-process]]
+== Work
+When editing E-Mail messages in process in drop-down box *Attach history* may be chosen the following options:
+* Exchange with the address
+* All messages
+
+For both modes for each sent message has attached a file named `History.txt`, containing exchange with:
+* used E-Mail address
+* all message history for second case
+
+For the second mode in message signature also added process link to <<../../../kernel/interface.adoc#open-process, open interface>>, case it is configured.
+
 [[config-example]]
 == Configuration Examples
 
 [[config-example-common]]
-== Простой случай
+=== Простой случай
 Нешифрованные протоколы IMAP и SMTP.
 [source]
 ----
@@ -139,7 +151,7 @@ messageType.1.mail.smtp.pswd=******
 ----
 
 [[config-example-yandex]]
-== Yandex
+=== Yandex
 IMAP и SMTP через SSL, подключены режимы поиска.
 *21* - код параметра пользователя EMail.
 *17* - код параметра контрагента EMail.
@@ -177,7 +189,7 @@ messageType.3.mail.smtp.pswd=*****
 ----
 
 [[config-example-gmail]]
-== GMail
+=== GMail
 IMAP и SMTP через SSL.
 
 Для получения пароля к приложению включите двухфакторную авторизацию и сгенерируйте пароль 

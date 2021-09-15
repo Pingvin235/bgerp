@@ -3,6 +3,7 @@ package ru.bgcrm.servlet.jsp;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -117,16 +118,19 @@ public class JSPFunction {
     }
 
     public static Integer getInt(Object value) {
+        if (value == null) {
+            return 0;
+        }
+
         if (value instanceof Long) {
             return ((Long) value).intValue();
-        }
-        if (value instanceof Integer) {
+        } else if (value instanceof Integer) {
             return (Integer) value;
         } else if (value instanceof String) {
             return Utils.parseInt((String) value);
         }
 
-        log.error("Incorrect object to int transformation: " + value);
+        log.error("Incorrect object to int transformation: {}", value);
 
         return 0;
     }
@@ -155,7 +159,7 @@ public class JSPFunction {
     }
 
     public static String urlEncode(String value) throws UnsupportedEncodingException {
-        return URLEncoder.encode(value, Utils.UTF8.name());
+        return URLEncoder.encode(value, StandardCharsets.UTF_8.name());
     }
 
     /**

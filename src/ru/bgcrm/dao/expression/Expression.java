@@ -1,5 +1,6 @@
 package ru.bgcrm.dao.expression;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -12,6 +13,8 @@ import org.apache.commons.jexl3.JexlException;
 import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang3.StringUtils;
 
+import ru.bgcrm.event.Event;
+import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.servlet.jsp.PermissionTag;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
@@ -65,7 +68,28 @@ public class Expression {
         }
     };
 
+    public static final class ContextInitEvent implements Event {
+        private final Map<String, Object> context;
+
+        public ContextInitEvent(Map<String, Object> context) {
+            this.context = context;
+        }
+
+        public Map<String, Object> getContext() {
+            return context;
+        }
+    }
+
     public Expression(Map<String, Object> contextVars) {
+        // TreeMap would be better here, but doesn't support null keys
+        contextVars = new HashMap<>(contextVars);
+
+        try {
+            EventProcessor.processEvent(new ContextInitEvent(contextVars), null);
+        } catch (Exception e) {
+            log.error(e);
+        }
+
         JexlBuilder jexlBuilder = new JexlBuilder()
                 .namespaces(contextVars) // нам нужен только неймспейс null
                 .strict(true) // выброс исключений

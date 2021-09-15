@@ -350,28 +350,10 @@ public class DefaultProcessChangeListener {
         }
     }
 
-    public static final class DefaultProcessorChangeContextEvent extends UserEvent {
-        private final Map<String, Object> context;
-
-        public DefaultProcessorChangeContextEvent(DynActionForm form, Map<String, Object> context) {
-            super(form);
-            this.context = context;
-        }
-
-        public Map<String, Object> getContext() {
-            return context;
-        }
-    }
-
     public static Expression initExpression(ConnectionSet conSet, UserEvent event, Process process)
             throws Exception {
         DynActionForm form = event.getForm();
-        
         Map<String, Object> context = getProcessJexlContext(conSet, form, event, process);
-        int sizeBefore = context.size();
-        // добавление плагинами объектов в контекст
-        EventProcessor.processEvent(new DefaultProcessorChangeContextEvent(form, context), conSet);
-        log.debug("Context sizes, before: " + sizeBefore + "; after: " + context.size()); 
         return new Expression(context);
     }
 

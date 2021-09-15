@@ -22,6 +22,7 @@
 			<h2>${l.l('Вложить историю')}</h2>
 			<ui:combo-single hiddenName="tagId" value="${tagConfig.getSelectedHistoryTag(messageTagIds)}" widthTextValue="120px">
 				<jsp:attribute name="valuesHtml">
+					<li value="0">-- ${l.l('нет')} --</li>
 					<li value="<%=ru.bgcrm.model.message.TagConfig.Tag.TAG_HISTORY_WITH_ADDRESS_ID%>">${l.l('Переписка с данным адресом')}</li>
 					<li value="<%=ru.bgcrm.model.message.TagConfig.Tag.TAG_HISTORY_ALL_ID%>">${l.l('Все сообщения')}</li>
 				</jsp:attribute>

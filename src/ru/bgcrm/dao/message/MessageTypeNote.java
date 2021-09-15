@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.bgerp.plugin.kernel.Plugin;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessDAO;
@@ -18,15 +19,18 @@ import ru.bgcrm.struts.action.FileAction.FileInfo;
 import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
+import ru.bgcrm.util.Setup;
+import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgerp.l10n.Localization;
 
 public class MessageTypeNote extends MessageType {
     private static final Logger log = Logger.getLogger(MessageTypeNote.class);
 
-    public MessageTypeNote(int id, ParameterMap config) throws BGException {
-        super(id, config.get("title"), config);
+    public MessageTypeNote(Setup setup, int id, ParameterMap config) throws BGException {
+        super(setup, id, config.get("title"), config);
     }
 
     @Override
@@ -65,6 +69,22 @@ public class MessageTypeNote extends MessageType {
     public void messageDelete(ConnectionSet conSet, String... messageIds) throws BGException {
         for (String messageId : messageIds)
             new MessageDAO(conSet.getConnection()).deleteMessage(Utils.parseInt(messageId));
+    }
+
+    @Override
+    public String getMessageDescription(String lang, Message message) {
+        var l = Localization.getLocalizer(Plugin.ID, lang);
+
+        var result = new StringBuilder(200);
+        result
+            .append(getTitle())
+            .append(": \"")
+            .append(message.getSubject())
+            .append("\"; ")
+            .append(l.l("создано: "))
+            .append(TimeUtils.format(message.getFromTime(), TimeUtils.FORMAT_TYPE_YMDHM));
+
+        return result.toString();
     }
 
     @Override

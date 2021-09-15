@@ -3,7 +3,7 @@ package org.bgerp.plugin.telegram;
 import java.sql.Connection;
 
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.event.listener.DefaultProcessChangeListener.DefaultProcessorChangeContextEvent;
+import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
 import org.bgerp.plugin.telegram.bot.BgerpBot;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
@@ -21,6 +21,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
         EventProcessor.subscribe((e, conSet) -> {
             e.getContext().put(ID, new DefaultProcessorFunctions());
-        }, DefaultProcessorChangeContextEvent.class);
+        }, ContextInitEvent.class);
     }
 }

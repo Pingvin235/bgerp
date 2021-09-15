@@ -30,6 +30,7 @@
 
 		<%-- shortcut for param --%>
 		<u:set var="uri" scope="request"><%=org.bgerp.servlet.filter.OpenFilter.getRequestURI(request)%></u:set>
+		<u:set var="secret" scope="request"><%=org.bgerp.servlet.filter.OpenFilter.getRequestSecret(request)%></u:set>
 
 		<%@ include file="/WEB-INF/jspf/open/test/url.jsp"%>
 		<%@ include file="/WEB-INF/jspf/open/profile/url.jsp"%>

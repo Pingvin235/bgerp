@@ -98,7 +98,7 @@
 
 					<c:choose>
 						<c:when test="${not empty headerJsp}">
-							<jsp:include page="${headerJsp}"/>
+							<plugin:include endpoint="${headerJsp}"/>
 						</c:when>
 						<c:when test="${typeNote}">
 							<div style="width: 100%;">

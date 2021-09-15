@@ -3,18 +3,20 @@
 
 <%@ attribute name="endpoint" description="Endpoint"%>
 
-<%@tag import="ru.bgerp.l10n.Localization"%>
 <%@tag import="ru.bgcrm.plugin.Plugin"%>
 
 <c:forEach items="${ctxPluginManager.pluginList}" var="plugin">
 	<c:set var="plugin" value="${plugin}" scope="request"/>
-	
-	<%
-		Plugin p = (Plugin) request.getAttribute("plugin");
-		request.setAttribute("l", p.getLocalizer(Localization.getLang(request)));
-	%>
+	<c:set var="endpoints" value="${plugin.getEndpoints(endpoint)}"/>
 
-	<c:forEach items="${plugin.getEndpoints(endpoint)}" var="page">
-		<jsp:include page="${page}"/>
-	</c:forEach>
+	<c:if test="${not empty endpoints}">
+		<%
+			Plugin p = (Plugin) request.getAttribute("plugin");
+			request.setAttribute("l", p.getLocalizer(ru.bgerp.l10n.Localization.getLang(request)));
+		%>
+
+		<c:forEach items="${endpoints}" var="page">
+			<jsp:include page="${page}"/>
+		</c:forEach>
+	</c:if>
 </c:forEach>

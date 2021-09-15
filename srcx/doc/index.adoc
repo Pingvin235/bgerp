@@ -29,18 +29,20 @@
 ** <<plugin/mobile/index.adoc#, Mobile>>
 ** <<plugin/report/index.adoc#, Report>>
 ** <<plugin/task/index.adoc#, Task>>
-* Plugins planning
-** <<plugin/blow/index.adoc#, Blow>>
-** <<plugin/callboard/index.adoc#, CallBoard>>
-** <<plugin/workload/index.adoc#, Workload>>
-* Plugins messaging
-** <<plugin/msg/email/index.adoc#, E-Mail>>
-** <<plugin/phpbb/index.adoc#, PHPBB>>
-** <<plugin/slack/index.adoc#, Slack>>
-** <<plugin/telegram/index.adoc#, Telegram>>
-** <<plugin/sms/index.adoc#, SMS>>
-* Plugins service
-** <<plugin/svc/backup/index.adoc#, Backup>>
+** Planning
+*** <<plugin/blow/index.adoc#, Blow>>
+*** <<plugin/callboard/index.adoc#, CallBoard>>
+*** <<plugin/workload/index.adoc#, Workload>>
+** Messaging
+*** <<plugin/msg/email/index.adoc#, E-Mail>>
+*** <<plugin/phpbb/index.adoc#, PHPBB>>
+*** <<plugin/slack/index.adoc#, Slack>>
+*** <<plugin/telegram/index.adoc#, Telegram>>
+*** <<plugin/sms/index.adoc#, SMS>>
+** Security
+*** <<plugin/sec/secret/index.adoc#, Secret>>
+** Service
+*** <<plugin/svc/backup/index.adoc#, Backup>>
 * Решения
 ** <<ext/bgbilling.adoc#, Интеграция BGBilling>>
 ** <<ext/letter.adoc#, Учёт писем>>

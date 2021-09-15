@@ -43,8 +43,8 @@ public class MessageTypeForumPost extends MessageType {
     private final String topicMarkClosed;
     private final Forum forum;
 
-    public MessageTypeForumPost(int id, ParameterMap config) throws BGException {
-        super(id, config.get("title"), config);
+    public MessageTypeForumPost(Setup setup, int id, ParameterMap config) throws BGException {
+        super(setup, id, config.get("title"), config);
 
         userNameParam = ParameterCache.getParameter(config.getInt("userNameParamId", 0));
         topicMark = config.get("topicMark", " (CRM)");
@@ -69,13 +69,13 @@ public class MessageTypeForumPost extends MessageType {
     @Override
     public String getHeaderJsp() {
         // <endpoint id="user.process.message.header.jsp" file="/WEB-INF/jspf/user/plugin/phpbb/process_message_header.jsp"/>
-        return Plugin.PATH_JSP_USER + "/process_message_header.jsp";
+        return Plugin.ENDPOINT_MESSAGE_HEADER;
     }
 
     @Override
     public String getEditorJsp() {
         // <endpoint id="user.process.message.editor.jsp" file="/WEB-INF/jspf/user/plugin/phpbb/process_message_editor.jsp"/>
-        return Plugin.PATH_JSP_USER + "/process_message_editor.jsp";
+        return Plugin.ENDPOINT_MESSAGE_EDITOR;
     }
 
     @Override
@@ -156,7 +156,7 @@ public class MessageTypeForumPost extends MessageType {
             log.debug("Processing forum: " + forum.getId());
         }
 
-        Connection con = Setup.getSetup().getDBConnectionFromPool();
+        Connection con = setup.getDBConnectionFromPool();
         Connection forumCon = forum.getConnectionPool().getDBConnectionFromPool();
         try {
             ForumDAO forumDao = new ForumDAO(forumCon);

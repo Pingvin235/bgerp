@@ -13,6 +13,8 @@ import ru.bgcrm.util.Setup;
 import ru.bgerp.util.Log;
 
 /**
+ * Singleton plugin loader and storage.
+ * 
  * @author Shamil Vakhitov
  */
 public class PluginManager {

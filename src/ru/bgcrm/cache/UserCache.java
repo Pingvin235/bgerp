@@ -98,17 +98,7 @@ public class UserCache extends Cache<UserCache> {
 
                 ParameterMap map = userPerm.get(action);
                 if (map != null) {
-                    try {
-                        ParameterMap varSubstituteMap = new Preferences(map.getDataString());
-
-                        // выполнение подстановок переменных в пермишены из конфигурации пользователя
-                        for (Map.Entry<String, String> me : varSubstituteMap.entrySet())
-                            me.setValue(Preferences.insertVariablesValues(me.getValue(), user.getConfigMap(), null, false));
-
-                        return varSubstituteMap;
-                    } catch (Exception e) {
-                        log.error(e.getMessage(), e);
-                    }
+                    return map;
                 }
             }
             return null;

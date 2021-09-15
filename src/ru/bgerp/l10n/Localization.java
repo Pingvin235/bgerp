@@ -25,11 +25,13 @@ import ru.bgerp.util.Log;
 
 /**
  * A localization unit, loaded from l10n.xml for a plugin.
+ * 
  * @author Shamil Vakhitov
  */
 public class Localization {
     private static final Log log = Log.getLog();
 
+    public static final String LANG_SYS = "sys";
     public static final String LANG_RU = Lang.RU.getId();
     public static final String LANG_EN = Lang.EN.getId();
     public static final String LANG_DE = Lang.DE.getId();

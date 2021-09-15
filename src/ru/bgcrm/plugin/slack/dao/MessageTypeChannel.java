@@ -58,8 +58,8 @@ public class MessageTypeChannel extends MessageType {
     private final Parameter accountParam;
     private final String stringExpressionMessageExtract;
 
-    public MessageTypeChannel(int id, ParameterMap config) throws BGException {
-        super(id, config.get("title"), config);
+    public MessageTypeChannel(Setup setup, int id, ParameterMap config) throws BGException {
+        super(setup, id, config.get("title"), config);
         token = config.get("authToken");
         if (token == null) {
             log.info("authToken is not defined.");
@@ -105,7 +105,7 @@ public class MessageTypeChannel extends MessageType {
     @Override
     public String getHeaderJsp() {
         // "user.process.message.header.jsp", List.of(PATH_JSP_USER + "/process_link_list.jsp")
-        return Plugin.PATH_JSP_USER + "/process_link_list.jsp";
+        return Plugin.ENDPOINT_MESSAGE_HEADER;
     }
 
     @Override
@@ -152,7 +152,7 @@ public class MessageTypeChannel extends MessageType {
             return;
         }
 
-        try (var con = Setup.getSetup().getDBConnectionFromPool()) {
+        try (var con = setup.getDBConnectionFromPool()) {
             PropertiesDAO propDAO = new PropertiesDAO(con);
             MessageDAO messageDAO = new MessageDAO(con);
             ParamValueDAO paramDAO = new ParamValueDAO(con);

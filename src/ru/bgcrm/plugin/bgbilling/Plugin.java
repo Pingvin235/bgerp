@@ -26,6 +26,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     public static final String PATH_JSP_USER = BaseAction.PATH_JSP_USER_PLUGIN + "/" + ID;
 
+    public static final String ENDPOINT_MESSAGE_HEADER = PATH_JSP_USER + "/helpdesk/process_message_header.jsp";
+
     public Plugin() {
         super(ID);
     }
@@ -68,7 +70,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         var result = new HashMap<>(super.loadEndpoints());
         result.putAll(Map.of(
             Endpoint.JS, List.of(Endpoint.getPathPluginJS(ID)),
-            Endpoint.CSS, List.of(Endpoint.getPathPluginCSS(ID))
+            Endpoint.CSS, List.of(Endpoint.getPathPluginCSS(ID)),
+            ENDPOINT_MESSAGE_HEADER, List.of(ENDPOINT_MESSAGE_HEADER)
         ));
         return Collections.unmodifiableMap(result);
     }

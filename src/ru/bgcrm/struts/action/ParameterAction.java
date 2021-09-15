@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -293,7 +292,7 @@ public class ParameterAction extends BaseAction {
         } else if (Parameter.TYPE_FILE.equals(parameter.getType())) {
             //TODO: Сделать поддержку разных типов.
             response.setContentType("image/jpeg");
-            FileData fileData = paramDAO.getParamFile(id, paramId, 1, 1);
+            FileData fileData = paramDAO.getParamFile(id, paramId, 1);
 
             File file = new FileDataDAO(conSet.getConnection()).getFile(fileData);
 
@@ -524,7 +523,6 @@ public class ParameterAction extends BaseAction {
             FormFile file = form.getFile();
 
             int position = form.getParamInt("position", 0);
-            int version = form.getParamInt("version", 0);
 
             FileData fileData = null;
             if (file != null) {
@@ -545,7 +543,7 @@ public class ParameterAction extends BaseAction {
             paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue = fileData));
 
             try {
-                paramValueDAO.updateParamFile(id, paramId, position, version, form.getParam("comment"), fileData);
+                paramValueDAO.updateParamFile(id, paramId, position, form.getParam("comment"), fileData);
             } catch (SQLIntegrityConstraintViolationException e) {
                 throw new BGMessageException("Запрещено повторное добавление файла с одинаковым именем.");
             }

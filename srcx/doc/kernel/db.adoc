@@ -1349,6 +1349,23 @@ Cтроковые параметры
 Статус сообщений процессов.
 // TODO
 
+=== process_open_secret
+Generated secrets for accessing processes via open interface.
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|id
+|INT
+|process ID, link to <<_process, process:id>>
+
+|secret
+|CHAR(32)
+|generated secret
+|===
+
 === process_status
 Лог изменений статуса процессов.
 
@@ -1629,3 +1646,4 @@ Cтроковые параметры
 include::../plugin/bgbilling/db.adocf[]
 include::../plugin/fulltext/db.adocf[]
 include::../plugin/task/db.adocf[]
+include::../plugin/sec/secret/db.adocf[]

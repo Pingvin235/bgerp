@@ -34,6 +34,6 @@
 	<div>
 		<h2>${l.l('Сообщения')}</h2>
 		<plugin:include endpoint="open.process.message.add.jsp"/>
-		<c:import url="/open/process.do?action=messages&id=${process.id}"/>
+		<c:import url="/open/process.do?action=messages&id=${process.id}&secret=${form.param.secret}"/>
 	</div>
 </c:if>

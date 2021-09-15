@@ -419,10 +419,7 @@ CREATE TABLE IF NOT EXISTS `param_file` (
   `param_id` int(10) NOT NULL,
   `n` int(11) NOT NULL DEFAULT '1',
   `value` int(10) NOT NULL,
-  `user_id` int(10) NOT NULL,
-  `comment` text,
-  `version` int(10) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`,`param_id`,`n`,`version`),
+  UNIQUE KEY id_param_id_n (`id`,`param_id`,`n`),
   KEY `param_id` (`param_id`)
 );
 
@@ -676,7 +673,7 @@ CALL add_key_if_not_exists('param_address', 'PRIMARY', '(id, param_id, n)');
 
 CALL add_column_if_not_exists('param_file', 'n', 'INT NOT NULL DEFAULT 1 AFTER param_id');
 CALL drop_key_if_exists('param_file', 'PRIMARY');
-CALL add_key_if_not_exists('param_file', 'PRIMARY', '(id, param_id, n)');
+CALL add_unique_key_if_not_exists('param_file', 'id_param_id_n', '(id, param_id, n)');
 
 ALTER TABLE param_email MODIFY n INT NOT NULL DEFAULT 1 AFTER param_id;
 CALL drop_key_if_exists('param_email', 'id_param');
@@ -741,13 +738,6 @@ CALL add_key_if_not_exists('n_message', 'from', '(`from`)');
 
 ALTER TABLE address_house MODIFY frac VARCHAR(50) NOT NULL;
 
-CALL add_column_if_not_exists('param_file', 'user_id', 'INT(10) NOT NULL AFTER `value`');
-CALL add_column_if_not_exists('param_file', 'comment', 'TEXT AFTER `user_id`');
-CALL add_column_if_not_exists('param_file', 'version', 'INT(10) NULL DEFAULT 1 AFTER `comment`');
-
-CALL drop_key_if_exists('param_file', 'PRIMARY');
-CALL add_key_if_not_exists('param_file', 'PRIMARY', '(`id`, `param_id`, `n`, `version`)');
-
 CALL add_column_if_not_exists('n_message', 'system_id', 'VARCHAR(100) NOT NULL AFTER id');
 CALL add_key_if_not_exists('n_message', 'system_id', '(system_id(5))');
 
@@ -803,4 +793,9 @@ CALL drop_column_if_exists('param_list', '_comment');
 CALL add_unique_key_if_not_exists('param_list', 'id_param_value', '(id, param_id, value)');
 CALL drop_key_if_exists('param_list', 'id_param');
 
+-- TODO: CALL drop_column_if_exists('param_file', 'user_id');
+-- TODO: CALL drop_column_if_exists('param_file', 'comment');
+-- TODO: CALL drop_column_if_exists('param_file', 'version');
+
+-- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

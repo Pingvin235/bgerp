@@ -17,6 +17,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
+import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgerp.util.Log;
@@ -49,7 +50,7 @@ public class MessageTypeConfig extends Config {
                 @SuppressWarnings("unchecked")
                 Class<? extends MessageType> typeClass = (Class<? extends MessageType>) DynamicClassManager.getClass(config.get("class"));
 
-                MessageType type = typeClass.getConstructor(int.class, ParameterMap.class).newInstance(id, config);
+                MessageType type = typeClass.getConstructor(Setup.class, int.class, ParameterMap.class).newInstance(Setup.getSetup(), id, config);
                 type.setId(id);
 
                 typeMap.put(type.getId(), type);
@@ -87,7 +88,7 @@ public class MessageTypeConfig extends Config {
 
     private static class MessageTypeUnknown extends MessageType {
         public MessageTypeUnknown(int id) throws BGException {
-            super(id, "??? " + id, new Preferences());
+            super(null, id, "??? " + id, new Preferences());
         }
 
         @Override

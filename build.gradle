@@ -141,7 +141,7 @@ dependencies {
     bgerp fileTree(dir: 'lib', include: ['*.jar'])
 
     // documentation library
-    doc 'org.pzdcdoc:pzdcdoc:2.3'
+    doc 'org.pzdcdoc:pzdcdoc:2.4'
 
     // unit tests of the main code
     testImplementation 'junit:junit:4.12'
@@ -219,8 +219,8 @@ tasks.withType(JavaCompile) {
 
 task doc(type: JavaExec, description: 'Build manual') {
     classpath =  configurations.doc
-    main = 'org.pzdcdoc.DocGenerator'
-    args 'NOTUSED', 'srcx/doc', 'target/doc'
+    main = 'org.pzdcdoc.Generator'
+    args '--in', 'srcx/doc', '--out', 'target/doc'
 }
 
 task buildDoc(dependsOn: 'doc', description: 'Backward compatible name for doc') {

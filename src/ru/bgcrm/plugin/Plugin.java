@@ -27,6 +27,7 @@ import ru.bgerp.util.Log;
 
 /**
  * Parent class for all the plugins.
+ * 
  * @author Shamil Vakhitov
  */
 public abstract class Plugin {

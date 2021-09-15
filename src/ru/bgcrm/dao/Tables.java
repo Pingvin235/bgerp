@@ -50,5 +50,5 @@ public class Tables {
 
     public static final String TABLE_COUNTER = " counter ";
 
-    public static final String TABLE_FILE_DATE = " file_data ";
+    public static final String TABLE_FILE_DATA = " file_data ";
 }

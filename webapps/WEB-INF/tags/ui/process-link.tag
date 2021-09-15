@@ -21,7 +21,7 @@
 --%></ui:when>
 <ui:when type="open">
 	<c:set var="config" value="${u:getConfig(ctxSetup, 'org.bgerp.action.open.ProcessAction$Config')}"/>
-	<c:if test="${config.isOpen(process)}"><%--
-	--%><a id="${id}" href="/open/process/${id}">${text}</a><%--
+	<c:if test="${config.isOpen(process, form)}"><%--
+	--%><a id="${id}" href="${config.url(process)}">${text}</a><%--
 --%></c:if>
 </ui:when>

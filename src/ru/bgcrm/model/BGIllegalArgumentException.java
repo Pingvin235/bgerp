@@ -1,7 +1,8 @@
 package ru.bgcrm.model;
 
 /**
- * Incorrect action parameter.
+ * Incorrect action parameters.
+ * 
  * @author Shamil Vakhitov
  */
 public class BGIllegalArgumentException extends BGMessageException {

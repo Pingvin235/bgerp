@@ -17,18 +17,20 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.BGSecureException;
+import ru.bgcrm.model.BGSecurityException;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.ProcessLink;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/open/plugin/feedback/message")
 public class MessageAction extends BaseAction {
     /**
      * Configuration for open feedback messages.
@@ -74,12 +76,12 @@ public class MessageAction extends BaseAction {
         int processId = form.getParamInt("processId");
         var process = new ProcessDAO(conSet.getSlaveConnection()).getProcess(processId);
 
-        if (configProcessOpen == null || !configProcessOpen.isOpen(process))
-            throw new BGSecureException("Process is not open", form);
+        if (configProcessOpen == null || !configProcessOpen.isOpen(process, form))
+            throw new BGSecurityException("Process is not open", form);
 
         var config = setup.getConfig(Config.class);
         if (config == null)
-            throw new BGSecureException("Feedback is not enabled", form);
+            throw new BGSecurityException("Feedback is not enabled", form);
         
         var subject = form.getParam("subject", Utils::notBlankString);
         var email = form.getParam("email", Utils::isValidEmail);

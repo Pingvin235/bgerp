@@ -1,6 +1,7 @@
 package ru.bgcrm.plugin.bgbilling.dao;
 
-import static ru.bgcrm.dao.process.Tables.*;
+import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
+import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -84,8 +85,8 @@ public class MessageTypeHelpDesk extends MessageType {
     private final Set<Integer> markMessagesReadStatusIds;
     private final int pageSize;
 
-    public MessageTypeHelpDesk(int id, ParameterMap config) throws BGException {
-        super(id, config.get("title"), config);
+    public MessageTypeHelpDesk(Setup setup, int id, ParameterMap config) throws BGException {
+        super(setup, id, config.get("title"), config);
         this.billingId = config.get("billingId");
 
         String userName = config.get("user", "");
@@ -118,7 +119,7 @@ public class MessageTypeHelpDesk extends MessageType {
     @Override
     public String getHeaderJsp() {
         // <endpoint id="user.process.message.header.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/helpdesk/process_message_header.jsp"/>
-        return Plugin.PATH_JSP_USER + "/helpdesk/process_message_header.jsp";
+        return Plugin.ENDPOINT_MESSAGE_HEADER;
     }
 
     public User getUser() {

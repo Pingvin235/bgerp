@@ -12,7 +12,6 @@
 		</c:if>
 	</c:when>
 	<c:when test="${uri.startsWith('/open/process')}">
-		<c:set var="userId" value="${su.substringBefore(su.substringAfterLast(uri, '/'), '#')}"/>
-		<c:import url="/open/process.do?action=show&id=${userId}"/>
+		<c:import url="/open/process.do?action=show&id=${u.getOpenId(uri)}&secret=${secret}"/>
 	</c:when>
 </c:choose>

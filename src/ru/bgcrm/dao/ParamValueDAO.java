@@ -4,7 +4,7 @@ import static ru.bgcrm.dao.AddressDAO.LOAD_LEVEL_COUNTRY;
 import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_HOUSE;
 import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_QUARTER;
 import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_STREET;
-import static ru.bgcrm.dao.Tables.TABLE_FILE_DATE;
+import static ru.bgcrm.dao.Tables.TABLE_FILE_DATA;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_BLOB;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_DATE;
@@ -75,9 +75,9 @@ public class ParamValueDAO extends CommonDAO {
 
     public static final String DIRECTORY_TYPE_PARAMETER = "parameter";
 
-    private static final String[] TABLE_NAMES = {TABLE_PARAM_DATE, TABLE_PARAM_DATETIME, TABLE_PARAM_PHONE, TABLE_PARAM_PHONE_ITEM, 
-            TABLE_PARAM_TEXT, TABLE_PARAM_BLOB, TABLE_PARAM_EMAIL, TABLE_PARAM_LIST, TABLE_PARAM_LIST_VALUE, 
-            TABLE_PARAM_TREE, TABLE_PARAM_TREE_VALUE, TABLE_PARAM_LISTCOUNT, TABLE_PARAM_LISTCOUNT_VALUE,  
+    private static final String[] TABLE_NAMES = {TABLE_PARAM_DATE, TABLE_PARAM_DATETIME, TABLE_PARAM_PHONE, TABLE_PARAM_PHONE_ITEM,
+            TABLE_PARAM_TEXT, TABLE_PARAM_BLOB, TABLE_PARAM_EMAIL, TABLE_PARAM_LIST, TABLE_PARAM_LIST_VALUE,
+            TABLE_PARAM_TREE, TABLE_PARAM_TREE_VALUE, TABLE_PARAM_LISTCOUNT, TABLE_PARAM_LISTCOUNT_VALUE,
             TABLE_PARAM_ADDRESS, TABLE_PARAM_FILE};
 
     /** Write param changes history. */
@@ -178,31 +178,32 @@ public class ParamValueDAO extends CommonDAO {
         return result;
     }
 
+    // public FileData getParamFile(int id, int paramId, int position, int version) throws SQLException {
+
     /**
      * Возвращает значение параметра типа 'file'.
      * @param id код объекта.
      * @param paramId код параметра.
      * @param position номер значения (если значений несколько).
-     * @param version номер версии файла.
+     * @param version not used.
      * @return
      * @throws SQLException
      */
-    public FileData getParamFile(int id, int paramId, int position, int version) throws SQLException {
+    public FileData getParamFile(int id, int paramId, int position) throws SQLException {
         FileData result = null;
 
-        String query = "SELECT fd.*,pf.comment,pf.user_id,pf.version,pf.n " + "FROM " + TABLE_PARAM_FILE + " AS pf "
-                + "INNER JOIN " + TABLE_FILE_DATE + " AS fd ON pf.value=fd.id "
-                + "WHERE pf.id=? AND pf.param_id=? AND pf.n = ? AND pf.version=? " + "LIMIT 1";
+        String query = "SELECT fd.*, pf.n FROM " + TABLE_PARAM_FILE + " AS pf "
+            + "INNER JOIN " + TABLE_FILE_DATA + " AS fd ON pf.value=fd.id "
+            + "WHERE pf.id=? AND pf.param_id=? AND pf.n=? LIMIT 1";
 
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, id);
         ps.setInt(2, paramId);
         ps.setInt(3, position);
-        ps.setInt(4, version);
 
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            result = FileDataDAO.getFromRs(rs, "fd.", true);
+            result = FileDataDAO.getFromRs(rs, "fd.");
         }
         ps.close();
 
@@ -213,23 +214,23 @@ public class ParamValueDAO extends CommonDAO {
      * Возвращает существующие значения параметра типа 'file'
      * @param id код объекта.
      * @param paramId код параметра.
-     * @return ключ - строка позиция + '_' + версия, значение - данные.
+     * @return ключ - позиция, значение - данные.
      * @throws SQLException
      */
-    public SortedMap<String, FileData> getParamFile(int id, int paramId) throws SQLException {
-        SortedMap<String, FileData> fileMap = new TreeMap<String, FileData>();
+    public SortedMap<Integer, FileData> getParamFile(int id, int paramId) throws SQLException {
+        SortedMap<Integer, FileData> fileMap = new TreeMap<>();
 
-        String query = "SELECT fd.*,pf.comment,pf.user_id, pf.n, pf.version " + "FROM " + TABLE_PARAM_FILE
-                + " AS pf " + "INNER JOIN " + TABLE_FILE_DATE + " AS fd ON pf.value=fd.id "
-                + "WHERE pf.id=? AND pf.param_id=? ";
+        String query = "SELECT fd.*, pf.n FROM " + TABLE_PARAM_FILE
+            + " AS pf INNER JOIN " + TABLE_FILE_DATA + " AS fd ON pf.value=fd.id "
+            + "WHERE pf.id=? AND pf.param_id=? ";
 
-        PreparedStatement ps = con.prepareStatement(query);
+        var ps = con.prepareStatement(query);
         ps.setInt(1, id);
         ps.setInt(2, paramId);
 
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            fileMap.put(rs.getInt("pf.n") + "-" + rs.getInt("pf.version"), FileDataDAO.getFromRs(rs, "fd.", true));
+            fileMap.put(rs.getInt("pf.n"), FileDataDAO.getFromRs(rs, "fd."));
         }
         ps.close();
 
@@ -331,7 +332,7 @@ public class ParamValueDAO extends CommonDAO {
      */
     public ParameterEmailValue getParamEmail(int id, int paramId, int position) throws SQLException {
         ParameterEmailValue emailItem = null;
-            
+
         String query = "SELECT * FROM " + TABLE_PARAM_EMAIL + "WHERE id=? AND param_id=? AND n=? " + "LIMIT 1";
 
         PreparedStatement ps = con.prepareStatement(query.toString());
@@ -448,7 +449,7 @@ public class ParamValueDAO extends CommonDAO {
         return new ArrayList<IdTitle>(values);
     }
 
-    /** 
+    /**
      * Возвращает значения параметра типа 'list' с комментариями значений.
      * @param id код объекта.
      * @param paramId код параметра.
@@ -542,7 +543,7 @@ public class ParamValueDAO extends CommonDAO {
      * Возвращает значения параметра типа 'listcount'.
      * @param id код объекта.
      * @param paramId код параметра.
-     * @return ключ - код значения, значение - доп. данные. 
+     * @return ключ - код значения, значение - доп. данные.
      * @throws SQLException
      */
     public Map<Integer, ParameterListCountValue> getParamListCount(int id, int paramId) throws SQLException {
@@ -817,37 +818,36 @@ public class ParamValueDAO extends CommonDAO {
         updateParamListCount(id, paramId, valuesFixed);
     }
 
+    // public void updateParamFile(int id, int paramId, int position, int version, String comment, FileData fileData)
+
     /**
      * Устанавливает значение параметра типа 'file' на позицию с новой версией.
      * @param id код объекта.
      * @param paramId код параметра.
-     * @param position позиция.
-     * @param version версия файла.
+     * @param position position for multiple values, when is 0 - adding with new positions.
      * @param comment примечение.
      * @param fileData значение параметра данной версии, если null - удаление значения с позиции.
      * @throws Exception
      */
-    public void updateParamFile(int id, int paramId, int position, int version, String comment, FileData fileData)
+    public void updateParamFile(int id, int paramId, int position, String comment, FileData fileData)
             throws Exception {
         //TODO: При position=-1 - сделать удаление всех значений параметра, как в #updateParameterEmail.
         if (fileData == null) {
-            FileData currentValue = getParamFile(id, paramId, position, version);
+            FileData currentValue = getParamFile(id, paramId, position);
             if (currentValue != null) {
-
-                String query = "DELETE FROM " + TABLE_PARAM_FILE
-                        + " WHERE id=? AND param_id=? AND n=? AND version=?";
+                String query = "DELETE FROM " + TABLE_PARAM_FILE + " WHERE id=? AND param_id=? AND n=?";
 
                 PreparedStatement ps = con.prepareStatement(query);
                 ps.setInt(1, id);
                 ps.setInt(2, paramId);
                 ps.setInt(3, position);
-                ps.setInt(4, version);
                 ps.executeUpdate();
                 ps.close();
 
                 //проверка на оставшиеся ссылки на файл
-                query = "SELECT COUNT(*) FROM " + TABLE_PARAM_FILE + " AS pf " + " LEFT JOIN " + TABLE_FILE_DATE
-                        + " AS fd ON fd.id = pf.value " + " WHERE fd.secret =? ";
+                query = "SELECT COUNT(*) FROM " + TABLE_PARAM_FILE + " AS pf "
+                    + " LEFT JOIN " + TABLE_FILE_DATA + " AS fd ON fd.id = pf.value "
+                    + " WHERE fd.secret =? ";
                 ps = con.prepareStatement(query);
                 ps.setString(1, currentValue.getSecret());
 
@@ -864,28 +864,13 @@ public class ParamValueDAO extends CommonDAO {
                 ps.close();
             }
         } else {
-            version = 1;
-            position = 0;
-            String query = " SELECT MAX(version)+1,n " + " FROM " + TABLE_PARAM_FILE + " AS pf " + " LEFT JOIN "
-                    + TABLE_FILE_DATE + " AS fd on fd.id = pf.value " + " WHERE pf.id = ? AND fd.title = ? ";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.setString(2, fileData.getTitle());
-
-            ResultSet rs = ps.executeQuery();
-            if (rs.next() && rs.getObject(1) != null) {
-                position = rs.getInt(2);
-                version = rs.getInt(1);
-            }
-            ps.close();
-
-            if (position == 0) {
-                query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_FILE + " WHERE id=? AND param_id=?";
-                ps = con.prepareStatement(query);
+           if (position == 0) {
+                var query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_FILE + " WHERE id=? AND param_id=?";
+                var ps = con.prepareStatement(query);
                 ps.setInt(1, id);
                 ps.setInt(2, paramId);
 
-                rs = ps.executeQuery();
+                var rs = ps.executeQuery();
                 if (rs.next() && rs.getObject(1) != null) {
                     position = rs.getInt(1);
                 } else {
@@ -894,21 +879,15 @@ public class ParamValueDAO extends CommonDAO {
                 ps.close();
             }
 
-            query = "INSERT INTO " + TABLE_PARAM_FILE
-                    + "(id, param_id, n, value, user_id, comment,version) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            var query = "INSERT INTO " + TABLE_PARAM_FILE + "(id, param_id, n, value) VALUES (?, ?, ?, ?)";
 
-            PreparedStatement insertPs = con.prepareStatement(query);
-            insertPs.setInt(1, id);
-            insertPs.setInt(2, paramId);
-            insertPs.setInt(3, position);
-            insertPs.setInt(4, fileData.getId());
-
-            insertPs.setInt(5, userId);
-            insertPs.setString(6, comment);
-            insertPs.setInt(7, version);
-
-            insertPs.executeUpdate();
-            insertPs.close();
+            var ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.setInt(2, paramId);
+            ps.setInt(3, position);
+            ps.setInt(4, fileData.getId());
+            ps.executeUpdate();
+            ps.close();
 
             //TODO: Разобраться с логированием.
             if (history) {
@@ -981,7 +960,7 @@ public class ParamValueDAO extends CommonDAO {
                 int cnt = ps.executeUpdate();
 
                 ps.close();
-                
+
                 if (cnt == 0)
                     insertParamAddress(id, paramId, position, value);
             }
@@ -1006,7 +985,7 @@ public class ParamValueDAO extends CommonDAO {
 
     private void insertParamAddress(int id, int paramId, int position, ParameterAddressValue value) throws SQLException {
         int index = 1;
-        
+
         String query = "INSERT INTO " + TABLE_PARAM_ADDRESS
                 + " SET id=?, param_id=?, n=?, value=?, house_id=?, flat=?, room=?, pod=?, floor=?, comment=?, custom=?";
         PreparedStatement ps = con.prepareStatement(query);
@@ -1320,8 +1299,8 @@ public class ParamValueDAO extends CommonDAO {
                 psList.add(con.prepareStatement(query));
             }
         } else if (Parameter.TYPE_FILE.equals(paramType)) {
-            query = "INSERT INTO " + TABLE_PARAM_FILE + "(id, param_id, n,value,user_id,comment,version) "
-                    + "SELECT ?, ?, n,value,user_id,comment,version " + "FROM " + TABLE_PARAM_FILE
+            query = "INSERT INTO " + TABLE_PARAM_FILE + "(id, param_id, n, value) "
+                    + "SELECT ?, ?, n, value FROM " + TABLE_PARAM_FILE
                     + " WHERE id=? AND param_id=?";
             psList.add(con.prepareStatement(query));
         } else {
@@ -1401,7 +1380,7 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Загрузка значений параметров определённого типа.
-     * @param paramValueMap 
+     * @param paramValueMap
      * @param type
      * @param ids
      * @param objectId
@@ -1411,10 +1390,10 @@ public class ParamValueDAO extends CommonDAO {
     private void updateParamValueMap(Map<Integer, ParameterValuePair> paramMap, String type, Collection<Integer> ids,
             int objectId, boolean offEncription) throws Exception {
         StringBuilder query = new StringBuilder();
-        
+
         ResultSet rs = null;
         PreparedStatement ps = null;
-        
+
         if (Parameter.TYPE_LIST.equals(type)) {
             // ключ - имя таблицы справочника, значение - перечень параметров
             Map<String, Set<Integer>> tableParamsMap = new HashMap<String, Set<Integer>>();
@@ -1533,24 +1512,24 @@ public class ParamValueDAO extends CommonDAO {
             query.append(Utils.toString(ids));
             query.append(" )");
         } else if (Parameter.TYPE_FILE.equals(type)) {
-            query.append("SELECT pf.param_id, pf.n, pf.version, pf.user_id,pf.comment,fd.* FROM " + TABLE_PARAM_FILE
-                    + " AS pf INNER JOIN " + TABLE_FILE_DATE + " AS fd ON pf.value=fd.id "
+            query.append("SELECT pf.param_id, pf.n, fd.* FROM " + TABLE_PARAM_FILE
+                    + " AS pf INNER JOIN " + TABLE_FILE_DATA + " AS fd ON pf.value=fd.id "
                     + " WHERE pf.id=? AND pf.param_id IN ( ");
             query.append(Utils.toString(ids));
-            query.append(" ) ORDER BY n,version");
+            query.append(" ) ORDER BY n");
         } else if (Parameter.TYPE_PHONE.equals(type)) {
-            query.append("SELECT pi.param_id, pi.n, pi.phone, pi.format, pi.comment, pi.flags FROM " + TABLE_PARAM_PHONE_ITEM 
+            query.append("SELECT pi.param_id, pi.n, pi.phone, pi.format, pi.comment, pi.flags FROM " + TABLE_PARAM_PHONE_ITEM
                     + "AS pi WHERE pi.id=? AND pi.param_id IN ( ");
             query.append(Utils.toString(ids));
-            query.append(" ) ORDER BY pi.n");			    
+            query.append(" ) ORDER BY pi.n");
         } else {
             query.append("SELECT param_id, value FROM param_");
             query.append(type);
             query.append(" WHERE id=? AND param_id IN ( ");
             query.append(Utils.toString(ids));
-            query.append(" )");				
+            query.append(" )");
         }
-        
+
         if (ps == null) {
             ps = con.prepareStatement(query.toString());
             ps.setInt(1, objectId);
@@ -1615,7 +1594,7 @@ public class ParamValueDAO extends CommonDAO {
                 if (values == null)
                     param.setValue(values = new LinkedHashMap<String, FileData>());
 
-                values.put(rs.getString(2) + rs.getString(3), FileDataDAO.getFromRs(rs, "fd.", true));
+                values.put(rs.getString(2) + rs.getString(3), FileDataDAO.getFromRs(rs, "fd."));
             } else if (Parameter.TYPE_PHONE.equals(type)) {
                 ParameterPhoneValue value = (ParameterPhoneValue)param.getValue();
                 if (value == null)
@@ -2091,7 +2070,7 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Значения параметра объекта типа 'tree' с текстовыми наименованиями. 
+     * Значения параметра объекта типа 'tree' с текстовыми наименованиями.
      * @param id код объекта.
      * @param paramId код параметра.
      * @return
@@ -2298,8 +2277,8 @@ public class ParamValueDAO extends CommonDAO {
 
         return result;
     }
-    
-    public static ParameterPhoneValueItem getParamPhoneValueItemFromRs(ResultSet rs) throws SQLException { 
+
+    public static ParameterPhoneValueItem getParamPhoneValueItemFromRs(ResultSet rs) throws SQLException {
         ParameterPhoneValueItem item = new ParameterPhoneValueItem();
         item.setPhone(rs.getString("phone"));
         item.setFormat(rs.getString("format"));

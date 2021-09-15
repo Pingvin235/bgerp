@@ -109,20 +109,11 @@
 			<forward name="parameters" path="/WEB-INF/jspf/user/profile/parameters.jsp"/>
 		</action>
 
-		<action path="/user/log" parameter="action" type="ru.bgcrm.struts.action.LogAction" name="form" scope="request"/>
-
 		<action path="/usermob/process" parameter="action" type="org.bgerp.action.usermob.ProcessAction" name="form" scope="request">
 			<forward name="queue" path="/WEB-INF/jspf/usermob/process/queue/queue.jsp"/>
 			<forward name="queueShow" path="/WEB-INF/jspf/usermob/process/queue/show.jsp"/>
 			<forward name="process" path="/WEB-INF/jspf/usermob/process/process/process.jsp"/>
 		</action>
-
-		<action path="/open/profile" parameter="action" type="org.bgerp.action.open.ProfileAction" name="form" scope="request">
-			<forward name="show" path="/WEB-INF/jspf/open/profile/show.jsp"/>
-		</action>
-
-		<action path="/open/process" parameter="action" type="org.bgerp.action.open.ProcessAction" name="form" scope="request"/>
-		<action path="/open/process/queue" parameter="action" type="org.bgerp.action.open.ProcessQueueAction" name="form" scope="request"/>
 	</action-mappings>
 
 	<plug-in className="org.apache.struts.tiles.TilesPlugin">

@@ -175,13 +175,23 @@ Configuration sample of <<install.adoc#nginx, NGINX>> for accessing it from outs
 
 Beside of some kernel functionality, described below, this interface is also used by following plugins:
 [square]
-* <<../plugin/dispatch/index.adoc#, Dispatch>>; 
-* <<../plugin/feedback/index.adoc#, Feedback>>; 
-* <<../plugin/mobile/index.adoc#, Mobile>>.
+* <<../plugin/dispatch/index.adoc#, Dispatch>>
+* <<../plugin/feedback/index.adoc#, Feedback>>
+* <<../plugin/mobile/index.adoc#, Mobile>>
+
+[[open-config]]
+=== Config
+Default *<OPEN_URL>* for accessing the open interface is */open* that can be changed in <<setup.adoc#config, configuration>>.
+It is recommended to make separated included configuration for configuring open interface.
+[source]
+----
+# changed root <OPEN_URL>
+#url.open=https://demo.bgerp.org/open
+----
 
 [[open-user]]
 === User profile
-For enabling showing user specific information by URL *<SERVER_PORT>/open/profile/<USER_ID>*:
+For enabling showing user specific information by URL *<OPEN_URL>/profile/<USER_ID>*:
 [arabic]
 . create user <<setup.adoc#param, parameter>> with type *list* and value *1=Yes*, ID of that is *<ENABLE_PARAM_ID>*;
 . add the following records in <<setup.adoc#config, configuration>>.
@@ -198,7 +208,7 @@ Where:
 
 [[open-process]]
 === Process
-For enabling showing process information by URL  *<SERVER_PORT>/open/process/<PROCESS_ID>*
+For enabling showing process information by URL  *<OPEN_URL>/process/<PROCESS_ID>*
 define in <<setup.adoc#config, configuration>>:
 
 [source]
@@ -206,17 +216,20 @@ define in <<setup.adoc#config, configuration>>:
 process.open.typeIds=<TYPE_IDS>
 process.open.show.paramIds=<PARAM_IDS>
 process.open.show.message.tagIds=<MESSAGE_TAG_IDS>
+# optionally JEXL expression for handling access secrets
+#process.open.secret.expression=<SECRET_EXPRESSION>
 ----
 
 Where:
 [square]
 * *<TYPE_IDS>* - comma separated process type IDs to be shown;
 * *<PARAM_IDS>* - comma separated process parameter IDs to be shown, parameter type *file* is not supported;
-* *<MESSAGE_TAG_IDS>* - comma separated <<message.adoc#message-tag, message tag>> IDs to be shown.
+* *<MESSAGE_TAG_IDS>* - comma separated <<message.adoc#message-tag, message tag>> IDs to be shown, * - show all tags;
+* *<SECRET_EXPRESSION* - <<extension.adoc#jexl, JEXL>> expression for secret handling, e.g using plugin <<../plugin/sec/secret/index.adoc#, secret>>.
 
 [[open-process-queue]]
 === Process Queue
-For enabling showing process queue by URL *<SERVER_PORT>/open/process/queue/<OPEN_NAME>*
+For enabling showing process queue by URL *<OPEN_URL>/process/queue/<OPEN_NAME>*
 define in <<process/queue.adoc#setup, configuration>> of the queue:
 [source]
 ----

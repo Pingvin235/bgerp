@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,8 +24,9 @@ import ru.bgcrm.model.Config;
 import ru.bgerp.util.Log;
 
 /**
- * Набор параметров, хранящийся в ConcurrentHashMap
- * @see ParameterMap
+ * {@link ConcurrentHashMap} based implementation of {@link ParameterMap}.
+ *
+ * @author Shamil Vakhitov
  */
 public class Preferences extends ParameterMap {
     private static final Log log = Log.getLog();
@@ -32,10 +34,6 @@ public class Preferences extends ParameterMap {
     private static final String INC = "inc";
     private static final String INSTRUCTION_DELIM = ":";
 
-    // переменная сделана final, чтобы избежать зависания в регистровых кэшах разных потоков ссылки
-    // на устаревший объект
-    // вместо final можно ставить volatile но это вроде как менее производительно при множестве
-    // чтений и редких апдейтах
     protected final ConcurrentHashMap<String, String> data = new ConcurrentHashMap<>();
 
     public Preferences() {
@@ -55,7 +53,7 @@ public class Preferences extends ParameterMap {
             log.error(e.getMessage(), e);
         }
     }
-    
+
     private Preferences(String data, Iterable<ParameterMap> includes, boolean validate) throws BGException {
         super();
         loadData(data, "\r\n", this.data, includes, validate);
@@ -71,11 +69,11 @@ public class Preferences extends ParameterMap {
     public Set<Entry<String, String>> entrySet() {
         return data.entrySet();
     }
-    
+
     @Override
     public String put(String key, String value) {
         configMap = null;
-        return data.put(key, value);        
+        return data.put(key, value);
     }
 
     @Override
@@ -117,11 +115,11 @@ public class Preferences extends ParameterMap {
      */
     protected void loadBundle(String bundleName, Map<String, String> data, boolean validate) {
         File file = new File(bundleName.replace('.', '/') + ".properties");
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), Utils.UTF8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             MultilineContext context = new MultilineContext();
 
             String line = null;
-            while ((line = reader.readLine()) != null) 
+            while ((line = reader.readLine()) != null)
                 loadDataEntry(context, data, line.trim(), null, validate);
         } catch (Exception e) {
             log.error(e);
@@ -133,7 +131,7 @@ public class Preferences extends ParameterMap {
         StringTokenizer st = new StringTokenizer(Utils.maskNull(conf), delim);
         while (st.hasMoreTokens())
             loadDataEntry(context, data, st.nextToken().trim(), includes, validate);
-        
+
         if (includes != null)
             for (ParameterMap include : includes)
                 data.putAll(include);
@@ -227,11 +225,11 @@ public class Preferences extends ParameterMap {
             if (value == null && includes != null)
                 for  (ParameterMap include : includes) {
                     value = include.get(variable);
-                    if (value == null) 
+                    if (value == null)
                         break;
                 }
-                    
-            if (value != null)       
+
+            if (value != null)
                 result.append(value);
             else {
                 if (validate) throw new BGMessageException("Variable is not found: " + variable);
@@ -250,23 +248,6 @@ public class Preferences extends ParameterMap {
         return line;
     }
 
-    protected Map<String, String> getVarsFromData(String data, String delim) {
-        Map<String, String> vars = new HashMap<String, String>();
-        StringTokenizer st = new StringTokenizer(Utils.maskNull(data), delim);
-        while (st.hasMoreTokens()) {
-            String line = st.nextToken().trim();
-            if (!line.startsWith("#") && line.startsWith("@")) {
-                int pos = line.indexOf('=');
-                if (pos > -1) {
-                    String key = line.substring(1, pos);
-                    String value = line.substring(pos + 1);
-                    vars.put(key, System.getProperty("@" + key, value));
-                }
-            }
-        }
-        return vars;
-    }
-
     public Map<String, String> getHashValuesWithPrefix(String prefix) {
         Map<String, String> result = new HashMap<String, String>();
 
@@ -280,7 +261,7 @@ public class Preferences extends ParameterMap {
         }
         return result;
     }
-    
+
     /**
      * Проверяет конфигурацию, включая инклуды и переменные.
      * @param configDao
@@ -288,21 +269,21 @@ public class Preferences extends ParameterMap {
      * @param validate
      * @throws Exception
      */
-    public static ParameterMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws Exception {    
+    public static ParameterMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws Exception {
         Iterable<ParameterMap> includes = Config.getIncludes(configDao, new Preferences(config), validate);
         return new Preferences(config, includes, validate);
     }
 
     /**
      * Функция для разбора конфигураций вида:
-     * 
+     *
      * filetype.1.name=...
      * filetype.1.value=...
      * filetype.2.name=...
-     * filetype.2.value.. 
-     * 
+     * filetype.2.value..
+     *
      * разбирает в список Map с ключами name, value, код передается под ключем id.
-     * 
+     *
      * @param prefix
      * @param setup
      * @return

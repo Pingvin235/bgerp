@@ -13,6 +13,7 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
+import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class MessageTypeCall extends MessageType {
@@ -53,8 +54,8 @@ public class MessageTypeCall extends MessageType {
     
     private final String checkExpressionCallStore;
 
-    public MessageTypeCall(int id, ParameterMap config) throws BGException {
-        super(id, config.get("title"), config);
+    public MessageTypeCall(Setup setup, int id, ParameterMap config) throws BGException {
+        super(setup, id, config.get("title"), config);
         checkExpressionCallStore = config.get(Expression.CHECK_EXPRESSION_CONFIG_KEY + "CallStore");
     }
 

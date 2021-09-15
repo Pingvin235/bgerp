@@ -249,7 +249,7 @@ public class ParamValueFunction {
                 break;
             }
             case FILE: {
-                SortedMap<String, FileData> value = paramDao.getParamFile(objectId, paramId);
+                SortedMap<Integer, FileData> value = paramDao.getParamFile(objectId, paramId);
                 result = Utils.toString(value.keySet());
                 break;
             }

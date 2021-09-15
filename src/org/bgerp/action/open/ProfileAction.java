@@ -13,6 +13,7 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.param.Parameter;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
@@ -21,7 +22,9 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgerp.util.Log;
 
+@Action(path = "/open/profile")
 public class ProfileAction extends BaseAction {
+    private static final String PATH_JSP =  PATH_JSP_OPEN + "/profile";
 
     public static class Config extends ru.bgcrm.util.Config implements EventListener<ParamChangedEvent> {
         private static final Log log = Log.getLog(); 
@@ -78,6 +81,6 @@ public class ProfileAction extends BaseAction {
             form.getHttpRequest().setAttribute("config", config);
             form.setResponseData("user", UserCache.getUser(form.getId()));
         }
-        return html(conSet, mapping, form);
+        return html(conSet, form, PATH_JSP + "/show.jsp");
     }
 }

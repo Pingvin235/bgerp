@@ -53,12 +53,12 @@
 						<c:forEach var="item" items="${config.typeMap}">
 							<c:if test="${empty allowedTypeIds or allowedTypeIds.contains(item.key)}">
 								<c:set var="messageType" value="${item.value}"/>
-
-								<%-- special editor or default one for notes --%>
 								<c:choose>
+									<%-- special editor --%>
 									<c:when test="${not empty messageType.editorJsp}">
-										<li value="${item.key}" editor="${messageType.getClass().getName()}">${item.value.title}</li>
+										<li value="${item.key}" editor="${messageType.id}">${item.value.title}</li>
 									</c:when>
+									<%-- or default one for notes --%>
 									<c:otherwise>
 										<li value="${item.key}">${item.value.title}</li>
 									</c:otherwise>
@@ -90,12 +90,12 @@
 <c:forEach var="messageType" items="${config.typeMap.values()}">
 	<c:set var="editorJsp" value="${messageType.editorJsp}"/>
 	<c:if test="${not empty editorJsp}">
-		<html:form action="/user/message" styleId="${editorUiid}-${messageType.getClass().getName()}" styleClass="editorStopReload" style="display: none;">
+		<html:form action="/user/message" styleId="${editorUiid}-${messageType.id}" styleClass="editorStopReload" style="display: none;">
 			<input type="hidden" name="action" value="messageUpdate"/>
 			<html:hidden property="processId"/>
 			<html:hidden property="id"/>
 
-			<jsp:include page="${editorJsp}"/>
+			<plugin:include endpoint="${editorJsp}"/>
 		</html:form>
 	</c:if>
 </c:forEach>

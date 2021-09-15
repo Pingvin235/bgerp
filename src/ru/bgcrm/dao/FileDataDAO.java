@@ -1,6 +1,6 @@
 package ru.bgcrm.dao;
 
-import static ru.bgcrm.dao.Tables.TABLE_FILE_DATE;
+import static ru.bgcrm.dao.Tables.TABLE_FILE_DATA;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,9 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.Random;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.util.TimeUtils;
@@ -28,7 +26,7 @@ public class FileDataDAO extends CommonDAO {
         storeDir = Utils.createDirectoryIfNoExistInWorkDir("filestorage");
     }
 
-    public static FileData getFromRs(ResultSet rs, String prefix, boolean loadAdditionalParameters) throws SQLException {
+    public static FileData getFromRs(ResultSet rs, String prefix) throws SQLException {
         FileData result = new FileData();
 
         result.setId(rs.getInt(prefix + "id"));
@@ -36,15 +34,6 @@ public class FileDataDAO extends CommonDAO {
         result.setTime(TimeUtils.convertTimestampToDate(rs.getTimestamp(prefix + "time")));
         result.setSecret(rs.getString("secret"));
 
-        if (loadAdditionalParameters) {
-            int userId = rs.getInt("user_id");
-            if (userId > 0)
-                result.setUser(UserCache.getUser(userId));
-
-            result.setComment(rs.getString("comment"));
-            result.setVersion(rs.getInt("version"));
-        }
-       
         return result;
     }
 
@@ -60,10 +49,10 @@ public class FileDataDAO extends CommonDAO {
     public FileOutputStream add(FileData file) throws BGException, FileNotFoundException {
         checkDir();
 
-        file.setSecret(Utils.getDigest(String.valueOf(new Random().nextDouble())));
+        file.setSecret(Utils.generateSecret());
 
         try {
-            String query = "INSERT INTO " + TABLE_FILE_DATE + " (title, time, secret) VALUES (?, NOW(), ?)";
+            String query = "INSERT INTO " + TABLE_FILE_DATA + " (title, time, secret) VALUES (?, NOW(), ?)";
             PreparedStatement ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, file.getTitle());
             ps.setString(2, file.getSecret());
@@ -86,7 +75,7 @@ public class FileDataDAO extends CommonDAO {
         try {
             checkDir();
 
-            String query = "DELETE FROM " + TABLE_FILE_DATE + " WHERE id=? AND secret=?";
+            String query = "DELETE FROM " + TABLE_FILE_DATA + " WHERE id=? AND secret=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, fileData.getId());
             ps.setString(2, fileData.getSecret());
