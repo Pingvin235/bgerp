@@ -1,3 +1,0 @@
-C: Plugin Telegram, the bot only replies to private messages and type text.
-C: Plugin Telegram, update API to version 5.3.
-A: Plugin Telegram, command /help

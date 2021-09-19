@@ -1,2 +1,0 @@
-C: Plugin Slack, using new API with OAuth2.
-A: Plugin Slack, configuration tool.

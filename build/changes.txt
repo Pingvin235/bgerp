@@ -1,6 +1,40 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+19.09.2021 22:40:01 1379
+C: [14367] Interface of message processing.
+A: [14367] Fluent MessageSearchDAO.
+F: [14367] Search processed messages with 'any' type selected.
+B: [14367] Directory 'webapps' synchronized during next update.
+A: [14367] Table rows highlight CSS classes.
+C: [14367] Refactoring Utils, IPUtils.
+C: [14367] E-Mail processing separated to plugin. https://bgerp.org/doc/3.0/manual/plugin/msg/email
+C: [14367] Documentation task renamed from 'buildDoc' to 'doc'.
+A: [14432] Mime4J library for parsing E-Mails.
+A: [14432] Gradle task 'touchChangesLib'.
+A: [14432] Connected Maven repository http://repo.bgerp.org/repository/maven-public.
+C: [14451] Plugin Slack, using new API with OAuth2.
+A: [14451] Plugin Slack, configuration tool.
+C: [14473] Update Tomcat related libraries, use repo.bgerp.org for retrieving changed tomcat-embed-core.
+A: [14488] Configuration param 'bgbilling:search.contract.param.address.paramIds', https://bgerp.org/doc/3.0/manual/plugin/bgbilling/index.html#config-search-param-address
+F: [14488] Changed property name for disabling Tomcat params inheritance.
+F: [14508] Missing JS 'debug' variable.
+F: [14511] Duplicated process status change logging.
+C: [14511] Button's icon for exiting from objects Close (ti-close) to Back (ti-arrow-left).
+C: [14524] Plugin Feedback refactoring.
+A: [14524] Plugin E-Mail select attached history. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#work-process
+C: [14524] Remove unneeded columns from 'param_file' table.
+C: [14524] Update PzdcDoc to 2.4 version.
+C: [14524] Expression API.
+C: [14524] Better unique secret generation.
+A: [14524] Plugin Secret. https://bgerp.org/doc/3.0/manual/plugin/sec/secret
+A: [14524] Unique access secrets in open interface. https://bgerp.org/doc/3.0/kernel/interface.html#open-process
+A: [14524] Configurable 'url.open' for open interface. https://bgerp.org/doc/3.0/kernel/interface.html#open-config
+A: [14527] Configurable process priorities. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config-process-priority
+C: [14541] Plugin Telegram, the bot only replies to private messages and type text.
+C: [14541] Plugin Telegram, update API to version 5.3.
+A: [14541] Plugin Telegram, command /help
+
 19.07.2021 19:20:17 1378
 C: [14479] OpenJDK in Docker image version update from 11.0.7_10 to 11.0.11_9.
 A: [14479] MySQL logs in Docker image.

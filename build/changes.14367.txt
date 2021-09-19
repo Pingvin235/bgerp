@@ -1,8 +1,0 @@
-C: Interface of message processing.
-A: Fluent MessageSearchDAO.
-F: Search processed messages with 'any' type selected.
-B: Directory 'webapps' synchronized during next update.
-A: Table rows highlight CSS classes.
-C: Refactoring Utils, IPUtils.
-C: E-Mail processing separated to plugin. https://bgerp.org/doc/3.0/manual/plugin/msg/email
-C: Documentation task renamed from 'buildDoc' to 'doc'.

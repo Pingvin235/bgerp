@@ -1,2 +1,0 @@
-A: Configuration param 'bgbilling:search.contract.param.address.paramIds', https://bgerp.org/doc/3.0/manual/plugin/bgbilling/index.html#config-search-param-address
-F: Changed property name for disabling Tomcat params inheritance.

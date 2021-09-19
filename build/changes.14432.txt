@@ -1,3 +1,0 @@
-A: Mime4J library for parsing E-Mails.
-A: Gradle task 'touchChangesLib'.
-A: Connected Maven repository http://repo.bgerp.org/repository/maven-public.
