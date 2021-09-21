@@ -1,0 +1,2 @@
+F: Restore last selected type on adding message in process message editor.
+F: Change const $ftr to let in tableRowHl.

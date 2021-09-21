@@ -341,7 +341,7 @@ $$.ui = new function() {
 		$table.find('> tbody > tr:gt(' + (rows - 1) + ')' ).each(function () {
 			const $tr = $(this);
 			$tr.mouseover(function () {
-				const $ftr = getFirstTr($tr);
+				let $ftr = getFirstTr($tr);
 	
 				const bgcolor = $ftr.attr(attrBgColor) || 'white';
 				
@@ -355,7 +355,7 @@ $$.ui = new function() {
 			});
 
 			$tr.mouseleave(function () {
-				const $ftr = getFirstTr($tr);
+				let $ftr = getFirstTr($tr);
 	
 				const bgcolorOrig = $ftr.attr(attrBgColorOrig);
 				if (bgcolorOrig) {

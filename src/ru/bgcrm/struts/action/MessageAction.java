@@ -61,8 +61,6 @@ public class MessageAction extends BaseAction {
     }
 
     public ActionForward message(DynActionForm form, ConnectionSet conSet) throws Exception {
-        restoreRequestParams(conSet.getConnection(), form, true, false, "messageTypeAdd");
-
         int typeId = form.getParamInt("typeId");
         String messageId = form.getParam("messageId");
 
@@ -388,7 +386,9 @@ public class MessageAction extends BaseAction {
 
     public ActionForward processMessageEdit(DynActionForm form, ConnectionSet conSet) throws Exception {
         MessageDAO dao = new MessageDAO(conSet.getSlaveConnection());
-        
+
+        restoreRequestParams(conSet.getConnection(), form, true, false, "messageTypeAdd");
+
         Message message = null;
 
         var replyToId = form.getParamInt("replyToId");
