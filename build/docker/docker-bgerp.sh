@@ -10,7 +10,7 @@ docker_wait_mysql_up () {
         if mysqladmin ping -h localhost --silent; then
             break
         fi
-        sleep 1
+        sleep 2
     done
     if [ "$i" = 0 ]; then
         echo "Unable to start MySQL server."

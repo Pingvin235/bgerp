@@ -152,4 +152,5 @@ VOLUME /opt/bgerp/log
 EXPOSE 9088
 
 COPY docker-bgerp.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-bgerp.sh
 ENTRYPOINT ["docker-bgerp.sh"]

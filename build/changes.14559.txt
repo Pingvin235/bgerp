@@ -1,0 +1,1 @@
+C: Increased timeout waiting of MySQL readiness in Docker image.
