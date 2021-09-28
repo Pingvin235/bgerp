@@ -3,8 +3,6 @@ package ru.bgcrm.event.listener;
 import java.sql.Connection;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
@@ -16,6 +14,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
+import ru.bgerp.util.Log;
 
 /**
  * Обработчик событий для регистрации звонка внешним HTTP запросом.
@@ -28,7 +27,7 @@ import ru.bgcrm.util.sql.SQLUtils;
  * http://[host]:[port]/admin/dynamic.do?action=runDynamicClass&iface=event&class=ru.bgcrm.event.listener.MessageTypeCallRegister&j_username=[user]&j_password=[pswd]&typeId=[typeId]&from=num1&to=num2
  */
 public class MessageTypeCallRegister extends DynamicEventListener {
-    private static final Logger log = Logger.getLogger(MessageTypeCallRegister.class);
+    private static final Log log = Log.getLog();
 
     public MessageTypeCallRegister() {}
 
@@ -51,7 +50,7 @@ public class MessageTypeCallRegister extends DynamicEventListener {
         try {
             CallRegistration reg = messageType.getRegistrationByNumber(to);
             if (reg != null)
-                log.info("Call to registred number: " + reg.getNumber());
+                log.info("Call to registered number: {}", reg.getNumber());
 
             Message message = new Message();
             message.setDirection(Message.DIRECTION_INCOMING);
@@ -68,10 +67,10 @@ public class MessageTypeCallRegister extends DynamicEventListener {
 
             con.commit();
 
-            log.info("Created message: " + message.getId());
+            log.info("Created message: {}", message.getId());
 
             if (reg != null)
-                reg.setMessageForOpenId(message.getId());
+                reg.setMessageForOpen(message);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         } finally {

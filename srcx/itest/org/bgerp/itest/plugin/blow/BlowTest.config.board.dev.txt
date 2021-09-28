@@ -14,7 +14,7 @@ blow:board.1.stringExpressionCell=<<END
           result += "SL: "; 
      }
 
-     result += process.getDescription() + " [<b>" + ctxProcessStatusMap[process.getStatusId()];
+     result += u.htmlEncode(process.getDescription()) + " [<b>" + ctxProcessStatusMap[process.getStatusId()];
      if (process.getProcessExecutorsWithRole(0).size() > 0) {
         result += " " + params.get("col{@COL_STATUS_CHANGED}");
      } 

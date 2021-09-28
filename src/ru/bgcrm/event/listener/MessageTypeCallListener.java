@@ -41,9 +41,10 @@ public class MessageTypeCallListener extends DynamicEventListener {
             CallRegistration reg = ((MessageTypeCall) type).getRegistrationByUser(event.getUser().getId());
             if (reg != null) {
                 reg.setLastPooling(new Date());
-                if (reg.getMessageForOpenId() != null) {
-                    event.getForm().getResponse().addEvent(new MessageOpenEvent(reg.getMessageForOpenId()));
-                    reg.setMessageForOpenId(null);
+                var message = reg.getMessageForOpen();
+                if (message != null) {
+                    event.getForm().getResponse().addEvent(new MessageOpenEvent(message));
+                    reg.setMessageForOpen(null);
                 }
             }
         }

@@ -28,7 +28,10 @@ public class MessageTest {
     @Test
     public void addConfig() throws Exception {
         var config = 
-                ConfigHelper.generateConstants("PARAM_CUSTOMER_EMAIL_ID", CustomerTest.paramEmailId) +
+                ConfigHelper.generateConstants(
+                    "PARAM_CUSTOMER_EMAIL_ID", CustomerTest.paramEmailId,
+                    "PARAM_CUSTOMER_PHONE_ID", CustomerTest.paramPhoneId
+                ) +
                 ResourceHelper.getResource(this, "config.messages.txt");
         configId = ConfigHelper.addIncludedConfig("Kernel Messages", config);
         

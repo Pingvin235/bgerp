@@ -43,7 +43,7 @@
 		
 		<div class="box" id="show" style="padding: 0.5em; min-height: 2em; ${editStyle}">
 			<pre>
-<ui:text-prepare text="${process.description}"/>
+<ui:text-prepare text="${u:htmlEncode(process.description)}"/>
 			</pre>
 		</div>
 

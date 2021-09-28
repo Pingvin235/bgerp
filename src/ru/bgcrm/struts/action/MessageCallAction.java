@@ -1,13 +1,13 @@
 package ru.bgcrm.struts.action;
 
+import java.sql.Connection;
 import java.util.Collections;
+import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.NewsDAO;
-import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
@@ -15,17 +15,17 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.News;
+import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/messageCall")
 public class MessageCallAction extends BaseAction {
     
-    public ActionForward numberRegister(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward numberRegister(DynActionForm form, ConnectionSet conSet) throws Exception {
         MessageTypeCall type = getCallMessageType(form);
 
         String number = form.getParam("number");
@@ -59,18 +59,43 @@ public class MessageCallAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward numberFree(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward numberFree(DynActionForm form, ConnectionSet conSet) throws BGException {
         getCallMessageType(form).numberFree(form.getUserId());
 
         return json(conSet, form);
     }
 
-    private MessageTypeCall getCallMessageType(DynActionForm form) throws BGException {
-        MessageTypeConfig config = Setup.getSetup().getConfig(MessageTypeConfig.class);
+    public ActionForward testCall(DynActionForm form, Connection con) throws BGException {
+        var type = getCallMessageType(form);
 
-        MessageType type = config.getTypeMap().get(form.getParamInt("typeId"));
+        var reg = type.getRegistrationByUser(form.getUserId());
+        if (reg == null)
+            throw new BGException("Пользователь не занимает номер.");
+
+        var message = new Message();
+        message.setDirection(Message.DIRECTION_INCOMING);
+        message.setTypeId(type.getId());
+        message.setUserId(reg.getUserId());
+        message.setText("");
+        message.setFrom(form.getParam("testCallFrom", "+734702"));
+        message.setTo(reg.getNumber());
+        message.setFromTime(new Date());
+        message.setSystemId(String.valueOf(System.currentTimeMillis()));
+
+        type.updateMessage(con, form, message);
+
+        reg.setMessageForOpen(message);
+
+        return json(con, form);
+    }
+
+    private MessageTypeCall getCallMessageType(DynActionForm form) throws BGException {
+        MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
+
+        int typeId = form.getParamInt("typeId");
+        var type = config.getTypeMap().get(typeId);
         if (type == null || !(type instanceof MessageTypeCall)) {
-            throw new BGException("Не найден тип сообщений либо он не MessageTypeCall.");
+            throw new BGException("Not found MessageTypeCall with ID: " + typeId);
         }
 
         return (MessageTypeCall) type;

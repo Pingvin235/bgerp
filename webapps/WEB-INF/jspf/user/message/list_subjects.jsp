@@ -20,7 +20,6 @@
 				<c:forEach var="item" items="${form.response.data.list}">
 					<c:url var="url" value="/user/message.do">
 						<c:param name="id" value="${item.id}"/>
-						<%-- <c:param name="returnUrl" value="${form.requestUrl}"/> --%>
 					</c:url>
 
 					<tr openUrl="${url}">
@@ -57,7 +56,6 @@
 						<c:url var="url" value="/user/message.do">
 							<c:param name="typeId" value="${item.typeId}"/>
 							<c:param name="messageId" value="${item.systemId}"/>
-							<%-- <c:param name="returnUrl" value="${form.requestUrl}"/> --%>
 						</c:url>
 
 						<tr valign="top" openUrl="${url}">

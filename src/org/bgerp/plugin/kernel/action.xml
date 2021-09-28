@@ -292,11 +292,12 @@
 			<item action="ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList" title="Просмотр возможно связанных с сообщением процессов"/>
 
 			<item action="ru.bgcrm.struts.action.MessageAction:processCreate" title="Create process for message"/>
-			<item action="ru.bgcrm.struts.action.MessageAction:linksSearch" title="Search links"/>
+			<!-- <item action="ru.bgcrm.struts.action.MessageAction:linksSearch" title="Search links"/> -->
 
-			<item title="Сообщения (телефония)">
-				<item action="ru.bgcrm.struts.action.MessageCallAction:numberRegister" title="Регистрация номера"/>
-				<item action="ru.bgcrm.struts.action.MessageCallAction:numberFree" title="Освобождение номера"/>
+			<item title="Messages Calls">
+				<item action="ru.bgcrm.struts.action.MessageCallAction:numberRegister" title="Occupy number"/>
+				<item action="ru.bgcrm.struts.action.MessageCallAction:numberFree" title="Release number"/>
+				<item action="ru.bgcrm.struts.action.MessageCallAction:testCall" title="Test call"/>
 			</item>
 		</item>
 

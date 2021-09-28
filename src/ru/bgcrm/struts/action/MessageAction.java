@@ -34,6 +34,7 @@ import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.MessageRemovedEvent;
+import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
@@ -259,22 +260,27 @@ public class MessageAction extends BaseAction {
                 .withFromTimeReverseOrder(reverseOrder)
                 .search(new SearchResult<Message>(form));
         } else {
-            List<Message> result = new ArrayList<>(typeMap.get(typeId).newMessageList(conSet));
+            // when external system isn't available, an empty table of messages should be however shown
+            try {
+                List<Message> result = new ArrayList<>(typeMap.get(typeId).newMessageList(conSet));
 
-            Collections.sort(result, (Message o1, Message o2) -> {
-                if (reverseOrder) {
-                    Message tmp = o1;
-                    o1 = o2;
-                    o2 = tmp;
-                }
-                return o1.getFromTime() == null ? -1 : o1.getFromTime().compareTo(o2.getFromTime());
-            });
+                Collections.sort(result, (Message o1, Message o2) -> {
+                    if (reverseOrder) {
+                        Message tmp = o1;
+                        o1 = o2;
+                        o2 = tmp;
+                    }
+                    return o1.getFromTime() == null ? -1 : o1.getFromTime().compareTo(o2.getFromTime());
+                });
 
-            form.getResponse().setData("list", result);
+                form.getResponse().setData("list", result);
 
-            Preferences prefs = new Preferences();
-            prefs.put(UNPROCESSED_MESSAGES_PERSONAL_KEY, String.valueOf(config.getUnprocessedMessagesCount()));
-            new UserDAO(conSet.getConnection()).updatePersonalization(form.getUser(), prefs);
+                Preferences prefs = new Preferences();
+                prefs.put(UNPROCESSED_MESSAGES_PERSONAL_KEY, String.valueOf(config.getUnprocessedMessagesCount()));
+                new UserDAO(conSet.getConnection()).updatePersonalization(form.getUser(), prefs);
+            } catch (Exception e) {
+                log.error(e);
+            }
         }
         
         form.getHttpRequest().setAttribute("typeMap", typeMap);
@@ -298,7 +304,7 @@ public class MessageAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward linksSearch(DynActionForm form, ConnectionSet conSet) throws Exception {
+    private void linksSearch(DynActionForm form, ConnectionSet conSet) throws Exception {
         var type = getType(form.getParamInt("typeId"));
         var message = type.newMessageGet(conSet, form.getParam("messageId"));
 
@@ -313,10 +319,12 @@ public class MessageAction extends BaseAction {
             form.setResponseData("searchedList", searchedList);
         }
 
-        return html(conSet, form, JSP_PATH + "/message_search_result.jsp");
+        // return html(conSet, form, JSP_PATH + "/message_search_result.jsp");
     }
 
-    public ActionForward processCreate(DynActionForm form, Connection con) throws Exception {
+    public ActionForward processCreate(DynActionForm form, ConnectionSet conSet) throws Exception {
+        var con = conSet.getConnection();
+
         var process = ProcessAction.processCreate(form, con);
 
         var linkDao = new ProcessLinkDAO(con, form.getUser());
@@ -327,8 +335,11 @@ public class MessageAction extends BaseAction {
                 continue;
             }
 
-            linkDao.addLink(new CommonObjectLink(Process.OBJECT_TYPE, process.getId(), tokens[0],
-                    Utils.parseInt(tokens[1]), tokens[2]));
+            var olink = new CommonObjectLink(Process.OBJECT_TYPE, process.getId(), tokens[0], Utils.parseInt(tokens[1]),
+                    tokens[2]);
+            linkDao.addLink(olink);
+
+            EventProcessor.processEvent(new LinkAddedEvent(form, olink), conSet);
         }
 
         form.setParam("processId", String.valueOf(process.getId()));

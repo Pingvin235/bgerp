@@ -34,6 +34,15 @@ messageType.1.search.2.class=ru.bgcrm.dao.message.MessageTypeSearchCustomerByTit
 messageType.1.saver.class=ru.bgcrm.dao.message.MessageTypeContactSaverEmail
 messageType.1.saver.paramId={@PARAM_CUSTOMER_EMAIL_ID}
 #
+messageType.50.title=Call
+messageType.50.class=ru.bgcrm.dao.message.MessageTypeCall
+messageType.50.search.1.title=Auto by Phone
+messageType.50.search.1.class=ru.bgcrm.dao.message.MessageTypeSearchCall
+messageType.50.search.1.commands=customerByPhoneParam:{@PARAM_CUSTOMER_PHONE_ID}
+#
 messageType.100.title=Note
 messageType.100.class=ru.bgcrm.dao.message.MessageTypeNote
 #
+createOnStart+=,ru.bgcrm.event.listener.MessageTypeCallListener
+
+

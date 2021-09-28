@@ -18,6 +18,8 @@ import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterEmailValue;
+import ru.bgcrm.model.param.ParameterPhoneValue;
+import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.util.Utils;
 
 @Test(groups = "customer", dependsOnGroups = "param")
@@ -27,16 +29,17 @@ public class CustomerTest {
     public static final String LINK_TYPE_CONTACT = Customer.OBJECT_TYPE + "-contact";
 
     public static volatile int paramEmailId;
-    
+    public static volatile int paramPhoneId;
+
     private int paramBirthDateId;
     private int paramBirthPlaceId;
     private int paramLivingAddressId;
     private int paramReligionId;
     private int paramServiceAddressId;
-    
+
     private int paramOrgTitleId;
     private int paramOrgFormId;
-    
+
     private int titlePatternOrgId;
     private String titlePatternOrgPattern;
 
@@ -61,30 +64,31 @@ public class CustomerTest {
     public void addParams() throws Exception {
         int pos = 0;
         paramEmailId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_EMAIL, "Email(s)", pos += 2, ParamTest.MULTIPLE, "");
-        
+        paramPhoneId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_PHONE, "Phone number", pos += 2 , "", "");
+
         // TODO: Make date chooser configuration.
         paramBirthDateId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_DATE, "Birth date", pos += 2, "", "");
         paramBirthPlaceId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Birth place", pos += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
         paramLivingAddressId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Residential address", pos += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
         paramReligionId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Religion", pos += 2, ParamTest.ENCRYPTED, "");
         paramServiceAddressId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_ADDRESS, "Service address", pos += 2, "", "");
-        
+
         paramOrgTitleId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Organization title", pos += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
         paramOrgFormId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_LIST, "Organization form", pos += 2, "", ResourceHelper.getResource(this, "orgforms.txt"));
-        
+
         // IBAN, BIC - with validation
-        
+
         // Russian INN, KPP
     }
-    
+
     @Test(dependsOnMethods = "addParams")
     public void addParamGroups() throws Exception {
         paramGroupOrgId = ParamHelper.addParamGroup(Customer.OBJECT_TYPE, "Organization",
-                Set.of(paramEmailId, paramOrgFormId, paramOrgTitleId, paramServiceAddressId));
+                Set.of(paramEmailId, paramPhoneId, paramOrgFormId, paramOrgTitleId, paramServiceAddressId));
         paramGroupPersonId = ParamHelper.addParamGroup(Customer.OBJECT_TYPE, "Person",
-                Set.of(paramEmailId, paramBirthDateId, paramBirthPlaceId, paramLivingAddressId, paramReligionId));
+                Set.of(paramEmailId, paramPhoneId, paramBirthDateId, paramBirthPlaceId, paramLivingAddressId, paramReligionId));
     }
-    
+
     @Test(dependsOnMethods = "addParams")
     public void addPatternTitles() throws Exception {
         titlePatternOrgPattern = "\"${param_" + paramOrgTitleId + "}\" ${param_" + paramOrgFormId + "}";
@@ -99,7 +103,7 @@ public class CustomerTest {
         var paramDao = new ParamValueDAO(con);
 
         customerPersonIvan = CustomerHelper.addCustomer(0, paramGroupPersonId, CUSTOMER_PERS_IVAN_NAME);
-        
+
         int customerId = customerPersonIvan.getId();
         paramDao.updateParamEmail(customerId, paramEmailId, 0, new ParameterEmailValue(CUSTOMER_PERS_IVAN_MAIL));
         paramDao.updateParamDate(customerId, paramBirthDateId, new GregorianCalendar(1983, Calendar.JULY, 1).getTime());
@@ -107,9 +111,12 @@ public class CustomerTest {
         paramDao.updateParamText(customerId, paramLivingAddressId, "Lenina Street 1, 450000, Ufa Russia");
 
         customerOrgNs = CustomerHelper.addCustomer(titlePatternOrgId, paramGroupOrgId, "");
-        
+
         paramDao.updateParamEmail(customerOrgNs.getId(), paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_TILL_MAIL, CUSTOMER_ORG_NS_TILL_NAME));
         paramDao.updateParamEmail(customerOrgNs.getId(), paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_DOMAIN, "Domain"));
+        var phoneParamVal = new ParameterPhoneValue();
+        phoneParamVal.addItem(new ParameterPhoneValueItem("666", "", ""));
+        paramDao.updateParamPhone(customerOrgNs.getId(), paramPhoneId, phoneParamVal);
         paramDao.updateParamText(customerOrgNs.getId(), paramOrgTitleId, "NicroSoft");
         paramDao.updateParamList(customerOrgNs.getId(), paramOrgFormId, Collections.singleton(2));
 

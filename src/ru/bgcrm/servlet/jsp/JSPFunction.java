@@ -163,10 +163,13 @@ public class JSPFunction {
     }
 
     /**
-     * Преобразует строку для отображения в виде HTML.
-     * Символы '<' и '>', переносы строк.
-     * @param value
-     * @return
+     * Replaces some HTML symbols.
+     * <p>{@code <} to {@code &amp;lt;}
+     * <p>{@code >} to {@code &amp;gt;}
+     * <p>{@code \n} to {@code &lt;br/>}
+     * <p>{@code \t} to 4 whitespaces
+     * @param value input value.
+     * @return string with replacements.
      */
     public static String htmlEncode(String value) {
         String result = value.replaceAll("<", "&lt;");

@@ -117,7 +117,7 @@
 						<c:when test="${typeCall}">
 							<div style="width: 100%;">
 								<div>
-									#${message.id} ${l.l('Звонок')} "${messageType.title}"
+									#${message.id}&nbsp;${l.l('Звонок')} "${messageType.title}"
 								</div>
 								<div class="mt05">
 									<c:choose>
@@ -239,6 +239,7 @@
 									</ul>
 								</li>
 
+								<c:remove var="answerCommand"/>
 								<c:if test="${message.direction eq 1 and messageType.answerSupport}">
 									<c:url var="answerUrl" value="/user/message.do">
 										<c:param name="action" value="processMessageEdit"/>
@@ -251,10 +252,10 @@
 									<c:set var="answerCommand" value="$$.ajax
 											.load('${answerUrl}', $('#${editorContainerUiid}'))
 											.done(function () {$(window).scrollTop(150)});"/>
-								
+
 									<li><a href="#" onclick="${answerCommand}return false;">${l.l('Ответить')}</a></li>
 								</c:if>
-							
+
 								<c:set var="perm4NotMy" value="${p:get(form.user.id, 'ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes')}" />
 								<c:set var="perm2Update" value="${p:get( ctxUser.id, 'ru.bgcrm.struts.action.MessageAction:messageUpdate')}"/>
 								<c:set var="allowedTypeIds" value="${u:toIntegerSet( perm2Update['allowedTypeIds'] ) }"/>
@@ -269,19 +270,19 @@
 											<c:param name="returnChildUiid" value="${editorContainerUiid}"/>
 											<c:param name="returnUrl" value="${form.requestUrl}"/>
 										</c:url>
-	
+
 										<li><a href="#" onclick="if (bgcrm.lock.add('${message.lockEdit}')) {
 												$$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
 											};
 											return false;">${l.l('Редактировать')}</a></li>
 									</c:if>
-	
+
 									<c:if test="${messageType.isRemovable(message)}">
 										<c:url var="deleteUrl" value="/user/message.do">
 											<c:param name="action" value="messageDelete"/>
 											<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>
 										</c:url>
-	
+
 										<li><a href="#" onclick="
 											if (confirm('${l.l('Удалить сообщение?')}'))
 												$$.ajax.post('${deleteUrl}').done(() => {
@@ -291,14 +292,14 @@
 											">${l.l('Удалить')}</a></li>
 									</c:if>
 								</c:if>
-								
+
 							</ui:when>
 						</ul>
 					</div>
 
 					<c:set var="showMenuCode">
-						const $menu = $('#${menuUiid}')
-						
+						const $menu = $('#${menuUiid}');
+
 						$menu.menu().show().position({
 							my: 'right top',
 							at: 'right bottom',

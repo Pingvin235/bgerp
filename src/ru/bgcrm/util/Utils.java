@@ -36,6 +36,7 @@ import ru.bgcrm.model.ListItem;
 import ru.bgcrm.model.Title;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;
+import ru.bgcrm.servlet.jsp.JSPFunction;
 import ru.bgerp.util.Log;
 
 public class Utils {
@@ -914,6 +915,15 @@ public class Utils {
      */
     public static String escapeXml(String value) {
         return Functions.escapeXml(value);
+    }
+
+    /**
+     * Calls {@link JSPFunction#htmlEncode(String)} - replaces only HTML tags.
+     * @param value
+     * @return
+     */
+    public static String htmlEncode(String value) {
+        return JSPFunction.htmlEncode(value);
     }
 
     /**

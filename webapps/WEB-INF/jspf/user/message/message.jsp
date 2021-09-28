@@ -12,12 +12,14 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:set var="stateUiid" value="${u:uiid()}"/>
-<div id="${stateUiid}">
-	<h1 style="display: inline-block;"><a href="#" onclick="$$.ajax.load('${form.requestUrl}', $$.shell.$content($('#${uiid}'))); return false;">${l.l('Обработка')}</a></h1>
-	<ui:button type="close" styleClass="ml1" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content($('#${uiid}')))"/>
-</div>
-<shell:state moveSelector="#${stateUiid}"/>
+<c:if test="${not empty form.returnUrl}">
+	<c:set var="stateUiid" value="${u:uiid()}"/>
+	<div id="${stateUiid}">
+		<h1 style="display: inline-block;"><a href="#" onclick="$$.ajax.load('${form.requestUrl}', $$.shell.$content($('#${uiid}'))); return false;">${l.l('Обработка')}</a></h1>
+		<ui:button type="back" styleClass="ml1" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content($('#${uiid}')))"/>
+	</div>
+	<shell:state moveSelector="#${stateUiid}"/>
+</c:if>
 
 <%-- добавляются табы с найденными объектами, в т.ч. договорами биллинга --%>
 <c:set var="searchTabsUiid" value="${u:uiid()}" scope="request"/>
@@ -62,13 +64,13 @@
 
 							<c:set var="searchScript">
 								const searchId = this.form.searchId.value;
-								const url = '/user/message.do?action=linksSearch&id=${form.id}&typeId=${form.param.typeId}&messageId=' + encodeURIComponent('${form.param.messageId}') +
+								const url = '/user/message.do?typeId=${form.param.typeId}&messageId=' + encodeURIComponent('${form.param.messageId}') +
 									'&searchId=' + searchId + '&returnUrl=' + encodeURIComponent('${form.returnUrl}') +
-									'&' + $(this.form).find( '.filter#' + searchId ).serializeAnything();
-								$$.ajax.load(url, $('#${searchResultId}'), {control: this.button});
+									'&' + $(this.form).find('.filter#' + searchId).serializeAnything();
+								$$.ajax.load(url, $('#${uiid}').parent(), {control: this});
 							</c:set>
 
-							<c:set var="searchOnEnter" scope="request">onkeypress="if( enterPressed( event ) ){ ${searchScript}; return false;}"</c:set>
+							<c:set var="searchOnEnter" scope="request">onkeypress="if (enterPressed(event)) {${searchScript}; return false;}"</c:set>
 
 							<c:forEach var="item" items="${messageType.searchMap}">
 								<c:if test="${not empty item.value.jsp}">
@@ -92,11 +94,6 @@
 						<textarea name="description" rows="5" style="width: 100%; resize: vertical;">${message.subject}</textarea>
 						<div class="hint">${l.l('Краткое описание процесса')}</div>
 
-
-						<c:set var="createCommand">
-							
-						</c:set>
-
 						<div class="mt1">
 							<%@ include file="process_link_params.jsp"%>
 
@@ -116,7 +113,7 @@
 					<c:url var="url" value="/user/process.do">
 						<c:param name="action" value="messageRelatedProcessList"/>
 						<c:param name="from" value="${message.from}"/>
-						<c:forEach var="item" items="${searchedList}">
+						<c:forEach var="item" items="${form.response.data.searchedList}">
 							<c:param name="object" value="${item.linkedObjectType}:${item.linkedObjectId}"/>
 						</c:forEach>
 					</c:url>
@@ -188,14 +185,13 @@
 			<input type="text" size="3" name="processId" class="mr1 text-center"/>
 
 			<c:set var="linkScript">
-				if( confirm( '${l.l('Привязать сообщение к указанному процессу?')}' ) )
-				{
-					var result = sendAJAXCommand( formUrl( this.form ) );
-					if( result )
-					{
-						var url = '/user/message.do?id=' + result.data.id + '&returnUrl=' + encodeURIComponent( '${form.returnUrl}' );
-						openUrlToParent( url, $('#${uiid}') );
-					}
+				if (confirm('${l.l('Привязать сообщение к указанному процессу?')}')) {
+					$$.ajax
+						.post(this.form, {control: this})
+						.done((result) => {
+							const url = '/user/message.do?id=' + result.data.id + '&returnUrl=' + encodeURIComponent('${form.returnUrl}');
+							$$.ajax.load(url, $('#${uiid}').parent());
+						})
 				}
 			</c:set>
 

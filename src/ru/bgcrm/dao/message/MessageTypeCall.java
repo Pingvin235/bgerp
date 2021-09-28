@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
@@ -14,9 +15,13 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
+import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
+import ru.bgerp.util.Log;
 
 public class MessageTypeCall extends MessageType {
+    private static final Log log = Log.getLog();
+
     // статические поля с данными регистрации, т.к. MessageTypeCall перезагружается при правке конфигурации
     private static final Map<Integer, Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>>> registedMap = new HashMap<>();
 
@@ -25,7 +30,7 @@ public class MessageTypeCall extends MessageType {
         private String number;
 
         private Date lastPooling;
-        private Integer messageForOpenId;
+        private Message messageForOpen;
 
         public int getUserId() {
             return userId;
@@ -43,12 +48,12 @@ public class MessageTypeCall extends MessageType {
             this.lastPooling = lastPooling;
         }
 
-        public Integer getMessageForOpenId() {
-            return messageForOpenId;
+        public Message getMessageForOpen() {
+            return messageForOpen;
         }
 
-        public void setMessageForOpenId(Integer messageForOpenId) {
-            this.messageForOpenId = messageForOpenId;
+        public void setMessageForOpen(Message value) {
+            this.messageForOpen = value;
         }
     }
     
@@ -64,6 +69,24 @@ public class MessageTypeCall extends MessageType {
         return true;
     }
 
+    /**
+     * Retrieves user offered number from text parameter.
+     * @param form
+     * @return parameter value or empty string.
+     */
+    public String getUserOfferedNumber(DynActionForm form) {
+        int paramId = configMap.getInt("offerNumberFromParamId");
+        if (paramId > 0) {
+            try (var con = Setup.getSetup().getDBSlaveConnectionFromPool()) {
+                String value = new ParamValueDAO(con).getParamText(form.getUserId(), paramId);
+                return Utils.maskNull(value);
+            } catch (Exception e) {
+                log.error(e);
+            }
+        }
+        return "";
+    }
+    
     private Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>> getRegMaps() {
         Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>> result = registedMap.get(id);
         if (result == null) {

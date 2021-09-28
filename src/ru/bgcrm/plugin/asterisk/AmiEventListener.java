@@ -96,9 +96,9 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
 
         CallRegistration reg = messageType.getRegistrationByNumber(numberTo);
         // приходят 3 события о вызове, поэтому блокировка по первому путём установки messageForOpenId
-        if ((reg != null && reg.getMessageForOpenId() == null && numberFrom != null) || registerBecauseExpression) {
+        if ((reg != null && reg.getMessageForOpen() == null && numberFrom != null) || registerBecauseExpression) {
             if (reg != null)
-                log.info("Call to registered number: %s, event: %s", reg.getNumber(), event);
+                log.info("Call to registered number: {}, event: {}", reg.getNumber(), event);
             else
                 log.info("Call because of expression.");
 
@@ -119,10 +119,10 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
 
                 con.commit();
 
-                log.info("Created message: " + message.getId());
+                log.info("Created message: {}", message.getId());
 
                 if (reg != null)
-                    reg.setMessageForOpenId(message.getId());
+                    reg.setMessageForOpen(message);
             } catch (Exception ex) {
                 log.error(ex);
             }

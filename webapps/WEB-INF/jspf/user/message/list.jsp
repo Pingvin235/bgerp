@@ -56,7 +56,8 @@
 
 	<ui:button type="out" onclick="${script}"/>
 
-	<script>
+	<%-- This reload breaks automatically open calls. 
+		<script>
 		$(function () {
 			const $messageQueue = $('#content > #message-queue');
 			$messageQueue.data('onShow', function() {
@@ -65,11 +66,7 @@
 				}
 			});
 		});
-	</script>
-
-	<%-- <c:if test="${form.param['processed'] eq 1}">
-		<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
-	</c:if> --%>
+	</script> --%>
 </html:form>
 
 <div class="mt1" style="max-height: 300px; overflow: auto;">
@@ -81,7 +78,7 @@
 	<hr/>
 </div>
 
-<div id="${editorUiid}">
+<div id="${editorUiid}" class="data-table">
 	<%-- message is opened here --%>
 </div>
 

@@ -1,10 +1,3 @@
-<%@page import="ru.bgcrm.util.Utils"%>
-<%@page import="ru.bgcrm.struts.form.DynActionForm"%>
-<%@page import="ru.bgcrm.dao.ParamValueDAO"%>
-<%@page import="ru.bgcrm.util.sql.SQLUtils"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="javax.sql.DataSource"%>
-
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
@@ -22,53 +15,39 @@
 						<button 
 							type="button" class="btn-grey ml1" 
 							onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()) })" >${l.l('Освободить')}</button>
+						
+						<p:check action="ru.bgcrm.struts.action.MessageCallAction:testCall">
+							<c:set var="url" value="/user/messageCall.do?typeId=${type.id}&action=testCall"/>
+
+							<c:set var="testCallFromUiid" value="${u:uiid()}"/>
+							<input type="text" id="${testCallFromUiid}" placeholder="${l.l('С номера')}" size="10"/>
+							<button type="button" class="btn-grey ml" 
+								onclick="$$.ajax.post('${url}&testCallFrom=' + $('#${testCallFromUiid}').val(), {control: this}).done(() => { alert('OK') })">TEST</button>
+						</p:check>
 					</c:when>
 					<c:otherwise>
 						<form action="/user/messageCall.do" style="display: inline-block;">
 							<input type="hidden" name="action" value="numberRegister"/>
 							<input type="hidden" name="typeId" value="${type.id}"/>
 
-							<c:set var="paramId" value="${type.configMap.getInt( 'offerNumberFromParamId', 0 )}"/>
-							<c:if test="${paramId gt 0}">
-								<%
-									DataSource dataSource = (DataSource)request.getAttribute( "ctxDataSource" );
-									Connection con = dataSource.getConnection();
-
-									try
-									{
-										ParamValueDAO paramDao = new ParamValueDAO( con );
-										String phone = paramDao.getParamText( ((DynActionForm)request.getAttribute( "form" )).getUserId(),
-																			(Integer)pageContext.getAttribute( "paramId" ) );
-										if( Utils.notBlankString( phone ) )
-										{
-											pageContext.setAttribute( "phone", phone );
-										}
-									}
-									finally
-									{
-										SQLUtils.closeConnection( con );
-									}
-								%>
-							</c:if>
-
-							<input type="text" name="number" placeholder="${type.title}, номер" class="" value="${phone}"/>
+							<input type="text" name="number" placeholder="${type.title}, номер" class="" value="${type.getUserOfferedNumber(form)}"/>
 
 							<c:set var="code">
 								var result = sendAJAXCommand( formUrl( this.form ) );
-								if( !result )
+								if ( !result )
 								{
 									return;
 								}
 
 								var user = result.data.regUser;
-								if( !user  ||
+								if ( !user ||
 									( confirm( 'Номер занят пользователем: ' + user.title + ',\nвсё равно зарегистрировать?' ) && sendAJAXCommand( formUrl( this.form ) + '&check=0' ) ) )
 								{
-									openUrlToParent( '${form.requestUrl}', $('#${uiid}') );
+									$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent());
 								}
 							</c:set>
 
-							<button type="submit" class="btn-grey ml1" onclick="${code}">${l.l('Занять')}</button>
+							<button type="button" class="btn-grey ml1" onclick="${code}">${l.l('Занять')}</button>
 						</form>
 					</c:otherwise>
 				</c:choose>
