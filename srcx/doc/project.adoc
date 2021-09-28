@@ -1310,7 +1310,11 @@ Check the release commit and make:
 git push
 ----
 
-Merge the latest state of the master on <<documentation, documentation>> branch.
+Merge the latest state of the master on <<documentation, documentation>> branch:
+[source, bash]
+----
+git checkout p11862-documentation && git pull --rebase && git merge master && git push
+----
 
 [[build-docker]]
 ==== Docker Image

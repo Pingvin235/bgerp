@@ -93,7 +93,7 @@ END
 ----
 onProcessEvent.2.events=statusChanged
 onProcessEvent.2.doExpression=<<END
-	telegram.sendMassageForProcess(process, "Изменился статус");
+	telegram.sendMessageForProcess(process, "Изменился статус");
 END
 ----
 
