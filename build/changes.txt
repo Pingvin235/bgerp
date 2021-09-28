@@ -1,6 +1,14 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+28.09.2021 20:08:04 1380
+F: [14542] Restore last selected type on adding message in process message editor.
+F: [14542] Change const $ftr to let in tableRowHl.
+F: [14557] Process call messages.
+A: [14557] Test call messages.
+F: [14557] XML characters in process description.
+C: [14559] Increased timeout waiting of MySQL readiness in Docker image.
+
 19.09.2021 22:40:01 1379
 C: [14367] Interface of message processing.
 A: [14367] Fluent MessageSearchDAO.
