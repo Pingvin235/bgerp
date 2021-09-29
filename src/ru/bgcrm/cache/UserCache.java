@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -42,6 +43,11 @@ public class UserCache extends Cache<UserCache> {
         return holder.getInstance().userMapById;
     }
 
+    /**
+     * Finds user with status not {@link User#STATUS_DISABLED}.
+     * @param login
+     * @return
+     */
     public static User getUser(String login) {
         return holder.getInstance().activeUserMapByLogin.get(login);
     }
@@ -316,9 +322,9 @@ public class UserCache extends Cache<UserCache> {
                 result.userMapById.put(user.getId(), user);
             }
 
-            result.activeUserMapByLogin = new HashMap<String, User>();
+            result.activeUserMapByLogin = new TreeMap<String, User>();
             for (User user : result.userList) {
-                if (user.getStatus() == 0) {
+                if (user.getStatus() != User.STATUS_DISABLED) {
                     result.activeUserMapByLogin.put(user.getLogin(), user);
                 }
             }

@@ -33,11 +33,10 @@ public class Setup extends Preferences {
     private Map<Integer, ParameterMap> globalConfigMap = new HashMap<Integer, ParameterMap>();
 
     /**
-     * Use this singleton call wisely, because introducing that makes
-     * code hardly testable.
+     * Use this singleton call wisely, because introducing that 
+     * everywhere makes code hardly testable.
      * @return
      */
-    @Deprecated
     public static Setup getSetup() {
         return getSetup(getBundleName(), true);
     }

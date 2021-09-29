@@ -152,11 +152,11 @@ public class UserGroupDAO extends CommonDAO {
         deleteById(TABLE_USER_GROUP_TITLE, id);
     }
 
-    public Set<Integer> getGroupQueueIds(int groupId) throws BGException {
+    public Set<Integer> getGroupQueueIds(int groupId) throws SQLException {
         return getIds(TABLE_USER_GROUP_QUEUE, "group_id", "queue_id", groupId);
     }
 
-    public List<Integer> getGroupPermsetIds(int groupId) throws BGException {
+    public List<Integer> getGroupPermsetIds(int groupId) throws SQLException {
         return getIds(TABLE_USER_GROUP_PERMSET, "group_id", "permset_id", "pos", groupId);
     }
 

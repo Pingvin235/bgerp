@@ -22,7 +22,7 @@
 			<%-- сюда динамически грузятся доп параметры для данного типа процесса --%>
 		</div>
 		<div id="constPart">
-			<b>Описание:</b><br />
+			<b>${l.l('Описание')}:</b><br />
 			<textarea name="description" rows="10" style="width: 100%;"></textarea>
 
 			<c:set var="returnToShow">$('#${processTypeTree}').hide(); $('#${linkedProcessList}').show();</c:set>

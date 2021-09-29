@@ -797,5 +797,8 @@ CALL drop_key_if_exists('param_list', 'id_param');
 -- TODO: CALL drop_column_if_exists('param_file', 'comment');
 -- TODO: CALL drop_column_if_exists('param_file', 'version');
 
+-- TODO: CALL drop_column_if_exists('user', 'email');
+-- TODO: CALL drop_column_if_exists('user', 'ids');
+
 -- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

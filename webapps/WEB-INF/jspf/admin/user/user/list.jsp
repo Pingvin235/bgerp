@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:set var="showCode" value="openUrlContent( formUrl( $('#${uiid}') ) );"/>
+<c:set var="showCode" value="$$.ajax.load($('#${uiid}'), $$.shell.$content());"/>
 
 <html:form action="admin/user" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
 	<c:url var="url" value="/admin/user.do">
@@ -19,11 +19,16 @@
 	<ui:input-text name="title" showOutButton="false" value="${form.param['title']}" size="20" placeholder="${l.l('Фильтр')}" title="${l.l('Фильтр по наименованию')}"
 		onSelect="$$.ajax.load(this.form, $$.shell.$content(this));"/>
 
+	<c:set var="STATUS_ACTIVE" value="<%=ru.bgcrm.model.user.User.STATUS_ACTIVE%>"/>
+	<c:set var="STATUS_DISABLED" value="<%=ru.bgcrm.model.user.User.STATUS_DISABLED%>"/>
+	<c:set var="STATUS_EXTERNAL" value="<%=ru.bgcrm.model.user.User.STATUS_EXTERNAL%>"/>
+
 	<ui:combo-single hiddenName="status" value="${form.param.status}" onSelect="${showCode}"
 		prefixText="${l.l('Статус')}:" widthTextValue="70px">
 		<jsp:attribute name="valuesHtml">
-			<li value="0">${l.l('Активные')}</li>
-			<li value="1">${l.l('Заблокированные')}</li>
+			<li value="${STATUS_ACTIVE}">${l.l('Активные')}</li>
+			<li value="${STATUS_DISABLED}">${l.l('Заблокированные')}</li>
+			<li value="${STATUS_EXTERNAL}">${l.l('Внешние')}</li>
 			<li value="-1">${l.l('Все')}</li>
 		</jsp:attribute>
 	</ui:combo-single>
@@ -69,18 +74,20 @@
 				<c:param name="action" value="userDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
-			<c:url var="deleteAjaxCommandAfter" value="${showCode}"/>
 
 			<td nowrap="nowrap">
-				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
+				<c:if test="${item.status ne STATUS_EXTERNAL}">
+					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
+				</c:if>
 				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
 			</td>
 
 			<td>${item.id}</td>
 			<td>
 				<c:choose>
-					<c:when test="${item.status eq 0}">${l.l('Активен')}</c:when>
-					<c:when test="${item.status eq 1}">${l.l('Заблокирован')}</c:when>
+					<c:when test="${item.status eq STATUS_ACTIVE}">${l.l('Активен')}</c:when>
+					<c:when test="${item.status eq STATUS_DISABLED}">${l.l('Заблокирован')}</c:when>
+					<c:when test="${item.status eq STATUS_EXTERNAL}">${l.l('Внешний')}</c:when>
 					<c:otherwise>${l.l('Неизвестный статус')} (${item.status})</c:otherwise>
 				</c:choose>
 			</td>

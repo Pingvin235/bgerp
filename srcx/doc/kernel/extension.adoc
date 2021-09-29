@@ -160,13 +160,10 @@ link:../../../build/bgerp/files/log4j.properties[log4j.properties]
 По-умолчанию настроен уровень INFO, т.е. выводятся информационные и ошибочные сообщения (INFO, FATAL, ERROR), отладка не выводится. 
 Вывод осуществляется в файл *log/bgerp.log*, который обрезается на размере 10МБ с созданием отдельных файлов.
 
-Для включения вывода отладочной информации необходимо установить:
-[source]
-----
-log4j.appender.file.Threshold=DEBUG
-----
-
-Samples, how to endble loggers wanted package or class in <<../plugin/asterisk/index.adoc#debug, Plugin Asterisk>>.
+Samples, how to enable loggers wanted package or classes to *log/bgerp.all.log* in:
+[square]
+* <<../plugin/asterisk/index.adoc#debug, Plugin Asterisk>>
+* <<../plugin/sec/auth/index.adoc#debug, Plugin Auth>>
 
 В конфигурационном файле возможно изменять формат информации в файле, фильтр по классам и другие параметры логирования.
 

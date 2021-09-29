@@ -284,12 +284,27 @@ public class Utils {
     }
 
     /**
-     * Проверяет, является ли строка пустой, состоящей из пробельных символов или null.
-     * @param value проверяемая строка
-     * @return false - если пустая, состоит из пробельных символов или null
+     * Checks if string value is blank.
+     * @param value checked value.
+     * @return {@code false} when {@code value} is {@code null}, empty or has only whitespace chars.
      */
     public static final boolean notBlankString(String value) {
         return value != null && value.trim().length() > 0;
+    }
+
+    /**
+     * Checks all the passed values with {@link #notBlankString(String)}.
+     * @param value values.
+     * @return {@code value} is not null, all the values aren't blank.
+     */
+    public static final boolean notBlankStrings(String... value) {
+        if (value == null) 
+            return false;
+        for (String val : value) {
+            if (isBlankString(val))
+                return false;
+        }
+        return true;
     }
 
     /**

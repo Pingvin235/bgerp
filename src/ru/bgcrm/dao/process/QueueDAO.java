@@ -132,7 +132,7 @@ public class QueueDAO extends CommonDAO {
         }
     }
 
-    public Set<Integer> getQueueProcessTypeIds(int id) throws BGException {
+    public Set<Integer> getQueueProcessTypeIds(int id) throws SQLException {
         return getIds(TABLE_QUEUE_PROCESS_TYPE, "queue_id", "type_id", id);
     }
 

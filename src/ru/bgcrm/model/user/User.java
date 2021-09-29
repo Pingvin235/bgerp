@@ -24,8 +24,12 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     public static final int USER_SYSTEM_ID = 0;
     public static final int USER_CUSTOMER_ID = -1;
 
-    public static final int STATUS_ENABLE = 0;
-    public static final int STATUS_DISABLE = 1;
+    /** Active user. */
+    public static final int STATUS_ACTIVE = 0;
+    /** Blocked user. */
+    public static final int STATUS_DISABLED = 1;
+    /** User provided from external auth system. Is active, but shouldn't be edited in the current one. */
+    public static final int STATUS_EXTERNAL = 2;
 
     public static final User USER_SYSTEM = new User();
     public static final User USER_CUSTOMER = new User();
@@ -42,7 +46,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
 
     private String login;
     private String password;
-    private int status = STATUS_ENABLE;
+    private int status = STATUS_ACTIVE;
     // not used because of EMail parameter
     private String email = "";
     private String roles = "";
@@ -142,7 +146,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     }
 
     /**
-     * Set of group IDs active on the current date. 
+     * Group IDs active on the current date.
      * @return
      */
     public Set<Integer> getGroupIds() {

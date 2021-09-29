@@ -3,7 +3,7 @@
 
 <html>
 <head>
-	<title><%@ include file="/WEB-INF/jspf/version.jsp"%></title>
+	<title><%@ include file="/WEB-INF/jspf/title.jsp"%></title>
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
 </head>
 

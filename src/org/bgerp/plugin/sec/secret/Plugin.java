@@ -1,9 +1,14 @@
 package org.bgerp.plugin.sec.secret;
 
 import java.sql.Connection;
+import java.util.Set;
 
-import ru.bgcrm.event.EventProcessor;
+import org.bgerp.plugin.sec.secret.dao.Tables;
+
 import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
+import ru.bgcrm.event.EventProcessor;
+import ru.bgcrm.plugin.Table;
+import ru.bgcrm.plugin.Table.Type;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "secret";
@@ -19,5 +24,10 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         EventProcessor.subscribe((e, conSet) -> {
             e.getContext().put(ID, new ExpressionBean());
         }, ContextInitEvent.class);
+    }
+
+    @Override
+    public Set<Table> getTables() {
+        return Set.of(new Table(Tables.TABLE_SECRET_OPEN, Type.TRASH));
     }
 }

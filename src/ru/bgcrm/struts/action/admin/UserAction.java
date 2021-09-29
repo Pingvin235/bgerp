@@ -124,7 +124,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         return html(con, mapping, form, "groupList");
     }
 
-    public ActionForward groupGet(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward groupGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         UserGroupDAO groupDAO = new UserGroupDAO(con);
 
         Group group = groupDAO.getGroupById(form.getId());
@@ -172,7 +172,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         return json(con, form);
     }
 
-    public ActionForward groupDelete(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward groupDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
 
         List<User> userInGroupList = new UserDAO(con).getUserList(Collections.singleton(form.getId()));
 
@@ -400,13 +400,13 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
     }
 
     public void addGroup(DynActionForm form, Connection con, Date fromDate, Date toDate, int groupId, int userId)
-            throws BGException {
+            throws Exception {
         if (groupId <= 0) {
-            throw new BGException("Группа не указана!");
+            throw new BGMessageException("Группа не указана!");
         }
 
         if (UserCache.getUserGroup(groupId) == null) {
-            throw new BGException("Группа не найдена!");
+            throw new BGMessageException("Группа не найдена!");
         }
 
         ParameterMap perm = form.getPermission();
@@ -417,7 +417,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             Set<Integer> allowOnlyGroupsSet = Utils.toIntegerSet(allowOnlyGroups);
 
             if (!allowOnlyGroupsSet.contains(groupId)) {
-                throw new BGException("Добавление этой группы запрещено!");
+                throw new BGMessageException("Добавление этой группы запрещено!");
             }
         }
 

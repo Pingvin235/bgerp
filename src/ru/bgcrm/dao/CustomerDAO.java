@@ -780,7 +780,7 @@ public class CustomerDAO extends CommonDAO {
         return result;
     }
 
-    public Set<Integer> getGroupIds(int customerId) throws BGException {
+    public Set<Integer> getGroupIds(int customerId) throws SQLException {
         return getIds(TABLE_CUSTOMER_GROUP, "customer_id", "group_id", customerId);
     }
 

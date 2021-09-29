@@ -3,7 +3,7 @@
 
 <html>
 <head>
-	<title><%@ include file="/WEB-INF/jspf/version.jsp"%> : ${l.l('Открытый интерфейс')}</title>
+	<title><%@ include file="/WEB-INF/jspf/title.jsp"%> : ${l.l('Открытый интерфейс')}</title>
 	<%-- TODO: All the scripts are not needed here. --%>
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
 

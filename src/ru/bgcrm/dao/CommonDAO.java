@@ -190,46 +190,38 @@ public class CommonDAO {
         return index;
     }
 
-    protected Set<Integer> getIds(String tableName, String linkColumn, String selectColumn, int id) throws BGException {
-        try {
-            Set<Integer> result = new HashSet<Integer>();
+    protected Set<Integer> getIds(String tableName, String linkColumn, String selectColumn, int id) throws SQLException {
+        Set<Integer> result = new HashSet<Integer>();
 
-            String query = SQL_SELECT + selectColumn + " FROM " + tableName + " WHERE " + linkColumn + "=?";
+        String query = SQL_SELECT + selectColumn + " FROM " + tableName + " WHERE " + linkColumn + "=?";
 
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(rs.getInt(1));
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(rs.getInt(1));
         }
+        ps.close();
+
+        return result;
     }
 
     protected List<Integer> getIds(String tableName, String linkColumn, String selectColumn, String posColumn, int id)
-            throws BGException {
-        try {
-            List<Integer> result = new ArrayList<Integer>();
+            throws SQLException {
+        List<Integer> result = new ArrayList<Integer>();
 
-            String query = SQL_SELECT + selectColumn + " FROM " + tableName + " WHERE " + linkColumn + "=? "
-                    + " ORDER BY " + posColumn;
+        String query = SQL_SELECT + selectColumn + " FROM " + tableName + " WHERE " + linkColumn + "=? "
+                + " ORDER BY " + posColumn;
 
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(rs.getInt(1));
-            }
-            ps.close();
-
-            return result;
-        } catch (SQLException e) {
-            throw new BGException(e);
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(rs.getInt(1));
         }
+        ps.close();
+
+        return result;
     }
 
     protected Map<Integer, Set<Integer>> getGroupedIds(String tableName, String linkColumn, String selectColumn)
@@ -385,33 +377,26 @@ public class CommonDAO {
     }
 
     protected void updateIds(String tableName, String linkColumn, String valueColumn, String posColumn, int id,
-            List<Integer> values) throws BGException {
-        String query = null;
-        PreparedStatement ps = null;
+            List<Integer> values) throws SQLException {
+        var query = SQL_DELETE + tableName + " WHERE " + linkColumn + "=?";
+        var ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        ps.close();
 
-        try {
-            query = SQL_DELETE + tableName + " WHERE " + linkColumn + "=?";
-            ps = con.prepareStatement(query);
-            ps.setInt(1, id);
+        int pos = 1;
+
+        query = SQL_INSERT + tableName + "(" + linkColumn + "," + valueColumn + "," + posColumn
+                + ") VALUES (?, ?, ?)";
+        ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+
+        for (Integer paramId : values) {
+            ps.setInt(2, paramId);
+            ps.setInt(3, pos++);
             ps.executeUpdate();
-            ps.close();
-
-            int pos = 1;
-
-            query = SQL_INSERT + tableName + "(" + linkColumn + "," + valueColumn + "," + posColumn
-                    + ") VALUES (?, ?, ?)";
-            ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-
-            for (Integer paramId : values) {
-                ps.setInt(2, paramId);
-                ps.setInt(3, pos++);
-                ps.executeUpdate();
-            }
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
+        ps.close();
     }
 
     public void updateColumn(String tableName, int id, String columnName, String value) throws SQLException {

@@ -81,10 +81,10 @@ Recommended <<../../kernel/extension.adoc#log4j, logger>> configuration.
 [source]
 ----
 # for debugging events
-log4j.logger.ru.bgcrm.plugin.asterisk=DEBUG, file
+log4j.logger.ru.bgcrm.plugin.asterisk=DEBUG, filea
 log4j.additivity.ru.bgcrm.plugin.asterisk=false
 #
 # for debugging library
-log4j.logger.org.asteriskjava=DEBUG, file
+log4j.logger.org.asteriskjava=DEBUG, filea
 log4j.additivity.org.asteriskjava=false
 ----

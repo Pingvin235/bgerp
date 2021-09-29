@@ -188,40 +188,41 @@ public class UserDAO extends CommonDAO {
      * searchUserListByPhone
      */
 
-    public List<User> getUserList() throws BGException {
+    /**
+     * Complete user list.
+     * @return
+     * @throws SQLException
+     */
+    public List<User> getUserList() throws SQLException {
         return getUserList(null, null);
     }
 
-    public List<User> getUserList(Set<Integer> groupIds) throws BGException {
+    public List<User> getUserList(Set<Integer> groupIds) throws SQLException {
         return getUserList(groupIds, null);
     }
 
-    public List<User> getUserList(Set<Integer> groupIds, String userTitleMask) throws BGException {
+    public List<User> getUserList(Set<Integer> groupIds, String userTitleMask) throws SQLException {
         List<User> result = new ArrayList<User>();
 
-        try {
-            StringBuilder query = new StringBuilder().append("SELECT DISTINCT user.* FROM user ");
-            if (groupIds != null && groupIds.size() > 0) {
-                query.append(" INNER JOIN " + TABLE_USER_GROUP
-                        + " ON user.id=user_group.user_id AND user_group.group_id IN (");
-                query.append(Utils.toString(groupIds));
-                query.append(")");
-            }
-
-            if (userTitleMask != null) {
-                query.append(" WHERE title like '%" + userTitleMask + "%'");
-            }
-            query.append(" ORDER BY title");
-            PreparedStatement ps = con.prepareStatement(query.toString());
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(getFromRS(rs));
-            }
-            ps.close();
-        } catch (SQLException ex) {
-            throw new BGException(ex);
+        StringBuilder query = new StringBuilder().append("SELECT DISTINCT user.* FROM user ");
+        if (groupIds != null && groupIds.size() > 0) {
+            query.append(" INNER JOIN " + TABLE_USER_GROUP
+                    + " ON user.id=user_group.user_id AND user_group.group_id IN (");
+            query.append(Utils.toString(groupIds));
+            query.append(")");
         }
+
+        if (userTitleMask != null) {
+            query.append(" WHERE title like '%" + userTitleMask + "%'");
+        }
+        query.append(" ORDER BY title");
+        PreparedStatement ps = con.prepareStatement(query.toString());
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            result.add(getFromRS(rs));
+        }
+        ps.close();
 
         return result;
     }
@@ -297,7 +298,7 @@ public class UserDAO extends CommonDAO {
         return result;
     }
 
-    public Set<Integer> getUserGroupIds(int userId) throws BGException {
+    public Set<Integer> getUserGroupIds(int userId) throws SQLException {
         return getIds(TABLE_USER_GROUP, "user_id", "group_id", userId);
     }
 
@@ -305,7 +306,7 @@ public class UserDAO extends CommonDAO {
         return getGroupedIds(TABLE_USER_GROUP, "user_id", "group_id");
     }
 
-    public List<Integer> getUserPermsetIds(int userId) throws BGException {
+    public List<Integer> getUserPermsetIds(int userId) throws SQLException {
         return getIds(TABLE_USER_PERMSET, "user_id", "permset_id", "pos", userId);
     }
 
@@ -313,7 +314,7 @@ public class UserDAO extends CommonDAO {
         return getGroupedIds(TABLE_USER_PERMSET, "user_id", "permset_id", "pos");
     }
 
-    public Set<Integer> getUserQueueIds(int userId) throws BGException {
+    public Set<Integer> getUserQueueIds(int userId) throws SQLException {
         return getIds(TABLE_USER_QUEUE, "user_id", "queue_id", userId);
     }
 
@@ -336,8 +337,6 @@ public class UserDAO extends CommonDAO {
         user.setDescription(rs.getString(prefix + "description"));
         user.setLogin(rs.getString(prefix + "login"));
         user.setPassword(rs.getString(prefix + "pswd"));
-        user.setEmail(rs.getString(prefix + "email"));
-        user.setIds(Utils.toList(prefix + rs.getString("ids")));
 
         if (loadGroupAndPermsets) {
             user.setPermsetIds(Utils.toIntegerList(rs.getString(prefix + "permsets")));
@@ -363,36 +362,33 @@ public class UserDAO extends CommonDAO {
         ps.close();
     }
 
-    public void updateUser(User user) throws BGException, SQLException {
+    public void updateUser(User user) throws SQLException {
         boolean newUser = false;
         int index = 1;
         PreparedStatement ps;
 
         if (user.getId() <= 0) {
             newUser = true;
-            String query = "INSERT INTO user SET title=?, login=?, pswd=?, email=?, description=?, config=?, date_created=?, ids=?";
+            String query = "INSERT INTO user SET title=?, login=?, pswd=?, description=?, config=?, date_created=?, status=?";
             ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(index++, user.getTitle());
             ps.setString(index++, user.getLogin());
             ps.setString(index++, user.getPassword());
-            ps.setString(index++, user.getEmail());
             ps.setString(index++, user.getDescription());
             ps.setString(index++, user.getConfig());
             ps.setDate(index++, TimeUtils.convertDateToSqlDate(new Date()));
-            ps.setString(index++, Utils.toString(user.getIds()));
+            ps.setInt(index++, user.getStatus());
             ps.executeUpdate();
             user.setId(lastInsertId(ps));
         } else {
             ps = con.prepareStatement(
-                    "UPDATE user SET title=?, login=?, pswd=?, status=?, email=?, description=?, config=?, ids=? WHERE id=?");
+                    "UPDATE user SET title=?, login=?, pswd=?, status=?, description=?, config=?, WHERE id=?");
             ps.setString(index++, user.getTitle());
             ps.setString(index++, user.getLogin());
             ps.setString(index++, user.getPassword());
             ps.setInt(index++, user.getStatus());
-            ps.setString(index++, user.getEmail());
             ps.setString(index++, user.getDescription());
             ps.setString(index++, user.getConfig());
-            ps.setString(index++, Utils.toString(user.getIds()));
             ps.setInt(index++, user.getId());
             ps.executeUpdate();
         }
@@ -406,16 +402,7 @@ public class UserDAO extends CommonDAO {
         }
 
         if (newUser && user.getGroupIds() != null) {
-            this.removeUserGroup(user.getId(), -1, null, null);
-
-            for (Integer groupId : user.getGroupIds()) {
-                UserGroup group = new UserGroup();
-
-                group.setGroupId(groupId);
-                group.setDateFrom(new Date());
-
-                this.addUserGroup(user.getId(), group);
-            }
+            updateUserGroups(user);
         }
     }
 
@@ -443,28 +430,30 @@ public class UserDAO extends CommonDAO {
         return result;
     }
 
-    public User getUser(int id) throws BGException {
+    /**
+     * Retrieves user by ID.
+     * @param id unique ID.
+     * @return found user or {@code null}.
+     * @throws SQLException
+     */
+    public User getUser(int id) throws SQLException {
         User result = null;
 
-        try {
-            String query = "SELECT * FROM " + TABLE_USER + " WHERE id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
+        String query = "SELECT * FROM " + TABLE_USER + " WHERE id=?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = getFromRS(rs);
-            }
-
-            if (result != null) {
-                result.setGroupIds(getUserGroupIds(id));
-                result.setPermsetIds(getUserPermsetIds(id));
-                result.setQueueIds(getUserQueueIds(id));
-            }
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            result = getFromRS(rs);
         }
+
+        if (result != null) {
+            result.setGroupIds(getUserGroupIds(id));
+            result.setPermsetIds(getUserPermsetIds(id));
+            result.setQueueIds(getUserQueueIds(id));
+        }
+        ps.close();
 
         return result;
     }
@@ -611,41 +600,33 @@ public class UserDAO extends CommonDAO {
         updatePersonalization(configBefore, user);
     }
 
-    public void addUserGroup(int userId, UserGroup group) throws BGException {
-        try {
-            String query = "INSERT INTO " + TABLE_USER_GROUP + " (user_id, group_id, date_from, date_to) "
-                    + "VALUES (?, ?, ?, ?) ";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, userId);
-            ps.setInt(2, group.getGroupId());
-            ps.setTimestamp(3, TimeUtils.convertDateToTimestamp(group.getDateFrom()));
-            ps.setTimestamp(4, TimeUtils.convertDateToTimestamp(group.getDateTo()));
+    public void addUserGroup(int userId, UserGroup group) throws SQLException {
+        String query = "INSERT INTO " + TABLE_USER_GROUP + " (user_id, group_id, date_from, date_to) "
+                + "VALUES (?, ?, ?, ?) ";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, userId);
+        ps.setInt(2, group.getGroupId());
+        ps.setTimestamp(3, TimeUtils.convertDateToTimestamp(group.getDateFrom()));
+        ps.setTimestamp(4, TimeUtils.convertDateToTimestamp(group.getDateTo()));
 
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e.getMessage());
-        }
+        ps.executeUpdate();
+        ps.close();
     }
 
-    public void removeUserGroup(int userId, int groupId, Date dateFrom, Date dateTo) throws BGException {
-        try {
-            String query = SQL_DELETE + TABLE_USER_GROUP + SQL_WHERE + " user_id=" + userId
-                    + (groupId == -1 ? "" : " AND group_id=" + groupId);
-            query += dateFrom != null ? " AND date_from = ? " : " AND date_from IS NULL ";
-            query += dateTo != null ? " AND date_to = ? " : " AND date_to IS NULL ";
+    public void removeUserGroup(int userId, int groupId, Date dateFrom, Date dateTo) throws SQLException {
+        String query = SQL_DELETE + TABLE_USER_GROUP + SQL_WHERE + " user_id=" + userId
+                + (groupId == -1 ? "" : " AND group_id=" + groupId);
+        query += dateFrom != null ? " AND date_from = ? " : " AND date_from IS NULL ";
+        query += dateTo != null ? " AND date_to = ? " : " AND date_to IS NULL ";
 
-            int index = 1;
-            PreparedStatement ps = con.prepareStatement(query);
-            if (dateFrom != null)
-                ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(dateFrom));
-            if (dateTo != null)
-                ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(dateTo));
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e.getMessage());
-        }
+        int index = 1;
+        PreparedStatement ps = con.prepareStatement(query);
+        if (dateFrom != null)
+            ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(dateFrom));
+        if (dateTo != null)
+            ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(dateTo));
+        ps.executeUpdate();
+        ps.close();
     }
 
     public List<UserGroup> getUserGroupList(int userId, Date date) throws BGException {
@@ -674,6 +655,25 @@ public class UserDAO extends CommonDAO {
         }
 
         return result;
+    }
+
+    /**
+     * Sets user groups to values from {@link User#getGroupIds()}, opened from current date.
+     * All the existing groups are replaced.
+     * @param user
+     * @throws SQLException
+     */
+    public void updateUserGroups(User user) throws SQLException {
+        this.removeUserGroup(user.getId(), -1, null, null);
+
+        for (Integer groupId : user.getGroupIds()) {
+            UserGroup group = new UserGroup();
+
+            group.setGroupId(groupId);
+            group.setDateFrom(new Date());
+
+            this.addUserGroup(user.getId(), group);
+        }
     }
 
     private UserGroup getUserGroupFromRs(ResultSet rs) throws SQLException {

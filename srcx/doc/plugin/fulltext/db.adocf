@@ -4,9 +4,9 @@
 
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |object_type
 |VARCHAR

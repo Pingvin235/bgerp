@@ -5,14 +5,14 @@
 
 <html>
 <head>
-	<title><%@ include file="/WEB-INF/jspf/version.jsp"%> : ${l.l('Интерфейс')}</title>
+	<title><%@ include file="/WEB-INF/jspf/title.jsp"%> : ${l.l('Интерфейс')}</title>
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
 </head>
 <body>
 <table width="100%" height="80%">
 	<tr>
 		<td align="center">
-			<h1 style="font-size: 3em; color: #909060;"><%@ include file="/WEB-INF/jspf/version.jsp"%></h1>
+			<h1 style="font-size: 3em; color: #909060;"><%@ include file="/WEB-INF/jspf/title.jsp"%></h1>
 			<%
 				if( session != null )
 				{

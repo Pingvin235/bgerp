@@ -1,5 +1,5 @@
 /*
- * Оболочка обычного пользовательского интерфейса (/user).
+ * Shell for user interface (/user).
  */
 $$.shell = new function () {
 	const debug = $$.debug("shell");
@@ -543,6 +543,32 @@ $$.shell = new function () {
 		return $('#content > div:visible');
 	}
 
+	/**
+	 * Login request.
+	 */ 
+	const login = function () {
+		$("#error-message").text("");
+		// done callback should be added
+		return $.ajax({
+			url: "/login.do",
+			method: "POST",
+			dataType: "json",
+			data: {
+				j_username: $('input[name="j_username"]').val(),
+				j_password: $('input[name="j_password"]').val(),
+				responseType: "json"
+			}
+		}).fail((jqXHR, textStatus) => {
+			if (jqXHR.status == 401) {
+				$("#error-message").text(jqXHR.responseText);
+			} else {
+				alert(textStatus);
+			}
+		}).done((result) => {
+			$("#head .right a.profile").text(result.data.title);
+		});
+	}
+
 	// public functions
 	this.debug = debug;
 	this.menuItems = menuItems;
@@ -552,6 +578,7 @@ $$.shell = new function () {
 	this.removeCommandDiv = removeCommandDiv;
 	this.stateFragment = stateFragment;
 	this.$content = $content;
+	this.login = login;
 }
 
 function contentLoad (href) {

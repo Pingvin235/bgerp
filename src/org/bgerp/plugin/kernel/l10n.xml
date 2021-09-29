@@ -81,7 +81,6 @@
 	<p><ru>BGERP 3.0 не будет корректно работать в вашем браузере!</ru><en>BGERP 3.0 will not work correctly in this browser!</en></p>
 	<p><ru>Поддерживаемые браузеры: Mozilla Firefox %s и новее, Google Chrome %s и новее, Safari %s и новее.</ru><en>Supported browsers: Mozilla Firefox %s and newer, Google Chrome %s and newer, Safari %s and newer.</en></p>
 	<p><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
-	<p><ru>При попытке аутентификации произошла ошибка</ru><en>Authentication error</en></p>
 	<p><ru>Войти</ru><en>Login</en></p>
 	<p><ru>Открытый интерфейс</ru><en>Open interface</en></p>
 	<p><ru>Наименование</ru><en>Title</en></p>
@@ -456,6 +455,9 @@
 	<p><ru>Этаж</ru><en>Floor</en></p>
 	<p><ru>&lt;ЗНАЧЕНИЕ ЗАШИФРОВАНО&gt;</ru><en>&lt;VALUE ENCRYPTED&gt;</en></p>
 	<p><ru>создано: </ru><en>created: </en></p>
+	<p><ru>Ошибка авторизации</ru><en>Authorization error</en></p>
+	<p><ru>Внешние</ru><en>External</en></p>
+	<p><ru>Внешний</ru><en>External</en></p>
 	<p><ru>Занять</ru><en>Occupy</en></p>
 	<p><ru>Звонок</ru><en></en>Call</p>
 	<!--

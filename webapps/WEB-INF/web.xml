@@ -100,7 +100,7 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 
-	<!-- TODO: Сделать точку расширения для подключения плагинов и других сервлетов. Может аннотацией. -->
+	<!-- TODO: Move into BGBilling pluging using enpoint for declaring own servlets. Think about moving the servlet to open interface or make auth. -->
 	<servlet>
 		<servlet-name>GetUpdatedAddressObjects</servlet-name>
 		<servlet-class>ru.bgcrm.servlet.GetUpdatedAddressObjects</servlet-class>
@@ -117,8 +117,4 @@
 	<listener>
 		<listener-class>ru.bgcrm.servlet.SessionListener</listener-class>
 	</listener>
-	<error-page>
-		<error-code>403</error-code>
-		<location>/error_403.jsp</location>
-	</error-page>
 </web-app>

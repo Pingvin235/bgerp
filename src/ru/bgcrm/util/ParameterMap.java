@@ -189,36 +189,9 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         }
     }
 
-    /** The data type is not needed in business app. */
-    @Deprecated
-    public float getFloat(String key, float def) {
-        try {
-            final String value = get(key, null);
-            if (Utils.isEmptyString(value))
-                return def;
-            else
-                return Float.parseFloat(value.trim());
-        } catch (Exception ex) {
-            return def;
-        }
-    }
-
-    /** The data type is not needed in business app. */
-    @Deprecated
-    public double getDouble(String key, double def) {
-        try {
-            final String value = get(key, null);
-            if (Utils.isEmptyString(value))
-                return def;
-            else
-                return Double.parseDouble(value.trim());
-        } catch (Exception ex) {
-            return def;
-        }
-    }
-
     public abstract Set<Map.Entry<String, String>> entrySet();
 
+    @Deprecated
     public String fingerprint() {
         throw new UnsupportedOperationException();
     }
@@ -287,29 +260,27 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     private static final Pattern patternDot = Pattern.compile("\\.");
 
     /**
-     * Возвращает новый мап. Берёт всё под префиксами и иставляет мэп из
-     * числовых ид за ними и последующих значений, формируя из них ParameterMap.
-     * Аналогична subKeyed, но составляет сортированный мэп с числовыми ключами.
+     * Creates a new sorted sub-map with integer keys.
      * <pre>
      * prefix.1.12=2
      * prefix.1.34=4
      * prefix.2.56=2
      * prefix.2.78=4
      * ->
-     * сортированный мэп
+     * sorted {@link Map}
      * 1={12=2,34=4}
      * 2={56=2,78=4}</pre>
-     * @param prefix префикс определяющий мэп
-     * @return SortedMap. Никогда не null.
+     * @param prefixes prefixes for extraction.
+     * @return {@link SortedMap} never {@code null}.
      * @see #subKeyed(String)
      */
-    public SortedMap<Integer, ParameterMap> subIndexed(final String... prefixies) {
+    public SortedMap<Integer, ParameterMap> subIndexed(final String... prefixes) {
         SortedMap<Integer, ParameterMap> result = new TreeMap<Integer, ParameterMap>();
         Map<Integer, Map<String, String>> resultMap = new HashMap<Integer, Map<String, String>>();
 
         for (Entry<String, String> e : entrySet()) {
             String paramKey = e.getKey();
-            for (String prefix : prefixies) {
+            for (String prefix : prefixes) {
                 if (paramKey.startsWith(prefix)) {
                     String suffix = paramKey.substring(prefix.length(), paramKey.length());
 

@@ -668,7 +668,7 @@ function onAJAXError(url, jqXHR, textStatus, errorThrown) {
 		console.error("AJAX error, URL: ", url);
 		showErrorDialog(jqXHR.responseText);
 	} else {
-		alert("При открытии адреса " + url + " произошла ошибка: " + errorThrown);
+		alert("URL: " + url + ", error: " + errorThrown);
 	}
 }
 

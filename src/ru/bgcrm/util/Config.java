@@ -25,19 +25,19 @@ public abstract class Config {
     /**
      * The constructor has to be overwritten and implement parameters parsing.
      * Old-style constructor, without deprecated keys validation support.
-     * @param setup configuration.
+     * @param config configuration.
      */
-    protected Config(ParameterMap setup) {
-        this(setup, false);
+    protected Config(ParameterMap config) {
+        this(config, false);
     }
 
     /**
      * The constructor has to be overwritten and implement parameters parsing.
-     * @param setup configuration.
+     * @param config configuration.
      * @param validate validation old configuration keys.
      */
-    protected Config(ParameterMap setup, boolean validate) {
-        this.setup = setup;
+    protected Config(ParameterMap config, boolean validate) {
+        this.setup = config;
     }
 
     /**

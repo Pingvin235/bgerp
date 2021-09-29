@@ -7,9 +7,9 @@
 Справочник районов.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -32,9 +32,9 @@
 Справочник городов.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -57,9 +57,9 @@
 Справочник стран.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -78,9 +78,9 @@
 Распределение пользователей по домам.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |distr_id
 |INT
@@ -99,9 +99,9 @@
 Справочник домов.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -144,9 +144,9 @@
 Справочник кварталов.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -169,9 +169,9 @@
 Распределение групп пользователей по кварталам.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |distr_id
 |INT
@@ -190,9 +190,9 @@
 Справочник улиц.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -223,9 +223,9 @@
 Контрагенты.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -268,9 +268,9 @@
 Группы параметров контрагентов.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -310,9 +310,9 @@ DB updates log.
 Данные файлов.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -336,9 +336,9 @@ DB updates log.
 Данные файлов.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |object_type
 |VARCHAR
@@ -361,9 +361,9 @@ DB updates log.
 Сообщения, дополнительные сведения о значениях полей - в исходном коде javadoc:ru.bgcrm.model.message.Message[].
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -434,9 +434,9 @@ DB updates log.
 Параметры типа "address".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -487,9 +487,9 @@ DB updates log.
 Логи изменения параметров типа "address".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -544,9 +544,9 @@ DB updates log.
 Параметры типа "blob".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -565,9 +565,9 @@ DB updates log.
 Параметры типа "date".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -586,9 +586,9 @@ DB updates log.
 Логи изменения параметров типа "date".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -615,9 +615,9 @@ DB updates log.
 Параметры типа "datetime".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -636,9 +636,9 @@ DB updates log.
 Логи изменения параметров типа "datetime".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -665,9 +665,9 @@ DB updates log.
 Параметры типа "email".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -694,9 +694,9 @@ DB updates log.
 Логи изменения параметров типа "email".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -723,9 +723,9 @@ DB updates log.
 Параметры типа "file".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -748,9 +748,9 @@ DB updates log.
 Группы параметров.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |group_id
 |INT
@@ -765,9 +765,9 @@ DB updates log.
 Названия групп параметров.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -786,9 +786,9 @@ DB updates log.
 Параметры типа "list".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -815,9 +815,9 @@ DB updates log.
 Логи изменения параметров типа "list".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -848,9 +848,9 @@ DB updates log.
 Справочник значений параметров типа "list".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -869,9 +869,9 @@ DB updates log.
 Параметры типа "listcount" с количественным полем.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -898,9 +898,9 @@ DB updates log.
 Справочник значений параметров типа "listcount".
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -919,9 +919,9 @@ DB updates log.
 Лог изменения параметров со старым и новым значениями для выборки изменений сразу всех параметров объектов.
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |dt
 |DATETIME
@@ -948,9 +948,9 @@ DB updates log.
 Параметры типа "телефон"
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -969,9 +969,9 @@ DB updates log.
 Телефоны
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -1006,9 +1006,9 @@ DB updates log.
 Логи изменения параметра типа "телефон"
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -1039,9 +1039,9 @@ DB updates log.
 Перечень параметров
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -1080,9 +1080,9 @@ DB updates log.
 Cтроковые параметры
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -1101,9 +1101,9 @@ Cтроковые параметры
 Логи изменения строкового параметра
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -1130,9 +1130,9 @@ Cтроковые параметры
 Параметры типа "дерево"
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -1151,9 +1151,9 @@ Cтроковые параметры
 Значения параметров типа "дерево"
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -1176,9 +1176,9 @@ Cтроковые параметры
 Процессы
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -1242,9 +1242,9 @@ Cтроковые параметры
 
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |process_id
 |INT
@@ -1268,9 +1268,9 @@ Cтроковые параметры
 
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |process_id
 |INT
@@ -1290,9 +1290,9 @@ Cтроковые параметры
 
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |process_id
 |INT
@@ -1324,9 +1324,9 @@ Cтроковые параметры
 
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -1371,9 +1371,9 @@ Generated secrets for accessing processes via open interface.
 
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |process_id
 |INT
@@ -1406,9 +1406,9 @@ Generated secrets for accessing processes via open interface.
 Статусы процессов
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -1428,9 +1428,9 @@ Generated secrets for accessing processes via open interface.
 типы процессов
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
@@ -1478,9 +1478,9 @@ Generated secrets for accessing processes via open interface.
 Конфигурация параметров типа процесса
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |type_id
 |INT
@@ -1496,9 +1496,9 @@ Generated secrets for accessing processes via open interface.
 Конфигурация статусов типа процесса
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |type_id
 |INT
@@ -1518,9 +1518,9 @@ Generated secrets for accessing processes via open interface.
 
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |lu
 |TIMESTAMP
@@ -1580,9 +1580,9 @@ Generated secrets for accessing processes via open interface.
 
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |user_id
 |INT
@@ -1606,9 +1606,9 @@ Generated secrets for accessing processes via open interface.
 
 [cols="a,a,50%a", options="header"]
 |===
-|Столбец
-|Тип
-|Описание
+|Column
+|Type
+|Description
 
 |id
 |INT
