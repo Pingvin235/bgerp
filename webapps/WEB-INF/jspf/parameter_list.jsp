@@ -21,7 +21,7 @@
 	</div>
 </c:if>
 
-<table style="width: 100%;" id="${tableId}" class="data">
+<table id="${tableId}" class="data">
 	<c:if test="${showTr}">
 		<tr>
 			<c:if test="${showId}">
@@ -85,63 +85,36 @@
 			</c:if>
 
 			<td nowrap="nowrap">${parameter.title}</td>
-			<td width="100%"><%-- style="padding: 2px;" --%>
+			<td width="100%">
 				<c:choose>
 					<c:when test="${'file' eq parameter.type}">
-						<%-- TODO: Cleanup all these showForOwnerOnly, showForOwnerGroupOnly and version specific things.
-						<c:set var="showForOwnerOnly" value="${parameter.configMap.showForOwnerOnly}" />
-						<c:set var="showForOwnerGroupOnly" value="${parameter.configMap.showForOwnerGroupOnly}" />
-
-						<c:if test="${parameter.configMap.showVersions}">
-							<input type="button" value="Только последние/все версии"
-								onclick="$('div[overrided=1]').toggle(); $('div[version]').each( function() { var padding=parseInt($(this).css('padding-left'))>0?0:20*($(this).attr('version')-1);  $(this).css('padding-left',padding); } );" />
-						</c:if>
-						--%>
-
 						<c:forEach var="file" items="${item.value}" varStatus="status">
 							<c:set var="value" value="${file.value}" />
 
-							<c:if test="${(ctxUser.id eq value.user.id) or (showForOwnerOnly ne '1' ) }">
-								<c:if test="${( not empty u:intersection(ctxUserMap[u:int(value.user.id)].groupIds, ctxUser.groupIds) ) or (showForOwnerGroupOnly ne '1' ) }">
+							<div>
+								<c:if test="${not readonly}">
+									<html:form action="/user/parameter" styleId="${editFormId}"
+										style="display: inline;">
+										<input type="hidden" name="action" value="parameterUpdate" />
+										<html:hidden property="objectType" />
+										<input type="hidden" name="id" value="${id}" />
+										<input type="hidden" name="paramId" value="${parameter.id}" />
+										<input type="hidden" name="position" value="${file.key}" />
 
-									<c:set var="version" value="${value.version}" />
-									<c:set var="position" value="${fn:substring(file.key,0, fn:length(file.key) -  fn:length(version.toString()) )}" />
-									<c:set var="editFormId" value="${u:uiid()}" />
-
-									<c:if test="${not status.last and item.value[u:concat(position,version+1 )] ne null and parameter.configMap.showVersions}">
-										<c:set var="args" value="style='text-decoration:line-through'" />
-										<c:set var="overrided" value="1" />
-									</c:if>
-
-									<div version="${value.version}" overrided="${overrided}">
-										<c:if test="${not readonly and overrided ne '1'}">
-											<html:form action="/user/parameter" styleId="${editFormId}"
-												style="display: inline;">
-												<input type="hidden" name="action" value="parameterUpdate" />
-												<html:hidden property="objectType" />
-												<input type="hidden" name="id" value="${id}" />
-												<input type="hidden" name="paramId" value="${parameter.id}" />
-												<input type="hidden" name="position" value="${position}" />
-
-												<c:set var="deleteCommand" value="formUrl( this.form )" />
-												<c:set var="deleteAjaxCommandAfter">openUrlToParent( '${form.requestUrl}', $('#${tableId}') )</c:set>
-												<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
-											</html:form>
-										</c:if>
-
-										<c:url var="url" value="/user/file.do">
-											<c:param name="id" value="${value.id}" />
-											<c:param name="title" value="${value.title}" />
-											<c:param name="secret" value="${value.secret}" />
-										</c:url>
-										<a href="${url}" ${args} target="_blank" class="preview">${value.title}</a>
-
-										</br>
-									</div>
-									<c:remove var="args" />
-									<c:remove var="overrided" />
+										<ui:button type="del" styleClass="btn-small" onclick="
+											$$.ajax.post(this.form, {control: this}).done(() => {
+												$$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());
+											})"/>
+									</html:form>
 								</c:if>
-							</c:if>
+
+								<c:url var="url" value="/user/file.do">
+									<c:param name="id" value="${value.id}" />
+									<c:param name="title" value="${value.title}" />
+									<c:param name="secret" value="${value.secret}" />
+								</c:url>
+								<a href="${url}" ${args} target="_blank" class="preview">${value.title}</a>
+							</div>
 						</c:forEach>
 						<script>
 							$(function (){
@@ -165,11 +138,7 @@
 									<input type="hidden" name="id" value="${id}" />
 									<input type="hidden" name="paramId" value="${parameter.id}" />
 
-									<%--
-									TODO: Doing like that causes "Missing file!" error on click.
-									<button class="btn-white btn-small icon" onclick="$$.ajax.triggerUpload('${uploadFormId}');"><i class="ti-plus"></i></button>
-									--%>
-									<input type="button" class="btn-white btn-small" value="+" onclick="$$.ajax.triggerUpload('${uploadFormId}');"/>
+									<ui:button type="add" styleClass="btn-small" onclick="$$.ajax.triggerUpload('${uploadFormId}');"/>
 									<input type="file" name="file" style="visibility:hidden;"/>
 								</form>
 							</div>

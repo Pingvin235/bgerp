@@ -1594,7 +1594,7 @@ public class ParamValueDAO extends CommonDAO {
                 if (values == null)
                     param.setValue(values = new LinkedHashMap<String, FileData>());
 
-                values.put(rs.getString(2) + rs.getString(3), FileDataDAO.getFromRs(rs, "fd."));
+                values.put(rs.getString(2), FileDataDAO.getFromRs(rs, "fd."));
             } else if (Parameter.TYPE_PHONE.equals(type)) {
                 ParameterPhoneValue value = (ParameterPhoneValue)param.getValue();
                 if (value == null)

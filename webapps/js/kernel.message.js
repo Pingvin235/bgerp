@@ -3,19 +3,32 @@
 $$.message = new function() {
 	const debug = $$.debug("message");
 
-	const editorTypeChanged = (editorUiid, typeComboUiid) => {
-		const typeId = $('#' + typeComboUiid).find('input[name=typeId]').val();
-		const $selectedTypeLi = $('#' + typeComboUiid + ' ul.drop li[value="' + typeId + '"]');
+	/**
+	 * On change drop-down selector of editor.
+	 * 
+	 * @param {*} editorId editor ID or prefix for plugin editors.
+	 * @param {*} typeComboId ID of drop-down with message types.
+	 * @param {*} uploadFormId ID of file upload form.
+	 */
+	const editorTypeChanged = (editorId, typeComboId, uploadFormId) => {
+		const typeId = $('#' + typeComboId).find('input[name=typeId]').val();
+		const $selectedTypeLi = $('#' + typeComboId + ' ul.drop li[value="' + typeId + '"]');
 
 		const editor = $selectedTypeLi.attr('editor');
 
-		const $activeEditor = editor ? $('form[id="'+ editorUiid+ '-' + editor + '"]') : $('#' + editorUiid);
+		const $activeEditor = editor ? $('form[id="'+ editorId + '-' + editor + '"]') : $('#' + editorId);
 
 		$activeEditor.parent().find('>form').hide();
 
 		$activeEditor.show();
 
-		$('#' + typeComboUiid).detach().appendTo($activeEditor.find('#typeSelectContainer'));
+		$('#' + typeComboId).detach().appendTo($activeEditor.find('#typeSelectContainer'));
+
+		const dataKey = "pasteListener";
+		if (!$activeEditor.data(dataKey)) {
+			$$.ui.setPasteUploadListener($activeEditor.attr("id"), uploadFormId);
+			$activeEditor.data(dataKey, true);
+		}
 	}
 
 	// public functions

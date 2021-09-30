@@ -10,7 +10,7 @@
 <c:set var="typeComboUiid" value="${u:uiid()}"/>
 
 <c:set var="typeChangedScript">
-	$$.message.editorTypeChanged('${editorUiid}', '${typeComboUiid}');
+	$$.message.editorTypeChanged('${editorUiid}', '${typeComboUiid}', '${uploadFormId}');
 </c:set>
 
 <html:form action="/user/message" styleId="${editorUiid}" styleClass="editorStopReload">
@@ -103,5 +103,5 @@
 <script>
 	$(function () {
 		${typeChangedScript}
-	})
+	});
 </script>

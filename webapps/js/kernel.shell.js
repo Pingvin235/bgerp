@@ -565,7 +565,10 @@ $$.shell = new function () {
 				alert(textStatus);
 			}
 		}).done((result) => {
-			$("#head .right a.profile").text(result.data.title);
+			const title = result.data.title;
+			if (title) {
+				$("#head .right a.profile").text();
+			}
 		});
 	}
 

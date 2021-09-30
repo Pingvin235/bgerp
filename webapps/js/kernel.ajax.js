@@ -38,7 +38,7 @@ $$.ajax = new function () {
 			const $control = $(options.control);
 			$control.prepend("<span class='progress'><i class='progress-icon ti-reload'></i></span>");
 			const $progress = $control.find(">.progress");
-			
+
 			requestDone = () => {
 				options.control.disabled = false;
 				$progress.remove();
@@ -98,7 +98,7 @@ $$.ajax = new function () {
 		// erasing of existing value, speeds up load process significantly in some cases
 		// the reason is not clear, was found in callboard, probably because of removing of onLoad listeners
 		// !!! the erasing was disabled because of problems with generation URL from form elements, which already were gone
-		
+
 		// parameter runs cascaded load
 		let dfd = options.dfd;
 		if (dfd) {
@@ -141,18 +141,19 @@ $$.ajax = new function () {
 			dfd.done(() => {
 				debug("Set loadDfd null", url);
 				loadDfd = null;
-			})
+			});
 		}
 
 		if (!loadDfd) {
 			$selector.toggleClass("ajax-loading");
 			return post(url, options).done((result) => {
-				if (options.replace)
+				if (options.replace) {
 					$selector.replaceWith(result);
-				else if (options.append)
+				} else if (options.append) {
 					$selector.append(result);
-				else
+				} else {
 					$selector.html(result);
+				}
 			}).always(() => {
 				$selector.toggleClass("ajax-loading");
 			});
@@ -185,13 +186,14 @@ $$.ajax = new function () {
 						const $selector = $("#${id}").parent();
 						$(() => {
 							$$.ajax.loadDfd().resolve($selector);
-						})
+						});
 					} </script>`;
 
-				if (options.append)
+				if (options.append) {
 					$selector.append(result + afterLoadScript);
-				else
+				} else {
 					$selector.html(result + afterLoadScript);
+				}
 			}).always(() => {
 				$selector.toggleClass("ajax-loading");
 			});
@@ -205,7 +207,7 @@ $$.ajax = new function () {
 	 * @param {*} url URL to be loaded.
 	 * @param {*} obj DOM element, placed in the loaded area.
 	 */
-	const loadContent =  (url, obj) => {
+	const loadContent = (url, obj) => {
 		return load(url, $$.shell.$content(obj));
 	}
 
@@ -261,8 +263,8 @@ $$.ajax = new function () {
 	/**
 	 * Checks AJAX response.
 	 * @param {*} data param and values
-	 * @param {*} form optional form object, to mark incorrect fields there 
-	 */ 
+	 * @param {*} form optional form object, to mark incorrect fields there
+	 */
 	const checkResponse = function (data, form) {
 		var result = false;
 
@@ -274,8 +276,7 @@ $$.ajax = new function () {
 			if (data.message) {
 				alert(data.message);
 			}
-		}
-		else {
+		} else {
 			const message = data.message;
 
 			if (form) {
@@ -427,7 +428,8 @@ $$.ajax = new function () {
 					form.submit();
 				}
 				form.reset();
-				inputFile.onchange = function () {};
+				inputFile.onchange = function () {
+				};
 			};
 			inputFile.onchange = onChange;
 			inputFile.click();

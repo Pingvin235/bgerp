@@ -3,7 +3,7 @@
  */
 "use strict";
 
-$$.ui = new function() {
+$$.ui = new function () {
 	// sub namespace selectMult
 	this.selectMult = new function () {
 		const liUp = function (el) {
@@ -30,11 +30,11 @@ $$.ui = new function() {
 	const comboSingleInit = ($comboDiv, onSelect) => {
 		var $drop = $comboDiv.find('ul.drop');
 
-		var $hidden = $comboDiv.find( 'input[type=hidden]' );
+		var $hidden = $comboDiv.find('input[type=hidden]');
 
 		const updateCurrentTitle = function () {
 			// по-умолчанию выбирается первый элемент
-			var $currentLi = $drop.find( 'li:not(.filter):first' );
+			var $currentLi = $drop.find('li:not(.filter):first');
 
 			// если указано значение - то ищется оно
 			var currentValue = $hidden.val();
@@ -43,14 +43,14 @@ $$.ui = new function() {
 
 				// Наличие значения в hidden не гарантирует наличия соответствующего
 				// элемента <li>, поэтому берем если нашли сам элемент;
-				const $foundLi = $drop.find( "li[value='" + currentValue + "']" );
-				if ($foundLi.length != 0) {
+				const $foundLi = $drop.find("li[value='" + currentValue + "']");
+				if ($foundLi.length !== 0) {
 					$currentLi = $foundLi;
 				}
 			}
 
 			var $currentTitle = $currentLi.find('span.title');
-			if ($currentTitle.length == 0) {
+			if ($currentTitle.length === 0) {
 				$currentTitle = $currentLi;
 				$hidden.val($currentLi.attr('value'));
 			}
@@ -65,7 +65,7 @@ $$.ui = new function() {
 
 		// событие клика вешается через функцию on, чтобы событие срабатывало, если элемент добавился после  инициации динамически.
 		$drop.on('click', 'li:not(.filter)', function () {
-			$hidden.val( $(this).attr( "value" ) );
+			$hidden.val($(this).attr("value"));
 			updateCurrentTitle();
 
 			if (onSelect) {
@@ -86,7 +86,7 @@ $$.ui = new function() {
 
 	const comboCheckUncheck = (object) => {
 		const $parent = $(object).closest("ul");
-		if ($parent.find("input[type=checkbox]:checked").length == 0)
+		if ($parent.find("input[type=checkbox]:checked").length === 0)
 			$parent.find("input[type=checkbox]").prop("checked", true);
 		else
 			$parent.find("input[type=checkbox]").prop("checked", false);
@@ -119,17 +119,17 @@ $$.ui = new function() {
 	 * Init popup menu.
 	 * @param {*} $launcher jQuery selector of start button.
 	 * @param {*} $menu jQuery selector to <ul> of menu.
-	 * @param {*} align 'left' or 'right'. 
+	 * @param {*} align 'left' or 'right'.
 	 */
 	const menuInit = ($launcher, $menu, align) => {
 		$menu.menu({
 			icons: {
-				submenu: "ti-angle-right" 
+				submenu: "ti-angle-right"
 			}
 		}).hide();
 
 		// empty menu items
-		$menu.find( "a:not([onclick])" ).click(function (event) {
+		$menu.find("a:not([onclick])").click(function (event) {
 			return false;
 		});
 
@@ -160,24 +160,24 @@ $$.ui = new function() {
 	const monthDaysSelectInit = ($div) => {
 		var date = new Date();
 
-		var $title = $div.find( "#month" );
+		var $title = $div.find("#month");
 
-		var $dayFrom = $div.find( "#dayFrom" );
-		var $dayTo = $div.find( "#dayTo" );
+		var $dayFrom = $div.find("#dayFrom");
+		var $dayTo = $div.find("#dayTo");
 
-		var $dateFromHidden = $div.find( "#dateFrom" );
-		var $dateToHidden = $div.find( "#dateTo" );
+		var $dateFromHidden = $div.find("#dateFrom");
+		var $dateToHidden = $div.find("#dateTo");
 
 		var dateFrom = $dateFromHidden.val();
 		if (dateFrom) {
 			var parts = dateFrom.split('.');
-			date = new Date(parts[2], parts[1]-1, parts[0]);
+			date = new Date(parts[2], parts[1] - 1, parts[0]);
 		}
 
 		date.setDate(1);
 
-		const update = function() {
-			$title.text( $.datepicker._defaults.monthNames[date.getMonth()] + " " + date.getFullYear() );
+		const update = function () {
+			$title.text($.datepicker._defaults.monthNames[date.getMonth()] + " " + date.getFullYear());
 
 			let dayFrom = $dayFrom.val();
 			if (!dayFrom)
@@ -185,10 +185,10 @@ $$.ui = new function() {
 
 			let dayTo = $dayTo.val();
 			if (!dayTo)
-				dayTo = new Date(date.getFullYear(), date.getMonth() + 1, 0 ).getDate();
+				dayTo = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
-			$dateFromHidden.val(new Date( date.getFullYear(), date.getMonth(), dayFrom).format( "dd.mm.yyyy" ));
-			$dateToHidden.val(new Date( date.getFullYear(), date.getMonth(), dayTo).format( "dd.mm.yyyy" ));
+			$dateFromHidden.val(new Date(date.getFullYear(), date.getMonth(), dayFrom).format("dd.mm.yyyy"));
+			$dateToHidden.val(new Date(date.getFullYear(), date.getMonth(), dayTo).format("dd.mm.yyyy"));
 
 			$$.debug('uiMonthDaysSelectInit', 'update: ', dayFrom, dayTo);
 		};
@@ -197,21 +197,21 @@ $$.ui = new function() {
 
 		$div.find("#next").click(function () {
 			var currentMonth = date.getMonth();
-			if (currentMonth == 11) {
-				date.setYear( date.getFullYear() + 1 );
-				date.setMonth( 0 );
+			if (currentMonth === 11) {
+				date.setYear(date.getFullYear() + 1);
+				date.setMonth(0);
 			} else
-				date.setMonth( currentMonth + 1 );
+				date.setMonth(currentMonth + 1);
 			update();
 		});
 
 		$div.find("#prev").click(function () {
 			var currentMonth = date.getMonth();
 			if (currentMonth == 0) {
-				date.setYear( date.getFullYear() - 1 );
-				date.setMonth( 11 );
+				date.setYear(date.getFullYear() - 1);
+				date.setMonth(11);
 			} else
-				date.setMonth( currentMonth - 1 );
+				date.setMonth(currentMonth - 1);
 			update();
 		});
 
@@ -222,9 +222,9 @@ $$.ui = new function() {
 	const inputTextInit = ($input) => {
 		var $clearIcon =
 			$("<span class='ti-close'></span>")
-			.css("position", "absolute")
-			.css("cursor", "pointer")
-			.hide();
+				.css("position", "absolute")
+				.css("cursor", "pointer")
+				.hide();
 
 		$input.parent().append($clearIcon);
 
@@ -248,7 +248,7 @@ $$.ui = new function() {
 		});
 	}
 
-	const layout = ($selector) =>  {
+	const layout = ($selector) => {
 		var debug = false;
 
 		$selector.find(".layout-height-rest").each(function () {
@@ -256,27 +256,27 @@ $$.ui = new function() {
 			var restEl = this;
 
 			if (debug) {
-				console.debug( "Set height: ", $(this), "parent: ", $(this.parentNode), 'height = ' + height );
-				console.debug( $(this.parentNode).find( ">*" ) );
+				console.debug("Set height: ", $(this), "parent: ", $(this.parentNode), 'height = ' + height);
+				console.debug($(this.parentNode).find(">*"));
 			}
 
-			$ (this.parentNode).children()./*find( ">*" ).*/each( function () {
+			$(this.parentNode).children()./*find( ">*" ).*/each(function () {
 				if (this.localName == 'script' || this == restEl ||
-					$(this).hasClass( "layout-height-rest" ))
+					$(this).hasClass("layout-height-rest"))
 					return;
 
-				height -= $(this).outerHeight( true );
+				height -= $(this).outerHeight(true);
 
 				if (debug) {
-					console.debug( $(this), $(this).outerHeight( true ), height );
+					console.debug($(this), $(this).outerHeight(true), height);
 				}
 			})
 
 			if (debug) {
-				console.debug( "height => " + height );
+				console.debug("height => " + height);
 			}
 
-			$(this).css( "height", height + "px" );
+			$(this).css("height", height + "px");
 		})
 	}
 
@@ -307,7 +307,7 @@ $$.ui = new function() {
 	const codeMirror = (id) => {
 		const ta = document.getElementById(id);
 		const editor = CodeMirror.fromTextArea(ta, {
-			mode:"properties",
+			mode: "properties",
 			lineNumbers: true,
 			styleActiveLine: true,
 			matchBrackets: true
@@ -319,13 +319,13 @@ $$.ui = new function() {
 			$ta.next('.CodeMirror').toggleClass('CodeMirror-changed', editor.getValue() !== originalConfig);
 			$ta.val(editor.getValue());
 		});
-		
+
 		return editor;
 	}
 
 	/**
 	 * Table rows highlighter. Preserving and restoring original row background color.
-	 * Can highlight multiple rows together. 
+	 * Can highlight multiple rows together.
 	 * @param {*} $table table selector.
 	 * @param {*} rows how many rows to highlight, if not defined - 1.
 	 */
@@ -335,16 +335,16 @@ $$.ui = new function() {
 		const attrBgColor = 'bgcolor';
 		const attrBgColorOrig = 'bgcolor-orig';
 		const classHl = 'hl';
-	
+
 		const getFirstTr = ($tr) => $($tr.parent().children().get($tr.index() - $tr.index() % rows));
-	
-		$table.find('> tbody > tr:gt(' + (rows - 1) + ')' ).each(function () {
+
+		$table.find('> tbody > tr:gt(' + (rows - 1) + ')').each(function () {
 			const $tr = $(this);
 			$tr.mouseover(function () {
 				let $ftr = getFirstTr($tr);
-	
+
 				const bgcolor = $ftr.attr(attrBgColor) || 'white';
-				
+
 				if (!$ftr.attr(attrBgColorOrig)) {
 					$ftr.attr(attrBgColorOrig, bgcolor);
 					for (var i = 0; i < rows; i++) {
@@ -356,7 +356,7 @@ $$.ui = new function() {
 
 			$tr.mouseleave(function () {
 				let $ftr = getFirstTr($tr);
-	
+
 				const bgcolorOrig = $ftr.attr(attrBgColorOrig);
 				if (bgcolorOrig) {
 					for (var i = 0; i < rows; i++) {
@@ -367,6 +367,30 @@ $$.ui = new function() {
 				}
 			});
 		});
+	}
+
+	/**
+	 * Set listener for paste event for attachment
+	 *
+	 * @param mainFormId
+	 * @param uploadFormId
+	 */
+	const setPasteUploadListener = function (mainFormId, uploadFormId) {
+		const mainForm = document.getElementById(mainFormId);
+		if (mainForm) {
+			mainForm.addEventListener('paste', function (e) {
+				if (e && e.clipboardData && e.clipboardData.files && e.clipboardData.files.length) {
+					const form = $('#' + uploadFormId);
+					if (form) {
+						const fileInput = form.find('>input[type="file"]')[0];
+						if (fileInput) {
+							fileInput.files = e.clipboardData.files;
+							form.submit();
+						}
+					}
+				}
+			});
+		}
 	}
 
 	// public functions
@@ -385,88 +409,82 @@ $$.ui = new function() {
 	this.inputFocus = inputFocus;
 	this.codeMirror = codeMirror;
 	this.tableRowHl = tableRowHl;
+	this.setPasteUploadListener = setPasteUploadListener;
 }
 
 
-function uiComboSingleInit ($comboDiv, onSelect) {
+function uiComboSingleInit($comboDiv, onSelect) {
 	console.warn($$.deprecated);
 	$$.ui.comboSingleInit($comboDiv, onSelect);
 }
 
-function uiComboInputs ($div) {
+function uiComboInputs($div) {
 	console.warn($$.deprecated);
 	return $$.ui.comboInputs($div);
 }
 
-function uiComboCheckUncheck (object) {
+function uiComboCheckUncheck(object) {
 	console.warn($$.deprecated);
 	$$.ui.comboCheckUncheck(object);
 }
 
-function uiMonthDaysSelectInit ($div) {
+function uiMonthDaysSelectInit($div) {
 	console.warn($$.deprecated);
 	$$.ui.monthDaysSelectInit($div);
 }
 
-function uiInputTextInit ($input, onSelect) {
+function uiInputTextInit($input, onSelect) {
 	console.warn($$.deprecated);
 	$$.ui.inputTextInit($input, onSelect);
 }
 
-function layoutProcess ($selector) {
+function layoutProcess($selector) {
 	console.warn($$.deprecated);
 	$$.ui.layout($selector);
 }
 
-function showErrorDialog (errorMessage) {
+function showErrorDialog(errorMessage) {
 	console.warn($$.deprecated);
 	$$.ui.showError(errorMessage);
 }
 
-function tableRowHl ($table, rows) {
+function tableRowHl($table, rows) {
 	console.warn($$.deprecated);
 	$$.ui.tableRowHl($table, rows);
 }
 
-function optionTag( id, title, selected )
-{
+function optionTag(id, title, selected) {
 	var tag = "<option value='" + id + "'";
-	if( selected )
-	{
+	if (selected) {
 		tag += " selected='1'";
 	}
 	tag += ">" + title + "</option>";
 	return tag;
 }
 
-function scrollToElementById(id)
-{
-	$("html:not(:animated), body:not(:animated)").animate({scrollTop: $("#"+id).position().top});
+function scrollToElementById(id) {
+	$("html:not(:animated), body:not(:animated)").animate({scrollTop: $("#" + id).position().top});
 }
 
 //admin/process/type/check_list
-function normalizeDivHeight(uiid)
-{
-	$('#'+uiid +'tableDiv').css("height",$('#'+uiid +'tableDiv').parent().height()-30);
+function normalizeDivHeight(uiid) {
+	$('#' + uiid + 'tableDiv').css("height", $('#' + uiid + 'tableDiv').parent().height() - 30);
 }
 
-function moveBeforePrevVisible(element)
-{
-	temp_pointer = $(element);
-	do
-	{
+function moveBeforePrevVisible(element) {
+	var temp_pointer = $(element);
+	do {
 		temp_pointer = temp_pointer.prev();
 	} while (temp_pointer.is(':hidden') || temp_pointer.is('table'));
 	temp_pointer.before($(element));
 }
 
-function moveAfterNextVisible(element)
-{
-	temp_pointer = $(element);
-	do
-	{
+function moveAfterNextVisible(element) {
+	var temp_pointer = $(element);
+	do {
 		temp_pointer = temp_pointer.next();
 	} while (temp_pointer.is(':hidden') || temp_pointer.is('table'));
 	temp_pointer.after($(element));
 }
+
 

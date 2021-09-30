@@ -1,0 +1,2 @@
+A: Paste images from clipboard as message attaches.
+C: Cleanup code of parameter 'file'.

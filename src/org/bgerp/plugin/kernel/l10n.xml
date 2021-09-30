@@ -387,7 +387,11 @@
 	<p><ru>Больше</ru><en>More</en></p>
 	<p><ru>Получатель</ru><en>Recipient</en></p>
 	<p><ru>Для</ru><en>For</en></p>
-	<p><ru>Вы можете использовать #ID для ссылок на другие процессы, подобные записи будут автоматически преобразованы в ссылки открытия карточек</ru><en>You can use the #ID to link to other processes, such records will be automatically converted to links to open cards</en></p>
+	<p>
+		<sys>message.edit.hint</sys>
+		<ru>В тексте распознаются ссылки. Вы можете использовать #ID для ссылок на другие процессы, подобные записи будут автоматически преобразованы в ссылки открытия карточек. Вставленные из буфера обмена файлы добавляются как вложения.</ru>
+		<en>Links are recognized in text. You can use the #ID to link to other processes, such records will be automatically converted to links to open their cards. Pasted files from clipboard are added as attachments.</en>
+	</p>
 	<p><ru>Вложения</ru><en>Attachments</en></p>
 	<p><ru>Выберите приоритет</ru><en>Select priority</en></p>
 	<p><ru>Выберите группы решения</ru><en>Select execution groups</en></p>

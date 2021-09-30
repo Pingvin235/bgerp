@@ -4,10 +4,8 @@ import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER_LOG;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -526,27 +524,21 @@ public class ParameterAction extends BaseAction {
 
             FileData fileData = null;
             if (file != null) {
-                if (log.isDebugEnabled())
-                    log.debug("Uploading file: " + file.getFileName() + ", type: " + file.getContentType());
+                log.debug("Uploading file: {}, type: {}" +  file.getFileName(), file.getContentType());
 
                 fileData = new FileData();
 
                 FileDataDAO fileDataDAO = new FileDataDAO(con);
 
                 fileData.setTitle(file.getFileName());
-                FileOutputStream fos = fileDataDAO.add(fileData);
-
-                fos.write(file.getFileData());
-                fos.close();
+                try (var fos = fileDataDAO.add(fileData)) {
+                    fos.write(file.getFileData());
+                }
             }
 
             paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue = fileData));
 
-            try {
-                paramValueDAO.updateParamFile(id, paramId, position, form.getParam("comment"), fileData);
-            } catch (SQLIntegrityConstraintViolationException e) {
-                throw new BGMessageException("Запрещено повторное добавление файла с одинаковым именем.");
-            }
+            paramValueDAO.updateParamFile(id, paramId, position, form.getParam("comment"), fileData);
         } else if (Parameter.TYPE_PHONE.equals(parameter.getType())) {
             ParameterPhoneValue phoneValue = new ParameterPhoneValue();
 

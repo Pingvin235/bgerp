@@ -7,7 +7,7 @@
 <form id="${uploadFormId}" action="/user/file.do" method="POST" enctype="multipart/form-data" name="form" style="position: absolute; top: -100px;">
 	<input type="hidden" name="action" value="temporaryUpload"/>
 	<input type="hidden" name="responseType" value="json"/>
-	<input type="file" name="file" />
+	<input type="file" name="file"/>
 </form>
 
 <script>
@@ -19,7 +19,7 @@
 
 		$('#${uploadFormId}').parent().find('>form:visible').find('#${uploadListId}').append(
 			"<div>" +
-				"<input type=\"hidden\" name=\"tmpFileId\" value=\""+ fileId + "\"/>" +
+				"<input type=\"hidden\" name=\"tmpFileId\" value=\"" + fileId + "\"/>" +
 				"<button class=\"btn-white btn-small mr1 icon\" type=\"button\" onclick=\"" + deleteCode + "\"><i class=\"ti-trash\"></i></button> " + fileTitle +
 			"</div>"
 		);
