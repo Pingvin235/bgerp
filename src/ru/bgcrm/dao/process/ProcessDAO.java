@@ -636,7 +636,7 @@ public class ProcessDAO extends CommonDAO {
                             joinPart.append(" AS " + houseAlias + " ON " + paramAlias + ".house_id=" + houseAlias + ".id ");
 
                             if (Utils.notEmptyString(houseAndFrac)) {
-                                AddressHouse houseFrac = AddressHouse.extractHouseAndFrac(houseAndFrac);
+                                AddressHouse houseFrac = new AddressHouse().withHouseAndFrac(houseAndFrac);
                                 if (houseFrac.getHouse() > 0) {
                                     joinPart.append(SQL_AND);
                                     joinPart.append(houseAlias + ".house=" + houseFrac.getHouse() + " ");
@@ -1748,43 +1748,39 @@ public class ProcessDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает процессы, с пользователем в исполнителях.
-     * @param searchResult 
-     * @throws BGException
+     * Searches processes with user as an executor.
+     * @param searchResult paged result.
+     * @param userId user ID.
+     * @param open if not {@code null} then process opened filter.
+     * @throws SQLException
      */
     public void searchProcessListForUser(SearchResult<Process> searchResult, int userId, Boolean open)
-            throws BGException {
-        if (searchResult != null) {
-            Page page = searchResult.getPage();
-            List<Process> list = searchResult.getList();
+            throws SQLException {
+        Page page = searchResult.getPage();
+        List<Process> list = searchResult.getList();
 
-            PreparedDelay pd = new PreparedDelay(con);
+        PreparedDelay pd = new PreparedDelay(con);
 
-            pd.addQuery(SQL_SELECT_COUNT_ROWS);
-            pd.addQuery("DISTINCT p.*");
-            pd.addQuery(SQL_FROM);
-            pd.addQuery(TABLE_PROCESS);
-            pd.addQuery("AS p ");
-            pd.addQuery(SQL_INNER_JOIN);
-            pd.addQuery(TABLE_PROCESS_EXECUTOR);
-            pd.addQuery("AS e ON e.process_id=p.id AND e.user_id=?");
-            pd.addInt(userId);
-            addOpenFilter(pd, open);
-            pd.addQuery(SQL_ORDER_BY);
-            pd.addQuery("create_dt DESC");
+        pd.addQuery(SQL_SELECT_COUNT_ROWS);
+        pd.addQuery("DISTINCT p.*");
+        pd.addQuery(SQL_FROM);
+        pd.addQuery(TABLE_PROCESS);
+        pd.addQuery("AS p ");
+        pd.addQuery(SQL_INNER_JOIN);
+        pd.addQuery(TABLE_PROCESS_EXECUTOR);
+        pd.addQuery("AS e ON e.process_id=p.id AND e.user_id=?");
+        pd.addInt(userId);
+        addOpenFilter(pd, open);
+        pd.addQuery(SQL_ORDER_BY);
+        pd.addQuery("create_dt DESC");
 
-            pd.addQuery(getPageLimit(page));
+        pd.addQuery(getPageLimit(page));
 
-            try {
-                ResultSet rs = pd.executeQuery();
-                while (rs.next())
-                    list.add(getProcessFromRs(rs, ""));
-                setRecordCount(page, pd.getPrepared());
-                pd.close();
-            } catch (SQLException ex) {
-                throw new BGException(ex);
-            }
-        }
+        ResultSet rs = pd.executeQuery();
+        while (rs.next())
+            list.add(getProcessFromRs(rs, ""));
+        setRecordCount(page, pd.getPrepared());
+        pd.close();
     }
     
     public static final int MODE_USER_CREATED = 1;

@@ -29,27 +29,23 @@ $$.ui = new function () {
 
 	const comboSingleInit = ($comboDiv, onSelect) => {
 		var $drop = $comboDiv.find('ul.drop');
-
 		var $hidden = $comboDiv.find('input[type=hidden]');
 
 		const updateCurrentTitle = function () {
 			// по-умолчанию выбирается первый элемент
-			var $currentLi = $drop.find('li:not(.filter):first');
+			let $currentLi = $drop.find('li:not(.filter):first');
 
 			// если указано значение - то ищется оно
-			var currentValue = $hidden.val();
-			if (currentValue) {
-				$currentLi = $();
+			const currentValue = $hidden.val();
 
-				// Наличие значения в hidden не гарантирует наличия соответствующего
-				// элемента <li>, поэтому берем если нашли сам элемент;
-				const $foundLi = $drop.find("li[value='" + currentValue + "']");
-				if ($foundLi.length !== 0) {
-					$currentLi = $foundLi;
-				}
+			// Наличие значения в hidden не гарантирует наличия соответствующего
+			// элемента <li>, поэтому берем если нашли сам элемент;
+			const $foundLi = $drop.find("li[value='" + currentValue + "']");
+			if ($foundLi.length !== 0) {
+				$currentLi = $foundLi;
 			}
 
-			var $currentTitle = $currentLi.find('span.title');
+			let $currentTitle = $currentLi.find('span.title');
 			if ($currentTitle.length === 0) {
 				$currentTitle = $currentLi;
 				$hidden.val($currentLi.attr('value'));

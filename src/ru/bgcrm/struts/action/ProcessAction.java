@@ -62,6 +62,7 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.PatternFormatter;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 import ru.bgerp.util.Log;
 
@@ -107,8 +108,8 @@ public class ProcessAction extends BaseAction {
         }
 
         return html(con, form, Map.of(
-            "processGroupsWithRoles", JSP_PATH + "/process/editor_groups_with_roles.jsp", 
-            "processExecutors", JSP_PATH + "/process/editor_executors.jsp", 
+            "processGroupsWithRoles", JSP_PATH + "/process/editor_groups_with_roles.jsp",
+            "processExecutors", JSP_PATH + "/process/editor_executors.jsp",
             "", JSP_PATH + "/process/process.jsp"));
     }
 
@@ -221,8 +222,8 @@ public class ProcessAction extends BaseAction {
             doCreateWizard(form, con, process, type);
         }
 
-        EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATED),
-                type.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+        EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATED), null,
+                new SingleConnectionConnectionSet(con));
 
         form.getResponse().setData("process", process);
     }
@@ -237,7 +238,7 @@ public class ProcessAction extends BaseAction {
         }
     }
 
-    /** 
+    /**
      * Создаёт процесс и возвращает его код для перехода в редактор.
      */
     public ActionForward processCreate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -276,12 +277,11 @@ public class ProcessAction extends BaseAction {
         ProcessDAO processDao = new ProcessDAO(con);
 
         Process process = getProcess(processDao, form.getId());
-        ProcessType type = getProcessType(process.getTypeId());
 
         processDao.processIdInvert(process);
 
         EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATE_FINISHED),
-                type.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+                null, new SingleConnectionConnectionSet(con));
 
         TemporaryObjectOpenListener.flushUserData(form.getUserId());
 
@@ -533,12 +533,12 @@ public class ProcessAction extends BaseAction {
 
         process.setGroups(processGroups);
         processDao.updateProcessGroups(processGroups, process.getId());
-        
+
         // удаление исполнителей, привязанных к удалённым группоролям
         boolean updated = false;
         Set<ProcessExecutor> processExecutors = process.getExecutors();
         Iterator<ProcessExecutor> processExecutorsIt = processExecutors.iterator();
-        
+
         while (processExecutorsIt.hasNext()) {
             ProcessExecutor executor = processExecutorsIt.next();
             if (!processGroups.contains(new ProcessGroup(executor.getGroupId(), executor.getRoleId()))) {
@@ -547,8 +547,8 @@ public class ProcessAction extends BaseAction {
                 updated = true;
             }
         }
-        
-        if (updated) 
+
+        if (updated)
             processDao.updateProcessExecutors(processExecutors, process.getId());
 
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_GROUPS_CHANGED), con);
@@ -560,7 +560,7 @@ public class ProcessAction extends BaseAction {
         // группороли в которых обновляются исполнители
         Set<ProcessGroup> updateGroups = ProcessGroup.parseFromStringSet(form.getSelectedValuesStr("group"));
         Set<ProcessExecutor> executors = ProcessExecutor.parseUnsafe(form.getSelectedValuesStr("executor"), updateGroups);
-        
+
         processExecutorsUpdate(form, con, process, updateGroups, executors);
 
         return json(con, form);
@@ -676,14 +676,14 @@ public class ProcessAction extends BaseAction {
     private static void processDoEvent(DynActionForm form, Process process, UserEvent event, Connection con) throws Exception {
         ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
         if (type != null) {
-            EventProcessor.processEvent(event, type.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+            EventProcessor.processEvent(event, null, new SingleConnectionConnectionSet(con));
         }
     }
 
     protected Process getProcess(ProcessDAO processDao, int id) throws Exception {
         Process process = processDao.getProcess(id);
         if (process == null) {
-            throw new BGMessageException("Процесс не найдён.");
+            throw new BGMessageException("Процесс не найден.");
         }
         return process;
     }
@@ -736,7 +736,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessRequestEvent processRequestEvent = new ProcessRequestEvent(form, type);
 
-        EventProcessor.processEvent(processRequestEvent, type.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+        EventProcessor.processEvent(processRequestEvent, null, new SingleConnectionConnectionSet(con));
 
         if (Utils.notBlankString(processRequestEvent.getForwardJspName())) {
             return html(con, form, processRequestEvent.getForwardJspName());
@@ -767,22 +767,23 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward unionLog(DynActionForm form, Connection con) throws Exception {
-        new ProcessDAO(con).searchProcessLog(getProcessType(getProcess(new ProcessDAO(con), form.getId()).getTypeId()), form.getId(),
-                new SearchResult<EntityLogItem>(form));
+        new ProcessDAO(con).searchProcessLog(getProcessType(getProcess(new ProcessDAO(con), form.getId()).getTypeId()),
+                form.getId(), new SearchResult<EntityLogItem>(form));
 
         return html(con, form, "/WEB-INF/jspf/union_log.jsp");
     }
 
-    public ActionForward userProcessList(DynActionForm form, Connection con) throws BGException {
-        new ProcessDAO(con).searchProcessListForUser(new SearchResult<Process>(form), form.getUserId(), form.getParamBoolean("open", true));
+    public ActionForward userProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
+        new ProcessDAO(conSet.getSlaveConnection()).searchProcessListForUser(new SearchResult<Process>(form),
+                form.getUserId(), form.getParamBoolean("open", null));
 
-        return html(con, form, JSP_PATH + "/user_process_list.jsp");
+        return html(conSet, form, JSP_PATH + "/user_process_list.jsp");
     }
 
     public ActionForward processMerge(DynActionForm form, Connection con) throws Exception {
         var processDao = new ProcessDAO(con);
         var messageDao = new MessageDAO(con);
-        
+
         var process = getProcess(processDao, form.getId());
         var processTo = getProcess(processDao, form.getParamInt("processId"));
 

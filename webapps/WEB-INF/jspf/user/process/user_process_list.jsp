@@ -7,52 +7,28 @@
 	<input type="hidden" name="action" value="userProcessList"/>
 
 	<div class="tableIndent in-mb05-all">
-		${l.l('Дата создания')}:
-		<input type="text" name="createDate" class="mr1" value="${form.param.createDate}" onchange=""/>
- 		<c:set var="selector" value="#${uiid} input[name='createDate']" />
- 		<c:set var="editable" value="1" />
-		<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+		<ui:date-time
+			paramName="createDate" value="${form.param.createDate}"
+			placeholder="${l.l('Дата создания')}"
+			styleClass="mr1" editable="true"/>
 
-		${l.l('Дата закрытия')}:
-		<input type="text" name="closeDate" value="${form.param.closeDate}" onchange="" class="mr1"/>
-		<c:set var="selector" value="#${uiid} input[name='closeDate']" />
-		<c:set var="editable" value="1" />
-		<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+		<ui:date-time
+			paramName="closeDate" value="${form.param.closeDate}"
+			placeholder="${l.l('Дата закрытия')}"
+			styleClass="mr1" editable="true"/>
 
-		<u:sc>
-			<c:set var="valuesHtml" >
-				<li value="">${l.l('Любой')}</li>
-				<c:forEach var="type" items="${form.response.data.typeList}">
-					<li value="${type}">${ctxProcessTypeMap[type]}</li>
-				</c:forEach>
-			</c:set>
-		 	<c:set var="styleClass" value="mr1"/>
-			<c:set var="hiddenName" value="typeId" />
-			<c:set var="value" value="${form.param.typeId}" />
-			<c:set var="widthTextValue" value="200px" />
-			<c:set var="prefixText" value="${l.l('Тип')}:" />
-			<c:set var="showFilter" value="1"/>
-			<c:set var="onSelect" value="openUrlToParent( formUrl( $('#${uiid}') ), $('#${uiid}') )"/>
-			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-		</u:sc>
-
-		<u:sc>
-			<c:set var="valuesHtml">
+		<ui:combo-single
+			hiddenName="open" value="${form.param.open}" prefixText="${l.l('Закрыт')}:"
+			styleClass="mr1" widthTextValue="100px"
+			onSelect="const $form = $('#${uiid}'); $$.ajax.load($form, $form.parent());">
+			<jsp:attribute name="valuesHtml">
 				<li value="1">${l.l('Открытые')}</li>
 				<li value="0">${l.l('Закрытые')}</li>
 				<li value="">${l.l('Все')}</li>
-			</c:set>
-			<c:set var="styleClass" value="mr1"/>
-			<c:set var="hiddenName" value="open" />
-			<c:set var="value" value="${form.param.closed}" />
-			<c:set var="widthTextValue" value="100px" />
-			<c:set var="prefixText" value="${l.l('Закрыт')}:" />
-			<c:set var="onSelect" value="openUrlToParent( formUrl( $('#${uiid}') ), $('#${uiid}') )"/>
-			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-		</u:sc>
+			</jsp:attribute>
+		</ui:combo-single>
 
-		<c:set var="nextCommand" value="; openUrlToParent( formUrl( $('#${uiid}') ), $('#${uiid}') )"/>
-		<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+		<ui:page-control nextCommand="; const $form = $('#${uiid}'); $$.ajax.load($form, $form.parent());"/>
 	</div>
 </html:form>
 
@@ -60,30 +36,28 @@
 
 <%@ include file="/WEB-INF/jspf/table_row_edit_mode.jsp"%>
 
-<c:if test="${not empty form.response.data.list}">
-	<table class="data" class="center1020" id="${uiid}" style="width: 100%;">
-		<tr>
-			<td>ID</td>
-			<td>${l.l('Время создания')}</td>
-			<td>${l.l('Время закрытия')}</td>
-			<td>${l.l('Тип')}</td>
-			<td>${l.l('Статус')}</td>
-			<td>${l.l('Описание')}</td>
+<table class="data" class="center1020" id="${uiid}">
+	<tr>
+		<td>ID</td>
+		<td>${l.l('Время создания')}</td>
+		<td>${l.l('Время закрытия')}</td>
+		<td>${l.l('Тип')}</td>
+		<td>${l.l('Статус')}</td>
+		<td>${l.l('Описание')}</td>
+	</tr>
+	<c:forEach var="process" items="${form.response.data.list}">
+		<tr openCommand="openProcess(${process.id })">
+			<td nowrap="nowrap"><a href="#" onclick="openProcess(${process.id}); return false;">${process.id}</a></td>
+			<td nowrap="nowrap">${u:formatDate( process.createTime, 'ymdhms' )}</td>
+			<td nowrap="nowrap">${u:formatDate( process.closeTime, 'ymdhms' )}</td>
+			<td>${ctxProcessTypeMap[process.typeId].title}</td>
+			<td>${ctxProcessStatusMap[process.statusId].title}</td>
+			<td width="100%">
+				<%@ include file="/WEB-INF/jspf/user/process/reference.jsp"%>
+			</td>
 		</tr>
-		<c:forEach var="process" items="${form.response.data.list}">
-			<tr openCommand="openProcess(${process.id })">
-				<td nowrap="nowrap"><a href="#" onclick="openProcess(${process.id}); return false;">${process.id}</a></td>
-				<td nowrap="nowrap">${u:formatDate( process.createTime, 'ymdhms' )}</td>
-				<td nowrap="nowrap">${u:formatDate( process.closeTime, 'ymdhms' )}</td>
-				<td>${ctxProcessTypeMap[process.typeId].title}</td>
-				<td>${ctxProcessStatusMap[process.statusId].title}</td>
-				<td width="100%">
-					<%@ include file="/WEB-INF/jspf/user/process/reference.jsp"%>
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-</c:if>
+	</c:forEach>
+</table>
 
 <c:set var="title" value="${l.l('Мои процессы')}"/>
 <%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
