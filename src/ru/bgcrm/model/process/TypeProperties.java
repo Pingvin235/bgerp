@@ -270,6 +270,7 @@ public class TypeProperties {
     }
 
     // Смотрит скрипт сначала в конфигурации а потом в поле 	
+    @Deprecated
     public String getActualScriptName() {
         String listner = configMap.get("listenerClass");
         if (Utils.notBlankString(listner)) {

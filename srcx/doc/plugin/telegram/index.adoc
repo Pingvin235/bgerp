@@ -1,6 +1,7 @@
 = Плагин Telegram
 :toc:
 
+[[about]]
 == О плагине
 
 Плагин предназначен для интеграции BGERP с мессенджером link:https://telegram.org/[Telegram] и предоставляет функционал:
@@ -11,6 +12,7 @@
 * привязка пользователя к чату группы или чату пользователя Telegram.
 * использование Markdown разметки в тексте отправляемых сообщений.
 
+[[setup]]
 == Настройка 
 
 [arabic]
@@ -72,6 +74,7 @@ telegram:msgUrlHelp=Для получения помощи, обратитесь
 
 ----
 
+[[setup-process-type]]
 == Настройка типа процесса
 
 В конфигурации типа процесса может быть настроена автоматизация работы с Telegram с помощью скрипта в doExpression <<../../kernel/process/processing.adoc#, простого обработчика событий>>.
@@ -97,6 +100,32 @@ onProcessEvent.2.doExpression=<<END
 END
 ----
 
+[[setup-process-type-example-chatid]]
+=== Example of sending notifications about done processes to wanted chat IDs
+[source]
+----
+#
+STATUS_DONE_ID=4
+#@bgerp: -1001285593190 @bgerp-dev: -1001307600319
+TLG_GROUP_BGERP_ID=-1001285593190
+#
+onProcessEvent.11.events=statusChanged:{@STATUS_DONE_ID}
+onProcessEvent.11.doExpression=<<END
+   // BGERP Task
+   if (process.getTypeId() == 6) {
+   	   executorsList = u.getObjectList(ctxUserList, process.getExecutorIdsWithRole(0));	
+       from = u.toString(executorsList);
+  
+       text = "Принято изменение [" + process.getId() + "](https://team.bgerp.org/open/process/" + process.getId() + ")";
+       text += " от " + from + ":" + NEW_LINE;
+       text += process.getDescription();
+       
+       telegram.sendMessage("{@TLG_GROUP_BGERP_ID}", text);
+   }   
+END
+----
+
+[[format-messages]]
 == Форматирование текста сообщений Markdown
 
 В данный момент поддерживается только полужирное начертание, курсив, моноширинный шрифт и ссылки.
@@ -126,4 +155,4 @@ END
 
 image::_res/i0162.png[width="400px"]
 
-Объект *telegram* класса javadoc:org.bgerp.plugin.telegram.DefaultProcessorFunctions[] с функциями API предоставляется плагином.
+Объект *telegram* класса javadoc:org.bgerp.plugin.telegram.ExpressionBean[] с функциями API предоставляется плагином.

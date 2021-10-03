@@ -21,10 +21,9 @@ public class SQLUtils {
     private static Set<String> existColumns = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>(32));
 
     /**
-     * Безопасное закрытие одного соединения с БД.
-     * Более быстр по сравнению с {@link #closeConnection(Connection...)}, т.к. на каждый вызов не создаётся массив.
-     *
-     * @param con - соединение.
+     * Safe closing of DB connection if it isn't {@code null} and not closed already.
+     * Faster comparing to {@link #closeConnection(Connection...)}, doesn't create arrays on every call.
+     * @param con connection, {@code null} safe.
      */
     public static final void closeConnection(Connection con) {
         if (con != null) {
@@ -36,27 +35,14 @@ public class SQLUtils {
                     con.close();
                 }
             } catch (SQLException ex) {
-                log.error(ex.getMessage(), ex);
+                log.error(ex);
             }
         }
     }
 
-    public static int getConnectionId(Connection connection) throws SQLException {
-        String query = "SELECT CONNECTION_ID()";
-        PreparedStatement ps = connection.prepareStatement(query);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1);
-        }
-        ps.close();
-
-        return -1;
-    }
-
     /**
-     * Безопасное закрытие одного или нескольких соединений с БД.
-     *
-     * @param con - одно или несколько соединений.
+     * Safe closing of DB connections if each of them isn't {@code null} and not closed already.
+     * @param con connections.
      */
     public static final void closeConnection(Connection... con) {
         for (Connection c : con) {
@@ -72,9 +58,21 @@ public class SQLUtils {
                     c.close();
                 }
             } catch (Exception e) {
-                log.error(e.getMessage(), e);
+                log.error(e);
             }
         }
+    }
+
+    public static int getConnectionId(Connection connection) throws SQLException {
+        String query = "SELECT CONNECTION_ID()";
+        PreparedStatement ps = connection.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        ps.close();
+
+        return -1;
     }
 
     public static int lastInsertId(PreparedStatement ps) throws SQLException {

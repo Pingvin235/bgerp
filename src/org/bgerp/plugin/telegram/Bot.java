@@ -1,6 +1,5 @@
-package org.bgerp.plugin.telegram.bot;
+package org.bgerp.plugin.telegram;
 
-import org.bgerp.plugin.telegram.Config;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -23,25 +22,29 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BgerpBot extends TelegramLongPollingBot {
+public class Bot extends TelegramLongPollingBot {
     private static class UserData {
         private String login;
     }
 
     private static final Log log = Log.getLog();
 
-    private static BgerpBot instance;
+    private static Bot instance;
 
-    private final Map<Long, UserData> userMap = new HashMap<>();
+    private final Map<String, UserData> userMap = new HashMap<>();
 
     private static BotSession botSession;
 
-    private BgerpBot() {
+    private Bot() {
     }
 
-    public static BgerpBot getInstance() {
+    public static Bot getInstance() {
         if (instance == null)
             reinit();
+
+        if (instance == null)
+            log.info("In config server not enable bot (telegram:botStart)");
+
         return instance;
     }
 
@@ -59,7 +62,7 @@ public class BgerpBot extends TelegramLongPollingBot {
         }
     }
 
-    private static BgerpBot init() throws Exception {
+    private static Bot init() throws Exception {
 
         // trying to stop the old one
         try {
@@ -87,7 +90,7 @@ public class BgerpBot extends TelegramLongPollingBot {
 
         }
 
-        BgerpBot bot = new BgerpBot(botOptions);
+        Bot bot = new Bot(botOptions);
         for (int i = 0; i < 3; i++) {
             try {
                 log.info("try start botSession... on " + config.getProxyType() + ":" + config.getProxyHost() + ":" + config.getProxyPort());
@@ -101,7 +104,7 @@ public class BgerpBot extends TelegramLongPollingBot {
         return bot;
     }
 
-    private BgerpBot(DefaultBotOptions botOptions) {
+    private Bot(DefaultBotOptions botOptions) {
         super(botOptions);
     }
 
@@ -123,8 +126,8 @@ public class BgerpBot extends TelegramLongPollingBot {
         if (e.getMessage().isUserMessage() && e.hasMessage() && e.getMessage().hasText()) {
             Config config = Setup.getSetup().getConfig(Config.class);
             Message msg = e.getMessage();
-            String text = msg.getText();
-            Long chatId = msg.getChatId();
+            String text = msg.getText().toLowerCase();
+            String chatId = Long.toString(msg.getChatId());
 
             if (text.equals("/start")) {
                 sendMessage(chatId, config.getMsgDefaultAnswer());
@@ -164,7 +167,7 @@ public class BgerpBot extends TelegramLongPollingBot {
                     Connection con = Setup.getSetup().getDBConnectionFromPool();
                     try {
                         ParamValueDAO paramDAO = new ParamValueDAO(con);
-                        paramDAO.updateParamText(user.getId(), config.getParamId(), String.valueOf(chatId));
+                        paramDAO.updateParamText(user.getId(), config.getParamId(), chatId);
                         con.commit();
                         userMap.put(chatId, null);
                         sendMessage(chatId, config.getMsgLinkChange());
@@ -178,9 +181,9 @@ public class BgerpBot extends TelegramLongPollingBot {
         }
     }
 
-    public void sendMessage(Long chatId, String text) {
+    public void sendMessage(String chatId, String text) {
         SendMessage message = SendMessage.builder()
-                .chatId(Long.toString(chatId))
+                .chatId(chatId)
                 .text(text)
                 .parseMode(ParseMode.MARKDOWN)
                 .build();

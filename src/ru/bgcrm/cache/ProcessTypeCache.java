@@ -12,6 +12,8 @@ import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.dao.process.StatusDAO;
+import ru.bgcrm.event.EventProcessor;
+import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.process.TypeTreeItem;
@@ -19,7 +21,6 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgerp.util.Log;
 
 public class ProcessTypeCache extends Cache<ProcessTypeCache> {
@@ -176,8 +177,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     protected ProcessTypeCache newInstance() {
         ProcessTypeCache result = new ProcessTypeCache();
 
-        Connection con = Setup.getSetup().getDBConnectionFromPool();
-        try {
+        try (var con = Setup.getSetup().getDBConnectionFromPool()) {
             ConfigDAO configDao = new ConfigDAO(con);
             ProcessTypeDAO typeDAO = new ProcessTypeDAO(con);
 
@@ -197,10 +197,13 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
             for (Status status : result.statusList)
                 result.statusMap.put(status.getId(), status);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        } finally {
-            SQLUtils.closeConnection(con);
+            log.error(e);
         }
+
+        // because process type configurations may include global configs
+        EventProcessor.subscribe((conSet, e) -> {
+            ProcessTypeCache.flush(null);
+        }, SetupChangedEvent.class);
 
         return result;
     }

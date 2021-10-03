@@ -1,0 +1,2 @@
+A: Plugin Telegram, new method sendMessage(String chatId, String text).
+A: Flush process types cache on changing global configurations.

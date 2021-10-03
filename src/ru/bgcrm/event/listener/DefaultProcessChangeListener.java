@@ -264,7 +264,7 @@ public class DefaultProcessChangeListener {
                     initExpression(conSet, e, process).executeScript(doExpression);
                 } 
                 catch (Exception ex) {
-                    if (ex.getCause() != null && ex.getCause() instanceof BGMessageException)
+                    if (ex.getCause() instanceof BGMessageException)
                         throw (BGMessageException)ex.getCause();
                     throw new BGException(ex);
                 }
