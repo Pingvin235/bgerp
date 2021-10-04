@@ -75,7 +75,8 @@
 }
 
 /* Override re-authorization dialog styles */
-.ui-widget-header {
+.ui-dialog .ui-widget-header, 
+.ui-datepicker .ui-widget-header {
 	color: #fff;
 	border-radius: 3px;
 	border: 1px solid #0b67a1;
@@ -83,14 +84,14 @@
 	<%@ include file="/WEB-INF/jspf/css/button.blue.gradient.jsp"%>
 }
 
-.ui-widget-header .ui-button-icon-only,
-.ui-widget-header .ui-button-icon-only .ui-icon {
+.ui-dialog .ui-widget-header .ui-button-icon-only,
+.ui-dialog .ui-widget-header .ui-button-icon-only .ui-icon {
 	border: none;
 	background: none;
 	text-indent: 0;
 }
 
-.ui-widget-header .ui-button-icon-only .ui-icon:before {
+.ui-dialog .ui-widget-header .ui-button-icon-only .ui-icon:before {
 	font-family: 'themify';
 	font-weight: bold;
 	display: block;

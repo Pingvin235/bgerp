@@ -146,9 +146,10 @@
 				</td>
 				<td width="30px" style="white-space: nowrap;">
 					<c:set var="actionButtonUiid" value="${u:uiid()}"/>
+					<%-- previous td with message header --%>
 					<c:set var="actionButtonHideArea">$('#${actionButtonUiid}').closest('td').prev()</c:set>
-					<c:set var="actionButtonStartEdit">.show(); $('#${actionButtonUiid}').hide(); ${actionButtonHideArea}.hide(); return false;</c:set>
-					<c:set var="actionButtonCancelEdit">$(this.form).hide(); ${actionButtonHideArea}.show(); $('#${actionButtonUiid}').show();</c:set>
+					<c:set var="actionButtonStartEdit">.show(); $('#${actionButtonUiid}').parent().find('>button').hide(); ${actionButtonHideArea}.hide(); return false;</c:set>
+					<c:set var="actionButtonCancelEdit">$(this.form).hide(); $('#${actionButtonUiid}').parent().find('>button').show(); ${actionButtonHideArea}.show();</c:set>
 
 					<c:set var="linkFormUiid" value="${u:uiid()}"/>
 					<html:form action="/user/message" styleId="${linkFormUiid}" style="display: none;" onsubmit="return false;">

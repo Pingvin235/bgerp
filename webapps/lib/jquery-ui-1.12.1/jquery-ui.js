@@ -12027,7 +12027,8 @@ $.widget( "ui.dialog", {
 			"ui-dialog-titlebar": "ui-corner-all"
 		},
 		closeOnEscape: true,
-		closeText: "Close",
+		// PATCH BGERP, empty closeText by default
+		closeText: "",
 		draggable: true,
 		hide: null,
 		height: "auto",
