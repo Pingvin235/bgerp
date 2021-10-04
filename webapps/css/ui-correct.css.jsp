@@ -1,19 +1,40 @@
 <%@ page contentType="text/css; charset=UTF-8"%>
 
-.ui-tabs { padding: 0;}
-.ui-tabs .ui-tabs-panel { padding: 0; }
-.ui-helper-reset { font-size: 1em; line-height: 1; }
-.ui-tabs .ui-tabs-nav li a { float: left; padding: 0.3em 0.3em; text-decoration: none; }
+.ui-tabs {
+	padding: 0;
+}
 
-.ui-button-text-only .ui-button-text .ui-button-icon-only { padding: 0.2em 1em; }
-.ui-button .ui-button-text { line-height: 1; }
+.ui-tabs .ui-tabs-panel {
+	padding: 0;
+}
 
-.ui-widget, .ui-widget input, .ui-widget select
-{
+.ui-helper-reset {
+	font-size: 1em;
+	line-height: 1;
+}
+
+.ui-tabs .ui-tabs-nav li a {
+	float: left;
+	padding: 0.3em 0.3em;
+	text-decoration: none;
+}
+
+.ui-button-text-only .ui-button-text .ui-button-icon-only {
+	padding: 0.2em 1em;
+}
+
+.ui-button .ui-button-text {
+	line-height: 1;
+}
+
+.ui-widget, .ui-widget input, .ui-widget select {
 	font-size: 1em;
 	font-family: Arial, sans-serif;
 }
-.ui-widget-content { color: black; }
+
+.ui-widget-content {
+	color: black;
+}
 
 /* menu icons */
 .ui-icon {
@@ -51,4 +72,35 @@
 
 .ui-widget-header .ui-state-default {
 	background: none;
+}
+
+/* Override re-authorization dialog styles */
+.ui-widget-header {
+	color: #fff;
+	border-radius: 3px;
+	border: 1px solid #0b67a1;
+	box-shadow: 1px 1px 3px #c5c5c5;
+	<%@ include file="/WEB-INF/jspf/css/button.blue.gradient.jsp"%>
+}
+
+.ui-widget-header .ui-button-icon-only,
+.ui-widget-header .ui-button-icon-only .ui-icon {
+	border: none;
+	background: none;
+	text-indent: 0;
+}
+
+.ui-widget-header .ui-button-icon-only .ui-icon:before {
+	font-family: 'themify';
+	font-weight: bold;
+	display: block;
+	content: "\e646";
+	position: inherit;
+	top: inherit;
+	left: inherit;
+	margin-top: inherit;
+	margin-left: inherit;
+	width: 100%;
+	height: 100%;
+	color: #fff;
 }

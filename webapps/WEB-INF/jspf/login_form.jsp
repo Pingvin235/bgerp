@@ -18,7 +18,8 @@
 			draggable: false,
 			resizable: false,
 			title: "${l.l('Требуется повторная авторизация')}",
-			position: { my: "center top", at: "center top+100px", of: window }
+			position: { my: "center top", at: "center top+100px", of: window },
+			closeText: ''
 		});
 		$('#loginForm').dialog("close");
 		
