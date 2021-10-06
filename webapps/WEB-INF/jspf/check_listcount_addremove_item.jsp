@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:choose>
-	<c:when test="${u:contains( values.keySet(), itemId )}">
+	<c:when test="${values.keySet().contains(itemId)}">
 		<tr id="${uiid}row${itemId}" style="width:100%;">
 	</c:when>
 	<c:otherwise>

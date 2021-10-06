@@ -37,7 +37,7 @@
 	<c:if test="${empty perm['allowOnlyGroups'] or not empty perm['allowFilterGroups']}">
 		<ui:select-single hiddenName="group"
 			list="${ctxUserGroupFullTitledList}" map="${ctxUserGroupFullTitledMap}"
-			availableIdSet="${u:toIntegerSet(perm['allowFilterGroups'])}"
+			availableIdSet="${u.toIntegerSet(perm['allowFilterGroups'])}"
 			value="${form.param.group}"
 			onSelect="${showCode}" placeholder="${l.l('Группа')}" style="width: 200px;"/>
 

@@ -28,7 +28,7 @@
 
 	<c:set var="contractInfo" value="${form.response.data.contractInfo}"/>
 	<button type="button" class="btn-white ml1 mr1" 
-			onclick="this.form.dateFrom.value='${u:formatDate(contractInfo.dateFrom, 'ymd')}'; this.form.dateTo.value='${u:formatDate(contractInfo.dateTo, 'ymd')}'; ${sendForm}">
+			onclick="this.form.dateFrom.value='${tu.format(contractInfo.dateFrom, 'ymd')}'; this.form.dateTo.value='${tu.format(contractInfo.dateTo, 'ymd')}'; ${sendForm}">
 			Весь период договора
 	</button>
 	
@@ -62,7 +62,7 @@
 		$('#${contractTreeId} tr.balance').each( function()
 		{
 			$(this).attr( "onclick", $(this).attr( "onclick" ).replace( /&dateFrom=[\d\.]*&dateTo=[\d\.]*/, "&dateFrom=${dateFrom}&dateTo=${dateTo}" ) );
-			$('#${contractTreeId} #balanceMonth').text( "${u:formatDate( contractInfo.balanceDate, 'MMMM Y' )}" );
+			$('#${contractTreeId} #balanceMonth').text( "${tu.format( contractInfo.balanceDate, 'MMMM Y' )}" );
 			$('#${contractTreeId} #balanceIn').text( '${contractInfo.balanceIn}' );
 			$('#${contractTreeId} #balancePayment').text( '${contractInfo.balancePayment}' );
 			$('#${contractTreeId} #balanceAccount').text( '${contractInfo.balanceAccount}' );

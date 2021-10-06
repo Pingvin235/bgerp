@@ -27,9 +27,9 @@
 
 			<u:sc>
 				<c:set var="valuesHtml">
-					<c:set var="cityIds" value="${u:toIntegerSet( ctxUser.configMap['cityIds'])}"/>
+					<c:set var="cityIds" value="${u.toIntegerSet(ctxUser.configMap['cityIds'])}"/>
 					<c:forEach items="${plugin.dbInfoManager.dbInfoList}" var="db">
-						<c:if test="${empty cityIds or empty db.setup['cityId'] or u:contains( cityIds, u:int( db.setup['cityId'] ) )}">
+						<c:if test="${empty cityIds or empty db.setup['cityId'] or cityIds.contains(u:int(db.setup['cityId']))}">
 							<li value="${db.id}">${db.title}</li>
 						</c:if>
 					</c:forEach>

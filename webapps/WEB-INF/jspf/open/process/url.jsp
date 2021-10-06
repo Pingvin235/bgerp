@@ -3,7 +3,7 @@
 
 <c:choose>
 	<c:when test="${uri.startsWith('/open/process/queue')}">
-		<c:set var="config" value="${u:getConfig(ctxSetup, 'org.bgerp.action.open.ProcessQueueAction$Config')}"/>
+		<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.action.open.ProcessQueueAction$Config')}"/>
 		<c:set var="name" value="${su.substringBefore(su.substringAfterLast(uri, '/'), '#')}"/>
 
 		<c:set var="queueId" value="${config.getOpenQueueId(name)}"/>

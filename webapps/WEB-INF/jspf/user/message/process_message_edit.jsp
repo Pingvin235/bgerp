@@ -4,7 +4,7 @@
 <%@ include file="process_message_edit_upload.jsp"%>
 
 <c:set var="message" scope="request" value="${form.response.data.message}"/>
-<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
+<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
 
 <c:set var="editorUiid" value="${u:uiid()}"/>
 <c:set var="typeComboUiid" value="${u:uiid()}"/>
@@ -44,7 +44,7 @@
 				</c:choose>
 				
 				<c:set var="perm" value="${p:get(ctxUser.id, 'ru.bgcrm.struts.action.MessageAction:messageUpdate')}"/>
-				<c:set var="allowedTypeIds" value="${u:toIntegerSet( perm['allowedTypeIds'] ) }"/>
+				<c:set var="allowedTypeIds" value="${u.toIntegerSet(perm['allowedTypeIds'])}"/>
 
 				<ui:combo-single
 					id="${typeComboUiid}" hiddenName="typeId" widthTextValue="120px"
@@ -68,7 +68,7 @@
 					</jsp:attribute>
 				</ui:combo-single>
 			</div>
-			<c:set var="tagConfig" value="${u:getConfig(ctxSetup, 'ru.bgcrm.model.message.TagConfig')}"/>
+			<c:set var="tagConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.message.TagConfig')}"/>
 			<c:if test="${not empty tagConfig and not empty tagConfig.tagList}">
 				<div class="pl1 w100p">
 					<h2>${l.l('Теги')}</h2>

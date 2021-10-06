@@ -30,7 +30,7 @@
 	<p><ru>Циклическая зависимость</ru><en>Cyclic dependency</en></p>
 	<p><ru>Вложение</ru><en>Attach</en></p>
 	<p><ru>Все</ru><en>All</en></p>
-	<p><ru>** Я **</ru><en>** Me **</en></p>
+	<p><ru>** Я **</ru><en>** I **</en></p>
 	<p><ru>Выберите исполнителей</ru><en>Choose executors</en></p>
 	<p><ru>Завершить</ru><en>Finish</en></p>
 	<p><ru>Прервать создание</ru><en>Creation abort</en></p>
@@ -464,6 +464,7 @@
 	<p><ru>Внешний</ru><en>External</en></p>
 	<p><ru>Занять</ru><en>Occupy</en></p>
 	<p><ru>Звонок</ru><en></en>Call</p>
+	<p><ru>** Не указан **</ru><en>** Not defined **</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

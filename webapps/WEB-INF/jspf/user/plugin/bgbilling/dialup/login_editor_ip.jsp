@@ -47,11 +47,11 @@
 					</td>
 				</c:if>	
 				<td>
-					<input type="hidden" name="address" value="${item.address}:${item.realm}:${u:formatDate( item.dateFrom, 'ymd' )}-${u:formatDate( item.dateTo, 'ymd' )}"/>
+					<input type="hidden" name="address" value="${item.address}:${item.realm}:${tu.format( item.dateFrom, 'ymd' )}-${tu.format( item.dateTo, 'ymd' )}"/>
 					${item.realm}
 				</td>
 				<td>${item.address}</td>
-				<td nowrap="nowrap">${u:formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
+				<td nowrap="nowrap">${tu.formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
 			</tr>
 		</c:forEach>
 	</table>

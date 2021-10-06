@@ -37,7 +37,7 @@
 			</td>
 			
 			<td align="center" nowrap="nowrap">${personalTariff.position}</td>
-			<td nowrap="nowrap">${u:formatPeriod( personalTariff.dateFrom, personalTariff.dateTo, 'ymd' )}</td>
+			<td nowrap="nowrap">${tu.formatPeriod( personalTariff.dateFrom, personalTariff.dateTo, 'ymd' )}</td>
 			<td width="100%">${personalTariff.title}</td>			
 		</tr>
 	</c:forEach>

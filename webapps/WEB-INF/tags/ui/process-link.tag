@@ -20,7 +20,7 @@
 --%><a href="/user/process#${id}" onclick="$$.process.open(${id}); return false;">${text}</a><%--
 --%></ui:when>
 <ui:when type="open">
-	<c:set var="config" value="${u:getConfig(ctxSetup, 'org.bgerp.action.open.ProcessAction$Config')}"/>
+	<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.action.open.ProcessAction$Config')}"/>
 	<c:if test="${config.isOpen(process, form)}"><%--
 	--%><a id="${id}" href="${config.url(process)}">${text}</a><%--
 --%></c:if>

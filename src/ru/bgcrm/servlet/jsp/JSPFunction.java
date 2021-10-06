@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -22,66 +21,47 @@ import ru.bgcrm.util.Utils;
 import ru.bgerp.util.Log;
 
 /**
- * The functions called from util.tld library.
+ * Functions called from util.tld JSP library.
+ * 
+ * @author Shamil Vakhitov
  */
 public class JSPFunction {
     private static final Log log = Log.getLog();
 
-    @Deprecated
-    public static boolean contains(Object collection, Object object) {
+    /**
+     * Checks if {@link Collection}, {@link Map} or array from {@code collection} contains {@code object}. 
+     * @param collection may be {@link Collection}, {@link Map} or array.
+     * @param object looked object
+     * @return
+     */
+    private static boolean contains(Object collection, Object object) {
         if (collection == null || object == null) {
             return false;
         }
 
-        // проверка в массиве
         if (collection instanceof Object[]) {
             for (Object val : (Object[]) collection) {
                 if (val.equals(object)) {
                     return true;
                 }
             }
-        }
-        if (collection instanceof Collection<?>) {
+        } else if (collection instanceof Collection<?>) {
             return ((Collection<?>) collection).contains(object);
-        }
-        if (collection instanceof Map<?, ?>) {
+        } else if (collection instanceof Map<?, ?>) {
             return ((Map<?, ?>) collection).containsKey(object);
         }
 
         return collection.equals(object);
     }
 
-    @Deprecated
-    public static String concat(Object str1, Object str2) {
-        return str1.toString() + str2.toString();
-    }
-
     /**
-     * Добавляет объект в колекцию. При этом удобно писать выражения вида <c:set var="v" value="${u:append(v,obj)}"/>
-     * @param col
-     * @param obj
-     * @return
+     * Gets string if {@link #contains(Object, Object)} call is true. 
+     * @param collection first param for contains.
+     * @param object second param for contains.
+     * @param string resulting string. 
+     * @return {@code string} or "". 
      */
-    @Deprecated
-    public static Object append(Object col, Object obj) {
-        ArrayList<Object> newCol = null;
-        if (col instanceof Collection<?>) {
-            newCol = new ArrayList<Object>(((Collection<?>) col));
-            newCol.add(obj);
-        }
-
-        return newCol;
-    }
-
-    /**
-     * Возвращает строку если объект содержится в коллекции.
-     * @param collection
-     * @param object
-     * @param string
-     * @return
-     */
-    @Deprecated
-    public static String string(Object collection, Object object, String string) {
+    private static String string(Object collection, Object object, String string) {
         if (contains(collection, object)) {
             return string;
         }
@@ -89,7 +69,7 @@ public class JSPFunction {
     }
 
     /**
-     * Возвращает строку, если object истина.
+     * Gets string if {@code object} isn't null and {@code true}.
      * @param object
      * @param string
      * @return
@@ -101,22 +81,37 @@ public class JSPFunction {
         return "";
     }
 
+    /**
+     * @see JSP function checkedFromCollection.
+     */
     public static String checked(Object collection, Object object) {
         return string(collection, object, "checked='1'");
     }
 
+    /**
+     * @see JSP function checkedFromBool.
+     */
     public static String checked(Boolean object) {
         return string(object, "checked='1'");
     }
 
+    /**
+     * @see JSP function selectedFromCollection.
+     */
     public static String selected(Object collection, Object object) {
         return string(collection, object, "selected='1'");
     }
 
+    /**
+     * @see JSP function checkedFromBool.
+     */
     public static String selected(Boolean object) {
         return string(object, "selected='1'");
     }
 
+    /**
+     * @see JSP function int.
+     */
     public static Integer getInt(Object value) {
         if (value == null) {
             return 0;
@@ -277,7 +272,9 @@ public class JSPFunction {
         return s.substring(0, okIndex + 1);
     }
 
+    @Deprecated
     public static Object getConfig(ParameterMap setup, String className) {
+        log.warn("Used deprecated call u:getConfig, should be replaced to paramMapBean.getConfig");
         return setup == null ? null : setup.getConfig(className);
     }
 

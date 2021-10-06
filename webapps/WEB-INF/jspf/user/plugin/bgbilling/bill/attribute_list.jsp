@@ -11,7 +11,7 @@
 		<tr>
 			<td>${item.title}</td>
 			<td>${item.value}</td>
-			<td>${u:formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
+			<td>${tu.formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
 		</tr>
 	</c:forEach>
 </table>

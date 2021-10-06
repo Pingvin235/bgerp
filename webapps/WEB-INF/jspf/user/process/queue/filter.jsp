@@ -8,7 +8,7 @@
 <c:set var="key" value="queueCurrentSavedFilterSet.${queue.id}"/>
 <c:set var="currentSavedFilterSetId" value="${u:int( ctxUser.personalizationMap[key] )}"/>
 
-<c:set var="config" value="${u:getConfig( ctxUser.personalizationMap, 'ru.bgcrm.model.process.queue.config.SavedFiltersConfig' )}"/>
+<c:set var="config" value="${ctxUser.personalizationMap.getConfig('ru.bgcrm.model.process.queue.config.SavedFiltersConfig')}"/>
 <c:set var="currentSavedFilterSet" value="${config.savedFilterSetMap[u:int( currentSavedFilterSetId )]}"/>
 
 <c:choose>
@@ -63,7 +63,7 @@
 			</c:if>
 
 			<%-- обращение к плагину, не совсем корректно, в перспективе лучше сделать точку расширения --%>
-			<c:set var="printConfig" value="${u:getConfig(queue.configMap, 'ru.bgcrm.model.process.queue.config.PrintQueueConfig')}"/>
+			<c:set var="printConfig" value="${queue.configMap.getConfig('ru.bgcrm.model.process.queue.config.PrintQueueConfig')}"/>
 			<c:if test="${not empty printConfig and not empty printConfig.printTypes}">
 				<c:forEach var="item" items="${printConfig.printTypes}">
 					<c:set var="script">
@@ -281,7 +281,7 @@
 
 	<%-- Set используется для установки статусов отображаемым фильтрам --%>
 	<c:set var="selectedFiltersStr" value="${ctxUser.personalizationMap['queueSelectedFilters'.concat(queue.id)]}"/>
-	<c:set var="selectedFilters" value="${u:toIntegerSet( selectedFiltersStr )}"/>
+	<c:set var="selectedFilters" value="${u.toIntegerSet(selectedFiltersStr)}"/>
 
 	<%-- полный фильтр --%>
 	<form action="/user/process/queue.do" id="${queue.id}-0" ${currentSavedFilterSetId le 0 ? "active='1'" : "style='display: none;'"} class="in-inline-block in-mr05 in-mb1-all">

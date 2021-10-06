@@ -46,7 +46,7 @@
 			</td>
 			<td>${login.login}</td>
 			<td>${login.alias}</td>
-			<td nowrap="nowrap">${u:formatPeriod( login.dateFrom, login.dateTo, 'ymd' )}</td>
+			<td nowrap="nowrap">${tu.formatPeriod( login.dateFrom, login.dateTo, 'ymd' )}</td>
 			<td>${login.access}</td>
 			<td>${login.comment}</td>
 		</tr>

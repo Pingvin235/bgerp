@@ -15,7 +15,7 @@
 		<c:forEach var="memo" items="${memoList}">
 			<tr>
 	  			<td>${memo.title}</td>
-				<td nowrap="nowrap">${u:formatDate( memo.time, 'ymdhms' )}</td>
+				<td nowrap="nowrap">${tu.format( memo.time, 'ymdhms' )}</td>
 				<td nowrap="nowrap">${memo.user}</td>
 			</tr>
 			<tr>

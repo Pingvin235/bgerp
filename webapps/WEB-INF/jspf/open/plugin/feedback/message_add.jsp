@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="config" value="${u:getConfig(ctxSetup, 'org.bgerp.plugin.msg.feedback.action.open.MessageAction$Config')}"/> 
+<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.plugin.msg.feedback.action.open.MessageAction$Config')}"/> 
 <c:if test="${not empty config}">
 	<c:url var="url" value="/open/plugin/feedback/message.do">
 		<c:param name="action" value="edit"/>

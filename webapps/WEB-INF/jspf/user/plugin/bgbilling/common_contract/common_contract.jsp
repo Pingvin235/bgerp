@@ -10,7 +10,7 @@
 		<div style="width: 100%;">ID: <b>${contract.id}</b></div>
 		
 		<div>
-			Период: <b>${u:formatDate( contract.dateFrom, 'ymd' )} - ${u:formatDate( contract.dateTo, 'ymd' )}</b>
+			Период: <b>${tu.format( contract.dateFrom, 'ymd' )} - ${tu.format( contract.dateTo, 'ymd' )}</b>
 		</div>		
 		<div>
 			<c:url var="url" value="plugin/bgbilling/commonContract.do">

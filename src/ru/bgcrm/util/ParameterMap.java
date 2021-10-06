@@ -250,6 +250,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
      * Нельзя использовать .dataString, т.к. ParameterMap будет отдавать как Map.
      * @return
      */
+    @Deprecated
     public static final String getDataString(ParameterMap config) {
         if (config != null) {
             return config.getDataString();

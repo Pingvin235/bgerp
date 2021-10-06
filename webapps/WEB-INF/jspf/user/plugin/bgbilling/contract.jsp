@@ -187,7 +187,7 @@
 
 
 			<div>
-				Период: <b>${u:formatDate( contract.dateFrom, 'ymd' )} - ${u:formatDate( contract.dateTo, 'ymd' )}</b>
+				Период: <b>${tu.format( contract.dateFrom, 'ymd' )} - ${tu.format( contract.dateTo, 'ymd' )}</b>
 			</div>
 			<div>
 				Биллинг: <b>${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</b>

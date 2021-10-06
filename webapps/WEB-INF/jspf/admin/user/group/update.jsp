@@ -57,7 +57,7 @@
 				<c:set var="list" value="${ctxUserPermsetList}"/>
 				<c:set var="map" value="${ctxUserPermsetMap}"/>
 				<c:set var="hiddenName" value="permset" />
-				<c:set var="available" value="${u:toIntegerSet(perm['allowPermsetSet'])}"/>
+				<c:set var="available" value="${u.toIntegerSet(perm['allowPermsetSet'])}"/>
 				<c:set var="values" value="${group.permsetIds}" />
 				<c:set var="moveOn" value="1"/>
 				<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>

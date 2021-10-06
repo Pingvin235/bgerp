@@ -42,7 +42,7 @@
 			</td>
 			<td nowrap="nowrap" align="center">${tariff.position}</td>
 			<td nowrap="nowrap">${tariff.title}</td>
-			<td nowrap="nowrap">${u:formatPeriod( tariff.dateFrom, tariff.dateTo, 'ymd')}</td>
+			<td nowrap="nowrap">${tu.formatPeriod( tariff.dateFrom, tariff.dateTo, 'ymd')}</td>
 			<td>${tariff.comment}</td>
 		</tr>
 	</c:forEach>

@@ -19,7 +19,7 @@
 		</tr>
 		<c:forEach var="item" items="${form.response.data.pswdLog}">
 			<tr>
-				<td nowrap="nowrap">${u:formatDate( item.time, 'ymdhms' )}</td>
+				<td nowrap="nowrap">${tu.format( item.time, 'ymdhms' )}</td>
 				<td>${item.user}</td>												
 			</tr>
 		</c:forEach>	

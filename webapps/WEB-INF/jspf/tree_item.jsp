@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:if test="${u:contains(values,node.id)}">
+<c:if test="${values.contains(node.id)}">
 	<c:set var="selected" value=" checked='true' "/>
 </c:if>
 

@@ -29,7 +29,7 @@
 		  <tr data-tt-id="${item.id}" data-tt-parent-id="${item.parentId}" deviceId="${item.deviceId}">
 		    <td>${item.title}</td>
 		    <td>${item.typeTitle}</td>
-		    <td>${u:formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
+		    <td>${tu.formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
 		    <td>${item.statusTitle}</td>
 		    <td>${item.devStateTitle}</td>
 		    <td>${item.id}</td>

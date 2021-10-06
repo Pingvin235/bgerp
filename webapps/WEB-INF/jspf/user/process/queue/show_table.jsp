@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%-- генератор строк таблицы JEXL выражением --%>
-<c:set var="rowExpression" value="${u:getConfig( queue.configMap, 'ru.bgcrm.model.process.config.RowExpressionConfig' )}"/>
+<c:set var="rowExpression" value="${queue.configMap.getConfig('ru.bgcrm.model.process.config.RowExpressionConfig')}"/>
 
 <c:set var="tableUiid" value="${u:uiid()}"/>
 
@@ -127,7 +127,7 @@
 						<c:set var="actionShowMode" value="${queue.configMap.actionShowMode}"/>
 
 						<c:forEach var="action" items="${queue.actionList}">
-							<c:if test="${u:contains( action.statusIds, process.statusId )}">
+							<c:if test="${action.statusIds.contains(process.statusId)}">
 								<c:url var="url" value="/user/process.do">
 									<c:param name="id" value="${process.id}"/>
 									<c:param name="action" value="processDoCommands"/>
@@ -215,7 +215,7 @@
 			<c:otherwise>
 				<c:set var="openProcessId">
 					<ui:when type="open">
-						<c:if test="${u:getConfig(ctxSetup, 'org.bgerp.action.open.ProcessAction$Config').isOpen(process)}">${process.id}</c:if>
+						<c:if test="${ctxSetup.getConfig('org.bgerp.action.open.ProcessAction$Config').isOpen(process)}">${process.id}</c:if>
 					</ui:when>
 				</c:set>
 

@@ -31,7 +31,7 @@
 			<u:sc>
 				<c:set var="valuesHtml">
 					<c:forEach var="item" items="${statusList}">
-						<c:if test="${u:contains( allowedStatusIds, item.id ) and item.id ne process.statusId}">
+						<c:if test="${allowedStatusIds.contains(item.id) and item.id ne process.statusId}">
 							<li value="${item.id}">${item.title}</li>
 						</c:if>
 					</c:forEach>

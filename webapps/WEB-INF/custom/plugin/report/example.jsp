@@ -7,7 +7,7 @@
 	<%--
     Переменная form - объект класса ru.bgcrm.struts.form.DynActionForm, содержащий параметры запроса.
     --%>
-    <c:set var="date" value="${u:parseDate( form.param.date, 'ymd' ) }"/>
+    <c:set var="date" value="${tu:parse( form.param.date, 'ymd' ) }"/>
     <c:set var="groups" value="${form.getSelectedValues( 'group' )}"/>
 	<c:set var="executors" value="${form.getSelectedValues( 'executor' )}"/>
 	<c:set var="processTypeIds" value="${form.getSelectedValues('type')}" scope="request"/>

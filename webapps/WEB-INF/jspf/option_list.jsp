@@ -13,7 +13,7 @@ values - набор с этим выбранным значением
 			<c:if test="${fn:startsWith(item.title, '@')==false}">
 				<c:set var="selected" value=""/>
 				<%-- может быть Set с одним элементом --%>
-				<c:if test="${value eq item.id or u:contains( values, item.id )}">
+				<c:if test="${value eq item.id or values.contains(item.id)}">
 					<c:set var="selected">selected='1'</c:set>
 				</c:if>
 				<option value="${item.id}" ${selected}>${item.title}</option>
@@ -31,7 +31,7 @@ values - набор с этим выбранным значением
 				<c:if test="${fn:startsWith(item.title, '@')==false}">
 					<c:set var="selected" value=""/>
 					<%-- может быть Set с одним элементом --%>
-					<c:if test="${value eq item.id or u:contains( values, item.id )}">
+					<c:if test="${value eq item.id or values.contains(item.id)}">
 						<c:set var="selected">selected='1'</c:set>
 					</c:if>
 					<option value="${item.id}" ${selected}>${item.title}</option>

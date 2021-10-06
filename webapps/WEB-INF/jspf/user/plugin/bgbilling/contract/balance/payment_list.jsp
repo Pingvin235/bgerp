@@ -52,11 +52,11 @@
 			<td nowrap="nowrap">
 				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 			</td>
-			<td>${u:formatDate( payment.date, 'ymd')}</td>
+			<td>${tu.format( payment.date, 'ymd')}</td>
 			<td>${payment.sum}</td>
 			<td nowrap="nowrap">${payment.type}</td>
 			<td>${payment.comment}</td>
-			<td nowrap="nowrap">${u:formatDate( payment.lastChangeTime, 'ymdhms' )}</td>
+			<td nowrap="nowrap">${tu.format( payment.lastChangeTime, 'ymdhms' )}</td>
 			<td nowrap="nowrap">${payment.user}</td>
 			<c:if test="${cashcheck}">
 				<td nowrap="nowrap">

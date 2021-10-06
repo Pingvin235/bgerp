@@ -19,7 +19,7 @@
 			<%-- TODO: в будущем, можно и порядок табов задать тоже, ещё JEXL условие прикрутить --%>
 			<c:set var="components" value="${u:toList( 'header,status,description,executors,links,params' )}"/>
 			<c:if test="${not empty processType}">
-				<c:set var="componentsConfig" value="${u:getConfig( processType.properties.configMap, 'ru.bgcrm.model.process.config.ProcessCardConfig' )}"/>
+				<c:set var="componentsConfig" value="${processType.properties.configMap.getConfig('ru.bgcrm.model.process.config.ProcessCardConfig')}"/>
 			</c:if>
 			<c:set var="item" value="${componentsConfig.getItem( mode )}"/>
 			<c:if test="${not empty item}">
@@ -97,7 +97,7 @@
 							</c:if>
 
 							<%-- TODO: Extract to plugin Callboard --%>
-							<c:set var="timeSetConfig" value="${u:getConfig( processType.properties.configMap, 'ru.bgcrm.model.work.config.ProcessTimeSetConfig' )}"/>
+							<c:set var="timeSetConfig" value="${processType.properties.configMap.getConfig('ru.bgcrm.model.work.config.ProcessTimeSetConfig')}"/>
 							<c:if test="${not empty timeSetConfig.callboard}">
 								<c:url var="url" value="work.do">
 									<c:param name="action" value="processTime"/>

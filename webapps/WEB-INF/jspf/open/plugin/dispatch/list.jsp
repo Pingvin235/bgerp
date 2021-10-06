@@ -4,7 +4,7 @@
 <div class="center1020">
 	<div id="title"><h1>${l.l('Рассылки')}</h1></div>
 	<div class="pl2 pr2">
-		<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgcrm.plugin.dispatch.Config')}"/>
+		<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.plugin.dispatch.Config')}"/>
 
 		<table class="data" style="width: 100%;" id="${tableUiid}">
 			<tr>

@@ -6,6 +6,6 @@
 		#${message.id}&nbsp;${messageType.title}&nbsp;<b><a target="_blank" href="${messageType.getPostUrl(message.systemId)}">${message.subject}</a></b>
 	</div>
 	<div class="mt05">						 
-		Изменение: ${u:formatDate( message.fromTime, 'ymdhm' )}
+		Изменение: ${tu.format( message.fromTime, 'ymdhm' )}
 	</div>
 </div>

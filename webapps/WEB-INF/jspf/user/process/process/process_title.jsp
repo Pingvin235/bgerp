@@ -10,7 +10,7 @@
 	<c:if test="${not title.contains( '<' ) }">
 		<c:set var="title">
 			<span class='title' id='process_title_${process.id}'>
-				<c:set var="config" value="${u:getConfig(ctxSetup, 'org.bgerp.action.open.ProcessAction$Config')}"/>
+				<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.action.open.ProcessAction$Config')}"/>
 				<c:if test="${config.isOpenForUser(process)}">
 					<a target='_blank' href='${config.url(process)}' title='${l.l('Открытый интерфейс')}'>O</a>
 				</c:if>

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
+<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
 
 <%@ include file="list_call_reg.jsp"%>
 

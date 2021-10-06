@@ -82,7 +82,7 @@
 					<c:set var="type" value="${item.first}"/>
 					<%@ include file="process_link_type.jsp"%>
 				</td>
-				<td nowrap="nowrap">${u:formatDate( process.createTime, 'ymdhms')}</td>
+				<td nowrap="nowrap">${tu.format( process.createTime, 'ymdhms')}</td>
 				<td nowrap="nowrap">${ctxProcessTypeMap[process.typeId]}</td>
 				<td nowrap="nowrap">${ctxProcessStatusMap[process.statusId]}</td>
 			</tr>

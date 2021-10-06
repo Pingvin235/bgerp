@@ -18,7 +18,7 @@
 			<c:forEach var="item" items="${form.response.data.list}">
 			<tr>
 				<td><ui:process-link id="${item.id}"/></td>
-				<td nowrap="nowrap">${u:formatDate(item.createTime, 'ymdhms')}</td>
+				<td nowrap="nowrap">${tu.format(item.createTime, 'ymdhms')}</td>
 				<td>${item.description}
 					<c:if test="${not empty item.reference}">(${item.reference})</c:if>
 				</td>
@@ -34,7 +34,7 @@
 			<c:forEach var="item" items="${form.response.data.list}">
 			<tr>
 				<td><ui:process-link id="${item.id}"/></td>
-				<td nowrap="nowrap">${u:formatDate(item.closeTime, 'ymdhms')}</td>
+				<td nowrap="nowrap">${tu.format(item.closeTime, 'ymdhms')}</td>
 				<td>${item.description}
 					<c:if test="${not empty item.reference}">(${item.reference})</c:if>
 				</td>
@@ -51,7 +51,7 @@
 			<c:forEach var="item" items="${form.response.data.list}">
 			<tr>
 				<td><ui:process-link id="${item.id}"/></td>
-				<td nowrap="nowrap">${u:formatDate(item.statusTime, 'ymdhms')}</td>
+				<td nowrap="nowrap">${tu.format(item.statusTime, 'ymdhms')}</td>
 				<td>${ctxProcessStatusMap[item.statusId].title}</td>
 				<td>${item.description}
 					<c:if test="${not empty item.reference}">(${item.reference})</c:if>

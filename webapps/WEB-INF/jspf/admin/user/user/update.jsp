@@ -40,44 +40,44 @@
 			</div>
 		</div><%--
 	--%><div style="width: 20%;">
-	    	<h2>Комментарии</h2>
+			<h2>Комментарии</h2>
 
-	    	<u:sc>
-		    	<c:set var="uiid" value="${u:uiid()}"/>
-		    	<c:set var="selectorSample" value="#${uiidMainBlock} > div:first > div:first"/>
-		    	<c:set var="selectorTo" value="#${uiid}"/>
-		    	<textarea id="${uiid}" style="width: 100%; resize: none;" name="description">${user.description}</textarea>
-		    	<%@ include file="/WEB-INF/jspf/same_height.jsp"%>
-		    </u:sc>
+			<u:sc>
+				<c:set var="uiid" value="${u:uiid()}"/>
+				<c:set var="selectorSample" value="#${uiidMainBlock} > div:first > div:first"/>
+				<c:set var="selectorTo" value="#${uiid}"/>
+				<textarea id="${uiid}" style="width: 100%; resize: none;" name="description">${user.description}</textarea>
+				<%@ include file="/WEB-INF/jspf/same_height.jsp"%>
+			</u:sc>
 
-		    <c:if test="${empty perm['configDisable']}">
-			    <h2>Конфигурация</h2>
+			<c:if test="${empty perm['configDisable']}">
+				<h2>Конфигурация</h2>
 
-			    <u:sc>
-			    	<c:set var="uiid" value="${u:uiid()}"/>
-			    	<c:set var="selectorSample" value="#${uiidMainBlock} > div:first > div:nth-of-type(2)"/>
-			    	<c:set var="selectorTo" value="#${uiid}"/>
-			    	<textarea id="${uiid}" style="width: 100%; resize: none;" wrap="off" name="userConfig">${user.config}</textarea>
-			    	<%@ include file="/WEB-INF/jspf/same_height.jsp"%>
-			    </u:sc>
+				<u:sc>
+					<c:set var="uiid" value="${u:uiid()}"/>
+					<c:set var="selectorSample" value="#${uiidMainBlock} > div:first > div:nth-of-type(2)"/>
+					<c:set var="selectorTo" value="#${uiid}"/>
+					<textarea id="${uiid}" style="width: 100%; resize: none;" wrap="off" name="userConfig">${user.config}</textarea>
+					<%@ include file="/WEB-INF/jspf/same_height.jsp"%>
+				</u:sc>
 			 </c:if>
-	    </div><%--
-    --%><c:if test="${empty perm['permsetSet']}"><%--
-	    --%><div style="width: 20%;">
-		    	<h2>${l.l('Наборы прав')}</h2>
+		</div><%--
+	--%><c:if test="${empty perm['permsetSet']}"><%--
+		--%><div style="width: 20%;">
+				<h2>${l.l('Наборы прав')}</h2>
 
-		    	<u:sc>
-		    		<c:set var="list" value="${ctxUserPermsetList}"/>
-		    		<c:set var="map" value="${ctxUserPermsetMap}"/>
+				<u:sc>
+					<c:set var="list" value="${ctxUserPermsetList}"/>
+					<c:set var="map" value="${ctxUserPermsetMap}"/>
 					<c:set var="hiddenName" value="permset" />
-					<c:set var="available" value="${u:toIntegerSet(perm['allowPermsetSet'])}"/>
+					<c:set var="available" value="${u.toIntegerSet(perm['allowPermsetSet'])}"/>
 					<c:set var="values" value="${user.permsetIds}" />
 					<c:set var="moveOn" value="1"/>
 					<c:set var="style" value="width: 100%;"/>
 					<c:set var="styleClass" value="layout-height-rest"/>
 					<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>
 				</u:sc>
-		    </div><%--
+			</div><%--
 	--%></c:if><%--
 	--%><c:if test="${empty perm['permDisable']}"><%--
 		--%><div style="width: 25%;">

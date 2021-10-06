@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <p:check action="ru.bgcrm.plugin.fulltext.action.SearchAction:search">
-	<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgcrm.plugin.fulltext.model.Config')}"/>
+	<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.plugin.fulltext.model.Config')}"/>
 
 	<c:if test="${not empty config and config.objectTypeMap.containsKey('customer')}">
 		<c:set var="id" value="${u:uiid()}"/>

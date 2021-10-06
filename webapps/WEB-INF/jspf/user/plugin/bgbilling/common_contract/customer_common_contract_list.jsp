@@ -39,7 +39,7 @@
 				</form>
 			</td>
 			<td><a href="#" onclick="bgbilling_openCommonContract(${contract.id}); return false;">${contract.formatedNumber}</a></td>
-			<td nowrap="nowrap">${u:formatDate( contract.dateFrom, 'ymd' )} - ${u:formatDate( contract.dateTo, 'ymd' )}</td>	
+			<td nowrap="nowrap">${tu.format( contract.dateFrom, 'ymd' )} - ${tu.format( contract.dateTo, 'ymd' )}</td>	
 			<td>${contract.address.value}</td>
 		</tr>
 	</c:forEach>

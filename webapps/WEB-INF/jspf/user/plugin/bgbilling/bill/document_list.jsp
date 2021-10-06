@@ -59,8 +59,8 @@
 					<div style="max-height: 0px; max-width: 0px;">
 						<c:set var="uiid" value="${u:uiid()}"/>
 						<ul id="${uiid}" style="display: none;">
-							<li><a href="#" date="${u:formatDate( currentDay, 'dd.MM.yyyy' )}">Оплачено сегодня (${u:formatDate( currentDay, 'dd.MM E')})</a></li>
-							<li><a href="#" date="${u:formatDate( prevDay, 'dd.MM.yyyy' )}">Оплачено вчера (${u:formatDate( prevDay, 'dd.MM E')})</a></li>
+							<li><a href="#" date="${tu.format( currentDay, 'dd.MM.yyyy' )}">Оплачено сегодня (${tu.format( currentDay, 'dd.MM E')})</a></li>
+							<li><a href="#" date="${tu.format( prevDay, 'dd.MM.yyyy' )}">Оплачено вчера (${tu.format( prevDay, 'dd.MM E')})</a></li>
 							<li><a href="#" date="select">Оплачено на дату</a></li>
 							<li><a href="#">Не оплачено</a></li>
 						</ul>						
@@ -216,11 +216,11 @@
 					<td><a href="${url}">${item.id}</a></td>
 					<td>${item.month}</td>
 					<td>${item.number}</td>
-					<td>${u:formatDate( item.createDate, 'ymd' )}</td>
+					<td>${tu.format( item.createDate, 'ymd' )}</td>
 					<td nowrap="nowrap">${item.statusTitle}</td>
 					<td>${item.typeTitle}</td>
 					<td nowrap="nowrap">${item.createUser}</td>
-					<td>${u:formatDate( item.payDate, 'ymd' )}</td>
+					<td>${tu.format( item.payDate, 'ymd' )}</td>
 					<td nowrap="nowrap">${item.payUser}</td>
 					<td>${item.summa}</td>
 				</tr>
@@ -244,7 +244,7 @@
 					<td><a href="${url}">${item.id}</a></td>
 					<td>${item.month}</td>
 					<td>${item.number }</td>
-					<td>${u:formatDate( item.createDate, 'ymd' )}</td>
+					<td>${tu.format( item.createDate, 'ymd' )}</td>
 					<td>${item.typeTitle}</td>
 					<td>${item.showOnWeb ? 'Да' : 'Нет'}</td>
 					<td>${item.summa}</td>

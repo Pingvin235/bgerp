@@ -40,13 +40,13 @@
 --%><div style="display: inline-block; width: 50%;" class="pl1">
 		<h2>Период</h2>
 		<div>
-			<input type="text" name="dateFrom" value="${u:formatDate( pair.first.dateFrom, 'dd.MM.yyyy' ) }"/>
+			<input type="text" name="dateFrom" value="${tu.format( pair.first.dateFrom, 'dd.MM.yyyy' ) }"/>
 			<u:sc>
 				<c:set var="selector" value="#${uiid} input[name=dateFrom]"/>		
 				<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 			</u:sc>	
 			- 
-			<input type="text" name="dateTo" value="${u:formatDate( pair.first.dateTo, 'dd.MM.yyyy' ) }"/>
+			<input type="text" name="dateTo" value="${tu.format( pair.first.dateTo, 'dd.MM.yyyy' ) }"/>
 			<u:sc>
 				<c:set var="selector" value="#${uiid} input[name=dateTo]"/>		
 				<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>

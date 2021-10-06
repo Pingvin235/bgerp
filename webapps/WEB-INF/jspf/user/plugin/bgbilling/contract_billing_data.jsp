@@ -85,7 +85,7 @@
 				 
 				 <u:sc>
 				 	<c:set var="title">
-				 		Баланс (<span id="balanceMonth">${u:formatDate( contract.balanceDate, 'MMMM Y' )}</span>)
+				 		Баланс (<span id="balanceMonth">${tu.format( contract.balanceDate, 'MMMM Y' )}</span>)
 				 	</c:set>
 				 	<c:set var="value" value=""/>
 				 	<c:set var="url" value="balance.do?action=balance&dateFrom=&dateTo="/>

@@ -36,7 +36,7 @@
 				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 			</td>
 			<td nowrap="nowrap">${tariffGroup.getTitle()}</td>
-			<td nowrap="nowrap">${u:formatPeriod( tariffGroup.dateFrom, tariffGroup.dateTo, 'ymd' )}</td>
+			<td nowrap="nowrap">${tu.formatPeriod( tariffGroup.dateFrom, tariffGroup.dateTo, 'ymd' )}</td>
 			<td>${tariffGroup.getComment()}</td>
 		</tr>
 	</c:forEach>

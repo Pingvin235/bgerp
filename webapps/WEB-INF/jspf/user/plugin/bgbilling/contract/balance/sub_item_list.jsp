@@ -16,11 +16,11 @@
 		<c:forEach var="item" items="${form.response.data.subList}">
 			<tr>
 				<td>${item.contract}</td>
-				<td>${u:formatDate( item.date, 'ymd' )}</td>
+				<td>${tu.format( item.date, 'ymd' )}</td>
 				<td>${item.sum}</td>
 				<td>${item.type}</td>
 				<td>${item.comment}</td>
-				<td nowrap="nowrap">${u:formatDate( item.date, 'ymdhms' )}</td>
+				<td nowrap="nowrap">${tu.format( item.date, 'ymdhms' )}</td>
 				<td nowrap="nowrap">${item.user}</td>
 			</tr>
 		</c:forEach>

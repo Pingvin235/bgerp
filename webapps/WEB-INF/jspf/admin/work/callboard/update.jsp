@@ -25,7 +25,7 @@
 </c:url>
 
 <c:set var="perm" value="${p:get( ctxUser.id, 'ru.bgcrm.struts.action.admin.WorkAction:callboardGet')}"/>
-<c:set var="allowOnlyGroups" value="${u:toIntegerSet( perm['allowOnlyGroups'] ) }"/>
+<c:set var="allowOnlyGroups" value="${u.toIntegerSet(perm['allowOnlyGroups'])}"/>
 
 <div id="${uiid}">
 	<div id="groupFilters" style="display: none;">
@@ -40,7 +40,7 @@
 			--%><c:set var="showFilter" value="1"/><%--
 			--%><c:set var="available" value="${ctxUserGroupMap[clb.groupId].childSet}"/><%--
 			--%><c:if test="${not empty allowOnlyGroups}"><%--
-				--%><c:set var="inters" value="${u:intersection( available, allowOnlyGroups )}"/><%--
+				--%><c:set var="inters" value="${cu.intersection( available, allowOnlyGroups )}"/><%--
 					иначе при пустом пересечении получается пустое множество и выводит все группы
 				--%><c:if test="${not empty inters}"><%--
 					--%><c:set var="available" value="${inters}"/><%--
@@ -576,19 +576,19 @@
 
 								<c:choose>
 									<c:when test="${not empty dayType}">
-										<td class="shiftDateHeader" date="${u:formatDate( date, 'ymd')}" style="color: ${dayType.color};" title="${dayType.title} ${u:formatDate( date, 'ymd' )}">
-											<b>${u:formatDate( date, 'dd' )}<br/>${u:getShortDateName( date )}</b>
+										<td class="shiftDateHeader" date="${tu.format( date, 'ymd')}" style="color: ${dayType.color};" title="${dayType.title} ${tu.format( date, 'ymd' )}">
+											<b>${tu.format( date, 'dd' )}<br/>${tu.getShortDateName( date )}</b>
 										</td>
 									</c:when>
 									<c:otherwise>
-										<td class="shiftDateHeader" date="${u:formatDate( date, 'ymd')}" title="??? ${u:formatDate( date, 'ymd' )}">
-											<b>${u:formatDate( date, 'dd' )}<br/>${u:getShortDateName( date )}</b>
+										<td class="shiftDateHeader" date="${tu.format( date, 'ymd')}" title="??? ${tu.format( date, 'ymd' )}">
+											<b>${tu.format( date, 'dd' )}<br/>${tu.getShortDateName( date )}</b>
 										</td>
 									</c:otherwise>
 								</c:choose>
 							</c:when>
 							<c:otherwise>
-								<td class="shiftDateHeader" date="${u:formatDate( date, 'ymd')}"><b>${u:formatDate( date, 'dd' )}<br/>${u:getShortDateName( date )}</b></td>
+								<td class="shiftDateHeader" date="${tu.format( date, 'ymd')}"><b>${tu.format( date, 'dd' )}<br/>${tu.getShortDateName( date )}</b></td>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>

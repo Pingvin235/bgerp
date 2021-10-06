@@ -33,7 +33,7 @@
 			<td><a href="#" onclick="openProcess( ${item.id} ); return false;">${item.id}</a></td>
 			<td>${item.description}</td>
 			<td>${item.statusTitle}</td>
-			<td>${u:formatDate( item.createTime, 'ymdhms' ) }</td>
+			<td>${tu.format( item.createTime, 'ymdhms' ) }</td>
 		</tr>
 	</c:forEach>
 </table>

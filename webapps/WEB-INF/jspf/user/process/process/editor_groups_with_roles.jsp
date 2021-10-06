@@ -25,44 +25,44 @@
 <html:form action="/user/process" styleId="${uiid}">
 	<html:hidden property="id" />
 	<input type="hidden" name="action" value="processGroupsUpdate" />
-	
-	<c:forEach var="role" items="${ctxUserGroupRoleList}">							
-		<c:if test="${u:contains( process.roleSet, role.id) 
-					 or u:contains( processType.properties.allowedRoleSet, role.id) 
+
+	<c:forEach var="role" items="${ctxUserGroupRoleList}">
+		<c:if test="${process.roleSet.contains(role.id)
+					 or processType.properties.allowedRoleSet.contains(role.id)
 					 or empty processType.properties.getAllowedGroupsSet()}">
 			<h2>${role.title}</h2>
-			
+
 			<u:sc>
 				<c:set var="groups" value="${processGroups}"/>
-				<%@ include file="/WEB-INF/jspf/groups_list.jsp"%>					 
-				
+				<%@ include file="/WEB-INF/jspf/groups_list.jsp"%>
+
 				<%
 					TypeProperties props = ((ProcessType)pageContext.getAttribute( "processType" )).getProperties();
-				
+
 					int roleId = ((IdTitle)pageContext.getAttribute( "role" )).getId();
 					Set<String> allowedGroups = new HashSet<String>();
-				
+
 					for( Integer groupId : props.getAllowedGroupsSet( role.getId() ) )
 					{
 						allowedGroups.add( groupId + ":" + role.getId() );
-					}					
+					}
 					if( allowedGroups.size() > 0 )
 					{
 						pageContext.setAttribute( "availableIdSet", allowedGroups );
 					}
-				%>				
+				%>
 				<c:set var="hiddenName" value="groupRole"/>
 				<c:set var="style" value="width: 100%;"/>
 				<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>
 			</u:sc>
-		</c:if>	
+		</c:if>
 	</c:forEach>
-	
-	<c:set var="closeEditor">openUrlToParent( '${form.returnUrl}', $('#${form.returnChildUiid}') );</c:set>	
+
+	<c:set var="closeEditor">openUrlToParent( '${form.returnUrl}', $('#${form.returnChildUiid}') );</c:set>
 	<c:set var="saveCommand">if( sendAJAXCommand( formUrl( this.form ) ) ){ ${closeEditor} }</c:set>
-		
+
 	<div class="mt1">
 		<button class="btn-grey" type="button" onclick="${saveCommand}">OK</button>
 		<button class="btn-white ml1" type="button" onclick="${closeEditor}">${l.l('Отмена')}</button>
-	</div>	
+	</div>
 </html:form>

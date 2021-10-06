@@ -4,7 +4,7 @@
 <c:set var="formUiid" value="${u:uiid()}"/>
 <c:set var="editorContainerUiid" value="${u:uiid()}" scope="request"/>
 
-<c:set var="tagConfig" value="${u:getConfig(ctxSetup, 'ru.bgcrm.model.message.TagConfig')}"/>
+<c:set var="tagConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.message.TagConfig')}"/>
 <c:set var="TAG_ATTACH_ID"><%=ru.bgcrm.model.message.TagConfig.Tag.TAG_ATTACH_ID%></c:set>
 
 <ui:when type="user">
@@ -58,7 +58,7 @@
 	<div id="${editorContainerUiid}"></div>
 </ui:when>
 
-<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
+<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
 
 <c:set var="messagesUiid" value="${u:uiid()}"/>
 <div class="mt1" id='${messagesUiid}'>
@@ -109,7 +109,7 @@
 									</c:if>
 								</div>
 								<div class="mt05">
-									${l.l('Создано')}: ${u:formatDate( message.fromTime, 'ymdhm' )}
+									${l.l('Создано')}: ${tu.format( message.fromTime, 'ymdhm' )}
 												(<ui:user-link id="${message.userId}"/>)
 								</div>
 							</div>
@@ -122,15 +122,15 @@
 								<div class="mt05">
 									<c:choose>
 										<c:when test="${message.direction eq 1}">
-											${l.l('Принят')}: ${u:formatDate( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
+											${l.l('Принят')}: ${tu.format( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
 											<nobr>
-												${l.l('Обработано')}: ${u:formatDate( message.toTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+												${l.l('Обработано')}: ${tu.format( message.toTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
 											</nobr>
 										</c:when>
 										<c:otherwise>
-											${l.l('Создано')}: ${u:formatDate( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+											${l.l('Создано')}: ${tu.format( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
 											<nobr>
-												${l.l('Отправлено')}: ${u:formatDate( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
+												${l.l('Отправлено')}: ${tu.format( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
 											</nobr>
 										</c:otherwise>
 									</c:choose>
@@ -259,7 +259,7 @@
 
 								<c:set var="perm4NotMy" value="${p:get(form.user.id, 'ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes')}" />
 								<c:set var="perm2Update" value="${p:get( ctxUser.id, 'ru.bgcrm.struts.action.MessageAction:messageUpdate')}"/>
-								<c:set var="allowedTypeIds" value="${u:toIntegerSet( perm2Update['allowedTypeIds'] ) }"/>
+								<c:set var="allowedTypeIds" value="${u.toIntegerSet(perm2Update['allowedTypeIds'])}"/>
 								<c:set var="checkEditByOwner" value="${form.user.id == message.userId or perm4NotMy ne null}"/>
 								<c:set var="checkEditByType" value="${empty allowedTypeIds or allowedTypeIds.contains(message.typeId)}"/>
 								<c:if test="${checkEditByOwner && checkEditByType}">

@@ -20,7 +20,7 @@ beforeDelCommand
 <div style="height:30px;">
 <select id="${uiid}select" class="parametersSelect" style="min-width:200px;max-width:200px; width:200px">
 	<c:forEach var="itemId" items="${list.keySet()}">
-		<c:if test="${not u:contains( values.keySet(), itemId )}">
+		<c:if test="${not values.keySet().contains(itemId)}">
 			 <option value=${itemId}>${list[itemId]}</option>
 		</c:if>
 	</c:forEach>
@@ -39,13 +39,13 @@ beforeDelCommand
 <div id="${uiid}tableDiv" style="min-height:150px;overflow:auto;">
 	<table style="width:100%;" id="${uiid}table">
 		<c:forEach var="itemId" items="${list.keySet()}">
-			<c:if test="${(empty available or u:contains( available, itemId)) and u:contains( values.keySet(), itemId ) }">
+			<c:if test="${(empty available or available.contains(itemId)) and values.keySet().contains(itemId) }">
 				<%@ include file="check_listcount_addremove_item.jsp"%>
 			</c:if>
 		</c:forEach>
 	
 		<c:forEach var="itemId" items="${list.keySet()}">
-			<c:if test="${(empty available or u:contains( available, itemId)) and not u:contains( values.keySet(), itemId )  }">
+			<c:if test="${(empty available or available.contains(itemId)) and not values.keySet().contains(itemId)}">
 				<%@ include file="check_listcount_addremove_item.jsp"%>
 			</c:if>
 		</c:forEach>

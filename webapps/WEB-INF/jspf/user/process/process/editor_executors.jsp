@@ -33,7 +33,7 @@
 
 	<c:set var="uiid" value="${u:uiid()}"/>
 	<c:set var="perm" value="${p:get( form.user.id, 'ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate' )}"/>
-	<c:set var="allowedGroups"  value="${u:toIntegerSet( perm['allowOnlyGroups'] )}"/>
+	<c:set var="allowedGroups"  value="${u.toIntegerSet(perm['allowOnlyGroups'])}"/>
 
 	<c:forEach var="role" items="${ctxUserGroupRoleList}">
 		<c:forEach var="group" items="${ctxUserGroupFullTitledList}">
@@ -45,7 +45,7 @@
 			</c:forEach>
 
 			<c:if test="${groupIs and group.allowExecutorsSet and
-							(empty allowedGroups or u:contains(allowedGroups, group.id)) }">
+						(empty allowedGroups or allowedGroups.contains(group.id))}">
 
 				<h2>${group.title}
 					<c:if test="${role.id ne 0}">
@@ -70,8 +70,8 @@
 						for( User user : UserCache.getUserList() )
 						{
 							//TODO: Наверное, лучше сделать фильтр не по текущим группам, а по когда-либо присутствующим.
-							if( !user.getGroupIds().contains( group.getId() ) ||
-								user.getStatus() != User.STATUS_ENABLE )
+							if (!user.getGroupIds().contains(group.getId()) ||
+								user.getStatus() != User.STATUS_ACTIVE)
 							{
 								continue;
 							}

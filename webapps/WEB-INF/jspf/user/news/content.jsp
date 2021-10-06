@@ -14,5 +14,5 @@
 
 <c:if test="${empty hideNewsHeaders}">
 	<p><b>Автор:</b> ${ctxUserMap[item.userId].title}</p>
-	<p><b>Дата:</b> ${u:formatDate(item.createDate, 'ymdhms')}</p>
+	<p><b>Дата:</b> ${tu.format(item.createDate, 'ymdhms')}</p>
 </c:if>

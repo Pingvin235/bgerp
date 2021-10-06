@@ -34,8 +34,8 @@
 					<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 				</td>
 				<td width="100%" >${tariffOption.optionTitle}</td>
-				<td nowrap="nowrap" align="center">${u:formatDate( tariffOption.timeFrom, 'ymdhms' )}</td>
-				<td nowrap="nowrap" align="center">${u:formatDate( tariffOption.timeTo, 'ymdhms' )}</td>
+				<td nowrap="nowrap" align="center">${tu.format( tariffOption.timeFrom, 'ymdhms' )}</td>
+				<td nowrap="nowrap" align="center">${tu.format( tariffOption.timeTo, 'ymdhms' )}</td>
 				<td align="center">${tariffOption.getSumma()}</td>
 			</tr>
 		</c:forEach>
@@ -53,8 +53,8 @@
 		<c:forEach var="tariffOption" items="${form.response.data.history}">
 			<tr>
 				<td width="100%">${tariffOption.optionTitle}</td>
-				<td nowrap="nowrap" align="center">${u:formatDate( tariffOption.timeFrom, 'ymdhms' )}</td>
-				<td nowrap="nowrap" align="center">${u:formatDate( tariffOption.timeTo, 'ymdhms' )}</td>
+				<td nowrap="nowrap" align="center">${tu.format( tariffOption.timeFrom, 'ymdhms' )}</td>
+				<td nowrap="nowrap" align="center">${tu.format( tariffOption.timeTo, 'ymdhms' )}</td>
 				<td>${tariffOption.summa}</td>
 			</tr>
 		</c:forEach>

@@ -42,7 +42,7 @@
 				</u:sc>
 			</td>
 			<td nowrap="nowrap">${item.serviceTitle}</td>
-			<td nowrap="nowrap">${u:formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
+			<td nowrap="nowrap">${tu.formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
 			<td width="100%">${item.comment}</td>
 		</tr>	
 	</c:forEach>

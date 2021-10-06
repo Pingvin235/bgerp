@@ -46,13 +46,13 @@
 			</div>
 			<h2>Период</h2>
 			<div>
-				<input type="text" name="dateFrom" value="${u:formatDate( range.dateFrom, 'dd.MM.yyyy' ) }"/>
+				<input type="text" name="dateFrom" value="${tu.format( range.dateFrom, 'dd.MM.yyyy' ) }"/>
 				<u:sc>
 					<c:set var="selector" value="#${uiid} input[name=dateFrom]"/>		
 					<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 				</u:sc>	
 				- 
-				<input type="text" name="dateTo" value="${u:formatDate( range.dateTo, 'dd.MM.yyyy' ) }"/>
+				<input type="text" name="dateTo" value="${tu.format( range.dateTo, 'dd.MM.yyyy' ) }"/>
 				<u:sc>
 					<c:set var="selector" value="#${uiid} input[name=dateTo]"/>		
 					<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
@@ -82,7 +82,7 @@
 				На дату:			
 									
 				<jsp:useBean id="curdate" class="java.util.Date"/>
-				<input name="sourceDate" value="${u:formatDate( curdate, 'dd.MM.yyyy' )}"/>				
+				<input name="sourceDate" value="${tu.format( curdate, 'dd.MM.yyyy' )}"/>				
 				<u:sc>
 					<c:set var="selector" value="#${uiid} input[name=sourceDate]"/>		
 					<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>

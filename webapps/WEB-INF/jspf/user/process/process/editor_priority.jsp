@@ -6,7 +6,7 @@
 	<html:hidden property="id"/>
 	<input type="hidden" name="action" value="processPriorityUpdate"/>
 
-	<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgcrm.model.process.config.ProcessPriorityConfig')}"/>
+	<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.model.process.config.ProcessPriorityConfig')}"/>
 		
 	<c:forEach var="item" items="${config.priorityColors}">
 		<div style="background-color: ${item.value};" class="pl05 pt05 pb05">

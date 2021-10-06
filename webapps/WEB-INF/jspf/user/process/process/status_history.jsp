@@ -20,7 +20,7 @@
 			<tr>
 				<td>${item.statusTitle}</td>
 				<td>${item.comment}</td>
-				<td>${u:formatDate( item.date, 'ymdhms' )}</td>
+				<td>${tu.format( item.date, 'ymdhms' )}</td>
 				<td>${item.userTitle}</td>
 			</tr>
 		</c:forEach>

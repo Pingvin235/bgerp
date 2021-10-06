@@ -18,7 +18,7 @@ $(function()
 		}, 50 );
 	}
 
-	<c:set var="dateFormat" value="${u:getDateTypeFormat( type )}"/>
+	<c:set var="dateFormat" value="${tu.getTypeFormat( type )}"/>
 	<c:set var="dateFormat" value="${fn:replace( dateFormat, 'yyyy', 'y')}"/>
 	<c:set var="dateFormat" value="${fn:replace( dateFormat, 'yy', 'y')}"/>
 	<c:set var="dateFormat" value="${fn:replace( dateFormat, 'MM', 'm')}"/>

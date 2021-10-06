@@ -7,7 +7,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<div class="tt">Текущее время: <b>${u:formatDate( task.time, 'ymdhm' )}</b></div>
+<div class="tt">Текущее время: <b>${tu.format( task.time, 'ymdhm' )}</b></div>
 
 <html:form action="/user/work" styleId="${uiid}" styleClass="mt1">
 	<input type="hidden" name="action" value="processTime"/>
@@ -39,11 +39,11 @@
 		</tr>
 		<c:forEach var="slot" items="${slotList}">
 			<tr>
-				<td>${u:formatDate( slot.time, 'ymdhm' )}</td>
+				<td>${tu.format( slot.time, 'ymdhm' )}</td>
 				<c:url var="url" value="/user/work.do">
 					<c:param name="action" value="processTimeSet"/>
 					<c:param name="processId" value="${form.param.processId}"/>
-					<c:param name="time" value="${u:formatDate( slot.time, 'ymdhm' )}"/>
+					<c:param name="time" value="${tu.format( slot.time, 'ymdhm' )}"/>
 				</c:url>
 				<td><button class="btn-white btn-small" onclick="if( sendAJAXCommand( '${url}' ) ){ openUrlToParent( '${form.requestUrl }', $('#${uiid}') ) }">Занять</button></td>
 			</tr>

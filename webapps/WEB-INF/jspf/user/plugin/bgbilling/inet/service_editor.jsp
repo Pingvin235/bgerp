@@ -62,12 +62,12 @@
 				<h2>Период</h2>
 				c
 		   		<c:set var="editable" value="true"/>
-				<input type="text" name="dateFrom" value="${u:formatDate( service.dateFrom, 'ymd' ) }" id="${uiid}-dateFrom"/>	
+				<input type="text" name="dateFrom" value="${tu.format( service.dateFrom, 'ymd' ) }" id="${uiid}-dateFrom"/>	
 				<c:set var="selector" value="#${uiid}-dateFrom"/>	
 				<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 				по
 				<c:set var="editable" value="true"/>
-				<input type="text" name="dateTo" value="${u:formatDate( service.dateTo, 'ymd' ) }" id="${uiid}-dateTo" />
+				<input type="text" name="dateTo" value="${tu.format( service.dateTo, 'ymd' ) }" id="${uiid}-dateTo" />
 				<c:set var="selector" value="#${uiid}-dateTo"/>	
 				<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 			</td>

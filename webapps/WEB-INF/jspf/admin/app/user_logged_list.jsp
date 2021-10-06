@@ -17,8 +17,8 @@
 				<td><ui:user-link id="${item.key.id}"/></td>
 				<td>
 					<c:forEach var="session" items="${sessions}">
-						${u:formatDate( session.loginTime, 'ymdhms' )} /
-						${u:formatDate( session.lastActiveTime, 'ymdhms' )}<br/>
+						${tu.format( session.loginTime, 'ymdhms' )} /
+						${tu.format( session.lastActiveTime, 'ymdhms' )}<br/>
 					</c:forEach>
 				</td>
 			</tr>

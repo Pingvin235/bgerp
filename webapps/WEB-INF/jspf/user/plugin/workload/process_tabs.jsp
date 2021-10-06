@@ -3,7 +3,7 @@
 
 <c:set var="plugin" value="${ctxPluginManager.pluginMap['workload']}" />
 <c:if test="${not empty plugin}">
-	<c:set var="config" value="${u:getConfig(processType.properties.configMap, 'ru.bgerp.plugin.workload.model.GroupLoadConfig')}"/>
+	<c:set var="config" value="${processType.properties.configMap.getConfig('ru.bgerp.plugin.workload.model.GroupLoadConfig')}"/>
 	
 	<c:if test="${config.enabled}">
 		<c:url var="url" value="plugin/workload/groupload.do">

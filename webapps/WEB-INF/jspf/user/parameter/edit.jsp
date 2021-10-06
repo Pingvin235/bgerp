@@ -190,7 +190,7 @@
 			<c:when test="${parameter.type eq 'list'}">
 				<c:set var="value" value="${data.value}"/>
 
-				<c:set var="listParamConfig" value="${u:getConfig( parameter.configMap, 'ru.bgcrm.model.param.config.ListParamConfig' )}"/>
+				<c:set var="listParamConfig" value="${parameter.configMap.getConfig('ru.bgcrm.model.param.config.ListParamConfig')}"/>
 
 				<c:choose>
 					<c:when test="${multiple}">

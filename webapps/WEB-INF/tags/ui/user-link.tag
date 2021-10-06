@@ -10,7 +10,7 @@
 --%></c:if>
 </ui:when>
 <ui:when type="open">
-	<c:set var="config" value="${u:getConfig(ctxSetup, 'org.bgerp.action.open.ProfileAction$Config')}"/>
+	<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.action.open.ProfileAction$Config')}"/>
 	<c:choose>
 		<c:when test="${config.isUserShown(id)}"><%--
 		--%><a href="/open/profile/${id}">${ctxUserMap[id].title}</a><%--

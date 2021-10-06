@@ -4,7 +4,7 @@
 <c:set var="message" value="${form.response.data.message}" scope="request"/>
 <c:set var="form" value="${form}"/>
 
-<c:set var="config" value="${u:getConfig( ctxSetup, 'ru.bgcrm.dao.message.config.MessageTypeConfig' ) }"/>
+<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
 <c:set var="messageType" value="${config.typeMap[message.typeId]}" scope="request"/>
 
 <c:set var="typeEmail" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeEmail'}"/>
@@ -216,7 +216,7 @@
 				<div class="tt in-mt05">
 					<div>${l.l('С номера')}: <b>${message.from}</b></div>
 					<div>${l.l('На номер')}: <b>${message.to}</b></div>
-					<div>${l.l('Время начала')}: <b>${u:formatDate( message.fromTime, 'ymdhms' )}</b></div>
+					<div>${l.l('Время начала')}: <b>${tu.format( message.fromTime, 'ymdhms' )}</b></div>
 				</div>
 			</c:when>
 		</c:choose>

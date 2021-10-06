@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="customerLinkRoleConfig" value="${u:getConfig(setup, 'ru.bgcrm.model.customer.config.ProcessLinkModesConfig')}"/>
+<c:set var="customerLinkRoleConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.customer.config.ProcessLinkModesConfig')}"/>
 
 <h2>${l.l('Найдено')}: ${form.page.recordCount}, ${l.l('отображено')}: ${form.response.data.list.size()}</h2>
 

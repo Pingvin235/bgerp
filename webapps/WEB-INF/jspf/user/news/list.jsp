@@ -48,7 +48,7 @@
 
 					<span style="float:right;">
 						${l.l('Создал')}: <ui:user-link id="${item.userId}"/>
-						&nbsp;${u:formatDate( item.createDate, 'ymdhms')}
+						&nbsp;${tu.format( item.createDate, 'ymdhms')}
 						&nbsp;<c:if test="${item.popup}">${l.l('Всплывающая')}</c:if>
 
 						<%-- правка пока невозможна из-за персональных сообщений пользователям, поправить попозже, когда будут сообщения

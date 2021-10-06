@@ -15,7 +15,7 @@
 	<div class="in-table-cell pt1">
 		<input type="hidden" name="updateTags" value="1"/>
 		
-		<c:set var="tagConfig" value="${u:getConfig(ctxSetup, 'ru.bgcrm.model.message.TagConfig')}"/>
+		<c:set var="tagConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.message.TagConfig')}"/>
 		<c:set var="messageTagIds" value="${form.response.data.messageTagIds}"/>
 
 		<div style="width: 30px; vertical-align: top;">

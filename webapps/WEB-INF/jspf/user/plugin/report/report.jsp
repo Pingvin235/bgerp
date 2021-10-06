@@ -6,7 +6,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:set var="config" value="${u:getConfig(ctxSetup, 'org.bgerp.plugin.report.model.Config')}"/>
+<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.plugin.report.model.Config')}"/>
 
 <ui:combo-single id="${uiid}" hiddenName="reportId" 
 	map="${config.reportMap}" list="${config.reportList}" available="${allowedReports}"

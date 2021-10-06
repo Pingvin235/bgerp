@@ -54,18 +54,14 @@
 
 		<c:set var="multiple" value="${parameter.configMap.multiple}" />
 
-		<%-- флаг readonly выставлен для параметра в конфигурации типа процесса --%>
+		<%-- флаг readonly выставлен для параметра в конфигурации типа процесса
 		<c:if test="${not empty form.param['processTypeId']}">
 			<c:set var="processTypeConfig" value="${ctxProcessTypeMap[u:int( form.param['processTypeId'] )].properties.configMap}"/>
-			<c:if test="${u:contains( u:toIntegerSet( processTypeConfig['readonlyParamIds'] ), parameter.id )}">
+			<c:if test="${u.toIntegerSet(processTypeConfig['readonlyParamIds']).contains(parameter.id)}">
 				<c:set var="readonly" value="true"/>
 			</c:if>
 		</c:if>
-
-		<%-- TODO: globalReadOnly - backwards compatibility, remove in future --%>
-		<c:if test="${form.param.readOnly eq '1' or form.param.globalReadOnly eq '1'}">
-			<c:set var="readonly" value="true"/>
-		</c:if>
+		--%>
 
 		<c:set var="hide" value=""/>
 		<c:if test="${parameter.configMap.hide == '1'}">
@@ -291,7 +287,7 @@
 
 						<c:if test="${fn:contains( 'date, datetime', parameter.type) }">
 							<c:set var="type" value="${u:maskEmpty(parameter.configMap.type, 'ymd')}"/>
-							<c:set var="valueTitle" value="${u:formatDate(item.value, type )}"/>
+							<c:set var="valueTitle" value="${tu.format(item.value, type )}"/>
 						</c:if>
 
 						<c:if test="${parameter.type eq 'blob'}">

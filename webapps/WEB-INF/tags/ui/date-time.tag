@@ -28,10 +28,10 @@
 
 <c:set var="timeFormat" value=""/>
 
-<c:set var="dateFormat" value="${u:getDateTypeFormat( type )}"/>
+<c:set var="dateFormat" value="${tu.getTypeFormat( type )}"/>
 <c:if test="${fn:contains( dateFormat, ' ' ) }">
 	<c:set var="dateFormat" value="${fn:substringBefore( dateFormat, ' ')}"/>
-	<c:set var="timeFormat" value="${fn:substringAfter( u:getDateTypeFormat(type), ' ' )}"/>
+	<c:set var="timeFormat" value="${fn:substringAfter( tu.getTypeFormat(type), ' ' )}"/>
 </c:if>
 
 <c:set var="dateFormat" value="${fn:replace(dateFormat, 'yyyy', 'yy')}"/>

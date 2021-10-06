@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <u:sc>
-	<c:set var="customerLinkRoleConfig" value="${u:getConfig(setup, 'ru.bgcrm.model.customer.config.ProcessLinkModesConfig')}"/>
+	<c:set var="customerLinkRoleConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.customer.config.ProcessLinkModesConfig')}"/>
 
 	<table class="data mt05">
 		<tr>

@@ -48,8 +48,8 @@
 	<c:forEach var="process" items="${form.response.data.list}">
 		<tr openCommand="openProcess(${process.id })">
 			<td nowrap="nowrap"><a href="#" onclick="openProcess(${process.id}); return false;">${process.id}</a></td>
-			<td nowrap="nowrap">${u:formatDate( process.createTime, 'ymdhms' )}</td>
-			<td nowrap="nowrap">${u:formatDate( process.closeTime, 'ymdhms' )}</td>
+			<td nowrap="nowrap">${tu.format( process.createTime, 'ymdhms' )}</td>
+			<td nowrap="nowrap">${tu.format( process.closeTime, 'ymdhms' )}</td>
 			<td>${ctxProcessTypeMap[process.typeId].title}</td>
 			<td>${ctxProcessStatusMap[process.statusId].title}</td>
 			<td width="100%">

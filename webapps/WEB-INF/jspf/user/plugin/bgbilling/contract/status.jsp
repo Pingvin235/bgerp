@@ -55,7 +55,7 @@
 	
 	<c:forEach var="status" items="${form.response.data.statusList}">
 		<tr>
-			<td nowrap="nowrap">${u:formatPeriod( status.dateFrom, status.dateTo, 'ymd' )}</td>
+			<td nowrap="nowrap">${tu.formatPeriod( status.dateFrom, status.dateTo, 'ymd' )}</td>
 			<td nowrap="nowrap" >${status.status}</td>				
 			<td>${status.comment}</td>
 		</tr>
@@ -75,9 +75,9 @@
 	
 	<c:forEach var="item" items="${form.response.data.statusLog}">
 		<tr>
-			<td nowrap="nowrap">${u:formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
+			<td nowrap="nowrap">${tu.formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
 			<td nowrap="nowrap">${item.status}</td>
-			<td nowrap="nowrap">${u:formatDate( item.time, 'ymdhms' )}</td>
+			<td nowrap="nowrap">${tu.format( item.time, 'ymdhms' )}</td>
 			<td nowrap="nowrap">${item.user}</td>
 			<td>${item.comment}</td>
 		</tr>

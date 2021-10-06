@@ -1,0 +1,6 @@
+C: Global replace in JSPs u:formatDate -> tu.format.
+C: Global replace in JSPs u:getConfig -> paramMap.getConfig.
+C: Remove JSP function u:concat.
+C: Remove JSP function u:append.
+C: Global replace in JSPs u:contains to collection.contains.
+C: Cleanup of unused JSP functions: TimeUtils, newInstance, etc.

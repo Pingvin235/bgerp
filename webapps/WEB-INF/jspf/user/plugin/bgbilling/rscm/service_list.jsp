@@ -53,14 +53,14 @@
 				<c:param name="billingId" value="${form.param.billingId}"/>
 				<c:param name="moduleId" value="${form.param.moduleId}"/>
 				<c:param name="id" value="${item.id}"/>
-				<c:param name="month" value="${u:formatDate(item.date, 'ymd')}"/>
+				<c:param name="month" value="${tu.format(item.date, 'ymd')}"/>
 			</c:url>
 			<c:set var="deleteAjaxCommandAfter" value="openUrlToParent('${form.requestUrl}',$('#${uiid}'))"/>
 			
 			<td nowrap="nowrap">
 				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 			</td>
-			<td nowrap="nowrap">${u:formatDate(item.date, 'ymd')}</td>
+			<td nowrap="nowrap">${tu.format(item.date, 'ymd')}</td>
 			<td>${item.serviceTitle}</td>
 			<td>${item.amount}</td>
 			<td>${item.unit}</td>

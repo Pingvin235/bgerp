@@ -117,7 +117,7 @@
 			</tr>
 			<c:forEach var="item" items="${info.statusLog}">
 				<tr> 
-					<td nowrap="nowrap">${u:formatDate( item.time, 'ymdhms' )}</td>
+					<td nowrap="nowrap">${tu.format( item.time, 'ymdhms' )}</td>
 					<td>${item.statusTitle}</td>
 					<td>${item.user}</td>
 					<td>${item.comment}</td>

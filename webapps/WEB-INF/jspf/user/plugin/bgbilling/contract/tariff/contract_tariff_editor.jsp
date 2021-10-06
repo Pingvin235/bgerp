@@ -66,12 +66,12 @@
 			
 			Период c
 			<c:set var="editable" value="true"/>
-			<input type="text" name="dateFrom" value="${u:formatDate( contractTariff.dateFrom, 'ymd' )}" id="${uiid}-dateFrom"/>	
+			<input type="text" name="dateFrom" value="${tu.format( contractTariff.dateFrom, 'ymd' )}" id="${uiid}-dateFrom"/>	
 			<c:set var="selector" value="#${uiid}-dateFrom"/>	
 			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 			по
 			<c:set var="editable" value="true"/>
-			<input type="text" name="dateTo" value="${u:formatDate( contractTariff.dateTo, 'ymd' )}" id="${uiid}-dateTo"/>	
+			<input type="text" name="dateTo" value="${tu.format( contractTariff.dateTo, 'ymd' )}" id="${uiid}-dateTo"/>	
 			<c:set var="selector" value="#${uiid}-dateTo"/>	
 			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 		</div>

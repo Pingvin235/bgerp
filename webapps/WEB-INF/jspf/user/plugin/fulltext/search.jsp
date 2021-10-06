@@ -13,7 +13,7 @@
 			styleId="searchForm-fulltext" styleClass="searchForm in-mb1 mt1 in-w100p">
 			<html:hidden property="action" value="search"/>
 						
-			<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgcrm.plugin.fulltext.model.Config')}"/>
+			<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.plugin.fulltext.model.Config')}"/>
 			<ui:combo-single hiddenName="objectType" prefixText="${l.l('Искать')}:" list="${config.objectTypeList}"/>
 			
 			<ui:input-text name="filter" placeholder="${l.l('Строка поиска')}"

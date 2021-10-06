@@ -3,7 +3,7 @@
 
 <%@ include file="search_common.jsp"%>
 
-<c:set var="config" value="${u:getConfig(ctxSetup, 'ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
+<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
 
 <table style="width: 100%;" class="data mt1">
 	<tr>
@@ -22,7 +22,7 @@
 				<%@ include file="/WEB-INF/jspf/user/message/message_direction.jsp"%>&nbsp;
 				${messageType.title}
 			</td>
-			<td nowrap="nowrap">${u:formatDate(message.fromTime, 'ymdhm')}</td>
+			<td nowrap="nowrap">${tu.format(message.fromTime, 'ymdhm')}</td>
 			<td>
 				<c:if test="${not empty process}">
 					<ui:process-link id="${process.id}" text="${process.description}"/>

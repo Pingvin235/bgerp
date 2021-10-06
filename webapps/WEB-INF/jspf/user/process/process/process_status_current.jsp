@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-${l.l('Статус')}&nbsp;<b>${process.statusTitle}</b>: ${u:formatDate( process.statusTime, 'ymdhms' )} 
+${l.l('Статус')}&nbsp;<b>${process.statusTitle}</b>: ${tu.format( process.statusTime, 'ymdhms' )} 
 <c:if test="${not empty process.statusChange.comment}">
 	"${process.statusChange.comment}"
 </c:if>

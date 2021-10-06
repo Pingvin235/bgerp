@@ -46,11 +46,11 @@
 			<td nowrap="nowrap">
 				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 			</td>
-			<td>${u:formatDate( charge.date, 'ymd' )}</td>
+			<td>${tu.format( charge.date, 'ymd' )}</td>
 			<td>${charge.sum}</td>
 			<td nowrap="nowrap">${charge.type}</td>
 			<td>${charge.comment}</td>
-			<td nowrap="nowrap">${u:formatDate( charge.lastChangeTime, 'ymdhms')}</td>
+			<td nowrap="nowrap">${tu.format( charge.lastChangeTime, 'ymdhms')}</td>
 			<td nowrap="nowrap">${charge.user}</td>
 		</tr>
 	</c:forEach>

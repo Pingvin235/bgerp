@@ -37,7 +37,7 @@
 				</u:sc>
 			</td>
 			<td nowrap="nowrap">${item.addressRange}</td>
-			<td nowrap="nowrap">${u:formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
+			<td nowrap="nowrap">${tu.formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
 			<td nowrap="nowrap">${item.ifaces}</td>
 			<td>${item.comment}</td>	
 		</tr>

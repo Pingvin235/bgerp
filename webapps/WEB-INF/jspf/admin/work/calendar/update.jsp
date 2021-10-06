@@ -137,7 +137,7 @@
 			--%><c:set var="date" value="${item.key}"/><%--
 			--%><c:set var="dayType" value="${item.value.first}"/><%--
 			--%><c:if test="${not empty dayType}"><%--
-				--%>setDayTypeForDate( makeDate( '${u:formatDate( date, 'dd.MM.yyyy' )}' ), ${dayType.id}, true );<%--
+				--%>setDayTypeForDate( makeDate( '${tu.format( date, 'dd.MM.yyyy' )}' ), ${dayType.id}, true );<%--
 			--%></c:if><%--
 		--%></c:forEach>
 		};	

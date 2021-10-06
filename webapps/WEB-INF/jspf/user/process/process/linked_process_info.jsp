@@ -12,11 +12,11 @@
 	<table class="oddeven" style="width: 100%;">
 		<tr>
 			<td nowrap="nowrap">${l.l('Создан (статус)')}</td>
-			<td width="100%">${u:formatDate( process.createTime, 'ymdhms' )} ( ${process.statusTitle} )</td>
+			<td width="100%">${tu.format( process.createTime, 'ymdhms' )} ( ${process.statusTitle} )</td>
 		</tr>
 		<tr>
 			<td nowrap="nowrap">${l.l('Закрыт')}</td>
-			<td width="100%">${u:formatDate( process.closeTime, 'ymdhms' )}</td>
+			<td width="100%">${tu.format( process.closeTime, 'ymdhms' )}</td>
 		</tr>
 		<tr>
 			<td nowrap="nowrap">${l.l('Исполнители')}</td>
@@ -45,7 +45,7 @@
 						<tr>
 							<td align="center">${item.statusTitle}</td>
 							<td>${item.comment}</td>
-							<td align="center" nowrap="nowrap">${u:formatDate( item.date, 'ymdhms' )}</td>
+							<td align="center" nowrap="nowrap">${tu.format( item.date, 'ymdhms' )}</td>
 							<td align="center" nowrap="nowrap">${item.userTitle}</td>
 						</tr>
 					</c:forEach>

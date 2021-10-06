@@ -78,11 +78,11 @@
 					<tr>
 						<c:if test="${readOnly != true}">
 							<td style="text-align: center;" nowrap="nowrap">
-								<button type="button" class="btn-white btn-small" title="Удалить" onclick="if( confirm( 'Вы уверены, что хотите удалить?' ) && sendAJAXCommand( '/admin/user.do?action=userRemoveGroup&userId=${form.id}&groupId=${item.id}&dateFrom=${u:formatDate(value.dateFrom, 'ymdhms')}&dateTo=${u:formatDate(value.dateTo, 'ymdhms')}&markGroup=' ) ){ $(this).parents('tr').first().remove(); }">&nbsp;X&nbsp;</button>
-		    					<button type="button" class="btn-white btn-small" title="Закрыть период" onclick="$('#closeGroupId${uiid}').val(${item.id}); $('#dateFrom${uiid}').val('${u:formatDate(value.dateFrom, 'ymdhms')}'); $('#dateTo${uiid}').val('${u:formatDate(value.dateTo, 'ymdhms')}'); $('#showGroup${uiid}').hide(); $('#closeGroup${uiid}').show();">&gt;|</button>
+								<button type="button" class="btn-white btn-small" title="Удалить" onclick="if( confirm( 'Вы уверены, что хотите удалить?' ) && sendAJAXCommand( '/admin/user.do?action=userRemoveGroup&userId=${form.id}&groupId=${item.id}&dateFrom=${tu.format(value.dateFrom, 'ymdhms')}&dateTo=${tu.format(value.dateTo, 'ymdhms')}&markGroup=' ) ){ $(this).parents('tr').first().remove(); }">&nbsp;X&nbsp;</button>
+		    					<button type="button" class="btn-white btn-small" title="Закрыть период" onclick="$('#closeGroupId${uiid}').val(${item.id}); $('#dateFrom${uiid}').val('${tu.format(value.dateFrom, 'ymdhms')}'); $('#dateTo${uiid}').val('${tu.format(value.dateTo, 'ymdhms')}'); $('#showGroup${uiid}').hide(); $('#closeGroup${uiid}').show();">&gt;|</button>
 		    				</td>
 	    				</c:if>
-						<td nowrap="nowrap">${u:formatDate(value.dateFrom, 'ymd')} - ${u:formatDate(value.dateTo, 'ymd')}</td>
+						<td nowrap="nowrap">${tu.format(value.dateFrom, 'ymd')} - ${tu.format(value.dateTo, 'ymd')}</td>
                         <td>${item.titleWithPath}</td>
 					</tr>
 				</c:if>

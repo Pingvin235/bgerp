@@ -9,7 +9,7 @@
 		<td nowrap="nowrap">
 			<c:choose>
 				<c:when test="${not empty form.response.data.list}">
-					<c:set var="config" value="${u:getConfig( ctxUser.personalizationMap, 'ru.bgcrm.model.process.queue.config.SavedPanelConfig' )}"/>
+					<c:set var="config" value="${ctxUser.personalizationMap.getConfig('ru.bgcrm.model.process.queue.config.SavedPanelConfig')}"/>
 					<c:set var="savedPanelMap" value="${config.savedPanelSet}"/>
 					<c:set var="valuesHtml">
 						<c:forEach items="${form.response.data.list}" var="item">

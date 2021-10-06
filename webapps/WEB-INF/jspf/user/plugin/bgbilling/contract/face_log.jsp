@@ -41,7 +41,7 @@
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
-			<td nowrap="nowrap">${u:formatDate( item.time, 'ymdhms' )}</td>
+			<td nowrap="nowrap">${tu.format( item.time, 'ymdhms' )}</td>
 			<td nowrap="nowrap">${item.user}</td>
 			<td>${item.face}</td>
 		</tr>
