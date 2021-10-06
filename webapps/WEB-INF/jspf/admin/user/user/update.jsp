@@ -25,6 +25,8 @@
 				<html:text property="title" style="width: 100%" value="${user.title}"/>
 			</div>
 
+			<%@ include file="user_status_const.jsp"%>
+
 			<h2>Логин</h2>
 			<div>
 				<html:text property="login" style="width: 100%" value="${user.login}"/>
@@ -33,8 +35,8 @@
 				<h2>Статус</h2>
 				<ui:combo-single hiddenName="status" value="${user.status}" widthTextValue="120px">
 					<jsp:attribute name="valuesHtml">
-						<li value="0">Активен</li>
-						<li value="1">Заблокирован</li>
+						<li value="${STATUS_ACTIVE}">Активен</li>
+						<li value="${STATUS_DISABLED}">Заблокирован</li>
 					</jsp:attribute>
 				</ui:combo-single>
 			</div>

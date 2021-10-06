@@ -19,9 +19,7 @@
 	<ui:input-text name="title" showOutButton="false" value="${form.param['title']}" size="20" placeholder="${l.l('Фильтр')}" title="${l.l('Фильтр по наименованию')}"
 		onSelect="$$.ajax.load(this.form, $$.shell.$content(this));"/>
 
-	<c:set var="STATUS_ACTIVE" value="<%=ru.bgcrm.model.user.User.STATUS_ACTIVE%>"/>
-	<c:set var="STATUS_DISABLED" value="<%=ru.bgcrm.model.user.User.STATUS_DISABLED%>"/>
-	<c:set var="STATUS_EXTERNAL" value="<%=ru.bgcrm.model.user.User.STATUS_EXTERNAL%>"/>
+	<%@ include file="user_status_const.jsp"%>
 
 	<ui:combo-single hiddenName="status" value="${form.param.status}" onSelect="${showCode}"
 		prefixText="${l.l('Статус')}:" widthTextValue="70px">

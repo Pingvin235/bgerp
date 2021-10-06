@@ -50,7 +50,7 @@
 		<c:set var="saveCommand" value="$$.ajax.post(this.form, {toPostNames: ['config']})"/>
 		<c:set var="returnCommand" value="$$.ajax.load('${form.returnUrl}', $$.shell.$content(this))"/>
 
-		<button type="button" class="btn-grey mr1"  onclick="${saveCommand}.done(${returnCommand})">OK</button>
+		<button type="button" class="btn-grey mr1"  onclick="${saveCommand}.done(() => ${returnCommand})">OK</button>
 		<button type="button" class="btn-white" onclick="${returnCommand}">${l.l('Отмена')}</button>
 
 		<c:url var="editUrl" value="/admin/process.do">

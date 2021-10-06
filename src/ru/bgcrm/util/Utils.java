@@ -30,6 +30,7 @@ import org.w3c.dom.NodeList;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.Id;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.ListItem;
@@ -987,6 +988,16 @@ public class Utils {
         System.err.println(message);
         System.err.flush();
         System.exit(code);
+    }
+
+    /**
+     * Creates an object of a given class.
+     * @param className the class name.
+     * @return created object instance.
+     * @throws Exception
+     */
+    public static Object newInstance(String className) throws Exception {
+        return DynamicClassManager.newInstance(className);
     }
 
     /**
