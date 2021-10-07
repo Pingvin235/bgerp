@@ -298,27 +298,11 @@
 						</ul>
 					</div>
 
-					<c:set var="showMenuCode">
-						const $menu = $('#${menuUiid}');
-
-						$menu.menu().show().position({
-							my: 'right top',
-							at: 'right bottom',
-							of: this
-						});
-
-						$(document).one('click', function () {
-							$menu.hide();
-						});
-
-						event.stopPropagation();
-					</c:set>
-
 					<c:if test="${not empty answerCommand}">
 						<ui:button type="reply" onclick="${answerCommand}" styleClass="mr05"/>
 					</c:if>
 
-					<ui:button id="${actionButtonUiid}" type="more" onclick="${showMenuCode}"/>
+					<ui:button id="${actionButtonUiid}" type="more" onclick="$$.ui.menuInit($('#${actionButtonUiid}'), $('#${menuUiid}'), 'right', true);"/>
 				</td>
 			</tr>
 		</table>

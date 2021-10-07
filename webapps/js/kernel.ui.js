@@ -116,8 +116,10 @@ $$.ui = new function () {
 	 * @param {*} $launcher jQuery selector of start button.
 	 * @param {*} $menu jQuery selector to <ul> of menu.
 	 * @param {*} align 'left' or 'right'.
+	 * @param {*} show when true - show menu immediately, otherwise
+	 * will add click event
 	 */
-	const menuInit = ($launcher, $menu, align) => {
+	const menuInit = ($launcher, $menu, align, show) => {
 		$menu.menu({
 			icons: {
 				submenu: "ti-angle-right"
@@ -129,7 +131,13 @@ $$.ui = new function () {
 			return false;
 		});
 
-		$launcher.click(function () {
+		if (show) {
+			showMenu();
+		} else {
+			$launcher.click(showMenu);
+		}
+
+		function showMenu() {
 			menusHide();
 
 			$$.ui.dropsHide();
@@ -137,15 +145,18 @@ $$.ui = new function () {
 			$menu.show().position({
 				my: align + " top",
 				at: align + " bottom",
-				of: this
+				of: $launcher
 			});
-
-			$(document).one("click", function () {
-				$menu.hide();
-			});
+			
+			// to do not process the first click, called the menu
+			setTimeout(function () {
+				$(document).one("click", function () {
+					$menu.hide();
+				});
+			}, 0);
 
 			return false;
-		});
+		}
 	}
 
 	// close all visible menus
