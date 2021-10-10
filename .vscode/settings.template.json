@@ -9,10 +9,14 @@
         "**/log": true,
         "**/gradle": true,
         "**/bin": true,
-        "**/.gradle": true        
+        "**/.gradle": true
     },
     "java.home": "C:/Java/jdk-11.0.3",
-    "java.format.settings.url": "formatter.xml",
+    "java.format.settings.url": ".vscode/formatter.xml",
     "editor.renderWhitespace": "all",
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "editor.fontSize": 12,
+    "terminal.integrated.fontSize": 12,
+    "debug.console.fontSize": 12,
+    "files.trimTrailingWhitespace": true
 }

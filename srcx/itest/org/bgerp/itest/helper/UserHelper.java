@@ -1,5 +1,7 @@
 package org.bgerp.itest.helper;
 
+import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Set;
 
 import org.bgerp.itest.kernel.db.DbTest;
@@ -15,14 +17,12 @@ public class UserHelper {
     public static final String GROUP_CONFIG_ISOLATION = "\nisolation.process=group\n";
 
     public static int addGroup(String title, int parentId) throws Exception {
-        var con = DbTest.conRoot;
-
         Group group = new Group();
         group.setTitle(title);
         group.setComment("");
         group.setConfig(GROUP_CONFIG_ISOLATION);
         group.setParentId(parentId);
-        new UserGroupDAO(con).updateGroup(group);
+        new UserGroupDAO(DbTest.conRoot).updateGroup(group);
 
         Assert.assertTrue(group.getId() > 0);
 
@@ -30,23 +30,19 @@ public class UserHelper {
     }
 
     public static void addGroupQueues(int groupId, Set<Integer> queueIds) throws Exception {
-        var con = DbTest.conRoot;
-
-        var dao = new UserGroupDAO(con);
+        var dao = new UserGroupDAO(DbTest.conRoot);
         var group = dao.getGroupById(groupId);
-        
+
         Assert.assertNotNull(group);
-        
+
         group.getQueueIds().addAll(queueIds);
-        
+
         dao.updateGroup(group);
     }
 
     public static User addUser(String title, String login, Iterable<UserGroup> groups) throws Exception {
-        var con = DbTest.conRoot;
+        var dao = new UserDAO(DbTest.conRoot);
 
-        var dao = new UserDAO(con);
-        
         var user = new User();
         user.setTitle(title);
         user.setLogin(login);
@@ -62,13 +58,23 @@ public class UserHelper {
         return user;
     }
 
-    public static void addUserGroups(int userId, Iterable<UserGroup> groups) throws Exception {
-        var con = DbTest.conRoot;
+    public static final void addUserProcessQueues(int userId, Collection<Integer> queueIds) throws SQLException {
+        var dao = new UserDAO(DbTest.conRoot);
 
-        var dao = new UserDAO(con);
-        
+        var user = dao.getUser(userId);
+
+        Assert.assertNotNull(user);
+
+        user.getQueueIds().addAll(queueIds);
+
+        dao.updateUser(user);
+    }
+
+    public static void addUserGroups(int userId, Iterable<UserGroup> groups) throws Exception {
+        var dao = new UserDAO(DbTest.conRoot);
+
         for (var group : groups)
             dao.addUserGroup(userId, group);
     }
-    
+
 }

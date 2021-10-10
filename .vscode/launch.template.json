@@ -7,11 +7,11 @@
         {
             "type": "java",
             "request": "launch",
-            "name": "BGERP Local",
+            "name": "BGERP Demo",
             "mainClass": "ru.bgcrm.Server",
             "projectName": "ERP",
             "args": "start",
-            "vmArgs": "-Dbgerp.setup.data=bgerp_local"
+            "vmArgs": "-Dbgerp.setup.data=bgerp"
         },
         {
             "type": "java",

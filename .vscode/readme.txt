@@ -1,4 +1,4 @@
-1. Copy files from .vscode/samples to .vscode, adjust Java path in settings.json
+1. Copy files .vscode/*.template* without '.template' part, adjust Java path in settings.json
 2. Run Terminal, menu "Terminal - New terminal", type there "cmd" for Windows and "bash" for *NIX and run commands:
 code --install-extension vscjava.vscode-java-pack
 code --install-extension redhat.java

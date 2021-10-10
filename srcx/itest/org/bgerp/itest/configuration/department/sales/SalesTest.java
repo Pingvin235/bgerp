@@ -1,10 +1,10 @@
 package org.bgerp.itest.configuration.department.sales;
 
 import static org.bgerp.itest.kernel.config.ConfigTest.ROLE_EXECUTION_ID;
-import static org.bgerp.itest.kernel.user.UserTest.USER_ADMIN_ID;
 
 import java.io.File;
 import java.util.Date;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -21,6 +21,7 @@ import org.bgerp.itest.kernel.customer.CustomerTest;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.message.MessageTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
+import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.testng.annotations.Test;
 
@@ -38,12 +39,11 @@ public class SalesTest {
 
     public static volatile int processTypeSaleId;
 
-    public static volatile int queueSalesId;
-    
+    public static volatile int queueId;
+
     @Test
     public void addGroups() throws Exception {
         groupId = UserHelper.addGroup("Sales", 0);
-        UserHelper.addUserGroups(USER_ADMIN_ID, Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
     }
 
     @Test (dependsOnMethods = "addGroups")
@@ -65,8 +65,10 @@ public class SalesTest {
 
     @Test (dependsOnMethods = "addTypes")
     public void addQueues() throws Exception {
-        queueSalesId = ProcessHelper.addQueue("Sales", ResourceHelper.getResource(this, "queue.txt"), Sets.newHashSet(processTypeSaleId));
-        UserHelper.addGroupQueues(groupId, Sets.newHashSet(queueSalesId));
+        queueId = ProcessHelper.addQueue("Sales", ResourceHelper.getResource(this, "queue.txt"), Sets.newHashSet(processTypeSaleId));
+        UserHelper.addGroupQueues(groupId, Sets.newHashSet(queueId));
+
+        UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }
 
     private int userKarlId;
@@ -93,16 +95,16 @@ public class SalesTest {
 
         var process = ProcessHelper.addProcess(processTypeSaleId, userFriedrichId, subject);
         ProcessHelper.addCustomerLink(process.getId(), CustomerTest.LINK_TYPE_CUSTOMER, CustomerTest.customerOrgNs);
-        
+
         // sales manager, Karl
         process.getExecutors().add(new ProcessExecutor(userKarlId, groupId, 0));
-        
+
         // connect development group and developer Leon
         process.getGroups().add(new ProcessGroup(DevelopmentTest.groupId));
         processDao.updateProcessGroups(process.getGroups(), process.getId());
         process.getExecutors().add(new ProcessExecutor(DevelopmentTest.userLeonId, DevelopmentTest.groupId, 0));
         processDao.updateProcessExecutors(process.getExecutors(), process.getId());
-        
+
         // original message
         var m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
@@ -150,7 +152,7 @@ public class SalesTest {
             .withFromTime(TimeUtils.getDateWithOffset(-5)).withToTime(TimeUtils.getDateWithOffset(-4)).withUserId(userFriedrichId)
             .withSubject(subject).withText(ResourceHelper.getResource(this, "process.2.message.1.txt"));
         MessageHelper.addMessage(m);
-        
+
         m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(process.getId())
             .withFrom(MessageTest.messageTypeEmailDemo.getEmail()).withTo(mail)

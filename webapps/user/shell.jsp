@@ -139,5 +139,9 @@
 			$('#head > span.right').bind('DOMSubtreeModified', setSize);
 		});
 	</script>
+
+	<span id="scroll-to-top">
+		<i class="ti-arrow-up"></i>
+	</span>
 </body>
 </html>

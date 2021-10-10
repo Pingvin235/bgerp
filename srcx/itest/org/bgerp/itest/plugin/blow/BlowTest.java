@@ -15,15 +15,15 @@ public class BlowTest {
 
     @Test
     public void initConfig() throws Exception {
-        configId = ConfigHelper.addIncludedConfig("Plugin Blow", 
+        configId = ConfigHelper.addIncludedConfig("Plugin Blow",
             PluginHelper.initPlugin(new ru.bgerp.plugin.blow.Plugin()) + ResourceHelper.getResource(this, "config.txt"));
     }
 
     @Test (dependsOnMethods = "initConfig")
     public void addBoardDev() throws Exception {
-        ConfigHelper.addToConfig(BlowTest.configId, 
+        ConfigHelper.addToConfig(BlowTest.configId,
             ConfigHelper.generateConstants(
-                "PROCESS_QUEUE_ID", DevelopmentTest.queueTasksId, 
+                "PROCESS_QUEUE_ID", DevelopmentTest.queueId,
                 "COL_STATUS_CHANGED", 20,
                 "COL_MESSAGES", 10,
                 "COL_MESSAGES_UNREAD", 12,

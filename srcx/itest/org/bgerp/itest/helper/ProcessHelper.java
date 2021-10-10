@@ -36,7 +36,7 @@ public class ProcessHelper {
 
         return status.getId();
     }
-    
+
     public static int addType(String title, int parentId, boolean useParentProperties, TypeProperties props) throws Exception {
         var con = DbTest.conRoot;
         var dao = new ProcessTypeDAO(con);
@@ -46,7 +46,7 @@ public class ProcessHelper {
         type.setUseParentProperties(useParentProperties);
         dao.updateProcessType(type, User.USER_SYSTEM_ID);
         Assert.assertTrue(type.getId() > 0);
-        
+
         if (!useParentProperties && props != null) {
             type.setProperties(props);
             dao.updateTypeProperties(type);
@@ -97,7 +97,7 @@ public class ProcessHelper {
         process.setPriority(priority);
 
         ProcessAction.processCreate(new DynActionForm(UserCache.getUser(createUserId)), con, process);
-    
+
         return process;
     }
 

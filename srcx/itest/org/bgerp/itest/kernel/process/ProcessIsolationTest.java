@@ -18,7 +18,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.util.ParameterMap;
 
-@Test(groups = "processIsolation", dependsOnGroups = "dbInit")
+@Test(groups = "processIsolation", dependsOnGroups = "process")
 public class ProcessIsolationTest {
     private static volatile int processTypeId;
     private static volatile int processTypeSpecialId;
@@ -36,8 +36,8 @@ public class ProcessIsolationTest {
 
     @Test(dependsOnMethods = "addGroups")
     public void addTypes() throws Exception {
-        processTypeId = ProcessHelper.addType("ISOLATED", 0, false, null);
-        processTypeSpecialId = ProcessHelper.addType("ISOLATED SPECIAL", 0, false, null);
+        processTypeId = ProcessHelper.addType("ISOLATED", ProcessTest.processTypeTestGroupId, false, null);
+        processTypeSpecialId = ProcessHelper.addType("ISOLATED SPECIAL", processTypeId, false, null);
     }
 
     @Test(dependsOnMethods = "addTypes")
@@ -47,7 +47,7 @@ public class ProcessIsolationTest {
 
     @Test(dependsOnMethods = "addUser")
     public void testIsolationExecutor() throws Exception {
-        user.setConfig(ParameterMap.getDataString(ParameterMap.of("isolation.process", "executor")));
+        user.setConfig(ParameterMap.of("isolation.process", "executor").getDataString());
 
         var dao = new ProcessDAO(DbTest.conRoot, user);
 
@@ -60,7 +60,7 @@ public class ProcessIsolationTest {
 
     @Test(dependsOnMethods = "addUser")
     public void testIsolationGroups() throws Exception {
-        user.setConfig(ParameterMap.getDataString(ParameterMap.of("isolation.process", "group")));
+        user.setConfig(ParameterMap.of("isolation.process", "group").getDataString());
 
         var dao = new ProcessDAO(DbTest.conRoot, user);
 
@@ -74,8 +74,8 @@ public class ProcessIsolationTest {
         Assert.assertNotNull(dao.getProcess(p.getId()));
         Assert.assertNull(dao.getProcess(ps.getId()));
 
-        user.setConfig(ParameterMap.getDataString(ParameterMap.of("isolation.process", "group",
-                "isolation.process.group.executor.typeIds", processTypeSpecialId + ", 0")));
+        user.setConfig(ParameterMap.of("isolation.process", "group", "isolation.process.group.executor.typeIds",
+                processTypeSpecialId + ", 0").getDataString());
         Assert.assertNotNull(dao.getProcess(p.getId()));
         Assert.assertNull(dao.getProcess(ps.getId()));
 

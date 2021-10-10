@@ -64,7 +64,8 @@ a {
 
 body > #content {
 	padding: 0px 2em;
-	margin-bottom: 2em;
+	/* increased margin, for scroll-to-top button not to overflow pagination */
+	margin-bottom: 4em;
 }
 
 body > #content h1 {
@@ -198,6 +199,35 @@ div, span {
 
 .ajax-loading {
 	filter: blur(0.7px);
+}
+
+/* Scroll to top floating button */
+
+#scroll-to-top {
+	width: 40px;
+	height: 40px;
+	opacity: 0.4;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	display: none;
+	background-color: rgba(41,42,50,.5);
+	border-radius: 7px;
+	color: #fff;
+	cursor: pointer;
+	-webkit-transition: 1s;
+	transition: 1s;
+	z-index: 1000;
+	text-align: center;
+}
+
+#scroll-to-top:hover{
+	opacity: 0.8;
+}
+
+#scroll-to-top i {
+	display: inline-block;
+	margin-top: 15px;
 }
 
 <plugin:include endpoint="css.jsp"/>

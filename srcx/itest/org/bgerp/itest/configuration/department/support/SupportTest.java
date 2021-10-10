@@ -1,7 +1,6 @@
 package org.bgerp.itest.configuration.department.support;
 
 import static org.bgerp.itest.kernel.config.ConfigTest.ROLE_EXECUTION_ID;
-import static org.bgerp.itest.kernel.user.UserTest.USER_ADMIN_ID;
 
 import java.util.Date;
 import java.util.List;
@@ -21,6 +20,7 @@ import org.bgerp.itest.kernel.customer.CustomerTest;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.message.MessageTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
+import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -50,7 +50,6 @@ public class SupportTest {
 
     public void addGroups() throws Exception {
         groupId = UserHelper.addGroup("Support", 0);
-        UserHelper.addUserGroups(USER_ADMIN_ID, Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
     }
 
     @Test(dependsOnMethods = "addGroups")
@@ -78,11 +77,13 @@ public class SupportTest {
 
     @Test (dependsOnMethods =  "addTypes")
     public void addQueues() throws Exception {
-        var queueId = ProcessHelper.addQueue("Support", 
+        var queueId = ProcessHelper.addQueue("Support",
             ConfigHelper.generateConstants("GROUP_ID", groupId) +
             ResourceHelper.getResource(this, "queue.txt"), Sets.newHashSet(processTypeSupportId));
-        UserHelper.addGroupQueues(groupId, Sets.newHashSet(queueId));
-        
+        UserHelper.addGroupQueues(groupId, Set.of(queueId));
+
+        UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
+
         // TODO: Saved filters and counters for administrator.
         // TODO: Configure accept button in queue.
     }
@@ -96,7 +97,7 @@ public class SupportTest {
 
     // simple question
     private void addProcess1() throws Exception {
-        var mail = CustomerTest.CUSTOMER_ORG_NS_TILL_MAIL; 
+        var mail = CustomerTest.CUSTOMER_ORG_NS_TILL_MAIL;
         var subject = "BGERP install update problems";
 
         var processDao = new ProcessDAO(DbTest.conRoot);
@@ -104,7 +105,7 @@ public class SupportTest {
 
         var process = ProcessHelper.addProcess(processTypeSupportId, userFelixId, subject);
         ProcessHelper.addCustomerLink(process.getId(), CustomerTest.LINK_TYPE_CUSTOMER, CustomerTest.customerOrgNs);
-        
+
         process.getExecutors().add(new ProcessExecutor(userFelixId, groupId, 0));
         processDao.updateProcessExecutors(process.getExecutors(), process.getId());
 
@@ -124,7 +125,7 @@ public class SupportTest {
             .withFromTime(TimeUtils.getDateWithOffset(-6)).withToTime(TimeUtils.getDateWithOffset(-5)).withUserId(userFelixId)
             .withSubject(subject = (MessageTypeEmail.RE_PREFIX + subject)).withText(ResourceHelper.getResource(this, "process.1.message.2.txt"));
         MessageHelper.addMessage(m);
-        
+
         m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
             .withFrom(mail).withTo(MessageTest.messageTypeEmailDemo.getEmail())
@@ -188,7 +189,7 @@ public class SupportTest {
         var subject = "Demo server";
 
         var process = ProcessHelper.addProcess(processTypeSupportId, userVyacheslavId, subject);
-        
+
         var m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(process.getId())
             .withFrom(MessageTest.messageTypeEmailDemo.getEmail()).withTo(mail)

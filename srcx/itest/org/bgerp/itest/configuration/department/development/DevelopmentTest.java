@@ -2,7 +2,6 @@ package org.bgerp.itest.configuration.department.development;
 
 import static org.bgerp.itest.kernel.config.ConfigTest.ROLE_EXECUTION_ID;
 import static org.bgerp.itest.kernel.config.ConfigTest.configProcessNotificationId;
-import static org.bgerp.itest.kernel.user.UserTest.USER_ADMIN_ID;
 
 import java.util.Date;
 import java.util.List;
@@ -18,6 +17,7 @@ import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.process.ProcessTest;
+import org.bgerp.itest.kernel.user.UserTest;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.model.param.Parameter;
@@ -37,7 +37,7 @@ public class DevelopmentTest {
     public static volatile int processTypeProductId;
     public static volatile int processTypeTaskId;
 
-    public static volatile int queueTasksId;
+    public static volatile int queueId;
 
     public static volatile int userVladimirId;
     public static volatile int userLeonId;
@@ -45,20 +45,20 @@ public class DevelopmentTest {
     @Test
     public void addGroups() throws Exception {
         groupId = UserHelper.addGroup("Development", 0);
-        UserHelper.addUserGroups(USER_ADMIN_ID, Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
+        //UserHelper.addUserGroups(USER_ADMIN_ID, Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
     }
-    
+
     @Test
     public void addParams() throws Exception {
         paramGitBranchId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, "GIT branch", ProcessTest.posParam += 2, "", "");
-        paramSpecId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, "Specification", ProcessTest.posParam += 2, 
+        paramSpecId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, "Specification", ProcessTest.posParam += 2,
             "multiple=1\n", "");
     }
-    
+
     @Test(dependsOnMethods = { "addGroups", "addParams" })
     public void addTypes() throws Exception {
         processTypeProductId = ProcessHelper.addType("BGERP", 0, false, null);
-        
+
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusWaitId, ProcessTest.statusDoneId, ProcessTest.statusRejectId));
         props.setCreateStatus(ProcessTest.statusOpenId);
@@ -79,13 +79,15 @@ public class DevelopmentTest {
 
     @Test (dependsOnMethods = "addTypes")
     public void addQueues() throws Exception {
-        queueTasksId = ProcessHelper.addQueue("Development", 
-            ConfigHelper.generateConstants("GROUP_ID", groupId, 
-                "STATUS_OPEN_ID", ProcessTest.statusOpenId, 
+        queueId = ProcessHelper.addQueue("Development",
+            ConfigHelper.generateConstants("GROUP_ID", groupId,
+                "STATUS_OPEN_ID", ProcessTest.statusOpenId,
                 "STATUS_PROGRESS_ID", ProcessTest.statusProgressId,
                 "STATUS_WAIT_ID", ProcessTest.statusWaitId) +
             ResourceHelper.getResource(this, "queue.tasks.txt"), Sets.newHashSet(processTypeProductId));
-        UserHelper.addGroupQueues(groupId, Sets.newHashSet(queueTasksId));
+        UserHelper.addGroupQueues(groupId, Sets.newHashSet(queueId));
+
+        UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }
 
     @Test (dependsOnMethods = "addGroups")

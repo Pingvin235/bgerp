@@ -246,9 +246,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Для JSP получение конфига в текстовом виде.
-     * Нельзя использовать .dataString, т.к. ParameterMap будет отдавать как Map.
-     * @return
+     * @Use {@link ParameterMap#getDataString()}.
      */
     @Deprecated
     public static final String getDataString(ParameterMap config) {

@@ -105,6 +105,14 @@ $(function(){
 			}
 			event.preventDefault();
 		});
+
+	/* Scroll to top floating button */
+	$(window).scroll(function () {
+		$(this).scrollTop() > 300 ? $('#scroll-to-top:hidden').fadeIn() : $('#scroll-to-top:visible').fadeOut();
+	});
+	$('#scroll-to-top').click(function () {
+		$('html, body').animate({scrollTop: 0}, 600);
+	});
 });
 
 function addEventProcessor( eventType, processor )
