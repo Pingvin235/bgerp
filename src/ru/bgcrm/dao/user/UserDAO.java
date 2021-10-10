@@ -30,6 +30,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
+import ru.bgcrm.util.PswdUtil;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.PreparedDelay;
@@ -45,128 +46,95 @@ public class UserDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchUser(SearchResult<User> searchResult) throws BGException {
-        Page page = searchResult.getPage();
-        try {
-            StringBuffer query = new StringBuffer();
-            query.append("SELECT SQL_CALC_FOUND_ROWS * FROM ");
-            query.append(TABLE_USER);
-            query.append(" ORDER BY title");
-            query.append(getPageLimit(page));
-
-            PreparedStatement ps = con.prepareStatement(query.toString());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                searchResult.getList().add(getFromRS(rs));
-            }
-
-            if (page != null) {
-                page.setRecordCount(getFoundRows(ps));
-            }
-            ps.close();
-        } catch (Exception e) {
-            throw new BGException(e);
-        }
-    }
-
     public void searchUser(SearchResult<User> searchResult, String filterLike, Set<Integer> groupFilter,
             Set<Integer> groupSelectFilter, Date date, Set<Integer> permsetFilter, int statusFilter)
-            throws BGException {
+            throws SQLException {
         Page page = searchResult.getPage();
-        try {
-            PreparedDelay psDelay = new PreparedDelay(con);
+        PreparedDelay psDelay = new PreparedDelay(con);
 
-            psDelay.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT user.*, ");
-            psDelay.addQuery(SELECT_PERMSETS_QUERY);
+        psDelay.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT user.*, ");
+        psDelay.addQuery(SELECT_PERMSETS_QUERY);
 
-            Date prevDay = date != null ? TimeUtils.getPrevDay(date) : null;
+        Date prevDay = date != null ? TimeUtils.getPrevDay(date) : null;
 
-            if (date == null) {
-                psDelay.addQuery(SELECT_GROUPS_QUERY);
-            } else {
-                psDelay.addQuery("( SELECT GROUP_CONCAT(ug.group_id SEPARATOR ',') FROM " + TABLE_USER_GROUP + " AS ug "
-                        + "WHERE ug.user_id=user.id AND (ug.date_from IS NULL OR ug.date_from<=?) AND (ug.date_to >? OR ug.date_to IS NULL) ) AS `groups` ");
+        if (date == null) {
+            psDelay.addQuery(SELECT_GROUPS_QUERY);
+        } else {
+            psDelay.addQuery("( SELECT GROUP_CONCAT(ug.group_id SEPARATOR ',') FROM " + TABLE_USER_GROUP + " AS ug "
+                    + "WHERE ug.user_id=user.id AND (ug.date_from IS NULL OR ug.date_from<=?) AND (ug.date_to >? OR ug.date_to IS NULL) ) AS `groups` ");
+
+            psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(date));
+            psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(prevDay));
+        }
+
+        psDelay.addQuery(" FROM " + TABLE_USER + " AS user ");
+
+        if (groupFilter != null && groupFilter.size() > 0) {
+            psDelay.addQuery(SQL_INNER_JOIN);
+            psDelay.addQuery(
+                    TABLE_USER_GROUP + " AS user_group ON user.id=user_group.user_id AND user_group.group_id IN(");
+            psDelay.addQuery(Utils.toString(groupFilter));
+            psDelay.addQuery(")");
+
+            if (date != null) {
+                psDelay.addQuery(
+                        " AND (user_group.date_from IS NULL OR user_group.date_from<=?) AND (user_group.date_to>? OR user_group.date_to IS NULL) ");
 
                 psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(date));
                 psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(prevDay));
             }
-
-            psDelay.addQuery(" FROM " + TABLE_USER + " AS user ");
-
-            if (groupFilter != null && groupFilter.size() > 0) {
-                psDelay.addQuery(SQL_INNER_JOIN);
-                psDelay.addQuery(
-                        TABLE_USER_GROUP + " AS user_group ON user.id=user_group.user_id AND user_group.group_id IN(");
-                psDelay.addQuery(Utils.toString(groupFilter));
-                psDelay.addQuery(")");
-
-                if (date != null) {
-                    psDelay.addQuery(
-                            " AND (user_group.date_from IS NULL OR user_group.date_from<=?) AND (user_group.date_to>? OR user_group.date_to IS NULL) ");
-
-                    psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(date));
-                    psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(prevDay));
-                }
-            }
-
-            if (groupSelectFilter != null && groupSelectFilter.size() > 0) {
-                psDelay.addQuery(SQL_INNER_JOIN);
-                psDelay.addQuery(TABLE_USER_GROUP
-                        + " AS user_select_group ON user.id=user_select_group.user_id AND user_select_group.group_id IN(");
-                psDelay.addQuery(Utils.toString(groupSelectFilter));
-                psDelay.addQuery(")");
-
-                if (date != null) {
-                    psDelay.addQuery(
-                            " AND user_select_group.date_from <=? AND (user_select_group.date_to >? OR user_select_group.date_to IS NULL) ");
-
-                    psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(date));
-                    psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(prevDay));
-                }
-            }
-
-            if (permsetFilter != null && permsetFilter.size() > 0) {
-                psDelay.addQuery(SQL_INNER_JOIN);
-                psDelay.addQuery(TABLE_USER_PERMSET
-                        + " AS user_permset ON user.id=user_permset.user_id AND user_permset.permset_id IN(");
-                psDelay.addQuery(Utils.toString(permsetFilter));
-                psDelay.addQuery(")");
-            }
-
-            psDelay.addQuery(" WHERE 1=1 ");
-
-            if (Utils.notBlankString(filterLike)) {
-                psDelay.addQuery(" AND ( title LIKE ? OR login LIKE ? OR description LIKE ? ) ");
-                psDelay.addString(filterLike);
-                psDelay.addString(filterLike);
-                psDelay.addString(filterLike);
-            }
-
-            if (statusFilter >= 0) {
-                psDelay.addQuery(" AND status=? ");
-                psDelay.addInt(statusFilter);
-            }
-
-            psDelay.addQuery(" ORDER BY title ");
-            psDelay.addQuery(getPageLimit(page));
-
-            ResultSet rs = psDelay.executeQuery();
-            while (rs.next()) {
-                searchResult.getList().add(getFromRS(rs, "", true));
-            }
-
-            if (page != null) {
-                page.setRecordCount(getFoundRows(psDelay.getPrepared()));
-            }
-            psDelay.close();
-        } catch (Exception e) {
-            throw new BGException(e);
         }
-    }
 
-    public void searchUser(SearchResult<User> searchResult, String titleOrLoginFilter, Set<Integer> groupFilter)
-            throws BGException {
-        searchUser(searchResult, titleOrLoginFilter, groupFilter, null, null, null, 0);
+        if (groupSelectFilter != null && groupSelectFilter.size() > 0) {
+            psDelay.addQuery(SQL_INNER_JOIN);
+            psDelay.addQuery(TABLE_USER_GROUP
+                    + " AS user_select_group ON user.id=user_select_group.user_id AND user_select_group.group_id IN(");
+            psDelay.addQuery(Utils.toString(groupSelectFilter));
+            psDelay.addQuery(")");
+
+            if (date != null) {
+                psDelay.addQuery(
+                        " AND user_select_group.date_from <=? AND (user_select_group.date_to >? OR user_select_group.date_to IS NULL) ");
+
+                psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(date));
+                psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(prevDay));
+            }
+        }
+
+        if (permsetFilter != null && permsetFilter.size() > 0) {
+            psDelay.addQuery(SQL_INNER_JOIN);
+            psDelay.addQuery(TABLE_USER_PERMSET
+                    + " AS user_permset ON user.id=user_permset.user_id AND user_permset.permset_id IN(");
+            psDelay.addQuery(Utils.toString(permsetFilter));
+            psDelay.addQuery(")");
+        }
+
+        psDelay.addQuery(" WHERE 1=1 ");
+
+        if (Utils.notBlankString(filterLike)) {
+            psDelay.addQuery(" AND ( title LIKE ? OR login LIKE ? OR description LIKE ? ) ");
+            psDelay.addString(filterLike);
+            psDelay.addString(filterLike);
+            psDelay.addString(filterLike);
+        }
+
+        if (statusFilter >= 0) {
+            psDelay.addQuery(" AND status=? ");
+            psDelay.addInt(statusFilter);
+        }
+
+        psDelay.addQuery(" ORDER BY title ");
+        psDelay.addQuery(getPageLimit(page));
+
+        ResultSet rs = psDelay.executeQuery();
+        while (rs.next()) {
+            searchResult.getList().add(getFromRS(rs, "", true, false));
+        }
+
+        if (page != null) {
+            page.setRecordCount(getFoundRows(psDelay.getPrepared()));
+        }
+        psDelay.close();
     }
 
     /**
@@ -178,7 +146,7 @@ public class UserDAO extends CommonDAO {
      */
     public void searchUserListByEmail(SearchResult<ParameterSearchedObject<User>> searchResult,
             List<Integer> emailParamIdList, String email) throws BGException {
-        new ParamValueSearchDAO(con).searchObjectListByEmail(TABLE_USER, rs -> getFromRS(rs, "c.", false), searchResult,
+        new ParamValueSearchDAO(con).searchObjectListByEmail(TABLE_USER, rs -> getFromRS(rs, "c.", false, false), searchResult,
                 emailParamIdList, email);
     }
 
@@ -189,19 +157,23 @@ public class UserDAO extends CommonDAO {
      */
 
     /**
-     * Complete user list.
+     * Complete user list with passwords.
      * @return
      * @throws SQLException
      */
     public List<User> getUserList() throws SQLException {
-        return getUserList(null, null);
+        return getUserList(null, null, true);
     }
 
     public List<User> getUserList(Set<Integer> groupIds) throws SQLException {
-        return getUserList(groupIds, null);
+        return getUserList(groupIds, null, false);
     }
 
     public List<User> getUserList(Set<Integer> groupIds, String userTitleMask) throws SQLException {
+        return getUserList(groupIds, userTitleMask, false );
+    }
+
+    public List<User> getUserList(Set<Integer> groupIds, String userTitleMask, boolean loadPassword) throws SQLException {
         List<User> result = new ArrayList<User>();
 
         StringBuilder query = new StringBuilder().append("SELECT DISTINCT user.* FROM user ");
@@ -220,80 +192,72 @@ public class UserDAO extends CommonDAO {
 
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            result.add(getFromRS(rs));
+            result.add(getFromRS(rs, "", false, loadPassword));
         }
         ps.close();
 
         return result;
     }
 
-    public List<User> getUserList(Set<Integer> groupFilter, Date dateGroupFrom, Date dateGroupTo) throws BGException {
+    public List<User> getUserList(Set<Integer> groupFilter, Date dateGroupFrom, Date dateGroupTo) throws SQLException {
         List<User> result = new ArrayList<User>();
 
-        try {
-            PreparedDelay psDelay = new PreparedDelay(con);
+        PreparedDelay psDelay = new PreparedDelay(con);
 
-            psDelay.addQuery("SELECT DISTINCT user.* ");
-            psDelay.addQuery(" FROM " + TABLE_USER + " AS user ");
+        psDelay.addQuery("SELECT DISTINCT user.* ");
+        psDelay.addQuery(" FROM " + TABLE_USER + " AS user ");
 
-            if (CollectionUtils.isNotEmpty(groupFilter)) {
-                psDelay.addQuery(SQL_INNER_JOIN);
-                psDelay.addQuery(
-                        TABLE_USER_GROUP + " AS user_group ON user.id=user_group.user_id AND user_group.group_id IN(");
-                psDelay.addQuery(Utils.toString(groupFilter));
-                psDelay.addQuery(")");
+        if (CollectionUtils.isNotEmpty(groupFilter)) {
+            psDelay.addQuery(SQL_INNER_JOIN);
+            psDelay.addQuery(
+                    TABLE_USER_GROUP + " AS user_group ON user.id=user_group.user_id AND user_group.group_id IN(");
+            psDelay.addQuery(Utils.toString(groupFilter));
+            psDelay.addQuery(")");
 
-                if (dateGroupFrom != null) {
-                    psDelay.addQuery(" AND (user_group.date_to IS NULL OR ?<=user_group.date_to)");
-                    psDelay.addDate(TimeUtils.convertDateToSqlDate(dateGroupFrom));
-                }
-                if (dateGroupTo != null) {
-                    psDelay.addQuery(" AND (user_group.date_from IS NULL OR user_group.date_from<=?)");
-                    psDelay.addDate(TimeUtils.convertDateToSqlDate(dateGroupTo));
-                }
+            if (dateGroupFrom != null) {
+                psDelay.addQuery(" AND (user_group.date_to IS NULL OR ?<=user_group.date_to)");
+                psDelay.addDate(TimeUtils.convertDateToSqlDate(dateGroupFrom));
             }
-
-            psDelay.addQuery(" ORDER BY title ");
-
-            ResultSet rs = psDelay.executeQuery();
-            while (rs.next()) {
-                result.add(getFromRS(rs, "", false));
+            if (dateGroupTo != null) {
+                psDelay.addQuery(" AND (user_group.date_from IS NULL OR user_group.date_from<=?)");
+                psDelay.addDate(TimeUtils.convertDateToSqlDate(dateGroupTo));
             }
-            psDelay.close();
-        } catch (Exception e) {
-            throw new BGException(e);
         }
+
+        psDelay.addQuery(" ORDER BY title ");
+
+        ResultSet rs = psDelay.executeQuery();
+        while (rs.next()) {
+            result.add(getFromRS(rs));
+        }
+        psDelay.close();
 
         return result;
     }
 
-    public Map<Integer, List<UserGroup>> getAllUserGroups() throws BGException {
+    public Map<Integer, List<UserGroup>> getAllUserGroups() throws SQLException {
         Map<Integer, List<UserGroup>> result = new HashMap<Integer, List<UserGroup>>();
 
-        try {
-            String query = "SELECT * FROM " + TABLE_USER_GROUP;
-            PreparedStatement ps = con.prepareStatement(query);
+        String query = "SELECT * FROM " + TABLE_USER_GROUP;
+        PreparedStatement ps = con.prepareStatement(query);
 
-            ResultSet rs = ps.executeQuery();
+        ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                int userId = rs.getInt("user_id");
-                UserGroup userGroup = getUserGroupFromRs(rs);
+        while (rs.next()) {
+            int userId = rs.getInt("user_id");
+            UserGroup userGroup = getUserGroupFromRs(rs);
 
-                if (result.get(userId) != null) {
-                    result.get(userId).add(userGroup);
-                } else {
-                    List<UserGroup> groupList = new ArrayList<UserGroup>();
+            if (result.get(userId) != null) {
+                result.get(userId).add(userGroup);
+            } else {
+                List<UserGroup> groupList = new ArrayList<UserGroup>();
 
-                    groupList.add(userGroup);
-                    result.put(userId, groupList);
-                }
-
+                groupList.add(userGroup);
+                result.put(userId, groupList);
             }
-            ps.close();
-        } catch (SQLException ex) {
-            throw new BGException(ex);
+
         }
+        ps.close();
 
         return result;
     }
@@ -323,10 +287,19 @@ public class UserDAO extends CommonDAO {
     }
 
     private User getFromRS(ResultSet rs) throws SQLException {
-        return getFromRS(rs, "", false);
+        return getFromRS(rs, "", false, false);
     }
 
-    private User getFromRS(ResultSet rs, String prefix, boolean loadGroupAndPermsets) throws SQLException {
+    /**
+     * Retrieving user data from query result set.
+     *
+     * @param rs result set. Don't forget to close rs!
+     * @param prefix a prefix for a table column
+     * @param loadGroupAndPermsets is need to load groups and permsets. true - need to load, false - doesn't need.
+     * @param loadPassword is need to load password from database. true - need, false - doesn't need.
+     * @return user entity
+     */
+    private User getFromRS(ResultSet rs, String prefix, boolean loadGroupAndPermsets, boolean loadPassword) throws SQLException {
         User user = new User();
 
         user.setId(rs.getInt(prefix + "id"));
@@ -336,8 +309,9 @@ public class UserDAO extends CommonDAO {
         user.setPersonalization(prefix + rs.getString("personalization"));
         user.setDescription(rs.getString(prefix + "description"));
         user.setLogin(rs.getString(prefix + "login"));
-        user.setPassword(rs.getString(prefix + "pswd"));
-
+        if (loadPassword) {
+            user.setPassword(rs.getString(prefix + "pswd"));
+        }
         if (loadGroupAndPermsets) {
             user.setPermsetIds(Utils.toIntegerList(rs.getString(prefix + "permsets")));
             user.setGroupIds(Utils.toIntegerSet(rs.getString(prefix + "groups")));
@@ -347,19 +321,18 @@ public class UserDAO extends CommonDAO {
     }
 
     public void updateUser(int userId, String title, String login, String pswd, String description)
-            throws BGException, SQLException {
+            throws SQLException {
         int index = 1;
-        PreparedStatement ps;
-
-        ps = con.prepareStatement("UPDATE user SET title=?, login=?, pswd=?, description=? WHERE id=?");
+        
+        var ps = con.prepareStatement("UPDATE user SET title=?, login=?, description=? WHERE id=?");
         ps.setString(index++, title);
         ps.setString(index++, login);
-        ps.setString(index++, pswd);
         ps.setString(index++, description);
         ps.setInt(index++, userId);
         ps.executeUpdate();
-
         ps.close();
+
+        updateUserPassword(userId, pswd);
     }
 
     public void updateUser(User user) throws SQLException {
@@ -369,11 +342,10 @@ public class UserDAO extends CommonDAO {
 
         if (user.getId() <= 0) {
             newUser = true;
-            String query = "INSERT INTO user SET title=?, login=?, pswd=?, description=?, config=?, date_created=?, status=?";
+            String query = "INSERT INTO " + TABLE_USER + " SET title=?, login=?, description=?, config=?, date_created=?, status=?";
             ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(index++, user.getTitle());
             ps.setString(index++, user.getLogin());
-            ps.setString(index++, user.getPassword());
             ps.setString(index++, user.getDescription());
             ps.setString(index++, user.getConfig());
             ps.setDate(index++, TimeUtils.convertDateToSqlDate(new Date()));
@@ -382,10 +354,9 @@ public class UserDAO extends CommonDAO {
             user.setId(lastInsertId(ps));
         } else {
             ps = con.prepareStatement(
-                    "UPDATE user SET title=?, login=?, pswd=?, status=?, description=?, config=?, WHERE id=?");
+                    "UPDATE " + TABLE_USER + " SET title=?, login=?, status=?, description=?, config=? WHERE id=?");
             ps.setString(index++, user.getTitle());
             ps.setString(index++, user.getLogin());
-            ps.setString(index++, user.getPassword());
             ps.setInt(index++, user.getStatus());
             ps.setString(index++, user.getDescription());
             ps.setString(index++, user.getConfig());
@@ -393,6 +364,8 @@ public class UserDAO extends CommonDAO {
             ps.executeUpdate();
         }
         ps.close();
+
+        updateUserPassword(user.getId(), user.getPassword());
 
         if (user.getPermsetIds() != null) {
             updateIds(TABLE_USER_PERMSET, "user_id", "permset_id", "pos", user.getId(), user.getPermsetIds());
@@ -403,6 +376,15 @@ public class UserDAO extends CommonDAO {
 
         if (newUser && user.getGroupIds() != null) {
             updateUserGroups(user);
+        }
+    }
+
+    private void updateUserPassword(int userId, String pswd) throws SQLException {
+        if (PswdUtil.EMPTY_PASSWORD.equals(pswd))
+            return;
+
+        try (var pd = new PreparedDelay(con, SQL_UPDATE + TABLE_USER + SQL_SET + "pswd=?" + SQL_WHERE + "id=?")) {
+            pd.addString(pswd).addInt(userId).executeUpdate();
         }
     }
 
@@ -681,26 +663,22 @@ public class UserDAO extends CommonDAO {
     }
 
     public void closeUserGroupPeriod(int userId, int groupId, Date date, Date dateFrom, Date dateTo)
-            throws BGException {
-        try {
-            String query = SQL_UPDATE + TABLE_USER_GROUP + " SET date_to=? " + SQL_WHERE + " user_id=? AND group_id=?";
-            query += dateFrom != null ? " AND date_from = ? " : " AND date_from IS NULL ";
-            query += dateTo != null ? " AND date_to = ? " : " AND date_to IS NULL ";
+            throws SQLException {
+        String query = SQL_UPDATE + TABLE_USER_GROUP + " SET date_to=? " + SQL_WHERE + " user_id=? AND group_id=?";
+        query += dateFrom != null ? " AND date_from = ? " : " AND date_from IS NULL ";
+        query += dateTo != null ? " AND date_to = ? " : " AND date_to IS NULL ";
 
-            int index = 1;
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(date));
-            ps.setInt(index++, userId);
-            ps.setInt(index++, groupId);
-            if (dateFrom != null)
-                ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(dateFrom));
-            if (dateTo != null)
-                ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(dateTo));
+        int index = 1;
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setDate(index++, TimeUtils.convertDateToSqlDate(date));
+        ps.setInt(index++, userId);
+        ps.setInt(index++, groupId);
+        if (dateFrom != null)
+            ps.setDate(index++, TimeUtils.convertDateToSqlDate(dateFrom));
+        if (dateTo != null)
+            ps.setDate(index++, TimeUtils.convertDateToSqlDate(dateTo));
 
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e.getMessage());
-        }
+        ps.executeUpdate();
+        ps.close();
     }
 }

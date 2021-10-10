@@ -63,7 +63,7 @@
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
-		 	<c:url var="editUrl" value="/admin/user.do">
+			<c:url var="editUrl" value="/admin/user.do">
 				<c:param name="action" value="userGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -78,6 +78,9 @@
 					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
 				</c:if>
 				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+
+				<c:set var="user" scope="request" value="${item}"/>
+				<plugin:include endpoint="admin.user.action.jsp"/>
 			</td>
 
 			<td>${item.id}</td>
@@ -91,8 +94,8 @@
 			</td>
 			<td><ui:user-link id="${item.id}"/></td>
 			<td>${item.login}</td>
-			<td>${u:orderedObjectTitleList( ctxUserPermsetMap, item.permsetIds )}</td>
-			<td>${u:objectTitleList( ctxUserGroupFullTitledList, item.groupIds )}</td>
+			<td>${u:orderedObjectTitleList(ctxUserPermsetMap, item.permsetIds)}</td>
+			<td>${u:objectTitleList(ctxUserGroupFullTitledList, item.groupIds)}</td>
 			<td>${item.description}</td>
 		</tr>
 	</c:forEach>

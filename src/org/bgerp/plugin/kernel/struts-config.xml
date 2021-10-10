@@ -29,16 +29,6 @@
 			<forward name="statusUseProcess" path="/WEB-INF/jspf/admin/process/use_process.jsp" />
 		</action>
 
-		<action path="/admin/user" parameter="action" type="ru.bgcrm.struts.action.admin.UserAction" name="form" scope="request">
-			<forward name="permsetUpdate" path="/WEB-INF/jspf/admin/user/permset/update.jsp" />
-			<forward name="permsetList" path="/WEB-INF/jspf/admin/user/permset/list.jsp" />
-			<forward name="groupUpdate" path="/WEB-INF/jspf/admin/user/group/update.jsp" />
-			<forward name="groupList" path="/WEB-INF/jspf/admin/user/group/list.jsp" />
-			<forward name="userUpdate" path="/WEB-INF/jspf/admin/user/user/update.jsp" />
-			<forward name="userList" path="/WEB-INF/jspf/admin/user/user/list.jsp" />
-			<forward name="userGroupList" path="/WEB-INF/jspf/admin/user/user/update_usergroup.jsp" />
-		</action>
-
 		<action path="/admin/config" parameter="action" type="ru.bgcrm.struts.action.admin.ConfigAction" name="form" scope="request" >
 			<forward name="list" path="/WEB-INF/jspf/admin/config/list.jsp" />
 			<forward name="update" path="/WEB-INF/jspf/admin/config/update.jsp" />

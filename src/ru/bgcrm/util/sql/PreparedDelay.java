@@ -84,64 +84,80 @@ public class PreparedDelay implements Closeable {
     /**
      * Add int parameter in the prepared statement.
      * @param value
+     * @return the current instance.
      */
-    public void addInt(int value) {
+    public PreparedDelay addInt(int value) {
         psSets.add(value);
+        return this;
     }
 
     /** Add long parameter in the prepared statement
      * @param value
+     * @return the current instance.
      */
-    public void addLong(long value) {
+    public PreparedDelay addLong(long value) {
         psSets.add(value);
+        return this;
     }
 
     /** Add Decimal parameter in the prepared statement.
      * @param value
+     * @return the current instance.
      */
-    public void addBigDecimal(BigDecimal value) {
+    public PreparedDelay addBigDecimal(BigDecimal value) {
         psSets.add(value);
+        return this;
     }
 
     /**
      * Add int parameter in the prepared statement.
      * @param value
+     * @return the current instance.
      */
-    public void addString(String value) {
+    public PreparedDelay addString(String value) {
         psSets.add(value);
+        return this;
     }
 
     /**
      * Add Date parameter in the prepared statement.
      * @param value
+     * @return the current instance.
      */
-    public void addDate(Date value) {
+    public PreparedDelay addDate(Date value) {
         psSets.add(TimeUtils.convertDateToSqlDate(value));
+        return this;
     }
 
     /**
      * Add Timestamp parameter in the prepared statement.
      * @param value
+     * @return the current instance.
      */
-    public void addTimestamp(Timestamp value) {
+    public PreparedDelay addTimestamp(Timestamp value) {
         psSets.add(value);
+        return this;
     }
 
     /**
      * Add Boolean parameter in the prepared statement.
      * @param value
+     * @return the current instance.
      */
-    public void addBoolean(Boolean value) {
+    public PreparedDelay addBoolean(Boolean value) {
         psSets.add(value);
+        return this;
     }
 
     /**
-     * Add parameters with obitary types in the prepared statement.
+     * Add parameters with arbitrary types in the prepared statement.
      * @param values
+     * @return the current instance.
      */
-    public void addObjects(Object... values) {
+    public PreparedDelay addObjects(Object... values) {
         for (Object value : values)
             psSets.add(value);
+        return this;
     }
 
     /**

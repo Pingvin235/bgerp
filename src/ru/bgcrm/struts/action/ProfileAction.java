@@ -13,7 +13,7 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
-import ru.bgcrm.util.PswdUtil;
+import ru.bgcrm.util.PswdUtil.UserPswdUtil;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -70,7 +70,7 @@ public class ProfileAction extends BaseAction {
             throw new BGMessageException("Не указано имя.");
         }
 
-        new PswdUtil(setup, "user.").checkPassword(userPassword);
+        new UserPswdUtil(setup).checkPassword(userPassword);
 
         user.setTitle(userName);
         user.setLogin(userLogin);

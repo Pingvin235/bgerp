@@ -720,8 +720,6 @@ CALL drop_column_if_exists('process_status', 'id');
 
 CALL add_key_if_not_exists('process_group', 'group_id', '(group_id)');
 
-ALTER TABLE user_group CHANGE COLUMN date_from date_from DATE NULL;
-
 CALL add_column_if_not_exists('process_executor', 'group_id', 'INT NOT NULL AFTER process_id');
 CALL add_column_if_not_exists('process_executor', 'role_id', 'INT NOT NULL AFTER group_id');
 CALL add_key_if_not_exists('process_executor', 'group_id', '(group_id)');
@@ -740,8 +738,6 @@ ALTER TABLE address_house MODIFY frac VARCHAR(50) NOT NULL;
 
 CALL add_column_if_not_exists('n_message', 'system_id', 'VARCHAR(100) NOT NULL AFTER id');
 CALL add_key_if_not_exists('n_message', 'system_id', '(system_id(5))');
-
-ALTER TABLE user_group MODIFY date_from DATETIME, MODIFY date_to DATETIME;
 
 CALL add_column_if_not_exists('process_message_state', 'in_unread_count', 'INT NOT NULL AFTER in_count');
 
@@ -799,6 +795,8 @@ CALL drop_key_if_exists('param_list', 'id_param');
 
 -- TODO: CALL drop_column_if_exists('user', 'email');
 -- TODO: CALL drop_column_if_exists('user', 'ids');
+
+ALTER TABLE user_group MODIFY date_from DATE NOT NULL, MODIFY date_to DATE;
 
 -- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

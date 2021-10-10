@@ -53,7 +53,7 @@
 			</u:sc>
 
 			<c:if test="${empty perm['configDisable']}">
-				<h2>Конфигурация</h2>
+				<h2>${l.l('Конфигурация')}</h2>
 
 				<u:sc>
 					<c:set var="uiid" value="${u:uiid()}"/>
@@ -83,7 +83,7 @@
 	--%></c:if><%--
 	--%><c:if test="${empty perm['permDisable']}"><%--
 		--%><div style="width: 25%;">
-				<h2>Права</h2>
+				<h2>${l.l('Права')}</h2>
 
 				<c:set var="permissionTreeId" value="${u:uiid()}"/>
 				<ul id="${permissionTreeId}" class="layout-height-rest" style="overflow: auto;">
@@ -94,10 +94,9 @@
 				</ul>
 
 				<script>
-					$( function()
-					{
+					$(function () {
 						$("#${permissionTreeId}").Tree();
-					} );
+					});
 				</script>
 			</div><%--
 	--%></c:if><%--
@@ -128,20 +127,23 @@
 	<c:set var="toPostNames" value="['config','userConfig']"/>
 	<c:choose>
 		<c:when test="${form.id le 0}">
-			<c:set var="script">
-				var result = sendAJAXCommand( formUrl( $('#${formUiid}') ), ${toPostNames} );
-				if( result )
-				{
-					openUrlContent( '/admin/user.do?action=userGet&id=' + result.data.newUserId + '&returnUrl=' + encodeURIComponent('${form.returnUrl}') );
-				}
-			</c:set>
-			<button class="btn-grey" onclick="${script}">Промежуточное сохранение</button>
+			<button type="button" class="btn-grey" onclick="$$.ajax
+				.post($('#${formUiid}'), {toPostNames: ${toPostNames}})
+				.done((result) => {
+					$$.ajax.load(
+						'/admin/user.do?action=userGet&id=' + result.data.newUserId + '&returnUrl=' + encodeURIComponent('${form.returnUrl}'),
+						$$.shell.$content()
+					)
+				})
+			">${l.l('Промежуточное сохранение')}</button>
 		</c:when>
 		<c:otherwise>
-			<button class="btn-grey" onclick="if( sendAJAXCommand( formUrl( $('#${formUiid}') ), ${toPostNames} ) ){ openUrlContent( '${form.returnUrl}' ) }">OK</button>
+			<ui:button type="ok" onclick="$$.ajax
+				.post($('#${formUiid}'), {toPostNames: ${toPostNames}})
+				.done(() => $$.ajax.load('${form.returnUrl}', $$.shell.$content()))"/>
 		</c:otherwise>
 	</c:choose>
-	<button class="btn-grey" onclick="openUrlContent( '${form.returnUrl}' )">${l.l('Отмена')}</button>
+	<ui:button type="cancel" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content())"/>
 </div>
 
 <c:if test="${form.id gt 0}">

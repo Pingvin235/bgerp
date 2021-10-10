@@ -9,7 +9,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
@@ -27,23 +26,26 @@ import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.Permset;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.PswdUtil;
+import ru.bgcrm.util.PswdUtil.UserPswdUtil;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 
+@Action(path = "/admin/user")
 public class UserAction extends ru.bgcrm.struts.action.BaseAction {
+    private static final String JSP_PATH = PATH_JSP_ADMIN + "/user";
     
-    public ActionForward permsetList(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward permsetList(DynActionForm form, Connection con) throws BGException {
         new UserPermsetDAO(con).searchPermset(new SearchResult<Permset>(form),
                 CommonDAO.getLikePatternSub(form.getParam("filter")));
 
-        return html(con, mapping, form, "permsetList");
+        return html(con, form, JSP_PATH + "/permset/list.jsp");
     }
 
-    public ActionForward permsetGet(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward permsetGet(DynActionForm form, Connection con) throws BGException {
 
         Permset permset = new UserPermsetDAO(con).getPermsetById(form.getId());
         if (permset != null) {
@@ -55,10 +57,10 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         form.getHttpRequest().setAttribute("allPermissions", UserCache.getAllPermTree());
 
-        return html(con, mapping, form, "permsetUpdate");
+        return html(con, form, JSP_PATH + "/permset/update.jsp");
     }
 
-    public ActionForward permsetUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward permsetUpdate(DynActionForm form, Connection con) throws Exception {
         UserPermsetDAO permsetDAO = new UserPermsetDAO(con);
 
         int id = form.getId();
@@ -85,7 +87,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         return json(con, form);
     }
 
-    public ActionForward permsetDelete(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward permsetDelete(DynActionForm form, Connection con) throws BGException {
         new UserPermsetDAO(con).deletePermset(form.getId());
 
         UserCache.flush(con);
@@ -93,7 +95,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         return json(con, form);
     }
 
-    public ActionForward permsetReplacePermissions(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward permsetReplacePermissions(DynActionForm form, Connection con) throws BGException {
         new UserPermsetDAO(con).replacePermissions(form.getParamInt("fromId"), form.getId());
 
         UserCache.flush(con);
@@ -101,7 +103,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         return json(con, form);
     }
 
-    public ActionForward groupList(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward groupList(DynActionForm form, Connection con) throws BGException {
         String filter = form.getParam("filter", "");
 
         int parentId = form.getParamInt("parentGroupId", 0);
@@ -121,10 +123,10 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             }
         }
 
-        return html(con, mapping, form, "groupList");
+        return html(con, form, JSP_PATH + "/group/list.jsp");
     }
 
-    public ActionForward groupGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward groupGet(DynActionForm form, Connection con) throws Exception {
         UserGroupDAO groupDAO = new UserGroupDAO(con);
 
         Group group = groupDAO.getGroupById(form.getId());
@@ -135,10 +137,10 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             form.getResponse().setData("group", group);
         }
 
-        return html(con, mapping, form, "groupUpdate");
+        return html(con, form, JSP_PATH + "/group/update.jsp");
     }
 
-    public ActionForward groupUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward groupUpdate(DynActionForm form, Connection con) throws Exception {
         UserGroupDAO groupDAO = new UserGroupDAO(con);
 
         int id = form.getId();
@@ -172,7 +174,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         return json(con, form);
     }
 
-    public ActionForward groupDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward groupDelete(DynActionForm form, Connection con) throws Exception {
 
         List<User> userInGroupList = new UserDAO(con).getUserList(Collections.singleton(form.getId()));
 
@@ -187,7 +189,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         return json(con, form);
     }
 
-    public ActionForward groupInsertMark(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward groupInsertMark(DynActionForm form, Connection con) throws Exception {
         ArrayHashMap paramMap = form.getParam();
         int parentId = Utils.parseInt(paramMap.get("parentGroupId"), 0);
         int id = Utils.parseInt(paramMap.get("markGroup"), -1);
@@ -213,9 +215,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         return json(con, form);
     }
 
-    // пользователи
-
-    public ActionForward userList(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward userList(DynActionForm form, Connection con) throws Exception {
         Date actualDate = form.getParamDate("date", new Date());
 
         ParameterMap perm = form.getPermission();
@@ -228,29 +228,29 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             groups = Utils.toIntegerSet(allowOnlyGroups);
         }
 
-        new UserDAO(con).searchUser(new SearchResult<User>(form), CommonDAO.getLikePatternSub(form.getParam("title")),
+        new UserDAO(con).searchUser(new SearchResult<>(form), CommonDAO.getLikePatternSub(form.getParam("title")),
                 groups, null, actualDate, permsets, status);
 
-        return html(con, mapping, form, "userList");
+        return html(con, form, JSP_PATH + "/user/list.jsp");
     }
 
-    public ActionForward userGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward userGet(DynActionForm form, Connection con) throws Exception {
         UserDAO userDAO = new UserDAO(con);
 
         User user = userDAO.getUser(form.getId());
         if (user != null) {
-            form.getResponse().setData("user", user);
-            form.getResponse().setData("grantedPermission",
+            form.setResponseData("user", user);
+            form.setResponseData("grantedPermission",
                     PermissionNode.addPermissionsSynonyms(userDAO.getPermissions(user.getId())));
             form.getHttpRequest().setAttribute("userGroupList", userDAO.getUserGroupList(user.getId(), form.getParamDate("date")));
         }
 
         form.getHttpRequest().setAttribute("allPermissions", UserCache.getAllPermTree());
 
-        return html(con, mapping, form, "userUpdate");
+        return html(con, form, JSP_PATH + "/user/update.jsp");
     }
 
-    public ActionForward userUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward userUpdate(DynActionForm form, Connection con) throws Exception {
         UserDAO userDAO = new UserDAO(con);
 
         int id = form.getId();
@@ -258,19 +258,18 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         User user = new User();
         if (id > 0) {
             user = userDAO.getUser(id);
-        }
-
-        if (user == null) {
-            throw new BGMessageException("Пользователь не найден.");
+            if (user == null) {
+                throw new BGMessageException("Пользователь не найден.");
+            }
         }
 
         ParameterMap perm = form.getPermission();
 
-        user.setTitle(form.getParam("title"));
-        user.setLogin(form.getParam("login"));
+        user.setTitle(form.getParam("title", Utils::notBlankString));
+        user.setLogin(form.getParam("login", Utils::notBlankString));
         user.setPassword(form.getParam("pswd", ""));
         user.setStatus(form.getParamInt("status", 0));
-        //user.setEmail( form.getParam( "email" ) );
+
         if (!perm.getBoolean("configDisable", false)) {
             user.setConfig(form.getParam("userConfig", ""));
         }
@@ -307,57 +306,39 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             user.setQueueIds(form.getSelectedValues("queue"));
         }
 
-        if (Utils.isBlankString(user.getLogin())) {
-            throw new BGMessageException("Не указан логин.");
-        }
         User existingUser = userDAO.getUserByLogin(user.getLogin());
         if (existingUser != null && (id != existingUser.getId())) {
             throw new BGMessageException("Логин занят активным пользователем!");
         }
-        if (Utils.isBlankString(user.getTitle())) {
-            throw new BGMessageException("Не указано имя.");
-        }
 
-        new PswdUtil(setup, "user.").checkPassword(user.getPassword());
+        new UserPswdUtil(setup).checkPassword(user.getPassword());
 
         userDAO.updateUser(user);
-
-        // если юзер блокируется, то надо перенести всего его распределения в свободные
-        /* if (user.getStatus() > 0) {
-            AddressDistributionDAO distributionDAO = new AddressDistributionDAO(con);
-            distributionDAO.freeUserHouses(user.getId());
-        } */
 
         if (!perm.getBoolean("permDisable", false)) {
             userDAO.updatePermissions(form.getSelectedValuesStr("dataPermissionType"),
                     form.getSelectedValuesStr("config"), user.getId());
         }
 
-        //PhoneProcessor.getProcessor().reloadUserPhones( con );
-
         UserCache.flush(con);
 
         EventProcessor.processEvent(new UserChangedEvent(form, user), new SingleConnectionConnectionSet(con));
 
-        form.getResponse().setData("newUserId", user.getId());
+        form.setResponseData("newUserId", user.getId());
 
         return json(con, form);
     }
 
-    public ActionForward userDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward userDelete(DynActionForm form, Connection con) throws Exception {
         UserDAO userDAO = new UserDAO(con);
         userDAO.deleteUser(form.getId());
-
-        // при удалении пользователя надо вернуть дома пользователя в нераспределенные
-        /* AddressDistributionDAO distributionDAO = new AddressDistributionDAO(con);
-        distributionDAO.freeUserHouses(form.getId()); */
 
         UserCache.flush(con);
 
         return json(con, form);
     }
 
-    public ActionForward userGroupList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward userGroupList(DynActionForm form, Connection con) throws Exception {
         ParameterMap perm = form.getPermission();
 
         String allowOnlyGroups = perm.get("allowOnlyGroups", "");
@@ -380,10 +361,10 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         form.getHttpRequest().setAttribute("userGroupList", UserCache.getUserGroupList(form.getId(), form.getParamDate("date")));
 
-        return html(con, mapping, form, "userGroupList");
+        return html(con, form, JSP_PATH + "/user/update_usergroup.jsp");
     }
 
-    public ActionForward userAddGroup(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward userAddGroup(DynActionForm form, Connection con) throws Exception {
         Date fromDate = form.getParamDate("fromDate");
         Date toDate = form.getParamDate("toDate");
 
@@ -427,7 +408,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         UserCache.flush(con);
     }
 
-    public ActionForward userRemoveGroup(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward userRemoveGroup(DynActionForm form, Connection con) throws Exception {
         int userId = form.getParamInt("userId", -1);
         int groupId = form.getParamInt("groupId", -1);
         Date dateFrom = form.getParamDateTime("dateFrom");
@@ -451,7 +432,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         return json(con, form);
     }
 
-    public ActionForward userClosePeriodGroup(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward userClosePeriodGroup(DynActionForm form, Connection con) throws Exception {
         int userId = form.getParamInt("userId", -1);
         int groupId = form.getParamInt("groupId", -1);
         final String maxTime = "23:59:59";
@@ -466,7 +447,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
     }
 
     public void closeGroup(DynActionForm form, Connection con, int userId, int groupId, Date date, Date dateFrom,
-            Date dateTo) throws BGException {
+            Date dateTo) throws Exception {
         if (date == null) {
             throw new BGException("Дата не должна быть пустой!");
         }

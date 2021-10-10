@@ -6,6 +6,7 @@ package ru.bgcrm.plugin;
  * @author Shamil Vakhitov
  */
 public class Endpoint {
+    /** Well known endpoints. */
     public static final String JS = "js";
     public static final String CSS = "css.jsp";
     public static final String USER_MENU_ITEMS = "user.menu.items.jsp";

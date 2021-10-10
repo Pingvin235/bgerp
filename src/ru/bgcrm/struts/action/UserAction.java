@@ -7,7 +7,6 @@ import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.user.UserDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -15,7 +14,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 public class UserAction extends BaseAction {
 
-    public ActionForward userList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward userList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         SearchResult<User> searchResult = new SearchResult<User>(form);
         new UserDAO(conSet.getSlaveConnection()).searchUser(searchResult, 
                 CommonDAO.getLikePatternSub(form.getParam("title")),

@@ -1,0 +1,15 @@
+= Plugin Access
+:toc:
+
+[[about]]
+== About
+The plugin provides the following functionality:
+[square]
+* button for copying credentials in users table.
+
+[[setup]]
+== Setup
+IMPORTANT: Do not enable the plugin without having <<../../../kernel/setup.adoc#user, permission check system>> on. 
+
+Make sure the plugin is enabled in <<../../../kernel/setup.adoc#config, configuration>>.
+Preferably as a separated config.

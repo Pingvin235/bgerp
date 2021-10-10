@@ -564,7 +564,7 @@ IMPORTANT: Use caches as much as possible for getting reference values and avoid
 
 Directory data is edited directly in DB and cache is cleared after an edit.
 [snippet, from="pu", to="}"]
-link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L88-L94[ru.bgcrm.struts.action.admin.UserAction]
+link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L90-L96[ru.bgcrm.struts.action.admin.UserAction]
 
 [[plugin-endpoint]]
 ==== Endpoints
@@ -908,7 +908,7 @@ A typical scheme for attaching JS code to HTML is to setup event handler with a 
 
 Deprecated JS functions are marked using the following method:
 [snippet, from="fun", to="}"]
-link:../../webapps/js/kernel.ajax.js#L455-L459[webapps/js/kernel.ajax.js]
+link:../../webapps/js/kernel.ajax.js#L456-L460[webapps/js/kernel.ajax.js]
 
 When such a function gets invoked, browser console gets a "clickable" "Deprecated" message which allows to find a this deprecated function call
 It is forbidden to use those functions in the new code, usage has to be decreased in the existing code over time.
@@ -1217,7 +1217,7 @@ link:../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L48-L50[webapps/W
 
 Action execution result include:
 [snippet, from="<c:", to="/>", remove-leading="			"]
-link:../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L163-L168[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
+link:../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L165-L170[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
 
 Flex layout, using constants from Java classes (defined in link:../../webapps/WEB-INF/jspf/user/search/process_search_constants.jsp[process_search_constants.jsp]), print button close to a field:
 [snippet, from="<div", to="/div>", remove-leading="				"]

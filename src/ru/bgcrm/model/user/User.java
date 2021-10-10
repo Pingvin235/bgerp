@@ -12,6 +12,8 @@ import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
+import ru.bgcrm.util.PswdUtil;
+import ru.bgcrm.util.Utils;
 
 /**
  * Application user.
@@ -72,6 +74,9 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
 
     @Override
     public String getPassword() {
+        if (Utils.isBlankString(password)) {
+            return PswdUtil.EMPTY_PASSWORD;
+        }
         return password;
     }
 

@@ -1,0 +1,4 @@
+F: User passwords are available on the frontend-side.
+C: Change date_from and date_to columns in user_group table to type DATE.
+A: Plugin Access. Providing a safe way for copying user credentials. https://bgerp.org/doc/3.0/manual/plugin/sec/access
+C: Publish sources to GitHub under user BGERPP.

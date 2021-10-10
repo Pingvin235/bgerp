@@ -40,6 +40,7 @@
 *** <<plugin/telegram/index.adoc#, Telegram>>
 *** <<plugin/sms/index.adoc#, SMS>>
 ** Security
+*** <<plugin/sec/access/index.adoc#, Access>>
 *** <<plugin/sec/auth/index.adoc#, Auth>>
 *** <<plugin/sec/secret/index.adoc#, Secret>>
 ** Service

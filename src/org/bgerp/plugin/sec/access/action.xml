@@ -1,0 +1,5 @@
+<item title="Plugin Access">
+	<item title="Users">
+		<item action="org.bgerp.plugin.sec.access.action.CredentialAction:get" title="Copy user credentials"/>
+	</item>
+</item>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<p>
+		<sys>credentials.get.text</sys>
+		<ru>BGERP Пользователь: {}
+Логин: {}
+Пароль: {}
+</ru>
+		<en>BGERP User: {}
+Login: {}
+Password: {}
+</en>
+	</p>
+	<p><ru>Копировать логин с паролем в буфер обмена</ru><en>Copy login and password to clipboard</en></p>
+	<!--
+	<p><ru></ru><en></en></p>
+	-->
+</data>

@@ -307,11 +307,12 @@ $$.ajax = new function () {
 	/**
 	 * Get HTMLFormElement object if it has passed.
 	 * @param {*} obj - array of forms, or a single form
+	 * @return HTMLFormElement.
 	 */
 	const getForm = function (obj) {
-		if (obj instanceof Array)
-			obj = obj[0];
-		if (obj instanceof HTMLFormElement)
+		if (obj instanceof Array || obj instanceof jQuery)
+			return obj[0];
+		else if (obj instanceof HTMLFormElement)
 			return obj;
 		return null;
 	}
