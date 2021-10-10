@@ -27,6 +27,7 @@ import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaProperty;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.BGIllegalArgumentException;
@@ -41,7 +42,6 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgerp.l10n.Localization;
 import ru.bgerp.l10n.Localizer;
-import ru.bgerp.util.Log;
 
 /**
  * HTTP request execution's context, contains: request, DB connection and response data.
@@ -67,7 +67,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     public static final String RESPONSE_TYPE_STREAM = "stream";
 
     public static DynActionForm SERVER_FORM = new DynActionForm(User.USER_SYSTEM);
-    
+
     private HttpServletRequest httpRequest;
     private HttpServletResponse httpResponse;
     private OutputStream httpResponseOutputStream;
@@ -100,7 +100,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
             int pos = param.indexOf('=');
             if (pos < 0)
                 continue;
-            
+
             try {
                 String key = URLDecoder.decode(param.substring(0, pos), Utils.UTF8.name());
                 String value = URLDecoder.decode(param.substring(pos + 1), Utils.UTF8.name());
@@ -141,7 +141,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     /**
      * Gets IP address of request from
-     * HTTP header 'X-Real-IP' or another defined in configuration param {@link AccessLogValve#PARAM_HEADER_NAME_REMOTE_ADDR} 
+     * HTTP header 'X-Real-IP' or another defined in configuration param {@link AccessLogValve#PARAM_HEADER_NAME_REMOTE_ADDR}
      * or {@link ServletRequest#getRemoteAddr()}
      * @return
      */
@@ -400,13 +400,13 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      */
     public String getParam(String name, String defaultValue, boolean defaultSet, Predicate<String> validate) throws BGIllegalArgumentException {
         var value = getParam(name);
-        
+
         if (validate != null && !validate.test(value))
             throw new BGIllegalArgumentException(name);
-        
+
         if (value != null)
             return value;
-            
+
         if (defaultSet)
             setParam(name, defaultValue);
         return defaultValue;
@@ -420,7 +420,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      * Gets HTTP request parameter.
      * @param name
      * @param defaultValue
-     * @return the value of parameter with {@param name} or {@param defaultValue} if not presented. 
+     * @return the value of parameter with {@param name} or {@param defaultValue} if not presented.
      */
     public String getParam(String name, String defaultValue) {
         var value = getParam(name);

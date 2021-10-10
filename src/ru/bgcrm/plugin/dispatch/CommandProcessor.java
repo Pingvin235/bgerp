@@ -16,6 +16,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;
@@ -24,7 +25,6 @@ import ru.bgcrm.util.MailMsg;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgerp.util.Log;
 
 public class CommandProcessor implements Runnable {
     private static final Log log = Log.getLog();
@@ -37,7 +37,7 @@ public class CommandProcessor implements Runnable {
         FETCH_PROFILE.add("Message-ID");
         FETCH_PROFILE.add("Received");
     }
-    
+
     @Override
     public void run() {
         try {
@@ -83,19 +83,19 @@ public class CommandProcessor implements Runnable {
                             Connection con = setup.getDBConnectionFromPool();
                             try {
                                 DispatchDAO dispatchDao = new DispatchDAO(con);
-                                
+
                                 Set<Integer> dispatchIds = dispatchDao.accountSubsriptionList(from).stream()
                                         .map(Dispatch::getId).collect(Collectors.toSet());
-                                
+
                                 if (subject.startsWith("UN"))
                                     dispatchIds.removeAll(deltaIds);
                                 else
                                     dispatchIds.addAll(deltaIds);
-                                                                
+
                                 dispatchDao.accountSubsriptionUpdate(from, dispatchIds);
-                                
+
                                 sendDispatchStateList(con, config, session, from);
-                                
+
                                 con.commit();
                             } finally {
                                 SQLUtils.closeConnection(con);
@@ -123,14 +123,14 @@ public class CommandProcessor implements Runnable {
         List<Dispatch> dispatchList = dispatchDao.dispatchList(null);
         Set<Integer> subscriptions = dispatchDao.accountSubsriptionList(email).stream()
                 .map(Dispatch::getId).collect(Collectors.toSet());
-                
+
         String encoding = MailMsg.getParamMailEncoding(Setup.getSetup());
         Transport transport = null;
 
         try {
             transport = session.getTransport();
             transport.connect();
-            
+
             StringBuilder body = new StringBuilder(200);
             for (Dispatch dispatch : dispatchList) {
                 body.append("<html><body><div>");

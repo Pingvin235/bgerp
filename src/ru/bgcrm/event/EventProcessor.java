@@ -16,6 +16,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dao.EventProcessorLogDAO;
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.event.listener.DynamicEventListener;
@@ -27,7 +29,6 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgerp.util.Log;
 
 public class EventProcessor {
     private static final Log log = Log.getLog();
@@ -48,7 +49,7 @@ public class EventProcessor {
 
     private static final ExecutorService executor = Executors.newCachedThreadPool(new NamedThreadFactory());
 
-    /** 
+    /**
      * Подписывает слушателя на события определённого класса.
      * Слушатель должен быть отписан, если он больше не должен получать событие.
      * @param l

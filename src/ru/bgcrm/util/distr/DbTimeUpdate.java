@@ -6,15 +6,16 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.sql.PreparedDelay;
-import ru.bgerp.util.Log;
 
 /**
  * Developer DB utils, updates all date and time columns till the current day.
  * <p> Do not run on production databases!
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class DbTimeUpdate implements Runnable {
@@ -38,11 +39,11 @@ public class DbTimeUpdate implements Runnable {
         log.info("daysDelta: {}", daysDelta);
         if (daysDelta <= 0)
             return;
-        
+
         try (var con = Setup.getSetup().getDBConnectionFromPool()) {
-            var query = 
+            var query =
                 "SELECT table_name, column_name FROM information_schema.columns " +
-                "WHERE table_schema=DATABASE() AND data_type IN ('date', 'datetime', 'timestamp') " + 
+                "WHERE table_schema=DATABASE() AND data_type IN ('date', 'datetime', 'timestamp') " +
                 "ORDER BY table_name";
 
             String currentTable = null;
@@ -59,7 +60,7 @@ public class DbTimeUpdate implements Runnable {
                 if ((currentTable != null && !table.equals(currentTable))) {
                     updateTable(con, currentTable, columns);
                 }
-                
+
                 currentTable = table;
                 columns.add(column);
             }
@@ -74,7 +75,7 @@ public class DbTimeUpdate implements Runnable {
     private void updateTable(Connection con, String currentTable, List<String> columns) throws SQLException {
         try (var pd = new PreparedDelay(con)) {
             pd.addQuery("UPDATE ").addQuery(currentTable).addQuery(" SET ");
-            
+
             var first = true;
             for (var col : columns) {
                 if (!first)

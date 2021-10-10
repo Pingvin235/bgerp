@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.UserCache;
@@ -20,14 +21,13 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.util.Log;
 
 @Action(path = "/open/profile")
 public class ProfileAction extends BaseAction {
     private static final String PATH_JSP =  PATH_JSP_OPEN + "/profile";
 
     public static class Config extends ru.bgcrm.util.Config implements EventListener<ParamChangedEvent> {
-        private static final Log log = Log.getLog(); 
+        private static final Log log = Log.getLog();
 
         /** Parameter type 'list', enabling opening of user with value=1.  */
         private final Parameter openParam;
@@ -42,7 +42,7 @@ public class ProfileAction extends BaseAction {
             openParam = ParameterCache.getParameter(paramId);
             showParamIds = Utils.toIntegerList(setup.get("user.open.show.paramIds"));
 
-            if (openParam == null) 
+            if (openParam == null)
                 throwValidationException("Param not found: %s", paramId);
             if (!Parameter.TYPE_LIST.equals(openParam.getType()))
                 throwValidationException("Param type of param %s must be 'list'", paramId);

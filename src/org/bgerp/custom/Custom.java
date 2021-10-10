@@ -15,13 +15,13 @@ import org.apache.catalina.webresources.StandardRoot;
 import org.apache.commons.io.IOUtils;
 import org.bgerp.custom.java.CompilationResult;
 import org.bgerp.custom.java.CompilerWrapper;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.Server;
-import ru.bgerp.util.Log;
 
 /**
  * Customization manager.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class Custom {
@@ -34,7 +34,7 @@ public class Custom {
     private static final File WEBAPPS_DIR = new File(CUSTOM_DIR, Server.WEBAPPS_DIR_NAME);
 
     private static final File CUSTOM_JAR_FILE = new File("lib/app/custom.jar");
-    
+
     public static Custom getInstance() {
         return new Custom();
     }
@@ -65,7 +65,7 @@ public class Custom {
 
         var javac = new CompilerWrapper(SRC_DIR);
         log.info("Compiling {} java files to {}", srcFiles.size(), javac.getOutputDir());
-        
+
         CompilationResult result = javac.compile(srcFiles).getFirst();
         result.addLog(Log.format("Compiling {} java files to {}", srcFiles.size(), javac.getOutputDir()));
 
@@ -103,7 +103,7 @@ public class Custom {
             }
             return;
         }
-        
+
         zipOut.putNextEntry(new ZipEntry(fileName));
         IOUtils.copy(new FileInputStream(fileToZip), zipOut);
     }

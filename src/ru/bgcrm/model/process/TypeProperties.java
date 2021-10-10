@@ -7,16 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.process.TransactionProperties.TransactionKey;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * Process type properties.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class TypeProperties {
@@ -107,7 +108,7 @@ public class TypeProperties {
         return resultSet;
     }
 
-    // первый ключ - "с статуса", второй ключ - "на статус" 
+    // первый ключ - "с статуса", второй ключ - "на статус"
     private Map<TransactionKey, TransactionProperties> transactionPropertiesMap = new HashMap<>();
 
     // мастер создания процесса через мобильный интерфейс
@@ -174,7 +175,7 @@ public class TypeProperties {
 
     /**
      * Gets transaction properties.
-     * 
+     *
      * @param fromStatus
      * @param toStatus
      * @return true, if transaction is enabled or do not defined.
@@ -269,7 +270,7 @@ public class TypeProperties {
         return scriptName;
     }
 
-    // Смотрит скрипт сначала в конфигурации а потом в поле 	
+    // Смотрит скрипт сначала в конфигурации а потом в поле
     @Deprecated
     public String getActualScriptName() {
         String listner = configMap.get("listenerClass");
@@ -317,7 +318,7 @@ public class TypeProperties {
             configMap = new Preferences(config);
         return configMap;
     }
-    
+
     public void setConfigMap(ParameterMap configMap) {
         this.configMap = configMap;
     }

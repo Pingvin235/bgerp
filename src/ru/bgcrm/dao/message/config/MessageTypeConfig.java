@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dynamic.DynamicClassManager;
@@ -20,7 +22,6 @@ import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.util.Log;
 
 public class MessageTypeConfig extends Config {
     private static final Log log = Log.getLog();

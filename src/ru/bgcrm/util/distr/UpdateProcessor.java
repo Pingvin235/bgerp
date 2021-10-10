@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.bgerp.util.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import ru.bgcrm.util.distr.InstallProcessor.FileInfo;
-import ru.bgerp.util.Log;
 
 /**
  * Process for update packages for a change.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class UpdateProcessor {
@@ -35,7 +35,7 @@ public class UpdateProcessor {
     public UpdateProcessor() throws IOException {
         changeIds();
     }
-    
+
     /**
      * Constructor downloads update files from {@link #UPDATE_TO_CHANGE_URL} / {@param changeId}
      * The names of this files are available after with {@link #getUpdateFiles()}.

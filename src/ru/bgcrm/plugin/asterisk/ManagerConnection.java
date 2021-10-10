@@ -5,9 +5,9 @@ import java.io.IOException;
 import org.asteriskjava.AsteriskVersion;
 import org.asteriskjava.manager.TimeoutException;
 import org.asteriskjava.manager.internal.ManagerConnectionImpl;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.util.ParameterMap;
-import ru.bgerp.util.Log;
 
 public class ManagerConnection extends ManagerConnectionImpl {
     private static final Log log = Log.getLog();

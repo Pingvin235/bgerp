@@ -2,11 +2,11 @@ package ru.bgerp.l10n;
 
 import java.util.List;
 
-import ru.bgerp.util.Log;
+import org.bgerp.util.Log;
 
 /**
  * Translator to a wanted language using many {@link Localization} sequentially.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class Localizer {

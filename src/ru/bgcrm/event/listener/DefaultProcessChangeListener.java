@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.expression.Expression;
@@ -42,11 +43,10 @@ import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.util.Log;
 
 /**
  * Default configurable event processor.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class DefaultProcessChangeListener {
@@ -127,7 +127,7 @@ public class DefaultProcessChangeListener {
                     log.error(e.getMessage(), e);
                 }
             }
-            
+
             if (log.isDebugEnabled())
                 log.debug("Rules parsed: " + ruleList);
         }
@@ -172,7 +172,7 @@ public class DefaultProcessChangeListener {
             extractEvents(config, Utils.toList(config.get("events", "*"), ";"), eventMap);
             extractEvents(config, Utils.toList(config.get("eventsExclude", ""), ";"), eventExcludeMap);
 
-            // если ключи checkExpression и checkErrorMessage не определены - выйдет исключение и переменная будет null 
+            // если ключи checkExpression и checkErrorMessage не определены - выйдет исключение и переменная будет null
             try {
                 checkRule = new Rule(config);
             } catch (Exception e) {
@@ -262,7 +262,7 @@ public class DefaultProcessChangeListener {
 
                 try {
                     initExpression(conSet, e, process).executeScript(doExpression);
-                } 
+                }
                 catch (Exception ex) {
                     if (ex.getCause() instanceof BGMessageException)
                         throw (BGMessageException)ex.getCause();
@@ -358,10 +358,10 @@ public class DefaultProcessChangeListener {
     }
 
     // TODO: Перенести функцию, используется повсеместно.
-    public static Map<String, Object> getProcessJexlContext(ConnectionSet conSet, DynActionForm form, 
+    public static Map<String, Object> getProcessJexlContext(ConnectionSet conSet, DynActionForm form,
             UserEvent event, Process process) {
         Connection con = conSet.getConnection();
-        
+
         Map<String, Object> context = new HashMap<>(100);
         context.put(User.OBJECT_TYPE, form.getUser());
         context.put(User.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX,
@@ -374,11 +374,11 @@ public class DefaultProcessChangeListener {
         context.put(DynActionForm.KEY, form);
         if (event != null)
             context.put(Event.KEY, event);
-        
+
         context.put(null, new ProcessChangeFunctions(process, form, con));
-        
+
         context.putAll(SetRequestParamsFilter.getContextVariables(form.getHttpRequest()));
-        
+
         return context;
     }
 

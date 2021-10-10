@@ -8,6 +8,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
 import org.bgerp.plugin.report.model.chart.Chart;
+import org.bgerp.util.Log;
 import org.bgerp.plugin.report.model.Columns;
 import org.bgerp.plugin.report.model.Data;
 import org.reflections.Reflections;
@@ -21,7 +22,6 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgerp.l10n.Localizer;
 import ru.bgerp.l10n.Titled;
-import ru.bgerp.util.Log;
 
 /**
  * Parent action for all reports.
@@ -106,7 +106,7 @@ public abstract class ReportActionBase extends BaseAction implements Titled {
             throws Exception {
         // TODO: Support export to CSV.
 
-        // Data object places 'list' key to 'response.data' in the constructor call 
+        // Data object places 'list' key to 'response.data' in the constructor call
         final var data = new Data(this, form, getColumns());
         // here 'data' key is placed in request attribute
         form.setRequestAttribute("data", data);
@@ -131,12 +131,12 @@ public abstract class ReportActionBase extends BaseAction implements Titled {
             return;
 
         int chartIndex = form.getParamInt("chartIndex");
-        if (chartIndex <= 0) 
+        if (chartIndex <= 0)
              return;
 
         if (charts.size() < chartIndex)
             throw new BGIllegalArgumentException();
-        
+
         final var chart = charts.get(chartIndex - 1);
         form.setResponseData("chart", chart.json(form.l, data));
     }

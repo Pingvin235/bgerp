@@ -12,11 +12,11 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.itest.helper.ResourceHelper;
+import org.bgerp.util.Log;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.distr.call.ExecuteSQL;
-import ru.bgerp.util.Log;
 
 @Test(groups = "dbReset", dependsOnGroups = "db")
 public class DbResetTest {
@@ -40,7 +40,7 @@ public class DbResetTest {
     @Test
     public void cleanUp() throws Exception {
         if (conditionalSkip()) return;
-        
+
         var con = DbTest.conRoot;
 
         log.info("Delete existing database..");

@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.dao.user.UserGroupDAO;
@@ -26,7 +27,6 @@ import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgerp.util.Log;
 
 public class UserCache extends Cache<UserCache> {
     private static final Log log = Log.getLog();

@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.tomcat.util.IntrospectionUtils;
 import org.bgerp.custom.Custom;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.event.EventProcessor;
@@ -36,7 +37,6 @@ import ru.bgcrm.util.AdminPortListener;
 import ru.bgcrm.util.AlarmSender;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * Web server, the entry point of the application.
@@ -58,7 +58,7 @@ public class Server extends Tomcat {
 
         setup = Setup.getSetup();
         try {
-            checkDBConnectionOrExit(); 
+            checkDBConnectionOrExit();
 
             PluginManager.init();
 
@@ -137,7 +137,7 @@ public class Server extends Tomcat {
 
         if (StringUtils.isNotBlank(address))
             IntrospectionUtils.setProperty(connector, "address", address);
-        
+
         connector.setPort(port);
         connector.setEnableLookups(false);
         connector.setURIEncoding(StandardCharsets.UTF_8.name());
@@ -242,7 +242,7 @@ public class Server extends Tomcat {
                     socket.close();
 
                     System.out.println(result);
-                    
+
                     if (AdminPortListener.RESPONSE_SCHEDULER_HAS_TASKS.equals(result)) {
                         Thread.sleep(5000);
                         System.out.println("RETRY: " + cnt);

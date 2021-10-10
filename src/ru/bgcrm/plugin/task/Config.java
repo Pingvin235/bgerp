@@ -7,9 +7,8 @@ import ru.bgcrm.plugin.task.model.TaskType;
 import ru.bgcrm.util.ParameterMap;
 
 public class Config extends ru.bgcrm.util.Config {
-    
     private final Map<String, TaskType> typeMap = new HashMap<>();
-   
+
     public Config(ParameterMap setup) {
         super(setup);
         for (ParameterMap config : setup.subIndexed(Plugin.ID + ":type.").values()) {
@@ -21,5 +20,5 @@ public class Config extends ru.bgcrm.util.Config {
     public TaskType getType(String typeId) {
         return typeMap.get(typeId);
     }
-    
+
 }

@@ -11,9 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * Dynamically building of PreparedStatements with

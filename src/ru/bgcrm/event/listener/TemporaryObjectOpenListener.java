@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.TemporaryObjectEvent;
@@ -17,10 +19,9 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.util.Log;
 
 /**
- * Открытие 
+ * Открытие
  */
 public class TemporaryObjectOpenListener extends Thread {
     private static final Log log = Log.getLog();

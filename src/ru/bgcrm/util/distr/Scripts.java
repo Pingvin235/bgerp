@@ -3,12 +3,12 @@ package ru.bgcrm.util.distr;
 import java.io.File;
 import java.util.List;
 
-import ru.bgerp.util.Log;
-import ru.bgerp.util.RuntimeRunner;
+import org.bgerp.util.Log;
+import org.bgerp.util.RuntimeRunner;
 
 /**
  * Distribution's scripts.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class Scripts {

@@ -12,7 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
@@ -23,16 +23,19 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 /**
- * Планировщик - запускает определённые в конфигурации периодические задачи и
- * разовые задачи, переданные приложением.
+ * Scheduler for running single or periodical tasks.
+ *
+ * @author Shamil Vakhitov
  */
 public class Scheduler extends Thread {
+    private static final Log log = Log.getLog();
+
     private static class TaskConfig {
         private final Class<? extends Runnable> clazz;
         private final Set<Integer> daysOfWeek;
         private final Set<Integer> hours;
         private final Set<Integer> minutes;
-        private final boolean enable;
+        private final boolean enabled;
 
         private final ParameterMap config;
 
@@ -50,9 +53,10 @@ public class Scheduler extends Thread {
             daysOfWeek = Utils.toIntegerSet(config.get("dw"));
             hours = Utils.toIntegerSet(config.get("hours"));
             minutes = Utils.toIntegerSet(config.get("minutes"));
-            enable = config.getBoolean("enable", true);
+            enabled = config.getBoolean("enable", true);
 
-            log.info("Class: " + clazz.getName() + "; dw: " + daysOfWeek + "; hours: " + hours + "; minutes: " + minutes + "; enable: " + enable);
+            log.info("Class: {}; dw: {}; hours: {}; minutes: {}; enabled: {}",
+                clazz.getName(), daysOfWeek, hours, minutes, enabled);
         }
 
         public boolean checkTime(Calendar time) {
@@ -77,10 +81,10 @@ public class Scheduler extends Thread {
             log.info("Reload tasks config.");
 
             final String prefix = "scheduler.task.";
-            for (Map.Entry<Integer, ParameterMap> me : setup.subIndexed(prefix).entrySet()) {
-                Integer taskId = me.getKey();
+            for (Map.Entry<String, ParameterMap> me : setup.subKeyed(prefix).entrySet()) {
+                String taskId = me.getKey();
                 try {
-                    tasks.add(new TaskConfig(setup.sub(prefix + taskId + ".")));
+                    tasks.add(new TaskConfig(me.getValue()));
                 } catch (Exception e) {
                     log.error("Load task config " + taskId + " error: " + e.getMessage(), e);
                 }
@@ -91,7 +95,7 @@ public class Scheduler extends Thread {
             List<Runnable> result = new ArrayList<Runnable>();
 
             for (TaskConfig config : tasks) {
-                if (config.enable && config.checkTime(time)) {
+                if (config.enabled && config.checkTime(time)) {
                     try {
                         result.add(config.taskInstance());
                     } catch (Exception e) {
@@ -112,7 +116,6 @@ public class Scheduler extends Thread {
         }
     }
 
-    private static final Logger log = Logger.getLogger(Scheduler.class);
     private static final int SLEEP_TIME = 60 * 1000;
 
     private static Scheduler instance = new Scheduler();

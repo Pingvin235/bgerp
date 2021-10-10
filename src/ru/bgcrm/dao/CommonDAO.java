@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Id;
@@ -21,7 +23,6 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgerp.util.Log;
 
 public class CommonDAO {
     protected final Log log = Log.getLog(this.getClass());
@@ -73,8 +74,8 @@ public class CommonDAO {
     }
 
     /**
-     * Will be changed to private later, 
-     * use {@link #getLikePatternEnd(String)}, {@link #getLikePatternStart(String)}, {@link #getLikePatternSub(String)} 
+     * Will be changed to private later,
+     * use {@link #getLikePatternEnd(String)}, {@link #getLikePatternStart(String)}, {@link #getLikePatternSub(String)}
      * instead.
      */
     @Deprecated
@@ -130,7 +131,7 @@ public class CommonDAO {
         }
         pd.close();
     }
-    
+
     /**
      * Use {@link #getPageLimit(Page)}.
      */

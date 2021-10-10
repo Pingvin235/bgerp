@@ -15,17 +15,16 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import ru.bgerp.util.Log;
+import org.bgerp.util.Log;
 
 /**
  * Concat separated branch-based changes files to changes.txt.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class PatchChanges {
     private static final Log LOG = Log.getLog();
-    
+
     private final Pattern changesPattern = Pattern.compile("changes\\.(\\w+)\\.txt");
     private final Pattern datePattern = Pattern.compile("^\\d{2}\\.\\d{2}\\.\\d{4}");
     private final Pattern changePattern = Pattern.compile("^[FACАСBВ]:");
@@ -35,7 +34,7 @@ public class PatchChanges {
 
     private PatchChanges(String build, String changesPath) throws Exception {
         LOG.info("Patching changes.txt for build: %s", build);
-        
+
         File changes = new File(changesPath);
         if (!changes.exists())
             throw new FileNotFoundException(changesPath);
@@ -65,7 +64,7 @@ public class PatchChanges {
 
         boolean patched = false;
 
-        StringBuilder patchedChanges = new StringBuilder(); 
+        StringBuilder patchedChanges = new StringBuilder();
 
         for (String line : IOUtils.readLines(new FileInputStream(changes), StandardCharsets.UTF_8)) {
             if (!patched) {

@@ -5,9 +5,9 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.util.ParameterMap;
-import ru.bgerp.util.Log;
 
 public class SenderMTS extends Sender {
     private static final Log log = Log.getLog();

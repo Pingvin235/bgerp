@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
+import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -23,11 +24,10 @@ import ru.bgcrm.util.XMLUtils;
 import ru.bgcrm.util.distr.call.ExecuteSQL;
 import ru.bgerp.l10n.Localization;
 import ru.bgerp.l10n.Localizer;
-import ru.bgerp.util.Log;
 
 /**
  * Parent class for all the plugins.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public abstract class Plugin {
@@ -164,7 +164,7 @@ public abstract class Plugin {
      * @return true or false.
      */
     public boolean isEnabled(ParameterMap config, String defaultValue) {
-        var defaultValueBool = 
+        var defaultValueBool =
             "lic".equals(defaultValue) ?
             License.getInstance().getPlugins().contains(getId()) :
             Utils.parseBoolean(defaultValue, false);
@@ -187,7 +187,7 @@ public abstract class Plugin {
     public List<Lang> getLanguages() {
         return List.of(Lang.RU);
     }
-    
+
     /**
      * Localizer to target language.
      * @param toLang

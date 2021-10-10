@@ -11,8 +11,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
-
-import ru.bgerp.util.Log;
+import org.bgerp.util.Log;
 
 /**
  * ZIP utils.

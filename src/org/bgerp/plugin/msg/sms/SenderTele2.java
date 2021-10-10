@@ -10,10 +10,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
+import org.bgerp.util.Log;
 import org.json.JSONObject;
 
 import ru.bgcrm.util.ParameterMap;
-import ru.bgerp.util.Log;
 
 public class SenderTele2 extends Sender {
     private static final Log log = Log.getLog();

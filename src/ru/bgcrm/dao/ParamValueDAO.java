@@ -49,6 +49,7 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
@@ -68,7 +69,6 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgerp.util.Log;
 
 public class ParamValueDAO extends CommonDAO {
     private static final Log log = Log.getLog();

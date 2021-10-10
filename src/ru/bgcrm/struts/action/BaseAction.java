@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.Locker;
@@ -53,7 +54,6 @@ import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 import ru.bgerp.l10n.Localizer;
-import ru.bgerp.util.Log;
 
 public class BaseAction extends DispatchAction {
     private static final Class<?>[] TYPES_CONSET_DYNFORM = { DynActionForm.class,
@@ -98,20 +98,20 @@ public class BaseAction extends DispatchAction {
     protected final Log log = Log.getLog(this.getClass());
 
     protected final Setup setup = Setup.getSetup();
-    
+
     /**
      * Cache for method invokers for the action class. Key - method name.
      */
     private final Map<String, Invoker> invokerMap = new ConcurrentHashMap<>();
-    
+
     protected Localizer l;
 
     protected BaseAction() {
         super();
     }
-    
 
-    /** 
+
+    /**
      * Standard Struts method, shouldn't be used.
      */
     @Override
@@ -125,7 +125,7 @@ public class BaseAction extends DispatchAction {
             HttpServletResponse response, Connection con) throws Exception {
         return mapping.findForward(FORWARD_DEFAULT);
     }
-    
+
     @Deprecated
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         return mapping.findForward(FORWARD_DEFAULT);
@@ -136,7 +136,7 @@ public class BaseAction extends DispatchAction {
             HttpServletResponse response, ConnectionSet conSet) throws Exception {
         return mapping.findForward(FORWARD_DEFAULT);
     }
-    
+
     @Deprecated
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         return mapping.findForward(FORWARD_DEFAULT);
@@ -231,14 +231,14 @@ public class BaseAction extends DispatchAction {
 
         User user = AuthFilter.getUser(request);
         form.setUser(user);
-        
+
         form.l = this.l = (Localizer) request.getAttribute(SetRequestParamsFilter.REQUEST_KEY_LOCALIZER);
 
         ActionForward forward = null;
         ConnectionSet conSet = new ConnectionSet(setup.getConnectionPool(), false);
 
         form.setConnectionSet(conSet);
-        
+
         // обновляется поток отслеживаемого лога
         SessionLogAppender.trackSession(request.getSession(), false);
 
@@ -265,7 +265,7 @@ public class BaseAction extends DispatchAction {
                     }
                 }
                 form.setPermission(perm);
-                
+
                 if (permissionNode == null) {
                     throw new BGException("PermissionNode is null for action: " + action);
                 }
@@ -453,13 +453,13 @@ public class BaseAction extends DispatchAction {
         var forward = Utils.maskNull(form.getForward());
         if (!mapping.containsKey(forward))
             throw new IllegalArgumentException("Not found JSP for forward: " + forward);
-        
+
         return mapping.get(forward);
     }
 
     /**
      * Use {@link #html(Connection, DynActionForm, String)}.
-     * 
+     *
      * Returns Struts forward with name=form.getAction().
      * @param con
      * @param mapping
@@ -473,7 +473,7 @@ public class BaseAction extends DispatchAction {
 
     /**
      * Use {@link #html(Connection, DynActionForm, String)}.
-     * 
+     *
      * Returns Struts forward by name.
      * @param con
      * @param mapping
@@ -488,7 +488,7 @@ public class BaseAction extends DispatchAction {
 
     /**
      * Use {@link #html(ConnectionSet, DynActionForm, String)}.
-     * 
+     *
      * Returns Struts forward with name=form.getAction().
      * @param conSet
      * @param mapping
@@ -502,7 +502,7 @@ public class BaseAction extends DispatchAction {
 
     /**
      * Use {@link #html(ConnectionSet, DynActionForm, String)}.
-     * 
+     *
      * Returns Struts forward by name.
      * @param conSet
      * @param mapping
@@ -610,7 +610,7 @@ public class BaseAction extends DispatchAction {
     @Deprecated
     protected ActionForward processJsonForward(Connection con, DynActionForm form) {
         return json(con, form);
-    } 
+    }
 
     @Deprecated
     protected ActionForward processJsonForward(Connection con, DynActionForm form, HttpServletResponse response) {
@@ -668,7 +668,7 @@ public class BaseAction extends DispatchAction {
         lastModify.setUserId(form.getUserId());
         lastModify.setTime(new Date());
     }
-    
+
     /**
      * Saves and restores HTTP request parameters.
      * As storage used {@link User#getPersonalizationMap()}, key is 'param.' + digest from {@link DynActionForm#getAreaId()}.
@@ -679,7 +679,7 @@ public class BaseAction extends DispatchAction {
      * @param params parameter names
      * @throws BGException
      */
-    protected void restoreRequestParams(Connection con, DynActionForm form, 
+    protected void restoreRequestParams(Connection con, DynActionForm form,
             boolean get, boolean set,
             String... params) throws BGException {
         Preferences prefs = form.getUser().getPersonalizationMap();
@@ -700,7 +700,7 @@ public class BaseAction extends DispatchAction {
         }
         new UserDAO(con).updatePersonalization(valueBefore, form.getUser());
     }
-    
+
     /**
      * Stores new values in personalization map and update it if changed.
      * @param form
@@ -714,7 +714,7 @@ public class BaseAction extends DispatchAction {
         String persConfigBefore = personalizationMap.getDataString();
 
         setFunction.accept(personalizationMap);
-        
+
         new UserDAO(con).updatePersonalization(persConfigBefore, user);
     }
 
@@ -734,7 +734,7 @@ public class BaseAction extends DispatchAction {
             return method.invoke(action, actionForm, conSet);
         }
     }
-    
+
     private static class InvokerCon extends Invoker {
         public InvokerCon(Method method) {
             super(method);
@@ -760,7 +760,7 @@ public class BaseAction extends DispatchAction {
             return method.invoke(action, mapping, actionForm, conSet);
         }
     }
-    
+
     private static class InvokerMappingCon extends Invoker {
         public InvokerMappingCon(Method method) {
             super(method);

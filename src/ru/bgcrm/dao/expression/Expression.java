@@ -12,23 +12,23 @@ import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.JexlException;
 import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.servlet.jsp.PermissionTag;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * Обработчик JEXL выражений.
  * Используются для проверки условий, выполнения скриптов.
- * 
+ *
  * http://commons.apache.org/jexl/reference/syntax.html#Functions
  */
 public class Expression {
     private static final Log log = Log.getLog();
-    
+
     public static final String CHECK_EXPRESSION_CONFIG_KEY = "checkExpression";
     public static final String STRING_MAKE_EXPRESSION_CONFIG_KEY = "stringExpression";
     public static final String DO_EXPRESSION_CONFIG_KEY = "doExpression";
@@ -42,7 +42,7 @@ public class Expression {
 
     private JexlEngine jexl;
 
-    //TODO: Вроде как тут заложена возможность создавать классы по их полному названию, 
+    //TODO: Вроде как тут заложена возможность создавать классы по их полному названию,
     //скорее всего для вызовов статических методов вида ru.bgcrm.Utils.doSomth().
     private JexlContext context = new MapContext() {
         @Override

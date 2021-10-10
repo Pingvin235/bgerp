@@ -11,6 +11,8 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
@@ -19,16 +21,15 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.jsp.JSPFunction;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.util.Log;
 
 /**
  * List of logged in user sessions.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class LoginStat {
     private static final Log log = Log.getLog();
-    
+
     private static LoginStat loginStat;
 
     public static LoginStat getLoginStat() {

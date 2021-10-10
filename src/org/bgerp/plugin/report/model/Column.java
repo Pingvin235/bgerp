@@ -3,17 +3,18 @@ package org.bgerp.plugin.report.model;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgerp.l10n.Localizer;
 import ru.bgerp.l10n.Titled;
-import ru.bgerp.util.Log;
 
 /**
  * Report's column.
  * <p>Value of {@link #getId()} allows to access column by it.
  * <p>With empty {@link #getTitle()} value column is not shown to user.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public abstract class Column implements Titled {
@@ -54,12 +55,12 @@ public abstract class Column implements Titled {
     public String getTitle(Localizer l) {
         if (l != null && Utils.notBlankString(ltitle))
             return l.l(ltitle);
-        
+
         return title;
     }
 
     public Object accept(Object value) {
-        throw new IllegalArgumentException(Log.format("Incorrect object class: '{}' for column: '{}'", 
+        throw new IllegalArgumentException(Log.format("Incorrect object class: '{}' for column: '{}'",
             value.getClass().getName(), getId()));
     }
 

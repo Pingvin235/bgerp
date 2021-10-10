@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.message.MessageDAO;
@@ -23,11 +25,10 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.model.SearchItem;
-import ru.bgerp.util.Log;
 
 public class SearchDAO extends CommonDAO {
     private final static Log log = Log.getLog();
-    
+
     public final static String TABLE = " fulltext_data ";
 
     public SearchDAO(Connection con) {
@@ -65,8 +66,8 @@ public class SearchDAO extends CommonDAO {
             }
         });
     }
-    
-    private <T> void searchObjects(SearchResult<T> result, String filter, 
+
+    private <T> void searchObjects(SearchResult<T> result, String filter,
         String tableName, String objectType, Function<ResultSet, T> extractor) throws SQLException {
         String query = SQL_SELECT_COUNT_ROWS + "o.* FROM " + TABLE + " AS ft "
                 + SQL_INNER_JOIN + tableName + " AS o ON ft.object_id=o.id"
@@ -108,7 +109,7 @@ public class SearchDAO extends CommonDAO {
         result.getPage().setRecordCount(getFoundRows(ps));
         ps.close();
     }
-    
+
     /**
      * Помечает объект необходимым для обновления.
      * @param objectType
@@ -122,7 +123,7 @@ public class SearchDAO extends CommonDAO {
                 SQL_INSERT + TABLE + "(scheduled_dt, object_type, object_id) VALUES (NOW(),?,?)",
                 objectType, objectId);
     }
-    
+
     /**
      * Удаляет запись об объекте.
      * @param objectType
@@ -142,7 +143,7 @@ public class SearchDAO extends CommonDAO {
             throw new BGException(e);
         }
     }
-    
+
     /**
      * Удаляет запись об объекте.
      * @param item
@@ -151,25 +152,25 @@ public class SearchDAO extends CommonDAO {
     public void delete(SearchItem item) throws BGException {
         delete(item.getObjectType(), item.getObjectId());
     }
-    
+
     /**
      * Выбирает записи необходимые для обновления.
      * @param secondsOld последнее изменение объекта более чем секунд назад.
-     * @param maxCount максимальное количество. 
+     * @param maxCount максимальное количество.
      * @throws BGException
      */
     public List<SearchItem> getScheduledUpdates(int secondsOld, int maxCount) throws BGException {
         List<SearchItem> result = new ArrayList<>();
         try {
-            String query = 
-                    SQL_SELECT_COUNT_ROWS + "object_type, object_id" + SQL_FROM + TABLE + SQL_WHERE + 
+            String query =
+                    SQL_SELECT_COUNT_ROWS + "object_type, object_id" + SQL_FROM + TABLE + SQL_WHERE +
                     "scheduled_dt<=DATE_SUB(NOW(), INTERVAL ? SECOND)" +
                     SQL_ORDER_BY + "scheduled_dt" +
                     SQL_LIMIT + "?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, secondsOld);
             ps.setInt(2, maxCount);
-            
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 SearchItem item = new SearchItem();
@@ -183,9 +184,9 @@ public class SearchDAO extends CommonDAO {
         }
         return result;
     }
-    
+
     /**
-     * Обновляет искомый текст записи. 
+     * Обновляет искомый текст записи.
      * @param item
      * @throws BGException
      */
@@ -211,7 +212,7 @@ public class SearchDAO extends CommonDAO {
      */
     public void init(String objectType, String objectTable) throws SQLException {
         String query = SQL_INSERT + TABLE + " (object_type, object_id, scheduled_dt) "
-            + "SELECT ?, t.id, NOW() FROM " + objectTable + " AS t " 
+            + "SELECT ?, t.id, NOW() FROM " + objectTable + " AS t "
             + "LEFT JOIN " + TABLE + " AS fd ON fd.object_type=? AND t.id=fd.object_id WHERE fd.object_id IS NULL";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, objectType);

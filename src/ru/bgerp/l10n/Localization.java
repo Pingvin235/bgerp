@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -21,11 +22,10 @@ import ru.bgcrm.servlet.filter.AuthFilter;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
-import ru.bgerp.util.Log;
 
 /**
  * A localization unit, loaded from l10n.xml for a plugin.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class Localization {
@@ -138,11 +138,11 @@ public class Localization {
         final String langKeyName = "lang";
 
         String result = null;
-        
+
         // open interface, no user
         if (request != null && AuthFilter.getUser(request) == null) {
             result = request.getParameter(langKeyName);
-            
+
             HttpSession session = request.getSession(false);
             if (Utils.isBlankString(result) && session != null)
                 result = (String) session.getAttribute(langKeyName);

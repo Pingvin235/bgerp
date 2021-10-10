@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.UserCache;
@@ -38,7 +39,6 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 // TODO: Use IdTitleConfig
 public class Queue extends IdTitle {
@@ -232,7 +232,7 @@ public class Queue extends IdTitle {
 
     /**
      * Преобразует объект rowData, заменяя "сырые" данные в нём упорядоченными значениями столбцов.
-     * 
+     *
      * @param form
      * @param rawData
      * @param mediaColumns
@@ -337,7 +337,7 @@ public class Queue extends IdTitle {
             Set<Integer> typeParam = typeFilter.equals("*") ? null : Utils.toIntegerSet(typeFilter);
 
             ProcessLinkDAO dao = new ProcessLinkDAO(form.getConnectionSet().getSlaveConnection(), form.getUser());
-            
+
             if (columnType.startsWith("linkProcessList"))
                 value = dao.getLinkProcessList(process.getId(), linkTypeParam, stateParam, typeParam);
             else
@@ -465,9 +465,9 @@ public class Queue extends IdTitle {
                 	filterSet.statusUserFilter = new Filter( filter );
                 }
                 else if( type.startsWith( "status_user:" ) )
-                {					
+                {
                 	filterSet.statusUserFilter = new FilterStatusUser( filter, type );
-                }				
+                }
                 else if( "create_user".equals( type ) )
                 {
                 	filterSet.createUserFilter = new Filter( filter );

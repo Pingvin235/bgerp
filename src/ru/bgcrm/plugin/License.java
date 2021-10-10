@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import com.hierynomus.sshj.userauth.keyprovider.OpenSSHKeyV1KeyFile;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.util.Log;
 import org.bouncycastle.crypto.CryptoException;
 import org.bouncycastle.crypto.Signer;
 import org.bouncycastle.crypto.digests.SHA256Digest;
@@ -40,7 +41,6 @@ import net.schmizz.sshj.userauth.password.PasswordUtils;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * License for plugins.
@@ -75,7 +75,7 @@ public class License {
     }
 
     /**
-     * Appends author and signature to a license file. 
+     * Appends author and signature to a license file.
      * @param filePath
      * @param personId
      * @param keyFilePath
@@ -95,7 +95,7 @@ public class License {
         var lic = new License(data);
         if (lic.isSigned())
             throw new IllegalArgumentException("The license was already signed");
-        
+
         key = new Key(key.id, IOUtils.toString(new FileInputStream(keyFilePath), StandardCharsets.UTF_8), keyFilePswd);
 
         data += "\n" + KEY_LIC_SIGN_PERSON + "=" + key.id + "\n";
@@ -119,7 +119,7 @@ public class License {
         new Key("Shamil Vakhitov <shamil@bgerp.org>", "AAAAB3NzaC1yc2EAAAADAQABAAABAQDcxIbqm9nyzkV4eduEwjc1om36taX4vy2n6DFHBM1VtM6k2Lr2dFdAjFHf6p4DEykvp/gfZMQqB8I5YdzPZld/glZ6uHAEAHyRngJvua+8437KeL6pOp8HrEop+iIo8+whkfDxqGDQjHcjkM+KlJr8Lgk/62BKaL7TlHRQJ5VDnVvfiAivcv413Hdx5GQoYCQbLX4Ckr7n0BmoVK3bBGxyrPav9ihhdNe1Vpqq1IKhuYRwVYYl9yU5E7x3eu4wIi4R9LcrSre+oY0AL0rM4Nn4kOocecM0q+LC3lsNebXcvVPVdO2+TZBWI9flIodM3Jh4/3KJFOYxBzivupCbNZAr")
     ).stream().collect(Collectors.toMap(e -> e.id, e -> e));
 
-    /** 
+    /**
      * Signer supported SSH keys: 'RSA', 'ED25519'
      */
     public static class Key {
@@ -189,7 +189,7 @@ public class License {
                     return signer;
                 }
 
-                if (keyParameters instanceof Ed25519PublicKeyParameters || 
+                if (keyParameters instanceof Ed25519PublicKeyParameters ||
                     keyParameters instanceof Ed25519PrivateKeyParameters) {
                     var signer = new Ed25519Signer();
                     signer.init(signing, keyParameters);
@@ -232,7 +232,7 @@ public class License {
     private static final String KEY_LIC_SIGN = KEY_LIC + "sign.";
     private static final String KEY_LIC_SIGN_PERSON = KEY_LIC_SIGN + "person";
     private static final String KEY_LIC_SIGN_SIGNATURE = KEY_LIC_SIGN + "signature";
-    
+
     private final String data;
     private final ParameterMap config;
     private final byte[] digest;
@@ -285,7 +285,7 @@ public class License {
 
     private byte[] digest() {
         var buffer = new StringBuilder(1000);
-        
+
         try (var scanner = new Scanner(data)) {
             while (scanner.hasNextLine()) {
                 var line = scanner.nextLine();
@@ -307,7 +307,7 @@ public class License {
         var person = config.get(KEY_LIC_SIGN_PERSON);
         if (Utils.isEmptyString(person))
             return "Signing person is undefined";
-        
+
         var key = PUBLIC_KEYS.get(person);
         if (key == null)
             return "Not found key for person: " + person;
@@ -318,7 +318,7 @@ public class License {
 
         if (!key.signatureVerify(digest, signature))
             return "Signature is not correct";
-        
+
         return null;
     }
 
@@ -328,7 +328,7 @@ public class License {
             var key = me.getKey();
             if (!key.startsWith(KEY_LIC_PLUGIN) || !Utils.parseBoolean(me.getValue(), false))
                 continue;
-            
+
             result.add(key.substring(KEY_LIC_PLUGIN_LENGTH));
         }
 

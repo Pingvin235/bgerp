@@ -17,11 +17,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Config;
-import ru.bgerp.util.Log;
 
 /**
  * {@link ConcurrentHashMap} based implementation of {@link ParameterMap}.

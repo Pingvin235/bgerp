@@ -10,8 +10,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 public class SQLUtils {
     private static final Log log = Log.getLog();

@@ -8,13 +8,14 @@ import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
-import ru.bgerp.util.Log;
 
 /**
  * Caching counter of quantity of DB records.
@@ -105,7 +106,7 @@ public class FilterEntryCounter extends Thread {
 
             if ((currentTime - value.time) > interval) {
                 queries.remove(query);
-                log.debug("Remove query, size after: %s, currentTime: %s, cnt.time: %s, query: %s", 
+                log.debug("Remove query, size after: %s, currentTime: %s, cnt.time: %s, query: %s",
                         queries.size(), currentTime, value.time, query);
             }
         }

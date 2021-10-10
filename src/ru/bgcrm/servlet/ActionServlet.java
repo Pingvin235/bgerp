@@ -10,15 +10,15 @@ import javax.servlet.ServletException;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.BaseAction;
 import org.apache.struts.config.ModuleConfig;
+import org.bgerp.util.Log;
 import org.reflections.Reflections;
 
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
-import ru.bgerp.util.Log;
 
 /**
  * Overwritten ActionServlet, loads struts-config.xml also for enabled plugins.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class ActionServlet extends org.apache.struts.action.ActionServlet {
@@ -77,7 +77,7 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
 
                 result.addActionConfig(action);
             }
-        } 
+        }
 
         return result;
     }

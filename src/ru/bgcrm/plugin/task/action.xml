@@ -1,5 +1,5 @@
 <item title="Plugin Task">
-	<item action="ru.bgcrm.plugin.task.struts.action.TaskAction:list" title="Process task list"/>
-	<item action="ru.bgcrm.plugin.task.struts.action.TaskAction:update" title="Изменение / добавление задачи"/>
-	<item action="ru.bgcrm.plugin.task.struts.action.TaskAction:delete" title="Удаление задачи"/>
+	<item action="ru.bgcrm.plugin.task.struts.action.TaskAction:list;ru.bgcrm.plugin.task.action.TaskAction:list" title="Process task list"/>
+	<item action="ru.bgcrm.plugin.task.action.TaskAction:update" title="Process task add/update"/>
+	<item action="ru.bgcrm.plugin.task.action.TaskAction:delete" title="Process task delete"/>
 </item>

@@ -10,22 +10,23 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.IfaceState;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.PreparedDelay;
-import ru.bgerp.util.Log;
 
 public class IfaceStateDAO extends CommonDAO{
     private static final Log log = Log.getLog();
-    
+
     public static final String TABLE_NAME = " iface_state ";
-    
+
     public IfaceStateDAO(Connection con) {
         super(con);
     }
-    
+
     public Map<String, IfaceState> getIfaceStates(String objectType, int objectId) throws BGException {
         Map<String, IfaceState> result = new HashMap<>();
         try {
@@ -33,10 +34,10 @@ public class IfaceStateDAO extends CommonDAO{
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, objectType);
             ps.setInt(2, objectId);
-            
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                IfaceState state = new IfaceState(rs.getString("iface_id"), rs.getString("state")); 
+                IfaceState state = new IfaceState(rs.getString("iface_id"), rs.getString("state"));
                 result.put(state.getIfaceId(), state);
             }
             ps.close();
@@ -45,13 +46,13 @@ public class IfaceStateDAO extends CommonDAO{
         }
         return result;
     }
-    
+
     public void updateIfaceState(IfaceState state) throws BGException {
         try {
-            String query = 
-                    SQL_INSERT + TABLE_NAME + 
+            String query =
+                    SQL_INSERT + TABLE_NAME +
                     "SET object_type=?, object_id=?, iface_id=?, state=?" +
-                    SQL_ON_DUP_KEY_UPDATE + 
+                    SQL_ON_DUP_KEY_UPDATE +
                     "state=?";
             PreparedDelay pd = new PreparedDelay(con, query);
             pd.addString(state.getObjectType());
@@ -65,14 +66,14 @@ public class IfaceStateDAO extends CommonDAO{
             throw new BGException(ex);
         }
     }
-    
+
     public void compareAndUpdateState(IfaceState old, IfaceState current, DynActionForm form) throws BGException {
         if (Setup.getSetup().getBoolean("db.readonly", false)) {
             log.debug("Skip compareAndUpdateState for db.readonly=1");
             return;
         }
 
-        boolean needBeUpdated = 
+        boolean needBeUpdated =
                 old.getState() == null || !old.getState().equals(current.getState());
         if (needBeUpdated) {
             updateIfaceState(current);
@@ -81,8 +82,8 @@ public class IfaceStateDAO extends CommonDAO{
                     log.debug("Update iface state to: " + current.getState());
                 }
                 //TODO: Параметр просто записывается последним, необходимо парсить URL, заменять значение.
-                form.setRequestUrl(form.getRequestUrl() + 
-                        "&" + IfaceState.REQUEST_PARAM_STATE + "=" + 
+                form.setRequestUrl(form.getRequestUrl() +
+                        "&" + IfaceState.REQUEST_PARAM_STATE + "=" +
                         URLEncoder.encode(current.getState(), StandardCharsets.UTF_8.name()));
             } catch (UnsupportedEncodingException e) {
                 throw new BGException(e);

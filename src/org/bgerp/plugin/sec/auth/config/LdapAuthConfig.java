@@ -20,6 +20,7 @@ import javax.naming.directory.SearchControls;
 import com.google.common.annotations.VisibleForTesting;
 
 import org.bgerp.plugin.sec.auth.AuthResult;
+import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
 import ru.bgcrm.dao.expression.Expression;
@@ -27,11 +28,10 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * LDAP auth.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class LdapAuthConfig extends Config {

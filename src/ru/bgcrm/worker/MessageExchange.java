@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.Scheduler;
 import ru.bgcrm.Scheduler.ConfigurableTask;
 import ru.bgcrm.dao.message.MessageType;
@@ -11,7 +13,6 @@ import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 public class MessageExchange extends ConfigurableTask {
     private static final AtomicBoolean run = new AtomicBoolean(false);

@@ -3,15 +3,16 @@ package ru.bgcrm.servlet.jsp;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.core.ConditionalTagSupport;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.filter.AuthFilter;
-import ru.bgerp.util.Log;
 
 /**
  * JSP tag, used also as static object for checking action's allowance.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class PermissionTag extends ConditionalTagSupport {

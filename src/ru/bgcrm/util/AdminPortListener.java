@@ -17,12 +17,12 @@ import java.text.DecimalFormatSymbols;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.Scheduler;
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.distr.VersionInfo;
-import ru.bgerp.util.Log;
 
 public class AdminPortListener implements Runnable {
     private Log log = Log.getLog();
@@ -107,7 +107,7 @@ public class AdminPortListener implements Runnable {
 
     public static String getVersionInfo() {
         var result = new StringBuilder(200);
-        
+
         var vi = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE);
         var viLib = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE_LIB);
 
@@ -142,8 +142,8 @@ public class AdminPortListener implements Runnable {
     }
 
     /**
-     * Возвращает строковый статус uptime чего либо (с момента инициации Java-приложения). 
-     * Используется в отдельнозапущенных серверах для информации в статусе. 
+     * Возвращает строковый статус uptime чего либо (с момента инициации Java-приложения).
+     * Используется в отдельнозапущенных серверах для информации в статусе.
      * @return
      */
     public static final String uptimeStatus() {
@@ -180,7 +180,7 @@ public class AdminPortListener implements Runnable {
     }
 
     /**
-     * Возвращает строку с состоянием памяти приложения. 
+     * Возвращает строку с состоянием памяти приложения.
      * @return
      */
     public static final String memoryStatus() {

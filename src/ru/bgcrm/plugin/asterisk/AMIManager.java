@@ -3,6 +3,8 @@ package ru.bgcrm.plugin.asterisk;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
@@ -13,7 +15,6 @@ import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.util.Log;
 
 /**
  * Слушаель событий Asterisk а.

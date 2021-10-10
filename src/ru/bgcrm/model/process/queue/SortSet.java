@@ -7,9 +7,10 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * Queue sort options. Sorting is defined in list of comboboxes.

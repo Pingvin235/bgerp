@@ -9,15 +9,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.struts.action.FileAction.FileInfo;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * Slack API: https://api.slack.com/web
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class SlackProto {
@@ -124,7 +124,7 @@ public class SlackProto {
         log.debug("Sending: {}", req);
 
         var result = req.execute().returnContent().asString(Charset.forName("UTF-8"));
-        
+
         log.debug("Response: {}", result);
 
         var node = MAPPER.readTree(result);

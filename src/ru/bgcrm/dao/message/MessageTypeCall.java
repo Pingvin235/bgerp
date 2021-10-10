@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.BGException;
@@ -17,7 +19,6 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.util.Log;
 
 public class MessageTypeCall extends MessageType {
     private static final Log log = Log.getLog();
@@ -56,7 +57,7 @@ public class MessageTypeCall extends MessageType {
             this.messageForOpen = value;
         }
     }
-    
+
     private final String checkExpressionCallStore;
 
     public MessageTypeCall(Setup setup, int id, ParameterMap config) throws BGException {
@@ -86,7 +87,7 @@ public class MessageTypeCall extends MessageType {
         }
         return "";
     }
-    
+
     private Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>> getRegMaps() {
         Pair<Map<String, CallRegistration>, Map<Integer, CallRegistration>> result = registedMap.get(id);
         if (result == null) {
@@ -131,7 +132,7 @@ public class MessageTypeCall extends MessageType {
     public CallRegistration getRegistrationByNumber(String number) {
         return getRegMaps().getFirst().get(number);
     }
-    
+
     public String getCheckExpressionCallStore() {
         return checkExpressionCallStore;
     }

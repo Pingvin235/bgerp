@@ -3,11 +3,12 @@ package ru.bgcrm.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.util.SerialUtils;
-import ru.bgerp.util.Log;
 
 /**
- * Map для хранения параметров форм, в т.ч. типа checkbox, 
+ * Map для хранения параметров форм, в т.ч. типа checkbox,
  * когда приходит несколько значений под одним именем.
  */
 public class ArrayHashMap extends HashMap<String, Object> {

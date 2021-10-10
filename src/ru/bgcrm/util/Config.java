@@ -1,7 +1,8 @@
 package ru.bgcrm.util;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.model.BGMessageException;
-import ru.bgerp.util.Log;
 
 /**
  * Configuration, created on demand in {@link ParameterMap#getConfig(Class)} and cached before it has changed.

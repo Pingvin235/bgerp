@@ -14,6 +14,7 @@ import javax.tools.JavaCompiler;
 import javax.tools.JavaCompiler.CompilationTask;
 
 import org.apache.commons.io.FileUtils;
+import org.bgerp.util.Log;
 
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
@@ -23,11 +24,10 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * Java compiler wrapper.
- * 
+ *
  * @author Kirill Berezin
  * @author Kirill Sergeev
  * @author Amir Absalilov
@@ -44,7 +44,7 @@ public class CompilerWrapper {
 
     private final File srcDir;
     private final File outputDir;
-    
+
     public CompilerWrapper(File srcDir) {
         this.srcDir = srcDir;
         var outputDirRoot = new File(Utils.getTmpDir());
@@ -70,7 +70,7 @@ public class CompilerWrapper {
 
     /**
      * Компилирует поданные исходники
-     * 
+     *
      * @param srcFiles список полных путей к файлам
      * @return пара: результат компиляции и список скомпилированных файлов
      */
@@ -123,7 +123,7 @@ public class CompilerWrapper {
     /**
      * Получает список объектов с информацией о скомпилированных файлах, лежащих в
      * указанной директории.
-     * 
+     *
      * @param directory
      * @return
      */

@@ -1,4 +1,4 @@
-package ru.bgerp.util;
+package org.bgerp.util;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -12,17 +12,17 @@ import java.util.regex.Pattern;
 import com.google.common.annotations.VisibleForTesting;
 
 import org.apache.commons.io.FileUtils;
+import org.bgerp.util.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * Installer of update packages.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class InstallProcessor {

@@ -10,6 +10,7 @@ import org.asteriskjava.manager.ManagerEventListener;
 import org.asteriskjava.manager.action.StatusAction;
 import org.asteriskjava.manager.event.ManagerEvent;
 import org.asteriskjava.manager.event.NewStateEvent;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.message.MessageTypeCall;
@@ -19,7 +20,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
-import ru.bgerp.util.Log;
 
 public class AmiEventListener extends Thread implements ManagerEventListener {
     private static final Log log = Log.getLog();
@@ -78,7 +78,7 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
 
         if (!(e instanceof NewStateEvent))
             return;
-        
+
         NewStateEvent event = (NewStateEvent) e;
 
         if (!"Up".equals(event.getChannelStateDesc()))

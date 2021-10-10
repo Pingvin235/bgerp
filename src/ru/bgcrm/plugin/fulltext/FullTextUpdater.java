@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -34,14 +36,13 @@ import ru.bgcrm.plugin.fulltext.model.Config.ObjectType;
 import ru.bgcrm.plugin.fulltext.model.SearchItem;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionPool;
-import ru.bgerp.util.Log;
 
 /**
  * Задача обновления полнотекстовых индексов. Запускается планировщиком раз в минуту.
  */
 public class FullTextUpdater implements Runnable {
-    private static final Log log = Log.getLog(); 
-    
+    private static final Log log = Log.getLog();
+
     private final Config config = Setup.getSetup().getConfig(Config.class);
 
     public FullTextUpdater() {}
@@ -51,11 +52,11 @@ public class FullTextUpdater implements Runnable {
         ConnectionPool connectionPool = Setup.getSetup().getConnectionPool();
         try (Connection con = connectionPool.getDBConnectionFromPool();
              Connection conSlave = connectionPool.getDBSlaveConnectionFromPool()) {
-            
+
             SearchDAO searchDao = new SearchDAO(con);
             ParamValueDAO paramDao = new ParamValueDAO(conSlave);
-            
-            List<SearchItem> forUpdate = null; 
+
+            List<SearchItem> forUpdate = null;
             while (!(forUpdate = searchDao.getScheduledUpdates(config.getIndexDelay(), 100)).isEmpty()) {
                 for (SearchItem item : forUpdate) {
                     ObjectType typeConfig = config.getObjectTypeMap().get(item.getObjectType());
@@ -64,7 +65,7 @@ public class FullTextUpdater implements Runnable {
                         searchDao.delete(item.getObjectType(), item.getObjectId());
                         continue;
                     }
-                    
+
                     StringBuilder text = new StringBuilder(200);
                     if (Customer.OBJECT_TYPE.equals(item.getObjectType())) {
                         Customer customer = new CustomerDAO(conSlave).getCustomerById(item.getObjectId());
@@ -94,14 +95,14 @@ public class FullTextUpdater implements Runnable {
                         text.append(message.getText());
                         text.append('\n');
                     }
-                    
+
                     List<Parameter> paramList = ParameterCache.getParameterMap().values().stream()
                         .filter(p -> p.getObject().equals(item.getObjectType()) && config.isParamConfigured(p))
                         .collect(Collectors.toList());
 
                     if (!paramList.isEmpty()) {
                         List<ParameterValuePair> paramValues = paramDao.loadParameters(paramList, item.getObjectId(), false);
-                        
+
                         for (ParameterValuePair pair : paramValues) {
                             if (pair.getValue() == null) continue;
 
@@ -154,16 +155,16 @@ public class FullTextUpdater implements Runnable {
                             }
                         }
                     }
-                    
+
                     item.setText(text.toString());
                     searchDao.update(item);
-                    
+
                     con.commit();
-                    
+
                     log.debug("Item type: {}; id: {}; data: {}", item.getObjectType(), item.getObjectId(), text);
                 }
             }
-        } 
+        }
         catch (Exception e) {
             log.error(e);
         }

@@ -25,6 +25,7 @@ import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.taglibs.standard.functions.Functions;
+import org.bgerp.util.Log;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -38,7 +39,6 @@ import ru.bgcrm.model.Title;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.servlet.jsp.JSPFunction;
-import ru.bgerp.util.Log;
 
 public class Utils {
     /** Use {@link java.nio.charset.StandardCharsets}. */
@@ -109,7 +109,7 @@ public class Utils {
     /**
      * Преобразует строку в BigDecimal, и, в случае ошибки, возвращает значение
      * по умолчанию.
-     * 
+     *
      * @param str строка представляющая BigDecimal-значение.
      * @param defaultValue BigDecimal-значение по умолчанию.
      * @return новый объект BigDecimal.
@@ -124,7 +124,7 @@ public class Utils {
 
     /**
      * Преобразует строку в BigDecimal, и, в случае ошибки, возвращает 0.0
-     * 
+     *
      * @param str строка представляющая BigDecimal-значение.
      * @return новый объект BigDecimal.
      */
@@ -158,7 +158,7 @@ public class Utils {
      * Преобразует строку в boolean.
      * @param str строка.
      * @param defaultValue значение по-умолчанию.
-     * @return true - если str равно "1", "TRUE", "YES", "NO" без учёта регистра; false - если str равно "0", "FALSE", "NO" без учёта регистра; в ином случае - defaultValue. 
+     * @return true - если str равно "1", "TRUE", "YES", "NO" без учёта регистра; false - если str равно "0", "FALSE", "NO" без учёта регистра; в ином случае - defaultValue.
      */
     public static Boolean parseBoolean(String str, Boolean defaultValue) {
         Boolean result = defaultValue;
@@ -175,7 +175,7 @@ public class Utils {
     }
 
     /**
-     * Преобразует boolean в строку "1" или "0". 
+     * Преобразует boolean в строку "1" или "0".
      * @param value
      * @return
      */
@@ -299,7 +299,7 @@ public class Utils {
      * @return {@code value} is not null, all the values aren't blank.
      */
     public static final boolean notBlankStrings(String... value) {
-        if (value == null) 
+        if (value == null)
             return false;
         for (String val : value) {
             if (isBlankString(val))
@@ -555,7 +555,7 @@ public class Utils {
 
     /**
      * Возвращает коды объектов из коллекции с указанием разделителя и начала строки.
-     * @param list 
+     * @param list
      * @param startValues начало строки.
      * @param delim разделитель кодов.
      * @return
@@ -681,7 +681,7 @@ public class Utils {
     }
 
     /**
-     * Возвращает список объектов из строки вида код:наименование; код:наименование. Если значение для второго элемента пары не указано, будет использовано переданное в параметре noPairValue 
+     * Возвращает список объектов из строки вида код:наименование; код:наименование. Если значение для второго элемента пары не указано, будет использовано переданное в параметре noPairValue
      * @param value
      * @param noPairValue
      * @return
@@ -730,9 +730,9 @@ public class Utils {
     }
 
     /**
-     * Добавляет в конец строки новое значение, 
+     * Добавляет в конец строки новое значение,
      * отделяя запятой с пробелом, если он не первый.
-     * 
+     *
      * @param result
      * @param value
      */
@@ -820,7 +820,7 @@ public class Utils {
 
     /**
      * Возвращает строковое представление MD5 хэша от входной строки.
-     * @param value входные данные 
+     * @param value входные данные
      * @param charset кодировка
      * @return строка
      */

@@ -3,11 +3,12 @@ package org.bgerp.plugin.telegram;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 public class ExpressionBean {
     private static final Log log = Log.getLog();

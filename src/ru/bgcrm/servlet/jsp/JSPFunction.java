@@ -12,24 +12,25 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * Functions called from util.tld JSP library.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class JSPFunction {
     private static final Log log = Log.getLog();
 
     /**
-     * Checks if {@link Collection}, {@link Map} or array from {@code collection} contains {@code object}. 
+     * Checks if {@link Collection}, {@link Map} or array from {@code collection} contains {@code object}.
      * @param collection may be {@link Collection}, {@link Map} or array.
      * @param object looked object
      * @return
@@ -55,11 +56,11 @@ public class JSPFunction {
     }
 
     /**
-     * Gets string if {@link #contains(Object, Object)} call is true. 
+     * Gets string if {@link #contains(Object, Object)} call is true.
      * @param collection first param for contains.
      * @param object second param for contains.
-     * @param string resulting string. 
-     * @return {@code string} or "". 
+     * @param string resulting string.
+     * @return {@code string} or "".
      */
     private static String string(Object collection, Object object, String string) {
         if (contains(collection, object)) {
@@ -287,7 +288,7 @@ public class JSPFunction {
         return path + "?version=" + (file.lastModified() / 1000);
     }
 
-    /** 
+    /**
      * Возвращает значение ключа из Map а с персонализациями, значение по-умолчанию берётся из основной конфигурации.
      * @param user
      * @param key

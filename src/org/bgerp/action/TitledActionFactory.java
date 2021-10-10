@@ -3,12 +3,13 @@ package org.bgerp.action;
 import java.util.Collections;
 import java.util.List;
 
+import org.bgerp.util.Log;
+
 import ru.bgerp.l10n.Localizer;
-import ru.bgerp.util.Log;
 
 /**
  * Factory of list of titled actions.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public interface TitledActionFactory {

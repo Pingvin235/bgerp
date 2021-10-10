@@ -14,6 +14,7 @@ import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
@@ -29,7 +30,6 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.util.Log;
 
 public class DefaultMarkedProcessor extends DynamicEventListener {
     private static final Log log = Log.getLog();
@@ -187,8 +187,8 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
             try {
                 for (int processId : event.getProcessIds()) {
                     Process process = processDAO.getProcess(processId);
-                    
-                    // набор стандартных команд по обработке процесса   
+
+                    // набор стандартных команд по обработке процесса
                     List<String> commandList = new ArrayList<String>();
 
                     for (Command command : config.commandList) {
@@ -202,7 +202,7 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
                             groupIds = CollectionUtils.subtract(groupIds, process.getGroupIds());
                             if (!CollectionUtils.isEmpty(groupIds) )
                                 commandList.add(COMMAND_ADD_GROUPS + ":" + Utils.toString(groupIds));
-                                    
+
                             String executorIds = Utils.toString(event.getForm().getSelectedValues("executor"));
                             if (Utils.notBlankString(executorIds)) {
                                 commandList.add(COMMAND_ADD_EXECUTORS + ":" + executorIds);
@@ -214,7 +214,7 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
                             }
                         }
                     }
-                    
+
 
                     ProcessCommandExecutor.processDoCommands(con, event.getForm(), process, null, commandList);
 

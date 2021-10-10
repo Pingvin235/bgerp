@@ -1,4 +1,4 @@
-package ru.bgerp.util;
+package org.bgerp.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import org.apache.log4j.Priority;
 /**
  * Runner of OS commands, writing STDOUT and STDERR output
  * to a log with levels INFO and ERROR.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class RuntimeRunner {

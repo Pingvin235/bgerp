@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -45,11 +46,10 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
-import ru.bgerp.util.Log;
 
 public class ProcessLinkAction extends ProcessAction {
     private static final Log log = Log.getLog();
-    
+
     // процессы, к которым привязана сущность
     public ActionForward linkedProcessList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con, form.getUser());
@@ -162,7 +162,7 @@ public class ProcessLinkAction extends ProcessAction {
         new ParamValueDAO(con).copyParams(id, process.getId(), configMap.get("create.in.copyParams"));
 
         final String key = "create.in." + objectType + ".openCreated";
-        if ("wizard".equals(configMap.get(key)) || 
+        if ("wizard".equals(configMap.get(key)) ||
             configMap.getBoolean("create.in." + objectType + ".wizardCreated", false)) {
             form.getResponse().setData("wizard", 1);
             form.getResponse().getEventList().clear();
@@ -216,7 +216,7 @@ public class ProcessLinkAction extends ProcessAction {
         // проверка и обновление статуса вкладки, если нужно
         if (Strings.isNotBlank(form.getParam(IfaceState.REQUEST_PARAM_IFACE_ID))) {
             IfaceState ifaceState = new IfaceState(form);
-            IfaceState currentState = new IfaceState(Process.OBJECT_TYPE, id, form, 
+            IfaceState currentState = new IfaceState(Process.OBJECT_TYPE, id, form,
                     String.valueOf(searchResultLinked.getPage().getRecordCount()),
                     String.valueOf(searchResultLink.getPage().getRecordCount()));
             new IfaceStateDAO(con).compareAndUpdateState(ifaceState, currentState, form);
@@ -298,7 +298,7 @@ public class ProcessLinkAction extends ProcessAction {
         }
 
         linkDao.addLink(new ProcessLinkProcess(linkedId, linkType, process.getId()));
-        
+
         ProcessType createdProcessType = getProcessType(process.getTypeId());
         EventProcessor.processEvent(new ProcessCreatedAsLinkEvent(form, linkedProcess, process),
                 createdProcessType.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));

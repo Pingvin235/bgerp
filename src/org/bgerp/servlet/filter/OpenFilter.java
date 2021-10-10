@@ -10,7 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import ru.bgerp.util.Log;
+import org.bgerp.util.Log;
 
 public class OpenFilter implements Filter {
     private static final Log log = Log.getLog();
@@ -38,23 +38,23 @@ public class OpenFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
-        
+
         var requestDispatcher = request.getServletContext().getRequestDispatcher(OPEN_URL_PREFIX + "shell.jsp");
         request.setAttribute(REQUEST_ATTRIBUTE_URI, requestURI);
         request.setAttribute(REQUEST_ATTRIBUTE_SECRET, request.getParameter("secret"));
         requestDispatcher.forward(request, servletResponse);
     }
 
-    /** 
-     * After forwarding to shell.jsp original requestURL is lost, so it is preserved as attribute. 
+    /**
+     * After forwarding to shell.jsp original requestURL is lost, so it is preserved as attribute.
      * @return preserved URI or {@code null}
      **/
     public static final String getRequestURI(ServletRequest request) {
         return (String) request.getAttribute(REQUEST_ATTRIBUTE_URI);
     }
 
-    /** 
-     * After forwarding to shell.jsp secret parameter is lost, so it is preserved as attribute. 
+    /**
+     * After forwarding to shell.jsp secret parameter is lost, so it is preserved as attribute.
      * @return preserved secret or {@code null}
      **/
     public static final String getRequestSecret(ServletRequest request) {

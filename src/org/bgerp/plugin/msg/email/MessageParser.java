@@ -17,13 +17,13 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
+import org.bgerp.util.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 public class MessageParser {
     private static final Log log = Log.getLog();

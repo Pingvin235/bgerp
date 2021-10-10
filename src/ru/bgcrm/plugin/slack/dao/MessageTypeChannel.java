@@ -9,6 +9,7 @@ import java.util.Set;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -40,11 +41,10 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.Config.InitStopException;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
-import ru.bgerp.util.Log;
 
 /**
  * Message type and settings of Slack.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class MessageTypeChannel extends MessageType {
@@ -146,7 +146,7 @@ public class MessageTypeChannel extends MessageType {
     @Override
     public void process() {
         log.debug("Processing Slack: {}", id);
-        
+
         if (stringExpressionMessageExtract == null) {
             log.info("No stringExpressionMessageExtract - skipping processing");
             return;

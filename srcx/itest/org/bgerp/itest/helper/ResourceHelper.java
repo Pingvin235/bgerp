@@ -3,8 +3,7 @@ package org.bgerp.itest.helper;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
-
-import ru.bgerp.util.Log;
+import org.bgerp.util.Log;
 
 public class ResourceHelper {
     private static final Log log = Log.getLog();

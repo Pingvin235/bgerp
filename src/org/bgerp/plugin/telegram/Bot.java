@@ -1,5 +1,6 @@
 package org.bgerp.plugin.telegram;
 
+import org.bgerp.util.Log;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -16,7 +17,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgerp.util.Log;
 
 import java.sql.Connection;
 import java.util.HashMap;

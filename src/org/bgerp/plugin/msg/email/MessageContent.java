@@ -15,6 +15,7 @@ import javax.mail.internet.MimeUtility;
 import com.google.common.annotations.VisibleForTesting;
 
 import org.bgerp.action.open.ProcessAction.Config;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.FileDataDAO;
@@ -35,11 +36,10 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgerp.l10n.Localization;
 import ru.bgerp.l10n.Localizer;
-import ru.bgerp.util.Log;
 
 /**
  * E-Mail content creator.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class MessageContent {
@@ -83,7 +83,7 @@ public class MessageContent {
             text.append(l.l("email.sign.standard")).append("\n");
 
         var historyPart = history(text, l, msg);
-        
+
         var textPart = new MimeBodyPart();
         textPart.setText(text.toString(), encoding);
 
@@ -115,7 +115,7 @@ public class MessageContent {
     }
 
     /**
-     * Appends text with history info and open process link. 
+     * Appends text with history info and open process link.
      * @param text body text, can be modified during the changes.
      * @param l localizer with target language.
      * @param msg message.
@@ -149,7 +149,7 @@ public class MessageContent {
         var typeConfig = setup.getConfig(MessageTypeConfig.class);
 
         for (Message historyItem : messageList) {
-            if (historyModeTag == Tag.TAG_HISTORY_WITH_ADDRESS_ID 
+            if (historyModeTag == Tag.TAG_HISTORY_WITH_ADDRESS_ID
                 && !historyItem.getFrom().equals(to)
                 && !historyItem.getTo().equals(to)) {
                 continue;
@@ -166,7 +166,7 @@ public class MessageContent {
         var historyPart = new MimeBodyPart();
         historyPart.setText(history.toString(), encoding);
         historyPart.setFileName("History.txt");
-        
+
         return historyPart;
     }
 

@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -46,22 +47,21 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.util.Log;
 
 public class ProcessQueueAction extends ProcessAction {
     private static final Log log = Log.getLog();
-    
+
     // выбранные в полном фильтре фильтры
     private static final String QUEUE_FULL_FILTER_SELECTED_FILTERS = "queueSelectedFilters";
     // параметры полного фильтра
     private static final String QUEUE_FULL_FILTER_PARAMS = "queueCurrentSavedFiltersParam.";
-    
+
     public ActionForward queue(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         form.getResponse().setData("list", ProcessQueueCache.getUserQueueList(form.getUser()));
 
         return html(conSet, mapping, form, "queue");
     }
-    
+
     // возвращает дерево типов для создания процесса
     public ActionForward typeTree(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         int queueId = Utils.parseInt(form.getParam("queueId"));
@@ -77,7 +77,7 @@ public class ProcessQueueAction extends ProcessAction {
 
         return html(con, mapping, form, "processTypeTree");
     }
-    
+
     public ActionForward processCustomClassInvoke(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         Queue queue = ProcessQueueCache.getQueue(form.getParamInt("queueId"), form.getUser());
         if (queue != null) {

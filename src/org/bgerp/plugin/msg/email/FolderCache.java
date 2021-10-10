@@ -9,14 +9,14 @@ import javax.mail.Folder;
 import javax.mail.MessagingException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.util.Log;
 
 /**
  * Cache of messages inside of IMAP folder.
- * 
+ *
  * @author Shamil Vakhitov
  */
 class FolderCache {
@@ -31,7 +31,7 @@ class FolderCache {
     static {
         FETCH_PROFILE_LIST.add(FetchProfile.Item.ENVELOPE);
         FETCH_PROFILE_LIST.add("Message-ID");
-        FETCH_PROFILE_LIST.add("Received"); 
+        FETCH_PROFILE_LIST.add("Received");
     }
 
     /** Prefix for system message ID. */
@@ -63,7 +63,7 @@ class FolderCache {
         List<Integer> sizes = new ArrayList<>(messages.length);
         for (var m : messages)
             sizes.add(m.getSize());
-        
+
         List<Integer> dataSizes = data.stream().map(item -> item.size).collect(Collectors.toList());
         return dataSizes.equals(sizes);
     }
@@ -82,7 +82,7 @@ class FolderCache {
                 .withTypeId(type.getId())
                 .withSystemId(SYSTEM_ID_PREFIX + i).withSubject(mp.getMessageSubject())
                 .withFromTime(mp.getFromTime()).withFrom(mp.getFrom());
-            
+
             data.add(new Item(i, messages[i].getSize(), m));
 
             if (i < 20)
@@ -120,7 +120,7 @@ class FolderCache {
         return result;
     }
 
-    /* 
+    /*
     public Message get(String id) {
         return data.get(id);
     }

@@ -23,6 +23,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.FileDataDAO;
@@ -58,7 +59,6 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 import ru.bgerp.l10n.Localization;
-import ru.bgerp.util.Log;
 
 public class MessageTypeEmail extends MessageType {
     private static final Log log = Log.getLog();
@@ -102,7 +102,7 @@ public class MessageTypeEmail extends MessageType {
         folderSkipped = config.get("folderSkipped", "CRM_SKIPPED");
         folderSent = config.get("folderSent", "CRM_SENT");
         folderTrash = config.get("folderTrash", "Trash");
-        
+
         processIdPattern = Pattern.compile(mailConfig.getEmail().replaceAll("\\.", "\\\\.") + "#(\\d+)");
         quickAnswerPattern = Pattern.compile("QA:(\\d+)");
         quickAnswerEmailParamId = config.getInt("quickAnswerEmailParamId", -1);

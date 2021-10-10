@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dao.ParamDAO;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.IdTitleTree;
@@ -18,7 +20,6 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.TableChangeMonitor;
-import ru.bgerp.util.Log;
 
 public class ParameterCache extends Cache<ParameterCache> {
     private static final Log log = Log.getLog();

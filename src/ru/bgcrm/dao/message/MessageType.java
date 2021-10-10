@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dynamic.DynamicClassManager;
@@ -27,7 +28,6 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.util.Log;
 
 public abstract class MessageType extends IdTitle {
     private static final Log log = Log.getLog();
@@ -40,7 +40,7 @@ public abstract class MessageType extends IdTitle {
     protected final ParameterMap configMap;
 
     protected volatile boolean reading;
-    protected volatile Integer unprocessedMessagesCount; 
+    protected volatile Integer unprocessedMessagesCount;
 
     protected MessageType(Setup setup, int id, String title, ParameterMap config) throws BGException {
         this.setup = setup;
@@ -176,7 +176,7 @@ public abstract class MessageType extends IdTitle {
     public String getHeaderJsp() {
         return null;
     }
-    
+
     /**
      * Plugin's endpoint for process message editor.
      * @return
@@ -184,7 +184,7 @@ public abstract class MessageType extends IdTitle {
     public String getEditorJsp() {
         return null;
     }
-    
+
     public boolean isAttachmentSupport() {
         return true;
     }

@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.util.Log;
 import org.reflections.Reflections;
 
 import ru.bgcrm.util.Setup;
-import ru.bgerp.util.Log;
 
 /**
  * Singleton plugin loader and storage.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class PluginManager {
@@ -44,7 +44,7 @@ public class PluginManager {
         this.fullSortedPluginList = loadFullSortedPluginList();
         this.pluginList = loadPlugins();
         this.pluginMap = Collections.unmodifiableMap(
-            this.pluginList.stream().collect(Collectors.toMap(Plugin::getId, p -> p)) 
+            this.pluginList.stream().collect(Collectors.toMap(Plugin::getId, p -> p))
         );
     }
 
@@ -66,7 +66,7 @@ public class PluginManager {
             }
         }
 
-        result.sort((p1, p2) -> { 
+        result.sort((p1, p2) -> {
             if (p1.isSystem() && !p2.isSystem())
                 return -1;
             if (p2.isSystem() && !p1.isSystem())
@@ -84,7 +84,7 @@ public class PluginManager {
     private List<Plugin> loadPlugins() {
         var setup = Setup.getSetup();
         var enabledDefault = setup.get("plugin.enable.default", "1");
-        List<Plugin> result = 
+        List<Plugin> result =
             this.fullSortedPluginList.stream().filter(p -> p.isEnabled(setup, enabledDefault))
             .collect(Collectors.toList());
         return Collections.unmodifiableList(result);

@@ -1,6 +1,6 @@
 package ru.bgcrm.dyn;
 
-import ru.bgerp.util.Log;
+import org.bgerp.util.Log;
 
 public class ExampleRunnable implements Runnable {
     private static final Log log = Log.getLog();

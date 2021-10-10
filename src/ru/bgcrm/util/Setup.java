@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import com.google.common.annotations.VisibleForTesting;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.event.EventProcessor;
@@ -16,7 +17,6 @@ import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.Config;
 import ru.bgcrm.util.sql.ConnectionPool;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgerp.util.Log;
 
 public class Setup extends Preferences {
     private static final Log log = Log.getLog();
@@ -33,14 +33,14 @@ public class Setup extends Preferences {
     private Map<Integer, ParameterMap> globalConfigMap = new HashMap<Integer, ParameterMap>();
 
     /**
-     * Use this singleton call wisely, because introducing that 
+     * Use this singleton call wisely, because introducing that
      * everywhere makes code hardly testable.
      * @return
      */
     public static Setup getSetup() {
         return getSetup(getBundleName(), true);
     }
-    
+
     public static String getBundleName() {
         return System.getProperty("bgerp.setup.data", System.getProperty("bgcrm.setup.data", "bgerp"));
     }
@@ -118,7 +118,7 @@ public class Setup extends Preferences {
     public Connection getDBConnectionFromPool() {
         return connectionPool.getDBConnectionFromPool();
     }
-    
+
     public Connection getDBSlaveConnectionFromPool() {
         return connectionPool.getDBSlaveConnectionFromPool();
     }
@@ -131,7 +131,7 @@ public class Setup extends Preferences {
 
             for (Map.Entry<String, String> me : data.entrySet())
                 this.data.put(me.getKey(), me.getValue());
-            
+
             // удаление пропавших ключей
             this.data.keySet().retainAll(data.keySet());
 
@@ -163,11 +163,11 @@ public class Setup extends Preferences {
 
         data.putAll(Preferences.processIncludes(configDAO, config.getData(), false));
     }
-    
+
 
     /**
      * Возвращает глобальную конфигурацию по её коду.
-     * 
+     *
      * @param id
      * @return
      */

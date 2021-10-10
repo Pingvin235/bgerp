@@ -7,12 +7,12 @@ import java.util.List;
 
 import org.bgerp.event.AuthEvent;
 import org.bgerp.plugin.sec.auth.Plugin;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
-import ru.bgerp.util.Log;
 
 public class Config extends ru.bgcrm.util.Config {
     private static final Log log = Log.getLog();
@@ -49,7 +49,7 @@ public class Config extends ru.bgcrm.util.Config {
             log.debug("Login {}, successful auth by {}", event.getLogin(), ldap);
 
             var user = event.getUser();
-            if (user == null 
+            if (user == null
                 || !user.getGroupIds().equals(result.getUser().getGroupIds())
                 || !user.getTitle().equals(result.getUser().getTitle())) {
                 try (var con = Setup.getSetup().getDBConnectionFromPool()) {

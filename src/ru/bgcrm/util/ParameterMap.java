@@ -13,10 +13,11 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.util.Config.InitStopException;
-import ru.bgerp.util.Log;
 
 /**
  * Key - value strings map.
@@ -152,7 +153,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     /**
      * Calls {@link #getSokLong(long, boolean, String...)} with validate=false.
      * @throws BGMessageException
-     */ 
+     */
     public long getSokLong(long def, String... keys) throws BGMessageException {
         return getSokLong(def, false, keys);
     }
@@ -172,7 +173,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     /**
      * Calls {@link #getSokLong(boolean, boolean, String...)} with validate=false.
      * @throws BGMessageException
-     */ 
+     */
     public boolean getSokBoolean(boolean def, String... keys) throws BGMessageException {
         return getSokBoolean(def, false, keys);
     }
@@ -390,7 +391,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Creates if needed and gets pre parsed and cached configuration. 
+     * Creates if needed and gets pre parsed and cached configuration.
      * Cache key - the class object of the configuration.
      * @param clazz
      * @return

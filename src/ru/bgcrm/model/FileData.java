@@ -8,10 +8,11 @@ import java.util.StringTokenizer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.io.Base64;
-import ru.bgerp.util.Log;
 
 public class FileData extends IdTitle {
     private static final Log log = Log.getLog();

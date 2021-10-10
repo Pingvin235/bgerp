@@ -620,7 +620,7 @@ The project is using Apache Struts framework in a very own and customized way:
 
 [[mvc-iface]]
 ==== Interfaces
-There are three user <<kernel/interface.adoc#, interfaces>> exist in the program. 
+There are three user <<kernel/interface.adoc#, interfaces>> exist in the program.
 
 The following table shows rules for path and packages of <<action, actions>> and <<jsp, JSP>> templates.
 Shortcuts there mean:
@@ -701,7 +701,7 @@ If this HTTP parameter is not defined, then *unspecified* method gets invoked.
 
 Action methods have to return by invoking *html* or *json*.
 
-First method gets processed by JSP forward page and sends HTML back to the client. 
+First method gets processed by JSP forward page and sends HTML back to the client.
 [snippet, from="@O", to="}", remove-leading=""]
 link:../../src/org/bgerp/action/admin/RunAction.java#L19-L23[org.bgerp.action.admin.RunAction]
 
@@ -768,14 +768,14 @@ All action methods for <<kernel/interface.adoc#user, user>> interface have to be
 Examples:
 [square]
 * link:../../src/org/bgerp/plugin/kernel/action.xml[org/bgerp/plugin/kernel/action.xml] - for <<plugin-kernel, Kernel>> plugin
-* link:../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml] - for Blow plugin 
+* link:../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml] - for Blow plugin
 
 Definitions from those files are forming a tree which is used for <<kernel/setup.adoc#user, access control>>.
 
 Each action is identified by a class AND method, separated by semicolon.
 
 Main identifier can be preceded by additional ones, separated by a comma - for example, when renaming classes or methods.
-This allows to provide backwards compatibility with permissions already present in the DB. 
+This allows to provide backwards compatibility with permissions already present in the DB.
 
 The actual main identifier stays always last and will be used upon the next save operation of the permission set.
 In the following example an action class was renamed and action method changed to *unspecified*, defined in the configuration by *null*.
@@ -799,7 +799,7 @@ Said that, action methods declarations and DAO just need to use *throws java.lan
 
 javadoc:ru.bgcrm.model.BGException[] class is typically used for system-generated exceptions and is rarely used elsewhere.
 
-javadoc:ru.bgcrm.model.BGMessageException[] which inherits from javadoc:ru.bgcrm.model.BGException[], 
+javadoc:ru.bgcrm.model.BGMessageException[] which inherits from javadoc:ru.bgcrm.model.BGException[],
 is used to sent a <<l10n, localized>> message to the user, without writing this message in the log.
 For example:
 [snippet, from="for (", to=");", remove-leading="            "]
@@ -826,7 +826,7 @@ HTML gets rendered on server-side using JSP templates after receiving data from 
 UI uses a set of unified components - thanks to that in most cases there is no need to install additional styles or create additional JS handlers.
 <<sample-jsp-ui, JSP UI code>> examples.
 
-The principal schema of JSP work looks like: 
+The principal schema of JSP work looks like:
 image::_res/project_jsp_schema.png[]
 
 [[jsp-request-params]]
@@ -1045,7 +1045,7 @@ paramId
 === Date - field entity
 If a field has only date, then:
 * Java: *createDate* type *java.util.Date*
-* DB: *create_date* type *DATE* 
+* DB: *create_date* type *DATE*
 
 If a field has date + time, then:
 * Java: *createTime* type *java.util.Date*
@@ -1097,7 +1097,7 @@ Use `log` protected variable when logging within <<action, actions>>
 
 Create *static final* class variable within Java classes:
 [snippet, from="pub", to=");"]
-link:../../src/ru/bgcrm/worker/MessageExchange.java#L16-L19[ru.bgcrm.worker.MessageExchange]
+link:../../src/ru/bgcrm/worker/MessageExchange.java#L17-L20[ru.bgcrm.worker.MessageExchange]
 
 Log message with substitutions:
 [snippet, from="log.debug(", to=");", remove-leading="            "]
@@ -1105,7 +1105,7 @@ link:../../src/ru/bgcrm/Server.java#L115-L115[ru.bgcrm.Server]
 
 Exception message output:
 [snippet, from="try", to="}", remove-leading="                "]
-link:../../src/ru/bgcrm/worker/MessageExchange.java#L60-L64[ru.bgcrm.worker.MessageExchange]
+link:../../src/ru/bgcrm/worker/MessageExchange.java#L61-L65[ru.bgcrm.worker.MessageExchange]
 
 [[sample-logging-js]]
 ==== JS
@@ -1268,10 +1268,10 @@ All the updates packages are copies to Web directory: `https://bgerp.org/update/
 The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc`
 are automatically replaced to the `https://bgerp.org/update/PROCESS_ID/doc`.
 
-Users have a capability to <<kernel/install.adoc#installer, install>> a package using *install* command,  report issues and caveats and, 
+Users have a capability to <<kernel/install.adoc#installer, install>> a package using *install* command,  report issues and caveats and,
 if new version is not operational/suitable, rollback to the latest published version using *update* command.
 
-Multiple update publications are possible until all bugs/caveats are found - after that that change <<workflow, accepted>> 
+Multiple update publications are possible until all bugs/caveats are found - after that that change <<workflow, accepted>>
 into a main branch and a new build gets <<build-erp, published>>
 
 [[build-erp]]

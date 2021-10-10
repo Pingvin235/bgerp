@@ -3,6 +3,8 @@ package ru.bgcrm.event.listener;
 import java.sql.Connection;
 import java.util.Date;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
@@ -14,7 +16,6 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgerp.util.Log;
 
 /**
  * Обработчик событий для регистрации звонка внешним HTTP запросом.

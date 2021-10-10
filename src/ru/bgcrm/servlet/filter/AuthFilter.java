@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.authenticator.Constants;
 import org.bgerp.event.AuthEvent;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.event.EventProcessor;
@@ -29,11 +30,10 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 import ru.bgerp.l10n.Localization;
-import ru.bgerp.util.Log;
 
 /**
  * Servlet auth filter.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class AuthFilter implements Filter {
@@ -96,7 +96,7 @@ public class AuthFilter implements Filter {
     }
 
     /**
-     * Authenticates user by username and password, sent in HTTP request. 
+     * Authenticates user by username and password, sent in HTTP request.
      *
      * @param request
      * @param response
@@ -124,7 +124,7 @@ public class AuthFilter implements Filter {
         // if user not found or marked as external - request to plugins
         if (user == null || user.getStatus() == User.STATUS_EXTERNAL) {
             var event = new AuthEvent(login, password, user);
-            
+
             try (var con = Setup.getSetup().getDBConnectionFromPool()) {
                 EventProcessor.processEvent(event, new SingleConnectionConnectionSet(con));
             } catch (Exception e) {

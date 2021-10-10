@@ -24,13 +24,13 @@ import org.apache.commons.dbcp.PoolingConnection;
 import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.KeyedObjectPool;
 import org.apache.commons.pool.impl.GenericObjectPool;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.util.AlarmErrorMessage;
 import ru.bgcrm.util.AlarmSender;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.fakesql.FakeConnection;
-import ru.bgerp.util.Log;
 
 public class ConnectionPool {
     private static final Log log = Log.getLog();
@@ -320,7 +320,7 @@ public class ConnectionPool {
                 long now = System.currentTimeMillis();
 
                 float minRatio = Float.MAX_VALUE;
-                // выбор наименнее загруженной базы по минимальному отношению активных коннектов 
+                // выбор наименнее загруженной базы по минимальному отношению активных коннектов
                 // к максимальному числу активных
                 for (Map.Entry<String, GuardSupportedPool> me : slavePools.entrySet()) {
                     String key = me.getKey();
@@ -456,7 +456,7 @@ public class ConnectionPool {
     public final static int RETURN_MASTER = 2;
 
     /**
-     * Возвращает соединение с мусорной БД если она описана для таблицы в конфиге либо в зависимости от retType. 
+     * Возвращает соединение с мусорной БД если она описана для таблицы в конфиге либо в зависимости от retType.
      * @param tableName имя таблицы.
      * @param retType {@link #RETURN_FAKE}, {@link #RETURN_SLAVE} либо {@link #RETURN_MASTER}.
      * @return если не указана конфигурация мусорной БД может быть возвращен коннект к мастер БД, фейковый коннект либо коннект Slave БД.
@@ -522,7 +522,7 @@ public class ConnectionPool {
 
     /**
      * Возвращение соединения к выделенной "мусорной" либо Master-базе (если
-     * треш-база не найдена). 
+     * треш-база не найдена).
      * @param tableName
      * @return
      */
@@ -543,8 +543,8 @@ public class ConnectionPool {
      * Возвращает соединение с slave базой.
      * если неверная база то null со всем вытекающим, так как
      * применяется только при принудительном выборе базы в некоторых специфичных
-     * служебных случаях. 
-     * @param poolId - ид базы 
+     * служебных случаях.
+     * @param poolId - ид базы
      * @return коннекшен
      */
     public final Connection getSlaveConnectionFromPool(String poolId) {
@@ -588,7 +588,7 @@ public class ConnectionPool {
     }
 
     /**
-     * Возвращает идентификаторы slave баз. 
+     * Возвращает идентификаторы slave баз.
      * @return
      */
     public final Set<String> getSlaveBaseId() {
@@ -596,7 +596,7 @@ public class ConnectionPool {
     }
 
     /**
-     * Возвращает идентификаторы trash баз. 
+     * Возвращает идентификаторы trash баз.
      * @return
      */
     public final Set<String> getTrashBaseId() {
@@ -608,7 +608,7 @@ public class ConnectionPool {
      * если неверная база то null со всем вытекающим, так как
      * применяется только при принудительном выборе базы в некоторых специфичных
      * служебных случаях.
-     * @param poolId - ид базы 
+     * @param poolId - ид базы
      * @return коннекшен
      */
     public final Connection getTrashConnectionFromPool(String poolId) {
@@ -663,7 +663,7 @@ public class ConnectionPool {
 
     /**
      * Возвращает отношение числа активных соединений к максимально разрешённому
-     * числу соединений Мастер - БД. 
+     * числу соединений Мастер - БД.
      * @return
      */
     public float getMasterPoolLoad() {
