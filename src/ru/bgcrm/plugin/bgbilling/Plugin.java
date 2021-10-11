@@ -16,7 +16,6 @@ import ru.bgcrm.plugin.bgbilling.event.listener.HelpDeskListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.LinkChangedListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.LinkChangingListener;
 import ru.bgcrm.plugin.bgbilling.event.listener.ProcessDoActionListener;
-import ru.bgcrm.plugin.bgbilling.event.listener.RegisterExtensionListener;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -57,12 +56,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         new HelpDeskListener();
 
         new ProcessDoActionListener();
-
-        // регистрация функций - расширений для XSLT генерации документов только если стоит плагин Document
-        try {
-            Class.forName("ru.bgcrm.plugin.document.Plugin");
-            new RegisterExtensionListener();
-        } catch (ClassNotFoundException e) {}
     }
 
     @Override

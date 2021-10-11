@@ -11,9 +11,10 @@ import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
-import org.apache.xpath.XPathAPI;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -240,7 +241,7 @@ public class XMLUtils {
      */
     public static Node selectNode(Node node, String expression) {
         try {
-            return XPathAPI.selectSingleNode(node, expression);
+            return (Node) XPathFactory.newInstance().newXPath().evaluate(expression, node, XPathConstants.NODE);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
@@ -256,7 +257,7 @@ public class XMLUtils {
      */
     public static NodeList selectNodeList(Node node, String expression) {
         try {
-            return XPathAPI.selectNodeList(node, expression);
+            return (NodeList) XPathFactory.newInstance().newXPath().evaluate(expression, node, XPathConstants.NODESET);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
@@ -266,7 +267,7 @@ public class XMLUtils {
     public static Iterable<Element> selectElements(Node node, String expression) {
         try {
             // Возвращает NodeList по XPath expression.
-            final NodeList nodeList = XPathAPI.selectNodeList(node, expression);
+            final NodeList nodeList = selectNodeList(node, expression);
             return elements(nodeList);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -329,7 +330,7 @@ public class XMLUtils {
      */
     public static String selectText(Node node, String expression, String defaultValue) {
         try {
-            Node result = XPathAPI.selectSingleNode(node, expression);
+            Node result = selectNode(node, expression);
             return result != null ? result.getNodeValue() : defaultValue;
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);

@@ -7,6 +7,8 @@
 		<pzdc-javadoc>https://bgerp.org/doc/3.0/javadoc/</pzdc-javadoc>
 		<!-- source link root -->
 		<pzdc-source-link-root>https://github.com/Pingvin235/bgerp/blob/master/srcx/doc</pzdc-source-link-root>
+		<!-- converter URL, used by DrawIO processor -->
+		<pzdc-drawio-converter>http://drawio.bgerp.org/convert</pzdc-drawio-converter>
 		<!-- sample of labels customization
 		https://asciidoctor.org/docs/user-manual/#customizing-labels
 		https://github.com/asciidoctor/asciidoctor/blob/master/lib/asciidoctor/document.rb#L255

@@ -22,7 +22,7 @@ image::_res/sample_act_order/order.png[]
 * link:_res/sample_act_order/order.jsp[order.jsp] - основной шаблон заявки;
 * link:_res/sample_act_order/head.jsp[head.jsp] - инклуд с определениями различных переменных, стилями и заголовками, используется в обоих шаблонах.
 
-Пример <<index.adoc#type-config, настройки>> в конфигурации:
+Пример <<index.adoc#setup, настройки>> в конфигурации:
 [source]
 ----
 # печать актов
@@ -58,23 +58,23 @@ processor.6.responseType=file
 
 [[act]]
 == Акт
-Шаблон печатной формы (содержимое файла */WEB-INF/custom/plugin/document/akt.jsp*) 
+Шаблон печатной формы (содержимое файла */WEB-INF/custom/plugin/document/akt.jsp*)
 [source, jsp]
 ----
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
- 
- 
+
+
 <u:newInstance var="processDao" clazz="ru.bgcrm.dao.process.ProcessDAO">
     <u:param value="${conSlave}"/>
 </u:newInstance>
- 
+
 <u:newInstance var="paramDao" clazz="ru.bgcrm.dao.ParamValueDAO">
         <u:param value="${conSlave}"/>
 </u:newInstance>
- 
+
 <c:set var="processId" value="${event.objectId}"/>
- 
+
 <html>
         <head>
                 <link rel="stylesheet" type="text/css" href="/css/style.css.jsp"/>
@@ -89,7 +89,7 @@ processor.6.responseType=file
         <tr><td>&nbsp;</td></tr>
     <c:forEach var="processId" items="${event.getObjectIds()}">
         <c:set var="process" value="${processDao.getProcess(processId)}"/>
- 
+
         <tr>
         <td><b><u><i>№ ${processId}</u></i></b> &nbsp;&nbsp;&nbsp;&nbsp;
                 Исполнитель: <b> ${u:objectTitleList(ctxUserList, process.getExecutorIds())} </b>&nbsp;
