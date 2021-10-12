@@ -4,12 +4,10 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-import ru.bgcrm.struts.action.BaseAction;
-
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "feedback";
 
-    public static final String PATH_JSP_OPEN = BaseAction.PATH_JSP_OPEN_PLUGIN + "/" + ID;
+    public static final String PATH_JSP_OPEN = PATH_JSP_OPEN_PLUGIN + "/" + ID;
 
     public Plugin() {
         super(ID);

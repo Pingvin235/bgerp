@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import ru.bgcrm.plugin.Endpoint;
-import ru.bgcrm.struts.action.BaseAction;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "access";
 
-    private static final String PATH_JSP_ADMIN = BaseAction.PATH_JSP_ADMIN_PLUGIN + "/" + ID;
+    private static final String PATH_JSP_ADMIN = PATH_JSP_ADMIN_PLUGIN + "/" + ID;
 
     public Plugin() {
         super(ID);

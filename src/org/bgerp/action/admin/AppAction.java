@@ -18,7 +18,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path="/admin/app")
 public class AppAction extends BaseAction {
-    private static final String JSP_PATH = PATH_JSP_ADMIN + "/app";
+    private static final String PATH_JSP = PATH_JSP_ADMIN + "/app";
 
     /** Accessed from JSP. */
     public static final Files LOG_APP = new Files(AppAction.class, "logApp", "log", "bgerp.*");
@@ -28,7 +28,7 @@ public class AppAction extends BaseAction {
         form.setResponseData("status", AdminPortListener.getStatus());
         form.setResponseData("changeIds", new UpdateProcessor().getChangeIds());
 
-        return html(conSet, form, JSP_PATH + "/status.jsp");
+        return html(conSet, form, PATH_JSP + "/status.jsp");
     }
 
     public ActionForward downloadLogApp(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -48,7 +48,7 @@ public class AppAction extends BaseAction {
         new Scripts().backup(false).update(form.getParamBoolean("force")).restart(form.getParamBoolean("restartForce"));
         return json(conSet, form);
     }
-    
+
     public ActionForward updateToChange(DynActionForm form, ConnectionSet conSet) throws Exception {
         var changeId = form.getParam("changeId");
         if (Utils.isBlankString(changeId) || !NumberUtils.isDigits(changeId))
@@ -66,7 +66,7 @@ public class AppAction extends BaseAction {
 
     public ActionForward userLoggedList(DynActionForm form, ConnectionSet conSet) throws Exception {
         form.setResponseData("logged", LoginStat.getLoginStat().getLoggedUserWithSessions());
-        return html(conSet, form, JSP_PATH + "/user_logged_list.jsp");
+        return html(conSet, form, PATH_JSP + "/user_logged_list.jsp");
     }
 
 }

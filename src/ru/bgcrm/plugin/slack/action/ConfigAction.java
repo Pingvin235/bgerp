@@ -16,11 +16,11 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/admin/plugin/slack/config")
 public class ConfigAction extends ru.bgcrm.struts.action.BaseAction {
-    private static final String JSP_PATH = PATH_JSP_ADMIN_PLUGIN + "/" + Plugin.ID;
+    private static final String PATH_JSP = Plugin.PATH_JSP_ADMIN;
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
-        return html(conSet, form, JSP_PATH + "/config.jsp");
+        return html(conSet, form, PATH_JSP + "/config.jsp");
     }
 
     public ActionForward token(DynActionForm form, ConnectionSet conSet) throws Exception {

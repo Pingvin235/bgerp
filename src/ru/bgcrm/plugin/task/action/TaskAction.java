@@ -12,11 +12,11 @@ import ru.bgcrm.struts.form.DynActionForm;
 
 @Action(path = "/user/plugin/task/task")
 public class TaskAction extends ru.bgcrm.struts.action.BaseAction {
-    private static final String JSP_PATH = PATH_JSP_USER_PLUGIN + "/" + Plugin.ID;
+    private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
     public ActionForward list(DynActionForm form, Connection con) throws Exception {
         new TaskDAO(con).searchTasks(new SearchResult<>(form), form.getParamInt("processId"), 0, true);
-        return html(con, form, JSP_PATH + "/task_list.jsp");
+        return html(con, form, PATH_JSP + "/task_list.jsp");
     }
 
     public ActionForward update(DynActionForm form, Connection con) throws Exception {

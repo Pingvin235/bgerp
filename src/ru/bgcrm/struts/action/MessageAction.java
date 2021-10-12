@@ -53,7 +53,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class MessageAction extends BaseAction {
     public static final String UNPROCESSED_MESSAGES_PERSONAL_KEY = "unprocessedMessages";
 
-    private static final String JSP_PATH = PATH_JSP_USER + "/message";
+    private static final String PATH_JSP = PATH_JSP_USER + "/message";
 
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -87,7 +87,7 @@ public class MessageAction extends BaseAction {
 
         form.setResponseData("message", message);
 
-        return html(conSet, form, JSP_PATH + "/message.jsp");
+        return html(conSet, form, PATH_JSP + "/message.jsp");
     }
 
     public ActionForward messageUpdateProcess(DynActionForm form, Connection con) throws Exception {
@@ -138,7 +138,7 @@ public class MessageAction extends BaseAction {
 
         return json(con, form);
     }
-    
+
     public ActionForward messageUpdateTags(DynActionForm form, ConnectionSet conSet) throws Exception {
         Connection con = conSet.getConnection();
 
@@ -159,7 +159,7 @@ public class MessageAction extends BaseAction {
         Process process = processDao.getProcess(message.getProcessId());
         if (process == null)
             throw new BGMessageException("Процесс не найден.");
-        
+
         String linkType = form.getParam("linkType");
 
         Process newProcess = new Process();
@@ -203,7 +203,7 @@ public class MessageAction extends BaseAction {
         Map<MessageType, List<String>> typeSystemIds = new HashMap<>(10);
         for (String pair : form.getParamArray("typeId-systemId")) {
             int typeId = Utils.parseInt(StringUtils.substringBefore(pair, "-"));
-            
+
             MessageType type = config.getTypeMap().get(typeId);
             if (type == null)
                 throw new BGException("Не найден тип сообщения.");
@@ -211,10 +211,10 @@ public class MessageAction extends BaseAction {
             List<String> systemIds = typeSystemIds.get(type);
             if (systemIds == null)
                 typeSystemIds.put(type, systemIds = new ArrayList<>(10));
-            
+
             systemIds.add(StringUtils.substringAfter(pair, "-"));
         }
-        
+
         // если нет разрешения на удаления чужих, проверим, чтобы все сообщения принадлежали ему.
         if (UserCache.getPerm(form.getUserId(), "ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes") == null) {
             MessageDAO messageDao = new MessageDAO(conSet.getConnection());
@@ -225,30 +225,30 @@ public class MessageAction extends BaseAction {
                 }
             }
         }
-        
+
         for (Map.Entry<MessageType, List<String>> me : typeSystemIds.entrySet())
             me.getKey().messageDelete(conSet, me.getValue().toArray(new String[me.getValue().size()]));
 
         EventProcessor.processEvent(new MessageRemovedEvent(form, form.getId()), conSet);
 
-        return html(conSet, form, JSP_PATH + "/message.jsp");
+        return html(conSet, form, PATH_JSP + "/message.jsp");
     }
 
     public ActionForward messageList(DynActionForm form, final ConnectionSet conSet)
             throws Exception {
         restoreRequestParams(conSet.getConnection(), form, true, true, "order", "typeId");
-        
+
         boolean processed = form.getParamBoolean("processed", false);
         final boolean reverseOrder = form.getParamBoolean("order", true);
-        
+
         Set<Integer> allowedTypeIds = Utils.toIntegerSet(form.getPermission().get("allowedTypeIds", ""));
-        
+
         var config = setup.getConfig(MessageTypeConfig.class);
         form.setRequestAttribute("config", config);
         SortedMap<Integer, MessageType> typeMap =  Maps.filterKeys(
-                config.getTypeMap(), 
+                config.getTypeMap(),
                 k -> allowedTypeIds.isEmpty() || allowedTypeIds.contains(k));
-        
+
         int typeId = form.getParamInt("typeId", -1);
 
         if (processed) {
@@ -282,10 +282,10 @@ public class MessageAction extends BaseAction {
                 log.error(e);
             }
         }
-        
+
         form.getHttpRequest().setAttribute("typeMap", typeMap);
 
-        return html(conSet, form, JSP_PATH + "/list.jsp");
+        return html(conSet, form, PATH_JSP + "/list.jsp");
     }
 
     public ActionForward newMessageLoad(DynActionForm form, ConnectionSet conSet)
@@ -319,7 +319,7 @@ public class MessageAction extends BaseAction {
             form.setResponseData("searchedList", searchedList);
         }
 
-        // return html(conSet, form, JSP_PATH + "/message_search_result.jsp");
+        // return html(conSet, form, PATH_JSP + "/message_search_result.jsp");
     }
 
     public ActionForward processCreate(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -343,7 +343,7 @@ public class MessageAction extends BaseAction {
         }
 
         form.setParam("processId", String.valueOf(process.getId()));
-        messageUpdateProcess(form, con); 
+        messageUpdateProcess(form, con);
 
         return json(con, form);
     }
@@ -352,7 +352,7 @@ public class MessageAction extends BaseAction {
         var config = setup.getConfig(MessageTypeConfig.class);
 
         var type = config.getTypeMap().get(typeId);
-        if (type == null) 
+        if (type == null)
             throw new BGException("Message type not found: " + typeId);
 
         return type;
@@ -376,7 +376,7 @@ public class MessageAction extends BaseAction {
         log.debug("processIds: %s", processIds);
 
         Set<Integer> allowedTypeIds = Utils.toIntegerSet(form.getPermission().get("allowedTypeIds", ""));
-        
+
         new MessageSearchDAO(conSet.getConnection())
             .withProcessIds(processIds)
             .withTypeIds(allowedTypeIds)
@@ -385,14 +385,14 @@ public class MessageAction extends BaseAction {
             .withFromTimeReverseOrder(true)
             .withTagId(tagId)
             .search(new SearchResult<>(form));
-        
+
         Map<Integer, Set<Integer>> messageTagMap = new MessageDAO(conSet.getConnection()).getProcessMessageTagMap(processIds);
         form.setResponseData("messageTagMap", messageTagMap);
 
         Set<Integer> tagIds = messageTagMap.values().stream().flatMap(mt -> mt.stream()).collect(Collectors.toSet());
         form.setResponseData("tagIds", tagIds);
-        
-        return html(conSet, form, JSP_PATH + "/process_message_list.jsp");
+
+        return html(conSet, form, PATH_JSP + "/process_message_list.jsp");
     }
 
     public ActionForward processMessageEdit(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -420,13 +420,13 @@ public class MessageAction extends BaseAction {
         if (message != null)
             form.setResponseData("message", message);
 
-        return html(conSet, form, JSP_PATH + "/process_message_edit.jsp");
+        return html(conSet, form, PATH_JSP + "/process_message_edit.jsp");
     }
 
     public ActionForward messageUpdate(DynActionForm form, ConnectionSet conSet)
             throws Exception {
         var type = getType(form.getParamInt("typeId"));
-        
+
         // сохранение типа сообщения, чтобы в следующий раз выбрать в редакторе его
         if (form.getId() <= 0) {
             form.setParam("messageTypeAdd", String.valueOf(type.getId()));
@@ -442,12 +442,12 @@ public class MessageAction extends BaseAction {
                 throw new BGMessageException("Редактирование чужих сообщений запрещено!");
             }
         }
-        
+
         Set<Integer> allowedTypeIds = Utils.toIntegerSet(form.getPermission().get("allowedTypeIds", ""));
         if (CollectionUtils.isNotEmpty(allowedTypeIds) && !allowedTypeIds.contains(type.getId())) {
             throw new BGMessageException("Вам запрещено создавать/редактировать данный тип сообщения!");
         }
-        
+
         message.setId(form.getId());
         message.setUserId(form.getUserId());
         message.setTypeId(type.getId());
@@ -463,7 +463,7 @@ public class MessageAction extends BaseAction {
             message.setSystemId(systemId);
 
         type.updateMessage(conSet.getConnection(), form, message);
-        
+
         message.getAttachList().forEach(a -> { // remove output Fix
             try {
                 if( a.getOutputStream() != null ) {
@@ -484,5 +484,5 @@ public class MessageAction extends BaseAction {
 
         return json(conSet, form);
     }
-    
+
 }

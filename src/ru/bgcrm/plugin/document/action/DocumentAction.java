@@ -38,8 +38,8 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/plugin/document/document")
 public class DocumentAction extends BaseAction {
-    private static final String JSP_PATH = Plugin.PATH_JSP_USER;
-    
+    private static final String PATH_JSP = Plugin.PATH_JSP_USER;
+
     public ActionForward documentList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         Config config = setup.getConfig(Config.class);
 
@@ -64,7 +64,7 @@ public class DocumentAction extends BaseAction {
 
         form.getHttpRequest().setAttribute("patternList", patterns);
 
-        return html(con, form, JSP_PATH + "/document_list.jsp");
+        return html(con, form, PATH_JSP + "/document_list.jsp");
     }
 
     public ActionForward uploadDocument(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -107,7 +107,7 @@ public class DocumentAction extends BaseAction {
         }
 
         Document document = event.getResultDocument();
-        
+
         HttpServletResponse response = form.getHttpResponse();
 
         /*

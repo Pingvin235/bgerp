@@ -7,12 +7,11 @@ import java.util.Map;
 import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.plugin.Endpoint;
-import ru.bgcrm.struts.action.BaseAction;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "task";
 
-    public static final String PATH_JSP_USER = BaseAction.PATH_JSP_USER_PLUGIN + "/" + ID;
+    public static final String PATH_JSP_USER = PATH_JSP_USER_PLUGIN + "/" + ID;
 
     public Plugin() {
         super(ID);

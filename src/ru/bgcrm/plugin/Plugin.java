@@ -18,6 +18,7 @@ import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
@@ -36,6 +37,10 @@ public abstract class Plugin {
     protected static final String PATH_JS = "/js";
     protected static final String PATH_LIB = "/lib";
     protected static final String PATH_CSS = "/css";
+
+    protected static final String PATH_JSP_ADMIN_PLUGIN = BaseAction.PATH_JSP_ADMIN + "/plugin";
+    protected static final String PATH_JSP_USER_PLUGIN = BaseAction.PATH_JSP_USER + "/plugin";
+    protected static final String PATH_JSP_OPEN_PLUGIN = BaseAction.PATH_JSP_OPEN + "/plugin";
 
     private final String id;
     /** Old way of plugin definition. XML document storing at most only endpoints. */

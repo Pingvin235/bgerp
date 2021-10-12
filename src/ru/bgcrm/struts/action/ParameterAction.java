@@ -76,7 +76,7 @@ import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 
 @Action(path = "/user/parameter")
 public class ParameterAction extends BaseAction {
-    protected static final String JSP_PATH = PATH_JSP_USER + "/parameter";
+    protected static final String PATH_JSP = PATH_JSP_USER + "/parameter";
 
     public ActionForward parameterLog(DynActionForm form, ConnectionSet conSet) throws BGException {
         int id = form.getId();
@@ -86,7 +86,7 @@ public class ParameterAction extends BaseAction {
         form.setResponseData("log", new ParamLogDAO(conSet.getSlaveConnection()).getHistory(id, paramList,
                 offEncrypt, new SearchResult<ParameterLogItem>(form)));
 
-        // TODO: Move the JSP to JSP_PATH.
+        // TODO: Move the JSP to PATH_JSP.
         return html(conSet, form, PATH_JSP + "/parameter_log.jsp");
     }
 
@@ -103,13 +103,13 @@ public class ParameterAction extends BaseAction {
 
         form.setResponseData("log", new EntityLogDAO(con.getSlaveConnection(), table).getHistory(id));
 
-        // TODO: Move the JSP to JSP_PATH.
+        // TODO: Move the JSP to PATH_JSP.
         return html(con, form, PATH_JSP + "/entity_log.jsp");
     }
 
     public ActionForward parameterList(DynActionForm form, Connection con) throws Exception {
         parameterListInternal(form, con);
-        return html(con, form, JSP_PATH + "/list.jsp");
+        return html(con, form, PATH_JSP + "/list.jsp");
     }
 
     protected void parameterListInternal(DynActionForm form, Connection con) throws Exception {
@@ -148,7 +148,7 @@ public class ParameterAction extends BaseAction {
                 context.put(User.OBJECT_TYPE, form.getUser());
                 context.put(Process.OBJECT_TYPE, process);
                 context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, new ParamValueFunction(con, process.getId()));
-                // TODO: Use DefaultProcessChangeListener#initExpression()   
+                // TODO: Use DefaultProcessChangeListener#initExpression()
                 if (Utils.notBlankString(expression) && !(new Expression(context).check(expression))) {
                     hideParamIds.add(entry.getKey());
                 }
@@ -221,7 +221,7 @@ public class ParameterAction extends BaseAction {
             if (Parameter.TYPE_TEXT.equals(parameter.getType()) || Parameter.TYPE_BLOB.equals(parameter.getType())) {
                 resp.setData("value", l.l("<ЗНАЧЕНИЕ ЗАШИФРОВАНО>"));
 
-                return html(conSet,  form, JSP_PATH + "/edit.jsp");
+                return html(conSet,  form, PATH_JSP + "/edit.jsp");
             }
         }
 
@@ -362,7 +362,7 @@ public class ParameterAction extends BaseAction {
 
         request.setAttribute("part2Rules", regexpList);
 
-        return html(conSet, form, JSP_PATH + "/edit.jsp");
+        return html(conSet, form, PATH_JSP + "/edit.jsp");
     }
 
     public ActionForward parameterUpdate(DynActionForm form, Connection con) throws Exception {

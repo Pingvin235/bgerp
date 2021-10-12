@@ -11,16 +11,16 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/admin/custom")
 public class CustomAction extends BaseAction {
-    public static final String JSP_PATH = PATH_JSP_ADMIN + "/custom";
+    public static final String PATH_JSP = PATH_JSP_ADMIN + "/custom";
 
-    private static final String JSP_CUSTOM = JSP_PATH + "/custom.jsp";
+    private static final String JSP_CUSTOM = PATH_JSP + "/custom.jsp";
 
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
             throws Exception {
         return html(conSet, form, JSP_CUSTOM);
     }
-    
+
     public ActionForward compile(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
             throws Exception {
         var result = Custom.getInstance().compileJava();

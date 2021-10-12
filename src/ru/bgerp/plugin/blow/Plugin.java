@@ -4,13 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import ru.bgcrm.plugin.Endpoint;
-import ru.bgcrm.struts.action.BaseAction;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "blow";
 
-    public static final String PATH_JSP_USER = BaseAction.PATH_JSP_USER_PLUGIN + "/" + ID;
-    public static final String PATH_JSP_OPEN = BaseAction.PATH_JSP_OPEN_PLUGIN + "/" + ID;
+    public static final String PATH_JSP_USER = PATH_JSP_USER_PLUGIN + "/" + ID;
+    public static final String PATH_JSP_OPEN = PATH_JSP_OPEN_PLUGIN + "/" + ID;
 
     public Plugin() {
         super(ID);

@@ -70,12 +70,12 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class ContractAction extends BaseAction {
-    private static final String JSP_PATH = PATH_JSP_USER_PLUGIN + "/" + Plugin.ID;
+    private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
     public ActionForward searchContract(DynActionForm form, ConnectionSet conSet) throws Exception {
         String searchBy = form.getParam("searchBy");
         String billingId = form.getParam("billingId");
-        
+
         String searchBySuffix = form.getParam("searchBySuffix");
         if (Utils.notBlankString(searchBySuffix)) {
             searchBy += searchBySuffix;
@@ -94,7 +94,7 @@ public class ContractAction extends BaseAction {
             if ("address".equals(searchBy)) {
                 Set<Integer> addressParamIds = Utils.toIntegerSet(setup.get(Plugin.ID + ":search.contract.param.address.paramIds"));
                 SearchResult<ParameterSearchedObject<Contract>> res = new SearchResult<>(form);
-                contractDAO.searchContractByAddressParam(res, searchOptions, addressParamIds, 
+                contractDAO.searchContractByAddressParam(res, searchOptions, addressParamIds,
                         form.getParamInt("streetId"), form.getParam("house"), form.getParam("flat"), form.getParam("room"));
             } else if ("addressObject".equals(searchBy)) {
                 SearchResult<ParameterSearchedObject<Contract>> result = new SearchResult<>(form);
@@ -122,7 +122,7 @@ public class ContractAction extends BaseAction {
                 }
             } else if (searchBy.equals("parameter_text")) {
                 SearchResult<Contract> result = new SearchResult<Contract>(form);
-                contractDAO.searchContractByTextParam(result, searchOptions, 
+                contractDAO.searchContractByTextParam(result, searchOptions,
                         getParasmIdsSet(form), form.getParam("value"));
             } else if (searchBy.equals("phone")) {
                 PhoneDAO phoneDAO = new PhoneDAO(user, billingId, form.getParamInt("moduleId"));
@@ -133,19 +133,19 @@ public class ContractAction extends BaseAction {
                         form.getParamDate("dateFrom"), form.getParamDate("dateTo"));
             } else if (searchBy.equals("parameter_date")) {
                 SearchResult<Contract> result = new SearchResult<Contract>(form);
-                contractDAO.searchContractByDateParam(result, searchOptions, 
+                contractDAO.searchContractByDateParam(result, searchOptions,
                         getParasmIdsSet(form),
                         form.getParamDate("date_from"), form.getParamDate("date_to"));
             } else if (searchBy.equals("parameter_phone")) {
                 SearchResult<Contract> result = new SearchResult<Contract>(form);
-                contractDAO.searchContractByPhoneParam(result, searchOptions, 
+                contractDAO.searchContractByPhoneParam(result, searchOptions,
                         getParasmIdsSet(form), form.getParam("value"));
             }
         }
 
-        return html(conSet, form, JSP_PATH + "/search_contract_result.jsp");
+        return html(conSet, form, PATH_JSP + "/search_contract_result.jsp");
     }
-    
+
     private Set<Integer> getParasmIdsSet(DynActionForm form) throws BGException {
         String[] vals = form.getParamArray("paramIds");
         if (vals == null) {
@@ -187,7 +187,7 @@ public class ContractAction extends BaseAction {
         form.getResponse().setData("contractParameterList",
                 filterParameterList(parameterListWithDir.getSecond(), requiredParameterIds));
 
-        return html(conSet, form, JSP_PATH + "/contract/parameter_list.jsp");
+        return html(conSet, form, PATH_JSP + "/contract/parameter_list.jsp");
     }
 
     public ActionForward parameterGet(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -213,7 +213,7 @@ public class ContractAction extends BaseAction {
                         .toCrmObject(paramDAO.getAddressParam(contractId, paramId), conSet.getConnection());
                 if (addressValue != null) {
                     int houseId = addressValue.getHouseId();
-    
+
                     AddressHouse house = new AddressDAO(conSet.getConnection()).getAddressHouse(houseId, true, true, true);
                     if (house != null) {
                         resp.setData("house", house);
@@ -239,7 +239,7 @@ public class ContractAction extends BaseAction {
                 ParameterPhoneValue phoneValue = new ParameterPhoneValue(paramDAO.getPhoneParam(contractId, paramId));
                 if (phoneValue != null) {
                     List<ParameterPhoneValueItem> itemList = phoneValue.getItemList();
-    
+
                     int i = 1;
                     for (ParameterPhoneValueItem item : itemList) {
                         resp.setData("parts" + i, item.getPhoneParts());
@@ -284,7 +284,7 @@ public class ContractAction extends BaseAction {
             }
             case ParameterType.ContractType.TYPE_ADDRESS: {
                 ParamAddressValue address = new ParamAddressValue();
-    
+
                 address.setStreetId(form.getParamInt("streetId "));
                 address.setHouseId(form.getParamInt("houseId"));
                 address.setStreetTitle(form.getParam("streetTitle"));
@@ -294,7 +294,7 @@ public class ContractAction extends BaseAction {
                 address.setPod(form.getParam("pod"));
                 address.setFloor(form.getParam("floor"));
                 address.setComment(form.getParam("comment"));
-    
+
                 paramDAO.updateAddressParameter(contractId, paramBillingId, address);
                 break;
             }
@@ -308,7 +308,7 @@ public class ContractAction extends BaseAction {
             }
             case ParameterType.ContractType.TYPE_PHONE: {
                 ParameterPhoneValue phoneValue = new ParameterPhoneValue();
-    
+
                 int paramCount = setup.getInt("param.phone.item.count", 0);
                 List<ParameterPhoneValueItem> items = new ArrayList<ParameterPhoneValueItem>();
                 for (int index = 1; index <= paramCount; index++) {
@@ -324,38 +324,38 @@ public class ContractAction extends BaseAction {
                     format.append(phonePart.length());
                     phonePart = form.getParam("part3" + index);
                     phone.append(phonePart);
-    
+
                     if (phone.length() != 0 && phone.length() != 11) {
                         throw new BGMessageException("Число цифр в телефоне должно быть 11!!");
                     }
-    
+
                     item.setPhone(phone.toString());
                     item.setFormat(format.toString());
                     item.setComment(form.getParam("comment" + index));
-    
+
                     items.add(item);
                 }
                 phoneValue.setItemList(items);
-    
+
                 paramDAO.updatePhoneParameter(contractId, paramBillingId, phoneValue);
                 break;
             }
             case ParameterType.ContractType.TYPE_EMAIL: {
                 /*
                  * ParamEmailValue emailValue = new ParamEmailValue();
-                 * 
+                 *
                  * List<String> emails = Utils.toList( form.getParam( "emails"
                  * ), "\n" ); emailValue.setEmails( emails );
-                 * 
+                 *
                  * emailValue.setEid( form.getParamInt( "eid" ) );
-                 * 
+                 *
                  * List<String> subscrs = form.getSelectedValuesListStr( "value"
                  * ); subscrs.removeAll( Arrays.asList( 0, -1 ) );
                  * emailValue.setSubscrs( subscrs );
                  */
-    
+
                 List<ParameterEmailValue> emails = new ArrayList<ParameterEmailValue>();
-    
+
                 for (String mail : Utils.toList(form.getParam("emails"), "\n")) {
                     try {
                         InternetAddress addr = InternetAddress.parse(mail)[0];
@@ -364,7 +364,7 @@ public class ContractAction extends BaseAction {
                         throw new BGException("Некорректный адрес: " + mail, e);
                     }
                 }
-    
+
                 paramDAO.updateEmailParameter(contractId, paramBillingId, emails);
                 break;
             }
@@ -577,23 +577,23 @@ public class ContractAction extends BaseAction {
             case ParameterType.ContractObjectType.TYPE_TEXT: {
                 break;
             }
-    
+
             case ParameterType.ContractObjectType.TYPE_ADDRESS: {
                 ParameterAddressValue addressValue = ContractObjectParamDAO
                         .toCrmObject(paramDAO.getAddressParam(objectId, paramId), conSet.getConnection());
                 if (addressValue != null) {
                     int houseId = addressValue.getHouseId();
-    
+
                     AddressHouse house = new AddressDAO(conSet.getConnection()).getAddressHouse(houseId, true, true, true);
                     if (house != null) {
                         form.getResponse().setData("house", house);
                     }
                 }
-    
+
                 form.getResponse().setData("address", addressValue);
                 break;
             }
-    
+
             case ParameterType.ContractObjectType.TYPE_DATE: {
                 if (Utils.notBlankString(parameter.getValue())) {
                     form.getResponse().setData("dateValue", new SimpleDateFormat("yyyy-MM-dd")
@@ -601,7 +601,7 @@ public class ContractAction extends BaseAction {
                 }
                 break;
             }
-    
+
             case ParameterType.ContractObjectType.TYPE_LIST: {
                 form.getResponse().setData("valueList", paramDAO.getListParam(objectId, paramId));
                 break;
@@ -623,10 +623,10 @@ public class ContractAction extends BaseAction {
             case ParameterType.ContractObjectType.TYPE_TEXT:
                 paramDAO.updateTextParameter(objectId, paramBillingId, form.getParam("textValue"));
                 break;
-    
+
             case ParameterType.ContractObjectType.TYPE_ADDRESS:
                 ParamAddressValue address = new ParamAddressValue();
-    
+
                 address.setStreetId(form.getParamInt("streetId "));
                 address.setHouseId(form.getParamInt("houseId"));
                 address.setStreetTitle(form.getParam("streetTitle"));
@@ -636,18 +636,18 @@ public class ContractAction extends BaseAction {
                 address.setPod(form.getParam("pod"));
                 address.setFloor(form.getParam("floor"));
                 address.setComment(form.getParam("comment"));
-    
+
                 paramDAO.updateAddressParameter(objectId, paramBillingId, address);
                 break;
-    
+
             case ParameterType.ContractObjectType.TYPE_DATE:
                 paramDAO.updateDateParameter(objectId, paramBillingId, form.getParam("dateValue"));
                 break;
-    
+
             case ParameterType.ContractObjectType.TYPE_LIST:
                 paramDAO.updateListParameter(objectId, paramBillingId, form.getParam("listValueId"));
                 break;
-    
+
             default:
                 break;
         }
@@ -1059,7 +1059,7 @@ public class ContractAction extends BaseAction {
 
         return json(conSet, form);
     }
-    
+
     public ActionForward getParamList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
         form.getResponse().setData("paramType", form.getParamInt("paramType"));
         List<IdTitle> list = getParamListImpl(form);

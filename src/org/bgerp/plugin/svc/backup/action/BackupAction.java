@@ -12,13 +12,13 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/admin/plugin/backup/backup")
 public class BackupAction extends BaseAction {
-    private static final String JSP_PATH = PATH_JSP_ADMIN_PLUGIN + "/" + Plugin.ID;
+    private static final String PATH_JSP = Plugin.PATH_JSP_ADMIN;
 
     public static final Files FILE_BACKUP = new Files(BackupAction.class, "fileBackup", "backup", "*");
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
-        return html(conSet, form, JSP_PATH + "/backup.jsp");
+        return html(conSet, form, PATH_JSP + "/backup.jsp");
     }
 
     public ActionForward backup(DynActionForm form, ConnectionSet conSet) throws Exception {

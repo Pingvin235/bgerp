@@ -36,13 +36,13 @@ import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 
 @Action(path = "/admin/user")
 public class UserAction extends ru.bgcrm.struts.action.BaseAction {
-    private static final String JSP_PATH = PATH_JSP_ADMIN + "/user";
-    
+    private static final String PATH_JSP = PATH_JSP_ADMIN + "/user";
+
     public ActionForward permsetList(DynActionForm form, Connection con) throws BGException {
         new UserPermsetDAO(con).searchPermset(new SearchResult<Permset>(form),
                 CommonDAO.getLikePatternSub(form.getParam("filter")));
 
-        return html(con, form, JSP_PATH + "/permset/list.jsp");
+        return html(con, form, PATH_JSP + "/permset/list.jsp");
     }
 
     public ActionForward permsetGet(DynActionForm form, Connection con) throws BGException {
@@ -57,7 +57,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         form.getHttpRequest().setAttribute("allPermissions", UserCache.getAllPermTree());
 
-        return html(con, form, JSP_PATH + "/permset/update.jsp");
+        return html(con, form, PATH_JSP + "/permset/update.jsp");
     }
 
     public ActionForward permsetUpdate(DynActionForm form, Connection con) throws Exception {
@@ -108,8 +108,8 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         int parentId = form.getParamInt("parentGroupId", 0);
         int archive = form.getParamInt("archive", 0);
-        
-        HttpServletRequest request = form.getHttpRequest(); 
+
+        HttpServletRequest request = form.getHttpRequest();
 
         request.setAttribute("groupPath", UserCache.getGroupPath(parentId));
 
@@ -123,7 +123,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             }
         }
 
-        return html(con, form, JSP_PATH + "/group/list.jsp");
+        return html(con, form, PATH_JSP + "/group/list.jsp");
     }
 
     public ActionForward groupGet(DynActionForm form, Connection con) throws Exception {
@@ -137,7 +137,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             form.getResponse().setData("group", group);
         }
 
-        return html(con, form, JSP_PATH + "/group/update.jsp");
+        return html(con, form, PATH_JSP + "/group/update.jsp");
     }
 
     public ActionForward groupUpdate(DynActionForm form, Connection con) throws Exception {
@@ -231,7 +231,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         new UserDAO(con).searchUser(new SearchResult<>(form), CommonDAO.getLikePatternSub(form.getParam("title")),
                 groups, null, actualDate, permsets, status);
 
-        return html(con, form, JSP_PATH + "/user/list.jsp");
+        return html(con, form, PATH_JSP + "/user/list.jsp");
     }
 
     public ActionForward userGet(DynActionForm form, Connection con) throws Exception {
@@ -247,7 +247,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         form.getHttpRequest().setAttribute("allPermissions", UserCache.getAllPermTree());
 
-        return html(con, form, JSP_PATH + "/user/update.jsp");
+        return html(con, form, PATH_JSP + "/user/update.jsp");
     }
 
     public ActionForward userUpdate(DynActionForm form, Connection con) throws Exception {
@@ -361,7 +361,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         form.getHttpRequest().setAttribute("userGroupList", UserCache.getUserGroupList(form.getId(), form.getParamDate("date")));
 
-        return html(con, form, JSP_PATH + "/user/update_usergroup.jsp");
+        return html(con, form, PATH_JSP + "/user/update_usergroup.jsp");
     }
 
     public ActionForward userAddGroup(DynActionForm form, Connection con) throws Exception {
@@ -374,7 +374,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         if (userId == 0) {
             userId = form.getId();
         }
-        
+
         addGroup(form, con, fromDate, toDate, groupId, userId);
 
         return json(con, form);

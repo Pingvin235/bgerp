@@ -12,6 +12,6 @@ public class ParameterAction extends ru.bgcrm.struts.action.ParameterAction {
     @Override
     public ActionForward parameterList(DynActionForm form, Connection con) throws Exception {
         super.parameterListInternal(form, con);
-        return html(con, null, JSP_PATH + "/list.jsp");
+        return html(con, null, PATH_JSP + "/list.jsp");
     }
 }

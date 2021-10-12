@@ -32,7 +32,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/directory/address")
 public class DirectoryAddressAction extends BaseAction {
-    private static final String JSP_PATH_ADDRESS = PATH_JSP_USER + "/directory/address/address.jsp";
+    private static final String PATH_JSP_ADDRESS = PATH_JSP_USER + "/directory/address/address.jsp";
 
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -123,7 +123,7 @@ public class DirectoryAddressAction extends BaseAction {
             addressDAO.searchAddressCountryList(searchResult, CommonDAO.getLikePatternSub(addressCountryTitle));
         }
 
-        return html(con, form, JSP_PATH_ADDRESS);
+        return html(con, form, PATH_JSP_ADDRESS);
     }
 
     public ActionForward addressGet(DynActionForm form, Connection con) throws Exception {
@@ -209,7 +209,7 @@ public class DirectoryAddressAction extends BaseAction {
             form.getResponse().setData("country", addressCountry);
         }
 
-        return html(con, form, JSP_PATH_ADDRESS);
+        return html(con, form, PATH_JSP_ADDRESS);
     }
 
     private boolean getAddressItem(DynActionForm form, Connection con) throws Exception {

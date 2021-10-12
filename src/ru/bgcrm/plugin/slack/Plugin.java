@@ -5,18 +5,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
+import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.plugin.Endpoint;
-import ru.bgcrm.struts.action.BaseAction;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "slack";
 
     public static final String LINK_TYPE_CHANNEL = "slack-channel";
 
-    public static final String PATH_JSP_USER = BaseAction.PATH_JSP_USER_PLUGIN + "/" + ID;
-    private static final String PATH_JSP_ADMIN = BaseAction.PATH_JSP_ADMIN_PLUGIN + "/" + ID;
+    public static final String PATH_JSP_USER = PATH_JSP_USER_PLUGIN + "/" + ID;
+    public static final String PATH_JSP_ADMIN = PATH_JSP_ADMIN_PLUGIN + "/" + ID;
 
     public static final String ENDPOINT_MESSAGE_HEADER = PATH_JSP_USER + "/process_link_list.jsp";
 

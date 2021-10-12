@@ -29,54 +29,54 @@ import ru.bgerp.plugin.blow.model.BoardConfig;
 import ru.bgerp.plugin.blow.model.BoardsConfig;
 
 public class BoardAction extends BaseAction {
-    private static final String JSP_PATH = Plugin.PATH_JSP_USER + "/board";
-    
+    private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/board";
+
     public ActionForward board(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         BoardsConfig boardsConf = setup.getConfig(BoardsConfig.class);
         form.setResponseData("boardsConf", boardsConf);
-        return html(conSet, form, JSP_PATH + "/board.jsp");
+        return html(conSet, form, PATH_JSP + "/board.jsp");
     }
-        
+
     public ActionForward show(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         BoardConfig boardConf = setup.getConfig(BoardsConfig.class).getBoard(form.getId());
         if (boardConf != null) {
             // первичные процессы
             List<Pair<Process, Map<String, Object>>> processes = new BoardDAO(con, form.getUser()).getProcessList(boardConf);
-            
+
             Set<Integer> processIds = processes.stream().map(Pair::getFirst).map(p -> p.getId()).collect(Collectors.toSet());
-            
+
             // связи между процессами, пока используем только родительское отношение
             Collection<CommonObjectLink> links = new ProcessLinkDAO(con, form.getUser()).getLinksOver(processIds);
-            
+
             Board board = new Board(boardConf, processes, links);
-           
+
             form.setResponseData("board", board);
             form.setResponseData("processIds", processIds);
-            
+
             updatePersonalization(form, con, persMap -> persMap.put("blowBoardLastSelected", String.valueOf(form.getId())));
         }
-     
-        return html(con, form, JSP_PATH + "/show.jsp");
+
+        return html(con, form, PATH_JSP + "/show.jsp");
     }
-    
+
     public ActionForward move(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         int processId = form.getParamInt("processId");
         int parentProcessId = form.getParamInt("parentProcessId");
         int fromParentProcessId = form.getParamInt("fromParentProcessId");
-        
+
         ProcessLinkDAO linkDao = new ProcessLinkDAO(con, form.getUser());
         // remove link
         if (fromParentProcessId > 0)
             linkDao.deleteLink(new CommonObjectLink(fromParentProcessId, Process.LINK_TYPE_MADE, processId, ""));
-        
+
         // add link
         if (parentProcessId > 0) {
             linkDao.addLink(new CommonObjectLink(parentProcessId, Process.LINK_TYPE_MADE, processId, ""));
-        
+
             if (linkDao.checkCycles(parentProcessId))
                 throw new BGMessageException(l.l("Циклическая зависимость"));
         }
-        
+
         return json(con, form);
     }
 
@@ -84,7 +84,7 @@ public class BoardAction extends BaseAction {
         private final int processId;
         private final String processDescription;
         private final List<String> hits = new ArrayList<>();
-        
+
         private SearchItem(int processId, String processDescription) {
             this.processId = processId;
             this.processDescription = processDescription;
@@ -127,7 +127,7 @@ public class BoardAction extends BaseAction {
             })
             .collect(Collectors.toList()));
 
-        return html(conSet, form, JSP_PATH + "/search.jsp");
+        return html(conSet, form, PATH_JSP + "/search.jsp");
     }
 
 }
