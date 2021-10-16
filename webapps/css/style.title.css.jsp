@@ -5,8 +5,7 @@
 	margin-bottom: 1em;
 }
 
-@media print
-{
+@media print {
 	#title {
 		display: none;
 	}
@@ -38,6 +37,10 @@
 #title > .status > .wrap > .center {
 	width: 100%;
 	text-align: center;
+}
+
+#title > .status > .wrap > .center > .state {
+	display: inline;
 }
 
 #title > .status > .wrap > .left > .title {

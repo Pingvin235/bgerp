@@ -17,17 +17,17 @@ public class LogAction extends BaseAction {
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet)
             throws Exception {
         HttpSession session = form.getHttpRequest().getSession();
-        
+
         form.setResponseData("state", SessionLogAppender.isSessionTracked(session));
         form.setResponseData("log", SessionLogAppender.getSessionLog(session));
 
         return html(conSet, form, JSP);
     }
-    
+
     public ActionForward log(DynActionForm form, ConnectionSet conSet)
             throws Exception {
         boolean value = form.getParamBoolean("enable", false);
-        
+
         HttpSession session = form.getHttpRequest().getSession();
         if (value)
             SessionLogAppender.trackSession(session, true);
@@ -36,11 +36,11 @@ public class LogAction extends BaseAction {
 
         return unspecified(form, conSet);
     }
-    
+
     public ActionForward download(DynActionForm form, ConnectionSet conSet)
             throws Exception {
         boolean value = form.getParamBoolean("enable", false);
-        
+
         HttpSession session = form.getHttpRequest().getSession();
         if (value)
             SessionLogAppender.trackSession(session, true);

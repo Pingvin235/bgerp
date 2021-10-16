@@ -9,16 +9,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%-- <html>
-<head>
-	<title>TEST</title>
-	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
-
-	<style>
-		.ui-menu { width: 150px; }
-	</style>
-</head> --%>
-
 <div style="padding: 0.5em;">
 	<ul id="menu" class="menu">
 		<li class="ui-state-disabled"><a href="#">Aberdeen</a></li>
@@ -112,6 +102,10 @@
 
 			<button class="btn-white btn-small">M</button>
 			<button class="btn-white btn-small"><i class="ti-settings"></i></button>
+
+			<ui:toggle styleClass="btn-small" inputName="test" value="1"
+				textOn="ON" textOff="OFF"
+				onChange="console.log('Is checked: ', this.checked);"/>
 		</div>
 
 		<div>
@@ -126,6 +120,10 @@
 			<button class="btn-white">Кнопка BUTTON</button>
 
 			<div class="btn-white">Кнопка DIV</div>
+
+			<ui:toggle inputName="test" value="0"
+				prefixText="Super name" textOn="ON" textOff="OFF"
+				onChange="console.log('Is checked: ', this.checked);"/>
 		</div>
 
 		<div>

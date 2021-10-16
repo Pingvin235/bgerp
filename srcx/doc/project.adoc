@@ -856,10 +856,12 @@ Using semicolon-separated JSP functions makes sense only for JSP specific things
 
 [[jsp-function-uiid]]
 ====== Element IDs
-HTML DOM model assumes all element IDs are globally defined using `class` and `id` attributes. Due to that it is quite tricky to track their usage and ensure their
-uniqueness. Moreover, developer has to create a single-page application, which prevents to keep state for hidden elements.
+HTML DOM model assumes all element IDs are globally defined using `class` and `id` attributes. Due to that it is quite tricky to track their usage and ensure their uniqueness. Moreover, developer has to create a single-page application, which prevents to keep state for hidden elements.
+
 In order to overcome this limitation, project attaches JS handlers via HTML onClick (and the like) attributes  using context variable 'this'.
 Another method used for that is using `u:uiid()` function to generate a unique identifier, which is then used in auto-generated JS call.
+
+In link:../../webapps/WEB-INF/jspf/user/log/log.jsp[webapps/WEB-INF/jspf/user/log/log.jsp] might be seen how to completely avoid absolute element IDs.
 
 [[jsp-tag]]
 ===== Tags
@@ -1227,7 +1229,7 @@ IMPORTANT: For some reason a class, containing included constant must not contai
 
 Snap-in refresh upon moving back to it:
 [snippet, from="<script", to="/script>"]
-link:../../webapps/WEB-INF/jspf/user/log/log.jsp#L22-L28[webapps/WEB-INF/jspf/user/log/log.jsp]
+link:../../webapps/WEB-INF/jspf/user/log/log.jsp#L17-L24[webapps/WEB-INF/jspf/user/log/log.jsp]
 
 Sending AJAX request and showing progress indicator on button during execution:
 [snippet, from="<bu", to="on>"]

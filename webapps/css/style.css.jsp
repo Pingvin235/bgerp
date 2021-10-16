@@ -174,6 +174,7 @@ body > #content label {
 <%@ include file="style.icon.css.jsp"%>
 <%@ include file="style.menu.css.jsp"%>
 <%@ include file="style.date.css.jsp"%>
+<%@ include file="style.toggle.css.jsp"%>
 
 <%@ include file="/WEB-INF/jspf/css/message.css.jsp"%>
 

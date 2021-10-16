@@ -125,7 +125,7 @@ $$.shell = new function () {
 
 	const contentLoad = function (href, reopen, pinned) {
 		debug("contentLoad", href, contentLoadDfd);
-		
+
 		const contentLoadCurrentDfd = contentLoadDfd;
 		const contentLoadNewDfd = $.Deferred();
 		$.when(contentLoadCurrentDfd).done(() => {
@@ -529,7 +529,7 @@ $$.shell = new function () {
 
 	/**
 	 * Content block for the UI element.
-	 * @param {*} el 
+	 * @param {*} el
 	 */
 	const $content = function (el) {
 		if (el) {
@@ -537,7 +537,7 @@ $$.shell = new function () {
 				const parent = el.parentElement;
 				if (parent && parent.id === 'content')
 					return $(el);
-				el = parent; 
+				el = parent;
 			}
 		}
 		return $('#content > div:visible');
@@ -545,7 +545,7 @@ $$.shell = new function () {
 
 	/**
 	 * Login request.
-	 */ 
+	 */
 	const login = function () {
 		$("#error-message").text("");
 		// done callback should be added

@@ -20,7 +20,7 @@
 	<ui:menu-item ltitle="Очереди процессов" href="process/queue"
 		action="ru.bgcrm.struts.action.ProcessAction:queue"
 		command="/user/process/queue.do?action=queue" />
-		
+
 	<ui:menu-item ltitle="Мои процессы" href="process/my"
 		action="ru.bgcrm.struts.action.ProcessAction:userProcessList"
 		command="/user/process.do?action=userProcessList"/>
@@ -32,7 +32,7 @@
 		command="$$.customer.createAndEdit()" />
 </ui:menu-group>
 
-<ui:menu-item ltitle="Логирование" href="log" icon="ti-receipt"
+<ui:menu-item title="Log" href="log" icon="ti-receipt"
 	action="ru.bgcrm.struts.action.LogAction" command="/user/log.do" />
 
 <ui:menu-item title="Test" href="test" hidden="true"
@@ -48,7 +48,7 @@
 	<ui:menu-item ltitle="Параметры" href="admin/param" icon="ti-palette"
 		action="ru.bgcrm.struts.action.admin.DirectoryAction"
 		command="/admin/directory.do" />
-	
+
 	<ui:menu-group ltitle="Пользователи" icon="ti-user">
 		<ui:menu-item ltitle="Наборы прав" href="admin/user/permset"
 			action="ru.bgcrm.struts.action.admin.UserAction:permsetList"
@@ -62,21 +62,21 @@
 			action="ru.bgcrm.struts.action.admin.UserAction:userList"
 			command="/admin/user.do?action=userList" />
 	</ui:menu-group>
-	
+
 	<ui:menu-group ltitle="Процессы" icon="ti-control-shuffle">
 		<ui:menu-item ltitle="Статусы процессов" href="admin/process/status"
 			action="ru.bgcrm.struts.action.admin.ProcessAction:statusList"
 			command="/admin/process.do?action=statusList" />
-		
+
 		<ui:menu-item ltitle="Типы процессов" href="admin/process/type"
 			action="ru.bgcrm.struts.action.admin.ProcessAction:typeList"
 			command="/admin/process.do?action=typeList" />
-		
+
 		<ui:menu-item ltitle="Очереди процессов" href="admin/process/queue"
 			action="ru.bgcrm.struts.action.admin.ProcessAction:queueList"
 			command="/admin/process.do?action=queueList" />
 	</ui:menu-group>
-	
+
 	<ui:menu-item ltitle="Выполнить" href="admin/run" icon="ti-rocket"
 		action="org.bgerp.action.admin.RunAction"
 		command="/admin/run.do" />
@@ -90,20 +90,20 @@
 			action="ru.bgcrm.struts.action.admin.DynamicAction"
 			command="/admin/dynamic.do" />
 	</c:if>
-	
+
 	<ui:menu-item ltitle="WEB запросы" href="admin/log/request"
 		action="ru.bgcrm.struts.action.admin.WebRequestAction"
 		command="/admin/webRequest.do" />
-	
+
 	<ui:menu-group ltitle="Приложение" icon="ti-package">
 		<ui:menu-item ltitle="Статус приложения" href="admin/app/status"
 			action="org.bgerp.action.admin.AppAction:status"
 			command="/admin/app.do?action=status"/>
-			
+
 		<ui:menu-item ltitle="Авторизовавшиеся пользователи" href="admin/app/logged"
 			action="org.bgerp.action.admin.AppAction:userLoggedList"
 			command="/admin/app.do?action=userLoggedList"/>
 	</ui:menu-group>
-	
+
 	<plugin:include endpoint="user.admin.menu.items.jsp"/>
 </ui:menu-group>
