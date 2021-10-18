@@ -47,7 +47,7 @@ public class ProcessParamTest {
 
     @Test(dependsOnMethods = "addParams")
     public void addProcess() throws Exception {
-        var p = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, "Test parameters");
+        var p = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, "Kernel Parameters");
         Assert.assertNotNull(p);
     }
 }

@@ -19,6 +19,8 @@ import ru.bgcrm.util.Setup;
 
 @Test(groups = "message", dependsOnGroups = { "customer", "process", "scheduler" })
 public class MessageTest {
+    private static final String TITLE = "Kernel Messages";
+
     public static volatile int configId;
 
     public static volatile MessageTypeEmail messageTypeEmailDemo;
@@ -37,7 +39,7 @@ public class MessageTest {
                     "PARAM_CUSTOMER_PHONE_ID", CustomerTest.paramPhoneId
                 ) +
                 ResourceHelper.getResource(this, "config.messages.txt");
-        configId = ConfigHelper.addIncludedConfig("Kernel Messages", config);
+        configId = ConfigHelper.addIncludedConfig(TITLE, config);
 
         ConfigHelper.addToConfig(org.bgerp.itest.kernel.scheduler.SchedulerTest.configId, ResourceHelper.getResource(this, "config.scheduler.txt"));
 
@@ -54,7 +56,7 @@ public class MessageTest {
 
     @Test(dependsOnMethods = "addConfig")
     public void addProcess() throws Exception {
-        var p = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, "Test messages");
+        var p = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE);
         Assert.assertNotNull(p);
 
         for (int i = 0; i < 100; i++) {

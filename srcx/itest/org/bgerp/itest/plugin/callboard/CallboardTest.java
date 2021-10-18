@@ -121,7 +121,7 @@ public class CallboardTest {
 
     @Test(dependsOnMethods = { "addGroups", "addTypes" })
     public void initConfig() throws Exception {
-        ConfigHelper.addIncludedConfig("Plugin CallBoard",
+        ConfigHelper.addIncludedConfig(TITLE,
             PluginHelper.initPlugin(new org.bgerp.plugin.callboard.Plugin()) +
             ConfigHelper.generateConstants("USER_GROUP_ID", userGroupIdParent) +
             ResourceHelper.getResource(this, "config.txt"));

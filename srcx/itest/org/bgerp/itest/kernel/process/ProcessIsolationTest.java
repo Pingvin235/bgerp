@@ -20,6 +20,8 @@ import ru.bgcrm.util.ParameterMap;
 
 @Test(groups = "processIsolation", dependsOnGroups = "process")
 public class ProcessIsolationTest {
+    private static final String TITLE = "Kernel Isolation";
+
     private static volatile int processTypeId;
     private static volatile int processTypeSpecialId;
     private static volatile int groupId;
@@ -31,18 +33,18 @@ public class ProcessIsolationTest {
 
     @Test
     public void addGroups() throws Exception {
-        groupId = UserHelper.addGroup("ISOLATED", 0);
+        groupId = UserHelper.addGroup(TITLE, 0);
     }
 
     @Test(dependsOnMethods = "addGroups")
     public void addTypes() throws Exception {
-        processTypeId = ProcessHelper.addType("ISOLATED", ProcessTest.processTypeTestGroupId, false, null);
-        processTypeSpecialId = ProcessHelper.addType("ISOLATED SPECIAL", processTypeId, false, null);
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, null);
+        processTypeSpecialId = ProcessHelper.addType(TITLE +" special", processTypeId, false, null);
     }
 
     @Test(dependsOnMethods = "addTypes")
     public void addUser() throws Exception {
-        user = UserHelper.addUser("ISOLATED", "isolated", List.of(new UserGroup(groupId, new Date(), null)));
+        user = UserHelper.addUser(TITLE, "isolated", List.of(new UserGroup(groupId, new Date(), null)));
     }
 
     @Test(dependsOnMethods = "addUser")
@@ -51,7 +53,7 @@ public class ProcessIsolationTest {
 
         var dao = new ProcessDAO(DbTest.conRoot, user);
 
-        var p = dao.updateProcess(new Process().withTypeId(processTypeId).withDescription("Isolated by executor"));
+        var p = dao.updateProcess(new Process().withTypeId(processTypeId).withDescription(TITLE + " by executor"));
         Assert.assertNull(dao.getProcess(p.getId()));
 
         dao.updateProcessExecutors(Set.of(new ProcessExecutor(user.getId(), groupId, 0)), p.getId());
@@ -64,10 +66,10 @@ public class ProcessIsolationTest {
 
         var dao = new ProcessDAO(DbTest.conRoot, user);
 
-        var p = dao.updateProcess(new Process().withTypeId(processTypeId).withDescription("Isolated by group"));
+        var p = dao.updateProcess(new Process().withTypeId(processTypeId).withDescription(TITLE + " by group"));
         Assert.assertNull(dao.getProcess(p.getId()));
 
-        var ps = dao.updateProcess(new Process().withTypeId(processTypeSpecialId).withDescription("Isolated by group special type"));
+        var ps = dao.updateProcess(new Process().withTypeId(processTypeSpecialId).withDescription(TITLE + " by group special type"));
         Assert.assertNull(dao.getProcess(ps.getId()));
 
         dao.updateProcessGroups(Set.of(new ProcessGroup(groupId)), p.getId());
