@@ -2,12 +2,12 @@ package org.bgerp.itest.configuration.department.development;
 
 import static org.bgerp.itest.kernel.config.ConfigTest.ROLE_EXECUTION_ID;
 import static org.bgerp.itest.kernel.config.ConfigTest.configProcessNotificationId;
+import static org.bgerp.itest.kernel.user.UserTest.userLeonId;
+import static org.bgerp.itest.kernel.user.UserTest.userVladimirId;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.beust.jcommander.internal.Lists;
 import com.google.common.collect.Sets;
 
 import org.bgerp.itest.helper.ConfigHelper;
@@ -25,7 +25,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.TypeProperties;
-import ru.bgcrm.model.user.UserGroup;
 
 @Test(groups = "depDev", dependsOnGroups = { "user", "configProcessNotification", "process", "param" })
 public class DevelopmentTest {
@@ -39,13 +38,11 @@ public class DevelopmentTest {
 
     public static volatile int queueId;
 
-    public static volatile int userVladimirId;
-    public static volatile int userLeonId;
-
     @Test
     public void addGroups() throws Exception {
         groupId = UserHelper.addGroup("Development", 0);
-        //UserHelper.addUserGroups(USER_ADMIN_ID, Lists.newArrayList(new UserGroup(groupId, new Date(), null)));
+        UserHelper.addUserGroups(userVladimirId, groupId);
+        UserHelper.addUserGroups(userLeonId, groupId);
     }
 
     @Test
@@ -91,18 +88,11 @@ public class DevelopmentTest {
     }
 
     @Test (dependsOnMethods = "addGroups")
-    public void addUsers() throws Exception {
-        // make from the date of entrance in party
-        userVladimirId = UserHelper.addUser("Vladimir Lenin", "vladimir", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
-        userLeonId = UserHelper.addUser("Leon Trotsky", "leon", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
-    }
-
-    @Test (dependsOnMethods = "addUsers")
     public void addTypeConfig() throws Exception {
         // TODO: Configuration to assign Lenin on 'accept' status.
     }
 
-    @Test(dependsOnMethods = { "addTypes", "addUsers" })
+    @Test(dependsOnMethods = { "addGroups", "addTypes" })
     public void addProcesses() throws Exception {
         addProcess1();
         addProcess2();

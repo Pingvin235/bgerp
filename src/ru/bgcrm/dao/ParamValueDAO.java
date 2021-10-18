@@ -924,6 +924,9 @@ public class ParamValueDAO extends CommonDAO {
             psDelay.executeUpdate();
             psDelay.close();
         } else {
+            if (value.getValue() == null)
+                value.setValue(AddressUtils.buildAddressValue(value, con));
+
             if (position <= 0) {
                 position = 1;
 

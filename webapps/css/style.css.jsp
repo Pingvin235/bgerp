@@ -36,6 +36,10 @@ html {
 	overflow-y: scroll;
 }
 
+body * {
+	scrollbar-width: thin;
+}
+
 a {
 	color: #005589;
 }

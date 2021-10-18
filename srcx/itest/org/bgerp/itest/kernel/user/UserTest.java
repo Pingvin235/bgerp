@@ -27,12 +27,29 @@ public class UserTest {
 
     public static volatile int permsetAdminsId;
 
-    public static int pos = 0;
+    public static int paramPos = 0;
+
+    public static volatile int userKarlId;
+    public static volatile int userFriedrichId;
+    public static volatile int userVladimirId;
+    public static volatile int userLeonId;
+    public static volatile int userFelixId;
+    public static volatile int userVyacheslavId;
 
     @Test
     public void addParams() throws Exception {
-        paramEmailId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_EMAIL, "E-Mail(s)", pos += 2, ParamTest.MULTIPLE, "");
-        paramCellPhoneId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_PHONE, "Cell phone(s)", pos += 2, "", "");
+        paramEmailId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_EMAIL, "E-Mail(s)", paramPos += 2, ParamTest.MULTIPLE, "");
+        paramCellPhoneId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_PHONE, "Cell phone(s)", paramPos += 2, "", "");
+    }
+
+    @Test(dependsOnMethods = "addParams")
+    public void addUsers() throws Exception {
+        userKarlId = UserHelper.addUser("Karl Marx", "karl", null).getId();
+        userFriedrichId = UserHelper.addUser("Friedrich Engels", "friedrich", null).getId();
+        userVladimirId = UserHelper.addUser("Vladimir Lenin", "vladimir", null).getId();
+        userLeonId = UserHelper.addUser("Leon Trotsky", "leon", null).getId();
+        userFelixId = UserHelper.addUser("Feliks Dserschinski", "felix", null).getId();
+        userVyacheslavId = UserHelper.addUser("Vyacheslav Menzhinsky", "vyacheslav", null).getId();
     }
 
     @Test

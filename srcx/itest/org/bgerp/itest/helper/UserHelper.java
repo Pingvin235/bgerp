@@ -2,6 +2,7 @@ package org.bgerp.itest.helper;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 import org.bgerp.itest.kernel.db.DbTest;
@@ -72,9 +73,14 @@ public class UserHelper {
 
     public static void addUserGroups(int userId, Iterable<UserGroup> groups) throws Exception {
         var dao = new UserDAO(DbTest.conRoot);
-
         for (var group : groups)
             dao.addUserGroup(userId, group);
+    }
+
+    public static void addUserGroups(int userId, int... groupIds) throws Exception {
+        var dao = new UserDAO(DbTest.conRoot);
+        for (var groupId : groupIds)
+            dao.addUserGroup(userId, new UserGroup(groupId, new Date(), null));
     }
 
 }

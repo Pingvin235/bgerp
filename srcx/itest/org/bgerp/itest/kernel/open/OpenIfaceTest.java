@@ -17,12 +17,12 @@ public class OpenIfaceTest {
 
     @Test
     public void addUserEnableParam() throws Exception {
-        userEnableParamId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_LIST, "OPEN", UserTest.pos += 2, "", "1=YES\n");
+        userEnableParamId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_LIST, "OPEN", UserTest.paramPos += 2, "", "1=YES\n");
     }
 
     @Test(dependsOnMethods = "addUserEnableParam")
     public void addConfig() throws Exception {
-        var config = 
+        var config =
                 ConfigHelper.generateConstants(
                     "USER_ENABLE_PARAM_ID", userEnableParamId,
                     "USER_SHOW_PARAM_IDS", UserTest.paramEmailId,

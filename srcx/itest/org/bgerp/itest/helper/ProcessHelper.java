@@ -15,6 +15,7 @@ import ru.bgcrm.dao.process.StatusDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
+import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessLink;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Queue;
@@ -107,6 +108,15 @@ public class ProcessHelper {
 
     public static void addCustomerLink(int processId, String linkType, Customer customer) throws Exception {
         new ProcessLinkDAO(DbTest.conRoot).addLink(new ProcessLink(processId, linkType, customer.getId(), customer.getTitle()));
+    }
+
+    public static void addGroup(Process process, int groupId) throws Exception {
+        addGroup(process, groupId, 0);
+    }
+
+    public static void addGroup(Process process, int groupId, int roleId) throws Exception {
+        process.getGroups().add(new ProcessGroup(groupId, roleId));
+        new ProcessDAO(DbTest.conRoot).updateProcessGroups(process.getGroups(), process.getId());
     }
 
     public static void addExecutor(Process process, int userId, int groupId) throws Exception {

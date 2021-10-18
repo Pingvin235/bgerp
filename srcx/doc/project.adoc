@@ -96,7 +96,7 @@ NOTE: We expose non-standard MySQL port *3388* to avoid possible conflicts with 
 
 [source, bash]
 ----
-docker pull bgerp/bgerp && docker run -p 3388:3306 --name bgerp-demo -d bgerp/bgerp
+docker pull bgerp/bgerp && docker run -d --name bgerp-demo --restart unless-stopped -p 3388:3306 bgerp/bgerp
 ----
 
 Make sure, that the container is running using the command:

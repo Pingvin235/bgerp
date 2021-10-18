@@ -1,12 +1,14 @@
 package org.bgerp.itest.configuration.department.support;
 
 import static org.bgerp.itest.kernel.config.ConfigTest.ROLE_EXECUTION_ID;
+import static org.bgerp.itest.kernel.user.UserTest.userFelixId;
+import static org.bgerp.itest.kernel.user.UserTest.userVladimirId;
+import static org.bgerp.itest.kernel.user.UserTest.userVyacheslavId;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import org.bgerp.itest.configuration.department.development.DevelopmentTest;
@@ -34,7 +36,6 @@ import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.TypeProperties;
-import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.util.TimeUtils;
 
 @Test(groups = "depSupport", priority = 200, dependsOnGroups = { "configProcessNotification", "param", "depDev" })
@@ -45,11 +46,10 @@ public class SupportTest {
     // Visit with address, process linked to support process.
     //public static volatile int processTypeVisitId;
 
-    private int userFelixId;
-    private int userVyacheslavId;
-
     public void addGroups() throws Exception {
         groupId = UserHelper.addGroup("Support", 0);
+        UserHelper.addUserGroups(userFelixId, groupId);
+        UserHelper.addUserGroups(userVyacheslavId, groupId);
     }
 
     @Test(dependsOnMethods = "addGroups")
@@ -69,12 +69,6 @@ public class SupportTest {
         processTypeSupportId = ProcessHelper.addType("Support", DevelopmentTest.processTypeProductId, false, props);
     }
 
-    @Test(dependsOnMethods = "addGroups")
-    public void addUsers() throws Exception {
-        userFelixId = UserHelper.addUser("Feliks Dserschinski", "felix", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
-        userVyacheslavId = UserHelper.addUser("Vyacheslav Menzhinsky", "vyacheslav", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
-    }
-
     @Test (dependsOnMethods =  "addTypes")
     public void addQueues() throws Exception {
         var queueId = ProcessHelper.addQueue("Support",
@@ -88,7 +82,7 @@ public class SupportTest {
         // TODO: Configure accept button in queue.
     }
 
-    @Test(dependsOnMethods = "addUsers")
+    @Test(dependsOnMethods = { "addGroups", "addTypes" })
     public void addProcesses() throws Exception {
         addProcess1();
         addProcess2();
@@ -154,7 +148,7 @@ public class SupportTest {
         processDao.updateProcessGroups(process.getGroups(), process.getId());
 
         process.getExecutors().add(new ProcessExecutor(userVyacheslavId, groupId, 0));
-        process.getExecutors().add(new ProcessExecutor(DevelopmentTest.userVladimirId, DevelopmentTest.groupId, 0));
+        process.getExecutors().add(new ProcessExecutor(userVladimirId, DevelopmentTest.groupId, 0));
         processDao.updateProcessExecutors(process.getExecutors(), process.getId());
 
         var m = new Message()
@@ -170,7 +164,7 @@ public class SupportTest {
         m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(process.getId())
             .withFrom(MessageTest.messageTypeEmailDemo.getEmail()).withTo(mail)
-            .withFromTime(TimeUtils.getDateWithOffset(-4)).withToTime(TimeUtils.getDateWithOffset(-4)).withUserId(DevelopmentTest.userVladimirId)
+            .withFromTime(TimeUtils.getDateWithOffset(-4)).withToTime(TimeUtils.getDateWithOffset(-4)).withUserId(userVladimirId)
             .withSubject(MessageTypeEmail.RE_PREFIX + subject).withText(ResourceHelper.getResource(this, "process.2.message.2.txt"));
         MessageHelper.addMessage(m);
 
@@ -193,7 +187,7 @@ public class SupportTest {
         var m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(process.getId())
             .withFrom(MessageTest.messageTypeEmailDemo.getEmail()).withTo(mail)
-            .withFromTime(new Date()).withUserId(DevelopmentTest.userVladimirId)
+            .withFromTime(new Date()).withUserId(userVladimirId)
             .withSubject(subject).withText(ResourceHelper.getResource(this, "process.3.message.1.txt"));
         MessageHelper.addMessage(m);
     }

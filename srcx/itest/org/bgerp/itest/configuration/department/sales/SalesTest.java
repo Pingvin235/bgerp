@@ -1,9 +1,10 @@
 package org.bgerp.itest.configuration.department.sales;
 
 import static org.bgerp.itest.kernel.config.ConfigTest.ROLE_EXECUTION_ID;
+import static org.bgerp.itest.kernel.user.UserTest.userFriedrichId;
+import static org.bgerp.itest.kernel.user.UserTest.userKarlId;
 
 import java.io.File;
-import java.util.Date;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
@@ -30,7 +31,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.TypeProperties;
-import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.util.TimeUtils;
 
 @Test(groups = "depSales", dependsOnGroups = { "user", "configProcessNotification", "process", "param", "depDev", "document" })
@@ -44,6 +44,8 @@ public class SalesTest {
     @Test
     public void addGroups() throws Exception {
         groupId = UserHelper.addGroup("Sales", 0);
+        UserHelper.addUserGroups(userKarlId, groupId);
+        UserHelper.addUserGroups(userFriedrichId, groupId);
     }
 
     @Test (dependsOnMethods = "addGroups")
@@ -71,16 +73,7 @@ public class SalesTest {
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }
 
-    private int userKarlId;
-    private int userFriedrichId;
-
-    @Test (dependsOnMethods = "addGroups")
-    public void addUsers() throws Exception {
-        userKarlId = UserHelper.addUser("Karl Marx", "karl", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
-        userFriedrichId = UserHelper.addUser("Friedrich Engels", "friedrich", Lists.newArrayList(new UserGroup(groupId, new Date(), null))).getId();
-    }
-
-    @Test(dependsOnMethods = "addUsers")
+    @Test(dependsOnMethods = { "addGroups", "addTypes" })
     public void addProcesses() throws Exception {
         addProcess1();
         addProcess2();
@@ -102,7 +95,7 @@ public class SalesTest {
         // connect development group and developer Leon
         process.getGroups().add(new ProcessGroup(DevelopmentTest.groupId));
         processDao.updateProcessGroups(process.getGroups(), process.getId());
-        process.getExecutors().add(new ProcessExecutor(DevelopmentTest.userLeonId, DevelopmentTest.groupId, 0));
+        process.getExecutors().add(new ProcessExecutor(UserTest.userLeonId, DevelopmentTest.groupId, 0));
         processDao.updateProcessExecutors(process.getExecutors(), process.getId());
 
         // original message
