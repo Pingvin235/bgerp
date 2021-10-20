@@ -215,7 +215,7 @@
 			<c:otherwise>
 				<c:set var="openProcessId">
 					<ui:when type="open">
-						<c:if test="${ctxSetup.getConfig('org.bgerp.action.open.ProcessAction$Config').isOpen(process)}">${process.id}</c:if>
+						<c:if test="${ctxSetup.getConfig('org.bgerp.action.open.ProcessAction$Config').isOpen(process, form)}">${process.id}</c:if>
 					</ui:when>
 				</c:set>
 

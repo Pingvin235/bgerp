@@ -90,6 +90,9 @@ public class MessageAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/message.jsp");
     }
 
+    /**
+     * Important, called also in {@link #processCreate(DynActionForm, ConnectionSet)}
+     */
     public ActionForward messageUpdateProcess(DynActionForm form, Connection con) throws Exception {
         MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
 
@@ -318,8 +321,6 @@ public class MessageAction extends BaseAction {
             search.search(form, conSet, message, searchedList);
             form.setResponseData("searchedList", searchedList);
         }
-
-        // return html(conSet, form, PATH_JSP + "/message_search_result.jsp");
     }
 
     public ActionForward processCreate(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -343,6 +344,7 @@ public class MessageAction extends BaseAction {
         }
 
         form.setParam("processId", String.valueOf(process.getId()));
+        // takes param messageTypeId, messageId from form object, and places ID or the created message to response
         messageUpdateProcess(form, con);
 
         return json(con, form);

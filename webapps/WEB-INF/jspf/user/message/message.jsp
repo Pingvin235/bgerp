@@ -100,8 +100,9 @@
 							<%-- TODO: Make button disabled <p:check action="ru.bgcrm.struts.action.MessageAction:processCreate"> --%>
 							<button class="btn-grey" type="button" onclick="
 								$$.ajax.post(this.form, {control: this}).done((result) => {
-									$$.process.open(result.data.process.id);
-									// TODO: Reload messages list
+									const url = '/user/message.do?id=' + result.data.id + '&returnUrl=' + encodeURIComponent('${form.returnUrl}');
+									$$.ajax.load(url, $('#${uiid}').parent());
+									// TODO: Reload unprocessed messages list.
 								});">${l.l('Создать процесс')}</button>
 						</div>
 					</div>
@@ -177,7 +178,7 @@
 					<input type="hidden" name="id" value="${message.id}"/>
 				</c:when>
 				<c:otherwise>
-					<html:hidden property="typeId"/>
+					<input type="hidden" name="messageTypeId" value="${form.param.typeId}"/>
 					<html:hidden property="messageId"/>
 				</c:otherwise>
 			</c:choose>

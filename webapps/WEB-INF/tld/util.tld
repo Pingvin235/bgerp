@@ -70,7 +70,7 @@
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 	</tag>
-	
+
 	<function>
 		<description>Returns checked='1' string if Collection, Map or array from the first param contains the object from second param.</description>
 		<name>checkedFromCollection</name>
@@ -136,16 +136,19 @@
 
 	<!-- TimeUtils deprecated usage, call tu. methods instead -->
 	<function>
-		<description>Deprecated, use direct tu.format call.</description>
 		<name>formatDate</name>
-		<function-class>ru.bgcrm.util.TimeUtils</function-class>
-		<function-signature>String format(java.util.Date,java.lang.String)</function-signature>
+		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-signature>String formatDate(java.util.Date,java.lang.String)</function-signature>
 	</function>
 	<function>
-		<description>Deprecated, use direct tu.formatPeriod call.</description>
 		<name>formatPeriod</name>
-		<function-class>ru.bgcrm.util.TimeUtils</function-class>
+		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
 		<function-signature>String formatPeriod(java.util.Date,java.util.Date,java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>parseDate</name>
+		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
+		<function-signature>java.util.Date parseDate(java.lang.String,java.lang.String)</function-signature>
 	</function>
 	<!-- TimeUtils deprecated end -->
 
@@ -208,7 +211,7 @@
 		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
 		<function-signature>List getObjectList(java.util.Map, java.util.List)</function-signature>
 	</function>
-	
+
 	<function>
 		<description>Deprecated, use direct getConfig call from parameter map.</description>
 		<name>getConfig</name>

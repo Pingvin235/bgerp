@@ -11,7 +11,7 @@
 </c:if>
 
 <c:if test="${not empty messageType.contactSaver}">
-	<ui:combo-single hiddenName="contactSaveMode" prefixText="${l.l('Контакт')}" styleClass="mr1">
+	<ui:combo-single hiddenName="contactSaveMode" prefixText="${l.l('Контакт')}:" styleClass="mr1">
 		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" items="${messageType.contactSaver.saveModeList}">
 				<li value="${item.id}">${item.getTitle(l)}</li>
