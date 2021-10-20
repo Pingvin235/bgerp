@@ -149,7 +149,7 @@ dependencies {
     bgerp fileTree(dir: 'lib', include: ['*.jar'])
 
     // documentation library
-    doc 'org.pzdcdoc:pzdcdoc:2.4'
+    doc 'org.pzdcdoc:pzdcdoc:2.5'
 
     // unit tests of the main code
     testImplementation 'junit:junit:4.12'

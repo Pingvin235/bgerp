@@ -9,6 +9,7 @@
 		<pzdc-source-link-root>https://github.com/Pingvin235/bgerp/blob/master/srcx/doc</pzdc-source-link-root>
 		<!-- converter URL, used by DrawIO processor -->
 		<pzdc-drawio-converter>http://drawio.bgerp.org/convert</pzdc-drawio-converter>
+		<pzdc-drawio-request-timeout-sec>180</pzdc-drawio-request-timeout-sec>
 		<!-- sample of labels customization
 		https://asciidoctor.org/docs/user-manual/#customizing-labels
 		https://github.com/asciidoctor/asciidoctor/blob/master/lib/asciidoctor/document.rb#L255
