@@ -24,6 +24,8 @@
 	<ui:menu-item ltitle="Мои процессы" href="process/my"
 		action="ru.bgcrm.struts.action.ProcessAction:userProcessList"
 		command="/user/process.do?action=userProcessList"/>
+
+	<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_PROCESS_MENU_ITEMS%>"/>
 </ui:menu-group>
 
 <ui:menu-group ltitle="Контрагент" icon="ti-face-smile">
@@ -38,7 +40,7 @@
 <ui:menu-item title="Test" href="test" hidden="true"
 	action="org.bgerp.action.TestAction" command="/user/test.do" />
 
-<plugin:include endpoint="user.menu.items.jsp"/>
+<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_MENU_ITEMS%>"/>
 
 <ui:menu-group ltitle="Администрирование" icon="ti-settings">
 	<ui:menu-item ltitle="Конфигурация" href="admin/config" icon="ti-panel"
@@ -105,5 +107,5 @@
 			command="/admin/app.do?action=userLoggedList"/>
 	</ui:menu-group>
 
-	<plugin:include endpoint="user.admin.menu.items.jsp"/>
+	<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_ADMIN_MENU_ITEMS%>"/>
 </ui:menu-group>

@@ -20,7 +20,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
        return Map.of(
             Endpoint.JS, List.of(Endpoint.getPathPluginJS(ID)),
             Endpoint.CSS, List.of(Endpoint.getPathPluginCSS(ID)),
-            Endpoint.USER_MENU_ITEMS, List.of(PATH_JSP_USER + "/menu_items.jsp"),
+            Endpoint.USER_PROCESS_MENU_ITEMS, List.of(PATH_JSP_USER + "/menu_items.jsp"),
             Endpoint.OPEN_JSP, List.of(PATH_JSP_OPEN + "/url.jsp")
         );
     }
