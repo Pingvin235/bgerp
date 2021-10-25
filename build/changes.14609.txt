@@ -1,2 +1,0 @@
-F: Link new message to existing process.
-F: Process queue in open interface, wrong call signature for 'isOpen' method.

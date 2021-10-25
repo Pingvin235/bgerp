@@ -1,6 +1,56 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+25.10.2021 20:04:42 1381
+C: [11087] Remove XSLT related libraries and code.
+F: [11187] User passwords are available on the frontend-side.
+C: [11187] Change date_from and date_to columns in user_group table to type DATE.
+A: [11187] Plugin Access. Providing a safe way for copying user credentials. https://bgerp.org/doc/3.0/manual/plugin/sec/access
+C: [11187] Publish sources to GitHub under user BGERPP.
+F: [11905] Status filter in "My processes".
+A: [14313] Paste images from clipboard as message attaches.
+C: [14313] Cleanup code of parameter 'file'.
+A: [14347] Integration test for plugin Callboard.
+C: [14347] CSS scrollbar-width: thin.
+A: [14411] Scroll to top floating button.
+A: [14411] Integration tests: test processes and test queue.
+C: [14528] Clean up in auth code.
+A: [14528] Plugin Auth. LDAP authorization. https://bgerp.org/doc/3.0/manual/plugin/sec/auth
+F: [14528] Correct update and restart application running inside of Docker container.
+A: [14528] Update user title in top right corner after successful re-auth in popup dialog.
+F: [14531] Missing icon in popup menu.
+C: [14563] Global replace in JSPs u:formatDate -> tu.format.
+C: [14563] Global replace in JSPs u:getConfig -> paramMap.getConfig.
+C: [14563] Remove JSP function u:concat.
+C: [14563] Remove JSP function u:append.
+C: [14563] Global replace in JSPs u:contains to collection.contains.
+C: [14563] Cleanup of unused JSP functions: TimeUtils, newInstance, etc.
+A: [14564] UI element ui:toggle.
+C: [14564] Use new toggle input in dynamic logging.
+F: [14567] New styles for dialog headers only.
+F: [14567] Not hidden 'Reply' button on linking a message to another process.
+A: [14575] Plugin Telegram, new method sendMessage(String chatId, String text).
+A: [14575] Flush process types cache on changing global configurations.
+C: [14578] Update styles of dialog headers.
+C: [14583] Remove plugin.xml files, move endpoints to Plugin.java files.
+C: [14583] Restructure of JSP paths.
+F: [14584] u:newInstance JSP calls.
+F: [14584] Show a process queue in list after saving.
+F: [14588] Copy custom resources.
+A: [14597] String IDs for Scheduler tasks, https://bgerp.org/doc/3.0/manual/kernel/setup.html#scheduler
+C: [14597] Moved Log class to org.bgerp.
+F: [14609] Link new message to existing process.
+F: [14609] Process queue in open interface, wrong call signature for 'isOpen' method.
+C: [14616] Renames in itests.
+C: [14620] PzdcDoc version 2.5.
+F: [14621] No update_lib published from master.
+C: [14621] Remove lib/tomcat9 old libraries.
+C: [14621] Exclude dyn/ru/bgcrm/dyn/Example*.java from build.
+F: [14621] Process parameters change log, customer entity change log.
+F: [14621] Save text parameter in saveOn=focusLost mode.
+C: [14626] Plugin Blow. Menu item moved under 'Processes'.
+C: [14630] Increase timeout of waiting MySQL in Docker image.
+
 28.09.2021 20:08:04 1380
 F: [14542] Restore last selected type on adding message in process message editor.
 F: [14542] Change const $ftr to let in tableRowHl.

@@ -1,2 +1,0 @@
-A: UI element ui:toggle.
-C: Use new toggle input in dynamic logging.

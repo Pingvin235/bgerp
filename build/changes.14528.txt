@@ -1,4 +1,0 @@
-C: Clean up in auth code.
-A: Plugin Auth. LDAP authorization. https://bgerp.org/doc/3.0/manual/plugin/sec/auth
-F: Correct update and restart application running inside of Docker container.
-A: Update user title in top right corner after successful re-auth in popup dialog.

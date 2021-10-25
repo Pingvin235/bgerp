@@ -1,2 +1,0 @@
-F: New styles for dialog headers only.
-F: Not hidden 'Reply' button on linking a message to another process.

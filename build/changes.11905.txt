@@ -1,1 +1,0 @@
-F: Status filter in "My processes".

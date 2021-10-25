@@ -1,2 +1,0 @@
-C: Remove plugin.xml files, move endpoints to Plugin.java files.
-C: Restructure of JSP paths.

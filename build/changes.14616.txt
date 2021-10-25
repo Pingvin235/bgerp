@@ -1,1 +1,0 @@
-C: Renames in itests.

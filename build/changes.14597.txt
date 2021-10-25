@@ -1,2 +1,0 @@
-A: String IDs for Scheduler tasks, https://bgerp.org/doc/3.0/manual/kernel/setup.html#scheduler
-C: Moved Log class to org.bgerp.

@@ -1,3 +1,0 @@
-A: Integration test for plugin Callboard.
-C: CSS scrollbar-width: thin.
-
