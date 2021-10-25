@@ -272,6 +272,17 @@ task buildDist(type: Exec, dependsOn: 'classes', description: 'Builds distributi
     environment classesPath: "../../target/classes/java/main"
 }
 
+// for some reasons the task is named as 'classes' in 'dependsOn'
+compileJava {
+    doFirst {
+        def custom = file("custom");
+        if (custom.exists()) {
+            custom.renameTo("_custom");
+            logger.info("Renaming directory 'custom' to '_custom'");
+        }
+    }
+}
+
 task buildUpdate(type: Exec, dependsOn: 'classes', description: 'Builds distribution and update archives') {
     workingDir "$projectDir/build/update"
     commandLine "ant"

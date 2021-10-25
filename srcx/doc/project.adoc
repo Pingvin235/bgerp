@@ -1290,8 +1290,6 @@ Build is performed from a *master* branch and can include many <<workflow, accep
 
 IMPORTANT: Perform a separate GIT Push after each <<accept, acceptance>> in order to correctly <<publish-source, publish>> in the open repository.
 
-IMPORTANT: If using <<kernel/extension.adoc#custom, custom>> directory rename it for the time of release, e.g. to `_custom`.
-
 Perform the following:
 [source, bash]
 ----

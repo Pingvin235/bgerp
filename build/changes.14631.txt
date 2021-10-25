@@ -1,0 +1,1 @@
+A: Prevent including of custom sources to build.
