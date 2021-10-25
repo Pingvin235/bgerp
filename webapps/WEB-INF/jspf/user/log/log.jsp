@@ -18,7 +18,7 @@
 	$(function () {
 		const $log = $('#${uiid}').parent();
 		$log.data('onShow', function () {
-			$$.ajax.load("/user/log.do?action=log", $log);
+			$$.ajax.load("/user/log.do", $log);
 		});
 	});
 </script>

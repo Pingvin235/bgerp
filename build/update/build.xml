@@ -24,7 +24,7 @@
 				<include name="docpattern"/>
 				<include name="docpattern/example/**"/>
 				<include name="docpattern/tabel_blank.xls"/>
-				<include name="dyn/ru/bgcrm/dyn/Example*.java"/>
+				<!-- <include name="dyn/ru/bgcrm/dyn/Example*.java"/> -->
 				<include name="webapps/**"/>
 			</fileset>
 			<fileset dir="${basedir}/../bgerp/files">

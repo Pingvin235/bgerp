@@ -21,6 +21,11 @@ $$.shell = new function () {
 			event.preventDefault();
 	}
 
+	/**
+	 * Creates div s in #content and #title nodes.
+	 * @param {*} command id attribute of created div s.
+	 * @param {*} closable
+	 */
 	const getCommandDiv = function (command, closable) {
 		var $commandDiv = $("body > #content > div#" + command );
 
@@ -48,7 +53,7 @@ $$.shell = new function () {
 								<h1 class='title' title='Refresh'></h1>";
 			if (closable) {
 				divTemplate +=
-					"<div class='icon-close btn-white-hover icon' title='Back'><i class='ti-arrow-left'></i></div>";
+					"<div class='icon-close btn-white-hover icon'><i class='ti-close'></i></div>";
 			}
 
 			divTemplate += "\
@@ -85,6 +90,10 @@ $$.shell = new function () {
 		}
 	}
 
+	/**
+	 * Removes elements in #content, #title nodes and #objectBuffer.
+	 * @param {*} command id of element.
+	 */
 	const removeCommandDiv = function (command) {
 		 $("body > #content > div#" + command ).remove();
 		 $("#title > div#" + command ).remove();
@@ -123,129 +132,36 @@ $$.shell = new function () {
 	// next contentLoad starts only after previous is done
 	let contentLoadDfd;
 
-	const contentLoad = function (href, reopen, pinned) {
+	const contentLoad = function (href, options) {
 		debug("contentLoad", href, contentLoadDfd);
 
 		const contentLoadCurrentDfd = contentLoadDfd;
 		const contentLoadNewDfd = $.Deferred();
 		$.when(contentLoadCurrentDfd).done(() => {
-			contentLoadAsync(href, reopen, pinned, contentLoadNewDfd);
+			contentLoadAsync(href, contentLoadNewDfd, options);
 		});
 		contentLoadDfd = contentLoadNewDfd;
 
 		return contentLoadDfd.promise();
 	}
 
-	const contentLoadAsync = function (href, reopen, pinned, contentLoadDfd) {
+	const contentLoadAsync = function (href, contentLoadDfd, options) {
 		debug("contentLoadAsync: ", href, contentLoadDfd);
 
-		// удаление протокола, хоста, порта, если есть
-		// может прийти при восстановлении адресной строки
-		let pos = href.indexOf('//');
+		// remove proto, host, port, if exist
+		// can be on restoring address line
+		const pos = href.indexOf('//');
 		let command = pos >= 0 ? href.substring(href.indexOf('/', pos + 2)) : href;
 
-		// дополнение /user/
+		// append /user/ at the beginning if missing
 		if (!command.startsWith("/user/"))
 			command = "/user/" + command;
 
-		pos = command.indexOf('#');
-		const commandBeforeSharp = pos > 0 ? command.substring(0, pos) : command;
-		const commandId = pos > 0 ? "&id=" + command.substring(pos + 1) : "";
+		// try to open a menu tool
+		const isMenu = loadMenuTool(href, command, contentLoadDfd, options);
 
-		const item = menuItems[commandBeforeSharp];
-		// open menu tool
-		if (item) {
-			// берём после префикса /user , для сохранения обратной совместимости
-			const id = commandBeforeSharp.substring(6).replace(/\//g, "-");
-
-			if (!item.allowed)
-				alert("The menu item is now allowed.");
-			else {
-				let $taskButton = $('#taskPanel > div#' + id);
-
-				if ($taskButton.length == 0) {
-					let taskButton = sprintf("<div class='btn-blue btn-task-active' id='%s' title='%s'>", id, item.titlePath);
-
-					// progress button and removing it after load has done
-					taskButton += "<span class='progress'><i class='progress-icon ti-reload'></i>&nbsp;</span>";
-					contentLoadDfd.done(() => {
-						$taskButton.find(".progress").remove();
-					});
-
-					if (item.icons) {
-						item.icons.forEach((icon) => {
-							taskButton += sprintf("<span class='%s'>&nbsp;</span>", icon);
-						});
-					}
-
-					taskButton += sprintf("<span class='title'>%s</span>", item.title);
-
-					if (!pinned)
-						taskButton += "<span class='icon-close ti-close'></span>";
-
-					taskButton += "</div>";
-
-					$('#taskPanel').append(taskButton);
-					$taskButton = $('#taskPanel > div#' + id);
-
-					var $commandDiv;
-
-					$taskButton.data("href", href);
-
-					$taskButton.click(function () {
-						$commandDiv = getCommandDiv(id);
-
-						if (typeof $$.closeObject == 'function')
-							$$.closeObject();
-
-						$("#taskPanel div[id!='" + id + "']")
-							.removeClass("btn-task-active btn-blue").addClass("btn-white btn-task");
-						$("#taskPanel div#" + id)
-							.removeClass("btn-white btn-task").addClass("btn-task-active btn-blue");
-
-						$(window).scrollTop($("#taskPanel div#" + id).attr('scroll'));
-
-						pushHistoryState(href);
-
-						onCommandDivShow($commandDiv);
-					});
-
-					$taskButton.click();
-
-					$$.ajax.load(item.action + commandId, $commandDiv, { dfd: contentLoadDfd });
-
-					$taskButton.find('.icon-close').click(function () {
-						// закрытие активной оснастки
-						if ($taskButton.hasClass( "btn-task-active")) {
-							// последняя неактивная кнопка становится активной
-							var $inactiveButtons =  $("#taskPanel > div.btn-task");
-							if ($inactiveButtons.length > 0)
-								$inactiveButtons[$inactiveButtons.length - 1].click()
-							else
-								$("#title > #empty").show();
-						}
-						$taskButton.remove();
-						removeCommandDiv(id);
-					});
-				}
-				else {
-					if (reopen) {
-						const $commandDiv = getCommandDiv(id);
-						$$.ajax.load(item.action + commandId, $commandDiv, { dfd: contentLoadDfd });
-
-						const state = history.state;
-						history.replaceState(state, null, href);
-
-						$taskButton.data("href", href);
-					} else {
-						$('#taskPanel #' + id).click();
-						contentLoadDfd.resolve();
-					}
-				}
-			}
-		}
-		// open object
-		else {
+		// open object, if wasn't a menu tool
+		if (!isMenu) {
 			var m = null;
 			var url = null;
 
@@ -382,8 +298,9 @@ $$.shell = new function () {
 								}
 							});
 
+						// refresh link
 						$("#title > .status:visible > .wrap > .left > .title h1.title")
-							.on("click", function () {
+							.click(function () {
 								$$.ajax.load(url, $commandDiv);
 							});
 					});
@@ -391,6 +308,107 @@ $$.shell = new function () {
 					contentLoadDfd.resolve();
 			} else
 				contentLoadDfd.resolve();
+		}
+	}
+
+	const loadMenuTool = function(href, command, contentLoadDfd, options) {
+		options = options || {};
+
+		const pos = command.indexOf('#');
+		const commandBeforeSharp = pos > 0 ? command.substring(0, pos) : command;
+		const commandId = pos > 0 ? "&id=" + command.substring(pos + 1) : "";
+
+		const item = menuItems[commandBeforeSharp];
+		if (item) {
+			// after prefix '/user', for backward compatibility
+			const id = commandBeforeSharp.substring(6).replace(/\//g, "-");
+
+			if (!item.allowed)
+				alert("The menu item is now allowed.");
+			else {
+				let $taskButton = $('#taskPanel > div#' + id);
+
+				if ($taskButton.length == 0) {
+					let taskButton = sprintf("<div class='btn-blue btn-task-active' id='%s' title='%s'>", id, item.titlePath);
+
+					// progress button and removing it after load has done
+					taskButton += "<span class='progress'><i class='progress-icon ti-reload'></i>&nbsp;</span>";
+					contentLoadDfd.done(() => {
+						$taskButton.find(".progress").remove();
+					});
+
+					if (item.icons) {
+						item.icons.forEach((icon) => {
+							taskButton += sprintf("<span class='%s'>&nbsp;</span>", icon);
+						});
+					}
+
+					taskButton += sprintf("<span class='title'>%s</span>", item.title);
+
+					if (!options.pinned)
+						taskButton += "<span class='icon-close ti-close'></span>";
+
+					taskButton += "</div>";
+
+					$('#taskPanel').append(taskButton);
+					$taskButton = $('#taskPanel > div#' + id);
+
+					var $commandDiv;
+
+					$taskButton.data("href", href);
+
+					$taskButton.click(function () {
+						$commandDiv = getCommandDiv(id);
+
+						if ($commandDiv.isNew) {
+							// refresh link
+							$("#title > #" + id + ".status > .wrap > .left > .title h1.title")
+								.click(function () {
+									removeCommandDiv(id);
+									$taskButton.click();
+									$$.ajax.load(item.action + commandId, $commandDiv);
+								});
+						}
+
+						if (typeof $$.closeObject == 'function')
+							$$.closeObject();
+
+						$("#taskPanel div[id!='" + id + "']")
+							.removeClass("btn-task-active btn-blue").addClass("btn-white btn-task");
+						$("#taskPanel div#" + id)
+							.removeClass("btn-white btn-task").addClass("btn-task-active btn-blue");
+
+						$(window).scrollTop($("#taskPanel div#" + id).attr('scroll'));
+
+						pushHistoryState(href);
+
+						onCommandDivShow($commandDiv);
+					});
+
+					$taskButton.click();
+
+					$$.ajax.load(item.action + commandId, $commandDiv, { dfd: contentLoadDfd });
+
+					$taskButton.find('.icon-close').click(function () {
+						// закрытие активной оснастки
+						if ($taskButton.hasClass( "btn-task-active")) {
+							// последняя неактивная кнопка становится активной
+							var $inactiveButtons =  $("#taskPanel > div.btn-task");
+							if ($inactiveButtons.length > 0)
+								$inactiveButtons[$inactiveButtons.length - 1].click()
+							else
+								$("#title > #empty").show();
+						}
+						$taskButton.remove();
+						removeCommandDiv(id);
+					});
+				}
+				else {
+					$taskButton.click();
+					contentLoadDfd.resolve();
+				}
+			}
+			return true;
 		}
 	}
 

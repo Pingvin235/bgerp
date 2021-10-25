@@ -9,24 +9,24 @@
 <c:set var="paramLinkId" value="${u:uiid()}"></c:set>
 
 <div class="center1020" id="${paramLinkId}">
-	<button class="btn-white mb1" onclick="openUrlToParent( '${form.returnUrl}', $('#${paramLinkId}') );">Закрыть</button>
-	<table style="width:100%" class="data">
+	<ui:button styleClass="mb1" type="close" onclick="$$.ajax.load('${form.returnUrl}', $('#${paramLinkId}').parent())"/>
+	<table class="data">
+		<%-- TODO: Check, is hideTr somewhere used.  --%>
 		<tr ${hideTr}>
 			<td>${l.l('Дата')}</td>
 			<td>${l.l('Пользователь')}</td>
 			<td width="100%">${l.l('Текст')}</td>
-		</tr>	
+		</tr>
 		<c:forEach var="logItem" items="${log}">
 			<tr>
 				<td nowrap="nowrap">${logItem.getDateFormatted()}</td>
-				<td nowrap="nowrap">${ctxUserMap[logItem.userId].title}</td>			
+				<td nowrap="nowrap">${ctxUserMap[logItem.userId].title}</td>
 				<td width="100%">${logItem.text}</td>
 			</tr>
 		</c:forEach>
 	</table>
-	 
-	<c:set var="state" value="${l.l('Лог изменений')}"/>
-	<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+
+	<shell:state ltext="Лог изменений"/>
 </div>
 
 

@@ -111,7 +111,7 @@
 
 	<c:set var="onBlur" value=""/>
 	<c:if test="${saveOn eq 'focusLost'}">
-		<c:set var="onBlur">onBlur="if( $(this).attr('onblurstop') ){ return; }<c:if test="${empty encrypt}">if( $(this).attr( 'changed' ) == '1' )</c:if>{ popupObjectBuffer.stopTimer(); ${saveCommand}; document.getSelection().removeAllRanges(); } <c:if test="${empty encrypt}">else { ${refreshCommand}  }</c:if>"</c:set>
+		<c:set var="onBlur">onBlur="if( $(this).attr('onblurstop') ){ return; }<c:if test="${empty encrypt}">if( $(this).attr( 'changed' ) == '1' )</c:if>{ ${saveCommand}; document.getSelection().removeAllRanges(); } <c:if test="${empty encrypt}">else { ${refreshCommand}  }</c:if>"</c:set>
 		<c:set var="hideOkButton" value="1"/>
 	</c:if>
 
@@ -150,7 +150,7 @@
 						<c:param name="paramId" value="${parameter.id}"/>
 					</c:url>
 				</c:if>
-				
+
 				<c:set var="type" value="${u.maskEmpty(parameter.configMap.type, 'ymd')}"/>
 				<input type="text" name="value" value="${tu.format(data.value, type)}" id="${focusFieldUiid}" ${changeAttrs} onclick="${getCommand}"/>
 				<ui:date-time selector="#${focusFieldUiid}" type="${type}" saveCommand="${saveCommand}"/>
@@ -444,12 +444,12 @@
 				<table style="width: 100%;">
 					<tr class="in-pl05">
 						<td width="70%">
-							<input type="text" name="street" value="${streetTitle}" 
+							<input type="text" name="street" value="${streetTitle}"
 								placeholder="${l.l('Улица')}" title="${l.l('Улица')}" style="width: 100%"/>
 						</td>
 						<td width="30%" nowrap="nowrap">
 							<div style="display: table-cell; width: 100%;">
-								<input type="text" name="house" value="${houseTitle}" onchange="this.form.houseId.value = ''" 
+								<input type="text" name="house" value="${houseTitle}" onchange="this.form.houseId.value = ''"
 									placeholder="${l.l('Дом')}" title="${l.l('Дом')}" style="width: 100%" />
 							</div>
 							<p:check action="ru.bgcrm.struts.action.DirectoryAddressAction:addressUpdate">

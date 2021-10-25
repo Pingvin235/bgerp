@@ -74,7 +74,7 @@ dependencies {
     bgerp 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.50'
     bgerp 'org.eclipse.jdt:ecj:3.26.0'
     bgerp 'org.apache.tomcat.embed:tomcat-embed-el:9.0.50'
-    bgerp 'org.apache.tomcat.embed:tomcat-embed-core:9.0.51.bgerp' // TODO: Remove lib/tomcat9
+    bgerp 'org.apache.tomcat.embed:tomcat-embed-core:9.0.51.bgerp'
     bgerp 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.2'
     bgerp 'org.apache.taglibs:taglibs-standard-impl:1.2.5'
 

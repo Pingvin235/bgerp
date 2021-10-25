@@ -1,4 +1,4 @@
-package org.bgerp.itest.kernel.open;
+package org.bgerp.itest.kernel.iface.open;
 
 import org.bgerp.itest.configuration.department.development.DevelopmentTest;
 import org.bgerp.itest.helper.ConfigHelper;

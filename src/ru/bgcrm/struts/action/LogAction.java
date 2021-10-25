@@ -26,7 +26,7 @@ public class LogAction extends BaseAction {
 
     public ActionForward log(DynActionForm form, ConnectionSet conSet)
             throws Exception {
-        boolean value = form.getParamBoolean("enable", false);
+        var value = form.getParamBoolean("enable", false);
 
         HttpSession session = form.getHttpRequest().getSession();
         if (value)

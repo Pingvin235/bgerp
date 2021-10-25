@@ -1,0 +1,5 @@
+F: No update_lib published from master.
+C: Remove lib/tomcat9 old libraries.
+C: Exclude dyn/ru/bgcrm/dyn/Example*.java from build.
+F: Process parameters change log, customer entity change log.
+F: Save text parameter in saveOn=focusLost mode.

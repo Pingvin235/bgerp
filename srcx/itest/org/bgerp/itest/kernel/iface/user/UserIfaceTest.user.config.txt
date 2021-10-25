@@ -1,0 +1,4 @@
+# open pinned tools after login
+on.login.open.pinned=/user/search,/user/message/queue
+# open tools after login
+on.login.open=/user/process/queue

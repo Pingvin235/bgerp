@@ -86,10 +86,10 @@ public class ParameterAction extends BaseAction {
         form.setResponseData("log", new ParamLogDAO(conSet.getSlaveConnection()).getHistory(id, paramList,
                 offEncrypt, new SearchResult<ParameterLogItem>(form)));
 
-        // TODO: Move the JSP to PATH_JSP.
-        return html(conSet, form, PATH_JSP + "/parameter_log.jsp");
+        return html(conSet, form, PATH_JSP + "/log.jsp");
     }
 
+    // Used for customers, but not for processes.
     public ActionForward entityLog(DynActionForm form, ConnectionSet con) throws BGException {
         int id = form.getId();
         String type = form.getParam("type");
@@ -103,8 +103,7 @@ public class ParameterAction extends BaseAction {
 
         form.setResponseData("log", new EntityLogDAO(con.getSlaveConnection(), table).getHistory(id));
 
-        // TODO: Move the JSP to PATH_JSP.
-        return html(con, form, PATH_JSP + "/entity_log.jsp");
+        return html(con, form, BaseAction.PATH_JSP + "/entity_log.jsp");
     }
 
     public ActionForward parameterList(DynActionForm form, Connection con) throws Exception {
