@@ -6,7 +6,7 @@ export MYSQL_ROOT_PASSWORD="$(pwgen -1 32)"
 echo "Running MySQL"
 
 docker_wait_mysql_up () {
-    for i in {30..0}; do
+    for i in {300..0}; do
         if mysqladmin ping -h localhost --silent; then
             break
         fi
@@ -19,11 +19,11 @@ docker_wait_mysql_up () {
 }
 
 docker_wait_mysql_down () {
-    for i in {30..0}; do
+    for i in {300..0}; do
         if ! mysqladmin ping -h localhost --silent; then
             break
         fi
-        sleep 1
+        sleep 2
     done
     if [ "$i" = 0 ]; then
         echo "Unable to stop MySQL server."
@@ -33,7 +33,7 @@ docker_wait_mysql_down () {
 
 # may be used later for startup with regular erp_start.sh
 docker_wait_bgerp_up () {
-    for i in {30..0}; do
+    for i in {300..0}; do
         if /opt/bgerp/erp_status.sh 2>/dev/null; then
             break
         fi
@@ -47,7 +47,7 @@ docker_wait_bgerp_up () {
 
 # $MYSQL_ROOT_PASSWORD will be used there in case of missing DB
 # kick off the upstream command
-usr/local/bin/docker-entrypoint.sh mysqld & 
+usr/local/bin/docker-entrypoint.sh mysqld &
 
 if [ ! -d "/var/lib/mysql/mysql" ]; then
     echo "MySQL data directory init"
