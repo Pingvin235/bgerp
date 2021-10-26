@@ -105,6 +105,7 @@ Make sure, that the container is running using the command:
 docker exec bgerp-demo /opt/bgerp/erp_status.sh
 ----
 
+[[run-data-logging]]
 Get configuration and data files from the container:
 [source, bash]
 ----
@@ -227,10 +228,16 @@ Install VS Code itself and the following extensions:
 Visit link:../../.vscode/readme.txt[open] and navigate to `.vscode` catalog in project's directory in order to get some configuration examples.
 Java formatter and space symbols indicators have been already enabled there.
 
-[[log4j]]
+[[ide-logging]]
 ==== Logging
-By default,  a running in IDE application uses <<kernel/extension.adoc#log4j, logging configuration>> from `src/log4j.properties`.
-In order to adjust it, copy the file to the project directory (will not be handled by GIT) and make required changes.
+A <<run-data-logging, taken>> from DB container `log4j.properties` file doesn't produce output to *STDOUT* IDE console.
+In order to change that you have to add *out* appender there.
+[source]
+----
+log4j.logger.ru.bgcrm=ALL, file, session, out
+log4j.logger.ru.bgerp=ALL, file, session, out
+log4j.logger.org.bgerp=ALL, file, session, out
+----
 
 [[structure]]
 === File's structure
@@ -412,7 +419,9 @@ And finally, push.
 git push
 ----
 
-<<build-erp, Update is published>> periodically from the main branch.
+IMPORTANT: Perform a separate GIT Push after each <<accept, acceptance>> in order to correctly <<publish-source, publish>> in the open repository.
+
+<<build-erp, Release is published>> periodically from the *master* branch.
 
 [[longlife-branch]]
 === Long-lived branches
@@ -1012,7 +1021,7 @@ Such case may be seen for <<exception, BGMessageException sample>>.
 All the new code has to be written using localized strings.
 For legacy code recommended during other changes replace static strings to localized.
 
-For missing keys the following messages appear in <<log4j, log output>>:
+For missing keys the following messages appear in <<ide-logging, log output>>:
 [source]
 ----
 01-02/00:44:01  WARN [http-nio-9088-exec-2] Localizer - Missing translation for pattern: 'Иниациализировать плагины'
@@ -1278,8 +1287,6 @@ into a main branch and a new build gets <<build-erp, published>>
 
 [[build-erp]]
 === Release
-CAUTION: Check <<unit-test, Unit tests>> running.
-
 [IMPORTANT]
 ====
 Public SSH key or the developer might be added for *cdn@bgerp.org* and *www@bgerp.org*.
@@ -1288,7 +1295,7 @@ Before you publish a change update, make sure that `ssh cdn@bgerp.org` and `ssh 
 
 Build is performed from a *master* branch and can include many <<workflow, accepted changes>>.
 
-IMPORTANT: Perform a separate GIT Push after each <<accept, acceptance>> in order to correctly <<publish-source, publish>> in the open repository.
+CAUTION: Be sure that <<test-integration, Integration tests>> are suscessully done on *master* to provide data for Demo DB.
 
 Perform the following:
 [source, bash]
