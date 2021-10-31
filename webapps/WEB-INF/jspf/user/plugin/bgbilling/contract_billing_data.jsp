@@ -175,14 +175,14 @@
 					 	
 					 	<c:set var="url">
 					 		<c:choose>
-					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.npay'}">npay.do?action=serviceList&moduleId=${item.moduleId}</c:when>
+					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.npay' or item.clientPackage eq 'ru.bitel.bgbilling.modules.npay.client'}">npay.do?action=serviceList&moduleId=${item.moduleId}</c:when>
 					 			<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.rscm.client'}">rscm.do?action=serviceList&moduleId=${item.moduleId}</c:when>
-					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.dialup'}">dialup.do?action=contractInfo&moduleId=${item.moduleId}</c:when>
-					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.voiceip'}">voiceip.do?action=contractInfo&moduleId=${item.moduleId}</c:when>
-					 			<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.api.client'}">inet.do?action=serviceTree&moduleId=${item.moduleId}</c:when>
-					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.card'}">card.do?action=contractInfo&moduleId=${item.moduleId}</c:when>
-					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.ipn'}">/../../../../empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/ipn/contract_info.jsp&moduleId=${item.moduleId}</c:when>
-					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.bill'}">/../../../../empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/bill/contract_info.jsp&moduleId=${item.moduleId}</c:when>
+					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.dialup' or item.clientPackage eq 'ru.bitel.bgbilling.modules.dialup.client'}">dialup.do?action=contractInfo&moduleId=${item.moduleId}</c:when>
+					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.voiceip' or item.clientPackage eq 'ru.bitel.bgbilling.modules.voiceip.client'}">voiceip.do?action=contractInfo&moduleId=${item.moduleId}</c:when>
+					 			<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.api.client' or item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.client'}">inet.do?action=serviceTree&moduleId=${item.moduleId}</c:when>
+					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.card' or item.clientPackage eq 'ru.bitel.bgbilling.modules.card.client'}">card.do?action=contractInfo&moduleId=${item.moduleId}</c:when>
+					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.ipn' or item.clientPackage eq 'ru.bitel.bgbilling.modules.ipn.client' }">/../../../../empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/ipn/contract_info.jsp&moduleId=${item.moduleId}</c:when>
+					 			<c:when test="${item.clientPackage eq 'bitel.billing.module.services.bill' or item.clientPackage eq 'ru.bitel.bgbilling.modules.bill.client'}">/../../../../empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/bill/contract_info.jsp&moduleId=${item.moduleId}</c:when>
 					 			<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.cerbercrypt.client'}">/../../../../empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/cerbercrypt/contract_info.jsp&moduleId=${item.moduleId}</c:when>
 					 			<c:otherwise>dev</c:otherwise>
 					 		</c:choose>

@@ -864,7 +864,7 @@ public class CrmDAO
 	public void updateContractMemo( int contractId, int memoId, String memoTitle, String memoText, boolean visible )
   		throws BGException
   	{
-		new ContractDAO( user, dbInfo ).updateMemo( contractId, memoId, memoTitle, memoText, visible );
+		ContractDAO.getInstance( user, dbInfo ).updateMemo( contractId, memoId, memoTitle, memoText, visible );
     }
 
 	/**
@@ -955,7 +955,7 @@ public class CrmDAO
 	public List<IdTitle> additionalActionList( int contractId )
 		throws BGException
 	{
-		return new ContractDAO( user, dbInfo ).additionalActionList( contractId );
+		return ContractDAO.getInstance( user, dbInfo ).additionalActionList( contractId );
 	}
 
 	/**
@@ -965,7 +965,7 @@ public class CrmDAO
 	public String executeAdditionalAction( int contractId, int actionId )
 		throws BGException
 	{
-		return new ContractDAO( user, dbInfo ).executeAdditionalAction( contractId, actionId );
+		return ContractDAO.getInstance( user, dbInfo ).executeAdditionalAction( contractId, actionId );
 	}
 
 
@@ -976,6 +976,6 @@ public class CrmDAO
 	public void updateContractGroup( String command, int contractId, int groupId )
 		throws BGException
 	{
-		new ContractDAO( user, dbInfo ).updateGroup( command, contractId, groupId );
+		ContractDAO.getInstance( user, dbInfo ).updateGroup( command, contractId, groupId );
 	}
 }

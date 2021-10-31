@@ -13,6 +13,9 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
+import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
+import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.InetDAO8x;
+import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.NPayDAO8x;
 import ru.bgcrm.plugin.bgbilling.proto.model.npay.NPayService;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
@@ -21,12 +24,28 @@ import ru.bgcrm.util.XMLUtils;
 public class NPayDAO extends BillingModuleDAO {
 	private static final String NPAY_MODULE_ID = "npay";
 
-	public NPayDAO(User user, String billingId, int moduleId) throws BGException {
+	protected NPayDAO(User user, String billingId, int moduleId) throws BGException {
 		super(user, billingId, moduleId);
 	}
 
-	public NPayDAO(User user, DBInfo dbInfo, int moduleId) throws BGException {
+	protected NPayDAO(User user, DBInfo dbInfo, int moduleId) throws BGException {
 		super(user, dbInfo.getId(), moduleId);
+	}
+
+	public static NPayDAO getInstance(User user, DBInfo dbInfo, int moduleId) throws BGException {
+		if (dbInfo.getVersion().compareTo("8.0") >= 0) {
+			return new NPayDAO8x(user, dbInfo, moduleId);
+		} else {
+			return new NPayDAO(user, dbInfo, moduleId);
+		}
+	}
+
+	public static NPayDAO getInstance(User user, String billingId, int moduleId) throws BGException {
+		if (BillingDAO.getVersion(user, billingId).compareTo("8.0") >= 0) {
+			return new NPayDAO8x(user, billingId, moduleId);
+		} else {
+			return new NPayDAO(user, billingId, moduleId);
+		}
 	}
 
 	/**

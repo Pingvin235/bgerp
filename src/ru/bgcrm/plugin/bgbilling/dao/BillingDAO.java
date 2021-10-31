@@ -45,6 +45,11 @@ public class BillingDAO
 	protected ObjectMapper jsonMapper;
 	protected TypeFactory jsonTypeFactory;
 
+	public static String getVersion(User user, String billingId) {
+		DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
+		return dbInfo.getVersion();
+	}
+
 	public BillingDAO( User user, String billingId )
 		throws BGException
 	{

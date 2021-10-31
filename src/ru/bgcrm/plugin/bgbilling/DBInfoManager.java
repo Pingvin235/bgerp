@@ -23,7 +23,7 @@ public class DBInfoManager
 	private Map<String, DBInfo> dbInfoMap = new HashMap<String, DBInfo>();
 	private List<DBInfo> dbInfoList = new ArrayList<DBInfo>();
 	
-	private static final Set<String> SUPPORTED_VERSIONS = new HashSet<String>( Arrays.asList( new String[]{ "5.1", "5.2", "6.0", "6.1", "6.2", "7.0", "7.1", "7.2", "8.0"} ) ); 
+	private static final Set<String> SUPPORTED_VERSIONS = new HashSet<String>( Arrays.asList( new String[]{ "5.1", "5.2", "6.0", "6.1", "6.2", "7.0", "7.1", "7.2", "8.0", "8.2"} ) );
 
     private DBInfoManager( Setup setupData )
     {

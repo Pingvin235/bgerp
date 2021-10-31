@@ -133,7 +133,7 @@ public class ProcessDoActionListener
 				return;
 			}
 			
-			Contract contract = new ContractDAO( e.getForm().getUser(), billingId ).getContractById( link.getLinkedObjectId() );
+			Contract contract = ContractDAO.getInstance( e.getForm().getUser(), billingId ).getContractById( link.getLinkedObjectId() );
 			if( contract != null )
 			{
 				String textForAdd = "";
@@ -166,7 +166,7 @@ public class ProcessDoActionListener
 				return;
 			}
 			
-			Contract contract = new ContractDAO( e.getForm().getUser(), billingId ).getContractById( link.getLinkedObjectId() );
+			Contract contract = ContractDAO.getInstance( e.getForm().getUser(), billingId ).getContractById( link.getLinkedObjectId() );
 			if( contract != null )
 			{
 				updateTextParam( conSet, process, crmParamId, contract.getComment() );

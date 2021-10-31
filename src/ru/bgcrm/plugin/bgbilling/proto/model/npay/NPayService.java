@@ -1,5 +1,7 @@
 package ru.bgcrm.plugin.bgbilling.proto.model.npay;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 public class NPayService
@@ -64,7 +66,7 @@ public class NPayService
 	{
 		this.id = id;
 	}
-
+	@JsonProperty("date1")
 	public Date getDateFrom()
 	{
 		return dateFrom;
@@ -74,7 +76,7 @@ public class NPayService
 	{
 		this.dateFrom = dateFrom;
 	}
-
+	@JsonProperty("date2")
 	public Date getDateTo()
 	{
 		return dateTo;

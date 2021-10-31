@@ -59,7 +59,7 @@ public class MessageTypeSearchContractByTitleAndComment
 		}
 		
 		SearchResult<IdTitle> searchResult = new SearchResult<IdTitle>();
-		new ContractDAO( form.getUser(), billingId ).searchContractByTitleComment( searchResult, title, comment, 
+		ContractDAO.getInstance( form.getUser(), billingId ).searchContractByTitleComment( searchResult, title, comment,
 		                                                                           new SearchOptions( false, false, false ) );
 		
 		for( IdTitle object : searchResult.getList() )

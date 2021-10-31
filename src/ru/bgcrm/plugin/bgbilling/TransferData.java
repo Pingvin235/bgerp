@@ -1,5 +1,6 @@
 package ru.bgcrm.plugin.bgbilling;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
@@ -27,9 +28,15 @@ import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -134,6 +141,7 @@ public class TransferData {
         }
 
         jsonMapper.setDateFormat(new BitelJsonDateFormat(timezone));
+        jsonMapper.registerModule(JSONObjectDeserializer.toModule());
 
         String defaultEncoding = dbInfo.getVersion().compareTo("6.1") >= 0 ? "UTF-8" : "Cp1251";
         requestEncoding = dbInfo.getSetup().get("requestEncoding",
@@ -621,5 +629,30 @@ public class TransferData {
     */
     private static String replaceCharacterEntity(String xml) {
         return CHARACTER_ENTITY_INVALID_REGEXP.matcher(xml).replaceAll("?");
+    }
+
+
+    private static class JSONObjectDeserializer extends StdDeserializer<JSONObject> {
+
+        public JSONObjectDeserializer() {
+            this(JSONObject.class);
+        }
+
+        protected JSONObjectDeserializer(Class<?> vc) {
+            super(vc);
+        }
+
+        @Override
+        public JSONObject deserialize(JsonParser p, DeserializationContext ctxt)
+                throws IOException, JsonProcessingException {
+            JsonNode node = p.getCodec().readTree(p);
+            JSONObject jsonObject = new JSONObject(node.get("json").asText());
+            return jsonObject;
+        }
+
+        private static SimpleModule toModule() {
+            return new SimpleModule().addDeserializer(JSONObject.class, new JSONObjectDeserializer());
+        }
+
     }
 }

@@ -16,6 +16,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -33,10 +35,10 @@ import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
+import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.ContractDAO8x;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractFace;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo.ModuleInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMemo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
 import ru.bgcrm.plugin.bgbilling.proto.model.OpenContract;
@@ -66,11 +68,27 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public ContractDAO(User user, String billingId) throws BGException {
+    public static ContractDAO getInstance(User user, DBInfo dbInfo) throws BGException {
+        if (dbInfo.getVersion().compareTo("8.0") >= 0) {
+            return new ContractDAO8x(user, dbInfo);
+        } else {
+            return new ContractDAO(user, dbInfo);
+        }
+    }
+
+    public static ContractDAO getInstance(User user, String billingId) throws BGException {
+        if (BillingDAO.getVersion(user, billingId).compareTo("8.0") >= 0) {
+            return new ContractDAO8x(user, billingId);
+        } else {
+            return new ContractDAO(user, billingId);
+        }
+    }
+
+    protected ContractDAO(User user, String billingId) throws BGException {
         super(user, billingId);
     }
 
-    public ContractDAO(User user, DBInfo dbInfo) throws BGException {
+    protected ContractDAO(User user, DBInfo dbInfo) throws BGException {
         super(user, dbInfo);
     }
 
@@ -459,77 +477,18 @@ public class ContractDAO extends BillingDAO {
         return contract;
     }
 
-    /**
+  /*  *//**
      * Возвращает большиство актуальных данных о договоре.
      * @param contractId
      * @return
      * @throws BGException
-     */
+     *//*
     public ContractInfo getContractInfo(int contractId) throws BGException {
-        ContractInfo result = null;
+        return contractInfoDAO.getContractInfo(contractId);
+    }*/
 
-        Request req = new Request();
-        req.setModule(CONTRACT_MODULE_ID);
-        req.setAction("ContractInfo");
-        req.setAttribute("cid", contractId);
 
-        Document doc = transferData.postData(req, user);
 
-        Element contract = XMLUtils.selectElement(doc, "/data/contract");
-        if (contract != null) {
-            result = new ContractInfo();
-
-            result.setBillingId(dbInfo.getId());
-            result.setId(contractId);
-            result.setComment(contract.getAttribute("comment"));
-            result.setObjects(Utils.parseInt(contract.getAttribute("objects").split("/")[0]),
-                    Utils.parseInt(contract.getAttribute("objects").split("/")[1]));
-            result.setHierarchy(contract.getAttribute("hierarchy"));
-            result.setHierarchyDep(Utils.parseInt(contract.getAttribute("hierarchyDep")));
-            result.setHierarchyIndep(Utils.parseInt(contract.getAttribute("hierarchyIndep")));
-            result.setDeleted(Utils.parseBoolean(contract.getAttribute("del")));
-            result.setFace(Utils.parseInt(contract.getAttribute("fc")));
-            result.setDateFrom(TimeUtils.parse(contract.getAttribute("date1"), TimeUtils.PATTERN_DDMMYYYY));
-            result.setDateTo(TimeUtils.parse(contract.getAttribute("date2"), TimeUtils.PATTERN_DDMMYYYY));
-            result.setMode(Utils.parseInt(contract.getAttribute("mode")));
-            result.setBalanceLimit(Utils.parseBigDecimal(contract.getAttribute("limit"), BigDecimal.ZERO));
-            result.setStatus(contract.getAttribute("status"));
-            result.setTitle(contract.getAttribute("title"));
-            result.setComments(Utils.parseInt(contract.getAttribute("comments")));
-
-            if ("super".equals(contract.getAttribute("hierarchy"))) {
-                result.setSubContractIds(new ContractHierarchyDAO(user, dbInfo).getSubContracts(contractId));
-            }
-
-            result.setGroupList(getList(XMLUtils.selectElement(doc, "/data/info/groups")));
-            result.setTariffList(getList(XMLUtils.selectElement(doc, "/data/info/tariff")));
-            result.setScriptList(getList(XMLUtils.selectElement(doc, "/data/info/script")));
-
-            Element modules = XMLUtils.selectElement(doc, "/data/info/modules");
-            if (modules != null) {
-                List<ModuleInfo> moduleList = new ArrayList<ModuleInfo>();
-                for (Element item : XMLUtils.selectElements(modules, "item")) {
-                    moduleList.add(new ModuleInfo(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title"), item.getAttribute("package"),
-                            item.getAttribute("status")));
-                }
-                result.setModuleList(moduleList);
-            }
-
-            Element balance = XMLUtils.selectElement(doc, "/data/info/balance");
-            if (balance != null) {
-                result.setBalanceDate(
-                        new GregorianCalendar(Utils.parseInt(balance.getAttribute("yy")), Utils.parseInt(balance.getAttribute("mm")) - 1, 1)
-                                .getTime());
-                result.setBalanceIn(Utils.parseBigDecimal(balance.getAttribute("summa1"), BigDecimal.ZERO));
-                result.setBalancePayment(Utils.parseBigDecimal(balance.getAttribute("summa2"), BigDecimal.ZERO));
-                result.setBalanceAccount(Utils.parseBigDecimal(balance.getAttribute("summa3"), BigDecimal.ZERO));
-                result.setBalanceCharge(Utils.parseBigDecimal(balance.getAttribute("summa4"), BigDecimal.ZERO));
-                result.setBalanceOut(Utils.parseBigDecimal(balance.getAttribute("summa5"), BigDecimal.ZERO));
-            }
-        }
-
-        return result;
-    }
 
     public List<ContractMemo> getMemoList(int contractId) throws BGException {
         Request request = new Request();
@@ -842,17 +801,7 @@ public class ContractDAO extends BillingDAO {
 
     public BigDecimal limit(int contractId, SearchResult<LimitLogItem> log, List<LimitChangeTask> taskList) throws BGException {
         BigDecimal result = BigDecimal.ZERO;
-
-        Request request = new Request();
-        request.setModule(CONTRACT_MODULE_ID);
-        request.setContractId(contractId);
-        request.setAction("ContractLimit");
-        if (log != null) {
-            setPage(request, log.getPage());
-        }
-
-        Document doc = transferData.postData(request, user);
-        result = Utils.parseBigDecimal(XMLUtils.selectText(doc, "/data/table/@limitValue"));
+        Document doc = null;
 
         if (dbInfo.getVersion().compareTo("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(
@@ -861,6 +810,17 @@ public class ContractDAO extends BillingDAO {
             req.setParamContractId(contractId);
 
             result = jsonMapper.convertValue(transferData.postDataReturn(req, user), BigDecimal.class);
+        } else {
+            Request request = new Request();
+            request.setModule(CONTRACT_MODULE_ID);
+            request.setContractId(contractId);
+            request.setAction("ContractLimit");
+            if (log != null) {
+                setPage(request, log.getPage());
+            }
+
+            doc = transferData.postData(request, user);
+            result = Utils.parseBigDecimal(XMLUtils.selectText(doc, "/data/table/@limitValue"));
         }
 
         if (log != null) {
@@ -891,15 +851,27 @@ public class ContractDAO extends BillingDAO {
             }
         }
 
-        if (taskList != null) {
-            for (Element item : XMLUtils.selectElements(doc, "/data/table_lp/data/row")) {
-                LimitChangeTask task = new LimitChangeTask();
-                task.setId(Utils.parseInt(item.getAttribute("id")));
-                task.setDate(TimeUtils.parse(item.getAttribute("f0"), TimeUtils.PATTERN_DDMMYYYY));
-                task.setUser(item.getAttribute("f1"));
-                task.setLimitChange(Utils.parseBigDecimal(item.getAttribute("f2")));
+        if (taskList != null  ) {
+            if (dbInfo.getVersion().compareTo("6.2") >= 0) {
+                RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.limit", "ContractLimitService",
+                        "searchContractLimitAvtoList");
+                req.setParamContractId(contractId);
+                req.setParam("page", log.getPage());
 
-                taskList.add(task);
+                JsonNode ret = transferData.postDataReturn(req, user);
+                List<LimitChangeTask> sessionList = readJsonValue(ret.findValue("list").traverse(),
+                        jsonTypeFactory.constructCollectionType(List.class, LimitChangeTask.class));
+                taskList.addAll(sessionList);
+            } else{
+                for (Element item : XMLUtils.selectElements(doc, "/data/table_lp/data/row")) {
+                    LimitChangeTask task = new LimitChangeTask();
+                    task.setId(Utils.parseInt(item.getAttribute("id")));
+                    task.setDate(TimeUtils.parse(item.getAttribute("f0"), TimeUtils.PATTERN_DDMMYYYY));
+                    task.setUser(item.getAttribute("f1"));
+                    task.setLimitChange(Utils.parseBigDecimal(item.getAttribute("f2")));
+
+                    taskList.add(task);
+                }
             }
         }
 
@@ -950,19 +922,6 @@ public class ContractDAO extends BillingDAO {
     public String getContractStatisticPassword(int contractId) throws BGException {
         Document contractCard = new ContractDAO(this.user, this.dbInfo).getContractCardDoc(contractId);
         return XMLUtils.selectText(contractCard, "/data/contract/@pswd");
-    }
-
-    private List<IdTitle> getList(Element node) {
-        List<IdTitle> result = Collections.emptyList();
-
-        if (node != null) {
-            result = new ArrayList<IdTitle>();
-            for (Element item : XMLUtils.selectElements(node, "item")) {
-                result.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
-            }
-        }
-
-        return result;
     }
 
     public List<IdTitle> getContractAddress(int contractId) throws BGException {
@@ -1593,6 +1552,99 @@ public class ContractDAO extends BillingDAO {
             }
         }
         return paramList;
+    }
+
+    public ContractInfo getContractInfo(int contractId) throws BGException {
+        ContractInfo result = null;
+
+        Request req = new Request();
+        req.setModule(CONTRACT_MODULE_ID);
+        req.setAction("ContractInfo");
+        req.setAttribute("cid", contractId);
+
+        Document doc = transferData.postData(req, user);
+
+        Element contract = XMLUtils.selectElement(doc, "/data/contract");
+        if (contract != null) {
+            result = new ContractInfo();
+
+            result.setBillingId(dbInfo.getId());
+            result.setId(contractId);
+            result.setComment(contract.getAttribute("comment"));
+            result.setObjects(Utils.parseInt(contract.getAttribute("objects").split("/")[0]),
+                    Utils.parseInt(contract.getAttribute("objects").split("/")[1]));
+            result.setHierarchy(contract.getAttribute("hierarchy"));
+            result.setHierarchyDep(Utils.parseInt(contract.getAttribute("hierarchyDep")));
+            result.setHierarchyIndep(Utils.parseInt(contract.getAttribute("hierarchyIndep")));
+            result.setDeleted(Utils.parseBoolean(contract.getAttribute("del")));
+            result.setFace(Utils.parseInt(contract.getAttribute("fc")));
+            result.setDateFrom(TimeUtils.parse(contract.getAttribute("date1"), TimeUtils.PATTERN_DDMMYYYY));
+            result.setDateTo(TimeUtils.parse(contract.getAttribute("date2"), TimeUtils.PATTERN_DDMMYYYY));
+            result.setMode(Utils.parseInt(contract.getAttribute("mode")));
+            result.setBalanceLimit(Utils.parseBigDecimal(contract.getAttribute("limit"), BigDecimal.ZERO));
+            result.setStatus(contract.getAttribute("status"));
+            result.setTitle(contract.getAttribute("title"));
+            result.setComments(Utils.parseInt(contract.getAttribute("comments")));
+
+            if ("super".equals(contract.getAttribute("hierarchy"))) {
+                result.setSubContractIds(new ContractHierarchyDAO(user, dbInfo).getSubContracts(contractId));
+            }
+
+            result.setGroupList(getList(XMLUtils.selectElement(doc, "/data/info/groups")));
+            result.setTariffList(getList(XMLUtils.selectElement(doc, "/data/info/tariff")));
+            result.setScriptList(getList(XMLUtils.selectElement(doc, "/data/info/script")));
+
+            Element modules = XMLUtils.selectElement(doc, "/data/info/modules");
+            if (modules != null) {
+                List<ContractInfo.ModuleInfo> moduleList = new ArrayList<ContractInfo.ModuleInfo>();
+                for (Element item : XMLUtils.selectElements(modules, "item")) {
+                    moduleList.add(new ContractInfo.ModuleInfo(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title"), item.getAttribute("package"),
+                            item.getAttribute("status")));
+                }
+                result.setModuleList(moduleList);
+            }
+
+            Element balance = XMLUtils.selectElement(doc, "/data/info/balance");
+            if (balance != null) {
+                result.setBalanceDate(
+                        new GregorianCalendar(Utils.parseInt(balance.getAttribute("yy")), Utils.parseInt(balance.getAttribute("mm")) - 1, 1)
+                                .getTime());
+                result.setBalanceIn(Utils.parseBigDecimal(balance.getAttribute("summa1"), BigDecimal.ZERO));
+                result.setBalancePayment(Utils.parseBigDecimal(balance.getAttribute("summa2"), BigDecimal.ZERO));
+                result.setBalanceAccount(Utils.parseBigDecimal(balance.getAttribute("summa3"), BigDecimal.ZERO));
+                result.setBalanceCharge(Utils.parseBigDecimal(balance.getAttribute("summa4"), BigDecimal.ZERO));
+                result.setBalanceOut(Utils.parseBigDecimal(balance.getAttribute("summa5"), BigDecimal.ZERO));
+            }
+        }
+        return result;
+
+    }
+
+    protected List<IdTitle> getList(JSONObject infoJson, String nodeName) {
+        List<IdTitle> result = new ArrayList<>();
+        JSONArray nodeJson = infoJson.optJSONArray(nodeName);
+        if (nodeJson == null) {
+            return result;
+        }
+        for (int index = 0; index < nodeJson.length(); index++) {
+            JSONObject itemJson = nodeJson.optJSONObject(index);
+            IdTitle item = new IdTitle(itemJson.optInt("id"), itemJson.optString("title"));
+
+        }
+        return result;
+    }
+
+    protected List<IdTitle> getList(Element node) {
+        List<IdTitle> result = Collections.emptyList();
+
+        if (node != null) {
+            result = new ArrayList<IdTitle>();
+            for (Element item : XMLUtils.selectElements(node, "item")) {
+                result.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
+            }
+        }
+
+        return result;
     }
     
 }

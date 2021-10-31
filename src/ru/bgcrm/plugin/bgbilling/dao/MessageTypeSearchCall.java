@@ -56,7 +56,7 @@ public class MessageTypeSearchCall extends MessageTypeSearchBilling {
                 String paramIds = StringUtils.substringAfter(command, ":");
 
                 SearchResult<Contract> searchResult = new SearchResult<Contract>();
-                new ContractDAO(form.getUser(), billingId).searchContractByPhoneParam(searchResult, null,
+                ContractDAO.getInstance(form.getUser(), billingId).searchContractByPhoneParam(searchResult, null,
                         Utils.toIntegerSet(paramIds), numberFrom);
 
                 for (Contract contract : searchResult.getList()) {

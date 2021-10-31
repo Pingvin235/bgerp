@@ -192,7 +192,7 @@ extends BillingModuleDAO
 	public String getLoginPassword( int contractId, int login )
 	throws BGException
 	{
-		Document contractCard = new ContractDAO( this.user, this.dbInfo ).getContractCardDoc( contractId );
+		Document contractCard = ContractDAO.getInstance( this.user, this.dbInfo ).getContractCardDoc( contractId );
 		return XMLUtils.selectText( contractCard, "/data/module[@id=" + moduleId + "]/user_login_" + moduleId + "[@login=" + login + "]/@pswd" );
 	}
 
@@ -484,7 +484,7 @@ extends BillingModuleDAO
 		{
 			try
 			{
-				Contract contract = new ContractDAO( user, dbInfo ).getContractById( contractId );
+				Contract contract = ContractDAO.getInstance( user, dbInfo ).getContractById( contractId );
 
 				SimpleDateFormat getModuleMonthTableNameFormat = new SimpleDateFormat( "_" + moduleId + "_yyyyMM" );
 

@@ -87,7 +87,7 @@ public class ContractAction extends BaseAction
 
 		if( Utils.notBlankString( billingId ) && id > 0 )
 		{
-			ContractInfo info = new ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO( form.getUser(), billingId ).getContractInfo( id );
+			ContractInfo info = ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).getContractInfo( id );
 			form.getResponse().setData( "contract", info );
 
 			Customer customer = new ContractCustomerDAO( conSet.getConnection() ).getContractCustomer( info );
@@ -191,7 +191,7 @@ public class ContractAction extends BaseAction
 		}
 		
 		SearchResult<IdTitle> searchResult = new SearchResult<>();
-		new ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO( form.getUser(), billingId ).searchContractByTitleComment(searchResult, title, null, null);
+		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).searchContractByTitleComment(searchResult, title, null, null);
 		form.getResponse().setData("contract",  Utils.getFirst(searchResult.getList()));
 
 		return json( con, form );
@@ -226,7 +226,7 @@ public class ContractAction extends BaseAction
 			title = new CommonContractDAO(con).getContractNumber(commonContractId, serviceCode);
 		}
 
-		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO contractDao = new ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO(form.getUser(), billingId);
+		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO contractDao = ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance(form.getUser(), billingId);
 		ContractTariffDAO tariffDao = new ContractTariffDAO(form.getUser(), billingId);
 		
 		Contract contract = contractDao
@@ -311,7 +311,7 @@ public class ContractAction extends BaseAction
 		final SearchOptions searchOptions = new SearchOptions( true, true, true );
 		
 		SearchResult<IdTitle> searchResult = new SearchResult<IdTitle>();
-		new ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO( form.getUser(), billingId ).searchContractByTitleComment( searchResult, "^" + contractTitle + "$", null, searchOptions );
+		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).searchContractByTitleComment( searchResult, "^" + contractTitle + "$", null, searchOptions );
 		
 		IdTitle result = Utils.getFirst( searchResult.getList() );
 		if( result == null )
@@ -340,7 +340,7 @@ public class ContractAction extends BaseAction
 		{
 			if( "memo".equals( item ) )
 			{
-				 form.getResponse().setData( "memoList", new ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO( form.getUser(), billingId ).getMemoList( contractId ) );
+				 form.getResponse().setData( "memoList", ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).getMemoList( contractId ) );
 			}
 			//TODO: Выбор остальных вариантов.
 		}	

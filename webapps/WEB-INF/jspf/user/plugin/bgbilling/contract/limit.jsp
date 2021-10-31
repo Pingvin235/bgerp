@@ -41,7 +41,7 @@
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
 			
-			<td nowrap="nowrap">${tu.format( item.time, 'ymdhms' )}</td>
+			<td nowrap="nowrap">${u:formatDate( item.time, 'ymdhms' )}</td>
 			<td nowrap="nowrap" >${item.user}</td>
 			<td nowrap="nowrap" >${item.limit}</td>
 			<td nowrap="nowrap" ><c:if test="${item.days gt 0}">${item.days}</c:if></td>
@@ -56,7 +56,8 @@
 	<tr class="header">
 		<td></td>
 		<td>Дата</td>
-		<td>Пользователь</td>			
+		<td>Статус</td>
+		<td>Пользователь</td>
 		<td width="100%">Изменение лимита на</td>
 	</tr>
 	
@@ -74,6 +75,7 @@
 				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 			</td>
 			<td nowrap="nowrap">${tu.format( item.date, 'ymd' )}</td>
+			<td nowrap="nowrap">${item.status}</td>
 			<td nowrap="nowrap">${item.user}</td>
 			<td>${item.limitChange}</td>			
 		</tr>

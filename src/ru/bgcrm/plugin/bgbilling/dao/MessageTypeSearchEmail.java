@@ -33,7 +33,7 @@ public class MessageTypeSearchEmail
 		String email = message.getFrom();
 		
 		SearchResult<Contract> searchResult = new SearchResult<Contract>();
-		new ContractDAO( form.getUser(), billingId ).searchContractByEmailParam( searchResult, null, paramIds, email );
+		ContractDAO.getInstance( form.getUser(), billingId ).searchContractByEmailParam( searchResult, null, paramIds, email );
 		
 		for( Contract contract : searchResult.getList() )
 		{

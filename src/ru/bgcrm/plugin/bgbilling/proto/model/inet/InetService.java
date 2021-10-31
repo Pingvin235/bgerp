@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.bgcrm.model.IdTitleTreeItem;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.inet.IPUtils;
@@ -55,6 +56,18 @@ public class InetService extends IdTitleTreeItem<InetService> {
     private int accessCode;
     private String accessCodeTitle;
     private String comment;
+
+    private String password;
+    @JsonProperty("passw")
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
 
     public int getContractId() {
         return contractId;
@@ -222,6 +235,10 @@ public class InetService extends IdTitleTreeItem<InetService> {
      */
     public void setMacAddressStr(String macAddress) {
         setMacAddressList(Collections.singletonList(InetUtils.parseMacAddress(macAddress)));
+        if(macAddressList.size()>0&&macAddressList.get(0)==null)
+        {
+            macAddressList=null;
+        }
     }
 
     public List<byte[]> getMacAddressList() {

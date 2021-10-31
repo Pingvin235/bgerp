@@ -1,5 +1,7 @@
 package ru.bgcrm.plugin.bgbilling.proto.model;
 
+import java.time.LocalDateTime;
+
 public class ContractMemo
 	extends UserTime
 {

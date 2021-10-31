@@ -404,7 +404,7 @@ public class BalanceDAO
 	public BigDecimal getContractBalanceSum( int contractId, Date dateFrom, Date dateTo )
 		throws BGException
 	{
-		return new ContractDAO( user, dbInfo ).getContractInfo( contractId ).getBalanceOut();
+		return ContractDAO.getInstance(user, dbInfo ).getContractInfo( contractId ).getBalanceOut();
 	}
 	
 	@Deprecated

@@ -28,7 +28,7 @@ public class NPayAction
 		int contractId = form.getParamInt( "contractId" );
 		int moduleId = form.getParamInt( "moduleId" );
 		
-		form.getResponse().setData( "list", new NPayDAO( form.getUser(), billingId, moduleId ).getServiceList( contractId ) );
+		form.getResponse().setData( "list", NPayDAO.getInstance( form.getUser(), billingId, moduleId ).getServiceList( contractId ) );
 		
 		return processUserTypedForward( conSet, mapping, form, response, "serviceList" );
 	}
@@ -46,7 +46,7 @@ public class NPayAction
 
 		if( form.getId() > 0 )
 		{
-			form.getResponse().setData( "service", new NPayDAO( form.getUser(), billingId, moduleId ).getService( form.getId() ) );
+			form.getResponse().setData( "service", NPayDAO.getInstance( form.getUser(), billingId, moduleId ).getService( form.getId() ) );
 		}
 		form.getResponse().setData( "serviceTypeList", new DirectoryDAO( form.getUser(), billingId ).getServiceTypeList( moduleId ) );
 		form.getResponse().setData( "objectList", new ContractObjectDAO( form.getUser(), billingId ).getContractObjects( contractId ) );
@@ -74,7 +74,7 @@ public class NPayAction
 		service.setObjectId( form.getParamInt( "objectId" ) );
 		service.setComment( form.getParam( "comment", "" ) );
 		
-		new NPayDAO( form.getUser(), billingId, moduleId ).updateService( service );
+		NPayDAO.getInstance( form.getUser(), billingId, moduleId ).updateService( service );
 		
 		return processJsonForward( conSet, form, response );
 	}
@@ -90,7 +90,7 @@ public class NPayAction
 		int contractId = form.getParamInt( "contractId" );
 		int moduleId = form.getParamInt( "moduleId" );
 
-		new NPayDAO( form.getUser(), billingId, moduleId ).deleteService( contractId, form.getId() );
+		NPayDAO.getInstance( form.getUser(), billingId, moduleId ).deleteService( contractId, form.getId() );
 		
 		return processJsonForward( conSet, form, response );
 	}

@@ -175,7 +175,7 @@ extends StepData<CreateTasksStep>
 
 					try
 					{
-						contract = new ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO( data.getUser(), contractType.getBillingId() ).createContract( contractType.getPatternId(), "", contractTitle, "" );
+						contract = ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( data.getUser(), contractType.getBillingId() ).createContract( contractType.getPatternId(), "", contractTitle, "" );
 					}
 					catch( BGException e )
 					{
@@ -321,7 +321,7 @@ extends StepData<CreateTasksStep>
 	private int searchContractInBilling( String title, String billingId )
 	throws BGException
 	{
-		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO protoContractDAO = new ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO( data.getUser(), billingId );
+		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO protoContractDAO = ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( data.getUser(), billingId );
 		SearchResult<IdTitle> contractResult = new SearchResult<>();
 		protoContractDAO.searchContractByTitleComment( contractResult, title, null, null );
 		for( IdTitle idTitle : contractResult.getList() )

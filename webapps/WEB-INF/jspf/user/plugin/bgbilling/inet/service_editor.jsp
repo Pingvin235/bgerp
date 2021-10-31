@@ -111,7 +111,7 @@
 			
 			<div class="in-table-cell in-pr1">
 				<div style="width: 100%;">
-					<input type="text" name="login" style="width: 100%;" value="${session.login}"/>					
+					<input type="text" name="login" style="width: 100%;" value="${service.login}"/>
 				</div>
 				<div style="white-space: nowrap;">
 					<input type="checkbox" name="loginAuto" value="1"/>&#160;&#160;авто

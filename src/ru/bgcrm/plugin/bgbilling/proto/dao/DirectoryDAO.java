@@ -1,9 +1,8 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.xpath.XPath;
@@ -29,6 +28,7 @@ import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectModuleInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectModuleInfo.ContractObjectModule;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectModuleInfo.ContractObjectModuleData;
+import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatus;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariff;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.TariffGroup;
@@ -74,6 +74,12 @@ public class DirectoryDAO extends BillingDAO {
 
         if (dbInfo.getVersion().compareTo("5.2") < 0) {
             result = FIXED_OLD_STATUS_LIST;
+        }
+        else if (dbInfo.getVersion().compareTo("8.0") > 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api", "ContractStatusService", "getStatusList");
+            req.setParam("onlyManual", true);
+            result = readJsonValue(transferData.postDataReturn(req, user).traverse(),
+                    jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
         }
         else if (dbInfo.getVersion().compareTo("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(CONTRACT_STATUS_MODULE_ID, "ContractStatusMonitorService", "getStatusList");
@@ -505,5 +511,20 @@ public class DirectoryDAO extends BillingDAO {
         }
 
         return moduleInfo;
+    }
+
+    public Map<Integer, UserInfo> getUsersInfo() throws BGException {
+        RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.bgsecure", "UserService",
+                "userInfoList");
+        JsonNode res = transferData.postDataReturn(req, user);
+        System.out.println(res);
+        List<UserInfo> userList = readJsonValue(res.traverse(), jsonTypeFactory.constructCollectionType(List.class, UserInfo.class));
+        Map<Integer, UserInfo> resultMap = userList.stream().collect(Collectors.toMap(i->{
+                if(i.getId()==-1&&!i.getName().equals("Пользователь")){
+                    return -1*i.getId()*i.getName().codePointAt(0);//надо кудато деть эту гадость
+                }; return i.getId();
+            }, Function.identity()));
+        return resultMap;
+
     }
 }

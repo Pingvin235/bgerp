@@ -20,6 +20,7 @@ import ru.bgcrm.model.process.wizard.StepData;
 import ru.bgcrm.model.process.wizard.WizardData;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.dao.BGBillingDAO;
+import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
@@ -127,7 +128,7 @@ public class ShowContractsByAddrParamStepData
 				int contractId = Utils.parseInt( itemElement.getAttribute( "id" ), -1 );
 
 				//ContractDAO contractDAO = new ContractDAO( data.getUser(), conf.get( "id" ) );
-				ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO contractDAO = new ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO( data.getUser(), conf.get( "id" ) );
+				ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO contractDAO = ContractDAO.getInstance( data.getUser(), conf.get( "id" ) );
 
 				if( checkAndAppendAttrs( contractDAO.getContractCardDoc( contractId ), itemElement, conf ) )
 				{

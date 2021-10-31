@@ -1,39 +1,51 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
-import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetDevice;
-import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetDeviceManagerMethod;
+import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
+import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.InetDAO8x;
+import ru.bgcrm.plugin.bgbilling.proto.model.inet.*;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetDeviceManagerMethod.DeviceManagerMethodType;
-import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetService;
-import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetServiceOption;
-import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetServiceType;
-import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetSessionLog;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class InetDAO extends BillingModuleDAO {
-	private static final String INET_MODULE_ID = "ru.bitel.bgbilling.modules.inet.api";
+	private static final String INET_MODULE_ID_IMPL = "ru.bitel.bgbilling.modules.inet.api";
+	protected String INET_MODULE_ID ;
 
-	public InetDAO(User user, DBInfo dbInfo, int moduleId) throws BGException {
+
+	protected InetDAO(User user, DBInfo dbInfo, int moduleId) throws BGException {
 		super(user, dbInfo, moduleId);
+		INET_MODULE_ID = INET_MODULE_ID_IMPL;
 	}
 
-	public InetDAO(User user, String billingId, int moduleId) throws BGException {
+	protected InetDAO(User user, String billingId, int moduleId) throws BGException {
 		super(user, billingId, moduleId);
+		INET_MODULE_ID = INET_MODULE_ID_IMPL;
+
 	}
 
+	public static InetDAO getInstance(User user, DBInfo dbInfo, int moduleId) throws BGException {
+		if (dbInfo.getVersion().compareTo("8.0") >= 0) {
+			return new InetDAO8x(user, dbInfo, moduleId);
+		} else {
+			return new InetDAO(user, dbInfo, moduleId);
+		}
+	}
+
+	public static InetDAO getInstance(User user, String billingId, int moduleId) throws BGException {
+		if (BillingDAO.getVersion(user, billingId).compareTo("8.0") >= 0) {
+			return new InetDAO8x(user, billingId, moduleId);
+		} else {
+			return new InetDAO(user, billingId, moduleId);
+		}
+	}
 	/**
 	 * Возвращает перечень сервисов в виде плоского списка.
 	 * Сборка в дерево, если необходимо, осуществляется на основании кодов сервисов-предков.
@@ -87,13 +99,13 @@ public class InetDAO extends BillingModuleDAO {
 	public void deleteService(int id) throws BGException {
 		RequestJsonRpc req = new RequestJsonRpc(INET_MODULE_ID, moduleId, "InetServService", "inetServDelete");
 		req.setParam("id", id);
-
+		req.setParam("force", false);
 		transferData.postData(req, user);
 	}
 	
 	public void updateServiceState(int serviceId, int state) throws BGException {
 		RequestJsonRpc req = new RequestJsonRpc(INET_MODULE_ID, moduleId, "InetServService", "inetServStateModify");
-		req.setParam("id", "inetServId");
+		req.setParam("inetServId", serviceId);
 		req.setParam("deviceState", state);
 		req.setParam("accessCode", -2);
 

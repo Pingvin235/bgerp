@@ -374,7 +374,7 @@ public class ContractDAO
 	public ru.bgcrm.plugin.bgbilling.proto.model.Contract createContract( Connection con, int patternId, String date, String title, String titlePattern )
 		throws BGException
 	{
-		return new ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO(user, dbInfo)
+		return ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance(user, dbInfo)
 				.createContract(patternId, date, title, titlePattern);
 	}
 
@@ -407,7 +407,7 @@ public class ContractDAO
 	public Document getContractCardDoc( int contractId ) 
 		throws BGException
 	{
-		return new ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO(user, dbInfo).getContractCardDoc(contractId);
+		return ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance(user, dbInfo).getContractCardDoc(contractId);
 	}
 
 }

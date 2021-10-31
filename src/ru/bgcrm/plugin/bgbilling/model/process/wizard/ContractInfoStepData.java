@@ -63,7 +63,7 @@ public class ContractInfoStepData
 					int contractId = link.getLinkedObjectId();
 					String contractTitle = link.getLinkedObjectTitle();
 
-					ContractDAO contractDAO = new ContractDAO( data.getUser(), billingId );
+					ContractDAO contractDAO = ContractDAO.getInstance( data.getUser(), billingId );
 					Document doc = contractDAO.getContractCardDoc( contractId );
 
 					vpnLogin = DialUpDAO.getLogin( doc, moduleId, contractId );
