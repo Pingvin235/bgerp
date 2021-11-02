@@ -1,0 +1,2 @@
+F: Remove old dyn code sample: ExampleHttpCallJournal.java.
+C: Return back as deprecated ru.bgerp.util.Log class.

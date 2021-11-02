@@ -15,7 +15,8 @@ public class Log {
     /** Wrapped logger. */
     private final Logger logger;
 
-    private Log(Logger logger)  {
+    /** Make private later, temporary protected for backward compatible inherited class. */
+    protected Log(Logger logger) {
         this.logger = logger;
     }
 
