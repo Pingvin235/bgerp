@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.Map;
@@ -378,7 +379,7 @@ public class BaseAction extends DispatchAction {
         } else {
             HttpServletResponse response = form.getHttpResponse();
 
-            response.setContentType("text/plain; charset=" + Utils.UTF8.name());
+            response.setContentType("text/plain; charset=" + StandardCharsets.UTF_8.name());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 
             PrintWriter out = form.getHttpResponseWriter();
@@ -415,17 +416,16 @@ public class BaseAction extends DispatchAction {
     /**
      * JSP forward file path.
      * @param conSet
-     * @param form must be 'null' for open interface.
+     * @param form
      * @param path JSP path.
      * @return
      */
     protected ActionForward html(ConnectionSet conSet, DynActionForm form, String path) {
-        if (form != null && AuthFilter.getUser(form.getHttpRequest()) == null) {
-            throw new IllegalArgumentException("For open interface 'form' parameter must be null");
-        }
-
         // response requested in JSON (API call)
         if (form != null && DynActionForm.RESPONSE_TYPE_JSON.equalsIgnoreCase(form.getResponseType())){
+            if (AuthFilter.getUser(form.getHttpRequest()) == null) {
+                throw new IllegalArgumentException("For open interface JSON response isn't allowed");
+            }
             return json(conSet, form);
         } else {
             return new ActionForward(path);
@@ -575,7 +575,7 @@ public class BaseAction extends DispatchAction {
 
                 HttpServletResponse response = form.getHttpResponse();
 
-                response.setContentType("application/json; charset=" + Utils.UTF8.name());
+                response.setContentType("application/json; charset=" + StandardCharsets.UTF_8.name());
                 PrintWriter out = form.getHttpResponseWriter();
 
                 // TODO: Remove the callback magic together with sendAJAXCommandAsync JS function on FE.

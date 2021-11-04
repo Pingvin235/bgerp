@@ -49,8 +49,8 @@
 			</c:if>
 		</c:if>
 
-		<%-- TODO: В дальнейшем добавить проверку пермишена на изменение параметра. --%>
-		<c:set var="readonly" value="${parameter.configMap.readonly eq 1}"/>
+		<%-- TODO: Check permission for parameter update. --%>
+		<c:set var="readonly" value="${parameter.configMap.readonly eq 1 or form.param.readOnly eq '1'}"/>
 
 		<c:set var="multiple" value="${parameter.configMap.multiple}" />
 

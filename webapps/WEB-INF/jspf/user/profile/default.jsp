@@ -4,8 +4,8 @@
 <c:set var="requestUserId" value="${form.param.userId}" />
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:url var="createUrl" value="news.do">	
-	<c:param name="action" value="newsEdit"></c:param>	
+<c:url var="createUrl" value="news.do">
+	<c:param name="action" value="newsEdit"></c:param>
 	<c:param name="requestUserId" value="${requestUserId}"></c:param>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
@@ -15,22 +15,22 @@
 		<c:when test="${empty requestUserId || requestUserId == form.userId}">
 			<h2>${l.l('Свойства')}</h2>
 			<c:import url="/user/profile.do?action=settings"/>
-			
+
 			<h2>${l.l('Параметры (сохраняются сразу)')}</h2>
 			<c:import url="/user/profile.do?action=settings&subAction=parameters&requestUserId=${requestUserId}"/>
-			
+
 			<%-- значение по-умолчанию должно быть таким же как и при обращении к данной опции на чтение!!! --%>
 			<h2>${l.l('Опции интерфейса')}</h2>
-			
+
 			<html:form action="/user/profile">
 				<input type="hidden" name="action" value="updatePersonalization"/>
-				
+
 				<table class="data">
 					<tr>
 						<td>${l.l('Параметр')}</td>
 						<td width="100%">${l.l('Значение')}</td>
 					</tr>
-					
+
 					<tr>
 						<td nowrap="nowrap">
 							${l.l('Открытие буфера объектов по долгому нажатию ЛКМ')}
@@ -45,7 +45,7 @@
 							</ui:combo-single>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<td nowrap="nowrap">
 							${l.l('Порядок объектов в буфере')}
@@ -60,7 +60,7 @@
 							</ui:combo-single>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<td nowrap="nowrap">
 							${l.l('Максимальное число объектов в буфере')}
@@ -85,20 +85,20 @@
 							</ui:combo-single>
 						</td>
 					</tr>
-					
+
 					<c:set var="endpoint" value="user.profile.options.jsp"/>
 					<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
 				</table>
-				
+
 				<c:set var="configTextUiid" value="${u:uiid()}"/>
-				
+
 				<div id="${configTextUiid}" style="display: none;">
 					<h2>${l.l('Текст конфигурации опций')}</h2>
-					
+
 					<textarea style="width: 100%; height: 400px;">${ctxUser.personalizationMap.getDataString()}</textarea>
-				</div> 
-					
-				<button class="btn-grey mt1" type="button" 
+				</div>
+
+				<button class="btn-grey mt1" type="button"
 					onclick="$$.ajax.post(this.form).done(() => { alert('${l.l('Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5')}') })">${l.l('Сохранить опции')}</button>
 				<button class="btn-white mt1 ml2" type="button"
 					onclick="$('#${configTextUiid}').toggle()" title="${l.l('Показать текст конфигурации опций')}">${l.l('Текст')}</button>
@@ -113,13 +113,19 @@
 				</c:url>
 				<c:import url="${url}"/>
 			</div>
-			
+
 			<button class="btn-grey mt1" type="button" onclick="$$.ajax.load('${createUrl}', $$.shell.$content(this));">${l.l('Послать персональную новость')}</button>
 		</c:otherwise>
 	</c:choose>
 </div>
 
 <shell:title>
-	<jsp:attribute name="text"><span id='user_title_${requestUserId}' class='title'>${ctxUserMap[u:int(requestUserId)].title}</span></jsp:attribute>
+	<jsp:attribute name="text">
+		<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.action.open.ProfileAction$Config')}"/>
+		<c:if test="${config.isOpen(requestUserId)}">
+			<a target='_blank' href='${config.url(requestUserId)}' title='${l.l('Открытый интерфейс')}'>O</a>
+		</c:if>
+		<span id='user_title_${requestUserId}' class='title'>${ctxUserMap[u:int(requestUserId)].title}</span>
+	</jsp:attribute>
 </shell:title>
 <shell:state text=""/>

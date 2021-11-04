@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.Interface;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -60,8 +61,23 @@ public class ProfileAction extends BaseAction {
             return showParamIds;
         }
 
-        public boolean isUserShown(int userId) throws Exception {
+        /**
+         * Is a user profile open.
+         * @param userId
+         * @return
+         * @throws Exception
+         */
+        public boolean isOpen(int userId) throws Exception {
             return shownUserIds.contains(userId);
+        }
+
+        /**
+         * User profile accessing URL.
+         * @param userId
+         * @return
+         */
+        public String url(int userId) {
+            return Interface.getUrlOpen(setup) + "/profile/" + userId;
         }
 
         @Override
@@ -77,7 +93,7 @@ public class ProfileAction extends BaseAction {
 
     public ActionForward show(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         var config = setup.getConfig(Config.class);
-        if (config != null && config.isUserShown(form.getId())) {
+        if (config != null && config.isOpen(form.getId())) {
             form.getHttpRequest().setAttribute("config", config);
             form.setResponseData("user", UserCache.getUser(form.getId()));
         }
