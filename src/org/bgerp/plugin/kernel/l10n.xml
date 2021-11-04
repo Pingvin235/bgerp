@@ -37,7 +37,7 @@
 	<p><ru>Прервать создание процесса?</ru><en>Abort process creation?</en></p>
 	<p><ru>Новый процесс</ru><en>New process</en></p>
 	<p><ru>не указан</ru><en>undefined</en></p>
-	<p><ru>Значение</ru><en>Value</en></p>	
+	<p><ru>Значение</ru><en>Value</en></p>
 	<p><ru>Название</ru><en>Name</en></p>
 	<p><ru>К процессу привязаны</ru><en>Process links</en></p>
 	<p><ru>Процесс привязан к</ru><en>The process is linked to</en></p>
@@ -70,11 +70,11 @@
 	<p><ru>Создан</ru><en>Created</en></p>
 	<p><ru>лог изменений</ru><en>change log</en></p>
 	<p><ru>изменить тип</ru><en>type change</en></p>
-	<p><ru>приоритет</ru><en>priority</en></p>	
+	<p><ru>приоритет</ru><en>priority</en></p>
 	<p><ru>ПРЕДЫДУЩИЙ</ru><en>PREVIOUS</en></p>
 	<p><ru>Комментарий</ru><en>Comment</en></p>
 	<p><ru>в</ru><en>to</en></p>
-	<p><ru>Переключить из статуса </ru><en>Change status from </en></p>
+	<p><ru>Переключить статус в</ru><en>Change status to</en></p>
 	<p><ru>Ещё</ru><en>More</en></p>
 	<p><ru>Сообщения</ru><en>Messages</en></p>
 	<p><ru>Объектов в буфере</ru><en>Objects in buffer</en></p>
