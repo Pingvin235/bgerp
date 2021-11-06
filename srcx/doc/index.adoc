@@ -3,6 +3,7 @@
 
 * <<project.adoc#, Project>>
 ** <<samples.adoc#, Documentation samples>>
+** <<project/workflow.adoc#, Workflow>>
 ** <<kernel/db.adoc#, Структура БД>>
 * Kernel
 ** <<kernel/install.adoc#, Install>>
@@ -17,8 +18,8 @@
 **** <<kernel/process/processing_samples.adoc#, Примеры простой обработки событий>>
 *** <<kernel/process/wizard.adoc#, Мастер>>
 ** <<kernel/message.adoc#, Сообщения>>
-** <<kernel/extension.adoc#, Расширение функциональности>>
-*** <<ext/dyn_sample.adoc#, Примеры динамического кода>>
+** <<kernel/extension.adoc#, Extension>>
+//*** <<ext/dyn_sample.adoc#, Примеры динамического кода>>
 * Plugins
 ** <<plugin/asterisk/index.adoc#, Asterisk>>
 ** <<plugin/bgbilling/index.adoc#, BGBilling>>

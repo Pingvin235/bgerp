@@ -1,0 +1,367 @@
+= Development Workflow
+:toc:
+
+[[change]]
+== Change
+Each *change* is performed in a separated GIT branch.
+For development of the project we use link:https://docs.google.com/document/d/15NptRsx1qrdiWEew23EFz6gbxD6S12VQpnBQ6X9NbiQ/edit?usp=sharing[Standard GIT Workflow].
+Similar one is used, for example, for GNU/Linux development.
+
+The main idea is that merging is only happening 'downstream', i.e. from the main branch to secondary branches, in order to get to the actual state.
+Main branch has linear structure as all changes are incorporated via 'patches'.
+Secondary branches can be then deleted, as all the aggregated information from secondary branches will be present in the main branch.
+
+drawio:_res/workflow_change.drawio[]
+
+*master* is a main project branch and is used for <<build, builds>>.
+[square]
+* Each change should be related to a BGERP process with *PROCESS_ID*, used for all information exchange for a given change.
+* For each change <<change-git-create, create>> a separate GIT branch based on master. Branch's name should start from *p<PROCESS_ID>*, then use "-" as delimiters.
+Example: *p11788-link-filter-title*
+* When developing, you can use any commit strategy within a branch: intermediate commits, reverts and resets.
+We would recommend to <<change-git-commit, push>> intermediate commits, using GIT repository as a backup copy.
+* Main branch can be periodically <<change-git-update, merged>> to the change branch in order to synchronize with the actual state.
+* Branch has to add *build/change.<PROCESS_ID>.txt* file, create it by running `./gradlew touchChanges`. [[changes-file]]
+This file has to describe new functions, fixes or other changes - each item on a separate row.
+Format is identical to *changes.txt*, which accumulates all *build/change.<PROCESS_ID>.txt* information when <<build-release, release update>> gets published.
+* All the necessary <<doc, documentation>> changes are done in the branch after the code changes.
+* Request branch <<accept, acceptance>> to master once development and testing completes for a given change by moving BGERP process into *Acceptance* status.
+* Process gets closed after check/acceptance, and change gets merged to master as a single commit with a comment starting with the change ID.
+
+[[change-git]]
+=== GIT Commands
+IMPORTANT: Be sure that your local GIT repo is properly <<../project.adoc#checkout-contrib, configured>>.
+
+All the following GIT commands have to be executed in the project's directory.
+
+[[change-git-create]]
+==== Creation a change branch
+[source]
+----
+git checkout master && git pull origin master && git checkout -b p12345-my-change-branch
+----
+
+[[change-git-commit]]
+==== Commit and push changes
+[source]
+----
+git checkout p12345-my-change-branch && git add . && git commit -am "My changes" && git push
+----
+
+At the first push for a branch you will be asked to set an upstream branch using the command.
+[source]
+----
+git push --set-upstream origin p12345-my-change-branch
+----
+
+[[change-git-state]]
+==== Show current workdirs' state
+For showing the current state of GIT working directory use:
+[source]
+----
+git status
+----
+
+Displays text-rendered GIT graph:
+[source]
+----
+git log --oneline --decorate --all --graph
+----
+
+[[change-git-update]]
+==== Update a change branch
+[source]
+----
+git checkout p12345-my-change-branch && git pull --rebase && git fetch origin master:master && git merge master
+----
+
+[[change-git-cleanup]]
+==== Clean all links to non-existent/deleted branches
+[source]
+----
+git remote prune origin
+----
+
+[[accept]]
+=== Acceptance
+When change is being accepted, 'change' branch is compared with the master.
+So merge the latest state of master to the 'change' branch before passing a change to acceptance.
+
+image::_res/branch_compare.png[]
+
+GIT commands to be used for merging change from *pXXXXX-short-change-description* branch to master:
+[source, bash]
+----
+git checkout pXXXXX-short-change-description && git pull
+git commit --allow-empty -m "MERGED" && git push
+git checkout master && git pull
+git merge --squash pXXXXX-short-change-description
+----
+
+Commit with current GIT user.
+[source, bash]
+----
+git commit -am "pXXXXX Some change description."
+----
+
+Or for preserving the author in GitHub. Mapping internal to external mails is available in file `.gitlab-ci-publish-author.sh`
+[source, bash]
+----
+git commit -am "pXXXXX Some change description." --author="Developer Name <internal@gitlab.email>"
+----
+
+And finally, push.
+[source, bash]
+----
+git push
+----
+
+IMPORTANT: Perform a separate GIT Push after each <<accept, acceptance>> in order to correctly <<publish-source, publish>> in the open repository.
+
+<<build-release, Release is published>> periodically from the *master* branch.
+
+[[long-lived-branch]]
+=== Long-lived branches
+Long-lived branches only get changes which *are not altering product functionality*, for example: localization and documentation fixes, code formatting, tests.
+BGERP process for a change does not get closed , and <<accept, acceptance>> is performed multiple times upon completion of specific change(s).
+
+[[doc]]
+=== Documentation
+The source AsciiDoctor and resource files are placed in `srcx/doc` directory.
+The samples of documentation's format may be found <<../samples.adoc#, here>>.
+
+[[doc-change]]
+==== Change
+Documentation changes are recommended to be done at the end of <<change, branch development>>, using <<changes-file, changes file>> as preliminary notes.
+CI job <<test-and-publish-update, test-and-publish-update>> builds documentation automatically for each commit or it might be <<build-doc, built>> locally.
+
+Due the strict references and snippets checking, it is quite possible to have broken <<test-and-publish-update, state>> of documentation
+even without changes in `.adoc` files. Something like the following:
+[source]
+----
+2020-05-25 12:17:39,149 INFO DocGenerator [main] Processing: srcx/doc/project.adoc
+2020-05-25 12:17:39,844 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't start from: 'message.se', line number: 205, content: newProcess.setDescription(message.getSubject());
+2020-05-25 12:17:39,855 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't end on: ');', line number: 71, content: if (message == null)
+2020-05-25 12:17:39,859 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't start from: 'pu', line number: 241, content:
+2020-05-25 12:17:39,860 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't end on: '}', line number: 253, content:
+2020-05-25 12:17:39,911 ERROR Snippet [main] Snippet '../../webapps/WEB-INF/jspf/user/search/search.jsp' doesn't start from: '<div', line number: 1, content: <%@ page contentType="text/html; charset=UTF-8"%>
+2020-05-25 12:17:39,911 ERROR Snippet [main] Snippet '../../webapps/WEB-INF/jspf/user/search/search.jsp' doesn't end on: '/div>', line number: 134, content: <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
+2
+----
+
+For such cases here is the *fixing algorithm*.
+First, find the failing line in `.adoc` file:
+
+image::_res/snippet_fix_1.png[]
+
+After that, using branch comparison, find the new rows and change them in the `.adoc`:
+
+image::_res/snippet_fix_2.png[]
+
+Hints:
+[square]
+* If documentation was already corrected in the current branch, you can create a mock branch on the last working state.
+* Use line numbers for searching over failing snippets.
+
+[[doc-release]]
+==== Release
+Publication of the product manual <<publish-doc, runs>> automatically from <<long-lived-branch, long-lived branch>> *p11862-documentation*.
+In the same branch may be made changes for *documentation only of the latest release* that also will be published.
+
+[[gitlab-ci]]
+== GitLab CI
+link:../../../.gitlab-ci.yml[.gitlab-ci.yml] file has configuration for running certain jobs automatically upon each GIT commit.
+Different jobs are executed within different <<change, GIT>> branches.
+Please find below description of CI jobs.
+
+[[test-and-publish-update]]
+=== test-and-publish-update
+The job is executed in every <<change, change>> branch.
+
+Launches <<unit-test, Unit tests>> and <<build-doc, documentation build and validity check>.
+If everything is wents without error then publishing <<build-change, update>> with documentation from the branch to https://bgerp.org/update/<PROCESS_ID>
+
+NOTE: All the published change updates have the same version, equal to the next release.
+
+[[test-and-publish-update-master]]
+=== test-and-publish-update-master
+The job is executed in *master* branch.
+
+Does the same as *test-and-publish-update* but for master branch.
+As there is no real *PROCESS_ID* available, it is taken as *00000* <<build-change, published>> update.
+The artificial change *00000* can be used for updating to the latest state of *master*.
+To this state is periodically reset https://demo.bgerp.org instance.
+
+[[test-integration]]
+=== test-integration
+The job is executed in *master* branch.
+
+Runs <<integration-test, integration test>>.
+Upon successful tests execution, written in DB dump gets extracted for https://demo.bgerp.org
+
+[[publish-source]]
+=== publish-source
+The job is executed in *master* branch.
+
+Publishes actual source code from `master` into an open repository https://github.com/pingvin235/bgerp
+//This method has been chosen in order to limit an open repository size and in order to hide previously deleted files from history.
+
+[[publish-doc]]
+=== publish-doc
+The job is executed in <<long-lived-branch, long-lived branch>> *p11862-documentation*.
+
+The branch contains the documentation sources for the latest release.
+Launches <<build-doc, documentation build and validity check>>, if no errors are found, publishes on https://bgerp.org/doc/3.0/manual.
+
+[[build]]
+== Build and publish
+Project is configured in Gradle format (configuration file: link:../../../build.gradle[build.gradle])
+
+For building and publishing, apart from Java you will need <<../project.adoc#env-console, console environment>> with available *ant*, *ssh* and *rsync* packages.
+
+NOTE: Here and below all commands are shown for WSL environment, *NIX will not need `bash -c` prefix.
+
+[[build-doc]]
+=== Documentation
+[source]
+----
+bash -c "./gradlew clean doc"
+----
+Resulting HTML files will be present in *target/doc*. Internal link validation is performed automatically.
+
+[[build-change]]
+=== Change update
+NOTE: This task is automatically run by <<test-and-publish-update, CI>>.
+
+Build and publish on https://bgerp.org/update update package with a <<change, change>>.
+
+All the updates packages are copies to Web directory: `https://bgerp.org/update/PROCESS_ID`
+The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc`
+are automatically replaced to the `https://bgerp.org/update/PROCESS_ID/doc`.
+
+Users have a capability to <<../kernel/install.adoc#installer-iface, update>> to the change using a *PROCESS_ID* as an identifier.
+
+Multiple update publications are possible until all bugs/caveats are found - after that that change <<accept, accepted>>
+into a main branch and a new build gets <<build-release, published>>
+
+[[build-release]]
+=== Release update
+[IMPORTANT]
+====
+Public SSH key or the developer might be added for *cdn@bgerp.org* and *www@bgerp.org*.
+Before you publish a change update, make sure that `ssh cdn@bgerp.org` and `ssh www@bgerp.org` sessions work for you.
+====
+
+Build is performed from a *master* branch and can include many <<accept, accepted changes>>.
+
+CAUTION: Be sure that <<test-integration, Integration tests>> are successfully done on *master* to provide data for Demo DB.
+
+Perform the following:
+[source, bash]
+----
+bash -c "./gradlew clean buildClean buildUpdateLib buildUpdate"
+----
+
+NOTE: `buildUpdateLib` task checks existence of file `build/changes.lib.txt`, marking changes in <<../project.adoc#java-lib, Java libraries>>.
+
+Then:
+[source, bash]
+----
+bash -c "./gradlew patchChanges rss publishBuild publishCommit"
+----
+
+Check the release commit and make:
+[source, bash]
+----
+git push
+----
+
+Merge the latest state of the master on <<doc-release, documentation>> branch:
+[source, bash]
+----
+git checkout p11862-documentation && git pull --rebase && git merge master && git push
+----
+
+[[build-docker]]
+==== Docker Image
+[source]
+----
+docker login --username bgerp
+----
+Input access token.
+
+Go in directory `build/docker`
+[source]
+----
+bash files.sh &&
+docker build . -t bgerp/bgerp &&
+docker push bgerp/bgerp
+----
+
+[[test]]
+== Tests
+
+[[unit-test]]
+=== Unit
+JUnit framework is used (`srcx/test' directory)
+Used to test specific algorithms, test do not depend on each other and do not work with DB.
+
+Test are launched locally using the following command:
+[source, bash]
+----
+bash -c "./gradlew clean test"
+----
+
+[[integration-test]]
+=== Integration
+TestNG framework is used (`srcx/itest' directory)
+
+Integration test performs initialization an empty DB and filling after it with configuration.
+Tests form a dependencies graph which defined order and execution parallelism.
+
+[source, bash]
+----
+./gradlew itest
+----
+
+By default the tests uses MySQL instance with credentials taken from `bgerp.properties` file.
+For local run use <<../project.adoc#run-data, Docker DB Instance>> for that.
+
+[[integration-test-opt]]
+==== Optimization
+Additionally to the recommended MySQL <<../kernel/install.adoc#mysql, configuration>>, check and set in `my.ini`:
+[source]
+----
+innodb_file_per_table=0
+----
+
+That will significantly increase table creation speed.
+After the first successful run, the structure of a DB will remain persistent and re-created faster by this way.
+
+Creation of dump for Windows:
+[source, bash]
+----
+echo DROP DATABASE IF EXISTS bgerp; > ./dump.sql &&
+echo CREATE DATABASE bgerp DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; >> ./dump.sql &&
+echo USE bgerp; >> ./dump.sql &&
+mysqldump -uDB_USER -pDB_PSWD bgerp --add-drop-database --no-data >> ./dump.sql &&
+type build\bgerp\db_init_end.sql >> ./dump.sql
+----
+
+For *NIX:
+[source, bash]
+----
+echo "DROP DATABASE IF EXISTS bgerp;" > ./dump.sql &&
+echo "CREATE DATABASE bgerp DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;" >> ./dump.sql &&
+echo "USE bgerp;" >> ./dump.sql &&
+mysqldump -uDB_USER -pDB_PSWD bgerp --add-drop-database --no-data >> ./dump.sql &&
+cat build/bgerp/db_init_end.sql >> ./dump.sql
+----
+
+Running the tests after:
+[source, bash]
+----
+mysql -uDB_USER -pDB_PSWD < ./dump.sql &&
+gradlew integrationTest -Pdb.user=DB_USER -Pdb.pswd=DB_PSWD -Pskip.dbReset=true
+----
+

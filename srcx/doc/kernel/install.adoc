@@ -13,8 +13,8 @@ Minimal system requirements for running server with BGERP + MySQL:
 == Docker image
 Installation from Docker image.
 
-The link:https://hub.docker.com/r/bgerp/bgerp[Docker image] is approximately *1 GB* and contains 
-the latest published build will all the required components: MySQL, Java. 
+The link:https://hub.docker.com/r/bgerp/bgerp[Docker image] is approximately *1 GB* and contains
+the latest published build will all the required components: MySQL, Java.
 The actual <<demo, Demo>> is also applied during first run.
 
 This variant perfectly fits for following purposes:
@@ -69,7 +69,7 @@ Installation on Linux server.
 
 [[mysql]]
 === MySQL
-*Original* MySQL DB Server version *8.0* or newer. 
+*Original* MySQL DB Server version *8.0* or newer.
 
 Different forks of MySQL (Maria, Percona) do not fit because of missing <<../plugin/fulltext/index.adoc#, fulltext>> index support.
 Here is the test query to verify it:
@@ -170,7 +170,7 @@ The running application is available via <<interface.adoc#, Web-interface>>.
 
 [[systemd]]
 === Systemd
-Скрипт сервиса Systemd расположен в *scripts/bgerp.service*, переместите его в каталог */etc/systemd/system/*. 
+Скрипт сервиса Systemd расположен в *scripts/bgerp.service*, переместите его в каталог */etc/systemd/system/*.
 Затем выполните команды:
 [source, bash]
 ----
@@ -185,11 +185,11 @@ The link:https://bgerp.org/#demo[Demo system] is running on https://demo.bgerp.o
 
 [[update]]
 == Обновление
-IMPORTANT: Изучите link:https://bgerp.ru#download[лог обновлений], там могут содержаться важные сведения либо инструкции. 
+IMPORTANT: Изучите link:https://bgerp.ru#download[лог обновлений], там могут содержаться важные сведения либо инструкции.
 
 [[installer-iface]]
 === Интерфейс
-В оснастке *Пуск - Администрирование - Приложение - Статус приложения* доступен просмотр текущей версии приложения,
+В оснастке *Администрирование / Приложение / Статус приложения* доступен просмотр текущей версии приложения,
 списка с логами обновлений. Для всех операций неявно используются <<installer, консольные утилиты>>, описанные далее.
 
 [ditaa]
@@ -222,19 +222,19 @@ Update logs
 ./backup.sh && ./installer.sh update(f) && ./erp_restart.sh
 ----
 
-Раздел *Обновление на изменение* - загрузка пакетов обновления <<../project.adoc#build-update, изменения>> по коду процесса.
+Раздел *Обновление на изменение* - загрузка пакетов обновления <<../project/workflow.adoc#build-change, изменения>> по коду процесса.
 Выполняемая <<installer, команда>>:
 ----
 ./backup.sh && ./installer.sh install update_3.0_xxxx.zip && ./erp_restart.sh
 ----
 
-NOTE: Повторное *Обновление* после *Обновления на изменение* позволит сбросить сервер в состояние последнего официального апдейта.
+NOTE: Повторное *Обновление* после *Обновления на изменение* позволит сбросить сервер в состояние последнего релиза.
 
 [[installer]]
 === Консольные утилиты
 [CAUTION]
 ====
-Перед установкой обновления всегда делайте резервную копию программы при помощи скрипта *backup.sh* 
+Перед установкой обновления всегда делайте резервную копию программы при помощи скрипта *backup.sh*
 [square]
 * При указании параметра *db* скрипт создаст резервную копию БД, данные для подключения к серверу MySQL берутся из файла *bgerp.properties*
 * Резервные копии сохраняются в папке *backup* в файлах с форматом имени *год-месяц-дата-время(.db).zip*, наличие подстроки *db* означает, что в архиве есть дамп БД
@@ -279,7 +279,7 @@ NOTE: Повторное *Обновление* после *Обновления
 CALL add_column_if_not_exists('task', 'config', 'TEXT NOT NULL');
 ----
 
-При восстановлении БД из резервной копии они пропадают. Процедура обновления происходит с ошибками. 
+При восстановлении БД из резервной копии они пропадают. Процедура обновления происходит с ошибками.
 В этом случае необходимо выполнить следующие команды:
 [source, bash]
 ----
@@ -299,7 +299,7 @@ Typically the application is running in Intranet, access to restricted <<interfa
 NGINX docs: http://nginx.org/en/docs/
 
 === Sample
-The application is runnun on internal host *erp.int.bitel.ru*. 
+The application is runnun on internal host *erp.int.bitel.ru*.
 Outside on host *erp.bitel.ru* is available only <<interface.adoc#open, open interface>> http://erp.bitel.ru/open
 The configuration may be typically placed in file `/etc/nginx/conf.d/erp.bitel.ru`
 ----
@@ -330,7 +330,7 @@ server {
         gzip_proxied            any;
     }
 
-    # this part has to be generated first by CertBot: 
+    # this part has to be generated first by CertBot:
     # certbot --nginx -d bgerp.ru -d www.bgerp.ru -d bgerp.de -d www.bgerp.de -d bgerp.org -d www.bgerp.org
     listen 443 ssl; # managed by Certbot
     listen [::]:443 ssl; # managed by Certbot

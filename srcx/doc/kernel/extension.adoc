@@ -3,45 +3,42 @@
 
 NOTE: This chapter may be skipped at first time of using the system.
 
-Система BGERP является в первую очередь платформой, поэтому значительный эффект от её применения достигается путём 
-реализации различного рода расширений под специфику пользователя. 
+Система BGERP является в первую очередь платформой, поэтому значительный эффект от её применения достигается путём
+реализации различного рода расширений под специфику пользователя.
 
-[[tech-choice]]
+[[ccc]]
 == Choose technology CCC
 BGERP предоставляет сразу несколько уровней для расширения либо модификации стандартной логики.
 Способы перечислены в порядке возрастания сложности и функциональности.
-Рекомендуемая практика - переход от простого к более сложному. 
+Рекомендуемая практика - переход от простого к более сложному.
 
+[[ccc-config]]
 === Config
-Изменение конфигураций продукта согласно документации. 
+Изменение конфигураций продукта согласно документации.
 Полная обратная совместимость, поведение описано документацией.
-Нет валидации ошибок, среды разработки.
+Using <<jexl, JEXL>> scripts for more flexibility.
+No error check, no full-functional IDE>
 
+[[ccc-custom]]
 === Custom
-// TODO: Migration to custom. Merge the chapter with project.adoc#custom-level
-Замена JEXL скриптов динамическим кодом. 
-Более громоздко в написании, но можно пользоваться Java в полнофункциональной IDE. 
-Код проверяется компилятором, есть автодополнение кода, подсветка синтаксиса.
+Develop own <<custom, Custom>> plugins using Java, JSP and full-featured IDE.
 
-Использование JEXL скриптов для изменения логики и JSP страниц для отображения. 
-Хорошая обратная совместимость, в случае использования стандартного Java DAO API.
-Нет валидации ошибок, среды разработки.
-
+[[ccc-contribute]]
 === Contribute
 Обобщение функциональности, есть требования к оформлению передаваемого кода и документации.
 Переданный код постоянно находится "под присмотром", учитывается при изменениях продукта, равно как и используемые библиотеки.
 
+[[config]]
 == Configuration
-
 [[jexl]]
 === JEXL
 JEXL - язык коротких выражений.
 
-Используется для написания в конфигурации макросов условных выражений, гибкого вычисления небольших строк. 
-Помимо операторов, описание которых доступно по ссылке в конце раздела, язык поддерживает обращение к функциям Java - объектов, 
+Используется для написания в конфигурации макросов условных выражений, гибкого вычисления небольших строк.
+Помимо операторов, описание которых доступно по ссылке в конце раздела, язык поддерживает обращение к функциям Java - объектов,
 переданных на вход обработчика в зависимости от условий.
 
-Для вызова функции Java объекта необходимо ввести название объекта в контексте, точку и непосредственно вызов функции. 
+Для вызова функции Java объекта необходимо ввести название объекта в контексте, точку и непосредственно вызов функции.
 Для вызова статического метода класса указывается имя класса с точкой.
 
 Пример использования выражения:
@@ -84,7 +81,7 @@ processCreateLink.1.copyLinks=1
 * все переменные контекста из javadoc:ru.bgcrm.servlet.filter.SetRequestParamsFilter[];
 * объект класса javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[] передаётся как контекст функций по-умолчанию, т.е. все его функции можно вызывать непосредственно в скрипте.
 
-При необходимости выражения могут быть <<interface.adoc#config-multiline, многострочными>>, при этом результат (если он есть) возвращается оператором return. 
+При необходимости выражения могут быть <<interface.adoc#config-multiline, многострочными>>, при этом результат (если он есть) возвращается оператором return.
 Пример многострочного скрипта для <<process/processing.adoc#, простого обработчика событий процесса>>:
 
 [source,java]
@@ -150,14 +147,14 @@ processReference.1.stringExpression=u.escapeXml( u.maskNull( u.getFirst( process
 
 [[log4j]]
 === Логирование
-Log4j - библиотека логирования для Java. Настройка логирования производится в файле *log4j.properties*, 
+Log4j - библиотека логирования для Java. Настройка логирования производится в файле *log4j.properties*,
 изменение файла можно производить при работающем приложении. Вид файла при установке системы:
 
 [snippet, from="# lib"]
 link:../../../build/bgerp/files/log4j.properties[log4j.properties]
 
-Сообщения в логе разделяются на уровни (в порядке возрастания): *DEBUG*, *INFO*, *WARN*, *ERROR*, *FATAL*. 
-По-умолчанию настроен уровень INFO, т.е. выводятся информационные и ошибочные сообщения (INFO, FATAL, ERROR), отладка не выводится. 
+Сообщения в логе разделяются на уровни (в порядке возрастания): *DEBUG*, *INFO*, *WARN*, *ERROR*, *FATAL*.
+По-умолчанию настроен уровень INFO, т.е. выводятся информационные и ошибочные сообщения (INFO, FATAL, ERROR), отладка не выводится.
 Вывод осуществляется в файл *log/bgerp.log*, который обрезается на размере 10МБ с созданием отдельных файлов.
 
 Samples, how to enable loggers wanted package or classes to *log/bgerp.all.log* in:
@@ -173,89 +170,80 @@ Samples, how to enable loggers wanted package or classes to *log/bgerp.all.log* 
 
 [[log-dyn]]
 ==== Динамическое логирование
-Для более удобной отладки JEXL скриптов, конфигураций либо динамического кода 
+Для более удобной отладки JEXL скриптов, конфигураций либо динамического кода
 возможно получение логов только текущей сессии с помощью оснастки *Пуск => Логирование*.
 
 image::_res/ext_dyn_log.png[width='600px']
 
 Логирование позволяет отследить вызванную действиями пользователя активность на стороне сервера.
-Количество строк лога ограничено, отображаются только последние 1000 строк. 
+Количество строк лога ограничено, отображаются только последние 1000 строк.
 Каждый раз при переходе в оснастку поле *Текущий лог* обновляется, то же действие производит повторное нажатие кнопки *Включить*.
 
 [[custom]]
 == Custom
 Custom application code has to be placed `custom` directory in the project root.
 
+drawio:_res/custom.drawio[]
+
 [[custom-workflow]]
-=== Git Workflow
+=== GIT Workflow
 Content of the directory may be stored using GIT and developed in normal <<../project.adoc#ide, IDE>>.
 
-The `custom` directory is ignored in the root directory of the <<../project.adoc#checkout-reader, project>>, 
-and has to be checked out independigly, e.g.:
+The `custom` directory is ignored in the root directory of the <<../project.adoc#checkout-reader, project>>,
+and has to be checked out independently, e.g.:
 [source]
 ----
-git clone https://github.com/Pingvin235/bgerp-custom-bitel.git custom
+git clone https://github.com/Company/bgerp-custom-company.git custom
 ----
+
+NOTE: Fork your own Custom GIT from the template: https://github.com/Pingvin235/bgerp-custom
 
 As `custom` directory stored in a separated GIT repo, the whole project state has separated over two repositories.
-On the schema below is shown iteraction over directories and repositories.
+On the schema below is shown interactions over directories and repositories.
 
-[ditaa]
-----
-+--------------+                        +------------+
-| PROJECT dirs |     +------------+     |  APP dirs  |
-+--------------+     |{s}         |     +------------+
-| src          |<----+ BGERP GIT  |     |            |
-| ...          |     +------------+     |   backup   |
-| build        |                        |   ...      |
-| custom ------|--+  +------------+  +--|-> custom   |
-| ...          |  +->|{s}         +--+  |   ...      |
-| webapps      |     | CUSTOM GIT |     |   lib      |
-+--------------+     +------------+     +------------+
-----
-
-For *CUSTOM GIT* is recommended to use the same <<../project.adoc#workflow, GIT workflow>> 
-as for the main project's code. Any change has to be placed in a separated branch. 
+For *CUSTOM GIT* is recommended to use the same <<../project/workflow.adoc#change, GIT workflow>>
+as for the main project's code. Any change has to be placed in a separated branch.
 Case of parallel changing of project and custom codes use the same branch name for both repositories.
 
 `custom` directory from *PROJECT* can be delivered to *APP* through *CUSTOM GIT* repo.
 For checking out may be used approach with *DETACHED HEAD*:
 [source]
 ----
-git fetch && git checkout origin/p14225-subscriptions
+git fetch && git checkout origin/some-branch-with-changes
 ----
 
 [[custom-using]]
 === Using
-Inside `custom/src` placed regular Java code, incluing plugins <<../project.adoc#plugin, plugins>>.
-*PLUGIN_ID* for those has to be prefixied by *custom.*, e.g. *custom.bitel*.
+Inside `custom/src` placed regular Java code, including plugins <<../project.adoc#plugin, plugins>>.
+*PLUGIN_ID* for those has to be prefixed by *custom.*, e.g. *custom.bitel*.
 Respectively plugin files have to be stored under paths: *custom/org/bgerp/plugin/custom/<some-name>* .
 
 That code has equal possibilities as the native application's, can use API and connected libraries.
 After compilation *Administration - Custom* this code is persisted to `lib/app/custom.jar`.
 
-NOTE: The application must be restarted to reload the `custom.jar`. There is *Restart* button available after successfull compilation.
+NOTE: The application must be restarted to reload the `custom.jar`. There is *Restart* button available after successful compilation.
 
 Subdirectory `custom/webapps` is searched *before* `webapps` from root directory
-and should be used for placing custom JSP and JS files. Both types are applied immediatelly after change.
+and should be used for placing custom JSP and JS files. Both types are applied immediately after change.
 
 CAUTION: Each file from the original `webapps` may be "replaced" for Web server. That can brake built-in functionality.
 
 [[custom-l10n]]
 === Custom localization
-In file `custom/l10n.xml` has a special meaning for <<../project.adoc#l10n-files, localization>> system, 
+In file `custom/l10n.xml` has a special meaning for <<../project.adoc#l10n-files, localization>> system,
 it allows to re-define each localized string in the system.
 
 [[javalib]]
 === Java библиотеки
 Пользовательские Java библиотеки, используемые в динамическом коде, JEXL выражениях либо JSP страницах должны быть размещены в каталоге *lib/custom*
-JAR файлы из *lib/ext* перетираются при получении обновления библиотек. 
+JAR файлы из *lib/ext* перетираются при получении обновления библиотек.
 
 [[dyn]]
 === Dynamic code
 CAUTION: This approach is deprecated, use <<custom, Custom>> instead.
 
-Динамический код - это Java файлы, которые можно изменять и подгружать без перезапуска приложения. 
+////
+Динамический код - это Java файлы, которые можно изменять и подгружать без перезапуска приложения.
 С его помощью можно обрабатывать различные события в системе. Файлы с классами динамического кода располагаются в по-умолчанию каталоге *dyn*.
 
 Динамические классы необходимо создавать в пакете *ru.bgcrm.dyn.<дальнейшая иерархия пакетов>* и в соответствующем каталоге.
@@ -263,17 +251,18 @@ CAUTION: This approach is deprecated, use <<custom, Custom>> instead.
 NOTE: Параметры динамического кода могут быть настроены в <<setup.adoc#config-dyn, конфигурации>>.
 
 // TODO: Write AsciiDoc article.
-Для написания динамического кода возможно использование как простого текстового редактора, так и полноценные IDE для Java разработки. 
+Для написания динамического кода возможно использование как простого текстового редактора, так и полноценные IDE для Java разработки.
 Методология при этом аналогична применяемой для link:https://web.archive.org/web/20180209130306/http://wiki.bitel.ru/index.php/%D0%A0%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0_%D0%B4%D0%B8%D0%BD%D0%B0%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%BA%D0%BE%D0%B4%D0%B0_%D0%B2_IDE_Eclipse[разработке в BGBilling].
 
-Компиляция динамического кода осуществляется в оснастке *Администрирование => Динамический код* интерфейса администратора. 
+Компиляция динамического кода осуществляется в оснастке *Администрирование => Динамический код* интерфейса администратора.
 Можно скомпилировать только все классы сразу. При успешной компиляции динамический код применяется также целиком.
 
 image::_res/ext_dyn.png[]
 
-Как видно из снимка экрана, помимо компиляции в оснастке возможно создание и запуск объекта класса реализующего интерфейс *java.lang.Runnable*. 
+Как видно из снимка экрана, помимо компиляции в оснастке возможно создание и запуск объекта класса реализующего интерфейс *java.lang.Runnable*.
 Кроме данного способа возможны перечисленные в последующих разделах способы создания и применения объектов динамических классов.
 Синхронный запуск происходит в потоке запроса и позволяет легко изучить <<#log-dyn, логи>>.
+////
 
 [[custom-jar]]
 === Custom JAR
@@ -283,11 +272,11 @@ With custom JAR in the application might be added any wanted Java classes.
 
 [NOTE]
 ====
-This sample describes deploing own annotated servlets in `WEB-INF/lib`. 
+This sample describes deploing own annotated servlets in `WEB-INF/lib`.
 Future plans about the functionality:
 [square]
 * such servlets have to be added in `META-INF/web-fragment.xml`;
-* the JAR itself assempled out of earlier <<dyn, dynamic code>> in interface and placed in `lib/custom.jar` 
+* the JAR itself assempled out of earlier <<dyn, dynamic code>> in interface and placed in `lib/custom.jar`
 
 Links:
 [square]
@@ -303,25 +292,25 @@ For making own servlet write annotated class extending *javax.servlet.http.HttpS
 
 Compile to **.class*, assemple to a JAR file, place it in previously created directory `webapps/WEB-INF/lib`
 
-To be loaded the JAR file has to be named with *custom* in name, 
+To be loaded the JAR file has to be named with *custom* in name,
 or you may change the marker string in configuration parameter *custom.jar.marker*.
 
 ==== Примеры
-В составе поставки доступны примеры динамических классов в *dyn/ru/bgcrm/dyn* поименованные как *Example..* с описанием в комментариях. 
+В составе поставки доступны примеры динамических классов в *dyn/ru/bgcrm/dyn* поименованные как *Example..* с описанием в комментариях.
 Помимо этого вы можете найти примеры динамического кода <<../ext/dyn_sample.adoc#, здесь>>.
 
 [[run]]
 == Запуск кода
-Во всех данных примерах могут использоватся как классы из библиотек системы, так и <<custom, custom>>. 
+Во всех данных примерах могут использоватся как классы из библиотек системы, так и <<custom, custom>>.
 
 === Обработчики событий процессов
-Имя класса-обработчика может быть указано в свойствах <<process/index.adoc#type, типа процесса>>. 
-Создаваемые динамические классы - обработчики событий должны расширять абстрактный класс javadoc:ru.bgcrm.event.listener.DynamicEventListener[]. 
+Имя класса-обработчика может быть указано в свойствах <<process/index.adoc#type, типа процесса>>.
+Создаваемые динамические классы - обработчики событий должны расширять абстрактный класс javadoc:ru.bgcrm.event.listener.DynamicEventListener[].
 Информацию по типам событий можно получить из API документации к системе в формате JavaDoc.
 
 [[run-on-start]]
 === При старте сервера
-Параметры *runOnStart* и *createOnStart* в <<setup.adoc#config, конфигурации сервера>>. 
+Параметры *runOnStart* и *createOnStart* в <<setup.adoc#config, конфигурации сервера>>.
 Указанные в них объекты классов создаются и запускаются для runOnStart при старте сервера.
 
 [[run-http]]
@@ -338,8 +327,8 @@ or you may change the marker string in configuration parameter *custom.jar.marke
 * *<user>* и *<pswd>* - логин и пароль пользователя BGERP, подробнее о запросах внешних систем;
 * *<iface>* - тип класса-обработчика, подробнее ниже.
 
-При параметре *<iface>* равным *event* класс должен расширять абстрактный класс javadoc:ru.bgcrm.event.listener.DynamicEventListener[] 
-в который передаётся событие javadoc:ru.bgcrm.event.RunClassRequestEvent[]. 
+При параметре *<iface>* равным *event* класс должен расширять абстрактный класс javadoc:ru.bgcrm.event.listener.DynamicEventListener[]
+в который передаётся событие javadoc:ru.bgcrm.event.RunClassRequestEvent[].
 В противном случае класс может реализовать интерфейс java.lang.Runnable, который просто будет запущен.
 
 //TODO: processCustomClassInvoke
@@ -354,7 +343,7 @@ or you may change the marker string in configuration parameter *custom.jar.marke
 
 Где *<class_name>* - полное имя класса с пакетом. Класс должен реализовывать интерфейс *java.lang.Runnable*.
 
-Запуск в контексте сервера обозначает, что класс будет выполнен в рамках отдельного потока процесса сервера, 
+Запуск в контексте сервера обозначает, что класс будет выполнен в рамках отдельного потока процесса сервера,
 получив доступ к соединению с БД, конфигурациям и другим объектам контекста. Результаты работы можно выводить в логи.
 
 [[run-scheduler]]
@@ -369,27 +358,27 @@ In menu *Administration - Run* can be executed any Java class, implementing *jav
 == Изменение файлов системы
 CAUTION: This logic is outdated, use <<custom, Custom>> instead.
 
-При корректировке штатных файлов системы: JSP страниц, конфигурационных файлов, библиотек и т.п. предварительно необходимо 
-создать файл с аналогичным именем но дополненным *.orig* в конце. Например: *process_color.jsp* -> *process_color.jsp.orig*. 
-В противном случае изменённый файл будет перетёрт при следующем обновлении. 
-При наличии .orig файла программа сверит файл из обновления с ним и перетрёт файл в дистрибутиве только в случае несовпадения, 
+При корректировке штатных файлов системы: JSP страниц, конфигурационных файлов, библиотек и т.п. предварительно необходимо
+создать файл с аналогичным именем но дополненным *.orig* в конце. Например: *process_color.jsp* -> *process_color.jsp.orig*.
+В противном случае изменённый файл будет перетёрт при следующем обновлении.
+При наличии .orig файла программа сверит файл из обновления с ним и перетрёт файл в дистрибутиве только в случае несовпадения,
 сохранив резервную копию перетираемого файла. .orig файл обозначает версию оригинального файла, относительно которого был создан изменённый.
 
 [[ext-request]]
 == Интеграция с внешними системами
-Все запросы на изменение данных в возвращают результат в JSON формате. Запросы выборки данных возвращают результат в HTML формате, 
+Все запросы на изменение данных в возвращают результат в JSON формате. Запросы выборки данных возвращают результат в HTML формате,
 однако возможно получение данных и в JSON формате, путём добавления в запрос параметра *responseType=json*.
 
-Для прозрачной авторизации запроса сторонней системы логин и пароль пользователя могут быть переданы в запросе в HTTP параметрах запроса 
-*j_username* и *j_password* соответственно. Параметр *authToSession=0* в запросе указывает на хранение отсутствие необходимости в HTTP сессии. 
+Для прозрачной авторизации запроса сторонней системы логин и пароль пользователя могут быть переданы в запросе в HTTP параметрах запроса
+*j_username* и *j_password* соответственно. Параметр *authToSession=0* в запросе указывает на хранение отсутствие необходимости в HTTP сессии.
 Настоятельно рекомендуется использовать его при запросах внешних систем, т.к. предотвращение создания HTTP сессий экономит память BGERP.
 
 Пример запроса на получение данных во внешнюю систему в JSON формате (выборка по очереди процессов):
 [source]
 ----
 http://server.bgcrm.ru/user/process.do?action=queueShow&id=4&dateStatusStatus=10&status=10&status=9&status=13&currentUserMode=&group=7&sort=0&j_username=shamil&j_password=*****&responseType=json&authToSession=0
----- 
+----
 
-При изучении формата запросов и ответов возможно использование инструмента разработчика в браузере 
+При изучении формата запросов и ответов возможно использование инструмента разработчика в браузере
 с отслеживанием запросов отправляемых браузером при работе пользователя в BGERP.
 

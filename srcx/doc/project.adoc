@@ -12,7 +12,7 @@ IMPORTANT: Always leave the campground cleaner than you found it.
 
 While changing a block of code, it is important to try to decrease the usage of outdated approaches, methods and classes.
 Write a new code and keep it compliant with the latest recommendations, but at the same time try to get neighboring/adjacent code improved.
-During <<workflow, changes>> testing, code improvements will be tested as well.
+During <<project/workflow.adoc#, changes>> testing, code improvements will be tested as well.
 All in all, gradually, we will improve overall code quality.
 We plan to introduce a set of formal code quality metrics: number of compiler warnings, format checks, etc.
 
@@ -38,7 +38,7 @@ Minimal required set of software:
 
 [[env-console]]
 ===== Shell
-System of <<build, build and publish>> is written on Bash scripts and uses GNU utilities, you can use the following when using Windows:
+System of <<project/workflow.adoc#build, build and publish>> is written on Bash scripts and uses GNU utilities, you can use the following when using Windows:
 [square]
 * link:https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10[WSL 2] - embedded in Windows virtual Linux machine;
 * link:https://www.cygwin.com/[Cygwin] - Windows ports of GNU utils, not tested.
@@ -58,7 +58,7 @@ Checkout the project using GIT to an wanted directory, e.g.: `BGERP`.
 
 [[checkout-contrib]]
 ==== Contributors
-For project's contributors, internal repo with <<workflow, branches>>:
+For project's contributors, internal repo with <<project/workflow.adoc#change, branches>>:
 [source]
 ----
 git clone https://git.bgerp.org/bgerp/bgerp.git BGERP
@@ -169,7 +169,7 @@ When working on fixing a file format, it is important to use the following rules
 . All new files should be formatted correctly.
 . Avoid using both indent symbols (tabs and spaces) inside a single file! Such file becomes unreadable in certain editors. If you notice a file/case like this,
 make sure to change all indent symbols in the file to the required format.
-. Be cautious when combining file formatting with making <<workflow, changes>> - this can significantly complicate analysis down the road.
+. Be cautious when combining file formatting with making <<project/workflow.adoc#change, changes>> - this can significantly complicate analysis down the road.
 
 [[format-java]]
 ==== Java
@@ -194,9 +194,9 @@ Currently one of the most handy platforms.
 Download *Eclipse for Java EE Developers*, as this build already includes GIT client as well as JSP and XML editors.
 Install the following plugins:
 [square]
-* *Buildship Gradle* - <<build, Gradle>> support;
-* *AsciiDoctor* -  <<documentation, documentation>> editor;
-* *MoreUnit* - convenient plugin to work with <<unit-test, unit-tests>>.
+* *Buildship Gradle* - <<project/workflow.adoc#build, Gradle>> support;
+* *AsciiDoctor* -  <<project/workflow.adoc#doc, documentation>> editor;
+* *MoreUnit* - convenient plugin to work with <<project/workflow.adoc#unit-test, unit-tests>>.
 
 Right-click on the project and invoke *Refresh Gradle Project* menu item.
 Also use it every time you change any of the project's libraries.
@@ -244,15 +244,15 @@ log4j.logger.org.bgerp=ALL, file, session, out
 Project's folder listing along with description.
 [square]
 * *bin* - IDE-compiled Java classes;
-* *build* - files related to <<build, build>>;
+* *build* - files related to <<project/workflow.adoc#build, build>>;
 * *docpattern* - <<plugin/document/index.adoc#, Document>> plugin templates;
-* *dyn* - <<kernel/extension.adoc#dyn, dynamic code>>, with examples;
-* *dyn.ext* - this folder can be used to mount dynamic classes on <<devm, developer's system>>;
+// * *dyn* - <<kernel/extension.adoc#dyn, dynamic code>>, with examples;
+// * *dyn.ext* - this folder can be used to mount dynamic classes on <<devm, developer's system>>;
 * *filestorage* - file storage when launched from IDE;
 * *lib* - Java libraries, which are not linked via <<java-lib, Gradle>>;
 * *plugin* - <<plugin, plugin>> declarations;
 * *src* - Java source code;
-* *srcx* - <<documentation, documentation>>, <<unit-test, unit-tests>>, <<integration-test, integration tests>>, build utilities sources;
+* *srcx* - <<project/workflow.adoc#doc, documentation>>, <<project/workflow.adoc#unit-test, unit-tests>>, <<project/workflow.adoc#integration-test, integration tests>>, build utilities sources;
 * *webapps* -  <<arch, Web application's>> root directory;
 * *work* - folder created by Tomcat for JSP file compilation.
 
@@ -261,11 +261,11 @@ Project's folder listing along with description.
 ==== Java
 When link:../../build/bgerp/files/erp.sh[running] a program, a number of JAR files are linked from the following folders:
 [square]
-* *lib/app* - <<build-erp, application classes>>;
-* *lib/ext* - external libraries;
-* *lib/custom* - additional libraries required for <<kernel/extension.adoc#dyn, dynamic code>> and JEXL scripts.
+* *lib/app* - application's and <<kernel/extension.adoc#custom, Custom>> classes;
+* *lib/ext* - external libraries.
+// * *lib/custom* - additional libraries required for <<kernel/extension.adoc#dyn, dynamic code>> and JEXL scripts.
 
-External libraries are supplied with a separate <<build-update, build update>>.
+External libraries are supplied with a separate <<project/workflow.adoc#build-release, update package>>.
 Artifacts and versions are indicated in the following file: link:../../build.gradle[build.gradle] (for *bgerp* configuration)
 
 NOTE: This configuration does NOT use transitive dependencies  - all required libraries and versions have to be explicitly defined.
@@ -276,7 +276,7 @@ In order to speed up project initialization, our default Eclipse IDE configurati
 link:../../build.gradle#L22-L28[build.gradle]
 
 After adding new libraries in `build.gradle` create an empty `build/changes.lib.txt` file using `gradlew touchChangesLib` command.
-Existence of the file causes build library update package during <<build-erp, release build>>.
+Existence of the file causes build library update package during <<project/workflow.adoc#build-release, release build>>.
 
 [[js-lib]]
 ==== JS
@@ -304,168 +304,6 @@ You can also use this file to alter billing connection URL - for example, to a l
 * Reconfigure BGERP port so you could save passwords in your browser for specific client(s).
 * Create IDE launch configuration using this properties file
 * Optionally, alter *.gitignore* in order to save custom client's files in case you are using fork.
-
-[[workflow]]
-== GIT Workflow
-Table below describes GIT branches - link:https://docs.google.com/document/d/15NptRsx1qrdiWEew23EFz6gbxD6S12VQpnBQ6X9NbiQ/edit?usp=sharing[standard GIT Workflow] is used here.
-Same workflow is used, for example, for Linux kernel development.
-
-Main idea is that merging is only happening 'downstream', i.e. from the main branch to secondary branches, in order to get to the actual state.
-Main branch has linear structure as all changes are incorporated via 'patches'.
-Secondary branches can be then deleted, as all the aggregated information from secondary branches will be present in the main branch.
-
-[cols="a,a,a,a", options="header"]
-|===
-|Branch
-|Based On
-|Purpose
-|<<gitlab-ci, CI>>
-
-|*master*
-|
-|Stable release.
-|<<test-and-publish-update-master>>, <<test-integration>>, <<publish-source>>
-
-|*p<Process ID>-short-description*
-|master
-|Code and documentation changes.
-|<<test-and-publish-update>>
-
-|*p11862-documentation*
-|master
-|Documentation changes. <<longlife-branch, Long-live branch>>, periodically gets incorporated into main.
-|<<publish-doc>>
-|===
-
-*master* is a main project branch and is used for <<build, builds>>.
-[square]
-* Each *change* should be based on the process within BGERP, which is used for all information exchange for a given *change*.
-* *Change ID* is a *p<Process ID>* string, for example *p13455*
-* For each change create a separate GIT branch (based on master). Branch's name should start from *Change ID*, then use "-" as delimiters.
-Example: *p11788-link-filter-title*
-* When developing, you can use any commit strategy within a branch: checkpoint commits, reverts/resets, commits to a new branch, etc.
-We would recommend to push intermediate commits, using GIT repository as a backup copy.
-* Main branch can be periodically merged to this "change" branch in order to synchronize with the actual state. *This HAS to be done before 'acceptance' to master*
-* All the necessary  <<documentation, documentation>> changes are done simultaneously with the code changes
-* Client's test build update and accompanying documentation can be <<build-update, built and published>> from the branch.
-* Branch has to add *build/change.<Process ID>.txt* file - if absent, it gets added automatically during <<build-update, update build>>
-This file has to describe new functions, fixes or other changes - each item on a separate row.
-Format is identical to *changes.txt*, which accumulates all *build/change.<Process ID>.txt* information when <<build-erp, update>> gets published.
-* Request branch <<accept, acceptance>> to master once development and testing completes for a given change by moving BGERP process into *Acceptance* status.
-* Process gets closed after check/acceptance, and change gets merged to master as a single commit with a comment starting with the change ID.
-* "Change" branch can be then deleted. Change author can be later identified by the change ID used in the comment.
-
-
-[IMPORTANT]
-====
-One cannot test and use in parallel several changes  within a single system.
-Each change will overwrite the previous one when update gets installed.
-In principle it is allowed to use multiple build branches, which are used as targets for multiple change branches' merges.
-====
-
-=== GIT Commands
-Clean all links to non-existent/deleted branches:
-[source]
-----
-git remote prune origin
-----
-
-Fetch master branch and update remote-tracking branch origin/master:
-[source]
-----
-git fetch origin master:master
-----
-
-[[accept]]
-=== Acceptance
-When change is being accepted, 'change' branch is compared with the master.
-So merge the latest state of master to the 'change' branch before passing a change to acceptance.
-
-image::_res/branch_compare.png[]
-
-[[changes-file]]
-It is also important to create and populate a file listing all changes.
-You can use the following <<build, command>> for this:
-
-[bash]
-----
-./gradlew touchChanges
-----
-
-GIT commands to be used for merging change from *pXXXXX-short-change-description* branch to master:
-[source, bash]
-----
-git checkout pXXXXX-short-change-description && git pull
-git commit --allow-empty -m "MERGED" && git push
-git checkout master && git pull
-git merge --squash pXXXXX-short-change-description
-----
-
-Commit with current GIT user.
-[source, bash]
-----
-git commit -am "pXXXXX Some change description."
-----
-
-Or for preserving the author in GitHub. Mapping internal to external mails is available in file `.gitlab-ci-publish-author.sh`
-[source, bash]
-----
-git commit -am "pXXXXX Some change description." --author="Developer Name <internal@gitlab.email>"
-----
-
-And finally, push.
-[source, bash]
-----
-git push
-----
-
-IMPORTANT: Perform a separate GIT Push after each <<accept, acceptance>> in order to correctly <<publish-source, publish>> in the open repository.
-
-<<build-erp, Release is published>> periodically from the *master* branch.
-
-[[longlife-branch]]
-=== Long-lived branches
-Long-lived branches only get changes which *are not altering product functionality*, for example: localization and documentation fixes, code formatting, tests.
-BGERP process for a change does not get closed , and <<accept, acceptance>> is performed multiple times upon completion of specific change(s).
-
-[[documentation]]
-==== Documentation
-A particular case of long-lived branch is documentation.
-The source AsciiDoctor and resource files are placed in `srcx/doc` directory.
-Publication of the product manual <<publish-doc, runs>> automatically from <<workflow, branch>> *p11862-documentation*.
-
-Documentation might be <<build-doc, built>> also locally from any branch and together with a <<build-update, change update package>>.
-
-Documentation changes are recommended to be done at the end of <<workflow, branch development>>,
-using <<changes-file, changes file>> as an intermediate notes. The samples of documentation's format may be found <<samples.adoc#, here>>.
-
-Due the strict references and snippets checking, it is quite possible to have broken <<test-and-publish-update, state>> of documentation
-even without .adoc files. Something like the following:
-[source]
-----
-2020-05-25 12:17:39,149 INFO DocGenerator [main] Processing: srcx/doc/project.adoc
-2020-05-25 12:17:39,844 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't start from: 'message.se', line number: 205, content: newProcess.setDescription(message.getSubject());
-2020-05-25 12:17:39,855 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't end on: ');', line number: 71, content: if (message == null)
-2020-05-25 12:17:39,859 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't start from: 'pu', line number: 241, content:
-2020-05-25 12:17:39,860 ERROR Snippet [main] Snippet '../../src/ru/bgcrm/struts/action/MessageAction.java' doesn't end on: '}', line number: 253, content:
-2020-05-25 12:17:39,911 ERROR Snippet [main] Snippet '../../webapps/WEB-INF/jspf/user/search/search.jsp' doesn't start from: '<div', line number: 1, content: <%@ page contentType="text/html; charset=UTF-8"%>
-2020-05-25 12:17:39,911 ERROR Snippet [main] Snippet '../../webapps/WEB-INF/jspf/user/search/search.jsp' doesn't end on: '/div>', line number: 134, content: <%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-2
-----
-
-For such cases here is the *fixing algorithm*.
-First, find the failing line in `.adoc` file:
-
-image::_res/snippet_fix_1.png[]
-
-After that, using branch comparison, find the new rows and change them in the `.adoc`:
-
-image::_res/snippet_fix_2.png[]
-
-Hints:
-[square]
-* If documentation was already corrected in the current branch, you can create a mock branch on the last working state.
-* Use line numbers for searching over failing snippets.
 
 [[arch]]
 == Architecture
@@ -561,7 +399,7 @@ link:../../src/ru/bgcrm/plugin/fulltext/db.sql[src/ru/bgcrm/plugin/fulltext/db.s
 
 Plugin DB table names have to start from <<plugin-class, PLUGIN_ID>>.
 
-<<kernel/db.adoc#, DB Structure>> is documented in the common <<documentation, process>>, simultaneously with making changes.
+<<kernel/db.adoc#, DB Structure>> is documented in the common <<project/workflow.adoc#doc, process>>, simultaneously with making changes.
 
 [[cache]]
 ===== Cache
@@ -928,7 +766,7 @@ It is forbidden to use those functions in the new code, usage has to be decrease
 === Customization
 //TODO: Merge the chapter with extension.adoc#tech-choice
 One of the main solution's prioritized features are extensibility and flexibility.
-Said that, standard functions can be <<kernel/extension.adoc#tech-choice, extended>> by using several methods.
+Said that, standard functions can be <<kernel/extension.adoc#ccc, extended>> by using several methods.
 
 However, it is important to understand that the most effective way to efficiently develop and maintain functionality longer-term is to either use built-in plugin system or include as part of the kernel and at the same time
 keep configurable parameters to a minimum.
@@ -1252,186 +1090,3 @@ link:../../webapps/WEB-INF/jspf/user/process/queue/filter.jsp#L915-L915[webapps/
 Restore form parameter values:
 [snippet, from="<ht", to="/>"]
 link:../../webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp#L8-L10[webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp]
-
-[[build]]
-== Build and publish
-Project is configured in Gradle format (configuration file: link:../../build.gradle[build.gradle])
-
-For building and publishing, apart from Java you will need <<env-console, console environment>> with available *ant*, *ssh* and *rsync* packages.
-
-NOTE: Here and below all commands are shown for WSL environment, *NIX will not need `bash -c` prefix.
-
-[[build-doc]]
-=== Documentation
-[source]
-----
-bash -c "./gradlew clean doc"
-----
-Resulting HTML files will be present in *target/doc*. Internal link validation is performed automatically.
-
-[[build-update]]
-=== Change update
-Build and publish on https://bgerp.org/update update package with a <<workflow, change>>.
-
-NOTE: This task is automatically run by <<test-and-publish-update, CI>>.
-
-All the updates packages are copies to Web directory: `https://bgerp.org/update/PROCESS_ID`
-The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc`
-are automatically replaced to the `https://bgerp.org/update/PROCESS_ID/doc`.
-
-Users have a capability to <<kernel/install.adoc#installer, install>> a package using *install* command,  report issues and caveats and,
-if new version is not operational/suitable, rollback to the latest published version using *update* command.
-
-Multiple update publications are possible until all bugs/caveats are found - after that that change <<workflow, accepted>>
-into a main branch and a new build gets <<build-erp, published>>
-
-[[build-erp]]
-=== Release
-[IMPORTANT]
-====
-Public SSH key or the developer might be added for *cdn@bgerp.org* and *www@bgerp.org*.
-Before you publish a change update, make sure that `ssh cdn@bgerp.org` and `ssh www@bgerp.org` sessions work for you.
-====
-
-Build is performed from a *master* branch and can include many <<workflow, accepted changes>>.
-
-CAUTION: Be sure that <<test-integration, Integration tests>> are suscessully done on *master* to provide data for Demo DB.
-
-Perform the following:
-[source, bash]
-----
-bash -c "./gradlew clean buildClean buildUpdateLib buildUpdate"
-----
-
-NOTE: `buildUpdateLib` task checks existance of file `build/changes.lib.txt`, marking changes in <<java-lib, Java libraries>>.
-
-Then:
-[source, bash]
-----
-bash -c "./gradlew patchChanges rss publishBuild publishCommit"
-----
-
-Check the release commit and make:
-[source, bash]
-----
-git push
-----
-
-Merge the latest state of the master on <<documentation, documentation>> branch:
-[source, bash]
-----
-git checkout p11862-documentation && git pull --rebase && git merge master && git push
-----
-
-[[build-docker]]
-==== Docker Image
-[source]
-----
-docker login --username bgerp
-----
-Input access token.
-
-Go in directory `build/docker`
-[source]
-----
-bash files.sh &&
-docker build . -t bgerp/bgerp &&
-docker push bgerp/bgerp
-----
-
-[[test]]
-== Tests
-
-[[unit-test]]
-=== Unit
-JUnit framework is used (`srcx/test' directory)
-Used to test specific algorithms, test do not depend on each other and do not work with DB.
-
-Test are launched locally using the following command:
-[source, bash]
-----
-bash -c "./gradlew clean test"
-----
-
-[[integration-test]]
-=== Integration
-TestNG framework is used (`srcx/itest' directory)
-
-Integration test performs initialization an empty DB and filling after it with configuration.
-Tests form a dependencies graph which defined order and execution parallelism.
-Upon successful tests execution, written in DB dump <<test-integration, gets extracted>> for https://demo.bgerp.org
-
-[source, bash]
-----
-./gradlew integrationTest -Pdb.host=DB_HOST -Pdb.user=DB_USER -Pdb.pswd=DB_PSWD
-----
-
-Parameters *DB_HOST*, *DB_USER*, *DB_PSWD* are used for accessing the MySQL server, where a test DB will be created.
-Use <<run-data, Docker DB Instance>> for the that.
-
-[[integration-test-opt]]
-==== Optimization
-Addtionally to the recommended MySQL <<kernel/install.adoc#mysql, configuration>>, check and set in `my.ini`:
-[source]
-----
-innodb_file_per_table=0
-----
-
-That will significantly increase table creation speed.
-After the first successful run, the structure of a DB will remain persistent and re-created faster by this way.
-
-Creation of dump for Windows:
-[source, bash]
-----
-echo DROP DATABASE IF EXISTS bgerp; > ./dump.sql &&
-echo CREATE DATABASE bgerp DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; >> ./dump.sql &&
-echo USE bgerp; >> ./dump.sql &&
-mysqldump -uDB_USER -pDB_PSWD bgerp --add-drop-database --no-data >> ./dump.sql &&
-type build\bgerp\db_init_end.sql >> ./dump.sql
-----
-
-For *NIX:
-[source, bash]
-----
-echo "DROP DATABASE IF EXISTS bgerp;" > ./dump.sql &&
-echo "CREATE DATABASE bgerp DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;" >> ./dump.sql &&
-echo "USE bgerp;" >> ./dump.sql &&
-mysqldump -uDB_USER -pDB_PSWD bgerp --add-drop-database --no-data >> ./dump.sql &&
-cat build/bgerp/db_init_end.sql >> ./dump.sql
-----
-
-Running the tests after:
-[source, bash]
-----
-mysql -uDB_USER -pDB_PSWD < ./dump.sql &&
-gradlew integrationTest -Pdb.user=DB_USER -Pdb.pswd=DB_PSWD -Pskip.dbReset=true
-----
-
-[[gitlab-ci]]
-== GitLab CI
-link:../../.gitlab-ci.yml[.gitlab-ci.yml] file has configuration for runnign certain jobs automatically upon each GIT commit.
-Different jobs are executed within different <<workflow, Workflow>> branches.
-Please find below description of CI jobs.
-
-[[test-and-publish-update]]
-=== test-and-publish-update
-Launches <<unit-test, Unit tests>> and <<build-doc, documentation build and validity check>.
-If everything is wents without error then publishing <<build-update, update>> from the branch to https://bgerp.org/update
-
-[[test-and-publish-update-master]]
-=== test-and-publish-update-master
-Does the same as *test-and-publish-update* but for master branch.
-As there is not process ID, update files are <<build-update, published>> in https://bgerp.org/update/00000.
-
-[[test-integration]]
-=== test-integration
-Runs <<integration-test, integration test>>.
-
-[[publish-doc]]
-=== publish-doc
-Launches <<build-doc, documentation build and validity check>>, if no errors are found, publishes on https://bgerp.org/doc/3.0/manual.
-
-[[publish-source]]
-=== publish-source
-Publishes actual source code from `master`into an open repository https://github.com/pingvin235/bgerp
-This method has been chosen in order to limit an open repository size and in order to hide previously deleted files from history.
