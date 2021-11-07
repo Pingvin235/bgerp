@@ -1,0 +1,1 @@
+A: Script deploy.sh. https://bgerp.org/doc/3.0/manual/kernel/install.html#deployment-script

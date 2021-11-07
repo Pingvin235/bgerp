@@ -63,6 +63,47 @@ CAUTION: Completely remove all the related data.
 rm -rf /srv/bgerp
 ----
 
+[[deployment-script]]
+== Deployment Script
+A Bash link:../../deploy/deploy.sh[script] that runs on Debian/CentOS and performs:
+[square]
+* deployment a Docker container with running BGERP;
+* configuration of NGINX with SSL access.
+
+Prerequisites;
+[square]
+* You need to be installed next packages: *docker-ce*, *nginx*, *certbot*, *curl*.
+* Run script with *sudo* or *root*
+
+Switch to a working directory, e.g:
+[source, bash]
+----
+cd /tmp
+----
+
+Download the script using *curl*:
+[source, bash]
+----
+curl https://github.com/Pingvin235/bgerp/blob/master/srcx/deploy/deploy.sh --output bgerp_deploy.sh
+----
+
+Running:
+[source, bash]
+----
+sudo bash bgerp_deploy.sh <NAME> <PORT>
+----
+
+Where:
+[square]
+* *<NAME>* - DNS server name used for the instance;
+* *<PORT>* - HTTP port exposed on localhost.
+
+Example:
+[source]
+----
+sudo bash bgerp_deploy.sh test.bgerp.org 9001
+----
+
 [[linux-server]]
 == Linux server
 Installation on Linux server.
