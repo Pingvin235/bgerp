@@ -36,39 +36,21 @@
 
 			<div id="${selectorSample}">
 				<h2>${l.l('Название')}</h2>
-				<input type="text" name="title" style="width: 100%" value="${fn:escapeXml( parameter.title )}"/>			
-				
+				<input type="text" name="title" style="width: 100%" value="${fn:escapeXml( parameter.title )}"/>
+
 				<h2>${l.l('Тип')}</h2>
 				<c:choose>
 					<c:when test="${form.id ne '-1'}">
 						<input type="text" name="type" value="${parameter.type}" disabled="disabled" style="width: 100%;"/>
 					</c:when>
 					<c:otherwise>
-						<u:sc>
-							<c:set var="valuesHtml">
-								<li value="text">text</li>
-								<li value="blob">blob</li>
-								<li value="date">date</li>
-								<li value="datetime">datetime</li>
-								<li value="email">email</li>
-								<li value="list">list</li>
-								<li value="listcount">listcount</li>
-								<li value="phone">phone</li>
-								<li value="address">address</li>
-								<li value="file">file</li>
-								<li value="tree">tree</li>
-							</c:set>
-							<c:set var="hiddenName" value="type"/>
-							<c:set var="style" value="width: 100%;"/>
-							<c:set var="onSelect">${typeChangedScript}</c:set>
-							<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-						</u:sc>
+						<ui:combo-single hiddenName="type" list="<%=ru.bgcrm.model.param.Parameter.TYPES%>" styleClass="w100p" onSelect="${typeChangedScript}"/>
 					</c:otherwise>
 				</c:choose>
 
 				<div id="listValues">
 					<h2>${l.l('Значения')}</h2>
-				
+
 					<textarea name="listValues" rows="7" style="width: 100%; resize:none;" wrap="off">${parameter.valuesConfig}</textarea>
 
 					<span class="hint tree">
@@ -93,7 +75,7 @@
 						Заблокированные значения помечаются знаком <b>@</b>, например <b>5=@Значение</b>.<br/>
 					</span>
 				</div>
-				
+
 				<h2>${l.l('Порядок')}</h2>
 				<input type="text" name="order" value="${parameter.order}" style="width: 100%;"/>
 
@@ -109,7 +91,7 @@
 			<h2>Скрипт</h2>
 			<input type="text" name="script" style="width: 100%" value="${parameter.script}"/>
 			--%>
-			
+
 			<h2>${l.l('Конфигурация')}</h2>
 			<textarea id="${selectorTo}" name="config" rows="7" style="width: 100%; resize:none;" wrap="off">${parameter.config}</textarea>
 		</div>

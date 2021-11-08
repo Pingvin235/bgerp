@@ -20,7 +20,7 @@ import ru.bgcrm.util.ParameterMap;
 
 @Test(groups = "processIsolation", dependsOnGroups = "process")
 public class ProcessIsolationTest {
-    private static final String TITLE = "Kernel Isolation";
+    private static final String TITLE = "Kernel Process Isolation";
 
     private static volatile int processTypeId;
     private static volatile int processTypeSpecialId;

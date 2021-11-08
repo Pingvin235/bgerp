@@ -1,0 +1,4 @@
+# https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-list
+directory=<dirName>
+availableValues=<values>
+availableValuesInnerJoinFilter=<joinTable>;<joinColumn>;<joinFilter>

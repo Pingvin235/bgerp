@@ -798,5 +798,14 @@ CALL drop_key_if_exists('param_list', 'id_param');
 
 ALTER TABLE user_group MODIFY date_from DATE NOT NULL, MODIFY date_to DATE;
 
+CREATE TABLE IF NOT EXISTS `param_money` (
+  `id` int(11) NOT NULL,
+  `param_id` int(11) NOT NULL,
+  `value` decimal(10,2) NOT NULL,
+  UNIQUE KEY `id_param_id` (`id`,`param_id`),
+  KEY `param_id` (`param_id`),
+  KEY `value` (`value`)
+);
+
 -- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

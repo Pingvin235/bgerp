@@ -131,6 +131,11 @@
 				<input id="${focusFieldUiid}" type="text" name="value" value="${checkedParamValue}" style="width: 100%;" ${changeAttrs} ${onBlur} ${onEnter}/>
 			</c:when>
 
+			<c:when test="${parameter.type eq 'money'}">
+				<input id="${focusFieldUiid}" type="text" name="value" value="${data.value}" size="10" onkeydown="return isNumberKey(event)" ${changeAttrs} ${onBlur} ${onEnter}/>
+				<span class="hint">${l.l('Используйте точку как десятичный разделитель.')}</span>
+			</c:when>
+
 			<c:when test="${parameter.type eq 'blob'}">
 				<c:set var="rows" value="rows='${u:maskEmpty(parameter.configMap.rows, '4')}'"/>
 				<textarea id="${focusFieldUiid}" name="value" ${rows}  style="width: 100%;" ${changeAttrs} ${onBlur}>${data.value}</textarea>

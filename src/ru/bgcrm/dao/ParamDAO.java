@@ -1,9 +1,7 @@
 package ru.bgcrm.dao;
 
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_DATE_LOG;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_GROUP;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT_VALUE;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST_LOG;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST_VALUE;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_PREF;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_TREE_VALUE;
@@ -22,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.IdTitleTree;
@@ -31,7 +28,6 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterHistory;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.PreparedDelay;
 
@@ -563,98 +559,9 @@ public class ParamDAO extends CommonDAO {
         return result;
     }
 
+    @Deprecated
     public List<ParameterHistory> getParameterHistory(String object, Parameter parameter, int id) throws SQLException {
-        List<ParameterHistory> list = new ArrayList<ParameterHistory>();
-
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-        StringBuilder query = new StringBuilder();
-        if (Parameter.TYPE_DATE.equals(parameter.getType())) {
-            query.append("SELECT * FROM ");
-            query.append(TABLE_PARAM_DATE_LOG);
-            query.append("WHERE param_id=? AND log.id=? ORDER BY date_changed");
-            ps = con.prepareStatement(query.toString());
-            ps.setInt(1, parameter.getId());
-            ps.setInt(2, id);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                int userId = rs.getInt("user_id_changed");
-
-                ParameterHistory parameterHistory = new ParameterHistory();
-                parameterHistory.setDateChanged(rs.getTimestamp("date_changed"));
-                parameterHistory.setUserIdChanged(userId);
-                parameterHistory.setUserNameChanged(UserCache.getUser(userId).getTitle());
-                java.sql.Date date = rs.getDate("value");
-                if (date == null) {
-                    parameterHistory.setValue("УДАЛЕНО");
-                } else {
-                    parameterHistory.setValue(TimeUtils.format(date, TimeUtils.FORMAT_TYPE_YMD));
-                }
-                list.add(parameterHistory);
-            }
-            ps.close();
-        } else if (Parameter.TYPE_LIST.equals(parameter.getType())) {
-            String listValuesConfig = getListParamValuesConfig(parameter.getId());
-            Map<Integer, String> valuesMap = convertListValuesConfigToMap(listValuesConfig);
-
-            query.append("SELECT * FROM ");
-            query.append(TABLE_PARAM_LIST_LOG);
-            query.append(" AS log ");
-            query.append(" WHERE log.param_id=? AND log.id=? ORDER BY date_changed");
-            ps = con.prepareStatement(query.toString());
-            ps.setInt(1, parameter.getId());
-            ps.setInt(2, id);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                int userId = rs.getInt("user_id_changed");
-
-                ParameterHistory parameterHistory = new ParameterHistory();
-                parameterHistory.setDateChanged(rs.getTimestamp("date_changed"));
-                parameterHistory.setUserIdChanged(userId);
-                parameterHistory.setUserNameChanged(UserCache.getUser(userId).getTitle());
-                String value = valuesMap.get(Integer.parseInt(rs.getString("log.value")));
-                String custom = rs.getString("log.custom");
-                if (value == null && custom == null) {
-                    parameterHistory.setValue("УДАЛЕНО");
-                } else if (value != null) {
-                    parameterHistory.setValue(value);
-                } else if (custom != null) {
-                    parameterHistory.setValue(custom);
-                }
-                list.add(parameterHistory);
-            }
-            rs.close();
-            ps.close();
-        } else {
-            query.append("SELECT * FROM ");
-            query.append("param_");
-            query.append(parameter.getType());
-            query.append("_log");
-            query.append(" AS log WHERE param_id=? AND id=? ORDER BY date_changed");
-            ps = con.prepareStatement(query.toString());
-            ps.setInt(1, parameter.getId());
-            ps.setInt(2, id);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                int userId = rs.getInt("user_id_changed");
-
-                ParameterHistory parameterHistory = new ParameterHistory();
-                parameterHistory.setDateChanged(rs.getTimestamp("date_changed"));
-                parameterHistory.setUserIdChanged(userId);
-                parameterHistory.setUserNameChanged(UserCache.getUser(userId).getTitle());
-                String value = rs.getString("value");
-                if (value == null) {
-                    parameterHistory.setValue("УДАЛЕНО");
-                } else {
-                    parameterHistory.setValue(value);
-                }
-                list.add(parameterHistory);
-            }
-            rs.close();
-            ps.close();
-        }
-
-        return list;
+        return Collections.emptyList();
     }
 
     private Parameter getParameterFromRs(ResultSet rs) throws SQLException {

@@ -201,7 +201,7 @@ public class ProcessAction extends BaseAction {
 
         change.setStatusId(type.getProperties().getCreateStatus());
         if (!ProcessTypeCache.getStatusMap().containsKey(change.getStatusId())) {
-            throw new BGException("Для типа процесса не определён существующий начальный статус");
+            throw new BGException("No initial status defined for the process type");
         }
 
         changeDao.changeStatus(process, type, change);

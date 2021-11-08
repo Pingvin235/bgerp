@@ -1,53 +1,92 @@
 package org.bgerp.itest.kernel.process;
 
 import java.util.List;
+import java.util.Set;
 
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
+import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
-import org.bgerp.itest.kernel.param.ParamTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.dao.process.ProcessTypeDAO;
+import ru.bgcrm.cache.ParameterCache;
+import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.TypeProperties;
+import ru.bgcrm.model.user.User;
+import ru.bgcrm.util.Utils;
 
 @Test(groups = "processParam", dependsOnGroups = { "process", "param", "address" })
 public class ProcessParamTest {
+    private static final String TITLE = "Kernel Process Param";
+
+    private int paramAddressId;
+    private int paramListId;
+    private int paramListCountId;
+    private int paramMoneyId;
+    private int paramTextId;
+    private int paramTreeId;
+    private int processTypeId;
+    private int processId;
 
     @Test
-    public void addParams() throws Exception {
-        int paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, "Test address", ProcessTest.posParam += 2, "", "");
-        int paramTextId =  ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, "Test text", ProcessTest.posParam += 2,
-            "#"+ ParamTest.SAVE_ON_FOCUS_LOST + "\n" +
-            "#" + ParamTest.ENCRYPTED + "\n",
-            ""
-        );
-        // TODO: params 'date', 'datetime', 'list', 'listcount', 'file' with different options
+    public void addParam() throws Exception {
+        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " type 'address'",
+                ProcessTest.posParam += 2, "", "");
 
-        var con = DbTest.conRoot;
+        // TODO: 'date', 'datetime', 'email', 'file'
 
-        var dao = new ProcessTypeDAO(con);
-        var type = dao.getProcessType(ProcessTest.processTypeTestId);
-        Assert.assertNotNull(type);
+        paramListId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST,
+                TITLE + " type 'list'", ProcessTest.posParam += 2,
+                ResourceHelper.getResource(this, "param.list.config.txt"),
+                ResourceHelper.getResource(this, "param.list.values.txt"));
 
-        type.getProperties().getParameterIds().addAll(List.of(paramAddressId, paramTextId));
+        // TODO: list with directory (users)
 
-        dao.updateTypeProperties(type);
-        ProcessTypeCache.flush(con);
+        paramListCountId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LISTCOUNT,
+                TITLE + " type 'listcount'", ProcessTest.posParam += 2, "",
+                ResourceHelper.getResource(this, "param.list.values.txt"));
 
-        /* paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, "Address", posParam += 2, "", "");
-        // TODO: Make date chooser configuration.
-        paramNextDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Next date", posParam += 2, "", "");
-        paramDeadlineDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Deadline", posParam += 2, "", ""); */
+        paramMoneyId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " type 'money'",
+                ProcessTest.posParam += 2, "", "");
+
+        paramTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text'",
+                ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.text.config.txt"), "");
+
+        paramTreeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TREE, TITLE + " type 'tree'",
+                ProcessTest.posParam += 2, "", ResourceHelper.getResource(this, "param.tree.values.txt"));
+
+        ParameterCache.flush(null);
     }
 
-    @Test(dependsOnMethods = "addParams")
+    @Test(dependsOnMethods = "addParam")
+    public void addProcessType() throws Exception {
+        var props = new TypeProperties();
+        props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
+        props.setCreateStatus(ProcessTest.statusOpenId);
+        props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
+        props.getParameterIds().addAll(List.of(paramAddressId, paramListId, paramListCountId, paramMoneyId, paramTextId, paramTreeId));
+
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
+    }
+
+    @Test(dependsOnMethods = "addProcessType")
     public void addProcess() throws Exception {
-        var p = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, "Kernel Parameters");
-        Assert.assertNotNull(p);
+        var p = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
+        Assert.assertTrue(0 < (processId = p.getId()));
+    }
+
+    @Test(dependsOnMethods = { "addProcess" })
+    public void addParamValue() throws Exception {
+        var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
+
+        var valueMoney = dao.getParamMoney(processId, paramMoneyId);
+        Assert.assertNull(valueMoney);
+        dao.updateParamMoney(processId, paramMoneyId, Utils.parseBigDecimal("10.55"));
+        valueMoney = dao.getParamMoney(processId, paramMoneyId);
+        Assert.assertEquals(Utils.parseBigDecimal("10.55"), valueMoney);
     }
 }

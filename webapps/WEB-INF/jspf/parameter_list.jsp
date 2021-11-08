@@ -281,7 +281,7 @@
 					</c:when>
 
 					<%-- список, дерево, телефон - редактор нужно вызвать --%>
-					<c:when test="${fn:contains( 'email, text, blob, date, datetime, list, phone, tree, listcount', parameter.type ) and empty editorType}">
+					<c:when test="${fn:contains( 'email, text, blob, date, datetime, list, phone, tree, listcount, money', parameter.type ) and empty editorType}">
 						<c:set var="editFormId" value="${u:uiid()}"/>
 						<c:set var="valueTitle" value="${item.valueTitle}"/>
 
@@ -312,11 +312,11 @@
 									<input type="hidden" name="tableId" value="${tableId}"/>
 									<input type="hidden" name="paramId" value="${parameter.id}"/>
 
-									<a href="#" onclick="if( openUrlTo( formUrl( $('#${editFormId}')[0] ), $('#${editDivId}') ) ) ${startEdit}">
+									<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} }); return false;">
 										${valueTitle}
 										<c:if test="${empty item.valueTitle}">${l.l('не указан')}</c:if>
 										<c:if test="${showAsLink}">
-											[<a target="_blank" href="${item.value}">перейти</a>]
+											[<a target="_blank" href="${item.value}">${l.l('перейти')}</a>]
 										</c:if>
 									</a>
 								</html:form>

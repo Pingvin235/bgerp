@@ -47,7 +47,7 @@ public class DirectoryAction extends BaseAction {
             return action;
         }
     }
-    
+
     private static final List<Directory> directoryList = Collections.unmodifiableList(Lists.newArrayList(
         new Directory("processParameter", "Параметры процессов", "parameterList"),
         new Directory("userParameter", "Параметры пользователей", "parameterList"),
@@ -114,6 +114,7 @@ public class DirectoryAction extends BaseAction {
         var request = form.getHttpRequest();
         setDirectoryList(request);
         request.setAttribute("directoryTitle", directoryMap.get(form.getParam("directoryId")));
+        request.setAttribute("types", Parameter.TYPES);
 
         return html(con, mapping, form, "parameterUpdate");
     }
@@ -211,7 +212,7 @@ public class DirectoryAction extends BaseAction {
         return html(con, mapping, form);
     }
 
-    //переписать "!" 
+    //переписать "!"
     public ActionForward parameterGroupGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         int id = form.getId();
 

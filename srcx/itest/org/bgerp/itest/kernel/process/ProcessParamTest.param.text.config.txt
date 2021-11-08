@@ -1,0 +1,4 @@
+# uncomment to activate saving on focus lost
+#saveOn=focusLost
+# uncomment to hiding content
+#encrypt=encrypted

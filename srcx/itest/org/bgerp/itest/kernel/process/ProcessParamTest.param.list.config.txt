@@ -1,0 +1,14 @@
+# https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-list
+# multiple values
+#multiple=1
+# save immediately after choosing, without OK button, only for single value parameter
+#saveOn=select
+# allowed values: radio, select
+#editAs=radio
+# sort values by titles instead of codes
+#sort.mode=byTitle
+# values, allowing comments
+allowCommentValues=2,3
+# values, required comments
+needCommentValues=3
+

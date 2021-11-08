@@ -264,6 +264,8 @@ public class ParameterAction extends BaseAction {
             request.setAttribute("listValues", listValues);
             // для сторонних систем - значения спискового параметра
             resp.setData("listValues", listValues);
+        } else if (Parameter.TYPE_MONEY.equals(parameter.getType())) {
+            resp.setData("value", paramDAO.getParamMoney(id, paramId));
         } else if (Parameter.TYPE_TREE.equals(parameter.getType())) {
             Set<String> values = paramDAO.getParamTree(id, paramId);
             resp.setData("value", values);
@@ -427,21 +429,22 @@ public class ParameterAction extends BaseAction {
         }
 
         Object paramValue = null;
-        String className = parameter.getScript();
+
+        /* String className = parameter.getScript();
         String objectClassName = "";
         if (Process.OBJECT_TYPE.equals(parameter.getObject())) {
             Process process = new ProcessDAO(con).getProcess(id);
             ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
             objectClassName = type.getProperties().getActualScriptName();
-        }
+        } */
 
         if (Parameter.TYPE_TEXT.equals(parameter.getType())) {
             paramValue = form.getParam("value");
-            paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue));
             paramValueDAO.updateParamText(id, paramId, (String) paramValue);
         } else if (Parameter.TYPE_BLOB.equals(parameter.getType())) {
             paramValue = form.getParam("value");
-            paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue));
             paramValueDAO.updateParamBlob(id, paramId, (String) paramValue);
         } else if (Parameter.TYPE_DATE.equals(parameter.getType())) {
             String value = form.getParam("value");
@@ -453,7 +456,7 @@ public class ParameterAction extends BaseAction {
                 throw new BGMessageException("Неверный формат.");
             }
 
-            paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue));
 
             paramValueDAO.updateParamDate(id, paramId, (Date) paramValue);
         } else if (Parameter.TYPE_DATETIME.equals(parameter.getType())) {
@@ -466,7 +469,7 @@ public class ParameterAction extends BaseAction {
                 throw new BGMessageException("Неверный формат.");
             }
 
-            paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue));
 
             paramValueDAO.updateParamDateTime(id, paramId, (Date) paramValue);
         } else if (Parameter.TYPE_LIST.equals(parameter.getType())) {
@@ -489,7 +492,7 @@ public class ParameterAction extends BaseAction {
                 values.put(val, comment);
             }
 
-            paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue = values.keySet()));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = values.keySet()));
 
             paramValueDAO.updateParamList(id, paramId, values);
         } else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType())) {
@@ -505,15 +508,19 @@ public class ParameterAction extends BaseAction {
                 }
             }
 
-            paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue = values));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = values));
 
             paramValueDAO.updateParamListCount(id, paramId, values);
+        } else if (Parameter.TYPE_MONEY.equals(parameter.getType())) {
+            paramValue = Utils.parseBigDecimal(form.getParam("value"));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue));
+            paramValueDAO.updateParamMoney(id, paramId, (BigDecimal) paramValue);
         } else if (Parameter.TYPE_TREE.equals(parameter.getType())) {
             Set<String> values = form.getSelectedValuesStr("value");
             // TODO: Попробовать убрать, проверить.
             values.removeAll(Arrays.asList("0", "-1"));
 
-            paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue = values));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = values));
 
             paramValueDAO.updateParamTree(id, paramId, values);
         } else if (Parameter.TYPE_FILE.equals(parameter.getType())) {
@@ -535,7 +542,7 @@ public class ParameterAction extends BaseAction {
                 }
             }
 
-            paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue = fileData));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = fileData));
 
             paramValueDAO.updateParamFile(id, paramId, position, form.getParam("comment"), fileData);
         } else if (Parameter.TYPE_PHONE.equals(parameter.getType())) {
@@ -567,7 +574,7 @@ public class ParameterAction extends BaseAction {
             }
             phoneValue.setItemList(items);
 
-            paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue = phoneValue));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = phoneValue));
 
             paramValueDAO.updateParamPhone(id, paramId, phoneValue);
         } else if (Parameter.TYPE_EMAIL.equals(parameter.getType())) {
@@ -579,7 +586,7 @@ public class ParameterAction extends BaseAction {
             if (Utils.notBlankString(value))
                 emailValue = new ParameterEmailValue(value, form.getParam("comment", ""));
 
-            paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue = emailValue));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = emailValue));
 
             paramValueDAO.updateParamEmail(id, paramId, position, emailValue);
         } else if (Parameter.TYPE_ADDRESS.equals(parameter.getType())) {
@@ -622,21 +629,21 @@ public class ParameterAction extends BaseAction {
             }
 
             //TODO: Возможно, позицию адреса нужно вставить в ParameterAddressValue
-            paramChangingProcess(con, className, objectClassName, new ParamChangingEvent(form, parameter, id, paramValue = addressValue));
+            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = addressValue));
 
             paramValueDAO.updateParamAddress(id, paramId, position, addressValue);
         }
 
         // событие о изменении параметра
         ParamChangedEvent changedEvent = new ParamChangedEvent(form, parameter, id, paramValue);
-        EventProcessor.processEvent(changedEvent, className, new SingleConnectionConnectionSet(con));
-        EventProcessor.processEvent(changedEvent, objectClassName, new SingleConnectionConnectionSet(con), false);
+        EventProcessor.processEvent(changedEvent, /* className, */new SingleConnectionConnectionSet(con));
+        /* EventProcessor.processEvent(changedEvent, objectClassName, new SingleConnectionConnectionSet(con), false); */
 
         return json(con, form);
     }
 
-    private void paramChangingProcess(Connection con, String className, String objectClassName, ParamChangingEvent event) throws Exception {
-        EventProcessor.processEvent(event, className, new SingleConnectionConnectionSet(con));
-        EventProcessor.processEvent(event, objectClassName, new SingleConnectionConnectionSet(con), false);
+    private void paramChangingProcess(Connection con, /* String className, String objectClassName,  */ParamChangingEvent event) throws Exception {
+        EventProcessor.processEvent(event, /* className,  */new SingleConnectionConnectionSet(con));
+        /* EventProcessor.processEvent(event, objectClassName, new SingleConnectionConnectionSet(con), false); */
     }
 }

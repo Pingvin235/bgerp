@@ -1,14 +1,13 @@
 package ru.bgcrm.model.param;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import ru.bgcrm.cache.ParameterCache;
+import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
@@ -21,38 +20,39 @@ public class Parameter extends IdTitle {
     public static final String LIST_PARAM_AVAILABLE_VALUES_KEY = "availableValues";
     public static final String LIST_PARAM_AVAILABLE_VALUES_INNER_JOIN_FILTER_KEY = "availableValuesInnerJoinFilter";
 
-    public static final String TYPE_TEXT = "text";
+    public static final String TYPE_ADDRESS = "address";
     public static final String TYPE_BLOB = "blob";
     public static final String TYPE_DATE = "date";
     public static final String TYPE_DATETIME = "datetime";
     public static final String TYPE_EMAIL = "email";
+    public static final String TYPE_FILE = "file";
     public static final String TYPE_LIST = "list";
     public static final String TYPE_LISTCOUNT = "listcount";
+    public static final String TYPE_MONEY = "money";
+    public static final String TYPE_TEXT = "text";
     public static final String TYPE_PHONE = "phone";
-    //public static final String TYPE_BOOLEAN = "boolean"; // не реализован
-    public static final String TYPE_ADDRESS = "address";
-    public static final String TYPE_FILE = "file";
     public static final String TYPE_TREE = "tree";
 
-    // не известно, где используется
-    public static final Set<String> VALID_TYPES = new HashSet<String>(Arrays
-            .asList(new String[] { TYPE_TEXT, TYPE_BLOB, TYPE_DATE, TYPE_DATETIME, TYPE_PHONE, TYPE_ADDRESS, TYPE_FILE, TYPE_TREE, TYPE_LISTCOUNT }));
+    /** Sorted list of parameter types. Used in JSP. */
+    public static final List<IdStringTitle> TYPES = EnumSet.allOf(Type.class).stream()
+        .map(type -> type.name).sorted()
+        .map(name -> new IdStringTitle(name, name))
+        .collect(Collectors.toList());
 
+    private static Map<String, Type> NAME_MAP = EnumSet.allOf(Type.class).stream()
+            .collect(Collectors.toMap(type -> type.name, type -> type));
+
+    /** Parameter types enum. */
     public enum Type {
-        TEXT(TYPE_TEXT), BLOB(TYPE_BLOB), DATE(TYPE_DATE), DATETIME(TYPE_DATETIME), EMAIL(TYPE_EMAIL), LIST(TYPE_LIST), LISTCOUNT(
-                TYPE_LISTCOUNT), PHONE(TYPE_PHONE), ADDRESS(TYPE_ADDRESS), FILE(TYPE_FILE), TREE(TYPE_TREE);
+        ADDRESS(TYPE_ADDRESS), BLOB(TYPE_BLOB), DATE(TYPE_DATE), DATETIME(TYPE_DATETIME), EMAIL(TYPE_EMAIL),
+        FILE(TYPE_FILE), LIST(TYPE_LIST), LISTCOUNT(TYPE_LISTCOUNT), MONEY(TYPE_MONEY), TEXT(TYPE_TEXT),
+        PHONE(TYPE_PHONE), TREE(TYPE_TREE);
 
-        private String name;
-        private static Map<String, Type> NAME_MAP = new HashMap<String, Type>();
-        static {
-            for (Type type : Type.values()) {
-                NAME_MAP.put(type.name, type);
-            }
-        }
-
-        public static Type fromString(String name) {
+        public static Type of(String name) {
             return NAME_MAP.get(name);
         }
+
+        private final String name;
 
         private Type(String name) {
             this.name = name;

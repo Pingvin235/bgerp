@@ -1019,7 +1019,7 @@ Java code uses javadoc:ru.bgcrm.util.TimeUtils[] class for date formatting, this
 
 The same functions may be used in <<jsp, JSP>> using `tu` prefix:
 [snippet, from="<input type=", to="d}\"/>", remove-leading="				"]
-link:../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L155-L155[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
+link:../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L160-L160[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
 
 [[sample-configuration-java-beans]]
 === Configuration Java Beans

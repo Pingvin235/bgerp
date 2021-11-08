@@ -394,7 +394,7 @@ public class ProcessCommandExecutor {
                 Parameter param = ParameterCache.getParameter(paramId);
                 String value = Utils.substringAfter(command, ":", 2);
 
-                switch (Parameter.Type.fromString(param.getType())) {
+                switch (Parameter.Type.of(param.getType())) {
                 case DATE:
                     new ParamValueDAO(con).updateParamDate(process.getId(), param.getId(), TimeUtils.parse(value, param.getDateParamFormat(), null));
                     break;

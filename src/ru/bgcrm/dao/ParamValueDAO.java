@@ -9,20 +9,17 @@ import static ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_BLOB;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_DATE;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_DATETIME;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_DATETIME_LOG;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_DATE_LOG;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_EMAIL;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_FILE;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT_VALUE;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST_VALUE;
+import static ru.bgcrm.dao.Tables.TABLE_PARAM_MONEY;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_PHONE;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_PHONE_ITEM;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_PHONE_LOG;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_PREF;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_TEXT;
-import static ru.bgcrm.dao.Tables.TABLE_PARAM_TEXT_LOG;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_TREE;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_TREE_VALUE;
 import static ru.bgcrm.model.param.Parameter.LIST_PARAM_USE_DIRECTORY_KEY;
@@ -98,7 +95,7 @@ public class ParamValueDAO extends CommonDAO {
     /**
      * Возвращает адресный параметр объекта.
      * @param id - код объекта.
-     * @param paramId - код параметра.
+     * @param paramId - param ID.
      * @param position - позиция, начиная от 1, если в параметре установлены несколько значений.
      * @return
      * @throws SQLException
@@ -124,7 +121,7 @@ public class ParamValueDAO extends CommonDAO {
     /**
      * Возвращает значения адресного параметра объекта.
      * @param id - код объекта.
-     * @param paramId - код параметра.
+     * @param paramId - param ID.
      * @return ключ - позиция, значение - значение на позиции.
      * @throws SQLException
      */
@@ -135,7 +132,7 @@ public class ParamValueDAO extends CommonDAO {
     /**
      * Возвращает значения адресного параметра объекта.
      * @param id - код объекта.
-     * @param paramId - код параметра.
+     * @param paramId - param ID.
      * @param loadDirs - признак необходимости загрузить справочники, чтобы был корректно заполнен {@link ParameterAddressValue#getHouse()}/
      * @return ключ - позиция, значение - значение на позиции.
      * @throws SQLException
@@ -148,7 +145,7 @@ public class ParamValueDAO extends CommonDAO {
     /**
      * Возвращает значения адресного параметра объекта.
      * @param id - код объекта.
-     * @param paramId - код параметра.
+     * @param paramId - param ID.
      * @param loadDirs - признак необходимости загрузить справочники, чтобы был корректно заполнен {@link ParameterAddressValue#getHouse()}.
      * @param formatName - наименование формата адреса из конфигурации, с помощью которого форматировать значение адреса.
      * @return ключ - позиция, значение - значение на позиции.
@@ -182,8 +179,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Возвращает значение параметра типа 'file'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @param position номер значения (если значений несколько).
      * @param version not used.
      * @return
@@ -212,8 +209,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Возвращает существующие значения параметра типа 'file'
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return ключ - позиция, значение - данные.
      * @throws SQLException
      */
@@ -239,8 +236,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Возвращает значение параметра типа 'date'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return
      * @throws SQLException
      */
@@ -250,8 +247,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Возвращает значение параметра типа 'datetime'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return
      * @throws SQLException
      */
@@ -277,9 +274,9 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значение параметра типа 'text'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * Select value of parameter with type 'text'.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return
      * @throws SQLException
      */
@@ -289,8 +286,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Возвращает значение параметра типа 'blob'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return
      * @throws SQLException
      */
@@ -324,8 +321,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Возвращает значение параметра типа 'email'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @position позиция параметра, если значений несколько.
      * @return
      * @throws SQLException
@@ -350,9 +347,9 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения параметра типа 'email'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * Selects a parameter value with type 'email'.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return ключ - позиция значения, значение - данные по параметру.
      * @throws SQLException
      */
@@ -375,10 +372,21 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения параметра типа 'phone'
-     * @param id код объекта.
-     * @param paramId код параметра.
-     * @return
+     * Selects a parameter value with type 'money'.
+     * @param id object ID.
+     * @param paramId param ID.
+     * @return the value or {@code null}.
+     * @throws SQLException
+     */
+    public BigDecimal getParamMoney(int id, int paramId) throws SQLException {
+        return Utils.parseBigDecimal(getTextParam(id, paramId, TABLE_PARAM_MONEY), null);
+    }
+
+    /**
+     * Selects a parameter value with type 'phone'.
+     * @param id object ID.
+     * @param paramId param ID.
+     * @return the value or {@code null}.
      * @throws SQLException
      */
     public ParameterPhoneValue getParamPhone(int id, int paramId) throws SQLException {
@@ -414,8 +422,8 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения параметра типа 'list'.
-     * @param id код объекта.
+     * Selects a parameter value with type 'list'.
+     * @param id object ID.
      * @param paramId
      * @return Set с кодами значений.
      * @throws SQLException
@@ -438,9 +446,9 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения параметра типа 'list' с наименованиями значений.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * Selects a parameter value with type 'list' с наименованиями значений.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return
      * @throws SQLException
      */
@@ -450,9 +458,9 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения параметра типа 'list' с комментариями значений.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * Selects a parameter value with type 'list' с комментариями значений.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return ключ - код значения, значение - комментарий.
      * @throws SQLException
      */
@@ -474,9 +482,9 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения параметра типа 'list' с наименованиями значений и примечаниями.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * Selects a parameter value with type 'list' с наименованиями значений и примечаниями.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return
      * @throws SQLException
      */
@@ -507,9 +515,9 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения параметра типа 'listcount' с наименованиями значений.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * Selects a parameter value with type 'listcount' с наименованиями значений.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return
      * @throws SQLException
      */
@@ -540,9 +548,9 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения параметра типа 'listcount'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * Selects a parameter value with type 'listcount'.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return ключ - код значения, значение - доп. данные.
      * @throws SQLException
      */
@@ -564,9 +572,9 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает значения параметра типа 'tree'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * Selects a parameter value with type 'tree'.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return набор значений.
      * @throws SQLException
      */
@@ -603,8 +611,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Устанавливает значение параметра типа 'text'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @param value значение, null или пустая строка - удалить значение.
      * @throws SQLException
      */
@@ -613,7 +621,7 @@ public class ParamValueDAO extends CommonDAO {
             value = null;
         }
 
-        updateSimpleParam(id, paramId, value, TABLE_PARAM_TEXT, TABLE_PARAM_TEXT_LOG);
+        updateSimpleParam(id, paramId, value, TABLE_PARAM_TEXT);
 
         if (history) {
             logParam(id, paramId, userId, value);
@@ -622,8 +630,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Устанавливает значение параметра типа 'blob'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @param value значение, null или пустая строка - удалить значение.
      * @throws SQLException
      */
@@ -632,7 +640,7 @@ public class ParamValueDAO extends CommonDAO {
             value = null;
         }
 
-        updateSimpleParam(id, paramId, value, TABLE_PARAM_BLOB, TABLE_PARAM_BLOB);
+        updateSimpleParam(id, paramId, value, TABLE_PARAM_BLOB);
 
         if (history) {
             logParam(id, paramId, userId, value != null ? "Длина: " + value.length() : null);
@@ -642,7 +650,7 @@ public class ParamValueDAO extends CommonDAO {
     /**
      * Обновляет/добавляет/удаляет значения параметра типа EMail.
      * @param id - код сущности в БД.
-     * @param paramId - код параметра.
+     * @param paramId - param ID.
      * @param position - позиция значения, начинается с 1, 0 - добавить новое значение с позицией MAX+1.
      * @param value - значение, null - удаление параметра на указанной позиции, если position>0; иначе - удаление всех значений.
      * @throws SQLException
@@ -717,8 +725,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Устанавливает значения параметра типа 'list' с примечаниями.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @param values ключ - значение параметра, значение - текстовое примечание.
      * @throws SQLException
      */
@@ -745,8 +753,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Устанавливает значения параметра типа 'list' с пустыми примечениями.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @param values набор с кодами значений.
      * @throws SQLException
      */
@@ -772,8 +780,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Устанавливает значения параметра типа 'listcount'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @param values значения, ключ - код значение, значение - количество.
      * @throws SQLException
      */
@@ -818,12 +826,25 @@ public class ParamValueDAO extends CommonDAO {
         updateParamListCount(id, paramId, valuesFixed);
     }
 
-    // public void updateParamFile(int id, int paramId, int position, int version, String comment, FileData fileData)
+    /**
+     * Updates parameter with type 'email'.
+     * @param id object ID.
+     * @param paramId param ID.
+     * @param value the value, when {@code null} - remove.
+     * @throws SQLException
+     */
+    public void updateParamMoney(int id, int paramId, BigDecimal value) throws SQLException {
+        updateSimpleParam(id, paramId, value, TABLE_PARAM_MONEY);
+
+        if (history) {
+            logParam(id, paramId, userId, String.valueOf(value));
+        }
+    }
 
     /**
      * Устанавливает значение параметра типа 'file' на позицию с новой версией.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @param position position for multiple values, when is 0 - adding with new positions.
      * @param comment примечение.
      * @param fileData значение параметра данной версии, если null - удаление значения с позиции.
@@ -901,7 +922,7 @@ public class ParamValueDAO extends CommonDAO {
     /**
      * Обновляет/добавляет/удаляет значения адресного параметра.
      * @param id - код сущности в БД.
-     * @param paramId - код параметра.
+     * @param paramId - param ID.
      * @param position - позиция значения, начинается с 1, 0 - добавить новое значение с позицией MAX+1.
      * @param value - значение, null - удаление параметра на указанной позиции, если position>0; иначе - удаление всех значений.
      * @throws SQLException
@@ -1037,8 +1058,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Устанавливает значения параметра типа 'phone'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @param value значения, null либо пустой itemList - удаление значения.
      * @throws SQLException
      */
@@ -1049,7 +1070,7 @@ public class ParamValueDAO extends CommonDAO {
         } else {
             String newPhones = ParameterPhoneValueItem.getPhones(value.getItemList());
 
-            updateSimpleParam(id, paramId, newPhones, TABLE_PARAM_PHONE, TABLE_PARAM_PHONE_LOG);
+            updateSimpleParam(id, paramId, newPhones, TABLE_PARAM_PHONE);
 
             deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE_ITEM);
 
@@ -1088,13 +1109,13 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Устанавливает значение параметра типа 'date'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @param value значение, null - удаление.
      * @throws SQLException
      */
     public void updateParamDate(int id, int paramId, Date value) throws SQLException {
-        updateSimpleParam(id, paramId, value, TABLE_PARAM_DATE, TABLE_PARAM_DATE_LOG);
+        updateSimpleParam(id, paramId, value, TABLE_PARAM_DATE);
 
         if (history) {
             logParam(id, paramId, userId, TimeUtils.format(value, TimeUtils.FORMAT_TYPE_YMD));
@@ -1103,13 +1124,13 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Устанавливает значение параметра типа 'datetime'.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @param value значение, null - удаление.
      * @throws SQLException
      */
     public void updateParamDateTime(int id, int paramId, Date value) throws SQLException {
-        updateSimpleParam(id, paramId, value, TABLE_PARAM_DATETIME, TABLE_PARAM_DATETIME_LOG);
+        updateSimpleParam(id, paramId, value, TABLE_PARAM_DATETIME);
 
         if (history) {
             logParam(id, paramId, userId, TimeUtils.format(value, TimeUtils.FORMAT_TYPE_YMDHMS));
@@ -1119,7 +1140,7 @@ public class ParamValueDAO extends CommonDAO {
     /**
      * Удаляет параметры объекта.
      * @param objectType тип объекта.
-     * @param id код объекта.
+     * @param id object ID.
      * @throws SQLException
      */
     public void deleteParams(String objectType, int id) throws SQLException {
@@ -1202,8 +1223,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Копирует параметры с объекта на объект
-     * @param fromObjectId код объекта исходного.
-     * @param toObjectId код объекта целевого.
+     * @param fromObjectId object ID исходного.
+     * @param toObjectId object ID целевого.
      * @param paramIds коды параметров.
      * @throws SQLException, BGException
      */
@@ -1215,8 +1236,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Копирует параметр с объекта на объект.
-     * @param fromObjectId код объекта исходного.
-     * @param toObjectId код объекта целевого.
+     * @param fromObjectId object ID исходного.
+     * @param toObjectId object ID целевого.
      * @param paramId коды параметра.
      * @throws SQLException, BGException
      */
@@ -1226,10 +1247,10 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Копирует параметр с объекта на объект. Параметры должны быть одного типа.
-     * @param fromObjectId код объекта исходного.
-     * @param fromParamId код параметра исходного.
-     * @param toObjectId код объекта целевого
-     * @param toParamId код параметра целевого.
+     * @param fromObjectId object ID исходного.
+     * @param fromParamId param ID исходного.
+     * @param toObjectId object ID целевого
+     * @param toParamId param ID целевого.
      * @throws SQLException, BGException
      */
     public void copyParam(int fromObjectId, int fromParamId, int toObjectId, int toParamId) throws SQLException, BGException {
@@ -1323,7 +1344,7 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Проверяет заполненость параметра для объекта с кодом id.
-     * @param id код объекта.
+     * @param id object ID.
      * @param param параметр.
      * @return
      * @throws Exception
@@ -1795,8 +1816,7 @@ public class ParamValueDAO extends CommonDAO {
         }
     }
 
-    private void updateSimpleParam(int id, int paramId, Object value, String tableName, String tableLogName)
-            throws SQLException {
+    private void updateSimpleParam(int id, int paramId, Object value, String tableName) throws SQLException {
         if (value == null) {
             deleteFromParamTable(id, paramId, tableName);
         } else {
@@ -2041,8 +2061,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Изменение значения параметра типа 'tree' объекта.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @param values значения.
      * @throws SQLException
      */
@@ -2074,8 +2094,8 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Значения параметра объекта типа 'tree' с текстовыми наименованиями.
-     * @param id код объекта.
-     * @param paramId код параметра.
+     * @param id object ID.
+     * @param paramId param ID.
      * @return
      * @throws SQLException
      */
@@ -2216,7 +2236,7 @@ public class ParamValueDAO extends CommonDAO {
 
     /**
      * Поиск объектов по значнию текстового параметра.
-     * @param parameterId код параметра.
+     * @param parameterId param ID.
      * @param parameterTextValue точное значение.
      * @return список с кодами объектов.
      * @throws SQLException

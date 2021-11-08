@@ -467,6 +467,12 @@
 	<p><ru>** Не указан **</ru><en>** Not defined **</en></p>
 	<p><ru>Перезапустить</ru><en>Restart</en></p>
 	<p><ru>Промежуточное сохранение</ru><en>Intermediate save</en></p>
+	<p><ru>Вы можете использовать точку как указатель десятичной дроби.</ru>
+		<en>You can use dot as a decimal separator.</en>
+	</p>
+	<p><ru>Используйте точку как десятичный разделитель.</ru>
+		<en>Use dot as a decimal separator.</en>
+	</p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

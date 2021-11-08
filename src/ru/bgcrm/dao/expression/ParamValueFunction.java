@@ -144,7 +144,7 @@ public class ParamValueFunction {
     }
 
     /**
-     * Возвращает набор с кодами районов из адресного параметра процесса. 
+     * Возвращает набор с кодами районов из адресного параметра процесса.
      * @param paramId
      * @return
      */
@@ -230,7 +230,7 @@ public class ParamValueFunction {
 
         try {
             Parameter param = ParameterCache.getParameter(paramId);
-            switch (Parameter.Type.fromString(param.getType())) {
+            switch (Parameter.Type.of(param.getType())) {
             case TEXT: {
                 result = paramDao.getParamText(objectId, paramId);
                 break;
