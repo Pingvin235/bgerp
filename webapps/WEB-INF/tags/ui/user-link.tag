@@ -1,4 +1,4 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Link for opening of user"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Link for opening of user"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="id" description="User ID" required="true" type="java.lang.Integer"%>
@@ -12,7 +12,7 @@
 <ui:when type="open">
 	<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.action.open.ProfileAction$Config')}"/>
 	<c:choose>
-		<c:when test="${config.isUserShown(id)}"><%--
+		<c:when test="${config.isOpen(id)}"><%--
 		--%><a href="/open/profile/${id}">${ctxUserMap[id].title}</a><%--
 	--%></c:when>
 		<c:otherwise>User ${u.getDigest(ctxUserMap[id].title).substring(20)}</c:otherwise>
