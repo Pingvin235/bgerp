@@ -1,5 +1,3 @@
-<%@page import="ru.bgcrm.plugin.bgbilling.model.CommonContract"%>
-<%@page import="ru.bgcrm.plugin.bgbilling.dao.CommonContractDAO"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="ru.bgcrm.model.process.Process"%>
 <%@page import="ru.bgcrm.cache.ProcessTypeCache"%>
@@ -32,40 +30,33 @@
 	{
 		ProcessLinkDAO processLinkDao = new ProcessLinkDAO( conSet.getConnection() );
 		CustomerLinkDAO customerLinkDao = new CustomerLinkDAO( conSet.getConnection() );
-		CommonContractDAO commonContractDao = new CommonContractDAO( conSet.getConnection() );
-		
+
 		DynActionForm form = (DynActionForm)request.getAttribute( "form" );
 		Process process = (Process)request.getAttribute( "process" );
 		ProcessType type = ProcessTypeCache.getProcessType( process.getTypeId() );
-		
+
 		DBInfoManager dbM = DBInfoManager.getInstance();
-		
+
 		List<CommonObjectLink> linksForAdd = new ArrayList<CommonObjectLink>();
 		pageContext.setAttribute( "linksForAdd", linksForAdd );
-		
+
 		CommonObjectLink customerLink = Utils.getFirst( processLinkDao.getObjectLinksWithType( form.getId(), Customer.OBJECT_TYPE + "%" ) );
 		if( customerLink != null )
 		{
-			for( CommonContract cc : commonContractDao.getContractList( customerLink.getLinkedObjectId() ) )
-			{
-				CommonObjectLink link = new CommonObjectLink( Process.OBJECT_TYPE, process.getId(), CommonContract.OBJECT_TYPE, cc.getId(), cc.getFormatedNumber() );
-				linksForAdd.add( link );
-			}			
-			
 			for( CommonObjectLink link : customerLinkDao.getObjectLinksWithType( customerLink.getLinkedObjectId(), Contract.OBJECT_TYPE + "%" ) )
 			{
-				// привязанный договор	
+				// привязанный договор
 				linksForAdd.add( link );
-				
+
 				// TODO: Удалить, старое.
 				if( type.getProperties().getConfigMap().getBoolean( "bgbilling:offerTasksForLink", false ) )
-				{				
+				{
 					String billingId = StringUtils.substringAfter( link.getLinkedObjectType(), ":" );
 					CrmDAO crmDao = new CrmDAO( form.getUser(), billingId );
-					
+
 					SearchResult<Task> taskList = new SearchResult<Task>();
 					crmDao.getTaskList( taskList, link.getLinkedObjectId(), Arrays.asList( 0,1 ) );
-					
+
 					for( Task task : taskList.getList() )
 					{
 						CommonObjectLink taskLink = new CommonObjectLink();
@@ -73,7 +64,7 @@
 						taskLink.setLinkedObjectType( "bgbilling-task:" + billingId );
 						taskLink.setLinkedObjectId( task.getId() );
 						taskLink.setLinkedObjectTitle( link.getLinkedObjectTitle() + " => " + task.getTypeId() );
-						
+
 						linksForAdd.add( taskLink );
 					}
 				}
@@ -82,16 +73,13 @@
 	}
 	finally
 	{
-		conSet.recycle();	
+		conSet.recycle();
 	}
 %>
 
 <c:forEach var="item" items="${linksForAdd}">
 	<c:remove var="prefix"/>
 	<c:choose>
-		<c:when test="${item.linkedObjectType eq 'bgbilling-commonContract'}">
-			<c:set var="title" value="Единый договор"/>
-		</c:when>
 		<c:when test="${fn:startsWith( item.linkedObjectType, 'contract:' )}">
 			<c:set var="billingId" value="${fn:substringAfter( item.linkedObjectType, ':')}"/>
 			<c:set var="title" value="${l.l('Договор')}:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
@@ -101,8 +89,8 @@
 			<c:set var="title" value="Задача:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
 		</c:when>
 	</c:choose>
-	
+
 	additionalLinksForAdd.push( {
-		objectType: '${item.linkedObjectType}', id: ${item.linkedObjectId}, 
+		objectType: '${item.linkedObjectType}', id: ${item.linkedObjectId},
 		title: '${item.linkedObjectTitle.replace("'", "&#8217;").replace("\"", "&#8220;")}', objectTypeTitle: '${title}' } );
 </c:forEach>
