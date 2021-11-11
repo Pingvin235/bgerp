@@ -1,0 +1,18 @@
+= Samples
+:toc:
+
+[[doc]]
+== Documentation
+Recommended approaches and samples may be always found link:http://pzdcdoc.org/demo/src/doc/demo.html[here].
+
+DrawIO diagrams:
+[square]
+* <<../kernel/extension.adoc#custom, Custom Plugin>>
+* <<../plugin/document/index.adoc#about, Document Processing>>
+* <<workflow.adoc#change, GIT Workflow>>
+
+Other samples:
+[square]
+* <<../kernel/message.adoc#, Ditaa Diagram>>
+* <<../kernel/process/index.adoc#type-config, Configuration from links from it>>
+* <<../kernel/process/wizard.adoc#, Complex table and includes>>

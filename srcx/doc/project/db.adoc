@@ -1,8 +1,7 @@
-= Структура БД
+= Database
 :toc:
 
 == Ядро
-
 === address_area
 Справочник районов.
 [cols="a,a,50%a", options="header"]
@@ -24,7 +23,7 @@
 |название
 
 |last_update
-|TIMESTAMP	
+|TIMESTAMP
 |дата последнего изменения
 |===
 
@@ -49,7 +48,7 @@
 |название
 
 |last_update
-|TIMESTAMP	
+|TIMESTAMP
 |дата последнего изменения
 |===
 
@@ -70,7 +69,7 @@
 |название
 
 |last_update
-|TIMESTAMP	
+|TIMESTAMP
 |дата последнего изменения
 |===
 
@@ -136,7 +135,7 @@
 |коментарий
 
 |last_update
-|TIMESTAMP	
+|TIMESTAMP
 |дата последнего изменения
 |===
 
@@ -161,7 +160,7 @@
 |название
 
 |last_update
-|TIMESTAMP	
+|TIMESTAMP
 |дата последнего изменения
 |===
 
@@ -182,7 +181,7 @@
 |код группы
 
 |quarter_id
-|INT	
+|INT
 |код квартала
 |===
 
@@ -207,7 +206,7 @@
 |название
 
 |last_update
-|TIMESTAMP	
+|TIMESTAMP
 |дата последнего изменения
 |===
 
@@ -249,14 +248,14 @@
 
 |date_created
 |DATETIME
-|время создания контрагента	
+|время создания контрагента
 
 |user_id_created
 |INT
 |создавший пользователь
 
 |pswd
-|VARCHAR	
+|VARCHAR
 |
 |===
 
@@ -281,7 +280,7 @@
 |название
 
 |comment
-|VARCHAR	
+|VARCHAR
 |
 |===
 
@@ -327,7 +326,7 @@ DB updates log.
 |время сохранения документа
 
 |secret
-|CHAR	
+|CHAR
 |секрет для запроса файла
 |===
 
@@ -353,7 +352,7 @@ DB updates log.
 |идентификатор элемента интерфейса
 
 |state
-|VARCHAR	
+|VARCHAR
 |закэшированная строка
 |===
 
@@ -370,7 +369,7 @@ DB updates log.
 |код
 
 |system_id
-|VARCHAR	
+|VARCHAR
 |внешний уникальный идентификатор, зависит от типа сообщения
 
 |process_id
@@ -378,19 +377,19 @@ DB updates log.
 |код процесса, ссылка на <<_process, process:id>>
 
 |direction
-|TINYINT	
+|TINYINT
 |направление, 1 - входящее, 2 - исходящее
 
 |user_id
-|INT	
+|INT
 |код пользователя, ссылка на <<_user, user:id>>
 
 |sender
-|VARCHAR	
+|VARCHAR
 |не используется
 
 |from
-|VARCHAR	
+|VARCHAR
 |отправитель
 
 |to
@@ -398,11 +397,11 @@ DB updates log.
 |получатель
 
 |from_dt
-|DATETIME	
+|DATETIME
 |дата и время отправки
 
 |to_dt
-|DATETIME	
+|DATETIME
 |дата и время получения
 
 |subject
@@ -410,15 +409,15 @@ DB updates log.
 |тема
 
 |text
-|VARCHAR	
+|VARCHAR
 |текст сообщения, описание звонка
 
 |processed
-|TINYINT	
+|TINYINT
 |1 - сообщение обработано
 
 |attach_data
-|TEXT	
+|TEXT
 |наименования вложений
 |===
 
@@ -479,65 +478,8 @@ DB updates log.
 |комментарий
 
 |custom
-|TEXT	
-|
-|===
-
-=== param_address_log
-Логи изменения параметров типа "address".
-[cols="a,a,50%a", options="header"]
-|===
-|Column
-|Type
-|Description
-
-|id
-|INT
-|код
-
-|param_id
-|INT
-|код парамера
-
-|house_id
-|INT
-|код дома
-
-|flat
-|CHAR
-|квартира
-
-|room
-|VARCHAR
-|комната
-
-|pod
-|TINYINT
-|подъезд
-
-|floor
-|TINYINT
-|этаж
-
-|value
-|VARCHAR
-|тестовая строка с адресом
-
-|comment
-|VARCHAR
-|комментарий
-
-|custom
 |TEXT
 |
-
-|date_changed
-|DATETIME
-|дата изменения
-
-|user_id_changed
-|INT	
-|код пользователя сделавшего изменение
 |===
 
 === param_blob
@@ -557,7 +499,7 @@ DB updates log.
 |код парамера
 
 |value
-|TEXT	
+|TEXT
 |значение
 |===
 
@@ -578,37 +520,8 @@ DB updates log.
 |код парамера
 
 |value
-|DATE	
+|DATE
 |значение
-|===
-
-=== param_date_log
-Логи изменения параметров типа "date".
-[cols="a,a,50%a", options="header"]
-|===
-|Column
-|Type
-|Description
-
-|id
-|INT
-|код
-
-|param_id
-|INT
-|код парамера
-
-|value
-|DATE	
-|значение
-
-|date_changed
-|DATETIME
-|дата изменения
-
-|user_id_changed
-|INT	
-|код пользователя сделавшего изменение
 |===
 
 === param_datetime
@@ -628,37 +541,8 @@ DB updates log.
 |код парамера
 
 |value
-|DATETIME	
-|значение
-|===
-
-=== param_datetime_log
-Логи изменения параметров типа "datetime".
-[cols="a,a,50%a", options="header"]
-|===
-|Column
-|Type
-|Description
-
-|id
-|INT
-|код
-
-|param_id
-|INT
-|код парамера
-
-|value
-|DATETIME	
-|значение
-
-|date_changed
 |DATETIME
-|дата изменения
-
-|user_id_changed
-|INT	
-|код пользователя сделавшего изменение
+|значение
 |===
 
 === param_email
@@ -686,37 +570,8 @@ DB updates log.
 |значение
 
 |comment
-|VARCHAR	
+|VARCHAR
 |комментарий
-|===
-
-=== param_email_log
-Логи изменения параметров типа "email".
-[cols="a,a,50%a", options="header"]
-|===
-|Column
-|Type
-|Description
-
-|id
-|INT
-|код
-
-|param_id
-|INT
-|код парамера
-
-|value
-|VARCHAR	
-|значение
-
-|date_changed
-|DATETIME
-|дата изменения
-
-|user_id_changed
-|INT	
-|код пользователя сделавшего изменение
 |===
 
 === param_file
@@ -811,39 +666,6 @@ DB updates log.
 |название
 |===
 
-=== param_list_log
-Логи изменения параметров типа "list".
-[cols="a,a,50%a", options="header"]
-|===
-|Column
-|Type
-|Description
-
-|id
-|INT
-|код
-
-|param_id
-|INT
-|код парамера
-
-|value
-|INT
-|значение
-
-|custom
-|VARCHAR
-|
-
-|date_changed
-|DATETIME
-|дата изменения
-
-|user_id_changed
-|INT
-|код пользователя сделавшего изменение
-|===
-
 === param_list_value
 Справочник значений параметров типа "list".
 [cols="a,a,50%a", options="header"]
@@ -861,7 +683,7 @@ DB updates log.
 |код параметра
 
 |title
-|VARCHAR	
+|VARCHAR
 |значение
 |===
 
@@ -933,7 +755,7 @@ DB updates log.
 
 |user_id
 |INT
-|код пользователя сделавшего изменение	
+|код пользователя сделавшего изменение
 
 |param_id
 |INT
@@ -1002,39 +824,6 @@ DB updates log.
 |значение
 |===
 
-=== param_phone_log
-Логи изменения параметра типа "телефон"
-[cols="a,a,50%a", options="header"]
-|===
-|Column
-|Type
-|Description
-
-|id
-|INT
-|код
-
-|param_id
-|INT
-|код парамера
-
-|value
-|TEXT
-|значение
-
-|item_data
-|TEXT
-|телефонный номер, только цифры без форматирования
-
-|date_changed
-|DATETIME
-|дата изменения
-
-|user_id_changed
-|INT
-|код пользователя сделавшего изменение
-|===
-
 === param_pref
 Перечень параметров
 [cols="a,a,50%a", options="header"]
@@ -1095,35 +884,6 @@ Cтроковые параметры
 |value
 |VARCHAR
 |значение
-|===
-
-=== param_text_log
-Логи изменения строкового параметра
-[cols="a,a,50%a", options="header"]
-|===
-|Column
-|Type
-|Description
-
-|id
-|INT
-|код
-
-|param_id
-|INT
-|код парамера
-
-|value
-|VARCHAR
-|значение
-
-|date_changed
-|DATETIME
-|дата изменения
-
-|user_id_changed
-|INT
-|код пользователя сделавшего изменение
 |===
 
 === param_tree
@@ -1194,7 +954,7 @@ Cтроковые параметры
 
 |status_id
 |INT
-|код статуса процесса, ссылка на <<_process_status_title, process_status_title:id>> 
+|код статуса процесса, ссылка на <<_process_status_title, process_status_title:id>>
 
 |status_dt
 |DATETIME
@@ -1202,7 +962,7 @@ Cтроковые параметры
 
 |status_user_id
 |INT
-|код пользователя, сделавшего последнее изменение статуса, ссылка на <<_user, user:id>> 
+|код пользователя, сделавшего последнее изменение статуса, ссылка на <<_user, user:id>>
 
 |description
 |TEXT
@@ -1278,7 +1038,7 @@ Cтроковые параметры
 
 |group_id
 |INT
-|код группы, ссылка на <<_user_group_title, user_group_title:id>> 
+|код группы, ссылка на <<_user_group_title, user_group_title:id>>
 
 |role_id
 |INT
@@ -1590,7 +1350,7 @@ Generated secrets for accessing processes via open interface.
 
 |group_id
 |INT
-|код группы, ссылка на <<_user_group_title, user_group_title:id>> 
+|код группы, ссылка на <<_user_group_title, user_group_title:id>>
 
 |date_from
 |DATE

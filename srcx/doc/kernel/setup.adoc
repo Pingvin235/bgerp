@@ -21,7 +21,7 @@ image::_res/i0084.png[]
 [example]
 :hardbreaks:
 ====
-# <<../project.adoc#l10n, язык интерфейса>>, поддерживаются: ru, en
+# <<../project/index.adoc#l10n, язык интерфейса>>, поддерживаются: ru, en
 lang=en
 #
 # выводится в заголовке окна браузера при работе с BGERP

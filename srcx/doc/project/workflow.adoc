@@ -1,8 +1,16 @@
 = Development Workflow
 :toc:
 
+[[git-lab-git-hub]]
+== GitLab and GitHub
+All the development process is happening inside *GitLab* server https://git.bgerp.org
+There we do branches for perform <<change, changes>>, run automatic <<test, tests>> and publish <<gitlab-ci, updates>>.
+
+To the external *GitHub* https://github.com/Pingvin235/bgerp are <<publish-source, published>> only state of *master* branch after change's <<accept, acceptance>>.
+The repository is enough for exploration purposes and <<../kernel/extension.adoc#custom, Custom>> development.
+
 [[change]]
-== Change
+== Changes
 Each *change* is performed in a separated GIT branch.
 For development of the project we use link:https://docs.google.com/document/d/15NptRsx1qrdiWEew23EFz6gbxD6S12VQpnBQ6X9NbiQ/edit?usp=sharing[Standard GIT Workflow].
 Similar one is used, for example, for GNU/Linux development.
@@ -30,7 +38,7 @@ Format is identical to *changes.txt*, which accumulates all *build/change.<PROCE
 
 [[change-git]]
 === GIT Commands
-IMPORTANT: Be sure that your local GIT repo is properly <<../project.adoc#checkout-contrib, configured>>.
+IMPORTANT: Be sure that your local GIT repo is properly <<index.adoc#checkout-contrib, configured>>.
 
 All the following GIT commands have to be executed in the project's directory.
 
@@ -127,8 +135,9 @@ BGERP process for a change does not get closed , and <<accept, acceptance>> is p
 
 [[doc]]
 === Documentation
+For building of the manual used Open Source tool link:https://pzdcdoc.org[PzdcDoc].
 The source AsciiDoctor and resource files are placed in `srcx/doc` directory.
-The samples of documentation's format may be found <<../samples.adoc#, here>>.
+The samples of documentation's format may be found <<samples.adoc#doc, here>>.
 
 [[doc-change]]
 ==== Change
@@ -217,7 +226,7 @@ Launches <<build-doc, documentation build and validity check>>, if no errors are
 == Build and publish
 Project is configured in Gradle format (configuration file: link:../../../build.gradle[build.gradle])
 
-For building and publishing, apart from Java you will need <<../project.adoc#env-console, console environment>> with available *ant*, *ssh* and *rsync* packages.
+For building and publishing, apart from Java you will need <<index.adoc#env-console, console environment>> with available *ant*, *ssh* and *rsync* packages.
 
 NOTE: Here and below all commands are shown for WSL environment, *NIX will not need `bash -c` prefix.
 
@@ -262,7 +271,7 @@ Perform the following:
 bash -c "./gradlew clean buildClean buildUpdateLib buildUpdate"
 ----
 
-NOTE: `buildUpdateLib` task checks existence of file `build/changes.lib.txt`, marking changes in <<../project.adoc#java-lib, Java libraries>>.
+NOTE: `buildUpdateLib` task checks existence of file `build/changes.lib.txt`, marking changes in <<index.adoc#java-lib, Java libraries>>.
 
 Then:
 [source, bash]
@@ -325,7 +334,7 @@ Tests form a dependencies graph which defined order and execution parallelism.
 ----
 
 By default the tests uses MySQL instance with credentials taken from `bgerp.properties` file.
-For local run use <<../project.adoc#run-data, Docker DB Instance>> for that.
+For local run use <<index.adoc#run-data, Docker DB Instance>> for that.
 
 [[integration-test-opt]]
 ==== Optimization

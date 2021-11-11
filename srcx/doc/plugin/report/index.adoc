@@ -4,7 +4,7 @@
 The actual version of the plugin contains built-it reports, available after plugin's activation in menu *Reports*.
 These reports may be defined int the plugin itself for kernel data or in other plugins.
 
-Reports are implemented with unified <<../../project.adoc#mvc, Action MVC API>>. 
+Reports are implemented with unified <<../../project/index.adoc#mvc, Action MVC API>>.
 Each report extends Java class javadoc:org.bgerp.plugin.report.action.ReportActionBase[].
 Source codes of existing reports may be used as examples for development of new.
 
@@ -12,7 +12,7 @@ IMPORTANT: Previously supported so named *JSP Reports* have to be converted to a
 
 ////
 Плагин предназначен для разработки отчётов в HTML формате с гибкими фильтрами.
-Логика отчёта реализуется с помощью обычных либо <<../../kernel/extension.adoc#dyn, динамических>> Java классов, отображение - <<../../project.adoc#jsp, JSP>> шаблоном.
+Логика отчёта реализуется с помощью обычных либо <<../../kernel/extension.adoc#dyn, динамических>> Java классов, отображение - <<../../project/index.adoc#jsp, JSP>> шаблоном.
 Возможна разработка отчётов, где и логика выборки помещена в JSP шаблон, так называемые *JSP отчёты*.
 Данный подход обладает следующими недостатками:
 [square]
@@ -51,7 +51,7 @@ report:report.100.title=Процессы
 report:report.100.daoClass=ru.bgcrm.plugin.report.dao.ProcessReportDAO
 ----
 
-Их исходный код может использоваться в качестве примера. 
+Их исходный код может использоваться в качестве примера.
 
 == Оснастка "Отчеты"
 В оснастке отображаются все сконфигурированные в системе отчёты.

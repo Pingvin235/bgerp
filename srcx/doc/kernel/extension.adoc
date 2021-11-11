@@ -187,9 +187,9 @@ drawio:_res/custom.drawio[]
 
 [[custom-workflow]]
 === GIT Workflow
-Content of the directory may be stored using GIT and developed in normal <<../project.adoc#ide, IDE>>.
+Content of the directory may be stored using GIT and developed in normal <<../project/index.adoc#ide, IDE>>.
 
-The `custom` directory is ignored in the root directory of the <<../project.adoc#checkout-reader, project>>,
+The `custom` directory is ignored in the root directory of the <<../project/index.adoc#checkout-reader, project>>,
 and has to be checked out independently, e.g.:
 [source]
 ----
@@ -214,7 +214,7 @@ git fetch && git checkout origin/some-branch-with-changes
 
 [[custom-using]]
 === Using
-Inside `custom/src` placed regular Java code, including plugins <<../project.adoc#plugin, plugins>>.
+Inside `custom/src` placed regular Java code, including plugins <<../project/index.adoc#plugin, plugins>>.
 *PLUGIN_ID* for those has to be prefixed by *custom.*, e.g. *custom.bitel*.
 Respectively plugin files have to be stored under paths: *custom/org/bgerp/plugin/custom/<some-name>* .
 
@@ -230,7 +230,7 @@ CAUTION: Each file from the original `webapps` may be "replaced" for Web server.
 
 [[custom-l10n]]
 === Custom localization
-In file `custom/l10n.xml` has a special meaning for <<../project.adoc#l10n-files, localization>> system,
+In file `custom/l10n.xml` has a special meaning for <<../project/index.adoc#l10n-files, localization>> system,
 it allows to re-define each localized string in the system.
 
 [[javalib]]

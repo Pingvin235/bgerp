@@ -12,7 +12,7 @@ IMPORTANT: Always leave the campground cleaner than you found it.
 
 While changing a block of code, it is important to try to decrease the usage of outdated approaches, methods and classes.
 Write a new code and keep it compliant with the latest recommendations, but at the same time try to get neighboring/adjacent code improved.
-During <<project/workflow.adoc#, changes>> testing, code improvements will be tested as well.
+During <<workflow.adoc#, changes>> testing, code improvements will be tested as well.
 All in all, gradually, we will improve overall code quality.
 We plan to introduce a set of formal code quality metrics: number of compiler warnings, format checks, etc.
 
@@ -38,7 +38,7 @@ Minimal required set of software:
 
 [[env-console]]
 ===== Shell
-System of <<project/workflow.adoc#build, build and publish>> is written on Bash scripts and uses GNU utilities, you can use the following when using Windows:
+System of <<workflow.adoc#build, build and publish>> is written on Bash scripts and uses GNU utilities, you can use the following when using Windows:
 [square]
 * link:https://www.omgubuntu.co.uk/how-to-install-wsl2-on-windows-10[WSL 2] - embedded in Windows virtual Linux machine;
 * link:https://www.cygwin.com/[Cygwin] - Windows ports of GNU utils, not tested.
@@ -48,7 +48,7 @@ The best console emulator on Windows with embedded FAR Manager - link:https://co
 ==== Linux
 Install using a package manager:
 [square]
-* <<kernel/install.adoc#java, OpenJDK 11>>;
+* <<../kernel/install.adoc#java, OpenJDK 11>>;
 * Docker;
 * GIT.
 
@@ -58,7 +58,7 @@ Checkout the project using GIT to an wanted directory, e.g.: `BGERP`.
 
 [[checkout-contrib]]
 ==== Contributors
-For project's contributors, internal repo with <<project/workflow.adoc#change, branches>>:
+For project's contributors, internal repo with <<workflow.adoc#change, branches>>:
 [source]
 ----
 git clone https://git.bgerp.org/bgerp/bgerp.git BGERP
@@ -77,7 +77,7 @@ git config core.autocrlf false
 
 [[checkout-reader]]
 ==== Read-only access
-For only readers, including <<kernel/extension.adoc#custom, custom>> developers.
+For only readers, including <<../kernel/extension.adoc#custom, custom>> developers.
 
 [source]
 ----
@@ -154,6 +154,8 @@ IDE or editor must be configured for displaying whitespace symbols.
 
 image::_res/ide_format.png[width='600px']
 
+Set trim trailing whitespaces on saving, the option is provided for <<ide-vscode, VS Code Settings Template>>.
+
 The projects mostly follow recommended formatting rules for each of programming languages they use.
 Intention:
 [square]
@@ -169,7 +171,7 @@ When working on fixing a file format, it is important to use the following rules
 . All new files should be formatted correctly.
 . Avoid using both indent symbols (tabs and spaces) inside a single file! Such file becomes unreadable in certain editors. If you notice a file/case like this,
 make sure to change all indent symbols in the file to the required format.
-. Be cautious when combining file formatting with making <<project/workflow.adoc#change, changes>> - this can significantly complicate analysis down the road.
+. Be cautious when combining file formatting with making <<workflow.adoc#change, changes>> - this can significantly complicate analysis down the road.
 
 [[format-java]]
 ==== Java
@@ -184,7 +186,7 @@ Open a standard formatter and save it under a different name after changing the 
 
 *Window - Preferences - Java - Code style - Organize Imports* - put 99 and 1 in the respective fields.
 
-Example/resulting Eclipse formatter file: link:../../.vscode/formatter.xml[formatter.xml]
+Example/resulting Eclipse formatter file: link:../../../.vscode/formatter.xml[formatter.xml]
 
 [[ide]]
 === IDE
@@ -194,9 +196,9 @@ Currently one of the most handy platforms.
 Download *Eclipse for Java EE Developers*, as this build already includes GIT client as well as JSP and XML editors.
 Install the following plugins:
 [square]
-* *Buildship Gradle* - <<project/workflow.adoc#build, Gradle>> support;
-* *AsciiDoctor* -  <<project/workflow.adoc#doc, documentation>> editor;
-* *MoreUnit* - convenient plugin to work with <<project/workflow.adoc#unit-test, unit-tests>>.
+* *Buildship Gradle* - <<workflow.adoc#build, Gradle>> support;
+* *AsciiDoctor* -  <<workflow.adoc#doc, documentation>> editor;
+* *MoreUnit* - convenient plugin to work with <<workflow.adoc#unit-test, unit-tests>>.
 
 Right-click on the project and invoke *Refresh Gradle Project* menu item.
 Also use it every time you change any of the project's libraries.
@@ -225,7 +227,7 @@ Install VS Code itself and the following extensions:
 * *AsciiDoc*
 * *Eclipse Keymap* - optionally
 
-Visit link:../../.vscode/readme.txt[open] and navigate to `.vscode` catalog in project's directory in order to get some configuration examples.
+Visit link:../../../.vscode/readme.txt[open] and navigate to `.vscode` catalog in project's directory in order to get some configuration examples.
 Java formatter and space symbols indicators have been already enabled there.
 
 [[ide-logging]]
@@ -244,39 +246,39 @@ log4j.logger.org.bgerp=ALL, file, session, out
 Project's folder listing along with description.
 [square]
 * *bin* - IDE-compiled Java classes;
-* *build* - files related to <<project/workflow.adoc#build, build>>;
-* *docpattern* - <<plugin/document/index.adoc#, Document>> plugin templates;
-// * *dyn* - <<kernel/extension.adoc#dyn, dynamic code>>, with examples;
+* *build* - files related to <<workflow.adoc#build, build>>;
+* *docpattern* - <<../plugin/document/index.adoc#, Document>> plugin templates;
+// * *dyn* - <<../kernel/extension.adoc#dyn, dynamic code>>, with examples;
 // * *dyn.ext* - this folder can be used to mount dynamic classes on <<devm, developer's system>>;
 * *filestorage* - file storage when launched from IDE;
 * *lib* - Java libraries, which are not linked via <<java-lib, Gradle>>;
 * *plugin* - <<plugin, plugin>> declarations;
 * *src* - Java source code;
-* *srcx* - <<project/workflow.adoc#doc, documentation>>, <<project/workflow.adoc#unit-test, unit-tests>>, <<project/workflow.adoc#integration-test, integration tests>>, build utilities sources;
+* *srcx* - <<workflow.adoc#doc, documentation>>, <<workflow.adoc#unit-test, unit-tests>>, <<workflow.adoc#integration-test, integration tests>>, build utilities sources;
 * *webapps* -  <<arch, Web application's>> root directory;
 * *work* - folder created by Tomcat for JSP file compilation.
 
 === Libraries
 [[java-lib]]
 ==== Java
-When link:../../build/bgerp/files/erp.sh[running] a program, a number of JAR files are linked from the following folders:
+When link:../../../build/bgerp/files/erp.sh[running] a program, a number of JAR files are linked from the following folders:
 [square]
-* *lib/app* - application's and <<kernel/extension.adoc#custom, Custom>> classes;
+* *lib/app* - application's and <<../kernel/extension.adoc#custom, Custom>> classes;
 * *lib/ext* - external libraries.
-// * *lib/custom* - additional libraries required for <<kernel/extension.adoc#dyn, dynamic code>> and JEXL scripts.
+// * *lib/custom* - additional libraries required for <<../kernel/extension.adoc#dyn, dynamic code>> and JEXL scripts.
 
-External libraries are supplied with a separate <<project/workflow.adoc#build-release, update package>>.
-Artifacts and versions are indicated in the following file: link:../../build.gradle[build.gradle] (for *bgerp* configuration)
+External libraries are supplied with a separate <<workflow.adoc#build-release, update package>>.
+Artifacts and versions are indicated in the following file: link:../../../build.gradle[build.gradle] (for *bgerp* configuration)
 
 NOTE: This configuration does NOT use transitive dependencies  - all required libraries and versions have to be explicitly defined.
 We would suggest to gradually add a small set of libraries until getting a "workable" application - this will allow to decrease build's size and simplify further support and troubleshooting.
 
 In order to speed up project initialization, our default Eclipse IDE configuration does not load source code and documentation.
 [snippet, from="ec", to="}"]
-link:../../build.gradle#L22-L28[build.gradle]
+link:../../../build.gradle#L22-L28[build.gradle]
 
 After adding new libraries in `build.gradle` create an empty `build/changes.lib.txt` file using `gradlew touchChangesLib` command.
-Existence of the file causes build library update package during <<project/workflow.adoc#build-release, release build>>.
+Existence of the file causes build library update package during <<workflow.adoc#build-release, release build>>.
 
 [[js-lib]]
 ==== JS
@@ -289,7 +291,7 @@ Non-minified libraries are used in order to simplify debugging.
 
 Some of the external libraries have been patched and all changes are accompanied by relevant comments, for example:
 [snippet, from="con", to=");", remove-leading="		"]
-link:../../webapps/lib/jquery-ui-1.12.1/jquery-ui.js#L8923-L8930[webapps/lib/jquery-ui-1.12.1/jquery-ui.js]
+link:../../../webapps/lib/jquery-ui-1.12.1/jquery-ui.js#L8923-L8930[webapps/lib/jquery-ui-1.12.1/jquery-ui.js]
 
 [[devm]]
 === Remote development methodology
@@ -363,7 +365,7 @@ The special javadoc:org.bgerp.plugin.kernel.Plugin[kernel] <<plugin-class, plugi
 
 This plugin is a specific one, because:
 [square]
-* always <<kernel/setup.adoc#config-plugin, enabled>> and required for normal work of the program
+* always <<../kernel/setup.adoc#config-plugin, enabled>> and required for normal work of the program
 * because that do not need <<plugin-endpoint, endpoints>>
 * Java classes spread outside a single *PLUGIN_PACKAGE*
 * JSP files are also in many directories
@@ -373,7 +375,7 @@ Using those assumptions the system may be presented as set of plugins.
 [[plugin-class]]
 ==== Plugin's Java class
 Application detects plugin upon start by a mandatory Java class, extended from javadoc:ru.bgcrm.plugin.Plugin[]
-Class example; link:../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
+Class example; link:../../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
 
 Each plugin has a corresponding and unique:
 [square]
@@ -382,11 +384,11 @@ Each plugin has a corresponding and unique:
 
 [[plugin-init]]
 ===== Init
-Plugin class *init* method is called for all <<kernel/setup.adoc#config-plugin, enabled>> plugins during the server start.
+Plugin class *init* method is called for all <<../kernel/setup.adoc#config-plugin, enabled>> plugins during the server start.
 [snippet, from="Eve", to="ss);", remove-leading="        "]
-link:../../src/ru/bgcrm/plugin/slack/Plugin.java#L30-L32[ru.bgcrm.plugin.slack.Plugin]
+link:../../../src/ru/bgcrm/plugin/slack/Plugin.java#L30-L32[ru.bgcrm.plugin.slack.Plugin]
 
-In the particular case shown above, function handler gets included into <<kernel/extension.adoc#jexl, JEXL>> context.
+In the particular case shown above, function handler gets included into <<../kernel/extension.adoc#jexl, JEXL>> context.
 
 [[plugin-db]]
 ==== Database
@@ -395,15 +397,15 @@ When `db.sql` script presented in *PLUGIN_PACKAGE* it gets invoked during standa
 
 Below is an example of a script for a FullText plugin
 [snippet]
-link:../../src/ru/bgcrm/plugin/fulltext/db.sql[src/ru/bgcrm/plugin/fulltext/db.sql]
+link:../../../src/ru/bgcrm/plugin/fulltext/db.sql[src/ru/bgcrm/plugin/fulltext/db.sql]
 
 Plugin DB table names have to start from <<plugin-class, PLUGIN_ID>>.
 
-<<kernel/db.adoc#, DB Structure>> is documented in the common <<project/workflow.adoc#doc, process>>, simultaneously with making changes.
+<<db.adoc#, DB Structure>> is documented in the common <<workflow.adoc#doc, process>>, simultaneously with making changes.
 
 [[cache]]
 ===== Cache
-Caching is used within internal Map and List in order to significantly (100s of times) expedite directory data retrieval when <<jsp, building UI>> or when running <<kernel/extension.adoc#jexl-process-context, JEXL scripts>>
+Caching is used within internal Map and List in order to significantly (100s of times) expedite directory data retrieval when <<jsp, building UI>> or when running <<../kernel/extension.adoc#jexl-process-context, JEXL scripts>>
 Map allows to get specific value based on they kay (from a 'key-value' pair), list - an alphabetically sorted list.
 Users, User Groups, Process types, configurations are examples of such cached data.
 
@@ -411,7 +413,7 @@ IMPORTANT: Use caches as much as possible for getting reference values and avoid
 
 Directory data is edited directly in DB and cache is cleared after an edit.
 [snippet, from="pu", to="}"]
-link:../../src/ru/bgcrm/struts/action/admin/UserAction.java#L90-L96[ru.bgcrm.struts.action.admin.UserAction]
+link:../../../src/ru/bgcrm/struts/action/admin/UserAction.java#L90-L96[ru.bgcrm.struts.action.admin.UserAction]
 
 [[plugin-endpoint]]
 ==== Endpoints
@@ -426,30 +428,30 @@ Endpoints used for connecting non-Java plugin parts:
 ===== JavaScript
 Extension points definition within Plugin declaration:
 [snippet, from="Endpoint.JS", to=",", remove-leading="            "]
-link:../../src/ru/bgerp/plugin/blow/Plugin.java#L21-L21[ru.bgerp.plugin.blow.Plugin]
+link:../../../src/ru/bgerp/plugin/blow/Plugin.java#L21-L21[ru.bgerp.plugin.blow.Plugin]
 
-File containing script: link:../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
+File containing script: link:../../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
 
 [[plugin-ui-menu]]
 ===== Menu items
-Menu item in <<kernel/interface.adoc#user, user>> interface.
+Menu item in <<../kernel/interface.adoc#user, user>> interface.
 
 Extension points definition within <<plugin-class, Plugin class>>:
 [snippet, from="Endpoint.USER_PROCESS_MENU", to=",", remove-leading="            "]
-link:../../src/ru/bgerp/plugin/blow/Plugin.java#L23-L23[ru.bgerp.plugin.blow.Plugin]
+link:../../../src/ru/bgerp/plugin/blow/Plugin.java#L23-L23[ru.bgerp.plugin.blow.Plugin]
 
-Adding a menu item using JSP tag: link:../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
+Adding a menu item using JSP tag: link:../../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
 
 [[plugin-action]]
 ==== Action
 Plugin <<action, actions>> classes, if used, have to be declared in *PLUGIN_PACKAGE.action* package.
 
-`action.xml` with <<action-permission, permission tree>> for <<kernel/interface.adoc#user, user>> interface actions has to be located in *PLUGIN_PACKAGE*.
+`action.xml` with <<action-permission, permission tree>> for <<../kernel/interface.adoc#user, user>> interface actions has to be located in *PLUGIN_PACKAGE*.
 
 JSP templates:
 [square]
-* <<kernel/interface.adoc#user, user>> interface in `webapps/WEB-INF/jspf/user/plugin/<PLUGIN_ID>` or `webapps/WEB-INF/jspf/admin/plugin/<PLUGIN_ID>`
-* <<kernel/interface.adoc#open, open>> interface in `webapps/WEB-INF/jspf/open/plugin/<PLUGIN_ID>`
+* <<../kernel/interface.adoc#user, user>> interface in `webapps/WEB-INF/jspf/user/plugin/<PLUGIN_ID>` or `webapps/WEB-INF/jspf/admin/plugin/<PLUGIN_ID>`
+* <<../kernel/interface.adoc#open, open>> interface in `webapps/WEB-INF/jspf/open/plugin/<PLUGIN_ID>`
 
 [[plugin-l10n]]
 ==== Localization
@@ -467,7 +469,7 @@ The project is using Apache Struts framework in a very own and customized way:
 
 [[mvc-iface]]
 ==== Interfaces
-There are three user <<kernel/interface.adoc#, interfaces>> exist in the program.
+There are three user <<../kernel/interface.adoc#, interfaces>> exist in the program.
 
 The following table shows rules for path and packages of <<action, actions>> and <<jsp, JSP>> templates.
 Shortcuts there mean:
@@ -540,7 +542,7 @@ NOTE: Action definition in `struts-confing.xml` files is deprecated.
 
 Action classes have to extend javadoc:ru.bgcrm.struts.action.BaseAction[] class marked by *Action* annotation.
 [snippet, from="@", to=";", remove-leading=""]
-link:../../src/org/bgerp/action/admin/RunAction.java#L13-L15[org.bgerp.action.admin.RunAction]
+link:../../../src/org/bgerp/action/admin/RunAction.java#L13-L15[org.bgerp.action.admin.RunAction]
 
 The sample above means that HTTP requests with URL */admin/run.do* mapped to the class.
 An *action* HTTP request's parameter is used to indicate method's name.
@@ -550,11 +552,11 @@ Action methods have to return by invoking *html* or *json*.
 
 First method gets processed by JSP forward page and sends HTML back to the client.
 [snippet, from="@O", to="}", remove-leading=""]
-link:../../src/org/bgerp/action/admin/RunAction.java#L19-L23[org.bgerp.action.admin.RunAction]
+link:../../../src/org/bgerp/action/admin/RunAction.java#L19-L23[org.bgerp.action.admin.RunAction]
 
 Second one is used to perform changes and only returns JSON-based change execution result.
 [snippet, from="pu", to="}", remove-leading=""]
-link:../../src/org/bgerp/action/admin/RunAction.java#L25-L54[org.bgerp.action.admin.RunAction]
+link:../../../src/org/bgerp/action/admin/RunAction.java#L25-L54[org.bgerp.action.admin.RunAction]
 
 [[action-form]]
 ===== Form Object
@@ -567,28 +569,28 @@ CAUTION: Do not use a legacy action format with HttpClientRequest and HttpClient
 
 A snippet of an action method:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgerp/plugin/blow/action/BoardAction.java#L40-L60[ru.bgerp.plugin.blow.action.BoardAction]
+link:../../../src/ru/bgerp/plugin/blow/action/BoardAction.java#L40-L60[ru.bgerp.plugin.blow.action.BoardAction]
 
 Result gets redirected to a JSP page:
-link:../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp].
+link:../../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp].
 
 Use the same *form* to pass data for JSP rendering, excluding some auxiliary directories.
 You can use form's *response* field for this.
 When set to *responseType=json*, all data in the response gets serialized into JSON - that's why it is important to put directories into HttpResponse.
 
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgcrm/plugin/dispatch/struts/action/DispatchAction.java#L46-L52[ru.bgcrm.plugin.dispatch.struts.action.DispatchAction]
+link:../../../src/ru/bgcrm/plugin/dispatch/struts/action/DispatchAction.java#L46-L52[ru.bgcrm.plugin.dispatch.struts.action.DispatchAction]
 
 [[action-name]]
 ===== Naming Convention
 <<plugin, Plugin's>> action classes have to be placed into `PLUGIN_PACKAGE.action` package, class name should end with *Action*.
 Previously Action classes have been located within `struts.action` packages - this approach is considered obsolete.
 
-*user* <<kernel/interface.adoc#user, interface>> actions are divided into /user and /admin
+*user* <<../kernel/interface.adoc#user, interface>> actions are divided into /user and /admin
 This separation will be used in future for distinguishing administrative calls.
 
 *usermob* и *open* interfaces have their own actions - in this case package names and URL have to contain *usermob* и *open*, respectively.
-link:../../src/org/bgerp/action/usermob/ProcessAction.java[org.bgerp.action.usermob.ProcessAction] provides an example of such action.
+link:../../../src/org/bgerp/action/usermob/ProcessAction.java[org.bgerp.action.usermob.ProcessAction] provides an example of such action.
 
 We recommend to use the following naming convention for methods:
 [arabic]
@@ -611,13 +613,13 @@ It is recommended to use identical names for both method and forward JSP files.
 
 [[action-permission]]
 ===== Permissions check
-All action methods for <<kernel/interface.adoc#user, user>> interface have to be defined within `PLUGIN_PACKAGE/action.xml` files.
+All action methods for <<../kernel/interface.adoc#user, user>> interface have to be defined within `PLUGIN_PACKAGE/action.xml` files.
 Examples:
 [square]
-* link:../../src/org/bgerp/plugin/kernel/action.xml[org/bgerp/plugin/kernel/action.xml] - for <<plugin-kernel, Kernel>> plugin
-* link:../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml] - for Blow plugin
+* link:../../../src/org/bgerp/plugin/kernel/action.xml[org/bgerp/plugin/kernel/action.xml] - for <<plugin-kernel, Kernel>> plugin
+* link:../../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml] - for Blow plugin
 
-Definitions from those files are forming a tree which is used for <<kernel/setup.adoc#user, access control>>.
+Definitions from those files are forming a tree which is used for <<../kernel/setup.adoc#user, access control>>.
 
 Each action is identified by a class AND method, separated by semicolon.
 
@@ -628,11 +630,11 @@ The actual main identifier stays always last and will be used upon the next save
 In the following example an action class was renamed and action method changed to *unspecified*, defined in the configuration by *null*.
 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
-link:../../src/org/bgerp/plugin/kernel/action.xml#L157-L158[org/bgerp/plugin/kernel/action.xml]
+link:../../../src/org/bgerp/plugin/kernel/action.xml#L157-L158[org/bgerp/plugin/kernel/action.xml]
 
 Actions may be hierarchically organized when some parent action is required for accessing children.
 [snippet, from="<item ac", to="em>", remove-leading="	"]
-link:../../src/org/bgerp/plugin/svc/backup/action.xml#L2-L5[org/bgerp/plugin/svc/backup/action.xml]
+link:../../../src/org/bgerp/plugin/svc/backup/action.xml#L2-L5[org/bgerp/plugin/svc/backup/action.xml]
 
 In the latest example notice also attribute *ltitle*, which means that the title goes through <<l10n, localization system>>.
 
@@ -650,7 +652,7 @@ javadoc:ru.bgcrm.model.BGMessageException[] which inherits from javadoc:ru.bgcrm
 is used to sent a <<l10n, localized>> message to the user, without writing this message in the log.
 For example:
 [snippet, from="for (", to=");", remove-leading="            "]
-link:../../src/ru/bgcrm/event/listener/ProcessClosingListener.java#L39-L41[ru.bgcrm.event.listener.ProcessClosingListener]
+link:../../../src/ru/bgcrm/event/listener/ProcessClosingListener.java#L39-L41[ru.bgcrm.event.listener.ProcessClosingListener]
 
 [[action-db]]
 ===== DB Operations
@@ -690,7 +692,7 @@ The following objects prefixes are available:
 As an example see <<sample-date-format, date and time format>>.
 
 Beside of the mentioned static functions, the filter sets also <<cache, caches>>.
-All the request parameters are set in class link:../../src/ru/bgcrm/servlet/filter/SetRequestParamsFilter.java[ru.bgcrm.servlet.filter.SetRequestParamsFilter]
+All the request parameters are set in class link:../../../src/ru/bgcrm/servlet/filter/SetRequestParamsFilter.java[ru.bgcrm.servlet.filter.SetRequestParamsFilter]
 
 [[jsp-function]]
 ===== Functions
@@ -708,7 +710,7 @@ HTML DOM model assumes all element IDs are globally defined using `class` and `i
 In order to overcome this limitation, project attaches JS handlers via HTML onClick (and the like) attributes  using context variable 'this'.
 Another method used for that is using `u:uiid()` function to generate a unique identifier, which is then used in auto-generated JS call.
 
-In link:../../webapps/WEB-INF/jspf/user/log/log.jsp[webapps/WEB-INF/jspf/user/log/log.jsp] might be seen how to completely avoid absolute element IDs.
+In link:../../../webapps/WEB-INF/jspf/user/log/log.jsp[webapps/WEB-INF/jspf/user/log/log.jsp] might be seen how to completely avoid absolute element IDs.
 
 [[jsp-tag]]
 ===== Tags
@@ -719,7 +721,7 @@ image::_res/ide_jsp_tag.png[width='600px']
 
 <<mvc-iface-test, UI test zones>> provide several examples of using JSP tags with user control elements.
 
-For kernel, link:../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp] file defines menu items which are used to match URL and Java Action. For plugins this is done via <<plugin-ui-menu, extension>> points.
+For kernel, link:../../../webapps/WEB-INF/jspf/user/menu.jsp[webapps/WEB-INF/jspf/user/menu.jsp] file defines menu items which are used to match URL and Java Action. For plugins this is done via <<plugin-ui-menu, extension>> points.
 
 [[jsp-tag-u-sc]]
 ====== u:sc
@@ -730,18 +732,18 @@ JSP page stores all variables  ones. Combined with includes and long templates, 
 ====== p:check
 The tag enables code inside it only when mentioned <<action, action>> is <<action-permission, allowed>> for the current user.
 [snippet, from="<p:ch", to=">"]
-link:../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp#L11-L14[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp]
+link:../../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp#L11-L14[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp]
 
 For combining permission check with other checks use function <<jsp-request-params, p.check>>.
 [snippet, from="<c:if", to=">"]
-link:../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L32-L33[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
+link:../../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L32-L33[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
 
 [[jsp-tags-top-line]]
 ====== shell:title and shell:state
-Set the left area and the right areas of <<kernel/interface.adoc#user-top-line, top line>> in user interface.
+Set the left area and the right areas of <<../kernel/interface.adoc#user-top-line, top line>> in user interface.
 <<l10n, Localization>> is supported using *ltext* attribute. Tag shell:state may create a documentation help link.
 [snippet, from="<shell:t", to=">"]
-link:../../webapps/WEB-INF/jspf/admin/config/list.jsp#L92-L93[webapps/WEB-INF/jspf/admin/config/list.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L92-L93[webapps/WEB-INF/jspf/admin/config/list.jsp]
 
 [[js]]
 ==== Java Script
@@ -752,12 +754,12 @@ In certain cases JS gets dynamically generated via JSP templates on a server-sid
 This method is generally discouraged as it significantly complicates broweser-side debugging.
 
 System functions are organized as object hierarchy built from the *+++$$+++* root object.
-For example: link:../../webapps/js/kernel.ajax.js[+++$$+++.ajax], link:../../webapps/js/kernel.ui.js[$$.ui]
+For example: link:../../../webapps/js/kernel.ajax.js[+++$$+++.ajax], link:../../../webapps/js/kernel.ui.js[$$.ui]
 A typical scheme for attaching JS code to HTML is to setup event handler with a function call - <<sample-jsp-ui, AJAX example>>
 
 Deprecated JS functions are marked using the following method:
 [snippet, from="fun", to="}"]
-link:../../webapps/js/kernel.ajax.js#L456-L460[webapps/js/kernel.ajax.js]
+link:../../../webapps/js/kernel.ajax.js#L456-L460[webapps/js/kernel.ajax.js]
 
 When such a function gets invoked, browser console gets a "clickable" "Deprecated" message which allows to find a this deprecated function call
 It is forbidden to use those functions in the new code, usage has to be decreased in the existing code over time.
@@ -766,7 +768,7 @@ It is forbidden to use those functions in the new code, usage has to be decrease
 === Customization
 //TODO: Merge the chapter with extension.adoc#tech-choice
 One of the main solution's prioritized features are extensibility and flexibility.
-Said that, standard functions can be <<kernel/extension.adoc#ccc, extended>> by using several methods.
+Said that, standard functions can be <<../kernel/extension.adoc#ccc, extended>> by using several methods.
 
 However, it is important to understand that the most effective way to efficiently develop and maintain functionality longer-term is to either use built-in plugin system or include as part of the kernel and at the same time
 keep configurable parameters to a minimum.
@@ -800,14 +802,14 @@ Code size is a cumulative value for all Customers - larger size from scattered c
 All log messages are produced in English only.
 
 Localization gets applied to a user interface and messages addresses to a system user.
-System language is defined globally within <<kernel/setup.adoc#config, configuration>>.
+System language is defined globally within <<../kernel/setup.adoc#config, configuration>>.
 
 [[l10n-files]]
 ==== Files
 XML localization file `l10n.xml` are located in <<plugin-l10n, plugin's packages>>.
 New localization phrases should be added to the end of the list in the file.
 
-<<kernel/extension.adoc#custom-l10n, Custom>> localization may overwrite all of them and read out `custom/l10n.xml` file in case of existing that.
+<<../kernel/extension.adoc#custom-l10n, Custom>> localization may overwrite all of them and read out `custom/l10n.xml` file in case of existing that.
 
 The key of the localizing phrase is the first entry in any language, for example Russian:
 [source, xml]
@@ -819,7 +821,7 @@ The key of the localizing phrase is the first entry in any language, for example
 ==== SYS language
 It is possible to use short abbreviated keys, representing them as records in a special system language, for example:
 [snippet, from="<p>", to="</p>"]
-link:../../src/org/bgerp/plugin/msg/email/l10n.xml#L3-L9[src/org/bgerp/plugin/msg/email/l10n.xml]
+link:../../../src/org/bgerp/plugin/msg/email/l10n.xml#L3-L9[src/org/bgerp/plugin/msg/email/l10n.xml]
 
 In the example also might be seen how to use multiline phrases.
 
@@ -849,7 +851,7 @@ $('#loginForm').dialog({
 By doing <<action>> in object *l* the localization context is passed, containing phrases for the core and the plugin being called.
 
 [snippet, from="message.se", to="());", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L192-L192[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L192-L192[ru.bgcrm.struts.action.MessageAction]
 
 Localized key string may contain placeholders for some values, marked as *{}*.
 Such case may be seen for <<exception, BGMessageException sample>>.
@@ -882,7 +884,7 @@ After adding missing patterns, application server has to be re-started.
 * Database table and column names have to use underscore: *process_id*, *param_id*
 * Use PRIMARY key only for auto incremented INT columns, otherwise prefer named UNIQUE key.
 [snippet, from="UNIQUE", to="`),", remove-leading="  "]
-link:../../src/org/bgerp/plugin/kernel/db.sql#L422-L422[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L422-L422[src/org/bgerp/plugin/kernel/db.sql]
 
 [[naming-camel]]
 === Java variables, HTTP request parameters, JSP variables
@@ -939,32 +941,32 @@ Use IDE, if needed, in order to search for specific classes or files.
 === Logging
 [[sample-logging-java]]
 ==== Java
-javadoc:ru.bgerp.util.Log[] logger class is used, which is based on <<kernel/extension.adoc#log4j, Log4j>> framework.
-When launching from IDE, you can copy link:../../build/bgerp/files/log4j.properties[build/bgerp/files/log4j.properties] file from distribution kit into project's root folder and adapt, as needed.
+javadoc:ru.bgerp.util.Log[] logger class is used, which is based on <<../kernel/extension.adoc#log4j, Log4j>> framework.
+When launching from IDE, you can copy link:../../../build/bgerp/files/log4j.properties[build/bgerp/files/log4j.properties] file from distribution kit into project's root folder and adapt, as needed.
 
 Use `log` protected variable when logging within <<action, actions>>
 
 Create *static final* class variable within Java classes:
 [snippet, from="pub", to=");"]
-link:../../src/ru/bgcrm/worker/MessageExchange.java#L17-L20[ru.bgcrm.worker.MessageExchange]
+link:../../../src/ru/bgcrm/worker/MessageExchange.java#L17-L20[ru.bgcrm.worker.MessageExchange]
 
 Log message with substitutions:
 [snippet, from="log.debug(", to=");", remove-leading="            "]
-link:../../src/ru/bgcrm/Server.java#L115-L115[ru.bgcrm.Server]
+link:../../../src/ru/bgcrm/Server.java#L115-L115[ru.bgcrm.Server]
 
 Exception message output:
 [snippet, from="try", to="}", remove-leading="                "]
-link:../../src/ru/bgcrm/worker/MessageExchange.java#L61-L65[ru.bgcrm.worker.MessageExchange]
+link:../../../src/ru/bgcrm/worker/MessageExchange.java#L61-L65[ru.bgcrm.worker.MessageExchange]
 
 [[sample-logging-js]]
 ==== JS
 Show debug data instead of console.log:
 [snippet, from="con", to="}"]
-link:../../webapps/js/kernel.shell.js#L5-L12[webapps/js/kernel.shell.js]
+link:../../../webapps/js/kernel.shell.js#L5-L12[webapps/js/kernel.shell.js]
 
 Enabling debug:
 [snippet, from="$$.", to="0,"]
-link:../../webapps/js/kernel.js#L18-L22[webapps/js/kernel.js]
+link:../../../webapps/js/kernel.js#L18-L22[webapps/js/kernel.js]
 
 [[sample-save-req-params]]
 === Saving latest/last user request parameters
@@ -972,26 +974,26 @@ Let's take interface filters, as example - use *restoreRequestParams* method in 
 
 Saving a value:
 [snippet, from="resto", to=");", remove-leading=    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L403-L403[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L403-L403[ru.bgcrm.struts.action.MessageAction]
 
 Restoring a value:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/MessageAction.java#L428-L436[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L428-L436[ru.bgcrm.struts.action.MessageAction]
 
 Saving and restoring a value at once:
 [snippet, from="//", to=");", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L53-L57[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L53-L57[ru.bgcrm.struts.action.ProcessLinkAction]
 
 [[sample-personalization-map-ff]]
 === Feature flag for UI
 Option stored in user personalization map. UI dropbox available in user profile settings.
 [snippet, from="<c:s", to="le>", remove-leading="							"]
-link:../../webapps/WEB-INF/jspf/user/profile/default.jsp#L39-L45[webapps/WEB-INF/jspf/user/profile/default.jsp]
+link:../../../webapps/WEB-INF/jspf/user/profile/default.jsp#L39-L45[webapps/WEB-INF/jspf/user/profile/default.jsp]
 
 Stored values may be read in JSP pages using in the same *ctxUser.personalizationMap* way,
 but also available in JS like for this case.
 [snippet, from="if (", to=");", remove-leading="		"]
-link:../../webapps/js/kernel.shell.js#L433-L434[webapps/js/kernel.shell.js]
+link:../../../webapps/js/kernel.shell.js#L433-L434[webapps/js/kernel.shell.js]
 
 [[sample-tab-element-count]]
 === Depicting element count on a tab
@@ -1000,11 +1002,11 @@ Use javadoc:ru.bgcrm.model.IfaceState[] class
 
 Refreshing value:
 [snippet, from="// п", to="}", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L216-L223[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L216-L223[ru.bgcrm.struts.action.ProcessLinkAction]
 
 Show in JSP:
 [snippet, from="<c:if", to="if>", remove-leading="						"]
-link:../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L83-L97[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
+link:../../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L83-L97[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
 
 [[sample-date-format]]
 === Date and time format
@@ -1019,74 +1021,74 @@ Java code uses javadoc:ru.bgcrm.util.TimeUtils[] class for date formatting, this
 
 The same functions may be used in <<jsp, JSP>> using `tu` prefix:
 [snippet, from="<input type=", to="d}\"/>", remove-leading="				"]
-link:../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L160-L160[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
+link:../../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L160-L160[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
 
 [[sample-configuration-java-beans]]
 === Configuration Java Beans
 In order to speed up parsing and validation, use Java class objects inherited from javadoc:ru.bgcrm.util.Config[]
-For example: link:../../src/ru/bgcrm/model/config/IsolationConfig.java[ru.bgcrm.model.config.IsolationConfig].
+For example: link:../../../src/ru/bgcrm/model/config/IsolationConfig.java[ru.bgcrm.model.config.IsolationConfig].
 This configuration supports constructor with a validation flag, which allows to check syntax when saving.
 
 Configuration bin can be also obtained in JSP:
 [snippet, from="<c:", to="/>"]
-link:../../webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp#L4-L4[webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp]
+link:../../../webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp#L4-L4[webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp]
 
 [[sample-pagination]]
 === Pagination
 Putting results into JSP and rendering a form;
 [snippet, from="<c:", to="rm>", remove-leading="		"]
-link:../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L91-L99[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
+link:../../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L91-L99[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
 
 Java action:
 [snippet, from="//", to="open);", remove-leading="        "]
-link:../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L207-L209[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L207-L209[ru.bgcrm.struts.action.ProcessLinkAction]
 
 [[sample-upload-file]]
 === File upload
 JSP page:
 [snippet, from="<c:set", to="script>", remove-leading="				"]
-link:../../webapps/WEB-INF/jspf/admin/config/list.jsp#L68-L80[webapps/WEB-INF/jspf/admin/config/list.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L68-L80[webapps/WEB-INF/jspf/admin/config/list.jsp]
 
 Action:
 [snippet, from="public", to="}", remove-leading="    "]
-link:../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L127-L134[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
+link:../../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L127-L134[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
 
 [[sample-jsp-ui]]
 === UI Only
-A simple dictionary with pagination, AJAX editor invocation: link:../../webapps/WEB-INF/jspf/admin/process/status/list.jsp[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
+A simple dictionary with pagination, AJAX editor invocation: link:../../../webapps/WEB-INF/jspf/admin/process/status/list.jsp[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
 
 [[sample-jsp-ui-ajax]]
-Sending AJAX for sending, exiting or restoring data in <<kernel/process/index.adoc#type, process type properties editor>>:
+Sending AJAX for sending, exiting or restoring data in <<../kernel/process/index.adoc#type, process type properties editor>>:
 [snippet, from="<div", to="/div>"]
-link:../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L187-L192[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L187-L192[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
 
 Recursive include:
 [snippet, from="<c:", to="if>", remove-leading="					"]
-link:../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L48-L50[webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L48-L50[webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp]
 
 Action execution result include:
 [snippet, from="<c:", to="/>", remove-leading="			"]
-link:../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L165-L170[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L165-L170[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
 
-Flex layout, using constants from Java classes (defined in link:../../webapps/WEB-INF/jspf/user/search/process_search_constants.jsp[process_search_constants.jsp]), print button close to a field:
+Flex layout, using constants from Java classes (defined in link:../../../webapps/WEB-INF/jspf/user/search/process_search_constants.jsp[process_search_constants.jsp]), print button close to a field:
 [snippet, from="<div", to="/div>", remove-leading="				"]
-link:../../webapps/WEB-INF/jspf/user/search/search.jsp#L77-L91[webapps/WEB-INF/jspf/user/search/search.jsp]
+link:../../../webapps/WEB-INF/jspf/user/search/search.jsp#L77-L91[webapps/WEB-INF/jspf/user/search/search.jsp]
 
 IMPORTANT: For some reason a class, containing included constant must not contain `config` word in package path.
 
 Snap-in refresh upon moving back to it:
 [snippet, from="<script", to="/script>"]
-link:../../webapps/WEB-INF/jspf/user/log/log.jsp#L17-L24[webapps/WEB-INF/jspf/user/log/log.jsp]
+link:../../../webapps/WEB-INF/jspf/user/log/log.jsp#L17-L24[webapps/WEB-INF/jspf/user/log/log.jsp]
 
 Sending AJAX request and showing progress indicator on button during execution:
 [snippet, from="<bu", to="on>"]
-link:../../webapps/WEB-INF/jspf/admin/run/run.jsp#L20-L24[webapps/WEB-INF/jspf/admin/run/run.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/run/run.jsp#L20-L24[webapps/WEB-INF/jspf/admin/run/run.jsp]
 
 The same but for *$$.ajax.load* function:
 [snippet, from="<ui:button", remove-leading="		"]
-link:../../webapps/WEB-INF/jspf/user/process/queue/filter.jsp#L915-L915[webapps/WEB-INF/jspf/user/process/queue/filter.jsp]
+link:../../../webapps/WEB-INF/jspf/user/process/queue/filter.jsp#L915-L915[webapps/WEB-INF/jspf/user/process/queue/filter.jsp]
 
 [[sample-jsp-ui-restore-form]]
 Restore form parameter values:
 [snippet, from="<ht", to="/>"]
-link:../../webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp#L8-L10[webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp#L8-L10[webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp]
