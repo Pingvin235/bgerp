@@ -22,7 +22,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.model.CommonContract;
-import ru.bgcrm.plugin.bgbilling.model.process.wizard.LinkCommonContractStepData;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
@@ -117,12 +116,6 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
             } else {
                 objectId = getLinkedCustomerId(connection);
             }
-        } else if ("bgbilling-commonContract".equals(step.getType())) {
-            objectId = getLinkedCommonContractId();
-
-            if (objectId == 0) {
-                getLinkedCommonContractId(connection);
-            }
         } else {
             objectId = data.getProcess().getId();
         }
@@ -148,28 +141,6 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
         }
 
         return customerId;
-    }
-
-    /**
-     * Метод возвращает идентификатор единого договора, ранее привязанного
-     * к процессу в первом из шагов класса LinkCommonContractStepData
-     * @return
-     */
-    private int getLinkedCommonContractId() {
-        int commonContractId = 0;
-
-        Iterator<StepData<?>> iterator = data.getStepDataList().iterator();
-
-        while (iterator.hasNext() && commonContractId == 0) {
-            StepData<?> stepData = iterator.next();
-
-            if (stepData instanceof LinkCommonContractStepData) {
-                CommonContract commonContract = ((LinkCommonContractStepData) stepData).getCommonContract();
-                commonContractId = commonContract.getId();
-            }
-        }
-
-        return commonContractId;
     }
 
     /**

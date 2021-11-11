@@ -29,10 +29,8 @@ import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.creator.Config;
 import ru.bgcrm.plugin.bgbilling.creator.ServerCustomerCreator;
-import ru.bgcrm.plugin.bgbilling.dao.CommonContractDAO;
 import ru.bgcrm.plugin.bgbilling.dao.ContractCustomerDAO;
 import ru.bgcrm.plugin.bgbilling.dao.ContractDAO;
-import ru.bgcrm.plugin.bgbilling.model.CommonContract;
 import ru.bgcrm.plugin.bgbilling.model.ContractType;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO;
@@ -45,7 +43,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 
 /**
- * Все действия, относящиеся только к манипуляции данными договора на стороне биллинга перенести в  
+ * Все действия, относящиеся только к манипуляции данными договора на стороне биллинга перенести в
  * {@link ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction}.
  * Такие методы помечены как устаревшие.
  */
@@ -63,12 +61,10 @@ public class ContractAction extends BaseAction
 		form.getResponse().setData( "list", new CustomerLinkDAO( con ).getObjectLinksWithType( customerId, Contract.OBJECT_TYPE + "%" ) );
 		form.getResponse().setData( "customerId", customerId );
 
-		request.setAttribute( "commonContractList", new CommonContractDAO( con ).getContractList( customerId ) );
-
 		request.setAttribute( "commonContractConfig", setup.getConfig( CommonContractConfig.class ) );
 		request.setAttribute( "contractTypesConfig", setup.getConfig( ContractTypesConfig.class ) );
 		request.setAttribute( "customer", new CustomerDAO( con ).getCustomerById( customerId ) );
-		
+
 		CommonContractConfig config = setup.getConfig( CommonContractConfig.class );
 		request.setAttribute( "customerAddressMap", new ParamValueDAO( con ).getParamAddress( customerId, config.getCustomerAddressParamId() ) );
 
@@ -109,8 +105,8 @@ public class ContractAction extends BaseAction
 	{
 		Config config = setup.getConfig( Config.class );
 		String billingId = form.getParam( "billingId" );
-		
-		if (config == null) 
+
+		if (config == null)
 		{
 			throw new BGMessageException( "Отсутствующая либо некорректная конфигурация импорта контрагентов." );
 		}
@@ -170,26 +166,6 @@ public class ContractAction extends BaseAction
 		String billingId = form.getParam( "billingId" );
 		String title = form.getParam( "title" );
 
-		int commonContractId = form.getParamInt( "commonContractId", -1 );
-		String serviceCode = form.getParam( "serviceCode" );
-		if( commonContractId > 0 )
-		{
-			CommonContractDAO commonContractDAO = new CommonContractDAO( con );
-
-			CommonContract commonContract = commonContractDAO.getContractById( commonContractId );
-
-			if( commonContract == null )
-			{
-				throw new BGMessageException( "Не найден единый договор с кодом:" + commonContractId );
-			}
-			if( Utils.isBlankString( serviceCode ) )
-			{
-				throw new BGMessageException( "Не указан код договора услуги." );
-			}
-
-			title = commonContractDAO.getContractNumber( commonContract.getId(), serviceCode );
-		}
-		
 		SearchResult<IdTitle> searchResult = new SearchResult<>();
 		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).searchContractByTitleComment(searchResult, title, null, null);
 		form.getResponse().setData("contract",  Utils.getFirst(searchResult.getList()));
@@ -212,27 +188,21 @@ public class ContractAction extends BaseAction
 		String title = form.getParam("title");
 		String comment = form.getParam("comment", "");
 		int tariffId = form.getParamInt("tariffId");
-		
+
 		ContractTypesConfig config = setup.getConfig( ContractTypesConfig.class );
 		ContractType type = config.getTypeMap().get(form.getParamInt("typeId"));
 		if (type == null)
 			throw new BGException("Не передан тип договора");
-		
-		int tariffPosition = type.getTariffPosition();
 
-		int commonContractId = form.getParamInt("commonContractId", -1);
-		String serviceCode = form.getParam("serviceCode");
-		if (commonContractId > 0) {
-			title = new CommonContractDAO(con).getContractNumber(commonContractId, serviceCode);
-		}
+		int tariffPosition = type.getTariffPosition();
 
 		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO contractDao = ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance(form.getUser(), billingId);
 		ContractTariffDAO tariffDao = new ContractTariffDAO(form.getUser(), billingId);
-		
+
 		Contract contract = contractDao
 				.createContract(patternId, date, title, titlePattern);
 		if (customerId > 0) {
-			CommonObjectLink link = new CommonObjectLink(Customer.OBJECT_TYPE, customerId, 
+			CommonObjectLink link = new CommonObjectLink(Customer.OBJECT_TYPE, customerId,
 					"contract:" + billingId,
 					contract.getId(), contract.getTitle());
 
@@ -241,16 +211,16 @@ public class ContractAction extends BaseAction
 
 			new CustomerLinkDAO(con).addLink(link);
 
-			new ContractDAO(form.getUser(), billingId).copyParametersToBilling(con, 
+			new ContractDAO(form.getUser(), billingId).copyParametersToBilling(con,
 					customerId, contract.getId(), contract.getTitle());
 		}
-		
+
 		// комментарий
 		if (Utils.notBlankString(comment)) {
 			contractDao.bgbillingUpdateContractTitleAndComment(contract.getId(), comment, 0);
 			contract.setComment(comment);
 		}
-		
+
 		// тариф
 		if (tariffId > 0) {
 			if (tariffPosition < 0)
@@ -258,7 +228,7 @@ public class ContractAction extends BaseAction
 			else
 				tariffDao.addTariffPlan(contract.getId(), tariffId, tariffPosition);
 		}
-		
+
 		form.getResponse().setData("contract", contract);
 
 		return json(con, form);
@@ -291,7 +261,7 @@ public class ContractAction extends BaseAction
 
 		return processJsonForward( con, form, response );
 	}
-	
+
 	public ActionForward addProcessContractLink( ActionMapping mapping,
 												   DynActionForm form,
 												   HttpServletRequest request,
@@ -302,29 +272,29 @@ public class ContractAction extends BaseAction
 		String billingId = form.getParam( "billingId" );
 		int processId = form.getParamInt( "processId" );
 		String contractTitle = form.getParam( "contractTitle" );
-		
+
 		if( Utils.isBlankString( billingId ) || processId <= 0 || Utils.isBlankString( contractTitle ) )
 		{
 			throw new BGIllegalArgumentException();
 		}
-		
+
 		final SearchOptions searchOptions = new SearchOptions( true, true, true );
-		
+
 		SearchResult<IdTitle> searchResult = new SearchResult<IdTitle>();
 		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).searchContractByTitleComment( searchResult, "^" + contractTitle + "$", null, searchOptions );
-		
+
 		IdTitle result = Utils.getFirst( searchResult.getList() );
 		if( result == null )
 		{
 			throw new BGMessageException( "Договор не найден" );
 		}
-		
+
 		CommonObjectLink link = new CommonObjectLink( Process.OBJECT_TYPE, processId, Contract.OBJECT_TYPE + ":" + billingId, result.getId(), contractTitle );
 		LinkAction.addLink( form, con, link );
-		
+
 		return processJsonForward( con, form, response );
 	}
-	
+
 	public ActionForward contractInfo( ActionMapping mapping,
 	                                   DynActionForm form,
 	                                   HttpServletRequest request,
@@ -334,7 +304,7 @@ public class ContractAction extends BaseAction
 	{
 		String billingId = form.getParam( "billingId" );
 		Integer contractId = form.getParamInt( "contractId" );
-		
+
 		List<String> whatShow = Utils.toList( form.getParam( "whatShow" ) );
 		for( String item : whatShow )
 		{
@@ -343,11 +313,11 @@ public class ContractAction extends BaseAction
 				 form.getResponse().setData( "memoList", ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).getMemoList( contractId ) );
 			}
 			//TODO: Выбор остальных вариантов.
-		}	
-		
+		}
+
 		return processUserTypedForward( conSet, mapping, form, response, "contractInfo" );
 	}
-		
+
 	@Override
 	protected ActionForward unspecified( ActionMapping mapping,
 										 DynActionForm form,

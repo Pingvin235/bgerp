@@ -5,12 +5,9 @@ import org.apache.log4j.Logger;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
-import ru.bgcrm.event.customer.CustomerRemovedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
-import ru.bgcrm.plugin.bgbilling.dao.CommonContractDAO;
-import ru.bgcrm.plugin.bgbilling.model.CommonContract;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class CustomerSystemListener {
@@ -24,13 +21,6 @@ public class CustomerSystemListener {
             }
 
         }, ParamChangedEvent.class);
-
-        EventProcessor.subscribe(new EventListener<CustomerRemovedEvent>() {
-            @Override
-            public void notify(CustomerRemovedEvent e, ConnectionSet connectionSet) {
-                customerDelete(e, connectionSet);
-            }
-        }, CustomerRemovedEvent.class);
     }
 
     private void paramChanged(ParamChangedEvent e, ConnectionSet connectionSet) {
@@ -48,19 +38,6 @@ public class CustomerSystemListener {
             } catch (Exception ex) {
                 log.error(ex.getMessage(), ex);
             }
-        }
-    }
-
-    private void customerDelete(CustomerRemovedEvent event, ConnectionSet connectionSet) {
-        try {
-            // удаляем все единые договоры для контрагента
-            CommonContractDAO commonContractDAO = new CommonContractDAO(connectionSet.getConnection());
-
-            for (CommonContract commonContract : commonContractDAO.getContractList(event.getCustomerId())) {
-                commonContractDAO.deleteCommonContract(commonContract.getId());
-            }
-        } catch (BGException e) {
-            log.error(e);
         }
     }
 }

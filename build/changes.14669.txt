@@ -1,0 +1,2 @@
+F: Customer merge.
+C: Plugin BGBilling. Remove Common Contract related code.

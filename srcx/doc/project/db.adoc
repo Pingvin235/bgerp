@@ -1403,7 +1403,6 @@ Generated secrets for accessing processes via open interface.
 Помесячная таблица логов HTTP запросов.
 // TODO
 
-include::../plugin/bgbilling/db.adocf[]
 include::../plugin/fulltext/db.adocf[]
 include::../plugin/task/db.adocf[]
 include::../plugin/sec/secret/db.adocf[]

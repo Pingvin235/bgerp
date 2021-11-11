@@ -132,9 +132,9 @@
 										alert('${l.l('Выберите контрагента')}');
 										return false;
 									}
-									if (!confirm('${l.l('Вы уверены, что хотите объединить?')}')
+									if (!confirm('${l.l('Вы уверены, что хотите объединить?')}'))
 										return false;
-									
+
 									$$.ajax.post(this.form).done(() => {
 										alert('${l.l('Слияние прошло успешно')}');
 										$$.shell.removeCommandDiv('customer-'.concat(this.form.mergingCustomerId.value));

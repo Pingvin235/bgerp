@@ -19,8 +19,8 @@ import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.event.customer.CustomerRemovedEvent;
 import ru.bgcrm.event.customer.CustomerChangedEvent;
+import ru.bgcrm.event.customer.CustomerRemovedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
@@ -33,8 +33,6 @@ import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.ParameterValuePair;
-import ru.bgcrm.plugin.bgbilling.dao.CommonContractDAO;
-import ru.bgcrm.plugin.bgbilling.model.CommonContract;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -153,7 +151,6 @@ public class CustomerAction extends BaseAction {
         ParamDAO paramDAO = new ParamDAO(con, form.getUserId());
         CustomerLinkDAO customerLinkDAO = new CustomerLinkDAO(con);
         ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con);
-        CommonContractDAO commonContractDAO = new CommonContractDAO(con);
         CustomerDAO customerDAO = new CustomerDAO(con);
 
         SearchResult<Parameter> searchResult = new SearchResult<Parameter>();
@@ -264,10 +261,6 @@ public class CustomerAction extends BaseAction {
         }
 
         processLinkDAO.linkToAnotherObject(mergingCustomerId, "customer", customerId, "customer", "", "");
-
-        for (CommonContract commonContract : commonContractDAO.getContractList(mergingCustomerId)) {
-            commonContractDAO.changeCustomerLink(commonContract.getId(), customerId);
-        }
 
         EventProcessor.processEvent(new CustomerChangedEvent(form, customerId), conSet);
         EventProcessor.processEvent(new CustomerRemovedEvent(form, mergingCustomerId), conSet);
