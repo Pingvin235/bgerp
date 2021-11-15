@@ -62,5 +62,7 @@ public class MessageTest {
         for (int i = 0; i < 100; i++) {
             MessageHelper.addNoteMessage(p.getId(), UserTest.USER_ADMIN_ID, 0, "Test message " + i, "Test message " + i + " text");
         }
+
+        MessageHelper.addNoteMessage(p.getId(), UserTest.USER_ADMIN_ID, 1, "Line break", ResourceHelper.getResource(this, "log.txt"));
     }
 }

@@ -311,9 +311,7 @@
 		<table id="${messageTextUiid}" class="hdata" style="width: 100%; table-layout:fixed;">
 			<tr>
 				<td id="msgBox" style="border-top: none; display: block; overflow-x: auto; padding-bottom: 0.5em; word-wrap: break-word;">
-					<c:set var="text" value="${message.text}"/>
-					<c:set var="text" value="${u:htmlEncode(text)}"/>
-					<ui:text-prepare text="${text}"/>
+					<pre><c:set var="text" value="${message.text}"/><c:set var="text" value="${u:htmlEncode(text)}"/><ui:text-prepare text="${text}"/></pre>
 				</td>
 			</tr>
 

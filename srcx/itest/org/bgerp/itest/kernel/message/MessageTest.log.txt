@@ -1,0 +1,139 @@
+11-14/10:28:19  INFO [pool-3-thread-4] MessageTypeHelpDesk - finished class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:28:19  INFO [pool-3-thread-4] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.com
+11-14/10:28:24  INFO [pool-3-thread-4] Scheduler - Task ru.bgcrm.worker.MessageExchange@1474702a finished. Executing time: 15398 ms.
+11-14/10:29:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@278c02c4
+11-14/10:29:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@104ec33f
+11-14/10:29:09 ERROR [pool-3-thread-3] CommandProcessor - Mail config is not configured!
+11-14/10:30:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@64520352
+11-14/10:30:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@3619fca0
+11-14/10:30:09 ERROR [pool-3-thread-5] CommandProcessor - Mail config is not configured!
+11-14/10:31:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@71445285
+11-14/10:31:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@17f530a9
+11-14/10:31:09 ERROR [pool-3-thread-4] CommandProcessor - Mail config is not configured!
+11-14/10:32:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.worker.MessageExchange@63c9f996
+11-14/10:32:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@1a4ce5b3
+11-14/10:32:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@49cf5c05
+11-14/10:32:09 ERROR [pool-3-thread-5] CommandProcessor - Mail config is not configured!
+11-14/10:32:09  INFO [pool-3-thread-2] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.org
+11-14/10:32:14  INFO [pool-3-thread-2] MessageTypeHelpDesk - staring class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:32:19  INFO [pool-3-thread-2] MessageTypeHelpDesk - finished class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:32:19  INFO [pool-3-thread-2] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.com
+11-14/10:32:25  INFO [pool-3-thread-2] Scheduler - Task ru.bgcrm.worker.MessageExchange@63c9f996 finished. Executing time: 16479 ms.
+11-14/10:33:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@77814ded
+11-14/10:33:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@5b281fc2
+11-14/10:33:09 ERROR [pool-3-thread-4] CommandProcessor - Mail config is not configured!
+11-14/10:34:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@26b40869
+11-14/10:34:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@152847ce
+11-14/10:34:09 ERROR [pool-3-thread-5] CommandProcessor - Mail config is not configured!
+11-14/10:35:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@683b8ea3
+11-14/10:35:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@73f64a69
+11-14/10:35:09 ERROR [pool-3-thread-2] CommandProcessor - Mail config is not configured!
+11-14/10:36:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.worker.MessageExchange@7507e33e
+11-14/10:36:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@2246dc67
+11-14/10:36:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@163c101a
+11-14/10:36:09  INFO [pool-3-thread-3] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.org
+11-14/10:36:09 ERROR [pool-3-thread-5] CommandProcessor - Mail config is not configured!
+11-14/10:36:15  INFO [pool-3-thread-3] MessageTypeHelpDesk - staring class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:36:20  INFO [pool-3-thread-3] MessageTypeHelpDesk - finished class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:36:20  INFO [pool-3-thread-3] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.com
+11-14/10:36:25  INFO [pool-3-thread-3] Scheduler - Task ru.bgcrm.worker.MessageExchange@7507e33e finished. Executing time: 16146 ms.
+11-14/10:37:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@57d8a5b6
+11-14/10:37:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@1d0cb260
+11-14/10:37:09 ERROR [pool-3-thread-2] CommandProcessor - Mail config is not configured!
+11-14/10:38:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@93df042
+11-14/10:38:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@7ff79dbf
+11-14/10:38:09 ERROR [pool-3-thread-5] CommandProcessor - Mail config is not configured!
+11-14/10:39:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@6d1062e2
+11-14/10:39:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@15f75292
+11-14/10:39:09 ERROR [pool-3-thread-3] CommandProcessor - Mail config is not configured!
+11-14/10:40:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.worker.MessageExchange@732e1f8e
+11-14/10:40:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@30777e31
+11-14/10:40:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@5e1e1daf
+11-14/10:40:09 ERROR [pool-3-thread-5] CommandProcessor - Mail config is not configured!
+11-14/10:40:09  INFO [pool-3-thread-4] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.org
+11-14/10:40:14  INFO [pool-3-thread-4] MessageTypeHelpDesk - staring class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:40:20  INFO [pool-3-thread-4] MessageTypeHelpDesk - finished class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:40:20  INFO [pool-3-thread-4] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.com
+11-14/10:40:24  INFO [pool-3-thread-4] Scheduler - Task ru.bgcrm.worker.MessageExchange@732e1f8e finished. Executing time: 15805 ms.
+11-14/10:41:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.bgbilling.creator.CustomerCreator@7152a73c
+11-14/10:41:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@720304f7
+11-14/10:41:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@798e7a70
+11-14/10:41:09 ERROR [pool-3-thread-2] CommandProcessor - Mail config is not configured!
+11-14/10:41:09  INFO [pool-3-thread-3] ServerCustomerCreator - Import customers for server: bitel
+11-14/10:41:09  INFO [pool-3-thread-3] Scheduler - Task ru.bgcrm.plugin.bgbilling.creator.CustomerCreator@7152a73c finished. Executing time: 466 ms.
+11-14/10:42:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@5753e38b
+11-14/10:42:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@335cc51a
+11-14/10:42:09 ERROR [pool-3-thread-1] CommandProcessor - Mail config is not configured!
+11-14/10:43:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@59125b3a
+11-14/10:43:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@5345f792
+11-14/10:43:09 ERROR [pool-3-thread-2] CommandProcessor - Mail config is not configured!
+11-14/10:44:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.worker.MessageExchange@1bc209ca
+11-14/10:44:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@4e637bbd
+11-14/10:44:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@56332c0
+11-14/10:44:09 ERROR [pool-3-thread-1] CommandProcessor - Mail config is not configured!
+11-14/10:44:09  INFO [pool-3-thread-3] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.org
+11-14/10:44:14  INFO [pool-3-thread-3] MessageTypeHelpDesk - staring class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:44:20  INFO [pool-3-thread-3] MessageTypeHelpDesk - finished class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:44:20  INFO [pool-3-thread-3] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.com
+11-14/10:44:25  INFO [pool-3-thread-3] Scheduler - Task ru.bgcrm.worker.MessageExchange@1bc209ca finished. Executing time: 16681 ms.
+11-14/10:45:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@79e6bc99
+11-14/10:45:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@72e17636
+11-14/10:45:09 ERROR [pool-3-thread-2] CommandProcessor - Mail config is not configured!
+11-14/10:46:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@270a5544
+11-14/10:46:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@3b639657
+11-14/10:46:09 ERROR [pool-3-thread-1] CommandProcessor - Mail config is not configured!
+11-14/10:46:46 ERROR [http-nio-127.0.0.1-9088-exec-7] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.queue.config.SavedFiltersConfig
+11-14/10:47:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@77adf7d6
+11-14/10:47:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@e846fd3
+11-14/10:47:09 ERROR [pool-3-thread-3] CommandProcessor - Mail config is not configured!
+11-14/10:48:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.worker.MessageExchange@7b51bb32
+11-14/10:48:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@5c274b21
+11-14/10:48:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@442c0434
+11-14/10:48:09 ERROR [pool-3-thread-1] CommandProcessor - Mail config is not configured!
+11-14/10:48:09  INFO [pool-3-thread-5] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.org
+11-14/10:48:14  INFO [pool-3-thread-5] MessageTypeHelpDesk - staring class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:48:19  INFO [pool-3-thread-5] MessageTypeHelpDesk - finished class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:48:19  INFO [pool-3-thread-5] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.com
+11-14/10:48:25  INFO [pool-3-thread-5] Scheduler - Task ru.bgcrm.worker.MessageExchange@7b51bb32 finished. Executing time: 16590 ms.
+11-14/10:49:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@69fb1195
+11-14/10:49:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@1f85afb3
+11-14/10:49:09 ERROR [pool-3-thread-3] CommandProcessor - Mail config is not configured!
+11-14/10:50:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@791d9121
+11-14/10:50:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@5db42792
+11-14/10:50:09 ERROR [pool-3-thread-1] CommandProcessor - Mail config is not configured!
+11-14/10:51:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@6cf2e208
+11-14/10:51:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@5e382012
+11-14/10:51:09 ERROR [pool-3-thread-5] CommandProcessor - Mail config is not configured!
+11-14/10:51:11 ERROR [http-nio-127.0.0.1-9088-exec-9] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.config.ProcessCardConfig
+11-14/10:51:11 ERROR [http-nio-127.0.0.1-9088-exec-9] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.work.config.ProcessTimeSetConfig
+11-14/10:51:11 ERROR [http-nio-127.0.0.1-9088-exec-9] Config - Used not null 'config' parameter for constructor of class ru.bgerp.plugin.workload.model.GroupLoadConfig
+11-14/10:51:18  WARN [http-nio-127.0.0.1-9088-exec-10] ArrayHashMap - Error taking as single param: open
+11-14/10:51:18 ERROR [http-nio-127.0.0.1-9088-exec-10] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.config.LinkProcessCreateConfig
+11-14/10:51:21  WARN [http-nio-127.0.0.1-9088-exec-10] ArrayHashMap - Error taking as single param: open
+11-14/10:51:45 ERROR [http-nio-127.0.0.1-9088-exec-7] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.queue.config.SavedFiltersConfig
+11-14/10:52:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.worker.MessageExchange@4bb9266d
+11-14/10:52:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@37cd103f
+11-14/10:52:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@4cd4466c
+11-14/10:52:09 ERROR [pool-3-thread-1] CommandProcessor - Mail config is not configured!
+11-14/10:52:09  INFO [pool-3-thread-2] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.org
+11-14/10:52:14  INFO [pool-3-thread-2] MessageTypeHelpDesk - staring class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:52:20  INFO [pool-3-thread-2] MessageTypeHelpDesk - finished class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+11-14/10:52:20  INFO [pool-3-thread-2] MessageTypeEmail - Starting EMail daemon, box: xxxx@yyyy.com
+11-14/10:52:25 ERROR [http-nio-127.0.0.1-9088-exec-3] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.queue.config.SavedPanelConfig
+11-14/10:52:25  INFO [pool-3-thread-2] Scheduler - Task ru.bgcrm.worker.MessageExchange@4bb9266d finished. Executing time: 16562 ms.
+11-14/10:52:26 ERROR [http-nio-127.0.0.1-9088-exec-1] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.queue.config.SavedFiltersConfig
+11-14/10:52:26 ERROR [http-nio-127.0.0.1-9088-exec-7] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.queue.config.PrintQueueConfig
+11-14/10:52:27 ERROR [http-nio-127.0.0.1-9088-exec-8] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.config.RowExpressionConfig
+11-14/10:52:28 ERROR [http-nio-127.0.0.1-9088-exec-5] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.queue.config.SavedFiltersConfig
+11-14/10:53:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.dispatch.CommandProcessor@5373c754
+11-14/10:53:09  INFO [Thread-4] Scheduler - Running scheduled task: ru.bgcrm.plugin.fulltext.FullTextUpdater@517b1919
+11-14/10:53:09 ERROR [pool-3-thread-5] CommandProcessor - Mail config is not configured!
+11-14/10:53:36 ERROR [http-nio-127.0.0.1-9088-exec-1] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.queue.config.SavedPanelConfig
+11-14/10:53:36 ERROR [http-nio-127.0.0.1-9088-exec-7] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.queue.config.SavedFiltersConfig
+11-14/10:53:36 ERROR [http-nio-127.0.0.1-9088-exec-7] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.queue.config.PrintQueueConfig
+11-14/10:53:36  WARN [http-nio-127.0.0.1-9088-exec-7] Localizer - Missing translation for pattern: 'Типы', localizations: [custom, kernel]
+11-14/10:53:36  WARN [http-nio-127.0.0.1-9088-exec-7] Localizer - Missing translation for pattern: 'Типы', localizations: [custom, kernel]
+11-14/10:53:37 ERROR [http-nio-127.0.0.1-9088-exec-5] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.config.RowExpressionConfig
+11-14/10:53:37 ERROR [http-nio-127.0.0.1-9088-exec-3] Config - Used not null 'config' parameter for constructor of class ru.bgcrm.model.process.queue.config.SavedFiltersConfig
+11-14/10:53:46  WARN [http-nio-127.0.0.1-9088-exec-8] ArrayHashMap - Error taking as single param: open
+11-14/10:53:46  WARN [http-nio-127.0.0.1-9088-exec-8] ArrayHashMap - Error taking as single param: open

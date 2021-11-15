@@ -12,11 +12,11 @@ public class MessageHelper {
     public static void addMessage(Message message) throws Exception {
         new MessageDAO(DbTest.conRoot).updateMessage(message);
     }
-    
-    public static Message addNoteMessage(int processId, int userId, int timeOffset, String subject, String text) throws Exception {
+
+    public static Message addNoteMessage(int processId, int userId, int daysOffset, String subject, String text) throws Exception {
         var m = new Message()
             .withTypeId(MessageTest.messageTypeNote.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(processId)
-            .withFromTime(TimeUtils.getDateWithOffset(timeOffset)).withToTime(TimeUtils.getDateWithOffset(timeOffset)).withUserId(userId)
+            .withFromTime(TimeUtils.getDateWithOffset(daysOffset)).withToTime(TimeUtils.getDateWithOffset(daysOffset)).withUserId(userId)
             .withSubject(subject).withText(text);
         new MessageDAO(DbTest.conRoot).updateMessage(m);
         return m;
