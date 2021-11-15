@@ -1543,7 +1543,7 @@ public class ContractDAO extends BillingDAO {
         } else {
             Request req = new Request();
             req.setModule(ADMIN_MODULE_ID);
-            req.setAction("ActionContractParameters");
+            req.setAction("ContractParameters");
             req.setAttribute("type", parameterTypeId);
             Document document = transferData.postData(req, user);
             paramList = new ArrayList<>();
