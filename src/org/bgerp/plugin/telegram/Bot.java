@@ -128,6 +128,9 @@ public class Bot extends TelegramLongPollingBot {
             Message msg = e.getMessage();
             String text = msg.getText().toLowerCase();
             String chatId = Long.toString(msg.getChatId());
+            if (log.isDebugEnabled()) {
+                log.debug("Message: " + text);
+            }
 
             if (text.equals("/start")) {
                 sendMessage(chatId, config.getMsgDefaultAnswer());

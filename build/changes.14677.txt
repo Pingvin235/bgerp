@@ -1,0 +1,2 @@
+A: Plugin Telegram. Back compatible config param 'bot_name'.
+A: Plugin Telegram. Logging messages in debugging mode.

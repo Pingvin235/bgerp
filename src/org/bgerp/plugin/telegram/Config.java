@@ -29,7 +29,7 @@ public class Config extends ru.bgcrm.util.Config {
         botStart = setup.getSokBoolean(false, validate, "botStart", "bot_start");
 
         token = setup.get("token", "");
-        userName = setup.get("botName", "");
+        userName = setup.getSok("botName", validate,"botName", "bot_name");
         paramId = setup.getInt("userParamId", -1);
         processParamId = setup.getInt("processParamId", -1);
 
