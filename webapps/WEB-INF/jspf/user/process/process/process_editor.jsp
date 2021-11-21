@@ -11,6 +11,9 @@
 	<ui:button type="close" styleClass="mb1" onclick="$$.ajax.load('${form.returnUrl}', $('#${tableId}').parent())"/>
 </c:if>
 
+<%-- place 'process' to page context, otherwise is gone after c:import down and not available for title --%>
+<c:set var="process" value="${process}"/>
+
 <%-- when not existing process is opened processType has not set --%>
 <c:if test="${not empty processType}">
 	<%-- tableId очень важный идентификатор - нужен для определения в DOM дереве расположения редактора данного процесса --%>

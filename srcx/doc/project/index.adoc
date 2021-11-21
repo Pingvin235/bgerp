@@ -1006,7 +1006,7 @@ link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L216-L223[ru.bgc
 
 Show in JSP:
 [snippet, from="<c:if", to="if>", remove-leading="						"]
-link:../../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L83-L97[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
+link:../../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L86-L100[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
 
 [[sample-date-format]]
 === Date and time format
