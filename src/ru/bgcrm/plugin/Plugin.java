@@ -15,6 +15,7 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.bgerp.util.Log;
+import org.bgerp.util.lic.AppLicense;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -171,7 +172,7 @@ public abstract class Plugin {
     public boolean isEnabled(ParameterMap config, String defaultValue) {
         var defaultValueBool =
             "lic".equals(defaultValue) ?
-            License.getInstance().getPlugins().contains(getId()) :
+            AppLicense.getInstance().getPlugins().contains(getId()) :
             Utils.parseBoolean(defaultValue, false);
         return config.getBoolean(getId() + ":enable", defaultValueBool);
     }

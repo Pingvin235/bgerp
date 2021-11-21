@@ -1,0 +1,2 @@
+A: Plugin Subscription.
+A: Support 'page.url' parameter for Process Queue Processors. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#processor

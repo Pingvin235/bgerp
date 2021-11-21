@@ -1,0 +1,5 @@
+<item title="Plugin Invoice">
+	<item title="Invoices">
+		<item action="org.bgerp.plugin.bill.billing.invoice.action.ActionInvoice:list" title="List"/>
+	</item>
+</item>

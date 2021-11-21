@@ -13,7 +13,7 @@ import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.ParameterMap;
 
 public class GMS extends ru.bgcrm.util.Config {
-    
+
     private static final Logger log = Logger.getLogger(GMS.class);
 
     private static final String SERVER_URL = "http://mob.bgcrm.ru/cgi/server.py";
@@ -36,7 +36,7 @@ public class GMS extends ru.bgcrm.util.Config {
             URIBuilder url = new URIBuilder(SERVER_URL);
             url.addParameter(PARAM_COMMAND, MESSAGE_COMMAND);
             url.addParameter(PARAM_TO, key);
-            url.addParameter(PARAM_DATA, BaseAction.mapper.writeValueAsString(data));
+            url.addParameter(PARAM_DATA, BaseAction.MAPPER.writeValueAsString(data));
 
             Request req = Request.Get(url.build());
             if (log.isDebugEnabled())

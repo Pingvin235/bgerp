@@ -3,21 +3,26 @@ package ru.bgcrm.util.sql;
 import java.sql.Connection;
 
 /**
- * ConnectionSet - оболочка над просто соединением к БД,
- * фактически не имеет возможность предоставить Slave соединение, 
- * либо соединение к мусорной БД. Вместо них всегда возвращается
- * то же самое соединение к основной БД.
+ * Implementation of {@link ConnectionSet} returning always the same master connection.
+ * Eliminates advantages of real connection set, can be used as quick adapter.
+ *
+ * @author Shamil Vakhitov
  */
-public class SingleConnectionConnectionSet
-    extends ConnectionSet
-{
-	public SingleConnectionConnectionSet( Connection master )
-	{
-		super( master );
-	}
-	
-	@Override
-	protected void finalize()
-	    throws Throwable
-	{}
+public class SingleConnectionConnectionSet extends ConnectionSet {
+    public SingleConnectionConnectionSet(Connection master) {
+        super(master);
+    }
+
+    @Override
+    public Connection getSlaveConnection() {
+        return getConnection();
+    }
+
+    @Override
+    public Connection getTrashConnection(String tableName, int defaultType) {
+        return getConnection();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {}
 }

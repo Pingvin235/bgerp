@@ -21,6 +21,7 @@ public abstract class Config {
         }
     }
 
+    @Deprecated
     protected final ParameterMap setup;
 
     /**
@@ -38,6 +39,8 @@ public abstract class Config {
      * @param validate validation old configuration keys.
      */
     protected Config(ParameterMap config, boolean validate) {
+        if (config != null)
+            log.error("Used not null 'config' parameter for constructor of {}", this.getClass());
         this.setup = config;
     }
 

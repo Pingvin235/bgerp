@@ -32,6 +32,7 @@ public class CommonDAO {
     protected final static String SQL_SELECT_COUNT_ROWS = "SELECT SQL_CALC_FOUND_ROWS ";
     protected final static String SQL_INSERT_IGNORE = "INSERT IGNORE INTO ";
     protected final static String SQL_INSERT = "INSERT INTO ";
+    protected final static String SQL_VALUES = "VALUES ";
     protected final static String SQL_SET = " SET ";
     protected final static String SQL_UPDATE = "UPDATE ";
     protected final static String SQL_DELETE = "DELETE FROM ";

@@ -4,7 +4,9 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * Событие, возникающее в результате действия пользователя. 
+ * Event, appeared on user's action call.
+ *
+ * @author Shamil Vakhitov
  */
 public class UserEvent implements Event {
     protected final DynActionForm form;

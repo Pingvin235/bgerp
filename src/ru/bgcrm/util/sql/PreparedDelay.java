@@ -28,7 +28,7 @@ public class PreparedDelay implements Closeable {
     private Connection con;
     private StringBuilder query;
 
-    private List<Object> psSets = new ArrayList<>();
+    private List<Object> parameters = new ArrayList<>(20);
     private PreparedStatement ps;
 
     private int pos;
@@ -73,96 +73,105 @@ public class PreparedDelay implements Closeable {
     }
 
     /**
-     * Replace the current query.
+     * Replaces the current query.
      * @param value
      */
     public void setQuery(String value) {
         query.setLength(0);
         query.append(value);
-
     }
 
     /**
-     * Add int parameter in the prepared statement.
+     * Adds int parameter in the prepared statement.
      * @param value
      * @return the current instance.
      */
     public PreparedDelay addInt(int value) {
-        psSets.add(value);
+        parameters.add(value);
         return this;
     }
 
-    /** Add long parameter in the prepared statement
+    /** Adds long parameter in the prepared statement
      * @param value
      * @return the current instance.
      */
     public PreparedDelay addLong(long value) {
-        psSets.add(value);
+        parameters.add(value);
         return this;
     }
 
-    /** Add Decimal parameter in the prepared statement.
+    /** Adds Decimal parameter in the prepared statement.
      * @param value
      * @return the current instance.
      */
     public PreparedDelay addBigDecimal(BigDecimal value) {
-        psSets.add(value);
+        parameters.add(value);
         return this;
     }
 
     /**
-     * Add int parameter in the prepared statement.
+     * Adds int parameter in the prepared statement.
      * @param value
      * @return the current instance.
      */
     public PreparedDelay addString(String value) {
-        psSets.add(value);
+        parameters.add(value);
         return this;
     }
 
     /**
-     * Add Date parameter in the prepared statement.
+     * Adds Date parameter in the prepared statement.
      * @param value
      * @return the current instance.
      */
     public PreparedDelay addDate(Date value) {
-        psSets.add(TimeUtils.convertDateToSqlDate(value));
+        parameters.add(TimeUtils.convertDateToSqlDate(value));
         return this;
     }
 
     /**
-     * Add Timestamp parameter in the prepared statement.
+     * Adds Timestamp parameter in the prepared statement.
      * @param value
      * @return the current instance.
      */
     public PreparedDelay addTimestamp(Timestamp value) {
-        psSets.add(value);
+        parameters.add(value);
         return this;
     }
 
     /**
-     * Add Boolean parameter in the prepared statement.
+     * Adds Timestamp parameter in the prepared statement.
+     * @param value
+     * @return the current instance.
+     */
+    public PreparedDelay addTimestamp(Date value) {
+        parameters.add(TimeUtils.convertDateToTimestamp(value));
+        return this;
+    }
+
+    /**
+     * Adds Boolean parameter in the prepared statement.
      * @param value
      * @return the current instance.
      */
     public PreparedDelay addBoolean(Boolean value) {
-        psSets.add(value);
+        parameters.add(value);
         return this;
     }
 
     /**
-     * Add parameters with arbitrary types in the prepared statement.
+     * Adds parameters with arbitrary types in the prepared statement.
      * @param values
      * @return the current instance.
      */
     public PreparedDelay addObjects(Object... values) {
         for (Object value : values)
-            psSets.add(value);
+            parameters.add(value);
         return this;
     }
 
     /**
-     * Execute the prepared statement for select.
+     * Executes the prepared statement for select.
      * @return
      * @throws SQLException
      */
@@ -172,13 +181,26 @@ public class PreparedDelay implements Closeable {
     }
 
     /**
-     * Execute the prepared statement for update.
+     * Executes the prepared statement for update.
      * @return
      * @throws SQLException
      */
     public int executeUpdate() throws SQLException {
         prepareStatementAndSetParameters();
         return ps.executeUpdate();
+    }
+
+    /**
+     * Executes the prepared insert statement.
+     * @return generated ID.
+     * @throws SQLException
+     */
+    public int executeInsert() throws SQLException {
+        if (ps == null) {
+            ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
+        }
+        ps.executeUpdate();
+        return SQLUtils.lastInsertId(ps);
     }
 
     private void prepareStatementAndSetParameters() throws SQLException {
@@ -188,10 +210,10 @@ public class PreparedDelay implements Closeable {
         setParameters();
     }
 
-    protected void setParameters() throws SQLException {
-        final int size = psSets.size();
+    private void setParameters() throws SQLException {
+        final int size = parameters.size();
         for (int i = 0; i < size; i++) {
-            ps.setObject(i + 1, psSets.get(i));
+            ps.setObject(i + 1, parameters.get(i));
         }
     }
 
@@ -201,7 +223,7 @@ public class PreparedDelay implements Closeable {
             if (ps != null)
                 ps.close();
             ps = null;
-            psSets.clear();
+            parameters.clear();
         } catch (Exception e) {
             log.error(e);
         }
@@ -209,6 +231,6 @@ public class PreparedDelay implements Closeable {
 
     @Override
     public String toString() {
-        return Log.format("Prepared query: %s, params: %s", query, psSets);
+        return Log.format("Prepared query: {}, params: {}", query, parameters);
     }
 }

@@ -3,12 +3,12 @@ package ru.bgcrm.model;
 import ru.bgcrm.util.Preferences;
 
 public class CommonObjectLink {
-    // объект к которому привязывается
-    private int objectId;
+    // object, having the link
     private String objectType;
-    // привязанный объект
-    private int linkedObjectId;
+    private int objectId;
+    // link object
     private String linkedObjectType;
+    private int linkedObjectId;
     private String linkedObjectTitle;
     private String linkedObjectComment;
 

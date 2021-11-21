@@ -47,6 +47,7 @@ public abstract class ReportActionBase extends BaseAction implements Titled {
                     var r = new Reflections(p.getClass().getPackageName());
                     for (Class<?> reportClass : r.getSubTypesOf(ReportActionBase.class)) {
                         var reportInstance = (ReportActionBase) reportClass.getConstructor().newInstance();
+                        log.debug("Loading report: {}", reportInstance);
                         result.add(new TitledAction(
                             reportInstance,
                             reportInstance,

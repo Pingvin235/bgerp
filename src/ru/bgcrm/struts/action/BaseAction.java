@@ -74,7 +74,7 @@ public class BaseAction extends DispatchAction {
     private static final Class<?>[] TYPES_MAPPING_CON_DYNFORM_SEVLETREQRESP = { ActionMapping.class, DynActionForm.class,
             HttpServletRequest.class, HttpServletResponse.class, Connection.class };
 
-    public static final ObjectMapper mapper = new ObjectMapper();
+    public static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
         // TODO: Разобраться с сериализацией дат и дата+время в JSON, узнать как
@@ -83,7 +83,7 @@ public class BaseAction extends DispatchAction {
         // "2013-11-22T18:37:55.645+0011", вроде как миллисекунды и не нужны.
         // mapper.configure( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,
         // false );
-        mapper.setTimeZone(TimeZone.getDefault());
+        MAPPER.setTimeZone(TimeZone.getDefault());
     }
 
     protected static final String PATH_JSP = "/WEB-INF/jspf";
@@ -584,7 +584,7 @@ public class BaseAction extends DispatchAction {
                     out.write(callback + "(");
                 }
 
-                ObjectWriter objectWriter = mapper.writer();
+                ObjectWriter objectWriter = MAPPER.writer();
                 out.write(objectWriter.writeValueAsString(form.getResponse()));
 
                 if (!Utils.isEmptyString(callback)) {

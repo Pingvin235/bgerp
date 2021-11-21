@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<p><ru>Лимит</ru><en>Limit</en></p>
+	<p><ru>Выберите продукты!</ru><en>Choose products!</en></p>
+	<p><ru>Посчитать</ru><en>Caclulate</en></p>
+	<p><ru>Стоимость в месяц</ru><en>Cost per month</en></p>
+	<p><ru>Заказать</ru><en>Order</en></p>
+	<p><ru>IP адрес не определён.</ru><en>IP address has not defined.</en></p>
+	<p><ru>Следующий заказ с этого IP можно сделать через: %s</ru><en>The next order from your IP may be done after: %s</en></p>
+	<p><sys>subscription.mail.subject</sys><ru>BGERP ПОДПИСКА</ru><en>BGERP SUBSCRIPTION</en></p>
+	<p>
+		<sys>subscription.mail.text</sys>
+		<ru>
+			Уважаемый клиент,
+
+			вы запросили подписку на продукт BGERP в составе следующих плагинов и услуг:
+			%s
+
+			Cтоимость подписки за %s дней составляет: %s рублей.
+
+			Пожалуйста, ответьте на данный E-Mail для начала процесса оформления
+			подписки либо для уточнения интересующих вас деталей.
+		</ru>
+		<en>
+			Dear customer,
+
+			you requested a subscription on product BGERP including the following plugins and services:
+			%
+
+			The subscription's cost for % days is: %s EUR.
+
+			Please, respond on the E-Mail for beginning
+
+		</en>
+	</p>
+	<p><ru>Лицензионный файл</ru><en>License file</en></p>
+	<!--
+	<p><ru></ru><en></en></p>
+	-->
+</data>

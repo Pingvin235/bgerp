@@ -10,6 +10,7 @@ public class Processor extends Id {
     private final String iface;
     private final String className;
     private final String page;
+    private final String pageUrl;
     private final String responseType;
     private final ParameterMap configMap;
 
@@ -22,6 +23,7 @@ public class Processor extends Id {
         className = config.get("class");
         page = config.get("page");
         responseType = config.get("responseType");
+        pageUrl = config.get("page.url");
     }
 
     public String getResponseType() {
@@ -32,16 +34,32 @@ public class Processor extends Id {
         return title;
     }
 
+    /**
+     * @return interface name from {@link Interface}.
+     */
     public String getIface() {
         return iface;
     }
 
+    /**
+     * @return the class name for {@link Interface#USER} interface.
+     */
     public String getClassName() {
         return className;
     }
 
+    /**
+     * @return JSP page with parameters.
+     */
     public String getPage() {
         return page;
+    }
+
+    /**
+     * @return action URL to be included.
+     */
+    public String getPageUrl() {
+        return pageUrl;
     }
 
     public ParameterMap getConfigMap() {

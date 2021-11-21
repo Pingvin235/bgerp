@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -119,6 +120,11 @@ public class Localization {
         String pluginId = null;
 
         String url = request.getRequestURI();
+        // for includes a Tomcat-specific hack for getting the included URL
+        try {
+            url = (String) FieldUtils.readDeclaredField(request, "requestDispatcherPath", true);
+        } catch (Exception e) {}
+
         int pos = url.indexOf(pluginUriPrefix);
         if (pos > 0)
             pluginId = StringUtils.substringBefore(url.substring(pos + pluginUriPrefixLength), "/");

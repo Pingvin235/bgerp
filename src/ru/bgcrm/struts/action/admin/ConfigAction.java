@@ -11,6 +11,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.util.lic.AppLicense;
+import org.bgerp.util.lic.License;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ConfigDAO;
@@ -19,7 +21,6 @@ import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Config;
 import ru.bgcrm.model.SearchResult;
-import ru.bgcrm.plugin.License;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -28,21 +29,21 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class ConfigAction extends BaseAction {
-    
+
     public ActionForward list(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         Set<Integer> allowedConfigIds = Utils.toIntegerSet(form.getPermission().get("allowedConfigIds"));
         String filter = CommonDAO.getLikePatternSub(form.getParam("filter"));
-        
+
         SearchResult<Config> result = new SearchResult<Config>(form);
         List<Config> resultList = result.getList();
-        
+
         new ConfigDAO(conSet.getConnection()).searchGlobalConfigList(result, allowedConfigIds, filter);
         Map<Integer, Config> configMap = resultList.stream().collect(Collectors.toMap(Config::getId, c -> c));
-        
+
         for (Config config : new ArrayList<>(resultList)) {
             for (Map.Entry<String, String> me : config.getValueMap().sub(Config.INCLUDE_PREFIX).entrySet()) {
                 int configId = Utils.parseInt(me.getKey());
-                
+
                 Config included = configMap.get(configId);
                 if (included == null) continue;
 
@@ -51,7 +52,7 @@ public class ConfigAction extends BaseAction {
             }
         }
 
-        form.getHttpRequest().setAttribute("license", License.getInstance());
+        form.getHttpRequest().setAttribute("license", AppLicense.getInstance());
 
         return html(conSet, mapping, form, "list");
     }
@@ -96,7 +97,7 @@ public class ConfigAction extends BaseAction {
 
         if (Utils.isBlankString(config.getTitle()))
             throw new BGMessageException("Не указано название.");
-        
+
         Preferences.processIncludes(configDAO, config.getData(), true);
 
         checkModified(config.getLastModify(), form);
@@ -120,7 +121,7 @@ public class ConfigAction extends BaseAction {
     }
 
     public ActionForward pluginsInit(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        PluginManager.init(); 
+        PluginManager.init();
         return json(conSet, form);
     }
 
@@ -128,7 +129,7 @@ public class ConfigAction extends BaseAction {
         var file = form.getFile();
 
         IOUtils.copy(file.getInputStream(), new FileOutputStream(License.FILE_NAME));
-        License.init();
+        AppLicense.init();
 
         return json(conSet, form);
     }

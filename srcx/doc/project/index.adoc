@@ -895,20 +895,27 @@ paramId
 [[naming-date]]
 === Date - field entity
 If a field has only date, then:
-* Java: *createDate* type *java.util.Date*
-* DB: *create_date* type *DATE*
+[square]
+* Java: *createdDate* type *java.util.Date*
+* DB: *created_date* type *DATE*
 
 If a field has date + time, then:
-* Java: *createTime* type *java.util.Date*
-* DB: *create_dt* type *DATETIME*
+[square]
+* Java: *createdTime* type *java.util.Date*
+* DB: *created_dt* type *DATETIME*
 
 [[naming-date-period]]
 === Date - period entity
+NOTE: Period entity must have two logically connected date or time fields, defining the same period.
+There is might be a `fromDate` field if it is not paired and and `dateFrom` that mandatory has `dateTo` pair.
+
 If saving in bins, period has to use java.util.Date type with the following naming convention:
+[square]
 * dateFrom
 * dateTo
 
 Corresponding set and get methods:
+[square]
 * setDateFrom
 * setDateTo
 * getDateFrom
@@ -918,6 +925,7 @@ CAUTION: Do not use Calendar beans!
 Use TimeUtils to convert into Calendar or from Calendar.
 
 For storing 'time', use:
+[square]
 * timeFrom
 * timeTo
 
@@ -925,11 +933,11 @@ For storing 'time', use:
 
 Use Calendar for various calculators/billings when you need to constantly adjust dates.
 
-Use from_date and to_date in the database ('date' type)
+Use *date_from* and *date_to* in the database (*DATE* type)
 
-from_dt, to_dt - datetime type.
+*dt_from*, *dt_to* - *DATETIME* type.
 
-Infinity time/date - NULL.
+Infinity time or date - *NULL*.
 
 [[sample]]
 == Code samples
@@ -1051,7 +1059,7 @@ link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L68-L80[webapps/WEB-INF
 
 Action:
 [snippet, from="public", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L127-L134[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
+link:../../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L128-L135[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
 
 [[sample-jsp-ui]]
 === UI Only

@@ -5,10 +5,15 @@
 	<%-- processors --%>
 	<div class="w100p in-inline-block">
 		<c:forEach var="processor" items="${queue.getProcessors('open')}">
-			<c:if test="${not empty processor.page}">
-				<c:set var="processor" value="${processor}" scope="request"/>
-				<jsp:include page="${processor.page}"/>
-			</c:if>
+			<c:choose>
+				<c:when test="${not empty processor.pageUrl}">
+					<c:import url="${processor.pageUrl}"/>
+				</c:when>
+				<c:when test="${not empty processor.page}">
+					<%-- <c:set var="processor" value="${processor}" scope="request"/> --%>
+					<jsp:include page="${processor.page}"/>
+				</c:when>
+			</c:choose>
 		</c:forEach>
 	</div>
 	<div>${l.l('Записей')}:&nbsp;${form.response.data.page.recordCount}</div>
