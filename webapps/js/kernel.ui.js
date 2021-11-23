@@ -147,7 +147,7 @@ $$.ui = new function () {
 				at: align + " bottom",
 				of: $launcher
 			});
-			
+
 			// to do not process the first click, called the menu
 			setTimeout(function () {
 				$(document).one("click", function () {
@@ -377,8 +377,7 @@ $$.ui = new function () {
 	}
 
 	/**
-	 * Set listener for paste event for attachment
-	 *
+	 * Set listener for paste event for attachment.
 	 * @param mainFormId
 	 * @param uploadFormId
 	 */
@@ -400,6 +399,38 @@ $$.ui = new function () {
 		}
 	}
 
+	/**
+	 * Add file to upload list.
+	 * @param {*} form
+	 * @param {*} uploadFormId
+	 */
+	const uploadAdd = function (form, uploadFormId) {
+		const uploadList = form.querySelector(".upload-list");
+
+		const input = uploadList.parentNode.querySelector("input[type='hidden'][name='addFileId']");
+		const id = input.value;
+		if (id > 0) {
+			const li = form.querySelector("li[value='" + id + "']");
+
+			const $div = $("<div>" +
+					"<input type='hidden' name='fileId' value='" + id + "'/>" +
+					"<button type='button' class='btn-white btn-small icon mr1' onclick=''><span class='ti-trash'></span></button>" +
+					li.textContent +
+				"</div>");
+			uploadList.append($div[0]);
+
+			$(li).hide();
+			$(form.querySelector("li[value='0']")).click();
+
+			$div.find("button").click(() => {
+				$div.remove();
+				$(li).show();
+			});
+		} else {
+			$$.ajax.triggerUpload(uploadFormId);
+		}
+	}
+
 	// public functions
 	this.comboSingleInit = comboSingleInit;
 	this.comboInputs = comboInputs;
@@ -417,6 +448,7 @@ $$.ui = new function () {
 	this.codeMirror = codeMirror;
 	this.tableRowHl = tableRowHl;
 	this.setPasteUploadListener = setPasteUploadListener;
+	this.uploadAdd = uploadAdd;
 }
 
 

@@ -2,13 +2,14 @@ package org.bgerp.plugin.bil.billing.subscription;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import org.bgerp.event.FilesEvent;
+import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.plugin.bil.billing.subscription.dao.SubscriptionDAO;
 import org.bgerp.plugin.bil.billing.subscription.model.Subscription;
 import org.bgerp.plugin.bil.billing.subscription.model.SubscriptionLicense;
@@ -90,8 +91,11 @@ public class Config extends ru.bgcrm.util.Config {
 
         paramProductId = config.getInt("param.product.id");
 
-        costUpdateParams = Set.of(paramSubscriptionId, paramLimitId, paramDateToId, paramDiscountId);
-        licFileUpdateParams = Set.of(paramSubscriptionId, paramEmailId, paramLimitId, paramDateToId);
+        // explicit new HashSet is used to ignore duplicated 0 values
+        costUpdateParams = Collections.unmodifiableSet(
+                new HashSet<>(List.of(paramSubscriptionId, paramLimitId, paramDateToId, paramDiscountId)));
+        licFileUpdateParams = Collections.unmodifiableSet(
+                new HashSet<>(List.of(paramSubscriptionId, paramEmailId, paramLimitId, paramDateToId)));
     }
 
     private SortedMap<Integer, Subscription> loadSubscriptions(ParameterMap config) {
@@ -198,44 +202,5 @@ public class Config extends ru.bgcrm.util.Config {
         if (subscriptionId == null)
             throw new BGException("Undefined subscription");
         return getSubscription(subscriptionId);
-    }
-
-    void files(FilesEvent e, ConnectionSet conSet) throws Exception {
-        if (!Process.OBJECT_TYPE.equals(e.getObjectType()))
-            return;
-
-        var process = new ProcessDAO(conSet.getSlaveConnection()).getProcess(e.getObjectId());
-        if (process == null || !subscriptionProcessTypeIds.contains(process.getTypeId()))
-            return;
-
-        var l = Localization.getLocalizer(e.getForm().getHttpRequest());
-        e.addFile(new IdStringTitle(LICENSE_FILE_ID, l.l("Лицензионный файл")));
-    }
-
-    void file(FilesEvent.Get e, ConnectionSet conSet) throws Exception {
-        if (!LICENSE_FILE_ID.equals(e.getId()))
-            return;
-
-        int processId = e.getObjectId();
-
-        /*var paramDao = new ParamValueDAO(conSet.getSlaveConnection());
-
-        var limitId = Utils.getFirst(paramDao.getParamList(processId, paramLimitId));
-        var limit = limitId != null ? ParameterCache.getListParamValues(paramLimitId).get(limitId).getTitle() : "";
-
-        var license = new SubscriptionLicense()
-            .withId(String.valueOf(processId))
-            .withEmail(Utils.getFirst(paramDao.getParamEmail(processId, paramEmailId).values()))
-            .withDateTo(TimeUtils.format(paramDao.getParamDate(processId, paramDateToId), TimeUtils.PATTERN_DDMMYYYY))
-            .withLimit(limit);
-
-        var dao = new SubscriptionDAO(conSet.getSlaveConnection());
-
-        for (var productId : dao.getProducts(this, processId))
-            license.withPlugin(productId);
-
-        var lic = new License(license.build());
-        byte[] signed = lic.getSignedData(signKeyFile, signKeyPswd);
-        e.setData(new Pair<String, byte[]>(License.FILE_NAME, signed));*/
     }
 }

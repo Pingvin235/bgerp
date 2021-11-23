@@ -595,7 +595,7 @@ public class MessageTypeEmail extends MessageType {
     }
 
     @Override
-    public void updateMessage(Connection con, DynActionForm form, Message message) throws BGException {
+    public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
         message.setSystemId("");
         message.setFrom(mailConfig.getEmail());
 

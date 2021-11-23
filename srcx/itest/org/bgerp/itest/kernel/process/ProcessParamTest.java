@@ -24,6 +24,10 @@ public class ProcessParamTest {
     private static final String TITLE = "Kernel Process Param";
 
     private int paramAddressId;
+    private int paramDateId;
+    private int paramDatetimeId;
+    private int paramEmailId;
+    private int paramFileId;
     private int paramListId;
     private int paramListCountId;
     private int paramMoneyId;
@@ -37,7 +41,17 @@ public class ProcessParamTest {
         paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " type 'address'",
                 ProcessTest.posParam += 2, "", "");
 
-        // TODO: 'date', 'datetime', 'email', 'file'
+        paramDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, TITLE + " type 'date'",
+                ProcessTest.posParam += 2, "", "");
+
+        paramDatetimeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " type 'datetime'",
+                ProcessTest.posParam += 2, "", "");
+
+        paramEmailId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_EMAIL, TITLE + " type 'email'",
+                ProcessTest.posParam += 2, "", "");
+
+        paramFileId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, TITLE + " type 'file'",
+                ProcessTest.posParam += 2, "", "");
 
         paramListId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST,
                 TITLE + " type 'list'", ProcessTest.posParam += 2,
@@ -68,7 +82,8 @@ public class ProcessParamTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.getParameterIds().addAll(List.of(paramAddressId, paramListId, paramListCountId, paramMoneyId, paramTextId, paramTreeId));
+        props.getParameterIds().addAll(List.of(paramAddressId, paramDateId, paramDatetimeId, paramEmailId, paramFileId,
+                        paramListId, paramListCountId, paramMoneyId, paramTextId, paramTreeId));
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
     }

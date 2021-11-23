@@ -175,14 +175,11 @@ public class ParamValueDAO extends CommonDAO {
         return result;
     }
 
-    // public FileData getParamFile(int id, int paramId, int position, int version) throws SQLException {
-
     /**
-     * Возвращает значение параметра типа 'file'.
+     * Selects values for parameter type 'file'.
      * @param id object ID.
      * @param paramId param ID.
-     * @param position номер значения (если значений несколько).
-     * @param version not used.
+     * @param position position number for multiple values.
      * @return
      * @throws SQLException
      */
@@ -208,10 +205,10 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Возвращает существующие значения параметра типа 'file'
+     * Selects values for parameter type 'file'.
      * @param id object ID.
      * @param paramId param ID.
-     * @return ключ - позиция, значение - данные.
+     * @return map with key equals value's position.
      * @throws SQLException
      */
     public SortedMap<Integer, FileData> getParamFile(int id, int paramId) throws SQLException {
@@ -1368,7 +1365,7 @@ public class ParamValueDAO extends CommonDAO {
      * @param paramList
      * @throws Exception
      */
-    public List<ParameterValuePair> loadParameters(List<Parameter> paramList, int id, boolean offEncription)
+    public List<ParameterValuePair> loadParameters(List<Parameter> paramList, int id, boolean offEncryption)
             throws Exception {
         Map<String, List<Integer>> paramTypeMap = new HashMap<String, List<Integer>>();
 
@@ -1390,7 +1387,7 @@ public class ParamValueDAO extends CommonDAO {
         }
 
         for (String type : paramTypeMap.keySet())
-            updateParamValueMap(paramMap, type, paramTypeMap.get(type), id, offEncription);
+            updateParamValueMap(paramMap, type, paramTypeMap.get(type), id, offEncryption);
 
         return result;
     }
@@ -1412,7 +1409,7 @@ public class ParamValueDAO extends CommonDAO {
      */
     @SuppressWarnings("unchecked")
     private void updateParamValueMap(Map<Integer, ParameterValuePair> paramMap, String type, Collection<Integer> ids,
-            int objectId, boolean offEncription) throws Exception {
+            int objectId, boolean offEncryption) throws Exception {
         StringBuilder query = new StringBuilder();
 
         ResultSet rs = null;
@@ -1625,7 +1622,7 @@ public class ParamValueDAO extends CommonDAO {
                     param.setValue(value = new ParameterPhoneValue());
                 value.addItem(getParamPhoneValueItemFromRs(rs));
             } else {
-                if ("encrypted".equals(param.getParameter().getConfigMap().get("encrypt")) && !offEncription) {
+                if ("encrypted".equals(param.getParameter().getConfigMap().get("encrypt")) && !offEncryption) {
                     param.setValue("<ЗНАЧЕНИЕ ЗАШИФРОВАНО>");
                 } else {
                     param.setValue(rs.getString(2));

@@ -429,8 +429,7 @@ $$.ajax = new function () {
 					form.submit();
 				}
 				form.reset();
-				inputFile.onchange = function () {
-				};
+				inputFile.onchange = function () {};
 			};
 			inputFile.onchange = onChange;
 			inputFile.click();

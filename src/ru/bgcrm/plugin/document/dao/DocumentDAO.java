@@ -1,8 +1,7 @@
 package ru.bgcrm.plugin.document.dao;
 
-import static ru.bgcrm.dao.Tables.*;
+import static ru.bgcrm.dao.Tables.TABLE_FILE_DATA;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
@@ -24,7 +23,7 @@ public class DocumentDAO extends CommonDAO {
     public DocumentDAO(Connection con) {
         super(con);
     }
-    
+
     /**
      * Добавляет привязанный к объекту документ.
      * @param objectType
@@ -78,9 +77,9 @@ public class DocumentDAO extends CommonDAO {
     /**
      * Удаляет документ и привязанный к нему файл.
      * @param doc
-     * @throws BGException
+     * @throws Exception
      */
-    public void delete(Document doc) throws BGException {
+    public void delete(Document doc) throws Exception {
         deleteById(TABLE_DOCUMENT, doc.getId());
         if (doc.getFileData() != null) {
             new FileDataDAO(con).delete(doc.getFileData());
@@ -146,8 +145,7 @@ public class DocumentDAO extends CommonDAO {
         }
     }
 
-    public OutputStream createDocumentFile(Document doc, String title)
-            throws FileNotFoundException, BGException, SQLException {
+    public OutputStream createDocumentFile(Document doc, String title) throws Exception {
         FileDataDAO fileDao = new FileDataDAO(con);
         DocumentDAO docDao = new DocumentDAO(con);
 

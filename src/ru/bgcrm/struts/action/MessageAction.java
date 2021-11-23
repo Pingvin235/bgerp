@@ -1,6 +1,5 @@
 package ru.bgcrm.struts.action;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.event.ProcessFilesEvent;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
@@ -39,8 +39,8 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.SearchResult;
-import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.message.Message;
+import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -422,6 +422,10 @@ public class MessageAction extends BaseAction {
         if (message != null)
             form.setResponseData("message", message);
 
+        var event = new ProcessFilesEvent(form, form.getParamInt("processId"));
+        EventProcessor.processEvent(event, conSet);
+        form.setRequestAttribute("files", event.getFiles());
+
         return html(conSet, form, PATH_JSP + "/process_message_edit.jsp");
     }
 
@@ -465,17 +469,6 @@ public class MessageAction extends BaseAction {
             message.setSystemId(systemId);
 
         type.updateMessage(conSet.getConnection(), form, message);
-
-        message.getAttachList().forEach(a -> { // remove output Fix
-            try {
-                if( a.getOutputStream() != null ) {
-                    a.getOutputStream().close();
-                    a.setOutputStream(null);
-                }
-            } catch (IOException e) {
-                log.error(e.getMessage(),e);
-            }
-        });
 
         if (form.getParamBoolean("updateTags")) {
             form.setParam("id", String.valueOf(message.getId()));

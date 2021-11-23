@@ -1,7 +1,5 @@
 package ru.bgcrm.dao.message;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.sql.Connection;
@@ -9,7 +7,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.util.Log;
@@ -256,42 +253,42 @@ public abstract class MessageType extends IdTitle {
     }
 
     protected Map<Integer, FileInfo> processMessageAttaches(Connection con, DynActionForm form, Message message)
-            throws BGException {
-        try {
-            // перемещение временных загруженных файлов в постоянное хранилище
-            FileDataDAO fileDao = new FileDataDAO(con);
+            throws Exception {
+        var fileDao = new FileDataDAO(con);
 
-            // удаление лишних сообщений
-            List<FileData> attachList = message.getAttachList();
+        // удаление лишних сообщений
+        /* List<FileData> attachList = message.getAttachList();
 
-            Set<Integer> existFileIds = form.getSelectedValues("fileId");
-            for (int i = 0; i < attachList.size(); i++) {
-                FileData file = attachList.get(i);
-                if (!existFileIds.contains(file.getId())) {
-                    fileDao.delete(file);
-                    attachList.remove(i--);
-                }
+        Set<Integer> existFileIds = form.getSelectedValues("fileId");
+
+        for (int i = 0; i < attachList.size(); i++) {
+            FileData file = attachList.get(i);
+            if (!existFileIds.contains(file.getId())) {
+                fileDao.delete(file);
+                attachList.remove(i--);
             }
+        } */
 
-            Map<Integer, FileInfo> tmpFiles = SessionTemporaryFiles.getFiles(form, "tmpFileId");
-            for (FileInfo fileInfo : tmpFiles.values()) {
-                FileData file = new FileData();
+        // attaching of already existing
+        List<FileData> attachList = message.getAttachList();
+        attachList.clear();
+        attachList.addAll(fileDao.list(form.getSelectedValuesList("fileId")));
 
-                file.setTitle(fileInfo.title);
+        // newly uploaded files
+        Map<Integer, FileInfo> tmpFiles = SessionTemporaryFiles.getFiles(form, "tmpFileId");
+        for (FileInfo fileInfo : tmpFiles.values()) {
+            FileData file = new FileData();
 
-                OutputStream out = fileDao.add(file);
+            file.setTitle(fileInfo.title);
 
-                IOUtils.copy(fileInfo.inputStream, out);
-                out.close();
-                fileInfo.inputStream.close();
+            OutputStream out = fileDao.add(file);
 
-                message.addAttach(file);
-            }
-            return tmpFiles;
-        } catch (FileNotFoundException e) {
-            throw new BGException(e);
-        } catch (IOException e) {
-            throw new BGException(e);
+            IOUtils.copy(fileInfo.inputStream, out);
+            out.close();
+            fileInfo.inputStream.close();
+
+            message.addAttach(file);
         }
+        return tmpFiles;
     }
 }
