@@ -212,6 +212,16 @@ For checking out may be used approach with *DETACHED HEAD*:
 git fetch && git checkout origin/some-branch-with-changes
 ----
 
+Use the following commands for updatining your fork repo to the actual state of *bgerp-custom* repo.
+[source]
+----
+git remote add upstream https://github.com/Pingvin235/bgerp-custom.git
+git fetch upstream
+git checkout master
+git rebase upstream/master
+git push
+----
+
 [[custom-using]]
 === Using
 Inside `custom/src` placed regular Java code, including plugins <<../project/index.adoc#plugin, plugins>>.
