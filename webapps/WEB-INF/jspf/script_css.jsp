@@ -41,6 +41,9 @@
 <link type="text/css" href="/lib/treetable/jquery.treetable.css" rel="stylesheet"/>
 <link type="text/css" href="/lib/treetable/jquery.treetable.theme.default.css" rel="stylesheet"/>
 
+<script src="/lib/tagator/fm.tagator.jquery.js"></script>
+<link type="text/css" href="/lib/tagator/fm.tagator.jquery.css" rel="stylesheet"/>
+
 <script src="/lib/combobox/combo.js"></script>
 <link type="text/css" href="/lib/combobox/combo.css" rel="stylesheet"/>
 

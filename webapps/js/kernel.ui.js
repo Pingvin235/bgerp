@@ -255,6 +255,43 @@ $$.ui = new function () {
 		});
 	}
 
+	/**
+	 * TagBox init function.
+	 * @param {jQuery} $target selector for input type='text'.
+	 * @param {String} values comma separated list of initial values.
+	 * @param {Boolean} focus set focus on.
+	 * @param {String} url URL for loading values using AJAX.
+	 */
+	const tagBoxInit = function ($target, values, focus, url) {
+		let autocomplete = [];
+
+		if (Array.isArray(values)) {
+			autocomplete = values;
+		} else if (typeof values === 'string') {
+			autocomplete = values.split(',');
+		}
+
+		$target.tagator({
+			autocomplete: autocomplete,
+			useDimmer: false,
+			showAllOptionsOnFocus: !!focus,
+			height: 'auto'
+		});
+
+		if (url) {
+			const $tagatorInput = $('#tagator_' + $target.attr('id')).find('input.tagator_input');
+			$tagatorInput.one('focus', () => {
+				$$.ajax
+					.post(url)
+					.done((response) => {
+						$target.tagator('autocomplete', response.data.list);
+						$target.tagator('refresh');
+						$tagatorInput.click();
+					});
+			});
+		}
+	}
+
 	const layout = ($selector) => {
 		var debug = false;
 
@@ -441,6 +478,7 @@ $$.ui = new function () {
 	this.menuInit = menuInit;
 	this.monthDaysSelectInit = monthDaysSelectInit;
 	this.inputTextInit = inputTextInit;
+	this.tagBoxInit = tagBoxInit;
 	this.layout = layout;
 	this.showError = showError;
 	this.tabsLoaded = tabsLoaded;

@@ -10,7 +10,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div style="padding: 0.5em;">
-	<ul id="menu" class="menu">
+	<%-- <ul id="menu" class="menu">
 		<li class="ui-state-disabled"><a href="#">Aberdeen</a></li>
 		<li><a href="#">Ada</a></li>
 		<li><a href="#">Adamsville</a></li>
@@ -42,11 +42,12 @@
 	</ul>
 
 	<script>
-		$(function()
-		{
+		$(function() {
 			$('#menu').menu();
 		});
 	</script>
+	TODO: Make a sample with a link and $$.ui.menuInit call.
+	--%>
 
 	<div class="in-mt1 mt1">
 		<div>
@@ -254,6 +255,12 @@
 			</u:sc>
 		</div>
 
+		<div class="mt05">
+			<b>&lt;ui:tag-box&gt;</b><br/>
+			Provide values directly<br>
+			<ui:tag-box showOptions="1" choices="first,second,third"/>
+		</div>
+
 		<div>
 			<b>Выравнивание в колонку</b><br/>
 
@@ -282,59 +289,64 @@
 		</div>
 
 		<div>
-			<b>Табы</b><br/>
+			<b>Tabs</b><br/>
 
 			<div id="tabsTest">
 				<ul>
-					<li><a href="#tabs-1">Первый таб</a></li><%--
-				--%><li><a href="#tabs-2">Второй таб</a></li><%--
-				--%><li><a href="#tabs-3">Третий таб</a></li>
+					<li><a href="#tabs-1">First tab</a></li><%--
+				--%><li><a href="#tabs-2">Second tab</a></li><%--
+				--%><li><a href="#tabs-3">Third tab</a></li>
 				</ul>
-				<div id="tabs-1">Содержимое первого таба</div>
-				<div id="tabs-2">Содержимое второго таба</div>
-				<div id="tabs-3">Содержимое третьего таба</div>
+				<div id="tabs-1">First content</div>
+				<div id="tabs-2">Second content</div>
+				<div id="tabs-3">Third content</div>
 			</div>
 		</div>
 
 		<script>
-			$(function()
-			{
+			$(function() {
 				$("#tabsTest").tabs();
 			})
 		</script>
 	</div>
 
-	<input name="startDate" id="startDate" class="date-picker" />
-	<script type="text/javascript">
-		$(function() {
-			$('#startDate').datepicker({
-				changeMonth: true,
-				changeYear: true,
-				showButtonPanel: true,
-				dateFormat: 'yy MM',
-				onClose: function(dateText, inst) {
-					var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-					var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-					$(this).datepicker('setDate', new Date(year, month, 1));
-				}
-		 });
-		$("#startDate").focus(function () {
-				$(".ui-datepicker-year").hide();
-			});
-		});
-	</script>
+	<div class="mt05">
+		<b>Year and month</b><br/>
 
-	<br/><b>Что где посмотреть:</b>
+		<input name="startDate" id="startDate" class="date-picker" />
+		<script type="text/javascript">
+			$(function() {
+				$('#startDate').datepicker({
+					changeMonth: true,
+					changeYear: true,
+					showButtonPanel: true,
+					dateFormat: 'yy MM',
+					onClose: function(dateText, inst) {
+						var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+						var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+						$(this).datepicker('setDate', new Date(year, month, 1));
+					}
+			});
+			$("#startDate").focus(function () {
+					$(".ui-datepicker-year").hide();
+				});
+			});
+		</script>
+	</div>
+
+	<%-- <br/><b>Что где посмотреть:</b>
 	<ul>
 		<li>1) DatePicker в виде диалога с позиционированием и Dialog с позиционированием.
 		../jspf/plugin/bgbilling/bill/document_list.jsp</li>
 		<li>2) Дерево, использование layout-height-rest
 		../jspf/user/plugin/bgbilling/ipn/range_edit.jsp</li>
 	</ul>
-
-	<br/><b>Font Icons:</b>
-	<ul>
-		<li><a href="https://themify.me/themify-icons">Themify Icons</a></li>
-	</ul>
+	--%>
+	<div class="mt05">
+		<br/><b>Font Icons:</b>
+		<ul>
+			<li><a href="https://themify.me/themify-icons">Themify Icons</a></li>
+		</ul>
+	</div>
 </div>
 <%-- </html> --%>
