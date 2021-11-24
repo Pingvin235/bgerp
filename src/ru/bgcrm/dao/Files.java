@@ -41,8 +41,12 @@ public class Files {
                 return;
 
             List<ParameterValuePair> list = new ParamValueDAO(con).loadParameters(paramList, e.getProcessId(), false);
-            for (var value : list) {
-                for (var file : ((Map<Integer, FileData>) value.getValue()).values())
+            for (var pair : list) {
+                var value = (Map<Integer, FileData>) pair.getValue();
+                if (value == null)
+                    continue;
+
+                for (var file : value.values())
                     e.addFile(file);
             }
         }
