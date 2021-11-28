@@ -23,21 +23,21 @@ public class ProcessPriorityConfig extends Config {
         8, "FFBE7E",
         9, "FD7D89"
     )));
-    
+
     /** Key - priority, value - hex color string. */
     private final SortedMap<Integer, String> priorityColors;
 
-    protected ProcessPriorityConfig(ParameterMap setup) {
-        super(setup);
-        priorityColors = loadPriorityColors();
+    protected ProcessPriorityConfig(ParameterMap config) {
+        super(null);
+        priorityColors = loadPriorityColors(config);
     }
 
-    private SortedMap<Integer, String> loadPriorityColors() {
-        var map = setup.subIndexed(PREFIX);
+    private SortedMap<Integer, String> loadPriorityColors(ParameterMap config) {
+        var map = config.subIndexed(PREFIX);
         if (map.isEmpty()) {
             return DEFAULT_COLORS;
         }
-        
+
         var result = new TreeMap<Integer, String>();
         for (var me : map.entrySet())
             result.put(me.getKey(), me.getValue().get("color", "red"));

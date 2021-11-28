@@ -14,9 +14,9 @@ public class ProcessLinkModesConfig extends Config {
     private final Map<String, String> modeMap = new HashMap<>();
     private final List<IdStringTitle> modeList = new ArrayList<>();
 
-    public ProcessLinkModesConfig(ParameterMap setup) {
-        super(setup);
-        for (String token : Utils.toList(setup.get("processCustomerLinkRoles", "customer:Контрагент"))) {
+    public ProcessLinkModesConfig(ParameterMap config) {
+        super(null);
+        for (String token : Utils.toList(config.get("processCustomerLinkRoles", "customer:Контрагент"))) {
             String[] pair = token.trim().split(":");
             if (pair.length == 2) {
                 IdStringTitle item = new IdStringTitle(pair[0], pair[1]);

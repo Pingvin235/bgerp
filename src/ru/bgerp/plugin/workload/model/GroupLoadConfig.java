@@ -19,17 +19,17 @@ public class GroupLoadConfig extends Config {
 
     private final int addressParamId;
 
-    protected GroupLoadConfig(ParameterMap setup, boolean validate) {
-        super(setup, validate);
+    protected GroupLoadConfig(ParameterMap config, boolean validate) {
+        super(null, validate);
         String prefix = Plugin.ID + ":groupLoad.";
-        this.userGroupIds = Collections.unmodifiableSet(Utils.toIntegerSet(setup.get(prefix + "userGroupIds")));
-        this.processTypeIds = Collections.unmodifiableSet(Utils.toIntegerSet(setup.get(prefix + "processTypeIds")));
+        this.userGroupIds = Collections.unmodifiableSet(Utils.toIntegerSet(config.get(prefix + "userGroupIds")));
+        this.processTypeIds = Collections.unmodifiableSet(Utils.toIntegerSet(config.get(prefix + "processTypeIds")));
         this.enabled = !userGroupIds.isEmpty() || !processTypeIds.isEmpty();
 
-        this.dateFromParamId = setup.getInt(prefix + "dateFromParamId");
-        this.dateToParamId = setup.getInt(prefix + "dateToParamId");
+        this.dateFromParamId = config.getInt(prefix + "dateFromParamId");
+        this.dateToParamId = config.getInt(prefix + "dateToParamId");
 
-        this.addressParamId = setup.getInt(prefix + "addressParamId");
+        this.addressParamId = config.getInt(prefix + "addressParamId");
     }
 
     public boolean isEnabled() {

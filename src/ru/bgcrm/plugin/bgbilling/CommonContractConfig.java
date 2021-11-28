@@ -31,7 +31,7 @@ extends Config
 
 	public CommonContractConfig( ParameterMap config )
 	{
-		super( config );
+		super( null );
 
 		customerAddressParamId = config.getInt( CONFIG_PREFIX + "customerAddressParamId", 0 );
 		addressParamId = config.getInt( CONFIG_PREFIX + "addressParamId", 0 );

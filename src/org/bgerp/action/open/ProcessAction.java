@@ -33,6 +33,7 @@ public class ProcessAction extends BaseAction {
      * Configuration for open processes.
      */
     public static class Config extends ru.bgcrm.util.Config {
+        private final ParameterMap config;
         /**
          * Process types IDs allowed to be shown. Not {@code null} value.
          */
@@ -42,23 +43,26 @@ public class ProcessAction extends BaseAction {
         private final boolean showLinkCustomer;
         private final SecretExpression secret;
 
-        protected Config(ParameterMap setup, boolean validate) throws Exception {
-            super(setup);
-            processTypeIds = Utils.toIntegerSet(setup.get("process.open.typeIds"));
+        protected Config(ParameterMap config, boolean validate) throws Exception {
+            super(null);
+
+            this.config = config;
+
+            processTypeIds = Utils.toIntegerSet(config.get("process.open.typeIds"));
             initWhen(CollectionUtils.isNotEmpty(processTypeIds));
 
-            secret = new SecretExpression(setup.get("process.open.secret.expression"));
+            secret = new SecretExpression(config.get("process.open.secret.expression"));
 
-            showParamIds = Utils.toIntegerList(setup.get("process.open.show.paramIds"));
+            showParamIds = Utils.toIntegerList(config.get("process.open.show.paramIds"));
             if (showParamIds.isEmpty())
                 throwValidationException("Param ID list is not defined");
 
             if (ParameterCache.getParameterList(showParamIds).size() != showParamIds.size())
                 throwValidationException("Some of param IDs do not exist");
 
-            var messageTagIds = setup.get("process.open.show.message.tagIds");
+            var messageTagIds = config.get("process.open.show.message.tagIds");
             showMessagesTagIds = "*".equals(messageTagIds) ? Collections.emptySet() : Utils.toIntegerSet(messageTagIds);
-            showLinkCustomer = setup.getBoolean("process.open.show.link.customer", false);
+            showLinkCustomer = config.getBoolean("process.open.show.link.customer", false);
         }
 
         /**
@@ -86,7 +90,7 @@ public class ProcessAction extends BaseAction {
          * @return
          */
         public String url(Process process) {
-            return Interface.getUrlOpen(setup) + "/process/" + process.getId() + secret.queryString(process);
+            return Interface.getUrlOpen(config) + "/process/" + process.getId() + secret.queryString(process);
         }
 
         /**

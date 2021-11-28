@@ -21,12 +21,12 @@ public class SavedPanelConfig extends Config {
 
     private Integer currentSelected = 0;
 
-    public SavedPanelConfig(ParameterMap setup) {
-        super(setup);
+    public SavedPanelConfig(ParameterMap config) {
+        super(null);
 
-        savedPanelSet = Utils.toIntegerSet(setup.get(QUEUE_SAVED_PANEL_SET_PREFIX, ""));
+        savedPanelSet = Utils.toIntegerSet(config.get(QUEUE_SAVED_PANEL_SET_PREFIX, ""));
         log.debug("проверяем сет после получения данных из базы: " + savedPanelSet.toString());
-        currentSelected = setup.getInt(QUEUE_CURRENT, 0);
+        currentSelected = config.getInt(QUEUE_CURRENT, 0);
     }
 
     public void addSavedPanelSet(Integer queueId) {

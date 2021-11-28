@@ -118,7 +118,7 @@ public class DefaultProcessChangeListener {
         private final List<ConfigRule> ruleList = new ArrayList<ConfigRule>();
 
         public DefaultProcessChangingListenerConfig(ParameterMap config) {
-            super(config);
+            super(null);
 
             for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("onProcessEvent.").entrySet()) {
                 try {

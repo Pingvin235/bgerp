@@ -20,10 +20,10 @@ import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 public class ProcessReferenceConfig extends Config {
     private List<ProcessReferenceConfigItem> itemList = new ArrayList<>();
 
-    public ProcessReferenceConfig(ParameterMap setup) throws BGException {
-        super(setup);
+    public ProcessReferenceConfig(ParameterMap config) throws BGException {
+        super(null);
 
-        for (Map.Entry<Integer, ParameterMap> me : setup.subIndexed("processReference.").entrySet()) {
+        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("processReference.").entrySet()) {
             try {
                 itemList.add(new ProcessReferenceConfigItem(me.getValue()));
             } catch (Exception e) {

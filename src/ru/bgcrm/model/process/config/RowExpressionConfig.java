@@ -11,10 +11,10 @@ import ru.bgcrm.util.Utils;
 public class RowExpressionConfig extends Config {
     private Map<String, Expressions> mediaExpressions = new HashMap<String, Expressions>();
 
-    public RowExpressionConfig(ParameterMap setup) {
-        super(setup);
+    public RowExpressionConfig(ParameterMap config) {
+        super(null);
 
-        for (ParameterMap conf : setup.subIndexed("rowConfig.").values()) {
+        for (ParameterMap conf : config.subIndexed("rowConfig.").values()) {
             String media = conf.get("media");
             Expressions expressions = new Expressions(conf.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "Head"),
                     conf.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "Row"));

@@ -15,17 +15,17 @@ public class CalendarConfig
 {
 	private final Map<Integer, WorkDaysCalendar> calendarMap = new LinkedHashMap<Integer, WorkDaysCalendar>();
 	
-	public CalendarConfig( ParameterMap setup )
+	public CalendarConfig( ParameterMap config )
 	{
-		super( setup );
+		super( null );
 		
-		for( Entry<Integer, ParameterMap> me : setup.subIndexed( "callboard.workdays.calendar." ).entrySet() )
+		for( Entry<Integer, ParameterMap> me : config.subIndexed( "callboard.workdays.calendar." ).entrySet() )
 		{
 			int id = me.getKey();
-			ParameterMap config = me.getValue();
+			ParameterMap pm = me.getValue();
 			
-			calendarMap.put( id, new WorkDaysCalendar( id, config.get( "title", "" ), config.get( "comment", "" ), 
-			                                           WorkDaysCalendarRule.createFromString( config.get( "rule", "" ) ) ) );
+			calendarMap.put( id, new WorkDaysCalendar( id, pm.get( "title", "" ), pm.get( "comment", "" ),
+			                                           WorkDaysCalendarRule.createFromString( pm.get( "rule", "" ) ) ) );
 		}
 	}
 

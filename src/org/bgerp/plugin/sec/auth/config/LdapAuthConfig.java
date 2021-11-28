@@ -47,7 +47,7 @@ public class LdapAuthConfig extends Config {
     private final String titleExpression;
 
     LdapAuthConfig(int id, ParameterMap config) throws InitStopException {
-        super(config);
+        super(null);
         this.title = config.get("title", String.valueOf(id));
         this.url = config.get("url");
         this.loginExpression = config.get("login.expression");

@@ -21,28 +21,28 @@ public class Config extends ru.bgcrm.util.Config {
     private final String proxyPort;
     private final String proxyType;
 
-    protected Config(ParameterMap setup, boolean validate) throws BGMessageException {
-        super(setup, validate);
+    protected Config(ParameterMap config, boolean validate) throws BGMessageException {
+        super(null, validate);
 
-        setup = setup.sub(Plugin.ID + ":");
+        config = config.sub(Plugin.ID + ":");
 
-        botStart = setup.getSokBoolean(false, validate, "botStart", "bot_start");
+        botStart = config.getSokBoolean(false, validate, "botStart", "bot_start");
 
-        token = setup.get("token", "");
-        userName = setup.getSok("botName", validate,"botName", "bot_name");
-        paramId = setup.getInt("userParamId", -1);
-        processParamId = setup.getInt("processParamId", -1);
+        token = config.get("token", "");
+        userName = config.getSok("botName", validate,"botName", "bot_name");
+        paramId = config.getInt("userParamId", -1);
+        processParamId = config.getInt("processParamId", -1);
 
-        proxyHost = setup.get("proxyHost");
-        proxyPort = setup.get("proxyPort");
-        proxyType = setup.get("proxyType");
+        proxyHost = config.get("proxyHost");
+        proxyPort = config.get("proxyPort");
+        proxyType = config.get("proxyType");
 
-        msgWrongPassword = setup.get("msgWrongPassword", "Пользователь или пароль неверны");
-        msgAskLogin = setup.get("msgAskLogin", "Для подключение к уведомлениям bgerp введите свой логин");
-        msgAskPassword = setup.get("msgAskPassword", "Введите пароль");
-        msgLinkChange = setup.get("msgLinkChange", "Теперь вы будете получать уведомления");
-        msgDefaultAnswer = setup.get("msgDefaultAnswer", "Введите /login для подписки, или /getid,чтобы получить свой telegramId");
-        msgUrlHelp = setup.get("msgUrlHelp", "https://bgerp.org/doc/3.0/manual/plugin/telegram/index.html");
+        msgWrongPassword = config.get("msgWrongPassword", "Пользователь или пароль неверны");
+        msgAskLogin = config.get("msgAskLogin", "Для подключение к уведомлениям bgerp введите свой логин");
+        msgAskPassword = config.get("msgAskPassword", "Введите пароль");
+        msgLinkChange = config.get("msgLinkChange", "Теперь вы будете получать уведомления");
+        msgDefaultAnswer = config.get("msgDefaultAnswer", "Введите /login для подписки или /getid, чтобы получить свой telegramId");
+        msgUrlHelp = config.get("msgUrlHelp", "https://bgerp.org/doc/3.0/manual/plugin/telegram/index.html");
     }
 
     public String getProxyType() {

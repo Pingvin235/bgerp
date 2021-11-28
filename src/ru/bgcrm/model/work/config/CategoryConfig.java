@@ -17,11 +17,11 @@ public class CategoryConfig
 {
 	private List<Category> list = new ArrayList<Category>();
 
-	public CategoryConfig( ParameterMap setup )
+	public CategoryConfig( ParameterMap config )
 	{
-		super( setup );
+		super( null );
 		
-		for( Map.Entry<Integer, ParameterMap> me : setup.subIndexed( "callboard.worktype.category." ).entrySet() )
+		for( Map.Entry<Integer, ParameterMap> me : config.subIndexed( "callboard.worktype.category." ).entrySet() )
 		{
 			ParameterMap params = me.getValue();		
 			list.add( new Category( me.getKey(), params.get( "title", "" ), params.getBoolean( "public", false ) ) );

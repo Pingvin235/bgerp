@@ -18,15 +18,15 @@ public class ProcessTimeSetConfig
 	private final int daysShow;
 	private final int changeStatusToId;
 	
-	public ProcessTimeSetConfig( ParameterMap configMap )
+	public ProcessTimeSetConfig( ParameterMap config )
 		throws BGException
 	{
-		super( configMap );
+		super( null );
 		
-		callboard = Setup.getSetup().getConfig( CallboardConfig.class ).get( configMap.getInt( CONFIG_PREFIX + "graphId", 0 ) );
-		param = ParameterCache.getParameter( configMap.getInt( CONFIG_PREFIX + "paramId", 0 ) );
-		daysShow = configMap.getInt( CONFIG_PREFIX + "daysShow", 3 );
-		changeStatusToId = configMap.getInt( CONFIG_PREFIX + "changeStatusToId", -1 );
+		callboard = Setup.getSetup().getConfig( CallboardConfig.class ).get( config.getInt( CONFIG_PREFIX + "graphId", 0 ) );
+		param = ParameterCache.getParameter( config.getInt( CONFIG_PREFIX + "paramId", 0 ) );
+		daysShow = config.getInt( CONFIG_PREFIX + "daysShow", 3 );
+		changeStatusToId = config.getInt( CONFIG_PREFIX + "changeStatusToId", -1 );
 	}
 
 	public Callboard getCallboard()

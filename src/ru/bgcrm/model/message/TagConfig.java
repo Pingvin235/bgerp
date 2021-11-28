@@ -19,9 +19,9 @@ public class TagConfig extends Config{
     private final List<Tag> tagList = new ArrayList<>(10);
     private final Map<Integer, Tag> tagMap;
 
-    public TagConfig(ParameterMap setup) {
-        super(setup);
-        for (Map.Entry<Integer, ParameterMap> me : setup.subIndexed("tag.").entrySet())
+    public TagConfig(ParameterMap config) {
+        super(null);
+        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("tag.").entrySet())
             tagList.add(new Tag(me.getKey(), me.getValue()));
         tagMap = tagList.stream().collect(Collectors.toMap(Tag::getId, t -> t));
     }

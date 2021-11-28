@@ -26,10 +26,10 @@ public class SavedFiltersConfig extends Config {
     public static final String QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX = "queueCurrentSavedFilterSet.";
     private static final String QUEUE_SAVED_FILTER_SET_ORDER = "queueSavedFilterSetOrder.";
 
-    public SavedFiltersConfig(ParameterMap setup) {
-        super(setup);
+    public SavedFiltersConfig(ParameterMap config) {
+        super(null);
 
-        for (Map.Entry<Integer, ParameterMap> me : setup.subIndexed(QUEUE_SAVED_FILTER_SET_PREFIX).entrySet()) {
+        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed(QUEUE_SAVED_FILTER_SET_PREFIX).entrySet()) {
             int id = me.getKey();
 
             SavedFilterSet set = new SavedFilterSet(id, me.getValue());
@@ -49,7 +49,7 @@ public class SavedFiltersConfig extends Config {
             int queueId = queueSets.getKey();
             List<SavedFilterSet> sets = queueSets.getValue();
 
-            List<Integer> order = Utils.toIntegerList(setup.get(QUEUE_SAVED_FILTER_SET_ORDER + queueId));
+            List<Integer> order = Utils.toIntegerList(config.get(QUEUE_SAVED_FILTER_SET_ORDER + queueId));
             sets.sort((s1, s2) -> order.indexOf(s1.getId()) - order.indexOf(s2.getId()));
         }
     }

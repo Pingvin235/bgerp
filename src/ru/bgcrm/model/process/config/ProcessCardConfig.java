@@ -11,10 +11,10 @@ import ru.bgcrm.util.Utils;
 public class ProcessCardConfig extends Config {
     private List<Item> itemList = new ArrayList<Item>();
 
-    public ProcessCardConfig(ParameterMap setup) throws BGException {
-        super(setup);
-        for (ParameterMap config : setup.subIndexed("processCard.").values()) {
-            itemList.add(new Item(config));
+    public ProcessCardConfig(ParameterMap config) throws BGException {
+        super(null);
+        for (ParameterMap pm : config.subIndexed("processCard.").values()) {
+            itemList.add(new Item(pm));
         }
     }
 

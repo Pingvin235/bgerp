@@ -38,10 +38,10 @@ public class Config extends ru.bgcrm.util.Config {
     private final List<IdStringTitle> objectTypeList = new ArrayList<>(); 
     private final Set<Integer> paramIds = new HashSet<>();
     
-    public Config(ParameterMap setup) {
-        super(setup);
-        this.indexDelay = setup.getInt(Plugin.ID + ":index.delay", 60);
-        for (Map.Entry<String, ParameterMap> me : setup.subKeyed(Plugin.ID + ":entry.").entrySet()) {
+    public Config(ParameterMap config) {
+        super(null);
+        this.indexDelay = config.getInt(Plugin.ID + ":index.delay", 60);
+        for (Map.Entry<String, ParameterMap> me : config.subKeyed(Plugin.ID + ":entry.").entrySet()) {
             ObjectType type = new ObjectType(me.getKey(), me.getValue());
             objectTypeMap.put(type.getObjectType(), type);
             paramIds.addAll(type.paramIds);

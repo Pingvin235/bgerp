@@ -26,8 +26,8 @@ public abstract class Config {
 
     /**
      * The constructor has to be overwritten and implement parameters parsing.
-     * Old-style constructor, without deprecated keys validation support.
-     * @param config configuration.
+     * Simple constructor, without deprecated keys validation support.
+     * @param config configuration, MUST be {@code null} when calling {@code super}.
      */
     protected Config(ParameterMap config) {
         this(config, false);
@@ -35,7 +35,7 @@ public abstract class Config {
 
     /**
      * The constructor has to be overwritten and implement parameters parsing.
-     * @param config configuration.
+     * @param config configuration, MUST be {@code null} when calling {@code super}.
      * @param validate validation old configuration keys.
      */
     protected Config(ParameterMap config, boolean validate) {

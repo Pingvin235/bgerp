@@ -17,9 +17,9 @@ public class Config extends ru.bgcrm.util.Config {
     /** Key - report ID. */
     private final Map<String, Report> reportMap = new HashMap<>();
     
-    protected Config(ParameterMap setup) {
-        super(setup);
-        for (Map.Entry<Integer, ParameterMap> me : setup.subIndexed(Plugin.ID + ":report.").entrySet()) {
+    protected Config(ParameterMap config) {
+        super(null);
+        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed(Plugin.ID + ":report.").entrySet()) {
             Report report = new Report(me.getKey().toString(), me.getValue());
             reportList.add(report);
             reportMap.put(report.getId(), report);

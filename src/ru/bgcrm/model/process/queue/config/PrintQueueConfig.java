@@ -15,7 +15,7 @@ public class PrintQueueConfig extends Config {
     private LinkedHashMap<Integer, PrintType> printTypes = new LinkedHashMap<Integer, PrintType>();
 
     public PrintQueueConfig(ParameterMap config) {
-        super(config);
+        super(null);
 
         for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("media.print.").entrySet()) {
             PrintType type = new PrintType(me.getKey(), me.getValue());

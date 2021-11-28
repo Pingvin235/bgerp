@@ -22,11 +22,11 @@ public class CallboardConfig
 {
 	private final Map<Integer, Callboard> itemMap = new LinkedHashMap<Integer, Callboard>();
 
-	public CallboardConfig( ParameterMap setup )
+	public CallboardConfig( ParameterMap config )
 	{
-		super( setup );
+		super( null );
 
-		for( Entry<Integer, ParameterMap> entry : setup.subIndexed( "callboard." ).entrySet() )
+		for( Entry<Integer, ParameterMap> entry : config.subIndexed( "callboard." ).entrySet() )
 		{
 			itemMap.put( entry.getKey(), new Callboard( entry.getKey(), entry.getValue() ) );
 		}

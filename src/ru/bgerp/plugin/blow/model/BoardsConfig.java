@@ -15,9 +15,9 @@ import ru.bgerp.plugin.blow.Plugin;
 public class BoardsConfig extends ru.bgcrm.util.Config {
     private SortedMap<Integer, BoardConfig> boardMap = new TreeMap<>();
 
-    protected BoardsConfig(ParameterMap setup, boolean validate) {
-        super(setup, validate);
-        for (Map.Entry<Integer, ParameterMap> me : setup.subIndexed(Plugin.ID + ":board.").entrySet()) {
+    protected BoardsConfig(ParameterMap config, boolean validate) {
+        super(null, validate);
+        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed(Plugin.ID + ":board.").entrySet()) {
             BoardConfig b = new BoardConfig(me.getKey(), me.getValue());
             boardMap.put(b.getId(), b);
         }

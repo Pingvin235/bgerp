@@ -30,18 +30,23 @@ public class ProfileAction extends BaseAction {
     public static class Config extends ru.bgcrm.util.Config implements EventListener<ParamChangedEvent> {
         private static final Log log = Log.getLog();
 
+        private final ParameterMap config;
+
         /** Parameter type 'list', enabling opening of user with value=1.  */
         private final Parameter openParam;
         private final List<Integer> showParamIds;
         private final Set<Integer> shownUserIds;
 
-        protected Config(ParameterMap setup, boolean validate) throws Exception {
-            super(setup);
-            int paramId = setup.getInt("user.open.enable.paramId");
+        protected Config(ParameterMap config, boolean validate) throws Exception {
+            super(null);
+
+            this.config = config;
+
+            int paramId = config.getInt("user.open.enable.paramId");
             initWhen(paramId > 0);
 
             openParam = ParameterCache.getParameter(paramId);
-            showParamIds = Utils.toIntegerList(setup.get("user.open.show.paramIds"));
+            showParamIds = Utils.toIntegerList(config.get("user.open.show.paramIds"));
 
             if (openParam == null)
                 throwValidationException("Param not found: %s", paramId);
@@ -77,7 +82,7 @@ public class ProfileAction extends BaseAction {
          * @return
          */
         public String url(int userId) {
-            return Interface.getUrlOpen(setup) + "/profile/" + userId;
+            return Interface.getUrlOpen(config) + "/profile/" + userId;
         }
 
         @Override
@@ -87,7 +92,7 @@ public class ProfileAction extends BaseAction {
             log.debug("Reset config");
 
             EventProcessor.unsubscribe(this);
-            setup.removeConfig(this.getClass());
+            config.removeConfig(this.getClass());
         }
     }
 

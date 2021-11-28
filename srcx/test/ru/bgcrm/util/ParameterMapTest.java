@@ -15,7 +15,7 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.config.IsolationConfig;
 
 public class ParameterMapTest {
-    
+
     @Test
     public void testGetConfig() {
         var config = ParameterMap.of("isolation.process", "executor");
@@ -23,7 +23,7 @@ public class ParameterMapTest {
         assertNotNull(isolation);
         assertEquals(IsolationConfig.IsolationProcess.EXECUTOR, isolation.getIsolationProcess());
     }
-    
+
     @Test
     public void testValidateConfig() {
         boolean thrown = false;
@@ -39,8 +39,8 @@ public class ParameterMapTest {
     private static class TestConfigCache extends Config {
         private static final AtomicInteger constructorCalled = new AtomicInteger();
 
-        protected TestConfigCache(ParameterMap setup) {
-            super(setup);
+        protected TestConfigCache(ParameterMap config) {
+            super(null);
             constructorCalled.incrementAndGet();
         }
     }
@@ -51,11 +51,11 @@ public class ParameterMapTest {
         var config = params.getConfig(TestConfigCache.class);
         assertNotNull(config);
         assertEquals(1, TestConfigCache.constructorCalled.get());
-        
+
         config = params.getConfig(TestConfigCache.class);
         assertNotNull(config);
         assertEquals(1, TestConfigCache.constructorCalled.get());
-        
+
         params.removeConfig(TestConfigCache.class);
         config = params.getConfig(TestConfigCache.class);
         assertNotNull(config);
@@ -65,9 +65,9 @@ public class ParameterMapTest {
     private static class TestConfigValidate extends Config {
         private final String value;
 
-        protected TestConfigValidate(ParameterMap setup, boolean validate) throws Exception {
-            super(setup, validate);
-            if ((value = setup.getSok(null, validate, "key.new", "key.old")) == null)
+        protected TestConfigValidate(ParameterMap config, boolean validate) throws Exception {
+            super(null, validate);
+            if ((value = config.getSok(null, validate, "key.new", "key.old")) == null)
                 throwValidationException("Validation error");
         }
     }
@@ -108,10 +108,10 @@ public class ParameterMapTest {
     private static class TestConfigInit extends Config {
         private final String value;
 
-        protected TestConfigInit(ParameterMap setup, boolean validate) throws Exception {
-            super(setup, validate);
-            initWhen(setup.getBoolean("config.init", false));
-            if ((value = setup.getSok(null, validate, "key.new", "key.old")) == null)
+        protected TestConfigInit(ParameterMap config, boolean validate) throws Exception {
+            super(null, validate);
+            initWhen(config.getBoolean("config.init", false));
+            if ((value = config.getSok(null, validate, "key.new", "key.old")) == null)
                 throwValidationException("Validation error");
         }
     }
@@ -149,9 +149,9 @@ public class ParameterMapTest {
     private static class TestConfigInitWhen extends Config {
         private final String value;
 
-        protected TestConfigInitWhen(ParameterMap setup) throws InitStopException {
-            super(setup);
-            value = setup.get("key");
+        protected TestConfigInitWhen(ParameterMap config) throws InitStopException {
+            super(null);
+            value = config.get("key");
             initWhen(StringUtils.isNoneBlank(value));
         }
     }
@@ -167,7 +167,7 @@ public class ParameterMapTest {
         assertNotNull(config);
         assertEquals("value", config.value);
     }
-       
+
     @Test
     public void testOf() {
         ParameterMap map = ParameterMap.of("key1", "1", "key2", "value2", "key3");
@@ -191,7 +191,7 @@ public class ParameterMapTest {
 
         value = map.getSok("default", false, "key.wrong");
         assertEquals("default", value);
-        
+
         var thrown = false;
         try {
             map = ParameterMap.of("key.old", "0");

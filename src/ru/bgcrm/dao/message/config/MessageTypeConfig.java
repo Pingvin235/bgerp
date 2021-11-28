@@ -41,17 +41,17 @@ public class MessageTypeConfig extends Config {
         }
     };
 
-    public MessageTypeConfig(ParameterMap setup) {
-        super(setup);
-        for (Map.Entry<Integer, ParameterMap> me : setup.subIndexed("messageType.").entrySet()) {
+    public MessageTypeConfig(ParameterMap config) {
+        super(null);
+        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("messageType.").entrySet()) {
             int id = me.getKey();
-            ParameterMap config = me.getValue();
+            ParameterMap pm = me.getValue();
 
             try {
                 @SuppressWarnings("unchecked")
-                Class<? extends MessageType> typeClass = (Class<? extends MessageType>) DynamicClassManager.getClass(config.get("class"));
+                Class<? extends MessageType> typeClass = (Class<? extends MessageType>) DynamicClassManager.getClass(pm.get("class"));
 
-                MessageType type = typeClass.getConstructor(Setup.class, int.class, ParameterMap.class).newInstance(Setup.getSetup(), id, config);
+                MessageType type = typeClass.getConstructor(Setup.class, int.class, ParameterMap.class).newInstance(Setup.getSetup(), id, pm);
                 type.setId(id);
 
                 typeMap.put(type.getId(), type);

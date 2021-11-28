@@ -15,7 +15,7 @@ public class IsolationConfig extends ru.bgcrm.util.Config {
     private final IsolationProcess isolationProcess;
 
     protected IsolationConfig(ParameterMap config) throws BGMessageException {
-        super(config);
+        super(null);
         isolationProcess = loadProcessIsolation(config);
     }
 

@@ -75,13 +75,13 @@ public class Scheduler extends Thread {
     private static class TasksConfig extends Config {
         private List<TaskConfig> tasks = new ArrayList<TaskConfig>();
 
-        public TasksConfig(ParameterMap setup) {
-            super(setup);
+        public TasksConfig(ParameterMap config) {
+            super(null);
 
             log.info("Reload tasks config.");
 
             final String prefix = "scheduler.task.";
-            for (Map.Entry<String, ParameterMap> me : setup.subKeyed(prefix).entrySet()) {
+            for (Map.Entry<String, ParameterMap> me : config.subKeyed(prefix).entrySet()) {
                 String taskId = me.getKey();
                 try {
                     tasks.add(new TaskConfig(me.getValue()));
