@@ -112,8 +112,8 @@ public class Expression {
                 .forEach(me -> context.set(me.getKey(), me.getValue()));
 
         // установка ссылки на экспрешшен
-        contextVars.values().stream().filter(v -> v instanceof ExpressionBasedFunction)
-                .forEach(v -> ((ExpressionBasedFunction) v).setExpression(this));
+        contextVars.values().stream().filter(v -> v instanceof ExpressionContextAccessingObject)
+                .forEach(v -> ((ExpressionContextAccessingObject) v).setExpression(this));
     }
 
     public static void setExpressionContextUtils(Map<String, Object> contextVars) {

@@ -13,7 +13,7 @@
 * использование Markdown разметки в тексте отправляемых сообщений.
 
 [[setup]]
-== Настройка 
+== Настройка
 
 [arabic]
 . В BotFather создать своего бота, прописать его название и токен в конфигурации.
@@ -43,7 +43,7 @@
 telegram:botStart=1
 
 # настройки прокси, в случае необходимости
-telegram:proxyHost=111.223.75.181  
+telegram:proxyHost=111.223.75.181
 telegram:proxyPort=8888
 # SOCKS5 , HTTP
 telegram:proxyType=SOCKS5
@@ -113,15 +113,15 @@ onProcessEvent.11.events=statusChanged:{@STATUS_DONE_ID}
 onProcessEvent.11.doExpression=<<END
    // BGERP Task
    if (process.getTypeId() == 6) {
-   	   executorsList = u.getObjectList(ctxUserList, process.getExecutorIdsWithRole(0));	
+   	   executorsList = u.getObjectList(ctxUserList, process.getExecutorIdsWithRole(0));
        from = u.toString(executorsList);
-  
+
        text = "Принято изменение [" + process.getId() + "](https://team.bgerp.org/open/process/" + process.getId() + ")";
        text += " от " + from + ":" + NEW_LINE;
        text += process.getDescription();
-       
+
        telegram.sendMessage("{@TLG_GROUP_BGERP_ID}", text);
-   }   
+   }
 END
 ----
 
@@ -155,4 +155,4 @@ END
 
 image::_res/i0162.png[width="400px"]
 
-Объект *telegram* класса javadoc:org.bgerp.plugin.telegram.ExpressionBean[] с функциями API предоставляется плагином.
+Объект *telegram* класса javadoc:org.bgerp.plugin.telegram.ExpressionObject[] с функциями API предоставляется плагином.

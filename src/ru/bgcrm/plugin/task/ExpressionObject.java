@@ -5,7 +5,7 @@ import ru.bgcrm.plugin.task.dao.TaskDAO;
 import ru.bgcrm.plugin.task.model.Task;
 import ru.bgcrm.util.Setup;
 
-public class ExpressionBean {
+public class ExpressionObject {
 
     /**
      * Создаёт задачу с указанным типом. Существующая задача с таким же типом  и кодом процесса перетирается.

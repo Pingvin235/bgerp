@@ -33,7 +33,7 @@ import ru.bgcrm.util.Setup;
  * Класс выполняет базовые операции над процессом.
  * В перспективе этот набор функций заменит команды по изменению процесса из {@link ProcessCommandExecutor}.
  */
-public class ProcessChangeFunctions extends ExpressionBasedFunction {
+public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
     private final Process process;
     private final DynActionForm form;
     private final Connection con;
@@ -45,12 +45,12 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
     }
 
     /**
-     * Delete the current process. 
+     * Delete the current process.
     */
     public void delete() throws Exception {
         ProcessAction.processDelete(form, con, process);
     }
-    
+
     /**
      * Добавляет группы решения в процесс.
      * @param groupIds
@@ -114,10 +114,10 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
         // добавление в текущих исполнителей группороли
         Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(), Collections.singleton(processGroup));
         executors.addAll(ProcessExecutor.toProcessExecutorSet(addingExecutorIds, processGroup));
-        
+
         ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
     }
-    
+
     /**
      * Добавляет исполнителей в процесс в определённые группы и роли.
      * Группы решения уже должны быть добавлены.
@@ -135,7 +135,7 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
 
         ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
     }
-        
+
     /**
      * Удаляет исполнителей процесса.
      * @param ids коды пользователей.
@@ -146,7 +146,7 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
                 .filter(pe -> !ids.contains(pe.getUserId())).collect(Collectors.toSet());
         ProcessAction.processExecutorsUpdate(form, con, process, processGroups, executors);
     }
-    
+
     /**
      * Отправляет E-Mail с оповещением исполнителям процесса за исключением текущего пользователя.
      * @param paramId код параметра пользователя с E-Mail.
@@ -161,7 +161,7 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
 
         emailNotifyUsers(executorIds, paramId, subject, text);
     }
-    
+
     /**
      * Отправляет E-Mail с оповещением произвольным пользователям.
      * @param userIds коды пользователей.
@@ -183,7 +183,7 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
             }
         }
     }
-    
+
     /**
      * Устанавливает приоритет процесса.
      * @param value
@@ -193,7 +193,7 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
         process.setPriority(value);
         new ProcessDAO(con).updateProcess(process);
     }
-    
+
     /**
      * Устанавливает статус процесса.
      * @param value
@@ -211,5 +211,5 @@ public class ProcessChangeFunctions extends ExpressionBasedFunction {
         ProcessAction.processStatusUpdate(form, con, process, change);
         new ProcessDAO(con).updateProcess(process);
     }
-   
+
 }

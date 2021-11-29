@@ -10,7 +10,7 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
-public class ExpressionBean {
+public class ExpressionObject {
     private static final Log log = Log.getLog();
 
     /**

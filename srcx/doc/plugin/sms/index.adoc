@@ -68,4 +68,4 @@ if (phone) {
 END
 ----
 
-SMS class object javadoc:org.bgerp.plugin.msg.sms.DefaultProcessorFunctions[] with API functions is provided by the plugin.
+SMS class object javadoc:org.bgerp.plugin.msg.sms.ExpressionObject[] with API functions is provided by the plugin.

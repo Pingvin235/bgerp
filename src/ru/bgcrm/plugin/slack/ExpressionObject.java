@@ -7,10 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.dao.expression.ExpressionBasedFunction;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
@@ -25,13 +22,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
-public class DefaultProcessorFunctions extends ExpressionBasedFunction {
-
-    @SuppressWarnings("unused")
-    private static final Logger log = Logger.getLogger(DefaultProcessorFunctions.class);
-
-    public DefaultProcessorFunctions() {}
-
+public class ExpressionObject {
     /**
      * Вызывает {@link #linkChannel(Process, String)} c name = null.
      * @param process
@@ -59,7 +50,7 @@ public class DefaultProcessorFunctions extends ExpressionBasedFunction {
                     .getFirst(linkDao.getObjectLinksWithType(process.getId(), Plugin.LINK_TYPE_CHANNEL));
             if (link == null) {
                 String channelId = proto.channelCreate(channelName != null ? channelName : String.valueOf(process.getId()), true);
-                link = new CommonObjectLink(Process.OBJECT_TYPE, process.getId(), Plugin.LINK_TYPE_CHANNEL, 
+                link = new CommonObjectLink(Process.OBJECT_TYPE, process.getId(), Plugin.LINK_TYPE_CHANNEL,
                         1, channelId);
                 LinkAction.addLink(DynActionForm.SERVER_FORM, con, link);
             }
@@ -143,7 +134,7 @@ public class DefaultProcessorFunctions extends ExpressionBasedFunction {
         });
     }
 
-    /** 
+    /**
      * Установливает назачение привязанного к процессу канала.
      * @param process
      * @param purpose
@@ -157,7 +148,7 @@ public class DefaultProcessorFunctions extends ExpressionBasedFunction {
 
     /**
      * Изменяет статус архив / не архив привязанного к процессу канала.
-     * @param process 
+     * @param process
      * @param archive - статус.
      * @throws BGException
      */
@@ -173,7 +164,7 @@ public class DefaultProcessorFunctions extends ExpressionBasedFunction {
     /**
      * Отправляет сообщение в привязанный к процессу канал.
      * @param process
-     * @param userId 
+     * @param userId
      * @param messageText
      * @throws BGException
      */

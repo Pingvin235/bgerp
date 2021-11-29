@@ -28,7 +28,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         super.init(con);
 
         EventProcessor.subscribe((e, conSet) -> {
-            e.getContext().put(ID, new DefaultProcessorFunctions());
+            e.getContext().put(ID, new ExpressionObject());
         }, ContextInitEvent.class);
     }
 

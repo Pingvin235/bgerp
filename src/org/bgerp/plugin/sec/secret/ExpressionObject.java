@@ -6,7 +6,7 @@ import org.bgerp.plugin.sec.secret.dao.SecretDAO;
 
 import ru.bgcrm.util.Setup;
 
-public class ExpressionBean {
+public class ExpressionObject {
     /**
      * Gets open generated secret with 32 ASCII chars.
      * @param key unique ID.

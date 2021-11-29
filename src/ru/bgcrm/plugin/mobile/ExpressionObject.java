@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
-import ru.bgcrm.dao.expression.ExpressionBasedFunction;
+import ru.bgcrm.dao.expression.ExpressionContextAccessingObject;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
@@ -16,31 +16,28 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.SQLUtils;
 
-public class DefaultProcessorFunctions extends ExpressionBasedFunction {
+public class ExpressionObject extends ExpressionContextAccessingObject {
+    private static final Log log = Log.getLog();
 
-    private static final Logger log = Logger.getLogger(DefaultProcessorFunctions.class);
-    
     public static final String URL_PREFIX = "http://mob.bgcrm.ru/cgi/server.py";
-
-    public DefaultProcessorFunctions() {}
 
     /**
      * Отправляет сообщение на приложение BGERP исполнителям данного процесса за исключением пользователя,
      * осуществляющего текущее изменение.
-     * @param subject тема сообщения. 
+     * @param subject тема сообщения.
      * @param text текст.
      * @throws BGException
      */
     public void sendMessageToExecutors(String subject, String text) throws BGException {
         Process process = (Process)expression.getContextObject(Process.OBJECT_TYPE);
         DynActionForm form = (DynActionForm)expression.getContextObject(DynActionForm.KEY);
-                
-        Collection<Integer> userIds = 
+
+        Collection<Integer> userIds =
                 process.getExecutorIds().stream()
                 // не высылать сообщение изменившему процесс пользователю
                 .filter(userId -> userId != form.getUserId())
                 .collect(Collectors.toList());
-            
+
         sendMessageToUsers(subject, text, userIds);
     }
 

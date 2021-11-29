@@ -27,7 +27,7 @@ Make sure the plugin is enabled in <<../../kernel/setup.adoc#config, configurati
 
 [[setup-bgerp]]
 === Настройка BGERP
-Настроить в конфигурации BGERP <<../../kernel/message.adoc#type, тип сообщения>>, для Slack может быть создан только один тип сообщения: 
+Настроить в конфигурации BGERP <<../../kernel/message.adoc#type, тип сообщения>>, для Slack может быть создан только один тип сообщения:
 [source]
 ----
 messageType.<id>.title=<title>
@@ -42,7 +42,7 @@ messageType.<id>.stringExpressionMessageExtract=<jexl>
 [square]
 * *<token>* - TOKEN авторизации, сохранённый ранее;
 * *<slackLoginParamId>* - код текстового <<../../kernel/setup.adoc#param, параметра>> пользователя, хранящего логин Slack, позволяющий сопоставить пользователя BGERP с пользователем Slack;
-* *<jexl>* - <<../../kernel/extension.adoc#jexl, JEXL>> выражение для извлечения сообщения Slack в текст входящего сообщения, 
+* *<jexl>* - <<../../kernel/extension.adoc#jexl, JEXL>> выражение для извлечения сообщения Slack в текст входящего сообщения,
 исходное сообщение передаётся в параметре *message*, не null результат скрипта используется как текст входящего сообщения.
 
 Пример настройки типа сообщения. Входящие сообщения выбираются с подстрокой *bg*.
@@ -60,13 +60,13 @@ messageType.5.stringExpressionMessageExtract=<<END
 END
 ----
 
-Синхронизация с форумом производится <<../../kernel/message.adoc#scheduler, стандартной задачей>> обработки сообщений. 
+Синхронизация с форумом производится <<../../kernel/message.adoc#scheduler, стандартной задачей>> обработки сообщений.
 Отправка сообщений производится немедленно, задача синхронизации лишь производит импорт необходимых сообщений.
 
 [[message]]
 == Работа с сообщениями
-После настройки в системе типа сообщения к любому процессу может быть привязан канал Slack. 
-Для выполнения этого в ручном режиме тип объекта выбирается в секции *Привязать иной объект*, наименование оставляется пустым. 
+После настройки в системе типа сообщения к любому процессу может быть привязан канал Slack.
+Для выполнения этого в ручном режиме тип объекта выбирается в секции *Привязать иной объект*, наименование оставляется пустым.
 Уже привязанный канал изображён на снимке экрана выше.
 
 image::_res/slack_1.png[]
@@ -79,7 +79,7 @@ image::_res/slack_2.png[]
 
 [[process-type]]
 == Настройка типа процесса
-В конфигурации типа процесса может быть настроена автоматизация работы со Slack с помощью скрипта в doExpression <<../../kernel/process/processing.adoc#, простого обработчика событий>>. 
+В конфигурации типа процесса может быть настроена автоматизация работы со Slack с помощью скрипта в doExpression <<../../kernel/process/processing.adoc#, простого обработчика событий>>.
 Ниже приведено несколько примеров возможных действий по различным событиям в процессе.
 
 При переходе процесса в статус 10:
@@ -93,7 +93,7 @@ image::_res/slack_2.png[]
 onProcessEvent.1.events=statusChanged:10
 onProcessEvent.1.doExpression=<<END
      paramDao =  new("ru.bgcrm.dao.ParamValueDAO", conSet.getConnection());
-     linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());   
+     linkDao = new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
      slack.linkChannel(process);
      slack.inviteExecutors(process);
      topic = "[" + process.getStatusTitle() + "]";
@@ -122,4 +122,4 @@ onProcessEvent.3.doExpression=<<END
 END
 ----
 
-Объект *slack* класса javadoc:ru.bgcrm.plugin.slack.DefaultProcessorFunctions[] с функциями API предоставляется плагином.
+Объект *slack* класса javadoc:ru.bgcrm.plugin.slack.ExpressionObject[] с функциями API предоставляется плагином.
