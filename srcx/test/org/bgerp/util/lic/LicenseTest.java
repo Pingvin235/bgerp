@@ -4,9 +4,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.testng.Assert;
+
 
 public class LicenseTest {
     private License license;

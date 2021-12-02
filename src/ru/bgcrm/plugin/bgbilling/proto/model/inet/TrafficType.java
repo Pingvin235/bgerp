@@ -13,7 +13,7 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ServiceUnit;
 public class TrafficType
     extends IdTitle
 {
-	public static final Integer TIME_ID = new Integer( 0 );
+	public static final Integer TIME_ID = 0;
 	public static final TrafficType TIME = new TrafficType( 0, "Время", ServiceUnit.UNIT_SECONDS );
 
 	/**

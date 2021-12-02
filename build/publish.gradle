@@ -2,7 +2,7 @@ task publishUpdate(type: JavaExec, dependsOn: ['compileToolsJava', 'touchChanges
     mustRunAfter 'buildDoc'
     mustRunAfter 'buildUpdate'
     classpath =  sourceSets.tools.runtimeClasspath
-    main = 'ru.bgerp.tool.PublishUpdate'
+    mainClass = 'ru.bgerp.tool.PublishUpdate'
     args projectDir, version, "${->getProcessId()}"
 }
 

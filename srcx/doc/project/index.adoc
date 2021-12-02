@@ -275,7 +275,7 @@ We would suggest to gradually add a small set of libraries until getting a "work
 
 In order to speed up project initialization, our default Eclipse IDE configuration does not load source code and documentation.
 [snippet, from="ec", to="}"]
-link:../../../build.gradle#L22-L28[build.gradle]
+link:../../../build.gradle#L26-L32[build.gradle]
 
 After adding new libraries in `build.gradle` create an empty `build/changes.lib.txt` file using `gradlew touchChangesLib` command.
 Existence of the file causes build library update package during <<workflow.adoc#build-release, release build>>.

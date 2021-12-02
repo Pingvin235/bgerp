@@ -1,6 +1,8 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+}
 
 repositories {
     mavenLocal()
@@ -8,6 +10,8 @@ repositories {
     maven {
         // com.lowagie:itext:2.1.7.js6
         url "http://repo.bgerp.org/repository/maven-public"
+        allowInsecureProtocol = true
+        metadataSources { artifact() }
     }
 }
 
@@ -156,8 +160,8 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest-core:1.3'
 
     // integration test
-    itest 'org.testng:testng:7.1.0'
-    itest 'com.beust:jcommander:1.72'
+    itest 'org.testng:testng:7.4.0'
+    itest 'com.beust:jcommander:1.81'
     itest 'org.seleniumhq.selenium:selenium-java:3.141.59'
     itest 'org.seleniumhq.selenium:selenium-api:3.141.59'
     itest 'org.seleniumhq.selenium:selenium-remote-driver:3.141.59'
@@ -227,7 +231,7 @@ tasks.withType(JavaCompile) {
 
 task doc(type: JavaExec, description: 'Build manual') {
     classpath =  configurations.doc
-    main = 'org.pzdcdoc.Generator'
+    mainClass = 'org.pzdcdoc.Generator'
     args '--in', 'srcx/doc', '--out', 'target/doc'
 }
 
@@ -247,7 +251,7 @@ task buildJavaDoc(type: Javadoc) {
 
 task patchChanges(type: JavaExec, dependsOn: 'compileToolsJava', description: 'Concatenates build/changes.*.txt files to build/changes.txt') {
     classpath =  sourceSets.tools.runtimeClasspath
-    main = 'ru.bgerp.tool.PatchChanges'
+    mainClass = 'ru.bgerp.tool.PatchChanges'
     args "${->getBuild()}", 'build/changes.txt'
 }
 
@@ -262,7 +266,7 @@ def getBuild() {
 task rss(type: JavaExec, dependsOn: 'compileToolsJava', description: 'Generates build/changes.rss out of build/changes.txt') {
     mustRunAfter 'patchChanges'
     classpath =  sourceSets.tools.runtimeClasspath
-    main = 'ru.bgerp.tool.RssGenerator'
+    mainClass = 'ru.bgerp.tool.RssGenerator'
     args version, 'build/changes.txt', 'build/changes.xml'
 }
 
@@ -368,7 +372,7 @@ apply from: "build/publish.gradle"
 
 task startServer(type: JavaExec, dependsOn: 'classes', description: 'Starts server with bgerp.properties') {
     classpath =  sourceSets.main.runtimeClasspath
-    main = 'ru.bgerp.Server'
+    mainClass = 'ru.bgerp.Server'
     args 'start'
     systemProperties = [
         'bgerp.setup.data': findProperty('bgerp.setup.data') ?: 'bgerp',
@@ -378,7 +382,7 @@ task startServer(type: JavaExec, dependsOn: 'classes', description: 'Starts serv
 
 task licSign(type: JavaExec, dependsOn: 'classes', description: 'Sign a license file') {
     classpath =  sourceSets.main.runtimeClasspath
-    main = 'ru.bgcrm.plugin.License'
+    mainClass = 'ru.bgcrm.plugin.License'
     args"${->findProperty('lic.path')}", "${->findProperty('signer.id')}",
         "${->findProperty('key.path')}", "${->findProperty('key.pswd')}"
 }
