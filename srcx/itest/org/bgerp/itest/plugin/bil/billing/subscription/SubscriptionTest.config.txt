@@ -1,0 +1,23 @@
+
+
+subscription:sign.key.file=/org/bgerp/plugin/bil/billing/subscription/demo.key.id_rsa
+subscription:param.product.id={@PARAM_PRODUCT_ID}
+subscription:param.subscription={@PARAM_SUBSCRIPTION_ID}
+subscription:param.lic={@PARAM_LIC_FILE_ID}
+subscription:param.email={@PARAM_EMAIL_ID}
+subscription:param.limit={@PARAM_LIMIT_ID}
+subscription:param.date.from={@PARAM_DATE_FROM_ID}
+subscription:param.date.to={@PARAM_DATE_TO_ID}
+subscription:param.cost.discount={@PARAM_COST_DISCOUNT_ID}
+subscription:param.cost={@PARAM_COST_ID}
+
+subscription:subscription.1.title=BGERP RUB
+subscription:subscription.1.process.type={@PROCESS_SUBSCRIPTION_TYPE_ID}
+subscription:subscription.1.param.limit.price={@PARAM_LIMIT_PRICE_RUB_ID}
+
+subscription:subscription.2.title=BGERP EUR
+subscription:subscription.2.process.type={@PROCESS_SUBSCRIPTION_TYPE_ID}
+subscription:subscription.2.param.limit.price={@PARAM_LIMIT_PRICE_EUR_ID}
+
+# open interface
+process.open.typeIds+=,{@PROCESS_PRODUCT_TYPE_ID}

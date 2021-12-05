@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
+	<p><ru>Счета</ru><en>Invoices</en></p>
+	<p><ru>Счёт</ru><en>Invoice</en></p>
+	<p><ru>Создание счёта</ru><en>Invoice creation</en></p>
+	<p><ru>Оплачен</ru><en>Payed</en></p>
+	<p><ru>Сумма</ru><en>Amount</en></p>
+	<p><ru>Номер</ru><en>Number</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

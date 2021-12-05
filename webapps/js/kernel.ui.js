@@ -165,25 +165,20 @@ $$.ui = new function () {
 	}
 
 	const monthDaysSelectInit = ($div) => {
-		var date = new Date();
+		const debug = $$.debug('uiMonthDaysSelect');
 
-		var $title = $div.find("#month");
+		const $dayFrom = $div.find("#dayFrom");
+		const $dayTo = $div.find("#dayTo");
 
-		var $dayFrom = $div.find("#dayFrom");
-		var $dayTo = $div.find("#dayTo");
+		const $dateFromHidden = $div.find("#dateFrom");
+		const $dateToHidden = $div.find("#dateTo");
 
-		var $dateFromHidden = $div.find("#dateFrom");
-		var $dateToHidden = $div.find("#dateTo");
-
-		var dateFrom = $dateFromHidden.val();
-		if (dateFrom) {
-			var parts = dateFrom.split('.');
-			date = new Date(parts[2], parts[1] - 1, parts[0]);
-		}
-
-		date.setDate(1);
+		const date = monthDateFrom($dateFromHidden);
 
 		const update = function () {
+			const $title = $div.find("#month");
+
+			// TODO: Use global month names.
 			$title.text($.datepicker._defaults.monthNames[date.getMonth()] + " " + date.getFullYear());
 
 			let dayFrom = $dayFrom.val();
@@ -197,33 +192,82 @@ $$.ui = new function () {
 			$dateFromHidden.val(new Date(date.getFullYear(), date.getMonth(), dayFrom).format("dd.mm.yyyy"));
 			$dateToHidden.val(new Date(date.getFullYear(), date.getMonth(), dayTo).format("dd.mm.yyyy"));
 
-			$$.debug('uiMonthDaysSelectInit', 'update: ', dayFrom, dayTo);
+			debug('update: ', dayFrom, dayTo);
 		};
 
 		update();
 
+		monthChangeHandlers($div, date, update);
+
+		$dayFrom.change(update);
+		$dayTo.change(update);
+	}
+
+	const monthSelectInit = ($div) => {
+		const debug = $$.debug('uiMonthSelect');
+
+		const $dateFromHidden = $div.find("#dateFrom");
+
+		const date = monthDateFrom($dateFromHidden);
+
+		const update = function () {
+			const $title = $div.find("#month");
+
+			// TODO: Use global month names.
+			$title.text($.datepicker._defaults.monthNames[date.getMonth()] + " " + date.getFullYear());
+
+			$dateFromHidden.val(new Date(date.getFullYear(), date.getMonth(), 1).format("dd.mm.yyyy"));
+
+			debug('update: ', $dateFromHidden.val());
+		};
+
+		update();
+
+		monthChangeHandlers($div, date, update);
+	}
+
+	const monthDateFrom = ($dateFromHidden) => {
+		const date = new Date();
+
+		const dateFrom = $dateFromHidden.val();
+		if (dateFrom) {
+			var parts = dateFrom.split('.');
+			date = new Date(parts[2], parts[1] - 1, parts[0]);
+		}
+
+		date.setDate(1);
+
+		return date;
+	}
+
+	const monthChangeHandlers = ($div, date, update) => {
 		$div.find("#next").click(function () {
-			var currentMonth = date.getMonth();
-			if (currentMonth === 11) {
-				date.setYear(date.getFullYear() + 1);
-				date.setMonth(0);
-			} else
-				date.setMonth(currentMonth + 1);
+			monthPlus(date);
 			update();
 		});
 
 		$div.find("#prev").click(function () {
-			var currentMonth = date.getMonth();
-			if (currentMonth == 0) {
-				date.setYear(date.getFullYear() - 1);
-				date.setMonth(11);
-			} else
-				date.setMonth(currentMonth - 1);
+			monthMinus(date);
 			update();
 		});
+	}
 
-		$dayFrom.change(update);
-		$dayTo.change(update);
+	const monthPlus = (date) => {
+		const currentMonth = date.getMonth();
+		if (currentMonth === 11) {
+			date.setYear(date.getFullYear() + 1);
+			date.setMonth(0);
+		} else
+			date.setMonth(currentMonth + 1);
+	}
+
+	const monthMinus = (date) => {
+		const currentMonth = date.getMonth();
+		if (currentMonth == 0) {
+			date.setYear(date.getFullYear() - 1);
+			date.setMonth(11);
+		} else
+			date.setMonth(currentMonth - 1);
 	}
 
 	const inputTextInit = ($input) => {
@@ -446,11 +490,19 @@ $$.ui = new function () {
 
 		const input = uploadList.parentNode.querySelector("input[type='hidden'][name='addFileId']");
 		const id = input.value;
-		if (id > 0) {
+
+		// upload
+		if (id == 0) {
+			$$.ajax.triggerUpload(uploadFormId);
+		}
+		// already uploaded or announce
+		else{
+			const paramName = id > 0 ? "fileId" : "announcedFileId";
+
 			const li = form.querySelector("li[value='" + id + "']");
 
 			const $div = $("<div>" +
-					"<input type='hidden' name='fileId' value='" + id + "'/>" +
+					"<input type='hidden' name='" + paramName + "' value='" + id + "'/>" +
 					"<button type='button' class='btn-white btn-small icon mr1' onclick=''><span class='ti-trash'></span></button>" +
 					li.textContent +
 				"</div>");
@@ -463,8 +515,6 @@ $$.ui = new function () {
 				$div.remove();
 				$(li).show();
 			});
-		} else {
-			$$.ajax.triggerUpload(uploadFormId);
 		}
 	}
 
@@ -477,6 +527,7 @@ $$.ui = new function () {
 	this.dropShow = dropShow;
 	this.menuInit = menuInit;
 	this.monthDaysSelectInit = monthDaysSelectInit;
+	this.monthSelectInit = monthSelectInit;
 	this.inputTextInit = inputTextInit;
 	this.tagBoxInit = tagBoxInit;
 	this.layout = layout;
@@ -503,11 +554,6 @@ function uiComboInputs($div) {
 function uiComboCheckUncheck(object) {
 	console.warn($$.deprecated);
 	$$.ui.comboCheckUncheck(object);
-}
-
-function uiMonthDaysSelectInit($div) {
-	console.warn($$.deprecated);
-	$$.ui.monthDaysSelectInit($div);
 }
 
 function uiInputTextInit($input, onSelect) {

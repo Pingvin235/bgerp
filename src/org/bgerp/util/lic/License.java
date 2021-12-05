@@ -1,6 +1,5 @@
 package org.bgerp.util.lic;
 
-import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -8,8 +7,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-
-import org.apache.commons.io.IOUtils;
 
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
@@ -92,12 +89,12 @@ public class License {
 
     /**
      * License's content with signature on the end.
-     * @param keyFilePath path to SSH private key file.
+     * @param keyFilePath file of Java resource path to SSH private key file.
      * @param keyFilePswd password to SSH private key file, {@code null} - no password is used.
      * @return UTF-8 encoded signed license.
      */
     public byte[] getSignedData(String keyFilePath, String keyFilePswd) throws Exception {
-        var sign = new Sign("key.id", IOUtils.toString(new FileInputStream(keyFilePath), StandardCharsets.UTF_8), keyFilePswd);
+        var sign = new Sign("key.id", new String(ru.bgcrm.util.io.IOUtils.read(keyFilePath), StandardCharsets.UTF_8), keyFilePswd);
 
         var data = new StringBuilder(this.data);
         data.append(KEY_LIC_SIGN + "=")

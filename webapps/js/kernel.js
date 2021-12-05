@@ -1,20 +1,21 @@
 /*
- * Глобальная переменная JS, в которой хранятся все переменные BGERP.
- * Все остальные функции подключаются в неё.
+ * Global JS variable, storing all BGERP related data on Front End.
+ * All the other functions and fields must be placed inside.
  */
 const bgerp = {};
 const bgcrm = bgerp;
 const $$ = bgerp;
 
-// персональные настройки пользователя
+// personal user settings
 $$.pers = {};
 
-// глобальное состояние клави, зажатые alt и т.п.
+// global key's state, pressed 'alt' etc.
 $$.keys = {};
 $$.keys.altPressed = function () {
 	return !!$$.keys[18];
 }
 
+// suppress debug messages for areas
 $$.debugAreas = {
 	openUrl: 0,
 	ajax: 0,
@@ -23,15 +24,16 @@ $$.debugAreas = {
 	datepicker: 0,
 	processQueue: 0,
 	doOnClick: 0,
-	uiMonthDaysSelectInit: 0,
+	uiMonthDaysSelect: 0,
+	uiMonthSelect: 0,
 	queueFilterDrag: 0,
 	blow: 0
 };
 
 /*
- * Для отладки создать новый объект:
+ * For debugging create a function:
  *  const debug = debug('areaName');
- * далее такой вызов:
+ * after use it:
  *  debug(a, b, c, d)
  */
 $$.debug = function (debugArea) {

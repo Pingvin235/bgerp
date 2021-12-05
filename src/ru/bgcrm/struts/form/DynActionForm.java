@@ -5,6 +5,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,6 +30,7 @@ import org.apache.commons.beanutils.DynaProperty;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
 import org.bgerp.util.Log;
+import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.BGIllegalArgumentException;
@@ -102,8 +105,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
                 continue;
 
             try {
-                String key = URLDecoder.decode(param.substring(0, pos), Utils.UTF8.name());
-                String value = URLDecoder.decode(param.substring(pos + 1), Utils.UTF8.name());
+                String key = URLDecoder.decode(param.substring(0, pos), StandardCharsets.UTF_8.name());
+                String value = URLDecoder.decode(param.substring(pos + 1), StandardCharsets.UTF_8.name());
 
                 if (paramsForForm.get(key) == null) {
                     ArrayList<String> arrayValues = new ArrayList<String>();
@@ -468,6 +471,22 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return getParamDate(name, null);
     }
 
+    /**
+     * Gets HTTP request parameter with type {@link YearMonth}.
+     * @param name parameter name, storing the first day of month in string format.
+     * @param validate optional value validator.
+     * @return parameter value or {@code null}.
+     * @throws BGIllegalArgumentException.
+     */
+    public YearMonth getParamYearMonth(String name, Predicate<YearMonth> validate) throws BGIllegalArgumentException {
+        var result = TimeConvert.toYearMonth(getParamDate(name));
+
+        if (validate != null && !validate.test(result))
+            throw new BGIllegalArgumentException(name);
+
+        return result;
+    }
+
     public Date getParamDateTime(String name, Date defaultValue) {
         Date value = TimeUtils.parse(getParam(name), TimeUtils.FORMAT_TYPE_YMDHMS);
         return value != null ? value : defaultValue;
@@ -483,6 +502,24 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     public int getParamInt(String name) {
         return getParamInt(name, 0);
+    }
+
+    /**
+     * Gets HTTP request parameter with type {@code int}.
+     * @param name parameter name.
+     * @param validate optional value validator.
+     * @return parsed int value or {@code 0}.
+     * @throws BGIllegalArgumentException
+     */
+    public int getParamInt(String name, Predicate<Integer> validate) throws BGIllegalArgumentException {
+        String value = getParam(name);
+
+        Integer result = Utils.isBlankString(value) ? 0 : Utils.parseInt(value);
+
+        if (validate != null && !validate.test(result))
+            throw new BGIllegalArgumentException(name);
+
+        return result;
     }
 
     public long getParamLong(String name, long defaultValue) {

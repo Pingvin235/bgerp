@@ -1,4 +1,4 @@
-package ru.bgcrm.dao;
+package ru.bgcrm.event.listener;
 
 import java.util.List;
 import java.util.Map;
@@ -8,6 +8,7 @@ import org.bgerp.event.ProcessFilesEvent;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
+import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.FileData;
@@ -42,6 +43,7 @@ public class Files {
 
             List<ParameterValuePair> list = new ParamValueDAO(con).loadParameters(paramList, e.getProcessId(), false);
             for (var pair : list) {
+                @SuppressWarnings("unchecked")
                 var value = (Map<Integer, FileData>) pair.getValue();
                 if (value == null)
                     continue;

@@ -10,48 +10,24 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div style="padding: 0.5em;">
-	<%-- <ul id="menu" class="menu">
-		<li class="ui-state-disabled"><a href="#">Aberdeen</a></li>
-		<li><a href="#">Ada</a></li>
-		<li><a href="#">Adamsville</a></li>
-		<li><a href="#">Addyston</a></li>
-		<li><a href="#">Delphi</a>
-			<ul>
-				<li class="ui-state-disabled"><a href="#">Ada</a></li>
-				<li><a href="#">Saarland</a></li>
-				<li><a href="#">Salzburg</a></li>
-			</ul></li>
-		<li><a href="#">Saarland</a></li>
-		<li><a href="#">Salzburg</a>
-			<ul>
-				<li><a href="#">Delphi</a>
-					<ul>
-						<li><a href="#">Ada</a></li>
-						<li><a href="#">Saarland</a></li>
-						<li><a href="#">Salzburg</a></li>
-					</ul></li>
-				<li><a href="#">Delphi</a>
-					<ul>
-						<li><a href="#">Ada</a></li>
-						<li><a href="#">Saarland</a></li>
-						<li><a href="#">Salzburg</a></li>
-					</ul></li>
-				<li><a href="#">Perch</a></li>
-			</ul></li>
-		<li class="ui-state-disabled"><a href="#">Amesville</a></li>
-	</ul>
-
-	<script>
-		$(function() {
-			$('#menu').menu();
-		});
-	</script>
-	TODO: Make a sample with a link and $$.ui.menuInit call.
-	--%>
-
 	<div class="in-mt1 mt1">
 		<div>
-			<b>Выбор даты и времени:</b><br/>
+			<b>&lt;ui:popup-menu&gt;</b><br/>
+
+			<c:set var="menuUiid" value="${u:uiid()}"/>
+			<ui:popup-menu id="${menuUiid}">
+				<li>
+					<a href="#" onclick="alert('Item 1 pressed!')">Item 1</a>
+					<ul>
+						<li><a href="#" onclick="alert('Item 1/1 pressed!')">Item 1/1</a></li>
+					</ul>
+				</li>
+				<li><a href="#" onclick="alert('Item 2 pressed!')"><i class="ti-alarm-clock"></i> Item 2</a></li>
+			</ui:popup-menu>
+			<ui:button type="more" onclick="$$.ui.menuInit($(this), $('#${menuUiid}'), 'left', true);"/>
+		</div>
+		<div>
+			<b>&lt;ui:date-time&gt;</b><br/>
 
 			ymd:
 			<ui:date-time type="ymd" paramName="date" editable="1"/>
@@ -69,7 +45,13 @@
 		</div>
 
 		<div>
-			<%@ include file="/WEB-INF/jspf/date_month_days.jsp"%>
+			<b>&lt;ui:date-month-days&gt;</b><br/>
+			<ui:date-month-days/>
+		</div>
+
+		<div>
+			<b>&lt;ui:date-month&gt;</b><br/>
+			<ui:date-month/>
 		</div>
 
 		<div>
@@ -310,7 +292,7 @@
 		</script>
 	</div>
 
-	<div class="mt05">
+	<%-- <div class="mt05">
 		<b>Year and month</b><br/>
 
 		<input name="startDate" id="startDate" class="date-picker" />
@@ -332,7 +314,7 @@
 				});
 			});
 		</script>
-	</div>
+	</div> --%>
 
 	<%-- <br/><b>Что где посмотреть:</b>
 	<ul>

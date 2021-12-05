@@ -126,7 +126,7 @@
 			</c:if>
 
 			const setSize = function () {
-				// куда деваются ещё 10 пикселей - непонятно
+				// isn't clear where these 10 pixels are gone
 				const width = $('#headWrap').width() -
 							$('#head > button').outerWidth() -
 							$('#head > span.right').outerWidth() - 10;
@@ -137,6 +137,8 @@
 
 			$(window).resize(setSize);
 			$('#head > span.right').bind('DOMSubtreeModified', setSize);
+
+			<%@ include file="/WEB-INF/jspf/ui_init_js.jsp"%>
 		});
 	</script>
 

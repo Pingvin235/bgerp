@@ -20,6 +20,8 @@
 	<script>
 		// overwrite function from 'user' interface
 		$$.shell.$content = () => $('#content');
+
+		<%@ include file="/WEB-INF/jspf/ui_init_js.jsp"%>
 	</script>
 </head>
 

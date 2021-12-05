@@ -5,6 +5,7 @@ import java.util.List;
 
 import ru.bgcrm.event.UserEvent;
 import ru.bgcrm.model.FileData;
+import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
@@ -14,7 +15,10 @@ import ru.bgcrm.struts.form.DynActionForm;
  */
 public class ProcessFilesEvent extends UserEvent {
     private final int processId;
+    /** Already DB stored FileData objects. */
     private final List<FileData> files = new ArrayList<>();
+    /** Announced files, got after using {@link ProcessFileGetEvent}.*/
+    private final List<IdStringTitle> announcedFiles = new ArrayList<>();
 
     public ProcessFilesEvent(DynActionForm form, int processId) {
         super(form);
@@ -31,5 +35,13 @@ public class ProcessFilesEvent extends UserEvent {
 
     public List<FileData> getFiles() {
         return files;
+    }
+
+    public void addAnnouncedFile(IdStringTitle value) {
+        announcedFiles.add(value);
+    }
+
+    public List<IdStringTitle> getAnnouncedFiles() {
+        return announcedFiles;
     }
 }

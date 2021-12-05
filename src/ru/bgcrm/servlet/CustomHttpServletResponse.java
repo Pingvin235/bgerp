@@ -5,14 +5,17 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-import ru.bgcrm.util.Utils;
-
+/**
+ * Implementation of {@link javax.servlet.ServletResponse} allowing
+ * to intercept JSP template output.
+ */
 public class CustomHttpServletResponse extends HttpServletResponseWrapper {
     private CustomServletOutPutStream outputStream;
     private PrintWriter printWriter;
@@ -21,7 +24,7 @@ public class CustomHttpServletResponse extends HttpServletResponseWrapper {
         super(response);
 
         this.outputStream = new CustomServletOutPutStream(result);
-        this.printWriter = new PrintWriter(new OutputStreamWriter(outputStream, Utils.UTF8));
+        this.printWriter = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
     }
 
     @Override
@@ -61,7 +64,6 @@ public class CustomHttpServletResponse extends HttpServletResponseWrapper {
         }
 
         @Override
-        public void setWriteListener(WriteListener writeListener) {
-        }
+        public void setWriteListener(WriteListener writeListener) {}
     }
 }

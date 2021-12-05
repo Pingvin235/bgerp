@@ -27,6 +27,9 @@
 			<c:forEach var="file" items="${files}">
 				<li value="${file.id}">${file.title}</li>
 			</c:forEach>
+			<c:forEach var="file" items="${announcedFiles}">
+				<li value="${file.id}">${file.title}</li>
+			</c:forEach>
 		</jsp:attribute>
 	</ui:combo-single>
 	<ui:button type="add" styleClass="ml05" onclick="$$.ui.uploadAdd(this.form, '${uploadFormId}');"/>

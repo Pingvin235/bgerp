@@ -45,7 +45,7 @@ configurations {
     bgerp
     bgerpRun.extendsFrom(bgerp)
     testImplementation.extendsFrom(bgerpRun)
-    itest.extendsFrom(bgerp)
+    itest.extendsFrom(bgerpRun)
     tools.extendsFrom(bgerp)
     // for running inside IDE
     compile.extendsFrom(bgerp, tools, itest)
@@ -380,7 +380,7 @@ task startServer(type: JavaExec, dependsOn: 'classes', description: 'Starts serv
     ]
 }
 
-task licSign(type: JavaExec, dependsOn: 'classes', description: 'Sign a license file') {
+task licSign(type: JavaExec, dependsOn: 'classes', description: 'Sign a license file [Deprecated]') {
     classpath =  sourceSets.main.runtimeClasspath
     mainClass = 'ru.bgcrm.plugin.License'
     args"${->findProperty('lic.path')}", "${->findProperty('signer.id')}",

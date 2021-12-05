@@ -425,6 +425,7 @@ public class MessageAction extends BaseAction {
         var event = new ProcessFilesEvent(form, form.getParamInt("processId"));
         EventProcessor.processEvent(event, conSet);
         form.setRequestAttribute("files", event.getFiles());
+        form.setRequestAttribute("announcedFiles", event.getAnnouncedFiles());
 
         return html(conSet, form, PATH_JSP + "/process_message_edit.jsp");
     }

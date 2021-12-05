@@ -4,6 +4,7 @@ import static ru.bgcrm.dao.Tables.TABLE_WEB_REQUEST_LOG;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,26 +31,24 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class WebRequestLogDAO extends PeriodicDAO {
-	static {
-		tableNamePrefix = TABLE_WEB_REQUEST_LOG;
+	private final static String tableNamePrefix = TABLE_WEB_REQUEST_LOG;
 
-		createQuery = " CREATE TABLE " + TABLE_WEB_REQUEST_LOG + " (\n" + "	`id` INT(10) NOT NULL AUTO_INCREMENT,\n"
+	private final static String createQuery = "(\n" + "	`id` INT(10) NOT NULL AUTO_INCREMENT,\n"
 				+ "	`uid` INT(10) NOT NULL,\n" + "	`time` DATETIME NOT NULL,\n"
 				+ "	`ipAddress` VARCHAR(15) NOT NULL ,\n" + "	`action` VARCHAR(200) NOT NULL ,\n"
 				+ "	`parameters` TEXT NOT NULL ,\n" + "	`duration` BIGINT NOT NULL ,\n"
 				+ " `connection_id` INT(10) NULL DEFAULT NULL, \n" + " `result_status` TEXT NULL, \n"
 				+ "	PRIMARY KEY (`id`),\n" + "	INDEX `uid` (`uid`),\n" + "	INDEX `time` (`time`)\n" + " )";
-	}
 
 	public WebRequestLogDAO(Connection con) {
 		super(con);
 	}
 
 	public int insertLogEntry(HttpServletRequest request, String action)
-			throws BGException, UnsupportedEncodingException {
+			throws Exception {
 		Setup setup = Setup.getSetup();
 		if (!setup.getBoolean("db.readonly", setup.getBoolean("isDbReadOnly", false))) {
-			checkAndCreatePeriodicTable();
+			String table = checkAndCreateMonthTable(tableNamePrefix, new Date(), createQuery);
 
 			try {
 				String headerNameRemoteAddress = setup.get(AccessLogValve.PARAM_HEADER_NAME_REMOTE_ADDR);
@@ -68,21 +67,23 @@ public class WebRequestLogDAO extends PeriodicDAO {
 				User user = AuthFilter.getUser(request);
 
 				LogEntry entry = new LogEntry();
-				
+
 				if (headerNameRemoteAddress != null)
 					entry.setIpAddress(request.getHeader(headerNameRemoteAddress));
 				if (entry.getIpAddress() == null)
 					entry.setIpAddress(request.getRemoteAddr());
-				
+
 				entry.setAction(action);
 				if (Utils.notBlankString(queryString)) {
 					entry.setParameters(queryString);
 				}
 				entry.setUid(user.getId());
 
-				String query;
+				String query = SQL_INSERT + table
+					+ "(uid, time, ipAddress, action, parameters, duration, connection_id) "
+					+ "VALUES (?,NOW(),?,?,?,-1,?)";;
 
-				if (SQLUtils.columnExist(con, getMonthTableName(TABLE_WEB_REQUEST_LOG, new Date()), "duration")) {
+				/* if (SQLUtils.columnExist(con, getMonthTableName(TABLE_WEB_REQUEST_LOG, new Date()), "duration")) {
 
 					if (SQLUtils.columnExist(con, getMonthTableName(TABLE_WEB_REQUEST_LOG, new Date()),
 							"connection_id")) {
@@ -97,7 +98,7 @@ public class WebRequestLogDAO extends PeriodicDAO {
 				} else {
 					query = "INSERT INTO " + getMonthTableName(TABLE_WEB_REQUEST_LOG, new Date())
 							+ "(uid, time, ipAddress, action, parameters) " + "VALUES (?,NOW(),?,?,?)";
-				}
+				} */
 
 				PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				ps.setInt(1, entry.getUid());
@@ -105,14 +106,14 @@ public class WebRequestLogDAO extends PeriodicDAO {
 				ps.setString(3, entry.getAction());
 
 				try {
-					ps.setString(4, URLDecoder.decode(entry.getParameters(), Utils.UTF8.name()));
+					ps.setString(4, URLDecoder.decode(entry.getParameters(), StandardCharsets.UTF_8.name()));
 				} catch (Exception e) {
 					ps.setString(4, entry.getParameters());
 				}
 
-				if (SQLUtils.columnExist(con, getMonthTableName(TABLE_WEB_REQUEST_LOG, new Date()), "connection_id")) {
+				// if (SQLUtils.columnExist(con, getMonthTableName(TABLE_WEB_REQUEST_LOG, new Date()), "connection_id")) {
 					ps.setInt(5, SQLUtils.getConnectionId(con));
-				}
+				// }
 
 				ps.executeUpdate();
 

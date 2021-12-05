@@ -1,4 +1,4 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Input day's range in month"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Input day's range in month"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="dateFromHiddenName" description="имя скрытого поля с началом диапазона (по-умолчанию dateFrom)"%>
@@ -13,10 +13,10 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<div class="datemonthdays" id="${uiid}"> 
+<div class="datemonthdays" id="${uiid}">
 	<input type="hidden" id="dateFrom" name="${dateFromHiddenName}" value="${form.param[dateFromHiddenName]}"/>
 	<input type="hidden" id="dateTo" name="${dateToHiddenName}" value="${form.param[dateToHiddenName]}"/>
-	
+
 	<button class="btn-white icon" id="prev" onclick="return false"><i class="ti-angle-left"></i></button>
 	<button class="btn-white" id="month" onclick="return false">&nbsp;</button>
 	<button class="btn-white icon" id="next" onclick="return false"><i class="ti-angle-right"></i></button>
@@ -27,8 +27,7 @@
 </div>
 
 <script>
-	$(function()
-	{
-		uiMonthDaysSelectInit( $('#${uiid}') );
+	$(function () {
+		$$.ui.monthDaysSelectInit($('#${uiid}'));
 	})
 </script>

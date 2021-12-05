@@ -6,6 +6,7 @@ import java.util.Set;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.testng.Assert;
 
+import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.ParamDAO;
 import ru.bgcrm.dao.ParamGroupDAO;
 import ru.bgcrm.dao.PatternDAO;
@@ -30,6 +31,8 @@ public class ParamHelper {
         new ParamDAO(con).updateParameter(param);
         Assert.assertTrue(param.getId() > 0);
 
+        ParameterCache.flush(con);
+
         return param.getId();
     }
 
@@ -45,10 +48,10 @@ public class ParamHelper {
 
         return group.getId();
     }
-    
+
     public static int addPattern(String object, String title, String text) throws SQLException {
         var con = DbTest.conRoot;
-        
+
         var pattern = new Pattern();
         pattern.setObject(object);
         pattern.setTitle(title);

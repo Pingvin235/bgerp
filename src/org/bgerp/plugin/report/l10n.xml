@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
-    <p><ru>выберите отчёт</ru><en>select report</en></p>
-    <p><ru>Отчёты</ru><en>Reports</en></p>
-    <p><ru>JSP Отчёты</ru><en>JSP Reports</en></p>
-    <p><ru>Отчёт</ru><en>Report</en></p>
-    <p><ru>Столбчатая диаграмма</ru><en>Bar chart</en></p>
-    <p><ru>График</ru><en>Liniar chart</en></p>
-    <p><ru>Количества по типам процессов</ru><en>Counts by process types</en></p>
-    <!--
-    <p><ru></ru><en></en></p>
-    -->
+	<p><ru>выберите отчёт</ru><en>select report</en></p>
+	<p><ru>Отчёты</ru><en>Reports</en></p>
+	<p><ru>JSP Отчёты</ru><en>JSP Reports</en></p>
+	<p><ru>Отчёт</ru><en>Report</en></p>
+	<p><ru>Столбчатая диаграмма</ru><en>Bar chart</en></p>
+	<p><ru>График</ru><en>Liniar chart</en></p>
+	<p><ru>Количества по типам процессов</ru><en>Counts by process types</en></p>
+	<!--
+	<p><ru></ru><en></en></p>
+	-->
 </data>

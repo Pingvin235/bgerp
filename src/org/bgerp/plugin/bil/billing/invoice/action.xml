@@ -1,5 +1,9 @@
 <item title="Plugin Invoice">
-	<item title="Invoices">
-		<item action="org.bgerp.plugin.bill.billing.invoice.action.ActionInvoice:list" title="List"/>
+	<item title="Invoice">
+		<item action="org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:list" title="List"/>
+		<item action="org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:create" title="Create"/>
+		<item action="org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:doc" title="Document"/>
+		<item action="org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:get;org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:update" title="Update"/>
+		<item action="org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:delete" title="Delete"/>
 	</item>
 </item>

@@ -85,7 +85,9 @@ public class ProcessHelper {
     }
 
     public static Process addProcess(int typeId, int createUserId, String description) throws Exception {
-        return addProcess(typeId, createUserId, description, 0);
+        var result = addProcess(typeId, createUserId, description, 0);
+        Assert.assertTrue(0 < result.getId());
+        return result;
     }
 
     // TODO: Creation time is always current.

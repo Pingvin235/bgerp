@@ -31,8 +31,6 @@ public class PreparedDelay implements Closeable {
     private List<Object> parameters = new ArrayList<>(20);
     private PreparedStatement ps;
 
-    private int pos;
-
     public PreparedDelay(Connection con) {
         this.con = con;
     }
@@ -42,14 +40,17 @@ public class PreparedDelay implements Closeable {
         addQuery(query);
     }
 
-    public int getPos() {
-        return pos;
-    }
-
+    /**
+     * @return {@link PreparedStatement} or {@code null} if not created.
+     */
     public PreparedStatement getPrepared() {
         return ps;
     }
 
+    /**
+     * @return current query.
+     */
+    @Deprecated
     public StringBuilder getQuery() {
         return query;
     }
@@ -79,6 +80,20 @@ public class PreparedDelay implements Closeable {
     public void setQuery(String value) {
         query.setLength(0);
         query.append(value);
+    }
+
+    /**
+     * Changes position if the last parameter.
+     * Adding new parameters will be continued after this.
+     * Closes existing {@link PreparedStatement} if exists and assigns it to {@code null}.
+     * @param pos 1 based position.
+     * @throws SQLException
+     */
+    public void setPos(int pos) throws SQLException {
+        parameters = parameters.subList(0, pos);
+        if (ps != null)
+            ps.close();
+        ps = null;
     }
 
     /**

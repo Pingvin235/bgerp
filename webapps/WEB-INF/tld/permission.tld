@@ -7,19 +7,19 @@
 	<tlib-version>1.1</tlib-version>
 	<short-name>permission</short-name>
 	<uri>http://bgerp.org/jsp/taglib/permission</uri>
-	
+
 	<tag>
-		<description>Проверяет привилегии пользователя.</description>
+		<description>Condition tag checking user persmission.</description>
 		<name>check</name>
 		<tag-class>ru.bgcrm.servlet.jsp.PermissionTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
-			<description>Имя action'a, для которого необходимо произвести проверку привилегий для данного пользователя.</description>
+			<description>Semicolumn separated action class and menthod names.</description>
 			<name>action</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
- 	</tag>
+	</tag>
 	<function>
 		<name>get</name>
 		<function-class>ru.bgcrm.cache.UserCache</function-class>

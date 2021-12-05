@@ -1,10 +1,12 @@
 package org.bgerp.plugin.bil.billing.invoice.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import ru.bgcrm.model.Id;
+import ru.bgcrm.util.Utils;
 
 public class Invoice extends Id {
     private int typeId;
@@ -12,6 +14,8 @@ public class Invoice extends Id {
     private int processId;
     /** First day of payed period. */
     private Date fromDate;
+    /** Generated number. */
+    private String number;
     /** Creation date. */
     private Date createdDate;
     /** Created user. */
@@ -25,9 +29,9 @@ public class Invoice extends Id {
     /** User accepted payment. */
     private int paymentUserId;
 
-    private BigDecimal summa;
+    private BigDecimal amount = BigDecimal.ZERO;
 
-    private List<Position> positions;
+    private List<Position> positions = new ArrayList<>();
 
     public int getTypeId() {
         return typeId;
@@ -51,6 +55,14 @@ public class Invoice extends Id {
 
     public void setProcessId(int processId) {
         this.processId = processId;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public Date getFromDate() {
@@ -109,12 +121,12 @@ public class Invoice extends Id {
         this.paymentUserId = paymentUserId;
     }
 
-    public BigDecimal getSumma() {
-        return summa;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setSumma(BigDecimal summa) {
-        this.summa = summa;
+    public void setAmount(BigDecimal value) {
+        this.amount = value;
     }
 
     public List<Position> getPositions() {
@@ -123,5 +135,9 @@ public class Invoice extends Id {
 
     public void setPositions(List<Position> positions) {
         this.positions = positions;
+    }
+
+    public void addPosition(String id, String title, String amount) {
+        positions.add(new Position(id, title, Utils.parseBigDecimal(amount)));
     }
 }

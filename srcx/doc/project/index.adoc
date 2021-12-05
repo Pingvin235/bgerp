@@ -625,12 +625,17 @@ Each action is identified by a class AND method, separated by semicolon.
 
 Main identifier can be preceded by additional ones, separated by a comma - for example, when renaming classes or methods.
 This allows to provide backwards compatibility with permissions already present in the DB.
-
 The actual main identifier stays always last and will be used upon the next save operation of the permission set.
+
 In the following example an action class was renamed and action method changed to *unspecified*, defined in the configuration by *null*.
 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
 link:../../../src/org/bgerp/plugin/kernel/action.xml#L157-L158[org/bgerp/plugin/kernel/action.xml]
+
+The same principe may be used for grouping many methods to a single logical action, for example typical get and update calls.
+
+[snippet, from="<item ac", to="te\"/>", remove-leading="		"]
+link:../../../src/org/bgerp/plugin/bil/billing/invoice/action.xml#L6-L6[org/bgerp/plugin/bil/billing/invoice/action.xml]
 
 Actions may be hierarchically organized when some parent action is required for accessing children.
 [snippet, from="<item ac", to="em>", remove-leading="	"]
@@ -974,7 +979,7 @@ link:../../../webapps/js/kernel.shell.js#L5-L12[webapps/js/kernel.shell.js]
 
 Enabling debug:
 [snippet, from="$$.", to="0,"]
-link:../../../webapps/js/kernel.js#L18-L22[webapps/js/kernel.js]
+link:../../../webapps/js/kernel.js#L19-L23[webapps/js/kernel.js]
 
 [[sample-save-req-params]]
 === Saving latest/last user request parameters
@@ -986,7 +991,7 @@ link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L403-L403[ru.bgcrm.s
 
 Restoring a value:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L432-L440[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L433-L441[ru.bgcrm.struts.action.MessageAction]
 
 Saving and restoring a value at once:
 [snippet, from="//", to=");", remove-leading="    "]

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.bgerp.util.Log;
 
@@ -74,6 +76,15 @@ public class ParameterCache extends Cache<ParameterCache> {
         }
 
         return result;
+    }
+
+    /**
+     * Map of list parameter values. Key - value ID, value - value.
+     * @param paramId
+     * @return
+     */
+    public static Map<Integer, IdTitle> getListParamValuesMap(int paramId) {
+        return getListParamValues(paramId).stream().collect(Collectors.toMap(IdTitle::getId, Function.identity()));
     }
 
     /**

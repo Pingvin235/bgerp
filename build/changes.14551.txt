@@ -1,1 +1,2 @@
-C: Upgrade Gradle to version 7.3.
+C: Upgrade Gradle to version 7.3.1.
+

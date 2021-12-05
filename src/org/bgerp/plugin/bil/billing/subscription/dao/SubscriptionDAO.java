@@ -129,7 +129,8 @@ public class SubscriptionDAO extends CommonDAO {
             return result;
         }
 
-        try (var pd = new PreparedDelay(con, SQL_SELECT + "param_price.count, p.description" + SQL_FROM + TABLE_PARAM_LISTCOUNT + "AS param_price")) {
+        try (var pd = new PreparedDelay(con, SQL_SELECT + "param_product_id.value, param_price.count, p.description"
+                + SQL_FROM + TABLE_PARAM_LISTCOUNT + "AS param_price")) {
             addProductsJoin(pd, config, "param_price", subscriptionProcessId);
             pd.addQuery(SQL_INNER_JOIN + TABLE_PROCESS + "AS p ON param_price.id=p.id");
             pd.addQuery(SQL_WHERE + "param_price.param_id=? AND param_price.value=?");
@@ -139,8 +140,9 @@ public class SubscriptionDAO extends CommonDAO {
             var rs = pd.executeQuery();
             while (rs.next()) {
                 var pos = new Position();
-                pos.setSumma(Utils.maskNullDecimal(rs.getBigDecimal(1)));
-                pos.setTitle(rs.getString(2));
+                pos.setId(rs.getString(1));
+                pos.setAmount(Utils.maskNullDecimal(rs.getBigDecimal(2)));
+                pos.setTitle(rs.getString(3));
                 result.add(pos);
             }
         }
@@ -151,7 +153,7 @@ public class SubscriptionDAO extends CommonDAO {
     private void addProductsJoin(PreparedDelay pd, Config config, String table, int subscriptionProcessId) throws SQLException {
         pd.addQuery(SQL_INNER_JOIN + TABLE_PROCESS_LINK
                 + "AS pl ON " + table + ".id=pl.process_id AND pl.object_id=? AND pl.object_type=?"
-                + SQL_INNER_JOIN + TABLE_PARAM_TEXT + "AS pt ON pl.process_id=pt.id AND pt.param_id=?");
+                + SQL_INNER_JOIN + TABLE_PARAM_TEXT + "AS param_product_id ON pl.process_id=param_product_id.id AND param_product_id.param_id=?");
         pd.addInt(subscriptionProcessId);
         pd.addString(Process.LINK_TYPE_DEPEND);
         pd.addInt(config.getParamProductId());

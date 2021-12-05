@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dynamic.DynamicClassManager;
+import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.FileData;
@@ -25,6 +27,7 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
 
 public abstract class MessageType extends IdTitle {
     private static final Log log = Log.getLog();
@@ -256,19 +259,6 @@ public abstract class MessageType extends IdTitle {
             throws Exception {
         var fileDao = new FileDataDAO(con);
 
-        // удаление лишних сообщений
-        /* List<FileData> attachList = message.getAttachList();
-
-        Set<Integer> existFileIds = form.getSelectedValues("fileId");
-
-        for (int i = 0; i < attachList.size(); i++) {
-            FileData file = attachList.get(i);
-            if (!existFileIds.contains(file.getId())) {
-                fileDao.delete(file);
-                attachList.remove(i--);
-            }
-        } */
-
         // attaching of already existing
         List<FileData> attachList = message.getAttachList();
         attachList.clear();
@@ -289,6 +279,27 @@ public abstract class MessageType extends IdTitle {
 
             message.addAttach(file);
         }
+
+        // announced
+        for (String fileId : form.getSelectedValuesListStr("announcedFileId")) {
+            var event = new ProcessFileGetEvent(form, message.getProcessId(), fileId);
+            EventProcessor.processEvent(event, new SingleConnectionConnectionSet(con));
+
+            if (event.getFileData() == null) {
+                log.debug("Not found bytes for announcedFileId: " + fileId);
+                continue;
+            }
+
+            var file = new FileData();
+            file.setTitle(event.getFileTitle());
+
+            var out = fileDao.add(file);
+            IOUtils.write(event.getFileData(), out);
+            out.close();
+
+            message.addAttach(file);
+        }
+
         return tmpFiles;
     }
 }

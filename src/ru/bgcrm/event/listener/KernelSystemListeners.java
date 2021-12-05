@@ -1,6 +1,5 @@
 package ru.bgcrm.event.listener;
 
-import ru.bgcrm.dao.Files;
 import ru.bgcrm.dao.Locker;
 
 public class KernelSystemListeners {

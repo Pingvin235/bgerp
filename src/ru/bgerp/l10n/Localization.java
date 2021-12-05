@@ -133,6 +133,7 @@ public class Localization {
     }
 
     /**
+     * Called from JSP.
      * Retrieves language from the request params or session.
      * Once defined lang has persisted in the session attribute as well.
      * If not found language is taken from configuration parameter 'lang'.
@@ -176,7 +177,6 @@ public class Localization {
      * Retrieve localizer for a plugin.
      * The localizer includes the following localizations:
      * custom if exists, than for kernel and after for the plugin itself.
-     *
      * @param pluginId plugin ID, null - for kernel
      * @param toLang target language's ID: {@link #LANG_RU}, {@link #LANG_EN}, {@link #LANG_DE}
      */
@@ -190,9 +190,6 @@ public class Localization {
         if (custom != null)
             localizations.add(custom);
 
-        // kernel plugin
-        localizations.add(Localization.localizations.get(org.bgerp.plugin.kernel.Plugin.ID));
-
         // the defined plugin, if it has localization
         if (pluginId != null && !org.bgerp.plugin.kernel.Plugin.ID.equals(pluginId)) {
             var pluginL10n = Localization.localizations.get(pluginId);
@@ -200,7 +197,20 @@ public class Localization {
                 localizations.add(pluginL10n);
         }
 
+        // kernel plugin
+        localizations.add(Localization.localizations.get(org.bgerp.plugin.kernel.Plugin.ID));
+
         return new Localizer(toLang, localizations.toArray(new Localization[0]));
+    }
+
+    /**
+     * Retrieves {@link Localizer} object for a single plugin.
+     * @param pluginId plugin ID.
+     * @param request used for getting target language.
+     * @return
+     */
+    public static Localizer getLocalizer(String pluginId, HttpServletRequest request) {
+        return getLocalizer(pluginId, getLang(request));
     }
 
     /**

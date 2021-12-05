@@ -1,2 +1,7 @@
 #
-# this plugin can be used for creation of invoices
+invoice:type.1.title=Test invoice type
+invoice:type.1.provider.{@inc:cnt}.class=org.bgerp.plugin.bil.billing.invoice.pp.SubscriptionPositionProvider
+invoice:type.1.provider.{@inc:cnt}.class=org.bgerp.plugin.bil.billing.invoice.pp.ExpressionPositionProvider
+invoice:type.1.provider.{@cnt}.expression=<<END
+	invoice.addPosition("test", "Test position", "42.50");
+END

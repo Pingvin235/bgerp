@@ -1,10 +1,12 @@
 package ru.bgcrm.util.io;
 
+import java.io.File;
 import java.io.FilterInputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 
 public class IOUtils {
     public static OutputStream urlEncode(OutputStream out) throws IOException {
@@ -62,18 +64,9 @@ public class IOUtils {
     }
 
     /**
-     * Переброс блоками из входящего потока в исходящий.
-     * Ничего после чтения не закрывается. Ничего после записи не флушится.
-     * При ошибках выкидывает наружу.
-     * Работает синхронно. Для асинхронного связывания см. StreamConnector.
-     * 
-     * @param inputStream
-     *            входной стрим.
-     * @param outputStream
-     *            выходной стрим.
-     * @throws IOException
-     *            при ошибках I/O.
+     * Use {@link org.apache.commons.io.IOUtils#copy(InputStream, OutputStream)}.
      */
+    @Deprecated
     public static boolean flush(InputStream inputStream, OutputStream outputStream) throws IOException {
         boolean wasFlush = false;
         // буфер 1KB
@@ -84,5 +77,19 @@ public class IOUtils {
             wasFlush = true;
         }
         return wasFlush;
+    }
+
+    /**
+     * Reads byte array out of file with {@code path} case if exists,
+     * otherwise treats {@code path} as Java resource and reads it.
+     * @param path file path or Java resource identifier, examples: {@code /org/bgerp/util/SomeFile.data} or {@code /tmp/SomeFile.data}.
+     * @return
+     * @throws IOException
+     */
+    public static final byte[] read(String path) throws IOException {
+        var file = new File(path);
+        if (file.exists() && file.isFile() && file.canRead())
+            return Files.readAllBytes(file.toPath());
+        return org.apache.commons.io.IOUtils.resourceToByteArray(path);
     }
 }

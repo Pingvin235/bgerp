@@ -1,8 +1,6 @@
 package ru.bgcrm.dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -10,85 +8,57 @@ import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import ru.bgcrm.model.BGMessageException;
+/**
+ * DAO with month tables support.
+ *
+ * @author Iakov Volkov
+ * @author Michael Kozlov
+ * @author Shamil Vakhitov
+ */
+public class PeriodicDAO extends CommonDAO {
+    /** Cache of existing table names. */
+    protected static final Set<String> EXISTING_TABLES = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
 
-public class PeriodicDAO
-	extends CommonDAO
-{
-	protected static Set<String> periodicTableSet = Collections.newSetFromMap( new ConcurrentHashMap<String, Boolean>() );
-	protected static String createQuery;
-	protected static String tableNamePrefix;
+    protected PeriodicDAO(Connection con) {
+        super(con);
+    }
 
-	protected PeriodicDAO( Connection con )
-	{
-		super( con );
-	}
+    protected String checkAndCreateMonthTable(String tableNamePrefix, Date date, String createQuery) throws SQLException {
+        var table = getMonthTableName(tableNamePrefix, date);
+        if (tableExists(table))
+            return table;
 
-	protected void checkAndCreatePeriodicTable()
-		throws BGMessageException
-	{
-		String table = getMonthTableName( tableNamePrefix, new Date() );
-		if( !tableExists( table ) )
-		{
-			try
-			{
-				PreparedStatement ps = con.prepareStatement( createQuery.replace( tableNamePrefix, getMonthTableName( tableNamePrefix, new Date() ) ).toString() );
-				ps.executeUpdate();
-				ps.close();
-			}
-			catch( SQLException e )
-			{
-				throw new BGMessageException( e.getMessage() );
-			}
-		}
-	}
+        var query = "CREATE TABLE IF NOT EXISTS `" + table + "` " + createQuery;
+        try (var ps = con.prepareStatement(query)) {
+            ps.executeUpdate();
+            EXISTING_TABLES.add(table);
+        }
 
-	protected String getMonthTableName( String name, Date time )
-	{
-		SimpleDateFormat getModuleMonthTableNameFormat = new SimpleDateFormat( "_yyyyMM" );
-		StringBuilder sb = new StringBuilder( name.trim() );
-		sb.append( getModuleMonthTableNameFormat.format( time ) );
-		return sb.toString();
-	}
+        return table;
+    }
 
-	/**
-	 * Проверка на существование таблицы в БД
-	 * @param con объект доступа к БД
-	 * @param tableName имя проверяемой таблицы
-	 * @return true - таблица существует, false - таблица не существует
-	 * или нет доступа к БД
-	 * @throws SQLException если возникают проблемы с доступом к БД
-	 */
-	public boolean tableExists( String tableName )
-	{
-		boolean result = false;
-		try
-		{
-			if( periodicTableSet.contains( tableName ) )
-			{
-				result = true;
-			}
-			else
-			{
-				if( con != null && tableName != null )
-				{
-					String query = "SHOW TABLES LIKE ?";
-					PreparedStatement ps = con.prepareStatement( query );
-					ps.setString( 1, tableName );
-					ResultSet rs = ps.executeQuery();
-					if( rs.next() ) result = true;
-					rs.close();
-					ps.close();
-				}
+    protected String getMonthTableName(String tableNamePrefix, Date date) {
+        SimpleDateFormat getModuleMonthTableNameFormat = new SimpleDateFormat("_yyyyMM");
+        StringBuilder sb = new StringBuilder(tableNamePrefix.trim());
+        sb.append(getModuleMonthTableNameFormat.format(date));
+        return sb.toString();
+    }
 
-				if( result ) periodicTableSet.add( tableName );
-			}
-		}
-		catch( Exception ex )
-		{
-			log.error( ex.getMessage() );
-		}
-
-		return result;
-	}
+    /**
+     * Checks table existence.
+     * @param tableName table name.
+     * @return is the table exists.
+     * @throws SQLException
+     */
+    protected boolean tableExists(String tableName) throws SQLException {
+        if (EXISTING_TABLES.isEmpty()) {
+            try (var ps = con.prepareStatement("SHOW TABLES")) {
+                var rs = ps.executeQuery();
+                while (rs.next()) {
+                    EXISTING_TABLES.add(rs.getString(1));
+                }
+            }
+        }
+        return EXISTING_TABLES.contains(tableName);
+    }
 }

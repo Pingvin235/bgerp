@@ -83,6 +83,13 @@ public class UserCache extends Cache<UserCache> {
         return result;
     }
 
+    /**
+     * Called from JSP.
+     * Gets user permission for action.
+     * @param userId user ID.
+     * @param action semicolon separated action class name and method, e.g. {@code org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:get}.
+     * @return allowed permission with options or {@code null}.
+     */
     public static ParameterMap getPerm(int userId, String action) {
         User user = getUser(userId);
 

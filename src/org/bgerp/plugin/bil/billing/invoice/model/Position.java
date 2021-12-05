@@ -5,13 +5,20 @@ import java.math.BigDecimal;
 import ru.bgcrm.model.IdStringTitle;
 
 public class Position extends IdStringTitle {
-    private BigDecimal summa;
+    private BigDecimal amount;
 
-    public BigDecimal getSumma() {
-        return summa;
+    public Position() {}
+
+    public Position(String id, String title, BigDecimal amount) {
+        super(id, title);
+        this.amount = amount;
     }
 
-    public void setSumma(BigDecimal summa) {
-        this.summa = summa;
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal value) {
+        this.amount = value;
     }
 }

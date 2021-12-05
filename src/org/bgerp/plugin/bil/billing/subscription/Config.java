@@ -1,15 +1,14 @@
 package org.bgerp.plugin.bil.billing.subscription;
 
-import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
-import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.plugin.bil.billing.subscription.dao.SubscriptionDAO;
 import org.bgerp.plugin.bil.billing.subscription.model.Subscription;
 import org.bgerp.plugin.bil.billing.subscription.model.SubscriptionLicense;
@@ -20,25 +19,17 @@ import javassist.NotFoundException;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.IdStringTitle;
-import ru.bgcrm.model.process.Process;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.l10n.Localization;
 
 public class Config extends ru.bgcrm.util.Config {
-    private static final String LICENSE_FILE_ID = Plugin.ID + ":file";
-
     /** Map with all subscriptions. */
     private final SortedMap<Integer, Subscription> subscriptions;
-    /** Process types, used in subscriptions. */
-    private final Set<Integer> subscriptionProcessTypeIds;
 
     private final String signKeyFile;
     private final String signKeyPswd;
@@ -52,6 +43,7 @@ public class Config extends ru.bgcrm.util.Config {
     /** Param type 'list', subscriptions' limit, e.g. sessions */
     private final int paramLimitId;
     /** Begin date, needed for price calculation for the first month. */
+    @SuppressWarnings("unused")
     private final int paramDateFromId;
     /** End date, placed in license file. */
     private final int paramDateToId;
@@ -74,8 +66,8 @@ public class Config extends ru.bgcrm.util.Config {
         super(null);
         config = config.sub(Plugin.ID + ":");
         subscriptions = loadSubscriptions(config);
-        subscriptionProcessTypeIds = subscriptions.values().stream()
-            .map(Subscription::getProcessTypeId).collect(Collectors.toSet());
+        /* subscriptionProcessTypeIds = subscriptions.values().stream()
+            .map(Subscription::getProcessTypeId).collect(Collectors.toSet()); */
 
         signKeyFile = config.get("sign.key.file", System.getProperty("user.home") + "/.ssh/id_rsa");
         signKeyPswd = config.get("sign.key.pswd");
@@ -116,10 +108,10 @@ public class Config extends ru.bgcrm.util.Config {
     }
 
     /**
-     * @return subscription list sorted by IDs.
+     * @return subscription sorted by IDs.
      */
-    public List<Subscription> getSubscriptions() {
-        return new ArrayList<Subscription>(subscriptions.values());
+    public Collection<Subscription> getSubscriptions() {
+        return subscriptions.values();
     }
 
     public int getParamEmailId() {
@@ -169,7 +161,7 @@ public class Config extends ru.bgcrm.util.Config {
         var paramDao = new ParamValueDAO(conSet.getSlaveConnection());
 
         var limitId = Utils.getFirst(paramDao.getParamList(processId, paramLimitId));
-        var limit = limitId != null ? ParameterCache.getListParamValues(paramLimitId).get(limitId).getTitle() : "";
+        var limit = limitId != null ? ParameterCache.getListParamValuesMap(paramLimitId).get(limitId).getTitle() : "";
 
         var license = new SubscriptionLicense()
             .withId(String.valueOf(processId))
@@ -192,8 +184,13 @@ public class Config extends ru.bgcrm.util.Config {
             fd.setTitle(License.FILE_NAME);
             new FileDataDAO(conSet.getConnection()).add(fd);
             paramDao.updateParamFile(processId, paramLicFileId, 0, "", fd);
+        } else {
+            fd.setOutputStream(new FileOutputStream(new FileDataDAO(null).getFile(fd)));
         }
-        fd.getOutputStream().write(signed);
+
+        try (var out = fd.getOutputStream()) {
+            out.write(signed);
+        }
     }
 
     private Subscription getSubscription(ConnectionSet conSet, int processId) throws Exception {

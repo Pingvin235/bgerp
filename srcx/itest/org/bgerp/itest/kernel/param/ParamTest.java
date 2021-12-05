@@ -9,6 +9,7 @@ public class ParamTest {
     public static final String MULTIPLE = "multiple=1";
     public static final String SAVE_ON_FOCUS_LOST = "saveOn=focusLost";
     public static final String ENCRYPTED = "encrypt=encrypted";
+    public static final String READONLY = "readonly=1";
 
     @Test
     public void addConfig() throws Exception {

@@ -1,7 +1,7 @@
-<%@ tag pageEncoding="UTF-8" description="Button"%> 
+<%@ tag pageEncoding="UTF-8" description="Button"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%-- 
+<%--
 	Icons: https://themify.me/themify-icons
 --%>
 
@@ -25,8 +25,8 @@
 		<button type="button" id="${id}" title="${not empty title ? title : l.l('Редактировать')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-pencil"></i></button>
 	</c:when>
 	<c:when test="${type eq 'del'}">
-		<button type="button" id="${id}" title="${not empty title ? title : l.l('Удалить')}" class="btn-white icon ${styleClass}" 
-			onclick="if (confirm('${l.l('Вы уверены, что хотите удалить?')}')) { ${onclick} }"><i class="ti-trash"></i></button>
+		<button type="button" id="${id}" title="${not empty title ? title : l.l('Удалить')}" class="btn-white icon ${styleClass}"
+			onclick="if ($$.confirm.del()) { ${onclick} }"><i class="ti-trash"></i></button>
 	</c:when>
 	<c:when test="${type eq 'cut'}">
 		<button type="button" id="${id}" title="${not empty title ? title : l.l('Вырезать')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-cut"></i></button>

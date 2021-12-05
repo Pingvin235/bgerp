@@ -550,14 +550,13 @@ $$.shell = new function () {
 	 * @param {*} el
 	 */
 	const $content = function (el) {
-		if (el) {
-			while (el) {
-				const parent = el.parentElement;
-				if (parent && parent.id === 'content')
-					return $(el);
-				el = parent;
-			}
+		while (el) {
+			const parent = el.parentElement;
+			if (parent && parent.id === 'content')
+				return $(el);
+			el = parent;
 		}
+
 		return $('#content > div:visible');
 	}
 

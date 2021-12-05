@@ -95,7 +95,7 @@ public class FileAction extends BaseAction {
         SessionTemporaryFiles files = (SessionTemporaryFiles) session.getAttribute(SessionTemporaryFiles.STORE_KEY);
 
         if (files == null) {
-            throw new BGException("Не найдены временные файлы.");
+            throw new BGException("Not found tmp files.");
         }
 
         int fileId = form.getId();
@@ -130,13 +130,13 @@ public class FileAction extends BaseAction {
                     for (String tmpFileId : tmpFileIds) {
                         int tmpFileIdInt = Utils.parseInt(tmpFileId);
                         if (tmpFileIdInt <= 0) {
-                            throw new BGException("Неверный код временного файла.");
+                            throw new BGException("Incorrect ID of tmp file: " + tmpFileId);
                         }
 
                         String path = SessionTemporaryFiles.getStoreFilePath(session, tmpFileIdInt);
                         String fileTitle = files.fileTitleMap.get(tmpFileIdInt);
                         if (Utils.isBlankString(fileTitle)) {
-                            throw new BGException("Не определено название файла с кодом: " + tmpFileIdInt);
+                            throw new BGException("Undefined title for file with ID: " + tmpFileIdInt);
                         }
 
                         try {

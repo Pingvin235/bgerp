@@ -1,25 +1,31 @@
-package org.bgerp.plugin.bil.billing.subscription;
+package org.bgerp.plugin.bil.billing.invoice.pp;
 
-import java.time.YearMonth;
-import java.util.Collections;
-import java.util.List;
-
-import org.bgerp.plugin.bil.billing.invoice.model.Position;
-import org.bgerp.plugin.bil.billing.invoice.model.PositionProvider;
+import org.bgerp.plugin.bil.billing.invoice.model.Invoice;
+import org.bgerp.plugin.bil.billing.subscription.Config;
 import org.bgerp.plugin.bil.billing.subscription.dao.SubscriptionDAO;
 import org.bgerp.plugin.bil.billing.subscription.model.Subscription;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
 import ru.bgcrm.dao.process.ProcessDAO;
+import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 
-public class InvoicePositionProvider implements PositionProvider {
+/**
+ * Expression provider for plugin Subscription.
+ *
+ * @author Shamil Vakhitov
+ */
+public class SubscriptionPositionProvider extends PositionProvider {
     private static final Log log = Log.getLog();
 
+    protected SubscriptionPositionProvider(ParameterMap config) {
+        super(null);
+    }
+
     @Override
-    public List<Position> getPositions(int processId, YearMonth month) {
-        List<Position> result = Collections.emptyList();
+    public void addPositions(Invoice invoice) {
+        int processId = invoice.getProcessId();
 
         var setup = Setup.getSetup();
         var config = setup.getConfig(Config.class);
@@ -32,13 +38,13 @@ public class InvoicePositionProvider implements PositionProvider {
             Subscription subscription = config.getSubscriptions().stream()
                     .filter(s -> s.getProcessTypeId() == process.getTypeId()).findFirst().orElse(null);
             if (subscription == null)
-                return result;
+                return;
 
-            result = new SubscriptionDAO(con).getInvoicePositions(config, subscription, processId);
+            var positions = new SubscriptionDAO(con).getInvoicePositions(config, subscription, processId);
+            invoice.getPositions().addAll(positions);
         } catch (Exception e) {
             log.error(e);
         }
-        return result;
     }
 
 }

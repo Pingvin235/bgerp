@@ -1,7 +1,5 @@
 package ru.bgcrm.event;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -18,17 +16,14 @@ import java.util.concurrent.TimeoutException;
 
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dao.EventProcessorLogDAO;
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.event.listener.DynamicEventListener;
 import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.EventProcessorLogEntry;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.SQLUtils;
 
 public class EventProcessor {
     private static final Log log = Log.getLog();
@@ -194,16 +189,16 @@ public class EventProcessor {
         } finally {
             long timeEnd = Calendar.getInstance().getTimeInMillis();
 
-            // TODO: Extract to some plugin. DBA?
-            if (("Successful".equals(resultStatus) && setup.getBoolean("logSuccessfulEventsThrow", false))
+            // TODO: Extract to some plugin. Log?
+            /* if (("Successful".equals(resultStatus) && setup.getBoolean("logSuccessfulEventsThrow", false))
                     || (!"Successful".equals(resultStatus) && setup.getBoolean("logErrorEventsThrow", false))
                     || setup.getBoolean("logAllEventsThrow", false)) {
                 writeLog(event, listener, resultStatus, conSet.getConnection(), timeEnd - timeStart);
-            }
+            } */
         }
     }
 
-    private static void writeLog(Event event, EventListener<Event> listener, String resultStatus,
+    /* private static void writeLog(Event event, EventListener<Event> listener, String resultStatus,
             Connection eventConnection, long duration) throws BGMessageException {
         Connection connection = null;
         try {
@@ -227,7 +222,7 @@ public class EventProcessor {
         } finally {
             SQLUtils.closeConnection(connection);
         }
-    }
+    } */
 
     /**
      * Обрабатывает событие системными обработчиками а затем классом, если указан.

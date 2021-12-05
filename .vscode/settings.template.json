@@ -18,5 +18,10 @@
     "editor.fontSize": 12,
     "terminal.integrated.fontSize": 12,
     "debug.console.fontSize": 12,
-    "files.trimTrailingWhitespace": true
+    "files.trimTrailingWhitespace": true,
+    // using wrapper doesn't work properly, the workaround is set the options below
+    // gradlew cleanEclipse eclipse
+    // re-open the project, after the gradle.version may be changed to the actual "7.3.1"
+    "java.import.gradle.wrapper.enabled": false,
+    "java.import.gradle.version": "6.9.1"
 }
