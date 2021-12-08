@@ -1,0 +1,64 @@
+<mxfile host="Electron" modified="2021-12-08T12:18:48.361Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/15.4.0 Chrome/91.0.4472.164 Electron/13.5.0 Safari/537.36" etag="9QypTxzrVTfD5VwoDNGg" compressed="false" version="15.4.0" type="device">
+  <diagram id="03btL-c-YMVeA66-e47E" name="Page-1">
+    <mxGraphModel dx="1086" dy="926" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-3" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="200" y="30" width="480" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-1" value="&lt;font color=&quot;#0000ff&quot;&gt;PATH_JSP_USER =&amp;nbsp;PATH_JSP_USER_PLUGIN + &quot;/&quot; + PLUGIN_ID&lt;/font&gt;&lt;br&gt;PATH_JSP_OPEN&amp;nbsp;=&amp;nbsp;PATH_JSP_OPEN_PLUGIN + &quot;/&quot; + PLUGIN_ID" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=bottom;" parent="81c6hD_ir5dwZhMvQUFx-3" vertex="1">
+          <mxGeometry y="30" width="480" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-2" value="org.bgerp.plugin.custom.XXX.Plugin" style="rounded=0;whiteSpace=wrap;html=1;align=center;" parent="81c6hD_ir5dwZhMvQUFx-3" vertex="1">
+          <mxGeometry width="480" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-8" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="200" y="160" width="480" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-5" value="&lt;br&gt;&lt;div&gt;/**&lt;/div&gt;&lt;div&gt;&amp;nbsp;* This class marked as action for specified path.&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp;* It matches the form action specified in the .jsp code.&lt;/div&gt;&lt;div&gt;&amp;nbsp;*/&lt;/div&gt;&lt;font color=&quot;#cc6600&quot;&gt;@Action(path=&quot;/user/plugin/custom.XXX/report/ZZZ&quot;)&lt;/font&gt;&lt;span&gt;&lt;br&gt;&lt;br&gt;&lt;/span&gt;getJsp(): &lt;font color=&quot;#0000ff&quot;&gt;PATH_JSP_USER + &quot;/report/ZZZ.jsp&quot;&lt;br&gt;&lt;br&gt;&lt;/font&gt;// URL suffix for user interface&lt;br&gt;getUrl(): &lt;font color=&quot;#00cc00&quot;&gt;&quot;report/custom/XXX/ZZZ&quot;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=bottom;" parent="81c6hD_ir5dwZhMvQUFx-8" vertex="1">
+          <mxGeometry y="30" width="480" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-6" value="org.bgerp.plugin.custom.XXX.action.report.DemoReportAction" style="rounded=0;whiteSpace=wrap;html=1;align=center;" parent="81c6hD_ir5dwZhMvQUFx-8" vertex="1">
+          <mxGeometry width="480" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-10" value="&lt;div&gt;&amp;lt;!-- The form action must correspond with the @Action annotation in model? script --&amp;gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;lt;html:form &lt;font color=&quot;#cc6600&quot;&gt;action=&quot;/user/plugin/custom.XXX/report/ZZZ&lt;/font&gt;&quot;&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;.....&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;lt;ui:button type=&quot;out&quot; styleClass=&quot;ml1 mr1 more out&quot; onclick=&quot;$$.ajax.load(this.form, $$.shell.$content(this))&quot;/&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;lt;/html:form&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=bottom;" parent="1" vertex="1">
+          <mxGeometry x="200" y="430" width="480" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-11" value="&lt;span style=&quot;font-family: &amp;#34;noto sans&amp;#34; , sans-serif ; font-weight: bold ; white-space: pre ; background-color: rgb(252 , 252 , 252)&quot;&gt;&lt;font color=&quot;#0000ff&quot;&gt;/WEB-INF/jspf/user/plugin/custom.XXX//report/ZZZ.jsp&lt;/font&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="200" y="400" width="480" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;curved=1;strokeColor=#0000FF;" parent="1" source="81c6hD_ir5dwZhMvQUFx-5" target="81c6hD_ir5dwZhMvQUFx-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="318" />
+              <mxPoint x="150" y="415" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-13" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#CC6600;" parent="1" source="81c6hD_ir5dwZhMvQUFx-5" target="81c6hD_ir5dwZhMvQUFx-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="275" />
+              <mxPoint x="120" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-14" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.002;entryY=0.718;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=#0000FF;" parent="1" source="81c6hD_ir5dwZhMvQUFx-1" target="81c6hD_ir5dwZhMvQUFx-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="90" />
+              <mxPoint x="120" y="312" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-15" value="Web page will be rendered with this file by URL with &lt;font color=&quot;#00cc00&quot;&gt;given suffix&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="700" y="400" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="81c6hD_ir5dwZhMvQUFx-16" style="edgeStyle=orthogonalEdgeStyle;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;strokeColor=#00CC00;" parent="1" source="81c6hD_ir5dwZhMvQUFx-5" target="81c6hD_ir5dwZhMvQUFx-15" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,6 +1,8 @@
 = Plugin Report
 :toc:
 
+[[about]]
+== About
 The actual version of the plugin contains built-it reports, available after plugin's activation in menu *Reports*.
 These reports may be defined int the plugin itself for kernel data or in other plugins.
 
@@ -9,6 +11,19 @@ Each report extends Java class javadoc:org.bgerp.plugin.report.action.ReportActi
 Source codes of existing reports may be used as examples for development of new.
 
 IMPORTANT: Previously supported so named *JSP Reports* have to be converted to action reports either in system or <<../../kernel/extension.adoc#custom, custom>> code.
+
+[[dev]]
+== Development
+As an report example you can have a look on the following files which together make built-it *Processes* report:
+[square]
+* link:../../../../src/org/bgerp/plugin/report/Plugin.java[org.bgerp.plugin.report.Plugin]
+* link:../../../../src/org/bgerp/plugin/report/action/ReportProcessAction.java[org.bgerp.plugin.report.action.ReportProcessAction]
+* link:../../../../webapps/WEB-INF/jspf/user/plugin/report/report/process.jsp[webapps/WEB-INF/jspf/user/plugin/report/report/process.jsp]
+
+The relationships between the different parts of report are shown in the diagram below.
+
+drawio:_res/report_mvc.drawio[]
+
 
 ////
 Плагин предназначен для разработки отчётов в HTML формате с гибкими фильтрами.
