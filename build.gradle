@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'eclipse'
     id 'idea'
+    id "org.sonarqube" version "3.3"
 }
 
 repositories {
@@ -28,6 +29,14 @@ eclipse {
         // speed up of initial start, change if needed
         downloadJavadoc = false
         downloadSources = false
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "org.bgerp"
+        property "sonar.organization", "bgerp"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }
 
