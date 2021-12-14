@@ -79,6 +79,7 @@ public class ReportProcessAction extends ReportActionBase {
                 pd.addDate(TimeUtils.getNextDay(dateTo));
                 pd.addQuery(SQL_ORDER_BY);
                 pd.addQuery(type + "_dt");
+                pd.addQuery(getPageLimit(form.getPage()));
 
                 var rs = pd.executeQuery();
                 while (rs.next()) {

@@ -1,0 +1,3 @@
+C: Unified indent symbols.
+A: Tagged CI job 'integration-test'.
+F: Plugin Report. Pagination in report 'Processes'.

@@ -159,9 +159,9 @@ Set trim trailing whitespaces on saving, the option is provided for <<ide-vscode
 The projects mostly follow recommended formatting rules for each of programming languages they use.
 Intention:
 [square]
-* 4 whitespaces - Java;
-* 2 whitespaces - SQL <<plugin-db, scripts>>;
-* tabs - all the rest.
+* 4 whitespaces - Java, Gradle, Bash, YML;
+* 2 whitespaces - SQL <<plugin-db, scripts>> (will be unified in the future);
+* tabs - XML, HTML, JS, JSP, Dockerfile.
 
 However because of historical reasons many files have been formatted in a wrong way, and have to be carefully fixed.
 Screenshot above shows an example of a Java file still using tabs.
