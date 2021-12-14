@@ -1,6 +1,7 @@
 package ru.bgcrm.servlet.jsp;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class JSPFunctionTest {
@@ -14,7 +15,7 @@ public class JSPFunctionTest {
         // second time existing link shouldn't be converted
         value = JSPFunction.httpLinksToHtml(value);
         Assert.assertEquals("This is sample with link <a target=\"_blank\" href=\"https://google.com\">https://google.com</a>", value);
-        
+
         value = JSPFunction.httpLinksToHtml(
                 value + " Yet another links https://google.com <a target=\"_blank\" href=\"http://google.com\">http://google.com</a>");
         Assert.assertEquals(
@@ -53,6 +54,7 @@ public class JSPFunctionTest {
         Assert.assertEquals("This is sample with link <br/><a target=\"_blank\" href=\"https://google.com\">https://google.com</a><br/>", value);
     }
 
+    @Ignore
     @Test(timeout = 250)
     public void timeTest() {
         StringBuilder sb = new StringBuilder();

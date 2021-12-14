@@ -5,7 +5,7 @@ import ru.bgcrm.model.user.User;
 
 /**
  * User authorization event.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class AuthEvent implements Event {
@@ -42,7 +42,7 @@ public class AuthEvent implements Event {
     }
 
     /**
-     * Sets the event processed.
+     * Sets the event processed. Authorization was successfully done by one of plugins.
      * @param processed
      */
     public void setProcessed(boolean processed) {

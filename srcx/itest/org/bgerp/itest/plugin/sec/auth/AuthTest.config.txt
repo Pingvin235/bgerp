@@ -1,3 +1,25 @@
 #
-# this plugin can be used for auth via LDAP
-
+#auth:ldap.1.url=ldap://172.16.0.45
+#auth:ldap.1.login.expression=login + "@orga"
+#auth:ldap.1.search.base=dc=orga,dc=corp
+#auth:ldap.1.search.expression="sAMAccountName="+ login
+#auth:ldap.1.search.attributes=
+#auth:ldap.1.group.ids.expression=<<END
+#    result = {};
+#    for (memberOf : attrs.values("memberOf")) {
+#        memberOfLc = memberOf.toLowerCase();
+#        if (memberOfLc.startsWith("cn=vpn koronavirus orga,ou=rdp-limit")) {
+#            result.add(2);
+#        } else if (memberOfLc.startsWith("cn=vpn users,ou=rdp-limit")) {
+#            result.add(3);
+#        }
+#    }
+#    return result;
+#END
+#auth:ldap.1.title.expression=<<END
+#    name = attrs.value("name");
+#    if (name != null) {
+#        return name;
+#    }
+#    return "???";
+#END

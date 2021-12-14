@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.bgerp.event.AuthEvent;
+import org.bgerp.plugin.sec.auth.AuthResult;
 import org.bgerp.plugin.sec.auth.Plugin;
 import org.bgerp.util.Log;
 
@@ -47,31 +48,37 @@ public class Config extends ru.bgcrm.util.Config {
             }
 
             log.debug("Login {}, successful auth by {}", event.getLogin(), ldap);
+            event.setProcessed(true);
 
-            var user = event.getUser();
-            if (user == null
-                || !user.getGroupIds().equals(result.getUser().getGroupIds())
-                || !user.getTitle().equals(result.getUser().getTitle())) {
-                try (var con = Setup.getSetup().getDBConnectionFromPool()) {
-                    var dao = new UserDAO(con);
-                    if (user == null)
-                        user = result.getUser();
+            createOrUpdateUser(event, result);
+            break;
+        }
+    }
 
-                    user.setTitle(result.getUser().getTitle());
-                    dao.updateUser(user);
-                    user.setGroupIds(result.getUser().getGroupIds());
-                    dao.updateUserGroups(user);
+    private void createOrUpdateUser(AuthEvent event, AuthResult result) {
+        var user = event.getUser();
+        if (user == null
+            || !user.getGroupIds().equals(result.getUser().getGroupIds())
+            || !user.getTitle().equals(result.getUser().getTitle())) {
+            log.debug("Create or update user {} from {}", user, result.getUser());
 
-                    // TODO: Duplicated groups!!
-                    // Title with :
+            try (var con = Setup.getSetup().getDBConnectionFromPool()) {
+                var dao = new UserDAO(con);
+                if (user == null)
+                    user = result.getUser();
 
-                    event.setUser(user);
-                    event.setProcessed(true);
+                user.setTitle(result.getUser().getTitle());
+                dao.updateUser(user);
+                user.setGroupIds(result.getUser().getGroupIds());
+                dao.updateUserGroups(user);
 
-                    UserCache.flush(con);
-                } catch (SQLException e) {
-                    log.error(e);
-                }
+                // TODO: Duplicated groups!!
+                // Title with :
+                event.setUser(user);
+
+                UserCache.flush(con);
+            } catch (SQLException e) {
+                log.error(e);
             }
         }
     }
