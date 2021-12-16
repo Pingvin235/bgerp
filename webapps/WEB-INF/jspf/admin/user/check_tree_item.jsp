@@ -11,9 +11,9 @@
 				<c:set var="linkId" value="${u:uiid()}"/>
 				<c:set var="permConf" value="${grantedPermission[node.action]}" />
 
-				<c:if test="${grantedPermission.containsKey(node.action)}">
-					<c:set var="selected" value=" checked='true' "/>
-				</c:if>
+				<c:set var="selected">
+					<c:if test="${not empty node.action and grantedPermission.containsKey(node.action)}">checked='true'</c:if>
+				</c:set>
 
 				<li class="select_node ${selected}">
 					<label><input name="dataPermissionType" type="checkbox" ${selected} value="${node.action}"/>${node.title}</label>

@@ -569,11 +569,7 @@ CREATE TABLE IF NOT EXISTS `process_common_filter` (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE IF NOT EXISTS `user_group_permission` (
-  `group_id` INT(10) NOT NULL,
-  `action` VARCHAR(255) NOT NULL,
-  `config` VARCHAR(255) NOT NULL
-);
+CALL rename_table('user_group_permission', '_user_group_permission');
 
 CREATE TABLE IF NOT EXISTS `counter` (
   `id` INT(10) NOT NULL AUTO_INCREMENT,

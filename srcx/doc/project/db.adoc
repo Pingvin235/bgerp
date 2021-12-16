@@ -12,11 +12,11 @@
 
 |id
 |INT
-|код
+|ID
 
 |city_id
 |INT
-|код города
+|ID города
 
 |title
 |VARCHAR
@@ -24,7 +24,7 @@
 
 |last_update
 |TIMESTAMP
-|дата последнего изменения
+|last modification time
 |===
 
 === address_city
@@ -37,11 +37,11 @@
 
 |id
 |INT
-|код
+|ID
 
 |country_id
 |INT
-|код страны
+|ID страны
 
 |title
 |VARCHAR
@@ -49,7 +49,7 @@
 
 |last_update
 |TIMESTAMP
-|дата последнего изменения
+|last modification time
 |===
 
 === address_country
@@ -62,7 +62,7 @@
 
 |id
 |INT
-|код
+|ID
 
 |title
 |VARCHAR
@@ -70,7 +70,7 @@
 
 |last_update
 |TIMESTAMP
-|дата последнего изменения
+|last modification time
 |===
 
 === address_distribution
@@ -83,15 +83,15 @@
 
 |distr_id
 |INT
-|код
+|ID
 
 |user_id
 |INT
-|код пользователя
+|ID пользователя
 
 |hid
 |INT
-|код дома
+|ID дома
 |===
 
 === address_house
@@ -104,19 +104,19 @@
 
 |id
 |INT
-|код
+|ID
 
 |area_id
 |INT
-|код района
+|ID района
 
 |quarter_id
 |INT
-|код квартала
+|ID квартала
 
 |street_id
 |INT
-|код улицы
+|ID улицы
 
 |house
 |INT
@@ -136,7 +136,7 @@
 
 |last_update
 |TIMESTAMP
-|дата последнего изменения
+|last modification time
 |===
 
 === address_quarter
@@ -149,11 +149,11 @@
 
 |id
 |INT
-|код
+|ID
 
 |city_id
 |INT
-|код города
+|ID города
 
 |title
 |VARCHAR
@@ -161,7 +161,7 @@
 
 |last_update
 |TIMESTAMP
-|дата последнего изменения
+|last modification time
 |===
 
 === address_quarter_distribution
@@ -174,15 +174,15 @@
 
 |distr_id
 |INT
-|код
+|ID
 
 |group_id
 |INT
-|код группы
+|ID группы
 
 |quarter_id
 |INT
-|код квартала
+|ID квартала
 |===
 
 === address_street
@@ -195,11 +195,11 @@
 
 |id
 |INT
-|код
+|ID
 
 |city_id
 |INT
-|код города
+|ID города
 
 |title
 |VARCHAR
@@ -207,7 +207,7 @@
 
 |last_update
 |TIMESTAMP
-|дата последнего изменения
+|last modification time
 |===
 
 === config_global
@@ -228,7 +228,7 @@
 
 |id
 |INT
-|код
+|ID
 
 |title
 |VARCHAR
@@ -244,7 +244,7 @@
 
 |param_group_id
 |INT
-|код группы параметров
+|ID группы параметров
 
 |date_created
 |DATETIME
@@ -273,7 +273,7 @@
 
 |id
 |INT
-|код
+|ID
 
 |title
 |VARCHAR
@@ -315,7 +315,7 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |title
 |VARCHAR
@@ -345,7 +345,7 @@ DB updates log.
 
 |object_id
 |INT
-|код объекта
+|ID объекта
 
 |iface_id
 |VARCHAR
@@ -357,7 +357,7 @@ DB updates log.
 |===
 
 === message
-Сообщения, дополнительные сведения о значениях полей - в исходном коде javadoc:ru.bgcrm.model.message.Message[].
+Сообщения, дополнительные сведения о значениях полей - в исходном IDе javadoc:ru.bgcrm.model.message.Message[].
 [cols="a,a,50%a", options="header"]
 |===
 |Column
@@ -366,7 +366,7 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |system_id
 |VARCHAR
@@ -374,7 +374,7 @@ DB updates log.
 
 |process_id
 |INT
-|код процесса, ссылка на <<_process, process:id>>
+|ID процесса, link to <<_process, process:id>>
 
 |direction
 |TINYINT
@@ -382,7 +382,7 @@ DB updates log.
 
 |user_id
 |INT
-|код пользователя, ссылка на <<_user, user:id>>
+|ID пользователя, link to <<_user, user:id>>
 
 |sender
 |VARCHAR
@@ -439,11 +439,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |n
 |INT
@@ -451,7 +451,7 @@ DB updates log.
 
 |house_id
 |INT
-|код дома
+|ID дома
 
 |flat
 |CHAR
@@ -492,11 +492,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |value
 |TEXT
@@ -513,11 +513,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |value
 |DATE
@@ -534,11 +534,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |value
 |DATETIME
@@ -555,11 +555,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |n
 |INT
@@ -584,11 +584,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |n
 |INT
@@ -609,11 +609,11 @@ DB updates log.
 
 |group_id
 |INT
-|код группы
+|ID группы
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 |===
 
 === param_group_title
@@ -626,7 +626,7 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |object
 |VARCHAR
@@ -647,11 +647,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |value
 |INT
@@ -676,11 +676,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код параметра
+|ID параметра
 
 |title
 |VARCHAR
@@ -697,11 +697,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |value
 |INT
@@ -726,11 +726,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |title
 |VARCHAR
@@ -751,15 +751,15 @@ DB updates log.
 
 |object_id
 |INT
-|код объекта, к которому относится параметр
+|ID объекта, к которому относится параметр
 
 |user_id
 |INT
-|код пользователя сделавшего изменение
+|ID пользователя сделавшего изменение
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |text
 |VARCHAR
@@ -776,11 +776,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |value
 |TEXT
@@ -797,11 +797,11 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |n
 |TINYINT
@@ -834,7 +834,7 @@ DB updates log.
 
 |id
 |INT
-|код
+|ID
 
 |object
 |VARCHAR
@@ -875,11 +875,11 @@ Cтроковые параметры
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |value
 |VARCHAR
@@ -896,11 +896,11 @@ Cтроковые параметры
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |value
 |VARCHAR
@@ -917,15 +917,15 @@ Cтроковые параметры
 
 |id
 |INT
-|код
+|ID
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 
 |parent_id
 |INT
-|код родителя
+|ID родителя
 
 |title
 |VARCHAR
@@ -942,11 +942,11 @@ Cтроковые параметры
 
 |id
 |INT
-|уникальный код процесса
+|уникальный ID процесса
 
 |type_id
 |INT
-|код типа процесса, ссылка на <<_process_type, process_type:id>>
+|ID типа процесса, link to <<_process_type, process_type:id>>
 
 |priority
 |TINYINT
@@ -954,7 +954,7 @@ Cтроковые параметры
 
 |status_id
 |INT
-|код статуса процесса, ссылка на <<_process_status_title, process_status_title:id>>
+|ID статуса процесса, link to <<_process_status_title, process_status_title:id>>
 
 |status_dt
 |DATETIME
@@ -962,7 +962,7 @@ Cтроковые параметры
 
 |status_user_id
 |INT
-|код пользователя, сделавшего последнее изменение статуса, ссылка на <<_user, user:id>>
+|ID пользователя, сделавшего последнее изменение статуса, link to <<_user, user:id>>
 
 |description
 |TEXT
@@ -974,7 +974,7 @@ Cтроковые параметры
 
 |create_user_id
 |INT
-|код пользователя, создавшего процесс, ссылка на <<_user, user:id>>
+|ID пользователя, создавшего процесс, link to <<_user, user:id>>
 
 |close_dt
 |DATETIME
@@ -982,15 +982,15 @@ Cтроковые параметры
 
 |close_user_id
 |INT
-|код пользователя, закрывшего процесс, ссылка на <<_user, user:id>>
+|ID пользователя, закрывшего процесс, link to <<_user, user:id>>
 
 |groups
 |CHAR(100)
-|коды групп решения с ролями, избыточное поле для ускорения выборки
+|IDы групп решения с ролями, избыточное поле для ускорения выборки
 
 |executors
 |CHAR(100)
-|коды исполнителей, избыточное поле для ускорения выборки
+|IDы исполнителей, избыточное поле для ускорения выборки
 
 |title
 |CHAR(200)
@@ -1008,19 +1008,19 @@ Cтроковые параметры
 
 |process_id
 |INT
-|код процесса
+|ID процесса
 
 |group_id
 |INT
-|код группы
+|ID группы
 
 |role_id
 |INT
-|код роли, которую исполняет группа в процессе
+|ID роли, которую исполняет группа в процессе
 
 |user_id
 |INT
-|код пользователя
+|ID пользователя
 |===
 
 === process_group
@@ -1034,15 +1034,15 @@ Cтроковые параметры
 
 |process_id
 |INT
-|код процесса, ссылка на <<_process, process:id>>
+|ID процесса, link to <<_process, process:id>>
 
 |group_id
 |INT
-|код группы, ссылка на <<_user_group_title, user_group_title:id>>
+|ID группы, link to <<_user_group_title, user_group_title:id>>
 
 |role_id
 |INT
-|код роли, которую исполняет группа в процессе
+|ID роли, которую исполняет группа в процессе
 |===
 
 === process_link
@@ -1056,7 +1056,7 @@ Cтроковые параметры
 
 |process_id
 |INT
-|код процесса, ссылка на <<_process, process:id>>
+|ID процесса, link to <<_process, process:id>>
 
 |object_type
 |VARCHAR
@@ -1064,7 +1064,7 @@ Cтроковые параметры
 
 |object_id
 |INT
-|код привязанного объекта
+|ID привязанного объекта
 
 |object_title
 |VARCHAR
@@ -1090,7 +1090,7 @@ Cтроковые параметры
 
 |id
 |INT
-|код процесса, ссылка на <<_process, process:id>>
+|ID процесса, link to <<_process, process:id>>
 
 |dt
 |DATETIME
@@ -1098,7 +1098,7 @@ Cтроковые параметры
 
 |user_id
 |INT
-|код пользователя сделавшего изменение
+|ID пользователя сделавшего изменение
 
 |data
 |TEXT
@@ -1137,7 +1137,7 @@ Generated secrets for accessing processes via open interface.
 
 |process_id
 |INT
-|код процесса
+|ID процесса
 
 
 |dt
@@ -1146,11 +1146,11 @@ Generated secrets for accessing processes via open interface.
 
 |status_id
 |INT
-|код статуса
+|ID статуса
 
 |user_id
 |INT
-|код пользователя изменившего статус
+|ID пользователя изменившего статус
 
 |last
 |TINYINT
@@ -1172,7 +1172,7 @@ Generated secrets for accessing processes via open interface.
 
 |id
 |INT
-|код
+|ID
 
 |pos
 |INT
@@ -1194,7 +1194,7 @@ Generated secrets for accessing processes via open interface.
 
 |id
 |INT
-|код
+|ID
 
 |title
 |VARCHAR
@@ -1206,7 +1206,7 @@ Generated secrets for accessing processes via open interface.
 
 |parent_id
 |INT
-|код типа-родителя
+|ID типа-родителя
 
 |use_parent_props
 |TINYINT
@@ -1226,7 +1226,7 @@ Generated secrets for accessing processes via open interface.
 
 |last_modify_user_id
 |INT
-|код пользователя сделавшего последнее изменение
+|ID пользователя сделавшего последнее изменение
 
 |last_modify_dt
 |DATETIME
@@ -1244,11 +1244,11 @@ Generated secrets for accessing processes via open interface.
 
 |type_id
 |INT
-|код типа
+|ID типа
 
 |param_id
 |INT
-|код парамера
+|ID парамера
 |===
 
 === process_type_status
@@ -1262,11 +1262,11 @@ Generated secrets for accessing processes via open interface.
 
 |type_id
 |INT
-|код типа
+|ID типа
 
 |status_id
 |INT
-|код статуса
+|ID статуса
 
 |pos
 |INT
@@ -1288,7 +1288,7 @@ Generated secrets for accessing processes via open interface.
 
 |id
 |INT
-|код
+|ID
 
 |deleted
 |TINYINT
@@ -1346,11 +1346,11 @@ Generated secrets for accessing processes via open interface.
 
 |user_id
 |INT
-|код пользователя, ссылка на <<_user, user:id>>
+|ID пользователя, link to <<_user, user:id>>
 
 |group_id
 |INT
-|код группы, ссылка на <<_user_group_title, user_group_title:id>>
+|ID группы, link to <<_user_group_title, user_group_title:id>>
 
 |date_from
 |DATE
@@ -1372,7 +1372,7 @@ Generated secrets for accessing processes via open interface.
 
 |id
 |INT
-|код
+|ID
 
 |title
 |VARCHAR
@@ -1388,7 +1388,7 @@ Generated secrets for accessing processes via open interface.
 
 |parent_id
 |INT
-|код родительской группы
+|ID родительской группы
 
 |archive
 |TINYINT
@@ -1397,6 +1397,122 @@ Generated secrets for accessing processes via open interface.
 |child_count
 |DATE
 |кол-во дочерних типов
+|===
+
+=== user_group_permset
+Relation user groups to permission sets.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|group_id
+|INT
+|group ID, link to <<_user_group_title, user_group_title:id>>
+
+|permset_id
+|INT
+|permission set ID, link to <<_user_permset_title, user_permset_title:id>>
+
+|pos
+|INT
+|order position
+|===
+
+=== user_permission
+Personal user permissions.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|user_id
+|INT
+|user ID, link to <<_user, user:id>>
+
+|action
+|VARCHAR
+|Action class and method names.
+
+|config
+|VARCHAR
+|Action's configuration options.
+|===
+
+=== user_permset
+Relation user to permission sets.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|user_id
+|INT
+|user ID, link to <<_user, user:id>>
+
+|permset_id
+|INT
+|permission set ID, link to <<_user_permset_title, user_permset_title:id>>
+
+|pos
+|INT
+|order position
+|===
+
+=== user_permset_permission
+Permission set' permissions.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|permset_id
+|INT
+|permission set ID, link to <<_user_permset_title, user_permset_title:id>>
+
+|action
+|VARCHAR
+|Action class and method names.
+
+|config
+|VARCHAR
+|Action's configuration options.
+|===
+
+=== user_permset_title
+Permission sets.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|id
+|INT
+|ID
+
+|title
+|VARCHAR
+|Title.
+
+|comment
+|VARCHAR
+|Comment.
+
+// TODO: roles text - not used
+
+|config
+|TEXT
+|Key-value configuration.
 |===
 
 === web_request_log
