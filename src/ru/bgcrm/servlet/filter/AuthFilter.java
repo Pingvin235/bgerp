@@ -152,7 +152,7 @@ public class AuthFilter implements Filter {
                 HttpSession session = request.getSession();
                 session.setAttribute(REQUEST_ATTRIBUTE_USER_ID_NAME, user.getId());
 
-                LoginStat.getLoginStat().userLoggedIn(session, user);
+                LoginStat.getLoginStat().userLoggedIn(session, user, DynActionForm.getHttpRequestRemoteAddr(request));
             }
         } else {
             HttpSession session = request.getSession(false);

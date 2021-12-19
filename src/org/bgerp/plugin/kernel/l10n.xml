@@ -318,12 +318,10 @@
 	<p><ru>Отобразить</ru><en>Show</en></p>
 	<p><ru>Ошибка в параметрах запроса</ru><en>Error in request parameters</en></p>
 	<p><ru>Сохранить без выхода из редактора</ru><en>Save without leaving editor</en></p>
-	<!-- <p><ru>Отчёт не найден.</ru><en>Report not found.</en></p> -->
 	<p><ru>Созданные</ru><en>Created</en></p>
 	<p><ru>Вам не разрешён доступ к очереди процессов с ID=%s</ru><en>You are not allowed to access the process queue with ID=%s</en></p>
 	<p><ru>Освободить</ru><en>Release</en></p>
 	<p><ru>Принят</ru><en>Accepted</en></p>
-	<p><ru>Сессии (вход / последняя активность)</ru><en>Sessions (login / last activity)</en></p>
 	<p><ru>Обновление</ru><en>Update</en></p>
 	<p><ru>Принудительно</ru><en>Force</en></p>
 	<p><ru>Обновление на изменение</ru><en>Update on change</en></p>
@@ -476,6 +474,8 @@
 	<p><ru>Выбрать файл</ru><en>Select file</en></p>
 	<p><ru>TagBox ввод E-Mail в сообщениях</ru><en>TagBox input E-Mail in messages</en></p>
 	<p><ru>Месяц</ru><en>Month</en></p>
+	<p><ru>Время входа</ru><en>Login time</en></p>
+	<p><ru>Последняя активность</ru><en>Last activity</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

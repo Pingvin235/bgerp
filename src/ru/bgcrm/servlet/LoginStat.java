@@ -42,16 +42,22 @@ public class LoginStat {
 
     public static class SessionData {
         private final User user;
+        private final String ip;
         private final Date loginTime = new Date();
-        // время последней активности без учёта пуллинга
+        /** Last activity time except pulling. */
         private long lastActive = loginTime.getTime();
 
-        private SessionData(User user) {
+        private SessionData(User user, String ip) {
             this.user = user;
+            this.ip = ip;
         }
 
         public User getUser() {
             return user;
+        }
+
+        public String getIp() {
+            return ip;
         }
 
         public Date getLoginTime() {
@@ -94,16 +100,13 @@ public class LoginStat {
         }
     }
 
-    public void userLoggedIn(HttpSession session, User user) {
+    public void userLoggedIn(HttpSession session, User user, String ip) {
         synchronized (sessionMap) {
             if (session != null && user != null) {
-                sessionMap.put(session.getId(), new SessionData(user));
+                sessionMap.put(session.getId(), new SessionData(user, ip));
                 loggedUserIds = updateUserLoggedList();
 
-                if (log.isDebugEnabled()) {
-                    log.debug("User logged: " + user + "; userList size: " + loggedUserIds.size() + "; session: "
-                            + session.getId());
-                }
+                log.debug("User logged: {}; userList size: {}; session: {}", user, loggedUserIds.size(), session.getId());
             }
         }
     }

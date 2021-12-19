@@ -143,12 +143,20 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
+     * Calls {@link #getHttpRequestRemoteAddr(HttpServletRequest)} for {@link #httpRequest}.
+     * @return
+     */
+    public String getHttpRequestRemoteAddr() {
+        return getHttpRequestRemoteAddr(httpRequest);
+    }
+
+    /**
      * Gets IP address of request from
      * HTTP header 'X-Real-IP' or another defined in configuration param {@link AccessLogValve#PARAM_HEADER_NAME_REMOTE_ADDR}
      * or {@link ServletRequest#getRemoteAddr()}
      * @return
      */
-    public String getHttpRequestRemoteAddr() {
+    public static String getHttpRequestRemoteAddr(HttpServletRequest httpRequest) {
         String headerNameRemoteAddress = Setup.getSetup().get(AccessLogValve.PARAM_HEADER_NAME_REMOTE_ADDR, "X-Real-IP");
         String result = httpRequest.getHeader(headerNameRemoteAddress);
         if (result == null)

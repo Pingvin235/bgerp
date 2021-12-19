@@ -5,23 +5,24 @@
 
 <div class="center1020">
 	<h2>${l.l('Авторизовавшиеся пользователи')} [ ${logged.size()} ]</h2>
-	
+
 	<table class="data" style="width: 100%;">
 		<tr>
 			<td>${l.l('Пользователь')}</td>
-			<td>${l.l('Сессии (вход / последняя активность)')}</td>
+			<td>${l.l('Время входа')}</td>
+			<td>${l.l('Последняя активность')}</td>
+			<td>IP</td>
 		</tr>
 		<c:forEach var="item" items="${logged}">
 			<c:set var="sessions" value="${item.value}"/>
-			<tr>
-				<td><ui:user-link id="${item.key.id}"/></td>
-				<td>
-					<c:forEach var="session" items="${sessions}">
-						${tu.format( session.loginTime, 'ymdhms' )} /
-						${tu.format( session.lastActiveTime, 'ymdhms' )}<br/>
-					</c:forEach>
-				</td>
-			</tr>
+			<c:forEach var="session" items="${sessions}">
+				<tr>
+					<td><ui:user-link id="${item.key.id}"/></td>
+					<td>${tu.format(session.loginTime, 'ymdhms')}</td>
+					<td>${tu.format(session.lastActiveTime, 'ymdhms')}</td>
+					<td>${session.ip}</td>
+				</tr>
+			</c:forEach>
 		</c:forEach>
 	</table>
 </div>
