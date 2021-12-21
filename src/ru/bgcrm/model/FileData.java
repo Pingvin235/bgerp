@@ -18,7 +18,7 @@ public class FileData extends IdTitle {
     private static final Log log = Log.getLog();
 
     private String secret;
-    private Date time;
+    private Date time = new Date();
     private User user;
     private String comment;
     private int version;

@@ -13,6 +13,8 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.bgerp.util.TimeConvert;
+
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.PeriodSet;
 
@@ -46,7 +48,7 @@ public class TimeUtils {
     /**
      * Date and time format string compatible with {@link SimpleDateFormat}.
      * @param type type of date-time: {@link #FORMAT_TYPE_YMD},{@link #FORMAT_TYPE_YMDH}, {@link #FORMAT_TYPE_YMDHM}, {@link #FORMAT_TYPE_YMDHMS}.
-     * @return matching date format or {@param type} itself. 
+     * @return matching date format or {@param type} itself.
      */
     public static String getTypeFormat(String type) {
         switch (type) {
@@ -153,7 +155,7 @@ public class TimeUtils {
     /**
      * Формирует строку с датой по заданному шаблону.
      * @param date исходная дата
-     * @param patternType шаблон даты {@link #FORMAT_TYPE_YMD},{@link #FORMAT_TYPE_YMDH}, {@link #FORMAT_TYPE_YMDHM}, {@link #FORMAT_TYPE_YMDHMS}.  
+     * @param patternType шаблон даты {@link #FORMAT_TYPE_YMD},{@link #FORMAT_TYPE_YMDH}, {@link #FORMAT_TYPE_YMDHM}, {@link #FORMAT_TYPE_YMDHMS}.
      * @return строка если исходная дата != null и шаблон задан корректно иначе null.
      */
     public static final String format(java.util.Date date, String patternType) {
@@ -250,7 +252,7 @@ public class TimeUtils {
     /**
      * Форматирует дату явно указанным шаблоном.
      * Можно использовать {@link #format(Date, String)} - по виду шаблона разбирает сам, тип это или формат.
-     * 
+     *
      * @param date
      * @param pattern
      * @return
@@ -268,7 +270,7 @@ public class TimeUtils {
     /**
      * Парсит дату из строки с явно указанным шаблоном.
      * Можно использовать {@link TimeUtils#parse(String, String)} - по виду шаблона разбирает сам, тип это или формат.
-     * 
+     *
      * @param date
      * @param pattern
      * @return
@@ -387,7 +389,7 @@ public class TimeUtils {
     /**
      * Превращает SQL-дату в календарь.
      * @param date дата.
-     * @return 
+     * @return
      */
     public static final java.util.Calendar convertSqlDateToCalendar(java.sql.Date date) {
         return convertDateToCalendar(convertSqlDateToDate(date));
@@ -429,16 +431,11 @@ public class TimeUtils {
     }
 
     /**
-     * Преобразование объекта java.util.Date в java.sql.Timestamp.
-     * @param date исходный объект.
-     * @return java.sql.Timestamp, если date != null, иначе null.
+     * Use {@link TimeConvert#toTimestamp(Date)}.
      */
+    @Deprecated
     public static final java.sql.Timestamp convertDateToTimestamp(Date date) {
-        java.sql.Timestamp result = null;
-        if (date != null) {
-            result = new java.sql.Timestamp(date.getTime());
-        }
-        return result;
+        return TimeConvert.toTimestamp(date);
     }
 
     public static final XMLGregorianCalendar convertDateToXMLCalendar(Date date) throws BGException {
@@ -482,7 +479,7 @@ public class TimeUtils {
     // ########################################################################################
     /**
      * Возвращает разницу в днях
-     * @param date1 
+     * @param date1
      * @param date2
      * @return
      */
@@ -494,7 +491,7 @@ public class TimeUtils {
 
     /**
      * Days difference.
-     * @param dayFrom 
+     * @param dayFrom
      * @param dayTo
      * @return
      */
@@ -661,8 +658,8 @@ public class TimeUtils {
     }
 
     /**
-    * Проверка пересечения двух интервалов дат. 
-    * 
+    * Проверка пересечения двух интервалов дат.
+    *
     * @param date1 левая граница первого интервала
     * @param date2 правая граница первого интервала
     * @param dateFrom левая граница второго интервала
@@ -821,7 +818,7 @@ public class TimeUtils {
     public static final Date getDateWithOffset(int offset) {
         Calendar now = new GregorianCalendar();
         now.add(Calendar.DAY_OF_YEAR, offset);
-        return now.getTime(); 
+        return now.getTime();
     }
 
     /**

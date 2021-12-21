@@ -124,7 +124,6 @@ public class Server extends Tomcat {
 
     /**
      * Starts Web server.
-     * @param setup
      * @throws LifecycleException
      */
     private void startServer() throws LifecycleException {
@@ -151,10 +150,6 @@ public class Server extends Tomcat {
         System.out.println(Log.format("Server URL: 'http://{}:{}', see logs in 'log' directory", hostname, port));
     }
 
-    /**
-     * Processes runOnStart and createOnStart configuration parameters.
-     * @param setup
-     */
     private void doOnStart() {
         for (String className : Utils.toSet(setup.get("runOnStart"))) {
             log.info("Run class on start: " + className);

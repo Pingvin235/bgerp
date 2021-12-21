@@ -4,13 +4,20 @@ import static ru.bgcrm.dao.Tables.TABLE_FILE_DATA;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.bgerp.util.Log;
+import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
@@ -18,6 +25,9 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class FileDataDAO extends CommonDAO {
+    private static final Log log = Log.getLog();
+
+    private static final DateTimeFormatter DIR_FORMAT = DateTimeFormatter.ofPattern("yyyy/MM/dd");
     private static final DecimalFormat NAME_FORMAT = new DecimalFormat("0000000000");
 
     private File storeDir;
@@ -40,10 +50,10 @@ public class FileDataDAO extends CommonDAO {
 
     private void checkDir() throws BGException {
         if (!storeDir.exists() || !storeDir.isDirectory()) {
-            throw new BGException("Не найден каталог хранения файлов.");
+            throw new BGException("Not found directory file storage");
         }
         if (!storeDir.canRead() || !storeDir.canWrite()) {
-            throw new BGException("Ошибка доступа к каталогу хранения файлов.");
+            throw new BGException("Can't access the file storage directory");
         }
     }
 
@@ -52,15 +62,14 @@ public class FileDataDAO extends CommonDAO {
 
         file.setSecret(Utils.generateSecret());
 
-        String query = "INSERT INTO " + TABLE_FILE_DATA + " (title, time, secret) VALUES (?, NOW(), ?)";
+        String query = "INSERT INTO " + TABLE_FILE_DATA + " (title, time, secret) VALUES (?, ?, ?)";
         try (var ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, file.getTitle());
-            ps.setString(2, file.getSecret());
+            ps.setTimestamp(2, TimeConvert.toTimestamp(file.getTime()));
+            ps.setString(3, file.getSecret());
             ps.executeUpdate();
 
             file.setId(lastInsertId(ps));
-
-            ps.close();
         }
 
         var outputStream = new FileOutputStream(getFile(file));
@@ -102,10 +111,64 @@ public class FileDataDAO extends CommonDAO {
         return result;
     }
 
+    /**
+     * Gets file object for a given file data.
+     * @param fileData
+     * @return
+     */
     public File getFile(FileData fileData) {
-        return new File(storeDir.getAbsolutePath() + "/" + NAME_FORMAT.format(fileData.getId()) + "_" + fileData.getSecret());
+        String name = NAME_FORMAT.format(fileData.getId()) + "_" + fileData.getSecret();
+
+        // old format in flat list
+        var result = new File(storeDir, name);
+        // new format in subdirectories
+        if (!result.exists()) {
+            var dir = new File(storeDir, DIR_FORMAT.format(TimeConvert.toLocalDate(fileData.getTime())));
+            if (!dir.exists())
+                dir.mkdirs();
+            result = new File(dir, name);
+        }
+
+        return result;
     }
 
+    /**
+     * Moves batch of files placed in the root dir to subdirectories yyyy/MM/dd.
+     * @param batchSize batch size.
+     * @return is there something more to move.
+     * @throws SQLException, IOException
+     */
+    public boolean moveBatch(int batchSize) throws SQLException, IOException {
+        var files = storeDir.list();
+
+        String query = SQL_SELECT_ALL_FROM + TABLE_FILE_DATA + SQL_WHERE + "id=?";
+        try (var ps = con.prepareStatement(query)) {
+            for (int i = 0; i < Math.min(batchSize, files.length); i++) {
+                String fileName = files[i];
+                File file = new File(storeDir, fileName);
+
+                if (file.isDirectory())
+                    continue;
+
+                log.info("Moving file: {}", fileName);
+
+                ps.setInt(1, Utils.parseInt(StringUtils.substringBefore(fileName, "_")));
+                var rs = ps.executeQuery();
+                if (!rs.next()) {
+                    log.error("Not found DB entry for file: {}", fileName);
+                    continue;
+                }
+
+                var fileData = getFromRs(rs, "");
+
+                FileUtils.moveFileToDirectory(file, new File(storeDir, DIR_FORMAT.format(TimeConvert.toLocalDate(fileData.getTime()))), true);
+            }
+        }
+
+        return batchSize < files.length;
+    }
+
+    @Deprecated
     public File getFile(String url) {
         return new File(storeDir.getAbsolutePath() + "/" + url);
     }

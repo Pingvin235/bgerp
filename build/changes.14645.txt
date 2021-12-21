@@ -1,0 +1,2 @@
+C: Store files in sub-directories in 'filestorage'.
+A: Migration to sub dirs runnable 'org.bgerp.util.file.MoveToSubDirs'.

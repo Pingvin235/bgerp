@@ -1,5 +1,6 @@
 package org.bgerp.util;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.Date;
@@ -32,5 +33,28 @@ public class TimeConvert {
             value != null ?
             Date.from(value.atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant()) :
             null;
+    }
+
+    /**
+     * Converts date to local date.
+     * @param value
+     * @return {@code null} or converted value.
+     */
+    public static final LocalDate toLocalDate(Date value) {
+        if (value == null)
+            return null;
+
+        return value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    /**
+     * Converts date to SQL timestamp.
+     * @param value
+     * @return {@code null} or converted value.
+     */
+    public static final java.sql.Timestamp toTimestamp(Date value) {
+        if (value == null)
+            return null;
+        return new java.sql.Timestamp(value.getTime());
     }
 }
