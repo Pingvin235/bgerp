@@ -115,8 +115,16 @@ public class FileDataDAO extends CommonDAO {
      * Gets file object for a given file data.
      * @param fileData
      * @return
+     * @throws SQLException
      */
-    public File getFile(FileData fileData) {
+    public File getFile(FileData fileData) throws SQLException {
+        try (var ps = con.prepareStatement(SQL_SELECT + "time" + SQL_FROM + TABLE_FILE_DATA + SQL_WHERE + "id=?")) {
+            ps.setInt(1, fileData.getId());
+            var rs = ps.executeQuery();
+            if (rs.next())
+                fileData.setTime(rs.getTimestamp(1));
+        }
+
         String name = NAME_FORMAT.format(fileData.getId()) + "_" + fileData.getSecret();
 
         // old format in flat list
