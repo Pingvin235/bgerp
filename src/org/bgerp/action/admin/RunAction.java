@@ -1,6 +1,7 @@
 package org.bgerp.action.admin;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.scheduler.TasksConfig;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.RunClassRequestEvent;
@@ -14,12 +15,11 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class RunAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/run";
 
-    private static final String JSP_CUSTOM = PATH_JSP + "/run.jsp";
-
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet)
             throws Exception {
-        return html(conSet, form, JSP_CUSTOM);
+        form.setRequestAttribute("runnableClasses", setup.getConfig(TasksConfig.class).getRunnableClasses());
+        return html(conSet, form, PATH_JSP + "/run.jsp");
     }
 
     public ActionForward runClass(DynActionForm form, ConnectionSet conSet)
@@ -51,5 +51,12 @@ public class RunAction extends BaseAction {
         }
 
         return json(conSet, form);
+    }
+
+    public ActionForward scheduler(DynActionForm form, ConnectionSet conSet) {
+        // TODO: Finish later.
+        /* var config = setup.getConfig(TasksConfig.class); */
+
+        return html(conSet, form, PATH_JSP + "/scheduler.jsp");
     }
 }

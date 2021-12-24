@@ -1,4 +1,4 @@
-package ru.bgcrm.servlet.filter;
+package org.bgerp.servlet.filter;
 
 import java.io.IOException;
 

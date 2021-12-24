@@ -15,14 +15,12 @@ import ru.bgcrm.util.sql.SQLUtils;
 public class FulltextTest {
     @Test
     public void initConfig() throws Exception {
-        ConfigHelper.addIncludedConfig("Plugin FullText", 
+        ConfigHelper.addIncludedConfig("Plugin FullText",
             PluginHelper.initPlugin(new ru.bgcrm.plugin.fulltext.Plugin()) + ResourceHelper.getResource(this, "config.fulltext.txt"));
-        
-        ConfigHelper.addToConfig(org.bgerp.itest.kernel.scheduler.SchedulerTest.configId, ResourceHelper.getResource(this, "config.scheduler.txt"));
 
         Connection con = DbTest.conRoot;
         Assert.assertTrue(SQLUtils.tableExists(con, ru.bgcrm.plugin.fulltext.dao.SearchDAO.TABLE.trim()));
-        
+
         //TODO: Depends on customer and processes. Run initial indexing!
     }
 }

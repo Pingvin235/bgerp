@@ -58,7 +58,7 @@ public class PluginManager {
 
         var r = new Reflections(ERP_PACKAGES);
         for (Class<? extends Plugin> pc : r.getSubTypesOf(Plugin.class)) {
-            log.debug("Found plugin: %s", pc);
+            log.debug("Found plugin: {}", pc);
             try {
                 result.add(pc.getDeclaredConstructor().newInstance());
             } catch (Exception e) {

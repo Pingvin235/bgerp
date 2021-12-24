@@ -1,4 +1,4 @@
-package ru.bgcrm.servlet;
+package org.bgerp.servlet;
 
 import java.util.ArrayList;
 import java.util.Collections;

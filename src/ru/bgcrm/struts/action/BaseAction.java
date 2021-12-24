@@ -27,6 +27,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.bgerp.servlet.LoginStat;
+import org.bgerp.servlet.filter.AuthFilter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;
@@ -41,8 +43,6 @@ import ru.bgcrm.model.Lock;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.servlet.LoginStat;
-import ru.bgcrm.servlet.filter.AuthFilter;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;

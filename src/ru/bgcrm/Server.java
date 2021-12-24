@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.tomcat.util.IntrospectionUtils;
 import org.bgerp.custom.Custom;
+import org.bgerp.scheduler.Scheduler;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dynamic.DynamicClassManager;

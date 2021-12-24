@@ -3,12 +3,13 @@ package ru.bgcrm.servlet.jsp;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.core.ConditionalTagSupport;
 
+import org.apache.commons.lang3.StringUtils;
+import org.bgerp.servlet.filter.AuthFilter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.servlet.filter.AuthFilter;
 
 /**
  * JSP tag, used also as static object for checking action's allowance.
@@ -44,10 +45,10 @@ public class PermissionTag extends ConditionalTagSupport {
     }
 
     /***
-     * Checks if any of actions in is allowed.
+     * Checks if any of actions in is allowed for user.
      * @param user the user.
-     * @param actions actions.
-     * @return
+     * @param actions action strings in format {@code FULL_CLASS_NAME}:{@code METHOD_NAME}.
+     * @return {@code true} if {@code user} has any of {@code actions} allowed.
      */
     public static boolean check(User user, String... actions) {
         for (var action : actions) {
@@ -58,6 +59,13 @@ public class PermissionTag extends ConditionalTagSupport {
             if (PermissionNode.getPermissionNode(action) == null) {
                 log.error("Action not found: {}", action);
                 return false;
+            }
+
+            String actionClass = StringUtils.substringBefore(action, ":");
+            try {
+                Class.forName(actionClass);
+            } catch (ClassNotFoundException e) {
+                log.warn("Action class not found: {}", actionClass);
             }
 
             if (UserCache.getPerm(user.getId(), action) != null) {

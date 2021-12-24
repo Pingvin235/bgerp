@@ -17,9 +17,9 @@ import java.text.DecimalFormatSymbols;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.scheduler.Scheduler;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.Scheduler;
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.distr.VersionInfo;

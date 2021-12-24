@@ -1,8 +1,10 @@
 package org.bgerp.util.file;
 
+import org.bgerp.scheduler.Task;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.FileDataDAO;
+import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 
 /**
@@ -10,10 +12,14 @@ import ru.bgcrm.util.Setup;
  *
  * @author Shamil Vakhitov
  */
-public class MoveToSubDirs implements Runnable {
+public class MoveToSubDirs extends Task {
     private static final Log log = Log.getLog();
 
     private static final int BATCH_SIZE = 100;
+
+    public MoveToSubDirs(ParameterMap config) {
+        super(null);
+    }
 
     @Override
     public void run() {

@@ -2,15 +2,15 @@ package org.bgerp;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bgerp.servlet.filter.AuthFilter;
 import org.bgerp.servlet.filter.OpenFilter;
 
-import ru.bgcrm.servlet.filter.AuthFilter;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 /**
  * Types of user interfaces.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class Interface {
@@ -29,7 +29,7 @@ public class Interface {
             return OPEN;
         if (user != null)
             return USER;
-        
+
         return "undef";
     }
 

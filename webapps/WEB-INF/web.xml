@@ -4,7 +4,7 @@
 
 	<filter>
 		<filter-name>SetCharacterEncodingFilter</filter-name>
-		<filter-class>ru.bgcrm.servlet.filter.SetCharacterEncodingFilter</filter-class>
+		<filter-class>org.bgerp.servlet.filter.SetCharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
@@ -17,7 +17,7 @@
 
 	<filter>
 		<filter-name>AuthFilter</filter-name>
-		<filter-class>ru.bgcrm.servlet.filter.AuthFilter</filter-class>
+		<filter-class>org.bgerp.servlet.filter.AuthFilter</filter-class>
 	</filter>
 	<!-- в спецификации Servlet 2.5 можно было бы просто сделать 2 url-pattern, может перейти потом -->
 	<filter-mapping>
@@ -117,6 +117,6 @@
 	</session-config>
 
 	<listener>
-		<listener-class>ru.bgcrm.servlet.SessionListener</listener-class>
+		<listener-class>org.bgerp.servlet.SessionListener</listener-class>
 	</listener>
 </web-app>

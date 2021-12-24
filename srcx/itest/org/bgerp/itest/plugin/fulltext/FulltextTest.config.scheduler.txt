@@ -1,2 +1,0 @@
-# full text indexing
-scheduler.task.{@inc:cnt}.class=ru.bgcrm.plugin.fulltext.FullTextUpdater

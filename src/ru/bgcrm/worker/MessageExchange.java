@@ -4,17 +4,17 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.bgerp.scheduler.Scheduler;
+import org.bgerp.scheduler.Task;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.Scheduler;
-import ru.bgcrm.Scheduler.ConfigurableTask;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
-public class MessageExchange extends ConfigurableTask {
+public class MessageExchange extends Task {
     private static final AtomicBoolean run = new AtomicBoolean(false);
 
     private static final Log log = Log.getLog();
@@ -36,6 +36,11 @@ public class MessageExchange extends ConfigurableTask {
         super(null);
         this.types = types;
     }
+
+    /* @Override
+    public String getTitle(Localizer l) {
+        return l.l("Обмен сообщениями");
+    } */
 
     @Override
     public void run() {
@@ -75,4 +80,5 @@ public class MessageExchange extends ConfigurableTask {
     public static void main(String[] args) {
         new MessageExchange(Utils.toIntegerSet(args[0])).run();
     }
+
 }

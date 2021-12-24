@@ -1,4 +1,4 @@
-package org.bgerp.itest.plugin.callboard;
+package org.bgerp.itest.plugin.pln.callboard;
 
 import static org.bgerp.itest.kernel.user.UserTest.userFriedrichId;
 import static org.bgerp.itest.kernel.user.UserTest.userKarlId;
@@ -122,7 +122,7 @@ public class CallboardTest {
     @Test(dependsOnMethods = { "addGroups", "addTypes" })
     public void initConfig() throws Exception {
         ConfigHelper.addIncludedConfig(TITLE,
-            PluginHelper.initPlugin(new org.bgerp.plugin.callboard.Plugin()) +
+            PluginHelper.initPlugin(new org.bgerp.plugin.pln.callboard.Plugin()) +
             ConfigHelper.generateConstants("USER_GROUP_ID", userGroupIdParent) +
             ResourceHelper.getResource(this, "config.txt"));
     }

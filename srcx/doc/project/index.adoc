@@ -542,7 +542,7 @@ NOTE: Action definition in `struts-confing.xml` files is deprecated.
 
 Action classes have to extend javadoc:ru.bgcrm.struts.action.BaseAction[] class marked by *Action* annotation.
 [snippet, from="@", to=";", remove-leading=""]
-link:../../../src/org/bgerp/action/admin/RunAction.java#L13-L15[org.bgerp.action.admin.RunAction]
+link:../../../src/org/bgerp/action/admin/RunAction.java#L14-L16[org.bgerp.action.admin.RunAction]
 
 The sample above means that HTTP requests with URL */admin/run.do* mapped to the class.
 An *action* HTTP request's parameter is used to indicate method's name.
@@ -552,7 +552,7 @@ Action methods have to return by invoking *html* or *json*.
 
 First method gets processed by JSP forward page and sends HTML back to the client.
 [snippet, from="@O", to="}", remove-leading=""]
-link:../../../src/org/bgerp/action/admin/RunAction.java#L19-L23[org.bgerp.action.admin.RunAction]
+link:../../../src/org/bgerp/action/admin/RunAction.java#L18-L23[org.bgerp.action.admin.RunAction]
 
 Second one is used to perform changes and only returns JSON-based change execution result.
 [snippet, from="pu", to="}", remove-leading=""]
@@ -965,11 +965,11 @@ link:../../../src/ru/bgcrm/worker/MessageExchange.java#L17-L20[ru.bgcrm.worker.M
 
 Log message with substitutions:
 [snippet, from="log.debug(", to=");", remove-leading="            "]
-link:../../../src/ru/bgcrm/Server.java#L115-L115[ru.bgcrm.Server]
+link:../../../src/ru/bgcrm/Server.java#L116-L116[ru.bgcrm.Server]
 
 Exception message output:
 [snippet, from="try", to="}", remove-leading="                "]
-link:../../../src/ru/bgcrm/worker/MessageExchange.java#L61-L65[ru.bgcrm.worker.MessageExchange]
+link:../../../src/ru/bgcrm/worker/MessageExchange.java#L66-L70[ru.bgcrm.worker.MessageExchange]
 
 [[sample-logging-js]]
 ==== JS

@@ -16,6 +16,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bgerp.servlet.filter.AuthFilter;
+
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.LogEntry;
@@ -23,7 +25,6 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.AccessLogValve;
-import ru.bgcrm.servlet.filter.AuthFilter;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;

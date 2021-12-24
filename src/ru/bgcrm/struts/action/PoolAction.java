@@ -4,10 +4,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.servlet.LoginStat;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
-import ru.bgcrm.servlet.LoginStat;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 

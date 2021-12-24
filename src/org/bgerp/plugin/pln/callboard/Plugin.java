@@ -1,4 +1,4 @@
-package org.bgerp.plugin.callboard;
+package org.bgerp.plugin.pln.callboard;
 
 import java.util.List;
 import java.util.Map;

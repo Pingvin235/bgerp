@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.scheduler.Task;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -34,18 +35,23 @@ import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.plugin.fulltext.model.Config;
 import ru.bgcrm.plugin.fulltext.model.Config.ObjectType;
 import ru.bgcrm.plugin.fulltext.model.SearchItem;
+import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionPool;
 
 /**
- * Задача обновления полнотекстовых индексов. Запускается планировщиком раз в минуту.
+ * Updates full-text indexes.
+ *
+ * @author Shamil Vakhitov
  */
-public class FullTextUpdater implements Runnable {
+public class FullTextUpdater extends Task {
     private static final Log log = Log.getLog();
 
     private final Config config = Setup.getSetup().getConfig(Config.class);
 
-    public FullTextUpdater() {}
+    public FullTextUpdater(ParameterMap config) {
+        super(null);
+    }
 
     @Override
     public void run() {

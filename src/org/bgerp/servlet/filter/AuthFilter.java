@@ -1,4 +1,4 @@
-package ru.bgcrm.servlet.filter;
+package org.bgerp.servlet.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,12 +19,13 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.authenticator.Constants;
 import org.bgerp.event.AuthEvent;
+import org.bgerp.servlet.LoginStat;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.servlet.LoginStat;
+import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
