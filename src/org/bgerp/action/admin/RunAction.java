@@ -32,12 +32,7 @@ public class RunAction extends BaseAction {
             EventProcessor.processEvent(new RunClassRequestEvent(form), className, conSet);
         // running interface Runnable
         else {
-            Class<?> clazz = null;
-            try {
-                clazz = Class.forName(className);
-            } catch (ClassNotFoundException e) {
-                throw new BGMessageException("Класс не найден: %s", className);
-            }
+            Class<?> clazz = Class.forName(className);
 
             if (Runnable.class.isAssignableFrom(clazz)) {
                 boolean sync = form.getParamBoolean("sync");

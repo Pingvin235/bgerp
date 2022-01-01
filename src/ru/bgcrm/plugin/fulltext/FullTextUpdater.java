@@ -35,7 +35,6 @@ import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.plugin.fulltext.model.Config;
 import ru.bgcrm.plugin.fulltext.model.Config.ObjectType;
 import ru.bgcrm.plugin.fulltext.model.SearchItem;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionPool;
 
@@ -49,7 +48,7 @@ public class FullTextUpdater extends Task {
 
     private final Config config = Setup.getSetup().getConfig(Config.class);
 
-    public FullTextUpdater(ParameterMap config) {
+    public FullTextUpdater() {
         super(null);
     }
 

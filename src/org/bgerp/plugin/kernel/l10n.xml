@@ -476,6 +476,7 @@
 	<p><ru>Месяц</ru><en>Month</en></p>
 	<p><ru>Время входа</ru><en>Login time</en></p>
 	<p><ru>Последняя активность</ru><en>Last activity</en></p>
+	<p><ru>Значение должно соответствовать одному из шаблонов: {}</ru><en>Value must match one of regexps: {}</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

@@ -4,7 +4,6 @@ import org.bgerp.scheduler.Task;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 
 /**
@@ -17,7 +16,7 @@ public class MoveToSubDirs extends Task {
 
     private static final int BATCH_SIZE = 100;
 
-    public MoveToSubDirs(ParameterMap config) {
+    public MoveToSubDirs() {
         super(null);
     }
 

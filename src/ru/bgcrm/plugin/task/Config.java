@@ -10,7 +10,7 @@ public class Config extends ru.bgcrm.util.Config {
     private final Map<String, TaskType> typeMap = new HashMap<>();
 
     public Config(ParameterMap setup) {
-        super(setup);
+        super(null);
         for (ParameterMap config : setup.subIndexed(Plugin.ID + ":type.").values()) {
             TaskType type = new TaskType(config);
             typeMap.put(type.getId(), type);

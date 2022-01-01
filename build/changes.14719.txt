@@ -1,0 +1,4 @@
+C: Plugin Task. Refactoring.
+F: Incorrect JSP import of LoginStat.
+A: iTest for param type 'text' regexp.
+F: Message after synchronous class running.

@@ -94,7 +94,7 @@ public class Log {
     /**
      * Executes {@link #log(Priority, String, Object...)} with {@link Level#ERROR}.
      */
-    public void error(String pattern, Object params) {
+    public void error(String pattern, Object... params) {
         log(Level.ERROR, pattern, params);
     }
 

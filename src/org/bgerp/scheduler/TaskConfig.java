@@ -72,8 +72,8 @@ public class TaskConfig {
     }
 
     public Runnable taskInstance() throws Exception {
-        if (Task.class.isAssignableFrom(clazz))
-            return clazz.getConstructor(ParameterMap.class).newInstance(config);
+        /* if (Task.class.isAssignableFrom(clazz))
+            return clazz.getConstructor(ParameterMap.class).newInstance(config); */
         return clazz.getDeclaredConstructor().newInstance();
     }
 

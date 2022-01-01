@@ -1,0 +1,4 @@
+regexp.1.title=<City>,<Street>,<House>
+regexp.1.regexp=[а-яА-Я\s\-]+,[\dа-яА-Я\s\-]+,\s*[\dа-яА-Я/]+
+regexp.2.title=Ten Digits
+regexp.2.regexp=\d{10}

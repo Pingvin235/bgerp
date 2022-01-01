@@ -40,7 +40,7 @@ public abstract class Config {
      */
     protected Config(ParameterMap config, boolean validate) {
         if (config != null)
-            log.error("Used not null 'config' parameter for constructor of {}", this.getClass());
+            log.warn("Used not null 'config' parameter for constructor of {}", this.getClass());
         this.setup = config;
     }
 

@@ -556,7 +556,7 @@ link:../../../src/org/bgerp/action/admin/RunAction.java#L18-L23[org.bgerp.action
 
 Second one is used to perform changes and only returns JSON-based change execution result.
 [snippet, from="pu", to="}", remove-leading=""]
-link:../../../src/org/bgerp/action/admin/RunAction.java#L25-L54[org.bgerp.action.admin.RunAction]
+link:../../../src/org/bgerp/action/admin/RunAction.java#L25-L49[org.bgerp.action.admin.RunAction]
 
 [[action-form]]
 ===== Form Object

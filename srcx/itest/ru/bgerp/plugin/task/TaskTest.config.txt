@@ -1,1 +1,13 @@
 #
+task:type.2.id=reminder
+task:type.2.title=Deadline
+task:type.2.doExpression=<<END
+   text =
+        "Keep your attention to the process.<br></END>" +
+        "Description:<br>" + process.getDescription();
+        text += "<br/><a href='#UNDEF' onClick='openProcess(" + process.getId() + "); return false;'>Open process</a>";
+        news = new("ru.bgcrm.model.News", true, "Reminder about process #" + process.getId(), text);
+        news.setUserId(taskObject.getConfig().getInt("userId", 0));
+        // send to executors
+        new("ru.bgcrm.dao.NewsDAO", conSet.getConnection()).updateNewsUsers(news, process.getExecutorIds());
+END

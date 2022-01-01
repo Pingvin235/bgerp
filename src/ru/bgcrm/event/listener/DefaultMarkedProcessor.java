@@ -44,12 +44,12 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
         private final List<Command> commandList = new ArrayList<Command>();
         private final String doExpression;
 
-        public Config(ParameterMap setup) {
-            super(setup);
-            for (String command : setup.get("commands", "").split(";")) {
+        public Config(ParameterMap config) {
+            super(null);
+            for (String command : config.get("commands", "").split(";")) {
                 commandList.add(new Command(command));
             }
-            doExpression = setup.get(Expression.DO_EXPRESSION_CONFIG_KEY);
+            doExpression = config.get(Expression.DO_EXPRESSION_CONFIG_KEY);
         }
 
         // called from JSP

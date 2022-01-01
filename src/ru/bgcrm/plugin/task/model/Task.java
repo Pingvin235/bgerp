@@ -11,7 +11,7 @@ import ru.bgcrm.util.Preferences;
  * @author Shamil
  */
 public class Task extends Id {
-    
+
     private String typeId;
     private int processId;
     /** Запланированная дата выполнения. */
@@ -21,15 +21,15 @@ public class Task extends Id {
     /** Фактическая дата выполнения. */
     private Date executedTime;
     private String log;
-    
+
     public Task() {}
-    
+
     public Task(String typeId, int processId, Date scheduledTime) {
         this.typeId = typeId;
         this.processId = processId;
         this.scheduledTime = scheduledTime;
     }
-    
+
     public String getTypeId() {
         return typeId;
     }
@@ -61,11 +61,11 @@ public class Task extends Id {
     public void setExecutedTime(Date executeDt) {
         this.executedTime = executeDt;
     }
-    
+
     public Preferences getConfig() {
         return config;
     }
-    
+
     public void setConfig(Preferences config) {
         this.config = config;
     }
@@ -77,5 +77,5 @@ public class Task extends Id {
     public void setLog(String log) {
         this.log = log;
     }
-    
+
 }

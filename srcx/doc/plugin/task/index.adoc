@@ -23,22 +23,23 @@ task:type.<id>.doExpression=<jexl>
 
 В контекст JEXL скрипта помимо <<../../kernel/extension.adoc#jexl-process-context, типового набора для обработки процесса>> передаются:
 [square]
-* *task* - объект класса javadoc:ru.bgcrm.plugin.task.model.Task[];
+* *taskObject* - объект класса javadoc:ru.bgcrm.plugin.task.model.Task[];
 * *taskType* - объект класса javadoc:ru.bgcrm.plugin.task.model.TaskType[].
 
 Проверку и выполнение задач выполняет класс *ru.bgcrm.plugin.task.TaskRunner*.
-Для теста он может быть выполнен в <<../../kernel/extension.adoc#dyn, редакторе динамического кода>>, 
+Для теста он может быть выполнен в <<../../kernel/extension.adoc#dyn, редакторе динамического кода>>,
 далее запуск настраивается в <<../../kernel/setup.adoc#scheduler, планировщике>>.
 
 [[example]]
 === Пример
 ==== Напоминание о процессе
 При изменении параметра процесса типа *date* с кодом *39* устанавливается напоминание, создаётся задача.
-Далее при наступлении момента времени задача отрабатывает и отправляет новость о процессе. 
+Далее при наступлении момента времени задача отрабатывает и отправляет новость о процессе.
 
 Конфигурация на изменение параметра в <<../../kernel/process/processing.adoc#, простом обработчике изменений процесса>>:
 [source]
 ----
+onProcessEvent.1.events=paramChanged:39
 onProcessEvent.1.doExpression=<<END
     t = new("ru.bgcrm.plugin.task.model.Task", "reminder", process.getId(), event.getValue());
     t.getConfig().set("userId", user.getId().toString());
@@ -51,16 +52,16 @@ END
 ----
 task:type.1.id=reminder
 task:type.1.doExpression=<<END
-   text = 
-         "Необходимо обратить внимание на процесс, в котором вы числитесь исполнителем.<br/>" + 
-          "Описание:<br>" + process.getDescription();
-   text += "<br/><a href='#UNDEF' onClick='openProcess( " + process.getId() + " ); return false;'>Перейти к процессу</a>";
-   news = new("ru.bgcrm.model.News", true, "Напоминание о процессе #" + process.getId(), text);
-   news.setUserId(task.getConfig().getInt("userId", 0));
-   // отправка исполнителям процесса
-   new("ru.bgcrm.dao.NewsDAO", conSet.getConnection()).updateNewsUsers(news, process.getExecutorIds());
-   // либо произвольным пользователям
-   // new("ru.bgcrm.dao.NewsDAO", conSet.getConnection()).updateNewsUsers(news, {1,2});
+    text =
+        "Необходимо обратить внимание на процесс, в котором вы числитесь исполнителем.<br/>" +
+        "Описание:<br>" + process.getDescription();
+    text += "<br/><a href='#UNDEF' onClick='openProcess( " + process.getId() + " ); return false;'>Перейти к процессу</a>";
+    news = new("ru.bgcrm.model.News", true, "Напоминание о процессе #" + process.getId(), text);
+    news.setUserId(taskObject.getConfig().getInt("userId", 0));
+    // отправка исполнителям процесса
+    new("ru.bgcrm.dao.NewsDAO", conSet.getConnection()).updateNewsUsers(news, process.getExecutorIds());
+    // либо произвольным пользователям
+    // new("ru.bgcrm.dao.NewsDAO", conSet.getConnection()).updateNewsUsers(news, {1,2});
 END
 ----
 
@@ -77,7 +78,7 @@ task:userStateSender.email.doExpression=<jexl>
 Где:
 [square]
 * *<paramId>* - код параметра пользователя типа email;
-* *<jexl>* - <<../../kernel/extension.adoc#jexl, JEXL>> скрипт, выполняющий отправку. 
+* *<jexl>* - <<../../kernel/extension.adoc#jexl, JEXL>> скрипт, выполняющий отправку.
 
 В контекст JEXL скрипта дополнительно передаются:
 [square]
@@ -85,7 +86,7 @@ task:userStateSender.email.doExpression=<jexl>
 * *emails* - List объектов класса javadoc:ru.bgcrm.model.param.ParameterEmailValue[].
 
 === Пример настройки
-Параметр *79* - с типом email у пользователя. 
+Параметр *79* - с типом email у пользователя.
 [source]
 ----
 task:userStateSender.email.paramId=79
@@ -97,7 +98,7 @@ task:userStateSender.email.doExpression=<<END
 
    subject = "BGERP cводка ";
    text = "";
-   
+
    if (event.getNewsCount() > 0)
       text += "Непрочитанных новостей: " + event.getNewsCount();
    if (event.getMessagesCount() > 0)
@@ -110,7 +111,7 @@ END
 ----
 
 Проверку и выполнение задач выполняет класс *ru.bgcrm.plugin.task.UserStateSender*.
-Для теста он может быть выполнен в <<../../kernel/extension.adoc#dyn, редакторе динамического кода>>, 
+Для теста он может быть выполнен в <<../../kernel/extension.adoc#dyn, редакторе динамического кода>>,
 далее запуск настраивается в <<../../kernel/setup.adoc#scheduler, планировщике>>.
 
 == Отображение в карточке процесса
@@ -124,7 +125,7 @@ image::_res/process_tasks.png[width=600px]
 
 [[dev-plan]]
 == Планы дальнейшего развития
-Задачи могут исполняться многократно по расписанию. 
+Задачи могут исполняться многократно по расписанию.
 Для этого в редакторе карточки процесса будет реализован визуальный редактор.
 После первого выполнения задача будет не помечаться исполненной, а ставить дату следующего выполнения.
 Такие задачи смогут быть использованы, например, для клонирования регулярных процессов по расписанию.

@@ -32,6 +32,7 @@ public class ProcessParamTest {
     private int paramListCountId;
     private int paramMoneyId;
     private int paramTextId;
+    private int paramTextRegexpId;
     private int paramTreeId;
     private int processTypeId;
     private int processId;
@@ -70,6 +71,9 @@ public class ProcessParamTest {
         paramTextId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text'",
                 ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.text.config.txt"), "");
 
+        paramTextRegexpId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text' regexp",
+                ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.text.regexp.config.txt"), "");
+
         paramTreeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TREE, TITLE + " type 'tree'",
                 ProcessTest.posParam += 2, "", ResourceHelper.getResource(this, "param.tree.values.txt"));
 
@@ -83,7 +87,7 @@ public class ProcessParamTest {
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.getParameterIds().addAll(List.of(paramAddressId, paramDateId, paramDatetimeId, paramEmailId, paramFileId,
-                        paramListId, paramListCountId, paramMoneyId, paramTextId, paramTreeId));
+                        paramListId, paramListCountId, paramMoneyId, paramTextId, paramTextRegexpId, paramTreeId));
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
     }

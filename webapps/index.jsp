@@ -1,5 +1,3 @@
-<%@page import="ru.bgcrm.servlet.LoginStat"%>
-
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
@@ -14,14 +12,13 @@
 		<td align="center">
 			<h1 style="font-size: 3em; color: #909060;"><%@ include file="/WEB-INF/jspf/title.jsp"%></h1>
 			<%
-				if( session != null )
-				{
+				if (session != null) {
 					session.invalidate();
 				}
-			%>			
+			%>
 			<%@ include file="/WEB-INF/jspf/select_interface.jsp"%>
 		</td>
-	</tr>		
+	</tr>
 </table>
 </body>
 </html>
