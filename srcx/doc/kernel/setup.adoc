@@ -23,26 +23,26 @@ image::_res/i0084.png[]
 ====
 # <<../project/index.adoc#l10n, язык интерфейса>>, поддерживаются: ru, en
 lang=en
-#
+
 # выводится в заголовке окна браузера при работе с BGERP
 title=BGERP TEST
-#
+
 # 0 - отключение проверки версии браузера пользователя при авторизации
 check.browser=1
-#
+
 # таймаут активности сессии пользователя в секундах, по-умолчанию сессия отключается через 5 минут
 sessionTimeout=300
-#
+
 # формат <<#param-address, адресного параметра>>, доступны переменные: index, сity, area, quarter, street, house, flat, room, pod, floor, comment [[config-param-address]]
 address.format=(${city})(, ${street})(, д. ${house})(, кв. ${flat})( ${room})
-#
+
 # шаблон описания контрагента для [[config-search]] <<search.adoc#, поиска>>
 # в нём можно указать параметры контрагента подстановками вида (param:<code>); например: (${param:73} г.р.)(, ${param:12})
 #customer.reference.pattern=
-#
+
 # минимальная длина подстроки в поиске контрагента
 searchCustomerTitleMinSubstringLength=0
-#
+
 # форматирование <<#param-phone, параметра типа "phone">>, общий формат одного номера [[config-param-phone]]
 param.phone.format=(${number})( [${comment}]);
 # форматирование поля ${number} внутри каждого номера, в зависимости от формата
@@ -64,33 +64,35 @@ param.phone.part.2.jumpRegexp.1.moveLastChars=0
 # переход в третье поле с переносом последнего введённого во втором поле при наборе во втором поле 3472
 param.phone.part.2.jumpRegexp.2.regexp=^3472
 param.phone.part.2.jumpRegexp.2.moveLastChars=1
-#
+
 # при пробросе запросов на сервер с помощью Proxy сервера - имя HTTP заголовка, в котором передаётся адрес клиента
 #header.name.remote.addr=X-Real-IP
-# [[config-customer-process-role]]
-# роли, в которых контрагент может быть привязан к процессу, роли должны начинаться с customer, например: customer:Контрагент;customerSogl:Согласователь
+
+# [[config-customer-process-role]] роли, в которых контрагент может быть привязан к процессу, роли должны начинаться с customer, например: customer:Контрагент;customerSogl:Согласователь
 processCustomerLinkRoles=customer:Контрагент
-#
+
 # проверка <<#user, прав доступа пользователей>>, 1 - включить [[config-user]]
 user.permission.check=0
-#
+
 # допустимые символы, диапазон длин пароля пользователей
 user.password.chars=1234567890qwertyuipasdfghjoklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_-=[].,
 user.password.length.min=5
 user.password.length.max=10
-#
+
 # <<process/index.adoc#group-executor-role, роли>> [[config-group-executor-role]] групп в процессах, добавляются через точку с запятой в виде <id>:<title>
 processGroupRoles=0:Выполнение
-#
+
 # custom process <<process/index.adoc#priority, priorities>> [[config-process-priority]]
 #process.priority.0.color=yellow
 #process.priority.1.color=#00FF00
 #process.priority.2.color=#F00
-#
+
+# HTML support in process description and message texts
+#text.html=1
+
 # параметры EMail
 mail.from.email=bgcrm@xxxxxxx
 mail.from.name=BGERP
-#
 mail.smtp.host=
 mail.smtp.user=
 mail.smtp.pswd=
@@ -100,10 +102,10 @@ mail.smtp.pswd=
 #mail.smtp.port=
 # отладка почтового обмена SMTP
 #mail.debug=1
-#
+
 # EMail для экстренных уведомлений о проблемах в системе
 #alarm.mail=
-#
+
 # <<message.adoc#process, теги>> сообщений [[config-message-tag]]
 tag.1.title=Реквизиты
 tag.1.color=red
@@ -111,25 +113,21 @@ tag.2.title=ТЗ
 tag.2.color=green
 tag.3.title=TODO
 tag.3.color=magenta
-#
-# <<extension.adoc#dyn, динамический код>> и расширение функциональности [[config-dyn]]
-dynamic.src.dir=dyn
-dynamic.src.encoding=UTF-8
-#
+
 # максимальное время выполнения обработчика события в мс. до принудительного прерывания
 event.process.timeout=5000
-#
+
 # перечень через запятую динамических или обычных классов, реализующих интерфейс java.lang.Runnable, запускаемых при старте сервера [[config-on-start]]
 #runOnStart=
 # перечень через запятую динамических или обычных классов, объекты которых создаются при старте сервера, при перекомпиляции динамических классов создание объектов производится повторно
 #createOnStart=
-#
+
 # <<#scheduler, планировщик>>, запуск - 1 [[config-scheduler]]
 scheduler.start=1
-#
-# сброс кэша новостей каждые указанное количество секунд, может быть необходимо лишь при импорте новостей извне в БД BGERP
+
+# сброс кэша новостей каждые указанное количество секунд, может быть необходимо лишь при импорте новостей извне в БД
 #flush.news.everySeconds=
-#
+
 # 1 - база доступна только на чтение, отключение записи логов и сохранения параметров интерфейса
 #db.readonly=1
 ====

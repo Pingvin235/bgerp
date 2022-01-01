@@ -11,7 +11,7 @@
 
 			<div class="box" id="show" style="padding: 0.5em; min-height: 2em; flex-basis: 100%;">
 				<pre>
-<ui:text-prepare text="${u:htmlEncode(process.description)}"/>
+<ui:text-prepare text="${process.description}"/>
 				</pre>
 			</div>
 		</div>

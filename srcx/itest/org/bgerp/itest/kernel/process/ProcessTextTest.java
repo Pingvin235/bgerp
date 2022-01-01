@@ -3,7 +3,6 @@ package org.bgerp.itest.kernel.process;
 import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.kernel.user.UserTest;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test(groups = "processText", dependsOnGroups = { "process", "message" })
@@ -15,11 +14,8 @@ public class ProcessTextTest {
 
     @Test
     public void addProcess() throws Exception {
-        var p = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + " 1");
-        Assert.assertTrue(0 < (processId1 = p.getId()));
-
-        p = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + "\n" + getText());
-        Assert.assertTrue(0 < (processId2 = p.getId()));
+        processId1 = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + " 1").getId();
+        processId2 = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + "\n" + getText()).getId();
     }
 
     @Test(dependsOnMethods = { "addProcess" })

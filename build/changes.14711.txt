@@ -1,0 +1,1 @@
+A: Configuration key 'text.html' for support HTML markup in process descriptions and messages.

@@ -1,0 +1,3 @@
+HTML pre is enabled here with 'text.html=1' in configuration.
+Line2 <b>bold</b> text.
+Line3 <a href="https://bgerp.org">bgerp.org</a>

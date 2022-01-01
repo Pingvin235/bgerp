@@ -6,9 +6,7 @@
 <b>${l.l('Тема')}:</b> ${message.subject}<br/>
 <b>${l.l('От')}:</b> <a href="mailto:${message.from}">${message.from}</a><br/>
 <b>${l.l('Текст')}:</b><br/>
-	<c:set var="text" value="${message.text}"/>
-	<c:set var="text" value="${u:htmlEncode(text)}"/>
-	<ui:text-prepare text="${text}"/>
+	<ui:text-prepare text="${message.text}"/>
 <c:if test="${not empty message.attachList}">
 	<br/><br/><b>${l.l('Вложения (можно загрузить только после привязки процесса)')}:</b><br/>
 
