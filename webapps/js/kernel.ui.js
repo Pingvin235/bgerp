@@ -227,7 +227,7 @@ $$.ui = new function () {
 	}
 
 	const monthDateFrom = ($dateFromHidden) => {
-		const date = new Date();
+		let date = new Date();
 
 		const dateFrom = $dateFromHidden.val();
 		if (dateFrom) {
