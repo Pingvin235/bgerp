@@ -27,16 +27,16 @@ $$.shell = new function () {
 	 * @param {*} closable
 	 */
 	const getCommandDiv = function (command, closable) {
-		var $commandDiv = $("body > #content > div#" + command );
+		var $commandDiv = $("body > #content > div#" + command);
 
 		if (closable) {
 			$("body > #content > div[id!='" + command + "']").hide();
 			$commandDiv.show();
 
 			// процесс уже был открыт, если нет открытых с классом editorStopReload редакторов - то перезагрузка
-			if(command.match( /process(\-*\d+)/ ) &&
-				$commandDiv.find( ".editorStopReload:visible" ).length == 0) {
-				removeCommandDiv( command );
+			if (command.match(/process(\-*\d+)/) &&
+				$commandDiv.find(".editorStopReload:visible").length == 0) {
+				removeCommandDiv(command);
 				$commandDiv = $();
 			}
 		}
@@ -76,7 +76,7 @@ $$.shell = new function () {
 		$commandDiv.show();
 
 		$("#title > div.status[id!='" + command + "']").hide();
-		$("#title > div#" + command ).show();
+		$("#title > div#" + command).show();
 
 		return $commandDiv;
 	}
@@ -95,10 +95,10 @@ $$.shell = new function () {
 	 * @param {*} command id of element.
 	 */
 	const removeCommandDiv = function (command) {
-		 $("body > #content > div#" + command ).remove();
-		 $("#title > div#" + command ).remove();
-		 $('#objectBuffer ul li[value=' + command +']').remove();
-		 updateBufferCount();
+		$("body > #content > div#" + command).remove();
+		$("#title > div#" + command).remove();
+		$('#objectBuffer ul li[value=' + command + ']').remove();
+		updateBufferCount();
 	}
 
 	const getBufferCount = function () {
@@ -204,7 +204,7 @@ $$.shell = new function () {
 				// берём после префикса /user , для сохранения обратной совместимости
 				const id = command.substring(6).replace("#", "-");
 
-				$("#taskPanel div.btn-task-active").attr('scroll',$(window).scrollTop());
+				$("#taskPanel div.btn-task-active").attr('scroll', $(window).scrollTop());
 				$("#taskPanel div")
 					.removeClass("btn-task-active btn-blue").addClass("btn-white btn-task");
 
@@ -213,7 +213,7 @@ $$.shell = new function () {
 					if (bufferBehavior == 1)
 						$commandLi.remove();
 					else
-						$commandLi.css( "display", "none" );
+						$commandLi.css("display", "none");
 				}
 
 				if (bufferBehavior == 1) {
@@ -234,7 +234,7 @@ $$.shell = new function () {
 				var $commandDiv = getCommandDiv(id, true);
 
 				// если это не повторное открытие того же объекта
-				if ($commandDiv.attr( "id" ) != currentOpened) {
+				if ($commandDiv.attr("id") != currentOpened) {
 					pushHistoryState(command);
 
 					onCommandDivShow($commandDiv);
@@ -248,10 +248,10 @@ $$.shell = new function () {
 					// функция перемещения текущего объекта в буфер
 					$$.closeObject = function () {
 						var liCode = sprintf("<li style='border-left: 8px solid %s;' value='%s'>%s</li>", bgcolor, id,
-											 "<span class='icon-close ti-close'></span>" + $("#title #" + id + " h1.title").html());
+							"<span class='icon-close ti-close'></span>" + $("#title #" + id + " h1.title").html());
 
 						if (bufferBehavior == 1)
-							$('#objectBuffer ul').prepend( liCode );
+							$('#objectBuffer ul').prepend(liCode);
 						else {
 							var $li = $('#objectBuffer ul>li[value="' + id + '"]');
 							if ($li.length)
@@ -285,7 +285,7 @@ $$.shell = new function () {
 				}
 
 				if ($commandDiv.isNew) {
-					$$.ajax.load(url, $commandDiv, { dfd: contentLoadDfd }).done(() => {
+					$$.ajax.load(url, $commandDiv, {dfd: contentLoadDfd}).done(() => {
 						$("#title > .status:visible > .wrap > .left > .title .icon-close")
 							.one("click", function () {
 								if (objectId < 0)
@@ -311,7 +311,7 @@ $$.shell = new function () {
 		}
 	}
 
-	const loadMenuTool = function(href, command, contentLoadDfd, options) {
+	const loadMenuTool = function (href, command, contentLoadDfd, options) {
 		options = options || {};
 
 		const pos = command.indexOf('#');
@@ -328,7 +328,7 @@ $$.shell = new function () {
 			else {
 				let $taskButton = $('#taskPanel > div#' + id);
 
-				if ($taskButton.length == 0) {
+				if ($taskButton.length === 0) {
 					let taskButton = sprintf("<div class='btn-blue btn-task-active' id='%s' title='%s'>", id, item.titlePath);
 
 					// progress button and removing it after load has done
@@ -357,6 +357,18 @@ $$.shell = new function () {
 
 					$taskButton.data("href", href);
 
+					$taskButton.contextmenu(function (e) {
+						if (e) {
+							e.preventDefault();
+						}
+
+						if ($taskButton.hasClass('btn-task-active')) {
+							const contextMenu = $('#activeContextMenu');
+							contextMenu.data('activeid', id);
+							$$.ui.menuInit($(e.target), contextMenu, 'right', true);
+						}
+					});
+
 					$taskButton.click(function () {
 						$commandDiv = getCommandDiv(id);
 
@@ -375,10 +387,11 @@ $$.shell = new function () {
 
 						$("#taskPanel div[id!='" + id + "']")
 							.removeClass("btn-task-active btn-blue").addClass("btn-white btn-task");
-						$("#taskPanel div#" + id)
+
+						$taskButton
 							.removeClass("btn-white btn-task").addClass("btn-task-active btn-blue");
 
-						$(window).scrollTop($("#taskPanel div#" + id).attr('scroll'));
+						$(window).scrollTop($taskButton.attr('scroll'));
 
 						pushHistoryState(href);
 
@@ -387,13 +400,13 @@ $$.shell = new function () {
 
 					$taskButton.click();
 
-					$$.ajax.load(item.action + commandId, $commandDiv, { dfd: contentLoadDfd });
+					$$.ajax.load(item.action + commandId, $commandDiv, {dfd: contentLoadDfd});
 
 					$taskButton.find('.icon-close').click(function () {
 						// закрытие активной оснастки
-						if ($taskButton.hasClass( "btn-task-active")) {
+						if ($taskButton.hasClass("btn-task-active")) {
 							// последняя неактивная кнопка становится активной
-							var $inactiveButtons =  $("#taskPanel > div.btn-task");
+							var $inactiveButtons = $("#taskPanel > div.btn-task");
 							if ($inactiveButtons.length > 0)
 								$inactiveButtons[$inactiveButtons.length - 1].click()
 							else
@@ -402,8 +415,7 @@ $$.shell = new function () {
 						$taskButton.remove();
 						removeCommandDiv(id);
 					});
-				}
-				else {
+				} else {
 					$taskButton.click();
 					contentLoadDfd.resolve();
 				}
@@ -418,8 +430,7 @@ $$.shell = new function () {
 			if (e.state) {
 				debug("popstate: ", e.state);
 				contentLoad(e.state.href);
-			}
-			else {
+			} else {
 				//В Chrome выдаёт ошибку.
 				//alert( 'Открыта некорректная ссылка, сообщите место её нахождения разработчикам!' );
 			}
@@ -430,13 +441,13 @@ $$.shell = new function () {
 			stopTimer: function () {}
 		};
 
-		if (($$.pers["iface.buffer.openOnLongPress"] || 0) === 1)	{
+		if (($$.pers["iface.buffer.openOnLongPress"] || 0) === 1) {
 			const debug = $$.debug("buffer");
 
 			var $buffer = $("#objectBuffer");
 			var $bufferDrop = $("#objectBuffer > ul.drop");
 
-			popupObjectBuffer =  {
+			popupObjectBuffer = {
 				startTimer: function (event) {
 					// buffer is shown
 					if ($bufferDrop.is(":visible"))
@@ -464,7 +475,7 @@ $$.shell = new function () {
 						$buffer.css("position", "static")
 
 						$bufferDrop
-							.css("position","absolute")
+							.css("position", "absolute")
 							.css("left", e.clientX)
 							.css("top", e.clientY)
 							.show();
@@ -483,7 +494,7 @@ $$.shell = new function () {
 
 							$bufferDrop
 								.css('display', 'none')
-								.css('position', '' )
+								.css('position', '')
 								.css("z-index", '')
 								.css("left", '')
 								.css("top", '');
@@ -493,20 +504,19 @@ $$.shell = new function () {
 								.css('position', 'absolute')
 								.css('top', position.top)
 								.css('left', position.left)
-								.width( width )
-								.height( height )
-								.appendTo( $('<body>') )
+								.width(width)
+								.height(height)
+								.appendTo($('<body>'))
 								.remove();
-						}
-						else {
+						} else {
 							$(window).one("mousedown", function (e) {
-								closeBuffer( e );
+								closeBuffer(e);
 							});
 						}
 					};
 
 					$(window).one("mousedown", function (e) {
-						closeBuffer( e );
+						closeBuffer(e);
 					});
 				}
 			}
@@ -589,6 +599,21 @@ $$.shell = new function () {
 		});
 	}
 
+	/**
+	 * Close other tabs except active one
+	 */
+	const closeOthers = function() {
+		$('#taskPanel').find('.btn-task').find('.ti-close').click();
+	}
+
+	/**
+	 * Refresh current window
+	 */
+	const refreshCurrent = function() {
+		const id = $('#activeContextMenu').data('activeid');
+		$("#title > #" + id + ".status > .wrap > .left > .title h1.title").click();
+	}
+
 	// public functions
 	this.debug = debug;
 	this.menuItems = menuItems;
@@ -599,9 +624,11 @@ $$.shell = new function () {
 	this.stateFragment = stateFragment;
 	this.$content = $content;
 	this.login = login;
+	this.closeOthers = closeOthers;
+	this.refreshCurrent = refreshCurrent;
 }
 
-function contentLoad (href) {
+function contentLoad(href) {
 	console.warn($$.deprecated);
 	$$.shell.contentLoad(href);
 }

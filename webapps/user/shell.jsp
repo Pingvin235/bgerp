@@ -76,6 +76,11 @@
 			<%-- href is required for menu item --%>
 			<li><a href="#" onclick="$$.ajax.post('/login.do?action=logout').done(() => window.location.href = '/user'); return false;">${l.l('Выход')}</a></li>
 		</ul>
+
+		<ul id="activeContextMenu" style="display: none;">
+			<li><a href="#" onclick="$$.shell.closeOthers(); return false;">${l.l('Закрыть другие')}</a></li>
+			<li><a href="#" onclick="$$.shell.refreshCurrent(); return false;">${l.l('Обновить')}</a></li>
+		</ul>
 	</div>
 
 	<script>
