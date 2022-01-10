@@ -4,7 +4,6 @@ import org.bgerp.util.Log;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -188,7 +187,19 @@ public class Bot extends TelegramLongPollingBot {
         SendMessage message = SendMessage.builder()
                 .chatId(chatId)
                 .text(text)
-                .parseMode(ParseMode.MARKDOWN)
+                .build();
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            log.error("Message was not sent ", e);
+        }
+    }
+
+    public void sendMessage(String chatId, String text, String parseMode) {
+        SendMessage message = SendMessage.builder()
+                .chatId(chatId)
+                .text(text)
+                .parseMode(parseMode)
                 .build();
         try {
             execute(message);

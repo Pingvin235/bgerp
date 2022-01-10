@@ -356,7 +356,7 @@ public class WorkAction extends ru.bgcrm.struts.action.admin.WorkAction {
 
         form.getResponse().setData("callboardList", config.getCallboards(Utils.toIntegerSet(perm.get("allowOnlyCallboards"))));
 
-        //определние начальной и конечной даты, формирование сета с датами для шапки графика
+        //определение начальной и конечной даты, формирование сета с датами для шапки графика
         Date date = form.getParamDate("date");
 
         form.getResponse().setData("date", date);

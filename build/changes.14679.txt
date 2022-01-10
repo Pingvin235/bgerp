@@ -1,0 +1,2 @@
+A: Plugin Telegram, new method sendMessage(String chatId, String text, String parseMode).
+C: Plugin Telegram, checking the user for activity.

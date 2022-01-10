@@ -7,10 +7,10 @@
 Плагин предназначен для интеграции BGERP с мессенджером link:https://telegram.org/[Telegram] и предоставляет функционал:
 
 [square]
+* отправка текстовых сообщений пользователям BGERP, а так же в произвольный chat_id
 * привязка процесса к чату группы или чату пользователя Telegram.
-
 * привязка пользователя к чату группы или чату пользователя Telegram.
-* использование Markdown разметки в тексте отправляемых сообщений.
+* использование настраиваемого форматирования в тексте отправляемых сообщений.
 
 [[setup]]
 == Настройка
@@ -27,7 +27,7 @@
 - */getid* - команда получения chat id.
 Его можно вписать в параметр своего пользователя или в параметр процесса.
 
-- */login* - бот запросит логин и пароль от пользователя BGERP а затем произведет заполнение параметра пользователя chat id.
+- */login* - бот запросит логин и пароль от пользователя BGERP, а затем произведет заполнение параметра пользователя chat id.
 
 - */help* - команда вывода текста из конфигурации плагина (MsgUrlHelp).
 
@@ -100,6 +100,14 @@ onProcessEvent.2.doExpression=<<END
 END
 ----
 
+[source]
+----
+onProcessEvent.3.events=statusChanged
+onProcessEvent.3.doExpression=<<END
+	telegram.sendMessage(process, "Изменился статус", "MarkdownV2");
+END
+----
+
 [[setup-process-type-example-chatid]]
 === Example of sending notifications about done processes to wanted chat IDs
 [source]
@@ -126,33 +134,9 @@ END
 ----
 
 [[format-messages]]
-== Форматирование текста сообщений Markdown
+== Форматирование текста сообщений
 
-В данный момент поддерживается только полужирное начертание, курсив, моноширинный шрифт и ссылки.
-
-[source]
-----
-*полужирный*
-_курсив_
-[ссылка](http://www.example.com/)
-`строчный моноширинный`
-```text
-блочный моноширинный (можно писать код)
-```
-----
-
-Пример использования:
-
-[source]
-----
-onProcessEvent.{@cnt}.doExpression=<<END
-    text = "*Тип процесса: * " + process.getTypeTitle().concat( NEW_LINE );
-    text+="_Код исполнителя_: " + process.getExecutorIds().toString().concat( NEW_LINE );
-    text+="`Описание:` " + process.getDescription();
-    telegram.sendMessage(process, text);
-END
-----
-
-image::_res/i0162.png[width="400px"]
+По умолчанию отправка сообщений происходит без какого либо форматирования.
+В случае желания использовать форматирование - обращаем внимание на экранирование, т.к это частая ошибка приводящая к ошибкам отправки сообщений.
 
 Объект *telegram* класса javadoc:org.bgerp.plugin.telegram.ExpressionObject[] с функциями API предоставляется плагином.

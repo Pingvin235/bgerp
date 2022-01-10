@@ -1,14 +1,16 @@
 package org.bgerp.plugin.telegram;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import org.bgerp.util.Log;
-
+import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class ExpressionObject {
     private static final Log log = Log.getLog();
@@ -25,8 +27,30 @@ public class ExpressionObject {
             if (bot == null) {
                 return;
             }
-            log.debug("Send message: {}, chatId: {}", text, chatId);
+            if (log.isDebugEnabled()) {
+                log.debug("Send message: {}, chatId: {}", text, chatId);
+            }
             bot.sendMessage(chatId, text);
+        }
+    }
+
+    /**
+     * Send message in a chat with specific formatting message
+     *
+     * @param chatId    telegram chatId
+     * @param text      text message
+     * @param parseMode ParseMode
+     */
+    public void sendMessage(String chatId, String text, String parseMode) {
+        if (chatId != null && !chatId.trim().isEmpty() && !parseMode.trim().isEmpty()) {
+            Bot bot = Bot.getInstance();
+            if (bot == null) {
+                return;
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("Send message: {}, chatId: {}", text, chatId);
+            }
+            bot.sendMessage(chatId, text, parseMode);
         }
     }
 
@@ -39,10 +63,17 @@ public class ExpressionObject {
     public void sendMessage(Collection<Integer> userIds, String text) {
         Config config = Setup.getSetup().getConfig(Config.class);
 
+        Collection<Integer> activeUserIds = userIds.stream()
+                .map(UserCache::getUser)
+                .filter(user -> user != null && user.getStatus() == User.STATUS_ACTIVE)
+                .map(User::getId)
+                .collect(Collectors.toList());
+
         if (userIds.isEmpty()) {
             userIds.add(0);
         }
-        sendMessageForObject(userIds, config.getParamId(), text);
+
+        sendMessageForObject(activeUserIds, config.getParamId(), text);
     }
 
     /**
@@ -75,8 +106,8 @@ public class ExpressionObject {
 
         try (var con = Setup.getSetup().getDBSlaveConnectionFromPool()) {
             ParamValueDAO paramDAO = new ParamValueDAO(con);
-            for (int userId : objectIds) {
-                String chatId = paramDAO.getParamText(userId, paramId);
+            for (int objectId : objectIds) {
+                String chatId = paramDAO.getParamText(objectId, paramId);
                 if (Utils.notBlankString(chatId)) {
                     bot.sendMessage(chatId, text);
                 }
@@ -85,5 +116,4 @@ public class ExpressionObject {
             log.error("Error send message in telegram", ex);
         }
     }
-
 }
