@@ -8,13 +8,13 @@
 	<div class="in-table-cell mb1">
 		<%@ include file="filters.jsp"%>
 
-		<p:check action="ru.bgerp.plugin.blow.struts.action.BoardAction:search">
+		<p:check action="ru.bgerp.plugin.blow.action.BoardAction:search">
 			<form action="/user/plugin/blow/board.do">
 				<input type="hidden" name="action" value="search"/>
 				<c:forEach var="id" items="${form.response.data.processIds}">
 					<input type="hidden" name="processId" value="${id}"/>
 				</c:forEach>
-				<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Фильтр')}" size="40" 
+				<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Фильтр')}" size="40"
 					title="${l.l('По тексту сообщения')}"
 					onSelect="return $$.blow.search(this.form)"
 				/>

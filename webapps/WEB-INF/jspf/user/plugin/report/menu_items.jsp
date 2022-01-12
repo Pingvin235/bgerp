@@ -3,6 +3,6 @@
 
 <ui:menu-group ltitle="Отчёты" icon="ti-stats-up" actionFactory="org.bgerp.plugin.report.action.ReportActionBase$Factory">
 	<ui:menu-item ltitle="JSP Отчёты" href="report"
-		action="ru.bgcrm.plugin.report.struts.action.ReportAction"
+		action="org.bgerp.plugin.report.action.ReportAction"
 		command="/user/plugin/report/report.do" />
 </ui:menu-group>

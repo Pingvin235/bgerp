@@ -100,7 +100,7 @@ publish-source:
         - git clone --depth 1 "file://$REPO_FULL" $REPO_PUB
         - COMMIT_COMMENT=`git show -s --format=%s`
         - echo "Set commit author" && chmod +x .gitlab-ci-publish-author.sh && COMMIT_AUTHOR=`bash .gitlab-ci-publish-author.sh`
-        - cd $REPO_PUB && rm -r .git && rm .github-fix* && rm -r src.bak
+        - cd $REPO_PUB && rm -r .git && rm .gitlab-ci-publish* && rm .github-fix* && rm -r src.bak
         - git init && git lfs install && git add . && git commit -m "Init"
         - git remote add origin git@github.com:Pingvin235/bgerp.git
         - git fetch && git reset --mixed origin/master
