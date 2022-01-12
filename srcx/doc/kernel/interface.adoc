@@ -24,6 +24,29 @@ IMPORTANT: Change them after the first log in. The user with ID=1 is a special o
 
 image::_res/i0083.png[]
 
+[[element]]
+== Elements
+[[element-button]]
+=== Button
+Button colors have the following meanings.
+[cols="a,a", options="header"]
+|===
+|Button view
+|Functionality
+
+|image::_res/i0124.png[]
+|Greens call an editor for adding new entity.
+
+|image::_res/i0125.png[]
+|Browns send request to server.
+
+|image::_res/i0127.png[]
+|Progress indicator.
+
+|image::_res/i0126.png[]
+|Whites do all other actions.
+|===
+
 [[user]]
 == User interface
 The interface is <<server, available>> by suffix */user*.
@@ -66,10 +89,6 @@ image::_res/i0123.png[]
 Клик по названию в строке заголовка обновляет открытый объект или вкладку.
 
 image::_res/iface_topline.png[]
-
-=== Кнопки
-Кнопки с коричневым фоном выполняют действия, сохраняют данные. Все остальные - с белым фоном.
-При выполнении длительных действий кнопки могут "залипать", предотвращая повторный вызов действия и индицируя прогресс.
 
 [[notifications]]
 === Уведомления
@@ -244,18 +263,6 @@ Where:
 [[open-l10n]]
 === Localization
 For <<../project/index.adoc#l10n, localization>> of the Open interface add HTTP request parameter *lang=<LANG>*, where *<LANG>* - shortcut of the wanted language.
-
-[[elements]]
-== UI elements
-Button colors have the following meanings.
-[ditaa]
-----
-/-----\              /-----\                              /-----\
-|c4F3 | Add / create |c666 | DB action (select or change) |cEEE | Other actions
-\-----/              \-----/                              \-----/
-----
-
-In the documentation UI schemes are show using special notation, <<install.adoc#installer-iface, example>>.
 
 [[id]]
 == Коды объектов

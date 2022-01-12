@@ -84,7 +84,21 @@ git checkout p12345-my-change-branch && git pull --rebase && git fetch origin ma
 ----
 
 [[change-git-cleanup]]
-==== Clean all links to non-existent/deleted branches
+==== Cleanup
+Clean all links to non-existent/deleted branches.
+[source]
+----
+git remote prune origin
+----
+
+Clean GIT repo from unreferenced objects after.
+[source]
+----
+git reflog expire --expire-unreachable=now --all &&
+git gc --prune=now
+----
+
+Clean unneeded link:https://git-lfs.github.com/[GIT LFS] files.
 [source]
 ----
 git remote prune origin
