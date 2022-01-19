@@ -9,8 +9,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.TreeSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Maps;
@@ -248,7 +249,8 @@ public class MessageAction extends BaseAction {
 
         var config = setup.getConfig(MessageTypeConfig.class);
         form.setRequestAttribute("config", config);
-        SortedMap<Integer, MessageType> typeMap =  Maps.filterKeys(
+
+        var typeMap =  Maps.filterKeys(
                 config.getTypeMap(),
                 k -> allowedTypeIds.isEmpty() || allowedTypeIds.contains(k));
 
@@ -265,7 +267,27 @@ public class MessageAction extends BaseAction {
         } else {
             // when external system isn't available, an empty table of messages should be however shown
             try {
-                List<Message> result = new ArrayList<>(typeMap.get(typeId).newMessageList(conSet));
+                var executor = Executors.newFixedThreadPool(typeId <= 0 ? typeMap.size() : 1);
+
+                List<Message> result = Collections.synchronizedList(new ArrayList<>(1000));
+
+                for (final MessageType type : typeMap.values()) {
+                    if (typeId > 0 && typeId != type.getId())
+                        continue;
+
+                    executor.execute(() -> {
+                        try {
+                            result.addAll(type.newMessageList(conSet));
+                        } catch (Exception e) {
+                            log.error(e);
+                        }
+                    });
+                }
+
+                executor.shutdown();
+
+                if (!executor.awaitTermination(2, TimeUnit.MINUTES))
+                    log.error("Timeout waiting threads");
 
                 Collections.sort(result, (Message o1, Message o2) -> {
                     if (reverseOrder) {
@@ -276,7 +298,7 @@ public class MessageAction extends BaseAction {
                     return o1.getFromTime() == null ? -1 : o1.getFromTime().compareTo(o2.getFromTime());
                 });
 
-                form.getResponse().setData("list", result);
+                form.setResponseData("list", result);
 
                 Preferences prefs = new Preferences();
                 prefs.put(UNPROCESSED_MESSAGES_PERSONAL_KEY, String.valueOf(config.getUnprocessedMessagesCount()));

@@ -200,7 +200,15 @@ public class MessageTypeEmail extends MessageType {
             incomingFolder.open(Folder.READ_ONLY);
 
             var messages = incomingFolder.getMessages();
-            int index = incomingCache.idToIndex(messageId);
+            int index = 0;
+            try {
+                index = incomingCache.idToIndex(messageId);
+            }
+            // flush cache
+            catch (ArrayIndexOutOfBoundsException e) {
+                incomingCache.relist(incomingFolder);
+                return newMessageGet(conSet, messageId);
+            }
 
             var mp = new MessageParser(messages[index]);
 
@@ -532,7 +540,7 @@ public class MessageTypeEmail extends MessageType {
                     log.error("Not found process type with id:" + process.getTypeId());
                 } else {
                     EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, msg, process),
-                            type.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+                            new SingleConnectionConnectionSet(con));
                 }
             }
 

@@ -1,0 +1,2 @@
+C: Plugin E-Mail. Flush IMAP folder cache on missing element.
+A: Show unprocessed messages with all types. Multi-threaded loading.

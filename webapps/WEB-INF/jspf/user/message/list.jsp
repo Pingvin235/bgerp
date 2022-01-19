@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
+<%-- <c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig')}"/> --%>
 
 <%@ include file="list_call_reg.jsp"%>
 
@@ -13,12 +13,13 @@
 	<input type="hidden" name="action" value="messageList"/>
 
 	<c:set var="script">$$.ajax.load($('#${formUiid}'), $$.shell.$content(this));</c:set>
-	
+
 	<ui:combo-single
 		hiddenName="typeId" value="${form.param.typeId}"
 		widthTextValue="15em"
 		onSelect="${script}">
 		<jsp:attribute name="valuesHtml">
+			<li value="0">${l.l('Все')}&nbsp;[${config.unprocessedMessagesCount}]</li>
 			<c:forEach var="item" items="${typeMap}">
 				<li value="${item.key}">
 					${item.value.title}
@@ -56,7 +57,7 @@
 
 	<ui:button type="out" onclick="${script}"/>
 
-	<%-- This reload breaks automatically open calls. 
+	<%-- This reload breaks automatically open calls.
 		<script>
 		$(function () {
 			const $messageQueue = $('#content > #message-queue');

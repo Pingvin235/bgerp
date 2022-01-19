@@ -12,7 +12,7 @@
 					<td width="30">ID</td>
 					<td>${l.l('Тип')}</td>
 					<td>${l.l('Тема')}</td>
-					<td>${l.l('От')} -&gt; ${l.l('Кому')}</td>
+					<td>${l.l('От')}</td>
 					<td>${l.l('Время')}</td>
 					<td>${l.l('Процесс')}</td>
 				</tr>
@@ -26,7 +26,7 @@
 						<td>${item.id}</td>
 						<td>${config.typeMap[item.typeId].title}</td>
 						<td>${item.subject}</td>
-						<%@ include file="from_to.jsp"%>
+						<td>${item.from}></td>
 						<td>${tu.format(item.fromTime, 'ymdhm')}</td>
 						<td><ui:process-link id="${item.process.id}" text="${ctxProcessTypeMap[item.process.typeId].title}"/></td>
 					</tr>
@@ -45,6 +45,9 @@
 								})
 							"/>
 						</td>
+						<c:if test="${form.param.typeId le 0}">
+							<td>${l.l('Тип')}</td>
+						</c:if>
 						<td>${l.l('Тема')}</td>
 						<td>${l.l('От')}</td>
 						<td>${l.l('Время')}</td>
@@ -62,8 +65,11 @@
 							<td style="text-align: center;">
 								<input type="checkbox" name="typeId-systemId" value="${item.typeId}-${item.systemId}"/>
 							</td>
+							<c:if test="${form.param.typeId le 0}">
+								<td>${config.typeMap[item.typeId].title}</td>
+							</c:if>
 							<td>${item.subject}</td>
-							<%-- see from_to.jsp, support notes with user link --%>
+							<%-- TODO: support notes by link to author user --%>
 							<td title="${item.from}">${item.from}</td>
 							<td nowrap="nowrap">
 								${tu.daysDelta(today, item.fromTime) eq 0 ?

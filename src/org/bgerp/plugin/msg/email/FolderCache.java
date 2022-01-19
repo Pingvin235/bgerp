@@ -1,5 +1,6 @@
 package org.bgerp.plugin.msg.email;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,7 @@ class FolderCache {
     /** Prefix for system message ID. */
     private static final String SYSTEM_ID_PREFIX = "index";
 
-    final long MAX_CACHE_VALID_TIMEOUT_MS = 10 * 60 * 1000;
+    private static final long MAX_CACHE_VALID_TIMEOUT_MS = Duration.ofMinutes(10).toMillis();
 
     private final MessageTypeEmail type;
 
@@ -107,29 +108,26 @@ class FolderCache {
         }
     }
 
-    public void delete(String... ids) {
+    /**
+     * Removes one or more messages by IDs.
+     * @param ids string IDs like 'indexDDD'.
+     */
+    void delete(String... ids) {
         for(var id : ids) {
             data.remove(idToIndex(id));
         }
     }
 
-    int idToIndex(String id) {
+    /**
+     * Converts string message ID to array index.
+     * @param id string ID like 'indexDDD'.
+     * @return zero-based list index.
+     * @throws ArrayIndexOutOfBoundsException position is less than zero or more that maximal index.
+     */
+    int idToIndex(String id) throws ArrayIndexOutOfBoundsException {
         int result = Utils.parseInt(StringUtils.substringAfter(id, SYSTEM_ID_PREFIX), -1);
         if (result < 0 || data.size() <= result)
-            throw new IllegalArgumentException("Incorrect new message ID: " + id + "; index: " + result);
+            throw new ArrayIndexOutOfBoundsException("Incorrect new message ID: " + id + "; index: " + result + "; size: " + data.size());
         return result;
     }
-
-    /*
-    public Message get(String id) {
-        return data.get(id);
-    }
-
-    public void put(String id, Message message) {
-        data.put(id, message);
-    }
-
-    public Set<String> getIds() {
-        return data.keySet();
-    } */
 }
