@@ -1,0 +1,16 @@
+
+#
+bgbilling:server.1.id=testbill
+bgbilling:server.1.title=TestBilling
+bgbilling:server.1.url=http://127.0.0.1:8080/bgbilling/executer
+bgbilling:server.1.version=7.2
+bgbilling:server.1.customerIdParam=100
+#
+bgbilling:login.testbill=admin
+bgbilling:password.testbill=admin
+
+#
+bgbilling:contractType.1.title=Договор в БИЛЛИНГЕ 7.x (
+bgbilling:contractType.1.billing=bitel
+bgbilling:contractType.1.patternId=17
+bgbilling:contractType.1.tariffList=1:Домен физ. лица,2:Домен юр. лица

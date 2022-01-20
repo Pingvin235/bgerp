@@ -53,29 +53,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
                     jsonTypeFactory.constructCollectionType(List.class, UserCard.class));
         } 
         // TODO: Убрать позже вместе со сгенерированными классами сервисов.
-        else if (dbInfo.versionCompare("5.1") == 0) {
-            List<UserCard> result = new ArrayList<UserCard>();
-
-            WSUserCard service = getWebService(WSUserCard_Service.class, WSUserCard.class, moduleId);
-            try {
-                for (ru.bgcrm.plugin.bgbilling.ws.cerbercrypt.usercard.UserCard wsCard : service
-                        .getUserCardList(contractId, includeSlaveCards)) {
-                    UserCard card = new UserCard();
-                    card.setId(wsCard.getId());
-                    card.setNumber(wsCard.getNumber());
-                    card.setDateFrom(TimeUtils.parse(wsCard.getDate1(), TimeUtils.PATTERN_YYYYMMDD));
-                    card.setDateTo(TimeUtils.parse(wsCard.getDate2(), TimeUtils.PATTERN_YYYYMMDD));
-                    card.setComment(wsCard.getComment());
-                    card.setBaseCardTitle(wsCard.getBasecardTitle());
-
-                    result.add(card);
-                }
-            } catch (Exception e) {
-                processWebServiceException(e);
-            }
-
-            return result;
-        } else {
+        else {
             List<UserCard> usetCards = new ArrayList<UserCard>();
 
             Request request = new Request();

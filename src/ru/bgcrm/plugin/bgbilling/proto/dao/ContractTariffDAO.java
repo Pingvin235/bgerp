@@ -20,10 +20,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractPersonalTariff;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariff;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariffGroup;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariffOption;
-import ru.bgcrm.plugin.bgbilling.ws.tariff.option.TariffOption;
-import ru.bgcrm.plugin.bgbilling.ws.tariff.option.TariffOptionActivateMode;
-import ru.bgcrm.plugin.bgbilling.ws.tariff.option.TariffOptionService;
-import ru.bgcrm.plugin.bgbilling.ws.tariff.option.TariffOptionService_Service;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
@@ -429,19 +425,6 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
             list = readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, ContractTariffOption.class));
-		}
-		//TODO: Убрать со временем.
-		else if (dbInfo.versionCompare("5.2") >= 0) {
-			try {
-				TariffOptionService service = getWebService(TariffOptionService_Service.class,
-						TariffOptionService.class);
-				for (ru.bgcrm.plugin.bgbilling.ws.tariff.option.ContractTariffOption tariffOption : service
-						.contractTariffOptionList(contractId, new Date())) {
-					list.add(convertFromWs(tariffOption));
-				}
-			} catch (Exception ex) {
-				processWebServiceException(ex);
-			}
 		} else {
 			Request request = new Request();
 			request.setModule(TARIFF_OPTION_MODULE_ID);
@@ -481,20 +464,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
             list = readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, ContractTariffOption.class));   
-		}
-		//TODO: Убрать со временем.
-		else if (dbInfo.versionCompare("5.2") >= 0) {
-			try {
-				TariffOptionService service = getWebService(TariffOptionService_Service.class,
-						TariffOptionService.class);
-				for (ru.bgcrm.plugin.bgbilling.ws.tariff.option.ContractTariffOption tariffOption : service
-						.contractTariffOptionHistory(contractId, null, false)) {
-					list.add(convertFromWs(tariffOption));
-				}
-			} catch (Exception ex) {
-				processWebServiceException(ex);
-			}
-		} else {
+		}else {
 			Request request = new Request();
 			request.setModule(TARIFF_OPTION_MODULE_ID);
 			request.setAction("ContractTariffOption");
@@ -537,22 +507,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 		return tariffOption;
 	}
 
-	private ContractTariffOption convertFromWs(
-			ru.bgcrm.plugin.bgbilling.ws.tariff.option.ContractTariffOption tariffOption) {
-		ContractTariffOption option = new ContractTariffOption();
-
-		option.setId(tariffOption.getId());
-		option.setContractId(tariffOption.getContractId());
-		option.setActivatedTime(TimeUtils.parse(tariffOption.getActivatedTime(), "yyyy-MM-dd'T'HH:mm:ss"));
-		option.setOptionTitle(tariffOption.getOptionTitle());
-		option.setSumma(tariffOption.getSumma());
-		option.setTimeFrom(TimeUtils.parse(tariffOption.getTimeFrom(), "yyyy-MM-dd'T'HH:mm:ss"));
-		option.setTimeTo(TimeUtils.parse(tariffOption.getTimeTo(), "yyyy-MM-dd'T'HH:mm:ss"));
-		option.setUserId(tariffOption.getUserId());
-		option.setUserTitle(tariffOption.getUserTitle());
-
-		return option;
-	}
+	
 
 	/**
 	 * Возвращает список доступных тарифных опций.
@@ -571,20 +526,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
             availableOptionList = readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));   
-        }
-        //TODO: Убрать со временем.
-        else if (dbInfo.versionCompare("5.2") >= 0) {
-			try {
-				TariffOptionService service = getWebService(TariffOptionService_Service.class,
-						TariffOptionService.class);
-				for (TariffOption tariffOption : service.tariffOptionListAvailable(contractId, null, null, false,
-						false)) {
-					availableOptionList.add(new IdTitle(tariffOption.getId(), tariffOption.getTitle()));
-				}
-			} catch (Exception e) {
-				processWebServiceException(e);
-			}
-		} else {
+        } else {
 			Request request = new Request();
 			request.setModule(TARIFF_OPTION_MODULE_ID);
 			request.setAction("ContractTariffOption");
@@ -646,26 +588,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
 
             activateModeList = readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));   
-        }
-        //TODO: Убрать со временем, вроде и не должно работать. Неверный метод сервиса вызывается.
-        else if (dbInfo.versionCompare("5.2") >= 0) {
-			try {
-				TariffOptionService service = getWebService(TariffOptionService_Service.class,
-						TariffOptionService.class);
-				for (TariffOption tariffOption : service.tariffOptionListAvailable(contractId, null, null, false,
-						false)) {
-					if (tariffOption.getId() == optionId) {
-						for (TariffOptionActivateMode mode : tariffOption.getModeList().getItem()) {
-							activateModeList.add(new IdTitle(mode.getId(), mode.getModeTitle()));
-						}
-						break;
-					}
-
-				}
-			} catch (Exception e) {
-				processWebServiceException(e);
-			}
-		} else {
+        } else {
 			Request request = new Request();
 			request.setModule(TARIFF_OPTION_MODULE_ID);
 			request.setAction("TariffOption");
@@ -695,17 +618,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
             req.setParam("web", false);
 
             transferData.postData(req, user);   
-        }
-        //TODO: Убрать со временем.
-        else if (dbInfo.versionCompare("5.2") >= 0) {
-			try {
-				TariffOptionService service = getWebService(TariffOptionService_Service.class,
-						TariffOptionService.class);
-				service.contractTariffOptionActivate(contractId, optionId, modeId, false);
-			} catch (Exception e) {
-				processWebServiceException(e);
-			}
-		} else {
+        }else {
 			Request request = new Request();
 			request.setModule(TARIFF_OPTION_MODULE_ID);
 			request.setAction("ContractTariffOption");
@@ -743,17 +656,7 @@ public class ContractTariffDAO extends ru.bgcrm.plugin.bgbilling.dao.BillingDAO 
             req.setParam("contractOptionId", id);
 
             transferData.postData(req, user);
-        }
-        //TODO: Убрать со временем.
-        else if (dbInfo.versionCompare("5.2") >= 0) {
-			try {
-				TariffOptionService service = getWebService(TariffOptionService_Service.class,
-						TariffOptionService.class);
-				service.contractTariffOptionDeactivate(contractId, id);
-			} catch (Exception e) {
-				processWebServiceException(e);
-			}
-		} else {
+        }else {
 			Request request = new Request();
 			request.setModule(TARIFF_OPTION_MODULE_ID);
 			request.setAction("ContractTariffOption");

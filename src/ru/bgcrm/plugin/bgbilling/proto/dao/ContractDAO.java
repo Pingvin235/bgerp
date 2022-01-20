@@ -44,7 +44,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
 import ru.bgcrm.plugin.bgbilling.proto.model.OpenContract;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
-import ru.bgcrm.plugin.bgbilling.ws.contract.ContractService_Service;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
@@ -704,12 +703,18 @@ public class ContractDAO extends BillingDAO {
             transferData.postData(request, user);
         } else {
             try {
-                ru.bgcrm.plugin.bgbilling.ws.contract.ContractService service = getWebService(ContractService_Service.class,
-                        ru.bgcrm.plugin.bgbilling.ws.contract.ContractService.class);
                 if ("add".equals(command)) {
-                    service.contractGroupAdd(contractId, groupId);
+                    RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
+                            "ContractService", "contractGroupAdd");
+                    req.setParamContractId(contractId);
+                    req.setParam("groupId",groupId);
+                    JsonNode res = transferData.postDataReturn(req, user);
                 } else if ("del".equals(command)) {
-                    service.contractGroupRemove(contractId, groupId);
+                    RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
+                            "ContractService", "contractGroupRemove");
+                    req.setParamContractId(contractId);
+                    req.setParam("groupId",groupId);
+                    JsonNode res = transferData.postDataReturn(req, user);
                 }
             } catch (Exception e) {
                 processWebServiceException(e);

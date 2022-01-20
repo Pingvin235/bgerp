@@ -32,13 +32,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatus;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.ContractTariff;
 import ru.bgcrm.plugin.bgbilling.proto.model.tariff.TariffGroup;
-import ru.bgcrm.plugin.bgbilling.ws.contract.balance.paymcharge.AbstractPaymentTypes;
-import ru.bgcrm.plugin.bgbilling.ws.contract.balance.paymcharge.PaymentAndChargeService;
-import ru.bgcrm.plugin.bgbilling.ws.contract.balance.paymcharge.PaymentAndChargeService_Service;
-import ru.bgcrm.plugin.bgbilling.ws.contract.balance.paymcharge.PaymentTypeItem;
-import ru.bgcrm.plugin.bgbilling.ws.contract.status.ContractStatusMonitorService;
-import ru.bgcrm.plugin.bgbilling.ws.contract.status.ContractStatusMonitorService_Service;
-import ru.bgcrm.plugin.bgbilling.ws.contract.status.Status;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
@@ -52,7 +45,8 @@ public class DirectoryDAO extends BillingDAO {
     private static final String CONTRACT_MODULE_ID = "contract";
     private static final String CONTRACT_OBJECT_MODULE_ID = "contract.object";
 
-    private static final List<IdTitle> FIXED_OLD_STATUS_LIST = new ArrayList<IdTitle>();
+    private static final List<IdTitle> FIXED_OLD_STATUS_LIST = new ArrayList<>();
+    private static final String TITLE_PARAM = "title";
 
     static {
         FIXED_OLD_STATUS_LIST.add(new IdTitle(ContractStatus.ACTIVE, "активен"));
@@ -81,27 +75,13 @@ public class DirectoryDAO extends BillingDAO {
             result = readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
         }
-        else if (dbInfo.getVersion().compareTo("6.2") >= 0) {
+        else  {
             RequestJsonRpc req = new RequestJsonRpc(CONTRACT_STATUS_MODULE_ID, "ContractStatusMonitorService", "getStatusList");
             req.setParam("onlyManual", true);
 
             result = readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
         }
-        // TODO: Убрать поддержку вместе с сервисом.    
-        else {
-            result = new ArrayList<IdTitle>();
-            try {
-                ContractStatusMonitorService service = getWebService(ContractStatusMonitorService_Service.class,
-                        ContractStatusMonitorService.class);
-                for (Status status : service.getStatusList(true)) {
-                    result.add(new IdTitle(status.getId(), status.getTitle()));
-                }
-            } catch (Exception e) {
-                processWebServiceException(e);
-            }
-        }
-
         return result;
     }
 
@@ -116,12 +96,12 @@ public class DirectoryDAO extends BillingDAO {
         Element dataElement = document.getDocumentElement();
         NodeList nodeList = dataElement.getElementsByTagName("item");
 
-        List<IdTitle> scriptTypeList = new ArrayList<IdTitle>();
+        List<IdTitle> scriptTypeList = new ArrayList<>();
         for (int index = 0; index < nodeList.getLength(); index++) {
             Element rowElement = (Element) nodeList.item(index);
             IdTitle type = new IdTitle();
             type.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            type.setTitle(rowElement.getAttribute("title"));
+            type.setTitle(rowElement.getAttribute(TITLE_PARAM));
 
             scriptTypeList.add(type);
         }
@@ -147,16 +127,6 @@ public class DirectoryDAO extends BillingDAO {
             } catch (Exception e) {
                 throw new BGException(e);
             }
-        } else if (dbInfo.getVersion().compareTo("5.2") >= 0) {
-            try {
-                PaymentAndChargeService service = getWebService(PaymentAndChargeService_Service.class,
-                        PaymentAndChargeService.class);
-                PaymentTypeItem rootItem = service.getPaymentTree(-1);
-
-                loadTypes(contractPaymentTypes, rootItem);
-            } catch (Exception e) {
-                processWebServiceException(e);
-            }
         } else {
             Request request = new Request();
             request.setModule(CONTRACT_MODULE_ID);
@@ -177,22 +147,22 @@ public class DirectoryDAO extends BillingDAO {
                 if (allowedTypeIds.isEmpty() || allowedTypeIds.contains(typeId)) {
 
                     if ("1".equals(itemElement.getAttribute("type"))) {
-                        if (Utils.notBlankString(typeClass.getTitle()) || typeClass.getChildren().size() > 0) {
+                        if (Utils.notBlankString(typeClass.getTitle()) || !typeClass.getChildren().isEmpty()) {
                             contractPaymentTypes.addChild(typeClass);
                         }
                         typeClass = new TypeTreeItem();
                         typeClass.setId(typeId);
-                        typeClass.setTitle(itemElement.getAttribute("title"));
+                        typeClass.setTitle(itemElement.getAttribute(TITLE_PARAM));
                     } else {
                         TypeTreeItem type = new TypeTreeItem();
                         type.setId(typeId);
-                        type.setTitle(itemElement.getAttribute("title"));
+                        type.setTitle(itemElement.getAttribute(TITLE_PARAM));
 
                         typeClass.addChild(type);
                     }
                 }
             }
-            if (Utils.notBlankString(typeClass.getTitle()) || typeClass.getChildren().size() > 0) {
+            if (Utils.notBlankString(typeClass.getTitle()) || !typeClass.getChildren().isEmpty()) {
                 contractPaymentTypes.addChild(typeClass);
             }
         }
@@ -220,16 +190,6 @@ public class DirectoryDAO extends BillingDAO {
                 throw new BGException(e);
             }
 
-        } else if (dbInfo.getVersion().compareTo("5.2") >= 0) {
-            try {
-                PaymentAndChargeService service = getWebService(PaymentAndChargeService_Service.class,
-                        PaymentAndChargeService.class);
-                PaymentTypeItem rootItem = service.getChargeTree(-1);
-
-                loadTypes(contractChargeTypes, rootItem);
-            } catch (Exception e) {
-                processWebServiceException(e);
-            }
         } else {
             Request request = new Request();
             request.setModule(CONTRACT_MODULE_ID);
@@ -241,9 +201,6 @@ public class DirectoryDAO extends BillingDAO {
             Element dataElement = document.getDocumentElement();
             NodeList nodeList = dataElement.getElementsByTagName("item");
 
-            /*TypeTreeItem contractChargeTypes = new TypeTreeItem();
-            contractChargeTypes.setTitle( "Все типы" );*/
-
             TypeTreeItem typeClass = new TypeTreeItem();
 
             for (int index = 0; index < nodeList.getLength(); index++) {
@@ -252,22 +209,22 @@ public class DirectoryDAO extends BillingDAO {
                 int typeId = Utils.parseInt(itemElement.getAttribute("id"));
                 if (allowedTypeIds.isEmpty() || allowedTypeIds.contains(typeId)) {
                     if ("1".equals(itemElement.getAttribute("type"))) {
-                        if (Utils.notBlankString(typeClass.getTitle()) || typeClass.getChildren().size() > 0) {
+                        if (Utils.notBlankString(typeClass.getTitle()) || !typeClass.getChildren().isEmpty()) {
                             contractChargeTypes.addChild(typeClass);
                         }
                         typeClass = new TypeTreeItem();
                         typeClass.setId(typeId);
-                        typeClass.setTitle(itemElement.getAttribute("title"));
+                        typeClass.setTitle(itemElement.getAttribute(TITLE_PARAM));
                     } else {
                         TypeTreeItem type = new TypeTreeItem();
                         type.setId(typeId);
-                        type.setTitle(itemElement.getAttribute("title"));
+                        type.setTitle(itemElement.getAttribute(TITLE_PARAM));
 
                         typeClass.addChild(type);
                     }
                 }
             }
-            if (Utils.notBlankString(typeClass.getTitle()) || typeClass.getChildren().size() > 0) {
+            if (Utils.notBlankString(typeClass.getTitle()) || !typeClass.getChildren().isEmpty()) {
                 contractChargeTypes.addChild(typeClass);
             }
         }
@@ -275,29 +232,17 @@ public class DirectoryDAO extends BillingDAO {
         return contractChargeTypes;
     }
 
-    public void loadTypes(TypeTreeItem contractChargeTypes, AbstractPaymentTypes rootItem) {
-        for (AbstractPaymentTypes type : rootItem.getChildren()) {
-            TypeTreeItem item = new TypeTreeItem();
-            item.setId(type.getId());
-            item.setTitle(type.getTitle());
-
-            contractChargeTypes.addChild(item);
-
-            loadTypes(item, type);
-        }
-    }
-
     public List<IdTitle> getServiceTypeList(int moduleId) throws BGException {
-        List<IdTitle> list = new ArrayList<IdTitle>();
+        List<IdTitle> list = new ArrayList<>();
 
         Request req = new Request();
-        req.setModule("service");
+        req.setModule(SERVICE_MODULE_ID);
         req.setAction("GetServiceList");
         req.setModuleID(moduleId);
 
         Document doc = transferData.postData(req, user);
         for (Element e : XMLUtils.selectElements(doc, "/data/services/service")) {
-            list.add(new IdTitle(Utils.parseInt(e.getAttribute("id")), e.getAttribute("title")));
+            list.add(new IdTitle(Utils.parseInt(e.getAttribute("id")), e.getAttribute(TITLE_PARAM)));
         }
 
         return list;
@@ -354,7 +299,7 @@ public class DirectoryDAO extends BillingDAO {
 
             NodeList nodeSet = (NodeList) xpath.evaluate("/data/common:result/data/node()", doc,
                     XPathConstants.NODESET);
-            List<ContractTariff> contractTariffList = new ArrayList<ContractTariff>();
+            List<ContractTariff> contractTariffList = new ArrayList<>();
             for (int i = 0; i < nodeSet.getLength(); i++) {
                 Node node = nodeSet.item(i);
                 ContractTariff contractTariff = new ContractTariff();
@@ -385,12 +330,12 @@ public class DirectoryDAO extends BillingDAO {
         Element dataElement = document.getDocumentElement();
         NodeList nodeList = dataElement.getElementsByTagName("item");
 
-        List<IdTitle> registerGroupTariffList = new ArrayList<IdTitle>();
+        List<IdTitle> registerGroupTariffList = new ArrayList<>();
         for (int index = 0; index < nodeList.getLength(); index++) {
             Element rowElement = (Element) nodeList.item(index);
             IdTitle type = new IdTitle();
             type.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            type.setTitle(rowElement.getAttribute("title"));
+            type.setTitle(rowElement.getAttribute(TITLE_PARAM));
 
             if (selectedTariffGroupId == type.getId()) {
                 registerGroupTariffList.add(0, type);
@@ -412,12 +357,12 @@ public class DirectoryDAO extends BillingDAO {
         Element dataElement = document.getDocumentElement();
         NodeList nodeList = dataElement.getElementsByTagName("module");
 
-        List<IdTitle> moduleList = new ArrayList<IdTitle>();
+        List<IdTitle> moduleList = new ArrayList<>();
         for (int index = 0; index < nodeList.getLength(); index++) {
             Element rowElement = (Element) nodeList.item(index);
             IdTitle module = new IdTitle();
             module.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            module.setTitle(rowElement.getAttribute("title"));
+            module.setTitle(rowElement.getAttribute(TITLE_PARAM));
 
             moduleList.add(module);
         }
@@ -458,12 +403,12 @@ public class DirectoryDAO extends BillingDAO {
         Element dataElement = document.getDocumentElement();
         NodeList nodeList = dataElement.getElementsByTagName("item");
 
-        List<IdTitle> objectTypeList = new ArrayList<IdTitle>();
+        List<IdTitle> objectTypeList = new ArrayList<>();
         for (int index = 0; index < nodeList.getLength(); index++) {
             Element rowElement = (Element) nodeList.item(index);
             IdTitle type = new IdTitle();
             type.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            type.setTitle(rowElement.getAttribute("title"));
+            type.setTitle(rowElement.getAttribute(TITLE_PARAM));
 
             objectTypeList.add(type);
         }
@@ -505,7 +450,7 @@ public class DirectoryDAO extends BillingDAO {
             data.setId(objectId);
             data.setName(rowElement.getAttribute("name"));
             data.setPackClient(rowElement.getAttribute("pack_client"));
-            data.setTitle(rowElement.getAttribute("title"));
+            data.setTitle(rowElement.getAttribute(TITLE_PARAM));
 
             moduleInfo.getModuleList().add(data);
         }
@@ -517,14 +462,12 @@ public class DirectoryDAO extends BillingDAO {
         RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.bgsecure", "UserService",
                 "userInfoList");
         JsonNode res = transferData.postDataReturn(req, user);
-        System.out.println(res);
         List<UserInfo> userList = readJsonValue(res.traverse(), jsonTypeFactory.constructCollectionType(List.class, UserInfo.class));
-        Map<Integer, UserInfo> resultMap = userList.stream().collect(Collectors.toMap(i->{
+        return userList.stream().collect(Collectors.toMap(i->{
                 if(i.getId()==-1&&!i.getName().equals("Пользователь")){
                     return -1*i.getId()*i.getName().codePointAt(0);//надо кудато деть эту гадость
-                }; return i.getId();
+                }
+                return i.getId();
             }, Function.identity()));
-        return resultMap;
-
     }
 }

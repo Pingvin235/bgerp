@@ -17,10 +17,6 @@ import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.ContractStatusDAO8x;
 import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatus;
 import ru.bgcrm.plugin.bgbilling.proto.model.status.ContractStatusLogItem;
-import ru.bgcrm.plugin.bgbilling.ws.contract.status.ContractStatusMonitorService;
-import ru.bgcrm.plugin.bgbilling.ws.contract.status.ContractStatusMonitorService_Service;
-import ru.bgcrm.plugin.bgbilling.ws.contract.status51.WSContractStatusMonitor;
-import ru.bgcrm.plugin.bgbilling.ws.contract.status51.WSContractStatusMonitor_Service;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
@@ -62,7 +58,7 @@ public class ContractStatusDAO extends BillingDAO {
      * @throws BGException
      */
     public List<ContractStatus> statusList(int contractId) throws BGException {
-        List<ContractStatus> statusList = new ArrayList<ContractStatus>();
+        List<ContractStatus> statusList = new ArrayList<>();
 
         Request request = new Request();
         request.setModule(MODULE);
@@ -87,7 +83,7 @@ public class ContractStatusDAO extends BillingDAO {
      * @throws BGException
      */
     public List<ContractStatusLogItem> statusLog(int contractId) throws BGException {
-        List<ContractStatusLogItem> result = new ArrayList<ContractStatusLogItem>();
+        List<ContractStatusLogItem> result = new ArrayList<>();
 
         Request request = new Request();
         request.setModule(MODULE);
@@ -109,7 +105,7 @@ public class ContractStatusDAO extends BillingDAO {
         return result;
     }
 
-    private void loadContractStatus(Element element, ContractStatus status) throws BGException {
+    private void loadContractStatus(Element element, ContractStatus status) {
         status.setId(Utils.parseInt(element.getAttribute("id")));
         status.setComment(element.getAttribute("comment"));
         status.setStatus(element.getAttribute("status"));
@@ -118,7 +114,6 @@ public class ContractStatusDAO extends BillingDAO {
 
     public void updateStatus(int contractId, int statusId, Date dateFrom, Date dateTo, String comment)
             throws BGException {
-        if (dbInfo.versionCompare("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(CONTRACT_STATUS_MODULE_ID, "ContractStatusMonitorService", "changeContractStatus");
             req.setParam("cid", Collections.singletonList(contractId));
             req.setParam("statusId", statusId);
@@ -128,26 +123,5 @@ public class ContractStatusDAO extends BillingDAO {
             req.setParam("confirmChecked",true);
             
             transferData.postDataReturn(req, user);
-        }
-        //TODO: Убрать со временем.
-        else  if (dbInfo.getVersion().compareTo("5.2") >= 0) {
-            try {
-                ContractStatusMonitorService service = getWebService(ContractStatusMonitorService_Service.class,
-                        ContractStatusMonitorService.class);
-                service.changeContractStatus(Collections.singletonList(contractId), statusId, dateFrom, dateTo,
-                        comment);
-            } catch (Exception e) {
-                processWebServiceException(e);
-            }
-        } else {
-            try {
-                WSContractStatusMonitor service = getWebService(WSContractStatusMonitor_Service.class,
-                        WSContractStatusMonitor.class);
-                service.changeContractStatus(Collections.singletonList(contractId), statusId, dateFrom, dateTo,
-                        comment);
-            } catch (Exception e) {
-                processWebServiceException(e);
-            }
-        }
     }
 }
