@@ -1,9 +1,10 @@
-package org.bgerp.plugin.bil.billing.invoice.pp;
+package org.bgerp.plugin.bil.billing.invoice.pos;
 
 import org.bgerp.plugin.bil.billing.invoice.model.Invoice;
 
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
+import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
  * Generator of invoice positions.
@@ -19,5 +20,5 @@ public abstract class PositionProvider extends Config {
      * Appends position to invoice.
      * @param invoice
      */
-    public abstract void addPositions(Invoice invoice);
+    public abstract void addPositions(ConnectionSet conSet, Invoice invoice) throws Exception;
 }

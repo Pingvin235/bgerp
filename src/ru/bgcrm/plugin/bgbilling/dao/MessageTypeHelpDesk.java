@@ -56,7 +56,7 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class MessageTypeHelpDesk extends MessageType {
     private static final Logger log = Logger.getLogger(MessageTypeHelpDesk.class);
@@ -179,7 +179,7 @@ public class MessageTypeHelpDesk extends MessageType {
 
             DBInfo dbInfo = getDbInfo();
 
-            ProcessDAO processDao = new ProcessDAO(con);			
+            ProcessDAO processDao = new ProcessDAO(con);
 
             final String objectType = getObjectType();
 
@@ -199,20 +199,20 @@ public class MessageTypeHelpDesk extends MessageType {
             while (rs.next())
                 activeHdProcessTopicIds.put(rs.getInt(1), rs.getInt(2));
             ps.close();
-            
+
             DynActionForm form = new DynActionForm(user);
             HelpDeskDAO hdDao = new HelpDeskDAO(user, dbInfo);
-            
+
             if (dbInfo.versionCompare("7.2") >= 0) {
                 SearchResult<Pair<HdTopic, List<HdMessage>>> result = new SearchResult<>();
                 result.getPage().setPageIndex(1);
                 result.getPage().setPageSize(pageSize);
-                
+
                 hdDao.searchTopicMessages(result);
-                
+
                 for (Pair<HdTopic, List<HdMessage>> pair : result.getList()) {
                     HdTopic topic = pair.getFirst();
-                    
+
                     Process process = processTopic(con, activeHdProcessTopicIds, processType, objectType, form, hdDao, topic);
 
                     updateProcessFromTopic(con, processType, process, topic, pair.getSecond());
@@ -224,13 +224,13 @@ public class MessageTypeHelpDesk extends MessageType {
                 SearchResult<HdTopic> result = new SearchResult<HdTopic>();
                 result.getPage().setPageIndex(1);
                 result.getPage().setPageSize(pageSize);
-    
+
                 //TODO: Нужно сделать, чтобы выбирались только темы с сообщениями после определённого времени.
                 // До сих пор есть проблема, что если во время синхронизации кто-то закрыл процесс - он откроется,
                 // т.к. выборка топиков была до.
                 // тема 3353 связана с процессом 3548
                 hdDao.seachTopicList(result, null, false, false, null /*3353 2025*/ );
-    
+
                 for (HdTopic topic : result.getList()) {
                     Process process = processTopic(con, activeHdProcessTopicIds, processType, objectType, form, hdDao, topic);
 
@@ -285,7 +285,7 @@ public class MessageTypeHelpDesk extends MessageType {
 
     private Process processTopic(Connection con, Map<Integer, Integer> activeHdProcessTopicIds, ProcessType processType, final String objectType,
             DynActionForm form, HelpDeskDAO hdDao, HdTopic topic) throws Exception, BGException {
-        if (log.isDebugEnabled()) 
+        if (log.isDebugEnabled())
             log.debug("Processing topic: " + topic.getId());
 
         SearchResult<Pair<String, Process>> searchResult = new SearchResult<Pair<String, Process>>();
@@ -319,7 +319,7 @@ public class MessageTypeHelpDesk extends MessageType {
             activeHdProcessTopicIds.remove(process.getId());
 
             if (process.getCloseTime() != null) {
-                //костыль на случай если тему уже закрыли пока работает задача. 					    
+                //костыль на случай если тему уже закрыли пока работает задача.
                 if (!isTopicClosed(hdDao, topic.getId())) {
                     log.info("Opening process: " + process.getId());
 
@@ -345,7 +345,7 @@ public class MessageTypeHelpDesk extends MessageType {
         hdDao.seachTopicList(result2, null, true, false, topicId);
         //getTopicMessageListgetTopicMessageList
         HdTopic topic2 = Utils.getFirst(result2.getList());
-        //если тема закрыта, то список должен вернуться пустым        
+        //если тема закрыта, то список должен вернуться пустым
         return topic2 != null;
     }
 
@@ -371,7 +371,7 @@ public class MessageTypeHelpDesk extends MessageType {
 
         // обработка сообщений и точных данных, повторная выборка позволяет получить актуальное состояние
         // т.к. до этого во время синхронизации иногда что-то менялось и синхронизация сбрасывала изменения в BGERP (исполнителя)
-        if (hdMessages == null) {		
+        if (hdMessages == null) {
             Pair<HdTopic, List<HdMessage>> pair = hdDao.getTopicMessageList(topic.getId());
             topic = pair.getFirst();
             hdMessages = pair.getSecond();
@@ -459,7 +459,7 @@ public class MessageTypeHelpDesk extends MessageType {
                     // событие о новом сообщении
                     EventProcessor.processEvent(
                             new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, message, process),
-                            processType.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+                            processType.getProperties().getActualScriptName(), new SingleConnectionSet(con));
             }
 
             // отметка сообщения прочитанным

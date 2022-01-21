@@ -15,7 +15,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class ProcessReferenceConfig extends Config {
     private List<ProcessReferenceConfigItem> itemList = new ArrayList<>();
@@ -40,7 +40,7 @@ public class ProcessReferenceConfig extends Config {
             for (String objectType : objectTypes) {
                 if (item.objectTypes.contains(objectType)) {
                     Map<String, Object> context = DefaultProcessChangeListener
-                            .getProcessJexlContext(new SingleConnectionConnectionSet(con), form, null, process);
+                            .getProcessJexlContext(new SingleConnectionSet(con), form, null, process);
                     result = new Expression(context).getString(item.macros);
                     break MAIN_LOOP;
                 }

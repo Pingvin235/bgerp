@@ -23,7 +23,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 import ru.bgerp.l10n.Localization;
 
 public class MessageTypeNote extends MessageType {
@@ -60,7 +60,7 @@ public class MessageTypeNote extends MessageType {
                 log.error("Not found process type with id:" + process.getTypeId());
             } else {
                 EventProcessor.processEvent(new ProcessMessageAddedEvent(form, message, process),
-                        type.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+                        type.getProperties().getActualScriptName(), new SingleConnectionSet(con));
             }
         }
     }
@@ -101,7 +101,7 @@ public class MessageTypeNote extends MessageType {
     public boolean isEditable(Message message) {
         return true;
     }
-    
+
     @Override
     public boolean isRemovable(Message message) {
         return true;

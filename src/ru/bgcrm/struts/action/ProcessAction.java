@@ -64,7 +64,7 @@ import ru.bgcrm.util.PatternFormatter;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Action(path = "/user/process")
 public class ProcessAction extends BaseAction {
@@ -223,7 +223,7 @@ public class ProcessAction extends BaseAction {
         }
 
         EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATED), null,
-                new SingleConnectionConnectionSet(con));
+                new SingleConnectionSet(con));
 
         form.getResponse().setData("process", process);
     }
@@ -281,7 +281,7 @@ public class ProcessAction extends BaseAction {
         processDao.processIdInvert(process);
 
         EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATE_FINISHED),
-                null, new SingleConnectionConnectionSet(con));
+                null, new SingleConnectionSet(con));
 
         TemporaryObjectOpenListener.flushUserData(form.getUserId());
 
@@ -359,7 +359,7 @@ public class ProcessAction extends BaseAction {
             }
 
             EventProcessor.processEvent(new ProcessChangingEvent(form, process, change, ProcessChangingEvent.MODE_STATUS_CHANGING),
-                    requireParam.getScript(), new SingleConnectionConnectionSet(con), false);
+                    requireParam.getScript(), new SingleConnectionSet(con), false);
         }
 
         processDoEvent(form, process, new ProcessChangingEvent(form, process, change, ProcessChangingEvent.MODE_STATUS_CHANGING), con);
@@ -676,7 +676,7 @@ public class ProcessAction extends BaseAction {
     private static void processDoEvent(DynActionForm form, Process process, UserEvent event, Connection con) throws Exception {
         ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
         if (type != null) {
-            EventProcessor.processEvent(event, null, new SingleConnectionConnectionSet(con));
+            EventProcessor.processEvent(event, null, new SingleConnectionSet(con));
         }
     }
 
@@ -736,7 +736,7 @@ public class ProcessAction extends BaseAction {
 
         ProcessRequestEvent processRequestEvent = new ProcessRequestEvent(form, type);
 
-        EventProcessor.processEvent(processRequestEvent, null, new SingleConnectionConnectionSet(con));
+        EventProcessor.processEvent(processRequestEvent, null, new SingleConnectionSet(con));
 
         if (Utils.notBlankString(processRequestEvent.getForwardJspName())) {
             return html(con, form, processRequestEvent.getForwardJspName());

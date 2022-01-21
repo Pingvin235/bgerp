@@ -183,7 +183,7 @@ public class Config extends ru.bgcrm.util.Config {
             fd = new FileData();
             fd.setTitle(License.FILE_NAME);
             new FileDataDAO(conSet.getConnection()).add(fd);
-            paramDao.updateParamFile(processId, paramLicFileId, 0, "", fd);
+            paramDao.updateParamFile(processId, paramLicFileId, 0, fd);
         } else {
             fd.setOutputStream(new FileOutputStream(new FileDataDAO(null).getFile(fd)));
         }

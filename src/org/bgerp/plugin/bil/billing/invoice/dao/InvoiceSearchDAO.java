@@ -53,7 +53,7 @@ public class InvoiceSearchDAO extends CommonDAO {
                 pd.addQuery(SQL_AND).addQuery("payment_date IS ").addQuery(payed ? "NOT" : "").addQuery("NULL");
 
             if (orderFromDate) {
-                pd.addQuery(SQL_ORDER_BY).addQuery("from_date");
+                pd.addQuery(SQL_ORDER_BY).addQuery("date_from");
                 if (orderDesc)
                     pd.addQuery(SQL_DESC);
             }
@@ -62,6 +62,8 @@ public class InvoiceSearchDAO extends CommonDAO {
             while (rs.next()) {
                 result.getList().add(InvoiceDAO.getFromRs(rs));
             }
+
+            setRecordCount(result.getPage(), pd.getPrepared());
         }
     }
 }

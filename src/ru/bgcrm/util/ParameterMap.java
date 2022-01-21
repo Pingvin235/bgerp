@@ -21,6 +21,7 @@ import ru.bgcrm.util.Config.InitStopException;
 
 /**
  * Key - value strings map.
+ *
  * @author Shamil Vakhitov
  */
 public abstract class ParameterMap extends AbstractMap<String, String> {

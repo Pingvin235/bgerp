@@ -53,7 +53,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 import ru.bgerp.l10n.Localizer;
 
 public class BaseAction extends DispatchAction {
@@ -410,7 +410,7 @@ public class BaseAction extends DispatchAction {
      * @return
      */
     protected ActionForward html(Connection con, DynActionForm form, String path) {
-        return html(new SingleConnectionConnectionSet(con), form, path);
+        return html(new SingleConnectionSet(con), form, path);
     }
 
     /**
@@ -481,7 +481,7 @@ public class BaseAction extends DispatchAction {
      */
     @Deprecated
     protected ActionForward html(Connection con, ActionMapping mapping, DynActionForm form, String name) {
-        return html(new SingleConnectionConnectionSet(con), mapping, form, name);
+        return html(new SingleConnectionSet(con), mapping, form, name);
     }
 
     /**
@@ -528,7 +528,7 @@ public class BaseAction extends DispatchAction {
     @Deprecated
     protected ActionForward processUserTypedForward(Connection con, ActionMapping mapping, DynActionForm form, HttpServletResponse response,
             String htmlForwardName) {
-        return html(new SingleConnectionConnectionSet(con), mapping, form, htmlForwardName);
+        return html(new SingleConnectionSet(con), mapping, form, htmlForwardName);
     }
 
     @Deprecated
@@ -554,7 +554,7 @@ public class BaseAction extends DispatchAction {
      * @return
      */
     protected ActionForward json(Connection con, DynActionForm form) {
-        return json(new SingleConnectionConnectionSet(con), form);
+        return json(new SingleConnectionSet(con), form);
     }
 
     /**
@@ -655,11 +655,11 @@ public class BaseAction extends DispatchAction {
         if (lastModify.getTime() != null) {
             int lastModifyUserId = Utils.parseInt(form.getParam("lastModifyUserId"), 0);
             Date lastModifyTime = TimeUtils.parse(form.getParam("lastModifyTime"), TimeUtils.PATTERN_YYYYMMDDHHMMSS);
-            String displayUser = UserCache.getUser(form.getUserId()).getTitle();
 
-            if (!((lastModify.getTime().equals(lastModifyTime)) && (lastModify.getUserId() == lastModifyUserId))) {
-                throw new BGMessageException("Объект был изменен пользователем \"" + displayUser + "\" "
-                        + TimeUtils.format(lastModify.getTime(), TimeUtils.FORMAT_TYPE_YMDHMS));
+            // equals doesn't work here, because lastModify.getTime() can be java.sql.Timestamp
+            if (lastModify.getTime().getTime() != lastModifyTime.getTime() || lastModify.getUserId() != lastModifyUserId) {
+                throw new BGMessageException("Объект был изменен пользователем \"{}\" {}", UserCache.getUser(form.getUserId()).getTitle(),
+                        TimeUtils.format(lastModify.getTime(), TimeUtils.FORMAT_TYPE_YMDHMS));
             }
         }
 

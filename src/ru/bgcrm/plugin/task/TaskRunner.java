@@ -15,7 +15,7 @@ import ru.bgcrm.plugin.task.model.Task;
 import ru.bgcrm.plugin.task.model.TaskType;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**
  * Tasks runner.
@@ -59,7 +59,7 @@ public class TaskRunner extends org.bgerp.scheduler.Task {
                     else
                         try {
                             Map<String, Object> context = DefaultProcessChangeListener
-                                    .getProcessJexlContext(new SingleConnectionConnectionSet(con), DynActionForm.SERVER_FORM, null, process);
+                                    .getProcessJexlContext(new SingleConnectionSet(con), DynActionForm.SERVER_FORM, null, process);
                             context.put("taskObject", task);
                             context.put("taskType", type);
                             Expression expression = new Expression(context);

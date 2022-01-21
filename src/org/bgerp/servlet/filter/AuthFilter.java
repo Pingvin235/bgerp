@@ -29,7 +29,7 @@ import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 import ru.bgerp.l10n.Localization;
 
 /**
@@ -127,7 +127,7 @@ public class AuthFilter implements Filter {
             var event = new AuthEvent(login, password, user);
 
             try (var con = Setup.getSetup().getDBConnectionFromPool()) {
-                EventProcessor.processEvent(event, new SingleConnectionConnectionSet(con));
+                EventProcessor.processEvent(event, new SingleConnectionSet(con));
             } catch (Exception e) {
                 log.error(e);
             }

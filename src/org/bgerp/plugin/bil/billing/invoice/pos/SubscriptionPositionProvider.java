@@ -1,5 +1,6 @@
-package org.bgerp.plugin.bil.billing.invoice.pp;
+package org.bgerp.plugin.bil.billing.invoice.pos;
 
+/*
 import org.bgerp.plugin.bil.billing.invoice.model.Invoice;
 import org.bgerp.plugin.bil.billing.subscription.Config;
 import org.bgerp.plugin.bil.billing.subscription.dao.SubscriptionDAO;
@@ -11,11 +12,6 @@ import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 
-/**
- * Expression provider for plugin Subscription.
- *
- * @author Shamil Vakhitov
- */
 public class SubscriptionPositionProvider extends PositionProvider {
     private static final Log log = Log.getLog();
 
@@ -46,5 +42,5 @@ public class SubscriptionPositionProvider extends PositionProvider {
             log.error(e);
         }
     }
-
 }
+*/

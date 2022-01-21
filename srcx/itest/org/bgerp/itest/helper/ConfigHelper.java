@@ -37,37 +37,37 @@ public class ConfigHelper {
         Assert.assertTrue(configId > 0);
 
         ConfigHelper.addMainConfigInclude(dao, title, configId);
-        
+
         return configId;
     }
-    
+
     private static void addMainConfigInclude(ConfigDAO dao, String title, int configId) throws Exception {
         synchronized (ConfigTest.class) {
             var configMain = dao.getGlobalConfig(ConfigTest.configMainId);
             configMain.setData(configMain.getData() + "\n#\n# " + title + "\ninclude." + configId + "=1");
             dao.updateGlobalConfig(configMain);
-            
+
             Preferences.processIncludes(dao, configMain.getData(), true);
 
             Setup.resetSetup(DbTest.conPoolRoot);
         }
     }
-    
+
     public static void addToConfig(int configId, String content) throws Exception {
         var con = DbTest.conRoot;
         var dao = new ConfigDAO(con);
 
         var config = dao.getGlobalConfig(configId);
         Assert.assertNotNull(config);
-        
+
         config.setData(config.getData() + content);
-        
+
         dao.updateGlobalConfig(config);
     }
-    
+
     public static String generateConstants(Object... pairs) {
         var config = new StringBuilder();
-        config.append("# constants\n");
+        config.append("\n# constants\n");
         //TODO: User ParameterMap.of(pairs)
         for (int i = 0; i < pairs.length; i += 2) {
             config

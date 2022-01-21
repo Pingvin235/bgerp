@@ -27,7 +27,7 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public abstract class MessageType extends IdTitle {
     private static final Log log = Log.getLog();
@@ -283,7 +283,7 @@ public abstract class MessageType extends IdTitle {
         // announced
         for (String fileId : form.getSelectedValuesListStr("announcedFileId")) {
             var event = new ProcessFileGetEvent(form, message.getProcessId(), fileId);
-            EventProcessor.processEvent(event, new SingleConnectionConnectionSet(con));
+            EventProcessor.processEvent(event, new SingleConnectionSet(con));
 
             if (event.getFileData() == null) {
                 log.debug("Not found bytes for announcedFileId: " + fileId);

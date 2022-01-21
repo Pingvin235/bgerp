@@ -8,8 +8,8 @@ import java.sql.Connection;
  *
  * @author Shamil Vakhitov
  */
-public class SingleConnectionConnectionSet extends ConnectionSet {
-    public SingleConnectionConnectionSet(Connection master) {
+public class SingleConnectionSet extends ConnectionSet {
+    public SingleConnectionSet(Connection master) {
         super(master);
     }
 

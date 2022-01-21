@@ -2,17 +2,15 @@ package org.bgerp.plugin.bil.billing.invoice.event.listener;
 
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.event.ProcessFilesEvent;
-import org.bgerp.plugin.bil.billing.invoice.Config;
 import org.bgerp.plugin.bil.billing.invoice.Plugin;
-import org.bgerp.plugin.bil.billing.invoice.dao.InvoiceDAO;
+import org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction;
 import org.bgerp.plugin.bil.billing.invoice.dao.InvoiceSearchDAO;
 import org.bgerp.plugin.bil.billing.invoice.model.Invoice;
-import org.bgerp.util.Log;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.SearchResult;
-import ru.bgcrm.util.Setup;
+import ru.bgcrm.servlet.CustomHttpServletResponse;
 import ru.bgcrm.util.Utils;
 import ru.bgerp.l10n.Localization;
 
@@ -22,8 +20,6 @@ import ru.bgerp.l10n.Localization;
  * @author Shamil Vakhitov
  */
 public class Files {
-    private static final Log log = Log.getLog();
-
     private static final String PREFIX = Plugin.ID + ":";
 
     public Files() {
@@ -48,16 +44,15 @@ public class Files {
                 return;
 
             int id = Utils.parseInt(e.getFileId().substring(PREFIX.length()));
-            var invoice = new InvoiceDAO(conSet.getSlaveConnection()).get(id);
 
-            if (invoice == null) {
-                log.error("Not found invoice with ID: {}", id);
-                return;
-            }
+            var form = e.getForm();
 
-            var type = Setup.getSetup().getConfig(Config.class).getType(invoice.getTypeId());
+            var type = InvoiceAction.doc(conSet, form, id);
+            Invoice invoice = (Invoice) form.getResponse().getData().get("invoice");
 
-            e.setFile(invoice.getNumber() + ".html", type.doc(e.getForm(), invoice));
+            byte[] data = CustomHttpServletResponse.jsp(form, type.getJsp(), 50000);
+
+            e.setFile(invoice.getNumber() + ".html", data);
         }, ProcessFileGetEvent.class);
     }
 }

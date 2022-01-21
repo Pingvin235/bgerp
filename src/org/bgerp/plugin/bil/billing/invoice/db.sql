@@ -1,8 +1,10 @@
 CREATE TABLE IF NOT EXISTS `invoice` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `type_id` INT NOT NULL,
-  `from_date` DATE NOT NULL,
+  `date_from` DATE NOT NULL,
+  `date_to` DATE,
   `process_id` INT NOT NULL,
+  `number_cnt` INT NOT NULL,
   `number` CHAR(20) NOT NULL,
   `amount` DECIMAL(10,2) NOT NULL,
   `created_dt` DATETIME NOT NULL,
@@ -13,5 +15,6 @@ CREATE TABLE IF NOT EXISTS `invoice` (
   `payment_user_id` INT,
   `positions` TEXT NOT NULL,
   KEY process_id(`process_id`),
-  KEY from_date(`from_date`)
+  KEY date_from(`date_from`),
+  UNIQUE KEY `number`(`number`)
 );

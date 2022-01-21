@@ -46,7 +46,7 @@ import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class ProcessCommandExecutor {
     public static final String COMMAND_ADD_GROUPS = "addGroups";
@@ -415,7 +415,7 @@ public class ProcessCommandExecutor {
                 }
             } else {
                 EventProcessor.processEvent(new ProcessDoActionEvent(form, process, command), type.getProperties().getActualScriptName(),
-                        new SingleConnectionConnectionSet(con));
+                        new SingleConnectionSet(con));
             }
         }
     }
@@ -488,7 +488,7 @@ public class ProcessCommandExecutor {
 
     protected static String getMessageChangeText(Connection con, DynActionForm form, UserEvent event, Process process, String exprText)
             throws BGException {
-        Map<String, Object> context = DefaultProcessChangeListener.getProcessJexlContext(new SingleConnectionConnectionSet(con), form, event,
+        Map<String, Object> context = DefaultProcessChangeListener.getProcessJexlContext(new SingleConnectionSet(con), form, event,
                 process);
 
         context.put("lastChangeLogItem", new ProcessDAO(con).getLastProcessChangeLog(process));

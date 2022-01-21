@@ -57,7 +57,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 import ru.bgerp.l10n.Localization;
 
 public class MessageTypeEmail extends MessageType {
@@ -540,7 +540,7 @@ public class MessageTypeEmail extends MessageType {
                     log.error("Not found process type with id:" + process.getTypeId());
                 } else {
                     EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, msg, process),
-                            new SingleConnectionConnectionSet(con));
+                            new SingleConnectionSet(con));
                 }
             }
 

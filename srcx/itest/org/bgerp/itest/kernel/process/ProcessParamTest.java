@@ -106,6 +106,6 @@ public class ProcessParamTest {
         Assert.assertNull(valueMoney);
         dao.updateParamMoney(processId, paramMoneyId, Utils.parseBigDecimal("10.55"));
         valueMoney = dao.getParamMoney(processId, paramMoneyId);
-        Assert.assertEquals(Utils.parseBigDecimal("10.55"), valueMoney);
+        Assert.assertEquals(valueMoney, Utils.parseBigDecimal("10.55"));
     }
 }

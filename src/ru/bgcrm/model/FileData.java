@@ -10,26 +10,42 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.bgerp.util.Log;
 
+import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.io.Base64;
 
+/**
+ * DB table entity with file metadata: ID, title, upload time.
+ * Files themselves are persisted in filestorage directory.
+ * @see FileDataDAO
+ *
+ * @author Shamil Vakhitov
+ */
 public class FileData extends IdTitle {
     private static final Log log = Log.getLog();
 
     private String secret;
-    private Date time = new Date();
+    private Date time;
+    /** Data to be stored. Not provided when reading. */
+    private byte[] data;
+    @JsonIgnore
+    private OutputStream outputStream;
+    // TODO: Remove user, comment and version.
     private User user;
     private String comment;
     private int version;
-    @JsonIgnore
-    private OutputStream outputStream;
 
     public FileData() {}
 
     public FileData(int id, String title, String secret) {
         super(id, title);
         this.secret = secret;
+    }
+
+    public FileData(String title, byte[] data) {
+        this.title = title;
+        this.data = data;
     }
 
     public String getSecret() {
@@ -84,30 +100,47 @@ public class FileData extends IdTitle {
         return result;
     }
 
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    @Deprecated
     public User getUser() {
         return user;
     }
 
+    @Deprecated
     public void setUser(User user) {
         this.user = user;
     }
 
+    @Deprecated
     public String getComment() {
         return comment;
     }
 
+    @Deprecated
     public void setComment(String comment) {
         this.comment = comment;
     }
 
+    @Deprecated
     public int getVersion() {
         return version;
     }
 
+    @Deprecated
     public void setVersion(int version) {
         this.version = version;
     }
 
+    /**
+     * @return output stream to the stored file.
+     */
     public OutputStream getOutputStream() {
         return outputStream;
     }

@@ -28,12 +28,14 @@ public class CustomerTest {
     public static final String LINK_TYPE_CUSTOMER = Customer.OBJECT_TYPE;
     public static final String LINK_TYPE_CONTACT = Customer.OBJECT_TYPE + "-contact";
 
+    public static volatile int posParam;
+
     public static volatile int paramEmailId;
     public static volatile int paramPhoneId;
 
     private int paramBirthDateId;
     private int paramBirthPlaceId;
-    private int paramLivingAddressId;
+    private int paramAddressId;
     private int paramReligionId;
     private int paramServiceAddressId;
 
@@ -56,48 +58,46 @@ public class CustomerTest {
     public static volatile Customer customerPersonIvan;
 
     @Test
-    public void addConfig() throws Exception {
+    public void config() throws Exception {
         ConfigHelper.addIncludedConfig("Kernel Customer", ResourceHelper.getResource(this, "config.txt"));
     }
 
     @Test
-    public void addParams() throws Exception {
-        int pos = 0;
-        paramEmailId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_EMAIL, "Email(s)", pos += 2, ParamTest.MULTIPLE, "");
-        paramPhoneId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_PHONE, "Phone number", pos += 2 , "", "");
+    public void param() throws Exception {
+        paramEmailId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_EMAIL, "Email(s)", posParam += 2, ParamTest.MULTIPLE, "");
+        paramPhoneId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_PHONE, "Phone number", posParam += 2 , "", "");
 
         // TODO: Make date chooser configuration.
-        paramBirthDateId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_DATE, "Birth date", pos += 2, "", "");
-        paramBirthPlaceId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Birth place", pos += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
-        paramLivingAddressId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Residential address", pos += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
-        paramReligionId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Religion", pos += 2, ParamTest.ENCRYPTED, "");
-        paramServiceAddressId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_ADDRESS, "Service address", pos += 2, "", "");
+        paramBirthDateId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_DATE, "Birth date", posParam += 2, "", "");
+        paramBirthPlaceId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Birth place", posParam += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
+        paramAddressId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Address", posParam += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
+        paramReligionId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Religion", posParam += 2, ParamTest.ENCRYPTED, "");
+        paramServiceAddressId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_ADDRESS, "Service address", posParam += 2, ParamTest.MULTIPLE, "");
 
-        paramOrgTitleId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Organization title", pos += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
-        paramOrgFormId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_LIST, "Organization form", pos += 2, "", ResourceHelper.getResource(this, "orgforms.txt"));
+        paramOrgTitleId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Organization title", posParam += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
+        paramOrgFormId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_LIST, "Organization form", posParam += 2, "",
+                ResourceHelper.getResource(this, "orgforms.txt"));
 
         // IBAN, BIC - with validation
-
-        // Russian INN, KPP
     }
 
-    @Test(dependsOnMethods = "addParams")
-    public void addParamGroups() throws Exception {
+    @Test(dependsOnMethods = "param")
+    public void paramGroup() throws Exception {
         paramGroupOrgId = ParamHelper.addParamGroup(Customer.OBJECT_TYPE, "Organization",
-                Set.of(paramEmailId, paramPhoneId, paramOrgFormId, paramOrgTitleId, paramServiceAddressId));
+                Set.of(paramEmailId, paramPhoneId, paramOrgFormId, paramOrgTitleId, paramAddressId, paramServiceAddressId));
         paramGroupPersonId = ParamHelper.addParamGroup(Customer.OBJECT_TYPE, "Person",
-                Set.of(paramEmailId, paramPhoneId, paramBirthDateId, paramBirthPlaceId, paramLivingAddressId, paramReligionId));
+                Set.of(paramEmailId, paramPhoneId, paramBirthDateId, paramBirthPlaceId, paramReligionId, paramAddressId, paramServiceAddressId));
     }
 
-    @Test(dependsOnMethods = "addParams")
-    public void addPatternTitles() throws Exception {
-        titlePatternOrgPattern = "\"${param_" + paramOrgTitleId + "}\" ${param_" + paramOrgFormId + "}";
+    @Test(dependsOnMethods = "param")
+    public void patternTitle() throws Exception {
+        titlePatternOrgPattern = "${param_" + paramOrgTitleId + "} ${param_" + paramOrgFormId + "}";
         titlePatternOrgId = ParamHelper.addPattern(Customer.OBJECT_TYPE, "Organization", titlePatternOrgPattern);
         // TODO: Pattern for person with birthday date.
     }
 
-    @Test(dependsOnMethods = "addPatternTitles")
-    public void addCustomers() throws Exception {
+    @Test(dependsOnMethods = "patternTitle")
+    public void customer() throws Exception {
         var con = DbTest.conRoot;
 
         var paramDao = new ParamValueDAO(con);
@@ -108,7 +108,7 @@ public class CustomerTest {
         paramDao.updateParamEmail(customerId, paramEmailId, 0, new ParameterEmailValue(CUSTOMER_PERS_IVAN_MAIL));
         paramDao.updateParamDate(customerId, paramBirthDateId, new GregorianCalendar(1983, Calendar.JULY, 1).getTime());
         paramDao.updateParamText(customerId, paramBirthPlaceId, "Uzgala village");
-        paramDao.updateParamText(customerId, paramLivingAddressId, "Lenina Street 1, 450000, Ufa Russia");
+        paramDao.updateParamText(customerId, paramAddressId, "Lenina Street 1, 450000, Ufa Russia");
 
         customerOrgNs = CustomerHelper.addCustomer(titlePatternOrgId, paramGroupOrgId, "");
 
@@ -118,7 +118,7 @@ public class CustomerTest {
         phoneParamVal.addItem(new ParameterPhoneValueItem("666", "", ""));
         paramDao.updateParamPhone(customerOrgNs.getId(), paramPhoneId, phoneParamVal);
         paramDao.updateParamText(customerOrgNs.getId(), paramOrgTitleId, "NicroSoft");
-        paramDao.updateParamList(customerOrgNs.getId(), paramOrgFormId, Collections.singleton(2));
+        paramDao.updateParamList(customerOrgNs.getId(), paramOrgFormId, Collections.singleton(5));
 
         var customerDao = new CustomerDAO(con);
         customerOrgNs.setTitle(Utils.formatPatternString(Customer.OBJECT_TYPE, customerOrgNs.getId(), paramDao, titlePatternOrgPattern));

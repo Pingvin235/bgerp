@@ -16,7 +16,6 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.plugin.bgbilling.CommonContractConfig;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
@@ -27,7 +26,6 @@ public class SearchAction extends BaseAction {
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         // areas supported only in bgbilling plugin, contract search
         HashSet<Integer> areaIds = new HashSet<Integer>();
-        areaIds.addAll(setup.getConfig(CommonContractConfig.class).getCityAreaMap());
 
         ParameterMap perm = form.getPermission();
         Set<Integer> allowedAreaIds = Utils.toIntegerSet(perm.get("allowedAreaIds", ""));
@@ -66,7 +64,7 @@ public class SearchAction extends BaseAction {
             customerDao.searchCustomerList(result, CommonDAO.getLikePatternSub(title));
 
             return html(con, mapping, form, "customerTitle");
-        } 
+        }
         /* else if ("any".equals(searchBy)) {
             SearchResult<Customer> result = new SearchResult<Customer>(form);
             String searchString = form.getParam("searchString");
@@ -75,7 +73,7 @@ public class SearchAction extends BaseAction {
             sphinxDAO.searchCustomer(result, searchString);
 
             return processUserTypedForward(con, mapping, form, "customerTitle");
-        } */ 
+        } */
         else if ("group".equals(searchBy)) {
             SearchResult<Customer> result = new SearchResult<Customer>(form);
 

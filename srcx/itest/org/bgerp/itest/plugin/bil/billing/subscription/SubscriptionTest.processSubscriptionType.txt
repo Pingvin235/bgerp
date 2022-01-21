@@ -1,8 +1,8 @@
 processReference.1.objectTypes=processCard
 processReference.1.stringExpression=<<END
-	text = "Subscription " + process.getId();
-	text += " " + u.escapeXml(u.toString(processLink.linkTitles("customer")));
-	return text;
+    text = "Subscription " + process.getId();
+    text += " " + u.escapeXml(u.toString(processLink.linkTitles("customer")));
+    return text;
 END
 
 invoice:processShowInvoices=1

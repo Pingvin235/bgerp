@@ -374,10 +374,9 @@ public class TimeUtils {
     }
 
     /**
-     * Преобразует java.sql.TimeStamp в java.util.Date.
-     * @param time преобразуемый объект.
-     * @return null - если аргумент null.
+     * This converting is not needed at all, because {@link Timestamp} extends {@link Date}.
      */
+    @Deprecated
     public static final Date convertTimestampToDate(Timestamp time) {
         Date result = null;
         if (time != null) {

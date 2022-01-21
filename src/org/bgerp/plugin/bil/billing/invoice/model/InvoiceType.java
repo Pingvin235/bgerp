@@ -1,40 +1,44 @@
 package org.bgerp.plugin.bil.billing.invoice.model;
 
-import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.bgerp.plugin.bil.billing.invoice.Plugin;
-import org.bgerp.plugin.bil.billing.invoice.pp.PositionProvider;
+import org.bgerp.plugin.bil.billing.invoice.num.NumberProvider;
+import org.bgerp.plugin.bil.billing.invoice.num.PatternBasedNumberProvider;
+import org.bgerp.plugin.bil.billing.invoice.pos.PositionProvider;
 import org.bgerp.util.TimeConvert;
 
-import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.IdTitle;
-import ru.bgcrm.servlet.CustomHttpServletResponse;
-import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.TimeUtils;
-import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.sql.ConnectionSet;
 
 public class InvoiceType extends IdTitle {
-    private final String numberExpression;
+    private final NumberProvider numberProvider;
+    private final int customerId;
     private final List<PositionProvider> providers;
     private final String jsp;
 
     public InvoiceType(int id, ParameterMap config) throws Exception {
         super(id, config.get("title", "??? [" + id + "]"));
 
-        this.providers = loadProviders(config);
-        this.numberExpression = config.get("number.expression");
+        this.numberProvider = loadNumberProvider(config.sub("number."));
+        this.customerId = config.getInt("customer");
+        this.providers = loadPositionProviders(config);
         this.jsp = config.get("jsp", Plugin.PATH_JSP_USER + "/invoice.jsp");
     }
 
-    private List<PositionProvider> loadProviders(ParameterMap config) throws Exception {
+    private NumberProvider loadNumberProvider(ParameterMap config) throws Exception {
+        @SuppressWarnings("unchecked")
+        var clazz = (Class<? extends NumberProvider>) DynamicClassManager
+                .getClass(config.get("class", PatternBasedNumberProvider.class.getName()));
+        return config.getConfig(clazz);
+    }
+
+    private List<PositionProvider> loadPositionProviders(ParameterMap config) throws Exception {
         var result = new ArrayList<PositionProvider>();
 
         for (var providerConfig : config.subIndexed("provider.").values()) {
@@ -46,47 +50,37 @@ public class InvoiceType extends IdTitle {
         return Collections.unmodifiableList(result);
     }
 
-    public Invoice invoice(int processId, YearMonth month) {
+    public Invoice invoice(ConnectionSet conSet, int processId, YearMonth month) throws Exception {
         var result = new Invoice();
 
         result.setTypeId(id);
         result.setProcessId(processId);
-        result.setFromDate(TimeConvert.toDate(month));
+        result.setDateFrom(TimeConvert.toDate(month));
         for (var provider : providers)
-            provider.addPositions(result);
-        // TODO: Thing about adding as cents invoiceId % 100 to randomize
-        result.setAmount(result.getPositions().stream().map(Position::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add));
-        result.setNumber(number(result));
+            provider.addPositions(conSet, result);
+        result.amount();
 
         return result;
     }
 
-    private String number(Invoice invoice) {
-        if (Utils.isBlankString(numberExpression))
-            return invoice.getProcessId() + "-" + TimeUtils.format(invoice.getFromDate(), "yyyyMM") + "-"
-                    + invoice.getAmount().toPlainString().replace('.', '-');
-        return new Expression(Map.of("invoice", invoice)).getString(numberExpression);
-    }
-
-    public String getJsp() {
-        return jsp;
+    /**
+     * @return number provider.
+     */
+    public NumberProvider getNumberProvider() {
+        return numberProvider;
     }
 
     /**
-     * Generates an HTML print form.
-     * @param form
-     * @param invoice
-     * @return
-     * @throws Exception
+     * @return customer from who invoice is generated.
      */
-    public byte[] doc(DynActionForm form, Invoice invoice) throws Exception {
-        var bos = new ByteArrayOutputStream(1000);
-        var resp = new CustomHttpServletResponse(form.getHttpResponse(), bos);
-        var req = form.getHttpRequest();
+    public int getCustomerId() {
+        return customerId;
+    }
 
-        req.getRequestDispatcher(jsp).include(req, resp);
-        resp.flush();
-
-        return bos.toByteArray();
+    /**
+     * @return JSP template for rendering print form.
+     */
+    public String getJsp() {
+        return jsp;
     }
 }

@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -21,9 +22,13 @@ import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
+/**
+ * Files DAO. Stores metadata in DB and bodies in filesystem.
+ *
+ * @author Shamil Vakhitov
+ */
 public class FileDataDAO extends CommonDAO {
     private static final Log log = Log.getLog();
 
@@ -32,6 +37,10 @@ public class FileDataDAO extends CommonDAO {
 
     private File storeDir;
 
+    /**
+     * Constructor. Creates a store directory if not exists.
+     * @param con might be null if only {@link #getFile(FileData)} is used and {@code time} is already set.
+     */
     public FileDataDAO(Connection con) {
         super(con);
         storeDir = Utils.createDirectoryIfNoExistInWorkDir("filestorage");
@@ -42,7 +51,7 @@ public class FileDataDAO extends CommonDAO {
 
         result.setId(rs.getInt(prefix + "id"));
         result.setTitle(rs.getString(prefix + "title"));
-        result.setTime(TimeUtils.convertTimestampToDate(rs.getTimestamp(prefix + "time")));
+        result.setTime(rs.getTimestamp(prefix + "time"));
         result.setSecret(rs.getString("secret"));
 
         return result;
@@ -57,23 +66,30 @@ public class FileDataDAO extends CommonDAO {
         }
     }
 
-    public FileOutputStream add(FileData file) throws Exception {
+    /**
+     * Sets {@code secret}, {@code time} for {@code fileData} and inserts the entity in DB table.
+     * @param fileData file data.
+     * @return output stream to the related file in filesystem.
+     * @throws Exception
+     */
+    public FileOutputStream add(FileData fileData) throws Exception {
         checkDir();
 
-        file.setSecret(Utils.generateSecret());
+        fileData.setSecret(Utils.generateSecret());
+        fileData.setTime(new Date());
 
         String query = "INSERT INTO " + TABLE_FILE_DATA + " (title, time, secret) VALUES (?, ?, ?)";
         try (var ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, file.getTitle());
-            ps.setTimestamp(2, TimeConvert.toTimestamp(file.getTime()));
-            ps.setString(3, file.getSecret());
+            ps.setString(1, fileData.getTitle());
+            ps.setTimestamp(2, TimeConvert.toTimestamp(fileData.getTime()));
+            ps.setString(3, fileData.getSecret());
             ps.executeUpdate();
 
-            file.setId(lastInsertId(ps));
+            fileData.setId(lastInsertId(ps));
         }
 
-        var outputStream = new FileOutputStream(getFile(file));
-        file.setOutputStream(outputStream);
+        var outputStream = new FileOutputStream(getFile(fileData));
+        fileData.setOutputStream(outputStream);
 
         return outputStream;
     }
@@ -112,22 +128,24 @@ public class FileDataDAO extends CommonDAO {
     }
 
     /**
-     * Gets file object for a given file data.
+     * Gets file object for a given file data. File's {@code time} is loaded from DB case is not defined.
      * @param fileData
      * @return
      * @throws SQLException
      */
     public File getFile(FileData fileData) throws SQLException {
-        try (var ps = con.prepareStatement(SQL_SELECT + "time" + SQL_FROM + TABLE_FILE_DATA + SQL_WHERE + "id=?")) {
-            ps.setInt(1, fileData.getId());
-            var rs = ps.executeQuery();
-            if (rs.next())
-                fileData.setTime(rs.getTimestamp(1));
+        if (fileData.getTime() == null) {
+            try (var ps = con.prepareStatement(SQL_SELECT + "time" + SQL_FROM + TABLE_FILE_DATA + SQL_WHERE + "id=?")) {
+                ps.setInt(1, fileData.getId());
+                var rs = ps.executeQuery();
+                if (rs.next())
+                    fileData.setTime(rs.getTimestamp(1));
+            }
         }
 
         String name = NAME_FORMAT.format(fileData.getId()) + "_" + fileData.getSecret();
 
-        // old format in flat list
+        // old format in a flat list
         var result = new File(storeDir, name);
         // new format in subdirectories
         if (!result.exists()) {

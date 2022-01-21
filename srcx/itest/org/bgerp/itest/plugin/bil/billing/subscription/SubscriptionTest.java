@@ -30,7 +30,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Test(groups = "subscription", priority = 100, dependsOnGroups = { "config", "process", "openIface" })
 public class SubscriptionTest {
@@ -174,7 +174,7 @@ public class SubscriptionTest {
         EventProcessor.processEvent(
                         new ParamChangedEvent(DynActionForm.SERVER_FORM, ParameterCache.getParameter(paramLimitId),
                                         processSubscriptionRubId, null),
-                        new SingleConnectionConnectionSet(DbTest.conRoot));
+                        new SingleConnectionSet(DbTest.conRoot));
         var cost = paramDao.getParamMoney(processSubscriptionRubId, paramSubscriptionCostId);
         Assert.assertEquals(cost, Utils.parseBigDecimal("450.00"));
 
@@ -187,7 +187,7 @@ public class SubscriptionTest {
         EventProcessor.processEvent(
                         new ParamChangedEvent(DynActionForm.SERVER_FORM, ParameterCache.getParameter(paramLimitId),
                                         processSubscriptionEurId, null),
-                        new SingleConnectionConnectionSet(DbTest.conRoot));
+                        new SingleConnectionSet(DbTest.conRoot));
         cost = paramDao.getParamMoney(processSubscriptionEurId, paramSubscriptionCostId);
         Assert.assertEquals(cost, Utils.parseBigDecimal("6.24"));
     }

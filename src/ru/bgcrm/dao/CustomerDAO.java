@@ -178,19 +178,16 @@ public class CustomerDAO extends CommonDAO {
                 if (Utils.notBlankString(referenceTemplate)) {
                     Customer customer = getCustomerFromRs(rs, "");
 
-                    String reference = PatternFormatter.processPattern(referenceTemplate, new PatternItemProcessor() {
-                        @Override
-                        public String processPatternItem(String variable) {
-                            String value = "";
-                            try {
-                                if (variable.startsWith("param:")) {
-                                    value = rs.getString(variable.replace(':', '_') + "_val");
-                                }
-                            } catch (Exception e) {
-                                log.error(e.getMessage(), e);
+                    String reference = PatternFormatter.processPattern(referenceTemplate, variable -> {
+                        String value = "";
+                        try {
+                            if (variable.startsWith("param:")) {
+                                value = rs.getString(variable.replace(':', '_') + "_val");
                             }
-                            return value;
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
                         }
+                        return value;
                     });
 
                     ps.close();
@@ -260,7 +257,7 @@ public class CustomerDAO extends CommonDAO {
      * Выбирает контрагентов по параметру типа E-Mail.
      * @param searchResult
      * @param emailParamIdList
-     * @param email E-Mail, поиск идёт по точному совпадению и совпадению домена 
+     * @param email E-Mail, поиск идёт по точному совпадению и совпадению домена
      * @throws SQLException
      */
     public void searchCustomerListByEmail(SearchResult<ParameterSearchedObject<Customer>> searchResult, List<Integer> emailParamIdList, String email)
@@ -337,7 +334,7 @@ public class CustomerDAO extends CommonDAO {
             PreparedDelay ps = new PreparedDelay(con);
             String ids = Utils.toString(addressParamIdList);
 
-            AddressHouse searchParams = AddressHouse.extractHouseAndFrac(house);
+            AddressHouse searchParams = new AddressHouse().withHouseAndFrac(house);
 
             int number = searchParams.getHouse();
             String frac = searchParams.getFrac();
@@ -643,7 +640,7 @@ public class CustomerDAO extends CommonDAO {
     }
 
     /**
-     * Обновляет информацию о контрагенте в БД. 
+     * Обновляет информацию о контрагенте в БД.
      * @param customer
      */
     public void updateCustomer(Customer customer) throws SQLException {

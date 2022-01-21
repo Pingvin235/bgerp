@@ -479,6 +479,7 @@
 	<p><ru>Значение должно соответствовать одному из шаблонов: {}</ru><en>Value must match one of regexps: {}</en></p>
 	<p><ru>Закрыть другие</ru><en>Close others</en></p>
 	<p><ru>Обновить</ru><en>Refresh</en></p>
+	<p><ru>Объект был изменен пользователем "{}" {}</ru><en>Object was changed by user "{}" {}</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

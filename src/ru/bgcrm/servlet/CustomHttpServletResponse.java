@@ -1,5 +1,6 @@
 package ru.bgcrm.servlet;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -11,6 +12,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+
+import ru.bgcrm.struts.form.DynActionForm;
 
 /**
  * Implementation of {@link javax.servlet.ServletResponse} allowing
@@ -39,6 +42,27 @@ public class CustomHttpServletResponse extends HttpServletResponseWrapper {
 
     public void flush() {
         printWriter.flush();
+    }
+
+    /**
+     * Renders JSP page. Clears {@link ru.bgcrm.struts.form.Response#getData()} in {@link DynActionForm#getResponse()}.
+     * @param form form object, contains servlet request and response.
+     * @param jsp path to JSP pattern, starting from webapps.
+     * @param approxSize expected size of resulting HTML.
+     * @return byte with HTML.
+     * @throws Exception
+     */
+    public static byte[] jsp(DynActionForm form, String jsp, int approxSize) throws Exception {
+        var bos = new ByteArrayOutputStream(approxSize);
+        var resp = new CustomHttpServletResponse(form.getHttpResponse(), bos);
+        var req = form.getHttpRequest();
+
+        req.getRequestDispatcher(jsp).include(req, resp);
+        resp.flush();
+
+        form.getResponse().getData().clear();
+
+        return bos.toByteArray();
     }
 
     private static class CustomServletOutPutStream extends ServletOutputStream {

@@ -44,6 +44,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.util.Log;
@@ -51,9 +52,11 @@ import org.bgerp.util.Log;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
+import ru.bgcrm.model.Id;
 import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.IdTitleComment;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
@@ -61,6 +64,9 @@ import ru.bgcrm.model.param.ParameterListCountValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.ParameterValuePair;
+import ru.bgcrm.model.param.address.AddressHouse;
+import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
@@ -263,7 +269,7 @@ public class ParamValueDAO extends CommonDAO {
         ps.setInt(2, paramId);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            result = TimeUtils.convertTimestampToDate(rs.getTimestamp(1));
+            result = rs.getTimestamp(1);
         }
         ps.close();
 
@@ -271,7 +277,7 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Select value of parameter with type 'text'.
+     * Selects value of parameter with type 'text'.
      * @param id object ID.
      * @param paramId param ID.
      * @return
@@ -824,7 +830,7 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Updates parameter with type 'email'.
+     * Updates parameter with type 'money'.
      * @param id object ID.
      * @param paramId param ID.
      * @param value the value, when {@code null} - remove.
@@ -839,17 +845,31 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Устанавливает значение параметра типа 'file' на позицию с новой версией.
+     * Updates parameter with type 'money'.
+     * @param id object ID.
+     * @param paramId param ID.
+     * @param value the value, when {@code null} - remove.
+     * @throws SQLException
+     */
+    public void updateParamMoney(int id, int paramId, String value) throws SQLException {
+        updateSimpleParam(id, paramId, Utils.parseBigDecimal(value), TABLE_PARAM_MONEY);
+
+        if (history) {
+            logParam(id, paramId, userId, value);
+        }
+    }
+
+    /**
+     * Updates parameter with type 'file'.
      * @param id object ID.
      * @param paramId param ID.
      * @param position position for multiple values, when is 0 - adding with new positions.
-     * @param comment примечение.
-     * @param fileData значение параметра данной версии, если null - удаление значения с позиции.
+     * @param fileData value for the given position, if {@code null} - removes a value from the position.
      * @throws Exception
      */
-    public void updateParamFile(int id, int paramId, int position, String comment, FileData fileData)
-            throws Exception {
-        //TODO: При position=-1 - сделать удаление всех значений параметра, как в #updateParameterEmail.
+    public void updateParamFile(int id, int paramId, int position, FileData fileData) throws Exception {
+        //TODO: When position==-1 - make removing all values from all positions like in #updateParameterEmail.
+
         if (fileData == null) {
             FileData currentValue = getParamFile(id, paramId, position);
             if (currentValue != null) {
@@ -882,7 +902,13 @@ public class ParamValueDAO extends CommonDAO {
                 ps.close();
             }
         } else {
-           if (position == 0) {
+            if (fileData.getId() <= 0 && fileData.getData() != null) {
+                try (var fos = new FileDataDAO(con).add(fileData)) {
+                    fos.write(fileData.getData());
+                }
+            }
+
+            if (position == 0) {
                 var query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_FILE + " WHERE id=? AND param_id=?";
                 var ps = con.prepareStatement(query);
                 ps.setInt(1, id);
@@ -914,6 +940,14 @@ public class ParamValueDAO extends CommonDAO {
                 paramLogDAO.insertParamLog(id, paramId, userId, fileName);
             }
         }
+    }
+
+    /**
+     * @see #updateParamFile(int, int, int, FileData)
+     */
+    @Deprecated
+    public void updateParamFile(int id, int paramId, int position, String comment, FileData fileData) throws Exception {
+        updateParamFile(id, paramId, position, fileData);
     }
 
     /**
@@ -1360,13 +1394,50 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Загрузка значений в список параметров.
-     * @param id
-     * @param paramList
-     * @throws Exception
+     * Loads parameters for {@link ru.bgcrm.model.customer.Customer}, {@link ru.bgcrm.model.process.Process},
+     * {@link ru.bgcrm.model.user.User} or {@link ru.bgcrm.model.param.address.AddressHouse}.
+     * @param object customer or process.
+     * @return
+     * @throws SQLException
      */
-    public List<ParameterValuePair> loadParameters(List<Parameter> paramList, int id, boolean offEncryption)
-            throws Exception {
+    public Map<Integer, ParameterValuePair> parameters(Id object) throws SQLException {
+        List<Parameter> parameters = null;
+        if (object instanceof Customer) {
+            parameters = ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE, ((Customer) object).getParamGroupId());
+        } else if (object instanceof Process) {
+            var type = ((Process) object).getType();
+            parameters = Utils.getObjectList(ParameterCache.getParameterMap(), type.getProperties().getParameterIds());
+        } else if (object instanceof User) {
+            parameters = ParameterCache.getObjectTypeParameterList(User.OBJECT_TYPE);
+        } else if (object instanceof AddressHouse) {
+            parameters = ParameterCache.getObjectTypeParameterList(AddressHouse.OBJECT_TYPE);
+        } else {
+            throw new IllegalArgumentException("Unsupported object type: " + object);
+        }
+
+        return loadParameters(parameters, object.getId())
+            .stream()
+            .collect(Collectors.toMap(pv -> pv.getParameter().getId(), pv -> pv));
+    }
+
+    /**
+     * Loads parameter's values.
+     * @param paramList parameters list.
+     * @param id entity id.
+     * @throws SQLException
+    */
+    public List<ParameterValuePair> loadParameters(List<Parameter> paramList, int id) throws SQLException {
+        return loadParameters(paramList, id, false);
+    }
+
+    /**
+     * Loads parameter's values.
+     * @param paramList parameters list.
+     * @param id entity id.
+     * @param offEncryption decrypt pseudo encrypted values.
+     * @throws SQLException
+     */
+    public List<ParameterValuePair> loadParameters(List<Parameter> paramList, int id, boolean offEncryption) throws SQLException {
         Map<String, List<Integer>> paramTypeMap = new HashMap<String, List<Integer>>();
 
         List<ParameterValuePair> result = new ArrayList<ParameterValuePair>(paramList.size());
@@ -1400,16 +1471,16 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Загрузка значений параметров определённого типа.
-     * @param paramValueMap
-     * @param type
-     * @param ids
-     * @param objectId
-     * @throws Exception
+     * Loads parameters for a type.
+     * @param paramMap target map.
+     * @param type type.
+     * @param ids IDs.
+     * @param objectId object ID.
+     * @throws SQLException
      */
     @SuppressWarnings("unchecked")
     private void updateParamValueMap(Map<Integer, ParameterValuePair> paramMap, String type, Collection<Integer> ids,
-            int objectId, boolean offEncryption) throws Exception {
+            int objectId, boolean offEncryption) throws SQLException {
         StringBuilder query = new StringBuilder();
 
         ResultSet rs = null;
@@ -1565,7 +1636,7 @@ public class ParamValueDAO extends CommonDAO {
             if (Parameter.TYPE_DATE.equals(type)) {
                 param.setValue(rs.getDate(2));
             } else if (Parameter.TYPE_DATETIME.equals(type)) {
-                param.setValue(TimeUtils.convertTimestampToDate(rs.getTimestamp(2)));
+                param.setValue(rs.getTimestamp(2));
             } else if (Parameter.TYPE_LIST.equals(type)) {
                 List<IdTitle> values = (List<IdTitle>) param.getValue();
                 if (values == null)
@@ -1621,6 +1692,8 @@ public class ParamValueDAO extends CommonDAO {
                 if (value == null)
                     param.setValue(value = new ParameterPhoneValue());
                 value.addItem(getParamPhoneValueItemFromRs(rs));
+            } else if (Parameter.TYPE_MONEY.equals(type)) {
+                param.setValue(rs.getBigDecimal(2));
             } else {
                 if ("encrypted".equals(param.getParameter().getConfigMap().get("encrypt")) && !offEncryption) {
                     param.setValue("<ЗНАЧЕНИЕ ЗАШИФРОВАНО>");

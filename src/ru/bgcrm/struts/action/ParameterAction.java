@@ -72,7 +72,7 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Action(path = "/user/parameter")
 public class ParameterAction extends BaseAction {
@@ -440,11 +440,11 @@ public class ParameterAction extends BaseAction {
 
         if (Parameter.TYPE_TEXT.equals(parameter.getType())) {
             paramValue = form.getParam("value");
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
             paramValueDAO.updateParamText(id, paramId, (String) paramValue);
         } else if (Parameter.TYPE_BLOB.equals(parameter.getType())) {
             paramValue = form.getParam("value");
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
             paramValueDAO.updateParamBlob(id, paramId, (String) paramValue);
         } else if (Parameter.TYPE_DATE.equals(parameter.getType())) {
             String value = form.getParam("value");
@@ -456,7 +456,7 @@ public class ParameterAction extends BaseAction {
                 throw new BGMessageException("Неверный формат.");
             }
 
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
 
             paramValueDAO.updateParamDate(id, paramId, (Date) paramValue);
         } else if (Parameter.TYPE_DATETIME.equals(parameter.getType())) {
@@ -469,7 +469,7 @@ public class ParameterAction extends BaseAction {
                 throw new BGMessageException("Неверный формат.");
             }
 
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
 
             paramValueDAO.updateParamDateTime(id, paramId, (Date) paramValue);
         } else if (Parameter.TYPE_LIST.equals(parameter.getType())) {
@@ -492,7 +492,7 @@ public class ParameterAction extends BaseAction {
                 values.put(val, comment);
             }
 
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = values.keySet()));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values.keySet()));
 
             paramValueDAO.updateParamList(id, paramId, values);
         } else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType())) {
@@ -508,19 +508,19 @@ public class ParameterAction extends BaseAction {
                 }
             }
 
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = values));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
 
             paramValueDAO.updateParamListCount(id, paramId, values);
         } else if (Parameter.TYPE_MONEY.equals(parameter.getType())) {
             paramValue = Utils.parseBigDecimal(form.getParam("value"));
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
             paramValueDAO.updateParamMoney(id, paramId, (BigDecimal) paramValue);
         } else if (Parameter.TYPE_TREE.equals(parameter.getType())) {
             Set<String> values = form.getSelectedValuesStr("value");
             // TODO: Попробовать убрать, проверить.
             values.removeAll(Arrays.asList("0", "-1"));
 
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = values));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
 
             paramValueDAO.updateParamTree(id, paramId, values);
         } else if (Parameter.TYPE_FILE.equals(parameter.getType())) {
@@ -542,9 +542,9 @@ public class ParameterAction extends BaseAction {
                 }
             }
 
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = fileData));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = fileData));
 
-            paramValueDAO.updateParamFile(id, paramId, position, form.getParam("comment"), fileData);
+            paramValueDAO.updateParamFile(id, paramId, position, fileData);
         } else if (Parameter.TYPE_PHONE.equals(parameter.getType())) {
             ParameterPhoneValue phoneValue = new ParameterPhoneValue();
 
@@ -574,7 +574,7 @@ public class ParameterAction extends BaseAction {
             }
             phoneValue.setItemList(items);
 
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = phoneValue));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = phoneValue));
 
             paramValueDAO.updateParamPhone(id, paramId, phoneValue);
         } else if (Parameter.TYPE_EMAIL.equals(parameter.getType())) {
@@ -586,7 +586,7 @@ public class ParameterAction extends BaseAction {
             if (Utils.notBlankString(value))
                 emailValue = new ParameterEmailValue(value, form.getParam("comment", ""));
 
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = emailValue));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = emailValue));
 
             paramValueDAO.updateParamEmail(id, paramId, position, emailValue);
         } else if (Parameter.TYPE_ADDRESS.equals(parameter.getType())) {
@@ -629,21 +629,21 @@ public class ParameterAction extends BaseAction {
             }
 
             //TODO: Возможно, позицию адреса нужно вставить в ParameterAddressValue
-            paramChangingProcess(con, /* className, objectClassName,  */new ParamChangingEvent(form, parameter, id, paramValue = addressValue));
+            paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = addressValue));
 
             paramValueDAO.updateParamAddress(id, paramId, position, addressValue);
         }
 
         // событие о изменении параметра
         ParamChangedEvent changedEvent = new ParamChangedEvent(form, parameter, id, paramValue);
-        EventProcessor.processEvent(changedEvent, /* className, */new SingleConnectionConnectionSet(con));
+        EventProcessor.processEvent(changedEvent, /* className, */new SingleConnectionSet(con));
         /* EventProcessor.processEvent(changedEvent, objectClassName, new SingleConnectionConnectionSet(con), false); */
 
         return json(con, form);
     }
 
     private void paramChangingProcess(Connection con, /* String className, String objectClassName,  */ParamChangingEvent event) throws Exception {
-        EventProcessor.processEvent(event, /* className,  */new SingleConnectionConnectionSet(con));
+        EventProcessor.processEvent(event, /* className,  */new SingleConnectionSet(con));
         /* EventProcessor.processEvent(event, objectClassName, new SingleConnectionConnectionSet(con), false); */
     }
 }

@@ -13,10 +13,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.bgerp.plugin.bil.billing.invoice.model.Invoice;
 import org.bgerp.plugin.bil.billing.invoice.model.Position;
 
+import javassist.NotFoundException;
 import ru.bgcrm.dao.PeriodicDAO;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.sql.PreparedDelay;
 
+/**
+ * Invoice DAO.
+ *
+ * @author Shamil Vakhitov
+ */
 public class InvoiceDAO extends PeriodicDAO {
     public InvoiceDAO(Connection con) {
         super(con);
@@ -26,18 +32,18 @@ public class InvoiceDAO extends PeriodicDAO {
         String query;
         if (invoice.getId() > 0) {
             query = SQL_UPDATE + TABLE_INVOICE + SQL_SET
-                    + "number=?, amount=?, sent_dt=?, sent_user_id=?, payment_date=?, payment_user_id=?, positions=?";
+                    + "amount=?, sent_dt=?, sent_user_id=?, payment_date=?, payment_user_id=?, positions=?"
+                    + SQL_WHERE + "id=?";
         } else {
             query = SQL_INSERT + TABLE_INVOICE
-                    + "(number, amount, sent_dt, sent_user_id, payment_date, payment_user_id, positions, "
-                    + "type_id, process_id, from_date, created_dt, created_user_id)"
+                    + "(amount, sent_dt, sent_user_id, payment_date, payment_user_id, positions, "
+                    + "type_id, process_id, date_from, created_dt, created_user_id, number_cnt, number)"
                     + SQL_VALUES
-                    + "(?, ?, ?, ?, ?, ?, ?, "
-                    + "?, ?, ?, NOW(), ?)";
+                    + "(?, ?, ?, ?, ?, ?,"
+                    + "?, ?, ?, NOW(), ?, ?, ?)";
         }
 
         try (var pd = new PreparedDelay(con, query)) {
-            pd.addString(invoice.getNumber());
             pd.addBigDecimal(invoice.getAmount());
             pd.addTimestamp(invoice.getSentTime());
             pd.addInt(invoice.getSentUserId());
@@ -48,10 +54,14 @@ public class InvoiceDAO extends PeriodicDAO {
             if (invoice.getId() <= 0) {
                 pd.addInt(invoice.getTypeId());
                 pd.addInt(invoice.getProcessId());
-                pd.addDate(invoice.getFromDate());
+                pd.addDate(invoice.getDateFrom());
                 pd.addInt(invoice.getCreatedUserId());
+                pd.addInt(invoice.getNumberCnt());
+                pd.addString(invoice.getNumber());
+
                 invoice.setId(pd.executeUpdate());
             } else {
+                pd.addInt(invoice.getId());
                 pd.executeUpdate();
             }
         }
@@ -60,7 +70,7 @@ public class InvoiceDAO extends PeriodicDAO {
     }
 
     private void updatePositions(Invoice invoice) throws SQLException {
-        var positionTable = checkAndCreateMonthTable(TABLE_INVOICE_POSITION_PREFIX, invoice.getFromDate(),
+        var positionTable = checkAndCreateMonthTable(TABLE_INVOICE_POSITION_PREFIX, invoice.getDateFrom(),
             "(invoice_id INT NOT NULL," +
             "id CHAR(20) NOT NULL," +
             "amount DECIMAL(10,2) NOT NULL," +
@@ -96,6 +106,13 @@ public class InvoiceDAO extends PeriodicDAO {
         return result;
     }
 
+    public Invoice getOrThrow(int id) throws Exception {
+        var result = get(id);
+        if (result == null)
+            throw new NotFoundException("Not found invoice, id=" + id);
+        return result;
+    }
+
     public void delete(int id) throws Exception {
         var invoice = get(id);
         if (invoice == null)
@@ -106,7 +123,7 @@ public class InvoiceDAO extends PeriodicDAO {
             pd.addInt(id).executeUpdate();
         }
 
-        var positionTable = getMonthTableName(TABLE_INVOICE_POSITION_PREFIX, invoice.getFromDate());
+        var positionTable = getMonthTableName(TABLE_INVOICE_POSITION_PREFIX, invoice.getDateFrom());
         if (tableExists(positionTable)) {
             query = SQL_DELETE + positionTable + SQL_WHERE + "invoice_id=?";
             try (var pd = new PreparedDelay(con, query)) {
@@ -128,7 +145,7 @@ public class InvoiceDAO extends PeriodicDAO {
         result.setTypeId(rs.getInt("type_id"));
         result.setProcessId(rs.getInt("process_id"));
         result.setNumber(rs.getString("number"));
-        result.setFromDate(rs.getDate("from_date"));
+        result.setDateFrom(rs.getDate("date_from"));
         result.setCreatedTime(rs.getTimestamp("created_dt"));
         result.setCreatedUserId(rs.getInt("created_user_id"));
 

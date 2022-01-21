@@ -29,7 +29,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionPool;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class MessageTypeForumPost extends MessageType {
 
@@ -212,7 +212,7 @@ public class MessageTypeForumPost extends MessageType {
 
                             EventProcessor.processEvent(
                                     new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, msg, process),
-                                    type.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+                                    type.getProperties().getActualScriptName(), new SingleConnectionSet(con));
                         }
                     }
                 }

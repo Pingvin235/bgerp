@@ -14,6 +14,7 @@ import ru.bgcrm.util.SerialUtils;
 public class ArrayHashMap extends HashMap<String, Object> {
     private static final Log log = Log.getLog();
 
+    // without the field fails in showing process queues
     private static final long serialVersionUID = SerialUtils.generateSerialVersionUID(ArrayHashMap.class);
 
     @Override
@@ -38,7 +39,7 @@ public class ArrayHashMap extends HashMap<String, Object> {
                 return array[0];
             }
 
-            log.warn("Error taking as single param: " + key);
+            log.warn("Error taking as single param: {}", key);
 
             return null;
         }

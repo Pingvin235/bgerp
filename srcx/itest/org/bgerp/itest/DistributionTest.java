@@ -15,7 +15,7 @@ public class DistributionTest {
     public void initZip() throws Exception {
         // find zip
         File[] files = new File("build/bgerp").listFiles(f -> f.getName().matches("bgerp.+zip"));
-        Assert.assertEquals(1, files.length);
+        Assert.assertEquals(files.length, 1);
         zip = files[0];
     }
 

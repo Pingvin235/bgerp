@@ -54,7 +54,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**
  * Создатель контрагентов из одной базы.
@@ -83,7 +83,7 @@ public class ServerCustomerCreator
 	private CustomerDAO customerDao;
 	private ParamValueDAO paramValueDao;
 	private CustomerLinkDAO linkDao;
-	
+
 	private static class ParamMappingValue
 	{
 		private List<Integer> billingParamIdList;
@@ -135,23 +135,23 @@ public class ServerCustomerCreator
 
 			String crmParam = pair[0].trim();
 			String billingParam = pair[1].trim();
-			
+
 			ParamMappingValue value = new ParamMappingValue();
-			
+
 			String crmListValues = StringUtils.substringBetween( crmParam, "[", "]" );
 			if( Utils.notBlankString( crmListValues ) )
 			{
 				crmParam = StringUtils.substringBefore( crmParam, "[" );
 				value.crmListValues = Utils.toIntegerList( crmListValues );
 			}
-			
+
 			String billingListValues = StringUtils.substringBetween( billingParam, "[", "]" );
 			if( Utils.notBlankString( billingListValues ) )
 			{
 				billingParam = StringUtils.substringBefore( billingParam, "[" );
 				value.billingListValues = Utils.toIntegerList( billingListValues );
 			}
-			
+
 			Parameter param = ParameterCache.getParameter( Utils.parseInt( crmParam ) );
 			if( param == null )
 			{
@@ -204,7 +204,7 @@ public class ServerCustomerCreator
 			for( Element contract : XMLUtils.selectElements( doc, "/data/contracts/item" ) )
 			{
 				String title = contract.getAttribute( "title" );
-				createCustomer( contractId, title );			
+				createCustomer( contractId, title );
 			}
 
 			SQLUtils.commitConnection( con );
@@ -261,7 +261,7 @@ public class ServerCustomerCreator
 		String customerTitle = title.substring( pos + 1, title.lastIndexOf( ']' ) ).trim();
 
 		log.info( "FOUND CONTRACT: " + contractNumber + "; id:" + contractId + "; customerTitle: " + customerTitle );
-		
+
 		if( customerTitle.length() < minCustomerTitleLength )
 		{
 			log.warn( "Customer title length less when: " + minCustomerTitleLength );
@@ -292,7 +292,7 @@ public class ServerCustomerCreator
 				customer = new Customer();
 				customer.setTitle( customerTitle );
 				customer.setTitlePattern( "" );
-				
+
 				ParameterGroupTitlePatternRule rule = config.getCustomerParameterGroup( contractNumber );
 				if( rule != null )
 				{
@@ -355,11 +355,11 @@ public class ServerCustomerCreator
 	private Customer findCustomerByTitleWithParamsConfirm( String customerTitle, int contractId, Map<Integer, String> paramValues )
 	    throws Exception
 	{
-		// 
+		//
 		SearchResult<Customer> result = new SearchResult<Customer>();
 		result.getPage().setPageSize( 300 );
 		result.getPage().setPageIndex( 1 );
-		
+
 		customerDao.searchCustomerList( result, CommonDAO.getLikePattern( customerTitle, "subs" ) );
 
 		// есть уже контрагенты с таким наименованием
@@ -400,7 +400,7 @@ public class ServerCustomerCreator
 						if( val != null && val.trim().equals( billingParamValue ) )
 						{
 							log.info( "Confirm param, text: " + param.getId() );
-							
+
 							return customer;
 						}
 					}
@@ -411,7 +411,7 @@ public class ServerCustomerCreator
 							if( addr.getValue().trim().equals( billingParamValue ) )
 							{
 								log.info( "Confirm param, address: " + param.getId() );
-								
+
 								return customer;
 							}
 						}
@@ -426,8 +426,8 @@ public class ServerCustomerCreator
 							for( ParameterPhoneValueItem item : val.getItemList() )
 							{
 								if( contractPhones.contains( item.getPhone().trim() ) )
-								{								
-    								log.info( "Confirm param, phone: " + param.getId() );								
+								{
+    								log.info( "Confirm param, phone: " + param.getId() );
     								return customer;
 								}
 							}
@@ -439,7 +439,7 @@ public class ServerCustomerCreator
 						if( val != null && val.trim().equals( billingParamValue ) )
 						{
 							log.info( "Confirm param, date: " + param.getId() );
-							
+
 							return customer;
 						}
 					}
@@ -484,7 +484,7 @@ public class ServerCustomerCreator
 					{
 						Customer customer = result.getObject();
 						String title = customer.getTitle();
-						
+
 						int titleDistance = config.getMaxTitleDistance( param.getId() );
 						if( titleDistance < 0 ||
 							LevenshteinDistance.computeLevenshteinDistance( title, customerTitle ) <= titleDistance )
@@ -552,8 +552,8 @@ public class ServerCustomerCreator
 		linkDao.deleteLinksTo( link );
 
 		// для привязки в биллинге
-		EventProcessor.processEvent( new LinkAddingEvent( new DynActionForm( user ), link ), new SingleConnectionConnectionSet( con ) );
-		
+		EventProcessor.processEvent( new LinkAddingEvent( new DynActionForm( user ), link ), new SingleConnectionSet( con ) );
+
 		linkDao.addLink( link );
 
 		// указание в биллинге кода контрагента
@@ -686,27 +686,27 @@ public class ServerCustomerCreator
     						log.error( "Not found billing param list value: " + billingValue.getId() );
     						continue;
     					}
-    					
+
     					if( pos >= mapping.crmListValues.size() )
     					{
     						log.error( "Not found crm param list value for billing value: " + billingValue.getId() );
     						continue;
     					}
-    					
+
     					int crmListParamValue = mapping.crmListValues.get( pos );
-    					
+
     					// добавление значения на случай установки противоречивых значений будет хоть видно
     					Set<Integer> values = paramValueDao.getParamList( customer.getId(), param.getId() );
     					values.add( crmListParamValue );
-    					
+
     					paramValueDao.updateParamList( customer.getId(), param.getId(), values );
-    					
+
     					log.info( "Add list param value, param: " + param.getId() + "; value: " + crmListParamValue );
 					}
 					else
 					{
 						paramValueDao.updateParamList( customer.getId(), param.getId(), Collections.singleton( billingValue.getId() ) );
-    					
+
     					log.info( "Add list param value, param: " + param.getId() + "; value: " + billingValue.getId() );
 					}
 				}
@@ -720,10 +720,10 @@ public class ServerCustomerCreator
 						{
 							continue;
 						}
-						
+
 						String email = "";
 						String comment = "";
-						
+
 						// в 5.2 возможен вариант EMail ов по RFC: Иванов Иван Иванович <ivan@ivan.com>
 						try
 						{
@@ -745,10 +745,10 @@ public class ServerCustomerCreator
 								email = value;
 							}
 						}
-						
+
 						billingValues.put( email, comment );
 					}
-					 
+
 					SortedMap<Integer, ParameterEmailValue> customerParamValue = paramValueDao.getParamEmail( customer.getId(), param.getId() );
 					if( customerParamValue != null )
 					{
@@ -758,7 +758,7 @@ public class ServerCustomerCreator
 							billingValues.remove( item.getValue().trim() );
 						}
 					}
-					
+
 					for( Map.Entry<String, String> me : billingValues.entrySet() )
 					{
 						try

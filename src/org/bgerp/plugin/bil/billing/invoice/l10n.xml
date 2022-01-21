@@ -6,6 +6,12 @@
 	<p><ru>Оплачен</ru><en>Payed</en></p>
 	<p><ru>Сумма</ru><en>Amount</en></p>
 	<p><ru>Номер</ru><en>Number</en></p>
+	<p><ru>Редактирование счёта</ru><en>Invoice editor</en></p>
+	<p><ru>Оплачено</ru><en>Paid</en></p>
+	<p><ru>Не оплачено</ru><en>Unpaid</en></p>
+	<p><ru>Кол-во</ru>Qty<en></en></p>
+	<p><ru>Ед.</ru><en>Unit</en></p>
+	<p><ru>шт.</ru><en>pc.</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

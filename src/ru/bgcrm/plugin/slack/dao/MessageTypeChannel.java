@@ -40,7 +40,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.Config.InitStopException;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**
  * Message type and settings of Slack.
@@ -237,7 +237,7 @@ public class MessageTypeChannel extends MessageType {
                             if (user != null)
                                 form = new DynActionForm(user);
                             EventProcessor.processEvent(new ProcessMessageAddedEvent(form, msg, process),
-                                    type.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+                                    type.getProperties().getActualScriptName(), new SingleConnectionSet(con));
                         }
                     }
                 }

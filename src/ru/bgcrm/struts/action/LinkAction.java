@@ -27,10 +27,10 @@ import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class LinkAction extends BaseAction {
-    
+
     private static final String PARAM_PREFIX = "c:";
     private static final int PARAM_PREFIX_LENGTH = PARAM_PREFIX.length();
 
@@ -54,16 +54,16 @@ public class LinkAction extends BaseAction {
             className = type.getProperties().getActualScriptName();
         }
 
-        EventProcessor.processEvent(new LinkAddingEvent(form, link), className, new SingleConnectionConnectionSet(con));
+        EventProcessor.processEvent(new LinkAddingEvent(form, link), className, new SingleConnectionSet(con));
 
         CommonLinkDAO.getLinkDAO(link.getObjectType(), con).addLink(link);
-        
+
         if (Process.OBJECT_TYPE.equals(link.getObjectType())) {
             if (new ProcessLinkDAO(con).checkCycles(link.getObjectId()))
                 throw new BGMessageException(form.l.l("Циклическая зависимость"));
         }
 
-        EventProcessor.processEvent(new LinkAddedEvent(form, link), className, new SingleConnectionConnectionSet(con));
+        EventProcessor.processEvent(new LinkAddedEvent(form, link), className, new SingleConnectionSet(con));
     }
 
     public ActionForward deleteLink(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -75,11 +75,11 @@ public class LinkAction extends BaseAction {
 
         Connection con = conSet.getConnection();
 
-        EventProcessor.processEvent(new LinkRemovingEvent(form, link), new SingleConnectionConnectionSet(con));
+        EventProcessor.processEvent(new LinkRemovingEvent(form, link), new SingleConnectionSet(con));
 
         CommonLinkDAO.getLinkDAO(link.getObjectType(), con).deleteLink(link);
 
-        EventProcessor.processEvent(new LinkRemovedEvent(form, link), new SingleConnectionConnectionSet(con));
+        EventProcessor.processEvent(new LinkRemovedEvent(form, link), new SingleConnectionSet(con));
 
         return json(conSet, form);
     }
@@ -148,5 +148,5 @@ public class LinkAction extends BaseAction {
 
         return link;
     }
-    
+
 }

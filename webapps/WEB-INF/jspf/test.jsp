@@ -56,14 +56,17 @@
 
 		<div>
 			<b>IPv4:</b><br/>
-
 			<ui:ip paramName="ip"/>
 		</div>
 
 		<div>
-			<b>Текстовое поле с иконками ввода и очистки:</b><br/>
+			<b>Dot separated decimal:</b><br/>
+			<input type="text" onkeydown="return isNumberKey(event)" size="10"/>
+		</div>
 
-			<ui:input-text name="text" onSelect="alert('Выбрано: ' + this.value)"/>
+		<div>
+			<b>&lt;ui:input-text&gt;</b><br/>
+			<ui:input-text name="text" onSelect="alert('Selected: ' + this.value)"/>
 		</div>
 
 		<div>

@@ -11,7 +11,6 @@ import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.BGException;
@@ -23,7 +22,6 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.plugin.bgbilling.CommonContractConfig;
 import ru.bgcrm.plugin.bgbilling.ContractTypesConfig;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
@@ -40,7 +38,7 @@ import ru.bgcrm.struts.action.LinkAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**
  * Все действия, относящиеся только к манипуляции данными договора на стороне биллинга перенести в
@@ -61,12 +59,8 @@ public class ContractAction extends BaseAction
 		form.getResponse().setData( "list", new CustomerLinkDAO( con ).getObjectLinksWithType( customerId, Contract.OBJECT_TYPE + "%" ) );
 		form.getResponse().setData( "customerId", customerId );
 
-		request.setAttribute( "commonContractConfig", setup.getConfig( CommonContractConfig.class ) );
 		request.setAttribute( "contractTypesConfig", setup.getConfig( ContractTypesConfig.class ) );
 		request.setAttribute( "customer", new CustomerDAO( con ).getCustomerById( customerId ) );
-
-		CommonContractConfig config = setup.getConfig( CommonContractConfig.class );
-		request.setAttribute( "customerAddressMap", new ParamValueDAO( con ).getParamAddress( customerId, config.getCustomerAddressParamId() ) );
 
 		return html( con, mapping, form, "customerContractList" );
 	}
@@ -207,7 +201,7 @@ public class ContractAction extends BaseAction
 					contract.getId(), contract.getTitle());
 
 			LinkAddingEvent event = new LinkAddingEvent(form, link);
-			EventProcessor.processEvent(event, new SingleConnectionConnectionSet(con));
+			EventProcessor.processEvent(event, new SingleConnectionSet(con));
 
 			new CustomerLinkDAO(con).addLink(link);
 

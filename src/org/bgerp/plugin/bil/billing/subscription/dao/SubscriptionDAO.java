@@ -3,7 +3,6 @@ package org.bgerp.plugin.bil.billing.subscription.dao;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_TEXT;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;
-import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.bgerp.plugin.bil.billing.invoice.model.Position;
 import org.bgerp.plugin.bil.billing.subscription.Config;
 import org.bgerp.plugin.bil.billing.subscription.model.Subscription;
 
@@ -120,7 +118,7 @@ public class SubscriptionDAO extends CommonDAO {
         return result;
     }
 
-    public List<Position> getInvoicePositions(Config config, Subscription subscription, int subscriptionProcessId) throws SQLException {
+   /*  public List<Position> getInvoicePositions(Config config, Subscription subscription, int subscriptionProcessId) throws SQLException {
         var result = new ArrayList<Position>(20);
 
         Integer limitId = Utils.getFirst(new ParamValueDAO(con).getParamList(subscriptionProcessId, config.getParamLimitId()));
@@ -148,7 +146,7 @@ public class SubscriptionDAO extends CommonDAO {
         }
 
         return result;
-    }
+    } */
 
     private void addProductsJoin(PreparedDelay pd, Config config, String table, int subscriptionProcessId) throws SQLException {
         pd.addQuery(SQL_INNER_JOIN + TABLE_PROCESS_LINK

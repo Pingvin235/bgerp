@@ -36,7 +36,7 @@ import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class CustomerAction extends BaseAction {
     @Override
@@ -116,7 +116,7 @@ public class CustomerAction extends BaseAction {
         new CustomerLinkDAO(con).deleteObjectLinks(form.getId());
 
         CustomerRemovedEvent deleteEvent = new CustomerRemovedEvent(form, form.getId());
-        EventProcessor.processEvent(deleteEvent, new SingleConnectionConnectionSet(con));
+        EventProcessor.processEvent(deleteEvent, new SingleConnectionSet(con));
 
         return json(conSet, form);
     }
@@ -255,7 +255,7 @@ public class CustomerAction extends BaseAction {
             link.setObjectType("customer");
 
             LinkAddingEvent event = new LinkAddingEvent(form, link);
-            EventProcessor.processEvent(event, new SingleConnectionConnectionSet(con));
+            EventProcessor.processEvent(event, new SingleConnectionSet(con));
 
             customerLinkDAO.addLink(link);
         }

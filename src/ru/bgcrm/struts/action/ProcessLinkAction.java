@@ -45,7 +45,7 @@ import ru.bgcrm.model.process.queue.FilterProcessType;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class ProcessLinkAction extends ProcessAction {
     private static final Log log = Log.getLog();
@@ -148,12 +148,12 @@ public class ProcessLinkAction extends ProcessAction {
         CommonObjectLink link = new CommonObjectLink(Process.OBJECT_TYPE, process.getId(), objectType, id, objectTitle);
 
         EventProcessor.processEvent(new LinkAddingEvent(form, link),
-                ProcessTypeCache.getProcessType(process.getTypeId()).getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+                ProcessTypeCache.getProcessType(process.getTypeId()).getProperties().getActualScriptName(), new SingleConnectionSet(con));
 
         new ProcessLinkDAO(con).addLink(link);
 
         EventProcessor.processEvent(new LinkAddedEvent(form, link),
-                ProcessTypeCache.getProcessType(process.getTypeId()).getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+                ProcessTypeCache.getProcessType(process.getTypeId()).getProperties().getActualScriptName(), new SingleConnectionSet(con));
 
         // копирование параметров
         ProcessType type = ProcessTypeCache.getProcessType(form.getParamInt("typeId", 0));
@@ -301,7 +301,7 @@ public class ProcessLinkAction extends ProcessAction {
 
         ProcessType createdProcessType = getProcessType(process.getTypeId());
         EventProcessor.processEvent(new ProcessCreatedAsLinkEvent(form, linkedProcess, process),
-                createdProcessType.getProperties().getActualScriptName(), new SingleConnectionConnectionSet(con));
+                createdProcessType.getProperties().getActualScriptName(), new SingleConnectionSet(con));
 
         return process;
     }

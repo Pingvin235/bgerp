@@ -32,7 +32,7 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.PswdUtil.UserPswdUtil;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.SingleConnectionConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Action(path = "/admin/user")
 public class UserAction extends ru.bgcrm.struts.action.BaseAction {
@@ -322,7 +322,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         UserCache.flush(con);
 
-        EventProcessor.processEvent(new UserChangedEvent(form, user), new SingleConnectionConnectionSet(con));
+        EventProcessor.processEvent(new UserChangedEvent(form, user), new SingleConnectionSet(con));
 
         form.setResponseData("newUserId", user.getId());
 
