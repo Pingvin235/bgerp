@@ -1,2 +1,0 @@
-A: Plugin Auth. Debug logging.
-F: Plugin Auth. Fix LDAP auth with many servers.

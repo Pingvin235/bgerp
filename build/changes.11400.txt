@@ -1,3 +1,0 @@
-C: Majority of Servlet Filters moved to 'org.bgerp.servlet.filter' package.
-C: Scheduler related classes moved to 'org.bgerp.scheduler' package.
-A: Show runnable classes in 'Administration / Run'.

@@ -1,1 +1,0 @@
-A: Plugin Report. Documentation improvements.

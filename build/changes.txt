@@ -1,6 +1,75 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+24.01.2022 16:24:30 1382
+C: [11400] Majority of Servlet Filters moved to 'org.bgerp.servlet.filter' package.
+C: [11400] Scheduler related classes moved to 'org.bgerp.scheduler' package.
+A: [11400] Show runnable classes in 'Administration / Run'.
+C: [14174] Plugin BGBilling. SOAP to JSON-RPC migration.
+A: [14303] Plugin Subscription.
+A: [14303] Support 'page.url' parameter for Process Queue Processors. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#processor
+A: [14396] Right click menu on running tool buttons.
+A: [14439] Plugin BGBilling. Support API of version 8.2107.
+A: [14520] Extra param types in ProcessParamTest.
+A: [14520] Attach files in messages from process parameters.
+A: [14529] Script deploy.sh. https://bgerp.org/doc/3.0/manual/kernel/install.html#deployment-script
+C: [14551] Upgrade Gradle to version 7.3.1.
+F: [14612] Preserve text indention.
+A: [14631] Prevent including of custom sources to build.
+A: [14644] Parameter type 'money'. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-money
+C: [14645] Store files in sub-directories in 'filestorage'.
+A: [14645] Migration to sub dirs runnable 'org.bgerp.util.file.MoveToSubDirs'.
+C: [14651] Do not show first value in process status editor as chosen by default.
+F: [14654] Remove old dyn code sample: ExampleHttpCallJournal.java.
+C: [14654] Return back as deprecated ru.bgerp.util.Log class.
+F: [14656] Showing user profile in Open interface.
+F: [14661] Plugin BGBilling. Call 'ContractParameters' action without suffix.
+F: [14664] Blow open board.
+F: [14669] Customer merge.
+C: [14669] Plugin BGBilling. Remove Common Contract related code.
+F: [14671] Used common contract code in JSP.
+A: [14676] ui:tag-box element.
+A: [14677] Plugin Telegram. Back compatible config param 'bot_name'.
+A: [14677] Plugin Telegram. Logging messages in debugging mode.
+A: [14679] Plugin Telegram, new method sendMessage(String chatId, String text, String parseMode).
+C: [14679] Plugin Telegram, checking the user for activity.
+F: [14681] Showing process reference.
+A: [14689] Plugin Report. Documentation improvements.
+A: [14691] Plugin Invoice. Generation of invoices.
+A: [14691] ui:date-month tag.
+C: [14691] Periodic tables DAO API.
+A: [14691] ui:popup-menu tag.
+A: [14691] Plugin Subscription. Calculation, generate licenses and invoices.
+A: [14691] $$.confirm.del() JS function.
+A: [14691] Attach invoices to messages.
+F: [14692] NPE on edit process message.
+F: [14698] Invisible permission tree options.
+F: [14698] Incorrect constructor calls of Configs.
+C: [14703] Unified naming for ExpressionObject classes.
+A: [14704] SonarCloud integration.
+A: [14705] Plugin Invoice. Templates.
+A: [14707] Plugin Auth. Debug logging.
+F: [14707] Plugin Auth. Fix LDAP auth with many servers.
+C: [14708] Unified indent symbols.
+A: [14708] Tagged CI job 'integration-test'.
+F: [14708] Plugin Report. Pagination in report 'Processes'.
+A: [14709] Test for Log4j2 JNDI exploit.
+F: [14710] Permission tree incorrect check-boxes.
+C: [14710] Remove unused user_group_permission table.
+A: [14711] Configuration key 'text.html' for support HTML markup in process descriptions and messages.
+A: [14712] IP address in list of logged in users.
+C: [14713] Plugin E-Mail. Flush IMAP folder cache on missing element.
+A: [14713] Show unprocessed messages with all types. Multi-threaded loading.
+F: [14717] Access files in filestorage after splitting by dates.
+C: [14719] Plugin Task. Refactoring.
+F: [14719] Incorrect JSP import of LoginStat.
+A: [14719] iTest for param type 'text' regexp.
+F: [14719] Message after synchronous class running.
+F: [14720] Plugin Report. Permission check for JSP reports.
+F: [14720] Plugin Blow. Incorrect action permission check.
+F: [14721] JS function monthDateFrom.
+A: [14722] GIT LFS support.
+
 25.10.2021 20:04:42 1381
 C: [11087] Remove XSLT related libraries and code.
 F: [11187] User passwords are available on the frontend-side.

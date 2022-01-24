@@ -1,2 +1,0 @@
-F: Permission tree incorrect check-boxes.
-C: Remove unused user_group_permission table.

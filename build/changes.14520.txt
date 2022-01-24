@@ -1,2 +1,0 @@
-A: Extra param types in ProcessParamTest.
-A: Attach files in messages from process parameters.

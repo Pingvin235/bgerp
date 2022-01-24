@@ -1,7 +1,0 @@
-A: Plugin Invoice. Generation of invoices.
-A: ui:date-month tag.
-C: Periodic tables DAO API.
-A: ui:popup-menu tag.
-A: Plugin Subscription. Calculation, generate licenses and invoices.
-A: $$.confirm.del() JS function.
-A: Attach invoices to messages.

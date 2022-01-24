@@ -1,2 +1,0 @@
-F: Plugin Report. Permission check for JSP reports.
-F: Plugin Blow. Incorrect action permission check.

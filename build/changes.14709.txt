@@ -1,1 +1,0 @@
-A: Test for Log4j2 JNDI exploit.
