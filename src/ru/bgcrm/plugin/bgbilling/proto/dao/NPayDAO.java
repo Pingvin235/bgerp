@@ -33,7 +33,7 @@ public class NPayDAO extends BillingModuleDAO {
 	}
 
 	public static NPayDAO getInstance(User user, DBInfo dbInfo, int moduleId) throws BGException {
-		if (dbInfo.getVersion().compareTo("8.0") >= 0) {
+		if (dbInfo.getVersion().compareTo("8.0") > 0) {
 			return new NPayDAO8x(user, dbInfo, moduleId);
 		} else {
 			return new NPayDAO(user, dbInfo, moduleId);
@@ -41,7 +41,7 @@ public class NPayDAO extends BillingModuleDAO {
 	}
 
 	public static NPayDAO getInstance(User user, String billingId, int moduleId) throws BGException {
-		if (BillingDAO.getVersion(user, billingId).compareTo("8.0") >= 0) {
+		if (BillingDAO.getVersion(user, billingId).compareTo("8.0") > 0) {
 			return new NPayDAO8x(user, billingId, moduleId);
 		} else {
 			return new NPayDAO(user, billingId, moduleId);
@@ -75,8 +75,8 @@ public class NPayDAO extends BillingModuleDAO {
 				Element rowElement = (Element) nodeList.item(index);
 
 				service.setComment(rowElement.getAttribute("comment"));
-				service.setDateFrom(TimeUtils.parse(rowElement.getAttribute("date1"), TimeUtils.PATTERN_DDMMYYYY));
-				service.setDateTo(TimeUtils.parse(rowElement.getAttribute("date2"), TimeUtils.PATTERN_DDMMYYYY));
+				service.setDateFrom(TimeUtils.parse(rowElement.getAttribute(DATE_1), TimeUtils.PATTERN_DDMMYYYY));
+				service.setDateTo(TimeUtils.parse(rowElement.getAttribute(DATE_2), TimeUtils.PATTERN_DDMMYYYY));
 				service.setId(Utils.parseInt(rowElement.getAttribute("id")));
 				service.setObjectId(Utils.parseInt(rowElement.getAttribute("objectId")));
 				service.setObjectTitle(rowElement.getAttribute("object"));
@@ -117,8 +117,8 @@ public class NPayDAO extends BillingModuleDAO {
 			result.setServiceId(Utils.parseInt(serviceEl.getAttribute("sid")));
 			result.setObjectId(Utils.parseInt(serviceEl.getAttribute("oid")));
 			result.setCount(Utils.parseInt(serviceEl.getAttribute("col")));
-			result.setDateFrom(TimeUtils.parse(serviceEl.getAttribute("date1"), TimeUtils.PATTERN_DDMMYYYY));
-			result.setDateTo(TimeUtils.parse(serviceEl.getAttribute("date2"), TimeUtils.PATTERN_DDMMYYYY));
+			result.setDateFrom(TimeUtils.parse(serviceEl.getAttribute(DATE_1), TimeUtils.PATTERN_DDMMYYYY));
+			result.setDateTo(TimeUtils.parse(serviceEl.getAttribute(DATE_2), TimeUtils.PATTERN_DDMMYYYY));
 			result.setComment(linesToString(XMLUtils.selectElement(doc, "/data/comment/")));
 		}
 
@@ -163,10 +163,10 @@ public class NPayDAO extends BillingModuleDAO {
 		req.setAttribute("col", count);
 		req.setAttribute("comment", comment);
 		if (dateFrom != null) {
-			req.setAttribute("date1", formatter.format(dateFrom));
+			req.setAttribute(DATE_1, formatter.format(dateFrom));
 		}
 		if (dateTo != null) {
-			req.setAttribute("date2", formatter.format(dateTo));
+			req.setAttribute(DATE_2, formatter.format(dateTo));
 		}
 		transferData.postData(req, user);
 	}
@@ -177,7 +177,7 @@ public class NPayDAO extends BillingModuleDAO {
 	 * @param id
 	 * @throws BGException
 	 */
-	public void deleteService(int contractId, int id) throws BGException {
+	public void deleteService( int id) throws BGException {
 		Request req = new Request();
 		req.setModule(NPAY_MODULE_ID);
 		req.setAction("ServiceObjectDelete");

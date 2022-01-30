@@ -27,7 +27,7 @@ public class ContractStatusDAO extends BillingDAO {
 
 
     public static ContractStatusDAO getInstance(User user, DBInfo dbInfo) throws BGException {
-        if (dbInfo.getVersion().compareTo("8.0") >= 0) {
+        if (dbInfo.getVersion().compareTo("8.0") > 0) {
             return new ContractStatusDAO8x(user, dbInfo);
         } else {
             return new ContractStatusDAO(user, dbInfo);
@@ -35,7 +35,7 @@ public class ContractStatusDAO extends BillingDAO {
     }
 
     public static ContractStatusDAO getInstance(User user, String billingId) throws BGException {
-        if (BillingDAO.getVersion(user, billingId).compareTo("8.0") >= 0) {
+        if (BillingDAO.getVersion(user, billingId).compareTo("8.0") > 0) {
             return new ContractStatusDAO8x(user, billingId);
         } else {
             return new ContractStatusDAO(user, billingId);

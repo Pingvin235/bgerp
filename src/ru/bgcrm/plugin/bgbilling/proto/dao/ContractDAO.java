@@ -1,19 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -21,13 +8,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.IdTitle;
-import ru.bgcrm.model.Page;
-import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.*;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.user.User;
@@ -36,17 +17,17 @@ import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.ContractDAO8x;
-import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractFace;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractMemo;
-import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
-import ru.bgcrm.plugin.bgbilling.proto.model.OpenContract;
+import ru.bgcrm.plugin.bgbilling.proto.model.*;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ContractDAO extends BillingDAO {
     @SuppressWarnings("unused")
@@ -54,6 +35,16 @@ public class ContractDAO extends BillingDAO {
 
     private static final String ADMIN_MODULE_ID = "admin";
     private static final String CONTRACT_MODULE_ID = "contract";
+    public static final String FIND_CONTRACT = "FindContract";
+    public static final String DATA_TABLE_DATA_ROW = "/data/table/data/row";
+    public static final String DATA_CONTRACTS = "/data/contracts";
+    public static final String SUBJECT = "subject";
+    public static final String VISIBLED = "visibled";
+    public static final String DATA_TABLE = "/data/table";
+    public static final String KERNEL_CONTRACT_API = "ru.bitel.bgbilling.kernel.contract.api";
+    public static final String CONTRACT_LIMIT_PACKAGE = "ru.bitel.bgbilling.kernel.contract.limit";
+    public static final String CONTRACT_LIMIT_SERVICE = "ContractLimitService";
+    public static final String LIMIT_ATRIBUTE = "limit";
 
     public static class SearchOptions {
         public boolean showDel;
@@ -68,7 +59,7 @@ public class ContractDAO extends BillingDAO {
     }
 
     public static ContractDAO getInstance(User user, DBInfo dbInfo) throws BGException {
-        if (dbInfo.getVersion().compareTo("8.0") >= 0) {
+        if (dbInfo.getVersion().compareTo("8.0") > 0) {
             return new ContractDAO8x(user, dbInfo);
         } else {
             return new ContractDAO(user, dbInfo);
@@ -76,7 +67,7 @@ public class ContractDAO extends BillingDAO {
     }
 
     public static ContractDAO getInstance(User user, String billingId) throws BGException {
-        if (BillingDAO.getVersion(user, billingId).compareTo("8.0") >= 0) {
+        if (BillingDAO.getVersion(user, billingId).compareTo("8.0") > 0) {
             return new ContractDAO8x(user, billingId);
         } else {
             return new ContractDAO(user, billingId);
@@ -102,7 +93,7 @@ public class ContractDAO extends BillingDAO {
         Document doc = transferData.postData(req, user);
 
         for (Element contract : XMLUtils.selectElements(doc, "/data/contracts/item")) {
-            String title = contract.getAttribute("title");
+            String title = contract.getAttribute(TITLE);
             result = new Contract(dbInfo.getId(), contractId, StringUtils.substringBefore(title, "[").trim(),
                     StringUtils.substringBetween(title, "[", "]").trim());
         }
@@ -143,7 +134,7 @@ public class ContractDAO extends BillingDAO {
             for (int index = 0; index < nodeList.getLength(); index++) {
                 Element rowElement = (Element) nodeList.item(index);
 
-                contractList.add(new IdTitle(Utils.parseInt(rowElement.getAttribute("id")), rowElement.getAttribute("title")));
+                contractList.add(new IdTitle(Utils.parseInt(rowElement.getAttribute("id")), rowElement.getAttribute(TITLE)));
             }
 
             NodeList table = dataElement.getElementsByTagName("contracts");
@@ -161,7 +152,7 @@ public class ContractDAO extends BillingDAO {
         request.setModule(CONTRACT_MODULE_ID);
         request.setContractId(contractId);
         request.setAttribute("id", contractId);
-        request.setAttribute("value", TimeUtils.format(date, TimeUtils.PATTERN_DDMMYYYY));
+        request.setAttribute(VALUE, TimeUtils.format(date, TimeUtils.PATTERN_DDMMYYYY));
         transferData.postData(request, user);
     }
 
@@ -186,7 +177,7 @@ public class ContractDAO extends BillingDAO {
         req.setModule(CONTRACT_MODULE_ID);
         applySearchOptions(options, req);
 
-        req.setAction("FindContract");
+        req.setAction(FIND_CONTRACT);
         if (dbInfo.getVersion().compareTo("7.0") >= 0)
             req.setAttribute("type", "o4");
         else
@@ -199,25 +190,25 @@ public class ContractDAO extends BillingDAO {
         req.setAttribute("flat", flat);
         req.setAttribute("room", room);
 
-        if (paramIds != null && paramIds.size() > 0) {
-            req.setAttribute("parameters", Utils.toString(paramIds));
+        if (paramIds != null && !paramIds.isEmpty()) {
+            req.setAttribute(PARAMETERS, Utils.toString(paramIds));
         }
 
         setPage(req, page);
 
         Document doc = transferData.postData(req, user);
 
-        Element contracts = XMLUtils.selectElement(doc, "/data/contracts");
+        Element contracts = XMLUtils.selectElement(doc, DATA_CONTRACTS);
         if (contracts != null) {
             getPage(page, contracts);
 
             List<ParameterSearchedObject<Contract>> list = result.getList();
             for (Element item : XMLUtils.selectElements(contracts, "item")) {
-                final String fullTitle = item.getAttribute("title");
+                final String fullTitle = item.getAttribute(TITLE);
 
                 Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")),
                         StringUtils.substringBefore(fullTitle, "[").trim(), StringUtils.substringBetween(fullTitle, "[", "]").trim());
-                list.add(new ParameterSearchedObject<Contract>(contract, 0, StringUtils.substringAfterLast(fullTitle, "]").trim()));
+                list.add(new ParameterSearchedObject<>(contract, 0, StringUtils.substringAfterLast(fullTitle, "]").trim()));
             }
         }
     }
@@ -232,7 +223,7 @@ public class ContractDAO extends BillingDAO {
 
         applySearchOptions(options, req);
 
-        req.setAction("FindContract");
+        req.setAction(FIND_CONTRACT);
         if (dbInfo.getVersion().compareTo("7.0") >= 0)
             req.setAttribute("type", "c2");
         else
@@ -244,24 +235,24 @@ public class ContractDAO extends BillingDAO {
         req.setAttribute("frac", houseFrac.getFrac());
         req.setAttribute("flat", flat);
         req.setAttribute("room", room);
-        if (paramIds != null && paramIds.size() > 0) {
-            req.setAttribute("parameters", Utils.toString(paramIds));
+        if (paramIds != null && !paramIds.isEmpty()) {
+            req.setAttribute(PARAMETERS, Utils.toString(paramIds));
         }
         setPage(req, page);
 
         Document doc = transferData.postData(req, user);
 
-        Element contracts = XMLUtils.selectElement(doc, "/data/contracts");
+        Element contracts = XMLUtils.selectElement(doc, DATA_CONTRACTS);
         if (contracts != null) {
             getPage(page, contracts);
 
             List<ParameterSearchedObject<Contract>> list = result.getList();
             for (Element item : XMLUtils.selectElements(contracts, "item")) {
-                final String fullTitle = item.getAttribute("title");
+                final String fullTitle = item.getAttribute(TITLE);
 
                 Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")),
                         StringUtils.substringBefore(fullTitle, "[").trim(), StringUtils.substringBetween(fullTitle, "[", "]").trim());
-                list.add(new ParameterSearchedObject<Contract>(contract, 0, StringUtils.substringAfterLast(fullTitle, "]").trim()));
+                list.add(new ParameterSearchedObject<>(contract, 0, StringUtils.substringAfterLast(fullTitle, "]").trim()));
             }
         }
     }
@@ -306,12 +297,12 @@ public class ContractDAO extends BillingDAO {
 
         applySearchOptions(options, req);
 
-        req.setAction("FindContract");
+        req.setAction(FIND_CONTRACT);
         if (dbInfo.getVersion().compareTo("7.0") >= 0)
             req.setAttribute("type", "c1");
         else
             req.setAttribute("type", 1);
-        req.setAttribute("parameters", Utils.toString(paramIds));
+        req.setAttribute(PARAMETERS, Utils.toString(paramIds));
         req.setAttribute("parameter", value);
 
         addSearchResult(result, page, req);
@@ -327,12 +318,12 @@ public class ContractDAO extends BillingDAO {
 
         applySearchOptions(options, req);
 
-        req.setAction("FindContract");
+        req.setAction(FIND_CONTRACT);
         if (dbInfo.getVersion().compareTo("7.0") >= 0)
             req.setAttribute("type", "c9");
         else
             req.setAttribute("type", 9);
-        req.setAttribute("parameters", Utils.toString(paramIds));
+        req.setAttribute(PARAMETERS, Utils.toString(paramIds));
         req.setAttribute("phone", phone);
 
         addSearchResult(result, page, req);
@@ -348,14 +339,14 @@ public class ContractDAO extends BillingDAO {
 
         applySearchOptions(options, req);
 
-        req.setAction("FindContract");
+        req.setAction(FIND_CONTRACT);
         if (dbInfo.getVersion().compareTo("7.0") >= 0)
             req.setAttribute("type", "c6");
         else
             req.setAttribute("type", 6);
-        req.setAttribute("parameters", Utils.toString(paramIds));
-        req.setAttribute("date1", TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
-        req.setAttribute("date2", TimeUtils.format(dateTo, TimeUtils.PATTERN_DDMMYYYY));
+        req.setAttribute(PARAMETERS, Utils.toString(paramIds));
+        req.setAttribute(DATE_1, TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
+        req.setAttribute(DATE_2, TimeUtils.format(dateTo, TimeUtils.PATTERN_DDMMYYYY));
 
         addSearchResult(result, page, req);
     }
@@ -398,9 +389,9 @@ public class ContractDAO extends BillingDAO {
 
         applySearchOptions(options, req);
 
-        req.setAction("FindContract");
+        req.setAction(FIND_CONTRACT);
         req.setAttribute("type", 3);
-        req.setAttribute("parameters", Utils.toString(paramIds));
+        req.setAttribute(PARAMETERS, Utils.toString(paramIds));
         req.setAttribute("mail", email);
 
         addSearchResult(result, page, req);
@@ -411,13 +402,13 @@ public class ContractDAO extends BillingDAO {
 
         Document doc = transferData.postData(req, user);
         //XMLUtils.serialize(doc, System.out, "utf-8");
-        Element contracts = XMLUtils.selectElement(doc, "/data/contracts");
+        Element contracts = XMLUtils.selectElement(doc, DATA_CONTRACTS);
         if (contracts != null) {
             getPage(page, contracts);
 
             List<Contract> list = result.getList();
             for (Element item : XMLUtils.selectElements(contracts, "item")) {
-                final String fullTitle = item.getAttribute("title");
+                final String fullTitle = item.getAttribute(TITLE);
 
                 Contract contract = new Contract(dbInfo.getId(), Utils.parseInt(item.getAttribute("id")),
                         StringUtils.substringBefore(fullTitle, "[").trim(), StringUtils.substringBetween(fullTitle, "[", "]").trim());
@@ -448,7 +439,7 @@ public class ContractDAO extends BillingDAO {
         }
 
         Request req = new Request();
-        req.setModule("contract");
+        req.setModule(CONTRACT_MODULE_ID);
         req.setAction("NewContract");
         req.setAttribute("pattern_id", patternId);
         req.setAttribute("date", date);
@@ -456,7 +447,7 @@ public class ContractDAO extends BillingDAO {
             req.setAttribute("custom_title", titlePattern);
         }
         if (Utils.notBlankString(title)) {
-            req.setAttribute("title", title);
+            req.setAttribute(TITLE, title);
         }
 
         if (superId > 0) {
@@ -497,7 +488,7 @@ public class ContractDAO extends BillingDAO {
 
         Document document = transferData.postData(request, user);
 
-        List<ContractMemo> contractMemos = new ArrayList<ContractMemo>();
+        List<ContractMemo> contractMemos = new ArrayList<>();
         Element dataElement = document.getDocumentElement();
         NodeList nodeList = dataElement.getElementsByTagName("row");
 
@@ -531,9 +522,9 @@ public class ContractDAO extends BillingDAO {
         if (commentEl != null) {
             memo = new ContractMemo();
 
-            memo.setTitle(commentEl.getAttribute("subject"));
+            memo.setTitle(commentEl.getAttribute(SUBJECT));
             memo.setText(linesToString(commentEl));
-            memo.setVisibleForUser(Utils.parseBoolean(commentEl.getAttribute("visibled")));
+            memo.setVisibleForUser(Utils.parseBoolean(commentEl.getAttribute(VISIBLED)));
         }
 
         return memo;
@@ -544,9 +535,9 @@ public class ContractDAO extends BillingDAO {
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("UpdateContractMemo");
         request.setContractId(contractId);
-        request.setAttribute("subject", memoTitle);
-        request.setAttribute("comment", memoText);
-        request.setAttribute("visibled", visible);
+        request.setAttribute(SUBJECT, memoTitle);
+        request.setAttribute(COMMENT, memoText);
+        request.setAttribute(VISIBLED, visible);
         if (memoId == 0) {
             request.setAttribute("id", "new");
         } else {
@@ -561,9 +552,9 @@ public class ContractDAO extends BillingDAO {
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("UpdateContractMemo");
         request.setContractId(contractId);
-        request.setAttribute("subject", memoTitle);
-        request.setAttribute("comment", memoText);
-        request.setAttribute("visibled", false);
+        request.setAttribute(SUBJECT, memoTitle);
+        request.setAttribute(COMMENT, memoText);
+        request.setAttribute(VISIBLED, false);
         if (memoId == 0) {
             request.setAttribute("id", "new");
         } else {
@@ -596,16 +587,16 @@ public class ContractDAO extends BillingDAO {
         setPage(request, result.getPage());
 
         Document document = transferData.postData(request, user);
-        for (Element el : XMLUtils.selectElements(document, "/data/table/data/row")) {
+        for (Element el : XMLUtils.selectElements(document, DATA_TABLE_DATA_ROW)) {
             ContractFace face = new ContractFace();
             face.setTime(TimeUtils.parse(el.getAttribute("date"), TimeUtils.PATTERN_DDMMYYYYHHMMSS));
             face.setUser(el.getAttribute("user"));
-            face.setFace(el.getAttribute("value"));
+            face.setFace(el.getAttribute(VALUE));
 
             list.add(face);
         }
 
-        getPage(result.getPage(), XMLUtils.selectElement(document, "/data/table"));
+        getPage(result.getPage(), XMLUtils.selectElement(document, DATA_TABLE));
     }
 
     public void updateFace(int contractId, int face) throws BGException {
@@ -613,7 +604,7 @@ public class ContractDAO extends BillingDAO {
         req.setModule(CONTRACT_MODULE_ID);
         req.setAction("SetFcContract");
         req.setContractId(contractId);
-        req.setAttribute("value", face);
+        req.setAttribute(VALUE, face);
 
         transferData.postData(req, user);
     }
@@ -631,16 +622,16 @@ public class ContractDAO extends BillingDAO {
         setPage(request, result.getPage());
 
         Document document = transferData.postData(request, user);
-        for (Element el : XMLUtils.selectElements(document, "/data/table/data/row")) {
+        for (Element el : XMLUtils.selectElements(document, DATA_TABLE_DATA_ROW)) {
             ContractMode face = new ContractMode();
             face.setTime(TimeUtils.parse(el.getAttribute("date"), TimeUtils.PATTERN_DDMMYYYYHHMMSS));
             face.setUser(el.getAttribute("user"));
-            face.setMode(el.getAttribute("value"));
+            face.setMode(el.getAttribute(VALUE));
 
             list.add(face);
         }
 
-        getPage(result.getPage(), XMLUtils.selectElement(document, "/data/table"));
+        getPage(result.getPage(), XMLUtils.selectElement(document, DATA_TABLE));
     }
 
     public void updateMode(int contractId, int mode) throws BGException {
@@ -648,15 +639,14 @@ public class ContractDAO extends BillingDAO {
         req.setModule(CONTRACT_MODULE_ID);
         req.setAction("UpdateContractMode");
         req.setContractId(contractId);
-        req.setAttribute("value", mode == ContractMode.MODE_CREDIT ? "credit" : "debet");
-        ;
+        req.setAttribute(VALUE, mode == ContractMode.MODE_CREDIT ? "credit" : "debet");
 
         transferData.postData(req, user);
     }
 
     public Pair<List<IdTitle>, Set<Integer>> groupsGet(int contractId) throws BGException {
-        List<IdTitle> groupList = new ArrayList<IdTitle>();
-        Set<Integer> selectedIds = new HashSet<Integer>();
+        List<IdTitle> groupList = new ArrayList<>();
+        Set<Integer> selectedIds = new HashSet<>();
 
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
@@ -674,7 +664,7 @@ public class ContractDAO extends BillingDAO {
         for (Element rowElement : XMLUtils.selectElements(document, "/data/groups/group")) {
             IdTitle group = new IdTitle();
             group.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            group.setTitle(rowElement.getAttribute("title"));
+            group.setTitle(rowElement.getAttribute(TITLE));
 
             groupList.add(group);
 
@@ -683,7 +673,7 @@ public class ContractDAO extends BillingDAO {
             }
         }
 
-        return new Pair<List<IdTitle>, Set<Integer>>(groupList, selectedIds);
+        return new Pair<>(groupList, selectedIds);
     }
 
     public void updateGroup(String command, int contractId, int groupId) throws BGException {
@@ -691,7 +681,7 @@ public class ContractDAO extends BillingDAO {
             Request request = new Request();
             request.setModule(CONTRACT_MODULE_ID);
             request.setContractId(contractId);
-            request.setAttribute("value", groupId);
+            request.setAttribute(VALUE, groupId);
             request.setAttribute("id", contractId);
 
             if ("add".equals(command)) {
@@ -703,19 +693,21 @@ public class ContractDAO extends BillingDAO {
             transferData.postData(request, user);
         } else {
             try {
+                RequestJsonRpc req = null;
                 if ("add".equals(command)) {
-                    RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
+                    req = new RequestJsonRpc(KERNEL_CONTRACT_API,
                             "ContractService", "contractGroupAdd");
-                    req.setParamContractId(contractId);
-                    req.setParam("groupId",groupId);
-                    JsonNode res = transferData.postDataReturn(req, user);
+
                 } else if ("del".equals(command)) {
-                    RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api",
+                    req = new RequestJsonRpc(KERNEL_CONTRACT_API,
                             "ContractService", "contractGroupRemove");
+                }
+                if (req != null) {
                     req.setParamContractId(contractId);
-                    req.setParam("groupId",groupId);
+                    req.setParam("contractGroupId", groupId);
                     JsonNode res = transferData.postDataReturn(req, user);
                 }
+
             } catch (Exception e) {
                 processWebServiceException(e);
             }
@@ -733,12 +725,12 @@ public class ContractDAO extends BillingDAO {
         Element dataElement = document.getDocumentElement();
         NodeList nodeList = dataElement.getElementsByTagName("item");
 
-        List<IdTitle> additionalActionList = new ArrayList<IdTitle>();
+        List<IdTitle> additionalActionList = new ArrayList<>();
         for (int index = 0; index < nodeList.getLength(); index++) {
             Element rowElement = (Element) nodeList.item(index);
             IdTitle additionalAction = new IdTitle();
             additionalAction.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            additionalAction.setTitle(rowElement.getAttribute("title"));
+            additionalAction.setTitle(rowElement.getAttribute(TITLE));
 
             additionalActionList.add(additionalAction);
         }
@@ -768,8 +760,8 @@ public class ContractDAO extends BillingDAO {
     }
 
     public Pair<List<IdTitle>, List<IdTitle>> moduleList(int contractId) throws BGException {
-        List<IdTitle> selectedList = new ArrayList<IdTitle>();
-        List<IdTitle> availableList = new ArrayList<IdTitle>();
+        List<IdTitle> selectedList = new ArrayList<>();
+        List<IdTitle> availableList = new ArrayList<>();
 
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
@@ -778,13 +770,13 @@ public class ContractDAO extends BillingDAO {
 
         Document document = transferData.postData(request, user);
         for (Element item : XMLUtils.selectElements(document, "/data/list_select/item")) {
-            selectedList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
+            selectedList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute(TITLE)));
         }
         for (Element item : XMLUtils.selectElements(document, "/data/list_avaliable/item")) {
-            availableList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
+            availableList.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute(TITLE)));
         }
 
-        return new Pair<List<IdTitle>, List<IdTitle>>(selectedList, availableList);
+        return new Pair<>(selectedList, availableList);
     }
 
     public void updateModule(int contractId, int moduleId, String command) throws BGException {
@@ -810,8 +802,8 @@ public class ContractDAO extends BillingDAO {
 
         if (dbInfo.getVersion().compareTo("6.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(
-                    dbInfo.getVersion().compareTo("7.0") >= 0 ? "ru.bitel.bgbilling.kernel.contract.limit" : "ru.bitel.bgbilling.kernel.contract.api",
-                    "ContractLimitService", "contractLimitGet");
+                    dbInfo.getVersion().compareTo("7.0") >= 0 ? CONTRACT_LIMIT_PACKAGE : KERNEL_CONTRACT_API,
+                    CONTRACT_LIMIT_SERVICE, "contractLimitGet");
             req.setParamContractId(contractId);
 
             result = jsonMapper.convertValue(transferData.postDataReturn(req, user), BigDecimal.class);
@@ -830,7 +822,7 @@ public class ContractDAO extends BillingDAO {
 
         if (log != null) {
             if (dbInfo.getVersion().compareTo("6.2") >= 0) {
-                RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.limit", "ContractLimitService",
+                RequestJsonRpc req = new RequestJsonRpc(CONTRACT_LIMIT_PACKAGE, CONTRACT_LIMIT_SERVICE,
                         "searchContractLimitLogList");
                 req.setParamContractId(contractId);
                 req.setParam("page", log.getPage());
@@ -841,14 +833,14 @@ public class ContractDAO extends BillingDAO {
                 log.getList().addAll(sessionList);
                 log.getPage().setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
             } else {
-                getPage(log.getPage(), XMLUtils.selectElement(doc, "/data/table"));
+                getPage(log.getPage(), XMLUtils.selectElement(doc, DATA_TABLE));
 
-                for (Element item : XMLUtils.selectElements(doc, "/data/table/data/row")) {
+                for (Element item : XMLUtils.selectElements(doc, DATA_TABLE_DATA_ROW)) {
                     LimitLogItem logItem = new LimitLogItem();
                     logItem.setTime(TimeUtils.parse(item.getAttribute("f0"), TimeUtils.PATTERN_DDMMYYYYHHMMSS));
                     logItem.setUser(item.getAttribute("f1"));
                     logItem.setLimit(Utils.parseBigDecimal(item.getAttribute("f2")));
-                    logItem.setComment(item.getAttribute("comment"));
+                    logItem.setComment(item.getAttribute(COMMENT));
                     logItem.setDays(item.getAttribute("days"));
 
                     log.getList().add(logItem);
@@ -858,10 +850,12 @@ public class ContractDAO extends BillingDAO {
 
         if (taskList != null  ) {
             if (dbInfo.getVersion().compareTo("6.2") >= 0) {
-                RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.limit", "ContractLimitService",
+                RequestJsonRpc req = new RequestJsonRpc(CONTRACT_LIMIT_PACKAGE, CONTRACT_LIMIT_SERVICE,
                         "searchContractLimitAvtoList");
                 req.setParamContractId(contractId);
-                req.setParam("page", log.getPage());
+                if (log != null) {
+                    req.setParam("page", log.getPage());
+                }
 
                 JsonNode ret = transferData.postDataReturn(req, user);
                 List<LimitChangeTask> sessionList = readJsonValue(ret.findValue("list").traverse(),
@@ -886,20 +880,20 @@ public class ContractDAO extends BillingDAO {
     public void updateLimit(int contractId, BigDecimal limit, int days, String comment) throws BGException {
         if (days > 0) {
             if (dbInfo.getVersion().compareTo("6.2") >= 0) {
-                RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.limit", "ContractLimitService",
+                RequestJsonRpc req = new RequestJsonRpc(CONTRACT_LIMIT_PACKAGE, CONTRACT_LIMIT_SERVICE,
                         "updateContractLimitPeriod");
                 req.setParamContractId(contractId);
-                req.setParam("limit", limit);
+                req.setParam(LIMIT_ATRIBUTE, limit);
                 req.setParam("period", days);
-                req.setParam("comment", comment);
+                req.setParam(COMMENT, comment);
                 transferData.postData(req, user);
             } else {
                 Request request = new Request();
                 request.setModule(CONTRACT_MODULE_ID);
                 request.setContractId(contractId);
-                request.setAttribute("comment", comment);
+                request.setAttribute(COMMENT, comment);
                 request.setAction("UpdateContractLimitPeriod");
-                request.setAttribute("limit", limit.toPlainString());
+                request.setAttribute(LIMIT_ATRIBUTE, limit.toPlainString());
                 request.setAttribute("period", days);
                 transferData.postData(request, user);
             }
@@ -907,9 +901,9 @@ public class ContractDAO extends BillingDAO {
             Request request = new Request();
             request.setModule(CONTRACT_MODULE_ID);
             request.setContractId(contractId);
-            request.setAttribute("comment", comment);
+            request.setAttribute(COMMENT, comment);
             request.setAction("UpdateContractLimit");
-            request.setAttribute("value", limit.toPlainString());
+            request.setAttribute(VALUE, limit.toPlainString());
             transferData.postData(request, user);
         }
     }
@@ -937,7 +931,7 @@ public class ContractDAO extends BillingDAO {
 
         Document document = transferData.postData(request, user);
 
-        List<IdTitle> contractAddress = new ArrayList<IdTitle>();
+        List<IdTitle> contractAddress = new ArrayList<>();
         Element dataElement = document.getDocumentElement();
         NodeList nodeList = dataElement.getElementsByTagName("item");
 
@@ -945,7 +939,7 @@ public class ContractDAO extends BillingDAO {
             Element rowElement = (Element) nodeList.item(index);
             IdTitle address = new IdTitle();
             address.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            address.setTitle(rowElement.getAttribute("title"));
+            address.setTitle(rowElement.getAttribute(TITLE));
 
             contractAddress.add(address);
         }
@@ -964,9 +958,7 @@ public class ContractDAO extends BillingDAO {
         Document document = transferData.postData(billingRequest, user);
 
         Element rowElement = (Element) document.getElementsByTagName("table").item(0);
-        String result = rowElement.getAttribute("password");
-
-        return result;
+        return rowElement.getAttribute("password");
     }
 
     public void updateContractPassword(int contractId, String value, boolean generate) throws BGException {
@@ -974,7 +966,7 @@ public class ContractDAO extends BillingDAO {
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("UpdateContractPassword");
         request.setContractId(contractId);
-        request.setAttribute("value", Utils.maskNull(value));
+        request.setAttribute(VALUE, Utils.maskNull(value));
 
         if (generate) {
             request.setAttribute("set_pswd", 1);
@@ -1012,11 +1004,11 @@ public class ContractDAO extends BillingDAO {
         req.setAction("ContractCard2ListTypes");
         req.setContractId(contractId);
 
-        List<String[]> result = new ArrayList<String[]>(3);
+        List<String[]> result = new ArrayList<>(3);
 
         Document doc = transferData.postData(req, user);
         for (Element el : XMLUtils.selectElements(doc, "/data/combo/el")) {
-            result.add(new String[] { el.getAttribute("id"), el.getAttribute("title") });
+            result.add(new String[] { el.getAttribute("id"), el.getAttribute(TITLE) });
         }
 
         // TODO: Доделать разбор ответа вида:
@@ -1054,7 +1046,7 @@ public class ContractDAO extends BillingDAO {
         req.setModule(ADMIN_MODULE_ID);
         req.setAction("Command");
         req.setAttribute("command", "put");
-        req.setAttribute("value", "openContract:" + contractId);
+        req.setAttribute(VALUE, "openContract:" + contractId);
 
         transferData.postData(req, user);
     }
@@ -1068,7 +1060,7 @@ public class ContractDAO extends BillingDAO {
         if (patid > 0) {
             req.setAttribute("patid", patid);
         }
-        req.setAttribute("comment", comment);
+        req.setAttribute(COMMENT, comment);
 
         transferData.postData(req, user);
     }
@@ -1094,7 +1086,7 @@ public class ContractDAO extends BillingDAO {
 
         Document document = transferData.postData(req, user);
 
-        List<IdTitle> contractPatterns = new ArrayList<IdTitle>();
+        List<IdTitle> contractPatterns = new ArrayList<>();
         Element dataElement = document.getDocumentElement();
         NodeList nodeList = dataElement.getElementsByTagName("item");
 
@@ -1102,7 +1094,7 @@ public class ContractDAO extends BillingDAO {
             Element rowElement = (Element) nodeList.item(index);
             IdTitle pattern = new IdTitle();
             pattern.setId(Utils.parseInt(rowElement.getAttribute("id")));
-            pattern.setTitle(rowElement.getAttribute("title"));
+            pattern.setTitle(rowElement.getAttribute(TITLE));
 
             contractPatterns.add(pattern);
         }
@@ -1148,10 +1140,10 @@ public class ContractDAO extends BillingDAO {
 
         Document document = transferData.postData(request, user);
 
-        List<IdTitle> streets = new LinkedList<IdTitle>();
+        List<IdTitle> streets = new LinkedList<>();
 
         for (Element item : XMLUtils.selectElements(document, "/data/streets/item")) {
-            streets.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
+            streets.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute(TITLE)));
         }
 
         return streets;
@@ -1198,12 +1190,12 @@ public class ContractDAO extends BillingDAO {
         billingRequest.setModule(CONTRACT_MODULE_ID);
         billingRequest.setAction("UpdateContractLimitManage");
         billingRequest.setContractId(contractId);
-        billingRequest.setAttribute("value", mode);
+        billingRequest.setAttribute(VALUE, mode);
 
         transferData.postData(billingRequest, user);
     }
 
-    public static enum WebContractLogonLogType {
+    public enum WebContractLogonLogType {
         OK("ok"), ERROR("error");
 
         private String type;
@@ -1239,16 +1231,16 @@ public class ContractDAO extends BillingDAO {
         }
 
         public WebContractLogonLogEntry(Element element) throws BGException {
-            String date = element.getAttribute("date");
+            String dt = element.getAttribute("date");
 
-            if (date == null || date.length() == 0) {
+            if (dt == null || dt.length() == 0) {
                 throw new BGException("Не определено значение аттрибута элемента date");
             }
 
             try {
-                setDate(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(date));
+                setDate(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dt));
             } catch (ParseException e) {
-                throw new BGException("Не удалось разобрать значение даты: \"" + date + "\" для формата \"dd.MM.yyyy HH:mm:ss\"");
+                throw new BGException("Не удалось разобрать значение даты: \"" + dt + "\" для формата \"dd.MM.yyyy HH:mm:ss\"");
             }
 
             setIp(element.getAttribute("ip"));
@@ -1342,10 +1334,10 @@ public class ContractDAO extends BillingDAO {
         request.setAttribute("logType", type.toString());
 
         if (date1 != null) {
-            request.setAttribute("date1", new SimpleDateFormat("dd.MM.yyyy").format(date1));
+            request.setAttribute(DATE_1, new SimpleDateFormat("dd.MM.yyyy").format(date1));
         }
         if (date2 != null) {
-            request.setAttribute("date2", new SimpleDateFormat("dd.MM.yyyy").format(date2));
+            request.setAttribute(DATE_2, new SimpleDateFormat("dd.MM.yyyy").format(date2));
         }
 
         request.setAttribute("pageSize", searchResult.getPage().getPageSize());
@@ -1353,7 +1345,7 @@ public class ContractDAO extends BillingDAO {
 
         Document document = transferData.postData(request, user);
 
-        for (Element row : XMLUtils.selectElements(document, "/data/table/data/row")) {
+        for (Element row : XMLUtils.selectElements(document, DATA_TABLE_DATA_ROW)) {
             switch (type) {
             case OK: {
                 searchResult.getList().add(new WebContractLogonLogSuccess(row));
@@ -1414,7 +1406,7 @@ public class ContractDAO extends BillingDAO {
             }
             setConfigLimit(Utils.parseInt(element.getAttribute("configLimit")));
             setCount(Utils.parseInt(element.getAttribute("count")));
-            setLimit(Utils.parseInt(element.getAttribute("limit")));
+            setLimit(Utils.parseInt(element.getAttribute(LIMIT_ATRIBUTE)));
             setStatus(Utils.parseInt(element.getAttribute("status")));
         }
     }
@@ -1508,7 +1500,7 @@ public class ContractDAO extends BillingDAO {
         return new WebRequestLimit(doc);
     }
 
-    public static enum WebRequestLimitMode {
+    public enum WebRequestLimitMode {
         COMMON(1), DISABLED(2), PERSONAL(3);
 
         private int mode;
@@ -1530,7 +1522,7 @@ public class ContractDAO extends BillingDAO {
         request.setAttribute("mode", mode.getMode());
 
         if (mode == WebRequestLimitMode.PERSONAL) {
-            request.setAttribute("limit", limit);
+            request.setAttribute(LIMIT_ATRIBUTE, limit);
         }
 
         return new WebRequestLimit(transferData.postData(request, user));
@@ -1552,8 +1544,8 @@ public class ContractDAO extends BillingDAO {
             req.setAttribute("type", parameterTypeId);
             Document document = transferData.postData(req, user);
             paramList = new ArrayList<>();
-            for (Element el : XMLUtils.selectElements(document, "/data/table/data/row")) {
-                paramList.add(new IdTitle(Utils.parseInt(el.getAttribute("id")), el.getAttribute("title")));
+            for (Element el : XMLUtils.selectElements(document, DATA_TABLE_DATA_ROW)) {
+                paramList.add(new IdTitle(Utils.parseInt(el.getAttribute("id")), el.getAttribute(TITLE)));
             }
         }
         return paramList;
@@ -1575,7 +1567,7 @@ public class ContractDAO extends BillingDAO {
 
             result.setBillingId(dbInfo.getId());
             result.setId(contractId);
-            result.setComment(contract.getAttribute("comment"));
+            result.setComment(contract.getAttribute(COMMENT));
             result.setObjects(Utils.parseInt(contract.getAttribute("objects").split("/")[0]),
                     Utils.parseInt(contract.getAttribute("objects").split("/")[1]));
             result.setHierarchy(contract.getAttribute("hierarchy"));
@@ -1583,12 +1575,12 @@ public class ContractDAO extends BillingDAO {
             result.setHierarchyIndep(Utils.parseInt(contract.getAttribute("hierarchyIndep")));
             result.setDeleted(Utils.parseBoolean(contract.getAttribute("del")));
             result.setFace(Utils.parseInt(contract.getAttribute("fc")));
-            result.setDateFrom(TimeUtils.parse(contract.getAttribute("date1"), TimeUtils.PATTERN_DDMMYYYY));
-            result.setDateTo(TimeUtils.parse(contract.getAttribute("date2"), TimeUtils.PATTERN_DDMMYYYY));
+            result.setDateFrom(TimeUtils.parse(contract.getAttribute(DATE_1), TimeUtils.PATTERN_DDMMYYYY));
+            result.setDateTo(TimeUtils.parse(contract.getAttribute(DATE_2), TimeUtils.PATTERN_DDMMYYYY));
             result.setMode(Utils.parseInt(contract.getAttribute("mode")));
-            result.setBalanceLimit(Utils.parseBigDecimal(contract.getAttribute("limit"), BigDecimal.ZERO));
+            result.setBalanceLimit(Utils.parseBigDecimal(contract.getAttribute(LIMIT_ATRIBUTE), BigDecimal.ZERO));
             result.setStatus(contract.getAttribute("status"));
-            result.setTitle(contract.getAttribute("title"));
+            result.setTitle(contract.getAttribute(TITLE));
             result.setComments(Utils.parseInt(contract.getAttribute("comments")));
 
             if ("super".equals(contract.getAttribute("hierarchy"))) {
@@ -1601,9 +1593,9 @@ public class ContractDAO extends BillingDAO {
 
             Element modules = XMLUtils.selectElement(doc, "/data/info/modules");
             if (modules != null) {
-                List<ContractInfo.ModuleInfo> moduleList = new ArrayList<ContractInfo.ModuleInfo>();
+                List<ContractInfo.ModuleInfo> moduleList = new ArrayList<>();
                 for (Element item : XMLUtils.selectElements(modules, "item")) {
-                    moduleList.add(new ContractInfo.ModuleInfo(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title"), item.getAttribute("package"),
+                    moduleList.add(new ContractInfo.ModuleInfo(Utils.parseInt(item.getAttribute("id")), item.getAttribute(TITLE), item.getAttribute("package"),
                             item.getAttribute("status")));
                 }
                 result.setModuleList(moduleList);
@@ -1633,8 +1625,8 @@ public class ContractDAO extends BillingDAO {
         }
         for (int index = 0; index < nodeJson.length(); index++) {
             JSONObject itemJson = nodeJson.optJSONObject(index);
-            IdTitle item = new IdTitle(itemJson.optInt("id"), itemJson.optString("title"));
-
+            IdTitle item = new IdTitle(itemJson.optInt("id"), itemJson.optString(TITLE));
+            result.add(item);
         }
         return result;
     }
@@ -1643,9 +1635,9 @@ public class ContractDAO extends BillingDAO {
         List<IdTitle> result = Collections.emptyList();
 
         if (node != null) {
-            result = new ArrayList<IdTitle>();
+            result = new ArrayList<>();
             for (Element item : XMLUtils.selectElements(node, "item")) {
-                result.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute("title")));
+                result.add(new IdTitle(Utils.parseInt(item.getAttribute("id")), item.getAttribute(TITLE)));
             }
         }
 

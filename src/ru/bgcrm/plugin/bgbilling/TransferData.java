@@ -178,20 +178,6 @@ public class TransferData {
         return result;
     }
 
-    /** Использовать {@link #getUserAccount(User)} **/
-    @Deprecated
-    public static final String getLogin(User user) {
-        ParameterMap configMap = user.getConfigMap();
-        return configMap.get("bgbilling:login", user.getLogin());
-    }
-
-    /** Использовать {@link #getUserAccount(User)} **/
-    @Deprecated
-    public static final String getPassword(User user) {
-        ParameterMap configMap = user.getConfigMap();
-        return configMap.get("bgbilling:password", user.getPassword());
-    }
-
     public static final UserAccount getUserAccount(String billingId, User user) {
         ParameterMap configMap = user.getConfigMap();
         return new UserAccount.Default(
@@ -546,7 +532,8 @@ public class TransferData {
 
     public byte[] postDataGetBytes(Request request, User user) throws BGException {
         try {
-            return postDataAsync(request, getLogin(user), getPassword(user));
+            UserAccount userAccount = getUserAccount(dbInfo.getId(), user);
+            return postDataAsync(request, userAccount.getLogin(), userAccount.getPassword());
         } catch (Exception e) {
             throw new BGException(e);
         }

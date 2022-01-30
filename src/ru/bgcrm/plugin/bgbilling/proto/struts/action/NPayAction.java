@@ -87,10 +87,9 @@ public class NPayAction
 		throws Exception
 	{
 		String billingId = form.getParam( "billingId" );
-		int contractId = form.getParamInt( "contractId" );
 		int moduleId = form.getParamInt( "moduleId" );
 
-		NPayDAO.getInstance( form.getUser(), billingId, moduleId ).deleteService( contractId, form.getId() );
+		NPayDAO.getInstance( form.getUser(), billingId, moduleId ).deleteService( form.getId() );
 		
 		return processJsonForward( conSet, form, response );
 	}
