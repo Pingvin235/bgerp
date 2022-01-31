@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bgerp.util.Log;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.IfaceState;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class IfaceStateDAO extends CommonDAO{
     private static final Log log = Log.getLog();
@@ -54,14 +54,14 @@ public class IfaceStateDAO extends CommonDAO{
                     "SET object_type=?, object_id=?, iface_id=?, state=?" +
                     SQL_ON_DUP_KEY_UPDATE +
                     "state=?";
-            PreparedDelay pd = new PreparedDelay(con, query);
-            pd.addString(state.getObjectType());
-            pd.addInt(state.getObjectId());
-            pd.addString(state.getIfaceId());
-            pd.addString(state.getState());
-            pd.addString(state.getState());
-            pd.executeUpdate();
-            pd.close();
+            PreparedQuery pq = new PreparedQuery(con, query);
+            pq.addString(state.getObjectType());
+            pq.addInt(state.getObjectId());
+            pq.addString(state.getIfaceId());
+            pq.addString(state.getState());
+            pq.addString(state.getState());
+            pq.executeUpdate();
+            pq.close();
         } catch (SQLException ex) {
             throw new BGException(ex);
         }

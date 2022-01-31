@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.bgerp.plugin.bil.billing.invoice.model.Invoice;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 /**
  * Builder DAO for retrieving next invoice counter number.
@@ -18,12 +18,12 @@ import ru.bgcrm.util.sql.PreparedDelay;
  */
 public class InvoiceNumberDAO extends CommonDAO {
     private final Invoice invoice;
-    private final PreparedDelay pd;
+    private final PreparedQuery pq;
 
     public InvoiceNumberDAO(Connection con, Invoice invoice) {
         super(con);
         this.invoice = invoice;
-        this.pd = new PreparedDelay(con, SQL_SELECT + "MAX(number_cnt)" + SQL_FROM + Tables.TABLE_INVOICE + SQL_WHERE + "1>0");
+        this.pq = new PreparedQuery(con, SQL_SELECT + "MAX(number_cnt)" + SQL_FROM + Tables.TABLE_INVOICE + SQL_WHERE + "1>0");
     }
 
     /**
@@ -31,8 +31,8 @@ public class InvoiceNumberDAO extends CommonDAO {
      * @return
      */
     public InvoiceNumberDAO process() {
-        pd.addQuery(SQL_AND + "process_id=?");
-        pd.addInt(invoice.getProcessId());
+        pq.addQuery(SQL_AND + "process_id=?");
+        pq.addInt(invoice.getProcessId());
         return this;
     }
 
@@ -41,8 +41,8 @@ public class InvoiceNumberDAO extends CommonDAO {
      * @return
      */
     public InvoiceNumberDAO month() {
-        pd.addQuery(SQL_AND + "date_from=?");
-        pd.addDate(invoice.getDateFrom());
+        pq.addQuery(SQL_AND + "date_from=?");
+        pq.addDate(invoice.getDateFrom());
         return this;
     }
 
@@ -55,8 +55,8 @@ public class InvoiceNumberDAO extends CommonDAO {
     public int next() throws SQLException {
         int cnt = 0;
 
-        try (pd) {
-            var rs = pd.executeQuery();
+        try (pq) {
+            var rs = pq.executeQuery();
             if (rs.next())
                 cnt = rs.getInt(1);
         }

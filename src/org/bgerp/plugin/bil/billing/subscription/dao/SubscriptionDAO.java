@@ -13,13 +13,13 @@ import java.util.List;
 
 import org.bgerp.plugin.bil.billing.subscription.Config;
 import org.bgerp.plugin.bil.billing.subscription.model.Subscription;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class SubscriptionDAO extends CommonDAO {
     public SubscriptionDAO(Connection con) {
@@ -68,13 +68,13 @@ public class SubscriptionDAO extends CommonDAO {
 
         var result = BigDecimal.ZERO;
 
-        var pd = new PreparedDelay(con, SQL_SELECT + "SUM(param_price.count)" + SQL_FROM + TABLE_PARAM_LISTCOUNT + "AS param_price");
-        addProductsJoin(pd, config, "param_price", subscriptionProcessId);
-        pd.addQuery(SQL_WHERE + "param_price.param_id=? AND param_price.value=?");
-        pd.addInt(subscription.getParamLimitPriceId());
-        pd.addInt(limitId);
+        var pq = new PreparedQuery(con, SQL_SELECT + "SUM(param_price.count)" + SQL_FROM + TABLE_PARAM_LISTCOUNT + "AS param_price");
+        addProductsJoin(pq, config, "param_price", subscriptionProcessId);
+        pq.addQuery(SQL_WHERE + "param_price.param_id=? AND param_price.value=?");
+        pq.addInt(subscription.getParamLimitPriceId());
+        pq.addInt(limitId);
 
-        try (var rs = pd.executeQuery()) {
+        try (var rs = pq.executeQuery()) {
             if (rs.next()) {
                 result = result.add(Utils.maskNullDecimal(rs.getBigDecimal(1)));
             }
@@ -104,12 +104,12 @@ public class SubscriptionDAO extends CommonDAO {
             + SQL_INNER_JOIN + TABLE_PROCESS_LINK + "AS pl ON param_product.id=pl.process_id AND pl.object_id=? AND pl.object_type=?"
             + SQL_WHERE + "param_product.param_id=?"
             + SQL_ORDER_BY + "value";
-        try (var pd = new PreparedDelay(con, query)) {
-            pd.addInt(subscriptionProcessId);
-            pd.addString(Process.LINK_TYPE_DEPEND);
-            pd.addInt(config.getParamProductId());
+        try (var pq = new PreparedQuery(con, query)) {
+            pq.addInt(subscriptionProcessId);
+            pq.addString(Process.LINK_TYPE_DEPEND);
+            pq.addInt(config.getParamProductId());
 
-            var rs = pd.executeQuery();
+            var rs = pq.executeQuery();
             while (rs.next()) {
                 result.add(rs.getString(1));
             }
@@ -127,15 +127,15 @@ public class SubscriptionDAO extends CommonDAO {
             return result;
         }
 
-        try (var pd = new PreparedDelay(con, SQL_SELECT + "param_product_id.value, param_price.count, p.description"
+        try (var pq = new PreparedDelay(con, SQL_SELECT + "param_product_id.value, param_price.count, p.description"
                 + SQL_FROM + TABLE_PARAM_LISTCOUNT + "AS param_price")) {
-            addProductsJoin(pd, config, "param_price", subscriptionProcessId);
-            pd.addQuery(SQL_INNER_JOIN + TABLE_PROCESS + "AS p ON param_price.id=p.id");
-            pd.addQuery(SQL_WHERE + "param_price.param_id=? AND param_price.value=?");
-            pd.addInt(subscription.getParamLimitPriceId());
-            pd.addInt(limitId);
+            addProductsJoin(pq, config, "param_price", subscriptionProcessId);
+            pq.addQuery(SQL_INNER_JOIN + TABLE_PROCESS + "AS p ON param_price.id=p.id");
+            pq.addQuery(SQL_WHERE + "param_price.param_id=? AND param_price.value=?");
+            pq.addInt(subscription.getParamLimitPriceId());
+            pq.addInt(limitId);
 
-            var rs = pd.executeQuery();
+            var rs = pq.executeQuery();
             while (rs.next()) {
                 var pos = new Position();
                 pos.setId(rs.getString(1));
@@ -148,12 +148,12 @@ public class SubscriptionDAO extends CommonDAO {
         return result;
     } */
 
-    private void addProductsJoin(PreparedDelay pd, Config config, String table, int subscriptionProcessId) throws SQLException {
-        pd.addQuery(SQL_INNER_JOIN + TABLE_PROCESS_LINK
+    private void addProductsJoin(PreparedQuery pq, Config config, String table, int subscriptionProcessId) throws SQLException {
+        pq.addQuery(SQL_INNER_JOIN + TABLE_PROCESS_LINK
                 + "AS pl ON " + table + ".id=pl.process_id AND pl.object_id=? AND pl.object_type=?"
                 + SQL_INNER_JOIN + TABLE_PARAM_TEXT + "AS param_product_id ON pl.process_id=param_product_id.id AND param_product_id.param_id=?");
-        pd.addInt(subscriptionProcessId);
-        pd.addString(Process.LINK_TYPE_DEPEND);
-        pd.addInt(config.getParamProductId());
+        pq.addInt(subscriptionProcessId);
+        pq.addString(Process.LINK_TYPE_DEPEND);
+        pq.addInt(config.getParamProductId());
     }
 }

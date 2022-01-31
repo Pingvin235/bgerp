@@ -12,11 +12,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.bgerp.plugin.bil.billing.invoice.model.Invoice;
 import org.bgerp.plugin.bil.billing.invoice.model.Position;
+import org.bgerp.util.sql.PreparedQuery;
 
 import javassist.NotFoundException;
 import ru.bgcrm.dao.PeriodicDAO;
 import ru.bgcrm.struts.action.BaseAction;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 /**
  * Invoice DAO.
@@ -43,26 +43,26 @@ public class InvoiceDAO extends PeriodicDAO {
                     + "?, ?, ?, NOW(), ?, ?, ?)";
         }
 
-        try (var pd = new PreparedDelay(con, query)) {
-            pd.addBigDecimal(invoice.getAmount());
-            pd.addTimestamp(invoice.getSentTime());
-            pd.addInt(invoice.getSentUserId());
-            pd.addDate(invoice.getPaymentDate());
-            pd.addInt(invoice.getPaymentUserId());
-            pd.addString(BaseAction.MAPPER.writeValueAsString(invoice.getPositions()));
+        try (var pq = new PreparedQuery(con, query)) {
+            pq.addBigDecimal(invoice.getAmount());
+            pq.addTimestamp(invoice.getSentTime());
+            pq.addInt(invoice.getSentUserId());
+            pq.addDate(invoice.getPaymentDate());
+            pq.addInt(invoice.getPaymentUserId());
+            pq.addString(BaseAction.MAPPER.writeValueAsString(invoice.getPositions()));
 
             if (invoice.getId() <= 0) {
-                pd.addInt(invoice.getTypeId());
-                pd.addInt(invoice.getProcessId());
-                pd.addDate(invoice.getDateFrom());
-                pd.addInt(invoice.getCreatedUserId());
-                pd.addInt(invoice.getNumberCnt());
-                pd.addString(invoice.getNumber());
+                pq.addInt(invoice.getTypeId());
+                pq.addInt(invoice.getProcessId());
+                pq.addDate(invoice.getDateFrom());
+                pq.addInt(invoice.getCreatedUserId());
+                pq.addInt(invoice.getNumberCnt());
+                pq.addString(invoice.getNumber());
 
-                invoice.setId(pd.executeUpdate());
+                invoice.setId(pq.executeUpdate());
             } else {
-                pd.addInt(invoice.getId());
-                pd.executeUpdate();
+                pq.addInt(invoice.getId());
+                pq.executeUpdate();
             }
         }
 
@@ -78,17 +78,17 @@ public class InvoiceDAO extends PeriodicDAO {
             "KEY invoice_id(invoice_id))");
 
         var query = SQL_DELETE + positionTable + SQL_WHERE + "invoice_id=?";
-        try (var pd = new PreparedDelay(con, query)) {
-            pd.addInt(invoice.getId()).executeUpdate();
+        try (var pq = new PreparedQuery(con, query)) {
+            pq.addInt(invoice.getId()).executeUpdate();
         }
 
         query = SQL_INSERT + positionTable + "(invoice_id, id, amount, title)" + SQL_VALUES + "(?,?,?,?)";
-        try (var pd = new PreparedDelay(con, query)) {
-            pd.addInt(invoice.getId());
+        try (var pq = new PreparedQuery(con, query)) {
+            pq.addInt(invoice.getId());
             for (var position : invoice.getPositions()) {
-                pd.setPos(1);
-                pd.addString(position.getId()).addBigDecimal(position.getAmount()).addString(position.getTitle());
-                pd.executeUpdate();
+                pq.setPos(1);
+                pq.addString(position.getId()).addBigDecimal(position.getAmount()).addString(position.getTitle());
+                pq.executeUpdate();
             }
         }
     }
@@ -97,8 +97,8 @@ public class InvoiceDAO extends PeriodicDAO {
         Invoice result = null;
 
         var query = SQL_SELECT_ALL_FROM + TABLE_INVOICE + SQL_WHERE + "id=?";
-        try (var pd = new PreparedDelay(con, query)) {
-            var rs = pd.addInt(id).executeQuery();
+        try (var pq = new PreparedQuery(con, query)) {
+            var rs = pq.addInt(id).executeQuery();
             if (rs.next())
                 result = getFromRs(rs);
         }
@@ -119,15 +119,15 @@ public class InvoiceDAO extends PeriodicDAO {
             return;
 
         var query = SQL_DELETE + TABLE_INVOICE + SQL_WHERE + "id=?";
-        try (var pd = new PreparedDelay(con, query)) {
-            pd.addInt(id).executeUpdate();
+        try (var pq = new PreparedQuery(con, query)) {
+            pq.addInt(id).executeUpdate();
         }
 
         var positionTable = getMonthTableName(TABLE_INVOICE_POSITION_PREFIX, invoice.getDateFrom());
         if (tableExists(positionTable)) {
             query = SQL_DELETE + positionTable + SQL_WHERE + "invoice_id=?";
-            try (var pd = new PreparedDelay(con, query)) {
-                pd.addInt(id).executeUpdate();
+            try (var pq = new PreparedQuery(con, query)) {
+                pq.addInt(id).executeUpdate();
             }
         }
     }

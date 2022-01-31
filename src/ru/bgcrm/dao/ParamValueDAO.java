@@ -48,6 +48,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.util.Log;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
@@ -70,7 +71,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class ParamValueDAO extends CommonDAO {
@@ -662,7 +662,7 @@ public class ParamValueDAO extends CommonDAO {
         int index = 1;
 
         if (value == null) {
-            PreparedDelay psDelay = new PreparedDelay(con);
+            PreparedQuery psDelay = new PreparedQuery(con);
 
             psDelay.addQuery(SQL_DELETE + TABLE_PARAM_EMAIL + SQL_WHERE + "id=? AND param_id=?");
             psDelay.addInt(id);
@@ -962,7 +962,7 @@ public class ParamValueDAO extends CommonDAO {
         int index = 1;
 
         if (value == null) {
-            PreparedDelay psDelay = new PreparedDelay(con);
+            PreparedQuery psDelay = new PreparedQuery(con);
 
             psDelay.addQuery("DELETE FROM " + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=? ");
             psDelay.addInt(id);
@@ -2350,19 +2350,19 @@ public class ParamValueDAO extends CommonDAO {
     public Set<Integer> searchObjectByParameterList(int parameterId, int value) throws Exception {
         Set<Integer> result = new HashSet<>();
 
-        try (var pd = new PreparedDelay(con)) {
-            pd.addQuery(SQL_SELECT);
-            pd.addQuery("list.id AS object_id");
-            pd.addQuery(SQL_FROM);
-            pd.addQuery(TABLE_PARAM_LIST);
-            pd.addQuery(" AS list ");
-            pd.addQuery(SQL_WHERE);
-            pd.addQuery("list.param_id=? AND list.value=?");
+        try (var pq = new PreparedQuery(con)) {
+            pq.addQuery(SQL_SELECT);
+            pq.addQuery("list.id AS object_id");
+            pq.addQuery(SQL_FROM);
+            pq.addQuery(TABLE_PARAM_LIST);
+            pq.addQuery(" AS list ");
+            pq.addQuery(SQL_WHERE);
+            pq.addQuery("list.param_id=? AND list.value=?");
 
-            pd.addInt(parameterId);
-            pd.addInt(value);
+            pq.addInt(parameterId);
+            pq.addInt(value);
 
-            try (var rs = pd.executeQuery()) {
+            try (var rs = pq.executeQuery()) {
                 while (rs.next())
                     result.add(rs.getInt(1));
             }

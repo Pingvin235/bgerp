@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
@@ -33,14 +34,13 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class MessageDAO extends CommonDAO {
     private static final String TABLE_MESSAGE_TAG = "message_tag";
 
     private final User user;
-    
+
     public MessageDAO(Connection con) {
         super(con);
         this.user = User.USER_SYSTEM;
@@ -147,7 +147,7 @@ public class MessageDAO extends CommonDAO {
             throw new BGException(ex);
         }
     }
-    
+
     public void updateMessageProcess(Message message) throws BGException {
         try {
             String query = "UPDATE " + TABLE_MESSAGE + "SET user_id=?, processed=?, to_dt=?, process_id=? "
@@ -169,7 +169,7 @@ public class MessageDAO extends CommonDAO {
             throw new BGException(ex);
         }
     }
-    
+
     public void updateMessageTags(int messageId, Set<Integer> tagIds) throws Exception {
         String query = SQL_DELETE + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?";
         PreparedStatement ps = con.prepareStatement(query);
@@ -183,7 +183,7 @@ public class MessageDAO extends CommonDAO {
         for (int tagId : tagIds) {
             ps.setInt(2, tagId);
             ps.executeUpdate();
-        }   
+        }
         ps.close();
     }
 
@@ -299,16 +299,16 @@ public class MessageDAO extends CommonDAO {
     public void searchMessageList(SearchResult<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from)
             throws BGException {
-        searchMessageList(searchResult, processId, typeId, direction, processed, withAttach, 
+        searchMessageList(searchResult, processId, typeId, direction, processed, withAttach,
                 dateFrom, dateTo, from, true);
     }
-    
+
     /** Use {@link MessageSearchDAO}. */
     @Deprecated
     public void searchMessageList(SearchResult<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder) throws BGException {
-        searchMessageList(searchResult, processId, typeId, direction, processed, withAttach, 
+        searchMessageList(searchResult, processId, typeId, direction, processed, withAttach,
                 dateFrom, dateTo, from, true, null);
     }
 
@@ -326,10 +326,10 @@ public class MessageDAO extends CommonDAO {
     public void searchMessageList(SearchResult<Message> searchResult, Collection<Integer> processIds, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder, Set<Integer> tagIds) throws BGException {
-        searchMessageList(searchResult, processIds, typeId != null ? Collections.singleton(typeId) : null, direction, processed, withAttach, 
+        searchMessageList(searchResult, processIds, typeId != null ? Collections.singleton(typeId) : null, direction, processed, withAttach,
                 dateFrom, dateTo, from, true, tagIds);
     }
-    
+
     /** Use {@link MessageSearchDAO}. */
     @Deprecated
     public void searchMessageList(SearchResult<Message> searchResult, Collection<Integer> processIds, Set<Integer> typeIds,
@@ -338,8 +338,8 @@ public class MessageDAO extends CommonDAO {
         try {
             Page page = searchResult.getPage();
 
-            PreparedDelay ps = new PreparedDelay(con);
-            ps.addQuery(SQL_SELECT_COUNT_ROWS + " m.*, p.* FROM " + TABLE_MESSAGE + " AS m " 
+            PreparedQuery ps = new PreparedQuery(con);
+            ps.addQuery(SQL_SELECT_COUNT_ROWS + " m.*, p.* FROM " + TABLE_MESSAGE + " AS m "
                     + "LEFT JOIN " + TABLE_PROCESS + " AS p ON m.process_id=p.id ");
             if (CollectionUtils.isNotEmpty(tagIds))
                 ps.addQuery(SQL_INNER_JOIN + TABLE_MESSAGE_TAG + " AS mt ON m.id=mt.message_id AND mt.tag_id IN (" + Utils.toString(tagIds) + ")");
@@ -420,31 +420,31 @@ public class MessageDAO extends CommonDAO {
     public List<Message> getProcessMessageList(int processId, int beforeMessageId) throws Exception {
         List<Message> list = new ArrayList<Message>();
 
-        var pd = new PreparedDelay(con, 
+        var pq = new PreparedQuery(con,
             SQL_SELECT_COUNT_ROWS + " * FROM " + TABLE_MESSAGE +  "WHERE process_id=?");
-        pd.addInt(processId);
+        pq.addInt(processId);
         if (beforeMessageId > 0) {
-            pd.addQuery(" AND id<?");
-            pd.addInt(beforeMessageId);
+            pq.addQuery(" AND id<?");
+            pq.addInt(beforeMessageId);
         }
-        pd.addQuery(" ORDER BY id");
-        
-        var rs = pd.executeQuery();
+        pq.addQuery(" ORDER BY id");
+
+        var rs = pq.executeQuery();
         while (rs.next())
             list.add(getMessageFromRs(rs));
-        
-        pd.close();
+
+        pq.close();
 
         return list;
     }
-    
+
     public Map<Integer, Set<Integer>> getProcessMessageTagMap(int processId) throws Exception {
         return getProcessMessageTagMap(Collections.singleton(processId));
     }
 
     public Map<Integer, Set<Integer>> getProcessMessageTagMap(Collection<Integer> processIds) throws Exception {
         Map<Integer, Set<Integer>> result = new HashMap<>();
-        
+
         String query = "SELECT m.id, m.attach_data, mt.tag_id FROM " + TABLE_MESSAGE + " AS m "
                 + SQL_LEFT_JOIN + TABLE_MESSAGE_TAG + " AS mt ON m.id=mt.message_id "
                 + SQL_WHERE + "m.process_id IN (" + Utils.toString(processIds) + ")";
@@ -464,7 +464,7 @@ public class MessageDAO extends CommonDAO {
                 }
             }
         }
-        
+
         return result;
     }
 
@@ -479,7 +479,7 @@ public class MessageDAO extends CommonDAO {
         var result = new ArrayList<Message>();
         if (processIds.isEmpty() || Utils.isBlankString(text))
             return result;
-        
+
         var query = new StringBuilder(200);
         query.append(SQL_SELECT + "message.*, p.description " + SQL_FROM + TABLE_MESSAGE + " AS message ");
         query.append(getIsolationJoin(user));

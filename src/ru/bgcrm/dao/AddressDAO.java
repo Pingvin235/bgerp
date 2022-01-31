@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
@@ -33,7 +34,6 @@ import ru.bgcrm.model.param.address.AddressCountry;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.param.address.AddressItem;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class AddressDAO extends CommonDAO {
     public static final int LOAD_LEVEL_HOUSE = 1;
@@ -63,7 +63,7 @@ public class AddressDAO extends CommonDAO {
             Page page = searchResult.getPage();
             List<AddressCountry> result = searchResult.getList();
 
-            PreparedDelay ps = new PreparedDelay(con);
+            PreparedQuery ps = new PreparedQuery(con);
             ps.addQuery("SELECT SQL_CALC_FOUND_ROWS * ");
             ps.addQuery("FROM ");
             ps.addQuery(TABLE_ADDRESS_COUNTRY);
@@ -122,7 +122,7 @@ public class AddressDAO extends CommonDAO {
             Page page = searchResult.getPage();
             List<AddressCity> result = searchResult.getList();
 
-            PreparedDelay ps = new PreparedDelay(con);
+            PreparedQuery ps = new PreparedQuery(con);
             ps.addQuery("SELECT SQL_CALC_FOUND_ROWS * ");
             ps.addQuery("FROM ");
             ps.addQuery(TABLE_ADDRESS_CITY);
@@ -249,7 +249,7 @@ public class AddressDAO extends CommonDAO {
             Page page = searchResult.getPage();
             List<AddressItem> result = searchResult.getList();
 
-            PreparedDelay ps = new PreparedDelay(con);
+            PreparedQuery ps = new PreparedQuery(con);
             ps.addQuery("SELECT SQL_CALC_FOUND_ROWS * ");
             ps.addQuery("FROM ");
             ps.addQuery(tableName);
@@ -367,7 +367,7 @@ public class AddressDAO extends CommonDAO {
             Page page = searchResult.getPage();
             List<AddressHouse> result = searchResult.getList();
 
-            PreparedDelay pd = new PreparedDelay(con);
+            PreparedQuery pq = new PreparedQuery(con);
 
             AddressHouse searchParams = AddressHouse.extractHouseAndFrac(house);
 
@@ -376,46 +376,46 @@ public class AddressDAO extends CommonDAO {
 
             int loadLevel = getHouseLoadLevel(loadCountryData, loadCityData, loadStreetData);
 
-            pd.addQuery("SELECT SQL_CALC_FOUND_ROWS * FROM ");
-            pd.addQuery(TABLE_ADDRESS_HOUSE);
-            pd.addQuery(" AS house");
-            addHouseSelectQueryJoins(pd.getQuery(), loadLevel);
+            pq.addQuery("SELECT SQL_CALC_FOUND_ROWS * FROM ");
+            pq.addQuery(TABLE_ADDRESS_HOUSE);
+            pq.addQuery(" AS house");
+            addHouseSelectQueryJoins(pq.getQuery(), loadLevel);
 
-            pd.addQuery(" WHERE 1=1 AND house.street_id=?");
-            pd.addInt(streetId);
+            pq.addQuery(" WHERE 1=1 AND house.street_id=?");
+            pq.addInt(streetId);
 
             if (absolute) {
                 if (number > 0) {
-                    pd.addQuery(" AND house.house=? ");
-                    pd.addInt(number);
+                    pq.addQuery(" AND house.house=? ");
+                    pq.addInt(number);
 
                     if (frac != null) {
-                        pd.addQuery(" AND house.frac=?");
-                        pd.addString(frac);
+                        pq.addQuery(" AND house.frac=?");
+                        pq.addString(frac);
                     }
                 }
             } else {
                 if (number > 0) {
-                    pd.addQuery(" AND house.house LIKE CONCAT(?, '%')");
-                    pd.addInt(number);
+                    pq.addQuery(" AND house.house LIKE CONCAT(?, '%')");
+                    pq.addInt(number);
                 }
                 if (Utils.notBlankString(frac)) {
-                    pd.addQuery(" AND house.frac LIKE CONCAT('%', ?, '%')");
-                    pd.addString(frac);
+                    pq.addQuery(" AND house.frac LIKE CONCAT('%', ?, '%')");
+                    pq.addString(frac);
                 }
             }
 
-            pd.addQuery(" ORDER BY house.house, house.frac");
-            pd.addQuery(getPageLimit(page));
+            pq.addQuery(" ORDER BY house.house, house.frac");
+            pq.addQuery(getPageLimit(page));
 
-            ResultSet rs = pd.executeQuery();
+            ResultSet rs = pq.executeQuery();
             while (rs.next()) {
                 result.add(getAddressHouseFromRs(rs, "house.", loadLevel));
             }
             if (page != null) {
-                page.setRecordCount(getFoundRows(pd.getPrepared()));
+                page.setRecordCount(getFoundRows(pq.getPrepared()));
             }
-            pd.close();
+            pq.close();
         }
     }
 
@@ -1051,48 +1051,48 @@ public class AddressDAO extends CommonDAO {
         if (cityIds == null || cityIds.size() > 0) {
             AddressHouse houseAndFrac = AddressHouse.extractHouseAndFrac(house);
 
-            PreparedDelay pd = new PreparedDelay(con);
+            PreparedQuery pq = new PreparedQuery(con);
 
-            pd.addQuery("SELECT house.id FROM ");
-            pd.addQuery(TABLE_ADDRESS_HOUSE);
-            pd.addQuery(" AS house");
+            pq.addQuery("SELECT house.id FROM ");
+            pq.addQuery(TABLE_ADDRESS_HOUSE);
+            pq.addQuery(" AS house");
             if (cityIds != null) {
-                pd.addQuery(" LEFT JOIN ");
-                pd.addQuery(TABLE_ADDRESS_STREET);
-                pd.addQuery(" AS street ON house.street_id=street.id");
+                pq.addQuery(" LEFT JOIN ");
+                pq.addQuery(TABLE_ADDRESS_STREET);
+                pq.addQuery(" AS street ON house.street_id=street.id");
             }
-            pd.addQuery(" WHERE street_id=?");
-            pd.addInt(streetId);
+            pq.addQuery(" WHERE street_id=?");
+            pq.addInt(streetId);
 
             if (houseAndFrac.getHouse() > 0) {
-                pd.addQuery(" AND house=?");
-                pd.addInt(houseAndFrac.getHouse());
+                pq.addQuery(" AND house=?");
+                pq.addInt(houseAndFrac.getHouse());
             }
 
             String houseFrac = houseAndFrac.getFrac();
 
             if (houseFrac != null && !houseFrac.equals("*")) {
-                pd.addString(houseFrac);
+                pq.addString(houseFrac);
 
                 if (houseFrac.startsWith("/")) {
-                    pd.addQuery(" AND (frac=? OR frac=?)");
-                    pd.addString(houseFrac);
+                    pq.addQuery(" AND (frac=? OR frac=?)");
+                    pq.addString(houseFrac);
                 } else {
-                    pd.addQuery(" AND frac=?");
+                    pq.addQuery(" AND frac=?");
                 }
             }
 
             if (cityIds != null) {
-                pd.addQuery(" AND street.city_id IN (");
-                pd.addQuery(Utils.toString(cityIds));
-                pd.addQuery(")");
+                pq.addQuery(" AND street.city_id IN (");
+                pq.addQuery(Utils.toString(cityIds));
+                pq.addQuery(")");
             }
 
-            ResultSet rs = pd.executeQuery();
+            ResultSet rs = pq.executeQuery();
             while (rs.next()) {
                 houseIds.add(rs.getInt(1));
             }
-            pd.close();
+            pq.close();
         }
         return houseIds;
     }

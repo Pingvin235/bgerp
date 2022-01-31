@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.bgerp.util.sql.PreparedQuery;
+
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
@@ -16,7 +18,6 @@ import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterLogItem;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class ParamLogDAO extends CommonDAO {
     public ParamLogDAO(Connection con) {
@@ -62,22 +63,22 @@ public class ParamLogDAO extends CommonDAO {
     public List<ParameterLogItem> getHistory(int id, List<Parameter> params, boolean offEncryption,
             SearchResult<ParameterLogItem> searchResult) throws BGException {
 
-        PreparedDelay pd = new PreparedDelay(con);
+        PreparedQuery pq = new PreparedQuery(con);
         Page page = searchResult.getPage();
-        pd.addQuery(SQL_SELECT_COUNT_ROWS + " dt, object_id, user_id, param_id, text FROM " + TABLE_PARAM_LOG);
-        pd.addQuery(" WHERE object_id= ? AND param_id IN ( " + Utils.getObjectIds(params) + " ) ");
-        pd.addInt(id);
-        pd.addQuery(" ORDER BY dt DESC ");
-        pd.addQuery(getPageLimit(page));
+        pq.addQuery(SQL_SELECT_COUNT_ROWS + " dt, object_id, user_id, param_id, text FROM " + TABLE_PARAM_LOG);
+        pq.addQuery(" WHERE object_id= ? AND param_id IN ( " + Utils.getObjectIds(params) + " ) ");
+        pq.addInt(id);
+        pq.addQuery(" ORDER BY dt DESC ");
+        pq.addQuery(getPageLimit(page));
 
         List<ParameterLogItem> result = searchResult.getList();
         try {
-            ResultSet rs = pd.executeQuery();
+            ResultSet rs = pq.executeQuery();
             while (rs.next()) {
                 result.add(getLogItemFromRs(rs, offEncryption));
             }
-            setRecordCount(page, pd.getPrepared());
-            pd.close();
+            setRecordCount(page, pq.getPrepared());
+            pq.close();
 
             return result;
         } catch (SQLException ex) {

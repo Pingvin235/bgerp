@@ -9,6 +9,7 @@ import org.bgerp.plugin.report.Plugin;
 import org.bgerp.plugin.report.model.chart.Chart;
 import org.bgerp.plugin.report.model.chart.ChartBar;
 import org.bgerp.plugin.report.model.chart.ChartPie;
+import org.bgerp.util.sql.PreparedQuery;
 import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Columns;
 import org.bgerp.plugin.report.model.Data;
@@ -21,7 +22,6 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgerp.l10n.Localizer;
 
 @Action(path = "/user/plugin/report/report/process")
@@ -70,18 +70,18 @@ public class ReportProcessAction extends ReportActionBase {
                 if (!StringUtils.equalsAny(type, "create", "close"))
                     throw new BGIllegalArgumentException();
 
-                final var pd = new PreparedDelay(conSet.getSlaveConnection());
-                pd.addQuery(SQL_SELECT_COUNT_ROWS + " id, type_id, " + type + "_user_id, " + type + "_dt, description " + SQL_FROM + Tables.TABLE_PROCESS);
-                pd.addQuery(SQL_WHERE);
-                pd.addQuery(type + "_dt");
-                pd.addQuery(" BETWEEN ? AND ?");
-                pd.addDate(dateFrom);
-                pd.addDate(TimeUtils.getNextDay(dateTo));
-                pd.addQuery(SQL_ORDER_BY);
-                pd.addQuery(type + "_dt");
-                pd.addQuery(getPageLimit(form.getPage()));
+                final var pq = new PreparedQuery(conSet.getSlaveConnection());
+                pq.addQuery(SQL_SELECT_COUNT_ROWS + " id, type_id, " + type + "_user_id, " + type + "_dt, description " + SQL_FROM + Tables.TABLE_PROCESS);
+                pq.addQuery(SQL_WHERE);
+                pq.addQuery(type + "_dt");
+                pq.addQuery(" BETWEEN ? AND ?");
+                pq.addDate(dateFrom);
+                pq.addDate(TimeUtils.getNextDay(dateTo));
+                pq.addQuery(SQL_ORDER_BY);
+                pq.addQuery(type + "_dt");
+                pq.addQuery(getPageLimit(form.getPage()));
 
-                var rs = pd.executeQuery();
+                var rs = pq.executeQuery();
                 while (rs.next()) {
                     final var r = data.addRecord();
                     r.add(rs.getInt(r.pos()));
@@ -93,7 +93,7 @@ public class ReportProcessAction extends ReportActionBase {
                     r.add(rs.getString(r.pos()));
                 }
 
-                setRecordCount(form.getPage(), pd.getPrepared());
+                setRecordCount(form.getPage(), pq.getPrepared());
             }
         };
     }

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.cache.UserNewsCache;
@@ -20,7 +21,6 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class NewsDAO extends CommonDAO {
     public NewsDAO(Connection con) {
@@ -31,28 +31,28 @@ public class NewsDAO extends CommonDAO {
         Page page = searchResult.getPage();
         List<News> result = searchResult.getList();
 
-        PreparedDelay pd = new PreparedDelay(con);
-        pd.addQuery(SQL_SELECT_COUNT_ROWS + " * FROM " + TABLE_NEWS + " AS n " + "INNER JOIN " + TABLE_NEWS_USER + " AS u ON n.id=u.news_id "
+        PreparedQuery pq = new PreparedQuery(con);
+        pq.addQuery(SQL_SELECT_COUNT_ROWS + " * FROM " + TABLE_NEWS + " AS n " + "INNER JOIN " + TABLE_NEWS_USER + " AS u ON n.id=u.news_id "
                 + "WHERE u.user_id=? ");
-        pd.addInt(userId);
+        pq.addInt(userId);
 
         if (read != null) {
             if (read) {
-                pd.addQuery("AND is_read ");
+                pq.addQuery("AND is_read ");
             } else {
-                pd.addQuery("AND NOT(is_read) ");
+                pq.addQuery("AND NOT(is_read) ");
             }
         }
         if (Utils.notBlankString(text)) {
-            pd.addQuery(" AND (POSITION(? IN n.title)>0 OR POSITION(? IN n.description)>0) ");
-            pd.addString(text);
-            pd.addString(text);
+            pq.addQuery(" AND (POSITION(? IN n.title)>0 OR POSITION(? IN n.description)>0) ");
+            pq.addString(text);
+            pq.addString(text);
         }
 
-        pd.addQuery("ORDER BY n.create_dt DESC ");
-        pd.addQuery(getPageLimit(page));
+        pq.addQuery("ORDER BY n.create_dt DESC ");
+        pq.addQuery(getPageLimit(page));
 
-        ResultSet rs = pd.executeQuery();
+        ResultSet rs = pq.executeQuery();
         while (rs.next()) {
             News news = getNewsFromRs(rs);
             news.setRead(rs.getBoolean("is_read"));
@@ -60,9 +60,9 @@ public class NewsDAO extends CommonDAO {
         }
 
         if (page != null) {
-            page.setRecordCount(getFoundRows(pd.getPrepared()));
+            page.setRecordCount(getFoundRows(pq.getPrepared()));
         }
-        pd.close();
+        pq.close();
     }
 
     public News getNews(int newsId) throws SQLException {

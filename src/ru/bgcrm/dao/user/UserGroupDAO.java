@@ -11,13 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.util.sql.PreparedQuery;
+
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class UserGroupDAO extends CommonDAO {
@@ -38,33 +39,33 @@ public class UserGroupDAO extends CommonDAO {
         try {
             List<Group> list = searchResult.getList();
 
-            PreparedDelay pd = new PreparedDelay(con);
+            PreparedQuery pq = new PreparedQuery(con);
 
-            pd.addQuery(SQL_SELECT_COUNT_ROWS + "g.*, " + "( SELECT GROUP_CONCAT(gp.permset_id SEPARATOR ',') FROM " + TABLE_USER_GROUP_PERMSET
+            pq.addQuery(SQL_SELECT_COUNT_ROWS + "g.*, " + "( SELECT GROUP_CONCAT(gp.permset_id SEPARATOR ',') FROM " + TABLE_USER_GROUP_PERMSET
                     + " AS gp WHERE gp.group_id=g.id ORDER BY pos) AS permsets, " + "( SELECT GROUP_CONCAT(gq.queue_id SEPARATOR ',') FROM "
                     + TABLE_USER_GROUP_QUEUE + " AS gq WHERE gq.group_id=g.id) AS queues " + " FROM " + TABLE_USER_GROUP_TITLE + " AS g "
                     + " WHERE ");
 
             if (Utils.notBlankString(filter)) {
-                pd.addQuery("(title LIKE ? OR config LIKE ?)");
-                pd.addString(CommonDAO.getLikePatternSub(filter));
-                pd.addString(CommonDAO.getLikePatternSub(filter));
+                pq.addQuery("(title LIKE ? OR config LIKE ?)");
+                pq.addString(CommonDAO.getLikePatternSub(filter));
+                pq.addString(CommonDAO.getLikePatternSub(filter));
             } else {
-                pd.addQuery("parent_id=?");
-                pd.addInt(parentId);
+                pq.addQuery("parent_id=?");
+                pq.addInt(parentId);
             }
 
-            pd.addQuery(" ORDER BY title" + getPageLimit(page));
+            pq.addQuery(" ORDER BY title" + getPageLimit(page));
 
-            ResultSet rs = pd.executeQuery();
+            ResultSet rs = pq.executeQuery();
             while (rs.next()) {
                 list.add(getFromRs(rs, true));
             }
 
             if (page != null) {
-                page.setRecordCount(getFoundRows(pd.getPrepared()));
+                page.setRecordCount(getFoundRows(pq.getPrepared()));
             }
-            pd.close();
+            pq.close();
         } catch (SQLException e) {
             throw new BGException(e);
         }

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.util.Log;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
@@ -21,7 +22,6 @@ import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.Period;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class CommonDAO {
@@ -122,15 +122,15 @@ public class CommonDAO {
     }
 
     protected void updateOrInsert(String updatePsQuery, String insertPsQuery, Object... params) throws SQLException {
-        PreparedDelay pd = new PreparedDelay(con, updatePsQuery);
-        pd.addObjects(params);
-        if (pd.executeUpdate() == 0) {
-            pd.close();
-            pd.setQuery(insertPsQuery);
-            pd.addObjects(params);
-            pd.executeUpdate();
+        PreparedQuery pq = new PreparedQuery(con, updatePsQuery);
+        pq.addObjects(params);
+        if (pq.executeUpdate() == 0) {
+            pq.close();
+            pq.setQuery(insertPsQuery);
+            pq.addObjects(params);
+            pq.executeUpdate();
         }
-        pd.close();
+        pq.close();
     }
 
     /**

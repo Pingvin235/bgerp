@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.util.sql.PreparedQuery;
+
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
@@ -20,7 +22,6 @@ import ru.bgcrm.model.user.Permset;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class UserPermsetDAO extends UserDAO {
     public UserPermsetDAO(Connection con) {
@@ -36,34 +37,34 @@ public class UserPermsetDAO extends UserDAO {
         try {
             List<Permset> list = searchResult.getList();
 
-            PreparedDelay pd = new PreparedDelay(con);
-            pd.addQuery(SQL_SELECT_COUNT_ROWS + " p.*, pp.permset_id FROM " + TABLE_USER_PERMSET_TITLE + " AS p ");
-            pd.addQuery("LEFT JOIN " + TABLE_PERMSET_PERMISSION + " AS pp ON p.id=pp.permset_id ");
+            PreparedQuery pq = new PreparedQuery(con);
+            pq.addQuery(SQL_SELECT_COUNT_ROWS + " p.*, pp.permset_id FROM " + TABLE_USER_PERMSET_TITLE + " AS p ");
+            pq.addQuery("LEFT JOIN " + TABLE_PERMSET_PERMISSION + " AS pp ON p.id=pp.permset_id ");
             if (Utils.notBlankString(filterLike)) {
-                pd.addQuery("AND pp.config LIKE ? ");
-                pd.addString(filterLike);
+                pq.addQuery("AND pp.config LIKE ? ");
+                pq.addString(filterLike);
             }
 
-            pd.addQuery(" GROUP BY p.id ");
+            pq.addQuery(" GROUP BY p.id ");
 
             if (Utils.notBlankString(filterLike)) {
-                pd.addQuery("HAVING title LIKE ? OR comment LIKE ? OR config LIKE ? OR pp.permset_id>0");
-                pd.addString(filterLike);
-                pd.addString(filterLike);
-                pd.addString(filterLike);
+                pq.addQuery("HAVING title LIKE ? OR comment LIKE ? OR config LIKE ? OR pp.permset_id>0");
+                pq.addString(filterLike);
+                pq.addString(filterLike);
+                pq.addString(filterLike);
             }
-            pd.addQuery(" ORDER BY p.title");
-            pd.addQuery(getPageLimit(page));
+            pq.addQuery(" ORDER BY p.title");
+            pq.addQuery(getPageLimit(page));
 
-            ResultSet rs = pd.executeQuery();
+            ResultSet rs = pq.executeQuery();
             while (rs.next()) {
                 list.add(getFromRS(rs));
             }
 
             if (page != null) {
-                page.setRecordCount(getFoundRows(pd.getPrepared()));
+                page.setRecordCount(getFoundRows(pq.getPrepared()));
             }
-            pd.close();
+            pq.close();
         } catch (SQLException e) {
             throw new BGException(e);
         }

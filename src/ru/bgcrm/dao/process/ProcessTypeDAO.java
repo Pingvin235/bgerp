@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.util.sql.PreparedQuery;
+
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.LastModifyDAO;
@@ -23,7 +25,6 @@ import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.process.TypeTreeItem;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class ProcessTypeDAO extends CommonDAO {
     private static final String SHORT_COLUMN_LIST = "id, title, parent_id, child_count, use_parent_props, archive";
@@ -45,7 +46,7 @@ public class ProcessTypeDAO extends CommonDAO {
             Page page = searchResult.getPage();
             List<ProcessType> list = searchResult.getList();
 
-            PreparedDelay ps = new PreparedDelay(con);
+            PreparedQuery ps = new PreparedQuery(con);
             ;
 
             ps.addQuery(SQL_SELECT_COUNT_ROWS);

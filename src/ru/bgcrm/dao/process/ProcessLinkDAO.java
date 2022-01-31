@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CommonLinkDAO;
@@ -37,7 +38,6 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 /**
  * Process links DAO.
@@ -162,31 +162,31 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             Set<Integer> typeIds) throws SQLException {
         List<Process> result = new ArrayList<Process>();
 
-        PreparedDelay pd = new PreparedDelay(con);
-        pd.addQuery("SELECT process.* FROM " + TABLE_PROCESS + " AS process ");
-        pd.addQuery(joinQuery);
-        pd.addQuery(ProcessDAO.getIsolationJoin(user, "process"));
-        pd.addInt(processId);
+        PreparedQuery pq = new PreparedQuery(con);
+        pq.addQuery("SELECT process.* FROM " + TABLE_PROCESS + " AS process ");
+        pq.addQuery(joinQuery);
+        pq.addQuery(ProcessDAO.getIsolationJoin(user, "process"));
+        pq.addInt(processId);
 
-        pd.addQuery("WHERE 1>0 ");
+        pq.addQuery("WHERE 1>0 ");
         if (CollectionUtils.isNotEmpty(typeIds)) {
-            pd.addQuery("AND process.type_id IN (" + Utils.toString(typeIds) + ")");
+            pq.addQuery("AND process.type_id IN (" + Utils.toString(typeIds) + ")");
         }
 
         if (Utils.notBlankString(linkType)) {
-            pd.addQuery("AND link.object_type=?");
-            pd.addString(linkType);
+            pq.addQuery("AND link.object_type=?");
+            pq.addString(linkType);
         }
         if (onlyOpen) {
-            pd.addQuery("AND process.close_dt IS NULL ");
+            pq.addQuery("AND process.close_dt IS NULL ");
         }
-        pd.addQuery("ORDER BY process.create_dt");
+        pq.addQuery("ORDER BY process.create_dt");
 
-        ResultSet rs = pd.executeQuery();
+        ResultSet rs = pq.executeQuery();
         while (rs.next()) {
             result.add(ProcessDAO.getProcessFromRs(rs));
         }
-        pd.close();
+        pq.close();
 
         return result;
     }
@@ -251,38 +251,38 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             String query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM" + TABLE_PROCESS + " AS process "
                     + "INNER JOIN " + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id AND link.object_id=? AND link.object_type LIKE ? "
                     + ProcessDAO.getIsolationJoin(user, "process");
-            PreparedDelay pd = new PreparedDelay(con, query);
+            PreparedQuery pq = new PreparedQuery(con, query);
 
-            pd.addInt(objectId);
-            pd.addString(objectType);
+            pq.addInt(objectId);
+            pq.addString(objectType);
 
             if (Utils.notBlankString(objectTitle)) {
-                pd.addQuery(" AND link.object_title=? ");
-                pd.addString(objectTitle);
+                pq.addQuery(" AND link.object_title=? ");
+                pq.addString(objectTitle);
             }
 
             if (Utils.notBlankString(paramFilter)) {
-                pd.addQuery(ParamValueDAO.getParamJoinFilters(paramFilter, "process.id"));
+                pq.addQuery(ParamValueDAO.getParamJoinFilters(paramFilter, "process.id"));
             }
 
             if (CollectionUtils.isNotEmpty(typeIds)) {
-                pd.addQuery(" AND process.type_id IN (" + Utils.toString(typeIds) + ") ");
+                pq.addQuery(" AND process.type_id IN (" + Utils.toString(typeIds) + ") ");
             }
             if (CollectionUtils.isNotEmpty(statusIds)) {
-                pd.addQuery(" AND process.status_id IN (" + Utils.toString(statusIds) + ") ");
+                pq.addQuery(" AND process.status_id IN (" + Utils.toString(statusIds) + ") ");
             }
 
-            addOpenFilter(pd, open);
+            addOpenFilter(pq, open);
 
-            pd.addQuery(" ORDER BY process.create_dt DESC");
-            pd.addQuery(getPageLimit(page));
+            pq.addQuery(" ORDER BY process.create_dt DESC");
+            pq.addQuery(getPageLimit(page));
 
-            ResultSet rs = pd.executeQuery();
+            ResultSet rs = pq.executeQuery();
             while (rs.next()) {
                 list.add(new Pair<String, Process>(rs.getString(1), ProcessDAO.getProcessFromRs(rs)));
             }
 
-            PreparedStatement ps = pd.getPrepared();
+            PreparedStatement ps = pq.getPrepared();
             if (log.isDebugEnabled()) {
                 log.debug(ps);
             }
@@ -290,16 +290,16 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             if (page != null) {
                 page.setRecordCount(getFoundRows(ps));
             }
-            pd.close();
+            pq.close();
         }
     }
 
-    private void addOpenFilter(PreparedDelay pd, Boolean open) {
+    private void addOpenFilter(PreparedQuery pq, Boolean open) {
         if (open != null) {
             if (open)
-                pd.addQuery(" AND process.close_dt IS NULL ");
+                pq.addQuery(" AND process.close_dt IS NULL ");
             else
-                pd.addQuery(" AND process.close_dt IS NOT NULL ");
+                pq.addQuery(" AND process.close_dt IS NOT NULL ");
         }
     }
 
@@ -368,24 +368,24 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         Page page = searchResult.getPage();
         List<Pair<String, Process>> list = searchResult.getList();
 
-        var pd = new PreparedDelay(con);
-        pd.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM " + TABLE_PROCESS_LINK + " AS link ");
-        pd.addQuery("INNER JOIN " + TABLE_PROCESS + " AS process ON link.object_id=process.id ");
-        pd.addQuery(ProcessDAO.getIsolationJoin(user, "process"));
-        pd.addQuery("WHERE link.process_id=? AND link.object_type LIKE 'process%' ");
-        addOpenFilter(pd, open);
-        pd.addQuery("ORDER BY process.create_dt DESC ");
-        pd.addQuery(getPageLimit(page));
+        var pq = new PreparedQuery(con);
+        pq.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM " + TABLE_PROCESS_LINK + " AS link ");
+        pq.addQuery("INNER JOIN " + TABLE_PROCESS + " AS process ON link.object_id=process.id ");
+        pq.addQuery(ProcessDAO.getIsolationJoin(user, "process"));
+        pq.addQuery("WHERE link.process_id=? AND link.object_type LIKE 'process%' ");
+        addOpenFilter(pq, open);
+        pq.addQuery("ORDER BY process.create_dt DESC ");
+        pq.addQuery(getPageLimit(page));
 
-        pd.addInt(processId);
+        pq.addInt(processId);
 
-        ResultSet rs = pd.executeQuery();
+        ResultSet rs = pq.executeQuery();
         while (rs.next()) {
             list.add(new Pair<String, Process>(rs.getString(1), ProcessDAO.getProcessFromRs(rs)));
         }
 
         if (page != null)
-            page.setRecordCount(getFoundRows(pd.getPrepared()));
+            page.setRecordCount(getFoundRows(pq.getPrepared()));
     }
 
     /**
@@ -463,11 +463,11 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             SQL_SELECT + "c.*" + SQL_FROM + Tables.TABLE_CUSTOMER + "AS c" +
             SQL_INNER_JOIN + TABLE_PROCESS_LINK + "AS pl ON c.id=pl.object_id AND pl.process_id=? AND pl.object_type LIKE ?";
 
-        try (var pd = new PreparedDelay(con, query)) {
-            pd.addInt(processId);
-            pd.addString(linkObjectType);
+        try (var pq = new PreparedQuery(con, query)) {
+            pq.addInt(processId);
+            pq.addString(linkObjectType);
 
-            var rs = pd.executeQuery();
+            var rs = pq.executeQuery();
             while (rs.next())
                 result.add(CustomerDAO.getCustomerFromRs(rs, ""));
         }

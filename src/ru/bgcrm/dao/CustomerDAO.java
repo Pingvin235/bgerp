@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.client.CustomerTitleChangedEvent;
@@ -38,7 +39,6 @@ import ru.bgcrm.util.PatternFormatter;
 import ru.bgcrm.util.PatternFormatter.PatternItemProcessor;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class CustomerDAO extends CommonDAO {
     private boolean history;
@@ -70,7 +70,7 @@ public class CustomerDAO extends CommonDAO {
 
             String referenceTemplate = addCustomerReferenceQuery(selectPart, joinPart);
 
-            PreparedDelay ps = new PreparedDelay(con);
+            PreparedQuery ps = new PreparedQuery(con);
 
             StringBuilder query = new StringBuilder();
             query.append(SQL_SELECT_COUNT_ROWS);
@@ -113,7 +113,7 @@ public class CustomerDAO extends CommonDAO {
             joinPart.append(" INNER JOIN " + TABLE_CUSTOMER_GROUP + " AS customer_group ON customer.id=customer_group.customer_id "
                     + "AND customer_group.group_id IN (" + Utils.toString(groupIds) + ") ");
 
-            PreparedDelay ps = new PreparedDelay(con);
+            PreparedQuery ps = new PreparedQuery(con);
 
             StringBuilder query = new StringBuilder();
             query.append(SQL_SELECT_COUNT_ROWS + " DISTINCT ");
@@ -132,7 +132,7 @@ public class CustomerDAO extends CommonDAO {
             extractCustomersWithRef(page, list, referenceTemplate, ps);
         }
 
-        PreparedDelay ps = new PreparedDelay(con);
+        PreparedQuery ps = new PreparedQuery(con);
 
         StringBuilder query = new StringBuilder();
         query.append(SQL_SELECT_COUNT_ROWS + " DISTINCT ");
@@ -202,7 +202,7 @@ public class CustomerDAO extends CommonDAO {
         }
     }
 
-    private void extractCustomersWithRef(Page page, List<Customer> list, String referenceTemplate, PreparedDelay ps) throws BGException {
+    private void extractCustomersWithRef(Page page, List<Customer> list, String referenceTemplate, PreparedQuery ps) throws BGException {
         try {
             final ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -331,7 +331,7 @@ public class CustomerDAO extends CommonDAO {
             Page page = searchResult.getPage();
             List<ParameterSearchedObject<Customer>> list = searchResult.getList();
 
-            PreparedDelay ps = new PreparedDelay(con);
+            PreparedQuery ps = new PreparedQuery(con);
             String ids = Utils.toString(addressParamIdList);
 
             AddressHouse searchParams = new AddressHouse().withHouseAndFrac(house);
@@ -406,7 +406,7 @@ public class CustomerDAO extends CommonDAO {
             Page page = searchResult.getPage();
             List<ParameterSearchedObject<Customer>> list = searchResult.getList();
 
-            PreparedDelay ps = new PreparedDelay(con);
+            PreparedQuery ps = new PreparedQuery(con);
             String ids = Utils.toString(addressParamIdList);
 
             ps.addQuery(SQL_SELECT_COUNT_ROWS);
@@ -502,7 +502,7 @@ public class CustomerDAO extends CommonDAO {
             query.append(" ORDER BY customer.title ");
             query.append(getPageLimit(page));
 
-            PreparedDelay ps = new PreparedDelay(con);
+            PreparedQuery ps = new PreparedQuery(con);
             ps.addQuery(query.toString());
             extractCustomersWithRef(page, list, referenceTemplate, ps);
             ps.close();
@@ -546,7 +546,7 @@ public class CustomerDAO extends CommonDAO {
             query.append(" ORDER BY customer.title ");
             query.append(getPageLimit(page));
 
-            PreparedDelay ps = new PreparedDelay(con);
+            PreparedQuery ps = new PreparedQuery(con);
             ps.addQuery(query.toString());
             ps.addString(linkedObjectTitle);
             ps.addString(linkedObjectTypeLike);

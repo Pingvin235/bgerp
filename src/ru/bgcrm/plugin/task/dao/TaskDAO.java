@@ -7,12 +7,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.util.sql.PreparedQuery;
+
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.plugin.task.model.Task;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.TimeUtils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class TaskDAO extends CommonDAO {
 
@@ -31,22 +32,22 @@ public class TaskDAO extends CommonDAO {
      * @throws SQLException
      */
     public void searchTasks(SearchResult<Task> result, int processId, int typeId, boolean onlyOpen) throws SQLException {
-        PreparedDelay pd = new PreparedDelay(con, "SELECT * FROM " + TABLE + " WHERE process_id=?");
-        pd.addInt(processId);
+        PreparedQuery pq = new PreparedQuery(con, "SELECT * FROM " + TABLE + " WHERE process_id=?");
+        pq.addInt(processId);
         if (typeId > 0) {
-            pd.addQuery(" AND type_id=?");
-            pd.addInt(typeId);
+            pq.addQuery(" AND type_id=?");
+            pq.addInt(typeId);
         }
         if (onlyOpen)
-            pd.addQuery(" AND executed_dt IS NULL");
-        
-        pd.addQuery(getPageLimit(result.getPage()));
-        
-        ResultSet rs = pd.executeQuery();
-        while (rs.next()) 
-            result.getList().add(getTaskFromRs(rs));            
-        
-        pd.close();
+            pq.addQuery(" AND executed_dt IS NULL");
+
+        pq.addQuery(getPageLimit(result.getPage()));
+
+        ResultSet rs = pq.executeQuery();
+        while (rs.next())
+            result.getList().add(getTaskFromRs(rs));
+
+        pq.close();
     }
 
     /**
@@ -57,18 +58,18 @@ public class TaskDAO extends CommonDAO {
      */
     public List<Task> getScheduledTasks(int limit) throws SQLException {
         List<Task> result = new ArrayList<>();
-        
+
         String query = "SELECT * FROM " + TABLE + " WHERE executed_dt IS NULL AND scheduled_dt<=NOW() ORDER BY scheduled_dt LIMIT ?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, limit);
         ResultSet rs = ps.executeQuery();
-        while (rs.next()) 
+        while (rs.next())
             result.add(getTaskFromRs(rs));
         ps.close();
-        
+
         return result;
     }
-    
+
     /**
      * Добавляет новую задачу (id &lt;=0 ), либо обновляет дату выполнения и лог у существующей.
      * @param task
@@ -93,10 +94,10 @@ public class TaskDAO extends CommonDAO {
            ps.setInt(3, task.getId());
            ps.executeUpdate();
            ps.close();
-       }        
+       }
     }
-    
-    /** 
+
+    /**
      * Удаляет задачи по процессу и типу.
      * @param processId
      * @param typeId
@@ -110,7 +111,7 @@ public class TaskDAO extends CommonDAO {
         ps.executeUpdate();
         ps.close();
     }
-    
+
     private Task getTaskFromRs(ResultSet rs) throws SQLException {
         Task task = new Task();
         task.setId(rs.getInt("id"));

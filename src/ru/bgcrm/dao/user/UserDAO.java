@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ParamValueSearchDAO;
@@ -33,7 +34,6 @@ import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.PswdUtil;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class UserDAO extends CommonDAO {
     private static final String SELECT_PERMSETS_QUERY = "( SELECT GROUP_CONCAT(up.permset_id ORDER BY up.pos, up.permset_id SEPARATOR ',') FROM "
@@ -50,7 +50,7 @@ public class UserDAO extends CommonDAO {
             Set<Integer> groupSelectFilter, Date date, Set<Integer> permsetFilter, int statusFilter)
             throws SQLException {
         Page page = searchResult.getPage();
-        PreparedDelay psDelay = new PreparedDelay(con);
+        PreparedQuery psDelay = new PreparedQuery(con);
 
         psDelay.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT user.*, ");
         psDelay.addQuery(SELECT_PERMSETS_QUERY);
@@ -141,7 +141,7 @@ public class UserDAO extends CommonDAO {
      * Выбирает пользователей по параметру типа E-Mail.
      * @param searchResult
      * @param emailParamIdList
-     * @param email E-Mail, поиск идёт по точному совпадению и совпадению домена 
+     * @param email E-Mail, поиск идёт по точному совпадению и совпадению домена
      * @throws SQLException
      */
     public void searchUserListByEmail(SearchResult<ParameterSearchedObject<User>> searchResult,
@@ -150,7 +150,7 @@ public class UserDAO extends CommonDAO {
                 emailParamIdList, email);
     }
 
-    /* TODO: Реализовать по аналогии, объединяя с CustomerDAO: 
+    /* TODO: Реализовать по аналогии, объединяя с CustomerDAO:
      * searchUserListByText
      * searchUserListByAddress
      * searchUserListByPhone
@@ -202,7 +202,7 @@ public class UserDAO extends CommonDAO {
     public List<User> getUserList(Set<Integer> groupFilter, Date dateGroupFrom, Date dateGroupTo) throws SQLException {
         List<User> result = new ArrayList<User>();
 
-        PreparedDelay psDelay = new PreparedDelay(con);
+        PreparedQuery psDelay = new PreparedQuery(con);
 
         psDelay.addQuery("SELECT DISTINCT user.* ");
         psDelay.addQuery(" FROM " + TABLE_USER + " AS user ");
@@ -323,7 +323,7 @@ public class UserDAO extends CommonDAO {
     public void updateUser(int userId, String title, String login, String pswd, String description)
             throws SQLException {
         int index = 1;
-        
+
         var ps = con.prepareStatement("UPDATE user SET title=?, login=?, description=? WHERE id=?");
         ps.setString(index++, title);
         ps.setString(index++, login);
@@ -383,8 +383,8 @@ public class UserDAO extends CommonDAO {
         if (PswdUtil.EMPTY_PASSWORD.equals(pswd))
             return;
 
-        try (var pd = new PreparedDelay(con, SQL_UPDATE + TABLE_USER + SQL_SET + "pswd=?" + SQL_WHERE + "id=?")) {
-            pd.addString(pswd).addInt(userId).executeUpdate();
+        try (var pq = new PreparedQuery(con, SQL_UPDATE + TABLE_USER + SQL_SET + "pswd=?" + SQL_WHERE + "id=?")) {
+            pq.addString(pswd).addInt(userId).executeUpdate();
         }
     }
 
@@ -549,7 +549,7 @@ public class UserDAO extends CommonDAO {
 
     /**
      * Обновить персональныую конфигурацию, только если она отличается от configBefore.
-     * @param configBefore null, если нужно безусловное сохранение. 
+     * @param configBefore null, если нужно безусловное сохранение.
      * @param user
      * @throws BGException
      */
@@ -615,23 +615,23 @@ public class UserDAO extends CommonDAO {
         List<UserGroup> result = new ArrayList<UserGroup>();
 
         try {
-            PreparedDelay pd = new PreparedDelay(con);
-            pd.addQuery("SELECT * FROM " + TABLE_USER_GROUP + " WHERE user_id=? ");
-            pd.addInt(userId);
+            PreparedQuery pq = new PreparedQuery(con);
+            pq.addQuery("SELECT * FROM " + TABLE_USER_GROUP + " WHERE user_id=? ");
+            pq.addInt(userId);
 
             if (date != null) {
-                pd.addQuery("AND (date_from IS NULL OR date_from<=?) AND (date_to IS NULL OR ?<=date_to) ");
-                pd.addDate(date);
-                pd.addDate(date);
+                pq.addQuery("AND (date_from IS NULL OR date_from<=?) AND (date_to IS NULL OR ?<=date_to) ");
+                pq.addDate(date);
+                pq.addDate(date);
             }
 
-            pd.addQuery("ORDER BY date_from");
+            pq.addQuery("ORDER BY date_from");
 
-            ResultSet rs = pd.executeQuery();
+            ResultSet rs = pq.executeQuery();
             while (rs.next()) {
                 result.add(getUserGroupFromRs(rs));
             }
-            pd.close();
+            pq.close();
         } catch (SQLException e) {
             throw new BGException(e);
         }

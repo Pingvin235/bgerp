@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.Period;
@@ -18,11 +19,10 @@ import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 /**
  * Fluent DAO for message search.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class MessageSearchDAO extends MessageDAO {
@@ -156,8 +156,8 @@ public class MessageSearchDAO extends MessageDAO {
     public void search(SearchResult<Message> result) throws SQLException {
         var page = result.getPage();
 
-        PreparedDelay ps = new PreparedDelay(con);
-        ps.addQuery(SQL_SELECT_COUNT_ROWS + " m.*, p.* FROM " + TABLE_MESSAGE + " AS m " 
+        PreparedQuery ps = new PreparedQuery(con);
+        ps.addQuery(SQL_SELECT_COUNT_ROWS + " m.*, p.* FROM " + TABLE_MESSAGE + " AS m "
                 + "LEFT JOIN " + TABLE_PROCESS + " AS p ON m.process_id=p.id ");
         if (CollectionUtils.isNotEmpty(tagIds))
             ps.addQuery(SQL_INNER_JOIN + TABLE_MESSAGE_TAG + " AS mt ON m.id=mt.message_id AND mt.tag_id IN (" + Utils.toString(tagIds) + ")");
@@ -192,7 +192,7 @@ public class MessageSearchDAO extends MessageDAO {
         }
 
         if (dateFrom != null) {
-            if (dateFrom.getDateFrom() != null) { 
+            if (dateFrom.getDateFrom() != null) {
                 ps.addQuery(" AND ?<m.from_dt");
                 ps.addDate(dateFrom.getDateFrom());
             }
@@ -201,7 +201,7 @@ public class MessageSearchDAO extends MessageDAO {
                 ps.addDate(TimeUtils.getNextDay(dateFrom.getDateTo()));
             }
         }
-        
+
         if (Utils.notBlankString(from)) {
             ps.addQuery(" AND m.from LIKE ?");
             ps.addString(from);

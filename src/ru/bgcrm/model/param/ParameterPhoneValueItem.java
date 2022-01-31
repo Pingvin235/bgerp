@@ -78,13 +78,8 @@ public class ParameterPhoneValueItem {
     private final static String defaultPattern = "(${number})( [${comment}]);";
 
     /**
-     * Получить результирующую строку параметра типа телефон
-     * 
-     * @param setup Setup
-     * @param pd  код параметра
-     * @param phones список телефонов
-     * @param formats список форматов телефонов
-     * @param comments список комментариев
+     * Builds formatted phones string.
+     * @param items phones
      * @return
      */
     public static final String getPhones(List<ParameterPhoneValueItem> items) {
@@ -150,7 +145,7 @@ public class ParameterPhoneValueItem {
 
         return result.toString();
     }
-    
+
     @Override
     public int hashCode() {
         return phone.hashCode();

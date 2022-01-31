@@ -3,10 +3,10 @@ package org.bgerp.plugin.bil.billing.invoice.dao;
 import java.sql.Connection;
 
 import org.bgerp.plugin.bil.billing.invoice.model.Invoice;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.SearchResult;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 /**
  * Fluent invoice search DAO.
@@ -45,25 +45,25 @@ public class InvoiceSearchDAO extends CommonDAO {
 
     public void search(SearchResult<Invoice> result) throws Exception {
         var query = SQL_SELECT_COUNT_ROWS + "*" + SQL_FROM + Tables.TABLE_INVOICE + SQL_WHERE + "1>0";
-        try (var pd = new PreparedDelay(con, query)) {
+        try (var pq = new PreparedQuery(con, query)) {
             if (processId > 0)
-                pd.addQuery(SQL_AND).addQuery("process_id=?").addInt(processId);
+                pq.addQuery(SQL_AND).addQuery("process_id=?").addInt(processId);
 
             if (payed != null)
-                pd.addQuery(SQL_AND).addQuery("payment_date IS ").addQuery(payed ? "NOT" : "").addQuery("NULL");
+                pq.addQuery(SQL_AND).addQuery("payment_date IS ").addQuery(payed ? "NOT" : "").addQuery("NULL");
 
             if (orderFromDate) {
-                pd.addQuery(SQL_ORDER_BY).addQuery("date_from");
+                pq.addQuery(SQL_ORDER_BY).addQuery("date_from");
                 if (orderDesc)
-                    pd.addQuery(SQL_DESC);
+                    pq.addQuery(SQL_DESC);
             }
 
-            var rs = pd.executeQuery();
+            var rs = pq.executeQuery();
             while (rs.next()) {
                 result.getList().add(InvoiceDAO.getFromRs(rs));
             }
 
-            setRecordCount(result.getPage(), pd.getPrepared());
+            setRecordCount(result.getPage(), pq.getPrepared());
         }
     }
 }

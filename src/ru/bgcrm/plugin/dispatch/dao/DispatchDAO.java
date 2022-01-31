@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.BGException;
@@ -19,7 +20,6 @@ import ru.bgcrm.plugin.dispatch.model.Dispatch;
 import ru.bgcrm.plugin.dispatch.model.DispatchMessage;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class DispatchDAO extends CommonDAO {
     private static final String TABLE_DISPATCH = " dispatch ";
@@ -146,21 +146,21 @@ public class DispatchDAO extends CommonDAO {
 
     public void messageSearch(SearchResult<DispatchMessage> result, Boolean sent) throws BGException {
         try {
-            PreparedDelay pd = new PreparedDelay(con);
-            pd.addQuery("SELECT * FROM " + TABLE_DISPATCH_MESSAGE);
+            PreparedQuery pq = new PreparedQuery(con);
+            pq.addQuery("SELECT * FROM " + TABLE_DISPATCH_MESSAGE);
             if (sent != null) {
-                pd.addQuery("WHERE sent_dt ");
+                pq.addQuery("WHERE sent_dt ");
                 if (!sent) {
-                    pd.addQuery("IS NULL");
+                    pq.addQuery("IS NULL");
                 }
             }
-            pd.addQuery(" ORDER BY create_dt DESC");
+            pq.addQuery(" ORDER BY create_dt DESC");
 
-            ResultSet rs = pd.executeQuery();
+            ResultSet rs = pq.executeQuery();
             while (rs.next()) {
                 result.getList().add(getMessageFromRs(rs));
             }
-            pd.close();
+            pq.close();
         } catch (SQLException e) {
             throw new BGException(e);
         }

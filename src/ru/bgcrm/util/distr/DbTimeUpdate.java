@@ -7,10 +7,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.bgerp.util.Log;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 /**
  * Developer DB utils, updates all date and time columns till the current day.
@@ -73,22 +73,22 @@ public class DbTimeUpdate implements Runnable {
     }
 
     private void updateTable(Connection con, String currentTable, List<String> columns) throws SQLException {
-        try (var pd = new PreparedDelay(con)) {
-            pd.addQuery("UPDATE ").addQuery(currentTable).addQuery(" SET ");
+        try (var pq = new PreparedQuery(con)) {
+            pq.addQuery("UPDATE ").addQuery(currentTable).addQuery(" SET ");
 
             var first = true;
             for (var col : columns) {
                 if (!first)
-                    pd.addQuery(", ");
+                    pq.addQuery(", ");
 
-                pd.addQuery(col).addQuery("=DATE_ADD(").addQuery(col).addQuery(", INTERVAL ? DAY)");
-                pd.addInt(daysDelta);
+                pq.addQuery(col).addQuery("=DATE_ADD(").addQuery(col).addQuery(", INTERVAL ? DAY)");
+                pq.addInt(daysDelta);
 
                 first = false;
             }
 
-            log.info("Running query: {}", pd);
-            pd.executeUpdate();
+            log.info("Running query: {}", pq);
+            pq.executeUpdate();
 
             columns.clear();
         }

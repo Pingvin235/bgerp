@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.util.sql.PreparedQuery;
+
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.IdTitleTree;
@@ -29,7 +31,6 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterHistory;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 public class ParamDAO extends CommonDAO {
     public static final String DIRECTORY_TYPE_PARAMETER = "parameter";
@@ -453,7 +454,7 @@ public class ParamDAO extends CommonDAO {
         try {
             Page page = searchResult.getPage();
 
-            PreparedDelay psDelay = new PreparedDelay(con);
+            PreparedQuery psDelay = new PreparedQuery(con);
             StringBuilder query = new StringBuilder();
 
             query.append("SELECT SQL_CALC_FOUND_ROWS param_pref.* FROM ");

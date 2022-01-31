@@ -35,6 +35,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -78,7 +79,6 @@ import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class ProcessDAO extends CommonDAO {
@@ -87,7 +87,7 @@ public class ProcessDAO extends CommonDAO {
             + " AS pllp ON pllp.object_id=process.id AND pllp.object_type LIKE 'process%' " + " LEFT JOIN "
             + TABLE_PROCESS + " AS " + LINKED_PROCESS + " ON pllp.process_id=" + LINKED_PROCESS + ".id";
 
-    
+
     private final User user;
     /** Write param changes history. */
     private boolean history;
@@ -103,7 +103,7 @@ public class ProcessDAO extends CommonDAO {
         this.userId = User.USER_SYSTEM_ID;
         this.user = User.USER_SYSTEM;
     }
-    
+
     /**
      * Constructor with isolation support.
      * @param con
@@ -127,7 +127,7 @@ public class ProcessDAO extends CommonDAO {
         this.user = User.USER_SYSTEM;
         this.history = history;
     }
-    
+
     public ProcessDAO(Connection con, User user, boolean history) {
         this(con, user);
         this.history = history;
@@ -195,12 +195,12 @@ public class ProcessDAO extends CommonDAO {
         if (result.joinPart.indexOf(LINKED_PROCESS_JOIN) > 0) {
             result.selectPart.append("," + LINKED_PROCESS + ".*");
         }
-        
+
         result.joinPart.append(getIsolationJoin(user, "process"));
-        
+
         return result;
     }
-    
+
     public static String getIsolationJoin(User user, String tableProcess) {
         IsolationProcess isolation = user.getConfigMap().getConfig(IsolationConfig.class).getIsolationProcess();
         if (isolation == IsolationProcess.EXECUTOR)
@@ -213,7 +213,7 @@ public class ProcessDAO extends CommonDAO {
                     + " AND (isol_ur.date_to IS NULL OR CURDATE()<=isol_ur.date_to) ";
             if (StringUtils.isNotBlank(isolation.getExecutorTypeIds())) {
                 result += " INNER JOIN " + TABLE_PROCESS + " AS isol_ge ON " + tableProcess + ".id=isol_ge.id AND ("
-                    + tableProcess + ".type_id NOT IN (" + isolation.getExecutorTypeIds() + ") " 
+                    + tableProcess + ".type_id NOT IN (" + isolation.getExecutorTypeIds() + ") "
                     + "OR isol_ge.executors LIKE '" + user.getId() + ":%'"
                     + "OR POSITION(', " + user.getId() + ":' IN isol_ge.executors) > 0 "
                     // for future case of changing store format without white spaces
@@ -235,7 +235,7 @@ public class ProcessDAO extends CommonDAO {
      */
     public void searchProcess(SearchResult<Object[]> searchResult, List<String> aggregatedValues, Queue queue, DynActionForm form) throws Exception {
         QueueSelectParams params = prepareQueueSelect(queue);
-        
+
         addFilters(params.queue, form, params);
 
         String orders = queue.getSortSet().getOrders(form);
@@ -309,7 +309,7 @@ public class ProcessDAO extends CommonDAO {
             }
 
             // если код параметра между двоеточиями, то указан либо формат либо поле адресного параметра
-            // либо :value для параметра date(time) 
+            // либо :value для параметра date(time)
             int paramId = Utils.parseInt(StringUtils.substringBetween(value, ":"));
             if (paramId <= 0) {
                 continue;
@@ -514,9 +514,9 @@ public class ProcessDAO extends CommonDAO {
                         joinPart.append(SQL_INNER_JOIN);
 
                     joinPart.append(Tables.TABLE_PROCESS_EXECUTOR);
-                    joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND " + 
+                    joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND " +
                                     tableAlias + ".role_id=" + filter.getRoleId());
-                    
+
                     if (executorIds.contains("empty"))
                         wherePart.append(" AND " + tableAlias + ".user_id IS NULL ");
                     else {
@@ -615,7 +615,7 @@ public class ProcessDAO extends CommonDAO {
                     String houseAlias = paramAlias + "house";
                     String quarterAlias = paramAlias + "quarter";
 
-                    if (cityId > 0 || flat > 0 || houseId > 0 || streetId > 0 || quarterId > 0 || 
+                    if (cityId > 0 || flat > 0 || houseId > 0 || streetId > 0 || quarterId > 0 ||
                             Utils.notEmptyString(city) || Utils.notEmptyString(street) || Utils.notEmptyString(quarter) ||  Utils.notEmptyString(houseAndFrac)) {
                         joinPart.append(SQL_INNER_JOIN);
                         joinPart.append(ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS);
@@ -646,7 +646,7 @@ public class ProcessDAO extends CommonDAO {
                                     joinPart.append(houseAlias + ".frac='" + houseFrac.getFrac() + "' ");
                                 }
                             }
-                            
+
                             if (quarterId > 0) {
                                 joinPart.append(SQL_INNER_JOIN);
                                 joinPart.append(ru.bgcrm.dao.Tables.TABLE_ADDRESS_QUARTER);
@@ -655,7 +655,7 @@ public class ProcessDAO extends CommonDAO {
                             } else if (Utils.notBlankString(quarter)) {
                                 //TODO: Сделать по запросу.
                             }
-                            
+
                             if (streetId > 0) {
                                 joinPart.append(SQL_INNER_JOIN);
                                 joinPart.append(ru.bgcrm.dao.Tables.TABLE_ADDRESS_STREET);
@@ -667,16 +667,16 @@ public class ProcessDAO extends CommonDAO {
                                 joinPart.append(" AS " + streetAlias + " ON " + houseAlias + ".street_id=" + streetAlias
                                         + ".id AND " + streetAlias + ".title LIKE '%" + street + "%' ");
                             }
-                            
+
                             Runnable addStreetJoin = () -> {
-                                // JOIN может быть уже добавлен фильтром по названию улицы 
+                                // JOIN может быть уже добавлен фильтром по названию улицы
                                 if (!joinPart.toString().contains(streetAlias)) {
                                     joinPart.append(SQL_INNER_JOIN);
                                     joinPart.append(ru.bgcrm.dao.Tables.TABLE_ADDRESS_STREET);
                                     joinPart.append(" AS " + streetAlias + " ON " + houseAlias + ".street_id=" + streetAlias + ".id ");
                                 }
                             };
-                            
+
                             if (streetId <= 0 && quarterId <= 0) {
                                 if (cityId > 0) {
                                     addStreetJoin.run();
@@ -687,7 +687,7 @@ public class ProcessDAO extends CommonDAO {
                                     // добавка джойна города
                                     joinPart.append(SQL_INNER_JOIN);
                                     joinPart.append(ru.bgcrm.dao.Tables.TABLE_ADDRESS_CITY);
-                                    joinPart.append(" AS " + cityAlias + " ON " + cityAlias + ".id=" + streetAlias + 
+                                    joinPart.append(" AS " + cityAlias + " ON " + cityAlias + ".id=" + streetAlias +
                                             ".city_id AND " + cityAlias + ".title LIKE '%" + city + "%' ");
                                 }
                             }
@@ -892,13 +892,13 @@ public class ProcessDAO extends CommonDAO {
             {
                 currentUserMode = true;
             }
-        
+
             String creatorsIds = Utils.toString( form.getSelectedValues( "creator" ) );
             if( Utils.isBlankString( creatorsIds ) && filterSet.createUserFilter.getOnEmptyValues().size() > 0 )
             {
                 creatorsIds = Utils.toString( filterSet.createUserFilter.getOnEmptyValues() );
             }
-        
+
             if( currentUserMode )
             {
                 creatorsIds = String.valueOf( form.getUserId() );
@@ -910,16 +910,16 @@ public class ProcessDAO extends CommonDAO {
                 wherePart.append( " ) " );
             }
         }
-        
+
         if( filterSet.statusUserFilter != null )
         {
             FilterStatusUser filterStatus = (FilterStatusUser)filterSet.statusUserFilter;
-        
+
             if( filterSet.statusUserFilter.getValues().contains( "current" ) )
             {
                 currentUserMode = true;
             }
-        
+
             String changesIds = Utils.toString( form.getSelectedValues( "changer" ) );
             if( Utils.isBlankString( changesIds ) && filterSet.statusUserFilter.getOnEmptyValues().size() > 0 )
             {
@@ -937,14 +937,14 @@ public class ProcessDAO extends CommonDAO {
                 wherePart.append( filterStatus.getStatusId() );
             }
         }
-        
+
         if( filterSet.closeUserFilter != null )
         {
             if( filterSet.closeUserFilter.getValues().contains( "current" ) )
             {
                 currentUserMode = true;
             }
-        
+
             String closersIds = Utils.toString( form.getSelectedValues( "closer" ) );
             if( Utils.isBlankString( closersIds ) && filterSet.closeUserFilter.getOnEmptyValues().size() > 0 )
             {
@@ -1037,8 +1037,8 @@ public class ProcessDAO extends CommonDAO {
                     selectPartBuffer.append(aggregateFunction);
                     selectPartBuffer.append("(");
 
-                    // вся это свистопляска с размером нужна, т.к. в случае ошибки в конфигурации 
-                    // addColumn не добавляет столбец напрочь					
+                    // вся это свистопляска с размером нужна, т.к. в случае ошибки в конфигурации
+                    // addColumn не добавляет столбец напрочь
                     int lengthBefore = selectPartBuffer.length();
 
                     addColumn(col, selectPartBuffer, joinPart);
@@ -1107,7 +1107,7 @@ public class ProcessDAO extends CommonDAO {
                 selectPart.append(alias + ".comment");
             } else {
                 log.error("Incorrect column value macros: " + value);
-                selectPart.append("'0' "); 
+                selectPart.append("'0' ");
             }
         } else if ("priority".equals(value)) {
             selectPart.append(target + ".priority ");
@@ -1275,10 +1275,10 @@ public class ProcessDAO extends CommonDAO {
                 log.error("Incorrect macros: " + value);
                 return;
             }
-            if ("systemId".equals(tokens[2])) {            
+            if ("systemId".equals(tokens[2])) {
                 // TODO: Support many columns with message: prefix
                 String tableAlias = "messageSystemId";
-                
+
                 joinPart.append(" LEFT JOIN " + TABLE_MESSAGE + " AS " + tableAlias + " ON " + tableAlias + ".process_id=" + target + ".id AND "
                         + tableAlias + ".type_id IN (" + tokens[1] + ")");
                 selectPart.append(tableAlias + ".system_id");
@@ -1317,7 +1317,7 @@ public class ProcessDAO extends CommonDAO {
             }else if (value.equals("messageOutLastUser")) {
                 selectPart.append(" pm_last_out_user.title ");
             }
-        } 
+        }
         // колонка обрабатывается в JSP - список операций, в конфиге колонок чтобы была возможность ставить nowrap, выравнивание и т.п.
         // TODO: Сюда же можно перенести макросы выбора наименования типа, статуса и т.п., т.к. их можно выбрать из справочников
         else if (value.startsWith("executors") || value.startsWith("groups") || value.equals("actions")
@@ -1326,7 +1326,7 @@ public class ProcessDAO extends CommonDAO {
         } else {
             // TODO: This fallback is the correct one, fix everythere.
             log.error("Incorrect column value macros: " + value);
-            selectPart.append("'0' "); 
+            selectPart.append("'0' ");
         }
 
         selectPart.append(modificator.getSecond());
@@ -1379,7 +1379,7 @@ public class ProcessDAO extends CommonDAO {
     public Process getProcess(int id) throws SQLException {
         Process result = null;
 
-        String query = "SELECT process.*, ps.* FROM " + TABLE_PROCESS + " AS process " 
+        String query = "SELECT process.*, ps.* FROM " + TABLE_PROCESS + " AS process "
                 + "LEFT JOIN " + TABLE_PROCESS_STATUS
                 + " AS ps ON process.id=ps.process_id AND ps.status_id=process.status_id AND ps.last "
                 + getIsolationJoin(user, "process")
@@ -1421,9 +1421,9 @@ public class ProcessDAO extends CommonDAO {
             newValue.setGroups(processGroups);
             logProcessChange(newValue, oldValue);
         }
-        
+
         updateColumn(TABLE_PROCESS, processId, "groups", ProcessGroup.serialize(processGroups));
-        
+
         String query = SQL_DELETE + Tables.TABLE_PROCESS_GROUP + " WHERE process_id=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, processId);
@@ -1625,7 +1625,7 @@ public class ProcessDAO extends CommonDAO {
             Page page = searchResult.getPage();
             List<ParameterSearchedObject<Process>> list = searchResult.getList();
 
-            PreparedDelay ps = new PreparedDelay(con);
+            PreparedQuery ps = new PreparedQuery(con);
             String ids = Utils.toString(addressParamIds);
 
             ps.addQuery(SQL_SELECT_COUNT_ROWS);
@@ -1689,18 +1689,18 @@ public class ProcessDAO extends CommonDAO {
             Page page = searchResult.getPage();
             List<Process> list = searchResult.getList();
 
-            PreparedDelay pd = new PreparedDelay(con);
+            PreparedQuery pq = new PreparedQuery(con);
 
-            pd.addQuery(SQL_SELECT_COUNT_ROWS);
-            pd.addQuery("DISTINCT p.*");
-            pd.addQuery(SQL_FROM);
-            pd.addQuery(TABLE_PROCESS);
-            pd.addQuery("AS p ");
-            pd.addQuery(SQL_INNER_JOIN);
-            pd.addQuery(TABLE_MESSAGE);
-            pd.addQuery("AS m ON m.process_id=p.id AND m.from=?");
-            pd.addString(from);
-            addOpenFilter(pd, open);
+            pq.addQuery(SQL_SELECT_COUNT_ROWS);
+            pq.addQuery("DISTINCT p.*");
+            pq.addQuery(SQL_FROM);
+            pq.addQuery(TABLE_PROCESS);
+            pq.addQuery("AS p ");
+            pq.addQuery(SQL_INNER_JOIN);
+            pq.addQuery(TABLE_MESSAGE);
+            pq.addQuery("AS m ON m.process_id=p.id AND m.from=?");
+            pq.addString(from);
+            addOpenFilter(pq, open);
 
             if (CollectionUtils.isNotEmpty(links)) {
                 Set<Integer> objectIds = new HashSet<Integer>();
@@ -1721,29 +1721,29 @@ public class ProcessDAO extends CommonDAO {
 
                 objectFilter.append(" ) ");
 
-                pd.addQuery("UNION SELECT DISTINCT p.*");
-                pd.addQuery(SQL_FROM);
-                pd.addQuery(TABLE_PROCESS);
-                pd.addQuery("AS p ");
-                pd.addQuery(SQL_INNER_JOIN);
-                pd.addQuery(TABLE_PROCESS_LINK);
-                pd.addQuery("AS pl ON pl.process_id=p.id AND pl.object_id IN (" + Utils.toString(objectIds) + ") AND ");
-                pd.addQuery(objectFilter.toString());
+                pq.addQuery("UNION SELECT DISTINCT p.*");
+                pq.addQuery(SQL_FROM);
+                pq.addQuery(TABLE_PROCESS);
+                pq.addQuery("AS p ");
+                pq.addQuery(SQL_INNER_JOIN);
+                pq.addQuery(TABLE_PROCESS_LINK);
+                pq.addQuery("AS pl ON pl.process_id=p.id AND pl.object_id IN (" + Utils.toString(objectIds) + ") AND ");
+                pq.addQuery(objectFilter.toString());
 
-                addOpenFilter(pd, open);
+                addOpenFilter(pq, open);
             }
 
-            pd.addQuery(SQL_ORDER_BY);
-            pd.addQuery("create_dt DESC");
+            pq.addQuery(SQL_ORDER_BY);
+            pq.addQuery("create_dt DESC");
 
-            pd.addQuery(getPageLimit(page));
+            pq.addQuery(getPageLimit(page));
 
-            ResultSet rs = pd.executeQuery();
+            ResultSet rs = pq.executeQuery();
             while (rs.next())
                 list.add(getProcessFromRs(rs, ""));
 
-            setRecordCount(page, pd.getPrepared());
-            pd.close();
+            setRecordCount(page, pq.getPrepared());
+            pq.close();
         }
     }
 
@@ -1759,34 +1759,34 @@ public class ProcessDAO extends CommonDAO {
         Page page = searchResult.getPage();
         List<Process> list = searchResult.getList();
 
-        PreparedDelay pd = new PreparedDelay(con);
+        PreparedQuery pq = new PreparedQuery(con);
 
-        pd.addQuery(SQL_SELECT_COUNT_ROWS);
-        pd.addQuery("DISTINCT p.*");
-        pd.addQuery(SQL_FROM);
-        pd.addQuery(TABLE_PROCESS);
-        pd.addQuery("AS p ");
-        pd.addQuery(SQL_INNER_JOIN);
-        pd.addQuery(TABLE_PROCESS_EXECUTOR);
-        pd.addQuery("AS e ON e.process_id=p.id AND e.user_id=?");
-        pd.addInt(userId);
-        addOpenFilter(pd, open);
-        pd.addQuery(SQL_ORDER_BY);
-        pd.addQuery("create_dt DESC");
+        pq.addQuery(SQL_SELECT_COUNT_ROWS);
+        pq.addQuery("DISTINCT p.*");
+        pq.addQuery(SQL_FROM);
+        pq.addQuery(TABLE_PROCESS);
+        pq.addQuery("AS p ");
+        pq.addQuery(SQL_INNER_JOIN);
+        pq.addQuery(TABLE_PROCESS_EXECUTOR);
+        pq.addQuery("AS e ON e.process_id=p.id AND e.user_id=?");
+        pq.addInt(userId);
+        addOpenFilter(pq, open);
+        pq.addQuery(SQL_ORDER_BY);
+        pq.addQuery("create_dt DESC");
 
-        pd.addQuery(getPageLimit(page));
+        pq.addQuery(getPageLimit(page));
 
-        ResultSet rs = pd.executeQuery();
+        ResultSet rs = pq.executeQuery();
         while (rs.next())
             list.add(getProcessFromRs(rs, ""));
-        setRecordCount(page, pd.getPrepared());
-        pd.close();
+        setRecordCount(page, pq.getPrepared());
+        pq.close();
     }
-    
+
     public static final int MODE_USER_CREATED = 1;
     public static final int MODE_USER_CLOSED = 2;
     public static final int MODE_USER_STATUS_CHANGED = 3;
-    
+
     /**
      * Выбирает связанные с процессом процессы.
      * @param searchResult
@@ -1799,54 +1799,54 @@ public class ProcessDAO extends CommonDAO {
             Page page = searchResult.getPage();
             List<Process> list = searchResult.getList();
 
-            PreparedDelay pd = new PreparedDelay(con);
+            PreparedQuery pq = new PreparedQuery(con);
 
-            pd.addQuery(SQL_SELECT_COUNT_ROWS);
-            pd.addQuery("*");
-            pd.addQuery(SQL_FROM);
-            pd.addQuery(TABLE_PROCESS + " AS p ");
-            pd.addQuery(getIsolationJoin(user, "p"));
+            pq.addQuery(SQL_SELECT_COUNT_ROWS);
+            pq.addQuery("*");
+            pq.addQuery(SQL_FROM);
+            pq.addQuery(TABLE_PROCESS + " AS p ");
+            pq.addQuery(getIsolationJoin(user, "p"));
 
             final String groupBy = SQL_GROUP_BY + "p.id ";
 
             if (mode == MODE_USER_CREATED) {
-                pd.addQuery("WHERE p.create_user_id=?");
-                pd.addInt(userId);
-                pd.addQuery(" AND p.close_dt is NULL");
-                pd.addQuery(groupBy);
-                pd.addQuery(SQL_ORDER_BY);
-                pd.addQuery("p.create_dt DESC");
+                pq.addQuery("WHERE p.create_user_id=?");
+                pq.addInt(userId);
+                pq.addQuery(" AND p.close_dt is NULL");
+                pq.addQuery(groupBy);
+                pq.addQuery(SQL_ORDER_BY);
+                pq.addQuery("p.create_dt DESC");
             } else if (mode == MODE_USER_CLOSED) {
-                pd.addQuery("WHERE p.close_user_id=?");
-                pd.addInt(userId);
-                pd.addQuery(groupBy);
-                pd.addQuery(SQL_ORDER_BY);
-                pd.addQuery("p.close_dt DESC");
+                pq.addQuery("WHERE p.close_user_id=?");
+                pq.addInt(userId);
+                pq.addQuery(groupBy);
+                pq.addQuery(SQL_ORDER_BY);
+                pq.addQuery("p.close_dt DESC");
             } else if (mode == MODE_USER_STATUS_CHANGED) {
-                pd.addQuery("WHERE p.status_user_id=?");
-                pd.addInt(userId);
-                pd.addQuery(groupBy);
-                pd.addQuery(SQL_ORDER_BY);
-                pd.addQuery("p.status_dt DESC");
+                pq.addQuery("WHERE p.status_user_id=?");
+                pq.addInt(userId);
+                pq.addQuery(groupBy);
+                pq.addQuery(SQL_ORDER_BY);
+                pq.addQuery("p.status_dt DESC");
             }
 
-            pd.addQuery(getPageLimit(page));
+            pq.addQuery(getPageLimit(page));
 
-            ResultSet rs = pd.executeQuery();
+            ResultSet rs = pq.executeQuery();
             while (rs.next())
                 list.add(getProcessFromRs(rs, "p."));
 
-            setRecordCount(page, pd.getPrepared());
-            pd.close();
+            setRecordCount(page, pq.getPrepared());
+            pq.close();
         }
     }
 
-    private void addOpenFilter(PreparedDelay pd, Boolean open) {
+    private void addOpenFilter(PreparedQuery pq, Boolean open) {
         if (open != null) {
             if (open) {
-                pd.addQuery(" WHERE close_dt IS NULL ");
+                pq.addQuery(" WHERE close_dt IS NULL ");
             } else {
-                pd.addQuery(" WHERE close_dt IS NOT NULL ");
+                pq.addQuery(" WHERE close_dt IS NOT NULL ");
             }
         }
     }
@@ -1861,12 +1861,12 @@ public class ProcessDAO extends CommonDAO {
         SearchResult<EntityLogItem> logItems = new SearchResult<EntityLogItem>();
         logItems.getPage().setPageIndex( 1 );
         logItems.getPage().setPageSize( 1 );
-    
+
         new ProcessDAO( con ).searchProcessLog( ProcessAction.getProcessType( process.getTypeId() ), process.getId(), logItems );
-        
+
         return Utils.getFirst(logItems.getList());
     }
-    
+
     /**
      * Выборка логов изменения процесса.
      * @param processType
@@ -1876,34 +1876,34 @@ public class ProcessDAO extends CommonDAO {
      */
     public void searchProcessLog(ProcessType processType, int processId, SearchResult<EntityLogItem> result)
             throws BGException {
-        PreparedDelay pd = new PreparedDelay(con);
+        PreparedQuery pq = new PreparedQuery(con);
 
         Page page = result.getPage();
         /*Если не кастить в каждом запросе поле, то с кордировкой какая-то лажа получается, сокрее всего это из-за
-         *  того что разные типы в одном поле смешиваются. На старой версии mysql 5.0.x не работало( на новой - не известно, вроде в 
-         *  maria 5.5 как-будто работает). 
+         *  того что разные типы в одном поле смешиваются. На старой версии mysql 5.0.x не работало( на новой - не известно, вроде в
+         *  maria 5.5 как-будто работает).
          */
 
-        pd.addQuery(SQL_SELECT_COUNT_ROWS + " dt , user_id, 0 , CAST( data AS CHAR), 0 FROM " + TABLE_PROCESS_LOG);
-        pd.addQuery(" WHERE id= ? ");
-        pd.addInt(processId);
+        pq.addQuery(SQL_SELECT_COUNT_ROWS + " dt , user_id, 0 , CAST( data AS CHAR), 0 FROM " + TABLE_PROCESS_LOG);
+        pq.addQuery(" WHERE id= ? ");
+        pq.addInt(processId);
 
-        pd.addQuery(" UNION SELECT dt, user_id, -1, CAST(status_id AS CHAR) , comment FROM " + TABLE_PROCESS_STATUS);
-        pd.addQuery(" WHERE process_id=? ");
-        pd.addInt(processId);
+        pq.addQuery(" UNION SELECT dt, user_id, -1, CAST(status_id AS CHAR) , comment FROM " + TABLE_PROCESS_STATUS);
+        pq.addQuery(" WHERE process_id=? ");
+        pq.addInt(processId);
 
-        pd.addQuery(" UNION SELECT dt, user_id, param_id, CAST(text AS CHAR), 0 FROM " + TABLE_PARAM_LOG);
-        pd.addQuery(" WHERE object_id=? AND param_id IN  ( "
+        pq.addQuery(" UNION SELECT dt, user_id, param_id, CAST(text AS CHAR), 0 FROM " + TABLE_PARAM_LOG);
+        pq.addQuery(" WHERE object_id=? AND param_id IN  ( "
                 + Utils.toString(processType.getProperties().getParameterIds(), " 0 ", " , ") + " ) ");
-        pd.addInt(processId);
+        pq.addInt(processId);
 
-        pd.addQuery(" ORDER BY dt DESC ");
-        pd.addQuery(getPageLimit(page));
+        pq.addQuery(" ORDER BY dt DESC ");
+        pq.addQuery(getPageLimit(page));
 
         List<EntityLogItem> list = result.getList();
 
-        try (pd) {
-            ResultSet rs = pd.executeQuery();
+        try (pq) {
+            ResultSet rs = pq.executeQuery();
             while (rs.next()) {
                 String text = " ??? ";
                 int paramId = rs.getInt(3);
@@ -1927,7 +1927,7 @@ public class ProcessDAO extends CommonDAO {
                 list.add(new EntityLogItem(TimeUtils.convertTimestampToDate(rs.getTimestamp(1)), processId,
                         rs.getInt(2), text));
             }
-            setRecordCount(page, pd.getPrepared());
+            setRecordCount(page, pq.getPrepared());
         } catch (SQLException ex) {
             throw new BGException(ex);
         }
