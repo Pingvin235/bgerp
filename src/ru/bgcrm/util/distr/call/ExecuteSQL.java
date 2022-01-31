@@ -21,9 +21,9 @@ import ru.bgcrm.util.sql.ConnectionPool;
 import ru.bgcrm.util.sql.SQLUtils;
 
 /**
- * Executer of SQL queries for updating DB structure. 
+ * Executer of SQL queries for updating DB structure.
  * Running as {@link InstallationCall} and also directly.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class ExecuteSQL implements InstallationCall {
@@ -164,8 +164,8 @@ public class ExecuteSQL implements InstallationCall {
         Set<String> result = new TreeSet<>();
 
         if (!SQLUtils.tableExists(con, TABLE_DB_UPDATE)) {
-            String sql = 
-                "CREATE TABLE IF NOT EXISTS " + TABLE_DB_UPDATE 
+            String sql =
+                "CREATE TABLE IF NOT EXISTS " + TABLE_DB_UPDATE
                 + "(dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "
                 + HASH_COLUMN + " CHAR(32) NOT NULL, " +
                 " PRIMARY KEY (" + HASH_COLUMN + "))";
