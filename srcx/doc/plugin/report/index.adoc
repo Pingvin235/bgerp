@@ -10,7 +10,42 @@ Reports are implemented with unified <<../../project/index.adoc#mvc, Action MVC 
 Each report extends Java class javadoc:org.bgerp.plugin.report.action.ReportActionBase[].
 Source codes of existing reports may be used as examples for development of new.
 
-IMPORTANT: Previously supported so named *JSP Reports* have to be converted to action reports either in system or <<../../kernel/extension.adoc#custom, custom>> code.
+NOTE: Previously supported so named <<jsp, JSP Reports>> have to be converted to action reports either in system or <<../../kernel/extension.adoc#custom, custom>> code.
+
+[[dev]]
+== Development
+As an report example you can have a look on the following files which together make built-it *Processes* report:
+[square]
+* link:../../../../src/org/bgerp/plugin/report/Plugin.java[org.bgerp.plugin.report.Plugin]
+* link:../../../../src/org/bgerp/plugin/report/action/ReportProcessAction.java[org.bgerp.plugin.report.action.ReportProcessAction]
+* link:../../../../webapps/WEB-INF/jspf/user/plugin/report/report/process.jsp[webapps/WEB-INF/jspf/user/plugin/report/report/process.jsp]
+
+The relationships between the different parts of report are shown in the diagram below.
+
+drawio:_res/report_mvc.drawio[]
+
+
+[[jsp]]
+== JSP отчёты
+WARNING: Устаревшие JSP отчёты отображаются в отдельном подменю и должны быть первоначально перенесены в <<../../kernel/extension.adoc#custom, Custom>> репозитарий в существующем виде, а позже переписаны на Java.
+
+Для примера рассмотрим следующую конфигурацию.
+[source]
+----
+report:report.1.title=ТП - Отчет по процессам
+report:report.1.jspFile=/WEB-INF/custom/plugin/report/custom_tp_queries_report.jsp
+----
+
+Она должна быть изменена таким образом.
+[source]
+----
+report:report.1.title=ТП - Отчет по процессам
+report:report.1.jspFile=/WEB-INF/jspf/user/plugin/custom.smartkom/report/old/custom_tp_queries_report.jsp
+----
+
+А соответствующие файлы link:https://github.com/arj57/bgerp-custom-smartkom/tree/master/webapps/WEB-INF/jspf/user/plugin/custom.smartkom/report/old[перенесены] во вновь созданный Custom репозитарий.
+
+// TODO: Ссылка на Custom Смарткома.
 
 [[dev]]
 == Development

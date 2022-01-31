@@ -32,7 +32,7 @@ The program can be developed on any Java-supported platform.
 ==== Windows
 Minimal required set of software:
 [square]
-* link:https://adoptopenjdk.net[OpenJDK 11];
+* link:https://adoptium.net[OpenJDK 11];
 * link:https://hub.docker.com/editions/community/docker-ce-desktop-windows[Docker for Windows];
 * link:https://git-scm.com/download/win[GIT].
 
@@ -192,15 +192,15 @@ Example/resulting Eclipse formatter file: link:../../../.vscode/formatter.xml[fo
 [[ide-eclipse]]
 ==== Eclipse
 Currently one of the most handy platforms.
-Download *Eclipse for Java EE Developers*, as this build already includes GIT client as well as JSP and XML editors.
+Download *Eclipse for Java EE Developers*, as this build already includes Gradle, JSP and XML editors.
 Install the following plugins:
 [square]
-* *Buildship Gradle* - <<workflow.adoc#build, Gradle>> support;
 * *AsciiDoctor* -  <<workflow.adoc#doc, documentation>> editor;
 * *MoreUnit* - convenient plugin to work with <<workflow.adoc#unit-test, unit-tests>>.
 
-Right-click on the project and invoke *Refresh Gradle Project* menu item.
-Also use it every time you change any of the project's libraries.
+Import the project directory as a *Gradle Project*.
+
+NOTE: Due to a bug in the Eclipse plugin define exact *6.9.1* version of Gradle before the import.
 
 *Window - Preferences - General - Editors - Text Editors* - set a *Show whitespace characters* checkbox
 

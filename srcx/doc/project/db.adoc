@@ -376,6 +376,10 @@ DB updates log.
 |INT
 |ID процесса, link to <<_process, process:id>>
 
+|type_id
+|INT
+|код типа сообщения из конфигурации
+
 |direction
 |TINYINT
 |направление, 1 - входящее, 2 - исходящее
