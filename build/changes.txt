@@ -1,6 +1,9 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+31.01.2022 20:10:34 1383
+F: [14723] Plugin BGBilling. Incorrect API calls for version 8.
+
 24.01.2022 16:24:30 1382
 C: [11400] Majority of Servlet Filters moved to 'org.bgerp.servlet.filter' package.
 C: [11400] Scheduler related classes moved to 'org.bgerp.scheduler' package.
