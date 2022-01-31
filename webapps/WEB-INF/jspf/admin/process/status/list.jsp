@@ -22,8 +22,8 @@
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
 		<td>${l.l('Позиция')}</td>
-		<td width="80%">${l.l('Наименование')}</td>
-		<td width="20%">${l.l('Где используется')}</td>
+		<td width="100%">${l.l('Наименование')}</td>
+		<td>&nbsp;</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
@@ -55,7 +55,10 @@
 					<c:param name="statusId" value="${statusId}" />
 				</c:url>
 
-				<button type="button" class="btn-white btn-small" style="width: 100%" onclick="$(this).hide(); $$.ajax.load('${showUrl}', $('#${showId}'));">Показать</button>
+				<button type="button" class="btn-grey btn-small icon" title="${l.l('Где используется')}"
+					onclick="$(this).hide(); $$.ajax.load('${showUrl}', $('#${showId}'));">
+					<i class="ti-search"></i>
+				</button>
 
 				<div id="${showId}">
 				</div>

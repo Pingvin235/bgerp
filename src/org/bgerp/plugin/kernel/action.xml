@@ -108,17 +108,15 @@
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeUsed" title="Где используется"/>
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:typeCopy" title="Копировать тип"/>
 			</item>
-			<item title="Очереди">
-				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueList" title="Просмотр очередей">
+			<item title="Queue">
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueList" title="List">
 					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
 				</item>
-				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueGet" title="Просмотр очереди">
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueGet;ru.bgcrm.struts.action.admin.ProcessAction:queueUpdate" title="Edit">
 					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
 				</item>
-				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueUpdate" title="Изменение очереди">
-					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
-				</item>
-				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueDelete" title="Удаление очереди">
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueDuplicate" title="Duplicate"/>
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueDelete" title="Delete">
 					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:properties" title="Просмотр свойств очереди">

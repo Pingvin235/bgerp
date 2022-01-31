@@ -11,12 +11,12 @@
 	</c:url>
 
 	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
-	
+
 	<ui:input-text name="filter" value="${form.param.filter}" size="40" placeholder="${l.l('Фильтр')}" title="${l.l('Фильтр по наименованию, конфигурации')}"
 		onSelect="$$.ajax.load(this.form, $$.shell.$content(this)); return false;"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
-</html:form>	
+</html:form>
 
 
 <table style="width: 100%;" class="data mt1">
@@ -24,6 +24,7 @@
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
 		<td width="100%">${l.l('Наименование')}</td>
+		<td>&nbsp;</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
@@ -36,17 +37,27 @@
 				<c:param name="action" value="queueDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
-			<c:url var="deleteAjaxCommandAfter" value="openUrlContent( '${form.requestUrl}' )"/>
-			
-			<%-- <td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td> --%>
+			<c:url var="duplicateUrl" value="/admin/process.do">
+				<c:param name="action" value="queueDuplicate"/>
+				<c:param name="id" value="${item.id}"/>
+			</c:url>
 
 			<td nowrap="nowrap">
-					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
-					<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
 			</td>
-
 			<td>${item.id}</td>
 			<td>${item.title}</td>
+			<td>
+				<p:check action="ru.bgcrm.struts.action.admin.ProcessAction:queueDuplicate">
+					<button type="button" class="btn-grey btn-small icon" title="${l.l('Создать копию')}"
+						onclick="
+							if (!confirm('${l.l('Создать копию очереди?')}')) return;
+							$$.ajax.post('${duplicateUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })">
+						<i class="ti-layers"></i>
+					</button>
+				</p:check>
+			</td>
 		</tr>
 	</c:forEach>
 </table>

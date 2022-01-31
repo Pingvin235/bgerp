@@ -14,7 +14,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.bgerp.scheduler.Scheduler;
@@ -24,6 +23,12 @@ import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.distr.VersionInfo;
 
+/**
+ * Socket listener for managing running app.
+ * Accepts one line text commands. Is singleton.
+ *
+ * @author Shamil Vakhitov
+ */
 public class AdminPortListener implements Runnable {
     private Log log = Log.getLog();
 
@@ -33,8 +38,12 @@ public class AdminPortListener implements Runnable {
     protected ServerSocket s = null;
     protected boolean run = true;
 
+    /**
+     * Constructor, binds a server socket on loopback interface only.
+     * @param port port.
+     */
     public AdminPortListener(int port) {
-        log.info("Starting listen admin port " + port);
+        log.info("Starting listen admin port {}", port);
         try {
             s = new ServerSocket();
             s.bind(new InetSocketAddress(InetAddress.getLoopbackAddress(), port));
@@ -46,11 +55,14 @@ public class AdminPortListener implements Runnable {
         start();
     }
 
+    /**
+     * Main listening loop.
+     */
+    @Override
     public void run() {
         while (run && s != null) {
             Socket socket = null;
             try {
-                // ждемс.....
                 socket = s.accept();
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -105,6 +117,9 @@ public class AdminPortListener implements Runnable {
         }
     }
 
+    /**
+     * @return app version string.
+     */
     public static String getVersionInfo() {
         var result = new StringBuilder(200);
 
@@ -126,6 +141,9 @@ public class AdminPortListener implements Runnable {
         return result.toString();
     }
 
+    /**
+     * @return running application status: version, uptime, memory and connection pools.
+     */
     public static String getStatus() {
         var result = new StringBuilder(1000);
 
@@ -142,19 +160,15 @@ public class AdminPortListener implements Runnable {
     }
 
     /**
-     * Возвращает строковый статус uptime чего либо (с момента инициации Java-приложения).
-     * Используется в отдельнозапущенных серверах для информации в статусе.
-     * @return
+     * @return string with formatted {@link #START_TIME} and calculated uptime after it.
      */
     public static final String uptimeStatus() {
-        StringBuilder report = new StringBuilder(100);
+        var report = new StringBuilder(100);
 
-        report.append("Started: ");
-        report.append(TimeUtils.format(START_TIME, TimeUtils.FORMAT_TYPE_YMDHMS));
-        report.append("\t");
-        report.append("Now: ");
-        report.append(new Date());
-        report.append("\t");
+        report
+            .append("Started: ")
+            .append(TimeUtils.format(START_TIME, TimeUtils.FORMAT_TYPE_YMDHMS))
+            .append(" ");
 
         long delta = (System.currentTimeMillis() - START_TIME.getTime()) / 1000L;
 
@@ -167,24 +181,24 @@ public class AdminPortListener implements Runnable {
         int sec = (int) (delta);
 
         DecimalFormat dfTime = new DecimalFormat("00");
-        report.append("Uptime: ");
-        report.append(days);
-        report.append(" d ");
-        report.append(dfTime.format(hours));
-        report.append(":");
-        report.append(dfTime.format(min));
-        report.append(":");
-        report.append(dfTime.format(sec));
+        report
+            .append("Uptime: ")
+            .append(days)
+            .append(" d ")
+            .append(dfTime.format(hours))
+            .append(":")
+            .append(dfTime.format(min))
+            .append(":")
+            .append(dfTime.format(sec));
 
         return report.toString();
     }
 
     /**
-     * Возвращает строку с состоянием памяти приложения.
-     * @return
+     * @return string with applications memory state.
      */
     public static final String memoryStatus() {
-        StringBuilder report = new StringBuilder(50);
+        var report = new StringBuilder(150);
 
         DecimalFormat df = new DecimalFormat("###,###,###,###");
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
@@ -193,28 +207,31 @@ public class AdminPortListener implements Runnable {
         df.setDecimalFormatSymbols(dfs);
 
         Runtime r = Runtime.getRuntime();
-        report.append("Memory total: ");
-        report.append(df.format(r.totalMemory()));
-        report.append("; max: ");
-        report.append(df.format(r.maxMemory()));
-        report.append("; free: ");
-        report.append(df.format(r.freeMemory()));
+        report
+            .append("Memory total: ")
+            .append(df.format(r.totalMemory()))
+            .append("; max: ")
+            .append(df.format(r.maxMemory()))
+            .append("; free: ")
+            .append(df.format(r.freeMemory()));
 
         report.append("\nMemory pools:");
         for (final MemoryPoolMXBean pool : ManagementFactory.getMemoryPoolMXBeans()) {
-            report.append("\n  ");
-            report.append(pool.getType() + "[" + pool.getName() + "]: ");
-            report.append("max: ");
-            report.append(df.format(pool.getUsage().getMax()));
-            report.append("; used: ");
-            report.append(df.format(pool.getUsage().getUsed()));
-            report.append("; peek: ");
-            report.append(df.format(pool.getPeakUsage().getUsed()));
+            report
+                .append("\n  ")
+                .append(pool.getType() + "[" + pool.getName() + "]: ")
+                .append("max: ")
+                .append(df.format(pool.getUsage().getMax()))
+                .append("; used: ")
+                .append(df.format(pool.getUsage().getUsed()))
+                .append("; peek: ")
+                .append(df.format(pool.getPeakUsage().getUsed()));
         }
 
         ThreadMXBean threads = ManagementFactory.getThreadMXBean();
-        report.append("\nThread count: ");
-        report.append(threads.getThreadCount());
+        report
+            .append("\nThread count: ")
+            .append(threads.getThreadCount());
 
         return report.toString();
     }

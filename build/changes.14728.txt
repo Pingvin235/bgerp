@@ -1,0 +1,2 @@
+A: Button for making process queue copy.
+C: Uptime string in application state.

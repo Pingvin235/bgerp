@@ -15,6 +15,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import javassist.NotFoundException;
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.CommonDAO;
@@ -37,17 +38,21 @@ import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.Permset;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
+@Action(path = "/admin/process")
 public class ProcessAction extends BaseAction {
+    private static final String PATH_JSP = PATH_JSP_ADMIN + "/process";
+
     // статусы
     public ActionForward statusList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new StatusDAO(con).searchStatus(new SearchResult<Status>(form));
 
-        return html(con, mapping, form, "statusList");
+        return html(con, form, PATH_JSP + "/status/list.jsp");
     }
 
     public ActionForward statusUseProcess(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -68,7 +73,7 @@ public class ProcessAction extends BaseAction {
 
         form.getResponse().setData("containProcess", containProcess);
 
-        return html(con, mapping, form, "statusUseProcess");
+        return html(con, form, PATH_JSP + "/status/used.jsp");
     }
 
     public ActionForward statusDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -87,7 +92,7 @@ public class ProcessAction extends BaseAction {
             form.getResponse().setData("status", status);
         }
 
-        return html(con, mapping, form, "statusUpdate");
+        return html(con, form, PATH_JSP + "/status/update.jsp");
     }
 
     public ActionForward statusUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -128,7 +133,7 @@ public class ProcessAction extends BaseAction {
             }
         }
 
-        return html(con, mapping, form, "typeList");
+        return html(con, form, PATH_JSP + "/type/list.jsp");
     }
 
     public ActionForward typeGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -139,7 +144,7 @@ public class ProcessAction extends BaseAction {
             form.getResponse().setData("type", type);
         }
 
-        return html(con, mapping, form, "typeUpdate");
+        return html(con, form, PATH_JSP + "/type/update.jsp");
     }
 
     public ActionForward typeUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -201,7 +206,7 @@ public class ProcessAction extends BaseAction {
             ProcessTypeCache.flush(con);
             paramMap.put("markType", "0");
         }
-        //form.setAction( "typeList" );
+
         return json(con, form);
     }
 
@@ -215,14 +220,14 @@ public class ProcessAction extends BaseAction {
             .collect(Collectors.toList());
         form.getResponse().setData("queueTitleList", queueList);
 
-        return html(con, mapping, form);
+        return html(con, form, PATH_JSP + "/type/type_used.jsp");
     }
 
     public ActionForward typeCopy(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         int typeId = form.getId();
         if (typeId <= 0)
             throw new BGIllegalArgumentException();
-        
+
         var dao = new ProcessTypeDAO(con);
 
         int fromTypeId = form.getParamInt("fromId");
@@ -234,7 +239,7 @@ public class ProcessAction extends BaseAction {
         var types = dao.getTypeChildren(form.getParamInt("parentId", 0), Collections.singleton(typeId));
         form.setResponseData("types", types);
 
-        return html(con, mapping, form);
+        return html(con, form, PATH_JSP + "/type/type_copy.jsp");
     }
 
     // очереди
@@ -243,7 +248,7 @@ public class ProcessAction extends BaseAction {
 
         new QueueDAO(con).searchQueue(new SearchResult<Queue>(form), queueIds, form.getParam("filter"));
 
-        return html(con, mapping, form, "queueList");
+        return html(con, form, PATH_JSP + "/queue/list.jsp");
     }
 
     public ActionForward queueGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -263,7 +268,7 @@ public class ProcessAction extends BaseAction {
 
         request.setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot());
 
-        return html(con, mapping, form, "queueUpdate");
+        return html(con, form, PATH_JSP + "/queue/update.jsp");
     }
 
     public ActionForward queueUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -283,7 +288,27 @@ public class ProcessAction extends BaseAction {
 
         queueDAO.updateQueue(queue, form.getUserId());
 
-        form.getResponse().setData("queue", queue);
+        form.setResponseData("queue", queue);
+
+        ProcessQueueCache.flush(con);
+
+        return json(con, form);
+    }
+
+    public ActionForward queueDuplicate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+        var dao = new QueueDAO(con);
+
+        var queue = dao.getQueue(form.getId());
+        if (queue == null)
+            throw new NotFoundException("Not found queue with ID: " + form.getId());
+        queue.setProcessTypeIds(dao.getQueueProcessTypeIds(queue.getId()));
+
+        queue.setId(-1);
+        queue.setTitle(queue.getTitle() + " " + l.l("Копия"));
+
+        dao.updateQueue(queue, form.getUserId());
+
+        form.setResponseData("queue", queue);
 
         ProcessQueueCache.flush(con);
 
@@ -324,7 +349,7 @@ public class ProcessAction extends BaseAction {
             request.setAttribute("parameterList", paramDAO.getParameterList(Process.OBJECT_TYPE, 0));
         }
 
-        return html(con, mapping, form, "typeProperties");
+        return html(con, form, PATH_JSP + "/type/properties.jsp");
     }
 
     public ActionForward propertiesUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
@@ -348,14 +373,14 @@ public class ProcessAction extends BaseAction {
             properties.setAllowedGroups(ProcessGroup.parseStringArray(allowedGroupArr));
             properties.setConfig(form.getParam("config"));
             properties.setGroups(ProcessGroup.parseStringArray(beginGroupArr));
-            
+
             // при заполнении всплывающей формы авторизации после редиректа приходит форма без POST параметров
             if (properties.getConfig() == null) {
                 throw new BGException("Попытка сохранения пустой конфигурации.");
             }
-            
+
             checkModified(properties.getLastModify(), form);
-            
+
             Preferences.processIncludes(configDao, properties.getConfig(), true);
 
             checkAllowedQueueIds(form);
@@ -374,7 +399,7 @@ public class ProcessAction extends BaseAction {
         if (matrixParamArray != null) {
             var properties = type.getProperties();
             var anyEnabled = false;
-            
+
             for (String transaction : matrixParamArray) {
                 String[] paramArray = transaction.split("-");
 
@@ -383,7 +408,7 @@ public class ProcessAction extends BaseAction {
                 boolean enabled = Utils.parseBoolean(paramArray[2]);
 
                 anyEnabled |= enabled;
-                
+
                 properties.setTransactionProperties(fromStatus, toStatus, enabled);
             }
 

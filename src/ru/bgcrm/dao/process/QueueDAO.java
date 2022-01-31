@@ -20,7 +20,6 @@ import org.apache.commons.collections.CollectionUtils;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.LastModifyDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
@@ -28,7 +27,6 @@ import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.queue.QueueProcessStat;
 import ru.bgcrm.model.process.queue.QueueStat;
 import ru.bgcrm.model.process.queue.QueueUserStat;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class QueueDAO extends CommonDAO {
@@ -100,35 +98,37 @@ public class QueueDAO extends CommonDAO {
         return result;
     }
 
-    public void updateQueue(Queue queue, int user) throws BGException {
-        try {
-            int index = 1;
-            PreparedStatement ps = null;
+    /**
+     * Updates process queue entity.
+     * @param queue entity data, for insertion {@link Queue#getId()} &lt;= 0.
+     * @param userId user ID for checking conflicting updates.
+     * @throws SQLException
+     */
+    public void updateQueue(Queue queue, int userId) throws SQLException {
+        int index = 1;
+        PreparedStatement ps = null;
 
-            if (queue.getId() <= 0) {
-                //TODO: добавить валидацию конфигурациии
-                ps = con.prepareStatement("INSERT INTO queue SET title=?, config=?, " + LastModifyDAO.LAST_MODIFY_COLUMNS,
-                        PreparedStatement.RETURN_GENERATED_KEYS);
-                ps.setString(index++, queue.getTitle());
-                ps.setString(index++, queue.getConfig());
-                LastModifyDAO.setLastModifyFields(ps, index++, index++, new LastModify(user, TimeUtils.convertDateToTimestamp(new Date())));
-                ps.executeUpdate();
-                queue.setId(lastInsertId(ps));
-            } else {
-                ps = con.prepareStatement("UPDATE queue SET title=?, config=?, " + LastModifyDAO.LAST_MODIFY_COLUMNS + " WHERE id=?");
-                ps.setString(index++, queue.getTitle());
-                ps.setString(index++, queue.getConfig());
-                LastModifyDAO.setLastModifyFields(ps, index++, index++, queue.getLastModify());
-                ps.setInt(index++, queue.getId());
-                ps.executeUpdate();
-            }
-            ps.close();
+        if (queue.getId() <= 0) {
+            //TODO: добавить валидацию конфигурациии
+            ps = con.prepareStatement("INSERT INTO queue SET title=?, config=?, " + LastModifyDAO.LAST_MODIFY_COLUMNS,
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(index++, queue.getTitle());
+            ps.setString(index++, queue.getConfig());
+            LastModifyDAO.setLastModifyFields(ps, index++, index++, new LastModify(userId, new Date()));
+            ps.executeUpdate();
+            queue.setId(lastInsertId(ps));
+        } else {
+            ps = con.prepareStatement("UPDATE queue SET title=?, config=?, " + LastModifyDAO.LAST_MODIFY_COLUMNS + " WHERE id=?");
+            ps.setString(index++, queue.getTitle());
+            ps.setString(index++, queue.getConfig());
+            LastModifyDAO.setLastModifyFields(ps, index++, index++, queue.getLastModify());
+            ps.setInt(index++, queue.getId());
+            ps.executeUpdate();
+        }
+        ps.close();
 
-            if (queue.getProcessTypeIds() != null) {
-                updateIds(TABLE_QUEUE_PROCESS_TYPE, "queue_id", "type_id", queue.getId(), queue.getProcessTypeIds());
-            }
-        } catch (SQLException e) {
-            throw new BGException(e);
+        if (queue.getProcessTypeIds() != null) {
+            updateIds(TABLE_QUEUE_PROCESS_TYPE, "queue_id", "type_id", queue.getId(), queue.getProcessTypeIds());
         }
     }
 

@@ -480,6 +480,9 @@
 	<p><ru>Закрыть другие</ru><en>Close others</en></p>
 	<p><ru>Обновить</ru><en>Refresh</en></p>
 	<p><ru>Объект был изменен пользователем "{}" {}</ru><en>Object was changed by user "{}" {}</en></p>
+	<p><ru>Создать копию</ru><en>Make a copy</en></p>
+	<p><ru>Создать копию очереди?</ru><en>Make a queue copy?</en></p>
+	<p><ru>Копия</ru><en>Copy</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->
