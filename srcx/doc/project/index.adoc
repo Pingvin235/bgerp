@@ -29,6 +29,7 @@ Information shown to the end-user via interface has to be <<l10n, localized>>.
 === Environment
 The program can be developed on any Java-supported platform.
 
+[[env-windows]]
 ==== Windows
 Minimal required set of software:
 [square]
@@ -45,12 +46,14 @@ System of <<workflow.adoc#build, build and publish>> is written on Bash scripts 
 
 The best console emulator on Windows with embedded FAR Manager - link:https://conemu.github.io/[ConEmu].
 
+[[env-linux]]
 ==== Linux
 Install using a package manager:
 [square]
 * <<../kernel/install.adoc#java, OpenJDK 11>>;
 * Docker;
-* GIT.
+* GIT;
+* GIT-LFS.
 
 [[checkout]]
 === Checkout

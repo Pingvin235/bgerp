@@ -104,6 +104,18 @@ Clean unneeded link:https://git-lfs.github.com/[GIT LFS] files.
 git remote prune origin
 ----
 
+[[change-git-trouble]]
+==== Troubleshooting
+Error: *Encountered 7 file(s) that should have been pointers, but weren't*
+link:https://stackoverflow.com/questions/46704572/git-error-encountered-7-files-that-should-have-been-pointers-but-werent/54221959[Solution]
+
+Probably only these two commands are enough:
+[source]
+----
+git rm .gitattributes
+git reset .
+----
+
 [[accept]]
 === Acceptance
 When change is being accepted, 'change' branch is compared with the master.
@@ -152,6 +164,12 @@ BGERP process for a change does not get closed , and <<accept, acceptance>> is p
 For building of the manual used Open Source tool link:https://pzdcdoc.org[PzdcDoc].
 The source AsciiDoctor and resource files are placed in `srcx/doc` directory.
 The samples of documentation's format may be found <<samples.adoc#doc, here>>.
+
+[[doc-image]]
+==== Images
+Images like screenshots in documentation *must* be stored in PNG format with *.png* extension.
+This extension is configured to be stored in GIT LFS.
+Use *width* attribute for limiting size rather than resizing that can sometimes increase a file size.
 
 [[doc-change]]
 ==== Change

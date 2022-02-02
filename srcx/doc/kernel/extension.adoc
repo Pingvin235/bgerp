@@ -185,6 +185,30 @@ Custom application code has to be placed `custom` directory in the project root.
 
 drawio:_res/custom.drawio[]
 
+[[custom-github]]
+=== GIT Repository
+In order to store your custom code you have to create a custom GIT repository and add there permissions of developers, who do you trust.
+We kindly ask you to use open forks of the Custom GIT template repo: https://github.com/Pingvin235/bgerp-custom , hosted on GitHub.
+With that you share your experience with other customers.
+
+IMPORTANT: Be sure that you are not hardcoded any confidential data in your Custom GIT.
+
+For creating your Custom GIT you have make the following steps.
+
+Make a link:https://github.com[GitHub] account if it you don't have it and log in with it.
+
+Open the template repo https://github.com/Pingvin235/bgerp-custom and press *Fork* button.
+
+image::_res/github_fork.png[width='800px']
+
+Rename the fork on Settings tab to *bgerp-custom-<MyCompany>*, using instead of *<MyCompany>* a wanted name. For example *bgerp-custom-bitel* as on the screen below.
+
+image::_res/github_rename.png[width='800px']
+
+Go to *Settings / Collaborators* and add your trusted developers using their GitHub accounts or e-mails.
+
+image::_res/github_collab.png[width='800px']
+
 [[custom-workflow]]
 === GIT Workflow
 Content of the directory may be stored using GIT and developed in normal <<../project/index.adoc#ide, IDE>>.
