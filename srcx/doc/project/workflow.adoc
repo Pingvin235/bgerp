@@ -271,7 +271,7 @@ bash -c "./gradlew clean doc"
 Resulting HTML files will be present in *target/doc*. Internal link validation is performed automatically.
 
 [[build-change]]
-=== Change update
+=== Change
 NOTE: This task is automatically run by <<test-and-publish-update, CI>>.
 
 Build and publish on https://bgerp.org/update update package with a <<change, change>>.
@@ -286,7 +286,7 @@ Multiple update publications are possible until all bugs/caveats are found - aft
 into a main branch and a new build gets <<build-release, published>>
 
 [[build-release]]
-=== Release update
+=== Release
 [IMPORTANT]
 ====
 Public SSH key or the developer might be added for *cdn@bgerp.org* and *www@bgerp.org*.
@@ -321,6 +321,12 @@ Merge the latest state of the master on <<doc-release, documentation>> branch:
 [source, bash]
 ----
 git checkout p11862-documentation && git pull --rebase && git merge master && git push
+----
+
+Pick documentation changes back to master, probably will be an empty commit.
+[source, bash]
+----
+git checkout master && git pull --rebase && git merge --squash p11862-documentation && git commit -am "p11862 Documentation." && git push
 ----
 
 [[build-docker]]

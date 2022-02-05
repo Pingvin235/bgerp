@@ -386,17 +386,7 @@ or you may change the marker string in configuration parameter *custom.jar.marke
 
 [[run-iface]]
 === User interface
-In menu *Administration - Run* can be executed any Java class, implementing *java.lang.Runnable*.
-
-[[file-orig]]
-== Изменение файлов системы
-CAUTION: This logic is outdated, use <<custom, Custom>> instead.
-
-При корректировке штатных файлов системы: JSP страниц, конфигурационных файлов, библиотек и т.п. предварительно необходимо
-создать файл с аналогичным именем но дополненным *.orig* в конце. Например: *process_color.jsp* -> *process_color.jsp.orig*.
-В противном случае изменённый файл будет перетёрт при следующем обновлении.
-При наличии .orig файла программа сверит файл из обновления с ним и перетрёт файл в дистрибутиве только в случае несовпадения,
-сохранив резервную копию перетираемого файла. .orig файл обозначает версию оригинального файла, относительно которого был создан изменённый.
+In menu *Administration / Run* can be executed any Java class, implementing *java.lang.Runnable*.
 
 [[ext-request]]
 == Интеграция с внешними системами
@@ -410,7 +400,7 @@ CAUTION: This logic is outdated, use <<custom, Custom>> instead.
 Пример запроса на получение данных во внешнюю систему в JSON формате (выборка по очереди процессов):
 [source]
 ----
-http://server.bgcrm.ru/user/process.do?action=queueShow&id=4&dateStatusStatus=10&status=10&status=9&status=13&currentUserMode=&group=7&sort=0&j_username=shamil&j_password=*****&responseType=json&authToSession=0
+https://bgerp.company.com/user/process.do?action=queueShow&id=4&dateStatusStatus=10&status=10&status=9&status=13&currentUserMode=&group=7&sort=0&j_username=shamil&j_password=*****&responseType=json&authToSession=0
 ----
 
 При изучении формата запросов и ответов возможно использование инструмента разработчика в браузере
