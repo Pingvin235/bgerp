@@ -1,5 +1,7 @@
 package org.bgerp.itest.kernel.process;
 
+import java.time.Duration;
+
 import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
@@ -19,7 +21,7 @@ public class ProcessTextHtmlTest {
 
     @Test(dependsOnMethods = { "addProcess" })
     public void addMessage() throws Exception {
-        MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, 0, TITLE, getText());
+        MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ZERO, TITLE, getText());
     }
 
     private String getText() throws Exception {

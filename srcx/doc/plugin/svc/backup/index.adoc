@@ -11,4 +11,4 @@ After enabling the plugin in <<../../../kernel/setup.adoc#config-plugin, server 
 backup:enable=1
 ----
 
-Backup tool is available in menu *Administration => Backup*.
+Backup tool is available in menu *Administration / Backup*.

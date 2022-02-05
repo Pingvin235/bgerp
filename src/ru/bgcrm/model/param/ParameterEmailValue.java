@@ -2,12 +2,13 @@ package ru.bgcrm.model.param;
 
 import java.util.List;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.util.Utils;
 
 public class ParameterEmailValue {
+    /** E-Mail value. */
     private String value;
+    /** Name of person. */
     private String comment;
 
     public ParameterEmailValue() {}
@@ -22,15 +23,28 @@ public class ParameterEmailValue {
         this.comment = comment;
     }
 
-    public void setValue(String value) throws BGException {
-        check(value);
+    /**
+     * Setter.
+     * @param value E-Mail value.
+     * @throws BGMessageException when not E-Mail value is being set.
+     */
+    public void setValue(String value) throws BGMessageException {
+        if (!Utils.isValidEmail(value)) {
+            throw new BGMessageException("Неверное значение параметра email!");
+        }
         this.value = value;
     }
 
+    /**
+     * @return E-Mail value.
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * @return part of E-Mail before {@code @}.
+     */
     public String getUsername() {
         if (value.indexOf("@") == -1) {
             return "";
@@ -38,6 +52,9 @@ public class ParameterEmailValue {
         return value.split("@")[0];
     }
 
+    /**
+     * @return part of E-Mail after  {@code @}.
+     */
     public String getDomain() {
         try {
             return value.split("@")[1];
@@ -46,6 +63,9 @@ public class ParameterEmailValue {
         }
     }
 
+    /**
+     * @return person's title.
+     */
     public String getComment() {
         return comment;
     }
@@ -54,10 +74,11 @@ public class ParameterEmailValue {
         this.comment = comment;
     }
 
-    private void check(String email) throws BGException {
-        if (!Utils.validateEmail(email)) {
-            throw new BGMessageException("Неверное значение параметра email!");
-        }
+    @Override
+    public String toString() {
+        if (Utils.notBlankString(comment))
+            return comment + " <" + value  + ">";
+        return value;
     }
 
     public static final String getEmails(List<ParameterEmailValue> emails) {
@@ -67,6 +88,7 @@ public class ParameterEmailValue {
                 result.append(" ");
             }
             result.append(val.getValue());
+             // TODO: Use standard representation from toString() call.
             if (!"".equals(val.getComment())) {
                 result.append(" [ " + val.getComment() + " ]");
             }
@@ -76,17 +98,33 @@ public class ParameterEmailValue {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof ParameterEmailValue))
-            return false;
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        return result;
+    }
 
-        ParameterEmailValue emailValue = (ParameterEmailValue) object;
-
-        if (!value.equals(emailValue.value))
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
             return false;
-        if (!comment.equals(emailValue.comment))
+        if (getClass() != obj.getClass())
             return false;
-
+        ParameterEmailValue other = (ParameterEmailValue) obj;
+        if (comment == null) {
+            if (other.comment != null)
+                return false;
+        } else if (!comment.equals(other.comment))
+            return false;
+        if (value == null) {
+            if (other.value != null)
+                return false;
+        } else if (!value.equals(other.value))
+            return false;
         return true;
     }
 }

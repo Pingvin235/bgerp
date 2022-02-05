@@ -19,7 +19,7 @@ test-and-publish-update-master:
         - apt-get update && apt-get install -y openssh-client ant rsync git-lfs
         - git checkout -B p00000-master
         - git rev-parse --abbrev-ref HEAD
-        - sh gradlew test buildDoc sonarqube
+        - sh gradlew test buildDoc #sonarqube
         - mkdir ~/.ssh && echo "$KEY_DOC" > ~/.ssh/id_rsa && chmod -R 600 ~/.ssh
         - sh gradlew buildUpdate buildUpdateLib
         - sh gradlew patchChanges && mv build/changes.txt build/changes.00000.txt

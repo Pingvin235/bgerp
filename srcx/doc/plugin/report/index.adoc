@@ -45,20 +45,7 @@ report:report.1.jspFile=/WEB-INF/jspf/user/plugin/custom.smartkom/report/old/cus
 
 А соответствующие файлы link:https://github.com/arj57/bgerp-custom-smartkom/tree/master/webapps/WEB-INF/jspf/user/plugin/custom.smartkom/report/old[перенесены] во вновь созданный Custom репозитарий.
 
-// TODO: Ссылка на Custom Смарткома.
-
-[[dev]]
-== Development
-As an report example you can have a look on the following files which together make built-it *Processes* report:
-[square]
-* link:../../../../src/org/bgerp/plugin/report/Plugin.java[org.bgerp.plugin.report.Plugin]
-* link:../../../../src/org/bgerp/plugin/report/action/ReportProcessAction.java[org.bgerp.plugin.report.action.ReportProcessAction]
-* link:../../../../webapps/WEB-INF/jspf/user/plugin/report/report/process.jsp[webapps/WEB-INF/jspf/user/plugin/report/report/process.jsp]
-
-The relationships between the different parts of report are shown in the diagram below.
-
-drawio:_res/report_mvc.drawio[]
-
+// TODO: Ссылка на Custom Маглана.
 
 ////
 Плагин предназначен для разработки отчётов в HTML формате с гибкими фильтрами.

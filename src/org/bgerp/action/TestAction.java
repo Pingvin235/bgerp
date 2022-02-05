@@ -18,8 +18,11 @@ public class TestAction extends BaseAction {
     }
 
     public ActionForward enumValues(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        List<String> list = List.of("mail1@domain.com", "mail2@domain.com", "mail3@domain.com");
-        form.setResponseData("list", list);
+        List<String> values = List.of(
+                "mail1@domain.com",
+                "Ivan2 Pupkin <mail2@domain.com>",
+                "Ivan3 Pupkin <mail3@domain.com>");
+        form.setResponseData("values", values);
         return json(conSet, form);
     }
 

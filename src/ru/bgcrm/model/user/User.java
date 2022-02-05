@@ -17,7 +17,7 @@ import ru.bgcrm.util.Utils;
 
 /**
  * Application user.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class User extends IdTitle implements Comparable<User>, Cloneable, UserAccount {
@@ -203,8 +203,8 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     }
 
     /**
-     * List of users, fist is the current one. 
-     * After collected from {@link UserCache#getUserList()} users with intersected groups with the current one. 
+     * List of users, fist is the current one.
+     * After collected from {@link UserCache#getUserList()} users with intersected groups with the current one.
      * @return
      */
     public List<User> getUserListWithSameGroups() {
@@ -214,6 +214,15 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
             .filter(u -> u.getId() != this.getId() && !CollectionUtils.intersection(this.getGroupIds(), u.getGroupIds()).isEmpty())
             .collect(Collectors.toList()));
         return list;
+    }
+
+    /**
+     * Checks if {@code action} allowed in user permissions.
+     * @param action
+     * @return
+     */
+    public boolean checkPerm(String action) {
+        return UserCache.getPerm(id, action) != null;
     }
 
     public User clone() {

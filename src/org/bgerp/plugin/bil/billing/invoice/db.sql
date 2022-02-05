@@ -18,3 +18,10 @@ CREATE TABLE IF NOT EXISTS `invoice` (
 	KEY date_from(`date_from`),
 	UNIQUE KEY `number`(`number`)
 );
+
+CALL alter_table_if_not_column_exists('invoice', 'date_from', 'CHANGE from_date date_from DATE NOT NULL');
+CALL add_column_if_not_exists('invoice', 'date_to', 'DATE AFTER date_from');
+CALL add_column_if_not_exists('invoice', 'number_cnt', 'INT NOT NULL AFTER process_id');
+CALL drop_key_if_exists('invoice', 'from_date');
+CALL add_key_if_not_exists('invoice', 'date_from', '(date_from)');
+CALL add_unique_key_if_not_exists('invoice', 'number', '(number)');

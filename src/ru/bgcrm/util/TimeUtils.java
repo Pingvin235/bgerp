@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -813,7 +814,9 @@ public class TimeUtils {
      * Returns the date with offset in days from now.
      * @param offset positive or negative offset
      * @return date with the offset
+     * @see Duration
      */
+    @Deprecated
     public static final Date getDateWithOffset(int offset) {
         Calendar now = new GregorianCalendar();
         now.add(Calendar.DAY_OF_YEAR, offset);

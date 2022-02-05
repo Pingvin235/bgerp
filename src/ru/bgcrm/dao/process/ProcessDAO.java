@@ -35,8 +35,10 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
+import javassist.NotFoundException;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
@@ -1396,6 +1398,20 @@ public class ProcessDAO extends CommonDAO {
         return result;
     }
 
+    /**
+     * Selects process using {@link #getProcess(int)}.
+     * @param id DB record ID.
+     * @return
+     * @throws SQLException
+     * @throws NotFoundException no record found with {@code id}.
+     */
+    public Process getProcessOrThrow(int id) throws SQLException, NotFoundException {
+        var result = getProcess(id);
+        if (result == null)
+            throw new NotFoundException("Process not found: " + id);
+        return result;
+    }
+
     public List<Process> getProcessList(Collection<Integer> processIds) throws BGException {
         List<Process> processList = new ArrayList<Process>();
         try {
@@ -1524,14 +1540,13 @@ public class ProcessDAO extends CommonDAO {
                         + " SET status_id=?, status_dt=?, status_user_id=?, description=?, close_dt=?, priority=?, close_user_id=?, type_id=? WHERE id=?");
                 ps = con.prepareStatement(query.toString());
                 ps.setInt(index++, process.getStatusId());
-                ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(process.getStatusTime()));
+                ps.setTimestamp(index++, TimeConvert.toTimestamp(process.getStatusTime()));
                 ps.setInt(index++, process.getStatusUserId());
                 ps.setString(index++, process.getDescription());
-                ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(process.getCloseTime()));
+                ps.setTimestamp(index++, TimeConvert.toTimestamp(process.getCloseTime()));
                 ps.setInt(index++, process.getPriority());
                 ps.setInt(index++, process.getCloseUserId());
                 ps.setInt(index++, process.getTypeId());
-                //ps.setTimestamp( index++, TimeUtils.convertDateToTimestamp( process.getLastMessageTime() ) );
                 ps.setInt(index++, process.getId());
                 ps.executeUpdate();
 
@@ -1924,8 +1939,7 @@ public class ProcessDAO extends CommonDAO {
                 else {
                     text = rs.getString(4);
                 }
-                list.add(new EntityLogItem(TimeUtils.convertTimestampToDate(rs.getTimestamp(1)), processId,
-                        rs.getInt(2), text));
+                list.add(new EntityLogItem(rs.getTimestamp(1), processId, rs.getInt(2), text));
             }
             setRecordCount(page, pq.getPrepared());
         } catch (SQLException ex) {

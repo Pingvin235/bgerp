@@ -9,6 +9,7 @@
 <%@ attribute name="choices" description="data to choose from" %>
 <%@ attribute name="showOptions" description="show options on focus" %>
 <%@ attribute name="url" description="URL for AJAX request to get values for autocomplete" %>
+<%@ attribute name="preload" type="java.lang.Boolean" description="Send AJAX request upfront" %>
 
 <c:choose>
 	<c:when test="${not empty id}">
@@ -35,7 +36,7 @@
 
 <script>
 	(function () {
-		$$.ui.tagBoxInit($('#${uiid}'), '${choices}', ${onFocus}, '${url}');
+		$$.ui.tagBoxInit($('#${uiid}'), '${choices}', ${onFocus}, '${url}', ${preload});
 	})();
 </script>
 

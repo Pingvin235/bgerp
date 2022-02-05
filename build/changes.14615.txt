@@ -1,0 +1,2 @@
+A: Plugin E-Mail. Offer recipient addresses. https://bgerp.org/doc/plugin/msg/email/index.html#usage-process-search-recipient
+F: Plugin Invoice. DB structure.

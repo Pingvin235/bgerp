@@ -15,7 +15,7 @@
 
 [[setup]]
 == Setup
-Make sure the plugin is enabled in <<../../kernel/setup.adoc#config, configuration>>.
+The plugin has to be enabled in <<../../kernel/setup.adoc#config, configuration>>.
 
 [[setup-token]]
 === Obtaining TOKEN

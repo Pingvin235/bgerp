@@ -92,7 +92,7 @@
 			}
 			if (self.settings.height === 'element') {
 				$tagator_element.css({
-					height: $source_element.outerHeight + 'px'
+					height: $source_element.outerHeight(true) + 'px'
 				});
 			}
 			$source_element.after($tagator_element);
@@ -297,7 +297,8 @@
 				if (value !== '' && checkAllowedTag(value)) {
 					var $tag_element = $(document.createElement('div'));
 					$tag_element.addClass(self.settings.prefix + 'tag');
-					$tag_element.html(value);
+					// PATCH BGERP, using 'text' function instead of 'html'
+					$tag_element.text(value);
 					// remove button
 					var $button_remove_element = $(document.createElement('div'));
 					$button_remove_element.data('text', value);
@@ -429,7 +430,8 @@
 			var option = document.createElement('li');
 			$(option).data('index', index);
 			$(option).data('text', text);
-			$(option).html(text);
+			// PATCH BGERP, using 'text' function instead of 'html'
+			$(option).text(text);
 			$(option).addClass(self.settings.prefix + 'option');
 			if (this.selected) {
 				$(option).addClass('active');
@@ -462,7 +464,7 @@
 			if (self.settings.useDimmer) {
 				$('#' + self.settings.prefix + 'dimmer').show();
 			}
-			$options_element.css('top', ($tagator_element.outerHeight - 2) + 'px');
+			$options_element.css('top', ($tagator_element.outerHeight(true) - 2) + 'px');
 			if ($tagator_element.hasClass('single')) {
 				selected_index = $options_element.find('.' + self.settings.prefix + 'option').index($options_element.find('.' + self.settings.prefix + 'option.active'));
 			}

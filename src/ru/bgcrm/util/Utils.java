@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -306,6 +305,15 @@ public class Utils {
                 return false;
         }
         return true;
+    }
+
+    /**
+     * Is the integer value greater than zero. To do not create lambda functions.
+     * @param value
+     * @return
+     */
+    public static final boolean isPositive(Integer value) {
+        return value > 0;
     }
 
     /**
@@ -862,11 +870,15 @@ public class Utils {
         return System.getProperty("java.io.tmpdir", "/tmp");
     }
 
-    private static final Pattern rfc2822 = Pattern.compile(
-            "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$");
+    /* private static final Pattern rfc2822 = Pattern.compile(
+            "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"); */
 
+    /**
+     * @see #isValidEmail(String).
+     */
+    @Deprecated
     public static final boolean validateEmail(String email) {
-        return rfc2822.matcher(email).matches();
+        return isValidEmail(email);
     }
 
     public static final File createDirectoryIfNoExistInWorkDir(String dirName) {

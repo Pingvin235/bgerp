@@ -5,6 +5,7 @@ import static org.bgerp.itest.kernel.config.ConfigTest.configProcessNotification
 import static org.bgerp.itest.kernel.user.UserTest.userLeonId;
 import static org.bgerp.itest.kernel.user.UserTest.userVladimirId;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 
@@ -101,10 +102,10 @@ public class DevelopmentTest {
 
     private void addProcess1() throws Exception {
         var process = ProcessHelper.addProcess(processTypeTaskId, userVladimirId, "UI");
-        MessageHelper.addNoteMessage(process.getId(), userVladimirId, -30, "", "Upload multiple files");
-        MessageHelper.addNoteMessage(process.getId(), userVladimirId, -22, "", "Param phone copy values, remove values");
-        MessageHelper.addNoteMessage(process.getId(), userLeonId, -17, "", "User photo");
-        MessageHelper.addNoteMessage(process.getId(), userLeonId, -5, "", "Push notifications");
+        MessageHelper.addNoteMessage(process.getId(), userVladimirId, Duration.ofDays(-30), "", "Upload multiple files");
+        MessageHelper.addNoteMessage(process.getId(), userVladimirId, Duration.ofDays(-22), "", "Param phone copy values, remove values");
+        MessageHelper.addNoteMessage(process.getId(), userLeonId, Duration.ofDays(-17), "", "User photo");
+        MessageHelper.addNoteMessage(process.getId(), userLeonId, Duration.ofDays(-5), "", "Push notifications");
 
         addChildTask(process.getId(), userVladimirId, "Update user name in right top after re-auth", userLeonId);
         addChildTask(process.getId(), userLeonId, "Issues with messages scrolling", userVladimirId);

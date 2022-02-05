@@ -10,16 +10,17 @@
 		<div class="pl1 w100p">
 			<h2>${l.l('Получатель')}</h2>
 			<c:choose>
-				<c:when test="${ctxUser.personalizationMap.get('iface.message.emails.enum') eq '1'}">
+				<c:when test="${ctxUser.checkPerm('org.bgerp.plugin.msg.email.action.EMailAction:recipients') and
+					ctxUser.personalizationMap.get('iface.email.message.tag-box.disable') ne '1'}">
 					<ui:tag-box inputName="to" style="width: 100%;"
-						placeholder="${l.l('Для')} addr1@domain.com, addr2@domain.com"
 						showOptions="1"
 						value="${message.to}"
-						url="/user/test.do?action=enumValues"/>
+						url="/user/plugin/email/email.do?action=recipients&processId=${form.param.processId}"
+						preload="true"/>
 				</c:when>
 				<c:otherwise>
 					<input type="text" name="to" style="width: 100%;"
-						placeholder="${l.l('Для')} EMail: addr1@domain.com, addr2@domain.com; CC: copy1@domain.com, copy2.domain.com"
+						placeholder="EMail: addr1@domain.com, addr2@domain.com; CC: copy1@domain.com, copy2.domain.com"
 						value="${message.to}"/>
 				</c:otherwise>
 			</c:choose>

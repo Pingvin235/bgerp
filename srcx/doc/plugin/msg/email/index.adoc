@@ -1,14 +1,30 @@
 = Plugin E-Mail
 :toc:
 
+[[about]]
+== About
 The plugin allows to organize E-Mail exchange in the program.
 Incoming E-Mail messages may be processed via <<../../../kernel/message.adoc#queue, Message Queue>>.
+Outgoing E-Mails are edited in processes.
 
-[[message-type]]
-== Message Type
+[[setup]]
+== Setup
+The plugin has to be enabled in <<../../../kernel/setup.adoc#config, configuration>>.
+
+Configuration parameters.
+[example]
+:hardbreaks:
+====
+# areas to <<usage-process-search-recipient, search recipient's>> addresses in message editor, other possible values: users [[config-search-recipient]]
+#email:recipients.search.area=process,executors,process_customers
+====
+
+[[setup-message-type]]
+=== Message Type
 The following configuration has to be added to <<../../../kernel/message.adoc#type, message types>>.
+Better to keep it there rather than in plugin's include, because message type IDs are unique for the whole system.
 
-Пример конфигурации:
+Configuration pattern:
 [source]
 ----
 messageType.<id>.title=<title>
@@ -19,13 +35,13 @@ messageType.<id>.login=<login>
 messageType.<id>.pswd=<pswd>
 #
 messageType.<id>.folderIn=<inFolder>
-# если не указан - CRM_PROCESSED 
+# если не указан - CRM_PROCESSED
 #messageType.<id>.folderProcessed=<processedFolder>
-# если не указан - CRM_SKIPPED 
+# если не указан - CRM_SKIPPED
 #messageType.<id>.folderSkipped=<skippedFolder>
-# если не указан - CRM_SENT 
+# если не указан - CRM_SENT
 #messageType.<id>.folderSent=<sentFolder>
-# если не указан - Trash 
+# если не указан - Trash
 #messageType.<id>.folderTrash=<trashFolder>
 #
 # IMAP SSL протокол
@@ -46,23 +62,23 @@ messageType.<id>.from=<from>
 # адрес для ответов в письме
 messageType.<id>.replayTo=<replayTo>
 ----
-Входящие сообщения считываются с EMail ящика по протоколу IMAP. Сообщения считываются из папки *<inFolder>*. 
-Параметры подключения IMAP задаются параметрами *<host>*, *<login>*, *<pswd>*. 
+Входящие сообщения считываются с EMail ящика по протоколу IMAP. Сообщения считываются из папки *<inFolder>*.
+Параметры подключения IMAP задаются параметрами *<host>*, *<login>*, *<pswd>*.
 После разбора текста сообщений и вложений сообщение перемещается в *<processedFolder>*, при возникновении ошибок - в *<skippedFolder>*.
 
-*<email>* подставляется в поле отправителя исходящего письма. 
+*<email>* подставляется в поле отправителя исходящего письма.
 Поля *<from>* и *<replayTo>* используются в случае необходимости в момент отправки подставить в поле "От" (From) иной адрес и "Ответить на" (Replay-To).
 
 *<signExpression>* - <<../../../kernel/extension.adoc#jexl, JEXL>> выражение, определяющее подпись письма при отправке его через данный тип сообщения.
 
-Отправка исходящих сообщений осуществляется через протокол SMTP, 
+Отправка исходящих сообщений осуществляется через протокол SMTP,
 параметры настраиваются для каждого типа отдельно аналогично <<../../../kernel/setup.adoc#config, основной конфигурации>> (см. пример).
 
 [[qa]]
-=== Быстрый ответ
-Полученные по E-Mail уведомления о новых сообщениях процесса могут быть использованы для быстрого ответа на них. 
-Для этого в тему уведомлений добавляется маркер *QA:код сообщения*. Быстрый ответ может быть произведён на любой тип сообщения 
-и идентичен написанию ответа из интерфейса BGERP. Пользователь идентифицируется по EMail, сохранённому в параметре типа EMail, 
+==== Быстрый ответ
+Полученные по E-Mail уведомления о новых сообщениях процесса могут быть использованы для быстрого ответа на них.
+Для этого в тему уведомлений добавляется маркер *QA:код сообщения*. Быстрый ответ может быть произведён на любой тип сообщения
+и идентичен написанию ответа из интерфейса BGERP. Пользователь идентифицируется по EMail, сохранённому в параметре типа EMail,
 код которого указывается в опции *quickAnswerEmailParamId* типа сообщения.
 
 На адрес, с которого было отправлено уведомление, должен быть настроен тип сообщения с конфигурацией.
@@ -75,32 +91,32 @@ messageType.<id>.quickAnswerEmailParamId=21
 ----
 
 [[qa-sample]]
-==== Пример настройки
+===== Пример настройки
 Отправка EMail по изменению в процессе с функцией быстрого ответа с помощью <<../../../kernel/process/processing.adoc#, простой обработки изменений процессов>>.
 
 В тему добавляется QA маркер для быстрого ответа.
 
-На адрес EMail указанный в параметре исполнителей с кодом 21 отправляется письмо. 
+На адрес EMail указанный в параметре исполнителей с кодом 21 отправляется письмо.
 [source]
 ----
 onProcessEvent.1.events=messageAdded
 onProcessEvent.5.doExpression=<<END
-   text = "Новое сообщение в процессе, в котором вы числитесь исполнителем." + 
+   text = "Новое сообщение в процессе, в котором вы числитесь исполнителем." +
        NEW_LINE2 + "Сообщение:" + NEW_LINE +
        event.getMessage().getText() +
        NEW_LINE2 + "Открыть процесс: https://erp.company.com/user/process#" + process.getId() +
        NEW_LINE2 + "Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.";
-    
-    subject = "#" + process.getId() + 
+
+    subject = "#" + process.getId() +
       " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "] " +
-      " QA:" + event.getMessage().getId(); 
-   
+      " QA:" + event.getMessage().getId();
+
    emailNotifyExecutors(21, subject, text);
 END
 ----
 
 [[ac]]
-=== Автосоздание процесса по E-Mail
+==== Автосоздание процесса по E-Mail
 Для создания новых процессов из всех полученных E-Mail в конфигурации типа сообщения добавить:
 [source]
 ----
@@ -110,23 +126,11 @@ messageType.<id>.autoCreateProcess.notification=1
 
 Где *<typeId>* - код типа процесса.
 
-[[work-process]]
-== Work
-When editing E-Mail messages in process in drop-down box *Attach history* may be chosen the following options:
-* Exchange with the address
-* All messages
+[[setup-message-type-example]]
+==== Examples
 
-For both modes for each sent message has attached a file named `History.txt`, containing exchange with:
-* used E-Mail address
-* all message history for second case
-
-For the second mode in message signature also added process link to <<../../../kernel/interface.adoc#open-process, open interface>>, case it is configured.
-
-[[config-example]]
-== Configuration Examples
-
-[[config-example-common]]
-=== Простой случай
+[[setup-message-type-example-common]]
+===== Простой случай
 Нешифрованные протоколы IMAP и SMTP.
 [source]
 ----
@@ -143,15 +147,15 @@ messageType.1.folderSent=INBOX.CRM_SENT
 messageType.1.signExpression=<<END
     sign = NEW_LINE + user.getTitle() + NEW_LINE + "Служба технической поддержки" + NEW_LINE;
     sign += "ОАО \"Инет\"" + NEW_LINE + "тел. 2232333" + NEW_LINE + "email. mastea@inet.ru" + NEW_LINE;
-END    
+END
 messageType.1.mail.transport.protocol=smtp
 messageType.1.mail.smtp.user=billing@inet.ru
 messageType.1.mail.smtp.host=smtp.ufamail.ru
 messageType.1.mail.smtp.pswd=******
 ----
 
-[[config-example-yandex]]
-=== Yandex
+[[setup-message-type-example-yandex]]
+===== Yandex
 IMAP и SMTP через SSL, подключены режимы поиска.
 *21* - код параметра пользователя EMail.
 *17* - код параметра контрагента EMail.
@@ -189,13 +193,13 @@ messageType.3.mail.smtp.host=smtp.yandex.com
 messageType.3.mail.smtp.pswd=*****
 ----
 
-[[config-example-gmail]]
-=== GMail
+[[setup-message-type-example-gmail]]
+===== GMail
 IMAP и SMTP через SSL.
 
-Для получения пароля к приложению включите двухфакторную авторизацию и сгенерируйте пароль 
+Для получения пароля к приложению включите двухфакторную авторизацию и сгенерируйте пароль
 согласно инструкции: https://support.google.com/accounts/answer/185833
-Либо с link:https://support.google.com/accounts/answer/1064203?hl=ru[выключенной двухэтапной аутентификацией] используйте пароль от учётной записи( Аккаунт - Безопасность - Вход в аккаунт Google ), 
+Либо с link:https://support.google.com/accounts/answer/1064203?hl=ru[выключенной двухэтапной аутентификацией] используйте пароль от учётной записи( Аккаунт - Безопасность - Вход в аккаунт Google ),
 также должен быть включен меннее защищённый доступ приложениям ( Аккаунт - Безопасность - link:https://myaccount.google.com/lesssecureapps[Ненадёжные приложения, у которых есть доступ к аккаунту] )
 
 [source]
@@ -217,3 +221,43 @@ messageType.5.mail.smtp.user=bgerpp@gmail.com
 messageType.5.mail.smtp.host=smtp.gmail.com
 messageType.5.mail.smtp.pswd=****
 ----
+
+[[usage]]
+== Usage
+
+[[usage-process]]
+=== Messaging in process
+On the screen below is seen E-Mail editor in process <<../../../kernel/message.adoc#process, Messages>> tab.
+
+image::_res/process_message_editor.png[width="800px"]
+
+[[usage-process-search-recipient]]
+==== Search recipients
+NOTE: The feature has a separated  <<../../../kernel/setup.adoc#user, permission>> *Plugin E-Mail / Search recipients*.
+
+During message editing recipient addresses might be chooses over parameter values with type *email*.
+
+image::_res/process_message_search_recipient.png[]
+
+Areas where recipients are searched are defined in <<config-search-recipient, configuration>>.
+Possible values:
+[square]
+* *process* - current process;
+* *executors* - current process executors;
+* *process_customers* - customers, linked to current process;
+* *users* - all the users in the system.
+
+[[usage-process-attach-history]]
+==== Attach history
+In drop-down *Attach history* may be chosen the following options:
+[square]
+* Exchange with the address;
+* All messages.
+
+For both modes for each sent message has attached a file named `History.txt`, containing exchange with:
+[square]
+* used E-Mail address
+* all message history for second case
+
+For the second mode in message signature also added process link to <<../../../kernel/interface.adoc#open-process, open interface>>, case it is configured.
+

@@ -71,21 +71,6 @@
 						</td>
 					</tr>
 
-					<tr>
-						<td nowrap="nowrap">
-							${l.l('TagBox ввод E-Mail в сообщениях')}
-						</td>
-						<td>
-							<c:set var="key" value="iface.message.emails.enum"/>
-							<ui:combo-single hiddenName="${key}" value="${ctxUser.personalizationMap.get(key, '')}" widthTextValue="200px">
-								<jsp:attribute name="valuesHtml">
-									<li value="0">${l.l('Нет')}</li>
-									<li value="1">${l.l('Да')}</li>
-								</jsp:attribute>
-							</ui:combo-single>
-						</td>
-					</tr>
-
 					<c:set var="endpoint" value="user.profile.options.jsp"/>
 					<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
 				</table>

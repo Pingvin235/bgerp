@@ -267,7 +267,7 @@ public class MessageAction extends BaseAction {
         } else {
             // when external system isn't available, an empty table of messages should be however shown
             try {
-                var executor = Executors.newFixedThreadPool(typeId <= 0 ? typeMap.size() : 1);
+                var executors = Executors.newFixedThreadPool(typeId <= 0 ? typeMap.size() : 1);
 
                 List<Message> result = Collections.synchronizedList(new ArrayList<>(1000));
 
@@ -275,7 +275,7 @@ public class MessageAction extends BaseAction {
                     if (typeId > 0 && typeId != type.getId())
                         continue;
 
-                    executor.execute(() -> {
+                    executors.execute(() -> {
                         try {
                             result.addAll(type.newMessageList(conSet));
                         } catch (Exception e) {
@@ -284,9 +284,9 @@ public class MessageAction extends BaseAction {
                     });
                 }
 
-                executor.shutdown();
+                executors.shutdown();
 
-                if (!executor.awaitTermination(2, TimeUnit.MINUTES))
+                if (!executors.awaitTermination(2, TimeUnit.MINUTES))
                     log.error("Timeout waiting threads");
 
                 Collections.sort(result, (Message o1, Message o2) -> {
