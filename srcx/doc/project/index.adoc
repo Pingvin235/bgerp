@@ -415,7 +415,7 @@ IMPORTANT: Use caches as much as possible for getting reference values and avoid
 
 Directory data is edited directly in DB and cache is cleared after an edit.
 [snippet, from="pu", to="}"]
-link:../../../src/ru/bgcrm/struts/action/admin/UserAction.java#L90-L96[ru.bgcrm.struts.action.admin.UserAction]
+link:../../../src/ru/bgcrm/struts/action/admin/UserAction.java#L89-L95[ru.bgcrm.struts.action.admin.UserAction]
 
 [[plugin-endpoint]]
 ==== Endpoints
@@ -891,7 +891,7 @@ After adding missing patterns, application server has to be re-started.
 * Database table and column names have to use underscore: *process_id*, *param_id*
 * Use PRIMARY key only for auto incremented INT columns, otherwise prefer named UNIQUE key.
 [snippet, from="UNIQUE", to="`),", remove-leading="  "]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L422-L422[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L421-L421[src/org/bgerp/plugin/kernel/db.sql]
 
 [[naming-camel]]
 === Java variables, HTTP request parameters, JSP variables
@@ -1083,7 +1083,7 @@ link:../../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L48-L50[webapp
 
 Action execution result include:
 [snippet, from="<c:", to="/>", remove-leading="			"]
-link:../../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L165-L170[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L166-L171[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
 
 Flex layout, using constants from Java classes (defined in link:../../../webapps/WEB-INF/jspf/user/search/process_search_constants.jsp[process_search_constants.jsp]), print button close to a field:
 [snippet, from="<div", to="/div>", remove-leading="				"]

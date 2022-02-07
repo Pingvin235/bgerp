@@ -119,8 +119,7 @@ public class ProcessAction extends BaseAction {
         int parentId = Utils.parseInt(paramMap.get("parentTypeId"), 0);
 
         ProcessTypeDAO processTypeDAO = new ProcessTypeDAO(con);
-        processTypeDAO.searchProcessType(new SearchResult<ProcessType>(form), parentId, null,
-                CommonDAO.getLikePatternSub(form.getParam("filter", "")));
+        processTypeDAO.searchProcessType(new SearchResult<ProcessType>(form), parentId, CommonDAO.getLikePatternSub(form.getParam("filter", "")));
 
         if (parentId >= 0) {
             request.setAttribute("typePath", ProcessTypeCache.getTypePath(parentId));

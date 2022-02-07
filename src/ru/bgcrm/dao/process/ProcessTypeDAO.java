@@ -27,7 +27,7 @@ import ru.bgcrm.model.process.TypeTreeItem;
 import ru.bgcrm.util.Utils;
 
 public class ProcessTypeDAO extends CommonDAO {
-    private static final String SHORT_COLUMN_LIST = "id, title, parent_id, child_count, use_parent_props, archive";
+    private static final String SHORT_COLUMN_LIST = "id, title, parent_id, child_count, use_parent_props";
 
     public ProcessTypeDAO(Connection con) {
         super(con);
@@ -37,11 +37,10 @@ public class ProcessTypeDAO extends CommonDAO {
      * Ищет типы процессов.
      * @param searchResult результат
      * @param parentId если больше либо равен 0 - фильтр по родительскому узлу
-     * @param archive если не null - признак, что тип процесса помечен неиспользуемым
      * @param filterLike если не null - SQL LIKE выражение, фильтр по наименованию типа либо конфигурации
      * @throws Exception
      */
-    public void searchProcessType(SearchResult<ProcessType> searchResult, int parentId, Boolean archive, String filterLike) throws Exception {
+    public void searchProcessType(SearchResult<ProcessType> searchResult, int parentId, String filterLike) throws Exception {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<ProcessType> list = searchResult.getList();
@@ -64,10 +63,6 @@ public class ProcessTypeDAO extends CommonDAO {
                 ps.addQuery(" AND (title LIKE ? OR config LIKE ?)");
                 ps.addString(filterLike);
                 ps.addString(filterLike);
-            }
-            if (archive != null) {
-                ps.addQuery(" AND archive=?");
-                ps.addBoolean(archive);
             }
 
             ps.addQuery(SQL_ORDER_BY);
@@ -225,13 +220,13 @@ public class ProcessTypeDAO extends CommonDAO {
     }
 
     /**
-     * Обновляет/добавляет тип процесса.
+     * Updates or creates a process type entity.
      * @param processType
      * @param userId
-     * @throws BGException
+     * @throws Exception
      */
     public void updateProcessType(ProcessType processType, int userId) throws Exception {
-        //это надо если мы переносим в другую ветку
+        // when moving to a new parent
         setChildCount(processType.getId(), -1);
 
         int index = 1;
@@ -239,10 +234,9 @@ public class ProcessTypeDAO extends CommonDAO {
 
         if (processType.getId() <= 0) {
             ps = con.prepareStatement("INSERT INTO " + TABLE_PROCESS_TYPE
-                    + " SET title=?, archive=?, parent_id=?, use_parent_props=?, data=?, config=?, last_modify_user_id=?, last_modify_dt=NOW()",
+                    + " SET title=?, parent_id=?, use_parent_props=?, data=?, config=?, last_modify_user_id=?, last_modify_dt=NOW()",
                     PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(index++, processType.getTitle());
-            ps.setBoolean(index++, processType.isArchive());
             ps.setInt(index++, processType.getParentId());
             ps.setBoolean(index++, processType.isUseParentProperties());
             ps.setString(index++, "");
@@ -251,9 +245,8 @@ public class ProcessTypeDAO extends CommonDAO {
             ps.executeUpdate();
             processType.setId(lastInsertId(ps));
         } else {
-            ps = con.prepareStatement("UPDATE " + TABLE_PROCESS_TYPE + " SET title=?, archive=?, parent_id=?, use_parent_props=? WHERE id=?");
+            ps = con.prepareStatement("UPDATE " + TABLE_PROCESS_TYPE + " SET title=?, parent_id=?, use_parent_props=? WHERE id=?");
             ps.setString(index++, processType.getTitle());
-            ps.setBoolean(index++, processType.isArchive());
             ps.setInt(index++, processType.getParentId());
             ps.setBoolean(index++, processType.isUseParentProperties());
             ps.setInt(index++, processType.getId());
@@ -408,7 +401,6 @@ public class ProcessTypeDAO extends CommonDAO {
         type.setTitle(rs.getString("title"));
         type.setParentId(rs.getInt("parent_id"));
         type.setUseParentProperties(rs.getBoolean("use_parent_props"));
-        type.setArchive(rs.getBoolean("archive"));
         if (loadFull) {
             type.setProperties(new TypeProperties(rs.getString("data"), rs.getString("config"), LastModifyDAO.getLastModify(rs)));
         }

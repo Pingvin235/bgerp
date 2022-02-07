@@ -2008,6 +2008,7 @@ public class ParamValueDAO extends CommonDAO {
      */
     //TODO: Стоит эту функцию переделать на использование getJoinFilters.
     @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Deprecated
     public boolean paramValueFilter(String expression, int objectId, Map valuesCache) throws SQLException {
         String[] tokens = expression.split("\\s+");
         if (tokens.length != 3) {

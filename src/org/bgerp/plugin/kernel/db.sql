@@ -120,7 +120,6 @@ CREATE TABLE IF NOT EXISTS `process_status_title` (
 CREATE TABLE IF NOT EXISTS `process_type` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`title` varchar(250) NOT NULL,
-	`archive` tinyint(4) NOT NULL,
 	`parent_id` int(11) NOT NULL,
 	`use_parent_props` tinyint(4) NOT NULL,
 	`child_count` int(11) NOT NULL,
@@ -791,6 +790,8 @@ CALL drop_key_if_exists('param_list', 'id_param');
 
 -- TODO: CALL drop_column_if_exists('user', 'email');
 -- TODO: CALL drop_column_if_exists('user', 'ids');
+
+-- TODO: CALL drop_column_if_exists('process_type', 'archive);
 
 ALTER TABLE user_group MODIFY date_from DATE NOT NULL, MODIFY date_to DATE;
 

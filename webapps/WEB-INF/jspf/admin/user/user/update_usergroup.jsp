@@ -1,94 +1,80 @@
-<%@page import="ru.bgcrm.model.user.Group"%>
-<%@page import="ru.bgcrm.cache.UserCache"%>
-<%@page import="ru.bgcrm.model.user.UserGroup"%>
-<%@page import="ru.bgcrm.model.IdTitle"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
-
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:set var="reloadScript">openUrlToParent('${form.requestUrl}', $('#addGroup${uiid}') );</c:set>
+<c:set var="reloadScript">$$.ajax.load('${form.requestUrl}', $('#addGroup${uiid}').parent());</c:set>
 
-<c:if test="${readOnly != true}">
-	<html:form action="admin/user" styleId="addGroup${uiid}" styleClass="in-mb1-all" style="display: none;">
-		<input type="hidden" name="action" value="userAddGroup" />
-		<html:hidden property="id" />		
-		
-		<table>
-			<tr>
-				<td nowrap="nowrap">Период с:</td>
-				<td class="pl05">
-					<ui:date-time paramName="fromDate" value="0"/>
-				    по:
-			   		<ui:date-time paramName="toDate"/>
-			   	</td>	
-	   		</tr>
-			<tr>
-				<td class="pt05">Группа:</td>
-				<td style="width: 100%" class="pl05 pt05">
-					<u:sc>
-						<c:set var="list" value="${ctxUserGroupFullTitledList}"/>
-						<c:set var="hiddenName" value="group"/>
-						<c:set var="style" value="width: 100%;"/>
-						<%@ include file="/WEB-INF/jspf/select_single.jsp"%>
-					</u:sc>
-				</td>
-			</tr>		
-		</table>	
-		
-		<button type="button" class="btn-grey mr1" onclick="if ( sendAJAXCommand( formUrl( $('#addGroup${uiid}') ) ) ) { ${reloadScript} }">OK</button>
-		<button type="button" class="btn-grey" onclick="$('#addGroup${uiid}').hide(); $('#showGroup${uiid}').show();">${l.l('Отмена')}</button>
-	</html:form>
-</c:if>
+<html:form action="admin/user" styleId="addGroup${uiid}" styleClass="in-mb1-all" style="display: none;">
+	<input type="hidden" name="action" value="userAddGroup" />
+	<html:hidden property="id" />
+
+	<table>
+		<tr>
+			<td nowrap="nowrap">${l.l('Период с')}:</td>
+			<td class="pl05">
+				<ui:date-time paramName="fromDate" value="0"/>
+				${l.l('по')}:
+				<ui:date-time paramName="toDate"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="pt05">${l.l('Группа')}:</td>
+			<td style="width: 100%" class="pl05 pt05">
+				<ui:select-single hiddenName="group" list="${ctxUserGroupFullTitledList}" style="width: 100%;"/>
+			</td>
+		</tr>
+	</table>
+
+	<ui:button type="ok" onclick="$$.ajax.post(this.form).done(() => { ${reloadScript} })"/>
+	<ui:button type="cancel" onclick="$('#addGroup${uiid}').hide(); $('#showGroup${uiid}').show();" styleClass="ml1"/>
+</html:form>
 
 <html:form action="admin/user" styleId="showGroup${uiid}">
 	<input type="hidden" name="action" value="userGroupList" />
 	<html:hidden property="id" />
 
-	<c:if test="${readOnly != true}">
-		<div class="in-mr1">
-			<button type="button" class="btn-green" title="Добавить" onclick="$('#showGroup${uiid}').hide(); $('#addGroup${uiid}').show();">+</button>
-					
-			<ui:date-time styleClass="ml1" paramName="date" value="${form.param.date}" placeholder="На дату"/>
-				        	
-        	<button type="button" class="btn-grey" onclick="openUrlToParent( formUrl( this.form ), $('#showGroup${uiid}') );" title="Применить">=&gt;</button>
-        </div>	
-	</c:if>
-			
+	<div class="in-mr1">
+		<ui:button type="add" onclick="$('#showGroup${uiid}').hide(); $('#addGroup${uiid}').show();"/>
+
+		<ui:date-time styleClass="ml1" paramName="date" value="${form.param.date}" placeholder="${l.l('На дату')}"/>
+
+		<ui:button type="run" onclick="$$.ajax.load(this.form, $('#showGroup${uiid}').parent())"/>
+	</div>
+
 	<table style="width: 100%;" class="data mt1">
 		<tr>
-			<c:if test="${readOnly != true}">
-				<td width="100">Управление</td>
-			</c:if>
+			<td width="100">&nbsp;</td>
 			<td width="100">${l.l('Период')}</td>
 			<td width="100%">${l.l('Группа')}</td>
 		</tr>
-	    
-	    <c:set var="list" value="${ctxUserGroupList}" />
+
+		<c:set var="list" value="${ctxUserGroupList}" />
 		<c:set var="paramName" value="group" />
 		<c:set var="values" value="${user.groupIds}" />
 		<c:set var="moveOn" value="0"/>
-										
-	    <c:forEach var="value" items="${userGroupList}">
+
+		<c:forEach var="value" items="${userGroupList}">
 			<c:forEach var="item" items="${list}">
 				<c:if test="${item.id eq value.id}">
 					<tr>
-						<c:if test="${readOnly != true}">
-							<td style="text-align: center;" nowrap="nowrap">
-								<button type="button" class="btn-white btn-small" title="Удалить" onclick="if( confirm( 'Вы уверены, что хотите удалить?' ) && sendAJAXCommand( '/admin/user.do?action=userRemoveGroup&userId=${form.id}&groupId=${item.id}&dateFrom=${tu.format(value.dateFrom, 'ymdhms')}&dateTo=${tu.format(value.dateTo, 'ymdhms')}&markGroup=' ) ){ $(this).parents('tr').first().remove(); }">&nbsp;X&nbsp;</button>
-		    					<button type="button" class="btn-white btn-small" title="Закрыть период" onclick="$('#closeGroupId${uiid}').val(${item.id}); $('#dateFrom${uiid}').val('${tu.format(value.dateFrom, 'ymdhms')}'); $('#dateTo${uiid}').val('${tu.format(value.dateTo, 'ymdhms')}'); $('#showGroup${uiid}').hide(); $('#closeGroup${uiid}').show();">&gt;|</button>
-		    				</td>
-	    				</c:if>
+						<td nowrap="nowrap">
+							<ui:button type="del" styleClass="btn-small"
+								onclick="$$.ajax
+									.post('/admin/user.do?action=userRemoveGroup&userId=${form.id}&groupId=${item.id}&dateFrom=${tu.format(value.dateFrom, 'ymd')}&dateTo=${tu.format(value.dateTo, 'ymd')}')
+									.done(() => { $(this).parents('tr').first().remove(); })
+								"/>
+							<button type="button" class="btn-white btn-small icon" title="${l.l('Закрыть период')}"
+								onclick="$('#closeGroupId${uiid}').val(${item.id}); $('#dateFrom${uiid}').val('${tu.format(value.dateFrom, 'ymd')}'); $('#dateTo${uiid}').val('${tu.format(value.dateTo, 'ymd')}'); $('#showGroup${uiid}').hide(); $('#closeGroup${uiid}').show();"
+							><i class="ti-control-skip-forward"></i></button>
+						</td>
 						<td nowrap="nowrap">${tu.format(value.dateFrom, 'ymd')} - ${tu.format(value.dateTo, 'ymd')}</td>
-                        <td>${item.titleWithPath}</td>
+						<td>${item.titleWithPath}</td>
 					</tr>
 				</c:if>
 			</c:forEach>
 		</c:forEach>
-	</table>	
+	</table>
 </html:form>
 
 <html:form action="admin/user" styleId="closeGroup${uiid}" style="display: none;" styleClass="in-inline-block">
@@ -98,17 +84,12 @@
 	<input id="closeGroupId${uiid}" name="groupId" type="hidden" value="-1" />
 	<input name="userId" type="hidden" value="${form.id}" />
 
-	Закрыть с даты:
-	
-	<div>
-		<input id="dateClose${uiid}" name="date" type="text"/>	
-		<c:set var="selector">input#dateClose${uiid}</c:set>
-		<c:set var="initialDate">0</c:set>	
-		<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-	</div>
-	
-	<div class="in-ml1">
-		<button type="button" class="btn-grey" onclick="if( confirm( 'Вы уверены, что хотите закрыть период группы?' ) && sendAJAXCommand( formUrl( this.form ) ) ){ ${reloadScript} }">OK</button>
-		<button type="button" class="btn-grey" onclick="$('#closeGroup${uiid}').hide(); $('#showGroup${uiid}').show();">${l.l('Отмена')}</button>
+	${l.l('Закрыть с даты')}:
+
+	<ui:date-time paramName="date" value="0"/>
+
+	<div class="in-ml1 ml1">
+		<ui:button type="ok" onclick="if (!confirm('${l.l('Вы уверены, что хотите закрыть период группы?')}')) return; $$.ajax.post(this.form).done(() => { ${reloadScript} })"/>
+		<ui:button type="cancel" onclick="$('#closeGroup${uiid}').hide(); $('#showGroup${uiid}').show();"/>
 	</div>
 </html:form>

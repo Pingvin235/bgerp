@@ -160,14 +160,16 @@
 			<button class="btn-white mt05" style="width: 150px;">Обновить фото</button>
 		</div>
 		<div style="width: 50%;">
-			<h2>Группы</h2>
-
-			<c:url var="url" value="/admin/user.do">
-				<c:param name="action" value="userGroupList" />
-				<c:param name="id" value="${form.id}" />
-				<c:param name="objectType" value="user" />
-			</c:url>
-			<c:import url="${url}" />
+			<h2>${l.l('Группы')}</h2>
+			<%-- extra wrapper to do not rewrite the label before on reload --%>
+			<div>
+				<c:url var="url" value="/admin/user.do">
+					<c:param name="action" value="userGroupList" />
+					<c:param name="id" value="${form.id}" />
+					<c:param name="objectType" value="user" />
+				</c:url>
+				<c:import url="${url}" />
+			</div>
 		</div>
 		<div style="width: 50%;">
 			<div>

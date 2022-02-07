@@ -15,7 +15,7 @@ import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
 
-@Test(groups = "process", dependsOnGroups = "dbInit")
+@Test(groups = "process", dependsOnGroups = "config")
 public class ProcessTest {
     /** Common used statuses and params. */
     public static volatile int statusOpenId;
@@ -31,12 +31,13 @@ public class ProcessTest {
     /** Test process type, all other are linked as parents. */
     public static volatile int processTypeTestGroupId;
     public static volatile int processTypeTestId;
-    //public static volatile int queueId;
+
+    public static volatile int queueId;
 
     public static volatile int posParam = 0;
 
     @Test
-    public void addStatuses() throws Exception {
+    public void processStatus() throws Exception {
         int pos = 0;
         statusOpenId = ProcessHelper.addStatus("Open", pos += 2);
         statusProgressId = ProcessHelper.addStatus("Progress", pos += 2);
@@ -46,15 +47,15 @@ public class ProcessTest {
     }
 
     @Test
-    public void addParams() throws Exception {
+    public void param() throws Exception {
         paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, "Address", posParam += 2, "", "");
         // TODO: Make date chooser configuration.
         paramNextDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Next date", posParam += 2, "", "");
         paramDeadlineDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Deadline", posParam += 2, "", "");
     }
 
-    @Test(dependsOnMethods = "addStatuses")
-    public void addTypes() throws Exception {
+    @Test(dependsOnMethods = "processStatus")
+    public void processType() throws Exception {
         processTypeTestGroupId = ProcessHelper.addType("Test", 0, false, null);
 
         var props = new TypeProperties();
@@ -66,9 +67,9 @@ public class ProcessTest {
         processTypeTestId = ProcessHelper.addType("Test", processTypeTestGroupId, false, props);
     }
 
-    @Test(dependsOnMethods = "addTypes")
-    public void addQueues() throws Exception {
-        int queueId = ProcessHelper.addQueue("Test",
+    @Test(dependsOnMethods = "processType")
+    public void processQueue() throws Exception {
+        queueId = ProcessHelper.addQueue("Test",
                 ConfigHelper.generateConstants(
                     "STATUS_OPEN_ID", ProcessTest.statusOpenId,
                     "STATUS_PROGRESS_ID", ProcessTest.statusProgressId,

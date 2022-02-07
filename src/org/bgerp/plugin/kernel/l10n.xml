@@ -482,6 +482,11 @@
 	<p><ru>Создать копию</ru><en>Make a copy</en></p>
 	<p><ru>Создать копию очереди?</ru><en>Make a queue copy?</en></p>
 	<p><ru>Копия</ru><en>Copy</en></p>
+	<p><ru>Период с</ru><en>Period from</en></p>
+	<p><ru>На дату</ru><en>On date</en></p>
+	<p><ru>Закрыть период</ru><en>Close period</en></p>
+	<p><ru>Закрыть с даты</ru><en>Close from date</en></p>
+	<p><ru>Вы уверены, что хотите закрыть период группы?</ru><en>Do you really want to close the group period?</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

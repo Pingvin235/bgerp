@@ -30,7 +30,6 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.PswdUtil.UserPswdUtil;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
@@ -411,8 +410,8 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
     public ActionForward userRemoveGroup(DynActionForm form, Connection con) throws Exception {
         int userId = form.getParamInt("userId", -1);
         int groupId = form.getParamInt("groupId", -1);
-        Date dateFrom = form.getParamDateTime("dateFrom");
-        Date dateTo = form.getParamDateTime("dateTo");
+        Date dateFrom = form.getParamDate("dateFrom");
+        Date dateTo = form.getParamDate("dateTo");
 
         ParameterMap perm = form.getPermission();
 
@@ -420,9 +419,8 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         if (Utils.notBlankString(allowOnlyGroups)) {
             Set<Integer> allowOnlyGroupsSet = Utils.toIntegerSet(allowOnlyGroups);
-
             if (!allowOnlyGroupsSet.contains(groupId)) {
-                throw new BGException("Удаление этой группы пользователя запрещено!");
+                throw new BGMessageException("Удаление этой группы пользователя запрещено!");
             }
         }
 
@@ -435,10 +433,9 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
     public ActionForward userClosePeriodGroup(DynActionForm form, Connection con) throws Exception {
         int userId = form.getParamInt("userId", -1);
         int groupId = form.getParamInt("groupId", -1);
-        final String maxTime = "23:59:59";
-        Date date = TimeUtils.parse(form.getParam("date") + " " + maxTime, TimeUtils.PATTERN_DDMMYYYYHHMMSS);
-        Date dateFrom = form.getParamDateTime("dateFrom");
-        Date dateTo = form.getParamDateTime("dateTo");
+        Date date = form.getParamDate("date");
+        Date dateFrom = form.getParamDate("dateFrom");
+        Date dateTo = form.getParamDate("dateTo");
 
         closeGroup(form, con, userId, groupId, date, dateFrom, dateTo);
         UserCache.flush(con);

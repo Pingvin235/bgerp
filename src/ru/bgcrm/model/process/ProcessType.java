@@ -8,13 +8,15 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.bgerp.util.Log;
+
 public class ProcessType extends IdTitle {
-    private boolean archive = false;
+    private static final Log log = Log.getLog();
 
     private int parentId;
     private boolean useParentProperties;
     private TypeProperties properties;
-    private List<ProcessType> childs = new ArrayList<ProcessType>();
+    private List<ProcessType> children = new ArrayList<ProcessType>();
 
     public ProcessType() {
         super();
@@ -24,20 +26,12 @@ public class ProcessType extends IdTitle {
         super(id, title);
     }
 
-    public boolean isArchive() {
-        return archive;
-    }
-
-    public void setArchive(boolean archive) {
-        this.archive = archive;
-    }
-
     public TypeProperties getProperties() {
         return properties;
     }
 
-    public void setProperties(TypeProperties properies) {
-        this.properties = properies;
+    public void setProperties(TypeProperties properties) {
+        this.properties = properties;
     }
 
     public int getParentId() {
@@ -57,20 +51,25 @@ public class ProcessType extends IdTitle {
     }
 
     public int getChildCount() {
-        return childs.size();
+        return children.size();
     }
 
     public void addChild(ProcessType processType) {
-        childs.add(processType);
+        children.add(processType);
+    }
+
+    public List<ProcessType> getChildren() {
+        return children;
     }
 
     public List<ProcessType> getChilds() {
-        return childs;
+        log.warn("Called deprecated method getChilds()");
+        return children;
     }
 
     public List<Integer> getChildIds() {
         List<Integer> ids = new ArrayList<Integer>();
-        for (ProcessType type : childs) {
+        for (ProcessType type : children) {
             ids.add(type.getId());
         }
         return ids;
@@ -78,7 +77,7 @@ public class ProcessType extends IdTitle {
 
     public List<Integer> getAllChildIds() {
         List<Integer> ids = new ArrayList<Integer>();
-        for (ProcessType type : childs) {
+        for (ProcessType type : children) {
             ids.add(type.getId());
             ids.addAll(type.getAllChildIds());
         }

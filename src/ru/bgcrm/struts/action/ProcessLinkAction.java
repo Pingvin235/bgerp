@@ -103,7 +103,7 @@ public class ProcessLinkAction extends ProcessAction {
         form.getResponse().setData("typeList", processLinkDAO.getLinkedProcessTypeIdList(objectType, id));
 
         // type tree for creation
-        var typeList = ProcessTypeCache.getTypeList(con, objectType, id);
+        var typeList = ProcessTypeCache.getTypeList(objectType);
         applyProcessTypePermission(typeList, form);
         form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
 

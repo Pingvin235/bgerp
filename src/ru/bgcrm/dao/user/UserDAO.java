@@ -604,9 +604,9 @@ public class UserDAO extends CommonDAO {
         int index = 1;
         PreparedStatement ps = con.prepareStatement(query);
         if (dateFrom != null)
-            ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(dateFrom));
+            ps.setDate(index++, TimeUtils.convertDateToSqlDate(dateFrom));
         if (dateTo != null)
-            ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(dateTo));
+            ps.setDate(index++, TimeUtils.convertDateToSqlDate(dateTo));
         ps.executeUpdate();
         ps.close();
     }

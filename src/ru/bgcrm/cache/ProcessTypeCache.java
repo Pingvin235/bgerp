@@ -53,10 +53,10 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         return result;
     }
 
-    public static List<ProcessType> getTypeList(Connection con, String objectType, int objectId) throws Exception {
+    public static List<ProcessType> getTypeList(String objectType) throws Exception {
         List<ProcessType> result = new ArrayList<ProcessType>();
 
-        var filter = new TypeFilter(con, objectType, objectId);
+        var filter = new TypeFilter(objectType);
         for (ProcessType type : holder.getInstance().typeList) {
             if (filter.check(type))
                 result.add(type);
@@ -65,24 +65,17 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         return result;
     }
 
-    @Deprecated
+    /* @Deprecated
     public static Set<Integer> getTypeSet(Connection con, String objectType, int objectId) throws Exception {
         return getTypeList(con, objectType, objectId).stream().map(ProcessType::getId).collect(Collectors.toSet());
-    }
+    } */
 
     //TODO: Возможно стоит создать Config класс, вынести в model.process.config.LinkedProcessCreateConfig, фильтр сделать на основе expression фильтра.
     private static class TypeFilter {
-        private final Connection con;
         private final String objectType;
-        private final int objectId;
 
-        private ParamValueDAO paramValueDao;
-        private Map<?, ?> paramValueCache;
-
-        private TypeFilter(Connection con, String objectType, int objectId) {
-            this.con = con;
+        private TypeFilter(String objectType) {
             this.objectType = objectType;
-            this.objectId = objectId;
         }
 
         private boolean check(ProcessType type) throws Exception {
@@ -92,7 +85,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
                 return false;
             }
 
-            //TODO: Use JEXL and no DB access!
+            /* Undocumented, remove later 31.01.2022.
             String paramFilter = configMap.get("create.in.filter");
             if (Utils.notBlankString(paramFilter)) {
                 if (paramValueDao == null) {
@@ -104,6 +97,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
                     return false;
                 }
             }
+            */
 
             return true;
         }

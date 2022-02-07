@@ -274,7 +274,7 @@ CAUTION: Для пользователя с кодом 1 конфигураци�
 ----
 
 [[user-isolation]]
-=== Изоляция пользователей
+=== User isolation
 Изоляция позволяет ограничить доступные пользователю данные и применяется ко всем действиям, запрашивающим и модифицирующим эти данные.
 Параметры изоляции задаются в <<united-user-config, объединённой конфигурации пользователя>>.
 
@@ -284,17 +284,24 @@ isolation.process=<processIsolation>
 ----
 Где:
 [square]
-* *<processIsolation>* - уровень изоляции процессов, может принимать значения *executor* либо *group*.
+* *<processIsolation>* - process isolation mode, can take one of the following values.
 
-Режим *executor* отображает пользователю лишь процессы, в которых он является исполнителем.
-Режим *group* отображает процессы, группы решения которых содержат одну из текущих групп пользователя.
+[square]
+* *executor* - uses sees only processes where he is an executor;
+* *group* - uses sees only processes where execution groups are intersected with his current groups.
 
-For *group* mode may be defined additionaly process types which have *executor* isolation level.
+For *group* mode may be defined additionally process types which have *executor* isolation level.
 [source]
 ----
 isolation.process.group.executor.typeIds=<typeIds>
 ----
 Where *<typeIds>* comma separated list of process type IDs.
+
+[[user-isolation-process-type-filter]]
+==== Creation process type filtering
+Isolation mode *group* restricts available types for process creation.
+
+The same logic without isolation can be archived using *onlyPermittedTypes* option in <<user-perm-set, permissions>>.
 
 [[param]]
 == Параметры

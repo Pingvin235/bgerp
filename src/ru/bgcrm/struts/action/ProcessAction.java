@@ -42,6 +42,8 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.EntityLogItem;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.model.config.IsolationConfig;
+import ru.bgcrm.model.config.IsolationConfig.IsolationProcess;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
@@ -113,37 +115,53 @@ public class ProcessAction extends BaseAction {
             "", PATH_JSP + "/process/process.jsp"));
     }
 
-    public static boolean applyProcessTypePermission(List<ProcessType> typeList, DynActionForm form) {
-        boolean onlyPermittedTypes = form.getPermission().getBoolean("onlyPermittedTypes", false);
+    /**
+     * Cleans not allowed process types out of full list.
+     * @param typeList initial full list, will be changed.
+     * @param form current request info with user and permission.
+     */
+    public static void applyProcessTypePermission(List<ProcessType> typeList, DynActionForm form) {
+        var isolation = form.getUser().getConfigMap().getConfig(IsolationConfig.class).getIsolationProcess();
+
+        final boolean onlyPermittedTypes =
+            // when process isolation for the user is 'group'
+            isolation == IsolationProcess.GROUP ||
+            // or explicitly set by action
+            form.getPermission().getBoolean("onlyPermittedTypes", false);
         if (onlyPermittedTypes) {
             var user = form.getUser();
 
-            List<Integer> typeForRemove = new ArrayList<Integer>();
             Iterator<ProcessType> iterator = typeList.iterator();
             while (iterator.hasNext()) {
-                ProcessType type = iterator.next();
-
-                /* Undocumented, remove later, 03.05.2020
-                if (type.getProperties().getConfigMap().getBoolean("allowForNonExecutorsGroup", false)) {
-                    continue;
-                } */
-
-                if (CollectionUtils.intersection(type.getProperties().getAllowedGroupsSet(), user.getGroupIds()).isEmpty()
-                        && CollectionUtils.intersection(type.getProperties().getGroupsSet(), user.getGroupIds()).isEmpty()) {
-                    typeForRemove.add(type.getId());
-                    // TODO: Only when type properties are inherited?
-                    typeForRemove.addAll(type.getAllChildIds());
-                }
-            }
-            iterator = typeList.iterator();
-            while (iterator.hasNext()) {
-                ProcessType type = iterator.next();
-                if (typeForRemove.contains(type.getId())) {
+                var type = iterator.next();
+                if (!isolationCheck(type, user)) {
                     iterator.remove();
                 }
             }
         }
-        return onlyPermittedTypes;
+    }
+
+    /**
+     * Checks if the given process type included to user process isolation.
+     * For that type allowed or initial groups have to intersect with user groups.
+     * Or the check must pass for one of child types.
+     * @param type
+     * @param user
+     * @return
+     */
+    private static boolean isolationCheck(ProcessType type, User user) {
+        boolean result =
+                !CollectionUtils.intersection(type.getProperties().getAllowedGroupsSet(), user.getGroupIds()).isEmpty() ||
+                !CollectionUtils.intersection(type.getProperties().getGroupsSet(), user.getGroupIds()).isEmpty();
+        if (result)
+            return true;
+
+        for (ProcessType child : type.getChildren()) {
+            if (isolationCheck(child, user))
+                return true;
+        }
+
+        return false;
     }
 
     public ActionForward processCreateGroups(DynActionForm form, Connection con) {
