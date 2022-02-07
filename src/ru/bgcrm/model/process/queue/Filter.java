@@ -3,6 +3,8 @@ package ru.bgcrm.model.process.queue;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.util.Dynamic;
+
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
@@ -22,7 +24,7 @@ public class Filter {
     private final Set<Integer> defaultValues;
     // жёстко определённые значения
     private final Set<String> values;
-    // значения, если ни одно значение фильтра не выбрано 
+    // значения, если ни одно значение фильтра не выбрано
     private final Set<Integer> onEmptyValues;
     // отображать фильтр, он может быть скрытым, в этом случае всё время передаются defaultValues
     private final boolean show;
@@ -61,18 +63,32 @@ public class Filter {
         return title;
     }
 
+    /**
+     * @return default values, selected in UI.
+     */
+    @Dynamic
     public Set<Integer> getDefaultValues() {
         return defaultValues;
     }
 
+    /**
+     * @return available values in UI.
+     */
+    @Dynamic
     public List<Integer> getAvailableValues() {
         return availableValues;
     }
 
+    /**
+     * @return predefined values.
+     */
     public Set<String> getValues() {
         return values;
     }
 
+    /**
+     * @return values when no others sent from UI in request.
+     */
     public Set<Integer> getOnEmptyValues() {
         return onEmptyValues;
     }

@@ -696,10 +696,8 @@ public class ProcessDAO extends CommonDAO {
                         }
                     }
                 } else if (Parameter.TYPE_LIST.equals(paramType) || Parameter.TYPE_LISTCOUNT.equals(paramType)) {
-                    String values = Utils.toString(form.getSelectedValues("param" + paramId + "value"));
-                    if (Utils.isBlankString(values) && filter.getOnEmptyValues().size() > 0) {
-                        values = Utils.toString(filter.getOnEmptyValues());
-                    }
+                    String values = getValues(form, filter, "param" + paramId + "value");
+
                     if (Utils.isBlankString(values)) {
                         continue;
                     }
@@ -762,13 +760,7 @@ public class ProcessDAO extends CommonDAO {
             } else if ("status".equals(type)) {
                 Filter filter = f;
 
-                String statusIds = Utils.toString(form.getSelectedValues("status"));
-                if (Utils.isBlankString(statusIds) && filter.getOnEmptyValues().size() > 0) {
-                    statusIds = Utils.toString(filter.getOnEmptyValues());
-                }
-                if (filter.getValues().size() > 0) {
-                    statusIds = Utils.toString(filter.getValues());
-                }
+                String statusIds = getValues(form, filter, "status");
 
                 if (Utils.notBlankString(statusIds)) {
                     wherePart.append(" AND process.status_id IN (");
@@ -963,6 +955,24 @@ public class ProcessDAO extends CommonDAO {
                 wherePart.append( " ) " );
             }
         }*/
+    }
+
+    /**
+     * Takes comma separated list of values from request, taking on account {@link Filter#getValues()} and {@link Filter#getOnEmptyValues()}.
+     * @param form
+     * @param filter
+     * @param paramName HTTP request parameter.
+     * @return
+     */
+    private String getValues(DynActionForm form, Filter filter, String paramName) {
+        String values = Utils.toString(form.getSelectedValues(paramName));
+        if (Utils.isBlankString(values) && !filter.getOnEmptyValues().isEmpty()) {
+            values = Utils.toString(filter.getOnEmptyValues());
+        }
+        if (!filter.getValues().isEmpty()) {
+            values = Utils.toString(filter.getValues());
+        }
+        return values;
     }
 
     public void addDateTimeFilter(DynActionForm form, StringBuilder wherePart, String paramPrefix, String paramId,

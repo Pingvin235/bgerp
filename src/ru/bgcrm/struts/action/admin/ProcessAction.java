@@ -48,6 +48,8 @@ import ru.bgcrm.util.Utils;
 public class ProcessAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/process";
 
+    static final String JSP_USED_IN_TYPES = PATH_JSP + "/used_in_types.jsp";
+
     // статусы
     public ActionForward statusList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new StatusDAO(con).searchStatus(new SearchResult<Status>(form));
@@ -73,7 +75,7 @@ public class ProcessAction extends BaseAction {
 
         form.getResponse().setData("containProcess", containProcess);
 
-        return html(con, form, PATH_JSP + "/status/used.jsp");
+        return html(con, form, JSP_USED_IN_TYPES);
     }
 
     public ActionForward statusDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {

@@ -70,7 +70,7 @@
 											</div>\
 											<div><input type=\'text\' value=\'%s\' size=\'2\' onkeydown=\'return isNumberKey(event)\'\
 											onchange=\"$(this).parent().parent().find('input[name=value]').val('%s:' + this.value)\"/></div>\
-											<div><button class=\'btn-white\' onclick=\'$(this).parent().parent().remove();\'>X</button></div>\
+											<div><button class=\'btn-white icon\' onclick=\'$(this).parent().parent().remove();\'><i class='ti-trash'></i></button></div>\
 										</div>", id, id + ':' + count, title, count, id ) );
 
 						$editor.removeData('id').removeData('title');
@@ -89,9 +89,9 @@
 					${item.title}
 				</div>
 				<div><input type="text" value="${count.count.stripTrailingZeros().toPlainString()}" size="2" onkeydown="return isNumberKey(event)" onchange="$(this).parent().parent().find('input[name=value]').val('${item.id}:' + this.value)"/></div>
-				<div><button class="btn-white" onclick="$(this).parent().parent().remove();">X</button></div>
+				<div><button class="btn-white icon" onclick="$(this).parent().parent().remove();"><i class='ti-trash'></i></button></div>
 			</div>
 		</c:if>
 	</c:forEach>
 </div>
-<div class="hint">${l.l('Вы можете использовать точку как указатель десятичной дроби.')}</div>
+<div class="hint" style="text-align: right;">${l.l('Вы можете использовать точку как указатель десятичной дроби.')}</div>

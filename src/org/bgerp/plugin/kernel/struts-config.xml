@@ -8,7 +8,6 @@
 			<forward name="parameterUpdate" path="/WEB-INF/jspf/admin/directory/parameter/update.jsp" />
 			<forward name="parameterGroupList" path="/WEB-INF/jspf/admin/directory/parameter/group/list.jsp" />
 			<forward name="parameterGroupUpdate" path="/WEB-INF/jspf/admin/directory/parameter/group/update.jsp" />
-			<forward name="parameterUseProcess" path="/WEB-INF/jspf/admin/process/use_process.jsp" />
 		</action>
 
 		<action path="/admin/customer" parameter="action" type="ru.bgcrm.struts.action.admin.CustomerAction" name="form" scope="request">

@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="open/plugin/subscription/subscription" styleClass="pl1">
+<div class="tt ml1">${l.l('Стоимость в месяц')}:&nbsp;<b>${form.response.data.cost}</b><div/
+
+<%-- <html:form action="open/plugin/subscription/subscription" styleClass="pl1">
 	<input type="hidden" name="action" value="order"/>
 	<html:hidden property="subscriptionId"/>
 	<html:hidden property="limitId"/>
@@ -13,4 +15,4 @@
 
 	<button class="btn-grey ml1" type="button"
 			onclick="$$.ajax.post(this.form)">${l.l('Заказать')}</button>
-</html:form>
+</html:form> --%>

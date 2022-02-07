@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.util.Dynamic;
+
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
@@ -49,11 +51,14 @@ public class TagConfig extends Config{
     public static final class Tag extends IdTitle {
         private final String color;
 
-        /** Pseudo tag for filtering messages. Used in JSP. */
+        /** Pseudo tag for filtering messages. */
+        @Dynamic
         public static final int TAG_ATTACH_ID = -1;
-        /** Tag for attaching History.txt with messages from address. Used in JSP. */
+        /** Tag for attaching History.txt with messages from address. */
+        @Dynamic
         public static final int TAG_HISTORY_WITH_ADDRESS_ID = -2;
-        /** Tag for attaching History.txt with all messages. Used in JSP. */
+        /** Tag for attaching History.txt with all messages. */
+        @Dynamic
         public static final int TAG_HISTORY_ALL_ID = -3;
 
         private Tag(int id, String title, String color) {

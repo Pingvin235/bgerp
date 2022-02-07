@@ -100,7 +100,7 @@ public class DirectoryAction extends BaseAction {
 
         form.getResponse().setData("containProcess", containProcess);
 
-        return html(con, mapping, form, "parameterUseProcess");
+        return html(con, form, ProcessAction.JSP_USED_IN_TYPES);
     }
 
     public ActionForward parameterGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {

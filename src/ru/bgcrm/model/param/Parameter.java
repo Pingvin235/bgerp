@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.util.Dynamic;
+
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.IdTitle;
@@ -33,7 +35,8 @@ public class Parameter extends IdTitle {
     public static final String TYPE_PHONE = "phone";
     public static final String TYPE_TREE = "tree";
 
-    /** Sorted list of parameter types. Used in JSP. */
+    /** Sorted list of parameter types. */
+    @Dynamic
     public static final List<IdStringTitle> TYPES = EnumSet.allOf(Type.class).stream()
         .map(type -> type.name).sorted()
         .map(name -> new IdStringTitle(name, name))

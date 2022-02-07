@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.util.Dynamic;
+
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.event.user.UserChangedEvent;
@@ -70,9 +72,9 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     /**
-     * Actively used in JSP pages.
-     * @return
+     * @return BGBilling servers.
      */
+    @Dynamic
     public DBInfoManager getDbInfoManager() {
         return DBInfoManager.getInstance();
     }

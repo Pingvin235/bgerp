@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 import org.reflections.Reflections;
 
@@ -113,17 +114,19 @@ public class PluginManager {
     }
 
     /**
-     * List of enabled plugins, used in JSP.
+     * List of enabled plugins.
      * @return
      */
+    @Dynamic
     public List<Plugin> getPluginList() {
         return pluginList;
     }
 
     /**
-     * Map of enabled plugins, used in JSP.
+     * Map of enabled plugins.
      * @return
      */
+    @Dynamic
     public Map<String, Plugin> getPluginMap() {
         return pluginMap;
     }

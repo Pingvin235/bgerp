@@ -9,7 +9,7 @@
 
 	<%@ include file="../create_button.jsp"%>
 
-	<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Фильтр')}" size="40" 
+	<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Фильтр')}" size="40"
 		title="${l.l('По наименованию, комментарию, конфигурации')}"
 		onSelect="$$.ajax.load(this.form, $$.shell.$content(this))"/>
 
@@ -27,7 +27,7 @@
 			<td width="20%">${l.l('Комментарий')}</td>
 			<td width="35%">${l.l('Конфигурация')}</td>
 			<c:if test="${form.param.directoryId eq 'processParameter'}">
-				<td width="20%">${l.l('Где используется')}</td>
+				<td width="0">&nbsp;</td>
 			</c:if>
 		</tr>
 
@@ -68,15 +68,16 @@
 					<c:set var="parameterId" value="${item.id}" />
 
 						<td align="center">
-								<c:url var="showUrl" value="/admin/directory.do">
-									<c:param name="action" value="parameterUseProcess" />
-									<c:param name="parameterId" value="${parameterId}" />
-								</c:url>
+							<c:url var="showUrl" value="/admin/directory.do">
+								<c:param name="action" value="parameterUseProcess" />
+								<c:param name="parameterId" value="${parameterId}" />
+							</c:url>
 
-								<button type="button" class="btn-white btn-small" style="width: 100%" onclick="$(this).hide(); openUrlTo('${showUrl}', $('#${showId}') );">${l.l('Показать')}</button>
+							<button type="button" class="btn-grey btn-small icon" title="${l.l('Где используется')}"
+									onclick="$(this).hide(); $$.ajax.load('${showUrl}', $('#${showId}'));"><i class="ti-search"></i></button>
 
-								<div id="${showId}">
-								</div>
+							<div id="${showId}">
+							</div>
 						</td>
 				</c:if>
 			</tr>
