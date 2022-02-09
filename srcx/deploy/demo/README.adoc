@@ -1,0 +1,2 @@
+= Demo DB reset scripts
+Used on https://demo.bgerp.org

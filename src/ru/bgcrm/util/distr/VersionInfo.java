@@ -12,6 +12,7 @@ import java.util.zip.ZipInputStream;
 
 /**
  * Parser of version.properties file, stored in jar.
+ *
  * @author Shamil Vakhitov
  */
 public class VersionInfo {
@@ -53,14 +54,18 @@ public class VersionInfo {
         return getProperty("build.number");
     }
 
+    public String getChangeId() {
+        return getProperty("change.id");
+    }
+
     public String getBuildTime() {
         return getProperty("build.time");
     }
 
     /**
-     * Получение инфы о версии модуля.
-     * @param module строка-имя модуля
-     * @return объект
+     * Gets module version info.
+     * @param module module name, {@link #MODULE_UPDATE} or {@link #MODULE_UPDATE_LIB}.
+     * @return
      */
     public static final VersionInfo getVersionInfo(String module) {
         VersionInfo result = new VersionInfo();

@@ -282,7 +282,7 @@ task rss(type: JavaExec, dependsOn: 'compileToolsJava', description: 'Generates 
 task buildDist(type: Exec, dependsOn: 'classes', description: 'Builds distribution archive') {
     workingDir "$projectDir/build/bgerp"
     commandLine "ant"
-    environment classesPath: "../../target/classes/java/main"
+    environment classesPath: "../../target/classes/java/main", changeId: "${->getChangeId()}"
 }
 
 // for some reasons the task is named as 'classes' in 'dependsOn'
@@ -299,7 +299,7 @@ compileJava {
 task buildUpdate(type: Exec, dependsOn: 'classes', description: 'Builds distribution and update archives') {
     workingDir "$projectDir/build/update"
     commandLine "ant"
-    environment classesPath: "../../target/classes/java/main"
+    environment classesPath: "../../target/classes/java/main", changeId: "${->getChangeId()}"
 }
 
 task buildUpdateLib(type: Exec, description: 'Builds library update archive if exists file build/changes.lib.txt') {
@@ -334,7 +334,7 @@ task resetProperties {
 
 task touchChanges(description: "Creates file 'build/changes.<PROCESS_ID>.txt' if missing") {
     doFirst {
-        def processId = getProcessId()
+        def processId = getChangeIdOrThrow()
         def changesFile = file("$projectDir/build/changes.${processId}.txt")
         if (!changesFile.exists())
             changesFile.text = ""
@@ -351,7 +351,7 @@ task touchChangesLib(description: "Creates file 'build/changes.lib.txt' if missi
 
 task checkChanges(description: 'Checks existance of build/changes.<PROCESS_ID>.txt file') {
     doFirst {
-        def processId = getProcessId()
+        def processId = getChangeIdOrThrow()
         def changesFileName = "build/changes.${processId}.txt"
         def changesFile = file("$projectDir/$changesFileName")
         if (!changesFile.exists() || changesFile.text.isBlank())
@@ -360,21 +360,46 @@ task checkChanges(description: 'Checks existance of build/changes.<PROCESS_ID>.t
 }
 
 def getChangesFileName() {
-     def processId = getProcessId()
-        def changesFile = file("$projectDir/build/changes.${processId}.txt")
+    def processId = getChangeIdOrThrow()
+    def changesFile = file("$projectDir/build/changes.${processId}.txt")
 }
 
-def getProcessId() {
+def getBranchName() {
     def branchName = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
     println "Branch name: $branchName"
+    return branchName
+}
+
+/*
+    Gets numeric change ID 'NNNNN' from GIT branch name like: 'pNNNNN-some-description'.
+    Throws an exception in case of another branch name.
+*/
+def getChangeIdOrThrow() {
+    def branchName = getBranchName()
 
     def m  = branchName =~ /^p(\d+)\-/
     if (!m) throw new GradleException("Incorrect branch name: $branchName")
 
-    def processId = m[0][1]
-    println "Process ID: $processId"
+    def changeId = m[0][1]
+    println "Change ID: $changeId"
 
-    return processId
+    return changeId
+}
+
+/*
+    Gets numeric change ID 'NNNNN' from GIT branch name like: 'pNNNNN-some-description'.
+    Returns empty string in case of another branch name.
+*/
+def getChangeId() {
+    def branchName = getBranchName()
+
+    def m  = branchName =~ /^p(\d+)\-/
+    if (!m) return "";
+
+    def changeId = m[0][1]
+    println "Change ID: $changeId"
+
+    return changeId
 }
 
 apply from: "build/publish.gradle"

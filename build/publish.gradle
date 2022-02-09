@@ -3,7 +3,7 @@ task publishUpdate(type: JavaExec, dependsOn: ['compileToolsJava', 'touchChanges
     mustRunAfter 'buildUpdate'
     classpath =  sourceSets.tools.runtimeClasspath
     mainClass = 'ru.bgerp.tool.PublishUpdate'
-    args projectDir, version, "${->getProcessId()}"
+    args projectDir, version, "${->getChangeIdOrThrow()}"
 }
 
 /* TODO: Rewrite to Java, share code with PublishUpdate.java */
@@ -31,7 +31,7 @@ def publishBuildNumber() {
 
     def sshLogin = 'www@bgerp.org'
     def sshFolder = "/home/www/www.bgerp.org/download/$version"
-    
+
     println "Copy $buildNumberFile"
     "scp $targetDir/$buildNumberFile $sshLogin:$sshFolder".execute()
 }

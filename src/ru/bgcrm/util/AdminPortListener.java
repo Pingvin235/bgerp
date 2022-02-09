@@ -130,7 +130,15 @@ public class AdminPortListener implements Runnable {
             .append("BGERP ")
             .append(vi.getVersion())
             .append(".")
-            .append(vi.getBuildNumber())
+            .append(vi.getBuildNumber());
+
+        var changeId = vi.getChangeId();
+        if (Utils.notBlankString(changeId))
+            result
+                .append(".")
+                .append(changeId);
+
+        result
             .append(" from ")
             .append(vi.getBuildTime())
             .append("; lib set ")

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="ModuleBuild">	
+<project name="ModuleBuild">
 	<property environment="env"/>
-	  
+
 	<property name="projectPath" value="${basedir}/../.."/>
-	
+
 	<condition property="classesPath" value="${env.classesPath}" >
 		<isset property="env.classesPath" />
-	</condition>	
-	<property name="classesPath" value="${projectPath}/bin/main"/>
-	
+	</condition>
+	<!-- <property name="classesPath" value="${projectPath}/bin/main"/> -->
+
 	<property name="sourcePath" value="${projectPath}/src"/>
-	
+
 	<property name="rootpath" value="${basedir}/${rootfolder}/"/>
 	<property name="libapppath" value="${rootpath}/lib/app"/>
 	<property name="libextpath" value="${rootpath}/lib/ext"/>
@@ -18,36 +18,37 @@
 	<property name="webrootpath" value="${rootpath}/webapps"/>
 
 	<loadfile property="version" srcFile="${projectPath}/build/common/VERSION"/>
-	
+
 	<target name="update_props">
 		<property prefix="modprop" file="${dir}/module.properties"/>
-		
+
 		<propertyfile file="${dir}/${modprop.name}.properties">
 			<entry key="build.time" type="date" value="now" pattern="dd.MM.yyyy HH:mm:ss" />
 			<entry key="build.number" type="int" operation="+" value="1" pattern="####"/>
 			<entry key="name" type="string" value="${modprop.name}"/>
 			<entry key="version" type="string" value="${version}"/>
-		</propertyfile>		 
+			<entry key="change.id" type="string" value="${env.changeId}"/>
+		</propertyfile>
 	</target>
-	
+
 	<target name="put_props">
-		<property prefix="modprop" file="${dir}/module.properties"/>	
-		
+		<property prefix="modprop" file="${dir}/module.properties"/>
+
 		<copy file="${dir}/${modprop.name}.properties" todir="${classesPath}/ru/bgcrm/version"/>
 		<echo message="Copy ${dir}/${modprop.name}.properties"/>
 	</target>
-	
+
 	<!-- overwrite to add some module files -->
 	<target name="add_to_module_zip">
 		<!-- empty fileset, can be overwritten -->
 		<fileset id="add.to.module.zip" dir="missing_dir" erroronmissingdir="false"/>
 	</target>
-	
+
 	<target name="build_module" depends="add_to_module_zip">
 		<property prefix="modprop" file="${dir}/module.properties"/>
-		
+
 		<property prefix="module" file="${dir}/${modprop.name}.properties" />
-		
+
 		<delete dir="${basedir}" includes="${module.name}*.zip"/>
 		<zip destfile="${basedir}/${module.name}_${module.version}_${module.build.number}.zip">
 			<fileset dir="${basedir}">
