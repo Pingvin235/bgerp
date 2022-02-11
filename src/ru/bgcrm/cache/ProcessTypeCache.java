@@ -6,12 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.ConfigDAO;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.dao.process.StatusDAO;
 import ru.bgcrm.event.EventProcessor;
@@ -24,6 +22,11 @@ import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
+/**
+ * In-memory process types cache.
+ *
+ * @author Shamil Vakhitov
+ */
 public class ProcessTypeCache extends Cache<ProcessTypeCache> {
     private static Log log = Log.getLog();
 
@@ -33,10 +36,20 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         return holder.getInstance().typeMap;
     }
 
+    /**
+     * Retrieves process type object.
+     * @param id ID.
+     * @return type instance or {@code null}.
+     */
     public static ProcessType getProcessType(int id) {
         return holder.getInstance().typeMap.get(id);
     }
 
+    /**
+     * Retrieves process type object null-safe.
+     * @param id ID.
+     * @return type instance or mock object with a title, generated out of {@code id}.
+     */
     public static ProcessType getProcessTypeSafe(int id) {
         return Utils.maskNull(getProcessType(id), new ProcessType(id, "??? [" + id + "]"));
     }
@@ -64,11 +77,6 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
 
         return result;
     }
-
-    /* @Deprecated
-    public static Set<Integer> getTypeSet(Connection con, String objectType, int objectId) throws Exception {
-        return getTypeList(con, objectType, objectId).stream().map(ProcessType::getId).collect(Collectors.toSet());
-    } */
 
     //TODO: Возможно стоит создать Config класс, вынести в model.process.config.LinkedProcessCreateConfig, фильтр сделать на основе expression фильтра.
     private static class TypeFilter {
@@ -159,7 +167,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         holder.flush(con);
     }
 
-    // конец статической части
+    // end of static
 
     private List<ProcessType> typeList;
     private Map<Integer, ProcessType> typeMap;

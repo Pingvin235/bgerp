@@ -18,7 +18,7 @@
 		<ui:date-time paramName="dateFrom" value="${form.param.dateFrom}"/>
 		${l.l("по")}:
 		<ui:date-time paramName="dateTo" value="${form.param.dateTo}"/>
-		
+
 		<ui:button type="out" styleClass="ml1 mr1 more out" onclick="$$.ajax.load(this.form, $$.shell.$content(this))"/>
 
 		<report:more data="${data}"/>

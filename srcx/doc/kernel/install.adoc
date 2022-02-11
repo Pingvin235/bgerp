@@ -139,11 +139,11 @@ You will also need a root access to the MySQL Server one time.
 
 [[java]]
 === Java
-Required version *OpenJDK 11*, may be installed so:
+Required version *OpenJDK 17* or *OpenJDK 11*, may be installed so:
 [square, sh]
 ----
 sudo yum update
-sudo yum install -y java-11-openjdk-devel
+sudo yum install -y java-17-openjdk-devel
 ----
 
 IMPORTANT: Check, what commands *java* and *javac* are available after installation.

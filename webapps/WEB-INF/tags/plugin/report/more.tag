@@ -1,4 +1,4 @@
-<%@ tag pageEncoding="UTF-8" description="Report's More button"%> 
+<%@ tag pageEncoding="UTF-8" description="Report's More button"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="data" type="org.bgerp.plugin.report.model.Data" description="Report data"%>
@@ -19,9 +19,12 @@
 				</c:set>
 
 				<c:set var="title"><i class="${icon}"></i> ${chart.getTitle(l)}</c:set>
-				<a href="#" onclick="$$.report.more(this); $$.report.chart(this, ${status.count}); return false;">
+
+				<c:set var="aUiid" value="${u:uiid()}"/>
+				<a href="#" id="${aUiid}" onclick="$$.report.more(this); $$.report.chart(this, ${status.count}); return false;">
 					${title}
 					<div style="display: none;" class="more-editor">
+						<ui:button type="out" styleClass="ml1 mr1" onclick="$$.report.chart($('#${aUiid}'), ${status.count})"/>
 						<b>${title}</b>
 						<button type="button" class="btn-white icon ml05" onclick="$$.report.less(this)"><i class="ti-close"></i></button>
 					</div>
@@ -38,5 +41,5 @@
 </script>
 
 <div class="more-editor-container" style="display: inline-block;">
-	
+	<%-- more-editors are moved here --%>
 </div>

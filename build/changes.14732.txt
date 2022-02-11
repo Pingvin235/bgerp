@@ -1,0 +1,2 @@
+A: Plugin Report. Refresh button in chart view.
+F: Plugin Report. NPE in Processes report.

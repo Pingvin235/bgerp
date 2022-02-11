@@ -83,14 +83,14 @@ public class ReportProcessAction extends ReportActionBase {
 
                 var rs = pq.executeQuery();
                 while (rs.next()) {
-                    final var r = data.addRecord();
-                    r.add(rs.getInt(r.pos()));
-                    r.add(ProcessTypeCache.getProcessType(rs.getInt(r.pos())).getTitle());
-                    final int userId = rs.getInt(r.pos());
-                    r.add(userId);
-                    r.add(UserCache.getUser(userId).getTitle());
-                    r.add(rs.getTimestamp(r.pos()));
-                    r.add(rs.getString(r.pos()));
+                    final var record = data.addRecord();
+                    record.add(rs.getInt(record.pos()));
+                    record.add(ProcessTypeCache.getProcessTypeSafe(rs.getInt(record.pos())).getTitle());
+                    final int userId = rs.getInt(record.pos());
+                    record.add(userId);
+                    record.add(UserCache.getUser(userId).getTitle());
+                    record.add(rs.getTimestamp(record.pos()));
+                    record.add(rs.getString(record.pos()));
                 }
 
                 setRecordCount(form.getPage(), pq.getPrepared());
