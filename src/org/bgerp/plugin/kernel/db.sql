@@ -282,22 +282,6 @@ CREATE TABLE IF NOT EXISTS `param_pref` (
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE IF NOT EXISTS `param_address` (
-	`id` int(11) NOT NULL,
-	`param_id` int(11) NOT NULL,
-	`n` int(11) NOT NULL,
-	`house_id` int(11) NOT NULL,
-	`flat` char(10) NOT NULL,
-	`room` varchar(20) NOT NULL,
-	`pod` tinyint(4) NOT NULL,
-	`floor` tinyint(4) NOT NULL,
-	`value` varchar(255) NOT NULL,
-	`comment` varchar(255) NOT NULL,
-	`custom` text,
-	PRIMARY KEY (`id`,`param_id`,`n`),
-	KEY `house_id` (`house_id`)
-);
-
 CREATE TABLE IF NOT EXISTS `param_email` (
 	`id` int(11) NOT NULL,
 	`param_id` int(11) NOT NULL,
@@ -577,9 +561,6 @@ CREATE TABLE IF NOT EXISTS `counter` (
 	PRIMARY KEY (`id`)
 );
 
-ALTER TABLE param_address CHANGE flat flat CHAR(10) NOT NULL;
-ALTER TABLE param_address MODIFY room VARCHAR(20) NOT NULL;
-
 CALL add_key_if_not_exists('customer_link', 'object_id', '(object_id)');
 CALL add_key_if_not_exists('process_link', 'object_id', '(object_id)');
 
@@ -629,17 +610,7 @@ CALL drop_key_if_exists('address_area', 'street_id');
 
 ALTER TABLE customer MODIFY title_pattern VARCHAR(255) NOT NULL;
 
-ALTER TABLE param_address CHANGE floor floor TINYINT(4) NOT NULL;
-ALTER TABLE param_address CHANGE pod pod TINYINT(4)  NOT NULL;
-
 ALTER TABLE param_list CHANGE value value INT NOT NULL;
-
-CALL drop_key_if_exists('param_address', 'PRIMARY');
-CALL add_key_if_not_exists('param_address', 'id_param', '(id, param_id)');
-
-CALL add_column_if_not_exists('param_address', 'n', 'INT NOT NULL AFTER param_id');
-
-UPDATE param_address SET n=1 WHERE n=0;
 
 CALL add_column_if_not_exists('process_link', 'config', 'VARCHAR(100) NOT NULL');
 CALL add_column_if_not_exists('customer_link', 'config', 'VARCHAR(100) NOT NULL');
@@ -662,9 +633,6 @@ CALL add_column_if_not_exists('param_email', 'comment', 'VARCHAR(1024) NOT NULL 
 CALL add_column_if_not_exists('param_email', 'n', 'INT(10) NOT NULL AFTER param_id');
 
 CALL add_unique_key_if_not_exists('user_permset', 'user_permset', '(user_id, permset_id)');
-
-CALL drop_key_if_exists('param_address', 'id_param');
-CALL add_key_if_not_exists('param_address', 'PRIMARY', '(id, param_id, n)');
 
 CALL add_column_if_not_exists('param_file', 'n', 'INT NOT NULL DEFAULT 1 AFTER param_id');
 CALL drop_key_if_exists('param_file', 'PRIMARY');
@@ -784,15 +752,6 @@ CALL drop_column_if_exists('param_list', '_comment');
 CALL add_unique_key_if_not_exists('param_list', 'id_param_value', '(id, param_id, value)');
 CALL drop_key_if_exists('param_list', 'id_param');
 
--- TODO: CALL drop_column_if_exists('param_file', 'user_id');
--- TODO: CALL drop_column_if_exists('param_file', 'comment');
--- TODO: CALL drop_column_if_exists('param_file', 'version');
-
--- TODO: CALL drop_column_if_exists('user', 'email');
--- TODO: CALL drop_column_if_exists('user', 'ids');
-
--- TODO: CALL drop_column_if_exists('process_type', 'archive);
-
 ALTER TABLE user_group MODIFY date_from DATE NOT NULL, MODIFY date_to DATE;
 
 CREATE TABLE IF NOT EXISTS `param_money` (
@@ -803,6 +762,43 @@ CREATE TABLE IF NOT EXISTS `param_money` (
 	KEY `param_id` (`param_id`),
 	KEY `value` (`value`)
 );
+
+CREATE TABLE IF NOT EXISTS `param_address` (
+	`id` int(11) NOT NULL,
+	`param_id` int(11) NOT NULL,
+	`n` int(11) NOT NULL,
+	`house_id` int(11) NOT NULL,
+	`flat` char(10) NOT NULL,
+	`room` varchar(20) NOT NULL,
+	`pod` tinyint(4) NOT NULL,
+	`floor` tinyint(4) NOT NULL,
+	`value` varchar(255) NOT NULL,
+	`comment` varchar(255) NOT NULL,
+	`custom` text,
+	PRIMARY KEY (`id`,`param_id`,`n`),
+	KEY `house_id` (`house_id`)
+);
+
+ALTER TABLE param_address CHANGE flat flat CHAR(10) NOT NULL;
+ALTER TABLE param_address MODIFY room VARCHAR(20) NOT NULL;
+ALTER TABLE param_address CHANGE floor floor TINYINT(4) NOT NULL;
+ALTER TABLE param_address CHANGE pod pod TINYINT(4) NOT NULL;
+
+CALL drop_key_if_exists('param_address', 'PRIMARY') ;
+CALL add_column_if_not_exists('param_address', 'n', 'INT NOT NULL AFTER param_id');
+UPDATE param_address SET n=1 WHERE n=0;
+
+CALL drop_key_if_exists('param_address', 'id_param');
+CALL add_unique_key_if_not_exists('param_address', 'id_param_id_value', '(id, param_id, value)');
+
+-- TODO: CALL drop_column_if_exists('param_file', 'user_id');
+-- TODO: CALL drop_column_if_exists('param_file', 'comment');
+-- TODO: CALL drop_column_if_exists('param_file', 'version');
+
+-- TODO: CALL drop_column_if_exists('user', 'email');
+-- TODO: CALL drop_column_if_exists('user', 'ids');
+
+-- TODO: CALL drop_column_if_exists('process_type', 'archive);
 
 -- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

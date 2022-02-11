@@ -29,6 +29,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -979,45 +980,49 @@ public class ParamValueDAO extends CommonDAO {
             if (value.getValue() == null)
                 value.setValue(AddressUtils.buildAddressValue(value, con));
 
-            if (position <= 0) {
-                position = 1;
+            try {
+                if (position <= 0) {
+                    position = 1;
 
-                String query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
-                PreparedStatement ps = con.prepareStatement(query);
-                ps.setInt(1, id);
-                ps.setInt(2, paramId);
+                    String query = "SELECT MAX(n) + 1 FROM " + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
+                    PreparedStatement ps = con.prepareStatement(query);
+                    ps.setInt(1, id);
+                    ps.setInt(2, paramId);
 
-                ResultSet rs = ps.executeQuery();
-                if (rs.next() && rs.getObject(1) != null) {
-                    position = rs.getInt(1);
-                }
-                ps.close();
+                    ResultSet rs = ps.executeQuery();
+                    if (rs.next() && rs.getObject(1) != null) {
+                        position = rs.getInt(1);
+                    }
+                    ps.close();
 
-                insertParamAddress(id, paramId, position, value);
-            } else {
-                String query = "UPDATE " + TABLE_PARAM_ADDRESS
-                        + " SET value=?, house_id=?, flat=?, room=?, pod=?, floor=?, comment=?, custom=?"
-                        + " WHERE id=? AND param_id=? AND n=?";
-                PreparedStatement ps = con.prepareStatement(query);
-
-                ps.setString(index++, value.getValue());
-                ps.setInt(index++, value.getHouseId());
-                ps.setString(index++, value.getFlat());
-                ps.setString(index++, value.getRoom());
-                ps.setInt(index++, value.getPod());
-                ps.setInt(index++, value.getFloor());
-                ps.setString(index++, value.getComment());
-                ps.setString(index++, value.getCustom());
-                ps.setInt(index++, id);
-                ps.setInt(index++, paramId);
-                ps.setInt(index++, position);
-
-                int cnt = ps.executeUpdate();
-
-                ps.close();
-
-                if (cnt == 0)
                     insertParamAddress(id, paramId, position, value);
+                } else {
+                    String query = "UPDATE " + TABLE_PARAM_ADDRESS
+                            + " SET value=?, house_id=?, flat=?, room=?, pod=?, floor=?, comment=?, custom=?"
+                            + " WHERE id=? AND param_id=? AND n=?";
+                    PreparedStatement ps = con.prepareStatement(query);
+
+                    ps.setString(index++, value.getValue());
+                    ps.setInt(index++, value.getHouseId());
+                    ps.setString(index++, value.getFlat());
+                    ps.setString(index++, value.getRoom());
+                    ps.setInt(index++, value.getPod());
+                    ps.setInt(index++, value.getFloor());
+                    ps.setString(index++, value.getComment());
+                    ps.setString(index++, value.getCustom());
+                    ps.setInt(index++, id);
+                    ps.setInt(index++, paramId);
+                    ps.setInt(index++, position);
+
+                    int cnt = ps.executeUpdate();
+
+                    ps.close();
+
+                    if (cnt == 0)
+                        insertParamAddress(id, paramId, position, value);
+                }
+            } catch (SQLIntegrityConstraintViolationException e) {
+                log.debug("Duplicated address value failed to be inserted: {}", value);
             }
         }
 

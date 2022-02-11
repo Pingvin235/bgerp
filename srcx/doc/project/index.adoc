@@ -391,6 +391,7 @@ Plugin class *init* method is called for all <<../kernel/setup.adoc#config-plugi
 link:../../../src/ru/bgcrm/plugin/slack/Plugin.java#L30-L32[ru.bgcrm.plugin.slack.Plugin]
 
 In the particular case shown above, function handler gets included into <<../kernel/extension.adoc#jexl, JEXL>> context.
+First init is done for <<plugin-kernel, Kernel Plugin>>.
 
 [[plugin-db]]
 ==== Database
@@ -404,6 +405,19 @@ link:../../../src/ru/bgcrm/plugin/fulltext/db.sql[src/ru/bgcrm/plugin/fulltext/d
 Plugin DB table names have to start from <<plugin-class, PLUGIN_ID>>.
 
 <<db.adoc#, DB Structure>> is documented in the common <<workflow.adoc#doc, process>>, simultaneously with making changes.
+
+Use PRIMARY key only for auto incremented INT columns, otherwise prefer named UNIQUE key.
+[snippet, from="UNIQUE", to="`),", remove-leading="	"]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L405-L405[src/org/bgerp/plugin/kernel/db.sql]
+
+[[plugin-db-cache]]
+===== Database Queries Cache
+To speed-up the application startup initialization all the already executed calls are cached in <<db.adoc#_db_update_log, db_update_log>> table.
+The cache might be reset using <<../kernel/install.adoc#installer, installer>> console util.
+
+To force re-execution a query, add a whitespace before ending semicolon on the query line.
+[snippet, from="CALL drop_key_if_exists", to=") ;"]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L787-L787[src/org/bgerp/plugin/kernel/db.sql]
 
 [[cache]]
 ===== Cache
@@ -888,10 +902,7 @@ After adding missing patterns, application server has to be re-started.
 
 [[naming-db]]
 === Database
-* Database table and column names have to use underscore: *process_id*, *param_id*
-* Use PRIMARY key only for auto incremented INT columns, otherwise prefer named UNIQUE key.
-[snippet, from="UNIQUE", to="`),", remove-leading="  "]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L421-L421[src/org/bgerp/plugin/kernel/db.sql]
+* Database table and column names have to be in lower case, underscore separated : *process_id*, *param_id*.
 
 [[naming-camel]]
 === Java variables, HTTP request parameters, JSP variables

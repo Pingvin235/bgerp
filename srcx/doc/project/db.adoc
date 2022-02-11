@@ -1,7 +1,7 @@
 = Database
 :toc:
 
-== Ядро
+== Kernel
 === address_area
 Справочник районов.
 [cols="a,a,50%a", options="header"]
@@ -285,7 +285,7 @@
 |===
 
 === db_update_log
-DB updates log.
+DB updates log. The table is created on a first use.
 [cols="a,a,50%a", options="header"]
 |===
 |Column
