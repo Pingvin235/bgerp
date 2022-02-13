@@ -16,7 +16,7 @@ public class ProcessType extends IdTitle {
     private int parentId;
     private boolean useParentProperties;
     private TypeProperties properties;
-    private List<ProcessType> children = new ArrayList<ProcessType>();
+    private List<ProcessType> children = new ArrayList<>();
 
     public ProcessType() {
         super();

@@ -228,8 +228,8 @@
 	<div id="savedFilters" ${hideWhenFullFilter} class="in-mb1-all mr1 in-mr05 dropFilterArea">
 		<c:forEach var="saved" items="${config.queueSavedFilterSetsMap[queue.id]}">
 			<%-- old URLs start from process.do, after some intermediate version /user/process.do --%>
-			<form 
-				action="${saved.url.replace('/user/process.do', '/user/process/queue.do').replace('process.do', '/user/process/queue.do')}" 
+			<form
+				action="${saved.url.replace('/user/process.do', '/user/process/queue.do').replace('process.do', '/user/process/queue.do')}"
 				id="${queue.id}-${saved.id}" ${currentSavedFilterSetId eq saved.id ? "active='1'" : ""} style="display: none;">
 				<input type="hidden" name="savedFilterSetId" value="${saved.id}"/>
 			</form>
@@ -314,7 +314,7 @@
 					<c:if test="${filterFromList.type == 'type'}">
 						<c:set var="filter" value="${filterFromList}"/>
 
-						<c:set var="title" value="${l.l('Типы')}"/>
+						<c:set var="title" value="${l.l('Тип')}"/>
 						<c:set var="code">
 							<u:sc>
 								<c:set var="prefixText" value="${l.l('Тип')}:"/>
@@ -618,12 +618,12 @@
 							</c:if>
 						</c:set>
 						<c:set var="code">
-							<ui:combo-check list="${ctxUser.getUserListWithSameGroups()}" paramName="${filter.type}" 
+							<ui:combo-check list="${ctxUser.getUserListWithSameGroups()}" paramName="${filter.type}"
 								prefixText="${title}:" widthTextValue="5em"/>
 						</c:set>
 						<%@ include file="filter_item.jsp"%>
 					</c:if>
-					
+
 					<c:if test="${filterFromList.type.startsWith('date')}">
 						<%@ include file="filter_display.jsp"%>
 						 <div style="width:${leftFilterColumnWidth}px;">

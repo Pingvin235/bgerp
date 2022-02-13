@@ -11,24 +11,24 @@
 			<ui:when type="user">
 				<p:check action="ru.bgcrm.struts.action.ProcessAction:processDelete">
 					<c:set var="uiidDelMenu" value="${u:uiid()}"/>
-					
+
 					<div style="max-height: 0px;">
 						<ul id="${uiidDelMenu}" style="display: none;">
 							<c:url var="url" value="/user/process.do">
 								<c:param name="action" value="processDelete"/>
 								<c:param name="id" value="${process.id}"/>
 							</c:url>
-							<li><a href="#" 
+							<li><a href="#"
 								onclick="if (confirm('${l.l('Удалить процесс')}?')) $$.ajax.post('${url}').done(() => { ${returnBreakCommand} }); return false;">${l.l('Удалить процесс')}</a>
 							</li>
-							
+
 							<c:url var="url" value="/user/empty.do">
 								<c:param name="returnUrl" value="${requestUrl}"/>
 								<c:param name="returnChildUiid" value="${tableId}"/>
 								<c:param name="id" value="${process.id}"/>
 								<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/editor_merge.jsp"/>
 							</c:url>
-							<li><a href="#" 
+							<li><a href="#"
 								onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">${l.l('Слить в существующий')}</a>
 							</li>
 						</ul>
@@ -42,7 +42,7 @@
 						})
 					</script>
 				</p:check>
-			</ui:when>	
+			</ui:when>
 
 			<b>
 				<u:sc>
@@ -50,7 +50,7 @@
 					<c:choose>
 						<c:when test="${not empty processType}">
 							<c:forEach var="item" items="${processType.path}" varStatus="status">
-								<c:if test="${status.index ne 0}"> -> </c:if>
+								<c:if test="${status.index ne 0}"> / </c:if>
 									${item.title}
 							</c:forEach>
 						</c:when>
@@ -100,7 +100,7 @@
 						[<a href="#" onclick="$$.ajax.load('${logUrl}', $('#${tableId}').parent()); return false;">${l.l('лог изменений')}</a>]
 					</c:if>
 				</p:check>
-			</ui:when>	
+			</ui:when>
 		</div>
 
 		<div class="pb05">

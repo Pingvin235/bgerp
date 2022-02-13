@@ -1,0 +1,1 @@
+C: Replace '->' to '/' in path separators.

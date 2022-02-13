@@ -13,6 +13,10 @@ filter.{@inc:cnt}.type=linkedCustomer:title
 filter.{@inc:cnt}.type=description
 filter.{@inc:cnt}.type=create_user
 filter.{@inc:cnt}.type=close_user
+filter.{@inc:cnt}.type=type
+# TODO: make working and fix doc
+#filter.{@inc}.width=10em
+filter.{@inc:cnt}.type=groups
 #
 column.1.title=ID
 column.1.value=id

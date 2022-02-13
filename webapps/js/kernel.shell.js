@@ -115,7 +115,7 @@ $$.shell = new function () {
 		add: function (item) {
 			item.titlePath = item.title;
 			if (this.titles.length) {
-				const sep = " -> ";
+				const sep = " / ";
 				item.titlePath = this.titles.join(sep) + sep + item.title;
 			}
 
