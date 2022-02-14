@@ -3,6 +3,7 @@
 cd ${0%${0##*/}}.
 
 DIR="backup"
+FILE=bgerp.properties
 
 DATE=/bin/date
 ZIP=/usr/bin/zip
@@ -17,16 +18,16 @@ file="$DIR/$time"
 
 backup_db() {
     echo "Making dump DB MySQL!"
-    FILE=bgerp.properties
     PWD=`grep db.pswd $FILE | cut -d'=' -f2`
     USER=`grep db.user $FILE | cut -d'=' -f2`
-    FULLLINK=`grep db.url $FILE | cut -d'/' -f3`
-    HOST=`echo $FULLLINK | cut -d':' -f1`
-    PORT=`echo $FULLLINK | cut -d':' -f2`
+    HOST_PORT=`grep db.url $FILE | cut -d'/' -f3`
+    HOST=`echo $HOST_PORT | cut -d':' -f1`
+    PORT=`echo $HOST_PORT | cut -d':' -f2`
     if [ "$PORT" = "$HOST" ] ; then
       PORT=3306
     fi
     DB=`grep db.url $FILE | cut -d'?' -f1 | cut -d'/' -f4`
+    # mysqldump --no-tablespaces Do not write any CREATE LOGFILE GROUP or CREATE TABLESPACE statements in output
     CMD="$MYSQLDUMP --no-tablespaces -h $HOST -P $PORT -u $USER $DB"
     echo "dump command: $CMD"
     CMD="$CMD -p$PWD"
@@ -46,5 +47,7 @@ file="$file.zip"
 echo "Making backup to $file"
 
 $ZIP -r $file $BACKUP_STRING
+
+rm -f dump.sql
 
 echo "Backup $BACKUP_STRING is done to $file"
