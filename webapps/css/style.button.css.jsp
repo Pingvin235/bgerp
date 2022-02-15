@@ -11,12 +11,12 @@
 }
 
 .btn-small {
-	padding: 0.4em 0.6em;
+	padding: 0.4em 0.6em !important;
 }
 
 .btn-small.icon,
 .btn-small.btn-icon {
-	padding: 0.4em 0.4em;
+	padding: 0.4em 0.4em !important;
 }
 
 .btn-slim {
@@ -103,11 +103,11 @@
 }
 
 .btn-panel {
-	display: inline-block; 
-	margin-right: 5px; 
-	max-width: 150px; 
-	text-overflow: ellipsis; 
-	white-space: nowrap; 
+	display: inline-block;
+	margin-right: 5px;
+	max-width: 150px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	overflow: hidden;
 }
 

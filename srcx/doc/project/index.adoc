@@ -293,7 +293,7 @@ Non-minified libraries are used in order to simplify debugging.
 
 Some of the external libraries have been patched and all changes are accompanied by relevant comments, for example:
 [snippet, from="con", to=");", remove-leading="		"]
-link:../../../webapps/lib/jquery-ui-1.12.1/jquery-ui.js#L8923-L8930[webapps/lib/jquery-ui-1.12.1/jquery-ui.js]
+link:../../../webapps/lib/jquery-ui-1.12.1/jquery-ui.js#L8923-L8929[webapps/lib/jquery-ui-1.12.1/jquery-ui.js]
 
 [[devm]]
 === Remote development methodology

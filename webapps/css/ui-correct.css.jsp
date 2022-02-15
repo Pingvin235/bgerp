@@ -74,8 +74,21 @@
 	background: none;
 }
 
+.ui-datepicker-header .ui-datepicker-prev,
+.ui-datepicker-header .ui-datepicker-next {
+	width: inherit;
+	height: inherit;
+}
+.ui-timepicker-div .ui-slider .ui-slider-handle {
+	border-color: #c8c8c8;
+	<%@ include file="/WEB-INF/jspf/css/button.white.gradient.jsp"%>
+}
+.ui-datepicker .ui-datepicker-buttonpane button.btn-close {
+	font-size: 1.1em;
+}
+
 /* Override re-authorization dialog styles */
-.ui-dialog .ui-widget-header, 
+.ui-dialog .ui-widget-header,
 .ui-datepicker .ui-widget-header {
 	color: #fff;
 	border-radius: 3px;

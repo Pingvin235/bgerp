@@ -8055,39 +8055,39 @@ $.extend( Datepicker.prototype, {
 		position = $( obj ).offset();
 		return [ position.left, position.top ];
 	},
-	
-	// PATCH ADDITION BGERP, functions with save 
+
+	// PATCH ADDITION BGERP, functions with save
 	_clearAndHideDatepicker: function(id) {
 		$(id).val( "" );
 		this._saveAndHideDatepicker( id );
 	},
-	
+
 	_setNowIfEmptySaveAndHideDatepicker: function(id) {
 		if( $(id).val() == "" )
 		{
 			this._gotoToday( id );
-		}		
+		}
 		this._saveAndHideDatepicker( id );
 	},
 	_saveAndHideDatepicker: function(id) {
 		var target = $(id);
 		var inst = this._getInst(target[0]);
-		
+
 		if( ( inst.settings.showTimeSelector == true || inst.settings.showTimeSelector == "true" ) &&  $( id ).val().length > 0 )
 		{
 			var timeSelector = $( "div#ui-timepicker-div-" + inst.id ).find( "select.ui-timepicker-timeselector" );
-			
+
 			if( $( timeSelector ).find( 'option:selected' ).length > 0 )
-			{	
+			{
 				console.log( this._curInst.selectedMonth );
 				console.log( this._curInst.selectedYear );
-				
+
 				var dateInput = $( "input#" + this._curInst.id );
 				var dateTime = ( this._curInst.selectedDay < 10 ? "0" + this._curInst.selectedDay : this._curInst.selectedDay ) + ".";
 				dateTime+=( this._curInst.selectedMonth < 9 ? "0" + (this._curInst.selectedMonth+1) : this._curInst.selectedMonth+1 ) + ".";
 				dateTime+=this._curInst.selectedYear;
-				
-				$( dateInput ).val( dateTime + " " + $( timeSelector ).find( 'option:selected' ).val() );				
+
+				$( dateInput ).val( dateTime + " " + $( timeSelector ).find( 'option:selected' ).val() );
 			}
 			else
 			{
@@ -8095,7 +8095,7 @@ $.extend( Datepicker.prototype, {
 				return ;
 			}
 		}
-		
+
 		var onSave = this._get( inst, 'onSave' );
 		if( onSave == null || onSave() )
 		{
@@ -8901,8 +8901,8 @@ $.extend( Datepicker.prototype, {
 			this._getFormatConfig( inst ) ) );
 
 		prev = ( this._canAdjustMonth( inst, -1, drawYear, drawMonth ) ?
-			"<a class='ui-datepicker-prev ui-corner-all' data-handler='prev' data-event='click'" +
-			" title='" + prevText + "'><span class='ui-icon ui-icon-circle-triangle-" + ( isRTL ? "e" : "w" ) + "'>" + prevText + "</span></a>" :
+			"<a class='ui-datepicker-prev btn-blue btn-small' data-handler='prev' data-event='click'" +
+			" title='" + prevText + "'><i class='ti-angle-left'></i></a>" :
 			( hideIfNoPrevNext ? "" : "<a class='ui-datepicker-prev ui-corner-all ui-state-disabled' title='" + prevText + "'><span class='ui-icon ui-icon-circle-triangle-" + ( isRTL ? "e" : "w" ) + "'>" + prevText + "</span></a>" ) );
 
 		nextText = this._get( inst, "nextText" );
@@ -8911,8 +8911,8 @@ $.extend( Datepicker.prototype, {
 			this._getFormatConfig( inst ) ) );
 
 		next = ( this._canAdjustMonth( inst, +1, drawYear, drawMonth ) ?
-			"<a class='ui-datepicker-next ui-corner-all' data-handler='next' data-event='click'" +
-			" title='" + nextText + "'><span class='ui-icon ui-icon-circle-triangle-" + ( isRTL ? "w" : "e" ) + "'>" + nextText + "</span></a>" :
+			"<a class='ui-datepicker-next btn-blue btn-small' data-handler='next' data-event='click'" +
+			" title='" + nextText + "'><i class='ti-angle-right'></i></a>" :
 			( hideIfNoPrevNext ? "" : "<a class='ui-datepicker-next ui-corner-all ui-state-disabled' title='" + nextText + "'><span class='ui-icon ui-icon-circle-triangle-" + ( isRTL ? "w" : "e" ) + "'>" + nextText + "</span></a>" ) );
 
 		currentText = this._get( inst, "currentText" );
@@ -8920,17 +8920,16 @@ $.extend( Datepicker.prototype, {
 		currentText = ( !navigationAsDateFormat ? currentText :
 			this.formatDate( currentText, gotoDate, this._getFormatConfig( inst ) ) );
 
-		controls = (!inst.inline ? 
+		controls = (!inst.inline ?
 				// PATCH ADDITION BGERP,  added X button, changed closeProcess
-				'<button type="button" class="ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all" onclick="$.datepicker._clearAndHideDatepicker(\'#' + inst.id + '\');">' + 
-				"X" + '</button>' +
-				'<button type="button" class="ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all" onclick="$.datepicker._setNowIfEmptySaveAndHideDatepicker(\'#' + inst.id + '\');">' + 
+				'<button type="button" class="ui-datepicker-close btn-white btn-small icon btn-close" onclick="$.datepicker._clearAndHideDatepicker(\'#' + inst.id + '\');"><i class="ti-close"></i></button>' +
+				'<button type="button" class="ui-datepicker-close btn-white btn-small" onclick="$.datepicker._setNowIfEmptySaveAndHideDatepicker(\'#' + inst.id + '\');">' +
 				this._get(inst, 'closeText') + '</button>'
 				// END PATCH
 				: '');
 
 		buttonPanel = ( showButtonPanel ) ? "<div class='ui-datepicker-buttonpane ui-widget-content'>" + ( isRTL ? controls : "" ) +
-			( this._isInRange( inst, gotoDate ) ? "<button type='button' class='ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all' data-handler='today' data-event='click'" +
+			( this._isInRange( inst, gotoDate ) ? "<button type='button' class='ui-datepicker-current btn-white btn-small' data-handler='today' data-event='click'" +
 			">" + currentText + "</button>" : "" ) + ( isRTL ? "" : controls ) + "</div>" : "";
 
 		firstDay = parseInt( this._get( inst, "firstDay" ), 10 );
@@ -9240,12 +9239,12 @@ function datepicker_bindHover( dpDiv ) {
 	var selector = "button, .ui-datepicker-prev, .ui-datepicker-next, .ui-datepicker-calendar td a";
 	return dpDiv.on( "mouseout", selector, function() {
 			$( this ).removeClass( "ui-state-hover" );
-			if ( this.className.indexOf( "ui-datepicker-prev" ) !== -1 ) {
-				$( this ).removeClass( "ui-datepicker-prev-hover" );
-			}
-			if ( this.className.indexOf( "ui-datepicker-next" ) !== -1 ) {
-				$( this ).removeClass( "ui-datepicker-next-hover" );
-			}
+			// if ( this.className.indexOf( "ui-datepicker-prev" ) !== -1 ) {
+			// 	$( this ).removeClass( "ui-datepicker-prev-hover" );
+			// }
+			// if ( this.className.indexOf( "ui-datepicker-next" ) !== -1 ) {
+			// 	$( this ).removeClass( "ui-datepicker-next-hover" );
+			// }
 		} )
 		.on( "mouseover", selector, datepicker_handleMouseover );
 }
@@ -9253,13 +9252,21 @@ function datepicker_bindHover( dpDiv ) {
 function datepicker_handleMouseover() {
 	if ( !$.datepicker._isDisabledDatepicker( datepicker_instActive.inline ? datepicker_instActive.dpDiv.parent()[ 0 ] : datepicker_instActive.input[ 0 ] ) ) {
 		$( this ).parents( ".ui-datepicker-calendar" ).find( "a" ).removeClass( "ui-state-hover" );
+
+		if (this.className.indexOf( "ui-datepicker-prev" ) !== -1 ||
+			this.className.indexOf( "ui-datepicker-next" ) !== -1 ||
+			this.className.indexOf( "ui-datepicker-current" ) !== -1 ||
+			this.className.indexOf( "ui-datepicker-close" ) !== -1) {
+			return;
+		}
+
 		$( this ).addClass( "ui-state-hover" );
-		if ( this.className.indexOf( "ui-datepicker-prev" ) !== -1 ) {
-			$( this ).addClass( "ui-datepicker-prev-hover" );
-		}
-		if ( this.className.indexOf( "ui-datepicker-next" ) !== -1 ) {
-			$( this ).addClass( "ui-datepicker-next-hover" );
-		}
+		// if ( this.className.indexOf( "ui-datepicker-prev" ) !== -1 ) {
+		// 	$( this ).addClass( "ui-datepicker-prev-hover" );
+		// }
+		// if ( this.className.indexOf( "ui-datepicker-next" ) !== -1 ) {
+		// 	$( this ).addClass( "ui-datepicker-next-hover" );
+		// }
 	}
 }
 
@@ -17420,23 +17427,23 @@ $.widget( "ui.tabs", {
 			options = this.options;
 
 		this.running = false;
-		
+
 		// PATCH ADDITION BGERP, cache loaded
 		this.options.beforeLoad = function (event, ui) {
 			if (ui.tab.data("loaded")) {
 				event.preventDefault();
 				return;
 			}
-			
+
 			// progress spinner
 			ui.panel.html('<i class="progress-icon ti-reload"></i> Loading...');
-			
+
 			ui.jqXHR.done(function () {
 				ui.tab.data("loaded", true);
 			});
-		};		
+		};
 		// END PATCH
-		
+
 		this._addClass( "ui-tabs", "ui-widget ui-widget-content" );
 		this._toggleClass( "ui-tabs-collapsible", null, options.collapsible );
 
@@ -18012,7 +18019,7 @@ $.widget( "ui.tabs", {
 				complete();
 			}
 		}
-		
+
 		// PATCH ADDITION BGERP, show refresh
 		if (this.options.refreshButton) {
 			eventData.oldTab.children("button").addClass('refreshButton-hidden').removeClass('refreshButton');
@@ -18261,54 +18268,54 @@ $.widget( "ui.tabs", {
 		var id = $( tab ).attr( "aria-controls" );
 		return this.element.find( this._sanitizeSelector( "#" + id ) );
 	},
-	
-	// PATCH ADDITION BGERP, function add 
+
+	// PATCH ADDITION BGERP, function add
 	add: function( url, label, liAttrs ) {
-		
+
 		var liCode = "<li";
 		if( liAttrs )
 		{
 			liCode += " " + liAttrs;
 		}
 		liCode += ">";
-		
+
 		if( this.options.refreshButton )
 		{
 			liCode += "<button class='refreshButton-hidden btn-white-hover btn-small'><span class='ti-reload'></span></button>";
 		}
 		liCode += "<a href='" + url.replace( "'", "&#39;" ) + "'>" + label + "</a></li>";
-		
+
 		var $li = $(liCode);
-		
+
 		this.tablist.append( $li );
-		
+
 		if( this.options.refreshButton )
 		{
 			var $tabs = this;
 			var options = this.options;
-			
-			$li.find( 'button' ).click( function() 
+
+			$li.find( 'button' ).click( function()
 			{
 				$li.data( "loaded", false );
 				$tabs.load( options.active );
 			})
-		}		
-		
+		}
+
 		this.refresh();
-		
+
 		if( !this.options.active )
 		{
 			this._setOption( "active", 0 );
 		}
 	},
-	
+
 	// PATCH ADDITION BGERP, function remove
 	remove: function( index ) {
 		this.element.find('>ul li')[index].remove();
 		this.element.find('>div')[index].remove();
 		this.refresh();
 	},
-	
+
 	// PATCH ADDITION BGERP, function showTab
 	showTab: function( id ) {
 		var index = this.element.find("> ul > li#" + id).index();
