@@ -1,0 +1,1 @@
+C: OpenJDK 17 in Docker image.
