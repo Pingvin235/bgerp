@@ -6,6 +6,11 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 
+/**
+ * E-Mail configuration. Provides IMAP and SMTP sessions.
+ *
+ * @author Shamil Vakhitov
+ */
 public class MailConfig {
     private final ParameterMap configMap;
     private final String host;
@@ -39,12 +44,24 @@ public class MailConfig {
         return Utils.notBlankString(email) && Utils.notBlankString(login) && Utils.notBlankString(pswd);
     }
 
-    public Session getImapSession() throws Exception {
+    /**
+     * @return default set of IMAP session properties.
+     */
+    public static Properties getImapSessionStaticProperties() {
         Properties props = new Properties();
+
         props.setProperty("mail.imap.timeout", "7000");
         props.setProperty("mail.imap.partialfetch", "false");
         props.setProperty("mail.imaps.timeout", "7000");
         props.setProperty("mail.imaps.partialfetch", "false");
+        // https://javaee.github.io/javamail/docs/api/index.html?javax/mail/internet/package-summary.html
+        props.setProperty("mail.mime.allowutf8", "true");
+
+        return props;
+    }
+
+    public Session getImapSession() throws Exception {
+        Properties props = getImapSessionStaticProperties();
 
         // IMAP SSL
         if ("imaps".equals(store)) {

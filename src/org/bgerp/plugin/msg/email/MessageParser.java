@@ -1,5 +1,8 @@
 package org.bgerp.plugin.msg.email;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,33 +11,70 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.mail.BodyPart;
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Part;
+import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MailDateFormat;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
 
+import com.sun.mail.imap.IMAPMessage;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.james.mime4j.codec.DecodeMonitor;
+import org.apache.james.mime4j.codec.DecoderUtil;
+import org.apache.james.mime4j.dom.Body;
+import org.apache.james.mime4j.dom.Message;
+import org.apache.james.mime4j.dom.Multipart;
+import org.apache.james.mime4j.message.DefaultMessageBuilder;
+import org.apache.james.mime4j.message.DefaultMessageWriter;
 import org.bgerp.util.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
+import ru.bgcrm.util.MailConfig;
 import ru.bgcrm.util.Utils;
 
+/**
+ * IMAP message parser.
+ *
+ * @author Shamil Vakhitov
+ */
 public class MessageParser {
     private static final Log log = Log.getLog();
 
     private static final Pattern DATE_PATTERN = Pattern.compile("\\w{3}, \\d+ \\w{3} \\d{4} \\d{2}:\\d{2}:\\d{2} \\+\\d{4}");
     private static final MailDateFormat MAIL_DATE_FORMAT = new MailDateFormat();
 
-    private final MimeMessage message;
+     /** JavaMail message. */
+     private final MimeMessage message;
+     /** MIME raw data, used for testing. */
+     private final byte[] mimeData;
+     /** Lazy loaded Mime4j message. */
+     private Message mime4j;
 
-    public MessageParser(Message message) {
+     /**
+     * Main constructor.
+     * @param message must be {@link IMAPMessage} instance.
+     * @throws IllegalArgumentException not {@link IMAPMessage} was passed.
+     */
+    public MessageParser(javax.mail.Message message) {
+        if (!(message instanceof IMAPMessage))
+            throw new IllegalArgumentException("Parameter must be IMAPMessage");
         this.message = (MimeMessage) message;
+        this.mimeData = null;
+    }
+
+    /**
+     * Test constructor.
+     * @param inputStream message input stream.
+     * @throws Exception
+     */
+    MessageParser(InputStream inputStream) throws Exception {
+        this.mimeData = IOUtils.toByteArray(inputStream);
+        this.message = new MimeMessage(Session.getInstance(MailConfig.getImapSessionStaticProperties()), new ByteArrayInputStream(mimeData));
     }
 
     public String getMessageId() throws MessagingException {
@@ -88,27 +128,11 @@ public class MessageParser {
         return to.toString();
     }
 
-    // разбор темы сообщений
-    // когда конструкция разбита на несколько частей вида, то стандартный парсер
-    // разбирает только первый токен
-    // =?koi8-r?Q?Re:_=FA=C1=D0=D2=CF=D3_=D4=C5=D3=D4=CF=D7=CF=CA_=CC?=
-    // =?koi8-r?Q?=C9=C3=C5=CE=DA=C9=C9_[info=40bgcrm.ru#2213]?=
     public String getMessageSubject() throws Exception {
-        String subject = Utils.maskNull(message.getSubject());
-
-        int posFrom = -1, posTo = -1;
-        do {
-            posFrom = subject.indexOf("=?", posTo);
-            int posEndEncoding = subject.indexOf("?Q?", posFrom);
-            posTo = subject.indexOf("?=", posEndEncoding + 3);
-
-            if (posFrom >= 0 && posTo > posFrom) {
-                subject = subject.substring(0, posFrom) + MimeUtility.decodeText(subject.substring(posFrom, posTo + 2))
-                        + subject.substring(posTo + 2);
-            }
-        } while (posFrom >= 0 && posTo > posFrom);
-
-        return subject;
+        // handling encoded tokens like:
+        // =?koi8-r?Q?Re:_=FA=C1=D0=D2=CF=D3_=D4=C5=D3=D4=CF=D7=CF=CA_=CC?=
+        // =?koi8-r?Q?=C9=C3=C5=CE=DA=C9=C9_[info=40bgcrm.ru#2213]?=
+        return DecoderUtil.decodeEncodedWords(Utils.maskNull(message.getSubject()), DecodeMonitor.SILENT);
     }
 
     public String getTextContent() throws Exception {
@@ -117,9 +141,7 @@ public class MessageParser {
         String contentType = message.getContentType().toLowerCase();
         Object content = message.getContent();
 
-        if (log.isDebugEnabled()) {
-            log.debug("Extracting content, contentType: " + contentType);
-        }
+        log.debug("Extracting content, contentType: {}", contentType);
 
         // если пришел обычный текст
         if (contentType.startsWith("text/plain")) {
@@ -214,9 +236,9 @@ public class MessageParser {
             for (int i = 0; i < content.getCount(); i++) {
                 BodyPart part = content.getBodyPart(i);
 
-                if (partIsAttachedFile(part)) {
+                /* if (partIsAttachedFile(part)) {
                     continue;
-                }
+                } */
 
                 String partContentType = part.getContentType().toLowerCase();
                 Object partContent = part.getContent();
@@ -253,37 +275,35 @@ public class MessageParser {
     }
 
     public List<MessageAttach> getAttachContent() throws Exception {
-        ArrayList<MessageAttach> attachContent = new ArrayList<MessageAttach>();
+        ArrayList<MessageAttach> attachContent = new ArrayList<>();
 
-        String contentType = message.getContentType().toLowerCase();
-        if (contentType.startsWith("multipart/")) {
-            MimeMultipart content = (MimeMultipart) message.getContent();
-            getAttaches(attachContent, content);
+        // lazy initialization of mimi4j
+        if (mime4j == null) {
+            mime4j = new DefaultMessageBuilder().parseMessage(
+                mimeData != null ?
+                new ByteArrayInputStream(mimeData) :
+                ((IMAPMessage) this.message).getMimeStream()
+            );
+        }
+
+        var body = mime4j.getBody();
+        if (body instanceof Multipart) {
+            var multipart = (Multipart) body;
+            for (var part : multipart.getBodyParts()) {
+                if (Utils.isBlankString(part.getFilename()))
+                    continue;
+                var attachData = new MessageAttach(part.getFilename(), new ByteArrayInputStream(getContent(part.getBody())));
+                attachContent.add(attachData);
+            }
         }
 
         return attachContent;
     }
 
-    private void getAttaches(ArrayList<MessageAttach> attachContent, MimeMultipart content) throws Exception {
-        for (int i = 0; i < content.getCount(); i++) {
-            BodyPart part = content.getBodyPart(i);
-            if (part.getContentType().startsWith("multipart/")) {
-                getAttaches(attachContent, (MimeMultipart) part.getContent());
-            } else if (partIsAttachedFile(part)) {
-                String attachTitle = MimeUtility.decodeText(part.getFileName() == null ? "attach" : part.getFileName());
-                log.debug("Attach: %s", attachTitle);
-
-                MessageAttach attachData = new MessageAttach(attachTitle, part.getInputStream());
-                attachContent.add(attachData);
-            }
-        }
-    }
-
-    private boolean partIsAttachedFile(Part part) {
-        try {
-            return Utils.notBlankString(part.getFileName());
-        } catch (MessagingException e) {
-            return false;
-        }
+    private byte[] getContent(Body body) throws IOException {
+        DefaultMessageWriter messageWriter = new DefaultMessageWriter();
+        ByteArrayOutputStream out = new ByteArrayOutputStream(20000);
+        messageWriter.writeBody(body, out);
+        return out.toByteArray();
     }
 }

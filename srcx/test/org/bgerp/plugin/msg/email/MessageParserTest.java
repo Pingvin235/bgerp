@@ -1,10 +1,6 @@
 package org.bgerp.plugin.msg.email;
 
 import java.util.List;
-import java.util.Properties;
-
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
 
 import org.apache.james.mime4j.dom.Message;
 import org.apache.james.mime4j.dom.MessageBuilder;
@@ -18,7 +14,7 @@ import org.junit.Test;
 public class MessageParserTest {
     @Test
     public void testMessageParse1() throws Exception {
-        MessageParser mp = new MessageParser(new MimeMessage(null, this.getClass().getResourceAsStream("mail1.eml")));
+        MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail1.eml"));
         Assert.assertEquals("xxx@station.ru", mp.getFrom());
         Assert.assertEquals("bgerpp@gmail.com", mp.getTo());
         Assert.assertEquals("Fwd: Счёт на оплату услуг №85688769 от 13.07.2020", mp.getMessageSubject());
@@ -32,7 +28,7 @@ public class MessageParserTest {
 
     @Test
     public void testMessageParse2() throws Exception {
-        MessageParser mp = new MessageParser(new MimeMessage(null, this.getClass().getResourceAsStream("mail2.eml")));
+        MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail2.eml"));
         Assert.assertEquals("peter@mmm.de", mp.getFrom());
         Assert.assertEquals("shamil@ttt.org", mp.getTo());
         Assert.assertEquals("Re: Fliegerurlaub", mp.getMessageSubject());
@@ -46,7 +42,7 @@ public class MessageParserTest {
 
     @Test
     public void testMessageParse3() throws Exception {
-        MessageParser mp = new MessageParser(new MimeMessage(null, this.getClass().getResourceAsStream("mail3.eml")));
+        MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail3.eml"));
         List<MessageAttach> attaches = mp.getAttachContent();
         Assert.assertEquals(1, attaches.size());
         MessageAttach attach = attaches.get(0);
@@ -55,7 +51,7 @@ public class MessageParserTest {
 
     @Test
     public void testMessageParse4() throws Exception {
-        MessageParser mp = new MessageParser(new MimeMessage(null, this.getClass().getResourceAsStream("mail4.eml")));
+        MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail4.eml"));
         Assert.assertTrue(mp.getTextContent().contains("КОРРЕКТНО заполнять поле _Назначение платежа_"));
         List<MessageAttach> attaches = mp.getAttachContent();
         Assert.assertEquals(3, attaches.size());
@@ -65,15 +61,11 @@ public class MessageParserTest {
 
     @Test
     public void testMessageParse5() throws Exception {
-        var props = new Properties();
-        // https://javaee.github.io/javamail/docs/api/index.html?javax/mail/internet/package-summary.html
-        props.setProperty("mail.mime.allowutf8", "true");
-        System.setProperty("mail.mime.windowsfilenames", "true");
-        MessageParser mp = new MessageParser(new MimeMessage(Session.getInstance(props), this.getClass().getResourceAsStream("mail5.eml")));
+        MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail5.eml"));
         Assert.assertEquals("Счет для ООО \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" от ООО \"Цифровые системы\"", mp.getMessageSubject());
-        //attaches are not parsed properly, switched to Mime4j
-        //List<MessageAttach> attaches = mp.getAttachContent();
-        //Assert.assertEquals(1, attaches.size());
+        List<MessageAttach> attaches = mp.getAttachContent();
+        Assert.assertEquals(1, attaches.size());
+        Assert.assertEquals("УПД ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" 01-05-21.pdf", attaches.get(0).title);
     }
 
     @Test

@@ -200,8 +200,7 @@ public class MessageAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward messageDelete(DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward messageDelete(DynActionForm form, ConnectionSet conSet) throws Exception {
         MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
 
         Map<MessageType, List<String>> typeSystemIds = new HashMap<>(10);

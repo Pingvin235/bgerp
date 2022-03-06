@@ -4,8 +4,6 @@ import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -488,58 +486,52 @@ public class MessageTypeHelpDesk extends MessageType {
     }
 
     @Override
-    public void updateMessage(Connection con, DynActionForm form, Message message) throws BGException {
-        try {
-            ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
+    public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
+        ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
 
-            int processId = message.getProcessId();
+        int processId = message.getProcessId();
 
-            CommonObjectLink topicLink = Utils.getFirst(linkDao.getObjectLinksWithType(processId, getObjectType()));
-            if (topicLink == null) {
-                throw new BGException("К процессу не привязан топик HelpDesk.");
-            }
-
-            int topicId = topicLink.getLinkedObjectId();
-
-            HelpDeskDAO hdDao = new HelpDeskDAO(form.getUser(), getDbInfo());
-
-            HdMessage msg = new HdMessage();
-            msg.setId(Utils.parseInt(message.getSystemId()));
-            msg.setDirection(Message.DIRECTION_OUTGOING);
-            msg.setText(message.getText());
-
-            hdDao.updateMessage(topicId, msg);
-
-            message.setSystemId(String.valueOf(msg.getId()));
-
-            Map<Integer, FileInfo> tmpFiles = SessionTemporaryFiles.getFiles(form, "tmpFileId");
-            for (FileInfo fileInfo : tmpFiles.values()) {
-                ByteArrayOutputStream out = new ByteArrayOutputStream(1000000);
-                IOUtils.copy(fileInfo.inputStream, out);
-                out.close();
-                fileInfo.inputStream.close();
-
-                hdDao.putAttach(msg.getId(), fileInfo.title, out.toByteArray());
-            }
-
-            // вложение выбираются из хелпдеска
-            message.getAttachList().clear();
-
-            msg = hdDao.getMessage(topicId, msg.getId());
-            for (FileData attach : msg.getAttachList()) {
-                message.addAttach(attach);
-            }
-
-            message.setFrom("");
-            message.setTo("");
-
-            new MessageDAO(con).updateMessage(message);
-
-            SessionTemporaryFiles.deleteFiles(form, tmpFiles.keySet());
-        } catch (FileNotFoundException e) {
-            throw new BGException(e);
-        } catch (IOException e) {
-            throw new BGException(e);
+        CommonObjectLink topicLink = Utils.getFirst(linkDao.getObjectLinksWithType(processId, getObjectType()));
+        if (topicLink == null) {
+            throw new BGException("К процессу не привязан топик HelpDesk.");
         }
+
+        int topicId = topicLink.getLinkedObjectId();
+
+        HelpDeskDAO hdDao = new HelpDeskDAO(form.getUser(), getDbInfo());
+
+        HdMessage msg = new HdMessage();
+        msg.setId(Utils.parseInt(message.getSystemId()));
+        msg.setDirection(Message.DIRECTION_OUTGOING);
+        msg.setText(message.getText());
+
+        hdDao.updateMessage(topicId, msg);
+
+        message.setSystemId(String.valueOf(msg.getId()));
+
+        Map<Integer, FileInfo> tmpFiles = SessionTemporaryFiles.getFiles(form, "tmpFileId");
+        for (FileInfo fileInfo : tmpFiles.values()) {
+            ByteArrayOutputStream out = new ByteArrayOutputStream(1000000);
+            IOUtils.copy(fileInfo.inputStream, out);
+            out.close();
+            fileInfo.inputStream.close();
+
+            hdDao.putAttach(msg.getId(), fileInfo.title, out.toByteArray());
+        }
+
+        // вложение выбираются из хелпдеска
+        message.getAttachList().clear();
+
+        msg = hdDao.getMessage(topicId, msg.getId());
+        for (FileData attach : msg.getAttachList()) {
+            message.addAttach(attach);
+        }
+
+        message.setFrom("");
+        message.setTo("");
+
+        new MessageDAO(con).updateMessage(message);
+
+        SessionTemporaryFiles.deleteFiles(form, tmpFiles.keySet());
     }
 }

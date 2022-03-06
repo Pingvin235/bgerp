@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.util.Date;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.bgerp.plugin.kernel.Plugin;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessDAO;
@@ -27,7 +27,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 import ru.bgerp.l10n.Localization;
 
 public class MessageTypeNote extends MessageType {
-    private static final Logger log = Logger.getLogger(MessageTypeNote.class);
+    private static final Log log = Log.getLog();
 
     public MessageTypeNote(Setup setup, int id, ParameterMap config) throws BGException {
         super(setup, id, config.get("title"), config);
@@ -59,14 +59,13 @@ public class MessageTypeNote extends MessageType {
             if (type == null) {
                 log.error("Not found process type with id:" + process.getTypeId());
             } else {
-                EventProcessor.processEvent(new ProcessMessageAddedEvent(form, message, process),
-                        type.getProperties().getActualScriptName(), new SingleConnectionSet(con));
+                EventProcessor.processEvent(new ProcessMessageAddedEvent(form, message, process), new SingleConnectionSet(con));
             }
         }
     }
 
     @Override
-    public void messageDelete(ConnectionSet conSet, String... messageIds) throws BGException {
+    public void messageDelete(ConnectionSet conSet, String... messageIds) throws Exception {
         for (String messageId : messageIds)
             new MessageDAO(conSet.getConnection()).deleteMessage(Utils.parseInt(messageId));
     }

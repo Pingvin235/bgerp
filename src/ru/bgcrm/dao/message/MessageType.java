@@ -121,10 +121,11 @@ public abstract class MessageType extends IdTitle {
     }
 
     /**
-     * Send and extract messages.
+     * Sends and reads message list.
      */
     public void process() {}
 
+    // TODO: Rename to isAnswerSupported
     public boolean isAnswerSupport() {
         return false;
     }
@@ -157,6 +158,7 @@ public abstract class MessageType extends IdTitle {
         return false;
     }
 
+    // TODO: Rename to ísProcessChangeSupported
     public boolean isProcessChangeSupport() {
         return false;
     }

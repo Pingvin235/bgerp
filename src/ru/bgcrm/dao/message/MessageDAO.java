@@ -1,6 +1,7 @@
 package ru.bgcrm.dao.message;
 
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
+import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE_TAG;
 import static ru.bgcrm.dao.message.Tables.TABLE_PROCESS_MESSAGE_STATE;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 
@@ -8,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -36,9 +39,12 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
+/**
+ * Message DAO.
+ *
+ * @author Shamil Vakhitov
+ */
 public class MessageDAO extends CommonDAO {
-    private static final String TABLE_MESSAGE_TAG = "message_tag";
-
     private final User user;
 
     public MessageDAO(Connection con) {
@@ -51,126 +57,138 @@ public class MessageDAO extends CommonDAO {
         this.user = user;
     }
 
-    public Message getMessageById(int id) throws BGException {
+    /**
+     * Selects a message by ID.
+     * @param id
+     * @return
+     * @throws SQLException
+     */
+    public Message getMessageById(int id) throws SQLException {
         Message result = null;
 
-        try {
-            String query = "SELECT m.*, p.* FROM " + TABLE_MESSAGE + " AS m " + "LEFT JOIN " + TABLE_PROCESS
-                    + " AS p ON m.process_id=p.id " + "WHERE m.id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
+        String query = "SELECT m.*, p.* FROM " + TABLE_MESSAGE + " AS m " + "LEFT JOIN " + TABLE_PROCESS
+                + " AS p ON m.process_id=p.id " + "WHERE m.id=?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = getMessageFromRs(rs, "m.");
-                if (rs.getInt("p.id") > 0) {
-                    result.setProcess(ProcessDAO.getProcessFromRs(rs, "p."));
-                }
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            result = getMessageFromRs(rs, "m.");
+            if (rs.getInt("p.id") > 0) {
+                result.setProcess(ProcessDAO.getProcessFromRs(rs, "p."));
             }
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
+        ps.close();
 
         return result;
     }
 
-    public Message getMessageBySystemId(int typeId, String systemId) throws BGException {
+    /**
+     * Selects a message by system ID.
+     * @param typeId
+     * @param systemId
+     * @return
+     * @throws SQLException
+     */
+    public Message getMessageBySystemId(int typeId, String systemId) throws SQLException {
         Message result = null;
 
-        try {
-            String query = "SELECT m.*, p.* FROM " + TABLE_MESSAGE + " AS m " + "LEFT JOIN " + TABLE_PROCESS
-                    + " AS p ON m.process_id=p.id " + "WHERE m.type_id=? AND m.system_id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, typeId);
-            ps.setString(2, systemId);
+        String query = "SELECT m.*, p.* FROM " + TABLE_MESSAGE + " AS m " + "LEFT JOIN " + TABLE_PROCESS
+                + " AS p ON m.process_id=p.id " + "WHERE m.type_id=? AND m.system_id=?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, typeId);
+        ps.setString(2, systemId);
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = getMessageFromRs(rs, "m.");
-                if (rs.getInt("p.id") > 0) {
-                    result.setProcess(ProcessDAO.getProcessFromRs(rs, "p."));
-                }
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            result = getMessageFromRs(rs, "m.");
+            if (rs.getInt("p.id") > 0) {
+                result.setProcess(ProcessDAO.getProcessFromRs(rs, "p."));
             }
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
+        ps.close();
 
         return result;
     }
 
-    public void updateMessage(Message message) throws BGException {
-        try {
-            PreparedStatement ps = null;
+    /**
+     * Updates message entity.
+     * @param message
+     * @throws SQLException
+     */
+    public void updateMessage(Message message) throws SQLException {
+        PreparedStatement ps = null;
 
-            if (message.getId() <= 0) {
-                String query = "INSERT INTO " + TABLE_MESSAGE
-                        + "(system_id, type_id, direction, `from`, `to`, subject, text, user_id, processed, process_id, from_dt, to_dt, attach_data) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-            } else {
-                String query = "UPDATE " + TABLE_MESSAGE
-                        + "SET system_id=?, type_id=?, direction=?, `from`=?, `to`=?, subject=?, text=?, user_id=?, processed=?, process_id=?, from_dt=?, to_dt=?, attach_data=? "
-                        + "WHERE id=?";
-                ps = con.prepareStatement(query);
-            }
-
-            int index = 1;
-            ps.setString(index++, message.getSystemId());
-            ps.setInt(index++, message.getTypeId());
-            ps.setInt(index++, message.getDirection());
-            ps.setString(index++, message.getFrom());
-            ps.setString(index++, message.getTo());
-            ps.setString(index++, message.getSubject());
-            ps.setString(index++, message.getText());
-            ps.setInt(index++, message.getUserId());
-            ps.setBoolean(index++, message.isProcessed());
-            ps.setInt(index++, message.getProcessId());
-            ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(message.getFromTime()));
-            ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(message.getToTime()));
-            ps.setString(index++, FileData.serialize(message.getAttachList()));
-
-            if (message.getId() > 0) {
-                ps.setInt(index++, message.getId());
-            }
-
-            ps.executeUpdate();
-
-            if (message.getId() <= 0) {
-                message.setId(SQLUtils.lastInsertId(ps));
-            }
-            ps.close();
-
-            updateProcessLastMessageTime(message);
-        } catch (SQLException ex) {
-            throw new BGException(ex);
-        }
-    }
-
-    public void updateMessageProcess(Message message) throws BGException {
-        try {
-            String query = "UPDATE " + TABLE_MESSAGE + "SET user_id=?, processed=?, to_dt=?, process_id=? "
+        if (message.getId() <= 0) {
+            String query = "INSERT INTO " + TABLE_MESSAGE
+                    + "(system_id, type_id, direction, `from`, `to`, subject, text, user_id, processed, process_id, from_dt, to_dt, attach_data) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+        } else {
+            String query = "UPDATE " + TABLE_MESSAGE
+                    + "SET system_id=?, type_id=?, direction=?, `from`=?, `to`=?, subject=?, text=?, user_id=?, processed=?, process_id=?, from_dt=?, to_dt=?, attach_data=? "
                     + "WHERE id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-
-            int index = 1;
-            ps.setInt(index++, message.getUserId());
-            ps.setBoolean(index++, message.isProcessed());
-            ps.setTimestamp(index++, TimeUtils.convertDateToTimestamp(message.getToTime()));
-            ps.setInt(index++, message.getProcessId());
-            ps.setInt(index++, message.getId());
-            ps.executeUpdate();
-
-            ps.close();
-
-            updateProcessLastMessageTime(message);
-        } catch (SQLException ex) {
-            throw new BGException(ex);
+            ps = con.prepareStatement(query);
         }
+
+        int index = 1;
+        ps.setString(index++, message.getSystemId());
+        ps.setInt(index++, message.getTypeId());
+        ps.setInt(index++, message.getDirection());
+        ps.setString(index++, message.getFrom());
+        ps.setString(index++, message.getTo());
+        ps.setString(index++, message.getSubject());
+        ps.setString(index++, message.getText());
+        ps.setInt(index++, message.getUserId());
+        ps.setBoolean(index++, message.isProcessed());
+        ps.setInt(index++, message.getProcessId());
+        ps.setTimestamp(index++, TimeConvert.toTimestamp(message.getFromTime()));
+        ps.setTimestamp(index++, TimeConvert.toTimestamp(message.getToTime()));
+        ps.setString(index++, FileData.serialize(message.getAttachList()));
+
+        if (message.getId() > 0) {
+            ps.setInt(index++, message.getId());
+        }
+
+        ps.executeUpdate();
+
+        if (message.getId() <= 0) {
+            message.setId(SQLUtils.lastInsertId(ps));
+        }
+        ps.close();
+
+        updateProcessLastMessageTime(message);
     }
 
-    public void updateMessageTags(int messageId, Set<Integer> tagIds) throws Exception {
+    /**
+     * Marks a message as processed (related to process).
+     * @param message
+     * @throws SQLException
+     */
+    public void updateMessageProcess(Message message) throws SQLException {
+        String query = "UPDATE " + TABLE_MESSAGE + "SET user_id=?, processed=?, to_dt=?, process_id=? WHERE id=?";
+        PreparedStatement ps = con.prepareStatement(query);
+
+        int index = 1;
+        ps.setInt(index++, message.getUserId());
+        ps.setBoolean(index++, message.isProcessed());
+        ps.setTimestamp(index++, TimeConvert.toTimestamp(message.getToTime()));
+        ps.setInt(index++, message.getProcessId());
+        ps.setInt(index++, message.getId());
+        ps.executeUpdate();
+
+        ps.close();
+
+        updateProcessLastMessageTime(message);
+    }
+
+    /**
+     * Updates message tags.
+     * @param messageId
+     * @param tagIds
+     * @throws SQLException
+     */
+    public void updateMessageTags(int messageId, Set<Integer> tagIds) throws SQLException {
         String query = SQL_DELETE + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, messageId);
@@ -187,86 +205,102 @@ public class MessageDAO extends CommonDAO {
         ps.close();
     }
 
-    public Set<Integer> getMessageTags(int messageId) throws Exception {
+    /**
+     * Selects message tags.
+     * @param messageId
+     * @return
+     * @throws SQLException
+     */
+    public Set<Integer> getMessageTags(int messageId) throws SQLException {
         return getIds(TABLE_MESSAGE_TAG, "message_id", "tag_id", messageId);
     }
 
-    public void deleteMessage(int id) throws BGException {
-        try {
-            Message message = null;
-            if (id > 0) {
-                message = getMessageById(id);
-            }
+    /**
+     * Deletes all message related entities.
+     * @param id the message ID.
+     * @throws SQLException
+     */
+    public void deleteMessage(int id) throws SQLException {
+        Message message = null;
+        if (id > 0) {
+            message = getMessageById(id);
+        }
 
-            PreparedStatement ps = con.prepareStatement("DELETE FROM " + TABLE_MESSAGE + "WHERE id=?");
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            ps.close();
+        PreparedStatement ps = con.prepareStatement("DELETE FROM " + TABLE_MESSAGE + "WHERE id=?");
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        ps.close();
 
-            ps = con.prepareStatement(SQL_DELETE + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?");
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            ps.close();
+        ps = con.prepareStatement(SQL_DELETE + TABLE_MESSAGE_TAG + SQL_WHERE + "message_id=?");
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        ps.close();
 
-            if (message != null) {
-                updateProcessLastMessageTime(message);
-            }
-        } catch (SQLException ex) {
-            throw new BGException(ex);
+        if (message != null) {
+            updateProcessLastMessageTime(message);
         }
     }
 
-    public void deleteProcessMessages(int processId) {
-        // TODO: Delete using join from: TABLE_MESSAGE, TABLE_MESSAGE_TAG, TABLE_PROCESS_MESSAGE_STATE
+    /**
+     * Delete process related messages and all related to them entities.
+     * @param processId process ID.
+     * @throws SQLException
+     */
+    public void deleteProcessMessages(int processId) throws SQLException {
+        String query = "DELETE message, process_message_state, message_tag" + SQL_FROM + TABLE_MESSAGE + "AS message"
+            + SQL_INNER_JOIN + TABLE_PROCESS_MESSAGE_STATE + "AS process_message_state ON message.process_id=process_message_state.process_id"
+            + SQL_INNER_JOIN + TABLE_MESSAGE_TAG + "AS message_tag ON message.id=message_tag.message_id"
+            + SQL_WHERE + "message.process_id=?";
+        try (var ps = con.prepareStatement(query)) {
+            ps.setInt(1, processId);
+            ps.executeUpdate();
+        }
     }
 
-    private void updateProcessLastMessageTime(Message message) throws BGException {
-        try {
-            if (message.getProcessId() > 0) {
-                // пока только для входящих
-                //if( message.getDirection() == Message.DIRECTION_INCOMING )
-                {
-                    Date lastIncomingTime = null;
-                    int countIn = 0, countInUnread = 0, lastInId = 0, countOut = 0, lastOutId = 0;
+    /**
+     * Updates process message statistic in {@link Tables#TABLE_PROCESS_MESSAGE_STATE}.
+     * @param message message with {@link Message#getProcessId()} &gt; 0
+     * @throws SQLException
+     */
+    private void updateProcessLastMessageTime(Message message) throws SQLException {
+        if (message.getProcessId() > 0) {
+            Timestamp lastIncomingTime = null;
+            int countIn = 0, countInUnread = 0, lastInId = 0, countOut = 0, lastOutId = 0;
 
-                    String query = "SELECT CAST(MAX(IF(direction=1,from_dt,NULL)) AS DATETIME), COUNT(IF(direction=1,1,0)), SUM(IF(direction=1 AND ISNULL(to_dt), 1, 0)), MAX(IF(direction=1,id,0)), "
-                            + "COUNT(IF(direction=2,1,NULL)), MAX(IF(direction=2,id,0)) " + "FROM " + TABLE_MESSAGE
-                            + "WHERE process_id=?";
-                    PreparedStatement ps = con.prepareStatement(query);
-                    ps.setInt(1, message.getProcessId());
+            String query = "SELECT CAST(MAX(IF(direction=1,from_dt,NULL)) AS DATETIME), COUNT(IF(direction=1,1,0)), SUM(IF(direction=1 AND ISNULL(to_dt), 1, 0)), MAX(IF(direction=1,id,0)), "
+                    + "COUNT(IF(direction=2,1,NULL)), MAX(IF(direction=2,id,0)) " + "FROM " + TABLE_MESSAGE
+                    + "WHERE process_id=?";
+            try (var ps = con.prepareStatement(query)) {
+                ps.setInt(1, message.getProcessId());
 
-                    ResultSet rs = ps.executeQuery();
-                    if (rs.next()) {
-                        lastIncomingTime = TimeUtils.convertTimestampToDate(rs.getTimestamp(1));
-                        countIn = rs.getInt(2);
-                        countInUnread = rs.getInt(3);
-                        lastInId = rs.getInt(4);
-                        countOut = rs.getInt(5);
-                        lastOutId = rs.getInt(6);
-                    }
-                    ps.close();
-
-                    int pos = 0;
-                    query = "INSERT INTO " + TABLE_PROCESS_MESSAGE_STATE + " SET " + "process_id=?, "
-                            + "in_last_dt=?, in_count=?, in_unread_count=?, in_last_id=?, out_count=?, out_last_id=? "
-                            + SQL_ON_DUP_KEY_UPDATE
-                            + "in_last_dt=?, in_count=?, in_unread_count=?, in_last_id=?, out_count=?, out_last_id=?";
-                    ps = con.prepareStatement(query);
-                    ps.setInt(++pos, message.getProcessId());
-                    for (int i = 0; i < 2; i++) {
-                        ps.setTimestamp(++pos, TimeUtils.convertDateToTimestamp(lastIncomingTime));
-                        ps.setInt(++pos, countIn);
-                        ps.setInt(++pos, countInUnread);
-                        ps.setInt(++pos, lastInId);
-                        ps.setInt(++pos, countOut);
-                        ps.setInt(++pos, lastOutId);
-                    }
-                    ps.executeUpdate();
-                    ps.close();
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    lastIncomingTime = rs.getTimestamp(1);
+                    countIn = rs.getInt(2);
+                    countInUnread = rs.getInt(3);
+                    lastInId = rs.getInt(4);
+                    countOut = rs.getInt(5);
+                    lastOutId = rs.getInt(6);
                 }
             }
-        } catch (SQLException e) {
-            throw new BGException(e);
+
+            int pos = 0;
+            query = "INSERT INTO " + TABLE_PROCESS_MESSAGE_STATE + " SET " + "process_id=?, "
+                    + "in_last_dt=?, in_count=?, in_unread_count=?, in_last_id=?, out_count=?, out_last_id=? "
+                    + SQL_ON_DUP_KEY_UPDATE
+                    + "in_last_dt=?, in_count=?, in_unread_count=?, in_last_id=?, out_count=?, out_last_id=?";
+            try (var ps = con.prepareStatement(query)) {
+                ps.setInt(++pos, message.getProcessId());
+                for (int i = 0; i < 2; i++) {
+                    ps.setTimestamp(++pos, lastIncomingTime);
+                    ps.setInt(++pos, countIn);
+                    ps.setInt(++pos, countInUnread);
+                    ps.setInt(++pos, lastInId);
+                    ps.setInt(++pos, countOut);
+                    ps.setInt(++pos, lastOutId);
+                }
+                ps.executeUpdate();
+            }
         }
     }
 
@@ -530,8 +564,8 @@ public class MessageDAO extends CommonDAO {
         result.setTo(rs.getString(prefix + "to"));
         result.setSubject(rs.getString(prefix + "subject"));
         result.setText(rs.getString(prefix + "text"));
-        result.setFromTime(TimeUtils.convertTimestampToDate(rs.getTimestamp(prefix + "from_dt")));
-        result.setToTime(TimeUtils.convertTimestampToDate(rs.getTimestamp(prefix + "to_dt")));
+        result.setFromTime(rs.getTimestamp(prefix + "from_dt"));
+        result.setToTime(rs.getTimestamp(prefix + "to_dt"));
         result.setUserId(rs.getInt(prefix + "user_id"));
         result.setProcessed(rs.getBoolean(prefix + "processed"));
         result.setSystemId(rs.getString(prefix + "system_id"));

@@ -88,7 +88,7 @@ public class MessageTypeForumPost extends MessageType {
     }
 
     @Override
-    public void messageDelete(ConnectionSet conSet, String... messageIds) throws BGException {
+    public void messageDelete(ConnectionSet conSet, String... messageIds) throws Exception {
         for (String messageId : messageIds)
             new MessageDAO(conSet.getConnection()).deleteMessage(Utils.parseInt(messageId));
     }

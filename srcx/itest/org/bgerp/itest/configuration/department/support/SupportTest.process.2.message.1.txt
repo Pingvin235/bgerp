@@ -1,8 +1,8 @@
-Hello, 
+Hello,
 
-during the running of the latest update of your software 
+during the running of the latest update of your software
 the following exceptions are coming in log.
-Disable the message text wrap to see it better. 
+Disable the message text wrap to see it better.
 
 ---
 10-26/13:08:29  INFO [pool-2-thread-2] MessageTypeHelpDesk - staring class ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk

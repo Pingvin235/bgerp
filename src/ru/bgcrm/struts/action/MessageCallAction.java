@@ -24,7 +24,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/messageCall")
 public class MessageCallAction extends BaseAction {
-    
+
     public ActionForward numberRegister(DynActionForm form, ConnectionSet conSet) throws Exception {
         MessageTypeCall type = getCallMessageType(form);
 
@@ -65,7 +65,7 @@ public class MessageCallAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward testCall(DynActionForm form, Connection con) throws BGException {
+    public ActionForward testCall(DynActionForm form, Connection con) throws Exception {
         var type = getCallMessageType(form);
 
         var reg = type.getRegistrationByUser(form.getUserId());

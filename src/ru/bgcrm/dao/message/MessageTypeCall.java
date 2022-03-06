@@ -1,6 +1,7 @@
 package ru.bgcrm.dao.message;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -138,7 +139,7 @@ public class MessageTypeCall extends MessageType {
     }
 
     @Override
-    public void updateMessage(Connection con, DynActionForm form, Message message) throws BGException {
+    public void updateMessage(Connection con, DynActionForm form, Message message) throws SQLException {
         new MessageDAO(con).updateMessage(message);
     }
 
@@ -153,12 +154,12 @@ public class MessageTypeCall extends MessageType {
     }
 
     @Override
-    public Message newMessageGet(ConnectionSet conSet, String messageId) throws BGException {
+    public Message newMessageGet(ConnectionSet conSet, String messageId) throws Exception {
         return new MessageDAO(conSet.getConnection()).getMessageBySystemId(id, messageId);
     }
 
     @Override
-    public void messageDelete(ConnectionSet conSet, String... messageIds) throws BGException {
+    public void messageDelete(ConnectionSet conSet, String... messageIds) throws Exception {
         MessageDAO messageDao = new MessageDAO(conSet.getConnection());
 
         for (String messageId : messageIds) {
@@ -170,7 +171,7 @@ public class MessageTypeCall extends MessageType {
     }
 
     @Override
-    public Message newMessageLoad(Connection con, String messageId) throws BGException {
+    public Message newMessageLoad(Connection con, String messageId) throws Exception {
         Message result = null;
 
         MessageDAO messageDao = new MessageDAO(con);

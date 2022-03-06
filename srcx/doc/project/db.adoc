@@ -357,7 +357,7 @@ DB updates log. The table is created on a first use.
 |===
 
 === message
-Сообщения, дополнительные сведения о значениях полей - в исходном IDе javadoc:ru.bgcrm.model.message.Message[].
+Message, entities of javadoc:ru.bgcrm.model.message.Message[].
 [cols="a,a,50%a", options="header"]
 |===
 |Column
@@ -374,7 +374,7 @@ DB updates log. The table is created on a first use.
 
 |process_id
 |INT
-|ID процесса, link to <<_process, process:id>>
+|process ID, link to <<_process, process:id>>
 
 |type_id
 |INT
@@ -423,6 +423,23 @@ DB updates log. The table is created on a first use.
 |attach_data
 |TEXT
 |наименования вложений
+|===
+
+=== message_tag
+Message tags.
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|message_id
+|INT
+|message ID, link to <<_message, message:id>>
+
+|tag_id
+|INT
+|message <<../kernel/message.adoc#message-tag, tag>> ID
 |===
 
 === news
@@ -946,7 +963,7 @@ Cтроковые параметры
 
 |id
 |INT
-|уникальный ID процесса
+|уникальный process ID
 
 |type_id
 |INT
@@ -1012,7 +1029,7 @@ Cтроковые параметры
 
 |process_id
 |INT
-|ID процесса
+|process ID
 
 |group_id
 |INT
@@ -1038,7 +1055,7 @@ Cтроковые параметры
 
 |process_id
 |INT
-|ID процесса, link to <<_process, process:id>>
+|process ID, link to <<_process, process:id>>
 
 |group_id
 |INT
@@ -1060,7 +1077,7 @@ Cтроковые параметры
 
 |process_id
 |INT
-|ID процесса, link to <<_process, process:id>>
+|process ID, link to <<_process, process:id>>
 
 |object_type
 |VARCHAR
@@ -1094,7 +1111,7 @@ Cтроковые параметры
 
 |id
 |INT
-|ID процесса, link to <<_process, process:id>>
+|process ID, link to <<_process, process:id>>
 
 |dt
 |DATETIME
@@ -1110,8 +1127,41 @@ Cтроковые параметры
 |===
 
 === process_message_state
-Статус сообщений процессов.
-// TODO
+Process messages state.
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|process_id
+|INT
+|process ID, link to <<_process, process:id>>
+
+|in_last_dt
+|DATETIME
+|last incoming message time from <<_message, message:from_dt>>
+
+|out_last_dt
+|DATETIME
+|last outgoing message time from <<_message, message:from_dt>>
+
+|in_count
+|INT
+|count of incoming messages
+
+|in_unread_count
+|INT
+|count of unread incoming messages
+
+|in_last_id
+|INT
+|last incoming message ID, link to <<_message, message:id>>
+
+|out_last_id
+|INT
+|last outgoing message ID, link to <<_message, message:id>>
+|===
 
 === process_open_secret
 Generated secrets for accessing processes via open interface.
@@ -1141,8 +1191,7 @@ Generated secrets for accessing processes via open interface.
 
 |process_id
 |INT
-|ID процесса
-
+|process ID
 
 |dt
 |DATETIME

@@ -1,0 +1,5 @@
+Cleanup queries for unrelated entities.
+process_message_state - for missing processes or messages
+message_tag - for missing messages
+message - for missing processes
+Provide may be in tables description as Java code.

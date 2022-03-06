@@ -1000,11 +1000,11 @@ Let's take interface filters, as example - use *restoreRequestParams* method in 
 
 Saving a value:
 [snippet, from="resto", to=");", remove-leading=    "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L425-L425[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L424-L424[ru.bgcrm.struts.action.MessageAction]
 
 Restoring a value:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L455-L463[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L454-L462[ru.bgcrm.struts.action.MessageAction]
 
 Saving and restoring a value at once:
 [snippet, from="//", to=");", remove-leading="    "]
