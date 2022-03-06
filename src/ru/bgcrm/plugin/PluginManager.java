@@ -84,7 +84,7 @@ public class PluginManager {
      */
     private List<Plugin> loadPlugins() {
         var setup = Setup.getSetup();
-        var enabledDefault = setup.get("plugin.enable.default", "1");
+        var enabledDefault = setup.get("plugin.enable.default", "0");
         List<Plugin> result =
             this.fullSortedPluginList.stream().filter(p -> p.isEnabled(setup, enabledDefault))
             .collect(Collectors.toList());

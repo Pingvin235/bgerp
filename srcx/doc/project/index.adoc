@@ -978,7 +978,11 @@ link:../../../src/ru/bgcrm/worker/MessageExchange.java#L17-L20[ru.bgcrm.worker.M
 
 Log message with substitutions:
 [snippet, from="log.debug(", to=");", remove-leading="            "]
+<<<<<<< HEAD:srcx/doc/project.adoc
+link:../../src/ru/bgcrm/Server.java#L116-L116[ru.bgcrm.Server]
+=======
 link:../../../src/ru/bgcrm/Server.java#L116-L116[ru.bgcrm.Server]
+>>>>>>> master:srcx/doc/project/index.adoc
 
 Exception message output:
 [snippet, from="try", to="}", remove-leading="                "]

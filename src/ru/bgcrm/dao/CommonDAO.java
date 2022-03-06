@@ -208,6 +208,16 @@ public class CommonDAO {
         return result;
     }
 
+    /**
+     * Queries int list SELECT {@code selectColumn} FROM {@code tableName} WHERE {@code linkColumn} = {@code id} ORDER BY {@code posColumn}
+     * @param tableName
+     * @param linkColumn
+     * @param selectColumn
+     * @param posColumn
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     protected List<Integer> getIds(String tableName, String linkColumn, String selectColumn, String posColumn, int id)
             throws SQLException {
         List<Integer> result = new ArrayList<Integer>();
@@ -215,13 +225,13 @@ public class CommonDAO {
         String query = SQL_SELECT + selectColumn + " FROM " + tableName + " WHERE " + linkColumn + "=? "
                 + " ORDER BY " + posColumn;
 
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            result.add(rs.getInt(1));
+        try (var ps = con.prepareStatement(query)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getInt(1));
+            }
         }
-        ps.close();
 
         return result;
     }

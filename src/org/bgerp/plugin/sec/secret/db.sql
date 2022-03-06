@@ -4,3 +4,5 @@ CREATE TABLE IF NOT EXISTS `secret_open` (
 	`dt` DATETIME NOT NULL,
 	UNIQUE KEY id (`id`)
 );
+
+-- ! after must be only a new line !;

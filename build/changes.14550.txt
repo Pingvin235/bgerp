@@ -1,0 +1,2 @@
+A: Plugin Calendar prototype.
+B: Default value of 'plugin.enable.default' config parameter is set to 0. https://bgerp.ru/doc/3.0/manual/kernel/setup.html#config-plugin

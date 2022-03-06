@@ -1,0 +1,54 @@
+#
+
+# each of the types adds own decoration class 'calendar-day-work',
+# TODO: Think about embedding these types to Java enum
+calendar:day.type.work.title=Work
+calendar:day.type.work-half.title=Work Half day
+calendar:day.type.saturday.title=Saturday
+calendar:day.type.sunday.title=
+calendar:day.type.holiday.title=Public holiday
+calendar:day.type.holiday-school.title=School holiday
+calendar:day.type.vacation.title=Vacation
+
+calendar:calendar.1.title=Working Calendar Nemeses
+calendar:calendar.1.unit.minutes=60
+
+calendar:account.1.title=Vacations
+calendar:account.1.year.budget.days=28
+
+cnt=1
+
+# provides basic 40 hour week events
+calendar:event.processor.{@inc:cnt}.title=Working week 40 hours
+calendar:event.processor.{@cnt}.class=org.bgerp.plugin.calendar.model.event.processor.WorkingWeek40
+calendar:event.processor.{@cnt}.account.1.use.hours=8
+# TODO: may be unneeded if make those embedded in Java enum
+calendar:event.processor.{@cnt}.day.type.work=work
+calendar:event.processor.{@cnt}.day.type.sunday=sunday
+
+# corrects 24th and 31th of december to half days
+calendar:event.processor.{@inc:cnt}.title=Company Rule
+calendar:event.processor.{@cnt}.class=org.bgerp.plugin.calendar.model.event.processor.HalfDayWork
+calendar:event.processor.{@cnt}.dates=24.12,31.12
+calendar:event.processor.{@cnt}.account.1.use.hours=4
+# TODO: may be unneeded if make those embedded in Java enum
+calendar:event.processor.{@cnt}.day.type=work-half
+
+calendar:event.processor.{@inc:cnt}.title=Feiertage Bayern
+calendar:event.processor.{@cnt}.class=org.bgerp.plugin.calendar.model.event.processor.de.FeiertageAPI
+calendar:event.processor.{@cnt}.land=BY
+# TODO: may be unneeded if make those embedded in Java enum
+calendar:event.processor.{@cnt}.day.type.work=work
+calendar:event.processor.{@cnt}.day.type=holiday
+
+calendar:event.processor.{@inc:cnt}.title=Vacation
+calendar:event.processor.{@inc}.class=org.bgerp.plugin.calendar.model.event.processor.Vacation
+calendar:event.processor.{@inc}.account=1
+# TODO: may be unneeded if make those embedded in Java enum
+calendar:event.processor.{@cnt}.day.type=vacation
+
+# just for info
+#calendar:event.processor.{@inc:cnt}.title=Schulferien Bayern
+#calendar:event.processor.{@cnt}.class=org.bgerp.plugin.calendar.model.event.processor.de.FerienAPI
+#calendar:event.processor.{@cnt}.land=BY
+#calendar:event.processor.{@cnt}.type=5
