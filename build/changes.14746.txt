@@ -1,0 +1,1 @@
+A: Plugin Report. Process type filter in 'Processes' report.

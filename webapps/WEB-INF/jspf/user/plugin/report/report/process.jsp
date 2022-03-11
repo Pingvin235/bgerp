@@ -7,17 +7,20 @@
 
 <div class="report center1020">
 	<html:form action="/user/plugin/report/report/process">
-		<ui:combo-single hiddenName="type" widthTextValue="5em" value="${form.param.type}">
+		<ui:combo-single hiddenName="mode" widthTextValue="5em" value="${form.param.mode}">
 			<jsp:attribute name="valuesHtml">
 				<li value="create">${l.l('Созданные')}</li>
 				<li value="close">${l.l('Закрытые')}</li>
 			</jsp:attribute>
 		</ui:combo-single>
-		&nbsp;
 		${l.l("с")}:
 		<ui:date-time paramName="dateFrom" value="${form.param.dateFrom}"/>
 		${l.l("по")}:
 		<ui:date-time paramName="dateTo" value="${form.param.dateTo}"/>
+
+		<ui:combo-check paramName="type" values="${form.getSelectedValues('type')}"
+			list="${form.response.data.types}" map="${ctxProcessTypeMap}"
+			prefixText="${l.l('Тип')}:" showFilter="1" widthTextValue="10em"/>
 
 		<ui:button type="out" styleClass="ml1 mr1 more out" onclick="$$.ajax.load(this.form, $$.shell.$content(this))"/>
 

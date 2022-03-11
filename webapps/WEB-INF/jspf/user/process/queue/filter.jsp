@@ -317,18 +317,14 @@
 						<c:set var="title" value="${l.l('Тип')}"/>
 						<c:set var="code">
 							<u:sc>
-								<c:set var="prefixText" value="${l.l('Тип')}:"/>
-								<c:set var="paramName" value="type"/>
-								<c:set var="list" value="${form.response.data.typeList}"/>
-								<c:set var="map" value="${ctxProcessTypeMap}"/>
-								<c:set var="showFilter" value="1"/>
 								<c:set var="values" value="${filter.defaultValues}"/>
-								<c:set var="available" value="${filter.availableValues}"/>
-								<c:set var="widthTextValue" value="100px"/>
-								<c:if test="${not empty savedParamsFilters.getSelectedValues( paramName ) }">
-									<c:set var="values" value="${savedParamsFilters.getSelectedValues( paramName ) }"/>
+								<c:if test="${not empty savedParamsFilters.getSelectedValues(paramName)}">
+									<c:set var="values" value="${savedParamsFilters.getSelectedValues(paramName)}"/>
 								</c:if>
-								<%@ include file="/WEB-INF/jspf/combo_check.jsp"%>
+
+								<ui:combo-check paramName="type" values="${values}"
+									list="${form.response.data.typeList}" map="${ctxProcessTypeMap}" available="${filter.availableValues}"
+									prefixText="${l.l('Тип')}:" showFilter="1" widthTextValue="10em"/>
 							</u:sc>
 					 	</c:set>
 						<%@ include file="filter_item.jsp"%>

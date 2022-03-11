@@ -2,6 +2,11 @@ package ru.bgcrm.model;
 
 import java.io.Serializable;
 
+/**
+ * Basic entity with unique integer ID.
+ *
+ * @author Shamil Vakhitov
+ */
 public class Id implements Serializable {
     protected int id;
 

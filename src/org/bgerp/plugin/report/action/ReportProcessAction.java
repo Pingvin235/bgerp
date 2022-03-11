@@ -2,25 +2,29 @@ package org.bgerp.plugin.report.action;
 
 import java.util.Date;
 import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.plugin.report.Plugin;
+import org.bgerp.plugin.report.model.Column;
+import org.bgerp.plugin.report.model.Columns;
+import org.bgerp.plugin.report.model.Data;
 import org.bgerp.plugin.report.model.chart.Chart;
 import org.bgerp.plugin.report.model.chart.ChartBar;
 import org.bgerp.plugin.report.model.chart.ChartPie;
 import org.bgerp.util.sql.PreparedQuery;
-import org.bgerp.plugin.report.model.Column;
-import org.bgerp.plugin.report.model.Columns;
-import org.bgerp.plugin.report.model.Data;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.process.Tables;
 import ru.bgcrm.model.BGIllegalArgumentException;
+import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
+import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgerp.l10n.Localizer;
 
@@ -66,32 +70,46 @@ public class ReportProcessAction extends ReportActionBase {
                 final var dateFrom = form.getParamDate("dateFrom", new Date(), true);
                 final var dateTo = form.getParamDate("dateTo", new Date(), true);
 
-                final var type = form.getParam("type", "create", true, null);
-                if (!StringUtils.equalsAny(type, "create", "close"))
+                final var mode = form.getParam("mode", "create", true, null);
+                if (!StringUtils.equalsAny(mode, "create", "close"))
                     throw new BGIllegalArgumentException();
 
+                final var typeIds = form.getSelectedValues("type");
+
                 final var pq = new PreparedQuery(conSet.getSlaveConnection());
-                pq.addQuery(SQL_SELECT_COUNT_ROWS + " id, type_id, " + type + "_user_id, " + type + "_dt, description " + SQL_FROM + Tables.TABLE_PROCESS);
+                pq.addQuery(SQL_SELECT_COUNT_ROWS + " id, type_id, " + mode + "_user_id, " + mode + "_dt, description " + SQL_FROM + Tables.TABLE_PROCESS);
                 pq.addQuery(SQL_WHERE);
-                pq.addQuery(type + "_dt");
+                pq.addQuery(mode + "_dt");
                 pq.addQuery(" BETWEEN ? AND ?");
                 pq.addDate(dateFrom);
                 pq.addDate(TimeUtils.getNextDay(dateTo));
+                if (!typeIds.isEmpty())
+                    pq.addQuery(SQL_AND + "type_id IN (" + Utils.toString(typeIds) + ")");
                 pq.addQuery(SQL_ORDER_BY);
-                pq.addQuery(type + "_dt");
+                pq.addQuery(mode + "_dt");
                 pq.addQuery(getPageLimit(form.getPage()));
+
+                var processTypes = new TreeSet<IdTitle>();
 
                 var rs = pq.executeQuery();
                 while (rs.next()) {
                     final var record = data.addRecord();
                     record.add(rs.getInt(record.pos()));
-                    record.add(ProcessTypeCache.getProcessTypeSafe(rs.getInt(record.pos())).getTitle());
+
+                    var processType = ProcessTypeCache.getProcessTypeSafe(rs.getInt(record.pos()));
+                    record.add(processType.getTitle());
+                    processTypes.add(processType);
+
                     final int userId = rs.getInt(record.pos());
                     record.add(userId);
                     record.add(UserCache.getUser(userId).getTitle());
                     record.add(rs.getTimestamp(record.pos()));
                     record.add(rs.getString(record.pos()));
                 }
+
+                form.setResponseData("types", processTypes.stream()
+                    .sorted((t1, t2) -> t1.getTitle().compareTo(t2.getTitle()))
+                    .collect(Collectors.toList()));
 
                 setRecordCount(form.getPage(), pq.getPrepared());
             }

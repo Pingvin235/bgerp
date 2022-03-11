@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.bgerp.util.Log;
 
-public class ProcessType extends IdTitle {
+public class ProcessType extends IdTitle implements Comparable<ProcessType> {
     private static final Log log = Log.getLog();
 
     private int parentId;
@@ -62,6 +62,7 @@ public class ProcessType extends IdTitle {
         return children;
     }
 
+    @Deprecated
     public List<ProcessType> getChilds() {
         log.warn("Called deprecated method getChilds()");
         return children;
@@ -87,5 +88,10 @@ public class ProcessType extends IdTitle {
     @JsonIgnore
     public List<ProcessType> getPath() {
         return ProcessTypeCache.getTypePath(id);
+    }
+
+    @Override
+    public int compareTo(ProcessType o) {
+        return id - o.getId();
     }
 }
