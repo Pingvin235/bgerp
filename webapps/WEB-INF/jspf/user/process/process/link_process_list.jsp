@@ -30,7 +30,7 @@
 
 <c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.links.process.down', 'processShowProcessLinks.Links') ne '0'}">
 	<c:if test="${(processType.properties.configMap.getSok('1', false, 'show.tab.links.process.add.from.buffer', 'processCreateLinkModeSelect') ne '0') and
-		(p.check(ctxUser, 'ru.bgcrm.struts.action.ProcessAction:linkProcessCreate'))}">
+		ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:linkProcessCreate')}">
 		<c:set var="uiid" value="${u:uiid()}"/>
 		<div id="${uiid}">
 			<html:form action="/user/process/link" styleId="addButton" styleClass="pt1">
@@ -61,7 +61,7 @@
 
 						<c:set var="script">
 							$('#${uiid} #addButton').hide();
-							
+
 							let url = '${url}&linkType=' + this.form.objectType.value;
 							const processes = openedObjectList({typesInclude: ['process']});
 							for (const i in processes) {

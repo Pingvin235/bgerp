@@ -10,7 +10,6 @@ import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.model.Config;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 
 public class ConfigHelper {
@@ -24,33 +23,21 @@ public class ConfigHelper {
     }
 
     public static int addIncludedConfig(String title, String content) throws Exception {
-        var con = DbTest.conRoot;
+        var dao = new ConfigDAO(DbTest.conRoot);
 
-        var dao = new ConfigDAO(con);
-
-        var config = createConfig(title, content);
+        var config = new Config();
+        config.setParentId(ConfigTest.configMainId);
+        config.setTitle(title);
+        config.setData(content);
+        config.getLastModify().setTime(new Date());
 
         dao.updateGlobalConfig(config);
-        Preferences.processIncludes(dao, config.getData(), true);
 
-        int configId = config.getId();
-        Assert.assertTrue(configId > 0);
+        Assert.assertTrue(config.getId() > 0);
 
-        ConfigHelper.addMainConfigInclude(dao, title, configId);
+        Setup.resetSetup(DbTest.conPoolRoot);
 
-        return configId;
-    }
-
-    private static void addMainConfigInclude(ConfigDAO dao, String title, int configId) throws Exception {
-        synchronized (ConfigTest.class) {
-            var configMain = dao.getGlobalConfig(ConfigTest.configMainId);
-            configMain.setData(configMain.getData() + "\n#\n# " + title + "\ninclude." + configId + "=1");
-            dao.updateGlobalConfig(configMain);
-
-            Preferences.processIncludes(dao, configMain.getData(), true);
-
-            Setup.resetSetup(DbTest.conPoolRoot);
-        }
+        return config.getId();
     }
 
     public static void addToConfig(int configId, String content) throws Exception {

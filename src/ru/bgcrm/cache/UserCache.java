@@ -229,9 +229,9 @@ public class UserCache extends Cache<UserCache> {
             }
 
             if (withId) {
-                titleWithPath = group.getTitle() + " (" + group.getId() + ") " + " -> " + titleWithPath;
+                titleWithPath = group.getTitle() + " (" + group.getId() + ") " + " / " + titleWithPath;
             } else {
-                titleWithPath = group.getTitle() + " -> " + titleWithPath;
+                titleWithPath = group.getTitle() + " / " + titleWithPath;
             }
         }
 

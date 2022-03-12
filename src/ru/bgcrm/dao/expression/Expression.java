@@ -16,13 +16,12 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.servlet.jsp.PermissionTag;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 /**
- * Обработчик JEXL выражений.
- * Используются для проверки условий, выполнения скриптов.
+ * JEXL expression processor.
+ * JEXL scripts are used for condition checking and execution small scripts.
  *
  * http://commons.apache.org/jexl/reference/syntax.html#Functions
  */
@@ -38,7 +37,6 @@ public class Expression {
     private static final StringUtils PREFIX_su = new StringUtils();
     private static final CollectionUtils PREFIX_cu = new CollectionUtils();
     private static final FileUtils PREFIX_fu = new FileUtils();
-    private static final PermissionTag PREFIX_p = new PermissionTag();
 
     private JexlEngine jexl;
 
@@ -122,7 +120,6 @@ public class Expression {
         contextVars.put("su", PREFIX_su);
         contextVars.put("cu", PREFIX_cu);
         contextVars.put("fu", PREFIX_fu);
-        contextVars.put("p", PREFIX_p);
     }
 
     public Object getContextObject(String name) {

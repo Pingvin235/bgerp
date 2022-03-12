@@ -33,6 +33,8 @@ import ru.bgerp.l10n.Localizer;
  * @author Shamil Vakhitov
  */
 public abstract class Plugin {
+    private static final String ENABLE_KEY_SUFFIX = ":enable";
+
     private static final Log log = Log.getLog();
 
     protected static final String PATH_JS = "/js";
@@ -62,10 +64,12 @@ public abstract class Plugin {
         return id;
     }
 
-    /** Use {@link #getId()} */
-    @Deprecated
-    public String getName() {
-        return getId();
+    /**
+     * Human readable plugin title.
+     * @return
+     */
+    public String getTitle() {
+        return id.substring(0, 1).toUpperCase() + id.substring(1);
     }
 
     /**
@@ -174,7 +178,7 @@ public abstract class Plugin {
             "lic".equals(defaultValue) ?
             AppLicense.getInstance().getPlugins().contains(getId()) :
             Utils.parseBoolean(defaultValue, false);
-        return config.getBoolean(getId() + ":enable", defaultValueBool);
+        return config.getBoolean(getId() + ENABLE_KEY_SUFFIX, defaultValueBool);
     }
 
     /**

@@ -13,6 +13,11 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
+    public String getTitle() {
+        return "SMS";
+    }
+
+    @Override
     public void init(Connection con) throws Exception {
         super.init(con);
 

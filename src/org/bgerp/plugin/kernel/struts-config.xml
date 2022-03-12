@@ -15,11 +15,6 @@
 			<forward name="groupUpdate" path="/WEB-INF/jspf/admin/customer/group/update.jsp" />
 		</action>
 
-		<action path="/admin/config" parameter="action" type="ru.bgcrm.struts.action.admin.ConfigAction" name="form" scope="request" >
-			<forward name="list" path="/WEB-INF/jspf/admin/config/list.jsp" />
-			<forward name="update" path="/WEB-INF/jspf/admin/config/update.jsp" />
-		</action>
-
 		<action path="/admin/dynamic" parameter="action" type="ru.bgcrm.struts.action.admin.DynamicAction" name="form" scope="request">
 			<forward name="default" path="/WEB-INF/jspf/admin/dynamic/dynamic.jsp" />
 		</action>

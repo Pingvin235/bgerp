@@ -148,3 +148,4 @@ CREATE TABLE IF NOT EXISTS `n_config_global` (
 CALL add_column_if_not_exists('n_config_global', 'last_modify_dt', 'DATETIME NOT NULL');
 CALL add_column_if_not_exists('n_config_global', 'last_modify_user_id', 'INT NOT NULL');
 CALL rename_table('n_config_global', 'config_global');
+CALL add_column_if_not_exists('config_global', 'parent_id', 'INT NOT NULL AFTER id');

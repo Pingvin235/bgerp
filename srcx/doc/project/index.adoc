@@ -646,7 +646,7 @@ The actual main identifier stays always last and will be used upon the next save
 In the following example an action class was renamed and action method changed to *unspecified*, defined in the configuration by *null*.
 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
-link:../../../src/org/bgerp/plugin/kernel/action.xml#L155-L156[org/bgerp/plugin/kernel/action.xml]
+link:../../../src/org/bgerp/plugin/kernel/action.xml#L152-L153[org/bgerp/plugin/kernel/action.xml]
 
 The same principe may be used for grouping many methods to a single logical action, for example typical get and update calls.
 
@@ -755,7 +755,7 @@ The tag enables code inside it only when mentioned <<action, action>> is <<actio
 [snippet, from="<p:ch", to=">"]
 link:../../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp#L11-L14[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp]
 
-For combining permission check with other checks use function <<jsp-request-params, p.check>>.
+For combining permission check with other checks use function <<jsp-request-params, ctxUser.checkPerm>>, pointing to javadoc:ru.bgcrm.model.user.User[].
 [snippet, from="<c:if", to=">"]
 link:../../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L32-L33[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
 
@@ -764,7 +764,7 @@ link:../../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L3
 Set the left area and the right areas of <<../kernel/interface.adoc#user-top-line, top line>> in user interface.
 <<l10n, Localization>> is supported using *ltext* attribute. Tag shell:state may create a documentation help link.
 [snippet, from="<shell:t", to=">"]
-link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L92-L93[webapps/WEB-INF/jspf/admin/config/list.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L88-L89[webapps/WEB-INF/jspf/admin/config/list.jsp]
 
 [[js]]
 ==== Java Script
@@ -1077,11 +1077,11 @@ link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L207-L209[ru.bgc
 === File upload
 JSP page:
 [snippet, from="<c:set", to="script>", remove-leading="				"]
-link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L68-L80[webapps/WEB-INF/jspf/admin/config/list.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L64-L76[webapps/WEB-INF/jspf/admin/config/list.jsp]
 
 Action:
 [snippet, from="public", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L128-L135[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
+link:../../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L153-L160[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
 
 [[sample-jsp-ui]]
 === UI Only

@@ -17,12 +17,10 @@
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
 			<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
-			
-			<ui:input-text name="filter" value="${form.param['filter']}" size="20" placeholder="${l.l('Фильтр')}" 
+
+			<ui:input-text name="filter" value="${form.param['filter']}" size="20" placeholder="${l.l('Фильтр')}"
 				title="${l.l('Фильтр по содержимому конфигурации')}"
 				onSelect="$$.ajax.load(this.form, $$.shell.$content(this)); return false;"/>
-
-			<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 		</html:form>
 
 		<table class="data mt1">
@@ -30,7 +28,9 @@
 				<td width="30">&#160;</td>
 				<td width="30">ID</td>
 				<td width="50">${l.l('Активный')}</td>
-				<td width="100%">${l.l('Наименование')}</td>
+				<td width="50%">${l.l('Наименование')}</td>
+				<td width="50%">${l.l('Включенные плагины')}</td>
+				<td>&nbsp;</td>
 			</tr>
 			<c:forEach var="item" items="${form.response.data.list}">
 				<c:set var="item" scope="request" value="${item}"/>
@@ -44,20 +44,16 @@
 			<table class="data">
 				<tr>
 					<td>ID</td>
+					<td>${l.l('Наименование')}</td>
 				</tr>
 				<c:forEach var="item" items="${ctxPluginManager.pluginList}">
 					<tr>
 						<td>${item.id}</td>
+						<td>${item.title}</td>
 					</tr>
 				</c:forEach>
 			</table>
-			<p:check action="ru.bgcrm.struts.action.admin.ConfigAction:pluginsInit">
-				<button class="btn-grey mt1 w100p" type="button"
-					onclick="$$.ajax
-						.post('/admin/config.do?action=pluginsInit')
-						.done(() => {$$.ajax.load('${form.requestUrl}', $$.shell.$content(this))})
-					">${l.l('Иниациализировать плагины')}</button>
-			</p:check>
+			<%@ include file="../app/app_restart.jsp"%>
 		</div><%--
 	--%><div class="pl1" style="width: 50%;">
 			<h2>${l.l('Лицензия')}</h2>

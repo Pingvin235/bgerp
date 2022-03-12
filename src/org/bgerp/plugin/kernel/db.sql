@@ -791,14 +791,15 @@ UPDATE param_address SET n=1 WHERE n=0;
 CALL drop_key_if_exists('param_address', 'id_param');
 CALL add_unique_key_if_not_exists('param_address', 'id_param_id_value', '(id, param_id, value)');
 
--- TODO: CALL drop_column_if_exists('param_file', 'user_id');
--- TODO: CALL drop_column_if_exists('param_file', 'comment');
--- TODO: CALL drop_column_if_exists('param_file', 'version');
+CALL drop_column_if_exists('param_file', 'user_id');
+CALL drop_column_if_exists('param_file', 'comment');
+CALL drop_column_if_exists('param_file', 'version');
+CALL drop_column_if_exists('user', 'email');
+CALL drop_column_if_exists('user', 'ids');
+CALL drop_column_if_exists('process_type', 'archive');
 
--- TODO: CALL drop_column_if_exists('user', 'email');
--- TODO: CALL drop_column_if_exists('user', 'ids');
-
--- TODO: CALL drop_column_if_exists('process_type', 'archive);
+-- TODO: CALL drop_column_if_exists('config_global', 'dt');
+-- TODO: CALL drop_column_if_exists('config_global', 'user_id');
 
 -- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

@@ -14,7 +14,7 @@ import ru.bgcrm.util.distr.call.ExecuteSQL;
 
 /**
  * Special plugin for application's kernel.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class Plugin extends ru.bgcrm.plugin.Plugin {
@@ -45,9 +45,9 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     public Set<Table> getTables() {
         // used the order same with db.sql
         return Set.of(
-            new Table(Tables.TABLE_ADDRESS_AREA, Type.DIRECTORY), 
+            new Table(Tables.TABLE_ADDRESS_AREA, Type.DIRECTORY),
             new Table(Tables.TABLE_ADDRESS_CITY, Type.DIRECTORY),
-            new Table(Tables.TABLE_ADDRESS_CONFIG, Type.DIRECTORY), 
+            new Table(Tables.TABLE_ADDRESS_CONFIG, Type.DIRECTORY),
             new Table(Tables.TABLE_ADDRESS_COUNTRY, Type.DIRECTORY),
             new Table(Tables.TABLE_ADDRESS_HOUSE, Type.DIRECTORY),
             new Table(Tables.TABLE_ADDRESS_QUARTER, Type.DIRECTORY),
@@ -68,7 +68,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     @Override
     public Set<String> getUnusedPaths() {
         return Set.of(
-            "lib/app/bgcrm.jar", 
+            "lib/app/bgcrm.jar",
             "plugin"
         );
     }

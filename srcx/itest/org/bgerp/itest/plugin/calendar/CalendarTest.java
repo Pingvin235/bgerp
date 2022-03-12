@@ -1,4 +1,4 @@
-package org.bgerp.itest.plugin.calendar;
+/*package org.bgerp.itest.plugin.calendar;
 
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.PluginHelper;
@@ -22,4 +22,4 @@ public class CalendarTest {
         ConfigHelper.addIncludedConfig("Plugin Calendar",
             PluginHelper.initPlugin(new org.bgerp.plugin.calendar.Plugin()) + ResourceHelper.getResource(this, "config.txt"));
     }
-}
+}*/

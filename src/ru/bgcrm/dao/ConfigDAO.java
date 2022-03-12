@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -16,10 +17,12 @@ import ru.bgcrm.model.Config;
 import ru.bgcrm.model.ConfigRecord;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.SearchResult;
+import ru.bgcrm.util.ParameterMap;
+import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 public class ConfigDAO extends CommonDAO {
-    public static final String TABLE_CONFIG_GLOBAL = "config_global";
+    public static final String TABLE_CONFIG_GLOBAL = " config_global ";
     @Deprecated
     private String tableName;
 
@@ -48,7 +51,7 @@ public class ConfigDAO extends CommonDAO {
             query.append("*");
             query.append(SQL_FROM);
             query.append(TABLE_CONFIG_GLOBAL);
-            
+
             query.append(SQL_WHERE);
             query.append("1>0");
 
@@ -71,9 +74,7 @@ public class ConfigDAO extends CommonDAO {
             PreparedStatement ps = con.prepareStatement(query.toString());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Config config = new Config();
-                setGlobalConfigData(config, rs);
-                list.add(config);
+                list.add(getGlobalConfigFromRs(rs));
             }
 
             page.setRecordCount(getFoundRows(ps));
@@ -98,8 +99,7 @@ public class ConfigDAO extends CommonDAO {
         ps.setInt(index++, id);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            config = new Config();
-            setGlobalConfigData(config, rs);
+            config = getGlobalConfigFromRs(rs);
             LastModifyDAO.setLastModify(config, rs);
         }
         ps.close();
@@ -121,8 +121,7 @@ public class ConfigDAO extends CommonDAO {
         PreparedStatement ps = con.prepareStatement(query.toString());
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            config = new Config();
-            setGlobalConfigData(config, rs);
+            config = getGlobalConfigFromRs(rs);
         }
         ps.close();
 
@@ -183,11 +182,11 @@ public class ConfigDAO extends CommonDAO {
             query.append(SQL_INSERT);
             query.append(TABLE_CONFIG_GLOBAL);
             query.append(SQL_SET);
-            query.append("active=false, title=?, data=?, dt=now(), user_id=?, " + LastModifyDAO.LAST_MODIFY_COLUMNS);
+            query.append("title=?, data=?, parent_id=?, " + LastModifyDAO.LAST_MODIFY_COLUMNS);
             PreparedStatement ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(index++, config.getTitle());
             ps.setString(index++, config.getData());
-            ps.setInt(index++, config.getUserId());
+            ps.setInt(index++, config.getParentId());
             LastModifyDAO.setLastModifyFields(ps, index++, index++, config.getLastModify());
             ps.executeUpdate();
             config.setId(lastInsertId(ps));
@@ -197,18 +196,41 @@ public class ConfigDAO extends CommonDAO {
             query.append(SQL_UPDATE);
             query.append(TABLE_CONFIG_GLOBAL);
             query.append(SQL_SET);
-            query.append("title=?, data=?, dt=now(), user_id=?, " + LastModifyDAO.LAST_MODIFY_COLUMNS);
+            query.append("title=?, data=?, parent_id=?, " + LastModifyDAO.LAST_MODIFY_COLUMNS);
             query.append(SQL_WHERE);
             query.append("id=?");
             PreparedStatement ps = con.prepareStatement(query.toString());
             ps.setString(index++, config.getTitle());
             ps.setString(index++, config.getData());
-            ps.setInt(index++, config.getUserId());
+            ps.setInt(index++, config.getParentId());
             LastModifyDAO.setLastModifyFields(ps, index++, index++, config.getLastModify());
             ps.setInt(index++, config.getId());
             ps.executeUpdate();
             ps.close();
         }
+    }
+
+    /**
+     * Selects included configurations.
+     * @param parentId
+     * @return map with key {@link Config#getId()}
+     * @throws SQLException
+     */
+    public Map<Integer, ParameterMap> getIncludes(int parentId) throws SQLException {
+        var result = new TreeMap<Integer, ParameterMap>();
+
+        String query = SQL_SELECT_ALL_FROM + TABLE_CONFIG_GLOBAL + SQL_WHERE + "parent_id=?";
+        var ps = con.prepareStatement(query);
+        ps.setInt(1, parentId);
+
+        try (var rs = ps.executeQuery()) {
+            while (rs.next()) {
+                var config = getGlobalConfigFromRs(rs);
+                result.put(config.getId(), new Preferences(config.getData()));
+            }
+        }
+
+        return result;
     }
 
     public void deleteGlobalConfig(int id) throws SQLException {
@@ -294,13 +316,14 @@ public class ConfigDAO extends CommonDAO {
         ps.close();
     }
 
-    private void setGlobalConfigData(Config config, ResultSet rs) throws SQLException {
+    private Config getGlobalConfigFromRs(ResultSet rs) throws SQLException {
+        Config config = new Config();
         config.setId(rs.getInt("id"));
+        config.setParentId(rs.getInt("parent_id"));
         config.setTitle(rs.getString("title"));
-        config.setDate(rs.getTimestamp("dt"));
         config.setData(rs.getString("data"));
-        config.setUserId(rs.getInt("user_id"));
         config.setActive(rs.getBoolean("active"));
+        return config;
     }
 
     private void setConfigRecordData(ConfigRecord configRecord, ResultSet rs) throws SQLException {
@@ -309,5 +332,4 @@ public class ConfigDAO extends CommonDAO {
         configRecord.setKey(rs.getString("key"));
         configRecord.setValue(rs.getString("value"));
     }
-    
 }

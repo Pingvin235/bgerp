@@ -55,7 +55,7 @@ public class Preferences extends ParameterMap {
         }
     }
 
-    private Preferences(String data, Iterable<ParameterMap> includes, boolean validate) throws BGException {
+    Preferences(String data, Iterable<ParameterMap> includes, boolean validate) throws BGException {
         super();
         loadData(data, "\r\n", this.data, includes, validate);
     }

@@ -20,6 +20,31 @@
 	<td>${item.id}</td>
 	<td style="text-align: center;"><c:if test="${item.active}"><i class="ti-check"></i></c:if></td>
 	<td>${indent} ${item.title}</td>
+	<td>${item.enabledPluginsTitles}</td>
+	<td nowrap="true">
+		<c:if test="${item.parentId ge 0 and item.active and ctxUser.checkPerm('ru.bgcrm.struts.action.admin.ConfigAction:addIncluded')}">
+			<html:form action="/admin/config" style="display: none;">
+				<input type="hidden" name="action" value="addIncluded"/>
+				<input type="hidden" name="id" value="${item.id}"/>
+				<ui:combo-single hiddenName="pluginId" prefixText="${l.l('Включённая конфигурация')}:">
+					<jsp:attribute name="valuesHtml">
+						<li value="">${l.l('Без плагина')}</li>
+						<c:forEach var="plugin" items="${ctxPluginManager.inactivePluginList}">
+							<li value="${plugin.id}">${l.l('Плагин')}&nbsp;${plugin.title}</li>
+						</c:forEach>
+					</jsp:attribute>
+				</ui:combo-single>
+
+				<ui:button type="ok" styleClass="btn-grey ml1"
+					onclick="$$.ajax.post(this.form).done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+				<ui:button type="cancel" styleClass="ml1"
+					onclick="const $td = $(this).closest('td'); $td.find('>button').show(); $td.find('>form').hide();"/>
+			</html:form>
+
+			<ui:button type="add" title="${l.l('Добавить включённый')}" styleClass="btn-small"
+				onclick="const $td = $(this).closest('td'); $td.find('>button').hide(); $td.find('>form').show();"/>
+		</c:if>
+	</td>
 </tr>
 
 <c:if test="${not empty item.includedList}">

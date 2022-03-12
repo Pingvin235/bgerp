@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.IdTitle;
@@ -221,6 +222,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
      * @param action
      * @return
      */
+    @Dynamic
     public boolean checkPerm(String action) {
         return UserCache.getPerm(id, action) != null;
     }

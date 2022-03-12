@@ -29,7 +29,7 @@
 			<h2>${l.l('Название')}</h2>
 			<html:text property="title" style="width: 100%" value="${config.title}"/>
 
-			<c:if test="${empty perm['activeAllow'] or perm['activeAllow'] eq '1'}">
+			<c:if test="${config.parentId le 0 and perm['activeAllow'] ne '0'}">
 				<h2>${l.l('Активный')}</h2>
 				<ui:combo-single hiddenName="active" value="${config.active ? 1 : 0}" style="width: 100px;">
 					<jsp:attribute name="valuesHtml">

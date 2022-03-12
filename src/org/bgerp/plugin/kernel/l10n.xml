@@ -222,7 +222,6 @@
 	<p><ru>Активный</ru><en>Active</en></p>
 	<p><ru>Активные плагины</ru><en>Enabled plugins</en></p>
 	<p><ru>Лицензия</ru><en>License</en></p>
-	<p><ru>Иниациализировать плагины</ru><en>Initialize plugins</en></p>
 	<p><ru>Загрузить файл лицензии</ru><en>Upload file with license</en></p>
 	<p><ru>Порядок</ru><en>Order</en></p>
 	<p><ru>Скрипт</ru><en>Script</en></p>
@@ -488,6 +487,12 @@
 	<p><ru>Закрыть с даты</ru><en>Close from date</en></p>
 	<p><ru>Вы уверены, что хотите закрыть период группы?</ru><en>Do you really want to close the group period?</en></p>
 	<p><ru>свойства</ru><en>properties</en></p>
+	<p><ru>Добавить включённый</ru><en>Add included</en></p>
+	<p><ru>Включённая конфигурация</ru><en>Included config</en></p>
+	<p><ru>Без плагина</ru><en>Without plugin</en></p>
+	<p><ru>Плагин</ru><en>Plugin</en></p>
+	<p><ru>Новая конфигурация</ru><en>New config</en></p>
+	<p><ru>Включенные плагины</ru><en>Enabled plugins</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

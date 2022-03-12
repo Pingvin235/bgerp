@@ -3,8 +3,6 @@ package org.bgerp.plugin.msg.email;
 import java.util.List;
 import java.util.Map;
 
-import ru.bgcrm.util.ParameterMap;
-
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "email";
 
@@ -19,9 +17,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    public boolean isEnabled(ParameterMap config, String defaultValue) {
-        // TODO: Always enabled for now.
-        return true;
+    public String getTitle() {
+        return "E-Mail";
     }
 
     @Override

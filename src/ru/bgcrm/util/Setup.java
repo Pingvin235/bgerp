@@ -1,6 +1,7 @@
 package ru.bgcrm.util;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -161,9 +162,41 @@ public class Setup extends Preferences {
             return;
         }
 
-        data.putAll(Preferences.processIncludes(configDAO, config.getData(), false));
+        Map<Integer, ParameterMap> includes = configDAO.getIncludes(config.getId());
+        oldIncludes(con, includes, config);
+        data.putAll(new Preferences(config.getData(), includes.values(), false));
     }
 
+    /**
+     * Handles old style includes and updates parents for included configs.
+     * @param con DB connection.
+     * @param includes map, already containing new style includes.
+     * @param config config with includes.
+     * @throws SQLException
+     */
+    private void oldIncludes(Connection con, Map<Integer, ParameterMap> includes, Config config) throws SQLException {
+        var configDAO = new ConfigDAO(con);
+
+        for (Map.Entry<String, String> me : new Preferences(config.getData()).sub(Config.INCLUDE_PREFIX).entrySet()) {
+            int includedId = Utils.parseInt(me.getKey());
+
+            log.warn("Used old-style included config {} in config {}", includedId, config.getId());
+
+            if (!includes.containsKey(includedId)) {
+                var included = configDAO.getGlobalConfig(includedId);
+                if (included == null) {
+                    log.warn("Not found included config {} in config {}", includedId, config.getId());
+                    continue;
+                }
+
+                included.setParentId(config.getId());
+                configDAO.updateGlobalConfig(included);
+                con.commit();
+
+                includes.put(included.getId(), new Preferences(included.getData()));
+            }
+        }
+    }
 
     /**
      * Возвращает глобальную конфигурацию по её коду.

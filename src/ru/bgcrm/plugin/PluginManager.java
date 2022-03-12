@@ -36,6 +36,7 @@ public class PluginManager {
     }
 
     private final List<Plugin> fullSortedPluginList;
+    private final Map<String, Plugin> fullPluginMap;
     private final List<Plugin> pluginList;
     private final Map<String, Plugin> pluginMap;
 
@@ -43,9 +44,12 @@ public class PluginManager {
         log.info("Plugins loading..");
 
         this.fullSortedPluginList = loadFullSortedPluginList();
+        this.fullPluginMap = Collections.unmodifiableMap(
+            fullSortedPluginList.stream().collect(Collectors.toMap(Plugin::getId, p -> p))
+        );
         this.pluginList = loadPlugins();
         this.pluginMap = Collections.unmodifiableMap(
-            this.pluginList.stream().collect(Collectors.toMap(Plugin::getId, p -> p))
+            pluginList.stream().collect(Collectors.toMap(Plugin::getId, p -> p))
         );
     }
 
@@ -109,6 +113,7 @@ public class PluginManager {
      * Complete list of all plugins. First kernel plugin, after the rest alphabetically sorted by ID.
      * @return
      */
+    @Dynamic
     public List<Plugin> getFullSortedPluginList() {
         return fullSortedPluginList;
     }
@@ -123,11 +128,32 @@ public class PluginManager {
     }
 
     /**
-     * Map of enabled plugins.
+     * List of not active plugins that can be activated.
+     * @return
+     */
+    @Dynamic
+    public List<Plugin> getInactivePluginList() {
+        var activeIds = pluginList.stream().map(Plugin::getId).collect(Collectors.toSet());
+        var result = fullSortedPluginList.stream()
+            .filter(p -> !activeIds.contains(p.getId()) && !p.isSystem())
+            .collect(Collectors.toList());
+        return result;
+    }
+
+    /**
+     * Map of enabled plugins, key {@link Plugin#getId()}.
      * @return
      */
     @Dynamic
     public Map<String, Plugin> getPluginMap() {
         return pluginMap;
+    }
+
+     /**
+     * Complete map of all plugins, key {@link Plugin#getId()}.
+     * @return
+     */
+    public Map<String, Plugin> getFullPluginMap() {
+        return fullPluginMap;
     }
 }

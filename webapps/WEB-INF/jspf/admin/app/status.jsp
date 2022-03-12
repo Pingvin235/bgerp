@@ -5,20 +5,8 @@
 	<h2>${l.l('Статус')}</h2>
 	<pre>${form.response.data.status}</pre>
 
-	<p:check action="org.bgerp.action.admin.AppAction:restart">
-		<h2>${l.l('Перезапуск')}</h2>
-		<html:form action="admin/app">
-			<input type="hidden" name="action" value="restart"/>
-			<ui:combo-single hiddenName="force" widthTextValue="5em" prefixText="${l.l('Перезапуск')}:">
-				<jsp:attribute name="valuesHtml">
-					<li value="0">${l.l('Нормальный')}</li>
-					<li value="1">${l.l('Принудительный')}</li>
-				</jsp:attribute>
-			</ui:combo-single>
-			<%@ include file="status_run_button.jsp"%>
-		</html:form>
-	</p:check>
-	
+	<%@ include file="app_restart.jsp"%>
+
 	<h2>${l.l('Логи приложения')}</h2>
 	<ui:files files="<%=org.bgerp.action.admin.AppAction.LOG_APP%>" maxCount="20"/>
 
@@ -38,7 +26,7 @@
 					<li value="1">${l.l('Принудительный')}</li>
 				</jsp:attribute>
 			</ui:combo-single>
-			<%@ include file="status_run_button.jsp"%>
+			<%@ include file="run_restart_button.jsp"%>
 		</html:form>
 	</p:check>
 
@@ -59,7 +47,7 @@
 					<li value="1">${l.l('Принудительный')}</li>
 				</jsp:attribute>
 			</ui:combo-single>
-			<%@ include file="status_run_button.jsp"%>
+			<%@ include file="run_restart_button.jsp"%>
 		</html:form>
 	</p:check>
 
@@ -68,6 +56,5 @@
 </div>
 </div>
 
-<c:set var="title" value="${l.l('Статус приложения')}"/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:title ltext="Статус приложения"/>
+<shell:state text=""/>
