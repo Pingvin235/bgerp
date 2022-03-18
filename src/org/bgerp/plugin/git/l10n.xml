@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<p><en>You can't change to the status when GIT branch isn't empty</en><ru>Вы не можете изменить статус процесса на указанный когда GIT ветка не пуста</ru></p>
+	<p><en>Create branch</en><ru>Создать ветку</ru></p>
+	<p><en>Synch branch</en><ru>Синхронизировать ветку</ru></p>
+	<p><en>Accept branch</en><ru>Принять ветку</ru></p>
+	<!--
+	<p><ru></ru><en></en></p>
+	-->
+</data>

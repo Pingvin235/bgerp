@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<html:form action="user/plugin/invoice/invoice">
+<html:form action="/user/plugin/invoice/invoice">
 	<html:hidden property="action"/>
 	<html:hidden property="processId"/>
 

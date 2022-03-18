@@ -1,4 +1,4 @@
-#
+
 blow:board.1.title=BGERP Work
 blow:board.1.queueId={@PROCESS_QUEUE_ID}
 blow:board.1.executor.groupIds={@GROUP_ID}
@@ -7,17 +7,17 @@ blow:board.1.stringExpressionCell=<<END
 
      typeId = process.getTypeId();
      if ({@PROCESS_TYPE_TASK_ID} == typeId) {
-          result += "T: ";  
+          result += "T: ";
      } else if ({@PROCESS_TYPE_SUPPORT_ID} == typeId) {
-          result += "SU: "; 
+          result += "SU: ";
      } else if ({@PROCESS_TYPE_SALES_ID} == typeId) {
-          result += "SL: "; 
+          result += "SL: ";
      }
 
      result += u.htmlEncode(process.getDescription()) + " [<b>" + ctxProcessStatusMap[process.getStatusId()];
      if (process.getProcessExecutorsWithRole(0).size() > 0) {
         result += " " + params.get("col{@COL_STATUS_CHANGED}");
-     } 
+     }
      result += "</b>]";
 
      msgCnt = params.get("col{@COL_MESSAGES}");

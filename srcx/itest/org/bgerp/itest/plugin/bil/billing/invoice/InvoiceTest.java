@@ -1,13 +1,15 @@
 package org.bgerp.itest.plugin.bil.billing.invoice;
 
 import java.text.DecimalFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.YearMonth;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ParamHelper;
-import org.bgerp.itest.helper.PluginHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.customer.CustomerRuTest;
@@ -16,6 +18,7 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.plugin.bil.billing.invoice.Config;
+import org.bgerp.plugin.bil.billing.invoice.Plugin;
 import org.bgerp.plugin.bil.billing.invoice.dao.InvoiceDAO;
 import org.bgerp.plugin.bil.billing.invoice.model.InvoiceType;
 import org.testng.Assert;
@@ -33,7 +36,8 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Test(groups = "invoice", priority = 100, dependsOnGroups = { "config", "process", "customer", "customerRu" })
 public class InvoiceTest {
-    private static final String TITLE = "Plugin Invoice";
+    private static final Plugin PLUGIN = new Plugin();
+    private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
     private int paramContractDateId;
     private int paramCostId;
@@ -62,20 +66,19 @@ public class InvoiceTest {
         var title = TITLE + " Contract";
 
         process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, title);
-        paramDao.updateParamDate(process.getId(), paramContractDateId, TimeUtils.getDateWithOffset(-60));
+        paramDao.updateParamDate(process.getId(), paramContractDateId, Date.from(Instant.now().plus(Duration.ofDays(-60))));
         paramDao.updateParamMoney(process.getId(), paramCostId, "42.51");
         ProcessHelper.addCustomerLink(process.getId(), Customer.OBJECT_TYPE, CustomerTest.customerOrgNs);
 
         processRu = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, title + " RU");
-        paramDao.updateParamDate(processRu.getId(), paramContractDateId, TimeUtils.getDateWithOffset(-31));
+        paramDao.updateParamDate(processRu.getId(), paramContractDateId, Date.from(Instant.now().plus(Duration.ofDays(-31))));
         paramDao.updateParamMoney(processRu.getId(), paramCostId, "42.50");
         ProcessHelper.addCustomerLink(processRu.getId(), Customer.OBJECT_TYPE, CustomerRuTest.customerOrgIvan);
     }
 
     @Test(dependsOnMethods = "process")
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(TITLE,
-            PluginHelper.initPlugin(new org.bgerp.plugin.bil.billing.invoice.Plugin()) +
+        ConfigHelper.addIncludedConfig(PLUGIN,
             ConfigHelper.generateConstants(
                 "CUSTOMER_ID", CustomerTest.customerOrgNs.getId(),
                 "CUSTOMER_RU_ID", CustomerRuTest.customerOrgIvan.getId(),

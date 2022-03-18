@@ -3,7 +3,7 @@
 
 <c:set var="runFormUiid" value="${u:uiid()}"/>
 
-<html:form action="admin/dynamic" onsubmit="return false;" style="display: inline-block;">
+<html:form action="/admin/dynamic" onsubmit="return false;" style="display: inline-block;">
 	<input type="hidden" name="action" value="recompileAll"/>
 	<input type="hidden" name="class"/>
 
@@ -12,13 +12,13 @@
 		$$.ajax.load(this.form, $$.shell.$content(this));
 	">${l.l('Скомпилировать всё')}</button>
 </html:form>
-<html:form action="admin/dynamic" onsubmit="return false;" styleId="${runFormUiid}" style="display: inline-block;">
+<html:form action="/admin/dynamic" onsubmit="return false;" styleId="${runFormUiid}" style="display: inline-block;">
 	<input type="hidden" name="action" value="runDynamicClass"/>
 	<input type="hidden" name="iface" value="runnable"/>
-	
+
 	<input type="text" name="class" value="${form.param['class']}" class="ml2" size="50" placeholder="${l.l('Имя класса, реализующего java.lang.Runnable')}"/>
 	<input type="checkbox" name="sync" value="true" title="${l.l('Ожидание окончания выполнения')}"/>&nbsp;${l.l('синхронно')}
-	
+
 	<button class="btn-grey ml1" type="button" onclick="
 		$$.ajax.post(this.form)
 			.done(() => {

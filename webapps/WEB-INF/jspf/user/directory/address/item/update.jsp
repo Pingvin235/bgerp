@@ -4,7 +4,7 @@
 <c:set var="itemType" value="${form.param.selectTab}"/>
 <c:set var="item" value="${form.response.data[itemType]}"/>
 
-<html:form action="user/directory/address" onsubmit="return false;" >
+<html:form action="/user/directory/address" onsubmit="return false;" >
 	<input type="hidden" name="action" value="addressUpdate"/>
 	<html:hidden property="selectTab"/>
 	<html:hidden property="addressItemId"/>

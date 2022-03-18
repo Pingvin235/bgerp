@@ -333,7 +333,7 @@ public class BaseAction extends DispatchAction {
 
             resultStatus = "Successfully";
         } catch (BGMessageException ex) {
-            resultStatus = l.l(ex.getMessage(), ex.getArgs());
+            resultStatus = ((BGMessageException) ex).getMessage(l);
             if (ex instanceof BGIllegalArgumentException)
                 form.setResponseData("paramName", ((BGIllegalArgumentException) ex).getName());
             return sendError(form, resultStatus);

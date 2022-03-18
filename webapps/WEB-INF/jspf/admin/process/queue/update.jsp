@@ -4,7 +4,7 @@
 <c:set var="queue" value="${form.response.data.queue}"/>
 <c:set var="formUiid" value="${u:uiid()}"/>
 
-<html:form action="admin/process" styleId="${formUiid}" styleClass="center1020">
+<html:form action="/admin/process" styleId="${formUiid}" styleClass="center1020">
 	<input type="hidden" name="action" value="queueUpdate"/>
 
 	<c:set var="lastModifyUiid" value="${u:uiid()}"/>
@@ -60,7 +60,7 @@
 		</c:url>
 
 		<button type="button" class="btn-grey" onclick="
-				${saveCommand}.done(() => { 
+				${saveCommand}.done(() => {
 					$$.ajax.load('${editUrl}', $(this.form).parent())
 				})"
 			style="float: right;" title="${l.l('Сохранить без выхода из редактора')}">Сохранить</button>

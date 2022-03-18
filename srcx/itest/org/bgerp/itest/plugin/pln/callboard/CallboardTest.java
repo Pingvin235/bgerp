@@ -12,7 +12,6 @@ import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ParamHelper;
-import org.bgerp.itest.helper.PluginHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.helper.UserHelper;
@@ -21,6 +20,7 @@ import org.bgerp.itest.kernel.param.AddressTest;
 import org.bgerp.itest.kernel.param.ParamTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.plugin.pln.callboard.Plugin;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -39,7 +39,8 @@ import ru.bgcrm.util.TimeUtils;
 
 @Test(groups = "callboard", priority = 100, dependsOnGroups = { "config", "user", "process", "address" })
 public class CallboardTest {
-    private static final String TITLE = "Plugin CallBoard";
+    private static final Plugin PLUGIN = new Plugin();
+    private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
     private int userGroupIdParent;
     private int userGroupIdSub1;
@@ -67,7 +68,7 @@ public class CallboardTest {
     private int shiftInetId;
 
     @Test
-    public void addParams() throws Exception {
+    public void param() throws Exception {
         //ParamHelper.addParam(object, type, title, pos, config, valuesConfig)
         paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " Address", posParam += 1, "", "");
         paramServicesId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " Services", posParam += 1, ParamTest.MULTIPLE, "1=Интернет\n2=КТВ");
@@ -75,7 +76,7 @@ public class CallboardTest {
     }
 
     @Test
-    public void addGroups() throws Exception {
+    public void userGroup() throws Exception {
         userGroupIdParent = UserHelper.addGroup(TITLE + " Group", 0);
 
         userGroupIdSub1 = UserHelper.addGroup(TITLE + " Sub1", userGroupIdParent);
@@ -87,8 +88,8 @@ public class CallboardTest {
         UserHelper.addUserGroups(userFriedrichId, userGroupIdSub2);
     }
 
-    @Test(dependsOnMethods = { "addParams", "addGroups" })
-    public void addTypes() throws Exception {
+    @Test(dependsOnMethods = { "param", "userGroup" })
+    public void processType() throws Exception {
         var props = ProcessTypeCache.getProcessType(ProcessTest.processTypeTestId).getProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
@@ -103,8 +104,8 @@ public class CallboardTest {
         processTypeId = ProcessHelper.addType(TITLE + " Connection", ProcessTest.processTypeTestGroupId, false, props);
     }
 
-    @Test(dependsOnMethods = { "addParams", "addTypes" })
-    public void addProcess() throws Exception {
+    @Test(dependsOnMethods = { "param", "processType" })
+    public void process() throws Exception {
         var process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Connection");
         ProcessHelper.addGroup(process, userGroupIdSub1);
         ProcessHelper.addExecutor(process, userKarlId, userGroupIdSub1);
@@ -119,16 +120,15 @@ public class CallboardTest {
         dao.updateParamList(process.getId(), paramServicesId, Set.of(1, 2));
     }
 
-    @Test(dependsOnMethods = { "addGroups", "addTypes" })
-    public void initConfig() throws Exception {
-        ConfigHelper.addIncludedConfig(TITLE,
-            PluginHelper.initPlugin(new org.bgerp.plugin.pln.callboard.Plugin()) +
+    @Test(dependsOnMethods = { "userGroup", "processType" })
+    public void config() throws Exception {
+        ConfigHelper.addIncludedConfig(PLUGIN,
             ConfigHelper.generateConstants("USER_GROUP_ID", userGroupIdParent) +
             ResourceHelper.getResource(this, "config.txt"));
     }
 
-    @Test(dependsOnMethods = "initConfig")
-    public void addWorkTypes() throws Exception {
+    @Test(dependsOnMethods = "config")
+    public void workType() throws Exception {
         var dao = new WorkTypeDAO(DbTest.conRoot);
 
         var workType = new WorkType();
@@ -185,8 +185,8 @@ public class CallboardTest {
         Assert.assertTrue(0 < (workTypeSickId = workType.getId()));
     }
 
-    @Test(dependsOnMethods = "addWorkTypes")
-    public void addShifts() throws Exception {
+    @Test(dependsOnMethods = "workType")
+    public void shift() throws Exception {
         var dao = new ShiftDAO(DbTest.conRoot);
 
         var shift = new Shift();
@@ -246,8 +246,8 @@ public class CallboardTest {
         Assert.assertTrue(0 < (shiftInetId = shift.getId()));
     }
 
-    @Test(dependsOnMethods = "addWorkTypes")
-    public void addUserShifts() throws Exception {
+    @Test(dependsOnMethods = "workType")
+    public void userShift() throws Exception {
         var dao = new ShiftDAO(DbTest.conRoot);
 
         var shift = dao.getShift(shiftInetKtvId);

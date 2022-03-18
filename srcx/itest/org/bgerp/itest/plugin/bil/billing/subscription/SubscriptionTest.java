@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ParamHelper;
-import org.bgerp.itest.helper.PluginHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.helper.UserHelper;
@@ -15,6 +14,7 @@ import org.bgerp.itest.kernel.param.ParamTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.plugin.bil.billing.subscription.Config;
+import org.bgerp.plugin.bil.billing.subscription.Plugin;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -34,7 +34,8 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Test(groups = "subscription", priority = 100, dependsOnGroups = { "config", "process", "openIface" })
 public class SubscriptionTest {
-    private static final String TITLE = "Plugin Subscription";
+    private static final Plugin PLUGIN = new Plugin();
+    private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
     private int paramEmailId;
     private int paramSubscriptionId;
@@ -109,8 +110,7 @@ public class SubscriptionTest {
 
     @Test(dependsOnMethods = "processType")
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(TITLE,
-            PluginHelper.initPlugin(new org.bgerp.plugin.bil.billing.subscription.Plugin()) +
+        ConfigHelper.addIncludedConfig(PLUGIN,
             ConfigHelper.generateConstants(
                 "PROCESS_SUBSCRIPTION_TYPE_ID", processSubscriptionTypeId,
                 "PARAM_PRODUCT_ID", paramProductId,

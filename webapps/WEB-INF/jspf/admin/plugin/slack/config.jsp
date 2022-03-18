@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="admin/plugin/slack/config" styleClass="center1020">
+<html:form action="/admin/plugin/slack/config" styleClass="center1020">
 	<input type="hidden" name="action" value="token"/>
 
 	<h2>Client ID</h2>
@@ -10,11 +10,11 @@
 		<%-- https://api.slack.com/authentication/oauth-v2#exchanging --%>
 		<c:url var="url" value="https://slack.com/oauth/v2/authorize">
 			<%-- https://api.slack.com/scopes --%>
-			<c:param name="user_scope" 
+			<c:param name="user_scope"
 				value="channels:history,channels:read,channels:write,groups:read,groups:write,groups:history,chat:write,users:read"/>
 		</c:url>
 
-		<button type="button" class="btn-white ml1" 
+		<button type="button" class="btn-white ml1"
 			title="${l.l('Скопируйте из URL после авторизации параметр code')}"
 			onclick="window.open('${url}&client_id=' + this.form.clientId.value, '_blank')"
 		>${l.l('Получить Authorization code')}</button>

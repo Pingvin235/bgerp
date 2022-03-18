@@ -5,16 +5,16 @@
 
 <c:set var="group" value="${form.response.data.group}"/>
 
-<html:form action="admin/directory" styleClass="center500">
+<html:form action="/admin/directory" styleClass="center500">
 	<input type="hidden" name="action" value="parameterGroupUpdate"/>
 	<html:hidden property="directoryId"/>
 
 	<h2>ID</h2>
 	<input type="text" name="id" value="${group.id}" disabled="disabled" style="width: 100%;"/>
-			
+
 	<h2>${l.l('Название')}</h2>
-	<input type="text" name="title" style="width: 100%" value="${group.title}"/>	
-	
+	<input type="text" name="title" style="width: 100%" value="${group.title}"/>
+
 	<h2>${l.l('Параметры')}</h2>
 	<u:sc>
 		<c:set var="list" value="${parameterList}" />

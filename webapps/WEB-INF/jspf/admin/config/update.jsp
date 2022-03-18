@@ -9,7 +9,7 @@
 
 <c:set var="formUiid" value="${u:uiid()}"/>
 
-<html:form action="admin/config" styleId="${formUiid}">
+<html:form action="/admin/config" styleId="${formUiid}">
 	<html:hidden property="action" value="update"/>
 
 	<c:set var="config" value="${form.response.data.config}"/>

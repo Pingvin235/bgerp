@@ -1,0 +1,4 @@
+
+git:param.branch={@PARAM_BRANCH_ID}
+git:param.email={@PARAM_EMAIL_ID}
+git:process.allowed.status.with.branch={@PROCESS_STATUS_PROGRESS_ID},{@PROCESS_STATUS_DONE_ID}

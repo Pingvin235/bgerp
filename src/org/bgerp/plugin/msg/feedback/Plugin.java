@@ -14,11 +14,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    public String getTitle() {
-        return "FeedBack";
-    }
-
-    @Override
     public void init(Connection con) throws Exception {
         super.init(con);
     }

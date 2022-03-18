@@ -101,7 +101,7 @@ git gc --prune=now
 Clean unneeded link:https://git-lfs.github.com/[GIT LFS] files.
 [source]
 ----
-git remote prune origin
+git lfs prune
 ----
 
 [[change-git-trouble]]

@@ -27,6 +27,7 @@
 ** <<plugin/document/index.adoc#, Document>>
 ** <<plugin/feedback/index.adoc#, Feedback>>
 ** <<plugin/fulltext/index.adoc#, FullText>>
+** <<plugin/git/index.adoc#, GIT>>
 ** <<plugin/mobile/index.adoc#, Mobile>>
 ** <<plugin/report/index.adoc#, Report>>
 ** <<plugin/task/index.adoc#, Task>>

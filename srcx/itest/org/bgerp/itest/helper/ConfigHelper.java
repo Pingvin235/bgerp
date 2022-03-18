@@ -10,6 +10,7 @@ import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.model.Config;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.util.Setup;
 
 public class ConfigHelper {
@@ -20,6 +21,10 @@ public class ConfigHelper {
         config.setLastModify(new LastModify(User.USER_SYSTEM_ID, new Date()));
         config.setData(content);
         return config;
+    }
+
+    public static int addIncludedConfig(Plugin plugin, String config) throws Exception {
+        return ConfigHelper.addIncludedConfig(plugin.getTitleWithPrefix(), PluginHelper.initPlugin(plugin) + config);
     }
 
     public static int addIncludedConfig(String title, String content) throws Exception {

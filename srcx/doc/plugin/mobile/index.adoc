@@ -19,7 +19,7 @@ Current functionality is:
 drawio:_res/data_flow.drawio[]
 
 [[setup]]
-== Настройка
+== Setup
 Обращение к серверу BGERP происходит через <<../../kernel/interface.adoc#, открытый и мобильные интерфейсы>>.
 Необходимо убедиться, что они доступны из внешней сети.
 В качестве тестового URL можно использовать, например: *<HOST>/open/plugin/mobile/auth.do* В ответ сервер должен ответить JSON документом.
@@ -42,7 +42,7 @@ image::_res/mobile_login.png[width="300px"]
 //TODO: Скрин с сообщениями и очередью процессов.
 
 [[using]]
-== Использование
+== Using
 
 image::_res/mobile_screen.png[width="300px"]
 

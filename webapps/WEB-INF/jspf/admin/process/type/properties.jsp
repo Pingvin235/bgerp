@@ -16,7 +16,7 @@
 
 <c:set var="properties" value="${form.response.data.properties}"/>
 
-<html:form action="admin/process" styleId="${formUiid}">
+<html:form action="/admin/process" styleId="${formUiid}">
 	<input type="hidden" name="action" value="propertiesUpdate"/>
 	<input type="hidden" name="returnUrl" value="${form.returnUrl}"/>
 	<html:hidden property="id"/>

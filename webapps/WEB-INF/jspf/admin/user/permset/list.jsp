@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="admin/user">
+<html:form action="/admin/user">
 	<input type="hidden" name="action" value="permsetList"/>
 	<input type="hidden" name="pageableId" value="permsetList"/>
 
@@ -12,7 +12,7 @@
 	</c:url>
 	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
 
-	<ui:input-text name="filter" styleClass="ml1" value="${form.param.filter}" placeholder="${l.l('Фильтр')}" size="40" 
+	<ui:input-text name="filter" styleClass="ml1" value="${form.param.filter}" placeholder="${l.l('Фильтр')}" size="40"
 		onSelect="$$.ajax.load(this.form, $$.shell.$content(this))"
 		title="${l.l('Фильтр по наименованию, комментарию, конфигурации, параметрам действий')}"/>
 

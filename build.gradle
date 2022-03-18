@@ -123,13 +123,10 @@ dependencies {
     bgerp 'com.fasterxml.jackson.core:jackson-databind:2.4.1.3'
     bgerp 'net.sf.jasperreports:jasperreports:6.7.0'
     bgerpRun 'com.lowagie:itext:2.1.7.js6'
-    bgerp 'org.jsoup:jsoup:1.11.3'
+    bgerp 'org.jsoup:jsoup:1.11.3' // TODO: update
     bgerp 'mysql:mysql-connector-java:8.0.19'
     bgerp 'org.apache.poi:poi:4.0.1'
     bgerpRun 'org.apache.commons:commons-collections4:4.3' // required for poi
-    // bgerp 'xalan:xalan:2.7.1' // TODO: get rid together with XSLT
-    // bgerp 'xalan:serializer:2.7.1' // TODO: get rid together with XSLT
-    // bgerp 'net.sf.saxon:Saxon-HE:9.4' // 2.9.8 TODO: get rid together with XSLT
     bgerp 'javax.annotation:javax.annotation-api:1.3.2'
     bgerp 'com.itextpdf:itextpdf:5.5.13'
 

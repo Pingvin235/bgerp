@@ -3,7 +3,7 @@
 
 <%@ include file="/WEB-INF/jspf/admin/directory/directory.jsp"%>
 
-<html:form action="admin/directory">
+<html:form action="/admin/directory">
 	<html:hidden property="action"/>
 	<html:hidden property="directoryId"/>
 

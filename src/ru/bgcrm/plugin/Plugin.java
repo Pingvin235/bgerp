@@ -73,6 +73,14 @@ public abstract class Plugin {
     }
 
     /**
+     * Prefix 'Plugin ' plus {@link #getTitle()}.
+     * @return
+     */
+    public final String getTitleWithPrefix() {
+        return "Plugin " + getTitle();
+    }
+
+    /**
      * System plugins are always loaded, enabled and not show in the list.
      * @return
      */

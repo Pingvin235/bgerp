@@ -11,7 +11,7 @@
 <c:set var="showCode" value="$$.ajax.load($('#${uiid}'), $$.shell.$content(this));"/>
 
 <div class="center1020">
-	<html:form action="user/news" onsubmit="return false;" styleClass="mb1 in-mr1" styleId="${uiid}">
+	<html:form action="/user/news" onsubmit="return false;" styleClass="mb1 in-mr1" styleId="${uiid}">
 		<input type="hidden" name="action" value="newsList"/>
 		<ui:button type="add" onclick="$$.ajax.load('${createUrl}', $$.shell.$content(this));"/>
 

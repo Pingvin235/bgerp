@@ -3,6 +3,7 @@ package ru.bgcrm.util;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -977,14 +978,13 @@ public class Utils {
     }
 
     /**
-     * Устанавливает заголовки HTTP запроса при выгрузке файла.
+     * Sets HTTP headers for downloaded file.
      * @param response
      * @param fileName
      */
     public static void setFileNameHeaders(HttpServletResponse response, String fileName) {
         try {
-            // application/octet-stream почему-то не предлагает открыть приложением по расширению
-            response.setContentType("application/any");
+            response.setContentType(URLConnection.guessContentTypeFromName(fileName));
             response.setHeader("Content-Disposition", "attachment;filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
         } catch (UnsupportedEncodingException e) {
             log.error(e);

@@ -1,7 +1,6 @@
-package org.bgerp.itest.plugin.backup;
+package org.bgerp.itest.plugin.svc.backup;
 
 import org.bgerp.itest.helper.ConfigHelper;
-import org.bgerp.itest.helper.PluginHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.testng.annotations.Test;
 
@@ -9,7 +8,6 @@ import org.testng.annotations.Test;
 public class BackupTest {
     @Test
     public void initConfig() throws Exception {
-        ConfigHelper.addIncludedConfig("Plugin Backup", 
-            PluginHelper.initPlugin(new org.bgerp.plugin.svc.backup.Plugin()) + ResourceHelper.getResource(this, "config.txt"));
+        ConfigHelper.addIncludedConfig(new org.bgerp.plugin.svc.backup.Plugin(), ResourceHelper.getResource(this, "config.txt"));
     }
 }

@@ -1,4 +1,4 @@
-package org.bgerp.util;
+package org.bgerp.servlet.file;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -8,10 +8,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.struts.action.ActionForward;
@@ -23,30 +25,43 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 /**
- * File accessor.
- * 
+ * Files accessor, allowing to see and remove directory files.
+ *
  * @author Shamil Vakhitov
  */
-// TODO: Move to global Files registry, with cleaning up old logs.
 public class Files {
     private final Class<? extends BaseAction> actionClass;
+    /** Base dir, only the files there are shown. */
     private final Path basedir;
     private final String id;
+    /** Wildcard for filtering files. '*' is supported. */
     private final String wildcard;
+    /** Extended possibilities. */
+    private final Options options;
 
-    public Files(Class<? extends BaseAction> actionClass, String id, String basedir, String wildcard) {
+    public Files(Class<? extends BaseAction> actionClass, String id, String basedir, String wildcard, Options options) {
         this.actionClass = actionClass;
         this.id = id;
         this.basedir = Paths.get(basedir);
         this.wildcard = wildcard;
+        this.options = options;
     }
 
     /**
      * Unique string ID of the files set.
+     * Used for generation action names.
      * @return
      */
     public String getId() {
         return id;
+    }
+
+    /**
+     * Options.
+     * @return
+     */
+    public Options getOptions() {
+        return options;
     }
 
     /**
@@ -57,19 +72,38 @@ public class Files {
     public String getDownloadURL() {
         return
             ActionServlet.getActionPath(actionClass) + ".do?" +
-            "action=" + getActionMethod();
+            "action=" + getActionMethod("download");
     }
 
     /**
-     * File download permission action for checking it using p:check.
-     * @return 
+     * File download permission action for checking it using ctxUser.permCheck().
+     * @return
     */
     public String getDownloadPermissionAction() {
-        return actionClass.getName() + ":" + getActionMethod();
+        return actionClass.getName() + ":" + getActionMethod("download");
     }
 
-    private String getActionMethod() {
-        return "download" + id.substring(0, 1).toUpperCase() + id.substring(1);
+    /**
+     * File deletion URL, e.g.: '/admin/app.do?action=deleteLogUpdate'.
+     * A {@code name} param has to be added at the end.
+     * @return
+     */
+    public String getDeleteURL() {
+        return
+            ActionServlet.getActionPath(actionClass) + ".do?" +
+            "action=" + getActionMethod("delete");
+    }
+
+    /**
+     * File deletion permission action for checking it using ctxUser.permCheck().
+     * @return
+    */
+    public String getDeletePermissionAction() {
+        return actionClass.getName() + ":" + getActionMethod("delete");
+    }
+
+    private String getActionMethod(String prefix) {
+        return prefix + id.substring(0, 1).toUpperCase() + id.substring(1);
     }
 
     /**
@@ -78,21 +112,27 @@ public class Files {
      */
     public List<File> list() {
         FileFilter fileFilter = new WildcardFileFilter(wildcard);
-        
-        var result = Lists.newArrayList(basedir.toFile().listFiles(fileFilter)) ;
-        result.sort((f1, f2) -> (int) ((f2.lastModified() - f1.lastModified()) / 1000));
+
+        File basedir = this.basedir.toFile();
+
+        List<File> result =
+            basedir.isDirectory() ?
+            Lists.newArrayList(basedir.listFiles(fileFilter)) :
+            new ArrayList<>();
+        if (options.getOrder() != null)
+            result.sort(options.getOrder());
 
         return result;
     }
 
     /**
      * Input stream to a file.
-     * @param name
+     * @param path
      * @return
      * @throws FileNotFoundException
      */
-    private InputStream getInputStream(String name) throws FileNotFoundException {
-        return new FileInputStream(new File(basedir.toFile(), name));
+    private InputStream getInputStream(String path) throws FileNotFoundException {
+        return new FileInputStream(new File(basedir.toFile(), path));
     }
 
     /**
@@ -112,5 +152,16 @@ public class Files {
         IOUtils.copy(getInputStream(name), response.getOutputStream());
 
         return null;
+    }
+
+    /**
+     * Delete file.
+     * @param form
+     * @throws BGIllegalArgumentException
+     * @throws IOException
+     */
+    public void delete(DynActionForm form) throws  BGIllegalArgumentException, IOException {
+        var name = form.getParam("name", Utils::notBlankString);
+        FileUtils.deleteQuietly(new File(basedir.toFile(), name));
     }
 }

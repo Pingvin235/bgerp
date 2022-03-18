@@ -1,26 +1,26 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="admin/work">
+<html:form action="/admin/work">
 	<input type="hidden" name="action" value="shiftList"/>
-	
+
 	 <c:url var="url" value="/admin/work.do">
 	    <c:param name="action" value="shiftGet"/>
 	    <c:param name="id" value="-1"/>
 	    <c:param name="returnUrl" value="${form.requestUrl}"/>
   	</c:url>
   	<button type="button" class="btn-green mr1" onclick="openUrlContent('${url}' )">+</button>
-  	
+
 	<u:sc>
-		<c:set var="list" value="${allowOnlyCategories}"/>	
+		<c:set var="list" value="${allowOnlyCategories}"/>
 		<c:set var="hiddenName" value="categoryId"/>
 		<c:set var="value" value="${form.param.categoryId}"/>
 		<c:set var="style" value="width: 200px;"/>
 		<c:set var="placeholder" value="Выберите категорию"/>
 		<c:set var='onSelect'>openUrlContent( formUrl( $hidden[0].form ) )</c:set>
-		<%@ include file="/WEB-INF/jspf/select_single.jsp"%>			
+		<%@ include file="/WEB-INF/jspf/select_single.jsp"%>
 	</u:sc>
-			
+
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
 
@@ -32,7 +32,7 @@
 		<td width="50%">${l.l('Наименование')}</td>
 		<td width="50%">Комментарий</td>
 	</tr>
-	 
+
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
 			<c:url var="editUrl" value="/admin/work.do">
@@ -45,9 +45,9 @@
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 			<c:url var="deleteAjaxCommandAfter" value="openUrlContent( '${form.requestUrl}' )"/>
-			
+
 			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
-			
+
 			<td>${item.id}</td>
 			<c:set var="color"><c:if test="${not empty item.color}">style="background-color:${item.color}"</c:if></c:set>
 			<td ${color}>

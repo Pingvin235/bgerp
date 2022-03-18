@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <h2>${l.l('Создать Backup')}</h2>
-<html:form action="admin/plugin/backup/backup">
+<html:form action="/admin/plugin/backup/backup">
 	<input type="hidden" name="action" value="backup"/>
 	<ui:combo-single hiddenName="db" widthTextValue="2em" prefixText="${l.l('Включить БД')}:">
 		<jsp:attribute name="valuesHtml">

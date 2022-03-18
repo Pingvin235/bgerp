@@ -52,8 +52,8 @@
 	<p><ru>+Я</ru><en>+I</en></p>
 	<p><ru>Добавить вас в исполнители</ru><en>Add you to executors</en></p>
 	<p><ru>Добавить меня в исполнители</ru><en>Add myself to executors</en></p>
-	<p><ru>Удалить вас из исполнителей</ru><en>Remove you from executors</en></p>
-	<p><ru>Удалить меня из исполнителей</ru><en>Remove myself from executors</en></p>
+	<p><ru>Удалить вас из исполнителей</ru><en>Delete you from executors</en></p>
+	<p><ru>Удалить меня из исполнителей</ru><en>Delete myself from executors</en></p>
 	<p><ru>исполнители</ru><en>executors</en></p>
 	<p><ru>группы</ru><en>groups</en></p>
 	<p><ru>Группы / исполнители</ru><en>Groups / executors</en></p>
@@ -64,7 +64,7 @@
 	<p><ru>добавить</ru><en>add</en></p>
 	<p><ru>Описание</ru><en>Description</en></p>
 	<p><ru>история</ru><en>history</en></p>
-	<p><ru>Данный тип процесса был удален</ru><en>This process type was removed</en></p>
+	<p><ru>Данный тип процесса был удален</ru><en>This process type was deleted</en></p>
 	<p><ru>Удалить процесс</ru><en>Delete process</en></p>
 	<p><ru>Статус</ru><en>Status</en></p>
 	<p><ru>Создан</ru><en>Created</en></p>
@@ -283,7 +283,7 @@
 	<p><ru>Фильтр - удалить</ru><en>Filter - delete</en></p>
 	<p><ru>Фильтр - извлечь в полный</ru><en>Filter - extract to full</en></p>
 	<p><ru>Фильтр - счетчик на панель</ru><en>Filter - counter on panel</en></p>
-	<p><ru>Фильтр - счетчик убрать с панели</ru><en>Filter - remove counter from panel</en></p>
+	<p><ru>Фильтр - счетчик убрать с панели</ru><en>Filter - delete counter from panel</en></p>
 	<p><ru>Фильтр - сохранённые</ru><en>Filter - saved</en></p>
 	<p><ru>Фильтр - сохранить</ru><en>Filter - save</en></p>
 	<p><ru>Фильтр - сброс</ru><en>Filter - reset</en></p>
@@ -295,7 +295,7 @@
 	<p><ru>Выполнить</ru><en>Run</en></p>
 	<p><ru>Ожидание окончания выполнения</ru><en>Wait of execution is done</en></p>
 	<p><ru>синхронно</ru><en>synch</en></p>
-	<p><ru>Скомпилировать всё</ru><en>Recompile all</en></p>
+	<p><ru>Скомпилировать Java код</ru><en>Compile Java code</en></p>
 	<p><ru>Имя класса, реализующего java.lang.Runnable</ru><en>Class name, implementing java.lang.Runnable</en></p>
 	<p><ru>Custom</ru><en>Custom</en></p>
 	<p><ru>Результат компиляции</ru><en>Compilation result</en></p>
@@ -415,7 +415,7 @@
 	<p><ru>Общие фильтры</ru><en>Common filters</en></p>
 	<p><ru>Импорт себе общего фильтра</ru><en>Import common filter</en></p>
 	<p><ru>Экспорт своего фильтра в общие</ru><en>Export filter to common</en></p>
-	<p><ru>Удалить общий фильтр</ru><en>Remove common filter</en></p>
+	<p><ru>Удалить общий фильтр</ru><en>Delete common filter</en></p>
 	<p><ru>Общий фильтр</ru><en>Common filter</en></p>
 	<p><ru>Активные</ru><en>Active</en></p>
 	<p><ru>Заблокированные</ru><en>Blocked</en></p>
@@ -427,7 +427,7 @@
 	<p><ru>отображено</ru><en>shown</en></p>
 	<p><ru>Закрыл</ru><en>Closed by</en></p>
 	<p><ru>Цвет для счетчика фильтра</ru><en>Color for filter's counter</en></p>
-	<p><ru>Удалить выбранные</ru><en>Remove selected</en></p>
+	<p><ru>Удалить выбранные</ru><en>Delete selected</en></p>
 	<p><ru>ПРОЦЕСС</ru><en>PROCESS</en></p>
 	<p><ru>Дата от</ru><en>Date from</en></p>
 	<p><ru>Дата по</ru><en>Date to</en></p>
@@ -493,6 +493,10 @@
 	<p><ru>Плагин</ru><en>Plugin</en></p>
 	<p><ru>Новая конфигурация</ru><en>New config</en></p>
 	<p><ru>Включенные плагины</ru><en>Enabled plugins</en></p>
+	<p><ru>Удаление логов обновлений</ru><en>Delete update logs</en></p>
+	<p><ru>Файлы обновлений</ru><en>Update files</en></p>
+	<p><ru>Загрузка файлов обновлений</ru><en>Download update files</en></p>
+	<p><ru>Удаление файлов обновлений</ru><en>Delete update files</en></p>
 	<!--
 	<p><ru></ru><en></en></p>
 	-->

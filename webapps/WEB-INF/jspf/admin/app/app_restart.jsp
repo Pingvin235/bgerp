@@ -3,7 +3,7 @@
 
 <p:check action="org.bgerp.action.admin.AppAction:restart">
 	<h2>${l.l('Перезапуск')}</h2>
-	<html:form action="admin/app">
+	<html:form action="/admin/app">
 		<input type="hidden" name="action" value="restart"/>
 		<ui:combo-single hiddenName="force" widthTextValue="5em" prefixText="${l.l('Перезапуск')}:">
 			<jsp:attribute name="valuesHtml">

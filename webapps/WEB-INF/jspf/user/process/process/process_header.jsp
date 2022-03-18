@@ -6,8 +6,8 @@
 	<%@ include file="/WEB-INF/jspf/process_color.jsp"%>
 
 	<c:set var="uiid" value="${u:uiid()}"/>
-	<div style="background-color: ${color}" class="pl05 pr05 box">
-		<div id="${uiid}" class="pt05 pb05">
+	<div style="background-color: ${color}; padding-bottom: 0;" class="box">
+		<div id="${uiid}" class="pb05">
 			<ui:when type="user">
 				<p:check action="ru.bgcrm.struts.action.ProcessAction:processDelete">
 					<c:set var="uiidDelMenu" value="${u:uiid()}"/>

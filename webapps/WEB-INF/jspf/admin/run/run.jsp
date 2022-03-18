@@ -3,7 +3,7 @@
 
 <p:check action="org.bgerp.action.admin.RunAction:runClass">
 	<c:set var="runFormUiid" value="${u:uiid()}"/>
-	<html:form action="admin/run" onsubmit="return false;" styleId="${runFormUiid}" style="display: inline-block;">
+	<html:form action="/admin/run" onsubmit="return false;" styleId="${runFormUiid}" style="display: inline-block;">
 		<input type="hidden" name="action" value="runClass"/>
 		<input type="hidden" name="iface" value="runnable"/>
 

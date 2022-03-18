@@ -3,7 +3,7 @@
 
 <c:set var="type" value="${form.response.data.type}"/>
 
-<html:form action="admin/process" styleClass="center500">
+<html:form action="/admin/process" styleClass="center500">
 	<input type="hidden" name="action" value="typeUpdate"/>
 	<input type="hidden" name="update" value="true"/>
 	<c:choose>
@@ -17,10 +17,10 @@
 
 	<h2>ID</h2>
 	<input type="text" name="id" value="${form.param['id']}" disabled="disabled" style="width: 100%;"/>
-	
+
 	<h2>${l.l('Название')}</h2>
 	<html:text property="title" style="width: 100%" value="${type.title}"/>
-		
+
 	<h2>${l.l('Наследовать свойства от предка')}</h2>
 	<u:sc>
 		<c:set var="valuesHtml">

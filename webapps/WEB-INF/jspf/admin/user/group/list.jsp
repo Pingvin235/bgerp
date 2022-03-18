@@ -8,7 +8,7 @@
 	<c:param name="parentGroupId" value="${form.param.parentGroupId}"/>
 </c:url>
 
-<html:form action="admin/user" styleId="${uiid}" styleClass="in-mr1">
+<html:form action="/admin/user" styleId="${uiid}" styleClass="in-mr1">
 	<input type="hidden" name="action" value="groupList"/>
 	<input type="hidden" name="parentGroupId" value="${form.param.parentGroupId}"/>
 	<input type="hidden" name="markGroup" value="${form.param.markGroup}"/>
@@ -26,7 +26,7 @@
 		<c:param name="parentGroupId" value="${form.param.parentGroupId}"/>
 		<c:param name="markGroup" value="${form.param.markGroup}"/>
 	</c:url>
-	<button type="button" class="btn-grey" 
+	<button type="button" class="btn-grey"
 		onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${urlList}', $$.shell.$content(this)) })">${l.l('Вставить')} [${markGroupString}]</button>
 
 	<ui:input-text name="filter" onSelect="$$.ajax.load(this.form, $$.shell.$content(this))" placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" title="${l.l('Фильтр по наименованию, конфигурации')}"/>

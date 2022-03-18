@@ -25,7 +25,7 @@
 
 <c:set var="parameter" value="${form.response.data.parameter}"/>
 
-<html:form action="admin/directory" styleClass="center1020" styleId="${formUiid}">
+<html:form action="/admin/directory" styleClass="center1020" styleId="${formUiid}">
 	<input type="hidden" name="action" value="parameterUpdate"/>
 	<html:hidden property="directoryId"/>
 

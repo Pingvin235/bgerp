@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ParamHelper;
-import org.bgerp.itest.helper.PluginHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.process.ProcessTest;
@@ -14,15 +13,17 @@ import org.testng.annotations.Test;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.plugin.task.Plugin;
+
 
 @Test(groups = "task", priority = 100, dependsOnGroups = { "config", "process" })
 public class TaskTest {
-    private static final String TITLE = "Plugin Task";
+    private static final Plugin PLUGIN = new Plugin();
+    private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
     @Test
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(TITLE,
-            PluginHelper.initPlugin(new ru.bgcrm.plugin.task.Plugin()) + ResourceHelper.getResource(this, "config.txt"));
+        ConfigHelper.addIncludedConfig(PLUGIN, ResourceHelper.getResource(this, "config.txt"));
     }
 
     @Test

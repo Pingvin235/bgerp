@@ -5,7 +5,7 @@
 
 <c:set var="showCode" value="$$.ajax.load($('#${uiid}'), $$.shell.$content());"/>
 
-<html:form action="admin/user" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
+<html:form action="/admin/user" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
 	<c:url var="url" value="/admin/user.do">
 		<c:param name="action" value="userGet"/>
 		<c:param name="id" value="-1"/>

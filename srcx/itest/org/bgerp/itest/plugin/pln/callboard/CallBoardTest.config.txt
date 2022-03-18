@@ -1,0 +1,23 @@
+callboard.workdays.calendar.1.title=Standard
+callboard.workdays.calendar.1.comment=Common workdays schema
+callboard.workdays.calendar.1.rule=1-5:1;6,7:2;
+
+callboard.workdays.type.1.title=Working day
+callboard.workdays.type.1.color=#1C94C4
+callboard.workdays.type.2.title=Holiday/Weekend
+callboard.workdays.type.2.color=#FF0000
+callboard.workdays.type.3.title=Short day
+callboard.workdays.type.3.color=#808080
+
+callboard.worktype.category.1.title=Common
+callboard.worktype.category.1.public=1
+callboard.worktype.category.2.title=Connections
+callboard.worktype.category.2.public=1
+
+callboard.1.groupId={@USER_GROUP_ID}
+callboard.1.calendarId=1
+
+# shift 9 - 18 hours
+callboard.1.plan.dayMinuteFrom=540
+callboard.1.plan.dayMinuteTo=1080
+callboard.1.plan.dayMinuteStep=30

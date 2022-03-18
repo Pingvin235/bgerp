@@ -15,7 +15,7 @@
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
 			<td>
-				<html:form action="user/link">
+				<html:form action="/user/link">
 					<input type="hidden" name="action" value="addLink"/>
 					<input type="hidden" name="objectType" value="process"/>
 					<input type="hidden" name="id" value="${form.param.processId}"/>

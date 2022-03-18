@@ -3,7 +3,7 @@
 
 <c:set var="appointment" value="${form.response.data.appointment}" />
 
-<html:form action="admin/appointment" styleId="appointmentEditForm" styleClass="center1020">
+<html:form action="/admin/appointment" styleId="appointmentEditForm" styleClass="center1020">
 	<input type="hidden" name="action" value="appointmentUpdate" />
 	<html:hidden property="id" />
 

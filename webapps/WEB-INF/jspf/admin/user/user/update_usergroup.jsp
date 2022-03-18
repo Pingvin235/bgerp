@@ -5,7 +5,7 @@
 
 <c:set var="reloadScript">$$.ajax.load('${form.requestUrl}', $('#addGroup${uiid}').parent());</c:set>
 
-<html:form action="admin/user" styleId="addGroup${uiid}" styleClass="in-mb1-all" style="display: none;">
+<html:form action="/admin/user" styleId="addGroup${uiid}" styleClass="in-mb1-all" style="display: none;">
 	<input type="hidden" name="action" value="userAddGroup" />
 	<html:hidden property="id" />
 
@@ -30,7 +30,7 @@
 	<ui:button type="cancel" onclick="$('#addGroup${uiid}').hide(); $('#showGroup${uiid}').show();" styleClass="ml1"/>
 </html:form>
 
-<html:form action="admin/user" styleId="showGroup${uiid}">
+<html:form action="/admin/user" styleId="showGroup${uiid}">
 	<input type="hidden" name="action" value="userGroupList" />
 	<html:hidden property="id" />
 
@@ -77,7 +77,7 @@
 	</table>
 </html:form>
 
-<html:form action="admin/user" styleId="closeGroup${uiid}" style="display: none;" styleClass="in-inline-block">
+<html:form action="/admin/user" styleId="closeGroup${uiid}" style="display: none;" styleClass="in-inline-block">
 	<input type="hidden" name="action" value="userClosePeriodGroup" />
 	<input id="dateFrom${uiid}" type="hidden" name="dateFrom" value=""/>
 	<input id="dateTo${uiid}" type="hidden" name="dateTo" value=""/>

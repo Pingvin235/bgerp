@@ -7,7 +7,7 @@
 
 <c:set var="formUiid" value="${u:uiid()}"/>
 
-<html:form action="admin/user" styleId="${formUiid}">
+<html:form action="/admin/user" styleId="${formUiid}">
 	<input type="hidden" name="action" value="userUpdate" />
 	<html:hidden property="id" />
 

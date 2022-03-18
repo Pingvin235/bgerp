@@ -5,7 +5,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<html:form action="user/directory/address" styleId="${uiid}">
+<html:form action="/user/directory/address" styleId="${uiid}">
 <input type="hidden" name="action" value="addressUpdate"/>
 <html:hidden property="addressHouseId"/>
 <html:hidden property="addressCountryId"/>
@@ -69,7 +69,7 @@
 <% out.flush(); %>
 <div>
 	<h2>${l.l('ПАРАМЕТРЫ')}</h2>
-				
+
 	<div id="forParamsReload">
 		<c:url var="url" value="/user/parameter.do">
 	   		<c:param name="action" value="parameterList"/>

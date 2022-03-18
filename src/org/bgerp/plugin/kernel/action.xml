@@ -137,6 +137,8 @@
 		<item title="Custom">
 			<item action="org.bgerp.action.admin.CustomAction:null" title="Open"/>
 			<item action="org.bgerp.action.admin.CustomAction:compile" title="Compilation of Java sources"/>
+			<item action="org.bgerp.action.admin.CustomAction:downloadCustom" title="Download custom file"/>
+			<item action="org.bgerp.action.admin.CustomAction:deleteCustomJar" title="Delete custom.jar"/>
 		</item>
 
 		<item title="Run">
@@ -156,7 +158,10 @@
 			<item action="ru.bgcrm.struts.action.admin.AppAction:updateToChange, org.bgerp.action.admin.AppAction:updateToChange" ltitle="Обновить на изменение"/>
 			<item action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList, org.bgerp.action.admin.AppAction:userLoggedList" ltitle="Сессии пользователей"/>
 			<item action="org.bgerp.action.admin.AppAction:downloadLogUpdate" ltitle="Загрузка логов обновлений"/>
+			<item action="org.bgerp.action.admin.AppAction:deleteLogUpdate" ltitle="Удаление логов обновлений"/>
 			<item action="org.bgerp.action.admin.AppAction:downloadLogApp" ltitle="Загрузка логов приложения"/>
+			<item action="org.bgerp.action.admin.AppAction:downloadUpdateZip" ltitle="Загрузка файлов обновлений"/>
+			<item action="org.bgerp.action.admin.AppAction:deleteUpdateZip" ltitle="Удаление файлов обновлений"/>
 		</item>
 	</item>
 

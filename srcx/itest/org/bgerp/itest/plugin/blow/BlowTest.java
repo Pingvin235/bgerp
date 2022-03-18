@@ -4,23 +4,25 @@ import org.bgerp.itest.configuration.department.development.DevelopmentTest;
 import org.bgerp.itest.configuration.department.sales.SalesTest;
 import org.bgerp.itest.configuration.department.support.SupportTest;
 import org.bgerp.itest.helper.ConfigHelper;
-import org.bgerp.itest.helper.PluginHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.testng.annotations.Test;
 
+import ru.bgerp.plugin.blow.Plugin;
+
 @Test(groups = "blow", priority = 100, dependsOnGroups = { "config", "depDev", "depSupport", "depSales" })
 public class BlowTest {
+    private static final Plugin PLUGIN = new Plugin();
+
     public static volatile int configId;
 
     @Test
-    public void initConfig() throws Exception {
-        configId = ConfigHelper.addIncludedConfig("Plugin Blow",
-            PluginHelper.initPlugin(new ru.bgerp.plugin.blow.Plugin()) + ResourceHelper.getResource(this, "config.txt"));
+    public void config() throws Exception {
+        configId = ConfigHelper.addIncludedConfig(PLUGIN, ResourceHelper.getResource(this, "config.txt"));
     }
 
-    @Test (dependsOnMethods = "initConfig")
-    public void addBoardDev() throws Exception {
+    @Test (dependsOnMethods = "config")
+    public void boardDev() throws Exception {
         ConfigHelper.addToConfig(BlowTest.configId,
             ConfigHelper.generateConstants(
                 "PROCESS_QUEUE_ID", DevelopmentTest.queueId,

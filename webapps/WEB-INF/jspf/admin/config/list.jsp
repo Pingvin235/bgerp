@@ -8,7 +8,7 @@
 	--%><li><a href="#${tabsUiid}-2">${l.l('Плагины')} (${ctxPluginManager.pluginList.size()} / ${ctxPluginManager.fullSortedPluginList.size()})</a></li>
 	</ul>
 	<div id="${tabsUiid}-1">
-		<html:form action="admin/config" styleClass="in-mr1">
+		<html:form action="/admin/config" styleClass="in-mr1">
 			<input type="hidden" name="action" value="list"/>
 
 			<c:url var="url" value="/admin/config.do">

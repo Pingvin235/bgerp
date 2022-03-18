@@ -200,6 +200,11 @@ div, span {
 	border-radius: 3px;
 	border: 1px solid #C5C5C5;
 	-moz-box-sizing: border-box;
+	padding: .5em;
+}
+
+.cmd {
+	background-color: #FAFAFA;
 }
 
 .ajax-loading {

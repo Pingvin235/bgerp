@@ -1,0 +1,6 @@
+A: Plugin GIT first version. https://bgerp.org/doc/3.0/manual/plugin/git/index.html
+A: Show Custom files.
+A: Delete custom.jar button.
+A: Deletion of log/update files.
+F: Correct HTTP headers for downloaded files.
+F: Clean up old update log files.

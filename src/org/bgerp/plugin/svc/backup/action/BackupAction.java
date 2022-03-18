@@ -2,7 +2,9 @@ package org.bgerp.plugin.svc.backup.action;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.plugin.svc.backup.Plugin;
-import org.bgerp.util.Files;
+import org.bgerp.servlet.file.Files;
+import org.bgerp.servlet.file.Options;
+import org.bgerp.servlet.file.Order;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
@@ -14,7 +16,8 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class BackupAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_ADMIN;
 
-    public static final Files FILE_BACKUP = new Files(BackupAction.class, "fileBackup", "backup", "*");
+    public static final Files FILE_BACKUP = new Files(BackupAction.class, "fileBackup", "backup", "*",
+            new Options().withOrder(Order.LAST_MODIFIED_DESC).withDownloadEnabled());
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {

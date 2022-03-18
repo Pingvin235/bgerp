@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="user/directory/address">
+<html:form action="/user/directory/address">
 	<input type="hidden" name="action" value="addressUpdate"/>
 	<html:hidden property="addressCityId"/>
 	<html:hidden property="addressCountryId"/>

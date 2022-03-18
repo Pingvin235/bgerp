@@ -1,19 +1,19 @@
 package org.bgerp.itest.kernel.user;
 
-import java.util.Collections;
+import java.util.Date;
 
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.ParamTest;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.user.UserDAO;
-import ru.bgcrm.dao.user.UserPermsetDAO;
 import ru.bgcrm.model.param.Parameter;
-import ru.bgcrm.model.user.Permset;
+import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.model.user.UserGroup;
 
 @Test(groups = "user", dependsOnGroups = "dbInit")
 public class UserTest {
@@ -25,6 +25,7 @@ public class UserTest {
     public static volatile int paramTelegramId;
     public static volatile int paramWebSiteId;
 
+    public static volatile int groupAdminsId;
     public static volatile int permsetAdminsId;
 
     public static int paramPos = 0;
@@ -37,13 +38,13 @@ public class UserTest {
     public static volatile int userVyacheslavId;
 
     @Test
-    public void addParams() throws Exception {
+    public void param() throws Exception {
         paramEmailId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_EMAIL, "E-Mail(s)", paramPos += 2, ParamTest.MULTIPLE, "");
         paramCellPhoneId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_PHONE, "Cell phone(s)", paramPos += 2, "", "");
     }
 
-    @Test(dependsOnMethods = "addParams")
-    public void addUsers() throws Exception {
+    @Test(dependsOnMethods = "param")
+    public void user() throws Exception {
         userKarlId = UserHelper.addUser("Karl Marx", "karl", null).getId();
         userFriedrichId = UserHelper.addUser("Friedrich Engels", "friedrich", null).getId();
         userVladimirId = UserHelper.addUser("Vladimir Lenin", "vladimir", null).getId();
@@ -52,11 +53,15 @@ public class UserTest {
         userVyacheslavId = UserHelper.addUser("Vyacheslav Menzhinsky", "vyacheslav", null).getId();
     }
 
-    @Test
-    public void addPermissionSets() throws Exception {
-        if (1 > 0) return;
+    @Test(dependsOnMethods = {"param", "user"})
+    public void userParam() throws Exception {
+        var dao = new ParamValueDAO(DbTest.conRoot);
+        dao.updateParamEmail(USER_ADMIN_ID, paramEmailId, 0, new ParameterEmailValue("admin@bgerp.org"));
+    }
 
-        // TODO: Enable permissions check before.
+    /* TODO: Enable permission check before.
+    @Test
+    public void permissionSet() throws Exception {
         var con = DbTest.conRoot;
 
         var admins = new Permset();
@@ -73,14 +78,13 @@ public class UserTest {
         Assert.assertNotNull(admin);
         admin.setPermsetIds(Collections.singletonList(permsetAdminsId));
         userDao.updateUser(admin);
-    }
-
-    public static volatile int groupAdminsId;
+    } */
 
     @Test
-    public void addGroups() throws Exception {
-        if (1 > 0) return;
-
+    public void group() throws Exception {
         groupAdminsId = UserHelper.addGroup("Administrators", 0);
+
+        var dao = new UserDAO(DbTest.conRoot);
+        dao.addUserGroup(USER_ADMIN_ID, new UserGroup(groupAdminsId, new Date(), null));
     }
 }

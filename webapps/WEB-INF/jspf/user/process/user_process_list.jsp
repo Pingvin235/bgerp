@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<html:form action="user/process" styleClass="mb05" styleId="${uiid}">
+<html:form action="/user/process" styleClass="mb05" styleId="${uiid}">
 	<input type="hidden" name="action" value="userProcessList"/>
 
 	<div class="tableIndent in-mb05-all">

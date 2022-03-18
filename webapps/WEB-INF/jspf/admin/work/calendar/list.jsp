@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="admin/user">
+<html:form action="/admin/user">
 	<input type="hidden" name="action" value="groupList"/>
-	
+
 	<table>
 		<tr>
 			<td width="100%">
@@ -11,7 +11,7 @@
 				    <c:param name="action" value="shiftGet"/>
 				    <c:param name="id" value="-1"/>
 				    <c:param name="returnUrl" value="${form.requestUrl}"/>
-			  	</c:url>			  	
+			  	</c:url>
 			</td>
 			<td>
 				<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
@@ -27,15 +27,15 @@
 		<td width="50%">${l.l('Наименование')}</td>
 		<td width="50%">Комментарий</td>
 	</tr>
-	 
+
 	<c:forEach var="item" items="${form.response.data.workDaysCalendarList}">
 		<tr>
 			<c:url var="editUrl" value="/admin/work.do">
 				<c:param name="action" value="workDaysCalendarGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
-			</c:url>			
-						
+			</c:url>
+
 			<td>${item.id}</td>
 			<td><a href="#" onclick="openUrlContent( '${editUrl}' ); return false;">${item.title}</a></td>
 			<td>${item.comment}</td>

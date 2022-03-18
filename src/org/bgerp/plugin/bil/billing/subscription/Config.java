@@ -66,8 +66,6 @@ public class Config extends ru.bgcrm.util.Config {
         super(null);
         config = config.sub(Plugin.ID + ":");
         subscriptions = loadSubscriptions(config);
-        /* subscriptionProcessTypeIds = subscriptions.values().stream()
-            .map(Subscription::getProcessTypeId).collect(Collectors.toSet()); */
 
         signKeyFile = config.get("sign.key.file", System.getProperty("user.home") + "/.ssh/id_rsa");
         signKeyPswd = config.get("sign.key.pswd");

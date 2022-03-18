@@ -3,19 +3,19 @@
 
 <c:set var="status" value="${form.response.data.status}"/>
 
-<html:form action="admin/process" styleClass="center500">
+<html:form action="/admin/process" styleClass="center500">
 	<input type="hidden" name="action" value="statusUpdate"/>
-	
+
 	<h2>ID</h2>
-	<input type="text" name="id" value="${form.param['id']}" disabled="disabled" style="width: 100%;"/> 
+	<input type="text" name="id" value="${form.param['id']}" disabled="disabled" style="width: 100%;"/>
 
 	<h2>${l.l('Название')}</h2>
 	<html:text property="title" style="width: 100%" value="${status.title}"/>
-		
+
 	<h2>${l.l('Позиция')}</h2>
 	<html:text property="pos" style="width: 100%" value="${status.pos}"/>
 	<div class="hint">${l.l('Позиция статуса в различных перечнях')}.</div>
-	
+
 	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>
 

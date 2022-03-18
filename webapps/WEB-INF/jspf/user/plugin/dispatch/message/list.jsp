@@ -10,13 +10,13 @@
    <c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
 
-<html:form action="user/plugin/dispatch/dispatch" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
+<html:form action="/user/plugin/dispatch/dispatch" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
 	<button type="button" class="btn-green" onclick="openUrlContent( '${getUrl}' );">+</button>
-				
+
 	<input type="hidden" name="action" value="messageList"/>
-	    
+
     <button class="btn-grey" type="button" onclick="${showCode}">${l.l('Вывести')}</button>
-    
+
     <%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
 
@@ -40,13 +40,13 @@
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 			<c:url var="deleteAjaxCommandAfter" value="${showCode}"/>
-				
+
 			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
 			<td>${item.id}</td>
 			<td>${item.title}</td>
 			<td>${u:objectTitleList( dispatchList, item.dispatchIds )}</td>
 			<td nowrap="nowrap">${tu.format( item.createTime, 'ymdhms' )}</td>
-			<td style="background-color: ${item.ready ? 'lightgreen' : ''};">${item.ready ? 'Да' : 'Нет'}</td>						
+			<td style="background-color: ${item.ready ? 'lightgreen' : ''};">${item.ready ? 'Да' : 'Нет'}</td>
 			<td nowrap="nowrap">${tu.format( item.sentTime, 'ymdhms' )}</td>
 		</tr>
 	</c:forEach>
