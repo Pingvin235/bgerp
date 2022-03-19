@@ -76,7 +76,7 @@ public class MessageTest {
 
     @Test
     public void user() throws Exception {
-        groupId = UserHelper.addGroup(TITLE, 0);
+        groupId = UserHelper.addGroup(TITLE, 0, UserHelper.GROUP_CONFIG_ISOLATION);
         userId = UserHelper.addUser(TITLE, "message", List.of(new UserGroup(groupId, new Date(), null))).getId();
 
         var paramDao = new ParamValueDAO(DbTest.conRoot);

@@ -19,6 +19,7 @@ test-and-publish-update:
             - master
             - p11862-documentation
             - p12094-integration-test
+            - p14750-email-recipients-search-fix
 
 test-and-publish-update-master:
     image: openjdk:17-buster
@@ -65,6 +66,7 @@ test-integration:
         refs:
             - master
             - p12094-integration-test
+            - p14750-email-recipients-search-fix
 
 publish-doc:
     image: openjdk:17-buster

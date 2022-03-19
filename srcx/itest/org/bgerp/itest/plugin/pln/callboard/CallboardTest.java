@@ -77,12 +77,12 @@ public class CallboardTest {
 
     @Test
     public void userGroup() throws Exception {
-        userGroupIdParent = UserHelper.addGroup(TITLE + " Group", 0);
+        userGroupIdParent = UserHelper.addGroup(TITLE + " Group", 0, UserHelper.GROUP_CONFIG_ISOLATION);
 
-        userGroupIdSub1 = UserHelper.addGroup(TITLE + " Sub1", userGroupIdParent);
+        userGroupIdSub1 = UserHelper.addGroup(TITLE + " Sub1", userGroupIdParent, UserHelper.GROUP_CONFIG_ISOLATION);
         UserHelper.addUserGroups(userKarlId, userGroupIdSub1);
         UserHelper.addUserGroups(userLeonId, userGroupIdSub1);
-        userGroupIdSub2 = UserHelper.addGroup(TITLE + " Sub2", userGroupIdParent);
+        userGroupIdSub2 = UserHelper.addGroup(TITLE + " Sub2", userGroupIdParent, UserHelper.GROUP_CONFIG_ISOLATION);
         UserHelper.addUserGroups(userVladimirId, userGroupIdSub2);
         UserHelper.addUserGroups(userVyacheslavId, userGroupIdSub2);
         UserHelper.addUserGroups(userFriedrichId, userGroupIdSub2);

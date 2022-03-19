@@ -17,11 +17,11 @@ import ru.bgcrm.model.user.UserGroup;
 public class UserHelper {
     public static final String GROUP_CONFIG_ISOLATION = "\nisolation.process=group\n";
 
-    public static int addGroup(String title, int parentId) throws Exception {
+    public static int addGroup(String title, int parentId, String config) throws Exception {
         Group group = new Group();
         group.setTitle(title);
         group.setComment("");
-        group.setConfig(GROUP_CONFIG_ISOLATION);
+        group.setConfig(config);
         group.setParentId(parentId);
         new UserGroupDAO(DbTest.conRoot).updateGroup(group);
 

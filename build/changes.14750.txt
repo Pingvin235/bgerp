@@ -1,0 +1,2 @@
+F: Group isolation in itests.
+F: Plugin E-Mail. Search recipients on manual address input.

@@ -268,6 +268,10 @@
 				e.preventDefault();
 				e.stopPropagation();
 				hideOptions();
+				// PATCH BGERP, tag value on focus lost
+				if ($input_element.val() !== '') {
+					addTag($input_element.val());
+				}
 			});
 			refreshTags();
 		};

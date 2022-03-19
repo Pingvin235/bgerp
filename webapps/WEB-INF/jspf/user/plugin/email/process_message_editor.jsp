@@ -24,6 +24,7 @@
 						value="${message.to}"/>
 				</c:otherwise>
 			</c:choose>
+			<div class="hint">${l.l('Используйте запятую либо Enter для разделения значений')}</div>
 		</div>
 	</div>
 	<div class="in-table-cell pt1">

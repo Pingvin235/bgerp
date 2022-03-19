@@ -41,7 +41,7 @@ public class DevelopmentTest {
 
     @Test
     public void addGroups() throws Exception {
-        groupId = UserHelper.addGroup("Development", 0);
+        groupId = UserHelper.addGroup("Development", 0, UserHelper.GROUP_CONFIG_ISOLATION);
         UserHelper.addUserGroups(userVladimirId, groupId);
         UserHelper.addUserGroups(userLeonId, groupId);
     }

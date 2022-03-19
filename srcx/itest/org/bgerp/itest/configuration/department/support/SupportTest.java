@@ -47,7 +47,7 @@ public class SupportTest {
     //public static volatile int processTypeVisitId;
 
     public void addGroups() throws Exception {
-        groupId = UserHelper.addGroup("Support", 0);
+        groupId = UserHelper.addGroup("Support", 0, UserHelper.GROUP_CONFIG_ISOLATION);
         UserHelper.addUserGroups(userFelixId, groupId);
         UserHelper.addUserGroups(userVyacheslavId, groupId);
     }

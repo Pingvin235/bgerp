@@ -43,7 +43,7 @@ public class SalesTest {
 
     @Test
     public void addGroups() throws Exception {
-        groupId = UserHelper.addGroup("Sales", 0);
+        groupId = UserHelper.addGroup("Sales", 0, UserHelper.GROUP_CONFIG_ISOLATION);
         UserHelper.addUserGroups(userKarlId, groupId);
         UserHelper.addUserGroups(userFriedrichId, groupId);
     }

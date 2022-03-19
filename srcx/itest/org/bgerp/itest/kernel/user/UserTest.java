@@ -82,7 +82,7 @@ public class UserTest {
 
     @Test
     public void group() throws Exception {
-        groupAdminsId = UserHelper.addGroup("Administrators", 0);
+        groupAdminsId = UserHelper.addGroup("Administrators", 0, "");
 
         var dao = new UserDAO(DbTest.conRoot);
         dao.addUserGroup(USER_ADMIN_ID, new UserGroup(groupAdminsId, new Date(), null));
