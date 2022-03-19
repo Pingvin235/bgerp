@@ -1,8 +1,0 @@
-#
-fulltext:index.delay=30
-fulltext:entry.customer.paramIds=*
-fulltext:entry.process.paramIds=*
-fulltext:entry.message.paramIds=*
-
-# full text indexing task
-scheduler.task.fulltext.class=ru.bgcrm.plugin.fulltext.FullTextUpdater

@@ -1,2 +1,0 @@
-rule.1.checkExpression=true
-rule.1.duration=30

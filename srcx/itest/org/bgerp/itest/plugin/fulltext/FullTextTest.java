@@ -12,7 +12,7 @@ import ru.bgcrm.plugin.fulltext.Plugin;
 import ru.bgcrm.util.sql.SQLUtils;
 
 @Test(groups = "fulltext", priority = 100, dependsOnGroups = { "config", "scheduler" })
-public class FulltextTest {
+public class FullTextTest {
     private static final Plugin PLUGIN = new Plugin();
 
     @Test

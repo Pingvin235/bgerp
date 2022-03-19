@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.util.sql.PreparedQuery;
+
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.PreparedDelay;
 
 import static ru.bgcrm.dao.Tables.*;
 import static ru.bgcrm.dao.user.Tables.*;
@@ -36,7 +37,7 @@ public class EMailDAO extends CommonDAO {
             SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON param.param_id=pref.id AND pref.object=?" +
             SQL_WHERE + "param.id=?";
 
-        try (var pq = new PreparedDelay(con, query)) {
+        try (var pq = new PreparedQuery(con, query)) {
             pq.addString(Process.OBJECT_TYPE);
             pq.addInt(processId);
 
@@ -60,7 +61,7 @@ public class EMailDAO extends CommonDAO {
             SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON param.param_id=pref.id AND pref.object=?" +
             SQL_INNER_JOIN + TABLE_USER + "AS user ON param.id=user.id AND user.status!=?";
 
-        try (var pq = new PreparedDelay(con, query)) {
+        try (var pq = new PreparedQuery(con, query)) {
             pq.addString(User.OBJECT_TYPE);
             pq.addInt(User.STATUS_DISABLED);
 
@@ -87,7 +88,7 @@ public class EMailDAO extends CommonDAO {
             SQL_INNER_JOIN + TABLE_PARAM_PREF + "AS pref ON param.param_id=pref.id AND pref.object=?" +
             SQL_INNER_JOIN + TABLE_CUSTOMER + "AS c ON param.id=c.id";
 
-        try (var pq = new PreparedDelay(con, query)) {
+        try (var pq = new PreparedQuery(con, query)) {
             pq.addString(Customer.OBJECT_TYPE);
 
             if (ids != null && !ids.isEmpty())
@@ -99,7 +100,7 @@ public class EMailDAO extends CommonDAO {
         return result;
     }
 
-    private void loadEmails(PreparedDelay pq, List<ParameterEmailValue> result) throws SQLException {
+    private void loadEmails(PreparedQuery pq, List<ParameterEmailValue> result) throws SQLException {
         var rs = pq.executeQuery();
         while (rs.next()) {
             var value = new ParameterEmailValue(rs.getString(1), rs.getString(2));
