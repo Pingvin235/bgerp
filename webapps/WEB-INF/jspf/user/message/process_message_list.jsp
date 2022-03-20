@@ -257,13 +257,8 @@
 									<li><a href="#" onclick="${answerCommand}return false;">${l.l('Ответить')}</a></li>
 								</c:if>
 
-								<c:set var="perm4NotMy" value="${p:get(form.user.id, 'ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes')}" />
-								<c:set var="perm2Update" value="${p:get( ctxUser.id, 'ru.bgcrm.struts.action.MessageAction:messageUpdate')}"/>
-								<c:set var="allowedTypeIds" value="${u.toIntegerSet(perm2Update['allowedTypeIds'])}"/>
-								<c:set var="checkEditByOwner" value="${form.user.id == message.userId or perm4NotMy ne null}"/>
-								<c:set var="checkEditByType" value="${empty allowedTypeIds or allowedTypeIds.contains(message.typeId)}"/>
-								<c:if test="${checkEditByOwner && checkEditByType}">
-									<c:if test="${messageType.isEditable(message)}">
+								<c:if test="${form.user.id == message.userId or cxtUser.checkPerm('<%=ru.bgcrm.struts.action.MessageAction.ACTION_MODIFY_NOT_OWNED%>')}">
+									<c:if test="${messageType.isEditable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdate')}">
 										<c:url var="editUrl" value="/user/message.do">
 											<c:param name="action" value="processMessageEdit"/>
 											<c:param name="id" value="${message.id}"/>
@@ -272,13 +267,13 @@
 											<c:param name="returnUrl" value="${form.requestUrl}"/>
 										</c:url>
 
-										<li><a href="#" onclick="if (bgcrm.lock.add('${message.lockEdit}')) {
+										<li><a href="#" onclick="if ($$.lock.add('${message.lockEdit}')) {
 												$$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
 											};
 											return false;">${l.l('Редактировать')}</a></li>
 									</c:if>
 
-									<c:if test="${messageType.isRemovable(message)}">
+									<c:if test="${messageType.isRemovable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageDelete')}">
 										<c:url var="deleteUrl" value="/user/message.do">
 											<c:param name="action" value="messageDelete"/>
 											<c:param name="typeId-systemId" value="${message.typeId}-${message.id}"/>

@@ -21,9 +21,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.bgerp.event.ProcessFilesEvent;
+import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageSearchDAO;
@@ -55,6 +55,11 @@ public class MessageAction extends BaseAction {
     public static final String UNPROCESSED_MESSAGES_PERSONAL_KEY = "unprocessedMessages";
 
     private static final String PATH_JSP = PATH_JSP_USER + "/message";
+    /**
+     * Special action for edit and delete not owned messages.
+     */
+    @Dynamic
+    public static final String ACTION_MODIFY_NOT_OWNED = "org.bgerp.action.MessageAction:modifyNotOwned";
 
     @Override
     protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
@@ -218,13 +223,13 @@ public class MessageAction extends BaseAction {
             systemIds.add(StringUtils.substringAfter(pair, "-"));
         }
 
-        // если нет разрешения на удаления чужих, проверим, чтобы все сообщения принадлежали ему.
-        if (UserCache.getPerm(form.getUserId(), "ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes") == null) {
+        // if no the special permission checking all the messages for ownerships
+        if (!form.getUser().checkPerm(ACTION_MODIFY_NOT_OWNED)) {
             MessageDAO messageDao = new MessageDAO(conSet.getConnection());
             for (Integer sysId : typeSystemIds.values().stream().flatMap(List::stream).map(Utils::parseInt).collect(Collectors.toSet())) {
                 Message message = messageDao.getMessageById(sysId);
                 if (message != null && message.getUserId() != form.getUserId()) {
-                    throw new BGMessageException("Удаление чужих сообщений запрещено!");
+                    throw new BGException("Deletion not own messages is not allowed");
                 }
             }
         }
@@ -237,8 +242,7 @@ public class MessageAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/message.jsp");
     }
 
-    public ActionForward messageList(DynActionForm form, final ConnectionSet conSet)
-            throws Exception {
+    public ActionForward messageList(DynActionForm form, final ConnectionSet conSet) throws Exception {
         restoreRequestParams(conSet.getConnection(), form, true, true, "order", "typeId");
 
         boolean processed = form.getParamBoolean("processed", false);
@@ -381,8 +385,7 @@ public class MessageAction extends BaseAction {
         return type;
     }
 
-    public ActionForward processMessageList(DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward processMessageList(DynActionForm form, ConnectionSet conSet) throws Exception {
         int tagId = form.getParamInt("tagId");
         int processId = form.getParamInt("processId");
         Set<Integer> processIds = new TreeSet<>(Collections.singleton(processId));
@@ -396,7 +399,7 @@ public class MessageAction extends BaseAction {
             processIds.addAll(linkProcessIds);
         }
 
-        log.debug("processIds: %s", processIds);
+        log.debug("processIds: {}", processIds);
 
         Set<Integer> allowedTypeIds = Utils.toIntegerSet(form.getPermission().get("allowedTypeIds", ""));
 
@@ -451,11 +454,10 @@ public class MessageAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/process_message_edit.jsp");
     }
 
-    public ActionForward messageUpdate(DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward messageUpdate(DynActionForm form, ConnectionSet conSet) throws Exception {
         var type = getType(form.getParamInt("typeId"));
 
-        // сохранение типа сообщения, чтобы в следующий раз выбрать в редакторе его
+        // preserving message type for choosing in next usage of editor
         if (form.getId() <= 0) {
             form.setParam("messageTypeAdd", String.valueOf(type.getId()));
             restoreRequestParams(conSet.getConnection(), form, false, true, "messageTypeAdd");
@@ -465,15 +467,13 @@ public class MessageAction extends BaseAction {
         if (form.getId() > 0)
             message = new MessageDAO(conSet.getConnection()).getMessageById(form.getId());
 
-        if (message.getId() > 0 && message.getUserId() != form.getUserId()) {
-            if (UserCache.getPerm(form.getUserId(), "ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes") == null) {
-                throw new BGMessageException("Редактирование чужих сообщений запрещено!");
-            }
+        if (message.getId() > 0 && message.getUserId() != form.getUserId() && !form.getUser().checkPerm(ACTION_MODIFY_NOT_OWNED)) {
+            throw new BGException("Editing of not own messages is not allowed");
         }
 
         Set<Integer> allowedTypeIds = Utils.toIntegerSet(form.getPermission().get("allowedTypeIds", ""));
-        if (CollectionUtils.isNotEmpty(allowedTypeIds) && !allowedTypeIds.contains(type.getId())) {
-            throw new BGMessageException("Вам запрещено создавать/редактировать данный тип сообщения!");
+        if (message.getId() <= 0 && !allowedTypeIds.isEmpty() && !allowedTypeIds.contains(type.getId())) {
+            throw new BGException("Message with the given type is not allowed to be created");
         }
 
         message.setId(form.getId());

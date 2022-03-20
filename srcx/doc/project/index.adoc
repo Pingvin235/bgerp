@@ -878,7 +878,7 @@ $('#loginForm').dialog({
 By doing <<action>> in object *l* the localization context is passed, containing phrases for the core and the plugin being called.
 
 [snippet, from="message.se", to="());", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L193-L193[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L198-L198[ru.bgcrm.struts.action.MessageAction]
 
 Localized key string may contain placeholders for some values, marked as *{}*.
 Such case may be seen for <<exception, BGMessageException sample>>.
@@ -984,11 +984,7 @@ link:../../../src/ru/bgcrm/worker/MessageExchange.java#L17-L20[ru.bgcrm.worker.M
 
 Log message with substitutions:
 [snippet, from="log.debug(", to=");", remove-leading="            "]
-<<<<<<< HEAD:srcx/doc/project.adoc
-link:../../src/ru/bgcrm/Server.java#L116-L116[ru.bgcrm.Server]
-=======
-link:../../../src/ru/bgcrm/Server.java#L116-L116[ru.bgcrm.Server]
->>>>>>> master:srcx/doc/project/index.adoc
+link:../../../src/ru/bgcrm/Server.java#L117-L117[ru.bgcrm.Server]
 
 Exception message output:
 [snippet, from="try", to="}", remove-leading="                "]
@@ -1010,11 +1006,11 @@ Let's take interface filters, as example - use *restoreRequestParams* method in 
 
 Saving a value:
 [snippet, from="resto", to=");", remove-leading=    "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L424-L424[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L427-L427[ru.bgcrm.struts.action.MessageAction]
 
 Restoring a value:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L454-L462[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L457-L464[ru.bgcrm.struts.action.MessageAction]
 
 Saving and restoring a value at once:
 [snippet, from="//", to=");", remove-leading="    "]

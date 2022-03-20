@@ -1,5 +1,5 @@
-<item ltitle="Ядро">
-	<item ltitle="Администрирование">
+<item title="Kernel">
+	<item title="Administration">
 		<item ltitle="Группы и пользователи">
 			<item ltitle="Пользователи">
 				<item action="ru.bgcrm.struts.action.admin.UserAction:userList" title="Просмотр пользователей">
@@ -271,34 +271,34 @@
 			<item action="ru.bgcrm.struts.action.ProcessAction:processMerge" title="Merge"/>
 		</item>
 		<item title="Message">
-			<item action="ru.bgcrm.struts.action.MessageAction:null" title="View"/>
-			<item action="ru.bgcrm.struts.action.MessageAction:messageList" title="List">
-				 <b>allowedTypeIds</b> - comma separated type ID list<br/>
+			<item title="Queue">
+				<item action="ru.bgcrm.struts.action.MessageAction:messageList" title="List">
+					<b>allowedTypeIds</b> - comma separated type ID list<br/>
+				</item>
+				<item action="ru.bgcrm.struts.action.MessageAction:null;ru.bgcrm.struts.action.MessageAction:newMessageLoad" title="View"/>
+				<item action="ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList" title="Related processes list"/>
+				<item action="ru.bgcrm.struts.action.MessageAction:processCreate" title="Create process for message"/>
+				<item title="Call">
+					<item action="ru.bgcrm.struts.action.MessageCallAction:numberRegister" title="Occupy number"/>
+					<item action="ru.bgcrm.struts.action.MessageCallAction:numberFree" title="Release number"/>
+					<item action="ru.bgcrm.struts.action.MessageCallAction:testCall" title="Test call"/>
+				</item>
 			</item>
-			<item action="ru.bgcrm.struts.action.MessageAction:newMessageLoad" title="Load new"/>
-			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateTags" title="Update tags"/>
-			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Update process"/>
-			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Update process to copy"/>
-			<item action="ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Update">
-				 <b>allowedTypeIds</b> - comma separated type ID list<br/>
+			<item title="In process">
+				<item action="ru.bgcrm.struts.action.MessageAction:processMessageList" title="List">
+					<b>allowedTypeIds</b> - comma separated type ID list<br/>
+				</item>
+				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateTags" title="Update tags"/>
+				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Update process"/>
+				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Update process to copy"/>
+				<item action="ru.bgcrm.struts.action.MessageAction:processMessageEdit;ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Edit">
+					<b>allowedTypeIds</b> - comma separated type ID list for created messages<br/>
+				</item>
+				<!-- special action with missing Java method -->
+				<item action="org.bgerp.action.MessageAction:modifyNotOwned" title="Modify not owned"/>
 			</item>
-			<item action="ru.bgcrm.struts.action.MessageAction:processMessageList" title="List in process">
-				 <b>allowedTypeIds</b> - comma separated type ID list<br/>
-			</item>
-			<item action="ru.bgcrm.struts.action.MessageAction:processMessageEdit" title="Update process message"/>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageDelete" title="Delete"/>
-			<item action="ru.bgcrm.struts.action.MessageAction:deleteEditOtherUsersNotes" title="Редактирование/удаление чужих сообщений"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:messageRelatedProcessList" title="Related processes list"/>
-
-			<item action="ru.bgcrm.struts.action.MessageAction:processCreate" title="Create process for message"/>
-
-			<item title="Calls">
-				<item action="ru.bgcrm.struts.action.MessageCallAction:numberRegister" title="Occupy number"/>
-				<item action="ru.bgcrm.struts.action.MessageCallAction:numberFree" title="Release number"/>
-				<item action="ru.bgcrm.struts.action.MessageCallAction:testCall" title="Test call"/>
-			</item>
 		</item>
-
 		<item title="Поиск">
 			<item action="ru.bgcrm.struts.action.SearchAction:null" title="Поиск">
 				<b>allowedAreaIds</b> - id префиксов городов через запятую <br/>
