@@ -50,7 +50,8 @@ public class EMailAction extends BaseAction {
                         var ids = new ProcessLinkDAO(con).getLinkCustomers(processId, Customer.OBJECT_TYPE + "%").stream()
                             .map(Customer::getId)
                             .collect(Collectors.toSet());
-                        emails = dao.getCustomerEmails(ids);
+                        if (!ids.isEmpty())
+                            emails = dao.getCustomerEmails(ids);
                     } else
                         throw new Exception("Unknown area: " + area);
 
