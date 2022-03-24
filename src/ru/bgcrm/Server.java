@@ -31,7 +31,6 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.event.listener.KernelSystemListeners;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.servlet.AccessLogValve;
 import ru.bgcrm.util.AdminPortListener;
@@ -41,7 +40,7 @@ import ru.bgcrm.util.Utils;
 
 /**
  * Web server, the entry point of the application.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class Server extends Tomcat {
@@ -75,8 +74,6 @@ public class Server extends Tomcat {
             startServer();
 
             new AdminPortListener(setup.getInt("server.port.admin", 8005));
-
-            new KernelSystemListeners();
 
             // TODO: Replace by Custom logic.
             DynamicClassManager.getInstance().recompileAll();

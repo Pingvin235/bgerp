@@ -4,7 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.bgerp.servlet.LoginStat;
+import org.bgerp.servlet.user.LoginStat;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;

@@ -173,7 +173,7 @@ public class Config extends ru.bgcrm.util.Config {
             license.withPlugin(productId);
 
         var lic = new License(license.build());
-        byte[] signed = lic.getSignedData(signKeyFile, signKeyPswd);
+        byte[] signed = lic.sign(signKeyFile, signKeyPswd);
 
         var fd = Utils.getFirst(paramDao.getParamFile(processId, paramLicFileId).values());
         paramDao = new ParamValueDAO(conSet.getConnection());

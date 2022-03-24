@@ -18,6 +18,9 @@ public class AppLicense {
 
     private static License instance;
 
+    /**
+     * Inits singleton instance.
+     */
     public static void init() {
         var file = new File(License.FILE_NAME);
         var data = "";
@@ -32,15 +35,14 @@ public class AppLicense {
         instance = new License(data);
     }
 
-    public static License getInstance() {
+    /**
+     * Obtains singleton instance created if missing.
+     * @return
+     */
+    public static License instance() {
         if (instance == null) {
             init();
         }
         return instance;
     }
-
-    /** Entry point for external calls.
-    public static void main(String[] args) throws Exception {
-        License.sign(args[0], args[1], args[2], args[3]);
-    } */
 }

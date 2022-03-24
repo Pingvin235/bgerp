@@ -2,10 +2,10 @@ package org.bgerp.action.admin;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.struts.action.ActionForward;
-import org.bgerp.servlet.LoginStat;
 import org.bgerp.servlet.file.Files;
 import org.bgerp.servlet.file.Options;
 import org.bgerp.servlet.file.Order;
+import org.bgerp.servlet.user.LoginStat;
 
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;

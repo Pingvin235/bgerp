@@ -75,10 +75,10 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Retrieves value with Support of Old Keys.
-     * @param def default value
-     * @param validate true - throw an exception on using old keys
-     * @param keys first element is actual ond, after - old values
+     * Retrieves by key value with support of old keys.
+     * @param def default value.
+     * @param validate throw an exception on using old keys.
+     * @param keys first key is the actual one, after - olds.
      * @return
      * @throws BGMessageException
      */
@@ -102,13 +102,16 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Calls {@link #getSok(String, boolean, String...)} with def = null and validate = false.
-     * @param keys
+     * Retrieves by key value with support of old keys.
+     * @param keys first key is the actual one, after - olds.
      * @return
-     * @throws BGMessageException
      */
-    public String getSok(String... keys) throws BGMessageException {
-        return getSok(null, false, keys);
+    public String getSok(String... keys) {
+        try {
+            return getSok(null, false, keys);
+        } catch (BGMessageException e) {
+            throw new IllegalStateException("BGMessageException must not appear here");
+        }
     }
 
     public int getInt(String key, int def) {
@@ -144,19 +147,30 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Analog of {@link #getSok(String, boolean, String...)} for long values.
+     * Retrieves by key value with support of old keys.
+     * @param def default value.
+     * @param validate throw an exception on using old keys.
+     * @param keys first key is the actual one, after - olds.
+     * @return
      * @throws BGMessageException
      */
     public long getSokLong(long def, boolean validate, String... keys) throws BGMessageException {
         return Utils.parseLong(getSok(String.valueOf(def), validate, keys), def);
     }
 
-    /**
-     * Calls {@link #getSokLong(long, boolean, String...)} with validate=false.
+   /**
+     * Retrieves by key value with support of old keys.
+     * @param def default value.
+     * @param keys first key is the actual one, after - olds.
+     * @return
      * @throws BGMessageException
      */
-    public long getSokLong(long def, String... keys) throws BGMessageException {
-        return getSokLong(def, false, keys);
+    public long getSokLong(long def, String... keys) {
+        try {
+            return getSokLong(def, false, keys);
+        } catch (BGMessageException e) {
+            throw new IllegalStateException("BGMessageException must not appear here");
+        }
     }
 
     public final boolean getBoolean(String key, boolean defaultValue) {
@@ -164,7 +178,11 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Analog of {@link #getSok(String, boolean, String...)} for boolean values.
+     * Retrieves by key value with support of old keys.
+     * @param def default value.
+     * @param validate throw an exception on using old keys.
+     * @param keys first key is the actual one, after - olds.
+     * @return
      * @throws BGMessageException
      */
     public boolean getSokBoolean(boolean def, boolean validate, String... keys) throws BGMessageException {
@@ -172,11 +190,18 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Calls {@link #getSokLong(boolean, boolean, String...)} with validate=false.
+     * Retrieves by key value with support of old keys.
+     * @param def default value.
+     * @param keys first key is the actual one, after - olds.
+     * @return
      * @throws BGMessageException
      */
-    public boolean getSokBoolean(boolean def, String... keys) throws BGMessageException {
-        return getSokBoolean(def, false, keys);
+    public boolean getSokBoolean(boolean def, String... keys) {
+        try {
+            return getSokBoolean(def, false, keys);
+        } catch (BGMessageException e) {
+            throw new IllegalStateException("BGMessageException must not appear here");
+        }
     }
 
     public BigDecimal getBigDecimal(final String key, final BigDecimal def) {
@@ -199,16 +224,16 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Извлечение поднабора параметров по префиксу.
-     * @param prefix
+     * Selects subset of parameters by key prefixes.
+     * @param prefixes key prefixes.
      * @return
      */
-    public ParameterMap sub(String... prefixies) {
+    public ParameterMap sub(String... prefixes) {
         Map<String, String> result = new HashMap<String, String>();
 
         for (Entry<String, String> e : entrySet()) {
             String paramKey = e.getKey();
-            for (String prefix : prefixies) {
+            for (String prefix : prefixes) {
                 if (paramKey.startsWith(prefix)) {
                     String suffix = paramKey.substring(prefix.length(), paramKey.length());
                     result.put(suffix, e.getValue());
@@ -272,7 +297,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
      * 1={12=2,34=4}
      * 2={56=2,78=4}</pre>
      * @param prefixes prefixes for extraction.
-     * @return {@link SortedMap} never {@code null}.
+     * @return never {@code null}.
      * @see #subKeyed(String)
      */
     public SortedMap<Integer, ParameterMap> subIndexed(final String... prefixes) {
@@ -313,20 +338,18 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Возвращает новый мап. Берёт всё под префиксами и иставляет мэп из
-     * строковых ид за ними и последующих значений, формируя из них ParameterMap.
-     * Аналогична subIndexed, но составляет несортированный мэп со строковыми ключами.
+     * Creates a new unsorted sub-map with integer keys.
      * <pre>
      * prefix.a.12=2
      * prefix.a.34=4
      * prefix.b.56=2
      * prefix.b.78=4
      * ->
-     * несортированный мэп
+     * unsorted map
      * a={12=2,34=4}
      * b={56=2,78=4}</pre>
-     * @param prefix префикс определяющий мэп
-     * @return Map. Никогда не null.
+     * @param prefixes prefixes for extraction.
+     * @return never {@code null}.
      * @see #subIndexed(String)
      */
     public Map<String, ParameterMap> subKeyed(final String... prefixies) {

@@ -184,7 +184,7 @@ public abstract class Plugin {
     public boolean isEnabled(ParameterMap config, String defaultValue) {
         var defaultValueBool =
             "lic".equals(defaultValue) ?
-            AppLicense.getInstance().getPlugins().contains(getId()) :
+            AppLicense.instance().getPlugins().contains(getId()) :
             Utils.parseBoolean(defaultValue, false);
         return config.getBoolean(getId() + ENABLE_KEY_SUFFIX, defaultValueBool);
     }

@@ -1,9 +1,21 @@
 package org.bgerp.plugin.kernel;
 
+import java.sql.Connection;
 import java.util.Set;
 
+import org.bgerp.plugin.bil.billing.invoice.event.listener.Files;
+
 import ru.bgcrm.dao.IfaceStateDAO;
+import ru.bgcrm.dao.Locker;
 import ru.bgcrm.dao.Tables;
+import ru.bgcrm.event.listener.CustomerSystemListener;
+import ru.bgcrm.event.listener.DefaultProcessChangeListener;
+import ru.bgcrm.event.listener.LoginEventListener;
+import ru.bgcrm.event.listener.NewsEventListener;
+import ru.bgcrm.event.listener.ParamValidatorSystemListener;
+import ru.bgcrm.event.listener.ProcessClosingListener;
+import ru.bgcrm.event.listener.ProcessFilterCounterListener;
+import ru.bgcrm.event.listener.TemporaryObjectOpenListener;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
@@ -71,5 +83,22 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
             "lib/app/bgcrm.jar",
             "plugin"
         );
+    }
+
+    @Override
+    public void init(Connection con) throws Exception {
+        super.init(con);
+
+        // event listeners
+        new CustomerSystemListener();
+        new ParamValidatorSystemListener();
+        new ProcessClosingListener();
+        new DefaultProcessChangeListener();
+        new NewsEventListener();
+        new Locker();
+        new LoginEventListener();
+        new ProcessFilterCounterListener();
+        new TemporaryObjectOpenListener();
+        new Files();
     }
 }

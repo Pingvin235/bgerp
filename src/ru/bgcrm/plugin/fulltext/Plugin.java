@@ -19,6 +19,11 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
+    public Set<Table> getTables() {
+        return Set.of(new Table(SearchDAO.TABLE, Type.TRASH));
+    }
+
+    @Override
     public void init(Connection con) throws Exception {
         super.init(con);
 
@@ -31,10 +36,5 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
             "user.search.jsp", List.of(PATH_JSP_USER + "/search.jsp"),
             "user.process.linkForAddCustom.jsp", List.of(PATH_JSP_USER + "/process_link_for_add_custom_list.jsp")
         );
-    }
-
-    @Override
-    public Set<Table> getTables() {
-        return Set.of(new Table(SearchDAO.TABLE, Type.TRASH));
     }
 }

@@ -24,17 +24,17 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
+    public Set<String> getObjectTypes() {
+        return Set.of(LINK_TYPE_CHANNEL);
+    }
+
+    @Override
     public void init(Connection con) throws Exception {
         super.init(con);
 
         EventProcessor.subscribe((e, conSet) -> {
             e.getContext().put(ID, new ExpressionObject());
         }, ContextInitEvent.class);
-    }
-
-    @Override
-    public Set<String> getObjectTypes() {
-        return Set.of(LINK_TYPE_CHANNEL);
     }
 
     @Override

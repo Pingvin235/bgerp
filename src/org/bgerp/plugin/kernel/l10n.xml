@@ -497,7 +497,8 @@
 	<p><ru>Загрузка файлов обновлений</ru><en>Download update files</en></p>
 	<p><ru>Удаление файлов обновлений</ru><en>Delete update files</en></p>
 	<p><ru>Используйте запятую либо Enter для разделения значений</ru><en>Use comma or Enter for value separation</en></p>
+	<p><en>Signature is undefined</en><ru>Подпись не определена</ru></p>
 	<!--
-	<p><ru></ru><en></en></p>
+	<p><en></en><ru></ru></p>
 	-->
 </data>

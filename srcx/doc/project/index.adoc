@@ -394,7 +394,7 @@ Each plugin has a corresponding and unique:
 ===== Init
 Plugin class *init* method is called for all <<../kernel/setup.adoc#config-plugin, enabled>> plugins during the server start.
 [snippet, from="Eve", to="ss);", remove-leading="        "]
-link:../../../src/ru/bgcrm/plugin/slack/Plugin.java#L30-L32[ru.bgcrm.plugin.slack.Plugin]
+link:../../../src/ru/bgcrm/plugin/slack/Plugin.java#L35-L37[ru.bgcrm.plugin.slack.Plugin]
 
 In the particular case shown above, function handler gets included into <<../kernel/extension.adoc#jexl, JEXL>> context.
 First init is done for <<plugin-kernel, Kernel Plugin>>.
@@ -770,7 +770,7 @@ link:../../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L3
 Set the left area and the right areas of <<../kernel/interface.adoc#user-top-line, top line>> in user interface.
 <<l10n, Localization>> is supported using *ltext* attribute. Tag shell:state may create a documentation help link.
 [snippet, from="<shell:t", to=">"]
-link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L88-L89[webapps/WEB-INF/jspf/admin/config/list.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L89-L90[webapps/WEB-INF/jspf/admin/config/list.jsp]
 
 [[js]]
 ==== Java Script
@@ -984,7 +984,7 @@ link:../../../src/ru/bgcrm/worker/MessageExchange.java#L17-L20[ru.bgcrm.worker.M
 
 Log message with substitutions:
 [snippet, from="log.debug(", to=");", remove-leading="            "]
-link:../../../src/ru/bgcrm/Server.java#L117-L117[ru.bgcrm.Server]
+link:../../../src/ru/bgcrm/Server.java#L114-L114[ru.bgcrm.Server]
 
 Exception message output:
 [snippet, from="try", to="}", remove-leading="                "]
@@ -1079,11 +1079,11 @@ link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L207-L209[ru.bgc
 === File upload
 JSP page:
 [snippet, from="<c:set", to="script>", remove-leading="				"]
-link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L64-L76[webapps/WEB-INF/jspf/admin/config/list.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L64-L77[webapps/WEB-INF/jspf/admin/config/list.jsp]
 
 Action:
 [snippet, from="public", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L153-L160[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
+link:../../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L154-L167[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
 
 [[sample-jsp-ui]]
 === UI Only

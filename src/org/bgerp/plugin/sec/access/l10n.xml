@@ -13,6 +13,6 @@ Password: {}
 	</p>
 	<p><ru>Копировать логин с паролем в буфер обмена</ru><en>Copy login and password to clipboard</en></p>
 	<!--
-	<p><ru></ru><en></en></p>
+	<p><en></en><ru></ru></p>
 	-->
 </data>

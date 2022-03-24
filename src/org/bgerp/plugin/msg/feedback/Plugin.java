@@ -1,6 +1,5 @@
 package org.bgerp.plugin.msg.feedback;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
@@ -11,11 +10,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     public Plugin() {
         super(ID);
-    }
-
-    @Override
-    public void init(Connection con) throws Exception {
-        super.init(con);
     }
 
     @Override

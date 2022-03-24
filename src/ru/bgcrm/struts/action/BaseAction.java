@@ -27,9 +27,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-import org.bgerp.servlet.LoginStat;
 import org.bgerp.servlet.filter.AuthFilter;
+import org.bgerp.servlet.user.LoginStat;
 import org.bgerp.util.Log;
+import org.bgerp.util.lic.AppLicense;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.Locker;
@@ -245,6 +246,9 @@ public class BaseAction extends DispatchAction {
         int logEntryId = 0;
         String resultStatus = "";
         try {
+            // TODO: Send check result as an client event in result.
+            AppLicense.instance().getError();
+
             // redirect to login.jsp or open interface
             if (user == null) {
                 form.setPermission(ParameterMap.EMPTY);

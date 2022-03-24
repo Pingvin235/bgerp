@@ -35,6 +35,19 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         return "BGBilling";
     }
 
+    /**
+     * @return BGBilling servers.
+     */
+    @Dynamic
+    public DBInfoManager getDbInfoManager() {
+        return DBInfoManager.getInstance();
+    }
+
+    @Override
+    public Set<String> getObjectTypes() {
+        return Set.of(Contract.OBJECT_TYPE);
+    }
+
     @Override
     public void init(Connection con) throws Exception {
         super.init(con);
@@ -74,18 +87,5 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
             entry("user.message.search.result.jsp", List.of(PATH_JSP_USER + "/message_search_result.jsp")),
             entry(ENDPOINT_MESSAGE_HEADER, List.of(ENDPOINT_MESSAGE_HEADER))
         );
-    }
-
-    /**
-     * @return BGBilling servers.
-     */
-    @Dynamic
-    public DBInfoManager getDbInfoManager() {
-        return DBInfoManager.getInstance();
-    }
-
-    @Override
-    public Set<String> getObjectTypes() {
-        return Set.of(Contract.OBJECT_TYPE);
     }
 }

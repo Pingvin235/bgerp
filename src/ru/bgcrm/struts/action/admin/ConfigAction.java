@@ -1,6 +1,7 @@
 package ru.bgcrm.struts.action.admin;
 
 import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +60,7 @@ public class ConfigAction extends BaseAction {
             parent.addIncluded(config);
         }
 
-        form.getHttpRequest().setAttribute("license", AppLicense.getInstance());
+        form.getHttpRequest().setAttribute("license", AppLicense.instance());
 
         return html(conSet, form, PATH_JSP + "/list.jsp");
     }
@@ -153,7 +154,13 @@ public class ConfigAction extends BaseAction {
     public ActionForward licenseUpload(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         var file = form.getFile();
 
-        IOUtils.copy(file.getInputStream(), new FileOutputStream(License.FILE_NAME));
+        byte[] data = IOUtils.toByteArray(file.getInputStream());
+
+        String error = new License(new String(data, StandardCharsets.UTF_8)).getError();
+        if (Utils.notBlankString(error))
+            throw new BGMessageException(error);
+
+        IOUtils.write(data, new FileOutputStream(License.FILE_NAME));
         AppLicense.init();
 
         return json(conSet, form);

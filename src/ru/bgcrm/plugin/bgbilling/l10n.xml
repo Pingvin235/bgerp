@@ -6,6 +6,6 @@
 	<p><ru>Число цифр в телефоне должно быть 11!!</ru><en>The number of digits in the phone must be 11!!</en></p>
 	<p><ru>На запрос пользователя %s биллинг %s вернул ошибку %s</ru><en>On request of user %s billing %s returned an error %s</en></p>
 	<!--
-	<p><ru></ru><en></en></p>
+	<p><en></en><ru></ru></p>
 	-->
 </data>

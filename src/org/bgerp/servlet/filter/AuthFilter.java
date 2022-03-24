@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.authenticator.Constants;
 import org.bgerp.event.AuthEvent;
-import org.bgerp.servlet.LoginStat;
+import org.bgerp.servlet.user.LoginStat;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;

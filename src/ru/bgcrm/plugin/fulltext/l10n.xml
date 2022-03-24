@@ -5,6 +5,6 @@
 	<p><ru>Контрагентов с таким наименованием не найдено.</ru><en>No customers with this name were found.</en></p>
 	<p><ru>FullText: Контрагент</ru><en>FullText: Customer</en></p>
 	<!--
-	<p><ru></ru><en></en></p>
+	<p><en></en><ru></ru></p>
 	-->
 </data>

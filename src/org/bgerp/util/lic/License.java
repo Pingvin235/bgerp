@@ -49,59 +49,11 @@ public class License {
     }
 
     /**
-     * Appends author and signature to a license file.
-     * @param filePath
-     * @param personId
-     * @param keyFilePath
-     * @param keyFilePswd
-     * @throws Exception
-    public static void sign(String filePath, String personId, String keyFilePath, String keyFilePswd) throws Exception {
-        var file = new File(filePath);
-        if (!file.exists())
-            throw new FileNotFoundException("Not found license file: " + filePath);
-        var data = IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8).trim();
-
-        var key = PUBLIC_KEYS.get(personId);
-        if (key == null)
-            throw new IllegalArgumentException("Unsupported person: " + personId);
-
-        var lic = new License(data);
-        if (lic.isSigned())
-            throw new IllegalArgumentException("The license was already signed");
-
-        key = new Sign(key.id, IOUtils.toString(new FileInputStream(keyFilePath), StandardCharsets.UTF_8), keyFilePswd);
-
-        data += "\n" + KEY_LIC_SIGN_PERSON + "=" + key.id + "\n";
-        data += KEY_LIC_SIGN_SIGNATURE + "=" + key.signatureGenerate(new License(data).getDigest()) + "\n";
-
-        IOUtils.write(data, new FileOutputStream(file), StandardCharsets.UTF_8);
-
-        System.out.println("File was updated: " + file);
-    }*/
-
-    /**
-     * Open content of license.
+     * License content.
      * @return
      */
     public String getData() {
         return data;
-    }
-
-    /**
-     * License's content with signature on the end.
-     * @param keyFilePath file of Java resource path to SSH private key file.
-     * @param keyFilePswd password to SSH private key file, {@code null} - no password is used.
-     * @return UTF-8 encoded signed license.
-     */
-    public byte[] getSignedData(String keyFilePath, String keyFilePswd) throws Exception {
-        var sign = new Sign("key.id", new String(ru.bgcrm.util.io.IOUtils.read(keyFilePath), StandardCharsets.UTF_8), keyFilePswd);
-
-        var data = new StringBuilder(this.data);
-        data.append(KEY_LIC_SIGN + "=")
-            .append(sign.signatureGenerate(getDigest()))
-            .append("\n");
-
-        return data.toString().getBytes(StandardCharsets.UTF_8);
     }
 
     /**
@@ -114,22 +66,35 @@ public class License {
 
     /**
      * License check result.
-     * @return null on correct result, or error text.
+     * @return {@code null} on correct result, or error text.
      */
     public String getError() {
         return error;
     }
 
     /**
-     * Enabled plugin IDs.
+     * Plugin IDs.
      * @return
      */
     public Set<String> getPlugins() {
         return plugins;
     }
 
-    public boolean isSigned() {
-        return /* config.containsKey(KEY_LIC_SIGN_PERSON) || */ config.containsKey(KEY_LIC_SIGN);
+    /**
+     * License content with signature on the end.
+     * @param keyFilePath file of Java resource path to SSH private key file.
+     * @param keyFilePswd password to SSH private key file, {@code null} - no password is used.
+     * @return UTF-8 encoded signed license.
+     */
+    public byte[] sign(String keyFilePath, String keyFilePswd) throws Exception {
+        var sign = new Sign("key.id", new String(ru.bgcrm.util.io.IOUtils.read(keyFilePath), StandardCharsets.UTF_8), keyFilePswd);
+
+        var data = new StringBuilder(this.data);
+        data.append(KEY_LIC_SIGN + "=")
+            .append(sign.signatureGenerate(getDigest()))
+            .append("\n");
+
+        return data.toString().getBytes(StandardCharsets.UTF_8);
     }
 
     private byte[] digest() {
@@ -153,20 +118,15 @@ public class License {
     }
 
     private String check() {
-        /* var person = config.get(KEY_LIC_SIGN_PERSON);
-        if (Utils.isEmptyString(person))
-            return "Signing person is undefined";
-
-        var key = PUBLIC_KEYS.get(person);
-        if (key == null)
-            return "Not found key for person: " + person; */
-
         var signature = config.get(KEY_LIC_SIGN);
+
         if (Utils.isEmptyString(signature))
             return "Signature is undefined";
 
         if (!SIGN.signatureVerify(digest, signature))
             return "Signature is not correct";
+
+        // TODO: Check period. Enabled plugins.
 
         return null;
     }

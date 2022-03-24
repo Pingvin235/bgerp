@@ -30,8 +30,8 @@ title=BGERP TEST
 # 0 - отключение проверки версии браузера пользователя при авторизации
 check.browser=1
 
-# таймаут активности сессии пользователя в секундах, по-умолчанию сессия отключается через 5 минут
-sessionTimeout=300
+# timeout of user session activity in seconds
+user.session.timeout=300
 
 # формат <<#param-address, адресного параметра>>, доступны переменные: index, сity, area, quarter, street, house, flat, room, pod, floor, comment [[config-param-address]]
 address.format=(${city})(, ${street})(, д. ${house})(, кв. ${flat})( ${room})

@@ -64,6 +64,7 @@
 				<c:set var="uploadFormId" value="${u:uiid()}"/>
 				<form id="${uploadFormId}" action="/admin/config.do" method="POST" enctype="multipart/form-data" name="form">
 					<input type="hidden" name="action" value="licenseUpload"/>
+					<input type="hidden" name="responseType" value="json"/>
 					<input type="file" name="file" style="visibility: hidden; display: none;"/>
 					<button type="button" class="btn-grey w100p mt1" onclick="$$.ajax.triggerUpload('${uploadFormId}');">${l.l('Загрузить файл лицензии')}</button>
 				</form>
