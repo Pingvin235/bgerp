@@ -116,7 +116,7 @@ public class ConfigAction extends BaseAction {
 
         EventProcessor.processEvent(new SetupChangedEvent(form), conSet);
 
-        form.getResponse().setData("config", config);
+        form.setResponseData("config", config);
 
         return json(conSet, form);
     }

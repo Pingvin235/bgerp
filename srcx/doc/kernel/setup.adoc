@@ -135,29 +135,29 @@ scheduler.start=1
 :hardbreaks!:
 
 [[config-include]]
-=== Инклуды
-Возможно включение в одну конфигурации другой, для этого во включающей конфигурации размещается инструкция *include.<configId>=1*,
-где *<configId>* - код включаемой на данной позиции конфигурации. Включенные конфигурации отображаются под содержащей их выделяются отступом.
+=== Includes
+In main configuration may be included sub-configurations. Included configurations are shown under a parent one with indentation. Only one level of depth is supported for now.
 
-NOTE: Поддерживается только один уровень вложенности конфигураций.
+image::_res/config_include.png[with="800px"]
 
-Рекомендуется создать как минимум одну инклуд конфигурацию, в которой определять все <<interface.adoc#config-variable, переменные>>,
-как-то: коды параметров процессов, статусов. В дальнейшем эту конфигурацию включить в активную конфигурацию сервера, а так же в конфигурации процессов.
-
-Рекомендованный формат:
+Top-level main configurations not having includes can be also included in other configurations, like <<process/index.adoc#type-config, process type>> using constructions like:
 [source]
 ----
-USER_PARAM_EMAIL=
+include.<configId>=1
+----
 
-PROCESS_STATUS_OPEN=
-PROCESS_PARAM_CONTACT=
-PROCESS_PARAM_EMAIL=
+Where *<configId>* - ID of included main configuration.
+
+Such type of includes were earlier allowed also for main configuration, but now that is a deprecated way. Using it causes such log messages.
+[source]
+----
+WARN [main] Setup - Used old-style included config 2 in config 1
 ----
 
 [[config-plugin]]
 === Plugins
 The most part of the product's functionality is available in form of plugins.
-By default the application searchs and enables all the plugins, that may be confusing users and overloading the system.
+By default the application searches and enables all the plugins, that may be confusing users and overloading the system.
 To reduce visible functionality it is recommended to define in main <<config, configuration>>:
 [source]
 ----

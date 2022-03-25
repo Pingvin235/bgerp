@@ -82,16 +82,6 @@ public class Preferences extends ParameterMap {
         data.putAll(m);
     }
 
-    /**
-     * Use {@link Preferences#put(String, String)}
-     * @param key
-     * @param value
-     */
-    @Deprecated
-    public void set(String key, String value) {
-        put(key, value);
-    }
-
     public Map<String, String> getDataMap() {
         return data;
     }
@@ -112,7 +102,10 @@ public class Preferences extends ParameterMap {
     }
 
     /**
-     * Загрузка файла конфигурации в Map, имя файла определено в поле {@link bundleName}.
+     * Loads configuration file to map.
+     * @param bundleName file name without '.properties' extension.
+     * @param data target map.
+     * @param validate check used in values variables.
      */
     protected void loadBundle(String bundleName, Map<String, String> data, boolean validate) {
         File file = new File(bundleName.replace('.', '/') + ".properties");
@@ -141,6 +134,15 @@ public class Preferences extends ParameterMap {
     private static final String MULTILINE_PREFIX = "<<";
     private static final int MULTILINE_PREFIX_LENGTH = MULTILINE_PREFIX.length();
 
+    /**
+     * Loads a single key value pair.
+     * @param context context for handling multiline values.
+     * @param data target map.
+     * @param line key-value line.
+     * @param includes includes.
+     * @param validate check variables in values.
+     * @throws BGException
+     */
     private void loadDataEntry(MultilineContext context, Map<String, String> data, String line, Iterable<ParameterMap> includes, boolean validate) throws BGException {
         if (line.startsWith("#")) {
             return;
@@ -148,14 +150,14 @@ public class Preferences extends ParameterMap {
 
         line = insertVariablesValues(line, data, includes, validate);
 
-        // конец мультилинии
+        // end of multiline
         if (line.equals(context.endOfLine)) {
             data.put(context.key, context.multiline.toString());
             context.endOfLine = null;
             context.multiline.setLength(0);
             return;
         }
-        // склейка мультилинии
+        // concat multiline
         if (context.endOfLine != null) {
             context.multiline.append(line + "\n");
             return;
@@ -176,7 +178,7 @@ public class Preferences extends ParameterMap {
                 String key = line.substring(0, pos);
                 String value = line.substring(pos + 1);
 
-                // начало мультилинии
+                // begin of multiline
                 if (value.startsWith(MULTILINE_PREFIX)) {
                     context.key = key;
                     context.endOfLine = value.substring(MULTILINE_PREFIX_LENGTH);
@@ -190,7 +192,7 @@ public class Preferences extends ParameterMap {
 
     private static final Pattern variablePattern = Pattern.compile("\\{@([\\w\\.:]+)\\}");
 
-    // TODO: Во многих местах функция используется очень запутанно.
+    // TODO: Used in many places and cumbersome.
     public static String insertVariablesValues(String line, Map<String, String> data, Iterable<ParameterMap> includes, boolean validate) throws BGException {
         StringBuffer result = null;
 
@@ -264,10 +266,10 @@ public class Preferences extends ParameterMap {
     }
 
     /**
-     * Проверяет конфигурацию, включая инклуды и переменные.
-     * @param configDao
-     * @param config
-     * @param validate
+     * Inserts includes placed with <pre>include.ID=1</pre> expressions.
+     * @param configDao DAO for getting includes.
+     * @param config key-value lines of main configuration.
+     * @param validate check existence of includes configurations, variables.
      * @throws Exception
      */
     public static ParameterMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws Exception {
@@ -324,7 +326,6 @@ public class Preferences extends ParameterMap {
 
                 return id1 - id2;
             }
-
         });
 
         return res;
