@@ -23,13 +23,13 @@ import ru.bgerp.l10n.Localizer;
 
 /**
  * Node of permissions tree.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class PermissionNode {
     @VisibleForTesting
     static String FILE_NAME = "action.xml";
-    private static String DELIMITER = " -> ";
+    private static String DELIMITER = " / ";
 
     private String title;
     private String titlePath;
@@ -44,7 +44,7 @@ public class PermissionNode {
 
     /**
      * Simplified constructor, no children supported.
-     * 
+     *
      * @param action
      * @param title
      */
@@ -55,7 +55,7 @@ public class PermissionNode {
 
     PermissionNode(PermissionNode parent, Localizer l, Element node) {
         this(node.getAttribute("action"), node.getAttribute("title"));
-        
+
         var ltitle = node.getAttribute("ltitle");
         if (Utils.notBlankString(ltitle)) {
             title = l.l(ltitle);
@@ -71,7 +71,7 @@ public class PermissionNode {
         }
 
         loadChildren(l, node);
-       
+
         if (Utils.notEmptyString(action) && children.isEmpty()) {
             description = XMLUtils.getElementText(node);
         }
@@ -156,7 +156,7 @@ public class PermissionNode {
                 doc.getDocumentElement()));
             permissionNodes.add(emptyParent);
         }
-       
+
         return permissionNodes;
     }
 

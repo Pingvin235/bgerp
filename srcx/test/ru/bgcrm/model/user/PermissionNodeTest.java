@@ -13,14 +13,14 @@ public class PermissionNodeTest {
     public void testKernelTree() {
         var pl = new org.bgerp.plugin.kernel.Plugin();
         var l = new Localizer(Localization.LANG_EN, Localization.getLocalization(pl));
-        
+
         var node = new PermissionNode(null, l, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
         var p = node.findPermissionNode("ru.bgcrm.struts.action.admin.ProcessAction:queueList");
         Assert.assertTrue(p.getDescription().contains("<b>allowedQueueIds</b> -"));
-        
+
         p = node.findPermissionNode("ru.bgcrm.struts.action.admin.AppAction:status");
         Assert.assertEquals("Status", p.getTitle());
-        Assert.assertEquals("Kernel -> Administration -> App -> Status", p.getTitlePath());
+        Assert.assertEquals("Kernel / Administration / App / Status", p.getTitlePath());
 
         Assert.assertEquals(
                 List.of("ru.bgcrm.struts.action.admin.AppAction:status",
@@ -56,12 +56,12 @@ public class PermissionNodeTest {
 
         var p = node.findPermissionNode("org.bgerp.plugin.svc.backup.action.BackupAction:null");
         Assert.assertNotNull(p);
-        Assert.assertEquals("Plugin Backup -> Backup", p.getTitlePath());
+        Assert.assertEquals("Plugin Backup / Backup", p.getTitlePath());
         Assert.assertEquals("", p.getDescription());
 
         p = node.findPermissionNode("org.bgerp.plugin.svc.backup.action.BackupAction:downloadFileBackup");
         Assert.assertNotNull(p);
-        Assert.assertEquals("Download file", p.getTitle());
+        Assert.assertEquals("Download Backup", p.getTitle());
         Assert.assertEquals("", p.getDescription());
     }
 }

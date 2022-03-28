@@ -2,6 +2,8 @@ package ru.bgcrm.plugin.asterisk;
 
 import java.sql.Connection;
 
+import ru.bgcrm.event.listener.MessageTypeCallListener;
+
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "asterisk";
 
@@ -12,8 +14,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     @Override
     public void init(Connection con) throws Exception {
         super.init(con);
-
-        // TODO: Run AMIManager here.
+        new AMIManager();
+        new MessageTypeCallListener();
     }
 
 }

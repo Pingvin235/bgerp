@@ -3,7 +3,7 @@
 
 <%@ attribute name="files" required="true" type="org.bgerp.servlet.file.Files" description="Files object"%>
 <%@ attribute name="maxCount" type="java.lang.Integer" description="Maximum count of shown files"%>
-<%@ attribute name="requestUrl" description="Request URL for reloading, required then deletion is enabled"%>
+<%@ attribute name="requestUrl" description="Request URL for reloading, required when deletion is enabled"%>
 
 <c:set var="deletionEnabled" value="${files.options.deletionEnabled and not empty requestUrl and ctxUser.checkPerm(files.deletePermissionAction)}"/>
 

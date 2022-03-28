@@ -261,10 +261,10 @@ public class BaseAction extends DispatchAction {
 
                 if (perm == null) {
                     if (permissionNode == null) {
-                        throw new BGMessageException("Действие " + action + " не найдено.");
+                        throw new BGMessageException("Action '{}' not found.", action);
                     }
                     if (!permissionNode.isAllowAll()) {
-                        throw new BGMessageException("Действие " + permissionNode.getTitlePath() + " запрещено.");
+                        throw new BGMessageException("Action '{}' is denied.", permissionNode.getTitlePath());
                     }
                 }
                 form.setPermission(perm);

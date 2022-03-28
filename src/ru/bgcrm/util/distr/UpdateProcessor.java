@@ -4,8 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -28,16 +33,18 @@ public class UpdateProcessor {
     private static final Log log = Log.getLog();
 
     private static final String UPDATE_TO_CHANGE_URL = "https://bgerp.org/update/";
+    private static final String CHANGE_PRE_RELEASE = "00000";
 
-    private final List<IdStringTitle> changes = new ArrayList<>();
+    private final List<Change> changes = new ArrayList<>();
     private final List<String> updateFiles = new ArrayList<>(2);
 
     /**
      * Constructor loads list of changes, directory names under {@link #UPDATE_TO_CHANGE_URL}.
      * The result is available after using {@link #getChanges()}.
      * @throws IOException
+     * @throws ParseException
      */
-    public UpdateProcessor() throws IOException {
+    public UpdateProcessor() throws IOException, ParseException {
         changes();
     }
 
@@ -51,15 +58,23 @@ public class UpdateProcessor {
         updateFiles(changeId);
     }
 
-    private void changes() throws IOException {
+    private void changes() throws IOException, ParseException {
         Document doc = changes(UPDATE_TO_CHANGE_URL);
         for (Element link : doc.select("a")) {
             String id = link.attr("href").replace("/", "");
             if (id.contains("."))
                 continue;
-            changes.add(new IdStringTitle(id,
-                    id + " " + StringUtils.substringBeforeLast(link.nextSibling().toString(), "-").trim()));
+            changes.add(new Change(id, StringUtils.substringBeforeLast(link.nextSibling().toString(), "-").trim()));
         }
+
+        // sorting, first 00000, after reverse sorted by modification time
+        Collections.sort(changes, (o1, o2) -> {
+            if (CHANGE_PRE_RELEASE.equals(o1.getId()))
+                return -1;
+            if (CHANGE_PRE_RELEASE.equals(o2.getId()))
+                return 1;
+            return o2.time.compareTo(o1.time);
+        });
     }
 
     private void updateFiles(String changeId) throws IOException {
@@ -89,7 +104,7 @@ public class UpdateProcessor {
      * Changes list. Each {@link IdStringTitle} has numeric change ID and ID plus file modification time in title.
      * @return
      */
-    public List<IdStringTitle> getChanges() {
+    public List<Change> getChanges() {
         return changes;
     }
 
@@ -99,5 +114,17 @@ public class UpdateProcessor {
      */
     public List<String> getUpdateFiles() {
         return updateFiles;
+    }
+
+    /**
+     * Change info.
+     */
+    public static class Change extends IdStringTitle {
+        private final Date time;
+
+        private Change(String id, String time) throws ParseException {
+            super(id, id + " " + time);
+            this.time = (Date) new SimpleDateFormat("dd-MMM-yyyy HH:mm", Locale.US).parse(time);
+        }
     }
 }

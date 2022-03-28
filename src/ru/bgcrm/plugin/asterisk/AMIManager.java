@@ -11,17 +11,18 @@ import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
-import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Слушаель событий Asterisk а.
- * @author shamil
+ * Asterisk event listener.
+ *
+ * @author Shamil Vakhitov
  */
 public class AMIManager {
     private static final Log log = Log.getLog();
+
+    private static AMIManager instance;
 
     static final int CONNECT_TIMEOUT = 5 * 60 * 1000;
     static final int RECONNECT_TIMEOUT = 60 * 1000;
@@ -29,15 +30,15 @@ public class AMIManager {
     private List<AmiEventListener> threadList = new ArrayList<AmiEventListener>();
 
     public AMIManager() {
+        if (instance != null) {
+            log.warn("Attempt of creation a second singleton instance");
+            return;
+        }
+
+        instance = this;
+
         init();
-
-        EventProcessor.subscribe(new EventListener<SetupChangedEvent>() {
-            @Override
-            public void notify(SetupChangedEvent e, ConnectionSet connectionSet) {
-                init();
-            }
-        }, SetupChangedEvent.class);
-
+        EventProcessor.subscribe((e, conSet) -> init(), SetupChangedEvent.class);
     }
 
     // http://www.asterisk-java.org/development/tutorial.html

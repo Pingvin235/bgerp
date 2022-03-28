@@ -17,6 +17,6 @@
 </html:form>
 
 <h2>${l.l('Файлы')}</h2>
-<ui:files files="<%=org.bgerp.plugin.svc.backup.action.BackupAction.FILE_BACKUP%>"/>
+<ui:files files="<%=org.bgerp.plugin.svc.backup.action.BackupAction.FILE_BACKUP%>" requestUrl="${form.requestUrl}"/>
 
 <shell:title text="Backup"/>

@@ -1,7 +1,21 @@
 = Примеры простой обработки событий
 :toc:
 
-== Ядро
+== Kernel
+[[add-process-customer-link]]
+=== Add customer link to a created process
+[source]
+----
+onProcessEvent.1.events=created
+onProcessEvent.1.doExpression=<<END
+    customerId = 1;
+    customerTitle = "Customer Title";
+    dao=new("ru.bgcrm.dao.process.ProcessLinkDAO", conSet.getConnection());
+    link=new("ru.bgcrm.model.CommonObjectLink", "process", process.getId(), "customer", customerId, customerTitle);
+    dao.addLink(link);
+END
+----
+
 [[check-change]]
 === Разрешение на правку процесса при различных условиях
 В различных статусах различным группам, исполнителю либо администратору и запрет правки закрытого процесса.
@@ -26,7 +40,7 @@ onProcessEvent.1.doExpression=addExecutors({user.getId()});setStatus(40, "")
 
 [[set-status]]
 === Установка статуса
-Изменение статуса процесса на 3 при получении в него нового сообщения. 
+Изменение статуса процесса на 3 при получении в него нового сообщения.
 [source]
 ----
 onProcessEvent.1.events=messageAdded
@@ -41,25 +55,25 @@ onProcessEvent.1.doExpression=setStatus(3, "")
 onProcessEvent.6.events=executorsChanged
 onProcessEvent.6.doExpression=<<END
       text = "Изменён состав исполнителей процесса." + NEW_LINE2;
-    
+
       searchResult = new("ru.bgcrm.model.SearchResult");
       searchResult.getPage().setPageIndex(-1);
       dao = new("ru.bgcrm.dao.message.MessageDAO", conSet.getConnection());
       dao.searchMessageList(searchResult, process.getId(), null, 1, null, null, null, null, null, true);
-       
-      lastMsg = null;     
+
+      lastMsg = null;
       for (m : searchResult.getList()) {
-         if (lastMsg == null) lastMsg = m;      
-   
+         if (lastMsg == null) lastMsg = m;
+
          text += "Входящее сообщение #" + m.getId() + NEW_LINE;
          text +=  "##########################" + NEW_LINE;
          text +=  m.getText() +  NEW_LINE2;
        }
-      
+
       subject = "#" + process.getId() +
        " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "] ";
       if (lastMsg != null) subject += " QA:" + lastMsg.getId();
-     
+
       emailNotifyExecutors(21, subject, text);
 END
 ----
@@ -85,7 +99,7 @@ END
 ----
 
 [[set-param-list]]
-=== Установка значения параметра типа list 
+=== Установка значения параметра типа list
 [source]
 ----
 onProcessEvent.2.doExpression=<<END
@@ -94,7 +108,7 @@ onProcessEvent.2.doExpression=<<END
 END
 ----
 
-После изменения статуса если списковый параметр процесса 63 не содержит значений с кодами 1, 2 и 3 установка значения 1 в этот параметр. 
+После изменения статуса если списковый параметр процесса 63 не содержит значений с кодами 1, 2 и 3 установка значения 1 в этот параметр.
 [source]
 ----
 onProcessEvent.1.events=statusChanged
@@ -107,12 +121,12 @@ END
 
 [[remove-executors-and-groups]]
 === Удаление из процесса исполнителей и групп решения
-C кодом 2 и группы с кодом 37. 
+C кодом 2 и группы с кодом 37.
 [source]
 ----
 onProcessEvent.3.doExpression=<<END
   deleteExecutors({2});
-  deleteGroups({37});  
+  deleteGroups({37});
 END
 ----
 
@@ -131,7 +145,7 @@ onProcessEvent.1.doExpression=<<END
       if (dw != cal.TUESDAY)
           addDays = addDays - 1;
       cal.add(cal.DAY_OF_YEAR, 1);
-  } 
+  }
   dao.updateParamDate(process.getId(), 51, cal.getTime());
 END
 ----
@@ -152,9 +166,9 @@ onProcessEvent.3.doExpression=<<END
 	change.setUserId(event.getUser().getId());
 	change.setStatusId(9);
         change.setComment("Автоматическая смена статуса");
- 
+
         pa = ru.bgcrm.struts.action.ProcessAction;
-        pa.processStatusUpdate(event.getForm(), conSet.getConnection(), linked, change); 
+        pa.processStatusUpdate(event.getForm(), conSet.getConnection(), linked, change);
    }
 END
 ----
@@ -183,9 +197,9 @@ if (event.getClass().getName() == "ru.bgcrm.event.process.ProcessMessageAddedEve
 onProcessEvent.2.events=statusChanging
 onProcessEvent.2.doExpression=<<END
   dao = new("ru.bgcrm.dao.process.ProcessDAO", conSet.getConnection());
-  
+
   change = event.getStatusChange();
-  change = ctxUserMap[change.getUserId()].getTitle() + " => " + ctxProcessStatusMap[change.getStatusId()].getTitle() + " [" + change.getComment() + "]"; 
+  change = ctxUserMap[change.getUserId()].getTitle() + " => " + ctxProcessStatusMap[change.getStatusId()].getTitle() + " [" + change.getComment() + "]";
 
   process.setDescription(process.getDescription() + NEW_LINE + change);
   dao.updateProcess(process);
@@ -210,7 +224,7 @@ COPY_BGBILLING_PARAMS=<<END
          address = contractParamDao.getAddressParam(contractId, 8);
          if (address != null)
             paramDao.updateParamAddress(process.getId(), 4, 1, address.toParameterAddressValue(conSet.getConnection()));
-         // копирование других параметров   
+         // копирование других параметров
     }
 END
 
@@ -218,7 +232,7 @@ onProcessEvent.2.events=linkAdded;createdAsLink
 onProcessEvent.2.doExpression={@COPY_BGBILLING_PARAMS}
 ----
 
-При привязке договора - копирование значений параметров с кодами 27 и 12 в описание процесса. 
+При привязке договора - копирование значений параметров с кодами 27 и 12 в описание процесса.
 [source]
 ----
 onProcessEvent.2.events=linkAdded
@@ -228,8 +242,8 @@ onProcessEvent.2.commands=bgbilling:linkedContractParamToDescription:bg:27;bgbil
 == Плагин <<../../plugin/sms/index.adoc#, SMS>>
 [[sms-send-sms]]
 === Отправка СМС
-Отправка СМС сообщения по созданию процесса, в случае наличия в значениях спискового параметра с кодом 26 1, 2 или 3. 
-Используется операция пересечения множеств. 
+Отправка СМС сообщения по созданию процесса, в случае наличия в значениях спискового параметра с кодом 26 1, 2 или 3.
+Используется операция пересечения множеств.
 Номер для СМС получается из параметра с кодом 20 типа Phone.
 [source]
 ----
@@ -244,9 +258,9 @@ END
 ----
 
 == Плагин <<../../plugin/mobile/index.adoc#, Mobile>>
-[[mobile-send-push-notification]] 
+[[mobile-send-push-notification]]
 === Отправка Push уведомления
-Отправлка уведомление с параметрами процесса диспетчеру аварийной бригады. 
+Отправлка уведомление с параметрами процесса диспетчеру аварийной бригады.
 Установлена проверка типа работ из параметра list id 26, передаются номер процесса, адрес, телефоны, тип работ, дата и время приема, комментарий.
 [source]
 ----

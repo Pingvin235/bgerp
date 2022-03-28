@@ -535,7 +535,7 @@
 					<c:if test="${filterFromList.type == 'status_date' }">
 						<c:set var="filter" value="${filterFromList}"/>
 
-						<c:set var="title" value="${l.l('Дата статуса')}"/>
+						<c:set var="title" value="${l.l('Status date')}"/>
 						<c:set var="code">
 							<u:sc>
 								<c:set var="hiddenName" value="dateStatusStatus"/>

@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class UpdateProcessorTest {
     @Test
-    public void testChanges() throws IOException {
+    public void testChanges() throws Exception {
         var processor = new UpdateProcessor() {
             @Override
             protected Document changes(String url) throws IOException {
@@ -29,8 +29,11 @@ public class UpdateProcessorTest {
         Assert.assertEquals("00000", changes.get(0).getId());
         Assert.assertEquals("00000 12-Mar-2022 17:25", changes.get(0).getTitle());
 
-        Assert.assertEquals("14748", changes.get(12).getId());
-        Assert.assertEquals("14748 12-Mar-2022 17:30", changes.get(12).getTitle());
+        Assert.assertEquals("14350", changes.get(1).getId());
+        Assert.assertEquals("14350 18-Mar-2022 12:32", changes.get(1).getTitle());
+
+        Assert.assertEquals("14299", changes.get(12).getId());
+        Assert.assertEquals("14299 15-Feb-2022 10:47", changes.get(12).getTitle());
     }
 
     @Test

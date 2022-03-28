@@ -2,6 +2,8 @@ package ru.bgcrm.event.listener;
 
 import java.util.Date;
 
+import org.bgerp.util.Log;
+
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
@@ -15,12 +17,24 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
- * Обработчик событий {@link GetPoolTasksEvent},
- * передаёт на клиентскую сторону оповещения для открытия
- * сообщений типа Call, поступивших на занятый пользователем номер.
+ * Handler of {@link GetPoolTasksEvent}, sends to the client side
+ * events with type {@link MessageOpenEvent} to open message processing card.
+ *
+ * @author Shamil Vakhitov
  */
 public class MessageTypeCallListener extends DynamicEventListener {
+    private static final Log log = Log.getLog();
+
+    private static MessageTypeCallListener instance;
+
     public MessageTypeCallListener() {
+        if (instance != null) {
+            log.warn("Attempt of creation a second singleton instance");
+            return;
+        }
+
+        instance = this;
+
         EventProcessor.subscribe(this, GetPoolTasksEvent.class);
     }
 

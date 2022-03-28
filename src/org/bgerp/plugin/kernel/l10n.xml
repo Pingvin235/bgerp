@@ -498,6 +498,9 @@
 	<p><ru>Удаление файлов обновлений</ru><en>Delete update files</en></p>
 	<p><ru>Используйте запятую либо Enter для разделения значений</ru><en>Use comma or Enter for value separation</en></p>
 	<p><en>Signature is undefined</en><ru>Подпись не определена</ru></p>
+	<p><en>Action '{}' not found.</en><ru>Действие '{}' не найдено.</ru></p>
+	<p><en>Action '{}' is denied.</en><ru>Действие '{}' запрещено.</ru></p>
+	<p><en>Status date</en><ru>Дата статуса</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->
