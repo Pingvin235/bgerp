@@ -137,18 +137,6 @@ public class JSPFunction {
         return Utils.getObjectTitles(Utils.getObjectList(fullList, selectedIds));
     }
 
-    public static final <T extends IdTitle> String getObjectTitles(Map<Integer, T> fullMap, List<Integer> selectedIds) {
-        return Utils.getObjectTitles(Utils.getObjectList(fullMap, selectedIds));
-    }
-
-    public static <T extends IdTitle> List<T> getObjectList(List<T> fullList, Set<Integer> selectedIds) {
-        return Utils.getObjectList(fullList, selectedIds);
-    }
-
-    public static final <T extends IdTitle> List<T> getObjectList(Map<Integer, T> fullMap, List<Integer> selectedIds) {
-        return Utils.getObjectList(fullMap, selectedIds);
-    }
-
     private static final String uidPrefix = "UIID";
     private static final AtomicLong uidGen = new AtomicLong(System.currentTimeMillis());
 

@@ -632,6 +632,10 @@ public class Utils {
         return result.toString();
     }
 
+    public static final <T extends IdTitle> String getObjectTitles(Map<Integer, T> fullMap, List<Integer> selectedIds) {
+        return Utils.getObjectTitles(Utils.getObjectList(fullMap, selectedIds));
+    }
+
     /**
      * Возвращает объекты из полного списка с указанными кодами.
      * @param fullList полный список объектов.
