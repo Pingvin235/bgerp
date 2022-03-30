@@ -7,6 +7,7 @@
 ** <<project/samples.adoc#, Samples>>
 * Kernel
 ** <<kernel/install.adoc#, Install>>
+*** <<kernel/mysql_migration.adoc#, Migrate DB to MySQL 8.0>>
 ** <<kernel/interface.adoc#, Interface>>
 ** <<kernel/setup.adoc#, Setup>>
 ** <<kernel/search.adoc#, Поиск>>

@@ -28,7 +28,7 @@ backup_db() {
     fi
     DB=`grep db.url $FILE | cut -d'?' -f1 | cut -d'/' -f4`
     # mysqldump --no-tablespaces Do not write any CREATE LOGFILE GROUP or CREATE TABLESPACE statements in output
-    CMD="$MYSQLDUMP --no-tablespaces -h $HOST -P $PORT -u $USER $DB"
+    CMD="$MYSQLDUMP --no-tablespaces --routines -h $HOST -P $PORT -u $USER $DB"
     echo "dump command: $CMD"
     CMD="$CMD -p$PWD"
     $CMD > dump.sql

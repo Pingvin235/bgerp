@@ -1,0 +1,71 @@
+= Migration DB Server to MySQL 8
+
+[[about]]
+== About
+The instruction is aimed to migrate existing databases running on Maria, other forks or older
+versions to <<install.adoc#mysql, required>> MySQL 8.0 version. The migration is performed using MySQL 8.0 Docker image.
+
+[[migration]]
+== Migration
+[square]
+* copy directory with MariaDB configuration files (e.g. */etc/my.cnf.d/*) to */etc/my8.cnf.d*
+* create BGERP backup with database dump: *backup.sh db*
+* install link: https://docs.docker.com/engine/install/[Docker]
+* download and run link:https://hub.docker.com/_/mysql[Mysql 8] in Docker container:
+
+[source]
+----
+docker run --cap-add=sys_nice --name=mysql8 -e MYSQL_ROOT_PASSWORD=12345 -v /etc/my8.cnf.d:/etc/mysql/conf.d -v /var/lib/mysql8/:/var/lib/mysql -v /etc/localtime:/etc/localtime:ro -p 127.0.0.1:33061:3306 -d mysql:8.0 mysqld --default-authentication-plugin=mysql_native_password --ssl=off
+----
+
+Tune the Mysql 8 configuration (in */etc/my8.cnf.d/* directory) so that it runs.
+
+To view the MySQL logs:
+[source]
+----
+docker logs mysql8
+----
+
+To view the container status:
+[source]
+----
+docker ps
+----
+
+Connect to the MySQL 8 from host:
+[source]
+----
+mysql --ssl-mode=disabled --protocol tcp -P33061  -u root -p12345
+----
+
+Create database and fill it from BGERP backup:
+[source]
+----
+mysql --ssl-mode=disabled --protocol tcp -P33061 -u root -p12345 -e "create database bgerp;"
+unzip -p <backup_file>.db.zip dump.sql | mysql --ssl-mode=disabled --protocol tcp -P33061 -D bgerp -u root -p12345
+----
+
+Add user for the database with this script. Username and password obtained from *bgerp.properties* file:
+[source]
+----
+#!/bin/sh
+
+MYSQL='/usr/bin/mysql'
+CONNECT_PORT=33061
+CONNECT_PASSWORD='12345'
+FILE='/opt/BGERP/bgerp.properties'
+PWD=`grep db.pswd $FILE | cut -d'=' -f2`
+USER=`grep db.user $FILE | cut -d'=' -f2`
+HOST_PORT=`grep db.url $FILE | cut -d'/' -f3`
+HOST=`echo $HOST_PORT | cut -d':' -f1`
+DB=`grep db.url $FILE | cut -d'?' -f1 | cut -d'/' -f4`
+
+CONNECT_PARAMETERS=(--ssl-mode=disabled  --protocol=tcp --port=${CONNECT_PORT} -uroot -p${CONNECT_PASSWORD})
+
+MYSQL_SCRIPT=("CREATE USER '${USER}'@'${HOST}' IDENTIFIED BY '${PWD}'; GRANT ALL PRIVILEGES ON $DB.* TO '${USER}'@'${HOST}';")
+
+args=("${CONNECT_PARAMETERS[@]}" -e "${MYSQL_SCRIPT[@]}")
+echo "Adding user for BGERP database..."
+${MYSQL} "${args[@]}"
+echo "Done"
+----

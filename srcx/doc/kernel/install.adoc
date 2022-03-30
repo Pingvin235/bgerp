@@ -110,14 +110,17 @@ Installation on Linux server.
 
 [[mysql]]
 === MySQL
-*Original* MySQL DB Server version *8.0* or newer.
+The *Original* MySQL DB Server version *8.0* or newer has to be used.
 
 Different forks of MySQL (Maria, Percona) do not fit because of missing <<../plugin/fulltext/index.adoc#, fulltext>> index support.
 Here is the test query to verify it:
 [snippet, from="CREATE", to=");"]
 link:../../../src/ru/bgcrm/plugin/fulltext/db.sql#L1-L9[src/ru/bgcrm/plugin/fulltext/db.sql]
 
-Install instructions:
+You can use the <<mysql_migration.adoc#, instruction>> for converting existing MySQL-like DB to the right version.
+
+[[mysql-install]]
+==== Install
 [square]
 * link:https://www.mysqltutorial.org/install-mysql-centos[MySQL 8 on CentOS]
 * link:https://hub.docker.com/_/mysql[MySQL using Docker] - in case of already installed MySQL with different version on your server.
