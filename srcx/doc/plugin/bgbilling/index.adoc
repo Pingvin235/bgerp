@@ -104,7 +104,7 @@ bgbilling:server.<n>.requestTimeOut=<timeout>
 ----
 bgbilling:server.1.id=bitel
 bgbilling:server.1.title=BiTel
-bgbilling:server.1.url=http://billing.office.bitel.ru/executer
+bgbilling:server.1.url=http://billing.bitel.ru/executer
 bgbilling:server.1.version=5.2
 bgbilling:server.1.customerIdParam=100
 ----
@@ -136,6 +136,19 @@ bgbilling:server.<n>.copyParamMapping=<mapping>
 bgbilling:server.11.copyParamMapping=15:9;72:46;73:5;74:51;75:68;76:69;77:56;78:7;14:8;12:6;109:48;110:50;114:12;115[1,2]:25[4,3];customerTitle:1
 ----
 
+[[config-server-report]]
+==== Доступ для отчётов
+Для возможности отчётов плагина <<../report/index.adoc#, Report>> выполнять запросы в БД биллингу необходимо добавить в конфигурацию сервера, пример:
+[source]
+----
+bgbilling:server.1.db.driver=com.mysql.jdbc.Driver
+bgbilling:server.1.db.url=jdbc:mysql://127.0.0.1/bgbilling?useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8_unicode_ci&allowUrlInLocalInfile=true&zeroDateTimeBehavior=convertToNull&jdbcCompliantTruncation=false&elideSetAutoCommits=true&cachePrepStmts=true&useCursorFetch=true&queryTimeoutKillsConnection=true
+bgbilling:server.1.db.user=bill
+bgbilling:server.1.db.pswd=pass
+----
+
+Рекомендуется использовать реплику основной БД биллинга и пользователя с правами только на чтение и создание временных таблиц.
+
 [[config-user]]
 === Аккаунты доступа
 Обращение к биллингу осуществляется с использованием логина и пароля пользователя BGERP.
@@ -154,48 +167,6 @@ bgbilling:password.<billingId>=<pswd>
 ----
 
 Для BGBilling обращения плагина выглядят так же как и обращения обычного пользователя биллинга, аналогично действуют ограничения прав.
-
-[[common-contract]]
-=== Единый договор
-CAUTION: Устаревший и сложный функционал, проконсультироваться с разработчиками перед использованием.
-
-Единый договор - это привязанный к адресу номер-префикс, с которым создаются договора услуг на данном адресе.
-Договора услуг могут быть созданы в различных биллингах. Номер договора услуги начинается с номера единого договора и заканчивается кодом услуги.
-Номер единого договора начинается с префикса области, далее следует порядковый номер.
-
-Для включения функционала единого договора в конфигурации сервера необходимо добавить:
-[source]
-----
-# код параметра контрагента с адресами услуг, параметр должен поддерживать множественное значение
-bgbilling:commonContract.customerAddressParamId=<customerParamId>
-# код параметра "Адрес" единого договора, параметр необходимо создать в редакторе параметров
-bgbilling:commonContract.addressParamId=<commonContractParamId>
-# соотношение областей городам
-bgbilling:commonContract.cityAreaIds=<city_areas>
-# формат номера единого договора, состоит из кода области и  порядкового номера в области
-bgbilling:commonContract.titleFormat=(${area:00})(${number:000000})
-# формат номера сервисного договора в биллинге, разрешено изменять только длину кода типа (:00)
-bgbilling:commonContract.serviceContractTitleFormat=(${common})(${type:00})
-# политика паролей для ЕД
-bgbilling:commonContract.password.length.min=5
-bgbilling:commonContract.password.length.max=10
-bgbilling:commonContract.password.length.auto=10
-bgbilling:commonContract.password.chars=0123456789
-----
-Где:
-[square]
-* *<city_areas>* - соотношение кодов городов из <<../../kernel/setup.adoc#address, адресного справочника>> кодам областей, в каждом из кодов областей осуществляется последовательная нумерация единого договора.
-
-Пример:
-[source]
-----
-bgbilling:commonContract.customerAddressParamId=12
-bgbilling:commonContract.addressParamId=93
-bgbilling:commonContract.titleFormat=(${area:00})(${number:000000})
-bgbilling:commonContract.serviceContractTitleFormat=(${common})(${type:00})
-bgbilling:commonContract.cityAreaIds=37:51;1:72
-----
-Единые договора создаются в карточке <<../../kernel/customer.adoc#, контрагента>>.
 
 [[contract-type]]
 === Типы договоров
@@ -426,15 +397,7 @@ image::_res/i0042.png[width="600px"]
 
 Возможно копирование параметров в договоры, переход на карточку договора нажатием на ссылку-номер.
 
-=== Вкладка "Единые договоры"
-Вкладка отображает созданные для контрагента <<common-contract, единые договоры>> и позволяет создать единый договор
-для адреса из определённого в конфигурации параметра контрагента, для которого ещё нет единого договора.
-
-image::_res/i0039.png[]
-
-Единый договор можно удалить, а также перейти на его карточку нажав по номеру-ссылке. Единый договор связан с договором услуги посредством номера.
-
-==  Карточка "Процесс"
+== Карточка "Процесс"
 В карточке процесса возможно отображение привязанных к процессу проблем из CRM плагина BGBilling.
 Данный функционал полезен в переходный этап миграции на BGERP, когда часть служб работает в плагине CRM биллинга.
 
@@ -485,11 +448,6 @@ image::_res/i0049.png[width="600px"]
 Быстрый переход предназначен для операций с договором, не реализованных через интерфейс BGERP.
 
 NOTE: Создание нового договора возможно только с из <<customer-card, карточки контрагента>>.
-
-== Карточка "Единый договор"
-image::_res/i0047.png[]
-
-По ссылке *Редактировать* доступно изменение номера <<common-contract, единого договора>>, его периода и пароля.
 
 [[helpdesk]]
 == Интеграция с плагином HelpDesk биллинга
