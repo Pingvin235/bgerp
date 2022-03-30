@@ -1,3 +1,0 @@
-C: Use Mime4j for parsing E-Mails.
-F: Delete process messages on process deletion.
-C: L10n message related action names.

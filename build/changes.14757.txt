@@ -1,3 +1,0 @@
-C: Plugin Asterisk. Instances of ru.bgcrm.plugin.asterisk.AMIManager and ru.bgcrm.event.listener.MessageTypeCallListener are not needed to be defined in createOnStart variable.
-A: Plugin Backup. Deletion of backup files.
-A: Reverse sorted changes by modification time.

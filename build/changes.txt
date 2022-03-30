@@ -1,6 +1,60 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+30.03.2022 10:48:48 1385
+C: [14299] DateTime picker common styling.
+A: [14350] Plugin GIT first version. https://bgerp.org/doc/3.0/manual/plugin/git/index.html
+A: [14350] Show Custom files.
+A: [14350] Delete custom.jar button.
+A: [14350] Deletion of log/update files.
+F: [14350] Correct HTTP headers for downloaded files.
+F: [14350] Clean up old update log files.
+F: [14379] Plugin Calendar itest.
+C: [14379] Restart button instead of Plugin initialization.
+A: [14379] Quick add plugin configuration.
+C: [14379] Removed pagination in config table.
+A: [14379] Shown enabled plugins in config.
+B: [14379] Plugin 'E-Mail' disabled by default.
+C: [14519] Use Mime4j for parsing E-Mails.
+F: [14519] Delete process messages on process deletion.
+C: [14519] L10n message related action names.
+A: [14550] Plugin Calendar prototype.
+B: [14550] Default value of 'plugin.enable.default' config parameter is set to 0. https://bgerp.ru/doc/3.0/manual/kernel/setup.html#config-plugin
+C: [14605] Replace '->' to '/' in path separators.
+C: [14694] JDK 17 images in CI jobs.
+C: [14694] Ditaa diagram to Draw.IO.
+A: [14729] Filtered out process type list for 'group' process isolation mode. https://bgerp.org/doc/3.0/manual/kernel/setup.html#user-isolation
+C: [14729] Remove unused 'create.in.filter' process type configuration option.
+C: [14731] Plugin Subscription. Simplify open interface to do not send request.
+A: [14731] 'values' param for 'param:<paramId>' filter. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#filters
+F: [14731] Usage button in process parameters table.
+C: [14731] Editor icons for parameter of type 'listcount'.
+A: [14732] Plugin Report. Refresh button in chart view.
+F: [14732] Plugin Report. NPE in Processes report.
+A: [14733] Show change ID version in 'Administration / App / Status' tool.
+F: [14734] Plugin BGBilling. Get parameter list by type.
+A: [14735] Protection against duplicated address param values inserting.
+C: [14737] Process status change by a link click.
+B: [14737] Removed process type configuration parameter 'categoryParamId', allowed editing some parameters together with changing process status.
+A: [14737] SQL query hashes in out logs.
+A: [14737] STDOUT logs with time in names. Accessing those via UI. Automatically removal old of them.
+A: [14738] Script mysql.sh for quick access DB.
+C: [14738] Script backup.sh. Renamed variable.
+C: [14742] OpenJDK 17 in Docker image.
+A: [14744] Events of user sessions start and stop.
+C: [14744] Moved KernelSystemListeners to Kernel plugin.
+A: [14744] Check uploaded license, placeholder for license check.
+A: [14745] Permission for deletion all messages.
+A: [14746] Plugin Report. Process type filter in 'Processes' report.
+F: [14750] Group isolation in itests.
+F: [14750] Plugin E-Mail. Search recipients on manual address input.
+F: [14751] Integration tests.
+F: [14754] Plugin E-Mail. Do not search customer recipients when no link.
+C: [14756] Config includes cleanup and doc.
+C: [14757] Plugin Asterisk. Instances of ru.bgcrm.plugin.asterisk.AMIManager and ru.bgcrm.event.listener.MessageTypeCallListener are not needed to be defined in createOnStart variable.
+A: [14757] Plugin Backup. Deletion of backup files.
+A: [14757] Reverse sorted changes by modification time.
+
 05.02.2022 15:04:15 1384
 A: [14615] Plugin E-Mail. Offer recipient addresses. https://bgerp.org/doc/plugin/msg/email/index.html#usage-process-search-recipient
 F: [14615] Plugin Invoice. DB structure.

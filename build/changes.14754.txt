@@ -1,1 +1,0 @@
-F: Plugin E-Mail. Do not search customer recipients when no link.

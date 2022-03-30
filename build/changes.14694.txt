@@ -1,2 +1,0 @@
-C: JDK 17 images in CI jobs.
-C: Ditaa diagram to Draw.IO.

@@ -1,3 +1,0 @@
-A: Events of user sessions start and stop.
-C: Moved KernelSystemListeners to Kernel plugin.
-A: Check uploaded license, placeholder for license check.

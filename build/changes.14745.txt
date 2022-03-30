@@ -1,1 +1,0 @@
-A: Permission for deletion all messages.

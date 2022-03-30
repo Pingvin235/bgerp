@@ -1,2 +1,0 @@
-A: Filtered out process type list for 'group' process isolation mode. https://bgerp.org/doc/3.0/manual/kernel/setup.html#user-isolation
-C: Remove unused 'create.in.filter' process type configuration option.

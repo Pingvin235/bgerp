@@ -1,6 +1,0 @@
-F: Plugin Calendar itest.
-C: Restart button instead of Plugin initialization.
-A: Quick add plugin configuration.
-C: Removed pagination in config table.
-A: Shown enabled plugins in config.
-B: Plugin 'E-Mail' disabled by default.

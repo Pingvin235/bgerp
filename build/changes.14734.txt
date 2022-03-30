@@ -1,1 +1,0 @@
-F: Plugin BGBilling. Get parameter list by type.

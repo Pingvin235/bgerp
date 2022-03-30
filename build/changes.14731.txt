@@ -1,4 +1,0 @@
-C: Plugin Subscription. Simplify open interface to do not send request.
-A: 'values' param for 'param:<paramId>' filter. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#filters
-F: Usage button in process parameters table.
-C: Editor icons for parameter of type 'listcount'.

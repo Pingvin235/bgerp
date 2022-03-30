@@ -1,1 +1,0 @@
-A: Show change ID version in 'Administration / App / Status' tool.

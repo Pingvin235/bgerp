@@ -1,2 +1,0 @@
-A: Script mysql.sh for quick access DB.
-C: Script backup.sh. Renamed variable.
