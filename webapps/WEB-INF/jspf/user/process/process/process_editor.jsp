@@ -153,9 +153,6 @@
 						<c:when test="${c eq 'header'}">
 							<%@ include file="/WEB-INF/jspf/user/process/process/process_header.jsp"%>
 						</c:when>
-						<c:when test="${c eq 'status' and not empty processType}">
-							<%@ include file="/WEB-INF/jspf/user/process/process/process_status.jsp"%>
-						</c:when>
 						<c:when test="${c eq 'description'}">
 							<%@ include file="/WEB-INF/jspf/user/process/process/process_description.jsp"%>
 						</c:when>
@@ -165,7 +162,7 @@
 							</c:if>
 						</c:when>
 						<c:when test="${c eq 'links'}">
-							<%-- исключить отображение привязок в случае, если они отображаются справа --%>
+							<%-- don't show links if they are shown right --%>
 							<c:if test="${processType.properties.configMap.getSok('', false, 'show.tab.links', 'processShowLinks') ne '1'}">
 								<div>
 									<c:url var="url" value="/user/link.do">
@@ -184,7 +181,8 @@
 						<c:when test="${c eq 'params' and not empty processType}">
 							<%@ include file="/WEB-INF/jspf/user/process/process/process_parameters.jsp"%>
 						</c:when>
-						<c:when test="${fn:startsWith( c, 'jsp:')}">
+						<%-- TODO: doc --%>
+						<c:when test="${c.startsWith('jsp:')}">
 							<c:set var="jsp" value="${fn:substringAfter( c, 'jsp:')}"/>
 							<jsp:include page="${jsp}"/>
 						</c:when>

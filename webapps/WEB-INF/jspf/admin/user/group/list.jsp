@@ -105,7 +105,7 @@
 			</td>
 
 			<td>${item.childCount}</td>
-			<td>${u:orderedObjectTitleList( ctxUserPermsetMap, item.permsetIds )}</td>
+			<td>${u.getObjectTitles(ctxUserPermsetMap, item.permsetIds)}</td>
 
 			<td>
 				<c:choose>

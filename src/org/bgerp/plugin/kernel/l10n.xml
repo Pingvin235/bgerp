@@ -68,9 +68,9 @@
 	<p><ru>Удалить процесс</ru><en>Delete process</en></p>
 	<p><ru>Статус</ru><en>Status</en></p>
 	<p><ru>Создан</ru><en>Created</en></p>
-	<p><ru>лог изменений</ru><en>change log</en></p>
-	<p><ru>изменить тип</ru><en>type change</en></p>
-	<p><ru>приоритет</ru><en>priority</en></p>
+	<p><en>log</en><ru>лог</ru></p>
+	<p><en>type</en><ru>тип</ru></p>
+	<p><en>priority</en><ru>приоритет</ru></p>
 	<p><ru>ПРЕДЫДУЩИЙ</ru><en>PREVIOUS</en></p>
 	<p><ru>Комментарий</ru><en>Comment</en></p>
 	<p><ru>в</ru><en>to</en></p>
@@ -398,9 +398,7 @@
 	<p><ru>Обновить на изменение</ru><en>Update to change</en></p>
 	<p><ru>Сессии пользователей</ru><en>Sessions of users</en></p>
 	<p><ru>Время изменения</ru><en>Modification time</en></p>
-	<p><ru>Загрузка логов обновлений</ru><en>Download update logs</en></p>
 	<p><ru>Логи приложения</ru><en>Application logs</en></p>
-	<p><ru>Загрузка логов приложения</ru><en>Download application logs</en></p>
 	<p><ru>Копировать свойства из</ru><en>Copy properties from</en></p>
 	<p><ru>Файлы</ru><en>Files</en></p>
 	<p><ru>Загрузить файл</ru><en>Download file</en></p>
@@ -492,15 +490,15 @@
 	<p><ru>Плагин</ru><en>Plugin</en></p>
 	<p><ru>Новая конфигурация</ru><en>New config</en></p>
 	<p><ru>Включенные плагины</ru><en>Enabled plugins</en></p>
-	<p><ru>Удаление логов обновлений</ru><en>Delete update logs</en></p>
 	<p><ru>Файлы обновлений</ru><en>Update files</en></p>
-	<p><ru>Загрузка файлов обновлений</ru><en>Download update files</en></p>
-	<p><ru>Удаление файлов обновлений</ru><en>Delete update files</en></p>
 	<p><ru>Используйте запятую либо Enter для разделения значений</ru><en>Use comma or Enter for value separation</en></p>
 	<p><en>Signature is undefined</en><ru>Подпись не определена</ru></p>
 	<p><en>Action '{}' not found.</en><ru>Действие '{}' не найдено.</ru></p>
 	<p><en>Action '{}' is denied.</en><ru>Действие '{}' запрещено.</ru></p>
 	<p><en>Status date</en><ru>Дата статуса</ru></p>
+	<p><en>status</en><ru>статус</ru></p>
+	<p><en>Change status</en><ru>Изменить статус</ru></p>
+	<p><sys>status.to</sys><en>to</en><ru>на</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

@@ -7,15 +7,13 @@
 	<input type="hidden" name="action" value="processPriorityUpdate"/>
 
 	<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.model.process.config.ProcessPriorityConfig')}"/>
-		
+
 	<c:forEach var="item" items="${config.priorityColors}">
 		<div style="background-color: ${item.value};" class="pl05 pt05 pb05">
 			<html:radio property="priority" value="${item.key}"/>
 			<div style="display: inline; padding-top: 0.15em;" class="pl05">${item.key}</div>
-		</div>	
+		</div>
 	</c:forEach>
-	
-	<table style="width: 100%;">
-		<%@ include file="editor_save_cancel_tr.jsp"%>
-	</table>
+
+	<%@ include file="editor_save_cancel.jsp"%>
 </html:form>

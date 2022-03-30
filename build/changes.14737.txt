@@ -1,0 +1,4 @@
+C: Process status change by a link click.
+B: Removed process type configuration parameter 'categoryParamId', allowed editing some parameters together with changing process status.
+A: SQL query hashes in out logs.
+A: STDOUT logs with time in names. Accessing those via UI. Automatically removal old of them.

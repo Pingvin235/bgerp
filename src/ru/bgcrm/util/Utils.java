@@ -25,6 +25,7 @@ import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.taglibs.standard.functions.Functions;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -650,11 +651,12 @@ public class Utils {
     }
 
     /**
-     * Возвращает объекты из полного мапа с указанным порядком кодов.
-     * @param fullMap полный мап объектов.
-     * @param selectedIds требуемый порядок кодов.
+     * Selects object list from full map by given IDs in the same order.
+     * @param fullMap full objects map.
+     * @param selectedIds ordered IDs list.
      * @return
      */
+    @Dynamic
     public static final <T extends IdTitle> List<T> getObjectList(Map<Integer, T> fullMap, List<Integer> selectedIds) {
         List<T> result = new ArrayList<T>();
 

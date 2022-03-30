@@ -8,7 +8,7 @@
 	<%@ include file="app_restart.jsp"%>
 
 	<h2>${l.l('Логи приложения')}</h2>
-	<ui:files files="<%=org.bgerp.action.admin.AppAction.LOG_APP%>" maxCount="20"/>
+	<ui:files files="<%=org.bgerp.action.admin.AppAction.LOG_APP%>" requestUrl="${form.requestUrl}"/>
 
 	<p:check action="org.bgerp.action.admin.AppAction:update">
 		<h2>${l.l('Обновление')}</h2>

@@ -72,7 +72,7 @@
 							<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/editor_priority.jsp"/>
 							<c:param name="priority" value="${process.priority}"/>
 						</c:url>
-						[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">${l.l('приоритет')}</a>]
+						[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">${l.l('priority')}</a>]
 					</c:if>
 				</p:check>
 
@@ -85,7 +85,7 @@
 						<c:param name="returnChildUiid" value="${tableId}"/>
 						<c:param name="forward" value="processTypeChange"/>
 					</c:url>
-					[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('изменить тип')}</a>]
+					[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('type')}</a>]
 				</p:check>
 
 				<p:check action="ru.bgcrm.struts.action.ProcessAction:unionLog">
@@ -97,7 +97,7 @@
 						<c:param name="returnUrl" value="${requestUrl}"></c:param>
 					</c:url>
 					<c:if test="${not empty processType}">
-						[<a href="#" onclick="$$.ajax.load('${logUrl}', $('#${tableId}').parent()); return false;">${l.l('лог изменений')}</a>]
+						[<a href="#" onclick="$$.ajax.load('${logUrl}', $('#${tableId}').parent()); return false;">${l.l('log')}</a>]
 					</c:if>
 				</p:check>
 			</ui:when>
@@ -113,7 +113,7 @@
 			<%@ include file="process_status_current.jsp"%>
 		</div>
 		<c:if test="${process.closeUserId gt 0}">
-			<div class="pb05">Закрыт: ${tu.format( process.closeTime, 'ymdhms' )} (<ui:user-link id="${process.closeUserId}"/>)</div>
+			<div class="pb05">Закрыт: ${tu.format(process.closeTime, 'ymdhms')} (<ui:user-link id="${process.closeUserId}"/>)</div>
 		</c:if>
 	</div>
 </u:sc>

@@ -112,6 +112,7 @@ public class ProcessAction extends BaseAction {
         return html(con, form, Map.of(
             "processGroupsWithRoles", PATH_JSP + "/process/editor_groups_with_roles.jsp",
             "processExecutors", PATH_JSP + "/process/editor_executors.jsp",
+            "processStatus", PATH_JSP + "/process/editor_status.jsp",
             "", PATH_JSP + "/process/process.jsp"));
     }
 

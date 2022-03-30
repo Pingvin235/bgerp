@@ -645,7 +645,7 @@ Definitions from those files are forming a tree which is used for <<../kernel/se
 
 Each action is identified by a class AND method, separated by semicolon.
 
-Main identifier can be preceded by additional ones, separated by a *comma or semicolon* - for example, when renaming classes or methods.
+Main identifier can be preceded by additional ones, separated by a *comma* - for example, when renaming classes or methods.
 This allows to provide backwards compatibility with permissions already present in the DB.
 The actual main identifier stays always last and will be used upon the next save operation of the permission set.
 

@@ -56,7 +56,7 @@
 				<b>allowedConfigIds</b> - comma separated allowed configuration IDs<br/>
 			</item>
 			<item action="ru.bgcrm.struts.action.admin.ConfigAction:delete" title="Delete"/>
-			<item action="ru.bgcrm.struts.action.admin.ConfigAction:get;ru.bgcrm.struts.action.admin.ConfigAction:update" title="Edit">
+			<item action="ru.bgcrm.struts.action.admin.ConfigAction:get,ru.bgcrm.struts.action.admin.ConfigAction:update" title="Edit">
 				<b>allowedConfigIds</b> - comma separated allowed configuration IDs<br/>
 				<b>activeAllow</b> - 0, deny to set in active<br/>
 			</item>
@@ -107,23 +107,23 @@
 			</item>
 			<item title="Queue">
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueList" title="List">
-					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+					<b>allowedQueueIds</b> - comma separated queue IDs
 				</item>
-				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueGet;ru.bgcrm.struts.action.admin.ProcessAction:queueUpdate" title="Edit">
-					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueGet, ru.bgcrm.struts.action.admin.ProcessAction:queueUpdate" title="Edit">
+					<b>allowedQueueIds</b> - comma separated queue IDs
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueDuplicate" title="Duplicate"/>
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:queueDelete" title="Delete">
-					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+					<b>allowedQueueIds</b> - comma separated queue IDs
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:properties" title="Просмотр свойств очереди">
-					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+					<b>allowedQueueIds</b> - comma separated queue IDs
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:propertiesUpdate" title="Изменение свойств очереди">
-					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+					<b>allowedQueueIds</b> - comma separated queue IDs
 				</item>
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:transactionCheck" title="Изменение в матрице переходов очереди">
-					<b>allowedQueueIds</b> - коды разрешённых очередей через запятую
+					<b>allowedQueueIds</b> - comma separated queue IDs
 				</item>
 			</item>
 		</item>
@@ -157,26 +157,33 @@
 			<item action="ru.bgcrm.struts.action.admin.AppAction:update, org.bgerp.action.admin.AppAction:update" ltitle="Update"/>
 			<item action="ru.bgcrm.struts.action.admin.AppAction:updateToChange, org.bgerp.action.admin.AppAction:updateToChange" ltitle="Обновить на изменение"/>
 			<item action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList, org.bgerp.action.admin.AppAction:userLoggedList" ltitle="Сессии пользователей"/>
-			<item action="org.bgerp.action.admin.AppAction:downloadLogUpdate" ltitle="Загрузка логов обновлений"/>
-			<item action="org.bgerp.action.admin.AppAction:deleteLogUpdate" ltitle="Удаление логов обновлений"/>
-			<item action="org.bgerp.action.admin.AppAction:downloadLogApp" ltitle="Загрузка логов приложения"/>
-			<item action="org.bgerp.action.admin.AppAction:downloadUpdateZip" ltitle="Загрузка файлов обновлений"/>
-			<item action="org.bgerp.action.admin.AppAction:deleteUpdateZip" ltitle="Удаление файлов обновлений"/>
+			<item ltitle="Логи приложения">
+				<item action="org.bgerp.action.admin.AppAction:downloadLogApp" title="Download"/>
+				<item action="org.bgerp.action.admin.AppAction:deleteLogApp" title="Delete"/>
+			</item>
+			<item ltitle="Логи обновлений">
+				<item action="org.bgerp.action.admin.AppAction:downloadLogUpdate" title="Download"/>
+				<item action="org.bgerp.action.admin.AppAction:deleteLogUpdate" title="Delete"/>
+			</item>
+			<item ltitle="Файлы обновлений">
+				<item action="org.bgerp.action.admin.AppAction:downloadUpdateZip" title="Download"/>
+				<item action="org.bgerp.action.admin.AppAction:deleteUpdateZip" title="Delete"/>
+			</item>
 		</item>
 	</item>
 
-	<item title="Пользователь">
-		<item title="Контрагент">
+	<item title="User">
+		<item title="Customer">
 			<item action="ru.bgcrm.struts.action.CustomerAction:customerGet" title="Открытие контрагента для изменения"/>
 			<item action="ru.bgcrm.struts.action.CustomerAction:customerCreate" title="Создание контрагента"/>
 			<item action="ru.bgcrm.struts.action.CustomerAction:customerUpdate" title="Изменение контрагента"/>
 			<item action="ru.bgcrm.struts.action.CustomerAction:customerDelete" title="Удаление контрагента"/>
-			<item action="ru.bgcrm.struts.action.CustomerAction:null;ru.bgcrm.struts.action.CustomerAction:customer" title="Просмотр карточки контрагента"/>
+			<item action="ru.bgcrm.struts.action.CustomerAction:null, ru.bgcrm.struts.action.CustomerAction:customer" title="Просмотр карточки контрагента"/>
 			<item action="ru.bgcrm.struts.action.CustomerAction:customerTitleList" title="Контекстный поиск контрагентов"/>
 			<item action="ru.bgcrm.struts.action.CustomerAction:customerMerge" title="Слияние контрагентов"/>
 		</item>
-		<item title="Адреса">
-			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:null;ru.bgcrm.struts.action.DirectoryAddressAction:address" title="Просмотр справочника адресов"/>
+		<item title="Address">
+			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:address" title="View"/>
 			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressGet" title="Просмотр дома"/>
 			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:getAddressItem" title="Просмотр иной кроме дома записи справочника"/>
 			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:streetSearch" title="Поиск по улицам">
@@ -237,7 +244,7 @@
 			<item action="ru.bgcrm.struts.action.ProcessAction:processCreate" title="Создание процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processCreateGroups" title="Выбор группы решения при создании процесса" allowAll="1"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDoCommands" title="Выполнение макроса процесса"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate" title="Изменение статуса процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate" title="Edit status"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory" title="Просмотр истории статуса процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate" title="Изменение приоритета процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate" title="Изменение описание процесса"/>
@@ -262,8 +269,7 @@
 				<item action="ru.bgcrm.struts.action.ProcessAction:linkProcessCreate;ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate" title="Создание привязанного процесса"/>
 			</item>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processRequest" title="Запрос дополнительных параметров создания процесса" allowAll="1"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:processTypeEdit" title="Редактор изменения типа процесса"/>
-			<item action="ru.bgcrm.struts.action.ProcessAction:processTypeUpdate" title="Изменение типа процесса"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processTypeEdit, ru.bgcrm.struts.action.ProcessAction:processTypeUpdate" title="Edit type"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:userProcessList" title="Мои процессы"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:unionLog" title="Просмотр полного лога изменений"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDeleteTmp" title="Удаление временного процесса" allowAll="1"/>

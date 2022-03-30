@@ -2,11 +2,11 @@ package org.bgerp.util.lic;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.security.SignatureException;
 import java.util.Base64;
 
 import com.hierynomus.sshj.userauth.keyprovider.OpenSSHKeyV1KeyFile;
 
+import org.bgerp.util.Log;
 import org.bouncycastle.crypto.CryptoException;
 import org.bouncycastle.crypto.Signer;
 import org.bouncycastle.crypto.digests.SHA256Digest;
@@ -30,6 +30,8 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class Sign {
+    private static final Log log = Log.getLog();
+
     final String id;
     private final Signer sign;
 
@@ -115,11 +117,15 @@ public class Sign {
      * @param data raw data.
      * @param signature Base64 encoded signature.
      * @return
-     * @throws SignatureException
      */
     public boolean signatureVerify(byte[] data, String signature) {
-        sign.update(data, 0, data.length);
-        return sign.verifySignature(Base64.getDecoder().decode(signature));
+        try {
+            sign.update(data, 0, data.length);
+            return sign.verifySignature(Base64.getDecoder().decode(signature));
+        } catch (Exception e) {
+            log.info("Error in license signature verification: {}", e.getMessage());
+            return false;
+        }
     }
 
     /**

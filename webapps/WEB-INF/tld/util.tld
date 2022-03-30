@@ -196,21 +196,6 @@
 		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
 		<function-signature>String getObjectTitles(java.util.List, java.util.Set)</function-signature>
 	</function>
-	<function>
-		<name>orderedObjectTitleList</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
-		<function-signature>String getObjectTitles(java.util.Map, java.util.List)</function-signature>
-	</function>
-	<function>
-		<name>objectList</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
-		<function-signature>List getObjectList(java.util.List, java.util.Set)</function-signature>
-	</function>
-	<function>
-		<name>orderedObjectList</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
-		<function-signature>List getObjectList(java.util.Map, java.util.List)</function-signature>
-	</function>
 
 	<function>
 		<description>Deprecated, use direct getConfig call from parameter map.</description>

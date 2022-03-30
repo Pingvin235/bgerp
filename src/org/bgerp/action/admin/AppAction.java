@@ -23,8 +23,8 @@ public class AppAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/app";
 
     /** Accessed from JSP. */
-    public static final Files LOG_APP = new Files(AppAction.class, "logApp", "log", "bgerp.*",
-            new Options().withDownloadEnabled().withOrder(Order.LAST_MODIFIED_DESC));
+    public static final Files LOG_APP = new Files(AppAction.class, "logApp", "log", "bgerp*",
+            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
     public static final Files LOG_UPDATE = new Files(AppAction.class, "logUpdate", "log", "update_*",
             new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
     public static final Files UPDATE_ZIP = new Files(AppAction.class, "updateZip", ".", "update_*.zip",
@@ -39,6 +39,11 @@ public class AppAction extends BaseAction {
 
     public ActionForward downloadLogApp(DynActionForm form, ConnectionSet conSet) throws Exception {
         return LOG_APP.download(form);
+    }
+
+    public ActionForward deleteLogApp(DynActionForm form, ConnectionSet conSet) throws Exception {
+        LOG_APP.delete(form);
+        return json(conSet, form);
     }
 
     public ActionForward downloadLogUpdate(DynActionForm form, ConnectionSet conSet) throws Exception {
