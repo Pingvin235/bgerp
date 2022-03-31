@@ -1,2 +1,0 @@
-C: Script backup.sh. Saving stored procedures in database dump.
-A: Add instructions for migration from Maria / MySQL DB 5.x to MySQL 8 (Linux)

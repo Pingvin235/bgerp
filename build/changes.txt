@@ -1,6 +1,13 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+31.03.2022 22:31:53 1386
+F: [14485] Deletion of parameter type 'file' is not logged.
+C: [14752] Script backup.sh. Saving stored procedures in database dump.
+A: [14752] Add instructions for migration from Maria / MySQL DB 5.x to MySQL 8 (Linux)
+F: [14760] Docker image build.
+F: [14764] Missing getObjectTitles function.
+
 30.03.2022 10:48:48 1385
 C: [14299] DateTime picker common styling.
 A: [14350] Plugin GIT first version. https://bgerp.org/doc/3.0/manual/plugin/git/index.html
