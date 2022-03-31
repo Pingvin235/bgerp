@@ -865,42 +865,48 @@ public class ParamValueDAO extends CommonDAO {
      * @param id object ID.
      * @param paramId param ID.
      * @param position position for multiple values, when is 0 - adding with new positions.
-     * @param fileData value for the given position, if {@code null} - removes a value from the position.
+     * @param fileData value for the given position, if {@code null} - removes a value from the position or all values with {@code position} == -1.
      * @throws Exception
      */
     public void updateParamFile(int id, int paramId, int position, FileData fileData) throws Exception {
-        //TODO: When position==-1 - make removing all values from all positions like in #updateParameterEmail.
-
         if (fileData == null) {
-            FileData currentValue = getParamFile(id, paramId, position);
-            if (currentValue != null) {
-                String query = "DELETE FROM " + TABLE_PARAM_FILE + " WHERE id=? AND param_id=? AND n=?";
+            Map<Integer, FileData> currentValue = null;
+            if (position == -1)
+                currentValue = getParamFile(id, paramId);
+            else {
+                var value = getParamFile(id, paramId, position);
+                currentValue = value != null ? Map.of(position, value) : Map.of();
+            }
 
-                PreparedStatement ps = con.prepareStatement(query);
-                ps.setInt(1, id);
-                ps.setInt(2, paramId);
-                ps.setInt(3, position);
-                ps.executeUpdate();
-                ps.close();
+            if (!currentValue.isEmpty()) {
+                String query = "DELETE FROM " + TABLE_PARAM_FILE + " WHERE id=? AND param_id=?";
 
-                //проверка на оставшиеся ссылки на файл
-                query = "SELECT COUNT(*) FROM " + TABLE_PARAM_FILE + " AS pf "
-                    + " LEFT JOIN " + TABLE_FILE_DATA + " AS fd ON fd.id = pf.value "
-                    + " WHERE fd.secret =? ";
-                ps = con.prepareStatement(query);
-                ps.setString(1, currentValue.getSecret());
-
-                ResultSet rs = ps.executeQuery();
-                int count = 0;
-                if (rs.next()) {
-                    count = rs.getInt(1);
+                var pq = new PreparedQuery(con, query);
+                pq.addInt(id);
+                pq.addInt(paramId);
+                if (position != -1) {
+                    pq.addQuery(" AND n=?");
+                    pq.addInt(position);
                 }
+                pq.executeUpdate();
+                pq.close();
 
-                if (count == 0) {
-                    new FileDataDAO(con).delete(currentValue);
+                for (var value : currentValue.values()) {
+                    // checking of left file links, theoretically is possible to have many param values linked to the same file data
+                    query = "SELECT COUNT(fd.id) FROM " + TABLE_FILE_DATA + " AS fd WHERE id=?";
+                    var ps = con.prepareStatement(query);
+                    ps.setInt(1, value.getId());
+
+                    ResultSet rs = ps.executeQuery();
+                    int count = 0;
+                    if (rs.next()) {
+                        count = rs.getInt(1);
+                    }
+                    ps.close();
+
+                    if (count == 0)
+                        new FileDataDAO(con).delete(value);
                 }
-
-                ps.close();
             }
         } else {
             if (fileData.getId() <= 0 && fileData.getData() != null) {
@@ -933,13 +939,25 @@ public class ParamValueDAO extends CommonDAO {
             ps.setInt(4, fileData.getId());
             ps.executeUpdate();
             ps.close();
+        }
 
-            //TODO: Разобраться с логированием.
-            if (history) {
-                String fileName = fileData.getTitle();
-                ParamLogDAO paramLogDAO = new ParamLogDAO(this.con);
-                paramLogDAO.insertParamLog(id, paramId, userId, fileName);
-            }
+        if (history) {
+            String values = "";
+
+            String query = SQL_SELECT + "GROUP_CONCAT(fd.title SEPARATOR ', ')"
+                + SQL_FROM + TABLE_PARAM_FILE + "AS pf "
+                + SQL_INNER_JOIN + TABLE_FILE_DATA + "AS fd ON pf.value=fd.id"
+                + SQL_WHERE + "pf.id=? AND pf.param_id=?";
+            var pq = new PreparedQuery(con, query);
+            pq.addInt(id).addInt(paramId);
+            var rs = pq.executeQuery();
+
+            if (rs.next())
+                values = rs.getString(1);
+
+            pq.close();
+
+            logParam(id, paramId, userId, values);
         }
     }
 

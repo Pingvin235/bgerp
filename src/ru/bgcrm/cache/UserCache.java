@@ -470,12 +470,12 @@ public class UserCache extends Cache<UserCache> {
 
             User user = new User();
             user.setId(User.USER_CUSTOMER_ID);
-            user.setTitle("Контрагент");
+            user.setTitle("Customer");
             result.userMapById.put(user.getId(), user);
 
             user = new User();
             user.setId(User.USER_SYSTEM_ID);
-            user.setTitle("Сервер");
+            user.setTitle("System");
             user.setLogin(setup.get("user.system.login"));
             user.setPassword(setup.get("user.system.pswd"));
             result.userMapById.put(user.getId(), user);

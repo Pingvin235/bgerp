@@ -301,12 +301,8 @@ DB updates log. The table is created on a first use.
 |Query hash
 |===
 
-=== event_processor_log
-Помесячная таблица логов обработки событий.
-// TODO
-
 === file_data
-Данные файлов.
+File data.
 [cols="a,a,50%a", options="header"]
 |===
 |Column
@@ -319,15 +315,15 @@ DB updates log. The table is created on a first use.
 
 |title
 |VARCHAR
-|название документа
+|file name
 
 |time
 |DATETIME
-|время сохранения документа
+|upload time
 
 |secret
 |CHAR
-|секрет для запроса файла
+|secret for requesting
 |===
 
 === iface_state
@@ -464,7 +460,7 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |n
 |INT
@@ -517,7 +513,7 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |value
 |TEXT
@@ -538,7 +534,7 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |value
 |DATE
@@ -559,7 +555,7 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |value
 |DATETIME
@@ -580,11 +576,11 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |n
 |INT
-|порядковый номер в списке
+|sequential 1-based number for multiple values
 
 |value
 |VARCHAR
@@ -596,7 +592,7 @@ Message tags.
 |===
 
 === param_file
-Параметры типа "file".
+Parameter type "file" values.
 [cols="a,a,50%a", options="header"]
 |===
 |Column
@@ -609,36 +605,19 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |n
 |INT
-|порядковый номер в списке
+|sequential 1-based number for multiple values
 
 |value
 |INT
-|значение
-|===
-
-=== param_group
-Группы параметров.
-[cols="a,a,50%a", options="header"]
-|===
-|Column
-|Type
-|Description
-
-|group_id
-|INT
-|ID группы
-
-|param_id
-|INT
-|ID парамера
+|file ID, link to <<_file_data, file_data:id>>
 |===
 
 === param_group_title
-Названия групп параметров.
+Parameter groups.
 [cols="a,a,50%a", options="header"]
 |===
 |Column
@@ -658,6 +637,23 @@ Message tags.
 |название
 |===
 
+=== param_group
+Parameter groups parameters.
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|group_id
+|INT
+|ID группы
+
+|param_id
+|INT
+|param ID, link to <<_param_pref, param_pref:id>>
+|===
+
 === param_list
 Параметры типа "list".
 [cols="a,a,50%a", options="header"]
@@ -672,7 +668,7 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |value
 |INT
@@ -722,7 +718,7 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |value
 |INT
@@ -751,7 +747,7 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |title
 |VARCHAR
@@ -780,7 +776,7 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |text
 |VARCHAR
@@ -801,7 +797,7 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |value
 |TEXT
@@ -822,7 +818,7 @@ Message tags.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |n
 |TINYINT
@@ -900,7 +896,7 @@ Cтроковые параметры
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |value
 |VARCHAR
@@ -921,7 +917,7 @@ Cтроковые параметры
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |value
 |VARCHAR
@@ -942,7 +938,7 @@ Cтроковые параметры
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 
 |parent_id
 |INT
@@ -1301,7 +1297,7 @@ Generated secrets for accessing processes via open interface.
 
 |param_id
 |INT
-|ID парамера
+|param ID, link to <<_param_pref, param_pref:id>>
 |===
 
 === process_type_status

@@ -1,8 +1,10 @@
 package org.bgerp.itest.kernel.process;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
@@ -12,7 +14,11 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.cache.ParameterCache;
+import ru.bgcrm.dao.FileDataDAO;
+import ru.bgcrm.dao.ParamLogDAO;
 import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.model.FileData;
+import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
@@ -38,7 +44,7 @@ public class ProcessParamTest {
     private int processId;
 
     @Test
-    public void addParam() throws Exception {
+    public void param() throws Exception {
         paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " type 'address'",
                 ProcessTest.posParam += 2, "", "");
 
@@ -80,8 +86,8 @@ public class ProcessParamTest {
         ParameterCache.flush(null);
     }
 
-    @Test(dependsOnMethods = "addParam")
-    public void addProcessType() throws Exception {
+    @Test(dependsOnMethods = "param")
+    public void processType() throws Exception {
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
@@ -92,14 +98,49 @@ public class ProcessParamTest {
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
     }
 
-    @Test(dependsOnMethods = "addProcessType")
-    public void addProcess() throws Exception {
+    @Test(dependsOnMethods = "processType")
+    public void process() throws Exception {
         var p = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
         Assert.assertTrue(0 < (processId = p.getId()));
     }
 
-    @Test(dependsOnMethods = { "addProcess" })
-    public void addParamValue() throws Exception {
+    @Test(dependsOnMethods = "process")
+    public void paramValueFile() throws Exception {
+        var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
+        var logDao = new ParamLogDAO(DbTest.conRoot);
+
+        var valueFile = dao.getParamFile(processId, paramFileId);
+        Assert.assertTrue(valueFile.values().isEmpty());
+
+        dao.updateParamFile(processId, paramFileId, 0, new FileData("file1.txt",
+                IOUtils.toByteArray(this.getClass().getResourceAsStream(this.getClass().getSimpleName() + ".param.file.value.txt"))));
+        dao.updateParamFile(processId, paramFileId, 0, new FileData("file2.txt",
+                IOUtils.toByteArray(this.getClass().getResourceAsStream(this.getClass().getSimpleName() + ".param.file.value.txt"))));
+        valueFile = dao.getParamFile(processId, paramFileId);
+        Assert.assertEquals(valueFile.size(), 2);
+        Assert.assertEquals(valueFile.get(1).getTitle(), "file1.txt");
+        byte[] data1 = IOUtils.toByteArray(new FileDataDAO(DbTest.conRoot).getFile(valueFile.get(1)).toURI());
+        Assert.assertEquals(new String(data1, StandardCharsets.UTF_8).trim(), "Test content");
+        Assert.assertEquals(valueFile.get(2).getTitle(), "file2.txt");
+
+        dao.updateParamFile(processId, paramFileId, 1, null);
+        valueFile = dao.getParamFile(processId, paramFileId);
+        Assert.assertEquals(valueFile.size(), 1);
+
+        dao.updateParamFile(processId, paramFileId, -1, null);
+        valueFile = dao.getParamFile(processId, paramFileId);
+        Assert.assertTrue(valueFile.isEmpty());
+
+        var log = logDao.getHistory(processId, ParameterCache.getParameterList(List.of(paramFileId)), false, new SearchResult<>());
+        Assert.assertEquals(log.size(), 4);
+        Assert.assertEquals(log.get(0).getText(), "file1.txt");
+        Assert.assertEquals(log.get(1).getText(), "file1.txt, file2.txt");
+        Assert.assertEquals(log.get(2).getText(), "file2.txt");
+        Assert.assertEquals(log.get(3).getText(), "");
+    }
+
+    @Test(dependsOnMethods = "process")
+    public void paramValueMoney() throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
 
         var valueMoney = dao.getParamMoney(processId, paramMoneyId);
@@ -107,5 +148,7 @@ public class ProcessParamTest {
         dao.updateParamMoney(processId, paramMoneyId, Utils.parseBigDecimal("10.55"));
         valueMoney = dao.getParamMoney(processId, paramMoneyId);
         Assert.assertEquals(valueMoney, Utils.parseBigDecimal("10.55"));
+
+        // TODO: Check history logs.
     }
 }
