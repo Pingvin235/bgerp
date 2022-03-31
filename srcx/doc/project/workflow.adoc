@@ -305,6 +305,12 @@ bash -c "./gradlew clean buildClean buildUpdateLib buildUpdate"
 
 NOTE: `buildUpdateLib` task checks existence of file `build/changes.lib.txt`, marking changes in <<index.adoc#java-lib, Java libraries>>.
 
+Build a <<build-docker, Docker Image>>:
+[source, bash]
+----
+bash build/docker/files.sh && docker build build/docker -t bgerp/bgerp && docker push bgerp/bgerp
+----
+
 Then:
 [source, bash]
 ----
@@ -331,19 +337,13 @@ git checkout master && git pull --rebase && git merge --squash p11862-documentat
 
 [[build-docker]]
 ==== Docker Image
+When pushing image from a system first you would need to perform login:
 [source]
 ----
 docker login --username bgerp
 ----
-Input access token.
 
-Go in directory `build/docker`
-[source]
-----
-bash files.sh &&
-docker build . -t bgerp/bgerp &&
-docker push bgerp/bgerp
-----
+And input *access token*.
 
 [[test]]
 == Tests

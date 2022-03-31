@@ -14,6 +14,9 @@ RUN sed -i '/\[mysqld\]/a sql-mode= ' /etc/mysql/my.cnf; \
 	sed -i '/\[mysqld\]/a slow_query_log_file=/var/log/mysql/mysql_slow.log ' /etc/mysql/my.cnf; \
 	sed -i '/\[mysqld\]/a slow_query_log=1 ' /etc/mysql/my.cnf;
 
+# avoids errors with 'apt-get update' running after
+RUN rm /etc/apt/sources.list.d/mysql.list
+
 # java, taken from: https://github.com/docker-library/openjdk/blob/master/17/jdk/slim-buster/Dockerfile
 #======================================================================================================
 RUN set -eux; \
@@ -25,7 +28,6 @@ RUN set -eux; \
 	rm -rf /var/lib/apt/lists/*
 
 ENV JAVA_HOME /usr/local/openjdk-17
-RUN { echo '#/bin/sh'; echo 'echo "$JAVA_HOME"'; } > /usr/local/bin/docker-java-home && chmod +x /usr/local/bin/docker-java-home && [ "$JAVA_HOME" = "$(docker-java-home)" ] # backwards compatibility
 ENV PATH $JAVA_HOME/bin:$PATH
 
 # Default to UTF-8 file.encoding
