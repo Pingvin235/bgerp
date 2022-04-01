@@ -133,12 +133,6 @@
 
 					<table style="width: 100%;" class="oddeven">
 						<%@ include file="/WEB-INF/jspf/user/process/process/process_header.jsp"%>
-						<tr>
-							<c:set var="statusEditorUiid" value="${u:uiid()}"/>
-							<td id="${statusEditorUiid}">
-								<%@ include file="/WEB-INF/jspf/user/process/process/process_status.jsp"%>
-							</td>
-						</tr>
 						<tr valign="top">
 							<td>
 								<%@ include file="/WEB-INF/jspf/user/process/process/process_description.jsp"%>

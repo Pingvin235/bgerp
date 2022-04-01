@@ -6,6 +6,6 @@
 <div id="${uiid}">
 	<c:set var="tableId" value="${uiid}"/>
 	<c:set target="${form.response.data}" property="process" value="${wizardData.process}"/>
-	
-	<%@ include file="/WEB-INF/jspf/user/process/process/process_status.jsp"%>
+
+	<%@ include file="/WEB-INF/jspf/user/process/process/editor_status.jsp"%>
 </div>
