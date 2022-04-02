@@ -163,7 +163,18 @@ BGERP process for a change does not get closed , and <<accept, acceptance>> is p
 === Documentation
 For building of the manual used Open Source tool link:https://pzdcdoc.org[PzdcDoc].
 The source AsciiDoctor and resource files are placed in `srcx/doc` directory.
-The samples of documentation's format may be found <<samples.adoc#doc, here>>.
+The examples of documentation's format may be found <<examples.adoc#doc, here>>.
+
+[[doc-plugin]]
+==== Plugin
+<<index.adoc#plugin, Plugin>> documentation should have the following structure:
+[square]
+* *About* - common information about;
+* *Setup* - how to configure;
+* *Usage* - using instructions with screenshots;
+* *Development* - recommendation for developers.
+
+As examples of following the structure see plugins: <<../plugin/git/index.adoc#, GIT>>.
 
 [[doc-image]]
 ==== Images

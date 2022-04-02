@@ -5,7 +5,7 @@
 BGERP is quite a large and complex project. It was created by a team consisting of ordinary humans, who may be imperfect and make
 mistakes but try to learn continuously. This is a trial and error process, fortunately or not.
 
-This article provides some recommendations collected during the learning process - these are accompanied by a very small amount of <<sample, code>>
+This article provides some recommendations collected during the learning process - these are accompanied by a relative small amount of <<examples.adoc#, code>>
 for exactly the same reason. Said that, you have to follow those recommendations using *The Boy Scout Rule*.
 
 IMPORTANT: Always leave the campground cleaner than you found it.
@@ -15,7 +15,6 @@ Write a new code and keep it compliant with the latest recommendations, but at t
 During <<workflow.adoc#, changes>> testing, code improvements will be tested as well.
 All in all, gradually, we will improve overall code quality.
 We plan to introduce a set of formal code quality metrics: number of compiler warnings, format checks, etc.
-
 
 [[lang]]
 == Languages
@@ -256,8 +255,6 @@ Project's folder listing along with description.
 * *bin* - IDE-compiled Java classes;
 * *build* - files related to <<workflow.adoc#build, build>>;
 * *docpattern* - <<../plugin/document/index.adoc#, Document>> plugin templates;
-// * *dyn* - <<../kernel/extension.adoc#dyn, dynamic code>>, with examples;
-// * *dyn.ext* - this folder can be used to mount dynamic classes on <<devm, developer's system>>;
 * *filestorage* - file storage when launched from IDE;
 * *lib* - Java libraries, which are not linked via <<java-lib, Gradle>>;
 * *plugin* - <<plugin, plugin>> declarations;
@@ -273,7 +270,6 @@ When link:../../../build/bgerp/files/erp.sh[running] a program, a number of JAR 
 [square]
 * *lib/app* - application's and <<../kernel/extension.adoc#custom, Custom>> classes;
 * *lib/ext* - external libraries.
-// * *lib/custom* - additional libraries required for <<../kernel/extension.adoc#dyn, dynamic code>> and JEXL scripts.
 
 External libraries are supplied with a separate <<workflow.adoc#build-release, update package>>.
 Artifacts and versions are indicated in the following file: link:../../../build.gradle[build.gradle] (for *bgerp* configuration)
@@ -484,8 +480,8 @@ It is only used for localizing actions and action's JSP templates
 === MVC
 The project is using Apache Struts framework in a very own and customized way:
 [square]
-* requests are sent using <<sample-jsp-ui-ajax, AJAX>> and responses update HTML partially
-* from Struts JSP <<jsp-tag, tags>> <<sample-jsp-ui-restore-form, used>> only *<html:form* with *<html:param* inside
+* requests are sent using <<examples.adoc#code-jsp-ui-ajax, AJAX>> and responses update HTML partially
+* from Struts JSP <<jsp-tag, tags>> <<examples.adoc#code-jsp-ui-restore-form, used>> only *<html:form* with *<html:param* inside
 * <<action, action>> methods have different signature as standard
 * the <<action-form, form>> object has always the same class
 
@@ -700,7 +696,7 @@ use its wrapper - ru.bgcrm.util.sql.PreparedDelay[]. The latter allows to 'glue'
 ==== JSP View
 HTML gets rendered on server-side using JSP templates after receiving data from Action.
 UI uses a set of unified components - thanks to that in most cases there is no need to install additional styles or create additional JS handlers.
-<<sample-jsp-ui, JSP UI code>> examples.
+<<examples.adoc#code-jsp-ui, JSP UI code>> examples.
 
 The principal schema of JSP work looks like:
 image::_res/project_jsp_schema.png[]
@@ -716,7 +712,7 @@ The following objects prefixes are available:
 * *su* link:https://commons.apache.org/proper/commons-lang/javadocs/api-2.5/org/apache/commons/lang/StringUtils.html[org.apache.commons.lang.StringUtils]
 * *сu* link:https://commons.apache.org/proper/commons-collections/javadocs/api-3.2.2/org/apache/commons/collections/CollectionUtils.html[org.apache.commons.collections.CollectionUtils]
 
-As an example see <<sample-date-format, date and time format>>.
+As an example see <<examples.adoc#code-date-format, date and time format>>.
 
 Beside of the mentioned static functions, the filter sets also <<cache, caches>>.
 All the request parameters are set in class link:../../../src/ru/bgcrm/servlet/filter/SetRequestParamsFilter.java[ru.bgcrm.servlet.filter.SetRequestParamsFilter]
@@ -782,7 +778,7 @@ This method is generally discouraged as it significantly complicates broweser-si
 
 System functions are organized as object hierarchy built from the *+++$$+++* root object.
 For example: link:../../../webapps/js/kernel.ajax.js[+++$$+++.ajax], link:../../../webapps/js/kernel.ui.js[$$.ui]
-A typical scheme for attaching JS code to HTML is to setup event handler with a function call - <<sample-jsp-ui, AJAX example>>
+A typical scheme for attaching JS code to HTML is to setup event handler with a function call - <<examples.adoc#code-jsp-ui, AJAX example>>
 
 Deprecated JS functions are marked using the following method:
 [snippet, from="fun", to="}"]
@@ -896,6 +892,37 @@ For missing keys the following messages appear in <<ide-logging, log output>>:
 
 After adding missing patterns, application server has to be re-started.
 
+[[logging]]
+=== Logging
+[[logging-java]]
+==== Java
+javadoc:ru.bgerp.util.Log[] logger class is used, which is based on <<../kernel/extension.adoc#log4j, Log4j>> framework.
+When launching from IDE, you can copy link:../../../build/bgerp/files/log4j.properties[build/bgerp/files/log4j.properties] file from distribution kit into project's root folder and adapt, as needed.
+
+Use `log` protected variable when logging within <<action, actions>>
+
+Create *static final* class variable within Java classes:
+[snippet, from="pub", to=");"]
+link:../../../src/ru/bgcrm/worker/MessageExchange.java#L17-L20[ru.bgcrm.worker.MessageExchange]
+
+Log message with substitutions:
+[snippet, from="log.debug(", to=");", remove-leading="            "]
+link:../../../src/ru/bgcrm/Server.java#L114-L114[ru.bgcrm.Server]
+
+Exception message output:
+[snippet, from="try", to="}", remove-leading="                "]
+link:../../../src/ru/bgcrm/worker/MessageExchange.java#L66-L70[ru.bgcrm.worker.MessageExchange]
+
+[[logging-js]]
+==== JS
+Show debug data instead of console.log:
+[snippet, from="con", to="}"]
+link:../../../webapps/js/kernel.shell.js#L5-L12[webapps/js/kernel.shell.js]
+
+Enabling debug:
+[snippet, from="$$.", to="0,"]
+link:../../../webapps/js/kernel.js#L19-L23[webapps/js/kernel.js]
+
 [[naming]]
 == Naming conventions
 === Configuration variables, JS functions, HTTP StyleId
@@ -963,164 +990,3 @@ Use *date_from* and *date_to* in the database (*DATE* type)
 
 Infinity time or date - *NULL*.
 
-[[sample]]
-== Code samples
-As system evolves and gets a lot of changes, this section contains referencing code examples.
-Snippets below gets extracted from an actual project code, so these are always reliable.
-Use IDE, if needed, in order to search for specific classes or files.
-
-[[sample-logging]]
-=== Logging
-[[sample-logging-java]]
-==== Java
-javadoc:ru.bgerp.util.Log[] logger class is used, which is based on <<../kernel/extension.adoc#log4j, Log4j>> framework.
-When launching from IDE, you can copy link:../../../build/bgerp/files/log4j.properties[build/bgerp/files/log4j.properties] file from distribution kit into project's root folder and adapt, as needed.
-
-Use `log` protected variable when logging within <<action, actions>>
-
-Create *static final* class variable within Java classes:
-[snippet, from="pub", to=");"]
-link:../../../src/ru/bgcrm/worker/MessageExchange.java#L17-L20[ru.bgcrm.worker.MessageExchange]
-
-Log message with substitutions:
-[snippet, from="log.debug(", to=");", remove-leading="            "]
-link:../../../src/ru/bgcrm/Server.java#L114-L114[ru.bgcrm.Server]
-
-Exception message output:
-[snippet, from="try", to="}", remove-leading="                "]
-link:../../../src/ru/bgcrm/worker/MessageExchange.java#L66-L70[ru.bgcrm.worker.MessageExchange]
-
-[[sample-logging-js]]
-==== JS
-Show debug data instead of console.log:
-[snippet, from="con", to="}"]
-link:../../../webapps/js/kernel.shell.js#L5-L12[webapps/js/kernel.shell.js]
-
-Enabling debug:
-[snippet, from="$$.", to="0,"]
-link:../../../webapps/js/kernel.js#L19-L23[webapps/js/kernel.js]
-
-[[sample-save-req-params]]
-=== Saving latest/last user request parameters
-Let's take interface filters, as example - use *restoreRequestParams* method in javadoc:ru.bgcrm.struts.action.BaseAction[]
-
-Saving a value:
-[snippet, from="resto", to=");", remove-leading=    "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L427-L427[ru.bgcrm.struts.action.MessageAction]
-
-Restoring a value:
-[snippet, from="pu", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L457-L464[ru.bgcrm.struts.action.MessageAction]
-
-Saving and restoring a value at once:
-[snippet, from="//", to=");", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L53-L57[ru.bgcrm.struts.action.ProcessLinkAction]
-
-[[sample-personalization-map-ff]]
-=== Feature flag for UI
-Option stored in user personalization map. UI dropbox available in user profile settings.
-[snippet, from="<c:s", to="le>", remove-leading="							"]
-link:../../../webapps/WEB-INF/jspf/user/profile/default.jsp#L39-L45[webapps/WEB-INF/jspf/user/profile/default.jsp]
-
-Stored values may be read in JSP pages using in the same *ctxUser.personalizationMap* way,
-but also available in JS like for this case.
-[snippet, from="if (", to=");", remove-leading="		"]
-link:../../../webapps/js/kernel.shell.js#L444-L445[webapps/js/kernel.shell.js]
-
-[[sample-tab-element-count]]
-=== Depicting element count on a tab
-For example, showing associated processes count. Gets saved on the first call.
-Use javadoc:ru.bgcrm.model.IfaceState[] class
-
-Refreshing value:
-[snippet, from="// п", to="}", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L216-L223[ru.bgcrm.struts.action.ProcessLinkAction]
-
-Show in JSP:
-[snippet, from="<c:if", to="if>", remove-leading="						"]
-link:../../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L86-L100[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
-
-[[sample-date-format]]
-=== Date and time format
-When formatting date and time values in Java or JSP , use the following formats in order to keep unified approach and maintain independence from the current locale:
-[square]
-* *ymd* - year, month, date;
-* *ymdh* - year, month, day, hour;
-* *ymdhm* - year, month, day, hour, minute;
-* *ymdhms* - year, month, day, hour, minute, second.
-
-Java code uses javadoc:ru.bgcrm.util.TimeUtils[] class for date formatting, this class also contains format constants.
-
-The same functions may be used in <<jsp, JSP>> using `tu` prefix:
-[snippet, from="<input type=", to="d}\"/>", remove-leading="				"]
-link:../../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L160-L160[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
-
-[[sample-configuration-java-beans]]
-=== Configuration Java Beans
-In order to speed up parsing and validation, use Java class objects inherited from javadoc:ru.bgcrm.util.Config[]
-For example: link:../../../src/ru/bgcrm/model/config/IsolationConfig.java[ru.bgcrm.model.config.IsolationConfig].
-This configuration supports constructor with a validation flag, which allows to check syntax when saving.
-
-Configuration bin can be also obtained in JSP:
-[snippet, from="<c:", to="/>"]
-link:../../../webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp#L4-L4[webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp]
-
-[[sample-pagination]]
-=== Pagination
-Putting results into JSP and rendering a form;
-[snippet, from="<c:", to="rm>", remove-leading="		"]
-link:../../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L91-L99[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
-
-Java action:
-[snippet, from="//", to="open);", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L207-L209[ru.bgcrm.struts.action.ProcessLinkAction]
-
-[[sample-upload-file]]
-=== File upload
-JSP page:
-[snippet, from="<c:set", to="script>", remove-leading="				"]
-link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L64-L77[webapps/WEB-INF/jspf/admin/config/list.jsp]
-
-Action:
-[snippet, from="public", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L154-L167[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
-
-[[sample-jsp-ui]]
-=== UI Only
-A simple dictionary with pagination, AJAX editor invocation: link:../../../webapps/WEB-INF/jspf/admin/process/status/list.jsp[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
-
-[[sample-jsp-ui-ajax]]
-Sending AJAX for sending, exiting or restoring data in <<../kernel/process/index.adoc#type, process type properties editor>>:
-[snippet, from="<div", to="/div>"]
-link:../../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L187-L192[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
-
-Recursive include:
-[snippet, from="<c:", to="if>", remove-leading="					"]
-link:../../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L48-L50[webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp]
-
-Action execution result include:
-[snippet, from="<c:", to="/>", remove-leading="			"]
-link:../../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L166-L171[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
-
-Flex layout, using constants from Java classes (defined in link:../../../webapps/WEB-INF/jspf/user/search/process_search_constants.jsp[process_search_constants.jsp]), print button close to a field:
-[snippet, from="<div", to="/div>", remove-leading="				"]
-link:../../../webapps/WEB-INF/jspf/user/search/search.jsp#L77-L91[webapps/WEB-INF/jspf/user/search/search.jsp]
-
-IMPORTANT: For some reason a class, containing included constant must not contain `config` word in package path.
-
-Snap-in refresh upon moving back to it:
-[snippet, from="<script", to="/script>"]
-link:../../../webapps/WEB-INF/jspf/user/log/log.jsp#L17-L24[webapps/WEB-INF/jspf/user/log/log.jsp]
-
-Sending AJAX request and showing progress indicator on button during execution:
-[snippet, from="<bu", to="on>"]
-link:../../../webapps/WEB-INF/jspf/admin/run/run.jsp#L20-L24[webapps/WEB-INF/jspf/admin/run/run.jsp]
-
-The same but for *$$.ajax.load* function:
-[snippet, from="<ui:button", remove-leading="		"]
-link:../../../webapps/WEB-INF/jspf/user/process/queue/filter.jsp#L911-L911[webapps/WEB-INF/jspf/user/process/queue/filter.jsp]
-
-[[sample-jsp-ui-restore-form]]
-Restore form parameter values:
-[snippet, from="<ht", to="/>"]
-link:../../../webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp#L8-L10[webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp]

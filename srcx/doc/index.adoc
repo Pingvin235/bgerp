@@ -4,7 +4,7 @@
 * <<project/index.adoc#, Project>>
 ** <<project/workflow.adoc#, Workflow>>
 ** <<project/db.adoc#, Database>>
-** <<project/samples.adoc#, Samples>>
+** <<project/examples.adoc#, Examples>>
 * Kernel
 ** <<kernel/install.adoc#, Install>>
 *** <<kernel/mysql_migration.adoc#, Migrate DB to MySQL 8.0>>
@@ -20,7 +20,6 @@
 *** <<kernel/process/wizard.adoc#, Мастер>>
 ** <<kernel/message.adoc#, Сообщения>>
 ** <<kernel/extension.adoc#, Extension>>
-//*** <<ext/dyn_sample.adoc#, Примеры динамического кода>>
 * Plugins
 ** <<plugin/asterisk/index.adoc#, Asterisk>>
 ** <<plugin/bgbilling/index.adoc#, BGBilling>>

@@ -44,8 +44,8 @@ To enable *GIT* tab in process card add in <<../../kernel/process/index.adoc#, t
 git:processShowGit=1
 ----
 
-[[using]]
-== Using
+[[usage]]
+== Usage
 On the screen below is shown process card with activated plugin.
 
 image::_res/process.png[width="800px"]

@@ -1,0 +1,151 @@
+= Examples
+:toc:
+
+[[about]]
+== About
+As system evolves and gets a lot of changes, this section contains referencing code examples.
+Snippets below gets extracted from an actual project code, so these are always reliable.
+Use IDE, if needed, in order to search for specific classes or files.
+
+[[doc]]
+== Documentation
+Recommended approaches and samples may be always found link:http://pzdcdoc.org/demo/src/doc/demo.html[here].
+
+DrawIO diagrams:
+[square]
+* <<../kernel/extension.adoc#custom, Custom Plugin>>
+* <<../plugin/document/index.adoc#about, Document Processing>>
+* <<workflow.adoc#change, GIT Workflow>>
+
+Other samples:
+[square]
+* <<../kernel/message.adoc#, Ditaa Diagram>>
+* <<../kernel/process/index.adoc#type-config, Configuration from links from it>>
+* <<../kernel/process/wizard.adoc#, Complex table and includes>>
+
+[[code]]
+== Code
+[[code-save-req-params]]
+=== Saving latest/last user request parameters
+Let's take interface filters, as example - use *restoreRequestParams* method in javadoc:ru.bgcrm.struts.action.BaseAction[]
+
+Saving a value:
+[snippet, from="resto", to=");", remove-leading=    "]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L427-L427[ru.bgcrm.struts.action.MessageAction]
+
+Restoring a value:
+[snippet, from="pu", to="}", remove-leading="    "]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L457-L464[ru.bgcrm.struts.action.MessageAction]
+
+Saving and restoring a value at once:
+[snippet, from="//", to=");", remove-leading="    "]
+link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L53-L57[ru.bgcrm.struts.action.ProcessLinkAction]
+
+[[code-personalization-map-ff]]
+=== Feature flag for UI
+Option stored in user personalization map. UI dropbox available in user profile settings.
+[snippet, from="<c:s", to="le>", remove-leading="							"]
+link:../../../webapps/WEB-INF/jspf/user/profile/default.jsp#L39-L45[webapps/WEB-INF/jspf/user/profile/default.jsp]
+
+Stored values may be read in JSP pages using in the same *ctxUser.personalizationMap* way,
+but also available in JS like for this case.
+[snippet, from="if (", to=");", remove-leading="		"]
+link:../../../webapps/js/kernel.shell.js#L444-L445[webapps/js/kernel.shell.js]
+
+[[code-tab-element-count]]
+=== Depicting element count on a tab
+For example, showing associated processes count. Gets saved on the first call.
+Use javadoc:ru.bgcrm.model.IfaceState[] class
+
+Refreshing value:
+[snippet, from="// п", to="}", remove-leading="        "]
+link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L216-L223[ru.bgcrm.struts.action.ProcessLinkAction]
+
+Show in JSP:
+[snippet, from="<c:if", to="if>", remove-leading="						"]
+link:../../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L86-L100[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
+
+[[code-date-format]]
+=== Date and time format
+When formatting date and time values in Java or JSP , use the following formats in order to keep unified approach and maintain independence from the current locale:
+[square]
+* *ymd* - year, month, date;
+* *ymdh* - year, month, day, hour;
+* *ymdhm* - year, month, day, hour, minute;
+* *ymdhms* - year, month, day, hour, minute, second.
+
+Java code uses javadoc:ru.bgcrm.util.TimeUtils[] class for date formatting, this class also contains format constants.
+
+The same functions may be used in <<index.adoc#jsp, JSP>> using `tu` prefix:
+[snippet, from="<input type=", to="d}\"/>", remove-leading="				"]
+link:../../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L160-L160[webapps/WEB-INF/jspf/user/parameter/edit.jsp]
+
+[[code-configuration-java-beans]]
+=== Configuration Java Beans
+In order to speed up parsing and validation, use Java class objects inherited from javadoc:ru.bgcrm.util.Config[]
+For example: link:../../../src/ru/bgcrm/model/config/IsolationConfig.java[ru.bgcrm.model.config.IsolationConfig].
+This configuration supports constructor with a validation flag, which allows to check syntax when saving.
+
+Configuration bin can be also obtained in JSP:
+[snippet, from="<c:", to="/>"]
+link:../../../webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp#L4-L4[webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp]
+
+[[code-pagination]]
+=== Pagination
+Putting results into JSP and rendering a form;
+[snippet, from="<c:", to="rm>", remove-leading="		"]
+link:../../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L91-L99[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
+
+Java action:
+[snippet, from="//", to="open);", remove-leading="        "]
+link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L207-L209[ru.bgcrm.struts.action.ProcessLinkAction]
+
+[[code-upload-file]]
+=== File upload
+JSP page:
+[snippet, from="<c:set", to="script>", remove-leading="				"]
+link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L64-L77[webapps/WEB-INF/jspf/admin/config/list.jsp]
+
+Action:
+[snippet, from="public", to="}", remove-leading="    "]
+link:../../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L154-L167[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
+
+[[code-jsp-ui]]
+=== UI Only
+A simple dictionary with pagination, AJAX editor invocation: link:../../../webapps/WEB-INF/jspf/admin/process/status/list.jsp[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
+
+[[code-jsp-ui-ajax]]
+Sending AJAX for sending, exiting or restoring data in <<../kernel/process/index.adoc#type, process type properties editor>>:
+[snippet, from="<div", to="/div>"]
+link:../../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L187-L192[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
+
+Recursive include:
+[snippet, from="<c:", to="if>", remove-leading="					"]
+link:../../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L48-L50[webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp]
+
+Action execution result include:
+[snippet, from="<c:", to="/>", remove-leading="			"]
+link:../../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L166-L171[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
+
+Flex layout, using constants from Java classes (defined in link:../../../webapps/WEB-INF/jspf/user/search/process_search_constants.jsp[process_search_constants.jsp]), print button close to a field:
+[snippet, from="<div", to="/div>", remove-leading="				"]
+link:../../../webapps/WEB-INF/jspf/user/search/search.jsp#L77-L91[webapps/WEB-INF/jspf/user/search/search.jsp]
+
+IMPORTANT: For some reason a class, containing included constant must not contain `config` word in package path.
+
+Snap-in refresh upon moving back to it:
+[snippet, from="<script", to="/script>"]
+link:../../../webapps/WEB-INF/jspf/user/log/log.jsp#L17-L24[webapps/WEB-INF/jspf/user/log/log.jsp]
+
+Sending AJAX request and showing progress indicator on button during execution:
+[snippet, from="<bu", to="on>"]
+link:../../../webapps/WEB-INF/jspf/admin/run/run.jsp#L20-L24[webapps/WEB-INF/jspf/admin/run/run.jsp]
+
+The same but for *$$.ajax.load* function:
+[snippet, from="<ui:button", remove-leading="		"]
+link:../../../webapps/WEB-INF/jspf/user/process/queue/filter.jsp#L911-L911[webapps/WEB-INF/jspf/user/process/queue/filter.jsp]
+
+[[code-jsp-ui-restore-form]]
+Restore form parameter values:
+[snippet, from="<ht", to="/>"]
+link:../../../webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp#L8-L10[webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp]
