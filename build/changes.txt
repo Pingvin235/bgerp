@@ -1,6 +1,9 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+02.04.2022 09:53:56 1387
+F: [14766] Opening process card on call.
+
 31.03.2022 22:31:53 1386
 F: [14485] Deletion of parameter type 'file' is not logged.
 C: [14752] Script backup.sh. Saving stored procedures in database dump.
