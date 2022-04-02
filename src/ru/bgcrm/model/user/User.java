@@ -219,7 +219,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
 
     /**
      * Checks if {@code action} allowed in user permissions.
-     * @param action
+     * @param action semicolon separated action class and method names.
      * @return
      */
     @Dynamic

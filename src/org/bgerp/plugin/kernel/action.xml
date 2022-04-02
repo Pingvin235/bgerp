@@ -301,7 +301,7 @@
 					<b>allowedTypeIds</b> - comma separated type ID list for created messages<br/>
 				</item>
 				<!-- special action with missing Java method -->
-				<item action="org.bgerp.action.MessageAction:modifyNotOwned" title="Modify not owned"/>
+				<item action="org.bgerp.action.MessageAction:modifyNotOwned" title="Update and Delete not owned"/>
 			</item>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageDelete" title="Delete"/>
 		</item>

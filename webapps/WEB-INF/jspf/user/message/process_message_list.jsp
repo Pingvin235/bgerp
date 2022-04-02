@@ -7,6 +7,8 @@
 <c:set var="tagConfig" value="${ctxSetup.getConfig('ru.bgcrm.model.message.TagConfig')}"/>
 <c:set var="TAG_ATTACH_ID"><%=ru.bgcrm.model.message.TagConfig.Tag.TAG_ATTACH_ID%></c:set>
 
+<c:set var="ACTION_MODIFY_NOT_OWNED"><%=ru.bgcrm.struts.action.MessageAction.ACTION_MODIFY_NOT_OWNED%></c:set>
+
 <ui:when type="user">
 	<html:form action="/user/message" styleId="${formUiid}">
 		<html:hidden property="action"/>
@@ -257,7 +259,7 @@
 									<li><a href="#" onclick="${answerCommand}return false;">${l.l('Ответить')}</a></li>
 								</c:if>
 
-								<c:if test="${form.user.id == message.userId or cxtUser.checkPerm('<%=ru.bgcrm.struts.action.MessageAction.ACTION_MODIFY_NOT_OWNED%>')}">
+								<c:if test="${form.user.id == message.userId or ctxUser.checkPerm(ACTION_MODIFY_NOT_OWNED)}">
 									<c:if test="${messageType.isEditable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdate')}">
 										<c:url var="editUrl" value="/user/message.do">
 											<c:param name="action" value="processMessageEdit"/>
