@@ -33,7 +33,7 @@ The program can be developed on any Java-supported platform.
 ==== Windows
 Minimal required set of software:
 [square]
-* link:https://adoptium.net[OpenJDK 11];
+* link:https://adoptium.net[OpenJDK 17];
 * link:https://hub.docker.com/editions/community/docker-ce-desktop-windows[Docker for Windows];
 * link:https://git-scm.com/download/win[GIT].
 
@@ -50,7 +50,7 @@ The best console emulator on Windows with embedded FAR Manager - link:https://co
 ==== Linux
 Install using a package manager:
 [square]
-* <<../kernel/install.adoc#java, OpenJDK 11>>;
+* <<../kernel/install.adoc#java, OpenJDK 17>>;
 * Docker;
 * GIT;
 * GIT-LFS.

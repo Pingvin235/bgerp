@@ -204,6 +204,8 @@ Hints:
 * If documentation was already corrected in the current branch, you can create a mock branch on the last working state.
 * Use line numbers for searching over failing snippets.
 
+Place human readable changes description with screens in link:https://drive.google.com/drive/u/1/folders/1y2qOADOOxqi9j1WXCkdpCNLKvSBBrO9G[00000] document.
+
 [[doc-release]]
 ==== Release
 Publication of the product manual <<publish-doc, runs>> automatically from <<long-lived-branch, long-lived branch>> *p11862-documentation*.
@@ -302,7 +304,7 @@ CAUTION: Be sure that <<test-integration, Integration tests>> are successfully d
 Perform the following:
 [source, bash]
 ----
-bash -c "./gradlew clean buildClean buildUpdateLib buildUpdate"
+bash -c "./gradlew resetProperties clean buildClean buildUpdateLib buildUpdate"
 ----
 
 NOTE: `buildUpdateLib` task checks existence of file `build/changes.lib.txt`, marking changes in <<index.adoc#java-lib, Java libraries>>.
@@ -336,6 +338,13 @@ Pick documentation changes back to master, probably will be an empty commit.
 ----
 git checkout master && git pull --rebase && git merge --squash p11862-documentation && git commit -am "p11862 Documentation." && git push
 ----
+
+Document with current changes link:https://drive.google.com/drive/u/1/folders/1y2qOADOOxqi9j1WXCkdpCNLKvSBBrO9G[00000] has to be copied to a new one.
+
+Check if the current version and documentation time are updated on link:https://bgerp.org[Web site].
+Add a news to the site link to the changes documentation.
+
+NOTE: In case of bugfix releases already existing changes document may be renamed, now news is needed.
 
 [[build-docker]]
 ==== Docker Image
