@@ -122,6 +122,7 @@ END
 ----
 messageType.<id>.autoCreateProcess.typeId=<typeId>
 messageType.<id>.autoCreateProcess.notification=1
+messageType.<id>.autoCreateProcess.notification.text.message=Dear customer, your request has been registered
 ----
 
 Где *<typeId>* - код типа процесса.

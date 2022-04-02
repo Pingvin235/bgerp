@@ -75,6 +75,7 @@ public class MessageTypeEmail extends MessageType {
     private final int quickAnswerEmailParamId;
     private final int autoCreateProcessTypeId;
     private final boolean autoCreateProcessNotification;
+    private final String autoCreateProcessNotificationTextMessage;
 
     private final String replayTo;
     private final MailConfig mailConfig;
@@ -108,6 +109,11 @@ public class MessageTypeEmail extends MessageType {
         quickAnswerEmailParamId = config.getInt("quickAnswerEmailParamId", -1);
         autoCreateProcessTypeId = config.getInt("autoCreateProcess.typeId", -1);
         autoCreateProcessNotification = config.getBoolean("autoCreateProcess.notification", true);
+        autoCreateProcessNotificationTextMessage = config.get("autoCreateProcess.notification.text.message", "Уважаемый клиент, ваше обращение зарегистрировано!\n"
+                + "Для него назначен исполнитель и в ближайшее возможное время вам будет дан ответ.\n"
+                + "Пожалуйста, при возникновении дополнительных сообщений по данному вопросу отвечайте на это письмо,\n"
+                + "так чтобы в теме письма сохранялся числовой идентификатор обращения.\n"
+                + "Это позволит нам быстрее обработать ваш запрос.\n\n");
 
         messageBuilder = new MessageContent(setup, encoding, config);
 
@@ -631,11 +637,7 @@ public class MessageTypeEmail extends MessageType {
         String text = message.getText().replace("\r", "");
         text = ">" + text.replace("\n", "\n>");
 
-        text = "Уважаемый клиент, ваше обращение зарегистрировано!\n"
-                + "Для него назначен исполнитель и в ближайшее возможное время вам будет дан ответ.\n"
-                + "Пожалуйста, при возникновении дополнительных сообщений по данному вопросу отвечайте на это письмо,\n"
-                + "так чтобы в теме письма сохранялся числовой идентификатор обращения.\n"
-                + "Это позволит нам быстрее обработать ваш запрос.\n\n" + text;
+        text = autoCreateProcessNotificationTextMessage + text;
 
         result.setSystemId(AUTOREPLY_SYSTEM_ID);
         result.setDirection(Message.DIRECTION_OUTGOING);
