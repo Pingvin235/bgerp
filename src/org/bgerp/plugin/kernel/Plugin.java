@@ -3,13 +3,12 @@ package org.bgerp.plugin.kernel;
 import java.sql.Connection;
 import java.util.Set;
 
-import org.bgerp.plugin.bil.billing.invoice.event.listener.Files;
-
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.Locker;
 import ru.bgcrm.dao.Tables;
 import ru.bgcrm.event.listener.CustomerSystemListener;
 import ru.bgcrm.event.listener.DefaultProcessChangeListener;
+import ru.bgcrm.event.listener.Files;
 import ru.bgcrm.event.listener.LoginEventListener;
 import ru.bgcrm.event.listener.NewsEventListener;
 import ru.bgcrm.event.listener.ParamValidatorSystemListener;
