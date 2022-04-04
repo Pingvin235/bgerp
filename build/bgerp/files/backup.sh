@@ -8,6 +8,8 @@ FILE=bgerp.properties
 DATE=/bin/date
 ZIP=/usr/bin/zip
 MYSQLDUMP=/usr/bin/mysqldump
+GREP=grep
+CUT=cut
 
 # list of included folders and files
 BACKUP_STRING="lib webapps"
@@ -18,15 +20,15 @@ file="$DIR/$time"
 
 backup_db() {
     echo "Making dump DB MySQL!"
-    PWD=`grep db.pswd $FILE | cut -d'=' -f2`
-    USER=`grep db.user $FILE | cut -d'=' -f2`
-    HOST_PORT=`grep db.url $FILE | cut -d'/' -f3`
-    HOST=`echo $HOST_PORT | cut -d':' -f1`
-    PORT=`echo $HOST_PORT | cut -d':' -f2`
+    PWD=`$GREP "^ *db.pswd" $FILE | $CUT -d'=' -f2`
+    USER=`$GREP "^ *db.user" $FILE | $CUT -d'=' -f2`
+    HOST_PORT=`$GREP "^ *db.url" $FILE | $CUT -d'/' -f3`
+    HOST=`echo $HOST_PORT | $CUT -d':' -f1`
+    PORT=`echo $HOST_PORT | $CUT -d':' -f2`
     if [ "$PORT" = "$HOST" ] ; then
       PORT=3306
     fi
-    DB=`grep db.url $FILE | cut -d'?' -f1 | cut -d'/' -f4`
+    DB=`$GREP "^ *db.url" $FILE | $CUT -d'?' -f1 | $CUT -d'/' -f4`
     # mysqldump --no-tablespaces Do not write any CREATE LOGFILE GROUP or CREATE TABLESPACE statements in output
     CMD="$MYSQLDUMP --no-tablespaces --routines -h $HOST -P $PORT -u $USER $DB"
     echo "dump command: $CMD"
