@@ -499,6 +499,7 @@
 	<p><en>status</en><ru>статус</ru></p>
 	<p><en>Change status</en><ru>Изменить статус</ru></p>
 	<p><sys>status.to</sys><en>to</en><ru>на</ru></p>
+	<p><en>Access logs</en><ru>Логи доступа</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

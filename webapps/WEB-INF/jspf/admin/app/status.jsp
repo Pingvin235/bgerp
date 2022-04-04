@@ -10,6 +10,9 @@
 	<h2>${l.l('Логи приложения')}</h2>
 	<ui:files files="<%=org.bgerp.action.admin.AppAction.LOG_APP%>" requestUrl="${form.requestUrl}"/>
 
+	<h2>${l.l('Access logs')}</h2>
+	<ui:files files="<%=org.bgerp.action.admin.AppAction.LOG_ACCESS%>" requestUrl="${form.requestUrl}" maxCount="10"/>
+
 	<p:check action="org.bgerp.action.admin.AppAction:update">
 		<h2>${l.l('Обновление')}</h2>
 		<html:form action="/admin/app">

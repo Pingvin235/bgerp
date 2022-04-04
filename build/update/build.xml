@@ -31,6 +31,7 @@
 				<include name="backup.sh"/>
 				<include name="installer.sh"/>
 				<include name="erp*.sh"/>
+				<include name="mysql.sh"/>
 				<include name="log4j.properties"/>
 			</fileset>
 			<fileset dir="${basedir}/../bgerp" includes="scripts/**"/>

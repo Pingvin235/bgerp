@@ -22,8 +22,11 @@ ls -1t ./log/update*.log | tail -n +11 | xargs rm -f
 # delete log_update older than 30 days, old format
 find . -type f -name 'log_update*' -mtime +30 -exec rm {} \;
 
+# delete old update packages
+ls -1t update*.zip | tail -n +11 | xargs rm -f
+
 # clean up compiled JSP
 rm -rf ./work/*
 
-# delete old update files
-ls -1t update*.zip | tail -n +11 | xargs rm -f
+# add execution rights on new scripts
+chmod +x ./*.sh

@@ -6,9 +6,11 @@ import org.bgerp.servlet.file.Files;
 import org.bgerp.servlet.file.Options;
 import org.bgerp.servlet.file.Order;
 import org.bgerp.servlet.user.LoginStat;
+import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.servlet.AccessLogValve;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -22,11 +24,16 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class AppAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/app";
 
-    /** Accessed from JSP. */
+    @Dynamic
     public static final Files LOG_APP = new Files(AppAction.class, "logApp", "log", "bgerp*",
             new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
+    @Dynamic
+    public static final Files LOG_ACCESS = new Files(AppAction.class, "logAccess", AccessLogValve.DIR, "*",
+            new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
+    @Dynamic
     public static final Files LOG_UPDATE = new Files(AppAction.class, "logUpdate", "log", "update_*",
             new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
+    @Dynamic
     public static final Files UPDATE_ZIP = new Files(AppAction.class, "updateZip", ".", "update_*.zip",
             new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
 
@@ -43,6 +50,15 @@ public class AppAction extends BaseAction {
 
     public ActionForward deleteLogApp(DynActionForm form, ConnectionSet conSet) throws Exception {
         LOG_APP.delete(form);
+        return json(conSet, form);
+    }
+
+    public ActionForward downloadLogAccess(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return LOG_ACCESS.download(form);
+    }
+
+    public ActionForward deleteLogAccess(DynActionForm form, ConnectionSet conSet) throws Exception {
+    	LOG_ACCESS.delete(form);
         return json(conSet, form);
     }
 

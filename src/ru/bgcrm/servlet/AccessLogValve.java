@@ -2,7 +2,6 @@ package ru.bgcrm.servlet;
 
 import java.io.CharArrayWriter;
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,123 +11,134 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
+import org.bgerp.servlet.filter.AuthFilter;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Setup;
 
 public class AccessLogValve extends org.apache.catalina.valves.AccessLogValve {
-	public static final String PARAM_HEADER_NAME_REMOTE_ADDR = "header.name.remote.addr";
+    private static final Log log = Log.getLog();
 
-	/**
-	* %a - Remote IP address
-	* %A - Local IP address
-	* %b - Bytes sent, excluding HTTP headers, or '-' if zero
-	* %B - Bytes sent, excluding HTTP headers
-	* %h - Remote host name (or IP address if resolveHosts is false)
-	* %H - Request protocol
-	* %l - Remote logical username from identd (always returns '-')
-	* %m - Request method (GET, POST, etc.)
-	* %p - Local port on which this request was received
-	* %q - Query string (prepended with a '?' if it exists)
-	* %r - First line of the request (method and request URI)
-	* %s - HTTP status code of the response
-	* %S - User session ID
-	* %t - Date and time, in Common Log Format
-	* %u - Remote user that was authenticated (if any), else '-'
-	* %U - Requested URL path
-	* %v - Local server name
-	* %D - Time taken to process the request, in millis
-	* %T - Time taken to process the request, in seconds
-	* %I - current request thread name (can compare later with stacktraces)
-	*/
+    public static final String PARAM_HEADER_NAME_REMOTE_ADDR = "header.name.remote.addr";
 
-	public AccessLogValve() {
-		setDirectory("log");
-		setPrefix("access_log.");
-		setRotatable(true);
-		setFileDateFormat("yyyy-MM-dd");
-		setPattern("%h %S %t %T %s %b \"%r\" ");
-		setEnabled(true);
-	}
+    public static final String DIR = "log/access";
+    private static final String PREFIX = "access.";
 
-	@Override
-	protected AccessLogElement[] createLogElements() {
-		AccessLogElement element = new AccessLogElement() {
-			@Override
-			public void addElement(CharArrayWriter buf, Date date, Request request, Response response, long time)
-			{
-				String headerNameRemoteAddr = Setup.getSetup().get(PARAM_HEADER_NAME_REMOTE_ADDR);
-				if (headerNameRemoteAddr != null) {
-					buf.append(headerNameRemoteAddr);
-					buf.append("=");
-					buf.append(request.getHeader(headerNameRemoteAddr));
-					buf.append(" ");
-				}
+    private static final String DIR_OLD = "log";
+    private static final String PREFIX_OLD = "access_log.";
 
-				User user = (User) request.getAttribute("ctxUser");
-				if (user != null) {
-					buf.append("UID=");
-					buf.append(String.valueOf(user.getId()));
-					buf.append(" ");
-				}
+    /**
+    * %a - Remote IP address
+    * %A - Local IP address
+    * %b - Bytes sent, excluding HTTP headers, or '-' if zero
+    * %B - Bytes sent, excluding HTTP headers
+    * %h - Remote host name (or IP address if resolveHosts is false)
+    * %H - Request protocol
+    * %l - Remote logical username from identd (always returns '-')
+    * %m - Request method (GET, POST, etc.)
+    * %p - Local port on which this request was received
+    * %q - Query string (prepended with a '?' if it exists)
+    * %r - First line of the request (method and request URI)
+    * %s - HTTP status code of the response
+    * %S - User session ID
+    * %t - Date and time, in Common Log Format
+    * %u - Remote user that was authenticated (if any), else '-'
+    * %U - Requested URL path
+    * %v - Local server name
+    * %D - Time taken to process the request, in millis
+    * %T - Time taken to process the request, in seconds
+    * %I - current request thread name (can compare later with stacktraces)
+    */
 
-				Map<String, String[]> paramMap = ((HttpServletRequest) request).getParameterMap();
-				for (Map.Entry<String, String[]> me : paramMap.entrySet()) {
-					String key = me.getKey();
-					String[] values = me.getValue();
+    public AccessLogValve() {
+        setDirectory(DIR);
 
-					buf.append(key);
-					buf.append("=");
+        setPrefix(PREFIX);
+        setFileDateFormat("yyyy-MM-dd");
+        setSuffix(".log");
 
-					boolean first = true;
+        setRotatable(true);
+        setMaxDays(Setup.getSetup().getInt("log.access.max.days", 60));
 
-					for (String value : values) {
-						if (!first) {
-							buf.append(" ");
-						}
+        setPattern("%h %S %t %T %s %b \"%r\" ");
 
-						buf.append(value);
-						first = false;
-					}
+        moveOldLogs();
 
-					buf.append("&");
-				}
-			}
+        setEnabled(true);
+    }
 
-		};
+    /**
+     * Moves old logs to sub directory.
+     * Remove later if the world will survive, 04.04.2022
+     */
+    private void moveOldLogs() {
+        var dirOld = new File(DIR_OLD);
+        var dir = new File(DIR);
+        try {
+            for (var file : dirOld.listFiles(file -> file.isFile() && file.getName().startsWith(PREFIX_OLD))) {
+                String name = file.getName();
+                log.info("Renaming and moving access log file '{}'", name);
+                file.renameTo(new File(dir, PREFIX + name.substring(PREFIX_OLD.length()) + ".log"));
+            }
+        } catch (Exception e) {
+            log.error(e);
+        }
+    }
 
-		List<AccessLogElement> superList = new ArrayList<AccessLogElement>();
-		for (AccessLogElement superEl : super.createLogElements()) {
-			superList.add(superEl);
-		}
-		superList.add(element);
+    @Override
+    protected AccessLogElement[] createLogElements() {
+        AccessLogElement element = new AccessLogElement() {
+            @Override
+            public void addElement(CharArrayWriter buf, Date date, Request request, Response response, long time)
+            {
+                String headerNameRemoteAddr = Setup.getSetup().get(PARAM_HEADER_NAME_REMOTE_ADDR);
+                if (headerNameRemoteAddr != null) {
+                    buf
+                        .append(headerNameRemoteAddr)
+                        .append("=")
+                        .append(request.getHeader(headerNameRemoteAddr))
+                        .append(" ");
+                }
 
-		return superList.toArray(new AccessLogElement[0]);
-	}
+                User user = AuthFilter.getUser(request);
+                if (user != null) {
+                    buf
+                        .append("UID=")
+                        .append(String.valueOf(user.getId()))
+                        .append(" ");
+                }
 
-	@Override
-	protected synchronized void open() {
-		super.open();
+                Map<String, String[]> paramMap = ((HttpServletRequest) request).getParameterMap();
+                for (Map.Entry<String, String[]> me : paramMap.entrySet()) {
+                    String key = me.getKey();
+                    String[] values = me.getValue();
 
-		//менее костыльная перекидовалка старых access логов
-		final File file = super.currentLogFile;
-		final PrintWriter writer = super.writer;
+                    buf.append(key).append("=");
 
-		super.writer = new PrintWriter(writer) {
-			@Override
-			public void println(String x) {
-				writer.println(x);
-			}
+                    boolean first = true;
 
-			@Override
-			public void close() {
-				super.close();
+                    for (String value : values) {
+                        if (!first) {
+                            buf.append(" ");
+                        }
 
-				File dir = new File(file.getParentFile(), "access");
-				dir.mkdirs();
+                        buf.append(value);
+                        first = false;
+                    }
 
-				file.renameTo(new File(dir, file.getName()));
-			}
-		};
-	}
+                    buf.append("&");
+                }
+            }
+
+        };
+
+        List<AccessLogElement> superList = new ArrayList<AccessLogElement>();
+        for (AccessLogElement superEl : super.createLogElements()) {
+            superList.add(superEl);
+        }
+        superList.add(element);
+
+        return superList.toArray(new AccessLogElement[0]);
+    }
 }

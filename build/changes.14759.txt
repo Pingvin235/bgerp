@@ -1,0 +1,5 @@
+C: Move access logs location to 'log/access' and change names.
+A: Configurable lifetime of access logs with parameter 'log.access.max.days'. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config
+A: Access logs are available on 'Administration / App / App status' page.
+F: 'mysql.sh' script included in distribution.
+C: Add execution permission for all scripts in 'installer.sh'.

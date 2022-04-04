@@ -125,6 +125,9 @@ event.process.timeout=5000
 # <<#scheduler, планировщик>>, запуск - 1 [[config-scheduler]]
 scheduler.start=1
 
+# remove log/access logs older than days, default is 60
+#log.access.max.days=60
+
 # сброс кэша новостей каждые указанное количество секунд, может быть необходимо лишь при импорте новостей извне в БД
 #flush.news.everySeconds=
 

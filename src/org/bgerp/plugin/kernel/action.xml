@@ -157,15 +157,19 @@
 			<item action="ru.bgcrm.struts.action.admin.AppAction:update, org.bgerp.action.admin.AppAction:update" ltitle="Update"/>
 			<item action="ru.bgcrm.struts.action.admin.AppAction:updateToChange, org.bgerp.action.admin.AppAction:updateToChange" ltitle="Обновить на изменение"/>
 			<item action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList, org.bgerp.action.admin.AppAction:userLoggedList" ltitle="Сессии пользователей"/>
-			<item ltitle="Логи приложения">
+			<item title="App logs">
 				<item action="org.bgerp.action.admin.AppAction:downloadLogApp" title="Download"/>
 				<item action="org.bgerp.action.admin.AppAction:deleteLogApp" title="Delete"/>
 			</item>
-			<item ltitle="Логи обновлений">
+			<item title="Access logs">
+				<item action="org.bgerp.action.admin.AppAction:downloadLogAccess" title="Download"/>
+				<item action="org.bgerp.action.admin.AppAction:deleteLogAccess" title="Delete"/>
+			</item>
+			<item title="Update logs">
 				<item action="org.bgerp.action.admin.AppAction:downloadLogUpdate" title="Download"/>
 				<item action="org.bgerp.action.admin.AppAction:deleteLogUpdate" title="Delete"/>
 			</item>
-			<item ltitle="Файлы обновлений">
+			<item title="Update packages">
 				<item action="org.bgerp.action.admin.AppAction:downloadUpdateZip" title="Download"/>
 				<item action="org.bgerp.action.admin.AppAction:deleteUpdateZip" title="Delete"/>
 			</item>
