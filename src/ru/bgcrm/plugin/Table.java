@@ -1,25 +1,28 @@
 package ru.bgcrm.plugin;
 
+import java.util.Set;
+
 /**
  * Database table, used by plugin.
- * @author Shamil Vakhitov 
+ *
+ * @author Shamil Vakhitov
  */
 public class Table {
     /** Table name or a prefix for monthly tables.*/
     private final String name;
-    private final Table.Type type;
+    private final Set<Table.Type> types;
 
-    public Table(String name, Table.Type data) {
+    public Table(String name, Table.Type... type) {
         this.name = name.trim();
-        this.type = data;
+        this.types = Set.of(type);
     }
 
     public String getName() {
         return name;
     }
 
-    public Table.Type getData() {
-        return type;
+    public Set<Table.Type> getTypes() {
+        return types;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class Table {
         return true;
     }
 
-    /** 
+    /**
      * Table data type.
      */
     public static enum Type {
@@ -61,18 +64,14 @@ public class Table {
          */
         DATA,
         /**
-         * Data table, monthly broken.
-         */
-        DATA_MONTHLY,
-        /**
          * Unimportant data, may be lost without significant damage.
          * As example, logs.
          */
         TRASH,
         /**
-         * Trash table, monthly broken.
+         * Monthly broken.
          */
-        TRASH_MONTHLY,
+        MONTHLY,
         /**
          * Not more used table.
          */

@@ -19,11 +19,6 @@
 			<forward name="default" path="/WEB-INF/jspf/admin/dynamic/dynamic.jsp" />
 		</action>
 
-		<action path="/admin/webRequest" parameter="action" type="ru.bgcrm.struts.action.admin.WebRequestAction" name="form" scope="request">
-			<forward name="default" path="/WEB-INF/jspf/admin/webRequest/web_request.jsp" />
-			<forward name="findRequests" path="/WEB-INF/jspf/admin/webRequest/list.jsp" />
-		</action>
-
 		<action path="/user/empty" parameter="action" type="ru.bgcrm.struts.action.EmptyAction" name="form" scope="request"/>
 
 		<action path="/user/search" parameter="action" type="ru.bgcrm.struts.action.SearchAction" name="form" scope="request">

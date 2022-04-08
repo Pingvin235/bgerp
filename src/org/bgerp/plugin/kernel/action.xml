@@ -146,11 +146,6 @@
 			<item action="org.bgerp.action.admin.RunAction:runClass" title="Running Java class"/>
 		</item>
 
-		<item title="WEB запросы">
-			<item action="ru.bgcrm.struts.action.admin.WebRequestAction:null" title="WEB запросы" notLogging="1"/>
-			<item action="ru.bgcrm.struts.action.admin.WebRequestAction:findRequests" title="поиск WEB запросов" notLogging="1"/>
-		</item>
-
 		<item title="App">
 			<item action="ru.bgcrm.struts.action.admin.AppAction:status, ru.bgcrm.struts.action.admin.StateAction:null, org.bgerp.action.admin.AppAction:status" ltitle="Статус"/>
 			<item action="ru.bgcrm.struts.action.admin.AppAction:restart, org.bgerp.action.admin.AppAction:restart" title="Restart"/>

@@ -26,7 +26,6 @@ public class Tables {
     public static final String TABLE_PARAM_ADDRESS = " param_address ";
     public static final String TABLE_PARAM_FILE = " param_file ";
     public static final String TABLE_PARAM_LOG = " param_log ";
-    public static final String TABLE_WEB_REQUEST_LOG = " web_requests_log ";
 
     public static final String TABLE_ADDRESS_COUNTRY = " address_country ";
     public static final String TABLE_ADDRESS_CITY = " address_city ";

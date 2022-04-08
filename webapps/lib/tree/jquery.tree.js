@@ -23,7 +23,7 @@
 
     var COLLAPSE_ALL_CODE = '<span class="' + CLASS_JQUERY_TREE_COLLAPSE_ALL + ' ti-plus" title="Collapse all"></span>';
     var EXPAND_ALL_CODE = '<span class="' + CLASS_JQUERY_TREE_EXPAND_ALL + ' ti-minus" title="Expand all"></span>';
-    var FILTER_CODE = '<div style="padding-bottom: 5px; padding-top: 0px;"><input class="' + CLASS_JQUERY_TREE_FILTER_INPUT + '" type="text" placeholder="Filter"/><button class="ml05 btn-white icon ' + CLASS_JQUERY_TREE_FILTER_BUTTON + '" type="button" title="Filter"><i class="ti-filter"></i></button></div>';
+    var FILTER_CODE = '<div class="filter"><input class="' + CLASS_JQUERY_TREE_FILTER_INPUT + '" type="text" placeholder="Filter"/><button class="ml05 btn-white icon ' + CLASS_JQUERY_TREE_FILTER_BUTTON + '" type="button" title="Filter"><i class="ti-filter"></i></button></div>';
     var TREE_CONTROLS_CODE = '<div class="mb05 ' + CLASS_JQUERY_TREE_CONTROLS + '">' +
         FILTER_CODE +
         COLLAPSE_ALL_CODE +
@@ -285,7 +285,7 @@
         if (e.length > 0) {
             $(tree).find(node).each(function () {
                 var text = $(this).text().toLowerCase();
-                
+
                 if (text.indexOf(e) == -1) {
                     $(this).hide();
                 }

@@ -93,7 +93,7 @@ public class Response {
      */
     public void addSearchResult(SearchResult<?> result) {
         Page page = result.getPage();
-        if (page.isNeedPaging()) {
+        if (page.isPaginationEnabled()) {
             this.data.put("page", page);
         }
         this.data.put("list", result.getList());

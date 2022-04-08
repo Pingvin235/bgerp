@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%-- фиксируем форму в pageContext а то реквест после импортов меняется --%> 
+<%-- фиксируем форму в pageContext а то реквест после импортов меняется --%>
 <c:set var="form" value="${form}"/>
 <c:set var="problem" value="${form.response.data.problem}"/>
 
@@ -24,38 +24,38 @@
 				<div style="display: table-cell;">
 					<b>Статус:</b>
 				</div>
-				
+
 				<div style="display: table-cell; width: 50%;">
 					<html:select property="statusId" value="${problem.getStatusCode()}">
 						<c:forTokens var="token" items="${problemStatusList }" delims=";">
-							<html:option value="${fn:substringBefore( token, ':' )}">${fn:substringAfter( token, ':' )}</html:option>							
-						</c:forTokens>				
+							<html:option value="${su.substringBefore(token, ':')}">${su.substringAfter( token, ':' )}</html:option>
+						</c:forTokens>
 					</html:select>
 				</div>
-				
-				<div style="display: table-cell;">	
+
+				<div style="display: table-cell;">
 					<b>Срочность:</b>
 				</div>
-				
-				<div style="display: table-cell; width: 50%;">	
+
+				<div style="display: table-cell; width: 50%;">
 					<html:select property="urgency" value="${problem.getUrgency()}">
 						<c:forTokens items="-2,-1,0,1,2" delims="," var="item">
 							<html:option value="${item}">${item}</html:option>
 						</c:forTokens>
 					</html:select>
-				</div>	
-			</td>			
-			
+				</div>
+			</td>
+
 			<c:if test="${not empty form.param.description}">
 				<c:set var="comment" value="${form.param.description}"/>
 			</c:if>
-			
+
 			<td rowspan="3" style="height: 100%; width: 100%;">
 				<table class="nopad" style="width: 100%; height: 400;">
 					<tr><td><b>Комментарий:</b></td></tr>
 					<tr height="100%"><td><textarea name="problemComment" style="width: 100%; height: 100%;">${comment}</textarea></td></tr>
 				</table>
-			</td>	
+			</td>
 		</tr>
 		<tr>
 			<td>
@@ -72,7 +72,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td>		
+			<td>
 				<b>Исполнители:</b><br/>
 				<div id="${form.param.billingId}-${problem.getId()}-registerExecutorList" style="overflow: auto; height: 300px;" >
 					<c:set var="executors" value="0"/>

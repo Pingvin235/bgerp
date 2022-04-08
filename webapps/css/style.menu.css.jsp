@@ -5,14 +5,14 @@
 .ui-menu { width: 200px; }
 
 /* выпадающий список для нередактируемого и редактируемого селекта */
-.select ul.ui-menu, .combo ul.drop {
+.select ul.ui-menu, .combo > .drop {
 	width: 100%;
 	position: absolute;
 	left: -1px;
 	z-index: 999;
 }
 
-.ui-menu, .combo ul.drop, .ui-tabs.ui-widget-content .ui-menu {
+.ui-menu, .combo > .drop, .ui-tabs.ui-widget-content .ui-menu {
 	border: 1px solid #d5d5d5;
 	background-color: #ffffff;
 	box-shadow: 0 0 5px #cbcbcb;

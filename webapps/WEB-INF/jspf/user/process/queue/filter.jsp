@@ -587,7 +587,6 @@
 					</c:if>
 
 					<c:if test="${filterFromList.type == 'groups'}">
-						<c:set var="roleId" value=""/>
 						<c:set var="groupListId" value="${u:uiid()}"/>
 						<c:set var="executorListId" value="${u:uiid()}"/>
 						<c:set var="groupParamName" value="group"/>

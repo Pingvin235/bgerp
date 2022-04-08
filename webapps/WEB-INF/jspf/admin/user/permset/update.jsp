@@ -6,7 +6,7 @@
 
 	<c:set var="permset" value="${form.response.data.permset}" scope="page" />
 	<c:set var="grantedPermission" value="${form.response.data.grantedPermission}" scope="request" />
-	
+
 	<c:set var="uiidSample" value="${u:uiid()}"/>
 	<c:set var="uiidTo" value="${u:uiid()}"/>
 
@@ -44,7 +44,7 @@
 			<div style="width:100%; height: 500px;">
 				<c:set var="permissionTreeId" value="${u:uiid()}"/>
 				<ul id="${permissionTreeId}" class="layout-height-rest" style="overflow: auto;">
-					<c:forEach var="tree" items="${allPermissions}">
+					<c:forEach var="tree" items="${permTrees}">
 						<c:set var="node" value="${tree}" scope="request" />
 						<jsp:include page="../check_tree_item.jsp" />
 					</c:forEach>

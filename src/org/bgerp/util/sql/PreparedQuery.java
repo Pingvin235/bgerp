@@ -215,6 +215,7 @@ public class PreparedQuery implements Closeable {
     public int executeInsert() throws SQLException {
         if (ps == null) {
             ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
+            setParameters();
         }
         ps.executeUpdate();
         return SQLUtils.lastInsertId(ps);

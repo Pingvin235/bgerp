@@ -1,0 +1,43 @@
+== Plugin Log
+
+=== log_action_yyyyMM
+Action Logs.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|id
+|INT
+|ID
+
+|user_id
+|INT
+|user ID, link to <<_user, user:id>>
+
+|ip_address
+|VARCHAR
+|IP address of requesting user
+
+|action
+|VARCHAR
+|Semicolon separated action class and method.
+
+|parameters
+|TEXT
+|HTTP request parameters.
+
+|time
+|DATETIME
+|Request time.
+
+|duration
+|BIGING
+|Execution duration in milliseconds.
+
+|error
+|TEXT
+|Exception message for incorrect execution.
+|===

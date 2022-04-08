@@ -6,11 +6,11 @@
 		<td>Биллинг</td>
 		<td>ID</td>
 		<td>Номер</td>
-		<td></td>					
+		<td></td>
 	</tr>
-		
+
 	<c:forEach items="${form.response.data.list}" var="link">
-		<c:set var="billingId" value="${fn:substringAfter( link.linkedObjectType, ':' )}"/>
+		<c:set var="billingId" value="${su.substringAfter( link.linkedObjectType, ':' )}"/>
 		<c:set var="customerId" value="${form.response.data.customerId}" />
 		<tr>
 			<td>${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>

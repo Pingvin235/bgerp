@@ -27,8 +27,6 @@ import ru.bgcrm.util.sql.SQLUtils;
  * @author Shamil Vakhitov
  */
 public class ExecuteSQL implements InstallationCall {
-    /** Old table, not used anymore. */
-    public static final String TABLE_SQL_PATCHES_HISTORY = "sql_patches_history";
     /** Table for storing applied SQL updates. */
     private static final String TABLE_DB_UPDATE = "db_update_log";
     /** Column with query hash. */

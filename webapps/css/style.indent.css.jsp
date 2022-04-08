@@ -49,70 +49,70 @@
 	margin-right: 2em;
 }
 
-/* стандартные внешние отступы внутри другого элемента-контейнера*/
+/* standard margins inside another container */
 .in-mt05 > *:not(:first-child) {
-	margin-top: 0.5em;	
+	margin-top: 0.5em;
 }
 
 .in-mb05 > *:not(:last-child) {
-	margin-bottom: 0.5em;	
+	margin-bottom: 0.5em;
 }
 
 .in-ml05 > *:not(:first-child) {
-	margin-left: 0.5em;	
+	margin-left: 0.5em;
 }
 
 .in-mr05 > *:not(:last-child) {
-	margin-right: 0.5em;	
+	margin-right: 0.5em;
 }
 
 .in-mt1 > *:not(:first-child) {
-	margin-top: 1em;	
+	margin-top: 1em;
 }
 
 .in-mb1 > *:not(:last-child) {
-	margin-bottom: 1em;	
+	margin-bottom: 1em;
 }
 
 .in-ml1 > *:not(:first-child) {
-	margin-left: 1em;	
+	margin-left: 1em;
 }
 
 .in-mr1 > *:not(:last-child) {
-	margin-right: 1em;	
+	margin-right: 1em;
 }
 
 /* -all стили не делают исключений для первых/последний элементов */
 .in-mt05-all > * {
-	margin-top: 0.5em;	
+	margin-top: 0.5em;
 }
 
 .in-mb05-all > * {
-	margin-bottom: 0.5em;	
+	margin-bottom: 0.5em;
 }
 
 .in-ml05-all > * {
-	margin-left: 0.5em;	
+	margin-left: 0.5em;
 }
 
 .in-mr05-all > * {
-	margin-right: 0.5em;	
+	margin-right: 0.5em;
 }
 
 .in-mt1-all > * {
-	margin-top: 1em;	
+	margin-top: 1em;
 }
 
 .in-mb1-all > * {
-	margin-bottom: 1em;	
+	margin-bottom: 1em;
 }
 
 .in-ml1-all > * {
-	margin-left: 1em;	
+	margin-left: 1em;
 }
 
 .in-mr1-all > * {
-	margin-right: 1em;	
+	margin-right: 1em;
 }
 
 /* стандартные внутренние отступы */
@@ -176,44 +176,44 @@
 	padding-right: 2em;
 }
 
-/* стандартные внутренни отступы внутри другого элемента-контейнера */
+/* standard paddings inside another container */
 .in-pt05 > * {
-	padding-top: 0.5em;	
+	padding-top: 0.5em;
 }
 
 .in-pb05 > * {
-	padding-bottom: 0.5em;	
+	padding-bottom: 0.5em;
 }
 
 .in-pl05 > *:not(:first-child) {
-	padding-left: 0.5em;	
+	padding-left: 0.5em;
 }
 
 .in-pr05 > *:not(:last-child) {
-	padding-right: 0.5em;	
+	padding-right: 0.5em;
 }
 
 .in-pt1 > * {
-	padding-top: 1em;	
+	padding-top: 1em;
 }
 
 .in-pb1 > * {
-	padding-bottom: 1em;	
+	padding-bottom: 1em;
 }
 
 .in-pl1 > *:not(:first-child) {
-	padding-left: 1em;	
+	padding-left: 1em;
 }
 
 .in-pr1 > *:not(:last-child) {
-	padding-right: 1em;	
+	padding-right: 1em;
 }
 
-/* стандартные ширины внутри */
+/* standart widths */
 .w100p {
-	width: 100%;  
+	width: 100%;
 }
 
 .in-w100p > *:not(span) {
-	width: 100%;	
+	width: 100%;
 }

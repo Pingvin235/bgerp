@@ -29,9 +29,9 @@
 <c:set var="timeFormat" value=""/>
 
 <c:set var="dateFormat" value="${tu.getTypeFormat( type )}"/>
-<c:if test="${fn:contains( dateFormat, ' ' ) }">
-	<c:set var="dateFormat" value="${fn:substringBefore( dateFormat, ' ')}"/>
-	<c:set var="timeFormat" value="${fn:substringAfter( tu.getTypeFormat(type), ' ' )}"/>
+<c:if test="${dateFormat.contains(' ')}">
+	<c:set var="dateFormat" value="${su.substringBefore(dateFormat, ' ')}"/>
+	<c:set var="timeFormat" value="${su.substringAfter(tu.getTypeFormat(type), ' ')}"/>
 </c:if>
 
 <c:set var="dateFormat" value="${fn:replace(dateFormat, 'yyyy', 'yy')}"/>
@@ -55,9 +55,9 @@
 
 	$("${selector}").datetimepicker({
 		"dateFormat" : "${dateFormat}",
-		"showHour" : ${fn:startsWith( type, 'ymdh') },
-		"showMinute" : ${fn:startsWith( type, 'ymdhm') },
-		"showSecond" : ${fn:startsWith( type, 'ymdhms') },
+		"showHour" : ${type.startsWith('ymdh')},
+		"showMinute" : ${type.startsWith('ymdhm')},
+		"showSecond" : ${type.startsWith('ymdhms')},
 		"timeFormat" : "${timeFormat}",
 		"stepMinute" : 5
 

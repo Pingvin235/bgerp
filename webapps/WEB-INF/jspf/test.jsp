@@ -30,18 +30,18 @@
 			<b>&lt;ui:date-time&gt;</b><br/>
 
 			ymd:
-			<ui:date-time type="ymd" paramName="date" editable="1"/>
+			<ui:date-time type="ymd" paramName="date"/>
 
 			ymdh:
-			<ui:date-time type="ymdh" paramName="date" editable="1"/>
+			<ui:date-time type="ymdh" paramName="date"/>
 
 			ymdhm:
-			<ui:date-time type="ymdhm" paramName="date" editable="1"/>
+			<ui:date-time type="ymdhm" paramName="date"/>
 
 			ymdhms:
 			<c:set var="uiid" value="${u:uiid()}"/>
 			<input type="text" id="${uiid}"/>
-			<ui:date-time type="ymdhms" selector="#${uiid}" editable="1"/>
+			<ui:date-time type="ymdhms" selector="#${uiid}"/>
 		</div>
 
 		<div>

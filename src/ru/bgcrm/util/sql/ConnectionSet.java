@@ -7,20 +7,21 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.sql.fakesql.FakeConnection;
 
 /**
- * Класс с коннекшнами к базе. В данный момент использование не особо целесообразно,
- * но передаётся в событиях чтобы в будущем не менять API.
+ * Set with DB connections, taken from pools on demand.
+ *
+ * @author Amir Absalilov
+ * @author Shamil Vakhitov
  */
 public class ConnectionSet {
-    private static final Logger logger = Logger.getLogger(ConnectionSet.class);
+    private static final Log log = Log.getLog();
 
     public static final String KEY = "conSet";
-    
+
     public final static int TYPE_MASTER = 1;
     public final static int TYPE_SLAVE = 2;
     public final static int TYPE_TRASH = 3;
@@ -28,7 +29,7 @@ public class ConnectionSet {
 
     protected boolean autoCommit;
 
-    // мастер соединение открыто в этом ConnectionSet и может им же быть закрыто
+    /** Master connection is opened in the ConnectionSet and may be closed by it. */
     private final boolean internalMaster;
 
     private Connection masterConnection;
@@ -63,12 +64,16 @@ public class ConnectionSet {
         try {
             return master == null || master.getAutoCommit() == autoCommit;
         } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
+            log.error(e);
         }
 
         return false;
     }
 
+    /**
+     * Provides master DB connection to the main database.
+     * @return
+     */
     public Connection getConnection() {
         if (masterConnection == null) {
             recycled = false;
@@ -85,7 +90,7 @@ public class ConnectionSet {
                 result.setAutoCommit(autoCommit);
             }
         } catch (SQLException ex) {
-            logger.error(ex.getMessage(), ex);
+            log.error(ex.getMessage(), ex);
         }
 
         return result;
@@ -102,12 +107,16 @@ public class ConnectionSet {
                 result.setAutoCommit(autoCommit);
             }
         } catch (SQLException ex) {
-            logger.error(ex.getMessage(), ex);
+            log.error(ex.getMessage(), ex);
         }
 
         return result;
     }
 
+    /**
+     * Gets slave connection to read-only DB replica.
+     * @return
+     */
     public Connection getSlaveConnection() {
         if (slaveConnection == null) {
             recycled = false;
@@ -121,6 +130,17 @@ public class ConnectionSet {
         return slaveConnection;
     }
 
+    /**
+     * Gets connection to so-called 'trash' DB, containing non-critical data.
+     * @param tableName table name.
+     * @param defaultType DB type returned if no trash DB is configured, can be:
+     * <pre>
+     * {@link #TYPE_SLAVE} - slave DB connection;
+     * {@link #TYPE_FAKE} -  instance of {@link FakeConnection}, does not do anything;
+     * {@link #TYPE_MASTER} - master DB connection.
+     * </pre>
+     * @return
+     */
     public Connection getTrashConnection(String tableName, int defaultType) {
         if (trashConnections == null) {
             trashConnections = new HashMap<String, Connection[]>();
@@ -160,31 +180,25 @@ public class ConnectionSet {
         return connection;
     }
 
-    public void commit() throws BGException {
-        try {
-            if (masterConnection != null) {
-                if (!masterConnection.getAutoCommit()) {
-                    masterConnection.commit();
-                }
+    public void commit() throws Exception {
+        if (masterConnection != null) {
+            if (!masterConnection.getAutoCommit()) {
+                masterConnection.commit();
             }
+        }
 
-            if (trashConnections != null) {
-                Set<Connection> commited = new HashSet<Connection>();
+        if (trashConnections != null) {
+            Set<Connection> commited = new HashSet<Connection>();
 
-                for (Connection[] connections : trashConnections.values()) {
-                    for (int i = 0, size = connections.length; i < size; i++) {
-                        Connection connection = connections[i];
-                        if (connection != null && connection != slaveConnection && connection != masterConnection
-                                && !connection.getAutoCommit() && commited.add(connection)) {
-                            connection.commit();
-                        }
+            for (Connection[] connections : trashConnections.values()) {
+                for (int i = 0, size = connections.length; i < size; i++) {
+                    Connection connection = connections[i];
+                    if (connection != null && connection != slaveConnection && connection != masterConnection
+                            && !connection.getAutoCommit() && commited.add(connection)) {
+                        connection.commit();
                     }
                 }
             }
-        } catch (SQLException e) {
-            throw new BGException(e);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
         }
     }
 
@@ -202,7 +216,7 @@ public class ConnectionSet {
                                 connection.close();
                             }
                         } catch (Exception e) {
-                            logger.error(e.getMessage(), e);
+                            log.error(e);
                         }
 
                         connections[i] = null;
@@ -222,7 +236,7 @@ public class ConnectionSet {
                         slaveConnection.close();
                     }
                 } catch (Exception e) {
-                    logger.error(e.getMessage(), e);
+                    log.error(e);
                 }
             }
 
@@ -237,7 +251,7 @@ public class ConnectionSet {
                         masterConnection.close();
                     }
                 } catch (Exception e) {
-                    logger.error(e.getMessage(), e);
+                    log.error(e);
                 }
             }
 
@@ -249,6 +263,10 @@ public class ConnectionSet {
         return this.autoCommit;
     }
 
+    /**
+     * Sets autocommit property to all connections.
+     * @param autoCommit wanted value.
+     */
     public void setAutoCommit(final boolean autoCommit) {
         // трэш коннекшны, если они есть
         if (trashConnections != null) {
@@ -259,7 +277,7 @@ public class ConnectionSet {
                         try {
                             connection.setAutoCommit(autoCommit);
                         } catch (Exception e) {
-                            logger.error(e.getMessage(), e);
+                            log.error(e);
                         }
                     }
                 }
@@ -273,7 +291,7 @@ public class ConnectionSet {
             try {
                 masterConnection.setAutoCommit(autoCommit);
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                log.error(e);
             }
         }
 
@@ -290,7 +308,7 @@ public class ConnectionSet {
                         try {
                             connection.rollback();
                         } catch (Exception e) {
-                            logger.error(e.getMessage(), e);
+                            log.error(e);
                         }
                     }
                 }
@@ -304,7 +322,7 @@ public class ConnectionSet {
             try {
                 masterConnection.rollback();
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                log.error(e);
             }
         }
     }
@@ -312,7 +330,7 @@ public class ConnectionSet {
     @Override
     protected void finalize() throws Throwable {
         if (!recycled) {
-            logger.warn("Not recycled before finalize!");
+            log.warn("Not recycled before finalize.");
             recycle();
         }
     }

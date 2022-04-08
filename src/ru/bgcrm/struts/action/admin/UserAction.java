@@ -54,7 +54,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
                     PermissionNode.addPermissionsSynonyms(permsetDao.getPermissions(permset.getId())));
         }
 
-        form.getHttpRequest().setAttribute("allPermissions", UserCache.getAllPermTree());
+        form.setRequestAttribute("permTrees", UserCache.getPermTrees());
 
         return html(con, form, PATH_JSP + "/permset/update.jsp");
     }
@@ -241,10 +241,10 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             form.setResponseData("user", user);
             form.setResponseData("grantedPermission",
                     PermissionNode.addPermissionsSynonyms(userDAO.getPermissions(user.getId())));
-            form.getHttpRequest().setAttribute("userGroupList", userDAO.getUserGroupList(user.getId(), form.getParamDate("date")));
+            form.setRequestAttribute("userGroupList", userDAO.getUserGroupList(user.getId(), form.getParamDate("date")));
         }
 
-        form.getHttpRequest().setAttribute("allPermissions", UserCache.getAllPermTree());
+        form.setRequestAttribute("permTrees", UserCache.getPermTrees());
 
         return html(con, form, PATH_JSP + "/user/update.jsp");
     }

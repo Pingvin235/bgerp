@@ -40,8 +40,6 @@ public class PermissionNode {
     private boolean notLogging;
     private List<PermissionNode> children = new ArrayList<>();
 
-    private PermissionNode() {}
-
     /**
      * Simplified constructor, no children supported.
      *
@@ -150,11 +148,9 @@ public class PermissionNode {
             Document doc = p.getXml(FILE_NAME, null);
             if (doc == null) continue;
 
-            var emptyParent = new PermissionNode();
-            emptyParent.addChild(new PermissionNode(null,
-                Localization.getLocalizer(p.getId(), Localization.getSysLang()),
-                doc.getDocumentElement()));
-            permissionNodes.add(emptyParent);
+            permissionNodes.add(new PermissionNode(null,
+                    Localization.getLocalizer(p.getId(), Localization.getSysLang()),
+                    doc.getDocumentElement()));
         }
 
         return permissionNodes;
@@ -183,7 +179,7 @@ public class PermissionNode {
 
     public static PermissionNode getPermissionNode(String action) {
         PermissionNode node = null;
-        for (PermissionNode treeNode : UserCache.getAllPermTree()) {
+        for (PermissionNode treeNode : UserCache.getPermTrees()) {
             node = treeNode.findPermissionNode(action);
             if (node != null) {
                 return node;

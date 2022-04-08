@@ -60,7 +60,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 		<div class="text-pref">${prefixText}</div>
 	</c:if>
 
-	<%-- ширину всего элемента можно задавать только шириной этого блока --%>
+	<%-- the whole width is defined by this one --%>
 	<div class="text-value" style="${styleTextValue}"></div>
 	<div class="icon ti-angle-down"></div>
 

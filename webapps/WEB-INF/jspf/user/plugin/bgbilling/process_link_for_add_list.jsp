@@ -81,11 +81,11 @@
 	<c:remove var="prefix"/>
 	<c:choose>
 		<c:when test="${fn:startsWith( item.linkedObjectType, 'contract:' )}">
-			<c:set var="billingId" value="${fn:substringAfter( item.linkedObjectType, ':')}"/>
+			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}"/>
 			<c:set var="title" value="${l.l('Договор')}:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
 		</c:when>
 		<c:when test="${fn:startsWith( item.linkedObjectType, 'bgbilling-task:' )}">
-			<c:set var="billingId" value="${fn:substringAfter( item.linkedObjectType, ':')}"/>
+			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}"/>
 			<c:set var="title" value="Задача:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
 		</c:when>
 	</c:choose>

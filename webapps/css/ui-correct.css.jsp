@@ -118,3 +118,17 @@
 	height: 100%;
 	color: #fff;
 }
+
+.jquery-tree-controls > .filter {
+	display: flex;
+	padding-bottom: 5px;
+	padding-top: 0px;
+}
+
+.jquery-tree-controls .jquery-tree-filter-input {
+	width: 100%;
+}
+
+.jquery-tree-node {
+	white-space: nowrap;
+}

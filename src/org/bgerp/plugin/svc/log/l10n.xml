@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+    <p><en>Time from can't be empty.</en></p>
+    <p><en>Time to must be in the same month as time from.</en></p>
+    <!--
+    <p><en></en><ru></ru></p>
+    -->
+</data>

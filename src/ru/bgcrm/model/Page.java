@@ -3,7 +3,18 @@ package ru.bgcrm.model;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import org.bgerp.util.Dynamic;
+import org.bgerp.util.Log;
+
+/**
+ * Pagination data.
+ *
+ * @author Shamil Vakhitov
+ */
+@Dynamic
 public class Page {
+    private static final Log log = Log.getLog();
+
     public static final int DEFAULT_PAGE_SIZE = 25;
 
     public static final String RECORD_COUNT = "recordCount";
@@ -15,9 +26,10 @@ public class Page {
     public static int PAGE_INDEX_NO_PAGING = -1;
 
     private int pageSize = 0;
-    // по-умолчанию 1, чтобы по дефолту выводилась первая страница
-    // передача page.pageIndex = -1 в запросе означает, что _не_ нужно постраничное разбиение
-    // а если параметра нет, то будет значение по-умолчанию, т.е. первая страница
+    /**
+     * Default is 1, to show a first page.
+     * {@link #PAGE_INDEX_NO_PAGING} means that no pagination is needed.
+     */
     private int pageIndex = 1;
     private int pageCount = 0;
     private int recordCount = 0;
@@ -37,10 +49,13 @@ public class Page {
         this.recordCount = page.recordCount;
     }
 
-    /**
-     * Возвращает необходимость постраничного разбиения результатов запроса. 		
-     */
+    @Deprecated
     public boolean isNeedPaging() {
+        log.warn("Call isPaginationEnabled instead of isNeedPaging");
+        return isPaginationEnabled();
+    }
+
+    public boolean isPaginationEnabled() {
         return pageIndex > 0;
     }
 
@@ -76,6 +91,11 @@ public class Page {
         return recordCount;
     }
 
+    /**
+     * Sets record count.
+     * @param recordCount
+     * @see {@link ru.bgcrm.dao.CommonDAO#getFoundRows()}
+     */
     public void setRecordCount(int recordCount) {
         this.recordCount = recordCount;
         if (recordCount > 0 && pageSize > 0) {

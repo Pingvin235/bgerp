@@ -47,6 +47,7 @@
 *** <<plugin/sec/secret/index.adoc#, Secret>>
 ** Service
 *** <<plugin/svc/backup/index.adoc#, Backup>>
+*** <<plugin/svc/log/index.adoc#, Log>>
 * Решения
 ** <<ext/bgbilling.adoc#, Интеграция BGBilling>>
 ** <<ext/letter.adoc#, Учёт писем>>

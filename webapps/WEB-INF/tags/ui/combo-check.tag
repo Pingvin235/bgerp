@@ -53,7 +53,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 		<div class="text-pref">${prefixText}</div>
 	</c:if>
 
-	<%-- ширину всего элемента можно задавать только шириной этого блока --%>
+	<%-- the whole width is defined by this one --%>
 	<div class="text-value" style="${styleTextValue}"></div>
 	<div class="icon"><i class="ti-close"></i></div>
 	<ul class="drop" style="display: none;">
@@ -61,8 +61,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 			<li class="in-table-cell">
 				<c:set var="filterCode">
 					var mask = $(this).val().toLowerCase();
-					$(this).closest('ul').find('li:gt(0)').each( function()
-					{
+					$(this).closest('ul').find('li:gt(0)').each(function () {
 						var content = $(this).text().toLowerCase();
 						$(this).toggle( content.indexOf( mask ) >= 0 );
 					});

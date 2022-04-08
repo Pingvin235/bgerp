@@ -183,7 +183,7 @@
 						</c:when>
 						<%-- TODO: doc --%>
 						<c:when test="${c.startsWith('jsp:')}">
-							<c:set var="jsp" value="${fn:substringAfter( c, 'jsp:')}"/>
+							<c:set var="jsp" value="${su.substringAfter( c, 'jsp:')}"/>
 							<jsp:include page="${jsp}"/>
 						</c:when>
 					</c:choose>

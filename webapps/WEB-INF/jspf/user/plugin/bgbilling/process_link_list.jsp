@@ -6,13 +6,13 @@
 		<tr>
 			<td>${delButton}</td>
 			<td>${item.linkedObjectId}</td>
-			<c:set var="billingId" value="${fn:substringAfter( item.linkedObjectType, ':')}" scope="request"/>
+			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}" scope="request"/>
 			<td>${l.l('Договор')}:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 
 			<c:set var="contractId" value="${item.linkedObjectId}" scope="request"/>
 			<td><a href="#" onclick="bgbilling_openContract( '${billingId}', ${contractId} ); return false;">${item.linkedObjectTitle}</a></td>
-		</tr>	
-		
+		</tr>
+
 		<c:set var="processTypeConfig" value="${ctxProcessTypeMap[u:int( form.param['processTypeId'] )].properties.configMap}"/>
 		<c:set var="page" value="${processTypeConfig['bgbilling:linkedContractShowJsp']}"/>
 		<c:if test="${not empty page}">
@@ -20,7 +20,7 @@
 				<td colspan="4" style="padding:0"><jsp:include page="${page}"/></td>
 			</tr>
 		</c:if>
-		
+
 		<c:if test="${not empty processTypeConfig['bgbilling:processShowLinkContractProcess'] }">
 			<script>
 				 $(function () {
@@ -31,8 +31,8 @@
 						<c:param name="objectTitle" value="${item.linkedObjectTitle}"/>
 						<c:param name="id" value="${item.linkedObjectId}"/>
 					</c:url>
-					
-					<%-- проверка, чтобы добавляло только один раз вкладку --%>					
+
+					<%-- проверка, чтобы добавляло только один раз вкладку --%>
 					if ($tabs.find("li:contains('${u:quotEscape(item.linkedObjectTitle)}')").length == 0)
 						$tabs.tabs("add", "${url}", "Процессы договора ${u:quotEscape( item.linkedObjectTitle )}");
 			  	})
@@ -51,7 +51,7 @@
 		<tr>
 			<td><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
 			<td>${item.linkedObjectId}</td>
-			<c:set var="billingId" value="${fn:substringAfter( item.linkedObjectType, ':')}"/>
+			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}"/>
 			<td>Задача:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 			<td>${item.linkedObjectTitle}</td>
 		</tr>
@@ -60,9 +60,9 @@
 		<tr>
 			<td>${delButton}</td>
 			<td>${item.linkedObjectId}</td>
-			<c:set var="billingId" value="${fn:substringAfter( item.linkedObjectType, ':')}"/>
+			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}"/>
 			<td>HelpDesk:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 			<td></td>
 		</tr>
 	</c:when>
-</c:choose>	
+</c:choose>

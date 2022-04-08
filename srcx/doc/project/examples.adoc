@@ -121,7 +121,7 @@ link:../../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L187-L192[w
 
 Recursive include:
 [snippet, from="<c:", to="if>", remove-leading="					"]
-link:../../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L48-L50[webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L44-L51[webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp]
 
 Action execution result include:
 [snippet, from="<c:", to="/>", remove-leading="			"]
@@ -143,7 +143,7 @@ link:../../../webapps/WEB-INF/jspf/admin/run/run.jsp#L20-L24[webapps/WEB-INF/jsp
 
 The same but for *$$.ajax.load* function:
 [snippet, from="<ui:button", remove-leading="		"]
-link:../../../webapps/WEB-INF/jspf/user/process/queue/filter.jsp#L911-L911[webapps/WEB-INF/jspf/user/process/queue/filter.jsp]
+link:../../../webapps/WEB-INF/jspf/user/process/queue/filter.jsp#L910-L910[webapps/WEB-INF/jspf/user/process/queue/filter.jsp]
 
 [[code-jsp-ui-restore-form]]
 Restore form parameter values:

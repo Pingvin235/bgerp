@@ -405,14 +405,14 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      * @param name parameter name.
      * @param defaultValue default value if not presented in request.
      * @param defaultSet set default value back in request for using in JSP.
-     * @param validate optional value validator.
+     * @param validator optional value validator.
      * @throws BGIllegalArgumentException if validation fails.
      * @return
      */
-    public String getParam(String name, String defaultValue, boolean defaultSet, Predicate<String> validate) throws BGIllegalArgumentException {
+    public String getParam(String name, String defaultValue, boolean defaultSet, Predicate<String> validator) throws BGIllegalArgumentException {
         var value = getParam(name);
 
-        if (validate != null && !validate.test(value))
+        if (validator != null && !validator.test(value))
             throw new BGIllegalArgumentException(name);
 
         if (value != null)
@@ -423,8 +423,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return defaultValue;
     }
 
-    public String getParam(String name, String defaultValue, Predicate<String> validate) throws BGIllegalArgumentException {
-        return getParam(name, defaultValue, false, validate);
+    public String getParam(String name, String defaultValue, Predicate<String> validator) throws BGIllegalArgumentException {
+        return getParam(name, defaultValue, false, validator);
     }
 
     /**
@@ -438,8 +438,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return value == null ? defaultValue : value;
     }
 
-    public String getParam(String name, Predicate<String> validate) throws BGIllegalArgumentException {
-        return getParam(name, null, validate);
+    public String getParam(String name, Predicate<String> validator) throws BGIllegalArgumentException {
+        return getParam(name, null, validator);
     }
 
     /**
@@ -481,15 +481,15 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     /**
      * Gets HTTP request parameter with type {@link YearMonth}.
-     * @param name parameter name, storing the first day of month in string format.
-     * @param validate optional value validator.
+     * @param name parameter name, storing the first day of month in string format {@link TimeUtils#FORMAT_TYPE_YMD}.
+     * @param validator optional value validator.
      * @return parameter value or {@code null}.
-     * @throws BGIllegalArgumentException.
+     * @throws BGIllegalArgumentException when validation fails.
      */
-    public YearMonth getParamYearMonth(String name, Predicate<YearMonth> validate) throws BGIllegalArgumentException {
+    public YearMonth getParamYearMonth(String name, Predicate<YearMonth> validator) throws BGIllegalArgumentException {
         var result = TimeConvert.toYearMonth(getParamDate(name));
 
-        if (validate != null && !validate.test(result))
+        if (validator != null && !validator.test(result))
             throw new BGIllegalArgumentException(name);
 
         return result;
@@ -501,7 +501,23 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     public Date getParamDateTime(String name) {
-        return getParamDateTime(name, null);
+        return getParamDateTime(name, (Date) null);
+    }
+
+    /**
+     * Gets HTTP request parameter with type {@link Date} .
+     * @param name parameter name, storing the first day of month in string format {@link TimeUtils#FORMAT_TYPE_YMDHMS}.
+     * @param validator optional value validator.
+     * @return parameter value or {@code null}.
+     * @throws BGIllegalArgumentException when validation fails.
+     */
+    public Date getParamDateTime(String name, Predicate<Date> validator) throws BGIllegalArgumentException {
+        var result = getParamDateTime(name);
+
+        if (validator != null && !validator.test(result))
+            throw new BGIllegalArgumentException(name);
+
+        return result;
     }
 
     public int getParamInt(String name, int defaultValue) {
@@ -515,16 +531,16 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     /**
      * Gets HTTP request parameter with type {@code int}.
      * @param name parameter name.
-     * @param validate optional value validator.
+     * @param validator optional value validator.
      * @return parsed int value or {@code 0}.
      * @throws BGIllegalArgumentException
      */
-    public int getParamInt(String name, Predicate<Integer> validate) throws BGIllegalArgumentException {
+    public int getParamInt(String name, Predicate<Integer> validator) throws BGIllegalArgumentException {
         String value = getParam(name);
 
         Integer result = Utils.isBlankString(value) ? 0 : Utils.parseInt(value);
 
-        if (validate != null && !validate.test(result))
+        if (validator != null && !validator.test(result))
             throw new BGIllegalArgumentException(name);
 
         return result;

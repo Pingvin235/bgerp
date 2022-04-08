@@ -64,7 +64,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
             new Table(Tables.TABLE_ADDRESS_QUARTER, Type.DIRECTORY),
             new Table(Tables.TABLE_ADDRESS_STREET, Type.DIRECTORY),
             new Table(IfaceStateDAO.TABLE_NAME, Type.TRASH),
-            new Table(ExecuteSQL.TABLE_SQL_PATCHES_HISTORY, Type.DEPRECATED)
+            // old table for update logs in ExecuteSQL
+            new Table("sql_patches_history", Type.DEPRECATED)
         );
     }
 

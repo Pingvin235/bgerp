@@ -648,7 +648,7 @@ The actual main identifier stays always last and will be used upon the next save
 In the following example an action class was renamed and action method changed to *unspecified*, defined in the configuration by *null*.
 
 [snippet, from="<item ti", to="с\"/>", remove-leading="		"]
-link:../../../src/org/bgerp/plugin/kernel/action.xml#L154-L155[org/bgerp/plugin/kernel/action.xml]
+link:../../../src/org/bgerp/plugin/kernel/action.xml#L149-L150[org/bgerp/plugin/kernel/action.xml]
 
 The same principe may be used for grouping many methods to a single logical action, for example typical get and update calls.
 

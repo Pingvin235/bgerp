@@ -93,10 +93,6 @@
 			command="/admin/dynamic.do" />
 	</c:if>
 
-	<ui:menu-item ltitle="WEB запросы" href="admin/log/request"
-		action="ru.bgcrm.struts.action.admin.WebRequestAction"
-		command="/admin/webRequest.do" />
-
 	<ui:menu-group ltitle="Приложение" icon="ti-package">
 		<ui:menu-item ltitle="Статус приложения" href="admin/app/status"
 			action="org.bgerp.action.admin.AppAction:status"

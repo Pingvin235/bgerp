@@ -174,7 +174,7 @@ The examples of documentation's format may be found <<examples.adoc#doc, here>>.
 * *Usage* - using instructions with screenshots;
 * *Development* - recommendation for developers.
 
-As examples of following the structure see plugins: <<../plugin/git/index.adoc#, GIT>>.
+As examples of following the structure see plugins: <<../plugin/git/index.adoc#, GIT>>, <<../plugin/svc/backup/index.adoc#, Backup>>.
 
 [[doc-image]]
 ==== Images

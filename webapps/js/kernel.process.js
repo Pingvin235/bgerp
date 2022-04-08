@@ -8,14 +8,14 @@ $$.process = new function() {
 
 	// available functions
 	this.open = open;
-	
+
 	// sub namespace link
 	this.link = new function() {
 		const showForm = (uiid, id) => {
 			$(`#${uiid} #linkEditor > form`).hide();
 			$(`#${uiid} #linkEditor > form#${id}`).show();
 		}
-		
+
 		const add = (uiid, requestUrl) => {
 			const forms = $('#' + uiid + ' form:visible');
 			for (var i = 0; i < forms.length; i++) {
@@ -45,7 +45,7 @@ $$.process = new function() {
 
 		const changed = (savedSetId) => {
 			const queueId = $("#processQueueSelect > input[type=hidden]").val();
-	
+
 			let filterLoadDfd;
 			let typeTreeLoadDfd;
 
@@ -53,7 +53,7 @@ $$.process = new function() {
 			if ($("#processQueueFilter > div#" + queueId).length == 0) {
 				filterLoadDfd = $$.ajax.load("/user/process/queue.do?action=queueGet&id=" + queueId, $('#processQueueFilter'), {append : true});
 			}
-			
+
 			if (savedSetId == undefined) {
 				// дерево типов для создания
 				typeTreeLoadDfd = $$.ajax.load("/user/process/queue.do?action=typeTree&queueId=" + queueId, $("#processQueueCreateProcess > #typeTree"));
@@ -64,16 +64,16 @@ $$.process = new function() {
 			const $loader = $("<div class='loader'></div>");
 			$('#processQueueShow').append($loader);
 			$loader.data("dfd", {dfd: dfd, url: "queue.changed.filter"});
-			
+
 			return $.when(filterLoadDfd, typeTreeLoadDfd).done(() => {
 				$("#processQueueFilter > div[id!=" + queueId + "]").hide();
-				
+
 				// отображение нужного фильтра, нужных кнопок
 				var $filter = $("#processQueueFilter").find("div#" + queueId);
 
 				$filter.show()
 
-				if (savedSetId >= 0) 
+				if (savedSetId >= 0)
 				{
 					$filter.find("*[id=savedFilters]").toggle(savedSetId > 0);
 					$filter.find("*[id='" + queueId + "-0']").toggle(savedSetId == 0);
@@ -84,14 +84,14 @@ $$.process = new function() {
 
 				if (savedSetId > 0) {
 					$filter.find("#savedFilters div[draggable=true]").each(function() {
-						if ($(this).attr("id") == savedSetId) 
+						if ($(this).attr("id") == savedSetId)
 						{
 							if ( $(".combo.dropFilterArea").find("div[id="+savedSetId+"]").length == 0 )
 							{
 								$(".combo.dropFilterArea").find("div.text-value").html("");
 							}
 							$(this).removeClass("btn-white").addClass("btn-blue");
-							
+
 						} else {
 							$(this).removeClass("btn-blue").addClass("btn-white");
 						}
@@ -171,9 +171,9 @@ function processQueueClearHiddenFilters($form) {
 	$$.ui.comboInputs($form.find('.filtersSelect')).each( function() {
 		var id = $(this).attr('id');
 		var $filterItem = $('#' + id + '.filter-item');
-		
+
 		// очистка скрытых фильтров
-		if (!this.checked && 
+		if (!this.checked &&
 			$filterItem.find( '.dontResetOnHideFilter' ).length == 0 ) {
 			/* пока простейший сброс хотя бы текстовых фильтров и фильтров по дате, с combo_check и т.п. ещё разобраться */
 			$filterItem.find('input[type=text]').val('');
@@ -186,12 +186,12 @@ function processQueueMarkFilledFilters($form) {
 	$$.ui.comboInputs($form.find('.filtersSelect')).each( function() {
 		var id = $(this).attr('id');
 		var $filterItem = $('#' + id + '.filter-item');
-		
+
 		// отметка жирным заполненных фильтров
 		var $span = $(this).parent().find("span");
 		$span.css("font-weight", "");
-		
-		if ($filterItem.find('input[type=text]').val() || 
+
+		if ($filterItem.find('input[type=text]').val() ||
 			$filterItem.find('input[type=hidden]').val() ||
 			$filterItem.find('input[type=checkbox]:checked').length) {
 			$span.css("font-weight", "bold");
@@ -204,8 +204,7 @@ function processQueueFilterSetSelect(queueId) {
 	$$.process.queue.changed();
 }
 
-function updateExecutors($groups, $executors, paramNameGroup,
-		paramNameExecutor, showEmpty, roleId, savedExecutors) {
+function updateExecutors($groups, $executors, paramNameGroup, paramNameExecutor, savedExecutors) {
 	if ($executors.length > 0) {
 		if (paramNameGroup == undefined) {
 			paramNameGroup = "group";
@@ -213,15 +212,15 @@ function updateExecutors($groups, $executors, paramNameGroup,
 		if (paramNameExecutor == undefined) {
 			paramNameExecutor = "executor";
 		}
-		
+
 		var groupValues = getCheckedValuesUrl($groups, paramNameGroup);
 		var executorValues = getCheckedValuesUrl($executors, paramNameExecutor);
 
 		groupValues = groupValues.replace(new RegExp(
-				"&" + paramNameGroup + "=", 'g'), "&group=");
+			"&" + paramNameGroup + "=", 'g'), "&group=");
 
 		var url = "/user/directory/user.do?action=userList&page.pageIndex=-1"
-				+ groupValues + executorValues;
+			+ groupValues + executorValues;
 
 		if (paramNameExecutor) {
 			url += "&paramName=" + paramNameExecutor;
@@ -267,9 +266,9 @@ function processTypeTreeNodeSelected(el, nodeId) {
 	$(parent).find("span").css("font-weight", "").css("color", "");
 	$(el).css("font-weight", "bold").css("color", "blue");
 
-	$$.ajax.load("/user/process.do?action=processCreateGroups&typeId=" + nodeId, 
+	$$.ajax.load("/user/process.do?action=processCreateGroups&typeId=" + nodeId,
 			$(el).closest("#typeTree").parent().find("#groupSelect"));
-	$$.ajax.load("/user/process.do?action=processRequest&typeId=" + nodeId, 
+	$$.ajax.load("/user/process.do?action=processRequest&typeId=" + nodeId,
 			$(el).closest("#typeTree").parent().find("#additionalParamsSelect"));
 }
 
@@ -292,10 +291,10 @@ function statusChangeEditor(selector, selectedStatus, currentStatus,
 	}
 }
 
-function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues, additionalLinksForAdd) 
+function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues, additionalLinksForAdd)
 {
-	var objects = []; 
-		
+	var objects = [];
+
 	if( !(additionalLinksForAdd) )
 	{
 		objects = openedObjectList({
@@ -303,11 +302,11 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 			"selected" : selectedValues
 		});
 	}
-	else 
+	else
 	{
 		objects = additionalLinksForAdd;
 	}
-	
+
 	var html = '';
 
 	for (const d in objects) {
@@ -321,10 +320,10 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 		 * customer-333
 		 * process-444
 		 */
-		
+
 		// для объектов типа contract_ds
 		var pos = objectType.lastIndexOf('_');
-		if( pos > 0 ) 
+		if( pos > 0 )
 		{
 			objectType = objectType.substring(0, pos) + ":" + objectType.substring(pos + 1);
 		}
@@ -338,11 +337,11 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 						<input type="hidden" name="linkedObjectId" value="' + objectId + '"/>\
 						<input type="hidden" name="linkedObjectTitle" value="' + encodeHtml(data.title) + '"/>\
 						<input type="hidden" name="linkedObjectType" value="';
-		if (objectType == 'customer') 
+		if (objectType == 'customer')
 		{
 			html += customerLinkRoles[0][0] + '"/>';
-		} 
-		else 
+		}
+		else
 		{
 			html += objectType + '"/>';
 		}
@@ -350,16 +349,16 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 					</form>\
 				</td>\
 				<td nowrap="nowrap">';
-		if( objectType == 'customer' ) 
+		if( objectType == 'customer' )
 		{
 			html += '<select name="linkedObjectType" onChange="$(this).closest(\'tr\').find(\'form\')[0].linkedObjectType.value = this.options[selectedIndex].value">';
-			$.each( customerLinkRoles, function() 
+			$.each( customerLinkRoles, function()
 			{
 				html += '<option value="' + this[0] + '">' + this[1] + '</option>';
 			});
 			html += '</select>';
 		}
-		else 
+		else
 		{
 			html += data.objectTypeTitle;
 		}
@@ -387,11 +386,11 @@ function setListItemsClick(e) {
 function addToPanelScript(id, title, isNew)
 {
 	var checkedQueue = $('#processQueueSelect').find('input[type=hidden]').val();
-	
+
 	if ( isNew )
 	{
 		$("#processQueueSelect").find("li[value="+id+"]").remove();
-		
+
 		$$.ajax.post("/user/process/queue.do?action=queueSavedPanelSet" + $$.ajax.requestParamsToUrl({command: "add", queueId: id, queueTitle: title}));
 	}
 
@@ -400,20 +399,20 @@ function addToPanelScript(id, title, isNew)
 			"<span class='icon ti-close mr05'></span>" +
 			"<span title='" + title + "' class='title'>" + title + "</span>" +
 		"</div>");
-	
+
 	$(".btn-panel").find("input[value="+id+"]").parent().find("span.icon").click(function(event){
 		event.stopPropagation();
 		removeFromPanel(id,title);
-		$(this).parent().remove();	
+		$(this).parent().remove();
 	})
-	
+
 	//Если добавляем на панель очередь выбранную в выпадающем списке, то подсвечиваем ее после добавления.
 	if ( id == checkedQueue )
 	{
 		$(".btn-panel").find("input[value="+id+"]").parent().removeClass("btn-white");
 		$(".btn-panel").find("input[value="+id+"]").parent().addClass("btn-blue");
 	}
-	
+
 	$(".btn-panel").on("click", function(event){
 		$(".btn-panel").removeClass("btn-blue");
 		$(".btn-panel").addClass("btn-white");
@@ -429,12 +428,12 @@ function removeFromPanel(id, title)
 		.done(() => {
 			$("#processQueueSelect").find(".drop").append("<li value="+id+" onclick='updateSelectedQueue("+id+");showSelectedQueue("+id+");'><div style='display: inline;'>"+ title +
 			"</div><div class='icon-add'></div></li>");
-	
+
 			$("#processQueueSelect .icon-add").click(function(event){
 				event.stopPropagation();
 				addToPanelScript(id,title,true);
-				$(this).parent().remove();	
-			});	
+				$(this).parent().remove();
+			});
 		});
 }
 
@@ -454,12 +453,12 @@ function exportFilterToCommons()
 	var buttonId = $("#savedFilters .btn-blue").attr("id");
 	var url = $("#savedFilters form[id='"+queueId+"-"+buttonId+"']").attr("action");
 	var title = $("#savedFilters .btn-blue").html();
-	
+
 	if (!buttonId) {
 		alert("Не выбран сохранённый фильтр!");
 		return;
 	}
-	
+
 	$$.ajax
 		.post("/user/process/queue.do?" + $$.ajax.requestParamsToUrl({"action":"queueSavedFilterSet","command":"addCommon","url":url,"queueId":queueId,"title":title}))
 		.done(() => {
@@ -472,7 +471,7 @@ function importFilterFromCommons()
 	var queueId = $("#processQueueSelect > input[type=hidden]").val();
 	var id = $("#commonFiltersPanel input[type=hidden]").val();
 	var title = $("#commonFiltersPanel .text-value").html();
-	
+
 	if (!id) {
 		alert("Не выбран общий фильтр для импорта!");
 		return;
@@ -517,38 +516,38 @@ function showCommonFiltersMenu()
 function getCheckedProcessIds()
 {
 	var processIds='';
-	
+
 	$( '#processQueueData input[name=processId]:checked' ).each(function()
-	{ 
-		if(processIds != '') processIds+=','; 
+	{
+		if(processIds != '') processIds+=',';
 		processIds += $(this).val();
 	});
-	
+
 	return processIds;
 }
 
 // Drag&Drop filters------ start ----------
-// TODO: Вынести в пространство имён и переписать короче, как в pl.blow.js 
-function filterHandleDragStart(e) 
+// TODO: Вынести в пространство имён и переписать короче, как в pl.blow.js
+function filterHandleDragStart(e)
 {
-	this.style.opacity = '0.4';  
-  
+	this.style.opacity = '0.4';
+
 	e.originalEvent.dataTransfer.effectAllowed = 'move';
 	e.originalEvent.dataTransfer.setData('text/html', $(this).attr("id"));
 }
 
-function moreHandleDragStart(e) 
+function moreHandleDragStart(e)
 {
-	  this.style.opacity = '0.4';  
-	  
+	  this.style.opacity = '0.4';
+
 	  e.originalEvent.dataTransfer.effectAllowed = 'move';
 	  e.originalEvent.dataTransfer.setData('text/html', $(this) );
 	  console.log("get from more");
 }
 
-function filterHandleDragOver(e) 
+function filterHandleDragOver(e)
 {
-	if (e.preventDefault) 
+	if (e.preventDefault)
 	{
 		e.preventDefault();
 	}
@@ -557,30 +556,30 @@ function filterHandleDragOver(e)
 	return false;
 }
 
-function filterHandleDragEnter(e) 
+function filterHandleDragEnter(e)
 {
 	this.classList.add('over');
 }
 
-function filterHandleDragLeave(e) 
+function filterHandleDragLeave(e)
 {
-	this.classList.remove('over'); 
+	this.classList.remove('over');
 }
 
-function filterHandleDragEnd(e) 
+function filterHandleDragEnd(e)
 {
 	this.style.opacity = '';
 }
 
-function filterHandleDrop(e) 
+function filterHandleDrop(e)
 {
-	if (e.preventDefault) e.preventDefault(); 
+	if (e.preventDefault) e.preventDefault();
 	if (e.stopPropagation) e.stopPropagation();
-	  
+
 	var filterButtonId = e.originalEvent.dataTransfer.getData('text/html');
 	var allDraggableButtons = $("#savedFilters div[draggable=true]").length;
 	var rareDraggableButtons = $("div.dropFilterArea ul div").length;
-	  
+
 	if ( $(this).attr("id") == "savedFilters" )
 	{
 		moveFilterToMain( this, filterButtonId, e );
@@ -596,16 +595,16 @@ function filterHandleDrop(e)
 	return false;
 }
 
-function moreHandleDrop(e) 
+function moreHandleDrop(e)
 {
-	if (e.stopPropagation) 
+	if (e.stopPropagation)
 	{
-		e.stopPropagation(); 
+		e.stopPropagation();
 	}
 
 	var moreButton = e.originalEvent.dataTransfer.getData('text/html');
 	$("#dropMoreArea").append( $(moreButton) );
-	  
+
 	return false;
 }
 
@@ -615,25 +614,25 @@ function moveFilterToRare( container, filterButtonId, firstLoad )
 	{
 		firstLoad = false;
 	}
-	
+
 	var filterButton = $("div[id="+filterButtonId+"][draggable=true]");
-	
+
 	if ( $(filterButton).attr("class") == "btn-blue" )
 	{
 		$(".dropFilterArea > .text-value").html( $(filterButton).html() );
 	}
-	
+
 	$(filterButton).attr("style", "display: block");
-	
+
 	$(filterButton).click(function(event)
 	{
 		$(".dropFilterArea > .drop").hide();
 		$(".dropFilterArea > .text-value").html( $(filterButton).html() );
 		event.stopPropagation();
 	});
-	
+
 	$(container).find("ul[class=drop]").prepend( $(filterButton) );
-	
+
 	if( !firstLoad )
 	{
 		setFilterStatusRare( filterButtonId, true );
@@ -644,12 +643,12 @@ function moveFilterToMain( container, filterButtonId, e )
 {
 	var xPosition = e.originalEvent.clientX;
 	$$.debug('queueFilterDrag', "Drop to: ", xPosition);
-	
+
 	var filterButton = $("div[id="+filterButtonId+"][draggable=true]");
-	
+
 	var maxXPos = 0;
 	var $putBefore = undefined;
-	
+
 	$(container).find(">div.btn-white,>div.btn-blue").each(function(){
 		var x = $(this).position().left;
 		if( x < xPosition) {
@@ -657,21 +656,21 @@ function moveFilterToMain( container, filterButtonId, e )
 			$putBefore = $(this);
 		}
 	});
-	
+
 	$$.debug('queueFilterDrag', "Put before: ", $putBefore);
-	
+
 	if ($putBefore) {
 		$putBefore.before($(filterButton).attr("style", "display: inline-block;").off("click"));
 	} else {
 		$(container).prepend($(filterButton).attr("style", "display: inline-block;").off("click"));
 	}
-	
+
 	if ( $(filterButton).attr("class") == "btn-blue" )
 	{
 		$(".dropFilterArea .text-value").html("");
 	}
 	setFilterStatusRare( filterButtonId, false );
-	
+
 	updateSavedFiltersOrder(container);
 }
 
@@ -680,10 +679,10 @@ function updateSavedFiltersOrder(container) {
 	$(container).find(">div.btn-white,>div.btn-blue").each(function(){
 		var id = $(this).attr("id");
 		if (id) {
-			order += "&setId=" + id; 
+			order += "&setId=" + id;
 		}
 	});
-	
+
 	var queueId = $("#processQueueSelect > input[type=hidden]").val();
 	$$.ajax.post("/user/process/queue.do?action=queueSavedFilterSet&command=updateFiltersOrder&queueId=" + queueId + order);
 }
@@ -705,7 +704,7 @@ function updateSelectedFilterAndOpen( queueId, filterId )
 		.done(() => {
 			updateSelectedQueue(queueId);
 			$$.process.queue.showSelected(queueId);
-		});	
+		});
 }
 
 // counters
@@ -897,7 +896,7 @@ addEventProcessor('ru.bgcrm.event.client.ProcessCurrentQueueRefreshEvent', proce
 addEventProcessor('ru.bgcrm.event.client.TemporaryObjectEvent', processProcessClientEvents);
 addEventProcessor('ru.bgcrm.event.client.FilterCounterEvent', processFilterCouterEvents);
 
-function processProcessClientEvents( event ) 
+function processProcessClientEvents( event )
 {
 	switch( event.className )
 	{
@@ -906,17 +905,17 @@ function processProcessClientEvents( event )
 		{
 			openProcess(event.id);
 			break;
-		} 
+		}
 		case 'ru.bgcrm.event.client.ProcessCloseEvent':
 		{
-			// FIXME: Было с табами так. 
+			// FIXME: Было с табами так.
 			// removeClosableTab("processTabs", event.id);
-			
+
 			removeCommandDiv( "process-" + event.id );
-			
+
 			$$.closeObject = null;
 			window.history.back();
-			
+
 			break;
 		}
 		case 'ru.bgcrm.event.client.ProcessCurrentQueueRefreshEvent':

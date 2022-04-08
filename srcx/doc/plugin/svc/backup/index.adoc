@@ -1,14 +1,21 @@
 = Plugin Backup
 :toc:
 
+[[about]]
+== About
 The plugin allows making backup of the application code and data.
 
-[[config]]
-== Configuration
-After enabling the plugin in <<../../../kernel/setup.adoc#config-plugin, server config>>.
+[[setup]]
+== Setup
+Enable the plugin in <<../../../kernel/setup.adoc#config-plugin, server config>>.
 [source]
 ----
 backup:enable=1
 ----
 
-Backup tool is available in menu *Administration / Backup*.
+[[usage]]
+== Usage
+Backup tool is available in menu *Administration / Backup*. There is content mode switch available .
+
+image::_res/backup.png[width="800px"]
+

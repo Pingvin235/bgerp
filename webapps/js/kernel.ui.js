@@ -88,15 +88,51 @@ $$.ui = new function () {
 			$parent.find("input[type=checkbox]").prop("checked", false);
 	}
 
+	const comboPermTreeCheckInit = ($comboDiv) => {
+		const $drop = $comboDiv.find(">.drop");
+		$$.ui.dropOnClick($comboDiv, $drop);
+
+		const updateText = function () {
+			// timeout allows to process first tree logic of selection children/parents
+			setTimeout(function () {
+				let checkedCount = 0;
+
+				$drop.find("li input[type=checkbox]").each(function () {
+					if (this.checked)
+						checkedCount++;
+				});
+
+				$comboDiv.find(">.text-value").text("[" + checkedCount + "]");
+			});
+		};
+
+		updateText();
+
+		// clean cross
+		$comboDiv.find(">.icon").click(function (event) {
+			$comboDiv.find("li input[type=checkbox]").each(function () {
+				this.checked = false;
+			});
+			updateText();
+			event.stopPropagation();
+		});
+
+		$drop.find("li input[type=checkbox]").click(function () {
+			updateText();
+		});
+	}
+
 	// close all visible drop-downs
 	const dropsHide = () => {
-		$(document).find("ul.drop:visible").hide();
+		$(document).find(".drop:visible").hide();
 	}
 
 	const dropOnClick = ($comboDiv, $drop) => {
 		$comboDiv.click(function () {
-			dropShow($drop);
-			return false;
+			if ($drop.is(":hidden")) {
+				dropShow($drop);
+				return false;
+			}
 		});
 	}
 
@@ -106,9 +142,15 @@ $$.ui = new function () {
 
 		$drop.show();
 
-		$(document).one("click", function () {
-			$drop.hide();
-		});
+		const handler = function (e) {
+			// click outside drop, not in check tree inside
+			if (e && e.target && !$drop[0].contains(e.target))
+				$drop.hide();
+			else
+				$(document).one("click", handler);
+		}
+
+		handler();
 	}
 
 	/**
@@ -527,6 +569,7 @@ $$.ui = new function () {
 	this.comboSingleInit = comboSingleInit;
 	this.comboInputs = comboInputs;
 	this.comboCheckUncheck = comboCheckUncheck;
+	this.comboPermTreeCheckInit = comboPermTreeCheckInit;
 	this.dropsHide = dropsHide;
 	this.dropOnClick = dropOnClick;
 	this.dropShow = dropShow;

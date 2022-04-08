@@ -177,15 +177,24 @@ public class UserCache extends Cache<UserCache> {
         return holder.getInstance().userGroupFullTitledMap;
     }
 
+    /**
+     * @return alphabetically sorted list with all permission sets.
+     */
     public static List<Permset> getUserPermsetList() {
         return holder.getInstance().userPermsetList;
     }
 
+    /**
+     * @return map with all use permission sets, key - ID
+     */
     public static Map<Integer, Permset> getUserPermsetMap() {
         return holder.getInstance().userPermsetMap;
     }
 
-    public static List<PermissionNode> getAllPermTree() {
+    /**
+     * @return list of root nodes for permission trees of enabled plugins.
+     */
+    public static List<PermissionNode> getPermTrees() {
         return holder.getInstance().allPermTrees;
     }
 

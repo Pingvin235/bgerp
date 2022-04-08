@@ -19,7 +19,7 @@
 	text-overflow: ellipsis;
 }
 
-.combo .icon {
+.combo > .icon {
 	display: table-cell;
 	height: 100%;
 	padding-right: 0.5em;
@@ -31,9 +31,9 @@
 	padding-left: 0;
 }
 
-.combo ul.drop {
+.combo > .drop {
 	margin-top: 0.6em;
-	overflow-x: hidden;
+	overflow-x: auto;
 	overflow-y: visible;
 	max-height: 300px;
 	min-width: 150px;

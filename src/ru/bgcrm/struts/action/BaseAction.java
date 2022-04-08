@@ -29,13 +29,14 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.bgerp.servlet.filter.AuthFilter;
 import org.bgerp.servlet.user.LoginStat;
+import org.bgerp.servlet.user.event.ActionRequestEvent;
 import org.bgerp.util.Log;
 import org.bgerp.util.lic.AppLicense;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.Locker;
-import ru.bgcrm.dao.WebRequestLogDAO;
 import ru.bgcrm.dao.user.UserDAO;
+import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
@@ -53,7 +54,6 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 import ru.bgerp.l10n.Localizer;
 
@@ -243,8 +243,10 @@ public class BaseAction extends DispatchAction {
         SessionLogAppender.trackSession(request.getSession(), false);
 
         long timeStart = System.currentTimeMillis();
-        int logEntryId = 0;
-        String resultStatus = "";
+
+        String action = "";
+        PermissionNode permissionNode = null;
+        String error = "";
         try {
             // TODO: Send check result as an client event in result.
             AppLicense.instance().getError();
@@ -254,8 +256,8 @@ public class BaseAction extends DispatchAction {
                 form.setPermission(ParameterMap.EMPTY);
             } else {
                 // permission check
-                String action = this.getClass().getName() + ":" + form.getAction();
-                PermissionNode permissionNode = PermissionNode.getPermissionNode(action);
+                action = this.getClass().getName() + ":" + form.getAction();
+                permissionNode = PermissionNode.getPermissionNode(action);
 
                 ParameterMap perm = UserCache.getPerm(user.getId(), action);
 
@@ -271,21 +273,6 @@ public class BaseAction extends DispatchAction {
 
                 if (permissionNode == null) {
                     throw new BGException("PermissionNode is null for action: " + action);
-                }
-
-                // логирование запроса
-                if (!permissionNode.isNotLogging()) {
-                    Connection con = null;
-                    try {
-                        con = Setup.getSetup().getDBConnectionFromPool();
-
-                        WebRequestLogDAO webRequestLogDAO = new WebRequestLogDAO(con);
-                        logEntryId = webRequestLogDAO.insertLogEntry(request, action);
-
-                        con.commit();
-                    } finally {
-                        SQLUtils.closeConnection(con);
-                    }
                 }
 
                 // сохранение изменившегося размера страницы
@@ -334,17 +321,15 @@ public class BaseAction extends DispatchAction {
             if (!(this instanceof PoolAction) && !(this instanceof LoginAction)) {
                 LoginStat.getLoginStat().actionWasCalled(request.getSession());
             }
-
-            resultStatus = "Successfully";
         } catch (BGMessageException ex) {
-            resultStatus = ((BGMessageException) ex).getMessage(l);
+            error = ((BGMessageException) ex).getMessage(l);
             if (ex instanceof BGIllegalArgumentException)
                 form.setResponseData("paramName", ((BGIllegalArgumentException) ex).getName());
-            return sendError(form, resultStatus);
+            return sendError(form, error);
         } catch (Throwable ex) {
-            resultStatus = ex.getMessage();
+            error = ex.getMessage();
 
-            log.error(resultStatus, ex);
+            log.error(error, ex);
 
             StringWriter sw = new StringWriter();
             ex.printStackTrace(new PrintWriter(sw));
@@ -353,19 +338,9 @@ public class BaseAction extends DispatchAction {
         } finally {
             conSet.recycle();
 
-            if (logEntryId > 0) {
-                Connection con = null;
-                try {
-                    con = Setup.getSetup().getDBConnectionFromPool();
-
-                    WebRequestLogDAO webRequestLogDAO = new WebRequestLogDAO(con);
-                    webRequestLogDAO.updateLogEntryDuration(logEntryId, System.currentTimeMillis() - timeStart);
-                    webRequestLogDAO.updateLogEntryResultStatus(logEntryId, resultStatus);
-
-                    con.commit();
-                } finally {
-                    SQLUtils.closeConnection(con);
-                }
+            if (Utils.notBlankString(action)) {
+                EventProcessor.processEvent(new ActionRequestEvent(request, action, permissionNode,
+                        System.currentTimeMillis() - timeStart, error), null);
             }
         }
 
@@ -387,7 +362,6 @@ public class BaseAction extends DispatchAction {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 
             PrintWriter out = form.getHttpResponseWriter();
-            // mapper.writeValue( out, errorText );
             out.write(errorText);
             out.close();
 
