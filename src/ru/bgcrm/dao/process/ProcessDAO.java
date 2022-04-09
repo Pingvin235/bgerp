@@ -35,6 +35,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -52,7 +53,6 @@ import ru.bgcrm.model.EntityLogItem;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.config.IsolationConfig;
 import ru.bgcrm.model.config.IsolationConfig.IsolationProcess;
 import ru.bgcrm.model.customer.Customer;
@@ -235,7 +235,7 @@ public class ProcessDAO extends CommonDAO {
      * @param form
      * @throws Exception
      */
-    public void searchProcess(SearchResult<Object[]> searchResult, List<String> aggregatedValues, Queue queue, DynActionForm form) throws Exception {
+    public void searchProcess(Pageable<Object[]> searchResult, List<String> aggregatedValues, Queue queue, DynActionForm form) throws Exception {
         QueueSelectParams params = prepareQueueSelect(queue);
 
         addFilters(params.queue, form, params);
@@ -298,7 +298,7 @@ public class ProcessDAO extends CommonDAO {
             selectAggregatedValues(aggregatedValues, params, columns);
     }
 
-    private void loadFormattedAddressParamValues(SearchResult<Object[]> searchResult, Queue queue) throws SQLException {
+    private void loadFormattedAddressParamValues(Pageable<Object[]> searchResult, Queue queue) throws SQLException {
         final List<ParameterMap> columnList = queue.getColumnList();
         final int length = columnList.size();
 
@@ -1643,7 +1643,7 @@ public class ProcessDAO extends CommonDAO {
      * @param houseRoom room
      * @throws SQLException
      */
-    public void searchProcessListByAddress(SearchResult<ParameterSearchedObject<Process>> searchResult,
+    public void searchProcessListByAddress(Pageable<ParameterSearchedObject<Process>> searchResult,
             Set<Integer> typeIds, Set<Integer> addressParamIds, int houseId, String houseFlat, String houseRoom)
                     throws SQLException {
         if (searchResult != null) {
@@ -1708,7 +1708,7 @@ public class ProcessDAO extends CommonDAO {
      * @param from
      * @throws SQLException
      */
-    public void searchProcessListForMessage(SearchResult<Process> searchResult, String from, List<CommonObjectLink> links, Boolean open)
+    public void searchProcessListForMessage(Pageable<Process> searchResult, String from, List<CommonObjectLink> links, Boolean open)
             throws SQLException {
         if (searchResult != null) {
             Page page = searchResult.getPage();
@@ -1779,7 +1779,7 @@ public class ProcessDAO extends CommonDAO {
      * @param open if not {@code null} then process opened filter.
      * @throws SQLException
      */
-    public void searchProcessListForUser(SearchResult<Process> searchResult, int userId, Boolean open)
+    public void searchProcessListForUser(Pageable<Process> searchResult, int userId, Boolean open)
             throws SQLException {
         Page page = searchResult.getPage();
         List<Process> list = searchResult.getList();
@@ -1819,7 +1819,7 @@ public class ProcessDAO extends CommonDAO {
      * @param mode принимает значения {@link #MODE_USER_CREATED}, {@link #MODE_USER_CLOSED}, {@link #MODE_USER_STATUS_CHANGED}.
      * @throws SQLException
      */
-    public void searchProcessListForUser(SearchResult<Process> searchResult, int userId, int mode) throws SQLException {
+    public void searchProcessListForUser(Pageable<Process> searchResult, int userId, int mode) throws SQLException {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<Process> list = searchResult.getList();
@@ -1883,7 +1883,7 @@ public class ProcessDAO extends CommonDAO {
      * @throws BGException
      */
     public EntityLogItem getLastProcessChangeLog(Process process) throws BGException {
-        SearchResult<EntityLogItem> logItems = new SearchResult<EntityLogItem>();
+        Pageable<EntityLogItem> logItems = new Pageable<EntityLogItem>();
         logItems.getPage().setPageIndex( 1 );
         logItems.getPage().setPageSize( 1 );
 
@@ -1899,7 +1899,7 @@ public class ProcessDAO extends CommonDAO {
      * @param result
      * @throws Exception
      */
-    public void searchProcessLog(ProcessType processType, int processId, SearchResult<EntityLogItem> result)
+    public void searchProcessLog(ProcessType processType, int processId, Pageable<EntityLogItem> result)
             throws BGException {
         PreparedQuery pq = new PreparedQuery(con);
 

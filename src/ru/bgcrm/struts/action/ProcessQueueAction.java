@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessQueueCache;
@@ -29,7 +30,6 @@ import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.Queue.ColumnConf;
@@ -293,7 +293,7 @@ public class ProcessQueueAction extends ProcessAction {
 
         Queue queue = ProcessQueueCache.getQueue(form.getId(), form.getUser());
         if (queue != null) {
-            SearchResult<Object[]> searchResult = new SearchResult<Object[]>(form);
+            Pageable<Object[]> searchResult = new Pageable<Object[]>(form);
             List<String> aggregateValues = new ArrayList<>();
 
             var media = getMedia(form);

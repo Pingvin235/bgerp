@@ -24,6 +24,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.CallboardCache;
 import ru.bgcrm.cache.ParameterCache;
@@ -36,7 +37,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
@@ -66,7 +66,7 @@ public class WorkAction extends BaseAction {
 
         form.getHttpRequest().setAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
 
-        new WorkTypeDAO(con).searchWorkType(new SearchResult<WorkType>(form), categoryId);
+        new WorkTypeDAO(con).searchWorkType(new Pageable<WorkType>(form), categoryId);
 
         return html(con, mapping, form, "typeList");
     }
@@ -151,7 +151,7 @@ public class WorkAction extends BaseAction {
 
         form.getHttpRequest().setAttribute("allowOnlyCategories", getAvailableCategories(form.getPermission()));
 
-        new ShiftDAO(con).searchShift(new SearchResult<Shift>(form), categoryId);
+        new ShiftDAO(con).searchShift(new Pageable<Shift>(form), categoryId);
 
         return html(con, mapping, form, "shiftList");
     }
@@ -490,7 +490,7 @@ public class WorkAction extends BaseAction {
             throw new BGException("Запрещено править график за прошедшие дни");
         }
 
-        //состоит ли пользователь в выбранной группе на выбранный день	
+        //состоит ли пользователь в выбранной группе на выбранный день
         /* FIXME: Открывались группы с дневным интервалом в ЦКиБС уфанета.*/
 
         if (!hasMembershipAtDate(userId, groupId > 0 ? groupId : callboard.getGroupId(), date)) {
@@ -518,7 +518,7 @@ public class WorkAction extends BaseAction {
                         existChanged = true;
                         break;
                     }
-                    // существующая группа 
+                    // существующая группа
                     else if (TimeUtils.dateEqual(userGroup.getDateTo(), prevDate)) {
                         userDao.removeUserGroup(userId, groupId, userGroup.getDateFrom(), userGroup.getDateTo());
                         userGroup.setDateTo(date);

@@ -6,13 +6,13 @@ import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGSecurityException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
@@ -30,7 +30,7 @@ public class ProcessQueueAction extends BaseAction {
      */
     public static class Config extends ru.bgcrm.util.Config {
         private final Map<String, Queue> openQueues;
-        
+
         protected Config(ParameterMap setup) throws Exception {
             super(setup);
             this.openQueues = loadOpenQueues();
@@ -71,7 +71,7 @@ public class ProcessQueueAction extends BaseAction {
         if (queue == null)
             throw new BGException("Queue not found: " + queueId);
 
-        SearchResult<Object[]> searchResult = new SearchResult<Object[]>(form);
+        Pageable<Object[]> searchResult = new Pageable<Object[]>(form);
         searchResult.getPage().setPageIndex(Page.PAGE_INDEX_NO_PAGING);
 
         ProcessDAO processDAO = new ProcessDAO(conSet.getSlaveConnection());

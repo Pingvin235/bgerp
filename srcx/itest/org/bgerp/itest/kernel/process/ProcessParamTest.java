@@ -10,6 +10,7 @@ import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.Pageable;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -18,7 +19,6 @@ import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.ParamLogDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
@@ -131,7 +131,7 @@ public class ProcessParamTest {
         valueFile = dao.getParamFile(processId, paramFileId);
         Assert.assertTrue(valueFile.isEmpty());
 
-        var log = logDao.getHistory(processId, ParameterCache.getParameterList(List.of(paramFileId)), false, new SearchResult<>());
+        var log = logDao.getHistory(processId, ParameterCache.getParameterList(List.of(paramFileId)), false, new Pageable<>());
         Assert.assertEquals(log.size(), 4);
         Assert.assertEquals(log.get(0).getText(), "file1.txt");
         Assert.assertEquals(log.get(1).getText(), "file1.txt, file2.txt");

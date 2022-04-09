@@ -8,6 +8,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.cache.UserNewsCache;
@@ -15,7 +16,6 @@ import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.News;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
@@ -94,7 +94,7 @@ public class NewsAction extends BaseAction {
     public ActionForward newsList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         Boolean read = form.getParamBoolean("read", null);
 
-        SearchResult<News> searchResult = new SearchResult<News>(form);
+        Pageable<News> searchResult = new Pageable<News>(form);
 
         new NewsDAO(con).searchNewsList(searchResult, form.getUserId(), read, form.getParam("text"));
 
@@ -144,7 +144,7 @@ public class NewsAction extends BaseAction {
 
     public ActionForward newsDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         new NewsDAO(con).deleteNews(form.getId());
-        
+
         return json(con, form);
     }
 }

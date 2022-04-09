@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import javassist.NotFoundException;
 import ru.bgcrm.cache.ProcessQueueCache;
@@ -30,7 +31,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.LastModify;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
@@ -52,7 +52,7 @@ public class ProcessAction extends BaseAction {
 
     // статусы
     public ActionForward statusList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        new StatusDAO(con).searchStatus(new SearchResult<Status>(form));
+        new StatusDAO(con).searchStatus(new Pageable<Status>(form));
 
         return html(con, form, PATH_JSP + "/status/list.jsp");
     }
@@ -119,7 +119,7 @@ public class ProcessAction extends BaseAction {
         int parentId = Utils.parseInt(paramMap.get("parentTypeId"), 0);
 
         ProcessTypeDAO processTypeDAO = new ProcessTypeDAO(con);
-        processTypeDAO.searchProcessType(new SearchResult<ProcessType>(form), parentId, CommonDAO.getLikePatternSub(form.getParam("filter", "")));
+        processTypeDAO.searchProcessType(new Pageable<ProcessType>(form), parentId, CommonDAO.getLikePatternSub(form.getParam("filter", "")));
 
         if (parentId >= 0) {
             request.setAttribute("typePath", ProcessTypeCache.getTypePath(parentId));
@@ -247,7 +247,7 @@ public class ProcessAction extends BaseAction {
     public ActionForward queueList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
         Set<Integer> queueIds = Utils.toIntegerSet(form.getPermission().get("allowedQueueIds"));
 
-        new QueueDAO(con).searchQueue(new SearchResult<Queue>(form), queueIds, form.getParam("filter"));
+        new QueueDAO(con).searchQueue(new Pageable<Queue>(form), queueIds, form.getParam("filter"));
 
         return html(con, form, PATH_JSP + "/queue/list.jsp");
     }
@@ -343,7 +343,7 @@ public class ProcessAction extends BaseAction {
             request.setAttribute("statusList", Utils.getObjectList(ProcessTypeCache.getStatusMap(), type.getProperties().getStatusIds()));
             request.setAttribute("processType", type);
 
-            SearchResult<Permset> groupList = new SearchResult<Permset>();
+            Pageable<Permset> groupList = new Pageable<Permset>();
             groupDAO.searchPermset(groupList);
             request.setAttribute("groupList", groupList);
 

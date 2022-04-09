@@ -1,0 +1,1 @@
+C: Rename SearchResult to Paged.

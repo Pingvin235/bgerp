@@ -9,10 +9,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.util.Utils;
 
@@ -26,7 +26,7 @@ public class ParamValueSearchDAO extends CommonDAO {
     }
 
     public <T> void searchObjectListByEmail(String tableName, Extractor<T> extractor,
-            SearchResult<ParameterSearchedObject<T>> searchResult, List<Integer> emailParamIdList, String email) throws BGException {
+            Pageable<ParameterSearchedObject<T>> searchResult, List<Integer> emailParamIdList, String email) throws BGException {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<ParameterSearchedObject<T>> list = searchResult.getList();

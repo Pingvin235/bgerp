@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.plugin.bgbilling.proto.dao.CrmDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.crm.call.Call;
 import ru.bgcrm.plugin.bgbilling.proto.model.crm.task.Task;
@@ -35,7 +35,7 @@ public class BillingCrmAction
 
 		CrmDAO crmDAO = new CrmDAO( form.getUser(), billingId );
 
-		SearchResult<Call> result = new SearchResult<Call>( form );
+		Pageable<Call> result = new Pageable<Call>( form );
 		crmDAO.getCallList( result, contractId );
 
 		return processUserTypedForward( conSet, mapping, form, response, "callList" );
@@ -174,7 +174,7 @@ public class BillingCrmAction
 		String sort1 = form.getParam( "sort1" );
 		String sort2 = form.getParam( "sort2" );
 
-		SearchResult<Task> result = new SearchResult<Task>( form );
+		Pageable<Task> result = new Pageable<Task>( form );
 
 		CrmDAO crmDAO = new CrmDAO( form.getUser(), billingId );
 		crmDAO.getTaskList( result, contractId, sort1, sort2 );

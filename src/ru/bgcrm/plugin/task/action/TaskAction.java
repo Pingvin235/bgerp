@@ -3,8 +3,8 @@ package ru.bgcrm.plugin.task.action;
 import java.sql.Connection;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.model.Pageable;
 
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.plugin.task.Plugin;
 import ru.bgcrm.plugin.task.dao.TaskDAO;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -15,7 +15,7 @@ public class TaskAction extends ru.bgcrm.struts.action.BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
     public ActionForward list(DynActionForm form, Connection con) throws Exception {
-        new TaskDAO(con).searchTasks(new SearchResult<>(form), form.getParamInt("processId"), 0, true);
+        new TaskDAO(con).searchTasks(new Pageable<>(form), form.getParamInt("processId"), 0, true);
         return html(con, form, PATH_JSP + "/task_list.jsp");
     }
 

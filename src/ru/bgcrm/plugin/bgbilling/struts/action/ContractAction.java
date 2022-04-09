@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
@@ -18,7 +19,6 @@ import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.IdTitle;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
@@ -160,7 +160,7 @@ public class ContractAction extends BaseAction
 		String billingId = form.getParam( "billingId" );
 		String title = form.getParam( "title" );
 
-		SearchResult<IdTitle> searchResult = new SearchResult<>();
+		Pageable<IdTitle> searchResult = new Pageable<>();
 		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).searchContractByTitleComment(searchResult, title, null, null);
 		form.getResponse().setData("contract",  Utils.getFirst(searchResult.getList()));
 
@@ -274,7 +274,7 @@ public class ContractAction extends BaseAction
 
 		final SearchOptions searchOptions = new SearchOptions( true, true, true );
 
-		SearchResult<IdTitle> searchResult = new SearchResult<IdTitle>();
+		Pageable<IdTitle> searchResult = new Pageable<IdTitle>();
 		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).searchContractByTitleComment( searchResult, "^" + contractTitle + "$", null, searchOptions );
 
 		IdTitle result = Utils.getFirst( searchResult.getList() );

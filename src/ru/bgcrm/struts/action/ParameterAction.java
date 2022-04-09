@@ -27,6 +27,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.upload.FormFile;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -48,7 +49,6 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.IdTitleTree;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.JumpRegexp;
 import ru.bgcrm.model.param.Parameter;
@@ -84,7 +84,7 @@ public class ParameterAction extends BaseAction {
         List<Parameter> paramList = ParameterCache.getObjectTypeParameterList(objectType);
         boolean offEncrypt = form.getPermission().getBoolean("offEncrypt", false);
         form.setResponseData("log", new ParamLogDAO(conSet.getSlaveConnection()).getHistory(id, paramList,
-                offEncrypt, new SearchResult<ParameterLogItem>(form)));
+                offEncrypt, new Pageable<ParameterLogItem>(form)));
 
         return html(conSet, form, PATH_JSP + "/log.jsp");
     }

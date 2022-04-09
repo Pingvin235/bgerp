@@ -8,12 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterLogItem;
 import ru.bgcrm.util.TimeUtils;
@@ -61,7 +61,7 @@ public class ParamLogDAO extends CommonDAO {
     }
 
     public List<ParameterLogItem> getHistory(int id, List<Parameter> params, boolean offEncryption,
-            SearchResult<ParameterLogItem> searchResult) throws BGException {
+            Pageable<ParameterLogItem> searchResult) throws BGException {
 
         PreparedQuery pq = new PreparedQuery(con);
         Page page = searchResult.getPage();

@@ -12,11 +12,11 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.Config;
 import ru.bgcrm.model.ConfigRecord;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
@@ -40,7 +40,7 @@ public class ConfigDAO extends CommonDAO {
         this.tableName = tableName;
     }
 
-    public void searchGlobalConfigList(SearchResult<Config> searchResult, Set<Integer> allowedConfigIds, String filterLike)
+    public void searchGlobalConfigList(Pageable<Config> searchResult, Set<Integer> allowedConfigIds, String filterLike)
             throws SQLException {
         if (searchResult != null) {
             Page page = searchResult.getPage();

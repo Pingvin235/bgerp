@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -33,7 +34,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
@@ -239,7 +239,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
      * @param open опциональный фильтр по открытости процесса.
      * @throws BGException
      */
-    public void searchLinkedProcessList(SearchResult<Pair<String, Process>> searchResult,
+    public void searchLinkedProcessList(Pageable<Pair<String, Process>> searchResult,
             String objectType, int objectId, String objectTitle,
             Set<Integer> typeIds, Set<Integer> statusIds, String paramFilter, Boolean open)
             throws Exception {
@@ -304,7 +304,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     @Deprecated
-    public void searchLinkedProcessList(SearchResult<Pair<String, Process>> searchResult,
+    public void searchLinkedProcessList(Pageable<Pair<String, Process>> searchResult,
             String objectType, int objectId,
             Set<Integer> typeIds, Set<Integer> statusIds, String paramFilter, Boolean closed)
             throws Exception {
@@ -343,12 +343,12 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     /**
-     * Calls {@link #searchLinkProcessList(SearchResult, int, Boolean)} with open = null.
+     * Calls {@link #searchLinkProcessList(Pageable, int, Boolean)} with open = null.
      * @param searchResult
      * @param processId
      * @throws Exception
      */
-    public void searchLinkProcessList(SearchResult<Pair<String, Process>> searchResult, int processId)
+    public void searchLinkProcessList(Pageable<Pair<String, Process>> searchResult, int processId)
         throws Exception {
         searchLinkProcessList(searchResult, processId, null);
     }
@@ -360,7 +360,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
      * @param open null or open / close filter.
      * @throws Exception
      */
-    public void searchLinkProcessList(SearchResult<Pair<String, Process>> searchResult, int processId, Boolean open)
+    public void searchLinkProcessList(Pageable<Pair<String, Process>> searchResult, int processId, Boolean open)
             throws Exception {
         if (searchResult == null)
             return;

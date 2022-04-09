@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
@@ -145,7 +145,7 @@ public class MessageTypeCall extends MessageType {
 
     @Override
     public List<Message> newMessageList(ConnectionSet conSet) throws BGException {
-        SearchResult<Message> searchResult = new SearchResult<Message>();
+        Pageable<Message> searchResult = new Pageable<Message>();
 
         MessageDAO messageDao = new MessageDAO(conSet.getConnection());
         messageDao.searchMessageList(searchResult, null, id, Message.DIRECTION_INCOMING, false, null, null, null, null);

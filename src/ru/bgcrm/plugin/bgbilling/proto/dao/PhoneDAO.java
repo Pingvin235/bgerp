@@ -10,13 +10,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.bgerp.model.Pageable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
@@ -415,7 +415,7 @@ public class PhoneDAO
         }
     }
 
-    public void findPhone( SearchResult<ContractPhoneRecord> searchResult,
+    public void findPhone( Pageable<ContractPhoneRecord> searchResult,
                            FindPhoneMode mode,
                            FindPhoneSortMode sort,
                            String phone,

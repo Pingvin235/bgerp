@@ -2,10 +2,11 @@ package ru.bgcrm.dao.message;
 
 import java.util.Set;
 
+import org.bgerp.model.Pageable;
+
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -24,7 +25,7 @@ public class MessageTypeSearchCustomerByTitle extends MessageTypeSearch {
 
     @Override
     public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) throws BGException {
-        SearchResult<Customer> searchResult = new SearchResult<Customer>();
+        Pageable<Customer> searchResult = new Pageable<Customer>();
         new CustomerDAO(conSet.getConnection()).searchCustomerList(searchResult, "%" + form.getParam("title") + "%");
 
         for (Customer customer : searchResult.getList()) {

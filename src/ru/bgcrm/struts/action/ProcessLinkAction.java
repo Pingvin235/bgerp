@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessQueueCache;
@@ -29,7 +30,6 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.IfaceState;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.ProcessType;
@@ -77,7 +77,7 @@ public class ProcessLinkAction extends ProcessAction {
                 filters.add(new FilterProcessType(0, ParameterMap.of(Filter.ON_EMPTY_VALUES, Utils.toString(paramProcessTypeId))));
             }
 
-            SearchResult<Object[]> searchResult = new SearchResult<Object[]>(form);
+            Pageable<Object[]> searchResult = new Pageable<Object[]>(form);
 
             ProcessDAO processDAO = new ProcessDAO(con, form.getUser());
             processDAO.searchProcess(searchResult, null, queue, form);
@@ -89,7 +89,7 @@ public class ProcessLinkAction extends ProcessAction {
             queue.processDataForMedia(form, Queue.MEDIA_HTML, list);
             request.setAttribute("queue", queue);
         } else {
-            SearchResult<Pair<String, Process>> searchResult = new SearchResult<Pair<String, Process>>(form);
+            Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>(form);
             processLinkDAO.searchLinkedProcessList(searchResult, CommonDAO.getLikePatternStart(objectType), id, null,
                     paramProcessTypeId, form.getSelectedValues("statusId"), form.getParam("paramFilter"),
                     paramOpen);
@@ -195,7 +195,7 @@ public class ProcessLinkAction extends ProcessAction {
         request.setAttribute("createTypeList", createTypeList);
 
         // список процессов, к которым привязан данный процесс
-        SearchResult<Pair<String, Process>> searchResultLinked = new SearchResult<>();
+        Pageable<Pair<String, Process>> searchResultLinked = new Pageable<>();
         processLinkDao.searchLinkedProcessList(searchResultLinked, Process.OBJECT_TYPE + "%", id, null, null, null, null, open);
         form.getResponse().setData("linkedProcessList", searchResultLinked.getList());
 
@@ -205,7 +205,7 @@ public class ProcessLinkAction extends ProcessAction {
         }
 
         // привязанные к процессу процессы
-        SearchResult<Pair<String, Process>> searchResultLink = new SearchResult<Pair<String, Process>>(form);
+        Pageable<Pair<String, Process>> searchResultLink = new Pageable<Pair<String, Process>>(form);
         processLinkDao.searchLinkProcessList(searchResultLink, id, open);
 
         // генерация описаний процессов

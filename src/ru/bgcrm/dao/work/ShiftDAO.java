@@ -18,13 +18,15 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.bgerp.model.Pageable;
+
 import java.util.Set;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.model.work.CallboardTask;
 import ru.bgcrm.model.work.Shift;
@@ -51,7 +53,7 @@ public class ShiftDAO
 		super( con );
 	}
 
-	public void searchShift( SearchResult<Shift> searchResult, int category )
+	public void searchShift( Pageable<Shift> searchResult, int category )
 		throws BGException
 	{
 		if( searchResult != null )
@@ -402,7 +404,7 @@ public class ShiftDAO
 	}
 
 	/*
-	 * Возвращает мап Группа - List из Рабочих смен 
+	 * Возвращает мап Группа - List из Рабочих смен
 	 */
 	public Map<Integer, List<WorkShift>> getWorkShift( Callboard callboard, Date fromDate, Date toDate, Map<Integer, List<Integer>> groupWithUsersSet )
 		throws BGException
@@ -412,9 +414,9 @@ public class ShiftDAO
 		try
 		{
 			final int graphId = callboard.getId();
-			
+
 			Map<Key, List<WorkShift>> workShiftData = new HashMap<Key, List<WorkShift>>();
-			
+
 			// убрать в далёком будущем, 03.10.2014
 			// когда-то использовался формат хранения под кодом основной группы, потом был заменён на 0
 			String query =
@@ -428,7 +430,7 @@ public class ShiftDAO
 			ps.executeUpdate();
 			ps.close();
 			con.commit();
-			// 
+			//
 
 			// выбор на день раньше, т.к. оттуда может перейти час
 			query =
@@ -445,7 +447,7 @@ public class ShiftDAO
 			while( rs.next() )
 			{
 				WorkShift shift = getWorkShiftFromRs( rs );
-				
+
 				Key key = new Key( shift.getGroupId(), shift.getUserId() );
 				List<WorkShift> shiftList = workShiftData.get( key );
 				if( shiftList == null )
@@ -479,7 +481,7 @@ public class ShiftDAO
 							for( UserGroup userGroup : UserCache.getUserGroupList( user ) )
 							{
 								//проверяем не выходят ли смены за пределы времени действия группы
-								if( userGroup.getGroupId() == entry.getKey() && userGroup.getDateTo() == null && 
+								if( userGroup.getGroupId() == entry.getKey() && userGroup.getDateTo() == null &&
 									userGroup.getDateFrom() != null &&
 									userGroup.getDateFrom().compareTo( workShift.getDate() ) <= 0 )
 								{
@@ -488,7 +490,7 @@ public class ShiftDAO
 								}
 								else if( userGroup.getGroupId() == entry.getKey() && userGroup.getDateTo() != null &&
         								userGroup.getDateFrom() != null &&
-        								userGroup.getDateFrom().compareTo( workShift.getDate() ) <= 0 && 
+        								userGroup.getDateFrom().compareTo( workShift.getDate() ) <= 0 &&
         								userGroup.getDateTo().compareTo( workShift.getDate() ) >= 0 )
 								{
 									afterCloseGroup = false;
@@ -533,13 +535,13 @@ public class ShiftDAO
 		return resultMap;
 	}
 
-	// первый ключ - группа, второй - пользователь, далее набор дат, в которых пользователь входит в группу 
+	// первый ключ - группа, второй - пользователь, далее набор дат, в которых пользователь входит в группу
 	public Map<Integer, Map<Integer, Set<Date>>> getAvailableDateForShift( Callboard callboard, Map<Integer, List<Integer>> groupWithUsersMap, Date fromDate, Date toDate )
 	{
 		Map<Integer, Map<Integer, Set<Date>>> result = new HashMap<Integer, Map<Integer, Set<Date>>>();
 
 		Calendar calTo = TimeUtils.convertDateToCalendar( toDate );
-		
+
 		for( Map.Entry<Integer, List<Integer>> groupUsers : groupWithUsersMap.entrySet() )
 		{
 			int groupId = groupUsers.getKey();
@@ -547,15 +549,15 @@ public class ShiftDAO
 			{
 				groupId = callboard.getGroupId();
 			}
-			
+
 			Map<Integer, Set<Date>> groupUserDates = new HashMap<Integer, Set<Date>>();
 			result.put( groupId, groupUserDates );
-			
+
 			for( Integer userId : groupUsers.getValue() )
-			{	
+			{
 				Set<Date> userDates = new HashSet<Date>();
 				groupUserDates.put( userId, userDates );
-				
+
 				List<UserGroup> userGroups =  UserCache.getUserGroupList( userId );
 				if( userGroups.size() > 0 )
 				{
@@ -563,10 +565,10 @@ public class ShiftDAO
 					while( TimeUtils.dateBeforeOrEq( cal, calTo ) )
 					{
 						for( UserGroup userGroup : userGroups )
-						{						
+						{
 							if( userGroup.getGroupId() == groupId &&
-								TimeUtils.dateInRange( cal, 
-							                           TimeUtils.convertDateToCalendar( userGroup.getDateFrom() ), 
+								TimeUtils.dateInRange( cal,
+							                           TimeUtils.convertDateToCalendar( userGroup.getDateFrom() ),
 							                           TimeUtils.convertDateToCalendar( userGroup.getDateTo() ) ) )
 							{
 								userDates.add( TimeUtils.convertCalendarToDate( cal ) );
@@ -577,9 +579,9 @@ public class ShiftDAO
 					}
 				}
 			}
-			
+
 		}
-		
+
 		return result;
 	}
 
@@ -945,7 +947,7 @@ public class ShiftDAO
 	}
 
 	/*
-	 * Находит пользователей с рабочими сменами, которые состоят в одной бригаде в один и тот же день, в одной группе вместе с переданной сменой 
+	 * Находит пользователей с рабочими сменами, которые состоят в одной бригаде в один и тот же день, в одной группе вместе с переданной сменой
 	 */
 	public List<WorkShift> findSameWorkShift( WorkShift workShift )
 		throws BGException

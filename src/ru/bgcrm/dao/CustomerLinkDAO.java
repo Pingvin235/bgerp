@@ -9,10 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.bgerp.model.Pageable;
+
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 
 /**
@@ -38,7 +39,7 @@ public class CustomerLinkDAO extends CommonLinkDAO {
         return Customer.OBJECT_TYPE;
     }
 
-    public void searchCustomerByLink(SearchResult<Customer> searchResult, CommonObjectLink link) throws BGException {
+    public void searchCustomerByLink(Pageable<Customer> searchResult, CommonObjectLink link) throws BGException {
         Page page = searchResult.getPage();
         List<Customer> list = searchResult.getList();
 

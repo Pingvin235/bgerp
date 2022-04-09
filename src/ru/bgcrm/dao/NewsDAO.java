@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.cache.UserNewsCache;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 
@@ -27,7 +27,7 @@ public class NewsDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchNewsList(SearchResult<News> searchResult, int userId, Boolean read, String text) throws SQLException {
+    public void searchNewsList(Pageable<News> searchResult, int userId, Boolean read, String text) throws SQLException {
         Page page = searchResult.getPage();
         List<News> result = searchResult.getList();
 

@@ -1,12 +1,12 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
+import org.bgerp.model.Pageable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.IdTitle;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
@@ -215,7 +215,7 @@ public class CrmDAO
 	 * @param contractId ID договора к которому будет привязан звонок
 	 * @param subjectId ID типа звонка
 	 * @param groupId ID группы, на которую будет зарегистрирован звонок и проблема
-	 * @param problemId ID проблемы к которой будет привязан звонок, если problemId <= 0, то будет создана новая проблема 
+	 * @param problemId ID проблемы к которой будет привязан звонок, если problemId <= 0, то будет создана новая проблема
 	 * @param comment комментарий к звонку
 	 * @param problemComment комментарий к проблеме
 	 * @return ID проблемы, созданной по звонку, иначе -1
@@ -321,7 +321,7 @@ public class CrmDAO
 	}
 
 	//с возможностью пролистывания
-	public void getCallList( SearchResult<Call> result, int contractId )
+	public void getCallList( Pageable<Call> result, int contractId )
 		throws BGException
 	{
 		int pageIndex = result.getPage().getPageIndex();
@@ -515,25 +515,25 @@ public class CrmDAO
 		return directoryList;
 	}
 
-	public void getTaskList( SearchResult<Task> result, int contractId, String sort1, String sort2 )
+	public void getTaskList( Pageable<Task> result, int contractId, String sort1, String sort2 )
 		throws BGException
 	{
 		searchTask( result, contractId, null, null, null, null, null, null, null, null, null, sort1, sort2 );
 	}
 
-	public void getTaskList( SearchResult<Task> result, int contractId )
+	public void getTaskList( Pageable<Task> result, int contractId )
 		throws BGException
 	{
 		searchTask( result, contractId, null, null, null, null, null, null, null, null, null, null, null );
 	}
 
-	public void getTaskList( SearchResult<Task> result, int contractId, List<Integer> statusIds )
+	public void getTaskList( Pageable<Task> result, int contractId, List<Integer> statusIds )
 		throws BGException
 	{
 		searchTask( result, contractId, null, null, statusIds, null, null, null, null, null, null, null, null );
 	}
 
-	public void searchTask( SearchResult<Task> result, int contractId,
+	public void searchTask( Pageable<Task> result, int contractId,
 							List<Integer> typeIds, List<Integer> groupIds, List<Integer> statusIds,
 							Date createDateFrom, Date createDateTo,
 							Date closeDateFrom, Date closeDateTo,

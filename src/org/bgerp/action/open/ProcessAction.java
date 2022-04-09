@@ -8,13 +8,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.bgerp.Interface;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.message.MessageSearchDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.SecretExpression;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
@@ -144,7 +144,7 @@ public class ProcessAction extends BaseAction {
         if (config == null || !config.isOpen(process, form) || config.getShowMessagesTagIds() == null)
             return null;
 
-        var result = new SearchResult<Message>(form);
+        var result = new Pageable<Message>(form);
         result.getPage().setPageIndex(Page.PAGE_INDEX_NO_PAGING);
 
         new MessageSearchDAO(conSet.getSlaveConnection())

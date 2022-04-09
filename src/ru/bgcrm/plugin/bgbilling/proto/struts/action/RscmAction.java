@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.RscmDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.rscm.RscmService;
@@ -23,8 +23,8 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class RscmAction
     extends BaseAction
 {
-	public ActionForward serviceList( ActionMapping mapping, DynActionForm form, 
-	                                  HttpServletRequest request, HttpServletResponse response, 
+	public ActionForward serviceList( ActionMapping mapping, DynActionForm form,
+	                                  HttpServletRequest request, HttpServletResponse response,
 	                                  ConnectionSet conSet )
 		throws BGException
 	{
@@ -36,12 +36,12 @@ public class RscmAction
 		Date dateTo = form.getParamDate( "dateTo", TimeUtils.getEndMonth( curdate ).getTime() );
 
 		new RscmDAO( form.getUser(), billingId, moduleId )
-			.getServices( new SearchResult<RscmService>( form ), contractId, dateFrom, dateTo );;
-		
+			.getServices( new Pageable<RscmService>( form ), contractId, dateFrom, dateTo );;
+
 		return processUserTypedForward( conSet, mapping, form, response, "serviceList" );
 	}
-	
-	
+
+
 	public ActionForward serviceGet( ActionMapping mapping,
 	                                 DynActionForm form,
 	                                 HttpServletRequest request,
@@ -80,12 +80,12 @@ public class RscmAction
 		service.setDate( form.getParamDate( "date" ) );
 		service.setAmount( form.getParamInt( "amount" ) );
 		service.setComment( form.getParam( "comment", "" ) );
-		
+
 		new RscmDAO( form.getUser(), billingId, moduleId ).updateService( service );
-		
+
 		return processJsonForward( conSet, form, response );
 	}
-	
+
 	public ActionForward serviceDelete( ActionMapping mapping,
 	                                    DynActionForm form,
 	                                    HttpServletRequest request,
@@ -99,7 +99,7 @@ public class RscmAction
 		Date month = form.getParamDate( "month" );
 
 		new RscmDAO( form.getUser(), billingId, moduleId ).deleteService( contractId, form.getId(), month  );
-		
+
 		return processJsonForward( conSet, form, response );
-	}    
+	}
 }

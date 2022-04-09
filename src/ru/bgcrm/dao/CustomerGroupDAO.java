@@ -9,8 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.model.Pageable;
+
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.CustomerGroup;
 import ru.bgcrm.util.sql.SQLUtils;
 
@@ -22,7 +23,7 @@ public class CustomerGroupDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchGroup(SearchResult<CustomerGroup> searchResult) throws BGException {
+    public void searchGroup(Pageable<CustomerGroup> searchResult) throws BGException {
         searchResult.getList().addAll(getGroupList());
     }
 

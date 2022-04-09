@@ -10,11 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.bgerp.model.Pageable;
+
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.plugin.document.model.Document;
 
 public class DocumentDAO extends CommonDAO {
@@ -122,7 +123,7 @@ public class DocumentDAO extends CommonDAO {
      * @param objectId
      * @throws BGException
      */
-    public void searchObjectDocuments(SearchResult<Document> result, String objectType, int objectId)
+    public void searchObjectDocuments(Pageable<Document> result, String objectType, int objectId)
             throws BGException {
         List<Document> list = result.getList();
 

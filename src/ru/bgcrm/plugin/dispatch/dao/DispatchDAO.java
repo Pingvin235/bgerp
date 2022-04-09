@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;
 import ru.bgcrm.plugin.dispatch.model.DispatchMessage;
 import ru.bgcrm.util.TimeUtils;
@@ -31,7 +31,7 @@ public class DispatchDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchDispatch(SearchResult<Dispatch> result) throws BGException {
+    public void searchDispatch(Pageable<Dispatch> result) throws BGException {
         try {
             String query = "SELECT * FROM " + TABLE_DISPATCH + " ORDER BY title";
 
@@ -144,7 +144,7 @@ public class DispatchDAO extends CommonDAO {
         dispatchUpdateAccountCounts();
     }
 
-    public void messageSearch(SearchResult<DispatchMessage> result, Boolean sent) throws BGException {
+    public void messageSearch(Pageable<DispatchMessage> result, Boolean sent) throws BGException {
         try {
             PreparedQuery pq = new PreparedQuery(con);
             pq.addQuery("SELECT * FROM " + TABLE_DISPATCH_MESSAGE);

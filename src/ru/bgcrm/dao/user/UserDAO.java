@@ -19,13 +19,13 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ParamValueSearchDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
@@ -46,7 +46,7 @@ public class UserDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchUser(SearchResult<User> searchResult, String filterLike, Set<Integer> groupFilter,
+    public void searchUser(Pageable<User> searchResult, String filterLike, Set<Integer> groupFilter,
             Set<Integer> groupSelectFilter, Date date, Set<Integer> permsetFilter, int statusFilter)
             throws SQLException {
         Page page = searchResult.getPage();
@@ -144,7 +144,7 @@ public class UserDAO extends CommonDAO {
      * @param email E-Mail, поиск идёт по точному совпадению и совпадению домена
      * @throws SQLException
      */
-    public void searchUserListByEmail(SearchResult<ParameterSearchedObject<User>> searchResult,
+    public void searchUserListByEmail(Pageable<ParameterSearchedObject<User>> searchResult,
             List<Integer> emailParamIdList, String email) throws BGException {
         new ParamValueSearchDAO(con).searchObjectListByEmail(TABLE_USER, rs -> getFromRS(rs, "c.", false, false), searchResult,
                 emailParamIdList, email);

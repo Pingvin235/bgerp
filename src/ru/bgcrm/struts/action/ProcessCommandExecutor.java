@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.UserCache;
@@ -29,7 +30,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
@@ -353,7 +353,7 @@ public class ProcessCommandExecutor {
                     throw new BGException("Не определён тип для создания");
                 }
 
-                SearchResult<Pair<String, Process>> searchResult = new SearchResult<Pair<String, Process>>();
+                Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>();
                 new ProcessLinkDAO(con).searchLinkedProcessList(searchResult, Process.LINK_TYPE_DEPEND, process.getId(), null, null, null, null,
                         null);
 

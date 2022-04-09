@@ -17,6 +17,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.bgerp.model.Pageable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -30,7 +31,6 @@ import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.ParamList;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
@@ -270,7 +270,7 @@ public class ServerCustomerCreator
 			return;
 		}
 
-		SearchResult<Customer> result = new SearchResult<Customer>();
+		Pageable<Customer> result = new Pageable<Customer>();
 		customerDao.searchCustomerList( result, CommonDAO.getLikePattern( customerTitle, "subs" ) );
 
 		// строковые представления параметров договоров
@@ -356,7 +356,7 @@ public class ServerCustomerCreator
 	    throws Exception
 	{
 		//
-		SearchResult<Customer> result = new SearchResult<Customer>();
+		Pageable<Customer> result = new Pageable<Customer>();
 		result.getPage().setPageSize( 300 );
 		result.getPage().setPageIndex( 1 );
 
@@ -477,7 +477,7 @@ public class ServerCustomerCreator
 					ParamAddressValue paramAddressValue = contractParamDAO.getAddressParam( contractId, billingParamId );
 					ParameterAddressValue billingAddr = ContractParamDAO.toCrmObject( paramAddressValue, con );
 
-					SearchResult<ParameterSearchedObject<Customer>> searchResult = new SearchResult<ParameterSearchedObject<Customer>>();
+					Pageable<ParameterSearchedObject<Customer>> searchResult = new Pageable<ParameterSearchedObject<Customer>>();
 					customerDao.searchCustomerListByAddress( searchResult, Collections.singletonList( param.getId() ), billingAddr.getHouseId(), billingAddr.getFlat(), billingAddr.getRoom() );
 
 					for( ParameterSearchedObject<Customer> result : searchResult.getList() )
@@ -497,7 +497,7 @@ public class ServerCustomerCreator
 				{
 					String[] phones = stringValue.split( ";" );
 
-					SearchResult<Customer> searchResult = new SearchResult<Customer>();
+					Pageable<Customer> searchResult = new Pageable<Customer>();
 					customerDao.searchCustomerListByPhone( searchResult, Collections.singletonList( param.getId() ), phones );
 
 					Customer customer = searchCustomer( searchResult, param.getId(), customerTitle );
@@ -509,7 +509,7 @@ public class ServerCustomerCreator
 				}
 				else if( Parameter.TYPE_TEXT.equals( param.getType() ) )
 				{
-					SearchResult<Customer> searchResult = new SearchResult<Customer>();
+					Pageable<Customer> searchResult = new Pageable<Customer>();
 					customerDao.searchCustomerListByText( searchResult, Collections.singletonList( param.getId() ), CommonDAO.getLikePatternSub( stringValue ) );
 
 					Customer customer = searchCustomer( searchResult, param.getId(), customerTitle );
@@ -524,7 +524,7 @@ public class ServerCustomerCreator
 		return null;
 	}
 
-	private Customer searchCustomer( SearchResult<Customer> searchResult, int paramId, String customerTitle )
+	private Customer searchCustomer( Pageable<Customer> searchResult, int paramId, String customerTitle )
 	{
 		int titleDistance = config.getMaxTitleDistance( paramId );
 		for( Customer customer : searchResult.getList() )

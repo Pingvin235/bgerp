@@ -9,6 +9,7 @@ import java.util.Set;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -27,7 +28,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
@@ -181,7 +181,7 @@ public class MessageTypeChannel extends MessageType {
 
                 log.debug("Channel: {}", name);
 
-                SearchResult<Pair<String, Process>> searchResult = new SearchResult<Pair<String, Process>>();
+                Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>();
                 linkDAO.searchLinkedProcessList(searchResult, Plugin.LINK_TYPE_CHANNEL, 1, channelId, null, null, null, null);
 
                 Pair<String, Process> pair = Utils.getFirst(searchResult.getList());

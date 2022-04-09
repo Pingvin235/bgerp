@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerDAO;
@@ -25,7 +26,6 @@ import ru.bgcrm.event.link.LinkAddingEvent;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
@@ -153,7 +153,7 @@ public class CustomerAction extends BaseAction {
         ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con);
         CustomerDAO customerDAO = new CustomerDAO(con);
 
-        SearchResult<Parameter> searchResult = new SearchResult<Parameter>();
+        Pageable<Parameter> searchResult = new Pageable<Parameter>();
         paramDAO.getParameterList(searchResult, Customer.OBJECT_TYPE, "", 0, null);
 
         List<Parameter> customerParameterList = searchResult.getList();

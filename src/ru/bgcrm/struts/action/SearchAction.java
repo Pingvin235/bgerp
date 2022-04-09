@@ -7,12 +7,12 @@ import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
@@ -44,7 +44,7 @@ public class SearchAction extends BaseAction {
         String searchBy = form.getParam("searchBy");
 
         if ("id".equals(searchBy)) {
-            SearchResult<Customer> result = new SearchResult<Customer>(form);
+            Pageable<Customer> result = new Pageable<Customer>(form);
 
             int id = Utils.parseInt(form.getParam("id"));
 
@@ -58,7 +58,7 @@ public class SearchAction extends BaseAction {
 
             return html(con, mapping, form, "customerTitle");
         } else if ("title".equals(searchBy)) {
-            SearchResult<Customer> result = new SearchResult<Customer>(form);
+            Pageable<Customer> result = new Pageable<Customer>(form);
 
             String title = form.getParam("title");
             customerDao.searchCustomerList(result, CommonDAO.getLikePatternSub(title));
@@ -75,13 +75,13 @@ public class SearchAction extends BaseAction {
             return processUserTypedForward(con, mapping, form, "customerTitle");
         } */
         else if ("group".equals(searchBy)) {
-            SearchResult<Customer> result = new SearchResult<Customer>(form);
+            Pageable<Customer> result = new Pageable<Customer>(form);
 
             customerDao.searchCustomerList(result, form.getSelectedValues("groupId"));
 
             return html(con, mapping, form, "customerTitle");
         } else if ("address".equals(searchBy)) {
-            SearchResult<ParameterSearchedObject<Customer>> result = new SearchResult<ParameterSearchedObject<Customer>>(form);
+            Pageable<ParameterSearchedObject<Customer>> result = new Pageable<ParameterSearchedObject<Customer>>(form);
 
             int streetId = Utils.parseInt(form.getParam("streetId"));
             String house = form.getParam("house");
@@ -93,7 +93,7 @@ public class SearchAction extends BaseAction {
 
             return html(con, mapping, form, "customerAddress");
         } else if ("email".equals(searchBy)) {
-            SearchResult<ParameterSearchedObject<Customer>> result = new SearchResult<ParameterSearchedObject<Customer>>(form);
+            Pageable<ParameterSearchedObject<Customer>> result = new Pageable<ParameterSearchedObject<Customer>>(form);
 
             String email = form.getParam("email");
 
@@ -102,7 +102,7 @@ public class SearchAction extends BaseAction {
 
             return html(con, mapping, form, "customerTitle");
         } else if ("phone".equals(searchBy)) {
-            SearchResult<Customer> result = new SearchResult<Customer>(form);
+            Pageable<Customer> result = new Pageable<Customer>(form);
             String phone = form.getParam("phone");
 
             List<Integer> paramIds = Utils.toIntegerList(form.getParam("phoneParamIds"));
@@ -115,7 +115,7 @@ public class SearchAction extends BaseAction {
 
             return html(con, mapping, form, "customerTitle");
         } else if ("linkedObjectTitle".equals(searchBy)) {
-            SearchResult<Customer> result = new SearchResult<Customer>(form);
+            Pageable<Customer> result = new Pageable<Customer>(form);
 
             String linkedObjectTitle = form.getParam("linkedObjectTitle");
             String linkedObjectTypeLike = form.getParam("linkedObjectTypeLike");
@@ -136,11 +136,11 @@ public class SearchAction extends BaseAction {
         if ("userId".equals(searchBy)) {
             int mode = form.getParamInt("mode");
 
-            processDao.searchProcessListForUser(new SearchResult<Process>(form), form.getUserId(), mode);
+            processDao.searchProcessListForUser(new Pageable<Process>(form), form.getUserId(), mode);
 
             return html(con, mapping, form, "process");
         } else if ("id".equals(searchBy)) {
-            SearchResult<Process> result = new SearchResult<>(form);
+            Pageable<Process> result = new Pageable<>(form);
 
             Process process = processDao.getProcess(form.getId());
             if (process != null) {

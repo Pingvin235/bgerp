@@ -2,11 +2,11 @@ package org.bgerp.plugin.bil.billing.invoice.dao;
 
 import java.sql.Connection;
 
+import org.bgerp.model.Pageable;
 import org.bgerp.plugin.bil.billing.invoice.model.Invoice;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.model.SearchResult;
 
 /**
  * Fluent invoice search DAO.
@@ -43,7 +43,7 @@ public class InvoiceSearchDAO extends CommonDAO {
         return this;
     }
 
-    public void search(SearchResult<Invoice> result) throws Exception {
+    public void search(Pageable<Invoice> result) throws Exception {
         var query = SQL_SELECT_COUNT_ROWS + "*" + SQL_FROM + Tables.TABLE_INVOICE + SQL_WHERE + "1>0";
         try (var pq = new PreparedQuery(con, query)) {
             if (processId > 0)

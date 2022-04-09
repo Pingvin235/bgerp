@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -20,7 +21,6 @@ import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
@@ -41,7 +41,7 @@ public class SearchDAO extends CommonDAO {
      * @param filter строка запроса с символами + и - для добавления / удаления слов.
      * @throws SQLException
      */
-    public void searchCustomer(SearchResult<Customer> result, String filter) throws SQLException {
+    public void searchCustomer(Pageable<Customer> result, String filter) throws SQLException {
         searchObjects(result, filter, TABLE_CUSTOMER, Customer.OBJECT_TYPE, rs -> {
             try {
                 return CustomerDAO.getCustomerFromRs(rs, "o.");
@@ -57,7 +57,7 @@ public class SearchDAO extends CommonDAO {
      * @param filter строка запроса с символами + и - для добавления / удаления слов.
      * @throws SQLException
      */
-    public void searchProcess(SearchResult<Process> result, String filter) throws SQLException {
+    public void searchProcess(Pageable<Process> result, String filter) throws SQLException {
         searchObjects(result, filter, TABLE_PROCESS, Process.OBJECT_TYPE, rs -> {
             try {
                 return ProcessDAO.getProcessFromRs(rs, "o.");
@@ -67,7 +67,7 @@ public class SearchDAO extends CommonDAO {
         });
     }
 
-    private <T> void searchObjects(SearchResult<T> result, String filter,
+    private <T> void searchObjects(Pageable<T> result, String filter,
         String tableName, String objectType, Function<ResultSet, T> extractor) throws SQLException {
         String query = SQL_SELECT_COUNT_ROWS + "o.* FROM " + TABLE + " AS ft "
                 + SQL_INNER_JOIN + tableName + " AS o ON ft.object_id=o.id"
@@ -90,7 +90,7 @@ public class SearchDAO extends CommonDAO {
      * @param filter строка запроса с символами + и - для добавления / удаления слов.
      * @throws SQLException
      */
-    public void searchMessages(SearchResult<Pair<Message, Process>> result, String filter) throws SQLException {
+    public void searchMessages(Pageable<Pair<Message, Process>> result, String filter) throws SQLException {
         String query = SQL_SELECT_COUNT_ROWS + "m.*, p.* FROM " + TABLE + " AS ft "
                 + SQL_INNER_JOIN + TABLE_MESSAGE + " AS m ON ft.object_id=m.id "
                 + SQL_LEFT_JOIN + TABLE_PROCESS + " AS p ON m.process_id=p.id "

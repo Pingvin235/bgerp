@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -29,7 +30,6 @@ import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.config.IsolationConfig;
 import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.message.Message;
@@ -330,7 +330,7 @@ public class MessageDAO extends CommonDAO {
 
     /** Use {@link MessageSearchDAO}. */
     @Deprecated
-    public void searchMessageList(SearchResult<Message> searchResult, Integer processId, Integer typeId,
+    public void searchMessageList(Pageable<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from)
             throws BGException {
         searchMessageList(searchResult, processId, typeId, direction, processed, withAttach,
@@ -339,7 +339,7 @@ public class MessageDAO extends CommonDAO {
 
     /** Use {@link MessageSearchDAO}. */
     @Deprecated
-    public void searchMessageList(SearchResult<Message> searchResult, Integer processId, Integer typeId,
+    public void searchMessageList(Pageable<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder) throws BGException {
         searchMessageList(searchResult, processId, typeId, direction, processed, withAttach,
@@ -348,7 +348,7 @@ public class MessageDAO extends CommonDAO {
 
     /** Use {@link MessageSearchDAO}. */
     @Deprecated
-    public void searchMessageList(SearchResult<Message> searchResult, Integer processId, Integer typeId,
+    public void searchMessageList(Pageable<Message> searchResult, Integer processId, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder, Set<Integer> tagIds) throws BGException {
         searchMessageList(searchResult, processId != null ? Collections.singleton(processId) : null, typeId != null ? Collections.singleton(typeId) : null,
@@ -357,7 +357,7 @@ public class MessageDAO extends CommonDAO {
 
     /** Use {@link MessageSearchDAO}. */
     @Deprecated
-    public void searchMessageList(SearchResult<Message> searchResult, Collection<Integer> processIds, Integer typeId,
+    public void searchMessageList(Pageable<Message> searchResult, Collection<Integer> processIds, Integer typeId,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder, Set<Integer> tagIds) throws BGException {
         searchMessageList(searchResult, processIds, typeId != null ? Collections.singleton(typeId) : null, direction, processed, withAttach,
@@ -366,7 +366,7 @@ public class MessageDAO extends CommonDAO {
 
     /** Use {@link MessageSearchDAO}. */
     @Deprecated
-    public void searchMessageList(SearchResult<Message> searchResult, Collection<Integer> processIds, Set<Integer> typeIds,
+    public void searchMessageList(Pageable<Message> searchResult, Collection<Integer> processIds, Set<Integer> typeIds,
             Integer direction, Boolean processed, Boolean withAttach, Date dateFrom, Date dateTo, String from,
             boolean reverseOrder, Set<Integer> tagIds) throws BGException {
         try {

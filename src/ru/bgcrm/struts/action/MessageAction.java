@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.bgerp.event.ProcessFilesEvent;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -39,7 +40,6 @@ import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.process.Process;
@@ -266,7 +266,7 @@ public class MessageAction extends BaseAction {
                 .withDateFrom(form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null))
                 .withFrom(CommonDAO.getLikePatternSub(form.getParam("from")))
                 .withFromTimeReverseOrder(reverseOrder)
-                .search(new SearchResult<Message>(form));
+                .search(new Pageable<Message>(form));
         } else {
             // when external system isn't available, an empty table of messages should be however shown
             try {
@@ -410,7 +410,7 @@ public class MessageAction extends BaseAction {
             .withDateFrom(form.getParamDate("dateFrom"), form.getParamDate("dateTo"))
             .withFromTimeReverseOrder(true)
             .withTagId(tagId)
-            .search(new SearchResult<>(form));
+            .search(new Pageable<>(form));
 
         Map<Integer, Set<Integer>> messageTagMap = new MessageDAO(conSet.getConnection()).getProcessMessageTagMap(processIds);
         form.setResponseData("messageTagMap", messageTagMap);

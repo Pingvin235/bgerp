@@ -1,21 +1,13 @@
-<%@page import="java.util.Arrays"%>
 <%@page import="ru.bgcrm.model.process.Process"%>
 <%@page import="ru.bgcrm.cache.ProcessTypeCache"%>
 <%@page import="ru.bgcrm.model.process.ProcessType"%>
-<%@page import="ru.bgcrm.plugin.bgbilling.proto.model.crm.task.Task"%>
-<%@page import="ru.bgcrm.model.SearchResult"%>
-<%@page import="ru.bgcrm.plugin.bgbilling.proto.dao.CrmDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@page import="org.apache.commons.lang.StringUtils"%>
 <%@page import="ru.bgcrm.plugin.bgbilling.DBInfoManager"%>
-<%@page import="ru.bgcrm.plugin.bgbilling.Plugin"%>
 <%@page import="ru.bgcrm.util.Setup"%>
 <%@page import="ru.bgcrm.util.sql.ConnectionSet"%>
 <%@page import="ru.bgcrm.util.Utils"%>
-<%@page import="ru.bgcrm.model.Customer"%>
 <%@page import="ru.bgcrm.dao.process.ProcessLinkDAO"%>
-<%@page import="java.sql.Connection"%>
 <%@page import="ru.bgcrm.dao.CustomerLinkDAO"%>
 <%@page import="ru.bgcrm.model.CommonObjectLink"%>
 <%@page import="ru.bgcrm.plugin.bgbilling.proto.model.Contract"%>
@@ -47,27 +39,6 @@
 			{
 				// привязанный договор
 				linksForAdd.add( link );
-
-				// TODO: Удалить, старое.
-				if( type.getProperties().getConfigMap().getBoolean( "bgbilling:offerTasksForLink", false ) )
-				{
-					String billingId = StringUtils.substringAfter( link.getLinkedObjectType(), ":" );
-					CrmDAO crmDao = new CrmDAO( form.getUser(), billingId );
-
-					SearchResult<Task> taskList = new SearchResult<Task>();
-					crmDao.getTaskList( taskList, link.getLinkedObjectId(), Arrays.asList( 0,1 ) );
-
-					for( Task task : taskList.getList() )
-					{
-						CommonObjectLink taskLink = new CommonObjectLink();
-						taskLink.setObjectId( form.getId() );
-						taskLink.setLinkedObjectType( "bgbilling-task:" + billingId );
-						taskLink.setLinkedObjectId( task.getId() );
-						taskLink.setLinkedObjectTitle( link.getLinkedObjectTitle() + " => " + task.getTypeId() );
-
-						linksForAdd.add( taskLink );
-					}
-				}
 			}
 		}
 	}

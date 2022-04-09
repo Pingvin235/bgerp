@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -19,7 +20,6 @@ import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.LastModifyDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.process.TypeProperties;
@@ -40,7 +40,7 @@ public class ProcessTypeDAO extends CommonDAO {
      * @param filterLike если не null - SQL LIKE выражение, фильтр по наименованию типа либо конфигурации
      * @throws Exception
      */
-    public void searchProcessType(SearchResult<ProcessType> searchResult, int parentId, String filterLike) throws Exception {
+    public void searchProcessType(Pageable<ProcessType> searchResult, int parentId, String filterLike) throws Exception {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<ProcessType> list = searchResult.getList();

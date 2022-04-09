@@ -5,10 +5,10 @@ import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;
 import ru.bgcrm.plugin.dispatch.model.DispatchMessage;
@@ -17,9 +17,9 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class DispatchAction extends BaseAction {
-    
+
     public ActionForward dispatchList(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
-        new DispatchDAO(con).searchDispatch(new SearchResult<Dispatch>(form));
+        new DispatchDAO(con).searchDispatch(new Pageable<Dispatch>(form));
 
         return html(con, mapping, form, "dispatchList");
     }
@@ -46,7 +46,7 @@ public class DispatchAction extends BaseAction {
     public ActionForward messageList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
         form.getHttpRequest().setAttribute("dispatchList", new DispatchDAO(conSet.getSlaveConnection()).dispatchList(null));
 
-        new DispatchDAO(conSet.getConnection()).messageSearch(new SearchResult<DispatchMessage>(form), form.getParamBoolean("sent", null));
+        new DispatchDAO(conSet.getConnection()).messageSearch(new Pageable<DispatchMessage>(form), form.getParamBoolean("sent", null));
 
         return html(conSet, mapping, form, "messageList");
     }
@@ -85,5 +85,5 @@ public class DispatchAction extends BaseAction {
 
         return json(con, form);
     }
-    
+
 }

@@ -16,6 +16,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -41,7 +42,6 @@ import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.EntityLogItem;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.config.IsolationConfig;
 import ru.bgcrm.model.config.IsolationConfig.IsolationProcess;
 import ru.bgcrm.model.message.Message;
@@ -326,7 +326,7 @@ public class ProcessAction extends BaseAction {
 
         int statusId = Utils.parseInt(form.getParam("statusId"));
         if ("prev".equals(form.getParam("statusId"))) {
-            SearchResult<StatusChange> searchResult = new SearchResult<StatusChange>();
+            Pageable<StatusChange> searchResult = new Pageable<StatusChange>();
             new StatusChangeDAO(con).searchProcessStatus(searchResult, process.getId(), null);
             if (searchResult.getList().size() < 2) {
                 throw new BGMessageException("У процесса не было предыдущего статуса.");
@@ -393,7 +393,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processStatusHistory(DynActionForm form, Connection con) throws Exception {
-        new StatusChangeDAO(con).searchProcessStatus(new SearchResult<StatusChange>(form), form.getId(), form.getSelectedValues("statusId"));
+        new StatusChangeDAO(con).searchProcessStatus(new Pageable<StatusChange>(form), form.getId(), form.getSelectedValues("statusId"));
         return html(con, form, PATH_JSP + "/process/status_history.jsp");
     }
 
@@ -779,7 +779,7 @@ public class ProcessAction extends BaseAction {
             objects.add(new CommonObjectLink(0, object.substring(0, pos), Utils.parseInt(object.substring(pos + 1)), ""));
         }
 
-        SearchResult<Process> processSearchResult = new SearchResult<Process>(form);
+        Pageable<Process> processSearchResult = new Pageable<Process>(form);
         new ProcessDAO(con, form.getUser()).searchProcessListForMessage(processSearchResult, addressFrom, objects, open);
 
         return html(con, form, PATH_JSP + "/message_related_process_list.jsp");
@@ -787,13 +787,13 @@ public class ProcessAction extends BaseAction {
 
     public ActionForward unionLog(DynActionForm form, Connection con) throws Exception {
         new ProcessDAO(con).searchProcessLog(getProcessType(getProcess(new ProcessDAO(con), form.getId()).getTypeId()),
-                form.getId(), new SearchResult<EntityLogItem>(form));
+                form.getId(), new Pageable<EntityLogItem>(form));
 
         return html(con, form, "/WEB-INF/jspf/union_log.jsp");
     }
 
     public ActionForward userProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
-        new ProcessDAO(conSet.getSlaveConnection()).searchProcessListForUser(new SearchResult<Process>(form),
+        new ProcessDAO(conSet.getSlaveConnection()).searchProcessListForUser(new Pageable<Process>(form),
                 form.getUserId(), form.getParamBoolean("open", null));
 
         return html(conSet, form, PATH_JSP + "/user_process_list.jsp");

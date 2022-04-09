@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
@@ -26,15 +26,15 @@ public class UserGroupDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchGroup(SearchResult<Group> searchResult, int parentId) throws BGException {
+    public void searchGroup(Pageable<Group> searchResult, int parentId) throws BGException {
         searchGroup(searchResult, parentId, 0, "");
     }
 
-    public void searchGroup(SearchResult<Group> searchResult, int parentId, int archive) throws BGException {
+    public void searchGroup(Pageable<Group> searchResult, int parentId, int archive) throws BGException {
         searchGroup(searchResult, parentId, 0, "");
     }
 
-    public void searchGroup(SearchResult<Group> searchResult, int parentId, int archive, String filter) throws BGException {
+    public void searchGroup(Pageable<Group> searchResult, int parentId, int archive, String filter) throws BGException {
         Page page = searchResult.getPage();
         try {
             List<Group> list = searchResult.getList();

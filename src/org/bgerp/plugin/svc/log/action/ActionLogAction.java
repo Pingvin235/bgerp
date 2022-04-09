@@ -4,12 +4,12 @@ import java.time.YearMonth;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.model.Pageable;
 import org.bgerp.plugin.svc.log.Plugin;
 import org.bgerp.plugin.svc.log.dao.ActionLogDAO;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -42,7 +42,7 @@ public class ActionLogAction extends BaseAction {
             .withParameter(form.getParam("parameter"))
             .withUserIds(form.getSelectedValues("userId"))
             .withActions(form.getSelectedValuesStr("perm"))
-            .search(new SearchResult<>(form));
+            .search(new Pageable<>(form));
 
         return unspecified(form, conSet);
     }

@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
@@ -20,7 +21,6 @@ import ru.bgcrm.event.user.UserChangedEvent;
 import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.Permset;
@@ -38,7 +38,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/user";
 
     public ActionForward permsetList(DynActionForm form, Connection con) throws BGException {
-        new UserPermsetDAO(con).searchPermset(new SearchResult<Permset>(form),
+        new UserPermsetDAO(con).searchPermset(new Pageable<Permset>(form),
                 CommonDAO.getLikePatternSub(form.getParam("filter")));
 
         return html(con, form, PATH_JSP + "/permset/list.jsp");
@@ -112,7 +112,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         request.setAttribute("groupPath", UserCache.getGroupPath(parentId));
 
-        new UserGroupDAO(con).searchGroup(new SearchResult<Group>(form), parentId, archive, filter);
+        new UserGroupDAO(con).searchGroup(new Pageable<Group>(form), parentId, archive, filter);
 
         int id = form.getParamInt("markGroup", -1);
         if (id > 0) {
@@ -227,7 +227,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             groups = Utils.toIntegerSet(allowOnlyGroups);
         }
 
-        new UserDAO(con).searchUser(new SearchResult<>(form), CommonDAO.getLikePatternSub(form.getParam("title")),
+        new UserDAO(con).searchUser(new Pageable<>(form), CommonDAO.getLikePatternSub(form.getParam("title")),
                 groups, null, actualDate, permsets, status);
 
         return html(con, form, PATH_JSP + "/user/list.jsp");

@@ -22,6 +22,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.model.Pageable;
 import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
 import org.bgerp.util.Log;
 
@@ -38,7 +39,6 @@ import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
@@ -514,7 +514,7 @@ public class MessageTypeEmail extends MessageType {
                     msg.setSubject(quickAnswerSubject);
 
                     // поиск пользователя по E-Mail
-                    SearchResult<ParameterSearchedObject<User>> searchResult = new SearchResult<>();
+                    Pageable<ParameterSearchedObject<User>> searchResult = new Pageable<>();
                     new UserDAO(con).searchUserListByEmail(searchResult, Collections.singletonList(quickAnswerEmailParamId), msg.getFrom());
                     ParameterSearchedObject<User> user = Utils.getFirst(searchResult.getList());
 

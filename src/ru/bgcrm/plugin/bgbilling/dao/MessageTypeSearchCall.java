@@ -5,11 +5,11 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
@@ -25,7 +25,7 @@ public class MessageTypeSearchCall extends MessageTypeSearchBilling {
 
     private final List<String> commands;
     private final String phonePreprocessJexl;
-    
+
     public MessageTypeSearchCall(ParameterMap config) throws BGException {
         super(config);
 
@@ -55,7 +55,7 @@ public class MessageTypeSearchCall extends MessageTypeSearchBilling {
             } else if (command.startsWith("contractByPhoneParam:")) {
                 String paramIds = StringUtils.substringAfter(command, ":");
 
-                SearchResult<Contract> searchResult = new SearchResult<Contract>();
+                Pageable<Contract> searchResult = new Pageable<Contract>();
                 ContractDAO.getInstance(form.getUser(), billingId).searchContractByPhoneParam(searchResult, null,
                         Utils.toIntegerSet(paramIds), numberFrom);
 

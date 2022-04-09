@@ -5,12 +5,12 @@ import java.sql.SQLException;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import org.bgerp.model.Pageable;
 import org.bgerp.plugin.report.action.ReportActionBase;
 
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.struts.form.DynActionForm;
 
-public class Data extends SearchResult<Record> {
+public class Data extends Pageable<Record> {
     private final ReportActionBase action;
     private final DynActionForm form;
     private final Columns columns;
@@ -46,7 +46,7 @@ public class Data extends SearchResult<Record> {
     }
 
     /**
-     * Adds a new record and returns it. 
+     * Adds a new record and returns it.
      * @return
      */
     public Record addRecord() {

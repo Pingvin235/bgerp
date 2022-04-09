@@ -2,10 +2,10 @@ package ru.bgcrm.struts.action.admin;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.CustomerGroupCache;
 import ru.bgcrm.dao.CustomerGroupDAO;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.CustomerGroup;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -18,7 +18,7 @@ public class CustomerAction extends BaseAction {
 
     public ActionForward groupList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
         CustomerGroupDAO customerGroupDAO = new CustomerGroupDAO(conSet.getConnection());
-        customerGroupDAO.searchGroup(new SearchResult<CustomerGroup>(form));
+        customerGroupDAO.searchGroup(new Pageable<CustomerGroup>(form));
 
         return mapping.findForward("groupList");
     }

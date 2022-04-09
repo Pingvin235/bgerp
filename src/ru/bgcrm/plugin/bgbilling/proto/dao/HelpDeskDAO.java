@@ -8,13 +8,13 @@ import java.util.List;
 import javax.xml.ws.Holder;
 
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.model.Pageable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
@@ -47,15 +47,15 @@ public class HelpDeskDAO extends BillingDAO {
     /*http://billing:8081/executer?module=ru.bitel.bgbilling.plugins.helpdesk&status=-1&pageSize=25&userselect=all&onlynew=1&
     	BGBillingSecret=xiYJbPNwknnkCDWUGBcrLZki&pageIndex=1&message=&title=&action=GetTableAdmin
     	&date2=&closed=0&tid=&cache_directory=ru.bitel.bgbilling.plugins.helpdesk.directory.status%3A1381143257497%3B&date1=&
-    
+
     [ length = 12023 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="5634DD7F89879F7710A4AFEB509E5D4E" status="ok"><table pageCount="3" pageIndex="1" pageSize="25" recordCount="74"><data>
-    
-    <row category_subcategory="неустановлен ( неустановлен )" cid="1043" comm="E-mail: bulgak@ruscomnet.ru" 
-     contract_comment="&lt;html&gt;BS040-09 ( &lt;b&gt;ООО &quot;РусКомНет&quot;&lt;/b&gt; )&lt;/html&gt;" date="28.08.2009 12:45:33" dateClose="" id="992" 
-     lastmessage="14.10.2009 15:45:13" messages="9 [1]" statClose="открыт" status="Доработка / открыт" timeFromLastMessage="1461:02:50" 
-     topic="Сбор трафика по SNMP" 
+
+    <row category_subcategory="неустановлен ( неустановлен )" cid="1043" comm="E-mail: bulgak@ruscomnet.ru"
+     contract_comment="&lt;html&gt;BS040-09 ( &lt;b&gt;ООО &quot;РусКомНет&quot;&lt;/b&gt; )&lt;/html&gt;" date="28.08.2009 12:45:33" dateClose="" id="992"
+     lastmessage="14.10.2009 15:45:13" messages="9 [1]" statClose="открыт" status="Доработка / открыт" timeFromLastMessage="1461:02:50"
+     topic="Сбор трафика по SNMP"
      user="Шамиль Вахитов" userId="3"/>*/
-    public void seachTopicList(SearchResult<HdTopic> result, Date messagesAfterTime, Boolean closed, Boolean onlyNew, Integer tid)
+    public void seachTopicList(Pageable<HdTopic> result, Date messagesAfterTime, Boolean closed, Boolean onlyNew, Integer tid)
             throws BGException {
         Request req = new Request();
         req.setModule(MODULE);
@@ -102,9 +102,9 @@ public class HelpDeskDAO extends BillingDAO {
     /*http://billing:8081/executer?module=ru.bitel.bgbilling.plugins.helpdesk&topicId=3815&pageSize=25&action=GetTopicMessage&onlynew=0&
      cache_directory=ru.bitel.bgbilling.plugins.helpdesk.directory.status%3A1381143257497%3B&BGBillingSecret=5uuskSliwBthQkRIilHAkM4s&cid=1750&pageIndex=1&
     [ length = 745 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="74BE90F0DADB791B48FA164FE49DF2FE" status="ok">
-    <table pageCount="1" pageIndex="1" pageSize="25" recordCount="1"><data><row comment="" fromDateTime="29.05.2012 11:19:18" fromName="Клиент" id="45040" 
+    <table pageCount="1" pageIndex="1" pageSize="25" recordCount="1"><data><row comment="" fromDateTime="29.05.2012 11:19:18" fromName="Клиент" id="45040"
     includes="false" new="true" toDateTime="" toName="-" type="входящее"/></data></table>
-    <topic autoclose="false" categoryId="0" cost="0.00" id="3815" newMessageCount="1" packageId="-1" state="false" status="5" subcategoryId="0" 
+    <topic autoclose="false" categoryId="0" cost="0.00" id="3815" newMessageCount="1" packageId="-1" state="false" status="5" subcategoryId="0"
     subject="При удалении договора не удаляются данные в таблицах инвентаризации модуля inet" user="Амир Абзалилов" userMy="notmy"/>
     <cache_directory><document key="ru.bitel.bgbilling.plugins.helpdesk.directory.status" version="1381143257497"/></cache_directory></data>
     */
@@ -178,7 +178,7 @@ public class HelpDeskDAO extends BillingDAO {
 
     /*http://billing:8081/executer?id=22109&module=ru.bitel.bgbilling.plugins.helpdesk&topicId=1587&action=GetMessage&BGBillingSecret=fMw3m7F4koBvH9hawOKNAhMW&
     [ length = 620 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="597838E0794C1587BF9B0F36B7FB3AA2" status="ok">
-    <message comment="" dateFrom="21.09.2010 18:55:42" dateTo="23.09.2010 17:33:12" id="22109" topicId="1587" userFrom="Клиент" userId="3" userIdFrom="0" 
+    <message comment="" dateFrom="21.09.2010 18:55:42" dateTo="23.09.2010 17:33:12" id="22109" topicId="1587" userFrom="Клиент" userId="3" userIdFrom="0"
     userIdTo="6" userIdTopic="6" userName="Шамиль Вахитов" userTo="Амир Абзалилов"><body>
     <row text="Не уверен, т.к. на стороне juniper`а вижу адрес в таком же формате... Счас обновлюсь - отпишусь. Уже достижение: на сессию назначился сервис, переданный через тегированный атрибут. Но пока не удается  через CoA изменить."/></body>
     </message><files><data><row id="1551" size="68096" title="Отчет о промежуточных результатах АСР BGBilling5-1 и Juniper ERX с SM.doc"/></data></files></data>*/
@@ -213,21 +213,21 @@ public class HelpDeskDAO extends BillingDAO {
 
         return result;
     }
-    
+
     /*bgbilling/executer?pageIndex=1&module=ru.bitel.bgbilling.plugins.helpdesk&onlynew=0&action=GetTopics&closed=0&pageSize=100000&
      * <?xml version="1.0" encoding="UTF-8"?><data status="ok"><topisc pageCount="1" pageIndex="1" pageSize="200000" recordCount="329">
       <topic autoclose="false" categoryId="0" category_subcategory="неустановлен ( неустановлен )" cid="770" comm="E-mail: semen@dsi.ru" contract_comment="&lt;html&gt;&lt;nobr&gt;BS001-08 ( &lt;b&gt;ОАО &quot;ДЕЛОВАЯ СЕТЬ - ИРКУТСК&quot;&lt;/b&gt; )&lt;/nobr&gt;&lt;/html&gt;" cost="0.00" date="18.11.2009 08:29:21" dateClose="" id="1237" lastmessage="11.08.2010 12:57:47" messages="35 [0]" newMessageCount="0" notificationMode="2" notificationValue="semen@dsi.ru" packageId="-1" statClose="открыт" state="false" status="Доработка / открыт" statusId="1" subcategoryId="0" subject="Тарифные опции" timeFromLastMessage="3168Д" user="Амир Абзалилов" userId="6" userMy="notmy">
         <message comment="" fromDateTime="18.11.2009 08:29:21" fromName="Клиент" fromUserId="0" id="11606" includes="false" new="false" toDateTime="18.11.2009 12:46:45" toName="Шамиль Вахитов" toUserId="3" type="входящее"/>
         <message comment="" fromDateTime="18.11.2009 12:46:45" fromName="Шамиль Вахитов" fromUserId="3" id="11626" includes="false" new="false" toDateTime="18.11.2009 13:25:21" toName="Клиент" toUserId="0" type="исходящие"/>
      * */
-    public void searchTopicMessages(SearchResult<Pair<HdTopic, List<HdMessage>>> result) throws BGException {
+    public void searchTopicMessages(Pageable<Pair<HdTopic, List<HdMessage>>> result) throws BGException {
         Request req = new Request();
         req.setModule(MODULE);
         req.setAction("GetTopics");
         req.setAttribute("onlynew", 0);
         req.setAttribute("closed", 0);
         req.setAttribute("pageSize", 200000);
-        
+
         Document doc = transferData.postData(req, user);
         for (Element topicEl : XMLUtils.selectElements(doc, "/data//topic")) {
             HdTopic topic = new HdTopic();
@@ -235,18 +235,18 @@ public class HelpDeskDAO extends BillingDAO {
             topic.setTitle(topicEl.getAttribute("subject"));
             topic.setStatusId(Utils.parseInt(topicEl.getAttribute("statusId")));
             topic.setCost(Utils.parseBigDecimal(topicEl.getAttribute("cost")));
-            topic.setUserId(Utils.parseInt(topicEl.getAttribute("userId")));            
+            topic.setUserId(Utils.parseInt(topicEl.getAttribute("userId")));
             topic.setContractId(Utils.parseInt(topicEl.getAttribute("cid")));
             topic.setContractTitle(topicEl.getAttribute("contract"));
             topic.setLastMessageTime(TimeUtils.parse(topicEl.getAttribute("lastmessage"), TimeUtils.PATTERN_DDMMYYYYHHMMSS));
             topic.setContact(topicEl.getAttribute("comm"));
-            
-            List<HdMessage> messages = new ArrayList<>();            
+
+            List<HdMessage> messages = new ArrayList<>();
             for (Element messageEl : XMLUtils.selectElements(topicEl, "message"))
                 messages.add(parseHdMessage(messageEl));
-            
+
             result.getList().add(new Pair<>(topic, messages));
-        } 
+        }
     }
 
     public void markMessageRead(int messageId) throws BGException {
@@ -363,12 +363,12 @@ public class HelpDeskDAO extends BillingDAO {
         byte[] result = null;
 
         /* Попытка переписать загрузку файла на JSON-RPC, не поддерживается сериализация на сервере.
-         if( dbInfo.versionCompare( "6.2" ) >= 0 ) 
+         if( dbInfo.versionCompare( "6.2" ) >= 0 )
         {
         	RequestJsonRpc req = new RequestJsonRpc( MODULE, "HelpdeskService", "fileDownload" );
         	req.setParamContractId( contractId );
         	req.setParam( "fileId", id );
-        	
+
         	JsonNode node = transferData.postData( req, user );
         	System.out.println( node );
         }

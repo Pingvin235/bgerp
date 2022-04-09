@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.IdTitleTree;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterHistory;
@@ -449,7 +449,7 @@ public class ParamDAO extends CommonDAO {
         return getParameterList(objectType, paramGroupId, null);
     }
 
-    public void getParameterList(SearchResult<Parameter> searchResult, String objectType, String titleOrCommentOrConfigFilter, int paramGroupId,
+    public void getParameterList(Pageable<Parameter> searchResult, String objectType, String titleOrCommentOrConfigFilter, int paramGroupId,
             Set<Integer> parameterIdList) throws BGException {
         try {
             Page page = searchResult.getPage();

@@ -2,6 +2,7 @@ package org.bgerp.plugin.bil.billing.invoice.event.listener;
 
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.event.ProcessFilesEvent;
+import org.bgerp.model.Pageable;
 import org.bgerp.plugin.bil.billing.invoice.Plugin;
 import org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction;
 import org.bgerp.plugin.bil.billing.invoice.dao.InvoiceSearchDAO;
@@ -9,7 +10,6 @@ import org.bgerp.plugin.bil.billing.invoice.model.Invoice;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.IdStringTitle;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.servlet.CustomHttpServletResponse;
 import ru.bgcrm.util.Utils;
 import ru.bgerp.l10n.Localization;
@@ -24,7 +24,7 @@ public class Files {
 
     public Files() {
         EventProcessor.subscribe((e, conSet) -> {
-            var result = new SearchResult<Invoice>();
+            var result = new Pageable<Invoice>();
             new InvoiceSearchDAO(conSet.getSlaveConnection())
                 .withProcessId(e.getProcessId())
                 .withPayed(false)

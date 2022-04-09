@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.Permset;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
@@ -28,11 +28,11 @@ public class UserPermsetDAO extends UserDAO {
         super(con);
     }
 
-    public void searchPermset(SearchResult<Permset> searchResult) throws BGException {
+    public void searchPermset(Pageable<Permset> searchResult) throws BGException {
         searchPermset(searchResult, null);
     }
 
-    public void searchPermset(SearchResult<Permset> searchResult, String filterLike) throws BGException {
+    public void searchPermset(Pageable<Permset> searchResult, String filterLike) throws BGException {
         Page page = searchResult.getPage();
         try {
             List<Permset> list = searchResult.getList();

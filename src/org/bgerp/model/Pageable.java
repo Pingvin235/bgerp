@@ -1,28 +1,38 @@
-package ru.bgcrm.model;
+package org.bgerp.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.util.Dynamic;
+
+import ru.bgcrm.model.Page;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
  * Pagination supporting list.
  *
- * @author Shamil
+ * @author Shamil Vakhitov
  */
-// TODO: Rename to PagedData.
-public class SearchResult<L> {
+public class Pageable<T> {
     private Page page = new Page();
     // final, because initially added response.data
-    private final List<L> list = new ArrayList<L>();
+    private final List<T> list = new ArrayList<T>();
 
-    public SearchResult() {}
+    public Pageable() {}
 
-    public SearchResult(int pageSize) {
+    /**
+     * Constructor with page size.
+     * @param pageSize
+     */
+    public Pageable(int pageSize) {
         page.setPageSize(pageSize);
     }
 
-    public SearchResult(DynActionForm form) {
+    /**
+     * Constructor placing created Pageable to {@code form} response.
+     * @param form
+     */
+    public Pageable(DynActionForm form) {
         this.page = form.getPage();
 
         // restore user stored page size
@@ -35,14 +45,22 @@ public class SearchResult<L> {
             }
         }
 
-        form.getResponse().addSearchResult(this);
+        form.getResponse().addPageable(this);
     }
 
+    /**
+     * @return pagination options.
+     */
+    @Dynamic
     public Page getPage() {
         return page;
     }
 
-    public List<L> getList() {
+    /**
+     * @return data list with a page content, the list is modifiable.
+     */
+    @Dynamic
+    public List<T> getList() {
         return list;
     }
 }

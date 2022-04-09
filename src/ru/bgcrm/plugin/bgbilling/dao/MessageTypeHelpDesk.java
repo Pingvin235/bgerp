@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -30,7 +31,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
@@ -202,7 +202,7 @@ public class MessageTypeHelpDesk extends MessageType {
             HelpDeskDAO hdDao = new HelpDeskDAO(user, dbInfo);
 
             if (dbInfo.versionCompare("7.2") >= 0) {
-                SearchResult<Pair<HdTopic, List<HdMessage>>> result = new SearchResult<>();
+                Pageable<Pair<HdTopic, List<HdMessage>>> result = new Pageable<>();
                 result.getPage().setPageIndex(1);
                 result.getPage().setPageSize(pageSize);
 
@@ -219,7 +219,7 @@ public class MessageTypeHelpDesk extends MessageType {
                 }
             } else {
                 // выбор активных топиков
-                SearchResult<HdTopic> result = new SearchResult<HdTopic>();
+                Pageable<HdTopic> result = new Pageable<HdTopic>();
                 result.getPage().setPageIndex(1);
                 result.getPage().setPageSize(pageSize);
 
@@ -252,7 +252,7 @@ public class MessageTypeHelpDesk extends MessageType {
 
                 int topicId = topicLink.getLinkedObjectId();
 
-                SearchResult<HdTopic> topics = new SearchResult<HdTopic>();
+                Pageable<HdTopic> topics = new Pageable<HdTopic>();
                 hdDao.seachTopicList(topics, null, true, false, topicId);
 
                 HdTopic topic = Utils.getFirst(topics.getList());
@@ -286,7 +286,7 @@ public class MessageTypeHelpDesk extends MessageType {
         if (log.isDebugEnabled())
             log.debug("Processing topic: " + topic.getId());
 
-        SearchResult<Pair<String, Process>> searchResult = new SearchResult<Pair<String, Process>>();
+        Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>();
         new ProcessLinkDAO(con, User.USER_SYSTEM).searchLinkedProcessList(searchResult, objectType, topic.getId(), null, null, null, null, null);
 
         Process process = null;
@@ -337,7 +337,7 @@ public class MessageTypeHelpDesk extends MessageType {
     }
 
     protected boolean isTopicClosed(HelpDeskDAO hdDao, int topicId) throws BGException {
-        SearchResult<HdTopic> result2 = new SearchResult<HdTopic>();
+        Pageable<HdTopic> result2 = new Pageable<HdTopic>();
         result2.getPage().setPageIndex(1);
         result2.getPage().setPageSize(pageSize);
         hdDao.seachTopicList(result2, null, true, false, topicId);
@@ -361,7 +361,7 @@ public class MessageTypeHelpDesk extends MessageType {
         Map<Integer, Message> messageMap = new HashMap<Integer, Message>();
 
         // все сообщения из данного HD топика в данном процессе
-        SearchResult<Message> messages = new SearchResult<Message>();
+        Pageable<Message> messages = new Pageable<Message>();
         messageDao.searchMessageList(messages, process.getId(), id, null, null, null, null, null, null);
 
         for (Message message : messages.getList())

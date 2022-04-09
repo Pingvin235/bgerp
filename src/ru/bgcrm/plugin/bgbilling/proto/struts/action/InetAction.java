@@ -2,8 +2,9 @@ package ru.bgcrm.plugin.bgbilling.proto.struts.action;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
+
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.plugin.bgbilling.proto.dao.InetDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetDevice;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetService;
@@ -59,7 +60,7 @@ public class InetAction extends BaseAction {
 		// FIXME: Убрать потом, когда все поля будут заполнены корректно.
 		if (form.getId() > 0)
 		    service = inetDao.getService(form.getId());
-		
+
 		service.setContractId(form.getParamInt("contractId"));
 		service.setId(form.getId());
 		service.setDateFrom(form.getParamDate("dateFrom"));
@@ -91,7 +92,7 @@ public class InetAction extends BaseAction {
 			throws BGException {
 		InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
-		inetDao.getContractSessionAlive(new SearchResult<InetSessionLog>(form), form.getParamInt("contractId"));
+		inetDao.getContractSessionAlive(new Pageable<InetSessionLog>(form), form.getParamInt("contractId"));
 
 		return html(conSet, mapping, form, "contractReport");
 	}
@@ -100,7 +101,7 @@ public class InetAction extends BaseAction {
 			throws BGException {
 		InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
 
-		inetDao.getContractSessionLog(new SearchResult<InetSessionLog>(form), form.getParamInt("contractId"),
+		inetDao.getContractSessionLog(new Pageable<InetSessionLog>(form), form.getParamInt("contractId"),
 				TimeUtils.clear_HOUR_MIN_MIL_SEC(
 						form.getParamDate("dateFrom", TimeUtils.getStartMonth(new GregorianCalendar()).getTime())),
 				TimeUtils.clear_HOUR_MIN_MIL_SEC(
@@ -108,40 +109,40 @@ public class InetAction extends BaseAction {
 
 		return html(conSet, mapping, form, "contractReport");
 	}
-	
+
 	public ActionForward serviceMenu(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
 			throws BGException {
 		InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
-		
+
 		int deviceId = form.getParamInt("deviceId");
-		
+
 		InetDevice device = inetDao.getDevice(deviceId);
 		form.setResponseData("deviceMethods", inetDao.getDeviceManagerMethodList(device.getDeviceTypeId()));
-		
+
 		return html(conSet, mapping, form, "serviceMenu");
 	}
-	
+
 	public ActionForward serviceDeviceManage(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
 			throws BGException {
 		InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
-		
+
 		int deviceId = form.getParamInt("deviceId");
 		String operation = form.getParam("operation");
 
 		InetDevice device = inetDao.getDevice(deviceId);
-		
+
 		form.setResponseData("response", inetDao.deviceManage(device.getInvDeviceId(), form.getId(), 0, operation));
-		
+
 		return json(conSet, form);
 	}
-	
+
 	public ActionForward serviceStateModify(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
 			throws BGException {
 		InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam("billingId"), form.getParamInt("moduleId"));
-		
+
 		int state = form.getParamInt("state");
 		inetDao.updateServiceState(form.getId(), state);
-		
+
 		return json(conSet, form);
 	}
 }

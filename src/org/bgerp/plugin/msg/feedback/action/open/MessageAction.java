@@ -5,6 +5,7 @@ import java.util.Date;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.bgerp.action.open.ProcessAction;
+import org.bgerp.model.Pageable;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.bgerp.plugin.msg.feedback.Plugin;
 
@@ -18,7 +19,6 @@ import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.BGSecurityException;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.ParameterSearchedObject;
@@ -82,7 +82,7 @@ public class MessageAction extends BaseAction {
         var config = setup.getConfig(Config.class);
         if (config == null)
             throw new BGSecurityException("Feedback is not enabled", form);
-        
+
         var subject = form.getParam("subject", Utils::notBlankString);
         var email = form.getParam("email", Utils::isValidEmail);
         var text = form.getParam("text", Utils::notBlankString);
@@ -112,7 +112,7 @@ public class MessageAction extends BaseAction {
     }
 
     private void linkCustomers(ConnectionSet conSet, String email, int processId) throws BGException {
-        var searchResult = new SearchResult<ParameterSearchedObject<Customer>>();
+        var searchResult = new Pageable<ParameterSearchedObject<Customer>>();
         new CustomerDAO(conSet.getSlaveConnection()).searchCustomerListByEmail(searchResult, null, email);
         if (!searchResult.getList().isEmpty()) {
             var linkDao = new ProcessLinkDAO(conSet.getConnection());

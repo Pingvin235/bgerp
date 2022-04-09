@@ -11,11 +11,11 @@ import java.util.Date;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.Period;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
@@ -153,7 +153,7 @@ public class MessageSearchDAO extends MessageDAO {
         return this;
     }
 
-    public void search(SearchResult<Message> result) throws SQLException {
+    public void search(Pageable<Message> result) throws SQLException {
         var page = result.getPage();
 
         PreparedQuery ps = new PreparedQuery(con);

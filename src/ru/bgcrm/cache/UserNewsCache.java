@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.dao.message.MessageType;
@@ -15,7 +16,6 @@ import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.client.NewsInfoEvent;
 import ru.bgcrm.model.News;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.action.MessageAction;
 import ru.bgcrm.struts.action.NewsAction;
@@ -51,7 +51,7 @@ public class UserNewsCache extends Cache<UserNewsCache> {
             List<Integer> notPopupNews = new ArrayList<>();
 
             // непрочитанные новости пользователя
-            SearchResult<News> searchResult = new SearchResult<>();
+            Pageable<News> searchResult = new Pageable<>();
             newsDao.searchNewsList(searchResult, userId, false, null);
 
             List<Integer> popupNews = new ArrayList<>();

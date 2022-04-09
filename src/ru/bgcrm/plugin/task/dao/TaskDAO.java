@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.plugin.task.model.Task;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.TimeUtils;
@@ -31,7 +31,7 @@ public class TaskDAO extends CommonDAO {
      * @return
      * @throws SQLException
      */
-    public void searchTasks(SearchResult<Task> result, int processId, int typeId, boolean onlyOpen) throws SQLException {
+    public void searchTasks(Pageable<Task> result, int processId, int typeId, boolean onlyOpen) throws SQLException {
         PreparedQuery pq = new PreparedQuery(con, "SELECT * FROM " + TABLE + " WHERE process_id=?");
         pq.addInt(processId);
         if (typeId > 0) {

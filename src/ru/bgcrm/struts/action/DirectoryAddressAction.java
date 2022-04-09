@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.AnalyticDAO;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.analytic.HouseCapacityItem;
 import ru.bgcrm.model.param.address.AddressCity;
 import ru.bgcrm.model.param.address.AddressCountry;
@@ -95,31 +95,31 @@ public class DirectoryAddressAction extends BaseAction {
 
         if ("house".equals(searchMode)) {
             String addressHouse = form.getParam("addressHouse");
-            SearchResult<AddressHouse> searchResult = new SearchResult<AddressHouse>(form);
+            Pageable<AddressHouse> searchResult = new Pageable<AddressHouse>(form);
             addressDAO.searchAddressHouseList(searchResult, addressStreetId, addressHouse, true, true, true, true);
         } else if ("item".equals(searchMode)) {
             if ("area".equals(selectTab)) {
                 String addressItemTitle = form.getParam("addressItemTitle");
-                SearchResult<AddressItem> searchResult = new SearchResult<AddressItem>(form);
+                Pageable<AddressItem> searchResult = new Pageable<AddressItem>(form);
                 addressDAO.searchAddressAreaList(searchResult, addressCityId, CommonDAO.getLikePatternSub(addressItemTitle), true, true);
             } else if ("quarter".equals(selectTab)) {
                 String addressItemTitle = form.getParam("addressItemTitle");
-                SearchResult<AddressItem> searchResult = new SearchResult<AddressItem>(form);
+                Pageable<AddressItem> searchResult = new Pageable<AddressItem>(form);
                 addressDAO.searchAddressQuarterList(searchResult, addressCityId, CommonDAO.getLikePatternSub(addressItemTitle), true, true);
             } else if ("street".equals(selectTab)) {
                 String addressItemTitle = form.getParam("addressItemTitle");
-                SearchResult<AddressItem> searchResult = new SearchResult<AddressItem>(form);
+                Pageable<AddressItem> searchResult = new Pageable<AddressItem>(form);
                 addressDAO.searchAddressStreetList(searchResult, Collections.singleton(addressCityId),
                         CommonDAO.getLikePatternSub(addressItemTitle), true, true);
             }
         } else if ("city".equals(searchMode)) {
             String addressCityTitle = form.getParam("addressCityTitle");
-            SearchResult<AddressCity> searchResult = new SearchResult<AddressCity>(form);
+            Pageable<AddressCity> searchResult = new Pageable<AddressCity>(form);
             addressDAO.searchAddressCityList(searchResult, addressCountryId, CommonDAO.getLikePatternSub(addressCityTitle), true,
                     allowedCityIds);
         } else if ("country".equals(searchMode)) {
             String addressCountryTitle = form.getParam("addressCountryTitle");
-            SearchResult<AddressCountry> searchResult = new SearchResult<AddressCountry>(form);
+            Pageable<AddressCountry> searchResult = new Pageable<AddressCountry>(form);
             addressDAO.searchAddressCountryList(searchResult, CommonDAO.getLikePatternSub(addressCountryTitle));
         }
 
@@ -170,15 +170,15 @@ public class DirectoryAddressAction extends BaseAction {
             final int cityId = addressHouse.getAddressStreet().getCityId();
             HttpServletRequest request = form.getHttpRequest();
 
-            SearchResult<AddressItem> searchResultStreet = new SearchResult<AddressItem>();
+            Pageable<AddressItem> searchResultStreet = new Pageable<AddressItem>();
             addressDAO.searchAddressStreetList(searchResultStreet, cityId);
             request.setAttribute("parameterAddressStreetList", searchResultStreet.getList());
 
-            SearchResult<AddressItem> searchResultArea = new SearchResult<AddressItem>();
+            Pageable<AddressItem> searchResultArea = new Pageable<AddressItem>();
             addressDAO.searchAddressAreaList(searchResultArea, cityId);
             request.setAttribute("parameterAddressAreaList", searchResultArea.getList());
 
-            SearchResult<AddressItem> searchResultQuarter = new SearchResult<AddressItem>();
+            Pageable<AddressItem> searchResultQuarter = new Pageable<AddressItem>();
             addressDAO.searchAddressQuarterList(searchResultQuarter, cityId);
             request.setAttribute("parameterAddressQuarterList", searchResultQuarter.getList());
         } else if (getAddressItem(form, con)) {
@@ -513,7 +513,7 @@ public class DirectoryAddressAction extends BaseAction {
         //TODO: передалать механизм передачи cityIds в DAO для случае если разрешённых городов нет
         Set<Integer> cityIds = Utils.toIntegerSet(form.getPermission().get("cityIds"));
 
-        SearchResult<AddressItem> searchResult = new SearchResult<AddressItem>(form);
+        Pageable<AddressItem> searchResult = new Pageable<AddressItem>(form);
         addressDAO.searchAddressStreetList(searchResult, cityIds, CommonDAO.getLikePatternSub(title), true, true);
 
         return json(conSet, form);
@@ -525,7 +525,7 @@ public class DirectoryAddressAction extends BaseAction {
         int streetId = Utils.parseInt(form.getParam("streetId"));
         String house = form.getParam("house", "");
 
-        SearchResult<AddressHouse> searchResult = new SearchResult<AddressHouse>(form);
+        Pageable<AddressHouse> searchResult = new Pageable<AddressHouse>(form);
         addressDAO.searchAddressHouseList(searchResult, streetId, house);
 
         return json(conSet, form);

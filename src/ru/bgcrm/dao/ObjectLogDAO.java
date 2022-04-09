@@ -7,9 +7,10 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import org.bgerp.model.Pageable;
+
 import ru.bgcrm.model.ObjectLogRecord;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.util.TimeUtils;
 
 public class ObjectLogDAO
@@ -20,7 +21,7 @@ public class ObjectLogDAO
 		super( con );
 	}
 
-	public void searchObjectLogList( SearchResult<ObjectLogRecord> searchResult, int userId )
+	public void searchObjectLogList( Pageable<ObjectLogRecord> searchResult, int userId )
 	    throws SQLException
 	{
 		if( searchResult != null )
@@ -31,7 +32,7 @@ public class ObjectLogDAO
 			ResultSet rs = null;
 			PreparedStatement ps = null;
 			StringBuilder query = new StringBuilder();
-			
+
 			query.append( "SELECT SQL_CALC_FOUND_ROWS * FROM object_log WHERE 1=1" );
 			if( userId > 0 )
 			{
@@ -84,7 +85,7 @@ public class ObjectLogDAO
 			ps.close();
 		}
 	}
-	
+
     protected void updateObjectLog( String objectType, int objectId, String title, int userId, Connection con )
     	throws SQLException
     {

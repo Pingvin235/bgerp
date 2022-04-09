@@ -7,12 +7,12 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -47,7 +47,7 @@ public class MessageTypeSearchCall extends MessageTypeSearch {
             if (command.startsWith("customerByPhoneParam:")) {
                 String paramIds = StringUtils.substringAfter(command, ":");
 
-                SearchResult<Customer> searchResult = new SearchResult<Customer>();
+                Pageable<Customer> searchResult = new Pageable<Customer>();
 
                 new CustomerDAO(conSet.getConnection()).searchCustomerListByPhone(searchResult,
                         Utils.toIntegerSet(paramIds), numberFrom);

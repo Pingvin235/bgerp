@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.bgbilling.proto.dao;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.bgerp.model.Pageable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -106,7 +107,7 @@ public class ContractDAO extends BillingDAO {
      * contractComment=%E2%EE%EB%EA%EE%E2+%FF%EA%EE%E2& del=0& type=-1&
      * filter=0&
      */
-    public void searchContractByTitleComment(SearchResult<IdTitle> searchResult, String title, String comment, SearchOptions searchOptions)
+    public void searchContractByTitleComment(Pageable<IdTitle> searchResult, String title, String comment, SearchOptions searchOptions)
             throws BGException {
         if (searchResult != null) {
             Page page = searchResult.getPage();
@@ -169,7 +170,7 @@ public class ContractDAO extends BillingDAO {
      * @param room
      * @throws BGException
      */
-    public void searchContractByObjectAddressParam(SearchResult<ParameterSearchedObject<Contract>> result, SearchOptions options,
+    public void searchContractByObjectAddressParam(Pageable<ParameterSearchedObject<Contract>> result, SearchOptions options,
             Set<Integer> paramIds, int streetId, String house, String flat, String room) throws BGException {
         final Page page = result.getPage();
         Request req = new Request();
@@ -213,7 +214,7 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public void searchContractByAddressParam(SearchResult<ParameterSearchedObject<Contract>> result, SearchOptions options, Set<Integer> paramIds,
+    public void searchContractByAddressParam(Pageable<ParameterSearchedObject<Contract>> result, SearchOptions options, Set<Integer> paramIds,
             int streetId, String house, String flat, String room) throws BGException {
         final Page page = result.getPage();
 
@@ -287,7 +288,7 @@ public class ContractDAO extends BillingDAO {
      * "7213313003 [ Котельников Дмитрий Леонидович ]"/><item id="674046"
      * title="7214493603...
      */
-    public void searchContractByTextParam(SearchResult<Contract> result, SearchOptions options, Set<Integer> paramIds, String value)
+    public void searchContractByTextParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String value)
             throws BGException {
         final Page page = result.getPage();
 
@@ -308,7 +309,7 @@ public class ContractDAO extends BillingDAO {
         addSearchResult(result, page, req);
     }
 
-    public void searchContractByPhoneParam(SearchResult<Contract> result, SearchOptions options, Set<Integer> paramIds, String phone)
+    public void searchContractByPhoneParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String phone)
             throws BGException {
         final Page page = result.getPage();
 
@@ -328,8 +329,8 @@ public class ContractDAO extends BillingDAO {
 
         addSearchResult(result, page, req);
     }
-    
-    public void searchContractByDateParam(SearchResult<Contract> result, SearchOptions options, Set<Integer> paramIds, Date dateFrom, Date dateTo)
+
+    public void searchContractByDateParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, Date dateFrom, Date dateTo)
             throws BGException {
         final Page page = result.getPage();
 
@@ -379,7 +380,7 @@ public class ContractDAO extends BillingDAO {
      * "A6442-03 [ Семьян Александр Прокопьевич ]"/> <item id="5718" title=
      * "AA0023-05 [ Сахибгареева Ирина Фанилевна ]"/><item...
      */
-    public void searchContractByEmailParam(SearchResult<Contract> result, SearchOptions options, Set<Integer> paramIds, String email)
+    public void searchContractByEmailParam(Pageable<Contract> result, SearchOptions options, Set<Integer> paramIds, String email)
             throws BGException {
         final Page page = result.getPage();
 
@@ -397,7 +398,7 @@ public class ContractDAO extends BillingDAO {
         addSearchResult(result, page, req);
     }
 
-    public void addSearchResult(SearchResult<Contract> result, final Page page, Request req) throws BGException {
+    public void addSearchResult(Pageable<Contract> result, final Page page, Request req) throws BGException {
         setPage(req, page);
 
         Document doc = transferData.postData(req, user);
@@ -574,7 +575,7 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(request, user);
     }
 
-    public void faceLog(SearchResult<ContractFace> result, int contractId) throws BGException {
+    public void faceLog(Pageable<ContractFace> result, int contractId) throws BGException {
         List<ContractFace> list = result.getList();
 
         Request request = new Request();
@@ -609,7 +610,7 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(req, user);
     }
 
-    public void modeLog(SearchResult<ContractMode> result, int contractId) throws BGException {
+    public void modeLog(Pageable<ContractMode> result, int contractId) throws BGException {
         List<ContractMode> list = result.getList();
 
         Request request = new Request();
@@ -796,7 +797,7 @@ public class ContractDAO extends BillingDAO {
         transferData.postData(request, user);
     }
 
-    public BigDecimal limit(int contractId, SearchResult<LimitLogItem> log, List<LimitChangeTask> taskList) throws BGException {
+    public BigDecimal limit(int contractId, Pageable<LimitLogItem> log, List<LimitChangeTask> taskList) throws BGException {
         BigDecimal result = BigDecimal.ZERO;
         Document doc = null;
 
@@ -1023,7 +1024,7 @@ public class ContractDAO extends BillingDAO {
     /*
      * public ContractHierarchyInfo getHierarchyInfo( int contractId ) { Request
      * req = new Request();
-     * 
+     *
      * req.setModule( CONTRACT_MODULE_ID ); req.setAction(
      * "ContractCard2ListTypes" ); req.setContractId( contractId ); }
      */
@@ -1070,9 +1071,9 @@ public class ContractDAO extends BillingDAO {
      * BGException { Request req = new Request(); req.setModule(
      * CONTRACT_MODULE_ID ); req.setAction( "AdditionalActionList" );
      * req.setContractId( contractId );
-     * 
+     *
      * Document doc = transferData.postData( req, user );
-     * 
+     *
      * List<IdTitle> actions = new ArrayList<IdTitle>(); for( Element e :
      * XMLUtils.selectElements( doc, "/data/list/item" ) ) { actions.add( new
      * IdTitle( Utils.parseInt( e.getAttribute( "id" ) ), e.getAttribute(
@@ -1161,7 +1162,7 @@ public class ContractDAO extends BillingDAO {
     /**
      * Определение текущего режима управления лимитом по договору из страницы
      * статистики
-     * 
+     *
      * @return 0 - управление разблокировано, 1 - управление заблокировано
      * @throws BGException
      */
@@ -1180,7 +1181,7 @@ public class ContractDAO extends BillingDAO {
     /**
      * Изменение текущего режима управления лимитом по договору из страницы
      * статистики.
-     * 
+     *
      * @param mode
      *            0 - управление разблокировано, 1 - управление заблокировано
      * @throws BGException
@@ -1325,7 +1326,7 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public void getWebContractLogonLog(SearchResult<WebContractLogonLogEntry> searchResult, int contractId, WebContractLogonLogType type, Date date1,
+    public void getWebContractLogonLog(Pageable<WebContractLogonLogEntry> searchResult, int contractId, WebContractLogonLogType type, Date date1,
             Date date2) throws BGException {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
@@ -1486,7 +1487,7 @@ public class ContractDAO extends BillingDAO {
     }
 
     public WebRequestLimit getWebRequestLimit(int contractId) throws BGException {
-        
+
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setAction("WebRequestLimit");
@@ -1527,7 +1528,7 @@ public class ContractDAO extends BillingDAO {
 
         return new WebRequestLimit(transferData.postData(request, user));
     }
-    
+
     public List<IdTitle> getParameterList(int parameterTypeId) throws BGException {
         List<IdTitle> paramList = null;
         if (dbInfo.getVersion().compareTo("7.0") >= 0) {
@@ -1643,5 +1644,5 @@ public class ContractDAO extends BillingDAO {
 
         return result;
     }
-    
+
 }

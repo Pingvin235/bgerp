@@ -2,12 +2,13 @@ package ru.bgcrm.struts.form;
 
 import ru.bgcrm.event.client.ClientEvent;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.bgerp.model.Pageable;
 
 /**
  * HTTP response object, may be JSON serialized.
@@ -91,7 +92,7 @@ public class Response {
      * Adds search result to the response data, two objects with keys: 'page' and 'list'
      * @param result
      */
-    public void addSearchResult(SearchResult<?> result) {
+    public void addPageable(Pageable<?> result) {
         Page page = result.getPage();
         if (page.isPaginationEnabled()) {
             this.data.put("page", page);

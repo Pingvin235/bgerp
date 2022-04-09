@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.LastModifyDAO;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.queue.QueueProcessStat;
 import ru.bgcrm.model.process.queue.QueueStat;
@@ -34,7 +34,7 @@ public class QueueDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchQueue(SearchResult<Queue> searchResult, Set<Integer> queueIds, String filter) throws SQLException {
+    public void searchQueue(Pageable<Queue> searchResult, Set<Integer> queueIds, String filter) throws SQLException {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<Queue> list = searchResult.getList();

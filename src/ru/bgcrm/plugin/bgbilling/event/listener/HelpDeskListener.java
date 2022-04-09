@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.model.Pageable;
+
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
@@ -26,7 +28,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk;
 import ru.bgcrm.plugin.bgbilling.proto.dao.HelpDeskDAO;
@@ -83,7 +84,7 @@ public class HelpDeskListener {
         MessageTypeHelpDesk mt = pair.getFirst();
         HelpDeskDAO hdDao = new HelpDeskDAO(e.getUser(), mt.getDbInfo());
 
-        SearchResult<HdTopic> topicSearch = new SearchResult<HdTopic>();
+        Pageable<HdTopic> topicSearch = new Pageable<HdTopic>();
         hdDao.seachTopicList(topicSearch, null, null, false, topicId);
 
         HdTopic topic = Utils.getFirst(topicSearch.getList());
@@ -168,7 +169,7 @@ public class HelpDeskListener {
                 if (mt.getMarkMessagesReadStatusIds().contains(e.getStatusChange().getStatusId())) {
                     MessageDAO messageDao = new MessageDAO(conSet.getConnection());
 
-                    SearchResult<Message> searchResult = new SearchResult<Message>();
+                    Pageable<Message> searchResult = new Pageable<Message>();
                     messageDao.searchMessageList(searchResult, e.getProcess().getId(), mt.getId(),
                             Message.DIRECTION_INCOMING, null, null, null, null, null);
 

@@ -6,12 +6,12 @@ import java.util.Date;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.Pageable;
 import org.bgerp.plugin.svc.log.model.ActionLogEntry;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.PeriodicDAO;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -92,7 +92,7 @@ public class ActionLogDAO extends PeriodicDAO {
         return this;
     }
 
-    public void search(SearchResult<ActionLogEntry> result) throws SQLException {
+    public void search(Pageable<ActionLogEntry> result) throws SQLException {
         if (timeFrom == null)
             throw new IllegalArgumentException("timeFrom can't be null");
 

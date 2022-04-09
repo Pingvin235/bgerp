@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -21,7 +22,6 @@ import ru.bgcrm.dao.ParamDAO;
 import ru.bgcrm.dao.ParamGroupDAO;
 import ru.bgcrm.dao.PatternDAO;
 import ru.bgcrm.model.IdStringTitle;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterGroup;
@@ -74,7 +74,7 @@ public class DirectoryAction extends BaseAction {
         var request = form.getHttpRequest();
 
         setDirectoryList(request);
-        SearchResult<Parameter> searchResult = new SearchResult<Parameter>(form);
+        Pageable<Parameter> searchResult = new Pageable<Parameter>(form);
 
         paramDAO.getParameterList(searchResult, getObjectType(form.getParam("directoryId")),
                 CommonDAO.getLikePatternSub(form.getParam("filter")), 0, null);

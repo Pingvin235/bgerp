@@ -12,6 +12,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.lic.AppLicense;
 import org.bgerp.util.lic.License;
 
@@ -22,7 +23,6 @@ import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Config;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
@@ -39,7 +39,7 @@ public class ConfigAction extends BaseAction {
         Set<Integer> allowedConfigIds = Utils.toIntegerSet(form.getPermission().get("allowedConfigIds"));
         String filter = CommonDAO.getLikePatternSub(form.getParam("filter"));
 
-        SearchResult<Config> result = new SearchResult<Config>(form);
+        Pageable<Config> result = new Pageable<Config>(form);
         result.getPage().setPageIndex(Page.PAGE_INDEX_NO_PAGING);
         List<Config> resultList = result.getList();
 

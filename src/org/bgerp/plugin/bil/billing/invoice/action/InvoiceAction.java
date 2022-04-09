@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.model.Pageable;
 import org.bgerp.plugin.bil.billing.invoice.Config;
 import org.bgerp.plugin.bil.billing.invoice.Plugin;
 import org.bgerp.plugin.bil.billing.invoice.dao.InvoiceDAO;
@@ -18,7 +19,6 @@ import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -33,7 +33,7 @@ public class InvoiceAction extends BaseAction {
     public ActionForward list(DynActionForm form, ConnectionSet conSet) throws Exception {
         new InvoiceSearchDAO(conSet.getSlaveConnection())
             .withProcessId(form.getParamInt("processId"))
-            .search(new SearchResult<>(form));
+            .search(new Pageable<>(form));
 
         form.setRequestAttribute("config", setup.getConfig(Config.class));
 

@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.model.Pageable;
+
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Status;
 import ru.bgcrm.util.Utils;
 
@@ -21,7 +22,7 @@ public class StatusDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchStatus(SearchResult<Status> searchResult) throws SQLException {
+    public void searchStatus(Pageable<Status> searchResult) throws SQLException {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<Status> list = searchResult.getList();

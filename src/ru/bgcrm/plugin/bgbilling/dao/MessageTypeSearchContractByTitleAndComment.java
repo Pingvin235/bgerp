@@ -4,11 +4,11 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.IdTitle;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
@@ -24,13 +24,13 @@ public class MessageTypeSearchContractByTitleAndComment
 	extends MessageTypeSearchBilling
 {
 	private static final Logger log = Logger.getLogger( MessageTypeSearchContractByTitleAndComment.class );
-	
+
 	public MessageTypeSearchContractByTitleAndComment( ParameterMap config )
 		throws BGException
 	{
 		super( config );
 	}
-	
+
 	@Override
 	public String getJsp()
 	{
@@ -44,29 +44,29 @@ public class MessageTypeSearchContractByTitleAndComment
 		DBInfo dbInfo = DBInfoManager.getDbInfo( billingId );
 		if( dbInfo == null )
 		{
-			log.warn( "Billing not found: " + billingId );			
+			log.warn( "Billing not found: " + billingId );
 			return;
 		}
-		
+
 		String title = form.getParam( "title" );
 		String comment = form.getParam( "comment" );
-		
-		if( (Utils.isBlankString( title ) && Utils.isBlankString( comment ) ) || 
+
+		if( (Utils.isBlankString( title ) && Utils.isBlankString( comment ) ) ||
 		    (Utils.notBlankString( title ) && title.length() < 3) ||
 			(Utils.notBlankString( comment ) && comment.length() < 3 ) )
 		{
 			return;
 		}
-		
-		SearchResult<IdTitle> searchResult = new SearchResult<IdTitle>();
+
+		Pageable<IdTitle> searchResult = new Pageable<IdTitle>();
 		ContractDAO.getInstance( form.getUser(), billingId ).searchContractByTitleComment( searchResult, title, comment,
 		                                                                           new SearchOptions( false, false, false ) );
-		
+
 		for( IdTitle object : searchResult.getList() )
 		{
-			result.add( new CommonObjectLink( 0, Contract.OBJECT_TYPE + ":" + billingId, object.getId(), 
-			                                  StringUtils.substringBeforeLast( object.getTitle(), "[" ).trim(), 
+			result.add( new CommonObjectLink( 0, Contract.OBJECT_TYPE + ":" + billingId, object.getId(),
+			                                  StringUtils.substringBeforeLast( object.getTitle(), "[" ).trim(),
 			                                  StringUtils.substringBetween( object.getTitle(), "[", "]" ).trim() ) );
 		}
-	}	
+	}
 }

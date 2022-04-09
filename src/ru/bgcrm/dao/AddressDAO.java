@@ -22,13 +22,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.ConfigRecord;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.param.address.AddressCity;
 import ru.bgcrm.model.param.address.AddressCountry;
 import ru.bgcrm.model.param.address.AddressHouse;
@@ -58,7 +58,7 @@ public class AddressDAO extends CommonDAO {
         super(con);
     }
 
-    public void searchAddressCountryList(SearchResult<AddressCountry> searchResult, String title) throws SQLException {
+    public void searchAddressCountryList(Pageable<AddressCountry> searchResult, String title) throws SQLException {
         if (searchResult != null) {
             Page page = searchResult.getPage();
             List<AddressCountry> result = searchResult.getList();
@@ -116,7 +116,7 @@ public class AddressDAO extends CommonDAO {
         return addressCountry;
     }
 
-    public void searchAddressCityList(SearchResult<AddressCity> searchResult, int countryId, String title, boolean loadCountryData,
+    public void searchAddressCityList(Pageable<AddressCity> searchResult, int countryId, String title, boolean loadCountryData,
             Set<Integer> cityIdFilter) throws SQLException {
         if (searchResult != null) {
             Page page = searchResult.getPage();
@@ -204,11 +204,11 @@ public class AddressDAO extends CommonDAO {
         return addressCity;
     }
 
-    public void searchAddressAreaList(SearchResult<AddressItem> searchResult, int cityId) throws SQLException {
+    public void searchAddressAreaList(Pageable<AddressItem> searchResult, int cityId) throws SQLException {
         searchAddressItemList(TABLE_ADDRESS_AREA, searchResult, Collections.singleton(cityId), null, false, false);
     }
 
-    public void searchAddressAreaList(SearchResult<AddressItem> searchResult, int cityId, String title, boolean loadCountryData, boolean loadCityData)
+    public void searchAddressAreaList(Pageable<AddressItem> searchResult, int cityId, String title, boolean loadCountryData, boolean loadCityData)
             throws SQLException {
         searchAddressItemList(TABLE_ADDRESS_AREA, searchResult, Collections.singleton(cityId), title, loadCountryData, loadCityData);
     }
@@ -217,11 +217,11 @@ public class AddressDAO extends CommonDAO {
         return getAddressItem(TABLE_ADDRESS_AREA, id, loadCountryData, loadCityData);
     }
 
-    public void searchAddressQuarterList(SearchResult<AddressItem> searchResult, int cityId) throws SQLException {
+    public void searchAddressQuarterList(Pageable<AddressItem> searchResult, int cityId) throws SQLException {
         searchAddressItemList(TABLE_ADDRESS_QUARTER, searchResult, Collections.singleton(cityId), null, false, false);
     }
 
-    public void searchAddressQuarterList(SearchResult<AddressItem> searchResult, int cityId, String title, boolean loadCountryData,
+    public void searchAddressQuarterList(Pageable<AddressItem> searchResult, int cityId, String title, boolean loadCountryData,
             boolean loadCityData) throws SQLException {
         searchAddressItemList(TABLE_ADDRESS_QUARTER, searchResult, Collections.singleton(cityId), title, loadCountryData, loadCityData);
     }
@@ -230,11 +230,11 @@ public class AddressDAO extends CommonDAO {
         return getAddressItem(TABLE_ADDRESS_QUARTER, id, loadCountryData, loadCityData);
     }
 
-    public void searchAddressStreetList(SearchResult<AddressItem> searchResult, int cityId) throws SQLException {
+    public void searchAddressStreetList(Pageable<AddressItem> searchResult, int cityId) throws SQLException {
         searchAddressItemList(TABLE_ADDRESS_STREET, searchResult, Collections.singleton(cityId), null, false, false);
     }
 
-    public void searchAddressStreetList(SearchResult<AddressItem> searchResult, Set<Integer> cityIds, String title, boolean loadCountryData,
+    public void searchAddressStreetList(Pageable<AddressItem> searchResult, Set<Integer> cityIds, String title, boolean loadCountryData,
             boolean loadCityData) throws SQLException {
         searchAddressItemList(TABLE_ADDRESS_STREET, searchResult, cityIds, title, loadCountryData, loadCityData);
     }
@@ -243,7 +243,7 @@ public class AddressDAO extends CommonDAO {
         return getAddressItem(TABLE_ADDRESS_STREET, id, loadCountryData, loadCityData);
     }
 
-    private void searchAddressItemList(String tableName, SearchResult<AddressItem> searchResult, Set<Integer> cityIds, String title,
+    private void searchAddressItemList(String tableName, Pageable<AddressItem> searchResult, Set<Integer> cityIds, String title,
             boolean loadCountryData, boolean loadCityData) throws SQLException {
         if (searchResult != null) {
             Page page = searchResult.getPage();
@@ -357,11 +357,11 @@ public class AddressDAO extends CommonDAO {
         return addressItem;
     }
 
-    public void searchAddressHouseList(SearchResult<AddressHouse> searchResult, int streetId, String housePrefix) throws SQLException {
+    public void searchAddressHouseList(Pageable<AddressHouse> searchResult, int streetId, String housePrefix) throws SQLException {
         searchAddressHouseList(searchResult, streetId, housePrefix, false, false, false, false);
     }
 
-    public void searchAddressHouseList(SearchResult<AddressHouse> searchResult, int streetId, String house, boolean absolute, boolean loadCountryData,
+    public void searchAddressHouseList(Pageable<AddressHouse> searchResult, int streetId, String house, boolean absolute, boolean loadCountryData,
             boolean loadCityData, boolean loadStreetData) throws SQLException {
         if (searchResult != null && streetId > 0) {
             Page page = searchResult.getPage();

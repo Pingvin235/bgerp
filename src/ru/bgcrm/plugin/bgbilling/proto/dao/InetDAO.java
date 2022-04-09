@@ -1,9 +1,11 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import org.bgerp.model.Pageable;
+
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
@@ -52,7 +54,7 @@ public class InetDAO extends BillingModuleDAO {
 	/**
 	 * Возвращает перечень сервисов в виде плоского списка.
 	 * Сборка в дерево, если необходимо, осуществляется на основании кодов сервисов-предков.
-	 * 
+	 *
 	 * @param contractId
 	 * @return
 	 * @throws BGException
@@ -88,7 +90,7 @@ public class InetDAO extends BillingModuleDAO {
 			boolean generatePassword, long saWaitTimeout) throws BGException {
 	    if (optionList == null)
 	        optionList = Collections.emptyList();
-	    
+
 	    RequestJsonRpc req = new RequestJsonRpc(INET_MODULE_ID, moduleId, INET_SERV_SERVICE, "inetServUpdate");
 		req.setParam("inetServ", inetServ);
 		req.setParam("optionList", optionList);
@@ -105,7 +107,7 @@ public class InetDAO extends BillingModuleDAO {
 		req.setParam("force", false);
 		transferData.postData(req, user);
 	}
-	
+
 	public void updateServiceState(int serviceId, int state) throws BGException {
 		RequestJsonRpc req = new RequestJsonRpc(INET_MODULE_ID, moduleId, INET_SERV_SERVICE, "inetServStateModify");
 		req.setParam("inetServId", serviceId);
@@ -121,25 +123,25 @@ public class InetDAO extends BillingModuleDAO {
 		return readJsonValue(transferData.postDataReturn(req, user).traverse(),
 				jsonTypeFactory.constructCollectionType(List.class, InetServiceType.class));
 	}
-	
+
 	public InetDevice getDevice(int deviceId) throws BGException {
 		RequestJsonRpc req = new RequestJsonRpc(INET_MODULE_ID, moduleId, INET_DEVICE_SERVICE, "inetDeviceGet");
 		req.setParam("id", deviceId);
-		
+
 		return jsonMapper.convertValue(transferData.postDataReturn(req, user), InetDevice.class);
 	}
-	
+
 	public List<InetDeviceManagerMethod> getDeviceManagerMethodList(int deviceTypeId) throws BGException {
 		RequestJsonRpc req = new RequestJsonRpc(INET_MODULE_ID, moduleId, INET_DEVICE_SERVICE, "deviceManagerMethodList");
 		req.setParam("deviceTypeId", deviceTypeId);
-		
+
 		List<InetDeviceManagerMethod> methodList = readJsonValue(transferData.postDataReturn(req, user).traverse(),
 				jsonTypeFactory.constructCollectionType(List.class, InetDeviceManagerMethod.class));
 		methodList = methodList.stream().filter(m -> m.getTypes().contains(DeviceManagerMethodType.ACCOUNT)).collect(Collectors.toList());
-				
-		return methodList;		
+
+		return methodList;
 	}
-	
+
 	public String deviceManage(int deviceId, int serviceId, int connectionId, String operation) throws BGException {
 		RequestJsonRpc req = new RequestJsonRpc(INET_MODULE_ID, moduleId, INET_DEVICE_SERVICE, "deviceManage");
 		req.setParam("id", deviceId);
@@ -147,16 +149,16 @@ public class InetDAO extends BillingModuleDAO {
 		req.setParam("operation", operation);
 		req.setParam("connectionId", connectionId);
 		req.setParam("timeout", 180000);
-		
-		return jsonMapper.convertValue(transferData.postDataReturn(req, user), String.class);		
+
+		return jsonMapper.convertValue(transferData.postDataReturn(req, user), String.class);
 	}
-	
+
 	@Deprecated
-	public void getContractSessionAlive(SearchResult<InetSessionLog> result, int contractId) throws BGException {
+	public void getContractSessionAlive(Pageable<InetSessionLog> result, int contractId) throws BGException {
 		getSessionAliveContractList(result, contractId);
 	}
 
-	public void getSessionAliveContractList(SearchResult<InetSessionLog> result, int contractId) throws BGException {
+	public void getSessionAliveContractList(Pageable<InetSessionLog> result, int contractId) throws BGException {
 		RequestJsonRpc req = new RequestJsonRpc(INET_MODULE_ID, moduleId, INET_SESSION_SERVICE,
 				"inetSessionAliveContractList");
 		req.setParamContractId(contractId);
@@ -167,13 +169,13 @@ public class InetDAO extends BillingModuleDAO {
 
 		extractSessions(result, req);
 	}
-	
+
 	@Deprecated
-	public void getContractSessionLog(SearchResult<InetSessionLog> result, int contractId, Date dateFrom, Date dateTo) throws BGException {
+	public void getContractSessionLog(Pageable<InetSessionLog> result, int contractId, Date dateFrom, Date dateTo) throws BGException {
 		getSessionLogContractList(result, contractId, dateFrom, dateTo);
 	}
-	
-	public void getSessionLogContractList(SearchResult<InetSessionLog> result, int contractId, Date dateFrom, Date dateTo)
+
+	public void getSessionLogContractList(Pageable<InetSessionLog> result, int contractId, Date dateFrom, Date dateTo)
 			throws BGException {
 		RequestJsonRpc req = new RequestJsonRpc(INET_MODULE_ID, moduleId, INET_SESSION_SERVICE,
 				"inetSessionLogContractList");
@@ -186,10 +188,10 @@ public class InetDAO extends BillingModuleDAO {
 
 		extractSessions(result, req);
 	}
-	
-	public void getSessionAliveList(SearchResult<InetSessionLog> result, 
-			Set<Integer> deviceIds, Set<Integer> contractIds, 
-			String contract, String login, String ip, String callingStation, 
+
+	public void getSessionAliveList(Pageable<InetSessionLog> result,
+			Set<Integer> deviceIds, Set<Integer> contractIds,
+			String contract, String login, String ip, String callingStation,
 			Date timeFrom, Date timeTo) throws BGException {
 		RequestJsonRpc req = new RequestJsonRpc(INET_MODULE_ID, moduleId, INET_SESSION_SERVICE,
 				"inetSessionAliveList");
@@ -202,11 +204,11 @@ public class InetDAO extends BillingModuleDAO {
 		req.setParam("timeFrom", timeFrom);
 		req.setParam("timeTo", timeTo);
 		req.setParam("page", result.getPage());
-		
+
 		extractSessions(result, req);
 	}
 
-	private void extractSessions(SearchResult<InetSessionLog> result, RequestJsonRpc req) throws BGException {
+	private void extractSessions(Pageable<InetSessionLog> result, RequestJsonRpc req) throws BGException {
 		JsonNode ret = transferData.postDataReturn(req, user);
 		List<InetSessionLog> sessionList = readJsonValue(ret.findValue("list").traverse(),
 				jsonTypeFactory.constructCollectionType(List.class, InetSessionLog.class));

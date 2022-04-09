@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.FileDataDAO;
@@ -21,7 +22,6 @@ import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.SearchResult;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.plugin.document.Config;
@@ -50,7 +50,7 @@ public class DocumentAction extends BaseAction {
         String objectTitle = form.getParam("objectTitle");
         int objectId = Utils.parseInt(form.getParam("objectId"));
 
-        documentDao.searchObjectDocuments(new SearchResult<Document>(form), objectType, objectId);
+        documentDao.searchObjectDocuments(new Pageable<Document>(form), objectType, objectId);
         Collection<Pattern> patterns = config.getPatterns(scope, objectType, objectTitle);
 
         if (Process.OBJECT_TYPE.equals(scope)) {
