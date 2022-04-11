@@ -1,36 +1,36 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Выпадающий список с возможностью выбора одного значения и поиском в редактируемом поле"%>
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Dropdown list allowing a single value selection and search within an edit field"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%--
-Значения устанавиваются атрибутами:
+You can use the following methods to set values:
 
-list - List<IdTitle> элементов
-map - Map<Integer, IdTitle> элементов
-availableIdList - List id допустимых значений
-availableIdSet - Set id допустимых значений
+list - List<IdTitle> of elements
+map - Map<Integer, IdTitle> of elements
+availableIdList - List of allowed id values
+availableIdSet - Set of allowed values for ids
 
-Если указано availableIdList, то выборка происходит по нему с получением значений из map.
-Иначе - по list и в его порядке с фильтром значений по availableIdSet.
+If availableIdList is defined, then selection is done according to it with picking corresponding values from 'map'
+Otherwise 'list' and its ordering are used, along with possibility of values filtering based on availableIdSet
 --%>
 
-<%@ attribute name="id" description="id внешнего DIVа, если не указан - генерируется"%>
-<%@ attribute name="hiddenName" description="имя hidden параметра"%>
-<%@ attribute name="value" description="текущее значение hidden параметра"%>
-<%@ attribute name="style" description="стиль внешнего div а"%>
-<%@ attribute name="styleClass" description="класс внешнего div а"%>
-<%@ attribute name="placeholder" description="placeholder внутреннего input а"%>
-<%@ attribute name="inputAttrs" description="любые атрибуты input а text"%>
-<%@ attribute name="onSelect" description="что выполнять по выбору значения"%>
-<%@ attribute name="additionalSourceFilter" description="кусок JS кода для дополнительной фильтрации source при выводе"%>
+<%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
+<%@ attribute name="hiddenName" description="hidden parameter name"%>
+<%@ attribute name="value" description="hidden parameter's current value"%>
+<%@ attribute name="style" description="outer DIV style"%>
+<%@ attribute name="styleClass" description="outer DIV style"%>
+<%@ attribute name="placeholder" description="placeholder for an internal input field"%>
+<%@ attribute name="inputAttrs" description="any input field attributes"%>
+<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
+<%@ attribute name="additionalSourceFilter" description="JS code to be used for additional source filtering on output"%>
 
-<%@ attribute name="showId" type="java.lang.Boolean"  description="отображать код значения"%>
-<%@ attribute name="showType" type="java.lang.Boolean" description="отображать тип"%>
-<%@ attribute name="showComment" type="java.lang.Boolean" description="отображать комментарий"%>
+<%@ attribute name="showId" type="java.lang.Boolean"  description="show Id (boolean)"%>
+<%@ attribute name="showType" type="java.lang.Boolean" description="show type (boolean)"%>
+<%@ attribute name="showComment" type="java.lang.Boolean" description="show comments (boolean)"%>
 
-<%@ attribute name="list" type="java.util.Collection" description="List&lt;IdTitle&gt; элементов, см. описание в теге"%>
-<%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; элементов, см. описание в теге"%>
-<%@ attribute name="availableIdList" type="java.util.List" description="List допустимых значений, см. описание в теге"%>
-<%@ attribute name="availableIdSet" type="java.util.Set" description="Set допустимых значений, см. описание в теге"%>
+<%@ attribute name="list" type="java.util.Collection" description="List&lt;IdTitle&gt; of elements, refer to description inside tag"%>
+<%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>
+<%@ attribute name="availableIdList" type="java.util.List" description="List of allowed values, refer to description inside tag""%>
+<%@ attribute name="availableIdSet" type="java.util.Set" description="Set of allowed values, refer to description inside tag"%>
 
 
 <c:choose>
@@ -74,7 +74,7 @@ availableIdSet - Set id допустимых значений
 			<c:choose>
 				<c:when test="${empty availableIdList}">
 					<c:forEach var="item" items="${list}">
-						<%-- удалённые не отображаются и недоступные --%>
+						<%-- do not show deleted and unavailable --%>
 						<c:if test="${not fn:startsWith(item.title, '@') and (empty availableIdSet or availableIdSet.contains(item.id))}">
 							itemTitle = "${u:quotEscape( item.title )}";
 
@@ -93,7 +93,7 @@ availableIdSet - Set id допустимых значений
 					<c:forEach var="availableId" items="${availableIdList}">
 						<c:set var="item" value="${map[availableId]}"/>
 						<c:if test="${not empty item}">
-							<%-- удалённые не отображаются и недоступные --%>
+							<%-- do not show deleted and unavailable --%>
 							<c:if test="${not fn:startsWith(item.title, '@') and (empty availableIdSet or availableIdSet.contains(item.id))}">
 								itemTitle = "${item.title}";
 
@@ -118,7 +118,7 @@ availableIdSet - Set id допустимых значений
 				source: function( request, response )
 				{
 					var filteredSource = $.ui.autocomplete.filter( $source, request.term );
-					<%-- передаётся при инклуде из select_mult.jsp --%>
+					<%-- gets passed if included from select_mult.jsp --%>
 					${additionalSourceFilter}
 					response( filteredSource );
 				},

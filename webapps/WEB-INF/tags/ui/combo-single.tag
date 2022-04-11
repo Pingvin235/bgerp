@@ -2,40 +2,40 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%--
-Значения можно устанавливать двумя способами:
+You can use the following methods to set values:
 
 1)
-list - List<IdTitle> элементов
-map - Map<Integer, IdTitle> элементов
-available - List<Integer> допустимых значений
-TODO: может по аналогии сделать с select_single availableIdList?
+list - List<IdTitle> of elements
+map - Map<Integer, IdTitle> of elements
+available - List<Integer> of allowed values
+TODO: could use the same method and use select_single availableIdList?
 
-Если указано available, то выборка происходит по нему с получением значений из map.
-Иначе - по list и в его порядке
+If 'available' is defined, then selection is done according to it with picking corresponding values from 'map'
+Otherwise 'list' and its ordering are used.
 
 2)
-valuesHtml - HTML текст с li элементами - значениями
+valuesHtml - HTML-text with values as li elements
 
-Установку ширины следует выполнять с помощью style, либо styleTextValue либо  widthTextValue.
-styleTextValue / widthTextValue следует использовать, когда в список может попасть длинное значение.
+You can set width either via 'style' or 'styleTextValue' or 'widthTextValue'
+Use styleTextValue / widthTextValue in situations when you expect a long value inside your list.
 --%>
 
-<%@ attribute name="id" description="id внешнего DIVа, если не указан - генерируется"%>
-<%@ attribute name="hiddenName" description="имя hidden параметра"%>
-<%@ attribute name="prefixText" description="текстовый префикс"%>
-<%@ attribute name="value" description="текущее значение hidden параметра"%>
-<%@ attribute name="style" description="стиль внешнего DIVа"%>
-<%@ attribute name="styleClass" description="класс внешнего DIVа"%>
-<%@ attribute name="styleTextValue" description="стиль DIVа с отображаением значения"%>
-<%@ attribute name="widthTextValue" description="ширина блока с текущим значением"%>
-<%@ attribute name="onSelect" description="JS, что выполнять по выбору значения"%>
-<%@ attribute name="disable" description="блокировка изменений (TODO: сделать другой цвет)"%>
-<%@ attribute name="showFilter" type="java.lang.Boolean" description="отображать фильтр"%>
-<%@ attribute name="valuesHtml" description="HTML текст с li элементами - значениями, см. описание в теге"%>
+<%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
+<%@ attribute name="hiddenName" description="hidden parameter name"%>
+<%@ attribute name="prefixText" description="text prefix"%>
+<%@ attribute name="value" description="hidden parameter's current value"%>
+<%@ attribute name="style" description="outer DIV style"%>
+<%@ attribute name="styleClass" description="outer DIV style"%>
+<%@ attribute name="styleTextValue" description="current value's DIV style"%>
+<%@ attribute name="widthTextValue" description="current value's block width"%>
+<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
+<%@ attribute name="disable" description="disable edits (TODO: use another color)"%>
+<%@ attribute name="showFilter" type="java.lang.Boolean" description="Enable/disable Filter"%>
+<%@ attribute name="valuesHtml" description="HHTML-text with values as li elements, refer to description inside tag"%>
 
-<%@ attribute name="list" type="java.util.Collection" description="List значений, см. описание в теге"%>
-<%@ attribute name="map" type="java.util.Map" description="Map значений, см. описание в теге"%>
-<%@ attribute name="available" type="java.util.Collection" description="Set разрешённых id, см. описание в теге"%>
+<%@ attribute name="list" type="java.util.Collection" description="List of values, refer to description inside tag"%>
+<%@ attribute name="map" type="java.util.Map" description="Map of values, refer to description inside tag"%>
+<%@ attribute name="available" type="java.util.Collection" description="Set of allowed ids, refer to description inside tag"%>
 
 <c:if test="${not empty widthTextValue}">
 	<c:set var="styleTextValue">min-width: ${widthTextValue}; width: ${widthTextValue}; max-width: ${widthTextValue};</c:set>
@@ -60,7 +60,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 		<div class="text-pref">${prefixText}</div>
 	</c:if>
 
-	<%-- the whole width is defined by this one --%>
+	<%-- you can set the width of the whole element by setting the width of below block --%>
 	<div class="text-value" style="${styleTextValue}"></div>
 	<div class="icon ti-angle-down"></div>
 
@@ -75,7 +75,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 						$(this).toggle( content.indexOf( mask ) >= 0 );
 					});
 				</c:set>
-				<input type="text" style="width: 100%;" placeholder="${l.l('Фильтр')}" onkeyup="${filterCode}"/>
+				<input type="text" style="width: 100%;" placeholder="${l.l('Filter')}" onkeyup="${filterCode}"/>
 			</li>
 		</c:if>
 

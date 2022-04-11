@@ -1,4 +1,4 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Ссылка на открытие процесса"%>
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Link to a Process Creation page"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="pageFormSelectorFunc" description="jQuery selector function of form"%>
@@ -11,22 +11,22 @@
 
 <c:if test="${not empty page}">
 	<c:choose>
-		<%-- выбор формы через селектор - функцию--%>
+		<%-- picking a form via selector-function--%>
 		<c:when test="${not empty pageFormSelectorFunc}">
 			<c:set var="pageControlForm" value="${pageFormSelectorFunc}[0]"/>
 		</c:when>
-		<%-- выбор формы через селектор --%>
+		<%-- picking a form via selector --%>
 		<c:when test="${not empty pageFormSelector}">
 			<c:set var="pageControlForm" value="$('${pageFormSelector}')[0]"/>
 		</c:when>
-		<%-- выбор формы по id--%>
+		<%-- picking a form via id--%>
 		<c:when test="${not empty pageFormId}">
 			<c:set var="pageControlForm" value="document.getElementById( '${pageFormId}' )"/>
 			<c:if test="${empty nextCommand}">
 				<c:set var="nextCommand" value="; openUrlTo( formUrl( ${pageControlForm} ), $(this.parentNode.parentNode.parentNode.parentNode.parentNode) )"/>
 			</c:if>
 		</c:when>
-		<%-- промотчик страниц прямо в форме --%>
+		<%-- pagination inside a form --%>
 		<c:otherwise>
 			<c:set var="pageControlForm" value="this.form"/>
 			<c:if test="${empty nextCommand}">

@@ -2,35 +2,35 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%--
-Значения можно устанавливать двумя способами:
+You can use the following methods to set values:
 
 1)
-list - List<IdTitle> элементов
-map - Map<Integer, IdTitle> элементов
-available - List<Integer> допустимых значений
+list - List<IdTitle> of elements
+map - Map<Integer, IdTitle> of elements
+available - List<Integer> of allowed values
 
 2)
-valuesHtml - HTML текст с li элементами - значениями
+valuesHtml - HTML-text with values as li elements
 
-Установку ширины следует выполнять с помощью style, либо styleTextValue либо  widthTextValue.
-styleTextValue / widthTextValue следует использовать, когда в список может попасть длинное значение.
+You can set width either via 'style' or 'styleTextValue' or 'widthTextValue'
+Use styleTextValue / widthTextValue in situations when you expect a long value inside your list.
 --%>
 
-<%@ attribute name="id" description="id внешнего DIVа, если не указан - генерируется"%>
-<%@ attribute name="paramName" description="имя input а checkbox"%>
-<%@ attribute name="prefixText" description="текстовый префикс"%>
-<%@ attribute name="values" type="java.util.Collection" description="текущие значения"%>
-<%@ attribute name="onChange" description="что выполнять по изменению значений"%>
-<%@ attribute name="showFilter" type="java.lang.Boolean"  description="отображать фильтр"%>
-<%@ attribute name="style" description="стиль внешнего DIVа"%>
-<%@ attribute name="styleClass" description="доп. классы внешнего DIVа"%>
-<%@ attribute name="styleTextValue" description="стиль DIVа с отображаением значения"%>
-<%@ attribute name="widthTextValue" description="ширина блока с текущим значением"%>
-<%@ attribute name="valuesHtml" description="HTML текст с li элементами - значениями"%>
+<%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
+<%@ attribute name="paramName" description="input name in а checkbox"%>
+<%@ attribute name="prefixText" description="text prefix"%>
+<%@ attribute name="values" type="java.util.Collection" description="current values"%>
+<%@ attribute name="onChange" description="The action to be triggered on onchange"%>
+<%@ attribute name="showFilter" type="java.lang.Boolean"  description="Enable/disable Filter"%>
+<%@ attribute name="style" description="outer DIV style"%>
+<%@ attribute name="styleClass" description="outer DIV class"%>
+<%@ attribute name="styleTextValue" description="current value's DIV style"%>
+<%@ attribute name="widthTextValue" description="current value's block width"%>
+<%@ attribute name="valuesHtml" description="HTML-text with values as li elements"%>
 
-<%@ attribute name="list" type="java.util.Collection" description="List&lt;IdTitle&gt; элементов, см. описание в теге"%>
-<%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; элементов, см. описание в теге"%>
-<%@ attribute name="available" type="java.util.Collection" description="List&lt;Integer&gt; допустимых значений, см. описание в теге"%>
+<%@ attribute name="list" type="java.util.Collection" description="List&lt;IdTitle&gt; of elements, refer to description inside tag"%>
+<%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>
+<%@ attribute name="available" type="java.util.Collection" description="List&lt;Integer&gt; of allowed values, refer to description inside tag"%>
 
 <c:if test="${not empty widthTextValue}">
 	<c:set var="styleTextValue">width: ${widthTextValue}; max-width: ${widthTextValue};</c:set>
@@ -53,7 +53,7 @@ styleTextValue / widthTextValue следует использовать, ког�
 		<div class="text-pref">${prefixText}</div>
 	</c:if>
 
-	<%-- the whole width is defined by this one --%>
+	<%-- you can set the width of the whole element by setting the width of below block --%>
 	<div class="text-value" style="${styleTextValue}"></div>
 	<div class="icon"><i class="ti-close"></i></div>
 	<ul class="drop" style="display: none;">
@@ -61,13 +61,14 @@ styleTextValue / widthTextValue следует использовать, ког�
 			<li class="in-table-cell">
 				<c:set var="filterCode">
 					var mask = $(this).val().toLowerCase();
-					$(this).closest('ul').find('li:gt(0)').each(function () {
+					$(this).closest('ul').find('li:gt(0)').each( function()
+					{
 						var content = $(this).text().toLowerCase();
 						$(this).toggle( content.indexOf( mask ) >= 0 );
 					});
 				</c:set>
-				<div style="width: 100%;"><input type="text" style="width: 100%;" placeholder="Фильтр" onkeyup="${filterCode}"/></div>
-				<div class="pl05"><div class="btn-white btn-icon" onclick='uiComboCheckUncheck(this)' title="${l.l('Выделить все / снять выделение')}"><i class="ti-check"></i></div></div>
+				<div style="width: 100%;"><input type="text" style="width: 100%;" placeholder="Filter" onkeyup="${filterCode}"/></div>
+				<div class="pl05"><div class="btn-white btn-icon" onclick='uiComboCheckUncheck(this)' title="${l.l('Select all / remove selection')}"><i class="ti-check"></i></div></div>
 			</li>
 		</c:if>
 		<data><%--
