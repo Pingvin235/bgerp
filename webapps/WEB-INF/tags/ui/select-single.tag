@@ -29,9 +29,8 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 
 <%@ attribute name="list" type="java.util.Collection" description="List&lt;IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>
-<%@ attribute name="availableIdList" type="java.util.List" description="List of allowed values, refer to description inside tag""%>
+<%@ attribute name="availableIdList" type="java.util.List" description="List of allowed values, refer to description inside tag"%>
 <%@ attribute name="availableIdSet" type="java.util.Set" description="Set of allowed values, refer to description inside tag"%>
-
 
 <c:choose>
 	<c:when test="${not empty id}">
