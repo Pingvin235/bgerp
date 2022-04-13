@@ -22,6 +22,8 @@ DEBUG="-enableassertions -Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address
 if [ "$1" = "start" ]; then
     #starting
     nohup ${JAVA_HOME}/bin/java ${PARAMS} ${MEMORY} -cp ${CLASSPATH} ru.bgerp.Server $1 $2 $3 > ./log/bgerp_${time}.out 2>&1 & echo $! > .run/bgerp.pid &
+    # delete more that 10 oldest log/bgerp.out files
+    ls -1t ./log/bgerp*.out | tail -n +11 | xargs rm -f
 elif [ "$1" = "debug" ]; then
     #starting in debug mode
     nohup ${JAVA_HOME}/bin/java ${PARAMS} ${MEMORY} ${DEBUG} -cp ${CLASSPATH} ru.bgerp.Server start $2 $3 > ./log/bgerp_${time}.out 2>&1 & echo $! > .run/bgerp.pid &
@@ -31,6 +33,3 @@ else
     #execute command - quotes for transforming multiple for one params
     ${JAVA_HOME}/bin/java ${PARAMS} -cp ${CLASSPATH} ru.bgerp.Server "$1 $2 $3"
 fi
-
-# delete more that 10 oldest log/bgerp.out files
-ls -1t ./log/bgerp*.out | tail -n +11 | xargs rm -f

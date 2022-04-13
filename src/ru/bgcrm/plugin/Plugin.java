@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.dao.Cleaner;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.bgerp.util.Log;
 import org.bgerp.util.lic.AppLicense;
@@ -141,6 +142,14 @@ public abstract class Plugin {
     }
 
     /**
+     * Dependencies plugin IDs.
+     * @return
+     */
+    public Set<String> getDependencies() {
+        return Collections.emptySet();
+    }
+
+    /**
      * Endpoints for connecting the plugin in JSP templates.
      * @return
      */
@@ -190,14 +199,6 @@ public abstract class Plugin {
     }
 
     /**
-     * Dependencies plugin IDs.
-     * @return
-     */
-    public Set<String> getDependencies() {
-        return Collections.emptySet();
-    }
-
-    /**
      * List of supported by plugin languages, main is the first.
      * For any of supported languages must be presented translated documentation and localized UI.
      * @return default return single list of {@link Lang#RU}.
@@ -232,12 +233,10 @@ public abstract class Plugin {
     }
 
     /**
-     * Outdated path, used by plugin. Related to the application's root directory.
-     * May be used for cleaning up of old files and directories.
-     * TODO: For webapps is used separated logic.
+     * DB cleaner.
      * @return
      */
-    public Set<String> getUnusedPaths() {
-        return Collections.emptySet();
+    public Cleaner getCleaner() {
+        return null;
     }
 }

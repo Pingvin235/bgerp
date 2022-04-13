@@ -21,9 +21,6 @@ public abstract class Config {
         }
     }
 
-    @Deprecated
-    protected final ParameterMap setup;
-
     /**
      * The constructor has to be overwritten and implement parameters parsing.
      * Simple constructor, without deprecated keys validation support.
@@ -41,7 +38,6 @@ public abstract class Config {
     protected Config(ParameterMap config, boolean validate) {
         if (config != null)
             log.warn("Used not null 'config' parameter for constructor of {}", this.getClass());
-        this.setup = config;
     }
 
     /**

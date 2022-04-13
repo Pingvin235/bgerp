@@ -12,6 +12,7 @@
 <%@page import="ru.bgcrm.model.CommonObjectLink"%>
 <%@page import="ru.bgcrm.plugin.bgbilling.proto.model.Contract"%>
 <%@page import="ru.bgcrm.struts.form.DynActionForm"%>
+<%@page import="ru.bgcrm.model.Customer"%>
 
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>

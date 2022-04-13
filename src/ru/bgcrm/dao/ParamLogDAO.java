@@ -12,11 +12,9 @@ import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterLogItem;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class ParamLogDAO extends CommonDAO {
@@ -48,7 +46,7 @@ public class ParamLogDAO extends CommonDAO {
 
         // Запись в лог
         query = "INSERT INTO" + TABLE_PARAM_LOG + "(dt, object_id, user_id, param_id, text) "
-                + "VALUES (NOW(),?,?,?,?)";
+                + "VALUES (CURRENT_TIMESTAMP(4),?,?,?,?)";
 
         ps = con.prepareStatement(query);
         ps.setInt(1, id);
@@ -60,40 +58,46 @@ public class ParamLogDAO extends CommonDAO {
         ps.close();
     }
 
+    /**
+     * Pageable param changes history in reverse time order.
+     * @param id entity ID.
+     * @param params parameters.
+     * @param offEncryption
+     * @param result pageable result.
+     * @return {@link Pageable#getList()} from {@code result}.
+     * @throws SQLException
+     */
     public List<ParameterLogItem> getHistory(int id, List<Parameter> params, boolean offEncryption,
-            Pageable<ParameterLogItem> searchResult) throws BGException {
+            Pageable<ParameterLogItem> result) throws SQLException {
 
-        PreparedQuery pq = new PreparedQuery(con);
-        Page page = searchResult.getPage();
-        pq.addQuery(SQL_SELECT_COUNT_ROWS + " dt, object_id, user_id, param_id, text FROM " + TABLE_PARAM_LOG);
-        pq.addQuery(" WHERE object_id= ? AND param_id IN ( " + Utils.getObjectIds(params) + " ) ");
-        pq.addInt(id);
-        pq.addQuery(" ORDER BY dt DESC ");
-        pq.addQuery(getPageLimit(page));
+        try (var pq = new PreparedQuery(con)) {
+            Page page = result.getPage();
+            pq.addQuery(SQL_SELECT_COUNT_ROWS + " dt, object_id, user_id, param_id, text FROM " + TABLE_PARAM_LOG);
+            pq.addQuery(" WHERE object_id= ? AND param_id IN ( " + Utils.getObjectIds(params) + " ) ");
+            pq.addInt(id);
+            pq.addQuery(" ORDER BY dt DESC ");
+            pq.addQuery(getPageLimit(page));
 
-        List<ParameterLogItem> result = searchResult.getList();
-        try {
+            List<ParameterLogItem> list = result.getList();
+
             ResultSet rs = pq.executeQuery();
             while (rs.next()) {
-                result.add(getLogItemFromRs(rs, offEncryption));
+                list.add(getFromRs(rs, offEncryption));
             }
-            setRecordCount(page, pq.getPrepared());
-            pq.close();
 
-            return result;
-        } catch (SQLException ex) {
-            throw new BGException(ex);
+            setRecordCount(page, pq.getPrepared());
+
+            return list;
         }
     }
 
-    public ParameterLogItem getLastParamChange(int objectId, int paramId) throws BGException {
-        try {
-            ParameterLogItem result = null;
+    public ParameterLogItem getLastParamChange(int objectId, int paramId) throws SQLException {
+        ParameterLogItem result = null;
 
-            String query = "SELECT * FROM " + TABLE_PARAM_LOG + "WHERE object_id=? AND param_id=? "
-                    + "ORDER BY dt DESC LIMIT 1";
+        String query = "SELECT * FROM " + TABLE_PARAM_LOG + "WHERE object_id=? AND param_id=? "
+                + "ORDER BY dt DESC LIMIT 1";
 
-            PreparedStatement ps = con.prepareStatement(query);
+        try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, objectId);
             ps.setInt(2, paramId);
 
@@ -102,27 +106,24 @@ public class ParamLogDAO extends CommonDAO {
                 result = getLogItemFromRs(rs);
             }
             ps.close();
-
-            return result;
-        } catch (SQLException ex) {
-            throw new BGException(ex);
         }
+
+        return result;
     }
 
-    private ParameterLogItem getLogItemFromRs(ResultSet rs, boolean offEncryption) throws SQLException {
+    private ParameterLogItem getFromRs(ResultSet rs, boolean offEncryption) throws SQLException {
         int paramId = rs.getInt("param_id");
         Parameter param = ParameterCache.getParameter(paramId);
 
         String text = rs.getString("text");
         if ("encrypted".equals(param.getConfigMap().get("encrypt")) && !offEncryption) {
-            text = "<ЗНАЧЕНИЕ ЗАШИФРОВАНО>";
+            text = "<ENCRYPTED>";
         }
 
-        return new ParameterLogItem(TimeUtils.convertTimestampToDate(rs.getTimestamp("dt")), rs.getInt("object_id"),
-                rs.getInt("user_id"), paramId, text);
+        return new ParameterLogItem(rs.getTimestamp("dt"), rs.getInt("object_id"), rs.getInt("user_id"), paramId, text);
     }
 
     private ParameterLogItem getLogItemFromRs(ResultSet rs) throws SQLException {
-        return getLogItemFromRs(rs, false);
+        return getFromRs(rs, false);
     }
 }

@@ -798,6 +798,8 @@ CALL drop_column_if_exists('user', 'email');
 CALL drop_column_if_exists('user', 'ids');
 CALL drop_column_if_exists('process_type', 'archive');
 
+ALTER TABLE param_log MODIFY dt TIMESTAMP(4) NOT NULL;
+
 -- TODO: CALL drop_column_if_exists('config_global', 'dt');
 -- TODO: CALL drop_column_if_exists('config_global', 'user_id');
 

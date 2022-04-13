@@ -1,0 +1,4 @@
+A: Plugin DBA. Show DB state, cleanup old tables. https://bgerp.org/doc/3.0/manual/plugin/svc/dba/index.html
+F: Moved cleaning old out files in erp.sh.
+F: Missing import in process_link_for_add_list.jsp
+F: More precise dt column in param_log table.

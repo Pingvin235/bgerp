@@ -101,6 +101,7 @@ public class Parameter extends IdTitle {
         return scripts;
     }
 
+    @Deprecated
     public String getScript() {
         return script;
     }

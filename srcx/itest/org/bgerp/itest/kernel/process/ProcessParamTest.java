@@ -133,10 +133,10 @@ public class ProcessParamTest {
 
         var log = logDao.getHistory(processId, ParameterCache.getParameterList(List.of(paramFileId)), false, new Pageable<>());
         Assert.assertEquals(log.size(), 4);
-        Assert.assertEquals(log.get(0).getText(), "file1.txt");
-        Assert.assertEquals(log.get(1).getText(), "file1.txt, file2.txt");
-        Assert.assertEquals(log.get(2).getText(), "file2.txt");
-        Assert.assertEquals(log.get(3).getText(), "");
+        Assert.assertEquals(log.get(3).getText(), "file1.txt");
+        Assert.assertEquals(log.get(2).getText(), "file1.txt, file2.txt");
+        Assert.assertEquals(log.get(1).getText(), "file2.txt");
+        Assert.assertEquals(log.get(0).getText(), "");
     }
 
     @Test(dependsOnMethods = "process")

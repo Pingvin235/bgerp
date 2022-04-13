@@ -21,7 +21,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.Table;
 import ru.bgcrm.plugin.Table.Type;
 import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.distr.call.ExecuteSQL;
 
 /**
  * Special plugin for application's kernel.
@@ -78,11 +77,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    public Set<String> getUnusedPaths() {
-        return Set.of(
-            "lib/app/bgcrm.jar",
-            "plugin"
-        );
+    public org.bgerp.dao.Cleaner getCleaner() {
+        return Cleaner.INSTANCE;
     }
 
     @Override

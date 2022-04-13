@@ -2,7 +2,6 @@ package ru.bgcrm.plugin.document;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import ru.bgcrm.plugin.Endpoint;
 
@@ -20,10 +19,5 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         return Map.of(
             Endpoint.USER_PROCESS_TABS, List.of(PATH_JSP_USER + "/process_tabs.jsp")
         );
-    }
-
-    @Override
-    public Set<String> getUnusedPaths() {
-        return Set.of("docpattern");
     }
 }

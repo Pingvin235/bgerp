@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,11 @@ public class ParameterCache extends Cache<ParameterCache> {
         return holder.getInstance().parameterMap.get(id);
     }
 
+    /**
+     * Parameters for {@code objectType}, position sorted.
+     * @param objectType {@link ru.bgcrm.model.process.Process#OBJECT_TYPE}, {@link ru.bgcrm.model.customer.Customer#OBJECT_TYPE}, {@link ru.bgcrm.model.user.User#OBJECT_TYPE}, {@link ru.bgcrm.model.param.address.AddressHouse#OBJECT_TYPE}
+     * @return
+     */
     public static List<Parameter> getObjectTypeParameterList(String objectType) {
         List<Parameter> result = new ArrayList<Parameter>();
 
@@ -43,6 +49,12 @@ public class ParameterCache extends Cache<ParameterCache> {
         return result;
     }
 
+
+    /**
+     * Parameters for {@code objectType}, position sorted.
+     * @param objectType {@link ru.bgcrm.model.process.Process#OBJECT_TYPE}, {@link ru.bgcrm.model.customer.Customer#OBJECT_TYPE}, {@link ru.bgcrm.model.user.User#OBJECT_TYPE}, {@link ru.bgcrm.model.param.address.AddressHouse#OBJECT_TYPE}
+     * @return
+     */
     public static List<Parameter> getObjectTypeParameterList(String objectType, int parameterGroupId) {
         List<Parameter> result = new ArrayList<Parameter>();
 
@@ -59,6 +71,21 @@ public class ParameterCache extends Cache<ParameterCache> {
                 result.addAll(paramList);
             }
         }
+
+        return result;
+    }
+
+    /**
+     * Parameter IDs for {@code objectType}, position sorted.
+     * @param objectType {@link ru.bgcrm.model.process.Process#OBJECT_TYPE}, {@link ru.bgcrm.model.customer.Customer#OBJECT_TYPE}, {@link ru.bgcrm.model.user.User#OBJECT_TYPE}, {@link ru.bgcrm.model.param.address.AddressHouse#OBJECT_TYPE}
+     * @return
+     */
+    public static List<Integer> getObjectTypeParameterIds(String objectType) {
+        List<Integer> result = Collections.emptyList();
+
+        List<Parameter> paramList = holder.getInstance().objectTypeParameters.get(objectType);
+        if (paramList != null)
+            result = paramList.stream().map(Parameter::getId).collect(Collectors.toList());
 
         return result;
     }

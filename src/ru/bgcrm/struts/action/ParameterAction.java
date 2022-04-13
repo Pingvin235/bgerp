@@ -78,13 +78,13 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 public class ParameterAction extends BaseAction {
     protected static final String PATH_JSP = PATH_JSP_USER + "/parameter";
 
-    public ActionForward parameterLog(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward parameterLog(DynActionForm form, ConnectionSet conSet) throws Exception {
         int id = form.getId();
         String objectType = form.getParam("objectType");
         List<Parameter> paramList = ParameterCache.getObjectTypeParameterList(objectType);
         boolean offEncrypt = form.getPermission().getBoolean("offEncrypt", false);
-        form.setResponseData("log", new ParamLogDAO(conSet.getSlaveConnection()).getHistory(id, paramList,
-                offEncrypt, new Pageable<ParameterLogItem>(form)));
+        form.setResponseData("log", new ParamLogDAO(conSet.getSlaveConnection())
+                .getHistory(id, paramList, offEncrypt, new Pageable<>(form)));
 
         return html(conSet, form, PATH_JSP + "/log.jsp");
     }
@@ -331,16 +331,10 @@ public class ParameterAction extends BaseAction {
                 EventProcessor.processEvent(
                         new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),
                         parameter.getScript(), conSet);
-
-                String objectClassName = "";
-                if (Process.OBJECT_TYPE.equals(parameter.getObject())) {
-                    Process process = new ProcessDAO(conSet.getConnection()).getProcess(id);
-                    ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-                    objectClassName = type.getProperties().getActualScriptName();
-                }
+                // TODO: Cleanup, but change calendar highlight in Callboard plugin
                 EventProcessor.processEvent(
                         new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),
-                        objectClassName, conSet);
+                        conSet);
             }
 
             if (Parameter.TYPE_DATE.equals(parameter.getType())) {
@@ -634,16 +628,13 @@ public class ParameterAction extends BaseAction {
             paramValueDAO.updateParamAddress(id, paramId, position, addressValue);
         }
 
-        // событие о изменении параметра
         ParamChangedEvent changedEvent = new ParamChangedEvent(form, parameter, id, paramValue);
-        EventProcessor.processEvent(changedEvent, /* className, */new SingleConnectionSet(con));
-        /* EventProcessor.processEvent(changedEvent, objectClassName, new SingleConnectionConnectionSet(con), false); */
+        EventProcessor.processEvent(changedEvent, new SingleConnectionSet(con));
 
         return json(con, form);
     }
 
-    private void paramChangingProcess(Connection con, /* String className, String objectClassName,  */ParamChangingEvent event) throws Exception {
-        EventProcessor.processEvent(event, /* className,  */new SingleConnectionSet(con));
-        /* EventProcessor.processEvent(event, objectClassName, new SingleConnectionConnectionSet(con), false); */
+    private void paramChangingProcess(Connection con, ParamChangingEvent event) throws Exception {
+        EventProcessor.processEvent(event, new SingleConnectionSet(con));
     }
 }
