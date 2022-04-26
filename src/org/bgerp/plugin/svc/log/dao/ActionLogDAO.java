@@ -72,16 +72,31 @@ public class ActionLogDAO extends PeriodicDAO {
         return this;
     }
 
+    /**
+     * Sets user IDs filter.
+     * @param value user IDs.
+     * @return
+     */
     public ActionLogDAO withUserIds(Set<Integer> value) {
         this.userIds = value;
         return this;
     }
 
+    /**
+     * Sets IP address filter.
+     * @param value user IP.
+     * @return
+     */
     public ActionLogDAO withIpAddress(String value) {
         this.ipAddress = value;
         return this;
     }
 
+    /**
+     * Sets actions filter.
+     * @param value semicolon separated strings with action class and method names.
+     * @return
+     */
     public ActionLogDAO withActions(Set<String> value) {
         this.actions = value;
         return this;

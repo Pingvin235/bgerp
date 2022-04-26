@@ -122,9 +122,6 @@
 				<item action="ru.bgcrm.struts.action.admin.ProcessAction:propertiesUpdate" title="Изменение свойств очереди">
 					<b>allowedQueueIds</b> - comma separated queue IDs
 				</item>
-				<item action="ru.bgcrm.struts.action.admin.ProcessAction:transactionCheck" title="Изменение в матрице переходов очереди">
-					<b>allowedQueueIds</b> - comma separated queue IDs
-				</item>
 			</item>
 		</item>
 
@@ -147,11 +144,11 @@
 		</item>
 
 		<item title="App">
-			<item action="ru.bgcrm.struts.action.admin.AppAction:status, ru.bgcrm.struts.action.admin.StateAction:null, org.bgerp.action.admin.AppAction:status" ltitle="Статус"/>
-			<item action="ru.bgcrm.struts.action.admin.AppAction:restart, org.bgerp.action.admin.AppAction:restart" title="Restart"/>
-			<item action="ru.bgcrm.struts.action.admin.AppAction:update, org.bgerp.action.admin.AppAction:update" ltitle="Update"/>
-			<item action="ru.bgcrm.struts.action.admin.AppAction:updateToChange, org.bgerp.action.admin.AppAction:updateToChange" ltitle="Обновить на изменение"/>
-			<item action="ru.bgcrm.struts.action.admin.AppAction:userLoggedList, org.bgerp.action.admin.AppAction:userLoggedList" ltitle="Сессии пользователей"/>
+			<item action="org.bgerp.action.admin.AppAction:status, ru.bgcrm.struts.action.admin.StateAction:null, ru.bgcrm.struts.action.admin.AppAction:status" title="Status"/>
+			<item action="org.bgerp.action.admin.AppAction:restart, ru.bgcrm.struts.action.admin.AppAction:restart" title="Restart"/>
+			<item action="org.bgerp.action.admin.AppAction:update, ru.bgcrm.struts.action.AppAction:update" title="Update"/>
+			<item action="org.bgerp.action.admin.AppAction:updateToChange, ru.bgcrm.struts.action.admin.AppAction:updateToChange" title="Update on Change"/>
+			<item action="org.bgerp.action.admin.AppAction:userLoggedList, ru.bgcrm.struts.action.admin.AppAction:userLoggedList" title="Logged users"/>
 			<item title="App logs">
 				<item action="org.bgerp.action.admin.AppAction:downloadLogApp" title="Download"/>
 				<item action="org.bgerp.action.admin.AppAction:deleteLogApp" title="Delete"/>
@@ -184,7 +181,6 @@
 		<item title="Address">
 			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:null, ru.bgcrm.struts.action.DirectoryAddressAction:address" title="View"/>
 			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:addressGet" title="Просмотр дома"/>
-			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:getAddressItem" title="Просмотр иной кроме дома записи справочника"/>
 			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:streetSearch" title="Поиск по улицам">
 				<b>cityIds</b> - годы городов через запятую, в которых разрешён поиск улиц
 			</item>
@@ -229,15 +225,15 @@
 		</item>
 		<item title="Process">
 			<item title="Queue">
-				<item action="ru.bgcrm.struts.action.ProcessAction:queue;org.bgerp.action.usermob.ProcessAction:queue;ru.bgcrm.struts.action.ProcessQueueAction:queue" title="Queues"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:queueGet;ru.bgcrm.struts.action.ProcessQueueAction:queueGet" title="Получение свойств очереди процессов"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:queueShow;org.bgerp.action.usermob.ProcessAction:queueShow;ru.bgcrm.struts.action.ProcessQueueAction:queueShow" title="Просмотр очереди процессов"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet;ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet" title="Сохранённые наборы фильтров" allowAll="1"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet;ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet" title="Сохранённые наборы кнопок очередей процессов" allowAll="1"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:typeTree;ru.bgcrm.struts.action.ProcessQueueAction:typeTree" title="Process creation editor">
+				<item action="ru.bgcrm.struts.action.ProcessQueueAction:queue, org.bgerp.action.usermob.ProcessAction:queue, ru.bgcrm.struts.action.ProcessAction:queue" title="Queues"/>
+				<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueGet, ru.bgcrm.struts.action.ProcessAction:queueGet" title="Получение свойств очереди процессов"/>
+				<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueShow, org.bgerp.action.usermob.ProcessAction:queueShow, ru.bgcrm.struts.action.ProcessAction:queueShow" title="Просмотр очереди процессов"/>
+				<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedFilterSet, ru.bgcrm.struts.action.ProcessAction:queueSavedFilterSet" title="Сохранённые наборы фильтров" allowAll="1"/>
+				<item action="ru.bgcrm.struts.action.ProcessQueueAction:queueSavedPanelSet, ru.bgcrm.struts.action.ProcessAction:queueSavedPanelSet" title="Сохранённые наборы кнопок очередей процессов" allowAll="1"/>
+				<item action="ru.bgcrm.struts.action.ProcessQueueAction:typeTree, ru.bgcrm.struts.action.ProcessAction:typeTree" title="Process creation editor">
 					<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
 				</item>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke;ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke" title="Run processor"/>
+				<item action="ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke" title="Run processor"/>
 			</item>
 			<item action="ru.bgcrm.struts.action.ProcessAction:null;org.bgerp.action.usermob.ProcessAction:null;ru.bgcrm.struts.action.ProcessAction:process" title="Просмотр карточки процесса"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processCreate" title="Создание процесса"/>
@@ -257,15 +253,15 @@
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDelete" title="Delete"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:process" title="Process card view"/>
 			<item title="Links">
-				<item action="ru.bgcrm.struts.action.ProcessAction:linkedProcessList;ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessList" title="Просмотр процессов с привязкой">
+				<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessList, ru.bgcrm.struts.action.ProcessAction:linkedProcessList" title="Просмотр процессов с привязкой">
 					<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
 				</item>
 				<!-- <item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessInfo" title="Просмотр информации о привязанном процессе"/> -->
-				<item action="ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate;ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate" title="Создание процесса с привязкой"/>
+				<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate" title="Создание процесса с привязкой"/>
 			</item>
 			<item title="Links to processes">
-				<item action="ru.bgcrm.struts.action.ProcessAction:linkProcessList;ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList" title="Просмотр привязанных процессов"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:linkProcessCreate;ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate" title="Создание привязанного процесса"/>
+				<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList" title="Просмотр привязанных процессов"/>
+				<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate" title="Создание привязанного процесса"/>
 			</item>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processRequest" title="Запрос дополнительных параметров создания процесса" allowAll="1"/>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processTypeEdit, ru.bgcrm.struts.action.ProcessAction:processTypeUpdate" title="Edit type"/>
@@ -315,7 +311,6 @@
 		</item>
 		<item title="Справочник пользователей">
 			<item action="ru.bgcrm.struts.action.UserAction:userList" title="Получение списка пользователей"/>
-			<item action="ru.bgcrm.struts.action.UserAction:setPageConfig" title="Изменение настроек промотчика страниц для текущего юзера" allowAll="1"/>
 		</item>
 
 		<item action="ru.bgcrm.struts.action.EmptyAction:null" title="Для унифицированного вызова JSP" allowAll="1" notLogging="1"/>

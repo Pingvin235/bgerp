@@ -324,7 +324,7 @@ $$.shell = new function () {
 			const id = commandBeforeSharp.substring(6).replace(/\//g, "-");
 
 			if (!item.allowed)
-				alert("The menu item is now allowed.");
+				alert("The menu item is not allowed.");
 			else {
 				let $taskButton = $('#taskPanel > div#' + id);
 

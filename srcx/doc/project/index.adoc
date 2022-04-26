@@ -641,14 +641,14 @@ Definitions from those files are forming a tree which is used for <<../kernel/se
 
 Each action is identified by a class AND method, separated by semicolon.
 
-Main identifier can be preceded by additional ones, separated by a *comma* - for example, when renaming classes or methods.
+First primary action can be followed by additional ones, separated by a *comma* - for example, when renaming classes or methods. Enabling each action enables all the item.
 This allows to provide backwards compatibility with permissions already present in the DB.
-The actual main identifier stays always last and will be used upon the next save operation of the permission set.
+The first identifier is used upon the next save operation of the permission set.
 
 In the following example an action class was renamed and action method changed to *unspecified*, defined in the configuration by *null*.
 
-[snippet, from="<item ti", to="с\"/>", remove-leading="		"]
-link:../../../src/org/bgerp/plugin/kernel/action.xml#L149-L150[org/bgerp/plugin/kernel/action.xml]
+[snippet, from="<item ti", to="s\"/>", remove-leading="		"]
+link:../../../src/org/bgerp/plugin/kernel/action.xml#L146-L147[org/bgerp/plugin/kernel/action.xml]
 
 The same principe may be used for grouping many methods to a single logical action, for example typical get and update calls.
 

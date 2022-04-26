@@ -2,14 +2,16 @@ package org.bgerp.plugin.svc.log.action;
 
 import java.time.YearMonth;
 import java.util.Date;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.svc.log.Plugin;
 import org.bgerp.plugin.svc.log.dao.ActionLogDAO;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -21,7 +23,7 @@ public class ActionLogAction extends BaseAction {
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
-        form.setRequestAttribute("permTrees", UserCache.getPermTrees());
+        form.setRequestAttribute("permTrees", PermissionNode.getPermissionTrees());
 
         return html(conSet, form, PATH_JSP + "/action.jsp");
     }
@@ -35,13 +37,23 @@ public class ActionLogAction extends BaseAction {
         if (timeTo != null && !YearMonth.from(timeFrom.toInstant()).equals(YearMonth.from(timeTo.toInstant())))
             throw new BGMessageException("Time to must be in the same month as time from.");
 
+        Set<String> actions = form.getSelectedValuesStr("perm");
+        Set<String> allActions = new TreeSet<>(actions);
+
+        for (String action : actions) {
+            PermissionNode actionNode = PermissionNode.getPermissionNode(action);
+            if (actionNode == null)
+                throw new IllegalArgumentException("Action not found: " + action);
+            allActions.addAll(actionNode.getActions());
+        }
+
         new ActionLogDAO(conSet.getSlaveConnection())
             .withTimeFrom(timeFrom)
             .withTimeTo(timeTo)
             .withIpAddress(form.getParam("ipAddress"))
             .withParameter(form.getParam("parameter"))
             .withUserIds(form.getSelectedValues("userId"))
-            .withActions(form.getSelectedValuesStr("perm"))
+            .withActions(allActions)
             .search(new Pageable<>(form));
 
         return unspecified(form, conSet);

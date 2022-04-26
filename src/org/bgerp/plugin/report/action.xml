@@ -2,9 +2,9 @@
 	<item title="Report" actionFactory="org.bgerp.plugin.report.action.ReportActionBase$Factory">
 	</item>
 	<item title="JSP Reports (deprecated)">
-		<item action="ru.bgcrm.plugin.report.struts.action.ReportAction:null;org.bgerp.plugin.report.action.ReportAction:null" title="Список">
+		<item action="org.bgerp.plugin.report.action.ReportAction:null, ru.bgcrm.plugin.report.struts.action.ReportAction:null" title="List">
 			<b>allowedReports</b> - ID разрешенных к отображению отчетов через запятую<br/>
 		</item>
-		<item action="ru.bgcrm.plugin.report.struts.action.ReportAction:get;org.bgerp.plugin.report.action.ReportAction:get" title="Вывод отчёта"/>
+		<item action="org.bgerp.plugin.report.action.ReportAction:get, ru.bgcrm.plugin.report.struts.action.ReportAction:get" title="Show"/>
 	</item>
 </item>

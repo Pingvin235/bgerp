@@ -4,6 +4,6 @@
 		<item action="ru.bgcrm.plugin.slack.action.ConfigAction:token" title="Get Token"/>
 	</item>
 	<item title="Channels">
-		<item action="ru.bgcrm.plugin.slack.struts.action.ChannelAction:addProcessChannelLink;ru.bgcrm.plugin.slack.action.ChannelAction:addProcessChannelLink" title="Link channel to process"/>
+		<item action="ru.bgcrm.plugin.slack.action.ChannelAction:addProcessChannelLink, ru.bgcrm.plugin.slack.struts.action.ChannelAction:addProcessChannelLink" title="Link channel to process"/>
 	</item>
 </item>

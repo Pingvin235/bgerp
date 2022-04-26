@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.user.UserDAO;
@@ -26,7 +27,6 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
-import ru.bgcrm.util.sql.SQLUtils;
 
 public class UserCache extends Cache<UserCache> {
     private static final Log log = Log.getLog();
@@ -84,12 +84,13 @@ public class UserCache extends Cache<UserCache> {
     }
 
     /**
-     * Called from JSP.
      * Gets user permission for action.
+     * The method is used in {@code permission.tld}
      * @param userId user ID.
      * @param action semicolon separated action class name and method, e.g. {@code org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:get}.
      * @return allowed permission with options or {@code null}.
      */
+    @Dynamic
     public static ParameterMap getPerm(int userId, String action) {
         User user = getUser(userId);
 
@@ -191,13 +192,6 @@ public class UserCache extends Cache<UserCache> {
         return holder.getInstance().userPermsetMap;
     }
 
-    /**
-     * @return list of root nodes for permission trees of enabled plugins.
-     */
-    public static List<PermissionNode> getPermTrees() {
-        return holder.getInstance().allPermTrees;
-    }
-
     public static void flush(Connection con) {
         holder.flush(con);
     }
@@ -276,12 +270,7 @@ public class UserCache extends Cache<UserCache> {
         return resultList;
     }
 
-    /*public static Map<Integer,List<UserGroup>> getUserGroupLinkList()
-    {
-        return holder.getInstance().userGroupLink;
-    }*/
-
-    // конец статической части
+    // end of static part
 
     private List<User> userList;
     private Map<Integer, User> userMapById;
@@ -297,8 +286,6 @@ public class UserCache extends Cache<UserCache> {
 
     private Map<Integer, Map<String, ParameterMap>> userPermMap;
 
-    private List<PermissionNode> allPermTrees;
-
     private UserCache result;
 
     private Map<Integer, List<UserGroup>> userGroupListsMap;
@@ -310,8 +297,7 @@ public class UserCache extends Cache<UserCache> {
 
         Setup setup = Setup.getSetup();
 
-        Connection con = setup.getDBConnectionFromPool();
-        try {
+        try (var con = setup.getDBConnectionFromPool()) {
             UserDAO userDAO = new UserDAO(con);
             UserPermsetDAO permsetDAO = new UserPermsetDAO(con);
             UserGroupDAO groupDAO = new UserGroupDAO(con);
@@ -383,13 +369,13 @@ public class UserCache extends Cache<UserCache> {
             Map<Integer, List<Integer>> allGroupPermsetIds = groupDAO.getAllGroupPermsetIds();
             Map<Integer, Set<Integer>> allGroupQueueIds = groupDAO.getAllGroupQueueIds();
 
-            Map<Integer, Map<String, ParameterMap>> allUserPermById = userDAO.getAllUserPerm();
-            Map<Integer, Map<String, ParameterMap>> allPermsetPermById = permsetDAO.getAllPermsets();
+            Map<Integer, Map<String, ParameterMap>> allUserPermById = primaryActions(userDAO.getAllUserPerm());
+            Map<Integer, Map<String, ParameterMap>> allPermsetPermById = primaryActions(permsetDAO.getAllPermsets());
 
-            result.userPermMap = new HashMap<Integer, Map<String, ParameterMap>>();
+            result.userPermMap = new HashMap<>();
 
             for (User user : result.userList) {
-                Map<String, ParameterMap> perm = new HashMap<String, ParameterMap>();
+                Map<String, ParameterMap> perm = new HashMap<>();
                 result.userPermMap.put(user.getId(), perm);
 
                 user.setPermsetIds(allUserPermsetIds.get(user.getId()));
@@ -441,7 +427,7 @@ public class UserCache extends Cache<UserCache> {
                         fullUserConfig.append(permset.getConfig());
                         fullUserConfig.append("\n");
                     } else {
-                        log.warn("Permset not exists: " + permsetId + ", setted for user.");
+                        log.warn("Not existing permset '{}' is set for a user.", permsetId);
                     }
                 }
 
@@ -475,8 +461,6 @@ public class UserCache extends Cache<UserCache> {
                 }
             }
 
-            result.allPermTrees = PermissionNode.getPermissionTrees();
-
             User user = new User();
             user.setId(User.USER_CUSTOMER_ID);
             user.setTitle("Customer");
@@ -489,12 +473,21 @@ public class UserCache extends Cache<UserCache> {
             user.setPassword(setup.get("user.system.pswd"));
             result.userMapById.put(user.getId(), user);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        } finally {
-            SQLUtils.closeConnection(con);
+            log.error(e);
         }
 
         return result;
+    }
+
+    /**
+     * Sets primary actions for all sub-maps, stored by IDs.
+     * @param permMapById key - some ID, value - permission map with obitary keys.
+     * @return modified {@code permMapById}.
+     */
+    private Map<Integer, Map<String, ParameterMap>> primaryActions(Map<Integer, Map<String, ParameterMap>> permMapById) {
+        for (var me : permMapById.entrySet())
+            me.setValue(PermissionNode.primaryActions(me.getValue()));
+        return permMapById;
     }
 
     private Set<Integer> getActualUserGroupIdSet(Date actualDate, List<UserGroup> ugList) {

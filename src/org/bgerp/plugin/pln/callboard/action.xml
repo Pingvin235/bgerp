@@ -45,9 +45,6 @@
 		<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateShift" title="Редактирование графика дежурств" >
 			<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
 		</item>
-		<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateShiftTeam" title="Редактирование номера бригады" >
-			<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
-		</item>
 		<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateFilters" title="Обновление фильтров графика дежурств" allowAll="1"/>
 		<item action="ru.bgcrm.struts.action.admin.WorkAction:callboardGetTabel" title="Загрузка табеля" >
 		</item>

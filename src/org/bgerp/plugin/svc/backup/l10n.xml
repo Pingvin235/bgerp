@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
-    <p><ru>Создать Backup</ru><en>Create Backup</en></p>
-    <p><ru>Включить БД</ru><en>Include DB</en></p>
-    <!--
-    <p><en></en><ru></ru></p>
-    -->
+	<p><ru>Создать Backup</ru><en>Create Backup</en></p>
+	<p><ru>Включить БД</ru><en>Include DB</en></p>
+	<!--
+	<p><en></en><ru></ru></p>
+	-->
 </data>

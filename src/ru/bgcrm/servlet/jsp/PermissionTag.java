@@ -3,7 +3,6 @@ package ru.bgcrm.servlet.jsp;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.core.ConditionalTagSupport;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bgerp.servlet.filter.AuthFilter;
 import org.bgerp.util.Log;
 
@@ -59,13 +58,6 @@ public class PermissionTag extends ConditionalTagSupport {
             if (PermissionNode.getPermissionNode(action) == null) {
                 log.error("Action not found: {}", action);
                 return false;
-            }
-
-            String actionClass = StringUtils.substringBefore(action, ":");
-            try {
-                Class.forName(actionClass);
-            } catch (ClassNotFoundException e) {
-                log.warn("Action class not found: {}", actionClass);
             }
 
             if (UserCache.getPerm(user.getId(), action) != null) {

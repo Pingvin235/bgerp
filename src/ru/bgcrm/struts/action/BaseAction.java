@@ -58,10 +58,9 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 import ru.bgerp.l10n.Localizer;
 
 public class BaseAction extends DispatchAction {
-    private static final Class<?>[] TYPES_CONSET_DYNFORM = { DynActionForm.class,
-        ConnectionSet.class };
-    private static final Class<?>[] TYPES_CON_DYNFORM = { DynActionForm.class,
-        Connection.class };
+    public static final Class<?>[] TYPES_CONSET_DYNFORM = { DynActionForm.class, ConnectionSet.class };
+    public static final Class<?>[] TYPES_CON_DYNFORM = { DynActionForm.class, Connection.class };
+
     @Deprecated
     private static final Class<?>[] TYPES_MAPPING_CONSET_DYNFORM = { ActionMapping.class, DynActionForm.class,
             ConnectionSet.class };
