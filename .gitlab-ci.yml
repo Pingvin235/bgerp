@@ -2,6 +2,7 @@
 # openjdk:17-buster    https://github.com/docker-library/openjdk/blob/master/17/jdk/buster/Dockerfile
 
 test-and-publish-update:
+    # replace to 'bgerp/base' after removing 'ant' dependency
     image: openjdk:17-buster
     cache:
         paths:
@@ -18,10 +19,9 @@ test-and-publish-update:
         refs:
             - master
             - p11862-documentation
-            - p12094-integration-test
-            - p14750-email-recipients-search-fix
 
 test-and-publish-update-master:
+    # replace to 'bgerp/base' after removing 'ant' dependency
     image: openjdk:17-buster
     cache:
         paths:
@@ -40,35 +40,55 @@ test-and-publish-update-master:
         refs:
             - master
 
-# also creates demo DB dump and uploads it to demo server
 test-integration:
-    image: openjdk:17-buster
+    image: bgerp/base
     cache:
         paths:
             - .gradle/wrapper
             - .gradle/caches
     script:
-        - apt-get update && apt-get install -y default-mysql-client openssh-client zip
-        # run integration test
-        - mkdir -p filestorage
-        - DB_ITEST_HOST='172.17.0.1' DB_ITEST_USER='itest'
-        # Activate later with E-to-E tests and markhobson/maven-chrome image: - GRADLE_OPTS=-Xmx1048m sh gradlew --debug -Pdb.host=$DB_ITEST_HOST -Pdb.user=$DB_ITEST_USER -Pdb.pswd="$DB_ITEST_PASSWORD" -Pwebdriver.chrome.driver=/usr/bin/chromedriver integrationTest
-        - sh gradlew -Pdb.host=$DB_ITEST_HOST -Pdb.user=$DB_ITEST_USER -Pdb.pswd="$DB_ITEST_PASSWORD" itest
+        # start MySQL, create DB and user, move bgerp.properties to the current directory
+        - /usr/local/bin/docker-bgerp-base.sh
+        # integration tests are running by with 'bgerp.properties' configuration
+        - mkdir -p filestorage && sh gradlew itest
+
+        ## Activate later with E-to-E tests and markhobson/maven-chrome image: - GRADLE_OPTS=-Xmx1048m sh gradlew --debug -Pdb.host=$DB_ITEST_HOST -Pdb.user=$DB_ITEST_USER -Pdb.pswd="$DB_ITEST_PASSWORD" -Pwebdriver.chrome.driver=/usr/bin/chromedriver integrationTest
+        #- sh gradlew -Pdb.host=$DB_ITEST_HOST -Pdb.user=$DB_ITEST_USER -Pdb.pswd="$DB_ITEST_PASSWORD" itest
+    except:
+        refs:
+            - master
+            - p11862-documentation
+
+test-integration-master:
+    image: bgerp/base
+    cache:
+        paths:
+            - .gradle/wrapper
+            - .gradle/caches
+    script:
+        # start MySQL, create DB and user, move bgerp.properties to the current directory
+        - /usr/local/bin/docker-bgerp-base.sh
+        # integration tests are running by with 'bgerp.properties' configuration
+        - mkdir -p filestorage && sh gradlew itest
+
         # copy DB and filestorage content to demo server
-        - echo "$KEY_DEMO" > ./demo.id_rsa && chmod 600 ./demo.id_rsa
-        - mysqldump -h$DB_ITEST_HOST -u$DB_ITEST_USER -p$DB_ITEST_PASSWORD --add-drop-table bgerp > build/bgerp.sql
-        - scp -i ./demo.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/bgerp.sql demo@bgerp.org:/home/demo
+
+        # java layer removes those with 'apt-get purge'
+        - apt-get update && apt-get install -y openssh-client zip
+        # the password is same with MYSQL_ROOT_PASSWORD
+        - PWD=`grep db.pswd bgerp.properties | cut -d'=' -f2`
+        - mysqldump -uroot -p$PWD --add-drop-table bgerp > build/bgerp.sql
         - zip -r -j build/filestorage.zip filestorage
+        # GitLab CI variable
+        - echo "$KEY_DEMO" > ./demo.id_rsa && chmod 600 ./demo.id_rsa
+        - scp -i ./demo.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/bgerp.sql demo@bgerp.org:/home/demo
         - scp -i ./demo.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/filestorage.zip demo@bgerp.org:/home/demo
-    tags:
-        - itest-db
     only:
         refs:
             - master
-            - p12094-integration-test
-            - p14750-email-recipients-search-fix
 
 publish-doc:
+    # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
     image: openjdk:17-buster
     cache:
         paths:
@@ -85,6 +105,7 @@ publish-doc:
             - p11862-documentation
 
 publish-source:
+    # think about switching to 'bgerp/base' for unification
     image: alpine
     before_script:
         - export REPO_PUB=/tmp/bgerp-pub

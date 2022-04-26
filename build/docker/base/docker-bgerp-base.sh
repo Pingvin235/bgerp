@@ -31,20 +31,6 @@ docker_wait_mysql_down () {
     fi
 }
 
-# may be used later for startup with regular erp_start.sh
-docker_wait_bgerp_up () {
-    for i in {300..0}; do
-        if /opt/bgerp/erp_status.sh 2>/dev/null; then
-            break
-        fi
-        sleep 2
-    done
-    if [ "$i" = 0 ]; then
-        echo "Unable to start BGERP server."
-        exit 1
-    fi
-}
-
 # $MYSQL_ROOT_PASSWORD will be used there in case of missing DB
 # kick off the upstream command
 /usr/local/bin/docker-entrypoint.sh mysqld &
@@ -60,26 +46,17 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     docker_wait_mysql_up
 
     # BGERP init DB connection properties
-    export ERP_DB_PWD=`pwgen`
+    export ERP_DB_PWD=$MYSQL_ROOT_PASSWORD
     echo "Setting DB password: '$ERP_DB_PWD'"
-    sed -i "s/GENERATED_PASSWORD/$ERP_DB_PWD/" /opt/bgerp/bgerp.properties
-    sed -i "s/GENERATED_PASSWORD/'$ERP_DB_PWD'/" /opt/bgerp/db_create.sql
+    sed -i "s/GENERATED_PASSWORD/$ERP_DB_PWD/" /tmp/bgerp/bgerp.properties
+    sed -i "s/GENERATED_PASSWORD/'$ERP_DB_PWD'/" /tmp/bgerp/db_create.sql
 
-    # disable scheduler
-    echo -e "\nscheduler.start=0" >> /opt/bgerp/bgerp.properties
+    echo "Moving bgerp.properites"
+    mv -v /tmp/bgerp/bgerp.properties .
 
     echo "Creating BGERP user and init database"
-    mysql --default-character-set=utf8 -uroot -p$MYSQL_ROOT_PASSWORD < /opt/bgerp/db_create.sql
-    mysql --default-character-set=utf8 -ubgerp -p$ERP_DB_PWD bgerp < /opt/bgerp/db_init.sql
-
-    echo "Applying DEMO database"
-    mysql --default-character-set=utf8 -ubgerp -p$ERP_DB_PWD bgerp < /opt/bgerp/bgerp.sql
-    echo "Applying DEMO filestorage"
-    unzip /opt/bgerp/filestorage.zip -d /opt/bgerp/filestorage
+    mysql --default-character-set=utf8 -uroot -p$MYSQL_ROOT_PASSWORD < /tmp/bgerp/db_create.sql
 else
     # normal up
     docker_wait_mysql_up
 fi
-
-echo "Running BGERP"
-exec /opt/bgerp/erp.sh docker
