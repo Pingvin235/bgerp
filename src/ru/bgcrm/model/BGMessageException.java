@@ -14,22 +14,22 @@ public class BGMessageException extends BGException {
     private final Object[] args;
 
     /**
-     * Constructor without internal localized.
-     * @param message message pattern.
+     * Constructor with default kernel + plugin localizer.
+     * @param pattern message pattern.
      * @param args message arguments.
      */
-    public BGMessageException(String message, Object... args) {
-        this(null, message, args);
+    public BGMessageException(String pattern, Object... args) {
+        this(null, pattern, args);
     }
 
     /**
      * Constructor with internal localizer.
      * @param lInternal internal localizer.
-     * @param message message pattern.
+     * @param pattern message pattern.
      * @param args message arguments.
      */
-    public BGMessageException(Localizer lInternal, String message, Object... args) {
-        super(message);
+    public BGMessageException(Localizer lInternal, String pattern, Object... args) {
+        super(pattern);
         this.lInternal = lInternal;
         this.args = args;
     }

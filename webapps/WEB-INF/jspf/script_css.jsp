@@ -5,7 +5,7 @@
 <%-- u:fileNameWithLastModTime has to be used for all of the modified JS and CSS --%>
 <script src="${u:fileNameWithLastModTime('/lib/jquery-ui-1.12.1/jquery-ui.js')}"></script>
 <script src="/lib/jquery-ui-1.12.1/i18n/jquery.ui.datepicker-ru.js"></script>
-<link type="text/css" href="/lib/jquery-ui-1.12.1/jquery-ui-start.css" rel="stylesheet"/> 
+<link type="text/css" href="/lib/jquery-ui-1.12.1/jquery-ui-start.css" rel="stylesheet"/>
 
 <script src="/lib/inputmask/jquery.inputmask.js"></script>
 <script src="/lib/inputmask/jquery.inputmask.numeric.extensions.js"></script>
@@ -66,10 +66,10 @@
 <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
 
 <%--
-   МАГИЯ, чтобы input ы, баттоны и div ы одного стиля были одного размера 
+   МАГИЯ, чтобы input ы, баттоны и div ы одного стиля были одного размера
    http://stackoverflow.com/questions/4483279/make-form-button-text-field-same-height-in-all-browsers
    http://necolas.github.io/normalize.css/
-   чтобы div размер включал бордеры и т.п. 
+   чтобы div размер включал бордеры и т.п.
 --%>
 <link type="text/css" href="/css/normalize.css" rel="stylesheet"/>
 
@@ -78,6 +78,7 @@
 <link type="text/css" href="/lib/codemirror/bgerp.css" rel ="stylesheet">
 <script src="/lib/codemirror/lib/codemirror.js"></script>
 <script src="/lib/codemirror/mode/properties/properties.js"></script>
+<script src="/lib/codemirror/mode/sql/sql.js"></script>
 <script src="/lib/codemirror/addon/selection/active-line.js"></script>
 <script src="/lib/codemirror/addon/edit/matchbrackets.js"></script>
 
@@ -110,5 +111,5 @@
 
 <c:if test="${not empty includeCustom}">
 	<jsp:include page="/WEB-INF/jspf/script_css.custom.jsp"/>
-</c:if>  
+</c:if>
 --%>

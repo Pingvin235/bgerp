@@ -439,10 +439,15 @@ $$.ui = new function () {
 		}, 0);
 	}
 
-	const codeMirror = (id) => {
+	/**
+	 * Code mirror highlight for textarea.
+	 * @param {*} id textarea CSS ID.
+	 * @param {*} mode optional mode, if not defined when used 'properties'.
+	 */
+	const codeMirror = (id, mode) => {
 		const ta = document.getElementById(id);
 		const editor = CodeMirror.fromTextArea(ta, {
-			mode: "properties",
+			mode: mode ? mode : "properties",
 			lineNumbers: true,
 			styleActiveLine: true,
 			matchBrackets: true

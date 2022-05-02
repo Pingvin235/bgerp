@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -56,6 +57,12 @@ public class CommonDAO {
         this.con = con;
     }
 
+    /**
+     * Takes last generated key from {@code ps}.
+     * @param ps
+     * @return
+     * @throws SQLException
+     */
     protected int lastInsertId(PreparedStatement ps) throws SQLException {
         int id = -1;
         ResultSet rs = ps.getGeneratedKeys();
@@ -65,13 +72,27 @@ public class CommonDAO {
         return id;
     }
 
-    protected int getFoundRows(PreparedStatement ps) throws SQLException {
-        int id = -1;
-        ResultSet rs = ps.executeQuery("SELECT FOUND_ROWS()");
+    /**
+     * Use {@link #foundRows(Statement)}
+     */
+    @Deprecated
+    protected int getFoundRows(Statement st) throws SQLException {
+        return foundRows(st);
+    }
+
+    /**
+     * Selects {@code FOUND_ROWS()} for given statement.
+     * @param st
+     * @return
+     * @throws SQLException
+     */
+    protected int foundRows(Statement st) throws SQLException {
+        int result = -1;
+        ResultSet rs = st.executeQuery("SELECT FOUND_ROWS()");
         if (rs.last()) {
-            id = rs.getInt(1);
+            result = rs.getInt(1);
         }
-        return id;
+        return result;
     }
 
     /**
@@ -121,8 +142,15 @@ public class CommonDAO {
         return getLikePattern(substring, "end");
     }
 
+    /**
+     * Updates and if no
+     * @param updatePsQuery UPDATE query with ? placeholders.
+     * @param insertPsQuery INSERT query with ? placeholders.
+     * @param params {@link PreparedQuery} parameters for both queries.
+     * @throws SQLException
+     */
     protected void updateOrInsert(String updatePsQuery, String insertPsQuery, Object... params) throws SQLException {
-        PreparedQuery pq = new PreparedQuery(con, updatePsQuery);
+        var pq = new PreparedQuery(con, updatePsQuery);
         pq.addObjects(params);
         if (pq.executeUpdate() == 0) {
             pq.close();
@@ -134,20 +162,12 @@ public class CommonDAO {
     }
 
     /**
-     * Use {@link #getPageLimit(Page)}.
-     */
-    @Deprecated
-    protected String getMySQLLimit(Page page) {
-        return getPageLimit(page);
-    }
-
-    /**
-     * Generates page limits.
-     * @param page
+     * Generates page {@code LIMIT offset, rows} query.
+     * @param page page instance.
      * @return
      */
     protected String getPageLimit(Page page) {
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql = new StringBuilder(20);
         if (page != null && page.getPageSize() > 0 && page.getPageIndex() != Page.PAGE_INDEX_NO_PAGING) {
             sql.append(" LIMIT ");
             sql.append(page.getPageFirstRecordNumber());
@@ -159,7 +179,7 @@ public class CommonDAO {
 
     protected void setRecordCount(Page page, PreparedStatement ps) throws SQLException {
         if (page != null) {
-            page.setRecordCount(getFoundRows(ps));
+            page.setRecordCount(foundRows(ps));
         }
     }
 

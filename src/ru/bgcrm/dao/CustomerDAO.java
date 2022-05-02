@@ -228,7 +228,7 @@ public class CustomerDAO extends CommonDAO {
                 }
             }
             if (page != null) {
-                page.setRecordCount(getFoundRows(ps.getPrepared()));
+                page.setRecordCount(foundRows(ps.getPrepared()));
             }
             ps.close();
         } catch (SQLException ex) {
@@ -309,7 +309,7 @@ public class CustomerDAO extends CommonDAO {
                 list.add(getCustomerFromRs(rs, ""));
             }
             if (page != null) {
-                page.setRecordCount(getFoundRows(ps));
+                page.setRecordCount(foundRows(ps));
             }
             ps.close();
         }

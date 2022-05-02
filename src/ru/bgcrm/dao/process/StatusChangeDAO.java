@@ -101,7 +101,7 @@ public class StatusChangeDAO extends CommonDAO {
                 while (rs.next()) {
                     list.add(getProcessStatusFromRs(rs));
                 }
-                page.setRecordCount(getFoundRows(ps));
+                page.setRecordCount(foundRows(ps));
                 ps.close();
             }
         } catch (SQLException e) {

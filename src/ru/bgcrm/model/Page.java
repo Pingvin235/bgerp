@@ -55,6 +55,9 @@ public class Page {
         return isPaginationEnabled();
     }
 
+    /**
+     * @return {@code pageIndex &gt; 0}
+     */
     public boolean isPaginationEnabled() {
         return pageIndex > 0;
     }
@@ -92,9 +95,9 @@ public class Page {
     }
 
     /**
-     * Sets record count.
+     * Sets record count and calculated amount of pages.
      * @param recordCount
-     * @see {@link ru.bgcrm.dao.CommonDAO#getFoundRows()}
+     * @see {@link ru.bgcrm.dao.CommonDAO#foundRows()}
      */
     public void setRecordCount(int recordCount) {
         this.recordCount = recordCount;

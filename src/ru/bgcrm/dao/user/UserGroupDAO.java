@@ -63,7 +63,7 @@ public class UserGroupDAO extends CommonDAO {
             }
 
             if (page != null) {
-                page.setRecordCount(getFoundRows(pq.getPrepared()));
+                page.setRecordCount(foundRows(pq.getPrepared()));
             }
             pq.close();
         } catch (SQLException e) {

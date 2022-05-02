@@ -4,7 +4,7 @@
 <div class="center1020">
 	<h2>Inconsistencies Cleanup Queries</h2>
 
-	<html:form action="/admin/plugin/dba/cleanup">
+	<form action="/admin/plugin/dba/cleanup.do">
 		<input type="hidden" name="action" value="queryRun"/>
 
 		<table class="data hl mb1">
@@ -32,7 +32,7 @@
 
 		<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form, {control: this, toPostNames: ['query']}).done(() => $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)));">Execute</button>
 		<button type="button" class="btn-white ml1" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content(this))">Close</button>
-	</html:form>
+	</form>
 </div>
 
 <shell:title text="Database"/>

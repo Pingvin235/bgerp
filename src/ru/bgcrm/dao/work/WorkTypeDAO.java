@@ -62,7 +62,7 @@ public class WorkTypeDAO
 					list.add( getWorkTypeFromRs( rs ) );
 				}
 
-				page.setRecordCount( getFoundRows( ps ) );
+				page.setRecordCount( foundRows( ps ) );
 				ps.close();
 			}
 			catch( SQLException e )

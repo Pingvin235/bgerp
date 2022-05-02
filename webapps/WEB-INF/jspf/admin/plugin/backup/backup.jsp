@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <h2>${l.l('Создать Backup')}</h2>
-<html:form action="/admin/plugin/backup/backup">
+<form action="/admin/plugin/backup/backup.do">
 	<input type="hidden" name="action" value="backup"/>
 	<ui:combo-single hiddenName="db" widthTextValue="2em" prefixText="${l.l('Включить БД')}:">
 		<jsp:attribute name="valuesHtml">
@@ -14,9 +14,9 @@
 		$$.ajax.post(this.form, {control: this}).done(() => {
 			$$.ajax.load('${form.requestUrl}', $$.shell.$content(this));
 		});"/>
-</html:form>
+</form>
 
 <h2>${l.l('Файлы')}</h2>
-<ui:files files="<%=org.bgerp.plugin.svc.backup.action.BackupAction.FILE_BACKUP%>" requestUrl="${form.requestUrl}"/>
+<ui:files files="<%=org.bgerp.plugin.svc.backup.action.admin.BackupAction.FILE_BACKUP%>" requestUrl="${form.requestUrl}"/>
 
 <shell:title text="Backup"/>

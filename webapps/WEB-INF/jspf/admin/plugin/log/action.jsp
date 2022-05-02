@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<html:form action="/admin/plugin/log/action" styleId="${uiid}" styleClass="in-mr05 in-mb05-all">
+<form action="/admin/plugin/log/action.do" id="${uiid}" class="in-mr05 in-mb05-all">
 	<input type="hidden" name="action" value="search"/>
 
 	<ui:date-time type="ymdhms" paramName="timeFrom" value="${empty form.param.timeFrom ? 'first' : form.param.timeFrom}" placeholder="From time"/>
@@ -28,7 +28,7 @@
 	<ui:button type="out" onclick="$$.ajax.load(this.form, $('#${uiid}').parent(), { toPostNames: ['perm'] })" styleClass="ml05"/>
 
 	<ui:page-control nextCommand="; $$.ajax.load(this.form, $('#${uiid}').parent(), { toPostNames: ['perm'] })"/>
-</html:form>
+</form>
 
 <table class="data hl mt1">
 	<tr>

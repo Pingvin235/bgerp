@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
@@ -254,39 +255,9 @@ public class BaseAction extends DispatchAction {
             if (user == null) {
                 form.setPermission(ParameterMap.EMPTY);
             } else {
-                // permission check
                 action = this.getClass().getName() + ":" + form.getAction();
-                permissionNode = PermissionNode.getPermissionNode(action);
-
-                ParameterMap perm = UserCache.getPerm(user.getId(), action);
-
-                if (perm == null) {
-                    if (permissionNode == null) {
-                        throw new BGMessageException("Action '{}' not found.", action);
-                    }
-                    if (!permissionNode.isAllowAll()) {
-                        throw new BGMessageException("Action '{}' is denied.", permissionNode.getTitlePath());
-                    }
-                }
-                form.setPermission(perm);
-
-                if (permissionNode == null) {
-                    throw new BGException("PermissionNode is null for action: " + action);
-                }
-
-                // сохранение изменившегося размера страницы
-                String pageableId = form.getPageableId();
-                int pageSize = form.getPage().getPageSize();
-
-                if (Utils.notBlankString(pageableId) && pageSize > 0) {
-                    String key = Page.PAGE_SIZE + "." + pageableId;
-
-                    int currentValue = user.getPersonalizationMap().getInt(key, -1);
-                    if (currentValue != pageSize) {
-                        user.getPersonalizationMap().put(key, String.valueOf(pageSize));
-                        new UserDAO(conSet.getConnection()).updatePersonalization(null, user);
-                    }
-                }
+                permissionNode = permissionCheck(form, action);
+                updateUserPageSettings(conSet, form);
             }
 
             String requestURI = request.getRequestURI();
@@ -344,6 +315,50 @@ public class BaseAction extends DispatchAction {
         }
 
         return forward;
+    }
+
+    /**
+     * Checks action permission.
+     * @param form form with user.
+     * @param action semicolon separated action class and method.
+     * @return permission node.
+     * @throws BGException permission node for {@code action} not found.
+     * @throws BGMessageException permission is denied.
+     */
+    protected PermissionNode permissionCheck(DynActionForm form, String action) throws BGException, BGMessageException {
+        var permissionNode = PermissionNode.getPermissionNode(action);
+        if (permissionNode == null)
+            throw new BGException("Permission node not found for action '{}'", action);
+
+        ParameterMap perm = UserCache.getPerm(form.getUserId(), action);
+        if (perm == null && !permissionNode.isAllowAll())
+            throw new BGMessageException("Action '{}' is denied.", permissionNode.getTitlePath());
+
+        form.setPermission(perm);
+
+        return permissionNode;
+    }
+
+    /**
+     * Updates page setting for user.
+     * @param conSet DB connections.
+     * @param form for taking {@link DynActionForm#getPageableId()} and {@link DynActionForm#getPage()}.
+     * @throws SQLException
+     */
+    private void updateUserPageSettings(ConnectionSet conSet, DynActionForm form) throws SQLException {
+        String pageableId = form.getPageableId();
+        int pageSize = form.getPage().getPageSize();
+
+        if (Utils.notBlankString(pageableId) && pageSize > 0) {
+            String key = Page.PAGE_SIZE + "." + pageableId;
+            User user = form.getUser();
+
+            int currentValue = user.getPersonalizationMap().getInt(key, -1);
+            if (currentValue != pageSize) {
+                user.getPersonalizationMap().put(key, String.valueOf(pageSize));
+                new UserDAO(conSet.getConnection()).updatePersonalization(null, user);
+            }
+        }
     }
 
     private ActionForward sendError(DynActionForm form, String errorText)
@@ -652,11 +667,10 @@ public class BaseAction extends DispatchAction {
      * @param get restore
      * @param set saves
      * @param params parameter names
-     * @throws BGException
+     * @throws SQLException
      */
-    protected void restoreRequestParams(Connection con, DynActionForm form,
-            boolean get, boolean set,
-            String... params) throws BGException {
+    protected void restoreRequestParams(Connection con, DynActionForm form, boolean get, boolean set, String... params)
+            throws SQLException {
         Preferences prefs = form.getUser().getPersonalizationMap();
         String valueBefore = prefs.getDataString();
         for (String param : params) {

@@ -1,4 +1,4 @@
-package org.bgerp.plugin.svc.dba.action;
+package org.bgerp.plugin.svc.dba.action.admin;
 
 import java.time.YearMonth;
 

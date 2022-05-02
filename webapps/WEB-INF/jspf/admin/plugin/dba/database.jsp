@@ -12,14 +12,14 @@
 		<c:url var="url" value="/admin/plugin/dba/cleanup.do">
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
-		<p:check action="org.bgerp.plugin.svc.dba.action.CleanupAction:null">
+		<p:check action="org.bgerp.plugin.svc.dba.action.admin.CleanupAction:null">
 			[<a href="#" onclick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">cleanup</a>]
 		</p:check>
 	</div>
 
-	<html:form action="/admin/plugin/dba/db.do">
+	<form action="/admin/plugin/dba/db.do">
 		<input type="hidden" name="action" value="tableDrop"/>
-		<c:set var="dropEnabled" value="${form.response.data.dropCandidateCnt gt 0 and ctxUser.checkPerm('org.bgerp.plugin.svc.dba.action.DatabaseAction:tableDrop')}"/>
+		<c:set var="dropEnabled" value="${form.response.data.dropCandidateCnt gt 0 and ctxUser.checkPerm('org.bgerp.plugin.svc.dba.action.admin.DatabaseAction:tableDrop')}"/>
 
 		<table class="data hl mt1">
 			<tr>
@@ -58,7 +58,7 @@
 					)
 			">Drop selected tables</button>
 		</c:if>
-	</html:form>
+	</form>
 </div>
 
 <shell:title text="Database"/>

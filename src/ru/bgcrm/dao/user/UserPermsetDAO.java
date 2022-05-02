@@ -62,7 +62,7 @@ public class UserPermsetDAO extends UserDAO {
             }
 
             if (page != null) {
-                page.setRecordCount(getFoundRows(pq.getPrepared()));
+                page.setRecordCount(foundRows(pq.getPrepared()));
             }
             pq.close();
         } catch (SQLException e) {

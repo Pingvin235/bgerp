@@ -20,6 +20,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -132,7 +133,7 @@ public class UserDAO extends CommonDAO {
         }
 
         if (page != null) {
-            page.setRecordCount(getFoundRows(psDelay.getPrepared()));
+            page.setRecordCount(foundRows(psDelay.getPrepared()));
         }
         psDelay.close();
     }
@@ -551,28 +552,24 @@ public class UserDAO extends CommonDAO {
      * Обновить персональныую конфигурацию, только если она отличается от configBefore.
      * @param configBefore null, если нужно безусловное сохранение.
      * @param user
-     * @throws BGException
+     * @throws SQLException
      */
-    public void updatePersonalization(String configBefore, User user) throws BGException {
+    public void updatePersonalization(String configBefore, User user) throws SQLException {
         if (user.getPersonalizationMap().getDataString().equals(configBefore)) {
             return;
         }
 
-        log.debug("Updating personalization %s", user.getId());
+        log.debug("Updating personalization {}", user.getId());
 
-        try {
-            PreparedStatement ps = con.prepareStatement("UPDATE " + TABLE_USER + "SET personalization=? WHERE id=?");
-            ps.setString(1, user.getPersonalizationMap().getDataString());
-            ps.setInt(2, user.getId());
-            ps.executeUpdate();
+        PreparedStatement ps = con.prepareStatement("UPDATE " + TABLE_USER + "SET personalization=? WHERE id=?");
+        ps.setString(1, user.getPersonalizationMap().getDataString());
+        ps.setInt(2, user.getId());
+        ps.executeUpdate();
 
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException();
-        }
+        ps.close();
     }
 
-    public void updatePersonalization(User user, ParameterMap newProps) throws BGException {
+    public void updatePersonalization(User user, ParameterMap newProps) throws SQLException {
         Preferences persMap = user.getPersonalizationMap();
         String configBefore = persMap.getDataString();
 
@@ -588,8 +585,8 @@ public class UserDAO extends CommonDAO {
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, userId);
         ps.setInt(2, group.getGroupId());
-        ps.setTimestamp(3, TimeUtils.convertDateToTimestamp(group.getDateFrom()));
-        ps.setTimestamp(4, TimeUtils.convertDateToTimestamp(group.getDateTo()));
+        ps.setTimestamp(3, TimeConvert.toTimestamp(group.getDateFrom()));
+        ps.setTimestamp(4, TimeConvert.toTimestamp(group.getDateTo()));
 
         ps.executeUpdate();
         ps.close();

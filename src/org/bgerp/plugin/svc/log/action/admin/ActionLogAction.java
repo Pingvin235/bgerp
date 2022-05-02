@@ -1,4 +1,4 @@
-package org.bgerp.plugin.svc.log.action;
+package org.bgerp.plugin.svc.log.action.admin;
 
 import java.time.YearMonth;
 import java.util.Date;

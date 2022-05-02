@@ -288,7 +288,7 @@ public class ProcessDAO extends CommonDAO {
         }
 
         if (page != null) {
-            page.setRecordCount(getFoundRows(ps));
+            page.setRecordCount(foundRows(ps));
         }
         ps.close();
 

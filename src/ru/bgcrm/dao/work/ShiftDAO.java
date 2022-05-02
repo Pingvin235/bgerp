@@ -83,7 +83,7 @@ public class ShiftDAO
 					list.add( getShiftFromRs( rs ) );
 				}
 
-				page.setRecordCount( getFoundRows( ps ) );
+				page.setRecordCount( foundRows( ps ) );
 				ps.close();
 			}
 			catch( SQLException e )

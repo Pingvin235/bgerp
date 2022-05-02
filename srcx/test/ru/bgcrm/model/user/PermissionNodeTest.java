@@ -57,12 +57,12 @@ public class PermissionNodeTest {
 
         var node = new PermissionNode(null, l, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
 
-        var p = node.findPermissionNode("org.bgerp.plugin.svc.backup.action.BackupAction:null");
+        var p = node.findPermissionNode("org.bgerp.plugin.svc.backup.action.admin.BackupAction:null");
         Assert.assertNotNull(p);
         Assert.assertEquals("Plugin Backup / Backup", p.getTitlePath());
         Assert.assertEquals("", p.getDescription());
 
-        p = node.findPermissionNode("org.bgerp.plugin.svc.backup.action.BackupAction:downloadFileBackup");
+        p = node.findPermissionNode("org.bgerp.plugin.svc.backup.action.admin.BackupAction:downloadFileBackup");
         Assert.assertNotNull(p);
         Assert.assertEquals("Download Backup", p.getTitle());
         Assert.assertEquals("", p.getDescription());

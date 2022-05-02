@@ -1,10 +1,20 @@
 <item title="Plugin DBA">
+	<item title="SQL Query">
+		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:null" title="Query"/>
+		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:querySelect" title="SELECT"/>
+		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryShow" title="SHOW"/>
+		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryInsert" title="INSERT"/>
+		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryCreate" title="CREATE"/>
+		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryUpdate" title="UPDATE"/>
+		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryDelete" title="DELETE"/>
+		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryDrop" title="DROP"/>
+	</item>
 	<item title="Database">
-		<item action="org.bgerp.plugin.svc.dba.action.DatabaseAction:null" title="View State"/>
-		<item action="org.bgerp.plugin.svc.dba.action.DatabaseAction:tableDrop" title="Drop table"/>
+		<item action="org.bgerp.plugin.svc.dba.action.admin.DatabaseAction:null" title="View State"/>
+		<item action="org.bgerp.plugin.svc.dba.action.admin.DatabaseAction:tableDrop" title="Drop table"/>
 		<item title="Cleanup">
-			<item action="org.bgerp.plugin.svc.dba.action.CleanupAction:null;org.bgerp.plugin.svc.dba.action.CleanupAction:queryDryRun" title="View State"/>
-			<item action="org.bgerp.plugin.svc.dba.action.CleanupAction:queryRun" title="Execute"/>
+			<item action="org.bgerp.plugin.svc.dba.action.admin.CleanupAction:null, org.bgerp.plugin.svc.dba.action.admin.CleanupAction:queryDryRun" title="View State"/>
+			<item action="org.bgerp.plugin.svc.dba.action.admin.CleanupAction:queryRun" title="Execute"/>
 		</item>
 	</item>
 </item>

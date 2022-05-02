@@ -3,7 +3,7 @@
 
 [[about]]
 == About
-The plugin provides tools for cleaning up database from outdated tables and inconsistent data rests.
+The plugin provides tools for cleaning up database and simple SQL querying.
 
 [[setup]]
 == Setup
@@ -33,3 +33,11 @@ With *cleanup* link right from DB state can be opened inconsistencies cleanup to
 image::_res/cleanup.png[]
 
 Amount of rows going to be removed are shown in right column.
+
+[[usage-query]]
+=== SQL Query
+Is available in menu *Administration / DBA / SQL Query*
+
+image::_res/sql_query.png[width="800px"]
+
+Provides simple querying.

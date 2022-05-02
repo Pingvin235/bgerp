@@ -59,7 +59,7 @@ public class ObjectLogDAO
 			rs.close();
 			if( page != null )
 			{
-				page.setRecordCount( getFoundRows( ps ) );
+				page.setRecordCount( foundRows( ps ) );
 			}
 			ps.close();
 		}

@@ -505,7 +505,7 @@ public class ParamDAO extends CommonDAO {
             }
 
             if (page != null) {
-                page.setRecordCount(getFoundRows(psDelay.getPrepared()));
+                page.setRecordCount(foundRows(psDelay.getPrepared()));
             }
 
             psDelay.close();

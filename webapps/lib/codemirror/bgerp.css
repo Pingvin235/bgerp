@@ -1,7 +1,7 @@
 .CodeMirror {
 	width: 100%;
 	height: auto;
-	resize: vertical;
+	resize: none;
 	border: 1px solid #c5c5c5;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;

@@ -119,26 +119,26 @@ public class Log {
      * Writes log message with possibilities of pattern definitions.
      * @param level log level.
      * @param pattern format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions.
-     * @param params parameters for replacements in {@code pattern}.
+     * @param args parameters for replacements in {@code pattern}.
      */
-    private final void log(Priority level, String pattern, Object... params) {
+    private final void log(Priority level, String pattern, Object... args) {
         if (logger.isEnabledFor(level)) {
-            logger.log(level, format(pattern, params));
+            logger.log(level, format(pattern, args));
         }
     }
 
     /**
-     * Universal formatter.
+     * Formats message using pattern with substitutions.
      * @param pattern format using {@link FormattedMessage}, supports both {@code &#123;&#125;} and {@code %s} substitutions.
-     * @param params parameters for replacements in {@code pattern}.
+     * @param args parameters for replacements in {@code pattern}.
      * @return
      */
-    public static String format(String pattern, Object... params) {
-        return new FormattedMessage(pattern, params).getFormattedMessage();
+    public static String format(String pattern, Object... args) {
+        return new FormattedMessage(pattern, args).getFormattedMessage();
     }
 
     /**
-     * Wrapper function for {@link Logger}.
+     * Wraps function to {@link Logger}.
      * @param level
      * @param message
      */
