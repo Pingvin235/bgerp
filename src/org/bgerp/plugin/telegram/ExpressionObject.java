@@ -70,7 +70,7 @@ public class ExpressionObject {
                 .collect(Collectors.toList());
 
         if (userIds.isEmpty()) {
-            userIds.add(0);
+            return;
         }
 
         sendMessageForObject(activeUserIds, config.getParamId(), text);
