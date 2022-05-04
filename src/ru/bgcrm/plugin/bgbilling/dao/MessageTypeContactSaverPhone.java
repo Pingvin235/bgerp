@@ -19,67 +19,56 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
-public class MessageTypeContactSaverPhone
-	extends ru.bgcrm.dao.message.MessageTypeContactSaver
-{
-	private final int paramId;
-	private final String format;
-	
-	public MessageTypeContactSaverPhone( ParameterMap config )
-		throws Exception
-	{
-		super( config );
-		this.paramId = config.getInt( "paramId", -1 );
-		this.format = config.get( "format", "13" );
-		if( paramId <= 0 )
-		{
-			throw new BGException( "paramId incorrect" );
-		}
-	}
+public class MessageTypeContactSaverPhone extends ru.bgcrm.dao.message.MessageTypeContactSaver {
+    private final int paramId;
+    private final String format;
 
-	@Override
-	public void saveContact( DynActionForm form, Connection con, Message message, 
-	                         Process process, int saveMode )
-		throws BGException
-	{
-		CommonObjectLink contractLink = Utils.getFirst( new ProcessLinkDAO( con ).getObjectLinksWithType( process.getId(), Contract.OBJECT_TYPE + "%" ) );
-		if( contractLink == null )
-		{
-			return;
-		}
-		
-		String phone = message.getFrom();
-		
-		String billingId = StringUtils.substringAfterLast( contractLink.getLinkedObjectType(), ":" );
-		
-		ContractParamDAO paramDao = new ContractParamDAO( form.getUser(), billingId );
-		List<ParameterPhoneValueItem> values = new ArrayList<ParameterPhoneValueItem>();
-		for( ParameterPhoneValueItem item : paramDao.getPhoneParam( contractLink.getLinkedObjectId(), paramId ) )
-		{
-			values.add( item );
-		}
-		
-		boolean exists = false;
-		for( ParameterPhoneValueItem value : values )
-		{
-			if( exists = phone.equals( value.getPhone() ) )
-			{
-				break;
-			}
-		}
-		
-		if( !exists )
-		{
-			ParameterPhoneValueItem item = new ParameterPhoneValueItem();
-			item.setPhone( phone );
-			item.setFormat( format );
-			
-			values.add(item );
-			
-			ParameterPhoneValue phoneValue = new ParameterPhoneValue();
-			phoneValue.setItemList( values );
-			
-			paramDao.updatePhoneParameter( contractLink.getLinkedObjectId(), paramId, phoneValue );
-		}
-	}
+    public MessageTypeContactSaverPhone(ParameterMap config) throws Exception {
+        super(config);
+        this.paramId = config.getInt("paramId", -1);
+        this.format = config.get("format", "13");
+        if (paramId <= 0) {
+            throw new BGException("paramId incorrect");
+        }
+    }
+
+    @Override
+    public void saveContact(DynActionForm form, Connection con, Message message, Process process, int saveMode)
+            throws BGException {
+        CommonObjectLink contractLink = Utils
+                .getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(process.getId(), Contract.OBJECT_TYPE + "%"));
+        if (contractLink == null) {
+            return;
+        }
+
+        String phone = message.getFrom();
+
+        String billingId = StringUtils.substringAfterLast(contractLink.getLinkedObjectType(), ":");
+
+        ContractParamDAO paramDao = new ContractParamDAO(form.getUser(), billingId);
+        List<ParameterPhoneValueItem> values = new ArrayList<ParameterPhoneValueItem>();
+        for (ParameterPhoneValueItem item : paramDao.getPhoneParam(contractLink.getLinkedObjectId(), paramId)) {
+            values.add(item);
+        }
+
+        boolean exists = false;
+        for (ParameterPhoneValueItem value : values) {
+            if (exists = phone.equals(value.getPhone())) {
+                break;
+            }
+        }
+
+        if (!exists) {
+            ParameterPhoneValueItem item = new ParameterPhoneValueItem();
+            item.setPhone(phone);
+            item.setFormat(format);
+
+            values.add(item);
+
+            ParameterPhoneValue phoneValue = new ParameterPhoneValue();
+            phoneValue.setItemList(values);
+
+            paramDao.updatePhoneParameter(contractLink.getLinkedObjectId(), paramId, phoneValue);
+        }
+    }
 }

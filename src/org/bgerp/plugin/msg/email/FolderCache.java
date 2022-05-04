@@ -87,10 +87,10 @@ class FolderCache {
             data.add(new Item(i, messages[i].getSize(), m));
 
             if (i < 20)
-                log.debug("Message subject: %s, from: %s, fromTime: %s", m.getSubject(), m.getFrom(), m.getFromTime());
+                log.debug("Message subject: {}, from: {}, fromTime: {}", m.getSubject(), m.getFrom(), m.getFromTime());
         }
 
-        log.debug("relist, size: %s", data.size());
+        log.debug("relist, size: {}", data.size());
 
         lastListTimeMs = System.currentTimeMillis();
     }

@@ -12,25 +12,19 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.util.Utils;
 
-public class ContractCustomerDAO
-	extends CommonDAO
-{
-	public ContractCustomerDAO( Connection con )
-	{
-		super( con );
-	}
+public class ContractCustomerDAO extends CommonDAO {
+    public ContractCustomerDAO(Connection con) {
+        super(con);
+    }
 
-	public Customer getContractCustomer( Contract contract )
-    	throws BGException
-    {
-    	// контрагент
-    	CommonObjectLink link = new CommonObjectLink();
-    	link.setLinkedObjectType( Contract.OBJECT_TYPE + ":" + contract.getBillingId() );
-    	link.setLinkedObjectId( contract.getId() );
+    public Customer getContractCustomer(Contract contract) throws BGException {
+        CommonObjectLink link = new CommonObjectLink();
+        link.setLinkedObjectType(Contract.OBJECT_TYPE + ":" + contract.getBillingId());
+        link.setLinkedObjectId(contract.getId());
 
-    	Pageable<Customer> customerSearch = new Pageable<Customer>();
-    	new CustomerLinkDAO( con ).searchCustomerByLink( customerSearch, link );
+        Pageable<Customer> customerSearch = new Pageable<Customer>();
+        new CustomerLinkDAO(con).searchCustomerByLink(customerSearch, link);
 
-    	return Utils.getFirst( customerSearch.getList() );
+        return Utils.getFirst(customerSearch.getList());
     }
 }

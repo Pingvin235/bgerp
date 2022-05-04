@@ -199,6 +199,18 @@ public class MessageTypeEmail extends MessageType {
 
     @Override
     public Message newMessageGet(ConnectionSet conSet, String messageId) throws Exception {
+        return newMessageGet(messageId, true);
+    }
+
+    /**
+     * Takes an IMAP message by ID.
+     * @param messageId Message-ID header.
+     * @param tryRelist try to re-list messages cache if not found.
+     * @return
+     * @throws IllegalArgumentException {@code tryRelist} is {@code false} and no message found.
+     * @throws Exception
+     */
+    private Message newMessageGet(String messageId, boolean tryRelist) throws Exception {
         Message result = null;
 
         try (var store = mailConfig.getImapStore();
@@ -213,7 +225,10 @@ public class MessageTypeEmail extends MessageType {
             // flush cache
             catch (ArrayIndexOutOfBoundsException e) {
                 incomingCache.relist(incomingFolder);
-                return newMessageGet(conSet, messageId);
+                if (tryRelist)
+                    return newMessageGet(messageId, false);
+                else
+                    throw new IllegalArgumentException("Not found message with ID: " + messageId);
             }
 
             var mp = new MessageParser(messages[index]);

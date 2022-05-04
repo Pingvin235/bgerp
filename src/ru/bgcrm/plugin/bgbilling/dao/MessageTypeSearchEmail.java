@@ -14,32 +14,26 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class MessageTypeSearchEmail
-	extends MessageTypeSearchBilling
-{
-	private final Set<Integer> paramIds;
+public class MessageTypeSearchEmail extends MessageTypeSearchBilling {
+    private final Set<Integer> paramIds;
 
-	public MessageTypeSearchEmail( ParameterMap config )
-		throws BGException
-	{
-		super( config );
-		paramIds = Utils.toIntegerSet( config.get( "paramIds" ) );
-	}
+    public MessageTypeSearchEmail(ParameterMap config) throws BGException {
+        super(config);
+        paramIds = Utils.toIntegerSet(config.get("paramIds"));
+    }
 
-	@Override
-	public void search( DynActionForm form, ConnectionSet conSet,
-	                    Message message, Set<CommonObjectLink> result )
-		throws BGException
-	{
-		String email = message.getFrom();
+    @Override
+    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result)
+            throws BGException {
+        String email = message.getFrom();
 
-		Pageable<Contract> searchResult = new Pageable<Contract>();
-		ContractDAO.getInstance( form.getUser(), billingId ).searchContractByEmailParam( searchResult, null, paramIds, email );
+        Pageable<Contract> searchResult = new Pageable<Contract>();
+        ContractDAO.getInstance(form.getUser(), billingId).searchContractByEmailParam(searchResult, null, paramIds,
+                email);
 
-		for( Contract contract : searchResult.getList() )
-		{
-			result.add( new CommonObjectLink( 0, Contract.OBJECT_TYPE + ":" + contract.getBillingId(),
-			                                  contract.getId(), contract.getTitle(), contract.getComment() ) );
-		}
-	}
+        for (Contract contract : searchResult.getList()) {
+            result.add(new CommonObjectLink(0, Contract.OBJECT_TYPE + ":" + contract.getBillingId(), contract.getId(),
+                    contract.getTitle(), contract.getComment()));
+        }
+    }
 }

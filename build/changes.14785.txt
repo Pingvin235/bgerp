@@ -1,0 +1,1 @@
+F: Plugin E-Mail. Maximum number of connections from user+IP exceeded.
