@@ -3,14 +3,14 @@
 
 <ui:menu-group ltitle="Организация работ" icon="ti-agenda">
 	<ui:menu-item ltitle="Календарь рабочих дней" href="callboard/calendar"
-		action="ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarList"
-		command="/admin/work.do?action=workDaysCalendarList" />
+		action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:workDaysCalendarList"
+		command="/admin/plugin/callboard/work.do?action=workDaysCalendarList" />
 
 	<ui:menu-item ltitle="График дежурств" href="callboard"
-		action="ru.bgcrm.struts.action.admin.WorkAction:callboardGet"
-		command="/admin/work.do?action=callboardGet" />
+		action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGet"
+		command="/admin/plugin/callboard/work.do?action=callboardGet" />
 
 	<ui:menu-item ltitle="План работ" href="callboard/workplan"
-		action="ru.bgcrm.struts.action.WorkAction:planGet"
-		command="/user/work.do?action=planGet" />
+		action="org.bgerp.plugin.pln.callboard.action.WorkAction:planGet"
+		command="/user/plugin/callboard/work.do?action=planGet" />
 </ui:menu-group>

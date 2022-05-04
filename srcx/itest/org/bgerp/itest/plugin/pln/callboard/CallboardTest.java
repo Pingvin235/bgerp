@@ -21,20 +21,20 @@ import org.bgerp.itest.kernel.param.ParamTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.plugin.pln.callboard.Plugin;
+import org.bgerp.plugin.pln.callboard.dao.ShiftDAO;
+import org.bgerp.plugin.pln.callboard.dao.WorkTypeDAO;
+import org.bgerp.plugin.pln.callboard.model.Shift;
+import org.bgerp.plugin.pln.callboard.model.WorkShift;
+import org.bgerp.plugin.pln.callboard.model.WorkType;
+import org.bgerp.plugin.pln.callboard.model.WorkTypeTime;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.dao.work.ShiftDAO;
-import ru.bgcrm.dao.work.WorkTypeDAO;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.work.Shift;
-import ru.bgcrm.model.work.WorkShift;
-import ru.bgcrm.model.work.WorkType;
-import ru.bgcrm.model.work.WorkTypeTime;
 import ru.bgcrm.util.TimeUtils;
 
 @Test(groups = "callboard", priority = 100, dependsOnGroups = { "config", "user", "process", "address" })

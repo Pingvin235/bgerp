@@ -2,26 +2,26 @@
 addEventProcessor( 'ru.bgcrm.event.DynamicShiftUserEvent', processShiftUserEvent );
 
 function processShiftUserEvent( e )
-{		
+{
 	if( e.dynamicSettingsSet.length == 0 )
 	{
 		return;
 	}
-	
+
 	var point = e.dynamicSettingsSet[0];
-		
+
 	if( $( '#dynamicShiftDialog' ).length == 0 )
 	{
 		var options = "";
-				
+
 		for( var item in point.availableTimeSet ) {
-			options+="<option>"+point.availableTimeSet[item]+"</option>";			
+			options+="<option>"+point.availableTimeSet[item]+"</option>";
 		}
-		
+
 		$( "body" ).append( "<div id='dynamicShiftDialog' style='text-align: center;'><span>Укажите точное время для смены:<br><b>"+ point.title +"</b></span> " +
 							"<div style='display: inline-block;'><select>" + options + "</select></div>" +
 							"</div>" );
-		
+
 		$( '#dynamicShiftDialog' ).dialog({
 			modal: true,
 			draggable: false,
@@ -35,20 +35,20 @@ function processShiftUserEvent( e )
 			{
 				$("#dynamicShiftDialog").parents(".ui-dialog:first").find(".ui-dialog-titlebar-close").remove();
 			},
-		    
+
 		    close: function()
 		    {
 		    	$('#dynamicShiftDialog').remove();
 		    },
-		    
-		    buttons: 		
+
+		    buttons:
 	    	{
-		    	'Установить' : function() 
-		    	{	
-		    		var url = '/admin/work.do?action=setDynamicShiftTime&workShiftId='+point.workShift.id+'&userId='+point.workShift.userId+'&graphId='+
+		    	'Установить' : function()
+		    	{
+		    		var url = '/admin/plugin/callboard/work.do?action=setDynamicShiftTime&workShiftId='+point.workShift.id+'&userId='+point.workShift.userId+'&graphId='+
 		    				   point.workShift.graphId+'&groupId='+point.workShift.groupId+'&workTypeId='+point.workShift.workTypeTime[0].workTypeId+
 		    				   '&selectedTime='+$(this).find('select option:selected').val();
-		    		
+
 		    		if( sendAJAXCommand( url ) )
 	    			{
 	    				$( this ).dialog( 'close' );
@@ -65,9 +65,9 @@ function processShiftUserEvent( e )
 					}
 				});
 			}
-		});		
+		});
 	}
-	
+
 	if( !$("#dynamicShiftDialog").dialog( "isOpen" ) )
 	{
 		$("#dynamicShiftDialog").dialog( "open" ).parent().find( ".ui-dialog-titlebar-close" ).hide();
@@ -81,9 +81,9 @@ function addGroupToUser(userTitle, userId)
 	$("#fromDate").datepicker();
 	$("#toDate").datepicker();
 	$("#toDate").val("");
-	
+
 	$("#fromDate").val( $.datepicker.formatDate('dd.mm.yy', new Date()) );
-	
+
 	$("#todayDate").val( date );
 
 	$("#addGroupToUserPopup").dialog({
@@ -92,14 +92,14 @@ function addGroupToUser(userTitle, userId)
 		width: 350,
 		modal: true,
 		buttons: {
-			"Ok": function() 
+			"Ok": function()
 			{
-				sendAJAXCommandWithParams("/admin/work.do?action=userChangeGroup", 
+				sendAJAXCommandWithParams("/admin/plugin/callboard/work.do?action=userChangeGroup",
 						{
 							"graphId":$("#current-graphId").text(),
-							"fromDate":$("#fromDate").val(), 
-							"toDate":$("#toDate").val(), 
-							"group":$("#selectGroupToAdd").val(), 
+							"fromDate":$("#fromDate").val(),
+							"toDate":$("#toDate").val(),
+							"group":$("#selectGroupToAdd").val(),
 							"userId":$("#userId").text()
 						});
 				$("#addGroupToUserPopup").dialog( "destroy" );
