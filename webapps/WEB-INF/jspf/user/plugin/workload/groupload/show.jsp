@@ -6,7 +6,7 @@
 
 <c:set var="uiid" value="${u:uiid()}" />
 
-<html:form action="/user/plugin/workload/groupload.do">
+<html:form action="/user/plugin/workload/groupload">
 	<input type="hidden" name="action" value="show" />
 
 	<%-- текущий процесс --%>
@@ -15,11 +15,7 @@
 
 	<%-- фильтры --%>
 	<ui:date-time paramName="date" value="${data.date}"/>
-	&#160;<%--
-	<ui:combo-single list="${ctxProcessQueueList}" value="${queueId}"
-		prefixText="Очередь:" widthTextValue="150px" showFilter="true"
-		hiddenName="queueId" />
-	&#160; --%>
+	&#160;
 	<ui:combo-check map="${ctxProcessTypeMap}" values="${data.processTypeIds}"
 		prefixText="Типы:" widthTextValue="150px" showFilter="true" available="${data.configProcessTypeIds}"
 		paramName="processTypeIds" />
@@ -36,8 +32,7 @@
 		</jsp:attribute>
 	</ui:combo-single>
 	&#160;
-	<button class="btn-grey" type="button"
-		onclick="openUrlToParent( formUrl(this.form), $('#${uiid}') )">OK</button>
+	<button class="btn-grey" type="button" onclick="$$.ajax.load(this.form, $('#${uiid}').parent(), {control: this})">OK</button>
 </html:form>
 
 <br>
@@ -65,9 +60,3 @@
 	</c:forEach>
 
 </table>
-
-<script>
-	$(function() {
-		//bgerp.blow.initTable($('#${uiid}'));
-	})
-</script>

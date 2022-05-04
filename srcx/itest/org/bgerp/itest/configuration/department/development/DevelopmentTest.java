@@ -55,7 +55,7 @@ public class DevelopmentTest {
 
     @Test(dependsOnMethods = { "addGroups", "addParams" })
     public void addTypes() throws Exception {
-        processTypeProductId = ProcessHelper.addType("BGERP", 0, false, null);
+        processTypeProductId = ProcessHelper.addType("BGERP", 0, false, null).getId();
 
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusWaitId, ProcessTest.statusDoneId, ProcessTest.statusRejectId));
@@ -69,7 +69,7 @@ public class DevelopmentTest {
 
         //TODO: comment on reject status
 
-        processTypeTaskId = ProcessHelper.addType("Task", processTypeProductId, false, props);
+        processTypeTaskId = ProcessHelper.addType("Task", processTypeProductId, false, props).getId();
 
         //TODO: deadline, next appointment
         //TODO: generated branch name

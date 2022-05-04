@@ -66,7 +66,7 @@ public class SupportTest {
         props.setConfig(ConfigHelper.generateConstants("CONFIG_PROCESS_NOTIFICATIONS_ID", ConfigTest.configProcessNotificationId) +
                         ResourceHelper.getResource(this, "config.processType.txt"));
 
-        processTypeSupportId = ProcessHelper.addType("Support", DevelopmentTest.processTypeProductId, false, props);
+        processTypeSupportId = ProcessHelper.addType("Support", DevelopmentTest.processTypeProductId, false, props).getId();
     }
 
     @Test (dependsOnMethods =  "addTypes")

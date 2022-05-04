@@ -61,7 +61,7 @@ public class InvoiceTest {
 
         var paramDao = new ParamValueDAO(DbTest.conRoot);
 
-        var processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
+        var processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
 
         var title = TITLE + " Contract";
 

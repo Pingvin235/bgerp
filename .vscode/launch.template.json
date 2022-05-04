@@ -8,7 +8,7 @@
             "type": "java",
             "request": "launch",
             "name": "BGERP Demo",
-            "mainClass": "ru.bgcrm.Server",
+            "mainClass": "org.bgerp.Server",
             "projectName": "ERP",
             "args": "start",
             "vmArgs": "-Dbgerp.setup.data=bgerp"
@@ -17,7 +17,7 @@
             "type": "java",
             "request": "launch",
             "name": "BGERP BiTel",
-            "mainClass": "ru.bgcrm.Server",
+            "mainClass": "org.bgerp.Server",
             "projectName": "ERP",
             "args": "start",
             "vmArgs": "-Dbgerp.setup.data=bgerp_bitel"

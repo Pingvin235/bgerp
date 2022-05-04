@@ -51,8 +51,6 @@ public class CallboardTest {
     private static final int CATEGORY_COMMON_ID = 1;
     private static final int CATEGORY_CONNECTIONS_ID = 2;
 
-    private int posParam = 100;
-
     private int paramAddressId;
     private int paramServicesId;
     private int paramConnectionTimeId;
@@ -69,10 +67,9 @@ public class CallboardTest {
 
     @Test
     public void param() throws Exception {
-        //ParamHelper.addParam(object, type, title, pos, config, valuesConfig)
-        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " Address", posParam += 1, "", "");
-        paramServicesId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " Services", posParam += 1, ParamTest.MULTIPLE, "1=Интернет\n2=КТВ");
-        paramConnectionTimeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " Connection Time", posParam += 1, "", "");
+        paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " Address", ProcessTest.posParam += 2, "", "");
+        paramServicesId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " Services", ProcessTest.posParam += 2, ParamTest.MULTIPLE, "1=Интернет\n2=КТВ");
+        paramConnectionTimeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " Connection Time", ProcessTest.posParam += 2, "", "");
     }
 
     @Test
@@ -101,7 +98,7 @@ public class CallboardTest {
                 "PROCESS_PARAM_ADDRESS_ID", paramAddressId
             ) +
             ResourceHelper.getResource(this, "processType.config.txt"));
-        processTypeId = ProcessHelper.addType(TITLE + " Connection", ProcessTest.processTypeTestGroupId, false, props);
+        processTypeId = ProcessHelper.addType(TITLE + " Connection", ProcessTest.processTypeTestGroupId, false, props).getId();
     }
 
     @Test(dependsOnMethods = { "param", "processType" })

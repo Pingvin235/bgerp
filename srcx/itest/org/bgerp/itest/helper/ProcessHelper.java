@@ -38,7 +38,7 @@ public class ProcessHelper {
         return status.getId();
     }
 
-    public static int addType(String title, int parentId, boolean useParentProperties, TypeProperties props) throws Exception {
+    public static ProcessType addType(String title, int parentId, boolean useParentProperties, TypeProperties props) throws Exception {
         var con = DbTest.conRoot;
         var dao = new ProcessTypeDAO(con);
 
@@ -55,7 +55,7 @@ public class ProcessHelper {
 
         ProcessTypeCache.flush(DbTest.conRoot);
 
-        return type.getId();
+        return type;
     }
 
     public static int addQueue(String title, String config, Set<Integer> processTypeIds) throws Exception {

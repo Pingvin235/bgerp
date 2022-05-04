@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.workload.dao;
+package org.bgerp.plugin.pln.workload.dao;
 
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_GROUP;
@@ -25,10 +25,9 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.plugin.workload.model.GroupLoadConfig;
+import org.bgerp.plugin.pln.workload.model.GroupLoadConfig;
 
 public class GroupLoadDAO extends ProcessDAO {
-
     public GroupLoadDAO(Connection con, User user) {
         super(con, user);
     }
@@ -36,7 +35,7 @@ public class GroupLoadDAO extends ProcessDAO {
     /**
      * Возвращает список процессов с указанными типами процессов {@link ProcessType} и группами пользователей
      * {@link UserGroup}.
-     * 
+     *
      * @param processTypeIds типы процессов
      * @param groupIds       группы пользователей
      * @return
@@ -138,7 +137,7 @@ public class GroupLoadDAO extends ProcessDAO {
         }
         rs.close();
         ps.close();
-        
+
         sortProcessList(result, sort);
 
         return result;
@@ -229,7 +228,7 @@ public class GroupLoadDAO extends ProcessDAO {
 
         return 0;
     }
-    
+
     private int compareTime(final Date date1, final Date date2) {
         if (date1 == null) {
             if (date2 == null) {
@@ -245,7 +244,7 @@ public class GroupLoadDAO extends ProcessDAO {
             }
         }
     }
-    
+
     private int compareProcessType(final Process process1, final Process process2) {
         if (process1.getTypeId() == process2.getTypeId()) {
             return 0;

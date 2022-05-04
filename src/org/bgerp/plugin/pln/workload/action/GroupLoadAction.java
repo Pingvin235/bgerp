@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.workload.struts.action;
+package org.bgerp.plugin.pln.workload.action;
 
 import java.sql.Connection;
 import java.util.Date;
@@ -12,19 +12,24 @@ import org.apache.struts.action.ActionMapping;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.process.ProcessType;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
-import ru.bgerp.plugin.workload.dao.GroupLoadDAO;
-import ru.bgerp.plugin.workload.model.GroupLoadConfig;
 
+import org.bgerp.plugin.pln.workload.Plugin;
+import org.bgerp.plugin.pln.workload.dao.GroupLoadDAO;
+import org.bgerp.plugin.pln.workload.model.GroupLoadConfig;
+
+@Action(path = "/user/plugin/workload/groupload")
 public class GroupLoadAction extends BaseAction {
+    private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
     /**
      * processIds processTypeId
-     * 
+     *
      * processTypeIds userGroupIds
-     * 
+     *
      * @param mapping
      * @param form
      * @param con
@@ -32,7 +37,6 @@ public class GroupLoadAction extends BaseAction {
      * @throws Exception
      */
     public ActionForward show(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-
         final int processTypeId = form.getParamInt("processTypeId");
         final ProcessType processType = ProcessTypeCache.getProcessType(processTypeId);
 
@@ -74,7 +78,7 @@ public class GroupLoadAction extends BaseAction {
                 userGroupIds = config.getUserGroupIds();
             }
         }
-        
+
         String sort = form.getParam("sort");
         form.setResponseData("sort", sort);
 
@@ -86,12 +90,12 @@ public class GroupLoadAction extends BaseAction {
         form.setResponseData("configProcessTypeIds", config.getProcessTypeIds());
         form.setResponseData("configUserGroupIds", config.getUserGroupIds());
 
-        return html(con, mapping, form, "show");
+        return html(con, form, PATH_JSP + "/groupload/show.jsp");
     }
 
     /**
      * Получение ID типов процессов с учетом дочерних.
-     * 
+     *
      * @param processTypeIds
      * @return
      */

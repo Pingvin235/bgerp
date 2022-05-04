@@ -48,7 +48,7 @@ public class GitTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setConfig(ResourceHelper.getResource(this, "processType.txt"));
         props.setParameterIds(List.of(paramBranchId));
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
     }
 
     @Test(dependsOnMethods = "param")

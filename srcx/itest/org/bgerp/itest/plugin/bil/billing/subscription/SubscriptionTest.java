@@ -97,7 +97,7 @@ public class SubscriptionTest {
         props.setConfig(ResourceHelper.getResource(this, "processSubscriptionType.txt"));
         props.setParameterIds(List.of(paramEmailId, paramSubscriptionId, paramLimitId, paramDateFromId, paramDateToId,
                 paramDiscountId, paramSubscriptionCostId, paramLicFileId));
-        processSubscriptionTypeId = ProcessHelper.addType(TITLE + " Subscription", ProcessTest.processTypeTestGroupId, false, props);
+        processSubscriptionTypeId = ProcessHelper.addType(TITLE + " Subscription", ProcessTest.processTypeTestGroupId, false, props).getId();
 
         props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
@@ -105,7 +105,7 @@ public class SubscriptionTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setConfig(ResourceHelper.getResource(this, "processProductType.txt"));
         props.setParameterIds(List.of(paramProductId, paramPriceRubId, paramPriceEurId));
-        processProductTypeId = ProcessHelper.addType(TITLE + " Product", ProcessTest.processTypeTestGroupId, false, props);
+        processProductTypeId = ProcessHelper.addType(TITLE + " Product", ProcessTest.processTypeTestGroupId, false, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")

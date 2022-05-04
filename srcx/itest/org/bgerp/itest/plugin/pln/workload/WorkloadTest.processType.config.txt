@@ -1,0 +1,5 @@
+workload:groupLoad.userGroupIds={@USER_GROUP_IDS}
+workload:groupLoad.processTypeIds={@PROCESS_TYPE_IDS}
+workload:groupLoad.dateFromParamId={@PROCESS_PARAM_DATE_FROM_ID}
+workload:groupLoad.dateToParamId={@PROCESS_PARAM_DATE_TO_ID}
+workload:groupLoad.addressParamId={@PROCESS_PARAM_ADDRESS_ID}

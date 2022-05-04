@@ -50,13 +50,13 @@ public class ProcessIsolationTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setAllowedGroups(Set.of(new ProcessGroup(userGroupId)));
 
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
-        processTypeSpecialId = ProcessHelper.addType(TITLE + " special", processTypeId, false, null);
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+        processTypeSpecialId = ProcessHelper.addType(TITLE + " special", processTypeId, false, null).getId();
 
-        processType1Id = ProcessHelper.addType(TITLE + " 1", processTypeId, false, null);
-        processType11Id = ProcessHelper.addType(TITLE + " 1.1", processType1Id, false, props);
+        processType1Id = ProcessHelper.addType(TITLE + " 1", processTypeId, false, null).getId();
+        processType11Id = ProcessHelper.addType(TITLE + " 1.1", processType1Id, false, props).getId();
 
-        processType2Id  = ProcessHelper.addType(TITLE + " 2", processTypeId, false, null);
+        processType2Id  = ProcessHelper.addType(TITLE + " 2", processTypeId, false, null).getId();
 
         ProcessTypeCache.flush(null);
     }

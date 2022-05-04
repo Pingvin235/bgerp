@@ -346,8 +346,7 @@
 			 <item action="ru.bgcrm.struts.action.LogAction:download" title="Загрузка лога сессии"/>
 		</item>
 
-		<!-- Действие не видно в дереве действий. -->
-		<item action="ru.bgcrm.struts.action.LoginAction:null" title="Авторизация" allowAll="1" notLogging="1"/>
-		<item action="ru.bgcrm.struts.action.LoginAction:logout" title="Выход" allowAll="1" notLogging="1"/>
+		<item action="org.bgerp.action.LoginAction:null" title="Auth" allowAll="1" notLogging="1"/>
+		<item action="org.bgerp.action.LoginAction:logout" title="Logout" allowAll="1" notLogging="1"/>
 	</item>
 </item>

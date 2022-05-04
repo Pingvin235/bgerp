@@ -35,7 +35,7 @@ public class TaskTest {
         props.setConfig(ConfigHelper.generateConstants("DEADLINE_PARAM_ID", paramDeadlineId) +
             ResourceHelper.getResource(this, "processType.config.txt"));
 
-        int processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
+        int processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
 
         ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
     }

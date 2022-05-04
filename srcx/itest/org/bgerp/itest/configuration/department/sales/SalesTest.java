@@ -60,7 +60,7 @@ public class SalesTest {
         props.setConfig(ConfigHelper.generateConstants("CONFIG_PROCESS_NOTIFICATIONS_ID", ConfigTest.configProcessNotificationId) +
                         ResourceHelper.getResource(this, "config.processType.txt"));
 
-        processTypeSaleId = ProcessHelper.addType("Sale", DevelopmentTest.processTypeProductId, false, props);
+        processTypeSaleId = ProcessHelper.addType("Sale", DevelopmentTest.processTypeProductId, false, props).getId();
 
         //TODO: deadline, next appointment
     }

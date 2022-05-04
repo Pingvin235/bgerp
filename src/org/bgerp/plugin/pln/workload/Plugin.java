@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.workload;
+package org.bgerp.plugin.pln.workload;
 
 import java.util.List;
 import java.util.Map;
@@ -8,7 +8,7 @@ import ru.bgcrm.plugin.Endpoint;
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "workload";
 
-    private static final String PATH_JSP_USER = PATH_JSP_USER_PLUGIN + "/" + ID;
+    public static final String PATH_JSP_USER = PATH_JSP_USER_PLUGIN + "/" + ID;
 
     public Plugin() {
         super(ID);

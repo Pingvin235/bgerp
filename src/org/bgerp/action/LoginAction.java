@@ -1,4 +1,4 @@
-package ru.bgcrm.struts.action;
+package org.bgerp.action;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -8,6 +8,7 @@ import ru.bgcrm.event.listener.LoginEventListener;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
+import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

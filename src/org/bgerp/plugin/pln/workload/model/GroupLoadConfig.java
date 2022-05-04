@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.workload.model;
+package org.bgerp.plugin.pln.workload.model;
 
 import java.util.Collections;
 import java.util.Set;
@@ -6,17 +6,15 @@ import java.util.Set;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.plugin.workload.Plugin;
+import org.bgerp.plugin.pln.workload.Plugin;
 
 public class GroupLoadConfig extends Config {
-
     private final boolean enabled;
     private final Set<Integer> userGroupIds;
     private final Set<Integer> processTypeIds;
 
     private final int dateFromParamId;
     private final int dateToParamId;
-
     private final int addressParamId;
 
     protected GroupLoadConfig(ParameterMap config, boolean validate) {

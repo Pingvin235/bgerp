@@ -95,7 +95,7 @@ public class ProcessParamTest {
         props.getParameterIds().addAll(List.of(paramAddressId, paramDateId, paramDatetimeId, paramEmailId, paramFileId,
                         paramListId, paramListCountId, paramMoneyId, paramTextId, paramTextRegexpId, paramTreeId));
 
-        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")

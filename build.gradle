@@ -403,7 +403,7 @@ apply from: "build/publish.gradle"
 
 task startServer(type: JavaExec, dependsOn: 'classes', description: 'Starts server with bgerp.properties') {
     classpath =  sourceSets.main.runtimeClasspath
-    mainClass = 'ru.bgerp.Server'
+    mainClass = 'org.bgerp.Server'
     args 'start'
     systemProperties = [
         'bgerp.setup.data': findProperty('bgerp.setup.data') ?: 'bgerp',

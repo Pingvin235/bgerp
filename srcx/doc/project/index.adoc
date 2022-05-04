@@ -151,7 +151,7 @@ Use *admin* - *admin* credentials.
 ==== Inside IDE
 Configuration for running inside IDE:
 [square]
-* Main class: ru.bgerp.Server
+* Main class: org.bgerp.Server
 * Program arguments: start
 * VM arguments: -Dbgerp.setup.data=bgerp
 * Classpath: click on *User entries - Advanced - Add folders* and add project's current folder.
@@ -907,7 +907,7 @@ link:../../../src/ru/bgcrm/worker/MessageExchange.java#L17-L20[ru.bgcrm.worker.M
 
 Log message with substitutions:
 [snippet, from="log.debug(", to=");", remove-leading="            "]
-link:../../../src/ru/bgcrm/Server.java#L114-L114[ru.bgcrm.Server]
+link:../../../src/org/bgerp/Server.java#L114-L114[ru.bgcrm.Server]
 
 Exception message output:
 [snippet, from="try", to="}", remove-leading="                "]

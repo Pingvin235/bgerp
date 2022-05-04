@@ -21,10 +21,10 @@ public class LinkProcessCreateConfig extends Config {
     private List<LinkProcessCreateConfigItem> itemList = new ArrayList<LinkProcessCreateConfigItem>();
     private Map<Integer, LinkProcessCreateConfigItem> itemMap = new HashMap<Integer, LinkProcessCreateConfigItem>();
 
-    public LinkProcessCreateConfig(ParameterMap setup) {
-        super(setup);
+    public LinkProcessCreateConfig(ParameterMap config) {
+        super(null);
 
-        for (Map.Entry<Integer, ParameterMap> me : setup.subIndexed("processCreateLink.").entrySet()) {
+        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("processCreateLink.").entrySet()) {
             try {
                 LinkProcessCreateConfigItem item = new LinkProcessCreateConfigItem(me.getKey(), me.getValue());
                 itemMap.put(item.getId(), item);
