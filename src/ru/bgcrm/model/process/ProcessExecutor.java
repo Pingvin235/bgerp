@@ -13,6 +13,11 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.util.Utils;
 
+/**
+ * Process related executor with group and role.
+ *
+ * @author Shamil Vakhitov
+ */
 public class ProcessExecutor {
     private int userId;
     private int groupId;
@@ -33,12 +38,12 @@ public class ProcessExecutor {
         this.userId = userId;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getGroupId() {
@@ -49,16 +54,20 @@ public class ProcessExecutor {
         this.groupId = groupId;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public boolean isInProcessGroup(ProcessGroup pg) {
         return getGroupId() == pg.getGroupId() && getRoleId() == pg.getRoleId();
+    }
+
+    public ProcessExecutor clone() {
+        return new ProcessExecutor(userId, groupId, roleId);
     }
 
     @Override

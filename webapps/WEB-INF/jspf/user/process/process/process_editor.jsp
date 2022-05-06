@@ -99,17 +99,6 @@
 								$tabs.tabs( "add", "${url}", "${l.l('Связанные процессы')}${ifaceState.getFormattedState()}" );
 							</c:if>
 
-							<%-- TODO: Extract to plugin Callboard --%>
-							<c:set var="timeSetConfig" value="${processType.properties.configMap.getConfig('org.bgerp.plugin.pln.callboard.model.config.ProcessTimeSetConfig')}"/>
-							<c:if test="${not empty timeSetConfig.callboard}">
-								<c:url var="url" value="/user/plugin/callboard/work.do">
-									<c:param name="action" value="processTime"/>
-									<c:param name="processId" value="${process.id}"/>
-								</c:url>
-
-								$tabs.tabs( "add", "${url}", "Уст. времени" );
-							</c:if>
-
 							<c:set var="endpoint" value="user.process.tabs.jsp"/>
 							<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
 
@@ -120,7 +109,7 @@
 							// с растяжением на весь экран правого блока, где может быть список сообщений
 
 							// сохранённые параметры левого блока (устанавливаются при скрытии)
-							var state = null;
+							let state = null;
 
 							$(window).scroll(function() {
 								const hide = function () {
@@ -139,9 +128,9 @@
 								}
 
 								if (state) {
-									if (bgcrm.isElementInView($leftDivWrap, 0))
+									if ($$.isElementInView($leftDivWrap, 0))
 										show();
-								} else if (!bgcrm.isElementInView($leftDivWrap, 100))
+								} else if (!$$.isElementInView($leftDivWrap, 100))
 									hide();
 							});
 						})

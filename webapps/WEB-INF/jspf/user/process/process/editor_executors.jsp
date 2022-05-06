@@ -118,8 +118,8 @@
 					%>
 
 					<ui:select-mult
-					   hiddenName="executor" list="${list}" values="${values}"
-					   style="width: 100%;" fakeHide="true"
+						hiddenName="executor" list="${list}" values="${values}"
+						style="width: 100%;" fakeHide="true"
 					/>
 				</u:sc>
 			</c:if>
@@ -127,13 +127,5 @@
 		</c:forEach>
 	</c:forEach>
 
-	<%-- TODO: ИСПОЛНИТЕЛИ БЕЗ ГРУПП --%>
-
-	<c:set var="closeEditor">openUrlToParent( '${form.returnUrl}', $('#${form.returnChildUiid}') );</c:set>
-	<c:set var="saveCommand">if( sendAJAXCommand( formUrl( this.form ) ) ){ ${closeEditor} }</c:set>
-
-	<div class="mt1">
-		<button class="btn-grey" type="button" onclick="${saveCommand}">OK</button>
-		<button class="btn-white ml1" type="button" onclick="${closeEditor}">${l.l('Отмена')}</button>
-	</div>
+	<%@ include file="editor_grex_save_cancel.jsp"%>
 </html:form>

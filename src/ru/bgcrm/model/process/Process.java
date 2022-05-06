@@ -62,9 +62,9 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
 
     private Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>();
     private Set<ProcessExecutor> processExecutors = new HashSet<ProcessExecutor>();
-    
+
     public Process() {}
-    
+
     public Process(int id) {
         this.id = id;
     }
@@ -161,7 +161,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     public Set<Integer> getExecutorIds() {
         return Collections.unmodifiableSet(ProcessExecutor.toExecutorSet(processExecutors));
     }
-    
+
     /**
      * Use {@link #setExecutors(Set)}.
      */
@@ -191,7 +191,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         return processGroups;
     }
 
-    /** 
+    /**
      * Use {@link #getGroupIdsWithRole(int)}.
      */
     @Deprecated
@@ -275,16 +275,16 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         return this;
     }
 
-    /** 
-     * @return process type object from {@link ProcessTypeCache#getProcessTypeSafe(int)}. 
+    /**
+     * @return process type object from {@link ProcessTypeCache#getProcessTypeSafe(int)}.
      */
     @JsonIgnore
     public ProcessType getType() {
         return ProcessTypeCache.getProcessTypeSafe(typeId);
     }
 
-    /** 
-     * @return process types title from {@link #getType()}. 
+    /**
+     * @return process types title from {@link #getType()}.
      */
     public String getTypeTitle() {
         return getType().getTitle();
@@ -533,18 +533,6 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         result.append(description);
 
         return result.toString();
-    }
-
-    public int getUnboundedExecutorsCount() {
-        int result = 0;
-
-        for (ProcessExecutor processExecutor : processExecutors) {
-            if (processExecutor.getGroupId() == 0) {
-                result++;
-            }
-        }
-
-        return result;
     }
 
     @Override

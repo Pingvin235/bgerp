@@ -30,6 +30,14 @@
 					[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('исполнители')}</a>]
 				</c:if>
 			</p:check>
+
+			<c:if test="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap') and process.getGroups().size() eq 2}">
+				<c:url var="url" value="/user/process.do">
+					<c:param name="id" value="${process.id}"/>
+					<c:param name="action" value="processExecutorsSwap"/>
+				</c:url>
+				[<a href="#" onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${requestUrl}', $('#${tableId}').parent()) }); return false;">eswap</a>]
+			</c:if>
 		</div>
 
 		<c:remove var="emptyExecutors"/>

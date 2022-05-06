@@ -325,6 +325,13 @@ image::_res/card_groups.png[]
 
 Для каждой группы выполнения процесса могут быть установлены исполнители один или несколько.
 
+[[executor-swap]]
+==== Executors swap
+*eswap* operation performs swapping executors placed with two different groups and roles.
+On the screen below *Kernel Executors* and *Karl Marx* will be exchanged.
+
+image::_res/executor_swap.png[]
+
 [[link]]
 == Привязки
 Отображение привязок в карточке процесса задаётся <<config-link, переменной>> в конфигурации типа процесса.
@@ -372,17 +379,7 @@ contract:bitel.processes.queue=11
 == Связанные процессы
 Связи между процессами носят всегда *направленный характер*.
 
-[ditaa]
-----
-          +---+
-     +----+ A +----+
-     |    +---+    |
-made |             | made
-     v             v
-   +---+ depend  +---+
-   | B +-------->| C |
-   +---+         +---+
-----
+drawio:_res/linked_process.drawio[]
 
 Родительский процесс может ссылаться на дочерний следующими способами:
 [square]

@@ -55,8 +55,9 @@
 		<%-- класс нужен, чтобы не перезагружался редактор при переходе на вкладку, id - чтобы процесс не открылся как потерянный --%>
 		<div class="editorStopReload" id="process-${process.id}"></div>
 
+		<%-- used in wizard --%>
 		<c:set var="reopenProcessEditorCode" scope="request">
-			openUrlToParent( '${form.requestUrl}', $('#${uiid}') );
+			$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent());
 		</c:set>
 
 		<c:set var="reopenProcessUrl" scope="request">

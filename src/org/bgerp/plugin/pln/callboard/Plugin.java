@@ -21,7 +21,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
             Endpoint.JS, List.of(Endpoint.getPathPluginJS(ID)),
             Endpoint.CSS, List.of(Endpoint.getPathPluginCSS(ID)),
             Endpoint.USER_ADMIN_MENU_ITEMS, List.of(PATH_JSP_ADMIN + "/menu_items.jsp"),
-            Endpoint.USER_MENU_ITEMS, List.of(PATH_JSP_USER + "/menu_items.jsp")
+            Endpoint.USER_MENU_ITEMS, List.of(PATH_JSP_USER + "/menu_items.jsp"),
+            Endpoint.USER_PROCESS_TABS, List.of(PATH_JSP_USER + "/process_tabs.jsp")
         );
     }
 }

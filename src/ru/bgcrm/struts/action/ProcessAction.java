@@ -1,6 +1,7 @@
 package ru.bgcrm.struts.action;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -377,8 +378,7 @@ public class ProcessAction extends BaseAction {
                 throw new BGMessageException("Параметр '" + requireParam.getTitle() + "' не заполнен.");
             }
 
-            EventProcessor.processEvent(new ProcessChangingEvent(form, process, change, ProcessChangingEvent.MODE_STATUS_CHANGING),
-                    requireParam.getScript(), new SingleConnectionSet(con), false);
+            EventProcessor.processEvent(new ProcessChangingEvent(form, process, change, ProcessChangingEvent.MODE_STATUS_CHANGING), new SingleConnectionSet(con));
         }
 
         processDoEvent(form, process, new ProcessChangingEvent(form, process, change, ProcessChangingEvent.MODE_STATUS_CHANGING), con);
@@ -585,6 +585,35 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
+    public ActionForward processExecutorsSwap(DynActionForm form, Connection con) throws Exception {
+        ProcessDAO dao = new ProcessDAO(con, form.getUser(), true);
+        Process process = getProcess(dao, form.getId());
+
+        var groups = process.getGroups();
+        if (groups.size() != 2)
+            throw new BGMessageException("Swap operation is possible only with two groups");
+
+        var it = groups.iterator();
+
+        var groupId1 = it.next();
+        var groupId2 = it.next();
+
+        for (var pe : process.getExecutors()) {
+            if (pe.getGroupId() == groupId1.getGroupId() && pe.getRoleId() == groupId1.getRoleId()) {
+                pe.setGroupId(groupId2.getGroupId());
+                pe.setRoleId(groupId2.getRoleId());
+            }
+            else {
+                pe.setGroupId(groupId1.getGroupId());
+                pe.setRoleId(groupId1.getRoleId());
+            }
+        }
+
+        dao.updateProcessExecutors(process.getExecutors(), form.getId());
+
+        return json(con, form);
+    }
+
     @SuppressWarnings("unchecked")
     public static void processExecutorsUpdate(DynActionForm form, Connection con, Process process, Set<ProcessGroup> processGroups,
             Set<ProcessExecutor> processExecutors) throws Exception {
@@ -699,7 +728,15 @@ public class ProcessAction extends BaseAction {
         }
     }
 
-    protected Process getProcess(ProcessDAO processDao, int id) throws Exception {
+    /**
+     * Gets process entity by ID.
+     * @param processDao DAO.
+     * @param id process ID.
+     * @return
+     * @throws SQLException - DB exception.
+     * @throws BGMessageException - entity not found.
+     */
+    protected Process getProcess(ProcessDAO processDao, int id) throws SQLException, BGMessageException {
         Process process = processDao.getProcess(id);
         if (process == null) {
             throw new BGMessageException("Процесс не найден.");
