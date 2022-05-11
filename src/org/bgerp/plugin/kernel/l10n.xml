@@ -503,6 +503,8 @@
 	<p><en>Groups</en><ru>Группы</ru></p>
 	<p><en>Users</en><ru>Пользователи</ru></p>
 	<p><en>Select all / remove selection</en><ru>Выбрать всё / убрать выделение</ru></p>
+	<p><en>Number occupied by user: </en><ru>Номер занят пользователем: </ru></p>
+	<p><en>register anyway?</en><ru>всё равно зарегистрировать?</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

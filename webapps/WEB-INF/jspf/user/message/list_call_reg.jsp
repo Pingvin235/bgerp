@@ -12,16 +12,16 @@
 					<c:when test="${not empty reg}">
 						<span class="tt">${type.title} номер <b>${reg.number}</b></span>
 						<c:set var="url" value="/user/messageCall.do?typeId=${type.id}&action=numberFree"/>
-						<button 
-							type="button" class="btn-grey ml1" 
+						<button
+							type="button" class="btn-grey ml1"
 							onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()) })" >${l.l('Освободить')}</button>
-						
+
 						<p:check action="ru.bgcrm.struts.action.MessageCallAction:testCall">
 							<c:set var="url" value="/user/messageCall.do?typeId=${type.id}&action=testCall"/>
 
 							<c:set var="testCallFromUiid" value="${u:uiid()}"/>
 							<input type="text" id="${testCallFromUiid}" placeholder="${l.l('С номера')}" size="10"/>
-							<button type="button" class="btn-grey ml" 
+							<button type="button" class="btn-grey ml"
 								onclick="$$.ajax.post('${url}&testCallFrom=' + $('#${testCallFromUiid}').val(), {control: this}).done(() => { alert('OK') })">TEST</button>
 						</p:check>
 					</c:when>
@@ -30,21 +30,20 @@
 							<input type="hidden" name="action" value="numberRegister"/>
 							<input type="hidden" name="typeId" value="${type.id}"/>
 
-							<input type="text" name="number" placeholder="${type.title}, номер" class="" value="${type.getUserOfferedNumber(form)}"/>
+							<input type="text" name="number" placeholder="${type.title}, номер" class="" value="${type.getUserOfferedNumber(ctxUser.id)}"/>
 
 							<c:set var="code">
-								var result = sendAJAXCommand( formUrl( this.form ) );
-								if ( !result )
-								{
-									return;
-								}
+								$$.ajax
+									.post(this.form, {control: this})
+									.done((result) => {
+										const user = result.data.regUser;
+										if (user && !confirm('${l.l('Number occupied by user: ')}' + user.title + ',\n' + '${l.l('register anyway?')}'))
+											return;
 
-								var user = result.data.regUser;
-								if ( !user ||
-									( confirm( 'Номер занят пользователем: ' + user.title + ',\nвсё равно зарегистрировать?' ) && sendAJAXCommand( formUrl( this.form ) + '&check=0' ) ) )
-								{
-									$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent());
-								}
+										$$.ajax
+											.post($$.ajax.formUrl(this.form) + '&check=0')
+											.done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()));
+									})
 							</c:set>
 
 							<button type="button" class="btn-grey ml1" onclick="${code}">${l.l('Занять')}</button>

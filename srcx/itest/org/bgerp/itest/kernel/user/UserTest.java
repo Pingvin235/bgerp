@@ -21,6 +21,7 @@ public class UserTest {
 
     public static volatile int paramPhoneId;
     public static volatile int paramCellPhoneId;
+    public static volatile int paramExtensionId;
     public static volatile int paramEmailId;
     public static volatile int paramTelegramId;
     public static volatile int paramWebSiteId;
@@ -41,6 +42,7 @@ public class UserTest {
     public void param() throws Exception {
         paramEmailId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_EMAIL, "E-Mail(s)", paramPos += 2, ParamTest.MULTIPLE, "");
         paramCellPhoneId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_PHONE, "Cell phone(s)", paramPos += 2, "", "");
+        paramExtensionId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_TEXT, "Extension number", paramPos+=2, "", "");
     }
 
     @Test(dependsOnMethods = "param")
@@ -57,6 +59,7 @@ public class UserTest {
     public void userParam() throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot);
         dao.updateParamEmail(USER_ADMIN_ID, paramEmailId, 0, new ParameterEmailValue("admin@bgerp.org"));
+        dao.updateParamText(USER_ADMIN_ID, paramExtensionId, "101");
     }
 
     /* TODO: Enable permission check before.

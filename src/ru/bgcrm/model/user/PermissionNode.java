@@ -2,6 +2,7 @@ package ru.bgcrm.model.user;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,8 @@ import ru.bgerp.l10n.Localizer;
 public class PermissionNode {
     private static final Log log = Log.getLog();
 
-    private static List<PermissionNode> permissionTrees;
+    /** Root tree nodes. */
+    private static volatile List<PermissionNode> permissionTrees;
 
     @VisibleForTesting
     static String FILE_NAME = "action.xml";
@@ -261,18 +263,25 @@ public class PermissionNode {
         if (permissionTrees != null)
             return permissionTrees;
 
-        permissionTrees = new ArrayList<>();
+        // avoid parallel loading
+        synchronized (log) {
+            if (permissionTrees != null)
+                return permissionTrees;
 
-        for (Plugin p : PluginManager.getInstance().getPluginList()) {
-            Document doc = p.getXml(FILE_NAME, null);
-            if (doc == null)
-                continue;
+            var newPermissionTrees = new ArrayList<PermissionNode>(20);
 
-            permissionTrees.add(new PermissionNode(null, Localization.getLocalizer(p.getId(), Localization.getSysLang()),
-                    doc.getDocumentElement()));
+            for (Plugin p : PluginManager.getInstance().getPluginList()) {
+                Document doc = p.getXml(FILE_NAME, null);
+                if (doc == null)
+                    continue;
+
+                newPermissionTrees.add(new PermissionNode(null,
+                        Localization.getLocalizer(p.getId(), Localization.getSysLang()),
+                        doc.getDocumentElement()));
+            }
+
+            return permissionTrees = Collections.unmodifiableList(newPermissionTrees);
         }
-
-        return permissionTrees;
     }
 
     /**

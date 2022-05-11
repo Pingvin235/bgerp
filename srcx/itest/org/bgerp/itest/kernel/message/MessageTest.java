@@ -37,6 +37,9 @@ import ru.bgcrm.util.Setup;
 public class MessageTest {
     private static final String TITLE = "Kernel Messages";
 
+    // defined in config.messages
+    public static final int CALL_MESSAGE_TYPE_ID = 50;
+
     public static volatile int configId;
 
     public static volatile MessageTypeEmail messageTypeEmailDemo;

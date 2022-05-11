@@ -24,7 +24,7 @@ public class DynamicAction extends BaseAction {
             throws Exception {
         CompilationResult result = DynamicClassManager.getInstance().recompileAll();
 
-        EventProcessor.subscribeDynamicClasses();
+        // EventProcessor.subscribeDynamicClasses();
 
         form.getResponse().setData("result", result);
 

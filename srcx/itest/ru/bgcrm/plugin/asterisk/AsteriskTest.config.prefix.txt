@@ -1,0 +1,2 @@
+# enable only with correct connection properties below
+#asterisk:enable=1

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bgerp.model.Pageable;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.ParamValueDAO;
@@ -73,14 +74,15 @@ public class MessageTypeCall extends MessageType {
 
     /**
      * Retrieves user offered number from text parameter.
-     * @param form
+     * @param userId user entity ID.
      * @return parameter value or empty string.
      */
-    public String getUserOfferedNumber(DynActionForm form) {
+    @Dynamic
+    public String getUserOfferedNumber(int userId) {
         int paramId = configMap.getInt("offerNumberFromParamId");
         if (paramId > 0) {
             try (var con = Setup.getSetup().getDBSlaveConnectionFromPool()) {
-                String value = new ParamValueDAO(con).getParamText(form.getUserId(), paramId);
+                String value = new ParamValueDAO(con).getParamText(userId, paramId);
                 return Utils.maskNull(value);
             } catch (Exception e) {
                 log.error(e);

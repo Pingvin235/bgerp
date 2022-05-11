@@ -13,7 +13,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 public class LoginEventListener {
     // событие которые будут переданы клиенту на первый pool запрос после авторизации
-    private static Map<Integer, List<ClientEvent>> onLoginEvents = new ConcurrentHashMap<Integer, List<ClientEvent>>();
+    private static final Map<Integer, List<ClientEvent>> onLoginEvents = new ConcurrentHashMap<>();
 
     public LoginEventListener() {
         EventProcessor.subscribe(new EventListener<GetPoolTasksEvent>() {

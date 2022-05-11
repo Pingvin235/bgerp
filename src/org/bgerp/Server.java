@@ -30,7 +30,6 @@ import org.bgerp.scheduler.Scheduler;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.servlet.AccessLogValve;
 import ru.bgcrm.util.AdminPortListener;
@@ -159,7 +158,7 @@ public class Server extends Tomcat {
             }
         }
 
-        EventProcessor.subscribeDynamicClasses();
+        // EventProcessor.subscribeDynamicClasses();
     }
 
     private void checkDBConnectionOrExit() {

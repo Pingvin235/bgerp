@@ -1,0 +1,1 @@
+A: Plugin Asterisk. Config param for auto registration extension number. Demo DB itest.

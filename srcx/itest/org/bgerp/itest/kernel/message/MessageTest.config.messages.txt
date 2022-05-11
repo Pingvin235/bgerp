@@ -42,7 +42,3 @@ messageType.50.search.1.commands=customerByPhoneParam:{@PARAM_CUSTOMER_PHONE_ID}
 #
 messageType.100.title=Note
 messageType.100.class=ru.bgcrm.dao.message.MessageTypeNote
-#
-createOnStart+=,ru.bgcrm.event.listener.MessageTypeCallListener
-
-

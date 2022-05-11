@@ -1,11 +1,11 @@
 package ru.bgcrm.event;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,8 +28,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class EventProcessor {
     private static final Log log = Log.getLog();
 
-    private static Object sync = new Object();
-    private static Map<Class<?>, List<EventListener<?>>> subscribers = new ConcurrentHashMap<Class<?>, List<EventListener<?>>>();
+    private static final Map<Class<?>, List<EventListener<?>>> subscribers = new ConcurrentHashMap<>();
 
     private static class NamedThreadFactory implements ThreadFactory {
         private static ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
@@ -51,16 +50,9 @@ public class EventProcessor {
      * @param clazz
      */
     public static <E extends Event> void subscribe(EventListener<? super E> l, Class<E> clazz) {
-        List<EventListener<?>> listeners;
-        synchronized (sync) {
-            listeners = subscribers.get(clazz);
-            if (listeners == null) {
-                listeners = new CopyOnWriteArrayList<EventListener<?>>();
-                subscribers.put(clazz, listeners);
-            }
-        }
-
-        listeners.add(l);
+        subscribers
+            .computeIfAbsent(clazz, c -> new ArrayList<>())
+            .add(l);
     }
 
     /**
@@ -96,7 +88,7 @@ public class EventProcessor {
         processEvent(e, null, connectionSet);
     }
 
-    public static void subscribeDynamicClasses() {
+    /* public static void subscribeDynamicClasses() {
         Setup setup = Setup.getSetup();
         for (String className : Utils.toList(setup.get("createOnStart"))) {
             log.info("Create class on start: " + className);
@@ -108,7 +100,7 @@ public class EventProcessor {
                 log.error(e.getMessage(), e);
             }
         }
-    }
+    } */
 
     /**
      * Обрабатывает событие системными обработчиками а затем классом, если указан.
@@ -122,7 +114,7 @@ public class EventProcessor {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static boolean processEvent(Event event, String className, ConnectionSet conSet,
             boolean systemListenerProcessing) throws Exception {
-        log.debug("Processing event: %s, className: %s", event, className);
+        log.debug("Processing event: {}, className: {}", event, className);
 
         if (systemListenerProcessing) {
             // обработка системными зарегестрированными слушателями
