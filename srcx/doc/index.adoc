@@ -32,9 +32,9 @@
 ** <<plugin/report/index.adoc#, Report>>
 ** <<plugin/task/index.adoc#, Task>>
 ** Planning
-*** <<plugin/blow/index.adoc#, Blow>>
-*** <<plugin/callboard/index.adoc#, CallBoard>>
-*** <<plugin/workload/index.adoc#, Workload>>
+*** <<plugin/pln/blow/index.adoc#, Blow>>
+*** <<plugin/pln/callboard/index.adoc#, CallBoard>>
+*** <<plugin/pln/workload/index.adoc#, Workload>>
 ** Messaging
 *** <<plugin/msg/email/index.adoc#, E-Mail>>
 *** <<plugin/phpbb/index.adoc#, PHPBB>>

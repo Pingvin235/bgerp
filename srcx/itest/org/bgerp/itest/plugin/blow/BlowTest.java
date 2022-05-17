@@ -8,7 +8,7 @@ import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.testng.annotations.Test;
 
-import ru.bgerp.plugin.blow.Plugin;
+import org.bgerp.plugin.pln.blow.Plugin;
 
 @Test(groups = "blow", priority = 100, dependsOnGroups = { "config", "depDev", "depSupport", "depSales" })
 public class BlowTest {

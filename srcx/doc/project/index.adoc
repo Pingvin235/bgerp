@@ -378,8 +378,8 @@ Using those assumptions the system may be presented as set of plugins.
 
 [[plugin-class]]
 ==== Plugin's Java class
-Application detects plugin upon start by a mandatory Java class, extended from javadoc:ru.bgcrm.plugin.Plugin[]
-Class example; link:../../../src/ru/bgerp/plugin/blow/Plugin.java[ru.bgerp.plugin.blow.Plugin]
+Application detects plugin upon start by a mandatory Java class, extended from javadoc:org.bgerp.plugin.pln.blow.Plugin[]
+Class example; link:../../../src/org/bgerp/plugin/pln/blow/Plugin.java[org.bgerp.plugin.pln.blow.Plugin]
 
 Each plugin has a corresponding and unique:
 [square]
@@ -446,7 +446,7 @@ Endpoints used for connecting non-Java plugin parts:
 ===== JavaScript
 Extension points definition within Plugin declaration:
 [snippet, from="Endpoint.JS", to=",", remove-leading="            "]
-link:../../../src/ru/bgerp/plugin/blow/Plugin.java#L21-L21[ru.bgerp.plugin.blow.Plugin]
+link:../../../src/org/bgerp/plugin/pln/blow/Plugin.java#L21-L21[org.bgerp.plugin.pln.blow.Plugin]
 
 File containing script: link:../../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
 
@@ -456,7 +456,7 @@ Menu item in <<../kernel/interface.adoc#user, user>> interface.
 
 Extension points definition within <<plugin-class, Plugin class>>:
 [snippet, from="Endpoint.USER_PROCESS_MENU", to=",", remove-leading="            "]
-link:../../../src/ru/bgerp/plugin/blow/Plugin.java#L23-L23[ru.bgerp.plugin.blow.Plugin]
+link:../../../src/org/bgerp/plugin/pln/blow/Plugin.java#L23-L23[org.bgerp.plugin.pln.blow.Plugin]
 
 Adding a menu item using JSP tag: link:../../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
 
@@ -587,7 +587,7 @@ CAUTION: Do not use a legacy action format with HttpClientRequest and HttpClient
 
 A snippet of an action method:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../../src/ru/bgerp/plugin/blow/action/BoardAction.java#L40-L60[ru.bgerp.plugin.blow.action.BoardAction]
+link:../../../src/org/bgerp/plugin/pln/blow/action/BoardAction.java#L41-L61[org.bgerp.plugin.pln.blow.action.BoardAction]
 
 Result gets redirected to a JSP page:
 link:../../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp].
@@ -635,7 +635,7 @@ All action methods for <<../kernel/interface.adoc#user, user>> interface have to
 Examples:
 [square]
 * link:../../../src/org/bgerp/plugin/kernel/action.xml[org/bgerp/plugin/kernel/action.xml] - for <<plugin-kernel, Kernel>> plugin
-* link:../../../src/ru/bgerp/plugin/blow/action.xml[ru/bgerp/plugin/blow/action.xml] - for Blow plugin
+* link:../../../src/org/bgerp/plugin/pln/blow/action.xml[org/bgerp/plugin/pln/blow/action.xml] - for Blow plugin
 
 Definitions from those files are forming a tree which is used for <<../kernel/setup.adoc#user, access control>>.
 

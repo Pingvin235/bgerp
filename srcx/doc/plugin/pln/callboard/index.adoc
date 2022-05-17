@@ -142,7 +142,7 @@ rule.<pos>.duration=<duration>
 Где:
 [square]
 * *<pos>* - порядковый числовой номер правила;
-* *<expression>* - <<../../kernel/extension.adoc#jexl, JEXL>> выражение проверки соответствия процесса правилу;
+* *<expression>* - <<../../../kernel/extension.adoc#jexl, JEXL>> выражение проверки соответствия процесса правилу;
 * *<duration>* - длительность в минутах.
 
 В JEXL процессор передаются объекты:

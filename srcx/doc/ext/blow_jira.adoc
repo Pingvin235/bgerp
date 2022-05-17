@@ -1,5 +1,5 @@
 == Blow JIRA
-Пример надстройки <<../plugin/blow/index.adoc#, Blow>> плана над тикетами JIRA для быстрого управления проектом.
+Пример надстройки <<../plugin/pln/blow/index.adoc#, Blow>> плана над тикетами JIRA для быстрого управления проектом.
 Может быть легко модифицирован под другие тикет системы: GitLab, GitHub, RedMine и т.д.
 
 === Настройка <<../kernel/process/index.adoc#type, типа процесса>>
@@ -22,7 +22,7 @@ processReference.1.stringExpression="#" + process.getId() + " " + u.escapeXml(pr
 #
 style.processCardLeftBlock=min-width: 500px;
 style.processCardRightBlock=width: 100%
-# 
+#
 # Creation Wizard
 #
 createWizard.createStep.1.title=JIRA Ticket
@@ -66,7 +66,7 @@ blow:board.1.stringExpressionCell=<<END
      jiraTicket = params.get("col5");
      if (jiraTicket) {
           for (ticketId : jiraTicket.split(","))
-             result += " <a target='_blank' href='https://jira/browse/" + ticketId + "'>" + ticketId + "</a>"; 
+             result += " <a target='_blank' href='https://jira/browse/" + ticketId + "'>" + ticketId + "</a>";
      }
      return result;
 END
@@ -109,7 +109,7 @@ END
 ----
 
 === Работа с планом
-Примерный вид Blow плана представлен на рисунке. 
+Примерный вид Blow плана представлен на рисунке.
 
 image::_res/bj_plan.png[]
 

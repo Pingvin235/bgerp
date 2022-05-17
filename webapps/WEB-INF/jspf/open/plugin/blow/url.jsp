@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:if test="${uri.startsWith('/open/blow')}">
-	<c:set var="config" value="${ctxSetup.getConfig('ru.bgerp.plugin.blow.model.BoardsConfig')}"/>
+	<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.plugin.pln.blow.model.BoardsConfig')}"/>
 	<c:set var="boardName" value="${su.substringBefore(su.substringAfterLast(uri, '/'), '#')}"/>
 
 	<c:forEach var="board" items="${config.openBoards}">

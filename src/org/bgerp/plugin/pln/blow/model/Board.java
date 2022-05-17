@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.blow.model;
+package org.bgerp.plugin.pln.blow.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,7 +44,7 @@ public class Board {
     private final int lastIndex;
 
     public Board(BoardConfig config, List<Pair<Process, Map<String, Object>>> processes, Collection<CommonObjectLink> links) {
-        log.debug("## Build board, processes: %s; links: %s", processes.size(), links.size());
+        log.debug("## Build board, processes: {}; links: {}", processes.size(), links.size());
         this.config = config;
         this.items = buildTree(processes, links);
         this.lastIndex = addItem(root, -1, -1);
@@ -86,7 +86,7 @@ public class Board {
             List<Item> queueCommon = queues.computeIfAbsent(0, id -> new ArrayList<>());
             List<Item> queue =  queues.computeIfAbsent(item.getExecutorId(), id -> new ArrayList<>());
 
-            log.debug("Adding: %s; lastIndex: %s; maxLastIndex: %s; executorId: %s; queueSize: %s; queueCommonSize: %s",
+            log.debug("Adding: {}; lastIndex: {}; maxLastIndex: {}; executorId: {}; queueSize: {}; queueCommonSize: {}",
                     item.getProcess().getId(), lastIndex, maxLastIndex, item.getExecutorId(), queue.size(), queueCommon.size());
 
             if (item.getExecutorId() == 0) {
@@ -103,12 +103,12 @@ public class Board {
                 lastIndex = queue.size() - 1;
             }
 
-            log.debug("Added: %s; lastIndex: %s", item.getProcess().getId() , lastIndex);
+            log.debug("Added: {}; lastIndex: {}", item.getProcess().getId() , lastIndex);
         }
 
         if (maxLastIndex < lastIndex) {
             maxLastIndex = lastIndex;
-            log.debug("maxLastIndex: %s", maxLastIndex);
+            log.debug("maxLastIndex: {}", maxLastIndex);
         }
 
         for (Item child : item.getChildren())

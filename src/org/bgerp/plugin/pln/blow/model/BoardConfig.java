@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.blow.model;
+package org.bgerp.plugin.pln.blow.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +25,7 @@ public class BoardConfig extends IdTitle {
     private final List<BoardFilter> filters = new ArrayList<>();
     private final List<ItemComparator> comparators;
     private final Set<Integer> executorGroupIds;
-    
+
     BoardConfig(int id, ParameterMap config) {
         super(id, config.get("title"));
         this.queueId = config.getInt("queueId");
@@ -33,7 +33,7 @@ public class BoardConfig extends IdTitle {
         for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("filter.").entrySet())
             filters.add(new BoardFilter(me.getKey(), me.getValue()));
         this.openUrl = config.get("openUrl");
-        this.comparators = parseComparators(config.get("sort", 
+        this.comparators = parseComparators(config.get("sort",
             Utils.toString(List.of(ItemComparator.PRIORITY, ItemComparator.HAS_EXECUTOR, ItemComparator.STATUS_POS, ItemComparator.HAS_CHILDREN))));
         this.executorGroupIds = Utils.toIntegerSet(config.get("executor.groupIds"));
     }
@@ -46,17 +46,17 @@ public class BoardConfig extends IdTitle {
         }
         return Collections.unmodifiableList(result);
     }
-    
+
     public Queue getQueue() {
         return ProcessQueueCache.getQueue(queueId);
     }
-    
+
     public String getOpenUrl() {
         return openUrl;
     }
 
     /**
-     * Returns calculated filters values. 
+     * Returns calculated filters values.
      * @param items
      * @return
      */
@@ -68,9 +68,9 @@ public class BoardConfig extends IdTitle {
             context.put("filter", filter);
             context.putAll(SetRequestParamsFilter.getContextVariables(null));
             String text = new Expression(context).getString(filter.getStringExpression());
-            
+
             result.add(new Pair<>(filter, text));
-        }        
+        }
         return result;
     }
 
@@ -94,17 +94,17 @@ public class BoardConfig extends IdTitle {
     public static class BoardFilter extends IdTitle {
         private final String stringExpression;
         private final String color;
-        
+
         private BoardFilter(int id, ParameterMap config) {
             super(id, config.get("title", "NONAME"));
             this.stringExpression = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY);
             this.color = config.get("color");
         }
-        
+
         public String getColor() {
             return color;
         }
-        
+
         public String getStringExpression() {
             return stringExpression;
         }

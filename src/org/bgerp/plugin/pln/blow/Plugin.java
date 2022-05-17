@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.blow;
+package org.bgerp.plugin.pln.blow;
 
 import java.util.List;
 import java.util.Map;

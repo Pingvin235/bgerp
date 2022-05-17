@@ -1,4 +1,4 @@
- package ru.bgerp.plugin.blow.model;
+ package org.bgerp.plugin.pln.blow.model;
 
 import java.util.ArrayList;
 import java.util.Collections;

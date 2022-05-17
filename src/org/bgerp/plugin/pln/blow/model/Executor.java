@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.blow.model;
+package org.bgerp.plugin.pln.blow.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,13 +7,13 @@ import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.process.Process;
 
 /**
- * Исполнитель процесса - пользователь, либо группа.
- * 
- * @author Shamil
+ * Process executor - user or group.
+ *
+ * @author Shamil Vakhitov
  */
 public class Executor extends IdTitle {
     public Set<Process> processes = new HashSet<>();
-    
+
     public void add(Process process) {
         processes.add(process);
     }

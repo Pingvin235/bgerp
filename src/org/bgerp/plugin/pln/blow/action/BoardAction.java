@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.blow.action;
+package org.bgerp.plugin.pln.blow.action;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
@@ -19,25 +18,27 @@ import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.plugin.blow.Plugin;
-import ru.bgerp.plugin.blow.dao.BoardDAO;
-import ru.bgerp.plugin.blow.model.Board;
-import ru.bgerp.plugin.blow.model.BoardConfig;
-import ru.bgerp.plugin.blow.model.BoardsConfig;
+import org.bgerp.plugin.pln.blow.Plugin;
+import org.bgerp.plugin.pln.blow.dao.BoardDAO;
+import org.bgerp.plugin.pln.blow.model.Board;
+import org.bgerp.plugin.pln.blow.model.BoardConfig;
+import org.bgerp.plugin.pln.blow.model.BoardsConfig;
 
+@Action(path = "/user/plugin/blow/board")
 public class BoardAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/board";
 
-    public ActionForward board(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward board(DynActionForm form, ConnectionSet conSet) throws Exception {
         BoardsConfig boardsConf = setup.getConfig(BoardsConfig.class);
         form.setResponseData("boardsConf", boardsConf);
         return html(conSet, form, PATH_JSP + "/board.jsp");
     }
 
-    public ActionForward show(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward show(DynActionForm form, Connection con) throws Exception {
         BoardConfig boardConf = setup.getConfig(BoardsConfig.class).getBoard(form.getId());
         if (boardConf != null) {
             // первичные процессы
@@ -59,7 +60,7 @@ public class BoardAction extends BaseAction {
         return html(con, form, PATH_JSP + "/show.jsp");
     }
 
-    public ActionForward move(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward move(DynActionForm form, Connection con) throws Exception {
         int processId = form.getParamInt("processId");
         int parentProcessId = form.getParamInt("parentProcessId");
         int fromParentProcessId = form.getParamInt("fromParentProcessId");
@@ -107,7 +108,7 @@ public class BoardAction extends BaseAction {
         }
     }
 
-    public ActionForward search(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward search(DynActionForm form, ConnectionSet conSet) throws Exception {
         var dao = new MessageDAO(conSet.getSlaveConnection(), form.getUser());
 
         var filter = form.getParam("filter");

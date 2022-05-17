@@ -1,4 +1,4 @@
-package ru.bgerp.plugin.blow.model;
+package org.bgerp.plugin.pln.blow.model;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,13 +7,13 @@ import java.util.List;
 import ru.bgcrm.util.Utils;
 
 public class ItemComparator implements java.util.Comparator<Item> {
-    
+
     public static final String STATUS_POS = "status_pos";
     public static final String PRIORITY = "priority";
     public static final String HAS_EXECUTOR = "has_executor";
     public static final String HAS_CHILDREN = "has_children";
     public static final String TYPE = "type";
-    
+
     private final Comparator<Item> comparator;
 
     public ItemComparator(String type, String params) {
