@@ -1,8 +1,10 @@
-package ru.bgerp.plugin.task;
+package ru.bgcrm.plugin.task;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.bgerp.itest.helper.ConfigHelper;
+import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
@@ -13,10 +15,9 @@ import org.testng.annotations.Test;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.plugin.task.Plugin;
 
 
-@Test(groups = "task", priority = 100, dependsOnGroups = { "config", "process" })
+@Test(groups = "task", priority = 100, dependsOnGroups = { "config", "process", "message" })
 public class TaskTest {
     private static final Plugin PLUGIN = new Plugin();
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
@@ -37,6 +38,8 @@ public class TaskTest {
 
         int processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
 
-        ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
+        var process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
+
+        MessageHelper.addNoteMessage(process.getId(), UserTest.USER_ADMIN_ID, Duration.ofSeconds(0), "How to test", ResourceHelper.getResource(this, "message.txt"));
     }
 }

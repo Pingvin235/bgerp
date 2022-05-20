@@ -6,9 +6,9 @@ import ru.bgcrm.model.Id;
 import ru.bgcrm.util.Preferences;
 
 /**
- * Задача, запланированная к выполнению в будующем, либо выполняемая прямо сейчас.
- * Привязана к процессу.
- * @author Shamil
+ * Process assigned task to be executed right now or in future.
+ *
+ * @author Shamil Vakhitov
  */
 public class Task extends Id {
 
