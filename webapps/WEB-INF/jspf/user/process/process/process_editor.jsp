@@ -17,33 +17,33 @@
 <%-- when not existing process is opened processType has not set --%>
 <c:if test="${not empty processType}">
 	<%-- tableId очень важный идентификатор - нужен для определения в DOM дереве расположения редактора данного процесса --%>
-	<table id="${tableId}" style="width: 100%;" class="nopad">
-		<tr>
-			<%-- TODO: в будущем, можно и порядок табов задать тоже, ещё JEXL условие прикрутить --%>
-			<c:set var="components" value="${u:toList( 'header,status,description,executors,links,params' )}"/>
-			<c:if test="${not empty processType}">
-				<c:set var="componentsConfig" value="${processType.properties.configMap.getConfig('ru.bgcrm.model.process.config.ProcessCardConfig')}"/>
-			</c:if>
-			<c:set var="item" value="${componentsConfig.getItem( mode )}"/>
-			<c:if test="${not empty item}">
-				<c:set var="components" value="${item.componentList}"/>
-			</c:if>
+	<div id="${tableId}" style="display: flex;">
+		<%-- TODO: в будущем, можно и порядок табов задать тоже, ещё JEXL условие прикрутить --%>
+		<c:set var="components" value="${u:toList( 'header,status,description,executors,links,params' )}"/>
+		<c:if test="${not empty processType}">
+			<c:set var="componentsConfig" value="${processType.properties.configMap.getConfig('ru.bgcrm.model.process.config.ProcessCardConfig')}"/>
+		</c:if>
+		<c:set var="item" value="${componentsConfig.getItem( mode )}"/>
+		<c:if test="${not empty item}">
+			<c:set var="components" value="${item.componentList}"/>
+		</c:if>
 
-			<c:choose>
-				<c:when test="${mode eq 'card'}">
-					<c:set var="leftStyle">${processType.properties.configMap['style.processCardLeftBlock']}</c:set>
-					<c:if test="${empty leftStyle}"><c:set var="leftStyle">width: 50%;</c:set></c:if>
+		<c:choose>
+			<c:when test="${mode eq 'card'}">
+				<c:set var="leftStyle">${processType.properties.configMap['style.processCardLeftBlock']}</c:set>
+				<c:if test="${empty leftStyle}"><c:set var="leftStyle">min-width: 50%;</c:set></c:if>
 
-					<c:set var="rightStyle">${processType.properties.configMap['style.processCardRightBlock']}</c:set>
-					<c:if test="${empty rightStyle}"><c:set var="rightStyle">width: 50%;</c:set></c:if>
-				</c:when>
-				<c:when test="${mode eq 'linked'}">
-					<c:set var="leftStyle">width: 100%;</c:set>
-					<c:set var="rightStyle">display: none;</c:set>
-				</c:when>
-			</c:choose>
+				<c:set var="rightStyle">${processType.properties.configMap['style.processCardRightBlock']}</c:set>
+				<c:if test="${empty rightStyle}"><c:set var="rightStyle">flex-grow: 1;</c:set></c:if>
+			</c:when>
+			<c:when test="${mode eq 'linked'}">
+				<c:set var="leftStyle">width: 100%;</c:set>
+				<c:set var="rightStyle">display: none;</c:set>
+			</c:when>
+		</c:choose>
 
-			<td id="processLeftDiv" valign="top" style="${leftStyle}">
+		<div id="processLeftDiv" valign="top" style="${leftStyle}">
+			<!-- the wrap is limited by height, unlike parent div -->
 			<div class="wrap">
 				<c:if test="${mode eq 'card' and not empty processType}">
 					<u:newInstance var="ifaceStateDao" clazz="ru.bgcrm.dao.IfaceStateDAO">
@@ -99,40 +99,9 @@
 								$tabs.tabs( "add", "${url}", "${l.l('Связанные процессы')}${ifaceState.getFormattedState()}" );
 							</c:if>
 
-							<c:set var="endpoint" value="user.process.tabs.jsp"/>
-							<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+							<plugin:include endpoint="user.process.tabs.jsp"/>
 
-							var $leftTd = $('#${tableId} > tbody > tr > td#processLeftDiv');
-							var $leftDivWrap = $leftTd.find('> .wrap');
-
-							// ниже логика сокрытия левого блока карточки процесса когда он перестаёт быть видимым,
-							// с растяжением на весь экран правого блока, где может быть список сообщений
-
-							// сохранённые параметры левого блока (устанавливаются при скрытии)
-							let state = null;
-
-							$(window).scroll(function() {
-								const hide = function () {
-									state = {
-										height: $leftDivWrap.height(),
-										minWidth: $leftTd.css("min-width")
-									};
-									$leftDivWrap.css("height", state.height).find(">div").hide();
-									$leftTd.css("min-width", "5px");
-								}
-
-								const show = function () {
-									$leftDivWrap.css("height", "").find(">div").show();
-									$leftTd.css("min-width", state.minWidth);
-									state = null;
-								}
-
-								if (state) {
-									if ($$.isElementInView($leftDivWrap, 0))
-										show();
-								} else if (!$$.isElementInView($leftDivWrap, 100))
-									hide();
-							});
+							$$.process.hideLeftAreaOnScroll($('#${tableId} #processLeftDiv'), 300);
 						})
 					</script>
 				</c:if>
@@ -178,14 +147,13 @@
 					</c:choose>
 				</c:forEach>
 			</div>
-			</td>
-			<td style="${rightStyle}" valign="top" class="pl1">
-				<div id="processTabsDiv">
-					<ul></ul>
-				</div>
-			</td>
-		</tr>
-	</table>
+		</div>
+		<div style="${rightStyle}" valign="top" class="pl1">
+			<div id="processTabsDiv">
+				<ul></ul>
+			</div>
+		</div>
+	</div>
 </c:if>
 
 <%@ include file="process_title.jsp"%>

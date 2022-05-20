@@ -14,6 +14,8 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.dao.Cleaner;
+import org.bgerp.l10n.Localization;
+import org.bgerp.l10n.Localizer;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.bgerp.util.Log;
 import org.bgerp.util.lic.AppLicense;
@@ -25,8 +27,6 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 import ru.bgcrm.util.distr.call.ExecuteSQL;
-import ru.bgerp.l10n.Localization;
-import ru.bgerp.l10n.Localizer;
 
 /**
  * Parent class for all the plugins.

@@ -1,4 +1,4 @@
-package ru.bgerp.l10n;
+package org.bgerp.l10n;
 
 import java.util.List;
 

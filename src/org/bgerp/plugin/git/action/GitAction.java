@@ -24,7 +24,7 @@ public class GitAction extends BaseAction {
             throw new BGException("GIT plugin isn't configured");
 
         String branch = config.branch(conSet, processId);
-        String main = config.getMainBranch();
+        String main = config.mainBranch();
         String prefix = config.prefix(processId);
 
         var p = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(processId);

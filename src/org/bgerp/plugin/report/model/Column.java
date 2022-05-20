@@ -3,12 +3,12 @@ package org.bgerp.plugin.report.model;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.bgerp.l10n.Localizer;
+import org.bgerp.l10n.Titled;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.l10n.Localizer;
-import ru.bgerp.l10n.Titled;
 
 /**
  * Report's column.

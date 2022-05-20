@@ -83,11 +83,12 @@ public class UserTest {
         userDao.updateUser(admin);
     } */
 
-    @Test
-    public void group() throws Exception {
+    @Test(dependsOnMethods = "user")
+    public void userGroup() throws Exception {
         groupAdminsId = UserHelper.addGroup("Administrators", 0, "");
 
         var dao = new UserDAO(DbTest.conRoot);
         dao.addUserGroup(USER_ADMIN_ID, new UserGroup(groupAdminsId, new Date(), null));
+        dao.addUserGroup(userKarlId, new UserGroup(groupAdminsId, new Date(), null));
     }
 }

@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.bgerp.util.Log;
 
+import javassist.NotFoundException;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.dao.process.StatusDAO;
@@ -43,6 +44,19 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
      */
     public static ProcessType getProcessType(int id) {
         return holder.getInstance().typeMap.get(id);
+    }
+
+    /**
+     * Gets process type by ID.
+     * @param id ID.
+     * @return
+     * @throws NotFoundException
+     */
+    public static ProcessType getProcessTypeOrThrow(int id) throws NotFoundException {
+        var result = getProcessType(id);
+        if (result == null)
+            throw new NotFoundException("Not found process type with ID: " + id);
+        return result;
     }
 
     /**

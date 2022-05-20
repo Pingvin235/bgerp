@@ -23,7 +23,7 @@
 				onSelect="$$.ajax.load(this.form, $$.shell.$content(this)); return false;"/>
 		</html:form>
 
-		<table class="data mt1">
+		<table class="data mt1 hl">
 			<tr>
 				<td width="30">&#160;</td>
 				<td width="30">ID</td>
@@ -41,7 +41,7 @@
 	<div id="${tabsUiid}-2" style="width: 100%; max-width: 100%;" class="in-inline-block in-va-top">
 		<div style="width: 50%;">
 			<h2>${l.l('Активные плагины')}</h2>
-			<table class="data">
+			<table class="data hl">
 				<tr>
 					<td>ID</td>
 					<td>${l.l('Наименование')}</td>

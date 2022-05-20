@@ -6,6 +6,7 @@ import java.util.Set;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.bgerp.Interface;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -77,12 +78,13 @@ public class ProfileAction extends BaseAction {
         }
 
         /**
-         * User profile accessing URL.
+         * User profile accessing {@link Interface#OPEN} URL.
          * @param userId
          * @return
          */
+        @Dynamic
         public String url(int userId) {
-            return Interface.getUrlOpen(config) + "/profile/" + userId;
+            return Interface.getUrlOpen() + "/profile/" + userId;
         }
 
         @Override

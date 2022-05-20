@@ -1,0 +1,2 @@
+# send emails about process modifications to first user parameter with type 'email'
+email:change.notification.user.email.param=0

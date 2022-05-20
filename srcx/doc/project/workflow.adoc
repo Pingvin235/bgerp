@@ -367,6 +367,12 @@ docker login --username bgerp
 
 And input *access token*.
 
+*bgerp/bgerp* image is based on *bgerp/base*, which should be rebuilt in case of updating MySQL or Java versions:
+[source]
+----
+bash build/docker/base/files.sh && docker build build/docker/base -t bgerp/base && docker push bgerp/base
+----
+
 [[test]]
 == Tests
 

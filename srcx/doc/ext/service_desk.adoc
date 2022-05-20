@@ -1,8 +1,8 @@
 == Service Desk
 Данный Workflow используется в BiTel для обработки запросов пользователей на изменение ПО, конфигурацию, исправление ошибок.
 
-Для обработки данных из различных источников: <<../plugin/bgbilling/index.adoc#helpdesk, BGBilling HelpDesk>>, 
-<<../kernel/message.adoc#type-email, EMail>>, <<../plugin/phpbb/index.adoc#, Форум Бител>>, 
+Для обработки данных из различных источников: <<../plugin/bgbilling/index.adoc#helpdesk, BGBilling HelpDesk>>,
+<<../kernel/message.adoc#type-email, EMail>>, <<../plugin/phpbb/index.adoc#, Форум Бител>>,
 внутренние заметки используются <<../kernel/message.adoc#, сообщения>>.
 Сообщения типа EMail первоначально вручную разносятся по процессам, дальнейшие ответы на письма из процесса сопоставляются процессу автоматически по коду в теме.
 По HelpDesk темам автоматически создаются процессы с привязанным договором и контрагентом договора.
@@ -11,12 +11,12 @@
 
 image::_res/service_desk_process_type.png[]
 
-В системе достроена дополнительная <<../kernel/process/index.adoc#executor, роль>>: *Наблюдение*. 
-Основная причина - с ролью *Выполнение* может быть только один исполнитель, синхронизирующийся с BGBilling HelpDesk. 
+В системе достроена дополнительная <<../kernel/process/index.adoc#executor, роль>>: *Наблюдение*.
+Основная причина - с ролью *Выполнение* может быть только один исполнитель, синхронизирующийся с BGBilling HelpDesk.
 
 Вкладка с группами в редакторе типа.
 
-image::_res/service_desk_process_type_groups.png[]  
+image::_res/service_desk_process_type_groups.png[]
 
 Конфигурация типа.
 [source]
@@ -40,59 +40,10 @@ onProcessEvent.3.events=created
 onProcessEvent.3.ifExpression=process.getTypeId() != 8 && process.getProcessExecutors().size() == 0
 onProcessEvent.3.doExpression=addExecutors({user.getId()})
 #
-# при получении входящего сообщения с типом не "заметка" в процесс в статусе 6 "ожидание" - перевод процесса в статус 1 "открыт" 
+# при получении входящего сообщения с типом не "заметка" в процесс в статусе 6 "ожидание" - перевод процесса в статус 1 "открыт"
 onProcessEvent.4.events=messageAdded
 onProcessEvent.4.ifExpression=process.getStatusId() =~ [6] && !ctxSetup.getConfig("ru.bgcrm.dao.message.config.MessageTypeConfig").getTypeMap().get(event.getMessage().getTypeId()).getClass().getSimpleName().equals("MessageTypeNote")
 onProcessEvent.4.doExpression=setStatus(1, "Открыто по сообщению");
-# 
-# уведомление исполнителей о новом сообщении в процессе
-onProcessEvent.5.events=messageAdded
-onProcessEvent.5.doExpression=<<END
-   text = "Новое сообщение в процессе, в котором вы числитесь исполнителем." + 
-       NEW_LINE2 + "Сообщение:" + NEW_LINE +
-       event.getMessage().getText() +
-       NEW_LINE2 + "Открыть процесс: http://crm.bitel.ru/user/process#" + process.getId() +
-       NEW_LINE2 + "Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.";
-    
-    subject = "#" + process.getId() + 
-      " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "] " +
-      " QA:" + event.getMessage().getId(); 
-   
-   emailNotifyExecutors(21, subject, text);
-END
-#
-onProcessEvent.6.events=executorsChanged
-onProcessEvent.6.doExpression=<<END
-      text = "Изменён состав исполнителей процесса." + NEW_LINE2;
-   
-      searchResult = new("ru.bgcrm.model.SearchResult");
-      searchResult.getPage().setPageIndex(-1); 
-      dao = new("ru.bgcrm.dao.message.MessageDAO", conSet.getConnection());
-      dao.searchMessageList(searchResult, process.getId(), null, 1, null, null, null, null, null, true);
-      
-      lastMsg = null;      
-
-      for (m : searchResult.getList()) {
-         if (lastMsg == null) lastMsg = m;       
-  
-         text += "Входящее сообщение #" + m.getId() + NEW_LINE;
-         text +=  "##########################" + NEW_LINE;
-         text +=  m.getText() +  NEW_LINE2;
-       }
-     
-      subject = "#" + process.getId() + 
-       " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "] ";
-      if (lastMsg != null) subject += " QA:" + lastMsg.getId();
-    
-      emailNotifyExecutors(21, subject, text);
-END
-#
-# уведомление исполнителей об изменении статуса процесса
-onProcessEvent.7.events=statusChanged
-onProcessEvent.7.doExpression=<<END
-  text = process.getDescription();
-  mobile.sendMessageToExecutors("Изменился процесс, в котором вы исполнитель", text);
-END
 #
 # отображение в заголовке процесс кода и описания
 processReference.1.objectTypes=processCard
@@ -118,7 +69,7 @@ style.processCardRightBlock=width: 100%
 Внешний вид очереди процессов.
 
 image::_res/service_desk_queue.png[]
- 
+
 Процессы по-умолчанию сортируются в обратном порядке по приоритетам, далее по времени последнего сообщения.
 Наиболее нужные фильтры сохранены на отдельные кнопки. Количество процессов без исполнителей выводится в заголовке программы рядом с именем пользователя.
 
@@ -231,37 +182,37 @@ column.20.style=padding: 2px;
 #media.html.columns=1,2,3,4,5,6,7,8,9,10,12,14,18,20
 
 configHead=<<END
- return 
+ return
        "<td>ID</td>"
-    + "<td>Описание</td>" 
+    + "<td>Описание</td>"
     + "<td>Свойства</td>"
     + "<td>Статус</td>"
     + "<td>Исполнители</td>"
     + "<td>Создан</td>";
-END 
+END
 
 configRow=<<END
    result = "<tr bgcolor='" + urgColor + "' processId='" + process.getId() + "'>";
    result += "<td>" + col1 + "</td>";
    result += "<td><b>" + col3 + "</b><br/>" + col4 + "</td>";
    result += "<td><b>" + col7 + "</b><br/>";
-  
+
    // при пустом значении что-то там выходит длиной 90 символов
    if (col18.length() > 90)
     result += "<b style='color:red;'>ФОРУМ ССЫЛКА СТАРАЯ</b>";
-    
+
    // HelpDesk
-   if (process.getTypeId() == 8) 
+   if (process.getTypeId() == 8)
 	result += "HD: " + col9 + " Стат.: " + col8 + " Сообщ./Нов.:" + col10 + " / <b>" + col12 + "</b> Посл.:" + col14 + "<br/>";
    else
 	result += " Сообщ.:" + col10 + " Посл.:" + col14 + "<br/>";
    result += "</td>";
-   
+
    result += "<td>" + col5 + "</td>";
    result += "<td>" + col6 + "</td>";
    result += "<td>" + col20 + "</td>";
-   
-   result += "</tr>";   
+
+   result += "</tr>";
 
    return result;
 END

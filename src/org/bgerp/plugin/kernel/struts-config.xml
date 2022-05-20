@@ -65,12 +65,6 @@
 
 		<action path="/user/lock" parameter="action" type="ru.bgcrm.struts.action.LockAction" name="form" scope="request"/>
 
-		<action path="/user/profile" parameter="action" type="ru.bgcrm.struts.action.ProfileAction" name="form" scope="request">
-			<forward name="profile" path="/WEB-INF/jspf/user/profile/default.jsp"/>
-			<forward name="settings" path="/WEB-INF/jspf/user/profile/settings.jsp"/>
-			<forward name="parameters" path="/WEB-INF/jspf/user/profile/parameters.jsp"/>
-		</action>
-
 		<action path="/usermob/process" parameter="action" type="org.bgerp.action.usermob.ProcessAction" name="form" scope="request">
 			<forward name="queue" path="/WEB-INF/jspf/usermob/process/queue/queue.jsp"/>
 			<forward name="queueShow" path="/WEB-INF/jspf/usermob/process/queue/show.jsp"/>

@@ -29,6 +29,8 @@ import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaProperty;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
+import org.bgerp.l10n.Localization;
+import org.bgerp.l10n.Localizer;
 import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
@@ -43,8 +45,6 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.l10n.Localization;
-import ru.bgerp.l10n.Localizer;
 
 /**
  * HTTP request execution's context, contains: request, DB connection and response data.

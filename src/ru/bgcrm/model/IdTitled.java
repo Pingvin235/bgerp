@@ -1,11 +1,11 @@
 package ru.bgcrm.model;
 
-import ru.bgerp.l10n.Localizer;
-import ru.bgerp.l10n.Titled;
+import org.bgerp.l10n.Localizer;
+import org.bgerp.l10n.Titled;
 
 /**
  * Item with localized title.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class IdTitled extends Id implements Titled {

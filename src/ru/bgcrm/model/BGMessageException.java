@@ -1,6 +1,6 @@
 package ru.bgcrm.model;
 
-import ru.bgerp.l10n.Localizer;
+import org.bgerp.l10n.Localizer;
 
 /**
  * Localized message, shown to end user and not written in log.

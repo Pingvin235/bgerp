@@ -1,9 +1,8 @@
 package org.bgerp.plugin.report.model.chart;
 
+import org.bgerp.l10n.Localizer;
 import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Data;
-
-import ru.bgerp.l10n.Localizer;
 
 public class ChartBar extends Chart2D {
     public ChartBar(String ltitle, Column categories, Column values) {
@@ -25,12 +24,12 @@ public class ChartBar extends Chart2D {
         var xData = chart.putObject("xAxis").putArray("data");
 
         chart.putObject("yAxis");
-            
+
         var series = chart.putArray("series").addObject();
         var seriesData = series
             .put("type", "bar")
             .putArray("data");
-        
+
         for (var me : prepareData(data).entrySet()) {
             xData.add(me.getKey());
             seriesData.add(me.getValue());

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.Date;
 import java.util.Map;
 
+import org.bgerp.l10n.Localization;
 import org.bgerp.plugin.kernel.Plugin;
 import org.bgerp.util.Log;
 
@@ -24,7 +25,6 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
-import ru.bgerp.l10n.Localization;
 
 public class MessageTypeNote extends MessageType {
     private static final Log log = Log.getLog();

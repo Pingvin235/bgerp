@@ -2,6 +2,7 @@ package org.bgerp.plugin.bil.billing.invoice.event.listener;
 
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.event.ProcessFilesEvent;
+import org.bgerp.l10n.Localization;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.bil.billing.invoice.Plugin;
 import org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction;
@@ -12,7 +13,6 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.servlet.CustomHttpServletResponse;
 import ru.bgcrm.util.Utils;
-import ru.bgerp.l10n.Localization;
 
 /**
  * Provides files with print forms for adding to messages.

@@ -5,32 +5,32 @@ import java.util.Date;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.PswdUtil.UserPswdUtil;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/user/profile")
 public class ProfileAction extends BaseAction {
-    
+    private static final String PATH_JSP = PATH_JSP_USER + "/profile";
+
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws Exception {
-        return getUserProfile(mapping, form, conSet);
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return getUserProfile(form, conSet);
     }
 
-    public ActionForward getUserProfile(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws Exception {
-        return html(conSet, mapping, form, "profile");
+    public ActionForward getUserProfile(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return html(conSet, form, PATH_JSP + "/default.jsp");
     }
 
-    public ActionForward settings(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward settings(DynActionForm form, Connection con) throws Exception {
         int requestedUserId = form.getParamInt("requestUserId", 0);
 
         UserDAO userDAO = new UserDAO(con);
@@ -44,13 +44,13 @@ public class ProfileAction extends BaseAction {
         }
 
         if (subAction.equals("parameters")) {
-            return html(con, mapping, form, "parameters");
+            return html(con, form, PATH_JSP + "/parameters.jsp");
         }
 
-        return html(con, mapping, form, "settings");
+        return html(con, form, PATH_JSP + "/settings.jsp");
     }
 
-    public ActionForward updateSettings(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward updateSettings(DynActionForm form, Connection con) throws Exception {
         User user = UserCache.getUser(form.getUserId());
         UserDAO userDAO = new UserDAO(con);
 
@@ -84,8 +84,7 @@ public class ProfileAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward updatePersonalization(ActionMapping mapping, DynActionForm form, Connection con)
-            throws Exception {
+    public ActionForward updatePersonalization(DynActionForm form, Connection con) throws Exception {
         User user = UserCache.getUser(form.getUserId());
         UserDAO userDAO = new UserDAO(con);
 
@@ -107,5 +106,4 @@ public class ProfileAction extends BaseAction {
 
         return json(con, form);
     }
-    
 }

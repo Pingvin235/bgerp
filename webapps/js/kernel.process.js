@@ -1,13 +1,50 @@
 /*
- * Процессы и очереди.
+ * Processes and process queues.
  */
 $$.process = new function() {
+	/**
+	 * Opens process card.
+	 * @param {*} id process ID.
+	 */
 	const open = (id) => {
 		$$.shell.contentLoad("process#" + id);
 	}
 
+	/**
+	 * Hides left area in process card on scrolling down to make right full-width.
+	 * @param {*} $leftDiv left DIV in process card, must contain sub-div with class='wrap'.
+	 * @param {*} topTolerance how many pixels left area should be scrolled up out of visible area to be hidden, the option prevents flickering.
+	 */
+	const hideLeftAreaOnScroll = ($leftDiv, topTolerance) => {
+		const $wrap = $leftDiv.find(".wrap");
+
+		// saved params of left block, set on hiding
+		let state = null;
+
+		const hide = function () {
+			state = {
+				minWidth: $leftDiv.css("min-width")
+			};
+			$leftDiv.css("min-width", "5px");
+		}
+
+		const show = function () {
+			$leftDiv.css("min-width", state.minWidth);
+			state = null;
+		}
+
+		$(window).scroll(function() {
+			if (state) {
+				if ($$.isElementInView($wrap, 0))
+					show();
+			} else if (!$$.isElementInView($wrap, topTolerance))
+				hide();
+		});
+	}
+
 	// available functions
 	this.open = open;
+	this.hideLeftAreaOnScroll = hideLeftAreaOnScroll;
 
 	// sub namespace link
 	this.link = new function() {

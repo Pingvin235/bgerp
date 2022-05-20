@@ -22,6 +22,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.l10n.Localization;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
 import org.bgerp.util.Log;
@@ -58,7 +59,6 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
-import ru.bgerp.l10n.Localization;
 
 public class MessageTypeEmail extends MessageType {
     private static final Log log = Log.getLog();
@@ -92,6 +92,8 @@ public class MessageTypeEmail extends MessageType {
     public MessageTypeEmail(Setup setup, int id, ParameterMap config) throws BGException {
         super(setup, id, config.get("title"), config);
 
+        var l = Localization.getLocalizer(Plugin.ID, Localization.getSysLang());
+
         encoding = MailMsg.getParamMailEncoding(setup);
 
         mailConfig = new MailConfig(config);
@@ -109,11 +111,7 @@ public class MessageTypeEmail extends MessageType {
         quickAnswerEmailParamId = config.getInt("quickAnswerEmailParamId", -1);
         autoCreateProcessTypeId = config.getInt("autoCreateProcess.typeId", -1);
         autoCreateProcessNotification = config.getBoolean("autoCreateProcess.notification", true);
-        autoCreateProcessNotificationTextMessage = config.get("autoCreateProcess.notification.text.message", "Уважаемый клиент, ваше обращение зарегистрировано!\n"
-                + "Для него назначен исполнитель и в ближайшее возможное время вам будет дан ответ.\n"
-                + "Пожалуйста, при возникновении дополнительных сообщений по данному вопросу отвечайте на это письмо,\n"
-                + "так чтобы в теме письма сохранялся числовой идентификатор обращения.\n"
-                + "Это позволит нам быстрее обработать ваш запрос.\n\n");
+        autoCreateProcessNotificationTextMessage = config.get("autoCreateProcess.notification.text.message", l.l("email.autoCreateProcess.notification.text.message.default"));
 
         messageBuilder = new MessageContent(setup, encoding, config);
 

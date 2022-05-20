@@ -49,45 +49,6 @@ onProcessEvent.1.doExpression=setStatus(3, "")
 #
 ----
 
-Уведомление о назначении процесса на исполнителя с текстом входящих сообщений.
-[source]
-----
-onProcessEvent.6.events=executorsChanged
-onProcessEvent.6.doExpression=<<END
-      text = "Изменён состав исполнителей процесса." + NEW_LINE2;
-
-      searchResult = new("ru.bgcrm.model.SearchResult");
-      searchResult.getPage().setPageIndex(-1);
-      dao = new("ru.bgcrm.dao.message.MessageDAO", conSet.getConnection());
-      dao.searchMessageList(searchResult, process.getId(), null, 1, null, null, null, null, null, true);
-
-      lastMsg = null;
-      for (m : searchResult.getList()) {
-         if (lastMsg == null) lastMsg = m;
-
-         text += "Входящее сообщение #" + m.getId() + NEW_LINE;
-         text +=  "##########################" + NEW_LINE;
-         text +=  m.getText() +  NEW_LINE2;
-       }
-
-      subject = "#" + process.getId() +
-       " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "] ";
-      if (lastMsg != null) subject += " QA:" + lastMsg.getId();
-
-      emailNotifyExecutors(21, subject, text);
-END
-----
-
-Уведомление создателя процесса об изменении статуса. Пример без быстрого ответа.
-[source]
-----
-onProcessEvent.4.events=statusChanged
-onProcessEvent.4.doExpression=<<END
-     userId = process.getCreateUserId();
-     emailNotifyUsers({userId}, 79, "Процесс изменился", "Существенно");
-END
-----
-
 [[set-param-text]]
 === Установка значения параметра типа text
 [source]

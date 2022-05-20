@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Set;
 
+import org.bgerp.l10n.Localization;
+
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.event.ParamChangingEvent;
@@ -13,7 +15,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.l10n.Localization;
 
 public class Config extends ru.bgcrm.util.Config {
     /** Branch and commit name prefix. */
@@ -38,10 +39,6 @@ public class Config extends ru.bgcrm.util.Config {
         mainBranch = config.get("main.branch", "master");
 
         initWhen(paramBranchId > 0);
-    }
-
-    public String getMainBranch() {
-        return mainBranch;
     }
 
     /**
@@ -80,6 +77,13 @@ public class Config extends ru.bgcrm.util.Config {
 
         throw new BGMessageException(Localization.getLocalizer(Plugin.ID, e.getForm().getHttpRequest()),
                 "You can't change to the status when GIT branch isn't empty");
+    }
+
+    /**
+     * @return main branch name.
+     */
+    public String mainBranch() {
+        return mainBranch;
     }
 
     /**

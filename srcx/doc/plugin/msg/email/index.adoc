@@ -90,31 +90,6 @@ messageType.<id>.class=ru.bgcrm.dao.message.MessageTypeEmail
 messageType.<id>.quickAnswerEmailParamId=21
 ----
 
-[[qa-sample]]
-===== Пример настройки
-Отправка EMail по изменению в процессе с функцией быстрого ответа с помощью <<../../../kernel/process/processing.adoc#, простой обработки изменений процессов>>.
-
-В тему добавляется QA маркер для быстрого ответа.
-
-На адрес EMail указанный в параметре исполнителей с кодом 21 отправляется письмо.
-[source]
-----
-onProcessEvent.1.events=messageAdded
-onProcessEvent.5.doExpression=<<END
-   text = "Новое сообщение в процессе, в котором вы числитесь исполнителем." +
-       NEW_LINE2 + "Сообщение:" + NEW_LINE +
-       event.getMessage().getText() +
-       NEW_LINE2 + "Открыть процесс: https://erp.company.com/user/process#" + process.getId() +
-       NEW_LINE2 + "Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.";
-
-    subject = "#" + process.getId() +
-      " [" + (process.getDescription().length() < 30 ? process.getDescription() : process.getDescription().substring(0, 30) + "..") + "] " +
-      " QA:" + event.getMessage().getId();
-
-   emailNotifyExecutors(21, subject, text);
-END
-----
-
 [[ac]]
 ==== Автосоздание процесса по E-Mail
 Для создания новых процессов из всех полученных E-Mail в конфигурации типа сообщения добавить:
@@ -222,6 +197,21 @@ messageType.5.mail.smtp.user=bgerpp@gmail.com
 messageType.5.mail.smtp.host=smtp.gmail.com
 messageType.5.mail.smtp.pswd=****
 ----
+
+[[setup-process-change-notification]]
+=== Process Change Notifications
+Plugin can send E-Mail notifications about process changes to executors, excluding ones, performed the changes.
+EMail subjects contains <<#qa, Quick Answer identifiers>>.
+
+The feature can be enabled in process type <<../../../kernel/process/index.adoc#type-config, configuration>>.
+[source]
+----
+email:change.notification.user.email.param=<paramId>
+----
+
+Where *<paramId>* can be *0* for selecting first user parameter with type email or point to a definite user param ID.
+
+Links for opening processes are built from <<../../../kernel/setup.adoc#config-app-url, configuration parameters>>.
 
 [[usage]]
 == Usage

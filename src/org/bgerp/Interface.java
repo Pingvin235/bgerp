@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.bgerp.servlet.filter.AuthFilter;
 import org.bgerp.servlet.filter.OpenFilter;
 
-import ru.bgcrm.util.ParameterMap;
+import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -19,7 +19,8 @@ public class Interface {
     public static final String USER_MOB = "usermob";
 
     /**
-     * Detects requests interface: USER, OPEN or 'undef'
+     * Detects request interface.
+     * @return {@link #USER}, {@link #OPEN} or {@code "undef"}
      */
     public static String getIface(HttpServletRequest request) {
         var uri = OpenFilter.getRequestURI(request);
@@ -33,7 +34,27 @@ public class Interface {
         return "undef";
     }
 
-    public static String getUrlOpen(ParameterMap setup) {
-        return setup.get("url.open", "/open");
+    /**
+     * Parameter {@code url.user} from {@link ru.bgcrm.util.Setup}.
+     * @return parameter value or {@code /user}.
+     */
+    public static String getUrlUser() {
+        return Setup.getSetup().get("url.user", URL() + "/user");
+    }
+
+    /**
+     * Parameter {@code url.open} from {@link ru.bgcrm.util.Setup}.
+     * @return parameter value or {@code /open}.
+     */
+    public static String getUrlOpen() {
+        return Setup.getSetup().get("url.open", URL() + "/open");
+    }
+
+    /**
+     * URL parameter value.
+     * @return value or ''.
+     */
+    private static String URL() {
+        return Setup.getSetup().get("URL", "");
     }
 }

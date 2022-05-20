@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
+import org.bgerp.l10n.Localizer;
+import org.bgerp.l10n.Titled;
 import org.bgerp.plugin.report.model.chart.Chart;
 import org.bgerp.util.Log;
 import org.bgerp.plugin.report.model.Columns;
@@ -20,8 +22,6 @@ import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.l10n.Localizer;
-import ru.bgerp.l10n.Titled;
 
 /**
  * Parent action for all reports.

@@ -13,6 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.bgerp.Interface;
+import org.bgerp.l10n.Localization;
 import org.bgerp.servlet.filter.AuthFilter;
 
 import ru.bgcrm.cache.CustomerGroupCache;
@@ -27,7 +28,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.l10n.Localization;
 
 public class SetRequestParamsFilter implements Filter {
     public static final String REQUEST_KEY_LOCALIZER = "l";

@@ -3,9 +3,8 @@ package org.bgerp.action;
 import java.util.Collections;
 import java.util.List;
 
+import org.bgerp.l10n.Localizer;
 import org.bgerp.util.Log;
-
-import ru.bgerp.l10n.Localizer;
 
 /**
  * Factory of list of titled actions.

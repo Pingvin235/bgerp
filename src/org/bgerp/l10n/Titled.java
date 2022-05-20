@@ -1,8 +1,8 @@
-package ru.bgerp.l10n;
+package org.bgerp.l10n;
 
 /**
  * Title, provided with a localizer context.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public interface Titled {

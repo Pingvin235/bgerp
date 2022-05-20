@@ -35,6 +35,11 @@ public class Preferences extends ParameterMap {
     private static final String INC = "inc";
     private static final String INSTRUCTION_DELIM = ":";
 
+    private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{@([\\w\\.:]+)\\}");
+
+    private static final String MULTILINE_PREFIX = "<<";
+    private static final int MULTILINE_PREFIX_LENGTH = MULTILINE_PREFIX.length();
+
     protected final ConcurrentHashMap<String, String> data = new ConcurrentHashMap<>();
 
     public Preferences() {
@@ -131,9 +136,6 @@ public class Preferences extends ParameterMap {
                 data.putAll(include);
     }
 
-    private static final String MULTILINE_PREFIX = "<<";
-    private static final int MULTILINE_PREFIX_LENGTH = MULTILINE_PREFIX.length();
-
     /**
      * Loads a single key value pair.
      * @param context context for handling multiline values.
@@ -190,15 +192,13 @@ public class Preferences extends ParameterMap {
         }
     }
 
-    private static final Pattern variablePattern = Pattern.compile("\\{@([\\w\\.:]+)\\}");
-
     // TODO: Used in many places and cumbersome.
     public static String insertVariablesValues(String line, Map<String, String> data, Iterable<ParameterMap> includes, boolean validate) throws BGException {
         StringBuffer result = null;
 
         int pointer = 0;
 
-        Matcher m = variablePattern.matcher(line);
+        Matcher m = VARIABLE_PATTERN.matcher(line);
         while (m.find()) {
             if (result == null) {
                 result = new StringBuffer(line.length() + 16);

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.authenticator.Constants;
 import org.bgerp.event.AuthEvent;
+import org.bgerp.l10n.Localization;
 import org.bgerp.servlet.user.LoginStat;
 import org.bgerp.util.Log;
 
@@ -30,7 +31,6 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
-import ru.bgerp.l10n.Localization;
 
 /**
  * Servlet auth filter.

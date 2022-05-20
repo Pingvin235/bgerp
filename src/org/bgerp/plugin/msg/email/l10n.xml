@@ -19,7 +19,81 @@ Please, do not change response subject and to not citate the message there!</en>
 	<p><ru>получено: </ru><en>recieved: </en></p>
 	<p><ru>отправлено: </ru><en>sent: </en></p>
 	<p><ru>TagBox ввод E-Mail в сообщениях</ru><en>TagBox input E-Mail in messages</en></p>
+	<p>
+		<sys>email.autoCreateProcess.notification.text.message.default</sys>
+		<ru>Уважаемый клиент, ваше обращение зарегистрировано!
+Для него назначен исполнитель и в ближайшее возможное время вам будет дан ответ.
+Пожалуйста, при возникновении дополнительных сообщений по данному вопросу отвечайте на это письмо,
+так чтобы в теме письма сохранялся числовой идентификатор обращения.
+Это позволит нам быстрее обработать ваш запрос.
+
+</ru>
+		<en>Dear Customer, your message was registered!
+For it is assigned a responsible person and in the nearest time you will get a response.
+Please, respond to the mail in case of further questions,
+to preseve process ID in subject.
+That allow us quicker proceed your request.
+
+</en>
+	</p>
+	<p>
+		<sys>email.notification.executors</sys>
+		<en>Process executors have been changed.
+
+Open process: {}
+
+For quick response answer on the E-Mail with preserved ID in subject.
+
+</en>
+		<ru>Изменён состав исполнителей процесса.
+
+Открыть процесс: {}
+
+Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.
+
+</ru>
+	</p>
+	<p>
+		<sys>email.notification.status</sys>
+		<en>Process status has been changed.
+
+Open process: {}
+
+For quick response answer on the E-Mail with preserved ID in subject.
+
+</en>
+		<ru>Изменён статус процесса.
+
+Открыть процесс: {}
+
+Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.
+
+</ru>
+	</p>
+	<p>
+		<sys>email.notification.message</sys>
+		<en>New message in process, where you are an executor.
+
+Message:
+{}
+
+Open process: {}
+
+For quick response answer on the E-Mail with preserved ID in subject.</en>
+		<ru>Новое сообщение в процессе, в котором вы числитесь исполнителем.
+
+Сообщение:
+{}
+
+Открыть процесс: {}
+
+Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.</ru>
+	</p>
+	<p>
+		<en>Incoming message #</en>
+		<ru>Входящее сообщение #</ru>
+	</p>
 	<!--
-	<p><en></en><ru></ru></p>
+		<p><en></en><ru></ru></p>
 	-->
 </data>

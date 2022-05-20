@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.bgerp.action.LoginAction;
+import org.bgerp.l10n.Localizer;
 import org.bgerp.servlet.filter.AuthFilter;
 import org.bgerp.servlet.user.LoginStat;
 import org.bgerp.servlet.user.event.ActionRequestEvent;
@@ -57,7 +58,6 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
-import ru.bgerp.l10n.Localizer;
 
 public class BaseAction extends DispatchAction {
     public static final Class<?>[] TYPES_CONSET_DYNFORM = { DynActionForm.class, ConnectionSet.class };

@@ -12,6 +12,8 @@ import com.google.common.annotations.VisibleForTesting;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
+import org.bgerp.l10n.Localization;
+import org.bgerp.l10n.Localizer;
 import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,8 +24,6 @@ import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
-import ru.bgerp.l10n.Localization;
-import ru.bgerp.l10n.Localizer;
 
 /**
  * Permissions tree node, allowing one or more actions.

@@ -66,8 +66,12 @@ public class Page {
         return pageIndex;
     }
 
-    public void setPageIndex(int pageIndex) {
-        this.pageIndex = pageIndex;
+    /**
+     * Sets page index.
+     * @param value required page index, {@link #PAGE_INDEX_NO_PAGING} for disabling pagination.
+     */
+    public void setPageIndex(int value) {
+        this.pageIndex = value;
     }
 
     public int getPageSize() {

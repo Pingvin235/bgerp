@@ -24,11 +24,17 @@ image::_res/i0084.png[]
 # <<../project/index.adoc#l10n, язык интерфейса>>, поддерживаются: ru, en
 lang=en
 
-# выводится в заголовке окна браузера при работе с BGERP
+# browser window title
 title=BGERP TEST
 
-# 0 - отключение проверки версии браузера пользователя при авторизации
+# 0 - disable checking of browser version
 check.browser=1
+
+# application access URL [[config-app-url]]
+URL=https://erp.test.org
+# explicit values for user and open interfaces, used for notifications texts
+#url.user={@URL}/user
+#url.open={@URL}/open
 
 # timeout of user session activity in seconds
 user.session.timeout=300

@@ -1,9 +1,8 @@
 package org.bgerp.plugin.report.model.chart;
 
+import org.bgerp.l10n.Localizer;
 import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Data;
-
-import ru.bgerp.l10n.Localizer;
 
 public class ChartPie extends Chart2D {
     public ChartPie(String ltitle, Column categories, Column values) {

@@ -1,14 +1,14 @@
 package org.bgerp.action;
 
 import org.apache.struts.actions.BaseAction;
+import org.bgerp.l10n.Localizer;
+import org.bgerp.l10n.Titled;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgerp.l10n.Localizer;
-import ru.bgerp.l10n.Titled;
 
 /**
  * Action with localized title.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class TitledAction implements Titled {
@@ -28,7 +28,7 @@ public class TitledAction implements Titled {
      * @return
      */
     public String getAction() {
-        return actionClass.getName() + ":null"; 
+        return actionClass.getName() + ":null";
     }
 
     /**

@@ -2,16 +2,15 @@ package org.bgerp.plugin.report.model.chart;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.bgerp.l10n.Localizer;
+import org.bgerp.l10n.Titled;
 import org.bgerp.plugin.report.model.Data;
-
-import ru.bgerp.l10n.Localizer;
-import ru.bgerp.l10n.Titled;
 
 
 /**
  * Base class for all charts.
  * <p> Names of sub-classes used in JSP templates. E.g. .name.endsWith('Bar')
- * 
+ *
  * @author Shamil Vakhitov
  */
 public abstract class Chart implements Titled {

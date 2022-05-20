@@ -85,12 +85,12 @@ public class ProcessAction extends BaseAction {
         }
 
         /**
-         * Process accessing URL.
+         * Process accessing {@link Interface#OPEN} URL.
          * @param process
          * @return
          */
         public String url(Process process) {
-            return Interface.getUrlOpen(config) + "/process/" + process.getId() + secret.queryString(process);
+            return Interface.getUrlOpen() + "/process/" + process.getId() + secret.queryString(process);
         }
 
         /**

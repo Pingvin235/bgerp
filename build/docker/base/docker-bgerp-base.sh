@@ -10,11 +10,13 @@ docker_wait_mysql_up () {
         if mysqladmin ping -h localhost --silent; then
             break
         fi
-        sleep 2
+        sleep 1
     done
     if [ "$i" = 0 ]; then
-        echo "Unable to start MySQL server."
+        echo `date`" Unable to start MySQL server."
         exit 1
+    else
+        echo `date`" MySQL started, $i."
     fi
 }
 
@@ -23,11 +25,13 @@ docker_wait_mysql_down () {
         if ! mysqladmin ping -h localhost --silent; then
             break
         fi
-        sleep 2
+        sleep 1
     done
     if [ "$i" = 0 ]; then
-        echo "Unable to stop MySQL server."
+        echo `date`" Unable to stop MySQL server."
         exit 1
+    else
+        echo `date`" MySQL stopped, $i."
     fi
 }
 

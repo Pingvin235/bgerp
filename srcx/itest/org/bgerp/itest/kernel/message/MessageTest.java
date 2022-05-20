@@ -94,11 +94,14 @@ public class MessageTest {
         dao.updateProcessGroups(Set.of(new ProcessGroup(groupId)), processId);
         dao.updateProcessExecutors(Set.of(new ProcessExecutor(userId, groupId, 0)), processId);
 
-        for (int i = 0; i < 100; i++) {
-            MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i), "Test message " + i, "Test message " + i + " text");
-        }
+        int i = 0;
 
-        MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(101), "Line break", ResourceHelper.getResource(this, "log.txt"));
+        for ( ; i < 100; i++)
+            MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i), "Test message " + i, "Test message " + i + " text");
+
+        MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Full width", "THE MESSAGE MUST BE SHOWN ON FULL-WIDTH SCREEN by hideLeftAreaOnScroll JS function");
+
+        MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Line break", ResourceHelper.getResource(this, "log.txt"));
     }
 
     @Test(dependsOnMethods = "process")

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.l10n.Localizer;
 import org.bgerp.plugin.report.Plugin;
 import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Columns;
@@ -26,7 +27,6 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgerp.l10n.Localizer;
 
 @Action(path = "/user/plugin/report/report/process")
 public class ReportProcessAction extends ReportActionBase {
