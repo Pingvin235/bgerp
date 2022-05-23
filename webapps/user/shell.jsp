@@ -101,8 +101,7 @@
 			let m = null;
 			if (false) {}
 			// add else expressions
-			<c:set var="endpoint" value="user.url.jsp"/>
-			<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+			<plugin:include endpoint="user.url.jsp"/>
 
 			return url ? {url: url, bgcolor: bgcolor} : null;
 		};

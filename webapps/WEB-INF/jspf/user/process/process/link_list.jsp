@@ -20,8 +20,7 @@
 	<%-- TODO: move the logic to server side, used only in webapps\WEB-INF\jspf\user\plugin\bgbilling\process_link_for_add_list.jsp --%>
 	var additionalLinksForAdd = [];
 
-	<c:set var="endpoint" value="user.process.linkForAdd.list.jsp"/>
-	<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+	<plugin:include endpoint="user.process.linkForAdd.list.jsp"/>
 
 	$('#${uiid}addButton').hide();
 	objectsToLinkTable( $('#${uiid} #linkTable'), ${form.id}, customerLinkRoles, ${linkedObjects} );
@@ -62,7 +61,7 @@
 
 		<%-- scope="request", for jsp:include --%>
 		<c:set var="delButton" scope="request">
-			<ui:button type="del" styleClass="btn-small" 
+			<ui:button type="del" styleClass="btn-small"
 						onclick="$$.ajax.post('${deleteAjaxUrl}').done(() =>{ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); })"/>
 		</c:set>
 
@@ -77,8 +76,7 @@
 			</tr>
 		</c:if>
 
-		<c:set var="endpoint" value="user.process.link.list.jsp"/>
-		<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+		<plugin:include endpoint="user.process.link.list.jsp"/>
 	</c:forEach>
 </table>
 
@@ -117,10 +115,9 @@
 
 		<%@ include file="link_list_add_customer_search.jsp"%>
 
-		<c:set var="endpoint" value="user.process.linkForAddCustom.jsp"/>
-		<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+		<plugin:include endpoint="user.process.linkForAddCustom.jsp"/>
 
-		<ui:combo-single 
+		<ui:combo-single
 			hiddenName="param" prefixText="${l.l('Тип')}:" style="width: 100%;"
 			onSelect="$$.process.link.showForm('${uiid}', $hidden.val());">
 			<jsp:attribute name="valuesHtml">

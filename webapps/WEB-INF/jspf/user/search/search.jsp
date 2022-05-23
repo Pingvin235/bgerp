@@ -25,9 +25,8 @@
 					<li value="process">${l.l('Процесс')}</li>
 				</c:if>
 
-				<c:set var="endpoint" value="user.search.jsp"/>
 				<c:set var="mode" value="items" scope="request"/>
-				<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+				<plugin:include endpoint="user.search.jsp"/>
 			</c:set>
 			<c:set var="hiddenName" value="searchMode"/>
 			<c:set var="prefixText" value="${l.l('Искать')}:"/>
@@ -91,9 +90,8 @@
 				</div>
 			</html:form>
 
-			<c:set var="endpoint" value="user.search.jsp"/>
 			<c:remove var="mode"/>
-			<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+			<plugin:include endpoint="user.search.jsp"/>
 		</div>
 	</div>
 

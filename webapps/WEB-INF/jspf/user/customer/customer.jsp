@@ -40,8 +40,7 @@
 
 			$tabs.tabs("add", "${url}", "${l.l('Процессы')}");
 
-			<c:set var="endpoint" value="user.customer.tabs.jsp"/>
-			<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+			<plugin:include endpoint="user.customer.tabs.jsp"/>
 
 			customerChangeTitle(${customer.id}, "${u:quotEscape(customer.title)}");
 

@@ -6,10 +6,10 @@
 
 <div id="${processTypeTree}" class="tableIndent center1020 editorStopReload" style="display: none;">
 	<form action="/user/process/link.do">
-		<input type="hidden" name="action" value="linkedProcessCreate" /> 
-		<input type="hidden" name="id" value="${form.id}" /> 
-		<input type="hidden" name="objectType" value="${form.param.objectType}" /> 
-		<input type="hidden" name="objectTitle" value="${fn:escapeXml( form.param.objectTitle )}" /> 
+		<input type="hidden" name="action" value="linkedProcessCreate" />
+		<input type="hidden" name="id" value="${form.id}" />
+		<input type="hidden" name="objectType" value="${form.param.objectType}" />
+		<input type="hidden" name="objectTitle" value="${fn:escapeXml( form.param.objectTitle )}" />
 		<input type="hidden" name="billingId" value="${fn:split(form.param.objectType,':')[1]}" />
 
 		<div id="typeTree">
@@ -59,7 +59,7 @@
 
 			<c:set var="reloadCommand" value="$$.ajax.load($('#${linkedProcessList} > form'), $('#${linkedProcessList}').parent())"/>
 
-			<ui:combo-single hiddenName="typeId" value="${form.param.typeId}" onSelect="${reloadCommand}" 
+			<ui:combo-single hiddenName="typeId" value="${form.param.typeId}" onSelect="${reloadCommand}"
 				prefixText="${l.l('Тип')}:" showFilter="true" styleClass="mr1" widthTextValue="200px">
 				<jsp:attribute name="valuesHtml">
 					<li value="">${l.l('Любой')}</li>
@@ -109,14 +109,13 @@
 							<td>${tu.format( process.createTime, 'ymdhms' )}</td>
 							<td>${tu.format( process.closeTime, 'ymdhms' )}</td>
 							<td nowrap="nowrap">
-								<c:set var="linkedObjectType" value="${item.first}" scope="request" /> 
+								<c:set var="linkedObjectType" value="${item.first}" scope="request" />
 								<c:choose>
 									<c:when test="${fn:startsWith( linkedObjectType, 'customer' ) }">
 										${customerLinkRoleConfig.modeMap[linkedObjectType]}
 									</c:when>
 									<c:otherwise>
-										<c:set var="endpoint" value="user.process.linked.list.jsp" />
-										<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+										<plugin:include endpoint="user.process.linked.list.jsp"/>
 									</c:otherwise>
 								</c:choose>
 							</td>

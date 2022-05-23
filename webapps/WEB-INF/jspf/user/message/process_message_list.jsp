@@ -197,13 +197,7 @@
 					<c:set var="menuUiid" value="${u:uiid()}"/>
 					<div style="height: 0px; max-height: 0px; width: 0px; max-width: 0px; display: inline-block;">
 						<ul id="${menuUiid}" style="display: none;" class="menu">
-							<c:set var="command">
-								$('#${messageTextUiid} #msgBox').css( 'width', $('#${messageTextUiid} #msgBox').width() + 'px' );
-								$('#${messageTextUiid} #msgBox').toggleClass( 'nowrap' );
-								return false;
-							</c:set>
-
-							<li><a href="#" onclick="${command}">${l.l('Вкл./выкл. разрывы строк')}</a></li>
+							<li><a href="#" onclick="$('#${messageTextUiid} #msgBox pre').toggleClass('nowrap'); return false;">${l.l('Вкл./выкл. разрывы строк')}</a></li>
 							<ui:when type="user">
 								<li><a href="#" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">${l.l('Теги')}</a></li>
 								<li>
@@ -307,8 +301,8 @@
 		<%-- разделено на отдельные таблицы, т.к. в случае общей таблицы Chrome начинает увеличивать размер правой верхней ячейки с кнопками --%>
 		<table id="${messageTextUiid}" class="hdata" style="width: 100%; table-layout:fixed;">
 			<tr>
-				<td id="msgBox" style="border-top: none; display: block; overflow-x: auto; padding-bottom: 0.5em; word-wrap: break-word;">
-					<pre><ui:text-prepare text="${message.text}"/></pre>
+				<td id="msgBox" style="border-top: none; padding-bottom: 0.5em;">
+					<pre style="overflow-x: auto;"><ui:text-prepare text="${message.text}"/></pre>
 				</td>
 			</tr>
 
@@ -325,8 +319,7 @@
 							<a href="${url}" class="preview">${item.title}</a><c:if test="${not status.last}">, </c:if>
 						</c:forEach>
 
-						<c:set var="endpoint" value="user.process.message.attaches.jsp"/>
-						<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+						<plugin:include endpoint="user.process.message.attaches.jsp"/>
 					</td>
 				</tr>
 			</c:if>

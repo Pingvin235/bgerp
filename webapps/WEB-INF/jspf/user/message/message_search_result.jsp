@@ -28,8 +28,7 @@
 					<td><a href="#" onclick="openCustomer(${item.linkedObjectId}); return false;">${fn:escapeXml(item.linkedObjectTitle)}</a></td>
 				</c:if>
 
-				<c:set var="endpoint" value="user.message.search.result.jsp"/>
-				<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+				<plugin:include endpoint="user.message.search.result.jsp"/>
 			</tr>
 		</c:forEach>
 	</table>

@@ -71,8 +71,22 @@
 						</td>
 					</tr>
 
-					<c:set var="endpoint" value="user.profile.options.jsp"/>
-					<%@ include file="/WEB-INF/jspf/plugin_include.jsp"%>
+					<tr>
+						<td nowrap="nowrap">
+							${l.l('Extend right process card area on scroll down')}
+						</td>
+						<td>
+							<c:set var="key" value="iface.process.card.extend.right.on.scroll.down"/>
+							<ui:combo-single hiddenName="${key}" value="${ctxUser.personalizationMap.get(key, '1')}" widthTextValue="200px">
+								<jsp:attribute name="valuesHtml">
+									<li value="1">${l.l('Yes')}</li>
+									<li value="0">${l.l('No')}</li>
+								</jsp:attribute>
+							</ui:combo-single>
+						</td>
+					</tr>
+
+					<plugin:include endpoint="user.profile.options.jsp"/>
 				</table>
 
 				<c:set var="configTextUiid" value="${u:uiid()}"/>
