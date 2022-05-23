@@ -58,11 +58,6 @@ public class CustomerTest {
     public static volatile Customer customerPersonIvan;
 
     @Test
-    public void config() throws Exception {
-        ConfigHelper.addIncludedConfig("Kernel Customer", ResourceHelper.getResource(this, "config.txt"));
-    }
-
-    @Test
     public void param() throws Exception {
         paramEmailId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_EMAIL, "Email(s)", posParam += 2, ParamTest.MULTIPLE, "");
         paramPhoneId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_PHONE, "Phone number", posParam += 2 , "", "");
@@ -79,6 +74,15 @@ public class CustomerTest {
                 ResourceHelper.getResource(this, "orgforms.txt"));
 
         // IBAN, BIC - with validation
+    }
+
+    @Test(dependsOnMethods = "param")
+    public void config() throws Exception {
+        ConfigHelper.addIncludedConfig("Kernel Customer",
+            ConfigHelper.generateConstants(
+                "PARAM_BIRTH_DATE_ID", paramBirthDateId,
+                "PARAM_BIRTH_PLACE_ID", paramBirthPlaceId
+            ) + ResourceHelper.getResource(this, "config.txt"));
     }
 
     @Test(dependsOnMethods = "param")

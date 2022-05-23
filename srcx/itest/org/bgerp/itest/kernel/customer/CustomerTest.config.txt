@@ -1,5 +1,6 @@
-#
+
 # roles for linking customers in processes
 processCustomerLinkRoles=customer:Customer;customer-contact:Contact
-#
 
+# additional parameters, shown during customer's search
+customer.reference.pattern=(born ${param:{@PARAM_BIRTH_DATE_ID}})(, ${param:{@PARAM_BIRTH_PLACE_ID}})
