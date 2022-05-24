@@ -1,7 +1,7 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" description="Input day's range in month"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="dateFromHiddenName" description="Name of hidden parameter with first day date (by default 'dateFrom')"%>
+<%@ attribute name="dateFromHiddenName" description="hidden input's name which contains the start of the period (default: dateFrom)"%>
 
 <c:if test="${empty dateFromHiddenName}">
 	<c:set var="dateFromHiddenName" value="dateFrom"/>

@@ -17,7 +17,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="hiddenName" description="hidden parameter name"%>
 <%@ attribute name="value" description="hidden parameter's current value"%>
 <%@ attribute name="style" description="outer DIV style"%>
-<%@ attribute name="styleClass" description="outer DIV style"%>
+<%@ attribute name="styleClass" description="outer DIV CSS class"%>
 <%@ attribute name="placeholder" description="placeholder for an internal input field"%>
 <%@ attribute name="inputAttrs" description="any input field attributes"%>
 <%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>

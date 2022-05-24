@@ -1,15 +1,15 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Input field with reset and action icons"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Input field with reset and action icons"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="id" description="id input, если не указан - генерируется"%>
-<%@ attribute name="name" description="имя input"%>
-<%@ attribute name="value" description="текущее значение"%>
-<%@ attribute name="size" description="size input"%>
-<%@ attribute name="style" description="стиль input"%>
-<%@ attribute name="styleClass" description="класс input"%>
-<%@ attribute name="placeholder" description="placeholder input"%>
-<%@ attribute name="title" description="title input"%>
-<%@ attribute name="onSelect" description="JS, что выполнять по выбору значения"%>
+<%@ attribute name="id" description="input element id, auto generated if not explicitly specified"%>
+<%@ attribute name="name" description="input element name"%>
+<%@ attribute name="value" description="current value"%>
+<%@ attribute name="size" description="input element size"%>
+<%@ attribute name="style" description="input element's CSS style"%>
+<%@ attribute name="styleClass" description="input element CSS class"%>
+<%@ attribute name="placeholder" description="input element placeholder"%>
+<%@ attribute name="title" description="input element title"%>
+<%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 <%@ attribute name="showOutButton" type="java.lang.Boolean" description="Show out button, default is 'true'"%>
 
 <c:set var="showOutButton" value="${(empty showOutButton) ? true : showOutButton}" />

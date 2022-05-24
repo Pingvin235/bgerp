@@ -1,4 +1,4 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="Drop down with list a single selection"%>
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="Drop down list with a single selection"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%--
@@ -21,9 +21,9 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 --%>
 
 <%@ attribute name="id" description="id of outer DIV, auto generated if not explicitly specified"%>
-<%@ attribute name="hiddenName" description="hidden parameter name"%>
+<%@ attribute name="hiddenName" description="hidden input name"%>
 <%@ attribute name="prefixText" description="text prefix"%>
-<%@ attribute name="value" description="hidden parameter's current value"%>
+<%@ attribute name="value" description="hidden input's current value"%>
 <%@ attribute name="style" description="outer DIV style"%>
 <%@ attribute name="styleClass" description="outer DIV style"%>
 <%@ attribute name="styleTextValue" description="current value's DIV style"%>
@@ -31,7 +31,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 <%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
 <%@ attribute name="disable" description="disable edits (TODO: use another color)"%>
 <%@ attribute name="showFilter" type="java.lang.Boolean" description="Enable/disable Filter"%>
-<%@ attribute name="valuesHtml" description="HHTML-text with values as li elements, refer to description inside tag"%>
+<%@ attribute name="valuesHtml" description="HTML-text with values as li elements, refer to description inside tag"%>
 
 <%@ attribute name="list" type="java.util.Collection" description="List of values, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map of values, refer to description inside tag"%>

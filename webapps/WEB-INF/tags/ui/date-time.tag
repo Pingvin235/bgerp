@@ -1,15 +1,15 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" description="Date input with optional time"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="paramName" description="имя инпута"%>
-<%@ attribute name="value" description="текущее значение dd.MM.yyyy, '0' - текущая дата, 'first' - первый день месяца, 'last' - последний"%>
-<%@ attribute name="type" description="указанный тип даты, ymdhms либо короче, если не указан - то это правка параметра"%>
-<%@ attribute name="selector" description="параметр $ функции выборки элемента"%>
-<%@ attribute name="editable" type="java.lang.Boolean"  description="можно править"%>
-<%@ attribute name="styleClass" description="CSS классы для input а"%>
-<%@ attribute name="placeholder" description="placeholder для input а"%>
-<%@ attribute name="saveCommand" description="команда для сохранения значения по закрытию"%>
-<%@ attribute name="parameter" type="java.lang.Object" description="доступ к конфигурации при правке параметра объекта"%>
+<%@ attribute name="paramName" description="input's name"%>
+<%@ attribute name="value" description="current value in dd.MM.yyyy format or '0' - current date, 'first' - first day of the month, 'last' - last day of the month"%>
+<%@ attribute name="type" description="specified 'date' type, ymdhms or shorter; parameter is altered if value was not defined"%>
+<%@ attribute name="selector" description="jQuery element selector"%>
+<%@ attribute name="editable" type="java.lang.Boolean" description="editable"%>
+<%@ attribute name="styleClass" description="CSS-classes for input"%>
+<%@ attribute name="placeholder" description="placeholder for input"%>
+<%@ attribute name="saveCommand" description="command used to save the value upon closure"%>
+<%@ attribute name="parameter" type="java.lang.Object" description="provides access to the configuration when editing object's parameter"%>
 
 <c:if test="${empty selector and not empty paramName}">
 	<c:set var="uiid" value="${u:uiid()}"/>
@@ -49,8 +49,7 @@
 </c:if>
 
 <script style="display: none;">
-	<%-- если атрибут не удалить - поле не отрабатывает получение фокуса и т.п.
-		 кое-где раньше стояло  --%>
+	<%-- if attribute is not removed, then the field won't react on getting focus, etc --%>
 	$("${selector}").removeAttr( "readonly" );
 
 	$("${selector}").datetimepicker({
@@ -88,10 +87,10 @@
 		</c:forEach>
 	});
 
-	<%-- TODO: Вынести функции в JS файлы --%>
+	<%-- TODO: Move functions into JS files --%>
 	<%@ include file="/WEB-INF/jspf/datetimepicker_inputmask.jsp"%>
 
-	<%-- убран нередактируемый с клавиатуры режим
+	<%-- removed the mode which was not editable via keyboard
 	<c:choose>
 		<c:when test="${not empty parameter.configMap['editable'] or not empty editable}">
 			<%@ include file="datetimepicker_inputmask.jsp"%>

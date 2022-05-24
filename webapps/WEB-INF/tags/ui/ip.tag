@@ -1,10 +1,10 @@
-<%@ tag body-content="empty" pageEncoding="UTF-8" description="IP address"%> 
+<%@ tag body-content="empty" pageEncoding="UTF-8" description="IP address"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="paramName" description="имя инпута"%>
-<%@ attribute name="value" description="текущее значение"%>
-<%@ attribute name="selector" description="параметр $ функции выборки элемента"%>
-<%@ attribute name="editable" description="=1, можно править"%>
+<%@ attribute name="paramName" description="input element name"%>
+<%@ attribute name="value" description="current value"%>
+<%@ attribute name="selector" description="jQuery element selector"%>
+<%@ attribute name="editable" description="=1, editable"%>
 
 <c:set var="type" value="ip"/>
 
@@ -23,7 +23,7 @@ var setFocusAndRangeForIp = function( from, end, event,  preventDefault )
 {
 
 	S='${selector}';
-   
+
    if (preventDefault){
 	   event.preventDefault();
    }
@@ -36,7 +36,7 @@ var setFocusAndRangeForIp = function( from, end, event,  preventDefault )
 <%-- Focus --%>
 $("${selector}").focus( function( event )
         {
- 
+
                 var start = this.selectionStart;
                 this.setSelectionRange(0,0);
                     event.preventDefault();
@@ -50,7 +50,7 @@ $("${selector}").focus( function( event )
 
      $("${selector}").click(function(e) {
 
-<%-- Обработка клика мышки--%>
+<%-- Mouse click handler--%>
          var start = this.selectionStart;
                               if (start<=3){
                             	  setFocusAndRangeForIp(0, 3 , e, false);
@@ -73,9 +73,9 @@ $("${selector}").focus( function( event )
 
      $("${selector}").keydown(function(e) {
              var start = this.selectionStart;
-<%-- Обработка ТАБ'а   --%>
+<%-- TAB key handler --%>
     if(e.keyCode === 9){
-            
+
             if (start<=3){
                  setFocusAndRangeForIp(4, 7, e, true);
             }else{
@@ -94,7 +94,7 @@ $("${selector}").focus( function( event )
 
     }
 
-<%-- Обработка стрелки вверх --%>
+<%-- UP arrow button handler --%>
     if(e.keyCode === 38){
            if (start<=3){
         	   		setFocusAndRangeForIp(12, 15, e, true);
@@ -110,11 +110,11 @@ $("${selector}").focus( function( event )
                             }
                     }
             }
-             
-    } 
-    
-    
-<%-- Обработка стрелки вниз --%>
+
+    }
+
+
+<%-- Down arrow button handler --%>
     if(e.keyCode === 40){
             e.preventDefault();
             if (start<=3){
@@ -133,7 +133,7 @@ $("${selector}").focus( function( event )
                     }
             }
     }
-<%-- Обработка стрелки вправо --%>
+<%-- RIGHT arrow button handler --%>
        if(e.keyCode===39){
                if (start==3){
                 setFocusAndRangeForIp(4, 7, e, true);
@@ -148,8 +148,8 @@ $("${selector}").focus( function( event )
                       setFocusAndRangeForIp(0, 3, e, true);
                }
        }
-       
-<%-- Обработка стрелки влево --%>
+
+<%-- LEFT arrow button handler --%>
 
        if (e.keyCode===37){
 
@@ -171,7 +171,7 @@ $("${selector}").focus( function( event )
 
 
        }
-<%-- Обработка чисел и чисел с NumPad --%>
+<%-- Keypad/NumPad buttons handler --%>
        if((e.keyCode === 48)||(e.keyCode===49)||(e.keyCode===50)||(e.keyCode===51)||(e.keyCode===52)||(e.keyCode===53)||(e.keyCode===54)||(e.keyCode===55)||(e.keyCode===56)||(e.keyCode===57)
                    ||(e.keyCode===96)||(e.keyCode===97)||(e.keyCode===98)||(e.keyCode===99)||(e.keyCode===100)||(e.keyCode===101)||(e.keyCode===102)||(e.keyCode===103)||(e.keyCode===104)||(e.keyCode===105)){
     	      if (start==2){

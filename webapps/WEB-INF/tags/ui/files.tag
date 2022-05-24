@@ -9,9 +9,9 @@
 
 <table class="data">
 	<tr>
-		<td width="50%">${l.l('Файл')}</td>
-		<td width="50%">${l.l('Время изменения')}</td>
-		<td>${l.l('Размер')}</td>
+		<td width="50%">${l.l('File')}</td>
+		<td width="50%">${l.l('Modified time')}</td>
+		<td>${l.l('Size')}</td>
 		<c:if test="${deletionEnabled}">
 			<td witdh="1em;"></td>
 		</c:if>

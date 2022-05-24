@@ -1,8 +1,8 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" description="Input day's range in month"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="dateFromHiddenName" description="имя скрытого поля с началом диапазона (по-умолчанию dateFrom)"%>
-<%@ attribute name="dateToHiddenName" description="имя скрытого поля с окончанием диапазона (по-умолчанию dateTo)"%>
+<%@ attribute name="dateFromHiddenName" description="Hidden input's name which contains the start of the period (default: dateFrom)"%>
+<%@ attribute name="dateToHiddenName" description="Hidden input's name which contains the end of the period (default: dateTo)"%>
 
 <c:if test="${empty dateFromHiddenName}">
 	<c:set var="dateFromHiddenName" value="dateFrom"/>
