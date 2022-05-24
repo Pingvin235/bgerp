@@ -28,28 +28,28 @@
 		</item>
 	</item>
 	<item title="Календарь рабочих дней">
-		<item action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:workDaysCalendarList, ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarList" title="Просмотр списка доступных календарей"/>
-		<item action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:workDaysCalendarGet, ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarGet" title="Просмотр календаря"/>
-		<item action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:workDaysCalendarUpdate, ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarUpdate" title="Редактирование календаря"/>
-		<item action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:workDaysCalendarCopy, ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarCopy" title="Копирование параметров календаря"/>
+		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:workDaysCalendarList, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:workDaysCalendarList, ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarList" title="Просмотр списка доступных календарей"/>
+		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:workDaysCalendarGet, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:workDaysCalendarGet, ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarGet" title="Просмотр календаря"/>
+		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:workDaysCalendarUpdate, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:workDaysCalendarUpdate, ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarUpdate" title="Редактирование календаря"/>
+		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:workDaysCalendarCopy, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:workDaysCalendarCopy, ru.bgcrm.struts.action.admin.WorkAction:workDaysCalendarCopy" title="Копирование параметров календаря"/>
 	</item>
 	<item title="График дежурств">
-		<item action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGet, ru.bgcrm.struts.action.admin.WorkAction:callboardGet" title="Просмотр графика дежурств" >
+		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardGet, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGet, ru.bgcrm.struts.action.admin.WorkAction:callboardGet" title="Просмотр графика дежурств" >
 			<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
 			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
 			<b>allowOnlyGroups</b> - коды разрешенных групп<br/>
 		</item>
-		<item action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardAvailableShift, ru.bgcrm.struts.action.admin.WorkAction:callboardAvailableShift" title="Получение доступных шаблонов смен" >
+		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardAvailableShift, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardAvailableShift, ru.bgcrm.struts.action.admin.WorkAction:callboardAvailableShift" title="Получение доступных шаблонов смен" >
 			<b>allowOnlyCategories</b> - коды разрешенных категорий<br/>
 		</item>
-		<item action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardUpdateShift, ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateShift" title="Редактирование графика дежурств" >
+		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardUpdateShift, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardUpdateShift, ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateShift" title="Редактирование графика дежурств" >
 			<b>allowOnlyCallboards</b> - коды разрешённых графиков<br/>
 		</item>
-		<item action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardUpdateFilters, ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateFilters" title="Обновление фильтров графика дежурств" allowAll="1"/>
-		<item action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGetTabel, ru.bgcrm.struts.action.admin.WorkAction:callboardGetTabel" title="Загрузка табеля" >
+		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardUpdateFilters, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardUpdateFilters, ru.bgcrm.struts.action.admin.WorkAction:callboardUpdateFilters" title="Обновление фильтров графика дежурств" allowAll="1"/>
+		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardGetTabel, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGetTabel, ru.bgcrm.struts.action.admin.WorkAction:callboardGetTabel" title="Загрузка табеля" >
 		</item>
-		<item action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardChangeOrder, ru.bgcrm.struts.action.admin.WorkAction:callboardChangeOrder" title="Сортировка пользователей в пределах группы"/>
-		<item action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:userChangeGroup, ru.bgcrm.struts.action.admin.WorkAction:userChangeGroup" title="Добавление пользователя в другую группу"/>
+		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:callboardChangeOrder, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardChangeOrder, ru.bgcrm.struts.action.admin.WorkAction:callboardChangeOrder" title="Сортировка пользователей в пределах группы"/>
+		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:userChangeGroup, org.bgerp.plugin.pln.callboard.action.admin.WorkAction:userChangeGroup, ru.bgcrm.struts.action.admin.WorkAction:userChangeGroup" title="Добавление пользователя в другую группу"/>
 	</item>
 	<item title="План работ">
 		<item action="org.bgerp.plugin.pln.callboard.action.WorkAction:planGet, ru.bgcrm.struts.action.WorkAction:planGet" title="Просмотр плана работ" >

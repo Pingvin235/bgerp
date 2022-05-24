@@ -7,11 +7,11 @@
 	<table>
 		<tr>
 			<td width="100%">
-				 <c:url var="url" value="/admin/plugin/callboard/work.do">
-				    <c:param name="action" value="shiftGet"/>
-				    <c:param name="id" value="-1"/>
-				    <c:param name="returnUrl" value="${form.requestUrl}"/>
-			  	</c:url>
+				<c:url var="url" value="/user/plugin/callboard/work.do">
+					<c:param name="action" value="shiftGet"/>
+					<c:param name="id" value="-1"/>
+					<c:param name="returnUrl" value="${form.requestUrl}"/>
+				</c:url>
 			</td>
 			<td>
 				<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
@@ -30,7 +30,7 @@
 
 	<c:forEach var="item" items="${form.response.data.workDaysCalendarList}">
 		<tr>
-			<c:url var="editUrl" value="/admin/plugin/callboard/work.do">
+			<c:url var="editUrl" value="/user/plugin/callboard/work.do">
 				<c:param name="action" value="workDaysCalendarGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>

@@ -12,17 +12,17 @@
 	<c:set var="year"><fmt:formatDate value="${date}" pattern="yyyy"/></c:set>
 </c:if>
 
-<c:url var="url" value="/admin/plugin/callboard/work.do">
+<c:url var="url" value="/user/plugin/callboard/work.do">
 	<c:param name="action" value="workDaysCalendarUpdate" />
 	<c:param name="calendarId" value="${calendar.id}" />
 </c:url>
 
-<c:url var="getUrl" value="/admin/plugin/callboard/work.do">
+<c:url var="getUrl" value="/user/plugin/callboard/work.do">
 	<c:param name="action" value="workDaysCalendarGet"/>
 	<c:param name="id" value="${calendar.id}"/>
 </c:url>
 
-<c:url var="paramCopyUrl" value="/admin/plugin/callboard/work.do">
+<c:url var="paramCopyUrl" value="/user/plugin/callboard/work.do">
 	<c:param name="action" value="workDaysCalendarCopy"/>
 	<c:param name="calendarId" value="${calendar.id}"/>
 </c:url>

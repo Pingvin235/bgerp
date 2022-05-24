@@ -19,7 +19,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 <c:set var="groupSelectUiid" value="${u:uiid()}"/>
 
-<c:url var="changeOrderUrl" value="/admin/plugin/callboard/work.do">
+<c:url var="changeOrderUrl" value="/user/plugin/callboard/work.do">
 	<c:param name="action" value="callboardChangeOrder" />
 	<c:param name="graphId" value="${form.param.graphId}" />
 </c:url>
@@ -53,7 +53,7 @@
 	--%></c:forEach>
 	</div>
 
-	<form id="${groupSelectUiid}" action="/admin/plugin/callboard/work.do"  class="in-table-cell in-pr05" style="display: inline-block;">
+	<form id="${groupSelectUiid}" action="/user/plugin/callboard/work.do"  class="in-table-cell in-pr05" style="display: inline-block;">
 		<input type="hidden" name="action" value="callboardGet"/>
 
 		<c:set var="onSelectGroupScript">
@@ -81,21 +81,21 @@
 		</div>
 
 		<div>
-		 	 <input id="fromDate${uiid}" name="fromDate" type="text" placeholder="Дата с" value="${form.param.fromDate}"/>
-			 <c:set var="selector">input#fromDate${uiid}</c:set>
-			 <c:set var="initialDate">first</c:set>
-			 <%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-		 </div>
+			<input id="fromDate${uiid}" name="fromDate" type="text" placeholder="Дата с" value="${form.param.fromDate}"/>
+			<c:set var="selector">input#fromDate${uiid}</c:set>
+			<c:set var="initialDate">first</c:set>
+			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+		</div>
 
-		 <div>
-			 <input id="toDate${uiid}" name="toDate" type="text" placeholder="Дата по" value="${form.param.toDate}"/>
-			 <c:set var="selector">input#toDate${uiid}</c:set>
-			 <c:set var="initialDate">last</c:set>
-			 <%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-		 </div>
-		 <div>
-		 	<button type="button" class="btn-grey ml05" onclick="openUrlToParentAsync( formUrl( this.form ), $('#${uiid}') )" title="${l.l('Вывести')}">=&gt;</button>
-		 </div>
+		<div>
+			<input id="toDate${uiid}" name="toDate" type="text" placeholder="Дата по" value="${form.param.toDate}"/>
+			<c:set var="selector">input#toDate${uiid}</c:set>
+			<c:set var="initialDate">last</c:set>
+			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
+		</div>
+		<div>
+			<ui:button type="out" styleClass="ml05" onclick="$$.ajax.load(this.form, $('#${uiid}').parent(), {control: this})"/>
+		</div>
 	</form>
 
 	<script>
@@ -260,7 +260,7 @@
 					}
 
 					var url =
-						"/admin/plugin/callboard/work.do?action=callboardUpdateShift&graphId=${form.param.graphId}" +
+						"/user/plugin/callboard/work.do?action=callboardUpdateShift&graphId=${form.param.graphId}" +
 						"&groupId=" + groupId +
 						"&userId=" + userId +
 						"&date=" + date +
@@ -313,18 +313,6 @@
 
 		})
 		$("td.shiftUser > b").on("contextmenu", function(event){
-			<%--
-			$(event.target).parent().parent().nextAll().each( function(){
-
-				if ( $(this).attr("class") == "userShiftLine" )
-				{
-					console.log( $(this).find(".shiftUser").text() );
-				}
-				else
-				{
-					return false;
-				}
-			});--%>
 			$(event.target).parent().append( $("#contextMenu") );
 			$("#contextMenu").show();
 
@@ -376,16 +364,11 @@
 									position++;
 								});
 								url+=order;
-								// TODO: The latest usage of the deprecated function.
-								sendAJAXCommandAsync( url,
-								{
-									func: function(result)
-									{
-									},
-									timeout: 500
-								}, $( this ) );
-								// TODO: The latest usage of the deprecated function.
-								openUrlToParentAsync( formUrl( $("form[action='/admin/plugin/callboard/work.do']") ), $('#${uiid}') );
+
+								$$.ajax.post(url).done(() => {
+									$$.ajax.load($("form[action='/user/plugin/callboard/work.do']"), $('#${uiid}').parent());
+								})
+
 								$( this ).dialog( 'destroy' );
 							} },
 							{ text: "Отмена", click: function(){ $(this).dialog("destroy"); } }
@@ -460,7 +443,7 @@
 					hideEmptyGroups = "TRUE";
 				}
 			});
-			sendAJAXCommandWithParams("/admin/plugin/callboard/work.do?action=callboardUpdateFilters", {"hideEmptyShifts": hideEmptyShifts, "hideEmptyGroups": hideEmptyGroups, "graphId": graphId});
+			sendAJAXCommandWithParams("/user/plugin/callboard/work.do?action=callboardUpdateFilters", {"hideEmptyShifts": hideEmptyShifts, "hideEmptyGroups": hideEmptyGroups, "graphId": graphId});
 		}
 
 	</script>
@@ -479,7 +462,6 @@
 		</div>
 
 		<div id="editor" class="in-table-cell mb1">
-			<%-- style="min-width: 220px;" --%>
 			<div id="controls">
 				<div class="in-table-cell mb1">
 					<div id="hideMenu">
@@ -524,7 +506,7 @@
 						<c:set var="placeholder" value="Категория смен"/>
 						<c:set var="style" value="width: 100%;"/>
 						<c:set var="onSelect">
-							var url = '/admin/plugin/callboard/work.do?action=callboardAvailableShift&categoryId=' + $hidden.val();
+							var url = '/user/plugin/callboard/work.do?action=callboardAvailableShift&categoryId=' + $hidden.val();
 							openUrlTo( url, $('#${uiid} #shiftArea') );
 						</c:set>
 						<%@ include file="/WEB-INF/jspf/select_single.jsp"%>
@@ -559,16 +541,15 @@
 
 		<div class="callboard">
 			<table class="hdata minimal">
-				<%-- finalData, shiftDateHeader - узнать, зачем --%>
 				<tr class="header">
 					<td class="shiftUser">
 						<p:check action="org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGetTabel">
 							<c:if test="${not empty callboard.tabelConfig}">
-								<a href="/admin/plugin/callboard/work.do?action=callboardGetTabel&graphId=${form.param.graphId}&fromDate=${form.param.fromDate}&toDate=${form.param.toDate}">Табель</a>
+								<a href="/user/plugin/callboard/work.do?action=callboardGetTabel&graphId=${form.param.graphId}&fromDate=${form.param.fromDate}&toDate=${form.param.toDate}">Табель</a>
 							</c:if>
 						</p:check>
 					</td>
-					<td><b>Час.</b></td>;
+					<td><b>Час.</b></td>
 					<c:forEach var="date" items="${dateSet}" varStatus="status">
 						<c:choose>
 							<c:when test="${not empty dateTypeMap}">

@@ -517,37 +517,6 @@ function openUrlToParent(url, $selector) {
 	}
 }
 
-// replace to $$.ajax.load
-function openUrlToParentAsync(url, $selector) {
-	console.warn($$.deprecated);
-
-	// может быть так, что к данному моменту объекта уже нет
-	if ($selector.length > 0) {
-		var time = window.performance.now();
-
-		$$.debug('openUrl', "openUrlToParentAsync", url);
-
-		var $parent = $($selector[0].parentNode)
-
-		/* По неведомой причине, если очистить предварительно элемент, то не выскакивают предупреждения о слишком долгом выполнении скрипта в FF,
-		 * в случае загрузки на на контейнер $parent содержимого второй раз.
-		 * Возможно, причина в том, что при затирании старого содержимого долго удаляются различные слушатели с элементов и выполнение
-		 * onLoad страницы становится слишком долгим.
-		 * Выяснено при оптимизации графика дежурств. Проблема возникала, если в $parent уже был загружен график и нажимали "Вывести" повторно.
-		 * Асинхронным вызов сделан для пущей правильности, помогало и с синхронным вариантом.
-		 * Ускорение времени от предварительной очистки если есть, то немного, а окошко выскакивать перестало.
-		 */
-		$parent.html("");
-
-		getAJAXHtmlAsync(url, {}, function (response) {
-			$parent.html(response);
-
-			$$.debug('openUrl', "openUrlToParentAsync", url, window.performance.now() - time);
-		});
-	}
-}
-
-
 //отправка AJAX с результатом HTML страница
 function getAJAXHtml(url, toPostNames) {
 	console.warn($$.deprecated);
@@ -570,56 +539,6 @@ function getAJAXHtml(url, toPostNames) {
 	});
 
 	return result;
-}
-
-function getAJAXHtmlAsync(url, toPostNames, success) {
-	console.warn($$.deprecated);
-
-	var result = false;
-
-	var separated = separatePostParams(url, toPostNames, false);
-
-	$.ajax({
-		type: "POST",
-		url: separated.url,
-		data: separated.data,
-		success: success,
-		error: function (jqXHR, textStatus, errorThrown) {
-			onAJAXError(separated.url, jqXHR, textStatus, errorThrown);
-		}
-	});
-
-	return result;
-}
-
-function sendAJAXCommandAsync(url, toPostNames, callback, control, timeout, callbackError) {
-	console.warn($$.deprecated);
-
-	lock(control);
-
-	var separated = separatePostParams(url, toPostNames, true);
-
-	$.ajax({
-		type: "POST",
-		async: true,
-		url: separated.url,
-		data: separated.data,
-		dataType: "json",
-		success: function (data) {
-			var result = $$.ajax.checkResponse(data);
-			if (callback) {
-				callback(result);
-			}
-			unlock(control, timeout);
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			onAJAXError(separated.url, jqXHR, textStatus, errorThrown);
-			if (callbackError) {
-				callbackError();
-			}
-			unlock(control, timeout);
-		}
-	});
 }
 
 //отправка AJAX команды c JSON ответом определённого формата

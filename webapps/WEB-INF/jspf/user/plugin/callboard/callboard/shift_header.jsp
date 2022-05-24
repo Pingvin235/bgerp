@@ -10,10 +10,10 @@
 	<div style="margin: 10px 20px 0;">
 		<span>Категория</span>
 
-		<c:url var="url" value="/admin/plugin/callboard/work.do">
-		    <c:param name="action" value="callboardAvailableShift"/>
-		    <c:param name="returnUrl" value="${form.requestUrl}"/>
-	  	</c:url>
+		<c:url var="url" value="/user/plugin/callboard/work.do">
+			<c:param name="action" value="callboardAvailableShift"/>
+			<c:param name="returnUrl" value="${form.requestUrl}"/>
+		</c:url>
 
 		<select name="categoryId" onchange="openUrlTo('${url}&minimalVersion=${minimalVersion}&categoryId=' + $( this ).find( 'option:selected' ).val(), $('div#shiftChooseTable${uiid}').children( 'table' ).first(), '' );">
 			<option value="0">Не выбрано</option>

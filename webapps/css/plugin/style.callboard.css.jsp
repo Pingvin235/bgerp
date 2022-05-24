@@ -96,22 +96,15 @@
 }
 
 /* таблица с графиком дежурств */
-#workPlan .plan table.plan td {
+#callboard-workplan .plan table.plan td {
 	padding: 0.5em;
 }
 
-/*
-#workPlan .plan table.plan td.shiftUser,
-#workPlan .plan table.plan td.timeHead {
-	padding: 0.5em;
-}
-*/
-
-#workPlan .plan table.plan tr.user {
+#callboard-workplan .plan table.plan tr.user {
 	height: 3em;
 }
 
-#workPlan .plan table.plan > tbody > tr > td {
+#callboard-workplan .plan table.plan > tbody > tr > td {
 	 min-width: 50px;
 	 max-width: 50px;
 	 width: 50px;
@@ -121,7 +114,7 @@
 	 -webkit-user-select: none;
 }
 
-#workPlan .plan table.plan > tbody > tr > td.shiftUser {
+#callboard-workplan .plan table.plan > tbody > tr > td.shiftUser {
 	min-width: 200px;
 	max-width: 200px;
 
@@ -130,35 +123,33 @@
 	text-overflow: ellipsis;
 }
 
-#workPlan .plan table.plan > tbody > tr > td.cell {
+#callboard-workplan .plan table.plan > tbody > tr > td.cell {
 	padding: 0em;
 }
 
-#workPlan .plan table.workTypeTime > tbody > tr > td:not(:last-child) {
+#callboard-workplan .plan table.workTypeTime > tbody > tr > td:not(:last-child) {
 	border-right: 1px solid ${UI_TABLE_BORDER_COLOR};
 }
 
-#workPlan .plan table.workTypeTime > tbody > tr > td {
-  	padding: 0.5em;
-  	font-size: 0.8em;
-  	cursor: pointer;
-  	overflow: hidden;
+#callboard-workplan .plan table.workTypeTime > tbody > tr > td {
+	padding: 0.5em;
+	font-size: 0.8em;
+	cursor: pointer;
+	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 
-#workPlan .plan table.workTypeTime > tbody > tr > td.lock {
-  	font-size: 1.2em;
-  	text-align: center;
+#callboard-workplan .plan table.workTypeTime > tbody > tr > td.lock {
+	font-size: 1.2em;
+	text-align: center;
 }
-
 
 td.shiftUser > b {
 	cursor: pointer;
 }
 
 .contextMenu {
-
 	position: absolute;
 	width: 300px;
 	z-index: 999;
@@ -197,7 +188,6 @@ td.shiftUser > b {
 }
 
 .contextMenu {
-
 	position: absolute;
 	width: 300px;
 	z-index: 999;
