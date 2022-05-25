@@ -147,7 +147,7 @@ public class ExecuteSQL implements InstallationCall {
             System.out.println("OK (" + (System.currentTimeMillis() - time) + " ms.) => [" + hash + "] " + query);
             newHashes.add(hash);
         } catch (SQLException ex) {
-            throw new SQLException(ex.getMessage() + " => " + query, ex);
+            throw new SQLException(ex.getMessage() + " => [" + hash + "] " + query, ex);
         }
     }
 

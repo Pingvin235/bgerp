@@ -281,18 +281,25 @@ NOTE: Повторное *Обновление* после *Обновления
 ./installer.sh update 3.0
 ----
 
-Запуск скрипта без параметров выводит подсказку по дополнительным командам:
-[square]
-* *updatef* - принудительное обновлении на последнюю версию без сравнения её с установленной;
-* *update <version>* - установка другой версии BGERP, версия соответствует окончанию адреса FTP;
-* *killhash* - очистка хэшей применённых SQL обновлений с последующим выполнением всех команд, рекомендуется попробовать при наличии ошибок SQL запросов в обновлении;
-* *install <zip>* - установка обновления из ZIP архива.
+Running without arguments prints the help.
+[source]
+----
+Commands for installer:
+         update            - update to the actual builds if they differ from currents.
+         updatef           - update to the actual builds without comparison.
+         update <version>  - switch to another version (not build) of the program.
+         killhash          - clear executed queries history.
+         install <zip>     - install a module from the zip file.
+         installc <change> - download update files from <change> and install them.
+----
 
-Рекомендованный однострочик для обновления (можете исключить db параметр для ускорения и выполнять бакап базы только эпизодически):
+Recommended command for updating (argument 'db' can be excluded for speeding up and used only periodically):
 [source, bash]
 ----
 ./backup.sh db && ./installer.sh update && ./erp_restart.sh
 ----
+
+Update files are taken from version-containing URL, for example for version 3.0: https://bgerp.org/download/3.0/
 
 [[stored-procedures]]
 === Хранимые процедуры обновления

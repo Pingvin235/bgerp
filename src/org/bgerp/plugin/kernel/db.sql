@@ -645,7 +645,7 @@ CALL add_key_if_not_exists('param_email', 'PRIMARY', '(id, param_id, n)');
 -- TODO: Убрать лишние столбцы (roles) в user_group_title, переименовать description в comment.
 
 CALL add_column_if_not_exists('address_house', 'post_index', 'VARCHAR(10) NOT NULL AFTER frac');
-UPDATE address_house SET post_index=(SELECT value FROM address_config WHERE table_id='address_house' AND record_id=address_house.id AND `key`='s.box.index' AND value!='' AND value!='0') WHERE post_index='';
+UPDATE address_house SET post_index=IFNULL((SELECT value FROM address_config WHERE table_id='address_house' AND record_id=address_house.id AND `key`='s.box.index' AND value!='' AND value!='0'), '') WHERE post_index='';
 
 CALL add_column_if_not_exists('user_permset', 'pos', 'INT NOT NULL');
 

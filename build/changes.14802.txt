@@ -1,0 +1,1 @@
+A: Show hash of failing SQL update query.
