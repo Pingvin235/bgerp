@@ -226,10 +226,13 @@ In the same branch may be made changes for *documentation only of the latest rel
 == GitLab CI
 link:../../../.gitlab-ci.yml[.gitlab-ci.yml] file has configuration for running certain jobs automatically upon each GIT commit.
 Different jobs are executed within different <<change, GIT>> branches.
+
+[[gitlab-ci-job]]
+=== Jobs
 Please find below description of CI jobs.
 
 [[test-and-publish-update]]
-=== test-and-publish-update
+==== test-and-publish-update
 The job is executed in every <<change, change>> branch.
 
 Launches <<unit-test, Unit tests>> and <<build-doc, documentation build and validity check>.
@@ -238,7 +241,7 @@ If everything is wents without error then publishing <<build-change, update>> wi
 NOTE: All the published change updates have the same version, equal to the next release.
 
 [[test-and-publish-update-master]]
-=== test-and-publish-update-master
+==== test-and-publish-update-master
 The job is executed in *master* branch.
 
 Does the same as *test-and-publish-update* but for master branch.
@@ -247,25 +250,46 @@ The artificial change *00000* can be used for updating to the latest state of *m
 To this state is periodically reset https://demo.bgerp.org instance.
 
 [[test-integration]]
-=== test-integration
+==== test-integration
 The job is executed in *master* branch.
 
 Runs <<integration-test, integration test>>.
 Upon successful tests execution, written in DB dump gets extracted for https://demo.bgerp.org
 
 [[publish-source]]
-=== publish-source
+==== publish-source
 The job is executed in *master* branch.
 
 Publishes actual source code from `master` into an open repository https://github.com/pingvin235/bgerp
 //This method has been chosen in order to limit an open repository size and in order to hide previously deleted files from history.
 
 [[publish-doc]]
-=== publish-doc
+==== publish-doc
 The job is executed in <<long-lived-branch, long-lived branch>> *p11862-documentation*.
 
 The branch contains the documentation sources for the latest release.
 Launches <<build-doc, documentation build and validity check>>, if no errors are found, publishes on https://bgerp.org/doc/3.0/manual.
+
+[[gitlab-ci-runner]]
+=== Runners
+Runners are responsible for executing jobs. The project already has some runners available,
+but you can register additional ones to speed up process.
+
+The list of runners is available here: https://git.bgerp.org/admin/runners
+There also can be taken registration *token*.
+
+image::_res/gitlab_runner_token.png[width="800px"]
+
+That can be done on every system with installed Docker.
+[source]
+----
+# delete existing runner if exists
+docker pull gitlab/gitlab-runner:latest && docker stop gitlab-runner && docker rm gitlab-runner
+# create and start runner container
+docker run -d --name gitlab-runner --restart always -v /srv/gitlab-runner/config:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock gitlab/gitlab-runner:latest
+# register runner, use executor: 'docker', URL: https://git.bgerp.org/
+docker run --rm -it -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register
+----
 
 [[build]]
 == Build and publish
