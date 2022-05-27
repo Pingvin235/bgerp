@@ -243,7 +243,7 @@ public class CustomerDAO extends CommonDAO {
                 @Override
                 public String processPatternItem(String variable) {
                     if (variable.startsWith("param:")) {
-                        ParamValueDAO.paramSelectQuery(variable, "customer.id", selectPart, joinPart, true);
+                        ParamValueSelect.paramSelectQuery(variable, "customer.id", selectPart, joinPart, true);
                         selectPart.append(", ");
                     }
                     return "";

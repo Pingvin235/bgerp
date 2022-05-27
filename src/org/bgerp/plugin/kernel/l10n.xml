@@ -9,7 +9,7 @@
 	<p><ru>Свойство</ru><en>Property</en></p>
 	<p><ru>Параметр</ru><en>Parameter</en></p>
 	<p><ru>Параметры (сохраняются сразу)</ru><en>Parameters (saved immediately)</en></p>
-	<p><ru>Опции интерфейса</ru><en>Interface options</en></p>
+	<p><ru>Опции интерфейса</ru><en>Interface Options</en></p>
 	<p><ru>Да</ru><en>Yes</en></p>
 	<p><ru>Нет</ru><en>No</en></p>
 	<p><ru>Сохранять порядок объектов</ru><en>Preserve objects order</en></p>
@@ -23,9 +23,9 @@
 	<p><ru>Текст конфигурации опций</ru><en>Options configuration text</en></p>
 	<p><ru>Сохранить опции</ru><en>Save options</en></p>
 	<p><ru>Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5</ru><en>Saved, for applying reboot the interface by Ctrl+F5</en></p>
-	<p><ru>Мой профиль</ru><en>My profile</en></p>
+	<p><ru>Мой профиль</ru><en>My Profile</en></p>
 	<p><ru>Выход</ru><en>Logout</en></p>
-	<p><ru>Мои процессы</ru><en>My processes</en></p>
+	<p><ru>Мои процессы</ru><en>My Processes</en></p>
 	<p><ru>Профиль</ru><en>Profile</en></p>
 	<p><ru>Циклическая зависимость</ru><en>Cyclic dependency</en></p>
 	<p><ru>Вложение</ru><en>Attach</en></p>
@@ -97,17 +97,17 @@
 	<p><ru>Поиск</ru><en>Search</en></p>
 	<p><ru>Новости</ru><en>News</en></p>
 	<p><ru>Адреса</ru><en>Addresses</en></p>
-	<p><ru>Наборы прав</ru><en>Permission sets</en></p>
+	<p><ru>Наборы прав</ru><en>Permission Sets</en></p>
 	<p><ru>Группы</ru><en>Groups</en></p>
 	<p><ru>Пользователи</ru><en>Users</en></p>
 	<p><ru>Статусы процессов</ru><en>Statuses</en></p>
-	<p><ru>Типы процессов</ru><en>Process types</en></p>
-	<p><ru>Очереди процессов</ru><en>Process queues</en></p>
-	<p><ru>Динамический код</ru><en>Dynamic code</en></p>
-	<p><ru>WEB запросы</ru><en>HTTP requests</en></p>
+	<p><ru>Типы процессов</ru><en>Process Types</en></p>
+	<p><ru>Очереди процессов</ru><en>Process Queues</en></p>
+	<p><ru>Динамический код</ru><en>Dynamic Code</en></p>
+	<p><ru>WEB запросы</ru><en>HTTP Requests</en></p>
 	<p><ru>Конфигурация</ru><en>Configuration</en></p>
-	<p><ru>Статус приложения</ru><en>App status</en></p>
-	<p><ru>Авторизовавшиеся пользователи</ru><en>Authenticated users</en></p>
+	<p><ru>Статус приложения</ru><en>App Status</en></p>
+	<p><ru>Авторизовавшиеся пользователи</ru><en>Authenticated Users</en></p>
 	<p><ru>Приложение</ru><en>App</en></p>
 	<p><ru>Администрирование</ru><en>Administration</en></p>
 	<p><ru>Логирование</ru><en>Logging</en></p>

@@ -1,0 +1,2 @@
+A: Parameter type address in 'customer.reference.pattern' config parameter.
+C: Menu titles capitalized.

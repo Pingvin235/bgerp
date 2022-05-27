@@ -81,7 +81,8 @@ public class CustomerTest {
         ConfigHelper.addIncludedConfig("Kernel Customer",
             ConfigHelper.generateConstants(
                 "PARAM_BIRTH_DATE_ID", paramBirthDateId,
-                "PARAM_BIRTH_PLACE_ID", paramBirthPlaceId
+                "PARAM_BIRTH_PLACE_ID", paramBirthPlaceId,
+                "PARAM_SERVICE_ADDRESS_ID", paramServiceAddressId
             ) + ResourceHelper.getResource(this, "config.txt"));
     }
 

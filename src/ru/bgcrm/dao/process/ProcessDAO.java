@@ -46,6 +46,7 @@ import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.EntityLogDAO;
 import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.dao.ParamValueSelect;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
@@ -331,7 +332,7 @@ public class ProcessDAO extends CommonDAO {
             String formatName = StringUtils.substringAfterLast(value, ":");
 
             // это не формат а поле адресного параметра
-            if (ParamValueDAO.PARAM_ADDRESS_FIELDS.contains(formatName)) {
+            if (ParamValueSelect.PARAM_ADDRESS_FIELDS.contains(formatName)) {
                 continue;
             }
 
@@ -1140,7 +1141,7 @@ public class ProcessDAO extends CommonDAO {
         } else if (value.startsWith("description")) {
             selectPart.append(target + ".description ");
         } else if (value.startsWith("text_param") || value.startsWith("param")) {
-            ParamValueDAO.paramSelectQuery(value, target + ".id", selectPart, joinPart, false);
+            ParamValueSelect.paramSelectQuery(value, target + ".id", selectPart, joinPart, false);
         } else if (value.startsWith("ifListParam:")) {
             String[] parts = StringUtils.substringAfter(value, "ifListParam:").split(":");
 
@@ -1207,7 +1208,7 @@ public class ProcessDAO extends CommonDAO {
                                 + ".id=linked_customer.process_id AND linked_customer.object_type='customer' ");
                     }
 
-                    ParamValueDAO.paramSelectQuery("param:" + paramId, "linked_customer.object_id", selectPart,
+                    ParamValueSelect.paramSelectQuery("param:" + paramId, "linked_customer.object_id", selectPart,
                             joinPart, false);
                 }
             }
