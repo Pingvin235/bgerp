@@ -6,7 +6,6 @@
 
 	<action-mappings>
 		<action path="/user/plugin/bgbilling/search" parameter="action" type="ru.bgcrm.plugin.bgbilling.struts.action.SearchAction" name="form" scope="request">
-			<forward name="searchCommonContractResult" path="/WEB-INF/jspf/user/plugin/bgbilling/search_common_contract_result.jsp"/>
 			<forward name="default" path="/WEB-INF/jspf/user/plugin/bgbilling/search.jsp"/>
 		</action>
 		<action path="/user/plugin/bgbilling/contract" parameter="action" type="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction" name="form" scope="request">
@@ -17,11 +16,6 @@
 		</action>
 		<action path="/user/plugin/bgbilling/billing" parameter="action" type="ru.bgcrm.plugin.bgbilling.struts.action.BillingAction" name="billingForm" scope="request">
 			<forward name="billingDo" path="/WEB-INF/jspf/user/plugin/bgbilling/billing_data.jsp"/>
-		</action>
-
-		<action path="/user/plugin/bgbilling/commonContract" parameter="action" type="ru.bgcrm.plugin.bgbilling.struts.action.CommonContractAction" name="form" scope="request">
-			<forward name="list" path="/WEB-INF/jspf/user/plugin/bgbilling/common_contract/customer_common_contract_list.jsp"/>
-			<forward name="default" path="/WEB-INF/jspf/user/plugin/bgbilling/common_contract/common_contract.jsp"/>
 		</action>
 
 		<action path="/user/plugin/bgbilling/proto/contract" parameter="action" type="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction" name="form" scope="request">

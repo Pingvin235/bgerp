@@ -1,0 +1,3 @@
+C: Plugin BGBilling. Cleanup common contract related code.
+A: CorrectPermissions task.
+F: Plugin DBA. Query to lower case.

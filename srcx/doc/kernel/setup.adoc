@@ -191,6 +191,15 @@ blow:board.2.openUrl=bgerp-is
 ....
 ----
 
+[[config-data]]
+=== Data
+NOTE: You can skip this section at first reading.
+
+The application stores almost all the data in MySQL DB server, access credentials for that are defined in *properties* file.
+There are also stored file's metadata, but file bodies are persisted in `filestorage` directory.
+
+NOTE: In former versions file bodies were stored as a flat list, that may be changed <<scheduler-run, running>> javadoc:org.bgerp.util.file.MoveToSubDirs[] class.
+
 [[user]]
 == Пользователи и права
 Все действия пользователей в системе выполняются через проверку прав.
@@ -671,9 +680,16 @@ scheduler.task.<id>.dw=<dw>
 Планировщик ежеминутно проверяет задачи и выполняет те из них, чьи ограничения по времени отвечают указанным в конфигурации условиям.
 
 В планировщике может быть запущен любой объект Java-класса, реализующий интерфейс *java.lang.Runnable*.
-Класс может находиться в библиотеках системы либо быть <<extension.adoc#dyn, динамическим>>.
 
 Запуск планировщика определяется <<#config-scheduler, опцией конфигурации>>.
+
+[[scheduler-run]]
+=== Run classes
+In menu *Administration / Run* can be executed any Java class, implementing *java.lang.Runnable*.
+
+image::_res/run_class.png[]
+
+When *Wait of execution is done* is selected to Yes, execution logs can be obtained from enabled <<extension.adoc#log-dyn, Dynamic Log>>.
 
 [[address]]
 == Адреса

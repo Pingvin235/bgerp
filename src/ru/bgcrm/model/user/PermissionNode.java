@@ -14,6 +14,7 @@ import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
 import org.bgerp.l10n.Localization;
 import org.bgerp.l10n.Localizer;
+import org.bgerp.scheduler.task.CorrectPermissions;
 import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -297,7 +298,7 @@ public class PermissionNode {
 
             PermissionNode node = PermissionNode.getPermissionNode(action);
             if (node == null) {
-                log.warn("Not found action node: {}", action);
+                log.warn("Not found action node '{}', run '{}' class to fix", action, CorrectPermissions.class.getName());
                 continue;
             }
 

@@ -21,7 +21,6 @@ import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.plugin.bgbilling.model.CommonContract;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
@@ -61,7 +60,7 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
         }
 
         // Если в шаге обрабатываются параметры процесса, то проверим их с JEXL выражением
-        if (!"linkedCustomer".equals(step.getType()) && !"bgbilling-commonContract".equals(step.getType())) {
+        if (!"linkedCustomer".equals(step.getType())) {
             Process process = data.getProcess();
             ProcessType processType = ProcessTypeCache.getProcessType(process.getTypeId());
             Set<Entry<Integer, ParameterMap>> showParamSet = processType.getProperties().getConfigMap()
@@ -141,25 +140,5 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
         }
 
         return customerId;
-    }
-
-    /**
-     * Метод возвращает идентификатор единого договора, ранее привязанного
-     * к процессу через поиск связей процесс-единый договор в базе данных.
-     * @param connection
-     * @return
-     * @throws BGException
-     */
-    private int getLinkedCommonContractId(Connection connection) throws BGException {
-        int commonContractId = 0;
-        ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(connection);
-        List<CommonObjectLink> processCustomerlinkList = processLinkDAO
-                .getObjectLinksWithType(data.getProcess().getId(), CommonContract.OBJECT_TYPE);
-
-        if (processCustomerlinkList.size() > 0) {
-            commonContractId = processCustomerlinkList.get(0).getLinkedObjectId();
-        }
-
-        return commonContractId;
     }
 }

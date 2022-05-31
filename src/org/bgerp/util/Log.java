@@ -38,6 +38,20 @@ public class Log {
     }
 
     /**
+     * Executes {@link #log(Priority, String)} with {@link Level#TRACE}
+     */
+    public void trace(Object message) {
+        log(Level.TRACE, message);
+    }
+
+    /**
+     * Executes {@link #log(Priority, String, Object...)} with {@link Level#TRACE}
+     */
+    public void trace(String pattern, Object... params) {
+        log(Level.TRACE, pattern, params);
+    }
+
+    /**
      * Executes {@link #log(Priority, String)} with {@link Level#DEBUG}
      */
     public void debug(Object message) {

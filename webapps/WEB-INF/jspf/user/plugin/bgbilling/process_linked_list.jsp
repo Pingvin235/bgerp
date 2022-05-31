@@ -6,5 +6,4 @@
 		<c:set var="billingId" value="${su.substringAfter( linkedObjectType, ':')}"/>
 		${l.l('Договор')}:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}
 	</c:when>
-	<c:when test="${linkedObjectType eq 'bgbilling-commonContract'}">Единый договор</c:when>
 </c:choose>

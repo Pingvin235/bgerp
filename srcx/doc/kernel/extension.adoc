@@ -398,10 +398,6 @@ or you may change the marker string in configuration parameter *custom.jar.marke
 === Планировщик
 Для периодического выполнения класса необходимо использовать <<setup.adoc#scheduler, планировщик>>.
 
-[[run-iface]]
-=== User interface
-In menu *Administration / Run* can be executed any Java class, implementing *java.lang.Runnable*.
-
 [[ext-request]]
 == Интеграция с внешними системами
 Все запросы на изменение данных в возвращают результат в JSON формате. Запросы выборки данных возвращают результат в HTML формате,

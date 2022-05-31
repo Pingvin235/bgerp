@@ -39,23 +39,6 @@
 			</script>
 		</c:if>
 	</c:when>
-	<%-- <c:when test="${item.linkedObjectType eq 'bgbilling-commonContract'}">
-		<tr>
-			<td><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
-			<td>${item.linkedObjectId}</td>
-			<td nowrap="nowrap">Единый договор</td>
-			<td><a href="#" onclick="bgbilling_openCommonContract( ${item.linkedObjectId} ); return false;">${item.linkedObjectTitle}</a></td>
-		</tr>
-	</c:when>
-	<c:when test="${fn:startsWith( item.linkedObjectType, 'bgbilling-task:' )}">
-		<tr>
-			<td><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
-			<td>${item.linkedObjectId}</td>
-			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}"/>
-			<td>Задача:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
-			<td>${item.linkedObjectTitle}</td>
-		</tr>
-	</c:when> --%>
 	<c:when test="${fn:startsWith( item.linkedObjectType, 'bgbilling-helpdesk:' )}">
 		<tr>
 			<td>${delButton}</td>

@@ -51,7 +51,7 @@ public class TasksConfig extends Config {
     }
 
     /**
-     * List with class names, implementing {@link Runnable} in application packages.
+     * List of class names, extending {@link Task} in application {@link PluginManager#ERP_PACKAGES}.
      * @return
      */
     public List<IdStringTitle> getRunnableClasses() {
@@ -60,10 +60,10 @@ public class TasksConfig extends Config {
                 var runnableClasses = new ArrayList<IdStringTitle>(100);
 
                 var r = new Reflections(PluginManager.ERP_PACKAGES);
-                for (Class<? extends Runnable> taskClass : r.getSubTypesOf(Task.class)) {
+                for (Class<? extends Task> taskClass : r.getSubTypesOf(Task.class)) {
                     var name = taskClass.getName();
                     runnableClasses.add(new IdStringTitle(name, name));
-                    log.debug("Found runnable class: {}", name);
+                    log.debug("Found task class: {}", name);
                 }
 
                 Collections.sort(runnableClasses, (c1, c2) -> c1.getId().compareTo(c2.getId()));

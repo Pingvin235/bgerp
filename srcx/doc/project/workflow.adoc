@@ -280,6 +280,8 @@ There also can be taken registration *token*.
 
 image::_res/gitlab_runner_token.png[width="800px"]
 
+A runner can be also added are here: https://git.bgerp.org/bgerp/bgerp/-/settings/ci_cd under *Runners* section.
+
 That can be done on every system with installed Docker.
 [source]
 ----

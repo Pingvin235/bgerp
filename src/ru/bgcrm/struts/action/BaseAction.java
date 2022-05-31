@@ -79,12 +79,10 @@ public class BaseAction extends DispatchAction {
     public static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
-        // TODO: Разобраться с сериализацией дат и дата+время в JSON, узнать как
-        // в биллинге.
+        // TODO: Разобраться с сериализацией дат и дата+время в JSON, узнать как в биллинге.
         // при указании данной опции сериализуется в виде:
         // "2013-11-22T18:37:55.645+0011", вроде как миллисекунды и не нужны.
-        // mapper.configure( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,
-        // false );
+        // mapper.configure( SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false );
         MAPPER.setTimeZone(TimeZone.getDefault());
     }
 
@@ -167,7 +165,7 @@ public class BaseAction extends DispatchAction {
 
     @SuppressWarnings("unchecked")
     private Invoker getInvoker(String method) throws NoSuchMethodException {
-        log.debug("Looking for invoker: {}", method);
+        log.trace("Looking for invoker: {}", method);
 
         Invoker result = invokerMap.get(method);
         if (result == null) {
@@ -214,10 +212,10 @@ public class BaseAction extends DispatchAction {
 
             invokerMap.putIfAbsent(method, result);
         } else {
-            log.debug("Cache hit");
+            log.trace("Cache hit");
         }
 
-        log.debug("Found invoker: {}", result.getClass().getSimpleName());
+        log.trace("Found invoker: {}", result.getClass().getSimpleName());
 
         return result;
     }

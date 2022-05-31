@@ -56,7 +56,7 @@
 				<b>allowedConfigIds</b> - comma separated allowed configuration IDs<br/>
 			</item>
 			<item action="ru.bgcrm.struts.action.admin.ConfigAction:delete" title="Delete"/>
-			<item action="ru.bgcrm.struts.action.admin.ConfigAction:get,ru.bgcrm.struts.action.admin.ConfigAction:update" title="Edit">
+			<item action="ru.bgcrm.struts.action.admin.ConfigAction:get, ru.bgcrm.struts.action.admin.ConfigAction:update" title="Edit">
 				<b>allowedConfigIds</b> - comma separated allowed configuration IDs<br/>
 				<b>activeAllow</b> - 0, deny to set in active<br/>
 			</item>

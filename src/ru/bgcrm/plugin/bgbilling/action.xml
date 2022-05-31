@@ -6,12 +6,6 @@
 		<item title="Контрагент">
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:null;ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contract" title="Карточка договора"/>
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:addProcessContractLink" title="Привязка к процессу договора по названию"/>
-			<!--
-			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractParameterList" title="ContractAction:contractParameterList"/>
-			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:updateTextParameter" title="ContractAction:updateTextParameter"/>
-			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:updateListParameter" title="ContractAction:updateListParameter"/>
-			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractAddTariff" title="ContractAction:contractAddTariff"/>
-			-->
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:copyCustomerParamToContract" title="Копирование параметров из контрагента в договор"/>
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:getContractCreatePattern" title="Загрузка шаблона создания договора"/>
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:customerContractList" title="Список договоров контрагента"/>
@@ -21,16 +15,10 @@
 		<item title="Договор">
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractCreate" title="Создание договора"/>
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractInfo" title="Информация о договоре"/>
-
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:addressList" title="Адресный справочник"/>
-
-			<!-- <item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractInfo" title="Просмотр карточки договора"/> -->
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingOpenContract" title="Открытие карточки договора в клиенте BGBilling"/>
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingUpdateContractTitleAndComment" title="Изменение заголовка и комментария договора"/>
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingGetContractPatternList" title="Просмотр списка шаблонов договора"/>
-			<!-- <item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillingCrmAction:getBillingModuleList" title="Просмотр списка зарегистрированных модулей"/>
-			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillingCrmAction:getContractTariffPlanList" title="Просмотр списка тарифных планов"/> -->
-
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractCards" title="Карты регистрации"/>
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getContractCard" title="Загрузка карты"/>
 
@@ -113,7 +101,6 @@
 				<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:deleteContractTariffGroup, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillingCrmAction:deleteContractTariffGroup" title="Удаление групп тарифов договора"/>
 				<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariffOptionList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillingCrmAction:tariffOptionList" title="Просмотр тарифных опции договора"/>
 				<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:tariffOptionEditor, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillingCrmAction:contractAvailableOptionList" title="Просмотр доступных тарифных опции договора"/>
-				<!-- <item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.BillingCrmAction:activateModeList;ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:activateModeList" title="Просмотр режимов активации тарифных опции договора"/> -->
 				<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:activateTariffOption, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillingCrmAction:activateContractOption" title="Добавление тарифных опции договора"/>
 				<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:deleteTariffOption, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillingCrmAction:deleteContractOption" title="Удаление тарифных опции договора"/>
 				<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractTariffAction:personalTariffList, ru.bgcrm.plugin.bgbilling.proto.struts.action.BillingCrmAction:personalTariffList" title="Просмотр персональных тарифов договора"/>
@@ -165,10 +152,8 @@
 							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:getLogin" title="Просмотр редактора логина" />
 							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:updateLogin" title="Изменение логина" />
 							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:getLoginPassword" title="Просмотр пароля логина" />
-							<!-- <item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:showLoginPassword" title="Просмотр пароля логина" /> -->
 							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:updateLoginPassword" title="Смена пароля логина" />
 							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:updateStaticIP" title="Изменение cтатического IP" />
-							<!-- <item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:updateRestrict" title="Изменение ограничений логина" /> -->
 							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:updateLoginRadiusInfo" title="Изменение RADIUS атрибутов" />
 						</item>
 						<item title="Учётный период">
@@ -191,10 +176,6 @@
 				</item>
 
 				<item title="ContractAction">
-<!-- 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:memoList" title="Просмотр примечаний" /> -->
-<!-- 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:objectLinkList" title="Просмотр привязок c BASE.CORE" /> -->
-<!-- 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:contractInfo" title="Просмотр информации по договору" /> -->
-<!-- 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:addressList" title="Просмотр списка адресов договора" /> -->
 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getContractStatisticPassword" title="Просмотр пароля статистики договора" />
  					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getSubContractList" title="Получение списка субдоговоров" />
 				</item>
@@ -270,10 +251,6 @@
 						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionAliveContractList" title="Активные сессии"/>
 						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionLogContractList" title="История сессий"/>
 					</item>
-					<!--
-					<item title="Монитор">
-					</item>
-					-->
 				</item>
 
 				<item title="RSCM">

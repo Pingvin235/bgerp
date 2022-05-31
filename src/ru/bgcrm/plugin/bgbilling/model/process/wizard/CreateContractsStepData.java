@@ -13,13 +13,11 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.wizard.LinkCustomerStepData;
 import ru.bgcrm.model.process.wizard.StepData;
 import ru.bgcrm.model.process.wizard.WizardData;
-import ru.bgcrm.plugin.bgbilling.model.CommonContract;
 import ru.bgcrm.plugin.bgbilling.model.ContractType;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class CreateContractsStepData extends StepData<CreateContractsStep> {
-    private CommonContract commonContract;
     private Customer customer;
     private List<CommonObjectLink> contractLinkList;
 
@@ -45,7 +43,7 @@ public class CreateContractsStepData extends StepData<CreateContractsStep> {
                 customer = ((LinkCustomerStepData) stepData).getCustomer();
             }
 
-            if (commonContract != null && customer != null) {
+            if (customer != null) {
                 break;
             }
         }
@@ -72,10 +70,6 @@ public class CreateContractsStepData extends StepData<CreateContractsStep> {
 
     public List<CommonObjectLink> getContractLinkList() {
         return contractLinkList;
-    }
-
-    public CommonContract getCommonContract() {
-        return commonContract;
     }
 
     public Customer getCustomer() {

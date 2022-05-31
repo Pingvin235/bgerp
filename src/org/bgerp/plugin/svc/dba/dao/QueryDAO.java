@@ -32,15 +32,12 @@ public class QueryDAO extends CommonDAO {
      * @throws SQLException
      */
     public void query(QueryTable table, QueryType type, String query) throws SQLException {
-        query = query.trim().toLowerCase();
-
         Page page = table.getPage();
 
         if (type == QueryType.SELECT) {
             query = query.replaceFirst("(?i)select", SQL_SELECT_COUNT_ROWS);
-            if (!PATTERN_LIMIT.matcher(query).find()) {
+            if (!PATTERN_LIMIT.matcher(query).find())
                 query += getPageLimit(page);
-            }
         }
 
         try (var st = conSet.getConnection().createStatement()) {

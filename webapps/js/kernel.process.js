@@ -353,7 +353,6 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 		var objectId = data.id;
 
 		/* contract_ds-333
-		 * bgbilling-commonContract-333
 		 * customer-333
 		 * process-444
 		 */
