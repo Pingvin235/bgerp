@@ -38,7 +38,7 @@ public class ParamValueSelect {
         String[] tokens = paramRef.split(":");
         if (tokens.length >= 2) {
             int paramId = Utils.parseInt(tokens[1].trim());
-            String afterParamId = null;
+            String afterParamId = "";
             if (tokens.length > 2) {
                 afterParamId = tokens[2].trim();
             }

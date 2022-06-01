@@ -620,15 +620,17 @@ function processClientEvents( event )
 	$messagesLink.html( messagesCount );
 }
 
-function isNumberKey(event)
-{
-	var charCode = event.which ? event.which : event.keyCode;
-	if (charCode !=190 && charCode !=110 && charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57) &&
-		(event.keyCode < 96 || event.keyCode > 105 )&& (event.keyCode < 37 || event.keyCode > 40 ))
-	{
-		return false;
-	}
-	return true;
+/**
+ * Validates text inputs for entering numeric values only, possible with decimal separator.
+ * Should be added to 'onkeydown' input.
+ * @param {*} event
+ * @return is input change allowed.
+ */
+function isNumberKey(event) {
+	const input = event.target;
+	return event.altKey || event.ctrlKey || event.shiftKey ||
+		['Backspace', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key) ||
+		!isNaN(input.value + event.key);
 }
 
 function updateLastModify( object, $uiid )

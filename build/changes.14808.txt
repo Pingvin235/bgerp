@@ -1,0 +1,2 @@
+C: Better input control for numeric fields.
+F: NPE in ParamValueSelect.
