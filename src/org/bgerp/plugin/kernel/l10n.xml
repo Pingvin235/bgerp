@@ -424,7 +424,7 @@
 	<p><ru>отображено</ru><en>shown</en></p>
 	<p><ru>Закрыл</ru><en>Closed by</en></p>
 	<p><ru>Цвет для счетчика фильтра</ru><en>Color for filter's counter</en></p>
-	<p><ru>Удалить выбранные</ru><en>Delete selected</en></p>
+	<p><ru>Удалить выбранные</ru><en>Delete Selected</en></p>
 	<p><ru>ПРОЦЕСС</ru><en>PROCESS</en></p>
 	<p><ru>Дата от</ru><en>Date from</en></p>
 	<p><ru>Дата по</ru><en>Date to</en></p>
@@ -505,6 +505,10 @@
 	<p><en>Select all / remove selection</en><ru>Выбрать всё / убрать выделение</ru></p>
 	<p><en>Number occupied by user: </en><ru>Номер занят пользователем: </ru></p>
 	<p><en>register anyway?</en><ru>всё равно зарегистрировать?</ru></p>
+	<p><en>Select All</en><ru>Выбрать всё</ru></p>
+	<p><en>Deselect All</en><ru>Очистить выделение</ru></p>
+	<p><en>Invert Selection</en><ru>Инвертировать выделение</ru></p>
+	<p><en>Keep Shift pressed for range selection</en><ru>Держите Shift зажатым для выбора диапазонов</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

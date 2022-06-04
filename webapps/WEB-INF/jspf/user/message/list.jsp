@@ -70,7 +70,7 @@
 	</script> --%>
 </html:form>
 
-<div class="mt1" style="max-height: 300px; overflow: auto;">
+<div class="mt1" style="height: 300px; max-height: 300px; overflow: auto;">
 	<%@ include file="list_subjects.jsp"%>
 </div>
 

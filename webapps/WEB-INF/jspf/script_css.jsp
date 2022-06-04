@@ -60,6 +60,7 @@
 <script src="${u:fileNameWithLastModTime('/js/kernel.message.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.param.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.process.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.table.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.shell.js')}"></script>
 

@@ -42,13 +42,13 @@ table.data > tbody > tr:nth-child(1) > td {
 	background-color: #eaf3f9;
 }
 
-table.data.hl tr:hover, 
+table.data.hl tr:hover,
 table tr.hl {
 	background-color: #A9F5F2;
 }
 
 table.fixed-header tr:nth-child(1) td {
-	position: sticky; 
+	position: sticky;
 	top: 0;
 }
 

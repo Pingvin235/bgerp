@@ -36,14 +36,27 @@
 		<c:otherwise>
 			<form action="/user/message.do">
 				<input type="hidden" name="action" value="messageDelete"/>
+
+				<c:set var="menuUiid" value="${u:uiid()}"/>
+				<c:set var="selectedUiid" value="${u:uiid()}"/>
+
+				<ui:popup-menu id="${menuUiid}">
+					<li><a href="#" onclick="$$.table.select($('#${uiid}'), $('#${selectedUiid}'), 'all'); return false;"><i class="ti-check-box"></i> ${l.l("Select All")}</a></li>
+					<li><a href="#" onclick="$$.table.select($('#${uiid}'), $('#${selectedUiid}'), 'nothing'); return false;"><i class="ti-control-stop"></i> ${l.l("Deselect All")}</a></li>
+					<li><a href="#" onclick="$$.table.select($('#${uiid}'), $('#${selectedUiid}'), 'invert'); return false;"><i class="ti-control-shuffle"></i> ${l.l("Invert Selection")}</a></li>
+					<%-- script var is provided by parent JSP --%>
+					<li><a href="#" onclick="
+							if (!($('#${selectedUiid}').text() > 0) || !confirm('${l.l("Удалить выбранные")}?'))
+								return false;
+							$$.ajax.post($(this).closest('form')).done(() => { ${script} });
+							return false;
+						"><i class="ti-trash"></i> ${l.l('Удалить выбранные')} [<span id="${selectedUiid}"></span>]</a></li>
+				</ui:popup-menu>
+
 				<table class="data hl fixed-header" id="${uiid}">
 					<tr>
 						<td width="30">
-							<ui:button type="del" styleClass="btn-small" title="${l.l('Удалить выбранные')}" onclick="
-								$$.ajax.post(this.form).done(() => {
-									${script}
-								})
-							"/>
+							<ui:button type="more" styleClass="btn-small" onclick="$$.ui.menuInit($(this), $('#${menuUiid}'), 'left', true);"/>
 						</td>
 						<c:if test="${form.param.typeId le 0}">
 							<td>${l.l('Тип')}</td>
@@ -63,7 +76,7 @@
 
 						<tr valign="top" openUrl="${url}">
 							<td style="text-align: center;">
-								<input type="checkbox" name="typeId-systemId" value="${item.typeId}-${item.systemId}"/>
+								<input type="checkbox" name="typeId-systemId" value="${item.typeId}-${item.systemId}" title="${l.l("Keep Shift pressed for range selection")}"/>
 							</td>
 							<c:if test="${form.param.typeId le 0}">
 								<td>${config.typeMap[item.typeId].title}</td>
@@ -75,21 +88,22 @@
 								${tu.daysDelta(today, item.fromTime) eq 0 ?
 									tu.format(item.fromTime, 'HH:mm') :
 									tu.format(item.fromTime, 'ymdhm')
-								}</td>
+								}
+							</td>
 						</tr>
 					</c:forEach>
 				</table>
 			</form>
 		</c:otherwise>
 	</c:choose>
+		</div>
+
 
 	<script>
 		$(function () {
 			const $dataTable = $('#${uiid}');
-
 			const callback = function ($clicked) {
 				const $row = $clicked;
-
 				const openUrl = $row.attr('openUrl');
 				if (openUrl) {
 					$$.ajax.load(openUrl, $('#${editorUiid}'));
@@ -99,8 +113,9 @@
 					alert('Not found attribute openUrl!');
 				}
 			};
-
 			doOnClick($dataTable, 'tr:gt(0)', callback);
+
+			$$.table.select($('#${uiid}'), $('#${selectedUiid}'), 'init');
 		});
 	</script>
 </u:sc>

@@ -135,7 +135,7 @@
 									<input type="hidden" name="paramId" value="${parameter.id}" />
 
 									<ui:button type="add" styleClass="btn-small" onclick="$$.ajax.triggerUpload('${uploadFormId}');"/>
-									<input type="file" name="file" style="visibility:hidden;"/>
+									<input type="file" name="file" style="visibility:hidden;width: 1px;"/>
 								</form>
 							</div>
 
