@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.UserCache;
@@ -17,15 +16,19 @@ import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
+@Action(path = "/user/news")
 public class NewsAction extends BaseAction {
+    private static final String PATH_JSP = PATH_JSP_USER + "/news";
+
     public static final String UNREAD_NEWS_PERSONAL_KEY = "unreadNews";
 
-    public ActionForward newsUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward newsUpdate(DynActionForm form, Connection con) throws Exception {
         int requestUserId = form.getParamInt("requestUserId", 0);
         String kindOf = requestUserId > 0 ? "сообщение" : "новость";
 
@@ -82,16 +85,16 @@ public class NewsAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward newsEdit(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward newsEdit(DynActionForm form, Connection con) throws Exception {
         News news = new NewsDAO(con).getNews(form.getId());
         if (news != null) {
             form.getResponse().setData("news", news);
         }
 
-        return html(con, mapping, form, "update");
+        return html(con, form, PATH_JSP + "/update.jsp");
     }
 
-    public ActionForward newsList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward newsList(DynActionForm form, Connection con) throws Exception {
         Boolean read = form.getParamBoolean("read", null);
 
         Pageable<News> searchResult = new Pageable<News>(form);
@@ -110,10 +113,10 @@ public class NewsAction extends BaseAction {
             new UserDAO(con).updatePersonalization(configBefore, user);
         }
 
-        return html(con, mapping, form, "list");
+        return html(con, form, PATH_JSP + "/list.jsp");
     }
 
-    public ActionForward newsGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward newsGet(DynActionForm form, Connection con) throws Exception {
         NewsDAO newsDAO = new NewsDAO(con);
         newsDAO.setNewsRead(form.getParamInt("newsId", -1), form.getUserId(), true);
         News news = newsDAO.getNews(form.getParamInt("newsId", -1));
@@ -122,10 +125,10 @@ public class NewsAction extends BaseAction {
 
         UserNewsCache.flushCache(con, Collections.singleton(form.getUserId()));
 
-        return html(con, mapping, form, "newsBody");
+        return html(con, form, PATH_JSP + "/content.jsp");
     }
 
-    public ActionForward newsSetRead(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward newsSetRead(DynActionForm form, Connection con) throws Exception {
         new NewsDAO(con).setNewsRead(form.getParamInt("newsId", -1), form.getUserId(),
                 form.getParamBoolean("value", true));
 
@@ -134,7 +137,7 @@ public class NewsAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward newsSetAllRead(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward newsSetAllRead(DynActionForm form, Connection con) throws Exception {
         new NewsDAO(con).setNewsAllRead(form.getUserId());
 
         UserNewsCache.flushCache(con, Collections.singleton(form.getUserId()));
@@ -142,7 +145,7 @@ public class NewsAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward newsDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward newsDelete(DynActionForm form, Connection con) throws Exception {
         new NewsDAO(con).deleteNews(form.getId());
 
         return json(con, form);

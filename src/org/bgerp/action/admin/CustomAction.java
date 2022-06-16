@@ -1,7 +1,6 @@
 package org.bgerp.action.admin;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.custom.Custom;
 import org.bgerp.servlet.file.Files;
 import org.bgerp.servlet.file.Options;
@@ -25,8 +24,7 @@ public class CustomAction extends BaseAction {
             new Options().withDeletionEnabled());
 
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) {
         return html(conSet, form, JSP_CUSTOM);
     }
 
@@ -39,8 +37,7 @@ public class CustomAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward compile(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward compile(DynActionForm form, ConnectionSet conSet) throws Exception {
         var result = Custom.getInstance().compileJava();
         form.setResponseData("result", result);
 

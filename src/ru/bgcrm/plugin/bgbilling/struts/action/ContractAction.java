@@ -3,11 +3,7 @@ package ru.bgcrm.plugin.bgbilling.struts.action;
 import java.sql.Connection;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CustomerDAO;
@@ -25,6 +21,7 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.ContractTypesConfig;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
+import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.creator.Config;
 import ru.bgcrm.plugin.bgbilling.creator.ServerCustomerCreator;
 import ru.bgcrm.plugin.bgbilling.dao.ContractCustomerDAO;
@@ -34,6 +31,7 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.LinkAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
@@ -41,285 +39,217 @@ import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**
- * Все действия, относящиеся только к манипуляции данными договора на стороне биллинга перенести в
- * {@link ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction}.
- * Такие методы помечены как устаревшие.
+ * Все действия, относящиеся только к манипуляции данными договора на стороне
+ * биллинга перенести в
+ * {@link ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction}. Такие
+ * методы помечены как устаревшие.
  */
-public class ContractAction extends BaseAction
-{
-	public ActionForward customerContractList( ActionMapping mapping,
-											   DynActionForm form,
-											   HttpServletRequest request,
-											   HttpServletResponse response,
-											   Connection con )
-		throws Exception
-	{
-		int customerId = form.getParamInt( "customerId", 0 );
+@Action(path = "/user/plugin/bgbilling/contract")
+public class ContractAction extends BaseAction {
+    private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
-		form.getResponse().setData( "list", new CustomerLinkDAO( con ).getObjectLinksWithType( customerId, Contract.OBJECT_TYPE + "%" ) );
-		form.getResponse().setData( "customerId", customerId );
+    @Override
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return contract(form, conSet);
+    }
 
-		request.setAttribute( "contractTypesConfig", setup.getConfig( ContractTypesConfig.class ) );
-		request.setAttribute( "customer", new CustomerDAO( con ).getCustomerById( customerId ) );
+    public ActionForward customerContractList(DynActionForm form, Connection con) throws Exception {
+        int customerId = form.getParamInt("customerId", 0);
 
-		return html( con, mapping, form, "customerContractList" );
-	}
+        form.getResponse().setData("list",
+                new CustomerLinkDAO(con).getObjectLinksWithType(customerId, Contract.OBJECT_TYPE + "%"));
+        form.getResponse().setData("customerId", customerId);
 
-	public ActionForward contract( ActionMapping mapping,
-								   DynActionForm form,
-								   HttpServletRequest request,
-								   HttpServletResponse response,
-								   ConnectionSet conSet )
-		throws Exception
-	{
-		String billingId = form.getParam( "billingId" );
-		int id = form.getId();
+        form.setRequestAttribute("contractTypesConfig", setup.getConfig(ContractTypesConfig.class));
+        form.setRequestAttribute("customer", new CustomerDAO(con).getCustomerById(customerId));
 
-		if( Utils.notBlankString( billingId ) && id > 0 )
-		{
-			ContractInfo info = ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).getContractInfo( id );
-			form.getResponse().setData( "contract", info );
+        return html(con, form, PATH_JSP + "/customer_contract_list.jsp");
+    }
 
-			Customer customer = new ContractCustomerDAO( conSet.getConnection() ).getContractCustomer( info );
-			if( customer != null )
-			{
-				form.getResponse().setData( "customer", customer );
-			}
-		}
+    public ActionForward contract(DynActionForm form, ConnectionSet conSet) throws Exception {
+        String billingId = form.getParam("billingId");
+        int id = form.getId();
 
-		return html( conSet, mapping, form, FORWARD_DEFAULT );
-	}
+        if (Utils.notBlankString(billingId) && id > 0) {
+            ContractInfo info = ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance(form.getUser(), billingId)
+                    .getContractInfo(id);
+            form.getResponse().setData("contract", info);
 
-	public ActionForward createCustomerFromContract( ActionMapping mapping,
-													 DynActionForm form,
-													 HttpServletRequest request,
-													 HttpServletResponse response,
-													 Connection con )
-		throws BGException
-	{
-		Config config = setup.getConfig( Config.class );
-		String billingId = form.getParam( "billingId" );
+            Customer customer = new ContractCustomerDAO(conSet.getConnection()).getContractCustomer(info);
+            if (customer != null) {
+                form.getResponse().setData("customer", customer);
+            }
+        }
 
-		if (config == null)
-		{
-			throw new BGMessageException( "Отсутствующая либо некорректная конфигурация импорта контрагентов." );
-		}
+        return html(conSet, form, PATH_JSP + "/contract.jsp");
+    }
 
-		ServerCustomerCreator serverCustomerCreator = config.getServerCustomerCreator( billingId, con );
+    public ActionForward createCustomerFromContract(DynActionForm form, Connection con) throws BGException {
+        Config config = setup.getConfig(Config.class);
+        String billingId = form.getParam("billingId");
 
-		if( serverCustomerCreator == null )
-		{
-			throw new BGMessageException( "Для данного биллинга не настроен импорт контрагентов." );
-		}
+        if (config == null) {
+            throw new BGMessageException("Отсутствующая либо некорректная конфигурация импорта контрагентов.");
+        }
 
-		serverCustomerCreator.createCustomer( billingId, con, form.getParamInt( "contractId", -1 ), form.getParamInt( "customerId", -1 ) );
+        ServerCustomerCreator serverCustomerCreator = config.getServerCustomerCreator(billingId, con);
 
-		return json( con, form );
-	}
+        if (serverCustomerCreator == null) {
+            throw new BGMessageException("Для данного биллинга не настроен импорт контрагентов.");
+        }
 
-	public ActionForward copyCustomerParamCascade( ActionMapping mapping,
-												   DynActionForm form,
-												   HttpServletRequest request,
-												   HttpServletResponse response,
-												   Connection con )
-		throws Exception
-	{
-		int customerId = form.getParamInt( "customerId", -1 );
-		User user = form.getUser();
+        serverCustomerCreator.createCustomer(billingId, con, form.getParamInt("contractId", -1),
+                form.getParamInt("customerId", -1));
 
-		ContractDAO.copyParametersToAllContracts( con, user, customerId );
+        return json(con, form);
+    }
 
-		return html( con, mapping, form, FORWARD_DEFAULT );
-	}
+    public ActionForward copyCustomerParamCascade(DynActionForm form, Connection con) throws Exception {
+        int customerId = form.getParamInt("customerId", -1);
+        User user = form.getUser();
 
-	public ActionForward copyCustomerParamToContract( ActionMapping mapping,
-													  DynActionForm form,
-													  HttpServletRequest request,
-													  HttpServletResponse response,
-													  Connection con )
-		throws Exception
-	{
-		int customerId = form.getParamInt( "customerId", -1 );
+        ContractDAO.copyParametersToAllContracts(con, user, customerId);
 
-		int contractId = form.getParamInt( "contractId", -1 );
-		String contractTitle = form.getParam( "contractTitle", "" );
+        return html(con, form, PATH_JSP + "/contract.jsp");
+    }
 
-		ContractDAO contractDAO = new ContractDAO( form.getUser(), form.getParam( "billingId" ) );
-		contractDAO.copyParametersToBilling( con, customerId, contractId, contractTitle );
+    public ActionForward copyCustomerParamToContract(DynActionForm form, Connection con) throws Exception {
+        int customerId = form.getParamInt("customerId", -1);
 
-		return json( con, form );
-	}
+        int contractId = form.getParamInt("contractId", -1);
+        String contractTitle = form.getParam("contractTitle", "");
 
-	public ActionForward contractFind( ActionMapping mapping,
-									   DynActionForm form,
-									   HttpServletRequest request,
-									   HttpServletResponse response,
-									   Connection con )
-		throws Exception
-	{
-		String billingId = form.getParam( "billingId" );
-		String title = form.getParam( "title" );
+        ContractDAO contractDAO = new ContractDAO(form.getUser(), form.getParam("billingId"));
+        contractDAO.copyParametersToBilling(con, customerId, contractId, contractTitle);
 
-		Pageable<IdTitle> searchResult = new Pageable<>();
-		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).searchContractByTitleComment(searchResult, title, null, null);
-		form.getResponse().setData("contract",  Utils.getFirst(searchResult.getList()));
+        return json(con, form);
+    }
 
-		return json( con, form );
-	}
+    public ActionForward contractFind(DynActionForm form, Connection con) throws Exception {
+        String billingId = form.getParam("billingId");
+        String title = form.getParam("title");
 
-	public ActionForward contractCreate( ActionMapping mapping,
-										 DynActionForm form,
-										 HttpServletRequest request,
-										 HttpServletResponse response,
-										 Connection con )
-		throws Exception
-	{
-		int customerId = Utils.parseInt(form.getParam("customerId"));
-		String billingId = form.getParam("billingId");
-		int patternId = Utils.parseInt(form.getParam("patternId"));
-		String date = form.getParam("date");
-		String titlePattern = form.getParam("titlePattern");
-		String title = form.getParam("title");
-		String comment = form.getParam("comment", "");
-		int tariffId = form.getParamInt("tariffId");
+        Pageable<IdTitle> searchResult = new Pageable<>();
+        ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance(form.getUser(), billingId)
+                .searchContractByTitleComment(searchResult, title, null, null);
+        form.getResponse().setData("contract", Utils.getFirst(searchResult.getList()));
 
-		ContractTypesConfig config = setup.getConfig( ContractTypesConfig.class );
-		ContractType type = config.getTypeMap().get(form.getParamInt("typeId"));
-		if (type == null)
-			throw new BGException("Не передан тип договора");
+        return json(con, form);
+    }
 
-		int tariffPosition = type.getTariffPosition();
+    public ActionForward contractCreate(DynActionForm form, Connection con) throws Exception {
+        int customerId = Utils.parseInt(form.getParam("customerId"));
+        String billingId = form.getParam("billingId");
+        int patternId = Utils.parseInt(form.getParam("patternId"));
+        String date = form.getParam("date");
+        String titlePattern = form.getParam("titlePattern");
+        String title = form.getParam("title");
+        String comment = form.getParam("comment", "");
+        int tariffId = form.getParamInt("tariffId");
 
-		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO contractDao = ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance(form.getUser(), billingId);
-		ContractTariffDAO tariffDao = new ContractTariffDAO(form.getUser(), billingId);
+        ContractTypesConfig config = setup.getConfig(ContractTypesConfig.class);
+        ContractType type = config.getTypeMap().get(form.getParamInt("typeId"));
+        if (type == null)
+            throw new BGException("Не передан тип договора");
 
-		Contract contract = contractDao
-				.createContract(patternId, date, title, titlePattern);
-		if (customerId > 0) {
-			CommonObjectLink link = new CommonObjectLink(Customer.OBJECT_TYPE, customerId,
-					"contract:" + billingId,
-					contract.getId(), contract.getTitle());
+        int tariffPosition = type.getTariffPosition();
 
-			LinkAddingEvent event = new LinkAddingEvent(form, link);
-			EventProcessor.processEvent(event, new SingleConnectionSet(con));
+        ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO contractDao = ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO
+                .getInstance(form.getUser(), billingId);
+        ContractTariffDAO tariffDao = new ContractTariffDAO(form.getUser(), billingId);
 
-			new CustomerLinkDAO(con).addLink(link);
+        Contract contract = contractDao.createContract(patternId, date, title, titlePattern);
+        if (customerId > 0) {
+            CommonObjectLink link = new CommonObjectLink(Customer.OBJECT_TYPE, customerId, "contract:" + billingId,
+                    contract.getId(), contract.getTitle());
 
-			new ContractDAO(form.getUser(), billingId).copyParametersToBilling(con,
-					customerId, contract.getId(), contract.getTitle());
-		}
+            LinkAddingEvent event = new LinkAddingEvent(form, link);
+            EventProcessor.processEvent(event, new SingleConnectionSet(con));
 
-		// комментарий
-		if (Utils.notBlankString(comment)) {
-			contractDao.bgbillingUpdateContractTitleAndComment(contract.getId(), comment, 0);
-			contract.setComment(comment);
-		}
+            new CustomerLinkDAO(con).addLink(link);
 
-		// тариф
-		if (tariffId > 0) {
-			if (tariffPosition < 0)
-				tariffDao.setTariffPlan(contract.getId(), tariffId);
-			else
-				tariffDao.addTariffPlan(contract.getId(), tariffId, tariffPosition);
-		}
+            new ContractDAO(form.getUser(), billingId).copyParametersToBilling(con, customerId, contract.getId(),
+                    contract.getTitle());
+        }
 
-		form.getResponse().setData("contract", contract);
+        // комментарий
+        if (Utils.notBlankString(comment)) {
+            contractDao.bgbillingUpdateContractTitleAndComment(contract.getId(), comment, 0);
+            contract.setComment(comment);
+        }
 
-		return json(con, form);
-	}
+        // тариф
+        if (tariffId > 0) {
+            if (tariffPosition < 0)
+                tariffDao.setTariffPlan(contract.getId(), tariffId);
+            else
+                tariffDao.addTariffPlan(contract.getId(), tariffId, tariffPosition);
+        }
 
-	public ActionForward getContractCreatePattern( ActionMapping mapping,
-												   DynActionForm form,
-												   HttpServletRequest request,
-												   HttpServletResponse response,
-												   Connection con )
-		throws Exception
-	{
-		String billingId = form.getParam( "billingId" );
-		int patternId = Utils.parseInt( form.getParam( "patternId" ) );
+        form.getResponse().setData("contract", contract);
 
-		if( Utils.notBlankString( billingId ) )
-		{
-			DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get( billingId );
-			if( dbInfo == null )
-			{
-				throw new BGMessageException( "Не найден биллинг." );
-			}
+        return json(con, form);
+    }
 
-			String titlePattern = dbInfo.getSetup().get( "contract_pattern." + patternId + ".title_pattern" );
-			if( Utils.notBlankString( titlePattern ) )
-			{
-				form.getResponse().setData( "value", titlePattern );
-			}
-		}
+    public ActionForward getContractCreatePattern(DynActionForm form, Connection con) throws Exception {
+        String billingId = form.getParam("billingId");
+        int patternId = Utils.parseInt(form.getParam("patternId"));
 
-		return processJsonForward( con, form, response );
-	}
+        if (Utils.notBlankString(billingId)) {
+            DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
+            if (dbInfo == null) {
+                throw new BGMessageException("Не найден биллинг.");
+            }
 
-	public ActionForward addProcessContractLink( ActionMapping mapping,
-												   DynActionForm form,
-												   HttpServletRequest request,
-												   HttpServletResponse response,
-												   Connection con )
-		throws Exception
-	{
-		String billingId = form.getParam( "billingId" );
-		int processId = form.getParamInt( "processId" );
-		String contractTitle = form.getParam( "contractTitle" );
+            String titlePattern = dbInfo.getSetup().get("contract_pattern." + patternId + ".title_pattern");
+            if (Utils.notBlankString(titlePattern)) {
+                form.getResponse().setData("value", titlePattern);
+            }
+        }
 
-		if( Utils.isBlankString( billingId ) || processId <= 0 || Utils.isBlankString( contractTitle ) )
-		{
-			throw new BGIllegalArgumentException();
-		}
+        return json(con, form);
+    }
 
-		final SearchOptions searchOptions = new SearchOptions( true, true, true );
+    public ActionForward addProcessContractLink(DynActionForm form, Connection con) throws Exception {
+        String billingId = form.getParam("billingId");
+        int processId = form.getParamInt("processId");
+        String contractTitle = form.getParam("contractTitle");
 
-		Pageable<IdTitle> searchResult = new Pageable<IdTitle>();
-		ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).searchContractByTitleComment( searchResult, "^" + contractTitle + "$", null, searchOptions );
+        if (Utils.isBlankString(billingId) || processId <= 0 || Utils.isBlankString(contractTitle)) {
+            throw new BGIllegalArgumentException();
+        }
 
-		IdTitle result = Utils.getFirst( searchResult.getList() );
-		if( result == null )
-		{
-			throw new BGMessageException( "Договор не найден" );
-		}
+        final SearchOptions searchOptions = new SearchOptions(true, true, true);
 
-		CommonObjectLink link = new CommonObjectLink( Process.OBJECT_TYPE, processId, Contract.OBJECT_TYPE + ":" + billingId, result.getId(), contractTitle );
-		LinkAction.addLink( form, con, link );
+        Pageable<IdTitle> searchResult = new Pageable<IdTitle>();
+        ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance(form.getUser(), billingId)
+                .searchContractByTitleComment(searchResult, "^" + contractTitle + "$", null, searchOptions);
 
-		return processJsonForward( con, form, response );
-	}
+        IdTitle result = Utils.getFirst(searchResult.getList());
+        if (result == null) {
+            throw new BGMessageException("Договор не найден");
+        }
 
-	public ActionForward contractInfo( ActionMapping mapping,
-	                                   DynActionForm form,
-	                                   HttpServletRequest request,
-	                                   HttpServletResponse response,
-	                                   ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		Integer contractId = form.getParamInt( "contractId" );
+        CommonObjectLink link = new CommonObjectLink(Process.OBJECT_TYPE, processId,
+                Contract.OBJECT_TYPE + ":" + billingId, result.getId(), contractTitle);
+        LinkAction.addLink(form, con, link);
 
-		List<String> whatShow = Utils.toList( form.getParam( "whatShow" ) );
-		for( String item : whatShow )
-		{
-			if( "memo".equals( item ) )
-			{
-				 form.getResponse().setData( "memoList", ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.getInstance( form.getUser(), billingId ).getMemoList( contractId ) );
-			}
-			//TODO: Выбор остальных вариантов.
-		}
+        return json(con, form);
+    }
 
-		return processUserTypedForward( conSet, mapping, form, response, "contractInfo" );
-	}
+    public ActionForward contractInfo(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        Integer contractId = form.getParamInt("contractId");
 
-	@Override
-	protected ActionForward unspecified( ActionMapping mapping,
-										 DynActionForm form,
-										 HttpServletRequest request,
-										 HttpServletResponse response,
-										 ConnectionSet conSet )
-		throws Exception
-	{
-		return contract( mapping, form, request, response, conSet );
-	}
+        List<String> whatShow = Utils.toList(form.getParam("whatShow"));
+        for (String item : whatShow) {
+            if ("memo".equals(item)) {
+                form.getResponse().setData("memoList", ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO
+                        .getInstance(form.getUser(), billingId).getMemoList(contractId));
+            }
+            // TODO: Выбор остальных вариантов.
+        }
+
+        return html(conSet, form, PATH_JSP + "/process_contract_info.jsp");
+    }
 }

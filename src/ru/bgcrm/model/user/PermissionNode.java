@@ -12,6 +12,7 @@ import com.google.common.annotations.VisibleForTesting;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
+import org.bgerp.action.util.Invoker;
 import org.bgerp.l10n.Localization;
 import org.bgerp.l10n.Localizer;
 import org.bgerp.scheduler.task.CorrectPermissions;
@@ -48,7 +49,7 @@ public class PermissionNode {
 
     private static final boolean VALIDATE_ACTION_METHOD = true;
     /* Can be enabled later for statically checking everything on start. */
-    private static final boolean VALIDATE_ACTION_METHOD_SIGNATURE = false;
+    private static final boolean VALIDATE_ACTION_METHOD_SIGNATURE = true;
 
     private String title;
     private String titlePath;
@@ -157,19 +158,11 @@ public class PermissionNode {
         if (!VALIDATE_ACTION_METHOD_SIGNATURE)
             return;
 
-        boolean found = false;
         try {
-            actionClass.getMethod(actionMethod, BaseAction.TYPES_CONSET_DYNFORM);
-            found = true;
-        } catch (NoSuchMethodException e) {}
-
-        try {
-            actionClass.getMethod(actionMethod, BaseAction.TYPES_CON_DYNFORM);
-            found = true;
-        } catch (NoSuchMethodException e) {}
-
-        if (!found)
-            log.warn("Deprecated signature of action method '{}' in class '{}'", actionMethod, actionClass.getName());
+            Invoker.find(actionClass, actionMethod, false);
+        } catch (NoSuchMethodException e) {
+            log.warn("Deprecated signature or missing action method '{}' in class '{}'", actionMethod, actionClass.getName());
+        }
     }
 
     private String actionMethodName() {

@@ -16,7 +16,6 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
@@ -71,13 +70,11 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Action(path = "/user/process")
 public class ProcessAction extends BaseAction {
-    private static final Log log = Log.getLog();
-
     private static final String PATH_JSP = PATH_JSP_USER + "/process";
 
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm actionForm, Connection con) throws Exception {
-        return process(actionForm, con);
+    public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
+        return process(form, con);
     }
 
     public ActionForward process(DynActionForm form, Connection con) throws Exception {
@@ -182,7 +179,7 @@ public class ProcessAction extends BaseAction {
         return html(con, form, PATH_JSP + "/tree/group_select.jsp");
     }
 
-    public static Process processCreate(DynActionForm form, Connection con) throws Exception {
+    public static Process processCreateAndGet(DynActionForm form, Connection con) throws Exception {
         Process process = new Process();
 
         process.setTypeId(Utils.parseInt(form.getParam("typeId")));
@@ -261,8 +258,8 @@ public class ProcessAction extends BaseAction {
     /**
      * Создаёт процесс и возвращает его код для перехода в редактор.
      */
-    public ActionForward processCreate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
-        ProcessAction.processCreate(form, con);
+    public ActionForward processCreate(DynActionForm form, Connection con) throws Exception {
+        ProcessAction.processCreateAndGet(form, con);
 
         return json(con, form);
     }
@@ -557,6 +554,8 @@ public class ProcessAction extends BaseAction {
         boolean updated = false;
         Set<ProcessExecutor> processExecutors = process.getExecutors();
         Iterator<ProcessExecutor> processExecutorsIt = processExecutors.iterator();
+
+        Log log = Log.getLog(ProcessAction.class);
 
         while (processExecutorsIt.hasNext()) {
             ProcessExecutor executor = processExecutorsIt.next();

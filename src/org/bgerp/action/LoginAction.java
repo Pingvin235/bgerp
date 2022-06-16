@@ -1,7 +1,6 @@
 package org.bgerp.action;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.l10n.Localization;
 
 import ru.bgcrm.event.client.UrlOpenEvent;
@@ -18,8 +17,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class LoginAction extends BaseAction {
 
     @Override
-    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
         User user = form.getUser();
         if (user != null) {
             String onLoginOpen = user.getConfigMap().getSok("on.login.open", "onLoginOpen");
@@ -34,8 +32,7 @@ public class LoginAction extends BaseAction {
         return html(conSet, user != null ? form : null, "/login.jsp");
     }
 
-    public ActionForward logout(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward logout(DynActionForm form, ConnectionSet conSet) throws Exception {
         form.getHttpRequest().getSession(true).invalidate();
         return json(conSet, form);
     }

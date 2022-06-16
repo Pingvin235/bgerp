@@ -1,0 +1,3 @@
+A: Static check actions existence and signature.
+C: Refactoring old action methods.
+C: VSCode project configuration description.

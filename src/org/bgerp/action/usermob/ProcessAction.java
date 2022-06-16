@@ -1,29 +1,31 @@
 package org.bgerp.action.usermob;
 
-import java.sql.Connection;
-
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.ProcessQueueAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/usermob/process")
 public class ProcessAction extends ProcessQueueAction {
+    private static final String PATH_JSP = PATH_JSP_USERMOB + "/process";
 
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm actionForm, Connection con) throws Exception {
-        return super.unspecified(mapping, actionForm, con);
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        super.unspecified(form, conSet.getSlaveConnection());
+        return html(conSet.getSlaveConnection(), form, PATH_JSP + "/process/process.jsp");
     }
 
     @Override
-    public ActionForward queue(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        return super.queue(mapping, form, conSet);
+    public ActionForward queue(DynActionForm form, ConnectionSet conSet) throws Exception {
+        super.queue(form, conSet);
+        return html(conSet, form, PATH_JSP + "/queue/queue.jsp");
     }
 
     @Override
-    public ActionForward queueShow(ActionMapping mapping, DynActionForm form, ConnectionSet connectionSet) throws Exception {
-        return super.queueShow(mapping, form, connectionSet);
+    public ActionForward queueShow(DynActionForm form, ConnectionSet conSet) throws Exception {
+        super.queueShow(form, conSet);
+        return html(conSet, form, PATH_JSP + "/queue/show.jsp");
     }
-
 }

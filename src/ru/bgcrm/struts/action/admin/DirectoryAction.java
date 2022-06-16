@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.common.collect.Lists;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -30,12 +29,16 @@ import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
+@Action(path = "/admin/directory")
 public class DirectoryAction extends BaseAction {
-   public static final class Directory extends IdStringTitle {
+    private static final String PATH_JSP = PATH_JSP_ADMIN + "/directory";
+
+    public static final class Directory extends IdStringTitle {
         private final String action;
 
         public Directory(String id, String title, String action) {
@@ -62,14 +65,14 @@ public class DirectoryAction extends BaseAction {
     );
 
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
         form.setParam("directoryId", "processParameter");
         form.setParam("action", "parameterList");
-        return parameterList(mapping, form, con);
+        return parameterList(form, con);
     }
 
     // параметры
-    public ActionForward parameterList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward parameterList(DynActionForm form, Connection con) throws Exception {
         ParamDAO paramDAO = new ParamDAO(con, form.getUserId());
         var request = form.getHttpRequest();
 
@@ -79,10 +82,10 @@ public class DirectoryAction extends BaseAction {
         paramDAO.getParameterList(searchResult, getObjectType(form.getParam("directoryId")),
                 CommonDAO.getLikePatternSub(form.getParam("filter")), 0, null);
 
-        return mapping.findForward("parameterList");
+        return html(con, form, PATH_JSP + "/parameter/list.jsp");
     }
 
-    public ActionForward parameterUseProcess(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward parameterUseProcess(DynActionForm form, Connection con) throws Exception {
         Integer paramId = Utils.parseInt(form.getParam("parameterId"));
         List<String> containProcess = new ArrayList<String>();
         Map<Integer, ProcessType> processTypeMap = ProcessTypeCache.getProcessTypeMap();
@@ -103,7 +106,7 @@ public class DirectoryAction extends BaseAction {
         return html(con, form, ProcessAction.JSP_USED_IN_TYPES);
     }
 
-    public ActionForward parameterGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward parameterGet(DynActionForm form, Connection con) throws Exception {
         ParamDAO paramDAO = new ParamDAO(con, form.getUserId());
 
         Parameter parameter = paramDAO.getParameter(form.getId());
@@ -116,10 +119,10 @@ public class DirectoryAction extends BaseAction {
         request.setAttribute("directoryTitle", directoryMap.get(form.getParam("directoryId")));
         request.setAttribute("types", Parameter.TYPES);
 
-        return html(con, mapping, form, "parameterUpdate");
+        return html(con, form, PATH_JSP + "/parameter/update.jsp");
     }
 
-    public ActionForward parameterUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward parameterUpdate(DynActionForm form, Connection con) throws Exception {
         ParamDAO paramDAO = new ParamDAO(con, form.getUserId());
 
         Parameter parameter = new Parameter();
@@ -149,7 +152,7 @@ public class DirectoryAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward parameterDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward parameterDelete(DynActionForm form, Connection con) throws Exception {
         new ParamDAO(con, form.getUserId()).deleteParameter(form.getId());
 
         ParameterCache.flush(con);
@@ -158,7 +161,7 @@ public class DirectoryAction extends BaseAction {
     }
 
     // шаблоны названия
-    public ActionForward patternTitleList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward patternTitleList(DynActionForm form, Connection con) throws Exception {
         PatternDAO patternDAO = new PatternDAO(con);
         var request = form.getHttpRequest();
 
@@ -166,10 +169,10 @@ public class DirectoryAction extends BaseAction {
         setDirectoryList(request);
         request.setAttribute("patternList", patternDAO.getPatternList(objectType));
 
-        return mapping.findForward("patternList");
+        return html(con, form, PATH_JSP + "/pattern/list.jsp");
     }
 
-    public ActionForward patternTitleGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward patternTitleGet(DynActionForm form, Connection con) throws Exception {
         Pattern pattern = new PatternDAO(con).getPattern(form.getId());
         if (pattern != null) {
             form.getResponse().setData("pattern", pattern);
@@ -179,10 +182,10 @@ public class DirectoryAction extends BaseAction {
         setDirectoryList(request);
         request.setAttribute("directoryTitle", directoryMap.get(form.getParam("directoryId")));
 
-        return html(con, mapping, form, "patternUpdate");
+        return html(con, form, PATH_JSP + "/pattern/update.jsp");
     }
 
-    public ActionForward patternTitleUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward patternTitleUpdate(DynActionForm form, Connection con) throws Exception {
         PatternDAO paramDAO = new PatternDAO(con);
 
         Pattern pattern = new Pattern();
@@ -195,25 +198,25 @@ public class DirectoryAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward patternTitleDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward patternTitleDelete(DynActionForm form, Connection con) throws Exception {
         new PatternDAO(con).deletePattern(form.getId());
 
         return json(con, form);
     }
 
     // группы параметров
-    public ActionForward parameterGroupList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward parameterGroupList(DynActionForm form, Connection con) throws Exception {
         ParamGroupDAO paramGroupDAO = new ParamGroupDAO(con);
 
         var request = form.getHttpRequest();
         setDirectoryList(request);
         request.setAttribute("parameterList", paramGroupDAO.getParameterGroupList(getObjectType(form.getParam("directoryId"))));
 
-        return html(con, mapping, form);
+        return html(con, form, PATH_JSP + "/parameter/group/list.jsp");
     }
 
     //переписать "!"
-    public ActionForward parameterGroupGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward parameterGroupGet(DynActionForm form, Connection con) throws Exception {
         int id = form.getId();
 
         ParamDAO paramDAO = new ParamDAO(con, form.getUserId());
@@ -230,10 +233,10 @@ public class DirectoryAction extends BaseAction {
         request.setAttribute("parameterList", paramDAO.getParameterList(getObjectType(form.getParam("directoryId")), 0)); //!!!
         request.setAttribute("directoryTitle", directoryMap.get(form.getParam("directoryId")));
 
-        return html(con, mapping, form, "parameterGroupUpdate");
+        return html(con, form, PATH_JSP + "/parameter/group/update.jsp");
     }
 
-    public ActionForward parameterGroupUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward parameterGroupUpdate(DynActionForm form, Connection con) throws Exception {
         ParamGroupDAO paramGroupDAO = new ParamGroupDAO(con);
 
         ParameterGroup parameterGroup = new ParameterGroup();
@@ -248,7 +251,7 @@ public class DirectoryAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward parameterGroupDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward parameterGroupDelete(DynActionForm form, Connection con) throws Exception {
         new ParamGroupDAO(con).deleteParameterGroup(form.getId());
 
         ParameterCache.flush(con);

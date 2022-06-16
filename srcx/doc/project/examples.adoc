@@ -31,11 +31,11 @@ Let's take interface filters, as example - use *restoreRequestParams* method in 
 
 Saving a value:
 [snippet, from="resto", to=");", remove-leading=    "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L427-L427[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L425-L425[ru.bgcrm.struts.action.MessageAction]
 
 Restoring a value:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L457-L464[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L455-L462[ru.bgcrm.struts.action.MessageAction]
 
 Saving and restoring a value at once:
 [snippet, from="//", to=");", remove-leading="    "]
@@ -59,7 +59,7 @@ Use javadoc:ru.bgcrm.model.IfaceState[] class
 
 Refreshing value:
 [snippet, from="// п", to="}", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L216-L223[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L200-L207[ru.bgcrm.struts.action.ProcessLinkAction]
 
 Show in JSP:
 [snippet, from="<c:if", to="if>", remove-leading="						"]
@@ -98,7 +98,7 @@ link:../../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L9
 
 Java action:
 [snippet, from="//", to="open);", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L207-L209[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L191-L193[ru.bgcrm.struts.action.ProcessLinkAction]
 
 [[code-upload-file]]
 === File upload
@@ -108,7 +108,7 @@ link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L64-L77[webapps/WEB-INF
 
 Action:
 [snippet, from="public", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L154-L167[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
+link:../../../src/ru/bgcrm/struts/action/admin/ConfigAction.java#L153-L166[src/ru/bgcrm/struts/action/admin/ConfigAction.java]
 
 [[code-jsp-ui]]
 === UI Only

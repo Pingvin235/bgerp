@@ -388,7 +388,9 @@ public class Queue extends IdTitle {
         return filterList;
     }
 
-    @Deprecated
+    /**
+     * @return queue processors map, key - ID.
+     */
     public Map<Integer, Processor> getProcessorMap() {
         return processorMap;
     }

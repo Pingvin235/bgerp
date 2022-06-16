@@ -15,9 +15,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
-import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -27,6 +25,7 @@ import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
 import ru.bgcrm.model.ArrayHashMap;
+import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Page;
@@ -36,49 +35,50 @@ import ru.bgcrm.model.process.Queue.ColumnConf;
 import ru.bgcrm.model.process.queue.JasperReport;
 import ru.bgcrm.model.process.queue.Processor;
 import ru.bgcrm.model.process.queue.config.PrintQueueConfig;
+import ru.bgcrm.model.process.queue.config.PrintQueueConfig.PrintType;
 import ru.bgcrm.model.process.queue.config.SavedCommonFiltersConfig;
 import ru.bgcrm.model.process.queue.config.SavedFilter;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;
 import ru.bgcrm.model.process.queue.config.SavedPanelConfig;
-import ru.bgcrm.model.process.queue.config.PrintQueueConfig.PrintType;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/user/process/queue")
 public class ProcessQueueAction extends ProcessAction {
-    private static final Log log = Log.getLog();
+    private static final String PATH_JSP = PATH_JSP_USER + "/process";
 
     // выбранные в полном фильтре фильтры
     private static final String QUEUE_FULL_FILTER_SELECTED_FILTERS = "queueSelectedFilters";
     // параметры полного фильтра
     private static final String QUEUE_FULL_FILTER_PARAMS = "queueCurrentSavedFiltersParam.";
 
-    public ActionForward queue(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward queue(DynActionForm form, ConnectionSet conSet) throws Exception {
         form.getResponse().setData("list", ProcessQueueCache.getUserQueueList(form.getUser()));
 
-        return html(conSet, mapping, form, "queue");
+        return html(conSet, form, PATH_JSP + "/queue/queue.jsp");
     }
 
     // возвращает дерево типов для создания процесса
-    public ActionForward typeTree(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward typeTree(DynActionForm form, Connection con) throws Exception {
         int queueId = Utils.parseInt(form.getParam("queueId"));
         Queue queue = ProcessQueueCache.getQueue(queueId, form.getUser());
 
-        // очередь не разрешена пользователю
-        if (queue == null)
-            return html(con, mapping, form, "processTypeTree");
+        // очередь разрешена пользователю
+        if (queue != null) {
+            var typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
+            applyProcessTypePermission(typeList, form);
+            form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
+        }
 
-        var typeList = ProcessTypeCache.getTypeList(queue.getProcessTypeIds());
-        applyProcessTypePermission(typeList, form);
-        form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
-
-        return html(con, mapping, form, "processTypeTree");
+        return html(con, form, PATH_JSP + "/tree/process_type_tree.jsp");
     }
 
-    public ActionForward processCustomClassInvoke(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward processCustomClassInvoke(DynActionForm form, ConnectionSet conSet) throws Exception {
         Queue queue = ProcessQueueCache.getQueue(form.getParamInt("queueId"), form.getUser());
         if (queue != null) {
             Processor processor = queue.getProcessorMap().get(form.getParamInt("processorId"));
@@ -94,10 +94,10 @@ public class ProcessQueueAction extends ProcessAction {
             }
         }
 
-        return html(conSet, mapping, form, FORWARD_DEFAULT);
+        throw new BGException("Queue not found.");
     }
 
-    public ActionForward queueSavedFilterSet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward queueSavedFilterSet(DynActionForm form, Connection con) throws Exception {
         Preferences personalizationMap = form.getUser().getPersonalizationMap();
         SavedFiltersConfig config = personalizationMap.getConfig(SavedFiltersConfig.class);
 
@@ -198,7 +198,7 @@ public class ProcessQueueAction extends ProcessAction {
         return json(con, form);
     }
 
-    public ActionForward queueSavedPanelSet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward queueSavedPanelSet(DynActionForm form, Connection con) throws Exception {
         Preferences personalizationMap = form.getUser().getPersonalizationMap();
         SavedPanelConfig config = personalizationMap.getConfig(SavedPanelConfig.class);
 
@@ -227,7 +227,7 @@ public class ProcessQueueAction extends ProcessAction {
 
     }
 
-    public ActionForward queueGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward queueGet(DynActionForm form, Connection con) throws Exception {
         User user = form.getUser();
         HttpServletRequest request = form.getHttpRequest();
 
@@ -260,10 +260,10 @@ public class ProcessQueueAction extends ProcessAction {
             new UserDAO(con).updatePersonalization(persConfigBefore, user);
         }
 
-        return html(con, mapping, form, "queueFilter");
+        return html(con, form, PATH_JSP + "/queue/filter.jsp");
     }
 
-    public ActionForward queueShow(ActionMapping mapping, DynActionForm form, ConnectionSet connectionSet) throws Exception {
+    public ActionForward queueShow(DynActionForm form, ConnectionSet connectionSet) throws Exception {
         Preferences personalizationMap = form.getUser().getPersonalizationMap();
 
         String configBefore = personalizationMap.getDataString();
@@ -321,7 +321,7 @@ public class ProcessQueueAction extends ProcessAction {
             throw new BGMessageException("Очередь процессов с ID=%s не найдена", form.getId());
         }
 
-        return html(connectionSet, mapping, form);
+        return html(connectionSet, form, PATH_JSP + "/queue/show.jsp");
     }
 
     private void saveFormFilters(int queueId, DynActionForm form, Preferences personalizationMap) {

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.UserCache;
@@ -18,16 +17,16 @@ import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.mobile.dao.MobileDAO;
 import ru.bgcrm.plugin.mobile.model.Account;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.worker.FilterEntryCounter;
 
-public class UserAction
-    extends BaseAction
-{
-    public ActionForward state(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+@Action(path = "/open/plugin/mobile/user")
+public class UserAction extends BaseAction {
+    public ActionForward state(DynActionForm form, ConnectionSet conSet) throws Exception {
         form.setResponseType(DynActionForm.RESPONSE_TYPE_JSON);
 
         String key = form.getParam("key");
@@ -39,9 +38,9 @@ public class UserAction
             throw new BGMessageException("Account isn't registred");
 
         // непрочитанные новости и сообщения
-        NewsInfoEvent event = UserNewsCache.getUserEvent( conSet.getConnection(), account.getObjectId() );		
-        form.getResponse().setData("news", event);	
-        
+        NewsInfoEvent event = UserNewsCache.getUserEvent(conSet.getConnection(), account.getObjectId());
+        form.getResponse().setData("news", event);
+
         // счётчики
         List<Counter> counters = new ArrayList<>();
         form.getResponse().setData("counters", counters);
@@ -54,18 +53,18 @@ public class UserAction
         for (SavedFilterSet topFilter : topFilters.values()) {
             Queue queue = ProcessQueueCache.getQueue(topFilter.getQueueId());
             int count = counter.parseUrlAndGetCountSync(queue, topFilter.getUrl(), form.getUser());
-            
+
             Counter cnt = new Counter();
             cnt.title = topFilter.getTitle();
             cnt.color = topFilter.getColor();
             cnt.value = count;
-            
+
             counters.add(cnt);
         }
 
         return json(conSet, form);
     }
-    
+
     public static class Counter {
         public String title;
         public int value;

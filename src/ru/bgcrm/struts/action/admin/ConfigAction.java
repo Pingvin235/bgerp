@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.lic.AppLicense;
 import org.bgerp.util.lic.License;
@@ -35,7 +34,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class ConfigAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/config";
 
-    public ActionForward list(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward list(DynActionForm form, ConnectionSet conSet) throws Exception {
         Set<Integer> allowedConfigIds = Utils.toIntegerSet(form.getPermission().get("allowedConfigIds"));
         String filter = CommonDAO.getLikePatternSub(form.getParam("filter"));
 
@@ -65,13 +64,13 @@ public class ConfigAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/list.jsp");
     }
 
-    public ActionForward delete(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward delete(DynActionForm form, ConnectionSet conSet) throws Exception {
         new ConfigDAO(conSet.getConnection()).deleteGlobalConfig(form.getId());
 
         return json(conSet, form);
     }
 
-    public ActionForward get(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward get(DynActionForm form, ConnectionSet conSet) throws Exception {
         checkAllowedConfigIds(form);
 
         Config config = new ConfigDAO(conSet.getConnection()).getGlobalConfig(form.getId());
@@ -81,7 +80,7 @@ public class ConfigAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/update.jsp");
     }
 
-    public ActionForward update(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward update(DynActionForm form, ConnectionSet conSet) throws Exception {
         checkAllowedConfigIds(form);
 
         ConfigDAO configDAO = new ConfigDAO(conSet.getConnection());
@@ -121,7 +120,7 @@ public class ConfigAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward addIncluded(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward addIncluded(DynActionForm form, ConnectionSet conSet) throws Exception {
         String pluginId = form.getParam("pluginId");
 
         var config = new Config();
@@ -151,7 +150,7 @@ public class ConfigAction extends BaseAction {
         }
     }
 
-    public ActionForward licenseUpload(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward licenseUpload(DynActionForm form, ConnectionSet conSet) throws Exception {
         var file = form.getFile();
 
         byte[] data = IOUtils.toByteArray(file.getInputStream());

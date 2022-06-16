@@ -11,7 +11,7 @@
         "**/bin": true,
         "**/.gradle": true
     },
-    "java.home": "C:/Java/jdk-11.0.3",
+    "java.home": "C:\\Java\\jdk-17.0.3.7",
     "java.format.settings.url": ".vscode/formatter.xml",
     "editor.renderWhitespace": "all",
     "java.configuration.updateBuildConfiguration": "automatic",
@@ -19,9 +19,8 @@
     "terminal.integrated.fontSize": 12,
     "debug.console.fontSize": 12,
     "files.trimTrailingWhitespace": true,
-    // using wrapper doesn't work properly, the workaround is set the options below
-    // gradlew cleanEclipse eclipse
-    // re-open the project, after the gradle.version may be changed to the actual "7.3.1"
+    // using wrapper doesn't work properly, workaround is set in the options below
+    // to re-create project use command "Java: Clean Java Language Server Workspace" in command palette (Ctrl + Shift + P)
     "java.import.gradle.wrapper.enabled": false,
     "java.import.gradle.version": "6.9.1"
 }

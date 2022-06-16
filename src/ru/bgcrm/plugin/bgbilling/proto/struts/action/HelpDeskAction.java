@@ -4,12 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.message.MessageDAO;
@@ -23,111 +21,93 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk;
 import ru.bgcrm.plugin.bgbilling.proto.dao.HelpDeskDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdTopic;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class HelpDeskAction
-	extends BaseAction
-{
-	public ActionForward getAttach( ActionMapping mapping,
-	                                DynActionForm form,
-	                                HttpServletRequest request,
-	                                HttpServletResponse response,
-	                                ConnectionSet conSet )
-		throws Exception
-	{
-		int processId = form.getParamInt( "processId" );
-		String billingId = form.getParam( "billingId" );
-		int attachId = form.getParamInt( "id" );
-		String title = form.getParam( "title" );
+@Action(path = "/user/plugin/bgbilling/proto/helpdesk")
+public class HelpDeskAction extends BaseAction {
+    public ActionForward getAttach(DynActionForm form, ConnectionSet conSet) throws Exception {
+        int processId = form.getParamInt("processId");
+        String billingId = form.getParam("billingId");
+        int attachId = form.getParamInt("id");
+        String title = form.getParam("title");
 
-		MessageTypeHelpDesk mt = null;
+        MessageTypeHelpDesk mt = null;
 
-		MessageTypeConfig config = setup.getConfig( MessageTypeConfig.class );
-		for( MessageType type : config.getTypeMap().values() )
-		{
-			if( type instanceof MessageTypeHelpDesk &&
-				((MessageTypeHelpDesk)type).getBillingId().equals( billingId ) )
-			{
-				mt = (MessageTypeHelpDesk)type;
-				break;
-			}
-		}
+        MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
+        for (MessageType type : config.getTypeMap().values()) {
+            if (type instanceof MessageTypeHelpDesk && ((MessageTypeHelpDesk) type).getBillingId().equals(billingId)) {
+                mt = (MessageTypeHelpDesk) type;
+                break;
+            }
+        }
 
-		if( mt != null )
-		{
-			HelpDeskDAO hdDao = new HelpDeskDAO( mt.getUser(), mt.getDbInfo() );
+        if (mt != null) {
+            HelpDeskDAO hdDao = new HelpDeskDAO(mt.getUser(), mt.getDbInfo());
 
-			CommonObjectLink link = Utils.getFirst( new ProcessLinkDAO( conSet.getConnection() ).getObjectLinksWithType( processId, mt.getObjectType() ) );
-			if( link == null )
-			{
-				throw new ru.bgcrm.model.BGException( "К процессу не привязан топик HelpDesk." );
-			}
+            CommonObjectLink link = Utils.getFirst(
+                    new ProcessLinkDAO(conSet.getConnection()).getObjectLinksWithType(processId, mt.getObjectType()));
+            if (link == null) {
+                throw new ru.bgcrm.model.BGException("К процессу не привязан топик HelpDesk.");
+            }
 
-			Pageable<HdTopic> topicSearch = new Pageable<HdTopic>();
-			hdDao.seachTopicList( topicSearch, null, null, false, link.getLinkedObjectId() );
+            Pageable<HdTopic> topicSearch = new Pageable<HdTopic>();
+            hdDao.seachTopicList(topicSearch, null, null, false, link.getLinkedObjectId());
 
-			HdTopic topic = Utils.getFirst( topicSearch.getList() );
-			if( topic == null )
-			{
-				throw new BGException( "Не найден топик HelpDesk с кодом: " + link.getLinkedObjectId() );
-			}
+            HdTopic topic = Utils.getFirst(topicSearch.getList());
+            if (topic == null) {
+                throw new BGException("Не найден топик HelpDesk с кодом: " + link.getLinkedObjectId());
+            }
 
-			byte[] attach = hdDao.getAttach( topic.getContractId(), attachId );
+            byte[] attach = hdDao.getAttach(topic.getContractId(), attachId);
 
-			Utils.setFileNameHeaders( response, title );
+            HttpServletResponse response = form.getHttpResponse();
 
-			OutputStream out = response.getOutputStream();
+            Utils.setFileNameHeaders(response, title);
 
-			IOUtils.copy( new ByteArrayInputStream( attach ), out );
+            OutputStream out = response.getOutputStream();
 
-			out.flush();
-		}
+            IOUtils.copy(new ByteArrayInputStream(attach), out);
 
-		return null;
-	}
+            out.flush();
+        }
 
-	public ActionForward markMessageRead( ActionMapping mapping,
-	                                      DynActionForm form,
-	                                      HttpServletRequest request,
-	                                      HttpServletResponse response,
-	                                      ConnectionSet conSet )
-		throws Exception
-	{
-		int messageId = form.getParamInt( "messageId" );
-		if( messageId <= 0 )
-		{
-			throw new BGIllegalArgumentException();
-		}
+        return null;
+    }
 
-		MessageDAO messageDao = new MessageDAO( conSet.getConnection() );
+    public ActionForward markMessageRead(DynActionForm form, ConnectionSet conSet) throws Exception {
+        int messageId = form.getParamInt("messageId");
+        if (messageId <= 0) {
+            throw new BGIllegalArgumentException();
+        }
 
-		Message message = messageDao.getMessageById( messageId );
-		if( message == null )
-		{
-			throw new BGException( "Сообщение не найдено" );
-		}
+        MessageDAO messageDao = new MessageDAO(conSet.getConnection());
 
-		MessageTypeConfig config = setup.getConfig( MessageTypeConfig.class );
+        Message message = messageDao.getMessageById(messageId);
+        if (message == null) {
+            throw new BGException("Сообщение не найдено");
+        }
 
-		MessageType mt = config.getTypeMap().get( message.getTypeId() );
-		if( mt == null || !(mt instanceof MessageTypeHelpDesk) )
-		{
-			throw new BGException( "Не найден тип сообщения либо это не HelpDesk сообщение" );
-		}
+        MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
 
-		MessageTypeHelpDesk mtHd = (MessageTypeHelpDesk)mt;
+        MessageType mt = config.getTypeMap().get(message.getTypeId());
+        if (mt == null || !(mt instanceof MessageTypeHelpDesk)) {
+            throw new BGException("Не найден тип сообщения либо это не HelpDesk сообщение");
+        }
 
-		HelpDeskDAO hdDao = new HelpDeskDAO( form.getUser(), mtHd.getDbInfo() );
-		hdDao.markMessageRead( Utils.parseInt( message.getSystemId() ) );
+        MessageTypeHelpDesk mtHd = (MessageTypeHelpDesk) mt;
 
-		message.setToTime( new Date() );
-		message.setUserId( form.getUserId() );
+        HelpDeskDAO hdDao = new HelpDeskDAO(form.getUser(), mtHd.getDbInfo());
+        hdDao.markMessageRead(Utils.parseInt(message.getSystemId()));
 
-		messageDao.updateMessageProcess( message );
+        message.setToTime(new Date());
+        message.setUserId(form.getUserId());
 
-		return processJsonForward( conSet, form, response );
-	}
+        messageDao.updateMessageProcess(message);
+
+        return json(conSet, form);
+    }
 }

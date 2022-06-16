@@ -4,11 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.SortedMap;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -33,18 +29,22 @@ import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.ParameterValuePair;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
+@Action(path = "/user/customer")
 public class CustomerAction extends BaseAction {
+    private static final String PATH_JSP = PATH_JSP_USER + "/customer";
+
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
-        return customer(mapping, form, conSet);
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return customer(form, conSet);
     }
 
-    public ActionForward customerCreate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward customerCreate(DynActionForm form, ConnectionSet conSet) throws Exception {
         String title = form.getParam("title", l.l("Новый контрагент"));
 
         Customer customer = new Customer();
@@ -57,7 +57,7 @@ public class CustomerAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward customerGet(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward customerGet(DynActionForm form, ConnectionSet conSet) throws Exception {
         Connection con = conSet.getConnection();
 
         CustomerDAO customerDAO = new CustomerDAO(con);
@@ -75,10 +75,10 @@ public class CustomerAction extends BaseAction {
             request.setAttribute("parameterGroupList", groupDAO.getParameterGroupList(Customer.OBJECT_TYPE));
         }
 
-        return html(conSet, mapping, form, "edit");
+        return html(conSet, form, PATH_JSP + "/edit.jsp");
     }
 
-    public ActionForward customerUpdate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward customerUpdate(DynActionForm form, ConnectionSet conSet) throws Exception {
         CustomerDAO customerDAO = new CustomerDAO(conSet.getConnection(), true, form.getUserId());
 
         Customer customer = customerDAO.getCustomerById(form.getId());
@@ -107,8 +107,7 @@ public class CustomerAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward customerDelete(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
-            ConnectionSet conSet) throws Exception {
+    public ActionForward customerDelete(DynActionForm form, ConnectionSet conSet) throws Exception {
         Connection con = conSet.getConnection();
 
         new CustomerDAO(con).deleteCustomer(form.getId());
@@ -121,7 +120,7 @@ public class CustomerAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward customer(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward customer(DynActionForm form, ConnectionSet conSet) throws Exception {
         CustomerDAO customerDAO = new CustomerDAO(conSet.getConnection());
 
         Customer customer = customerDAO.getCustomerById(form.getId());
@@ -130,18 +129,19 @@ public class CustomerAction extends BaseAction {
             form.getResponse().setData("customer", customer);
         }
 
-        return html(conSet, mapping, form, FORWARD_DEFAULT);
+        return html(conSet, form, PATH_JSP + "/customer.jsp");
     }
 
-    public ActionForward customerTitleList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward customerTitleList(DynActionForm form, ConnectionSet conSet) throws Exception {
         List<String> titles = new CustomerDAO(conSet.getConnection()).getCustomerTitles(
-                CommonDAO.getLikePattern(form.getParam("title"), form.getParam("mode", "subs")), setup.getInt("customer.search.by.title.count", 10));
+                CommonDAO.getLikePatternSub(form.getParam("title")),
+                setup.getInt("customer.search.by.title.count", 10));
         form.getResponse().setData("list", titles);
 
-        return html(conSet, mapping, form, FORWARD_DEFAULT);
+        return html(conSet, form, PATH_JSP + "/customer.jsp");
     }
 
-    public ActionForward customerMerge(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward customerMerge(DynActionForm form, ConnectionSet conSet) throws Exception {
         Integer customerId = form.getParamInt("customerId");
         Integer mergingCustomerId = form.getParamInt("mergingCustomerId");
 

@@ -1,38 +1,36 @@
 package ru.bgcrm.struts.action.admin;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
+import org.bgerp.custom.java.CompilationResult;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
-import org.bgerp.custom.java.CompilationResult;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.RunClassRequestEvent;
 import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/admin/dynamic")
 public class DynamicAction extends BaseAction {
+    private static final String JSP = PATH_JSP_ADMIN + "/dynamic/dynamic.jsp";
+
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws Exception {
-        return html(conSet, mapping, form, FORWARD_DEFAULT);
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) {
+        return html(conSet, form, JSP);
     }
 
     // перекомпиляция всех файлов
-    public ActionForward recompileAll(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward recompileAll(DynActionForm form, ConnectionSet conSet) throws Exception {
         CompilationResult result = DynamicClassManager.getInstance().recompileAll();
-
-        // EventProcessor.subscribeDynamicClasses();
 
         form.getResponse().setData("result", result);
 
-        return html(conSet, mapping, form, FORWARD_DEFAULT);
+        return html(conSet, form, JSP);
     }
 
-    public ActionForward runDynamicClass(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward runDynamicClass(DynActionForm form, ConnectionSet conSet) throws Exception {
         String className = form.getParam("class");
 
         String ifaceType = form.getParam("iface", "event");

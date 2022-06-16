@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -16,14 +15,21 @@ import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
+@Action(path = "/user/search")
 public class SearchAction extends BaseAction {
+    private static final String PATH_JSP = PATH_JSP_USER + "/search";
+
+    private static final String JSP_DEFAULT = PATH_JSP + "/search.jsp";
+    private static final String JSP_CUSTOMER_TITLE = PATH_JSP + "/result/customer_title.jsp";
+    private static final String JSP_PROCESS = PATH_JSP + "/result/process.jsp";
 
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
         // areas supported only in bgbilling plugin, contract search
         HashSet<Integer> areaIds = new HashSet<Integer>();
 
@@ -35,10 +41,10 @@ public class SearchAction extends BaseAction {
 
         form.getResponse().setData("areas", areaIds);
 
-        return mapping.findForward(FORWARD_DEFAULT);
+        return html(con, form, JSP_DEFAULT);
     }
 
-    public ActionForward customerSearch(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward customerSearch(DynActionForm form, Connection con) throws Exception {
         CustomerDAO customerDao = new CustomerDAO(con);
 
         String searchBy = form.getParam("searchBy");
@@ -56,30 +62,20 @@ public class SearchAction extends BaseAction {
                 result.getPage().setRecordCount(0);
             }
 
-            return html(con, mapping, form, "customerTitle");
+            return html(con, form, JSP_CUSTOMER_TITLE);
         } else if ("title".equals(searchBy)) {
             Pageable<Customer> result = new Pageable<Customer>(form);
 
             String title = form.getParam("title");
             customerDao.searchCustomerList(result, CommonDAO.getLikePatternSub(title));
 
-            return html(con, mapping, form, "customerTitle");
-        }
-        /* else if ("any".equals(searchBy)) {
-            SearchResult<Customer> result = new SearchResult<Customer>(form);
-            String searchString = form.getParam("searchString");
-
-            SphinxDAO sphinxDAO = new SphinxDAO(con);
-            sphinxDAO.searchCustomer(result, searchString);
-
-            return processUserTypedForward(con, mapping, form, "customerTitle");
-        } */
-        else if ("group".equals(searchBy)) {
+            return html(con, form, JSP_CUSTOMER_TITLE);
+        } else if ("group".equals(searchBy)) {
             Pageable<Customer> result = new Pageable<Customer>(form);
 
             customerDao.searchCustomerList(result, form.getSelectedValues("groupId"));
 
-            return html(con, mapping, form, "customerTitle");
+            return html(con, form, JSP_CUSTOMER_TITLE);
         } else if ("address".equals(searchBy)) {
             Pageable<ParameterSearchedObject<Customer>> result = new Pageable<ParameterSearchedObject<Customer>>(form);
 
@@ -91,7 +87,7 @@ public class SearchAction extends BaseAction {
             customerDao.searchCustomerListByAddress(result, Utils.getObjectIdsList(ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE)),
                     streetId, house, flat, room);
 
-            return html(con, mapping, form, "customerAddress");
+            return html(con, form, PATH_JSP + "/result/customer_address.jsp");
         } else if ("email".equals(searchBy)) {
             Pageable<ParameterSearchedObject<Customer>> result = new Pageable<ParameterSearchedObject<Customer>>(form);
 
@@ -100,7 +96,7 @@ public class SearchAction extends BaseAction {
             customerDao.searchCustomerListByEmail(result, Utils.getObjectIdsList(ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE)),
                     email);
 
-            return html(con, mapping, form, "customerTitle");
+            return html(con, form, JSP_CUSTOMER_TITLE);
         } else if ("phone".equals(searchBy)) {
             Pageable<Customer> result = new Pageable<Customer>(form);
             String phone = form.getParam("phone");
@@ -113,7 +109,7 @@ public class SearchAction extends BaseAction {
                         phone);
             }
 
-            return html(con, mapping, form, "customerTitle");
+            return html(con, form, JSP_CUSTOMER_TITLE);
         } else if ("linkedObjectTitle".equals(searchBy)) {
             Pageable<Customer> result = new Pageable<Customer>(form);
 
@@ -122,13 +118,13 @@ public class SearchAction extends BaseAction {
 
             customerDao.searchCustomerByLinkedObjectTitle(result, linkedObjectTypeLike, linkedObjectTitle);
 
-            return html(con, mapping, form, "customerTitle");
+            return html(con, form, JSP_CUSTOMER_TITLE);
         }
 
-        return mapping.findForward(FORWARD_DEFAULT);
+        return html(con, form, JSP_DEFAULT);
     }
 
-    public ActionForward processSearch(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward processSearch(DynActionForm form, Connection con) throws Exception {
         ProcessDAO processDao = new ProcessDAO(con, form.getUser());
 
         String searchBy = form.getParam("searchBy");
@@ -138,7 +134,7 @@ public class SearchAction extends BaseAction {
 
             processDao.searchProcessListForUser(new Pageable<Process>(form), form.getUserId(), mode);
 
-            return html(con, mapping, form, "process");
+            return html(con, form, JSP_PROCESS);
         } else if ("id".equals(searchBy)) {
             Pageable<Process> result = new Pageable<>(form);
 
@@ -148,10 +144,10 @@ public class SearchAction extends BaseAction {
                 result.getPage().setRecordCount(1);
             }
 
-            return html(con, mapping, form, "process");
+            return html(con, form, JSP_PROCESS);
         }
 
-        return mapping.findForward(FORWARD_DEFAULT);
+        return html(con, form, JSP_DEFAULT);
     }
 
 }

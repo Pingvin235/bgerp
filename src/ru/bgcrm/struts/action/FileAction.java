@@ -17,19 +17,20 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.IdTitle;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
+@Action(path = "/user/file")
 public class FileAction extends BaseAction {
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
         var response = form.getHttpResponse();
 
         FileData data = new FileData();
@@ -49,7 +50,7 @@ public class FileAction extends BaseAction {
         return null;
     }
 
-    public ActionForward temporaryUpload(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward temporaryUpload(DynActionForm form, Connection con) throws BGException {
         try {
             FormFile file = form.getFile();
 
@@ -86,7 +87,7 @@ public class FileAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward temporaryDelete(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
+    public ActionForward temporaryDelete(DynActionForm form, Connection con) throws BGException {
         if (log.isDebugEnabled()) {
             log.debug("Deleting temporary file: " + form.getId());
         }

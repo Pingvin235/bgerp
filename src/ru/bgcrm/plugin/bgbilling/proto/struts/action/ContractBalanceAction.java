@@ -9,16 +9,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
+import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.BalanceDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.CashCheckDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
@@ -29,15 +26,18 @@ import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractBalanceGeneral;
 import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractCharge;
 import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractPayment;
 import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/user/plugin/bgbilling/proto/balance")
 public class ContractBalanceAction extends BaseAction {
-    public ActionForward balanceEditor(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
-            ConnectionSet conSet) throws BGException {
+    private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/contract/balance";
+
+    public ActionForward balanceEditor(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         String item = form.getParam("item");
 
@@ -53,7 +53,8 @@ public class ContractBalanceAction extends BaseAction {
         } else if ("contractPayment".equals(item)) {
             DBInfo dbInfo = DBInfoManager.getDbInfo(billingId);
             if (dbInfo.getPluginSet().contains(CashCheckDAO.CASHCHECK_MODULE_ID)) {
-                form.getResponse().setData("currentPrinter", new CashCheckDAO(form.getUser(), billingId).getCurrentPrinter());
+                form.getResponse().setData("currentPrinter",
+                        new CashCheckDAO(form.getUser(), billingId).getCurrentPrinter());
             }
 
             Set<Integer> allowedTypeIds = getTypePermission(form, billingId, "paymentTypeIds");
@@ -64,7 +65,8 @@ public class ContractBalanceAction extends BaseAction {
             }
         }
         form.getResponse().setData("date", new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime()));
-        return html(conSet, mapping, form, "balanceEditor");
+
+        return html(conSet, form, PATH_JSP + "/balance_editor.jsp");
     }
 
     private Set<Integer> getTypePermission(DynActionForm form, String billingId, String key) {
@@ -84,8 +86,7 @@ public class ContractBalanceAction extends BaseAction {
         return allowedTypeIds;
     }
 
-    public ActionForward balance(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
-            ConnectionSet conSet) throws BGException {
+    public ActionForward balance(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -96,14 +97,15 @@ public class ContractBalanceAction extends BaseAction {
         List<ContractBalanceGeneral> balanceList = new ArrayList<ContractBalanceGeneral>();
 
         form.getResponse().setData("list", balanceList);
-        form.getResponse().setData("summs", balanceDAO.getContractBalanceList(contractId, period[0], period[1], balanceList));
-        form.getResponse().setData("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
+        form.getResponse().setData("summs",
+                balanceDAO.getContractBalanceList(contractId, period[0], period[1], balanceList));
+        form.getResponse().setData("contractInfo",
+                ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
-        return html(conSet, mapping, form, "balance");
+        return html(conSet, form, PATH_JSP + "/balance_list.jsp");
     }
 
-    public ActionForward balanceDetail(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
-            ConnectionSet conSet) throws BGException {
+    public ActionForward balanceDetail(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -113,14 +115,15 @@ public class ContractBalanceAction extends BaseAction {
         form.getResponse().setData("list", balanceList);
 
         Date[] period = getPeriod(form);
-        form.getResponse().setData("summa", balanceDAO.getContractBalanceDetailList(contractId, period[0], period[1], balanceList));
-        form.getResponse().setData("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
+        form.getResponse().setData("summa",
+                balanceDAO.getContractBalanceDetailList(contractId, period[0], period[1], balanceList));
+        form.getResponse().setData("contractInfo",
+                ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
-        return html(conSet, mapping, form, "balanceDetail");
+        return html(conSet, form, PATH_JSP + "/detail_balance_list.jsp");
     }
 
-    public ActionForward paymentList(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
-            ConnectionSet conSet) throws BGException {
+    public ActionForward paymentList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -134,14 +137,15 @@ public class ContractBalanceAction extends BaseAction {
 
         Date[] period = getPeriod(form);
 
-        form.getResponse().setData("summa", balanceDAO.getContractPaymentList(contractId, period[0], period[1], paymentList, subPaymentList));
-        form.getResponse().setData("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
+        form.getResponse().setData("summa",
+                balanceDAO.getContractPaymentList(contractId, period[0], period[1], paymentList, subPaymentList));
+        form.getResponse().setData("contractInfo",
+                ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
-        return html(conSet, mapping, form, "paymentList");
+        return html(conSet, form, PATH_JSP + "/payment_list.jsp");
     }
 
-    public ActionForward chargeList(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
-            ConnectionSet conSet) throws BGException {
+    public ActionForward chargeList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -155,14 +159,15 @@ public class ContractBalanceAction extends BaseAction {
 
         Date[] period = getPeriod(form);
 
-        form.getResponse().setData("summa", balanceDAO.getContractChargeList(contractId, period[0], period[1], chargeList, subChargeList));
-        form.getResponse().setData("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
+        form.getResponse().setData("summa",
+                balanceDAO.getContractChargeList(contractId, period[0], period[1], chargeList, subChargeList));
+        form.getResponse().setData("contractInfo",
+                ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
-        return html(conSet, mapping, form, "chargeList");
+        return html(conSet, form, PATH_JSP + "/charge_list.jsp");
     }
 
-    public ActionForward accountList(ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response,
-            ConnectionSet conSet) throws BGException {
+    public ActionForward accountList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -176,90 +181,70 @@ public class ContractBalanceAction extends BaseAction {
         List<ContractAccount> subChargeList = new ArrayList<ContractAccount>();
         form.getResponse().setData("subList", subChargeList);
 
-        form.getResponse().setData("summa", balanceDAO.getContractAccountList(contractId, period[0], period[1], chargeList, subChargeList));
-        form.getResponse().setData("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
+        form.getResponse().setData("summa",
+                balanceDAO.getContractAccountList(contractId, period[0], period[1], chargeList, subChargeList));
+        form.getResponse().setData("contractInfo",
+                ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
-        return html(conSet, mapping, form, "accountList");
+        return html(conSet, form, PATH_JSP + "/account_list.jsp");
     }
 
-    private Date[] getPeriod(DynActionForm form) throws BGIllegalArgumentException
-    {
+    private Date[] getPeriod(DynActionForm form) throws BGIllegalArgumentException {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime( new Date() );
-        calendar.set( Calendar.DAY_OF_MONTH, 1 );
-        Date dateFrom = TimeUtils.parse( form.getParam( "dateFrom", "" ), TimeUtils.PATTERN_DDMMYYYY, calendar.getTime());
-        calendar.set( Calendar.DAY_OF_MONTH, calendar.getActualMaximum( Calendar.DAY_OF_MONTH ) );
-        Date dateTo = TimeUtils.parse( form.getParam( "dateTo", "" ), TimeUtils.PATTERN_DDMMYYYY ,calendar.getTime());
-        
-        form.getResponse().setData( "dateFrom", dateFrom );
-        form.getResponse().setData( "dateTo", dateTo );
-        
-        return new Date[]{ dateFrom, dateTo };
+        calendar.setTime(new Date());
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        Date dateFrom = TimeUtils.parse(form.getParam("dateFrom", ""), TimeUtils.PATTERN_DDMMYYYY, calendar.getTime());
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        Date dateTo = TimeUtils.parse(form.getParam("dateTo", ""), TimeUtils.PATTERN_DDMMYYYY, calendar.getTime());
+
+        form.getResponse().setData("dateFrom", dateFrom);
+        form.getResponse().setData("dateTo", dateTo);
+
+        return new Date[] { dateFrom, dateTo };
     }
-    
-    public ActionForward updateBalance( ActionMapping mapping,
-                                        DynActionForm form,
-                                        HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        ConnectionSet conSet )
-        throws BGException
-    {
-        String billingId = form.getParam( "billingId" );
-        int contractId = form.getParamInt( "contractId" );
-        String item = form.getParam( "item" );
-        Date date = TimeUtils.parse( form.getParam( "date", "" ), TimeUtils.PATTERN_DDMMYYYY );
 
-        int id = form.getParamInt( "id", 0 );
-        int typeId = form.getParamInt( "typeId" );
-        BigDecimal summa = Utils.parseBigDecimal( form.getParam( "summa", "").replace(',', '.') );
-        String comment = form.getParam( "comment" );
+    public ActionForward updateBalance(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
+        String item = form.getParam("item");
+        Date date = TimeUtils.parse(form.getParam("date", ""), TimeUtils.PATTERN_DDMMYYYY);
 
-        BalanceDAO balanceDAO = new BalanceDAO( form.getUser(), billingId );
+        int id = form.getParamInt("id", 0);
+        int typeId = form.getParamInt("typeId");
+        BigDecimal summa = Utils.parseBigDecimal(form.getParam("summa", "").replace(',', '.'));
+        String comment = form.getParam("comment");
 
-        if( "contractPayment".equals( item ) )
-        {
-            id = balanceDAO.updateContractPayment( id, contractId, summa, date, typeId, comment );
+        BalanceDAO balanceDAO = new BalanceDAO(form.getUser(), billingId);
+
+        if ("contractPayment".equals(item)) {
+            id = balanceDAO.updateContractPayment(id, contractId, summa, date, typeId, comment);
+        } else if ("contractCharge".equals(item)) {
+            id = balanceDAO.updateContractCharge(id, contractId, summa, date, typeId, comment);
         }
-        else if( "contractCharge".equals( item ) )
-        {
-            id = balanceDAO.updateContractCharge( id, contractId, summa, date, typeId, comment );
-        }
-        form.getResponse().setData( "id", id );
+        form.getResponse().setData("id", id);
 
-        return json( conSet, form );
-    }
-    
-    public ActionForward deletePayment( ActionMapping mapping,
-                                        DynActionForm form,
-                                        HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        ConnectionSet conSet )
-        throws BGException
-    {
-        String billingId = form.getParam( "billingId" );
-        Integer paymentId = form.getParamInt( "paymentId" );
-        Integer contractId = form.getParamInt( "contractId" );
-
-        BalanceDAO balanceDAO = new BalanceDAO( form.getUser(), billingId );
-        balanceDAO.deleteContractPayment( paymentId, contractId );
-
-        return json( conSet, form);
+        return json(conSet, form);
     }
 
-    public ActionForward deleteCharge( ActionMapping mapping,
-                                       DynActionForm form,
-                                       HttpServletRequest request,
-                                       HttpServletResponse response,
-                                       ConnectionSet conSet )
-        throws BGException
-    {
-        String billingId = form.getParam( "billingId" );
-        Integer chargeId = form.getParamInt( "chargeId" );
-        Integer contractId = form.getParamInt( "contractId" );
+    public ActionForward deletePayment(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        Integer paymentId = form.getParamInt("paymentId");
+        Integer contractId = form.getParamInt("contractId");
 
-        BalanceDAO balanceDAO = new BalanceDAO( form.getUser(), billingId );
-        balanceDAO.deleteContractCharge( chargeId, contractId );
+        BalanceDAO balanceDAO = new BalanceDAO(form.getUser(), billingId);
+        balanceDAO.deleteContractPayment(paymentId, contractId);
 
-        return json( conSet, form );
+        return json(conSet, form);
+    }
+
+    public ActionForward deleteCharge(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        Integer chargeId = form.getParamInt("chargeId");
+        Integer contractId = form.getParamInt("contractId");
+
+        BalanceDAO balanceDAO = new BalanceDAO(form.getUser(), billingId);
+        balanceDAO.deleteContractCharge(chargeId, contractId);
+
+        return json(conSet, form);
     }
 }

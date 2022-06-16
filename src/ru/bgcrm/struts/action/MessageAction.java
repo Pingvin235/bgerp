@@ -19,7 +19,6 @@ import com.google.common.collect.Maps;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Dynamic;
@@ -62,8 +61,7 @@ public class MessageAction extends BaseAction {
     public static final String ACTION_MODIFY_NOT_OWNED = "org.bgerp.action.MessageAction:modifyNotOwned";
 
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
         return message(form, conSet);
     }
 
@@ -351,7 +349,7 @@ public class MessageAction extends BaseAction {
     public ActionForward processCreate(DynActionForm form, ConnectionSet conSet) throws Exception {
         var con = conSet.getConnection();
 
-        var process = ProcessAction.processCreate(form, con);
+        var process = ProcessAction.processCreateAndGet(form, con);
 
         var linkDao = new ProcessLinkDAO(con, form.getUser());
         for (String link : form.getSelectedValuesListStr("link")) {

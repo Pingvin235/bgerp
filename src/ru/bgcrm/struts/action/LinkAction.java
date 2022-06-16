@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CommonLinkDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
@@ -23,18 +21,19 @@ import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessType;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-public class LinkAction extends BaseAction {
 
+@Action(path = "/user/link")
+public class LinkAction extends BaseAction {
     private static final String PARAM_PREFIX = "c:";
     private static final int PARAM_PREFIX_LENGTH = PARAM_PREFIX.length();
 
-    public ActionForward addLink(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward addLink(DynActionForm form, ConnectionSet conSet) throws Exception {
         CommonObjectLink link = getLink(form);
         if (Utils.isBlankString(link.getObjectType()) || link.getObjectId() == 0 || Utils.isBlankString(link.getLinkedObjectType())
                 || link.getLinkedObjectTitle() == null) { // link.getLinkedObjectId() <= 0 || Убрана проверка, так как в мастере < 0
@@ -47,14 +46,7 @@ public class LinkAction extends BaseAction {
     }
 
     public static void addLink(DynActionForm form, Connection con, CommonObjectLink link) throws Exception {
-        String className = null;
-        if (Process.OBJECT_TYPE.equals(link.getObjectType())) {
-            Process process = new ProcessDAO(con).getProcess(link.getObjectId());
-            ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-            className = type.getProperties().getActualScriptName();
-        }
-
-        EventProcessor.processEvent(new LinkAddingEvent(form, link), className, new SingleConnectionSet(con));
+        EventProcessor.processEvent(new LinkAddingEvent(form, link), new SingleConnectionSet(con));
 
         CommonLinkDAO.getLinkDAO(link.getObjectType(), con).addLink(link);
 
@@ -63,10 +55,10 @@ public class LinkAction extends BaseAction {
                 throw new BGMessageException(form.l.l("Циклическая зависимость"));
         }
 
-        EventProcessor.processEvent(new LinkAddedEvent(form, link), className, new SingleConnectionSet(con));
+        EventProcessor.processEvent(new LinkAddedEvent(form, link), new SingleConnectionSet(con));
     }
 
-    public ActionForward deleteLink(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward deleteLink(DynActionForm form, ConnectionSet conSet) throws Exception {
         CommonObjectLink link = getLink(form);
         if (Utils.isBlankString(link.getObjectType()) || link.getObjectId() == 0 || Utils.isBlankString(link.getLinkedObjectType())
                 || link.getLinkedObjectId() <= 0) {
@@ -84,7 +76,7 @@ public class LinkAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward deleteLinksWithType(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward deleteLinksWithType(DynActionForm form, ConnectionSet conSet) throws Exception {
         CommonObjectLink link = getLink(form);
         if (link.getObjectId() == 0 || Utils.isBlankString(link.getObjectType()) || Utils.isBlankString(link.getLinkedObjectType())) {
             throw new BGIllegalArgumentException();
@@ -96,7 +88,7 @@ public class LinkAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward deleteLinksTo(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward deleteLinksTo(DynActionForm form, ConnectionSet conSet) throws Exception {
         CommonObjectLink link = getLink(form);
         if (Utils.isBlankString(link.getObjectType()) || Utils.isBlankString(link.getLinkedObjectType()) || link.getLinkedObjectId() <= 0) {
             throw new BGIllegalArgumentException();
@@ -111,7 +103,7 @@ public class LinkAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward linkList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward linkList(DynActionForm form, ConnectionSet conSet) throws Exception {
         CommonObjectLink link = getLink(form);
         if (Utils.isBlankString(link.getObjectType()) || link.getObjectId() <= 0) {
             throw new BGIllegalArgumentException();
@@ -128,7 +120,8 @@ public class LinkAction extends BaseAction {
             form.getHttpRequest().setAttribute("process", process);
         }
 
-        return html(conSet, mapping, form);
+        // TODO: Move the JSP to PATH_JSP_USER + "/link/list.jsp"
+        return html(conSet, form, PATH_JSP_USER + "/process/process/link_list.jsp");
     }
 
     private CommonObjectLink getLink(DynActionForm form) {

@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
 
 import javassist.NotFoundException;
@@ -51,13 +50,13 @@ public class ProcessAction extends BaseAction {
     static final String JSP_USED_IN_TYPES = PATH_JSP + "/used_in_types.jsp";
 
     // статусы
-    public ActionForward statusList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward statusList(DynActionForm form, Connection con) throws Exception {
         new StatusDAO(con).searchStatus(new Pageable<Status>(form));
 
         return html(con, form, PATH_JSP + "/status/list.jsp");
     }
 
-    public ActionForward statusUseProcess(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward statusUseProcess(DynActionForm form, Connection con) throws Exception {
         Integer statusId = Utils.parseInt(form.getParam("statusId"));
         List<String> containProcess = new ArrayList<String>();
         Map<Integer, ProcessType> processTypeMap = ProcessTypeCache.getProcessTypeMap();
@@ -78,7 +77,7 @@ public class ProcessAction extends BaseAction {
         return html(con, form, JSP_USED_IN_TYPES);
     }
 
-    public ActionForward statusDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward statusDelete(DynActionForm form, Connection con) throws Exception {
         new StatusDAO(con).deleteStatus(form.getId());
 
         ProcessTypeCache.flush(con);
@@ -86,7 +85,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward statusGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward statusGet(DynActionForm form, Connection con) throws Exception {
         StatusDAO statusDAO = new StatusDAO(con);
 
         Status status = statusDAO.getStatus(form.getId());
@@ -97,7 +96,7 @@ public class ProcessAction extends BaseAction {
         return html(con, form, PATH_JSP + "/status/update.jsp");
     }
 
-    public ActionForward statusUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward statusUpdate(DynActionForm form, Connection con) throws Exception {
         StatusDAO statusDAO = new StatusDAO(con);
 
         Status status = new Status();
@@ -113,7 +112,7 @@ public class ProcessAction extends BaseAction {
     }
 
     // типы
-    public ActionForward typeList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward typeList(DynActionForm form, Connection con) throws Exception {
         HttpServletRequest request = form.getHttpRequest();
         ArrayHashMap paramMap = form.getParam();
         int parentId = Utils.parseInt(paramMap.get("parentTypeId"), 0);
@@ -137,7 +136,7 @@ public class ProcessAction extends BaseAction {
         return html(con, form, PATH_JSP + "/type/list.jsp");
     }
 
-    public ActionForward typeGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward typeGet(DynActionForm form, Connection con) throws Exception {
         ProcessTypeDAO processTypeDAO = new ProcessTypeDAO(con);
 
         ProcessType type = processTypeDAO.getProcessType(form.getId());
@@ -148,7 +147,7 @@ public class ProcessAction extends BaseAction {
         return html(con, form, PATH_JSP + "/type/update.jsp");
     }
 
-    public ActionForward typeUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward typeUpdate(DynActionForm form, Connection con) throws Exception {
         ProcessTypeDAO processTypeDAO = new ProcessTypeDAO(con);
 
         ProcessType type = new ProcessType();
@@ -170,7 +169,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward typeDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward typeDelete(DynActionForm form, Connection con) throws Exception {
         ArrayHashMap paramMap = form.getParam();
         int id = Utils.parseInt(paramMap.get("id"), -1);
         ProcessTypeDAO typeDAO = new ProcessTypeDAO(con);
@@ -185,7 +184,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward typeInsertMark(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward typeInsertMark(DynActionForm form, Connection con) throws Exception {
         ArrayHashMap paramMap = form.getParam();
         int parentId = Utils.parseInt(paramMap.get("parentTypeId"), 0);
         int id = Utils.parseInt(paramMap.get("markType"), -1);
@@ -211,7 +210,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward typeUsed(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward typeUsed(DynActionForm form, Connection con) throws Exception {
         int typeId = form.getParamInt("typeId", 0);
         if (typeId <= 0)
             throw new BGIllegalArgumentException();
@@ -224,7 +223,7 @@ public class ProcessAction extends BaseAction {
         return html(con, form, PATH_JSP + "/type/type_used.jsp");
     }
 
-    public ActionForward typeCopy(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward typeCopy(DynActionForm form, Connection con) throws Exception {
         int typeId = form.getId();
         if (typeId <= 0)
             throw new BGIllegalArgumentException();
@@ -244,7 +243,7 @@ public class ProcessAction extends BaseAction {
     }
 
     // очереди
-    public ActionForward queueList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward queueList(DynActionForm form, Connection con) throws Exception {
         Set<Integer> queueIds = Utils.toIntegerSet(form.getPermission().get("allowedQueueIds"));
 
         new QueueDAO(con).searchQueue(new Pageable<Queue>(form), queueIds, form.getParam("filter"));
@@ -252,7 +251,7 @@ public class ProcessAction extends BaseAction {
         return html(con, form, PATH_JSP + "/queue/list.jsp");
     }
 
-    public ActionForward queueGet(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward queueGet(DynActionForm form, Connection con) throws Exception {
         HttpServletRequest request = form.getHttpRequest();
 
         checkAllowedQueueIds(form);
@@ -272,7 +271,7 @@ public class ProcessAction extends BaseAction {
         return html(con, form, PATH_JSP + "/queue/update.jsp");
     }
 
-    public ActionForward queueUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward queueUpdate(DynActionForm form, Connection con) throws Exception {
         checkAllowedQueueIds(form);
 
         QueueDAO queueDAO = new QueueDAO(con);
@@ -296,7 +295,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward queueDuplicate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward queueDuplicate(DynActionForm form, Connection con) throws Exception {
         var dao = new QueueDAO(con);
 
         var queue = dao.getQueue(form.getId());
@@ -316,7 +315,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward queueDelete(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward queueDelete(DynActionForm form, Connection con) throws Exception {
         checkAllowedQueueIds(form);
 
         new QueueDAO(con).delete(form.getId());
@@ -326,7 +325,7 @@ public class ProcessAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward properties(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward properties(DynActionForm form, Connection con) throws Exception {
         HttpServletRequest request = form.getHttpRequest();
 
         checkAllowedQueueIds(form);
@@ -353,7 +352,7 @@ public class ProcessAction extends BaseAction {
         return html(con, form, PATH_JSP + "/type/properties.jsp");
     }
 
-    public ActionForward propertiesUpdate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward propertiesUpdate(DynActionForm form, Connection con) throws Exception {
         checkAllowedQueueIds(form);
 
         ProcessTypeDAO typeDAO = new ProcessTypeDAO(con);

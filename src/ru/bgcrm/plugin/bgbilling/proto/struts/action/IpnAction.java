@@ -2,221 +2,194 @@ package ru.bgcrm.plugin.bgbilling.proto.struts.action;
 
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.model.BGException;
+import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.IpnDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.ipn.IpnRange;
 import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.struts.form.Response;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class IpnAction
-	extends BaseAction
-{
-	public ActionForward rangeList( ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response, ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		int contractId = form.getParamInt( "contractId" );
-		int moduleId = form.getParamInt( "moduleId" );
-		Date date = form.getParamDate( "date" );
+@Action(path = "/user/plugin/bgbilling/proto/ipn")
+public class IpnAction extends BaseAction {
+    private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/ipn";
 
-		IpnDAO ipnDao = new IpnDAO( form.getUser(), billingId, moduleId );
-		form.getResponse().setData( "rangeList", ipnDao.getIpnRanges( contractId, date, false ) );
-		form.getResponse().setData( "netList", ipnDao.getIpnRanges( contractId, date, true ) );
+    public ActionForward rangeList(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
+        int moduleId = form.getParamInt("moduleId");
+        Date date = form.getParamDate("date");
 
-		return processUserTypedForward( conSet, mapping, form, response, "rangeList" );
-	}
+        IpnDAO ipnDao = new IpnDAO(form.getUser(), billingId, moduleId);
+        form.getResponse().setData("rangeList", ipnDao.getIpnRanges(contractId, date, false));
+        form.getResponse().setData("netList", ipnDao.getIpnRanges(contractId, date, true));
 
-	public ActionForward rangeEdit( ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response, ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		int contractId = form.getParamInt( "contractId" );
-		int moduleId = form.getParamInt( "moduleId" );
+        return html(conSet, form, PATH_JSP + "/range_list.jsp");
+    }
 
-		IpnDAO ipnDao = new IpnDAO( form.getUser(), billingId, moduleId );
-		form.getResponse().setData( "range", ipnDao.getIpnRange( contractId, form.getId() ) );
-		form.getResponse().setData( "sourceList", ipnDao.getSourceList( new Date() ) );
-		form.getResponse().setData( "planList", ipnDao.linkPlanList() );
+    public ActionForward rangeEdit(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
+        int moduleId = form.getParamInt("moduleId");
 
-		return processUserTypedForward( conSet, mapping, form, response, "rangeEdit" );
-	}
+        IpnDAO ipnDao = new IpnDAO(form.getUser(), billingId, moduleId);
+        form.getResponse().setData("range", ipnDao.getIpnRange(contractId, form.getId()));
+        form.getResponse().setData("sourceList", ipnDao.getSourceList(new Date()));
+        form.getResponse().setData("planList", ipnDao.linkPlanList());
 
-	public ActionForward rangeDelete( ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response, ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		int contractId = form.getParamInt( "contractId" );
-		int moduleId = form.getParamInt( "moduleId" );
+        return html(conSet, form, PATH_JSP + "/range_edit.jsp");
+    }
 
-		new IpnDAO( form.getUser(), billingId, moduleId ).deleteIpnRange( contractId, form.getId() );
+    public ActionForward rangeDelete(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
+        int moduleId = form.getParamInt("moduleId");
 
-		return processJsonForward( conSet, form, response );
-	}
+        new IpnDAO(form.getUser(), billingId, moduleId).deleteIpnRange(contractId, form.getId());
 
-	public ActionForward rangeUpdate( ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response, ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		int contractId = form.getParamInt( "contractId" );
-		int moduleId = form.getParamInt( "moduleId" );
+        return json(conSet, form);
+    }
 
-		IpnDAO ipnDao = new IpnDAO( form.getUser(), billingId, moduleId );
+    public ActionForward rangeUpdate(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
+        int moduleId = form.getParamInt("moduleId");
 
-		IpnRange range = new IpnRange();
-		range.setId( form.getId() );
-		range.setContractId( contractId );
-		range.setAddressFrom( form.getParam( "addressFrom" ) );
-		range.setAddressTo( form.getParam( "addressTo" ) );
-		range.setMask( form.getParamInt( "mask" ) );
-		range.setDateFrom( form.getParamDate( "dateFrom" ) );
-		range.setDateTo( form.getParamDate( "dateTo" ) );
-		range.setIfaceList( form.getSelectedValuesListStr( "iface" ) );
-		range.setPlan( form.getParamInt( "plan" ) );
-		range.setComment( form.getParam( "comment" ) );
+        IpnDAO ipnDao = new IpnDAO(form.getUser(), billingId, moduleId);
 
-		ipnDao.updateIpnRange( range );
+        IpnRange range = new IpnRange();
+        range.setId(form.getId());
+        range.setContractId(contractId);
+        range.setAddressFrom(form.getParam("addressFrom"));
+        range.setAddressTo(form.getParam("addressTo"));
+        range.setMask(form.getParamInt("mask"));
+        range.setDateFrom(form.getParamDate("dateFrom"));
+        range.setDateTo(form.getParamDate("dateTo"));
+        range.setIfaceList(form.getSelectedValuesListStr("iface"));
+        range.setPlan(form.getParamInt("plan"));
+        range.setComment(form.getParam("comment"));
 
-		return processJsonForward( conSet, form, response );
-	}
+        ipnDao.updateIpnRange(range);
 
-	public ActionForward gateStatus( ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response, ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		int contractId = form.getParamInt( "contractId" );
-		int moduleId = form.getParamInt( "moduleId" );
+        return json(conSet, form);
+    }
 
-		IpnDAO ipnDao = new IpnDAO( form.getUser(), billingId, moduleId );
-		form.getResponse().setData( "info", ipnDao.gateInfo( contractId ) );
+    public ActionForward gateStatus(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
+        int moduleId = form.getParamInt("moduleId");
 
-		return processUserTypedForward( conSet, mapping, form, response, "gateStatus" );
-	}
+        IpnDAO ipnDao = new IpnDAO(form.getUser(), billingId, moduleId);
+        form.getResponse().setData("info", ipnDao.gateInfo(contractId));
 
-	public ActionForward gateStatusUpdate( ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response, ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		int contractId = form.getParamInt( "contractId" );
-		int moduleId = form.getParamInt( "moduleId" );
+        return html(conSet, form, PATH_JSP + "/gate_status.jsp");
+    }
 
-		IpnDAO ipnDao = new IpnDAO( form.getUser(), billingId, moduleId );
-		ipnDao.gateStatusUpdate( contractId, form.getParamInt( "status" ) );
+    public ActionForward gateStatusUpdate(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
+        int moduleId = form.getParamInt("moduleId");
 
-		return processJsonForward( conSet, form, response );
-	}
+        IpnDAO ipnDao = new IpnDAO(form.getUser(), billingId, moduleId);
+        ipnDao.gateStatusUpdate(contractId, form.getParamInt("status"));
 
-	public ActionForward gateRuleEdit( ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response, ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		int contractId = form.getParamInt( "contractId" );
-		int moduleId = form.getParamInt( "moduleId" );
+        return json(conSet, form);
+    }
 
-		int gateTypeId = form.getParamInt( "gateTypeId" );
-		int gateId = form.getParamInt( "gateId" );
-		// int userGateId = form.getParamInt( "userGateId" );
+    public ActionForward gateRuleEdit(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
+        int moduleId = form.getParamInt("moduleId");
 
-		IpnDAO ipnDao = new IpnDAO( form.getUser(), billingId, moduleId );
+        int gateTypeId = form.getParamInt("gateTypeId");
+        int gateId = form.getParamInt("gateId");
 
-		Response resp = form.getResponse();
-		if( gateId > 0 )
-		{
-			resp.setData( "ruleTypeList", ipnDao.gateRuleTypeList( gateTypeId ) );
-			if( form.getId() > 0 )
-			{
-				resp.setData( "rulePair", ipnDao.getUserGateRule( form.getId() ) );
-			}
+        IpnDAO ipnDao = new IpnDAO(form.getUser(), billingId, moduleId);
 
-			resp.setData( "rangeList", ipnDao.getIpnRanges( contractId, form.getParamDate( "date" ), false ) );
-			resp.setData( "netList", ipnDao.getIpnRanges( contractId, form.getParamDate( "date" ), true ) );
+        Response resp = form.getResponse();
+        if (gateId > 0) {
+            resp.setData("ruleTypeList", ipnDao.gateRuleTypeList(gateTypeId));
+            if (form.getId() > 0) {
+                resp.setData("rulePair", ipnDao.getUserGateRule(form.getId()));
+            }
 
-			return processUserTypedForward( conSet, mapping, form, response, "gateEdit" );
-		}
-		else
-		{
-			resp.setData( "gateList", ipnDao.getGateList() );
+            resp.setData("rangeList", ipnDao.getIpnRanges(contractId, form.getParamDate("date"), false));
+            resp.setData("netList", ipnDao.getIpnRanges(contractId, form.getParamDate("date"), true));
 
-			return processUserTypedForward( conSet, mapping, form, response, "gateSelect" );
-		}
-	}
+            return html(conSet, form, PATH_JSP + "/gate_edit.jsp");
+        } else {
+            resp.setData("gateList", ipnDao.getGateList());
 
-	public ActionForward gateRuleGenerate( ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response, ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		// int contractId = form.getParamInt( "contractId" );
-		int moduleId = form.getParamInt( "moduleId" );
-		// Date date = form.getParamDate( "date" );
+            return html(conSet, form, PATH_JSP + "/gate_select.jsp");
+        }
+    }
 
-		IpnDAO ipnDao = new IpnDAO( form.getUser(), billingId, moduleId );
+    public ActionForward gateRuleGenerate(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        // int contractId = form.getParamInt( "contractId" );
+        int moduleId = form.getParamInt("moduleId");
+        // Date date = form.getParamDate( "date" );
 
-		String rule = ipnDao.generateRule( form.getParamInt( "ruleTypeId" ), form.getParamInt( "gateTypeId" ), form.getParam( "addressList" ) );
-		form.getResponse().setData( "rule", rule );
+        IpnDAO ipnDao = new IpnDAO(form.getUser(), billingId, moduleId);
 
-		return processJsonForward( conSet, form, response );
-	}
+        String rule = ipnDao.generateRule(form.getParamInt("ruleTypeId"), form.getParamInt("gateTypeId"),
+                form.getParam("addressList"));
+        form.getResponse().setData("rule", rule);
 
-	public ActionForward gateRuleUpdate( ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response, ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		int contractId = form.getParamInt( "contractId" );
-		int moduleId = form.getParamInt( "moduleId" );
+        return json(conSet, form);
+    }
 
-		new IpnDAO( form.getUser(), billingId, moduleId ).updateGateRule( contractId, form.getId(), form.getParamInt( "gateId" ), form.getParamInt( "ruleTypeId" ), form.getParam( "rule", "" ) );
+    public ActionForward gateRuleUpdate(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
+        int moduleId = form.getParamInt("moduleId");
 
-		return processJsonForward( conSet, form, response );
-	}
+        new IpnDAO(form.getUser(), billingId, moduleId).updateGateRule(contractId, form.getId(),
+                form.getParamInt("gateId"), form.getParamInt("ruleTypeId"), form.getParam("rule", ""));
 
-	public ActionForward gateRuleDelete( ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response, ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		int contractId = form.getParamInt( "contractId" );
-		int moduleId = form.getParamInt( "moduleId" );
+        return json(conSet, form);
+    }
 
-		new IpnDAO( form.getUser(), billingId, moduleId ).deleteGateRule( contractId, form.getId() );
+    public ActionForward gateRuleDelete(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        int contractId = form.getParamInt("contractId");
+        int moduleId = form.getParamInt("moduleId");
 
-		return processJsonForward( conSet, form, response );
-	}
+        new IpnDAO(form.getUser(), billingId, moduleId).deleteGateRule(contractId, form.getId());
 
-	private long ipToLong( String ipAddress )
-	{
-		long result = 0;
+        return json(conSet, form);
+    }
 
-		String[] ipAddressInArray = ipAddress.split( "\\." );
-		for( int i = 3; i >= 0; i-- )
-		{
-			long ip = Long.parseLong( ipAddressInArray[3 - i] );
-			result |= ip << (i * 8);
-		}
+    private long ipToLong(String ipAddress) {
+        long result = 0;
 
-		return result;
-	}
+        String[] ipAddressInArray = ipAddress.split("\\.");
+        for (int i = 3; i >= 0; i--) {
+            long ip = Long.parseLong(ipAddressInArray[3 - i]);
+            result |= ip << (i * 8);
+        }
 
-	public ActionForward findAddress( ActionMapping mapping, DynActionForm form, HttpServletRequest request, HttpServletResponse response, ConnectionSet conSet )
-		throws BGException
-	{
-		String billingId = form.getParam( "billingId" );
-		int moduleId = form.getParamInt( "moduleId" );
+        return result;
+    }
 
-		long address = ipToLong( form.getParam( "address" ) );
-		int mask = form.getParamInt( "mask" );
-		int port = form.getParamInt( "port" );
-		Date dateFrom = form.getParamDate( "dateFrom" );
-		Date dateTo = form.getParamDate( "dateTo" );
-		String comment = form.getParam( "comment" );
+    public ActionForward findAddress(DynActionForm form, ConnectionSet conSet) throws BGException {
+        String billingId = form.getParam("billingId");
+        int moduleId = form.getParamInt("moduleId");
 
-		form.getResponse().setData( "addresses", new IpnDAO( form.getUser(), billingId, moduleId ).findAddress( form.getPage(), address, mask, port, dateFrom, dateTo, comment ) );
+        long address = ipToLong(form.getParam("address"));
+        int mask = form.getParamInt("mask");
+        int port = form.getParamInt("port");
+        Date dateFrom = form.getParamDate("dateFrom");
+        Date dateTo = form.getParamDate("dateTo");
+        String comment = form.getParam("comment");
 
-		return processJsonForward( conSet, form, response );
-	}
+        form.getResponse().setData("addresses", new IpnDAO(form.getUser(), billingId, moduleId)
+                .findAddress(form.getPage(), address, mask, port, dateFrom, dateTo, comment));
+
+        return json(conSet, form);
+    }
 }

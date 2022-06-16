@@ -2,6 +2,7 @@ package ru.bgcrm.plugin.document.action;
 
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.bgerp.model.Pageable;
 
@@ -40,7 +40,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class DocumentAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
-    public ActionForward documentList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward documentList(DynActionForm form, Connection con) throws Exception {
         Config config = setup.getConfig(Config.class);
 
         DocumentDAO documentDao = new DocumentDAO(con);
@@ -67,7 +67,7 @@ public class DocumentAction extends BaseAction {
         return html(con, form, PATH_JSP + "/document_list.jsp");
     }
 
-    public ActionForward uploadDocument(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward uploadDocument(DynActionForm form, Connection con) throws Exception {
         String objectType = form.getParam("objectType");
         int objectId = Utils.parseInt(form.getParam("objectId"));
         FormFile file = form.getFile();
@@ -77,7 +77,7 @@ public class DocumentAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward deleteDocument(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward deleteDocument(DynActionForm form, Connection con) throws Exception {
         DocumentDAO docDao = new DocumentDAO(con);
 
         Document doc = docDao.getDocumentById(form.getId());
@@ -87,7 +87,7 @@ public class DocumentAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward generateDocument(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward generateDocument(DynActionForm form, ConnectionSet conSet) throws Exception {
         Config config = setup.getConfig(Config.class);
 
         String scope = form.getParam("scope");
@@ -97,13 +97,13 @@ public class DocumentAction extends BaseAction {
 
         Pattern pattern = config.getPattern(scope, patternId);
         if (pattern == null) {
-            throw new BGException("Не найден шаблон.");
+            throw new BGException("Patten not found.");
         }
 
         DocumentGenerateEvent event = new DocumentGenerateEvent(form, pattern, objectType,
                 Collections.singletonList(objectId));
         if (!EventProcessor.processEvent(event, pattern.getScript(), conSet)) {
-            throw new BGException("Не найден класс генерации.");
+            throw new BGException("Generator class not found.");
         }
 
         Document document = event.getResultDocument();
@@ -129,9 +129,9 @@ public class DocumentAction extends BaseAction {
         if (event.getResultBytes() != null) {
             // режим отладки
             if (event.isDebug()) {
-                response.setContentType("text/plain; charset=" + Utils.UTF8.name());
+                response.setContentType("text/plain; charset=" + StandardCharsets.UTF_8.name());
             } else if (pattern.getType() == Pattern.TYPE_JSP_HTML || pattern.getType() == Pattern.TYPE_XSLT_HTML) {
-                response.setContentType("text/html; charset=" + Utils.UTF8.name());
+                response.setContentType("text/html; charset=" + StandardCharsets.UTF_8.name());
             } else {
                 Utils.setFileNameHeaders(response, pattern.getDocumentTitle());
             }
@@ -148,7 +148,7 @@ public class DocumentAction extends BaseAction {
     }
 
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm actionForm, Connection con) throws Exception {
-        return documentList(mapping, actionForm, con);
+    public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
+        return documentList(form, con);
     }
 }

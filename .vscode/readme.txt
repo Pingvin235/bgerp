@@ -1,9 +1,9 @@
-1. Copy files .vscode/*.template* without '.template' part, adjust Java path in settings.json
+1. Copy files .vscode/*.template* without '.template' part, adjust JDK path in settings.json
 2. Run Terminal, menu "Terminal - New terminal", type there "cmd" for Windows and "bash" for *NIX and run commands:
-code --install-extension vscjava.vscode-java-pack
-code --install-extension redhat.java
+code --install-extension redhat.java@0.82.0
+code --install-extension vscjava.vscode-java-debug
+code --install-extension vscjava.vscode-java-test
 code --install-extension eamodio.gitlens
-code --install-extension naco-siren.gradle-language
 code --install-extension mhutchie.git-graph
 code --install-extension alphabotsec.vscode-eclipse-keybindings
 code --install-extension joaompinto.asciidoctor-vscode

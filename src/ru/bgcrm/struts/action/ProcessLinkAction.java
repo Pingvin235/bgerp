@@ -10,9 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
-import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -42,16 +40,18 @@ import ru.bgcrm.model.process.queue.FilterLinkObject;
 import ru.bgcrm.model.process.queue.FilterList;
 import ru.bgcrm.model.process.queue.FilterOpenClose;
 import ru.bgcrm.model.process.queue.FilterProcessType;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
+@Action(path = "/user/process/link")
 public class ProcessLinkAction extends ProcessAction {
-    private static final Log log = Log.getLog();
+    private static final String PATH_JSP = PATH_JSP_USER + "/process/process";
 
     // процессы, к которым привязана сущность
-    public ActionForward linkedProcessList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward linkedProcessList(DynActionForm form, Connection con) throws Exception {
         ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con, form.getUser());
 
         restoreRequestParams(con, form, true, true, "open");
@@ -107,22 +107,8 @@ public class ProcessLinkAction extends ProcessAction {
         applyProcessTypePermission(typeList, form);
         form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
 
-        return html(con, mapping, form);
+        return html(con, form, PATH_JSP + "/linked_process_list.jsp");
     }
-
-    /* Usages were not found, 03.05.2020
-    public ActionForward linkedProcessInfo(ActionMapping mapping, DynActionForm form, Connection con) throws BGException {
-        int id = form.getId();
-        if (id <= 0) {
-            throw new BGMessageException("process id error");
-        }
-        ProcessDAO processDAO = new ProcessDAO(con);
-
-        form.getResponse().setData("process", processDAO.getProcess(id));
-        new StatusChangeDAO(con).searchProcessStatus(new SearchResult<StatusChange>(form), form.getId(), form.getSelectedValues("statusId"));
-
-        return data(con, mapping, form, "linkedProcessInfo");
-    } */
 
     private void setProcessReference(Connection con, DynActionForm form, Process process, String objectType) {
         try {
@@ -133,27 +119,25 @@ public class ProcessLinkAction extends ProcessAction {
             }
         } catch (Exception e) {
             process.setReference(e.getMessage());
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
     }
 
     // создание процесса с привязанной сущностью
-    public ActionForward linkedProcessCreate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward linkedProcessCreate(DynActionForm form, Connection con) throws Exception {
         String objectType = form.getParam("objectType");
         int id = form.getId();
         String objectTitle = form.getParam("objectTitle");
 
-        Process process = ProcessAction.processCreate(form, con);
+        Process process = ProcessAction.processCreateAndGet(form, con);
 
         CommonObjectLink link = new CommonObjectLink(Process.OBJECT_TYPE, process.getId(), objectType, id, objectTitle);
 
-        EventProcessor.processEvent(new LinkAddingEvent(form, link),
-                ProcessTypeCache.getProcessType(process.getTypeId()).getProperties().getActualScriptName(), new SingleConnectionSet(con));
+        EventProcessor.processEvent(new LinkAddingEvent(form, link), new SingleConnectionSet(con));
 
         new ProcessLinkDAO(con).addLink(link);
 
-        EventProcessor.processEvent(new LinkAddedEvent(form, link),
-                ProcessTypeCache.getProcessType(process.getTypeId()).getProperties().getActualScriptName(), new SingleConnectionSet(con));
+        EventProcessor.processEvent(new LinkAddedEvent(form, link), new SingleConnectionSet(con));
 
         // копирование параметров
         ProcessType type = ProcessTypeCache.getProcessType(form.getParamInt("typeId", 0));
@@ -174,7 +158,7 @@ public class ProcessLinkAction extends ProcessAction {
     }
 
     // процессы, привязанные к процессу
-    public ActionForward linkProcessList(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward linkProcessList(DynActionForm form, Connection con) throws Exception {
         HttpServletRequest request = form.getHttpRequest();
         ProcessLinkDAO processLinkDao = new ProcessLinkDAO(con, form.getUser());
 
@@ -222,11 +206,11 @@ public class ProcessLinkAction extends ProcessAction {
             new IfaceStateDAO(con).compareAndUpdateState(ifaceState, currentState, form);
         }
 
-        return html(con, mapping, form, "linkProcessList");
+        return html(con, form, PATH_JSP + "/link_process_list.jsp");
     }
 
     // создание процесса, привязанного к процессу
-    public ActionForward linkProcessCreate(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward linkProcessCreate(DynActionForm form, Connection con) throws Exception {
         int id = form.getId();
 
         // либо тип процесса + тип отношений
@@ -299,9 +283,7 @@ public class ProcessLinkAction extends ProcessAction {
 
         linkDao.addLink(new ProcessLinkProcess(linkedId, linkType, process.getId()));
 
-        ProcessType createdProcessType = getProcessType(process.getTypeId());
-        EventProcessor.processEvent(new ProcessCreatedAsLinkEvent(form, linkedProcess, process),
-                createdProcessType.getProperties().getActualScriptName(), new SingleConnectionSet(con));
+        EventProcessor.processEvent(new ProcessCreatedAsLinkEvent(form, linkedProcess, process), new SingleConnectionSet(con));
 
         return process;
     }

@@ -4,27 +4,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.CerberCryptDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.cerbercrypt.CardPacket;
 import ru.bgcrm.plugin.bgbilling.proto.model.cerbercrypt.UserCard;
 import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/user/plugin/bgbilling/proto/cerbercrypt")
 public class CerberCryptAction extends BaseAction {
-    
-    public ActionForward cardPacketList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws BGException {
+    private static final String PATH_JSP = Plugin.PATH_JSP_USER + "/cerbercrypt";
 
+    public ActionForward cardPacketList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Integer cardId = form.getParamInt("cardId");
@@ -34,11 +32,10 @@ public class CerberCryptAction extends BaseAction {
 
         form.setResponseData("list", cardPacketList);
 
-        return html(conSet, mapping, form, "cardPacketList");
+        return html(conSet, form, PATH_JSP + "/card_packet_list.jsp");
     }
 
-    public ActionForward contractCards(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws BGException {
+    public ActionForward contractCards(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         boolean includeSlaveCards = form.getParamBoolean("includeSlaveCards", true);
@@ -53,11 +50,10 @@ public class CerberCryptAction extends BaseAction {
 
         form.setResponseData("list", cards);
 
-        return html(conSet, mapping, form, "cardList");
+        return html(conSet, form, PATH_JSP + "/card_list.jsp");
     }
 
-    public ActionForward updateCardPacket(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws BGException {
+    public ActionForward updateCardPacket(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int id = form.getId();
         int contractId = form.getParamInt("contractId");
@@ -79,9 +75,7 @@ public class CerberCryptAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward updateCard(ActionMapping mapping, DynActionForm form, HttpServletRequest request,
-            HttpServletResponse response, ConnectionSet conSet) throws BGException {
-
+    public ActionForward updateCard(DynActionForm form,  ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
 
         UserCard userCard = new UserCard();
@@ -99,50 +93,39 @@ public class CerberCryptAction extends BaseAction {
         cerbercryptDAO.updateUserCard(userCard);
 
         /*
-        if( Utils.notEmptyString( date1 ) )
-        {
-        	userCard.setDate1( date1 );
-        }
-        else
-        {
-        	userCard.setDate1( new SimpleDateFormat( "yyyy-MM-dd" ).format( new Date() ) );
-        }
-        
-        if( Utils.notEmptyString( date2 ) && !"now".equals( date2 ) )
-        {
-        	userCard.setDate2( date2 );
-        }
-        else if( "now".equals( date2 ) )
-        {
-        	userCard.setDate2( new SimpleDateFormat( "yyyy-MM-dd" ).format( new Date() ) );
-        }
-        
-        WSUserCard userCardWs = new UserCardWebServiceDAO( billingId, form.getUser() ).getWSUserCard();
-        userCardWs.updateUserCard( userCard );*/
+         * if( Utils.notEmptyString( date1 ) ) { userCard.setDate1( date1 ); } else {
+         * userCard.setDate1( new SimpleDateFormat( "yyyy-MM-dd" ).format( new Date() )
+         * ); }
+         *
+         * if( Utils.notEmptyString( date2 ) && !"now".equals( date2 ) ) {
+         * userCard.setDate2( date2 ); } else if( "now".equals( date2 ) ) {
+         * userCard.setDate2( new SimpleDateFormat( "yyyy-MM-dd" ).format( new Date() )
+         * ); }
+         *
+         * WSUserCard userCardWs = new UserCardWebServiceDAO( billingId, form.getUser()
+         * ).getWSUserCard(); userCardWs.updateUserCard( userCard );
+         */
 
         return json(conSet, form);
     }
 
-    public ActionForward getFreeCards(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws BGException {
-
+    public ActionForward getFreeCards(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int moduleId = form.getParamInt("moduleId");
 
         CerberCryptDAO cerbercryptDAO = new CerberCryptDAO(form.getUser(), billingId, moduleId);
         form.getResponse().getData().put("cards", cerbercryptDAO.getFreeCards());
 
-        return html(conSet, mapping, form, FORWARD_DEFAULT);
+        return html(conSet, form, PATH_JSP + "");
     }
 
-    public ActionForward getPacketList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
-            throws BGException {
+    public ActionForward getPacketList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         boolean virtualCinema = form.getParamBoolean("virtualCinema", false);
 
         CerberCryptDAO cerbercryptDAO = new CerberCryptDAO(form.getUser(), billingId, form.getParamInt("moduleId"));
         form.getResponse().getData().put("packets", cerbercryptDAO.getPacketList(virtualCinema));
 
-        return html(conSet, mapping, form, FORWARD_DEFAULT);
+        return html(conSet, form, PATH_JSP + "");
     }
 }

@@ -1,3 +1,3 @@
 <item title="Plugin FullText">
-	<item action="ru.bgcrm.plugin.fulltext.action.SearchAction:search, ru.bgcrm.plugin.fulltext.struts.action.SearchAction:search" title="FullText search"/>
+	<item action="ru.bgcrm.plugin.fulltext.action.SearchAction:search, ru.bgcrm.plugin.fulltext.struts.action.SearchAction:search" title="FullText Search"/>
 </item>

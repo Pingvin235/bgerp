@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.AddressDAO;
@@ -35,7 +34,7 @@ public class DirectoryAddressAction extends BaseAction {
     private static final String PATH_JSP_ADDRESS = PATH_JSP_USER + "/directory/address/address.jsp";
 
     @Override
-    protected ActionForward unspecified(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
         return address(form, con);
     }
 

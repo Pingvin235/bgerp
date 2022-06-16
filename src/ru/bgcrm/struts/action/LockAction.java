@@ -1,17 +1,18 @@
 package ru.bgcrm.struts.action;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.dao.Locker;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.Lock;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/user/lock")
 public class LockAction extends BaseAction {
-    public ActionForward add(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward add(DynActionForm form, ConnectionSet conSet) throws Exception {
         String lockId = getLockId(form);
 
         Locker.addLock(new Lock(lockId, form.getUserId()));
@@ -19,7 +20,7 @@ public class LockAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward free(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward free(DynActionForm form, ConnectionSet conSet) throws Exception {
         String lockId = getLockId(form);
 
         Locker.freeLock(new Lock(lockId, form.getUserId()));

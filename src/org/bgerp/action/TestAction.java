@@ -3,7 +3,6 @@ package org.bgerp.action;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
@@ -13,11 +12,11 @@ import ru.bgcrm.util.sql.ConnectionSet;
 @Action(path = "/user/test")
 public class TestAction extends BaseAction {
     @Override
-    public ActionForward unspecified(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
         return html(conSet, form, PATH_JSP_USER + "/test.jsp");
     }
 
-    public ActionForward enumValues(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward enumValues(DynActionForm form, ConnectionSet conSet) throws Exception {
         List<String> values = List.of(
                 "mail1@domain.com",
                 "Ivan2 Pupkin <mail2@domain.com>",

@@ -5,28 +5,26 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.w3c.dom.Document;
 
 import ru.bgcrm.model.Page;
+import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.dao.BGBillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/user/plugin/bgbilling/search")
 public class SearchAction extends BaseAction {
     /**
      * Использовать из {@link ContractAction}.
      */
     @Deprecated
-    public ActionForward contractSearch(ActionMapping mapping, DynActionForm form, HttpServletRequest request,
-            HttpServletResponse response, ConnectionSet conSet) throws Exception {
+    public ActionForward contractSearch(DynActionForm form, ConnectionSet conSet) throws Exception {
         String searchBy = form.getParam("searchBy");
         Set<String> billingIds = form.getSelectedValuesStr("billing");
 
@@ -81,10 +79,10 @@ public class SearchAction extends BaseAction {
             }
 
             Map<String, Document> result = billingDAO.doRequestToBilling(billingIds, form.getUser(), req);
-            request.setAttribute("result", result);
+            form.setRequestAttribute("result", result);
         }
 
-        return html(conSet, mapping, form, "searchContractResult");
+        return html(conSet, form, Plugin.PATH_JSP_USER + "/search.jsp");
     }
 
 }

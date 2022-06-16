@@ -16,7 +16,6 @@ import javax.mail.internet.InternetAddress;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.AddressDAO;
@@ -63,14 +62,17 @@ import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.plugin.bgbilling.proto.model.phone.ContractPhoneRecord;
 import ru.bgcrm.plugin.bgbilling.proto.model.script.ContractScriptLogItem;
 import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
+import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.struts.form.Response;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Action(path = "/user/plugin/bgbilling/proto/contract")
 public class ContractAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
+    private static final String PATH_JSP_CONTRACT = PATH_JSP + "/contract";
 
     public ActionForward searchContract(DynActionForm form, ConnectionSet conSet) throws Exception {
         String searchBy = form.getParam("searchBy");
@@ -187,10 +189,10 @@ public class ContractAction extends BaseAction {
         form.getResponse().setData("contractParameterList",
                 filterParameterList(parameterListWithDir.getSecond(), requiredParameterIds));
 
-        return html(conSet, form, PATH_JSP + "/contract/parameter_list.jsp");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/parameter_list.jsp");
     }
 
-    public ActionForward parameterGet(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward parameterGet(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Integer paramId = form.getParamInt("paramId");
@@ -258,10 +260,10 @@ public class ContractAction extends BaseAction {
             }
         }
 
-        return html(conSet, mapping, form, "parameterGet");
+        return html(conSet, form, PATH_JSP + "/contract/parameter_editor.jsp");
     }
 
-    public ActionForward parameterUpdate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet)
+    public ActionForward parameterUpdate(DynActionForm form, ConnectionSet conSet)
             throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
@@ -376,7 +378,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward parameterGroupUpdate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward parameterGroupUpdate(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         int paramGroupId = form.getParamInt("paramGroupId");
@@ -386,7 +388,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward objectLinkList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward objectLinkList(DynActionForm form, ConnectionSet conSet) throws Exception {
         Integer contractId = form.getParamInt("contractId");
         Integer cityId = form.getParamInt("cityId");
 
@@ -394,10 +396,10 @@ public class ContractAction extends BaseAction {
 
         form.getResponse().setData("links", baseLinks);
 
-        return html(conSet, mapping, form, "objectLinkList");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/object_link_list.jsp");
     }
 
-    public ActionForward additionalActionList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward additionalActionList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -405,10 +407,10 @@ public class ContractAction extends BaseAction {
 
         form.getResponse().setData("additionalActionList", crmDAO.additionalActionList(contractId));
 
-        return html(conSet, mapping, form, "additionalActionList");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/additional_action_list.jsp");
     }
 
-    public ActionForward executeAdditionalAction(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward executeAdditionalAction(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Integer actionId = form.getParamInt("actionId");
@@ -418,10 +420,10 @@ public class ContractAction extends BaseAction {
         form.getResponse().setData("executeResult", crmDAO.executeAdditionalAction(contractId, actionId));
         form.getResponse().setData("additionalActionList", crmDAO.additionalActionList(contractId));
 
-        return html(conSet, mapping, form, "additionalActionList");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/additional_action_list.jsp");
     }
 
-    public ActionForward groupList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward groupList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -430,11 +432,11 @@ public class ContractAction extends BaseAction {
         form.getResponse().setData("groupList", groupsGet.getFirst());
         form.getResponse().setData("selectedGroupIds", groupsGet.getSecond());
 
-        return html(conSet, mapping, form, "groupList");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/group_list.jsp");
     }
 
     @SuppressWarnings("unchecked")
-    public ActionForward updateGroups(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateGroups(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Set<Integer> groupIds = form.getSelectedValues("groupId");
@@ -453,17 +455,17 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward memoList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward memoList(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
         ContractDAO contractDAO = ContractDAO.getInstance(form.getUser(), billingId);
         form.getResponse().setData("memoList", contractDAO.getMemoList(contractId));
 
-        return html(conSet, mapping, form, "memoList");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/memo/memo_list.jsp");
     }
 
-    public ActionForward getMemo(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward getMemo(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -472,10 +474,10 @@ public class ContractAction extends BaseAction {
                     ContractDAO.getInstance(form.getUser(), billingId).getMemo(contractId, form.getId()));
         }
 
-        return html(conSet, mapping, form, "memoEditor");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/memo/memo_edit.jsp");
     }
 
-    public ActionForward updateMemo(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateMemo(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Integer memoId = form.getParamInt("id", 0);
@@ -488,7 +490,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward deleteMemo(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward deleteMemo(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Integer memoId = form.getParamInt("id", 0);
@@ -503,27 +505,27 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward contractObjectList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward contractObjectList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
         ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
         form.getResponse().setData("objectList", contractObjectDAO.getContractObjects(contractId));
 
-        return html(conSet, mapping, form, "contractObjectList");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_list.jsp");
     }
 
-    public ActionForward getContractObject(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getContractObject(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer objectId = form.getParamInt("objectId");
 
         ContractObjectDAO contractObjectDAO = new ContractObjectDAO(form.getUser(), billingId);
         form.getResponse().setData("object", contractObjectDAO.getContractObject(objectId));
 
-        return html(conSet, mapping, form, "contractObjectEditor");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_editor.jsp");
     }
 
-    public ActionForward deleteContractObject(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward deleteContractObject(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Integer objectId = form.getParamInt("objectId");
@@ -534,7 +536,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward updateContractObject(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateContractObject(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         String title = form.getParam("title");
         int objectId = form.getParamInt("objectId");
@@ -548,17 +550,17 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward contractObjectParameterList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward contractObjectParameterList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer objectId = form.getParamInt("objectId");
 
         ContractObjectParamDAO paramDAO = new ContractObjectParamDAO(form.getUser(), billingId);
         form.getResponse().setData("parameterList", paramDAO.getParameterList(objectId));
 
-        return html(conSet, mapping, form, "contractObjectParameterList");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_parameter_list.jsp");
     }
 
-    public ActionForward getObjectParameter(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward getObjectParameter(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer objectId = form.getParamInt("objectId");
         Integer paramId = form.getParamInt("paramId");
@@ -608,10 +610,10 @@ public class ContractAction extends BaseAction {
             }
         }
 
-        return html(conSet, mapping, form, "getObjectParameter");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_parameter_editor.jsp");
     }
 
-    public ActionForward updateObjectParameter(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward updateObjectParameter(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer objectId = form.getParamInt("objectId");
         Integer paramBillingId = form.getParamInt("paramId");
@@ -655,7 +657,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward contractObjectModuleInfo(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward contractObjectModuleInfo(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer objectId = form.getParamInt("objectId");
 
@@ -665,17 +667,17 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward contractObjectModuleSummaryTable(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward contractObjectModuleSummaryTable(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer objectId = form.getParamInt("objectId");
 
         CrmDAO crmDAO = new CrmDAO(form.getUser(), billingId);
         form.getResponse().setData("moduleInfo", crmDAO.contractObjectModuleList(objectId));
 
-        return html(conSet, mapping, form, "contractObjectModuleSummaryTable");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_module_summary_table.jsp");
     }
 
-    public ActionForward contractSubcontractList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward contractSubcontractList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -683,10 +685,10 @@ public class ContractAction extends BaseAction {
         form.getResponse().setData("subContractList", crmDAO.contractSubcontractList(contractId));
         form.getResponse().setData("superContract", crmDAO.contractSupercontract(contractId));
 
-        return html(conSet, mapping, form, "contractSubcontractList");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/subcontract_list.jsp");
     }
 
-    public ActionForward scriptList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward scriptList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -695,10 +697,10 @@ public class ContractAction extends BaseAction {
 
         form.getHttpRequest().setAttribute("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
-        return html(conSet, mapping, form, "scriptList");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/script/script_list.jsp");
     }
 
-    public ActionForward getScript(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getScript(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer scriptId = form.getParamInt("scriptId");
 
@@ -706,10 +708,10 @@ public class ContractAction extends BaseAction {
         form.getResponse().setData("script", crmDAO.getContractScript(scriptId));
         form.getResponse().setData("scriptTypeList", new DirectoryDAO(form.getUser(), billingId).scriptTypeList());
 
-        return html(conSet, mapping, form, "scriptEditor");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/script/script_editor.jsp");
     }
 
-    public ActionForward scriptLog(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward scriptLog(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -721,10 +723,10 @@ public class ContractAction extends BaseAction {
         ContractScriptDAO crmDAO = new ContractScriptDAO(form.getUser(), billingId);
         crmDAO.contractScriptLogList(result, contractId, dateFrom, dateTo);
 
-        return html(conSet, mapping, form, "scriptLog");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/script/script_log.jsp");
     }
 
-    public ActionForward deleteScript(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward deleteScript(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer scriptId = form.getParamInt("scriptId");
 
@@ -734,7 +736,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward updateScript(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateScript(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Integer scriptId = form.getParamInt("scriptId");
@@ -749,7 +751,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward faceLog(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward faceLog(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -758,10 +760,10 @@ public class ContractAction extends BaseAction {
 
         form.getResponse().setData("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
-        return html(conSet, mapping, form, "faceLog");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/face_log.jsp");
     }
 
-    public ActionForward updateFace(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateFace(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -770,7 +772,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward modeLog(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward modeLog(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -779,10 +781,10 @@ public class ContractAction extends BaseAction {
 
         form.getResponse().setData("contractInfo", contractDao.getContractInfo(contractId));
 
-        return html(conSet, mapping, form, "modeLog");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/mode_log.jsp");
     }
 
-    public ActionForward updateMode(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateMode(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -791,7 +793,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward moduleList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward moduleList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -799,10 +801,10 @@ public class ContractAction extends BaseAction {
         form.getResponse().setData("selectedList", pair.getFirst());
         form.getResponse().setData("availableList", pair.getSecond());
 
-        return html(conSet, mapping, form, "moduleList");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/module_list.jsp");
     }
 
-    public ActionForward updateModules(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateModules(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Set<Integer> moduleIds = form.getSelectedValues("moduleId");
@@ -818,7 +820,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward status(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward status(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -830,10 +832,10 @@ public class ContractAction extends BaseAction {
 
         form.getHttpRequest().setAttribute("contractInfo", ContractDAO.getInstance(form.getUser(), billingId).getContractInfo(contractId));
 
-        return html(conSet, mapping, form, "status");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/status.jsp");
     }
 
-    public ActionForward updateStatus(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateStatus(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -843,7 +845,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward limit(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward limit(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -855,10 +857,10 @@ public class ContractAction extends BaseAction {
         form.getResponse().setData("limit", limit);
         form.getResponse().setData("taskList", taskList);
 
-        return html(conSet, mapping, form, "limit");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/limit.jsp");
     }
 
-    public ActionForward updateLimit(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateLimit(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -869,7 +871,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward deleteLimitTask(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward deleteLimitTask(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -878,7 +880,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward contractCards(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward contractCards(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -886,10 +888,10 @@ public class ContractAction extends BaseAction {
         form.getResponse().setData("cardTypeList", contractDao.getContractCardTypes(contractId));
         form.getResponse().setData("fullCard", contractDao.getContractFullCard(contractId));
 
-        return html(conSet, mapping, form, "cards");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/cards.jsp");
     }
 
-    public ActionForward getContractCard(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getContractCard(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         String cardType = form.getParam("cardType");
@@ -905,7 +907,7 @@ public class ContractAction extends BaseAction {
         return null;
     }
 
-    public ActionForward serviceList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceList(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
@@ -913,10 +915,10 @@ public class ContractAction extends BaseAction {
         form.getResponse().setData("list",
                 new ContractServiceDAO(form.getUser(), billingId).getContractServiceList(contractId, moduleId));
 
-        return html(conSet, mapping, form, "serviceList");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/service/list.jsp");
     }
 
-    public ActionForward serviceEdit(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceEdit(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
@@ -925,10 +927,10 @@ public class ContractAction extends BaseAction {
                 new ContractServiceDAO(form.getUser(), billingId).getContractService(contractId, moduleId, form.getId(),
                         form.getId() > 0 ? false : form.getParamBoolean("onlyUsing", true)));
 
-        return html(conSet, mapping, form, "serviceEdit");
+        return html(conSet, form, PATH_JSP_CONTRACT + "/service/edit.jsp");
     }
 
-    public ActionForward serviceUpdate(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceUpdate(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -949,7 +951,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward serviceDelete(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward serviceDelete(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -961,7 +963,7 @@ public class ContractAction extends BaseAction {
     // далее сомнительные функции, которые не очень идеологически ложатся в этот
     // класс
 
-    public ActionForward getContractStatisticPassword(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward getContractStatisticPassword(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -971,7 +973,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward addressList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward addressList(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -979,10 +981,10 @@ public class ContractAction extends BaseAction {
 
         form.getResponse().setData("contractAddressList", contractDAO.getContractAddress(contractId));
 
-        return html(conSet, mapping, form, "contractAddressList");
+        return html(conSet, form, PATH_JSP + "/crm/contract_address_list.jsp");
     }
 
-    public ActionForward bgbillingOpenContract(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward bgbillingOpenContract(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
 
@@ -992,7 +994,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward bgbillingUpdateContractTitleAndComment(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward bgbillingUpdateContractTitleAndComment(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         String comment = form.getParam("comment");
@@ -1003,7 +1005,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward bgbillingGetContractPatternList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward bgbillingGetContractPatternList(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
 
         ContractDAO contractDAO = ContractDAO.getInstance(form.getUser(), billingId);
@@ -1012,7 +1014,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward getSubContractList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward getSubContractList(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -1022,7 +1024,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward openContract(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward openContract(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
 
         if (billingId == null) {
@@ -1038,7 +1040,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward getStreetsByCity(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward getStreetsByCity(DynActionForm form, ConnectionSet conSet) throws Exception {
         String billingId = form.getParam("billingId");
 
         if (billingId == null) {
@@ -1060,12 +1062,11 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward getParamList(ActionMapping mapping, DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getParamList(DynActionForm form, ConnectionSet conSet) throws BGException {
         form.getResponse().setData("paramType", form.getParamInt("paramType"));
         List<IdTitle> list = getParamListImpl(form);
         form.getResponse().setData("paramList", list);
-        return html(conSet, mapping, form, "searchParameterList");
-
+        return html(conSet, form, PATH_JSP + "/search_param_list.jsp");
     }
 
     private List<IdTitle> getParamListImpl(DynActionForm form) throws BGException {
@@ -1076,5 +1077,4 @@ public class ContractAction extends BaseAction {
         }
         return ContractDAO.getInstance(form.getUser(), billingId).getParameterList(type);
     }
-
 }

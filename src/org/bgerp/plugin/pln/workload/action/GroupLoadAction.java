@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
+import org.bgerp.plugin.pln.workload.Plugin;
+import org.bgerp.plugin.pln.workload.dao.GroupLoadDAO;
+import org.bgerp.plugin.pln.workload.model.GroupLoadConfig;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.model.BGMessageException;
@@ -17,26 +19,11 @@ import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 
-import org.bgerp.plugin.pln.workload.Plugin;
-import org.bgerp.plugin.pln.workload.dao.GroupLoadDAO;
-import org.bgerp.plugin.pln.workload.model.GroupLoadConfig;
-
 @Action(path = "/user/plugin/workload/groupload")
 public class GroupLoadAction extends BaseAction {
     private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
-    /**
-     * processIds processTypeId
-     *
-     * processTypeIds userGroupIds
-     *
-     * @param mapping
-     * @param form
-     * @param con
-     * @return
-     * @throws Exception
-     */
-    public ActionForward show(ActionMapping mapping, DynActionForm form, Connection con) throws Exception {
+    public ActionForward show(DynActionForm form, Connection con) throws Exception {
         final int processTypeId = form.getParamInt("processTypeId");
         final ProcessType processType = ProcessTypeCache.getProcessType(processTypeId);
 
@@ -95,7 +82,6 @@ public class GroupLoadAction extends BaseAction {
 
     /**
      * Получение ID типов процессов с учетом дочерних.
-     *
      * @param processTypeIds
      * @return
      */

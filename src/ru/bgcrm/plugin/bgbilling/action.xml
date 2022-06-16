@@ -232,7 +232,7 @@
 				</item>
 
 				<item title="IP-телефония">
-					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.VoiceIpAction:getLogins" title="Получение списка логинов" />
+					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.VoiceIpAction:contractInfo" title="Получение списка логинов" />
 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.VoiceIpAction:getLogin" title="Получение логина" />
 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.VoiceIpAction:updateLogin" title="Изменение логина" />
 				</item>
