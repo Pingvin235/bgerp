@@ -53,17 +53,22 @@ $$.process = new function() {
 			$(`#${uiid} #linkEditor > form#${id}`).show();
 		}
 
+		/**
+		 * Sends checked request forms for adding links.
+		 * @param {*} uiid parent element with forms.
+		 * @param {*} requestUrl URL to load after adding to parent of uiid.
+		 */
 		const add = (uiid, requestUrl) => {
+			const deferreds = [];
+
 			const forms = $('#' + uiid + ' form:visible');
 			for (var i = 0; i < forms.length; i++) {
 				const form = forms[i];
-				if (form.check && form.check.checked) {
-					$$.ajax
-						.post(form)
-						.done(() => { $$.ajax.load(requestUrl, $('#' + uiid).parent()) });
-					break;
-				}
+				if (form.check && form.check.checked)
+					deferreds.push($$.ajax.post(form));
 			}
+
+			$.when.apply($, deferreds).done(() => { $$.ajax.load(requestUrl, $('#' + uiid).parent()) });
 		}
 
 		const customerRoleChanged = ($hidden) => {

@@ -312,7 +312,10 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
      * @return
      */
     public String getForwardFile() {
-        return getParam(PARAM_FORWARD_FILE);
+        String result = getParam(PARAM_FORWARD_FILE);
+        if (Utils.notBlankString(result))
+            log.warn("Used request parameter forwardFile={}", result);
+        return result;
     }
 
     /**

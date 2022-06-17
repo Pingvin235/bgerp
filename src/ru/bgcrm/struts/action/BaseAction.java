@@ -313,6 +313,9 @@ public class BaseAction extends DispatchAction {
      * @return
      */
     protected ActionForward html(Connection con, DynActionForm form, String path) {
+        String forwardFile = form.getForwardFile();
+        if (Utils.notBlankString(forwardFile))
+            path = forwardFile;
         return html(new SingleConnectionSet(con), form, path);
     }
 

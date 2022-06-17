@@ -1,0 +1,2 @@
+F: Handling of 'forwardFile' request parameter.
+F: Adding to process muliple customers link at once.
