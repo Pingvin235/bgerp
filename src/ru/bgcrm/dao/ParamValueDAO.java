@@ -1301,7 +1301,8 @@ public class ParamValueDAO extends CommonDAO {
      * @param fromParamId param ID исходного.
      * @param toObjectId object ID целевого
      * @param toParamId param ID целевого.
-     * @throws SQLException, BGException
+     * @throws SQLException
+     * @throws BGException
      */
     public void copyParam(int fromObjectId, int fromParamId, int toObjectId, int toParamId) throws SQLException, BGException {
         String query = null;
@@ -1321,64 +1322,65 @@ public class ParamValueDAO extends CommonDAO {
             throw new BGException("Different copy param types.");
         }
 
-        final String paramType = paramFrom.getType();
+        final var paramType = Parameter.Type.of(paramFrom.getType());
 
-        // адрес
-        if (Parameter.TYPE_ADDRESS.equals(paramType)) {
-            query = "INSERT INTO " + TABLE_PARAM_ADDRESS
-                    + " (id, param_id, n, house_id, flat, room, pod, floor, value, comment, custom) "
-                    + "SELECT ?, ?, n, house_id, flat, room, pod, floor, value, comment, custom " + "FROM "
-                    + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
-            psList.add(con.prepareStatement(query));
-        }
-        // E-Mail
-        else if (Parameter.TYPE_EMAIL.equals(paramType)) {
-            query = "INSERT INTO " + TABLE_PARAM_EMAIL + " (id, param_id, n, value) " + "SELECT ?, ?, n, value "
-                    + "FROM " + TABLE_PARAM_EMAIL + " WHERE id=? AND param_id=?";
-            psList.add(con.prepareStatement(query));
-        }
-        // list
-        else if (Parameter.TYPE_LIST.equals(paramType)) {
-            query = "INSERT IGNORE INTO " + TABLE_PARAM_LIST + "(id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
-                    + TABLE_PARAM_LIST + " WHERE id=? AND param_id=?";
-            psList.add(con.prepareStatement(query));
-        }
-        // listcount
-        else if (Parameter.TYPE_LISTCOUNT.equals(paramType)) {
-            query = "INSERT INTO " + TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count) "
-                    + "SELECT ?, ?, value, count " + "FROM " + TABLE_PARAM_LISTCOUNT + " WHERE id=? AND param_id=?";
-            psList.add(con.prepareStatement(query));
-        }
-        // tree
-        else if (Parameter.TYPE_TREE.equals(paramType)) {
-            query = "INSERT INTO " + TABLE_PARAM_TREE + "(id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
-                    + TABLE_PARAM_TREE + " WHERE id=? AND param_id=?";
-            psList.add(con.prepareStatement(query));
-        }
-        // дата, дата+время, текст, блоб, телефон
-        else if (Parameter.TYPE_DATE.equals(paramType) || Parameter.TYPE_DATETIME.equals(paramType)
-                || Parameter.TYPE_TEXT.equals(paramType) || Parameter.TYPE_BLOB.equals(paramType)
-                || Parameter.TYPE_PHONE.equals(paramType)) {
-            String tableName = "param_" + paramType;
+        switch (paramType) {
+            case ADDRESS:
+                query = "INSERT INTO " + TABLE_PARAM_ADDRESS
+                        + " (id, param_id, n, house_id, flat, room, pod, floor, value, comment, custom) "
+                        + "SELECT ?, ?, n, house_id, flat, room, pod, floor, value, comment, custom " + "FROM "
+                        + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
+                psList.add(con.prepareStatement(query));
+                break;
+            case EMAIL:
+                query = "INSERT INTO " + TABLE_PARAM_EMAIL + " (id, param_id, n, value) " + "SELECT ?, ?, n, value "
+                        + "FROM " + TABLE_PARAM_EMAIL + " WHERE id=? AND param_id=?";
+                psList.add(con.prepareStatement(query));
+                break;
+            case LIST:
+                query = SQL_INSERT_IGNORE + TABLE_PARAM_LIST + "(id, param_id, value, comment)"
+                        + SQL_SELECT + "?, ?, value, comment "
+                        + SQL_FROM + TABLE_PARAM_LIST
+                        + SQL_WHERE + "id=? AND param_id=?";
+                psList.add(con.prepareStatement(query));
+                break;
+            case LISTCOUNT:
+                query = SQL_INSERT + TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment)"
+                        + SQL_SELECT + "?, ?, value, count, comment"
+                        + SQL_FROM + TABLE_PARAM_LISTCOUNT + SQL_WHERE + "id=? AND param_id=?";
+                psList.add(con.prepareStatement(query));
+                break;
+            case TREE:
+                query = "INSERT INTO " + TABLE_PARAM_TREE + "(id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
+                        + TABLE_PARAM_TREE + " WHERE id=? AND param_id=?";
+                psList.add(con.prepareStatement(query));
+                break;
+            case DATE:
+            case DATETIME:
+            case MONEY:
+            case TEXT:
+            case BLOB:
+            case PHONE:
+                String tableName = "param_" + paramType.toString().toLowerCase();
 
-            query = "INSERT INTO " + tableName + " (id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
-                    + tableName + " WHERE id=? AND param_id=?";
-            psList.add(con.prepareStatement(query));
+                query = "INSERT INTO " + tableName + " (id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
+                        + tableName + " WHERE id=? AND param_id=?";
+                psList.add(con.prepareStatement(query));
 
-            if (Parameter.TYPE_PHONE.equals(paramType)) {
-                query = "INSERT INTO " + TABLE_PARAM_PHONE_ITEM
-                        + " (id, param_id, n, phone, format, comment, flags) "
-                        + "SELECT ?, ?, n, phone, format, comment, flags " + "FROM " + TABLE_PARAM_PHONE_ITEM
+                if (Parameter.Type.PHONE == paramType) {
+                    query = "INSERT INTO " + TABLE_PARAM_PHONE_ITEM
+                            + " (id, param_id, n, phone, format, comment, flags) "
+                            + "SELECT ?, ?, n, phone, format, comment, flags " + "FROM " + TABLE_PARAM_PHONE_ITEM
+                            + " WHERE id=? AND param_id=?";
+                    psList.add(con.prepareStatement(query));
+                }
+                break;
+            case FILE:
+                query = "INSERT INTO " + TABLE_PARAM_FILE + "(id, param_id, n, value) "
+                        + "SELECT ?, ?, n, value FROM " + TABLE_PARAM_FILE
                         + " WHERE id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
-            }
-        } else if (Parameter.TYPE_FILE.equals(paramType)) {
-            query = "INSERT INTO " + TABLE_PARAM_FILE + "(id, param_id, n, value) "
-                    + "SELECT ?, ?, n, value FROM " + TABLE_PARAM_FILE
-                    + " WHERE id=? AND param_id=?";
-            psList.add(con.prepareStatement(query));
-        } else {
-            throw new BGException("Param type not supported for copy yet.");
+                break;
         }
 
         for (PreparedStatement ps : psList) {

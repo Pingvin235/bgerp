@@ -29,17 +29,20 @@ import ru.bgcrm.util.Utils;
 public class ProcessParamTest {
     private static final String TITLE = "Kernel Process Param";
 
-    private int paramAddressId;
-    private int paramDateId;
-    private int paramDatetimeId;
-    private int paramEmailId;
-    private int paramFileId;
-    private int paramListId;
-    private int paramListCountId;
-    private int paramMoneyId;
-    private int paramTextId;
-    private int paramTextRegexpId;
-    private int paramTreeId;
+    static volatile int paramAddressId;
+    static volatile int paramDateId;
+    static volatile int paramDatetimeId;
+    static volatile int paramEmailId;
+    static volatile int paramFileId;
+    static volatile int paramListId;
+    static volatile int paramListCountId;
+    static volatile int paramMoneyId;
+    static volatile int paramTextId;
+    static volatile int paramTextRegexpId;
+    static volatile int paramTreeId;
+
+    static volatile List<Integer> paramIds;
+
     private int processTypeId;
     private int processId;
 
@@ -84,6 +87,9 @@ public class ProcessParamTest {
                 ProcessTest.posParam += 2, "", ResourceHelper.getResource(this, "param.tree.values.txt"));
 
         ParameterCache.flush(null);
+
+        paramIds = List.of(paramAddressId, paramDateId, paramDatetimeId, paramEmailId, paramFileId, paramListId, paramListCountId, paramMoneyId,
+                        paramTextId, paramTextRegexpId, paramTreeId);
     }
 
     @Test(dependsOnMethods = "param")
@@ -92,20 +98,17 @@ public class ProcessParamTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.getParameterIds().addAll(List.of(paramAddressId, paramDateId, paramDatetimeId, paramEmailId, paramFileId,
-                        paramListId, paramListCountId, paramMoneyId, paramTextId, paramTextRegexpId, paramTreeId));
+        props.getParameterIds().addAll(paramIds);
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
-        var p = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
-        Assert.assertTrue(0 < (processId = p.getId()));
+        processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
     }
 
-    @Test(dependsOnMethods = "process")
-    public void paramValueFile() throws Exception {
+    static void paramValueFile(int processId) throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
         var logDao = new ParamLogDAO(DbTest.conRoot);
 
@@ -113,9 +116,9 @@ public class ProcessParamTest {
         Assert.assertTrue(valueFile.values().isEmpty());
 
         dao.updateParamFile(processId, paramFileId, 0, new FileData("file1.txt",
-                IOUtils.toByteArray(this.getClass().getResourceAsStream(this.getClass().getSimpleName() + ".param.file.value.txt"))));
+                IOUtils.toByteArray(ProcessParamTest.class.getResourceAsStream(ProcessParamTest.class.getSimpleName() + ".param.file.value.txt"))));
         dao.updateParamFile(processId, paramFileId, 0, new FileData("file2.txt",
-                IOUtils.toByteArray(this.getClass().getResourceAsStream(this.getClass().getSimpleName() + ".param.file.value.txt"))));
+                IOUtils.toByteArray(ProcessParamTest.class.getResourceAsStream(ProcessParamTest.class.getSimpleName() + ".param.file.value.txt"))));
         valueFile = dao.getParamFile(processId, paramFileId);
         Assert.assertEquals(valueFile.size(), 2);
         Assert.assertEquals(valueFile.get(1).getTitle(), "file1.txt");
@@ -139,8 +142,7 @@ public class ProcessParamTest {
         Assert.assertEquals(log.get(0).getText(), "");
     }
 
-    @Test(dependsOnMethods = "process")
-    public void paramValueMoney() throws Exception {
+    static void paramValueMoney(int processId) throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
 
         var valueMoney = dao.getParamMoney(processId, paramMoneyId);
@@ -150,5 +152,16 @@ public class ProcessParamTest {
         Assert.assertEquals(valueMoney, Utils.parseBigDecimal("10.55"));
 
         // TODO: Check history logs.
+    }
+
+    static void paramValues(int processId) throws Exception {
+        paramValueFile(processId);
+        paramValueMoney(processId);
+        // Add new param value methods.
+    }
+
+    @Test(dependsOnMethods = "process")
+    public void paramValues() throws Exception {
+       paramValues(processId);
     }
 }
