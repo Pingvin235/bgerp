@@ -48,7 +48,7 @@
 			onSelect="${sendCommand}"
 			valuesHtml="${valuesHtml}"/>
 
-		<div style="display: inline-block; float: right;">
+		<div style="float: right;">
 			<%-- без этого контейнера в хроме появляется лишний перенос --%>
 			<div style="display: inline-block;">
 				<c:set var="nextCommand" value="; ${sendCommand}"/>
@@ -72,7 +72,7 @@
 			<c:set var="style" value="border: 2px solid;"/>
 		</c:if>
 
-		<table class="hdata" style="width: 100%;">
+		<table class="hdata">
 			<c:set var="message" value="${message}" scope="request"/>
 			<c:set var="messageType" value="${config.typeMap[message.typeId]}" scope="request"/>
 
@@ -81,9 +81,10 @@
 			<c:set var="typeUnknown" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.config.MessageTypeConfig$MessageTypeUnknown'}"/>
 
 			<c:set var="color" value="${messageType.getProcessMessageHeaderColor(message)}"/>
+			<c:set var="unreadBold" value="${message.unread ? 'font-weight: bold; ' : ''}"/>
 
 			<tr style="background-color: ${color}; ${style}">
-				<td align="left" width="100%" style="text-align: left; vertical-align: middle;" class="in-table-cell">
+				<td align="left" width="100%" style="text-align: left; vertical-align: middle; ${unreadBold}" class="in-table-cell">
 					<div class="pr05">
 						<%@ include file="message_direction.jsp"%>
 						<%-- tags --%>
@@ -111,8 +112,7 @@
 									</c:if>
 								</div>
 								<div class="mt05">
-									${l.l('Создано')}: ${tu.format( message.fromTime, 'ymdhm' )}
-												(<ui:user-link id="${message.userId}"/>)
+									${l.l('Создано')}: ${tu.format(message.fromTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
 								</div>
 							</div>
 						</c:when>
@@ -124,15 +124,15 @@
 								<div class="mt05">
 									<c:choose>
 										<c:when test="${message.direction eq 1}">
-											${l.l('Принят')}: ${tu.format( message.fromTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.from )}">${fn:escapeXml( message.from )}</a>) => ${fn:escapeXml( message.to )}
+											${l.l('Принят')}: ${tu.format(message.fromTime, 'ymdhm')} (<a href="mailto:${fn:escapeXml(message.from)}">${fn:escapeXml(message.from)}</a>) => ${fn:escapeXml(message.to)}
 											<nobr>
-												${l.l('Обработано')}: ${tu.format( message.toTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+												${l.l('Обработано')}: ${tu.format(message.toTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
 											</nobr>
 										</c:when>
 										<c:otherwise>
-											${l.l('Создано')}: ${tu.format( message.fromTime, 'ymdhm' )} (<ui:user-link id="${message.userId}"/>)
+											${l.l('Создано')}: ${tu.format(message.fromTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
 											<nobr>
-												${l.l('Отправлено')}: ${tu.format( message.toTime, 'ymdhm' )} (<a href="mailto:${fn:escapeXml( message.to )}">${fn:escapeXml( message.to )}</a>)
+												${l.l('Отправлено')}: ${tu.format(message.toTime, 'ymdhm')} (<a href="mailto:${fn:escapeXml(message.to)}">${fn:escapeXml(message.to)}</a>)
 											</nobr>
 										</c:otherwise>
 									</c:choose>
@@ -194,12 +194,24 @@
 						<%@ include file="process_message_list_editor_buttons.jsp"%>
 					</html:form>
 
+					<c:url var="readUrl" value="/user/message.do">
+						<c:param name="action" value="messageUpdateRead"/>
+						<c:param name="id" value="${message.id}"/>
+					</c:url>
+
 					<c:set var="menuUiid" value="${u:uiid()}"/>
 					<div style="height: 0px; max-height: 0px; width: 0px; max-width: 0px; display: inline-block;">
 						<ul id="${menuUiid}" style="display: none;" class="menu">
 							<li><a href="#" onclick="$('#${messageTextUiid} #msgBox pre').toggleClass('nowrap'); return false;">${l.l('Вкл./выкл. разрывы строк')}</a></li>
 							<ui:when type="user">
 								<li><a href="#" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">${l.l('Теги')}</a></li>
+								<c:if test="${messageType.readable and message.read and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdateRead')}">
+									<li><a href="#" onclick="
+										$$.ajax.post('${readUrl}&value=0').done(() => {
+											$$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent());
+										});
+										">${l.l('Mark as unread')}</a></li>
+								</c:if>
 								<li>
 									<a href="#">${l.l('Изменить процесс на')}</a>
 									<ul>
@@ -288,6 +300,14 @@
 							</ui:when>
 						</ul>
 					</div>
+
+					<c:if test="${messageType.readable and message.unread and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdateRead')}">
+						<button class="btn-white icon mr05" title="${l.l('Mark as read')}" onclick="
+							$$.ajax.post('${readUrl}&value=1').done(() => {
+								$$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent());
+							});
+						"><i class="ti-eye"></i></button>
+					</c:if>
 
 					<c:if test="${not empty answerCommand}">
 						<ui:button type="reply" onclick="${answerCommand}" styleClass="mr05"/>

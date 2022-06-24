@@ -164,19 +164,24 @@ public abstract class MessageType extends IdTitle {
     }
 
     /**
-     * Plugin's endpoint for unprocessed message viewing.
-     * @return
+     * @return Plugin's endpoint for unprocessed message viewing.
      */
     public String getViewerJsp() {
         return null;
     }
 
     /**
-     * Plugin's endpoint for process message header.
-     * @return
+     * @return Plugin's endpoint for process message header.
      */
     public String getHeaderJsp() {
         return null;
+    }
+
+    /**
+     * @return possibility to mark message as read/unread using kernel logic.
+     */
+    public boolean isReadable() {
+        return true;
     }
 
     /**

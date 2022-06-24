@@ -60,8 +60,8 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     // автоматически генерируемое описание
     private String reference = "";
 
-    private Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>();
-    private Set<ProcessExecutor> processExecutors = new HashSet<ProcessExecutor>();
+    private Set<ProcessGroup> groups = new HashSet<>();
+    private Set<ProcessExecutor> executors = new HashSet<>();
 
     public Process() {}
 
@@ -78,7 +78,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     }
 
     public Set<ProcessExecutor> getExecutors() {
-        return processExecutors;
+        return executors;
     }
 
     /**
@@ -95,7 +95,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      * @return
      */
     public Set<Integer> getExecutorIdsWithRole(int roleId) {
-        return processExecutors.stream()
+        return executors.stream()
             .filter(pe -> pe.getRoleId() == roleId)
             .map(ProcessExecutor::getUserId).collect(Collectors.toSet());
     }
@@ -114,7 +114,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      * @return
      */
     public Set<Integer> getExecutorIdsWithRoles(Set<Integer> roleIds) {
-        return processExecutors.stream()
+        return executors.stream()
             .filter(pe -> roleIds.contains(pe.getRoleId()))
             .map(ProcessExecutor::getUserId).collect(Collectors.toSet());
     }
@@ -134,7 +134,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      * @return
      */
     public Set<Integer> getExecutorIdsWithGroupAndRole(int groupId, int roleId) {
-        return processExecutors.stream()
+        return executors.stream()
             .filter(pe -> roleId == pe.getRoleId() && groupId == pe.getGroupId())
             .map(ProcessExecutor::getUserId).collect(Collectors.toSet());
     }
@@ -153,13 +153,13 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      * @return
      */
     public Set<Integer> getExecutorIdsWithGroups(Set<Integer> groupIds) {
-        return processExecutors.stream()
+        return executors.stream()
             .filter(pe -> groupIds.contains(pe.getGroupId()))
             .map(ProcessExecutor::getUserId).collect(Collectors.toSet());
     }
 
     public Set<Integer> getExecutorIds() {
-        return Collections.unmodifiableSet(ProcessExecutor.toExecutorSet(processExecutors));
+        return Collections.unmodifiableSet(ProcessExecutor.toExecutorSet(executors));
     }
 
     /**
@@ -171,7 +171,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     }
 
     public void setExecutors(Set<ProcessExecutor> value) {
-        this.processExecutors = value;
+        this.executors = value;
     }
 
     public Process withExecutors(Set<ProcessExecutor> value) {
@@ -188,7 +188,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     }
 
     public Set<ProcessGroup> getGroups() {
-        return processGroups;
+        return groups;
     }
 
     /**
@@ -197,7 +197,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     @Deprecated
     public Set<ProcessGroup> getProcessGroupWithRole(int roleId) {
         Set<ProcessGroup> groupsWithRole = new HashSet<ProcessGroup>();
-        for (ProcessGroup group : processGroups) {
+        for (ProcessGroup group : groups) {
             if (group.getRoleId() == roleId) {
                 groupsWithRole.add(group);
             }
@@ -211,7 +211,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      * @return
      */
     public Set<Integer> getGroupIdsWithRole(int roleId) {
-        return processGroups.stream()
+        return groups.stream()
             .filter(pg -> pg.getRoleId() == roleId)
             .map(ProcessGroup::getGroupId).collect(Collectors.toSet());
     }
@@ -222,7 +222,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     @Deprecated
     public Set<ProcessGroup> getProcessGroupWithRoles(Set<Integer> roleIds) {
         Set<ProcessGroup> groupsWithRole = new HashSet<ProcessGroup>();
-        for (ProcessGroup group : processGroups) {
+        for (ProcessGroup group : groups) {
             if (roleIds.contains(group.getRoleId())) {
                 groupsWithRole.add(group);
             }
@@ -236,13 +236,13 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      * @return
      */
     public Set<Integer> getGroupIdsWithRoles(Set<Integer> roleIds) {
-        return processGroups.stream()
+        return groups.stream()
             .filter(pg -> roleIds.contains(pg.getRoleId()))
             .map(ProcessGroup::getGroupId).collect(Collectors.toSet());
     }
 
     public Set<Integer> getGroupIds() {
-        return Collections.unmodifiableSet(ProcessGroup.toGroupSet(processGroups));
+        return Collections.unmodifiableSet(ProcessGroup.toGroupSet(groups));
     }
 
     /**
@@ -254,7 +254,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     }
 
     public void setGroups(Set<ProcessGroup> value) {
-        this.processGroups = value;
+        this.groups = value;
     }
 
     public Process withGroups(Set<ProcessGroup> value) {
@@ -398,7 +398,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     public Set<Integer> getRoleSet() {
         Set<Integer> resultSet = new HashSet<Integer>();
 
-        for (ProcessGroup processGroup : processGroups) {
+        for (ProcessGroup processGroup : groups) {
             if (!resultSet.contains(processGroup.getRoleId())) {
                 resultSet.add(processGroup.getRoleId());
             }
@@ -433,8 +433,8 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
                 && (closeTime == null ? process.getCloseTime() == null : closeTime.equals(process.getCloseTime()))
                 && statusId == process.getStatusId() && priority == process.getPriority() && typeId == process.getTypeId()
                 && (statusTime == null ? process.getStatusTime() == null : statusTime.equals(process.getStatusTime()))
-                && process.getDescription().equals(description) && CollectionUtils.isEqualCollection(process.getProcessGroups(), processGroups)
-                && CollectionUtils.isEqualCollection(process.getProcessExecutors(), processExecutors);
+                && process.getDescription().equals(description) && CollectionUtils.isEqualCollection(process.getProcessGroups(), groups)
+                && CollectionUtils.isEqualCollection(process.getProcessExecutors(), executors);
         return result;
     }
 
@@ -459,10 +459,10 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
             Utils.addSeparated(result, separator, "Приоритет: " + priority);
         }
 
-        if (!CollectionUtils.isEqualCollection(processGroups, oldProcess.getProcessGroups())) {
+        if (!CollectionUtils.isEqualCollection(groups, oldProcess.getProcessGroups())) {
             StringBuilder groupString = new StringBuilder();
 
-            for (ProcessGroup pg : processGroups) {
+            for (ProcessGroup pg : groups) {
                 Group group = UserCache.getUserGroup(pg.getGroupId());
                 if (group == null) {
                     continue;
@@ -475,10 +475,10 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
             result.append("Группы решения: [" + groupString + "]");
         }
 
-        if (!CollectionUtils.isEqualCollection(processExecutors, oldProcess.getProcessExecutors())) {
+        if (!CollectionUtils.isEqualCollection(executors, oldProcess.getProcessExecutors())) {
             String executorString = "";
 
-            for (Integer item : ProcessExecutor.toExecutorSet(processExecutors)) {
+            for (Integer item : ProcessExecutor.toExecutorSet(executors)) {
                 executorString += UserCache.getUser(item).getTitle() + ", ";
             }
 
@@ -546,8 +546,8 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         process.description = description;
         process.id = id;
         process.priority = priority;
-        process.processExecutors = new LinkedHashSet<ProcessExecutor>(processExecutors);
-        process.processGroups = new LinkedHashSet<ProcessGroup>(processGroups);
+        process.executors = new LinkedHashSet<>(executors);
+        process.groups = new LinkedHashSet<>(groups);
         process.reference = reference;
         process.statusId = statusId;
         process.statusTime = statusTime;

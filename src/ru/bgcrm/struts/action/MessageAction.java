@@ -23,6 +23,7 @@ import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Dynamic;
 
+import javassist.NotFoundException;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.message.MessageDAO;
@@ -146,12 +147,30 @@ public class MessageAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward messageUpdateTags(DynActionForm form, ConnectionSet conSet) throws Exception {
-        Connection con = conSet.getConnection();
-
+    public ActionForward messageUpdateTags(DynActionForm form, Connection con) throws Exception {
         new MessageDAO(con).updateMessageTags(form.getId(), form.getSelectedValues("tagId"));
 
-        return json(conSet, form);
+        return json(con, form);
+    }
+
+    public ActionForward messageUpdateRead(DynActionForm form, Connection con) throws Exception {
+        var dao = new MessageDAO(con);
+
+        Message m = dao.getMessageById(form.getId());
+        if (m == null)
+            throw new NotFoundException("Not found message with ID: " + form.getId());
+
+        if (form.getParamBoolean("value")) {
+            m.setToTime(new Date());
+            if (m.getUserId() <= 0)
+                m.setUserId(form.getUserId());
+        }
+        else
+            m.setToTime(null);
+
+        dao.updateMessage(m);
+
+        return json(con, form);
     }
 
     public ActionForward messageUpdateProcessToCopy(DynActionForm form, Connection con) throws Exception {
@@ -452,18 +471,18 @@ public class MessageAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/process_message_edit.jsp");
     }
 
-    public ActionForward messageUpdate(DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward messageUpdate(DynActionForm form, Connection con) throws Exception {
         var type = getType(form.getParamInt("typeId"));
 
         // preserving message type for choosing in next usage of editor
         if (form.getId() <= 0) {
             form.setParam("messageTypeAdd", String.valueOf(type.getId()));
-            restoreRequestParams(conSet.getConnection(), form, false, true, "messageTypeAdd");
+            restoreRequestParams(con, form, false, true, "messageTypeAdd");
         }
 
         Message message = new Message();
         if (form.getId() > 0)
-            message = new MessageDAO(conSet.getConnection()).getMessageById(form.getId());
+            message = new MessageDAO(con).getMessageById(form.getId());
 
         if (message.getId() > 0 && message.getUserId() != form.getUserId() && !form.getUser().checkPerm(ACTION_MODIFY_NOT_OWNED)) {
             throw new BGException("Editing of not own messages is not allowed");
@@ -488,16 +507,16 @@ public class MessageAction extends BaseAction {
         if (Utils.notBlankString(systemId))
             message.setSystemId(systemId);
 
-        type.updateMessage(conSet.getConnection(), form, message);
+        type.updateMessage(con, form, message);
 
         if (form.getParamBoolean("updateTags")) {
             form.setParam("id", String.valueOf(message.getId()));
-            messageUpdateTags(form, conSet);
+            messageUpdateTags(form, con);
         }
 
         form.getResponse().setData("message", message);
 
-        return json(conSet, form);
+        return json(con, form);
     }
 
 }

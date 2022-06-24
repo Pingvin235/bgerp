@@ -19,6 +19,8 @@ Configuration parameters.
 #email:recipients.search.area=process,executors,process_customers
 ====
 
+:hardbreaks!:
+
 [[setup-message-type]]
 === Message Type
 The following configuration has to be added to <<../../../kernel/message.adoc#type, message types>>.
@@ -33,7 +35,7 @@ messageType.<id>.email=<email>
 messageType.<id>.host=<host>
 messageType.<id>.login=<login>
 messageType.<id>.pswd=<pswd>
-#
+
 messageType.<id>.folderIn=<inFolder>
 # если не указан - CRM_PROCESSED
 #messageType.<id>.folderProcessed=<processedFolder>
@@ -43,18 +45,21 @@ messageType.<id>.folderIn=<inFolder>
 #messageType.<id>.folderSent=<sentFolder>
 # если не указан - Trash
 #messageType.<id>.folderTrash=<trashFolder>
-#
-# IMAP SSL протокол
+
+# IMAP SSL
 #messageType.<id>.store=imaps
 # порт, если не указано - 143 для IMAP, 993 для IMAP SSL
 #messageType.<id>.port=
 # отладка почтового обмена IMAP и SMTP
 #messageType.<id>.debug=1
-#
-# параметры SMTP, добавляются после префикса идентично опциям из основной конфигурации
-messageType.<id>....
-# необязательные параметры
-messageType.<id>.sign.expression=<signExpression>
+
+# параметры SMTP, добавляются идентично опциям из основной конфигурации после префикса messageType.<id>.
+
+# do not make read all process related messages
+#messageType.<id>.processed.read=0
+
+# JEXL expression for generation signature text
+#messageType.<id>.sign.expression=<signExpression>
 # отключение стандартной подписи, что сообщение отправлено BGERP
 #messageType.<id>.sign.standard=0
 # иной адрес отправителя письма

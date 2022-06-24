@@ -210,9 +210,8 @@ public class MessageTypeForumPost extends MessageType {
                             Message msg = new Message();
                             msg.setText("Сообщения в форуме.");
 
-                            EventProcessor.processEvent(
-                                    new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, msg, process),
-                                    type.getProperties().getActualScriptName(), new SingleConnectionSet(con));
+                            EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, msg, process),
+                                    new SingleConnectionSet(con));
                         }
                     }
                 }

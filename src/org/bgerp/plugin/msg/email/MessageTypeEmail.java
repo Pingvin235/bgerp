@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.mail.FetchProfile;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message.RecipientType;
@@ -71,8 +70,11 @@ public class MessageTypeEmail extends MessageType {
     private final String encoding;
 
     private final Pattern processIdPattern;
+    private final boolean processedRead;
+
     private final Pattern quickAnswerPattern;
     private final int quickAnswerEmailParamId;
+
     private final int autoCreateProcessTypeId;
     private final boolean autoCreateProcessNotification;
     private final String autoCreateProcessNotificationTextMessage;
@@ -107,8 +109,11 @@ public class MessageTypeEmail extends MessageType {
         folderTrash = config.get("folderTrash", "Trash");
 
         processIdPattern = Pattern.compile(mailConfig.getEmail().replaceAll("\\.", "\\\\.") + "#(\\d+)");
+        processedRead = config.getBoolean("processed.read", true);
+
         quickAnswerPattern = Pattern.compile("QA:(\\d+)");
         quickAnswerEmailParamId = config.getInt("quickAnswerEmailParamId", -1);
+
         autoCreateProcessTypeId = config.getInt("autoCreateProcess.typeId", -1);
         autoCreateProcessNotification = config.getBoolean("autoCreateProcess.notification", true);
         autoCreateProcessNotificationTextMessage = config.get("autoCreateProcess.notification.text.message", l.l("email.autoCreateProcess.notification.text.message.default"));
@@ -144,7 +149,6 @@ public class MessageTypeEmail extends MessageType {
 
     @Override
     public boolean isEditable(Message message) {
-        // incoming and not sent
         return message.getDirection() == Message.DIRECTION_OUTGOING && message.getToTime() == null;
     }
 
@@ -166,11 +170,6 @@ public class MessageTypeEmail extends MessageType {
     @Override
     public String getEditorJsp() {
         return Plugin.ENDPOINT_MESSAGE_EDITOR;
-    }
-
-    private static final FetchProfile FETCH_PROFILE = new FetchProfile();
-    static {
-        FETCH_PROFILE.add(FetchProfile.Item.SIZE);
     }
 
     @Override
@@ -425,7 +424,7 @@ public class MessageTypeEmail extends MessageType {
                     processMessage(con, incomingFolder, processedFolder, skippedFolder, messages[i]);
                     continue;
                 }
-                log.debug("Skipping message with subject: %s", subject);
+                log.debug("Skipping message with subject: {}", subject);
             }
 
             unprocessedMessagesCount = list.size();
@@ -435,10 +434,16 @@ public class MessageTypeEmail extends MessageType {
     }
 
     /**
-     * Обрабатывает сообщение и производит перемещение между папками.
+     * Processes an IMAP message and moves it over folders.
+     * @param con DB connection.
+     * @param incomingFolder INBOX.
+     * @param processedFolder IMAP folder for successfully processed messages.
+     * @param skippedFolder IMAP folder for case of error on processing.
+     * @param message processed message.
+     * @throws MessagingException
      */
-    private Message processMessage(Connection con, Folder incomingFolder, Folder processedFolder, Folder skippedFolder,
-            javax.mail.Message message) throws MessagingException {
+    private Message processMessage(Connection con, Folder incomingFolder, Folder processedFolder, Folder skippedFolder, javax.mail.Message message)
+            throws MessagingException {
         Message result = null;
 
         try {
@@ -459,7 +464,7 @@ public class MessageTypeEmail extends MessageType {
                 msg.addAttach(file);
             }
 
-            result = processMessage(con, msg );
+            result = processMessage(con, msg);
 
             incomingFolder.copyMessages(new javax.mail.Message[] { message }, processedFolder);
             con.commit();
@@ -484,19 +489,16 @@ public class MessageTypeEmail extends MessageType {
             int processId = getProcessId(subject);
             int quickAnsweredMessageId = getQuickAnswerMessageId(subject);
 
-            log.info("Mailbox: " + mailConfig.getEmail() + " found message " + " From: "
-                    + msg.getFrom() + "\t Subject: " + subject + "\t Content: " + msg.getText() + "\t Process ID: " + processId
-                    + "\t Quick answer message ID: " + quickAnsweredMessageId); // + "\t Content-Type: " + message.getContentType()
+            log.info("Mailbox: {} found message From: {} Subject: {} Content: {} Process ID: {} Quick answer message ID: {} ", mailConfig.getEmail(),
+                    msg.getFrom(), subject, msg.getText(), processId, quickAnsweredMessageId);
 
             Process process = null;
 
-            // определение кода процесса
             if (processId > 0) {
-                // TODO: Подумать, чтобы не хулиганили и не писали в чужие процессы..
-                // Может к коду процесса чего добавить.
+                // TODO: Think about writing to foreign processes.
                 process = processDAO.getProcess(processId);
                 if (process == null)
-                    log.error("Not found process with code: " + processId);
+                    log.error("Not found process with code: {}", processId);
                 else
                     setMessageProcessed(msg, processId);
             }
@@ -504,7 +506,7 @@ public class MessageTypeEmail extends MessageType {
             else if (quickAnsweredMessageId > 0) {
                 Message quickAnsweredMessage = messageDAO.getMessageById(quickAnsweredMessageId);
                 if (quickAnsweredMessage == null) {
-                    log.error("Message not found: " + quickAnsweredMessageId);
+                    log.error("Message not found: {}", quickAnsweredMessageId);
                 }
                 else {
                     MessageType quickAnsweredMessageType =
@@ -532,7 +534,7 @@ public class MessageTypeEmail extends MessageType {
                     ParameterSearchedObject<User> user = Utils.getFirst(searchResult.getList());
 
                     if (user != null) {
-                        log.info("Creating quick answer on message: " + quickAnsweredMessageId);
+                        log.info("Creating quick answer on message: {}", quickAnsweredMessageId);
                         quickAnsweredMessageType.updateMessage(con, new DynActionForm(user.getObject()), msg);
                         return msg;
                     }
@@ -543,7 +545,7 @@ public class MessageTypeEmail extends MessageType {
                 process.setDescription(msg.getSubject());
                 ProcessAction.processCreate(DynActionForm.SERVER_FORM, con, process);
 
-                log.info("Created process: %s", process.getId());
+                log.info("Created process: {}", process.getId());
 
                 setMessageProcessed(msg, process.getId());
 
@@ -556,7 +558,7 @@ public class MessageTypeEmail extends MessageType {
             if (process != null) {
                 ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
                 if (type == null) {
-                    log.error("Not found process type with id:" + process.getTypeId());
+                    log.error("Not found process type with id: {}", process.getTypeId());
                 } else {
                     EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, msg, process),
                             new SingleConnectionSet(con));
@@ -579,24 +581,24 @@ public class MessageTypeEmail extends MessageType {
     }
 
     private void setMessageProcessed(Message msg, int processId) {
+        log.debug("setMessageProcessed processId: {}, processedRead: {}", processId, processedRead);
+
         msg.setProcessId(processId);
         msg.setProcessed(true);
-        msg.setToTime(new Date());
-        msg.setUserId(User.USER_SYSTEM_ID);
+        if (processedRead) {
+            msg.setToTime(new Date());
+            msg.setUserId(User.USER_SYSTEM_ID);
+        }
     }
 
-    private Message extractMessage(MessageParser mp, boolean extractText)
-            throws Exception, MessagingException {
+    private Message extractMessage(MessageParser mp, boolean extractText) throws Exception {
         Message msg = new Message();
         msg.setTypeId(id);
+        msg.setDirection(ru.bgcrm.model.message.Message.DIRECTION_INCOMING);
         msg.setFrom(mp.getFrom());
         msg.setTo(mp.getTo());
         msg.setSystemId(mp.getMessageId());
         msg.setFromTime(mp.getFromTime());
-
-        // время прочтения = времени получения, чтобы не считалось непрочитанным
-        msg.setToTime(new Date());
-        msg.setDirection(ru.bgcrm.model.message.Message.DIRECTION_INCOMING);
         msg.setSubject(mp.getMessageSubject());
 
         if (extractText)

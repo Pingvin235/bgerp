@@ -21,6 +21,7 @@ import org.bgerp.model.Pageable;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.message.MessageDAO;
+import ru.bgcrm.dao.message.MessageSearchDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
@@ -361,8 +362,11 @@ public class MessageTypeHelpDesk extends MessageType {
         Map<Integer, Message> messageMap = new HashMap<Integer, Message>();
 
         // все сообщения из данного HD топика в данном процессе
-        Pageable<Message> messages = new Pageable<Message>();
-        messageDao.searchMessageList(messages, process.getId(), id, null, null, null, null, null, null);
+        Pageable<Message> messages = new Pageable<>();
+        new MessageSearchDAO(con)
+            .withProcessIds(Set.of(process.getId()))
+            .withTypeId(id)
+            .search(messages);
 
         for (Message message : messages.getList())
             messageMap.put(Utils.parseInt(message.getSystemId()), message);
@@ -379,12 +383,14 @@ public class MessageTypeHelpDesk extends MessageType {
         if (topic.getUserId() > 0) {
             int crmUserId = dbInfo.getCrmUserId(topic.getUserId());
             if (crmUserId > 0) {
-                ProcessGroup group = Utils.getFirst(process.getProcessGroupWithRole(0));
+                ProcessGroup group = process.getGroups().stream()
+                    .filter(pg -> pg.getGroupId() == 0)
+                    .findFirst().orElse(null);
                 if (group == null) {
                     log.warn("Not found process group with role=0");
                 }
                 else {
-                    Set<ProcessExecutor> executors = process.getProcessExecutors();
+                    Set<ProcessExecutor> executors = process.getExecutors();
                     executors.add(new ProcessExecutor(crmUserId, group.getGroupId(), group.getRoleId()));
 
                     processDao.updateProcessExecutors(executors, process.getId());
@@ -455,9 +461,8 @@ public class MessageTypeHelpDesk extends MessageType {
 
                 if (newMessageEvent && message.getDirection() == Message.DIRECTION_INCOMING)
                     // событие о новом сообщении
-                    EventProcessor.processEvent(
-                            new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, message, process),
-                            processType.getProperties().getActualScriptName(), new SingleConnectionSet(con));
+                    EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, message, process),
+                            new SingleConnectionSet(con));
             }
 
             // отметка сообщения прочитанным
@@ -483,6 +488,11 @@ public class MessageTypeHelpDesk extends MessageType {
     public boolean isEditable(Message message) {
         // исходящее но не прочитанное ещё сообщение
         return message.getDirection() == Message.DIRECTION_OUTGOING && message.getToTime() == null;
+    }
+
+    @Override
+    public boolean isReadable() {
+        return false;
     }
 
     @Override

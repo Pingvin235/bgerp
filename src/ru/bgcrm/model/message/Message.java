@@ -10,7 +10,9 @@ import ru.bgcrm.model.Id;
 import ru.bgcrm.model.process.Process;
 
 /**
- * Одно входящее или исходящее сообщение.
+ * Message.
+ *
+ * @author Shamil Vakhitov
  */
 public class Message extends Id {
     public static final String OBJECT_TYPE = "message";
@@ -32,7 +34,7 @@ public class Message extends Id {
     // для исходящего звонка - код звонившего пользователя
     // для входящего звонка - код принявшего пользователя
     // для входящего HD, EMail - код прочитавшего пользователя
-    // для исходящего HD, EMail - код отписавшего пользователя 
+    // для исходящего HD, EMail - код отписавшего пользователя
     private int userId;
 
     // для звонка - время начала, для HD - время создания сообщения
@@ -40,8 +42,8 @@ public class Message extends Id {
     // для исходящих EMail - время создания сообщения
     private Date fromTime;
 
-    // для звонка - время окончания, для HD - время прочтения, 
-    // для входящих EMail - время прочтения 
+    // для звонка - время окончания, для HD - время прочтения,
+    // для входящих EMail - время прочтения
     // для исходящих EMail - время отправки
     private Date toTime;
 
@@ -55,11 +57,11 @@ public class Message extends Id {
 
     // для HD/E-Mail - текст сообщения, для телефона - краткое описание.
     private String text = "";
-    // флаг, что сообщение обработано    
+    // флаг, что сообщение обработано
     private boolean processed;
     // прикрепленные файлы
     private List<FileData> attaches = new ArrayList<>();
-    
+
     public String getSystemId() {
         return systemId;
     }
@@ -152,6 +154,10 @@ public class Message extends Id {
         return this;
     }
 
+    public String getUserTitle() {
+        return UserCache.getUser(userId).getTitle();
+    }
+
     public Date getToTime() {
         return toTime;
     }
@@ -163,10 +169,6 @@ public class Message extends Id {
     public Message withToTime(Date value) {
         setToTime(value);
         return this;
-    }
-
-    public String getUserTitle() {
-        return UserCache.getUser(userId).getTitle();
     }
 
     public int getDirection() {
@@ -184,6 +186,20 @@ public class Message extends Id {
 
     public boolean isIncoming() {
         return direction == DIRECTION_INCOMING;
+    }
+
+    /**
+     * @return {@link #direction} equals {@link #DIRECTION_INCOMING} and {@link #toTime} is nul {@code null}.
+     */
+    public boolean isRead() {
+        return toTime != null && direction == DIRECTION_INCOMING;
+    }
+
+    /**
+     * @return {@link #direction} equals {@link #DIRECTION_INCOMING} and {@link #toTime} is {@code null}.
+     */
+    public boolean isUnread() {
+        return toTime == null && direction == DIRECTION_INCOMING;
     }
 
     public String getFrom() {
@@ -243,7 +259,7 @@ public class Message extends Id {
 
     /**
      * Добавляет к сообщению файл
-     * @param messageAttach 
+     * @param messageAttach
      */
     public void addAttach(FileData messageAttach) {
         this.attaches.add(messageAttach);

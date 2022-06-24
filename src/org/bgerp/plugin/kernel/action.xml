@@ -291,6 +291,7 @@
 					<b>allowedTypeIds</b> - comma separated type ID list<br/>
 				</item>
 				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateTags" title="Update tags"/>
+				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateRead" title="Update read state"/>
 				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcess" title="Update process"/>
 				<item action="ru.bgcrm.struts.action.MessageAction:messageUpdateProcessToCopy" title="Update process to copy"/>
 				<item action="ru.bgcrm.struts.action.MessageAction:processMessageEdit;ru.bgcrm.struts.action.MessageAction:messageUpdate" title="Edit">

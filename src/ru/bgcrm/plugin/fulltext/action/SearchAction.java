@@ -16,7 +16,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/plugin/fulltext/search")
 public class SearchAction extends BaseAction {
-    private static final String PATH_JSP = PATH_JSP_USER + "/" + Plugin.ID;
+    private static final String PATH_JSP = Plugin.PATH_JSP_USER;
 
     public ActionForward search(DynActionForm form, ConnectionSet conSet) throws Exception {
         String objectType = form.getParam("objectType");

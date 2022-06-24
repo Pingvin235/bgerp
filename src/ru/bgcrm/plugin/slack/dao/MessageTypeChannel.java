@@ -236,8 +236,7 @@ public class MessageTypeChannel extends MessageType {
                             User user = UserCache.getUser(userId);
                             if (user != null)
                                 form = new DynActionForm(user);
-                            EventProcessor.processEvent(new ProcessMessageAddedEvent(form, msg, process),
-                                    type.getProperties().getActualScriptName(), new SingleConnectionSet(con));
+                            EventProcessor.processEvent(new ProcessMessageAddedEvent(form, msg, process), new SingleConnectionSet(con));
                         }
                     }
                 }
