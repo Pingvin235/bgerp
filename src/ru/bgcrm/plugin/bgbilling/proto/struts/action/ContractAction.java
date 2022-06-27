@@ -53,7 +53,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractFace;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractService;
-import ru.bgcrm.plugin.bgbilling.proto.model.DeviceInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParameterType;
 import ru.bgcrm.plugin.bgbilling.proto.model.dialup.DialUpLogin;
@@ -392,9 +391,9 @@ public class ContractAction extends BaseAction {
         Integer contractId = form.getParamInt("contractId");
         Integer cityId = form.getParamInt("cityId");
 
-        Set<DeviceInfo.BaseLink> baseLinks = new DeviceInfo().getDeviceInfo(contractId, cityId);
+        /* Set<DeviceInfo.BaseLink> baseLinks = new DeviceInfo().getDeviceInfo(contractId, cityId);
 
-        form.getResponse().setData("links", baseLinks);
+        form.getResponse().setData("links", baseLinks); */
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/object_link_list.jsp");
     }

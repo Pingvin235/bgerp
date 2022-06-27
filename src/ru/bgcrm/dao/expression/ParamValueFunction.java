@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -29,7 +29,7 @@ import ru.bgcrm.util.Utils;
  * Оболочка для {@link ParamValueDAO} используемого для конкретного объекта.
  */
 public class ParamValueFunction {
-    private static final Logger log = Logger.getLogger(ParamValueFunction.class);
+    private static final Log log = Log.getLog();
 
     public static final String PARAM_FUNCTION_SUFFIX = "Param";
 

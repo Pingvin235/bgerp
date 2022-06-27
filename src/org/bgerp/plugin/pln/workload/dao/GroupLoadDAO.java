@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.bgerp.plugin.pln.workload.model.GroupLoadConfig;
+
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
@@ -21,15 +23,14 @@ import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import org.bgerp.plugin.pln.workload.model.GroupLoadConfig;
 
 public class GroupLoadDAO extends ProcessDAO {
-    public GroupLoadDAO(Connection con, User user) {
-        super(con, user);
+    public GroupLoadDAO(Connection con, DynActionForm form) {
+        super(con, form);
     }
 
     /**

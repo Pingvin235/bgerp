@@ -509,8 +509,14 @@
 	<p><en>Deselect All</en><ru>Очистить выделение</ru></p>
 	<p><en>Invert Selection</en><ru>Инвертировать выделение</ru></p>
 	<p><en>Keep Shift pressed for range selection</en><ru>Держите Shift зажатым для выбора диапазонов</ru></p>
+	<p><en>Description: {}</en><ru>Описание: {}</ru></p>
+	<p><en>Type: {}</en><ru>Тип: {}</ru></p>
+	<p><en>Priority: {}</en><ru>Приоритет: {}</ru></p>
+	<p><en>Execution groups: [{}]</en><ru>Группы решения: [{}]</ru></p>
+	<p><en>Executors: [{}]</en><ru>Исполнители: [{}]</ru></p>
 	<p><en>Mark as read</en><ru>Отметить прочитанным</ru></p>
 	<p><en>Mark as unread</en><ru>Отметить непрочитанным</ru></p>
+	<p><en>Search string must be {} and more symbols length.</en><ru>Строка поиска должна быть {} и более симоволов длинной.</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

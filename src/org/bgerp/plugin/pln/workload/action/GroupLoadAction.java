@@ -69,7 +69,7 @@ public class GroupLoadAction extends BaseAction {
         String sort = form.getParam("sort");
         form.setResponseData("sort", sort);
 
-        GroupLoadDAO groupLoadDAO = new GroupLoadDAO(con, form.getUser());
+        GroupLoadDAO groupLoadDAO = new GroupLoadDAO(con, form);
         List<Object[]> processList = groupLoadDAO.getProcessList(config, date, processTypeIds, userGroupIds, sort);
 
         form.setResponseData("processList", processList);

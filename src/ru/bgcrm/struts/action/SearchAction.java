@@ -12,6 +12,7 @@ import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
+import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
@@ -66,7 +67,12 @@ public class SearchAction extends BaseAction {
         } else if ("title".equals(searchBy)) {
             Pageable<Customer> result = new Pageable<Customer>(form);
 
-            String title = form.getParam("title");
+            String title = form.getParam("title", "");
+
+            long minLength = setup.getSokLong(0L, "search.customer.title.min.substring.length", "searchCustomerTitleMinSubstringLength");
+            if (title.length() < minLength)
+                throw new BGMessageException("Строка поиска должна быть {} и более симоволов!", minLength);
+
             customerDao.searchCustomerList(result, CommonDAO.getLikePatternSub(title));
 
             return html(con, form, JSP_CUSTOMER_TITLE);
@@ -125,7 +131,7 @@ public class SearchAction extends BaseAction {
     }
 
     public ActionForward processSearch(DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDao = new ProcessDAO(con, form.getUser());
+        ProcessDAO processDao = new ProcessDAO(con, form);
 
         String searchBy = form.getParam("searchBy");
 

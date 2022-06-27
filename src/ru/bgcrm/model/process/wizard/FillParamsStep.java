@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.param.Parameter;
@@ -12,8 +12,8 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class FillParamsStep extends Step {
-    private static final Logger log = Logger.getLogger(FillParamsStep.class);
-    
+    private static final Log log = Log.getLog();
+
     private final String type;
     private final Set<Integer> checkParamIds;
 
@@ -32,7 +32,7 @@ public class FillParamsStep extends Step {
     public FillParamsStepData newStepData(WizardData data) {
         return new FillParamsStepData(this, data);
     }
-    
+
     public Set<Integer> getCheckParamIds() {
         return checkParamIds;
     }

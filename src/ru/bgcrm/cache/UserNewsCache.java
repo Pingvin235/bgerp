@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.log4j.Logger;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.dao.message.MessageType;
@@ -25,7 +25,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class UserNewsCache extends Cache<UserNewsCache> {
-    private static final Logger log = Logger.getLogger(UserNewsCache.class);
+    private static final Log log = Log.getLog();
 
     private static CacheHolder<UserNewsCache> holder = new CacheHolder<>(new UserNewsCache());
 

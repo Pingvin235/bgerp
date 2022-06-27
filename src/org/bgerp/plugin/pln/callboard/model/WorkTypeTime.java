@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
 import org.bgerp.plugin.pln.callboard.cache.CallboardCache;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.ParameterMap;
@@ -19,7 +19,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class WorkTypeTime {
-    private static final Logger log = Logger.getLogger(WorkTypeTime.class);
+    private static final Log log = Log.getLog();
 
     private boolean isDynamic;
     private int workTypeId;

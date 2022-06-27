@@ -370,7 +370,7 @@ public class MessageAction extends BaseAction {
 
         var process = ProcessAction.processCreateAndGet(form, con);
 
-        var linkDao = new ProcessLinkDAO(con, form.getUser());
+        var linkDao = new ProcessLinkDAO(con, form);
         for (String link : form.getSelectedValuesListStr("link")) {
             var tokens = link.split("\\*");
             if (tokens.length != 3) {

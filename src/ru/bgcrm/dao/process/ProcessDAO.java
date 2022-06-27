@@ -42,7 +42,6 @@ import org.bgerp.util.sql.PreparedQuery;
 import javassist.NotFoundException;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.EntityLogDAO;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -90,50 +89,26 @@ public class ProcessDAO extends CommonDAO {
             + " AS pllp ON pllp.object_id=process.id AND pllp.object_type LIKE 'process%' " + " LEFT JOIN "
             + TABLE_PROCESS + " AS " + LINKED_PROCESS + " ON pllp.process_id=" + LINKED_PROCESS + ".id";
 
-
-    private final User user;
-    /** Write param changes history. */
-    private boolean history;
-     /** User ID for changes history. */
-    private final int userId;
+    /** User request context for isolations, logging changes, l10n. */
+    private final DynActionForm form;
 
     /**
-     * Constructor without user isolation.
-     * @param con
+     * Constructor without user isolation and history writing.
+     * @param con DB connection.
      */
     public ProcessDAO(Connection con) {
         super(con);
-        this.userId = User.USER_SYSTEM_ID;
-        this.user = User.USER_SYSTEM;
+        this.form = null;
     }
 
     /**
-     * Constructor with isolation support.
-     * @param con
-     * @param user user with possible isolation configuration.
+     * Constructor with isolation support and writing history.
+     * @param con DB connection.
+     * @param form value of {@link #form}.
      */
-    public ProcessDAO(Connection con, User user) {
+    public ProcessDAO(Connection con, DynActionForm form) {
         super(con);
-        this.userId = user.getId();
-        this.user = user;
-    }
-
-    public ProcessDAO(Connection con, boolean history) {
-        this(con);
-        this.history = history;
-    }
-
-    @Deprecated
-    public ProcessDAO(Connection con, boolean history, int userId) {
-        super(con);
-        this.userId = userId;
-        this.user = User.USER_SYSTEM;
-        this.history = history;
-    }
-
-    public ProcessDAO(Connection con, User user, boolean history) {
-        this(con, user);
-        this.history = history;
+        this.form = form;
     }
 
     public static Process getProcessFromRs(ResultSet rs, String prefix) throws SQLException {
@@ -199,12 +174,17 @@ public class ProcessDAO extends CommonDAO {
             result.selectPart.append("," + LINKED_PROCESS + ".*");
         }
 
-        result.joinPart.append(getIsolationJoin(user, "process"));
+        result.joinPart.append(getIsolationJoin(form, "process"));
 
         return result;
     }
 
-    public static String getIsolationJoin(User user, String tableProcess) {
+    public static String getIsolationJoin(DynActionForm form, String tableProcess) {
+        if (form == null)
+            return "";
+
+        User user = form.getUser();
+
         IsolationProcess isolation = user.getConfigMap().getConfig(IsolationConfig.class).getIsolationProcess();
         if (isolation == IsolationProcess.EXECUTOR)
             return " INNER JOIN " + TABLE_PROCESS_EXECUTOR
@@ -264,9 +244,7 @@ public class ProcessDAO extends CommonDAO {
         }
         query.append(getPageLimit(page));
 
-        if (log.isDebugEnabled()) {
-            log.debug(query.toString());
-        }
+        log.debug(query);
 
         ps = con.prepareStatement(query.toString());
 
@@ -1384,7 +1362,7 @@ public class ProcessDAO extends CommonDAO {
 
     /**
      * Selects process by ID with the last {@link Process#getStatusChange()}.
-     * Selection respects {@link #user} isolations.
+     * Selection respects user isolations.
      * @param id DB record ID.
      * @return
      * @throws SQLException
@@ -1395,7 +1373,7 @@ public class ProcessDAO extends CommonDAO {
         String query = "SELECT process.*, ps.* FROM " + TABLE_PROCESS + " AS process "
                 + "LEFT JOIN " + TABLE_PROCESS_STATUS
                 + " AS ps ON process.id=ps.process_id AND ps.status_id=process.status_id AND ps.last "
-                + getIsolationJoin(user, "process")
+                + getIsolationJoin(form, "process")
                 + " WHERE process.id=?";
         var ps = con.prepareStatement(query);
         ps.setInt(1, id);
@@ -1442,7 +1420,7 @@ public class ProcessDAO extends CommonDAO {
     }
 
     public void updateProcessGroups(Set<ProcessGroup> processGroups, int processId) throws Exception {
-        if (history) {
+        if (form != null) {
             Process oldValue = new ProcessDAO(con).getProcess(processId);
             Process newValue = oldValue.clone();
             newValue.setGroups(processGroups);
@@ -1470,33 +1448,8 @@ public class ProcessDAO extends CommonDAO {
         ps.close();
     }
 
-    /**
-     * Устаревшая функция - исполнители устанавливаются без привязки к группам,
-     * привязка восстанавливается затем по членству пользователей в группах.
-     * Использовать {@link #updateProcessExecutors(Set, int)}.
-     */
-    @Deprecated
-    public void updateProcessExecutors(int processId, Set<Integer> executorIds) throws SQLException {
-        if (history) {
-            String executorString = "";
-
-            for (Integer item : executorIds) {
-                executorString += UserCache.getUser(item).getTitle() + ", ";
-            }
-
-            if (executorString.length() > 2) {
-                executorString = executorString.substring(0, executorString.length() - 2);
-            }
-
-            logProcessChange(processId, "Исполнители: [" + executorString + "]");
-        }
-
-        updateColumn(TABLE_PROCESS, processId, "executors", Utils.toString(executorIds));
-        updateIds(Tables.TABLE_PROCESS_EXECUTOR, "process_id", "user_id", processId, executorIds);
-    }
-
     public void updateProcessExecutors(Set<ProcessExecutor> processExecutors, int processId) throws SQLException {
-        if (history) {
+        if (form != null) {
             Process oldValue = new ProcessDAO(con).getProcess(processId);
             Process newValue = oldValue.clone();
             newValue.setExecutors(processExecutors);
@@ -1528,17 +1481,13 @@ public class ProcessDAO extends CommonDAO {
     }
 
     private void logProcessChange(Process process, Process oldProcess) throws SQLException {
-        logProcessChange(process.getId(), process.getChangesLog(oldProcess));
-    }
-
-    private void logProcessChange(int processId, String log) throws SQLException {
-        new EntityLogDAO(this.con, Tables.TABLE_PROCESS_LOG).insertEntityLog(processId, userId, log);
+        new EntityLogDAO(this.con, Tables.TABLE_PROCESS_LOG).insertEntityLog(process.getId(), form.getUserId(), process.getChangesLog(oldProcess));
     }
 
     public Process updateProcess(Process process) throws SQLException {
         if (process != null) {
             Process oldProcess = getProcess(process.getId());
-            if (history && oldProcess != null && !oldProcess.isEqualProperties(process)) {
+            if (form != null && oldProcess != null && !oldProcess.isEqualProperties(process)) {
                 logProcessChange(process, oldProcess);
             }
 
@@ -1831,7 +1780,7 @@ public class ProcessDAO extends CommonDAO {
             pq.addQuery("*");
             pq.addQuery(SQL_FROM);
             pq.addQuery(TABLE_PROCESS + " AS p ");
-            pq.addQuery(getIsolationJoin(user, "p"));
+            pq.addQuery(getIsolationJoin(form, "p"));
 
             final String groupBy = SQL_GROUP_BY + "p.id ";
 

@@ -75,7 +75,7 @@ public class GitTest {
 
         int processId = process.getId();
 
-        var event = new ParamChangingEvent(DynActionForm.SERVER_FORM, ParameterCache.getParameter(paramBranchId),
+        var event = new ParamChangingEvent(DynActionForm.SYSTEM_FORM, ParameterCache.getParameter(paramBranchId),
                 processId, "branch_name");
         config.paramChanging(event, new SingleConnectionSet(DbTest.conRoot));
         Assert.assertEquals(paramDao.getParamText(processId, paramBranchId), "p" + processId + "-branch-name");

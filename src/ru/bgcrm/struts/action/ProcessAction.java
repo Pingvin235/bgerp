@@ -78,7 +78,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward process(DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDAO = new ProcessDAO(con, form.getUser());
+        ProcessDAO processDAO = new ProcessDAO(con, form);
 
         var process = processDAO.getProcess(form.getId());
         if (process == null) {
@@ -346,7 +346,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public static void processStatusUpdate(DynActionForm form, Connection con, Process process, StatusChange change) throws Exception {
-        StatusChangeDAO changeDao = new StatusChangeDAO(con, true);
+        StatusChangeDAO changeDao = new StatusChangeDAO(con, form);
 
         ProcessType type = getProcessType(process.getTypeId());
 
@@ -395,7 +395,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processPriorityUpdate(DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDAO = new ProcessDAO(con, form.getUser(), true);
+        ProcessDAO processDAO = new ProcessDAO(con, form);
 
         Process process = getProcess(processDAO, form.getId());
         int priority = Utils.parseInt(form.getParam("priority"));
@@ -406,7 +406,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public static void processPriorityUpdate(DynActionForm form, Process process, Connection con, Integer priority) throws Exception {
-        ProcessDAO processDAO = new ProcessDAO(con, form.getUser(), true);
+        ProcessDAO processDAO = new ProcessDAO(con, form);
 
         processDoEvent(form, process, new ProcessChangingEvent(form, process, priority, ProcessChangingEvent.MODE_PRIORITY_CHANGING), con);
         process.setPriority(priority);
@@ -421,7 +421,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processTypeUpdate(DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDAO = new ProcessDAO(con, form.getUser(), true);
+        ProcessDAO processDAO = new ProcessDAO(con, form);
         Process process = getProcess(processDAO, form.getId());
         int typeId = Utils.parseInt(form.getParam("typeId"));
         processTypeUpdate(form, process, con, typeId);
@@ -430,7 +430,7 @@ public class ProcessAction extends BaseAction {
     }
 
     private static void processTypeUpdate(DynActionForm form, Process process, Connection con, Integer typeId) throws Exception {
-        ProcessDAO processDAO = new ProcessDAO(con, form.getUser(), true);
+        ProcessDAO processDAO = new ProcessDAO(con, form);
         processDoEvent(form, process, new ProcessChangingEvent(form, process, typeId, ProcessChangingEvent.MODE_TYPE_CHANGING), con);
         process.setTypeId(typeId);
 
@@ -440,7 +440,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processDescriptionUpdate(DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDAO = new ProcessDAO(con, form.getUser(), true);
+        ProcessDAO processDAO = new ProcessDAO(con, form);
 
         Process process = getProcess(processDAO, form.getId());
         String description = form.getParam("description");
@@ -454,7 +454,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processDescriptionAdd(DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDAO = new ProcessDAO(con, form.getUser(), true);
+        ProcessDAO processDAO = new ProcessDAO(con, form);
 
         final Process process = getProcess(processDAO, form.getId());
         final String description = form.getParam("description");
@@ -499,7 +499,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processGroupsUpdate(DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDao = new ProcessDAO(con, form.getUser(), true);
+        ProcessDAO processDao = new ProcessDAO(con, form);
 
         Process process = getProcess(processDao, form.getId());
         Set<ProcessGroup> allowedGroups = ProcessTypeCache.getProcessType(process.getTypeId()).getProperties().getAllowedGroups();
@@ -543,7 +543,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public static void processGroupsUpdate(DynActionForm form, Connection con, Process process, Set<ProcessGroup> processGroups) throws Exception {
-        ProcessDAO processDao = new ProcessDAO(con, form.getUser(), true);
+        ProcessDAO processDao = new ProcessDAO(con, form);
 
         processDoEvent(form, process, new ProcessChangingEvent(form, process, processGroups, ProcessChangingEvent.MODE_GROUPS_CHANGING), con);
 
@@ -573,7 +573,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processExecutorsUpdate(DynActionForm form, Connection con) throws Exception {
-        Process process = getProcess(new ProcessDAO(con, form.getUser(), true), form.getId());
+        Process process = getProcess(new ProcessDAO(con, form), form.getId());
 
         // группороли в которых обновляются исполнители
         Set<ProcessGroup> updateGroups = ProcessGroup.parseFromStringSet(form.getSelectedValuesStr("group"));
@@ -585,7 +585,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processExecutorsSwap(DynActionForm form, Connection con) throws Exception {
-        ProcessDAO dao = new ProcessDAO(con, form.getUser(), true);
+        ProcessDAO dao = new ProcessDAO(con, form);
         Process process = getProcess(dao, form.getId());
 
         var groups = process.getGroups();
@@ -616,7 +616,7 @@ public class ProcessAction extends BaseAction {
     @SuppressWarnings("unchecked")
     public static void processExecutorsUpdate(DynActionForm form, Connection con, Process process, Set<ProcessGroup> processGroups,
             Set<ProcessExecutor> processExecutors) throws Exception {
-        ProcessDAO processDao = new ProcessDAO(con, form.getUser(), true);
+        ProcessDAO processDao = new ProcessDAO(con, form);
         ParameterMap perm = form.getPermission();
 
         // различные проверки
@@ -816,7 +816,7 @@ public class ProcessAction extends BaseAction {
         }
 
         Pageable<Process> processSearchResult = new Pageable<Process>(form);
-        new ProcessDAO(con, form.getUser()).searchProcessListForMessage(processSearchResult, addressFrom, objects, open);
+        new ProcessDAO(con, form).searchProcessListForMessage(processSearchResult, addressFrom, objects, open);
 
         return html(con, form, PATH_JSP + "/message_related_process_list.jsp");
     }

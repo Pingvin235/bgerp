@@ -42,12 +42,12 @@ public class BoardAction extends BaseAction {
         BoardConfig boardConf = setup.getConfig(BoardsConfig.class).getBoard(form.getId());
         if (boardConf != null) {
             // первичные процессы
-            List<Pair<Process, Map<String, Object>>> processes = new BoardDAO(con, form.getUser()).getProcessList(boardConf);
+            List<Pair<Process, Map<String, Object>>> processes = new BoardDAO(con, form).getProcessList(boardConf);
 
             Set<Integer> processIds = processes.stream().map(Pair::getFirst).map(p -> p.getId()).collect(Collectors.toSet());
 
             // связи между процессами, пока используем только родительское отношение
-            Collection<CommonObjectLink> links = new ProcessLinkDAO(con, form.getUser()).getLinksOver(processIds);
+            Collection<CommonObjectLink> links = new ProcessLinkDAO(con, form).getLinksOver(processIds);
 
             Board board = new Board(boardConf, processes, links);
 
@@ -65,7 +65,7 @@ public class BoardAction extends BaseAction {
         int parentProcessId = form.getParamInt("parentProcessId");
         int fromParentProcessId = form.getParamInt("fromParentProcessId");
 
-        ProcessLinkDAO linkDao = new ProcessLinkDAO(con, form.getUser());
+        ProcessLinkDAO linkDao = new ProcessLinkDAO(con, form);
         // remove link
         if (fromParentProcessId > 0)
             linkDao.deleteLink(new CommonObjectLink(fromParentProcessId, Process.LINK_TYPE_MADE, processId, ""));
@@ -109,7 +109,7 @@ public class BoardAction extends BaseAction {
     }
 
     public ActionForward search(DynActionForm form, ConnectionSet conSet) throws Exception {
-        var dao = new MessageDAO(conSet.getSlaveConnection(), form.getUser());
+        var dao = new MessageDAO(conSet.getSlaveConnection(), form);
 
         var filter = form.getParam("filter");
 

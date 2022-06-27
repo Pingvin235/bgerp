@@ -1,15 +1,33 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import com.fasterxml.jackson.databind.JsonNode;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import ru.bgcrm.model.*;
+
+import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.model.IdTitle;
+import ru.bgcrm.model.Page;
+import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.user.User;
@@ -18,21 +36,20 @@ import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.ContractDAO8x;
-import ru.bgcrm.plugin.bgbilling.proto.model.*;
+import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractFace;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractMemo;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
+import ru.bgcrm.plugin.bgbilling.proto.model.OpenContract;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 public class ContractDAO extends BillingDAO {
-    @SuppressWarnings("unused")
-    private static final Logger logger = Logger.getLogger(ContractDAO.class);
+    private static final Log log = Log.getLog();
 
     private static final String ADMIN_MODULE_ID = "admin";
     private static final String CONTRACT_MODULE_ID = "contract";
@@ -706,7 +723,7 @@ public class ContractDAO extends BillingDAO {
                 if (req != null) {
                     req.setParamContractId(contractId);
                     req.setParam("contractGroupId", groupId);
-                    JsonNode res = transferData.postDataReturn(req, user);
+                    transferData.postDataReturn(req, user);
                 }
 
             } catch (Exception e) {
@@ -1496,7 +1513,7 @@ public class ContractDAO extends BillingDAO {
         try {
             doc = transferData.postData(request, user);
         } catch (BGException e) {
-            logger.debug(e);//может быть отказ по правам, ошибка ли это?
+            log.debug(e);//может быть отказ по правам, ошибка ли это?
         }
         return new WebRequestLimit(doc);
     }

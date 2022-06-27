@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.util.Utils;
 
@@ -14,7 +14,7 @@ public class SavedCommonFiltersConfig {
     private Map<Integer, SavedFilter> savedCommonFilterSetMap = new HashMap<Integer, SavedFilter>();
     public static final String QUEUE_SAVED_COMMON_FILTER_SET_PREFIX = "queueSavedCommonFilterSet.";
     private int lastId;
-    private Logger log = Logger.getLogger(SavedCommonFiltersConfig.class);
+    private Log log = Log.getLog();
 
     public SavedCommonFiltersConfig(ArrayList<SavedFilter> commonFilters) {
 

@@ -55,7 +55,6 @@ import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterListCountValue;
-import ru.bgcrm.model.param.ParameterLogItem;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.ParameterValuePair;
@@ -330,7 +329,7 @@ public class ParameterAction extends BaseAction {
             if (Utils.notBlankString(form.getParam("newDate"))) {
                 EventProcessor.processEvent(
                         new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),
-                        parameter.getScript(), conSet);
+                        conSet);
                 // TODO: Cleanup, but change calendar highlight in Callboard plugin
                 EventProcessor.processEvent(
                         new DateChangingEvent(form, id, parameter, TimeUtils.parse(form.getParam("newDate"), TimeUtils.FORMAT_TYPE_YMD)),

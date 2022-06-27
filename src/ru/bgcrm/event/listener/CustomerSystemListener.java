@@ -1,6 +1,6 @@
 package ru.bgcrm.event.listener;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.event.EventProcessor;
@@ -11,7 +11,7 @@ import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class CustomerSystemListener {
-    private static final Logger log = Logger.getLogger(CustomerSystemListener.class);
+    private static final Log log = Log.getLog();
 
     public CustomerSystemListener() {
         EventProcessor.subscribe(new EventListener<ParamChangedEvent>() {

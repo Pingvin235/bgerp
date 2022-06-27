@@ -128,8 +128,8 @@ Action execution result include:
 link:../../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L166-L171[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
 
 Flex layout, using constants from Java classes (defined in link:../../../webapps/WEB-INF/jspf/user/search/process_search_constants.jsp[process_search_constants.jsp]), print button close to a field:
-[snippet, from="<div", to="/div>", remove-leading="				"]
-link:../../../webapps/WEB-INF/jspf/user/search/search.jsp#L76-L90[webapps/WEB-INF/jspf/user/search/search.jsp]
+[snippet, from="<div style", to="/div>", remove-leading="				"]
+link:../../../webapps/WEB-INF/jspf/user/search/search.jsp#L70-L84[webapps/WEB-INF/jspf/user/search/search.jsp]
 
 IMPORTANT: For some reason a class, containing included constant must not contain `config` word in package path.
 

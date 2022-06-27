@@ -1,12 +1,12 @@
 package ru.bgcrm.worker;
 
-import static ru.bgcrm.dao.user.Tables.*;
+import static ru.bgcrm.dao.user.Tables.TABLE_USER;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserNewsCache;
 import ru.bgcrm.dao.Tables;
@@ -14,7 +14,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class NewsManager implements Runnable {
-    private static final Logger log = Logger.getLogger(NewsManager.class);
+    private static final Log log = Log.getLog();
 
     @Override
     public void run() {

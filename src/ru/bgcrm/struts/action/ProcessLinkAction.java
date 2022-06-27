@@ -52,7 +52,7 @@ public class ProcessLinkAction extends ProcessAction {
 
     // процессы, к которым привязана сущность
     public ActionForward linkedProcessList(DynActionForm form, Connection con) throws Exception {
-        ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con, form.getUser());
+        ProcessLinkDAO processLinkDAO = new ProcessLinkDAO(con, form);
 
         restoreRequestParams(con, form, true, true, "open");
 
@@ -79,7 +79,7 @@ public class ProcessLinkAction extends ProcessAction {
 
             Pageable<Object[]> searchResult = new Pageable<Object[]>(form);
 
-            ProcessDAO processDAO = new ProcessDAO(con, form.getUser());
+            ProcessDAO processDAO = new ProcessDAO(con, form);
             processDAO.searchProcess(searchResult, null, queue, form);
 
             final List<Object[]> list = searchResult.getList();
@@ -160,7 +160,7 @@ public class ProcessLinkAction extends ProcessAction {
     // процессы, привязанные к процессу
     public ActionForward linkProcessList(DynActionForm form, Connection con) throws Exception {
         HttpServletRequest request = form.getHttpRequest();
-        ProcessLinkDAO processLinkDao = new ProcessLinkDAO(con, form.getUser());
+        ProcessLinkDAO processLinkDao = new ProcessLinkDAO(con, form);
 
         restoreRequestParams(con, form, true, true, "open");
 

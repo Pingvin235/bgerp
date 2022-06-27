@@ -3,7 +3,7 @@ package ru.bgcrm.model.process.queue.config;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
@@ -11,7 +11,7 @@ import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 public class SavedPanelConfig extends Config {
-    private static final Logger log = Logger.getLogger(SavedPanelConfig.class);
+    private static final Log log = Log.getLog();
 
     public static final String QUEUE_SAVED_PANEL_SET_PREFIX = "queueSavedPanelSet";
     public static final String QUEUE_CURRENT = "queueCurrent";

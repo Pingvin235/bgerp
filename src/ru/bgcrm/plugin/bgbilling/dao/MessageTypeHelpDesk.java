@@ -15,8 +15,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -58,7 +58,7 @@ import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class MessageTypeHelpDesk extends MessageType {
-    private static final Logger log = Logger.getLogger(MessageTypeHelpDesk.class);
+    private static final Log log = Log.getLog();
 
     private final String billingId;
 
@@ -288,7 +288,7 @@ public class MessageTypeHelpDesk extends MessageType {
             log.debug("Processing topic: " + topic.getId());
 
         Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>();
-        new ProcessLinkDAO(con, User.USER_SYSTEM).searchLinkedProcessList(searchResult, objectType, topic.getId(), null, null, null, null, null);
+        new ProcessLinkDAO(con, form).searchLinkedProcessList(searchResult, objectType, topic.getId(), null, null, null, null, null);
 
         Process process = null;
         if (searchResult.getList().size() > 0)
@@ -461,7 +461,7 @@ public class MessageTypeHelpDesk extends MessageType {
 
                 if (newMessageEvent && message.getDirection() == Message.DIRECTION_INCOMING)
                     // событие о новом сообщении
-                    EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, message, process),
+                    EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SYSTEM_FORM, message, process),
                             new SingleConnectionSet(con));
             }
 

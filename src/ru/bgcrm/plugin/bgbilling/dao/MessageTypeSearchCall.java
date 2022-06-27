@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.BGException;
@@ -21,7 +21,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class MessageTypeSearchCall extends MessageTypeSearchBilling {
-    private static final Logger log = Logger.getLogger(MessageTypeSearchCall.class);
+    private static final Log log = Log.getLog();
 
     private final List<String> commands;
     private final String phonePreprocessJexl;

@@ -336,7 +336,7 @@ public class Queue extends IdTitle {
             boolean stateParam = stateFilter.equals("open");
             Set<Integer> typeParam = typeFilter.equals("*") ? null : Utils.toIntegerSet(typeFilter);
 
-            ProcessLinkDAO dao = new ProcessLinkDAO(form.getConnectionSet().getSlaveConnection(), form.getUser());
+            ProcessLinkDAO dao = new ProcessLinkDAO(form.getConnectionSet().getSlaveConnection(), form);
 
             if (columnType.startsWith("linkProcessList"))
                 value = dao.getLinkProcessList(process.getId(), linkTypeParam, stateParam, typeParam);

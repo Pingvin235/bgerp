@@ -543,7 +543,7 @@ public class MessageTypeEmail extends MessageType {
                 process = new Process();
                 process.setTypeId(autoCreateProcessTypeId);
                 process.setDescription(msg.getSubject());
-                ProcessAction.processCreate(DynActionForm.SERVER_FORM, con, process);
+                ProcessAction.processCreate(DynActionForm.SYSTEM_FORM, con, process);
 
                 log.info("Created process: {}", process.getId());
 
@@ -560,7 +560,7 @@ public class MessageTypeEmail extends MessageType {
                 if (type == null) {
                     log.error("Not found process type with id: {}", process.getTypeId());
                 } else {
-                    EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, msg, process),
+                    EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SYSTEM_FORM, msg, process),
                             new SingleConnectionSet(con));
                 }
             }

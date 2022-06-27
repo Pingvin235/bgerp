@@ -40,8 +40,6 @@ import ru.bgcrm.util.sql.ConnectionSet;
  * Слушатель для интеграции с HelpDesk ами.
  */
 public class HelpDeskListener {
-    // private static final Logger log = Logger.getLogger( HelpDeskListener.class );
-
     public HelpDeskListener() {
         EventProcessor.subscribe(new EventListener<ProcessChangingEvent>() {
             @Override

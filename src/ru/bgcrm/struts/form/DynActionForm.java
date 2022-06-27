@@ -48,6 +48,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
  * HTTP request execution's context, contains: request, DB connection and response data.
+ *
  * @author Shamil Vakhitov
  */
 public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
@@ -69,7 +70,10 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     public static final String RESPONSE_TYPE_JSON = "json";
     public static final String RESPONSE_TYPE_STREAM = "stream";
 
-    public static DynActionForm SERVER_FORM = new DynActionForm(User.USER_SYSTEM);
+    /** System action, not real user request. */
+    public static DynActionForm SYSTEM_FORM = new DynActionForm(User.USER_SYSTEM);
+    @Deprecated
+    public static DynActionForm SERVER_FORM = SYSTEM_FORM;
 
     private HttpServletRequest httpRequest;
     private HttpServletResponse httpResponse;

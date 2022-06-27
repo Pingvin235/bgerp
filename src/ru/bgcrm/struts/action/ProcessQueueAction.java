@@ -301,7 +301,7 @@ public class ProcessQueueAction extends ProcessAction {
             if (noHtmlMedia)
                 searchResult.getPage().setPageIndex(Page.PAGE_INDEX_NO_PAGING);
 
-            ProcessDAO processDAO = new ProcessDAO(connectionSet.getSlaveConnection(), form.getUser());
+            ProcessDAO processDAO = new ProcessDAO(connectionSet.getSlaveConnection(), form);
             processDAO.searchProcess(searchResult, aggregateValues, queue, form);
 
             final List<Object[]> list = searchResult.getList();

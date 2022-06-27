@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.l10n.Localization;
+import org.bgerp.l10n.Localizer;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
@@ -439,24 +441,22 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     }
 
     public String getChangesLog(Process oldProcess) throws SQLException {
+        Localizer l = Localization.getSysLocalizer();
+
         StringBuilder result = new StringBuilder();
 
         final String separator = "; ";
 
-        /*if (statusId != oldProcess.getStatusId()) {
-            Utils.addSeparated(result, separator, "Статус: " + ProcessTypeCache.getStatusSafe(statusId).getTitle());
-        }*/
-
         if (!description.equals(oldProcess.getDescription())) {
-            Utils.addSeparated(result, separator, "Описание");
+            Utils.addSeparated(result, separator, l.l("Description: {}", description));
         }
 
         if (typeId != oldProcess.getTypeId()) {
-            Utils.addSeparated(result, separator, " Тип: " + ProcessTypeCache.getProcessTypeSafe(typeId).getTitle());
+            Utils.addSeparated(result, separator, l.l("Type: {}", ProcessTypeCache.getProcessTypeSafe(typeId).getTitle()));
         }
 
         if (priority != oldProcess.getPriority()) {
-            Utils.addSeparated(result, separator, "Приоритет: " + priority);
+            Utils.addSeparated(result, separator, l.l("Priority: {}",  priority));
         }
 
         if (!CollectionUtils.isEqualCollection(groups, oldProcess.getProcessGroups())) {
@@ -468,11 +468,11 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
                     continue;
                 }
 
-                // TODO: вывод ролей
+                // TODO: Handle roles.
                 Utils.addCommaSeparated(groupString, group.getTitle());
             }
 
-            result.append("Группы решения: [" + groupString + "]");
+            result.append(l.l("Execution groups: [{}]", groupString));
         }
 
         if (!CollectionUtils.isEqualCollection(executors, oldProcess.getProcessExecutors())) {
@@ -486,8 +486,8 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
                 executorString = executorString.substring(0, executorString.length() - 2);
             }
 
-            // TODO: вывод ролей
-            result.append("Исполнители: [" + executorString + "]");
+            // TODO: handle roles
+            result.append(l.l("Executors: [{}]", executorString));
         }
 
         return result.toString();
@@ -510,27 +510,31 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
 
     @Override
     public String toString() {
-        StringBuffer result = new StringBuffer();
-        result.append("ID: ");
-        result.append(Integer.toString(id));
-        result.append("; Тип: ");
-        result.append(typeTitle);
+        StringBuffer result = new StringBuffer(200);
+        result
+            .append("ID: ")
+            .append(Integer.toString(id))
+            .append("; Type: ")
+            .append(typeTitle);
 
         if (createTime != null) {
-            result.append("; Дата создания: ");
-            result.append(TimeUtils.format(createTime, TimeUtils.FORMAT_TYPE_YMDHMS));
+            result
+                .append("; Creation time: ")
+                .append(TimeUtils.format(createTime, TimeUtils.FORMAT_TYPE_YMDHMS));
         }
 
         if (closeTime != null) {
-            result.append("; Дата закрытия: ");
-            result.append(TimeUtils.format(closeTime, TimeUtils.FORMAT_TYPE_YMDHMS));
+            result
+                .append("; Close time: ")
+                .append(TimeUtils.format(closeTime, TimeUtils.FORMAT_TYPE_YMDHMS));
         }
-        result.append("; Приоритет: ");
-        result.append(priority);
-        result.append("; Статус: ");
-        result.append(statusTitle);
-        result.append("; Описание: ");
-        result.append(description);
+        result
+            .append("; Priority: ")
+            .append(priority)
+            .append("; Status: ")
+            .append(statusTitle)
+            .append("; Description: ")
+            .append(description);
 
         return result.toString();
     }

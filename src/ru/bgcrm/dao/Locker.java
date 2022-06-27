@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.event.EventProcessor;
@@ -19,7 +19,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 //TODO: Добавить поток очистки старых блокировок.
 public class Locker {
-    private static final Logger log = Logger.getLogger(Locker.class);
+    private static final Log log = Log.getLog();
 
     private static Map<String, Lock> locksById = new ConcurrentHashMap<String, Lock>();
     private static Map<Integer, Set<Lock>> locksByUser = new ConcurrentHashMap<Integer, Set<Lock>>();

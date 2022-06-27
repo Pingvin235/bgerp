@@ -11,7 +11,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.DispatchMessage;
@@ -20,7 +20,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class MessageSender implements Runnable {
-    private static final Logger log = Logger.getLogger(MessageSender.class);
+    private static final Log log = Log.getLog();
 
     @Override
     public void run() {
@@ -51,7 +51,7 @@ public class MessageSender implements Runnable {
                 } finally {
                     SQLUtils.closeConnection(conSlave);
                 }
-                
+
                 if (log.isDebugEnabled())
                     log.debug("Found message to send: " + message + "; accounts count: " + accountList.size());
 
@@ -94,5 +94,5 @@ public class MessageSender implements Runnable {
             log.error(e.getMessage(), e);
         }
     }
-    
+
 }

@@ -1,13 +1,13 @@
 package ru.bgcrm.model.process.wizard;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.util.ParameterMap;
 
 public class ContinueStep extends Step {
-    private static final Logger log = Logger.getLogger(ContinueStep.class);
+    private static final Log log = Log.getLog();
 
     private final Parameter param;
 

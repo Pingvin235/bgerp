@@ -64,7 +64,7 @@ public class MessageTypeCallRegister extends DynamicEventListener {
             message.setSystemId(messageType.getId() + ":" + System.currentTimeMillis());
 
             // по сути там вызывается просто MessageDAO, сделано для единообразия
-            messageType.updateMessage(con, DynActionForm.SERVER_FORM, message);
+            messageType.updateMessage(con, DynActionForm.SYSTEM_FORM, message);
 
             con.commit();
 

@@ -1,6 +1,6 @@
 package ru.bgcrm.model.process.wizard;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dynamic.DynamicClassManager;
@@ -9,7 +9,7 @@ import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.ParameterMap;
 
 public abstract class Step extends IdTitle {
-    private static final Logger log = Logger.getLogger(Step.class);
+    private static final Log log = Log.getLog();
 
     protected ParameterMap config;
     private String expression;

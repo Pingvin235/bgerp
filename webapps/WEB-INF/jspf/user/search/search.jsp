@@ -43,15 +43,9 @@
 				<html:hidden property="action" value="customerSearch" />
 				<html:hidden property="searchBy" />
 
-				<c:set var="minStringLength" value="${setup['searchCustomerTitleMinSubstringLength']}"/>
-				<c:if test="${empty minStringLength}">
-					<c:set var="minStringLength" value="0"/>
-				</c:if>
-
 				<ui:input-text
 					name="title" placeholder="${l.l('Наименование')}" title="${l.l('Для поиска введите подстороку названия и нажмите Enter')}"
-					onSelect="if (this.value.length < ${minStringLength}) {alert('Строка поиска должна быть ${minStringLength} и более симоволов!' ); return;}
-							  this.form.elements['searchBy'].value='title';
+					onSelect="this.form.elements['searchBy'].value='title';
 							  $$.ajax.load(this.form, '#searchResult')"/>
 
 				<%@ include file="search_address_filter.jsp"%>

@@ -232,7 +232,7 @@ public class MessageTypeChannel extends MessageType {
                         if (type == null) {
                             log.error("Not found process type with id:" + process.getTypeId());
                         } else {
-                            DynActionForm form = DynActionForm.SERVER_FORM;
+                            DynActionForm form = DynActionForm.SYSTEM_FORM;
                             User user = UserCache.getUser(userId);
                             if (user != null)
                                 form = new DynActionForm(user);

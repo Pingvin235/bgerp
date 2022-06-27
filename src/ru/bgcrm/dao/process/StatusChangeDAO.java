@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.model.Pageable;
+import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.BGException;
@@ -18,24 +19,24 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
-import ru.bgcrm.util.TimeUtils;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 public class StatusChangeDAO extends CommonDAO {
-    private boolean history;
+    private final DynActionForm form;
 
     public StatusChangeDAO(Connection con) {
         super(con);
-        this.history = false;
+        this.form = null;
     }
 
-    public StatusChangeDAO(Connection con, boolean history) {
+    public StatusChangeDAO(Connection con, DynActionForm form) {
         super(con);
-        this.history = history;
+        this.form = form;
     }
 
     public void changeStatus(Process process, ProcessType type, StatusChange change) throws Exception {
-        ProcessDAO processDAO = new ProcessDAO(con, history);
+        ProcessDAO processDAO = new ProcessDAO(con, form);
         process.setStatusId(change.getStatusId());
         process.setStatusTime(change.getDate());
         process.setStatusUserId(change.getUserId());
@@ -62,7 +63,7 @@ public class StatusChangeDAO extends CommonDAO {
 
         ps = con.prepareStatement(query.toString());
         ps.setInt(1, process.getId());
-        ps.setTimestamp(2, TimeUtils.convertDateToTimestamp(change.getDate()));
+        ps.setTimestamp(2, TimeConvert.toTimestamp(change.getDate()));
         ps.setInt(3, change.getUserId());
         ps.setInt(4, change.getStatusId());
         ps.setString(5, change.getComment());

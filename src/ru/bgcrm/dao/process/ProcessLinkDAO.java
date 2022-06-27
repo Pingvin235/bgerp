@@ -36,7 +36,7 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.user.User;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -47,16 +47,17 @@ import ru.bgcrm.util.Utils;
 public class ProcessLinkDAO extends CommonLinkDAO {
     private static final Set<String> CYCLES_CONTROL_LINK_TYPES = Set.of(Process.LINK_TYPE_DEPEND, Process.LINK_TYPE_MADE);
 
-    private final User user;
+    /** User request context for isolations. */
+    private final DynActionForm form;
 
     public ProcessLinkDAO(Connection con) {
         super(con);
-        this.user = User.USER_SYSTEM;
+        this.form = null;
     }
 
-    public ProcessLinkDAO(Connection con, User user) {
+    public ProcessLinkDAO(Connection con, DynActionForm form) {
         super(con);
-        this.user = user;
+        this.form = form;
     }
 
     @Override
@@ -165,7 +166,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         PreparedQuery pq = new PreparedQuery(con);
         pq.addQuery("SELECT process.* FROM " + TABLE_PROCESS + " AS process ");
         pq.addQuery(joinQuery);
-        pq.addQuery(ProcessDAO.getIsolationJoin(user, "process"));
+        pq.addQuery(ProcessDAO.getIsolationJoin(form, "process"));
         pq.addInt(processId);
 
         pq.addQuery("WHERE 1>0 ");
@@ -250,7 +251,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
 
             String query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM" + TABLE_PROCESS + " AS process "
                     + "INNER JOIN " + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id AND link.object_id=? AND link.object_type LIKE ? "
-                    + ProcessDAO.getIsolationJoin(user, "process");
+                    + ProcessDAO.getIsolationJoin(form, "process");
             PreparedQuery pq = new PreparedQuery(con, query);
 
             pq.addInt(objectId);
@@ -371,7 +372,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         var pq = new PreparedQuery(con);
         pq.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM " + TABLE_PROCESS_LINK + " AS link ");
         pq.addQuery("INNER JOIN " + TABLE_PROCESS + " AS process ON link.object_id=process.id ");
-        pq.addQuery(ProcessDAO.getIsolationJoin(user, "process"));
+        pq.addQuery(ProcessDAO.getIsolationJoin(form, "process"));
         pq.addQuery("WHERE link.process_id=? AND link.object_type LIKE 'process%' ");
         addOpenFilter(pq, open);
         pq.addQuery("ORDER BY process.create_dt DESC ");

@@ -71,7 +71,7 @@ public class ProcessIsolationTest {
     public void testIsolationExecutor() throws Exception {
         userIsolated.setConfig(ParameterMap.of("isolation.process", "executor").getDataString());
 
-        var dao = new ProcessDAO(DbTest.conRoot, userIsolated);
+        var dao = new ProcessDAO(DbTest.conRoot, new DynActionForm(userIsolated));
 
         var p = dao.updateProcess(new Process().withTypeId(processTypeId).withDescription(TITLE + " by executor"));
         Assert.assertNull(dao.getProcess(p.getId()));
@@ -84,7 +84,7 @@ public class ProcessIsolationTest {
     public void testIsolationGroups() throws Exception {
         userIsolated.setConfig(ParameterMap.of("isolation.process", "group").getDataString());
 
-        var dao = new ProcessDAO(DbTest.conRoot, userIsolated);
+        var dao = new ProcessDAO(DbTest.conRoot, new DynActionForm(userIsolated));
 
         var p = dao.updateProcess(new Process().withTypeId(processTypeId).withDescription(TITLE + " by group"));
         Assert.assertNull(dao.getProcess(p.getId()));

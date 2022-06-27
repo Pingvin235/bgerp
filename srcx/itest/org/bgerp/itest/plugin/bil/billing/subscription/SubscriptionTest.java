@@ -172,7 +172,7 @@ public class SubscriptionTest {
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct2Id, processSubscriptionRubId));
         // trigger cost recalculation
         EventProcessor.processEvent(
-                        new ParamChangedEvent(DynActionForm.SERVER_FORM, ParameterCache.getParameter(paramLimitId),
+                        new ParamChangedEvent(DynActionForm.SYSTEM_FORM, ParameterCache.getParameter(paramLimitId),
                                         processSubscriptionRubId, null),
                         new SingleConnectionSet(DbTest.conRoot));
         var cost = paramDao.getParamMoney(processSubscriptionRubId, paramSubscriptionCostId);
@@ -185,7 +185,7 @@ public class SubscriptionTest {
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct2Id, processSubscriptionEurId));
         // trigger cost recalculation
         EventProcessor.processEvent(
-                        new ParamChangedEvent(DynActionForm.SERVER_FORM, ParameterCache.getParameter(paramLimitId),
+                        new ParamChangedEvent(DynActionForm.SYSTEM_FORM, ParameterCache.getParameter(paramLimitId),
                                         processSubscriptionEurId, null),
                         new SingleConnectionSet(DbTest.conRoot));
         cost = paramDao.getParamMoney(processSubscriptionEurId, paramSubscriptionCostId);

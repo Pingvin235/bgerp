@@ -31,21 +31,21 @@ import java.util.regex.Pattern;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
@@ -59,7 +59,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
 public class TransferData {
-    private static final Logger log = Logger.getLogger(TransferData.class);
+    private static final Log log = Log.getLog();
 
     private static final int LOGGING_REQUEST_TRIM_LENGTH = 3000;
     private static final int LOGGING_RESPONSE_TRIM_LENGTH = 3000;
@@ -158,7 +158,7 @@ public class TransferData {
      * Потенциально проблемная функция!!
      * Замалчивает ошибки, когда-то использовалась для напрямую вызова из JSP функций биллинга, теперь
      * так не делается.
-     * 
+     *
      * @param request
      * @param user
      * @return
@@ -243,7 +243,7 @@ public class TransferData {
                             this.hashCode() + " [ length = " + len + " ] JSON = " + (len > LOGGING_RESPONSE_TRIM_LENGTH
                                     ? response.substring(0, LOGGING_RESPONSE_TRIM_LENGTH) + "..." : response));
                 }
-                
+
                 result = jsonMapper.readTree(response);
 
                 con.disconnect();
@@ -400,7 +400,7 @@ public class TransferData {
     /**
      * Отправляет запрос к Web-сервису в формате JSON-RPC.
      * Подробности по работе с форматом в документации {@link RequestJsonRpc}.
-     * 
+     *
      * @param request
      * @param user
      * @return
@@ -412,8 +412,8 @@ public class TransferData {
 
     /**
      * Отправляет запрос к Web-сервису в формате JSON-RPC.
-     * Подробности по работе с форматом в документации {@link RequestJsonRpc}. 
-     * 
+     * Подробности по работе с форматом в документации {@link RequestJsonRpc}.
+     *
      * @param request
      * @param user
      * @return
@@ -509,7 +509,7 @@ public class TransferData {
     /**
      * Отправляет запрос к Web-сервису в формате JSON-RPC.
      * Подробности по работе с форматом в документации {@link RequestJsonRpc}.
-     * 
+     *
      * @param request
      * @param user
      * @return
@@ -612,7 +612,7 @@ public class TransferData {
     * Допустимые такие:
     * Char       ::=      #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]  / any Unicode character, excluding the surrogate blocks, FFFE, and FFFF. /
     * Т.е. нельзя в десятичном: 0-8, 11, 12, 14-31
-    * Почему сервер генерит недопустимые - тут уже вопрос, пока костыль. TODO по-хорошему надо на сервере с этим как-то бороться, только пока недоразобрался в каком именно месте. 
+    * Почему сервер генерит недопустимые - тут уже вопрос, пока костыль. TODO по-хорошему надо на сервере с этим как-то бороться, только пока недоразобрался в каком именно месте.
     */
     private static String replaceCharacterEntity(String xml) {
         return CHARACTER_ENTITY_INVALID_REGEXP.matcher(xml).replaceAll("?");

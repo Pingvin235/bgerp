@@ -52,7 +52,7 @@ public class ExpressionObject {
                 String channelId = proto.channelCreate(channelName != null ? channelName : String.valueOf(process.getId()), true);
                 link = new CommonObjectLink(Process.OBJECT_TYPE, process.getId(), Plugin.LINK_TYPE_CHANNEL,
                         1, channelId);
-                LinkAction.addLink(DynActionForm.SERVER_FORM, con, link);
+                LinkAction.addLink(DynActionForm.SYSTEM_FORM, con, link);
             }
             con.commit();
         } catch (BGException ex) {
@@ -183,7 +183,7 @@ public class ExpressionObject {
             message.setTo("");
             message.setText(messageText);
 
-            type.updateMessage(con, DynActionForm.SERVER_FORM, message);
+            type.updateMessage(con, DynActionForm.SYSTEM_FORM, message);
         } catch (Exception ex) {
             throw new BGException(ex);
         } finally {

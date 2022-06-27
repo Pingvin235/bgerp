@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -27,7 +27,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
 public class ContractObjectParamDAO extends BillingDAO {
-    private static final Logger log = Logger.getLogger(ContractObjectParamDAO.class);
+    private static final Log log = Log.getLog();
 
     private static final String CONTRACT_OBJECT_MODULE_ID = "contract.object";
     private Map<Integer, Document> contractParameters;
@@ -109,7 +109,7 @@ public class ContractObjectParamDAO extends BillingDAO {
     	throws BGException
     {
     	List<ParamPhoneValueItem> result = new ArrayList<ParamPhoneValueItem>();
-    
+
     	Request billingRequest = new Request();
     	billingRequest.setModule( CONTRACT_MODULE_ID );
     	billingRequest.setAction( "PhoneInfo" );
@@ -117,43 +117,43 @@ public class ContractObjectParamDAO extends BillingDAO {
     	{
     		billingRequest.setAction( "GetPhoneInfo" );
     	}
-    
+
     	billingRequest.setContractId( contractId );
     	billingRequest.setAttribute( "pid", paramId );
-    
+
     	Document doc = transferData.postData( billingRequest, user );
-    
+
     	Element phone = XMLUtils.selectElement( doc, "/data/phone" );
     	if( phone != null )
     	{
     		int itemCount = Utils.parseInt( phone.getAttribute( "count" ) );
-    
+
     		// до 5.1 было просто зашито 5 телефонов
     		if( dbInfo.getVersion().compareTo( "5.1" ) <= 0 )
     		{
     			itemCount = 5;
     		}
-    
+
     		for( int i = 1; i <= itemCount; i++ )
     		{
     			String number = phone.getAttribute( "phone" + i );
     			String comment = phone.getAttribute( "comment" + i );
     			String format = phone.getAttribute( "format" + i );
-    
+
     			if( Utils.isBlankString( number ) )
     			{
     				continue;
     			}
-    
+
     			ParamPhoneValueItem item = new ParamPhoneValueItem();
     			item.setPhone( number );
     			item.setComment( comment );
     			item.setFormat( format );
-    
+
     			result.add( item );
     		}
     	}
-    
+
     	return result;
     }*/
 

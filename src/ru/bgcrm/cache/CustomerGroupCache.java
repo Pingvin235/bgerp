@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.CustomerGroupDAO;
 import ru.bgcrm.model.customer.CustomerGroup;
@@ -13,7 +13,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class CustomerGroupCache extends Cache<CustomerGroupCache> {
-    private static Logger log = Logger.getLogger(CustomerGroupCache.class);
+    private static Log log = Log.getLog();
 
     private static CacheHolder<CustomerGroupCache> holder = new CacheHolder<CustomerGroupCache>(new CustomerGroupCache());
 

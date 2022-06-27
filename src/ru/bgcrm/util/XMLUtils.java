@@ -14,7 +14,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -30,7 +30,7 @@ import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
 
 public class XMLUtils {
-    private static final Logger logger = Logger.getLogger(XMLUtils.class);
+    private static final Log logger = Log.getLog();
 
     /***
      * Вытаскивает содержимое XML-элемента в виде строки вместе со всеми дочерними тегами
@@ -91,7 +91,7 @@ public class XMLUtils {
     // модификация документа
 
     /**
-     * Создаёт объект-узел с заданным именем в родительском узле. 
+     * Создаёт объект-узел с заданным именем в родительском узле.
      * @param parent родительский узел.
      * @param name имя нового узла.
      * @return
@@ -185,7 +185,7 @@ public class XMLUtils {
         }
     }
 
-    // методы выборки узлов	
+    // методы выборки узлов
 
     /**
      * Ищет элемент в документе по имени. Если не находит - возвращает созданный.
@@ -202,7 +202,7 @@ public class XMLUtils {
      * @param doc документ
      * @param nodeName имя узла
      * @return узел
-     * @see findElement 
+     * @see findElement
      */
     public static Node getNode(Document doc, String nodeName) {
         Node node = null;
@@ -231,10 +231,10 @@ public class XMLUtils {
 
     /**
      * Возвращает Node по XPath expression.
-     * 
+     *
      * Пример: /data/table - выбрать элемент table лежащий в корне.
      * Пример: //table - выбрать элемент table где попало
-     * 
+     *
      * @param node
      * @param expression XPath expression
      * @return Node, если найден - иначе null
@@ -250,7 +250,7 @@ public class XMLUtils {
 
     /**
      * Возвращает NodeList по XPath expression.
-     * 
+     *
      * @param node
      * @param expression XPath expression
      * @return NodeList, если найден - иначе null
@@ -342,21 +342,21 @@ public class XMLUtils {
 
     public static void serialize(Node xml, OutputStream result, String encoding, boolean pretty) throws Exception {
         // https://github.com/AdoptOpenJDK/openjdk-jdk11/blob/master/test/jaxp/javax/xml/jaxp/unittest/common/prettyprint/PrettyPrintTest.java#L362
-        DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance(); 
-        DOMImplementationLS domImplementation = (DOMImplementationLS) registry.getDOMImplementation("LS"); 
-        LSOutput formattedOutput = domImplementation.createLSOutput(); 
+        DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
+        DOMImplementationLS domImplementation = (DOMImplementationLS) registry.getDOMImplementation("LS");
+        LSOutput formattedOutput = domImplementation.createLSOutput();
         formattedOutput.setByteStream(result);
         formattedOutput.setEncoding(encoding);
-        LSSerializer domSerializer = domImplementation.createLSSerializer(); 
-        domSerializer.getDomConfig().setParameter("format-pretty-print", pretty); 
-        domSerializer.getDomConfig().setParameter("xml-declaration", false); 
-        domSerializer.write(xml, formattedOutput); 
+        LSSerializer domSerializer = domImplementation.createLSSerializer();
+        domSerializer.getDomConfig().setParameter("format-pretty-print", pretty);
+        domSerializer.getDomConfig().setParameter("xml-declaration", false);
+        domSerializer.write(xml, formattedOutput);
     }
 
     /**
      * Подготавливает элемент к XML сериализации, заменяет запрещённые символы на \\u{code}.
      * Используется в местах, где возможно появление недопустимых XML символов.
-     * @param el исходный элемент в теле, названии, дочерних элементах и атрибутах возможны запрещённые символы. 
+     * @param el исходный элемент в теле, названии, дочерних элементах и атрибутах возможны запрещённые символы.
      */
     public static void prepareElementToSerialize(Node el) {
         StringBuilder buf = new StringBuilder(100);
@@ -400,7 +400,7 @@ public class XMLUtils {
             ch = nodeValue.charAt(j);
             int ich = ch;
 
-            //То что считается правильным xml-символом по стандарту 
+            //То что считается правильным xml-символом по стандарту
             if (ich == 0x9 || ich == 0xA || ich == 0xD || (ich >= 0x20 && ich <= 0xD7FF) || (ich >= 0xE000 && ich <= 0xFFFD)
                     || (ich >= 0x10000 && ich <= 0x10FFFF)) {
                 buf.append(ch);

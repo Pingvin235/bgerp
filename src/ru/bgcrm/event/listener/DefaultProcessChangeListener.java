@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -113,7 +112,7 @@ public class DefaultProcessChangeListener {
     }
 
     private static class DefaultProcessChangingListenerConfig extends Config {
-        private static final Logger log = Logger.getLogger(DefaultProcessChangingListenerConfig.class);
+        private static final Log log = Log.getLog();
 
         private final List<ConfigRule> ruleList = new ArrayList<ConfigRule>();
 

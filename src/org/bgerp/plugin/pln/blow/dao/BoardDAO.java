@@ -11,22 +11,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.plugin.pln.blow.model.BoardConfig;
+
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.QueueSelectParams;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
-import org.bgerp.plugin.pln.blow.model.BoardConfig;
 
 public class BoardDAO extends ProcessDAO {
-
-    public BoardDAO(Connection con, User user) {
-        super(con, user);
-    }
-
     public BoardDAO(Connection con) {
         super(con);
+    }
+
+    public BoardDAO(Connection con, DynActionForm form) {
+        super(con, form);
     }
 
     /**
@@ -40,7 +39,7 @@ public class BoardDAO extends ProcessDAO {
         List<Pair<Process, Map<String, Object>>> result = new ArrayList<>();
 
         QueueSelectParams qsp = prepareQueueSelect(board.getQueue());
-        addFilters(board.getQueue(), DynActionForm.SERVER_FORM, qsp);
+        addFilters(board.getQueue(), DynActionForm.SYSTEM_FORM, qsp);
         qsp.wherePart.append(" AND process.close_dt IS NULL");
 
         final int columns = qsp.queue.getColumnMap().size();

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.process.QueueDAO;
 import ru.bgcrm.model.process.Queue;
@@ -16,7 +16,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class ProcessQueueCache extends Cache<ProcessQueueCache> {
-    private static Logger log = Logger.getLogger(ProcessQueueCache.class);
+    private static Log log = Log.getLog();;
 
     private static CacheHolder<ProcessQueueCache> holder = new CacheHolder<ProcessQueueCache>(new ProcessQueueCache());
 

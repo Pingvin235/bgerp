@@ -35,6 +35,7 @@ import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
@@ -45,16 +46,16 @@ import ru.bgcrm.util.sql.SQLUtils;
  * @author Shamil Vakhitov
  */
 public class MessageDAO extends CommonDAO {
-    private final User user;
+    private final DynActionForm form;
 
     public MessageDAO(Connection con) {
         super(con);
-        this.user = User.USER_SYSTEM;
+        this.form = null;
     }
 
-    public MessageDAO(Connection con, User user) {
+    public MessageDAO(Connection con, DynActionForm form) {
         super(con);
-        this.user = user;
+        this.form = form;
     }
 
     /**
@@ -516,7 +517,7 @@ public class MessageDAO extends CommonDAO {
 
         var query = new StringBuilder(200);
         query.append(SQL_SELECT + "message.*, p.description " + SQL_FROM + TABLE_MESSAGE + " AS message ");
-        query.append(getIsolationJoin(user));
+        query.append(getIsolationJoin(form));
         query.append(SQL_LEFT_JOIN + TABLE_PROCESS + "AS p ON message.process_id=p.id");
         query.append(SQL_WHERE + "message.process_id IN (");
         query.append(Utils.toString(processIds));
@@ -538,12 +539,17 @@ public class MessageDAO extends CommonDAO {
         return result;
     }
 
-    public static String getIsolationJoin(User user) {
+    public static String getIsolationJoin(DynActionForm form) {
+        if (form == null)
+            return "";
+
+        User user = form.getUser();
+
         var isolation = user.getConfigMap().getConfig(IsolationConfig.class);
         if (isolation.getIsolationProcess() != null) {
             return
                 SQL_INNER_JOIN + TABLE_PROCESS + " AS process ON message.process_id=process.id " +
-                ProcessDAO.getIsolationJoin(user, "process");
+                ProcessDAO.getIsolationJoin(form, "process");
         }
         return "";
     }

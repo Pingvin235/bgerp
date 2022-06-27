@@ -3,7 +3,7 @@ package ru.bgcrm.plugin.phpbb.dao;
 import java.sql.Connection;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -32,8 +32,7 @@ import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class MessageTypeForumPost extends MessageType {
-
-    private static final Logger log = Logger.getLogger(MessageTypeForumPost.class);
+    private static final Log log = Log.getLog();
 
     // TODO: Сохранять в конфигурации!!
     private volatile Date lastCheckTime = new Date();
@@ -209,8 +208,7 @@ public class MessageTypeForumPost extends MessageType {
                         } else {
                             Message msg = new Message();
                             msg.setText("Сообщения в форуме.");
-
-                            EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SERVER_FORM, msg, process),
+                            EventProcessor.processEvent(new ProcessMessageAddedEvent(DynActionForm.SYSTEM_FORM, msg, process),
                                     new SingleConnectionSet(con));
                         }
                     }

@@ -125,7 +125,7 @@ public class FilterEntryCounter extends Thread {
         DynActionForm filterForm = new DynActionForm(url);
         filterForm.setUser(user);
 
-        String query = new ProcessDAO(null, user).getCountQuery(queue, filterForm);
+        String query = new ProcessDAO(null, filterForm).getCountQuery(queue, filterForm);
         return getCount(query);
     }
 

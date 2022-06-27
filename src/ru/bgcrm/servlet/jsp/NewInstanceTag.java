@@ -7,14 +7,14 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.util.Utils;
 
 public class NewInstanceTag extends BodyTagSupport {
-    private static final Logger log = Logger.getLogger(NewInstanceTag.class);
-    
+    private static final Log log = Log.getLog();
+
     protected String context;
 
     // class name
@@ -73,7 +73,7 @@ public class NewInstanceTag extends BodyTagSupport {
 
         return EVAL_PAGE;
     }
-    
+
     /**
      * Преобразует типы параметров конструктора, либо возвращает null.
      * @param params оригинальный массив параметров.

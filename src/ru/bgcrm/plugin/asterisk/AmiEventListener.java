@@ -115,7 +115,7 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
                 message.setSystemId(event.getUniqueId());
 
                 // по сути там вызывается просто MessageDAO, сделано для единообразия
-                messageType.updateMessage(con, DynActionForm.SERVER_FORM, message);
+                messageType.updateMessage(con, DynActionForm.SYSTEM_FORM, message);
 
                 con.commit();
 

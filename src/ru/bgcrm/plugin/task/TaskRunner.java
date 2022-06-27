@@ -59,7 +59,7 @@ public class TaskRunner extends org.bgerp.scheduler.Task {
                     else
                         try {
                             Map<String, Object> context = DefaultProcessChangeListener
-                                    .getProcessJexlContext(new SingleConnectionSet(con), DynActionForm.SERVER_FORM, null, process);
+                                    .getProcessJexlContext(new SingleConnectionSet(con), DynActionForm.SYSTEM_FORM, null, process);
                             context.put("taskObject", task);
                             context.put("taskType", type);
                             Expression expression = new Expression(context);

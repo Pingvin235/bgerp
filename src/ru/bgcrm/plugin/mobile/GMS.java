@@ -6,15 +6,14 @@ import java.util.Map;
 
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.log4j.Logger;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.ParameterMap;
 
 public class GMS extends ru.bgcrm.util.Config {
-
-    private static final Logger log = Logger.getLogger(GMS.class);
+    private static final Log log = Log.getLog();
 
     private static final String SERVER_URL = "http://mob.bgcrm.ru/cgi/server.py";
     private static final String PARAM_COMMAND = "command";
