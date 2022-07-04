@@ -2,6 +2,7 @@ package org.bgerp.plugin.calendar.model.event;
 
 import java.time.LocalDate;
 
+import org.bgerp.plugin.clb.calendar.model.event.Event;
 import org.junit.Assert;
 import org.junit.Test;
 

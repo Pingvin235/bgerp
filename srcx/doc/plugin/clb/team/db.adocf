@@ -1,0 +1,78 @@
+== Plugin Team
+
+=== team_party
+Parties.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|id
+|INT
+|ID
+
+|title
+|VARCHAR
+|Title.
+
+|secret
+|VARCHAR
+|Generated secret string.
+
+|created_dt
+|DATETIME
+|Creation time.
+|===
+
+=== team_party_member
+Party members.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|id
+|INT
+|ID
+
+|party_id
+|INT
+|party ID, link to <<_team_party, team_party:id>>
+
+|title
+|VARCHAR
+|Member title.
+|===
+
+=== team_party_payment
+Party payment.
+
+|===
+|Column
+|Type
+|Description
+
+|id
+|INT
+|ID
+
+|party_id
+|INT
+|party ID, link to <<_team_party, team_party:id>>
+
+|member_id
+|INT
+|member ID, link to <<_team_party_member, team_party_member:id>>
+
+|amount
+|DECIMAL
+|Payment amount.
+
+|description
+|VARCHAR
+|Payment description.
+|===

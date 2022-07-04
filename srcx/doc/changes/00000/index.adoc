@@ -1,12 +1,17 @@
 = CHANGES
 :toc:
 
-== Plugin <<../../plugin/svc/log/index.adoc#, Log>>
-New plugin with extracted previously kernel functionality *Action Logs*.
+== Plugin <<../../plugin/svc/log/index.adoc#, Log>> (New)
+A plugin with extracted previously kernel functionality *Action Logs*.
 
 IMPORTANT: The new plugin uses completely different DB tables, therefore the logging will start again.
 
 image::../../plugin/svc/log/_res/log.png[width="800px"]
+
+== Plugin <<../../plugin/clb/team/index.adoc#, Team>> (New)
+A plugin with functionality of sharing money after parties.
+
+image::../../plugin/clb/team/_res/party_calc.png[width="800px"]
 
 == Plugin <<../../plugin/svc/dba/index.adoc#, DBA>>
 Show DB status. Cleanup old and inconsistent data.

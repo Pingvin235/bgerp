@@ -308,12 +308,12 @@ public class BaseAction extends DispatchAction {
     /**
      * JSP forward file path.
      * @param con
-     * @param form must be 'null' for open interface.
+     * @param form form object.
      * @param path JSP path.
      * @return
      */
     protected ActionForward html(Connection con, DynActionForm form, String path) {
-        String forwardFile = form.getForwardFile();
+        String forwardFile = form != null ? form.getForwardFile() : null;
         if (Utils.notBlankString(forwardFile))
             path = forwardFile;
         return html(new SingleConnectionSet(con), form, path);

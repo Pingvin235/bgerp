@@ -1583,5 +1583,6 @@ Permission sets.
 
 include::../plugin/fulltext/db.adocf[]
 include::../plugin/task/db.adocf[]
+include::../plugin/clb/team/db.adocf[]
 include::../plugin/sec/secret/db.adocf[]
 include::../plugin/svc/log/db.adocf[]
