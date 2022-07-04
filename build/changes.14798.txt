@@ -1,2 +1,0 @@
-A: Messages popup menu.
-C: Update Gradle Wrapper version.

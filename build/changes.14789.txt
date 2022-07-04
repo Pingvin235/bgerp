@@ -1,2 +1,0 @@
-A: Plugin Callboard. Event on select time.
-C: Plugin Callboard. Large refactoring.

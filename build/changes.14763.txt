@@ -1,1 +1,0 @@
-C: Ignore commented lines in bgerp.properties for backup.sh script.

@@ -1,4 +1,0 @@
-C: Log description content when changing in process.
-A: ru.bgcrm.model.SearchResult returned as Deprecated.
-F: Checking min string length for customer search by title.
-C: Rename config parameter 'searchCustomerTitleMinSubstringLength' to 'search.customer.title.min.substring.length'.

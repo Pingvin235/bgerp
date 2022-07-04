@@ -1,1 +1,0 @@
-A: itest coverage for 'customer.reference.pattern' config parameter.

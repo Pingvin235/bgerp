@@ -1,6 +1,78 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+04.07.2022 20:42:27 1388
+A: [14123] JSP tag <ui:combo-perm-tree-check.
+A: [14123] Plugin Log. https://bgerp.org/doc/3.0/manual/plugin/svc/log/index.html
+A: [14353] Plugin DBA. SQL Query. https://bgerp.org/doc/3.0/manual/plugin/svc/dba/index.html#sql-query
+C: [14353] Action Exceptions API.
+A: [14552] Plugin Workload integration test.
+A: [14568] Plugin Team. Party share money. https://bgerp.org/doc/3.0/manual/plugin/clb/team
+F: [14568] Plugin Blow. Show open board.
+A: [14592] Swap process executors. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#executor-swap
+C: [14599] Plugin Blow. Move from 'ru.bgerp' package.
+F: [14602] Plugin Task itest.
+A: [14668] Plugin Asterisk. Config param for auto registration extension number. Demo DB itest.
+C: [14672] Plugin BGBilling. Cleanup common contract related code.
+A: [14672] CorrectPermissions task. https://bgerp.org/doc/3.0/manual/kernel/setup.html#user-correct-permission
+F: [14672] Plugin DBA. Query to lower case.
+F: [14675] Toggling line wraps for process messages.
+A: [14706] Docker image 'bgerp/base'.
+C: [14748] Translations.
+C: [14759] Move access logs location to 'log/access' and change names.
+A: [14759] Configurable lifetime of access logs with parameter 'log.access.max.days'. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config
+A: [14759] Access logs are available on 'Administration / App / App status' page.
+F: [14759] 'mysql.sh' script included in distribution.
+C: [14759] Add execution permission for all scripts in 'installer.sh'.
+C: [14763] Ignore commented lines in bgerp.properties for backup.sh script.
+A: [14767] Plugin E-Mail. Configuration parameter 'autoCreateProcess.notification.text.message'. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#ac
+F: [14768] Update and Delete not owned messages permission.
+F: [14769] Incorrect import in Kernel Plugin init.
+C: [14770] Rename SearchResult to Paged.
+A: [14778] Plugin DBA. Show DB state, cleanup old tables. https://bgerp.org/doc/3.0/manual/plugin/svc/dba/index.html
+F: [14778] Moved cleaning old out files in erp.sh.
+F: [14778] Missing import in process_link_for_add_list.jsp
+F: [14778] More precise dt column in param_log table.
+F: [14780] Plugin Log. Action log filtering.
+C: [14780] PermissionNode doc, methods. First action as main identified.
+A: [14780] Validation of existence action classes and methods.
+F: [14785] Plugin E-Mail. Maximum number of connections from user+IP exceeded.
+F: [14787] Plugin Telegram UnsupportedOperationException.
+A: [14789] Plugin Callboard. Event on select time.
+C: [14789] Plugin Callboard. Large refactoring.
+A: [14791] Plugin E-Mail process notifications without JEXL. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-process-change-notification
+F: [14791] MySQL start in 'docket/base' image.
+C: [14791] Package ru.bgerp.l10n renamed to org.bgerp.l10n.
+F: [14791] Full-width right area in process card when scrolling down.
+A: [14796] itest coverage for 'customer.reference.pattern' config parameter.
+A: [14798] Messages popup menu.
+C: [14798] Update Gradle Wrapper version.
+F: [14801] Plugin Callboard CSS issues in tables.
+C: [14801] Plugin Callboard refactoring and move actions to user.
+C: [14801] Remove and replace to actual ones JS functions: openUrlToParentAsync, getAJAXHtmlAsync, sendAJAXCommandAsync.
+A: [14802] Show hash of failing SQL update query.
+A: [14803] Check 'sql-mode' on DB init.
+A: [14803] Mark Read/Unread process messages.
+A: [14803] Plugin E-Mail, 'processed.read' property for Message Type configuration. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-message-type
+F: [14803] Selected counter in message queue table.
+F: [14803] Plugin FullText JSP path.
+A: [14804] Parameter type address in 'customer.reference.pattern' config parameter.
+C: [14804] Menu titles capitalized.
+A: [14806] Static check actions existence and signature.
+C: [14806] Refactoring old action methods.
+C: [14806] VSCode project configuration description.
+C: [14808] Better input control for numeric fields.
+F: [14808] NPE in ParamValueSelect.
+C: [14812] Log description content when changing in process.
+A: [14812] ru.bgcrm.model.SearchResult returned as Deprecated.
+F: [14812] Checking min string length for customer search by title.
+C: [14812] Rename config parameter 'searchCustomerTitleMinSubstringLength' to 'search.customer.title.min.substring.length'.
+F: [14815] Handling of 'forwardFile' request parameter.
+F: [14815] Adding to process multiple customers link at once.
+F: [14816] Copy parameter comments for types 'list' and 'listcount'.
+A: [14821] Release Notes in AsciiDoc format.
+A: [14821] Limit of removed at once messages.
+
 02.04.2022 09:53:56 1387
 F: [14766] Opening process card on call.
 

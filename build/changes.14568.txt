@@ -1,2 +1,0 @@
-A: Plugin Team. Party share money. https://bgerp.org/doc/3.0/manual/plugin/clb/team
-F: Plugin Blow. Show open board.

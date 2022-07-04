@@ -1,3 +1,0 @@
-F: Plugin Log. Action log filtering.
-C: PermissionNode doc, methods. First action as main identified.
-A: Validation of existence action classes and methods.

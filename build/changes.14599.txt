@@ -1,1 +1,0 @@
-C: Plugin Blow. Move from 'ru.bgerp' package.

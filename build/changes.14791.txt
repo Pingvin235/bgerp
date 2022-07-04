@@ -1,4 +1,0 @@
-A: Plugin E-Mail process notifications without JEXL. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-process-change-notification
-F: MySQL start in 'docket/base' image.
-C: Package ru.bgerp.l10n renamed to org.bgerp.l10n.
-F: Full-width right area in process card when scrolling down.

@@ -1,1 +1,0 @@
-A: Swap process executors. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#executor-swap

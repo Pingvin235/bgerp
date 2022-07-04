@@ -1,3 +1,0 @@
-F: Plugin Callboard CSS issues in tables.
-C: Plugin Callboard refactoring and move actions to user.
-C: Remove and replace to actual ones JS functions: openUrlToParentAsync, getAJAXHtmlAsync, sendAJAXCommandAsync.

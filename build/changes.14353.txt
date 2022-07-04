@@ -1,2 +1,0 @@
-A: Plugin DBA. SQL Query. https://bgerp.org/doc/3.0/manual/plugin/svc/dba/index.html#sql-query
-C: Action Exceptions API.

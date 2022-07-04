@@ -1,2 +1,0 @@
-A: Release Notes in AsciiDoc format.
-A: Limit of removed at once messages.

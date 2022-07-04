@@ -1,1 +1,0 @@
-A: Plugin Workload integration test.

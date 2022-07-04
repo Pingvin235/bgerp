@@ -1,1 +1,0 @@
-A: Plugin E-Mail. Configuration parameter 'autoCreateProcess.notification.text.message'. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#ac

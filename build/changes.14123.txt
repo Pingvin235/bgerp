@@ -1,2 +1,0 @@
-A: JSP tag <ui:combo-perm-tree-check.
-A: Plugin Log. https://bgerp.org/doc/3.0/manual/plugin/svc/log/index.html
