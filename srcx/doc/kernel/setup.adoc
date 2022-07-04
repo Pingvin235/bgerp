@@ -291,8 +291,21 @@ CAUTION: Для пользователя с кодом 1 конфигураци�
 #on.login.open=/user/message/queue
 ----
 
+[[user-correct-permission]]
+== Correct Permissions
+You may notice such warnings in application logs.
+
+----
+06-27/19:24:51  WARN [http-nio-9088-exec-1] PermissionNode - Not found action node 'ru.bgcrm.struts.action.admin.WorkAction:shiftList', run 'org.bgerp.scheduler.task.CorrectPermissions' class to fix
+06-27/19:24:51  WARN [http-nio-9088-exec-1] PermissionNode - Not found action node 'ru.bgcrm.struts.action.admin.WorkAction:callboardAvailableShift', run 'org.bgerp.scheduler.task.CorrectPermissions' class to fix
+----
+
+They mean that not primary action IDs were used to store in DB. Nothing critical, but later <<scheduler-run, execute>> the mentioned class *org.bgerp.scheduler.task.CorrectPermissions* to fix it.
+
+IMPORTANT: That action breaks backward compatibility of DB, so do only when you do not need to roll back.
+
 [[user-isolation]]
-=== User isolation
+=== User Isolation
 Изоляция позволяет ограничить доступные пользователю данные и применяется ко всем действиям, запрашивающим и модифицирующим эти данные.
 Параметры изоляции задаются в <<united-user-config, объединённой конфигурации пользователя>>.
 
@@ -684,7 +697,7 @@ scheduler.task.<id>.dw=<dw>
 Запуск планировщика определяется <<#config-scheduler, опцией конфигурации>>.
 
 [[scheduler-run]]
-=== Run classes
+=== Run Classes
 In menu *Administration / Run* can be executed any Java class, implementing *java.lang.Runnable*.
 
 image::_res/run_class.png[]

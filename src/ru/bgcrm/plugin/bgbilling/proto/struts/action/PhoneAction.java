@@ -3,8 +3,6 @@ package ru.bgcrm.plugin.bgbilling.proto.struts.action;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForward;
 
 import ru.bgcrm.model.BGException;
@@ -37,8 +35,7 @@ public class PhoneAction extends BaseAction {
         return html(conSet, form, "sessionList");
     }
 
-    public ActionForward getFreeNumberResourceList(DynActionForm form, HttpServletResponse response,
-            ConnectionSet conSet) throws BGException {
+    public ActionForward getFreeNumberResourceList(DynActionForm form, ConnectionSet conSet) throws BGException {
         int categoryId = form.getParamInt("categoryId", -1);
         if (categoryId == -1) {
             throw new BGException("Не указан код категории ресурса в параметре запроса categoryId");

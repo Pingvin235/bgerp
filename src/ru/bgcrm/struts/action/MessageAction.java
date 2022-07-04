@@ -52,9 +52,15 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/message")
 public class MessageAction extends BaseAction {
-    public static final String UNPROCESSED_MESSAGES_PERSONAL_KEY = "unprocessedMessages";
-
     private static final String PATH_JSP = PATH_JSP_USER + "/message";
+    /**
+     * Maximum messages deleted at once.
+     */
+    private static final int MAX_MESSAGE_DELETE_QNT = 1000;
+    /**
+     * Key for storing counter in personalization map.
+     */
+    public static final String UNPROCESSED_MESSAGES_PERSONAL_KEY = "unprocessedMessages";
     /**
      * Special action for edit and delete not owned messages.
      */
@@ -225,19 +231,23 @@ public class MessageAction extends BaseAction {
     public ActionForward messageDelete(DynActionForm form, ConnectionSet conSet) throws Exception {
         MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
 
+        int cnt = 0;
+
         Map<MessageType, List<String>> typeSystemIds = new HashMap<>(10);
         for (String pair : form.getParamArray("typeId-systemId")) {
+            // to avoid too long processing
+            if (++cnt > MAX_MESSAGE_DELETE_QNT)
+                break;
+
             int typeId = Utils.parseInt(StringUtils.substringBefore(pair, "-"));
 
             MessageType type = config.getTypeMap().get(typeId);
             if (type == null)
-                throw new BGException("Не найден тип сообщения.");
+                throw new BGException("Not found message type with ID: {}", typeId);
 
-            List<String> systemIds = typeSystemIds.get(type);
-            if (systemIds == null)
-                typeSystemIds.put(type, systemIds = new ArrayList<>(10));
-
-            systemIds.add(StringUtils.substringAfter(pair, "-"));
+            typeSystemIds
+                .computeIfAbsent(type, (unused) -> new ArrayList<>(10))
+                .add(StringUtils.substringAfter(pair, "-"));
         }
 
         // if no the special permission checking all the messages for ownerships

@@ -56,3 +56,5 @@
 ** <<ext/disconnect_debtors_ktv.adoc#, Организация отключения должников КТВ>>
 ** <<ext/asterisk_integration.adoc#, Интеграция с Asterisk для обработки входящих звонков>>
 ** <<ext/blow_jira.adoc#, Blow JIRA>>
+* CHANGES
+** <<changes/00000/index.adoc#, 00000 (Master Branch)>>

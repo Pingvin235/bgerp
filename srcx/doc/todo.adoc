@@ -1,4 +1,5 @@
 = TODO
 
-WARNING: Эта ссылка должна была быть заменена на корректную, но не была. Пожалуйста, сообщите разработчикам об ошибке.
+WARNING: The link had to be replaced to a correct one. Please, inform developers that it wasn't.
+
 

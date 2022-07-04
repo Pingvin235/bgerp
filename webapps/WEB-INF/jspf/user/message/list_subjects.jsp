@@ -48,7 +48,7 @@
 					<li><a href="#" onclick="
 							if (!($('#${selectedUiid}').text() > 0) || !confirm('${l.l("Удалить выбранные")}?'))
 								return false;
-							$$.ajax.post($(this).closest('form')).done(() => { ${script} });
+							$$.ajax.post($(this).closest('form'), { toPostNames: ['typeId-systemId'] }).done(() => { ${script} });
 							return false;
 						"><i class="ti-trash"></i> ${l.l('Удалить выбранные')} [<span id="${selectedUiid}"></span>]</a></li>
 				</ui:popup-menu>

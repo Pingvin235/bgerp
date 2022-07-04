@@ -325,8 +325,8 @@
 	<p><ru>Принудительно</ru><en>Force</en></p>
 	<p><ru>Обновление на изменение</ru><en>Update on change</en></p>
 	<p><ru>Логи обновлений</ru><en>Update logs</en></p>
-	<p><ru>Файл</ru><en>File</en></p>
-	<p><ru>Размер</ru><en>Size</en></p>
+	<p><en>File</en><ru>Файл</ru></p>
+	<p><en>Size</en><ru>Размер</ru></p>
 	<p><ru>Выберите улицу</ru><en>Choose a street</en></p>
 	<p><ru>Ссылается</ru><en>Linked</en></p>
 	<p><ru>Зависит</ru><en>Depends</en></p>
@@ -517,6 +517,7 @@
 	<p><en>Mark as read</en><ru>Отметить прочитанным</ru></p>
 	<p><en>Mark as unread</en><ru>Отметить непрочитанным</ru></p>
 	<p><en>Search string must be {} and more symbols length.</en><ru>Строка поиска должна быть {} и более симоволов длинной.</ru></p>
+	<p><en>Modified time</en><ru>Время изменения</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

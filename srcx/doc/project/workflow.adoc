@@ -215,7 +215,7 @@ Hints:
 * If documentation was already corrected in the current branch, you can create a mock branch on the last working state.
 * Use line numbers for searching over failing snippets.
 
-Place human readable changes description with screens in link:https://drive.google.com/drive/u/1/folders/1y2qOADOOxqi9j1WXCkdpCNLKvSBBrO9G[00000] document.
+Place human readable changes description with screens (possible link images from a main article) in <<../changes/00000/index.adoc#, 00000>> changes file.
 
 [[doc-release]]
 ==== Release
@@ -370,16 +370,15 @@ Merge the latest state of the master on <<doc-release, documentation>> branch:
 git checkout p11862-documentation && git pull --rebase && git merge master && git push
 ----
 
-Pick documentation changes back to master, probably will be an empty commit.
+Folder with current changes <<../changes/00000/index.adoc#, 00000>> has to be copied to a new one and cleaned up.
+
+Pick documentation changes back to master.
 [source, bash]
 ----
 git checkout master && git pull --rebase && git merge --squash p11862-documentation && git commit -am "p11862 Documentation." && git push
 ----
 
-Document with current changes link:https://drive.google.com/drive/u/1/folders/1y2qOADOOxqi9j1WXCkdpCNLKvSBBrO9G[00000] has to be copied to a new one.
-
-Check if the current version and documentation time are updated on link:https://bgerp.org[Web site].
-Add a news to the site link to the changes documentation.
+Add news to Web sites about release with a link to the release changes.
 
 NOTE: In case of bugfix releases already existing changes document may be renamed, now news is needed.
 
@@ -404,7 +403,7 @@ bash build/docker/base/files.sh && docker build build/docker/base -t bgerp/base 
 
 [[unit-test]]
 === Unit
-JUnit framework is used (`srcx/test' directory)
+JUnit framework is used (`srcx/test` directory)
 Used to test specific algorithms, test do not depend on each other and do not work with DB.
 
 Test are launched locally using the following command:
@@ -415,7 +414,7 @@ bash -c "./gradlew clean test"
 
 [[integration-test]]
 === Integration
-TestNG framework is used (`srcx/itest' directory)
+TestNG framework is used (`srcx/itest` directory)
 
 Integration test performs initialization an empty DB and filling after it with configuration.
 Tests form a dependencies graph which defined order and execution parallelism.

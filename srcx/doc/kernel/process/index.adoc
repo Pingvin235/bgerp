@@ -326,7 +326,7 @@ image::_res/card_groups.png[]
 Для каждой группы выполнения процесса могут быть установлены исполнители один или несколько.
 
 [[executor-swap]]
-==== Executors swap
+==== Executors Swap
 *eswap* operation performs swapping executors placed with two different groups and roles.
 On the screen below *Kernel Executors* and *Karl Marx* will be exchanged.
 

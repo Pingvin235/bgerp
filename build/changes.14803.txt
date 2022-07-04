@@ -1,5 +1,5 @@
 A: Check 'sql-mode' on DB init.
 A: Mark Read/Unread process messages.
-A: Plugin E-Mail, processed.read property for Message Type configuration. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-message-type
+A: Plugin E-Mail, 'processed.read' property for Message Type configuration. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-message-type
 F: Selected counter in message queue table.
 F: Plugin FullText JSP path.
