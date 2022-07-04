@@ -60,3 +60,4 @@
 ** <<ext/blow_jira.adoc#, Blow JIRA>>
 * CHANGES
 ** <<changes/00000/index.adoc#, 00000 (Master Branch)>>
+** <<changes/1388/index.adoc#, 1388>>
