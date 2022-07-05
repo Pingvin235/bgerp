@@ -178,12 +178,10 @@ public class BaseAction extends DispatchAction {
             // так сделано, т.к. при включении вызова акшена директивой
             // <c:import или <jsp:import
             // в requestURI приходит та JSP шка из которой был вызван импорт..
-            if (includeSevletPath != null) {
-                form.setRequestUrl(
-                        includeSevletPath + "?" + request.getAttribute(RequestDispatcher.INCLUDE_QUERY_STRING));
-            } else {
-                form.setRequestUrl(requestURI + "?" + request.getQueryString());
-            }
+            if (includeSevletPath != null)
+                form.requestUrl(includeSevletPath, (String) request.getAttribute(RequestDispatcher.INCLUDE_QUERY_STRING));
+            else
+                form.requestUrl(requestURI, request.getQueryString());
 
             try {
                 name = Utils.maskEmpty(name, "unspecified");

@@ -1,55 +1,150 @@
-#!/bin/sh
+#!/bin/bash
 
 cd ${0%${0##*/}}.
 
-DIR="backup"
-FILE=bgerp.properties
-
+# apps used
 DATE=/bin/date
 ZIP=/usr/bin/zip
+UNZIP=/usr/bin/unzip
 MYSQLDUMP=/usr/bin/mysqldump
-GREP=grep
-CUT=cut
+MYSQL=/usr/bin/mysql
+PV=/usr/bin/pv
 
-# list of included folders and files
-BACKUP_STRING="lib webapps"
+# parse database access from bgerp.properties
+FILE=bgerp.properties
 
-mkdir -p $DIR
-time=`$DATE +%Y-%m-%d_%H_%M`
-file="$DIR/$time"
+while IFS="=" read -r key value; do
+    case "$key" in
+        "db.url")
+            if [[ "${value}" =~ ([[:alpha:][:digit:]_\.\-]+):*([[:digit:]]*)/([[:alpha:][:digit:]_\.\-]+) ]]; then
+                HOST_SQL=${BASH_REMATCH[1]}
+                PORT_SQL=${BASH_REMATCH[2]}
+                DBASE_NAME=${BASH_REMATCH[3]}
+            fi
+        ;;
+        "db.user")
+            USER_SQL="$value"
+        ;;
+        "db.pswd")
+            PASSWORD_SQL="$value"
+        ;;
+    esac
+done < "$FILE"
 
-backup_db() {
-    echo "Making dump DB MySQL!"
-    PWD=`$GREP "^ *db.pswd" $FILE | $CUT -d'=' -f2`
-    USER=`$GREP "^ *db.user" $FILE | $CUT -d'=' -f2`
-    HOST_PORT=`$GREP "^ *db.url" $FILE | $CUT -d'/' -f3`
-    HOST=`echo $HOST_PORT | $CUT -d':' -f1`
-    PORT=`echo $HOST_PORT | $CUT -d':' -f2`
-    if [ "$PORT" = "$HOST" ] ; then
-      PORT=3306
+if [ -n "$PORT_SQL" ]; then
+    PORT_SQL=" -P $PORT_SQL"
+fi
+
+# constants
+BACKUP_DIR=backup
+BACKUP_TMP=backup_tmp
+DUMP=dump.sql
+LIB=lib
+WEBAPPS=webapps
+
+# exit from script on any error
+set -e
+
+function create () {
+    if [ ! -d ${BACKUP_DIR} ] ; then
+        mkdir ${BACKUP_DIR}
     fi
-    DB=`$GREP "^ *db.url" $FILE | $CUT -d'?' -f1 | $CUT -d'/' -f4`
-    # mysqldump --no-tablespaces Do not write any CREATE LOGFILE GROUP or CREATE TABLESPACE statements in output
-    CMD="$MYSQLDUMP --no-tablespaces --routines -h $HOST -P $PORT -u $USER $DB"
-    echo "dump command: $CMD"
-    CMD="$CMD -p$PWD"
-    $CMD > dump.sql
-    BACKUP_STRING="$BACKUP_STRING dump.sql"
-    file="$file.db"
+
+    rm -rf ${BACKUP_TMP}
+    mkdir ${BACKUP_TMP}
+
+    cd ${BACKUP_TMP}
+
+    cp -r ../${LIB} ./
+    cp -r ../${WEBAPPS} ./
+
+    CUR_DATE=`$DATE +%Y-%m-%d_%H_%M`
+    CUR_BACKUP_NAME=${CUR_DATE}.zip
+
+    echo "Backup name: $CUR_BACKUP_NAME"
+
+    ${ZIP} -r ../${BACKUP_DIR}/${CUR_BACKUP_NAME} ${LIB} ${WEBAPPS}
+    cd ..
+
+    rm -rf ${BACKUP_TMP}
 }
 
-while [ -n "$1" ] ; do
-    if [ "$1" = "db" ] ; then
-        backup_db
+function create_db () {
+    if [ ! -d ${BACKUP_DIR} ] ; then
+        mkdir ${BACKUP_DIR}
     fi
-    shift
-done
 
-file="$file.zip"
-echo "Making backup to $file"
+    rm -rf ${BACKUP_TMP}
+    mkdir ${BACKUP_TMP}
 
-$ZIP -r $file $BACKUP_STRING
+    cd ${BACKUP_TMP}
+    ${MYSQLDUMP} --no-tablespaces --routines --host=${HOST_SQL} --user=${USER_SQL} --password=${PASSWORD_SQL} ${PORT_SQL} ${DBASE_NAME} > ${DUMP}
 
-rm -f dump.sql
+    cp -r ../${LIB} ./
+    cp -r ../${WEBAPPS} ./
 
-echo "Backup $BACKUP_STRING is done to $file"
+    CUR_DATE=`$DATE +%Y-%m-%d_%H_%M`
+    CUR_BACKUP_NAME=${CUR_DATE}.db.zip
+
+    echo "Backup name: $CUR_BACKUP_NAME"
+
+    ${ZIP} -r ../${BACKUP_DIR}/${CUR_BACKUP_NAME} ${DUMP} ${LIB} ${WEBAPPS}
+    cd ..
+
+    rm -rf ${BACKUP_TMP}
+}
+
+function restore () {
+    rm -rf ${BACKUP_TMP}
+
+    mkdir ${BACKUP_TMP}
+    cd ${BACKUP_TMP}
+
+    ${UNZIP} ../${BACKUP_DIR}/$1
+
+    rm -rf ../${LIB}
+    cp -r ${LIB} ../${LIB}
+    rm -rf ../${WEBAPPS}
+    cp -r ${WEBAPPS} ../${WEBAPPS}
+
+    ${MYSQL} -B --host=${HOST_SQL} --user=${USER_SQL} --password=${PASSWORD_SQL} ${PORT_SQL} -e "CREATE DATABASE IF NOT EXISTS ${DBASE_NAME}"
+    ${MYSQL} -B --host=${HOST_SQL} --user=${USER_SQL} --password=${PASSWORD_SQL} ${PORT_SQL} ${DBASE_NAME} < ${DUMP}
+
+    cd ..
+    rm -rf ${BACKUP_TMP}
+}
+
+function help {
+    echo "USAGE: ./backup.sh [CMD]"
+    echo "Where [CMD] in:"
+    echo " * create - to create backup in 'backup' directory"
+    echo " * create_db - to create backup and MySQL dump in 'backup' directory"
+    echo " * restore [FILE] - to restore state to [FILE]'s backup state"
+    exit 1
+}
+
+if [ -z $1 ] ; then
+    help
+fi
+
+if [ "$1" = "create" ] ; then
+    create
+elif [ "$1" = "create_db" ] ; then
+    create_db
+else
+    if [ "$1" = "restore" ] ; then
+        if [ -z $2 ] ; then
+            echo "no backup file given"
+            echo
+            help
+        else
+            restore $2
+        fi
+    else
+        echo "unknown command '$1'"
+        echo
+        help
+    fi
+fi
+
+exit 0

@@ -2,6 +2,10 @@
 <data>
 	<p><ru>Создать Backup</ru><en>Create Backup</en></p>
 	<p><ru>Включить БД</ru><en>Include DB</en></p>
+	<p>
+		<en>Do you really want to completely rewrite your DB and app files?</en>
+		<ru>Вы действительно хотите полностью перетереть вашу БД и файлы приложения?</ru>
+	</p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

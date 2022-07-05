@@ -1,2 +1,8 @@
 = CHANGES
 :toc:
+
+== Plugin Backup
+Restore from backups. Cleaning up old backups.
+
+image::../../plugin/svc/backup/_res/backup.png[width="800px"]
+

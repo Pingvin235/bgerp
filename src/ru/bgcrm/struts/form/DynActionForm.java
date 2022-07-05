@@ -344,6 +344,18 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
+     * Sets request parameter {@code requestUrl}.
+     * @param requestURI start of {@code requestUrl}.
+     * @param queryString query string, if not blank then added to end after query char.
+     */
+    public void requestUrl(String requestURI, String queryString) {
+        String requestUrl = requestURI;
+        if (Utils.notBlankString(queryString))
+            requestUrl += "?" + queryString;
+        setRequestUrl(requestUrl);
+    }
+
+    /**
      * Возвращает URL, который нужно загрузить для возвращения из редактора.
      * @return
      */

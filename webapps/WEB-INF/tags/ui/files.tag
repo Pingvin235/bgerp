@@ -7,7 +7,7 @@
 
 <c:set var="deletionEnabled" value="${files.options.deletionEnabled and not empty requestUrl and ctxUser.checkPerm(files.deletePermissionAction)}"/>
 
-<table class="data">
+<table class="data hl">
 	<tr>
 		<td width="50%">${l.l('File')}</td>
 		<td width="50%">${l.l('Modified time')}</td>

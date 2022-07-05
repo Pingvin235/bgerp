@@ -4,7 +4,7 @@ FROM bgerp/base
 #======
 # java layer removes those with 'apt-get purge'
 RUN apt-get update \
-	&& apt-get install -y unzip wget
+	&& apt-get install -y zip unzip wget
 
 COPY files/bgerp.zip /tmp
 

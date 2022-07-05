@@ -11,11 +11,21 @@ Enable the plugin in <<../../../kernel/setup.adoc#config-plugin, server config>>
 [source]
 ----
 backup:enable=1
+
+# offer for removing backups more than
+#backup:cleanup.candidate.count.more.than=3
+# offer for removing backups with DB more than
+#backup:cleanup.candidate.db.count.more.than=3
 ----
 
 [[usage]]
 == Usage
-Backup tool is available in menu *Administration / Backup*. There is content mode switch available .
+Backup tool is available in menu *Administration / Backup*. There is content mode switch available.
 
 image::_res/backup.png[width="800px"]
+
+[square]
+* Using drop-box backups can be created with or without DB content.
+* Outdated backups can be removed using a button in the top-left corner of table. How many last backups are preserved from removing is <<setup, configured>>.
+* Buttons in right table column allow restoring from backups. The application is automatically restarted after that.
 

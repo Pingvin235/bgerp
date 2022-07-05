@@ -1,6 +1,7 @@
 package org.bgerp.plugin.svc.backup.action.admin;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.plugin.svc.backup.Config;
 import org.bgerp.plugin.svc.backup.Plugin;
 import org.bgerp.servlet.file.Files;
 import org.bgerp.servlet.file.Options;
@@ -9,6 +10,7 @@ import org.bgerp.servlet.file.Order;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.distr.Scripts;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -21,11 +23,17 @@ public class BackupAction extends BaseAction {
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        form.setRequestAttribute("config", setup.getConfig(Config.class));
         return html(conSet, form, PATH_JSP + "/backup.jsp");
     }
 
     public ActionForward backup(DynActionForm form, ConnectionSet conSet) throws Exception {
         new Scripts().backup(form.getParamBoolean("db"));
+        return json(conSet, form);
+    }
+
+    public ActionForward restore(DynActionForm form, ConnectionSet conSet) throws Exception {
+        new Scripts().backupRestore(form.getParam("name", Utils::notBlankString)).restart(true);
         return json(conSet, form);
     }
 

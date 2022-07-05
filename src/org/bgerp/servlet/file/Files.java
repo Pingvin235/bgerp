@@ -155,13 +155,11 @@ public class Files {
     }
 
     /**
-     * Delete file.
-     * @param form
-     * @throws BGIllegalArgumentException
-     * @throws IOException
+     * Delete file(s).
+     * @param form form with 'name' parameter values, containing file name.
      */
-    public void delete(DynActionForm form) throws  BGIllegalArgumentException, IOException {
-        var name = form.getParam("name", Utils::notBlankString);
-        FileUtils.deleteQuietly(new File(basedir.toFile(), name));
+    public void delete(DynActionForm form) {
+        for (String name : form.getSelectedValuesStr("name"))
+            FileUtils.deleteQuietly(new File(basedir.toFile(), name));
     }
 }

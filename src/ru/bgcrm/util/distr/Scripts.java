@@ -14,12 +14,17 @@ import org.bgerp.util.RuntimeRunner;
 public class Scripts {
     private static final Log log = Log.getLog();
 
-    private static final String BACKUP = "./backup.sh ";
+    private static final String BACKUP = "./backup.sh";
     private static final String INSTALLER = " ./installer.sh ";
     private static final String RESTART = " ./erp_restart.sh ";
 
     public Scripts backup(boolean db) throws Exception {
-        new RuntimeRunner("sh", "-c", BACKUP + (db ? "db" : "")).run();
+        new RuntimeRunner("bash", BACKUP, db ? "create_db" : "create").run();
+        return this;
+    }
+
+    public Scripts backupRestore(String name) throws Exception {
+        new RuntimeRunner("bash", BACKUP, "restore", name).run();
         return this;
     }
 

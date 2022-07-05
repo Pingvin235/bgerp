@@ -1,0 +1,4 @@
+A: Restore backups in script backup.sh.
+A: Plugin Backup. Restore backups in UI. https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.html#usage
+A: Plugin Backup. Delete multiple old backups at once. https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.html#usage
+F: Install zip in 'bgerp/bgerp' Docker image.
