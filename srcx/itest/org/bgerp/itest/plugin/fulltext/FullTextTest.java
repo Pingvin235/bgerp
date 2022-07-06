@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import ru.bgcrm.plugin.fulltext.Plugin;
 import ru.bgcrm.util.sql.SQLUtils;
 
-@Test(groups = "fulltext", priority = 100, dependsOnGroups = { "config", "scheduler" })
+@Test(groups = "fulltext", priority = 100, dependsOnGroups = { "config" })
 public class FullTextTest {
     private static final Plugin PLUGIN = new Plugin();
 

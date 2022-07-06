@@ -395,27 +395,26 @@ public class ProcessCommandExecutor {
                 String value = Utils.substringAfter(command, ":", 2);
 
                 switch (Parameter.Type.of(param.getType())) {
-                case DATE:
-                    new ParamValueDAO(con).updateParamDate(process.getId(), param.getId(), TimeUtils.parse(value, param.getDateParamFormat(), null));
-                    break;
-                case DATETIME:
-                    new ParamValueDAO(con).updateParamDateTime(process.getId(), param.getId(),
-                            TimeUtils.parse(value, param.getDateParamFormat(), null));
-                    break;
-                case ADDRESS:
-                case BLOB:
-                case EMAIL:
-                case FILE:
-                case LIST:
-                case LISTCOUNT:
-                case PHONE:
-                case TEXT:
-                case TREE:
-                    throw new BGException("Неподдерживаемый тип параметра для макроса:" + command);
+                    case DATE:
+                        new ParamValueDAO(con).updateParamDate(process.getId(), param.getId(), TimeUtils.parse(value, param.getDateParamFormat(), null));
+                        break;
+                    case DATETIME:
+                        new ParamValueDAO(con).updateParamDateTime(process.getId(), param.getId(),
+                                TimeUtils.parse(value, param.getDateParamFormat(), null));
+                        break;
+                    case ADDRESS:
+                    case BLOB:
+                    case EMAIL:
+                    case FILE:
+                    case LIST:
+                    case LISTCOUNT:
+                    case PHONE:
+                    case TEXT:
+                    case TREE:
+                        throw new BGException("Неподдерживаемый тип параметра для макроса:" + command);
                 }
             } else {
-                EventProcessor.processEvent(new ProcessDoActionEvent(form, process, command), type.getProperties().getActualScriptName(),
-                        new SingleConnectionSet(con));
+                EventProcessor.processEvent(new ProcessDoActionEvent(form, process, command), new SingleConnectionSet(con));
             }
         }
     }

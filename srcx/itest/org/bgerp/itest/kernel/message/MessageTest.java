@@ -33,7 +33,7 @@ import ru.bgcrm.model.process.ProcessLink;
 import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.util.Setup;
 
-@Test(groups = "message", dependsOnGroups = { "customer", "user", "process", "scheduler" })
+@Test(groups = "message", dependsOnGroups = { "customer", "user", "process" })
 public class MessageTest {
     private static final String TITLE = "Kernel Messages";
 
@@ -63,8 +63,6 @@ public class MessageTest {
                 ) +
                 ResourceHelper.getResource(this, "config.messages.txt");
         configId = ConfigHelper.addIncludedConfig(TITLE, config);
-
-        ConfigHelper.addToConfig(org.bgerp.itest.kernel.scheduler.SchedulerTest.configId, ResourceHelper.getResource(this, "config.scheduler.txt"));
 
         var messageTypeConfig = Setup.getSetup().getConfig(MessageTypeConfig.class);
         Assert.assertNotNull(messageTypeEmailDemo = (MessageTypeEmail) messageTypeConfig.getTypeMap().get(1));

@@ -314,41 +314,33 @@ public class CommonDAO {
     }
 
     protected static interface ObjectExtractor<T> {
-        public T extract(ResultSet rs) throws SQLException, BGException;
+        public T extract(ResultSet rs) throws SQLException;
     }
 
-    protected <T> T getById(String tableName, int id, ObjectExtractor<T> extractor) throws BGException {
+    protected <T> T getById(String tableName, int id, ObjectExtractor<T> extractor) throws SQLException {
         T result = null;
 
-        try {
-            String query = SQL_SELECT_ALL_FROM + tableName + SQL_WHERE + "id=?";
+        String query = SQL_SELECT_ALL_FROM + tableName + SQL_WHERE + "id=?";
 
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
 
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = extractor.extract(rs);
-            }
-
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            result = extractor.extract(rs);
         }
+
+        ps.close();
 
         return result;
     }
 
-    protected void deleteById(String tableName, int id) throws BGException {
-        try {
-            String query = SQL_DELETE + tableName + SQL_WHERE + "id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
-        }
+    protected void deleteById(String tableName, int id) throws SQLException {
+        String query = SQL_DELETE + tableName + SQL_WHERE + "id=?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ps.executeUpdate();
+        ps.close();
     }
 
     protected abstract class RecordUpdater<T extends Id> {
@@ -363,30 +355,26 @@ public class CommonDAO {
         public abstract void fillCommonFields(T record, PreparedStatement ps) throws SQLException;
     }
 
-    protected <T extends Id> void update(T record, RecordUpdater<T> updater) throws BGException {
-        try {
-            PreparedStatement ps = null;
-            if (record.getId() <= 0) {
-                ps = con.prepareStatement(updater.getInsertQuery(), PreparedStatement.RETURN_GENERATED_KEYS);
-            } else {
-                Pair<String, Integer> updateQuery = updater.getUpdateQuery();
-                if (updateQuery != null) {
-                    ps = con.prepareStatement(updateQuery.getFirst());
-                    ps.setInt(updateQuery.getSecond(), record.getId());
-                }
+    protected <T extends Id> void update(T record, RecordUpdater<T> updater) throws SQLException {
+        PreparedStatement ps = null;
+        if (record.getId() <= 0) {
+            ps = con.prepareStatement(updater.getInsertQuery(), PreparedStatement.RETURN_GENERATED_KEYS);
+        } else {
+            Pair<String, Integer> updateQuery = updater.getUpdateQuery();
+            if (updateQuery != null) {
+                ps = con.prepareStatement(updateQuery.getFirst());
+                ps.setInt(updateQuery.getSecond(), record.getId());
             }
-
-            updater.fillCommonFields(record, ps);
-
-            ps.executeUpdate();
-
-            if (record.getId() <= 0) {
-                record.setId(SQLUtils.lastInsertId(ps));
-            }
-            ps.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
         }
+
+        updater.fillCommonFields(record, ps);
+
+        ps.executeUpdate();
+
+        if (record.getId() <= 0) {
+            record.setId(SQLUtils.lastInsertId(ps));
+        }
+        ps.close();
     }
 
     protected void updateIds(String tableName, String linkColumn, String valueColumn, Object id, Set<Integer> values)

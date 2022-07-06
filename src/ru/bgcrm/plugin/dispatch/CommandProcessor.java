@@ -84,7 +84,7 @@ public class CommandProcessor implements Runnable {
                             try {
                                 DispatchDAO dispatchDao = new DispatchDAO(con);
 
-                                Set<Integer> dispatchIds = dispatchDao.accountSubsriptionList(from).stream()
+                                Set<Integer> dispatchIds = dispatchDao.accountSubscriptions(from).stream()
                                         .map(Dispatch::getId).collect(Collectors.toSet());
 
                                 if (subject.startsWith("UN"))
@@ -92,7 +92,7 @@ public class CommandProcessor implements Runnable {
                                 else
                                     dispatchIds.addAll(deltaIds);
 
-                                dispatchDao.accountSubsriptionUpdate(from, dispatchIds);
+                                dispatchDao.accountSubscriptionUpdate(from, dispatchIds);
 
                                 sendDispatchStateList(con, config, session, from);
 
@@ -102,7 +102,7 @@ public class CommandProcessor implements Runnable {
                             }
                         }
                     } catch (Exception e) {
-                        log.error(e.getMessage(), e);
+                        log.error(e);
                     }
 
                     message.setFlag(Flags.Flag.DELETED, true);
@@ -113,7 +113,7 @@ public class CommandProcessor implements Runnable {
                 store.close();
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
     }
 
@@ -121,7 +121,7 @@ public class CommandProcessor implements Runnable {
             throws Exception {
         DispatchDAO dispatchDao = new DispatchDAO(con);
         List<Dispatch> dispatchList = dispatchDao.dispatchList(null);
-        Set<Integer> subscriptions = dispatchDao.accountSubsriptionList(email).stream()
+        Set<Integer> subscriptions = dispatchDao.accountSubscriptions(email).stream()
                 .map(Dispatch::getId).collect(Collectors.toSet());
 
         String encoding = MailMsg.getParamMailEncoding(Setup.getSetup());

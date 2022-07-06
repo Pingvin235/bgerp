@@ -8,8 +8,8 @@
 
 		<table class="data" style="width: 100%;" id="${tableUiid}">
 			<tr>
-				<td width="250">${l.l('Наименование')}</td>
-				<td width="100%">${l.l('Описание')}</td>
+				<td width="40%">${l.l('Наименование')}</td>
+				<td width="60%">${l.l('Описание')}</td>
 			</tr>
 			<c:forEach var="item" items="${form.response.data.list}">
 				<tr>
@@ -23,8 +23,11 @@
 			<input type="hidden" name="action" value="subscribe"/>
 			<input type="text" name="email" placeholder="E-Mail" size="30"/>
 			<button class="btn-grey" type="button" onclick="
-				$$.ajax.post(this.form); 
-				alert('${l.l('На указанный адрес выслана инструкция')}');
+				$$.ajax
+					.post(this.form)
+					.done(() =>
+						alert('${l.l('На указанный адрес выслана инструкция')}')
+					);
 			">Подписка</button>
 		</html:form>
 	</div>

@@ -76,9 +76,6 @@ public class BaseAction extends DispatchAction {
     public static final String PATH_JSP_USERMOB = PATH_JSP + "/usermob";
     public static final String PATH_JSP_OPEN = PATH_JSP + "/open";
 
-    @Deprecated
-    protected final String FORWARD_DEFAULT = "default";
-
     protected final Log log = Log.getLog(this.getClass());
 
     protected final Setup setup = Setup.getSetup();
@@ -114,22 +111,6 @@ public class BaseAction extends DispatchAction {
      */
     public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
         throw new UnsupportedOperationException();
-    }
-
-    private Invoker getInvoker(String method) throws NoSuchMethodException {
-        log.trace("Looking for invoker: {}", method);
-
-        Invoker result = invokerMap.get(method);
-        if (result == null) {
-            result = Invoker.find(clazz, method, true);
-            invokerMap.putIfAbsent(method, result);
-        } else {
-            log.trace("Cache hit");
-        }
-
-        log.trace("Found invoker: {}", result.getClass().getSimpleName());
-
-        return result;
     }
 
     @Override
@@ -224,6 +205,22 @@ public class BaseAction extends DispatchAction {
         }
 
         return forward;
+    }
+
+    private Invoker getInvoker(String method) throws NoSuchMethodException {
+        log.trace("Looking for invoker: {}", method);
+
+        Invoker result = invokerMap.get(method);
+        if (result == null) {
+            result = Invoker.find(clazz, method, true);
+            invokerMap.putIfAbsent(method, result);
+        } else {
+            log.trace("Cache hit");
+        }
+
+        log.trace("Found invoker: {}", result.getClass().getSimpleName());
+
+        return result;
     }
 
     /**
@@ -360,48 +357,6 @@ public class BaseAction extends DispatchAction {
     }
 
     /**
-     * Use {@link #html(Connection, DynActionForm, String)}.
-     *
-     * Returns Struts forward by name.
-     * @param con
-     * @param mapping
-     * @param form
-     * @param name forward's name.
-     * @return
-     */
-    @Deprecated
-    protected ActionForward html(Connection con, ActionMapping mapping, DynActionForm form, String name) {
-        return html(new SingleConnectionSet(con), mapping, form, name);
-    }
-
-    /**
-     * Use {@link #html(ConnectionSet, DynActionForm, String)}.
-     *
-     * Returns Struts forward by name.
-     * @param conSet
-     * @param mapping
-     * @param form
-     * @param name forward's name.
-     * @return
-     */
-    @Deprecated
-    protected ActionForward html(ConnectionSet conSet, ActionMapping mapping, DynActionForm form, String name) {
-        String responseType = form.getResponseType();
-        // response requested in JSON (API call)
-        if (DynActionForm.RESPONSE_TYPE_JSON.equalsIgnoreCase(responseType)) {
-            return json(conSet, form);
-        } else {
-            // wanted forward defined in form
-            if (Utils.notBlankString(form.getForward())) {
-                name = form.getForward();
-            } else if (Utils.notBlankString(form.getForwardFile())) {
-                return new ActionForward(form.getForwardFile());
-            }
-            return mapping.findForward(name);
-        }
-    }
-
-    /**
      * Sends response result in JSON format.
      * @param con
      * @param form
@@ -448,43 +403,18 @@ public class BaseAction extends DispatchAction {
                 out.close();
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
 
         return null;
     }
 
-    protected boolean getAccess(String accessList, String accessItemKey, int value) {
-        boolean result = false;
-        if (accessList != null && accessItemKey != null) {
-            for (String accessItem : accessList.split(";")) {
-                if (accessItem.startsWith(accessItemKey + ":")) {
-                    String accessValue = accessItem.substring(accessItemKey.length() + 1).trim();
-                    result = "*".equals(accessValue);
-                    if (!result) {
-                        String valueString = String.valueOf(value);
-                        for (String accessValueItem : accessValue.split(",")) {
-                            if (accessValueItem.matches("^-?[0-9]+$") && valueString.equals(accessValueItem)) {
-                                result = true;
-                                break;
-                            } else if (accessValueItem.matches("^-?[0-9]+-[0-9]+$")) {
-                                int pos = accessValueItem.indexOf('-', 1);
-                                int v1 = Integer.parseInt(accessValueItem.substring(0, pos));
-                                int v2 = Integer.parseInt(accessValueItem.substring(pos + 1));
-                                if (v1 <= value && value <= v2) {
-                                    result = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-        return result;
-    }
-
+    /**
+     * Checks concurrent modifications by different users.
+     * @param lastModify initial state of modified item.
+     * @param form request with parameters {@code lastModifyUserId} and {@code lastModifyTime} for comparing to {@code lastModify}.
+     * @throws BGException entity was stored by another user in between.
+     */
     protected void checkModified(LastModify lastModify, DynActionForm form) throws BGException {
         if (lastModify.getTime() != null) {
             int lastModifyUserId = Utils.parseInt(form.getParam("lastModifyUserId"), 0);

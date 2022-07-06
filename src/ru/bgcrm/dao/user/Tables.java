@@ -1,7 +1,6 @@
 package ru.bgcrm.dao.user;
 
-public class Tables
-{
+public class Tables {
     public static final String TABLE_USER = " user ";
     public final static String TABLE_USER_QUEUE = " user_queue ";
     public static final String TABLE_USER_GROUP = " user_group ";

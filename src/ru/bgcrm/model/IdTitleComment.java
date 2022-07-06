@@ -1,7 +1,7 @@
 package ru.bgcrm.model;
 
 public class IdTitleComment extends IdTitle {
-    private String comment;
+    private String comment = "";
 
     public IdTitleComment() {
     }

@@ -86,7 +86,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         return json(con, form);
     }
 
-    public ActionForward permsetDelete(DynActionForm form, Connection con) throws BGException {
+    public ActionForward permsetDelete(DynActionForm form, Connection con) throws Exception {
         new UserPermsetDAO(con).deletePermset(form.getId());
 
         UserCache.flush(con);

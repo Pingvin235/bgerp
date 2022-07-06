@@ -597,7 +597,7 @@ You can use form's *response* field for this.
 When set to *responseType=json*, all data in the response gets serialized into JSON - that's why it is important to put directories into HttpResponse.
 
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/plugin/dispatch/struts/action/DispatchAction.java#L46-L52[ru.bgcrm.plugin.dispatch.struts.action.DispatchAction]
+link:../../../src/ru/bgcrm/plugin/dispatch/action/DispatchAction.java#L48-L54[ru.bgcrm.plugin.dispatch.action.DispatchAction]
 
 [[action-name]]
 ===== Naming Convention

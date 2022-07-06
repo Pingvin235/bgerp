@@ -6,62 +6,50 @@ import java.util.Set;
 
 import ru.bgcrm.model.IdTitle;
 
-public class DispatchMessage
-	extends IdTitle
-{
-	private Set<Integer> dispatchIds = Collections.emptySet();
-	private boolean ready;
-	private Date createTime;
-	private Date sentTime;
-	private String text;
-	
-	public Set<Integer> getDispatchIds()
-	{
-		return dispatchIds;
-	}
+public class DispatchMessage extends IdTitle {
+    private Set<Integer> dispatchIds = Collections.emptySet();
+    private boolean ready;
+    private Date createTime;
+    private Date sentTime;
+    private String text;
 
-	public void setDispatchIds( Set<Integer> dispatchIds )
-	{
-		this.dispatchIds = dispatchIds;
-	}
+    public Set<Integer> getDispatchIds() {
+        return dispatchIds;
+    }
 
-	public boolean isReady()
-	{
-		return ready;
-	}
+    public void setDispatchIds(Set<Integer> dispatchIds) {
+        this.dispatchIds = dispatchIds;
+    }
 
-	public void setReady( boolean readyToSend )
-	{
-		this.ready = readyToSend;
-	}
+    public boolean isReady() {
+        return ready;
+    }
 
-	public Date getCreateTime()
-	{
-		return createTime;
-	}
+    public void setReady(boolean readyToSend) {
+        this.ready = readyToSend;
+    }
 
-	public void setCreateTime( Date createTime )
-	{
-		this.createTime = createTime;
-	}
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-	public Date getSentTime()
-	{
-		return sentTime;
-	}
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-	public void setSentTime( Date sentTime )
-	{
-		this.sentTime = sentTime;
-	}
+    public Date getSentTime() {
+        return sentTime;
+    }
 
-	public String getText()
-	{
-		return text;
-	}
+    public void setSentTime(Date sentTime) {
+        this.sentTime = sentTime;
+    }
 
-	public void setText( String message )
-	{
-		this.text = message;
-	}
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String message) {
+        this.text = message;
+    }
 }

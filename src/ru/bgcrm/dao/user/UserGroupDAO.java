@@ -148,7 +148,7 @@ public class UserGroupDAO extends CommonDAO {
         }
     }
 
-    public void deleteGroup(int id) throws BGException {
+    public void deleteGroup(int id) throws SQLException {
         setChildCount(id, -1);
         deleteById(TABLE_USER_GROUP_TITLE, id);
     }
@@ -218,37 +218,32 @@ public class UserGroupDAO extends CommonDAO {
         return result;
     }
 
-    private void setChildCount(int chilsId, int countCorrect) throws BGException {
+    private void setChildCount(int chilsId, int countCorrect) throws SQLException {
         ResultSet rs = null;
         PreparedStatement ps = null;
 
-        try {
+        ps = con.prepareStatement("select count(*), t1.parent_id from " + TABLE_USER_GROUP_TITLE + " as t1 join " + TABLE_USER_GROUP_TITLE
+                + " as t2 where t2.id = ? AND t1.parent_id = t2.parent_id");
+        ps.setInt(1, chilsId);
+        rs = ps.executeQuery();
 
-            ps = con.prepareStatement("select count(*), t1.parent_id from " + TABLE_USER_GROUP_TITLE + " as t1 join " + TABLE_USER_GROUP_TITLE
-                    + " as t2 where t2.id = ? AND t1.parent_id = t2.parent_id");
-            ps.setInt(1, chilsId);
-            rs = ps.executeQuery();
+        int count = 0;
+        int parentId = 0;
 
-            int count = 0;
-            int parentId = 0;
-
-            if (rs.next()) {
-                count = rs.getInt(1);
-                parentId = rs.getInt(2);
-            }
-
-            ps.close();
-
-            int index = 1;
-            count += countCorrect;
-            PreparedStatement psUpdate = con.prepareStatement("UPDATE " + TABLE_USER_GROUP_TITLE + " SET child_count=? WHERE id=? ");
-
-            psUpdate.setInt(index++, count);
-            psUpdate.setInt(index++, parentId);
-            psUpdate.executeUpdate();
-            psUpdate.close();
-        } catch (SQLException e) {
-            throw new BGException(e);
+        if (rs.next()) {
+            count = rs.getInt(1);
+            parentId = rs.getInt(2);
         }
+
+        ps.close();
+
+        int index = 1;
+        count += countCorrect;
+        PreparedStatement psUpdate = con.prepareStatement("UPDATE " + TABLE_USER_GROUP_TITLE + " SET child_count=? WHERE id=? ");
+
+        psUpdate.setInt(index++, count);
+        psUpdate.setInt(index++, parentId);
+        psUpdate.executeUpdate();
+        psUpdate.close();
     }
 }

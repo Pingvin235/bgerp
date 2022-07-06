@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.util.Log;
 import org.testng.annotations.Test;
 
@@ -57,11 +56,7 @@ public class DbResetTest {
         @Override
         protected void doQuery(Statement st, String query, Set<String> existingHashes, Set<String> newHashes) throws SQLException {
             try {
-                /* if (line.contains("GENERATED_PASSWORD")) {
-                    log.info("Skipping: %s", line);
-                    return;
-                } */
-                log.debug("Executing: %s", query);
+                log.debug("Executing: {}", query);
                 st.executeUpdate(query);
             } catch (SQLException ex) {
                 throw new SQLException("QUERY: " + query, ex);
@@ -81,15 +76,5 @@ public class DbResetTest {
         sqlCall.call(con, IOUtils.toString(new FileInputStream("build/bgerp/db_init.sql"), StandardCharsets.UTF_8));
         sqlCall.call(con, IOUtils.toString(new FileInputStream("build/update/db_init.sql"), StandardCharsets.UTF_8));
         con.setAutoCommit(true);
-    }
-
-    @Test(enabled = false, dependsOnMethods = "createDb")
-    public void patchDb() throws Exception {
-        if (conditionalSkip()) return;
-
-        log.info("Applying database patch..");
-
-        var con = DbTest.conRoot;
-        sqlCall.call(con, ResourceHelper.getResource(this, "patch.db.sql"));
     }
 }

@@ -91,7 +91,7 @@ public class CustomerGroupDAO extends CommonDAO {
         }
     }
 
-    public void deleteGroup(int id) throws BGException {
+    public void deleteGroup(int id) throws SQLException {
         deleteById(TABLE_CUSTOMER_GROUP_TITLE, id);
     }
 

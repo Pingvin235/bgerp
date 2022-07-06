@@ -64,8 +64,8 @@ public class UserDAO extends CommonDAO {
             psDelay.addQuery("( SELECT GROUP_CONCAT(ug.group_id SEPARATOR ',') FROM " + TABLE_USER_GROUP + " AS ug "
                     + "WHERE ug.user_id=user.id AND (ug.date_from IS NULL OR ug.date_from<=?) AND (ug.date_to >? OR ug.date_to IS NULL) ) AS `groups` ");
 
-            psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(date));
-            psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(prevDay));
+            psDelay.addTimestamp(TimeConvert.toTimestamp(date));
+            psDelay.addTimestamp(TimeConvert.toTimestamp(prevDay));
         }
 
         psDelay.addQuery(" FROM " + TABLE_USER + " AS user ");
@@ -81,8 +81,8 @@ public class UserDAO extends CommonDAO {
                 psDelay.addQuery(
                         " AND (user_group.date_from IS NULL OR user_group.date_from<=?) AND (user_group.date_to>? OR user_group.date_to IS NULL) ");
 
-                psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(date));
-                psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(prevDay));
+                psDelay.addTimestamp(TimeConvert.toTimestamp(date));
+                psDelay.addTimestamp(TimeConvert.toTimestamp(prevDay));
             }
         }
 
@@ -97,8 +97,8 @@ public class UserDAO extends CommonDAO {
                 psDelay.addQuery(
                         " AND user_select_group.date_from <=? AND (user_select_group.date_to >? OR user_select_group.date_to IS NULL) ");
 
-                psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(date));
-                psDelay.addTimestamp(TimeUtils.convertDateToTimestamp(prevDay));
+                psDelay.addTimestamp(TimeConvert.toTimestamp(date));
+                psDelay.addTimestamp(TimeConvert.toTimestamp(prevDay));
             }
         }
 
@@ -441,7 +441,7 @@ public class UserDAO extends CommonDAO {
         return result;
     }
 
-    public void deleteUser(int id) throws BGException {
+    public void deleteUser(int id) throws SQLException {
         deleteById(TABLE_USER, id);
     }
 

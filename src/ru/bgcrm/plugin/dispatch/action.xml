@@ -1,14 +1,14 @@
-<item title="Плагин Dispatch">
-	<item title="Рассылки">
-		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchList" title="Список"/>
-		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchGet" title="Редактирование"/>
-		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchUpdate" title="Изменение"/>
-		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchDelete" title="Удаление"/>
+<item title="Plugin Dispatch">
+	<item title="Dispatch">
+		<item action="ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchList, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchList" title="List"/>
+		<item action="ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchUpdate, ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchGet,
+			ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchUpdate, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchGet" title="Edit"/>
+		<item action="ru.bgcrm.plugin.dispatch.action.DispatchAction:dispatchDelete, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:dispatchDelete" title="Delete"/>
 	</item>
-	<item title="Сообщения">
-		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageList" title="Список"/>
-		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageGet" title="Редактирование"/>
-		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageUpdate" title="Изменение"/>
-		<item action="ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageDelete" title="Удаление"/>
+	<item title="Message">
+		<item action="ru.bgcrm.plugin.dispatch.action.DispatchAction:messageList, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageList" title="List"/>
+		<item action="ru.bgcrm.plugin.dispatch.action.DispatchAction:messageUpdate, ru.bgcrm.plugin.dispatch.action.DispatchAction:messageGet,
+		ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageUpdate, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageGet" title="Edit"/>
+		<item action="ru.bgcrm.plugin.dispatch.action.DispatchAction:messageDelete, ru.bgcrm.plugin.dispatch.struts.action.DispatchAction:messageDelete" title="Delete"/>
 	</item>
 </item>

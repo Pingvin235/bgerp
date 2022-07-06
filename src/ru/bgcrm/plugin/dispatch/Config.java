@@ -6,10 +6,10 @@ import ru.bgcrm.util.ParameterMap;
 public class Config extends ru.bgcrm.util.Config {
     private final MailConfig mailConfig;
 
-    public Config(ParameterMap setup) {
-        super(setup);
-        setup = setup.sub("dispatch:manageEmail.");
-        mailConfig = new MailConfig(setup);
+    public Config(ParameterMap config) {
+        super(null);
+        config = config.sub("dispatch:manageEmail.");
+        mailConfig = new MailConfig(config);
     }
 
     public MailConfig getMailConfig() {

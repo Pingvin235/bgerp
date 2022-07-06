@@ -1,4 +1,4 @@
-#
+
 # message tags
 tag.1.title=ACCESS
 tag.1.color=red
@@ -8,9 +8,9 @@ tag.3.title=TODO
 tag.3.color=magenta
 tag.4.title=OPEN
 tag.4.color=green
-#
+
 SIGN_TEXT=NEW_LINE + "Best regards, team BGERP DEMO" + NEW_LINE +  "tel. +7(347)29248xx" + NEW_LINE + "email. demo@bgerp.org" + NEW_LINE
-#
+
 messageType.1.title=demo@bgerp.org
 messageType.1.class=org.bgerp.plugin.msg.email.MessageTypeEmail
 messageType.1.store=imaps
@@ -33,12 +33,16 @@ messageType.1.search.2.title=Customer by title
 messageType.1.search.2.class=ru.bgcrm.dao.message.MessageTypeSearchCustomerByTitle
 messageType.1.saver.class=ru.bgcrm.dao.message.MessageTypeContactSaverEmail
 messageType.1.saver.paramId={@PARAM_CUSTOMER_EMAIL_ID}
-#
+
 messageType.50.title=Call
 messageType.50.class=ru.bgcrm.dao.message.MessageTypeCall
 messageType.50.search.1.title=Auto by Phone
 messageType.50.search.1.class=ru.bgcrm.dao.message.MessageTypeSearchCall
 messageType.50.search.1.commands=customerByPhoneParam:{@PARAM_CUSTOMER_PHONE_ID}
-#
+
 messageType.100.title=Note
 messageType.100.class=ru.bgcrm.dao.message.MessageTypeNote
+
+# scheduler
+scheduler.task.messages.class=ru.bgcrm.worker.MessageExchange
+scheduler.task.messages.minutes=*/4

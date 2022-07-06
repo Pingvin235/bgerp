@@ -109,7 +109,7 @@ public class UserPermsetDAO extends UserDAO {
         return result;
     }
 
-    public void deletePermset(int id) throws BGException {
+    public void deletePermset(int id) throws SQLException {
         deleteById(TABLE_USER_PERMSET_TITLE, id);
     }
 

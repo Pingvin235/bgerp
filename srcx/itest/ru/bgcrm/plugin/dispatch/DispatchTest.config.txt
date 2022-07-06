@@ -1,0 +1,15 @@
+
+# open interface for subscription on dispatches is available on /open/dispatches
+
+dispatch:manageEmail.email=demo@bgerp.org
+dispatch:manageEmail.login=demo@bgerp.org
+dispatch:manageEmail.host=imap.yandex.ru
+dispatch:manageEmail.pswd=bgdemo
+dispatch:manageEmail.mail.transport.protocol=smtps
+dispatch:manageEmail.mail.smtp.host=smtp.yandex.ru
+dispatch:manageEmail.mail.smtp.user=demo@bgerp.org
+dispatch:manageEmail.mail.smtp.pswd=bgdemo
+
+# scheduler
+scheduler.task.dispatchCommands.class=ru.bgcrm.plugin.dispatch.CommandProcessor
+scheduler.task.dispatchSender.class=ru.bgcrm.plugin.dispatch.MessageSender
