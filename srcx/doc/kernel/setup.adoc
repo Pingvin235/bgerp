@@ -383,6 +383,33 @@ readonly=1
 и текстового "Наименование организации", что предотвращает дублирование информации.
 При изменении параметров в дальнейшем наименование объекта будет правиться автоматически.
 
+[[param-address]]
+=== Parameter type "address"
+Address parameter, referencing houses in <<address, Address Directory>>.
+In parameter configuration may be defined the following options.
+[source]
+----
+# multiple values
+multiple=1
+----
+
+How does the parameter look like in table and editor.
+
+image::_res/pavam_address_view.png[width="800px"]
+
+NOTE: Format of address string can be <<config-param-address, configured>>.
+
+Street and house can be choosen and filtered from drop-downs.
+
+image::_res/param_address_edit.png[width="800px"]
+
+The street search may be performed over city title as well.
+
+image::_res/param_address_edit_1.png[width="800px"]
+
+The parameter should be used for storing addresses in limited areas, e.g. service delivery address.
+Not registration address of abitary customers, as you will need all of them stored in directory first.
+
 [[param-text]]
 === Параметр типа "text"
 Однострочная строка до 250 символов.
@@ -608,28 +635,6 @@ image::_res/i0023.png[]
 
 image::_res/i0025.png[]
 
-[[param-address]]
-=== Параметр типа "address"
-Адресный, ссылающийся на дом в справочнике адресов.
-В конфигурации параметра могут быть указаны следующие необязательные параметры:
-[source]
-----
-# несколько адресов в параметре
-multiple=1
-----
-
-Как выглядит в таблице и редактирование.
-
-image::_res/i0026.png[]
-
-image::_res/i0027.png[]
-
-Доступен контекстный поиск по подстроке улицы и дому.
-Несмотря на приведённый пример использовать подобный параметр для адреса прописки не следует,
-т.к. он требует наличия в справочнике домов записей обо всех домах, используемых в значениях параметров.
-
-NOTE: Формат строки отображаемой в таблице задаётся в <<config-param-address, конфигурации>>.
-
 [[param-phone]]
 === Параметр типа "phone"
 Один или несколько телефонов с комментариями. В конфигурации параметра ничего не указывается.
@@ -706,9 +711,9 @@ When *Wait of execution is done* is selected to Yes, execution logs can be obtai
 
 [[address]]
 == Адреса
-Просмотр и редактирование адресных справочников доступны в *Пуск / Адреса*.
+Просмотр и редактирование адресных справочников доступны в оснастке *Адреса*.
 
-image::_res/i0037.png[]
+image::_res/i0037.png[width="800px"]
 
 Адресный справочник рекомендуется использовать только для ограниченных населённых пунктов, в которых предоставляются услуги.
 Параметры типа <<param-address, address>>, использующие справочник, позволяют производить поиск по городу, улицу и т.п.

@@ -237,7 +237,7 @@ public class ServerCustomerCreator {
         }
 
         Pageable<Customer> result = new Pageable<Customer>();
-        customerDao.searchCustomerList(result, CommonDAO.getLikePattern(customerTitle, "subs"));
+        customerDao.searchCustomerList(result, CommonDAO.getLikePatternSub(customerTitle));
 
         // строковые представления параметров договоров
         Map<Integer, String> paramValues = getContractParamValues(contractId);
@@ -313,7 +313,7 @@ public class ServerCustomerCreator {
         result.getPage().setPageSize(300);
         result.getPage().setPageIndex(1);
 
-        customerDao.searchCustomerList(result, CommonDAO.getLikePattern(customerTitle, "subs"));
+        customerDao.searchCustomerList(result, CommonDAO.getLikePatternSub(customerTitle));
 
         // есть уже контрагенты с таким наименованием
         if (result.getList().size() != 0) {

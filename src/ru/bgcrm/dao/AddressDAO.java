@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,7 +26,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.ConfigRecord;
 import ru.bgcrm.model.Page;
@@ -243,6 +243,16 @@ public class AddressDAO extends CommonDAO {
         return getAddressItem(TABLE_ADDRESS_STREET, id, loadCountryData, loadCityData);
     }
 
+    /**
+     * Searches address item.
+     * @param tableName table name.
+     * @param searchResult result.
+     * @param cityIds optional city IDs.
+     * @param title optional substring of item title, can be preceded whitespace separated city title filter.
+     * @param loadCountryData load countries.
+     * @param loadCityData load cities.
+     * @throws SQLException
+     */
     private void searchAddressItemList(String tableName, Pageable<AddressItem> searchResult, Set<Integer> cityIds, String title,
             boolean loadCountryData, boolean loadCityData) throws SQLException {
         if (searchResult != null) {
@@ -282,12 +292,21 @@ public class AddressDAO extends CommonDAO {
                 }
             }
 
-            if (!Utils.isEmptyString(title)) {
+            if (Utils.notEmptyString(title)) {
+                List<String> tokens = new ArrayList<>(Arrays.asList(title.split("\\s+")));
+
+                String titleMask = getLikePatternSub(tokens.remove(tokens.size() - 1));
                 ps.addQuery(" AND item.title LIKE ? ");
-                ps.addString(title);
+                ps.addString(titleMask);
+
+                if (!tokens.isEmpty()) {
+                    String cityMask = getLikePatternSub(tokens.remove(tokens.size() - 1));
+                    ps.addQuery(" AND city.title LIKE ? ");
+                    ps.addString(cityMask);
+                }
             }
 
-            ps.addQuery(" ORDER BY item.title");
+            ps.addQuery(" ORDER BY city.title, item.title ");
             ps.addQuery(getPageLimit(page));
 
             ResultSet rs = ps.executeQuery();
@@ -369,7 +388,7 @@ public class AddressDAO extends CommonDAO {
 
             PreparedQuery pq = new PreparedQuery(con);
 
-            AddressHouse searchParams = AddressHouse.extractHouseAndFrac(house);
+            AddressHouse searchParams = new AddressHouse().withHouseAndFrac(house);
 
             int number = searchParams.getHouse();
             String frac = searchParams.getFrac();
@@ -1049,7 +1068,7 @@ public class AddressDAO extends CommonDAO {
     public List<Integer> getHouseIdsByStreetAndHouse(int streetId, String house, List<Integer> cityIds) throws SQLException {
         List<Integer> houseIds = new ArrayList<Integer>();
         if (cityIds == null || cityIds.size() > 0) {
-            AddressHouse houseAndFrac = AddressHouse.extractHouseAndFrac(house);
+            AddressHouse houseAndFrac = new AddressHouse().withHouseAndFrac(house);
 
             PreparedQuery pq = new PreparedQuery(con);
 

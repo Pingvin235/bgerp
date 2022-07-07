@@ -513,7 +513,7 @@ public class DirectoryAddressAction extends BaseAction {
         Set<Integer> cityIds = Utils.toIntegerSet(form.getPermission().get("cityIds"));
 
         Pageable<AddressItem> searchResult = new Pageable<AddressItem>(form);
-        addressDAO.searchAddressStreetList(searchResult, cityIds, CommonDAO.getLikePatternSub(title), true, true);
+        addressDAO.searchAddressStreetList(searchResult, cityIds, title, true, true);
 
         return json(conSet, form);
     }

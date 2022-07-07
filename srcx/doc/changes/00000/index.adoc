@@ -1,8 +1,12 @@
 = CHANGES
 :toc:
 
-== Plugin Backup
+== Plugin <<../../plugin/svc/backup/index.adoc#, Backup>>
 Restore from backups. Cleaning up old backups.
 
 image::../../plugin/svc/backup/_res/backup.png[width="800px"]
 
+== Enhanced Street Search
+Handle in <<../../kernel/setup.adoc#param-address, address parameter editor>> and search streets with same name but in different cities.
+
+image::../../kernel/_res/param_address_edit_1.png[width="800px"]

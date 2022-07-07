@@ -1,5 +1,5 @@
 # parameter type "address"
-# address format parameters, available variables: index, сity, area, quarter, street, house, flat, room, pod, floor, comment 
+# address format parameters, available variables: index, сity, area, quarter, street, house, flat, room, pod, floor, comment
 address.format=(${street})(, ${house})(, ap. ${flat})( ${room})( ${comment})( ${index})( ${city})
 #
 # Russia specific formats
@@ -22,7 +22,7 @@ param.phone.format.number.f15=+X (XXXXX) X-XX-XX
 # sample quick input options for Russia (7) and Ufa city (3472) !!!
 # quick input 7 in first field
 param.phone.part.1.default=7
-# jump to third field on input in second 9dd - Russians mobile code 
+# jump to third field on input in second 9dd - Russians mobile code
 param.phone.part.2.jumpRegexp.1.regexp=^9\d{2}
 param.phone.part.2.jumpRegexp.1.moveLastChars=0
 # jump to third field on input in second 3472 with moving 2 as well

@@ -95,20 +95,14 @@ public class CommonDAO {
         return result;
     }
 
-    /**
-     * Will be changed to private later,
-     * use {@link #getLikePatternEnd(String)}, {@link #getLikePatternStart(String)}, {@link #getLikePatternSub(String)}
-     * instead.
-     */
-    @Deprecated
-    public static final String getLikePattern(String substring, String mode) {
+    private static final String getLikePattern(String substring, String mode) {
         StringBuilder builder = new StringBuilder();
         if (Utils.notBlankString(substring)) {
-            if (mode == null || mode.equals("subs") || mode.equalsIgnoreCase("end")) {
+            if ((mode == null || mode.equals("subs") || mode.equalsIgnoreCase("end")) && !substring.startsWith("%")) {
                 builder.append("%");
             }
             builder.append(substring);
-            if (mode == null || mode.equals("subs") || mode.equalsIgnoreCase("start")) {
+            if ((mode == null || mode.equals("subs") || mode.equalsIgnoreCase("start")) && !substring.endsWith("%")) {
                 builder.append("%");
             }
         }
