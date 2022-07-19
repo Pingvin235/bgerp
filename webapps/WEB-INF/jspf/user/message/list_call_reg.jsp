@@ -34,7 +34,7 @@
 
 							<c:set var="code">
 								$$.ajax
-									.post(this.form, {control: this})
+									.post(this)
 									.done((result) => {
 										const user = result.data.regUser;
 										if (user && !confirm('${l.l('Number occupied by user: ')}' + user.title + ',\n' + '${l.l('register anyway?')}'))

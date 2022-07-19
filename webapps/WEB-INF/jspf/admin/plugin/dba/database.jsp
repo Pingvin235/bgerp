@@ -13,7 +13,7 @@
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
 		<p:check action="org.bgerp.plugin.svc.dba.action.admin.CleanupAction:null">
-			[<a href="#" onclick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">cleanup</a>]
+			[<a href="#" onclick="$$.ajax.loadContent('${url}', this); return false;">cleanup</a>]
 		</p:check>
 	</div>
 
@@ -53,8 +53,8 @@
 		<c:if test="${dropEnabled}">
 			<button type="button" class="btn-grey mt1" onclick="
 				if (confirm('Do you really want to drop these tables?'))
-					$$.ajax.post(this.form, {control: this}).done(() =>
-						$$.ajax.load('${form.requestUrl}', $$.shell.$content(this))
+					$$.ajax.post(this, {control: this}).done(() =>
+						$$.ajax.loadContent('${form.requestUrl}', this)
 					)
 			">Drop selected tables</button>
 		</c:if>

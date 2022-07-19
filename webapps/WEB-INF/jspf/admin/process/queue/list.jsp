@@ -10,10 +10,10 @@
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
 
-	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
+	<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
 	<ui:input-text name="filter" value="${form.param.filter}" size="40" placeholder="${l.l('Фильтр')}" title="${l.l('Фильтр по наименованию, конфигурации')}"
-		onSelect="$$.ajax.load(this.form, $$.shell.$content(this)); return false;"/>
+		onSelect="$$.ajax.loadContent(this); return false;"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -43,8 +43,10 @@
 			</c:url>
 
 			<td nowrap="nowrap">
-				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
-				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.loadContent('${editUrl}', this)"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}', {control: this}).done(
+					() => $$.ajax.load('${form.requestUrl}', this)
+				)"/>
 			</td>
 			<td>${item.id}</td>
 			<td>${item.title}</td>
@@ -53,7 +55,7 @@
 					<button type="button" class="btn-grey btn-small icon" title="${l.l('Создать копию')}"
 						onclick="
 							if (!confirm('${l.l('Создать копию очереди?')}')) return;
-							$$.ajax.post('${duplicateUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })">
+							$$.ajax.post('${duplicateUrl}').done(() => $$.ajax.loadContent('${form.requestUrl}', this))">
 						<i class="ti-layers"></i>
 					</button>
 				</p:check>

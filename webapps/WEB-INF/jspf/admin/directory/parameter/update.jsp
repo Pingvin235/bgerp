@@ -98,7 +98,7 @@
 	</div>
 
 	<div class="mt1">
-		<ui:form-ok-cancel toPostNames="['listValues','config']"/>
+		<ui:form-ok-cancel/>
 	</div>
 </html:form>
 

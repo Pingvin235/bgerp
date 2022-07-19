@@ -3,7 +3,7 @@
 
 <%@ include file="/WEB-INF/jspf/admin/directory/directory.jsp"%>
 
-<%@ include file="../create_button.jsp"%> 
+<%@ include file="../create_button.jsp"%>
 
 <table style="width: 100%;" class="data mt1">
 	<tr>
@@ -20,15 +20,15 @@
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 				<c:param name="directoryId" value="${form.param.directoryId}"/>
 			</c:url>
-			
+
 			<c:url var="deleteUrl" value="/admin/directory.do">
 				<c:param name="action" value="patternTitleDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 
 			<td nowrap="nowrap">
-				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
-				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.loadContent('${editUrl}', this)"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}', {control: this}).done(() => $$.ajax.loadContent('${form.requestUrl}', this))"/>
 			</td>
 
 			<td align="right">${item.id}</td>

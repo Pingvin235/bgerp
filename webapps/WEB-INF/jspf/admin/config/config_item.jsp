@@ -13,8 +13,8 @@
 	</c:url>
 
 	<td nowrap="nowrap">
-		<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
-		<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+		<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.loadContent('${editUrl}', this)"/>
+		<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => $$.ajax.loadContent('${form.requestUrl}', this))"/>
 	</td>
 
 	<td>${item.id}</td>
@@ -36,7 +36,7 @@
 				</ui:combo-single>
 
 				<ui:button type="ok" styleClass="btn-grey ml1"
-					onclick="$$.ajax.post(this.form).done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+					onclick="$$.ajax.post(this.form).done(() => $$.ajax.loadContent('${form.requestUrl}', this))"/>
 				<ui:button type="cancel" styleClass="ml1"
 					onclick="const $td = $(this).closest('td'); $td.find('>button').show(); $td.find('>form').hide();"/>
 			</html:form>

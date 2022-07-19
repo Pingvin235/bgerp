@@ -4,6 +4,4 @@
 <%--
 	Deprecated, use the tag below instead.
 --%>
-<ui:form-ok-cancel toPostNames="${toPostNames}"/>
-
-<c:remove var="toPostNames"/>
+<ui:form-ok-cancel/>

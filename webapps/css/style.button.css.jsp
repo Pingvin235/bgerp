@@ -3,6 +3,7 @@
 .btn-blue, .btn-grey, .btn-white, .btn-green, .btn-white-hover {
 	padding: 0.6em 1em;
 	text-align: center;
+	white-space: nowrap;
 }
 
 .btn-blue.icon, .btn-grey.icon, .btn-white.icon, .btn-green.icon, .btn-white-hover.icon,

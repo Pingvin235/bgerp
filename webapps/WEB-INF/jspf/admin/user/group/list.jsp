@@ -19,7 +19,7 @@
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 		<c:param name="parentGroupId" value="${form.param.parentGroupId}"/>
 	</c:url>
-	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
+	<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
 	<c:url value="/admin/user.do" var="url">
 		<c:param name="action" value="groupInsertMark"/>
@@ -27,9 +27,9 @@
 		<c:param name="markGroup" value="${form.param.markGroup}"/>
 	</c:url>
 	<button type="button" class="btn-grey"
-		onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${urlList}', $$.shell.$content(this)) })">${l.l('Вставить')} [${markGroupString}]</button>
+		onclick="$$.ajax.post('${url}').done(() => $$.ajax.loadContent('${urlList}', this))">${l.l('Вставить')} [${markGroupString}]</button>
 
-	<ui:input-text name="filter" onSelect="$$.ajax.load(this.form, $$.shell.$content(this))" placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" title="${l.l('Фильтр по наименованию, конфигурации')}"/>
+	<ui:input-text name="filter" onSelect="$$.ajax.loadContent(this)" placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" title="${l.l('Фильтр по наименованию, конфигурации')}"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -42,7 +42,7 @@
 	</c:url>
 
 	&nbsp;
-	<a href="#" onClick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${l.l('Группы')}</a>
+	<a href="#" onClick="$$.ajax.loadContent('${url}', this); return false;">${l.l('Группы')}</a>
 
 	<c:forEach var="item" items="${groupPath}" varStatus="status">
 		<c:url var="url" value="/admin/user.do">
@@ -50,7 +50,7 @@
 			<c:param name="parentGroupId" value="${item.id}"/>
 			<c:param name="markGroup" value="${form.param.markGroup}"/>
 		</c:url>
-		/ <a href="#" onClick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${item.title}</a>
+		/ <a href="#" onClick="$$.ajax.loadContent('${url}', this); return false;">${item.title}</a>
 	</c:forEach>
 </div>
 
@@ -77,13 +77,16 @@
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 			<td nowrap="nowrap">
-				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
-				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.loadContent('${editUrl}', this)"/>
+				<ui:button type="del" styleClass="btn-small" onclick="
+					$$.ajax
+						.post('${deleteUrl}', {control: this})
+						.done(() => $$.ajax.loadContent('${form.requestUrl}', this))"/>
 
 				<ui:button type="cut" styleClass="btn-small"
 					onclick="$('#${uiid}')[0].markGroup.value=${item.id};
 							toPage($('#${uiid}')[0], ${form.page.pageIndex}, ${form.page.pageSize}, '');
-							$$.ajax.load($('#${uiid}'), $$.shell.$content(this))"/>
+							$$.ajax.loadContent($('#${uiid}'), this)"/>
 			</td>
 
 			<td>${item.id}</td>
@@ -96,10 +99,10 @@
 						<c:param name="markGroup" value="${form.param.markGroup}"/>
 					</c:url>
 					<c:if test="${status.last}">
-						<a href="#" onclick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${items.title}</a>
+						<a href="#" onclick="$$.ajax.loadContent('${url}', this); return false;">${items.title}</a>
 					</c:if>
 					<c:if test="${not empty form.param.filter && not status.last}">
-						<a href="#" onclick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${items.title}</a> /
+						<a href="#" onclick="$$.ajax.loadContent('${url}', this); return false;">${items.title}</a> /
 					</c:if>
 				</c:forEach>
 			</td>

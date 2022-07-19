@@ -3,6 +3,11 @@
 $$.ajax = new function () {
 	const debug = $$.debug("ajax");
 
+	/**
+	 * Maximum length of query string param to be moved in request body.
+	 */
+	const MAX_QUERY_STRING_LENGTH = 150;
+
 	const trim100 = (value) => {
 		if (typeof value !== "string")
 			return value;
@@ -10,27 +15,32 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * Sends AJAX response and returns a promise.
-	 * url - string, or form, or $(form)
-	 * options.toPostNames - array of names of POST body parameters
+	 * Sends AJAX request and returns a promise.
+	 * input - URL string, or HTMLFormElement, or $(HTMLFormElement), or 'BUTTON' element
+	 * options.toPostNames - array of names of POST body parameters, automatically derived, case not presented
 	 * options.html = true - treat result as HTML
-	 * options.control - button to add there progress spinner
+	 * options.control - button to add there progress spinner, extracted if input is 'BUTTON'
 	 * options.failAlert = false - do now show alert on failing promise
 	 * By default the promise is processed by checkResponse() function.
 	 */
-	const post = (url, options) => {
-		debug("post", trim100(url));
+	const post = (input, options) => {
+		debug("post", trim100(input));
 
 		options = options || {};
 
-		const separated = separatePostParams(url, options.toPostNames, !options.html);
+		if (input.tagName === 'BUTTON') {
+			options.control = input;
+			input = input.form;
+		}
 
-		const form = getForm(url);
+		const form = getForm(input);
 		if (form) {
 			$(form).find("input").removeClass("error");
 		}
 
-		// handling process spinner
+		const separated = separatePostParams(formUrl(input), options.toPostNames, !options.html);
+
+		// progress spinner
 		let requestDone = () => {};
 		if (options.control) {
 			options.control.disabled = true;
@@ -80,14 +90,15 @@ $$.ajax = new function () {
 	}
 
 	/*
-	 * Default - send request and set result HTML on element.
+	 * Sends HTTP request and set result HTML on element.
+	 * input - URL string or HTMLFormElement or $(HTMLFormElement).
+	 * $selector - jQuery selector, target area.
 	 * options.dfd - deferred, being resolved after all onLoad JS on chained loads are done.
-	 * options.replace - replace element by HTML, deprecated.
 	 * options.append  - append HTML into the element, deprecated.
 	 * options.control - will be passed to 'post' function.
 	 */
-	const load = (url, $selector, options) => {
-		debug("load", trim100(url), $selector);
+	const load = (input, $selector, options) => {
+		debug("load", trim100(input), $selector);
 
 		options = options || {};
 		options.html = true;
@@ -139,14 +150,14 @@ $$.ajax = new function () {
 			}
 
 			dfd.done(() => {
-				debug("Set loadDfd null", url);
+				debug("Set loadDfd null", input);
 				loadDfd = null;
 			});
 		}
 
 		if (!loadDfd) {
 			$selector.toggleClass("ajax-loading");
-			return post(url, options).done((result) => {
+			return post(input, options).done((result) => {
 				if (options.replace) {
 					$selector.replaceWith(result);
 				} else if (options.append) {
@@ -161,10 +172,10 @@ $$.ajax = new function () {
 			const existingDfd = $selector.data(loadDfd.key);
 			if (existingDfd) {
 				if (existingDfd.state() === 'resolved') {
-					debug("Existing resolved dfd", existingDfd, url);
+					debug("Existing resolved dfd", existingDfd, input);
 					$selector.removeData(loadDfd.key);
 				} else {
-					console.error("Existing not resolved dfd", existingDfd, url);
+					console.error("Existing not resolved dfd", existingDfd, input);
 					return existingDfd;
 				}
 			}
@@ -175,10 +186,10 @@ $$.ajax = new function () {
 			$selector
 				.addClass("loader")
 				.toggleClass("ajax-loading")
-				.data(loadDfd.key, loadDfd.create(dfd, url));
+				.data(loadDfd.key, loadDfd.create(dfd, input));
 
-			post(url, options).done((result) => {
-				debug("Done", trim100(url));
+			post(input, options).done((result) => {
+				debug("Done", trim100(input));
 
 				const id = "load-" + (loadCnt++);
 				const afterLoadScript =
@@ -204,11 +215,21 @@ $$.ajax = new function () {
 
 	/**
 	 * Calls load with $selector $$.shell.$content()
-	 * @param {*} url URL to be loaded.
-	 * @param {*} obj DOM element, placed in the loaded area.
+	 * @param {*} input URL to be loaded, or HTMLFormElement, or form input to be extracted form, or BUTTON element to be used as 'obj'.
+	 * @param {*} obj DOM element, placed in the loaded area, not needed when 'input' is BUTTON.
 	 */
-	const loadContent = (url, obj) => {
-		return load(url, $$.shell.$content(obj));
+	const loadContent = (input, obj) => {
+		const options = {};
+
+		if (input.tagName === 'BUTTON')
+			options.control = obj = input;
+		else if (obj.tagName === 'BUTTON')
+			options.control = obj;
+
+		if (input.form)
+			input = input.form;
+
+		return load(input, $$.shell.$content(obj), options);
 	}
 
 	/**
@@ -216,15 +237,19 @@ $$.ajax = new function () {
 	 * @param {*} url initial URL.
 	 * @param {*} toPostNames array with POST params.
 	 * @param {*} json object with properties url and data.
+	 * @returns object with 'url' field - for request URL and 'data' - for placing in request body.
 	 */
 	const separatePostParams = function (url, toPostNames, json) {
-		url = formUrl(url);
-
+		// query string in request body
 		let data = "";
 
+		if (!toPostNames && url.length > MAX_QUERY_STRING_LENGTH)
+			toPostNames = getToPostNames(url);
+
+		// current position
 		let dataStartPos = 0;
 
-		// перемещает параметр в тело POST запроса
+		// moves a param starting on position dataStartPos from url to data.
 		const move = function () {
 			let dataEndPos = url.indexOf("&", dataStartPos + 1);
 			if (dataEndPos <= 0)
@@ -235,11 +260,6 @@ $$.ajax = new function () {
 			data += url.substr(dataStartPos, length);
 			url = url.substr(0, dataStartPos) + url.substr(dataEndPos, url.length);
 		}
-
-		// все переменные, могущие содержать большой объём данных должны начинаться с data
-		// перенос их в тело запроса
-		while ((dataStartPos = url.indexOf("&data")) > 0)
-			move();
 
 		// все переменные, имя которых есть в toPostNames тоже переносим в post запрос
 		if (toPostNames) {
@@ -258,6 +278,47 @@ $$.ajax = new function () {
 		}
 
 		return {"url": url, "data": data};
+	}
+
+	/**
+	 * Extracts parameter names, should be moved to request body.
+	 * @param {*} url initial URL with query string of all parameters.
+	 * @returns array with parameter names, should be moved to request body.
+	 */
+	const getToPostNames = function (url) {
+		const counts = {};
+
+		let pos = url.indexOf('?');
+		// no request parameters
+		if (pos < 0)
+			return null;
+
+		while ((pos = url.indexOf('&', pos + 1)) > 0) {
+			const posSeparator = url.indexOf('=', pos + 1);
+
+			const key = url.substring(pos + 1, posSeparator);
+			if (counts[key])
+				counts[key] += 1;
+			else
+				counts[key] = 1;
+
+			// large parameter value, move to post even single
+			if (counts[key] < 2) {
+				const posEnd = url.indexOf('&', posSeparator);
+				if ((posEnd - pos) > MAX_QUERY_STRING_LENGTH)
+					counts[key] = 2;
+			}
+		}
+
+		const result = [];
+
+		for (const key in counts)
+			if (counts[key] >= 2)
+				result.push(key);
+
+		debug('getToPostNames', url, result);
+
+		return result;
 	}
 
 	/**
@@ -455,25 +516,10 @@ $$.ajax = new function () {
 function openUrl(url, selectorStart) {
 	console.warn($$.deprecated);
 
-	openUrlPos(url, selectorStart, "last");
-}
-
-//загружает URL на видимый элемент
-//selectorStart - селектор
-//pos - 'last' - последний видимый, отр. число - отступ от конца массива найденных элементов
-function openUrlPos(url, selectorStart, pos) {
-	console.warn($$.deprecated);
-
 	var result = getAJAXHtml(url);
 	if (result) {
-		if (pos == "last") {
-			$(selectorStart + ':visible:last').html(result);
-		} else if (pos < 0) {
-			var $select = $(selectorStart + ":visible");
-			$select.eq($select.length + pos - 1).html(result);
-		}
+		$(selectorStart + ':visible:last').html(result);
 	}
-	return result;
 }
 
 //загружает URL на элемент

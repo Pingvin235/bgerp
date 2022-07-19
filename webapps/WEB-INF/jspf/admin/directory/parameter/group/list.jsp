@@ -19,15 +19,15 @@
 				<c:param name="directoryId" value="${form.param.directoryId}"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
-			
+
 			<c:url var="deleteUrl" value="/admin/directory.do">
 				<c:param name="action" value="parameterGroupDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
 
 			<td nowrap="nowrap">
-				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
-				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.loadContent('${editUrl}', this)"/>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}', {control: this}).done(() => $$.ajax.loadContent('${form.requestUrl}', this))"/>
 			</td>
 
 			<td align="right">${item.id}</td>

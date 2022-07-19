@@ -64,7 +64,7 @@
 		</div>
 	</div>
 
-	<ui:form-ok-cancel toPostNames="['config','userConfig']"/>
+	<ui:form-ok-cancel/>
 </html:form>
 
 <shell:state ltext="Редактор" help="kernel/setup.html#user"/>

@@ -1,0 +1,2 @@
+A: Improvements in $$.ajax.post, automatically recognition 'toPostNames' and 'control' options.
+A: Shorter signature for $$.ajax.load function.

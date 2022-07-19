@@ -182,7 +182,7 @@
 			<c:set var="linkScript">
 				if (confirm('${l.l('Привязать сообщение к указанному процессу?')}')) {
 					$$.ajax
-						.post(this.form, {control: this})
+						.post(this)
 						.done((result) => {
 							const url = '/user/message.do?id=' + result.data.id + '&returnUrl=' + encodeURIComponent('${form.returnUrl}');
 							$$.ajax.load(url, $('#${uiid}').parent());

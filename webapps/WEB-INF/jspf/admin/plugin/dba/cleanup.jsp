@@ -30,8 +30,8 @@
 			</c:forEach>
 		</table>
 
-		<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form, {control: this, toPostNames: ['query']}).done(() => $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)));">Execute</button>
-		<button type="button" class="btn-white ml1" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content(this))">Close</button>
+		<button type="button" class="btn-grey" onclick="$$.ajax.post(this, {control: this}).done(() => $$.ajax.loadContent('${form.requestUrl}', this));">Execute</button>
+		<button type="button" class="btn-white ml1" onclick="$$.ajax.loadContent('${form.returnUrl}', this)">Close</button>
 	</form>
 </div>
 

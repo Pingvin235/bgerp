@@ -27,7 +27,7 @@
 	<div style="display: flex;">
 		<input id="${uiid}" type="text" name="${name}" placeholder="${placeholder}" title="${title}"
 			style="${style}" class="${styleClass} w100p" size="${size}" value="${value}"
-			onkeypress="if (enterPressed(event)){ ${onSelect}; return false;};"/>
+			onkeypress="if (enterPressed(event)){ $(this).parent().find('>button').click(); return false;};"/>
 		<c:if test="${showOutButton}">
 			<ui:button type="out" onclick="${onSelect}" styleClass="ml05"/>
 		</c:if>

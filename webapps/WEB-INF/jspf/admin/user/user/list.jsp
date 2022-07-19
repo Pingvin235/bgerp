@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:set var="showCode" value="$$.ajax.load($('#${uiid}'), $$.shell.$content());"/>
+<c:set var="showCode" value="$$.ajax.loadContent($('#${uiid}'), this);"/>
 
 <html:form action="/admin/user" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
 	<c:url var="url" value="/admin/user.do">
@@ -11,13 +11,13 @@
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
-	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
+	<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
 	<input type="hidden" name="action" value="userList"/>
 	<input type="hidden" name="pageableId" value="userList"/>
 
 	<ui:input-text name="title" showOutButton="false" value="${form.param['title']}" size="20" placeholder="${l.l('Фильтр')}" title="${l.l('Фильтр по наименованию')}"
-		onSelect="$$.ajax.load(this.form, $$.shell.$content(this));"/>
+		onSelect="$$.ajax.loadContent(this);"/>
 
 	<%@ include file="user_status_const.jsp"%>
 
@@ -45,7 +45,7 @@
 	<ui:select-single list="${ctxUserPermsetList}" hiddenName="permset" value="${form.param.permset}"
 		onSelect="${showCode}" placeholder="${l.l('Набор прав')}" style="width: 200px;"/>
 
-	<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content(this));"/>
+	<ui:button type="out" onclick="$$.ajax.loadContent(this);"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -75,9 +75,12 @@
 
 			<td nowrap="nowrap">
 				<c:if test="${item.status ne STATUS_EXTERNAL}">
-					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
+					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.loadContent('${editUrl}', this)"/>
 				</c:if>
-				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+				<ui:button type="del" styleClass="btn-small" onclick="
+					$$.ajax
+						.post('${deleteUrl}', {control: this})
+						.done(() => $$.ajax.loadContent('${form.requestUrl}', this))"/>
 
 				<c:set var="user" scope="request" value="${item}"/>
 				<plugin:include endpoint="admin.user.action.jsp"/>

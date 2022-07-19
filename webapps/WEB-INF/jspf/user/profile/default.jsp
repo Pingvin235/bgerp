@@ -113,7 +113,7 @@
 				<c:import url="${url}"/>
 			</div>
 
-			<button class="btn-grey mt1" type="button" onclick="$$.ajax.load('${createUrl}', $$.shell.$content(this));">${l.l('Послать персональную новость')}</button>
+			<button class="btn-grey mt1" type="button" onclick="$$.ajax.loadContent('${createUrl}', this);">${l.l('Послать персональную новость')}</button>
 		</c:otherwise>
 	</c:choose>
 </div>

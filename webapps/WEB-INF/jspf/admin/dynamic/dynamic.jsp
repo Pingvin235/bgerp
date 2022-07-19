@@ -9,7 +9,7 @@
 
 	<button class="btn-grey" type="button" onclick="
 		this.form.class.value = $('#${runFormUiid}')[0].class.value;
-		$$.ajax.load(this.form, $$.shell.$content(this));
+		$$.ajax.loadContent(this);
 	">${l.l('Скомпилировать всё')}</button>
 </html:form>
 <html:form action="/admin/dynamic" onsubmit="return false;" styleId="${runFormUiid}" style="display: inline-block;">

@@ -26,9 +26,7 @@
 	<h2>Client Secret</h2>
 	<div>
 		<html:password property="clientSecret" size="40"/>
-		<button type="button" class="btn-white ml1" onclick="
-			$$.ajax.load(this.form, $$.shell.$content(this));
-		">${l.l('Получить Token')}</button>
+		<button type="button" class="btn-white ml1" onclick="$$.ajax.loadContent(this);">${l.l('Получить Token')}</button>
 	</div>
 
 	<c:set var="log" value="${form.response.data.log}"/>

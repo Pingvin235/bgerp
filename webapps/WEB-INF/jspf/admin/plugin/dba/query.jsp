@@ -8,8 +8,8 @@
 	</div>
 	<%-- for some reason this produces one em top indent --%>
 	<div class="mt2">
-		<ui:button type="out" onclick="$$.ajax.load(this.form, $$.shell.$content(this), {toPostNames: ['query'], control: this})"/>
-		<ui:page-control nextCommand="; $$.ajax.load(this.form, $$.shell.$content(this))"/>
+		<ui:button type="out" onclick="$$.ajax.loadContent(this)"/>
+		<ui:page-control nextCommand="; $$.ajax.loadContent(this)"/>
 	</div>
 
 	<script>

@@ -98,7 +98,7 @@
 										<input type="hidden" name="position" value="${file.key}" />
 
 										<ui:button type="del" styleClass="btn-small" onclick="
-											$$.ajax.post(this.form, {control: this}).done(() => {
+											$$.ajax.post(this).done(() => {
 												$$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());
 											})"/>
 									</html:form>

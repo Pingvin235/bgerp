@@ -6,17 +6,11 @@
 		<c:if test="${empty allowedForms or allowedForms.contains( 'bgbilling-searchContract' ) }">
 			<li value="bgbilling-searchContract">${l.l('Договор')}</li>
 		</c:if>
-		<%--
-		<c:if test="${empty allowedForms or allowedForms.contains( 'bgbilling-bgbilling-searchCommonContract' ) }">
-			<li value="bgbilling-searchCommonContract">Единый договор</li>
-		</c:if>
-		--%>
 	</c:when>
 	<c:otherwise>
 		<script>
 			$(function() {
 				addAddressSearch( "#searchForm-bgbilling-searchContract" );
-				<%-- addAddressSearch( "#searchForm-bgbilling-searchCommonContract" ); --%>
 			})
 		</script>
 
@@ -114,37 +108,5 @@
 						onclick="$('#searchForm-bgbilling-searchContract').each (function(){this.reset(); });"/>
 			</div>
 		</html:form>
-
-		<%--
-		<html:form onsubmit="return false;" action="/user/plugin/bgbilling/search" method="GET"
-			styleId="searchForm-bgbilling-searchCommonContract"  styleClass="searchForm in-mb1 mt1 in-w100p">
-			<html:hidden property="action" value="commonContractSearch"/>
-			<html:hidden property="searchBy" value="areaAndNumber"/>
-
-
-			<div>
-				<div style="display: table-cell; min-width: 110px;" class="in-w100p">
-					<u:sc>
-						<c:set var="valuesHtml">
-							<c:forEach var="item" items="${form.response.data.areas}">
-								<li value="${item}">${item}</li>
-							</c:forEach>
-						</c:set>
-						<c:set var="hiddenName" value="areaId"/>
-						<c:set var="prefixText" value="Зона:"/>
-						<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-					</u:sc>
-				</div>
-				<div style="display: table-cell; width: 100%;" class="pl1 in-w100p">
-					<input type="text" name="number" placeholder="Окончание номера"
-							   onkeypress="if( enterPressed( event ) ){ openUrl( formUrl( this.form ), '#searchResult' ); }"/>
-				</div>
-			</div>
-
-			<div>
-				<button class="btn-grey" onclick="openUrl( formUrl( this.form ), '#searchResult' );">Поиск</button>
-			</div>
-		</html:form>
-		--%>
 	</c:otherwise>
 </c:choose>

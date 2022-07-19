@@ -25,9 +25,9 @@
 	<ui:combo-perm-tree-check permTrees="${permTrees}" paramName="action" values="${form.getSelectedValuesStr('perm')}"
 		prefixText="Actions:" widthTextValue="15em"/>
 
-	<ui:button type="out" onclick="$$.ajax.load(this.form, $('#${uiid}').parent(), { toPostNames: ['perm'] })" styleClass="ml05"/>
+	<ui:button type="out" onclick="$$.ajax.load(this.form, $('#${uiid}').parent())" styleClass="ml05"/>
 
-	<ui:page-control nextCommand="; $$.ajax.load(this.form, $('#${uiid}').parent(), { toPostNames: ['perm'] })"/>
+	<ui:page-control nextCommand="; $$.ajax.load(this.form, $('#${uiid}').parent())"/>
 </form>
 
 <table class="data hl mt1">

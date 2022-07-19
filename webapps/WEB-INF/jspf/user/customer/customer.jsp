@@ -134,10 +134,10 @@
 									if (!confirm('${l.l('Вы уверены, что хотите объединить?')}'))
 										return false;
 
-									$$.ajax.post(this.form).done(() => {
+									$$.ajax.post(this.form, {control: this}).done(() => {
 										alert('${l.l('Слияние прошло успешно')}');
 										$$.shell.removeCommandDiv('customer-'.concat(this.form.mergingCustomerId.value));
-										$$.ajax.load('${form.requestUrl}', $$.shell.$content());
+										$$.ajax.loadContent('${form.requestUrl}', this);
 									})">OK</button>
 								<button type="button" class="btn-white ml05 mr1" onclick="$('#${mergeButtonUiid}').toggle(); $('#${mergeFormUiid}').toggle();">${l.l('Отмена')}</button>
 							</form>

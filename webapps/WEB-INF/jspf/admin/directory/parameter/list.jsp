@@ -11,7 +11,7 @@
 
 	<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Фильтр')}" size="40"
 		title="${l.l('По наименованию, комментарию, конфигурации')}"
-		onSelect="$$.ajax.load(this.form, $$.shell.$content(this))"/>
+		onSelect="$$.ajax.loadContent(this)"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -46,8 +46,8 @@
 				</c:url>
 
 				<td nowrap="nowrap">
-					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
-					<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+					<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.loadContent('${editUrl}', this)"/>
+					<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}', {control: this}).done(() => $$.ajax.loadContent('${form.requestUrl}', this))"/>
 				</td>
 
 				<td align="right">${item.id}</td>

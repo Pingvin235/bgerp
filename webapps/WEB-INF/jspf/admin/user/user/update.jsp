@@ -124,26 +124,25 @@
 </html:form>
 
 <div class="in-mr1 mt1">
-	<c:set var="toPostNames" value="['config','userConfig']"/>
 	<c:choose>
 		<c:when test="${form.id le 0}">
 			<button type="button" class="btn-grey" onclick="$$.ajax
-				.post($('#${formUiid}'), {toPostNames: ${toPostNames}})
+				.post($('#${formUiid}'))
 				.done((result) => {
-					$$.ajax.load(
+					$$.ajax.loadContent(
 						'/admin/user.do?action=userGet&id=' + result.data.newUserId + '&returnUrl=' + encodeURIComponent('${form.returnUrl}'),
-						$$.shell.$content()
+						this
 					)
 				})
 			">${l.l('Промежуточное сохранение')}</button>
 		</c:when>
 		<c:otherwise>
 			<ui:button type="ok" onclick="$$.ajax
-				.post($('#${formUiid}'), {toPostNames: ${toPostNames}})
-				.done(() => $$.ajax.load('${form.returnUrl}', $$.shell.$content()))"/>
+				.post($('#${formUiid}'), {control: this})
+				.done(() => $$.ajax.loadContent('${form.returnUrl}', this))"/>
 		</c:otherwise>
 	</c:choose>
-	<ui:button type="cancel" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content())"/>
+	<ui:button type="cancel" onclick="$$.ajax.loadContent('${form.returnUrl}', this)"/>
 </div>
 
 <c:if test="${form.id gt 0}">

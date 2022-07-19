@@ -18,7 +18,7 @@
 		</ui:combo-single>
 
 		<button class="btn-grey ml1 icon" type="button" onclick="
-			$$.ajax.post(this.form, {control: this})
+			$$.ajax.post(this)
 				.done(() => {
 					alert(this.form.sync.value ? '${l.l('Класс выполнен, проверьте логи')}' : '${l.l('Класс запущен в отдельном потоке,\\nвывод в логах.')}')
 				})"><i class="ti-control-play"></i></button>

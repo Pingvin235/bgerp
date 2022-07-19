@@ -11,8 +11,8 @@
 		</jsp:attribute>
 	</ui:combo-single>
 	<ui:button type="run" styleClass="ml1" onclick="
-		$$.ajax.post(this.form, {control: this}).done(() => {
-			$$.ajax.load('${form.requestUrl}', $$.shell.$content(this));
+		$$.ajax.post(this).done(() => {
+			$$.ajax.loadContent('${form.requestUrl}', this);
 		});"/>
 </form>
 
@@ -31,7 +31,7 @@
 			<c:if test="${deletionAllowed}">
 				<td width="1em">
 					<ui:button type="del" styleClass="btn-small" onclick="
-						$$.ajax.post(this.form, {control: this}).done(() => $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)))
+						$$.ajax.post(this).done(() => $$.ajax.loadContent('${form.requestUrl}', this))
 					"/>
 				</td>
 			</c:if>

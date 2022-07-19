@@ -20,7 +20,7 @@
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 		<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 	</c:url>
-	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
+	<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
 	<c:url var="url" value="/admin/process.do">
 		<c:param name="action" value="typeInsertMark"/>
@@ -28,10 +28,10 @@
 		<c:param name="parentTypeId" value="${form.param.parentTypeId}"/>
 	</c:url>
 	<button type="button" class="btn-grey"
-		onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${urlList}', $$.shell.$content(this)) })">${l.l('Вставить')} [${markTypeString}]</button>
+		onclick="$$.ajax.post('${url}').done(() => $$.ajax.loadContent('${urlList}', this) )">${l.l('Вставить')} [${markTypeString}]</button>
 
 	<ui:input-text name="filter" placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}"
-		onSelect="$$.ajax.load(this.form, $$.shell.$content(this))"
+		onSelect="$$.ajax.loadContent(this)"
 		title="${l.l('Фильтр по наименованию, конфигурации')}"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
@@ -45,7 +45,7 @@
 	</c:url>
 
 	&#160;
-	<a href="#" onClick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${l.l('Типы процессов')}</a>
+	<a href="#" onClick="$$.ajax.loadContent('${url}', this); return false;">${l.l('Типы процессов')}</a>
 
 	<c:forEach var="item" items="${typePath}" varStatus="status">
 		<c:url var="url" value="/admin/process.do">
@@ -53,7 +53,7 @@
 			<c:param name="parentTypeId" value="${item.id}"/>
 			<c:param name="markType" value="${form.param.markType}"/>
 		</c:url>
-		/ <a href="#" onClick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${item.title}</a>
+		/ <a href="#" onClick="$$.ajax.loadContent('${url}', this); return false;">${item.title}</a>
 	</c:forEach>
 </div>
 
@@ -84,13 +84,16 @@
 			</c:url>
 
 			<td nowrap="nowrap">
-				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
-				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.loadContent('${editUrl}', this)"/>
+				<ui:button type="del" styleClass="btn-small" onclick="
+					$$.ajax
+						.post('${deleteUrl}', {control: this})
+						.done(() => $$.ajax.loadContent('${form.requestUrl}', this) )"/>
 
 				<ui:button type="cut" styleClass="btn-small"
 					onclick="$('#${uiid}')[0].markType.value=${item.id};
 							toPage($('#${uiid}')[0], ${form.page.pageIndex}, ${form.page.pageSize}, '');
-							$$.ajax.load($('#${uiid}'), $$.shell.$content(this))"/>
+							$$.ajax.loadContent($('#${uiid}'), this)"/>
 			</td>
 
 			<td>${item.id}</td>
@@ -104,11 +107,11 @@
 					</c:url>
 					<%-- the last path item is always shown --%>
 					<c:if test="${status.last}">
-						<a href="#" onclick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${itemPath.title}</a>
+						<a href="#" onclick="$$.ajax.loadContent('${url}', this); return false;">${itemPath.title}</a>
 					</c:if>
 					<%-- search mode, previous path items are shown --%>
 					<c:if test="${not empty form.param.filter && not status.last}">
-						<a href="#" onclick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">${itemPath.title}</a> /
+						<a href="#" onclick="$$.ajax.loadContent('${url}', this); return false;">${itemPath.title}</a> /
 					</c:if>
 				</c:forEach>
 			</td>
@@ -125,7 +128,7 @@
 					<c:when test="${item.useParentProperties}">
 						[${l.l('унаследованы')}]
 					</c:when>
-					<c:otherwise><a href="#" onclick="$$.ajax.load('${url}', $$.shell.$content(this)); return false;">[${l.l('свойства')}]</a></c:otherwise>
+					<c:otherwise><a href="#" onclick="$$.ajax.loadContent('${url}', this); return false;">[${l.l('свойства')}]</a></c:otherwise>
 				</c:choose>
 			</td>
 

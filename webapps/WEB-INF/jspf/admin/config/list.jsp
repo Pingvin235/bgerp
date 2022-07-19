@@ -16,11 +16,11 @@
 				<c:param name="id" value="-1"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
-			<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
+			<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
 			<ui:input-text name="filter" value="${form.param['filter']}" size="20" placeholder="${l.l('Фильтр')}"
 				title="${l.l('Фильтр по содержимому конфигурации')}"
-				onSelect="$$.ajax.load(this.form, $$.shell.$content(this)); return false;"/>
+				onSelect="$$.ajax.loadContent(this); return false;"/>
 		</html:form>
 
 		<table class="data mt1 hl">
@@ -71,7 +71,7 @@
 				<script>
 					$(function () {
 						$$.ajax.upload('${uploadFormId}', 'lic-upload-iframe', function () {
-							$$.ajax.load('${form.requestUrl}', $$.shell.$content(this));
+							$$.ajax.loadContent('${form.requestUrl}', this);
 						});
 					});
 				</script>

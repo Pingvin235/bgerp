@@ -41,5 +41,3 @@ mail.smtp.pswd=bgdemo
 
 # disable all plugins by default
 plugin.enable.default=0
-
-# INCLUDES

@@ -73,27 +73,6 @@ $$.lock.free = function( name ){
 	return sendAJAXCommand( '/user/lock.do?action=free&lockId=' + name );
 };
 
-// блокировка кнопок, вроде пока не используется, разобраться и перенести в bgcrm.ui
-function lock( obj )
-{
-	$(obj).attr( "disabled", true );
-}
-
-function unlock( obj, timeout )
-{
-	if( timeout )
-	{
-		setTimeout( function()
-		{
-			$(obj).removeAttr( "disabled" );
-		}, timeout );
-	}
-	else
-	{
-		$(obj).removeAttr( "disabled" );
-	}
-}
-
 $(function(){
 	$("input.hasDatePicker").on('keyup',
 		function(event)
@@ -355,42 +334,36 @@ function markOutTr(tr)
 	$(tr).css('background-color','grey');
 }
 
-function timer()
-{
+$$.timer = function () {
 	var urlArray = generateUrlForFilterCounter(),
-		url = "/user/pool.do",
-		callback = function()
-		{
-			window.setTimeout( timer, 5000 );
+		url = "/user/pool.do?unused=unused",
+		callback = function () {
+			window.setTimeout($$.timer, 5000);
 		};
 
-	if ( urlArray.length > 0 )
-	{
+	if (urlArray.length > 0) {
 		url += "&processCounterUrls=" + encodeURIComponent(urlArray);
 	}
 
 	$$.ajax
-		.post(url, {toPostNames: ["processCounterUrls"]})
+		.post(url)
 		.always(callback);
 }
 
-function encodeHtml( str )
-{
+$$.encodeHtml = function (str) {
 	var i = str.length,
-	aRet = [];
+		aRet = [];
 
-	while( i-- )
-	{
+	while (i--) {
 		var iC = str[i].charCodeAt();
-		if( iC < 65 || iC > 127 || (iC>90 && iC<97) )
-		{
-			aRet[i] = '&#'+iC+';';
+		if (iC < 65 || iC > 127 || (iC > 90 && iC < 97)) {
+			aRet[i] = '&#' + iC + ';';
 		}
-		else
-		{
+		else {
 			aRet[i] = str[i];
 		}
 	}
+
 	return aRet.join('');
 }
 

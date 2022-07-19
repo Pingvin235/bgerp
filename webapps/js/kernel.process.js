@@ -376,7 +376,7 @@ function objectsToLinkTable($uiid, processId, customerLinkRoles, selectedValues,
 						<input type="hidden" name="objectType" value="process"/>\
 						<input type="hidden" name="id" value="' + processId + '"/>\
 						<input type="hidden" name="linkedObjectId" value="' + objectId + '"/>\
-						<input type="hidden" name="linkedObjectTitle" value="' + encodeHtml(data.title) + '"/>\
+						<input type="hidden" name="linkedObjectTitle" value="' + $$.encodeHtml(data.title) + '"/>\
 						<input type="hidden" name="linkedObjectType" value="';
 		if (objectType == 'customer')
 		{

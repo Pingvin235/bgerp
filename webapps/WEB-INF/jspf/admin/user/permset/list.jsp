@@ -10,10 +10,10 @@
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
-	<ui:button type="add" onclick="$$.ajax.load('${url}', $$.shell.$content(this))"/>
+	<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
 	<ui:input-text name="filter" styleClass="ml1" value="${form.param.filter}" placeholder="${l.l('Фильтр')}" size="40"
-		onSelect="$$.ajax.load(this.form, $$.shell.$content(this))"
+		onSelect="$$.ajax.loadContent(this)"
 		title="${l.l('Фильтр по наименованию, комментарию, конфигурации, параметрам действий')}"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
@@ -42,8 +42,11 @@
 			<c:set var="uiid" value="${u:uiid()}"/>
 
 			<td nowrap="nowrap" id="${uiid}">
-				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $$.shell.$content(this))"/>
-				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}').done(() => { $$.ajax.load('${form.requestUrl}', $$.shell.$content(this)) })"/>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.loadContent('${editUrl}', this)"/>
+				<ui:button type="del" styleClass="btn-small" onclick="
+					$$.ajax
+						.post('${deleteUrl}', {control: this})
+						.done(() => $$.ajax.loadContent('${form.requestUrl}', this))"/>
 
 				<button type="button" class="btn-white btn-small icon"
 					title="${l.l('Заменить права набора на права из другого набора')}"
