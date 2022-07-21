@@ -1,0 +1,1 @@
+A: Plugin Telegram. Escape text for Bot.

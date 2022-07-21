@@ -1,5 +1,7 @@
 package org.bgerp.plugin.telegram;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.Lists;
 import org.bgerp.util.Log;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -18,8 +20,11 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
 import java.sql.Connection;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Bot extends TelegramLongPollingBot {
     private static class UserData {
@@ -34,8 +39,8 @@ public class Bot extends TelegramLongPollingBot {
 
     private static BotSession botSession;
 
-    private Bot() {
-    }
+    @VisibleForTesting
+    Bot() {}
 
     public static Bot getInstance() {
         if (instance == null)
@@ -198,7 +203,7 @@ public class Bot extends TelegramLongPollingBot {
     public void sendMessage(String chatId, String text, String parseMode) {
         SendMessage message = SendMessage.builder()
                 .chatId(chatId)
-                .text(text)
+                .text(escapeSpecialCharacters(text))
                 .parseMode(parseMode)
                 .build();
         try {
@@ -206,6 +211,15 @@ public class Bot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             log.error("Message was not sent ", e);
         }
+    }
+
+    @VisibleForTesting
+    String escapeSpecialCharacters(String message) {
+        List<String> specialCharacters = Lists.newArrayList("_","*","~","`",">","#","+","-","=","|","{","}",".","!");
+        return Arrays.stream(message.split("")).map((c) -> {
+            if (specialCharacters.contains(c)) return "\\" + c;
+            else return c;
+        }).collect(Collectors.joining());
     }
 
 }
