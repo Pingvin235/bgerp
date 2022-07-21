@@ -5,5 +5,6 @@ code --install-extension vscjava.vscode-java-debug
 code --install-extension vscjava.vscode-java-test
 code --install-extension eamodio.gitlens
 code --install-extension mhutchie.git-graph
+code --install-extension donjayamanne.githistory
 code --install-extension alphabotsec.vscode-eclipse-keybindings
 code --install-extension joaompinto.asciidoctor-vscode

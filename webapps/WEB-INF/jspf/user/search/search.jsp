@@ -16,25 +16,30 @@
 		<c:set var="defaultForm" value="${form.permission['defaultForm']}"/>
 
 		<u:sc>
-			<c:set var="id" value="searchForm"/>
-			<c:set var="valuesHtml">
-				<c:if test="${empty allowedForms or allowedForms.contains( 'customer' ) }">
-					<li value="customer">${l.l('Контрагент')}</li>
-				</c:if>
-				<c:if test="${empty allowedForms or allowedForms.contains( 'process' ) }">
-					<li value="process">${l.l('Процесс')}</li>
-				</c:if>
-
-				<c:set var="mode" value="items" scope="request"/>
-				<plugin:include endpoint="user.search.jsp"/>
-			</c:set>
-			<c:set var="hiddenName" value="searchMode"/>
-			<c:set var="prefixText" value="${l.l('Искать')}:"/>
 			<c:set var="onSelect">
-				var value = $('#searchForm > input[type=hidden]').val();
+				const value = $('#searchForm > input[type=hidden]').val();
 				$('.searchForm').hide(); $('#searchForm-' + value).show();
 			</c:set>
-			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
+
+			<ui:combo-single id="searchForm" hiddenName="searchMode" prefixText="${l.l('Искать')}:" onSelect="${onSelect}">
+				<jsp:attribute name="valuesHtml">
+					<c:if test="${empty allowedForms or allowedForms.contains('customer')}">
+						<li value="customer">${l.l('Контрагент')}</li>
+					</c:if>
+					<c:if test="${empty allowedForms or allowedForms.contains('process')}">
+						<li value="process">${l.l('Процесс')}</li>
+					</c:if>
+
+					<c:set var="mode" value="items" scope="request"/>
+					<plugin:include endpoint="user.search.jsp"/>
+				</jsp:attribute>
+			</ui:combo-single>
+
+			<script>
+				$(function () {
+					${onSelect}
+				})
+			</script>
 		</u:sc>
 
 		<div id="searchForms">

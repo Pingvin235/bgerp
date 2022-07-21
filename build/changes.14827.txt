@@ -1,0 +1,1 @@
+F: 'allowedForms' permission option.

@@ -301,14 +301,14 @@
 			</item>
 			<item action="ru.bgcrm.struts.action.MessageAction:messageDelete" title="Delete"/>
 		</item>
-		<item title="Поиск">
-			<item action="ru.bgcrm.struts.action.SearchAction:null" title="Поиск">
-				<b>allowedAreaIds</b> - id префиксов городов через запятую <br/>
-				<b>allowedForms</b> - через запятую разрешённые объекты поиска <br/>
-				<b>defaultForm</b> - форма поиска по-умолчанию
+		<item title="Search">
+			<item action="ru.bgcrm.struts.action.SearchAction:null" title="Search">
+				<b>allowedAreaIds</b> - comma separated allowed city IDs<br/>
+				<b>allowedForms</b> - comma seaparated allowed search forms, for kernel: customer, process<br/>
+				<b>defaultForm</b> - default search form
 			</item>
-			<item action="ru.bgcrm.struts.action.SearchAction:customerSearch" title="Поиск контрагента"/>
-			<item action="ru.bgcrm.struts.action.SearchAction:processSearch" title="Поиск процесса"/>
+			<item action="ru.bgcrm.struts.action.SearchAction:customerSearch" title="Customer"/>
+			<item action="ru.bgcrm.struts.action.SearchAction:processSearch" title="Process"/>
 		</item>
 		<item title="Справочник пользователей">
 			<item action="ru.bgcrm.struts.action.UserAction:userList" title="Получение списка пользователей"/>
