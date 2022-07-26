@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:set var="showCode" value="$$.ajax.loadContent($('#${uiid}'), this);"/>
+<c:set var="showCode" value="$$.ajax.loadContent(this);"/>
 
 <html:form action="/admin/user" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
 	<c:url var="url" value="/admin/user.do">
@@ -16,7 +16,7 @@
 	<input type="hidden" name="action" value="userList"/>
 	<input type="hidden" name="pageableId" value="userList"/>
 
-	<ui:input-text name="title" showOutButton="false" value="${form.param['title']}" size="20" placeholder="${l.l('Фильтр')}" title="${l.l('Фильтр по наименованию')}"
+	<ui:input-text name="title" showOutButton="false" value="${form.param['title']}" size="20" placeholder="${l.l('Filter')}" title="${l.l('Фильтр по наименованию')}"
 		onSelect="$$.ajax.loadContent(this);"/>
 
 	<%@ include file="user_status_const.jsp"%>

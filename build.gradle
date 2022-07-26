@@ -235,6 +235,10 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+tasks.withType(JavaExec) {
+    jvmArgs "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED", "--add-opens", "java.base/java.io=ALL-UNNAMED"
+}
+
 task doc(type: JavaExec, description: 'Build manual') {
     classpath =  configurations.doc
     mainClass = 'org.pzdcdoc.Generator'

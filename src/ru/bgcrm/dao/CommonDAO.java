@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.util.Log;
+import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.BGException;
@@ -22,7 +23,6 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.Period;
 import ru.bgcrm.util.TimeUtils;
-import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class CommonDAO {
@@ -95,45 +95,28 @@ public class CommonDAO {
         return result;
     }
 
-    private static final String getLikePattern(String substring, String mode) {
-        StringBuilder builder = new StringBuilder();
-        if (Utils.notBlankString(substring)) {
-            if ((mode == null || mode.equals("subs") || mode.equalsIgnoreCase("end")) && !substring.startsWith("%")) {
-                builder.append("%");
-            }
-            builder.append(substring);
-            if ((mode == null || mode.equals("subs") || mode.equalsIgnoreCase("start")) && !substring.endsWith("%")) {
-                builder.append("%");
-            }
-        }
-        return builder.toString();
-    }
-
     /**
-     * Returns SQL LIKE pattern "%" + {@param substring} + "%"
-     * @param substring
-     * @return
+     * Use {@link LikePattern#SUB}
      */
+    @Deprecated
     public static final String getLikePatternSub(String substring) {
-        return getLikePattern(substring, "subs");
+        return LikePattern.SUB.get(substring);
     }
 
     /**
-     * Returns SQL LIKE pattern {@param substring} + "%"
-     * @param substring
-     * @return
+     * Use {@link LikePattern#START}
      */
+    @Deprecated
     public static final String getLikePatternStart(String substring) {
-        return getLikePattern(substring, "start");
+        return LikePattern.START.get(substring);
     }
 
     /**
-     * Returns SQL LIKE pattern "%" + {@param substring}
-     * @param substring
-     * @return
+     * Use {@link LikePattern#END}
      */
+    @Deprecated
     public static final String getLikePatternEnd(String substring) {
-        return getLikePattern(substring, "end");
+        return LikePattern.END.get(substring);
     }
 
     /**

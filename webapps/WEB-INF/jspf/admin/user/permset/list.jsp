@@ -12,7 +12,7 @@
 	</c:url>
 	<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
-	<ui:input-text name="filter" styleClass="ml1" value="${form.param.filter}" placeholder="${l.l('Фильтр')}" size="40"
+	<ui:input-text name="filter" styleClass="ml1" value="${form.param.filter}" placeholder="${l.l('Filter')}" size="40"
 		onSelect="$$.ajax.loadContent(this)"
 		title="${l.l('Фильтр по наименованию, комментарию, конфигурации, параметрам действий')}"/>
 

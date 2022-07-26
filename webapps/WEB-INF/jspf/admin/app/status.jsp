@@ -19,8 +19,8 @@
 			<input type="hidden" name="action" value="update"/>
 			<ui:combo-single hiddenName="force" widthTextValue="3em" prefixText="${l.l('Принудительно')}:">
 				<jsp:attribute name="valuesHtml">
-					<li value="0">${l.l('Нет')}</li>
-					<li value="1">${l.l('Да')}</li>
+					<li value="0">${l.l('No')}</li>
+					<li value="1">${l.l('Yes')}</li>
 				</jsp:attribute>
 			</ui:combo-single>
 			<ui:combo-single hiddenName="restartForce" widthTextValue="5em" prefixText="${l.l('Перезапуск')}:" styleClass="ml05">

@@ -1,31 +1,48 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-${l.l('Статус')}&nbsp;<b>${process.statusTitle}</b>: ${tu.format( process.statusTime, 'ymdhms' )}
-<c:if test="${not empty process.statusChange.comment}">
-	"${process.statusChange.comment}"
-</c:if>
-<c:if test="${process.statusUserId gt 0}">
-	(<ui:user-link id="${process.statusUserId}"/>)
-</c:if>
+<u:sc>
+	<c:set var="statusEnd">
+		 ${tu.format(process.statusTime, 'ymdhms')}
+		<c:if test="${not empty process.statusChange.comment}">
+			"${process.statusChange.comment}"
+		</c:if>
+		<c:if test="${process.statusUserId gt 0}">
+			(<ui:user-link id="${process.statusUserId}"/>)
+		</c:if>
+	</c:set>
 
-<ui:when type="user">
-	<p:check action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate">
-		<c:url var="url" value="/user/process.do">
-			<c:param name="returnUrl" value="${requestUrl}"/>
-			<c:param name="returnChildUiid" value="${tableId}"/>
-			<c:param name="id" value="${process.id}"/>
-			<c:param name="forward" value="processStatus"/>
-		</c:url>
-		[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('status')}</a>]
-	</p:check>
+	<ui:when type="user">
+		<c:set var="statusEdit" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processStatusUpdate')}"/>
 
-	<p:check action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory">
-		<c:url var="url" value="/user/process.do">
-			<c:param name="id" value="${process.id}"/>
-			<c:param name="returnUrl" value="${requestUrl}"/>
-			<c:param name="action" value="processStatusHistory"/>
-		</c:url>
-		[<a href="#" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">${l.l('log')}</a>]
-	</p:check>
-</ui:when>
+		${l.l('Статус')}:
+		[<b><%--
+		--%><c:if test="${statusEdit}">
+				<c:url var="url" value="/user/process.do">
+					<c:param name="returnUrl" value="${requestUrl}"/>
+					<c:param name="returnChildUiid" value="${tableId}"/>
+					<c:param name="id" value="${process.id}"/>
+					<c:param name="forward" value="processStatus"/>
+				</c:url>
+				<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;"><%--
+		--%></c:if>
+			${process.statusTitle}
+			<c:if test="${statusEdit}"></a></c:if>
+		</b>]
+		${statusEnd}
+		<p:check action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory">
+			<c:url var="url" value="/user/process.do">
+				<c:param name="id" value="${process.id}"/>
+				<c:param name="returnUrl" value="${requestUrl}"/>
+				<c:param name="action" value="processStatusHistory"/>
+			</c:url>
+			[<a href="#" onclick="$$.ajax.load('${url}', $('#${tableId}').parent()); return false;">${l.l('log')}</a>]
+		</p:check>
+	</ui:when>
+
+	<ui:when type="open">
+		${l.l('Статус')}:
+		<b>${process.statusTitle}</b>
+		${statusEnd}
+	</ui:when>
+</u:sc>

@@ -13,7 +13,7 @@
 <html:form action="/admin/appointment" onsubmit="return false;" styleClass="mb1 in-mr1" styleId="${uiid}">
 	<input type="hidden" name="action" value="appointmentList"/>
 	<button type="button" class="btn-green" onclick="openUrlContent( '${createUrl}' )">+</button>
-	<ui:input-text size="30" onSelect="${showCode}" name="title" value="${form.param['title']}" placeholder="${l.l('Фильтр')}" styleClass="ml1"/>
+	<ui:input-text size="30" onSelect="${showCode}" name="title" value="${form.param['title']}" placeholder="${l.l('Filter')}" styleClass="ml1"/>
 	<button type="button" class="btn-grey" onclick="${showCode}">=&gt;</button>
 
 	<div style="display: inline-block; float: right; vertical-align: middle;" class="pt05 pb05">

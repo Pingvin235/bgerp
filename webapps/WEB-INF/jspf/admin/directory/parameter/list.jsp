@@ -9,7 +9,7 @@
 
 	<%@ include file="../create_button.jsp"%>
 
-	<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Фильтр')}" size="40"
+	<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Filter')}" size="40"
 		title="${l.l('По наименованию, комментарию, конфигурации')}"
 		onSelect="$$.ajax.loadContent(this)"/>
 

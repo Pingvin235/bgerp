@@ -123,9 +123,14 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 				},
 				select: function( event, ui )
 				{
-					$hidden.val( ui.item.id );
-					$input.val( ui.item.value );
-					${onSelect}
+					$hidden.val(ui.item.id);
+					$input.val(ui.item.value);
+
+					$hidden[0].onSelect = function () {
+						${onSelect}
+					}
+					// to make this equals $hidden
+					$hidden[0].onSelect();
 				},
 				appendTo: '#${uiid}',
 				open: function()

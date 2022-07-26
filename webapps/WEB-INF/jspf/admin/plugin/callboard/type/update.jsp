@@ -36,8 +36,8 @@
    			<h2>Учитывать в рабочих часах</h2>
 			<u:sc>
 				<c:set var="valuesHtml">
-					<li value="0">${l.l('Да')}</li>
-					<li value="1">${l.l('Нет')}</li>
+					<li value="0">${l.l('Yes')}</li>
+					<li value="1">${l.l('No')}</li>
 				</c:set>
 				<c:set var="hiddenName" value="nonWorkHours"/>
 				<c:set var="value" value="${workType.nonWorkHours ? 1 : 0}"/>

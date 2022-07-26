@@ -10,8 +10,8 @@
 	<p><ru>Параметр</ru><en>Parameter</en></p>
 	<p><ru>Параметры (сохраняются сразу)</ru><en>Parameters (saved immediately)</en></p>
 	<p><ru>Опции интерфейса</ru><en>Interface Options</en></p>
-	<p><ru>Да</ru><en>Yes</en></p>
-	<p><ru>Нет</ru><en>No</en></p>
+	<p><ru>Yes</ru><en>Да</en></p>
+	<p><ru>No</ru><en>Нет</en></p>
 	<p><ru>Сохранять порядок объектов</ru><en>Preserve objects order</en></p>
 	<p><ru>Последний объект сверху</ru><en>Last object on top</en></p>
 	<p><ru>Открытие буфера объектов по долгому нажатию ЛКМ</ru><en>Open buffer on long left mouse press</en></p>
@@ -128,7 +128,7 @@
 	<p><ru>Группы параметров контрагентов</ru><en>Customer parameters groups</en></p>
 	<p><ru>Шаблоны названия контрагентов</ru><en>Parameter title patters</en></p>
 	<p><ru>Параметры домов</ru><en>House parameters</en></p>
-	<p><ru>Фильтр</ru><en>Filter</en></p>
+	<p><ru>Filter</ru><en>Фильтр</en></p>
 	<p><ru>По наименованию, комментарию, конфигурации</ru><en>By title, comment, configuration</en></p>
 	<p><ru>Интерфейс</ru><en>Interface</en></p>
 	<p><ru>Выйти</ru><en>Log off</en></p>
@@ -518,6 +518,9 @@
 	<p><en>Mark as unread</en><ru>Отметить непрочитанным</ru></p>
 	<p><en>Search string must be {} and more symbols length.</en><ru>Строка поиска должна быть {} и более симоволов длинной.</ru></p>
 	<p><en>Modified time</en><ru>Время изменения</ru></p>
+	<p><en>Cохранить</en><ru>Save</ru></p>
+	<p><en>Extend right process card area on scroll down</en><ru>Расширять правую часть карточки процесса при промотке вниз</ru></p>
+	<p><en>Process type does not exist: {}</en><ru>Тип процесса не существует: {}</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

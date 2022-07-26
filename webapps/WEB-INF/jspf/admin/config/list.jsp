@@ -18,7 +18,7 @@
 			</c:url>
 			<ui:button type="add" onclick="$$.ajax.loadContent('${url}', this)"/>
 
-			<ui:input-text name="filter" value="${form.param['filter']}" size="20" placeholder="${l.l('Фильтр')}"
+			<ui:input-text name="filter" value="${form.param['filter']}" size="20" placeholder="${l.l('Filter')}"
 				title="${l.l('Фильтр по содержимому конфигурации')}"
 				onSelect="$$.ajax.loadContent(this); return false;"/>
 		</html:form>

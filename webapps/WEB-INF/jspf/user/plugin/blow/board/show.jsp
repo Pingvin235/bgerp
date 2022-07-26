@@ -14,7 +14,7 @@
 				<c:forEach var="id" items="${form.response.data.processIds}">
 					<input type="hidden" name="processId" value="${id}"/>
 				</c:forEach>
-				<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Фильтр')}" size="40"
+				<ui:input-text name="filter" styleClass="ml1" value="${form.param['filter']}" placeholder="${l.l('Filter')}" size="40"
 					title="${l.l('По тексту сообщения')}"
 					onSelect="return $$.blow.search(this.form)"
 				/>

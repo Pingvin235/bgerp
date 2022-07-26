@@ -73,8 +73,8 @@
 				prefixText="${l.l('Открыт')}:" styleClass="mr1" widthTextValue="50px">
 				<jsp:attribute name="valuesHtml">
 					<li value="">${l.l('Все')}</li>
-					<li value="1">${l.l('Да')}</li>
-					<li value="0">${l.l('Нет')}</li>
+					<li value="1">${l.l('Yes')}</li>
+					<li value="0">${l.l('No')}</li>
 				</jsp:attribute>
 			</ui:combo-single>
 

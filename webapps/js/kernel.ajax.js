@@ -215,19 +215,22 @@ $$.ajax = new function () {
 
 	/**
 	 * Calls load with $selector $$.shell.$content()
-	 * @param {*} input URL to be loaded, or HTMLFormElement, or form input to be extracted form, or BUTTON element to be used as 'obj'.
-	 * @param {*} obj DOM element, placed in the loaded area, not needed when 'input' is BUTTON.
+	 * @param {*} input URL to be loaded, or HTMLFormElement, or input/button inside form, required parameter
+	 * @param {*} obj DOM element, placed in the loaded area, not needed when 'input' is a form input/button field.
 	 */
 	const loadContent = (input, obj) => {
 		const options = {};
 
-		if (input.tagName === 'BUTTON')
-			options.control = obj = input;
-		else if (obj.tagName === 'BUTTON')
-			options.control = obj;
-
-		if (input.form)
+		if (input.form) {
 			input = input.form;
+			if (!obj)
+				obj = input;
+		}
+
+		if (input.tagName === 'BUTTON')
+			options.control = input;
+		else if (obj && obj.tagName === 'BUTTON')
+			options.control = obj;
 
 		return load(input, $$.shell.$content(obj), options);
 	}
@@ -240,41 +243,57 @@ $$.ajax = new function () {
 	 * @returns object with 'url' field - for request URL and 'data' - for placing in request body.
 	 */
 	const separatePostParams = function (url, toPostNames, json) {
-		// query string in request body
-		let data = "";
-
 		if (!toPostNames && url.length > MAX_QUERY_STRING_LENGTH)
 			toPostNames = getToPostNames(url);
 
-		// current position
-		let dataStartPos = 0;
+		// query string in request body
+		let data = "";
 
-		// moves a param starting on position dataStartPos from url to data.
-		const move = function () {
-			let dataEndPos = url.indexOf("&", dataStartPos + 1);
-			if (dataEndPos <= 0)
-				dataEndPos = url.length;
-
-			var length = dataEndPos - dataStartPos;
-
-			data += url.substr(dataStartPos, length);
-			url = url.substr(0, dataStartPos) + url.substr(dataEndPos, url.length);
-		}
-
-		// все переменные, имя которых есть в toPostNames тоже переносим в post запрос
 		if (toPostNames) {
-			for (index in toPostNames) {
-				dataStartPos = 0;
-				while ((dataStartPos = url.indexOf("&" + toPostNames[index] + "=")) > 0)
-					move();
+			let pos = url.indexOf('?');
+			if (pos > 0) {
+				let urlWithoutData = url.substring(0, pos + 1);
+
+				while (pos > 0) {
+					const posSeparator = url.indexOf('=', pos + 1);
+					if (posSeparator < pos) {
+						console.warn("Not found separator after pos: ", pos, "; url: ", url);
+						break;
+					}
+
+					let posEnd = url.indexOf('&', posSeparator + 1);
+					if (posEnd < posSeparator)
+						posEnd = url.length;
+
+					const key = url.substring(pos + 1, posSeparator);
+					const pair = url.substring(pos + 1, posEnd);
+
+					if (toPostNames.includes(key)) {
+						if (data.length)
+							data += "&"
+						data += pair;
+					}
+					else {
+						if (!urlWithoutData.endsWith('?'))
+							urlWithoutData += "&";
+						urlWithoutData += pair;
+					}
+
+					pos = url.indexOf('&', pos + 1);
+				}
+
+				url = urlWithoutData;
 			}
 		}
 
 		if (json) {
-			if (url.indexOf("?") > 0)
-				url += "&responseType=json";
-			else
-				url += "?responseType=json";
+			if (url.indexOf("?") < 0)
+				url += "?";
+
+			if (!url.endsWith("?"))
+				url += "&";
+
+			url += "responseType=json";
 		}
 
 		return {"url": url, "data": data};
@@ -293,8 +312,13 @@ $$.ajax = new function () {
 		if (pos < 0)
 			return null;
 
-		while ((pos = url.indexOf('&', pos + 1)) > 0) {
+		// first param after ?
+		while (pos > 0) {
 			const posSeparator = url.indexOf('=', pos + 1);
+			if (posSeparator < pos) {
+				console.warn("Not found separator after pos: ", pos, "; url: ", url);
+				break;
+			}
 
 			const key = url.substring(pos + 1, posSeparator);
 			if (counts[key])
@@ -302,12 +326,18 @@ $$.ajax = new function () {
 			else
 				counts[key] = 1;
 
-			// large parameter value, move to post even single
+			// large parameter value, move to post even a single
 			if (counts[key] < 2) {
-				const posEnd = url.indexOf('&', posSeparator);
+				let posEnd = url.indexOf('&', posSeparator);
+				if (posEnd < posSeparator)
+					posEnd = url.length;
+
 				if ((posEnd - pos) > MAX_QUERY_STRING_LENGTH)
 					counts[key] = 2;
 			}
+
+			// second and following params after &
+			pos = url.indexOf('&', pos + 1);
 		}
 
 		const result = [];

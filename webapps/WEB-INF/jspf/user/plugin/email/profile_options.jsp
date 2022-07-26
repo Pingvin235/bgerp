@@ -9,8 +9,8 @@
 		<c:set var="key" value="iface.email.message.tag-box.disable"/>
 		<ui:combo-single hiddenName="${key}" value="${ctxUser.personalizationMap.get(key, '')}" widthTextValue="200px">
 			<jsp:attribute name="valuesHtml">
-				<li value="0">${l.l('Да')}</li>
-				<li value="1">${l.l('Нет')}</li>
+				<li value="0">${l.l('Yes')}</li>
+				<li value="1">${l.l('No')}</li>
 			</jsp:attribute>
 		</ui:combo-single>
 	</td>

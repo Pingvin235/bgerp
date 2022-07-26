@@ -47,7 +47,13 @@ public class ProcessFilterCounterListener {
                 Integer buttonId = Integer.valueOf(tokens[0]);
                 Integer queueId = Integer.valueOf(tokens[1]);
                 url = tokens[2];
+
                 Queue queue = ProcessQueueCache.getQueue(queueId, form.getUser());
+                if (queue == null) {
+                    log.warn("Not found process queue with ID: {}, stored in counters for user with ID: {}.", queueId, form.getUserId());
+                    continue;
+                }
+
                 int count = 0;
                 try {
                     count = FilterEntryCounter.getInstance().parseUrlAndGetCount(queue, url, form.getUser());
@@ -59,6 +65,7 @@ public class ProcessFilterCounterListener {
                 if (btnIdAndEntryCount == null) {
                     valuesToReturn.put(queueId, btnIdAndEntryCount = new HashMap<>());
                 }
+
                 btnIdAndEntryCount.put(buttonId, count);
             }
         }

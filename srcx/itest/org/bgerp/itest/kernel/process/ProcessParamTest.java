@@ -86,8 +86,6 @@ public class ProcessParamTest {
         paramTreeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TREE, TITLE + " type 'tree'",
                 ProcessTest.posParam += 2, "", ResourceHelper.getResource(this, "param.tree.values.txt"));
 
-        ParameterCache.flush(null);
-
         paramIds = List.of(paramAddressId, paramDateId, paramDatetimeId, paramEmailId, paramFileId, paramListId, paramListCountId, paramMoneyId,
                         paramTextId, paramTextRegexpId, paramTreeId);
     }

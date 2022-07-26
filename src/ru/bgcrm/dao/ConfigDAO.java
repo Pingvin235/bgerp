@@ -248,6 +248,7 @@ public class ConfigDAO extends CommonDAO {
         }
     }
 
+    @Deprecated
     public List<ConfigRecord> getConfigRecordList(String tableId, int recordId) throws SQLException {
         List<ConfigRecord> result = new ArrayList<ConfigRecord>();
 
@@ -266,6 +267,7 @@ public class ConfigDAO extends CommonDAO {
         return result;
     }
 
+    @Deprecated
     public Map<String, String> getConfigRecordMap(String tableId, int recordId) throws SQLException {
         // таблица может быть передана из констант, тогда она окружена пробелами
         tableId = tableId.trim();
@@ -277,6 +279,7 @@ public class ConfigDAO extends CommonDAO {
         return configMap;
     }
 
+    @Deprecated
     public void updateConfigForRecord(String tableId, int recordId, Map<String, String> config) throws SQLException {
         // таблица может быть передана из констант, тогда она окружена пробелами
         tableId = tableId.trim();
@@ -293,6 +296,7 @@ public class ConfigDAO extends CommonDAO {
         }
     }
 
+    @Deprecated
     public void updateConfigForRecord(String tableId, int recordId, List<ConfigRecord> config) throws SQLException {
         // таблица может быть передана из констант, тогда она окружена пробелами
         tableId = tableId.trim();

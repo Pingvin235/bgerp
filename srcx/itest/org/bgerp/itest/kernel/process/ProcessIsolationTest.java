@@ -57,8 +57,6 @@ public class ProcessIsolationTest {
         processType11Id = ProcessHelper.addType(TITLE + " 1.1", processType1Id, false, props).getId();
 
         processType2Id  = ProcessHelper.addType(TITLE + " 2", processTypeId, false, null).getId();
-
-        ProcessTypeCache.flush(null);
     }
 
     @Test(dependsOnMethods = "processType")

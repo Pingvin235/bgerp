@@ -4,8 +4,8 @@
 <c:if test="${typeEmail}">
 	<ui:combo-single hiddenName="notification" prefixText="${l.l('Уведомление')}:" styleClass="mr1">
 		<jsp:attribute name="valuesHtml">
-			<li value="0">${l.l('Нет')}</li>
-			<li value="1">${l.l('Да')}</li>
+			<li value="0">${l.l('No')}</li>
+			<li value="1">${l.l('Yes')}</li>
 		</jsp:attribute>
 	</ui:combo-single>
 </c:if>

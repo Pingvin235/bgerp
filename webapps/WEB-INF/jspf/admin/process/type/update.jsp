@@ -24,8 +24,8 @@
 	<h2>${l.l('Наследовать свойства от предка')}</h2>
 	<u:sc>
 		<c:set var="valuesHtml">
-			<li value="0">${l.l('Нет')}</li>
-			<li value="1">${l.l('Да')}</li>
+			<li value="0">${l.l('No')}</li>
+			<li value="1">${l.l('Yes')}</li>
 		</c:set>
 		<c:set var="hiddenName" value="useParent"/>
 		<c:if test="${type.useParentProperties}">

@@ -29,7 +29,7 @@
 	<button type="button" class="btn-grey"
 		onclick="$$.ajax.post('${url}').done(() => $$.ajax.loadContent('${urlList}', this))">${l.l('Вставить')} [${markGroupString}]</button>
 
-	<ui:input-text name="filter" onSelect="$$.ajax.loadContent(this)" placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}" title="${l.l('Фильтр по наименованию, конфигурации')}"/>
+	<ui:input-text name="filter" onSelect="$$.ajax.loadContent(this)" placeholder="${l.l('Filter')}" size="40" value="${form.param['filter']}" title="${l.l('Фильтр по наименованию, конфигурации')}"/>
 
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -112,8 +112,8 @@
 
 			<td>
 				<c:choose>
-					<c:when test="${item.archive == 1}">${l.l('Да')}</c:when>
-					<c:otherwise>${l.l('Нет')}</c:otherwise>
+					<c:when test="${item.archive == 1}">${l.l('Yes')}</c:when>
+					<c:otherwise>${l.l('No')}</c:otherwise>
 				</c:choose>
 			</td>
 

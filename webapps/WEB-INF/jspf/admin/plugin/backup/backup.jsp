@@ -6,8 +6,8 @@
 	<input type="hidden" name="action" value="backup"/>
 	<ui:combo-single hiddenName="db" widthTextValue="2em" prefixText="${l.l('Включить БД')}:">
 		<jsp:attribute name="valuesHtml">
-			<li value="0">${l.l('Нет')}</li>
-			<li value="1">${l.l('Да')}</li>
+			<li value="0">${l.l('No')}</li>
+			<li value="1">${l.l('Yes')}</li>
 		</jsp:attribute>
 	</ui:combo-single>
 	<ui:button type="run" styleClass="ml1" onclick="

@@ -586,7 +586,7 @@ public class TransferData {
     private void checkDocumentStatus(Document doc, User user) throws BGException {
         String status = XMLUtils.selectText(doc, "/data/@status");
         if (!"ok".equals(status)) {
-            throw new BGMessageException("На запрос пользователя %s биллинг %s вернул ошибку %s",
+            throw new BGMessageException("На запрос пользователя {} биллинг {} вернул ошибку {}",
                 user.getTitle(), dbInfo.getId(), XMLUtils.selectText(doc, "/data/text()"));
         }
     }
@@ -596,7 +596,7 @@ public class TransferData {
         if (!"ok".equals(status)) {
             String exceptionType = rootNode.path("exception").textValue();
             if (exceptionType != null && exceptionType.equals("ru.bitel.bgbilling.common.BGMessageException")) {
-                throw new BGMessageException("На запрос пользователя %s биллинг %s вернул ошибку %s",
+                throw new BGMessageException("На запрос пользователя {} биллинг {} вернул ошибку {}",
                     user.getTitle(), dbInfo.getId(), rootNode.path("message").textValue());
             } else {
                 throw new BGException(rootNode.path("message").textValue());

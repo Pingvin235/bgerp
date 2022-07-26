@@ -336,13 +336,13 @@ function markOutTr(tr)
 
 $$.timer = function () {
 	var urlArray = generateUrlForFilterCounter(),
-		url = "/user/pool.do?unused=unused",
+		url = "/user/pool.do",
 		callback = function () {
 			window.setTimeout($$.timer, 5000);
 		};
 
 	if (urlArray.length > 0) {
-		url += "&processCounterUrls=" + encodeURIComponent(urlArray);
+		url += "?processCounterUrls=" + encodeURIComponent(urlArray);
 	}
 
 	$$.ajax

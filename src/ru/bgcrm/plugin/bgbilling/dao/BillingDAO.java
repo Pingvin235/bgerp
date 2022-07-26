@@ -93,6 +93,8 @@ public class BillingDAO {
     }
 
     protected void getPage(Page page, Element data) {
+        if (data == null)
+            return;
         page.setPageSize(Utils.parseInt(data.getAttribute(PAGE_SIZE)));
         page.setPageIndex(Utils.parseInt(data.getAttribute(PAGE_INDEX)));
         page.setRecordCount(Utils.parseInt(data.getAttribute(RECORD_COUNT)));

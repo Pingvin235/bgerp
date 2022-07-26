@@ -466,16 +466,16 @@ public class Utils {
     }
 
     /**
-     * Преобразует строку с произвольными разделителями - симвоолами в delims в список строк.
-     * @param valuesStr
-     * @param delims
-     * @return
+     * Converts a string with obitary delimeter chars to list of strings.
+     * @param value incoming string.
+     * @param delims delimeter chars.
+     * @return list of tokens, each of that is not empty string.
      */
-    public static final List<String> toList(String valuesStr, String delims) {
+    public static final List<String> toList(String value, String delims) {
         List<String> result = new ArrayList<String>();
 
-        if (notBlankString(valuesStr)) {
-            StringTokenizer st = new StringTokenizer(valuesStr.trim(), delims);
+        if (notBlankString(value)) {
+            StringTokenizer st = new StringTokenizer(value.trim(), delims);
             while (st.hasMoreTokens()) {
                 result.add(st.nextToken().trim());
             }
@@ -485,10 +485,10 @@ public class Utils {
     }
 
     /**
-     * Преобразует лист строк в planeText с произвольным разделителем
-     * @param config
-     * @param separator
-     * @return
+     * Converts a string with obitary delimeter chars to set of strings.
+     * @param value incoming string.
+     * @param delims delimeter chars.
+     * @return set of tokens, each of that is not empty string.
      */
     public static final String toText(List<String> config, String separator) {
         StringBuilder sb = new StringBuilder();

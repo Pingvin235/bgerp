@@ -1,7 +1,14 @@
 package org.bgerp.plugin.telegram;
 
+import java.sql.Connection;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Lists;
+
 import org.bgerp.util.Log;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -12,6 +19,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.BotSession;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.user.User;
@@ -19,19 +27,14 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
-import java.sql.Connection;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 public class Bot extends TelegramLongPollingBot {
+    private static final Log log = Log.getLog();
+
+    private static final Set<String> SPECIAL_CHARACTERS = Set.of("_", "~", "`", ">", "#", "+", "-", "=", "|", "{", "}", ".", "!");
+
     private static class UserData {
         private String login;
     }
-
-    private static final Log log = Log.getLog();
 
     private static Bot instance;
 
@@ -215,9 +218,8 @@ public class Bot extends TelegramLongPollingBot {
 
     @VisibleForTesting
     String escapeSpecialCharacters(String message) {
-        List<String> specialCharacters = Lists.newArrayList("_","*","~","`",">","#","+","-","=","|","{","}",".","!");
         return Arrays.stream(message.split("")).map((c) -> {
-            if (specialCharacters.contains(c)) return "\\" + c;
+            if (SPECIAL_CHARACTERS.contains(c)) return "\\" + c;
             else return c;
         }).collect(Collectors.joining());
     }

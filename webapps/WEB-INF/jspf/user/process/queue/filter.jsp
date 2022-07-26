@@ -244,7 +244,7 @@
 		<u:sc>
 			<c:set var="styleClass" value="dropFilterArea"/>
 			<c:set var="style" value="display: inline-block"/>
-			<c:set var="prefixText" value="${l.l('Фильтр')}:"/>
+			<c:set var="prefixText" value="${l.l('Filter')}:"/>
 			<c:set var="widthTextValue" value="40px"/>
 			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 		</u:sc>
@@ -341,8 +341,8 @@
 
 								<c:set var="valuesHtml">
 									<li value="none">${l.l('Все')}</li>
-									<li value="open">${l.l('Нет')}</li>
-									<li value="close">${l.l('Да')}</li>
+									<li value="open">${l.l('No')}</li>
+									<li value="close">${l.l('Yes')}</li>
 								</c:set>
 
 								<c:set var="hiddenName" value="openClose"/>

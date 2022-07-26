@@ -10,3 +10,8 @@ image::../../plugin/svc/backup/_res/backup.png[width="800px"]
 Handle in <<../../kernel/setup.adoc#param-address, address parameter editor>> and search streets with same name but in different cities.
 
 image::../../kernel/_res/param_address_edit_1.png[width="800px"]
+
+== Process Card Header Layout
+
+image::_res/process_card_layout.png[]
+

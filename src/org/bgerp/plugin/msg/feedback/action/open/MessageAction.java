@@ -40,7 +40,7 @@ public class MessageAction extends BaseAction {
         private final MessageTypeEmail messageTypeEmail;
 
         protected Config(ParameterMap setup, boolean validate) throws Exception {
-            super(setup, validate);
+            super(null, validate);
             messageTypeEmail = loadMessageTypeEmail(setup);
         }
 

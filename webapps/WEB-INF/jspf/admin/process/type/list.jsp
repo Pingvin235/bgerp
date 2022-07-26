@@ -30,7 +30,7 @@
 	<button type="button" class="btn-grey"
 		onclick="$$.ajax.post('${url}').done(() => $$.ajax.loadContent('${urlList}', this) )">${l.l('Вставить')} [${markTypeString}]</button>
 
-	<ui:input-text name="filter" placeholder="${l.l('Фильтр')}" size="40" value="${form.param['filter']}"
+	<ui:input-text name="filter" placeholder="${l.l('Filter')}" size="40" value="${form.param['filter']}"
 		onSelect="$$.ajax.loadContent(this)"
 		title="${l.l('Фильтр по наименованию, конфигурации')}"/>
 

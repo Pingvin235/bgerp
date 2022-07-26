@@ -33,7 +33,6 @@ public class ProcessAction extends BaseAction {
      * Configuration for open processes.
      */
     public static class Config extends ru.bgcrm.util.Config {
-        private final ParameterMap config;
         /**
          * Process types IDs allowed to be shown. Not {@code null} value.
          */
@@ -45,8 +44,6 @@ public class ProcessAction extends BaseAction {
 
         protected Config(ParameterMap config, boolean validate) throws Exception {
             super(null);
-
-            this.config = config;
 
             processTypeIds = Utils.toIntegerSet(config.get("process.open.typeIds"));
             initWhen(CollectionUtils.isNotEmpty(processTypeIds));

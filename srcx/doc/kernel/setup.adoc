@@ -2,7 +2,7 @@
 :toc:
 
 [[config]]
-== Server configuration
+== Server Configuration
 Правка конфигурации производится в оснастке *Администрирование / Конфигурация*.
 
 Основная конфигурация BGERP определяет большинство параметров функционирования ядра и плагинов.
@@ -41,6 +41,9 @@ user.session.timeout=300
 
 # формат <<#param-address, адресного параметра>>, доступны переменные: index, сity, area, quarter, street, house, flat, room, pod, floor, comment [[config-param-address]]
 address.format=(${city})(, ${street})(, д. ${house})(, кв. ${flat})( ${room})
+
+# substring search mode for <<#param-address, street search>> [[config-street-search-mode]]
+#address.street.search.mode=substring
 
 # шаблон описания контрагента для [[config-search]] <<search.adoc#, поиска>>
 # в нём можно указать параметры контрагента подстановками вида (param:<code>); например: (${param:73} г.р.)(, ${param:12})
@@ -403,9 +406,11 @@ Street and house can be choosen and filtered from drop-downs.
 
 image::_res/param_address_edit.png[width="800px"]
 
-The street search may be performed over city title as well.
+The street search may be performed over multiple substrings as well.
 
 image::_res/param_address_edit_1.png[width="800px"]
+
+The street search mode can be changed to simple substring search in <<config-street-search-mode, configuration>>.
 
 The parameter should be used for storing addresses in limited areas, e.g. service delivery address.
 Not registration address of abitary customers, as you will need all of them stored in directory first.
