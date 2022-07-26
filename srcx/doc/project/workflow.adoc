@@ -152,7 +152,8 @@ git push
 
 IMPORTANT: Perform a separate GIT Push after each <<accept, acceptance>> in order to correctly <<publish-source, publish>> in the open repository.
 
-<<build-release, Release is published>> periodically from the *master* branch.
+After each acceptance to the *master* branch CI performs <<test-and-publish-update-master, test-and-publish-update-master>> and
+<<test-integration-master, test-integration-master>> jobs, which together prepare data for running <<../kernel/install.adoc#demo, Demo System>>.
 
 [[long-lived-branch]]
 === Long-lived branches
@@ -172,7 +173,7 @@ The examples of documentation's format may be found <<examples.adoc#doc, here>>.
 * *About* - common information about;
 * *Setup* - how to configure;
 * *Usage* - using instructions with screenshots;
-* *Development* - recommendation for developers.
+* *Development* - info for developers.
 
 As examples of following the structure see plugins: <<../plugin/git/index.adoc#, GIT>>, <<../plugin/svc/backup/index.adoc#, Backup>>.
 
@@ -235,8 +236,8 @@ Please find below description of CI jobs.
 ==== test-and-publish-update
 The job is executed in every <<change, change>> branch.
 
-Launches <<unit-test, Unit tests>> and <<build-doc, documentation build and validity check>.
-If everything is wents without error then publishing <<build-change, update>> with documentation from the branch to https://bgerp.org/update/<PROCESS_ID>
+Launches <<unit-test, Unit tests>> and <<build-doc, documentation build and validity check>>.
+If everything is went without error then publishing <<build-change, update>> with documentation from the branch to https://bgerp.org/update/<PROCESS_ID>
 
 NOTE: All the published change updates have the same version, equal to the next release.
 
@@ -247,14 +248,18 @@ The job is executed in *master* branch.
 Does the same as *test-and-publish-update* but for master branch.
 As there is no real *PROCESS_ID* available, it is taken as *00000* <<build-change, published>> update.
 The artificial change *00000* can be used for updating to the latest state of *master*.
-To this state is periodically reset https://demo.bgerp.org instance.
+To this state is periodically reset <<../kernel/install.adoc#demo, Demo System>>.
 
 [[test-integration]]
 ==== test-integration
+Runs <<integration-test, integration test>> with DB in container.
+
+[[test-integration-master]]
+==== test-integration-master
 The job is executed in *master* branch.
 
 Runs <<integration-test, integration test>>.
-Upon successful tests execution, written in DB dump gets extracted for https://demo.bgerp.org
+Upon successful tests execution, written in DB dump gets extracted for <<../kernel/install.adoc#demo, Demo System>>.
 
 [[publish-source]]
 ==== publish-source
@@ -319,7 +324,7 @@ All the updates packages are copies to Web directory: `https://bgerp.org/update/
 The <<changes-file, changes file>> has also copied, and all documentation links there starting from `https://bgerp.org/doc`
 are automatically replaced to the `https://bgerp.org/update/PROCESS_ID/doc`.
 
-Users have a capability to <<../kernel/install.adoc#installer-iface, update>> to the change using a *PROCESS_ID* as an identifier.
+Users have a capability to <<../kernel/install.adoc#update-installer-ui, update>> to the change using a *PROCESS_ID* as an identifier.
 
 Multiple update publications are possible until all bugs/caveats are found - after that that change <<accept, accepted>>
 into a main branch and a new build gets <<build-release, published>>
@@ -336,7 +341,7 @@ Script `files.sh` uses *rename* command, it must be installed.
 
 Build is performed from a *master* branch and can include many <<accept, accepted changes>>.
 
-CAUTION: Be sure that <<test-integration, Integration tests>> are successfully done on *master* to provide data for Demo DB.
+CAUTION: Be sure that <<test-integration, Integration tests>> are successfully done on *master* to provide data for <<../kernel/install.adoc#demo, Demo System>>.
 
 Perform the following:
 [source, bash]

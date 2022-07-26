@@ -122,6 +122,14 @@ docker cp bgerp-demo:/opt/bgerp/log4j.properties log4j.properties
 docker cp bgerp-demo:/opt/bgerp/filestorage filestorage
 ----
 
+Add custom title in the extracted `bgerp.properties` file:
+----
+title=BGERP DEMO LOCAL
+----
+
+The running container has unused Java BGERP Server process with disabled <<../kernel/setup.adoc#scheduler, Scheduler>>.
+If you will need to enable the Scheduler later, add appropriate parameter in `bgerp.properties` file as well.
+
 NOTE: Use the command for removing the created container:
 [source, bash]
 ----
@@ -131,7 +139,7 @@ docker rm -f bgerp-demo
 NOTE: For accessing the DB instance with console SQL client use the command:
 [source, bash]
 ----
-docker exec -it bgerp-demo mysql -ubgerp -p<PASSWORD_FROM_PROPERTIES> bgerp
+docker exec -it bgerp-demo /opt/bgerp/mysql.sh
 ----
 
 [[run-gradle]]
@@ -415,7 +423,7 @@ link:../../../src/org/bgerp/plugin/kernel/db.sql#L410-L410[src/org/bgerp/plugin/
 [[plugin-db-cache]]
 ===== Database Queries Cache
 To speed-up the application startup initialization all the already executed calls are cached in <<db.adoc#_db_update_log, db_update_log>> table.
-The cache might be reset using <<../kernel/install.adoc#installer, installer>> console util.
+The cache might be reset using <<../kernel/install.adoc#update-installer, installer>> console util.
 
 To force re-execution a query, add a whitespace before ending semicolon on the query line.
 [snippet, from="CALL drop_key_if_exists", to=") ;"]

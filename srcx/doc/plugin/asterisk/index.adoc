@@ -1,14 +1,18 @@
 = Плагин Asterisk
 :toc:
 
+[[about]]
+== About
 Плагин предназначен для интеграции c программной АТС Asterisk: регистрация в системе звонков клиентов и открытие их на обработку.
 Звонки регистрируются с помощью механизма сообщений.
 
 Для интеграции используется библиотека http://asterisk-java.org/asterisk-java/
 поддерживающая AMI (протокол управления) версии 1.4 для Asterisk v. 12.
 
-[[config]]
-== Конфигурация
+NOTE: You can see the plugin enabled and sample configurations in <<demo, Demo System>>.
+
+[[setup]]
+== Setup
 В <<../../kernel/setup.adoc#config, конфигурации сервера>>.
 [source]
 ----
@@ -61,13 +65,8 @@ read = call
 writetimeout = 5000
 ----
 
-
-После регистрации в сообщении типа Call пользователем своего номера при определении принятого на этот номер вызова BGERP откроет сообщение для обработки.
-
-image::_res/i0108.png[]
-
 [[debug]]
-== Debug
+=== Debug
 Recommended <<../../kernel/extension.adoc#log4j, logger>> configuration.
 
 [source]
@@ -81,9 +80,14 @@ log4j.logger.org.asteriskjava=DEBUG, filea
 log4j.additivity.org.asteriskjava=false
 ----
 
+[[usage]]
+== Usage
+После регистрации в сообщении типа Call пользователем своего номера при определении принятого на этот номер вызова BGERP откроет сообщение для обработки.
+
+image::_res/i0108.png[]
+
 [[demo]]
 == Demo
-
 To work with the demo you need to install the sip client https://www.linphone.org
 
 After installation - scan QR code, and click download and apply:

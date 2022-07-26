@@ -5,6 +5,8 @@
 == About
 The plugin allows making backup of the application code and data.
 
+NOTE: You can see the plugin enabled in <<../../../kernel/install.adoc#demo, Demo System>>.
+
 [[setup]]
 == Setup
 Enable the plugin in <<../../../kernel/setup.adoc#config-plugin, server config>>.

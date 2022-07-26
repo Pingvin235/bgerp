@@ -12,6 +12,8 @@
 * привязка пользователя к чату группы или чату пользователя Telegram.
 * использование настраиваемого форматирования в тексте отправляемых сообщений.
 
+NOTE: You can see the plugin enabled in <<../../kernel/install.adoc#demo, Demo System>>.
+
 [[setup]]
 == Настройка
 

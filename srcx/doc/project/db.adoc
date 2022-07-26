@@ -1581,8 +1581,41 @@ Permission sets.
 |Key-value configuration.
 |===
 
+include::../plugin/bil/invoice/db.adocf[]
 include::../plugin/fulltext/db.adocf[]
 include::../plugin/task/db.adocf[]
 include::../plugin/clb/team/db.adocf[]
 include::../plugin/sec/secret/db.adocf[]
 include::../plugin/svc/log/db.adocf[]
+
+////
+----------------------
+PLUGIN DB DOC TEMPLATE
+----------------------
+
+== Plugin Name
+:toc:
+
+== table_name
+Table Description.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|id
+|INT
+|ID
+
+|entity_id
+|INT
+|entity ID, link to <<_table, table:id>>
+
+|
+|
+|
+|===
+
+////

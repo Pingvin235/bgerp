@@ -1,20 +1,21 @@
-= Plugin GIT
+= Plugin Invoice
 :toc:
 
 [[about]]
 == About
 The plugin provides the following functionality:
 [square]
-* auto generation of GIT branch name, stored in a process parameter;
-* protection against wrong status change for in-progress process;
-* generation GIT commands for organization of <<../../project/workflow.adoc#, Standard GIT Workflow>>.
+* creation process-related invoices with automatically generated number;
+* generation printing form out of them;
+* providing printing form documents to be attached and sent in process message like E-Mail.
 
-NOTE: You can see the plugin enabled and sample configurations in <<../../kernel/install.adoc#demo, Demo System>>.
+NOTE: You can see the plugin enabled and sample configurations in <<../../../kernel/install.adoc#demo, Demo System>>.
 
 [[setup]]
 == Setup
-Make sure the plugin is enabled in <<../../kernel/setup.adoc#config, configuration>>.
+Make sure the plugin is enabled in <<../../../kernel/setup.adoc#config, configuration>>.
 Place the following configuration:
+////
 [source]
 ----
 git:enable=1
@@ -55,3 +56,4 @@ image::_res/process.png[width="800px"]
 When entering GIT branch it will be prefixed by generated prefix.
 *GIT* tab shows generated commands for handling task's workflow.
 Status changing has to be limited by configuration if that exists.
+////

@@ -224,36 +224,38 @@ systemctl enable bgerp
 Для автозапуска приложения при загрузке системы.
 
 [[demo]]
-== Demo system
-The link:https://bgerp.org/#demo[Demo system] is running on https://demo.bgerp.org with the latest published builds of software and resets to initial state any 3rd hour.
+== Demo System
+The link:https://bgerp.org/#demo[Demo System] is running on https://demo.bgerp.org with the latest published builds of software and resets to initial state any 3rd hour CET time.
+Both, software and data for the demo system are <<../project/workflow.adoc#accept, provided>> from *master* branch.
+DB content of the system is identical to <<docker, Docker Container>> that should be preferred in case of you going to do changes.
 
 [[update]]
 == Обновление
 IMPORTANT: Изучите link:https://bgerp.ru#download[лог обновлений], там могут содержаться важные сведения либо инструкции.
 
-[[installer-iface]]
+[[update-installer-ui]]
 === Интерфейс
 В оснастке *Администрирование / Приложение / Статус приложения* доступен просмотр текущей версии приложения,
-списка с логами обновлений. Для всех операций неявно используются <<installer, консольные утилиты>>, описанные далее.
+списка с логами обновлений. Для всех операций неявно используется <<update-installer, консольная утилита>>, описанная далее.
 
 image::_res/i0128.png[width="600"]
 
 Раздел *Update* - обновление на текущую версию системы и набора библиотек.
-Выполняемая <<installer, команда>>:
+Выполняемая <<update-installer, команда>>:
 [source, bash]
 ----
 ./backup.sh && ./installer.sh update(f) && ./erp_restart.sh
 ----
 
 Раздел *Update on change* - загрузка пакетов обновления <<../project/workflow.adoc#build-change, изменения>> по коду процесса.
-Выполняемая <<installer, команда>>:
+Выполняемая <<update-installer, команда>>:
 ----
 ./backup.sh && ./installer.sh install update_3.0_xxxx.zip && ./erp_restart.sh
 ----
 
 NOTE: Повторное *Обновление* после *Обновления на изменение* позволит сбросить сервер в состояние последнего релиза.
 
-[[installer]]
+[[update-installer]]
 === Консольные утилиты
 [CAUTION]
 ====
@@ -301,7 +303,7 @@ Recommended command for updating (argument 'db' can be excluded for speeding up 
 
 Update files are taken from version-containing URL, for example for version 3.0: https://bgerp.org/download/3.0/
 
-[[stored-procedures]]
+[[update-stored-procedure]]
 === Хранимые процедуры обновления
 Для изменений структуры БД в скриптах внутри пакетов обновлении используются хранимые процедуры. Например:
 [source]
@@ -309,7 +311,7 @@ Update files are taken from version-containing URL, for example for version 3.0:
 CALL add_column_if_not_exists('task', 'config', 'TEXT NOT NULL');
 ----
 
-При восстановлении БД из резервной копии они пропадают. Процедура обновления происходит с ошибками.
+При восстановлении БД из резервной копии они могут пропасть. Процедура обновления происходит с ошибками.
 В этом случае необходимо выполнить следующие команды:
 [source, bash]
 ----
@@ -319,16 +321,14 @@ CALL add_column_if_not_exists('task', 'config', 'TEXT NOT NULL');
 
 Первая удаляет из БД информацию о уже применённых обновлениях структуры, вторая - производит повторное выполнение всех скриптов.
 
-== Плагины
-Плагины дополняют функционал ядра, позволяя максимально гибко сконфигурировать систему под нужды конкретной организации-пользователя. В данный момент все доступные плагины включены в общую сборку. Для отключения функций плагина необходимо удалить XML файл описания из каталога *BGERP/plugin*.
-
 [[nginx]]
 == NGINX
 Typically the application is running in Intranet, access to restricted <<interface.adoc#, interfaces>> from outside as well as SSL may be organized using NGINX.
 
 NGINX docs: http://nginx.org/en/docs/
 
-=== Sample
+[[nginx-example]]
+=== Example
 The application is runnun on internal host *erp.int.bitel.ru*.
 Outside on host *erp.bitel.ru* is available only <<interface.adoc#open, open interface>> http://erp.bitel.ru/open
 The configuration may be typically placed in file `/etc/nginx/conf.d/erp.bitel.ru`

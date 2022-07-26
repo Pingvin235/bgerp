@@ -27,14 +27,17 @@ lang=en
 # browser window title
 title=BGERP TEST
 
-# 0 - disable checking of browser version
-check.browser=1
-
 # application access URL [[config-app-url]]
 URL=https://erp.test.org
 # explicit values for user and open interfaces, used for notifications texts
 #url.user={@URL}/user
 #url.open={@URL}/open
+
+# disable checking of browser version
+#check.browser=0
+
+# disable client-side pooling, might be useful for development
+#pooling.enable=0
 
 # timeout of user session activity in seconds
 user.session.timeout=300
@@ -288,10 +291,15 @@ CAUTION: Для пользователя с кодом 1 конфигураци�
 ----
 # отключение проверки прав
 #dontCheckPermission=1
+
 # открытие оснасток после авторизации зафиксированной (в данном примере - поиск и обработка сообщений), разделитель - запятая
 #on.login.open.pinned=/user/search,/user/message/queue
+
 # открытие оснасток после авторизации (в данном примере - обработка сообщений), разделитель - запятая
 #on.login.open=/user/message/queue
+
+# disable client-side pooling for the user, might be useful for development
+#pooling.enable=0
 ----
 
 [[user-correct-permission]]

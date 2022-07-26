@@ -5,6 +5,8 @@
 == About
 The plugin collects *Action Log*  with all performed executed actions and provides viewing the data with filtering.
 
+NOTE: You can see the plugin enabled in <<../../../kernel/install.adoc#demo, Demo System>>.
+
 [[setup]]
 == Setup
 Enable the plugin in <<../../../kernel/setup.adoc#config-plugin, server config>>.

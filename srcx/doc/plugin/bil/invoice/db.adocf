@@ -1,0 +1,98 @@
+== Plugin Invoice
+:toc:
+
+=== invoice
+Invoices.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|id
+|INT
+|ID
+
+|type_id
+|INT
+|invoice type ID, defined in configuration
+
+|date_from
+|DATE
+|first day of payed period
+
+|date_to
+|DATE
+|last day of payed period, *NULL* for month invoices
+
+|process_id
+|INT
+|process ID, link to <<_process, process:id>>
+
+|number_cnt
+|INT
+|counter for number generation
+
+|number
+|CHAR
+|generated unique number
+
+|amount
+|DECIMAL
+|invoice amount
+
+|created_dt
+|DATETIME
+|creation time
+
+|created_user_id
+|INT
+|creation user ID, link to <<_user, user:id>>
+
+|sent_dt
+|DATETIME
+|invoice sending time
+
+|sent_user_id
+|INT
+|sending user ID, link to <<_user, user:id>>
+
+|payment_date
+|DATE
+|payment date
+
+|payment_user_id
+|INT
+|payment user ID, link to <<_user, user:id>>
+
+|positions
+|TEXT
+|JSON serialized positions
+|===
+
+=== invoice_position_yyyyMM
+Invoice positions.
+
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|invoice_id
+|INT
+|invoice ID, link to <<_invoice, invoice:id>>
+
+|id
+|CHAR
+|string position ID
+
+|amount
+|DECIMAL
+|amount
+
+|title
+|CHAR
+|human readable title
+|===
