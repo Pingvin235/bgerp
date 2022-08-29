@@ -213,7 +213,7 @@ public abstract class Plugin {
      * @return
      */
     public Localizer getLocalizer(String toLang) {
-        return Localization.getLocalizer(getId(), toLang);
+        return Localization.getLocalizer(toLang, getId());
     }
 
     /**

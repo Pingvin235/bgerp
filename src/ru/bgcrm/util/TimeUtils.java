@@ -6,6 +6,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -809,6 +811,13 @@ public class TimeUtils {
      */
     public static final Date getPrevDay(Date date) {
         return convertCalendarToDate(getPrevDay(convertDateToCalendar(date)));
+    }
+
+    /**
+     * @return first day in the prevous month from the current time.
+     */
+    public static final Date getPrevMonth() {
+        return Date.from(YearMonth.now().minusMonths(1).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     /**

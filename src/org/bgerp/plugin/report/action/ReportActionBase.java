@@ -7,16 +7,15 @@ import java.util.List;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
-import org.bgerp.l10n.Localizer;
-import org.bgerp.l10n.Titled;
-import org.bgerp.plugin.report.model.chart.Chart;
-import org.bgerp.util.Log;
 import org.bgerp.plugin.report.model.Columns;
 import org.bgerp.plugin.report.model.Data;
+import org.bgerp.plugin.report.model.chart.Chart;
+import org.bgerp.util.Log;
 import org.reflections.Reflections;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.BGIllegalArgumentException;
+import ru.bgcrm.model.Title;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.action.BaseAction;
@@ -28,7 +27,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
  *
  * @author Shamil Vakhitov
  */
-public abstract class ReportActionBase extends BaseAction implements Titled {
+public abstract class ReportActionBase extends BaseAction implements Title {
 
     /**
      * Selects children classes of {@link ReportActionBase} over all plugins.
@@ -39,7 +38,7 @@ public abstract class ReportActionBase extends BaseAction implements Titled {
         private static final Log log = Log.getLog();
 
         @Override
-        public List<TitledAction> create(Localizer l) {
+        public List<TitledAction> create() {
             List<TitledAction> result = new ArrayList<>();
 
             try {
@@ -73,7 +72,7 @@ public abstract class ReportActionBase extends BaseAction implements Titled {
      * Report's columns.
      * @return
      */
-    protected abstract Columns getColumns();
+    public abstract Columns getColumns();
 
     /**
      * Supported charts. Position in the list identifies a chart.

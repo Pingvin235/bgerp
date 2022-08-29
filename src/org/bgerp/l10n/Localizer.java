@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.bgerp.util.Log;
 
+import com.google.common.annotations.VisibleForTesting;
+
 /**
  * Translator to a wanted language using many {@link Localization} sequentially.
  *
@@ -15,6 +17,7 @@ public class Localizer {
     private final Localization[] localizations;
     private final String lang;
 
+    @VisibleForTesting
     public Localizer(String lang, Localization... localizations) {
         this.lang = lang;
         this.localizations = localizations;
@@ -29,15 +32,16 @@ public class Localizer {
 
     /**
      * Translates to target language.
-     * @param pattern
-     * @param args
+     * @param pattern string message with '{}' placeholders.
+     * @param args arguments for replacing placeholders.
      * @return
      */
     public String l(String pattern, Object... args) {
         for (Localization localization : localizations) {
-            if (localization == null) break;
+            if (localization == null)
+                break;
 
-            String translation = localization.getTranslation(pattern, lang);
+            String translation = localization.getTranslation(lang, pattern);
             if (translation != null)
                 return Log.format(translation, args);
         }

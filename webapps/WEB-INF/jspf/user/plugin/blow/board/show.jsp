@@ -9,7 +9,7 @@
 		<%@ include file="filters.jsp"%>
 
 		<p:check action="org.bgerp.plugin.pln.blow.action.BoardAction:search">
-			<form action="/user/plugin/blow/board.do">
+			<form action="${form.httpRequestURI}">
 				<input type="hidden" name="action" value="search"/>
 				<c:forEach var="id" items="${form.response.data.processIds}">
 					<input type="hidden" name="processId" value="${id}"/>
@@ -46,7 +46,7 @@
 			$$.blow.initTable($('#${uiid}'), $('#${uiidRcMenu}'));
 
 			$('#content > #blow-board').data('onShow', function () {
-				$$.ajax.load('/user/plugin/blow/board.do?action=show&id=${form.id}', $$.shell.$content($('#${uiid}')));
+				$$.ajax.load('${form.httpRequestURI}?action=show&id=${form.id}', $$.shell.$content($('#${uiid}')));
 			});
 
 			$$.shell.stateFragment(${form.id});

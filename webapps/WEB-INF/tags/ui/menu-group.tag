@@ -26,8 +26,8 @@
 		</c:set>
 
 		<c:if test="${not empty actionFactory}">
-			<c:forEach var="action" items="${u.newInstance(actionFactory).create(l)}">
-				<ui:menu-item title="${action.getTitle(l)}"
+			<c:forEach var="action" items="${u.newInstance(actionFactory).create()}">
+				<ui:menu-item title="${action.getTitle()}"
 					href="${action.href}"
 					action="${action.action}"
 					command="${action.actionUrl}"/>

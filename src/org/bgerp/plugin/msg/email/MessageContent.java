@@ -65,7 +65,7 @@ public class MessageContent {
      * @throws Exception
      */
     void create(MimeMessage message, String lang, Message msg) throws Exception {
-        var l = Localization.getLocalizer(Plugin.ID, lang);
+        var l = Localization.getLocalizer(lang, Plugin.ID);
 
         var text = new StringBuilder(msg.getText().length() + 400)
             .append(msg.getText())

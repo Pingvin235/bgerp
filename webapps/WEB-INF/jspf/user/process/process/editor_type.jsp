@@ -9,7 +9,7 @@
 	<h1>${l.l('Выберите тип')}</h1>
 	<c:set var="uiid" value="${u:uiid()}"/>
 	<div style="background-color: #ffffff; cursor: pointer;" id="${uiid}">
-		<c:forEach var="node" items="${typeTreeRoot.childs}">
+		<c:forEach var="node" items="${typeTreeRoot.children}">
 			<c:set var="node" value="${node}" scope="request"/>
 			<c:set var="level" value="0" scope="request"/>
 			<jsp:include page="../tree/process_type_tree_item.jsp"/>

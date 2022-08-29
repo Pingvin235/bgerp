@@ -226,6 +226,7 @@ public class PreparedQuery implements Closeable {
             ps = con.prepareStatement(query.toString());
         }
         setParameters();
+        log.debug("Q: {}", ps);
     }
 
     private void setParameters() throws SQLException {

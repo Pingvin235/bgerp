@@ -9,7 +9,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<div class="datemonthdays" id="${uiid}">
+<div class="date-month" id="${uiid}">
 	<input type="hidden" id="dateFrom" name="${dateFromHiddenName}" value="${form.param[dateFromHiddenName]}"/>
 
 	<button class="btn-white icon" id="prev" onclick="return false"><i class="ti-angle-left"></i></button>

@@ -1,0 +1,4 @@
+A: Plugin Subscription. Discount percentage.
+A: Plugin Report. JSP tag <report:headers/>, shows visible column titles.
+A: Method DynActionForm.getHttpRequestURI for replacing duplicated action form URLs.
+C: Improved Gradle configuration to be more standard.

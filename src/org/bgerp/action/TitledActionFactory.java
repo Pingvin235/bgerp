@@ -3,7 +3,7 @@ package org.bgerp.action;
 import java.util.Collections;
 import java.util.List;
 
-import org.bgerp.l10n.Localizer;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 /**
@@ -12,12 +12,13 @@ import org.bgerp.util.Log;
  * @author Shamil Vakhitov
  */
 public interface TitledActionFactory {
-    public List<TitledAction> create(Localizer l);
+    @Dynamic
+    public List<TitledAction> create();
 
-    public static List<TitledAction> create(String actionFactory, Localizer l) {
+    public static List<TitledAction> create(String actionFactory) {
         try {
             var factory = (TitledActionFactory) Class.forName(actionFactory).getConstructor().newInstance();
-            return factory.create(l);
+            return factory.create();
         } catch (Exception e) {
             Log.getLog().error(e);
         }

@@ -3,8 +3,6 @@ package org.bgerp.plugin.bil.billing.subscription;
 import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -42,16 +40,15 @@ public class Config extends ru.bgcrm.util.Config {
     private final int paramEmailId;
     /** Param type 'list', subscriptions' limit, e.g. sessions */
     private final int paramLimitId;
-    /** Begin date, needed for price calculation for the first month. */
-    @SuppressWarnings("unused")
-    private final int paramDateFromId;
     /** End date, placed in license file. */
     private final int paramDateToId;
     /** type 'file', license file */
     private final int paramLicFileId;
-    // type 'money', cost update on change
+    /** type 'money', cost updated on change */
+    private final int paramServiceCostId;
+    // type 'money', cost updated on change
     private final int paramDiscountId;
-    // type 'money', calculated on type change, not editable
+    // type 'money', calculated on changes, not editable
     private final int paramCostId;
 
     private final Set<Integer> costUpdateParams;
@@ -74,18 +71,16 @@ public class Config extends ru.bgcrm.util.Config {
         paramLicFileId = config.getInt("param.lic");
         paramEmailId = config.getInt("param.email");
         paramLimitId = config.getInt("param.limit");
-        paramDateFromId = config.getInt("param.date.from");
         paramDateToId = config.getInt("param.date.to");
+        paramServiceCostId = config.getInt("param.cost.service");
         paramDiscountId = config.getInt("param.cost.discount");
         paramCostId = config.getInt("param.cost");
 
         paramProductId = config.getInt("param.product.id");
 
         // explicit new HashSet is used to ignore duplicated 0 values
-        costUpdateParams = Collections.unmodifiableSet(
-                new HashSet<>(List.of(paramSubscriptionId, paramLimitId, paramDateToId, paramDiscountId)));
-        licFileUpdateParams = Collections.unmodifiableSet(
-                new HashSet<>(List.of(paramSubscriptionId, paramEmailId, paramLimitId, paramDateToId)));
+        costUpdateParams = Set.of(paramSubscriptionId, paramLimitId, paramDateToId, paramServiceCostId, paramDiscountId);
+        licFileUpdateParams = Set.of(paramSubscriptionId, paramEmailId, paramLimitId, paramDateToId);
     }
 
     private SortedMap<Integer, Subscription> loadSubscriptions(ParameterMap config) {
@@ -126,6 +121,10 @@ public class Config extends ru.bgcrm.util.Config {
 
     public int getParamProductId() {
         return paramProductId;
+    }
+
+    public int getParamServiceCostId() {
+        return paramServiceCostId;
     }
 
     public int getParamDiscountId() {

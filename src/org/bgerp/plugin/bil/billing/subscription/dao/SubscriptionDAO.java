@@ -52,7 +52,7 @@ public class SubscriptionDAO extends CommonDAO {
     }
 
     /**
-     * Gets subscription cost out of product prices with discounts.
+     * Gets subscription cost out of product prices, minus service cost and discount.
      * @param config
      * @param subscription
      * @param subscriptionProcessId
@@ -80,11 +80,16 @@ public class SubscriptionDAO extends CommonDAO {
             }
         }
 
+        if (config.getParamServiceCostId() > 0) {
+            var service = paramValueDAO.getParamMoney(subscriptionProcessId, config.getParamServiceCostId());
+            if (service != null)
+                result = result.add(service);
+        }
+
         if (config.getParamDiscountId() > 0) {
             var discount = paramValueDAO.getParamMoney(subscriptionProcessId, config.getParamDiscountId());
-            if (discount != null) {
+            if (discount != null)
                 result = result.subtract(discount);
-            }
         }
 
         return result;

@@ -5,7 +5,7 @@
 <%@ attribute name="loadReturn" description="load return JS command instead of standard one"%>
 
 <c:if test="${empty loadReturn}">
-	<c:set var="loadReturn" value="$$.ajax.load('${form.returnUrl}', $$.shell.$content(this))"/>
+	<c:set var="loadReturn" value="$$.ajax.loadContent('${form.returnUrl}', this)"/>
 </c:if>
 
 <ui:button type="ok" styleClass="mr1 ${styleClass}"

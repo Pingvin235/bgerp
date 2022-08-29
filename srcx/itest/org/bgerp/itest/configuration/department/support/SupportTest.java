@@ -5,6 +5,8 @@ import static org.bgerp.itest.kernel.user.UserTest.userFelixId;
 import static org.bgerp.itest.kernel.user.UserTest.userVladimirId;
 import static org.bgerp.itest.kernel.user.UserTest.userVyacheslavId;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +38,6 @@ import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.TypeProperties;
-import ru.bgcrm.util.TimeUtils;
 
 @Test(groups = "depSupport", priority = 200, dependsOnGroups = { "configProcessNotification", "param", "depDev" })
 public class SupportTest {
@@ -106,7 +107,7 @@ public class SupportTest {
         var m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
             .withFrom(mail).withTo(MessageTest.messageTypeEmailDemo.getEmail())
-            .withFromTime(TimeUtils.getDateWithOffset(-7)).withToTime(TimeUtils.getDateWithOffset(-6)).withUserId(userFelixId)
+            .withFromTime(Date.from(Instant.now().plus(Duration.ofDays(-7)))).withToTime(Date.from(Instant.now().plus(Duration.ofDays(-6)))).withUserId(userFelixId)
             .withSubject(subject).withText(ResourceHelper.getResource(this, "process.1.message.1.txt"));
         MessageHelper.addMessage(m);
 
@@ -116,14 +117,14 @@ public class SupportTest {
         m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(process.getId())
             .withFrom(MessageTest.messageTypeEmailDemo.getEmail()).withTo(mail)
-            .withFromTime(TimeUtils.getDateWithOffset(-6)).withToTime(TimeUtils.getDateWithOffset(-5)).withUserId(userFelixId)
+            .withFromTime(Date.from(Instant.now().plus(Duration.ofDays(-6)))).withToTime(Date.from(Instant.now().plus(Duration.ofDays(-5)))).withUserId(userFelixId)
             .withSubject(subject = (MessageTypeEmail.RE_PREFIX + subject)).withText(ResourceHelper.getResource(this, "process.1.message.2.txt"));
         MessageHelper.addMessage(m);
 
         m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
             .withFrom(mail).withTo(MessageTest.messageTypeEmailDemo.getEmail())
-            .withFromTime(TimeUtils.getDateWithOffset(-4)).withToTime(TimeUtils.getDateWithOffset(-4)).withUserId(userFelixId)
+            .withFromTime(Date.from(Instant.now().plus(Duration.ofDays(-4)))).withToTime(Date.from(Instant.now().plus(Duration.ofDays(-4)))).withUserId(userFelixId)
             .withSubject(subject).withText(ResourceHelper.getResource(this, "process.1.message.3.txt"));
         MessageHelper.addMessage(m);
 
@@ -154,7 +155,7 @@ public class SupportTest {
         var m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
             .withFrom(mail).withTo(MessageTest.messageTypeEmailDemo.getEmail())
-            .withFromTime(TimeUtils.getDateWithOffset(-5)).withToTime(TimeUtils.getDateWithOffset(-4)).withUserId(userVyacheslavId)
+            .withFromTime(Date.from(Instant.now().plus(Duration.ofDays(-5)))).withToTime(Date.from(Instant.now().plus(Duration.ofDays(-4)))).withUserId(userVyacheslavId)
             .withSubject(subject).withText(ResourceHelper.getResource(this, "process.2.message.1.txt"));
         MessageHelper.addMessage(m);
 
@@ -164,14 +165,14 @@ public class SupportTest {
         m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_OUTGOING).withProcessId(process.getId())
             .withFrom(MessageTest.messageTypeEmailDemo.getEmail()).withTo(mail)
-            .withFromTime(TimeUtils.getDateWithOffset(-4)).withToTime(TimeUtils.getDateWithOffset(-4)).withUserId(userVladimirId)
+            .withFromTime(Date.from(Instant.now().plus(Duration.ofDays(-4)))).withToTime(Date.from(Instant.now().plus(Duration.ofDays(-4)))).withUserId(userVladimirId)
             .withSubject(MessageTypeEmail.RE_PREFIX + subject).withText(ResourceHelper.getResource(this, "process.2.message.2.txt"));
         MessageHelper.addMessage(m);
 
         m = new Message()
             .withTypeId(MessageTest.messageTypeEmailDemo.getId()).withDirection(Message.DIRECTION_INCOMING).withProcessId(process.getId())
             .withFrom(mail).withTo(MessageTest.messageTypeEmailDemo.getEmail())
-            .withFromTime(TimeUtils.getDateWithOffset(-3))
+            .withFromTime(Date.from(Instant.now().plus(Duration.ofDays(-3))))
             .withSubject(subject).withText(ResourceHelper.getResource(this, "process.2.message.3.txt"));
         MessageHelper.addMessage(m);
         messageDao.updateMessageTags(m.getId(), Sets.newHashSet(MessageTest.tagAccess.getId()));

@@ -1,11 +1,16 @@
 <%@ page contentType="text/css; charset=UTF-8"%>
 
-.datemonthdays #dayFrom,
-.datemonthdays #dayTo {
+.date-month,
+.date-month-days {
+	display: inline-block;
+}
+
+.date-month-days #dayFrom,
+.date-month-days #dayTo {
 	text-align: center;
 	width: 2.5em;
 }
 
-.datemonthdays #month {
+.date-month-days #month {
 	width: 10em;
 }

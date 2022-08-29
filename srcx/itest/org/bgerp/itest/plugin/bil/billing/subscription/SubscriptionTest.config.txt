@@ -5,8 +5,8 @@ subscription:param.subscription={@PARAM_SUBSCRIPTION_ID}
 subscription:param.lic={@PARAM_LIC_FILE_ID}
 subscription:param.email={@PARAM_EMAIL_ID}
 subscription:param.limit={@PARAM_LIMIT_ID}
-subscription:param.date.from={@PARAM_DATE_FROM_ID}
 subscription:param.date.to={@PARAM_DATE_TO_ID}
+subscription:param.cost.service={@PARAM_COST_SERVICE_ID}
 subscription:param.cost.discount={@PARAM_COST_DISCOUNT_ID}
 subscription:param.cost={@PARAM_COST_ID}
 

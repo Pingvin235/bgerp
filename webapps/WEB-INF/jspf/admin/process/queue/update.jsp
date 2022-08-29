@@ -27,7 +27,7 @@
 
 			<c:set var="treeId" value="${u:uiid()}"/>
 			<ul id="${treeId}" class="layout-height-rest" style="overflow: auto;">
-				<c:forEach var="node" items="${typeTreeRoot.childs}">
+				<c:forEach var="node" items="${typeTreeRoot.children}">
 					<c:set var="node" value="${node}" scope="request"/>
 					<jsp:include page="../process_type_check_tree_item.jsp"/>
 				</c:forEach>

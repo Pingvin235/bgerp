@@ -16,9 +16,9 @@ public class Invoice extends Id {
     private int typeId;
     private int typeTitle;
     private int processId;
-    /** First day of payed period. */
+    /** First day of paid period. */
     private Date dateFrom;
-    /** Last day of payed period. */
+    /** Last day of paid period. */
     private Date dateTo;
     /** Counter, used for number generation. */
     private int numberCnt;

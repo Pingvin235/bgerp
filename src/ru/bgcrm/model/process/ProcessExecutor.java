@@ -25,6 +25,10 @@ public class ProcessExecutor {
 
     public ProcessExecutor() {}
 
+    public ProcessExecutor(int userId, int groupId) {
+        this(userId, groupId, 0);
+    }
+
     public ProcessExecutor(int userId, int groupId, int roleId) {
         if (groupId < 0) {
             groupId = 0;

@@ -72,7 +72,7 @@ public class MessageTypeNote extends MessageType {
 
     @Override
     public String getMessageDescription(String lang, Message message) {
-        var l = Localization.getLocalizer(Plugin.ID, lang);
+        var l = Localization.getLocalizer(lang, Plugin.ID);
 
         var result = new StringBuilder(200);
         result

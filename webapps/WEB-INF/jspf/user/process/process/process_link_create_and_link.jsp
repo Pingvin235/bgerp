@@ -26,13 +26,13 @@
 				</div>
 				<div style="white-space: nowrap;" class="pl1">
 					<c:set var="command">
-						$$.ajax.post(this.form).done((result) => {
+						$$.ajax.post(this).done((result) => {
 							if (result.data.process.id > 0) {
-								$$.ajax.load('${requestUrl}', $('#${uiid}').parent());
+								$$.ajax.load('${requestUrl}', $('#${uiid}').parent(), {control: this});
 							} else {
 								<%-- open with wizard --%>
-								var url = '/user/process.do?id=' + result.data.process.id + '&returnUrl=' + encodeURIComponent('${requestUrl}');
-								$$.ajax.load(url, $('#${uiid}').parent());
+								const url = '/user/process.do?id=' + result.data.process.id + '&returnUrl=' + encodeURIComponent('${requestUrl}');
+								$$.ajax.load(url, $('#${uiid}').parent(), {control: this});
 							}
 						});
 					</c:set>

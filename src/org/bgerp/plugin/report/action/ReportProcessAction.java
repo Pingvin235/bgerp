@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
-import org.bgerp.l10n.Localizer;
+import org.bgerp.l10n.Localization;
 import org.bgerp.plugin.report.Plugin;
 import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Columns;
@@ -30,6 +30,38 @@ import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/plugin/report/report/process")
 public class ReportProcessAction extends ReportActionBase {
+    private static final Column COL_ID = new Column.ColumnInteger("id", "ID", null);
+    private static final Column COL_TYPE_TITLE = new Column.ColumnString("type_title", null, "Тип");
+    private static final Column COL_USER_ID = new Column.ColumnString("user_id", null, null);
+    private static final Column COL_USER_TITLE = new Column.ColumnString("user_title", null, "Пользователь");
+    private static final Column COL_TIME = new Column.ColumnDateTime("time", null, "Время", TimeUtils.FORMAT_TYPE_YMDHM);
+    private static final Column COL_DESCRIPTION = new Column.ColumnString("process_description", null, "Описание");
+
+    private static final Columns COLUMNS = new Columns(
+        COL_ID,
+        COL_TYPE_TITLE,
+        COL_USER_ID,
+        COL_USER_TITLE,
+        COL_TIME,
+        COL_DESCRIPTION
+    );
+
+    private final List<Chart> CHARTS = List.of(
+        new ChartBar(
+            "Количества по типам процессов",
+            COL_TYPE_TITLE,
+            new Column.ColumnCount(COL_ID)
+        ),
+        new ChartPie(
+            "Количества по типам процессов",
+            COL_TYPE_TITLE,
+            new Column.ColumnCount(COL_ID)
+        )
+        // TODO: Add obitary param like 'cost' for making summs.
+        // TODO: Created by hour of the day.
+        // TODO: Closed by executor (support many).
+    );
+
     /**
      * This overwritten method is required because of action specification.
      */
@@ -39,8 +71,8 @@ public class ReportProcessAction extends ReportActionBase {
     }
 
     @Override
-    public String getTitle(Localizer l) {
-        return l.l("Процессы");
+    public String getTitle() {
+        return Localization.getLocalizer(Localization.getSysLang(), Plugin.ID).l("Процессы");
     }
 
     @Override
@@ -53,12 +85,15 @@ public class ReportProcessAction extends ReportActionBase {
         return "report/process";
     }
 
-    private static final Column COL_ID = new Column.ColumnInteger("id", "ID", null);
-    private static final Column COL_TYPE_TITLE = new Column.ColumnString("type_title", null, "Тип");
-    private static final Column COL_USER_ID = new Column.ColumnString("user_id", null, null);
-    private static final Column COL_USER_TITLE = new Column.ColumnString("user_title", null, "Пользователь");
-    private static final Column COL_TIME = new Column.ColumnDateTime("time", null, "Время", TimeUtils.FORMAT_TYPE_YMDHM);
-    private static final Column COL_DESCRIPTION = new Column.ColumnString("process_description", null, "Описание");
+    @Override
+    public Columns getColumns() {
+        return COLUMNS;
+    }
+
+    @Override
+    public List<Chart> getCharts() {
+        return CHARTS;
+    }
 
     @Override
     protected Selector getSelector() {
@@ -114,40 +149,5 @@ public class ReportProcessAction extends ReportActionBase {
                 setRecordCount(form.getPage(), pq.getPrepared());
             }
         };
-    }
-
-    private static final Columns COLUMNS = new Columns(
-        COL_ID,
-        COL_TYPE_TITLE,
-        COL_USER_ID,
-        COL_USER_TITLE,
-        COL_TIME,
-        COL_DESCRIPTION
-    );
-
-    private final List<Chart> CHARTS = List.of(
-        new ChartBar(
-            "Количества по типам процессов",
-            COL_TYPE_TITLE,
-            new Column.ColumnCount(COL_ID)
-        ),
-        new ChartPie(
-            "Количества по типам процессов",
-            COL_TYPE_TITLE,
-            new Column.ColumnCount(COL_ID)
-        )
-        // TODO: Add obitary param like 'cost' for making summs.
-        // TODO: Created by hour of the day.
-        // TODO: Closed by executor (support many).
-    );
-
-    @Override
-    protected Columns getColumns() {
-        return COLUMNS;
-    }
-
-    @Override
-    public List<Chart> getCharts() {
-        return CHARTS;
     }
 }

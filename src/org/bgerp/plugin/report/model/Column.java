@@ -1,5 +1,6 @@
 package org.bgerp.plugin.report.model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -85,10 +86,24 @@ public abstract class Column implements Titled {
             if (value == null)
                 return 0;
             if (value instanceof Integer)
-                return (Integer) value;
+                return value;
             return super.accept(value);
         }
     }
+
+    public static class ColumnDecimal extends Column {
+        public ColumnDecimal(String id, String title, String ltitle) {
+            super(id, title, ltitle);
+        }
+
+        @Override
+        public Object accept(Object value) {
+            if (value instanceof BigDecimal)
+                return value;
+            return super.accept(value);
+        }
+    }
+
     public static class ColumnDateTime extends Column {
         private final String format;
 
@@ -104,7 +119,7 @@ public abstract class Column implements Titled {
             if (value instanceof Date)
                 return (Date) value;
             if (value instanceof Timestamp)
-                return TimeUtils.convertTimestampToDate((Timestamp) value);
+                return (Timestamp) value;
             return super.accept(value);
         }
 

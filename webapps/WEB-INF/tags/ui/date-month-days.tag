@@ -13,16 +13,16 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<div class="datemonthdays" id="${uiid}">
+<div class="date-month-days" id="${uiid}">
 	<input type="hidden" id="dateFrom" name="${dateFromHiddenName}" value="${form.param[dateFromHiddenName]}"/>
 	<input type="hidden" id="dateTo" name="${dateToHiddenName}" value="${form.param[dateToHiddenName]}"/>
 
 	<button class="btn-white icon" id="prev" onclick="return false"><i class="ti-angle-left"></i></button>
 	<button class="btn-white" id="month" onclick="return false">&nbsp;</button>
 	<button class="btn-white icon" id="next" onclick="return false"><i class="ti-angle-right"></i></button>
-	с
+	${l.l('с')}
 	<input type="text" id="dayFrom" maxlength="2" name="${dateFromHiddenName}Day" value="${form.param[dateFromHiddenName.concat('Day')]}"/>
-	по
+	${l.l('по')}
 	<input type="text" id="dayTo" maxlength="2" name="${dateToHiddenName}Day" value="${form.param[dateToHiddenName.concat('Day')]}"/>
 </div>
 

@@ -175,8 +175,8 @@ public class PermissionNode {
     private void loadChildren(Localizer l, Element node) {
         var actionFactory = node.getAttribute("actionFactory");
         if (Utils.notBlankString(actionFactory)) {
-            for (TitledAction action : TitledActionFactory.create(actionFactory, l))
-                children.add(new PermissionNode(action.getAction(), action.getTitle(l)));
+            for (TitledAction action : TitledActionFactory.create(actionFactory))
+                children.add(new PermissionNode(action.getAction(), action.getTitle()));
         } else {
             for (Element child : XMLUtils.selectElements(node, "item")) {
                 children.add(new PermissionNode(this, l, child));
@@ -270,7 +270,7 @@ public class PermissionNode {
                     continue;
 
                 newPermissionTrees.add(new PermissionNode(null,
-                        Localization.getLocalizer(p.getId(), Localization.getSysLang()),
+                        Localization.getLocalizer(Localization.getSysLang(), p.getId()),
                         doc.getDocumentElement()));
             }
 

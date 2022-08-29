@@ -1,5 +1,7 @@
 package org.bgerp.itest.plugin.bil.billing.subscription;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,13 +22,18 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.param.Parameter;
+import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.ProcessExecutor;
+import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
@@ -37,15 +44,25 @@ public class SubscriptionTest {
     private static final Plugin PLUGIN = new Plugin();
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
+    // also mentioned in limit.values.txt
+    private static final int LIMIT_VALUE_10 = 1;
+    private static final int LIMIT_VALUE_UNLIM = 2;
+
+    // also mentioned in config.txt
+    private static final int SUBSCRIPTION_RUB = 1;
+    private static final int SUBSCRIPTION_EUR = 2;
+
+    // subscription process params
     private int paramEmailId;
     private int paramSubscriptionId;
     private int paramLimitId;
     private int paramSubscriptionCostId;
-    private int paramDateFromId;
-    private int paramDateToId;
+    private int paramServiceCostId;
     private int paramDiscountId;
+    private int paramDateToId;
     private int paramLicFileId;
 
+    // product process params
     private int paramProductId;
     private int paramPriceRubId;
     private int paramPriceEurId;
@@ -54,13 +71,9 @@ public class SubscriptionTest {
     private int processSubscriptionTypeId;
     private int processProductTypeId;
 
-    // also mentioned in limit.values.txt
-    private static final int LIMIT_VALUE_10 = 1;
-    private static final int LIMIT_VALUE_UNLIM = 2;
-
-    // also mentioned in config.txt
-    private static final int SUBSCRIPTION_RUB = 1;
-    private static final int SUBSCRIPTION_EUR = 2;
+    private int userGroupId;
+    private int userOwner1Id;
+    private int userOwner2Id;
 
     @Test
     public void param() throws Exception {
@@ -70,14 +83,14 @@ public class SubscriptionTest {
                 ResourceHelper.getResource(this, "subscription.values.txt"));
         paramLimitId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " Limit", ProcessTest.posParam += 2, "",
                 ResourceHelper.getResource(this, "limit.values.txt"));
+        paramServiceCostId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " Service Cost", ProcessTest.posParam += 2,
+                "", "");
+        paramDiscountId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " Discount", ProcessTest.posParam += 2,
+                "", "");
         paramSubscriptionCostId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " Subscription Cost",
                 ProcessTest.posParam += 2, ParamTest.READONLY, "");
-        paramDateFromId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, TITLE + " Subscription Date From", ProcessTest.posParam += 2,
-                "", "");
         paramDateToId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, TITLE + " Subscription Date To", ProcessTest.posParam += 2, "",
                 "");
-        paramDiscountId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " Subscription Discount", ProcessTest.posParam += 2,
-                "", "");
         paramLicFileId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, TITLE + " Subscription License File",
                 ProcessTest.posParam += 2, ParamTest.READONLY, "");
 
@@ -94,9 +107,13 @@ public class SubscriptionTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setConfig(ResourceHelper.getResource(this, "processSubscriptionType.txt"));
-        props.setParameterIds(List.of(paramEmailId, paramSubscriptionId, paramLimitId, paramDateFromId, paramDateToId,
-                paramDiscountId, paramSubscriptionCostId, paramLicFileId));
+        props.setConfig(
+            ConfigHelper.generateConstants(
+                "PARAM_COST_ID", paramSubscriptionCostId
+            ) +
+            ResourceHelper.getResource(this, "processSubscriptionType.txt"));
+        props.setParameterIds(List.of(paramEmailId, paramSubscriptionId, paramLimitId, paramServiceCostId,
+                paramDiscountId, paramSubscriptionCostId, paramDateToId, paramLicFileId));
         processSubscriptionTypeId = ProcessHelper.addType(TITLE + " Subscription", ProcessTest.processTypeTestGroupId, false, props).getId();
 
         props = new TypeProperties();
@@ -120,8 +137,8 @@ public class SubscriptionTest {
                 "PARAM_EMAIL_ID", paramEmailId,
                 "PARAM_SUBSCRIPTION_ID", paramSubscriptionId,
                 "PARAM_LIC_FILE_ID", paramLicFileId,
-                "PARAM_DATE_FROM_ID", paramDateFromId,
                 "PARAM_DATE_TO_ID", paramDateToId,
+                "PARAM_COST_SERVICE_ID", paramServiceCostId,
                 "PARAM_COST_DISCOUNT_ID", paramDiscountId,
                 "PARAM_COST_ID", paramSubscriptionCostId,
                 "PROCESS_PRODUCT_TYPE_ID", processProductTypeId
@@ -139,11 +156,21 @@ public class SubscriptionTest {
         Assert.assertEquals(type.getTitle(), "BGERP EUR");
     }
 
-    @Test(dependsOnMethods = "config")
+    @Test
+    public void user() throws Exception {
+        userGroupId = UserHelper.addGroup(TITLE + " Owners", 0, "");
+        userOwner1Id = UserHelper.addUser(TITLE + " Product Owner 1", "su-po1", List.of(new UserGroup(userGroupId, new Date(), null))).getId();
+        userOwner2Id = UserHelper.addUser(TITLE + " Product Owner 2", "su-po2", List.of(new UserGroup(userGroupId, new Date(), null))).getId();
+    }
+
+    @Test(dependsOnMethods = { "config", "user" })
     public void process() throws Exception {
         var paramDao = new ParamValueDAO(DbTest.conRoot);
+        var processDao = new ProcessDAO(DbTest.conRoot);
 
         var processProduct1Id = ProcessHelper.addProcess(processProductTypeId, User.USER_SYSTEM_ID, TITLE + " Product 1").getId();
+        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupId)), processProduct1Id);
+        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner1Id, userGroupId, 0)), processProduct1Id);
         paramDao.updateParamText(processProduct1Id, paramProductId, "product1");
         paramDao.updateParamListCount(processProduct1Id, paramPriceRubId, Map.of(
                 LIMIT_VALUE_10, Utils.parseBigDecimal("200"),
@@ -155,6 +182,8 @@ public class SubscriptionTest {
         ));
 
         var processProduct2Id = ProcessHelper.addProcess(processProductTypeId, User.USER_SYSTEM_ID, TITLE + " Product 2").getId();
+        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupId)), processProduct2Id);
+        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner2Id, userGroupId, 0)), processProduct2Id);
         paramDao.updateParamText(processProduct2Id, paramProductId, "product2");
         paramDao.updateParamListCount(processProduct2Id, paramPriceRubId, Map.of(
                 LIMIT_VALUE_10, Utils.parseBigDecimal("250"),
@@ -166,8 +195,11 @@ public class SubscriptionTest {
         ));
 
         var processSubscriptionRubId = ProcessHelper.addProcess(processSubscriptionTypeId, User.USER_SYSTEM_ID, TITLE + " Subscription RUB").getId();
+        paramDao.updateParamEmail(processSubscriptionRubId, paramEmailId, 0, new ParameterEmailValue("testclient@bgerp.org"));
         paramDao.updateParamList(processSubscriptionRubId, paramSubscriptionId, Set.of(SUBSCRIPTION_RUB));
         paramDao.updateParamList(processSubscriptionRubId, paramLimitId, Set.of(LIMIT_VALUE_10));
+        paramDao.updateParamMoney(processSubscriptionRubId, paramServiceCostId, new BigDecimal("43.43"));
+        paramDao.updateParamMoney(processSubscriptionRubId, paramDiscountId, new BigDecimal("22.01"));
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct1Id, processSubscriptionRubId));
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct2Id, processSubscriptionRubId));
         // trigger cost recalculation
@@ -176,7 +208,7 @@ public class SubscriptionTest {
                                         processSubscriptionRubId, null),
                         new SingleConnectionSet(DbTest.conRoot));
         var cost = paramDao.getParamMoney(processSubscriptionRubId, paramSubscriptionCostId);
-        Assert.assertEquals(cost, Utils.parseBigDecimal("450.00"));
+        Assert.assertEquals(cost, Utils.parseBigDecimal("471.42"));
 
         var processSubscriptionEurId = ProcessHelper.addProcess(processSubscriptionTypeId, User.USER_SYSTEM_ID, TITLE + " Subscription EUR").getId();
         paramDao.updateParamList(processSubscriptionEurId, paramSubscriptionId, Set.of(SUBSCRIPTION_EUR));

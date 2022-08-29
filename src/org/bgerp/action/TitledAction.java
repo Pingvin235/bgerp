@@ -1,9 +1,8 @@
 package org.bgerp.action;
 
 import org.apache.struts.actions.BaseAction;
-import org.bgerp.l10n.Localizer;
-import org.bgerp.l10n.Titled;
 
+import ru.bgcrm.model.Title;
 import ru.bgcrm.servlet.ActionServlet.Action;
 
 /**
@@ -11,12 +10,12 @@ import ru.bgcrm.servlet.ActionServlet.Action;
  *
  * @author Shamil Vakhitov
  */
-public class TitledAction implements Titled {
+public class TitledAction implements Title {
     private final Class<?> actionClass;
-    private final Titled titled;
+    private final Title titled;
     private final String href;
 
-    public TitledAction(BaseAction action, Titled titled, String href) {
+    public TitledAction(BaseAction action, Title titled, String href) {
         this.actionClass = action.getClass();
         this.titled = titled;
         this.href = href;
@@ -43,8 +42,8 @@ public class TitledAction implements Titled {
     }
 
     @Override
-    public String getTitle(Localizer l) {
-        return titled.getTitle(l);
+    public String getTitle() {
+        return titled.getTitle();
     }
 
     /**

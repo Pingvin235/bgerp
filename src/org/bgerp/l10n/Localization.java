@@ -5,14 +5,18 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.FieldUtils;
+import org.bgerp.servlet.ServletUtils;
 import org.bgerp.servlet.filter.AuthFilter;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -76,7 +80,7 @@ public class Localization {
                 if (phraseMap == null) {
                     phraseMap = new HashMap<>(4);
                     if (translations.containsKey(value))
-                        log.warn("Duplicated key: %s in %s", value, this);
+                        log.warn("Duplicated key: {} in {}", value, this);
                     translations.put(value, phraseMap);
                 }
                 phraseMap.put(lang.getNodeName(), value);
@@ -91,11 +95,11 @@ public class Localization {
 
     /**
      * Translation for a phrase.
-     * @param value phrase.
      * @param toLang target lang.
+     * @param value phrase.
      * @return translation or null if missing.
      */
-    public String getTranslation(String value, String toLang) {
+    String getTranslation(String toLang, String value) {
         return translations.containsKey(value) ? translations.get(value).get(toLang) : null;
     }
 
@@ -105,31 +109,26 @@ public class Localization {
      * @return
      */
     public static Localizer getLocalizer(HttpServletRequest request) {
-        return getLocalizer(getPluginIdFromURI(request), getLang(request));
+        return getLocalizer(getLang(request), getPluginIdFromURI(ServletUtils.getRequestURI(request)));
     }
 
     /**
-     * Retrieves a plugin ID as substring after '/plugin/' and the next '/'.
-     * @param request
-     * @return
+     * Retrieves plugin IDs as substring after '/plugin/' and the following '/'.
+     * @param uri HTTP request URI.
+     * @return {@code null} if no plugin ID was found, otherwise array with plugin IDs.
      */
-    private static String getPluginIdFromURI(HttpServletRequest request) {
+    @VisibleForTesting
+    static String[] getPluginIdFromURI(String uri) {
         final String pluginUriPrefix = "/plugin/";
         final int pluginUriPrefixLength = pluginUriPrefix.length();
 
-        String pluginId = null;
+        List<String> pluginIds = new ArrayList<>();
 
-        String url = request.getRequestURI();
-        // for includes a Tomcat-specific hack for getting the included URL
-        try {
-            url = (String) FieldUtils.readDeclaredField(request, "requestDispatcherPath", true);
-        } catch (Exception e) {}
+        int pos = 0;
+        while ((pos = uri.indexOf(pluginUriPrefix, pos + 1)) > 0)
+            pluginIds.add(StringUtils.substringBefore(uri.substring(pos + pluginUriPrefixLength), "/"));
 
-        int pos = url.indexOf(pluginUriPrefix);
-        if (pos > 0)
-            pluginId = StringUtils.substringBefore(url.substring(pos + pluginUriPrefixLength), "/");
-
-        return pluginId;
+        return pluginIds == null ? null : pluginIds.toArray(new String[0]);
     }
 
     /**
@@ -141,6 +140,7 @@ public class Localization {
      * @param request
      * @return
      */
+    @Dynamic
     public static String getLang(HttpServletRequest request) {
         final String langKeyName = "lang";
 
@@ -177,10 +177,10 @@ public class Localization {
      * Retrieve localizer for a plugin.
      * The localizer includes the following localizations:
      * custom if exists, than for kernel and after for the plugin itself.
-     * @param pluginId plugin ID, null - for kernel
      * @param toLang target language's ID: {@link #LANG_RU}, {@link #LANG_EN}, {@link #LANG_DE}
+     * @param pluginIds plugin IDs, null - for kernel
      */
-    public static Localizer getLocalizer(String pluginId, String toLang) {
+    public static Localizer getLocalizer(String toLang, String... pluginIds) {
         loadLocalizations();
 
         var localizations = new ArrayList<Localization>(3);
@@ -191,10 +191,14 @@ public class Localization {
             localizations.add(custom);
 
         // the defined plugin, if it has localization
-        if (pluginId != null && !org.bgerp.plugin.kernel.Plugin.ID.equals(pluginId)) {
-            var pluginL10n = Localization.localizations.get(pluginId);
-            if (pluginL10n != null)
-                localizations.add(pluginL10n);
+        if (pluginIds != null) {
+            for (String pluginId : pluginIds) {
+                if (pluginId == null || org.bgerp.plugin.kernel.Plugin.ID.equals(pluginId))
+                    continue;
+                var pluginL10n = Localization.localizations.get(pluginId);
+                if (pluginL10n != null)
+                    localizations.add(pluginL10n);
+            }
         }
 
         // kernel plugin
@@ -210,7 +214,7 @@ public class Localization {
      * @return
      */
     public static Localizer getLocalizer(String pluginId, HttpServletRequest request) {
-        return getLocalizer(pluginId, getLang(request));
+        return getLocalizer(getLang(request), pluginId);
     }
 
     /**
@@ -218,7 +222,7 @@ public class Localization {
      * @return
      */
     public static Localizer getSysLocalizer() {
-        return getLocalizer((String) null, getSysLang());
+        return getLocalizer(getSysLang(), (String) null);
     }
 
     private static void loadLocalizations() {
@@ -251,6 +255,6 @@ public class Localization {
     private static void loadL10n(String pluginId, Document doc) throws Exception {
         Localization l = new Localization(pluginId, doc);
         localizations.put(l.pluginId, l);
-        log.debug("Loaded localization for: %s", l.pluginId);
+        log.debug("Loaded localization for: {}", l.pluginId);
     }
 }

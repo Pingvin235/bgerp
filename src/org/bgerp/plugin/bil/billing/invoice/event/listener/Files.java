@@ -27,7 +27,7 @@ public class Files {
             var result = new Pageable<Invoice>();
             new InvoiceSearchDAO(conSet.getSlaveConnection())
                 .withProcessId(e.getProcessId())
-                .withPayed(false)
+                .withPaid(false)
                 .orderFromDate()
                 .orderDesc()
                 .search(result);

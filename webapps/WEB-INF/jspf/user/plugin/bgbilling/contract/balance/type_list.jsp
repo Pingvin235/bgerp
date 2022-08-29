@@ -3,12 +3,12 @@
 
 <div style="padding-left: ${10 * level}px; width: inherit;">
 	<c:choose>
-		<c:when test="${not empty node.childs}">
+		<c:when test="${not empty node.children}">
 			<span id="${node.id}_title" onclick="$(this.parentNode).find( '#' + ${node.id} + '_childs' ).toggle();">
 				<img border="0" src="/img/folder.gif" alt="Node"/>&nbsp;${node.title}
 			</span>
 			<div id="${node.id}_childs" style="display: none;">
-				<c:forEach var="child" items="${node.childs}"> 
+				<c:forEach var="child" items="${node.children}">
 					<c:set var="level" value="${level + 1}" scope="request"/>
 					<c:set var="node" value="${child}" scope="request"/>
 					<jsp:include page="type_list.jsp"/>

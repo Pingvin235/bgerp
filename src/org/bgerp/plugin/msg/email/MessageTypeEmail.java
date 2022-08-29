@@ -94,7 +94,7 @@ public class MessageTypeEmail extends MessageType {
     public MessageTypeEmail(Setup setup, int id, ParameterMap config) throws BGException {
         super(setup, id, config.get("title"), config);
 
-        var l = Localization.getLocalizer(Plugin.ID, Localization.getSysLang());
+        var l = Localization.getLocalizer(Localization.getSysLang(), Plugin.ID);
 
         encoding = MailMsg.getParamMailEncoding(setup);
 
@@ -291,7 +291,7 @@ public class MessageTypeEmail extends MessageType {
 
     @Override
     public String getMessageDescription(String lang, Message message) {
-        var l = Localization.getLocalizer(Plugin.ID, lang);
+        var l = Localization.getLocalizer(lang, Plugin.ID);
 
         var result = new StringBuilder(200);
 

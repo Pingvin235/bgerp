@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
 import org.bgerp.l10n.Localization;
 import org.bgerp.l10n.Localizer;
+import org.bgerp.servlet.ServletUtils;
 import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
@@ -144,6 +145,13 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     public HttpServletRequest getHttpRequest() {
         return httpRequest;
+    }
+
+    /**
+     * @return request URI using method {@link ServletUtils#getRequestURI(HttpServletRequest)} with parameter {@link #httpRequest}.
+     */
+    public String getHttpRequestURI() {
+        return ServletUtils.getRequestURI(httpRequest);
     }
 
     /**

@@ -27,6 +27,7 @@ import ru.bgcrm.model.process.TypeTreeItem;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.Setup;
+import ru.bgcrm.util.sql.ConnectionPool;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class SetRequestParamsFilter implements Filter {
@@ -124,11 +125,13 @@ public class SetRequestParamsFilter implements Filter {
         result.put("ctxUserPermsetList", UserCache.getUserPermsetList());
         result.put("ctxUserPermsetMap", UserCache.getUserPermsetMap());
 
-        result.put("ctxDataSource", Setup.getSetup().getDataSource());
-        result.put("dataSource", Setup.getSetup().getDataSource());
+        ConnectionPool connectionPool = Setup.getSetup().getConnectionPool();
 
-        result.put("ctxSlaveDataSource", Setup.getSetup().getSlaveDataSource());
-        result.put("slaveDataSource", Setup.getSetup().getSlaveDataSource());
+        result.put("ctxDataSource", connectionPool.getDataSource());
+        result.put("dataSource", connectionPool.getDataSource());
+
+        result.put("ctxSlaveDataSource", connectionPool.getSlaveDataSource());
+        result.put("slaveDataSource", connectionPool.getSlaveDataSource());
 
         result.put("ctxProcessTypeMap", ProcessTypeCache.getProcessTypeMap());
         result.put("ctxProcessTypeTreeRoot", ProcessTypeCache.getTypeTreeRoot());

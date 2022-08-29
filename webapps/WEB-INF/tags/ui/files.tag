@@ -48,7 +48,7 @@
 								<c:param name="name">${file.name}</c:param>
 							</c:url>
 							<ui:button type="del" styleClass="btn-small"
-								onclick="$$.ajax.post('${url}').done(() => $$.ajax.load('${requestUrl}', $$.shell.$content(this)))"/>
+								onclick="$$.ajax.post('${url}', {control: this}).done(() => $$.ajax.loadContent('${requestUrl}', this))"/>
 						</c:if>
 					</td>
 				</c:if>

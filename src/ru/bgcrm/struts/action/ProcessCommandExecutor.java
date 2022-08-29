@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -408,10 +409,11 @@ public class ProcessCommandExecutor {
                     case FILE:
                     case LIST:
                     case LISTCOUNT:
+                    case MONEY:
                     case PHONE:
                     case TEXT:
                     case TREE:
-                        throw new BGException("Неподдерживаемый тип параметра для макроса:" + command);
+                        throw new BGException("Unsupported parameter type for macros:" + command);
                 }
             } else {
                 EventProcessor.processEvent(new ProcessDoActionEvent(form, process, command), new SingleConnectionSet(con));
@@ -463,9 +465,12 @@ public class ProcessCommandExecutor {
 
     public static ProcessGroup getProcessGroup(Process process, Set<Integer> groupIds, int roleId) throws BGMessageException {
         ProcessGroup processGroup = null;
+
         Set<ProcessGroup> processGroupSet;
         if (roleId > -1) {
-            processGroupSet = process.getProcessGroupWithRole(roleId);
+            processGroupSet = process.getGroups().stream()
+                .filter(g -> g.getRoleId() == roleId)
+                .collect(Collectors.toSet());
         } else {
             processGroupSet = process.getGroups();
         }
@@ -482,6 +487,7 @@ public class ProcessCommandExecutor {
         if (processGroup == null) {
             throw new BGMessageException("Среди групп процесса, в этой роли, нет предложенных.");
         }
+
         return processGroup;
     }
 

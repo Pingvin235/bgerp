@@ -6,7 +6,7 @@
 <shell:state ltext="Процессы"/>
 
 <div class="report center1020">
-	<html:form action="/user/plugin/report/report/process">
+	<html:form action="${form.httpRequestURI}">
 		<ui:combo-single hiddenName="mode" widthTextValue="5em" value="${form.param.mode}">
 			<jsp:attribute name="valuesHtml">
 				<li value="create">${l.l('Созданные')}</li>
@@ -22,24 +22,17 @@
 			list="${form.response.data.types}" map="${ctxProcessTypeMap}"
 			prefixText="${l.l('Тип')}:" showFilter="1" widthTextValue="10em"/>
 
-		<ui:button type="out" styleClass="ml1 mr1 more out" onclick="$$.ajax.load(this.form, $$.shell.$content(this))"/>
+		<ui:button type="out" styleClass="ml1 mr1 more out" onclick="$$.ajax.loadContent(this)"/>
 
 		<report:more data="${data}"/>
 
-		<ui:page-control nextCommand="; $$.ajax.load(this.form, $$.shell.$content(this))" styleClass="more"/>
+		<ui:page-control nextCommand="; $$.ajax.loadContent(this)" styleClass="more"/>
 	</html:form>
 
 	<%-- TODO: move to tag together with table --%>
 	<div class="data mt1 w100p" style="overflow: auto;">
-		<table class="data">
-			<%-- TODO: columns and header showing tags --%>
-			<tr>
-				<td>ID</td>
-				<td>${l.l('Тип')}</td>
-				<td>${l.l('Пользователь')}</td>
-				<td>${l.l('Время')}</td>
-				<td>${l.l('Описание')}</td>
-			</tr>
+		<table class="data hl">
+			<report:headers data="${data}"/>
 			<c:forEach var="r" items="${form.response.data.list}">
 				<tr>
 					<td><ui:process-link id="${r.get('id')}"/></td>

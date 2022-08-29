@@ -15,7 +15,7 @@ import ru.bgcrm.dao.CommonDAO;
  */
 public class InvoiceSearchDAO extends CommonDAO {
     private int processId;
-    private Boolean payed;
+    private Boolean paid;
     private boolean orderFromDate;
     private boolean orderDesc;
 
@@ -28,8 +28,8 @@ public class InvoiceSearchDAO extends CommonDAO {
         return this;
     }
 
-    public InvoiceSearchDAO withPayed(boolean value) {
-        this.payed = value;
+    public InvoiceSearchDAO withPaid(boolean value) {
+        this.paid = value;
         return this;
     }
 
@@ -49,8 +49,8 @@ public class InvoiceSearchDAO extends CommonDAO {
             if (processId > 0)
                 pq.addQuery(SQL_AND).addQuery("process_id=?").addInt(processId);
 
-            if (payed != null)
-                pq.addQuery(SQL_AND).addQuery("payment_date IS ").addQuery(payed ? "NOT" : "").addQuery("NULL");
+            if (paid != null)
+                pq.addQuery(SQL_AND).addQuery("payment_date IS ").addQuery(paid ? "NOT" : "").addQuery("NULL");
 
             if (orderFromDate) {
                 pq.addQuery(SQL_ORDER_BY).addQuery("date_from");
