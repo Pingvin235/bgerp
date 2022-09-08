@@ -10,8 +10,8 @@
 	<p><ru>Параметр</ru><en>Parameter</en></p>
 	<p><ru>Параметры (сохраняются сразу)</ru><en>Parameters (saved immediately)</en></p>
 	<p><ru>Опции интерфейса</ru><en>Interface Options</en></p>
-	<p><ru>Yes</ru><en>Да</en></p>
-	<p><ru>No</ru><en>Нет</en></p>
+	<p><en>Yes</en><ru>Да</ru></p>
+	<p><en>No</en><ru>Нет</ru></p>
 	<p><ru>Сохранять порядок объектов</ru><en>Preserve objects order</en></p>
 	<p><ru>Последний объект сверху</ru><en>Last object on top</en></p>
 	<p><ru>Открытие буфера объектов по долгому нажатию ЛКМ</ru><en>Open buffer on long left mouse press</en></p>
@@ -472,7 +472,7 @@
 	<p><ru>Время входа</ru><en>Login time</en></p>
 	<p><ru>Последняя активность</ru><en>Last activity</en></p>
 	<p><ru>Значение должно соответствовать одному из шаблонов: {}</ru><en>Value must match one of regexps: {}</en></p>
-	<p><ru>Закрыть другие</ru><en>Close others</en></p>
+	<p><ru>Закрыть другие</ru><en>Close Others</en></p>
 	<p><ru>Обновить</ru><en>Refresh</en></p>
 	<p><ru>Объект был изменен пользователем "{}" {}</ru><en>Object was changed by user "{}" {}</en></p>
 	<p><ru>Создать копию</ru><en>Make a copy</en></p>

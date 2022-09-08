@@ -129,7 +129,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 					$hidden[0].onSelect = function () {
 						${onSelect}
 					}
-					// to make this equals $hidden
+					// to make this equals hidden input
 					$hidden[0].onSelect();
 				},
 				appendTo: '#${uiid}',

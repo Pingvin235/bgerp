@@ -65,7 +65,9 @@ $$.ui = new function () {
 			updateCurrentTitle();
 
 			if (onSelect) {
-				onSelect(this);
+				// to make this equals hidden input
+				$hidden[0].onSelect = onSelect;
+				$hidden[0].onSelect();
 			}
 
 			$drop.hide();

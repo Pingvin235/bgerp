@@ -1,0 +1,3 @@
+F: Message queue reload on combo-single choose.
+F: NPE in Subscription plugin init.
+F: Single selection counter in message queue.

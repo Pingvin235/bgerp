@@ -26,7 +26,9 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         super.init(con);
 
         EventProcessor.subscribe((e, conSet) -> {
-            Setup.getSetup().getConfig(Config.class).paramChanged(e, conSet);
+            var config = Setup.getSetup().getConfig(Config.class);
+            if (config != null)
+                config.paramChanged(e, conSet);
         }, ParamChangedEvent.class);
     }
 }

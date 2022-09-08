@@ -12,7 +12,8 @@
 <html:form action="/user/message" styleId="${formUiid}" styleClass="in-mr05 pr05">
 	<input type="hidden" name="action" value="messageList"/>
 
-	<c:set var="script">$$.ajax.loadContent($('#${formUiid}'), this);</c:set>
+	<%-- used also in list_subjects.jsp --%>
+	<c:set var="script">$$.ajax.loadContent($('#${formUiid}'));</c:set>
 
 	<ui:combo-single
 		hiddenName="typeId" value="${form.param.typeId}"

@@ -215,17 +215,17 @@ $$.ajax = new function () {
 
 	/**
 	 * Calls load with $selector $$.shell.$content()
-	 * @param {*} input URL to be loaded, or HTMLFormElement, or input/button inside form, required parameter
+	 * @param {*} input URL to be loaded, or HTMLFormElement, or $(HTMLFormElement), or input/button inside form, required parameter
 	 * @param {*} obj DOM element, placed in the loaded area, not needed when 'input' is a form input/button field.
 	 */
 	const loadContent = (input, obj) => {
 		const options = {};
 
-		if (input.form) {
+		if (input.form && input.form instanceof HTMLFormElement)
 			input = input.form;
-			if (!obj)
-				obj = input;
-		}
+
+		if (!obj)
+			obj = input;
 
 		if (input.tagName === 'BUTTON')
 			options.control = input;

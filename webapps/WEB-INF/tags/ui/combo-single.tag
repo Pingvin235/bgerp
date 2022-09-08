@@ -99,13 +99,13 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 
 		<script style="display: none;">
 			$(function () {
-				var onSelect = undefined;
+				let onSelect = undefined;
 
-				var $comboDiv = $('#${uiid}');
+				const $comboDiv = $('#${uiid}');
+				const $hidden = $comboDiv.find('input[type=hidden]');
 
 				<c:if test="${not empty onSelect}">
-					onSelect = function (item) {
-						var $hidden = $comboDiv.find( 'input[type=hidden]' );
+					onSelect = function () {
 						${onSelect}
 					};
 				</c:if>

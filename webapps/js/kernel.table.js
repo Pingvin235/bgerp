@@ -19,6 +19,7 @@ $$.table = new function() {
 			$checkboxes.click(function (e) {
 				if (!lastChecked) {
 					lastChecked = e.target;
+					updateSelectedCounter();
 					return;
 				}
 
