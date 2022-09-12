@@ -6,6 +6,11 @@ Restore from backups. Cleaning up old backups.
 
 image::../../plugin/svc/backup/_res/backup.png[width="800px"]
 
+== Plugin <<../../plugin/svc/dba/index.adoc#, DBA>>
+History of executed queries.
+
+image::../../plugin/svc/dba/_res/sql_query.png[width="800px"]
+
 == Enhanced Street Search
 Handle in <<../../kernel/setup.adoc#param-address, address parameter editor>> and search streets with same name but in different cities.
 

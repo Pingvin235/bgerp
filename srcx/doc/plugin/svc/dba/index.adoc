@@ -42,4 +42,4 @@ Is available in menu *Administration / DBA / SQL Query*
 
 image::_res/sql_query.png[width="800px"]
 
-Provides simple querying.
+Provides simple querying. Also queries history is being maintained.

@@ -107,14 +107,14 @@ git lfs prune
 [[change-git-trouble]]
 ==== Troubleshooting
 Error: *Encountered 7 file(s) that should have been pointers, but weren't*
-link:https://stackoverflow.com/questions/46704572/git-error-encountered-7-files-that-should-have-been-pointers-but-werent/54221959[Solution]
 
-Probably only these two commands are enough:
+Fixing commands:
 [source]
 ----
-git rm .gitattributes
-git reset .
+git rm --cached -r . && git reset --hard
 ----
+
+link:https://stackoverflow.com/questions/46704572/git-error-encountered-7-files-that-should-have-been-pointers-but-werent/54221959[Source]
 
 [[accept]]
 === Acceptance

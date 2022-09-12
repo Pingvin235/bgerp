@@ -1,15 +1,16 @@
 package org.bgerp.plugin.svc.dba.action.admin;
 
-import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.plugin.svc.dba.Plugin;
 import org.bgerp.plugin.svc.dba.dao.QueryDAO;
+import org.bgerp.plugin.svc.dba.dao.QueryHistoryDAO;
 import org.bgerp.plugin.svc.dba.model.QueryTable;
 import org.bgerp.plugin.svc.dba.model.QueryType;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.user.PermissionActionMethodException;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
@@ -23,6 +24,9 @@ public class QueryAction extends BaseAction {
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        QueryDAO qDao = new QueryDAO(conSet);
+        QueryHistoryDAO hDao = new QueryHistoryDAO(conSet.getConnection());
+
         String query = form.getParam("query");
         if (Utils.notBlankString(query)) {
             QueryType type = QueryType.of(query);
@@ -30,14 +34,17 @@ public class QueryAction extends BaseAction {
                 throw new BGException("Unknown query type");
             permissionCheck(form, type);
 
+            // first request, not a page change
+            if (form.getPage().getPageSize() == 0)
+                hDao.update(form.getUserId(), query);
+
             var table = new QueryTable(form);
-            try {
-                new QueryDAO(conSet).query(table, type, query);
-            } catch (SQLException e) {
-                throw new BGMessageException(e.getMessage());
-            }
+            qDao.query(table, type, query);
             form.setResponseData("table", table);
         }
+
+        List<IdTitle> storedQueries = hDao.list(form.getUserId());
+        form.setResponseData("storedQueries", storedQueries);
 
         return html(conSet, form, PATH_JSP + "/query.jsp");
     }

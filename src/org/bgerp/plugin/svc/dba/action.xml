@@ -8,6 +8,10 @@
 		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryUpdate" title="UPDATE"/>
 		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryDelete" title="DELETE"/>
 		<item action="org.bgerp.plugin.svc.dba.action.admin.QueryAction:queryDrop" title="DROP"/>
+		<item title="History">
+			<item action="org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:get" title="Load"/>
+			<item action="org.bgerp.plugin.svc.dba.action.admin.QueryHistoryAction:del" title="Delete"/>
+		</item>
 	</item>
 	<item title="Database">
 		<item action="org.bgerp.plugin.svc.dba.action.admin.DatabaseAction:null" title="View State"/>
