@@ -249,7 +249,7 @@ task buildDoc(dependsOn: 'doc', description: 'Backward compatible name for doc')
 task buildJavaDoc(type: Javadoc) {
     options.encoding = 'UTF-8'
     failOnError = false
-    classpath = configurations.implementation
+    classpath = configurations.runtimeClasspath
     source = sourceSets.main.allJava
     destinationDir = file("${buildDir}/javadoc")
 }
