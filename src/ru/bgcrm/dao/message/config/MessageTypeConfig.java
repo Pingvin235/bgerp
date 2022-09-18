@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageDAO;
@@ -65,6 +66,7 @@ public class MessageTypeConfig extends Config {
         }
     }
 
+    @Dynamic
     public SortedMap<Integer, MessageType> getTypeMap() {
         return typeMap;
     }

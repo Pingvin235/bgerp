@@ -26,12 +26,22 @@ public class ParameterAddressValue {
         this.houseId = houseId;
     }
 
+    public ParameterAddressValue withHouseId(int houseId) {
+        setHouseId(houseId);
+        return this;
+    }
+
     public String getFlat() {
         return flat;
     }
 
     public void setFlat(String flat) {
         this.flat = flat;
+    }
+
+    public ParameterAddressValue withFlat(String flat) {
+        setFlat(flat);
+        return this;
     }
 
     public String getRoom() {

@@ -4,7 +4,7 @@
 [[about]]
 == About
 The plugin allows to organize E-Mail exchange in the program.
-Incoming E-Mail messages may be processed via <<../../../kernel/message.adoc#queue, Message Queue>>.
+Incoming E-Mail messages may be processed via <<../../../kernel/message/index.adoc#usage-queue, Message Queue>>.
 Outgoing E-Mails are edited in processes.
 
 [[setup]]
@@ -23,7 +23,7 @@ Configuration parameters.
 
 [[setup-message-type]]
 === Message Type
-The following configuration has to be added to <<../../../kernel/message.adoc#type, message types>>.
+The following configuration has to be added to <<../../../kernel/message/index.adoc#setup-type, message types>>.
 Better to keep it there rather than in plugin's include, because message type IDs are unique for the whole system.
 
 Configuration pattern:
@@ -223,7 +223,7 @@ Links for opening processes are built from <<../../../kernel/setup.adoc#config-a
 
 [[usage-process]]
 === Messaging in process
-On the screen below is seen E-Mail editor in process <<../../../kernel/message.adoc#process, Messages>> tab.
+On the screen below is seen E-Mail editor in process <<../../../kernel/message/index.adoc#usage-process, Messages>> tab.
 
 image::_res/process_message_editor.png[width="800px"]
 

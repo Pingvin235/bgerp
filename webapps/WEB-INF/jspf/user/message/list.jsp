@@ -1,8 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%-- <c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig')}"/> --%>
-
 <%@ include file="list_call_reg.jsp"%>
 
 <c:set var="editorUiid" value="${u:uiid()}"/>
@@ -57,18 +55,6 @@
 	</ui:combo-single>
 
 	<ui:button type="out" onclick="${script}"/>
-
-	<%-- This reload breaks automatically open calls.
-		<script>
-		$(function () {
-			const $messageQueue = $('#content > #message-queue');
-			$messageQueue.data('onShow', function() {
-				if($('#${formUiid}').length) {
-					${script}
-				}
-			});
-		});
-	</script> --%>
 </html:form>
 
 <div class="mt1" style="height: 300px; max-height: 300px; overflow: auto;">

@@ -1,5 +1,6 @@
 package org.bgerp.itest.kernel.db;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.plugin.PluginManager;
@@ -12,6 +13,8 @@ public class DbInitTest {
 
     @Test
     public void init() throws Exception {
+        PropertyConfigurator.configure("srcx/itest/log4j.properties");
+
         DbTest.initPoolAndConnection("/" + DBNAME);
         Setup.resetSetup(DbTest.conPoolRoot);
         // TODO: Workaround.

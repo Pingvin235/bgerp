@@ -37,7 +37,6 @@ public class MessageTypeNote extends MessageType {
     public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
         message.setSystemId("");
         message.setFrom("");
-        message.setProcessed(true);
         message.setToTime(new Date());
         message.setDirection(Message.DIRECTION_INCOMING);
 

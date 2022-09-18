@@ -57,8 +57,7 @@ public class Message extends Id {
 
     // для HD/E-Mail - текст сообщения, для телефона - краткое описание.
     private String text = "";
-    // флаг, что сообщение обработано
-    private boolean processed;
+
     // прикрепленные файлы
     private List<FileData> attaches = new ArrayList<>();
 
@@ -228,13 +227,6 @@ public class Message extends Id {
         return this;
     }
 
-    public boolean isProcessed() {
-        return processed;
-    }
-
-    public void setProcessed(boolean processed) {
-        this.processed = processed;
-    }
 
     public String getSubject() {
         return subject;

@@ -517,7 +517,6 @@ public class MessageTypeEmail extends MessageType {
                     msg.setTypeId(quickAnsweredMessage.getTypeId());
                     msg.setDirection(Message.DIRECTION_OUTGOING);
                     msg.setProcessId(quickAnsweredMessage.getProcessId());
-                    msg.setProcessed(true);
                     msg.setTo(quickAnsweredMessage.getFrom());
                     msg.setFromTime(new Date());
                     msg.setToTime(null);
@@ -584,7 +583,6 @@ public class MessageTypeEmail extends MessageType {
         log.debug("setMessageProcessed processId: {}, processedRead: {}", processId, processedRead);
 
         msg.setProcessId(processId);
-        msg.setProcessed(true);
         if (processedRead) {
             msg.setToTime(new Date());
             msg.setUserId(User.USER_SYSTEM_ID);

@@ -435,7 +435,7 @@ Message tags.
 
 |tag_id
 |INT
-|message <<../kernel/message.adoc#message-tag, tag>> ID
+|message <<../kernel/message/index.adoc#usage-process-tag, tag>> ID
 |===
 
 === news

@@ -1,0 +1,3 @@
+A: Show massive crash processes in message processing. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#usage-queue-related-process
+C: Remove 'processed' column in 'message' DB table.
+C: Remove 'white-space: nowrap;' CSS style for buttons.

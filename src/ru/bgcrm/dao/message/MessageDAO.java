@@ -23,6 +23,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
+import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -122,12 +123,12 @@ public class MessageDAO extends CommonDAO {
 
         if (message.getId() <= 0) {
             String query = "INSERT INTO " + TABLE_MESSAGE
-                    + "(system_id, type_id, direction, `from`, `to`, subject, text, user_id, processed, process_id, from_dt, to_dt, attach_data) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "(system_id, type_id, direction, `from`, `to`, subject, text, user_id, process_id, from_dt, to_dt, attach_data) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
         } else {
             String query = "UPDATE " + TABLE_MESSAGE
-                    + "SET system_id=?, type_id=?, direction=?, `from`=?, `to`=?, subject=?, text=?, user_id=?, processed=?, process_id=?, from_dt=?, to_dt=?, attach_data=? "
+                    + "SET system_id=?, type_id=?, direction=?, `from`=?, `to`=?, subject=?, text=?, user_id=?, process_id=?, from_dt=?, to_dt=?, attach_data=? "
                     + "WHERE id=?";
             ps = con.prepareStatement(query);
         }
@@ -141,7 +142,6 @@ public class MessageDAO extends CommonDAO {
         ps.setString(index++, message.getSubject());
         ps.setString(index++, message.getText());
         ps.setInt(index++, message.getUserId());
-        ps.setBoolean(index++, message.isProcessed());
         ps.setInt(index++, message.getProcessId());
         ps.setTimestamp(index++, TimeConvert.toTimestamp(message.getFromTime()));
         ps.setTimestamp(index++, TimeConvert.toTimestamp(message.getToTime()));
@@ -167,12 +167,11 @@ public class MessageDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updateMessageProcess(Message message) throws SQLException {
-        String query = "UPDATE " + TABLE_MESSAGE + "SET user_id=?, processed=?, to_dt=?, process_id=? WHERE id=?";
+        String query = "UPDATE " + TABLE_MESSAGE + "SET user_id=?, to_dt=?, process_id=? WHERE id=?";
         PreparedStatement ps = con.prepareStatement(query);
 
         int index = 1;
         ps.setInt(index++, message.getUserId());
-        ps.setBoolean(index++, message.isProcessed());
         ps.setTimestamp(index++, TimeConvert.toTimestamp(message.getToTime()));
         ps.setInt(index++, message.getProcessId());
         ps.setInt(index++, message.getId());
@@ -524,7 +523,7 @@ public class MessageDAO extends CommonDAO {
         query.append(") AND message.text LIKE ?");
 
         try (var ps = con.prepareStatement(query.toString())) {
-            ps.setString(1, getLikePatternSub(text));
+            ps.setString(1, LikePattern.SUB.get(text));
 
             var rs = ps.executeQuery();
             while (rs.next()) {
@@ -573,7 +572,6 @@ public class MessageDAO extends CommonDAO {
         result.setFromTime(rs.getTimestamp(prefix + "from_dt"));
         result.setToTime(rs.getTimestamp(prefix + "to_dt"));
         result.setUserId(rs.getInt(prefix + "user_id"));
-        result.setProcessed(rs.getBoolean(prefix + "processed"));
         result.setSystemId(rs.getString(prefix + "system_id"));
         for (FileData data : FileData.parse(rs.getString(prefix + "attach_data"))) {
             result.addAttach(data);

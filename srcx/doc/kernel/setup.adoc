@@ -118,14 +118,6 @@ mail.smtp.pswd=
 # EMail для экстренных уведомлений о проблемах в системе
 #alarm.mail=
 
-# <<message.adoc#process, теги>> сообщений [[config-message-tag]]
-tag.1.title=Реквизиты
-tag.1.color=red
-tag.2.title=ТЗ
-tag.2.color=green
-tag.3.title=TODO
-tag.3.color=magenta
-
 # максимальное время выполнения обработчика события в мс. до принудительного прерывания
 event.process.timeout=5000
 

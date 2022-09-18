@@ -1,11 +1,13 @@
 = Plugin FeedBack
 :toc:
 
+[[about]]
+== About
 The plugin provides adding messages in <<../../kernel/interface.adoc#open, Open>> interface.
 
-[[config]]
-== Configuration
-In <<../../kernel/setup.adoc#config, configuration>> enable plugin and add message <<../../kernel/message.adoc#type-email, type>> of E-Mail, 
+[[setup]]
+== Setup
+In <<../../kernel/setup.adoc#config, configuration>> enable plugin and add message <<../../plugin/msg/email/index.adoc#setup, type>> of E-Mail,
 which will be used for saved messages.
 
 Example:
@@ -15,3 +17,15 @@ feedback:enable=1
 #
 feedback:messageTypeEmailId=1
 ----
+
+[[usage]]
+== Usage
+In open interface for opened processes click *Add* button to send a feedback message.
+
+image::_res/add_button.png[width="800px"]
+
+Enter subject, your E-Mail and message text in the opened editor.
+The message will be saved as an E-Mail and will be available in process Messages tab for processing.
+
+image::_res/add_editor.png[width="800px"]
+

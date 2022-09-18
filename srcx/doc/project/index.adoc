@@ -418,7 +418,7 @@ Plugin DB table names have to start from <<plugin-class, PLUGIN_ID>>.
 
 Use PRIMARY key only for auto incremented INT columns, otherwise prefer named UNIQUE key.
 [snippet, from="UNIQUE", to="`),", remove-leading="	"]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L410-L410[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L408-L408[src/org/bgerp/plugin/kernel/db.sql]
 
 [[plugin-db-cache]]
 ===== Database Queries Cache
@@ -427,7 +427,7 @@ The cache might be reset using <<../kernel/install.adoc#update-installer, instal
 
 To force re-execution a query, add a whitespace before ending semicolon on the query line.
 [snippet, from="CALL drop_key_if_exists", to=") ;"]
-link:../../../src/org/bgerp/plugin/kernel/db.sql#L792-L792[src/org/bgerp/plugin/kernel/db.sql]
+link:../../../src/org/bgerp/plugin/kernel/db.sql#L782-L782[src/org/bgerp/plugin/kernel/db.sql]
 
 [[cache]]
 ===== Cache
@@ -882,7 +882,7 @@ $('#loginForm').dialog({
 By doing <<action>> in object *l* the localization context is passed, containing phrases for the core and the plugin being called.
 
 [snippet, from="message.setTe", to="());", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L222-L222[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L226-L226[ru.bgcrm.struts.action.MessageAction]
 
 Localized key string may contain placeholders for some values, marked as *{}*.
 Such case may be seen for <<exception, BGMessageException sample>>.

@@ -14,18 +14,18 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Maps;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Dynamic;
+import org.bgerp.util.sql.LikePattern;
+
+import com.google.common.collect.Maps;
 
 import javassist.NotFoundException;
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageSearchDAO;
 import ru.bgcrm.dao.message.MessageType;
@@ -83,12 +83,18 @@ public class MessageAction extends BaseAction {
             var messageDao = new MessageDAO(conSet.getConnection());
 
             message = messageDao.getMessageById(form.getId());
+
+            if (message == null)
+                throw new NotFoundException("Not found message with ID: " + form.getId());
         }
         // new message, not loaded
         else if (typeId > 0 && Utils.notBlankString(messageId)) {
             var type = getType(typeId);
 
             message = type.newMessageGet(conSet, messageId);
+
+            if (message == null)
+                throw new NotFoundException("Not found message with System ID: " + messageId);
 
             linksSearch(form, conSet);
 
@@ -123,8 +129,6 @@ public class MessageAction extends BaseAction {
 
         if (message == null)
             throw new BGMessageException("Сообщение не найдено.");
-
-        message.setProcessed(true);
 
         form.setResponseData("id", message.getId());
 
@@ -291,7 +295,7 @@ public class MessageAction extends BaseAction {
                 .withTypeId(typeId).withDirection(Message.DIRECTION_INCOMING).withProcessed(true)
                 .withAttach(form.getParamBoolean("attach", null))
                 .withDateFrom(form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null))
-                .withFrom(CommonDAO.getLikePatternSub(form.getParam("from")))
+                .withFrom(LikePattern.SUB.get(form.getParam("from")))
                 .withFromTimeReverseOrder(reverseOrder)
                 .search(new Pageable<Message>(form));
         } else {

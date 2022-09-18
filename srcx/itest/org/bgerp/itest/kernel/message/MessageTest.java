@@ -1,11 +1,13 @@
 package org.bgerp.itest.kernel.message;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
+import org.bgerp.itest.helper.FileHelper;
 import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
@@ -19,6 +21,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.dao.message.MessageDAO;
+import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeNote;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.process.ProcessDAO;
@@ -35,7 +39,7 @@ import ru.bgcrm.util.Setup;
 
 @Test(groups = "message", dependsOnGroups = { "customer", "user", "process" })
 public class MessageTest {
-    private static final String TITLE = "Kernel Messages";
+    static final String TITLE = "Kernel Message";
 
     // defined in config.messages
     public static final int CALL_MESSAGE_TYPE_ID = 50;
@@ -44,6 +48,7 @@ public class MessageTest {
 
     public static volatile MessageTypeEmail messageTypeEmailDemo;
     public static volatile MessageTypeNote messageTypeNote;
+    public static volatile MessageTypeCall messageTypeCall;
 
     public static volatile Tag tagAccess;
     public static volatile Tag tagSpecification;
@@ -61,12 +66,13 @@ public class MessageTest {
                     "PARAM_CUSTOMER_EMAIL_ID", CustomerTest.paramEmailId,
                     "PARAM_CUSTOMER_PHONE_ID", CustomerTest.paramPhoneId
                 ) +
-                ResourceHelper.getResource(this, "config.messages.txt");
+                ResourceHelper.getResource(this, "config.txt");
         configId = ConfigHelper.addIncludedConfig(TITLE, config);
 
         var messageTypeConfig = Setup.getSetup().getConfig(MessageTypeConfig.class);
         Assert.assertNotNull(messageTypeEmailDemo = (MessageTypeEmail) messageTypeConfig.getTypeMap().get(1));
         Assert.assertNotNull(messageTypeNote = (MessageTypeNote) messageTypeConfig.getTypeMap().get(100));
+        Assert.assertNotNull(messageTypeCall = (MessageTypeCall) messageTypeConfig.getTypeMap().get(50));
 
         var tagsConfig = Setup.getSetup().getConfig(TagConfig.class);
         Assert.assertNotNull(tagAccess = tagsConfig.getTagMap().get(1));
@@ -78,7 +84,7 @@ public class MessageTest {
     @Test
     public void user() throws Exception {
         groupId = UserHelper.addGroup(TITLE, 0, UserHelper.GROUP_CONFIG_ISOLATION);
-        userId = UserHelper.addUser(TITLE, "message", List.of(new UserGroup(groupId, new Date(), null))).getId();
+        userId = UserHelper.addUser(TITLE + " User", "message", List.of(new UserGroup(groupId, new Date(), null))).getId();
 
         var paramDao = new ParamValueDAO(DbTest.conRoot);
         paramDao.updateParamEmail(userId, UserTest.paramEmailId, 0, new ParameterEmailValue("onlymail@domain.org"));
@@ -88,10 +94,14 @@ public class MessageTest {
     @Test(dependsOnMethods = { "user", "config" })
     public void process() throws Exception {
         processId = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE).getId();
+
         var dao = new ProcessDAO(DbTest.conRoot);
         dao.updateProcessGroups(Set.of(new ProcessGroup(groupId)), processId);
         dao.updateProcessExecutors(Set.of(new ProcessExecutor(userId, groupId, 0)), processId);
+    }
 
+    @Test(dependsOnMethods = "process")
+    public void processMessage() throws Exception {
         int i = 0;
 
         for ( ; i < 100; i++)
@@ -100,6 +110,18 @@ public class MessageTest {
         MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Full width", "THE MESSAGE MUST BE SHOWN ON FULL-WIDTH SCREEN by hideLeftAreaOnScroll JS function");
 
         MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Line break", ResourceHelper.getResource(this, "log.txt"));
+
+        var dao = new MessageDAO(DbTest.conRoot);
+
+        var m = MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "One Tag", "The message must contain a single tag.");
+        dao.updateMessageTags(m.getId(), Set.of(MessageTest.tagAccess.getId()));
+
+        m = MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Two Tags", "The message must contain two tags.");
+        dao.updateMessageTags(m.getId(), Set.of(MessageTest.tagSpecification.getId(), MessageTest.tagTodo.getId()));
+
+        m = MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Attachment", "The message must contain an attachment with preview.");
+        m.addAttach(FileHelper.addFile(new File("srcx/doc/_res/image.png")));
+        dao.updateMessage(m);
     }
 
     @Test(dependsOnMethods = "process")

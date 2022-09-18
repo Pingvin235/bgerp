@@ -30,7 +30,7 @@ asterisk:amiManager.<id>.version=<version>
 Где:
 [square]
 * *<id>* - порядковый номер правила;
-* *<typeId>* - идентификатор типа <<../../kernel/message.adoc#type-call, сообщения типа Call>>, с которым будут заводиться звонки в системе;
+* *<typeId>* - идентификатор типа <<../../kernel/message/index.adoc#setup-type-call, сообщения типа Call>>, с которым будут заводиться звонки в системе;
 * *<host>* - хост с Asterisk с AMI;
 * *<port>* - порт доступа к AMI;
 * *<login>* - логин к AMI;

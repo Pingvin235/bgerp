@@ -25,6 +25,7 @@ import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageTypeNote;
+import ru.bgcrm.dao.message.config.MessageRelatedProcessConfig;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
@@ -42,6 +43,7 @@ import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.EntityLogItem;
+import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.config.IsolationConfig;
 import ru.bgcrm.model.config.IsolationConfig.IsolationProcess;
 import ru.bgcrm.model.message.Message;
@@ -815,7 +817,7 @@ public class ProcessAction extends BaseAction {
             objects.add(new CommonObjectLink(0, object.substring(0, pos), Utils.parseInt(object.substring(pos + 1)), ""));
         }
 
-        Pageable<Process> processSearchResult = new Pageable<Process>(form);
+        Pageable<Pair<Process, MessageRelatedProcessConfig.Type>> processSearchResult = new Pageable<>(form);
         new ProcessDAO(con, form).searchProcessListForMessage(processSearchResult, addressFrom, objects, open);
 
         return html(con, form, PATH_JSP + "/message_related_process_list.jsp");
@@ -858,7 +860,6 @@ public class ProcessAction extends BaseAction {
             var m = new Message();
             m.setTypeId(noteMessage.getId());
             m.setProcessId(processTo.getId());
-            m.setProcessed(true);
             m.setText(mergeText + process.getDescription());
             m.setFromTime(new Date());
             m.setUserId(form.getUserId());

@@ -146,11 +146,14 @@ public class MessageTypeCall extends MessageType {
     }
 
     @Override
-    public List<Message> newMessageList(ConnectionSet conSet) throws BGException {
+    public List<Message> newMessageList(ConnectionSet conSet) throws SQLException {
         Pageable<Message> searchResult = new Pageable<Message>();
 
-        MessageDAO messageDao = new MessageDAO(conSet.getConnection());
-        messageDao.searchMessageList(searchResult, null, id, Message.DIRECTION_INCOMING, false, null, null, null, null);
+        new MessageSearchDAO(conSet.getConnection())
+            .withTypeId(id)
+            .withDirection(Message.DIRECTION_INCOMING)
+            .withProcessed(false)
+            .search(searchResult);
 
         return searchResult.getList();
     }
@@ -179,7 +182,6 @@ public class MessageTypeCall extends MessageType {
         MessageDAO messageDao = new MessageDAO(con);
 
         result = messageDao.getMessageBySystemId(id, messageId);
-        result.setProcessed(true);
 
         messageDao.updateMessage(result);
 

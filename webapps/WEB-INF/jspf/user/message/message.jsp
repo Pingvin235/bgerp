@@ -4,11 +4,7 @@
 <c:set var="message" value="${form.response.data.message}" scope="request"/>
 <c:set var="form" value="${form}"/>
 
-<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
-<c:set var="messageType" value="${config.typeMap[message.typeId]}" scope="request"/>
-
-<c:set var="typeEmail" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeEmail'}"/>
-<c:set var="typeCall" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeCall'}"/>
+<c:set var="messageType" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig').typeMap[message.typeId]}" scope="request"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
@@ -117,6 +113,11 @@
 						<c:forEach var="item" items="${form.response.data.searchedList}">
 							<c:param name="object" value="${item.linkedObjectType}:${item.linkedObjectId}"/>
 						</c:forEach>
+						<%-- parameters for updating processes --%>
+						<c:param name="messageTypeId" value="${form.param.typeId}"/>
+						<c:param name="messageId" value="${form.param.messageId}"/>
+						<c:param name="returnUrl" value="${form.requestUrl}"/>
+						<c:param name="returnChildUiid" value="${uiid}"/>
 					</c:url>
 					<c:import url="${url}"/>
 				</div>
@@ -211,7 +212,7 @@
 				<div class="tt in-mt05">
 					<div>${l.l('С номера')}: <b>${message.from}</b></div>
 					<div>${l.l('На номер')}: <b>${message.to}</b></div>
-					<div>${l.l('Время начала')}: <b>${tu.format( message.fromTime, 'ymdhms' )}</b></div>
+					<div>${l.l('Время начала')}: <b>${tu.format(message.fromTime, 'ymdhms')}</b></div>
 				</div>
 			</c:when>
 		</c:choose>

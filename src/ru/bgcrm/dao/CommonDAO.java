@@ -48,6 +48,7 @@ public class CommonDAO {
     protected final static String SQL_DESC = " DESC ";
     protected final static String SQL_REPLACE = " REPLACE INTO ";
     protected final static String SQL_ON_DUP_KEY_UPDATE = " ON DUPLICATE KEY UPDATE ";
+    protected final static String SQL_UNION_ALL = " UNION ALL ";
 
     protected Connection con;
 

@@ -3,7 +3,7 @@
 .btn-blue, .btn-grey, .btn-white, .btn-green, .btn-white-hover {
 	padding: 0.6em 1em;
 	text-align: center;
-	white-space: nowrap;
+	/* white-space: nowrap; a customer wanted to see all the text in process queue filters */
 }
 
 .btn-blue.icon, .btn-grey.icon, .btn-white.icon, .btn-green.icon, .btn-white-hover.icon,

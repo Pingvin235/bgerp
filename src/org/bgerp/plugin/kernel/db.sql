@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `queue_process_type` (
 	`type_id` int(11) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `n_message` (
+CREATE TABLE IF NOT EXISTS `message` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`system_id` varchar(100) NOT NULL,
 	`process_id` int(11) NOT NULL,
@@ -234,12 +234,10 @@ CREATE TABLE IF NOT EXISTS `n_message` (
 	`to_dt` datetime,
 	`subject` varchar(250) NOT NULL,
 	`text` text NOT NULL,
-	`processed` tinyint(1) NOT NULL,
 	`attach_data` text NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `process_id` (`process_id`),
 	KEY `type` (`type_id`),
-	KEY `processed` (`processed`),
 	KEY `from` (`from`),
 	KEY `system_id` (`system_id`(5))
 );
@@ -700,16 +698,9 @@ CALL add_column_if_not_exists('param_listcount', 'comment', 'VARCHAR(50) NOT NUL
 ALTER TABLE process_status MODIFY status_id INT NOT NULL, MODIFY comment VARCHAR(250) NOT NULL;
 ALTER TABLE process_status MODIFY comment VARCHAR(4096);
 
-CALL add_key_if_not_exists('n_message', 'from', '(`from`)');
-
 ALTER TABLE address_house MODIFY frac VARCHAR(50) NOT NULL;
 
-CALL add_column_if_not_exists('n_message', 'system_id', 'VARCHAR(100) NOT NULL AFTER id');
-CALL add_key_if_not_exists('n_message', 'system_id', '(system_id(5))');
-
 CALL add_column_if_not_exists('process_message_state', 'in_unread_count', 'INT NOT NULL AFTER in_count');
-
-ALTER TABLE n_message MODIFY `to` VARCHAR(250) NOT NULL;
 
 ALTER TABLE process_common_filter CHANGE COLUMN `url` `url` VARCHAR(2048) NOT NULL;
 
@@ -748,7 +739,6 @@ CREATE TABLE IF NOT EXISTS message_tag (
 	UNIQUE KEY message_tag(message_id, tag_id)
 );
 
-CALL rename_table('n_message', 'message');
 CALL rename_table('n_param_list_value', 'param_list_value');
 CALL rename_table('n_customer_log', 'customer_log');
 CALL rename_table('n_news', 'news');
@@ -805,8 +795,16 @@ CALL drop_column_if_exists('process_type', 'archive');
 
 ALTER TABLE param_log MODIFY dt TIMESTAMP(4) NOT NULL;
 
--- TODO: CALL drop_column_if_exists('config_global', 'dt');
--- TODO: CALL drop_column_if_exists('config_global', 'user_id');
+CALL drop_column_if_exists('config_global', 'dt');
+CALL drop_column_if_exists('config_global', 'user_id');
+
+CALL rename_table('n_message', 'message');
+CALL add_key_if_not_exists('message', 'from', '(`from`)');
+CALL add_column_if_not_exists('message', 'system_id', 'VARCHAR(100) NOT NULL AFTER id');
+CALL add_key_if_not_exists('message', 'system_id', '(system_id(5))');
+ALTER TABLE message MODIFY `to` VARCHAR(250) NOT NULL;
+
+-- TODO: drop_column_if_exists('message', 'processed');
 
 -- must be the last query;
 INSERT IGNORE INTO user (id, title, login, pswd, description) VALUES (1, "Administrator", "admin", "admin", "Administrator");

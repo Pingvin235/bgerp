@@ -1,5 +1,7 @@
 package ru.bgcrm.dao.process;
 
+import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_HOUSE;
+import static ru.bgcrm.dao.Tables.TABLE_ADDRESS_STREET;
 import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_ADDRESS;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_BLOB;
@@ -31,12 +33,15 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
+import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
 import javassist.NotFoundException;
@@ -47,6 +52,7 @@ import ru.bgcrm.dao.EntityLogDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.ParamValueSelect;
 import ru.bgcrm.dao.message.MessageDAO;
+import ru.bgcrm.dao.message.config.MessageRelatedProcessConfig;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.EntityLogItem;
@@ -79,6 +85,7 @@ import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.ParameterMap;
+import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
@@ -88,6 +95,10 @@ public class ProcessDAO extends CommonDAO {
     private static final String LINKED_PROCESS_JOIN = " LEFT JOIN " + TABLE_PROCESS_LINK
             + " AS pllp ON pllp.object_id=process.id AND pllp.object_type LIKE 'process%' " + " LEFT JOIN "
             + TABLE_PROCESS + " AS " + LINKED_PROCESS + " ON pllp.process_id=" + LINKED_PROCESS + ".id";
+
+    public static final int MODE_USER_CREATED = 1;
+    public static final int MODE_USER_CLOSED = 2;
+    public static final int MODE_USER_STATUS_CHANGED = 3;
 
     /** User request context for isolations, logging changes, l10n. */
     private final DynActionForm form;
@@ -125,7 +136,6 @@ public class ProcessDAO extends CommonDAO {
         process.setCreateTime(rs.getTimestamp(prefix + "create_dt"));
         process.setCloseTime(rs.getTimestamp(prefix + "close_dt"));
         process.setStatusTime(rs.getTimestamp(prefix + "status_dt"));
-        //process.setLastMessageTime( rs.getTimestamp( prefix + "last_message_dt" ) );
 
         List<IdTitle> idTitle = Utils.parseIdTitleList(rs.getString(prefix + "groups"), "0");
         Set<ProcessGroup> processGroups = new LinkedHashSet<ProcessGroup>();
@@ -723,7 +733,7 @@ public class ProcessDAO extends CommonDAO {
                             joinPart.append(" )");
                         } else {
                             joinPart.append(" AS param_text ON process.id=param_text.id AND param_text.param_id="
-                                    + paramId + " AND param_text.value LIKE '" + getLikePatternSub(value) + "'");
+                                    + paramId + " AND param_text.value LIKE '" + LikePattern.SUB.get(value) + "'");
                         }
                     }
                 } else if (Parameter.TYPE_DATE.equals(paramType) || Parameter.TYPE_DATETIME.equals(paramType)) {
@@ -789,7 +799,7 @@ public class ProcessDAO extends CommonDAO {
                     joinPart.append(TABLE_PROCESS_LINK);
                     joinPart.append(" AS " + linkedCustomerAlias + " ON process.id=" + linkedCustomerAlias
                             + ".process_id AND " + linkedCustomerAlias + ".object_type LIKE '"
-                            + getLikePatternStart(Customer.OBJECT_TYPE) + "'");
+                            + LikePattern.START.get(Customer.OBJECT_TYPE) + "'");
                     joinPart.append(SQL_LEFT_JOIN);
                     joinPart.append(TABLE_CUSTOMER);
                     joinPart.append(" AS " + customerAlias + " ON " + linkedCustomerAlias + ".object_id="
@@ -1164,7 +1174,6 @@ public class ProcessDAO extends CommonDAO {
             selectPart.append(
                     " AND link.process_id=" + target + ".id" + " GROUP BY link.process_id ) AS " + columnAlias + " ");
         } else if (value.startsWith("linkCustomer:") || value.startsWith("linkedCustomer:")) {
-            // TODO: тудудуду
             String[] parameters = value.split(":");
 
             if (parameters.length == 2) {
@@ -1243,7 +1252,6 @@ public class ProcessDAO extends CommonDAO {
             }
 
             if (whatSelect.startsWith("dt")) {
-                //selectPart.append( " DATE_FORMAT( " + tableAlias + ".dt, '%d.%m.%y %T' ) " );
                 addDateTimeParam(selectPart, tableAlias + ".dt", Utils.substringAfter(value, ":", 2));
             } else if ("comment".equals(whatSelect)) {
                 selectPart.append(" CONCAT(DATE_FORMAT( " + tableAlias + ".dt, '%d.%m.%y %T' ) ,' [', " + tableAlias
@@ -1653,31 +1661,67 @@ public class ProcessDAO extends CommonDAO {
     }
 
     /**
-     * Выбирает процессы возможно привязанные к сообщению.
-     * @param searchResult
-     * @param from
+     * Searches processes, related to a message using search types from {@link MessageRelatedProcessConfig.Type}.
+     * @param searchResult result list sorted by {@link MessageRelatedProcessConfig.Type} config IDs, {@link Pair#getSecond()} defines type of relation.
+     * @param from message from address.
+     * @param links not {@code null} list with found link objects.
+     * @param open when not {@code null} - filter only opened or closed processes.
      * @throws SQLException
      */
-    public void searchProcessListForMessage(Pageable<Process> searchResult, String from, List<CommonObjectLink> links, Boolean open)
-            throws SQLException {
+    public void searchProcessListForMessage(Pageable<Pair<Process, MessageRelatedProcessConfig.Type>> searchResult, String from,
+            List<CommonObjectLink> links, Boolean open) throws SQLException {
+        var config = Setup.getSetup().getConfig(MessageRelatedProcessConfig.class);
+        if (config == null)
+            return;
+
+        var typesIt = config.getTypes().entrySet().iterator();
+        var me = typesIt.next();
+
         if (searchResult != null) {
             Page page = searchResult.getPage();
-            List<Process> list = searchResult.getList();
+            List<Pair<Process, MessageRelatedProcessConfig.Type>> list = searchResult.getList();
 
             PreparedQuery pq = new PreparedQuery(con);
 
-            pq.addQuery(SQL_SELECT_COUNT_ROWS);
-            pq.addQuery("DISTINCT p.*");
-            pq.addQuery(SQL_FROM);
-            pq.addQuery(TABLE_PROCESS);
-            pq.addQuery("AS p ");
-            pq.addQuery(SQL_INNER_JOIN);
-            pq.addQuery(TABLE_MESSAGE);
-            pq.addQuery("AS m ON m.process_id=p.id AND m.from=?");
-            pq.addString(from);
-            addOpenFilter(pq, open);
+            pq.addQuery(SQL_SELECT_COUNT_ROWS + "*" + SQL_FROM + " (");
 
-            if (CollectionUtils.isNotEmpty(links)) {
+            addQueryType(pq, me, true, from, links, open);
+            while (typesIt.hasNext())
+                addQueryType(pq, typesIt.next(), false, from, links, open);
+
+            pq.addQuery(") p");
+
+            pq.addQuery(SQL_GROUP_BY + "id");
+            pq.addQuery(SQL_ORDER_BY + "create_dt" + SQL_DESC);
+
+            pq.addQuery(getPageLimit(page));
+
+            ResultSet rs = pq.executeQuery();
+            while (rs.next())
+                list.add(new Pair<>(getProcessFromRs(rs, ""), config.getTypes().get(rs.getInt("type"))));
+
+            setRecordCount(page, pq.getPrepared());
+            pq.close();
+        }
+    }
+
+    private void addQueryType(PreparedQuery pq, Entry<Integer, MessageRelatedProcessConfig.Type> me, boolean first, String from,
+            List<CommonObjectLink> links, Boolean open) {
+        if (me.getValue() == MessageRelatedProcessConfig.Type.MESSAGE_FROM) {
+            if (!first)
+                pq.addQuery(SQL_UNION_ALL);
+
+            pq.addQuery(SQL_SELECT + "p.*, ? AS type" + SQL_FROM + TABLE_PROCESS + "AS p ");
+            pq.addQuery(SQL_INNER_JOIN + TABLE_MESSAGE + "AS m ON m.process_id=p.id AND m.from=?");
+            pq.addInt(me.getKey());
+            pq.addString(from);
+
+            addOpenFilter(pq, open);
+        } else if (CollectionUtils.isNotEmpty(links)) {
+            if (!first)
+                pq.addQuery(SQL_UNION_ALL);
+
+            if (me.getValue() == MessageRelatedProcessConfig.Type.FOUND_LINK) {
                 Set<Integer> objectIds = new HashSet<Integer>();
                 StringBuilder objectFilter = new StringBuilder();
 
@@ -1696,29 +1740,27 @@ public class ProcessDAO extends CommonDAO {
 
                 objectFilter.append(" ) ");
 
-                pq.addQuery("UNION SELECT DISTINCT p.*");
-                pq.addQuery(SQL_FROM);
-                pq.addQuery(TABLE_PROCESS);
-                pq.addQuery("AS p ");
-                pq.addQuery(SQL_INNER_JOIN);
-                pq.addQuery(TABLE_PROCESS_LINK);
+                pq.addQuery(SQL_SELECT + "p.*, ? AS type" + SQL_FROM + TABLE_PROCESS + "AS p");
+                pq.addInt(me.getKey());
+                pq.addQuery(SQL_INNER_JOIN + TABLE_PROCESS_LINK);
                 pq.addQuery("AS pl ON pl.process_id=p.id AND pl.object_id IN (" + Utils.toString(objectIds) + ") AND ");
                 pq.addQuery(objectFilter.toString());
+            } else if (me.getValue() == MessageRelatedProcessConfig.Type.FOUND_LINK_CUSTOMER_ADDRESS_CITY) {
+                String customerIds = links.stream()
+                    .filter(link -> link.getLinkedObjectType().startsWith(Customer.OBJECT_TYPE))
+                    .map(link -> String.valueOf(link.getLinkedObjectId()))
+                    .collect(Collectors.joining(","));
 
-                addOpenFilter(pq, open);
+                pq.addQuery(SQL_SELECT + "p.*, ? AS type" + SQL_FROM + TABLE_PROCESS + "AS p");
+                pq.addInt(me.getKey());
+                pq.addQuery(SQL_INNER_JOIN + TABLE_PARAM_LIST + "AS pcity ON p.id=pcity.id AND pcity.param_id=?");
+                pq.addInt(me.getValue().getFoundCustomerAddressCityParamCityId());
+                pq.addQuery(SQL_INNER_JOIN + TABLE_PARAM_ADDRESS + "AS caddr ON caddr.id IN (" + customerIds + ")");
+                pq.addQuery(SQL_INNER_JOIN + TABLE_ADDRESS_HOUSE + "AS chouse ON caddr.house_id=chouse.id");
+                pq.addQuery(SQL_INNER_JOIN + TABLE_ADDRESS_STREET + "AS cstreet ON chouse.street_id=cstreet.id AND cstreet.city_id=pcity.value");
             }
 
-            pq.addQuery(SQL_ORDER_BY);
-            pq.addQuery("create_dt DESC");
-
-            pq.addQuery(getPageLimit(page));
-
-            ResultSet rs = pq.executeQuery();
-            while (rs.next())
-                list.add(getProcessFromRs(rs, ""));
-
-            setRecordCount(page, pq.getPrepared());
-            pq.close();
+            addOpenFilter(pq, open);
         }
     }
 
@@ -1729,8 +1771,7 @@ public class ProcessDAO extends CommonDAO {
      * @param open if not {@code null} then process opened filter.
      * @throws SQLException
      */
-    public void searchProcessListForUser(Pageable<Process> searchResult, int userId, Boolean open)
-            throws SQLException {
+    public void searchProcessListForUser(Pageable<Process> searchResult, int userId, Boolean open) throws SQLException {
         Page page = searchResult.getPage();
         List<Process> list = searchResult.getList();
 
@@ -1758,9 +1799,15 @@ public class ProcessDAO extends CommonDAO {
         pq.close();
     }
 
-    public static final int MODE_USER_CREATED = 1;
-    public static final int MODE_USER_CLOSED = 2;
-    public static final int MODE_USER_STATUS_CHANGED = 3;
+    private void addOpenFilter(PreparedQuery pq, Boolean open) {
+        if (open != null) {
+            if (open) {
+                pq.addQuery(" WHERE close_dt IS NULL ");
+            } else {
+                pq.addQuery(" WHERE close_dt IS NOT NULL ");
+            }
+        }
+    }
 
     /**
      * Выбирает связанные с процессом процессы.
@@ -1813,16 +1860,6 @@ public class ProcessDAO extends CommonDAO {
 
             setRecordCount(page, pq.getPrepared());
             pq.close();
-        }
-    }
-
-    private void addOpenFilter(PreparedQuery pq, Boolean open) {
-        if (open != null) {
-            if (open) {
-                pq.addQuery(" WHERE close_dt IS NULL ");
-            } else {
-                pq.addQuery(" WHERE close_dt IS NOT NULL ");
-            }
         }
     }
 

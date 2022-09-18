@@ -3,6 +3,7 @@ package org.bgerp.itest.kernel.customer;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
@@ -37,7 +38,7 @@ public class CustomerTest {
     private int paramBirthPlaceId;
     private int paramAddressId;
     private int paramReligionId;
-    private int paramServiceAddressId;
+    public static volatile int paramServiceAddressId;
 
     private int paramOrgTitleId;
     private int paramOrgFormId;
@@ -46,7 +47,7 @@ public class CustomerTest {
     private String titlePatternOrgPattern;
 
     private int paramGroupOrgId;
-    private int paramGroupPersonId;
+    public static volatile int paramGroupPersonId;
 
     public static final String CUSTOMER_ORG_NS_DOMAIN = "nicrosoft.com";
     public static final String CUSTOMER_ORG_NS_TILL_MAIL = "till@" + CUSTOMER_ORG_NS_DOMAIN;
@@ -55,6 +56,7 @@ public class CustomerTest {
 
     public static final String CUSTOMER_PERS_IVAN_MAIL = "ivan@bgerp.org";
     public static final String CUSTOMER_PERS_IVAN_NAME = "Ivan Drago";
+    public static final String CUSTOMER_PERS_IVAN_PHONE = "7917737373";
     public static volatile Customer customerPersonIvan;
 
     @Test
@@ -111,6 +113,7 @@ public class CustomerTest {
 
         int customerId = customerPersonIvan.getId();
         paramDao.updateParamEmail(customerId, paramEmailId, 0, new ParameterEmailValue(CUSTOMER_PERS_IVAN_MAIL));
+        paramDao.updateParamPhone(customerId, paramPhoneId, new ParameterPhoneValue(List.of(new ParameterPhoneValueItem(CUSTOMER_PERS_IVAN_PHONE, "13", ""))));
         paramDao.updateParamDate(customerId, paramBirthDateId, new GregorianCalendar(1983, Calendar.JULY, 1).getTime());
         paramDao.updateParamText(customerId, paramBirthPlaceId, "Uzgala village");
         paramDao.updateParamText(customerId, paramAddressId, "Lenina Street 1, 450000, Ufa Russia");
@@ -119,9 +122,7 @@ public class CustomerTest {
 
         paramDao.updateParamEmail(customerOrgNs.getId(), paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_TILL_MAIL, CUSTOMER_ORG_NS_TILL_NAME));
         paramDao.updateParamEmail(customerOrgNs.getId(), paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_DOMAIN, "Domain"));
-        var phoneParamVal = new ParameterPhoneValue();
-        phoneParamVal.addItem(new ParameterPhoneValueItem("666", "", ""));
-        paramDao.updateParamPhone(customerOrgNs.getId(), paramPhoneId, phoneParamVal);
+        paramDao.updateParamPhone(customerOrgNs.getId(), paramPhoneId, new ParameterPhoneValue(List.of(new ParameterPhoneValueItem("666", "", ""))));
         paramDao.updateParamText(customerOrgNs.getId(), paramOrgTitleId, "NicroSoft");
         paramDao.updateParamList(customerOrgNs.getId(), paramOrgFormId, Collections.singleton(5));
 

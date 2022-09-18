@@ -178,9 +178,9 @@ public class MessageSearchDAO extends MessageDAO {
         }
         if (processed != null) {
             if (processed) {
-                ps.addQuery(" AND processed");
+                ps.addQuery(" AND process_id!=0");
             } else {
-                ps.addQuery(" AND NOT(processed)");
+                ps.addQuery(" AND process_id=0");
             }
         }
         if (attach != null) {
@@ -197,7 +197,7 @@ public class MessageSearchDAO extends MessageDAO {
                 ps.addDate(dateFrom.getDateFrom());
             }
             if (dateFrom.getDateTo() != null) {
-                ps.addQuery(" AND m.from_dt <?");
+                ps.addQuery(" AND m.from_dt<?");
                 ps.addDate(TimeUtils.getNextDay(dateFrom.getDateTo()));
             }
         }

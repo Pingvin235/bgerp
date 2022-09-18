@@ -26,7 +26,7 @@
 						<td>${item.id}</td>
 						<td>${config.typeMap[item.typeId].title}</td>
 						<td>${item.subject}</td>
-						<td>${item.from}></td>
+						<td>${item.from}</td>
 						<td>${tu.format(item.fromTime, 'ymdhm')}</td>
 						<td><ui:process-link id="${item.process.id}" text="${ctxProcessTypeMap[item.process.typeId].title}"/></td>
 					</tr>
@@ -96,26 +96,8 @@
 			</form>
 		</c:otherwise>
 	</c:choose>
-		</div>
-
 
 	<script>
-		$(function () {
-			const $dataTable = $('#${uiid}');
-			const callback = function ($clicked) {
-				const $row = $clicked;
-				const openUrl = $row.attr('openUrl');
-				if (openUrl) {
-					$$.ajax.load(openUrl, $('#${editorUiid}'));
-					$dataTable.find('tr').removeClass('hl');
-					$row.addClass('hl');
-				} else {
-					alert('Not found attribute openUrl!');
-				}
-			};
-			doOnClick($dataTable, 'tr:gt(0)', callback);
-
-			$$.table.select($('#${uiid}'), $('#${selectedUiid}'), 'init');
-		});
+		$$.message.subjectTableInit('${uiid}', '${editorUiid}', '${selectedUiid}');
 	</script>
 </u:sc>

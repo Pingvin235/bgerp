@@ -19,7 +19,7 @@ DrawIO diagrams:
 
 Other samples:
 [square]
-* <<../kernel/message.adoc#, Ditaa Diagram>>
+* <<../kernel/message/index.adoc#, Ditaa Diagram>>
 * <<../kernel/process/index.adoc#type-config, Configuration from links from it>>
 * <<../kernel/process/wizard.adoc#, Complex table and includes>>
 
@@ -31,11 +31,11 @@ Let's take interface filters, as example - use *restoreRequestParams* method in 
 
 Saving a value:
 [snippet, from="resto", to=");", remove-leading=    "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L454-L454[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L458-L458[ru.bgcrm.struts.action.MessageAction]
 
 Restoring a value:
 [snippet, from="pu", to="}", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L484-L491[ru.bgcrm.struts.action.MessageAction]
+link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L488-L495[ru.bgcrm.struts.action.MessageAction]
 
 Saving and restoring a value at once:
 [snippet, from="//", to=");", remove-leading="    "]

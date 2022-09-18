@@ -20,3 +20,8 @@ image::../../kernel/_res/param_address_edit_1.png[width="800px"]
 
 image::_res/process_card_layout.png[]
 
+== Improved <<../../kernel/message/index.adoc#usage-queue-related-process, Messages Related Processes>>
+
+Configurable search of message related processes during message processing.
+
+image::../../kernel/message/_res/message_process_related_process.png[width="800px"]

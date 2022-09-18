@@ -28,4 +28,20 @@ public class MessageHelper {
         new MessageDAO(DbTest.conRoot).updateMessage(m);
         return m;
     }
+
+    public static Message addCallMessage(int processId, int userId, Duration timeOffset, String fromNumber, String toNumber, String subject, String text) throws Exception {
+        var m = new Message()
+            .withTypeId(MessageTest.messageTypeCall.getId())
+            .withSystemId(Date.from(Instant.now().plus(timeOffset)).toString())
+            .withDirection(Message.DIRECTION_INCOMING)
+            .withProcessId(processId)
+            .withFromTime(Date.from(Instant.now().plus(timeOffset)))
+            .withFrom(fromNumber)
+            .withToTime(Date.from(Instant.now().plus(timeOffset)))
+            .withTo(toNumber)
+            .withUserId(userId)
+            .withSubject(subject).withText(text);
+        new MessageDAO(DbTest.conRoot).updateMessage(m);
+        return m;
+    }
 }

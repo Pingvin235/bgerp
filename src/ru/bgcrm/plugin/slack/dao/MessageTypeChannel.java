@@ -219,7 +219,6 @@ public class MessageTypeChannel extends MessageType {
                         msg.setFrom("");
                         msg.setTo("");
                         msg.setProcessId(process.getId());
-                        msg.setProcessed(true);
                         msg.setToTime(new Date());
                         msg.setUserId(userId);
 

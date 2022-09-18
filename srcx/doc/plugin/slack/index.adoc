@@ -27,7 +27,7 @@ The plugin has to be enabled in <<../../kernel/setup.adoc#config, configuration>
 
 [[setup-bgerp]]
 === Настройка BGERP
-Настроить в конфигурации BGERP <<../../kernel/message.adoc#type, тип сообщения>>, для Slack может быть создан только один тип сообщения:
+Настроить в конфигурации BGERP <<../../kernel/message/index.adoc#setup-type, тип сообщения>>, для Slack может быть создан только один тип сообщения:
 [source]
 ----
 messageType.<id>.title=<title>
@@ -60,7 +60,7 @@ messageType.5.stringExpressionMessageExtract=<<END
 END
 ----
 
-Синхронизация с форумом производится <<../../kernel/message.adoc#scheduler, стандартной задачей>> обработки сообщений.
+Синхронизация с форумом производится <<../../kernel/message/index.adoc#setup-scheduler, стандартной задачей>> обработки сообщений.
 Отправка сообщений производится немедленно, задача синхронизации лишь производит импорт необходимых сообщений.
 
 [[message]]
