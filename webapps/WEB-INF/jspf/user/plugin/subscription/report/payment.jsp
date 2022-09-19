@@ -14,13 +14,23 @@
 
 		<ui:button type="out" styleClass="ml1 mr1 more out" onclick="$$.ajax.loadContent(this)"/>
 
-		<report:more data="${data}"/>
+		<%-- <report:more data="${data}"/> --%>
 
 		<ui:page-control nextCommand="; $$.ajax.loadContent(this)" styleClass="more"/>
 	</html:form>
 
-	<c:if test="${form.response.data.list != null}">
+	<c:if test="${not empty form.param.dateFrom}">
 		<div class="data mt1 w100p" style="overflow: auto;">
+			<h2>${l.l('Info')}</h2>
+
+			<%-- TODO: Change to table without border.  --%>
+			<div>${l.l('User')}: <b>${ctxUser.title}</b></div>
+			<c:if test="${not empty form.response.data.incomingTaxPercent}">
+				<div class="mt05">${l.l('Tax')}: <b>${form.response.data.incomingTaxPercent}</b>%</div>
+			</c:if>
+
+			<h2>${l.l('Details')}</h2>
+
 			<table class="data hl">
 				<report:headers data="${data}"/>
 				<c:forEach var="r" items="${form.response.data.list}">
@@ -30,6 +40,7 @@
 						<td>${r.get('payment_amount')}</td>
 						<td>${r.get('discount')}</td>
 						<td>${r.get('service_cost')}</td>
+						<td>${r.get('owners_amount')}</td>
 						<td>${r.get('product_description')}</td>
 						<td>${r.get('product_owner')}</td>
 						<td>${r.get('product_cost')}</td>

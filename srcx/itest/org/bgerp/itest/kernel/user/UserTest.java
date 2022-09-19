@@ -29,7 +29,7 @@ public class UserTest {
     public static volatile int groupAdminsId;
     public static volatile int permsetAdminsId;
 
-    public static int paramPos = 0;
+    public static int posParam = 0;
 
     public static volatile int userKarlId;
     public static volatile int userFriedrichId;
@@ -40,9 +40,9 @@ public class UserTest {
 
     @Test
     public void param() throws Exception {
-        paramEmailId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_EMAIL, "E-Mail(s)", paramPos += 2, ParamTest.MULTIPLE, "");
-        paramCellPhoneId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_PHONE, "Cell phone(s)", paramPos += 2, "", "");
-        paramExtensionId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_TEXT, "Extension number", paramPos+=2, "", "");
+        paramEmailId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_EMAIL, "E-Mail(s)", posParam += 2, ParamTest.MULTIPLE, "");
+        paramCellPhoneId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_PHONE, "Cell phone(s)", posParam += 2, "", "");
+        paramExtensionId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_TEXT, "Extension number", posParam+=2, "", "");
     }
 
     @Test(dependsOnMethods = "param")

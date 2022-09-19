@@ -55,7 +55,8 @@ public class EMailAction extends BaseAction {
                     } else
                         throw new Exception("Unknown area: " + area);
 
-                    values.addAll(emails.stream().map(ParameterEmailValue::toString).collect(Collectors.toList()));
+                    if (emails != null)
+                        values.addAll(emails.stream().map(ParameterEmailValue::toString).collect(Collectors.toList()));
 
                 } catch (Exception e) {
                     log.error(e);

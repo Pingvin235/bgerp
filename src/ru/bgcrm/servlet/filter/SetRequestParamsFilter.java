@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.bgerp.Interface;
 import org.bgerp.l10n.Localization;
+import org.bgerp.servlet.ServletUtils;
 import org.bgerp.servlet.filter.AuthFilter;
 
 import ru.bgcrm.cache.CustomerGroupCache;
@@ -46,7 +47,9 @@ public class SetRequestParamsFilter implements Filter {
         ConnectionSet conSet = new ConnectionSet(Setup.getSetup().getConnectionPool(), true);
         request.setAttribute("ctxConSet", conSet);
 
-        request.setAttribute(REQUEST_KEY_LOCALIZER, Localization.getLocalizer((HttpServletRequest) request));
+        // 'l' object is set only for action calls, but not on JSP after them
+        if (ServletUtils.getRequestURI((HttpServletRequest) request).endsWith(".do"))
+            request.setAttribute(REQUEST_KEY_LOCALIZER, Localization.getLocalizer((HttpServletRequest) request));
 
         chain.doFilter(request, response);
 

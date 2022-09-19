@@ -109,7 +109,7 @@ public class Localization {
      * @return
      */
     public static Localizer getLocalizer(HttpServletRequest request) {
-        return getLocalizer(getLang(request), getPluginIdFromURI(ServletUtils.getRequestURI(request)));
+        return getLocalizer(getLang(request), getPluginIdsFromURI(ServletUtils.getRequestURI(request)));
     }
 
     /**
@@ -118,7 +118,7 @@ public class Localization {
      * @return {@code null} if no plugin ID was found, otherwise array with plugin IDs.
      */
     @VisibleForTesting
-    static String[] getPluginIdFromURI(String uri) {
+    static String[] getPluginIdsFromURI(String uri) {
         final String pluginUriPrefix = "/plugin/";
         final int pluginUriPrefixLength = pluginUriPrefix.length();
 

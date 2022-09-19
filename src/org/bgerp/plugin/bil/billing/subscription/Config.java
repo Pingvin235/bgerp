@@ -32,6 +32,11 @@ public class Config extends ru.bgcrm.util.Config {
     private final String signKeyFile;
     private final String signKeyPswd;
 
+    // user param
+
+    /** Param type 'money', incoming tax percentage for a user. */
+    private final int paramUserIncomingTaxPercentId;
+
     // subscription process params
 
     /** Param type 'list', pointing to the subscription. */
@@ -66,6 +71,8 @@ public class Config extends ru.bgcrm.util.Config {
 
         signKeyFile = config.get("sign.key.file", System.getProperty("user.home") + "/.ssh/id_rsa");
         signKeyPswd = config.get("sign.key.pswd");
+
+        paramUserIncomingTaxPercentId = config.getInt("param.user.incoming.tax.percent");
 
         paramSubscriptionId = config.getInt("param.subscription");
         paramLicFileId = config.getInt("param.lic");
@@ -105,6 +112,10 @@ public class Config extends ru.bgcrm.util.Config {
      */
     public Collection<Subscription> getSubscriptions() {
         return subscriptions.values();
+    }
+
+    public int getParamUserIncomingTaxPercentId() {
+        return paramUserIncomingTaxPercentId;
     }
 
     public int getParamEmailId() {

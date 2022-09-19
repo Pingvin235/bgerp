@@ -1,0 +1,80 @@
+= Plugin Subscription
+:toc:
+
+[[about]]
+== About
+The plugin provides the following functionality:
+[square]
+* storing information about customer product subscriptions;
+* subscription price calculation;
+* generation license file for sending it to customers;
+* reporting about money distribution over product owners.
+
+NOTE: You can see the plugin enabled and sample configurations in <<../../../kernel/install.adoc#demo, Demo System>>.
+
+[[setup]]
+== Setup
+The configuration below shows
+
+[[setup-process-type]]
+=== Process Types
+There are needed two process types: for procut
+// TODO
+
+[[setup-conf]]
+=== Configuration
+Make sure the plugin is enabled in <<../../../kernel/setup.adoc#config, configuration>>.
+
+Place the following configuration:
+[source]
+----
+subscription:enable=1
+
+subscription:sign.key.file=/org/bgerp/plugin/bil/billing/subscription/demo.key.id_rsa
+subscription:param.product.id={@PARAM_PRODUCT_ID}
+subscription:param.user.incoming.tax.percent={@PARAM_USER_TAX_PERCENT}
+subscription:param.subscription={@PARAM_SUBSCRIPTION_ID}
+subscription:param.lic={@PARAM_LIC_FILE_ID}
+subscription:param.email={@PARAM_EMAIL_ID}
+subscription:param.limit={@PARAM_LIMIT_ID}
+subscription:param.date.to={@PARAM_DATE_TO_ID}
+subscription:param.cost.service={@PARAM_COST_SERVICE_ID}
+subscription:param.cost.discount={@PARAM_COST_DISCOUNT_ID}
+subscription:param.cost={@PARAM_COST_ID}
+----
+
+subscription:subscription.1.title=BGERP RUB
+subscription:subscription.1.process.type={@PROCESS_SUBSCRIPTION_TYPE_ID}
+subscription:subscription.1.param.limit.price={@PARAM_LIMIT_PRICE_RUB_ID}
+
+// TODO
+
+[[setup-invoice]]
+=== Invoicing
+
+// TODO
+
+[[usage]]
+== Usage
+On the screen below is shown process card with activated plugin.
+Each customer subscription is presented as a process with <<../../../kernel/process/index.adoc#linked-process, linked>> product processes.
+
+image::_res/subscription_process.png[width="800px"]
+
+*Subscription Cost* parameter value is automatically recalculated on changing subscription, limit, linked products, discount or service cost parameters.
+
+After sending an <<setup-invoice, invoice>> and paying that, *Date To* parameter is changed and *License File* is updated.
+
+image::_res/subscription_process_license_send.png[width="800px"]
+
+[[usage-report]]
+== Payment Report
+The plugin provides *Subscription Payments* <<../../report/index.adoc#, Report>>, which shows how much money owns a report generating user to plugin owners.
+
+image::_res/payment_report.png[width="800px"]
+
+User received amount for a month is taken from <<setup-invoice, invoices>>, marked as paid by the user.
+
+[[usage-price-calculator]]
+=== Price Calculator
+// TODO: Configuration for open interface.

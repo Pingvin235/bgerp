@@ -88,7 +88,7 @@
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
 						<li><a href="#"
-							onclick="if ($$.confirm.del()) $$.ajax.post('${url}').done(${reloadScript}) return false;">
+							onclick="if ($$.confirm.del()) $$.ajax.post('${url}').done(${reloadScript}); return false;">
 							<i class="ti-trash"></i>
 							${l.l('Удалить')}</a>
 						</li>

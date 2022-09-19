@@ -32,18 +32,14 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class ReportProcessAction extends ReportActionBase {
     private static final Column COL_ID = new Column.ColumnInteger("id", "ID", null);
     private static final Column COL_TYPE_TITLE = new Column.ColumnString("type_title", null, "Тип");
-    private static final Column COL_USER_ID = new Column.ColumnString("user_id", null, null);
-    private static final Column COL_USER_TITLE = new Column.ColumnString("user_title", null, "Пользователь");
-    private static final Column COL_TIME = new Column.ColumnDateTime("time", null, "Время", TimeUtils.FORMAT_TYPE_YMDHM);
-    private static final Column COL_DESCRIPTION = new Column.ColumnString("process_description", null, "Описание");
 
     private static final Columns COLUMNS = new Columns(
         COL_ID,
         COL_TYPE_TITLE,
-        COL_USER_ID,
-        COL_USER_TITLE,
-        COL_TIME,
-        COL_DESCRIPTION
+        new Column.ColumnString("user_id", null, null),
+        new Column.ColumnString("user_title", null, "Пользователь"),
+        new Column.ColumnDateTime("time", null, "Время", TimeUtils.FORMAT_TYPE_YMDHM),
+        new Column.ColumnString("process_description", null, "Описание")
     );
 
     private final List<Chart> CHARTS = List.of(

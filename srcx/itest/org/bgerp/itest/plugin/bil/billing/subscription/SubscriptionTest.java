@@ -1,12 +1,14 @@
 package org.bgerp.itest.plugin.bil.billing.subscription;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
+import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
@@ -39,7 +41,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Test(groups = "subscription", priority = 100, dependsOnGroups = { "config", "process", "openIface" })
+@Test(groups = "subscription", priority = 100, dependsOnGroups = { "config", "process", "openIface", "message", "user" })
 public class SubscriptionTest {
     private static final Plugin PLUGIN = new Plugin();
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
@@ -51,6 +53,9 @@ public class SubscriptionTest {
     // also mentioned in config.txt
     private static final int SUBSCRIPTION_RUB = 1;
     private static final int SUBSCRIPTION_EUR = 2;
+
+    // user params
+    private int paramUserIncomingTaxPercentId;
 
     // subscription process params
     private int paramEmailId;
@@ -77,6 +82,9 @@ public class SubscriptionTest {
 
     @Test
     public void param() throws Exception {
+        paramUserIncomingTaxPercentId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " Incoming Tax Percent", UserTest.posParam += 2, "",
+                "");
+
         paramEmailId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_EMAIL, TITLE + " E-Mail", ProcessTest.posParam += 2, "",
                 "");
         paramSubscriptionId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " Subscription", ProcessTest.posParam += 2, "",
@@ -131,6 +139,7 @@ public class SubscriptionTest {
             ConfigHelper.generateConstants(
                 "PROCESS_SUBSCRIPTION_TYPE_ID", processSubscriptionTypeId,
                 "PARAM_PRODUCT_ID", paramProductId,
+                "PARAM_USER_TAX_PERCENT", paramUserIncomingTaxPercentId,
                 "PARAM_LIMIT_PRICE_RUB_ID", paramPriceRubId,
                 "PARAM_LIMIT_PRICE_EUR_ID", paramPriceEurId,
                 "PARAM_LIMIT_ID", paramLimitId,
@@ -156,11 +165,14 @@ public class SubscriptionTest {
         Assert.assertEquals(type.getTitle(), "BGERP EUR");
     }
 
-    @Test
+    @Test(dependsOnMethods = "param")
     public void user() throws Exception {
         userGroupId = UserHelper.addGroup(TITLE + " Owners", 0, "");
         userOwner1Id = UserHelper.addUser(TITLE + " Product Owner 1", "su-po1", List.of(new UserGroup(userGroupId, new Date(), null))).getId();
         userOwner2Id = UserHelper.addUser(TITLE + " Product Owner 2", "su-po2", List.of(new UserGroup(userGroupId, new Date(), null))).getId();
+
+        var dao = new ParamValueDAO(DbTest.conRoot);
+        dao.updateParamMoney(UserTest.USER_ADMIN_ID, paramUserIncomingTaxPercentId, "6");
     }
 
     @Test(dependsOnMethods = { "config", "user" })
@@ -210,6 +222,9 @@ public class SubscriptionTest {
         var cost = paramDao.getParamMoney(processSubscriptionRubId, paramSubscriptionCostId);
         Assert.assertEquals(cost, Utils.parseBigDecimal("471.42"));
 
+        MessageHelper.addNoteMessage(processSubscriptionRubId, UserTest.USER_ADMIN_ID, Duration.ZERO, "How To Test",
+                        ResourceHelper.getResource(this, "message.txt"));
+
         var processSubscriptionEurId = ProcessHelper.addProcess(processSubscriptionTypeId, User.USER_SYSTEM_ID, TITLE + " Subscription EUR").getId();
         paramDao.updateParamList(processSubscriptionEurId, paramSubscriptionId, Set.of(SUBSCRIPTION_EUR));
         paramDao.updateParamList(processSubscriptionEurId, paramLimitId, Set.of(LIMIT_VALUE_UNLIM));
@@ -222,6 +237,9 @@ public class SubscriptionTest {
                         new SingleConnectionSet(DbTest.conRoot));
         cost = paramDao.getParamMoney(processSubscriptionEurId, paramSubscriptionCostId);
         Assert.assertEquals(cost, Utils.parseBigDecimal("6.24"));
+
+        MessageHelper.addNoteMessage(processSubscriptionEurId, UserTest.USER_ADMIN_ID, Duration.ZERO, "How To Test",
+                        ResourceHelper.getResource(this, "message.txt"));
     }
 
     @Test(dependsOnMethods = "processType")

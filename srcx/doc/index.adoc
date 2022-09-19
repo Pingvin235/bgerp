@@ -31,6 +31,9 @@
 ** <<plugin/mobile/index.adoc#, Mobile>>
 ** <<plugin/report/index.adoc#, Report>>
 ** <<plugin/task/index.adoc#, Task>>
+** Billing
+*** <<plugin/bil/invoice/index.adoc#, Invoice>>
+*** <<plugin/bil/subscription/index.adoc#, Subscription>>
 ** Collaboration
 *** <<plugin/clb/team/index.adoc#, Team>>
 ** Planning

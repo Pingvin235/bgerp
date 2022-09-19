@@ -33,7 +33,7 @@ public class OpenIfaceTest {
 
     @Test
     public void param() throws Exception {
-        userOpenParamId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " OPEN", UserTest.paramPos += 2, "", "1=YES\n");
+        userOpenParamId = ParamHelper.addParam(User.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " OPEN", UserTest.posParam += 2, "", "1=YES\n");
         processOpenParamId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " Text", ProcessTest.posParam += 2, "",  "");
     }
 

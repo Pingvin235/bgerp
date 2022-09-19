@@ -25,7 +25,7 @@ public class LocalizationTest {
 
     @Test
     public void testGetPluginIdFromURI() {
-        Assert.assertEquals(List.of("test1"), List.of(Localization.getPluginIdFromURI("/user/plugin/test1/some/action.do")));
-        Assert.assertEquals(List.of("report", "test"), List.of(Localization.getPluginIdFromURI("/user/plugin/report/plugin/test/action.do")));
+        Assert.assertEquals(List.of("test1"), List.of(Localization.getPluginIdsFromURI("/user/plugin/test1/some/action.do")));
+        Assert.assertEquals(List.of("report", "test"), List.of(Localization.getPluginIdsFromURI("/user/plugin/report/plugin/test/action.do")));
     }
 }

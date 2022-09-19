@@ -14,46 +14,184 @@ NOTE: You can see the plugin enabled and sample configurations in <<../../../ker
 [[setup]]
 == Setup
 Make sure the plugin is enabled in <<../../../kernel/setup.adoc#config, configuration>>.
+
 Place the following configuration:
-////
 [source]
 ----
-git:enable=1
+invoice:enable=1
 
 # constants
-PARAM_BRANCH_ID=<paramBranchId>
-PARAM_EMAIL_ID=<paramEmailId>
+CUSTOMER_ID=<customerId>
+CUSTOMER_RU_ID=<customerRuId>
+PARAM_COST_ID=<paramCostId>
+PARAM_CONTRACT_DATE_ID=<paramContractDateId>
+PARAM_CUSTOMER_RU_ADDRESS_ID=<paramCustomerRuAddressId>
+PARAM_CUSTOMER_RU_INN_ID=<paramCustomerRuInnId>
+PARAM_CUSTOMER_RU_KPP_ID=<paramCustomerRuKppId>
+PARAM_CUSTOMER_RU_BANK_TITLE_ID=<paramCustomerRuBankTitleId>
+PARAM_CUSTOMER_RU_BANK_BIC_ID=<paramCustomerRuBankBicId>
+PARAM_CUSTOMER_RU_BANK_CORR_ACCOUNT_ID=<paramCustomerRuBankCorrAccountId>
+PARAM_CUSTOMER_RU_BANK_ACCOUNT_ID=<paramCustomerRuBankAccountId>
+PARAM_CUSTOMER_RU_SIGN_POST_ID=<paramCustomerRuSignPostId>
+PARAM_CUSTOMER_RU_SIGN_ID=<paramCustomerRuSignId>
+PARAM_CUSTOMER_RU_SIGN_NAME_ID=<paramCustomerRuSignNameId>
+PARAM_CUSTOMER_RU_STAMP_ID=<paramCustomerRuSignStampId>
 
-git:param.branch={@PARAM_BRANCH_ID}
-git:param.email={@PARAM_EMAIL_ID}
-git:process.allowed.status.with.branch=<allowedStatusIds>
+invoice:type.1.title=Consultancy
+invoice:type.1.jsp=/WEB-INF/jspf/user/plugin/invoice/doc/eu_en.jsp
+invoice:type.1.provider.{@inc:cnt}.class=org.bgerp.plugin.bil.billing.invoice.pos.ExpressionPositionProvider
+invoice:type.1.number.pattern=(${process_id:000000})-(${date_from:yyyyMM})-(${number_in_month_for_process:00})
+invoice:type.1.provider.{@cnt}.expression=<<END
+    cost = processParam.get({@PARAM_COST_ID}).getValue();
+    if (cost != null)
+        invoice.addPosition("consultancy", "Consultancy", cost, "", 1);
+END
+invoice:type.1.customer={@CUSTOMER_ID}
 
-# optional parameters with default values
-# prefix for branch name and commit message
-#git:prefix=p
-# main branch
-#git:main.branch=master
+invoice:type.2.title=Консультации
+invoice:type.2.jsp=/WEB-INF/jspf/user/plugin/invoice/doc/ru_ru.jsp
+invoice:type.2.number.class=org.bgerp.plugin.bil.billing.invoice.num.PatternBasedNumberProvider
+invoice:type.2.number.pattern=RU(${process_id:000000})-(${date_from:yyyyMM})-(${number_in_month_for_process:00})
+invoice:type.2.provider.{@inc:cnt}.class=org.bgerp.plugin.bil.billing.invoice.pos.ExpressionPositionProvider
+invoice:type.2.provider.{@cnt}.expression=<<END
+    cost = processParam.get({@PARAM_COST_ID}).getValue();
+    if (cost != null)
+        invoice.addPosition("consultancy",
+            "Консультационно-справочное обслуживание за " + invoice.getDateFromMonthDisplayName("ru") + " " + invoice.getDateFromYear() + " г.",
+            cost, "шт.", 1);
+END
+invoice:type.2.customer={@CUSTOMER_RU_ID}
+
+cnt=0
+invoice:position.{@inc:cnt}.id=consultancy
+invoice:position.{@cnt}.title=Consultancy
+invoice:position.{@inc:cnt}.id=test
+invoice:position.{@cnt}.title=Test position
+
+invoice:param.process.contract.date={@PARAM_CONTRACT_DATE_ID}
+
+invoice:param.customer.ru.address={@PARAM_CUSTOMER_RU_ADDRESS_ID}
+invoice:param.customer.ru.inn={@PARAM_CUSTOMER_RU_INN_ID}
+invoice:param.customer.ru.kpp={@PARAM_CUSTOMER_RU_KPP_ID}
+invoice:param.customer.ru.bank.title={@PARAM_CUSTOMER_RU_BANK_TITLE_ID}
+invoice:param.customer.ru.bank.bic={@PARAM_CUSTOMER_RU_BANK_BIC_ID}
+invoice:param.customer.ru.bank.corr.account={@PARAM_CUSTOMER_RU_BANK_CORR_ACCOUNT_ID}
+invoice:param.customer.ru.bank.account={@PARAM_CUSTOMER_RU_BANK_ACCOUNT_ID}
+invoice:param.customer.ru.sign.post={@PARAM_CUSTOMER_RU_SIGN_POST_ID}
+invoice:param.customer.ru.sign={@PARAM_CUSTOMER_RU_SIGN_ID}
+invoice:param.customer.ru.sign.name={@PARAM_CUSTOMER_RU_SIGN_NAME_ID}
+invoice:param.customer.ru.stamp={@PARAM_CUSTOMER_RU_STAMP_ID}
+----
+
+The configuration has *<>* marked substitutions and defines two invoice types:
+[square]
+* on English fur EU market;
+* on Russian for Russian market.
+
+If you don't need both, just remove unused invoice type and related properties.
+
+The plugin assigns month-based invoices to processes, in <<../../../kernel/process/index.adoc#type-config, type configuration>> of those have to be enabled *Invoices* tab.
+[square]
+---
+invoice:processShowInvoices=1
+---
+
+In the type configuration should be also defined two parameters, use their IDs in *<paramCostId>* and *<paramContractDateId>*
+
+image::_res/type_properties.png[width="800px"]
+
+Detailed explanation of configuration properties is given below.
+
+[[setup-position]]
+=== Positions
+Invoice positions contain amount information, any possible positions is defined in configuration.
+
+[source]
+----
+invoice:position.{@inc:cnt}.id=<posId>
+invoice:position.{@cnt}.title=<posTitle>
 ----
 
 Where:
 [square]
-* *<paramBranchId>* - process parameter type 'text', storing GIT branch, required;
-* *<paramEmailId>* - user parameter type 'email', storing author's identity;
-* *<allowedStatusIds>* - comma separated list of allowed status IDs with set branch name.
+* *<posId>* - unique lowercase string for position's identification
+* *<posTitle>* -title.
 
-To enable *GIT* tab in process card add in <<../../kernel/process/index.adoc#, type configuration>>.
+[[setup-type]]
+=== Invoice Type
+Invoice are divided to types, each of those is defined in configuration as:
+
 [source]
 ----
-git:processShowGit=1
+invoice:type.<id>.title=<title>
+invoice:type.<id>.jsp=<jspPath>
+invoice:type.<id>.customer=<customerId>
 ----
+
+[square]
+* *<id>* - unique type numeric ID, must not be changed after beginning of using it
+* *<title>* - type title
+* *<jspPath>* - path to JSP for generation of printing form, built-in values:
+** /WEB-INF/jspf/user/plugin/invoice/doc/eu_en.jsp
+** /WEB-INF/jspf/user/plugin/invoice/doc/ru_ru.jsp
+* *<customerId>*  - customer ID, which parameters are used for generation of printing forms.
+
+image::_res/customer_ru.png[width="800px"]
+
+[[setup-type-numeration]]
+==== Numeration
+Each invoice gets an unique number when generated, that can be configured:
+
+[source]
+----
+invoice:type.<id>.number.class=<numberClass>
+invoice:type.<id>.number.pattern=<patternNumber>
+----
+
+[square]
+* *<numberClass>* - Java class implementing javadoc:org.bgerp.plugin.bil.billing.invoice.num.NumberProvider[], javadoc:org.bgerp.plugin.bil.billing.invoice.num.PatternBasedNumberProvider[] does pattern-based numeration.
+* *<patternNumber>* - numeration pattern for *PatternBasedNumberProvider*, supports the following macros:
+** *(${process_id:000000})* - process ID zero-padded from left for a needed length, this case to 6 digits;
+** *(${date_from:yyyyMM})* - first date of the invoice month formatted using date format.
+** *(${number_in_month_for_process:00})* - sequential invoice number for a given process, also zero-padded from left.
+
+[[setup-type-position]]
+=== Positions
+For adding <<setup-position, positions>> to a generated invoice are charged position providers.
+
+[source]
+----
+invoice:type.<id>.provider.{@inc:cnt}.class=<providerClass>
+invoice:type.<id>.provider.{@cnt}.expression=<jexlExpression>
+----
+
+[square]
+* *<providerClass>* - Java class implementing javadoc:org.bgerp.plugin.bil.billing.invoice.pos.PositionProvider[], javadoc:org.bgerp.plugin.bil.billing.invoice.pos.ExpressionPositionProvider[] executed JEXL script for adding positions;
+* *<jexlExpression>* - <<../../../kernel/extension.adoc#jexl, JEXL>> expression with additional objects:
+** *invoice* invoice object of javadoc:org.bgerp.plugin.bil.billing.invoice.model.Invoice[]
+** *process* invoice process javadoc:ru.bgcrm.model.process.Process[]
+** *processParam* process parameters map, result of *parameters* method in javadoc:ru.bgcrm.dao.ParamValueDAO[]
 
 [[usage]]
 == Usage
 On the screen below is shown process card with activated plugin.
 
-image::_res/process.png[width="800px"]
+image::_res/process_invoice_table.png[width="800px"]
 
-When entering GIT branch it will be prefixed by generated prefix.
-*GIT* tab shows generated commands for handling task's workflow.
-Status changing has to be limited by configuration if that exists.
-////
+Clicking on the invoice's number opens generated HTML printing form.
+
+image::_res/process_invoice_form.png[width="800px"]
+
+To generate a new invoice, press *Add* button, select required month and invoice type.
+
+image::_res/process_invoice_create_1.png[width="800px"]
+
+After correct generated positions list and create. The positions list may be edited after creation using popup menu.
+
+image::_res/process_invoice_popup_menu.png[width="800px"]
+
+The menu provides also items to mark invoices paid / unpaid or delete them.
+
+HTML printing forms of invoices are offered to be attached to messages.
+
+image::_res/process_invoice_attachment.png[width="800px"]
