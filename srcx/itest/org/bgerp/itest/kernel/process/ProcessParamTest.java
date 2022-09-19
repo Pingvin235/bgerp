@@ -63,15 +63,15 @@ public class ProcessParamTest {
         paramFileId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, TITLE + " type 'file'",
                 ProcessTest.posParam += 2, "", "");
 
-        paramListId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST,
-                TITLE + " type 'list'", ProcessTest.posParam += 2,
+        paramListId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " type 'list'",
+                ProcessTest.posParam += 2,
                 ResourceHelper.getResource(this, "param.list.config.txt"),
                 ResourceHelper.getResource(this, "param.list.values.txt"));
 
         // TODO: list with directory (users)
 
-        paramListCountId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LISTCOUNT,
-                TITLE + " type 'listcount'", ProcessTest.posParam += 2, "",
+        paramListCountId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LISTCOUNT, TITLE + " type 'listcount'",
+                ProcessTest.posParam += 2, "",
                 ResourceHelper.getResource(this, "param.list.values.txt"));
 
         paramMoneyId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " type 'money'",

@@ -25,3 +25,8 @@ image::_res/process_card_layout.png[]
 Configurable search of message related processes during message processing.
 
 image::../../kernel/message/_res/message_process_related_process.png[width="800px"]
+
+== <<../../kernel/setup.adoc#param, Configurable>> Parameter Table Row Background
+
+Via *style* configuration parameter.
+

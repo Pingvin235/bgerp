@@ -21,7 +21,7 @@
 	</div>
 </c:if>
 
-<table id="${tableId}" class="data">
+<table id="${tableId}" class="data hl">
 	<c:if test="${showTr}">
 		<tr>
 			<c:if test="${showId}">
@@ -54,6 +54,8 @@
 
 		<c:set var="multiple" value="${parameter.configMap.multiple}" />
 
+		<c:set var="style" value="${parameter.configMap.style}"/>
+
 		<%-- флаг readonly выставлен для параметра в конфигурации типа процесса
 		<c:if test="${not empty form.param['processTypeId']}">
 			<c:set var="processTypeConfig" value="${ctxProcessTypeMap[u:int( form.param['processTypeId'] )].properties.configMap}"/>
@@ -74,7 +76,7 @@
 
 		<c:set var="startEdit">{  $('#${viewDivId}').hide(); $('#${editDivId}').parent().show(); }; return false;</c:set>
 
-		<tr ${hide} id="${viewDivId}" title="${parameter.comment}">
+		<tr ${hide} id="${viewDivId}" title="${parameter.comment}" style="${style}">
 			<c:if test="${showTr and showId}">
 				<td>${parameter.id}</td>
 				<c:set var="editColspan" value="3"/>
