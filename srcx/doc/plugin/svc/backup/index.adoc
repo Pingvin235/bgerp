@@ -20,6 +20,85 @@ backup:enable=1
 #backup:cleanup.candidate.db.count.more.than=3
 ----
 
+[[setup-remote-ssh]]
+=== Настройка удалённого бекапа по SSH
+Все команды выполняются из-под *root*.
+Для работы файловой системы достаточно SSH доступа к удалённому серверу.
+
+На клиентской машине надо установить пакет *sshfs*.
+[source]
+----
+apt install sshfs
+----
+
+Создаём каталог для монтирования:
+[source]
+----
+mkdir /mnt/backup
+----
+
+Монтирование SSHFS выполняется с помощью команды:
+[source]
+----
+sshfs [user@]host:[dir] mountpoint [options]
+----
+
+Пример:
+[source]
+----
+sshfs root@backup.bgerp.org:/opt/BGERP/backup /mnt/backup
+----
+
+Чтобы увидеть точку монтирования удаленной файловой системы:
+[source]
+----
+df -hT
+----
+
+Теперь вы можете использовать эту папку для того чтобы обмениваться файлами с сервером.
+Если надо чтобы и другие пользователи могли получать доступ к этой папке, надо использовать опцию *allow_other*.
+Она будет работать только если в файле `/etc/fuse.conf` присутствует опция *user_allow_other*.
+
+Теперь можно монтировать:
+[source]
+----
+sshfs -o allow_other root@backup.bgerp.org:/opt/BGERP/backup /mnt/backup
+----
+
+Отмонтировать файловую систему:
+[source]
+----
+umount /mnt/backup
+----
+
+[[setup-remote-ssh-auto-mount]]
+==== Автоматическое монтирование SSHFS
+Создайте пару SSH-ключей, в результате выполнения команды будут созданы пара ключей (приватный ключ - `id_rsa` и публичный ключ - `id_rsa.pub`):
+[source]
+----
+ssh-keygen
+----
+
+Для добавления ключа на удаленный сервер выполните следующую команду:
+[source]
+----
+ssh-copy-id -i ~/.ssh/id_dsa.pub root@backup.bgerp.org
+----
+
+Проверить подключение к удаленному серверу с помощью SSH-ключа можно будет таким образом:
+[source]
+----
+ssh root@backup.bgerp.org
+----
+
+NOTE: Под Windows SSH-ключи можно сгенерировать с помощью программ PuTTY или KiTTY.
+
+После настройки авторизации на сервере по SSH-ключу, приступим к монтированию удаленной файловой системы в нашу локальную папку, для этого выполним следующую команду в терминале:
+[source]
+----
+sshfs root@backup.bgerp.org:/opt/bgerp/backup /mnt/backup -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa
+----
+
 [[usage]]
 == Usage
 Backup tool is available in menu *Administration / Backup*. There is content mode switch available.
