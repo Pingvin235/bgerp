@@ -3,13 +3,29 @@ package org.bgerp.util.lic;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.bgerp.action.admin.LicenseAction;
+import org.bgerp.event.client.LicenseEvent;
+import org.bgerp.model.Message;
+import org.bgerp.servlet.user.LoginStat;
+
+import ru.bgcrm.model.user.User;
+import ru.bgcrm.plugin.Plugin;
+import ru.bgcrm.plugin.PluginManager;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
+import ru.bgcrm.util.Setup;
+import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -34,8 +50,15 @@ public class License {
     private static final int KEY_LIC_PLUGIN_LENGTH = KEY_LIC_PLUGIN.length();
     public static final String KEY_LIC_SIGN = KEY_LIC + "sign";
 
+    private static final int CHECK_EXPIRATION_DAYS_BEFORE = 3;
+    private static final int CHECK_EXPIRATION_NOTIFICATION_RANDOM_BOUND = 200;
+
+    private static final int CHECK_ERROR_NOTIFICATION_RANDOM_BOUND = 100;
+
     private final String data;
     private final ParameterMap config;
+    private final int limit;
+    private final Date dateTo;
     private final byte[] digest;
     private final String error;
     private final Set<String> plugins;
@@ -43,8 +66,10 @@ public class License {
     public License(String data) {
         this.data = data;
         this.config = new Preferences(data);
+        this.limit = config.getInt(KEY_LIC_LIMIT);
+        this.dateTo = TimeUtils.parse(config.get(KEY_LIC_DATE_TO), TimeUtils.PATTERN_DDMMYYYY);
         this.digest = digest();
-        this.error = check();
+        this.error = error();
         this.plugins = plugins();
     }
 
@@ -97,6 +122,58 @@ public class License {
         return data.toString().getBytes(StandardCharsets.UTF_8);
     }
 
+    /**
+     * Adds {@link LicenseEvent} to {@code form} response case the license has error.
+     * @param form
+     */
+    public void check(DynActionForm form) {
+        // do not handle JSP includes, when form.l is null && feature flag
+        if (form.l == null || !isCheckEnabled())
+            return;
+
+        // login action or open interface
+        User user = form.getUser();
+        if (user == null)
+            return;
+
+        final boolean actionAllowed = user.checkPerm(LicenseAction.class.getName() + ":null");
+
+        // notification
+        if (Utils.isBlankString(error)) {
+            // send the notification only to users with allowed action
+            if (!actionAllowed ||
+                CHECK_EXPIRATION_DAYS_BEFORE < ChronoUnit.DAYS.between(LocalDate.now(), dateTo.toInstant()))
+                return;
+
+            if (new Random().nextInt(CHECK_EXPIRATION_NOTIFICATION_RANDOM_BOUND) == 0) {
+                form.getResponse().addEvent(
+                    new LicenseEvent(new Message(form.l.l("License Will Expire Soon"),
+                        form.l.l("Your license will expire at {}", TimeUtils.format(dateTo, TimeUtils.FORMAT_TYPE_YMD))),
+                        true));
+            }
+        }
+        // error
+        else if (new Random().nextInt(CHECK_ERROR_NOTIFICATION_RANDOM_BOUND) == 0) {
+            form.getResponse().addEvent(
+                new LicenseEvent(new Message(form.l.l("License Check Error"), form.l.l(error)),
+                    actionAllowed));
+        }
+    }
+
+    /**
+     * @return count of logged in users is less that limit.
+     */
+    public boolean checkSessionLimit() {
+        if (!isCheckEnabled())
+            return true;
+
+        return limit < LoginStat.getLoginStat().getLoggedUserList().size();
+    }
+
+    private boolean isCheckEnabled() {
+        return Setup.getSetup().getBoolean("license.check", false);
+    }
+
     private byte[] digest() {
         var buffer = new StringBuilder(1000);
 
@@ -117,7 +194,7 @@ public class License {
         }
     }
 
-    private String check() {
+    private String error() {
         var signature = config.get(KEY_LIC_SIGN);
 
         if (Utils.isEmptyString(signature))
@@ -126,13 +203,29 @@ public class License {
         if (!SIGN.signatureVerify(digest, signature))
             return "Signature is not correct";
 
-        // TODO: Check period. Enabled plugins.
+        if (dateTo == null || TimeUtils.dateBefore(dateTo, new Date()))
+            return "Date To is not defined or expired";
+
+        final Set<String> plugins = plugins();
+
+        Set<String> missing = PluginManager.getInstance().getPluginList().stream()
+            .filter(p -> !p.isSystem())
+            .map(Plugin::getId)
+            .filter(id -> !plugins.contains(id))
+            .collect(Collectors.toSet());
+
+        if (!missing.isEmpty())
+            return "Missing plugins: " + Utils.toString(missing);
 
         return null;
     }
 
+    /**
+     * @return license plugins IDs + kernel.
+     */
     private Set<String> plugins() {
         var result = new HashSet<String>();
+
         for (var me : config.entrySet()) {
             var key = me.getKey();
             if (!key.startsWith(KEY_LIC_PLUGIN) || !Utils.parseBoolean(me.getValue(), false))

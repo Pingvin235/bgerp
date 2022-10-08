@@ -131,7 +131,7 @@ public class BaseAction extends DispatchAction {
 
         form.setConnectionSet(conSet);
 
-        // обновляется поток отслеживаемого лога
+        // refresh thread of tracked log
         SessionLogAppender.trackSession(request.getSession(), false);
 
         long timeStart = System.currentTimeMillis();
@@ -140,8 +140,7 @@ public class BaseAction extends DispatchAction {
         PermissionNode permissionNode = null;
         String error = "";
         try {
-            // TODO: Send check result as an client event in result.
-            AppLicense.instance().getError();
+            AppLicense.instance().check(form);
 
             // redirect to login.jsp or open interface
             if (user == null) {
@@ -154,13 +153,12 @@ public class BaseAction extends DispatchAction {
 
             String requestURI = request.getRequestURI();
 
-            String includeSevletPath = (String) request.getAttribute(RequestDispatcher.INCLUDE_SERVLET_PATH);
+            String includeServletPath = (String) request.getAttribute(RequestDispatcher.INCLUDE_SERVLET_PATH);
 
-            // так сделано, т.к. при включении вызова акшена директивой
-            // <c:import или <jsp:import
+            // так сделано, т.к. при включении вызова акшена директивой <c:import или <jsp:import
             // в requestURI приходит та JSP шка из которой был вызван импорт..
-            if (includeSevletPath != null)
-                form.requestUrl(includeSevletPath, (String) request.getAttribute(RequestDispatcher.INCLUDE_QUERY_STRING));
+            if (includeServletPath != null)
+                form.requestUrl(includeServletPath, (String) request.getAttribute(RequestDispatcher.INCLUDE_QUERY_STRING));
             else
                 form.requestUrl(requestURI, request.getQueryString());
 

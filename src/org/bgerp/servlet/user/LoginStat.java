@@ -21,7 +21,6 @@ import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
  * List of logged in user sessions.
@@ -47,8 +46,8 @@ public class LoginStat {
     /**
      * Key - session ID.
      */
-    private final Map<String, UserSession> sessionMap = Collections
-            .synchronizedMap(new LinkedHashMap<String, UserSession>());
+    private final Map<String, UserSession> sessionMap = Collections.synchronizedMap(new LinkedHashMap<>());
+
     /**
      * Logged users IDs ordered by first session login time.
      */
@@ -56,12 +55,9 @@ public class LoginStat {
 
     private LoginStat() {
         try {
-            EventListener<SetupChangedEvent> changeListener = new EventListener<SetupChangedEvent>() {
-                @Override
-                public void notify(SetupChangedEvent e, ConnectionSet conSet) throws Exception {
-                    sessionTimeout = Setup.getSetup().getSokLong(0L, "user.session.timeout", "sessionTimeout") * 1000L;
-                    log.debug("sessionTimeout: {}", sessionTimeout);
-                }
+            EventListener<SetupChangedEvent> changeListener = (e, conSet) -> {
+                sessionTimeout = Setup.getSetup().getSokLong(0L, "user.session.timeout", "sessionTimeout") * 1000L;
+                log.debug("sessionTimeout: {}", sessionTimeout);
             };
 
             changeListener.notify(null, null);
@@ -72,6 +68,12 @@ public class LoginStat {
         }
     }
 
+    /**
+     * Registers user session after auth.
+     * @param session HTTP session.
+     * @param user user.
+     * @param ip IP address.
+     */
     public void userLoggedIn(HttpSession session, User user, String ip) {
         synchronized (sessionMap) {
             if (session != null && user != null) {
@@ -91,6 +93,10 @@ public class LoginStat {
         }
     }
 
+    /**
+     * Unregister user session.
+     * @param session HTTP session.
+     */
     public void sessionClosed(HttpSession session) {
         synchronized (sessionMap) {
             if (sessionMap != null && session != null) {
@@ -110,7 +116,7 @@ public class LoginStat {
     }
 
     private List<Integer> updateUserLoggedList() {
-        Set<Integer> result = new LinkedHashSet<Integer>();
+        Set<Integer> result = new LinkedHashSet<>();
 
         for (UserSession data : sessionMap.values()) {
             result.add(data.user.getId());
@@ -119,6 +125,10 @@ public class LoginStat {
         return new ArrayList<Integer>(result);
     }
 
+    /**
+     * Updates session last activity time.
+     * @param session HTTP session.
+     */
     public void actionWasCalled(HttpSession session) {
         UserSession data = sessionMap.get(session.getId());
         if (data != null) {
@@ -126,12 +136,16 @@ public class LoginStat {
         }
     }
 
+    /**
+     * Checks if session is not timed out.
+     * @param session HTTP session.
+     * @return last activity time is not older as timeout.
+     */
     public boolean isSessionValid(HttpSession session) {
         if (sessionTimeout > 0) {
             UserSession data = sessionMap.get(session.getId());
             if (data != null && (data.lastActive + sessionTimeout < System.currentTimeMillis())) {
-                log.debug("User session invalidated by timeout: {}; userList size: {}", data.user,
-                        loggedUserIds.size());
+                log.debug("User session invalidated by timeout: {}; userList size: {}", data.user, loggedUserIds.size());
                 return false;
             }
         }

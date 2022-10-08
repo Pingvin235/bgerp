@@ -28,8 +28,8 @@ $$.ui = new function () {
 	}
 
 	const comboSingleInit = ($comboDiv, onSelect) => {
-		var $drop = $comboDiv.find('ul.drop');
-		var $hidden = $comboDiv.find('input[type=hidden]');
+		const $drop = $comboDiv.find('ul.drop');
+		const $hidden = $comboDiv.find('input[type=hidden]');
 
 		const updateCurrentTitle = function () {
 			// по-умолчанию выбирается первый элемент
@@ -67,7 +67,7 @@ $$.ui = new function () {
 			if (onSelect) {
 				// to make this equals hidden input
 				$hidden[0].onSelect = onSelect;
-				$hidden[0].onSelect();
+				$hidden[0].onSelect(this);
 			}
 
 			$drop.hide();
@@ -417,12 +417,6 @@ $$.ui = new function () {
 		})
 	}
 
-	const showError = (errorMessage) => {
-		$("#errorDialogMessage").html(errorMessage.replace(/\\n/g, "<br/>"));
-		if (!$("#errorDialog").dialog("isOpen"))
-			$("#errorDialog").dialog("open");
-	}
-
 	const tabsLoaded = ($tabs, event, callback) => {
 		if ($tabs.data(event))
 			callback();
@@ -586,7 +580,6 @@ $$.ui = new function () {
 	this.inputTextInit = inputTextInit;
 	this.tagBoxInit = tagBoxInit;
 	this.layout = layout;
-	this.showError = showError;
 	this.tabsLoaded = tabsLoaded;
 	this.inputFocus = inputFocus;
 	this.codeMirror = codeMirror;
@@ -606,11 +599,6 @@ function uiComboInputs($div) {
 	return $$.ui.comboInputs($div);
 }
 
-function uiComboCheckUncheck(object) {
-	console.warn($$.deprecated);
-	$$.ui.comboCheckUncheck(object);
-}
-
 function uiInputTextInit($input, onSelect) {
 	console.warn($$.deprecated);
 	$$.ui.inputTextInit($input, onSelect);
@@ -619,11 +607,6 @@ function uiInputTextInit($input, onSelect) {
 function layoutProcess($selector) {
 	console.warn($$.deprecated);
 	$$.ui.layout($selector);
-}
-
-function showErrorDialog(errorMessage) {
-	console.warn($$.deprecated);
-	$$.ui.showError(errorMessage);
 }
 
 function tableRowHl($table, rows) {

@@ -105,7 +105,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 				const $hidden = $comboDiv.find('input[type=hidden]');
 
 				<c:if test="${not empty onSelect}">
-					onSelect = function () {
+					onSelect = function (item) {
 						${onSelect}
 					};
 				</c:if>

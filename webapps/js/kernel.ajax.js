@@ -623,7 +623,7 @@ function sendAJAXCommand(url, toPostNames) {
 
 	var result = false;
 
-	var separated = separatePostParams(url, toPostNames, true);
+	var separated = $$.ajax.separatePostParamsInt(url, toPostNames, true);
 
 	$.ajax({
 		type: "POST",
@@ -646,39 +646,20 @@ function sendAJAXCommand(url, toPostNames) {
 function sendAJAXCommandWithParams(url, requestParams) {
 	console.warn($$.deprecated);
 
-	return sendAJAXCommand(url + requestParamsToUrl(requestParams));
-}
-
-//перенос в POST часть запроса определённых в массиве toPostNames параметров запроса либо начинающихся
-//с благославенного имени data
-function separatePostParams(url, toPostNames, json) {
-	console.warn($$.deprecated);
-
-	return $$.ajax.separatePostParamsInt(url, toPostNames, json);
+	return sendAJAXCommand(url + $$.ajax.requestParamsToUrl(requestParams));
 }
 
 // move to $$.ui
 function onAJAXError(url, jqXHR, textStatus, errorThrown) {
 	if (jqXHR.status == 401) {
-		showLoginPopup(jqXHR.responseText);
-	} else if (jqXHR.status == 500) {
-		console.error("AJAX error, URL: ", url);
-		showErrorDialog(jqXHR.responseText);
+		$$.shell.showLoginDialog(jqXHR.responseText);
 	} else {
-		alert("URL: " + url + ", error: " + errorThrown);
+		let text = "<b>URL</b>: " + url;
+		if (jqXHR.responseText)
+			text += "<br/><b>RESPONSE</b>:<br/>" + jqXHR.responseText;
+
+		$$.shell.showMessage("HTTP STATUS: " + jqXHR.status, text);
 	}
-}
-
-function checkAJAXCommandResult(data) {
-	console.warn($$.deprecated);
-
-	return $$.ajax.checkResponse(data);
-}
-
-function requestParamsToUrl(requestParams, subParam) {
-	console.warn($$.deprecated);
-
-	return $$.ajax.requestParamsToUrl(requestParams, subParam);
 }
 
 //генерирует URL строку на основании введённых в форму параметров

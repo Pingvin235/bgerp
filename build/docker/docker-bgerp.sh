@@ -76,6 +76,8 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     mysql --default-character-set=utf8 -ubgerp -p$ERP_DB_PWD bgerp < /opt/bgerp/bgerp.sql
     echo "Applying DEMO filestorage"
     unzip /opt/bgerp/filestorage.zip -d /opt/bgerp/filestorage
+    echo "Downloading DEMO license https://demo.bgerp.org/lic.data"
+    wget https://demo.bgerp.org/lic.data -O /opt/bgerp/lic.data
 else
     # normal up
     docker_wait_mysql_up

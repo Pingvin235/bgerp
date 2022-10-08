@@ -46,6 +46,7 @@
 		<url-pattern>*.do</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>SetRequestParamsFilter</filter-name>

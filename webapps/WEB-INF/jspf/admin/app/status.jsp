@@ -5,6 +5,7 @@
 	<h2>${l.l('Статус')}</h2>
 	<pre>${form.response.data.status}</pre>
 
+	<h2>${l.l('Перезапуск')}</h2>
 	<%@ include file="app_restart.jsp"%>
 
 	<h2>${l.l('Логи приложения')}</h2>

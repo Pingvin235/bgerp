@@ -10,6 +10,10 @@ The plugin provides the following functionality:
 * generation license file for sending it to customers;
 * reporting about money distribution over product owners.
 
+Using the plugin implemented the BGERP Development Support System, allowing us to drive our product further.
+
+drawio:_res/subscription.drawio[]
+
 NOTE: You can see the plugin enabled and sample configurations in <<../../../kernel/install.adoc#demo, Demo System>>.
 
 [[setup]]
@@ -30,7 +34,7 @@ Place the following configuration:
 ----
 subscription:enable=1
 
-subscription:sign.key.file=/org/bgerp/plugin/bil/billing/subscription/demo.key.id_rsa
+subscription:sign.key.file=/org/bgerp/plugin/bil/subscription/demo.key.id_rsa
 subscription:param.product.id={@PARAM_PRODUCT_ID}
 subscription:param.user.incoming.tax.percent={@PARAM_USER_TAX_PERCENT}
 subscription:param.subscription={@PARAM_SUBSCRIPTION_ID}

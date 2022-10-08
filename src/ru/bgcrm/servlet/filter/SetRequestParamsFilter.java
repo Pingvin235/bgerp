@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.bgerp.Interface;
 import org.bgerp.l10n.Localization;
+import org.bgerp.l10n.Localizer;
 import org.bgerp.servlet.ServletUtils;
 import org.bgerp.servlet.filter.AuthFilter;
 
@@ -49,11 +50,18 @@ public class SetRequestParamsFilter implements Filter {
 
         // 'l' object is set only for action calls, but not on JSP after them
         if (ServletUtils.getRequestURI((HttpServletRequest) request).endsWith(".do"))
-            request.setAttribute(REQUEST_KEY_LOCALIZER, Localization.getLocalizer((HttpServletRequest) request));
+            request.setAttribute(REQUEST_KEY_LOCALIZER, getLocalizer(request));
 
         chain.doFilter(request, response);
 
         conSet.recycle();
+    }
+
+    private Localizer getLocalizer(ServletRequest request) {
+        var result = Localization.getLocalizer((HttpServletRequest) request);
+        if (result == null)
+            result = Localization.getSysLocalizer();
+        return result;
     }
 
     /**

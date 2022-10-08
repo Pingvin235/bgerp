@@ -10,8 +10,8 @@
 <body>
 	<c:set var="uiidButtonMenu" value="${u:uiid()}"/>
 
-	<%@ include file="/WEB-INF/jspf/login_form.jsp"%>
-	<%@ include file="/WEB-INF/jspf/error_dialog.jsp"%>
+	<%@ include file="/WEB-INF/jspf/login_dialog.jsp"%>
+	<%@ include file="/WEB-INF/jspf/message_dialog.jsp"%>
 
 	<div id="headWrap">
 		<div id="head">
@@ -126,7 +126,7 @@
 			$$.shell.contentLoad(href);
 
 			<c:if test="${setup['pooling.enable'] ne 0 and ctxUser.configMap['pooling.enable'] ne 0}">
-				$$.timer();
+				$$.timer.init();
 			</c:if>
 
 			const setSize = function () {

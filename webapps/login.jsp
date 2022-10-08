@@ -1,10 +1,8 @@
-<%@page import="ru.bgcrm.util.Setup"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <html>
 <head>
-	<c:set var="setup" value="<%=Setup.getSetup()%>"/>
 	<title><%@ include file="/WEB-INF/jspf/title.jsp"%> : ${l.l("Авторизация")}</title>
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
 </head>
@@ -16,7 +14,7 @@
 				window.location.reload();
 			}
 
-			<c:if test="${setup.getBoolean('check.browser', true)}">
+			<c:if test="${ctxSetup.getBoolean('check.browser', true)}">
 				<c:set var="firefoxVersion" value="22"/>
 				<c:set var="chromeVersion" value="21"/>
 				<c:set var="safariVersion" value="10"/>
@@ -39,14 +37,11 @@
 		})
 	</script>
 
-	<%-- the form is re-created in login_form.jsp --%>
+	<%-- the form is re-created in login_dialog.jsp --%>
 	<div style="position: absolute; top: 50%; margin-top: -100px;/* half of #content height*/ left: 0; width: 100%;">
 		<form class="in-mt05" onsubmit="$$.shell.login().done(() => { window.location.reload() }); return false;"
-			style="width: 250px; margin-left: auto; margin-right: auto; height: 200px; -moz-box-sizing: sborder-box; -webkit-box-sizing: border-box; box-sizing: border-box;">
-			<div id="error-message" style="color: #FF0000;"></div>
-			<input name="j_username" type="text" placeholder="${l.l('Логин')}" style="width: 100%;"/>
-			<input name="j_password" type="password" placeholder="${l.l('Пароль')}" style="width: 100%;"/>
-			<button type="submit" class="mt05 btn-grey" style="width: 100%;">${l.l('Войти')}</button>
+			style="width: 250px; margin-left: auto; margin-right: auto; height: 200px; box-sizing: border-box;">
+			<%@ include file="/WEB-INF/jspf/login_form_inputs.jsp"%>
 		</form>
 	</div>
 </body>

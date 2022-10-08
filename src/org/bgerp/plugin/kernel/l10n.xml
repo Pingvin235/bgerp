@@ -522,6 +522,8 @@
 	<p><en>Extend right process card area on scroll down</en><ru>Расширять правую часть карточки процесса при промотке вниз</ru></p>
 	<p><en>Process type does not exist: {}</en><ru>Тип процесса не существует: {}</ru></p>
 	<p><en>set</en><ru>уст.</ru></p>
+	<p><en>License Check Error</en><ru>Ошибка проверки лицензии</ru></p>
+	<p><en>License</en><ru>Лицензия</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

@@ -783,7 +783,7 @@ function generateUrlForFilterCounter() {
 	return urlArray;
 }
 
-function processFilterCouterEvents(event)
+function processFilterCounterEvents(event)
 {
 	var queueId = $("#processQueueSelect > input[type=hidden]").val();
 
@@ -935,7 +935,7 @@ addEventProcessor('ru.bgcrm.event.client.ProcessOpenEvent', processProcessClient
 addEventProcessor('ru.bgcrm.event.client.ProcessCloseEvent', processProcessClientEvents);
 addEventProcessor('ru.bgcrm.event.client.ProcessCurrentQueueRefreshEvent', processProcessClientEvents);
 addEventProcessor('ru.bgcrm.event.client.TemporaryObjectEvent', processProcessClientEvents);
-addEventProcessor('ru.bgcrm.event.client.FilterCounterEvent', processFilterCouterEvents);
+addEventProcessor('ru.bgcrm.event.client.FilterCounterEvent', processFilterCounterEvents);
 
 function processProcessClientEvents( event )
 {

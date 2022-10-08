@@ -1,7 +1,5 @@
 package ru.bgcrm.struts.action.admin;
 
-import java.io.FileOutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +7,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
-import org.bgerp.util.lic.AppLicense;
-import org.bgerp.util.lic.License;
+import org.bgerp.util.sql.LikePattern;
 
-import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
@@ -36,9 +31,9 @@ public class ConfigAction extends BaseAction {
 
     public ActionForward list(DynActionForm form, ConnectionSet conSet) throws Exception {
         Set<Integer> allowedConfigIds = Utils.toIntegerSet(form.getPermission().get("allowedConfigIds"));
-        String filter = CommonDAO.getLikePatternSub(form.getParam("filter"));
+        String filter = LikePattern.SUB.get(form.getParam("filter"));
 
-        Pageable<Config> result = new Pageable<Config>(form);
+        Pageable<Config> result = new Pageable<>(form);
         result.getPage().setPageIndex(Page.PAGE_INDEX_NO_PAGING);
         List<Config> resultList = result.getList();
 
@@ -58,8 +53,6 @@ public class ConfigAction extends BaseAction {
             resultList.remove(config);
             parent.addIncluded(config);
         }
-
-        form.getHttpRequest().setAttribute("license", AppLicense.instance());
 
         return html(conSet, form, PATH_JSP + "/list.jsp");
     }
@@ -148,20 +141,5 @@ public class ConfigAction extends BaseAction {
         if (CollectionUtils.isNotEmpty(allowedConfigIds) && !allowedConfigIds.contains(form.getId())) {
             throw new BGMessageException("Работа с данной конфигурацией запрещена");
         }
-    }
-
-    public ActionForward licenseUpload(DynActionForm form, ConnectionSet conSet) throws Exception {
-        var file = form.getFile();
-
-        byte[] data = IOUtils.toByteArray(file.getInputStream());
-
-        String error = new License(new String(data, StandardCharsets.UTF_8)).getError();
-        if (Utils.notBlankString(error))
-            throw new BGMessageException(error);
-
-        IOUtils.write(data, new FileOutputStream(License.FILE_NAME));
-        AppLicense.init();
-
-        return json(conSet, form);
     }
 }

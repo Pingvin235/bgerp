@@ -39,5 +39,8 @@ mail.smtp.pswd=bgdemo
 # comma separated list of Java normal or dynamic classes, instantiated on server start, recompilation of dynamic code re-creates them again
 #createOnStart=
 
+# enable license check (feature flag)
+check.license=1
+
 # disable all plugins by default
 plugin.enable.default=0

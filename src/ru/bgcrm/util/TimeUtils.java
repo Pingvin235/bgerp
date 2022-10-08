@@ -493,7 +493,8 @@ public class TimeUtils {
     }
 
     /**
-     * Days difference.
+     * 24h days difference between to dates. The method is time-proven, but
+     * since Java 8 there is also available: {@link java.time.temporal.ChronoUnit#DAYS#between(java.time.temporal.Temporal, java.time.temporal.Temporal)}
      * @param dayFrom
      * @param dayTo
      * @return

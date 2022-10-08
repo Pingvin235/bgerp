@@ -131,47 +131,38 @@
 		<div>
 			<b>&lt;ui:combo-single&gt;</b><br/>
 
+			<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, 'item=', item); alert('Value is chosen, see console log')"/>
+
 			<ui:combo-single
-				hiddenName="param" value="2" prefixText="Значение:" widthTextValue="120px"
-				onSelect="alert('Значение выбрано')">
+				hiddenName="param" value="2" prefixText="Value:" widthTextValue="12em" onSelect="${onSelect}">
 				<jsp:attribute name="valuesHtml">
-					<li value="1">Первый</li>
-					<li value="2 test"><span class='title'>Второй</span>с выделением</li>
-					<li value="3">Третий ddddddddd ddddddddd dddddddddd d</li>
-					<li value="4">Четвертый</li>
+					<li value="1">First (current)</li>
+					<li value="2 test">Second</li>
+					<li value="3">Third with a loooooooooooooooooooong teeeeeeeeeeeeext</li>
+					<li value="4">Fourth</li>
 				</jsp:attribute>
 			</ui:combo-single>
 
 			<ui:combo-single
-				hiddenName="param" value="2" style="width: 120px"
-				onSelect="alert('Значение выбрано')">
+				hiddenName="param" value="2" style="width: 12em;" onSelect="${onSelect}">
 				<jsp:attribute name="valuesHtml">
-					<li value="1">Первый</li>
-					<li value="2"><span class='title'>Второй</span>с выделением</li>
-					<li value="3">Третий</li>
-					<li value="4">Четвертый</li>
-				</jsp:attribute>
-			</ui:combo-single>
-
-			<ui:combo-single hiddenName="param" value="2" style="width: 140px" onSelect="alert( 'test!' )">
-				<jsp:attribute name="valuesHtml">
-					<li value="1">Первый</li>
-					<li value="2"><span class='title'>Второй</span>с выделением</li>
-					<li value="3">Третий</li>
-					<li value="4">Четвертый</li>
+					<li value="1">First</li>
+					<li value="2">Second (current)</li>
+					<li value="3">Third</li>
+					<li value="4">Fourth</li>
 				</jsp:attribute>
 			</ui:combo-single>
 
 			<u:sc>
 				<%
-					List<IdTitle> list = new ArrayList<IdTitle>();
-					list.add( new IdTitle( 1, "Первое значение" ) );
-					list.add( new IdTitle( 2, "Второе значение и длинный текст после" ) );
-					pageContext.setAttribute( "list", list );
+					List<IdTitle> list = new ArrayList<>();
+					list.add(new IdTitle(1, "First dyn value"));
+					list.add(new IdTitle(2, "Second dyn value with a loooooooooooooooooooong teeeeeeeeeeeeext"));
+					pageContext.setAttribute("list", list);
 				%>
-				<ui:combo-single hiddenName="param" widthTextValue="120px" onSelect="alert('test!')" list="${list}">
+				<ui:combo-single hiddenName="param" widthTextValue="12em" list="${list}" onSelect="${onSelect}">
 					<jsp:attribute name="valuesHtml">
-						<li value="-1">-- выберите --</li>
+						<li value="-1">-- select --</li>
 					</jsp:attribute>
 				</ui:combo-single>
 			</u:sc>
@@ -249,9 +240,9 @@
 		<div>
 			<b>Выравнивание в колонку</b><br/>
 
-			<input style="width: 100px;"/><br/>
+			<input style="width: 10em;"/><br/>
 
-			<ui:combo-single hiddenName="param" value="2" style="width: 100px;">
+			<ui:combo-single hiddenName="param" value="2" style="width: 10em;">
 				<jsp:attribute name="valuesHtml">
 					<li value="1">Первый</li>
 					<li value="2">Второй</li>
@@ -269,7 +260,8 @@
 					list.add( new IdTitle( 2, "Второе значение и длинный текст после" ) );
 					pageContext.setAttribute( "list", list );
 				%>
-				<ui:select-single hiddenName="param" value="2" style="width: 100px;" list="${list}"/>
+				<ui:select-single hiddenName="param" value="2" style="width: 10em;" list="${list}"
+					onSelect="console.log('this=', this, '$hidden=', $hidden); alert('Value is chosen, see console log')"/>
 			</u:sc>
 		</div>
 

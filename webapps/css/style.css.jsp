@@ -186,9 +186,7 @@ body > #content label {
 <%@ include file="ui-correct.css.jsp"%>
 
 div, span {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 /* в адресном справочнике в одном месте используется */
@@ -199,7 +197,7 @@ div, span {
 .box {
 	border-radius: 3px;
 	border: 1px solid #C5C5C5;
-	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	padding: .5em;
 }
 

@@ -61,7 +61,11 @@
 				<b>activeAllow</b> - 0, deny to set in active<br/>
 			</item>
 			<item action="ru.bgcrm.struts.action.admin.ConfigAction:addIncluded" title="Add included"/>
-			<item action="ru.bgcrm.struts.action.admin.ConfigAction:licenseUpload" title="License upload"/>
+		</item>
+
+		<item title="License">
+			<item action="org.bgerp.action.admin.LicenseAction:null" title="Status"/>
+			<item action="org.bgerp.action.admin.LicenseAction:upload, ru.bgcrm.struts.action.admin.ConfigAction:licenseUpload" title="Upload"/>
 		</item>
 
 		<item title="Справочники">

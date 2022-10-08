@@ -49,7 +49,6 @@
 	background-color: #ffffff;
 	/* чтобы список значений не был шире редактируемой области сверху */
 	box-sizing: border-box;
-	-moz-box-sizing: border-box;
 }
 
 .select-mult .btn-add {

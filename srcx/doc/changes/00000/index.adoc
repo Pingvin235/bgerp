@@ -30,3 +30,12 @@ image::../../kernel/message/_res/message_process_related_process.png[width="800p
 
 Via *style* configuration parameter.
 
+== Show Messages Dialogs
+Instead of JS alerts.
+
+image::_res/message_dialog.png[]
+
+== <<../../kernel/setup.adoc#config-license, License>> Check
+Strictly recommended to check your license.
+
+image::../../kernel/_res/license.png[width="800px"]

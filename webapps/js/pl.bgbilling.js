@@ -49,11 +49,11 @@ $$.bgbilling = new function() {
 }
 
 
-addEventProcessor( 'ru.bgcrm.plugin.bgbilling.event.ContractOpenEvent', contractOpenClientEvent );
+addEventProcessor( 'ru.bgcrm.plugin.bgbilling.event.client.ContractOpenEvent', contractOpenClientEvent );
 
 function contractOpenClientEvent( event )
 {
-	if( event.className == 'ru.bgcrm.plugin.bgbilling.event.ContractOpenEvent' )
+	if( event.className == 'ru.bgcrm.plugin.bgbilling.event.client.ContractOpenEvent' )
 	{
 		bgbilling_openContract( event.billingId, event.contractId  );
 	}

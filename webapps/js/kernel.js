@@ -321,33 +321,17 @@ function addParameter(uiid,count,firstOnly)
 	$('#'+ uiid + 'select' + ' option:selected').remove();
 }
 
-function delParameter(uiid,itemId,text)
-{
-	$('#'+ uiid + 'row' + itemId).find('input[type=checkbox]').removeAttr('checked').val(itemId);
-	$('#'+uiid+'row'+itemId).css("display","none");///
-	$('#'+ uiid + 'select').append('<option value='+itemId+'>'+text+'</option>');
+function delParameter(uiid, itemId, text) {
+	$('#' + uiid + 'row' + itemId).find('input[type=checkbox]').removeAttr('checked').val(itemId);
+	$('#' + uiid + 'row' + itemId).css("display", "none");
+	$('#' + uiid + 'select').append('<option value=' + itemId + '>' + text + '</option>');
 }
+
 //admin/process/type/check_list
 function markOutTr(tr)
 {
 	$(tr).parent().children().css('background-color','transparent');
 	$(tr).css('background-color','grey');
-}
-
-$$.timer = function () {
-	var urlArray = generateUrlForFilterCounter(),
-		url = "/user/pool.do",
-		callback = function () {
-			window.setTimeout($$.timer, 5000);
-		};
-
-	if (urlArray.length > 0) {
-		url += "?processCounterUrls=" + encodeURIComponent(urlArray);
-	}
-
-	$$.ajax
-		.post(url)
-		.always(callback);
 }
 
 $$.encodeHtml = function (str) {
@@ -478,14 +462,6 @@ function openedObjectList( params )
 	return result;
 }
 
-function showLoginPopup()
-{
-	if( !$("#loginForm").dialog( "isOpen" ) )
-	{
-		$("#loginForm").dialog( "open" );
-	}
-}
-
 function showPopupMessage( title, message )
 {
 	var $messageDiv = $( "<div>" + message +"</div>" );
@@ -509,27 +485,23 @@ function showPopupMessage( title, message )
 }
 
 //обработка событий
-addEventProcessor( 'ru.bgcrm.event.client.NewsInfoEvent', processClientEvents );
-addEventProcessor( 'ru.bgcrm.event.client.MessageOpenEvent', processClientEvents );
-addEventProcessor( 'ru.bgcrm.event.client.LockEvent', processClientEvents );
-addEventProcessor( 'ru.bgcrm.event.client.UrlOpenEvent', processClientEvents );
+addEventProcessor('ru.bgcrm.event.client.NewsInfoEvent', processClientEvents);
+addEventProcessor('ru.bgcrm.event.client.MessageOpenEvent', processClientEvents);
+addEventProcessor('ru.bgcrm.event.client.LockEvent', processClientEvents);
+addEventProcessor('ru.bgcrm.event.client.UrlOpenEvent', processClientEvents);
 
-function processClientEvents( event )
-{
-	var messagesCount = 0;
+function processClientEvents(event) {
+	if (event.className == 'ru.bgcrm.event.client.NewsInfoEvent') {
+		const messagesCount = event.newsCount + event.messagesCount;
 
-	var $messagesLink = $('#messagesLink');
-	var $messagesMenu = $("#messagesMenu");
+		const $messagesLink = $('#messagesLink');
+		const $messagesMenu = $("#messagesMenu");
 
-	$messagesMenu.html( "" );
-
-	if( event.className == 'ru.bgcrm.event.client.NewsInfoEvent' )
-	{
-		messagesCount = event.newsCount + event.messagesCount;
+		$messagesMenu.html("");
 
 		// новости
-		var itemCode = "<li><a href='/user/news' onclick='$$.shell.followLink(this.href, event)'>Новостей: <span style='font-weight: bold;";
-		if( event.blinkNews )
+		let itemCode = "<li><a href='/user/news' onclick='$$.shell.followLink(this.href, event)'>Новостей: <span style='font-weight: bold;";
+		if (event.blinkNews)
 			itemCode += "color: orange;"
 		itemCode += "'>" + event.newsCount + "</span></a></li>";
 
@@ -570,6 +542,10 @@ function processClientEvents( event )
 				$$.blinkMessages = undefined;
 			}
 		}
+
+		$messagesMenu.menu("refresh");
+
+		$messagesLink.html(messagesCount);
 	}
 	else if (event.className == 'ru.bgcrm.event.client.MessageOpenEvent') {
 		$$.shell.contentLoad("/user/message/queue").done(() => {
@@ -587,10 +563,6 @@ function processClientEvents( event )
 	else if (event.className == 'ru.bgcrm.event.client.UrlOpenEvent') {
 		$$.shell.contentLoad(event.url);
 	}
-
-	$messagesMenu.menu( "refresh" );
-
-	$messagesLink.html( messagesCount );
 }
 
 /**

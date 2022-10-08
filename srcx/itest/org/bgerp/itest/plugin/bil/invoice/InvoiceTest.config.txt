@@ -1,0 +1,45 @@
+
+invoice:type.1.title=Consultancy
+invoice:type.1.jsp=/WEB-INF/jspf/user/plugin/invoice/doc/eu_en.jsp
+invoice:type.1.provider.{@inc:cnt}.class=org.bgerp.plugin.bil.invoice.pos.ExpressionPositionProvider
+invoice:type.1.number.pattern=(${process_id:000000})-(${date_from:yyyyMM})-(${number_in_month_for_process:00})
+invoice:type.1.provider.{@cnt}.expression=<<END
+    cost = processParam.get({@PARAM_COST_ID}).getValue();
+    if (cost != null)
+        invoice.addPosition("consultancy", "Consultancy", cost, "", 1);
+END
+invoice:type.1.customer={@CUSTOMER_ID}
+
+invoice:type.2.title=Консультации
+invoice:type.2.jsp=/WEB-INF/jspf/user/plugin/invoice/doc/ru_ru.jsp
+invoice:type.2.number.class=org.bgerp.plugin.bil.invoice.num.PatternBasedNumberProvider
+invoice:type.2.number.pattern=RU(${process_id:000000})-(${date_from:yyyyMM})-(${number_in_month_for_process:00})
+invoice:type.2.provider.{@inc:cnt}.class=org.bgerp.plugin.bil.invoice.pos.ExpressionPositionProvider
+invoice:type.2.provider.{@cnt}.expression=<<END
+    cost = processParam.get({@PARAM_COST_ID}).getValue();
+    if (cost != null)
+        invoice.addPosition("consultancy",
+            "Консультационно-справочное обслуживание за " + invoice.getDateFromMonthDisplayName("ru") + " " + invoice.getDateFromYear() + " г.",
+            cost, "шт.", 1);
+END
+invoice:type.2.customer={@CUSTOMER_RU_ID}
+
+cnt=0
+invoice:position.{@inc:cnt}.id=consultancy
+invoice:position.{@cnt}.title=Consultancy
+invoice:position.{@inc:cnt}.id=test
+invoice:position.{@cnt}.title=Test position
+
+invoice:param.process.contract.date={@PARAM_CONTRACT_DATE_ID}
+
+invoice:param.customer.ru.address={@PARAM_CUSTOMER_RU_ADDRESS_ID}
+invoice:param.customer.ru.inn={@PARAM_CUSTOMER_RU_INN_ID}
+invoice:param.customer.ru.kpp={@PARAM_CUSTOMER_RU_KPP_ID}
+invoice:param.customer.ru.bank.title={@PARAM_CUSTOMER_RU_BANK_TITLE_ID}
+invoice:param.customer.ru.bank.bic={@PARAM_CUSTOMER_RU_BANK_BIC_ID}
+invoice:param.customer.ru.bank.corr.account={@PARAM_CUSTOMER_RU_BANK_CORR_ACCOUNT_ID}
+invoice:param.customer.ru.bank.account={@PARAM_CUSTOMER_RU_BANK_ACCOUNT_ID}
+invoice:param.customer.ru.sign.post={@PARAM_CUSTOMER_RU_SIGN_POST_ID}
+invoice:param.customer.ru.sign={@PARAM_CUSTOMER_RU_SIGN_ID}
+invoice:param.customer.ru.sign.name={@PARAM_CUSTOMER_RU_SIGN_NAME_ID}
+invoice:param.customer.ru.stamp={@PARAM_CUSTOMER_RU_STAMP_ID}

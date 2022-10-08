@@ -87,7 +87,7 @@ public class UserCache extends Cache<UserCache> {
      * Gets user permission for action.
      * The method is used in {@code permission.tld}
      * @param userId user ID.
-     * @param action semicolon separated action class name and method, e.g. {@code org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:get}.
+     * @param action semicolon separated action class name and method, e.g. {@code org.bgerp.plugin.bil.invoice.action.InvoiceAction:get}.
      * @return allowed permission with options or {@code null}.
      */
     @Dynamic

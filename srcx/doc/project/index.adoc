@@ -653,15 +653,15 @@ First primary action can be followed by additional ones, separated by a *comma* 
 This allows to provide backwards compatibility with permissions already present in the DB.
 The first identifier is used upon the next save operation of the permission set.
 
-In the following example an action class was renamed and action method changed to *unspecified*, defined in the configuration by *null*.
+In the following example an action class was renamed two times and action method changed first to *unspecified*, defined in the configuration by *null* and later to *status*.
 
 [snippet, from="<item ti", to="s\"/>", remove-leading="		"]
-link:../../../src/org/bgerp/plugin/kernel/action.xml#L146-L147[org/bgerp/plugin/kernel/action.xml]
+link:../../../src/org/bgerp/plugin/kernel/action.xml#L150-L151[org/bgerp/plugin/kernel/action.xml]
 
 The same principe may be used for grouping many methods to a single logical action, for example typical get and update calls.
 
 [snippet, from="<item ac", to="te\"/>", remove-leading="		"]
-link:../../../src/org/bgerp/plugin/bil/billing/invoice/action.xml#L6-L6[org/bgerp/plugin/bil/billing/invoice/action.xml]
+link:../../../src/org/bgerp/plugin/bil/invoice/action.xml#L6-L6[org/bgerp/plugin/bil/invoice/action.xml]
 
 Actions may be hierarchically organized when some parent action is required for accessing children.
 [snippet, from="<item ac", to="em>", remove-leading="	"]
@@ -774,7 +774,7 @@ link:../../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L3
 Set the left area and the right areas of <<../kernel/interface.adoc#user-top-line, top line>> in user interface.
 <<l10n, Localization>> is supported using *ltext* attribute. Tag shell:state may create a documentation help link.
 [snippet, from="<shell:t", to=">"]
-link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L89-L90[webapps/WEB-INF/jspf/admin/config/list.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/config/list.jsp#L38-L39[webapps/WEB-INF/jspf/admin/config/list.jsp]
 
 [[js]]
 ==== Java Script

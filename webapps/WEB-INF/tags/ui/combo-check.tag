@@ -68,7 +68,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 					});
 				</c:set>
 				<div style="width: 100%;"><input type="text" style="width: 100%;" placeholder="Filter" onkeyup="${filterCode}"/></div>
-				<div class="pl05"><div class="btn-white btn-icon" onclick='uiComboCheckUncheck(this)' title="${l.l('Select all / remove selection')}"><i class="ti-check"></i></div></div>
+				<div class="pl05"><div class="btn-white btn-icon" onclick='$$.ui.comboCheckUncheck(this)' title="${l.l('Select all / remove selection')}"><i class="ti-check"></i></div></div>
 			</li>
 		</c:if>
 		<data><%--

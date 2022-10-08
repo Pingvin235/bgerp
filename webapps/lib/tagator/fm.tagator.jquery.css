@@ -8,7 +8,6 @@
 /* reset */
 .tagator_element * {
 	box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	text-decoration: none;
 }
 
@@ -118,7 +117,6 @@
 	font-family: sans-serif;
 	position: absolute;
 	box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	z-index: 101;
 	background-color: #fff;
 	overflow: auto;

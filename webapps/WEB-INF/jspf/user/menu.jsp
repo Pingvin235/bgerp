@@ -43,6 +43,10 @@
 <plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_MENU_ITEMS%>"/>
 
 <ui:menu-group ltitle="Администрирование" icon="ti-settings">
+	<ui:menu-item ltitle="License" href="admin/license" icon="ti-money"
+		action="org.bgerp.action.admin.LicenseAction:null"
+		command="/admin/license.do" />
+
 	<ui:menu-item ltitle="Конфигурация" href="admin/config" icon="ti-panel"
 		action="ru.bgcrm.struts.action.admin.ConfigAction:list"
 		command="/admin/config.do?action=list" />

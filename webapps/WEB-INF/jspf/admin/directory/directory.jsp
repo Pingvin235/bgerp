@@ -5,9 +5,9 @@
 
 <form action="/admin/directory.do" id="${uiid}">
 	<input type="hidden" name="action"/>
-	
-	<ui:combo-single hiddenName="directoryId" value="${form.param.directoryId}" 
-		prefixText="${l.l('Справочник')}:" widthTextValue="200px"
+
+	<ui:combo-single hiddenName="directoryId" value="${form.param.directoryId}"
+		prefixText="${l.l('Справочник')}:" widthTextValue="20em"
 		onSelect="$$.param.dirChanged($('#${uiid}')[0], item, $hidden)">
 		<jsp:attribute name="valuesHtml">
 			<c:forEach var="item" items="${directoryList}">

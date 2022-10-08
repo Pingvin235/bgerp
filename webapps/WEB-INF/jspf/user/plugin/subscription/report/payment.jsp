@@ -9,7 +9,7 @@
 	<html:form action="${form.httpRequestURI}">
 		<ui:date-month/>
 
-		<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.plugin.bil.billing.subscription.Config')}"/>
+		<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.plugin.bil.subscription.Config')}"/>
 		<ui:combo-single hiddenName="subscriptionId" list="${config.subscriptions}" prefixText="${l.l('Subscription:')}"/>
 
 		<ui:button type="out" styleClass="ml1 mr1 more out" onclick="$$.ajax.loadContent(this)"/>

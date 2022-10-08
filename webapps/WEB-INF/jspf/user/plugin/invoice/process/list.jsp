@@ -7,7 +7,7 @@
 	<html:hidden property="action"/>
 	<html:hidden property="processId"/>
 
-	<p:check action="org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:create">
+	<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:create">
 		<c:url var="url" value="/user/plugin/invoice/invoice.do">
 			<c:param name="action" value="create"/>
 			<c:param name="processId" value="${form.param.processId}"/>
@@ -40,7 +40,7 @@
 			<td>
 				<c:set var="menuUiid" value="${u:uiid()}"/>
 				<ui:popup-menu id="${menuUiid}">
-					<p:check action="org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:get">
+					<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:get">
 						<c:url var="url" value="/user/plugin/invoice/invoice.do">
 							<c:param name="action" value="get"/>
 							<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -55,7 +55,7 @@
 
 					<c:choose>
 						<c:when test="${not empty item.paymentDate}">
-							<p:check action="org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:unpaid">
+							<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:unpaid">
 								<c:url var="url" value="/user/plugin/invoice/invoice.do">
 									<c:param name="action" value="unpaid"/>
 									<c:param name="id" value="${item.id}"/>
@@ -68,7 +68,7 @@
 							</p:check>
 						</c:when>
 						<c:otherwise>
-							<p:check action="org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:paid">
+							<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:paid">
 								<c:url var="url" value="/user/plugin/invoice/invoice.do">
 									<c:param name="action" value="paid"/>
 									<c:param name="id" value="${item.id}"/>
@@ -82,7 +82,7 @@
 						</c:otherwise>
 					</c:choose>
 
-					<p:check action="org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:delete">
+					<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:delete">
 						<c:url var="url" value="/user/plugin/invoice/invoice.do">
 							<c:param name="action" value="delete"/>
 							<c:param name="id" value="${item.id}"/>
@@ -100,7 +100,7 @@
 			<td>${tu.format(item.dateFrom, 'yyyy.MM')}</td>
 			<td>
 				<c:choose>
-					<c:when test="${p:get(ctxUser.id, 'org.bgerp.plugin.bil.billing.invoice.action.InvoiceAction:doc') ne null}">
+					<c:when test="${p:get(ctxUser.id, 'org.bgerp.plugin.bil.invoice.action.InvoiceAction:doc') ne null}">
 						<c:url var="url" value="/user/plugin/invoice/invoice.do">
 							<c:param name="action" value="doc"/>
 							<c:param name="id" value="${item.id}"/>

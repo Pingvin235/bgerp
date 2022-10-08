@@ -20,8 +20,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.catalina.authenticator.Constants;
 import org.bgerp.event.AuthEvent;
 import org.bgerp.l10n.Localization;
+import org.bgerp.l10n.Localizer;
 import org.bgerp.servlet.user.LoginStat;
 import org.bgerp.util.Log;
+import org.bgerp.util.lic.AppLicense;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.event.EventProcessor;
@@ -47,6 +49,8 @@ public class AuthFilter implements Filter {
     private static final String LOGIN_ACTION = "/login.do";
     private static final String SHELL_PAGE = "/shell.jsp";
 
+    private final Localizer l = Localization.getSysLocalizer();
+
     public void init(FilterConfig filterConfig) throws ServletException {}
 
     public void destroy() {}
@@ -58,6 +62,11 @@ public class AuthFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         User user = authUser(request, response);
+        if (user != null && !AppLicense.instance().checkSessionLimit()) {
+            forwardError(request, response, l.l("License limit error"));
+            return;
+        }
+
         user = userInSession(request, user);
 
         if (user != null) {
@@ -72,15 +81,15 @@ public class AuthFilter implements Filter {
                 String app = request.getParameter("app");
                 app = Utils.notBlankString(app) ? "?app=" + app : "";
 
-                String realm = null;
+                String ifaceRealm = null;
                 // user or usermob
                 if (requestURI.startsWith("/user")) {
-                    realm = requestURI.substring(1);
+                    ifaceRealm = requestURI.substring(1);
 
-                    int pos = realm.indexOf('/');
+                    int pos = ifaceRealm.indexOf('/');
                     if (pos > 0) {
-                        realm = realm.substring(0, pos);
-                        forward(request, response, "/" + realm + SHELL_PAGE + app);
+                        ifaceRealm = ifaceRealm.substring(0, pos);
+                        forward(request, response, "/" + ifaceRealm + SHELL_PAGE + app);
                     }
                     // запрос заканчивается на /user или /usermob - редирект со слешем, так как это создаёт проблемы в вызове меню
                     else
@@ -91,7 +100,6 @@ public class AuthFilter implements Filter {
                 filterChain.doFilter(servletRequest, servletResponse);
             }
         } else {
-            var l = Localization.getSysLocalizer();
             forwardError(request, response, l.l("Ошибка авторизации"));
         }
     }
@@ -143,9 +151,9 @@ public class AuthFilter implements Filter {
 
     /**
      * Stores user to session or restores from there.
-     * @param request
-     * @param user
-     * @return
+     * @param request HTTP request.
+     * @param user user from auth.
+     * @return {@code user} parameter or restored from session value.
      */
     private User userInSession(HttpServletRequest request, User user) {
         if (user != null) {
