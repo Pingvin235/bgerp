@@ -3,7 +3,7 @@
 
 <c:set var="typeChangedCode">
 	var form = $("#${createContractUiid}")[0];
-	var typeId = form.typeId.value;	
+	var typeId = form.typeId.value;
 	if( typeId > 0 )
 	{
 		<c:forEach var="item" items="${contractTypesConfig.typeMap}">
@@ -19,25 +19,25 @@
 				var html = '<li value=\'-1\'>-- без указания тарифа --</li>';
 				<c:if test="${not empty type.tariffList}">
 					<c:forEach var="item" items="${type.tariffList}">
-						html += '<li value=\'${item.id}\'>${item.title }</li>';										
+						html += '<li value=\'${item.id}\'>${item.title }</li>';
 					</c:forEach>
-				</c:if>	
-			
+				</c:if>
+
 				$(form).find( '#selectTariff ul.drop' ).html( html );
-				uiComboSingleInit( $(form).find( '#selectTariff div.combo' ) ); 
-				
+				$$.ui.comboSingleInit( $(form).find( '#selectTariff div.combo' ) );
+
 				return;
 			}
 		</c:forEach>
 	}
-</c:set>	
-		
+</c:set>
+
 <c:set var="contractCreateCode">
 	var form = this.form;
 
 	var typeId = form.typeId.value;
 	var tariffId = form.tariffId.value;
-	
+
 	if( tariffId > 0 || tariffId == -1 )
 	{
 		var result = sendAJAXCommand( formUrl( form ) );
@@ -46,9 +46,9 @@
 			var contractId = result.data.contract.id;
 			var contractTitle = result.data.contract.title;
 			var billingId = form.billingId.value;
-			
+
 			${afterContractCreateCode}
-			
+
 			bgbilling_openContract( billingId, contractId );
 		}
 	}

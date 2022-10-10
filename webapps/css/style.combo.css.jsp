@@ -1,16 +1,21 @@
 <%@ page contentType="text/css; charset=UTF-8"%>
 
+.combo {
+	position: relative;
+	display: inline-flex;
+	padding-right: 0;
+	padding-left: 0;
+}
+
 /* можно посмотреть http://www.howtomake.com.ua/html-and-css/stilizaciya-vsex-elementov-form-s-pomoshhyu-css-i-jquery.html */
 .combo .text-pref {
 	color: #505050;
 	padding-left: 0.5em;
-	display: table-cell;
-	height: 100%;
+	/*height: 100%;*/
 	white-space: nowrap;
 }
 
 .combo .text-value {
-	display: table-cell;
 	text-align: left;
 	padding-left: 0.5em;
 	padding-right: 0.5em;
@@ -20,19 +25,12 @@
 }
 
 .combo > .icon {
-	display: table-cell;
 	height: 100%;
 	padding-right: 0.5em;
 }
 
-.combo {
-	position: relative;
-	padding-right: 0;
-	padding-left: 0;
-}
-
 .combo > .drop {
-	margin-top: 0.6em;
+	margin-top: 1.8em;
 	overflow-x: auto;
 	overflow-y: visible;
 	max-height: 300px;

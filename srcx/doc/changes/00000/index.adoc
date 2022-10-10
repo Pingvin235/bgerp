@@ -26,6 +26,17 @@ Configurable search of message related processes during message processing.
 
 image::../../kernel/message/_res/message_process_related_process.png[width="800px"]
 
+[IMPORTANT]
+.To make the feature enabled as before, place to configuration
+====
+[source]
+----
+cnt=0
+message.related.process.{@inc:cnt}.type=messageFrom
+message.related.process.{@inc:cnt}.type=foundLink
+----
+====
+
 == <<../../kernel/setup.adoc#param, Configurable>> Parameter Table Row Background
 
 Via *style* configuration parameter.
@@ -36,6 +47,6 @@ Instead of JS alerts.
 image::_res/message_dialog.png[]
 
 == <<../../kernel/setup.adoc#config-license, License>> Check
-Strictly recommended to check your license.
+IMPORTANT: Strictly recommended to check your license.
 
 image::../../kernel/_res/license.png[width="800px"]

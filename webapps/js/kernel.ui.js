@@ -78,6 +78,19 @@ $$.ui = new function () {
 		updateCurrentTitle();
 	}
 
+	/**
+	 * Executes filtering in combo-single element.
+	 * @param {*} input text input element.
+	 */
+	const comboSingleFilter = (input) => {
+		const $input = $(input);
+		const mask = $input.val().toLowerCase();
+		$(input.parentNode.parentNode).find('li:gt(0)').each(function () {
+			const content = $(this).text().toLowerCase();
+			$(this).toggle(content.indexOf(mask) >= 0);
+		});
+	}
+
 	const comboInputs = ($div) => {
 		return $div.find("ul.drop li input");
 	}
@@ -568,6 +581,7 @@ $$.ui = new function () {
 
 	// public functions
 	this.comboSingleInit = comboSingleInit;
+	this.comboSingleFilter = comboSingleFilter;
 	this.comboInputs = comboInputs;
 	this.comboCheckUncheck = comboCheckUncheck;
 	this.comboPermTreeCheckInit = comboPermTreeCheckInit;
@@ -586,22 +600,6 @@ $$.ui = new function () {
 	this.tableRowHl = tableRowHl;
 	this.setPasteUploadListener = setPasteUploadListener;
 	this.uploadAdd = uploadAdd;
-}
-
-
-function uiComboSingleInit($comboDiv, onSelect) {
-	console.warn($$.deprecated);
-	$$.ui.comboSingleInit($comboDiv, onSelect);
-}
-
-function uiComboInputs($div) {
-	console.warn($$.deprecated);
-	return $$.ui.comboInputs($div);
-}
-
-function uiInputTextInit($input, onSelect) {
-	console.warn($$.deprecated);
-	$$.ui.inputTextInit($input, onSelect);
 }
 
 function layoutProcess($selector) {

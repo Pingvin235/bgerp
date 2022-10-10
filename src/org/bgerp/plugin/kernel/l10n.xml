@@ -128,7 +128,7 @@
 	<p><ru>Группы параметров контрагентов</ru><en>Customer parameters groups</en></p>
 	<p><ru>Шаблоны названия контрагентов</ru><en>Parameter title patters</en></p>
 	<p><ru>Параметры домов</ru><en>House parameters</en></p>
-	<p><ru>Filter</ru><en>Фильтр</en></p>
+	<p><en>Filter</en><ru>Фильтр</ru></p>
 	<p><ru>По наименованию, комментарию, конфигурации</ru><en>By title, comment, configuration</en></p>
 	<p><ru>Интерфейс</ru><en>Interface</en></p>
 	<p><ru>Выйти</ru><en>Log off</en></p>

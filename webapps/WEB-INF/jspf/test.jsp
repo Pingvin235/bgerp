@@ -134,7 +134,7 @@
 			<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, 'item=', item); alert('Value is chosen, see console log')"/>
 
 			<ui:combo-single
-				hiddenName="param" value="2" prefixText="Value:" widthTextValue="12em" onSelect="${onSelect}">
+				hiddenName="param" value="2" prefixText="Value:" widthTextValue="12em" onSelect="${onSelect}" showFilter="true">
 				<jsp:attribute name="valuesHtml">
 					<li value="1">First (current)</li>
 					<li value="2 test">Second</li>
@@ -166,6 +166,14 @@
 					</jsp:attribute>
 				</ui:combo-single>
 			</u:sc>
+
+			<div style="width: 20em; display: inline-block;">
+				<ui:combo-single hiddenName="param" prefixText="Long value selected:" style="width: 100%;">
+					<jsp:attribute name="valuesHtml">
+						<li value="-1">This is a looooong text, has to be correctly cut from right when selected.</li>
+					</jsp:attribute>
+				</ui:combo-single>
+			</div>
 		</div>
 
 		<div>

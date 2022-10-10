@@ -113,7 +113,7 @@
 							});
 
 							$('#${mergeCustomersUiid} ul.drop' ).html( html );
-							uiComboSingleInit( $('#${mergeCustomersUiid}') );
+							$$.ui.comboSingleInit( $('#${mergeCustomersUiid}') );
 						</c:set>
 						<button class="btn-white btn-small mr1" onclick="${script}" id="${mergeButtonUiid}">${l.l('Слияние')}</button>
 

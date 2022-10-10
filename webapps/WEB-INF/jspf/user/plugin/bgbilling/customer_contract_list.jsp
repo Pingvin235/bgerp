@@ -51,7 +51,7 @@
 		}
 	});
 
-	uiComboSingleInit( $('#${createContractUiid} #selectType div.combo' ) );
+	$$.ui.comboSingleInit( $('#${createContractUiid} #selectType div.combo' ) );
 </c:set>
 
 <html:form action="/user/plugin/bgbilling/contract" style="display: none;" styleClass="in-table-cell nowrap in-pr05" styleId="${createContractUiid}">
