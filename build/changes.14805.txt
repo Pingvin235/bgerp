@@ -1,1 +1,0 @@
-A: Plugin DBA. Queries history. https://bgerp.org/doc/3.0/manual/plugin/svc/dba/index.html#usage-query

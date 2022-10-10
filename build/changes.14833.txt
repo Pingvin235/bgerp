@@ -1,3 +1,0 @@
-F: Plugin Report. l10n of actions.
-F: Plugin Invoice. Invoice deletion.
-A: Plugin Subscription. Incoming tax in Payments report.

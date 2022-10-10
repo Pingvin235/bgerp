@@ -1,3 +1,0 @@
-C: Layout in process card header.
-A: OpenIfaceTest.
-F: Street search with many tokens.

@@ -1,5 +1,0 @@
-C: Plugin BGBilling. Refactoring ContractOpenEvent.
-A: License check. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config-license
-A: Plugin Invoice. Control max Date To months offset from the current date.
-C: Remove deprecated -moz-box-sizing and -webkit-box-sizing CSS styles.
-F: Directory choice.

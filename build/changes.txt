@@ -1,6 +1,43 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+10.10.2022 17:40:19 1389
+A: [14641] Plugin Dispatch itest.
+A: [14736] Plugin Subscription. Discount percentage.
+A: [14736] Plugin Report. JSP tag <report:headers/>, shows visible column titles.
+A: [14736] Method DynActionForm.getHttpRequestURI for replacing duplicated action form URLs.
+C: [14736] Improved Gradle configuration to be more standard.
+A: [14788] Restore backups in script backup.sh.
+A: [14788] Plugin Backup. Restore backups in UI. https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.html#usage
+A: [14788] Plugin Backup. Delete multiple old backups at once. https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.html#usage
+F: [14788] Install zip in 'bgerp/bgerp' Docker image.
+A: [14805] Plugin DBA. Queries history. https://bgerp.org/doc/3.0/manual/plugin/svc/dba/index.html#usage-query
+A: [14811] Enhanced street search in parameter 'address' editor. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-address
+A: [14820] Plugin Telegram. Escape text for Bot.
+A: [14823] Show massive crash processes in message processing. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#usage-queue-related-process
+C: [14823] Remove 'processed' column in 'message' DB table.
+C: [14823] Remove 'white-space: nowrap;' CSS style for buttons.
+A: [14825] Improvements in $$.ajax.post, automatically recognition 'toPostNames' and 'control' options.
+A: [14825] Shorter signature for $$.ajax.load function.
+F: [14827] 'allowedForms' permission option.
+C: [14829] Layout in process card header.
+A: [14829] OpenIfaceTest.
+F: [14829] Street search with many tokens.
+F: [14833] Plugin Report. l10n of actions.
+F: [14833] Plugin Invoice. Invoice deletion.
+A: [14833] Plugin Subscription. Incoming tax in Payments report.
+F: [14835] Message queue reload on combo-single choose.
+F: [14835] NPE in Subscription plugin init.
+F: [14835] Single selection counter in message queue.
+F: [14837] Show long values in combo-single.
+C: [14837] Refactoring JS functions for combo-single.
+A: [14839] Configurable parameters table row background. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param
+C: [14840] Plugin BGBilling. Refactoring ContractOpenEvent.
+A: [14840] License check. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config-license
+A: [14840] Plugin Invoice. Control max Date To months offset from the current date.
+C: [14840] Remove deprecated -moz-box-sizing and -webkit-box-sizing CSS styles.
+F: [14840] Directory choice.
+
 04.07.2022 20:42:27 1388
 A: [14123] JSP tag <ui:combo-perm-tree-check.
 A: [14123] Plugin Log. https://bgerp.org/doc/3.0/manual/plugin/svc/log/index.html

@@ -1,2 +1,0 @@
-F: Show long values in combo-single.
-C: Refactoring JS functions for combo-single.
