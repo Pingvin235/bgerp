@@ -10,6 +10,7 @@ import org.bgerp.plugin.pln.callboard.model.WorkTask;
 import org.bgerp.plugin.pln.callboard.model.WorkType;
 import org.bgerp.plugin.pln.callboard.model.WorkTypeTime;
 import org.bgerp.plugin.pln.callboard.model.config.CallboardPlanConfig;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 // дневная смена в какой-то группе
@@ -30,6 +31,7 @@ public class ShiftData {
         return shiftId;
     }
 
+    @Dynamic
     public Set<Integer> getUserIds() {
         return userIds;
     }

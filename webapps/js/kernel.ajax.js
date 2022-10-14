@@ -116,7 +116,7 @@ $$.ajax = new function () {
 			loadDfd = {
 				key: "dfd",
 
-				/** Wrapping object, contains Deffered + URL for debug. */
+				/** Wrapping object, contains Deferred + URL for debug. */
 				create: function (dfd, url) {
 					const result = {
 						dfd: dfd,

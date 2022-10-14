@@ -8,6 +8,8 @@ test-and-publish-update:
         paths:
             - .gradle/wrapper
             - .gradle/caches
+    before_script:
+        - export TZ="CET" && date
     script:
         - apt-get update && apt-get install -y openssh-client ant rsync git-lfs
         - git checkout -B $CI_COMMIT_REF_NAME
@@ -27,6 +29,8 @@ test-and-publish-update-master:
         paths:
             - .gradle/wrapper
             - .gradle/caches
+    before_script:
+        - export TZ="CET" && date
     script:
         - apt-get update && apt-get install -y openssh-client ant rsync git-lfs
         - git checkout -B p00000-master
@@ -46,6 +50,8 @@ test-integration:
         paths:
             - .gradle/wrapper
             - .gradle/caches
+    before_script:
+        - export TZ="CET" && date
     script:
         # start MySQL, create DB and user, move bgerp.properties to the current directory
         - /usr/local/bin/docker-bgerp-base.sh
@@ -65,6 +71,8 @@ test-integration-master:
         paths:
             - .gradle/wrapper
             - .gradle/caches
+    before_script:
+        - export TZ="CET" && date
     script:
         # start MySQL, create DB and user, move bgerp.properties to the current directory
         - /usr/local/bin/docker-bgerp-base.sh
@@ -94,6 +102,8 @@ publish-doc:
         paths:
             - .gradle/wrapper
             - .gradle/caches
+    before_script:
+        - export TZ="CET" && date
     script:
         - sh gradlew buildJavaDoc buildDoc
         - apt-get update && apt-get install -y rsync openssh-client
@@ -108,6 +118,7 @@ publish-source:
     # think about switching to 'bgerp/base' for unification
     image: alpine
     before_script:
+        - export TZ="CET" && date
         - export REPO_PUB=/tmp/bgerp-pub
         - apk --no-cache add git git-lfs openssh-client bash
         - mkdir ~/.ssh && echo "$KEY_WWW" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa

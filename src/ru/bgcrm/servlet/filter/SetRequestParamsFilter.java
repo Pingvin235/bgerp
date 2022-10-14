@@ -48,8 +48,8 @@ public class SetRequestParamsFilter implements Filter {
         ConnectionSet conSet = new ConnectionSet(Setup.getSetup().getConnectionPool(), true);
         request.setAttribute("ctxConSet", conSet);
 
-        // 'l' object is set only for action calls, but not on JSP after them
-        if (ServletUtils.getRequestURI((HttpServletRequest) request).endsWith(".do"))
+        // 'l' object is set only for action calls and open URLs like /process/nnn, but not to JSP after them
+        if (!ServletUtils.getRequestURI((HttpServletRequest) request).endsWith(".jsp"))
             request.setAttribute(REQUEST_KEY_LOCALIZER, getLocalizer(request));
 
         chain.doFilter(request, response);

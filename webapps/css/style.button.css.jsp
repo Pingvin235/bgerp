@@ -1,9 +1,14 @@
 <%@ page contentType="text/css; charset=UTF-8"%>
 
+
 .btn-blue, .btn-grey, .btn-white, .btn-green, .btn-white-hover {
 	padding: 0.6em 1em;
 	text-align: center;
 	/* white-space: nowrap; a customer wanted to see all the text in process queue filters */
+}
+
+button.btn-grey, button.btn-white {
+	white-space: nowrap;
 }
 
 .btn-blue.icon, .btn-grey.icon, .btn-white.icon, .btn-green.icon, .btn-white-hover.icon,

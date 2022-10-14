@@ -37,7 +37,7 @@
 			list="${ctxUserGroupFullTitledList}" map="${ctxUserGroupFullTitledMap}"
 			availableIdSet="${u.toIntegerSet(perm['allowFilterGroups'])}"
 			value="${form.param.group}"
-			onSelect="${showCode}" placeholder="${l.l('Группа')}" style="width: 200px;"/>
+			onSelect="${showCode}" placeholder="${l.l('Group')}" style="width: 200px;"/>
 
 		<ui:date-time paramName="date" placeholder="${l.l('Гр. на дату')}" value="${form.param.date}"/>
 	</c:if>

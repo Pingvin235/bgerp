@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.bgerp.plugin.pln.callboard.model.WorkTypeConfig;
+import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.util.TimeUtils;
 
@@ -36,9 +37,20 @@ public class FreeSlotRange {
         return result;
     }
 
+    @Dynamic
     public Date getTime() {
         Calendar cal = TimeUtils.convertDateToCalendar(date);
         cal.add(Calendar.MINUTE, dayMinuteFrom);
         return TimeUtils.convertCalendarToDate(cal);
+    }
+
+    @Dynamic
+    public int getGroupId() {
+        return groupId;
+    }
+
+    @Dynamic
+    public ShiftData getShiftData() {
+        return shiftData;
     }
 }

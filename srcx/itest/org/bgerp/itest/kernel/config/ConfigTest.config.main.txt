@@ -8,7 +8,7 @@ title=BGERP DEMO
 # root URL !!!
 URL=https://demo.bgerp.org
 url.user={@URL}/user
-url.open={@URL}/open
+url.open=/open
 
 # password check rules
 user.password.chars=1234567890qwertyupasdfghjkzxcvbnmiloQWERTYUIOPASDFGHJKLZXCVBNM

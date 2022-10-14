@@ -69,7 +69,7 @@ public class CallboardTest {
     public void param() throws Exception {
         paramAddressId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_ADDRESS, TITLE + " Address", ProcessTest.posParam += 2, "", "");
         paramServicesId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " Services", ProcessTest.posParam += 2, ParamTest.MULTIPLE, "1=Интернет\n2=КТВ");
-        paramConnectionTimeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " Connection Time", ProcessTest.posParam += 2, "", "");
+        paramConnectionTimeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " Connection Time", ProcessTest.posParam += 2, "type=ymdhm", "");
     }
 
     @Test
@@ -105,7 +105,8 @@ public class CallboardTest {
     public void process() throws Exception {
         var process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Connection");
         ProcessHelper.addGroup(process, userGroupIdSub1);
-        ProcessHelper.addExecutor(process, userKarlId, userGroupIdSub1);
+        ProcessHelper.addGroup(process, userGroupIdSub2);
+        // ProcessHelper.addExecutor(process, userKarlId, userGroupIdSub1);
 
         var dao = new ParamValueDAO(DbTest.conRoot);
 

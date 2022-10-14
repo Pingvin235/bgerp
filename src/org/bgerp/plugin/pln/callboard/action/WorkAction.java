@@ -14,8 +14,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -36,10 +36,10 @@ import org.bgerp.plugin.pln.callboard.model.WorkType;
 import org.bgerp.plugin.pln.callboard.model.WorkTypeTime;
 import org.bgerp.plugin.pln.callboard.model.config.CalendarConfig;
 import org.bgerp.plugin.pln.callboard.model.config.CallboardConfig;
-import org.bgerp.plugin.pln.callboard.model.config.CategoryConfig;
-import org.bgerp.plugin.pln.callboard.model.config.DayTypeConfig;
 import org.bgerp.plugin.pln.callboard.model.config.CallboardConfig.Callboard;
+import org.bgerp.plugin.pln.callboard.model.config.CategoryConfig;
 import org.bgerp.plugin.pln.callboard.model.config.CategoryConfig.Category;
+import org.bgerp.plugin.pln.callboard.model.config.DayTypeConfig;
 import org.bgerp.plugin.pln.callboard.model.config.ProcessTimeSetConfig;
 import org.bgerp.plugin.pln.callboard.model.work.CellRange;
 import org.bgerp.plugin.pln.callboard.model.work.FreeSlotRange;
@@ -177,6 +177,7 @@ public class WorkAction extends BaseAction {
     public ActionForward processTimeSet(DynActionForm form, Connection con) throws Exception {
         int processId = form.getParamInt("processId");
         Date time = TimeUtils.parse(form.getParam("time"), TimeUtils.FORMAT_TYPE_YMDHM);
+        Set<Integer> userIds = Utils.toIntegerSet(form.getParam("userIds"));
 
         if (processId <= 0) {
             throw new BGIllegalArgumentException();
@@ -194,8 +195,6 @@ public class WorkAction extends BaseAction {
         if (timeSetConfig.getCallboard() != null) {
             Callboard callboard = timeSetConfig.getCallboard();
 
-            FreeSlotRange allowedSlot = null;
-
             synchronized (SET_TIME_MUTEX) {
                 // назначение времени
                 if (time != null) {
@@ -204,12 +203,12 @@ public class WorkAction extends BaseAction {
 
                     Date date = TimeUtils.convertCalendarToDate(cal);
 
-                    for (FreeSlotRange slot : getFreeSlots(con, process, timeSetConfig.getCallboard(), date, date)) {
-                        if (slot.getTime().equals(time)) {
-                            allowedSlot = slot;
-                            break;
-                        }
-                    }
+                    var slots = getFreeSlots(con, process, timeSetConfig.getCallboard(), date, date);
+
+                    FreeSlotRange allowedSlot = slots.stream()
+                        .filter(slot -> slot.getTime().equals(time))
+                        .filter(slot -> slot.getShiftData().userIds.equals(userIds))
+                        .findFirst().orElse(null);
 
                     if (allowedSlot == null) {
                         throw new BGMessageException("Выбранный слот занят.");
@@ -392,7 +391,7 @@ public class WorkAction extends BaseAction {
     }
 
     private List<FreeSlotRange> getFreeSlots(Connection con, Process process, Callboard callboard, Date dateFrom, Date dateTo) throws BGException {
-        List<FreeSlotRange> result = new ArrayList<FreeSlotRange>();
+        List<FreeSlotRange> result = new ArrayList<>();
 
         Set<Integer> processGroupIds = ProcessGroup.getGroupsWithRole(process.getGroups(), 0);
         Set<Integer> groupIds = new HashSet<Integer>(getGroupList(null, callboard, false, null));

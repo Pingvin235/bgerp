@@ -1,3 +1,7 @@
 = CHANGES
 :toc:
 
+== Plugin <<../../plugin/pln/callboard/index.adoc#, Callboard>>
+Show groups and users when <<../../plugin/pln/callboard/index.adoc#usage-set-time, setting>> slot in process.
+
+image::../../plugin/pln/callboard/_res/process_set_time.png[width="800px"]

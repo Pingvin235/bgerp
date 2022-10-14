@@ -19,7 +19,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="pt05">${l.l('Группа')}:</td>
+			<td class="pt05">${l.l('Group')}:</td>
 			<td style="width: 100%" class="pl05 pt05">
 				<ui:select-single hiddenName="group" list="${ctxUserGroupFullTitledList}" style="width: 100%;"/>
 			</td>
@@ -46,7 +46,7 @@
 		<tr>
 			<td width="100">&nbsp;</td>
 			<td width="100">${l.l('Период')}</td>
-			<td width="100%">${l.l('Группа')}</td>
+			<td width="100%">${l.l('Group')}</td>
 		</tr>
 
 		<c:set var="list" value="${ctxUserGroupList}" />
