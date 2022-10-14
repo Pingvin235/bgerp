@@ -1,0 +1,52 @@
+= CHANGES
+:toc:
+
+== Plugin <<../../plugin/svc/backup/index.adoc#, Backup>>
+Restore from backups. Cleaning up old backups.
+
+image::../../plugin/svc/backup/_res/backup.png[width="800px"]
+
+== Plugin <<../../plugin/svc/dba/index.adoc#, DBA>>
+History of executed queries.
+
+image::../../plugin/svc/dba/_res/sql_query.png[width="800px"]
+
+== Enhanced Street Search
+Handle in <<../../kernel/setup.adoc#param-address, address parameter editor>> and search streets with same name but in different cities.
+
+image::../../kernel/_res/param_address_edit_1.png[width="800px"]
+
+== Process Card Header Layout
+
+image::_res/process_card_layout.png[]
+
+== Improved <<../../kernel/message/index.adoc#usage-queue-related-process, Messages Related Processes>>
+
+Configurable search of message related processes during message processing.
+
+image::../../kernel/message/_res/message_process_related_process.png[width="800px"]
+
+[IMPORTANT]
+.To make the feature enabled as before, place to configuration
+====
+[source]
+----
+cnt=0
+message.related.process.{@inc:cnt}.type=messageFrom
+message.related.process.{@inc:cnt}.type=foundLink
+----
+====
+
+== <<../../kernel/setup.adoc#param, Configurable>> Parameter Table Row Background
+
+Via *style* configuration parameter.
+
+== Show Messages Dialogs
+Instead of JS alerts.
+
+image::_res/message_dialog.png[]
+
+== <<../../kernel/setup.adoc#config-license, License>> Check
+IMPORTANT: Strictly recommended to check your license.
+
+image::../../kernel/_res/license.png[width="800px"]

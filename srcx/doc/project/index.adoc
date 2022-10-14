@@ -346,6 +346,8 @@ Figure below illustrates a request processing pipeline:
 +----------------+
 ----
 
+drawio:_res/arch.drawio[]
+
 Request processing stages:
 [arabic]
 .	JS is used to form a request via HTML form , which is then sent to a Java Action class method.
@@ -827,6 +829,8 @@ Code size is a cumulative value for all Customers - larger size from scattered c
 | Standard JSP |           |  Java Code  | |Configuration|
 +--------------+           +-------------+ +-------------+
 ----
+
+drawio:_res/ccc.drawio[]
 
 [[l10n]]
 === Localization
