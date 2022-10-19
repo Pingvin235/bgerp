@@ -137,7 +137,7 @@ task buildUpdateLib(type: Zip, dependsOn: 'buildLibJar', description: 'Builds li
         def module = new org.bgerp.tool.prop.Module(updateLibDir);
         archiveFileName.set(module.zipName());
     }
-    from(updateDir) {
+    from(updateLibDir) {
         include('module.properties')
     }
     into('content/lib/app') {
