@@ -1,0 +1,186 @@
+task updateProperties(type: JavaExec, dependsOn: 'compileToolJava', description: 'Updates update.properties file for update module') {
+    classpath =  sourceSets.tool.runtimeClasspath
+    mainClass = 'org.bgerp.tool.prop.Update'
+    args version, updateDir, "${->getChangeId()}"
+}
+
+task updateLibProperties(type: JavaExec, dependsOn: 'compileToolJava', description: 'Updates update.properties file for update_lib module if exists file build/changes.lib.txt') {
+    onlyIf {
+        file("build/changes.lib.txt").exists()
+    }
+    classpath =  sourceSets.tool.runtimeClasspath
+    mainClass = 'org.bgerp.tool.prop.Update'
+    args version, updateLibDir, ''
+}
+
+task resetProperties {
+    doFirst {
+        println "Reset update.properties"
+        "git checkout -- $updateProperties".execute()
+        println "Reset update_lib.properties"
+        "git checkout -- $updateLibProperties".execute()
+    }
+}
+
+// OLD TASKS, SHOULD BE REMOVED LATER
+// use Ant calls, that XML files should be removed as well
+
+// called from ant build/update_lib/build.xml
+task copyLibExt(type: Copy) {
+    into "$buildDir/lib"
+    from configurations.runtimeClasspath
+}
+
+task copyProperties(type: JavaExec, dependsOn: ['classes', 'compileToolJava'], description: '[OLD] Copies update.properties file for update module to classes path') {
+    mustRunAfter 'updateProperties'
+    classpath =  sourceSets.tool.runtimeClasspath
+    mainClass = 'org.bgerp.tool.prop.Copy'
+    args updateDir, classesPath
+}
+
+task copyLibProperties(type: JavaExec, dependsOn: ['classes', 'compileToolJava'], description: '[OLD] Copies update.properties file for update_lib module to classes path') {
+    mustRunAfter 'updateLibProperties'
+    classpath =  sourceSets.tool.runtimeClasspath
+    mainClass = 'org.bgerp.tool.prop.Copy'
+    args updateLibDir, classesPath
+}
+
+task buildUpdateOld(type: Exec, dependsOn: ['classes', 'copyProperties'], description: '[OLD] Builds distribution and update archives') {
+    workingDir updateDir
+    commandLine "ant"
+    environment classesPath: classesPath, changeId: "${->getChangeId()}"
+}
+
+task buildUpdateLibOld(type: Exec, dependsOn: ['classes', 'copyLibProperties'], description: '[OLD] Builds library update archive if exists file build/changes.lib.txt') {
+    onlyIf {
+        file("build/changes.lib.txt").exists()
+    }
+    workingDir updateLibDir
+    commandLine "ant"
+}
+
+task buildUpdateLibForce(type: Exec, description: '[OLD] Builds library update archive') {
+    workingDir updateLibDir
+    commandLine "ant"
+}
+
+task buildClean(type: Delete) {
+    delete fileTree("$projectDir/build").matching {
+        include "bgerp/bgerp_${version}_*.zip"
+        include "update/update_${version}_*.zip"
+        include "update_lib/update_lib_${version}_*.zip"
+    }
+}
+// END OF OLD TASKS
+
+// bgerp.jar has placed to $buildDir/$libsDirName
+task buildAppJar(type: Jar, dependsOn: 'classes') {
+    into(versionPackage) {
+        def module = new org.bgerp.tool.prop.Module(updateDir);
+        from(updateDir) {
+            include(module.propertiesName())
+        }
+    }
+    from(sourceSets.main.output) {
+        exclude 'log4j.properties'
+    }
+    archiveFileName = appJarName
+}
+
+// update_$version_$build.zip has placed to $buildDir/$distsDirName
+task buildUpdate(type: Zip, dependsOn: 'buildAppJar', description: 'Builds distribution and update archives') {
+    doFirst {
+        def module = new org.bgerp.tool.prop.Module(updateDir);
+        archiveFileName.set(module.zipName());
+    }
+    from(updateDir) {
+        include('db_init.sql')
+        include('module.properties')
+    }
+    into('content') {
+        from(distDir) {
+            // TODO: Check if needed in update.
+            include('scripts/**')
+        }
+        from("$distDir/files") {
+            exclude('bgerp.properties')
+            exclude('setenv.sh')
+        }
+        from(projectDir) {
+            // TODO: Check, which files are needed.
+            include('docpattern/**')
+            include('webapps/**')
+        }
+    }
+    into('content/lib/app') {
+        from("$buildDir/$libsDirName").include(appJarName)
+    }
+}
+
+// lib.jar has placed to $buildDir/$libsDirName
+task buildLibJar(type: Jar) {
+    into(versionPackage) {
+        def module = new org.bgerp.tool.prop.Module(updateLibDir);
+        from(updateLibDir) {
+            include(module.propertiesName())
+        }
+    }
+    archiveFileName = libJarName
+}
+
+// update_lib_$version_$build.zip has placed to $buildDir/$distsDirName
+task buildUpdateLib(type: Zip, dependsOn: 'buildLibJar', description: 'Builds library update archive if exists file build/changes.lib.txt') {
+    onlyIf {
+        file("build/changes.lib.txt").exists()
+    }
+    doFirst {
+        def module = new org.bgerp.tool.prop.Module(updateLibDir);
+        archiveFileName.set(module.zipName());
+    }
+    from(updateDir) {
+        include('module.properties')
+    }
+    into('content/lib/app') {
+        from("$buildDir/$libsDirName").include(libJarName)
+    }
+    into('content/lib/ext') {
+        from(configurations.runtimeClasspath)
+    }
+}
+
+task buildDist(type: Zip, dependsOn: ['buildAppJar', 'buildLibJar'], description: 'Builds distribution archive for the first installation') {
+    doFirst {
+        def module = new org.bgerp.tool.prop.Module(updateDir);
+        archiveFileName.set(module.zipName().replace('update_', 'bgerp_'));
+
+        def buildDir = new File(distBuildDir);
+        new File(buildDir, 'filestorage').mkdirs();
+        new File(buildDir, 'log').mkdirs();
+
+        def toConcatenate = files(new File(updateDir, 'db_init.sql'), new File(distDir, 'db_init.sql'));
+        def output = new File(buildDir, 'db_init.sql')
+        toConcatenate.each { f -> output << f.text }
+    }
+    into('bgerp') {
+        from(distBuildDir)
+        from(distDir) {
+            include('scripts/**')
+            include('db_create.sql')
+        }
+        from("$distDir/files")
+        from(projectDir) {
+            // TODO: Check, which files are needed.
+            include('docpattern/**')
+            include('webapps/**')
+        }
+    }
+    into('bgerp/lib/app') {
+        from("$buildDir/$libsDirName") {
+            include(appJarName)
+            include(libJarName)
+        }
+    }
+    into('bgerp/lib/ext') {
+        from(configurations.runtimeClasspath)
+    }
+}

@@ -1,15 +1,26 @@
-task publishUpdate(type: JavaExec, dependsOn: ['compileToolsJava', 'touchChanges', 'resetProperties']) {
-    mustRunAfter 'buildDoc'
-    mustRunAfter 'buildUpdate'
-    classpath =  sourceSets.tools.runtimeClasspath
-    mainClass = 'ru.bgerp.tool.PublishUpdate'
-    args projectDir, version, "${->getChangeIdOrThrow()}"
-}
-
-/* TODO: Rewrite to Java, share code with PublishUpdate.java */
-task publishBuild {
+task publishUpdate(type: JavaExec, dependsOn: ['compileToolJava', 'touchChanges'], description: 'Copies changes modules to be available under https://bgerp.org/update') {
+    mustRunAfter 'doc'
     mustRunAfter 'buildUpdate'
     mustRunAfter 'buildUpdateLib'
+    classpath =  sourceSets.tool.runtimeClasspath
+    mainClass = 'org.bgerp.tool.PublishUpdate'
+    args "$buildDir/$distsDirName", version, "${->getChangeIdOrThrow()}"
+}
+
+task publishRelease(type: JavaExec, dependsOn: 'compileToolJava', description: 'Copies distribution, update and update_lib packages to CDN server') {
+    mustRunAfter 'buildUpdate'
+    mustRunAfter 'buildUpdateLib'
+    mustRunAfter 'patchChanges'
+    mustRunAfter 'rss'
+    classpath =  sourceSets.tool.runtimeClasspath
+    // TODO: Move all the logic from publishReleaseOld to the class.
+    mainClass = 'org.bgerp.tool.PublishRelease'
+    args "$buildDir/$distsDirName", version
+}
+
+task publishReleaseOld {
+    mustRunAfter 'buildUpdateOld'
+    mustRunAfter 'buildUpdateLibOld'
     mustRunAfter 'patchChanges'
     mustRunAfter 'rss'
     doFirst {
@@ -75,8 +86,7 @@ def createSymlink(String sshLogin, String sshFolder, String link, String target)
     }
 }
 
-task publishCommit(type: Exec) {
-    mustRunAfter 'publishBuild'
+task publishCommit(type: Exec, description: 'Pushes changes in master branch to GIT') {
     workingDir "$projectDir/build"
     commandLine 'git', 'commit', '*.properties', 'changes.txt', 'changes.*.txt', "-m PUBLISH ${->getBuild()}"
 }

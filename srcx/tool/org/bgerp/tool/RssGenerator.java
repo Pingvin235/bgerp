@@ -1,4 +1,4 @@
-package ru.bgerp.tool;
+package org.bgerp.tool;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,6 +14,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.bgerp.util.Log;
 
 import com.google.common.base.Charsets;
 
@@ -22,9 +23,11 @@ import ru.bgcrm.util.Utils;
 
 /**
  * Convertor changes.txt to RSS changes.xml.
+ *
  * @author Shamil Vakhitov
  */
 public class RssGenerator {
+    private static final Log LOG = Log.getLog();
 
     // Mon, 06 Mar 2017 15:05:02 +0500
     private static final DateFormat PUB_DATE_FORMAT = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
@@ -36,8 +39,8 @@ public class RssGenerator {
         this.title = "ChangeLog BGERP v." + version + " CI";
         this.downloadLink = "ftp://bgerp.org/pub/bgerp/" + version;
 
-        System.out.println("Generating RSS for version: " + version);
-        
+        LOG.info("Generating RSS for version: {}", version);
+
         try (BufferedReader changesTxt = new BufferedReader(new InputStreamReader(new FileInputStream(fileIn), Charsets.UTF_8))) {
             SortedMap<Date, Record> sortedRecords = new TreeMap<>();
 
@@ -71,7 +74,7 @@ public class RssGenerator {
         }
     }
 
-    // 04.04.2018 00:38:37 1242 
+    // 04.04.2018 00:38:37 1242
     private Record getRecordByStartLine(String line) {
         String[] tokens = line.split("\\s+");
         if (tokens.length != 3)
@@ -100,10 +103,10 @@ public class RssGenerator {
             line = line
                     .replace("<", "&lt;")
                     .replace(">", "&gt;");
-            
-            if (description.length() == 0) 
+
+            if (description.length() == 0)
                 description.append("\n");
-            
+
             if (line.startsWith("A:") || line.startsWith("А:") || line.startsWith("N:"))
                 description.append("NEW:").append(line.substring(2));
             else if (line.startsWith("С:") || line.startsWith("C:"))
@@ -114,7 +117,7 @@ public class RssGenerator {
                 description.append("FIX:").append(line.substring(2));
             else
                 description.append(line);
-            
+
             description.append("\n");
         }
 

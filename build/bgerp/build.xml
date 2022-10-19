@@ -42,13 +42,14 @@
 
 	<!--главный таргет -->
 	<target name="build" depends="prepare_dir, table_dump, copy">
-		<!-- версии модулей update и update_lib -->
+		<!-- версии модулей update и update_lib
 		<antcall target="put_props">
 			<param name="dir" value="${basedir}/../update"/>
 		</antcall>
 		<antcall target="put_props">
 			<param name="dir" value="${basedir}/../update_lib"/>
 		</antcall>
+		-->
 
 		<antcall target="build_bgerp_jar"/>
 		<antcall target="build_lib_jar"/>

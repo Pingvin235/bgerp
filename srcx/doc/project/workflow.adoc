@@ -346,10 +346,10 @@ CAUTION: Be sure that <<test-integration, Integration tests>> are successfully d
 Perform the following:
 [source, bash]
 ----
-bash -c "./gradlew resetProperties clean buildClean buildUpdateLib buildUpdate"
+bash -c "./gradlew resetProperties clean buildClean updateLibProperties buildUpdateLibOld updateProperties buildUpdateOld"
 ----
 
-NOTE: `buildUpdateLib` task checks existence of file `build/changes.lib.txt`, marking changes in <<index.adoc#java-lib, Java libraries>>.
+NOTE: *buildUpdateLib* and *updateLibProperties* tasks check existence of file `build/changes.lib.txt`, marking changes in <<index.adoc#java-lib, Java libraries>>.
 
 Build a <<build-docker, Docker Image>>:
 [source, bash]
@@ -360,7 +360,7 @@ bash build/docker/files.sh && docker build build/docker -t bgerp/bgerp && docker
 Then:
 [source, bash]
 ----
-bash -c "./gradlew patchChanges rss publishBuild publishCommit"
+bash -c "./gradlew patchChanges rss publishReleaseOld publishCommit"
 ----
 
 Check the release commit and make:

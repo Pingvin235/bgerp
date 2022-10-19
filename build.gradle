@@ -24,6 +24,19 @@ buildDir = 'target'
 
 version = '3.0'
 
+project.ext {
+    updateDir="$projectDir/build/update"
+    updateProperties="$updateDir/update.properties"
+    updateLibDir="$projectDir/build/update_lib"
+    updateLibProperties="$updateLibDir/update_lib.properties"
+    distDir="$projectDir/build/bgerp"
+    classesPath="$buildDir/classes/java/main"
+    versionPackage='ru/bgcrm/version'
+    appJarName='bgerp.jar'
+    libJarName='lib.jar'
+    distBuildDir="$buildDir/bgerp"
+}
+
 eclipse {
     classpath {
         // speed up of initial start, change if needed
@@ -52,9 +65,9 @@ configurations {
         transitive = true
     }
     itest.extendsFrom(implementation)
-    tools.extendsFrom(implementation)
+    tool.extendsFrom(implementation)
     // to be compiled inside IDE
-    compileClasspath.extendsFrom(implementation, tools, itest)
+    compileClasspath.extendsFrom(implementation, tool, itest)
 }
 
 dependencies {
@@ -158,6 +171,9 @@ dependencies {
     // documentation library
     doc 'org.pzdcdoc:pzdcdoc:2.6'
 
+    // tool libraries
+    tool 'org.apache.ant:ant:1.10.12'
+
     // unit tests of the main code
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-core:1.3'
@@ -177,12 +193,6 @@ dependencies {
     itest 'org.apache.commons:commons-exec:1.3'
 }
 
-// called from ant build/update_lib/build.xml
-task copyLibExt(type: Copy) {
-    into "$buildDir/lib"
-    from configurations.runtimeClasspath
-}
-
 sourceSets {
     main {
         java {
@@ -195,7 +205,7 @@ sourceSets {
             srcDir 'custom/src'
         }
         // makes warning on assigning simple output.classesDir
-        output.resourcesDir = "${buildDir}/classes/java/main"
+        output.resourcesDir = "$buildDir/classes/java/main"
     }
     test {
         java {
@@ -205,11 +215,12 @@ sourceSets {
             srcDir 'srcx/test'
         }
     }
-    tools {
+    tool {
         java {
-            srcDir 'srcx/tools'
+            srcDir 'buildSrc/src/main/java'
+            srcDir 'srcx/tool'
         }
-        compileClasspath = configurations.tools + sourceSets.main.output
+        compileClasspath = configurations.tool + sourceSets.main.output
         runtimeClasspath = compileClasspath + output
     }
     itest {
@@ -220,10 +231,58 @@ sourceSets {
             srcDir 'srcx/itest'
         }
         // makes warning on assigning simple output.classesDir
-        output.resourcesDir = "${buildDir}/classes/java/itest"
+        output.resourcesDir = "$buildDir/classes/java/itest"
         compileClasspath = configurations.itest + sourceSets.main.output
         runtimeClasspath = compileClasspath + output + configurations.runtimeClasspath
     }
+}
+
+// supporting functions, not found if be extracted to a separated .gradle file
+
+def getBranchName() {
+    def branchName = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+    println "Branch name: $branchName"
+    return branchName
+}
+
+def getBuild() {
+    def buildProperties = new Properties()
+    file("$updateProperties").withInputStream { stream -> buildProperties.load(stream) }
+    def build = buildProperties.get('build.number')
+    println "Build: $build"
+    return build
+}
+
+/*
+    Gets numeric change ID 'NNNNN' from GIT branch name like: 'pNNNNN-some-description'.
+    Returns empty string in case of another branch name.
+*/
+def getChangeId() {
+    def branchName = getBranchName()
+
+    def m  = branchName =~ /^p(\d+)\-/
+    if (!m) return "";
+
+    def changeId = m[0][1]
+    println "Change ID: $changeId"
+
+    return changeId
+}
+
+/*
+    Gets numeric change ID 'NNNNN' from GIT branch name like: 'pNNNNN-some-description'.
+    Throws an exception in case of another branch name.
+*/
+def getChangeIdOrThrow() {
+    def branchName = getBranchName()
+
+    def m  = branchName =~ /^p(\d+)\-/
+    if (!m) throw new GradleException("Incorrect branch name: $branchName")
+
+    def changeId = m[0][1]
+    println "Change ID: $changeId"
+
+    return changeId
 }
 
 tasks.withType(JavaCompile) {
@@ -232,53 +291,6 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(JavaExec) {
     jvmArgs "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED", "--add-opens", "java.base/java.io=ALL-UNNAMED"
-}
-
-task doc(type: JavaExec, description: 'Build manual') {
-    classpath =  configurations.doc
-    mainClass = 'org.pzdcdoc.Generator'
-    args '--in', 'srcx/doc', '--out', 'target/doc'
-}
-
-task buildDoc(dependsOn: 'doc', description: 'Backward compatible name for doc') {
-    doFirst {
-        logger.warn("Use 'doc' task")
-    }
-}
-
-task buildJavaDoc(type: Javadoc) {
-    options.encoding = 'UTF-8'
-    failOnError = false
-    classpath = configurations.runtimeClasspath
-    source = sourceSets.main.allJava
-    destinationDir = file("${buildDir}/javadoc")
-}
-
-task patchChanges(type: JavaExec, dependsOn: 'compileToolsJava', description: 'Concatenates build/changes.*.txt files to build/changes.txt') {
-    classpath =  sourceSets.tools.runtimeClasspath
-    mainClass = 'ru.bgerp.tool.PatchChanges'
-    args "${->getBuild()}", 'build/changes.txt'
-}
-
-def getBuild() {
-    def buildProperties = new Properties()
-    file("$projectDir/build/update/update.properties").withInputStream { stream -> buildProperties.load(stream) }
-    def build = buildProperties.get('build.number')
-    println "Build: $build"
-    return build
-}
-
-task rss(type: JavaExec, dependsOn: 'compileToolsJava', description: 'Generates build/changes.rss out of build/changes.txt') {
-    mustRunAfter 'patchChanges'
-    classpath =  sourceSets.tools.runtimeClasspath
-    mainClass = 'ru.bgerp.tool.RssGenerator'
-    args version, 'build/changes.txt', 'build/changes.xml'
-}
-
-task buildDist(type: Exec, dependsOn: 'classes', description: 'Builds distribution archive') {
-    workingDir "$projectDir/build/bgerp"
-    commandLine "ant"
-    environment classesPath: "../../target/classes/java/main", changeId: "${->getChangeId()}"
 }
 
 // for some reasons the task is named as 'classes' in 'dependsOn'
@@ -292,40 +304,18 @@ compileJava {
     }
 }
 
-task buildUpdate(type: Exec, dependsOn: 'classes', description: 'Builds distribution and update archives') {
-    workingDir "$projectDir/build/update"
-    commandLine "ant"
-    environment classesPath: "../../target/classes/java/main", changeId: "${->getChangeId()}"
+task doc(type: JavaExec, description: 'Build manual') {
+    classpath =  configurations.doc
+    mainClass = 'org.pzdcdoc.Generator'
+    args '--in', 'srcx/doc', '--out', "$buildDir/doc"
 }
 
-task buildUpdateLib(type: Exec, description: 'Builds library update archive if exists file build/changes.lib.txt') {
-    onlyIf {
-        file("build/changes.lib.txt").exists()
-    }
-    workingDir "$projectDir/build/update_lib"
-    commandLine "ant"
-}
-
-task buildUpdateLibForce(type: Exec, description: 'Builds library update archive') {
-    workingDir "$projectDir/build/update_lib"
-    commandLine "ant"
-}
-
-task buildClean(type: Delete) {
-    delete fileTree("$projectDir/build").matching {
-        include "bgerp/bgerp_${version}_*.zip"
-        include "update/update_${version}_*.zip"
-        include "update_lib/update_lib_${version}_*.zip"
-    }
-}
-
-task resetProperties {
-    doFirst {
-        println "Reset update.properties"
-        "git checkout -- $projectDir/build/update/update.properties".execute()
-        println "Reset update_lib.properties"
-        "git checkout -- $projectDir/build/update_lib/update_lib.properties".execute()
-    }
+task jdoc(type: Javadoc) {
+    options.encoding = 'UTF-8'
+    failOnError = false
+    classpath = configurations.runtimeClasspath
+    source = sourceSets.main.allJava
+    destinationDir = file("$buildDir/javadoc")
 }
 
 task touchChanges(description: "Creates file 'build/changes.<PROCESS_ID>.txt' if missing") {
@@ -355,47 +345,19 @@ task checkChanges(description: 'Checks existance of build/changes.<PROCESS_ID>.t
     }
 }
 
-def getChangesFileName() {
-    def processId = getChangeIdOrThrow()
-    def changesFile = file("$projectDir/build/changes.${processId}.txt")
+apply from: "build/build.gradle"
+
+task patchChanges(type: JavaExec, dependsOn: 'compileToolJava', description: 'Concatenates build/changes.*.txt files to build/changes.txt') {
+    classpath =  sourceSets.tool.runtimeClasspath
+    mainClass = 'org.bgerp.tool.PatchChanges'
+    args "${->getBuild()}", 'build/changes.txt'
 }
 
-def getBranchName() {
-    def branchName = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
-    println "Branch name: $branchName"
-    return branchName
-}
-
-/*
-    Gets numeric change ID 'NNNNN' from GIT branch name like: 'pNNNNN-some-description'.
-    Throws an exception in case of another branch name.
-*/
-def getChangeIdOrThrow() {
-    def branchName = getBranchName()
-
-    def m  = branchName =~ /^p(\d+)\-/
-    if (!m) throw new GradleException("Incorrect branch name: $branchName")
-
-    def changeId = m[0][1]
-    println "Change ID: $changeId"
-
-    return changeId
-}
-
-/*
-    Gets numeric change ID 'NNNNN' from GIT branch name like: 'pNNNNN-some-description'.
-    Returns empty string in case of another branch name.
-*/
-def getChangeId() {
-    def branchName = getBranchName()
-
-    def m  = branchName =~ /^p(\d+)\-/
-    if (!m) return "";
-
-    def changeId = m[0][1]
-    println "Change ID: $changeId"
-
-    return changeId
+task rss(type: JavaExec, dependsOn: 'compileToolJava', description: 'Generates build/changes.rss out of build/changes.txt') {
+    mustRunAfter 'patchChanges'
+    classpath =  sourceSets.tool.runtimeClasspath
+    mainClass = 'org.bgerp.tool.RssGenerator'
+    args version, 'build/changes.txt', 'build/changes.xml'
 }
 
 apply from: "build/publish.gradle"
@@ -410,57 +372,4 @@ task startServer(type: JavaExec, dependsOn: 'classes', description: 'Starts serv
     ]
 }
 
-task licSign(type: JavaExec, dependsOn: 'classes', description: 'Sign a license file [Deprecated]') {
-    classpath =  sourceSets.main.runtimeClasspath
-    mainClass = 'ru.bgcrm.plugin.License'
-    args"${->findProperty('lic.path')}", "${->findProperty('signer.id')}",
-        "${->findProperty('key.path')}", "${->findProperty('key.pswd')}"
-}
-
-test {
-    testLogging {
-        showStandardStreams = true
-        exceptionFormat = "full"
-        events "passed", "skipped", "failed"
-    }
-    outputs.upToDateWhen {false}
-}
-
-/*
-    Complete run:
-        gradlew itest -Pdb.user=* -Pdb.pswd=* -Pdb.host=localhost
-    Only wanted groups with dependencies:
-        -Pgroups.include=initUsers
-    Skip heavy DB reset:
-        -Pskip.dbReset=true
-*/
-task itest(type: Test, description: 'Integration tests') {
-    // failFast = true SQL logs are not visible
-
-    useTestNG() {
-        def propInclude = findProperty("groups.include")
-        if (propInclude) {
-            includeGroups propInclude
-        }
-    }
-    classpath = sourceSets.itest.runtimeClasspath
-    testClassesDirs = sourceSets.itest.output.classesDirs
-    testLogging {
-        showStandardStreams = true
-        exceptionFormat = "full"
-        events "passed", "skipped", "failed"
-    }
-    outputs.upToDateWhen {false}
-
-    systemProperty "db.host", findProperty("db.host")
-    systemProperty "db.user", findProperty("db.user")
-    systemProperty "db.pswd", findProperty("db.pswd")
-    systemProperty "webdriver.chrome.driver", findProperty("webdriver.chrome.driver")
-    systemProperty "skip.dbReset", findProperty("skip.dbReset")
-}
-
-task integrationTest(dependsOn: 'itest', description: 'Backward compatible name for itest') {
-    doFirst {
-        logger.warn("Use 'itest' task")
-    }
-}
+apply from: "test.gradle"

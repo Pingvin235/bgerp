@@ -2,7 +2,7 @@
 # openjdk:17-buster    https://github.com/docker-library/openjdk/blob/master/17/jdk/buster/Dockerfile
 
 test-and-publish-update:
-    # replace to 'bgerp/base' after removing 'ant' dependency
+    # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
     image: openjdk:17-buster
     cache:
         paths:
@@ -11,19 +11,23 @@ test-and-publish-update:
     before_script:
         - export TZ="CET" && date
     script:
-        - apt-get update && apt-get install -y openssh-client ant rsync git-lfs
+        - apt-get update && apt-get install -y openssh-client rsync git-lfs
         - git checkout -B $CI_COMMIT_REF_NAME
         - git rev-parse --abbrev-ref HEAD
-        - sh gradlew checkChanges test buildDoc
+        - sh gradlew checkChanges test doc
         - mkdir ~/.ssh && echo "$KEY_DOC" > ~/.ssh/id_rsa && chmod -R 600 ~/.ssh
-        - sh gradlew buildUpdate buildUpdateLib publishUpdate
+        - sh gradlew updateProperties buildUpdate updateLibProperties buildUpdateLib publishUpdate
     except:
         refs:
             - master
             - p11862-documentation
+    # artifacts:
+    #     paths:
+    #         - target
+    #     expire_in: 1 week
 
 test-and-publish-update-master:
-    # replace to 'bgerp/base' after removing 'ant' dependency
+    # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
     image: openjdk:17-buster
     cache:
         paths:
@@ -32,12 +36,12 @@ test-and-publish-update-master:
     before_script:
         - export TZ="CET" && date
     script:
-        - apt-get update && apt-get install -y openssh-client ant rsync git-lfs
+        - apt-get update && apt-get install -y openssh-client rsync git-lfs
         - git checkout -B p00000-master
         - git rev-parse --abbrev-ref HEAD
-        - sh gradlew test buildDoc #sonarqube
+        - sh gradlew test doc #sonarqube
         - mkdir ~/.ssh && echo "$KEY_DOC" > ~/.ssh/id_rsa && chmod -R 600 ~/.ssh
-        - sh gradlew buildUpdate buildUpdateLib
+        - sh gradlew updateProperties buildUpdate updateLibProperties buildUpdateLib
         - sh gradlew patchChanges && mv build/changes.txt build/changes.00000.txt
         - sh gradlew publishUpdate
     only:
@@ -105,7 +109,7 @@ publish-doc:
     before_script:
         - export TZ="CET" && date
     script:
-        - sh gradlew buildJavaDoc buildDoc
+        - sh gradlew jdoc doc
         - apt-get update && apt-get install -y rsync openssh-client
         - echo "$KEY_DOC" > ./doc.id_rsa && chmod 600 ./doc.id_rsa
         - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/javadoc/ www@bgerp.org:/home/www/www.bgerp.org/doc/3.0/javadoc/

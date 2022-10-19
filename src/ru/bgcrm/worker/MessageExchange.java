@@ -15,9 +15,9 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 public class MessageExchange extends Task {
-    private static final AtomicBoolean run = new AtomicBoolean(false);
+    private static final AtomicBoolean RUN = new AtomicBoolean(false);
 
-    private static final Log log = Log.getLog();
+    private static final Log LOG = Log.getLog();
 
     private final Set<Integer> types;
 
@@ -44,18 +44,18 @@ public class MessageExchange extends Task {
 
     @Override
     public void run() {
-        if (run.get()) {
-            log.info("Task already working..");
+        if (RUN.get()) {
+            LOG.info("Task already working..");
             return;
         }
 
         long time = System.currentTimeMillis();
 
-        synchronized (run) {
-            run.set(true);
+        synchronized (RUN) {
+            RUN.set(true);
 
             if (!types.isEmpty())
-                log.info("Message types: " + types);
+                LOG.info("Message types: " + types);
 
             try {
                 MessageTypeConfig config = Setup.getSetup().getConfig(MessageTypeConfig.class);
@@ -66,11 +66,11 @@ public class MessageExchange extends Task {
                     try {
                         type.process();
                     } catch (Exception e) {
-                        log.error(e);
+                        LOG.error(e);
                     }
                 }
             } finally {
-                run.set(false);
+                RUN.set(false);
 
                 Scheduler.logExecutingTime( this, time );
             }

@@ -37,8 +37,8 @@
 	<target name="build" depends="prepare_dir">
 		<property name="dir" value="${basedir}"/>
 
-		<antcall target="update_props"/>
-		<antcall target="put_props"/>
+		<!-- <antcall target="update_props"/>
+		<antcall target="put_props"/> -->
 
 		<antcall target="build_lib_jar"/>
 

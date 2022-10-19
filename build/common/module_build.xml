@@ -7,7 +7,6 @@
 	<condition property="classesPath" value="${env.classesPath}" >
 		<isset property="env.classesPath" />
 	</condition>
-	<!-- <property name="classesPath" value="${projectPath}/bin/main"/> -->
 
 	<property name="sourcePath" value="${projectPath}/src"/>
 
@@ -17,6 +16,7 @@
 	<property name="libcustompath" value="${rootpath}/lib/custom"/>
 	<property name="webrootpath" value="${rootpath}/webapps"/>
 
+	<!--
 	<loadfile property="version" srcFile="${projectPath}/build/common/VERSION"/>
 
 	<target name="update_props">
@@ -37,6 +37,7 @@
 		<copy file="${dir}/${modprop.name}.properties" todir="${classesPath}/ru/bgcrm/version"/>
 		<echo message="Copy ${dir}/${modprop.name}.properties"/>
 	</target>
+	-->
 
 	<!-- overwrite to add some module files -->
 	<target name="add_to_module_zip">

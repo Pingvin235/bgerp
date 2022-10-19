@@ -1,4 +1,4 @@
-package ru.bgerp.tool;
+package org.bgerp.tool;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * Runner of OS commands, redirects STDOUT and STDERR output.
+ *
  * @author Shamil Vakhitov
  */
 public class RuntimeRunner {
@@ -37,7 +38,7 @@ public class RuntimeRunner {
         }
     }
 
-    private static final AtomicInteger CMD_COUNTER = new AtomicInteger(); 
+    private static final AtomicInteger CMD_COUNTER = new AtomicInteger();
 
     /** Unique ID of an executed command. */
     private final int id = CMD_COUNTER.incrementAndGet();

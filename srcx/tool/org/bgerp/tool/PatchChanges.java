@@ -1,4 +1,4 @@
-package ru.bgerp.tool;
+package org.bgerp.tool;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +33,7 @@ public class PatchChanges {
     private final DateFormat buildDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     private PatchChanges(String build, String changesPath) throws Exception {
-        LOG.info("Patching changes.txt for build: %s", build);
+        LOG.info("Patching changes.txt for build: {}", build);
 
         File changes = new File(changesPath);
         if (!changes.exists())
@@ -49,7 +49,7 @@ public class PatchChanges {
             var processId = m.group(1);
             // can be 'changes.lib.txt'
             if (StringUtils.isNumeric(processId)) {
-                LOG.info("Add changes file: %s, processId: %s", file.getName(), processId);
+                LOG.info("Add changes file: {}, processId: {}", file.getName(), processId);
 
                 for (String line : IOUtils.readLines(new StringReader(IOUtils.toString(file.toURI(), StandardCharsets.UTF_8).trim()))) {
                     m = changePattern.matcher(line);
