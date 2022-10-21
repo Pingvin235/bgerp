@@ -195,7 +195,7 @@ A license file `lic.data` placed in the application root directory and enables u
 
 NOTE: The license check has to be switched on using configuration option *check.license=1*
 
-License management tool can be found in menu *Administration / App / License*.
+License management tool can be found in menu *Administration / License*.
 
 image::_res/license.png[width="800px"]
 
