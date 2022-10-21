@@ -3,10 +3,10 @@
 
 <p:check action="ru.bgcrm.struts.action.SearchAction:customerSearch">
 	<c:set var="id" value="${u:uiid()}"/>
-	
+
 	<c:set var="linkObjectItems" scope="request">
 		${linkObjectItems}
-		<li value="${id}">${l.l('Контрагент')}</li>
+		<li value="${id}">${l.l('Customer')}</li>
 	</c:set>
 	<c:set var="linkObjectForms" scope="request">
 		<c:set var="resultUiid" value="${u:uiid()}"/>
@@ -17,7 +17,7 @@
 			<input type="hidden" name="searchBy" value="title"/>
 			<input type="hidden" name="forwardFile" value="/WEB-INF/jspf/user/process/process/link_list_search_customer.jsp"/>
 			<input type="hidden" name="processId" value="${form.id}"/>
-			
+
 			<ui:input-text style="width: 100%;" name="title" placeholder="${l.l('Строка поиска контрагента')}"
 				onSelect="$$.ajax.load($(this).closest('form'), $('#${resultUiid}'))"/>
 

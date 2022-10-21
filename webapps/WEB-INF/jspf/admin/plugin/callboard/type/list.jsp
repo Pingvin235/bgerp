@@ -28,7 +28,7 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
-		<td>${l.l('Наименование')}</td>
+		<td>${l.l('Title')}</td>
 		<td width="30">${l.l('Цвет')}</td>
 		<td width="100%">${l.l('Комментарий')}</td>
 	</tr>

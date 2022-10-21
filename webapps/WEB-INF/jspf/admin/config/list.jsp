@@ -25,7 +25,7 @@
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
 		<td width="50">${l.l('Активный')}</td>
-		<td width="50%">${l.l('Наименование')}</td>
+		<td width="50%">${l.l('Title')}</td>
 		<td width="50%">${l.l('Включенные плагины')}</td>
 		<td>&nbsp;</td>
 	</tr>

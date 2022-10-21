@@ -11,7 +11,7 @@
 			<td nowrap="nowrap">${columnTitle}</td>
 			<td width="100%">${l.l('Комментарий')}</td>
 			<td nowrap="nowrap">${l.l('Время изменения')}</td>
-			<td>${l.l('Пользователь')}</td>
+			<td>${l.l('User')}</td>
 		</tr>
 		<c:forEach var="item" items="${form.response.data.subList}">
 			<tr>

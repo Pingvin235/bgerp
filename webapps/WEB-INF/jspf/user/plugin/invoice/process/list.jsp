@@ -25,7 +25,7 @@
 <c:set var="hiddenUiid" value="${u:uiid()}"/>
 <input type='hidden' id="${hiddenUiid}"/>
 
-<table id="${uiid}" class="data mt05">
+<table id="${uiid}" class="data mt05 hl">
 	<tr>
 		<td width="1em">&nbsp;</td>
 		<td>ID</td>

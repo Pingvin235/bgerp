@@ -44,7 +44,7 @@
 	<p><ru>Связанные процессы</ru><en>Linked processes</en></p>
 	<p><ru>Параметры</ru><en>Parameters</en></p>
 	<p><ru>История статусов</ru><en>Status history</en></p>
-	<p><ru>Пользователь</ru><en>User</en></p>
+	<p><en>User</en><ru>Пользователь</ru></p>
 	<p><ru>Время</ru><en>Time</en></p>
 	<p><ru>Закрыть</ru><en>Close</en></p>
 	<p><ru>ИСПОЛНИТЕЛИ БЕЗ ГРУПП</ru><en>EXECUTORS WITHOUT GROUPS</en></p>
@@ -83,7 +83,7 @@
 	<p><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
 	<p><ru>Войти</ru><en>Login</en></p>
 	<p><ru>Открытый интерфейс</ru><en>Open interface</en></p>
-	<p><ru>Наименование</ru><en>Title</en></p>
+	<p><en>Title</en><ru>Наименование</ru></p>
 	<p><ru>Вырезать</ru><en>Cut</en></p>
 	<p><ru>Вставить</ru><en>Paste</en></p>
 	<p><ru>Отделить</ru><en>Split</en></p>
@@ -92,7 +92,7 @@
 	<p><ru>Выделить или снять выделение всех</ru><en>Select or deselect all</en></p>
 	<p><ru>Авторизация</ru><en>Authorization</en></p>
 	<p><ru>Процессы</ru><en>Processes</en></p>
-	<p><ru>Контрагент</ru><en>Customer</en></p>
+	<p><en>Customer</en><ru>Контрагент</ru></p>
 	<p><ru>Создать</ru><en>Create</en></p>
 	<p><ru>Поиск</ru><en>Search</en></p>
 	<p><ru>Новости</ru><en>News</en></p>
@@ -524,6 +524,11 @@
 	<p><en>set</en><ru>уст.</ru></p>
 	<p><en>License Check Error</en><ru>Ошибка проверки лицензии</ru></p>
 	<p><en>License</en><ru>Лицензия</ru></p>
+	<p><en>Payments</en><ru>Платежи</ru></p>
+	<p><en>Whom</en><ru>Кому</ru></p>
+	<p><en>Amount</en><ru>Сумма</ru></p>
+	<p><en>Details</en><ru>Детали</ru></p>
+	<p><en>Discount</en><ru>Скидка</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

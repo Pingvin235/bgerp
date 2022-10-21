@@ -45,7 +45,7 @@
 		<td>&nbsp;</td>
 		<td>ID</td>
 		<td>${l.l('Тип')}</td>
-		<td width="100%">${l.l('Наименование')}</td>
+		<td width="100%">${l.l('Title')}</td>
 	</tr>
 
 	<c:forEach var="item" items="${form.response.data.list}">
@@ -89,7 +89,7 @@
 				<tr>
 					<td>&nbsp;</td>
 					<td>${l.l('Тип')}</td>
-					<td width="100%">${l.l('Наименование')}</td>
+					<td width="100%">${l.l('Title')}</td>
 				</tr>
 				<%-- other rows are generated --%>
 			</table>
@@ -102,7 +102,7 @@
 				<tr>
 					<td>&nbsp;</td>
 					<td>${l.l('Тип')}</td>
-					<td width="100%">${l.l('Наименование')}</td>
+					<td width="100%">${l.l('Title')}</td>
 				</tr>
 				<%-- other rows are generated --%>
 			</table>

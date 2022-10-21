@@ -26,7 +26,7 @@
 				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 			</u:sc>
 
-			<h2>${l.l('Наименование')}</h2>
+			<h2>${l.l('Title')}</h2>
 			<html:text property="title" style="width: 100%" value="${shift.title}"/>
 
 

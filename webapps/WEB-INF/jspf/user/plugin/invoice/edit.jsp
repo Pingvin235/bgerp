@@ -17,7 +17,7 @@
 	<table class="data mt05">
 		<tr>
 			<td>ID</td>
-			<td width="100%">${l.l('Наименование')}</td>
+			<td width="100%">${l.l('Title')}</td>
 			<td>${l.l('Кол-во')}</td>
 			<td>${l.l('Ед.')}</td>
 			<td>${l.l('Сумма')}</td>

@@ -410,9 +410,9 @@
 					<c:if test="${filterFromList.type == 'linkedCustomer:title'}">
 						<c:set var="filter" value="${filterFromList}"/>
 
-						<c:set var="title" value="${l.l('Контрагент')}"/>
+						<c:set var="title" value="${l.l('Customer')}"/>
 						<c:set var="code">
-							<input type="text" value="${ savedParamsFilters.get( 'linkedCustomer:title' ) }" name="linkedCustomer:title" placeholder="${l.l('Контрагент')}" size="20" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"/>
+							<input type="text" value="${ savedParamsFilters.get( 'linkedCustomer:title' ) }" name="linkedCustomer:title" placeholder="${l.l('Customer')}" size="20" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"/>
 						</c:set>
 						<%@ include file="filter_item.jsp"%>
 					</c:if>

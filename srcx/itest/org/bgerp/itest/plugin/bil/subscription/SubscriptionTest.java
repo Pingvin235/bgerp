@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
+import org.bgerp.itest.helper.CustomerHelper;
 import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
@@ -27,6 +28,7 @@ import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
+import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
@@ -76,9 +78,17 @@ public class SubscriptionTest {
     private int processSubscriptionTypeId;
     private int processProductTypeId;
 
-    private int userGroupId;
+    // groups and users
+    private int userGroupOwnersId;
     private int userOwner1Id;
     private int userOwner2Id;
+
+    private int userGroupConsultantsId;
+    private int userConsultantRuId;
+    private int userConsultantEnId;
+
+    // customer
+    private Customer customer;
 
     @Test
     public void param() throws Exception {
@@ -167,22 +177,31 @@ public class SubscriptionTest {
 
     @Test(dependsOnMethods = "param")
     public void user() throws Exception {
-        userGroupId = UserHelper.addGroup(TITLE + " Owners", 0, "");
-        userOwner1Id = UserHelper.addUser(TITLE + " Product Owner 1", "su-po1", List.of(new UserGroup(userGroupId, new Date(), null))).getId();
-        userOwner2Id = UserHelper.addUser(TITLE + " Product Owner 2", "su-po2", List.of(new UserGroup(userGroupId, new Date(), null))).getId();
+        userGroupOwnersId = UserHelper.addGroup(TITLE + " Owners", 0, "");
+        userOwner1Id = UserHelper.addUser(TITLE + " Product Owner 1", "su-po1", List.of(new UserGroup(userGroupOwnersId, new Date(), null))).getId();
+        userOwner2Id = UserHelper.addUser(TITLE + " Product Owner 2", "su-po2", List.of(new UserGroup(userGroupOwnersId, new Date(), null))).getId();
+
+        userGroupConsultantsId = UserHelper.addGroup(TITLE + " Consultants", 0, "");
+        userConsultantRuId = UserHelper.addUser(TITLE + " Consultant RU", "su-sc-ru", List.of(new UserGroup(userGroupConsultantsId, new Date(), null))).getId();
+        userConsultantEnId = UserHelper.addUser(TITLE + " Consultant EN", "su-sc-en", List.of(new UserGroup(userGroupConsultantsId, new Date(), null))).getId();
 
         var dao = new ParamValueDAO(DbTest.conRoot);
         dao.updateParamMoney(UserTest.USER_ADMIN_ID, paramUserIncomingTaxPercentId, "6");
     }
 
-    @Test(dependsOnMethods = { "config", "user" })
+    @Test
+    public void customer() throws Exception {
+        customer = CustomerHelper.addCustomer(-1, 0, TITLE + " Customer");
+    }
+
+    @Test(dependsOnMethods = { "config", "user", "customer" })
     public void process() throws Exception {
         var paramDao = new ParamValueDAO(DbTest.conRoot);
         var processDao = new ProcessDAO(DbTest.conRoot);
 
         var processProduct1Id = ProcessHelper.addProcess(processProductTypeId, User.USER_SYSTEM_ID, TITLE + " Product 1").getId();
-        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupId)), processProduct1Id);
-        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner1Id, userGroupId, 0)), processProduct1Id);
+        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupOwnersId)), processProduct1Id);
+        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner1Id, userGroupOwnersId, 0)), processProduct1Id);
         paramDao.updateParamText(processProduct1Id, paramProductId, "product1");
         paramDao.updateParamListCount(processProduct1Id, paramPriceRubId, Map.of(
                 LIMIT_VALUE_10, Utils.parseBigDecimal("200"),
@@ -194,8 +213,8 @@ public class SubscriptionTest {
         ));
 
         var processProduct2Id = ProcessHelper.addProcess(processProductTypeId, User.USER_SYSTEM_ID, TITLE + " Product 2").getId();
-        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupId)), processProduct2Id);
-        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner2Id, userGroupId, 0)), processProduct2Id);
+        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupOwnersId)), processProduct2Id);
+        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner2Id, userGroupOwnersId, 0)), processProduct2Id);
         paramDao.updateParamText(processProduct2Id, paramProductId, "product2");
         paramDao.updateParamListCount(processProduct2Id, paramPriceRubId, Map.of(
                 LIMIT_VALUE_10, Utils.parseBigDecimal("250"),
@@ -207,11 +226,14 @@ public class SubscriptionTest {
         ));
 
         var processSubscriptionRubId = ProcessHelper.addProcess(processSubscriptionTypeId, User.USER_SYSTEM_ID, TITLE + " Subscription RUB").getId();
+        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupConsultantsId)), processSubscriptionRubId);
+        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userConsultantRuId, userGroupConsultantsId)), processSubscriptionRubId);
         paramDao.updateParamEmail(processSubscriptionRubId, paramEmailId, 0, new ParameterEmailValue("testclient@bgerp.org"));
         paramDao.updateParamList(processSubscriptionRubId, paramSubscriptionId, Set.of(SUBSCRIPTION_RUB));
         paramDao.updateParamList(processSubscriptionRubId, paramLimitId, Set.of(LIMIT_VALUE_10));
         paramDao.updateParamMoney(processSubscriptionRubId, paramServiceCostId, new BigDecimal("43.43"));
         paramDao.updateParamMoney(processSubscriptionRubId, paramDiscountId, new BigDecimal("22.01"));
+        ProcessHelper.addCustomerLink(processSubscriptionRubId, Customer.OBJECT_TYPE, customer);
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct1Id, processSubscriptionRubId));
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct2Id, processSubscriptionRubId));
         // trigger cost recalculation
@@ -226,8 +248,11 @@ public class SubscriptionTest {
                         ResourceHelper.getResource(this, "message.txt"));
 
         var processSubscriptionEurId = ProcessHelper.addProcess(processSubscriptionTypeId, User.USER_SYSTEM_ID, TITLE + " Subscription EUR").getId();
+        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupConsultantsId)), processSubscriptionEurId);
+        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userConsultantEnId, userGroupConsultantsId)), processSubscriptionEurId);
         paramDao.updateParamList(processSubscriptionEurId, paramSubscriptionId, Set.of(SUBSCRIPTION_EUR));
         paramDao.updateParamList(processSubscriptionEurId, paramLimitId, Set.of(LIMIT_VALUE_UNLIM));
+        ProcessHelper.addCustomerLink(processSubscriptionEurId, Customer.OBJECT_TYPE, customer);
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct1Id, processSubscriptionEurId));
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct2Id, processSubscriptionEurId));
         // trigger cost recalculation

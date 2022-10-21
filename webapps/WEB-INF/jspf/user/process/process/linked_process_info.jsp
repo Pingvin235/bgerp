@@ -3,12 +3,12 @@
 
 <td colspan="7">
 	<c:set var="process" value="${form.response.data.process}"/>
-	
+
 	<c:set var="priority" value="${process.priority}"/>
 	<%@ include file="/WEB-INF/jspf/process_color.jsp"%>
-	
+
 	<h2>${l.l('Процесс')}</h2>
-	<h2 style="background-color:${color};">${process.typeTitle} (<a href="#" onclick="openProcess(${process.id}); return false;">${process.id}</a>)</h2> 
+	<h2 style="background-color:${color};">${process.typeTitle} (<a href="#" onclick="openProcess(${process.id}); return false;">${process.id}</a>)</h2>
 	<table class="oddeven" style="width: 100%;">
 		<tr>
 			<td nowrap="nowrap">${l.l('Создан (статус)')}</td>
@@ -39,7 +39,7 @@
 						<td>${l.l('Статус')}</td>
 						<td>${l.l('Комментарий')}</td>
 						<td>${l.l('Дата')}</td>
-						<td>${l.l('Пользователь')}</td>
+						<td>${l.l('User')}</td>
 					</tr>
 					<c:forEach var="item" items="${form.response.data.list}">
 						<tr>

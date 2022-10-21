@@ -58,7 +58,7 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
-		<td width="30%">${l.l('Наименование')}</td>
+		<td width="30%">${l.l('Title')}</td>
 		<td width="50">${l.l('Подгрупп')}</td>
 		<td width="40%">${l.l('Наборы прав')}</td>
 		<td width="50">${l.l('Скрытая')}</td>

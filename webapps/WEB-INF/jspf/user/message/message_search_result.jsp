@@ -9,7 +9,7 @@
 			<td>&nbsp;</td>
 			<td>ID</td>
 			<td>${l.l('Тип')}</td>
-			<td width="100%">${l.l('Наименование')}</td>
+			<td width="100%">${l.l('Title')}</td>
 		</tr>
 
 		<c:forEach var="item" items="${form.response.data.searchedList}" varStatus="status">

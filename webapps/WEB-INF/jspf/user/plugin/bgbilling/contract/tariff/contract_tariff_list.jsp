@@ -6,7 +6,7 @@
 <c:url var="url" value="/user/plugin/bgbilling/proto/contractTariff.do">
 	<c:param name="action" value="getContractTariff"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
-	<c:param name="billingId" value="${form.param.billingId}"/>	
+	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 	<c:param name="showUsed" value="1"/>
 	<c:param name="useFilter" value="1"/>
@@ -18,18 +18,18 @@
 	<tr>
 		<td width="30"></td>
 		<td>${l.l('Позиция')}</td>
-		<td>${l.l('Наименование')}</td>
+		<td>${l.l('Title')}</td>
 		<td nowrap="nowrap">${l.l('Период действия')}</td>
 		<td width="100%">${l.l('Комментарий')}</td>
 	</tr>
-	
+
 	<c:forEach var="tariff" items="${form.response.data.tariffList}">
 		<tr>
 			<c:url var="eUrl" value="${url}">
 				<c:param name="id" value="${tariff.getId()}"/>
 			</c:url>
 			<c:set var="editCommand" value="openUrlToParent('${eUrl}', $('#${uiid}') )"/>
-			
+
 			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/contractTariff.do">
 				<c:param name="action" value="deleteСontractTariff"/>
 				<c:param name="contractId" value="${form.param.contractId}"/>

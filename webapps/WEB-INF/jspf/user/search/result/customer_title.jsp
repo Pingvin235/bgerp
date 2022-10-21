@@ -6,7 +6,7 @@
 <table style="width: 100%;" class="data mt1">
 	<tr>
 		<td width="30">ID</td>
-		<td>${l.l('Наименование')}</td>
+		<td>${l.l('Title')}</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
@@ -14,9 +14,9 @@
 			<td><a href="#" onclick="openCustomer( ${item.id} ); return false;">${item.title}
 					<c:if test="${not empty item.reference}">
 						(${item.reference})
-					</c:if>	
+					</c:if>
 				</a>
-			</td>			
+			</td>
 		</tr>
 	</c:forEach>
 </table>

@@ -28,7 +28,7 @@
 	<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_PROCESS_MENU_ITEMS%>"/>
 </ui:menu-group>
 
-<ui:menu-group ltitle="Контрагент" icon="ti-face-smile">
+<ui:menu-group ltitle="Customer" icon="ti-face-smile">
 	<ui:menu-item ltitle="Создать"
 		action="ru.bgcrm.struts.action.CustomerAction:customerCreate"
 		command="$$.customer.createAndEdit()" />

@@ -4,7 +4,7 @@
 <table class="data mt1">
 	<tr>
 		<td>&nbsp;</td>
-		<td width="100%">${l.l('Наименование')}</td>
+		<td width="100%">${l.l('Title')}</td>
 	</tr>
 	<c:forEach var="process" items="${form.getSelectedValuesStr('process')}">
 		<tr>

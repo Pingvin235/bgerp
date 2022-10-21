@@ -9,7 +9,7 @@
 
 	<h2>ID</h2>
 	<input type="text" disabled="disabled" disabled="true" style="width: 100%" value="${form.id}"/>
-	<h2>${l.l('Наименование')}</h2>
+	<h2>${l.l('Title')}</h2>
 	<html:text property="title" value="${appointment.title }" style="width:100%;"/>
 	<h2>${l.l('Комментарий')}</h2>
 	<html:textarea property="description" rows="3" value="${appointment.description}" style="width:100%"/>

@@ -8,7 +8,7 @@
 
 	<table class="data" style="width: 100%;">
 		<tr>
-			<td>${l.l('Пользователь')}</td>
+			<td>${l.l('User')}</td>
 			<td>${l.l('Время входа')}</td>
 			<td>${l.l('Последняя активность')}</td>
 			<td>IP</td>

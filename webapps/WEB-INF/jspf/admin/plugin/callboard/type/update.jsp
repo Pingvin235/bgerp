@@ -13,7 +13,7 @@
 			<h2>ID</h2>
 			<input type="text" name="id" style="width: 100%" value="${workType.id}" disabled="disabled"/>
 
-			<h2>${l.l('Наименование')}</h2>
+			<h2>${l.l('Title')}</h2>
 			<div id="sample"></div>
 			<input type="text" name="title" style="width: 100%" value="${workType.title}"/>
 

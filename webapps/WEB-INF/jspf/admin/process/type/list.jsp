@@ -61,7 +61,7 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
-		<td width="100%">${l.l('Наименование')}</td>
+		<td width="100%">${l.l('Title')}</td>
 		<td>Подтипов</td>
 		<td>Свойства</td>
 		<td width="20%">&#160;</td>

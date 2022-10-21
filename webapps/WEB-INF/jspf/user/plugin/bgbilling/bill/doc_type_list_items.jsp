@@ -4,7 +4,7 @@
 <table style="width: 100%;" class="data">
 	<tr>
 		<td width="30">&nbsp;</td>
-		<td width="100%">${l.l('Наименование')}</td>
+		<td width="100%">${l.l('Title')}</td>
 	</tr>
 	<c:forEach var="item" items="${list.first}">
 		<tr>
@@ -31,16 +31,16 @@
 	<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 	<input type="hidden" name="moduleId" value="${form.param.moduleId}"/>
 	<input type="hidden" name="contractId" value="${form.param.contractId}"/>
-	
+
 	<div style="width: 100%;">
 		<u:sc>
-			<c:set var="list" value="${list.second}"/>	
+			<c:set var="list" value="${list.second}"/>
 			<c:set var="hiddenName" value="typeIds"/>
 			<c:set var="style" value="width: 100%;"/>
-			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
-		</u:sc>	
-	</div>	
+			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
+		</u:sc>
+	</div>
 	<div class="pl1">
 		<button type="button" class="btn-grey" onclick="if( this.form.typeIds.value && sendAJAXCommand( formUrl( this.form ) ) ){ openUrlToParent('${form.requestUrl}',$('#${uiid}')) }">+</button>
 	</div>
-</form>		
+</form>

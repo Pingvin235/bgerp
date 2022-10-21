@@ -24,7 +24,7 @@
 			<ui:combo-single id="searchForm" hiddenName="searchMode" prefixText="${l.l('Искать')}:" onSelect="${onSelect}">
 				<jsp:attribute name="valuesHtml">
 					<c:if test="${empty allowedForms or allowedForms.contains('customer')}">
-						<li value="customer">${l.l('Контрагент')}</li>
+						<li value="customer">${l.l('Customer')}</li>
 					</c:if>
 					<c:if test="${empty allowedForms or allowedForms.contains('process')}">
 						<li value="process">${l.l('Процесс')}</li>
@@ -49,7 +49,7 @@
 				<html:hidden property="searchBy" />
 
 				<ui:input-text
-					name="title" placeholder="${l.l('Наименование')}" title="${l.l('Для поиска введите подстороку названия и нажмите Enter')}"
+					name="title" placeholder="${l.l('Title')}" title="${l.l('Для поиска введите подстороку названия и нажмите Enter')}"
 					onSelect="this.form.elements['searchBy'].value='title';
 							  $$.ajax.load(this.form, '#searchResult')"/>
 
