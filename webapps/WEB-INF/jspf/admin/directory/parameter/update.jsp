@@ -103,10 +103,8 @@
 </html:form>
 
 <script>
-	$(function () {
-		${typeChangedScript}
-		$$.ui.codeMirror('${selectorTo}');
-	})
+	${typeChangedScript}
+	$$.ui.codeMirror('${selectorTo}');
 </script>
 
 <shell:state ltext="Редактор" help="kernel/setup.html#param"/>

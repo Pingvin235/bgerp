@@ -168,13 +168,11 @@
 </html:form>
 
 <script>
-	$(function() {
-		$('#${formUiid}').tabs();
-		$("div#roleTabsBegin${formUiid}").tabs();
-		$("div#roleTabsAllowed${formUiid}").tabs();
+	$('#${formUiid}').tabs();
+	$("div#roleTabsBegin${formUiid}").tabs();
+	$("div#roleTabsAllowed${formUiid}").tabs();
 
-		$$.ui.codeMirror('${taUiid}');
-	});
+	$$.ui.codeMirror('${taUiid}');
 </script>
 
 <u:sc>

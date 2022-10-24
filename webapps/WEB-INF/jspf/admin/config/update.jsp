@@ -59,7 +59,5 @@
 <shell:state text="${l.l('Редактор')}" help="kernel/setup.html#config"/>
 
 <script>
-	$(function () {
-		$$.ui.codeMirror('${taUiid}');
-	});
+	$$.ui.codeMirror('${taUiid}');
 </script>

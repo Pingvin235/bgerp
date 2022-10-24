@@ -68,9 +68,7 @@
 </html:form>
 
 <script>
-	$(function () {
-		$$.ui.codeMirror('${taUiid}');
-	});
+	$$.ui.codeMirror('${taUiid}');
 </script>
 
 <shell:state ltext="Редактор" help="kernel/process/queue.html#setup"/>

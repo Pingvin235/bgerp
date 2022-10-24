@@ -5,3 +5,12 @@
 Show groups and users when <<../../plugin/pln/callboard/index.adoc#usage-set-time, setting>> slot in process.
 
 image::../../plugin/pln/callboard/_res/process_set_time.png[width="800px"]
+
+== Syntax Highlighting Config Editors
+Introduced for the rest of existing editors.
+
+image::_res/img-permission-sets.png[width="800px"]
+
+image::_res/img-groups-of-users.png[width="800px"]
+
+image::_res/img-users.png[width="800px"]

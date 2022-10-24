@@ -37,9 +37,12 @@
 				</u:sc>
 			</div>
 		</div><%--
-   	--%><div style="width: 50%;">
-   			<h2>${l.l('Конфигурация')}</h2>
-			<textarea name="groupConfig" style="width:100%; resize: none;" wrap="off" id="${uiidTo}">${group.config}</textarea>
+	--%><div style="width: 50%;">
+			<h2>${l.l('Конфигурация')}</h2>
+			<div id="${uiidTo}">
+				<c:set var="taUiid" value="${u:uiid()}"/>
+				<textarea name="groupConfig" id="${taUiid}" style="width:100%; height: 100%; resize: none;" wrap="off">${group.config}</textarea>
+			</div>
 		</div>
 	</div>
 
@@ -80,3 +83,7 @@
 </html:form>
 
 <shell:state ltext="Редактор" help="kernel/setup.html#user"/>
+
+<script>
+	$$.ui.codeMirror('${taUiid}');
+</script>

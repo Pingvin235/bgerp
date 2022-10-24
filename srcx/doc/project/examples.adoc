@@ -117,15 +117,15 @@ A simple dictionary with pagination, AJAX editor invocation: link:../../../webap
 [[code-jsp-ui-ajax]]
 Sending AJAX for sending, exiting or restoring data in <<../kernel/process/index.adoc#type, process type properties editor>>:
 [snippet, from="<div", to="/div>"]
-link:../../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L187-L192[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L185-L190[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
 
 Recursive include:
 [snippet, from="<c:", to="if>", remove-leading="					"]
 link:../../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L44-L51[webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp]
 
 Action execution result include:
-[snippet, from="<c:", to="/>", remove-leading="			"]
-link:../../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L166-L170[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
+[snippet, from="<c:u", to="/>", remove-leading="			"]
+link:../../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L168-L173[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
 
 Flex layout, using constants from Java classes (defined in link:../../../webapps/WEB-INF/jspf/user/search/process_search_constants.jsp[process_search_constants.jsp]), print button close to a field:
 [snippet, from="<div style", to="/div>", remove-leading="				"]
