@@ -25,7 +25,7 @@
 }
 
 .combo > .icon {
-	height: 100%;
+	/*height: 100%;*/
 	padding-right: 0.5em;
 }
 

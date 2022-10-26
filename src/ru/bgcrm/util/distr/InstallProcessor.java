@@ -118,7 +118,7 @@ public class InstallProcessor {
                 System.exit(0);
             } else {
                 for (FileInfo fi : listForInstall) {
-                    System.out.print("Downloading " + fi.fileName);
+                    System.out.print("Downloading " + fi.fileName + " to " + TMP_DIR_PATH);
 
                     FileUtils.copyURLToFile(fi.url, new File(TMP_DIR_PATH + "/" + fi.fileName));
 

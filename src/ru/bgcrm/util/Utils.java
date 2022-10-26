@@ -877,9 +877,6 @@ public class Utils {
         return System.getProperty("java.io.tmpdir", "/tmp");
     }
 
-    /* private static final Pattern rfc2822 = Pattern.compile(
-            "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"); */
-
     /**
      * @see #isValidEmail(String).
      */

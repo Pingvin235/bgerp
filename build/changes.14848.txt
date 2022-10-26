@@ -1,0 +1,2 @@
+F: Saved filters drop-down in process queues.
+F: Removing old update ZIPs in installer.sh script for case of missing them.

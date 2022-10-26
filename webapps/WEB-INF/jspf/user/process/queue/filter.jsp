@@ -241,13 +241,7 @@
 				</c:if>
 		</c:forEach>
 
-		<u:sc>
-			<c:set var="styleClass" value="dropFilterArea"/>
-			<c:set var="style" value="display: inline-block"/>
-			<c:set var="prefixText" value="${l.l('Filter')}:"/>
-			<c:set var="widthTextValue" value="40px"/>
-			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-		</u:sc>
+		<ui:combo-single prefixText="${l.l('Filter')}:" widthTextValue="4em" styleClass="dropFilterArea"/>
 
 		<script>
 			$("div.combo.dropFilterArea").attr("title", "Вы можете перетащить сюда редко используемые фильтры");
