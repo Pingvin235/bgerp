@@ -311,7 +311,10 @@ public class AddressDAO extends CommonDAO {
                 }
             }
 
-            pq.addQuery(SQL_ORDER_BY + "city.title, item.title ");
+            pq.addQuery(SQL_ORDER_BY);
+            if (loadCityData)
+                pq.addQuery("city.title, ");
+            pq.addQuery("item.title ");
             pq.addQuery(getPageLimit(page));
 
             ResultSet rs = pq.executeQuery();
