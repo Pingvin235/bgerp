@@ -49,8 +49,6 @@ public class AuthFilter implements Filter {
     private static final String LOGIN_ACTION = "/login.do";
     private static final String SHELL_PAGE = "/shell.jsp";
 
-    private final Localizer l = Localization.getSysLocalizer();
-
     public void init(FilterConfig filterConfig) throws ServletException {}
 
     public void destroy() {}
@@ -60,6 +58,8 @@ public class AuthFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        final Localizer l = Localization.getSysLocalizer();
 
         User user = authUser(request, response);
         if (user != null && !AppLicense.instance().checkSessionLimit()) {
@@ -89,6 +89,7 @@ public class AuthFilter implements Filter {
                     int pos = ifaceRealm.indexOf('/');
                     if (pos > 0) {
                         ifaceRealm = ifaceRealm.substring(0, pos);
+                        request.setAttribute(SetRequestParamsFilter.REQUEST_KEY_LOCALIZER, l);
                         forward(request, response, "/" + ifaceRealm + SHELL_PAGE + app);
                     }
                     // запрос заканчивается на /user или /usermob - редирект со слешем, так как это создаёт проблемы в вызове меню
