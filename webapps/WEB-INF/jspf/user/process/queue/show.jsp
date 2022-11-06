@@ -6,7 +6,7 @@
 <table style="width: 100%;" id="${uiid}">
 	<tr><td>
 		<c:set var="pageFormSelectorFunc" value="$('#processQueueFilter').find('form#${queue.id}-${form.param.savedFilterSetId}')"/>
-		<c:set var="nextCommand">; processQueueMarkFilledFilters(${pageFormSelectorFunc}); $$.ajax.load(${pageFormSelectorFunc}[0], $('#processQueueData'));</c:set> 
+		<c:set var="nextCommand">; processQueueMarkFilledFilters(${pageFormSelectorFunc}); $$.ajax.load(${pageFormSelectorFunc}[0], $('#processQueueData'));</c:set>
 		<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 	</td></tr>
 </table>
@@ -16,16 +16,16 @@
 	$(function()
 	{
 		var $contentDiv = $('#content > #process-queue');
-		
+
 		// т.к. каждый раз UIID промотчика страниц разный - переопределение onShow
-		$contentDiv.data('onShow', 
+		$contentDiv.data('onShow',
 			function()
 			{
 				$("#${uiid} button[name='pageControlRefreshButton']").click();
 				$$.debug( 'processQueue', 'refresh queue', $("#${uiid} button[name='pageControlRefreshButton']") );
 				$$.shell.stateFragment(${queue.id});
 			});
-			
+
 		$$.debug( 'processQueue', 'added onShow callback on ', $contentDiv );
 	});
 </script>
@@ -59,11 +59,11 @@
 	</td></tr>
 </table>
 
-<c:if test="${not empty queue.openUrl}">
-	<shell:title>
-		<jsp:attribute name="text">
+<shell:title>
+	<jsp:attribute name="text">
+		<c:if test="${not empty queue.openUrl}">
 			<a target='_blank' href='/open/process/queue/${queue.openUrl}' title='${l.l('Открытый интерфейс')}'>O</a>
-			${l.l('Очереди процессов')}
-		</jsp:attribute>
-	</shell:title>
-</c:if>
+		</c:if>
+		${l.l('Очереди процессов')}
+	</jsp:attribute>
+</shell:title>
