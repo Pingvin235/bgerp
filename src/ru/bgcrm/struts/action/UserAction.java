@@ -4,8 +4,8 @@ import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.sql.LikePattern;
 
-import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -18,7 +18,7 @@ public class UserAction extends BaseAction {
     public ActionForward userList(DynActionForm form, ConnectionSet conSet) throws Exception {
         Pageable<User> searchResult = new Pageable<User>(form);
         new UserDAO(conSet.getSlaveConnection()).searchUser(searchResult,
-                CommonDAO.getLikePatternSub(form.getParam("title")),
+                LikePattern.SUB.get(form.getParam("title")),
                 form.getSelectedValues("group"), null, new Date(), form.getSelectedValues("permset"), 0);
 
         for (User user : searchResult.getList()) {

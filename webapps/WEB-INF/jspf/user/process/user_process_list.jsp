@@ -20,7 +20,7 @@
 		<ui:combo-single
 			hiddenName="open" value="${form.param.open}" prefixText="${l.l('Закрыт')}:"
 			styleClass="mr1" widthTextValue="100px"
-			onSelect="const $form = $('#${uiid}'); $$.ajax.load($form, $form.parent());">
+			onSelect="$$.ajax.load(this.form, $(this.form).parent());">
 			<jsp:attribute name="valuesHtml">
 				<li value="1">${l.l('Открытые')}</li>
 				<li value="0">${l.l('Закрытые')}</li>
@@ -28,37 +28,32 @@
 			</jsp:attribute>
 		</ui:combo-single>
 
-		<ui:page-control nextCommand="; const $form = $('#${uiid}'); $$.ajax.load($form, $form.parent());"/>
+		<ui:page-control nextCommand="; $$.ajax.load(this.form, $(this.form).parent());"/>
 	</div>
 </html:form>
 
-<c:set var="uiid" value="${u:uiid()}"/>
-
-<%@ include file="/WEB-INF/jspf/table_row_edit_mode.jsp"%>
-
-<table class="data" class="center1020" id="${uiid}">
+<table class="data hl">
 	<tr>
 		<td>ID</td>
 		<td>${l.l('Время создания')}</td>
-		<td>${l.l('Время закрытия')}</td>
+		<td class="min">${l.l('Время закрытия')}</td>
 		<td>${l.l('Тип')}</td>
 		<td>${l.l('Статус')}</td>
 		<td>${l.l('Описание')}</td>
 	</tr>
 	<c:forEach var="process" items="${form.response.data.list}">
-		<tr openCommand="openProcess(${process.id })">
-			<td nowrap="nowrap"><a href="#" onclick="openProcess(${process.id}); return false;">${process.id}</a></td>
-			<td nowrap="nowrap">${tu.format( process.createTime, 'ymdhms' )}</td>
-			<td nowrap="nowrap">${tu.format( process.closeTime, 'ymdhms' )}</td>
+		<tr openCommand="$$.process.open(${process.id })">
+			<td class="min"><a href="#" onclick="$$.process.open(${process.id}); return false;">${process.id}</a></td>
+			<td class="min">${tu.format(process.createTime, 'ymdhms')}</td>
+			<td class="min">${tu.format(process.closeTime, 'ymdhms')}</td>
 			<td>${ctxProcessTypeMap[process.typeId].title}</td>
 			<td>${ctxProcessStatusMap[process.statusId].title}</td>
-			<td width="100%">
+			<td>
 				<%@ include file="/WEB-INF/jspf/user/process/reference.jsp"%>
 			</td>
 		</tr>
 	</c:forEach>
 </table>
 
-<c:set var="title" value="${l.l('Мои процессы')}"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
+<shell:title ltext="My Processes"/>
+<shell:state text=""/>

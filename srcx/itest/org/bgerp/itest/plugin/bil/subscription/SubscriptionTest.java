@@ -1,7 +1,6 @@
 package org.bgerp.itest.plugin.bil.subscription;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -244,8 +243,7 @@ public class SubscriptionTest {
         var cost = paramDao.getParamMoney(processSubscriptionRubId, paramSubscriptionCostId);
         Assert.assertEquals(cost, Utils.parseBigDecimal("471.42"));
 
-        MessageHelper.addNoteMessage(processSubscriptionRubId, UserTest.USER_ADMIN_ID, Duration.ZERO, "How To Test",
-                        ResourceHelper.getResource(this, "message.txt"));
+        MessageHelper.addHowToTestNoteMessage(processSubscriptionRubId, this);
 
         var processSubscriptionEurId = ProcessHelper.addProcess(processSubscriptionTypeId, User.USER_SYSTEM_ID, TITLE + " Subscription EUR").getId();
         processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupConsultantsId)), processSubscriptionEurId);
@@ -263,8 +261,7 @@ public class SubscriptionTest {
         cost = paramDao.getParamMoney(processSubscriptionEurId, paramSubscriptionCostId);
         Assert.assertEquals(cost, Utils.parseBigDecimal("6.24"));
 
-        MessageHelper.addNoteMessage(processSubscriptionEurId, UserTest.USER_ADMIN_ID, Duration.ZERO, "How To Test",
-                        ResourceHelper.getResource(this, "message.txt"));
+        MessageHelper.addHowToTestNoteMessage(processSubscriptionEurId, this);
     }
 
     @Test(dependsOnMethods = "processType")

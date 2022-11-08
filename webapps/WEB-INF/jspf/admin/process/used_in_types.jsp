@@ -7,4 +7,4 @@
 <div class="mb1">
 	${u:toString( form.response.data.containProcess)}
 </div>
-<button type="button" class="btn-white w100p" onclick="$(this).parent().parent().find('button').show(); $(this).parent().empty();">${l.l('Закрыть')}</button>
+<button type="button" class="btn-white w100p" onclick="$(this).parent().parent().find('button').show(); $(this).parent().empty();">${l.l('Close')}</button>

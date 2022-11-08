@@ -21,7 +21,7 @@
 		action="ru.bgcrm.struts.action.ProcessAction:queue"
 		command="/user/process/queue.do?action=queue" />
 
-	<ui:menu-item ltitle="Мои процессы" href="process/my"
+	<ui:menu-item ltitle="My Processes" href="process/my"
 		action="ru.bgcrm.struts.action.ProcessAction:userProcessList"
 		command="/user/process.do?action=userProcessList"/>
 

@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.message.MessageTest;
+import org.bgerp.itest.kernel.user.UserTest;
 
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.model.message.Message;
@@ -27,6 +28,16 @@ public class MessageHelper {
             .withSubject(subject).withText(text);
         new MessageDAO(DbTest.conRoot).updateMessage(m);
         return m;
+    }
+
+    /**
+     * Appends to a process a test description message, that content has to be placed in ClassName.message.txt file in same package as class of {@code test} object.
+     * @param processId the process ID.
+     * @param test test class instance.
+     * @throws Exception
+     */
+    public static void addHowToTestNoteMessage(int processId, Object test) throws Exception {
+        addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(0), "How to test", ResourceHelper.getResource(test, "message.txt"));
     }
 
     public static Message addCallMessage(int processId, int userId, Duration timeOffset, String fromNumber, String toNumber, String subject, String text) throws Exception {

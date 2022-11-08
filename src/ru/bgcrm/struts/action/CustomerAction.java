@@ -6,8 +6,8 @@ import java.util.SortedMap;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.sql.LikePattern;
 
-import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
 import ru.bgcrm.dao.ParamDAO;
@@ -134,7 +134,7 @@ public class CustomerAction extends BaseAction {
 
     public ActionForward customerTitleList(DynActionForm form, ConnectionSet conSet) throws Exception {
         List<String> titles = new CustomerDAO(conSet.getConnection()).getCustomerTitles(
-                CommonDAO.getLikePatternSub(form.getParam("title")),
+                LikePattern.SUB.get(form.getParam("title")),
                 setup.getInt("customer.search.by.title.count", 10));
         form.getResponse().setData("list", titles);
 

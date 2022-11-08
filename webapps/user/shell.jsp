@@ -72,7 +72,7 @@
 
 		<ul id="${uiidProfileMenu}" style="display: none;">
 			<li><ui:user-link id="${ctxUser.id}" text="${l.l('Профиль')}"/></li>
-			<li><a href="/user/process/my" onclick="$$.shell.followLink(this.href, event)">${l.l('Мои процессы')}</a></li>
+			<li><a href="/user/process/my" onclick="$$.shell.followLink(this.href, event)">${l.l('My Processes')}</a></li>
 			<%-- href is required for menu item --%>
 			<li><a href="#" onclick="$$.ajax.post('/login.do?action=logout').done(() => window.location.href = '/user'); return false;">${l.l('Выход')}</a></li>
 		</ul>

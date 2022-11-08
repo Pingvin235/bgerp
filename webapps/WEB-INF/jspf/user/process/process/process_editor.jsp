@@ -158,4 +158,6 @@
 	</div>
 </c:if>
 
-<%@ include file="process_title.jsp"%>
+<c:if test="${mode eq 'card'}">
+	<%@ include file="process_title.jsp"%>
+</c:if>

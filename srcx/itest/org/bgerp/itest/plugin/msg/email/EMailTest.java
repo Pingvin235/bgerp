@@ -1,6 +1,5 @@
 package org.bgerp.itest.plugin.msg.email;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 
@@ -44,6 +43,6 @@ public class EMailTest {
         ProcessHelper.addExecutor(process, UserTest.USER_ADMIN_ID, UserTest.groupAdminsId);
         ProcessHelper.addExecutor(process, UserTest.userKarlId, UserTest.groupAdminsId);
 
-        MessageHelper.addNoteMessage(process.getId(), UserTest.USER_ADMIN_ID, Duration.ofSeconds(0), "How to test notifications", ResourceHelper.getResource(this, "message.txt"));
+        MessageHelper.addHowToTestNoteMessage(process.getId(), this);
     }
 }

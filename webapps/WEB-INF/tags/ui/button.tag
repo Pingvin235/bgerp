@@ -41,13 +41,13 @@
 		<button type="button" id="${id}" title="${not empty title ? title : l.l('Больше')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-more"></i></button>
 	</c:when>
 	<c:when test="${type eq 'close'}">
-		<button type="button" id="${id}" title="${not empty title ? title : l.l('Закрыть')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-close"></i></button>
+		<button type="button" id="${id}" title="${not empty title ? title : l.l('Close')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-close"></i></button>
 	</c:when>
 	<c:when test="${type eq 'clear'}">
 		<button type="button" id="${id}" title="${not empty title ? title : l.l('Очистить')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-close"></i></button>
 	</c:when>
 	<c:when test="${type eq 'back'}">
-		<button type="button" id="${id}" title="${not empty title ? title : l.l('Закрыть')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-arrow-left"></i></button>
+		<button type="button" id="${id}" title="${not empty title ? title : l.l('Close')}" class="btn-white icon ${styleClass}" onclick="${onclick}"><i class="ti-arrow-left"></i></button>
 	</c:when>
 	<c:when test="${type eq 'reply'}">
 		<button type="button" id="${id}" title="${l.l('Ответить')}" class="btn-white icon ${styleClass}" style="transform: scaleY(-1);" onclick="${onclick}"><i class="ti-back-left"></i></button>

@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.dao.user.UserGroupDAO;
 import ru.bgcrm.dao.user.UserPermsetDAO;
@@ -39,7 +39,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
     public ActionForward permsetList(DynActionForm form, Connection con) throws BGException {
         new UserPermsetDAO(con).searchPermset(new Pageable<Permset>(form),
-                CommonDAO.getLikePatternSub(form.getParam("filter")));
+                LikePattern.SUB.get(form.getParam("filter")));
 
         return html(con, form, PATH_JSP + "/permset/list.jsp");
     }
@@ -227,7 +227,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             groups = Utils.toIntegerSet(allowOnlyGroups);
         }
 
-        new UserDAO(con).searchUser(new Pageable<>(form), CommonDAO.getLikePatternSub(form.getParam("title")),
+        new UserDAO(con).searchUser(new Pageable<>(form), LikePattern.SUB.get(form.getParam("title")),
                 groups, null, actualDate, permsets, status);
 
         return html(con, form, PATH_JSP + "/user/list.jsp");

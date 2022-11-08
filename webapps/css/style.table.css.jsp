@@ -55,3 +55,8 @@ table.fixed-header tr:nth-child(1) td {
 .border-table {
 	border: 1px solid ${UI_TABLE_BORDER_COLOR};
 }
+
+td.min {
+	width: 1%;
+	white-space: nowrap;
+}

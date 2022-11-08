@@ -9,14 +9,14 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.common.collect.Lists;
-
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.sql.LikePattern;
+
+import com.google.common.collect.Lists;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ParamDAO;
 import ru.bgcrm.dao.ParamGroupDAO;
 import ru.bgcrm.dao.PatternDAO;
@@ -80,7 +80,7 @@ public class DirectoryAction extends BaseAction {
         Pageable<Parameter> searchResult = new Pageable<Parameter>(form);
 
         paramDAO.getParameterList(searchResult, getObjectType(form.getParam("directoryId")),
-                CommonDAO.getLikePatternSub(form.getParam("filter")), 0, null);
+                LikePattern.SUB.get(form.getParam("filter")), 0, null);
 
         return html(con, form, PATH_JSP + "/parameter/list.jsp");
     }

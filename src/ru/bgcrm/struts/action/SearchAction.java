@@ -7,9 +7,9 @@ import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.BGMessageException;
@@ -71,9 +71,9 @@ public class SearchAction extends BaseAction {
 
             long minLength = setup.getSokLong(0L, "search.customer.title.min.substring.length", "searchCustomerTitleMinSubstringLength");
             if (title.length() < minLength)
-                throw new BGMessageException("Строка поиска должна быть {} и более симоволов!", minLength);
+                throw new BGMessageException("Search string must be {} or more chars!", minLength);
 
-            customerDao.searchCustomerList(result, CommonDAO.getLikePatternSub(title));
+            customerDao.searchCustomerList(result, LikePattern.SUB.get(title));
 
             return html(con, form, JSP_CUSTOMER_TITLE);
         } else if ("group".equals(searchBy)) {

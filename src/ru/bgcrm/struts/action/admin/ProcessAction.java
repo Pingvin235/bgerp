@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.sql.LikePattern;
 
 import javassist.NotFoundException;
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.ParamDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
@@ -118,7 +118,7 @@ public class ProcessAction extends BaseAction {
         int parentId = Utils.parseInt(paramMap.get("parentTypeId"), 0);
 
         ProcessTypeDAO processTypeDAO = new ProcessTypeDAO(con);
-        processTypeDAO.searchProcessType(new Pageable<ProcessType>(form), parentId, CommonDAO.getLikePatternSub(form.getParam("filter", "")));
+        processTypeDAO.searchProcessType(new Pageable<ProcessType>(form), parentId, LikePattern.SUB.get(form.getParam("filter", "")));
 
         if (parentId >= 0) {
             request.setAttribute("typePath", ProcessTypeCache.getTypePath(parentId));

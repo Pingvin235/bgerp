@@ -9,5 +9,5 @@
 </div>
 <div>
 	<button type="button" class="btn-white w100p"
-		onclick="$(this).closest('td').find('.buttons').show(); $(this).closest('.editor').empty();">${l.l('Закрыть')}</button>
+		onclick="$(this).closest('td').find('.buttons').show(); $(this).closest('.editor').empty();">${l.l('Close')}</button>
 </div>

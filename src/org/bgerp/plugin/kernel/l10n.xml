@@ -25,7 +25,7 @@
 	<p><ru>Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5</ru><en>Saved, for applying reboot the interface by Ctrl+F5</en></p>
 	<p><ru>Мой профиль</ru><en>My Profile</en></p>
 	<p><ru>Выход</ru><en>Logout</en></p>
-	<p><ru>Мои процессы</ru><en>My Processes</en></p>
+	<p><en>My Processes</en><ru>Мои процессы</ru></p>
 	<p><ru>Профиль</ru><en>Profile</en></p>
 	<p><ru>Циклическая зависимость</ru><en>Cyclic dependency</en></p>
 	<p><ru>Вложение</ru><en>Attach</en></p>
@@ -46,7 +46,7 @@
 	<p><ru>История статусов</ru><en>Status history</en></p>
 	<p><en>User</en><ru>Пользователь</ru></p>
 	<p><ru>Время</ru><en>Time</en></p>
-	<p><ru>Закрыть</ru><en>Close</en></p>
+	<p><en>Close</en><ru>Закрыть</ru></p>
 	<p><ru>ИСПОЛНИТЕЛИ БЕЗ ГРУПП</ru><en>EXECUTORS WITHOUT GROUPS</en></p>
 	<p><ru>-Я</ru><en>-I</en></p>
 	<p><ru>+Я</ru><en>+I</en></p>
