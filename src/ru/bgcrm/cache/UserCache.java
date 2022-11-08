@@ -35,7 +35,7 @@ public class UserCache extends Cache<UserCache> {
 
     private static final ParameterMap EMPTY_PERMISSION = new Preferences();
 
-    public static User getUser(int id) {
+    public static User getUser(final int id) {
         return holder.getInstance().userMapById.get(id);
     }
 
@@ -48,7 +48,7 @@ public class UserCache extends Cache<UserCache> {
      * @param login
      * @return
      */
-    public static User getUser(String login) {
+    public static User getUser(final String login) {
         return holder.getInstance().activeUserMapByLogin.get(login);
     }
 
@@ -60,9 +60,9 @@ public class UserCache extends Cache<UserCache> {
         return holder.getInstance().activeUserMapByLogin.values();
     }
 
-    public static Group getUserGroup(int groupId) {
-        List<Group> groups = holder.getInstance().userGroupList;
-        for (Group group : groups) {
+    public static Group getUserGroup(final int groupId) {
+        final List<Group> groups = holder.getInstance().userGroupList;
+        for (final Group group : groups) {
             if (group.getId() == groupId) {
                 return group;
             }
@@ -71,10 +71,10 @@ public class UserCache extends Cache<UserCache> {
         return null;
     }
 
-    public static int getUserGroupChildCount(int groupId) {
+    public static int getUserGroupChildCount(final int groupId) {
         int result = 0;
 
-        for (Group group : holder.getInstance().userGroupList) {
+        for (final Group group : holder.getInstance().userGroupList) {
             if (group.getParentId() == groupId) {
                 result++;
             }
@@ -91,17 +91,18 @@ public class UserCache extends Cache<UserCache> {
      * @return allowed permission with options or {@code null}.
      */
     @Dynamic
-    public static ParameterMap getPerm(int userId, String action) {
-        User user = getUser(userId);
+    public static ParameterMap getPerm(final int userId, String action) {
+        final User user = getUser(userId);
 
-        boolean dontCheckPermission = user.getConfigMap().getBoolean("dontCheckPermission", false);
+        final String key = "user.permission.check";
 
-        boolean permCheck = Setup.getSetup().getBoolean("user.permission.check", false);
-        if (permCheck && !dontCheckPermission && user.getId() != 1) {
-            Map<String, ParameterMap> userPerm = holder.getInstance().userPermMap.get(userId);
+        final boolean permCheck = Setup.getSetup().getBoolean(key, false);
+        final boolean userPermCheck = user.getConfigMap().getBoolean(key, true);
+        if (permCheck && userPermCheck && user.getId() != 1) {
+            final Map<String, ParameterMap> userPerm = holder.getInstance().userPermMap.get(userId);
             if (userPerm != null) {
-                // получение первичного имени акшена, на случай, если есть синонимы
-                PermissionNode node = PermissionNode.getPermissionNode(action);
+                final PermissionNode node = PermissionNode.getPermissionNode(action);
+
                 if (node != null) {
                     if (node.isAllowAll()) {
                         return EMPTY_PERMISSION;
@@ -110,7 +111,7 @@ public class UserCache extends Cache<UserCache> {
                     action = node.getAction();
                 }
 
-                ParameterMap map = userPerm.get(action);
+                final ParameterMap map = userPerm.get(action);
                 if (map != null) {
                     return map;
                 }
@@ -121,10 +122,10 @@ public class UserCache extends Cache<UserCache> {
         }
     }
 
-    public static List<User> getUserList(Set<Integer> groupIds) {
-        List<User> result = new ArrayList<User>();
+    public static List<User> getUserList(final Set<Integer> groupIds) {
+        final List<User> result = new ArrayList<User>();
 
-        for (User user : holder.getInstance().userList) {
+        for (final User user : holder.getInstance().userList) {
             if (CollectionUtils.intersection(groupIds, user.getGroupIds()).size() > 0) {
                 result.add(user);
             }
@@ -133,10 +134,10 @@ public class UserCache extends Cache<UserCache> {
         return result;
     }
 
-    public static Set<Group> getUserGroupChildSet(int groupId) {
-        Set<Group> resultSet = new HashSet<Group>();
+    public static Set<Group> getUserGroupChildSet(final int groupId) {
+        final Set<Group> resultSet = new HashSet<Group>();
 
-        for (Group group : holder.getInstance().userGroupList) {
+        for (final Group group : holder.getInstance().userGroupList) {
             if (group.getParentId() == groupId) {
                 resultSet.add(group);
             }
@@ -145,12 +146,12 @@ public class UserCache extends Cache<UserCache> {
         return resultSet;
     }
 
-    public static Set<Group> getUserGroupChildFullSet(int groupId) {
-        Set<Group> resultSet = new HashSet<Group>();
+    public static Set<Group> getUserGroupChildFullSet(final int groupId) {
+        final Set<Group> resultSet = new HashSet<Group>();
         resultSet.addAll(getUserGroupChildSet(groupId));
 
         if (resultSet.size() > 0) {
-            List<Group> groupList = new ArrayList<Group>(resultSet);
+            final List<Group> groupList = new ArrayList<Group>(resultSet);
 
             for (int i = 0; i < groupList.size(); i++) {
                 if (groupList.get(i).getChildCount() > 0) {
@@ -192,12 +193,12 @@ public class UserCache extends Cache<UserCache> {
         return holder.getInstance().userPermsetMap;
     }
 
-    public static void flush(Connection con) {
+    public static void flush(final Connection con) {
         holder.flush(con);
     }
 
-    public static List<Group> getGroupPath(int id) {
-        List<Group> result = new ArrayList<Group>();
+    public static List<Group> getGroupPath(final int id) {
+        final List<Group> result = new ArrayList<Group>();
 
         Group script = new Group();
         script.setParentId(id);
@@ -214,7 +215,7 @@ public class UserCache extends Cache<UserCache> {
      * @param id группы
      * @return Строка с полным путем к корневой группе, либо title группы, если нет родительской группы
      */
-    public static String getUserGroupWithPath(Map<Integer, Group> groupMap, int id, boolean withId) {
+    public static String getUserGroupWithPath(final Map<Integer, Group> groupMap, final int id, final boolean withId) {
         Group group = groupMap.get(id);
         String titleWithPath = group.getTitle();
 
@@ -223,7 +224,7 @@ public class UserCache extends Cache<UserCache> {
         }
 
         while (group.getParentId() != 0) {
-            int parentId = group.getParentId();
+            final int parentId = group.getParentId();
 
             group = groupMap.get(parentId);
             if (group == null) {
@@ -241,22 +242,22 @@ public class UserCache extends Cache<UserCache> {
         return titleWithPath;
     }
 
-    public static List<UserGroup> getUserGroupList(int id) {
+    public static List<UserGroup> getUserGroupList(final int id) {
         return holder.getInstance().userGroupListsMap.get(id) == null ? new ArrayList<UserGroup>()
                 : holder.getInstance().userGroupListsMap.get(id);
     }
 
-    public static List<UserGroup> getUserGroupList(int id, Date actualDate) {
+    public static List<UserGroup> getUserGroupList(final int id, final Date actualDate) {
         return getUserGroupList(id, -1, actualDate);
     }
 
-    public static List<UserGroup> getUserGroupList(int id, int parentId, Date actualDate) {
-        List<UserGroup> resultList = new ArrayList<UserGroup>();
+    public static List<UserGroup> getUserGroupList(final int id, final int parentId, final Date actualDate) {
+        final List<UserGroup> resultList = new ArrayList<UserGroup>();
 
-        List<UserGroup> groupList = holder.getInstance().userGroupListsMap.get(id);
+        final List<UserGroup> groupList = holder.getInstance().userGroupListsMap.get(id);
         if (groupList != null) {
-            for (UserGroup item : groupList) {
-                Group group = holder.getInstance().userGroupMap.get(item.getGroupId());
+            for (final UserGroup item : groupList) {
+                final Group group = holder.getInstance().userGroupMap.get(item.getGroupId());
                 if (group != null) {
                     if ((parentId < 0 || group.getParentId() == parentId) && (actualDate == null
                             || ((item.getDateFrom() != null && actualDate.compareTo(item.getDateFrom()) >= 0)
@@ -295,19 +296,19 @@ public class UserCache extends Cache<UserCache> {
     protected UserCache newInstance() {
         result = new UserCache();
 
-        Setup setup = Setup.getSetup();
+        final Setup setup = Setup.getSetup();
 
         try (var con = setup.getDBConnectionFromPool()) {
-            UserDAO userDAO = new UserDAO(con);
-            UserPermsetDAO permsetDAO = new UserPermsetDAO(con);
-            UserGroupDAO groupDAO = new UserGroupDAO(con);
+            final UserDAO userDAO = new UserDAO(con);
+            final UserPermsetDAO permsetDAO = new UserPermsetDAO(con);
+            final UserGroupDAO groupDAO = new UserGroupDAO(con);
 
             result.userList = userDAO.getUserList();
 
             result.userMapById = new HashMap<Integer, User>() {
                 @Override
-                public User get(Object key) {
-                    Integer id = (Integer) key;
+                public User get(final Object key) {
+                    final Integer id = (Integer) key;
 
                     User result = super.get(id);
                     if (result == null) {
@@ -320,12 +321,12 @@ public class UserCache extends Cache<UserCache> {
                 }
             };
 
-            for (User user : result.userList) {
+            for (final User user : result.userList) {
                 result.userMapById.put(user.getId(), user);
             }
 
             result.activeUserMapByLogin = new TreeMap<String, User>();
-            for (User user : result.userList) {
+            for (final User user : result.userList) {
                 if (user.getStatus() != User.STATUS_DISABLED) {
                     result.activeUserMapByLogin.put(user.getLogin(), user);
                 }
@@ -335,19 +336,19 @@ public class UserCache extends Cache<UserCache> {
             result.userGroupList = groupDAO.getGroupList();
 
             result.userGroupMap = new HashMap<Integer, Group>(result.userGroupList.size());
-            for (Group group : result.userGroupList) {
+            for (final Group group : result.userGroupList) {
                 result.userGroupMap.put(group.getId(), group);
             }
 
             result.userGroupFullTitledList = new ArrayList<Group>();
-            for (Group group : result.userGroupList) {
-                Group fullTitled = group.clone();
+            for (final Group group : result.userGroupList) {
+                final Group fullTitled = group.clone();
                 fullTitled.setTitle(UserCache.getUserGroupWithPath(result.userGroupMap, group.getId(), false));
                 result.userGroupFullTitledList.add(fullTitled);
             }
 
             result.userGroupFullTitledMap = new HashMap<Integer, Group>(result.userGroupFullTitledList.size());
-            for (Group group : result.userGroupFullTitledList) {
+            for (final Group group : result.userGroupFullTitledList) {
                 result.userGroupFullTitledMap.put(group.getId(), group);
             }
 
@@ -358,48 +359,48 @@ public class UserCache extends Cache<UserCache> {
             result.userPermsetList = permsetDAO.getPermsetList();
 
             result.userPermsetMap = new HashMap<Integer, Permset>(result.userPermsetList.size());
-            for (Permset permset : result.userPermsetList) {
+            for (final Permset permset : result.userPermsetList) {
                 result.userPermsetMap.put(permset.getId(), permset);
             }
 
             // сбор свойств пользователей из групп и наборов прав
-            Map<Integer, List<Integer>> allUserPermsetIds = userDAO.getAllUserPermsetIds();
-            Map<Integer, Set<Integer>> allUserQueueIds = userDAO.getAllUserQueueIds();
+            final Map<Integer, List<Integer>> allUserPermsetIds = userDAO.getAllUserPermsetIds();
+            final Map<Integer, Set<Integer>> allUserQueueIds = userDAO.getAllUserQueueIds();
 
-            Map<Integer, List<Integer>> allGroupPermsetIds = groupDAO.getAllGroupPermsetIds();
-            Map<Integer, Set<Integer>> allGroupQueueIds = groupDAO.getAllGroupQueueIds();
+            final Map<Integer, List<Integer>> allGroupPermsetIds = groupDAO.getAllGroupPermsetIds();
+            final Map<Integer, Set<Integer>> allGroupQueueIds = groupDAO.getAllGroupQueueIds();
 
-            Map<Integer, Map<String, ParameterMap>> allUserPermById = primaryActions(userDAO.getAllUserPerm());
-            Map<Integer, Map<String, ParameterMap>> allPermsetPermById = primaryActions(permsetDAO.getAllPermsets());
+            final Map<Integer, Map<String, ParameterMap>> allUserPermById = primaryActions(userDAO.getAllUserPerm());
+            final Map<Integer, Map<String, ParameterMap>> allPermsetPermById = primaryActions(permsetDAO.getAllPermsets());
 
             result.userPermMap = new HashMap<>();
 
-            for (User user : result.userList) {
-                Map<String, ParameterMap> perm = new HashMap<>();
+            for (final User user : result.userList) {
+                final Map<String, ParameterMap> perm = new HashMap<>();
                 result.userPermMap.put(user.getId(), perm);
 
                 user.setPermsetIds(allUserPermsetIds.get(user.getId()));
                 user.setQueueIds(allUserQueueIds.get(user.getId()));
 
-                List<UserGroup> ugList = result.userGroupListsMap.get(user.getId());
+                final List<UserGroup> ugList = result.userGroupListsMap.get(user.getId());
                 if (ugList != null) {
                     user.setGroupIds(getActualUserGroupIdSet(new Date(), ugList));
                 }
 
                 // действующие группы пользователя
-                List<Group> userGroupList = new ArrayList<Group>();
-                for (Group group : result.userGroupList) {
+                final List<Group> userGroupList = new ArrayList<Group>();
+                for (final Group group : result.userGroupList) {
                     if (user.getGroupIds().contains(group.getId())) {
                         userGroupList.add(group);
                     }
                 }
 
                 // действующие наборы прав пользователя
-                List<Integer> userPermsetIds = new ArrayList<Integer>();
+                final List<Integer> userPermsetIds = new ArrayList<Integer>();
                 // сначала собираются все наборы групп в порядке алфавита, установленных у пользователя
                 // наборы в каждой группе установлены в определённом порядке
-                for (Group group : userGroupList) {
-                    List<Integer> groupPermsetIds = allGroupPermsetIds.get(group.getId());
+                for (final Group group : userGroupList) {
+                    final List<Integer> groupPermsetIds = allGroupPermsetIds.get(group.getId());
                     if (groupPermsetIds != null) {
                         userPermsetIds.addAll(groupPermsetIds);
                     }
@@ -408,17 +409,17 @@ public class UserCache extends Cache<UserCache> {
                 userPermsetIds.addAll(user.getPermsetIds());
 
                 // склеенная конфигурация наборов прав
-                StringBuilder fullUserConfig = new StringBuilder(500);
+                final StringBuilder fullUserConfig = new StringBuilder(500);
 
                 // сбор прав, ролей и конфигураций из действующих наборов пользователя
-                for (Integer permsetId : userPermsetIds) {
-                    Map<String, ParameterMap> permsetPermMap = allPermsetPermById.get(permsetId);
+                for (final Integer permsetId : userPermsetIds) {
+                    final Map<String, ParameterMap> permsetPermMap = allPermsetPermById.get(permsetId);
                     if (permsetPermMap != null) {
                         perm.putAll(permsetPermMap);
                     }
 
                     // склеивание ролей и конфигураций
-                    Permset permset = result.userPermsetMap.get(permsetId);
+                    final Permset permset = result.userPermsetMap.get(permsetId);
                     if (permset != null) {
                         user.setRoles(user.getRoles() + " " + permset.getRoles());
 
@@ -432,23 +433,23 @@ public class UserCache extends Cache<UserCache> {
                 }
 
                 // склеенная конфигурация групп
-                StringBuilder groupConfig = new StringBuilder(500);
+                final StringBuilder groupConfig = new StringBuilder(500);
 
-                for (Group group : userGroupList) {
+                for (final Group group : userGroupList) {
                     addGroupConfig(group.getId(), groupConfig);
                 }
 
                 user.setConfig(fullUserConfig.toString() + groupConfig.toString() + user.getConfig());
 
                 // персональные права
-                Map<String, ParameterMap> personalPermMap = allUserPermById.get(user.getId());
+                final Map<String, ParameterMap> personalPermMap = allUserPermById.get(user.getId());
                 if (personalPermMap != null) {
                     perm.putAll(personalPermMap);
                 }
 
                 // очереди процессов из групп
-                for (Integer groupId : user.getGroupIds()) {
-                    Set<Integer> groupQueueIds = allGroupQueueIds.get(groupId);
+                for (final Integer groupId : user.getGroupIds()) {
+                    final Set<Integer> groupQueueIds = allGroupQueueIds.get(groupId);
                     if (groupQueueIds != null) {
                         user.getQueueIds().addAll(groupQueueIds);
                     }
@@ -472,7 +473,7 @@ public class UserCache extends Cache<UserCache> {
             user.setLogin(setup.get("user.system.login"));
             user.setPassword(setup.get("user.system.pswd"));
             result.userMapById.put(user.getId(), user);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             log.error(e);
         }
 
@@ -484,16 +485,16 @@ public class UserCache extends Cache<UserCache> {
      * @param permMapById key - some ID, value - permission map with obitary keys.
      * @return modified {@code permMapById}.
      */
-    private Map<Integer, Map<String, ParameterMap>> primaryActions(Map<Integer, Map<String, ParameterMap>> permMapById) {
-        for (var me : permMapById.entrySet())
+    private Map<Integer, Map<String, ParameterMap>> primaryActions(final Map<Integer, Map<String, ParameterMap>> permMapById) {
+        for (final var me : permMapById.entrySet())
             me.setValue(PermissionNode.primaryActions(me.getValue()));
         return permMapById;
     }
 
-    private Set<Integer> getActualUserGroupIdSet(Date actualDate, List<UserGroup> ugList) {
-        Set<Integer> activeGroupSet = new HashSet<Integer>();
+    private Set<Integer> getActualUserGroupIdSet(final Date actualDate, final List<UserGroup> ugList) {
+        final Set<Integer> activeGroupSet = new HashSet<Integer>();
 
-        for (UserGroup ug : ugList) {
+        for (final UserGroup ug : ugList) {
             if (TimeUtils.dateInRange(actualDate, ug.getDateFrom(), ug.getDateTo())) {
                 activeGroupSet.add(ug.getGroupId());
             }
@@ -502,11 +503,11 @@ public class UserCache extends Cache<UserCache> {
         return activeGroupSet;
     }
 
-    private void addGroupConfig(Integer groupId, StringBuilder config) {
-        Group group = result.userGroupMap.get(groupId);
+    private void addGroupConfig(final Integer groupId, final StringBuilder config) {
+        final Group group = result.userGroupMap.get(groupId);
 
         if (group != null) {
-            Integer parentId = group.getParentId();
+            final Integer parentId = group.getParentId();
             if (parentId > 0) {
                 addGroupConfig(parentId, config);
             }

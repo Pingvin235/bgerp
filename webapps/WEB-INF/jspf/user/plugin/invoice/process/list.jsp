@@ -100,7 +100,7 @@
 			<td>${tu.format(item.dateFrom, 'yyyy.MM')}</td>
 			<td>
 				<c:choose>
-					<c:when test="${p:get(ctxUser.id, 'org.bgerp.plugin.bil.invoice.action.InvoiceAction:doc') ne null}">
+					<c:when test="${ctxUser.checkPerm('org.bgerp.plugin.bil.invoice.action.InvoiceAction:doc')}">
 						<c:url var="url" value="/user/plugin/invoice/invoice.do">
 							<c:param name="action" value="doc"/>
 							<c:param name="id" value="${item.id}"/>

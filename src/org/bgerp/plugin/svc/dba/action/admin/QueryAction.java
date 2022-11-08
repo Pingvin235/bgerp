@@ -49,7 +49,7 @@ public class QueryAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/query.jsp");
     }
 
-    private void permissionCheck(DynActionForm form, QueryType type) throws BGException {
+    private void permissionCheck(DynActionForm form, QueryType type) throws Exception {
         String className = this.getClass().getName();
         permissionCheck(form, className + ":query" + type.prefix().substring(0, 1) + type.prefix().substring(1).toLowerCase());
     }

@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <u:sc>
-	<c:set var="editType" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processTypeUpdate')}"/>
+	<c:set var="editType" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processTypeEdit')}"/>
 	<c:if test="${editType}">
 		<c:url var="url" value="/user/process.do">
 			<c:param name="action" value="processTypeEdit"/>

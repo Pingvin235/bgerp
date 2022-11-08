@@ -1,0 +1,2 @@
+C: Replace dontCheckPermission=1 configuration key to user.permission.check=0. https://bgerp.org/doc/3.0/manual/kernel/setup.html#united-user-config-keys
+A: Log warning "Not primary action name '{}' was used for checking of '{}'" for detecting usages of old action names.

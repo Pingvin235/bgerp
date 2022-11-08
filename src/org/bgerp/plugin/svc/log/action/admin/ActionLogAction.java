@@ -40,12 +40,8 @@ public class ActionLogAction extends BaseAction {
         Set<String> actions = form.getSelectedValuesStr("perm");
         Set<String> allActions = new TreeSet<>(actions);
 
-        for (String action : actions) {
-            PermissionNode actionNode = PermissionNode.getPermissionNode(action);
-            if (actionNode == null)
-                throw new IllegalArgumentException("Action not found: " + action);
-            allActions.addAll(actionNode.getActions());
-        }
+        for (String action : actions)
+            allActions.addAll(PermissionNode.getPermissionNodeOrThrow(action).getActions());
 
         new ActionLogDAO(conSet.getSlaveConnection())
             .withTimeFrom(timeFrom)

@@ -73,7 +73,7 @@ public class UserNewsCache extends Cache<UserNewsCache> {
             // необработанные сообщения
             int currentUnprocessedMessages = 0;
 
-            if (UserCache.getPerm(userId, "ru.bgcrm.struts.action.MessageAction:messageList") != null) {
+            if (UserCache.getUser(userId).checkPerm("ru.bgcrm.struts.action.MessageAction:messageList")) {
                 MessageTypeConfig mtConfig = Setup.getSetup().getConfig(MessageTypeConfig.class);
                 for (MessageType type : mtConfig.getTypeMap().values()) {
                     if (type.getUnprocessedMessagesCount() != null)

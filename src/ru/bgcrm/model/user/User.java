@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.util.Dynamic;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.IdTitle;
@@ -22,6 +23,8 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class User extends IdTitle implements Comparable<User>, Cloneable, UserAccount {
+    private static final Log log = Log.getLog();
+
     public static final String OBJECT_TYPE = "user";
 
     public static final int USER_SYSTEM_ID = 0;
@@ -220,10 +223,14 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     /**
      * Checks if {@code action} allowed in user permissions.
      * @param action semicolon separated action class and method names.
-     * @return
+     * @return is the action allowed.
      */
     @Dynamic
     public boolean checkPerm(String action) {
+        var node = PermissionNode.getPermissionNode(action);
+        if (node != null && !node.getAction().equals(action))
+            log.warn("Not primary action name '{}' was used for checking of '{}'", action, node.getAction());
+
         return UserCache.getPerm(id, action) != null;
     }
 

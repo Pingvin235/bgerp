@@ -9,6 +9,8 @@ import java.util.Map;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import javassist.NotFoundException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
@@ -310,11 +312,23 @@ public class PermissionNode {
         PermissionNode node = null;
         for (PermissionNode treeNode : getPermissionTrees()) {
             node = treeNode.findPermissionNode(action);
-            if (node != null) {
+            if (node != null)
                 return node;
-            }
         }
         return null;
+    }
+
+    /**
+     * Finds permission node by action.
+     * @param action semicolon separated class and method names.
+     * @return not {@code null} node value.
+     * @throws NotFoundException not found node.
+     */
+    public static PermissionNode getPermissionNodeOrThrow(String action) throws NotFoundException {
+        var result = getPermissionNode(action);
+        if (result == null)
+            throw new NotFoundException(Log.format("Permission node not found for action '{}'", action));
+        return result;
     }
 
     PermissionNode findPermissionNode(String action) {

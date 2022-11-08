@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+import javassist.NotFoundException;
+
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -146,7 +148,7 @@ public class BaseAction extends DispatchAction {
             if (user == null) {
                 form.setPermission(ParameterMap.EMPTY);
             } else {
-                action = this.getClass().getName() + ":" + form.getAction();
+                action = this.getClass().getName() + ":" + Utils.maskEmpty(form.getAction(), "null");
                 permissionNode = permissionCheck(form, action);
                 updateUserPageSettings(conSet, form);
             }
@@ -226,13 +228,11 @@ public class BaseAction extends DispatchAction {
      * @param form form with user.
      * @param action semicolon separated action class and method.
      * @return permission node.
-     * @throws BGException permission node for {@code action} not found.
+     * @throws NotFoundException permission node for {@code action} not found.
      * @throws BGMessageException permission is denied.
      */
-    protected PermissionNode permissionCheck(DynActionForm form, String action) throws BGException, BGMessageException {
-        var permissionNode = PermissionNode.getPermissionNode(action);
-        if (permissionNode == null)
-            throw new BGException("Permission node not found for action '{}'", action);
+    protected PermissionNode permissionCheck(DynActionForm form, String action) throws NotFoundException, BGMessageException {
+        var permissionNode = PermissionNode.getPermissionNodeOrThrow(action);
 
         ParameterMap perm = UserCache.getPerm(form.getUserId(), action);
         if (perm == null && !permissionNode.isAllowAll())

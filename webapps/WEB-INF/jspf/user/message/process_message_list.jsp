@@ -266,7 +266,7 @@
 								</c:if>
 
 								<c:if test="${form.user.id == message.userId or ctxUser.checkPerm(ACTION_MODIFY_NOT_OWNED)}">
-									<c:if test="${messageType.isEditable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdate')}">
+									<c:if test="${messageType.isEditable(message) and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:processMessageEdit')}">
 										<c:url var="editUrl" value="/user/message.do">
 											<c:param name="action" value="processMessageEdit"/>
 											<c:param name="id" value="${message.id}"/>

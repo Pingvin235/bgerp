@@ -42,8 +42,8 @@
 						<c:set var="value" value="${form.param.messageTypeAdd}"/>
 					</c:when>
 				</c:choose>
-				
-				<c:set var="perm" value="${p:get(ctxUser.id, 'ru.bgcrm.struts.action.MessageAction:messageUpdate')}"/>
+
+				<c:set var="perm" value="${p:get(ctxUser.id, 'ru.bgcrm.struts.action.MessageAction:processMessageEdit')}"/>
 				<c:set var="allowedTypeIds" value="${u.toIntegerSet(perm['allowedTypeIds'])}"/>
 
 				<ui:combo-single

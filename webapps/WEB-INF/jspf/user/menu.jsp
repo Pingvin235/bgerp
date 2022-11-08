@@ -18,7 +18,7 @@
 
 <ui:menu-group ltitle="Процессы" icon="ti-control-shuffle">
 	<ui:menu-item ltitle="Очереди процессов" href="process/queue"
-		action="ru.bgcrm.struts.action.ProcessAction:queue"
+		action="ru.bgcrm.struts.action.ProcessQueueAction:queue"
 		command="/user/process/queue.do?action=queue" />
 
 	<ui:menu-item ltitle="My Processes" href="process/my"
