@@ -308,7 +308,7 @@ CAUTION: Для пользователя с кодом 1 конфигураци�
 ----
 
 [[user-correct-permission]]
-== Correct Permissions
+=== Correct Permissions
 You may notice such warnings in application logs.
 
 ----
@@ -319,6 +319,35 @@ You may notice such warnings in application logs.
 They mean that not primary action IDs were used to store in DB. Nothing critical, but later <<scheduler-run, execute>> the mentioned class *org.bgerp.scheduler.task.CorrectPermissions* to fix it.
 
 IMPORTANT: That action breaks backward compatibility of DB, so do only when you do not need to roll back.
+
+[[user-profile]]
+=== User Profile
+User profile tool for other users may be accesed by UI link: in users table, process card or any other iface place.
+
+image::_res/user/profile_another_user_table.png[width="800"]
+
+image::_res/user/profile_another_process.png[width="800"]
+
+The tool allows depending on your see and update groups, parameters and send personal news.
+
+image::_res/user/profile_another.png[width="800"]
+
+You own profile can be opened by the link in top right menu.
+
+image::_res/user/profile_own_menu.png[]
+
+In your own profile you can additionaly change title, login and password.
+
+image::_res/user/profile_own_settings.png[width="800"]
+
+And adjust UI settings.
+
+image::_res/user/profile_own_ui_options.png[width="800"]
+
+The settings are stored in so named *User Personalization* configuration, it can be seen by pressing *Text* button.
+The drop-down selected options are stored using *iface.* key prefix. All the configuration might be completely resetted to the default state using *Reset* button.
+
+image::_res/user/profile_own_personalization.png[width="800"]
 
 [[user-isolation]]
 === User Isolation

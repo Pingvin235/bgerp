@@ -90,17 +90,26 @@
 				</table>
 
 				<c:set var="configTextUiid" value="${u:uiid()}"/>
+				<c:set var="saveCommand" value="$$.ajax.post(this.form).done(() => { alert('${l.l('Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5')}') })"/>
+
+				<div class="mt1">
+					<button class="btn-grey" type="button" onclick="${saveCommand}">${l.l('Сохранить опции')}</button>
+					<button class="btn-white ml2" type="button"
+						onclick="$('#${configTextUiid}').toggle(); $(this).toggleClass(['btn-white', 'btn-blue'])" title="${l.l('Показать текст конфигурации опций')}">${l.l('Текст')}</button>
+				</div>
 
 				<div id="${configTextUiid}" style="display: none;">
 					<h2>${l.l('Текст конфигурации опций')}</h2>
 
-					<textarea style="width: 100%; height: 400px;">${ctxUser.personalizationMap.getDataString()}</textarea>
-				</div>
+					<textarea style="width: 100%; height: 400px; resize: vertical;">${ctxUser.personalizationMap.getDataString()}</textarea>
 
-				<button class="btn-grey mt1" type="button"
-					onclick="$$.ajax.post(this.form).done(() => { alert('${l.l('Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5')}') })">${l.l('Сохранить опции')}</button>
-				<button class="btn-white mt1 ml2" type="button"
-					onclick="$('#${configTextUiid}').toggle()" title="${l.l('Показать текст конфигурации опций')}">${l.l('Текст')}</button>
+					<button class="btn-grey mt1 icon" type="button" name="reset" title="${l.l('Delete all the stored personalization options')}" onclick="
+						if (!confirm('${l.l('Reset all the user personalizations?')}')) return;
+						this.value = 1; ${saveCommand}">
+						<i class="ti-eraser"></i>
+						${l.l('Reset')}
+					</button>
+				</div>
 			</html:form>
 		</c:when>
 		<c:otherwise>

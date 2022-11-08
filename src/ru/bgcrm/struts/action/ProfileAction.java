@@ -88,8 +88,7 @@ public class ProfileAction extends BaseAction {
         User user = UserCache.getUser(form.getUserId());
         UserDAO userDAO = new UserDAO(con);
 
-        // TODO: Ovewrite mode has not implemented yet.
-        Preferences personalizationMap = form.getParamBoolean("overwrite") ? new Preferences() : user.getPersonalizationMap();
+        Preferences personalizationMap = user.getPersonalizationMap();
         String persConfigBefore = personalizationMap.getDataString();
 
         for (Map.Entry<String, String[]> me : form.getHttpRequest().getParameterMap().entrySet()) {
@@ -99,6 +98,9 @@ public class ProfileAction extends BaseAction {
                 continue;
             personalizationMap.put(key.replace('_', '.'), value);
         }
+
+        if (form.getParamBoolean("reset"))
+            personalizationMap.clear();
 
         userDAO.updatePersonalization(persConfigBefore, user);
 

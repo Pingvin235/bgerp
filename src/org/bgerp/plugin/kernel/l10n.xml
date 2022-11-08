@@ -529,6 +529,9 @@
 	<p><en>Amount</en><ru>Сумма</ru></p>
 	<p><en>Details</en><ru>Детали</ru></p>
 	<p><en>Discount</en><ru>Скидка</ru></p>
+	<p><en>Delete all the stored personalization options</en><ru>Удалить все сохранённые персональные опции</ru></p>
+	<p><en>Reset all the user personalizations?</en><ru>Сбросить все персональные опции?</ru></p>
+	<p><en>Reset</en><ru>Сбросить</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->
