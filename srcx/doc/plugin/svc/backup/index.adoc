@@ -3,97 +3,97 @@
 
 [[about]]
 == About
-The plugin allows making backup of the application code and data.
+The plugin allows to backup the application code and data.
 
-NOTE: You can see the plugin enabled in <<../../../kernel/install.adoc#demo, Demo System>>.
+NOTE: You can see an enabled plugin operation in <<../../../kernel/install.adoc#demo, Demo System>>.
 
 [[setup]]
 == Setup
-Enable the plugin in <<../../../kernel/setup.adoc#config-plugin, server config>>.
+Enable the plugin via <<../../../kernel/setup.adoc#config-plugin, server config>>.
 [source]
 ----
 backup:enable=1
 
-# offer for removing backups more than
+# Setting to set up maximum number of backups stored
 #backup:cleanup.candidate.count.more.than=3
-# offer for removing backups with DB more than
+# Setting to set up maximum number of backups with DB stored
 #backup:cleanup.candidate.db.count.more.than=3
 ----
 
 [[setup-remote-ssh]]
-=== Настройка удалённого бекапа по SSH
-Все команды выполняются из-под *root*.
-Для работы файловой системы достаточно SSH доступа к удалённому серверу.
+=== Setting up remote backup via SSH
+All commands are executed by *root*
+Said that, in order for all related file system operations to be successful, only SSH access to remote server is sufficient.
 
-На клиентской машине надо установить пакет *sshfs*.
+Client PC has to have *sshfs* client installed:
 [source]
 ----
 apt install sshfs
 ----
 
-Создаём каталог для монтирования:
+Create a mount directory:
 [source]
 ----
 mkdir /mnt/backup
 ----
 
-Монтирование SSHFS выполняется с помощью команды:
+Mount SSHFS using the command below:
 [source]
 ----
 sshfs [user@]host:[dir] mountpoint [options]
 ----
 
-Пример:
+Example:
 [source]
 ----
 sshfs root@backup.bgerp.org:/opt/BGERP/backup /mnt/backup
 ----
 
-Чтобы увидеть точку монтирования удаленной файловой системы:
+Use the following command to display remote filesystem mount point:
 [source]
 ----
 df -hT
 ----
 
-Теперь вы можете использовать эту папку для того чтобы обмениваться файлами с сервером.
-Если надо чтобы и другие пользователи могли получать доступ к этой папке, надо использовать опцию *allow_other*.
-Она будет работать только если в файле `/etc/fuse.conf` присутствует опция *user_allow_other*.
+Now you can use this directory to exchange files with remote server.
+If there is a need for other users to access this directory, use *allow_other* option.
+Option will be operational only if `/etc/fuse.conf` also has *user_allow_other* option.
 
-Теперь можно монтировать:
+Mounting SSHFS with *allow_other* option:
 [source]
 ----
 sshfs -o allow_other root@backup.bgerp.org:/opt/BGERP/backup /mnt/backup
 ----
 
-Отмонтировать файловую систему:
+Unmount a file system:
 [source]
 ----
 umount /mnt/backup
 ----
 
 [[setup-remote-ssh-auto-mount]]
-==== Автоматическое монтирование SSHFS
-Создайте пару SSH-ключей, в результате выполнения команды будут созданы пара ключей (приватный ключ - `id_rsa` и публичный ключ - `id_rsa.pub`):
+==== Automatic SSHFS mount
+First, create SSH-keypair, where one key will be private (`id_rsa`) and another one - public (`id_rsa.pub`)
 [source]
 ----
 ssh-keygen
 ----
 
-Для добавления ключа на удаленный сервер выполните следующую команду:
+In order to copy public key into a remote server (to authorize SSH client), use the following command:
 [source]
 ----
 ssh-copy-id -i ~/.ssh/id_dsa.pub root@backup.bgerp.org
 ----
 
-Проверить подключение к удаленному серверу с помощью SSH-ключа можно будет таким образом:
+Use the following command to test SSH connection to remote server using a private SSH key you've created earlier:
 [source]
 ----
 ssh root@backup.bgerp.org
 ----
 
-NOTE: Под Windows SSH-ключи можно сгенерировать с помощью программ PuTTY или KiTTY.
+NOTE: When using Windows, you an use PuTTY or KiTTY to generate SSH keys.
 
-После настройки авторизации на сервере по SSH-ключу, приступим к монтированию удаленной файловой системы в нашу локальную папку, для этого выполним следующую команду в терминале:
+After configuring authorization on remote server (see above), you can start mounting remote file system into your local folder using the following command:
 [source]
 ----
 sshfs root@backup.bgerp.org:/opt/bgerp/backup /mnt/backup -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa
@@ -101,12 +101,12 @@ sshfs root@backup.bgerp.org:/opt/bgerp/backup /mnt/backup -o allow_other,default
 
 [[usage]]
 == Usage
-Backup tool is available in menu *Administration / Backup*. There is content mode switch available.
+Backup tool is available in *Administration / Backup* menu. There is content mode switch available.
 
 image::_res/backup.png[width="800px"]
 
 [square]
-* Using drop-box backups can be created with or without DB content.
-* Outdated backups can be removed using a button in the top-left corner of table. How many last backups are preserved from removing is <<setup, configured>>.
-* Buttons in right table column allow restoring from backups. The application is automatically restarted after that.
+* You can use drop-box to create backups with or without DB content.
+* Outdated backups can be removed using a button in the top-left corner of table. Number of backups preserved by the system is configured via <<setup, configured>>.
+* Buttons in right table column allow restoring from backups. The application is automatically restarted after this operation.
 

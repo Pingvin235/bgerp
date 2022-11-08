@@ -22,6 +22,6 @@
 /test-output
 /build/changes.xml
 
-/.DS_Store
+.DS_Store
 dump.sql
 /gradle.properties

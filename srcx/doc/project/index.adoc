@@ -326,26 +326,6 @@ When developing, you can <<run, launch>> it directly from IDE.
 
 Figure below illustrates a request processing pipeline:
 
-[ditaa]
-----
-+----------------+             AJAX
-|                |    +----+           +-------------+     +----------+
-|      HTML      |    | JS |           |             |     |{s}       |
-|                +-=->+    +-----+=+-->+ Java Action +<-=->+ MySQL DB |
-|                |    |    |           |             |     |          |
-|                |    |    +<----+=+---+             |     +----------+
-|                |    |    | CHANGE OK +------+------+
-|                |    |    | ANY ERROR        |
-|                |    |    |                  :
-|       +--------+    |    |                  |
-|       |  HTML  |    |    |                  v
-|       |        +<-=-+    |           +------+------+
-|       |Fragment|    |    +<----+=+---+     JSP     |
-|       +--------+    +----+   READ    +-------------+
-|                |
-+----------------+
-----
-
 drawio:_res/arch.drawio[]
 
 Request processing stages:
@@ -812,23 +792,6 @@ Such customizations have to be moved into a main code to make them part of the s
 
 The following diagram illustrates above-mentioned transformation dynamics for a code of different types. Size of a given rectangle correlates with a code size for a specific type.
 Code size is a cumulative value for all Customers - larger size from scattered customizations gets translated into a much smaller universal code within a single *product*.
-
-[ditaa]
-----
-+--------------+   +--------------+  +-----------------------+
-|              |   |              |  |                       |
-|              |   |              |  |                       |
-|  Custom JSP  |   |  Dyn Code    |  |      Configuration    |
-|              |   |              |  |                       |
-|              |   |              |  |         +JEXL         |
-|              |   |              |  |                       |
-+------+-------+   +-----------+--+  +-+----------+----------+
-       |                       |       |          |
-       v                       v       v          v
-+------+-------+           +---+-------+-+ +------+------+
-| Standard JSP |           |  Java Code  | |Configuration|
-+--------------+           +-------------+ +-------------+
-----
 
 drawio:_res/ccc.drawio[]
 
