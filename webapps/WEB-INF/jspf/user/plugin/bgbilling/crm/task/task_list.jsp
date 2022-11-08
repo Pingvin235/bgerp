@@ -12,26 +12,26 @@
 						<c:param name="billingId" value="${form.param.billingId }" />
 						<c:param name="contractId" value="${form.param.contractId }" />
 						<c:param name="returnUrl" value="${form.requestUrl}" />
-					</c:url> 	
-					<button type="button" class="btn-green" onClick="openUrlTo('${createUrl}', $('#${uiid}') )">+</button>
+					</c:url>
+					<button type="button" class="btn-green" onClick="$$.ajax.load('${createUrl}', $('#${uiid}') )">+</button>
 				</div>
 			</td>
 			<td>
 				<form action="plugin/bgbilling/proto/billingCrm.do">
 					<input type="hidden" name="action" value="taskList"/>
-					<input type="hidden" name="billingId" value="${form.param.billingId}"/>	
+					<input type="hidden" name="billingId" value="${form.param.billingId}"/>
 					<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 					<input type="hidden" name="sort1" value="${form.param.sort1}"/>
 					<input type="hidden" name="sort2" value="${form.param.sort2}"/>
 
-					<c:set var="nextCommand" value="; openUrlToParent( formUrl( this.form ), $('#${uiid}') )"/>
+					<c:set var="nextCommand" value="; $$.ajax.load(this.form, $('#${uiid}').parent() )"/>
 					<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 				</form>
 			</td>
 		</tr>
 	</table>
 
-	<table class="data" width="100%">	
+	<table class="data" width="100%">
 		<tr>
 			<td></td>
 			<td>Код</td>
@@ -59,10 +59,10 @@
                     <c:param name="returnUrl" value="${form.requestUrl}"/>
 				</c:url>
 
-                <c:set var="editCommand" value="openUrlTo('${url}',$('#${uiid}').parent())"/>
+                <c:set var="editCommand" value="$$.ajax.load('${url}',$('#${uiid}').parent())"/>
 
 				<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
-				
+
 				<td align="center">${task.getId() }</td>
 				<td>${task.getTypeTitle() }</td>
 				<td align="center">${task.getStatus() }</td>

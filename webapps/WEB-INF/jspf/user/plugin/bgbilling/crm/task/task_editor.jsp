@@ -15,7 +15,7 @@
 		  	<c:param name="contractId" value="${form.param.contractId}"/>
 		  	<c:param name="taskComment" value="${task.getComment()}"/>
 		  </c:url>
-	      $taskEditorTabs.tabs( "add", "${url}", "Комментарий" );	      
+	      $taskEditorTabs.tabs( "add", "${url}", "Комментарий" );
 
 	      <c:url var="url" value="empty.do">
 	      	<c:param name="forwardFile" value="/WEB-INF/jspf/user/plugin/bgbilling/crm/task/task_resolution.jsp"/>
@@ -28,13 +28,13 @@
 	      <c:url var="url" value="empty.do">
 	      	<c:param name="forwardFile" value="/WEB-INF/jspf/user/plugin/bgbilling/crm/task/task_log.jsp"/>
 	      	<c:param name="billingId" value="${form.param.billingId}"/>
-		  	<c:param name="contractId" value="${form.param.contractId}"/>	
+		  	<c:param name="contractId" value="${form.param.contractId}"/>
 		  	<c:param name="logOpen" value="${task.getLog().getOpen()}"/>
 		  	<c:param name="logClose" value="${task.getLog().getClose()}"/>
 		  	<c:param name="logAccept" value="${task.getLog().getAccept()}"/>
 		  	<c:param name="logLastModify" value="${task.getLog().getLastModify()}"/>
 		  </c:url>
-	      $taskEditorTabs.tabs( "add", "${url}", "Лог" );	      
+	      $taskEditorTabs.tabs( "add", "${url}", "Лог" );
 
      });
 </script>
@@ -92,15 +92,15 @@
 							<td>
 								 <c:set var="uiid" value="${u:uiid()}" />
 								 <input	type="text" style="width: 100%" name="targetDate" value="${task.getTargetDateTime()}" id="${uiid}" />
-								 <c:set	var="selector" value="#${uiid}" /> 
-								 <c:set var="type" value="ymdhm" /> 
+								 <c:set	var="selector" value="#${uiid}" />
+								 <c:set var="type" value="ymdhm" />
 								 <%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 							</td>
 							<td>
-								<c:set var="uiid" value="${u:uiid()}" /> 
-								<input type="text" style="width: 100%" name="executeDate" value="${task.getExecuteDate()}" id="${uiid}" /> 
-								<c:set var="selector" value="#${uiid}" /> 
-								<c:set var="type" value="ymd" /> 
+								<c:set var="uiid" value="${u:uiid()}" />
+								<input type="text" style="width: 100%" name="executeDate" value="${task.getExecuteDate()}" id="${uiid}" />
+								<c:set var="selector" value="#${uiid}" />
+								<c:set var="type" value="ymd" />
 								<%@ include	file="/WEB-INF/jspf/datetimepicker.jsp"%>
 							</td>
 						</tr>
@@ -161,7 +161,7 @@
 											bgbilling_getRegistredExecutors('${form.param.billingId}-${form.param.contractId}-registerExecutorList','${form.param.billingId}',$('select[name=registerGroupId]:visible').children(':selected').val(),${executors});
 										</script>
 									</div>
-									</br> 
+									</br>
 									<input type="button" value="Все" onclick="$('input[name=executor]:visible').attr('checked',true);" />
 									<input type="button" value="Сброс" onclick="$('input[name=executor]:visible').attr('checked',false)" />
 									<input type="button" value="Инвертировать" onclick="$('input[name=executor]:visible').each( function() { $(this).attr('checked', !$(this).attr('checked')); });" />
@@ -174,14 +174,14 @@
 		</table>
 
 		<input type="hidden" name="action" value="updateRegisterTask" />
-		<input type="hidden" name="billingId" value="${form.param.billingId }" /> 
+		<input type="hidden" name="billingId" value="${form.param.billingId }" />
 		<input type="hidden" name="contractId" value="${form.param.contractId }" />
 		<input type="hidden" name="taskComment" value="${ task.getComment() }" />
 		<input type="hidden" name="taskResolution" value="${ task.getResolution() }" />
-		
+
 		<c:set var="crmTabs" value="crmTabs-${form.param.billingId}-${form.param.contractId}-Tabs"/>
-		<input type="button" value="OK" onClick="if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlTo('${form.param.returnUrl}',$(this.form).parent());}" />
-		<input type="button" value="Отмена"	onClick="openUrlTo('${form.param.returnUrl}',$(this.form).parent())" />
+		<input type="button" value="OK" onClick="if( sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.param.returnUrl}',$(this.form).parent());}" />
+		<input type="button" value="Отмена"	onClick="$$.ajax.load('${form.param.returnUrl}',$(this.form).parent())" />
 	</form>
 </div>
 

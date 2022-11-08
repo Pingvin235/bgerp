@@ -5,22 +5,22 @@
 	<tr class="header">
 		<td colspan="7" nowrap="nowrap">
 		Cессии логина ${form.param.login}
-		<button style="border:none; background:transparent; cursor: pointer; text-decoration:underline;" 
-			onclick="$('#${form.param.uiid}sessionErrorList').empty();">[закрыть]</button> 
+		<button style="border:none; background:transparent; cursor: pointer; text-decoration:underline;"
+			onclick="$('#${form.param.uiid}sessionErrorList').empty();">[закрыть]</button>
 		</br>
-		Активные 
+		Активные
 		</td>
 	</tr>
-	
+
 	<tr class="header">
 		<td>Начало</td>
 		<td>Окончание</td>
 		<td>Время</td>
-		<td>IP адрес</td>		
+		<td>IP адрес</td>
 		<td>С номера / На номер</td>
 		<td>RADIUS</td>
-	</tr>	
-	
+	</tr>
+
 	<c:forEach var="dialUpSession" items="${form.response.data.activeSessionList}">
         <c:set var="activeSessionStyle" value=""/>
         <c:if test="${dialUpSession.active eq 'true'}">
@@ -35,7 +35,7 @@
     		<td>${dialUpSession['sessionTime']}</td>
     		<td>${dialUpSession['ipAddress'].getHostAddress()}</td>
     		<td>${dialUpSession['fromNumber']} / ${dialUpSession['toNumber']}</td>
-    	
+
     		<c:url var="radiusLogUrl" value="plugin/bgbilling/proto/dialup.do">
     			<c:param name="action" value="radiusLog" />
     			<c:param name="splitter" value="</br>" />
@@ -44,9 +44,9 @@
     			<c:param name="sessionStart" value="${dialUpSession['sessionStart']}" />
     			<c:param name="sessionId" value="${dialUpSession['radiusLogId']}" />
     			<c:param name="contractId" value="${form.param.contractId}" />
-    		</c:url> 							
-    		<td nowrap="nowrap">									
-    			<input type="button"  value="Show Log" onclick="if($('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog').children().size()<=0) {openUrlTo('${radiusLogUrl}', $('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog') );} else {$('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog').toggle();} " />
+    		</c:url>
+    		<td nowrap="nowrap">
+    			<input type="button"  value="Show Log" onclick="if($('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog').children().size()<=0) {$$.ajax.load('${radiusLogUrl}', $('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog') );} else {$('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog').toggle();} " />
     			<c:if test="${dialUpSession.active eq 'true' }">
     				<c:url var="terminateSessionUrl" value="plugin/bgbilling/proto/dialup.do">
     					<c:param name="action" value="terminateSession" />
@@ -63,11 +63,11 @@
 		<tr style="border-spacing:0px;">
 			<td colspan="6" style="padding: 0em;">
 				<div id="${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog">
-				</div>	
+				</div>
 			</td>
 		</tr>
 	</c:forEach>
-	
+
 	<tr class="header">
 		<td colspan="6" nowrap="nowrap">За последние ${form.param.sessionDays} суток.
 
@@ -79,10 +79,10 @@
 				<input type="hidden" name="loginId" value="${form.param.loginId}"/>
 				<input type="hidden" name="login" value="${form.param.login}"/>
 				<input type="hidden" name="uiid" value="${form.param.uiid}"/>
-				
+
 				Показать сессии за:
-				
-				<select name="sessionDays" onchange="openUrlTo(formUrl( this.form), $('#${form.param.uiid}sessionErrorList') );scrollToElementById('${form.param.uiid}sessionErrorList');">
+
+				<select name="sessionDays" onchange="$$.ajax.load(this.form, $('#${form.param.uiid}sessionErrorList') );scrollToElementById('${form.param.uiid}sessionErrorList');">
 				  <option disabled selected style='display:none;'>...</option>
 				  <option>1</option>
 				  <option>7</option>
@@ -90,20 +90,20 @@
 				  <option>21</option>
 				  <option>28</option>
 				</select>
-				
+
 				суток.
-			</form>							
+			</form>
 		</td>
 	</tr>
 	<tr class="header">
 		<td>Начало</td>
 		<td>Окончание</td>
 		<td>Время</td>
-		<td>IP адрес</td>		
+		<td>IP адрес</td>
 		<td>С номера / На номер</td>
 		<td>RADIUS</td>
 	</tr>
-	
+
 	<c:forEach var="dialUpSession" items="${form.response.data.sessionList}">
 		<tr align="center">
 			<fmt:formatDate value="${dialUpSession['sessionStart']}" var="sessionStart" pattern="dd.MM.yyyy HH:mm:ss"/>
@@ -113,7 +113,7 @@
 			<td>${dialUpSession['sessionTime']}</td>
 			<td>${dialUpSession['ipAddress'].getHostAddress()}</td>
 			<td>${dialUpSession['fromNumber']} / ${dialUpSession['toNumber']}</td>
-		
+
 			<c:url var="radiusLogUrl" value="/user/plugin/bgbilling/proto/dialup.do">
 				<c:param name="action" value="radiusLog" />
 				<c:param name="splitter" value="</br>" />
@@ -122,17 +122,17 @@
 				<c:param name="sessionStart" value="${dialUpSession['sessionStart']}" />
 				<c:param name="sessionId" value="${dialUpSession['radiusLogId']}" />
 				<c:param name="contractId" value="${form.param.contractId}" />
-			</c:url> 							
-			<td>									
-				<input type="button" style="width: 100%" value="Show Log" onclick="if($('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog').children().size()<=0) {openUrlTo('${radiusLogUrl}', $('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog') );} else {$('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog').toggle();} " />
+			</c:url>
+			<td>
+				<input type="button" style="width: 100%" value="Show Log" onclick="if($('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog').children().size()<=0) {$$.ajax.load('${radiusLogUrl}', $('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog') );} else {$('#${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog').toggle();} " />
 			</td>
 		</tr>
 		<tr style="border-spacing:0px;">
 			<td colspan="6" style="padding: 0em;">
 				<div id="${form.param.contractId}-${dialUpSession['radiusLogId']}-radiusLog">
-				</div>	
+				</div>
 			</td>
 		</tr>
 	</c:forEach>
-		
+
 </table>

@@ -60,9 +60,7 @@
 </div>
 
 <script>
-	$(function() {
-		openUrlTo( formUrl( $('#processQueueShow > #processQueueFilter') ), $('#processQueueData') );
-	})
+	$$.ajax.load($('#processQueueShow > #processQueueFilter'), $('#processQueueData') );
 </script>
 
 

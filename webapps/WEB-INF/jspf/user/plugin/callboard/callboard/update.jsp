@@ -507,7 +507,7 @@
 						<c:set var="style" value="width: 100%;"/>
 						<c:set var="onSelect">
 							var url = '/user/plugin/callboard/work.do?action=callboardAvailableShift&categoryId=' + $hidden.val();
-							openUrlTo( url, $('#${uiid} #shiftArea') );
+							$$.ajax.load( url, $('#${uiid} #shiftArea') );
 						</c:set>
 						<%@ include file="/WEB-INF/jspf/select_single.jsp"%>
 					</u:sc>

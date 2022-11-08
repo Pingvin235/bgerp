@@ -15,7 +15,7 @@
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
 		</c:url>
 
-		<select name="categoryId" onchange="openUrlTo('${url}&minimalVersion=${minimalVersion}&categoryId=' + $( this ).find( 'option:selected' ).val(), $('div#shiftChooseTable${uiid}').children( 'table' ).first(), '' );">
+		<select name="categoryId" onchange="$$.ajax.load('${url}&minimalVersion=${minimalVersion}&categoryId=' + $( this ).find( 'option:selected' ).val(), $('div#shiftChooseTable${uiid}').children( 'table' ).first(), '' );">
 			<option value="0">Не выбрано</option>
 			<c:forEach var="item" items="${allowOnlyCategories}">
 				<option value="${item.id}">${item.title}</option>

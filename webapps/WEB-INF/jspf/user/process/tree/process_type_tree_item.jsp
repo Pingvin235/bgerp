@@ -25,7 +25,7 @@
 			</c:url>
 
 			<c:if test="${not empty processTypeTree}">
-				<c:set var="afterSelectCommand" value="openUrlTo('${requestUrl}', $('#${processTypeTree}').find('div[id=additionalParamsSelect]'));"/>
+				<c:set var="afterSelectCommand" value="$$.ajax.load('${requestUrl}', $('#${processTypeTree}').find('div[id=additionalParamsSelect]'));"/>
 			</c:if>
 
 			<span id="${node.id}_title" onclick="processTypeTreeNodeSelected( this, ${node.id}); ${afterSelectCommand}">

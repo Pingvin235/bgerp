@@ -9,50 +9,50 @@
 			<input type="hidden" name="action" value="parameterList"/>
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
-			
+
 			<u:sc>
 				<c:set var="valuesHtml">
 					<li value="0">Да</li>
-					<li value="1">Нет</li>			
+					<li value="1">Нет</li>
 				</c:set>
 				<c:set var="hiddenName" value="showEmptyParameters"/>
 				<c:set var="value" value="${form.param.showEmptyParameters}"/>
 				<c:set var="prefixText" value="Только заполненные:"/>
 				<c:set var="widthTextValue" value="20px"/>
-				<c:set var="onSelect" value="openUrlTo( formUrl( $hidden.closest('form') ), $('#${listUiid}') );"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
+				<c:set var="onSelect" value="$$.ajax.load(this.form, $('#${listUiid}'));"/>
+				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 			</u:sc>
-			
+
 			<u:sc>
 				<c:set var="valuesHtml">
 					<li value="1">Да</li>
-					<li value="0">Нет</li>			
+					<li value="0">Нет</li>
 				</c:set>
 				<c:set var="hiddenName" value="onlyFromGroup"/>
 				<c:set var="value" value="${form.param.onlyFromGroup}"/>
 				<c:set var="prefixText" value="Только из группы:"/>
 				<c:set var="widthTextValue" value="20px"/>
-				<c:set var="onSelect" value="openUrlTo( formUrl( $hidden.closest('form') ), $('#${listUiid}') );"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
+				<c:set var="onSelect" value="$$.ajax.load(this.form, $('#${listUiid}'));"/>
+				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 			</u:sc>
-		</form>	
+		</form>
 		<form action="/user/plugin/bgbilling/proto/contract.do" class="mb1 in-mr1" style="display: inline-block;">
 			<input type="hidden" name="action" value="parameterGroupUpdate"/>
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
-				
+
 			<u:sc>
 				<c:set var="list" value="${form.response.data.group.values}"/>
 				<c:set var="hiddenName" value="paramGroupId"/>
 				<c:set var="value" value="${form.response.data.group.id}"/>
 				<c:set var="prefixText" value="Группа параметров (изменить):"/>
 				<c:set var="widthTextValue" value="150px"/>
-				<c:set var="onSelect" value="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ openUrlTo( '${form.requestUrl}', $('#${listUiid}') ); }"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>	
+				<c:set var="onSelect" value="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${listUiid}')); }"/>
+				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 			</u:sc>
-		</form>	
+		</form>
 	</c:if>
-	
+
 	<c:if test="${not empty form.response.data.contractParameterList}">
 		<table class="hdata" width="100%">
 			<c:if test="${empty onlyData}">
@@ -63,7 +63,7 @@
 				</tr>
 			</c:if>
 			<c:forEach var="contractParameter" items="${form.response.data.contractParameterList}">
-				<c:if test="${form.param.showEmptyParameters eq 1 or not empty contractParameter.value or contractParameter.paramType eq 10}">	
+				<c:if test="${form.param.showEmptyParameters eq 1 or not empty contractParameter.value or contractParameter.paramType eq 10}">
 					<tr>
 						<c:choose>
 	    					<c:when test="${contractParameter.paramType eq 10}">
@@ -83,10 +83,10 @@
 											<input type="hidden" name="paramType" value="${contractParameter.paramType}"/>
 											<input type="hidden" name="value" value="${fn:escapeXml( contractParameter.value )}"/>
 											<input type="hidden" name="returnUrl" value="${form.requestUrl}" />
-																	
-											<a href="#" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') ); return false;">${fn:escapeXml( contractParameter.value )}</a>
+
+											<a href="#" onclick="$$.ajax.load($(this).parent(), $('#${viewEditDivId}') ); return false;">${fn:escapeXml( contractParameter.value )}</a>
 											<c:if test="${empty contractParameter.getValue()}">
-												<a href="#" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') ); return false;">не указан</a>
+												<a href="#" onclick="$$.ajax.load($(this).parent(), $('#${viewEditDivId}') ); return false;">не указан</a>
 											</c:if>
 										</form>
 									</div>

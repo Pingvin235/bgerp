@@ -24,16 +24,16 @@
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
 </c:url>
- 	
+
 	<c:set var="type" value="ymd"/>
 	<b>Рекомендуемая сумма по </b></b><input type="text" value="${dateTo}" id="${uiid}-dateTo"/>
 	<c:set var="selector" value="#${uiid}-dateTo"/>
 	<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 
-	<input type="button" value="Обновить" onclick="openUrlTo('${url}'+'&dateFrom='+$('#${uiid}-dateFrom').val()+'&dateTo='+$('#${uiid}-dateTo').val(), $('#${uiid}'));"/>
+	<input type="button" value="Обновить" onclick="$$.ajax.load('${url}'+'&dateFrom='+$('#${uiid}-dateFrom').val()+'&dateTo='+$('#${uiid}-dateTo').val(), $('#${uiid}'));"/>
 
 <div style="vertical-align:top;align:right;" id="${uiid}">
 	<script>
-		openUrlTo('${url}'+'&dateTo='+$('#${uiid}-dateTo').val(), $('#${uiid}'));
+		$$.ajax.load('${url}'+'&dateTo='+$('#${uiid}-dateTo').val(), $('#${uiid}'));
 	</script>
 </div>

@@ -7,8 +7,8 @@
 			<input type="hidden" name="billingId" value="${form.param.billingId }" />
 			<input type="hidden" name="contractId" value="${form.param.contractId }" />
 			<input type="hidden" name="objectId" value="${form.param.objectId }" />
-		    <input type="checkbox" name="showEmptyParameters" value="true" <c:if test="${form.param.showEmptyParameters }">checked</c:if> 
-				    onclick="openUrlTo( formUrl( $(this).parent() ), $('#${form.param.billingId }-${form.param.contractId }-objectParametersInfo') );"/>
+		    <input type="checkbox" name="showEmptyParameters" value="true" <c:if test="${form.param.showEmptyParameters }">checked</c:if>
+				    onclick="$$.ajax.load($(this).parent(), $('#${form.param.billingId }-${form.param.contractId }-objectParametersInfo') );"/>
 				    Показать незаполненные параметры</br>
 	</form>
 
@@ -18,9 +18,9 @@
 			<td width="35%">Параметр</td>
 			<td width="60%">Значение</td>
 		</tr>
-		
+
 		<c:forEach var="parameter" items="${form.response.data.parameterList}">
-			<c:if test="${ form.param.showEmptyParameters and empty parameter.getValue() or not empty parameter.getValue() }">	
+			<c:if test="${ form.param.showEmptyParameters and empty parameter.getValue() or not empty parameter.getValue() }">
 				<tr>
 					<td align="center">${parameter.getParamId()}</td>
 					<td nowrap="nowrap">${parameter.getTitle() }</td>
@@ -34,10 +34,10 @@
 								<input type="hidden" name="objectId" value="${ form.param.objectId }" />
 								<input type="hidden" name="paramId" value="${parameter.getParamId()}" />
 								<input type="hidden" name="returnUrl" value="${form.requestUrl}" />
-														
-								<a href="#" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') )">${parameter.getValue() }</a>
+
+								<a href="#" onclick="$$.ajax.load($(this).parent(), $('#${viewEditDivId}') )">${parameter.getValue() }</a>
 								<c:if test="${empty parameter.getValue()}">
-									<a href="#" onclick="openUrlTo( formUrl( $(this).parent()), $('#${viewEditDivId}') )">не указан</a>
+									<a href="#" onclick="$$.ajax.load($(this).parent(), $('#${viewEditDivId}') )">не указан</a>
 								</c:if>
 							</form>
 						</div>

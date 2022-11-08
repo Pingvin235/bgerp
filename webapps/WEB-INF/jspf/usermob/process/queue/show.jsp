@@ -3,29 +3,29 @@
 
 <c:set var="showEditor">$('#processQueueShow').hide(); $('#processQueueEditProcess').show();</c:set>
 <c:set var="editProcessCommand">
-	openUrlTo( 'process.do?id=' + PROCESS_ID + '&wizard=1', $('#processQueueEditProcess') ); ${showEditor};
+	$$.ajax.load('process.do?id=' + PROCESS_ID + '&wizard=1', $('#processQueueEditProcess')); ${showEditor};
 </c:set>
 
 <script>
 	$(function()
 	{
 		var $dataTable = $('#processQueueData > table.data');
-		
+
 		var callback = function( $clicked )
 		{
 			var $row = $clicked;
-			
+
 			var processId = $row.attr( 'processId' );
 			if( processId )
 			{
-				${fn:replace(editProcessCommand, 'PROCESS_ID', 'processId')}	
+				${fn:replace(editProcessCommand, 'PROCESS_ID', 'processId')}
 			}
 			else
 			{
 				alert( 'Не найден атрибут строки processId!' );
 			}
-		}; 
-		
+		};
+
 		doOnClick( $dataTable, 'tr:gt(0)', callback );
 	});
 </script>

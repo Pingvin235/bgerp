@@ -35,13 +35,13 @@
 			<td>
 				<h2>&nbsp;</h2>
 				<button type="button" class="btn-grey ml1"
-					onclick="openUrlTo(formUrl(this.form),$('#${uiid}').parent());">Активировать</button>
+					onclick="$$.ajax.load(this.form, $('#${uiid}').parent());">Активировать</button>
 			</td>
 		</tr>
 	</table>
 
 	<c:set var="sUrl">'${url}'+'&serviceId='+$("input[name='sid']").val()+'&cardCode='+$('#${uiid}_card').val()+'&pinCode='+$('#${uiid}_pin').val()</c:set>
-	<c:set var="script">openUrlTo(${sUrl}, $('#${uiid}').parent() )</c:set>
+	<c:set var="script">$$.ajax.load(${sUrl}, $('#${uiid}').parent())</c:set>
 	<table class="hdata mt1" width="100%">
 		<tr>
 			<td class="header" colspan="4"">Тип карт: <ui:combo-single

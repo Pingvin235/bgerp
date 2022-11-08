@@ -11,63 +11,63 @@
 		<html:hidden property="action" value="generateDocument"/>
 		<html:hidden property="objectType"/>
 		<html:hidden property="objectId"/>
-		
+
 		<c:if test="${not empty patternList}">
-			<div style="width: 100%;">	
-				<c:set var="selectUiid" value="${u:uiid()}"/>				
+			<div style="width: 100%;">
+				<c:set var="selectUiid" value="${u:uiid()}"/>
 				<c:set var="saveUiid" value="${u:uiid()}"/>
 				<c:set var="streamUiid" value="${u:uiid()}"/>
 				<c:set var="dynamParamDivUiid" value="${u:uiid()}"/>
-				
+
 				<c:set var="onChangeCode">
 					var $selected = $('#${selectUiid}').find('li[selected]');
 					if( $selected.length > 0 )
 					{
-						openUrlTo( 'empty.do?patternId='+$selected.val()+'&forwardFile=' + '/WEB-INF/jspf/user/plugin/document/additional_parameters.jsp' , $('#${dynamParamDivUiid}') );
-						
+						$$.ajax.load( 'empty.do?patternId='+$selected.val()+'&forwardFile=' + '/WEB-INF/jspf/user/plugin/document/additional_parameters.jsp' , $('#${dynamParamDivUiid}') );
+
 						$('#${saveUiid}').toggle($selected.attr('save') == 'true');
 						$('#${streamUiid}').toggle($selected.attr('stream') == 'true');
-					}	
+					}
 				</c:set>
-				
-				<ui:combo-single 
+
+				<ui:combo-single
 					id="${selectUiid}" hiddenName="patternId"
 					prefixText="Шаблон:" style="width: 100%;"
 					onSelect="${onChangeCode}">
 					<jsp:attribute name="valuesHtml">
 						<c:forEach var="item" items="${patternList}">
 							<li value="${item.id}" save="${item.resultSave}" stream="${item.resultStream}">${item.title}</li>
-						</c:forEach>					
+						</c:forEach>
 					</jsp:attribute>
 				</ui:combo-single>
 			</div>
-		</c:if>		
-				
+		</c:if>
+
 		<div id ="${dynamParamDivUiid}" style="white-space: nowrap;">
 			<!-- сюда динамически подгружается форма доп параметров -->
 		</div>
-				
+
 		<div class="pl1" style="white-space: nowrap;">
 			<button type="button" class="btn-green" id="${saveUiid}"
 				title="Сгенерировать документ с сохранением"
-				onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlToParent( '${form.requestUrl}', $('#${uiid}') ) };" 
+				onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlToParent( '${form.requestUrl}', $('#${uiid}') ) };"
 				style="display: none;">+</button>
-			
+
 			<c:set var="script">
 				var debug = '';
 				// Alt нажат
 				if (bgcrm.keys.altPressed()) {
-					debug = '&debug=true';	
+					debug = '&debug=true';
 				}
 				window.open( formUrl(this.form) + '&responseType=stream' + debug, 'Print', 'menubar=1, scrollbars=1, height=800, width=800' );
 			</c:set>
-				
+
 			<button type="button" class="btn-grey" id="${streamUiid}"
 				title="Сгенерировать документ 'на лету', без сохранения"
 				onclick="${script}"
 				style="display: none;">=&gt;</button>
 		</div>
-	</html:form>		
+	</html:form>
 
 	<p:check action="ru.bgcrm.plugin.document.struts.action.DocumentAction:uploadDocument">
 		<form id="${uploadFormId}" action="/user/plugin/document/document.do" method="POST" enctype="multipart/form-data" name="form">
@@ -78,7 +78,7 @@
 			<input type="hidden" name="objectId" value="${form.param.objectId}"/>
 			<div style="display: none; max-width: 0; max-height: 0;">
 				<input type="file" name="file" style="visibility:hidden; display: none;"/>
-			</div>	
+			</div>
 			<button type="button" class="btn-green ml1" onclick="$$.ajax.triggerUpload('${uploadFormId}');" title="Загрузить документ">+?</button>
 		</form>
 	</p:check>
@@ -111,18 +111,18 @@
 			<c:param name="id" value="${item.id}"/>
 			<c:param name="fileId" value="${item.fileData.id}"/>
 			<c:param name="fileSecret" value="${item.fileData.secret}"/>
-			
+
 			<c:param name="scope" value="${form.param['scope']}"/>
 			<c:param name="objectType" value="${form.param['objectType']}"/>
 			<c:param name="objectId" value="${form.param['objectId']}"/>
 		</c:url>
 		<c:set var="deleteAjaxCommandAfter">openUrlToParent( '${form.requestUrl}', $('#${uiid}') )</c:set>
-		
+
 		<tr>
 			<td>${item.id}</td>
 			<td><a href="${url}" target="_blank">${item.fileData.title}</a></td>
 			<td><fmt:formatDate value="${item.fileData.time}" type="both"/></td>
 			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
 		</tr>
-	</c:forEach>	
+	</c:forEach>
 </table>

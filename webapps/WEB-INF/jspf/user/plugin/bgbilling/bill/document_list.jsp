@@ -11,23 +11,23 @@
 	<html:hidden property="moduleId"/>
 	<html:hidden property="contractId"/>
 	<html:hidden property="mode"/>
-	
+
 	<c:choose>
 		<c:when test="${form.param.mode eq 'bill'}">
 			<c:set var="btnStyleBill" value="btn-blue"/>
-			<c:set var="btnStyleInvoice" value="btn-white"/>			
+			<c:set var="btnStyleInvoice" value="btn-white"/>
 		</c:when>
 		<c:otherwise>
 			<c:set var="btnStyleBill" value="btn-white"/>
 			<c:set var="btnStyleInvoice" value="btn-blue"/>
 		</c:otherwise>
-	</c:choose>	
-	
-	<c:set var="sendForm">openUrlTo( formUrl( $('#${formUiid}') ), $('#${formUiid}').parent());</c:set>
-	
+	</c:choose>
+
+	<c:set var="sendForm">$$.ajax.load($('#${formUiid}'), $('#${formUiid}').parent());</c:set>
+
 	<button type="button" class="${btnStyleBill}" onclick="this.form.mode.value='bill'; ${sendForm}">Счета</button>
 	<button type="button" class="ml1 ${btnStyleInvoice}" onclick="this.form.mode.value='invoice'; ${sendForm}">Счета-фактуры, акты</button>
-	
+
 	<c:set var="nextCommand" value=";${sendForm}" scope="request"/>
 	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
 </html:form>
@@ -42,7 +42,7 @@
 <c:url var="setPayedUrl" value="/user/plugin/bgbilling/proto/bill.do">
 	<c:param name="action" value="setPayed"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
-	<c:param name="moduleId" value="${form.param.moduleId}"/>	
+	<c:param name="moduleId" value="${form.param.moduleId}"/>
 </c:url>
 
 <table class="mt1 data" style="width: 100%;">
@@ -54,7 +54,7 @@
 						pageContext.setAttribute( "currentDay", new Date() );
 						pageContext.setAttribute( "prevDay", TimeUtils.getPrevDay( new Date() ) );
 					%>
-				
+
 					&nbsp;
 					<div style="max-height: 0px; max-width: 0px;">
 						<c:set var="uiid" value="${u:uiid()}"/>
@@ -63,17 +63,17 @@
 							<li><a href="#" date="${tu.format( prevDay, 'dd.MM.yyyy' )}">Оплачено вчера (${tu.format( prevDay, 'dd.MM E')})</a></li>
 							<li><a href="#" date="select">Оплачено на дату</a></li>
 							<li><a href="#">Не оплачено</a></li>
-						</ul>						
-					</div>	
-					
+						</ul>
+					</div>
+
 					<script>
 						$(function()
 						{
 							var $menu = $('#${uiid}').menu().hide();
-							 
+
 							var $datepickerHidden = null;
-							var bill = null;							
-														
+							var bill = null;
+
 							var setPayed = function( date )
 							{
 								var $dlg = $( "<div class=\"in-mt05\">\
@@ -82,7 +82,7 @@
 									<button type=\"button\" class=\"btn-grey\" id=\"ok\">OK</button>\
 									<button type=\"button\" class=\"btn-grey ml1\" id=\"cancel\">Отмена</button>\
 								</div>" );
-								
+
 								if( date )
 								{
 									var $dialog = $dlg.dialog({
@@ -97,13 +97,13 @@
 									    	$dlg.remove();
 									    }
 									});
-									
+
 									$dlg.find( "button#ok" ).click( function()
 									{
 										var summa = $dlg.find( "input[name=summa]" ).text();
 										var comment = $dlg.find( "input[name=comment]" ).text();
 										var ids = bill.id;
-										
+
 										var url = '${setPayedUrl}&ids=' + ids + '&summa=' + summa + '&comment' + comment +'&date=' + date;
 										if( sendAJAXCommand( url ) )
 										{
@@ -111,7 +111,7 @@
 											${sendForm}
 										}
 									});
-									
+
 									$dlg.find( "button#cancel" ).click( function()
 									{
 										$dlg.dialog( "close" );
@@ -126,7 +126,7 @@
 									}
 								}
 							};
-							
+
 							$('#${uiid}').closest('table').find('button.menu').click( function()
 							{
 								$menu.show().position({
@@ -134,7 +134,7 @@
 									at: "left bottom",
 									of: this
 								});
-								
+
 								var $row = $(this).closest( "tr" );
 								bill = {
 									id: $row.find('td:eq(1)').text(),
@@ -142,27 +142,27 @@
 									date: $row.find('td:eq(4)').text(),
 									summa: $row.find('td:eq(10)').text(),
 								};
-								
+
 								$datepickerHidden = $(this).next("input");
-																				 
-								$(document).one( "click", function() 
+
+								$(document).one( "click", function()
 								{
 									$menu.hide();
 								});
-												 
+
 								return false;
 							});
-							
+
 							$('#${uiid}').find('a').click( function()
 							{
 								var date = $(this).attr('date');
-								
+
 								if( date )
 								{
 									if( date == 'select' )
 									{
 										$datepickerHidden.datepicker
-										({ 
+										({
 											buttonImage: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
 									        buttonImageOnly: true,
 											showOn: "both",
@@ -174,7 +174,7 @@
 											{
 												$(inst.dpDiv).css( 'left', (($(window).width() - $(inst.dpDiv).outerWidth()) / 2) + $(window).scrollLeft() + "px" );
 												$(inst.dpDiv).css( 'top', $('#${uiid}').parent().offset().top );
-											}											
+											}
 										}).datepicker( 'show' );
 									}
 									else
@@ -186,13 +186,13 @@
 								{
 									setPayed();
 								}
-								
+
 								$menu.hide();
 								return false;
 							});
 						})
 					</script>
-				</td>				
+				</td>
 				<td>ID</td>
 				<td>Год.Месяц</td>
 				<td>Номер</td>
@@ -202,13 +202,13 @@
 				<td>Создал</td>
 				<td nowrap="nowrap">Дата оплаты</td>
 				<td nowrap="nowrap">Отметил оплату</td>
-				<td>Сумма</td>				
+				<td>Сумма</td>
 			</tr>
 			<c:forEach var="item" items="${form.response.data.list}">
 				<tr>
 					<td>
 						<button type="button" class="btn-white btn-small menu" title="Меню" billId="${item.id}">*</button>
-						<input type="hidden" name="date"/>						
+						<input type="hidden" name="date"/>
 					</td>
 					<c:url var="url" value="${baseUrl}">
 						<c:param name="ids" value="${item.id}"/>
@@ -234,7 +234,7 @@
 				<td nowrap="nowrap">Дата создания</td>
 				<td width="100%">Тип</td>
 				<td nowrap="nowrap">Показать в ЛК</td>
-				<td>Сумма</td>				
+				<td>Сумма</td>
 			</tr>
 			<c:forEach var="item" items="${form.response.data.list}">
 				<tr>
