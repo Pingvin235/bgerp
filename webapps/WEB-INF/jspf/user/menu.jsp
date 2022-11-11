@@ -2,14 +2,14 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <ui:menu-item ltitle="Поиск" href="search" icon="ti-search"
-	action="ru.bgcrm.struts.action.SearchAction" command="/user/search.do" />
+	action="ru.bgcrm.struts.action.SearchAction:null" command="/user/search.do" />
 
 <ui:menu-item ltitle="Новости" href="news" icon="ti-bell"
 	action="ru.bgcrm.struts.action.NewsAction:newsList"
 	command="/user/news.do?action=newsList&read=0" />
 
 <ui:menu-item ltitle="Адреса" href="directory/address" icon="ti-book"
-	action="ru.bgcrm.struts.action.DirectoryAddressAction"
+	action="ru.bgcrm.struts.action.DirectoryAddressAction:null"
 	command="/user/directory/address.do" />
 
 <ui:menu-item ltitle="Сообщения" href="message/queue" icon="ti-email"
@@ -35,10 +35,10 @@
 </ui:menu-group>
 
 <ui:menu-item title="Log" href="log" icon="ti-receipt"
-	action="ru.bgcrm.struts.action.LogAction" command="/user/log.do" />
+	action="ru.bgcrm.struts.action.LogAction:null" command="/user/log.do" />
 
 <ui:menu-item title="Test" href="test" hidden="true"
-	action="org.bgerp.action.TestAction" command="/user/test.do" />
+	action="org.bgerp.action.TestAction:null" command="/user/test.do" />
 
 <plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_MENU_ITEMS%>"/>
 
@@ -52,7 +52,7 @@
 		command="/admin/config.do?action=list" />
 
 	<ui:menu-item ltitle="Параметры" href="admin/param" icon="ti-palette"
-		action="ru.bgcrm.struts.action.admin.DirectoryAction"
+		action="ru.bgcrm.struts.action.admin.DirectoryAction:null"
 		command="/admin/directory.do" />
 
 	<ui:menu-group ltitle="Пользователи" icon="ti-user">
@@ -84,11 +84,11 @@
 	</ui:menu-group>
 
 	<ui:menu-item ltitle="Выполнить" href="admin/run" icon="ti-rocket"
-		action="org.bgerp.action.admin.RunAction"
+		action="org.bgerp.action.admin.RunAction:null"
 		command="/admin/run.do" />
 
 	<ui:menu-item title="Custom" href="admin/custom" icon="ti-hummer"
-		action="org.bgerp.action.admin.CustomAction"
+		action="org.bgerp.action.admin.CustomAction:null"
 		command="/admin/custom.do" />
 
 	<c:if test="${ctxUser.personalizationMap.get('iface.dyncode') eq '1'}">

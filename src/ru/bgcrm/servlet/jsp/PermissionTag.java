@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.core.ConditionalTagSupport;
 
 import org.bgerp.servlet.filter.AuthFilter;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.model.user.User;
 
@@ -13,6 +14,8 @@ import ru.bgcrm.model.user.User;
  * @author Shamil Vakhitov
  */
 public class PermissionTag extends ConditionalTagSupport {
+    private static final Log log = Log.getLog();
+
     private String action;
 
     public PermissionTag() {
@@ -31,6 +34,10 @@ public class PermissionTag extends ConditionalTagSupport {
     }
 
     public void setAction(String value) {
+        if (!value.contains(":")) {
+            log.warn("Not complete action identifier was used: '{}'", value);
+            value = value + ":null";
+        }
         action = value;
     }
 

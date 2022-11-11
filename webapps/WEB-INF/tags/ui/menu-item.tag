@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="href" description="URL"%>
-<%@ attribute name="action" description="Action class"%>
+<%@ attribute name="action" description="Action identifier"%>
 <%@ attribute name="command" description="Command"%>
 <%@ attribute name="title" description="Title"%>
 <%@ attribute name="ltitle" description="Title to be localized"%>
