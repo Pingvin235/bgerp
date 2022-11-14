@@ -17,28 +17,37 @@ public class ChartPie extends Chart2D {
     public Object json(Localizer l, Data data) {
         final var chart = MAPPER.createObjectNode();
 
-        chart.putObject("tooltip")/* .put("trigger", "item") */;
-        chart.putObject("legend").put("top", "5%").put("left", "center");
+        chart.putObject("tooltip");
+        chart.putObject("legend")
+            .put("top", "5%")
+            .put("left", "center");
+        chart.putObject("title")
+            .put("text", getTitle(l));
 
         final var series = chart.putObject("series");
-        chart.putObject("title").put("text", getTitle(l));
+
+        colors(series);
+
         series
             .put("type", "pie")
-            .putArray("radius").add("40%").add("70%");
-        series.put("avoidLabelOverlap", false);
-        series.putObject("itemStyle")
-            .put("borderRadius", 10).put("borderColor", "#fff").put("borderWidth", 2);
+            .put("radius", "40%")
+            .put("avoidLabelOverlap", false);
         series.putObject("label")
-            .put("show", false).put("position", "center");
+            .put("show", true)
+            .put("formatter", "{b}: {c} ({d}%)");
         series.putObject("emphasis").putObject("label")
-            .put("show", true).put("fontSize", "1.2em").put("fontWeight", "bold");
-        series.putObject("labelLine").put("show", false);
+            .put("show", true)
+            .put("fontSize", "1.2em")
+            .put("fontWeight", "bold");
+        series.putObject("labelLine")
+            .put("show", true);
 
         final var seriesData = series.putArray("data");
 
         for (var me : prepareData(data).entrySet()) {
             seriesData.addObject()
-                .put("name", me.getKey()).put("value", me.getValue());
+                .put("name", me.getKey())
+                .put("value", me.getValue());
         }
 
         return chart;

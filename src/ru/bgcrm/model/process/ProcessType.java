@@ -1,14 +1,14 @@
 package ru.bgcrm.model.process;
 
-import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.model.IdTitle;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.util.Log;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import org.bgerp.util.Log;
+import ru.bgcrm.cache.ProcessTypeCache;
+import ru.bgcrm.model.IdTitle;
 
 public class ProcessType extends IdTitle implements Comparable<ProcessType> {
     private static final Log log = Log.getLog();
@@ -63,6 +63,7 @@ public class ProcessType extends IdTitle implements Comparable<ProcessType> {
     }
 
     @Deprecated
+    @JsonIgnore
     public List<ProcessType> getChilds() {
         log.warn("Called deprecated method getChilds()");
         return children;

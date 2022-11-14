@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 <%@ taglib tagdir="/WEB-INF/tags/plugin/report" prefix="report"%>
 
-<shell:title ltext="Отчёт"/>
+<shell:title ltext="Report"/>
 <shell:state ltext="Процессы"/>
 
 <div class="report center1020">

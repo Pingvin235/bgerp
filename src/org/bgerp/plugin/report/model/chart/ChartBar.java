@@ -18,14 +18,23 @@ public class ChartBar extends Chart2D {
         final var chart = MAPPER.createObjectNode();
 
         // single category bar chart with count bars
-        chart.putObject("title").put("text", getTitle(l));
+        chart.putObject("title")
+            .put("text", getTitle(l));
         chart.putObject("tooltip");
 
-        var xData = chart.putObject("xAxis").putArray("data");
+        var xAxis = chart.putObject("xAxis");
+
+        xAxis.putObject("axisLabel")
+                .put("interval", "0")
+                .put("rotate", "45")
+                .put("height", 400);
+
+        var xData = xAxis.putArray("data");
 
         chart.putObject("yAxis");
 
         var series = chart.putArray("series").addObject();
+
         var seriesData = series
             .put("type", "bar")
             .putArray("data");

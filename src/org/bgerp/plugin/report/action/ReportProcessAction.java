@@ -37,7 +37,7 @@ public class ReportProcessAction extends ReportActionBase {
         COL_ID,
         COL_TYPE_TITLE,
         new Column.ColumnString("user_id", null, null),
-        new Column.ColumnString("user_title", null, "Пользователь"),
+        new Column.ColumnString("user_title", null, "User"),
         new Column.ColumnDateTime("time", null, "Время", TimeUtils.FORMAT_TYPE_YMDHM),
         new Column.ColumnString("process_description", null, "Описание")
     );

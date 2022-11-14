@@ -6,6 +6,22 @@ Show groups and users when <<../../plugin/pln/callboard/index.adoc#usage-set-tim
 
 image::../../plugin/pln/callboard/_res/process_set_time.png[width="800px"]
 
+== Plugin <<../../plugin/report/index.adoc#, Report>>
+
+=== Compact Pie chart with more colors
+image::_res/report/pie.png[width="800"]
+
+Before.
+
+image::_res/report/pie_old.png[width="800"]
+
+=== Compact X-legend for Bar chart
+image::_res/report/bar.png[width="800"]
+
+Before.
+
+image::_res/report/bar_old.png[width="800"]
+
 == Syntax Highlighting Config Editors
 Introduced for the rest of existing editors.
 
@@ -18,3 +34,5 @@ image::_res/img-users.png[width="800px"]
 == <<../../kernel/setup.adoc#user-profile, User Profile>> Reset Personalizations
 
 image::../../kernel/_res/user/profile_own_personalization.png[width="800px"]
+
+
