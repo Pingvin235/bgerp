@@ -67,7 +67,7 @@ $$.blow = new function() {
 			let url = null;
 
 			if ($td.attr(ATTR_BG_PARENT_ID) > 0)
-				url = "/user/process/link.do?action=linkProcessCreate&objectType=processMade&typeId=" + $td.attr(ATTR_BG_TYPE_ID) + "&id=" + $td.attr(ATTR_BG_PARENT_ID);
+				url = "/user/process/link/process.do?action=linkProcessCreate&objectType=processMade&typeId=" + $td.attr(ATTR_BG_TYPE_ID) + "&id=" + $td.attr(ATTR_BG_PARENT_ID);
 			else
 				url = "/user/process.do?action=processCreate&typeId=" + $td.attr(ATTR_BG_TYPE_ID);
 
@@ -204,7 +204,7 @@ $$.blow = new function() {
 		}
 		else
 			$cells.css("background-color", "");
-		
+
 	}
 
 	const move = ($td, $tdTo) => {
@@ -229,7 +229,7 @@ $$.blow = new function() {
 			$(form).append(result);
 			const filterPos = $(form.filter).position();
 			const $drop = $(form).find(".drop");
-			
+
 			$$.ui.dropShow($drop);
 			$(document).one("click", function () {
 				$drop.parent().remove();
