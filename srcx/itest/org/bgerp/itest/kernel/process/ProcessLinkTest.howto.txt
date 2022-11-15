@@ -1,0 +1,18 @@
+# In 'Links' table.
+1. Click 'add link' reference.
+2. Select in the drop-down type 'Customer'.
+3. Run search with empty substring.
+4. Choose anyone and link it.
+
+# In 'Linked processes' tab.
+1. Create and Link
+1.1. Choose 'Create and Link Depended Process' in the bottom drop-down.
+1.2. Press 'Create and link' button.
+1.3. A new process has to be created and linked, parameters and links copied there.
+
+2. Open a parent or a child process by clicking to a table row.
+Left part of the related process card must be opened directly instead of tables, a close button must work.
+
+3. Closing linked processes.
+3.1. All 'Made' parent processes must be closable only after this one.
+3.2. The current process must be closable only after closing all 'Depended' child processes.

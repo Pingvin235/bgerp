@@ -22,7 +22,7 @@
 	<%@ include file="user_status_const.jsp"%>
 
 	<ui:combo-single hiddenName="status" value="${form.param.status}" onSelect="${showCode}"
-		prefixText="${l.l('Статус')}:" widthTextValue="70px">
+		prefixText="${l.l('Status')}:" widthTextValue="70px">
 		<jsp:attribute name="valuesHtml">
 			<li value="${STATUS_ACTIVE}">${l.l('Активные')}</li>
 			<li value="${STATUS_DISABLED}">${l.l('Заблокированные')}</li>
@@ -54,7 +54,7 @@
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
-		<td>${l.l('Статус')}</td>
+		<td>${l.l('Status')}</td>
 		<td>${l.l('Title')}</td>
 		<td>${l.l('Логин')}</td>
 		<td>${l.l('Наборы прав')}</td>

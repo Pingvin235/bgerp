@@ -12,7 +12,7 @@
 
 	<div class="in-inline-block mb1">
 		<div><ui:date-month/></div>
-		<div class="pl1"><ui:combo-single list="${types}" hiddenName="typeId" prefixText="${l.l('Тип')}:" widthTextValue="10em"/></div>
+		<div class="pl1"><ui:combo-single list="${types}" hiddenName="typeId" prefixText="${l.l('Type')}:" widthTextValue="10em"/></div>
 	</div>
 
 	<div>

@@ -148,7 +148,7 @@ public class BaseAction extends DispatchAction {
             if (user == null) {
                 form.setPermission(ParameterMap.EMPTY);
             } else {
-                action = this.getClass().getName() + ":" + Utils.maskEmpty(form.getAction(), "null");
+                action = form.actionIdentifier(this.getClass());
                 permissionNode = permissionCheck(form, action);
                 updateUserPageSettings(conSet, form);
             }
@@ -288,19 +288,8 @@ public class BaseAction extends DispatchAction {
     }
 
     /**
-     * JSP forward file path calculated using {@link #getForwardJspPath(DynActionForm, Map)} function.
-     * @param con
-     * @param form
-     * @param mapping
-     * @return
-     */
-    protected ActionForward html(Connection con, DynActionForm form, Map<String, String> mapping) {
-        return html(con, form, getForwardJspPath(form, mapping));
-    }
-
-    /**
-     * JSP forward file path.
-     * @param con
+     * JSP forward.
+     * @param con SQL connection.
      * @param form form object.
      * @param path JSP path.
      * @return
@@ -313,9 +302,9 @@ public class BaseAction extends DispatchAction {
     }
 
     /**
-     * JSP forward file path.
-     * @param conSet
-     * @param form
+     * JSP forward.
+     * @param conSet set of SQL connections.
+     * @param form form object.
      * @param path JSP path.
      * @return
      */
@@ -342,7 +331,7 @@ public class BaseAction extends DispatchAction {
      * @return JSP path.
      * @throws IllegalArgumentException no JSP found in mapping.
      */
-    private String getForwardJspPath(DynActionForm form, Map<String, String> mapping) throws IllegalArgumentException {
+    protected String getForwardJspPath(DynActionForm form, Map<String, String> mapping) throws IllegalArgumentException {
         var forwardFile = form.getForwardFile();
         if (Utils.notBlankString(forwardFile))
             return forwardFile;
@@ -439,12 +428,11 @@ public class BaseAction extends DispatchAction {
      * @param params parameter names
      * @throws SQLException
      */
-    protected void restoreRequestParams(Connection con, DynActionForm form, boolean get, boolean set, String... params)
-            throws SQLException {
+    protected void restoreRequestParams(Connection con, DynActionForm form, boolean get, boolean set, String... params) throws SQLException {
         Preferences prefs = form.getUser().getPersonalizationMap();
         String valueBefore = prefs.getDataString();
         for (String param : params) {
-            String key = "param." + Utils.getDigest(form.getAreaId());
+            String key = "param." + form.getAreaId();
             // param doesn't present in the request - restoring
             if (form.getParamArray(param) == null) {
                 // storing values comma-separated

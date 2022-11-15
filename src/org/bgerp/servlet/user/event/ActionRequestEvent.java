@@ -33,7 +33,7 @@ public class ActionRequestEvent implements Event {
     }
 
     /**
-     * @return semicolon separated action class name and called method.
+     * @return action identifier, semicolon separated action class name and called method.
      */
     public String getAction() {
         return action;

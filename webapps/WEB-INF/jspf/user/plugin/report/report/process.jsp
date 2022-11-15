@@ -20,7 +20,7 @@
 
 		<ui:combo-check paramName="type" values="${form.getSelectedValues('type')}"
 			list="${form.response.data.types}" map="${ctxProcessTypeMap}"
-			prefixText="${l.l('Тип')}:" showFilter="1" widthTextValue="10em"/>
+			prefixText="${l.l('Type')}:" showFilter="1" widthTextValue="10em"/>
 
 		<ui:button type="out" styleClass="ml1 mr1 more out" onclick="$$.ajax.loadContent(this)"/>
 

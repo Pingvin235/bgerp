@@ -29,7 +29,8 @@ public class Pageable<T> {
     }
 
     /**
-     * Constructor placing created Pageable to {@code form} response.
+     * Constructor placing created Pageable to {@code form} response,
+     * restoring pageable data from user personalization.
      * @param form
      */
     public Pageable(DynActionForm form) {
@@ -37,8 +38,7 @@ public class Pageable<T> {
 
         // restore user stored page size
         if (page.isPaginationEnabled() && page.getPageSize() <= 0) {
-            String pageableId = form.getPageableId();
-            String key = Page.PAGE_SIZE + "." + pageableId;
+            String key = Page.PAGE_SIZE + "." + form.getPageableId();
 
             if (form.getUser() != null) {
                 page.setPageSize(form.getUser().getPersonalizationMap().getInt(key, Page.DEFAULT_PAGE_SIZE));

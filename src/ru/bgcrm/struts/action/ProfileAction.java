@@ -91,6 +91,9 @@ public class ProfileAction extends BaseAction {
         Preferences personalizationMap = user.getPersonalizationMap();
         String persConfigBefore = personalizationMap.getDataString();
 
+        if (form.getParamBoolean("overwrite"))
+            personalizationMap.clear();
+
         for (Map.Entry<String, String[]> me : form.getHttpRequest().getParameterMap().entrySet()) {
             String key = me.getKey();
             String value = me.getValue()[0];

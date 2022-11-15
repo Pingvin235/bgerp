@@ -39,8 +39,8 @@
 	<p><ru>не указан</ru><en>undefined</en></p>
 	<p><ru>Значение</ru><en>Value</en></p>
 	<p><ru>Название</ru><en>Name</en></p>
-	<p><ru>К процессу привязаны</ru><en>Process links</en></p>
-	<p><ru>Процесс привязан к</ru><en>The process is linked to</en></p>
+	<p><en>Children</en><ru>Дочерние</ru></p>
+	<p><en>Parents</en><ru>Родительские к</ru></p>
 	<p><ru>Связанные процессы</ru><en>Linked processes</en></p>
 	<p><ru>Параметры</ru><en>Parameters</en></p>
 	<p><ru>История статусов</ru><en>Status history</en></p>
@@ -61,12 +61,12 @@
 	<p><ru>Добавить в конец описания текст с именем автора и временем</ru><en>Add to the description's end with author and time</en></p>
 	<p><ru>Править описание целиком (также можете кликнуть мышью по описанию)</ru><en>Edit the whole description, you may also click on it by mouse</en></p>
 	<p><ru>править целиком</ru><en>edit</en></p>
-	<p><ru>добавить</ru><en>add</en></p>
-	<p><ru>Описание</ru><en>Description</en></p>
+	<p><en>add</en><ru>добавить</ru></p>
+	<p><en>Description</en><ru>Описание</ru></p>
 	<p><ru>история</ru><en>history</en></p>
 	<p><ru>Данный тип процесса был удален</ru><en>This process type was deleted</en></p>
 	<p><ru>Удалить процесс</ru><en>Delete process</en></p>
-	<p><ru>Статус</ru><en>Status</en></p>
+	<p><en>Status</en><ru>Статус</ru></p>
 	<p><ru>Создан</ru><en>Created</en></p>
 	<p><en>log</en><ru>лог</ru></p>
 	<p><en>type</en><ru>тип</ru></p>
@@ -138,7 +138,7 @@
 	<p><ru>Дата создания</ru><en>Creation date</en></p>
 	<p><ru>Дата закрытия</ru><en>Сlosing date</en></p>
 	<p><ru>Любой</ru><en>Any</en></p>
-	<p><ru>Тип</ru><en>Type</en></p>
+	<p><en>Type</en><ru>Тип</ru></p>
 	<p><ru>Открытые</ru><en>Open</en></p>
 	<p><ru>Закрытые</ru><en>Closed</en></p>
 	<p><ru>Закрыт</ru><en>Closed</en></p>
@@ -163,7 +163,7 @@
 	<p><ru>Вывести</ru><en>Show</en></p>
 	<p><ru>Вывести для</ru><en>Output for</en></p>
 	<p><ru>Вывести на дату</ru><en>Output to date</en></p>
-	<p><ru>Время создания</ru><en>Creation time</en></p>
+	<p><en>Creation time</en><ru>Время создания</ru></p>
 	<p><ru>Открыть</ru><en>Open</en></p>
 	<p><ru>Создание новости</ru><en>News creation</en></p>
 	<p><ru>Заголовок</ru><en>Title</en></p>
@@ -192,7 +192,7 @@
 	<p><ru>Сорт.</ru><en>Order</en></p>
 	<p><ru>Слить в существующий</ru><en>Merge to existing</en></p>
 	<p><ru>Привязки</ru><en>Links</en></p>
-	<p><ru>привязать</ru><en>add link</en></p>
+	<!-- <p><ru>привязать</ru><en>add</en></p> -->
 	<p><ru>Привязать объект из буфера</ru><en>Link object from buffer</en></p>
 	<p><ru>Привязать иной объект</ru><en>Link another object</en></p>
 	<p><ru>Строка поиска контрагента</ru><en>Customer search string</en></p>
@@ -328,12 +328,12 @@
 	<p><en>File</en><ru>Файл</ru></p>
 	<p><en>Size</en><ru>Размер</ru></p>
 	<p><ru>Выберите улицу</ru><en>Choose a street</en></p>
-	<p><ru>Ссылается</ru><en>Linked</en></p>
+	<!-- <p><ru>Ссылается</ru><en>Linked</en></p>
 	<p><ru>Зависит</ru><en>Depends</en></p>
 	<p><ru>Породил</ru><en>Made</en></p>
 	<p><ru>С</ru><en>L</en></p>
 	<p><ru>З</ru><en>D</en></p>
-	<p><ru>П</ru><en>M</en></p>
+	<p><ru>П</ru><en>M</en></p> -->
 	<p><ru>Для привязки доступны процессы, выбранные в буфер</ru><en>The processes selected in the buffer are available for binding</en></p>
 	<p><ru>Шаблон</ru><en>Template</en></p>
 	<p><ru>С даты</ru><en>From date</en></p>
@@ -371,7 +371,7 @@
 	<p><ru>Сообщение</ru><en>Message</en></p>
 	<p><ru>Уведомление</ru><en>Notification</en></p>
 	<p><ru>Контакт</ru><en>Contact</en></p>
-	<p><ru>Только открытые</ru><en>Open only</en></p>
+	<p><en>Open only</en><ru>Только открытые</ru></p>
 	<p><ru>Не сохранять</ru><en>Do not save</en></p>
 	<p><ru>Cохранить EMail</ru><en>Save EMail</en></p>
 	<p><ru>Cохранить EMail домен</ru><en>Save EMail domain</en></p>
@@ -532,6 +532,11 @@
 	<p><en>Delete all the stored personalization options</en><ru>Удалить все сохранённые персональные опции</ru></p>
 	<p><en>Reset all the user personalizations?</en><ru>Сбросить все персональные опции?</ru></p>
 	<p><en>Reset</en><ru>Сбросить</ru></p>
+	<!--
+		TODO:
+		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
+		Есть незакрытый процесс: {}, к которому привязан данный с типом: {}
+	-->
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

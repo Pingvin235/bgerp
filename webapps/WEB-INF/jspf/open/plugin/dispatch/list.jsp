@@ -9,7 +9,7 @@
 		<table class="data" style="width: 100%;" id="${tableUiid}">
 			<tr>
 				<td width="40%">${l.l('Title')}</td>
-				<td width="60%">${l.l('Описание')}</td>
+				<td width="60%">${l.l('Description')}</td>
 			</tr>
 			<c:forEach var="item" items="${form.response.data.list}">
 				<tr>

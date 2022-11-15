@@ -19,13 +19,13 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Sets;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.dao.CommonDAO;
+import com.google.common.collect.Sets;
+
 import ru.bgcrm.dao.CommonLinkDAO;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -45,6 +45,7 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class ProcessLinkDAO extends CommonLinkDAO {
+    private static final String LIKE_PROCESS = " LIKE 'process%'";
     private static final Set<String> CYCLES_CONTROL_LINK_TYPES = Set.of(Process.LINK_TYPE_DEPEND, Process.LINK_TYPE_MADE);
 
     /** User request context for isolations. */
@@ -140,7 +141,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     public List<Process> getLinkProcessList(int processId, String linkType, boolean onlyOpen, Set<Integer> typeIds)
             throws SQLException {
         return getFromLinkProcess(processId, linkType, onlyOpen, "INNER JOIN " + TABLE_PROCESS_LINK
-                + " AS link ON process.id=link.object_id AND link.object_type LIKE 'process%' AND link.process_id=? ", typeIds);
+                + " AS link ON process.id=link.object_id AND link.object_type " + LIKE_PROCESS + " AND link.process_id=? ", typeIds);
     }
 
     /**
@@ -155,7 +156,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     public List<Process> getLinkedProcessList(int processId, String linkType, boolean onlyOpen, Set<Integer> typeIds)
             throws SQLException {
         return getFromLinkProcess(processId, linkType, onlyOpen,
-                "INNER JOIN " + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id AND link.object_type LIKE 'process%' AND link.object_id=? ",
+                "INNER JOIN " + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id AND link.object_type " + LIKE_PROCESS + " AND link.object_id=? ",
                 typeIds);
     }
 
@@ -212,7 +213,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         query.append(ids);
         query.append(") AND object_id IN (");
         query.append(ids);
-        query.append(") AND link.object_type LIKE 'process%'");
+        query.append(") AND link.object_type " + LIKE_PROCESS);
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ResultSet rs = ps.executeQuery();
@@ -373,7 +374,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         pq.addQuery("SELECT SQL_CALC_FOUND_ROWS DISTINCT link.object_type, process.* FROM " + TABLE_PROCESS_LINK + " AS link ");
         pq.addQuery("INNER JOIN " + TABLE_PROCESS + " AS process ON link.object_id=process.id ");
         pq.addQuery(ProcessDAO.getIsolationJoin(form, "process"));
-        pq.addQuery("WHERE link.process_id=? AND link.object_type LIKE 'process%' ");
+        pq.addQuery("WHERE link.process_id=? AND link.object_type " + LIKE_PROCESS);
         addOpenFilter(pq, open);
         pq.addQuery("ORDER BY process.create_dt DESC ");
         pq.addQuery(getPageLimit(page));
@@ -428,7 +429,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
 
         Statement st = con.createStatement();
         String query = "SELECT process_id, object_type, object_id FROM " + TABLE_PROCESS_LINK +
-                " WHERE process_id IN (" + Utils.toString(processIds) + ") AND object_type LIKE 'process%'";
+                " WHERE process_id IN (" + Utils.toString(processIds) + ") AND object_type " + LIKE_PROCESS;
         ResultSet rs = st.executeQuery(query);
         while (rs.next()) {
             int processId = rs.getInt(1);
@@ -458,7 +459,7 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         var result = new TreeSet<Customer>();
 
         if (Utils.isBlankString(linkObjectType))
-            linkObjectType = CommonDAO.getLikePatternStart(Customer.OBJECT_TYPE);
+            linkObjectType = LikePattern.START.get(Customer.OBJECT_TYPE);
 
         var query =
             SQL_SELECT + "c.*" + SQL_FROM + Tables.TABLE_CUSTOMER + "AS c" +
@@ -477,7 +478,37 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     }
 
     /**
-     * Использовать:
+     * Selects counts of linked and link processes to a given process.
+     * Note that process isolation is not taken here on account.
+     * @param processId the process ID.
+     * @return a pair with linked count on the first place, links count on the second.
+     * @throws SQLException
+     */
+    public Pair<Integer, Integer> getLinkedProcessesCounts(int processId) throws SQLException {
+        Pair<Integer, Integer> result = new Pair<>(0, 0);
+
+        String query =
+            SQL_SELECT + "COUNT(*)" + SQL_FROM + TABLE_PROCESS_LINK  + "AS linked " +
+            SQL_WHERE + "linked.object_id=? AND linked.object_type " + LIKE_PROCESS +
+            SQL_UNION_ALL +
+            SQL_SELECT + "COUNT(*)" + SQL_FROM + TABLE_PROCESS_LINK + "AS link" +
+            SQL_WHERE + "link.process_id=? AND link.object_type " + LIKE_PROCESS;
+
+        try (var pq = new PreparedQuery(con, query)) {
+            pq.addInt(processId).addInt(processId);
+
+            var rs = pq.executeQuery();
+            if (rs.next())
+                result.setFirst(rs.getInt(1));
+            if (rs.next())
+                result.setSecond(rs.getInt(1));
+        }
+
+        return result;
+    }
+
+    /**
+     * Use:
      * Utils.getFirst(getLinkProcessList(Utils.getFirst(linkedProcessList).getId(), Process.LINK_TYPE_DEPEND,
      *           false, Collections.singleton(linkTypeId)))
      */

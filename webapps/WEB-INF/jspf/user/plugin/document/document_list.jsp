@@ -97,7 +97,7 @@
 	<tr>
 		<td width="30">ID</td>
 		<td>${l.l('Название')}</td>
-		<td>${l.l('Время создания')}</td>
+		<td>${l.l('Creation time')}</td>
 		<td width="30">&#160;</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}" >

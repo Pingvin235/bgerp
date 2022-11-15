@@ -689,6 +689,7 @@ UI uses a set of unified components - thanks to that in most cases there is no n
 <<examples.adoc#code-jsp-ui, JSP UI code>> examples.
 
 The principal schema of JSP work looks like:
+
 image::_res/project_jsp_schema.png[]
 
 [[jsp-request-params]]
@@ -748,8 +749,8 @@ The tag enables code inside it only when mentioned <<action, action>> is <<actio
 link:../../../webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp#L11-L14[webapps/WEB-INF/jspf/user/plugin/blow/board/show.jsp]
 
 For combining permission check with other checks use function <<jsp-request-params, ctxUser.checkPerm>>, pointing to javadoc:ru.bgcrm.model.user.User[].
-[snippet, from="<c:if", to=">"]
-link:../../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L32-L33[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
+[snippet, from="<c:if", to=">", remove-leading="								"]
+link:../../../webapps/WEB-INF/jspf/user/message/process_message_list.jsp#L208-L208[webapps/WEB-INF/jspf/user/message/process_message_list.jsp]
 
 [[jsp-tags-top-line]]
 ====== shell:title and shell:state

@@ -1,21 +1,17 @@
 package ru.bgcrm.struts.action;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
@@ -23,17 +19,11 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.client.ProcessOpenEvent;
 import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
-import ru.bgcrm.event.process.ProcessCreatedAsLinkEvent;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.IfaceState;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Queue;
-import ru.bgcrm.model.process.config.LinkProcessCreateConfig;
-import ru.bgcrm.model.process.config.LinkProcessCreateConfigItem;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.model.process.queue.Filter;
 import ru.bgcrm.model.process.queue.FilterLinkObject;
@@ -48,7 +38,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Action(path = "/user/process/link")
 public class ProcessLinkAction extends ProcessAction {
-    private static final String PATH_JSP = PATH_JSP_USER + "/process/process";
+    private static final String PATH_JSP = PATH_JSP_USER + "/process/process/link";
 
     // процессы, к которым привязана сущность
     public ActionForward linkedProcessList(DynActionForm form, Connection con) throws Exception {
@@ -90,7 +80,7 @@ public class ProcessLinkAction extends ProcessAction {
             request.setAttribute("queue", queue);
         } else {
             Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>(form);
-            processLinkDAO.searchLinkedProcessList(searchResult, CommonDAO.getLikePatternStart(objectType), id, null,
+            processLinkDAO.searchLinkedProcessList(searchResult, LikePattern.START.get(objectType), id, null,
                     paramProcessTypeId, form.getSelectedValues("statusId"), form.getParam("paramFilter"),
                     paramOpen);
 
@@ -108,19 +98,6 @@ public class ProcessLinkAction extends ProcessAction {
         form.getHttpRequest().setAttribute("typeTreeRoot", ProcessTypeCache.getTypeTreeRoot().sub(typeList));
 
         return html(con, form, PATH_JSP + "/linked_process_list.jsp");
-    }
-
-    private void setProcessReference(Connection con, DynActionForm form, Process process, String objectType) {
-        try {
-            ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-            if (type != null) {
-                ProcessReferenceConfig config = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
-                process.setReference(config.getReference(con, form, process, objectType));
-            }
-        } catch (Exception e) {
-            process.setReference(e.getMessage());
-            log.error(e);
-        }
     }
 
     // создание процесса с привязанной сущностью
@@ -157,135 +134,16 @@ public class ProcessLinkAction extends ProcessAction {
         return json(con, form);
     }
 
-    // процессы, привязанные к процессу
-    public ActionForward linkProcessList(DynActionForm form, Connection con) throws Exception {
-        HttpServletRequest request = form.getHttpRequest();
-        ProcessLinkDAO processLinkDao = new ProcessLinkDAO(con, form);
-
-        restoreRequestParams(con, form, true, true, "open");
-
-        int id = form.getId();
-        Boolean open = form.getParamBoolean("open", null);
-
-        Process process = getProcess(new ProcessDAO(con), id);
-        ProcessType type = getProcessType(process.getTypeId());
-
-        request.setAttribute("processType", type);
-
-        // жёстко указанные в конфигурации типы процессов, с указанными видами привязки, фильтры по параметру процесса и т.п.
-        final List<LinkProcessCreateConfigItem> createTypeList = type.getProperties().getConfigMap().getConfig(LinkProcessCreateConfig.class)
-                .getItemList(con, process);
-
-        request.setAttribute("createTypeList", createTypeList);
-
-        // список процессов, к которым привязан данный процесс
-        Pageable<Pair<String, Process>> searchResultLinked = new Pageable<>();
-        processLinkDao.searchLinkedProcessList(searchResultLinked, Process.OBJECT_TYPE + "%", id, null, null, null, null, open);
-        form.getResponse().setData("linkedProcessList", searchResultLinked.getList());
-
-        // генерация описаний процессов
-        for (Pair<String, Process> pair : searchResultLinked.getList()) {
-            setProcessReference(con, form, pair.getSecond(), form.getParam("linkedReferenceName"));
-        }
-
-        // привязанные к процессу процессы
-        Pageable<Pair<String, Process>> searchResultLink = new Pageable<Pair<String, Process>>(form);
-        processLinkDao.searchLinkProcessList(searchResultLink, id, open);
-
-        // генерация описаний процессов
-        for (Pair<String, Process> pair : searchResultLink.getList()) {
-            setProcessReference(con, form, pair.getSecond(), form.getParam("linkReferenceName"));
-        }
-
-        // проверка и обновление статуса вкладки, если нужно
-        if (Strings.isNotBlank(form.getParam(IfaceState.REQUEST_PARAM_IFACE_ID))) {
-            IfaceState ifaceState = new IfaceState(form);
-            IfaceState currentState = new IfaceState(Process.OBJECT_TYPE, id, form,
-                    String.valueOf(searchResultLinked.getPage().getRecordCount()),
-                    String.valueOf(searchResultLink.getPage().getRecordCount()));
-            new IfaceStateDAO(con).compareAndUpdateState(ifaceState, currentState, form);
-        }
-
-        return html(con, form, PATH_JSP + "/link_process_list.jsp");
-    }
-
-    // создание процесса, привязанного к процессу
-    public ActionForward linkProcessCreate(DynActionForm form, Connection con) throws Exception {
-        int id = form.getId();
-
-        // либо тип процесса + тип отношений
-        int typeId = form.getParamInt("typeId", -1);
-        String objectType = form.getParam("objectType", "");
-
-        // либо код из конфигурации
-        int createTypeId = form.getParamInt("createTypeId", -1);
-
-        String description = Utils.maskNull(form.getParam("description"));
-
-        Process linkedProcess = getProcess(new ProcessDAO(con), id);
-        linkProcessCreate(con, form, linkedProcess, typeId, objectType, createTypeId, description, form.getParamInt("groupId", -1));
-
-        return json(con, form);
-    }
-
-    public static Process linkProcessCreate(Connection con, DynActionForm form, Process linkedProcess, int typeId, String linkType,
-            int createTypeId, String description, int groupId) throws Exception {
-        final ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
-
-        int linkedId = linkedProcess.getId();
-
-        Process process = new Process();
-        if (createTypeId > 0) {
-            ProcessType linkedType = getProcessType(linkedProcess.getTypeId());
-
-            LinkProcessCreateConfigItem item = linkedType.getProperties().getConfigMap().getConfig(LinkProcessCreateConfig.class)
-                    .getItem(createTypeId);
-            if (item == null) {
-                throw new BGMessageException("Не найдено правило с ID: %s", createTypeId);
+    protected void setProcessReference(Connection con, DynActionForm form, Process process, String objectType) {
+        try {
+            ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
+            if (type != null) {
+                ProcessReferenceConfig config = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
+                process.setReference(config.getReference(con, form, process, objectType));
             }
-
-            linkType = item.getLinkType();
-
-            process.setTypeId(item.getProcessTypeId());
-            process.setDescription(description);
-
-            processCreate(form, con, process, groupId);
-
-            String copyParams = item.getCopyParamsMapping();
-            if ("all".equals(copyParams)) {
-                ProcessType type = getProcessType(process.getTypeId());
-                List<Integer> paramIds = type.getProperties().getParameterIds();
-                List<Integer> linkedParamIds = linkedType.getProperties().getParameterIds();
-                List<Integer> paramIdsBothHave = new ArrayList<Integer>(linkedParamIds);
-                paramIdsBothHave.retainAll(paramIds);
-
-                new ParamValueDAO(con).copyParams(linkedId, process.getId(), StringUtils.join(paramIdsBothHave, ","));
-            } else {
-                new ParamValueDAO(con).copyParams(linkedId, process.getId(), copyParams);
-            }
-
-            String copyLinks = item.getCopyLinks();
-
-            // пока копирование сразу всех привязок
-            if (Utils.notBlankString(copyLinks)) {
-                if (copyLinks.equals("1")) {
-                    linkDao.copyLinks(linkedId, process.getId(), null, Process.OBJECT_TYPE + "%");
-                } else {
-                    linkDao.copyLinks(linkedId, process.getId(), copyLinks, Process.OBJECT_TYPE + "%");
-                }
-            }
-        } else {
-            process.setTypeId(typeId);
-            process.setDescription(description);
-
-            processCreate(form, con, process, -1);
+        } catch (Exception e) {
+            process.setReference(e.getMessage());
+            log.error(e);
         }
-
-        linkDao.addLink(new ProcessLinkProcess(linkedId, linkType, process.getId()));
-
-        EventProcessor.processEvent(new ProcessCreatedAsLinkEvent(form, linkedProcess, process), new SingleConnectionSet(con));
-
-        return process;
     }
-
 }

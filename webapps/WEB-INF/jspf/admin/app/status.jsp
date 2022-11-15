@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div class="center1020">
-	<h2>${l.l('Статус')}</h2>
+	<h2>${l.l('Status')}</h2>
 	<pre>${form.response.data.status}</pre>
 
 	<h2>${l.l('Перезапуск')}</h2>

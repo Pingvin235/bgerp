@@ -6,7 +6,7 @@
 	<div class="w100p" style="display: flex;">
 		<div style="flex-basis: 50%; display: flex; flex-direction: column;">
 			<div>
-				<h2 style="margin-top: 0;">${l.l('Описание')}</h2>
+				<h2 style="margin-top: 0;">${l.l('Description')}</h2>
 			</div>
 
 			<div class="box" id="show" style="padding: 0.5em; min-height: 2em; flex-basis: 100%;">

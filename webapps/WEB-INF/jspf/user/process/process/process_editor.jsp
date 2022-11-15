@@ -19,7 +19,7 @@
 	<%-- tableId очень важный идентификатор - нужен для определения в DOM дереве расположения редактора данного процесса --%>
 	<div id="${tableId}" style="display: flex;">
 		<%-- TODO: в будущем, можно и порядок табов задать тоже, ещё JEXL условие прикрутить --%>
-		<c:set var="components" value="${u:toList( 'header,status,description,executors,links,params' )}"/>
+		<c:set var="components" value="${u.toList('header,status,description,executors,links,params')}"/>
 		<c:if test="${not empty processType}">
 			<c:set var="componentsConfig" value="${processType.properties.configMap.getConfig('ru.bgcrm.model.process.config.ProcessCardConfig')}"/>
 		</c:if>
@@ -46,20 +46,14 @@
 			<!-- the wrap is limited by height, unlike parent div -->
 			<div class="wrap">
 				<c:if test="${mode eq 'card' and not empty processType}">
-					<u:newInstance var="ifaceStateDao" clazz="ru.bgcrm.dao.IfaceStateDAO">
-						<u:param value="${ctxConSet.getSlaveConnection()}"/>
-					</u:newInstance>
-					<c:set var="ifaceStateMap" value="${ifaceStateDao.getIfaceStates('process', process.id)}"/>
-
 					<script>
 						$(function () {
-							var $tabs = $("#${tableId} #processTabsDiv").tabs({refreshButton: true});
+							const $tabs = $("#${tableId} #processTabsDiv").tabs({refreshButton: true});
 
 							<%-- зависимые процессы --%>
 
 							<%-- 2 - отображение в теле процесса --%>
 							<c:if test="${processType.properties.configMap.getSok('', false, 'show.tab.links', 'processShowLinks') eq '1'}">
-								<%-- TODO: ifaceState 'links' --%>
 								<c:url var="url" value="/user/link.do">
 									<c:param name="action" value="linkList"/>
 									<c:param name="id" value="${process.id}"/>
@@ -71,27 +65,21 @@
 							</c:if>
 
 							<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.messages', 'processShowMessages') eq '1'}">
-								<c:set var="ifaceState" value="${ifaceStateMap['messages']}"/>
-
 								<c:url var="url" value="/user/message.do">
 									<c:param name="action" value="processMessageList"/>
 									<c:param name="processId" value="${process.id}"/>
-									<c:param name="ifaceState" value="${ifaceState.state}"/>
 									<c:param name="linkProcess" value="${processType.properties.configMap['show.messages.link.process']}"/>
 								</c:url>
 
-								$tabs.tabs( "add", "${url}", "${l.l('Сообщения')}${ifaceState.getFormattedState()}", " id='process-messages'" );
+								$tabs.tabs( "add", "${url}", "${l.l('Сообщения')}", " id='process-messages'" );
 							</c:if>
 
 							<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.links.process', 'processShowProcessLinks') eq '1'}">
 								<c:set var="ifaceId" value="link_process"/>
 								<c:set var="ifaceState" value="${ifaceStateMap[ifaceId]}"/>
 
-								<c:url var="url" value="/user/process/link.do">
-									<c:param name="action" value="linkProcessList"/>
+								<c:url var="url" value="/user/process/link/process.do">
 									<c:param name="id" value="${process.id}"/>
-									<c:param name="linkedReferenceName" value="linkedProcessList"/>
-									<c:param name="linkReferenceName" value="linkProcessList"/>
 									<c:param name="ifaceId" value="${ifaceId}"/>
 									<c:param name="ifaceState" value="${ifaceState.state}"/>
 								</c:url>

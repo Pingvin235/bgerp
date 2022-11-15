@@ -11,7 +11,7 @@
 
 	<table style="width: 100%;" class="data">
 		<tr>
-			<td>${l.l('Статус')}</td>
+			<td>${l.l('Status')}</td>
 			<td>${l.l('Комментарий')}</td>
 			<td>${l.l('Время')}</td>
 			<td>${l.l('User')}</td>

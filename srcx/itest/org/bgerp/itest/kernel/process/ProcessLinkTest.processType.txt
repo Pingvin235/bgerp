@@ -1,5 +1,5 @@
 
-processCreateLink.{@inc:cnt}.title=Create And Link Depended Process
+processCreateLink.{@inc:cnt}.title=Create and Link Depended Process
 processCreateLink.{@cnt}.processTypeId={@PROCESS_TYPE_ID}
 processCreateLink.{@cnt}.linkType=processDepend
 processCreateLink.{@cnt}.copyParams=*

@@ -41,6 +41,7 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.servlet.AccessLogValve;
+import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
@@ -87,6 +88,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private Response response = new Response();
 
     private User user;
+    /** Action identifier, semicolon separated class and method names. */
+    private String actionIdentifier = "???";
     private ParameterMap permission;
     private Page page = new Page();
     private FormFile file;
@@ -276,11 +279,26 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Возвращает параметр запроса action.
-     * @return
+     * @return request parameter {@code action}, action class method name.
      */
     public String getAction() {
         return getParam("action");
+    }
+
+    /**
+     * @return current value of {@link #actionIdentifier}.
+     */
+    public String getActionIdentifier() {
+        return actionIdentifier;
+    }
+
+    /**
+     * Builds {@link #actionIdentifier} as semicolon separated action class and method name from {@link #getAction()}.
+     * @param clazz action class.
+     * @return the generated value.
+     */
+    public String actionIdentifier(Class<? extends BaseAction> clazz) {
+        return actionIdentifier = clazz.getName() + ":" + Utils.maskEmpty(getAction(), "null");
     }
 
     /**
@@ -404,27 +422,18 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Возвращает параметр запроса pageableId либо склеенный URL запроса + action.
-     * @return
+     * @return request parameter {@code pageableId} or {@link #actionIdentifier} if it was empty or missing.
      */
     public String getPageableId() {
-        String result = getParam(Page.PAGEABLE_ID);
-        if (Utils.isBlankString(result)) {
-            result = httpRequest.getRequestURI() + "?" + getAction();
-        }
-        return result;
+        return getParam(Page.PAGEABLE_ID, actionIdentifier);
     }
 
     /**
-     * Возвращает параметр запроса areaId либо склеенный URL запроса + action.
-     * @return
+     * Area ID is used in {@link BaseAction#restoreRequestParams()} for preserving request parameters.
+     * @return request parameter {@code areaId} or {@link #actionIdentifier} if it was empty or missing.
      */
     public String getAreaId() {
-        String result = getParam("areaId");
-        if (Utils.isBlankString(result)) {
-            result = httpRequest.getRequestURI() + "?" + getAction();
-        }
-        return result;
+        return getParam("areaId", actionIdentifier);
     }
 
     /**

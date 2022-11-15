@@ -1,0 +1,5 @@
+C: Linked processes tab. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process
+B: Separated action for process links deletion instead of removed 'allowProcessLinkDelete' permission option.
+B: Removed 'show.tab.links.process.up' and 'show.tab.links.process.down' process configuration properties.
+C: DynActionForm.getAreaId() returns action identifier as default.
+A: Remember 'Open only' filter value for possible processes.

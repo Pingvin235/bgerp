@@ -35,11 +35,11 @@
 <table class="data hl">
 	<tr>
 		<td>ID</td>
-		<td>${l.l('Время создания')}</td>
+		<td>${l.l('Creation time')}</td>
 		<td class="min">${l.l('Время закрытия')}</td>
-		<td>${l.l('Тип')}</td>
-		<td>${l.l('Статус')}</td>
-		<td>${l.l('Описание')}</td>
+		<td>${l.l('Type')}</td>
+		<td>${l.l('Status')}</td>
+		<td>${l.l('Description')}</td>
 	</tr>
 	<c:forEach var="process" items="${form.response.data.list}">
 		<tr openCommand="$$.process.open(${process.id })">

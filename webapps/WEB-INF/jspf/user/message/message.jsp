@@ -85,7 +85,7 @@
 					</div>
 
 					<div class="mt1">
-						<b>${l.l('Описание')}:</b><br/>
+						<b>${l.l('Description')}:</b><br/>
 
 						<textarea name="description" rows="5" style="width: 100%; resize: vertical;">${message.subject}</textarea>
 						<div class="hint">${l.l('Краткое описание процесса')}</div>

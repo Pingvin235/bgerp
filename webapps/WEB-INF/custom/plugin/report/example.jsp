@@ -118,8 +118,8 @@
 		<table style="width: 100%;" class="data mt1">
 			<tr>
 				<td>ID</td>
-				<td>${l.l('Описание')}</td>
-				<td>${l.l('Статус')}</td>
+				<td>${l.l('Description')}</td>
+				<td>${l.l('Status')}</td>
 				<td>${l.l('Создан')}</td>
 				<td>${l.l('Закрыт')}</td>
 			</tr>

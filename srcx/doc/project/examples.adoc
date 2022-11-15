@@ -39,7 +39,7 @@ link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L488-L495[ru.bgcrm.s
 
 Saving and restoring a value at once:
 [snippet, from="//", to=");", remove-leading="    "]
-link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L53-L57[ru.bgcrm.struts.action.ProcessLinkAction]
+link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L43-L47[ru.bgcrm.struts.action.ProcessLinkAction]
 
 [[code-personalization-map-ff]]
 === Feature flag for UI
@@ -58,12 +58,12 @@ For example, showing associated processes count. Gets saved on the first call.
 Use javadoc:ru.bgcrm.model.IfaceState[] class
 
 Refreshing value:
-[snippet, from="// п", to="}", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L200-L207[ru.bgcrm.struts.action.ProcessLinkAction]
+[snippet, from="if (U", to="}", remove-leading="        "]
+link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L44-L52[org.bgerp.action.ProcessLinkProcessAction]
 
 Show in JSP:
 [snippet, from="<c:if", to="if>", remove-leading="						"]
-link:../../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L86-L100[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
+link:../../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L77-L88[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
 
 [[code-date-format]]
 === Date and time format
@@ -92,13 +92,13 @@ link:../../../webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp#L4-L4[webapps/
 
 [[code-pagination]]
 === Pagination
-Putting results into JSP and rendering a form;
-[snippet, from="<c:", to="rm>", remove-leading="		"]
-link:../../../webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp#L91-L99[webapps/WEB-INF/jspf/user/process/process/link_process_list.jsp]
+Putting results into JSP and rendering a form:
+[snippet, from="<html:fo", to="rm>", remove-leading="		"]
+link:../../../webapps/WEB-INF/jspf/user/process/process/link/process/pagination.jsp#L12-L29[webapps/WEB-INF/jspf/user/process/process/link/process/pagination.jsp]
 
 Java action:
-[snippet, from="//", to="open);", remove-leading="        "]
-link:../../../src/ru/bgcrm/struts/action/ProcessLinkAction.java#L191-L193[ru.bgcrm.struts.action.ProcessLinkAction]
+[snippet, from="Pag", to="));", remove-leading="        "]
+link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L67-L69[org.bgerp.action.ProcessLinkProcessAction]
 
 [[code-upload-file]]
 === File upload
@@ -106,12 +106,14 @@ JSP page:
 [snippet, from="<c:set", to="script>", remove-leading="				"]
 link:../../../webapps/WEB-INF/jspf/admin/license/license.jsp#L25-L36[webapps/WEB-INF/jspf/admin/license/license.jsp]
 
+Put an attention to the *${form.httpRequestURI}* expression, which gets action URL of the current action and prevents duplication of code.
+
 Action:
-[snippet, from="public", to="}", remove-leading="    "]
-link:../../../src/org/bgerp/action/admin/LicenseAction.java#L19-L43[src/org/bgerp/action/admin/LicenseAction.java]
+[snippet, from="public ActionForward u", to="}", remove-leading="    "]
+link:../../../src/org/bgerp/action/admin/LicenseAction.java#L29-L42[src/org/bgerp/action/admin/LicenseAction.java]
 
 [[code-jsp-ui]]
-=== UI Only
+=== JSP + HTML / CSS + JS
 A simple dictionary with pagination, AJAX editor invocation: link:../../../webapps/WEB-INF/jspf/admin/process/status/list.jsp[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
 
 [[code-jsp-ui-ajax]]
@@ -149,3 +151,12 @@ link:../../../webapps/WEB-INF/jspf/user/process/queue/filter.jsp#L904-L904[webap
 Restore form parameter values:
 [snippet, from="<ht", to="/>"]
 link:../../../webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp#L8-L10[webapps/WEB-INF/jspf/admin/directory/parameter/group/update.jsp]
+
+[[code-jsp-ui-toggle-button]]
+Toggle button:
+
+image::_res/examples_toggle_button.png[]
+
+[snippet, from="<button", to="on>", remove-leading="	"]
+link:../../../webapps/WEB-INF/jspf/user/process/message_related_process_list.jsp#L15-L17[webapps/WEB-INF/jspf/user/process/message_related_process_list.jsp]
+

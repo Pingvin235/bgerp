@@ -26,7 +26,7 @@
 	<div style="display: table; width: 100%;">
 		<div class="in-table-cell">
 			<div style="vertical-align: top; width: 30px;" id="typeSelectContainer">
-				<h2>${l.l('Тип')}</h2>
+				<h2>${l.l('Type')}</h2>
 
 				<c:remove var="disable"/>
 				<c:choose>

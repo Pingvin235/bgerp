@@ -32,7 +32,7 @@
 	<c:when test="${not empty form.param.header}">
 		<div class="mt1 mb05">
 			<h2 style="display: inline;">${form.param.header}</h2>
-			<span id="${uiid}addButton" style="vertical-align: top;">[<a href="#" onclick="${script}; return false;">${l.l('привязать')}</a>]</span>
+			<span id="${uiid}addButton" style="vertical-align: top;">[<a href="#" onclick="${script}; return false;">${l.l('add')}</a>]</span>
 		</div>
 	</c:when>
 	<c:otherwise>
@@ -44,7 +44,7 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td>ID</td>
-		<td>${l.l('Тип')}</td>
+		<td>${l.l('Type')}</td>
 		<td width="100%">${l.l('Title')}</td>
 	</tr>
 
@@ -88,7 +88,7 @@
 			<table class="data">
 				<tr>
 					<td>&nbsp;</td>
-					<td>${l.l('Тип')}</td>
+					<td>${l.l('Type')}</td>
 					<td width="100%">${l.l('Title')}</td>
 				</tr>
 				<%-- other rows are generated --%>
@@ -101,7 +101,7 @@
 			<table class="data">
 				<tr>
 					<td>&nbsp;</td>
-					<td>${l.l('Тип')}</td>
+					<td>${l.l('Type')}</td>
 					<td width="100%">${l.l('Title')}</td>
 				</tr>
 				<%-- other rows are generated --%>
@@ -113,12 +113,12 @@
 		<c:set var="linkObjectItems" scope="request" value=""/>
 		<c:set var="linkObjectForms" scope="request" value=""/>
 
-		<%@ include file="link_list_add_customer_search.jsp"%>
+		<%@ include file="list_add_customer_search.jsp"%>
 
 		<plugin:include endpoint="user.process.linkForAddCustom.jsp"/>
 
 		<ui:combo-single
-			hiddenName="param" prefixText="${l.l('Тип')}:" style="width: 100%;"
+			hiddenName="param" prefixText="${l.l('Type')}:" style="width: 100%;"
 			onSelect="$$.process.link.showForm('${uiid}', $hidden.val());">
 			<jsp:attribute name="valuesHtml">
 				<li value="none">-- ${l.l('нет')} --</li>
@@ -135,7 +135,7 @@
 
 				<div class="in-table-cell">
 					<div style="width: 30%;">
-						<input style="width: 100%;" name="linkedObjectType" placeholder="${l.l('Тип')}"/>
+						<input style="width: 100%;" name="linkedObjectType" placeholder="${l.l('Type')}"/>
 					</div>
 					<div style="width: 20%;" class="pl05">
 						<input style="width: 100%;" name="linkedObjectId" placeholder="ID"/>

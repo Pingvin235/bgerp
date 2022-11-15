@@ -26,7 +26,7 @@
 		<td width="30">ID</td>
 		<td  width="50%">${l.l('Title')}</td>
 		<td width="50%">${l.l('Рассылки')}</td>
-		<td nowrap="nowrap">${l.l('Время создания')}</td>
+		<td nowrap="nowrap">${l.l('Creation time')}</td>
 		<td>${l.l('Готово')}</td>
 		<td nowrap="nowrap">${l.l('Время отправки')}</td>
 	</tr>

@@ -8,7 +8,7 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td>ID</td>
-			<td>${l.l('Тип')}</td>
+			<td>${l.l('Type')}</td>
 			<td width="100%">${l.l('Title')}</td>
 		</tr>
 

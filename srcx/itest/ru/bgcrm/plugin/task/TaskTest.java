@@ -1,6 +1,5 @@
 package ru.bgcrm.plugin.task;
 
-import java.time.Duration;
 import java.util.List;
 
 import org.bgerp.itest.helper.ConfigHelper;
@@ -40,6 +39,6 @@ public class TaskTest {
 
         var process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE);
 
-        MessageHelper.addNoteMessage(process.getId(), UserTest.USER_ADMIN_ID, Duration.ofSeconds(0), "How to test", ResourceHelper.getResource(this, "message.txt"));
+        MessageHelper.addHowToTestNoteMessage(process.getId(), this);
     }
 }

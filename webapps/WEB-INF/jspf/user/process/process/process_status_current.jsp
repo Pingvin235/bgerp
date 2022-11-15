@@ -15,7 +15,7 @@
 	<ui:when type="user">
 		<c:set var="statusEdit" value="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processStatusUpdate')}"/>
 
-		${l.l('Статус')}:
+		${l.l('Status')}:
 		[<b><%--
 		--%><c:if test="${statusEdit}">
 				<c:url var="url" value="/user/process.do">
@@ -41,7 +41,7 @@
 	</ui:when>
 
 	<ui:when type="open">
-		${l.l('Статус')}:
+		${l.l('Status')}:
 		<b>${process.statusTitle}</b>
 		${statusEnd}
 	</ui:when>

@@ -22,7 +22,7 @@
 			<%-- сюда динамически грузятся доп параметры для данного типа процесса --%>
 		</div>
 		<div id="constPart">
-			<b>${l.l('Описание')}:</b><br />
+			<b>${l.l('Description')}:</b><br />
 			<textarea name="description" rows="10" style="width: 100%;"></textarea>
 
 			<c:set var="returnToShow">$('#${processTypeTree}').hide(); $('#${linkedProcessList}').show();</c:set>
@@ -60,7 +60,7 @@
 			<c:set var="reloadCommand" value="$$.ajax.load($('#${linkedProcessList} > form'), $('#${linkedProcessList}').parent())"/>
 
 			<ui:combo-single hiddenName="typeId" value="${form.param.typeId}" onSelect="${reloadCommand}"
-				prefixText="${l.l('Тип')}:" showFilter="true" styleClass="mr1" widthTextValue="200px">
+				prefixText="${l.l('Type')}:" showFilter="true" styleClass="mr1" widthTextValue="200px">
 				<jsp:attribute name="valuesHtml">
 					<li value="">${l.l('Любой')}</li>
 					<c:forEach var="type" items="${form.response.data.typeList}">
@@ -96,9 +96,9 @@
 					<td>${l.l('Создан')}</td>
 					<td>${l.l('Закрыт')}</td>
 					<td>${l.l('Роль')}</td>
-					<td>${l.l('Тип')}</td>
-					<td>${l.l('Статус')}</td>
-					<td>${l.l('Описание')}</td>
+					<td>${l.l('Type')}</td>
+					<td>${l.l('Status')}</td>
+					<td>${l.l('Description')}</td>
 				</tr>
 				<c:forEach var="item" items="${form.response.data.list}">
 					<c:set var="process" value="${item.second}" />

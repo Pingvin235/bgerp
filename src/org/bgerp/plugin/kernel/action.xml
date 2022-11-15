@@ -203,12 +203,10 @@
 			<item action="ru.bgcrm.struts.action.FileAction:temporaryDelete" title="Удаление временного файла" allowAll="1"/>
 		</item>
 		<item title="Привязки">
-			<item action="ru.bgcrm.struts.action.LinkAction:addLink" title="Добавление привязки"/>
-			<item action="ru.bgcrm.struts.action.LinkAction:deleteLink" title="Удаление привязки">
-				<b>allowProcessLinkDelete</b> - 0, если запрещено удалять привязки процессов
-			</item>
-			<item action="ru.bgcrm.struts.action.LinkAction:deleteLinksTo" title="Удаление привязок объекта"/>
 			<item action="ru.bgcrm.struts.action.LinkAction:linkList" title="Просмотр привязок"/>
+			<item action="ru.bgcrm.struts.action.LinkAction:addLink" title="Добавление привязки"/>
+			<item action="ru.bgcrm.struts.action.LinkAction:deleteLink" title="Удаление привязки"/>
+			<item action="ru.bgcrm.struts.action.LinkAction:deleteLinksTo" title="Удаление привязок объекта"/>
 			<item action="ru.bgcrm.struts.action.LinkAction:deleteLinksWithType" title="Удаление привязок определённого типа"/>
 		</item>
 		<item title="Параметры">
@@ -261,16 +259,20 @@
 				<item action="ru.bgcrm.struts.action.ProcessAction:processMerge" title="Merge"/>
 
 				<item title="Linked processes">
-					<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessList, ru.bgcrm.struts.action.ProcessAction:linkedProcessList" title="View linked processes">
-						<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
-					</item>
-					<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate" title="Create linked process"/>
-				</item>
-				<item title="Links">
-					<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList" title="View link processes"/>
-					<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate" title="Create and link process"/>
+					<item action="org.bgerp.action.ProcessLinkProcessAction:null, org.bgerp.action.ProcessLinkProcessAction:linkProcessList, org.bgerp.action.ProcessLinkProcessAction:linkedProcessList, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList"
+						title="View linked processes"/>
+					<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate" title="Add child process link"/>
+					<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessDelete, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessDelete" title="Delete link"/>
 				</item>
 			</item>
+
+			<item title="Object linked processes">
+				<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessList, ru.bgcrm.struts.action.ProcessAction:linkedProcessList" title="View linked processes">
+					<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
+				</item>
+				<item action="ru.bgcrm.struts.action.ProcessLinkAction:linkedProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkedProcessCreate" title="Create linked process"/>
+			</item>
+
 			<item action="ru.bgcrm.struts.action.ProcessAction:userProcessList" title="My processes"/>
 			<!-- used by wizard, clarify and cleanup -->
 			<item action="ru.bgcrm.struts.action.ProcessAction:processDeleteTmp" title="Удаление временного процесса" allowAll="1"/>

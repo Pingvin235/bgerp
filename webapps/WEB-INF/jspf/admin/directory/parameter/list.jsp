@@ -21,7 +21,7 @@
 		<tr>
 			<td width="30">&#160;</td>
 			<td width="30">ID</td>
-			<td width="50">${l.l('Тип')}</td>
+			<td width="50">${l.l('Type')}</td>
 			<td width="50">${l.l('Порядок')}</td>
 			<td width="35%">${l.l('Название')}</td>
 			<td width="20%">${l.l('Комментарий')}</td>

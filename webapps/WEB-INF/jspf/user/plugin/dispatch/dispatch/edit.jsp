@@ -12,7 +12,7 @@
 	<h2>${l.l('Название')}</h2>
 	<input type="text" name="title" style="width: 100%" value="${dispatch.title}"/>
 
-	<h2>${l.l('Описание')}</h2>
+	<h2>${l.l('Description')}</h2>
 	<input type="text" name="comment" style="width: 100%" value="${dispatch.comment}"/>
 
 	<ui:form-ok-cancel styleClass="mt1"/>

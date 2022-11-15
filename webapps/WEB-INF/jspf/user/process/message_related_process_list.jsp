@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="/user/process">
+<html:form action="${form.httpRequestURI}">
 	<html:hidden property="action"/>
 	<html:hidden property="from"/>
 	<html:hidden property="open"/>
@@ -14,10 +14,9 @@
 
 	<button type="button"
 			onclick="this.form.open.value = this.form.open.value ? '' : 'true'; ${sendCommand}"
-			class="mr1 ${form.param.open eq 'true' ? 'btn-blue' : 'btn-white'}">${l.l('Только открытые')}</button>
+			class="mr1 btn-small ${form.param.open eq 'true' ? 'btn-blue' : 'btn-white'}">${l.l('Open only')}</button>
 
-	<c:set var="nextCommand" value="; ${sendCommand}"/>
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control nextCommand="; ${sendCommand}"/>
 </html:form>
 
 <c:url var="updateProcessUrl" value="/user/message.do">
@@ -29,8 +28,8 @@
 <table class="data mt1 hl">
 	<tr>
 		<td>ID</td>
-		<td>${l.l('Описание')}</td>
-		<td>${l.l('Статус')}</td>
+		<td>${l.l('Description')}</td>
+		<td>${l.l('Status')}</td>
 		<td>${l.l('Создан')}</td>
 	</tr>
 

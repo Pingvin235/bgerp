@@ -38,7 +38,7 @@
 				<h2>${l.l('Название')}</h2>
 				<input type="text" name="title" style="width: 100%" value="${fn:escapeXml( parameter.title )}"/>
 
-				<h2>${l.l('Тип')}</h2>
+				<h2>${l.l('Type')}</h2>
 				<c:choose>
 					<c:when test="${form.id ne '-1'}">
 						<input type="text" name="type" value="${parameter.type}" disabled="disabled" style="width: 100%;"/>

@@ -22,6 +22,7 @@ import org.bgerp.util.Log;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
+import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageTypeNote;
@@ -75,11 +76,14 @@ public class ProcessAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_USER + "/process";
 
     @Override
-    public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
-        return process(form, con);
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        return process(form, conSet);
     }
 
-    public ActionForward process(DynActionForm form, Connection con) throws Exception {
+    public ActionForward process(DynActionForm form, ConnectionSet conSet) throws Exception {
+        var con = conSet.getConnection();
+        var conSlave = conSet.getSlaveConnection();
+
         ProcessDAO processDAO = new ProcessDAO(con, form);
 
         var process = processDAO.getProcess(form.getId());
@@ -91,15 +95,17 @@ public class ProcessAction extends BaseAction {
             ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
             form.setResponseData("process", process);
 
-            form.getHttpRequest().setAttribute("processType", type);
+            form.setRequestAttribute("processType", type);
 
-            // генерация описания процесса
+            // reference generation
             if (type != null) {
                 ProcessReferenceConfig config = type.getProperties().getConfigMap().getConfig(ProcessReferenceConfig.class);
-                process.setReference(config.getReference(con, form, process, "processCard"));
+                process.setReference(config.getReference(conSlave, form, process, "processCard"));
             }
 
-            // передача мастера
+            form.setRequestAttribute("ifaceStateMap", new IfaceStateDAO(conSlave).getIfaceStates(Process.OBJECT_TYPE, process.getId()));
+
+            // wizard
             if (Utils.notBlankString(form.getParam("wizard")) || form.getId() < 0) {
                 Wizard wizard = type.getProperties().getCreateWizard();
                 if (wizard != null) {
@@ -109,11 +115,11 @@ public class ProcessAction extends BaseAction {
             }
         }
 
-        return html(con, form, Map.of(
+        return html(conSet, form, getForwardJspPath(form, Map.of(
             "processGroupsWithRoles", PATH_JSP + "/process/editor_groups_with_roles.jsp",
             "processExecutors", PATH_JSP + "/process/editor_executors.jsp",
             "processStatus", PATH_JSP + "/process/editor_status.jsp",
-            "", PATH_JSP + "/process/process.jsp"));
+            "", PATH_JSP + "/process/process.jsp")));
     }
 
     /**
@@ -803,6 +809,8 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward messageRelatedProcessList(DynActionForm form, Connection con) throws Exception {
+        restoreRequestParams(con, form, true, true, "open");
+
         String addressFrom = form.getParam("from");
         Boolean open = form.getParamBoolean("open", null);
 

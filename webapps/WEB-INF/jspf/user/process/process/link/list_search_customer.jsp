@@ -10,7 +10,7 @@
 		<td>&nbsp;</td>
 		<td>ID</td>
 		<td width="100%">${l.l('Title')}</td>
-		<td>${l.l('Тип')}</td>
+		<td>${l.l('Type')}</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>

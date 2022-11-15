@@ -308,7 +308,7 @@
 					<c:if test="${filterFromList.type == 'type'}">
 						<c:set var="filter" value="${filterFromList}"/>
 
-						<c:set var="title" value="${l.l('Тип')}"/>
+						<c:set var="title" value="${l.l('Type')}"/>
 						<c:set var="code">
 							<u:sc>
 								<c:set var="values" value="${filter.defaultValues}"/>
@@ -318,7 +318,7 @@
 
 								<ui:combo-check paramName="type" values="${values}"
 									list="${form.response.data.typeList}" map="${ctxProcessTypeMap}" available="${filter.availableValues}"
-									prefixText="${l.l('Тип')}:" showFilter="1" widthTextValue="10em"/>
+									prefixText="${l.l('Type')}:" showFilter="1" widthTextValue="10em"/>
 							</u:sc>
 					 	</c:set>
 						<%@ include file="filter_item.jsp"%>
@@ -387,14 +387,14 @@
 
 					<c:if test="${filterFromList.type == 'description'}">
 						<c:set var="filter" value="${filterFromList}"/>
-						<c:set var="title" value="${l.l('Описание')}"/>
+						<c:set var="title" value="${l.l('Description')}"/>
 						<c:set var="code">
 							<c:choose>
 								<c:when test="${not empty savedParamsFilters.get( 'description' ) }">
-									<input type="text" value="${savedParamsFilters.get( 'description' )}" name="description" placeholder="${l.l('Описание')}" size="20" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
+									<input type="text" value="${savedParamsFilters.get( 'description' )}" name="description" placeholder="${l.l('Description')}" size="20" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
 								</c:when>
 								<c:otherwise>
-									<input type="text" name="description" placeholder="${l.l('Описание')}" size="20" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
+									<input type="text" name="description" placeholder="${l.l('Description')}" size="20" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
 								</c:otherwise>
 							</c:choose>
 						</c:set>

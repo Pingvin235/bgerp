@@ -21,10 +21,7 @@
 		</c:when>
 		<%-- picking a form via id--%>
 		<c:when test="${not empty pageFormId}">
-			<c:set var="pageControlForm" value="document.getElementById( '${pageFormId}' )"/>
-			<c:if test="${empty nextCommand}">
-				<c:set var="nextCommand" value="; openUrlTo( formUrl( ${pageControlForm} ), $(this.parentNode.parentNode.parentNode.parentNode.parentNode) )"/>
-			</c:if>
+			<c:set var="pageControlForm" value="document.getElementById('${pageFormId}')"/>
 		</c:when>
 		<%-- pagination inside a form --%>
 		<c:otherwise>
@@ -49,7 +46,7 @@
 				<c:if test="${page.recordCount gt 0}">
 					<c:set var="previousPageIndex" value="${page.pageIndex - 1}"/><c:if test="${previousPageIndex < 1}"><c:set var="previousPageIndex" value="1"/></c:if>
 					<td>
-						&nbsp;${l.l('Стр.')}: 
+						&nbsp;${l.l('Стр.')}:
 						<button type="button" class="btn-white btn-small btn-icon" onclick="${command} 1, ${page.pageSize}, '${pagePrefix}' ) ${nextCommand}">
 							<i class="ti-control-skip-backward"></i>
 						</button>

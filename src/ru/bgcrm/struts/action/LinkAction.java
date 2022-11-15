@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.util.sql.LikePattern;
 
-import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CommonLinkDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
@@ -112,7 +112,7 @@ public class LinkAction extends BaseAction {
         Connection con = conSet.getConnection();
 
         List<CommonObjectLink> list = CommonLinkDAO.getLinkDAO(link.getObjectType(), con).getObjectLinksWithType(link.getObjectId(),
-                CommonDAO.getLikePatternStart(link.getLinkedObjectType()));
+                LikePattern.START.get(link.getLinkedObjectType()));
         form.getResponse().setData("list", list);
 
         if (Process.OBJECT_TYPE.equals(link.getObjectType())) {
@@ -120,8 +120,7 @@ public class LinkAction extends BaseAction {
             form.getHttpRequest().setAttribute("process", process);
         }
 
-        // TODO: Move the JSP to PATH_JSP_USER + "/link/list.jsp"
-        return html(conSet, form, PATH_JSP_USER + "/process/process/link_list.jsp");
+        return html(conSet, form, PATH_JSP_USER + "/process/process/link/list.jsp");
     }
 
     private CommonObjectLink getLink(DynActionForm form) {
@@ -132,6 +131,7 @@ public class LinkAction extends BaseAction {
         link.setLinkedObjectType(form.getParam("linkedObjectType"));
         link.setLinkedObjectId(Utils.parseInt(form.getParam("linkedObjectId")));
         link.setLinkedObjectTitle(form.getParam("linkedObjectTitle"));
+        // store parameters with c: prefix in name to link configuration
         for (Map.Entry<String, Object> me : form.getParam().entrySet()) {
             String key = me.getKey();
             if (key.startsWith(PARAM_PREFIX)) {

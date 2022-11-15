@@ -10,7 +10,7 @@
 			<table class="data hl fixed-header" id="${uiid}">
 				<tr>
 					<td width="30">ID</td>
-					<td>${l.l('Тип')}</td>
+					<td>${l.l('Type')}</td>
 					<td>${l.l('Тема')}</td>
 					<td>${l.l('От')}</td>
 					<td>${l.l('Время')}</td>
@@ -59,7 +59,7 @@
 							<ui:button type="more" styleClass="btn-small" onclick="$$.ui.menuInit($(this), $('#${menuUiid}'), 'left', true);"/>
 						</td>
 						<c:if test="${form.param.typeId le 0}">
-							<td>${l.l('Тип')}</td>
+							<td>${l.l('Type')}</td>
 						</c:if>
 						<td>${l.l('Тема')}</td>
 						<td>${l.l('От')}</td>

@@ -12,21 +12,21 @@
 		<td>${l.l('Дата заключения')}</td>
 		<td>${l.l('Баланс')}</td>
 		<td>${l.l('Тариф')}</td>
-		<td>${l.l('Статус')}</td>
+		<td>${l.l('Status')}</td>
 	</tr>
 		<c:forEach var="db" items="${result}" >
 			<c:set var="dbResult" value="${db.value}"/>
-			
+
 			<c:if test="${not empty dbResult}">
 				<c:set var="status">
 					<x:out select="$dbResult/data/@status"/>
-				</c:set>	
-			
+				</c:set>
+
 				<c:choose>
 					<c:when test="${status eq 'ok'}">
-						
+
 						<x:set var="items" select="$dbResult/data/contracts/item"/>
-						
+
 						<x:forEach var="item" select="$items">
 							<tr>
 								<td><x:out select="$item/@id"/></td>
@@ -38,7 +38,7 @@
 								<td><x:out select="$item/@status"/> <x:out select="$item/@groups"/></td>
 							</tr>
 						</x:forEach>
-						
+
 					</c:when>
 					<c:otherwise>
 						<c:set var="error">
@@ -47,7 +47,7 @@
 						<h2>Биллинг: ${db.title}</h2>
 						<%@include file="/WEB-INF/jspf/error_div.jsp"%>
 					</c:otherwise>
-				</c:choose>				
+				</c:choose>
 			</c:if>
 		</c:forEach>
 		</table>

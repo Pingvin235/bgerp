@@ -12,8 +12,8 @@
 		<c:when test="${form.param.mode eq MODE_USER_CREATED}">
 			<tr>
 				<td width="30">ID</td>
-				<td width="120">${l.l('Время создания')}</td>
-				<td>${l.l('Описание')}</td>
+				<td width="120">${l.l('Creation time')}</td>
+				<td>${l.l('Description')}</td>
 			</tr>
 			<c:forEach var="item" items="${form.response.data.list}">
 			<tr>
@@ -29,7 +29,7 @@
 			<tr>
 				<td width="30">ID</td>
 				<td width="120">${l.l('Время закрытия')}</td>
-				<td>${l.l('Описание')}</td>
+				<td>${l.l('Description')}</td>
 			</tr>
 			<c:forEach var="item" items="${form.response.data.list}">
 			<tr>
@@ -45,8 +45,8 @@
 			<tr>
 				<td width="30">ID</td>
 				<td width="120">${l.l('Время изменения')}</td>
-				<td width="120">${l.l('Статус')}</td>
-				<td>${l.l('Описание')}</td>
+				<td width="120">${l.l('Status')}</td>
+				<td>${l.l('Description')}</td>
 			</tr>
 			<c:forEach var="item" items="${form.response.data.list}">
 			<tr>
