@@ -1,0 +1,2 @@
+F: Not running class org.bgerp.scheduler.task.NewsManager
+A: DB schema tables 'news', 'news_user'.

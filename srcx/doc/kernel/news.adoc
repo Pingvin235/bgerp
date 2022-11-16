@@ -12,4 +12,4 @@ image::_res/i0117.png[]
 
 == Настройки
 Для пометки новостей прочитанными по таймауту, либо их удаления в <<setup.adoc#scheduler, планировщике>> должен быть 
-настроен запуск класса *ru.bgcrm.worker.NewsManager* раз в сутки.
+настроен запуск класса *org.bgerp.scheduler.task.NewsManager* раз в сутки.

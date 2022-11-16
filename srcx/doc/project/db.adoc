@@ -132,7 +132,7 @@
 
 |comment
 |VARCHAR
-|коментарий
+|комментарий
 
 |last_update
 |TIMESTAMP
@@ -439,12 +439,75 @@ Message tags.
 |===
 
 === news
-Новости.
-// TODO
+News.
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|id
+|INT
+|news id
+
+|user_id
+|INT
+|user ID, link to <<_user, user:id>>
+
+|create_dt
+|DATETIME
+|news create datetime
+
+|update_dt
+|TIMESTAMP
+|news update time
+
+|title
+|VARCHAR
+|news title
+
+|description
+|TEXT
+|news description
+
+|is_popup
+|BIT
+|attribute popup
+
+|life_time
+|INT
+|time live news
+
+|read_time
+|INT
+|time read news
+
+|groups
+|VARCHAR
+|target users groups
+|===
 
 === news_user
-Адресаты новостей.
-// TODO
+News recipients.
+[cols="a,a,50%a", options="header"]
+|===
+|Column
+|Type
+|Description
+
+|id
+|INT
+|news id
+
+|user_id
+|INT
+|user ID, link to <<_user, user:id>>
+
+|is_read
+|BIT
+|attribute read news
+
+|===
 
 === param_address
 Параметры типа "address".
