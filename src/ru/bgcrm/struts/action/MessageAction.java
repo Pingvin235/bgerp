@@ -37,6 +37,7 @@ import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.MessageRemovedEvent;
 import ru.bgcrm.event.link.LinkAddedEvent;
+import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
@@ -49,6 +50,7 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Action(path = "/user/message")
 public class MessageAction extends BaseAction {
@@ -149,6 +151,8 @@ public class MessageAction extends BaseAction {
                     messageDao.updateMessage(type.messageLinkedToProcess(message));
                 else if (contactSaveMode > 0)
                     type.getContactSaver().saveContact(form, con, message, process, contactSaveMode);
+
+                EventProcessor.processEvent(new ProcessMessageAddedEvent(form, message, process), new SingleConnectionSet(con));
             }
         }
 

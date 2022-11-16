@@ -1,0 +1,1 @@
+A: Send event on setting message process.
