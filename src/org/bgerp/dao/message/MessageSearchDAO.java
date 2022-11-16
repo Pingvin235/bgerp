@@ -1,4 +1,4 @@
-package ru.bgcrm.dao.message;
+package org.bgerp.dao.message;
 
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE_TAG;
@@ -14,6 +14,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
+import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.Period;
 import ru.bgcrm.model.message.Message;
@@ -153,6 +154,11 @@ public class MessageSearchDAO extends MessageDAO {
         return this;
     }
 
+    /**
+     * Executes search.
+     * @param result pageable result.
+     * @throws SQLException
+     */
     public void search(Pageable<Message> result) throws SQLException {
         var page = result.getPage();
 

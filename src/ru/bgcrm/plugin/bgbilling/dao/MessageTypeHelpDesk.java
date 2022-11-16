@@ -15,13 +15,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.message.MessageDAO;
-import ru.bgcrm.dao.message.MessageSearchDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;

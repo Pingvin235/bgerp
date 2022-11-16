@@ -8,10 +8,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.bgerp.Interface;
+import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.dao.message.MessageSearchDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.SecretExpression;
 import ru.bgcrm.model.Page;

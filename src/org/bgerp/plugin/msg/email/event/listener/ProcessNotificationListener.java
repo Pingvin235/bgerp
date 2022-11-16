@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Set;
 
 import org.bgerp.Interface;
+import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.l10n.Localization;
 import org.bgerp.l10n.Localizer;
 import org.bgerp.model.Pageable;
@@ -14,7 +15,6 @@ import org.bgerp.util.Log;
 import javassist.NotFoundException;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.expression.ProcessChangeFunctions;
-import ru.bgcrm.dao.message.MessageSearchDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
