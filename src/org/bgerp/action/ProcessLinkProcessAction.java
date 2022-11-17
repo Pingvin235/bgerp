@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.process.config.LinkProcessCreateConfig;
+import org.bgerp.model.process.config.LinkProcessCreateConfigItem;
 
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -24,8 +26,6 @@ import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.model.process.config.LinkProcessCreateConfig;
-import ru.bgcrm.model.process.config.LinkProcessCreateConfigItem;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.ProcessLinkAction;
 import ru.bgcrm.struts.form.DynActionForm;

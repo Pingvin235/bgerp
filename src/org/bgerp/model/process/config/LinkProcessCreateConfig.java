@@ -1,4 +1,4 @@
-package ru.bgcrm.model.process.config;
+package org.bgerp.model.process.config;
 
 import java.sql.Connection;
 import java.util.ArrayList;

@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.config.IsolationConfig;
 import org.bgerp.model.config.IsolationConfig.IsolationProcess;
+import org.bgerp.model.process.config.LinkProcessCreateConfig;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -57,7 +58,6 @@ import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.TransactionProperties;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.process.Wizard;
-import ru.bgcrm.model.process.config.LinkProcessCreateConfig;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.model.process.wizard.WizardData;
 import ru.bgcrm.model.user.Group;

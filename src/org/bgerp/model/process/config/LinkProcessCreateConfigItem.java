@@ -1,4 +1,4 @@
-package ru.bgcrm.model.process.config;
+package org.bgerp.model.process.config;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.BGException;
