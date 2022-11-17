@@ -9,10 +9,10 @@ import static org.junit.Assert.assertTrue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.model.config.IsolationConfig;
 import org.junit.Test;
 
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.config.IsolationConfig;
 
 public class ParameterMapTest {
 

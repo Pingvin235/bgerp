@@ -83,7 +83,7 @@ link:../../../webapps/WEB-INF/jspf/user/parameter/edit.jsp#L160-L160[webapps/WEB
 [[code-configuration-java-beans]]
 === Configuration Java Beans
 In order to speed up parsing and validation, use Java class objects inherited from javadoc:ru.bgcrm.util.Config[]
-For example: link:../../../src/ru/bgcrm/model/config/IsolationConfig.java[ru.bgcrm.model.config.IsolationConfig].
+For example: link:../../../src/org/bgerp/model/config/IsolationConfig.java[org.bgerp.model.config.IsolationConfig].
 This configuration supports constructor with a validation flag, which allows to check syntax when saving.
 
 Configuration bin can be also obtained in JSP:

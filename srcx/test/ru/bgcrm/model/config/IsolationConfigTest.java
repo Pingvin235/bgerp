@@ -1,9 +1,10 @@
 package ru.bgcrm.model.config;
 
+import org.bgerp.model.config.IsolationConfig;
+import org.bgerp.model.config.IsolationConfig.IsolationProcess;
 import org.junit.Assert;
 import org.junit.Test;
 
-import ru.bgcrm.model.config.IsolationConfig.IsolationProcess;
 import ru.bgcrm.util.ParameterMap;
 
 public class IsolationConfigTest {

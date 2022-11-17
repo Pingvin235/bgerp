@@ -17,6 +17,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.config.IsolationConfig;
+import org.bgerp.model.config.IsolationConfig.IsolationProcess;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -45,8 +47,6 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.EntityLogItem;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.config.IsolationConfig;
-import ru.bgcrm.model.config.IsolationConfig.IsolationProcess;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;

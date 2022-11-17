@@ -1,4 +1,4 @@
-package ru.bgcrm.model.config;
+package org.bgerp.model.config;
 
 import org.apache.commons.lang3.StringUtils;
 
