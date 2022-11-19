@@ -1,3 +1,10 @@
+linked.available.{@inc:cnt}.link.types=processDepend
+linked.available.{@cnt}.filter.process.types={@LINKED_AVAILABLE_PROCESS_TYPE_ID}
+linked.available.{@cnt}.filter.process.open=1
+linked.available.{@cnt}.filter.process.statuses={@LINKED_AVAILABLE_PROCESS_STATUS_ID}
+
+link.available.{@inc:cnt}.link.types=processMade,processLink
+link.available.{@cnt}.filter.process.types={@LINK_AVAILABLE_PROCESS_TYPE_ID}
 
 processCreateLink.{@inc:cnt}.title=Create and Link Depended Process
 processCreateLink.{@cnt}.processTypeId={@PROCESS_TYPE_ID}

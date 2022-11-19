@@ -1,14 +1,24 @@
 package org.bgerp.action;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.dao.process.Order;
+import org.bgerp.dao.process.ProcessLinkProcessSearchDAO;
+import org.bgerp.dao.process.ProcessSearchDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.process.config.CommonAvailableConfig;
+import org.bgerp.model.process.config.LinkAvailableConfig;
 import org.bgerp.model.process.config.LinkProcessCreateConfig;
 import org.bgerp.model.process.config.LinkProcessCreateConfigItem;
+import org.bgerp.model.process.config.LinkedAvailableConfig;
 
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -21,12 +31,14 @@ import ru.bgcrm.event.process.ProcessCreatedAsLinkEvent;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
+import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.IfaceState;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.servlet.ActionServlet.Action;
+import ru.bgcrm.struts.action.LinkAction;
 import ru.bgcrm.struts.action.ProcessLinkAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
@@ -57,8 +69,13 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
     public ActionForward linkedProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
         Pageable<Pair<String, Process>> pageable = new Pageable<>(form);
 
-        new ProcessLinkDAO(conSet.getConnection(), form).searchLinkedProcessList(pageable, Process.OBJECT_TYPE + "%", form.getId(), null, null, null,
-                null, form.getParamBoolean("open", null));
+        new ProcessLinkProcessSearchDAO(conSet.getConnection(), form)
+            .withOpen(form.getParamBoolean("open", null))
+            .order(Order.DESCRIPTION)
+            .search(pageable, false, form.getId());
+
+        setReferences(form, conSet.getSlaveConnection(), pageable);
+        // TODO: Attributes.
 
         return html(conSet, form, PATH_JSP + "/linked_list.jsp");
     }
@@ -66,7 +83,10 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
     public ActionForward linkProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
         Pageable<Pair<String, Process>> pageable = new Pageable<>(form);
 
-        new ProcessLinkDAO(conSet.getConnection(), form).searchLinkProcessList(pageable, form.getId(), form.getParamBoolean("open", null));
+        new ProcessLinkProcessSearchDAO(conSet.getConnection(), form)
+            .withOpen(form.getParamBoolean("open", null))
+            .order(Order.DESCRIPTION)
+            .search(pageable, true, form.getId());
 
         setReferences(form, conSet.getSlaveConnection(), pageable);
         setRequestAttributes(form, conSet.getSlaveConnection());
@@ -92,10 +112,91 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
         form.setRequestAttribute("createTypeList", createTypeList);
     }
 
-    public ActionForward linkedProcessCreate(DynActionForm form, Connection con) throws Exception {
-        // int id = form.getId();
+    public ActionForward linkedProcessAvailable(DynActionForm form, Connection con) throws Exception {
+        return linkOrLinkedProcessAvailable(form, con, false);
+    }
 
-        //
+    public ActionForward linkProcessAvailable(DynActionForm form, Connection con) throws Exception {
+        return linkOrLinkedProcessAvailable(form, con, true);
+    }
+
+    private ActionForward linkOrLinkedProcessAvailable(DynActionForm form, Connection con, boolean link) throws Exception {
+        String linkObjectType = form.getParam("objectType", Utils::notBlankString);
+
+        Set<Integer> excludedIds = alreadyLinked(form.getId(), con, link, linkObjectType);
+
+        Stream<IdTitle> buffer = form.getSelectedValuesStr("process").stream()
+            .map(idTitle -> new IdTitle(
+                Utils.parseInt(StringUtils.substringBefore(idTitle, ":")),
+                StringUtils.substringAfter(idTitle, ":")
+            ));
+
+        Stream<IdTitle> available = available(form.getId(), con, link, linkObjectType);
+
+        List<IdTitle> list = Stream.concat(buffer, available)
+            .filter(item -> item.getId() != form.getId() && !excludedIds.contains(item.getId()))
+            // .sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle()))
+            .collect(Collectors.toList());
+
+        form.setResponseData("list", list);
+
+        return html(con, form, PATH_JSP + "/add_existing_available.jsp");
+    }
+
+    private Set<Integer> alreadyLinked(int processId, Connection con, boolean link, String linkObjectType) throws SQLException {
+        var excluded = new Pageable<Pair<String, Process>>().withoutPagination();
+        new ProcessLinkProcessSearchDAO(con).search(excluded, link, processId);
+
+        return excluded.getList().stream()
+            .filter(pair -> pair.getFirst().equals(linkObjectType))
+            .map(pair -> pair.getSecond().getId())
+            .collect(Collectors.toSet());
+    }
+
+    private Stream<IdTitle> available(int processId, Connection con, boolean link, String linkObjectType) throws Exception {
+        var processType = getProcess(new ProcessDAO(con), processId).getType();
+        var configMap = processType.getProperties().getConfigMap();
+
+        CommonAvailableConfig config = link ? configMap.getConfig(LinkAvailableConfig.class) : configMap.getConfig(LinkedAvailableConfig.class);
+        if (config == null)
+            return Stream.empty();
+
+        var processes = new Pageable<Process>().withoutPagination();
+
+        for (var rule : config.rules(linkObjectType)) {
+            new ProcessSearchDAO(con)
+                .withOpen(rule.open)
+                .withType(rule.typeIds)
+                .withStatus(rule.statusIds)
+                .order(Order.DESCRIPTION)
+                .search(processes);
+        }
+
+        return processes.getList().stream().map(p -> new IdTitle(p.getId(), p.getDescription()));
+    }
+
+    public ActionForward linkedProcessAdd(DynActionForm form, Connection con) throws Exception {
+        return linkOrLinkedProcessAdd(form, con, false);
+    }
+
+    public ActionForward linkProcessAdd(DynActionForm form, Connection con) throws Exception {
+        return linkOrLinkedProcessAdd(form, con, true);
+    }
+
+    private ActionForward linkOrLinkedProcessAdd(DynActionForm form, Connection con, boolean link) throws Exception {
+        int id = form.getId();
+        String linkObjectType = form.getParam("objectType", Utils::notBlankString);
+
+        ProcessLinkDAO dao = new ProcessLinkDAO(con);
+
+        for (int processId : form.getSelectedValuesList("processId")) {
+            var l = link ? new ProcessLinkProcess(id, linkObjectType, processId) : new ProcessLinkProcess(processId, linkObjectType, id);
+
+            LinkAction.addLink(form, con, l);
+
+            if (dao.checkCycles(l.getObjectId()))
+                throw new BGMessageException(form.l.l("Циклическая зависимость"));
+        }
 
         return json(con, form);
     }
@@ -118,7 +219,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
         return json(con, form);
     }
 
-    public static Process linkProcessCreate(Connection con, DynActionForm form, Process linkedProcess, int typeId, String linkType,
+    public static Process linkProcessCreate(Connection con, DynActionForm form, Process linkedProcess, int typeId, String linkObjectType,
             int createTypeId, String description, int groupId) throws Exception {
         final ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
 
@@ -134,7 +235,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
                 throw new BGMessageException("Не найдено правило с ID: %s", createTypeId);
             }
 
-            linkType = item.getLinkType();
+            linkObjectType = item.getLinkType();
 
             process.setTypeId(item.getProcessTypeId());
             process.setDescription(description);
@@ -171,7 +272,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
             processCreate(form, con, process, -1);
         }
 
-        linkDao.addLink(new ProcessLinkProcess(linkedId, linkType, process.getId()));
+        linkDao.addLink(new ProcessLinkProcess(linkedId, linkObjectType, process.getId()));
 
         EventProcessor.processEvent(new ProcessCreatedAsLinkEvent(form, linkedProcess, process), new SingleConnectionSet(con));
 

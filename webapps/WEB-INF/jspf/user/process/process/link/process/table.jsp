@@ -67,7 +67,7 @@
 								${process.reference}
 							</c:when>
 							<c:otherwise>
-								<%-- convert tag symbols line breaks --%>
+								<%-- converts tag symbols and line breaks --%>
 								${u:htmlEncode(process.description)}
 							</c:otherwise>
 						</c:choose>

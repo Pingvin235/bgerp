@@ -8,15 +8,17 @@ Incoming variables:
 	linkFormUiid
 --%>
 
-<c:if test="${processType.properties.configMap.get('show.tab.links.process.add.from.buffer', '1') ne '0'}">
-	<u:sc>
+<u:sc>
+	<c:set var="action" value="${mode}ProcessAdd"/>
+
+	<c:if test="${ctxUser.checkPerm('org.bgerp.action.ProcessLinkProcessAction:'.concat(action))}">
 		<c:set var="uiid" value="${u:uiid()}"/>
 		<div id="${uiid}">
-			<html:form action="${form.httpRequestURI}" styleId="addButton" styleClass="pt1">
-				<input type="hidden" name="action" value="${mode}ProcessCreate"/>
+			<html:form action="${form.httpRequestURI}" styleClass="pt1">
+				<input type="hidden" name="action" value="${action}"/>
 				<html:hidden property="id"/>
 
-				<div class="in-table-cell">
+				<div id="addButton" class="in-table-cell">
 					<div class="w100p">
 						<ui:combo-single hiddenName="objectType" styleClass="w100p">
 							<jsp:attribute name="valuesHtml">
@@ -28,16 +30,16 @@ Incoming variables:
 					</div>
 
 					<div class="pl1" style="white-space: nowrap;">
-						<c:url var="url" value="/user/empty.do">
+						<c:url var="url" value="${form.httpRequestURI}">
 							<c:param name="id" value="${form.id}"/>
+							<c:param name="action" value="${mode}ProcessAvailable"/>
 							<c:param name="returnUrl" value="${requestUrl}"/>
-							<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/link/process/buffer_process.jsp"/>
 						</c:url>
 
 						<c:set var="script">
 							$('#${uiid} #addButton').hide();
 
-							let url = '${url}&linkType=' + this.form.objectType.value;
+							let url = '${url}&objectType=' + this.form.objectType.value;
 							const processes = openedObjectList({typesInclude: ['process']});
 							for (const i in processes) {
 								const process = processes[i];
@@ -52,36 +54,23 @@ Incoming variables:
 						<ui:button type="add" onclick="${script}"/>
 					</div>
 				</div>
+
+				<div id="linkObjects" style="display: none;">
+					<div id="linkTable">
+						<%-- сюда сгенерируется таблица с процессами --%>
+					</div>
+					<div class="hint">${l.l('Для привязки доступны процессы, выбранные в буфер')}.</div>
+
+					<div class="tableIndent mt1">
+						<c:set var="script">
+							$$.ajax.post(this).done(() => $$.ajax.load('${form.requestUrl}', $('#${linkFormUiid}').parent()));
+						</c:set>
+
+						<ui:button type="ok" onclick="${script}"/>
+						<ui:button type="cancel" styleClass="ml1" onclick="$('#${uiid} #linkObjects').hide(); $('#${uiid} #addButton').show();"/>
+					</div>
+				</div>
 			</html:form>
-
-			<div id="linkObjects" style="display: none;">
-				<div id="linkTable">
-					<%-- сюда сгенерируется таблица с процессами --%>
-				</div>
-				<div class="hint">${l.l('Для привязки доступны процессы, выбранные в буфер')}.</div>
-
-				<div class="tableIndent mt1">
-					<c:set var="script">
-						const deffs = [];
-
-						const forms = $('#${uiid} #linkObjects form');
-						for (var i = 0; i < forms.length; i++) {
-							var form = forms[i];
-
-							if (!form.check.checked)
-								continue;
-
-							deffs.push($$.ajax.post(form));
-						}
-						$.when.apply($, deffs).done(() => {
-							$$.ajax.load('${form.requestUrl}', $('#${linkFormUiid}').parent());
-						});
-					</c:set>
-
-					<ui:button type="ok" onclick="${script}"/>
-					<ui:button type="cancel" styleClass="ml1" onclick="$('#${uiid} #linkObjects').hide(); $('#${uiid} #addButton').show();"/>
-				</div>
-			</div>
 		</div>
-	</u:sc>
-</c:if>
+	</c:if>
+</u:sc>

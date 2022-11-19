@@ -3,6 +3,7 @@ package org.bgerp.custom.java;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,7 +76,7 @@ public class CompilerWrapper {
      * @return пара: результат компиляции и список скомпилированных файлов
      */
     public Pair<CompilationResult, List<CompiledUnit>> compile(List<String> srcFiles) {
-        String encoding = Setup.getSetup().get("custom.src.encoding", Utils.UTF8.name());
+        String encoding = Setup.getSetup().get("custom.src.encoding", StandardCharsets.UTF_8.name());
 
         String[] options;
         if (Utils.notBlankString(encoding)) {

@@ -261,8 +261,15 @@
 				<item title="Linked processes">
 					<item action="org.bgerp.action.ProcessLinkProcessAction:null, org.bgerp.action.ProcessLinkProcessAction:linkProcessList, org.bgerp.action.ProcessLinkProcessAction:linkedProcessList, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList"
 						title="View linked processes"/>
-					<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate" title="Add child process link"/>
-					<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessDelete, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessDelete" title="Delete link"/>
+					<item title="Parent">
+						<item action="org.bgerp.action.ProcessLinkProcessAction:linkedProcessAdd, org.bgerp.action.ProcessLinkProcessAction:linkedProcessAvailable" title="Add parent process link"/>
+					</item>
+					<item title="Child">
+						<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessAdd, org.bgerp.action.ProcessLinkProcessAction:linkProcessAvailable" title="Add child process link"/>
+						<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate"
+							title="Create process and add as child link"/>
+					</item>
+					<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessDelete, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessDelete" title="Delete process link"/>
 				</item>
 			</item>
 

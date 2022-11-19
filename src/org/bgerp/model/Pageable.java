@@ -49,6 +49,14 @@ public class Pageable<T> {
     }
 
     /**
+     * @return the instance with disabled pagination.
+     */
+    public Pageable<T> withoutPagination() {
+        page.setPageIndex(Page.PAGE_INDEX_NO_PAGING);
+        return this;
+    }
+
+    /**
      * @return pagination options.
      */
     @Dynamic

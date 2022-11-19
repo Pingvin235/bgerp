@@ -88,7 +88,7 @@ image::_res/i0108.png[]
 
 [[demo]]
 == Demo
-To work with the demo you need to install the sip client https://www.linphone.org
+To work with the <<../../kernel/install.adoc#demo, Demo System>> you need to install the sip client https://www.linphone.org
 
 After installation - scan QR code, and click download and apply:
 

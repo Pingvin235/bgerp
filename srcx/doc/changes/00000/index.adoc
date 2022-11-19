@@ -1,6 +1,28 @@
 = CHANGES
 :toc:
 
+== Redesign of <<../../kernel/process/index.adoc#linked-process,Linked Processes Tab>>
+
+image::../../kernel/process/_res/linked_process/tab.png[width="800"]
+
+[square]
+* Pagination for parent relations.
+* Adding relation to parent processes.
+* Configurable available processes for added links.
+
+== Syntax Highlighting Config Editors
+Introduced for the rest of existing editors.
+
+image::_res/img-permission-sets.png[width="800px"]
+
+image::_res/img-groups-of-users.png[width="800px"]
+
+image::_res/img-users.png[width="800px"]
+
+== <<../../kernel/setup.adoc#user-profile, User Profile>> Reset Personalizations
+
+image::../../kernel/_res/user/profile_own_personalization.png[width="800px"]
+
 == Plugin <<../../plugin/pln/callboard/index.adoc#, Callboard>>
 Show groups and users when <<../../plugin/pln/callboard/index.adoc#usage-set-time, setting>> slot in process.
 
@@ -22,18 +44,4 @@ Before.
 
 image::_res/report/bar_old.png[width="800"]
 
-== Syntax Highlighting Config Editors
-Introduced for the rest of existing editors.
 
-image::_res/img-permission-sets.png[width="800px"]
-
-image::_res/img-groups-of-users.png[width="800px"]
-
-image::_res/img-users.png[width="800px"]
-
-== <<../../kernel/setup.adoc#user-profile, User Profile>> Reset Personalizations
-
-image::../../kernel/_res/user/profile_own_personalization.png[width="800px"]
-
-
-// TODO: Linked process editor.

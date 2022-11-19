@@ -9,7 +9,6 @@ import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.CommonLinkDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.link.LinkAddedEvent;
 import ru.bgcrm.event.link.LinkAddingEvent;
@@ -18,7 +17,6 @@ import ru.bgcrm.event.link.LinkRemovingEvent;
 import ru.bgcrm.event.link.LinksToRemovedEvent;
 import ru.bgcrm.event.link.LinksToRemovingEvent;
 import ru.bgcrm.model.BGIllegalArgumentException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -49,11 +47,6 @@ public class LinkAction extends BaseAction {
         EventProcessor.processEvent(new LinkAddingEvent(form, link), new SingleConnectionSet(con));
 
         CommonLinkDAO.getLinkDAO(link.getObjectType(), con).addLink(link);
-
-        if (Process.OBJECT_TYPE.equals(link.getObjectType())) {
-            if (new ProcessLinkDAO(con).checkCycles(link.getObjectId()))
-                throw new BGMessageException(form.l.l("Циклическая зависимость"));
-        }
 
         EventProcessor.processEvent(new LinkAddedEvent(form, link), new SingleConnectionSet(con));
     }

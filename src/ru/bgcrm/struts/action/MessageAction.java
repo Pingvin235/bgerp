@@ -300,7 +300,7 @@ public class MessageAction extends BaseAction {
                 .withAttach(form.getParamBoolean("attach", null))
                 .withDateFrom(form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null))
                 .withFrom(LikePattern.SUB.get(form.getParam("from")))
-                .withFromTimeReverseOrder(reverseOrder)
+                .orderFromTimeReverse(reverseOrder)
                 .search(new Pageable<Message>(form));
         } else {
             // when external system isn't available, an empty table of messages should be however shown
@@ -443,7 +443,7 @@ public class MessageAction extends BaseAction {
             .withTypeIds(allowedTypeIds)
             .withAttach(tagId == TagConfig.Tag.TAG_ATTACH_ID ? true : null)
             .withDateFrom(form.getParamDate("dateFrom"), form.getParamDate("dateTo"))
-            .withFromTimeReverseOrder(true)
+            .orderFromTimeReverse(true)
             .withTagId(tagId)
             .search(new Pageable<>(form));
 

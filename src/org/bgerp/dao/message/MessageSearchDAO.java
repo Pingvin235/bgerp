@@ -149,7 +149,7 @@ public class MessageSearchDAO extends MessageDAO {
      * @param value
      * @return
      */
-    public MessageSearchDAO withFromTimeReverseOrder(boolean value) {
+    public MessageSearchDAO orderFromTimeReverse(boolean value) {
         this.fromTimeReverseOrder = true;
         return this;
     }

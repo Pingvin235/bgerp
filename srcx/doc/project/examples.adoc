@@ -59,7 +59,7 @@ Use javadoc:ru.bgcrm.model.IfaceState[] class
 
 Refreshing value:
 [snippet, from="if (U", to="}", remove-leading="        "]
-link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L44-L52[org.bgerp.action.ProcessLinkProcessAction]
+link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L56-L64[org.bgerp.action.ProcessLinkProcessAction]
 
 Show in JSP:
 [snippet, from="<c:if", to="if>", remove-leading="						"]
@@ -97,8 +97,8 @@ Putting results into JSP and rendering a form:
 link:../../../webapps/WEB-INF/jspf/user/process/process/link/process/pagination.jsp#L12-L29[webapps/WEB-INF/jspf/user/process/process/link/process/pagination.jsp]
 
 Java action:
-[snippet, from="Pag", to="));", remove-leading="        "]
-link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L67-L69[org.bgerp.action.ProcessLinkProcessAction]
+[snippet, from="Pag", to="Id());", remove-leading="        "]
+link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L84-L89[org.bgerp.action.ProcessLinkProcessAction]
 
 [[code-upload-file]]
 === File upload

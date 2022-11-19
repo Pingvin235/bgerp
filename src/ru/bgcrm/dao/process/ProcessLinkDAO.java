@@ -49,13 +49,24 @@ public class ProcessLinkDAO extends CommonLinkDAO {
     private static final Set<String> CYCLES_CONTROL_LINK_TYPES = Set.of(Process.LINK_TYPE_DEPEND, Process.LINK_TYPE_MADE);
 
     /** User request context for isolations. */
-    private final DynActionForm form;
+    protected final DynActionForm form;
 
+    /**
+     * Constructor without isolations.
+     * @param con DB connection.
+     */
     public ProcessLinkDAO(Connection con) {
         super(con);
         this.form = null;
     }
 
+    /**
+     * Constructor, respecting isolations for methods: {@link #getLinkedProcessList(int, String, boolean, Set)},
+     * {@link #searchLinkedProcessList(Pageable, String, int, String, Set, Set, String, Boolean)},
+     * {@link #searchLinkProcessList(Pageable, int)}, {@link #searchLinkProcessList(Pageable, int, Boolean)}.
+     * @param con DB connection.
+     * @param form form object with a user.
+     */
     public ProcessLinkDAO(Connection con, DynActionForm form) {
         super(con);
         this.form = form;
@@ -240,7 +251,9 @@ public class ProcessLinkDAO extends CommonLinkDAO {
      * @param paramFilter опциональный фильтр по параметру, передаётся в {@link ParamValueDAO#getParamJoinFilters(String, String)}.
      * @param open опциональный фильтр по открытости процесса.
      * @throws BGException
+     * @see {@link org.bgerp.dao.process.ProcessLinkProcessSearchDAO}
      */
+    @Deprecated
     public void searchLinkedProcessList(Pageable<Pair<String, Process>> searchResult,
             String objectType, int objectId, String objectTitle,
             Set<Integer> typeIds, Set<Integer> statusIds, String paramFilter, Boolean open)
@@ -349,19 +362,23 @@ public class ProcessLinkDAO extends CommonLinkDAO {
      * @param searchResult
      * @param processId
      * @throws Exception
+     * @see {@link org.bgerp.dao.process.ProcessLinkProcessSearchDAO}
      */
+    @Deprecated
     public void searchLinkProcessList(Pageable<Pair<String, Process>> searchResult, int processId)
         throws Exception {
         searchLinkProcessList(searchResult, processId, null);
     }
 
     /**
-     * Searches processes linked to the process.
+     * Searches processes linked to the process, sorted by creation time desc.
      * @param searchResult
      * @param processId the process.
      * @param open null or open / close filter.
      * @throws Exception
+     * @see {@link org.bgerp.dao.process.ProcessLinkProcessSearchDAO}
      */
+    @Deprecated
     public void searchLinkProcessList(Pageable<Pair<String, Process>> searchResult, int processId, Boolean open)
             throws Exception {
         if (searchResult == null)

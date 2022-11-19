@@ -81,19 +81,17 @@ onCreateSelectGroup=<groupIds>
 descriptionAddPattern=(${description}\n)[(${time}) (${user})]\t(${text})
 # произвольный шаблон времени для добавляемого текста
 descriptionAddPattern.timePattern=dd.MM HH:mm
-#
+
 # JSP шаблон для отображения карточки процесса вместо стандартного /WEB-INF/jspf/user/process/process/process.jsp
 #processCardJsp=/WEB-INF/jspf/user/process/process/custom/process_jur/zayavka.jsp
 # HTML стиль левого и правого блока карточки процесса, по-умолчанию они делятся поровну
 #style.processCardLeftBlock=min-width: 500px;
 #style.processCardRightBlock=width: 100%
-#
+
 # parameters related to <<linked-process, linked processes>> [[config-linked-process]]
 # 0 - hide, 1 (default) - show on tab linked processes
 #show.tab.links.process=0
-# 0 - hide adding linked processes from buffer
-#show.tab.links.process.add.from.buffer=0
-#
+
 # при закрытии процесса проверка закрытости связанных дочерних процессов - down, либо родительских - up, 0 - не проверять никаких
 process.close.check.processDepend=up
 process.close.check.processMade=down
@@ -374,6 +372,12 @@ contract:bitel.processes.queue=11
 
 [[linked-process]]
 == Linked Processes
+NOTE: You can see the feature enabled and sample configurations in <<../install.adoc#demo, Demo System>>, process description *Kernel Process Link*.
+
+The feature can be configured <<config-linked-process, process type properties configuration>>.
+
+[[linked-process-about]]
+=== About
 Связи между процессами носят всегда *направленный характер*.
 
 drawio:_res/linked_process/direction.drawio[]
@@ -390,25 +394,70 @@ Where:
 * *Made* - процессы *B* и *C* является частями процесса *A*, который может быть закрыт только после закрытия *B* и *C*;
 * *Depend* - процесс *C* зависит от процесса *B* и может быть закрыт только после закрытия *B*.
 
+[[linked-process-tab]]
+=== Tab
 На скриншоте ниже в верхней таблице указаны процессы, к которым привязан данный (родительские для него),
 в нижней - привязанные к данному процессу (дочерние). Добавление привязок производится только в родительском процессе.
-
-Параметры в <<config-linked-process, конфигурации типа процесса>> могут изменять вариант опции контроля закрытия и отображения в карточке процесса.
 
 image::_res/linked_process/tab.png[width="800"]
 
 Рассмотрим отображаемые на снимке экрана области В таблице *1* отображаются процессы, которые ссылаются на текущий процесс.
-В таблице *2* - те процессы, на которые ссылается текущий процесс.
+В таблице *2* - те процессы, на которые ссылается текущий процесс. Краткое описание, выводящееся в таблице привязанных процессов, вид левого блока карточки процесса возможно настроить в <<type-config-left, конфигурации типа>>.
+
+Карточка привязанного процесса может быть открыта прямо на вкладке привязок кликом по строке таблицы.
+При этом открывается только левая часть карточки процесса с основными свойствами.
+
+image::_res/linked_process/open_in.png[width="800"]
 
 Clicking on the *add* link opens adding link editor.
 
 image::_res/linked_process/add.png[width="600"]
 
+[[linked-process-tab-add-existing]]
+==== Add Existing Process Link
 Выпадающий список *3* - позволяет выбрать метод отношейний для привязки к текущему другого процесса, открытого в буфере.
 
-IMPORTANT: Не допускаются циклические привязки типов *Ссылается* и *Порождён*, при попытке добавления такой система возвращает ошибку: "Циклическая зависимость".
+After the relation type choice is taken the table with available processes is shown.
 
-Выпадающий список *4* - позволяет создать процесс и привязать к данному процессу. Содержимое списка определяется записями в конфигурации типа процесса вида:
+image::_res/linked_process/available.png[width="800"]
+
+On the top area presented processed, opened in buffer. Below those selected so-called available processed, configured in process type using the following blocks.
+
+[source]
+----
+<linkDirection>.available.{@inc:cnt}.link.types=<linkTypes>
+<linkDirection>.available.{@cnt}.filter.process.types=<processTypes>
+<linkDirection>.available.{@cnt}.filter.process.open=<openOrClose>
+<linkDirection>.available.{@cnt}.filter.process.statuses=<statuses>
+----
+
+Where:
+[square]
+* *<linkDirection>* - *link* for child links, *linked* for parent ones;
+* *<linkTypes>* - optional comma separated list of allowed relation types: *processMade*, *processDepend*, *processLink*;
+* *<processTypes>* - optional comma separated list with allowed process IDs;
+* *<openOrClose>* - optional *1* or *0* for selecting only open or closed processes;
+* *<statuses>* - optional comma separated list of allowed process status IDs.
+
+Example for available parent and child processes:
+[source]
+----
+linked.available.{@inc:cnt}.link.types=processDepend
+linked.available.{@cnt}.filter.process.types=17
+linked.available.{@cnt}.filter.process.open=1
+linked.available.{@cnt}.filter.process.statuses=2,10
+
+link.available.{@inc:cnt}.link.types=processMade,processLink
+link.available.{@cnt}.filter.process.types=19
+----
+
+There are may be many such rules for link and linked available processes. Any of them will be selected sequentially.
+
+IMPORTANT: Не допускаются циклические привязки типов *Link* и *Made*, при попытке добавления такой система возвращает ошибку: "Циклическая зависимость".
+
+[[linked-process-tab-create-and-link]]
+==== Create And Link Child Process
+Выпадающий список *4* - позволяет создать *child* процесс и привязать к данному процессу. Содержимое списка определяется записями в конфигурации типа процесса вида:
 [source]
 ----
 processCreateLink.<n>.title=<title>
@@ -445,13 +494,6 @@ processCreateLink.1.checkExpression=processParam.getParamValue(227) == 1
 processCreateLink.1.copyParams=48,46,150,151
 processCreateLink.1.copyLinks=1
 ----
-
-Карточка привязанного процесса может быть открыта прямо на вкладке привязок кликом по строке таблицы.
-При этом открывается только левая часть карточки процесса с основными свойствами.
-
-image::_res/linked_process/open_in.png[width="800"]
-
-Краткое описание, выводящееся в таблице привязанных процессов, вид левого блока карточки процесса возможно настроить в <<type-config-left, конфигурации типа>>.
 
 [[linked-process-howto]]
 === Рекомендации к применению
