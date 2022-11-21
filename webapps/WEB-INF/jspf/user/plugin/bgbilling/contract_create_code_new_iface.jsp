@@ -12,9 +12,6 @@
 			{
 				form.billingId.value = '${type.billingId}';
 				form.patternId.value = '${type.patternId}';
-				<c:if test="${usingCommonContract}">
-					form.serviceCode.value = '${type.serviceCode}';
-				</c:if>
 
 				var html = '<li value=\'-1\'>-- без указания тарифа --</li>';
 				<c:if test="${not empty type.tariffList}">

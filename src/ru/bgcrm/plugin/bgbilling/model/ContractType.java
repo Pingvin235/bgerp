@@ -12,9 +12,6 @@ public class ContractType extends IdTitle {
 
 	private final String billingId;
 	private final int patternId;
-	// код сервиса при создании договора от единого
-	private final String serviceCode;
-	private final int commonContractAreaCode;
 	private final List<IdTitle> tariffList;
 	private final Map<Integer, String> tariffMap = new HashMap<Integer, String>();
 	/** -1  - тариф заменит первый существующий либо будет добавлен, если текущего нет;
@@ -27,8 +24,6 @@ public class ContractType extends IdTitle {
 
 		this.billingId = param.get("billing");
 		this.patternId = param.getInt("patternId", 0);
-		this.serviceCode = param.get("serviceCode");
-		this.commonContractAreaCode = param.getInt("commonContractAreaCode", 0);
 		this.tariffList = Utils.parseIdTitleList(param.get("tariffList", ""));
 		this.tariffPosition = param.getInt("tariffPosition", -1);
 
@@ -57,16 +52,8 @@ public class ContractType extends IdTitle {
 		return tariffMap;
 	}
 
-	public String getServiceCode() {
-		return serviceCode;
-	}
-
-	public int getCommonContractAreaCode() {
-		return commonContractAreaCode;
-	}
-
 	public int getTariffPosition() {
 		return tariffPosition;
 	}
-	
+
 }

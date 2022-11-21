@@ -16,44 +16,6 @@
 	<button type="button" class="btn-green" onclick="$('#${createButtonsUiid}').hide(); $('#${createContractUiid}').show();">Создать договор</button>
 </div>
 
-<c:set var="commonContractChangedScript">
-	var typeMap = new Array();
-	var typeObject;
-
-	<c:forEach var="item" items="${contractTypesConfig.typeMap}">
-		typeObject = new Object();
-		typeObject.value = '${item.key}';
-		typeObject.areaId = '${item.value.commonContractAreaCode}';
-		typeObject.title = '${item.value.title}';
-
-		<c:choose>
-			<c:when test="${item.value.commonContractAreaCode == 0}">
-				typeObject.hidden = false;
-			</c:when>
-			<c:otherwise>
-				typeObject.hidden = true;
-			</c:otherwise>
-		</c:choose>
-
-		typeMap.push(typeObject);
-	</c:forEach>
-
-	var areaId = $(item).attr( 'areaid' );
-
-	var $ul = $('#${createContractUiid} #selectType ul.drop');
-	$ul.html("");
-
-	typeMap.forEach( function( element, index )
-	{
-		if( element.areaId == areaId )
-		{
-			$ul.append( $( '<li></li>' ).attr( 'value', element.value ).attr( 'areaid', element.areaId ).text( element.title ) );
-		}
-	});
-
-	$$.ui.comboSingleInit( $('#${createContractUiid} #selectType div.combo' ) );
-</c:set>
-
 <html:form action="/user/plugin/bgbilling/contract" style="display: none;" styleClass="in-table-cell nowrap in-pr05" styleId="${createContractUiid}">
 	<input type="hidden" name="action" value="contractCreate"/>
 	<input type="hidden" name="date" value="${currentDate}"/>
@@ -61,25 +23,6 @@
 	<input type="hidden" name="billingId"/>
 	<input type="hidden" name="patternId"/>
 	<input type="hidden" name="comment" value="${fn:escapeXml(customer.title)}"/>
-
-	<c:if test="${usingCommonContract}">
-		<div>
-			<input type="hidden" name="serviceCode"/>
-			<u:sc>
-				<c:set var="valuesHtml">
-					<li value="0" areaId="0">--- без единого договора ---</option>
-					<c:forEach var="item" items="${commonContractList}">
-						<li value="${item.id}" areaId="${item.areaId}">${item.formatedNumber}</option>
-					</c:forEach>
-				</c:set>
-				<c:set var="hiddenName" value="commonContractId"/>
-				<c:set var="prefixText" value="Единый договор:"/>
-				<c:set var="style" value="width: 100%;"/>
-				<c:set var="onSelect" value="${commonContractChangedScript}"/>
-				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
-			</u:sc>
-		</div>
-	</c:if>
 
 	<div>
 		Номер:
@@ -92,14 +35,7 @@
 		<u:sc>
 			<c:set var="valuesHtml">
 				<c:forEach var="item" items="${contractTypesConfig.typeMap}">
-					<c:choose>
-						<c:when test="${item.value.commonContractAreaCode == 0}">
-							<li value="${item.key}" areaId="${item.value.commonContractAreaCode}">${item.value.title}</li>
-						</c:when>
-						<c:otherwise>
-							<li value="${item.key}" hidden="hidden" areaId="${item.value.commonContractAreaCode}">${item.value.title}</li>
-						</c:otherwise>
-					</c:choose>
+					<li value="${item.key}">${item.value.title}</li>
 				</c:forEach>
 			</c:set>
 			<c:set var="hiddenName" value="typeId"/>
