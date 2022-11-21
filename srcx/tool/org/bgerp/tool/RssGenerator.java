@@ -27,7 +27,7 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class RssGenerator {
-    private static final Log LOG = Log.getLog();
+    private static final Log log = Log.getLog();
 
     // Mon, 06 Mar 2017 15:05:02 +0500
     private static final DateFormat PUB_DATE_FORMAT = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
@@ -39,7 +39,7 @@ public class RssGenerator {
         this.title = "ChangeLog BGERP v." + version + " CI";
         this.downloadLink = "ftp://bgerp.org/pub/bgerp/" + version;
 
-        LOG.info("Generating RSS for version: {}", version);
+        log.info("Generating RSS for version: {}", version);
 
         try (BufferedReader changesTxt = new BufferedReader(new InputStreamReader(new FileInputStream(fileIn), Charsets.UTF_8))) {
             SortedMap<Date, Record> sortedRecords = new TreeMap<>();

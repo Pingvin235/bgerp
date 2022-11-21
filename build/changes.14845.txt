@@ -1,0 +1,3 @@
+C: Gradle task 'publishRelease' rewritten to Java and supported new paths.
+C: Fully cleanup of using Ant scripts.
+A: Download demo lic.data in docker-bgerp.sh and demo_reset.sh scripts.

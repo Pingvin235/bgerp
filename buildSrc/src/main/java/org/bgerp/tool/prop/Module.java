@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Build module properties class.
+ * Build module properties class. Used in Gradle scripts and tool classes.
  *
  * @author Shamil Vakhitov
  */
@@ -34,13 +34,6 @@ public class Module {
         build = prop.getProperty(KEY_BUILD_NUMBER);
     }
 
-    // /**
-    //  * @return module's name.
-    //  */
-    // public String name() {
-    //     return name;
-    // }
-
     /**
      * @return properties file name.
      */
@@ -54,19 +47,4 @@ public class Module {
     public String zipName() {
         return name + "_" + version + "_" + build + ".zip";
     }
-
-
-    // /**
-    //  * @return product version, e.g. 3.0
-    //  */
-    // public String version() {
-    //     return version;
-    // }
-
-    // /**
-    //  * @return module's build number.
-    //  */
-    // public String build() {
-    //     return build;
-    // }
 }

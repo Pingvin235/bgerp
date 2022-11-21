@@ -1,2 +1,4 @@
 = Demo DB reset scripts
 Used on https://demo.bgerp.org
+Demo application instance is running under user *demo* in `/home/demo/bgerp` directory.
+The `demo_reset.sh` and `crontab` files are placed in `/home/demo`.

@@ -5,17 +5,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.io.output.WriterOutputStream;
 import org.apache.commons.lang3.ArrayUtils;
+import org.bgerp.util.Log;
 
 /**
- * Runner of OS commands, redirects STDOUT and STDERR output.
+ * Runner of OS commands, collects STDOUT and STDERR output values.
  *
  * @author Shamil Vakhitov
  */
 public class RuntimeRunner {
+    private static final Log log = Log.getLog();
+
     private class StreamGobbler extends Thread {
         private final InputStream is;
         private final PrintStream out;
@@ -30,8 +36,9 @@ public class RuntimeRunner {
                 var br = new BufferedReader(new InputStreamReader(is));
                 String line = null;
                 while ((line = br.readLine()) != null) {
-                    out.println(prefix(line));
+                    out.println(line);
                 }
+                out.flush();
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
@@ -43,6 +50,10 @@ public class RuntimeRunner {
     /** Unique ID of an executed command. */
     private final int id = CMD_COUNTER.incrementAndGet();
     private final String[] commands;
+    /** STDERR output  */
+    private final StringWriter out = new StringWriter(100);
+    /** STDOUT output */
+    private final StringWriter err = new StringWriter(100);
 
     public RuntimeRunner(String... commands) {
         this.commands = commands;
@@ -61,17 +72,43 @@ public class RuntimeRunner {
         return "[" + id + "] "+ msg;
     }
 
+    /**
+     * Runs OS' process and waiting of execution end.
+     * @throws Exception process' return code is not 0.
+     */
     public void run() throws Exception {
-        System.out.println(prefix("Running: " + List.of(commands)));
+        log.info(prefix("Running: " + List.of(commands)));
+
         long time = System.currentTimeMillis();
         Process proc = Runtime.getRuntime().exec(commands);
 
-        new StreamGobbler(proc.getErrorStream(), System.err).start();
-        new StreamGobbler(proc.getInputStream(), System.out).start();
+        new StreamGobbler(proc.getInputStream(), new PrintStream(new WriterOutputStream(out, StandardCharsets.UTF_8))).start();
+        new StreamGobbler(proc.getErrorStream(), new PrintStream(new WriterOutputStream(err, StandardCharsets.UTF_8))).start();
 
         int code = proc.waitFor();
-        System.out.println(prefix("Execution time => " + (System.currentTimeMillis() - time) + " ms."));
-        if (code != 0)
+
+        String out = out();
+        if (!out.isBlank())
+            log.info(prefix("STDOUT: " + out));
+        log.info(prefix("Execution time => " + (System.currentTimeMillis() - time) + " ms."));
+
+        if (code != 0) {
+            log.error(prefix("STDERR: " + err()));
             throw new Exception("Execution code: " + code);
+        }
+    }
+
+    /**
+     * @return collected STDOUT output.
+     */
+    public String out() {
+        return out.toString();
+    }
+
+    /**
+     * @return collected STDERR output.
+     */
+    public String err() {
+        return err.toString();
     }
 }

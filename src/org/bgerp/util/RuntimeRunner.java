@@ -11,7 +11,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Priority;
 
 /**
- * Runner of OS commands, writing STDOUT and STDERR output
+ * Runner of OS commands, writing STDOUT and STDERR outputs
  * to a log with levels INFO and ERROR.
  *
  * @author Shamil Vakhitov

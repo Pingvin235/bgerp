@@ -13,80 +13,15 @@ task publishRelease(type: JavaExec, dependsOn: 'compileToolJava', description: '
     mustRunAfter 'patchChanges'
     mustRunAfter 'rss'
     classpath =  sourceSets.tool.runtimeClasspath
-    // TODO: Move all the logic from publishReleaseOld to the class.
     mainClass = 'org.bgerp.tool.PublishRelease'
-    args "$buildDir/$distsDirName", version
-}
-
-task publishReleaseOld {
-    mustRunAfter 'buildUpdateOld'
-    mustRunAfter 'buildUpdateLibOld'
-    mustRunAfter 'patchChanges'
-    mustRunAfter 'rss'
-    doFirst {
-        publishFile("$projectDir/build/bgerp", "bgerp_${version}_*.zip", true, "bgerp.zip")
-        publishFile("$projectDir/build/update", "update_${version}_*.zip", true, null)
-        publishFile("$projectDir/build/update_lib", "update_lib_${version}_*.zip", true, null)
-        publishFile("$projectDir/build", "changes.txt", false, null)
-        publishFile("$projectDir/build", "changes.xml", false, null)
-        publishBuildNumber()
-    }
-}
-
-def publishBuildNumber() {
-    def targetDir = "$projectDir/target"
-    def buildNumberFile = "build.number"
-    file(targetDir + "/" + buildNumberFile).text = getBuild()
-
-    println "Publish $buildNumberFile"
-
-    def sshLogin = 'www@bgerp.org'
-    def sshFolder = "/home/www/www.bgerp.org/download/$version"
-
-    println "Copy $buildNumberFile"
-    "scp $targetDir/$buildNumberFile $sshLogin:$sshFolder".execute()
-}
-
-def publishFile(String localDir, String mask, boolean versioned, String link) {
-    println "Publish $localDir/$mask"
-
-    def localFile = fileTree(dir: localDir, include: mask).getFiles()
-    if (!localFile) return
-    localFile = localFile[0].getName()
-    println "Local: $localFile"
-
-    def sshLogin = 'cdn@bgerp.org'
-    def sshFolder = "/home/cdn/www/download/$version"
-
-    def remoteFile
-    if (versioned) {
-        remoteFile = "ssh $sshLogin cd $sshFolder; ls $mask".execute().text.trim()
-        println "Remote: $remoteFile"
-
-        if (localFile == remoteFile) {
-            createSymlink(sshLogin, sshFolder, link, remoteFile)
-            return
-        }
-    }
-
-    println "Copy $localFile"
-    "scp $localDir/$localFile $sshLogin:$sshFolder".execute()
-
-    if (versioned) {
-        println "Move $remoteFile to archive"
-        "ssh $sshLogin mv $sshFolder/$remoteFile $sshFolder/archive/$remoteFile".execute()
-        createSymlink(sshLogin, sshFolder, link, localFile)
-    }
-}
-
-def createSymlink(String sshLogin, String sshFolder, String link, String target) {
-    if (link) {
-        println "Creating symlink $link"
-        println "ssh $sshLogin cd $sshFolder; ln -sf ./$target $link".execute().text
-    }
+    args "$buildDir/$distsDirName", version, "${->getBuild()}"
 }
 
 task publishCommit(type: Exec, description: 'Pushes changes in master branch to GIT') {
+    mustRunAfter 'updateProperties'
+    mustRunAfter 'updatePropertiesLib'
+    mustRunAfter 'patchChanges'
+    mustRunAfter 'rss'
     workingDir "$projectDir/build"
     commandLine 'git', 'commit', '*.properties', 'changes.txt', 'changes.*.txt', "-m PUBLISH ${->getBuild()}"
 }

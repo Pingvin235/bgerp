@@ -1,18 +1,3 @@
-task updateProperties(type: JavaExec, dependsOn: 'compileToolJava', description: 'Updates update.properties file for update module') {
-    classpath =  sourceSets.tool.runtimeClasspath
-    mainClass = 'org.bgerp.tool.prop.Update'
-    args version, updateDir, "${->getChangeId()}"
-}
-
-task updateLibProperties(type: JavaExec, dependsOn: 'compileToolJava', description: 'Updates update.properties file for update_lib module if exists file build/changes.lib.txt') {
-    onlyIf {
-        file("build/changes.lib.txt").exists()
-    }
-    classpath =  sourceSets.tool.runtimeClasspath
-    mainClass = 'org.bgerp.tool.prop.Update'
-    args version, updateLibDir, ''
-}
-
 task resetProperties {
     doFirst {
         println "Reset update.properties"
@@ -22,73 +7,26 @@ task resetProperties {
     }
 }
 
-// OLD TASKS, SHOULD BE REMOVED LATER
-// use Ant calls, that XML files should be removed as well
-
-// called from ant build/update_lib/build.xml
-task copyLibExt(type: Copy) {
-    into "$buildDir/lib"
-    from configurations.runtimeClasspath
-}
-
-task copyProperties(type: JavaExec, dependsOn: ['classes', 'compileToolJava'], description: '[OLD] Copies update.properties file for update module to classes path') {
-    mustRunAfter 'updateProperties'
+task updateProperties(type: JavaExec, dependsOn: 'compileToolJava', description: 'Updates update.properties file for update module') {
+    mustRunAfter 'resetProperties'
     classpath =  sourceSets.tool.runtimeClasspath
-    mainClass = 'org.bgerp.tool.prop.Copy'
-    args updateDir, classesPath
+    mainClass = 'org.bgerp.tool.prop.Update'
+    args version, updateDir, "${->getChangeId()}"
 }
 
-task copyLibProperties(type: JavaExec, dependsOn: ['classes', 'compileToolJava'], description: '[OLD] Copies update.properties file for update_lib module to classes path') {
-    mustRunAfter 'updateLibProperties'
-    classpath =  sourceSets.tool.runtimeClasspath
-    mainClass = 'org.bgerp.tool.prop.Copy'
-    args updateLibDir, classesPath
-}
-
-task buildUpdateOld(type: Exec, dependsOn: ['classes', 'copyProperties'], description: '[OLD] Builds distribution and update archives') {
-    workingDir updateDir
-    commandLine "ant"
-    environment classesPath: classesPath, changeId: "${->getChangeId()}"
-}
-
-task buildUpdateLibOld(type: Exec, dependsOn: ['classes', 'copyLibProperties'], description: '[OLD] Builds library update archive if exists file build/changes.lib.txt') {
+task updateLibProperties(type: JavaExec, dependsOn: 'compileToolJava', description: 'Updates update.properties file for update_lib module if exists file build/changes.lib.txt') {
     onlyIf {
         file("build/changes.lib.txt").exists()
     }
-    workingDir updateLibDir
-    commandLine "ant"
-}
-
-task buildUpdateLibForce(type: Exec, description: '[OLD] Builds library update archive') {
-    workingDir updateLibDir
-    commandLine "ant"
-}
-
-task buildClean(type: Delete) {
-    delete fileTree("$projectDir/build").matching {
-        include "bgerp/bgerp_${version}_*.zip"
-        include "update/update_${version}_*.zip"
-        include "update_lib/update_lib_${version}_*.zip"
-    }
-}
-// END OF OLD TASKS
-
-// bgerp.jar has placed to $buildDir/$libsDirName
-task buildAppJar(type: Jar, dependsOn: 'classes') {
-    into(versionPackage) {
-        def module = new org.bgerp.tool.prop.Module(updateDir);
-        from(updateDir) {
-            include(module.propertiesName())
-        }
-    }
-    from(sourceSets.main.output) {
-        exclude 'log4j.properties'
-    }
-    archiveFileName = appJarName
+    mustRunAfter 'resetProperties'
+    classpath =  sourceSets.tool.runtimeClasspath
+    mainClass = 'org.bgerp.tool.prop.Update'
+    args version, updateLibDir, ''
 }
 
 // update_$version_$build.zip has placed to $buildDir/$distsDirName
 task buildUpdate(type: Zip, dependsOn: 'buildAppJar', description: 'Builds distribution and update archives') {
+    mustRunAfter 'updateProperties'
     doFirst {
         def module = new org.bgerp.tool.prop.Module(updateDir);
         archiveFileName.set(module.zipName());
@@ -117,19 +55,23 @@ task buildUpdate(type: Zip, dependsOn: 'buildAppJar', description: 'Builds distr
     }
 }
 
-// lib.jar has placed to $buildDir/$libsDirName
-task buildLibJar(type: Jar) {
+// bgerp.jar has placed to $buildDir/$libsDirName
+task buildAppJar(type: Jar, dependsOn: 'classes') {
     into(versionPackage) {
-        def module = new org.bgerp.tool.prop.Module(updateLibDir);
-        from(updateLibDir) {
+        def module = new org.bgerp.tool.prop.Module(updateDir);
+        from(updateDir) {
             include(module.propertiesName())
         }
     }
-    archiveFileName = libJarName
+    from(sourceSets.main.output) {
+        exclude 'log4j.properties'
+    }
+    archiveFileName = appJarName
 }
 
 // update_lib_$version_$build.zip has placed to $buildDir/$distsDirName
 task buildUpdateLib(type: Zip, dependsOn: 'buildLibJar', description: 'Builds library update archive if exists file build/changes.lib.txt') {
+    mustRunAfter 'updateLibProperties'
     onlyIf {
         file("build/changes.lib.txt").exists()
     }
@@ -148,7 +90,20 @@ task buildUpdateLib(type: Zip, dependsOn: 'buildLibJar', description: 'Builds li
     }
 }
 
+// lib.jar has placed to $buildDir/$libsDirName
+task buildLibJar(type: Jar) {
+    into(versionPackage) {
+        def module = new org.bgerp.tool.prop.Module(updateLibDir);
+        from(updateLibDir) {
+            include(module.propertiesName())
+        }
+    }
+    archiveFileName = libJarName
+}
+
 task buildDist(type: Zip, dependsOn: ['buildAppJar', 'buildLibJar'], description: 'Builds distribution archive for the first installation') {
+    mustRunAfter 'buildUpdate'
+    mustRunAfter 'buildUpdateLib'
     doFirst {
         def module = new org.bgerp.tool.prop.Module(updateDir);
         archiveFileName.set(module.zipName().replace('update_', 'bgerp_'));
