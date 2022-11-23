@@ -1,0 +1,2 @@
+A: Plugin E-Mail. Delete messages in process.
+F: Delete file attachments on message deletion.

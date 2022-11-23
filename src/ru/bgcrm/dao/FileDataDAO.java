@@ -97,15 +97,14 @@ public class FileDataDAO extends CommonDAO {
     public void delete(FileData fileData) throws Exception {
         checkDir();
 
-        String query = "DELETE FROM " + TABLE_FILE_DATA + " WHERE id=? AND secret=?";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setInt(1, fileData.getId());
-        ps.setString(2, fileData.getSecret());
-        ps.executeUpdate();
-        ps.close();
+        getFile(fileData).delete();
 
-        File file = getFile(fileData);
-        file.delete();
+        String query = SQL_DELETE + TABLE_FILE_DATA + SQL_WHERE + "id=? AND secret=?";
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, fileData.getId());
+            ps.setString(2, fileData.getSecret());
+            ps.executeUpdate();
+        }
     }
 
     public List<FileData> list(List<Integer> ids) throws SQLException {

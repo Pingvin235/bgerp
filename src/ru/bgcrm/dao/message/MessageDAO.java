@@ -29,6 +29,7 @@ import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
+import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
@@ -217,11 +218,11 @@ public class MessageDAO extends CommonDAO {
     }
 
     /**
-     * Deletes all message related entities.
+     * Deletes all message related entities and attached files.
      * @param id the message ID.
      * @throws SQLException
      */
-    public void deleteMessage(int id) throws SQLException {
+    public void deleteMessage(int id) throws Exception {
         Message message = null;
         if (id > 0) {
             message = getMessageById(id);
@@ -239,6 +240,13 @@ public class MessageDAO extends CommonDAO {
 
         if (message != null) {
             updateProcessLastMessageTime(message);
+
+            List<FileData> attaches = message.getAttachList();
+            if (attaches != null) {
+                var dao = new FileDataDAO(con);
+                for (var file : attaches)
+                    dao.delete(file);
+            }
         }
     }
 

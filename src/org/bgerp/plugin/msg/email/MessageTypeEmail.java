@@ -153,6 +153,11 @@ public class MessageTypeEmail extends MessageType {
     }
 
     @Override
+    public boolean isRemovable(Message message) {
+        return true;
+    }
+
+    @Override
     public boolean isProcessChangeSupport() {
         return true;
     }
@@ -239,6 +244,12 @@ public class MessageTypeEmail extends MessageType {
 
     @Override
     public void messageDelete(ConnectionSet conSet, String... messageIds) throws Exception {
+        // message in process, called deletions per one
+        if (messageIds.length == 1 && Utils.parseInt(messageIds[0]) > 0) {
+            new MessageDAO(conSet.getConnection()).deleteMessage(Utils.parseInt(messageIds[0]));
+            return;
+        }
+
         try (var store = mailConfig.getImapStore();
             var incomingFolder = store.getFolder(folderIncoming);
             var trashFolder = store.getFolder(folderTrash)) {
