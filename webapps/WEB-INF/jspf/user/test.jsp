@@ -10,10 +10,10 @@
 		</div>
 
 		<form class="in-mb05">
-			<b>$$.shell.showMessage</b><br/>
+			<b>$$.shell.message.show()</b><br/>
 			<input name="title" type="text" size="50" placeholder="Title"/><br/>
 			<textarea name="text" cols="50" rows="2" placeholder="HTML text"/><br/>
-			<button type="button" class="btn-white" onclick="$$.shell.showMessage(this.form.title.value, this.form.text.value)">SHOW</button>
+			<button type="button" class="btn-white" onclick="$$.shell.message.show(this.form.title.value, this.form.text.value)">SHOW</button>
 		</form>
 	</div>
 </div>

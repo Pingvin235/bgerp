@@ -12,7 +12,7 @@ $$.license = new function() {
 		if (event.linkShown)
 			text = "<a href='#' onclick=\"$$.shell.followLink('/user/admin/license', event)\">" + text + "</a>";
 
-		$$.shell.showMessage(message.title, text);
+		$$.shell.message.show(message.title, text);
 	}
 
 	// public functions

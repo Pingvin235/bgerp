@@ -65,6 +65,8 @@
 <script src="${u:fileNameWithLastModTime('/js/kernel.timer.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.shell.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.shell.login.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.shell.message.js')}"></script>
 
 <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
 

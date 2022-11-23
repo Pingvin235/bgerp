@@ -652,13 +652,13 @@ function sendAJAXCommandWithParams(url, requestParams) {
 // move to $$.ui
 function onAJAXError(url, jqXHR, textStatus, errorThrown) {
 	if (jqXHR.status == 401) {
-		$$.shell.showLoginDialog(jqXHR.responseText);
+		$$.shell.login.show();
 	} else {
 		let text = "<b>URL</b>: " + url;
 		if (jqXHR.responseText)
 			text += "<br/><b>RESPONSE</b>:<br/>" + jqXHR.responseText;
 
-		$$.shell.showMessage("HTTP STATUS: " + jqXHR.status, text);
+		$$.shell.message.show("HTTP STATUS: " + jqXHR.status, text);
 	}
 }
 

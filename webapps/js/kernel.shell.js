@@ -570,33 +570,6 @@ $$.shell = new function () {
 		return $('#content > div:visible');
 	}
 
-	/**
-	 * Login request.
-	 * @return a promise, for that can be added a done callback.
-	 */
-	const login = function () {
-		const $errorMessage = $("#loginErrorMessage");
-		$errorMessage.text("");
-
-		return $.ajax({
-			url: "/login.do",
-			method: "POST",
-			dataType: "json",
-			data: {
-				j_username: $('input[name="j_username"]').val(),
-				j_password: $('input[name="j_password"]').val(),
-				responseType: "json"
-			}
-		}).fail((jqXHR, textStatus) => {
-			// show detailed auth error or 'Connection Error', since 'textStatus' is always 'error'
-			$errorMessage.text(jqXHR.status == 401 ? jqXHR.responseText : "Connection Error");
-		}).done((result) => {
-			const title = result.data.title;
-			if (title) {
-				$("#head .right a.profile").text(title);
-			}
-		});
-	}
 
 	/**
 	 * Close other tabs except active one
@@ -613,38 +586,8 @@ $$.shell = new function () {
 		$("#title > #" + id + ".status > .wrap > .left > .title h1.title").click();
 	}
 
-	/**
-	 * Shows HTML error dialog.
-	 * @param {*} title title.
-	 * @param {*} message HTML message, '\n' replaced automatically to '<br/>'
-	 */
-	 const showMessage = (title, message) => {
-		const $dialog = $("#messageDialog");
-		if (!$dialog.dialog("isOpen")) {
-			$("#messageDialogMessage").html(message.replace(/\\n/g, "<br/>"));
-			$dialog.dialog("option", "title", title);
-
-			$dialog.dialog("open");
-		}
-	}
-
-	const $loginDialog = () => {
-		return $("#loginDialog");
-	}
-
-	/**
-	 * Shows auth dialog.
-	 */
-	const showLoginDialog = () => {
-		const $dialog = $loginDialog();
-		if (!$dialog.dialog("isOpen"))
-			$dialog.dialog("open");
-		$$.timer.stop();
-	}
-
 	// public functions
 	this.$content = $content;
-	this.$loginDialog = $loginDialog;
 	this.debug = debug;
 	this.menuItems = menuItems;
 	this.initBuffer = initBuffer;
@@ -652,14 +595,7 @@ $$.shell = new function () {
 	this.followLink = followLink;
 	this.removeCommandDiv = removeCommandDiv;
 	this.stateFragment = stateFragment;
-	this.login = login;
 	this.closeOthers = closeOthers;
 	this.refreshCurrent = refreshCurrent;
-	this.showMessage = showMessage;
-	this.showLoginDialog = showLoginDialog;
 }
 
-function contentLoad(href) {
-	console.warn($$.deprecated);
-	$$.shell.contentLoad(href);
-}
