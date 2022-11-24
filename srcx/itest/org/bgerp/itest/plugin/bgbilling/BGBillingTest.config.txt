@@ -11,6 +11,6 @@ bgbilling:password.testbill=admin
 
 #
 bgbilling:contractType.1.title=Договор в БИЛЛИНГЕ 7.x (
-bgbilling:contractType.1.billing=bitel
+bgbilling:contractType.1.billing=testbill
 bgbilling:contractType.1.patternId=17
 bgbilling:contractType.1.tariffList=1:Домен физ. лица,2:Домен юр. лица

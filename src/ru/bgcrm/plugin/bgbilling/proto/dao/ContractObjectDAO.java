@@ -16,6 +16,9 @@ import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractObject;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectModuleInfo;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectModuleInfo.ContractObjectModule;
+import ru.bgcrm.plugin.bgbilling.proto.model.ContractObjectModuleInfo.ContractObjectModuleData;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
@@ -77,6 +80,52 @@ public class ContractObjectDAO
 		}
 
 		return object;
+	}
+
+	public ContractObjectModuleInfo contractObjectModuleList( int objectId )
+		throws BGException
+	{
+		Request request = new Request();
+		request.setModule( CONTRACT_OBJECT_MODULE_ID );
+		request.setAction( "ObjectModuleTable" );
+		request.setAttribute( "object_id", objectId );
+
+		Document document = transferData.postData( request, user );
+
+		ContractObjectModuleInfo moduleInfo = new ContractObjectModuleInfo();
+
+		Element dataElement = document.getDocumentElement();
+		NodeList nodeList = dataElement.getElementsByTagName( "row" );
+
+		for( int index = 0; index < nodeList.getLength(); index++ )
+		{
+			Element rowElement = (Element)nodeList.item( index );
+			ContractObjectModuleData data = moduleInfo.new ContractObjectModuleData();
+
+			data.setComment( rowElement.getAttribute( "comment" ) );
+			data.setData( rowElement.getAttribute( "data" ) );
+			data.setModule( rowElement.getAttribute( "module" ) );
+			data.setPeriod( rowElement.getAttribute( "period" ) );
+
+			moduleInfo.getModuleDataList().add( data );
+		}
+
+		nodeList = dataElement.getElementsByTagName( "module" );
+
+		for( int index = 0; index < nodeList.getLength(); index++ )
+		{
+			Element rowElement = (Element)nodeList.item( index );
+			ContractObjectModule data = moduleInfo.new ContractObjectModule();
+
+			data.setId( objectId );
+			data.setName( rowElement.getAttribute( "name" ) );
+			data.setPackClient( rowElement.getAttribute( "pack_client" ) );
+			data.setTitle( rowElement.getAttribute( "title" ) );
+
+			moduleInfo.getModuleList().add( data );
+		}
+
+		return moduleInfo;
 	}
 
 	public void deleteContractObject( int contractId, int objectId )

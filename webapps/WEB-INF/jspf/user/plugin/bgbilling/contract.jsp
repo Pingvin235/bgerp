@@ -31,14 +31,6 @@
 			</c:url>
 			$tabs.tabs( "add", "${url}", "Карточки" );
 
-			<c:if test="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[form.param.billingId].pluginSet.contains( 'ru.bitel.bgbilling.plugins.crm' ) }">
-				<c:url var="url" value="plugin/bgbilling/crm_tabs.jsp">
-					<c:param name="billingId" value="${billingId}"/>
-					<c:param name="contractId" value="${contractId}"/>
-				</c:url>
-				$tabs.tabs( "add", "${url}", "CRM" );
-			</c:if>
-
 			<c:url var="url" value="/user/process/link.do">
 				<c:param name="action" value="linkedProcessList"/>
 				<c:param name="objectType" value="contract:${billingId}"/>

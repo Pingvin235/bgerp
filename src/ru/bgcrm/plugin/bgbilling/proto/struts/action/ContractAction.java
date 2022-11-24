@@ -42,7 +42,6 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractScriptDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractServiceDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractStatusDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.CrmDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DialUpDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.PhoneDAO;
@@ -660,8 +659,8 @@ public class ContractAction extends BaseAction {
         String billingId = form.getParam("billingId");
         Integer objectId = form.getParamInt("objectId");
 
-        CrmDAO crmDAO = new CrmDAO(form.getUser(), billingId);
-        form.getResponse().setData("moduleInfo", crmDAO.contractObjectModuleList(objectId));
+        ContractObjectDAO dao = new ContractObjectDAO(form.getUser(), billingId);
+        form.getResponse().setData("moduleInfo", dao.contractObjectModuleList(objectId));
 
         return json(conSet, form);
     }
@@ -670,8 +669,8 @@ public class ContractAction extends BaseAction {
         String billingId = form.getParam("billingId");
         Integer objectId = form.getParamInt("objectId");
 
-        CrmDAO crmDAO = new CrmDAO(form.getUser(), billingId);
-        form.getResponse().setData("moduleInfo", crmDAO.contractObjectModuleList(objectId));
+        ContractObjectDAO dao = new ContractObjectDAO(form.getUser(), billingId);
+        form.getResponse().setData("moduleInfo", dao.contractObjectModuleList(objectId));
 
         return html(conSet, form, PATH_JSP_CONTRACT + "/object/object_module_summary_table.jsp");
     }

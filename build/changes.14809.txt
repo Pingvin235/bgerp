@@ -1,0 +1,1 @@
+C: Plugin BGBilling. Remove displaying of outdated CRM plugin info.

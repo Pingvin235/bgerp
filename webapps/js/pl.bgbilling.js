@@ -150,66 +150,6 @@ function bgbilling_setTitlePattern( form )
 		}
 	}
 }
-function bgbilling_editProblem( url, billingId )
-{
-	if( !billingId || billingId == -1 )
-	{
-		alert( "Не выбран биллинг." );
-		return;
-	}
-
-	openUrlContent(url);
-}
-
-function bgbilling_registerProblemUpdate( url, processId, billingId, problemId )
-{
-	var result = sendAJAXCommand( url )
-	if( result )
-	{
-		// создание проблемы
-		if( problemId == "new" || problemId == "")
-		{
-			problemId = result.data.problem;
-
-			// привязка проблемы биллинга к процессу
-			addLink( "process", processId, "bgbilling-problem:" + billingId, problemId, "" );
-		}
-
-		refreshCurrentSelectedTab();
-	}
-}
-
-function bgbilling_getRegistredGroups( itemId, billingId, selectedId )
-{
-	var $groups = $("#"+ billingId+"-"+itemId+"-registerGroupList");
-	if( $groups.length > 0 )
-	{
-		var url = "/user/plugin/bgbilling/proto/billingCrm.do?action=registerGroupList&billingId=" + billingId +"&contractId="+itemId;
-		openUrlTo( url, $groups );
-	}
-
-	if( selectedId != 0 )
-	{
-		$groups.find( "option[value=" + selectedId + "]").attr( "selected", "true" );
-	}
-}
-
-function bgbilling_getRegistredExecutors( $selector, billingId, groupId, selectedIds )
-{
-	var $executors = $("#"+ $selector);
-	if( $executors.length > 0 )
-	{
-		var url = "/user/plugin/bgbilling/proto/billingCrm.do?action=registerExecutorList&billingId=" + billingId + "&groupId="+groupId;
-		openUrlTo( url, $executors );
-	}
-	if( selectedIds )
-	{
-		for( var i = 0; i < selectedIds.length; i++ )
-		{
-			$executors.find( ":checkbox[value=" + selectedIds[i] + "]").attr( "checked", "1" );
-		}
-	}
-}
 
 function bgbilling_getContractAddress( contractId, billingId, selectedId )
 {
@@ -223,34 +163,6 @@ function bgbilling_getContractAddress( contractId, billingId, selectedId )
 	{
 		$address.find( "option[value=" + selectedId + "]").attr( "selected", "true" );
 	}
-}
-
-function bgbilling_getTaskTypes( contractId, billingId, selectedId )
-{
-	var $taskTypes = $("#"+ billingId+"-"+contractId+"-taskTypeList");
-	if( $taskTypes.length > 0 )
-	{
-		var url = "/user/plugin/bgbilling/proto/billingCrm.do?action=taskTypeList&billingId=" + billingId +"&contractId="+contractId;
-		openUrlTo( url, $taskTypes );
-	}
-	if( selectedId != 0 )
-	{
-		$taskTypes.find( "option[value=" + selectedId + "]").attr( "selected", "true" );
-	}
-}
-
-function bgbilling_updateTaskStatus( taskStatusId )
-{
-	$('select[name=statusId]:visible').find( "option[value=" + taskStatusId + "]").attr( "selected", "true" );
-}
-
-function bgbilling_updateGroupId(billingId, contractId, typeId)
-{
-	var ajaxResponse = sendAJAXCommandWithParams( "/user/plugin/bgbilling/proto/billingCrm.do?", { "action" : "getRegisterSubjectGroup", "typeId": typeId , "billingId": billingId } );
-	if( ajaxResponse )
-	{
-		$('#'+billingId+'-'+contractId+'-createCallForm select[name=registerGroupId] option[value='+ajaxResponse.data.groupId+']').attr("selected","true");
-	};
 }
 
 function bgbilling_dateFromDecriment( dec )
