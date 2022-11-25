@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<item1>Simple text.</item1>
+	<item2>Line
+break.</item2>
+	<item3>Formatted HTML <b>text</b><br/>
+with linebreaks and <i>so on</i>.</item3>
+	<item4>Текст на Великом и Могучем</item4>
+</data>

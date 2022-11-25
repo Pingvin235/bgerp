@@ -1,0 +1,1 @@
+F: XMLUtils.getElementText method to support self-closed tags.

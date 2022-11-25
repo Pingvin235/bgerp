@@ -33,8 +33,8 @@ public class XMLUtils {
     private static final Log logger = Log.getLog();
 
     /***
-     * Вытаскивает содержимое XML-элемента в виде строки вместе со всеми дочерними тегами
-     * @param node
+     * Extracts content of a XML element as a string with all sub-tags.
+     * @param node the element node.
      * @return
      */
     public static String getElementText(Node node) {
@@ -47,24 +47,28 @@ public class XMLUtils {
             if ((child instanceof CharacterData && !(child instanceof Comment)) || child instanceof EntityReference) {
                 reply.append(child.getNodeValue());
             } else if (child.getNodeType() == Node.ELEMENT_NODE) {
-                reply.append("<").append(child.getNodeName());
+                if (child.getChildNodes().getLength() == 0) {
+                    reply.append("<").append(child.getNodeName()).append("/>");
+                } else {
+                    reply.append("<").append(child.getNodeName());
 
-                NamedNodeMap attrs = child.getAttributes();
-                if (attrs.getLength() > 0) {
-                    reply.append(" ");
-                }
-                for (int j = 0; j < attrs.getLength(); j++) {
-                    Node attr = attrs.item(j);
-                    reply.append(attr.getNodeName()).append("=\"");
-                    if (j == attrs.getLength() - 1)
-                        reply.append(attr.getNodeValue()).append("\"");
-                    else
-                        reply.append(attr.getNodeValue()).append("\" ");
-                }
+                    NamedNodeMap attrs = child.getAttributes();
+                    if (attrs.getLength() > 0) {
+                        reply.append(" ");
+                    }
+                    for (int j = 0; j < attrs.getLength(); j++) {
+                        Node attr = attrs.item(j);
+                        reply.append(attr.getNodeName()).append("=\"");
+                        if (j == attrs.getLength() - 1)
+                            reply.append(attr.getNodeValue()).append("\"");
+                        else
+                            reply.append(attr.getNodeValue()).append("\" ");
+                    }
 
-                reply.append(">");
-                reply.append(getElementText(child));
-                reply.append("</").append(child.getNodeName()).append(">");
+                    reply.append(">");
+                    reply.append(getElementText(child));
+                    reply.append("</").append(child.getNodeName()).append(">");
+                }
             }
         }
 
