@@ -23,7 +23,7 @@
 					var $selected = $('#${selectUiid}').find('li[selected]');
 					if( $selected.length > 0 )
 					{
-						$$.ajax.load( 'empty.do?patternId='+$selected.val()+'&forwardFile=' + '/WEB-INF/jspf/user/plugin/document/additional_parameters.jsp' , $('#${dynamParamDivUiid}') );
+						$$.ajax.load( '/user/empty.do?patternId='+$selected.val()+'&forwardFile=' + '/WEB-INF/jspf/user/plugin/document/additional_parameters.jsp' , $('#${dynamParamDivUiid}') );
 
 						$('#${saveUiid}').toggle($selected.attr('save') == 'true');
 						$('#${streamUiid}').toggle($selected.attr('stream') == 'true');

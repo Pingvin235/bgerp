@@ -184,12 +184,9 @@
 			</c:when>
 
 			<c:when test="${parameter.type eq 'listcount'}">
-				<c:set var="list" value="${listValues}" />
+				<%-- Also used: 'listValues', 'multiple' --%>
 				<c:set var="values" value="${data.value}" />
-				<c:set var="paramName">value</c:set>
-				<c:set var="config" value="${parameter.configMap}" />
-
-				<%@ include file="edit_listcount.jsp"%>
+				<%@ include file="edit/listcount/editor.jsp"%>
 			</c:when>
 
 			<c:when test="${parameter.type eq 'list'}">
@@ -292,7 +289,7 @@
 									<input type="radio" name="rValue" value="0"
 										checked="1"
 										onchange="if( this.checked ){ $('#${valueUiid}').val( this.value );  ${changeScript} }"/>
-										&#160;-- не выбрано --
+										&#160;-- ${l.l('не указан')} --
 								</div>
 								<c:forEach var="item" items="${listValues}">
 									<c:if test="${not( fn:startsWith(item.title, '@') )}">

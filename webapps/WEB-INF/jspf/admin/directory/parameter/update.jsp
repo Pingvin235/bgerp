@@ -65,22 +65,13 @@
 						1.1.2=Неверная настройка<br/>
 					</span>
 
-					<span class="hint list listcount">
-						Значения списка в формате <b>id=value</b>,
-						где <b>id</b> - числовой положительный идентификатор элемента <b>value</b> в списке.
-						Новое значение с новой строки.<br/>
-						<b>Пример:</b><br/>
-						1=Первое значение<br/>
-						2=Второе значение<br/>
-						Заблокированные значения помечаются знаком <b>@</b>, например <b>5=@Значение</b>.<br/>
-					</span>
+					<span class="hint list listcount">${l.l('hint.list.values')}</span>
 				</div>
 
 				<h2>${l.l('Порядок')}</h2>
 				<input type="text" name="order" value="${parameter.order}" style="width: 100%;"/>
 
-				<span class="hint">Определяет позицию параметра в общем списке либо в таблице параметров объектов,
-				если позиция не переопределяется в типе процесса либо в группе параметров.</span>
+				<span class="hint">${l.l('hint.param.order')}</span>
 			</div>
 		</div><%--
 	--%><div style="width: 50%;">

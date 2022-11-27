@@ -18,12 +18,12 @@
 	<c:set var="boardId" value="${u.getFirst(boardsConf.boards).id}"/>
 </c:if>
 
-<ui:combo-single id="${uiid}" 
+<ui:combo-single id="${uiid}"
 	value="${boardId}"
 	widthTextValue="220px"
 	prefixText="${l.l('План')}:"
 	list="${form.response.data.boardsConf.boards}"
-	onSelect="$$.ajax.load('${showUrl}&id=' + $hidden.val(), $$.shell.$content(this))"/>
+	onSelect="$$.ajax.loadContent('${showUrl}&id=' + $hidden.val(), this)"/>
 
 <shell:state moveSelector="#${uiid}"/>
 

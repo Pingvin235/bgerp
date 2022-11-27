@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +46,7 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.ParamChangingEvent;
 import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.IdTitle;
@@ -175,23 +177,6 @@ public class ParameterAction extends BaseAction {
 
         List<ParameterValuePair> parameterValuePairList = new ParamValueDAO(con).loadParameters(paramList, id, offEncryption);
 
-        /* Strange logic, commented out 10.07.21
-        for (ParameterValuePair pvp : parameterValuePairList) {
-            Parameter parameter = pvp.getParameter();
-
-            if (Utils.parseBoolean(parameter.getConfigMap().get("throwParamListShowListEvent"), false)) {
-                EventProcessor.processEvent(new ParamListShowListEvent(form, pvp, id, objectType), parameter.getScript(),
-                        new SingleConnectionConnectionSet(con));
-
-                if (Process.OBJECT_TYPE.equals(objectType)) {
-                    Process process = new ProcessDAO(con).getProcess(id);
-                    ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-                    EventProcessor.processEvent(new ParamListShowListEvent(form, pvp, id, objectType), type.getProperties().getActualScriptName(),
-                            new SingleConnectionConnectionSet(con));
-                }
-            }
-        }*/
-
         form.getResponse().setData("list", parameterValuePairList);
     }
 
@@ -238,17 +223,6 @@ public class ParameterAction extends BaseAction {
                     }
                 });
             }
-
-            /* Strange logic, commented out 10.07.21
-            String objectClassName = "";
-            if (Process.OBJECT_TYPE.equals(parameter.getObject())) {
-                Process process = new ProcessDAO(connectionSet.getConnection()).getProcess(id);
-                ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-                objectClassName = type.getProperties().getActualScriptName();
-            }
-
-            EventProcessor.processEvent(new ParamListGetEvent(form, "process", id, param, values, listValues), param.getScript(), connectionSet);
-            EventProcessor.processEvent(new ParamListGetEvent(form, "process", id, param, values, listValues), objectClassName, connectionSet); */
 
             request.setAttribute("listValues", listValues);
             // для сторонних систем - значения спискового параметра
@@ -423,14 +397,6 @@ public class ParameterAction extends BaseAction {
 
         Object paramValue = null;
 
-        /* String className = parameter.getScript();
-        String objectClassName = "";
-        if (Process.OBJECT_TYPE.equals(parameter.getObject())) {
-            Process process = new ProcessDAO(con).getProcess(id);
-            ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-            objectClassName = type.getProperties().getActualScriptName();
-        } */
-
         if (Parameter.TYPE_TEXT.equals(parameter.getType())) {
             paramValue = form.getParam("value");
             paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
@@ -489,16 +455,19 @@ public class ParameterAction extends BaseAction {
 
             paramValueDAO.updateParamList(id, paramId, values);
         } else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType())) {
-            Set<String> formValues = form.getSelectedValuesStr("value");
-            Map<Integer, BigDecimal> values = new HashMap<>();
+            Map<Integer, BigDecimal> values = new TreeMap<>();
 
-            for (String val : formValues) {
-                String[] valCount = val.split(":");
-                if (valCount.length >= 2) {
-                    Integer itemId = Utils.parseInt(valCount[0]);
-                    BigDecimal itemCount = Utils.parseBigDecimal(valCount[1]);
-                    values.put(itemId, itemCount);
-                }
+            List<String> itemIds = form.getSelectedValuesListStr("itemId");
+            List<String> itemCounts = form.getSelectedValuesListStr("itemCount");
+
+            for (int i = 0; i < itemIds.size() && i < itemCounts.size(); i++) {
+                Integer itemId = Utils.parseInt(itemIds.get(i));
+                BigDecimal itemCount = Utils.parseBigDecimal(itemCounts.get(i));
+
+                if (itemId <= 0 || BigDecimal.ZERO.equals(itemCount))
+                    throw new BGIllegalArgumentException("itemCount");
+
+                values.put(itemId, itemCount);
             }
 
             paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values));
@@ -631,6 +600,10 @@ public class ParameterAction extends BaseAction {
         EventProcessor.processEvent(changedEvent, new SingleConnectionSet(con));
 
         return json(con, form);
+    }
+
+    public ActionForward parameterListcountAddValue(DynActionForm form, ConnectionSet conSet) {
+        return html(conSet, form, PATH_JSP + "/edit/listcount/value_row.jsp");
     }
 
     private void paramChangingProcess(Connection con, ParamChangingEvent event) throws Exception {

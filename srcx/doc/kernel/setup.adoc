@@ -606,32 +606,52 @@ directory=customer
 availableValuesInnerJoinFilter=customer_group;customer_id;group_id IN (3)
 ----
 
-Пример параметра с одним значением. Конфигурация - как выглядит в таблице и редактирование.
+Пример конфигурации параметра.
 
-image::_res/i0018.png[]
+image::_res/param/list_config.png[width=800]
 
-image::_res/i0016.png[]
+In parameters values table.
 
-Пример параметра с несколькими значениями (мультивыбор). Конфигурация - как выглядит в таблице и редактирование.
+image::_res/param/list_table.png[]
 
-image::_res/i0015.png[]
+Editor for single value.
 
-image::_res/i0020.png[]
+image::_res/param/list_editor_single.png[width=600]
+
+Same, using radio buttons.
+
+image::_res/param/list_editor_single_radio.png[]
+
+Editor for multiple values.
+
+image::_res/param/list_editor_mult.png[]
 
 [[param-listcount]]
 === Параметр типа "listcount"
 Позволяет выбирать перечислимые значения с указанием количества для них.
+
+In configuration may be defined the following non-mandatory options:
+[source]
+----
+# multiple values
+multiple=1
+----
+
 На снимке экрана ниже - редактор свойств параметра, конфигурирование значений аналогично параметру типа "list".
 
-image::_res/param_listcount.png[]
+image::_res/param/listcount_config.png[width=800]
 
 В таблице параметров.
 
-image::_res/param_listcount_table.png[]
+image::_res/param/listcount_table.png[width=800]
 
-Редактор.
+Editor for single value.
 
-image::_res/param_listcount_editor.png[]
+image::_res/param/listcount_editor_single.png[width=600]
+
+Editor for multiple values.
+
+image::_res/param/listcount_editor_mult.png[width=600]
 
 [[param-money]]
 === Parameter type "money"

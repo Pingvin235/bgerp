@@ -224,6 +224,7 @@
 			</item>
 			<item action="ru.bgcrm.struts.action.ParameterAction:parameterLog" title="Просмотр истории изменения параметров"/>
 			<item action="ru.bgcrm.struts.action.ParameterAction:entityLog" title="Просмотр лога изменений"/>
+			<item action="ru.bgcrm.struts.action.ParameterAction:parameterListcountAddValue" allowAll="1"/>
 		</item>
 		<item title="Process">
 			<item title="Queue">

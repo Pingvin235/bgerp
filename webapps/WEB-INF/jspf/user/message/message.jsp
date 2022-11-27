@@ -11,8 +11,8 @@
 <c:if test="${not empty form.returnUrl}">
 	<c:set var="stateUiid" value="${u:uiid()}"/>
 	<div id="${stateUiid}">
-		<h1 style="display: inline-block;"><a href="#" onclick="$$.ajax.load('${form.requestUrl}', $$.shell.$content($('#${uiid}'))); return false;">${l.l('Обработка')}</a></h1>
-		<ui:button type="back" styleClass="ml1" onclick="$$.ajax.load('${form.returnUrl}', $$.shell.$content($('#${uiid}')))"/>
+		<h1 style="display: inline-block;"><a href="#" onclick="$$.ajax.loadContent('${form.requestUrl}', $('#${uiid}')); return false;">${l.l('Обработка')}</a></h1>
+		<ui:button type="back" styleClass="ml1" onclick="$$.ajax.loadContent('${form.returnUrl}', $('#${uiid}'));"/>
 	</div>
 	<shell:state moveSelector="#${stateUiid}"/>
 </c:if>

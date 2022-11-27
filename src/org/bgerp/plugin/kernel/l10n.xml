@@ -532,6 +532,32 @@
 	<p><en>Delete all the stored personalization options</en><ru>Удалить все сохранённые персональные опции</ru></p>
 	<p><en>Reset all the user personalizations?</en><ru>Сбросить все персональные опции?</ru></p>
 	<p><en>Reset</en><ru>Сбросить</ru></p>
+	<p><en>No value choosen</en><ru>Не выбрано значение</ru></p>
+	<p><en>No quantity defined</en><ru>Не указано количество</ru></p>
+	<p>
+		<sys>hint.list.values</sys>
+		<en>List values in format <b>id=value</b>,
+where <b>id</b> - numeric positive identificator for element <b>value</b> in the list.
+Any value from a new line.<br/>
+<b>Example:</b><br/>
+1=First value<br/>
+2=Second value<br/>
+Not more available values marked with sign <b>@</b>, example <b>5=@Value</b>.<br/></en>
+		<ru>Значения списка в формате <b>id=value</b>,
+где <b>id</b> - числовой положительный идентификатор элемента <b>value</b> в списке.
+Новое значение с новой строки.<br/>
+<b>Пример:</b><br/>
+1=Первое значение<br/>
+2=Второе значение<br/>
+Заблокированные значения помечаются знаком <b>@</b>, например <b>5=@Значение</b>.<br/></ru>
+	</p>
+	<p>
+		<sys>hint.param.order</sys>
+		<en>Defines parameter' position in common list or in object parameters table,
+if position isn't re-defined in process type or parameter group.</en>
+		<ru>Определяет позицию параметра в общем списке либо в таблице параметров объектов,
+если позиция не переопределяется в типе процесса либо в группе параметров.</ru>
+	</p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
