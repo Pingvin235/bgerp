@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
@@ -22,7 +22,7 @@ public class SetContractTariffStepData extends StepData<SetContractTariffStep> {
 	private Contract contract;
 	private List<IdTitle> tariffList;
 	private ContractTariff contractTariff;
-	
+
 	public SetContractTariffStepData(SetContractTariffStep step, WizardData data) {
 		super(step, data);
 	}
@@ -32,17 +32,17 @@ public class SetContractTariffStepData extends StepData<SetContractTariffStep> {
 		CommonObjectLink contractLink = Utils.getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(data.getProcess().getId(), Contract.OBJECT_TYPE + "%"));
 		if (contractLink == null)
 			return false;
-		
-		contract = new Contract(StringUtils.substringAfter(contractLink.getLinkedObjectType(), ":"), 
+
+		contract = new Contract(StringUtils.substringAfter(contractLink.getLinkedObjectType(), ":"),
 				contractLink.getLinkedObjectId());
-		
+
 		ContractTariffDAO tariffDao = new ContractTariffDAO(form.getUser(), contract.getBillingId());
 		contractTariff = Utils.getFirst(tariffDao.contractTariffList(contract.getId()));
 		tariffDao.getContractTariffPlan(-1, -1, contract.getId(), true, true, true, tariffList = new ArrayList<>());
-		
+
 		return contractTariff != null;
 	}
-	
+
 	public Contract getContract() {
 		return contract;
 	}

@@ -13,7 +13,7 @@ import java.util.Locale;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bgerp.util.Log;
 
 import com.google.common.base.Charsets;

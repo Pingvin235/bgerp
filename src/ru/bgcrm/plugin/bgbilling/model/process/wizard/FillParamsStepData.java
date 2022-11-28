@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
@@ -32,15 +32,15 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
 		CommonObjectLink contractLink = Utils.getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(data.getProcess().getId(), Contract.OBJECT_TYPE + "%"));
 		if (contractLink == null)
 			return false;
-		
-		contract = new Contract(StringUtils.substringAfter(contractLink.getLinkedObjectType(), ":"), 
+
+		contract = new Contract(StringUtils.substringAfter(contractLink.getLinkedObjectType(), ":"),
 				contractLink.getLinkedObjectId());
-		
+
 		Set<Integer> checkParamIds = new HashSet<>(step.getCheckParamIds());
-		
+
 		ContractParamDAO paramDao = new ContractParamDAO(form.getUser(), contract.getBillingId());
 		List<ContractParameter> allParamValues = paramDao.getParameterList(contract.getId());
-		
+
 		List<ContractParameter> filteredValues = new ArrayList<>(step.getParameterIds().size());
 		for (int paramId : step.getParameterIds()) {
 			ContractParameter param = allParamValues.stream().filter(cp -> cp.getParamId() == paramId).findFirst().orElse(null);
@@ -51,14 +51,14 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
 			}
 			values = filteredValues;
 		}
-		
+
 		return checkParamIds.isEmpty();
 	}
 
 	public Contract getContract() {
 		return contract;
 	}
-	
+
 	public List<ContractParameter> getValues() {
 		return values;
 	}

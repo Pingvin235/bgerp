@@ -2,7 +2,7 @@ package ru.bgcrm.plugin.bgbilling.dao;
 
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 

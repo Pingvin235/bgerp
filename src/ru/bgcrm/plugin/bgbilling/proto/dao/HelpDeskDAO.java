@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.xml.ws.Holder;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.Pageable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

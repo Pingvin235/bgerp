@@ -3,7 +3,7 @@ package ru.bgcrm.plugin.bgbilling.event.listener;
 import java.sql.Connection;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;

@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessLinkProcessSearchDAO;

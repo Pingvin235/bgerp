@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 

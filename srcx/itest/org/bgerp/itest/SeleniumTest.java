@@ -1,4 +1,4 @@
-package org.bgerp.itest;
+/* package org.bgerp.itest;
 
 import org.bgerp.util.Log;
 import org.openqa.selenium.By;
@@ -29,3 +29,4 @@ public class SeleniumTest {
         driver.close();
     }
 }
+ */

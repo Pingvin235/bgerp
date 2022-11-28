@@ -3,7 +3,7 @@ package ru.bgcrm.cache;
 import java.sql.Connection;
 import java.util.Date;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 
 import ru.bgcrm.util.sql.SQLUtils;

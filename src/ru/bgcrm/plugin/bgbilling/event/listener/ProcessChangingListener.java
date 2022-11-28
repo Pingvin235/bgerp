@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -40,7 +40,7 @@ public class ProcessChangingListener
  	    	}
  	    }, ProcessChangingEvent.class );
 	}
-	
+
 	private void processChanging( ProcessChangingEvent e, ConnectionSet conSet )
 		throws BGException
 	{
@@ -48,17 +48,17 @@ public class ProcessChangingListener
 		{
 			return;
 		}
-		
+
 		ProcessType type = ProcessTypeCache.getProcessType( e.getProcess().getTypeId() );
-		
+
 		String paramKey = "bgbilling:processToStatus." + e.getForm().getParamInt( "statusId", -1 ) + ".needLinkedProblemsStatus";
-		
+
 		String needStatus = null;
 		if( Utils.isBlankString( needStatus = type.getProperties().getConfigMap().get( paramKey ) ) )
 		{
 			return;
 		}
-		
+
 		ProcessLinkDAO linkDao = new ProcessLinkDAO( conSet.getConnection() );
 		List<CommonObjectLink> linkList = linkDao.getObjectLinksWithType( e.getProcess().getId(), "bgbilling-problem%" );
 
@@ -100,7 +100,7 @@ public class ProcessChangingListener
 			if( statusCode != needStatusCode )
 			{
 				throw new BGMessageException( "Смена статуса невозможна. К процессу привязаны проблемы биллинга в препятствующих смене статусах." );
-			}				
+			}
 		}
 	}
 }

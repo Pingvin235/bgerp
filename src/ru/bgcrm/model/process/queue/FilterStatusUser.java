@@ -1,6 +1,6 @@
 package ru.bgcrm.model.process.queue;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.model.BGException;

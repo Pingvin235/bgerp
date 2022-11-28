@@ -15,7 +15,7 @@ import java.util.SortedMap;
 
 import javax.mail.internet.InternetAddress;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 import org.w3c.dom.Document;

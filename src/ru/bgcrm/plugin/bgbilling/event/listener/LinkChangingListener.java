@@ -1,6 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.event.listener;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.link.LinkAddingEvent;
@@ -32,7 +32,7 @@ public class LinkChangingListener
    	    		customerChanging( e, e.getLink().getObjectId() );
    	    	}
    	    }, LinkAddingEvent.class );
-		
+
 		EventProcessor.subscribe( new EventListener<LinksToRemovingEvent>()
  	    {
  	    	@Override
@@ -43,7 +43,7 @@ public class LinkChangingListener
  	    	}
  	    }, LinksToRemovingEvent.class );
 	}
-	
+
 	private void customerChanging( LinkAddingEvent event, int customerId )
 		throws BGException
 	{
@@ -53,10 +53,10 @@ public class LinkChangingListener
 		{
 			return;
 		}
-		
+
 		String billingId = StringUtils.substringAfter( link.getLinkedObjectType(), ":" );
 		DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get( billingId );
-		
+
 		if( dbInfo == null )
 		{
 			throw new BGMessageException( "Не найден биллинг с идентификатором: " + billingId );
@@ -67,7 +67,7 @@ public class LinkChangingListener
 		{
 			throw new BGMessageException( "Не определён параметр 'customerIdParam' для сервера." );
 		}
-		
+
 		int contractId = link.getLinkedObjectId();
 		try
         {
