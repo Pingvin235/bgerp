@@ -96,8 +96,8 @@ public class Config extends ru.bgcrm.util.Config {
         maxDateToMonths = config.getInt("max.date.to.months", 3);
 
         // explicit new HashSet is used to ignore duplicated 0 values
-        costUpdateParams = Set.of(paramSubscriptionId, paramLimitId, paramDateToId, paramServiceCostId, paramDiscountId);
-        licFileUpdateParams = Set.of(paramSubscriptionId, paramEmailId, paramLimitId, paramDateToId);
+        costUpdateParams = Set.of(paramLimitId, paramDateToId, paramServiceCostId, paramDiscountId);
+        licFileUpdateParams = Set.of(paramEmailId, paramLimitId, paramDateToId);
     }
 
     private SortedMap<Integer, Subscription> loadSubscriptions(ParameterMap config) {
@@ -156,8 +156,10 @@ public class Config extends ru.bgcrm.util.Config {
         int paramId = e.getParameter().getId();
         if (paramId == paramDateToId)
             checkDateToMonths((Date) e.getValue());
+
         if (costUpdateParams.contains(paramId))
             updateCost(e.getObjectId(), conSet);
+
         if (licFileUpdateParams.contains(paramId))
             updateLic(e.getObjectId(), conSet);
     }
