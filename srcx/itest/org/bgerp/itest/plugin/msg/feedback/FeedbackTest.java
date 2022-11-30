@@ -1,4 +1,4 @@
-package org.bgerp.itest.plugin.feedback;
+package org.bgerp.itest.plugin.msg.feedback;
 
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ResourceHelper;

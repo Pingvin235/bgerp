@@ -85,7 +85,6 @@ media.print.1.orientation=portrait
 media.print.1.fileName=queue.pdf
 
 # Processors
-cnt=0
 processor.{@inc:cnt}.title=Set status
 processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
 processor.{@cnt}.commands=setStatus:{@STATUS_OPEN_ID},{@STATUS_PROGRESS_ID},{@STATUS_WAIT_ID}
@@ -95,6 +94,12 @@ processor.{@inc:cnt}.title=Delete process
 processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
 processor.{@cnt}.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
 processor.{@cnt}.doExpression=delete()
+
+processor.{@inc:cnt}.title=Example document HTML queue
+processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+# ID 100 comes from configuration of plugin Document
+processor.{@cnt}.commands=print:100
+processor.{@cnt}.responseType=file
 
 # TODO: setDate, deleteGroups
 

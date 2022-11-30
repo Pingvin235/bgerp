@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.task;
+package org.bgerp.itest.plugin.task;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.plugin.task.Plugin;
 
 
 @Test(groups = "task", priority = 100, dependsOnGroups = { "config", "process", "message" })

@@ -1,0 +1,1 @@
+A: Integration test for plugin Document.

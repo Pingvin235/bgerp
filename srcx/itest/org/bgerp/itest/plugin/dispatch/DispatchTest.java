@@ -1,10 +1,11 @@
-package ru.bgcrm.plugin.dispatch;
+package org.bgerp.itest.plugin.dispatch;
 
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.testng.annotations.Test;
 
+import ru.bgcrm.plugin.dispatch.Plugin;
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;
 

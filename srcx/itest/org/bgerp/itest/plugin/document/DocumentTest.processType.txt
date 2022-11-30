@@ -1,0 +1,2 @@
+document:processShowDocuments=1
+document:processCreateDocumentsAllowedTemplates=100,101,102,103

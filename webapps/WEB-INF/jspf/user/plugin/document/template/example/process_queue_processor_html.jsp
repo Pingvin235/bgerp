@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%-- 
-Пример документа HTML, генерируемого из очереди процессов. 
+<%--
+Пример документа HTML, генерируемого из очереди процессов.
 
 Как настроить:
 
@@ -23,8 +23,8 @@ processor.5.responseType=file
 В меню "Ещё" очереди процессов должен появиться пункт "Пример документа очередь HTML".
  --%>
 
-<%-- установите ваши значения параметров --%>
-<c:set var="PROCESS_PARAM_ADDRESS" value="35"/>
+<%-- set your param IDs in configuration --%>
+<c:set var="PROCESS_PARAM_ADDRESS" value="${ctxSetup.getInt('document:param.process.address')}"/>
 <c:set var="PROCESS_PARAM_LIST" value="32"/>
 
 <html>
@@ -34,10 +34,10 @@ processor.5.responseType=file
 	<body>
 		<div style="text-align: center; font-weight: bold;" class="mb1">
 			Пример документа очередь HTML
-		</div>		
+		</div>
 		<div>
 			Событие: ${event}<br/><br/>
-			
+
 			<table class="data" style="width: 100%;">
 				<tr>
 					<td>ID процесса</td>
@@ -45,17 +45,17 @@ processor.5.responseType=file
 					<td>Адрес</td>
 					<td>Услуги</td>
 				</tr>
-				
+
 				<u:newInstance var="processDao" clazz="ru.bgcrm.dao.process.ProcessDAO">
 					<u:param value="${conSlave}"/>
-				</u:newInstance>				
+				</u:newInstance>
 				<u:newInstance var="paramDao" clazz="ru.bgcrm.dao.ParamValueDAO">
 					<u:param value="${conSlave}"/>
 				</u:newInstance>
-				
+
 				<c:forEach var="processId" items="${event.getObjectIds()}">
 					<c:set var="process" value="${processDao.getProcess(processId)}"/>
-					
+
 					<tr>
 						<td>${processId}</td>
 						<td>${u:objectTitleList(ctxUserList, process.getExecutorIds())}</td>
@@ -65,9 +65,9 @@ processor.5.responseType=file
 							</c:forEach>
 						</td>
 						<td>
-							${u:toString(paramDao.getParamListWithTitles(processId, PROCESS_PARAM_LIST))}
+							Услуги: <%--${paramDao.getParamListWithTitles(processId, PROCESS_PARAM_LIST)} --%>
 						</td>
-					</tr>				
+					</tr>
 				</c:forEach>
 			</table>
 		</div>

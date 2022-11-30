@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%--
-Пример документа DOCX, генерируемого из карточки процесса, вкладка "Документы". 
+Пример документа DOCX, генерируемого из карточки процесса, вкладка "Документы".
 
 Как настроить:
 
@@ -22,26 +22,26 @@ document:pattern.102.flattening=1
 document:processShowDocuments=1
 document:processCreateDocumentsAllowedTemplates+=,102
 
-В карточке процессы во вкладке "Документы" должен появиться "Пример процесс DOCX" 
-с возможностью как сгенерировать "на лету", так и сохранть сгенерированный документ. 
+В карточке процессы во вкладке "Документы" должен появиться "Пример процесс DOCX"
+с возможностью как сгенерировать "на лету", так и сохранить сгенерированный документ.
 --%>
 
-<%-- установите ваши значения параметров --%>
-<c:set var="PROCESS_PARAM_ADDRESS" value="35"/>
+<%-- set your param IDs in configuration --%>
+<c:set var="PROCESS_PARAM_ADDRESS" value="${ctxSetup.getInt('document:param.process.address')}"/>
 
 <%-- это просто отладка --%>
 Событие: ${event}
 
 <u:newInstance var="processDao" clazz="ru.bgcrm.dao.process.ProcessDAO">
 	<u:param value="${conSlave}"/>
-</u:newInstance>				
+</u:newInstance>
 <u:newInstance var="paramDao" clazz="ru.bgcrm.dao.ParamValueDAO">
 	<u:param value="${conSlave}"/>
 </u:newInstance>
 
 <c:set var="processId" value="${event.objectId}"/>
 <c:set var="process" value="${processDao.getProcess(processId)}"/>
-			
+
 <c:set var="element">
 	<c:forEach var="addr" items="${paramDao.getParamAddress(processId, PROCESS_PARAM_ADDRESS).values()}" varStatus="status">
 		${addr.value}

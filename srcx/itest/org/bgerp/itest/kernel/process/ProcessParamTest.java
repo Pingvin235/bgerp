@@ -29,7 +29,7 @@ import ru.bgcrm.util.Utils;
 public class ProcessParamTest {
     private static final String TITLE = "Kernel Process Param";
 
-    static volatile int paramAddressId;
+    public static volatile int paramAddressId;
     static volatile int paramDateId;
     static volatile int paramDatetimeId;
     static volatile int paramEmailId;

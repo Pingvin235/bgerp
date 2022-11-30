@@ -1,0 +1,34 @@
+
+document:param.process.address={@PARAM_PROCESS_ADDRESS_ID}
+
+document:pattern.100.scope=processQueue
+document:pattern.100.script=ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator
+document:pattern.100.jsp=/WEB-INF/jspf/user/plugin/document/template/example/process_queue_processor_html.jsp
+document:pattern.100.type=jspHtml
+
+document:pattern.101.title=Example document HTML process
+document:pattern.101.scope=process
+document:pattern.101.script=ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator
+document:pattern.101.jsp=/WEB-INF/jspf/user/plugin/document/template/example/process_html.jsp
+document:pattern.101.type=jspHtml
+document:pattern.101.result=stream
+
+document:pattern.102.title=Example document DOCX process
+document:pattern.102.scope=process
+document:pattern.102.script=ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator
+document:pattern.102.type=docxForm
+document:pattern.102.jsp=/WEB-INF/jspf/user/plugin/document/template/example/process_docx.jsp
+document:pattern.102.file=docpattern/example/process.docx
+document:pattern.102.documentTitle=document.docx
+document:pattern.102.result=stream,save
+document:pattern.102.flattening=1
+
+document:pattern.103.title=Example document PDF process
+document:pattern.103.scope=process
+document:pattern.103.script=ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator
+document:pattern.103.type=pdfForm
+document:pattern.103.jsp=/WEB-INF/jspf/user/plugin/document/template/example/process_pdf.jsp
+document:pattern.103.file=docpattern/example/process.pdf
+document:pattern.103.documentTitle=document.pdf
+document:pattern.103.result=stream,save
+document:pattern.103.flattening=1

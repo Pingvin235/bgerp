@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%--
-Пример документа PDF, генерируемого из карточки процесса, вкладка "Документы". 
+Пример документа PDF, генерируемого из карточки процесса, вкладка "Документы".
 
 Как настроить:
 
@@ -22,8 +22,8 @@ document:pattern.103.flattening=1
 document:processShowDocuments=1
 document:processCreateDocumentsAllowedTemplates+=,103
 
-В карточке процессы во вкладке "Документы" должен появиться "Пример процесс PDF" 
-с возможностью как сгенерировать "на лету", так и сохранть сгенерированный документ. 
+В карточке процессы во вкладке "Документы" должен появиться "Пример процесс PDF"
+с возможностью как сгенерировать "на лету", так и сохранть сгенерированный документ.
 --%>
 
 <%--
@@ -59,7 +59,7 @@ processor.6.responseType=file
 
 <u:newInstance var="processDao" clazz="ru.bgcrm.dao.process.ProcessDAO">
 	<u:param value="${conSlave}"/>
-</u:newInstance>				
+</u:newInstance>
 <u:newInstance var="paramDao" clazz="ru.bgcrm.dao.ParamValueDAO">
 	<u:param value="${conSlave}"/>
 </u:newInstance>
@@ -69,7 +69,7 @@ processor.6.responseType=file
 
 <c:set var="processId" value="${event.objectId}"/>
 <c:set var="process" value="${processDao.getProcess(processId)}"/>
-			
+
 <c:set var="address">
 	<c:forEach var="addr" items="${paramDao.getParamAddress(processId, PROCESS_PARAM_ADDRESS).values()}" varStatus="status">
 		${addr.value}
