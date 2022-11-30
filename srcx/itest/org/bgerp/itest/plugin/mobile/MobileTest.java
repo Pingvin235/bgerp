@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.plugin.mobile.Plugin;
 
-@Test(groups = "mobile", priority = 100, dependsOnGroups = "config")
+@Test(groups = "mobile", priority = 100, dependsOnGroups = { "config", "usermobIface" })
 public class MobileTest {
     private static final Plugin PLUGIN = new Plugin();
 

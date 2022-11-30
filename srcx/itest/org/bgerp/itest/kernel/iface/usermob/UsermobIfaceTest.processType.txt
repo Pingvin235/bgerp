@@ -1,0 +1,8 @@
+createWizard.step.{@inc:cnt}.title=Status
+createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.SetStatusStep
+
+createWizard.step.{@inc:cnt}.title=Description
+createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.SetDescriptionStep
+
+#createWizard.step.{@inc:cnt}.title=Parameters
+#createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.FillParamsStep

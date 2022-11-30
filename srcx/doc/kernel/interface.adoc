@@ -149,11 +149,11 @@ showIn=usermob
 Для всех фильтров должны быть определены жёстко значения, например:
 [source]
 ----
-filter.1.type=openClose
-filter.1.values=open
-filter.4.type=executors
-filter.4.values=current
-#
+filter.{@inc:cnt}.type=openClose
+filter.{@cnt}.values=open
+filter.{@inc:cnt}.type=executors
+filter.{@cnt}.values=current
+
 sort.combo.count=3
 sort.mode.2.column.id=2
 sort.mode.2.title=Создан обр.

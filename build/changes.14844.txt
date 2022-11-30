@@ -1,0 +1,2 @@
+A: Mobile process queue in Demo DB.
+F: Process open in mobile queue.

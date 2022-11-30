@@ -17,6 +17,8 @@ import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "process", dependsOnGroups = "config")
 public class ProcessTest {
+    private static final String TITLE = "Test";
+
     /** Common used statuses and params. */
     public static volatile int statusOpenId;
     public static volatile int statusProgressId;
@@ -56,7 +58,7 @@ public class ProcessTest {
 
     @Test(dependsOnMethods = "processStatus")
     public void processType() throws Exception {
-        processTypeTestGroupId = ProcessHelper.addType("Test", 0, false, null).getId();
+        processTypeTestGroupId = ProcessHelper.addType(TITLE, 0, false, null).getId();
 
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusDoneId));
@@ -64,17 +66,17 @@ public class ProcessTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setConfig(ResourceHelper.getResource(this, "processType.txt"));
 
-        processTypeTestId = ProcessHelper.addType("Test", processTypeTestGroupId, false, props).getId();
+        processTypeTestId = ProcessHelper.addType(TITLE, processTypeTestGroupId, false, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")
     public void processQueue() throws Exception {
-        queueId = ProcessHelper.addQueue("Test",
+        queueId = ProcessHelper.addQueue(TITLE,
                 ConfigHelper.generateConstants(
                     "STATUS_OPEN_ID", ProcessTest.statusOpenId,
                     "STATUS_PROGRESS_ID", ProcessTest.statusProgressId,
                     "STATUS_WAIT_ID", ProcessTest.statusWaitId) +
-                    ResourceHelper.getResource(this, "queue.txt"),
+                    ResourceHelper.getResource(this, "processQueue.txt"),
                 Set.of(processTypeTestGroupId));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }

@@ -1,0 +1,34 @@
+
+showIn=usermob
+
+filter.{@inc:cnt}.type=openClose
+filter.{@cnt}.values=open
+filter.{@inc:cnt}.type=executors
+filter.{@cnt}.values=current
+
+#column.1.title=ID
+#column.1.value=id
+#column.2.title=Customer
+#column.2.value=linkedCustomerLink
+#column.2.titleIfMore=100
+## the column isn't visible, but paints rows depending on priority
+#column.3.title=Priority
+#column.3.value=priority
+
+column.2.title=Address
+column.2.value=param:{@PROCESS_PARAM_ADDRESS_ID}
+column.4.title=Description
+column.4.value=descriptionLink
+column.5.title=Created
+column.5.value=create_dt
+column.6.title=Status
+column.6.value=status_title
+
+sort.combo.count=2
+sort.mode.{@inc:cnt}.column.id=6
+sort.mode.{@cnt}.title=Status
+sort.mode.{@inc:cnt}.column.id=2
+sort.mode.{@cnt}.title=Created time DESC
+sort.mode.{@cnt}.desc=1
+
+media.html.columns=2,4,5,6

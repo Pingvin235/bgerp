@@ -1,6 +1,4 @@
-#
-cnt=0
-#
+
 filter.{@inc:cnt}.type=openClose
 filter.{@cnt}.defaultValue=open
 filter.{@inc:cnt}.type=status
@@ -17,7 +15,7 @@ filter.{@inc:cnt}.type=type
 # TODO: make working and fix doc
 #filter.{@inc}.width=10em
 filter.{@inc:cnt}.type=groups
-#
+
 column.1.title=ID
 column.1.value=id
 column.2.title=Customer
@@ -92,12 +90,12 @@ processor.{@inc:cnt}.title=Set status
 processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
 processor.{@cnt}.commands=setStatus:{@STATUS_OPEN_ID},{@STATUS_PROGRESS_ID},{@STATUS_WAIT_ID}
 processor.{@cnt}.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
-#
+
 processor.{@inc:cnt}.title=Delete process
 processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
 processor.{@cnt}.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
 processor.{@cnt}.doExpression=delete()
-#
+
 # TODO: setDate, deleteGroups
 
 # url ending for open interface

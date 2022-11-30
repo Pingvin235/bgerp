@@ -8,11 +8,11 @@ import org.testng.annotations.Test;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.user.UserDAO;
 
-@Test(groups = "userIface", dependsOnGroups = { "user" })
+@Test(groups = "userIface", dependsOnGroups = "user")
 public class UserIfaceTest {
 
     @Test
-    public void addUser() throws Exception {
+    public void user() throws Exception {
         var user = UserHelper.addUser("Kernel User Iface", "uiface", null);
 
         user.setConfig(ResourceHelper.getResource(this, "user.config.txt"));

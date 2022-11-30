@@ -13,8 +13,8 @@ public class ProcessAction extends ProcessQueueAction {
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
-        super.unspecified(form, conSet.getSlaveConnection());
-        return html(conSet.getSlaveConnection(), form, PATH_JSP + "/process/process.jsp");
+        super.process(form, conSet);
+        return html(conSet, form, PATH_JSP + "/process/process.jsp");
     }
 
     @Override
