@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.bgerp.l10n.Localization;
 import org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO;
 import org.bgerp.plugin.bil.subscription.model.Subscription;
 import org.bgerp.plugin.bil.subscription.model.SubscriptionLicense;
@@ -154,27 +155,35 @@ public class Config extends ru.bgcrm.util.Config {
 
     void paramChanged(ParamChangedEvent e, ConnectionSet conSet) throws Exception {
         int paramId = e.getParameter().getId();
+
+        boolean licUpdate = true;
+
         if (paramId == paramDateToId)
-            checkDateToMonths((Date) e.getValue());
+            licUpdate = dateToChanged(e, conSet);
+
+        if (licUpdate && licFileUpdateParams.contains(paramId))
+            updateLic(e.getObjectId(), conSet);
 
         if (costUpdateParams.contains(paramId))
             updateCost(e.getObjectId(), conSet);
-
-        if (licFileUpdateParams.contains(paramId))
-            updateLic(e.getObjectId(), conSet);
     }
 
     /**
      * Checks DateTo value to do not be later as defined months.
-     * @param value
-     * @throws BGMessageException
+     * @param e
+     * @param conSet
+     * @return license update can be performed.
+     * @throws BGMessageException Date To is too far in the future.
      */
-    private void checkDateToMonths(Date value) throws BGMessageException {
-        if (maxDateToMonths <= 0)
-            return;
-
-        if (value == null || maxDateToMonths < Period.between(LocalDate.now(), value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).getMonths())
-            throw new BGMessageException("Date To is too far or not defined.");
+    private boolean dateToChanged(ParamChangedEvent e, ConnectionSet conSet) throws Exception {
+        Date value = (Date) e.getValue();
+        if (value == null) {
+            new ParamValueDAO(conSet.getConnection()).updateParamFile(e.getObjectId(), paramLicFileId, -1, null);
+            return false;
+        } else if (maxDateToMonths > 0 && maxDateToMonths < Period.between(LocalDate.now(), value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).getMonths())
+            throw new BGMessageException(Localization.getLocalizer(Plugin.ID, e.getForm().getHttpRequest()), "Date To is too far in the future.");
+        else
+            return true;
     }
 
     /**
@@ -193,7 +202,7 @@ public class Config extends ru.bgcrm.util.Config {
     }
 
     private void updateLic(int processId, ConnectionSet conSet) throws Exception {
-        var paramDao = new ParamValueDAO(conSet.getSlaveConnection());
+        var paramDao = new ParamValueDAO(conSet.getConnection());
 
         var limitId = Utils.getFirst(paramDao.getParamList(processId, paramLimitId));
         var limit = limitId != null ? ParameterCache.getListParamValuesMap(paramLimitId).get(limitId).getTitle() : "";
