@@ -1,5 +1,7 @@
 package org.bgerp.action.usermob;
 
+import java.sql.Connection;
+
 import org.apache.struts.action.ActionForward;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -27,5 +29,10 @@ public class ProcessAction extends ProcessQueueAction {
     public ActionForward queueShow(DynActionForm form, ConnectionSet conSet) throws Exception {
         super.queueShow(form, conSet);
         return html(conSet, form, PATH_JSP + "/queue/show.jsp");
+    }
+
+    @Override
+    public ActionForward processCreate(DynActionForm form, Connection con) throws Exception {
+        return super.processCreate(form, con);
     }
 }

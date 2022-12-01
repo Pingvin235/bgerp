@@ -49,7 +49,9 @@ public class SetRequestParamsFilter implements Filter {
         request.setAttribute("ctxConSet", conSet);
 
         // 'l' object is set only for action calls and open URLs like /process/nnn, but not to JSP after them
-        if (!ServletUtils.getRequestURI((HttpServletRequest) request).endsWith(".jsp"))
+        if (!ServletUtils.getRequestURI((HttpServletRequest) request).endsWith(".jsp") ||
+                // exception is the 'usermob' interface, where JSP templates might be called directly
+                Interface.USER_MOB.equals(Interface.getIface((HttpServletRequest) request)))
             request.setAttribute(REQUEST_KEY_LOCALIZER, getLocalizer(request));
 
         chain.doFilter(request, response);

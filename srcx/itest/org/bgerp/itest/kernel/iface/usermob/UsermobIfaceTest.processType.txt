@@ -1,8 +1,21 @@
+onProcessEvent.{@inc:cnt}.events=created
+onProcessEvent.{@cnt}.ifExpression=process.getExecutors().isEmpty()
+onProcessEvent.{@cnt}.doExpression=addExecutors({user.getId()})
+
+# process status
 createWizard.step.{@inc:cnt}.title=Status
 createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.SetStatusStep
 
+# process description
 createWizard.step.{@inc:cnt}.title=Description
 createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.SetDescriptionStep
 
+# process parameters
 #createWizard.step.{@inc:cnt}.title=Parameters
 #createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.FillParamsStep
+# optional comma-separated parameter IDs
+#createWizard.createStep.{@cnt}.parameterIds=
+
+# process executors
+#createWizard.step.{@inc:cnt}.title=Executors
+#createWizard.step.{@cnt}.class=ru.bgcrm.model.process.wizard.SetExecutorsStep

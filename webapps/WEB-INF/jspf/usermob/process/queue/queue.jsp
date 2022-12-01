@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div id="processQueueShow">
-	 <html:form action="/usermob/process" styleId="processQueueSelect" styleClass="mb05">
+	 <html:form action="/usermob/process" styleId="processQueueSelect" styleClass="mb05" style="display: flex;">
 		<input type="hidden" name="action" value="queue"/>
 		<c:set var="currentQueueId" value="${form.param.id}"/>
 
@@ -20,17 +20,14 @@
 		<%-- текущая очередь --%>
 		<c:set var="queue" value="${ctxProcessQueueMap[u:int(currentQueueId)]}"/>
 
-		<%-- разрешённые к созданию типы --%>
-		<c:set var="createAllowedProcessList" value="${queue.createAllowedProcessList}"/>
-
-		<c:set var="display"><c:if test="${not empty createAllowedProcessList}">display: table-cell;</c:if></c:set>
-
 		<ui:combo-single hiddenName="id" valuesHtml="${valuesHtml}" value="${currentQueueId}"
-			prefixText="${l.l('Очередь')}:" style="${display}width: 100%;"
+			prefixText="${l.l('Очередь')}:" style="width: 100%;"
 			onSelect="$$.ajax.load($hidden[0].form, $('#processQueueShow').parent())"/>
 
+		<%-- allowed for creation types --%>
+		<c:set var="createAllowedProcessList" value="${queue.createAllowedProcessList}"/>
 		<c:if test="${not empty createAllowedProcessList}">
-			<div style="${display}; white-space: nowrap;">
+			<div style="white-space: nowrap;">
 				<c:forEach var="type" items="${createAllowedProcessList}">
 					<c:url var="createUrl" value="process.do">
 						<c:param name="action" value="processCreate"/>

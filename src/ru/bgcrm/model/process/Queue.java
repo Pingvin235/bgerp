@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -414,6 +415,10 @@ public class Queue extends IdTitle {
         return actionList;
     }
 
+    /**
+     * @return list of process types, allowed to be created in 'usermob' interface.
+     */
+    @Dynamic
     public List<IdTitle> getCreateAllowedProcessList() {
         return createAllowedProcessList;
     }

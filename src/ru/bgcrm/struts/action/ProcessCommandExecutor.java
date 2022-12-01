@@ -191,7 +191,7 @@ public class ProcessCommandExecutor {
                 }
 
                 if (processGroup == null) {
-                    throw new BGMessageException("Устанавливаемые исполнители не входят в группы, исполняющие процесс.");
+                    throw new BGMessageException("The set executors are not members of process execution groups.");
                 }
 
                 // добавление в текущих исполнителей группороли

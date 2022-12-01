@@ -15,10 +15,8 @@ import org.bgerp.itest.kernel.user.UserTest;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.StatusChangeDAO;
 import ru.bgcrm.model.param.ParameterAddressValue;
-import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
@@ -47,7 +45,8 @@ public class UsermobIfaceTest {
     public void processQueue() throws Exception {
         int queueId = ProcessHelper.addQueue(TITLE,
             ConfigHelper.generateConstants(
-                "PROCESS_PARAM_ADDRESS_ID", ProcessTest.paramAddressId) +
+                "PROCESS_PARAM_ADDRESS_ID", ProcessTest.paramAddressId,
+                "PROCESS_TYPE_ID", processType.getId()) +
                 ResourceHelper.getResource(this, "processQueue.txt"),
             Set.of(processType.getId()));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
@@ -56,15 +55,15 @@ public class UsermobIfaceTest {
     @Test(dependsOnMethods = "processType")
     public void process() throws Exception {
         var statusDao = new StatusChangeDAO(DbTest.conRoot);
-        var processDao = new ProcessDAO(DbTest.conRoot);
         var paramDao = new ParamValueDAO(DbTest.conRoot);
 
-        var process = ProcessHelper.addProcess(processType.getId(), UserTest.USER_ADMIN_ID, TITLE + " 1");
-        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(UserTest.USER_ADMIN_ID, UserTest.groupAdminsId)), process.getId());
-        statusDao.changeStatus(process, processType, new StatusChange(process.getId(), new Date(), UserTest.userFelixId, ProcessTest.statusProgressId, ""));
-        paramDao.updateParamAddress(process.getId(), ProcessTest.paramAddressId, 0,
-                new ParameterAddressValue().withHouseId(AddressTest.houseUfa6.getId()).withFlat("12"));
-
-        /* process = ProcessHelper.addProcess(processType.getId(), 0, TITLE) */
+        for (int i = 0; i <= 5; i++) {
+            var process = ProcessHelper.addProcess(processType.getId(), UserTest.USER_ADMIN_ID, TITLE + " " + i);
+            if (i % 2 == 0)
+                statusDao.changeStatus(process, processType,
+                        new StatusChange(process.getId(), new Date(), UserTest.userFelixId, ProcessTest.statusProgressId, ""));
+            paramDao.updateParamAddress(process.getId(), ProcessTest.paramAddressId, 0,
+                    new ParameterAddressValue().withHouseId(AddressTest.houseUfa6.getId()).withFlat("1" + i));
+        }
     }
 }

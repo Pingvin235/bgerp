@@ -1,6 +1,7 @@
 package ru.bgcrm.model;
 
 import org.bgerp.l10n.Localizer;
+import org.bgerp.util.Log;
 
 /**
  * Localized message, shown to end user and not written in log.
@@ -43,5 +44,15 @@ public class BGMessageException extends BGException {
         if (this.lInternal != null)
             lExternal = this.lInternal;
         return lExternal.l(getMessage(), args);
+    }
+
+    @Override
+    public String getLocalizedMessage() {
+        return Log.format(super.getLocalizedMessage(), args);
+    }
+
+    @Override
+    public String getMessage() {
+        return Log.format(super.getMessage(), args);
     }
 }

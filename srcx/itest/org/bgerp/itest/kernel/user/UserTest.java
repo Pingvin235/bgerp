@@ -8,6 +8,7 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.ParamTest;
 import org.testng.annotations.Test;
 
+import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.param.Parameter;
@@ -90,5 +91,7 @@ public class UserTest {
         var dao = new UserDAO(DbTest.conRoot);
         dao.addUserGroup(USER_ADMIN_ID, new UserGroup(groupAdminsId, new Date(), null));
         dao.addUserGroup(userKarlId, new UserGroup(groupAdminsId, new Date(), null));
+
+        UserCache.flush(null);
     }
 }

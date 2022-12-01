@@ -37,7 +37,7 @@ onProcessEvent.2.commands=addExecutors({2})
 #
 # если нет исполнителей и не HD - добавление создавшего
 onProcessEvent.3.events=created
-onProcessEvent.3.ifExpression=process.getTypeId() != 8 && process.getProcessExecutors().size() == 0
+onProcessEvent.3.ifExpression=process.getTypeId() != 8 && process.getExecutors().isEmpty()
 onProcessEvent.3.doExpression=addExecutors({user.getId()})
 #
 # при получении входящего сообщения с типом не "заметка" в процесс в статусе 6 "ожидание" - перевод процесса в статус 1 "открыт"

@@ -18,17 +18,20 @@ filter.{@cnt}.values=current
 column.2.title=Address
 column.2.value=param:{@PROCESS_PARAM_ADDRESS_ID}
 column.4.title=Description
-column.4.value=descriptionLink
+column.4.value=description
 column.5.title=Created
 column.5.value=create_dt
 column.6.title=Status
 column.6.value=status_title
 
-sort.combo.count=2
-sort.mode.{@inc:cnt}.column.id=6
-sort.mode.{@cnt}.title=Status
-sort.mode.{@inc:cnt}.column.id=2
-sort.mode.{@cnt}.title=Created time DESC
-sort.mode.{@cnt}.desc=1
+#doesn't work, fix later
+#sort.combo.count=2
+#sort.mode.{@inc:cnt}.column.id=6
+#sort.mode.{@cnt}.title=Status
+#sort.mode.{@inc:cnt}.column.id=2
+#sort.mode.{@cnt}.title=Created time DESC
+#sort.mode.{@cnt}.desc=1
 
 media.html.columns=2,4,5,6
+
+createAllowedProcessList={@PROCESS_TYPE_ID}:Create Process

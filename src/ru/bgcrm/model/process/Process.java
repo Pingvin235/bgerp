@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.l10n.Localization;
 import org.bgerp.l10n.Localizer;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
@@ -23,6 +24,8 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class Process extends Id implements Comparable<Process>, Cloneable {
+    private static final Log log = Log.getLog();
+
     public static final String OBJECT_TYPE = "process";
 
     public static final String LINK_TYPE_LINK = "processLink";
@@ -76,6 +79,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      */
     @Deprecated
     public Set<ProcessExecutor> getProcessExecutors() {
+        log.warn("Deprecated method 'getProcessExecutors' was called. Use 'getExecutors' instead.");
         return getExecutors();
     }
 
@@ -88,6 +92,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      */
     @Deprecated
     public Set<Integer> getProcessExecutorsWithRole(int roleId) {
+        log.warn("Deprecated method 'getProcessExecutorsWithRole' was called. Use 'getExecutorIdsWithRole' instead.");
         return getExecutorIdsWithRole(roleId);
     }
 
@@ -107,6 +112,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      */
     @Deprecated
     public Set<Integer> getProcessExecutorsWithRoles(Set<Integer> roleIds) {
+        log.warn("Deprecated method 'getProcessExecutorsWithRoles' was called. Use 'getExecutorIdsWithRoles' instead.");
         return getExecutorIdsWithRoles(roleIds);
     }
 
@@ -126,6 +132,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      */
     @Deprecated
     public Set<Integer> getProcessExecutorsInGroupWithRole(int roleId, int groupId) {
+        log.warn("Deprecated method 'getProcessExecutorsInGroupWithRole' was called. Use 'getExecutorIdsWithGroupAndRole' instead.");
         return getExecutorIdsWithGroupAndRole(groupId, roleId);
     }
 
@@ -146,6 +153,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      */
     @Deprecated
     public Set<Integer> getProcessExecutorsWithGroups(Set<Integer> groupIds) {
+        log.warn("Deprecated method 'getProcessExecutorsWithGroups' was called. Use 'getExecutorIdsWithGroups' instead.");
         return getExecutorIdsWithGroups(groupIds);
     }
 
@@ -169,6 +177,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      */
     @Deprecated
     public void setProcessExecutors(Set<ProcessExecutor> processExecutors) {
+        log.warn("Deprecated method 'setProcessExecutors' was called. Use 'setExecutors' instead.");
         setExecutors(processExecutors);
     }
 

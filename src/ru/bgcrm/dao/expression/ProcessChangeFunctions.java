@@ -93,12 +93,10 @@ public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
      * @throws Exception
      */
     public void addExecutors(Set<Integer> ids) throws Exception {
-        Set<Integer> addingExecutorIds = ids;
-
         // определение единственной группороли в которую добавляются исполнители
         ProcessGroup processGroup = null;
         for (ProcessGroup pg : process.getGroups()) {
-            for (Integer executorId : addingExecutorIds) {
+            for (Integer executorId : ids) {
                 User user = UserCache.getUser(executorId);
                 if (user.getGroupIds().contains(pg.getGroupId())) {
                     if (processGroup != null && processGroup.getGroupId() != pg.getGroupId())
@@ -109,11 +107,11 @@ public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
         }
 
         if (processGroup == null)
-            throw new BGMessageException("Устанавливаемые исполнители не входят в группы, исполняющие процесс.");
+            throw new BGMessageException("The set executors '{}' are not members of process execution groups '{}'.", ids, process.getGroupIds());
 
         // добавление в текущих исполнителей группороли
         Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(), Collections.singleton(processGroup));
-        executors.addAll(ProcessExecutor.toProcessExecutorSet(addingExecutorIds, processGroup));
+        executors.addAll(ProcessExecutor.toProcessExecutorSet(ids, processGroup));
 
         ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
     }

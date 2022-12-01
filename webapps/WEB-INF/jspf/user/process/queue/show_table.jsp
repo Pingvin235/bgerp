@@ -1,7 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%-- генератор строк таблицы JEXL выражением --%>
+<%--
+Incoming variables:
+	mob - optional boolean if called from 'usermob' iface
+--%>
+
+<%-- generation table rows using JEXL --%>
 <c:set var="rowExpression" value="${queue.configMap.getConfig('ru.bgcrm.model.process.config.RowExpressionConfig')}"/>
 
 <c:set var="tableUiid" value="${u:uiid()}"/>

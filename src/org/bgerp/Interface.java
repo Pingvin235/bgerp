@@ -20,7 +20,7 @@ public class Interface {
 
     /**
      * Detects request interface.
-     * @return {@link #USER}, {@link #OPEN} or {@code "undef"}
+     * @return {@link #USER}, {@link #OPEN}, {@link #USER_MOB} or {@code "undef"}
      */
     public static String getIface(HttpServletRequest request) {
         var uri = OpenFilter.getRequestURI(request);
@@ -28,8 +28,12 @@ public class Interface {
 
         if (Utils.notBlankString(uri))
             return OPEN;
-        if (user != null)
+
+        if (user != null) {
+            if (request.getRequestURI().contains("/" + USER_MOB))
+                return USER_MOB;
             return USER;
+        }
 
         return "undef";
     }
