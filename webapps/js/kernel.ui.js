@@ -398,36 +398,57 @@ $$.ui = new function () {
 		}
 	}
 
+	/**
+	 * Calculates layout process for a DOM element.
+	 * Processed classes:
+	 * 'layout-height-rest' - set an element' height as the rest of available parent' height;
+	 * 'layout-width-rest' - set an element' width as the rest of available parent' width.
+	 * @param {jQuery} $selector the processed element' selector.
+	 */
 	const layout = ($selector) => {
-		var debug = false;
+		const debug = $$.debug("ui.layout");
 
 		$selector.find(".layout-height-rest").each(function () {
-			var height = $(this.parentNode).height();
-			var restEl = this;
+			let height = $(this.parentNode).height();
+			const restEl = this;
 
-			if (debug) {
-				console.debug("Set height: ", $(this), "parent: ", $(this.parentNode), 'height = ' + height);
-				console.debug($(this.parentNode).find(">*"));
-			}
+			debug("Set height: ", $(this), "parent: ", $(this.parentNode), 'height = ' + height);
 
-			$(this.parentNode).children()./*find( ">*" ).*/each(function () {
+			$(this.parentNode).children().each(function () {
 				if (this.localName == 'script' || this == restEl ||
 					$(this).hasClass("layout-height-rest"))
 					return;
 
 				height -= $(this).outerHeight(true);
 
-				if (debug) {
-					console.debug($(this), $(this).outerHeight(true), height);
-				}
+				debug($(this), $(this).outerHeight(true), height);
 			})
 
-			if (debug) {
-				console.debug("height => " + height);
-			}
+			debug("height => ", height);
 
 			$(this).css("height", height + "px");
-		})
+		});
+
+		$selector.find(".layout-width-rest").each(function () {
+			let width = $(this.parentNode).width();
+			const restEl = this;
+
+			debug("Set width: ", $(this), "parent: ", $(this.parentNode), 'width = ' + width);
+
+			$(this.parentNode).children().each(function () {
+				if (this.localName == 'script' || this == restEl ||
+					$(this).hasClass("layout-width-rest"))
+					return;
+
+				width -= $(this).outerWidth(true);
+
+				debug($(this), $(this).outerWidth(true), width);
+			})
+
+			debug("width => ", width);
+
+			$(this).css("width", width + "px");
+		});
 	}
 
 	const tabsLoaded = ($tabs, event, callback) => {

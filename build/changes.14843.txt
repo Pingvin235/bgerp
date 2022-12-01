@@ -1,0 +1,1 @@
+F: Plugin DBA. Query log combo is too wide for long queries.

@@ -26,6 +26,7 @@ $$.debugAreas = {
 	doOnClick: 0,
 	uiMonthDaysSelect: 0,
 	uiMonthSelect: 0,
+	'ui.layout' : 0,
 	queueFilterDrag: 0,
 	blow: 0
 };
