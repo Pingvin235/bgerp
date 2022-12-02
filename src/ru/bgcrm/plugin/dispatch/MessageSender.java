@@ -52,8 +52,7 @@ public class MessageSender implements Runnable {
                     SQLUtils.closeConnection(conSlave);
                 }
 
-                if (log.isDebugEnabled())
-                    log.debug("Found message to send: " + message + "; accounts count: " + accountList.size());
+                log.debug("Found message to send: {}; accounts count: {}", message, accountList.size());
 
                 String encoding = MailMsg.getParamMailEncoding(Setup.getSetup());
                 Session session = config.getMailConfig().getSmtpSession(Setup.getSetup());

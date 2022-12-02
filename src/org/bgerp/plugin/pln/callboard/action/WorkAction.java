@@ -403,17 +403,14 @@ public class WorkAction extends BaseAction {
             // пользователи группы
             Map<Integer, List<Integer>> groupWithUsersMap = getGroupWithUsersMap(con, callboard, Collections.singletonList(groupId),
                     TimeUtils.convertDateToCalendar(dateFrom), TimeUtils.convertDateToCalendar(dateTo));
-            if (log.isDebugEnabled()) {
-                log.debug("groupId: " + groupId + ";groupWithUsersMap: " + groupWithUsersMap);
-            }
+
+            log.debug("groupId: {}; groupWithUsersMap: {}", groupId, groupWithUsersMap);
 
             // Возвращает мап Группа - List из Рабочих смен
             Map<Integer, List<WorkShift>> workShiftMap = new ShiftDAO(con).getWorkShift(callboard, TimeUtils.getNextDay(dateFrom), dateTo,
                     groupWithUsersMap);
 
-            if (log.isDebugEnabled()) {
-                log.debug("workShiftMap: " + workShiftMap);
-            }
+            log.debug("workShiftMap: {}", workShiftMap);
 
             Date date = (Date) dateFrom.clone();
 
@@ -423,9 +420,7 @@ public class WorkAction extends BaseAction {
 
                 separateShiftData(date, workShiftMap, groupDataMap);
 
-                if (log.isDebugEnabled()) {
-                    log.debug("Processing: " + date + "; groupDataMap: " + groupDataMap);
-                }
+                log.debug("Processing: {}; groupDataMap: {}", date, groupDataMap);
 
                 // назначенные задачи
                 new WorkTaskDAO(con).loadWorkTask(callboard.getId(), date, groupDataMap);

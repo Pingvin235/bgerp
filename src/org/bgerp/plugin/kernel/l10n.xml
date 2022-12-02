@@ -79,7 +79,7 @@
 	<p><ru>Сообщения</ru><en>Messages</en></p>
 	<p><ru>Объектов в буфере</ru><en>Objects in buffer</en></p>
 	<p><ru>BGERP 3.0 не будет корректно работать в вашем браузере!</ru><en>BGERP 3.0 will not work correctly in this browser!</en></p>
-	<p><ru>Поддерживаемые браузеры: Mozilla Firefox %s и новее, Google Chrome %s и новее, Safari %s и новее.</ru><en>Supported browsers: Mozilla Firefox %s and newer, Google Chrome %s and newer, Safari %s and newer.</en></p>
+	<p><ru>Поддерживаемые браузеры: Mozilla Firefox {} и новее, Google Chrome {} и новее, Safari {} и новее.</ru><en>Supported browsers: Mozilla Firefox {} and newer, Google Chrome {} and newer, Safari {} and newer.</en></p>
 	<p><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
 	<p><ru>Войти</ru><en>Login</en></p>
 	<p><ru>Открытый интерфейс</ru><en>Open interface</en></p>
@@ -201,8 +201,8 @@
 	<p><ru>Привязать сообщение к указанному процессу?</ru><en>Link the message to the process?</en></p>
 	<p><ru>Изменить процесс на</ru><en>Change process to</en></p>
 	<p><ru>Независимую</ru><en>Independent</en></p>
-	<p><ru>Изменить процесс сообщения на %s копию текущего процесса?</ru><en>Change process of the message to %s copy of the current process?</en></p>
-	<p><ru>%s копию текущего</ru><en>%s copy of the current</en></p>
+	<p><ru>Изменить процесс сообщения на {} копию текущего процесса?</ru><en>Change process of the message to {} copy of the current process?</en></p>
+	<p><ru>{} копию текущего</ru><en>{} copy of the current</en></p>
 	<p><ru>Зависящую</ru><en>Dependent</en></p>
 	<p><ru>Порождённую</ru><en>Made</en></p>
 	<p><ru>Ссылаемую</ru><en>Linked</en></p>
@@ -299,8 +299,8 @@
 	<p><ru>Имя класса, реализующего java.lang.Runnable</ru><en>Class name, implementing java.lang.Runnable</en></p>
 	<p><ru>Custom</ru><en>Custom</en></p>
 	<p><ru>Результат компиляции</ru><en>Compilation result</en></p>
-	<p><ru>Класс не найден: %s</ru><en>Class not found: %s</en></p>
-	<p><ru>Класс не реализует java.lang.Runnable: %s</ru><en>Class does not implement java.lang.Runnable: %s</en></p>
+	<p><ru>Класс не найден: {}</ru><en>Class not found: {}</en></p>
+	<p><ru>Класс не реализует java.lang.Runnable: {}</ru><en>Class does not implement java.lang.Runnable: {}</en></p>
 	<p><ru>Вы уверены, что хотите удалить?</ru><en>Are you sure you want to delete it?</en></p>
 	<p><ru>Такое имя уже существует в данной ветке.</ru><en>Such name already exists here.</en></p>
 	<p><ru>Фильтр по наименованию, конфигурации</ru><en>Filter by title, configuration</en></p>
@@ -318,7 +318,7 @@
 	<p><ru>Ошибка в параметрах запроса</ru><en>Error in request parameters</en></p>
 	<p><ru>Сохранить без выхода из редактора</ru><en>Save without leaving editor</en></p>
 	<p><ru>Созданные</ru><en>Created</en></p>
-	<p><ru>Вам не разрешён доступ к очереди процессов с ID=%s</ru><en>You are not allowed to access the process queue with ID=%s</en></p>
+	<p><ru>Вам не разрешён доступ к очереди процессов с ID={}</ru><en>You are not allowed to access the process queue with ID={}</en></p>
 	<p><ru>Освободить</ru><en>Release</en></p>
 	<p><ru>Принят</ru><en>Accepted</en></p>
 	<p><ru>Обновление</ru><en>Update</en></p>

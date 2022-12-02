@@ -292,9 +292,7 @@ public class TabelDAO extends CommonDAO {
                 date.add(Calendar.DAY_OF_YEAR, 1);
             }
 
-            if (log.isDebugEnabled()) {
-                log.debug("userWorkMinutes: " + userWorkMinutes + "; workHoursSum: " + workHoursSum);
-            }
+            log.debug("userWorkMinutes: {}; workHoursSum: {}", userWorkMinutes, workHoursSum);
 
             int suMinutesRest = userWorkMinutes - workHoursSum * 60;
             // сверхурочка

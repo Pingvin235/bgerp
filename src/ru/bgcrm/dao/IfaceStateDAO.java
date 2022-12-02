@@ -78,9 +78,8 @@ public class IfaceStateDAO extends CommonDAO{
         if (needBeUpdated) {
             updateIfaceState(current);
             try {
-                if (log.isDebugEnabled()) {
-                    log.debug("Update iface state to: " + current.getState());
-                }
+                log.debug("Update iface state to: {}", current.getState());
+
                 //TODO: Параметр просто записывается последним, необходимо парсить URL, заменять значение.
                 form.setRequestUrl(form.getRequestUrl() +
                         "&" + IfaceState.REQUEST_PARAM_STATE + "=" +

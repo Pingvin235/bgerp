@@ -172,9 +172,9 @@ public class EventProcessor {
                     listener.notify(event, conSet);
                 }
             } catch (TimeoutException e) {
-                throw new BGMessageException("Время ожидания выполнения скрипта '%s' истекло! (%s=%s мс).", listener.getClass().getName(), key, timeout);
+                throw new BGMessageException("Время ожидания выполнения скрипта '{}' истекло! ({}={} мс).", listener.getClass().getName(), key, timeout);
             } catch (InterruptedException | ExecutionException e) {
-                throw new BGMessageException("При выполнении скрипта '%s' возникло исключение '%s'", listener.getClass().getName(), e.getMessage());
+                throw new BGMessageException("При выполнении скрипта '{}' возникло исключение '{}'", listener.getClass().getName(), e.getMessage());
             }
 
             resultStatus = "Successful";

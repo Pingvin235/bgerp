@@ -127,8 +127,7 @@ public class DefaultProcessChangeListener {
                 }
             }
 
-            if (log.isDebugEnabled())
-                log.debug("Rules parsed: " + ruleList);
+            log.debug("Rules parsed: {}", ruleList);
         }
 
         public List<ConfigRule> getRuleList() {
@@ -250,14 +249,12 @@ public class DefaultProcessChangeListener {
                 checkRule.check(initExpression(conSet, e, process), e);
             }
 
-            log.debug("Processing commands: %s", commands);
+            log.debug("Processing commands: {}", commands);
 
             ProcessCommandExecutor.processDoCommands(conSet.getConnection(), e.getForm(), process, e, commands);
 
             if (Utils.notBlankString(doExpression)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Do expression: " + doExpression);
-                }
+                log.debug("Do expression: {}", doExpression);
 
                 try {
                     initExpression(conSet, e, process).executeScript(doExpression);

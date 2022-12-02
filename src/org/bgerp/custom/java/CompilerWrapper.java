@@ -137,21 +137,19 @@ public class CompilerWrapper {
                 File compiledFile = tmpdirFile;
                 String filePath = compiledFile.getAbsolutePath();
 
-                String className = filePath.substring(outputDir.getAbsolutePath().length() + 1)
-                        .replace(File.separatorChar, '.');
+                String className = filePath.substring(outputDir.getAbsolutePath().length() + 1).replace(File.separatorChar, '.');
                 className = className.substring(0, className.length() - 6);
 
-                if (log.isDebugEnabled()) {
-                    log.debug("Found compiled unit: " + className + " with file " + compiledFile.getAbsolutePath());
-                }
+                log.debug("Found compiled unit: {} with file {}", className, compiledFile);
 
                 CompiledUnit unit = new CompiledUnit();
                 unit.className = className;
                 unit.classFile = compiledFile;
                 unit.srcFile = getClassSrc(className);
                 result.add(unit);
-            } else if (tmpdirFile.isDirectory()) // если папка, то проверяем ее содержимое
-            {
+            }
+            // если папка, то проверяем ее содержимое
+            else if (tmpdirFile.isDirectory()) {
                 result.addAll(compiledFiles(tmpdirFile));
             }
         }

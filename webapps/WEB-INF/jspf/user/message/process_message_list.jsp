@@ -228,7 +228,7 @@
 													</c:choose>
 												</c:set>
 												<c:set var="command">
-													if (confirm('${l.l('Изменить процесс сообщения на %s копию текущего процесса?', linkTypeTitle)}')) {
+													if (confirm('${l.l('Изменить процесс сообщения на {} копию текущего процесса?', linkTypeTitle)}')) {
 														<c:url var="url" value="/user/message.do">
 															<c:param name="action" value="messageUpdateProcessToCopy"/>
 															<c:param name="id" value="${message.id}"/>
@@ -242,7 +242,7 @@
 													}
 													return false;
 												</c:set>
-												<li><a href="#" onclick="${command}">${l.l('%s копию текущего', linkTypeTitle)}</a></li>
+												<li><a href="#" onclick="${command}">${l.l('{} копию текущего', linkTypeTitle)}</a></li>
 											</c:forTokens>
 										</c:if>
 									</ul>

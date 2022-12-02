@@ -29,7 +29,7 @@ public class ReportAction extends BaseAction {
             throw new BGException("Report not found");
 
         if (StringUtils.isNotBlank(report.getDaoClass())) {
-            log.debug("Creating Java DAO class: %s", report.getDaoClass());
+            log.debug("Creating Java DAO class: {}", report.getDaoClass());
 
             ReportDAO dao = DynamicClassManager.newInstance(report.getDaoClass());
             dao.get(form);

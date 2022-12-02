@@ -41,7 +41,7 @@ public class RunAction extends BaseAction {
                 else
                     new Thread((Runnable) clazz.getDeclaredConstructor().newInstance()).start();
             } else {
-                throw new BGMessageException("Класс не реализует java.lang.Runnable: %s", className);
+                throw new BGMessageException("Класс не реализует java.lang.Runnable: {}", className);
             }
         }
 

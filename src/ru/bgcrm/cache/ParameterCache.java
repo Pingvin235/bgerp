@@ -160,9 +160,7 @@ public class ParameterCache extends Cache<ParameterCache> {
                 Runnable paramExtractor = new Runnable() {
                     @Override
                     public void run() {
-                        if (log.isDebugEnabled()) {
-                            log.debug("Extracting param values: " + param.getId());
-                        }
+                        log.debug("Extracting param values: {}", param.getId());
 
                         Connection con = Setup.getSetup().getDBConnectionFromPool();
                         try {

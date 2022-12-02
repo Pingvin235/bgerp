@@ -50,9 +50,9 @@ public class ProfileAction extends BaseAction {
             showParamIds = Utils.toIntegerList(config.get("user.open.show.paramIds"));
 
             if (openParam == null)
-                throwValidationException("Param not found: %s", paramId);
+                throwValidationException("Param not found: {}", paramId);
             if (!Parameter.TYPE_LIST.equals(openParam.getType()))
-                throwValidationException("Param type of param %s must be 'list'", paramId);
+                throwValidationException("Param type of param {} must be 'list'", paramId);
             if (showParamIds.isEmpty())
                 throwValidationException("Param ID list is not defined.");
 

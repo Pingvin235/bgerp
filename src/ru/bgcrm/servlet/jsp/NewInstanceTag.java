@@ -62,8 +62,7 @@ public class NewInstanceTag extends BodyTagSupport {
                     Object[] convertedTypes = convertObjectTypes(params, constr.getParameterTypes());
                     if (convertedTypes != null) {
                         pageContext.setAttribute(var, constr.newInstance(convertedTypes));
-                        if (log.isDebugEnabled())
-                            log.debug("Created instance using: " + convertedTypes);
+                        log.debug("Created instance using: {}", convertedTypes);
                     }
                 }
             }

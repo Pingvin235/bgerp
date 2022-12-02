@@ -89,7 +89,7 @@ public class FilterEntryCounter extends Thread {
         if (rs.next()) {
             var cnt = new CountAndTime(result = rs.getInt(1), System.currentTimeMillis());
             queries.put(query, cnt);
-            log.debug("Put query size after: %s, count: %s, query: %s", queries.size(), cnt.count, query);
+            log.debug("Put query size after: {}, count: {}, query: {}", queries.size(), cnt.count, query);
         }
         ps.close();
 
@@ -106,7 +106,7 @@ public class FilterEntryCounter extends Thread {
 
             if ((currentTime - value.time) > interval) {
                 queries.remove(query);
-                log.debug("Remove query, size after: %s, currentTime: %s, cnt.time: %s, query: %s",
+                log.debug("Remove query, size after: {}, currentTime: {}, cnt.time: {}, query: {}",
                         queries.size(), currentTime, value.time, query);
             }
         }

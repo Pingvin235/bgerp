@@ -25,7 +25,7 @@ public class ManagerConnection extends ManagerConnectionImpl {
 
         this.version = version == null ? null : AsteriskVersion.getDetermineVersionFromString(version);
 
-        log.info("Connecting AMI host: %s; port: %s; login: %s; pswd: %s; version: %s", host, port, login, pswd, version);
+        log.info("Connecting AMI host: {}; port: {}; login: {}; pswd: {}; version: {}", host, port, login, pswd, version);
 
         setHostname(host);
         setPort(port);

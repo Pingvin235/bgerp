@@ -31,7 +31,7 @@
 				{}
 				else {
 					alert("${l.l('BGERP 3.0 не будет корректно работать в вашем браузере!')}\n" +
-						  "${l.l('Поддерживаемые браузеры: Mozilla Firefox %s и новее, Google Chrome %s и новее, Safari %s и новее.', firefoxVersion, chromeVersion, safariVersion)}" );
+						  "${l.l('Поддерживаемые браузеры: Mozilla Firefox {} и новее, Google Chrome {} и новее, Safari {} и новее.', firefoxVersion, chromeVersion, safariVersion)}" );
 				}
 			</c:if>
 		})

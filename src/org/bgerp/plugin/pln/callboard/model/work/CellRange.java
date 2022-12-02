@@ -107,9 +107,7 @@ public class CellRange {
         int[] currentRange = null;
 
         for (SlotRange pair : getSlotRanges()) {
-            if (log.isDebugEnabled()) {
-                log.debug("SlotRange from: " + pair.slotFrom + "; count: " + pair.slotCount + "; task: " + pair.task);
-            }
+            log.debug("SlotRange from: {}; count: {} task: {}", pair.slotFrom, pair.slotCount, pair.task);
 
             // слот не занят
             if (pair.task != null) {

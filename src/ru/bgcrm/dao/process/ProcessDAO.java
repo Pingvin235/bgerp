@@ -358,10 +358,6 @@ public class ProcessDAO extends CommonDAO {
         query.append(params.joinPart);
         query.append(params.wherePart);
 
-        if (log.isDebugEnabled()) {
-            log.debug(query.toString());
-        }
-
         var ps = con.prepareStatement(query.toString());
 
         var rs = ps.executeQuery();

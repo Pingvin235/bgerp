@@ -84,9 +84,7 @@ public class CustomerDAO extends CommonDAO {
             query.append(" ORDER BY title");
             query.append(getPageLimit(page));
 
-            if (log.isDebugEnabled()) {
-                log.debug(query.toString());
-            }
+            log.debug(query);
 
             ps.addQuery(query.toString());
 
@@ -123,10 +121,6 @@ public class CustomerDAO extends CommonDAO {
             query.append(" ORDER BY title");
             query.append(getPageLimit(page));
 
-            if (log.isDebugEnabled()) {
-                log.debug(query.toString());
-            }
-
             ps.addQuery(query.toString());
 
             extractCustomersWithRef(page, list, referenceTemplate, ps);
@@ -142,9 +136,7 @@ public class CustomerDAO extends CommonDAO {
         query.append(" ORDER BY title");
         query.append(getPageLimit(page));
 
-        if (log.isDebugEnabled()) {
-            log.debug(query.toString());
-        }
+        log.debug(query.toString());
 
         ps.addQuery(query.toString());
 

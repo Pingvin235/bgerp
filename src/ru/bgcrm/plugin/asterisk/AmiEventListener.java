@@ -74,7 +74,7 @@ public class AmiEventListener extends Thread implements ManagerEventListener {
 
     @Override
     public void onManagerEvent(ManagerEvent e) {
-        log.debug("AMI event: %s", e);
+        log.debug("AMI event: {}", e);
 
         if (!(e instanceof NewStateEvent))
             return;

@@ -38,12 +38,12 @@ public class GMS extends ru.bgcrm.util.Config {
             url.addParameter(PARAM_DATA, BaseAction.MAPPER.writeValueAsString(data));
 
             Request req = Request.Get(url.build());
-            if (log.isDebugEnabled())
-                log.debug("Sending: " + req);
+
+            log.debug("Sending: {}", req);
 
             String result = req.execute().returnContent().asString(Charset.forName("UTF-8"));
-            if (log.isDebugEnabled())
-                log.debug("Response: " + result);
+
+            log.debug("Response: {}", result);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

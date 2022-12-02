@@ -39,9 +39,7 @@ public class MessageTypeSearchCall extends MessageTypeSearchBilling {
             throws BGException {
         String numberFrom = ru.bgcrm.dao.message.MessageTypeSearchCall.preprocessNumber(message, phonePreprocessJexl);
 
-        if (log.isDebugEnabled()) {
-            log.debug("Search by numberFrom: " + numberFrom);
-        }
+        log.debug("Search by numberFrom: {}", numberFrom);
 
         DBInfo dbInfo = DBInfoManager.getDbInfo(billingId);
         if (dbInfo == null) {

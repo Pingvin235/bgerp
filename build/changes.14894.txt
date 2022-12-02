@@ -1,0 +1,3 @@
+C: Cleanup log.isDebugEnabled() and log.error(e, e.getMessage()) usages.
+C: Replace %s string substitutions to {}.
+A: Plugin Telegram. Escape '(' and ')' chars.

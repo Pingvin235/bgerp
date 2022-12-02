@@ -27,9 +27,9 @@ public class ExpressionObject {
             if (bot == null) {
                 return;
             }
-            if (log.isDebugEnabled()) {
-                log.debug("Send message: {}, chatId: {}", text, chatId);
-            }
+
+            log.debug("Send message: {}, chatId: {}", text, chatId);
+
             bot.sendMessage(chatId, text);
         }
     }
@@ -47,9 +47,9 @@ public class ExpressionObject {
             if (bot == null) {
                 return;
             }
-            if (log.isDebugEnabled()) {
-                log.debug("Send message: {}, chatId: {}", text, chatId);
-            }
+
+            log.debug("Send message: {}, chatId: {}", text, chatId);
+
             bot.sendMessage(chatId, text, parseMode);
         }
     }

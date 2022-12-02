@@ -51,18 +51,14 @@ public class Locker {
                             + UserCache.getUser(existLock.getUserId()).getTitle());
                 }
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Move lock time: " + lock.getId());
-                }
+                log.debug("Move lock time: {}", lock.getId());
 
                 lock.continueTime();
                 return;
             }
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("Add lock: " + lock.getId());
-        }
+        log.debug("Add lock: {}", lock.getId());
 
         Set<Lock> locks = locksByUser.get(lock.getUserId());
         if (locks == null) {
@@ -87,9 +83,7 @@ public class Locker {
     }
 
     public static void freeLock(Lock lock) {
-        if (log.isDebugEnabled()) {
-            log.debug("Free lock: " + lock.getId());
-        }
+        log.debug("Free lock: {}", lock.getId());
 
         // TODO: Может проверять, чтобы освобождал тот же, что и занимает, хотя вызов из
         // addLock не так.

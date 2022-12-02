@@ -288,7 +288,7 @@ public class ProcessQueueAction extends ProcessAction {
         new UserDAO(connectionSet.getConnection()).updatePersonalization(configBefore, form.getUser());
 
         if (!form.getUser().getQueueIds().contains(form.getId())) {
-            throw new BGMessageException("Вам не разрешён доступ к очереди процессов с ID=%s", form.getId());
+            throw new BGMessageException("Вам не разрешён доступ к очереди процессов с ID={}", form.getId());
         }
 
         Queue queue = ProcessQueueCache.getQueue(form.getId(), form.getUser());
@@ -318,7 +318,7 @@ public class ProcessQueueAction extends ProcessAction {
             if (aggregateValues.size() > 0)
                 form.setResponseData("aggregateValues", aggregateValues);
         } else {
-            throw new BGMessageException("Очередь процессов с ID=%s не найдена", form.getId());
+            throw new BGMessageException("Очередь процессов с ID={} не найдена", form.getId());
         }
 
         return html(connectionSet, form, PATH_JSP + "/queue/show.jsp");

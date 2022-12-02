@@ -30,7 +30,7 @@ import ru.bgcrm.util.sql.SQLUtils;
 public class Bot extends TelegramLongPollingBot {
     private static final Log log = Log.getLog();
 
-    private static final Set<String> SPECIAL_CHARACTERS = Set.of("_", "~", "`", ">", "#", "+", "-", "=", "|", "{", "}", ".", "!");
+    private static final Set<String> SPECIAL_CHARACTERS = Set.of("_", "~", "`", ">", "#", "+", "-", "=", "|", "{", "}", ".", "!", "(", ")");
 
     private static class UserData {
         private String login;
@@ -135,9 +135,8 @@ public class Bot extends TelegramLongPollingBot {
             Message msg = e.getMessage();
             String text = msg.getText().toLowerCase();
             String chatId = Long.toString(msg.getChatId());
-            if (log.isDebugEnabled()) {
-                log.debug("Message: " + text);
-            }
+
+            log.debug("Message: {}", text);
 
             if (text.equals("/start")) {
                 sendMessage(chatId, config.getMsgDefaultAnswer());

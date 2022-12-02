@@ -54,9 +54,7 @@ public class FileAction extends BaseAction {
         try {
             FormFile file = form.getFile();
 
-            if (log.isDebugEnabled()) {
-                log.debug("Uploading temporary file: " + file.getFileName() + ", type: " + file.getContentType());
-            }
+            log.debug("Uploading temporary file: {}, type: {}", file.getFileName(), file.getContentType());
 
             SessionTemporaryFiles files = null;
 
@@ -88,9 +86,7 @@ public class FileAction extends BaseAction {
     }
 
     public ActionForward temporaryDelete(DynActionForm form, Connection con) throws BGException {
-        if (log.isDebugEnabled()) {
-            log.debug("Deleting temporary file: " + form.getId());
-        }
+        log.debug("Deleting temporary file: {}", form.getId());
 
         HttpSession session = form.getHttpRequest().getSession(true);
         SessionTemporaryFiles files = (SessionTemporaryFiles) session.getAttribute(SessionTemporaryFiles.STORE_KEY);

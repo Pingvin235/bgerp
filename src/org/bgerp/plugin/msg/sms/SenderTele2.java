@@ -52,10 +52,10 @@ public class SenderTele2 extends Sender {
             request.setURI(URI.create(url));
             request.addHeader(new BasicHeader("Authorization", "Basic " + base64encode));
             request.addHeader(new BasicHeader("Content-Type", "application/json; charset=utf-8"));
-            log.debug("Sending: %s", request);
+            log.debug("Sending: {}", request);
 
             HttpResponse response = httpclient.execute(request);
-            log.debug("Response code: %s", response.getStatusLine().getStatusCode() + ", reason: " + response.getStatusLine().getReasonPhrase());
+            log.debug("Response code: {}", response.getStatusLine().getStatusCode() + ", reason: " + response.getStatusLine().getReasonPhrase());
 
         } catch (Exception e) {
             log.error(e);

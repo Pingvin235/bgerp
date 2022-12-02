@@ -585,9 +585,7 @@ public class Queue extends IdTitle {
 
             if (Utils.notBlankString(mode.getTitle())) {
                 sortSet.addMode(mode);
-                if (log.isDebugEnabled()) {
-                    log.debug("Sort mode add: " + mode);
-                }
+                log.debug("Sort mode add: {}", mode);
             }
         }
 

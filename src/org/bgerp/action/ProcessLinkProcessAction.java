@@ -232,7 +232,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
             LinkProcessCreateConfigItem item = linkedType.getProperties().getConfigMap().getConfig(LinkProcessCreateConfig.class)
                     .getItem(createTypeId);
             if (item == null) {
-                throw new BGMessageException("Не найдено правило с ID: %s", createTypeId);
+                throw new BGMessageException("Не найдено правило с ID: {}", createTypeId);
             }
 
             linkObjectType = item.getLinkType();

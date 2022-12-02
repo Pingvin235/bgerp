@@ -243,9 +243,7 @@ public class MessageParser {
                 String partContentType = part.getContentType().toLowerCase();
                 Object partContent = part.getContent();
 
-                if (log.isDebugEnabled()) {
-                    log.debug("Processing multipart part, type: " + partContentType);
-                }
+                log.debug("Processing multipart part, type: {}", partContentType);
 
                 if (partContentType.startsWith("multipart/alternative")) {
                     textContent = getTextFromMultipartAlternative((MimeMultipart) partContent);

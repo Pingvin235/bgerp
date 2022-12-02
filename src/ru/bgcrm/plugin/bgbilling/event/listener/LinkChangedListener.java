@@ -78,9 +78,7 @@ public class LinkChangedListener {
                     continue;
                 }
 
-                if (log.isDebugEnabled()) {
-                    log.debug("Adding groups: " + groupIds + " for linked contract title: " + contractTitle);
-                }
+                log.debug("Adding groups: {} for linked contract title: {}", groupIds, contractTitle);
 
                 groupsChanged = process.getGroupIds().addAll(groupIds);
 

@@ -455,11 +455,8 @@ public class UserCache extends Cache<UserCache> {
                     }
                 }
 
-                if (log.isDebugEnabled()) {
-                    log.debug("User id: " + user.getId() + "; login: " + user.getLogin() + "; roles: " + user.getRoles()
-                            + "; queueIds: " + user.getQueueIds() + "; config: \n" + user.getConfig() + "; groups: "
-                            + userGroupList + "; permsetIds: " + userPermsetIds);
-                }
+                log.debug("User id: {}; login: {}; roles: {}; queueIds: {}; config: \n{}; groups: {}; permsetIds: ", user.getId(), user.getLogin(),
+                        user.getRoles(), user.getQueueIds(), user.getConfig(), userGroupList, userPermsetIds);
             }
 
             User user = new User();

@@ -298,9 +298,6 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             }
 
             PreparedStatement ps = pq.getPrepared();
-            if (log.isDebugEnabled()) {
-                log.debug(ps);
-            }
 
             if (page != null) {
                 page.setRecordCount(foundRows(ps));
@@ -341,9 +338,6 @@ public class ProcessLinkDAO extends CommonLinkDAO {
             "INNER JOIN " + TABLE_PROCESS_LINK + " AS link ON process.id=link.process_id  AND link.object_id=? AND link.object_type LIKE ? ";
 
         query += "ORDER BY process.type_id";
-        if (log.isDebugEnabled()) {
-            log.debug(query.toString());
-        }
 
         try (var ps = con.prepareStatement(query)) {
             ps.setInt(1, objectId);

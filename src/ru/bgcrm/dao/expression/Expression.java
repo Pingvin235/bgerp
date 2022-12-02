@@ -135,8 +135,8 @@ public class Expression {
     }
 
     public Object executeScript(String expression) {
-        if (log.isDebugEnabled())
-            log.debug("Executing script: " + expression);
+        log.debug("Executing script: {}", expression);
+
         try {
             return jexl.createScript(expression).execute(context);
         } catch (JexlException e) {

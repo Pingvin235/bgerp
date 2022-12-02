@@ -284,8 +284,7 @@ public class MessageTypeHelpDesk extends MessageType {
 
     private Process processTopic(Connection con, Map<Integer, Integer> activeHdProcessTopicIds, ProcessType processType, final String objectType,
             DynActionForm form, HelpDeskDAO hdDao, HdTopic topic) throws Exception, BGException {
-        if (log.isDebugEnabled())
-            log.debug("Processing topic: " + topic.getId());
+        log.debug("Processing topic: {}", topic.getId());
 
         Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>();
         new ProcessLinkDAO(con, form).searchLinkedProcessList(searchResult, objectType, topic.getId(), null, null, null, null, null);

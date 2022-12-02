@@ -75,9 +75,7 @@ public class TableChangeMonitor extends Thread {
 
                         String prevCount = rowCounts.put(tableName, count);
                         if (prevCount != null && !prevCount.equals(count)) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("Table changed: " + tableName);
-                            }
+                            log.debug("Table changed: {}", tableName);
 
                             List<Runnable> runnableList = runnableMap.get(tableName);
                             for (Runnable r : runnableList) {

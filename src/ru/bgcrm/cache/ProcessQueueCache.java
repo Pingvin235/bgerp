@@ -12,7 +12,6 @@ import ru.bgcrm.dao.process.QueueDAO;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class ProcessQueueCache extends Cache<ProcessQueueCache> {
@@ -76,16 +75,12 @@ public class ProcessQueueCache extends Cache<ProcessQueueCache> {
                 // выбор явно указанных в конфигурации очереди типов процессов
                 queue.setProcessTypeIds(queueDAO.getQueueProcessTypeIds(queue.getId()));
 
-                if (log.isDebugEnabled()) {
-                    log.debug("Queue " + queue.getId() + " selected process types: " + Utils.toString(queue.getProcessTypeIds()));
-                }
+                log.debug("Queue {} selected process types: {}", queue.getId(), queue.getProcessTypeIds());
 
                 // выбор дочерних типов привязанных процессов
                 queue.setProcessTypeIds(ProcessTypeCache.getTypeTreeRoot().getSelectedChildIds(queue.getProcessTypeIds()));
 
-                if (log.isDebugEnabled()) {
-                    log.debug("Queue " + queue.getId() + " process types with childs: " + Utils.toString(queue.getProcessTypeIds()));
-                }
+                log.debug("Queue {} process types with children: {}", queue.getId(), queue.getProcessTypeIds());
 
                 queue.extractFiltersAndSorts();
 

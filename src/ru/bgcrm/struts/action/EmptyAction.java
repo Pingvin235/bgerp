@@ -20,7 +20,7 @@ public class EmptyAction extends BaseAction {
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) {
         var request = form.getHttpRequest();
-        log.debug("r: %s; f: %s; q: %s", request, form, request.getQueryString());
+        log.debug("r: {}; f: {}; q: {}", request, form, request.getQueryString());
         return html(conSet, form, form.getForwardFile());
     }
 }

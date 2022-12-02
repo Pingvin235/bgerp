@@ -390,7 +390,7 @@ public class ProcessAction extends BaseAction {
 
         TransactionProperties transactionProperties = type.getProperties().getTransactionProperties(process.getStatusId(), change.getStatusId());
         if (process.getStatusId() != 0 && !transactionProperties.isEnable())
-            throw new BGMessageException("Переход со статуса %s на статус %s невозможен", process.getStatusId(), change.getStatusId());
+            throw new BGMessageException("Переход со статуса {} на статус {} невозможен", process.getStatusId(), change.getStatusId());
 
         changeDao.changeStatus(process, type, change);
 
@@ -760,7 +760,7 @@ public class ProcessAction extends BaseAction {
     public static ProcessType getProcessType(int typeId) throws BGMessageException {
         ProcessType type = ProcessTypeCache.getProcessType(typeId);
         if (type == null) {
-            throw new BGMessageException("Не найден тип процесса: %s", typeId);
+            throw new BGMessageException("Не найден тип процесса: {}", typeId);
         }
         return type;
     }
@@ -852,7 +852,7 @@ public class ProcessAction extends BaseAction {
         var process = getProcess(processDao, form.getId());
         var processTo = getProcess(processDao, form.getParamInt("processId"));
 
-        var mergeText = l.l("Merged from: %s\n", process.getId());
+        var mergeText = l.l("Merged from: {}\n", process.getId());
 
         // TODO: Params as in customer!
 

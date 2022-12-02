@@ -54,9 +54,9 @@ public class MessageAction extends BaseAction {
 
             var messageTypeEmail = messageTypeConfig.getTypeMap().get(messageTypeEmailId);
             if (messageTypeEmail == null)
-                throw new BGMessageException("No message type with ID: %s found", messageTypeEmailId);
+                throw new BGMessageException("No message type with ID: {} found", messageTypeEmailId);
             if (!(messageTypeEmail instanceof MessageTypeEmail))
-                throw new BGMessageException("Wrong class instead of MessageTypeEmail: %s", messageTypeEmail.getClass());
+                throw new BGMessageException("Wrong class instead of MessageTypeEmail: {}", messageTypeEmail.getClass());
 
             return (MessageTypeEmail) messageTypeEmail;
         }

@@ -79,9 +79,7 @@ public class TemporaryObjectOpenListener extends Thread {
 
                             existUserSet.add(processId);
 
-                            if (log.isDebugEnabled()) {
-                                log.debug("User: " + userId + "; found temp process: " + processId);
-                            }
+                            log.debug("User: {}; found temp process: {}", userId, processId);
 
                             userIds.remove(userId);
                         }

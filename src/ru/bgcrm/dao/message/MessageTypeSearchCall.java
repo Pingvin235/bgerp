@@ -35,13 +35,10 @@ public class MessageTypeSearchCall extends MessageTypeSearch {
     }
 
     @Override
-    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result)
-            throws BGException {
+    public void search(DynActionForm form, ConnectionSet conSet, Message message, Set<CommonObjectLink> result) throws BGException {
         String numberFrom = preprocessNumber(message, phonePreprocessJexl);
 
-        if (log.isDebugEnabled()) {
-            log.debug("Search by numberFrom: " + numberFrom);
-        }
+        log.debug("Search by numberFrom: {}", numberFrom);
 
         for (String command : commands) {
             if (command.startsWith("customerByPhoneParam:")) {
@@ -63,19 +60,16 @@ public class MessageTypeSearchCall extends MessageTypeSearch {
         String numberFrom = message.getFrom();
 
         if (Utils.notBlankString(phonePreprocessJexl)) {
-            if (log.isDebugEnabled()) {
-                log.debug("Using preprocess JEXL: '" + phonePreprocessJexl + "'");
-            }
+            log.debug("Using preprocess JEXL: '{}'", phonePreprocessJexl);
 
             Map<String, Object> map = new HashMap<String, Object>(1);
             map.put("numberFrom", message.getFrom());
 
             numberFrom = new Expression(map).getString(phonePreprocessJexl);
 
-            if (log.isDebugEnabled()) {
-                log.debug("Number preprocessed: " + message.getFrom() + " => " + numberFrom);
-            }
+            log.debug("Number preprocessed: {} => {}", message.getFrom(), numberFrom);
         }
+
         return numberFrom;
     }
 }

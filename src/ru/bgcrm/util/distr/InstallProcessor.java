@@ -66,7 +66,7 @@ public class InstallProcessor {
 
             System.out.println("Version is " + kernelVersion);
 
-            String updateUrl = Log.format("%s/%s/", UPDATE_URL, kernelVersion);
+            String updateUrl = Log.format("{}/{}/", UPDATE_URL, kernelVersion);
             // connecting via http(s) and parsing the page
             Document doc = getRemoteHtml(updateUrl);
 

@@ -151,9 +151,7 @@ public class MessageTypeForumPost extends MessageType {
 
     @Override
     public void process() {
-        if (log.isDebugEnabled()) {
-            log.debug("Processing forum: " + forum.getId());
-        }
+        log.debug("Processing forum: {}", forum.getId());
 
         Connection con = setup.getDBConnectionFromPool();
         Connection forumCon = forum.getConnectionPool().getDBConnectionFromPool();
@@ -163,9 +161,7 @@ public class MessageTypeForumPost extends MessageType {
             ProcessDAO processDao = new ProcessDAO(con);
 
             for (Topic topic : forumDao.getTopicListChangedAfter(lastCheckTime)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("New messages in topic: " + topic.getId());
-                }
+                log.debug("New messages in topic: {}", topic.getId());
 
                 Message message = messageDao.getMessageBySystemId(id, String.valueOf(topic.getId()));
                 if (message == null || message.getProcessId() <= 0) {

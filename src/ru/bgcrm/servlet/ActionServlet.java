@@ -73,7 +73,7 @@ public class ActionServlet extends org.apache.struts.action.ActionServlet {
                 action.setName("form");
                 action.setScope("request");
 
-                log.debug("Add action for plugin: %s, class: %s, path: %s", p.getId(), ac.getCanonicalName(), a.path());
+                log.debug("Add action for plugin: {}, class: {}, path: {}", p.getId(), ac.getCanonicalName(), a.path());
 
                 result.addActionConfig(action);
             }

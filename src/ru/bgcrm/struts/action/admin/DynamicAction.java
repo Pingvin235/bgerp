@@ -43,7 +43,7 @@ public class DynamicAction extends BaseAction {
             try {
                 clazz = DynamicClassManager.getClass(className);
             } catch (ClassNotFoundException e) {
-                throw new BGMessageException("Класс не найден: %s", className);
+                throw new BGMessageException("Класс не найден: {}", className);
             }
 
             if (Runnable.class.isAssignableFrom(clazz)) {
@@ -53,7 +53,7 @@ public class DynamicAction extends BaseAction {
                 else
                     new Thread((Runnable) clazz.getDeclaredConstructor().newInstance()).start();
             } else {
-                throw new BGMessageException("Класс не реализует java.land.Runnable: %s", className);
+                throw new BGMessageException("Класс не реализует java.land.Runnable: {}", className);
             }
         }
 
