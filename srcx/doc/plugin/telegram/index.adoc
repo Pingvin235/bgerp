@@ -128,7 +128,7 @@ onProcessEvent.11.doExpression=<<END
 
        text = "Принято изменение [" + process.getId() + "](https://team.bgerp.org/open/process/" + process.getId() + ")";
        text += " от " + from + ":" + NEW_LINE;
-       text += process.getDescription();
+       text += telegram.escapeMarkdown(process.getDescription());
 
        telegram.sendMessage("{@TLG_GROUP_BGERP_ID}", text);
    }

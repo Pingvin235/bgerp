@@ -30,7 +30,7 @@ import ru.bgcrm.util.sql.SQLUtils;
 public class Bot extends TelegramLongPollingBot {
     private static final Log log = Log.getLog();
 
-    private static final Set<String> SPECIAL_CHARACTERS = Set.of("_", "~", "`", ">", "#", "+", "-", "=", "|", "{", "}", ".", "!", "(", ")");
+    private static final Set<String> SPECIAL_CHARACTERS = Set.of("_", "~", "`", ">", "#", "+", "-", "=", "|", "{", "}", ".", "!");
 
     private static class UserData {
         private String login;
@@ -190,7 +190,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public void sendMessage(String chatId, String text) {
+    void sendMessage(String chatId, String text) {
         SendMessage message = SendMessage.builder()
                 .chatId(chatId)
                 .text(text)
@@ -202,7 +202,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public void sendMessage(String chatId, String text, String parseMode) {
+    void sendMessage(String chatId, String text, String parseMode) {
         SendMessage message = SendMessage.builder()
                 .chatId(chatId)
                 .text(escapeSpecialCharacters(text))

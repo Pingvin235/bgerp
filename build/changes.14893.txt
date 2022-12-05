@@ -1,0 +1,2 @@
+C: Update Java dependencies.
+F: Plugin Telegram. Escaping Markdown layout.

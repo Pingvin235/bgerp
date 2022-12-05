@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.FieldPosition;
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -84,7 +85,7 @@ public class TransferData {
         }
 
         @Override
-        protected Date parseAsISO8601(String dateStr, ParsePosition pos) {
+        protected Date parseAsISO8601(String dateStr, ParsePosition pos) throws ParseException {
             Date result = getDateFormat().parse(dateStr, pos);
             if (result == null) {
                 return super.parseAsISO8601(dateStr, pos);

@@ -1,6 +1,12 @@
 package org.bgerp.plugin.telegram;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.bgerp.util.Log;
+
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.process.Process;
@@ -8,12 +14,10 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
-
 public class ExpressionObject {
     private static final Log log = Log.getLog();
+
+    private static final Set<Character> SPECIAL_CHARACTERS_MD = Set.of('(', ')');
 
     /**
      * Send message in a chat.
@@ -115,5 +119,24 @@ public class ExpressionObject {
         } catch (Exception ex) {
             log.error("Error send message in telegram", ex);
         }
+    }
+
+    /**
+     * Escapes Markdown characters from {@link #SPECIAL_CHARACTERS_MD}.
+     *
+     * @param text
+     * @return
+     */
+    public static String escapeMarkdown(String text) {
+        StringBuilder result = new StringBuilder(text.length());
+
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (SPECIAL_CHARACTERS_MD.contains(c))
+                result.append("\\");
+            result.append(c);
+        }
+
+        return result.toString();
     }
 }
