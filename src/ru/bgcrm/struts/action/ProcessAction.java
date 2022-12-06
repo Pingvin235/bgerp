@@ -32,7 +32,6 @@ import ru.bgcrm.dao.message.MessageTypeNote;
 import ru.bgcrm.dao.message.config.MessageRelatedProcessConfig;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.dao.process.StatusChangeDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.UserEvent;
@@ -772,7 +771,6 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processRequest(DynActionForm form, Connection con) throws Exception {
-        ProcessTypeDAO pDao = new ProcessTypeDAO(con);
         int typeId = form.getParamInt("typeId");
 
         if (typeId == 0) {
@@ -791,11 +789,7 @@ public class ProcessAction extends BaseAction {
             }
         }
 
-        ProcessType type = pDao.getProcessType(typeId);
-
-        while (type.isUseParentProperties()) {
-            type = pDao.getProcessType(type.getParentId());
-        }
+        ProcessType type = ProcessTypeCache.getProcessType(typeId);
 
         ProcessRequestEvent processRequestEvent = new ProcessRequestEvent(form, type);
 
