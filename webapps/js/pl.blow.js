@@ -224,17 +224,24 @@ $$.blow = new function() {
 			.done(() => $$.shell.contentLoad("/user/blow/board"));
 	}
 
+	/**
+	 * Sends a search form and shows result in a popup.
+	 * @param {*} form the search form.
+	 * @returns false to prevent default in 'onclick'.
+	 */
 	const search = (form) => {
 		$$.ajax.post(form, { html: true }).done((result) => {
 			$(form).append(result);
-			const filterPos = $(form.filter).position();
+
 			const $drop = $(form).find(".drop");
 
 			$$.ui.dropShow($drop);
+
 			$(document).one("click", function () {
 				$drop.parent().remove();
 			});
 		});
+
 		return false;
 	}
 

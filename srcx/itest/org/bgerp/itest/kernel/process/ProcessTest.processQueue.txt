@@ -56,21 +56,24 @@ column.22.value=type_title
 
 media.html.columns=3,1,22,4,6,8,10,12,14,18
 
+sort.mode.1.columnId=4
+sort.mode.1.title=Description
+sort.mode.2.columnId=12
+sort.mode.2.title=Unread msg desc
+sort.mode.2.desc=1
+sort.mode.3.columnId=1
+sort.mode.3.title=Created desc
+sort.mode.3.desc=1
+sort.mode.4.columnId=16
+sort.mode.4.title=Last in msg desc
+sort.mode.4.desc=1
+sort.mode.5.columnId=3
+sort.mode.5.title=Priority desc
+sort.mode.5.desc=1
+
 sort.combo.count=2
-sort.combo.1.default=3
+sort.combo.1.default=1
 sort.combo.2.default=2
-sort.mode.1.columnId=12
-sort.mode.1.title=Unread msg desc
-sort.mode.1.desc=true
-sort.mode.2.columnId=1
-sort.mode.2.title=Created desc
-sort.mode.2.desc=true
-sort.mode.3.columnId=16
-sort.mode.3.title=Last in msg desc
-sort.mode.3.desc=true
-sort.mode.4.columnId=3
-sort.mode.4.title=Priority desc
-sort.mode.4.desc=true
 
 # Export to Excel
 media.xls.columns=1,22,4,6,8,10,12,14

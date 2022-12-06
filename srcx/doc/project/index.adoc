@@ -173,7 +173,7 @@ image::_res/ide_format.png[width='600px']
 Set trim trailing whitespaces on saving, the option is provided for <<ide-vscode, VS Code Settings Template>>.
 
 The projects mostly follow recommended formatting rules for each of programming languages they use.
-Intention:
+Indentions:
 [square]
 * 4 whitespaces - Java, Gradle, Bash, YML;
 * tabs - <<plugin-db, SQL>>, XML, HTML, JS, JSP, Dockerfile.

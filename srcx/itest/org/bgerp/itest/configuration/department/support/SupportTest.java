@@ -13,6 +13,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import org.bgerp.itest.configuration.department.Department;
 import org.bgerp.itest.configuration.department.development.DevelopmentTest;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.MessageHelper;
@@ -41,20 +42,22 @@ import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "depSupport", priority = 200, dependsOnGroups = { "configProcessNotification", "param", "depDev" })
 public class SupportTest {
-    public static volatile int groupId;
+    private static final String TITLE = Department.TITLE + " Support";
 
-    public static volatile int processTypeSupportId;
+    private int groupId;
+    private int processTypeSupportId;
+
     // Visit with address, process linked to support process.
     //public static volatile int processTypeVisitId;
 
-    public void addGroups() throws Exception {
-        groupId = UserHelper.addGroup("Support", 0, UserHelper.GROUP_CONFIG_ISOLATION);
+    public void userGroup() throws Exception {
+        groupId = UserHelper.addGroup(TITLE, 0, UserHelper.GROUP_CONFIG_ISOLATION);
         UserHelper.addUserGroups(userFelixId, groupId);
         UserHelper.addUserGroups(userVyacheslavId, groupId);
     }
 
-    @Test(dependsOnMethods = "addGroups")
-    public void addTypes() throws Exception {
+    @Test(dependsOnMethods = "userGroup")
+    public void processType() throws Exception {
         Assert.assertTrue(DevelopmentTest.processTypeProductId > 0);
 
         var props = new TypeProperties();
@@ -67,12 +70,12 @@ public class SupportTest {
         props.setConfig(ConfigHelper.generateConstants("CONFIG_PROCESS_NOTIFICATIONS_ID", ConfigTest.configProcessNotificationId) +
                         ResourceHelper.getResource(this, "config.processType.txt"));
 
-        processTypeSupportId = ProcessHelper.addType("Support", DevelopmentTest.processTypeProductId, false, props).getId();
+        processTypeSupportId = ProcessHelper.addType(TITLE, DevelopmentTest.processTypeProductId, false, props).getId();
     }
 
-    @Test (dependsOnMethods =  "addTypes")
-    public void addQueues() throws Exception {
-        var queueId = ProcessHelper.addQueue("Support",
+    @Test(dependsOnMethods = "processType")
+    public void processQueue() throws Exception {
+        var queueId = ProcessHelper.addQueue(TITLE,
             ConfigHelper.generateConstants("GROUP_ID", groupId) +
             ResourceHelper.getResource(this, "queue.txt"), Sets.newHashSet(processTypeSupportId));
         UserHelper.addGroupQueues(groupId, Set.of(queueId));
@@ -83,15 +86,15 @@ public class SupportTest {
         // TODO: Configure accept button in queue.
     }
 
-    @Test(dependsOnMethods = { "addGroups", "addTypes" })
-    public void addProcesses() throws Exception {
-        addProcess1();
-        addProcess2();
-        addProcess3();
+    @Test(dependsOnMethods = { "userGroup", "processType" })
+    public void processes() throws Exception {
+        process1();
+        process2();
+        process3();
     }
 
     // simple question
-    private void addProcess1() throws Exception {
+    private void process1() throws Exception {
         var mail = CustomerTest.CUSTOMER_ORG_NS_TILL_MAIL;
         var subject = "BGERP install update problems";
 
@@ -133,7 +136,7 @@ public class SupportTest {
     }
 
     // connect development
-    private void addProcess2() throws Exception {
+    private void process2() throws Exception {
         var mail =  CustomerTest.CUSTOMER_PERS_IVAN_MAIL;
         var subject = "The program is not running";
 
@@ -179,7 +182,7 @@ public class SupportTest {
     }
 
     // new process to be taken from
-    private void addProcess3() throws Exception {
+    private void process3() throws Exception {
         var mail =  "user@corp.org";
         var subject = "Demo server";
 

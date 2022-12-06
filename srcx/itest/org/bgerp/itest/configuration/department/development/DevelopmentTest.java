@@ -11,6 +11,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import org.bgerp.itest.configuration.department.Department;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ParamHelper;
@@ -29,32 +30,34 @@ import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "depDev", dependsOnGroups = { "user", "configProcessNotification", "process", "param" })
 public class DevelopmentTest {
+    private static final String TITLE = Department.TITLE + " Development";
+
     public static volatile int groupId;
 
     public static volatile int paramGitBranchId;
     private static volatile int paramSpecId;
 
     public static volatile int processTypeProductId;
-    public static volatile int processTypeTaskId;
+    private static volatile int processTypeTaskId;
 
-    public static volatile int queueId;
+    private static volatile int queueId;
 
     @Test
-    public void addGroups() throws Exception {
-        groupId = UserHelper.addGroup("Development", 0, UserHelper.GROUP_CONFIG_ISOLATION);
+    public void userGroup() throws Exception {
+        groupId = UserHelper.addGroup(TITLE, 0, UserHelper.GROUP_CONFIG_ISOLATION);
         UserHelper.addUserGroups(userVladimirId, groupId);
         UserHelper.addUserGroups(userLeonId, groupId);
     }
 
     @Test
-    public void addParams() throws Exception {
+    public void param() throws Exception {
         paramGitBranchId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, "GIT branch", ProcessTest.posParam += 2, "", "");
         paramSpecId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, "Specification", ProcessTest.posParam += 2,
             "multiple=1\n", "");
     }
 
-    @Test(dependsOnMethods = { "addGroups", "addParams" })
-    public void addTypes() throws Exception {
+    @Test(dependsOnMethods = { "userGroup", "param" })
+    public void processType() throws Exception {
         processTypeProductId = ProcessHelper.addType("BGERP", 0, false, null).getId();
 
         var props = new TypeProperties();
@@ -75,9 +78,9 @@ public class DevelopmentTest {
         //TODO: generated branch name
     }
 
-    @Test (dependsOnMethods = "addTypes")
-    public void addQueues() throws Exception {
-        queueId = ProcessHelper.addQueue("Development",
+    @Test (dependsOnMethods = "processType")
+    public void processQueue() throws Exception {
+        queueId = ProcessHelper.addQueue(TITLE,
             ConfigHelper.generateConstants("GROUP_ID", groupId,
                 "STATUS_OPEN_ID", ProcessTest.statusOpenId,
                 "STATUS_PROGRESS_ID", ProcessTest.statusProgressId,
@@ -88,19 +91,19 @@ public class DevelopmentTest {
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }
 
-    @Test (dependsOnMethods = "addGroups")
-    public void addTypeConfig() throws Exception {
+    @Test (dependsOnMethods = "userGroup")
+    public void typeConfig() throws Exception {
         // TODO: Configuration to assign Lenin on 'accept' status.
     }
 
-    @Test(dependsOnMethods = { "addGroups", "addTypes" })
+    @Test(dependsOnMethods = { "userGroup", "processType" })
     public void addProcesses() throws Exception {
-        addProcess1();
-        addProcess2();
-        addProcessX();
+        process1();
+        process2();
+        processX();
     }
 
-    private void addProcess1() throws Exception {
+    private void process1() throws Exception {
         var process = ProcessHelper.addProcess(processTypeTaskId, userVladimirId, "UI");
         MessageHelper.addNoteMessage(process.getId(), userVladimirId, Duration.ofDays(-30), "", "Upload multiple files");
         MessageHelper.addNoteMessage(process.getId(), userVladimirId, Duration.ofDays(-22), "", "Param phone copy values, remove values");
@@ -111,13 +114,13 @@ public class DevelopmentTest {
         addChildTask(process.getId(), userLeonId, "Issues with messages scrolling", userVladimirId);
     }
 
-    private void addProcess2() throws Exception {
+    private void process2() throws Exception {
         var process = ProcessHelper.addProcess(processTypeTaskId, userVladimirId, "Administration", 4);
         addChildTask(process.getId(), userLeonId, "Download logs in UI", userVladimirId);
         addChildTask(process.getId(), userVladimirId, "Storing large amount of files", userLeonId);
     }
 
-    private void addProcessX() throws Exception {
+    private void processX() throws Exception {
         var process = ProcessHelper.addProcess(processTypeTaskId, userLeonId, "Tests running too long", 4);
         ProcessHelper.addExecutor(process, userVladimirId, groupId);
 

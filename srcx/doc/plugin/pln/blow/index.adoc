@@ -65,7 +65,7 @@ blow:board.1.title=BGERP
 blow:board.1.queueId=4
 blow:board.1.stringExpressionCell=<<END
      result = process.getDescription() + " [<b>" + ctxProcessStatusMap[process.getStatusId()];
-     if (process.getProcessExecutorsWithRole(0).size() > 0) {
+     if (process.getExecutorIdsWithRole(0).size() > 0) {
         result += " " + params.get("col9");
      }
      result += "</b>]";

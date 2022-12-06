@@ -13,6 +13,7 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import org.bgerp.itest.configuration.department.Department;
 import org.bgerp.itest.configuration.department.development.DevelopmentTest;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.FileHelper;
@@ -37,21 +38,21 @@ import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "depSales", dependsOnGroups = { "user", "configProcessNotification", "process", "param", "depDev", "document" })
 public class SalesTest {
+    private static final String TITLE = Department.TITLE + " Sales";
+
     private int groupId;
-
-    public static volatile int processTypeSaleId;
-
-    public static volatile int queueId;
+    private int processTypeSaleId;
+    private int queueId;
 
     @Test
-    public void addGroups() throws Exception {
-        groupId = UserHelper.addGroup("Sales", 0, UserHelper.GROUP_CONFIG_ISOLATION);
+    public void userGroup() throws Exception {
+        groupId = UserHelper.addGroup(TITLE, 0, UserHelper.GROUP_CONFIG_ISOLATION);
         UserHelper.addUserGroups(userKarlId, groupId);
         UserHelper.addUserGroups(userFriedrichId, groupId);
     }
 
-    @Test (dependsOnMethods = "addGroups")
-    public void addTypes() throws Exception {
+    @Test (dependsOnMethods = "userGroup")
+    public void processType() throws Exception {
         var props = new TypeProperties();
         props.setStatusIds(Lists.newArrayList(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusWaitId,
                 ProcessTest.statusDoneId, ProcessTest.statusRejectId));
@@ -67,22 +68,22 @@ public class SalesTest {
         //TODO: deadline, next appointment
     }
 
-    @Test (dependsOnMethods = "addTypes")
-    public void addQueues() throws Exception {
-        queueId = ProcessHelper.addQueue("Sales", ResourceHelper.getResource(this, "queue.txt"), Sets.newHashSet(processTypeSaleId));
+    @Test (dependsOnMethods = "processType")
+    public void processQueue() throws Exception {
+        queueId = ProcessHelper.addQueue(TITLE, ResourceHelper.getResource(this, "queue.txt"), Sets.newHashSet(processTypeSaleId));
         UserHelper.addGroupQueues(groupId, Sets.newHashSet(queueId));
 
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }
 
-    @Test(dependsOnMethods = { "addGroups", "addTypes" })
-    public void addProcesses() throws Exception {
-        addProcess1();
-        addProcess2();
+    @Test(dependsOnMethods = { "userGroup", "processType" })
+    public void processes() throws Exception {
+        process1();
+        process2();
     }
 
     // request of enhancements
-    private void addProcess1() throws Exception {
+    private void process1() throws Exception {
         var mail = CustomerTest.CUSTOMER_ORG_NS_TILL_MAIL;
         var subject = "BGERP order";
 
@@ -128,7 +129,7 @@ public class SalesTest {
     }
 
     // simple sale
-    private void addProcess2() throws Exception {
+    private void process2() throws Exception {
         var mail = CustomerTest.CUSTOMER_PERS_IVAN_MAIL;
         var subject = "Buy your software";
 

@@ -1,0 +1,2 @@
+F: Plugin Blow. Board search in messages drop-down.
+A: Plugin Blow. Integration test.
