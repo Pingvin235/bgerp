@@ -78,8 +78,7 @@
 				</jsp:attribute>
 			</ui:combo-single>
 
-			<c:set var="nextCommand" value="; ${reloadCommand}"/>
-			<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+			<ui:page-control nextCommand="; ${reloadCommand}" />
 		</div>
 	</html:form>
 

@@ -32,7 +32,7 @@
 
 		<button class="btn-grey" onclick="${showCode}">${l.l('Вывести')}</button>
 
-		<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+		<ui:page-control/>
 	</html:form>
 
 	<c:forEach var="item" items="${form.response.data.list}">

@@ -19,9 +19,10 @@
 	<c:set var="selector" value="#${uiid}-dateTo"/>
 	<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 
-	<c:set var="nextCommand" value="; $$.ajax.load(this.form, $(this.form).parent());" scope="request"/>
+	<c:set var="nextCommand" value="; $$.ajax.load(this.form, $(this.form).parent());"/>
 	<button type="button" class="btn-grey ml1" onclick="${nextCommand}">${l.l('Вывести')}</button>
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+
+	<ui:page-control nextCommand="${nextCommand}" />
 </form>
 
 <table class="data mt1" width="100%">

@@ -5,11 +5,11 @@
 	<input type="hidden" name="action" value="shiftList"/>
 
 	 <c:url var="url" value="/admin/plugin/callboard/work.do">
-	    <c:param name="action" value="shiftGet"/>
-	    <c:param name="id" value="-1"/>
-	    <c:param name="returnUrl" value="${form.requestUrl}"/>
-  	</c:url>
-  	<button type="button" class="btn-green mr1" onclick="openUrlContent('${url}' )">+</button>
+		<c:param name="action" value="shiftGet"/>
+		<c:param name="id" value="-1"/>
+		<c:param name="returnUrl" value="${form.requestUrl}"/>
+	</c:url>
+	<button type="button" class="btn-green mr1" onclick="openUrlContent('${url}' )">+</button>
 
 	<u:sc>
 		<c:set var="list" value="${allowOnlyCategories}"/>
@@ -21,7 +21,7 @@
 		<%@ include file="/WEB-INF/jspf/select_single.jsp"%>
 	</u:sc>
 
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control/>
 </html:form>
 
 <table style="width: 100%;" class="data mt1">

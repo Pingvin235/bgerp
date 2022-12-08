@@ -31,7 +31,7 @@
 
 	<ui:input-text name="filter" onSelect="$$.ajax.loadContent(this)" placeholder="${l.l('Filter')}" size="40" value="${form.param['filter']}" title="${l.l('Фильтр по наименованию, конфигурации')}"/>
 
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control/>
 </html:form>
 
 <div class="mt1">

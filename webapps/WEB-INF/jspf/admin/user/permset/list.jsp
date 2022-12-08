@@ -16,7 +16,7 @@
 		onSelect="$$.ajax.loadContent(this)"
 		title="${l.l('Фильтр по наименованию, комментарию, конфигурации, параметрам действий')}"/>
 
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control/>
 </html:form>
 
 <table style="width: 100%;" class="data mt1">

@@ -51,8 +51,7 @@
 		<div style="float: right;">
 			<%-- без этого контейнера в хроме появляется лишний перенос --%>
 			<div style="display: inline-block;">
-				<c:set var="nextCommand" value="; ${sendCommand}"/>
-				<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+				<ui:page-control nextCommand="; ${sendCommand}" />
 			</div>
 		</div>
 	</html:form>
@@ -350,7 +349,7 @@
 <ui:when type="user">
 	<%-- параметр nextCommand здесь используется из предыдущего промотчика, перед списком сообщений --%>
 	<c:set var="pageFormSelector" value="#${formUiid}"/>
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control nextCommand="${nextCommand}" />
 
 	<script>
 		$(function () {

@@ -34,7 +34,7 @@
 		onSelect="$$.ajax.loadContent(this)"
 		title="${l.l('Фильтр по наименованию, конфигурации')}"/>
 
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control/>
 </html:form>
 
 <div class="mt1">

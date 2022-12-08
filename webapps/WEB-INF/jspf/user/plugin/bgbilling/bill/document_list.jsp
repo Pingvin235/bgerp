@@ -28,8 +28,7 @@
 	<button type="button" class="${btnStyleBill}" onclick="this.form.mode.value='bill'; ${sendForm}">Счета</button>
 	<button type="button" class="ml1 ${btnStyleInvoice}" onclick="this.form.mode.value='invoice'; ${sendForm}">Счета-фактуры, акты</button>
 
-	<c:set var="nextCommand" value=";${sendForm}" scope="request"/>
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control nextCommand=";${sendForm}" />
 </html:form>
 
 <c:url var="baseUrl" value="/user/plugin/bgbilling/proto/bill.do">

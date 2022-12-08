@@ -13,7 +13,7 @@
 		title="${l.l('По наименованию, комментарию, конфигурации')}"
 		onSelect="$$.ajax.loadContent(this)"/>
 
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control/>
 </html:form>
 
 <c:if test="${not empty form.param.directoryId}">

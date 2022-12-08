@@ -3,11 +3,11 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:set var="showCode" value="openUrlContent( formUrl( $('#${uiid}') ) );"/>
+<c:set var="showCode" value="$$.ajax.loadContent($('#${uiid}'));"/>
 
 <c:url var="getUrl" value="/user/plugin/dispatch/dispatch.do">
-   <c:param name="action" value="messageGet"/>
-   <c:param name="returnUrl" value="${form.requestUrl}"/>
+	<c:param name="action" value="messageGet"/>
+	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
 
 <html:form action="/user/plugin/dispatch/dispatch" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
@@ -15,9 +15,9 @@
 
 	<input type="hidden" name="action" value="messageList"/>
 
-    <button class="btn-grey" type="button" onclick="${showCode}">${l.l('Вывести')}</button>
+	<button class="btn-grey" type="button" onclick="${showCode}">${l.l('Вывести')}</button>
 
-    <%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control nextCommand="${nextCommand}" />
 </html:form>
 
 <table style="width: 100%;" class="data">

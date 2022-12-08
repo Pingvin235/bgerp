@@ -5,9 +5,9 @@
 
 <table style="width: 100%;" id="${uiid}">
 	<tr><td>
-		<c:set var="pageFormSelectorFunc" value="$('#processQueueFilter').find('form#${queue.id}-${form.param.savedFilterSetId}')"/>
-		<c:set var="nextCommand">; processQueueMarkFilledFilters(${pageFormSelectorFunc}); $$.ajax.load(${pageFormSelectorFunc}[0], $('#processQueueData'));</c:set>
-		<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+		<ui:page-control
+			pageFormSelectorFunc="$('#processQueueFilter').find('form#${queue.id}-${form.param.savedFilterSetId}')"
+			nextCommand="; processQueueMarkFilledFilters(${pageFormSelectorFunc}); $$.ajax.load(${pageFormSelectorFunc}[0], $('#processQueueData'));" />
 	</td></tr>
 </table>
 
@@ -55,7 +55,7 @@
 
 <table style="width: 100%;">
 	<tr><td>
-		<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+		<ui:page-control nextCommand="${nextCommand}" />
 	</td></tr>
 </table>
 

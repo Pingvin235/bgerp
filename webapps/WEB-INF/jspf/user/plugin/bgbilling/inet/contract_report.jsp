@@ -7,33 +7,32 @@
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>
 	<html:hidden property="contractId"/>
-	
+
 	<c:set var="onSelect">$('#${uiid} #dateFilter').toggle( $('#${uiid}')[0].action.value == 'sessionLogContractList' )</c:set>
-				
+
 	<ui:combo-single hiddenName="action" value="${form.param.action}" prefixText="Тип:" onSelect="${onSelect}">
 		<jsp:attribute name="valuesHtml">
 			<li value="sessionAliveContractList">Активные</li>
 			<li value="sessionLogContractList">История</li>
 		</jsp:attribute>
 	</ui:combo-single>
-	
+
 	<div id="dateFilter" style="display: inline-block;" class="pl05">
 		<ui:date-month-days/>
 	</div>
 
 	<c:set var="sendForm">openUrlToParent( formUrl( $('#${uiid}') ), $('#${uiid}') );</c:set>
-	
+
 	<button type="button" class="ml2 btn-grey" onclick="${sendForm}" title="${l.l('Вывести')}">=&gt;</button>
-	
-	<c:set var="nextCommand" value=";${sendForm}" scope="request"/>
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
-	
+
+	<ui:page-control nextCommand=";${sendForm}"/>
+
 	<script>
 		$(function()
 		{
-			${onSelect}	
+			${onSelect}
 		})
-	</script>	
+	</script>
 </html:form>
 
 <c:if test="${not empty form.response.data.list}">
@@ -71,6 +70,6 @@
 				<td>${item.statusName}</td>
 				<td>${item.devState eq 1 ? 'подключено' : 'отключено'}</td>
 			</tr>
-		</c:forEach>	
+		</c:forEach>
 	</table>
-</c:if>	
+</c:if>

@@ -47,7 +47,7 @@
 
 	<ui:button type="out" onclick="$$.ajax.loadContent(this);"/>
 
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control/>
 </html:form>
 
 <table style="width: 100%;" class="data">

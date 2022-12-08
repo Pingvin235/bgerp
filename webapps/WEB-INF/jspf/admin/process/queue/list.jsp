@@ -15,7 +15,7 @@
 	<ui:input-text name="filter" value="${form.param.filter}" size="40" placeholder="${l.l('Filter')}" title="${l.l('Фильтр по наименованию, конфигурации')}"
 		onSelect="$$.ajax.loadContent(this); return false;"/>
 
-	<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+	<ui:page-control/>
 </html:form>
 
 

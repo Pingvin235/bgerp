@@ -27,8 +27,7 @@
 
 		<c:set var="searchBy" value="${form.param.searchBy}"/>
 		<c:if test="${not (searchBy eq 'id' or searchBy  eq 'dialUpLogin' ) }">
-			<c:set var="nextCommand" value="; $$.ajax.load(this.form, $(this.form).parent());" scope="request"/>
-			<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+			<ui:page-control nextCommand="; $$.ajax.load(this.form, $(this.form).parent());" />
 		</c:if>
 	</html:form>
 

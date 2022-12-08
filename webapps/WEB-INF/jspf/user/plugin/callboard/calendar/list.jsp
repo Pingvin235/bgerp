@@ -14,7 +14,7 @@
 				</c:url>
 			</td>
 			<td>
-				<%@ include file="/WEB-INF/jspf/page_control.jsp"%>
+				<ui:page-control/>
 			</td>
 		</tr>
 	</table>

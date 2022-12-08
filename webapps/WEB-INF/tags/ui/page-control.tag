@@ -26,11 +26,12 @@
 		<%-- pagination inside a form --%>
 		<c:otherwise>
 			<c:set var="pageControlForm" value="this.form"/>
-			<c:if test="${empty nextCommand}">
-				<c:set var="nextCommand" value="; openUrlContent( formUrl( ${pageControlForm} ) )"/>
-			</c:if>
 		</c:otherwise>
 	</c:choose>
+
+	<c:if test="${empty nextCommand}">
+		<c:set var="nextCommand" value="; $$.ajax.loadContent(${pageControlForm})"/>
+	</c:if>
 
 	<c:set var="command" value="toPage(${pageControlForm},"/>
 
