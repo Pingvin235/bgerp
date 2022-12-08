@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,6 @@ import ru.bgcrm.model.param.JumpRegexp;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterEmailValue;
-import ru.bgcrm.model.param.ParameterListCountValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.ParameterValuePair;
@@ -209,34 +209,11 @@ public class ParameterAction extends BaseAction {
         }
 
         if (Parameter.TYPE_LIST.equals(parameter.getType())) {
-            Map<Integer, String> values = paramDAO.getParamListWithComments(id, paramId);
-            resp.setData("value", values);
-
-            Parameter param = ParameterCache.getParameter(paramId);
-            List<IdTitle> listValues = new ArrayList<IdTitle>(ParameterCache.getListParamValues(param));
-
-            String valuesSortMode = parameter.getConfigMap().get("sort.mode", "");
-            if (valuesSortMode.equals("byTitle")) {
-                Collections.sort(listValues, new Comparator<IdTitle>() {
-                    public int compare(IdTitle first, IdTitle second) {
-                        return first.getTitle().compareTo(second.getTitle());
-                    }
-                });
-            }
-
-            request.setAttribute("listValues", listValues);
-            // для сторонних систем - значения спискового параметра
-            resp.setData("listValues", listValues);
+            resp.setData("value", paramDAO.getParamListWithComments(id, paramId));
+            listValues(form, parameter);
         } else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType())) {
-            Map<Integer, ParameterListCountValue> values = paramDAO.getParamListCount(id, paramId);
-            resp.setData("value", values);
-
-            Parameter param = ParameterCache.getParameter(paramId);
-            List<IdTitle> listValues = ParameterCache.getListParamValues(param);
-
-            request.setAttribute("listValues", listValues);
-            // для сторонних систем - значения спискового параметра
-            resp.setData("listValues", listValues);
+            resp.setData("value", paramDAO.getParamListCount(id, paramId));
+            listValues(form, parameter);
         } else if (Parameter.TYPE_MONEY.equals(parameter.getType())) {
             resp.setData("value", paramDAO.getParamMoney(id, paramId));
         } else if (Parameter.TYPE_TREE.equals(parameter.getType())) {
@@ -331,6 +308,28 @@ public class ParameterAction extends BaseAction {
         request.setAttribute("part2Rules", regexpList);
 
         return html(conSet, form, PATH_JSP + "/edit.jsp");
+    }
+
+    private void listValues(DynActionForm form, Parameter param) {
+        // Parameter param = ParameterCache.getParameter(paramId);
+
+        List<IdTitle> listValues = ParameterCache.getListParamValues(param).stream()
+            .filter(item -> !item.getTitle().startsWith("@"))
+            .collect(Collectors.toList());
+
+        String valuesSortMode = param.getConfigMap().get("sort.mode", "");
+        if (valuesSortMode.equals("byTitle")) {
+            Collections.sort(listValues, new Comparator<IdTitle>() {
+                public int compare(IdTitle first, IdTitle second) {
+                    return first.getTitle().compareTo(second.getTitle());
+                }
+            });
+        }
+
+        // form.setAttribute("listValues", listValues);
+
+        // for external systems
+        form.setResponseData("listValues", listValues);
     }
 
     public ActionForward parameterUpdate(DynActionForm form, Connection con) throws Exception {
@@ -446,7 +445,7 @@ public class ParameterAction extends BaseAction {
                 if (config.getCommentValues().get(val) == null)
                     comment = "";
                 else if (config.getNeedCommentValues().get(val) != null && Utils.isBlankString(comment))
-                    throw new BGMessageException("Не указан обязательный комментарий к значению");
+                    throw new BGMessageException("Not defined mandatory comment for a value");
 
                 values.put(val, comment);
             }

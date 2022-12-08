@@ -1,8 +1,3 @@
-<%@page import="java.util.Map"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="ru.bgcrm.model.IdTitle"%>
-<%@page import="java.util.List"%>
-
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
@@ -76,6 +71,7 @@
 </c:if>
 
 <c:set var="data" value="${form.response.data}" />
+<c:set var="listValues" value="${form.response.data.listValues}"/>
 <c:set var="hideButtons" value="${form.param.hideButtons}"/>
 <c:set var="elId" value="${u:uiid()}" />
 <c:set var="editFormId" value="editParamForm-${elId}" />
@@ -99,7 +95,7 @@
 	<input type="hidden" name="action" value="parameterUpdate" />
 	<input type="hidden" name="paramId" value="${parameter.id}" />
 
-	<c:set var="multiple" value="${not empty parameter.configMap.multiple}" />
+	<c:set var="multiple" value="${parameter.configMap.getBoolean('multiple')}" />
 
 	<h1>${parameter.title}</h1>
 
@@ -198,45 +194,43 @@
 					<c:when test="${multiple}">
 						<c:forEach var="item" items="${listValues}">
 							<table style="width: 100%;" class="nopad">
-								<c:if test="${not( fn:startsWith(item.title, '@') )}">
-									<tr>
-										<c:set var="checkUiid" value="${u:uiid()}" />
-										<c:set var="tdUiid" value="${u:uiid()}" />
+								<tr>
+									<c:set var="checkUiid" value="${u:uiid()}" />
+									<c:set var="tdUiid" value="${u:uiid()}" />
 
-										<c:set var="commentInputShow"
-											value="${not empty listParamConfig.commentValues[item.id]}" />
+									<c:set var="commentInputShow"
+										value="${not empty listParamConfig.commentValues[item.id]}" />
 
-										<c:set var="scriptCheck">
-											<c:if test="${commentInputShow}">
-												onchange="if( this.checked ){ $('#${tdUiid}').show() } else { $('#${tdUiid}').hide() }"
+									<c:set var="scriptCheck">
+										<c:if test="${commentInputShow}">
+											onchange="if( this.checked ){ $('#${tdUiid}').show() } else { $('#${tdUiid}').hide() }"
+										</c:if>
+									</c:set>
+									<c:set var="scriptInput">
+										<c:if test="${commentInputShow}">
+											onchange="$('#${checkUiid}').val( ${item.id} + ':' + this.value )"
+										</c:if>
+									</c:set>
+
+									<c:set var="hideStyle">
+										<c:if test="${not commentInputShow or value[item.id] == null}">
+											style="display: none"
+										</c:if>
+									</c:set>
+
+									<td width="30" align="center">
+										<input type="checkbox" name="value" value="${item.id}:${value[item.id]}" id="${checkUiid}"	${u:checkedFromCollection( value, item.id )} ${scriptCheck} />
+									</td>
+									<td>
+										${item.title}
+										<span id="${tdUiid}" ${hideStyle}>
+											<input type="text" size="30" value="${value[item.id]}" ${scriptInput} />
+											<c:if test="${not empty listParamConfig.needCommentValues[item.id]}">
+												*
 											</c:if>
-										</c:set>
-										<c:set var="scriptInput">
-											<c:if test="${commentInputShow}">
-												onchange="$('#${checkUiid}').val( ${item.id} + ':' + this.value )"
-											</c:if>
-										</c:set>
-
-										<c:set var="hideStyle">
-											<c:if test="${not commentInputShow or value[item.id] == null}">
-												style="display: none"
-											</c:if>
-										</c:set>
-
-										<td width="30" align="center">
-											<input type="checkbox" name="value" value="${item.id}:${value[item.id]}" id="${checkUiid}"	${u:checkedFromCollection( value, item.id )} ${scriptCheck} />
-										</td>
-										<td>
-											${item.title}
-											<span id="${tdUiid}" ${hideStyle}>
-												<input type="text" size="30" value="${value[item.id]}" ${scriptInput} />
-												<c:if test="${not empty listParamConfig.needCommentValues[item.id]}">
-													*
-												</c:if>
-											</span>
-										</td>
-									</tr>
-								</c:if>
+										</span>
+									</td>
+								</tr>
 							</table>
 						</c:forEach>
 					</c:when>
@@ -292,47 +286,23 @@
 										&#160;-- ${l.l('не указан')} --
 								</div>
 								<c:forEach var="item" items="${listValues}">
-									<c:if test="${not( fn:startsWith(item.title, '@') )}">
-										<div class="mt05">
-											<input type="radio" id="${radioId}" name="rValue"
-												value="${item.id}" ${u:checkedFromCollection( value, item.id )}
-												onchange="if( this.checked ){ $('#${valueUiid}').val( this.value );  ${changeScript} }"/>
-											&#160;${item.title}
-										</div>
-									</c:if>
+									<div class="mt05">
+										<input type="radio" id="${radioId}" name="rValue"
+											value="${item.id}" ${u:checkedFromCollection( value, item.id )}
+											onchange="if( this.checked ){ $('#${valueUiid}').val( this.value );  ${changeScript} }"/>
+										&#160;${item.title}
+									</div>
 								</c:forEach>
 							</c:when>
 							<c:when test="${editAs eq 'select'}">
-								<u:sc>
-									<%
-										List<IdTitle> list = new ArrayList<IdTitle>();
-										pageContext.setAttribute( "list", list );
-
-										List<IdTitle> listValues = (List<IdTitle>)request.getAttribute( "listValues" );
-										Map<Integer, String> value = (Map<Integer, String>)pageContext.getAttribute( "value" );
-
-										for( IdTitle item : listValues )
-										{
-											if( !item.getTitle().startsWith( "@" ) )
-											{
-												list.add( item );
-											}
-										}
-									%>
-									<c:set var="value" value="${currentValue}"/>
-									<c:set var="style" value="width: 100%;"/>
-									<c:set var="onSelect" value="$('#${valueUiid}').val( $hidden.val() ); ${changeScript}"/>
-									<%@ include file="/WEB-INF/jspf/select_single.jsp"%>
-								</u:sc>
+								<ui:select-single list="${listValues}" value="${currentValue}" onSelect="$('#${valueUiid}').val( $hidden.val() ); ${changeScript}" styleClass="w100p"/>
 							</c:when>
 							<c:otherwise>
 								<u:sc>
 									<c:set var="valuesHtml">
 										<li value="0">-- ${l.l('значение не установлено')} --</li>
 										<c:forEach var="item" items="${listValues}">
-											<c:if test="${not( fn:startsWith(item.title, '@') )}">
-												<li value="${item.id}"	${u:selectedFromCollection( value, item.id )}>${item.title}</li>
-											</c:if>
+											<li value="${item.id}"	${u:selectedFromCollection( value, item.id )}>${item.title}</li>
 										</c:forEach>
 									</c:set>
 									<c:set var="value" value="${currentValue}"/>

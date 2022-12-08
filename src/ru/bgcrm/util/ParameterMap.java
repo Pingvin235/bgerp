@@ -173,6 +173,23 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         }
     }
 
+    /**
+     * Retrieves by key a boolean value with default {@code false}.
+     * @param key the key.
+     * @return
+     * @see #getBoolean(String, boolean)
+     */
+    public final boolean getBoolean(String key) {
+        return getBoolean(key, false);
+    }
+
+    /**
+     * Retrieves by key a boolean value.
+     * @param key the key.
+     * @param defaultValue default value.
+     * @return
+     * @see Utils#parseBoolean(String, Boolean)
+     */
     public final boolean getBoolean(String key, boolean defaultValue) {
         return Utils.parseBoolean(get(key, "").trim(), defaultValue);
     }

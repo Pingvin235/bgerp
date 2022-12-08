@@ -3,7 +3,7 @@
 #multiple=1
 # save immediately after choosing, without OK button, only for single value parameter
 #saveOn=select
-# allowed values: radio, select
+# allowed values (not for multiple mode): radio, select
 #editAs=radio
 # sort values by titles instead of codes
 #sort.mode=byTitle
@@ -11,4 +11,3 @@
 allowCommentValues=2,3
 # values, required comments
 needCommentValues=3
-
