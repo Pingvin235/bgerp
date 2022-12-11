@@ -72,12 +72,13 @@
 <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
 
 <%--
-   МАГИЯ, чтобы input ы, баттоны и div ы одного стиля были одного размера
-   http://stackoverflow.com/questions/4483279/make-form-button-text-field-same-height-in-all-browsers
-   http://necolas.github.io/normalize.css/
-   чтобы div размер включал бордеры и т.п.
+	CSS reset.
+	https://dev.to/vkton115/reset-css-normalizecss-320m
+	http://necolas.github.io/normalize.css/
 --%>
-<link type="text/css" href="/css/normalize.css" rel="stylesheet"/>
+<link type="text/css" href="${u:fileNameWithLastModTime('/css/normalize.css')}" rel="stylesheet"/>
+<link type="text/css" href="${u:fileNameWithLastModTime('/css/normalize-correct.css')}" rel="stylesheet"/>
+
 
 <%-- codemirror --%>
 <link type="text/css" href="/lib/codemirror/lib/codemirror.css" rel ="stylesheet">

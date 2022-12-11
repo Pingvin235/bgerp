@@ -1,0 +1,5 @@
+/* Fixes for normalize.css */
+[type="text"],
+[type="password"] {
+  box-sizing: border-box;
+}
