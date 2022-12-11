@@ -42,14 +42,7 @@
 
 	<c:choose>
 		<c:when test="${empty message.sentTime}">
-			<u:sc>
-				<c:set var="list" value="${dispatchList}"/>
-				<c:set var="hiddenName" value="dispatchId"/>
-				<c:set var="values" value="${message.dispatchIds}"/>
-				<c:set var="style" value="width: 100%;"/>
-				<c:set var="showId" value="1"/>
-				<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>
-			</u:sc>
+			<ui:select-mult list="${dispatchList}" hiddenName="dispatchId" values="${message.dispatchIds}" style="width: 100%;" showId="${true}"/>
 		</c:when>
 		<c:otherwise>
 			${u:objectTitleList( dispatchList, message.dispatchIds )}

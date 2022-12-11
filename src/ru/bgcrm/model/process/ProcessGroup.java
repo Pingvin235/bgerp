@@ -1,13 +1,13 @@
 package ru.bgcrm.model.process;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.process.ProcessGroups;
+
 import ru.bgcrm.util.Utils;
 
-public class ProcessGroup {
+public class ProcessGroup implements Comparable<ProcessGroup> {
     protected int groupId;
     protected int roleId;
 
@@ -83,46 +83,12 @@ public class ProcessGroup {
         return true;
     }
 
-    public static Set<ProcessGroup> parseIdTitleSet(List<IdTitle> set) {
-
-        Set<ProcessGroup> resultSet = new HashSet<ProcessGroup>();
-
-        for (IdTitle item : set) {
-            ProcessGroup processGroup = new ProcessGroup();
-            processGroup.setGroupId(item.getId());
-            processGroup.setRoleId(Utils.parseInt(item.getTitle()));
-
-            resultSet.add(processGroup);
-        }
-
-        return resultSet;
+    @Override
+    public int compareTo(ProcessGroup o) {
+        return hashCode() - o.hashCode();
     }
 
-    public static Set<ProcessGroup> parseStringArray(String[] array) {
-        Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>();
-
-        if (array == null) {
-            return processGroups;
-        }
-
-        if (array != null) {
-            for (String item : array) {
-                ProcessGroup processGroup = new ProcessGroup();
-
-                if (item.indexOf(":") > -1) {
-                    processGroup.setGroupId(Utils.parseInt(item.substring(0, item.indexOf(":"))));
-                    processGroup.setRoleId(Utils.parseInt(item.substring(item.indexOf(":") + 1)));
-                } else {
-                    processGroup.setGroupId(Utils.parseInt(item));
-                    processGroup.setRoleId(0);
-                }
-
-                processGroups.add(processGroup);
-            }
-        }
-
-        return processGroups;
-    }
+    // TODO: Move all the functions below to ProcessGroups.
 
     public static final String serialize(Set<ProcessGroup> processGroups) {
         StringBuilder roleGroup = new StringBuilder(20);
@@ -153,8 +119,8 @@ public class ProcessGroup {
         return toProcessGroupSet(set, 0);
     }
 
-    public static Set<ProcessGroup> toProcessGroupSet(Set<Integer> set, int roleId) {
-        Set<ProcessGroup> resultSet = new HashSet<ProcessGroup>();
+    public static ProcessGroups toProcessGroupSet(Set<Integer> set, int roleId) {
+        ProcessGroups resultSet = new ProcessGroups();
 
         for (Integer item : set) {
             resultSet.add(new ProcessGroup(item, roleId));

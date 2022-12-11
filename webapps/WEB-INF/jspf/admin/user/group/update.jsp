@@ -56,26 +56,12 @@
 		<div style="width: 50%;">
 			<h2>${l.l('Наборы прав')}</h2>
 
-			<u:sc>
-				<c:set var="list" value="${ctxUserPermsetList}"/>
-				<c:set var="map" value="${ctxUserPermsetMap}"/>
-				<c:set var="hiddenName" value="permset" />
-				<c:set var="available" value="${u.toIntegerSet(perm['allowPermsetSet'])}"/>
-				<c:set var="values" value="${group.permsetIds}" />
-				<c:set var="moveOn" value="1"/>
-				<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>
-			</u:sc>
+			<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" hiddenName="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${group.permsetIds}" moveOn="${true}"/>
 		</div><%--
 	--%><div style="width: 50%;">
 			<h2>${l.l('Очереди процессов')}</h2>
 
-			<u:sc>
-				<c:set var="list" value="${ctxProcessQueueList}"/>
-				<c:set var="map" value="${ctxProcessQueueMap}"/>
-				<c:set var="hiddenName" value="queue"/>
-				<c:set var="values" value="${group.queueIds}"/>
-				<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>
-			</u:sc>
+			<ui:select-mult list="${ctxProcessQueueList}" map="${ctxProcessQueueMap}" hiddenName="queue" values="${group.queueIds}"/>
 		</div>
 	</div>
 

@@ -71,17 +71,7 @@
 		--%><div style="width: 20%;">
 				<h2>${l.l('Наборы прав')}</h2>
 
-				<u:sc>
-					<c:set var="list" value="${ctxUserPermsetList}"/>
-					<c:set var="map" value="${ctxUserPermsetMap}"/>
-					<c:set var="hiddenName" value="permset" />
-					<c:set var="available" value="${u.toIntegerSet(perm['allowPermsetSet'])}"/>
-					<c:set var="values" value="${user.permsetIds}" />
-					<c:set var="moveOn" value="1"/>
-					<c:set var="style" value="width: 100%;"/>
-					<c:set var="styleClass" value="layout-height-rest"/>
-					<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>
-				</u:sc>
+				<ui:select-mult list="${ctxUserPermsetList}" map="${ctxUserPermsetMap}" hiddenName="permset" availableIdSet="${u.toIntegerSet(perm.allowPermsetSet)}" values="${user.permsetIds}" moveOn="${true}" style="width: 100%;" styleClass="layout-height-rest"/>
 			</div><%--
 	--%></c:if><%--
 	--%><c:if test="${empty perm['permDisable']}"><%--
@@ -107,14 +97,7 @@
 		--%><div style="width: 20%;">
 				<h2>${l.l('Очереди процессов')}</h2>
 
-				<u:sc>
-					<c:set var="list" value="${ctxProcessQueueList}" />
-					<c:set var="hiddenName" value="queue"/>
-					<c:set var="values" value="${user.queueIds}" />
-					<c:set var="style" value="width: 100%;"/>
-					<c:set var="styleClass" value="layout-height-rest"/>
-					<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>
-				</u:sc>
+				<ui:select-mult list="${ctxProcessQueueList}" hiddenName="queue" values="${user.queueIds}" style="width: 100%;" styleClass="layout-height-rest"/>
 			</div><%--
 	--%></c:if><%--
 --%></div>

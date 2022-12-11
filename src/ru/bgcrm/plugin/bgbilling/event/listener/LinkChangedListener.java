@@ -87,7 +87,7 @@ public class LinkChangedListener {
         }
 
         if (groupsChanged) {
-            processDao.updateProcessGroups(process.getProcessGroups(), processId);
+            processDao.updateProcessGroups(process.getGroups(), processId);
             event.getForm().getResponse().addEvent(new ProcessChangedEvent(processId));
         }
 

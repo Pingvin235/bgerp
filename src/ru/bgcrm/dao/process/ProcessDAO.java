@@ -31,7 +31,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -42,6 +41,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.config.IsolationConfig;
 import org.bgerp.model.config.IsolationConfig.IsolationProcess;
+import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
@@ -138,7 +138,7 @@ public class ProcessDAO extends CommonDAO {
         process.setStatusTime(rs.getTimestamp(prefix + "status_dt"));
 
         List<IdTitle> idTitle = Utils.parseIdTitleList(rs.getString(prefix + "groups"), "0");
-        Set<ProcessGroup> processGroups = new LinkedHashSet<ProcessGroup>();
+        ProcessGroups processGroups = new ProcessGroups();
 
         for (IdTitle item : idTitle) {
             ProcessGroup processGroup = new ProcessGroup();
@@ -1427,7 +1427,7 @@ public class ProcessDAO extends CommonDAO {
         if (form != null) {
             Process oldValue = new ProcessDAO(con).getProcess(processId);
             Process newValue = oldValue.clone();
-            newValue.setGroups(processGroups);
+            newValue.setGroups(new ProcessGroups(processGroups));
             logProcessChange(newValue, oldValue);
         }
 

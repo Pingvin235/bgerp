@@ -77,6 +77,8 @@ public class SetRequestParamsFilter implements Filter {
      *
      * <b>ctxPluginManager</b>  {@link PluginManager#getInstance()}<br/>
      *
+     * <b>ctxUserCache</b> - {@link UserCache#INSTANCE} user cache instance</br>
+     *
      * <b>ctxUserList</b>  {@link UserCache#getUserList()} List с пользователями системы<br/>
      * <b>ctxUserMap</b>  {@link UserCache#getUserMap()} Map с пользователями системы<br/>
      *
@@ -121,6 +123,8 @@ public class SetRequestParamsFilter implements Filter {
         }
 
         result.put("ctxPluginManager", PluginManager.getInstance());
+
+        result.put("ctxUserCache", UserCache.INSTANCE);
 
         result.put("ctxUserList", UserCache.getUserList());
         result.put("userList", UserCache.getUserList());

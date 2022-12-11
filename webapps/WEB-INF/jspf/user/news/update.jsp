@@ -7,14 +7,13 @@
 	<input type="hidden" name="action" value="newsUpdate" />
 	<input type="hidden" name="id" value="${news.id}" />
 
-
 	<c:if test="${form.param.requestUserId > 0}">
 		<input type="hidden" name="requestUserId" value="${form.param.requestUserId}" />
 	</c:if>
 
 	<h2>${l.l('Заголовок')}</h2>
 	<input type="text" name="title" style="width: 100%;" value="${news.title}"/>
-	<h2>${l.l('Полный текст')} ${isMsg == 1 ? 'сообщения' : 'новости'}</h2>
+	<h2>${l.l('Текст')}&nbsp;${isMsg == 1 ? l.l('of message') : l.l('of news')}</h2>
 	<textarea style="width: 100%;" rows="10" name="description"></textarea>
 	<span class="hint">${l.l('В тексте новости допустима HTML разметка.')}</span>
 
@@ -44,13 +43,7 @@
 	 		<c:if test="${not(form.param.requestUserId > 0 )}">
 				<h2>${l.l('Группы')}</h2>
 
-				<u:sc>
-					<c:set var="list" value="${ctxUserGroupList}" />
-					<c:set var="hiddenName" value="group"/>
-					<c:set var="values" value="${news.groupIds}"/>
-					<c:set var="style" value="width: 100%;"/>
-					<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>
-				</u:sc>
+				<ui:select-mult list="${ctxUserGroupList}" hiddenName="group" values="${news.groupIds}" style="width: 100%;"/>
 
 				<span class="hint">${l.l('Если группы не указаны - новость получают все пользователи.')}</span>
 			</c:if>

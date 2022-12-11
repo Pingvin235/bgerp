@@ -45,7 +45,7 @@
 			<c:forEach var="role" items="${ctxUserGroupRoleList}">
 				<c:forEach var="group" items="${ctxUserGroupList}" varStatus="status">
 					<c:remove var="groupIs"/>
-					<c:forEach  var="processGroup" items="${process.processGroups}">
+					<c:forEach  var="processGroup" items="${process.groups}">
 						<c:if test="${processGroup.groupId eq group.id and processGroup.roleId eq role.id}">
 							<c:set var="groupIs" value="1"/>
 						</c:if>
@@ -62,7 +62,7 @@
 							<c:set var="currentPresented" value="false"/>
 
 							<c:set var="executors" value=""/>
-							<c:forEach var="executor" items="${process.processExecutors}" varStatus="status">
+							<c:forEach var="executor" items="${process.executors}" varStatus="status">
 								<c:if test="${group.id == executor.groupId and role.id == executor.roleId}">
 									<c:set var="executors"><%--
 									--%>${executors}<%--
@@ -85,7 +85,7 @@
 										<c:param name="id" value="${process.id}"/>
 										<c:param name="action" value="processExecutorsUpdate"/>
 										<c:param name="group">${group.id}:${role.id}</c:param>
-										<c:forEach var="executor" items="${process.processExecutors}">
+										<c:forEach var="executor" items="${process.executors}">
 											<c:if test="${group.id eq executor.groupId and role.id eq executor.roleId and executor.userId ne ctxUser.id}">
 												<c:param name="executor">${executor.userId}:${executor.groupId}:${executor.roleId}</c:param>
 											</c:if>
@@ -103,7 +103,7 @@
 											<c:param name="id" value="${process.id}"/>
 											<c:param name="action" value="processExecutorsUpdate"/>
 											<c:param name="group">${group.id}:${role.id}</c:param>
-											<c:forEach var="executor" items="${process.processExecutors}">
+											<c:forEach var="executor" items="${process.executors}">
 												<c:if test="${group.id eq executor.groupId and role.id eq executor.roleId}">
 													<c:param name="executor">${executor.userId}:${executor.groupId}:${executor.roleId}</c:param>
 												</c:if>
@@ -124,7 +124,7 @@
 			<c:if test="${not empty emptyExecutors}">
 				<c:set var="executors" value=""/>
 				<b>${l.l('ИСПОЛНИТЕЛИ БЕЗ ГРУПП')}:</b>
-				<c:forEach var="executor" items="${process.processExecutors}" varStatus="status">
+				<c:forEach var="executor" items="${process.executors}" varStatus="status">
 					<c:if test="${executor.groupId == 0 and executor.roleId == 0}">
 						<c:if test="${not empty executors}">
 							<c:set var="executors" value="${executors}, "/>

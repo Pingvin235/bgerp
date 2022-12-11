@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.LastModify;
@@ -38,13 +39,13 @@ public class TypeProperties {
     /** Parsed configuration. */
     private ParameterMap configMap;
     /** Initial groups. */
-    private Set<ProcessGroup> groups = new HashSet<>();
+    private ProcessGroups groups = new ProcessGroups();
     /** Allowed groups. */
-    private Set<ProcessGroup> allowedGroups = new HashSet<>();
+    private ProcessGroups allowedGroups = new ProcessGroups();
 
     private LastModify lastModify = new LastModify();
 
-    public Set<ProcessGroup> getGroups() {
+    public ProcessGroups getGroups() {
         return groups;
     }
 
@@ -82,7 +83,7 @@ public class TypeProperties {
         return resultSet;
     }
 
-    public void setGroups(Set<ProcessGroup> groups) {
+    public void setGroups(ProcessGroups groups) {
         this.groups = groups;
     }
 
@@ -135,8 +136,8 @@ public class TypeProperties {
         closeStatusIds = Utils.toIntegerSet(setup.get("close.status", ""));
         statusIds = Utils.toIntegerList(setup.get("status.ids", ""));
         parameterIds = Utils.toIntegerList(setup.get("param.ids", ""));
-        allowedGroups = ProcessGroup.parseIdTitleSet(Utils.parseIdTitleList(setup.get("allowed.groups"), "0"));
-        groups = ProcessGroup.parseIdTitleSet(Utils.parseIdTitleList(setup.get("create.groups"), "0"));
+        allowedGroups = ProcessGroups.from(Utils.parseIdTitleList(setup.get("allowed.groups"), "0"));
+        groups = ProcessGroups.from(Utils.parseIdTitleList(setup.get("create.groups"), "0"));
 
         this.config = config;
 
@@ -285,23 +286,23 @@ public class TypeProperties {
         this.scriptName = scriptName;
     }
 
-    public Set<ProcessGroup> getAllowedGroups() {
+    public ProcessGroups getAllowedGroups() {
         return allowedGroups;
     }
 
-    public Set<ProcessGroup> getAllowedGroups(int roleId) {
-        Set<ProcessGroup> groupSet = new HashSet<ProcessGroup>();
+    public ProcessGroups getAllowedGroups(int roleId) {
+        ProcessGroups result = new ProcessGroups();
 
         for (ProcessGroup group : allowedGroups) {
             if (group.getRoleId() == roleId) {
-                groupSet.add(group);
+                result.add(group);
             }
         }
 
-        return groupSet;
+        return result;
     }
 
-    public void setAllowedGroups(Set<ProcessGroup> allowedGroups) {
+    public void setAllowedGroups(ProcessGroups allowedGroups) {
         this.allowedGroups = allowedGroups;
     }
 

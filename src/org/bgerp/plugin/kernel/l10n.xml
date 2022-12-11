@@ -95,7 +95,7 @@
 	<p><en>Customer</en><ru>Контрагент</ru></p>
 	<p><ru>Создать</ru><en>Create</en></p>
 	<p><ru>Поиск</ru><en>Search</en></p>
-	<p><ru>Новости</ru><en>News</en></p>
+	<p><en>News</en><ru>Новости</ru></p>
 	<p><ru>Адреса</ru><en>Addresses</en></p>
 	<p><ru>Наборы прав</ru><en>Permission Sets</en></p>
 	<p><ru>Группы</ru><en>Groups</en></p>
@@ -167,7 +167,6 @@
 	<p><ru>Открыть</ru><en>Open</en></p>
 	<p><ru>Создание новости</ru><en>News creation</en></p>
 	<p><ru>Заголовок</ru><en>Title</en></p>
-	<p><ru>Полный текст</ru><en>Full text</en></p>
 	<p><ru>В тексте новости допустима HTML разметка.</ru><en>HTML markup is allowed in the news text.</en></p>
 	<p><ru>Время на прочтение</ru><en>Time to read</en></p>
 	<p><ru>Через какое количество часов новость будет помечена прочитана для адресатов независимо от фактического прочтения.</ru><en>After how many hours the news will be marked as read for the addressees, regardless of the actual reading.</en></p>
@@ -560,6 +559,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	</p>
 	<p><en>"The set executors '{}' are not members of process execution groups '{}'.</en><ru>Устанавливаемые исполнители '{}' не входят в группы '{}', исполняющие процесс.</ru></p>
 	<p><en>Not defined mandatory comment for a value</en><ru>Не указан обязательный комментарий к значению</ru></p>
+	<p><en>of message</en><ru>сообщения</ru></p>
+	<p><en>of news</en><ru>новости</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

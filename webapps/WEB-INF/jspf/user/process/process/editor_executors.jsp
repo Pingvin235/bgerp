@@ -38,7 +38,7 @@
 	<c:forEach var="role" items="${ctxUserGroupRoleList}">
 		<c:forEach var="group" items="${ctxUserGroupFullTitledList}">
 			<c:remove var="groupIs"/>
-			<c:forEach  var="processGroup" items="${process.processGroups}">
+			<c:forEach  var="processGroup" items="${process.groups}">
 				<c:if test="${processGroup.groupId eq group.id and processGroup.roleId eq role.id}">
 					<c:set var="groupIs" value="true"/>
 				</c:if>
@@ -62,7 +62,7 @@
 						IdTitle role = (IdTitle)pageContext.getAttribute( "role" );
 						IdTitle group = (IdTitle)pageContext.getAttribute( "group" );
 
-						Set<ProcessExecutor> executors = ((Process)pageContext.getAttribute( "process" )).getProcessExecutors();
+						Set<ProcessExecutor> executors = ((Process)pageContext.getAttribute( "process" )).getExecutors();
 
 						String meGroupAndRole = null;
 

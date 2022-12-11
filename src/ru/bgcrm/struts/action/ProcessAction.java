@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.config.IsolationConfig;
 import org.bgerp.model.config.IsolationConfig.IsolationProcess;
+import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.model.process.config.LinkProcessCreateConfig;
 import org.bgerp.util.Log;
 
@@ -232,12 +233,12 @@ public class ProcessAction extends BaseAction {
 
         if (groupId > 0) {
             // если вручную указали группу из списка в конфига типа процесса onCreateSelectGroup, то выбраем ее
-            Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>();
+            ProcessGroups processGroups = new ProcessGroups();
             processGroups.add(new ProcessGroup(groupId, 0));
             process.setGroups(processGroups);
         } else {
             // иначе выставляем то что указано в конфигурации типа процесса
-            process.setGroups(new HashSet<ProcessGroup>(typeProperties.getGroups()));
+            process.setGroups(new ProcessGroups(typeProperties.getGroups()));
         }
         processDAO.updateProcessGroups(process.getGroups(), process.getId());
 
@@ -554,7 +555,7 @@ public class ProcessAction extends BaseAction {
 
         processDoEvent(form, process, new ProcessChangingEvent(form, process, processGroups, ProcessChangingEvent.MODE_GROUPS_CHANGING), con);
 
-        process.setGroups(processGroups);
+        process.setGroups(new ProcessGroups(processGroups));
         processDao.updateProcessGroups(processGroups, process.getId());
 
         // удаление исполнителей, привязанных к удалённым группоролям

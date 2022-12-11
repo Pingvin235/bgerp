@@ -1,7 +1,6 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" description="Link to a Process Creation page"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="pageFormSelectorFunc" description="jQuery selector function of form"%>
 <%@ attribute name="pageFormSelector" description="jQuery selector of form (only string)"%>
 <%@ attribute name="pageFormId" description="CSS ID of form"%>
 <%@ attribute name="nextCommand" description="JS command after page switch"%>
@@ -11,10 +10,6 @@
 
 <c:if test="${not empty page}">
 	<c:choose>
-		<%-- picking a form via selector-function--%>
-		<c:when test="${not empty pageFormSelectorFunc}">
-			<c:set var="pageControlForm" value="${pageFormSelectorFunc}[0]"/>
-		</c:when>
 		<%-- picking a form via selector --%>
 		<c:when test="${not empty pageFormSelector}">
 			<c:set var="pageControlForm" value="$('${pageFormSelector}')[0]"/>

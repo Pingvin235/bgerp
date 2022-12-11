@@ -9,12 +9,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.l10n.Localization;
 import org.bgerp.l10n.Localizer;
+import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.util.Log;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
@@ -65,7 +66,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     // автоматически генерируемое описание
     private String reference = "";
 
-    private Set<ProcessGroup> groups = new HashSet<>();
+    private ProcessGroups groups = new ProcessGroups();
     private Set<ProcessExecutor> executors = new HashSet<>();
 
     public Process() {}
@@ -195,10 +196,14 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      */
     @Deprecated
     public Set<ProcessGroup> getProcessGroups() {
+        log.warn("Deprecated method 'getProcessGroups' was called. Use 'setGroups' instead.");
         return getGroups();
     }
 
-    public Set<ProcessGroup> getGroups() {
+    /**
+     * @return execution groups.
+     */
+    public ProcessGroups getGroups() {
         return groups;
     }
 
@@ -261,14 +266,14 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      */
     @Deprecated
     public void setProcessGroups(Set<ProcessGroup> processGroups) {
-        setGroups(processGroups);
+        setGroups(new ProcessGroups( processGroups));
     }
 
-    public void setGroups(Set<ProcessGroup> value) {
+    public void setGroups(ProcessGroups value) {
         this.groups = value;
     }
 
-    public Process withGroups(Set<ProcessGroup> value) {
+    public Process withGroups(ProcessGroups value) {
         setGroups(value);
         return this;
     }
@@ -444,8 +449,8 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
                 && (closeTime == null ? process.getCloseTime() == null : closeTime.equals(process.getCloseTime()))
                 && statusId == process.getStatusId() && priority == process.getPriority() && typeId == process.getTypeId()
                 && (statusTime == null ? process.getStatusTime() == null : statusTime.equals(process.getStatusTime()))
-                && process.getDescription().equals(description) && CollectionUtils.isEqualCollection(process.getProcessGroups(), groups)
-                && CollectionUtils.isEqualCollection(process.getProcessExecutors(), executors);
+                && process.getDescription().equals(description) && CollectionUtils.isEqualCollection(process.groups, groups)
+                && CollectionUtils.isEqualCollection(process.executors, executors);
         return result;
     }
 
@@ -468,7 +473,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
             Utils.addSeparated(result, separator, l.l("Priority: {}",  priority));
         }
 
-        if (!CollectionUtils.isEqualCollection(groups, oldProcess.getProcessGroups())) {
+        if (!CollectionUtils.isEqualCollection(groups, oldProcess.groups)) {
             StringBuilder groupString = new StringBuilder();
 
             for (ProcessGroup pg : groups) {
@@ -560,7 +565,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
         process.id = id;
         process.priority = priority;
         process.executors = new LinkedHashSet<>(executors);
-        process.groups = new LinkedHashSet<>(groups);
+        process.groups = new ProcessGroups(groups);
         process.reference = reference;
         process.statusId = statusId;
         process.statusTime = statusTime;

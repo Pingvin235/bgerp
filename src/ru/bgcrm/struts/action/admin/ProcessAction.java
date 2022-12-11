@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.util.sql.LikePattern;
 
 import javassist.NotFoundException;
@@ -31,7 +32,6 @@ import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.Status;
@@ -370,9 +370,9 @@ public class ProcessAction extends BaseAction {
             properties.setScriptName(Utils.maskNull(form.getParam("script_name", "")));
             properties.setStatusIds(form.getSelectedValuesList("status"));
             properties.setParameterIds(form.getSelectedValuesList("param"));
-            properties.setAllowedGroups(ProcessGroup.parseStringArray(allowedGroupArr));
+            properties.setAllowedGroups(ProcessGroups.from(allowedGroupArr));
             properties.setConfig(form.getParam("config"));
-            properties.setGroups(ProcessGroup.parseStringArray(beginGroupArr));
+            properties.setGroups(ProcessGroups.from(beginGroupArr));
 
             // при заполнении всплывающей формы авторизации после редиректа приходит форма без POST параметров
             if (properties.getConfig() == null) {

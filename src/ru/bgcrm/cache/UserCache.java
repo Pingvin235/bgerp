@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.util.Dynamic;
@@ -18,6 +19,7 @@ import org.bgerp.util.Log;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.dao.user.UserGroupDAO;
 import ru.bgcrm.dao.user.UserPermsetDAO;
+import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.Permset;
@@ -31,16 +33,17 @@ import ru.bgcrm.util.TimeUtils;
 public class UserCache extends Cache<UserCache> {
     private static final Log log = Log.getLog();
 
-    private static CacheHolder<UserCache> holder = new CacheHolder<>(new UserCache());
+    public static final UserCache INSTANCE = new UserCache();
 
+    private static final CacheHolder<UserCache> HOLDER = new CacheHolder<>(INSTANCE);
     private static final ParameterMap EMPTY_PERMISSION = new Preferences();
 
     public static User getUser(final int id) {
-        return holder.getInstance().userMapById.get(id);
+        return HOLDER.getInstance().userMapById.get(id);
     }
 
     public static Map<Integer, User> getUserMap() {
-        return holder.getInstance().userMapById;
+        return HOLDER.getInstance().userMapById;
     }
 
     /**
@@ -49,19 +52,19 @@ public class UserCache extends Cache<UserCache> {
      * @return
      */
     public static User getUser(final String login) {
-        return holder.getInstance().activeUserMapByLogin.get(login);
+        return HOLDER.getInstance().activeUserMapByLogin.get(login);
     }
 
     public static List<User> getUserList() {
-        return holder.getInstance().userList;
+        return HOLDER.getInstance().userList;
     }
 
     public static Collection<User> getActiveUsers() {
-        return holder.getInstance().activeUserMapByLogin.values();
+        return HOLDER.getInstance().activeUserMapByLogin.values();
     }
 
     public static Group getUserGroup(final int groupId) {
-        final List<Group> groups = holder.getInstance().userGroupList;
+        final List<Group> groups = HOLDER.getInstance().userGroupList;
         for (final Group group : groups) {
             if (group.getId() == groupId) {
                 return group;
@@ -74,7 +77,7 @@ public class UserCache extends Cache<UserCache> {
     public static int getUserGroupChildCount(final int groupId) {
         int result = 0;
 
-        for (final Group group : holder.getInstance().userGroupList) {
+        for (final Group group : HOLDER.getInstance().userGroupList) {
             if (group.getParentId() == groupId) {
                 result++;
             }
@@ -99,7 +102,7 @@ public class UserCache extends Cache<UserCache> {
         final boolean permCheck = Setup.getSetup().getBoolean(key, false);
         final boolean userPermCheck = user.getConfigMap().getBoolean(key, true);
         if (permCheck && userPermCheck && user.getId() != 1) {
-            final Map<String, ParameterMap> userPerm = holder.getInstance().userPermMap.get(userId);
+            final Map<String, ParameterMap> userPerm = HOLDER.getInstance().userPermMap.get(userId);
             if (userPerm != null) {
                 final PermissionNode node = PermissionNode.getPermissionNode(action);
 
@@ -125,7 +128,7 @@ public class UserCache extends Cache<UserCache> {
     public static List<User> getUserList(final Set<Integer> groupIds) {
         final List<User> result = new ArrayList<User>();
 
-        for (final User user : holder.getInstance().userList) {
+        for (final User user : HOLDER.getInstance().userList) {
             if (CollectionUtils.intersection(groupIds, user.getGroupIds()).size() > 0) {
                 result.add(user);
             }
@@ -137,7 +140,7 @@ public class UserCache extends Cache<UserCache> {
     public static Set<Group> getUserGroupChildSet(final int groupId) {
         final Set<Group> resultSet = new HashSet<Group>();
 
-        for (final Group group : holder.getInstance().userGroupList) {
+        for (final Group group : HOLDER.getInstance().userGroupList) {
             if (group.getParentId() == groupId) {
                 resultSet.add(group);
             }
@@ -164,37 +167,49 @@ public class UserCache extends Cache<UserCache> {
     }
 
     public static List<Group> getUserGroupList() {
-        return holder.getInstance().userGroupList;
+        return HOLDER.getInstance().userGroupList;
     }
 
     public static List<Group> getUserGroupFullTitledList() {
-        return holder.getInstance().userGroupFullTitledList;
+        return HOLDER.getInstance().userGroupFullTitledList;
+    }
+
+    /**
+     * Provides full list of groups with for a role with IDs concatenated from group ID and role ID.
+     * @param roleId
+     * @return
+     */
+    @Dynamic
+    public static List<IdStringTitle> getUserGroupRoleFullTitledList(int roleId) {
+        return getUserGroupFullTitledList().stream()
+            .map(group -> new IdStringTitle(group.getId() + ":" + roleId, group.getTitle()))
+            .collect(Collectors.toList());
     }
 
     public static Map<Integer, Group> getUserGroupMap() {
-        return holder.getInstance().userGroupMap;
+        return HOLDER.getInstance().userGroupMap;
     }
 
     public static Map<Integer, Group> getUserGroupFullTitledMap() {
-        return holder.getInstance().userGroupFullTitledMap;
+        return HOLDER.getInstance().userGroupFullTitledMap;
     }
 
     /**
      * @return alphabetically sorted list with all permission sets.
      */
     public static List<Permset> getUserPermsetList() {
-        return holder.getInstance().userPermsetList;
+        return HOLDER.getInstance().userPermsetList;
     }
 
     /**
      * @return map with all use permission sets, key - ID
      */
     public static Map<Integer, Permset> getUserPermsetMap() {
-        return holder.getInstance().userPermsetMap;
+        return HOLDER.getInstance().userPermsetMap;
     }
 
     public static void flush(final Connection con) {
-        holder.flush(con);
+        HOLDER.flush(con);
     }
 
     public static List<Group> getGroupPath(final int id) {
@@ -204,7 +219,7 @@ public class UserCache extends Cache<UserCache> {
         script.setParentId(id);
 
         while (script.getParentId() != 0) {
-            script = holder.getInstance().userGroupMap.get(script.getParentId());
+            script = HOLDER.getInstance().userGroupMap.get(script.getParentId());
             result.add(0, script);
         }
         return result;
@@ -243,8 +258,8 @@ public class UserCache extends Cache<UserCache> {
     }
 
     public static List<UserGroup> getUserGroupList(final int id) {
-        return holder.getInstance().userGroupListsMap.get(id) == null ? new ArrayList<UserGroup>()
-                : holder.getInstance().userGroupListsMap.get(id);
+        return HOLDER.getInstance().userGroupListsMap.get(id) == null ? new ArrayList<UserGroup>()
+                : HOLDER.getInstance().userGroupListsMap.get(id);
     }
 
     public static List<UserGroup> getUserGroupList(final int id, final Date actualDate) {
@@ -254,10 +269,10 @@ public class UserCache extends Cache<UserCache> {
     public static List<UserGroup> getUserGroupList(final int id, final int parentId, final Date actualDate) {
         final List<UserGroup> resultList = new ArrayList<UserGroup>();
 
-        final List<UserGroup> groupList = holder.getInstance().userGroupListsMap.get(id);
+        final List<UserGroup> groupList = HOLDER.getInstance().userGroupListsMap.get(id);
         if (groupList != null) {
             for (final UserGroup item : groupList) {
-                final Group group = holder.getInstance().userGroupMap.get(item.getGroupId());
+                final Group group = HOLDER.getInstance().userGroupMap.get(item.getGroupId());
                 if (group != null) {
                     if ((parentId < 0 || group.getParentId() == parentId) && (actualDate == null
                             || ((item.getDateFrom() != null && actualDate.compareTo(item.getDateFrom()) >= 0)

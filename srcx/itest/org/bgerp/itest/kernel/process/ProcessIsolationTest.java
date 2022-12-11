@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
+import org.bgerp.model.process.ProcessGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -48,7 +49,7 @@ public class ProcessIsolationTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setAllowedGroups(Set.of(new ProcessGroup(userGroupId)));
+        props.setAllowedGroups(new ProcessGroups(userGroupId));
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
         processTypeSpecialId = ProcessHelper.addType(TITLE + " special", processTypeId, false, null).getId();

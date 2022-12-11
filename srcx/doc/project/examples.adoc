@@ -127,7 +127,7 @@ link:../../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L44-L51[webapp
 
 Action execution result include:
 [snippet, from="<c:u", to="/>", remove-leading="			"]
-link:../../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L168-L173[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L161-L167[webapps/WEB-INF/jspf/admin/user/user/update.jsp]
 
 Flex layout, using constants from Java classes (defined in link:../../../webapps/WEB-INF/jspf/user/search/process_search_constants.jsp[process_search_constants.jsp]), print button close to a field:
 [snippet, from="<div style", to="/div>", remove-leading="				"]

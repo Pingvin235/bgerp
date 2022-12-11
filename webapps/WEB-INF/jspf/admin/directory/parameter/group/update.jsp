@@ -16,13 +16,7 @@
 	<input type="text" name="title" style="width: 100%" value="${group.title}"/>
 
 	<h2>${l.l('Параметры')}</h2>
-	<u:sc>
-		<c:set var="list" value="${parameterList}" />
-		<c:set var="hiddenName" value="param"/>
-		<c:set var="values" value="${group.parameterIds}" />
-		<c:set var="style" value="width: 100%;"/>
-		<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>
-	</u:sc>
+	<ui:select-mult hiddenName="param" list="${parameterList}" values="${group.parameterIds}" style="width: 100%;"/>
 
 	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>

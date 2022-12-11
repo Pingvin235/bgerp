@@ -13,13 +13,13 @@ import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.plugin.pln.blow.Plugin;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.StatusChangeDAO;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.TypeProperties;
@@ -54,7 +54,7 @@ public class BlowTest {
     public void processType() throws Exception {
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusWaitId, ProcessTest.statusDoneId));
-        props.setGroups(Set.of(new ProcessGroup(userGroupId)));
+        props.setGroups(new ProcessGroups(userGroupId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
 

@@ -44,7 +44,7 @@
 		</c:set>
 
 		<ui:combo-single
-			hiddenName="tagId" widthTextValue="100" styleClass="ml1" value="${form.param.tagId}"
+			hiddenName="tagId" widthTextValue="10em" styleClass="ml1" value="${form.param.tagId}"
 			onSelect="${sendCommand}"
 			valuesHtml="${valuesHtml}"/>
 
@@ -348,8 +348,7 @@
 
 <ui:when type="user">
 	<%-- параметр nextCommand здесь используется из предыдущего промотчика, перед списком сообщений --%>
-	<c:set var="pageFormSelector" value="#${formUiid}"/>
-	<ui:page-control nextCommand="${nextCommand}" />
+	<ui:page-control pageFormId="${formUiid}" nextCommand="${nextCommand}" />
 
 	<script>
 		$(function () {

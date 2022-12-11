@@ -5,9 +5,10 @@
 
 <table style="width: 100%;" id="${uiid}">
 	<tr><td>
+		<c:set var="pageFormSelector" value="#processQueueFilter form#${queue.id}-${form.param.savedFilterSetId}"/>
 		<ui:page-control
-			pageFormSelectorFunc="$('#processQueueFilter').find('form#${queue.id}-${form.param.savedFilterSetId}')"
-			nextCommand="; processQueueMarkFilledFilters(${pageFormSelectorFunc}); $$.ajax.load(${pageFormSelectorFunc}[0], $('#processQueueData'));" />
+			pageFormSelector="${pageFormSelector}"
+			nextCommand="; processQueueMarkFilledFilters($('${pageFormSelector}')); $$.ajax.load($('${pageFormSelector}'), $('#processQueueData'));" />
 	</td></tr>
 </table>
 

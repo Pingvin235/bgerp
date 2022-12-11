@@ -12,12 +12,12 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.AddressTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.process.ProcessGroups;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.StatusChangeDAO;
 import ru.bgcrm.model.param.ParameterAddressValue;
-import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.TypeProperties;
@@ -31,7 +31,7 @@ public class UsermobIfaceTest {
     @Test
     public void processType() throws Exception {
         var props = new TypeProperties();
-        props.setGroups(Set.of(new ProcessGroup(UserTest.groupAdminsId)));
+        props.setGroups(new ProcessGroups(UserTest.groupAdminsId));
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));

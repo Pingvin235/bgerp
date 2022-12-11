@@ -18,13 +18,7 @@
 		<h2>Услуги</h2>
 		<c:choose>
 			<c:when test="${form.id le 0}">
-				<u:sc>
-					<c:set var="list" value="${pair.second}"/>	
-					<c:set var="hiddenName" value="serviceId"/>
-					<c:set var="style" value="width: 100%;"/>
-					<c:set var="showId" value="1"/>
-					<%@ include file="/WEB-INF/jspf/select_mult.jsp"%>	
-				</u:sc>
+				<ui:select-mult list="${pair.second}" hiddenName="serviceId" style="width: 100%;" showId="${true}"/>
 			</c:when>
 			<c:otherwise>
 				<input type="hidden" name="serviceId" value="${pair.first.serviceId}"/>
@@ -32,31 +26,31 @@
 					<c:if test="${item.id eq pair.first.serviceId}">
 						<c:set var="serviceTitle" value="${item.title}"/>
 					</c:if>
-				</c:forEach>				
+				</c:forEach>
 				<div class="tt">${serviceTitle}</div>
 			</c:otherwise>
 		</c:choose>
-	</div><%-- 
+	</div><%--
 --%><div style="display: inline-block; width: 50%;" class="pl1">
 		<h2>Период</h2>
 		<div>
 			<input type="text" name="dateFrom" value="${tu.format( pair.first.dateFrom, 'dd.MM.yyyy' ) }"/>
 			<u:sc>
-				<c:set var="selector" value="#${uiid} input[name=dateFrom]"/>		
+				<c:set var="selector" value="#${uiid} input[name=dateFrom]"/>
 				<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-			</u:sc>	
-			- 
+			</u:sc>
+			-
 			<input type="text" name="dateTo" value="${tu.format( pair.first.dateTo, 'dd.MM.yyyy' ) }"/>
 			<u:sc>
-				<c:set var="selector" value="#${uiid} input[name=dateTo]"/>		
+				<c:set var="selector" value="#${uiid} input[name=dateTo]"/>
 				<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 			</u:sc>
 		</div>
-		
+
 		<h2>Комментарий</h2>
 		<textarea name="comment" style="width: 100%; resize: none;" class="layout-height-rest">${pair.first.comment}</textarea>
 	</div>
-	
+
 	<%@ include file="/WEB-INF/jspf/ok_cancel_in_form.jsp"%>
 </html:form>
 
