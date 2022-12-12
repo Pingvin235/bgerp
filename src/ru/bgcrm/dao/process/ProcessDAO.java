@@ -1498,7 +1498,7 @@ public class ProcessDAO extends CommonDAO {
             int index = 1;
             PreparedStatement ps = null;
             StringBuilder query = new StringBuilder();
-            // раньше была прроверка на положительный ID, но он может быть отрицательным в случае, если процесс временный
+            // раньше была проверка на положительный ID, но он может быть отрицательным в случае, если процесс временный
             if (oldProcess != null) {
                 query.append("UPDATE " + TABLE_PROCESS
                         + " SET status_id=?, status_dt=?, status_user_id=?, description=?, close_dt=?, priority=?, close_user_id=?, type_id=? WHERE id=?");
@@ -1515,13 +1515,18 @@ public class ProcessDAO extends CommonDAO {
                 ps.executeUpdate();
 
             } else {
+                if (process.getCreateTime() == null)
+                    process.setCreateTime(new Date());
+
                 query.append("INSERT INTO " + TABLE_PROCESS
-                        + " SET type_id=?, status_id=?, status_user_id=?, status_dt=NOW(), description=?, create_dt=NOW(), executors=?, create_user_id=?");
+                        + " SET type_id=?, status_id=?, status_user_id=?, status_dt=?, description=?, create_dt=?, executors=?, create_user_id=?");
                 ps = con.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
                 ps.setInt(index++, process.getTypeId());
                 ps.setInt(index++, process.getStatusId());
                 ps.setInt(index++, process.getStatusUserId());
+                ps.setTimestamp(index++, TimeConvert.toTimestamp(process.getCreateTime()));
                 ps.setString(index++, process.getDescription());
+                ps.setTimestamp(index++, TimeConvert.toTimestamp(process.getCreateTime()));
                 ps.setString(index++, ProcessExecutor.serialize(process.getExecutors()));
                 ps.setInt(index++, process.getCreateUserId());
                 ps.executeUpdate();
@@ -1887,7 +1892,7 @@ public class ProcessDAO extends CommonDAO {
         PreparedQuery pq = new PreparedQuery(con);
 
         Page page = result.getPage();
-        /*Если не кастить в каждом запросе поле, то с кордировкой какая-то лажа получается, сокрее всего это из-за
+        /*Если не кастить в каждом запросе поле, то с кодировкой какая-то лажа получается, скорее всего это из-за
          *  того что разные типы в одном поле смешиваются. На старой версии mysql 5.0.x не работало( на новой - не известно, вроде в
          *  maria 5.5 как-будто работает).
          */

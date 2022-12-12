@@ -414,5 +414,16 @@ https://bgerp.company.com/user/process.do?action=queueShow&id=4&dateStatusStatus
 ----
 
 При изучении формата запросов и ответов возможно использование инструмента разработчика в браузере
-с отслеживанием запросов отправляемых браузером при работе пользователя в BGERP.
+с отслеживанием запросов отправляемых браузером при работе пользователя в системе.
 
+Another sample for retrieving user list. Notice the request parameter *page.pageIndex=-1* for disabling pagination.
+[source]
+----
+https://demo.bgerp.org/admin/user.do?action=userList&j_username=admin&j_password=admin&responseType=json&authToSession=0&page.pageIndex=-1
+----
+
+For complex data *reading* <<../plugin/svc/dba/index.adoc#, Plugin DBA>> with SQL queries is recommend you to use, an example:
+[source]
+----
+https://demo.bgerp.org/admin/plugin/dba/query.do?query=SELECT%20id,%20title%20FROM%20user&j_username=admin&j_password=admin&responseType=json&authToSession=0&page.pageIndex=-1
+----

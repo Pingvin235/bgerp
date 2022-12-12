@@ -10,6 +10,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.ParameterMap;
@@ -132,6 +134,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         this.configMap = new Preferences(config);
     }
 
+    @JsonIgnore
     public ParameterMap getConfigMap() {
         return configMap;
     }
@@ -193,6 +196,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         }
     }
 
+    @JsonIgnore
     public String getPersonalization() {
         return personalization;
     }
@@ -202,6 +206,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         this.personalizationMap = new Preferences(personalization);
     }
 
+    @JsonIgnore
     public Preferences getPersonalizationMap() {
         return personalizationMap;
     }
@@ -211,6 +216,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
      * After collected from {@link UserCache#getUserList()} users with intersected groups with the current one.
      * @return
      */
+    @JsonIgnore
     public List<User> getUserListWithSameGroups() {
         var list = new ArrayList<User>(200);
         list.add(this);
