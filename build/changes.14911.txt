@@ -1,0 +1,3 @@
+F: Process priority default colors.
+C: Update CodeMirror to 5.65.10.
+F: Collapsed vertical sizes of CodeMirror editors.

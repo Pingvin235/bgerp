@@ -119,7 +119,7 @@ A simple dictionary with pagination, AJAX editor invocation: link:../../../webap
 [[code-jsp-ui-ajax]]
 Sending AJAX for sending, exiting or restoring data in <<../kernel/process/index.adoc#type, process type properties editor>>:
 [snippet, from="<div", to="/div>"]
-link:../../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L185-L190[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L172-L177[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
 
 Recursive include:
 [snippet, from="<c:", to="if>", remove-leading="					"]

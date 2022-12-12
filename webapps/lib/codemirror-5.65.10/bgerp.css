@@ -1,0 +1,9 @@
+.CodeMirror {
+	border: 1px solid #c5c5c5;
+	border-radius: 3px;
+	box-shadow: 0px 3px 6px #e2e2e2 inset;
+}
+
+.CodeMirror-changed {
+	border: 1px solid red;
+}

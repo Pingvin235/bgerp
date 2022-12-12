@@ -489,7 +489,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
             result.append(l.l("Execution groups: [{}]", groupString));
         }
 
-        if (!CollectionUtils.isEqualCollection(executors, oldProcess.getProcessExecutors())) {
+        if (!CollectionUtils.isEqualCollection(executors, oldProcess.executors)) {
             String executorString = "";
 
             for (Integer item : ProcessExecutor.toExecutorSet(executors)) {

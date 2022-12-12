@@ -476,6 +476,10 @@ $$.ui = new function () {
 	 */
 	const codeMirror = (id, mode) => {
 		const ta = document.getElementById(id);
+		const $ta = $(ta);
+
+		const taHeight = $ta.height();
+
 		const editor = CodeMirror.fromTextArea(ta, {
 			mode: mode ? mode : "properties",
 			lineNumbers: true,
@@ -483,7 +487,8 @@ $$.ui = new function () {
 			matchBrackets: true
 		});
 
-		const $ta = $(ta);
+		editor.setSize(null, taHeight);
+
 		const originalConfig = editor.getValue();
 		editor.on('change', () => {
 			$ta.next('.CodeMirror').toggleClass('CodeMirror-changed', editor.getValue() !== originalConfig);

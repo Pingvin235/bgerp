@@ -13,12 +13,9 @@
 	</c:if>
 
 	<c:set var="uiid" value="${u:uiid()}"/>
-	<div style="height: 20em;">
-		<textarea id="${uiid}" name="query" class="w100p">${form.param.query}</textarea>
-	</div>
+	<textarea id="${uiid}" name="query" class="w100p" rows="20">${form.param.query}</textarea>
 
-	<%-- for some reason this produces one em top indent --%>
-	<div class="mt2">
+	<div class="mt1">
 		<ui:button type="out" onclick="$$.ajax.loadContent(this)"/>
 		<ui:page-control nextCommand="; $$.ajax.loadContent(this)"/>
 	</div>

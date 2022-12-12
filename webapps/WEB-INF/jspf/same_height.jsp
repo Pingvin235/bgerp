@@ -6,16 +6,16 @@
 	TODO: Пробовать использовать flex CSS свойства вместо, как в свойствах типа процесса.
 --%>
 <script>
-    $(function () {	
-    	var resize = function () { 
-    		$("${selectorTo}").css("height", $("${selectorSample}").height() + "px" );
-    	};
-    	resize();
-    	<c:if test="${not empty track}">
-    	   $("${selectorSample}").resize(function () {
-    		   resize();
-    	   })
-    	</c:if>
-    	<c:remove var="track"/>
-    })
+	$(function () {
+		const resize = function () {
+			$("${selectorTo}").css("height", $("${selectorSample}").height() + "px" );
+		};
+		resize();
+		<c:if test="${not empty track}">
+			$("${selectorSample}").resize(function () {
+				resize();
+			})
+		</c:if>
+		<c:remove var="track"/>
+	})
 </script>

@@ -109,5 +109,5 @@
 	})
 </script>
 
-<shell:title ltext="${l.l('Новости')}"/>
+<shell:title ltext="News"/>
 <shell:state text="" help="kernel/news.html"/>

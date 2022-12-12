@@ -71,5 +71,7 @@
 <shell:state ltext="Редактор" help="kernel/setup.html#user"/>
 
 <script>
-	$$.ui.codeMirror('${taUiid}');
+	$(function () {
+		$$.ui.codeMirror('${taUiid}');
+	})
 </script>

@@ -4,7 +4,7 @@
 <ui:menu-item ltitle="Поиск" href="search" icon="ti-search"
 	action="ru.bgcrm.struts.action.SearchAction:null" command="/user/search.do" />
 
-<ui:menu-item ltitle="Новости" href="news" icon="ti-bell"
+<ui:menu-item ltitle="News" href="news" icon="ti-bell"
 	action="ru.bgcrm.struts.action.NewsAction:newsList"
 	command="/user/news.do?action=newsList&read=0" />
 

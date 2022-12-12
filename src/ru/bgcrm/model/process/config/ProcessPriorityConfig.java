@@ -12,16 +12,16 @@ public class ProcessPriorityConfig extends Config {
     private static final String PREFIX = "process.priority.";
 
     private static final SortedMap<Integer, String> DEFAULT_COLORS = Collections.unmodifiableSortedMap(new TreeMap<>(Map.of(
-        0, "FFFFFF",
-        1, "FFFFFF",
-        2, "9AD78A",
-        3, "9AD78A",
-        4, "FFF1A4",
-        5, "FFF1A4",
-        6, "FFBE7E",
-        7, "FFBE7E",
-        8, "FFBE7E",
-        9, "FD7D89"
+        0, "#FFFFFF",
+        1, "#FFFFFF",
+        2, "#9AD78A",
+        3, "#9AD78A",
+        4, "#FFF1A4",
+        5, "#FFF1A4",
+        6, "#FFBE7E",
+        7, "#FFBE7E",
+        8, "#FFBE7E",
+        9, "#FD7D89"
     )));
 
     /** Key - priority, value - hex color string. */

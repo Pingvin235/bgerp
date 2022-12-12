@@ -81,13 +81,13 @@
 
 
 <%-- codemirror --%>
-<link type="text/css" href="/lib/codemirror/lib/codemirror.css" rel ="stylesheet">
-<link type="text/css" href="/lib/codemirror/bgerp.css" rel ="stylesheet">
-<script src="/lib/codemirror/lib/codemirror.js"></script>
-<script src="/lib/codemirror/mode/properties/properties.js"></script>
-<script src="/lib/codemirror/mode/sql/sql.js"></script>
-<script src="/lib/codemirror/addon/selection/active-line.js"></script>
-<script src="/lib/codemirror/addon/edit/matchbrackets.js"></script>
+<link type="text/css" href="/lib/codemirror-5.65.10/lib/codemirror.css" rel ="stylesheet">
+<link type="text/css" href="/lib/codemirror-5.65.10/bgerp.css" rel ="stylesheet">
+<script src="/lib/codemirror-5.65.10/lib/codemirror.js"></script>
+<script src="/lib/codemirror-5.65.10/mode/properties/properties.js"></script>
+<script src="/lib/codemirror-5.65.10/mode/sql/sql.js"></script>
+<script src="/lib/codemirror-5.65.10/addon/selection/active-line.js"></script>
+<script src="/lib/codemirror-5.65.10/addon/edit/matchbrackets.js"></script>
 
 <link type="text/css" href="${u:fileNameWithLastModTime('/css/style.css.jsp')}" rel="stylesheet"/>
 

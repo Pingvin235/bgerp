@@ -172,8 +172,10 @@
 
 <shell:state ltext="Редактор" help="kernel/setup.html#user"/>
 
-<script>
-	$$.ui.codeMirror('${taUiid}');
-</script>
-
 <%@ include file="/WEB-INF/jspf/layout_process.jsp"%>
+
+<script>
+	$(function () {
+		$$.ui.codeMirror('${taUiid}');
+	})
+</script>

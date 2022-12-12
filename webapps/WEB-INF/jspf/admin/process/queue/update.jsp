@@ -67,10 +67,12 @@
 	</div>
 </html:form>
 
+<%@ include file="/WEB-INF/jspf/layout_process.jsp"%>
+
 <script>
-	$$.ui.codeMirror('${taUiid}');
+	$(function () {
+		$$.ui.codeMirror('${taUiid}');
+	})
 </script>
 
 <shell:state ltext="Редактор" help="kernel/process/queue.html#setup"/>
-
-<%@ include file="/WEB-INF/jspf/layout_process.jsp"%>

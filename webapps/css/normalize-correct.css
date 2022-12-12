@@ -1,5 +1,6 @@
 /* Fixes for normalize.css */
 [type="text"],
-[type="password"] {
+[type="password"],
+textarea {
   box-sizing: border-box;
 }

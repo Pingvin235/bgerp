@@ -31,41 +31,33 @@
 	</ul>
 
 	<div id="${formUiid}-1">
-	<div class="in-table-cell">
-			<c:set var="selectorSample" value="${u:uiid()}"/>
-			<c:set var="selectorTo" value="${u:uiid()}"/>
-			<div style="min-width: 350px; max-width: 350px; vertical-align: top;" id="${selectorSample}">
-				<h2>Разрешённые статусы</h2>
-				<ui:select-mult hiddenName="status"
-					 showId="true" moveOn="true" style="width: 100%;"
-					 list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"/>
+	<div class="in-table-cell in-va-top">
+		<div style="min-width: 350px; max-width: 350px;"">
+			<h2>Разрешённые статусы</h2>
+			<ui:select-mult hiddenName="status"
+					showId="true" moveOn="true" style="width: 100%;"
+					list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"/>
 
-				<div class="in-table-cell">
-					<div style="width: 40%;">
-						<h2>Статус нач. код</h2>
-						<html:text property="create_status" style="width: 100%;" value="${properties.createStatus}"/>
-					</div>
-					<div style="width: 60%;" class="pl1">
-						<h2>Статусы кон. через ,</h2>
-						<html:text property="close_status" style="width: 100%;" value="${u:toString( properties.closeStatusIds )}"/>
-					</div>
+			<div class="in-table-cell">
+				<div style="width: 40%;">
+					<h2>Статус нач. код</h2>
+					<html:text property="create_status" style="width: 100%;" value="${properties.createStatus}"/>
 				</div>
-
-				<h2>Параметры</h2>
-				<ui:select-mult hiddenName="param"
-					showId="true" moveOn="true" showComment="true" style="width: 100%;"
-					list="${parameterList}" map="${ctxParameterMap}" values="${properties.parameterIds}"/>
-			</div>
-			<div style="width: 100%; height: 100%;" class="pl1" id="${selectorTo}">
-				<div style="height: 100%; width: 100%; display: flex; flex-flow: column;">
-					<h2>Конфигурация</h2>
-					<%-- ресайз вертикальный в FF работает если поместить в div, но тогда дурит в Chrome установка размеров --%>
-					<div style="flex: 1;">
-						<c:set var="taUiid" value="${u:uiid()}"/>
-						<textarea id="${taUiid}" name="config" style="resize: vertical; height: 100%; width: 100%;" wrap="off">${form.response.data.config}</textarea>
-					</div>
+				<div style="width: 60%;" class="pl1">
+					<h2>Статусы кон. через ,</h2>
+					<html:text property="close_status" style="width: 100%;" value="${u:toString(properties.closeStatusIds)}"/>
 				</div>
 			</div>
+
+			<h2>Параметры</h2>
+			<ui:select-mult hiddenName="param"
+				showId="true" moveOn="true" showComment="true" style="width: 100%;"
+				list="${parameterList}" map="${ctxParameterMap}" values="${properties.parameterIds}"/>
+		</div>
+		<div class="w100p pl1">
+			<h2>Конфигурация</h2>
+			<c:set var="taUiid" value="${u:uiid()}"/>
+			<textarea id="${taUiid}" name="config" style="resize: none; width: 100%;" rows="40">${form.response.data.config}</textarea>
 		</div>
 	</div>
 	<div id="${formUiid}-2" style="height: 500px;">
@@ -172,15 +164,10 @@
 	$("div#roleTabsBegin${formUiid}").tabs();
 	$("div#roleTabsAllowed${formUiid}").tabs();
 
-	$$.ui.codeMirror('${taUiid}');
+	$(function () {
+		$$.ui.codeMirror('${taUiid}');
+	})
 </script>
-
-<u:sc>
-	<c:set var="selectorSample" value="#${selectorSample}"/>
-	<c:set var="selectorTo" value="#${selectorTo}"/>
-	<c:set var="track" value="true"/>
-	<%@ include file="/WEB-INF/jspf/same_height.jsp"%>
-</u:sc>
 
 <div class="mt1">
 	<button type="button" class="btn-grey mr1" onclick="$$.ajax.post($('#${formUiid}')[0]).done(() => $$.ajax.load('${editUrl}', $('#${formUiid}').parent()));">OK</button>

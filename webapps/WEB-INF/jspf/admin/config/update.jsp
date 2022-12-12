@@ -42,7 +42,7 @@
 	--%><div style="width: 70%;" class="pl1">
 			<h2>${l.l('Конфигурация')}</h2>
 			<c:set var="taUiid" value="${u:uiid()}"/>
-			<textarea id="${taUiid}" name="data" style="width: 100%; resize: vertical;" wrap="off" rows="40">${config.data}</textarea>
+			<textarea id="${taUiid}" name="data" style="width: 100%;" rows="40">${config.data}</textarea>
 		</div>
 	</div>
 
