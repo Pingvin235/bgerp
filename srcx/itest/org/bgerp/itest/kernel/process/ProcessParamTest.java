@@ -109,9 +109,12 @@ public class ProcessParamTest {
     static void paramValueFile(int processId) throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
         var logDao = new ParamLogDAO(DbTest.conRoot);
+        var fileDao = new FileDataDAO(DbTest.conRoot);
 
         var valueFile = dao.getParamFile(processId, paramFileId);
         Assert.assertTrue(valueFile.values().isEmpty());
+
+        var stat = fileDao.stat();
 
         dao.updateParamFile(processId, paramFileId, 0, new FileData("file1.txt",
                 IOUtils.toByteArray(ProcessParamTest.class.getResourceAsStream(ProcessParamTest.class.getSimpleName() + ".param.file.value.txt"))));
@@ -120,7 +123,7 @@ public class ProcessParamTest {
         valueFile = dao.getParamFile(processId, paramFileId);
         Assert.assertEquals(valueFile.size(), 2);
         Assert.assertEquals(valueFile.get(1).getTitle(), "file1.txt");
-        byte[] data1 = IOUtils.toByteArray(new FileDataDAO(DbTest.conRoot).getFile(valueFile.get(1)).toURI());
+        byte[] data1 = IOUtils.toByteArray(fileDao.getFile(valueFile.get(1)).toURI());
         Assert.assertEquals(new String(data1, StandardCharsets.UTF_8).trim(), "Test content");
         Assert.assertEquals(valueFile.get(2).getTitle(), "file2.txt");
 
@@ -131,6 +134,8 @@ public class ProcessParamTest {
         dao.updateParamFile(processId, paramFileId, -1, null);
         valueFile = dao.getParamFile(processId, paramFileId);
         Assert.assertTrue(valueFile.isEmpty());
+
+        Assert.assertEquals(fileDao.stat(), stat);
 
         var log = logDao.getHistory(processId, ParameterCache.getParameterList(List.of(paramFileId)), false, new Pageable<>());
         Assert.assertEquals(log.size(), 4);

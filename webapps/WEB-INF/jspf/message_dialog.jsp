@@ -8,17 +8,19 @@
 </div>
 
 <script>
-	$$.shell.message.init({
-		resizable: false,
-		width: 640,
-		height: 240,
-		modal: true,
-		autoOpen: false,
-		position: { my: "center top", at: "center top+100px", of: window },
-		buttons: [{
-			text: "OK",
-			class: "btn-white m05",
-			click: () => $$.shell.message.close()
-		}]
-	});
+	$(function () {
+		$$.shell.message.init({
+			resizable: false,
+			width: 640,
+			height: 240,
+			modal: true,
+			autoOpen: false,
+			position: { my: "center top", at: "center top+100px", of: window },
+			buttons: [{
+				text: "OK",
+				class: "btn-white m05",
+				click: () => $$.shell.message.close()
+			}]
+		});
+	})
 </script>

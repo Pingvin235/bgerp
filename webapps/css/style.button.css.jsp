@@ -13,7 +13,7 @@ button.btn-grey, button.btn-white {
 
 .btn-blue.icon, .btn-grey.icon, .btn-white.icon, .btn-green.icon, .btn-white-hover.icon,
 .btn-blue.btn-icon, .btn-grey.btn-icon, .btn-white.btn-icon, .btn-green.btn-icon, .btn-white-hover.btn-icon {
-	padding: 0.68em 0.8em;
+	padding: 0.6em 0.75em;
 }
 
 .btn-small {
@@ -22,7 +22,7 @@ button.btn-grey, button.btn-white {
 
 .btn-small.icon,
 .btn-small.btn-icon {
-	padding: 0.4em 0.4em !important;
+	padding: 0.4em 0.5em !important;
 }
 
 .btn-slim {

@@ -41,12 +41,13 @@ public class FileAction extends BaseAction {
         File file = new FileDataDAO(con).getFile(data);
         if (file != null) {
             OutputStream out = response.getOutputStream();
-
-            Utils.setFileNameHeaders(response, data.getTitle());
-            IOUtils.copy(new FileInputStream(file), out);
-
+            try (var fis = new FileInputStream(file)) {
+                Utils.setFileNameHeaders(response, data.getTitle());
+                IOUtils.copy(fis, out);
+            }
             out.flush();
         }
+
         return null;
     }
 

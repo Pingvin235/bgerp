@@ -20,6 +20,8 @@ $$.debugAreas = {
 	openUrl: 0,
 	ajax: 0,
 	shell: 0,
+	"shell.login": 0,
+	"shell.message": 0,
 	buffer: 0,
 	datepicker: 0,
 	processQueue: 0,

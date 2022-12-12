@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.model.file.FileStat;
 import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
@@ -46,24 +47,29 @@ public class FileDataDAO extends CommonDAO {
         storeDir = Utils.createDirectoryIfNoExistInWorkDir("filestorage");
     }
 
-    public static FileData getFromRs(ResultSet rs, String prefix) throws SQLException {
-        FileData result = new FileData();
+    /**
+     * Selects file entities with given IDs, ordered by them.
+     * @param ids the IDs.
+     * @return
+     * @throws SQLException
+     */
+    public List<FileData> list(List<Integer> ids) throws SQLException {
+        List<FileData> result = new ArrayList<>();
 
-        result.setId(rs.getInt(prefix + "id"));
-        result.setTitle(rs.getString(prefix + "title"));
-        result.setTime(rs.getTimestamp(prefix + "time"));
-        result.setSecret(rs.getString("secret"));
+        var idsStr = Utils.toString(ids, "-1", ",");
+
+        var query = SQL_SELECT + "*" + SQL_FROM + TABLE_FILE_DATA + "AS fd" +
+            SQL_WHERE + "id IN (" + idsStr + ")" +
+            SQL_ORDER_BY + "FIELD(id," + idsStr + ")";
+
+        try (var st = con.createStatement()) {
+            var rs = st.executeQuery(query);
+            while (rs.next()) {
+                result.add(getFromRs(rs, "fd."));
+            }
+        }
 
         return result;
-    }
-
-    private void checkDir() throws BGException {
-        if (!storeDir.exists() || !storeDir.isDirectory()) {
-            throw new BGException("Not found directory file storage");
-        }
-        if (!storeDir.canRead() || !storeDir.canWrite()) {
-            throw new BGException("Can't access the file storage directory");
-        }
     }
 
     /**
@@ -94,6 +100,11 @@ public class FileDataDAO extends CommonDAO {
         return outputStream;
     }
 
+    /**
+     * Deletes file entity and the related file in a filesystem.
+     * @param fileData the file entity.
+     * @throws Exception
+     */
     public void delete(FileData fileData) throws Exception {
         checkDir();
 
@@ -107,21 +118,20 @@ public class FileDataDAO extends CommonDAO {
         }
     }
 
-    public List<FileData> list(List<Integer> ids) throws SQLException {
-        List<FileData> result = new ArrayList<>();
+    /**
+     * Loads file entity from a result set.
+     * @param rs the result set.
+     * @param prefix
+     * @return
+     * @throws SQLException
+     */
+    public static FileData getFromRs(ResultSet rs, String prefix) throws SQLException {
+        FileData result = new FileData();
 
-        var idsStr = Utils.toString(ids, "-1", ",");
-
-        var query = SQL_SELECT + "*" + SQL_FROM + TABLE_FILE_DATA + "AS fd" +
-            SQL_WHERE + "id IN (" + idsStr + ")" +
-            SQL_ORDER_BY + "FIELD(id," + idsStr + ")";
-
-        try (var st = con.createStatement()) {
-            var rs = st.executeQuery(query);
-            while (rs.next()) {
-                result.add(getFromRs(rs, "fd."));
-            }
-        }
+        result.setId(rs.getInt(prefix + "id"));
+        result.setTitle(rs.getString(prefix + "title"));
+        result.setTime(rs.getTimestamp(prefix + "time"));
+        result.setSecret(rs.getString("secret"));
 
         return result;
     }
@@ -155,6 +165,16 @@ public class FileDataDAO extends CommonDAO {
         }
 
         return result;
+    }
+
+    /**
+     * Storage directory statistics.
+     * @return
+     * @throws BGException
+     */
+    public FileStat stat() throws BGException {
+        checkDir();
+        return new FileStat(storeDir);
     }
 
     /**
@@ -193,8 +213,13 @@ public class FileDataDAO extends CommonDAO {
         return batchSize < files.length;
     }
 
-    @Deprecated
-    public File getFile(String url) {
-        return new File(storeDir.getAbsolutePath() + "/" + url);
+    private void checkDir() throws BGException {
+        if (!storeDir.exists() || !storeDir.isDirectory()) {
+            throw new BGException("Not found directory file storage");
+        }
+        if (!storeDir.canRead() || !storeDir.canWrite()) {
+            throw new BGException("Can't access the file storage directory");
+        }
     }
+
 }

@@ -875,33 +875,18 @@ public class ParamValueDAO extends CommonDAO {
             }
 
             if (!currentValue.isEmpty()) {
-                String query = "DELETE FROM " + TABLE_PARAM_FILE + " WHERE id=? AND param_id=?";
+                for (var value : currentValue.values())
+                    new FileDataDAO(con).delete(value);
 
-                var pq = new PreparedQuery(con, query);
-                pq.addInt(id);
-                pq.addInt(paramId);
-                if (position != -1) {
-                    pq.addQuery(" AND n=?");
-                    pq.addInt(position);
-                }
-                pq.executeUpdate();
-                pq.close();
-
-                for (var value : currentValue.values()) {
-                    // checking of left file links, theoretically is possible to have many param values linked to the same file data
-                    query = "SELECT COUNT(fd.id) FROM " + TABLE_FILE_DATA + " AS fd WHERE id=?";
-                    var ps = con.prepareStatement(query);
-                    ps.setInt(1, value.getId());
-
-                    ResultSet rs = ps.executeQuery();
-                    int count = 0;
-                    if (rs.next()) {
-                        count = rs.getInt(1);
+                String query = SQL_DELETE + TABLE_PARAM_FILE + SQL_WHERE + "id=? AND param_id=?";
+                try (var pq = new PreparedQuery(con, query)) {
+                    pq.addInt(id);
+                    pq.addInt(paramId);
+                    if (position != -1) {
+                        pq.addQuery(" AND n=?");
+                        pq.addInt(position);
                     }
-                    ps.close();
-
-                    if (count == 0)
-                        new FileDataDAO(con).delete(value);
+                    pq.executeUpdate();
                 }
             }
         } else {

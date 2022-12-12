@@ -25,6 +25,7 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.tomcat.util.IntrospectionUtils;
+import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
 import org.bgerp.custom.Custom;
 import org.bgerp.scheduler.Scheduler;
 import org.bgerp.util.Log;
@@ -108,6 +109,12 @@ public class Server extends Tomcat {
         context.setReloadable(false);
         context.setWorkDir("work");
         context.setUseNaming(false);
+
+        /* Similar to XML configuration: <CookieProcessor sameSiteCookies="strict" /> */
+        var cookieProcessor = new Rfc6265CookieProcessor();
+        cookieProcessor.setSameSiteCookies("strict");
+        context.setCookieProcessor(cookieProcessor);
+
         context.getJarScanner().setJarScanFilter((type, name) -> {
             boolean result = name.contains("struts") || name.contains("tag") || name.contains(customJarMarker);
             log.debug("Scan type: {}, name: {} => {}", type, name, result);

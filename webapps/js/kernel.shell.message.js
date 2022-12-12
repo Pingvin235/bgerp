@@ -13,6 +13,7 @@ $$.shell.message = new function () {
 	 * @param {*} options parameters for jQueryUI dialog() function.
 	 */
 	const init = (options) => {
+		debug("init");
 		$dialog().dialog(options);
 	}
 

@@ -7,11 +7,13 @@
 </form>
 
 <script>
-	$$.shell.login.init({
-		modal: true,
-		draggable: false,
-		resizable: false,
-		title: "${l.l('Требуется повторная авторизация')}",
-		position: { my: "center top", at: "center top+100px", of: window }
-	});
+	$(function () {
+		$$.shell.login.init({
+			modal: true,
+			draggable: false,
+			resizable: false,
+			title: "${l.l('Требуется повторная авторизация')}",
+			position: { my: "center top", at: "center top+100px", of: window }
+		});
+	})
 </script>
