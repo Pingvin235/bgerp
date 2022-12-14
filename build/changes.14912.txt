@@ -1,0 +1,3 @@
+F: Restored option 'processTypeId' from process type configuration.
+C: Removed support of option 'hide' from parameter configuration.
+F: Cleanup commands in installer.sh.

@@ -56,19 +56,20 @@
 
 		<c:set var="style" value="${parameter.configMap.style}"/>
 
-		<%-- флаг readonly выставлен для параметра в конфигурации типа процесса
+		<%-- флаг readonly выставлен для параметра в конфигурации типа процесса --%>
 		<c:if test="${not empty form.param['processTypeId']}">
-			<c:set var="processTypeConfig" value="${ctxProcessTypeMap[u:int( form.param['processTypeId'] )].properties.configMap}"/>
+			<c:set var="processTypeConfig" value="${ctxProcessTypeMap[u:int(form.param['processTypeId'])].properties.configMap}"/>
 			<c:if test="${u.toIntegerSet(processTypeConfig['readonlyParamIds']).contains(parameter.id)}">
 				<c:set var="readonly" value="true"/>
 			</c:if>
 		</c:if>
-		--%>
 
+		<%--
 		<c:set var="hide" value=""/>
 		<c:if test="${parameter.configMap.hide == '1'}">
 			<c:set var="hide" value="style='display:none'"/>
 		</c:if>
+		--%>
 
 		<c:set var="viewDivId" value="${u:uiid()}"/>
 		<c:set var="editDivId" value="${u:uiid()}"/>
