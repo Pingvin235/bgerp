@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.util.Dynamic;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.TitleWithPath;
@@ -128,6 +132,8 @@ public class Group extends IdTitle implements TitleWithPath, Cloneable {
         return resultSet;
     }
 
+    @JsonIgnore
+    @Dynamic
     public List<Group> getPath() {
         return UserCache.getGroupPath(id);
     }
