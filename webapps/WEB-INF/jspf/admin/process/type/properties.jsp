@@ -30,9 +30,9 @@
 	--%><li><a href="#${formUiid}-3">Группы</a></li>
 	</ul>
 
-	<div id="${formUiid}-1">
+ <div id="${formUiid}-1">
 	<div class="in-table-cell in-va-top">
-		<div style="min-width: 350px; max-width: 350px;"">
+		<div style="min-width: 350px; max-width: 350px;">
 			<h2>Разрешённые статусы</h2>
 			<ui:select-mult hiddenName="status"
 					showId="true" moveOn="true" style="width: 100%;"
@@ -60,6 +60,7 @@
 			<textarea id="${taUiid}" name="config" style="resize: none; width: 100%;" rows="40">${form.response.data.config}</textarea>
 		</div>
 	</div>
+ </div>
 	<div id="${formUiid}-2" style="height: 500px;">
 		<h2>Матрица разрешенных переходов статусов</h2>
 		<table style="width: 100%;" class="data">
