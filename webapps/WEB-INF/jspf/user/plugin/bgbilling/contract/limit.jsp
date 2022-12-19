@@ -24,7 +24,7 @@
 		<html:hidden property="contractId"/>
 		<html:hidden property="billingId"/>
 
-		<ui:page-control nextCommand="; $$.ajax.load(this.form, $('#${uiid}').parent()); />
+		<ui:page-control nextCommand="; $$.ajax.load(this.form, $('#${uiid}').parent());"/>
 	</html:form>
 </div>
 
