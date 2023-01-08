@@ -25,8 +25,5 @@ find . -type f -name 'log_update*' -mtime +30 -exec rm {} \;
 # delete old update packages
 ls -1t . | grep -E "update.+zip" | tail -n +11 | xargs rm -f
 
-# clean up compiled JSP
-rm -rf ./work/*
-
 # add execution rights on new scripts
 chmod +x ./*.sh

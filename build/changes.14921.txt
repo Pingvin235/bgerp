@@ -1,0 +1,1 @@
+A: Cleaning up work directory on server start.

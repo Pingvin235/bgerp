@@ -883,7 +883,7 @@ link:../../../src/ru/bgcrm/worker/MessageExchange.java#L17-L20[ru.bgcrm.worker.M
 
 Log message with substitutions:
 [snippet, from="log.debug(", to=");", remove-leading="            "]
-link:../../../src/org/bgerp/Server.java#L120-L120[org.bgerp.Server]
+link:../../../src/org/bgerp/Server.java#L125-L125[org.bgerp.Server]
 
 Exception message output:
 [snippet, from="try", to="}", remove-leading="                "]

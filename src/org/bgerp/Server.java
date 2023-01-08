@@ -22,6 +22,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.tomcat.util.IntrospectionUtils;
@@ -44,6 +45,7 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class Server extends Tomcat {
+    private static final String WORK_DIR_NAME = "work";
     public static final String WEBAPPS_DIR_NAME = "webapps";
 
     private final Log log = Log.getLog();
@@ -68,6 +70,9 @@ public class Server extends Tomcat {
             setBaseDir(catalinaHome);
 
             log.info("catalinaHome: {}; hostname: {}", catalinaHome, hostname);
+
+            log.info("Cleaning up {} directory.", WORK_DIR_NAME);
+            FileUtils.cleanDirectory(new File(WORK_DIR_NAME));
 
             configureContext(catalinaHome);
 
@@ -107,7 +112,7 @@ public class Server extends Tomcat {
 
         var context = (StandardContext) addWebapp("", catalinaHome + "/" + WEBAPPS_DIR_NAME);
         context.setReloadable(false);
-        context.setWorkDir("work");
+        context.setWorkDir(WORK_DIR_NAME);
         context.setUseNaming(false);
 
         /* Similar to XML configuration: <CookieProcessor sameSiteCookies="strict" /> */
