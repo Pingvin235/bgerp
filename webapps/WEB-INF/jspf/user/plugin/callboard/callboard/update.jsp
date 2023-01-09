@@ -496,21 +496,12 @@
 							<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 						</u:sc>
 					</div>
-
 				</div>
-
 				<div id="categories">
-					<u:sc>
-						<c:set var="list" value="${allowOnlyCategories}"/>
-						<c:set var="hiddenName" value="categoryId"/>
-						<c:set var="placeholder" value="Категория смен"/>
-						<c:set var="style" value="width: 100%;"/>
-						<c:set var="onSelect">
-							var url = '/user/plugin/callboard/work.do?action=callboardAvailableShift&categoryId=' + $hidden.val();
-							$$.ajax.load( url, $('#${uiid} #shiftArea') );
-						</c:set>
-						<%@ include file="/WEB-INF/jspf/select_single.jsp"%>
-					</u:sc>
+					<ui:select-single list="${allowOnlyCategories}" hiddenName="categoryId"
+						onSelect="var url = '/user/plugin/callboard/work.do?action=callboardAvailableShift&categoryId=' + $hidden.val();
+								$$.ajax.load( url, $('#${uiid} #shiftArea') );"
+						style="width: 100%;" placeholder="Категория смен"/>
 				</div>
 				<div id="teams" style="display: none;">
 					<input name="team" style="width: 100%; align: center;" placeholder="Бригада"/>

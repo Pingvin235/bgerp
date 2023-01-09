@@ -5,21 +5,14 @@
 	<input type="hidden" name="action" value="workTypeList"/>
 
 	<c:url var="url" value="/admin/plugin/callboard/work.do">
-	    <c:param name="action" value="workTypeGet"/>
-	    <c:param name="id" value="-1"/>
-	    <c:param name="returnUrl" value="${form.requestUrl}"/>
-  	</c:url>
-  	<button type="button" class="btn-green" onclick="openUrlContent('${url}' )">+</button>
+		<c:param name="action" value="workTypeGet"/>
+		<c:param name="id" value="-1"/>
+		<c:param name="returnUrl" value="${form.requestUrl}"/>
+	</c:url>
+	<button type="button" class="btn-green" onclick="openUrlContent('${url}' )">+</button>
 
-	 <u:sc>
-		<c:set var="list" value="${allowOnlyCategories}"/>
-		<c:set var="hiddenName" value="categoryId"/>
-		<c:set var="value" value="${form.param.categoryId}"/>
-		<c:set var="style" value="width: 200px;"/>
-		<c:set var="placeholder" value="Выберите категорию"/>
-		<c:set var='onSelect'>openUrlContent( formUrl( $hidden[0].form ) )</c:set>
-		<%@ include file="/WEB-INF/jspf/select_single.jsp"%>
-	</u:sc>
+	<ui:select-single list="${allowOnlyCategories}" hiddenName="categoryId" value="${form.param.categoryId}" onSelect="openUrlContent( formUrl( $hidden[0].form ) )"
+		style="width: 200px;" placeholder="Выберите категорию"/>
 
 	<ui:page-control/>
 </html:form>

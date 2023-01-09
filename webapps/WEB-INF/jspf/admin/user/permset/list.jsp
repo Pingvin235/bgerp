@@ -56,13 +56,7 @@
 					<input type="hidden" name="action" value="permsetReplacePermissions"/>
 					<input type="hidden" name="id" value="${permset.id}"/>
 
-					<u:sc>
-						<c:set var="list" value="${ctxUserPermsetList}"/>
-						<c:set var="hiddenName" value="fromId"/>
-						<c:set var="placeholder" value="Выберите набор"/>
-						<c:set var="style" value="width: 200px;"/>
-						<%@ include file="/WEB-INF/jspf/select_single.jsp"%>
-					</u:sc>
+					<ui:select-single list="${ctxUserPermsetList}" hiddenName="fromId" style="width: 200px;" placeholder="Выберите набор"/>
 
 					<button
 						type="button" class="btn-grey ml1"

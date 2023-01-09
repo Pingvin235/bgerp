@@ -39,7 +39,7 @@
 		</c:set>
 		<c:set var="hiddenName" value="year"/>
 		<c:set var="value" value="${year}"/>
-		<c:set var="style" value="width: 60px"/>
+		<c:set var="style" value="width: 5em;"/>
 		<c:set var="onSelect" value="openUrlContent( '${getUrl}&year='+ $hidden.val() );"/>
 		<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 	</u:sc>

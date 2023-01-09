@@ -13,50 +13,36 @@
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>
 	<html:hidden property="id"/>
-	
+
 	<div class="in-table-cell mb1">
 		<div style="width: 50%;">
-			<u:sc>
-				<c:set var="list" value="${form.response.data.serviceTypeList}"/>
-				<c:set var="hiddenName" value="serviceId"/>
-				<c:set var="value" value="${service.serviceId}"/>
-				<c:set var="style" value="width: 100%;"/>
-				<c:set var="placeholder" value="Услуга"/>
-				<c:if test="${service.id gt 0}">
-					<c:set var="inputAttrs">disabled="disabled"</c:set>
-				</c:if>
-				<%@ include file="/WEB-INF/jspf/select_single.jsp"%>	
-			</u:sc>
-		</div>	
-		
+			<c:if test="${service.id gt 0}">
+				<c:set var="inputAttrs">disabled="disabled"</c:set>
+			</c:if>
+			<ui:select-single list="${form.response.data.serviceTypeList}" hiddenName="serviceId" value="${service.serviceId}"
+				inputAttrs="${inputAttrs}" style="width: 100%;" placeholder="Услуга"/>
+		</div>
 		<div style="white-space:nowrap;" class="pl1">
 			c
 			<c:set var="editable" value="true"/>
-			<input type="text" name="dateFrom" value="${tu.format( service.dateFrom, 'ymd' )}" id="${uiid}-dateFrom"/>	
-			<c:set var="selector" value="#${uiid}-dateFrom"/>	
+			<input type="text" name="dateFrom" value="${tu.format( service.dateFrom, 'ymd' )}" id="${uiid}-dateFrom"/>
+			<c:set var="selector" value="#${uiid}-dateFrom"/>
 			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 			по
 			<c:set var="editable" value="true"/>
-			<input type="text" name="dateTo" value="${tu.format( service.dateTo, 'ymd' )}" id="${uiid}-dateTo"/>	
-			<c:set var="selector" value="#${uiid}-dateTo"/>	
+			<input type="text" name="dateTo" value="${tu.format( service.dateTo, 'ymd' )}" id="${uiid}-dateTo"/>
+			<c:set var="selector" value="#${uiid}-dateTo"/>
 			<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 		</div>
-		
+
 		<div style="width: 50%;" class="pl1">
-			<u:sc>
-				<c:set var="list" value="${form.response.data.objectList}"/>
-				<c:set var="hiddenName" value="objectId"/>
-				<c:set var="value" value="${service.objectId}"/>
-				<c:set var="style" value="width: 100%;"/>
-				<c:set var="placeholder" value="Объект (необязательно)"/>
-				<%@ include file="/WEB-INF/jspf/select_single.jsp"%>	
-			</u:sc>
-		</div>	
+			<ui:select-single list="${form.response.data.objectList}" hiddenName="objectId" value="${service.objectId}" style="width: 100%;" placeholder="Объект (необязательно)"/>
+		</div>
 	</div>
-	
+
 	Комментарий:
 	<textarea name="comment" rows="4" cols="10" style="width:100%; resize: vertical;">${service.comment}</textarea>
-	
+
 	<div class="mt1">
 		<button type="button" class="btn-grey" onclick="if(sendAJAXCommand(formUrl(this.form))) { openUrlToParent('${form.returnUrl}',$('#${uiid}')); }">OK</button>
 		<button type="button" class="btn-grey ml1" onclick="openUrlToParent('${form.returnUrl}',$('#${uiid}'));">Oтмена</button>
