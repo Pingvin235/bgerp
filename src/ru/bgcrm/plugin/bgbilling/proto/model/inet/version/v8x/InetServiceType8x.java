@@ -7,7 +7,7 @@ public class InetServiceType8x extends InetServiceType {
 
 
     private InetAddressType addressType8x;
-
+    @Override
     public int getAddressType() {
         return addressType8x.code;
     }

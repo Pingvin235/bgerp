@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.struts.action.ActionForward;
 
+import ru.bgcrm.model.IdTitleTreeItem;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -13,7 +14,26 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class TestAction extends BaseAction {
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        form.setResponseData("treeRootNode", treeSingleRoot());
+
         return html(conSet, form, PATH_JSP_USER + "/test.jsp");
+    }
+
+    private IdTitleTreeItem.Default treeSingleRoot() throws Exception {
+        int cnt = 1;
+
+        var rootNode = new IdTitleTreeItem.Default(cnt++, "Root Node");
+
+        var node1 = rootNode.addChild(new IdTitleTreeItem.Default(cnt++, "Node 1"));
+        var node11 = node1.addChild(new IdTitleTreeItem.Default(cnt++, "Node 1 1"));
+        node11.addChild(new IdTitleTreeItem.Default(cnt++, "Node 1 1 1"));
+        node1.addChild(new IdTitleTreeItem.Default(cnt++, "Node 1 2 with a loooooooooooooooooong text"));
+
+        var node2 = rootNode.addChild(new IdTitleTreeItem.Default(cnt++, "Node 2"));
+        for (int i = 1; i <= 5; i++)
+            node2.addChild(new IdTitleTreeItem.Default(cnt++, "Node 2 "+ i));
+
+        return rootNode;
     }
 
     public ActionForward enumValues(DynActionForm form, ConnectionSet conSet) throws Exception {

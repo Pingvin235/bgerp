@@ -5,302 +5,305 @@ import java.util.Set;
 
 import ru.bgcrm.model.IdTitle;
 
-public class InetServiceType
-	extends IdTitle
-{
-	public static final int SESSION_INITIATION_CALL = 0;
-	public static final int SESSION_INITIATION_AUTO = 1;
+public class InetServiceType extends IdTitle {
+    public static final int SESSION_INITIATION_CALL = 0;
+    public static final int SESSION_INITIATION_AUTO = 1;
 
-	public static final int ADDRESS_TYPE_NONE = 0;
-	
-	/**
-	 * Указанный диапазон
-	 */
-	public static final int ADDRESS_TYPE_RANGE = 1;
-	
-	/**
-	 * Указанная сеть
-	 */
-	public static final int ADDRESS_TYPE_NET = 2;
-	
-	/**
-	 * Указанный адрес
-	 */
-	public static final int ADDRESS_TYPE_SINGLE = 3;
+    public static final int ADDRESS_TYPE_NONE = 0;
 
-	/**
-	 * Динамический адрес
-	 */
-	public static final int ADDRESS_TYPE_DYNAMIC = 4;
-	
-	/**
-	 * Динамический или указанный адрес
-	 */
-	public static final int ADDRESS_TYPE_DYNAMIC_OR_SINGLE = 5;
-	
-	/**
-	 * Динамический или из диапазона
-	 */
-	public static final int ADDRESS_TYPE_DYNAMIC_OR_RANGE = 6;
-	
-	/**
-	 * Либо выдавать указанный адрес, либо ничего не выдавать
-	 */
-	public static final int ADDRESS_TYPE_NONE_OR_SINGLE = 7;
-	
-	private Set<Integer> deviceTypeIds = new HashSet<Integer>();
-	private Set<Integer> deviceGroupIds = new HashSet<Integer>();
+    /**
+     * Указанный диапазон
+     */
+    public static final int ADDRESS_TYPE_RANGE = 1;
 
-	private int trafficTypeLinkId;
+    /**
+     * Указанная сеть
+     */
+    public static final int ADDRESS_TYPE_NET = 2;
 
-	private int sessionInitiationType;
-	
-	private int addressType;
-	private boolean addressAllInterface;
-	
-	// количество макисмальных сессий, устанавливаемое по-умолчанию в сервисе
-	private int sessionCountLimit;
-	
-	private boolean sessionCountLimitLock;
+    /**
+     * Указанный адрес
+     */
+    public static final int ADDRESS_TYPE_SINGLE = 3;
 
-	// необходимо указать логин и пароль
-	private boolean needLogin;
-	// необходимо указать устройство
-	private boolean needDevice;
-	// необходимо указать интерфейс устройства
-	private boolean needInterface;
-	// интефрейс выделен для сервиса
-	private boolean personalInterface = true;
-	// необходимо указать Vlan
-	private boolean needVlan;	
-	// vlan выделен для сервиса 
-	private boolean personalVlan = true;
-	
-	private boolean needIdentifier;
-	
-	/**
-	 * Нужен ли MAC-адрес, нужно ли его отображать при редактировании сервиса
-	 */
-	private boolean needMacAddress;
-	
-	private boolean needContractObject;
-	
-	private boolean needRestriction;
-	
-	private Set<Integer> parentTypeIds = new HashSet<Integer>();
-	
-	private boolean ipFromParentRange;
+    /**
+     * Динамический адрес
+     */
+    public static final int ADDRESS_TYPE_DYNAMIC = 4;
 
-	//конфигурация
-	private String config;
+    /**
+     * Динамический или указанный адрес
+     */
+    public static final int ADDRESS_TYPE_DYNAMIC_OR_SINGLE = 5;
 
-	public Set<Integer> getDeviceTypeIds()
-	{
-		return deviceTypeIds;
-	}
+    /**
+     * Динамический или из диапазона
+     */
+    public static final int ADDRESS_TYPE_DYNAMIC_OR_RANGE = 6;
 
-	public void setDeviceTypeIds( Set<Integer> deviceTypeIds )
-	{
-		this.deviceTypeIds = deviceTypeIds;
-	}
+    /**
+     * Либо выдавать указанный адрес, либо ничего не выдавать
+     */
+    public static final int ADDRESS_TYPE_NONE_OR_SINGLE = 7;
 
-	public Set<Integer> getDeviceGroupIds()
-	{
-		return deviceGroupIds;
-	}
+    private Set<Integer> deviceTypeIds = new HashSet<Integer>();
+    private Set<Integer> deviceGroupIds = new HashSet<Integer>();
 
-	public void setDeviceGroupIds( Set<Integer> deviceGroupIds )
-	{
-		this.deviceGroupIds = deviceGroupIds;
-	}
+    private int trafficTypeLinkId;
 
-	public int getTrafficTypeLinkId()
-	{
-		return trafficTypeLinkId;
-	}
+    private int sessionInitiationType;
 
-	public void setTrafficTypeLinkId( int trafficTypeLinkId )
-	{
-		this.trafficTypeLinkId = trafficTypeLinkId;
-	}
+    private int addressType;
+    private boolean addressAllInterface;
 
-	public int getSessionInitiationType()
-	{
-		return sessionInitiationType;
-	}
+    // количество макисмальных сессий, устанавливаемое по-умолчанию в сервисе
+    private int sessionCountLimit;
 
-	public void setSessionInitiationType( int sessionInitiationType )
-	{
-		this.sessionInitiationType = sessionInitiationType;
-	}
+    private boolean sessionCountLimitLock;
 
-	public int getAddressType()
-	{
-		return addressType;
-	}
+    // необходимо указать логин и пароль
+    private boolean needLogin;
+    // необходимо указать устройство
+    private boolean needDevice;
+    // необходимо указать интерфейс устройства
+    private boolean needInterface;
+    // интефрейс выделен для сервиса
+    private boolean personalInterface = true;
+    // необходимо указать Vlan
+    private boolean needVlan;
+    // vlan выделен для сервиса
+    private boolean personalVlan = true;
 
-	public void setAddressType( int addressType )
-	{
-		this.addressType = addressType;
-	}
+    private boolean needIdentifier;
 
-	public boolean isAddressAllInterface()
-	{
-		return addressAllInterface;
-	}
+    /**
+     * Нужен ли MAC-адрес, нужно ли его отображать при редактировании сервиса
+     */
+    private boolean needMacAddress;
 
-	public void setAddressAllInterface( boolean addressAllInterface )
-	{
-		this.addressAllInterface = addressAllInterface;
-	}
+    private boolean needContractObject;
 
-	public int getSessionCountLimit()
-	{
-		return sessionCountLimit;
-	}
+    private boolean needRestriction;
 
-	public void setSessionCountLimit( int sessionCountLimit )
-	{
-		this.sessionCountLimit = sessionCountLimit;
-	}
+    private Set<Integer> parentTypeIds = new HashSet<Integer>();
 
-	public boolean isSessionCountLimitLock()
-	{
-		return sessionCountLimitLock;
-	}
+    private boolean ipFromParentRange;
 
-	public void setSessionCountLimitLock( boolean sessionCountLimitLock )
-	{
-		this.sessionCountLimitLock = sessionCountLimitLock;
-	}
+    // конфигурация
+    private String config;
 
-	public boolean isNeedLogin()
-	{
-		return needLogin;
-	}
+    public Set<Integer> getDeviceTypeIds() {
+        return deviceTypeIds;
+    }
 
-	public void setNeedLogin( boolean needLogin )
-	{
-		this.needLogin = needLogin;
-	}
+    public void setDeviceTypeIds(Set<Integer> deviceTypeIds) {
+        this.deviceTypeIds = deviceTypeIds;
+    }
 
-	public boolean isNeedDevice()
-	{
-		return needDevice;
-	}
+    public Set<Integer> getDeviceGroupIds() {
+        return deviceGroupIds;
+    }
 
-	public void setNeedDevice( boolean needDevice )
-	{
-		this.needDevice = needDevice;
-	}
+    public void setDeviceGroupIds(Set<Integer> deviceGroupIds) {
+        this.deviceGroupIds = deviceGroupIds;
+    }
 
-	public boolean isNeedInterface()
-	{
-		return needInterface;
-	}
+    public int getTrafficTypeLinkId() {
+        return trafficTypeLinkId;
+    }
 
-	public void setNeedInterface( boolean needInterface )
-	{
-		this.needInterface = needInterface;
-	}
+    public void setTrafficTypeLinkId(int trafficTypeLinkId) {
+        this.trafficTypeLinkId = trafficTypeLinkId;
+    }
 
-	public boolean isPersonalInterface()
-	{
-		return personalInterface;
-	}
+    public int getSessionInitiationType() {
+        return sessionInitiationType;
+    }
 
-	public void setPersonalInterface( boolean personalInterface )
-	{
-		this.personalInterface = personalInterface;
-	}
+    public void setSessionInitiationType(int sessionInitiationType) {
+        this.sessionInitiationType = sessionInitiationType;
+    }
 
-	public boolean isNeedVlan()
-	{
-		return needVlan;
-	}
+    public int getAddressType() {
+        return addressType;
+    }
 
-	public void setNeedVlan( boolean needVlan )
-	{
-		this.needVlan = needVlan;
-	}
+    public InetAddressDescriptor getAddressDescriptor() {
+        int type = getAddressType();
+        boolean addressPanel = type == ADDRESS_TYPE_NONE || type == ADDRESS_TYPE_DYNAMIC ? false : true;
+        boolean addressDash = type == ADDRESS_TYPE_RANGE || type == ADDRESS_TYPE_DYNAMIC_OR_RANGE ? true : false;
+        boolean netSlash = type == ADDRESS_TYPE_NET ? true : false;
+        boolean addrTo = type == ADDRESS_TYPE_RANGE || type == ADDRESS_TYPE_DYNAMIC_OR_RANGE ? true : false;
+        boolean mask = type == ADDRESS_TYPE_NET ? true : false;
+        return new InetAddressDescriptor(addressPanel, addressDash, netSlash, addrTo, mask);
+    }
 
-	public boolean isPersonalVlan()
-	{
-		return personalVlan;
-	}
+    public void setAddressType(int addressType) {
+        this.addressType = addressType;
+    }
 
-	public void setPersonalVlan( boolean personalVlan )
-	{
-		this.personalVlan = personalVlan;
-	}
+    public boolean isAddressAllInterface() {
+        return addressAllInterface;
+    }
 
-	public boolean isNeedIdentifier()
-	{
-		return needIdentifier;
-	}
+    public void setAddressAllInterface(boolean addressAllInterface) {
+        this.addressAllInterface = addressAllInterface;
+    }
 
-	public void setNeedIdentifier( boolean needIdentifier )
-	{
-		this.needIdentifier = needIdentifier;
-	}
+    public int getSessionCountLimit() {
+        return sessionCountLimit;
+    }
 
-	public boolean isNeedMacAddress()
-	{
-		return needMacAddress;
-	}
+    public void setSessionCountLimit(int sessionCountLimit) {
+        this.sessionCountLimit = sessionCountLimit;
+    }
 
-	public void setNeedMacAddress( boolean needMacAddress )
-	{
-		this.needMacAddress = needMacAddress;
-	}
+    public boolean isSessionCountLimitLock() {
+        return sessionCountLimitLock;
+    }
 
-	public boolean isNeedContractObject()
-	{
-		return needContractObject;
-	}
+    public void setSessionCountLimitLock(boolean sessionCountLimitLock) {
+        this.sessionCountLimitLock = sessionCountLimitLock;
+    }
 
-	public void setNeedContractObject( boolean needContractObject )
-	{
-		this.needContractObject = needContractObject;
-	}
+    public boolean isNeedLogin() {
+        return needLogin;
+    }
 
-	public boolean isNeedRestriction()
-	{
-		return needRestriction;
-	}
+    public void setNeedLogin(boolean needLogin) {
+        this.needLogin = needLogin;
+    }
 
-	public void setNeedRestriction( boolean needRestriction )
-	{
-		this.needRestriction = needRestriction;
-	}
+    public boolean isNeedDevice() {
+        return needDevice;
+    }
 
-	public Set<Integer> getParentTypeIds()
-	{
-		return parentTypeIds;
-	}
+    public void setNeedDevice(boolean needDevice) {
+        this.needDevice = needDevice;
+    }
 
-	public void setParentTypeIds( Set<Integer> parentTypeIds )
-	{
-		this.parentTypeIds = parentTypeIds;
-	}
+    public boolean isNeedInterface() {
+        return needInterface;
+    }
 
-	public boolean isIpFromParentRange()
-	{
-		return ipFromParentRange;
-	}
+    public void setNeedInterface(boolean needInterface) {
+        this.needInterface = needInterface;
+    }
 
-	public void setIpFromParentRange( boolean ipFromParentRange )
-	{
-		this.ipFromParentRange = ipFromParentRange;
-	}
+    public boolean isPersonalInterface() {
+        return personalInterface;
+    }
 
-	public String getConfig()
-	{
-		return config;
-	}
+    public void setPersonalInterface(boolean personalInterface) {
+        this.personalInterface = personalInterface;
+    }
 
-	public void setConfig( String config )
-	{
-		this.config = config;
-	}
+    public boolean isNeedVlan() {
+        return needVlan;
+    }
+
+    public void setNeedVlan(boolean needVlan) {
+        this.needVlan = needVlan;
+    }
+
+    public boolean isPersonalVlan() {
+        return personalVlan;
+    }
+
+    public void setPersonalVlan(boolean personalVlan) {
+        this.personalVlan = personalVlan;
+    }
+
+    public boolean isNeedIdentifier() {
+        return needIdentifier;
+    }
+
+    public void setNeedIdentifier(boolean needIdentifier) {
+        this.needIdentifier = needIdentifier;
+    }
+
+    public boolean isNeedMacAddress() {
+        return needMacAddress;
+    }
+
+    public void setNeedMacAddress(boolean needMacAddress) {
+        this.needMacAddress = needMacAddress;
+    }
+
+    public boolean isNeedContractObject() {
+        return needContractObject;
+    }
+
+    public void setNeedContractObject(boolean needContractObject) {
+        this.needContractObject = needContractObject;
+    }
+
+    public boolean isNeedRestriction() {
+        return needRestriction;
+    }
+
+    public void setNeedRestriction(boolean needRestriction) {
+        this.needRestriction = needRestriction;
+    }
+
+    public Set<Integer> getParentTypeIds() {
+        return parentTypeIds;
+    }
+
+    public void setParentTypeIds(Set<Integer> parentTypeIds) {
+        this.parentTypeIds = parentTypeIds;
+    }
+
+    public boolean isIpFromParentRange() {
+        return ipFromParentRange;
+    }
+
+    public void setIpFromParentRange(boolean ipFromParentRange) {
+        this.ipFromParentRange = ipFromParentRange;
+    }
+
+    public String getConfig() {
+        return config;
+    }
+
+    public void setConfig(String config) {
+        this.config = config;
+    }
+
+    public class InetAddressDescriptor {
+        private boolean addressPanel;
+        private boolean addressDash;
+        private boolean netSlash;
+        private boolean addrTo;
+        private boolean mask;
+
+        public InetAddressDescriptor(boolean addressPanel, boolean addressDash, boolean netSlash, boolean addrTo, boolean mask) {
+            this.addressPanel = addressPanel;
+            this.addressDash = addressDash;
+            this.netSlash = netSlash;
+            this.addrTo = addrTo;
+            this.mask = mask;
+        }
+
+        public boolean isAddressPanel() {
+            return addressPanel;
+        }
+
+        public boolean isAddressDash() {
+            return addressDash;
+        }
+
+        public boolean isNetSlash() {
+            return netSlash;
+        }
+
+        public boolean isAddrTo() {
+            return addrTo;
+        }
+
+        public boolean isMask() {
+            return mask;
+        }
+
+    }
 }

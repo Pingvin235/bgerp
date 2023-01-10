@@ -27,6 +27,7 @@ public class InetSessionLog extends InetSession {
 
     private int deviceId;
     private int devicePort;
+    private String deviceTitle;
 
     private int agentDeviceId;
 
@@ -47,7 +48,7 @@ public class InetSessionLog extends InetSession {
 
     private Set<Integer> deviceOptions;
 
-    //нельзя тут ставить this.getClass() , не серилизуется потом это 
+    //нельзя тут ставить this.getClass() , не серилизуется потом это
     private Map<Integer, Long> trafficMap = new HashMap<Integer, Long>();
     private Map<Integer, InetSessionLogAccount> accountMap = new HashMap<Integer, InetSessionLogAccount>();
 
@@ -90,6 +91,14 @@ public class InetSessionLog extends InetSession {
 
     public void setDevicePort(int port) {
         this.devicePort = port;
+    }
+
+    public String getDeviceTitle() {
+        return deviceTitle;
+    }
+
+    public void setDeviceTitle(String deviceTitle) {
+        this.deviceTitle = deviceTitle;
     }
 
     public int getAgentDeviceId() {
@@ -139,7 +148,7 @@ public class InetSessionLog extends InetSession {
     public void setAcctSessId(String acctSessionId) {
         this.acctSessId = acctSessionId;
     }
-    
+
     @Deprecated
     public String getAcctSessionId() {
         return acctSessId;
@@ -165,7 +174,7 @@ public class InetSessionLog extends InetSession {
     public void setCdsId(String fromNumber) {
         this.cdsId = fromNumber;
     }
-    
+
     @Deprecated
     public String getCalledStationId() {
         return cdsId;
@@ -175,7 +184,7 @@ public class InetSessionLog extends InetSession {
     public void setCalledStationId(String fromNumber) {
         this.cdsId = fromNumber;
     }
-    
+
     public String getCnsId() {
         return cnsId;
     }
@@ -227,7 +236,7 @@ public class InetSessionLog extends InetSession {
     public void setIp(String inetAddress) {
         this.ip = inetAddress;
     }
-    
+
     @Deprecated
     public String getInetAddress() {
         return ip;

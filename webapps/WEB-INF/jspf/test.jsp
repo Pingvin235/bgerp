@@ -9,7 +9,22 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<div style="padding: 0.5em;">
+<div class="p05">
+	<div style="display: flex;">
+		<div style="flex: 1 0 50%;">
+			<b>&lt;ui:tree-single&gt;</b>
+			<ui:tree-single rootNode="${form.response.data.treeRootNode}"
+				hiddenName="nodeId" value="3" hiddenNameTitle="nodeTitle" selectableFolder="${false}"
+				styleClass="mt1" style="height: 20em; overflow: auto;" />
+		</div>
+		<div style="flex: 1 0 50%;">
+			<b>&lt;ui:tree-single&gt; (selectableFolder)</b>
+			<ui:tree-single rootNode="${form.response.data.treeRootNode}"
+				hiddenName="nodeId" value="3" hiddenNameTitle="nodeTitle"
+				styleClass="mt1" style="height: 20em; overflow: auto;" />
+		</div>
+	</div>
+
 	<div class="in-mt1 mt1">
 		<div>
 			<b>&lt;ui:popup-menu&gt;</b><br/>
@@ -26,23 +41,26 @@
 			</ui:popup-menu>
 			<ui:button type="more" onclick="$$.ui.menuInit($(this), $('#${menuUiid}'), 'left', true);"/>
 		</div>
-		<div>
+
+		<form action="${form.httpRequestURI}">
 			<b>&lt;ui:date-time&gt;</b><br/>
 
 			ymd:
 			<ui:date-time type="ymd" paramName="date"/>
 
 			ymdh:
-			<ui:date-time type="ymdh" paramName="date"/>
+			<ui:date-time type="ymdh" paramName="dateh"/>
 
 			ymdhm:
-			<ui:date-time type="ymdhm" paramName="date"/>
+			<ui:date-time type="ymdhm" paramName="datehm"/>
 
 			ymdhms:
 			<c:set var="uiid" value="${u:uiid()}"/>
 			<input type="text" id="${uiid}"/>
 			<ui:date-time type="ymdhms" selector="#${uiid}"/>
-		</div>
+
+			<button class="btn-white ml1" type="button" onclick="console.log(this.form.date.value)">PRINT VALUES TO LOG</button>
+		</form>
 
 		<div>
 			<b>&lt;ui:date-month-days&gt;</b><br/>
@@ -334,4 +352,4 @@
 		</ul>
 	</div>
 </div>
-<%-- </html> --%>
+

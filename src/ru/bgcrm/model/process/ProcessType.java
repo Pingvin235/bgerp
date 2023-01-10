@@ -3,20 +3,19 @@ package ru.bgcrm.model.process;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.model.IdTitle;
+import ru.bgcrm.model.IdTitleTreeItem;
 
-public class ProcessType extends IdTitle implements Comparable<ProcessType> {
+public class ProcessType extends IdTitleTreeItem<ProcessType> implements Comparable<ProcessType> {
     private static final Log log = Log.getLog();
 
-    private int parentId;
     private boolean useParentProperties;
     private TypeProperties properties;
-    private List<ProcessType> children = new ArrayList<>();
 
     public ProcessType() {
         super();
@@ -34,14 +33,6 @@ public class ProcessType extends IdTitle implements Comparable<ProcessType> {
         this.properties = properties;
     }
 
-    public int getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
-    }
-
     public boolean isUseParentProperties() {
         return useParentProperties;
     }
@@ -50,16 +41,9 @@ public class ProcessType extends IdTitle implements Comparable<ProcessType> {
         this.useParentProperties = useParentProperties;
     }
 
+    @Dynamic
     public int getChildCount() {
         return children.size();
-    }
-
-    public void addChild(ProcessType processType) {
-        children.add(processType);
-    }
-
-    public List<ProcessType> getChildren() {
-        return children;
     }
 
     @Deprecated

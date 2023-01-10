@@ -14,6 +14,8 @@ import com.google.common.annotations.VisibleForTesting;
 public class Localizer {
     private static final Log log = Log.getLog();
 
+    public static final Localizer TRANSPARENT = new TransparentLocalizer();
+
     private final Localization[] localizations;
     private final String lang;
 

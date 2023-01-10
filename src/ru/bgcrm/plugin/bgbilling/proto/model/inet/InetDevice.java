@@ -1,72 +1,147 @@
 package ru.bgcrm.plugin.bgbilling.proto.model.inet;
 
-import ru.bgcrm.model.IdTitle;
+import java.util.Date;
 
-public class InetDevice extends IdTitle {
-	private int parentId;
-	private int deviceTypeId;
-	private int entityId;
-	private int entitySpecId;
-	private String entityTitle;
-	private String invIdentifier;
-	private int invDeviceId;
-		
+import ru.bgcrm.model.IdTitleTreeItem;
+import ru.bgcrm.util.TimeUtils;
+
+public class InetDevice extends IdTitleTreeItem<InetDevice> {
+    private static final String ICON_TAG_ROOT = iconTag("globe-network");
+    private static final String ICON_TAG_NODE = iconTag("server-network");
+    private static final String ICON_TAG_LEAF = iconTag("network-ethernet");
+    private static final String ICON_TAG_FOLDER = iconTag("folder-network");
+
+    private static String iconTag(String icon) {
+        return " <img src='/img/fugue/" + icon + ".png'/> ";
+    }
+
+    private int deviceTypeId;
+    private int entityId;
+    private int entitySpecId;
+    private String entityTitle;
+    private String invIdentifier;
+    private int invDeviceId;
+    private String invTitle;
+    private String comment;
+    private Date dateFrom;
+    private Date dateTo;
 
     public int getDeviceTypeId() {
-		return deviceTypeId;
-	}
+        return deviceTypeId;
+    }
 
-	public void setDeviceTypeId(int deviceTypeId) {
-		this.deviceTypeId = deviceTypeId;
-	}
+    public void setDeviceTypeId(int deviceTypeId) {
+        this.deviceTypeId = deviceTypeId;
+    }
 
-	public int getParentId() {
-		return parentId;
-	}
+    public int getEntityId() {
+        return entityId;
+    }
 
-	public void setParentId(int parentId) {
-		this.parentId = parentId;
-	}
+    public void setEntityId(int entityId) {
+        this.entityId = entityId;
+    }
 
-	public int getEntityId() {
-		return entityId;
-	}
+    public int getEntitySpecId() {
+        return entitySpecId;
+    }
 
-	public void setEntityId(int entityId) {
-		this.entityId = entityId;
-	}
+    public void setEntitySpecId(int entitySpecId) {
+        this.entitySpecId = entitySpecId;
+    }
 
-	public int getEntitySpecId() {
-		return entitySpecId;
-	}
+    public String getEntityTitle() {
+        return entityTitle;
+    }
 
-	public void setEntitySpecId(int entitySpecId) {
-		this.entitySpecId = entitySpecId;
-	}
+    public void setEntityTitle(String entityTitle) {
+        this.entityTitle = entityTitle;
+    }
 
-	public String getEntityTitle() {
-		return entityTitle;
-	}
+    public String getInvIdentifier() {
+        return invIdentifier;
+    }
 
-	public void setEntityTitle(String entityTitle) {
-		this.entityTitle = entityTitle;
-	}
+    public void setInvIdentifier(String ident) {
+        this.invIdentifier = ident;
+    }
 
-	public String getInvIdentifier() {
-		return invIdentifier;
-	}
-
-	public void setInvIdentifier(String ident) {
-		this.invIdentifier = ident;
-	}
-	
-	public int getInvDeviceId()
-    {
+    public int getInvDeviceId() {
         return invDeviceId;
     }
 
-    public void setInvDeviceId( int invDeviceId )
-    {
+    public void setInvDeviceId(int invDeviceId) {
         this.invDeviceId = invDeviceId;
+    }
+
+    public String getInvTitle() {
+        return invTitle;
+    }
+
+    public void setInvTitle(String invTitle) {
+        this.invTitle = invTitle;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Date getDateFrom() {
+        return dateFrom;
+    }
+
+    public void setDateFrom(Date dateFrom) {
+        this.dateFrom = dateFrom;
+    }
+
+    public Date getDateTo() {
+        return dateTo;
+    }
+
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
+    }
+
+    /* странный метод, он из биллинга, будут спрашивать, поменяем
+    public String getFullTitle() {
+        if (title.equals(invTitle)) {
+            if (title != invTitle) {
+                setTitle(invTitle);
+            }
+
+            return getEntityTitle();
+        } else {
+            return title + " - > " + getEntityTitle();
+        }
+    }*/
+
+    @Override
+    public String getIcon() {
+        if (id <= 0)
+            return ICON_TAG_ROOT;
+
+        if (deviceTypeId == 0)
+            return ICON_TAG_FOLDER;
+
+        if(children == null || children.isEmpty())
+            return ICON_TAG_LEAF;
+
+        return ICON_TAG_NODE;
+    }
+
+    /**
+     * @see InetDevicePanel#getTitle in BGBilling client.
+     */
+    @Override
+    public String getTextStyle() {
+        if (entityId == -100)
+            return "color: #666666";
+        if (dateTo != null && TimeUtils.dateBefore(dateTo, new Date()))
+            return "color: #666666";
+        return null;
     }
 }

@@ -245,13 +245,16 @@
 						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceMenu" title="Получение списка функций устройства"/>
 						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceDeviceManage" title="Вызов метода управления устройством"/>
 						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:serviceStateModify" title="Изменение статуса сервиса"/>
+						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:interfaceListGet" title="Редактирование интерфейса в сервисе"/>
+						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:getFreeVlan" title="Получение vlan в сервисе"/>
+						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:devicesGet" title="Получение устройства в сервисе"/>
+
 					</item>
 					<item title="Отчёт">
 						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionAliveContractList" title="Активные сессии"/>
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionLogContractList" title="История сессий"/>
+						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionLogContractList" title="Лог сессий"/>
 					</item>
 				</item>
-
 				<item title="RSCM">
 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceList" title="Просмотр списка услуг" />
 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.RscmAction:serviceGet" title="Открытие услуги для редактирования" />

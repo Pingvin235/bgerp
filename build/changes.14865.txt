@@ -1,0 +1,4 @@
+F: Plugin BGBilling. Inet service editor.
+A: UI element <ui:tree-single> for single selection tree.
+A: Localizer.TRANSPARENT for making BGMessageException without localization.
+C: Plugin BGBilling. Removed l10n.xml.

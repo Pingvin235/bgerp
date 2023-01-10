@@ -1,15 +1,16 @@
 
-#
-bgbilling:server.1.id=testbill
-bgbilling:server.1.title=TestBilling
-bgbilling:server.1.url=http://127.0.0.1:8080/bgbilling/executer
-bgbilling:server.1.version=7.2
-bgbilling:server.1.customerIdParam=100
-#
+# https://bgerp.org/doc/3.0/manual/plugin/bgbilling/index.html#config
+bgbilling:server.{@inc:cnt}.id=testbill
+bgbilling:server.{@cnt}.title=TestBilling
+# locally running test server
+bgbilling:server.{@cnt}.url=http://127.0.0.1:8080/bgbilling/executer
+bgbilling:server.{@cnt}.version=8.2
+bgbilling:server.{@cnt}.customerIdParam=100
+bgbilling:server.{@cnt}.requestTimeOut=20000
+
 bgbilling:login.testbill=admin
 bgbilling:password.testbill=admin
 
-#
 bgbilling:contractType.1.title=Договор в БИЛЛИНГЕ 7.x (
 bgbilling:contractType.1.billing=testbill
 bgbilling:contractType.1.patternId=17

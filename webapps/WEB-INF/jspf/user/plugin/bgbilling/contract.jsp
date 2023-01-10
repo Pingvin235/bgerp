@@ -191,7 +191,7 @@
 					<c:param name="contractId" value="${contractId }" />
 				</c:url>
 
-				<button type="button" class="btn-white btn-small" onclick="sendAJAXCommand('${openUrl}')">${l.l('Open in billing')}</button>
+				<button type="button" class="btn-white btn-small" onclick="sendAJAXCommand('${openUrl}')">Открыть в биллинге</button>
 			</div>
 		</c:if>
 	</div>
@@ -199,8 +199,8 @@
 	<c:if test="${not empty contract.title}">
 		<div id="${tabsUiid}">
 			<ul><%--
-			--%><li><a href='#params'>${l.l('Параметры')}</a></li><%--
-			--%><li><a href='#reports'>${l.l('Reports')}</a></li><%--
+			--%><li><a href='#params'>Параметры</a></li><%--
+			--%><li><a href='#reports'>Отчёты</a></li><%--
 		--%></ul>
 			<div id="params">
 				<%@ include file="contract_billing_data.jsp"%>

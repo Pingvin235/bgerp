@@ -146,24 +146,6 @@ public class Config implements LastModifySupport {
             .filter(p -> !p.isSystem() && p.isEnabled(config, "0"))
             .map(Plugin::getTitle)
             .collect(Collectors.joining(", "));
-
-        /* var result = new StringBuilder(100);
-
-        for (String key : new Preferences(data).keySet()) {
-            if (!key.endsWith(Plugin.ENABLE_KEY_SUFFIX))
-                continue;
-
-            String pluginId = key.substring(0, key.length() - Plugin.ENABLE_KEY_SUFFIX.length());
-            var plugin = PluginManager.getInstance().getFullPluginMap().get(pluginId);
-            if (plugin == null) {
-                log.warn("Not existing plugin '{}' is presented in config {}", pluginId, this.id);
-                continue;
-            }
-
-            if (plugin.isEnabled(config, defaultValue))
-        }
-
-        return result.toString(); */
     }
 
     /**

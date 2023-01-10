@@ -10,6 +10,7 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
+import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetService;
 import ru.bgcrm.plugin.bgbilling.proto.model.inet.IpResourceRange;
 import ru.bgcrm.util.inet.IPUtils;
 
@@ -53,5 +54,19 @@ public class ResourceDAO extends BillingModuleDAO {
 		}
 		
 		return result;
+	}
+
+	public Integer getFreeVlan(Set<Integer> vlanResourceCategoryIds, Date dateFrom, Date dateTo) throws BGException {
+		RequestJsonRpc req = new RequestJsonRpc(RESOURCE_MODULE_ID, moduleId, "ResourceService",
+				"freeVlan");
+		Date now = new Date();
+		req.setParam("vlanResourceCategoryIds", vlanResourceCategoryIds);
+		req.setParam("dateFrom", dateFrom);
+		req.setParam("dateTo", dateTo);
+
+		JsonNode response = transferData.postDataReturn(req, user);
+		return jsonMapper.convertValue(response, Integer.class);
+
+
 	}
 }

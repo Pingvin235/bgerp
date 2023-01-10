@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.bgcrm.model.IdTitleTreeItem;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.inet.IPUtils;
+import ru.bgcrm.util.inet.IpNet;
 
 public class InetService extends IdTitleTreeItem<InetService> {
     public static final int STATUS_ACTIVE = 0;
@@ -35,7 +36,6 @@ public class InetService extends IdTitleTreeItem<InetService> {
     public static final short STATE_ENABLE = 1;
 
     private int contractId;
-    private int parentId;
     private int typeId;
     private String typeTitle;
     private String login;
@@ -45,6 +45,7 @@ public class InetService extends IdTitleTreeItem<InetService> {
     private byte[] addrFrom;
     private byte[] addrTo;
     private List<byte[]> macAddressList;
+    private int contractObjectId;
     private int ifaceId;
     private String interfaceTitle;
     private int vlan = -1;
@@ -58,6 +59,7 @@ public class InetService extends IdTitleTreeItem<InetService> {
     private String comment;
 
     private String password;
+
     @JsonProperty("passw")
     public String getPassword() {
         return password;
@@ -67,26 +69,16 @@ public class InetService extends IdTitleTreeItem<InetService> {
         this.password = password;
     }
 
-
-
     public int getContractId() {
         return contractId;
     }
-    
+
     public int getCid() {
-        return contractId;
+        return getContractId();
     }
 
     public void setContractId(int contractId) {
         this.contractId = contractId;
-    }
-
-    public int getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
     }
 
     public int getTypeId() {
@@ -112,15 +104,15 @@ public class InetService extends IdTitleTreeItem<InetService> {
     public void setLogin(String login) {
         this.login = login;
     }
-    
+
     /** Синоним для совместимости с сервисом биллинга. */
     public String getUname() {
-        return login;
+        return getLogin();
     }
 
     /** Синоним для совместимости с сервисом биллинга. */
     public void setUname(String login) {
-        this.login = login;
+        setLogin(login);
     }
 
     public int getDeviceId() {
@@ -130,15 +122,15 @@ public class InetService extends IdTitleTreeItem<InetService> {
     public void setDeviceId(int deviceId) {
         this.deviceId = deviceId;
     }
-    
+
     /** Синоним для совместимости с сервисом биллинга. */
     public int getDid() {
-        return deviceId;
+        return getDeviceId();
     }
 
     /** Синоним для совместимости с сервисом биллинга. */
     public void setDid(int deviceId) {
-        this.deviceId = deviceId;
+        setDeviceId(deviceId);
     }
 
     public String getDeviceTitle() {
@@ -148,7 +140,7 @@ public class InetService extends IdTitleTreeItem<InetService> {
     public void setDeviceTitle(String deviceTitle) {
         this.deviceTitle = deviceTitle;
     }
-    
+
     public int getIpResId() {
         return ipResId;
     }
@@ -177,16 +169,14 @@ public class InetService extends IdTitleTreeItem<InetService> {
         return IPUtils.convertIpToString(IPUtils.convertBytesToInt(addrFrom));
     }
 
-    public void setAddrFromStr(String addrFrom) {
-        this.addrFrom = IPUtils.convertIntToBytes(IPUtils.convertStringIPtoInt(addrFrom));
-    }
-
     public String getAddrToStr() {
         return IPUtils.convertIpToString(IPUtils.convertBytesToInt(addrTo));
     }
 
-    public void setAddrToStr(String addrTo) {
-        this.addrTo = IPUtils.convertIntToBytes(IPUtils.convertStringIPtoInt(addrTo));;
+
+    public int getMask(){
+
+        return addrFrom==null||addrTo==null?0:IpNet.getMask( addrFrom, addrTo );
     }
 
     public int getIfaceId() {
@@ -196,7 +186,7 @@ public class InetService extends IdTitleTreeItem<InetService> {
     public void setIfaceId(int ifaceId) {
         this.ifaceId = ifaceId;
     }
-    
+
     public String getInterfaceTitle() {
         return interfaceTitle;
     }
@@ -220,7 +210,7 @@ public class InetService extends IdTitleTreeItem<InetService> {
     public void setMacAddress(byte[] macAddress) {
         setMacAddressList(Collections.singletonList(macAddress));
     }
-    
+
     /**
      * Возвращает первый MAC адрес.
      * @return
@@ -228,16 +218,15 @@ public class InetService extends IdTitleTreeItem<InetService> {
     public String getMacAddressStr() {
         return InetUtils.macAddressToString(Utils.getFirst(macAddressList));
     }
-    
+
     /**
      * Устанавливает единственный MAC адрес.
      * @param macAddress
      */
     public void setMacAddressStr(String macAddress) {
         setMacAddressList(Collections.singletonList(InetUtils.parseMacAddress(macAddress)));
-        if(macAddressList.size()>0&&macAddressList.get(0)==null)
-        {
-            macAddressList=null;
+        if (!macAddressList.isEmpty() && macAddressList.get(0) == null) {
+            macAddressList = null;
         }
     }
 
@@ -365,5 +354,13 @@ public class InetService extends IdTitleTreeItem<InetService> {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public int getContractObjectId() {
+        return contractObjectId;
+    }
+
+    public void setContractObjectId(int contractObjectId) {
+        this.contractObjectId = contractObjectId;
     }
 }

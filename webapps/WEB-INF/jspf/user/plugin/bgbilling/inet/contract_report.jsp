@@ -57,7 +57,7 @@
 			<tr>
 				<td>${item.conId}</td>
 				<td>${item.id}</td>
-				<td>${item.deviceId}</td>
+				<td>${item.deviceTitle}</td>
 				<td>${item.acctSessId}</td>
 				<td>${item.serviceTitle}</td>
 				<td>${item.realm}</td>

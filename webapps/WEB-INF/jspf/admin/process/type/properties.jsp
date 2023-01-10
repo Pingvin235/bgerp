@@ -30,37 +30,37 @@
 	--%><li><a href="#${formUiid}-3">Группы</a></li>
 	</ul>
 
- <div id="${formUiid}-1">
-	<div class="in-table-cell in-va-top">
-		<div style="min-width: 350px; max-width: 350px;">
-			<h2>Разрешённые статусы</h2>
-			<ui:select-mult hiddenName="status"
-					showId="true" moveOn="true" style="width: 100%;"
-					list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"/>
+	<div id="${formUiid}-1">
+		<div class="in-table-cell in-va-top">
+			<div style="min-width: 350px; max-width: 350px;">
+				<h2>Разрешённые статусы</h2>
+				<ui:select-mult hiddenName="status"
+						showId="true" moveOn="true" style="width: 100%;"
+						list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}" values="${properties.statusIds}"/>
 
-			<div class="in-table-cell">
-				<div style="width: 40%;">
-					<h2>Статус нач. код</h2>
-					<html:text property="create_status" style="width: 100%;" value="${properties.createStatus}"/>
+				<div class="in-table-cell">
+					<div style="width: 40%;">
+						<h2>Статус нач. код</h2>
+						<html:text property="create_status" style="width: 100%;" value="${properties.createStatus}"/>
+					</div>
+					<div style="width: 60%;" class="pl1">
+						<h2>Статусы кон. через ,</h2>
+						<html:text property="close_status" style="width: 100%;" value="${u:toString(properties.closeStatusIds)}"/>
+					</div>
 				</div>
-				<div style="width: 60%;" class="pl1">
-					<h2>Статусы кон. через ,</h2>
-					<html:text property="close_status" style="width: 100%;" value="${u:toString(properties.closeStatusIds)}"/>
-				</div>
+
+				<h2>Параметры</h2>
+				<ui:select-mult hiddenName="param"
+					showId="true" moveOn="true" showComment="true" style="width: 100%;"
+					list="${parameterList}" map="${ctxParameterMap}" values="${properties.parameterIds}"/>
 			</div>
-
-			<h2>Параметры</h2>
-			<ui:select-mult hiddenName="param"
-				showId="true" moveOn="true" showComment="true" style="width: 100%;"
-				list="${parameterList}" map="${ctxParameterMap}" values="${properties.parameterIds}"/>
-		</div>
-		<div class="w100p pl1">
-			<h2>Конфигурация</h2>
-			<c:set var="taUiid" value="${u:uiid()}"/>
-			<textarea id="${taUiid}" name="config" style="resize: none; width: 100%;" rows="40">${form.response.data.config}</textarea>
+			<div class="w100p pl1">
+				<h2>Конфигурация</h2>
+				<c:set var="taUiid" value="${u:uiid()}"/>
+				<textarea id="${taUiid}" name="config" style="resize: none; width: 100%;" rows="40">${form.response.data.config}</textarea>
+			</div>
 		</div>
 	</div>
- </div>
 	<div id="${formUiid}-2" style="height: 500px;">
 		<h2>Матрица разрешенных переходов статусов</h2>
 		<table style="width: 100%;" class="data">

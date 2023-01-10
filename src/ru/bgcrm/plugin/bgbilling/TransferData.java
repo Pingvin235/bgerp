@@ -29,6 +29,15 @@ import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.bgerp.l10n.Localizer;
+import org.bgerp.util.Log;
+import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -39,14 +48,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.bgerp.util.Log;
-import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
@@ -63,7 +64,7 @@ public class TransferData {
     private static final Log log = Log.getLog();
 
     private static final int LOGGING_REQUEST_TRIM_LENGTH = 3000;
-    private static final int LOGGING_RESPONSE_TRIM_LENGTH = 3000;
+    private static final int LOGGING_RESPONSE_TRIM_LENGTH = 5000;
 
     private DBInfo dbInfo;
     private URL url;
@@ -503,7 +504,7 @@ public class TransferData {
             Future<byte[]> future = executor.submit(new RequestTask(request, userName, userPswd));
             return future.get(timeOut, TimeUnit.MILLISECONDS);
         } catch (TimeoutException e) {
-            throw new BGMessageException("Время ожидания ответа от биллинга истекло! (" + timeOut + "мс).");
+            throw new BGMessageException(Localizer.TRANSPARENT, Log.format("Время ожидания ответа от биллинга истекло! ({}} мс).", timeOut));
         }
     }
 
@@ -587,8 +588,9 @@ public class TransferData {
     private void checkDocumentStatus(Document doc, User user) throws BGException {
         String status = XMLUtils.selectText(doc, "/data/@status");
         if (!"ok".equals(status)) {
-            throw new BGMessageException("На запрос пользователя {} биллинг {} вернул ошибку {}",
-                user.getTitle(), dbInfo.getId(), XMLUtils.selectText(doc, "/data/text()"));
+            throw new BGMessageException(Localizer.TRANSPARENT, Log.format(
+                "На запрос пользователя {} биллинг {} вернул ошибку {}", user.getTitle(),
+                    dbInfo.getId(), XMLUtils.selectText(doc, "/data/text()")));
         }
     }
 
@@ -597,8 +599,9 @@ public class TransferData {
         if (!"ok".equals(status)) {
             String exceptionType = rootNode.path("exception").textValue();
             if (exceptionType != null && exceptionType.equals("ru.bitel.bgbilling.common.BGMessageException")) {
-                throw new BGMessageException("На запрос пользователя {} биллинг {} вернул ошибку {}",
-                    user.getTitle(), dbInfo.getId(), rootNode.path("message").textValue());
+                throw new BGMessageException(Localizer.TRANSPARENT, Log.format(
+                    "На запрос пользователя {} биллинг {} вернул ошибку {}",
+                    user.getTitle(), dbInfo.getId(), rootNode.path("message").textValue()));
             } else {
                 throw new BGException(rootNode.path("message").textValue());
             }

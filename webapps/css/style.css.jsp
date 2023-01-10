@@ -179,8 +179,7 @@ body > #content label {
 <%@ include file="style.menu.css.jsp"%>
 <%@ include file="style.date.css.jsp"%>
 <%@ include file="style.toggle.css.jsp"%>
-
-<%@ include file="/WEB-INF/jspf/css/message.css.jsp"%>
+<%@ include file="style.tree.css.jsp"%>
 
 <%-- patch JQueryUI styles to BGERP --%>
 <%@ include file="ui-correct.css.jsp"%>
