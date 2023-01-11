@@ -63,12 +63,13 @@ else
     location / {
         client_max_body_size    100m;
         proxy_pass              http://127.0.0.1:$PORT/;
+        proxy_redirect          http:// https://;
         proxy_set_header        Host $NAME;
         proxy_set_header        Connection close;
         proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header        X-Real-IP \$remote_addr;
         proxy_read_timeout      300;
-        gzip_proxied            expired no-cache no-store private no_last_modified no_etag auth;
+        gzip_proxied            any;
     }
     listen 443 ssl;
     listen [::]:443 ssl;

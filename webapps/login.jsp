@@ -41,7 +41,9 @@
 
 	<%-- the form is re-created in login_dialog.jsp --%>
 	<div style="position: absolute; top: 50%; margin-top: -100px;/* half of #content height*/ left: 0; width: 100%;">
-		<form class="in-mt05" onsubmit="$$.shell.login.post().done(() => { window.location.reload() }); return false;"
+		<form class="in-mt05" onsubmit="$$.shell.login.post().done(() => {
+				window.location.reload();
+			}); return false;"
 			style="width: 250px; margin-left: auto; margin-right: auto; height: 200px; box-sizing: border-box;">
 			<%@ include file="/WEB-INF/jspf/login_form_inputs.jsp"%>
 		</form>

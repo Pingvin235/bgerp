@@ -1,0 +1,1 @@
+F: proxy_redirect in NGINX config.

@@ -335,9 +335,7 @@ The configuration may be typically placed in file `/etc/nginx/conf.d/erp.bitel.r
 ----
 server {
     server_name             erp.bitel.ru;
-
     access_log              /var/log/nginx/erp.bitel.ru.access.log;
-    client_max_body_size    50m;
 
     # optionally close access without interface
     #location / {
@@ -347,12 +345,9 @@ server {
     # for opening user interface - add admin|login.do|user
     # for opening user mobile interface - add usermob
     location ~ ^/(open|img|images|css|lib|js)(.*)$ {
-        if ($args = '') {
-            proxy_pass  http://erp.int.bitel.ru/$1$2;
-        }
-        if ($args != '') {
-            proxy_pass  http://erp.int.bitel.ru/$1$2?$args;
-        }
+        client_max_body_size    100m;
+        proxy_pass              http://erp.int.bitel.ru/$1$2;
+        proxy_redirect          http:// https://;
         proxy_set_header        Host $host;
         proxy_set_header        Connection close;
         proxy_set_header        X-Real-IP $remote_addr;
@@ -372,11 +367,11 @@ server {
 
 # redirect HTTP to HTTPS
 server {
-    listen      80;
-    listen      [::]:80;
-    server_name crm.bitel.ru;
-    server_name team.bgerp.org;
-    return 301  https://$host$request_uri;
+    listen        80;
+    listen        [::]:80;
+    server_name   crm.bitel.ru;
+    server_name   team.bgerp.org;
+    return 301    https://$host$request_uri;
 }
 ----
 
