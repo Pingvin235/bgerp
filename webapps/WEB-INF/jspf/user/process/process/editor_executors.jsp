@@ -1,7 +1,5 @@
 <%@page import="org.bgerp.l10n.Localizer"%>
 <%@page import="org.bgerp.l10n.Localization"%>
-<%@page import="ru.bgcrm.event.user.UserListEvent"%>
-<%@page import="ru.bgcrm.event.EventProcessor"%>
 <%@page import="ru.bgcrm.struts.form.DynActionForm"%>
 <%@page import="ru.bgcrm.model.user.User"%>
 <%@page import="ru.bgcrm.model.process.Process"%>
@@ -11,10 +9,10 @@
 <%@page import="java.util.HashSet"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="ru.bgcrm.model.user.Group"%>
 <%@page import="java.util.List"%>
 <%@page import="ru.bgcrm.cache.UserCache"%>
 <%@page import="ru.bgcrm.model.IdTitle"%>
+<%@page import="ru.bgcrm.model.IdStringTitle"%>
 <%@page import="java.util.ArrayList"%>
 
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -66,61 +64,36 @@
 
 						String meGroupAndRole = null;
 
-						List<Map<String, String>> list = new ArrayList<Map<String, String>>( executors.size() );
+						List<IdStringTitle> list = new ArrayList<>(executors.size());
 						for( User user : UserCache.getUserList() )
 						{
 							//TODO: Наверное, лучше сделать фильтр не по текущим группам, а по когда-либо присутствующим.
 							if (!user.getGroupIds().contains(group.getId()) ||
 								user.getStatus() != User.STATUS_ACTIVE)
-							{
 								continue;
-							}
 
 							String userGroupAndRole = user.getId() + ":" + group.getId() + ":" + role.getId();
+							list.add(new IdStringTitle(userGroupAndRole, user.getTitle()));
 
-							Map<String, String> idTitle = new HashMap<String, String>();
-							list.add( idTitle );
-
-							idTitle.put( "id", userGroupAndRole );
-							idTitle.put( "title", user.getTitle() );
-
-							if( user.getId() == form.getUserId() )
-							{
+							if (user.getId() == form.getUserId())
 								meGroupAndRole = userGroupAndRole;
-							}
 						}
 
 						Localizer l = (Localizer) request.getAttribute("l");
 
 						if( meGroupAndRole != null )
-						{
-							Map<String, String> idTitle = new HashMap<String, String>();
-							list.add( 0, idTitle );
+							list.add(0, new IdStringTitle(meGroupAndRole, l.l("** Я **")));
 
-							idTitle.put( "id", meGroupAndRole );
-							idTitle.put( "title", l.l("** Я **") );
-							idTitle.put( "fake", "1" );
-						}
+						Set<String> values = new HashSet<>(executors.size());
+						for (ProcessExecutor ex : executors)
+							if (UserCache.getUser(ex.getUserId()).getStatus() == 0)
+								values.add(ex.getUserId() + ":" + ex.getGroupId() + ":" + ex.getRoleId());
 
-						Set<String> values = new HashSet<String>( executors.size() );
-						for( ProcessExecutor ex : executors )
-						{
-							if( UserCache.getUser( ex.getUserId() ).getStatus() == 0 )
-							{
-								values.add( ex.getUserId() + ":" + ex.getGroupId() + ":" + ex.getRoleId() );
-							}
-						}
-
-						EventProcessor.processEvent(new UserListEvent(form, list), null);
-
-						pageContext.setAttribute( "list", list );
-						pageContext.setAttribute( "values", values );
+						pageContext.setAttribute("list", list);
+						pageContext.setAttribute("values", values);
 					%>
 
-					<ui:select-mult
-						hiddenName="executor" list="${list}" values="${values}"
-						style="width: 100%;" fakeHide="true"
-					/>
+					<ui:select-mult hiddenName="executor" list="${list}" values="${values}" style="width: 100%;"/>
 				</u:sc>
 			</c:if>
 

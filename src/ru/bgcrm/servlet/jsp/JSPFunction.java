@@ -5,7 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +19,6 @@ import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -286,23 +284,5 @@ public class JSPFunction {
      */
     public static String getFromPers(User user, String key, String defaultValue) {
         return user.getPersonalizationMap().get(key, Setup.getSetup().get(key, defaultValue));
-    }
-
-    @Deprecated
-    public static final String formatDate(java.util.Date date, String patternType) {
-        log.warn("Used deprecated call u:formatDate, should be replaced to tu.format");
-        return TimeUtils.format(date, patternType);
-    }
-
-    @Deprecated
-    public static final String formatPeriod(Date date1, Date date2) {
-        log.warn("Used deprecated call u:formatPeriod, should be replaced to tu.formatPeriod");
-        return TimeUtils.formatPeriod(date1, date2);
-    }
-
-    @Deprecated
-    public static final Date parseDate(String date, String patternType) {
-        log.warn("Used deprecated call u:parseDate, should be replaced to tu.parse");
-        return TimeUtils.parse(date, patternType);
     }
 }

@@ -2,7 +2,8 @@ package ru.bgcrm.plugin.bgbilling.proto.model.inet;
 
 import java.util.Date;
 
-import ru.bgcrm.model.IdTitleTreeItem;
+import org.bgerp.model.base.IdTitleTreeItem;
+
 import ru.bgcrm.util.TimeUtils;
 
 public class InetDevice extends IdTitleTreeItem<InetDevice> {

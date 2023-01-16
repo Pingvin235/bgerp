@@ -5,13 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.model.base.iface.TitleWithPath;
 import org.bgerp.util.Dynamic;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.IdTitle;
-import ru.bgcrm.model.TitleWithPath;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 

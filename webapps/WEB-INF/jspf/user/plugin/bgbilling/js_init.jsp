@@ -3,5 +3,5 @@
 
 <c:set var="dbInfo" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager}"/>
 <c:forEach items="${dbInfo.dbInfoList}" var="db">
-	$$.objectTypeTitles['contract_${db.id}'] = "${l.l('Договор')}:${db.title}";
+	$$.objectTypeTitles['contract_${db.id}'] = "Договор:${db.title}";
 </c:forEach>

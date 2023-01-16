@@ -114,7 +114,7 @@ public class EventProcessor {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static boolean processEvent(Event event, String className, ConnectionSet conSet,
             boolean systemListenerProcessing) throws Exception {
-        log.debug("Processing event: {}, className: {}", event, className);
+        log.trace("Processing event: {}, className: {}", event, className);
 
         if (systemListenerProcessing) {
             // обработка системными зарегестрированными слушателями

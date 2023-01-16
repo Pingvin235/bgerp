@@ -14,12 +14,12 @@
 
 	<c:forEach var="role" items="${ctxUserGroupRoleList}">
 		<c:if test="${process.roleSet.contains(role.id)
-					 or processType.properties.allowedRoleSet.contains(role.id)
-					 or empty processType.properties.getAllowedGroupsSet()}">
+					 or processType.properties.getAllowedGroups().roleIds.contains(role.id)
+					 or empty processType.properties.getAllowedGroups()}">
 			<h2>${role.title}</h2>
 			<ui:select-mult hiddenName="groupRole"
 				list="${ctxUserCache.getUserGroupRoleFullTitledList(role.id)}" values="${process.groups.groupRoleIds}"
-				availableIdSet="${processType.properties.getAllowedGroupsSet(role.id)}"
+				availableIdSet="${processType.properties.getAllowedGroups(role.id).groupRoleIds}"
 				style="width: 100%;"/>
 		</c:if>
 	</c:forEach>

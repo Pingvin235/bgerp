@@ -4,7 +4,7 @@ import org.w3c.dom.Element;
 
 import ru.bgcrm.util.Utils;
 
-public class IdTitle extends Id implements Title {
+public class IdTitle extends Id implements org.bgerp.model.base.iface.IdTitle {
     protected String title;
 
     @Override

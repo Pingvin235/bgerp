@@ -1,5 +1,5 @@
 /*
- * Standard UI elements.
+ * Tree UI elements.
  */
 "use strict";
 

@@ -4,8 +4,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.bgerp.model.base.IdTitleTreeItem;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.bgcrm.model.IdTitleTreeItem;
+
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.inet.IPUtils;
 import ru.bgcrm.util.inet.IpNet;

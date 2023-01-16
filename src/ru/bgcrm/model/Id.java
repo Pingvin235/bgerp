@@ -7,10 +7,11 @@ import java.io.Serializable;
  *
  * @author Shamil Vakhitov
  */
-public class Id implements Serializable {
+public class Id implements Serializable, org.bgerp.model.base.iface.Id {
     protected int id;
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 

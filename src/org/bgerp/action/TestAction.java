@@ -3,8 +3,8 @@ package org.bgerp.action;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.model.base.IdTitleTreeItem;
 
-import ru.bgcrm.model.IdTitleTreeItem;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;

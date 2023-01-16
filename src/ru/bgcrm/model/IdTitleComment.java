@@ -1,6 +1,8 @@
 package ru.bgcrm.model;
 
-public class IdTitleComment extends IdTitle {
+import org.bgerp.model.base.iface.Comment;
+
+public class IdTitleComment extends IdTitle implements Comment {
     private String comment = "";
 
     public IdTitleComment() {
@@ -11,6 +13,7 @@ public class IdTitleComment extends IdTitle {
         this.comment = comment;
     }
 
+    @Override
     public String getComment() {
         return comment;
     }

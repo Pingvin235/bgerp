@@ -5,7 +5,7 @@
 <c:if test="${not empty subList}">
 	<table class="data mt1" width="100%" id="${uiid}">
 		<tr>
-			<td>${l.l('Договор')}</td>
+			<td>Договор</td>
 			<td>${l.l('Дата')}</td>
 			<td>${l.l('Сумма')}</td>
 			<td nowrap="nowrap">${columnTitle}</td>

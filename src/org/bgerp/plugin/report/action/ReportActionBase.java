@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
+import org.bgerp.model.base.iface.Title;
 import org.bgerp.plugin.report.model.Columns;
 import org.bgerp.plugin.report.model.Data;
 import org.bgerp.plugin.report.model.chart.Chart;
@@ -15,7 +16,6 @@ import org.reflections.Reflections;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.model.BGIllegalArgumentException;
-import ru.bgcrm.model.Title;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.action.BaseAction;

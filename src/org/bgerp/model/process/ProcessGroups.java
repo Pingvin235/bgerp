@@ -33,7 +33,21 @@ public class ProcessGroups extends TreeSet<ProcessGroup> {
     }
 
     /**
-     * Set of concatenated IDs from group ID and role ID.
+     * @return group IDs.
+     */
+    public Set<Integer> getGroupIds() {
+        return stream().map(ProcessGroup::getGroupId).collect(Collectors.toSet());
+    }
+
+    /**
+     * @return role IDs.
+     */
+    public Set<Integer> getRoleIds() {
+        return stream().map(ProcessGroup::getRoleId).collect(Collectors.toSet());
+    }
+
+    /**
+     * Set of concatenated IDs from {@code groupId + ':' + roleId.}
      * @return
      */
     @Dynamic

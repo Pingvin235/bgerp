@@ -1,12 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
-  	
-<p>Акт сдачи-приёмки работ № ${process.id} от ${u:formatDate(curdate, 'ymd')} по договору: ${contractLink.linkedObjectTitle}</p>
+
+<p>Акт сдачи-приёмки работ № ${process.id} от ${tu.format(curdate, 'ymd')} по договору: ${contractLink.linkedObjectTitle}</p>
 <p>Заказчик: ${contractInfo.comment}</p>
 <p>Адрес: ${paramDao.getParamAddress(processId, PROCESS_PARAM_ADDRESS, 1).value}</p>
 <p>Вид работ: ${ctxProcessTypeMap[process.typeId].title}</p>
 <p>Исполнители: ${u:objectTitleList(ctxUserList, process.getExecutorIds())}</p>
-		  		  	
+
 <p>Производимые работы (оказываемые услуги):</p>
 <table style="width: 100%;">
 	<tr>
@@ -38,8 +38,8 @@
 	<tr>
 		<td colspan="5" style="text-align: right;">Итого:</td>
 		<td>&nbsp;</td>
-	</tr>	
+	</tr>
  	</table>
- 	
+
 <p>Вышеперечисленные услуги выполнены полностью, заказчик претензий по объему, качеству и срокам работ не имеет.</p>
 <p>Исполнитель: ________________________________  Заказчик:______________________________</p>

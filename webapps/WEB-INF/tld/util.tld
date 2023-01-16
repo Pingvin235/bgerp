@@ -134,24 +134,6 @@
 		<function-signature>Integer getInt(java.lang.Object)</function-signature>
 	</function>
 
-	<!-- TimeUtils deprecated usage, call tu. methods instead -->
-	<function>
-		<name>formatDate</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
-		<function-signature>String formatDate(java.util.Date,java.lang.String)</function-signature>
-	</function>
-	<function>
-		<name>formatPeriod</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
-		<function-signature>String formatPeriod(java.util.Date,java.util.Date,java.lang.String)</function-signature>
-	</function>
-	<function>
-		<name>parseDate</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
-		<function-signature>java.util.Date parseDate(java.lang.String,java.lang.String)</function-signature>
-	</function>
-	<!-- TimeUtils deprecated end -->
-
 	<!-- Utils deprecated usage, call u. methods instead -->
 	<function>
 		<name>maskEmpty</name>

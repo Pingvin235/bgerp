@@ -9,8 +9,8 @@
 				<h2 style="margin-top: 0;">${l.l('Description')}</h2>
 			</div>
 
-			<div class="box" id="show" style="padding: 0.5em; min-height: 2em; flex-basis: 100%;">
-				<pre>
+			<div class="box" id="show" style="padding: 0.5em; min-height: 2em; overflow: auto; flex-basis: 100%;">
+				<pre style="white-space: pre-wrap;">
 <ui:text-prepare text="${process.description}"/>
 				</pre>
 			</div>

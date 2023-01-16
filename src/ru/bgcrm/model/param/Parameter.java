@@ -11,11 +11,12 @@ import org.bgerp.util.Dynamic;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.IdTitle;
+import ru.bgcrm.model.IdTitleComment;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.TimeUtils;
 
-public class Parameter extends IdTitle {
+public class Parameter extends IdTitleComment {
     public static final String PARAM_MULTIPLE_KEY = "multiple";
 
     public static final String LIST_PARAM_USE_DIRECTORY_KEY = "directory";
@@ -66,7 +67,6 @@ public class Parameter extends IdTitle {
     private String object;
     private String script = "";
     private String config;
-    private String comment;
     private ParameterMap configMap;
     private String valuesConfig;
     private int order;
@@ -133,14 +133,6 @@ public class Parameter extends IdTitle {
 
     public List<IdTitle> getListParamValues() {
         return ParameterCache.getListParamValues(this);
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public String getDateParamFormat() {

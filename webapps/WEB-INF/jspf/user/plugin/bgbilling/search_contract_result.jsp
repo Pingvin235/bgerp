@@ -55,7 +55,7 @@
 			<c:when test="${searchBy.startsWith( 'dialUpLogin' ) }">
 				<tr>
 					<td width="30">ID</td>
-					<td>${l.l('Договор')}</td>
+					<td>Договор</td>
 					<td>${l.l('Логин')}</td>
 					<td>${l.l('Алиас(ы)')}</td>
 				</tr>

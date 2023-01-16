@@ -41,8 +41,8 @@
 			</c:if>
 		</div>
 
-		<div class="box" id="show" style="padding: 0.5em; min-height: 2em; ${editStyle}">
-			<pre>
+		<div class="box" id="show" style="padding: 0.5em; min-height: 2em; overflow: auto; ${editStyle}">
+			<pre style="white-space: pre-wrap;">
 <ui:text-prepare text="${process.description}"/>
 			</pre>
 		</div>

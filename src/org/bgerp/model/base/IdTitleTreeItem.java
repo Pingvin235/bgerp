@@ -1,4 +1,4 @@
-package ru.bgcrm.model;
+package org.bgerp.model.base;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,8 @@ import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ru.bgcrm.model.IdTitle;
 
 /**
  * Tree node base class.

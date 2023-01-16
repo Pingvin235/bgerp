@@ -28,6 +28,10 @@
 	text-align: center;
 }
 
+.select .icon.disabled {
+	color: #505050;
+}
+
 .select:hover {
 	border: 1px solid #5bc5ff;
 }

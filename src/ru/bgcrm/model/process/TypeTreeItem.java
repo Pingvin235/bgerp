@@ -6,10 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import ru.bgcrm.model.IdTitleTreeItem;
+import org.bgerp.model.base.IdTitleTreeItem;
 
 public class TypeTreeItem extends IdTitleTreeItem<TypeTreeItem> {
-    
+
     public TypeTreeItem sub(Collection<ProcessType> typeList) {
         var typeSet = typeList.stream().map(ProcessType::getId).collect(Collectors.toSet());
         return sub(typeSet);
@@ -17,7 +17,7 @@ public class TypeTreeItem extends IdTitleTreeItem<TypeTreeItem> {
 
     /**
      * Recursive copy of the tree with selected nodes with paths nodes to them.
-     * 
+     *
      * @param typeSet each node is chosen, when presented in the set or any child is there.
      * @return
      */
@@ -40,7 +40,7 @@ public class TypeTreeItem extends IdTitleTreeItem<TypeTreeItem> {
     }
 
     private boolean isInSet(Set<Integer> ids) {
-        if (ids.contains(this.getId())) 
+        if (ids.contains(this.getId()))
             return true;
         for (var child : children)
             if (child.isInSet(ids))
@@ -50,7 +50,7 @@ public class TypeTreeItem extends IdTitleTreeItem<TypeTreeItem> {
 
     /**
      * Возвращает код узла и коды всех узлов-потомков данного узла.
-     * 
+     *
      * @return
      */
     public Set<Integer> getAllChildIds() {
@@ -67,7 +67,7 @@ public class TypeTreeItem extends IdTitleTreeItem<TypeTreeItem> {
     /**
      * Возвращает коды типов процессов с фильтром по выбранным типам.
      * Если узел выбран в наборе - добавляются все его дочерние узлы.
-     * 
+     *
      * @return
      */
     public Set<Integer> getSelectedChildIds(Set<Integer> typeSet) {

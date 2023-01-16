@@ -24,7 +24,6 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="showId" type="java.lang.Boolean" description="show Id (boolean)"%>
 <%@ attribute name="showComment" type="java.lang.Boolean" description="show comments (boolean)"%>
 <%@ attribute name="moveOn" type="java.lang.Boolean" description="show change in order"%>
-<%@ attribute name="fakeHide" type="java.lang.Boolean" description="hide element with a 'fake' property defined"%>
 
 <%@ attribute name="list" type="java.util.Collection" description="List&lt;IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>
@@ -94,7 +93,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 				<%-- otherwise if id is explicitly defined for select_mult, then the same will also get into select_single, and a drop-down ul will be added into a wrong place --%>
 				<c:remove var="id"/>
 				<ui:select-single hiddenName="${uiid}-addingValue" style="width: 100%;"
-					showId="${showId}" showType="${showType}" showComment="${showComment}"
+					showId="${showId}" showComment="${showComment}"
 					onSelect="${onSelect}" additionalSourceFilter="${additionalSourceFilter}"
 					list="${list}" map="${map}" availableIdList="${availableIdList}" availableIdSet="${availableIdSet}"/>
 			</u:sc>
@@ -118,7 +117,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 					<c:choose>
 						<c:when test="${empty availableIdList}">
 							<c:forEach var="item" items="${list}">
-								<c:if test="${values.contains( item.id ) and (not fakeHide or empty item.fake)}">
+								<c:if test="${values.contains(item.id)}">
 									<%@ include file="/WEB-INF/jspf/tag_select_mult_li.jsp"%>
 								</c:if>
 							</c:forEach>
@@ -126,7 +125,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 						<c:otherwise>
 							<c:forEach var="availableId" items="${availableIdList}">
 								<c:set var="item" value="${map[availableId]}"/>
-								<c:if test="${values.contains( item.id ) and (not fakeHide or empty item.fake)}">
+								<c:if test="${values.contains(item.id)}">
 									<%@ include file="/WEB-INF/jspf/tag_select_mult_li.jsp"%>
 								</c:if>
 							</c:forEach>

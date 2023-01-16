@@ -158,8 +158,8 @@ public class ProcessAction extends BaseAction {
      */
     private static boolean isolationCheck(ProcessType type, User user) {
         boolean result =
-                !CollectionUtils.intersection(type.getProperties().getAllowedGroupsSet(), user.getGroupIds()).isEmpty() ||
-                !CollectionUtils.intersection(type.getProperties().getGroupsSet(), user.getGroupIds()).isEmpty();
+                !CollectionUtils.intersection(type.getProperties().getAllowedGroups().getGroupIds(), user.getGroupIds()).isEmpty() ||
+                !CollectionUtils.intersection(type.getProperties().getGroups(), user.getGroupIds()).isEmpty();
         if (result)
             return true;
 

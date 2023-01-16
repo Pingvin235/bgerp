@@ -17,6 +17,7 @@ import org.bgerp.l10n.Localization;
 import org.bgerp.l10n.Localizer;
 import org.bgerp.servlet.ServletUtils;
 import org.bgerp.servlet.filter.AuthFilter;
+import org.bgerp.servlet.jsp.UiFunction;
 
 import ru.bgcrm.cache.CustomerGroupCache;
 import ru.bgcrm.cache.ParameterCache;
@@ -53,6 +54,8 @@ public class SetRequestParamsFilter implements Filter {
                 // exception is the 'usermob' interface, where JSP templates might be called directly
                 Interface.USER_MOB.equals(Interface.getIface((HttpServletRequest) request)))
             request.setAttribute(REQUEST_KEY_LOCALIZER, getLocalizer(request));
+
+        request.setAttribute("ui", UiFunction.INSTANCE);
 
         chain.doFilter(request, response);
 

@@ -1,10 +1,14 @@
-<%@page import="java.util.Map"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Set"%>
-<%@page import="java.util.HashSet"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="ru.bgcrm.model.IdTitle"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.HashSet"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.Set"%>
+<%@page import="java.util.TreeMap"%>
+<%@page import="java.util.TreeSet"%>
+
+<%@page import="ru.bgcrm.model.IdTitle"%>
+<%@page import="ru.bgcrm.model.IdTitleComment"%>
 
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
@@ -149,7 +153,7 @@
 		<div>
 			<b>&lt;ui:combo-single&gt;</b><br/>
 
-			<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, 'item=', item); alert('Value is chosen, see console log')"/>
+			<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, 'item=', item); alert('A value is chosen, see console log')"/>
 
 			<ui:combo-single
 				hiddenName="param" value="2" prefixText="Value:" widthTextValue="12em" onSelect="${onSelect}" showFilter="true">
@@ -200,25 +204,83 @@
 			<u:sc>
 				<%
 					List<IdTitle> list = new ArrayList<IdTitle>();
-					list.add( new IdTitle( 1, "Первое значение" ) );
-					list.add( new IdTitle( 2, "Второе значение и длинный текст после" ) );
+					list.add(new IdTitle(1, "First value"));
+					list.add(new IdTitle(2, "Second value and a long texttttttttt after it"));
 					pageContext.setAttribute( "list", list );
 
 					Set<Integer> values = new HashSet<Integer>();
-					values.add( 2 );
-					pageContext.setAttribute( "values", values );
+					values.add(2);
+					pageContext.setAttribute("values", values);
 				%>
 				<ui:combo-check prefixText="Статус:" paramName="param" list="${list}" values="${values}" widthTextValue="150px" showFilter="true"/>
 			</u:sc>
 		</div>
 
-		<div class="mt05">
+		<div>
+			<b>&lt;ui:select-single&gt;</b><br/>
+
+			<c:set var="onSelect" value="console.log('this=', this, '$hidden=', $hidden, '$input=', $input); alert('A value is chosen, see console log')"/>
+
+			<u:sc>
+				<%
+					List<IdTitle> list = new ArrayList<>();
+					list.add(new IdTitle(1, "First value"));
+					list.add(new IdTitle(2, "Current second value and a long texttttttttt after it"));
+					list.add(new IdTitle(3, "Must not be available!!!"));
+					pageContext.setAttribute("list", list);
+
+					Set<Integer> availableIdSet = new TreeSet<>();
+					availableIdSet.add(1);
+					availableIdSet.add(2);
+					pageContext.setAttribute("availableIdSet", availableIdSet);
+				%>
+				<ui:select-single hiddenName="param" value="2" style="width: 10em;" list="${list}" availableIdSet="${availableIdSet}" onSelect="${onSelect}"/>
+			</u:sc>
+
+			<u:sc>
+				<%
+					Map<Integer, IdTitle> map = new TreeMap<>();
+					map.put(1, new IdTitle(1, "Second value"));
+					map.put(2, new IdTitle(2, "First value"));
+					map.put(3, new IdTitle(3, "Must not be available!!!"));
+					pageContext.setAttribute("map", map);
+
+					List<Integer> availableIdList = new ArrayList<>();
+					availableIdList.add(2);
+					availableIdList.add(1);
+					pageContext.setAttribute("availableIdList", availableIdList);
+				%>
+				<ui:select-single hiddenName="param" style="width: 15em;" map="${map}" availableIdList="${availableIdList}" onSelect="${onSelect}"/>
+			</u:sc>
+
+			<u:sc>
+				<%
+					List<IdTitleComment> list = new ArrayList<>();
+					list.add(new IdTitleComment(1, "First selected value", "Comment 1"));
+					list.add(new IdTitleComment(2, "Second value", "Comment 1"));
+					pageContext.setAttribute("list", list);
+				%>
+				<ui:select-single hiddenName="param" value="1" style="width: 10em;" list="${list}" showId="${true}" showComment="${true}" onSelect="${onSelect}"/>
+			</u:sc>
+
+			<u:sc>
+				<%
+					List<IdTitle> list = new ArrayList<>();
+					list.add(new IdTitle(1, "Must not be available, because of disabled input!"));
+					list.add(new IdTitle(2, "Current second value"));
+					pageContext.setAttribute("list", list);
+				%>
+				<ui:select-single hiddenName="param" value="2" style="width: 10em;" list="${list}" inputAttrs="disabled='1'" onSelect="alert('Must not be selectable!')"/>
+			</u:sc>
+		</div>
+
+		<div>
 			<b>&lt;ui:select-mult&gt;</b><br/>
 			<u:sc>
 				<%
 					List<IdTitle> list = new ArrayList<IdTitle>();
-					list.add( new IdTitle( 1, "Первое значение" ) );
-					list.add( new IdTitle( 2, "Второе значение и длинный текст после" ) );
+					list.add(new IdTitle(1, "First value"));
+					list.add(new IdTitle(2, "Second value and a long texttttttttt after it"));
 					pageContext.setAttribute( "list", list );
 
 					Set<Integer> values = new HashSet<Integer>();
@@ -236,8 +298,8 @@
 			<u:sc>
 				<%
 					List<IdTitle> list = new ArrayList<IdTitle>();
-					list.add( new IdTitle( 1, "Первое значение" ) );
-					list.add( new IdTitle( 2, "Второе значение и длинный текст после" ) );
+					list.add(new IdTitle(1, "First value"));
+					list.add(new IdTitle(2, "Second value and a long texttttttttt after it"));
 					pageContext.setAttribute( "list", list );
 
 					Map<Integer, IdTitle> map = new HashMap<Integer, IdTitle>();
@@ -257,33 +319,29 @@
 			</u:sc>
 		</div>
 
-		<div class="mt05">
+		<div>
 			<b>&lt;ui:tag-box&gt;</b><br/>
 			Provide values directly<br>
 			<ui:tag-box showOptions="1" choices="first,second,third"/>
 		</div>
 
 		<div>
-			<b>Выравнивание в колонку</b><br/>
+			<b>Column alignment</b><br/>
 
-			<input style="width: 10em;"/><br/>
+			<input type="text" style="width: 10em;"/><br/>
 
 			<ui:combo-single hiddenName="param" value="2" style="width: 10em;">
 				<jsp:attribute name="valuesHtml">
 					<li value="1">Первый</li>
 					<li value="2">Второй</li>
 				</jsp:attribute>
-			</ui:combo-single>
-
-			<br/>
-			<b>&lt;ui:select-single&gt;</b>
-			<br/>
+			</ui:combo-single><br/>
 
 			<u:sc>
 				<%
 					List<IdTitle> list = new ArrayList<IdTitle>();
-					list.add( new IdTitle( 1, "Первое значение" ) );
-					list.add( new IdTitle( 2, "Второе значение и длинный текст после" ) );
+					list.add(new IdTitle(1, "First value"));
+					list.add(new IdTitle(2, "Second value and a long texttttttttt after it"));
 					pageContext.setAttribute( "list", list );
 				%>
 				<ui:select-single hiddenName="param" value="2" style="width: 10em;" list="${list}"

@@ -35,7 +35,11 @@ public class PublishRelease extends PublishCommon {
 
         log.info("Publishing release: dir: {}, version: {}, build: {}", dir, version, build);
 
-        publishFile("bgerp");
+        String name = publishFile("bgerp");
+        if (Utils.notBlankString(name)) {
+            log.info("Creating symlink for {}", name);
+            ssh("ln", "-sf", sshDir + "/" + name, sshDir + "/bgerp.zip");
+        }
         publishFile("update");
         publishFile("update_lib");
         scp(dir + "/../../build/changes.txt");
@@ -46,9 +50,10 @@ public class PublishRelease extends PublishCommon {
     /**
      * Copies a file to a remote system. Moves a previously existing to archive directory.
      * @param name name prefix of a copied from {@link #dir} file.
+     * @return name of copied file or {@code null} if was not.
      * @throws Exception
      */
-    protected void publishFile(String name) throws Exception {
+    protected String publishFile(String name) throws Exception {
         final String mask = name + "_" + version + "_*.zip";
 
         String remote = null;
@@ -72,7 +77,11 @@ public class PublishRelease extends PublishCommon {
                 log.info("Moving remote '{}' to archive", remote);
                 ssh("mv", sshDir + "/" + remote, sshDir + "/archive/" + remote);
             }
+
+            return local;
         }
+
+        return null;
     }
 
     private void publishBuildNumber() throws Exception {

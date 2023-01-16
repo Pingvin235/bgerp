@@ -4,7 +4,7 @@
 <c:choose>
 	<c:when test="${mode eq 'items'}">
 		<c:if test="${empty allowedForms or allowedForms.contains( 'bgbilling-searchContract' ) }">
-			<li value="bgbilling-searchContract">${l.l('Договор')}</li>
+			<li value="bgbilling-searchContract">Договор</li>
 		</c:if>
 	</c:when>
 	<c:otherwise>

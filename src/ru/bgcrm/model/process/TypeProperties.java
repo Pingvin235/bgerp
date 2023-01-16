@@ -6,8 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.bgerp.model.process.ProcessGroups;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.LastModify;
@@ -44,70 +46,6 @@ public class TypeProperties {
     private ProcessGroups allowedGroups = new ProcessGroups();
 
     private LastModify lastModify = new LastModify();
-
-    public ProcessGroups getGroups() {
-        return groups;
-    }
-
-    public Set<ProcessGroup> getGroups(int roleId) {
-        Set<ProcessGroup> groupSet = new HashSet<ProcessGroup>();
-
-        for (ProcessGroup group : groups) {
-            if (group.getRoleId() == roleId) {
-                groupSet.add(group);
-            }
-        }
-
-        return groupSet;
-    }
-
-    public Set<Integer> getGroupsSet() {
-        Set<Integer> resultSet = new HashSet<Integer>();
-
-        for (ProcessGroup item : groups) {
-            resultSet.add(item.getGroupId());
-        }
-
-        return resultSet;
-    }
-
-    public Set<Integer> getGroupsSet(int roleId) {
-        Set<Integer> resultSet = new HashSet<Integer>();
-
-        for (ProcessGroup item : groups) {
-            if (item.getRoleId() == roleId) {
-                resultSet.add(item.getGroupId());
-            }
-        }
-
-        return resultSet;
-    }
-
-    public void setGroups(ProcessGroups groups) {
-        this.groups = groups;
-    }
-
-    public Set<Integer> getAllowedGroupsSet() {
-        Set<Integer> resultSet = new HashSet<Integer>();
-
-        for (ProcessGroup item : allowedGroups) {
-            resultSet.add(item.getGroupId());
-        }
-
-        return resultSet;
-    }
-
-    public Set<Integer> getAllowedGroupsSet(int roleId) {
-        Set<Integer> resultSet = new HashSet<Integer>();
-
-        for (ProcessGroup item : allowedGroups) {
-            if (item.getRoleId() == roleId) {
-                resultSet.add(item.getGroupId());
-            }
-        }
-
-        return resultSet;
-    }
 
     // первый ключ - "с статуса", второй ключ - "на статус"
     private Map<TransactionKey, TransactionProperties> transactionPropertiesMap = new HashMap<>();
@@ -267,43 +205,14 @@ public class TypeProperties {
         this.closeStatusIds = closeStatusIds;
     }
 
+    @Deprecated
     public String getScriptName() {
         return scriptName;
     }
 
-    // Смотрит скрипт сначала в конфигурации а потом в поле
     @Deprecated
-    public String getActualScriptName() {
-        String listner = configMap.get("listenerClass");
-        if (Utils.notBlankString(listner)) {
-            return listner;
-        }
-
-        return scriptName;
-    }
-
     public void setScriptName(String scriptName) {
         this.scriptName = scriptName;
-    }
-
-    public ProcessGroups getAllowedGroups() {
-        return allowedGroups;
-    }
-
-    public ProcessGroups getAllowedGroups(int roleId) {
-        ProcessGroups result = new ProcessGroups();
-
-        for (ProcessGroup group : allowedGroups) {
-            if (group.getRoleId() == roleId) {
-                result.add(group);
-            }
-        }
-
-        return result;
-    }
-
-    public void setAllowedGroups(ProcessGroups allowedGroups) {
-        this.allowedGroups = allowedGroups;
     }
 
     public String getConfig() {
@@ -324,6 +233,43 @@ public class TypeProperties {
         this.configMap = configMap;
     }
 
+    /**
+     * @return initial process groups.
+     */
+    public ProcessGroups getGroups() {
+        return groups;
+    }
+
+    public ProcessGroups getGroups(int roleId) {
+        Set<ProcessGroup> processGroups = groups.stream()
+            .filter(pg -> pg.roleId == roleId)
+            .collect(Collectors.toSet());
+
+        return new ProcessGroups(processGroups);
+    }
+
+    public void setGroups(ProcessGroups groups) {
+        this.groups = groups;
+    }
+
+    @Dynamic
+    public ProcessGroups getAllowedGroups() {
+        return allowedGroups;
+    }
+
+    @Dynamic
+    public ProcessGroups getAllowedGroups(int roleId) {
+        Set<ProcessGroup> processGroups = allowedGroups.stream()
+            .filter(pg -> pg.roleId == roleId)
+            .collect(Collectors.toSet());
+
+        return new ProcessGroups(processGroups);
+    }
+
+    public void setAllowedGroups(ProcessGroups allowedGroups) {
+        this.allowedGroups = allowedGroups;
+    }
+
     public LastModify getLastModify() {
         return lastModify;
     }
@@ -334,17 +280,5 @@ public class TypeProperties {
 
     public Wizard getCreateWizard() {
         return createWizard;
-    }
-
-    public Set<Integer> getAllowedRoleSet() {
-        Set<Integer> resultSet = new HashSet<Integer>();
-
-        for (ProcessGroup group : allowedGroups) {
-            if (!resultSet.contains(group.getRoleId())) {
-                resultSet.add(group.getRoleId());
-            }
-        }
-
-        return resultSet;
     }
 }

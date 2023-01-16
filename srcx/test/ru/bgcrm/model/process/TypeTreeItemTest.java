@@ -15,7 +15,7 @@ public class TypeTreeItemTest {
         *     2
         *        4
         *        5
-        *     3 
+        *     3
         *   6
         *     7
         *       8
@@ -35,23 +35,23 @@ public class TypeTreeItemTest {
         var clone = root.sub(getTypeList(2, 3));
         Assert.assertTrue(root != clone);
         Assert.assertEquals(1, clone.getChildren().size());
-        
+
         clone = root.sub(getTypeList(2, 3, 8));
         Assert.assertEquals(2, clone.getChildren().size());
-        
+
         clone = root.sub(getTypeList(9, 5));
         Assert.assertEquals(2, clone.getChildren().size());
 
         clone = root.sub(getTypeList(3, 5));
         Assert.assertEquals(1, clone.getChildren().size());
         i1 = clone.getChildren().get(0);
-        Assert.assertEquals(1, i1.getId());
+        Assert.assertEquals((Integer) 1, i1.getId());
         Assert.assertEquals(2, i1.getChildren().size());
         i2 = i1.getChildren().get(0);
-        Assert.assertEquals(2, i2.getId());
+        Assert.assertEquals((Integer) 2, i2.getId());
         Assert.assertEquals(1, i2.getChildren().size());
         i3 = i1.getChildren().get(1);
-        Assert.assertEquals(3, i3.getId());
+        Assert.assertEquals((Integer) 3, i3.getId());
         Assert.assertEquals(0, i3.getChildren().size());
     }
 

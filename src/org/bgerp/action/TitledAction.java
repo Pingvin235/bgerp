@@ -1,8 +1,8 @@
 package org.bgerp.action;
 
 import org.apache.struts.actions.BaseAction;
+import org.bgerp.model.base.iface.Title;
 
-import ru.bgcrm.model.Title;
 import ru.bgcrm.servlet.ActionServlet.Action;
 
 /**

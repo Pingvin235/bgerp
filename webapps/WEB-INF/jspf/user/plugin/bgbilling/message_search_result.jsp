@@ -4,7 +4,7 @@
 <c:choose>
 	<c:when test="${fn:startsWith( item.linkedObjectType, 'contract:' )}">
 		<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}" scope="request"/>
-		<td>${l.l('Договор')}:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
+		<td>Договор:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 
 		<c:set var="contractId" value="${item.linkedObjectId}" scope="request"/>
 		<td><a href="#" onclick="bgbilling_openContract( '${billingId}', ${contractId} ); return false;">${item.linkedObjectTitle} [ ${item.linkedObjectComment} ]</a></td>

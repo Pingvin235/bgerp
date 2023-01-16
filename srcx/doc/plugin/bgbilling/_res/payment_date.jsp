@@ -13,15 +13,15 @@
 
 <%--
    Файл поместить в каталог: WEB-INF/custom/plugin/bgbilling
-    
-   Включать в WEB-INF/jspf/user/plugin/bgbilling/contract_billing_data.jsp среди 
+
+   Включать в WEB-INF/jspf/user/plugin/bgbilling/contract_billing_data.jsp среди
       <u:sc>
          ....
          <%@ include file="contract/tree_item.jsp"%>
       </u:sc>
    следующим образом:
-     
-   <%@ include file="/WEB-INF/custom/plugin/bgbilling/payment_date.jsp"%>   
+
+   <%@ include file="/WEB-INF/custom/plugin/bgbilling/payment_date.jsp"%>
 --%>
 <u:sc>
     <%
@@ -35,19 +35,19 @@
 
             if (price > 0) {
                 float balanceRest = contract.getBalanceOut().floatValue();
-                if (balanceRest > 0) {                
+                if (balanceRest > 0) {
                 	int days = (int) (balanceRest / (price / 30));
                 	Calendar curdate = new GregorianCalendar();
-                	curdate.add(Calendar.DAY_OF_YEAR, days);                	
+                	curdate.add(Calendar.DAY_OF_YEAR, days);
                 	pageContext.setAttribute("value", curdate.getTime());
                 }
-            }                
+            }
     	}
     %>
 	<c:if test="${not empty value}">
 		<c:set var="title" value="Оплатить до"/>
 		<c:set var="url" value="no"/>
-		<c:set var="value" value="${u:formatDate(value, 'ymd')}"/>
+		<c:set var="value" value="${tu.format(value, 'ymd')}"/>
 		<%@ include file="/WEB-INF/jspf/user/plugin/bgbilling/contract/tree_item.jsp"%>
-	</c:if>		
+	</c:if>
 </u:sc>

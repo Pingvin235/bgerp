@@ -24,13 +24,12 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="additionalSourceFilter" description="JS code to be used for additional source filtering on output"%>
 
 <%@ attribute name="showId" type="java.lang.Boolean"  description="show Id (boolean)"%>
-<%@ attribute name="showType" type="java.lang.Boolean" description="show type (boolean)"%>
 <%@ attribute name="showComment" type="java.lang.Boolean" description="show comments (boolean)"%>
 
-<%@ attribute name="list" type="java.util.Collection" description="List&lt;IdTitle&gt; of elements, refer to description inside tag"%>
+<%@ attribute name="list" type="java.util.List" description="List&lt;IdTitle&gt; of elements, refer to description inside tag"%>
+<%@ attribute name="availableIdSet" type="java.util.Set" description="Set of allowed values, refer to description inside tag"%>
 <%@ attribute name="map" type="java.util.Map" description="Map&lt;Integer, IdTitle&gt; of elements, refer to description inside tag"%>
 <%@ attribute name="availableIdList" type="java.util.List" description="List of allowed values, refer to description inside tag"%>
-<%@ attribute name="availableIdSet" type="java.util.Set" description="Set of allowed values, refer to description inside tag"%>
 
 <c:choose>
 	<c:when test="${not empty id}">
@@ -47,109 +46,9 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 	<span class="icon"><i class="ti-angle-down"></i></span>
 
 	<script>
-		$(function()
-		{
-			var $selectDiv = $('#${uiid}');
-
-			var $input = $selectDiv.find( "input[type='text']" );
-			var $hidden = $selectDiv.find( "input[type='hidden']" );
-
-			$selectDiv.find( '.icon' ).click( function()
-			{
-				$input.autocomplete( "search", "" );
-
-				$(document).one( "click", function() {
-					$selectDiv.find( "ul" ).hide();
-				});
-
-				return false;
-			});
-
-			var $source = [];
-			var title = "";
-
-			var itemTitle = "";
-
-			<c:choose>
-				<c:when test="${empty availableIdList}">
-					<c:forEach var="item" items="${list}">
-						<%-- do not show deleted and unavailable --%>
-						<c:if test="${not fn:startsWith(item.title, '@') and (empty availableIdSet or availableIdSet.contains(item.id))}">
-							itemTitle = "${u:quotEscape( item.title )}";
-
-							<c:if test="${showId}">itemTitle += " (${item.id})";</c:if>
-							<c:if test="${showType}">itemTitle += " (${item.type})";</c:if>
-							<c:if test="${showComment and not empty item.comment}">itemTitle += " (${u:quotEscape( item.comment )})";</c:if>
-
-							$source.push({ id : "${item.id}", value: itemTitle });
-						</c:if>
-						<c:if test="${value eq item.id}">
-							title = "${u:quotEscape( item.title )}";
-						</c:if>
-					</c:forEach>
-				</c:when>
-				<c:otherwise>
-					<c:forEach var="availableId" items="${availableIdList}">
-						<c:set var="item" value="${map[availableId]}"/>
-						<c:if test="${not empty item}">
-							<%-- do not show deleted and unavailable --%>
-							<c:if test="${not fn:startsWith(item.title, '@') and (empty availableIdSet or availableIdSet.contains(item.id))}">
-								itemTitle = "${item.title}";
-
-								<c:if test="${showId}">itemTitle += " (${item.id})";</c:if>
-								<c:if test="${showComment and not empty item.comment}">itemTitle += " (${u:quotEscape( item.comment )})";</c:if>
-
-								$source.push({ id : "${item.id}", value: itemTitle });
-							</c:if>
-						</c:if>
-						<c:if test="${value eq item.id}">
-							title = "${u:quotEscape( item.title )}";
-						</c:if>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
-
-			$input.val( title );
-
-			$input.autocomplete(
-			{
-				minLength: 0,
-				source: function( request, response )
-				{
-					var filteredSource = $.ui.autocomplete.filter( $source, request.term );
-					<%-- gets passed if included from select_mult.jsp --%>
-					${additionalSourceFilter}
-					response( filteredSource );
-				},
-				select: function( event, ui )
-				{
-					$hidden.val(ui.item.id);
-					$input.val(ui.item.value);
-
-					$hidden[0].onSelect = function () {
-						${onSelect}
-					}
-					// to make this equals hidden input
-					$hidden[0].onSelect();
-				},
-				appendTo: '#${uiid}',
-				open: function()
-				{
-					// удаление вычисленных ширин и позиций
-					$input.autocomplete( "widget" ).css( "width", "" ).css( "top", "" ).css( "left", "" );
-				}
-			});
-
-			$input.keyup( function()
-			{
-				if( !this.value )
-				{
-					$hidden.val( "" );
-					<%-- Вроде не нужно ${onSelect}--%>
-				}
-			});
-
-			$selectDiv.find( "ul" ).removeClass( "ui-autocomplete ui-front" );
+		$(function () {
+			const source = ${ui.selectSingleSourceJson(list, availableIdSet, availableIdList, map, showId, showComment)};
+			$$.ui.select.single.init('${uiid}', source, '${value}', (filteredSource) => { ${additionalSourceFilter} return filteredSource }, ($hidden, $input) => { ${onSelect} });
 		})
 	</script>
 </div>

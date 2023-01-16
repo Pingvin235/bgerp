@@ -22,7 +22,7 @@
 <c:if test="${not empty subList}">
 	<table class="data" width="100%">
 		<tr>
-			<td>${l.l('Договор')}</td>
+			<td>Договор</td>
 			<td>${l.l('Дата')}</td>
 			<td width="100%">${l.l('Услуга')}</td>
 			<td>${l.l('Сумма')}</td>

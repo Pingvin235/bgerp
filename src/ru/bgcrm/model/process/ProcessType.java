@@ -3,13 +3,13 @@ package ru.bgcrm.model.process;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.model.base.IdTitleTreeItem;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.model.IdTitleTreeItem;
 
 public class ProcessType extends IdTitleTreeItem<ProcessType> implements Comparable<ProcessType> {
     private static final Log log = Log.getLog();

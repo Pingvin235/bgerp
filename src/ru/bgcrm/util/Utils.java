@@ -25,6 +25,7 @@ import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.taglibs.standard.functions.Functions;
+import org.bgerp.model.base.iface.Title;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 import org.w3c.dom.Element;
@@ -36,7 +37,6 @@ import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.Id;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.ListItem;
-import ru.bgcrm.model.Title;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.servlet.jsp.JSPFunction;

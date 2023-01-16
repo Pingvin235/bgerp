@@ -2,7 +2,8 @@ package ru.bgcrm.plugin.bgbilling.proto.model;
 
 import java.util.List;
 
-import ru.bgcrm.model.IdTitleTree;
+import org.bgerp.model.base.IdTitleTree;
+
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.util.Utils;
 
@@ -15,7 +16,7 @@ public class ParamEmailValue
 	private List<String> emails; // Емейлы
 	private int eid; //id списка рассылок о_О
 	private List<String> subscrs; // Активированные подписки
-	private List<IdTitleTree> subscrsTree; // Список существующих рассылок 
+	private List<IdTitleTree> subscrsTree; // Список существующих рассылок
 
 	public List<String> getEmails()
 	{
