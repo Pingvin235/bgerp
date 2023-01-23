@@ -38,7 +38,7 @@ import ru.bgcrm.util.XMLUtils;
 
 public class DirectoryDAO extends BillingDAO {
     private static final String CONTRACT_STATUS_MODULE_ID = "ru.bitel.bgbilling.kernel.contract.status";
-    
+
     private static final String TARIFF_MODULE_ID = "tariff";
     private static final String ADMIN_MODULE_ID = "admin";
     private static final String SERVICE_MODULE_ID = "service";
@@ -70,7 +70,7 @@ public class DirectoryDAO extends BillingDAO {
             result = FIXED_OLD_STATUS_LIST;
         }
         else if (dbInfo.getVersion().compareTo("8.0") > 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api", "ContractStatusService", "getStatusList");
+            RequestJsonRpc req = new RequestJsonRpc(ContractDAO.KERNEL_CONTRACT_API, "ContractStatusService", "getStatusList");
             req.setParam("onlyManual", true);
             result = readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));

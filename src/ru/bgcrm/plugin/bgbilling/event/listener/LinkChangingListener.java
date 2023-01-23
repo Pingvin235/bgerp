@@ -19,66 +19,51 @@ import ru.bgcrm.util.sql.ConnectionSet;
  * Слушатель события перед изменениями привязок.
  * Проверяет возможность и производит привязку/отвязку договора биллинга от контрагента.
  */
-public class LinkChangingListener
-{
-	public LinkChangingListener()
-	{
-		EventProcessor.subscribe( new EventListener<LinkAddingEvent>()
-   	    {
-   	    	@Override
-   	    	public void notify( LinkAddingEvent e, ConnectionSet connectionSet )
-   	    		throws BGException
-   	    	{
-   	    		customerChanging( e, e.getLink().getObjectId() );
-   	    	}
-   	    }, LinkAddingEvent.class );
+public class LinkChangingListener {
+    public LinkChangingListener() {
+        EventProcessor.subscribe(new EventListener<LinkAddingEvent>() {
+            @Override
+            public void notify(LinkAddingEvent e, ConnectionSet connectionSet) throws BGException {
+                customerChanging(e, e.getLink().getObjectId());
+            }
+        }, LinkAddingEvent.class);
 
-		EventProcessor.subscribe( new EventListener<LinksToRemovingEvent>()
- 	    {
- 	    	@Override
- 	    	public void notify( LinksToRemovingEvent e, ConnectionSet connectionSet )
- 	    		throws BGException
- 	    	{
- 	    		customerChanging( e, 0 );
- 	    	}
- 	    }, LinksToRemovingEvent.class );
-	}
+        EventProcessor.subscribe(new EventListener<LinksToRemovingEvent>() {
+            @Override
+            public void notify(LinksToRemovingEvent e, ConnectionSet connectionSet) throws BGException {
+                customerChanging(e, 0);
+            }
+        }, LinksToRemovingEvent.class);
+    }
 
-	private void customerChanging( LinkAddingEvent event, int customerId )
-		throws BGException
-	{
-		CommonObjectLink link = event.getLink();
-		if( !Customer.OBJECT_TYPE.equals( link.getObjectType() ) ||
-			!link.getLinkedObjectType().startsWith( "contract:" ) )
-		{
-			return;
-		}
-
-		String billingId = StringUtils.substringAfter( link.getLinkedObjectType(), ":" );
-		DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get( billingId );
-
-		if( dbInfo == null )
-		{
-			throw new BGMessageException( "Не найден биллинг с идентификатором: " + billingId );
-		}
-
-		int customerIdParam = dbInfo.getCustomerIdParam();
-		if( customerIdParam <= 0 )
-		{
-			throw new BGMessageException( "Не определён параметр 'customerIdParam' для сервера." );
-		}
-
-		int contractId = link.getLinkedObjectId();
-		try
-        {
-			ContractParamDAO contractParamDAO = new ContractParamDAO( event.getUser(), dbInfo );
-
-			// пустая строка а не 0, т.к. по нулю будет импортировать его сразу же пытаться.
-			contractParamDAO.updateTextParameter( contractId, customerIdParam, customerId > 0 ? String.valueOf( customerId ) : "" );
+    private void customerChanging(LinkAddingEvent event, int customerId) throws BGException {
+        CommonObjectLink link = event.getLink();
+        if (!Customer.OBJECT_TYPE.equals(link.getObjectType()) || !link.getLinkedObjectType().startsWith("contract:")) {
+            return;
         }
-        catch( Exception e )
-        {
-	        throw new BGException( "Ошибка привязки договора к контрагенту: " + e.getMessage(), e );
+
+        String billingId = StringUtils.substringAfter(link.getLinkedObjectType(), ":");
+        DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
+
+        if (dbInfo == null) {
+            throw new BGMessageException("Не найден биллинг с идентификатором: " + billingId);
         }
-	}
+
+        int customerIdParam = dbInfo.getCustomerIdParam();
+        if (customerIdParam <= 0) {
+            throw new BGMessageException("Не определён параметр 'customerIdParam' для сервера.");
+        }
+
+        int contractId = link.getLinkedObjectId();
+        try {
+            ContractParamDAO contractParamDAO = new ContractParamDAO(event.getUser(), dbInfo);
+
+            // пустая строка а не 0, т.к. по нулю будет импортировать его сразу же пытаться.
+            contractParamDAO.updateTextParameter(contractId, customerIdParam, customerId > 0 ? String.valueOf(customerId) : "");
+        } catch (Exception e) {
+            // при отвязке не существующего в билллинге договора будет возникать исключение на updateTextParameter, это не должно мешать отвязать договор от контрагента
+            if (customerId > 0)
+                throw new BGException("Ошибка привязки договора к контрагенту: " + e.getMessage(), e);
+        }
+    }
 }

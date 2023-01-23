@@ -2,79 +2,87 @@ package ru.bgcrm.plugin.bgbilling.proto.model.tariff;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ru.bgcrm.model.Id;
+import ru.bgcrm.model.Period;
 import ru.bgcrm.model.PeriodSet;
 
-public class ContractTariff
-	extends Id
-	implements PeriodSet
-{
-	private int tariffPlanId;
-	private Date dateFrom;
-	private Date dateTo;
-	private String title;
-	private String comment;
-	private int position;
+public class ContractTariff extends Id implements PeriodSet {
+    private int contractId;
+    private int tariffPlanId;
+    private Date dateFrom;
+    private Date dateTo;
+    private String title;
+    private String comment = "";
+    private int position;
 
-	public Date getDateFrom()
-	{
-		return dateFrom;
-	}
+    public int getContractId() {
+        return contractId;
+    }
 
-	@Override
-	public void setDateFrom( Date dateFrom )
-	{
-		this.dateFrom = dateFrom;
-	}
+    public void setContractId(int contractId) {
+        this.contractId = contractId;
+    }
 
-	public Date getDateTo()
-	{
-		return dateTo;
-	}
+    @JsonIgnore
+    public Date getDateFrom() {
+        return dateFrom;
+    }
 
-	@Override
-	public void setDateTo( Date dateTo )
-	{
-		this.dateTo = dateTo;
-	}
+    @Override
+    public void setDateFrom(Date dateFrom) {
+        this.dateFrom = dateFrom;
+    }
 
-	public String getTitle()
-	{
-		return title;
-	}
+    @JsonIgnore
+    public Date getDateTo() {
+        return dateTo;
+    }
 
-	public void setTitle( String title )
-	{
-		this.title = title;
-	}
+    @Override
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
+    }
 
-	public String getComment()
-	{
-		return comment;
-	}
+    public Period getPeriod() {
+        return new Period(dateFrom, dateTo);
+    }
 
-	public void setComment( String comment )
-	{
-		this.comment = comment;
-	}
+    public void setPeriod(Period value) {
+        this.dateFrom = value.getDateFrom();
+        this.dateTo = value.getDateTo();
+    }
 
-	public int getPosition()
-	{
-		return position;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setPosition( int position )
-	{
-		this.position = position;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public int getTariffPlanId()
-	{
-		return tariffPlanId;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public void setTariffPlanId( int tpid )
-	{
-		this.tariffPlanId = tpid;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public int getTariffPlanId() {
+        return tariffPlanId;
+    }
+
+    public void setTariffPlanId(int tpid) {
+        this.tariffPlanId = tpid;
+    }
 }

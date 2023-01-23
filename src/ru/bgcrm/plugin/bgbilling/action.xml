@@ -7,13 +7,13 @@
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:null;ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contract" title="Карточка договора"/>
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:addProcessContractLink" title="Привязка к процессу договора по названию"/>
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:copyCustomerParamToContract" title="Копирование параметров из контрагента в договор"/>
-			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:getContractCreatePattern" title="Загрузка шаблона создания договора"/>
+			<!-- <item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:getContractCreatePattern" title="Загрузка шаблона создания договора"/> -->
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:customerContractList" title="Список договоров контрагента"/>
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:createCustomerFromContract" title="Создание контрагента из договора"/>
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:copyCustomerParamCascade" title="Каскадное копирование параметров"/>
 		</item>
 		<item title="Договор">
-			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractCreate" title="Создание договора"/>
+			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractCreate, ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractCreateTariff" title="Создание договора"/>
 			<item action="ru.bgcrm.plugin.bgbilling.struts.action.ContractAction:contractInfo" title="Информация о договоре"/>
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:addressList" title="Адресный справочник"/>
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:bgbillingOpenContract" title="Открытие карточки договора в клиенте BGBilling"/>

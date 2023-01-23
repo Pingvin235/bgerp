@@ -23,8 +23,7 @@ import java.util.stream.Collectors;
 
 
 public class ContractDAO8x extends ContractDAO {
-
-    public static final String RU_BITEL_BGBILLING_KERNEL_CONTRACT_API = "ru.bitel.bgbilling.kernel.contract.api";
+    public static final String RU_BITEL_BGBILLING_KERNEL_CONTRACT_API = ContractDAO.KERNEL_CONTRACT_API;
     public static final String CONTRACT_NOTE_SERVICE = "ContractNoteService";
 
     public ContractDAO8x(User user, String billingId) throws BGException {
@@ -113,12 +112,10 @@ public class ContractDAO8x extends ContractDAO {
     public void bgbillingUpdateContractTitleAndComment(int contractId, String comment, int patid) throws BGException {
         RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API,
                 "ContractService", "contractTitleAndCommentUpdate");
-
         req.setParamContractId(contractId);
-        if (patid > 0) {
-            req.setParam("patid", patid);
-        }
+        req.setParam("title", null);
         req.setParam("comment", comment);
+        req.setParam("patternId", patid);
         transferData.postDataReturn(req, user);
     }
 

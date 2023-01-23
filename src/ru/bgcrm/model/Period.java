@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Period {
     private Date dateFrom;
     private Date dateTo;
@@ -20,6 +22,8 @@ public class Period {
         return dateFrom;
     }
 
+    @JsonIgnore
+    @Deprecated
     public Calendar getCalendarFrom() {
         Calendar calendar = null;
         if (dateFrom != null) {
@@ -37,6 +41,8 @@ public class Period {
         return dateTo;
     }
 
+    @JsonIgnore
+    @Deprecated
     public Calendar getCalendarTo() {
         Calendar calendar = null;
         if (dateTo != null) {
@@ -46,6 +52,8 @@ public class Period {
         return calendar;
     }
 
+    @JsonIgnore
+    @Deprecated
     public Date getDateToNext() {
         Date date = null;
         if (dateTo != null) {

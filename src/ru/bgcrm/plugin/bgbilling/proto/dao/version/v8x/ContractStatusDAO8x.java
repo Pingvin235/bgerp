@@ -4,6 +4,7 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
+import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractStatusDAO;
 
 import java.util.Collections;
@@ -21,7 +22,7 @@ public class ContractStatusDAO8x extends ContractStatusDAO {
     public void updateStatus(int contractId, int statusId, Date dateFrom, Date dateTo, String comment)
             throws BGException {
         if (dbInfo.versionCompare("6.2") >= 0) {
-            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.api", "ContractStatusService", "changeContractStatus");
+            RequestJsonRpc req = new RequestJsonRpc(ContractDAO.KERNEL_CONTRACT_API, "ContractStatusService", "changeContractStatus");
             req.setParam("cid", Collections.singletonList(contractId));
             req.setParam("statusId", statusId);
             req.setParam("dateFrom", dateFrom);

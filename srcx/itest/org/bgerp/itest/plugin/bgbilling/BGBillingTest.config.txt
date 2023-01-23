@@ -4,14 +4,15 @@ bgbilling:server.{@inc:cnt}.id=testbill
 bgbilling:server.{@cnt}.title=TestBilling
 # locally running test server
 bgbilling:server.{@cnt}.url=http://127.0.0.1:8080/bgbilling/executer
-bgbilling:server.{@cnt}.version=8.2
+bgbilling:server.{@cnt}.version=9.2210
 bgbilling:server.{@cnt}.customerIdParam=100
 bgbilling:server.{@cnt}.requestTimeOut=20000
 
 bgbilling:login.testbill=admin
 bgbilling:password.testbill=admin
 
-bgbilling:contractType.1.title=Договор в БИЛЛИНГЕ 7.x (
+bgbilling:contractType.1.title=Test ERP
 bgbilling:contractType.1.billing=testbill
 bgbilling:contractType.1.patternId=17
-bgbilling:contractType.1.tariffList=1:Домен физ. лица,2:Домен юр. лица
+bgbilling:contractType.1.tariffList=133:Test ERP 1,134:Test ERP 2
+#bgbilling:contractType.1.tariffPosition=2

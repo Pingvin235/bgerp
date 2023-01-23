@@ -1,16 +1,11 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -23,12 +18,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.IdTitle;
-import ru.bgcrm.model.Page;
-import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.param.ParameterSearchedObject;
+import ru.bgcrm.cache.ParameterCache;
+import ru.bgcrm.dao.CustomerDAO;
+import ru.bgcrm.dao.CustomerLinkDAO;
+import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.model.*;
+import ru.bgcrm.model.customer.Customer;
+import ru.bgcrm.model.param.*;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
@@ -815,7 +811,7 @@ public class ContractDAO extends BillingDAO {
     }
 
     public BigDecimal limit(int contractId, Pageable<LimitLogItem> log, List<LimitChangeTask> taskList) throws BGException {
-        BigDecimal result = BigDecimal.ZERO;
+        BigDecimal result;
         Document doc = null;
 
         if (dbInfo.getVersion().compareTo("6.2") >= 0) {
@@ -1121,14 +1117,6 @@ public class ContractDAO extends BillingDAO {
     }
 
     /**
-     * Использовать {@link ContractDAO#setTariffPlan(int, int, int)}
-     */
-    @Deprecated
-    public void setTariffPlan(int contractId, int tariffId, int position) throws BGException {
-        new ContractTariffDAO(user, dbInfo).setTariffPlan(contractId, tariffId, position);
-    }
-
-    /**
      * Использовать {@link ContractHierarchyDAO#getSubContracts(int)}.
      */
     @Deprecated
@@ -1216,9 +1204,9 @@ public class ContractDAO extends BillingDAO {
     public enum WebContractLogonLogType {
         OK("ok"), ERROR("error");
 
-        private String type;
+        private final String type;
 
-        private WebContractLogonLogType(String type) {
+        WebContractLogonLogType(String type) {
             this.type = type;
         }
 
@@ -1521,9 +1509,9 @@ public class ContractDAO extends BillingDAO {
     public enum WebRequestLimitMode {
         COMMON(1), DISABLED(2), PERSONAL(3);
 
-        private int mode;
+        private final int mode;
 
-        private WebRequestLimitMode(int mode) {
+        WebRequestLimitMode(int mode) {
             this.mode = mode;
         }
 
@@ -1547,7 +1535,7 @@ public class ContractDAO extends BillingDAO {
     }
 
     public List<IdTitle> getParameterList(int parameterTypeId) throws BGException {
-        List<IdTitle> paramList = null;
+        List<IdTitle> paramList;
         if (dbInfo.getVersion().compareTo("7.0") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.contract.param", "ContractParameterService",
                     "getContractParameterPrefList");
@@ -1660,6 +1648,154 @@ public class ContractDAO extends BillingDAO {
         }
 
         return result;
+    }
+
+    public void copyParametersToBilling(Connection con, int customerId, int contractId, String title) throws Exception {
+        Customer customer = new CustomerDAO(con).getCustomerById(customerId);
+
+        String copyParamsMapping = dbInfo.getSetup().get("copyParamMapping", "");
+
+        copyObjectParamsToContract(con, copyParamsMapping, customerId, contractId, customer);
+    }
+    public void copyObjectParamsToContract(Connection con, String copyParamsMapping, int objectId, int contractId,
+                                           Customer customer) throws SQLException, BGMessageException {
+        ParamValueDAO paramDAO = new ParamValueDAO(con);
+
+
+        try {
+            if (customer != null) {
+                bgbillingUpdateContractTitleAndComment(contractId,customer.getTitle(),0);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BGMessageException("Ошибка копирования имени контрагента: " + customer.getTitle() + "; "
+                    + dbInfo.getTitle() + ", " + e.getMessage());
+        }
+
+        if (Utils.isBlankString(copyParamsMapping)) {
+            return;
+        }
+
+        String[] params = copyParamsMapping.split(";");
+
+        for (String pair : params) {
+            try {
+                String[] keyValue = pair.split(":");
+
+                String fromParamId = keyValue[0].indexOf('[') == -1 ? keyValue[0]
+                        : keyValue[0].substring(0, keyValue[0].indexOf('['));
+                int toParamId = Utils.parseInt(keyValue[1].indexOf('[') == -1 ? keyValue[1]
+                        : keyValue[1].substring(0, keyValue[1].indexOf('[')));
+
+                Request request = new Request();
+                request.setModule("contract");
+                request.setAttribute("cid", contractId);
+                request.setAttribute("pid", toParamId);
+
+                if (fromParamId.equals("customerTitle")) {
+                    if (customer != null) {
+                        request.setAttribute("action", "UpdateParameterType1");
+                        request.setAttribute("value", customer.getTitle());
+
+                        transferData.postData(request, user);
+                    }
+                } else {
+                    Parameter param = ParameterCache.getParameter(Integer.parseInt(fromParamId));
+                    if (param == null) {
+                        throw new BGMessageException(
+                                "Ошибка при копировании параметра: параметр с ID=" + fromParamId + " не существует!");
+                    }
+                    String type = param.getType();
+
+                    if (Parameter.TYPE_ADDRESS.equals(type)) {
+                        SortedMap<Integer, ParameterAddressValue> values = paramDAO.getParamAddress(objectId,
+                                Integer.parseInt(fromParamId));
+
+                        if (values.size() > 0) {
+                            ParameterAddressValue value = values.get(values.firstKey());
+
+                            request.setAction("UpdateAddressInfo");
+
+                            request.setAttribute("hid", value.getHouseId());
+                            request.setAttribute("flat", value.getFlat());
+                            request.setAttribute("floor", value.getFloor() == -1 ? "" : value.getFloor());
+                            request.setAttribute("pod", value.getPod());
+                            request.setAttribute("room", value.getRoom());
+                            request.setAttribute("comment", value.getComment());
+
+                            transferData.postData(request, user);
+                        }
+                    } else if (Parameter.TYPE_TEXT.equals(type)) {
+                        String value = paramDAO.getParamText(objectId, Integer.parseInt(fromParamId));
+                        if (Utils.notBlankString(value)) {
+                            request.setAction("UpdateParameterType1");
+                            request.setAttribute("value", value);
+
+                            transferData.postData(request, user);
+                        }
+                    } else if (Parameter.TYPE_LIST.equals(type)) {
+                        Set<Integer> listValue = paramDAO.getParamList(objectId, Integer.parseInt(fromParamId));
+
+                        if (listValue != null && listValue.size() > 0) {
+                            // биллинг не поддерживает множественные значения списков, поэтому берем первый
+                            String fromValue = listValue.iterator().next().toString();
+
+                            String toValue = null;
+                            // преобразование по карте соответствий
+                            if (keyValue[0].indexOf('[') > 0) {
+                                String[] fromVals = keyValue[0]
+                                        .substring(keyValue[0].indexOf('[') + 1, keyValue[0].indexOf(']')).split(",");
+                                String[] toVals = keyValue[1]
+                                        .substring(keyValue[1].indexOf('[') + 1, keyValue[1].indexOf(']')).split(",");
+
+                                for (int i = 0; i < fromVals.length; i++) {
+                                    if (fromVals[i].equals(fromValue)) {
+                                        toValue = toVals[i];
+                                        break;
+                                    }
+                                }
+                            } else {
+                                toValue = fromValue;
+                            }
+
+                            if (Utils.notBlankString(toValue)) {
+                                new ContractParamDAO(user, dbInfo).updateListParameter(contractId, toParamId, toValue);
+                            }
+                        }
+                    } else if (Parameter.TYPE_PHONE.equals(type)) {
+                        ParameterPhoneValue value = paramDAO.getParamPhone(objectId, Integer.parseInt(fromParamId));
+                        if (value != null) {
+                            new ContractParamDAO(user, dbInfo).updatePhoneParameter(contractId, toParamId, value);
+                        }
+                    } else if (Parameter.TYPE_DATE.equals(type)) {
+                        Date value = paramDAO.getParamDate(objectId, Integer.parseInt(fromParamId));
+                        if (value != null) {
+                            new ContractParamDAO(user, dbInfo).updateDateParameter(contractId, toParamId, value);
+                        }
+                    } else if (Parameter.TYPE_EMAIL.equals(type)) {
+                        SortedMap<Integer, ParameterEmailValue> value = paramDAO.getParamEmail(objectId,
+                                Integer.parseInt(fromParamId));
+                        if (value.size() > 0) {
+                            new ContractParamDAO(user, dbInfo).updateEmailParameter(contractId, toParamId,
+                                    value.values());
+                        }
+                    }
+                }
+            } catch (BGException e) {
+                log.error(e.getMessage(), e);
+                throw new BGMessageException(
+                        "Ошибка при копировании параметра в биллинг! [" + pair + "] " + e.getMessage());
+            }
+        }
+    }
+
+    public static void copyParametersToAllContracts(Connection con, User user, int customerId) throws Exception {
+        CustomerLinkDAO linkDao = new CustomerLinkDAO(con);
+        for (CommonObjectLink link : linkDao.getObjectLinksWithType(customerId, Contract.OBJECT_TYPE + "%")) {
+            String billingId = StringUtils.substringAfter(link.getLinkedObjectType(), ":");
+            ContractDAO.getInstance(user, billingId).copyParametersToBilling(con, customerId, link.getLinkedObjectId(),
+                    link.getLinkedObjectTitle());
+        }
     }
 
 }
