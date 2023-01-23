@@ -233,19 +233,25 @@ public class DirectoryDAO extends BillingDAO {
     }
 
     public List<IdTitle> getServiceTypeList(int moduleId) throws BGException {
-        List<IdTitle> list = new ArrayList<>();
+        if (dbInfo.versionCompare("8.0") > 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.kernel.module", moduleId, "ModuleService", "moduleServiceList");
+            req.setParam("moduleId", moduleId);
+            return readJsonValue(transferData.postDataReturn(req, user).traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
+        } else {
+            List<IdTitle> list = new ArrayList<>();
 
-        Request req = new Request();
-        req.setModule(SERVICE_MODULE_ID);
-        req.setAction("GetServiceList");
-        req.setModuleID(moduleId);
+            Request req = new Request();
+            req.setModule(SERVICE_MODULE_ID);
+            req.setAction("GetServiceList");
+            req.setModuleID(moduleId);
 
-        Document doc = transferData.postData(req, user);
-        for (Element e : XMLUtils.selectElements(doc, "/data/services/service")) {
-            list.add(new IdTitle(Utils.parseInt(e.getAttribute("id")), e.getAttribute(TITLE_PARAM)));
+            Document doc = transferData.postData(req, user);
+            for (Element e : XMLUtils.selectElements(doc, "/data/services/service")) {
+                list.add(new IdTitle(Utils.parseInt(e.getAttribute("id")), e.getAttribute(TITLE_PARAM)));
+            }
+
+            return list;
         }
-
-        return list;
     }
 
     public TariffGroup getTariffGroup(int groupId) throws BGException {

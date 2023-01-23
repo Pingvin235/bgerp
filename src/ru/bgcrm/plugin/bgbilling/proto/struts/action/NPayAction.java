@@ -1,5 +1,7 @@
 package ru.bgcrm.plugin.bgbilling.proto.struts.action;
 
+import java.util.Date;
+
 import org.apache.struts.action.ActionForward;
 
 import ru.bgcrm.plugin.bgbilling.Plugin;
@@ -21,8 +23,7 @@ public class NPayAction extends BaseAction {
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
 
-        form.getResponse().setData("list",
-                NPayDAO.getInstance(form.getUser(), billingId, moduleId).getServiceList(contractId));
+        form.setResponseData("list", new NPayDAO(form.getUser(), billingId, moduleId).getServiceList(contractId));
 
         return html(conSet, form, PATH_JSP + "/service_list.jsp");
     }
@@ -32,14 +33,18 @@ public class NPayAction extends BaseAction {
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
 
-        if (form.getId() > 0) {
-            form.getResponse().setData("service",
-                    NPayDAO.getInstance(form.getUser(), billingId, moduleId).getService(form.getId()));
+        NPayService service = null;
+        if (form.getId() > 0)
+            service = new NPayDAO(form.getUser(), billingId, moduleId).getService(form.getId());
+        else {
+            service = new NPayService();
+            service.setDateFrom(new Date());
         }
-        form.getResponse().setData("serviceTypeList",
-                new DirectoryDAO(form.getUser(), billingId).getServiceTypeList(moduleId));
-        form.getResponse().setData("objectList",
-                new ContractObjectDAO(form.getUser(), billingId).getContractObjects(contractId));
+
+        form.setResponseData("service", service);
+
+        form.setResponseData("serviceTypeList", new DirectoryDAO(form.getUser(), billingId).getServiceTypeList(moduleId));
+        form.setResponseData("objectList", new ContractObjectDAO(form.getUser(), billingId).getContractObjects(contractId));
 
         return html(conSet, form, PATH_JSP + "/service_editor.jsp");
     }
@@ -58,7 +63,7 @@ public class NPayAction extends BaseAction {
         service.setObjectId(form.getParamInt("objectId"));
         service.setComment(form.getParam("comment", ""));
 
-        NPayDAO.getInstance(form.getUser(), billingId, moduleId).updateService(service);
+        new NPayDAO(form.getUser(), billingId, moduleId).updateService(service);
 
         return json(conSet, form);
     }
@@ -67,7 +72,7 @@ public class NPayAction extends BaseAction {
         String billingId = form.getParam("billingId");
         int moduleId = form.getParamInt("moduleId");
 
-        NPayDAO.getInstance(form.getUser(), billingId, moduleId).deleteService(form.getId());
+        new NPayDAO(form.getUser(), billingId, moduleId).deleteService(form.getId());
 
         return json(conSet, form);
     }

@@ -7,17 +7,17 @@ import java.util.Map;
  Примерный URL запроса:
 
  http://127.0.0.1:8080/bgbilling/executer/json/ru.bitel.bgbilling.kernel.contract.api/ContractService
-	{"method" : "contractList",
-	"user" :{ "user" : "shamil", "pswd" : "xxxx" },
-	"params" : {
-	"title" : "0",
-	"fc" : -1,
-	"groupMask" : 0,
-	"subContracts" : false,
-	"closed" : true,
-	"hidden" : false,
-	"page" : { "pageIndex" : 2, "pageSize" : 2 }
-	} }
+    {"method" : "contractList",
+    "user" :{ "user" : "shamil", "pswd" : "xxxx" },
+    "params" : {
+    "title" : "0",
+    "fc" : -1,
+    "groupMask" : 0,
+    "subContracts" : false,
+    "closed" : true,
+    "hidden" : false,
+    "page" : { "pageIndex" : 2, "pageSize" : 2 }
+    } }
 
  Примерный ответ:
 
@@ -36,67 +36,58 @@ import java.util.Map;
 
  Получение как List:
   readJsonValue(transferData.postDataReturn(req, user).traverse(),
-			     jsonTypeFactory.constructCollectionType( List.class, IdTitle.class ) )
+                 jsonTypeFactory.constructCollectionType( List.class, IdTitle.class ) )
 
  Ссылки:
   http://www.bgbilling.ru/v6.1/doc/ch02s08.html
   http://wiki.fasterxml.com/JacksonInFiveMinutes
 
 */
-public class RequestJsonRpc
-{
-	private final String module;
-	private final int moduleId;
-	private final String service;
-	private final String method;
+public class RequestJsonRpc {
+    private final String module;
+    private final int moduleId;
+    private final String service;
+    private final String method;
 
-	private final Map<String, Object> params = new HashMap<String, Object>();
+    private final Map<String, Object> params = new HashMap<String, Object>();
 
-	public RequestJsonRpc( String module, String service, String method )
-	{
-		this( module, 0, service, method );
-	}
+    public RequestJsonRpc(String module, String service, String method) {
+        this(module, 0, service, method);
+    }
 
-	public RequestJsonRpc( String module, int moduleId, String service, String method )
-	{
-		this.module = module;
-		this.moduleId = moduleId;
-		this.service = service;
-		this.method = method;
-	}
+    public RequestJsonRpc(String module, int moduleId, String service, String method) {
+        this.module = module;
+        this.moduleId = moduleId;
+        this.service = service;
+        this.method = method;
+    }
 
-	public String getUrl()
-	{
-		StringBuilder result = new StringBuilder( module );
+    public String getUrl() {
+        StringBuilder result = new StringBuilder(module);
 
-		if( moduleId > 0 )
-		{
-			result.append( "/" );
-			result.append( moduleId );
-		}
-		result.append( "/" );
-		result.append( service );
+        if (moduleId > 0) {
+            result.append("/");
+            result.append(moduleId);
+        }
+        result.append("/");
+        result.append(service);
 
-		return result.toString();
-	}
+        return result.toString();
+    }
 
-	public String getMethod()
-	{
-		return method;
-	}
+    public String getMethod() {
+        return method;
+    }
 
-	public void setParam( String name, Object value )
-	{
-		params.put( name, value );
-	}
+    public void setParam(String name, Object value) {
+        params.put(name, value);
+    }
 
-	public void setParamContractId( int value )
-	{
-		params.put( "contractId", value );
-	}
+    public void setParamContractId(int value) {
+        params.put("contractId", value);
+    }
 
-	public Map<String, Object> getParams()
-	{
-		return params;
-	}
+    public Map<String, Object> getParams() {
+        return params;
+    }
 }

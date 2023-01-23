@@ -1,6 +1,5 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,177 +12,183 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
-import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.InetDAO8x;
-import ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x.NPayDAO8x;
+import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.proto.model.npay.NPayService;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
 public class NPayDAO extends BillingModuleDAO {
-	private static final String NPAY_MODULE_ID = "npay";
+    private static final String NPAY_MODULE_ID = "npay";
 
-	protected NPayDAO(User user, String billingId, int moduleId) throws BGException {
-		super(user, billingId, moduleId);
-	}
+    public NPayDAO(User user, String billingId, int moduleId) throws BGException {
+        super(user, billingId, moduleId);
+    }
 
-	protected NPayDAO(User user, DBInfo dbInfo, int moduleId) throws BGException {
-		super(user, dbInfo.getId(), moduleId);
-	}
+    public NPayDAO(User user, DBInfo dbInfo, int moduleId) throws BGException {
+        super(user, dbInfo.getId(), moduleId);
+    }
 
-	public static NPayDAO getInstance(User user, DBInfo dbInfo, int moduleId) throws BGException {
-		if (dbInfo.getVersion().compareTo("8.0") > 0) {
-			return new NPayDAO8x(user, dbInfo, moduleId);
-		} else {
-			return new NPayDAO(user, dbInfo, moduleId);
-		}
-	}
+    /**
+     * Возвращает список абонплат договора.
+     * @param contractId
+     * @return
+     * @throws BGException
+     */
+    public List<NPayService> getServiceList(int contractId) throws BGException {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectList");
+            req.setParamContractId(contractId);
+            req.setParam("objectId", 0);
+            req.setParam("entityModuleId", -1);
+            req.setParam("entityId", -1);
+            req.setParam("actualItemsOnly", true);
+            req.setParam("actualItemsDate", new Date());
+            return readJsonValue(transferData.postDataReturn(req, user).traverse(),
+                    jsonTypeFactory.constructCollectionType(List.class, NPayService.class));
+        } else {
+            Request req = new Request();
+            req.setModule(NPAY_MODULE_ID);
+            req.setAction("ServiceObjectTable");
+            req.setModuleID(moduleId);
+            req.setContractId(contractId);
+            req.setAttribute("object_id", 0);
 
-	public static NPayDAO getInstance(User user, String billingId, int moduleId) throws BGException {
-		if (BillingDAO.getVersion(user, billingId).compareTo("8.0") > 0) {
-			return new NPayDAO8x(user, billingId, moduleId);
-		} else {
-			return new NPayDAO(user, billingId, moduleId);
-		}
-	}
+            Document document = transferData.postData(req, user);
 
-	/**
-	 * Возвращает список абонплат договора.
-	 * @param contractId
-	 * @return
-	 * @throws BGException
-	 */
-	public List<NPayService> getServiceList(int contractId) throws BGException {
-		Request req = new Request();
-		req.setModule(NPAY_MODULE_ID);
-		req.setAction("ServiceObjectTable");
-		req.setModuleID(moduleId);
-		req.setContractId(contractId);
-		req.setAttribute("object_id", 0);
+            List<NPayService> serviceList = new ArrayList<NPayService>();
 
-		Document document = transferData.postData(req, user);
+            if (document != null) {
+                Element dataElement = document.getDocumentElement();
+                NodeList nodeList = dataElement.getElementsByTagName("row");
 
-		List<NPayService> serviceList = new ArrayList<NPayService>();
+                for (int index = 0; index < nodeList.getLength(); index++) {
+                    NPayService service = new NPayService();
+                    Element rowElement = (Element) nodeList.item(index);
 
-		if (document != null) {
-			Element dataElement = document.getDocumentElement();
-			NodeList nodeList = dataElement.getElementsByTagName("row");
+                    service.setComment(rowElement.getAttribute("comment"));
+                    service.setDateFrom(TimeUtils.parse(rowElement.getAttribute(DATE_1), TimeUtils.PATTERN_DDMMYYYY));
+                    service.setDateTo(TimeUtils.parse(rowElement.getAttribute(DATE_2), TimeUtils.PATTERN_DDMMYYYY));
+                    service.setId(Utils.parseInt(rowElement.getAttribute("id")));
+                    service.setObjectId(Utils.parseInt(rowElement.getAttribute("objectId")));
+                    service.setObjectTitle(rowElement.getAttribute("object"));
+                    service.setServiceTitle(rowElement.getAttribute("service"));
+                    service.setServiceId(Utils.parseInt(rowElement.getAttribute("sid")));
+                    service.setCount(Utils.parseInt(rowElement.getAttribute("col")));
+                    service.setContractId(contractId);
 
-			for (int index = 0; index < nodeList.getLength(); index++) {
-				NPayService service = new NPayService();
-				Element rowElement = (Element) nodeList.item(index);
+                    serviceList.add(service);
+                }
+            }
+            return serviceList;
+        }
+    }
 
-				service.setComment(rowElement.getAttribute("comment"));
-				service.setDateFrom(TimeUtils.parse(rowElement.getAttribute(DATE_1), TimeUtils.PATTERN_DDMMYYYY));
-				service.setDateTo(TimeUtils.parse(rowElement.getAttribute(DATE_2), TimeUtils.PATTERN_DDMMYYYY));
-				service.setId(Utils.parseInt(rowElement.getAttribute("id")));
-				service.setObjectId(Utils.parseInt(rowElement.getAttribute("objectId")));
-				service.setObjectTitle(rowElement.getAttribute("object"));
-				service.setServiceTitle(rowElement.getAttribute("service"));
-				service.setServiceId(Utils.parseInt(rowElement.getAttribute("sid")));
-				service.setCount(Utils.parseInt(rowElement.getAttribute("col")));
-				service.setContractId(contractId);
+    /**
+     * Возвращает абонплату договора по коду записи.
+     * @param id
+     * @return
+     * @throws BGException
+     */
+    public NPayService getService(int id) throws BGException {
+        if (dbInfo.versionCompare("8.0") > 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectGet");
+            req.setParam("id", id);
+            return jsonMapper.convertValue(transferData.postDataReturn(req, user), NPayService.class);
+        } else {
+            NPayService result = null;
 
-				serviceList.add(service);
-			}
-		}
-		return serviceList;
-	}
+            Request req = new Request();
+            req.setModule(NPAY_MODULE_ID);
+            req.setAction("ServiceObjectGet");
+            req.setModuleID(moduleId);
+            req.setAttribute("id", id);
 
-	/**
-	 * Возвращает абонплату договора по коду записи.
-	 * @param id
-	 * @return
-	 * @throws BGException
-	 */
-	public NPayService getService(int id) throws BGException {
-		//http://billing:8081/executer?id=3004&module=npay&action=ServiceObjectGet&mid=6&BGBillingSecret=B6bysmW9pPPyBJxGsMFq6zEz&
-		//[ length = 211 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="6A6380BBFC43D59F44428773F111ADC8" status="ok"><object col="1" date1="01.05.2008" date2="" entityId="0" entityMid="0" oid="0" sid="31"/><comment/></data>
+            Document doc = transferData.postData(req, user);
+            Element serviceEl = XMLUtils.selectElement(doc, "/data/object");
+            if (serviceEl != null) {
+                result = new NPayService();
+                result.setId(id);
+                result.setServiceId(Utils.parseInt(serviceEl.getAttribute("sid")));
+                result.setObjectId(Utils.parseInt(serviceEl.getAttribute("oid")));
+                result.setCount(Utils.parseInt(serviceEl.getAttribute("col")));
+                result.setDateFrom(TimeUtils.parse(serviceEl.getAttribute(DATE_1), TimeUtils.PATTERN_DDMMYYYY));
+                result.setDateTo(TimeUtils.parse(serviceEl.getAttribute(DATE_2), TimeUtils.PATTERN_DDMMYYYY));
+                result.setComment(linesToString(XMLUtils.selectElement(doc, "/data/comment/")));
+            }
 
-		NPayService result = null;
+            return result;
+        }
+    }
 
-		Request req = new Request();
-		req.setModule(NPAY_MODULE_ID);
-		req.setAction("ServiceObjectGet");
-		req.setModuleID(moduleId);
-		req.setAttribute("id", id);
+    /**
+     * Изменяет либо добавляет абонплату договора.
+     * @param service
+     * @throws BGException
+     */
+    public void updateService(NPayService service) throws BGException {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectUpdate");
+            req.setParam("serviceObject", service);
+            transferData.postData(req, user);
+        } else
+            updateService(service.getId(), service.getContractId(), service.getServiceId(), service.getDateFrom(),
+                    service.getDateTo(), service.getObjectId(), service.getCount(), service.getComment());
+    }
 
-		Document doc = transferData.postData(req, user);
-		Element serviceEl = XMLUtils.selectElement(doc, "/data/object");
-		if (serviceEl != null) {
-			result = new NPayService();
-			result.setId(id);
-			result.setServiceId(Utils.parseInt(serviceEl.getAttribute("sid")));
-			result.setObjectId(Utils.parseInt(serviceEl.getAttribute("oid")));
-			result.setCount(Utils.parseInt(serviceEl.getAttribute("col")));
-			result.setDateFrom(TimeUtils.parse(serviceEl.getAttribute(DATE_1), TimeUtils.PATTERN_DDMMYYYY));
-			result.setDateTo(TimeUtils.parse(serviceEl.getAttribute(DATE_2), TimeUtils.PATTERN_DDMMYYYY));
-			result.setComment(linesToString(XMLUtils.selectElement(doc, "/data/comment/")));
-		}
+    /**
+     * Изменяет либо добавляет абонплату договора.
+     * @param id 0 - добавление, иначе - изменение
+     * @param contractId
+     * @param serviceId
+     * @param dateFrom
+     * @param dateTo
+     * @param objectId
+     * @param count
+     * @param comment
+     * @throws BGException
+     */
+    public void updateService(int id, int contractId, int serviceId, Date dateFrom, Date dateTo, int objectId, int count, String comment)
+            throws BGException {
+        Request req = new Request();
+        req.setModule(NPAY_MODULE_ID);
+        req.setAction("ServiceObjectUpdate");
+        req.setModuleID(String.valueOf(moduleId));
+        req.setContractId(contractId);
+        req.setAttribute("object_id", 0);
+        req.setAttribute("id", id <= 0 ? "new" : id);
+        req.setAttribute("sid", serviceId);
+        req.setAttribute("oid", objectId);
+        req.setAttribute("col", count);
+        req.setAttribute("comment", comment);
+        if (dateFrom != null) {
+            req.setAttribute(DATE_1, TimeUtils.format(dateFrom, TimeUtils.PATTERN_DDMMYYYY));
+        }
+        if (dateTo != null) {
+            req.setAttribute(DATE_2, TimeUtils.format(dateTo, TimeUtils.PATTERN_DDMMYYYY));
+        }
+        transferData.postData(req, user);
+    }
 
-		return result;
-	}
+    /**
+     * Удаляет абонплату договора.
+     * @param contractId
+     * @param id
+     * @throws BGException
+     */
+    public void deleteService( int id) throws BGException {
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc("ru.bitel.bgbilling.modules.npay", moduleId, "NPayService", "serviceObjectDelete");
+            req.setParam("id", id);
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
+            req.setModule(NPAY_MODULE_ID);
+            req.setAction("ServiceObjectDelete");
+            req.setModuleID(moduleId);
+            req.setAttribute("id", id);
 
-	/**
-	 * Изменяет либо добавляет абонплату договора.
-	 * @param service
-	 * @throws BGException
-	 */
-	public void updateService(NPayService service) throws BGException {
-		updateService(service.getId(), service.getContractId(), service.getServiceId(), service.getDateFrom(),
-				service.getDateTo(), service.getObjectId(), service.getCount(), service.getComment());
-	}
-
-	/**
-	 * Изменяет либо добавляет абонплату договора.
-	 * @param id 0 - добавление, иначе - изменение
-	 * @param contractId
-	 * @param serviceId
-	 * @param dateFrom
-	 * @param dateTo
-	 * @param objectId
-	 * @param count
-	 * @param comment
-	 * @throws BGException
-	 */
-	public void updateService(int id, int contractId, int serviceId, Date dateFrom, Date dateTo,
-			int objectId, int count, String comment) throws BGException {
-		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-
-		Request req = new Request();
-		req.setModule(NPAY_MODULE_ID);
-		req.setAction("ServiceObjectUpdate");
-		req.setModuleID(String.valueOf(moduleId));
-		req.setContractId(contractId);
-		req.setAttribute("object_id", 0);
-		req.setAttribute("id", id <= 0 ? "new" : id);
-		req.setAttribute("sid", serviceId);
-		req.setAttribute("oid", objectId);
-		req.setAttribute("col", count);
-		req.setAttribute("comment", comment);
-		if (dateFrom != null) {
-			req.setAttribute(DATE_1, formatter.format(dateFrom));
-		}
-		if (dateTo != null) {
-			req.setAttribute(DATE_2, formatter.format(dateTo));
-		}
-		transferData.postData(req, user);
-	}
-
-	/**
-	 * Удаляет абонплату договора.
-	 * @param contractId
-	 * @param id
-	 * @throws BGException
-	 */
-	public void deleteService( int id) throws BGException {
-		Request req = new Request();
-		req.setModule(NPAY_MODULE_ID);
-		req.setAction("ServiceObjectDelete");
-		req.setModuleID(moduleId);
-		req.setAttribute("id", id);
-
-		transferData.postData(req, user);
-	}
+            transferData.postData(req, user);
+        }
+    }
 }

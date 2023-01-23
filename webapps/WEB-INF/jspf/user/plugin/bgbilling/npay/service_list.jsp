@@ -3,42 +3,40 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<c:url var="url" value="plugin/bgbilling/proto/npay.do">
+<c:url var="url" value="/user/plugin/bgbilling/proto/npay.do">
 	<c:param name="action" value="serviceGet"/>
 	<c:param name="contractId" value="${form.param.contractId}"/>
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="moduleId" value="${form.param.moduleId}"/>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
-<button type="button" class="btn-green mb1" title="Добавить абонплату" onclick="openUrlToParent('${url}', $('#${uiid}') )">+</button>
+<ui:button type="add" styleClass="mb1" title="Добавить абонплату" onclick="$$.ajax.load('${url}', $('#${uiid}').parent(), {control: this})"/>
 
-<table class="data" width="100%" id="${uiid}">
+<table class="data hl" width="100%" id="${uiid}">
 	<tr>
 		<td width="30"></td>
 		<td width="30%">Услуга</td>
-		<td>Кол-во</td>
+		<td nowrap="1">Кол-во</td>
 		<td>Период</td>
 		<td width="30%">Объект</td>
 		<td width="30%">Комментарий</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
-			<c:url var="editUr" value="${url}">
-				<c:param name="id" value="${item.id}"/>			
-			</c:url> 
-			<c:set var="editCommand" value="openUrlToParent('${editUr}', $('#${uiid}') )"/>
-			
-			<c:url var="deleteAjaxUrl" value="plugin/bgbilling/proto/npay.do">
-				<c:param name="action" value="serviceDelete"/>
-				<c:param name="contractId" value="${form.param.conractId}"/>
-				<c:param name="billingId" value="${form.param.billingId}"/>
-				<c:param name="moduleId" value="${form.param.moduleId}"/>
-				<c:param name="id" value="${item.id}"/>
-			</c:url>
-			<c:set var="deleteAjaxCommandAfter" value="openUrlToParent('${form.requestUrl}',$('#${uiid}'))"/>
-			
 			<td nowrap="nowrap">
-				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
+				<c:url var="editUrl" value="${url}">
+					<c:param name="id" value="${item.id}"/>
+				</c:url>
+				<ui:button type="edit" styleClass="btn-small" onclick="$$.ajax.load('${editUrl}', $('#${uiid}').parent(), {control: this})"/>
+
+				<c:url var="deleteUrl" value="/user/plugin/bgbilling/proto/npay.do">
+					<c:param name="action" value="serviceDelete"/>
+					<c:param name="contractId" value="${form.param.conractId}"/>
+					<c:param name="billingId" value="${form.param.billingId}"/>
+					<c:param name="moduleId" value="${form.param.moduleId}"/>
+					<c:param name="id" value="${item.id}"/>
+				</c:url>
+				<ui:button type="del" styleClass="btn-small" onclick="$$.ajax.post('${deleteUrl}', {control: this}).done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))"/>
 			</td>
 			<td>${item.serviceTitle}</td>
 			<td>${item.count}</td>

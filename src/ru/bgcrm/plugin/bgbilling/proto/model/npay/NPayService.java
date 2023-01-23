@@ -4,116 +4,98 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 
-public class NPayService
-{
-	private int id;
-	private int serviceId;
-	private String serviceTitle;
-	private int objectId;
-	private String objectTitle;
-	private Date dateFrom;
-	private Date dateTo;
-	private String comment;
-	private int count;
-	private int contractId;
+public class NPayService {
+    private int id;
+    private int serviceId;
+    private String serviceTitle;
+    private int objectId;
+    private String objectTitle;
+    private Date dateFrom;
+    private Date dateTo;
+    private String comment;
+    private int count;
+    private int contractId;
 
-	public int getServiceId()
-	{
-		return serviceId;
-	}
+    public int getServiceId() {
+        return serviceId;
+    }
 
-	public void setServiceId( int sid )
-	{
-		this.serviceId = sid;
-	}
+    public void setServiceId(int sid) {
+        this.serviceId = sid;
+    }
 
-	public String getServiceTitle()
-	{
-		return serviceTitle;
-	}
+    public String getServiceTitle() {
+        return serviceTitle;
+    }
 
-	public void setServiceTitle( String serviceTitle )
-	{
-		this.serviceTitle = serviceTitle;
-	}
+    public void setServiceTitle(String serviceTitle) {
+        this.serviceTitle = serviceTitle;
+    }
 
-	public int getObjectId()
-	{
-		return objectId;
-	}
+    public int getObjectId() {
+        return objectId;
+    }
 
-	public void setObjectId( int objectId )
-	{
-		this.objectId = objectId;
-	}
+    public void setObjectId(int objectId) {
+        this.objectId = objectId;
+    }
 
-	public String getObjectTitle()
-	{
-		return objectTitle;
-	}
+    public String getObjectTitle() {
+        return objectTitle;
+    }
 
-	public void setObjectTitle( String objectTitle )
-	{
-		this.objectTitle = objectTitle;
-	}
+    public void setObjectTitle(String objectTitle) {
+        this.objectTitle = objectTitle;
+    }
 
-	public int getId()
-	{
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId( int id )
-	{
-		this.id = id;
-	}
-	@JsonProperty("date1")
-	public Date getDateFrom()
-	{
-		return dateFrom;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setDateFrom( Date dateFrom )
-	{
-		this.dateFrom = dateFrom;
-	}
-	@JsonProperty("date2")
-	public Date getDateTo()
-	{
-		return dateTo;
-	}
+    @JsonProperty("date1")
+    public Date getDateFrom() {
+        return dateFrom;
+    }
 
-	public void setDateTo( Date dateTo )
-	{
-		this.dateTo = dateTo;
-	}
+    public void setDateFrom(Date dateFrom) {
+        this.dateFrom = dateFrom;
+    }
 
-	public String getComment()
-	{
-		return comment;
-	}
+    @JsonProperty("date2")
+    public Date getDateTo() {
+        return dateTo;
+    }
 
-	public void setComment( String comment )
-	{
-		this.comment = comment;
-	}
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
+    }
 
-	public int getCount()
-	{
-		return count;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public void setCount( int count )
-	{
-		this.count = count;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-	public int getContractId()
-	{
-		return contractId;
-	}
+    @JsonProperty("col")
+    public int getCount() {
+        return count;
+    }
 
-	public void setContractId( int contractId )
-	{
-		this.contractId = contractId;
-	}
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(int contractId) {
+        this.contractId = contractId;
+    }
 }
