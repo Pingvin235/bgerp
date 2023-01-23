@@ -3,29 +3,24 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<table style="width: 100%;" id="${uiid}">
-	<tr><td>
-		<c:set var="pageFormSelector" value="#processQueueFilter form#${queue.id}-${form.param.savedFilterSetId}"/>
-		<ui:page-control
-			pageFormSelector="${pageFormSelector}"
-			nextCommand="; processQueueMarkFilledFilters($('${pageFormSelector}')); $$.ajax.load($('${pageFormSelector}'), $('#processQueueData'));" />
-	</td></tr>
-</table>
+<div id="${uiid}">
+	<c:set var="pageFormSelector" value="#processQueueFilter form#${queue.id}-${form.param.savedFilterSetId}"/>
+	<c:set var="nextCommand" value="; processQueueMarkFilledFilters($('${pageFormSelector}')); $$.ajax.load($('${pageFormSelector}'), $('#processQueueData'));"/>
+	<%-- there is one more page control at the page' bottom --%>
+	<ui:page-control pageFormSelector="${pageFormSelector}" nextCommand="${nextCommand}"/>
+</div>
 
 <%-- обновление очереди по переходу в неё --%>
 <script>
-	$(function()
-	{
-		var $contentDiv = $('#content > #process-queue');
+	$(function () {
+		const $contentDiv = $('#content > #process-queue');
 
 		// т.к. каждый раз UIID промотчика страниц разный - переопределение onShow
-		$contentDiv.data('onShow',
-			function()
-			{
-				$("#${uiid} button[name='pageControlRefreshButton']").click();
-				$$.debug( 'processQueue', 'refresh queue', $("#${uiid} button[name='pageControlRefreshButton']") );
-				$$.shell.stateFragment(${queue.id});
-			});
+		$contentDiv.data('onShow', function () {
+			$("#${uiid} button[name='pageControlRefreshButton']").click();
+			$$.debug( 'processQueue', 'refresh queue', $("#${uiid} button[name='pageControlRefreshButton']") );
+			$$.shell.stateFragment(${queue.id});
+		});
 
 		$$.debug( 'processQueue', 'added onShow callback on ', $contentDiv );
 	});
@@ -54,11 +49,9 @@
 	});
 </script>
 
-<table style="width: 100%;">
-	<tr><td>
-		<ui:page-control nextCommand="${nextCommand}" />
-	</td></tr>
-</table>
+<div>
+	<ui:page-control pageFormSelector="${pageFormSelector}" nextCommand="${nextCommand}"/>
+</div>
 
 <shell:title>
 	<jsp:attribute name="text">
