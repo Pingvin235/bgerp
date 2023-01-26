@@ -61,12 +61,12 @@ public class ContractDAO extends BillingDAO {
     public static final String LIMIT_ATRIBUTE = "limit";
 
     public static class SearchOptions {
-        public boolean showDel;
+        public boolean showHidden;
         public boolean showClosed;
         public boolean showSub;
 
-        public SearchOptions(boolean showDel, boolean showClosed, boolean showSub) {
-            this.showDel = showDel;
+        public SearchOptions(boolean showHidden, boolean showClosed, boolean showSub) {
+            this.showHidden = showHidden;
             this.showClosed = showClosed;
             this.showSub = showSub;
         }
@@ -437,7 +437,7 @@ public class ContractDAO extends BillingDAO {
             req.setAttribute("show_sub", 0);
             req.setAttribute("show_closed", 0);
         } else {
-            req.setAttribute("del", Utils.booleanToStringInt(options.showDel));
+            req.setAttribute("del", Utils.booleanToStringInt(options.showHidden));
             req.setAttribute("show_sub", Utils.booleanToStringInt(options.showSub));
             req.setAttribute("show_closed", Utils.booleanToStringInt(options.showClosed));
         }

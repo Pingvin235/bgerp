@@ -1,19 +1,23 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.bgerp.model.Pageable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.IdTitle;
+import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractHierarchyDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
+import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMemo;
 import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
+import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -291,5 +295,33 @@ public class ContractDAO8x extends ContractDAO {
         req.setParam("paramType", parameterTypeId);
         JsonNode ret = transferData.postDataReturn(req, user);
         return readJsonValue(ret.traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
+    }
+
+    @Override
+    public void searchContractByTitleComment(Pageable<IdTitle> searchResult, String title, String comment, SearchOptions searchOptions)
+            throws BGException {
+        if (searchResult != null) {
+            RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API,
+                    "ContractService", "contractList");
+            req.setParam("title", title);
+            req.setParam("comment", comment);
+            req.setParam("fc", -1);
+            req.setParam("groupMask", 0);
+            req.setParam("entityFilter", null);
+            req.setParam("subContracts", searchOptions.showSub);
+            req.setParam("closed", !searchOptions.showClosed); //It is turn over in billing. I don't know why!!!
+            req.setParam("hidden", searchOptions.showHidden);
+            req.setParam("page", searchResult.getPage());
+
+            JsonNode ret = transferData.postData(req, user);
+            List<Contract> contractList = readJsonValue(ret.findValue("return").traverse(),
+                    jsonTypeFactory.constructCollectionType(List.class, Contract.class));
+            searchResult.getList().clear();
+            searchResult.getList().addAll(contractList.stream()
+                    .map(c -> new IdTitle(c.getId(), c.getTitle() + " [ " + c.getComment() + " ] "))
+                    .collect(Collectors.toList())
+            );
+            searchResult.getPage().setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
+        }
     }
 }

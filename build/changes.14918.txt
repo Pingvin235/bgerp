@@ -1,0 +1,1 @@
+F: Plugin BGBilling. Duplicated search results.

@@ -83,8 +83,8 @@ public class ContractAction extends BaseAction {
 
         boolean showClosed = form.getParamBoolean("show_closed", false);
         boolean showSub = form.getParamBoolean("show_sub", false);
-        boolean showDel = form.getParamBoolean("show_invisible", false);
-        SearchOptions searchOptions = new SearchOptions(showDel, showClosed, showSub);
+        boolean showHidden = form.getParamBoolean("show_invisible", false);
+        SearchOptions searchOptions = new SearchOptions(showHidden, showClosed, showSub);
 
         User user = form.getUser();
 
