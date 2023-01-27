@@ -20,7 +20,7 @@ public class DBInfoManager {
     private Map<String, DBInfo> dbInfoMap = new HashMap<String, DBInfo>();
     private List<DBInfo> dbInfoList = new ArrayList<DBInfo>();
 
-    private static final Set<String> SUPPORTED_VERSIONS = Set.of("5.1", "5.2", "6.0", "6.1", "6.2", "7.0", "7.1", "7.2", "8.0", "8.2110", "9.2210");
+    private static final Set<String> SUPPORTED_VERSIONS = Set.of("5.1", "5.2", "6.0", "6.1", "6.2", "7.0", "7.1", "7.2", "8.0", "8.2", "9.2");
 
     private DBInfoManager(Setup setupData) {
         final String prefix = "bgbilling:server.";

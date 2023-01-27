@@ -4,7 +4,7 @@ bgbilling:server.{@inc:cnt}.id=testbill
 bgbilling:server.{@cnt}.title=TestBilling
 # locally running test server
 bgbilling:server.{@cnt}.url=http://127.0.0.1:8080/bgbilling/executer
-bgbilling:server.{@cnt}.version=9.2210
+bgbilling:server.{@cnt}.version=9.2
 bgbilling:server.{@cnt}.customerIdParam=100
 bgbilling:server.{@cnt}.requestTimeOut=20000
 
