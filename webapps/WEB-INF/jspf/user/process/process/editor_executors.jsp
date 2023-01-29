@@ -7,8 +7,6 @@
 <%@page import="ru.bgcrm.model.process.ProcessGroup"%>
 <%@page import="java.util.Set"%>
 <%@page import="java.util.HashSet"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
 <%@page import="ru.bgcrm.cache.UserCache"%>
 <%@page import="ru.bgcrm.model.IdTitle"%>
@@ -62,27 +60,26 @@
 
 						Set<ProcessExecutor> executors = ((Process)pageContext.getAttribute( "process" )).getExecutors();
 
-						String meGroupAndRole = null;
+						Localizer l = (Localizer) request.getAttribute("l");
+						IdStringTitle meItem = null;
 
 						List<IdStringTitle> list = new ArrayList<>(executors.size());
 						for( User user : UserCache.getUserList() )
 						{
-							//TODO: Наверное, лучше сделать фильтр не по текущим группам, а по когда-либо присутствующим.
+							// TODO: Наверное, лучше сделать фильтр не по текущим группам, а по когда-либо присутствующим.
 							if (!user.getGroupIds().contains(group.getId()) ||
 								user.getStatus() != User.STATUS_ACTIVE)
 								continue;
 
 							String userGroupAndRole = user.getId() + ":" + group.getId() + ":" + role.getId();
-							list.add(new IdStringTitle(userGroupAndRole, user.getTitle()));
-
 							if (user.getId() == form.getUserId())
-								meGroupAndRole = userGroupAndRole;
+								meItem = new IdStringTitle(userGroupAndRole, user.getTitle() + " " + l.l("[you]"));
+							else
+								list.add(new IdStringTitle(userGroupAndRole, user.getTitle()));
 						}
 
-						Localizer l = (Localizer) request.getAttribute("l");
-
-						if( meGroupAndRole != null )
-							list.add(0, new IdStringTitle(meGroupAndRole, l.l("** Я **")));
+						if (meItem != null)
+							list.add(0, meItem);
 
 						Set<String> values = new HashSet<>(executors.size());
 						for (ProcessExecutor ex : executors)

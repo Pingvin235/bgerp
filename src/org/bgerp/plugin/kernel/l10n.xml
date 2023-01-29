@@ -561,6 +561,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Not defined mandatory comment for a value</en><ru>Не указан обязательный комментарий к значению</ru></p>
 	<p><en>of message</en><ru>сообщения</ru></p>
 	<p><en>of news</en><ru>новости</ru></p>
+	<p><en>[you]</en><ru>[Вы]</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
