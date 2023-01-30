@@ -99,7 +99,7 @@ public class ContractDAO8x extends ContractDAO {
             JSONObject balanceJson = infoJson.optJSONObject("balance");
             if (balanceJson != null) {
                 result.setBalanceDate(
-                        new GregorianCalendar(balanceJson.optInt("yy", -1), balanceJson.optInt("mm", -1), 1)
+                        new GregorianCalendar(balanceJson.optInt("yy", -1), balanceJson.optInt("mm", -1) - 1, 1)
                                 .getTime());
                 result.setBalanceIn(Utils.parseBigDecimal(balanceJson.optString("summa1", "0"), BigDecimal.ZERO));
                 result.setBalancePayment(Utils.parseBigDecimal(balanceJson.optString("summa2", "0"), BigDecimal.ZERO));
