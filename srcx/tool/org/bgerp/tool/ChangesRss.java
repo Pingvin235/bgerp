@@ -26,7 +26,7 @@ import ru.bgcrm.util.Utils;
  *
  * @author Shamil Vakhitov
  */
-public class RssGenerator {
+public class ChangesRss {
     private static final Log log = Log.getLog();
 
     // Mon, 06 Mar 2017 15:05:02 +0500
@@ -35,7 +35,7 @@ public class RssGenerator {
     private final String title;
     private final String downloadLink;
 
-    private RssGenerator(String version, String fileIn, String fileOut) throws Exception {
+    private ChangesRss(String version, String fileIn, String fileOut) throws Exception {
         this.title = "ChangeLog BGERP v." + version + " CI";
         this.downloadLink = "ftp://bgerp.org/pub/bgerp/" + version;
 
@@ -138,7 +138,7 @@ public class RssGenerator {
     }
 
     public static void main(String[] args) throws Exception {
-        new RssGenerator(args[0], args[1], args[2]);
+        new ChangesRss(args[0], args[1], args[2]);
     }
 
 }

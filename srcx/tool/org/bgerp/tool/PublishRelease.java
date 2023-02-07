@@ -38,6 +38,7 @@ public class PublishRelease extends PublishCommon {
         String name = publishFile("bgerp");
         if (Utils.notBlankString(name)) {
             log.info("Creating symlink for {}", name);
+            // the link is used for easy taking the latest release
             ssh("ln", "-sf", sshDir + "/" + name, sshDir + "/bgerp.zip");
         }
         publishFile("update");

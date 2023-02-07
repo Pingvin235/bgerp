@@ -562,6 +562,10 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>of message</en><ru>сообщения</ru></p>
 	<p><en>of news</en><ru>новости</ru></p>
 	<p><en>[you]</en><ru>[Вы]</ru></p>
+	<p><en>Date To is not defined or expired</en><ru>Дата окончания не определена или истекла</ru></p>
+	<p><en>License limit error</en><ru>Ошибка лимита лицензии</ru></p>
+	<p><en>License Will Expire Soon</en><ru>Лицензия вскоре истекает</ru></p>
+	<p><en>Your license will expire at {}</en><ru>Ваша лицензия истечёт {}</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

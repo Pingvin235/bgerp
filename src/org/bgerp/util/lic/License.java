@@ -17,6 +17,7 @@ import org.bgerp.action.admin.LicenseAction;
 import org.bgerp.event.client.LicenseEvent;
 import org.bgerp.model.Message;
 import org.bgerp.servlet.user.LoginStat;
+import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.Plugin;
@@ -55,11 +56,13 @@ public class License {
 
     private static final int CHECK_ERROR_NOTIFICATION_RANDOM_BOUND = 100;
 
+    private final LocalDate created = LocalDate.now();
     private final String data;
     private final ParameterMap config;
     private final int limit;
     private final Date dateTo;
     private final byte[] digest;
+    /** The error must not be localized! */
     private final String error;
     private final Set<String> plugins;
 
@@ -142,10 +145,10 @@ public class License {
         if (Utils.isBlankString(error)) {
             // send the notification only to users with allowed action
             if (!actionAllowed ||
-                CHECK_EXPIRATION_DAYS_BEFORE < ChronoUnit.DAYS.between(LocalDate.now(), dateTo.toInstant()))
+                CHECK_EXPIRATION_DAYS_BEFORE < ChronoUnit.DAYS.between(LocalDate.now(), TimeConvert.toLocalDate(dateTo)))
                 return;
 
-            if (new Random().nextInt(CHECK_EXPIRATION_NOTIFICATION_RANDOM_BOUND) == 0) {
+            if (Setup.getSetup().getBoolean("license.check.notification.test") || new Random().nextInt(CHECK_EXPIRATION_NOTIFICATION_RANDOM_BOUND) == 0) {
                 form.getResponse().addEvent(
                     new LicenseEvent(new Message(form.l.l("License Will Expire Soon"),
                         form.l.l("Your license will expire at {}", TimeUtils.format(dateTo, TimeUtils.FORMAT_TYPE_YMD))),
@@ -153,25 +156,35 @@ public class License {
             }
         }
         // error
-        else if (new Random().nextInt(CHECK_ERROR_NOTIFICATION_RANDOM_BOUND) == 0) {
+        else if (Setup.getSetup().getBoolean("license.check.error.test") || new Random().nextInt(CHECK_ERROR_NOTIFICATION_RANDOM_BOUND) == 0) {
             form.getResponse().addEvent(
-                new LicenseEvent(new Message(form.l.l("License Check Error"), form.l.l(error)),
+                new LicenseEvent(new Message(form.l.l("License Check Error"), error),
                     actionAllowed));
         }
     }
 
     /**
-     * @return count of logged in users is less that limit.
+     * Checks if count of logged in users is less that license limit.
+     * When {@link #error} is not blank, returns {@code true} to allow fix the license.
+     * Return {@code true} when license check is disabled.
+     * @return allowance to log in.
      */
     public boolean checkSessionLimit() {
-        if (!isCheckEnabled())
+        if (!isCheckEnabled() || Utils.notBlankString(error))
             return true;
 
-        return limit < LoginStat.getLoginStat().getLoggedUserList().size();
+        return LoginStat.getLoginStat().getLoggedUserList().size() < limit;
+    }
+
+    /**
+     * @return is the license object created today.
+     */
+    public boolean isCreatedToday() {
+        return ChronoUnit.DAYS.between(created, LocalDate.now()) == 0;
     }
 
     private boolean isCheckEnabled() {
-        return Setup.getSetup().getBoolean("license.check", false);
+        return Setup.getSetup().getBoolean("license.check", true);
     }
 
     private byte[] digest() {
@@ -195,6 +208,9 @@ public class License {
     }
 
     private String error() {
+        if (Utils.isBlankString(data))
+            return "License is missing";
+
         var signature = config.get(KEY_LIC_SIGN);
 
         if (Utils.isEmptyString(signature))
@@ -209,7 +225,7 @@ public class License {
         final Set<String> plugins = plugins();
 
         Set<String> missing = PluginManager.getInstance().getPluginList().stream()
-            .filter(p -> !p.isSystem())
+            .filter(p -> !p.isSystem() && !p.getId().startsWith("custom."))
             .map(Plugin::getId)
             .filter(id -> !plugins.contains(id))
             .collect(Collectors.toSet());

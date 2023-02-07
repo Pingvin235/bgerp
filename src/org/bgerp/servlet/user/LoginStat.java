@@ -51,7 +51,7 @@ public class LoginStat {
     /**
      * Logged users IDs ordered by first session login time.
      */
-    private volatile List<Integer> loggedUserIds;
+    private volatile List<Integer> loggedUserIds = List.of();
 
     private LoginStat() {
         try {

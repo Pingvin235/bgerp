@@ -193,14 +193,14 @@ blow:board.2.openUrl=bgerp-is
 === License
 A license file `lic.data` placed in the application root directory and enables usage of defined plugins and restricts number of concurrent user sessions.
 
-NOTE: The license check has to be switched on using configuration option *check.license=1*
+NOTE: The license check has to be switched off using configuration option *check.license=0*
 
 License management tool can be found in menu *Administration / License*.
 
 image::_res/license.png[width="800px"]
 
 In the top state area is shown the current license state, below is placed the current license content and a buttom for uploding file.
-The actual demo license is always awailable here: https://demo.bgerp.org/lic.data
+The actual demo license is always awailable on the project's web-site.
 
 [[config-data]]
 === Data

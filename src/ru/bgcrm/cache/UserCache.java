@@ -101,7 +101,7 @@ public class UserCache extends Cache<UserCache> {
 
         final boolean permCheck = Setup.getSetup().getBoolean(key, false);
         final boolean userPermCheck = user.getConfigMap().getBoolean(key, true);
-        if (permCheck && userPermCheck && user.getId() != 1) {
+        if (permCheck && userPermCheck && !user.isAdmin()) {
             final Map<String, ParameterMap> userPerm = HOLDER.getInstance().userPermMap.get(userId);
             if (userPerm != null) {
                 final PermissionNode node = PermissionNode.getPermissionNode(action);
@@ -433,13 +433,8 @@ public class UserCache extends Cache<UserCache> {
                         perm.putAll(permsetPermMap);
                     }
 
-                    // склеивание ролей и конфигураций
                     final Permset permset = result.userPermsetMap.get(permsetId);
                     if (permset != null) {
-                        user.setRoles(user.getRoles() + " " + permset.getRoles());
-
-                        // пока просто склеивание конфигов полностью а нужно сделать склеивание на уровне параметров,
-                        // чтобы города объединялись
                         fullUserConfig.append(permset.getConfig());
                         fullUserConfig.append("\n");
                     } else {
@@ -470,8 +465,8 @@ public class UserCache extends Cache<UserCache> {
                     }
                 }
 
-                log.debug("User id: {}; login: {}; roles: {}; queueIds: {}; config: \n{}; groups: {}; permsetIds: ", user.getId(), user.getLogin(),
-                        user.getRoles(), user.getQueueIds(), user.getConfig(), userGroupList, userPermsetIds);
+                log.debug("User id: {}; login: {}; queueIds: {}; config: \n{}; groups: {}; permsetIds: ", user.getId(), user.getLogin(),
+                        user.getQueueIds(), user.getConfig(), userGroupList, userPermsetIds);
             }
 
             User user = new User();

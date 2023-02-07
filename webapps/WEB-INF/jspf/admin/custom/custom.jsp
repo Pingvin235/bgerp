@@ -19,8 +19,9 @@
 
 <h2>JAR</h2>
 <ui:files files="<%=org.bgerp.action.admin.CustomAction.CUSTOM_JAR%>" requestUrl="${form.requestUrl}" maxCount="1"/>
-
-<%@ include file="../app/app_restart.jsp"%>
+<div class="mt1">
+	<%@ include file="../app/app_restart.jsp"%>
+</div>
 
 <shell:title ltext="Custom"/>
 <shell:state help="kernel/extension.html#custom"/>

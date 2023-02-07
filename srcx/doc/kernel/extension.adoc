@@ -204,7 +204,7 @@ Open the template repo https://github.com/Pingvin235/bgerp-custom and press *For
 
 image::_res/github_fork.png[width='800px']
 
-Rename the fork on Settings tab to *bgerp-custom-<MyCompany>*, using instead of *<MyCompany>* a wanted name. For example *bgerp-custom-bitel* as on the screen below.
+Rename the fork on *Settings* tab to *bgerp-custom-<MyCompany>*, using instead of *<MyCompany>* a wanted name. For example *bgerp-custom-bitel* as on the screen below.
 
 image::_res/github_rename.png[width='800px']
 

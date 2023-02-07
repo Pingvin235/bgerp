@@ -10,18 +10,28 @@ task publishUpdate(type: JavaExec, dependsOn: ['compileToolJava', 'touchChanges'
 task publishRelease(type: JavaExec, dependsOn: 'compileToolJava', description: 'Copies distribution, update and update_lib packages to CDN server') {
     mustRunAfter 'buildUpdate'
     mustRunAfter 'buildUpdateLib'
-    mustRunAfter 'patchChanges'
-    mustRunAfter 'rss'
+    mustRunAfter 'changesFile'
+    mustRunAfter 'changesRss'
     classpath =  sourceSets.tool.runtimeClasspath
     mainClass = 'org.bgerp.tool.PublishRelease'
     args "$buildDir/$distsDirName", version, "${->getBuild()}"
 }
 
-task publishCommit(type: Exec, description: 'Pushes changes in master branch to GIT') {
+task publishCommit(type: Exec, description: 'Commits modifications over build *.properties, changes.* and documentation files to GIT') {
     mustRunAfter 'updateProperties'
-    mustRunAfter 'updatePropertiesLib'
-    mustRunAfter 'patchChanges'
-    mustRunAfter 'rss'
-    workingDir "$projectDir/build"
-    commandLine 'git', 'commit', '*.properties', 'changes.txt', 'changes.*.txt', "-m PUBLISH ${->getBuild()}"
+    mustRunAfter 'updateLibProperties'
+    mustRunAfter 'changesFile'
+    mustRunAfter 'changesRss'
+    doFirst {
+        exec {
+            workingDir projectDir
+            commandLine 'git', 'add', 'srcx/doc'
+        }
+        exec {
+            workingDir "$projectDir/build"
+            commandLine 'git', 'add', '*.properties', 'changes.txt', 'changes.*.txt'
+        }
+    }
+    workingDir projectDir
+    commandLine 'git', 'commit', "-m PUBLISH ${->getBuild()}"
 }

@@ -48,7 +48,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 	<script>
 		$(function () {
 			const source = ${ui.selectSingleSourceJson(list, availableIdSet, availableIdList, map, showId, showComment)};
-			$$.ui.select.single.init('${uiid}', source, '${value}', (filteredSource) => { ${additionalSourceFilter} return filteredSource }, ($hidden, $input) => { ${onSelect} });
+			$$.ui.select.single.init('${uiid}', source, '${value}', (filteredSource) => { ${additionalSourceFilter} return filteredSource }, function ($hidden, $input) { ${onSelect} });
 		})
 	</script>
 </div>

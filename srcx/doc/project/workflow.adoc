@@ -346,7 +346,7 @@ CAUTION: Be sure that <<test-integration, Integration tests>> are successfully d
 Perform the following:
 [source, bash]
 ----
-bash -c "./gradlew clean resetProperties updateLibProperties buildUpdateLib updateProperties buildUpdate buildDist"
+./gradlew clean resetProperties updateLibProperties buildUpdateLib updateProperties buildUpdate buildDist
 ----
 
 NOTE: *buildUpdateLib* and *updateLibProperties* tasks check existence of file `build/changes.lib.txt`, marking changes in <<index.adoc#java-lib, Java libraries>>.
@@ -357,10 +357,16 @@ Build a <<build-docker, Docker Image>>:
 bash build/docker/files.sh && docker build build/docker -t bgerp/bgerp && docker push bgerp/bgerp
 ----
 
-Then:
+Then apply file changes and commit them:
 [source, bash]
 ----
-bash -c "./gradlew patchChanges rss publishRelease publishCommit"
+./gradlew changesFile changesRss changesDoc publishCommit
+----
+
+Copy the built artifacts to the server and check the results on https://bgerp.org
+[source, bash]
+----
+bash -c "./gradlew publishRelease"
 ----
 
 Check the release commit and make:
@@ -375,13 +381,11 @@ Merge the latest state of the master on <<doc-release, documentation>> branch:
 git checkout p11862-documentation && git pull --rebase && git merge master && git push
 ----
 
-Pick documentation changes back to master. There might be no commit.
+Pick documentation changes back to master.
 [source, bash]
 ----
 git checkout master && git pull --rebase && git merge --squash p11862-documentation && git commit -am "p11862 Documentation." && git push
 ----
-
-Folder with current changes <<../changes/00000/index.adoc#, 00000>> has to be copied to a new one and changes cleaned up.
 
 Add news to Web sites about release with a link to the release changes.
 

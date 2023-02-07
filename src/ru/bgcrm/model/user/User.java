@@ -32,13 +32,6 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     public static final int USER_SYSTEM_ID = 0;
     public static final int USER_CUSTOMER_ID = -1;
 
-    /** Active user. */
-    public static final int STATUS_ACTIVE = 0;
-    /** Blocked user. */
-    public static final int STATUS_DISABLED = 1;
-    /** User provided from external auth system. Is active, but shouldn't be edited in the current one. */
-    public static final int STATUS_EXTERNAL = 2;
-
     public static final User USER_SYSTEM = new User();
     public static final User USER_CUSTOMER = new User();
 
@@ -52,30 +45,49 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         USER_CUSTOMER.setTitle("Customer");
     }
 
+    /** Active user. */
+    public static final int STATUS_ACTIVE = 0;
+    /** Blocked user. */
+    public static final int STATUS_DISABLED = 1;
+    /** User provided from external auth system. Is active, but shouldn't be edited in the current one. */
+    public static final int STATUS_EXTERNAL = 2;
+
     private String login;
     private String password;
     private int status = STATUS_ACTIVE;
-    // not used because of EMail parameter
-    private String email = "";
-    private String roles = "";
-    private String config = "";
-    private String personalization = "";
     // TODO: Rename to comment similar with others?.
     private String description = "";
-    private ParameterMap configMap = new Preferences();
-    private Preferences personalizationMap = new Preferences();
-    private List<Integer> permsetIds = new ArrayList<>();
     private Set<Integer> groupIds = new HashSet<>();
+    private List<Integer> permsetIds = new ArrayList<>();
     private Set<Integer> queueIds = new HashSet<>();
 
-    // planned identifiers like phone numbers, currently not used
-    private List<String> ids = new ArrayList<String>();
+    private String config = "";
+    private ParameterMap configMap = new Preferences();
+
+    private String personalization = "";
+    private Preferences personalizationMap = new Preferences();
 
     public User() {}
 
     public User(String login, String password) {
         this.login = login;
         this.password = password;
+    }
+
+    /**
+     * @return is the user admin with {@link #getId()} equals {@code 1}.
+     */
+    public boolean isAdmin() {
+        return id == 1;
+    }
+
+    @Override
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     @Override
@@ -88,25 +100,6 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    @Deprecated
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Deprecated
-    public String getEmail() {
-        return email;
     }
 
     public int getStatus() {
@@ -125,38 +118,6 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         this.description = description;
     }
 
-    public String getConfig() {
-        return config;
-    }
-
-    public void setConfig(String config) {
-        this.config = config;
-        this.configMap = new Preferences(config);
-    }
-
-    @JsonIgnore
-    public ParameterMap getConfigMap() {
-        return configMap;
-    }
-
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
-
-    public List<Integer> getPermsetIds() {
-        return permsetIds;
-    }
-
-    public void setPermsetIds(List<Integer> permsetIds) {
-        if (permsetIds != null) {
-            this.permsetIds = permsetIds;
-        }
-    }
-
     /**
      * Group IDs active on the current date.
      * @return
@@ -171,19 +132,14 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         }
     }
 
-    @Override
-    public int compareTo(User o) {
-        return title.compareTo(o.getTitle());
+    public List<Integer> getPermsetIds() {
+        return permsetIds;
     }
 
-    @Deprecated
-    public List<String> getIds() {
-        return ids;
-    }
-
-    @Deprecated
-    public void setIds(List<String> phoneNumbers) {
-        this.ids = phoneNumbers;
+    public void setPermsetIds(List<Integer> permsetIds) {
+        if (permsetIds != null) {
+            this.permsetIds = permsetIds;
+        }
     }
 
     public Set<Integer> getQueueIds() {
@@ -194,6 +150,20 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
         if (queueIds != null) {
             this.queueIds = queueIds;
         }
+    }
+
+    public String getConfig() {
+        return config;
+    }
+
+    public void setConfig(String config) {
+        this.config = config;
+        this.configMap = new Preferences(config);
+    }
+
+    @JsonIgnore
+    public ParameterMap getConfigMap() {
+        return configMap;
     }
 
     @JsonIgnore
@@ -209,6 +179,30 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     @JsonIgnore
     public Preferences getPersonalizationMap() {
         return personalizationMap;
+    }
+
+    @Override
+    public int compareTo(User o) {
+        return title.compareTo(o.getTitle());
+    }
+
+    @Override
+    public User clone() {
+        var user = new User();
+
+        user.setConfig(config);
+        user.setDescription(description);
+        user.setGroupIds(new HashSet<>(groupIds));
+        user.setId(id);
+        user.setLogin(login);
+        user.setPassword(password);
+        user.setPermsetIds(new ArrayList<>(permsetIds));
+        user.setPersonalization(personalization);
+        user.setQueueIds(new HashSet<>(queueIds));
+        user.setStatus(status);
+        user.setTitle(title);
+
+        return user;
     }
 
     /**
@@ -238,26 +232,5 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
             log.warn("Not primary action name '{}' was used for checking of '{}'", action, node.getAction());
 
         return UserCache.getPerm(id, action) != null;
-    }
-
-    public User clone() {
-        var user = new User();
-
-        user.setConfig(config);
-        user.setDescription(description);
-        user.setEmail(email);
-        user.setGroupIds(new HashSet<>(groupIds));
-        user.setId(id);
-        user.setIds(new ArrayList<>(ids));
-        user.setLogin(login);
-        user.setPassword(password);
-        user.setPermsetIds(new ArrayList<>(permsetIds));
-        user.setPersonalization(personalization);
-        user.setQueueIds(new HashSet<>(queueIds));
-        user.setRoles(roles);
-        user.setStatus(status);
-        user.setTitle(title);
-
-        return user;
     }
 }

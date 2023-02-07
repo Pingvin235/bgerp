@@ -62,7 +62,7 @@ public class AuthFilter implements Filter {
         final Localizer l = Localization.getSysLocalizer();
 
         User user = authUser(request, response);
-        if (user != null && !AppLicense.instance().checkSessionLimit()) {
+        if (user != null && !user.isAdmin() && !AppLicense.instance().checkSessionLimit()) {
             forwardError(request, response, l.l("License limit error"));
             return;
         }

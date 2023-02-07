@@ -16,8 +16,8 @@ repositories {
     }
 }
 
-sourceCompatibility = '11'
-targetCompatibility = '11'
+sourceCompatibility = '17'
+targetCompatibility = '17'
 
 // Eclipse and VS Code use bin
 buildDir = 'target'
@@ -313,7 +313,7 @@ compileJava {
     }
 }
 
-task doc(type: JavaExec, description: 'Build manual') {
+task doc(type: JavaExec, description: 'Builds manual') {
     classpath =  configurations.doc
     mainClass = 'org.pzdcdoc.Generator'
     args '--in', 'srcx/doc', '--out', "$buildDir/doc"
@@ -356,17 +356,23 @@ task checkChanges(description: 'Checks existance of build/changes.<PROCESS_ID>.t
 
 apply from: "build/build.gradle"
 
-task patchChanges(type: JavaExec, dependsOn: 'compileToolJava', description: 'Concatenates build/changes.*.txt files to build/changes.txt') {
+task changesFile(type: JavaExec, dependsOn: 'compileToolJava', description: 'Concatenates build/changes.*.txt files to build/changes.txt') {
     classpath =  sourceSets.tool.runtimeClasspath
-    mainClass = 'org.bgerp.tool.PatchChanges'
+    mainClass = 'org.bgerp.tool.ChangesFile'
     args "${->getBuild()}", 'build/changes.txt'
 }
 
-task rss(type: JavaExec, dependsOn: 'compileToolJava', description: 'Generates build/changes.rss out of build/changes.txt') {
-    mustRunAfter 'patchChanges'
+task changesRss(type: JavaExec, dependsOn: 'compileToolJava', description: 'Generates build/changes.rss out of build/changes.txt') {
+    mustRunAfter 'changesFile'
     classpath =  sourceSets.tool.runtimeClasspath
-    mainClass = 'org.bgerp.tool.RssGenerator'
+    mainClass = 'org.bgerp.tool.ChangesRss'
     args version, 'build/changes.txt', 'build/changes.xml'
+}
+
+task changesDoc(type: JavaExec, description: "Adjusts changes link for the current build in documentation files") {
+    classpath = sourceSets.tool.runtimeClasspath
+    mainClass = 'org.bgerp.tool.ChangesDoc'
+    args "${->getBuild()}", 'srcx/doc'
 }
 
 apply from: "build/publish.gradle"

@@ -22,8 +22,8 @@ import org.bgerp.util.Log;
  *
  * @author Shamil Vakhitov
  */
-public class PatchChanges {
-    private static final Log LOG = Log.getLog();
+public class ChangesFile {
+    private static final Log log = Log.getLog();
 
     private final Pattern changesPattern = Pattern.compile("changes\\.(\\w+)\\.txt");
     private final Pattern datePattern = Pattern.compile("^\\d{2}\\.\\d{2}\\.\\d{4}");
@@ -32,8 +32,8 @@ public class PatchChanges {
     // 04.11.2019 02:50:59 1334
     private final DateFormat buildDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
-    private PatchChanges(String build, String changesPath) throws Exception {
-        LOG.info("Patching changes.txt for build: {}", build);
+    private ChangesFile(String build, String changesPath) throws Exception {
+        log.info("Patching changes.txt for build: {}", build);
 
         File changes = new File(changesPath);
         if (!changes.exists())
@@ -49,7 +49,7 @@ public class PatchChanges {
             var processId = m.group(1);
             // can be 'changes.lib.txt'
             if (StringUtils.isNumeric(processId)) {
-                LOG.info("Add changes file: {}, processId: {}", file.getName(), processId);
+                log.info("Add changes file: {}, processId: {}", file.getName(), processId);
 
                 for (String line : IOUtils.readLines(new StringReader(IOUtils.toString(file.toURI(), StandardCharsets.UTF_8).trim()))) {
                     m = changePattern.matcher(line);
@@ -92,7 +92,6 @@ public class PatchChanges {
     }
 
     public static void main(String[] args) throws Exception {
-        new PatchChanges(args[0], args[1]);
+        new ChangesFile(args[0], args[1]);
     }
-
 }

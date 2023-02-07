@@ -1310,42 +1310,37 @@ public class ParamValueDAO extends CommonDAO {
         final var paramType = Parameter.Type.of(paramFrom.getType());
 
         switch (paramType) {
-            case ADDRESS:
+            case ADDRESS -> {
                 query = "INSERT INTO " + TABLE_PARAM_ADDRESS
                         + " (id, param_id, n, house_id, flat, room, pod, floor, value, comment, custom) "
                         + "SELECT ?, ?, n, house_id, flat, room, pod, floor, value, comment, custom " + "FROM "
                         + TABLE_PARAM_ADDRESS + " WHERE id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
-                break;
-            case EMAIL:
+            }
+            case EMAIL -> {
                 query = "INSERT INTO " + TABLE_PARAM_EMAIL + " (id, param_id, n, value) " + "SELECT ?, ?, n, value "
                         + "FROM " + TABLE_PARAM_EMAIL + " WHERE id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
-                break;
-            case LIST:
+            }
+            case LIST -> {
                 query = SQL_INSERT_IGNORE + TABLE_PARAM_LIST + "(id, param_id, value, comment)"
                         + SQL_SELECT + "?, ?, value, comment "
                         + SQL_FROM + TABLE_PARAM_LIST
                         + SQL_WHERE + "id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
-                break;
-            case LISTCOUNT:
+            }
+            case LISTCOUNT -> {
                 query = SQL_INSERT + TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment)"
                         + SQL_SELECT + "?, ?, value, count, comment"
                         + SQL_FROM + TABLE_PARAM_LISTCOUNT + SQL_WHERE + "id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
-                break;
-            case TREE:
+            }
+            case TREE -> {
                 query = "INSERT INTO " + TABLE_PARAM_TREE + "(id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
                         + TABLE_PARAM_TREE + " WHERE id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
-                break;
-            case DATE:
-            case DATETIME:
-            case MONEY:
-            case TEXT:
-            case BLOB:
-            case PHONE:
+            }
+            case DATE, DATETIME, MONEY, TEXT, BLOB, PHONE -> {
                 String tableName = "param_" + paramType.toString().toLowerCase();
 
                 query = "INSERT INTO " + tableName + " (id, param_id, value) " + "SELECT ?, ?, value " + "FROM "
@@ -1359,13 +1354,13 @@ public class ParamValueDAO extends CommonDAO {
                             + " WHERE id=? AND param_id=?";
                     psList.add(con.prepareStatement(query));
                 }
-                break;
-            case FILE:
+            }
+            case FILE -> {
                 query = "INSERT INTO " + TABLE_PARAM_FILE + "(id, param_id, n, value) "
                         + "SELECT ?, ?, n, value FROM " + TABLE_PARAM_FILE
                         + " WHERE id=? AND param_id=?";
                 psList.add(con.prepareStatement(query));
-                break;
+            }
         }
 
         for (PreparedStatement ps : psList) {

@@ -338,15 +338,15 @@ server {
     access_log              /var/log/nginx/erp.bitel.ru.access.log;
 
     # optionally close access without interface
-    #location / {
+    #location = / {
     #    return 404;
     #}
 
     # for opening user interface - add admin|login.do|user
     # for opening user mobile interface - add usermob
-    location ~ ^/(open|img|images|css|lib|js)(.*)$ {
+    location / {
         client_max_body_size    100m;
-        proxy_pass              http://erp.int.bitel.ru/$1$2;
+        proxy_pass              http://erp.int.bitel.ru/;
         proxy_redirect          http:// https://;
         proxy_set_header        Host $host;
         proxy_set_header        Connection close;

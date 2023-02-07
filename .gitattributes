@@ -1,1 +1,2 @@
 srcx/**/*.png filter=lfs diff=lfs merge=lfs -text
+gradle/**/*.jar filter=lfs diff=lfs merge=lfs -text

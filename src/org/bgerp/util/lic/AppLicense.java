@@ -40,7 +40,7 @@ public class AppLicense {
      * @return
      */
     public static License instance() {
-        if (instance == null) {
+        if (instance == null || !instance.isCreatedToday()) {
             init();
         }
         return instance;
