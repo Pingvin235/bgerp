@@ -1,6 +1,0 @@
-C: Clean up select-single UI tag.
-C: Delete u:formatDate, u:formatPeriod, u:parseDate JSP functions.
-A: Java 11 in JSP pages.
-F: Left over text in select-mult element after selection.
-F: Creation symlink bgerp.zip in PublishRelease.
-F: Shown exponent in listcount' values.

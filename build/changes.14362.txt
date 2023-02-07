@@ -1,1 +1,0 @@
-A: Plugin Report. More colors and better presentation for Pie and Bar charts in 'Processes' report.

@@ -1,3 +1,0 @@
-C: Parse parameter configuration option multiple=0 as false.
-C: Parameter 'list*' editors cleanup.
-C: Explicit 'UTF-8' encoding for log files.

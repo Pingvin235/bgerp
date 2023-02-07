@@ -1,2 +1,0 @@
-F: Plugin BGBilling. Create contract in customer.
-C: Plugin BGBilling. Supported versions: 8.2110, 9.2210.

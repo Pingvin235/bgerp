@@ -1,3 +1,0 @@
-C: Cleanup in 'My Processes'.
-C: Localization.
-F: Title for process card with 'linked' mode.

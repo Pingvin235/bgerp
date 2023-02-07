@@ -1,1 +1,0 @@
-F: Localizer set in plugin:include tag.

@@ -1,0 +1,124 @@
+= CHANGES
+:toc:
+
+== Enabled <<../../kernel/setup.adoc#config-license, License Check>>
+
+IMPORTANT: Obtain the suitable license and put it in the application' directory.
+
+== Default single editor for <<../../kernel/setup.adoc#param-listcount, listcount>> params
+
+IMPORTANT: Set property *multiple=1* in configuration of existing *listcount* parameters with multiple values.
+
+image::../../kernel/_res/param/listcount_editor_single.png[width=600]
+
+== Redesign of <<../../kernel/process/index.adoc#linked-process,Linked Processes Tab>>
+
+IMPORTANT: Removed process type configuration options: 'show.tab.links.process.add.from.buffer', 'show.tab.links.process.up' and 'show.tab.links.process.down'.
+
+IMPORTANT: Removed 'allowProcessLinkDelete' permission option, for enabling process link deletion there is a *separated action* in tree available.
+
+image::../../kernel/process/_res/linked_process/tab.png[width="800"]
+
+[square]
+* Pagination for parent relations.
+* Adding relation to parent processes.
+* Configurable available processes for added links.
+
+== Syntax Highlighting Config Editors
+Introduced for the rest of existing editors.
+
+image::_res/img-permission-sets.png[width="800px"]
+
+image::_res/img-groups-of-users.png[width="800px"]
+
+image::_res/img-users.png[width="800px"]
+
+== <<../../kernel/setup.adoc#user-profile, User Profile>> Reset Personalizations
+
+image::../../kernel/_res/user/profile_own_personalization.png[width="800px"]
+
+== Infrastructure and Kernel
+=== Java
+[square]
+* Java 17 support in sources.
+* Java 11 support in JSP pages.
+* Massive update of Java libraries.
+
+=== Gradle
+[square]
+* Gradle-only build process, no more Ant is used.
+* Gradle version 7.6
+
+=== Web
+[square]
+* *<!DOCTYPE html>* in HTML pages.
+* Actualized `normalize.css`.
+
+=== Etc
+[square]
+* Log warning "Not primary action name '{}' was used for checking of '{}'" for detecting usages of old action names.
+* <<../../kernel/setup.adoc#united-user-config-keys, Replace>> *dontCheckPermission=1* configuration key to *user.permission.check=0*.
+* Explicit 'UTF-8' encoding for log files.
+* Systemd unit failed start after update from UI.
+* Cleaning up `work` directory on server start.
+
+== UI
+Single selection tree UI element.
+
+image::_res/ui-single-selection-tree.png[]
+
+New notifications and warnings.
+
+image::_res/ui-message-1.png[]
+
+image::_res/ui-message-2.png[]
+
+== Code Cleaning-Up and Fixes
+[square]
+* Replace JSP includes to tags.
+* Replace JSP functions to dot notation calls.
+* Using modern AJAX calls.
+
+== Plugin <<../../plugin/bgbilling/index.adoc#, BGBilling>>
+Поддержка версий 9.2x.
+
+[square]
+* Многочисленные улучшения в карточке договора и исправления.
+* Удалена поддержка плагина CRM биллинга.
+* Очищен код для "Единых договоров".
+
+== Plugin <<../../plugin/document/index.adoc#, Document>>
+Configuration for Demo DB.
+
+== Plugin <<../../plugin/pln/callboard/index.adoc#, Callboard>>
+Show groups and users when <<../../plugin/pln/callboard/index.adoc#usage-set-time, setting>> slot in process.
+
+image::../../plugin/pln/callboard/_res/process_set_time.png[width="800px"]
+
+== Plugin <<../../plugin/msg/email/index.adoc#, EMail>>
+Deletion messages in process.
+
+== Plugin <<../../plugin/report/index.adoc#, Report>>
+
+=== Compact Pie chart with more colors
+image::_res/report/pie.png[width="800"]
+
+Before.
+
+image::_res/report/pie_old.png[width="800"]
+
+=== Compact X-legend for Bar chart
+image::_res/report/bar.png[width="800"]
+
+Before.
+
+image::_res/report/bar_old.png[width="800"]
+
+== Plugin <<../../plugin/mobile/index.adoc#, Mobile>>
+Configuration for Demo DB.
+
+== Plugin <<../../plugin/bil/subscription/index.adoc#, Subscription>>
+Handle in report a consultant as a different from report generator person.
+
+== Plugin <<../../plugin/telegram/index.adoc#, Telegram>>
+Better support for Markdown in messages.

@@ -1,6 +1,0 @@
-A: Checking license file by default.
-F: Prevent even processing after click on ui:button.
-A: Gradle task 'changesDoc'.
-A: Support Java 17 in sources.
-A: Gradle version 7.6
-F: Correct 'this' value for 'onSelect' handler of ui:select-single tag.

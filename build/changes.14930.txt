@@ -1,1 +1,0 @@
-F: Plugin BGBilling. Future month name in contract card tree.

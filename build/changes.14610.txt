@@ -1,2 +1,0 @@
-C: Replace select_mult.jsp includes to select-mult tags.
-F: page-control usages.

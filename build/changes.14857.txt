@@ -1,2 +1,0 @@
-A: Reset user personalizations. https://bgerp.org/doc/3.0/manual/kernel/setup.html#user-profile
-F: 'System' user in UI title when updating user settings.

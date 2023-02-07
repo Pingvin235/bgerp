@@ -1,1 +1,0 @@
-A: Syntax highlighting in config fields.

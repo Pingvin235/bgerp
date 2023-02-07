@@ -1,6 +1,132 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+07.02.2023 22:17:49 1390
+A: [14362] Plugin Report. More colors and better presentation for Pie and Bar charts in 'Processes' report.
+A: [14601] Integration test for plugin Document.
+C: [14610] Replace select_mult.jsp includes to select-mult tags.
+F: [14610] page-control usages.
+C: [14727] Linked processes tab. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process
+B: [14727] Separated action for process links deletion instead of removed 'allowProcessLinkDelete' permission option.
+B: [14727] Removed 'show.tab.links.process.up' and 'show.tab.links.process.down' process configuration properties.
+C: [14727] DynActionForm.getAreaId() returns action identifier as default.
+A: [14727] Remember 'Open only' filter value for possible processes.
+C: [14730] Gradle tasks to replace Ant targets.
+A: [14786] Syntax highlighting in config fields.
+C: [14809] Plugin BGBilling. Remove displaying of outdated CRM plugin info.
+C: [14830] Clean up select-single UI tag.
+C: [14830] Delete u:formatDate, u:formatPeriod, u:parseDate JSP functions.
+A: [14830] Java 11 in JSP pages.
+F: [14830] Left over text in select-mult element after selection.
+F: [14830] Creation symlink bgerp.zip in PublishRelease.
+F: [14830] Shown exponent in listcount' values.
+C: [14836] Using 'ui:page-control' tag instead of including 'page_control.jsp' file.
+A: [14841] Plugin Subscription. Handle in report a consultant as a different from report generator person.
+F: [14841] Plugin Invoice. Removing added position during invoice creation.
+A: [14842] Plugin Callboard. Show slot users and groups. https://bgerp.org/doc/3.0/manual/plugin/pln/callboard/index.html#usage-set-time
+F: [14842] Plugin Callboard. Set time with multiple users slots.
+F: [14842] HTML title in Open interface.
+C: [14842] GitLab CI CET timezone.
+F: [14843] Plugin DBA. Query log combo is too wide for long queries.
+A: [14844] Mobile process queue in Demo DB.
+F: [14844] Process open in mobile queue.
+C: [14845] Gradle task 'publishRelease' rewritten to Java and supported new paths.
+C: [14845] Fully cleanup of using Ant scripts.
+A: [14845] Download demo lic.data in docker-bgerp.sh and demo_reset.sh scripts.
+F: [14846] Module update_lib build.
+F: [14848] Saved filters drop-down in process queues.
+F: [14848] Removing old update ZIPs in installer.sh script for case of missing them.
+F: [14850] Add new address house.
+C: [14852] Plugin BGBilling. Cleanup сommon сontract supporting code.
+F: [14855] Open process queues links.
+F: [14856] Localizer set in plugin:include tag.
+A: [14857] Reset user personalizations. https://bgerp.org/doc/3.0/manual/kernel/setup.html#user-profile
+F: [14857] 'System' user in UI title when updating user settings.
+C: [14859] Cleanup in 'My Processes'.
+C: [14859] Localization.
+F: [14859] Title for process card with 'linked' mode.
+C: [14860] Replace openUrlTo to $$.ajax.load.
+C: [14861] Replace dontCheckPermission=1 configuration key to user.permission.check=0. https://bgerp.org/doc/3.0/manual/kernel/setup.html#united-user-config-keys
+A: [14861] Log warning "Not primary action name '{}' was used for checking of '{}'" for detecting usages of old action names.
+F: [14863] Incorrectly denied actions in menu.
+F: [14864] Not running class org.bgerp.scheduler.task.NewsManager
+A: [14864] DB schema tables 'news', 'news_user'.
+F: [14865] Plugin BGBilling. Inet service editor.
+A: [14865] UI element <ui:tree-single> for single selection tree.
+A: [14865] Localizer.TRANSPARENT for making BGMessageException without localization.
+C: [14865] Plugin BGBilling. Removed l10n.xml.
+B: [14867] Removed process type configuration option 'show.tab.links.process.add.from.buffer'.
+C: [14867] Linked processes ordered by description.
+A: [14867] Adding parent linked processes. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process
+A: [14867] Configurable adding available linked processes. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process-tab-add-existing]
+F: [14868] Plugin Blow. Process creation on a board.
+A: [14869] Send event on setting message process.
+C: [14870] Move MessageSearchDAO.
+C: [14872] Move IsolationConfig class.
+C: [14873] Move LinkProcessCreateConfig and LinkProcessCreateConfigItem classes.
+C: [14878] Java libraries update.
+A: [14879] Plugin E-Mail. Delete messages in process.
+F: [14879] Delete file attachments on message deletion.
+B: [14880] Single value for parameter type 'listcount'. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-listcount
+C: [14881] Login and message JS API.
+C: [14881] Hide message dialog on shown login ones.
+F: [14881] Prevent excess hidden load on many files after successful auth.
+C: [14881] Remove deprecated JS function 'contentLoad'.
+F: [14885] XMLUtils.getElementText method to support self-closed tags.
+F: [14887] Plugin Subscription, subscription choice in process.
+F: [14888] Plugin Blow. Board search in messages drop-down.
+A: [14888] Plugin Blow. Integration test.
+F: [14889] Change process status in 'usermob' interface.
+F: [14889] Logout button in 'usermob' interface.
+A: [14889] Additional log files in default log4j configuration.
+A: [14889] BGMessageException using args in getMessage() and getLocalizedMessage() methods.
+C: [14891] Plugin 'Subscription' erasing 'Date To' parameter value.
+C: [14893] Update Java dependencies.
+F: [14893] Plugin Telegram. Escaping Markdown layout.
+C: [14894] Cleanup log.isDebugEnabled() and log.error(e, e.getMessage()) usages.
+C: [14894] Replace %s string substitutions to {}.
+A: [14894] Plugin Telegram. Escape '(' and ')' chars.
+F: [14896] File deletion on parameter' 'file' value removing.
+F: [14896] Create login and message dialogs after page load.
+C: [14896] Same site cookies in Tomcat context configuration.
+C: [14896] Button with icon paddings.
+F: [14896] File descriptors leak on previews and downloads.
+C: [14900] Using cache in ProcessAction.processRequest.
+C: [14901] Parse parameter configuration option multiple=0 as false.
+C: [14901] Parameter 'list*' editors cleanup.
+C: [14901] Explicit 'UTF-8' encoding for log files.
+F: [14904] Retrieving users list in JSON format.
+C: [14904] Set Process.createTime in Java code when being created.
+A: [14908] <!DOCTYPE html> to shell HTML pages.
+C: [14908] Updated normalize.css.
+F: [14911] Process priority default colors.
+C: [14911] Update CodeMirror to 5.65.10.
+F: [14911] Collapsed vertical sizes of CodeMirror editors.
+F: [14912] Restored option 'processTypeId' from process type configuration.
+C: [14912] Removed support of option 'hide' from parameter configuration.
+F: [14912] Cleanup commands in installer.sh.
+F: [14914] Plugin BGBilling. Contract limits.
+F: [14915] JSON error on 'groupList' action.
+F: [14916] Transition matrix in process type properties.
+F: [14916] Systemd unit failed start after update from UI.
+F: [14918] Plugin BGBilling. Duplicated search results.
+A: [14920] Checking license file by default.
+F: [14920] Prevent even processing after click on ui:button.
+A: [14920] Gradle task 'changesDoc'.
+A: [14920] Support Java 17 in sources.
+A: [14920] Gradle version 7.6
+F: [14920] Correct 'this' value for 'onSelect' handler of ui:select-single tag.
+A: [14921] Cleaning up work directory on server start.
+C: [14922] Replace select_single.jsp includes to select-single tags.
+F: [14923] Plugin BGBilling. Create contract in customer.
+C: [14923] Plugin BGBilling. Supported versions: 8.2110, 9.2210.
+F: [14924] proxy_redirect in NGINX config.
+F: [14928] Bottom page control for process queues.
+F: [14929] Plugin BGBilling. NPay services.
+F: [14930] Plugin BGBilling. Future month name in contract card tree.
+F: [14932] Duplicated current user in process executors editor.
+C: [14933] Plugin BGBilling. Versions to 8.2 and 9.2.
+
 10.10.2022 17:40:19 1389
 A: [14641] Plugin Dispatch itest.
 A: [14736] Plugin Subscription. Discount percentage.

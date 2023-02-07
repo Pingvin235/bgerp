@@ -1,2 +1,0 @@
-A: Plugin Subscription. Handle in report a consultant as a different from report generator person.
-F: Plugin Invoice. Removing added position during invoice creation.

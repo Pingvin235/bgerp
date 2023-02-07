@@ -1,4 +1,0 @@
-F: Change process status in 'usermob' interface.
-F: Logout button in 'usermob' interface.
-A: Additional log files in default log4j configuration.
-A: BGMessageException using args in getMessage() and getLocalizedMessage() methods.

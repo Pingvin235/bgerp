@@ -1,4 +1,0 @@
-A: Plugin Callboard. Show slot users and groups. https://bgerp.org/doc/3.0/manual/plugin/pln/callboard/index.html#usage-set-time
-F: Plugin Callboard. Set time with multiple users slots.
-F: HTML title in Open interface.
-C: GitLab CI CET timezone.

@@ -1,1 +1,0 @@
-C: Using 'ui:page-control' tag instead of including 'page_control.jsp' file.

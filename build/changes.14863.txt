@@ -1,1 +1,0 @@
-F: Incorrectly denied actions in menu.

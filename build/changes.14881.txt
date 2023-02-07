@@ -1,4 +1,0 @@
-C: Login and message JS API.
-C: Hide message dialog on shown login ones.
-F: Prevent excess hidden load on many files after successful auth.
-C: Remove deprecated JS function 'contentLoad'.

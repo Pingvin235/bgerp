@@ -1,5 +1,0 @@
-B: Removed process type configuration option 'show.tab.links.process.add.from.buffer'.
-C: Linked processes ordered by description.
-A: Adding parent linked processes. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process
-A: Configurable adding available linked processes. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process-tab-add-existing]
-

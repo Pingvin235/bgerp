@@ -1,5 +1,0 @@
-F: File deletion on parameter' 'file' value removing.
-F: Create login and message dialogs after page load.
-C: Same site cookies in Tomcat context configuration.
-C: Button with icon paddings.
-F: File descriptors leak on previews and downloads.

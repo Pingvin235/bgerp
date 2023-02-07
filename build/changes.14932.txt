@@ -1,1 +1,0 @@
-F: Duplicated current user in process executors editor.
