@@ -103,7 +103,7 @@
         <mxCell id="81CI9wWh9y6hFNezA99m-18" value="Консультант" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;gradientDirection=north;fillColor=#b0e3e6;strokeColor=#0e8088;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.codebuild;labelBackgroundColor=none;" parent="DSBpvsaAotULgExrWG27-1" vertex="1">
           <mxGeometry x="-510" y="150" width="70" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="AzPZ-loim3uA4tV18Kak-0" value="&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;Subscription&lt;/span&gt;" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#404040;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.concepts.sign_up;" vertex="1" parent="DSBpvsaAotULgExrWG27-1">
+        <mxCell id="AzPZ-loim3uA4tV18Kak-0" value="&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;Подписка&lt;/span&gt;" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#404040;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.concepts.sign_up;" vertex="1" parent="DSBpvsaAotULgExrWG27-1">
           <mxGeometry x="-360" y="160" width="55.56" height="51.2" as="geometry" />
         </mxCell>
       </root>
@@ -276,54 +276,6 @@
               <mxPoint x="685" y="280" />
             </Array>
           </mxGeometry>
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-100" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/cryptocurrency-blockchain-fintech-free/32/Cryptocurrency_digital_contract-128.png;fillColor=#FFFFFF;" parent="1" vertex="1">
-          <mxGeometry x="258.5" y="478" width="34" height="34" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-101" value="&lt;font style=&quot;font-size: 12px&quot;&gt;Subscription&lt;br&gt;Подписка&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="314.5" y="485" width="40" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-104" value="Plugin&lt;br&gt;Плагин" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="594" y="489" width="40" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-106" value="" style="shape=mxgraph.bpmn.user_task;html=1;outlineConnect=0;fillColor=#FFB570;" parent="1" vertex="1">
-          <mxGeometry x="130" y="477" width="30" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-107" value="Customer&lt;br&gt;Клиент" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="172.5" y="484" width="60" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-108" value="" style="shape=mxgraph.bpmn.user_task;html=1;outlineConnect=0;fillColor=#00CC00;" parent="1" vertex="1">
-          <mxGeometry x="392.5" y="480" width="30" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-109" value="&lt;br&gt;Support&lt;br&gt;&lt;div&gt;Поддержка&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="430.5" y="487" width="90" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-110" value="" style="shape=mxgraph.bpmn.user_task;html=1;outlineConnect=0;fillColor=#3399FF;" parent="1" vertex="1">
-          <mxGeometry x="662.5" y="479" width="30" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-111" value="Owner&lt;br&gt;Владелец" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="692.5" y="485" width="89" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="dCiTbQoPq_PcJCpmlZOW-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="0R1qAQ1jFFHAe7dVqIl4-109" target="0R1qAQ1jFFHAe7dVqIl4-109" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="dCiTbQoPq_PcJCpmlZOW-9" value="" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;labelBackgroundColor=#FF57C1;fillColor=#3399FF;jettyWidth=14;jettyHeight=6;" parent="1" vertex="1">
-          <mxGeometry x="532.5" y="482" width="39" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="dCiTbQoPq_PcJCpmlZOW-10" value="" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;labelBackgroundColor=#FF57C1;jettyWidth=14;jettyHeight=6;fillColor=#91AFED;" parent="1" vertex="1">
-          <mxGeometry x="522.5" y="120" width="39" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="dCiTbQoPq_PcJCpmlZOW-11" value="" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;labelBackgroundColor=#FF57C1;jettyWidth=14;jettyHeight=6;fillColor=#91AFED;" parent="1" vertex="1">
-          <mxGeometry x="523.5" y="29" width="39" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="dCiTbQoPq_PcJCpmlZOW-12" value="" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;labelBackgroundColor=#FF57C1;jettyWidth=14;jettyHeight=6;fillColor=#3399FF;" parent="1" vertex="1">
-          <mxGeometry x="522.5" y="285" width="39" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="h2ipRNlJ9jQQIG3xSD_K-1" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/cryptocurrency-blockchain-fintech-free/32/Cryptocurrency_digital_contract-128.png;fillColor=#FFFFFF;imageBorder=none;" parent="1" vertex="1">
-          <mxGeometry x="253" y="281" width="34" height="34" as="geometry" />
-        </mxCell>
-        <mxCell id="h2ipRNlJ9jQQIG3xSD_K-2" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/cryptocurrency-blockchain-fintech-free/32/Cryptocurrency_digital_contract-128.png;fillColor=#FFFFFF;" parent="1" vertex="1">
-          <mxGeometry x="253" y="66" width="34" height="34" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

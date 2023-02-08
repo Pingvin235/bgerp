@@ -1,4 +1,4 @@
-<mxfile host="Electron" compressed="false" modified="2022-10-05T08:48:47.262Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/20.3.0 Chrome/104.0.5112.114 Electron/20.1.3 Safari/537.36" etag="4wW1E8F4PBAXtCBM2iDf" version="20.3.0" type="device" pages="2">
+<mxfile host="Electron" compressed="false" modified="2022-11-28T16:31:36.951Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/20.3.0 Chrome/104.0.5112.114 Electron/20.1.3 Safari/537.36" etag="9g5LD2EhPQ6hf9_QctwD" version="20.3.0" type="device" pages="2">
   <diagram id="-YQtXBwrtJD2vOdr6RwO" name="Page-2">
     <mxGraphModel dx="1929" dy="875" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -276,54 +276,6 @@
               <mxPoint x="685" y="280" />
             </Array>
           </mxGeometry>
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-100" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/cryptocurrency-blockchain-fintech-free/32/Cryptocurrency_digital_contract-128.png;fillColor=#FFFFFF;" parent="1" vertex="1">
-          <mxGeometry x="258.5" y="478" width="34" height="34" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-101" value="&lt;font style=&quot;font-size: 12px&quot;&gt;Subscription&lt;br&gt;Подписка&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="314.5" y="485" width="40" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-104" value="Plugin&lt;br&gt;Плагин" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="594" y="489" width="40" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-106" value="" style="shape=mxgraph.bpmn.user_task;html=1;outlineConnect=0;fillColor=#FFB570;" parent="1" vertex="1">
-          <mxGeometry x="130" y="477" width="30" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-107" value="Customer&lt;br&gt;Клиент" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="172.5" y="484" width="60" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-108" value="" style="shape=mxgraph.bpmn.user_task;html=1;outlineConnect=0;fillColor=#00CC00;" parent="1" vertex="1">
-          <mxGeometry x="392.5" y="480" width="30" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-109" value="&lt;br&gt;Support&lt;br&gt;&lt;div&gt;Поддержка&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="430.5" y="487" width="90" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-110" value="" style="shape=mxgraph.bpmn.user_task;html=1;outlineConnect=0;fillColor=#3399FF;" parent="1" vertex="1">
-          <mxGeometry x="662.5" y="479" width="30" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="0R1qAQ1jFFHAe7dVqIl4-111" value="Owner&lt;br&gt;Владелец" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="692.5" y="485" width="89" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="dCiTbQoPq_PcJCpmlZOW-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="0R1qAQ1jFFHAe7dVqIl4-109" target="0R1qAQ1jFFHAe7dVqIl4-109" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="dCiTbQoPq_PcJCpmlZOW-9" value="" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;labelBackgroundColor=#FF57C1;fillColor=#3399FF;jettyWidth=14;jettyHeight=6;" parent="1" vertex="1">
-          <mxGeometry x="532.5" y="482" width="39" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="dCiTbQoPq_PcJCpmlZOW-10" value="" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;labelBackgroundColor=#FF57C1;jettyWidth=14;jettyHeight=6;fillColor=#91AFED;" parent="1" vertex="1">
-          <mxGeometry x="522.5" y="120" width="39" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="dCiTbQoPq_PcJCpmlZOW-11" value="" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;labelBackgroundColor=#FF57C1;jettyWidth=14;jettyHeight=6;fillColor=#91AFED;" parent="1" vertex="1">
-          <mxGeometry x="523.5" y="29" width="39" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="dCiTbQoPq_PcJCpmlZOW-12" value="" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;labelBackgroundColor=#FF57C1;jettyWidth=14;jettyHeight=6;fillColor=#3399FF;" parent="1" vertex="1">
-          <mxGeometry x="522.5" y="285" width="39" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="h2ipRNlJ9jQQIG3xSD_K-1" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/cryptocurrency-blockchain-fintech-free/32/Cryptocurrency_digital_contract-128.png;fillColor=#FFFFFF;imageBorder=none;" parent="1" vertex="1">
-          <mxGeometry x="253" y="281" width="34" height="34" as="geometry" />
-        </mxCell>
-        <mxCell id="h2ipRNlJ9jQQIG3xSD_K-2" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/cryptocurrency-blockchain-fintech-free/32/Cryptocurrency_digital_contract-128.png;fillColor=#FFFFFF;" parent="1" vertex="1">
-          <mxGeometry x="253" y="66" width="34" height="34" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

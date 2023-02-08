@@ -1,0 +1,2 @@
+// the file is needed only for generation of the diagram
+drawio:_res/subscription-ru.drawio[]
