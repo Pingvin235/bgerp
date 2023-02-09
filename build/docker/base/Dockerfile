@@ -1,8 +1,11 @@
 # https://github.com/docker-library/mysql/blob/master/8.0/Dockerfile.debian
-FROM mysql:8
+FROM mysql:8-debian
 
 # mysql
 #======
+# used for passwords generation
+RUN apt-get update && apt-get install -y pwgen
+
 # logging dir
 RUN mkdir /var/log/mysql; chown mysql:mysql /var/log/mysql
 
@@ -17,91 +20,72 @@ RUN sed -i '/\[mysqld\]/a sql-mode= ' /etc/mysql/my.cnf; \
 # avoids errors with 'apt-get update' running after
 RUN rm /etc/apt/sources.list.d/mysql.list
 
-# java, taken from: https://github.com/docker-library/openjdk/blob/master/17/jdk/slim-buster/Dockerfile
+# java, taken from: https://github.com/adoptium/containers/blob/main/17/jdk/ubuntu/jammy/Dockerfile.releases.full
 #======================================================================================================
-RUN set -eux; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-# utilities for keeping Debian and OpenJDK CA certificates in sync
-		ca-certificates p11-kit \
-	; \
-	rm -rf /var/lib/apt/lists/*
-
-ENV JAVA_HOME /usr/local/openjdk-17
+ENV JAVA_HOME /opt/java/openjdk
 ENV PATH $JAVA_HOME/bin:$PATH
 
 # Default to UTF-8 file.encoding
-ENV LANG C.UTF-8
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
-# https://jdk.java.net/
-# >
-# > Java Development Kit builds, from Oracle
-# >
-ENV JAVA_VERSION 17.0.2
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata curl wget ca-certificates fontconfig locales binutils \
+    && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    && locale-gen en_US.UTF-8 \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV JAVA_VERSION jdk-17.0.6+10
 
 RUN set -eux; \
-	\
-	arch="$(dpkg --print-architecture)"; \
-	case "$arch" in \
-		'amd64') \
-			downloadUrl='https://download.java.net/java/GA/jdk17.0.2/dfd4a8d0985749f896bed50d7138ee7f/8/GPL/openjdk-17.0.2_linux-x64_bin.tar.gz'; \
-			downloadSha256='0022753d0cceecacdd3a795dd4cea2bd7ffdf9dc06e22ffd1be98411742fbb44'; \
-			;; \
-		'arm64') \
-			downloadUrl='https://download.java.net/java/GA/jdk17.0.2/dfd4a8d0985749f896bed50d7138ee7f/8/GPL/openjdk-17.0.2_linux-aarch64_bin.tar.gz'; \
-			downloadSha256='13bfd976acf8803f862e82c7113fb0e9311ca5458b1decaef8a09ffd91119fa4'; \
-			;; \
-		*) echo >&2 "error: unsupported architecture: '$arch'"; exit 1 ;; \
-	esac; \
-	\
-	savedAptMark="$(apt-mark showmanual)"; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-		wget \
-	; \
-	rm -rf /var/lib/apt/lists/*; \
-	\
-	wget --progress=dot:giga -O openjdk.tgz "$downloadUrl"; \
-	echo "$downloadSha256 *openjdk.tgz" | sha256sum --strict --check -; \
-	\
-	mkdir -p "$JAVA_HOME"; \
-	tar --extract \
-		--file openjdk.tgz \
-		--directory "$JAVA_HOME" \
-		--strip-components 1 \
-		--no-same-owner \
-	; \
-	rm openjdk.tgz*; \
-	\
-	apt-mark auto '.*' > /dev/null; \
-	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-	\
-# update "cacerts" bundle to use Debian's CA certificates (and make sure it stays up-to-date with changes to Debian's store)
-# see https://github.com/docker-library/openjdk/issues/327
-#     http://rabexc.org/posts/certificates-not-working-java#comment-4099504075
-#     https://salsa.debian.org/java-team/ca-certificates-java/blob/3e51a84e9104823319abeb31f880580e46f45a98/debian/jks-keystore.hook.in
-#     https://git.alpinelinux.org/aports/tree/community/java-cacerts/APKBUILD?id=761af65f38b4570093461e6546dcf6b179d2b624#n29
-	{ \
-		echo '#!/usr/bin/env bash'; \
-		echo 'set -Eeuo pipefail'; \
-		echo 'trust extract --overwrite --format=java-cacerts --filter=ca-anchors --purpose=server-auth "$JAVA_HOME/lib/security/cacerts"'; \
-	} > /etc/ca-certificates/update.d/docker-openjdk; \
-	chmod +x /etc/ca-certificates/update.d/docker-openjdk; \
-	/etc/ca-certificates/update.d/docker-openjdk; \
-	\
+    ARCH="$(dpkg --print-architecture)"; \
+    case "${ARCH}" in \
+       aarch64|arm64) \
+         ESUM='9e0e88bbd9fa662567d0c1e22d469268c68ac078e9e5fe5a7244f56fec71f55f'; \
+         BINARY_URL='https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6%2B10/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.6_10.tar.gz'; \
+         ;; \
+       armhf|arm) \
+         ESUM='fe4d0c6d5bb8cf7f59f7ff82c0c1fd988bbe5cccf3bc7377dc8ae50740b46c82'; \
+         BINARY_URL='https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6%2B10/OpenJDK17U-jdk_arm_linux_hotspot_17.0.6_10.tar.gz'; \
+         ;; \
+       ppc64el|powerpc:common64) \
+         ESUM='cb772c3fdf3f9fed56f23a37472acf2b80de20a7113fe09933891c6ef0ecde95'; \
+         BINARY_URL='https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6%2B10/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.6_10.tar.gz'; \
+         ;; \
+       s390x|s390:64-bit) \
+         ESUM='32e53321dd3e724e111e5445fbdcbcefde893e59055cc1f102d20fa3bb62ccc3'; \
+         BINARY_URL='https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6%2B10/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.6_10.tar.gz'; \
+         ;; \
+       amd64|i386:x86-64) \
+         ESUM='a0b1b9dd809d51a438f5fa08918f9aca7b2135721097f0858cf29f77a35d4289'; \
+         BINARY_URL='https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6%2B10/OpenJDK17U-jdk_x64_linux_hotspot_17.0.6_10.tar.gz'; \
+         ;; \
+       *) \
+         echo "Unsupported arch: ${ARCH}"; \
+         exit 1; \
+         ;; \
+    esac; \
+	  wget -O /tmp/openjdk.tar.gz ${BINARY_URL}; \
+	  echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
+	  mkdir -p "$JAVA_HOME"; \
+	  tar --extract \
+	      --file /tmp/openjdk.tar.gz \
+	      --directory "$JAVA_HOME" \
+	      --strip-components 1 \
+	      --no-same-owner \
+	  ; \
+    rm -f /tmp/openjdk.tar.gz ${JAVA_HOME}/src.zip; \
 # https://github.com/docker-library/openjdk/issues/331#issuecomment-498834472
-	find "$JAVA_HOME/lib" -name '*.so' -exec dirname '{}' ';' | sort -u > /etc/ld.so.conf.d/docker-openjdk.conf; \
-	ldconfig; \
-	\
+    find "$JAVA_HOME/lib" -name '*.so' -exec dirname '{}' ';' | sort -u > /etc/ld.so.conf.d/docker-openjdk.conf; \
+    ldconfig; \
 # https://github.com/docker-library/openjdk/issues/212#issuecomment-420979840
 # https://openjdk.java.net/jeps/341
-	java -Xshare:dump; \
-	\
-# basic smoke test
-	fileEncoding="$(echo 'System.out.println(System.getProperty("file.encoding"))' | jshell -s -)"; [ "$fileEncoding" = 'UTF-8' ]; rm -rf ~/.java; \
-	javac --version; \
-	java --version
+    java -Xshare:dump;
+
+RUN echo Verifying install ... \
+    && fileEncoding="$(echo 'System.out.println(System.getProperty("file.encoding"))' | jshell -s -)"; [ "$fileEncoding" = 'UTF-8' ]; rm -rf ~/.java \
+    && echo javac --version && javac --version \
+    && echo java --version && java --version \
+    && echo Complete.
 
 # bgerp files
 #======

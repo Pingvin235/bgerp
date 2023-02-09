@@ -111,6 +111,7 @@ task buildDist(type: Zip, dependsOn: ['buildAppJar', 'buildLibJar'], description
         def buildDir = new File(distBuildDir);
         new File(buildDir, 'filestorage').mkdirs();
         new File(buildDir, 'log').mkdirs();
+        new File(buildDir, 'work').mkdirs();
 
         def toConcatenate = files(new File(updateDir, 'db_init.sql'), new File(distDir, 'db_init.sql'));
         def output = new File(buildDir, 'db_init.sql')
