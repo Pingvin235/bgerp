@@ -16,7 +16,7 @@
 		<span>${title}</span>
 	</li>
 </c:if>
-<c:set var="filters">
+<c:set var="filters" scope="request">
 	${filters}
 	<div id="${uiid}" style="display: none;" class="filter-item">
 		${code}

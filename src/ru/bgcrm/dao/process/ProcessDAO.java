@@ -8,6 +8,7 @@ import static ru.bgcrm.dao.Tables.TABLE_PARAM_BLOB;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LIST;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_LOG;
+import static ru.bgcrm.dao.Tables.TABLE_PARAM_MONEY;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_TEXT;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
 import static ru.bgcrm.dao.message.Tables.TABLE_PROCESS_MESSAGE_STATE;
@@ -494,8 +495,9 @@ public class ProcessDAO extends CommonDAO {
 
                 if (Utils.notBlankString(executorIds)) {
                     String tableAlias = "pe_" + filter.getRoleId();
+                    boolean empty = executorIds.contains("empty");
 
-                    if (executorIds.contains("empty"))
+                    if (empty)
                         joinPart.append(SQL_LEFT_JOIN);
                     else
                         joinPart.append(SQL_INNER_JOIN);
@@ -504,7 +506,7 @@ public class ProcessDAO extends CommonDAO {
                     joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".process_id AND " +
                                     tableAlias + ".role_id=" + filter.getRoleId());
 
-                    if (executorIds.contains("empty"))
+                    if (empty)
                         wherePart.append(" AND " + tableAlias + ".user_id IS NULL ");
                     else {
                         joinPart.append(" AND " + tableAlias + ".user_id IN(");
@@ -680,6 +682,15 @@ public class ProcessDAO extends CommonDAO {
                             }
                         }
                     }
+                } else if (Parameter.TYPE_DATE.equals(paramType) || Parameter.TYPE_DATETIME.equals(paramType)) {
+                    String tableAlias = "param_dx_" + paramId;
+
+                    if (!joinPart.toString().contains(tableAlias)) {
+                        joinPart.append(" LEFT JOIN param_" + paramType);
+                        joinPart.append(" AS " + tableAlias + " ON " + tableAlias + ".id=process.id AND " + tableAlias
+                                + ".param_id=" + paramId);
+                    }
+                    addDateTimeFilter(form, wherePart, "dateTimeParam" + paramId, String.valueOf(paramId), filter);
                 } else if (Parameter.TYPE_LIST.equals(paramType) || Parameter.TYPE_LISTCOUNT.equals(paramType)) {
                     String values = getValues(form, filter, "param" + paramId + "value");
 
@@ -687,7 +698,7 @@ public class ProcessDAO extends CommonDAO {
                         continue;
                     }
 
-                    String alias = "param_list_" + paramId;
+                    String tableAlias = "param_lx_" + paramId;
 
                     joinPart.append(SQL_INNER_JOIN);
                     if (Parameter.TYPE_LIST.equals(paramType)) {
@@ -695,8 +706,39 @@ public class ProcessDAO extends CommonDAO {
                     } else {
                         joinPart.append(TABLE_PARAM_LISTCOUNT);
                     }
-                    joinPart.append("AS " + alias + " ON process.id=" + alias + ".id AND " + alias + ".param_id="
-                            + paramId + " AND " + alias + ".value IN(" + values + ")");
+                    joinPart.append("AS " + tableAlias + " ON process.id=" + tableAlias + ".id AND " + tableAlias + ".param_id="
+                            + paramId + " AND " + tableAlias + ".value IN(" + values + ")");
+                } else if (Parameter.TYPE_MONEY.equals(paramType)) {
+                    String tableAlias = "param_money_" + paramId;
+
+                    if (joinPart.toString().contains(tableAlias) || wherePart.toString().contains(tableAlias))
+                        log.error("Duplicated filter on param type 'money' with ID: ", filter.getId());
+                    else {
+                        boolean empty = form.getParamBoolean("param" + paramId + "empty");
+                        var from = Utils.parseBigDecimal(form.getParam("param" + paramId + "From"), null);
+                        var to = Utils.parseBigDecimal(form.getParam("param" + paramId + "To"), null);
+
+                        if (empty || from != null || to != null) {
+                            if (empty)
+                                joinPart.append(SQL_LEFT_JOIN);
+                            else
+                                joinPart.append(SQL_INNER_JOIN);
+
+                            joinPart.append(TABLE_PARAM_MONEY);
+                            joinPart.append(
+                                    "AS " + tableAlias + " ON process.id=" + tableAlias + ".id AND " + tableAlias + ".param_id=" + paramId);
+
+                            if (empty)
+                                wherePart.append(" AND " + tableAlias + ".value IS NULL ");
+                            else {
+                                if (from != null)
+                                    joinPart.append(" AND " + from.toPlainString() + "<=" + tableAlias + ".value ");
+
+                                if (to != null)
+                                    joinPart.append(" AND " + tableAlias + ".value<=" + to.toPlainString());
+                            }
+                        }
+                    }
                 } else if (Parameter.TYPE_TEXT.equals(paramType) || Parameter.TYPE_BLOB.equals(paramType)) {
                     String mode = filter.getConfigMap().get("mode");
                     String value = form.getParam("param" + paramId + "value");
@@ -732,20 +774,9 @@ public class ProcessDAO extends CommonDAO {
                                     + paramId + " AND param_text.value LIKE '" + LikePattern.SUB.get(value) + "'");
                         }
                     }
-                } else if (Parameter.TYPE_DATE.equals(paramType) || Parameter.TYPE_DATETIME.equals(paramType)) {
-                    String paramAlias = "param_" + paramId;
-
-                    if (!joinPart.toString().contains(paramAlias)) {
-                        joinPart.append(" LEFT JOIN param_" + paramType);
-                        joinPart.append(" AS " + paramAlias + " ON " + paramAlias + ".id=process.id AND " + paramAlias
-                                + ".param_id=" + paramId);
-                    }
-                    addDateTimeFilter(form, wherePart, "dateTimeParam" + paramId, String.valueOf(paramId), filter);
                 }
             } else if ("status".equals(type)) {
-                Filter filter = f;
-
-                String statusIds = getValues(form, filter, "status");
+                String statusIds = getValues(form, f, "status");
 
                 if (Utils.notBlankString(statusIds)) {
                     wherePart.append(" AND process.status_id IN (");

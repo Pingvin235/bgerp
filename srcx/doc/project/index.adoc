@@ -122,9 +122,17 @@ docker cp bgerp-demo:/opt/bgerp/log4j.properties log4j.properties
 docker cp bgerp-demo:/opt/bgerp/filestorage filestorage
 ----
 
-Add custom title in the extracted `bgerp.properties` file:
+Add the following values to the extracted `bgerp.properties` file:
 ----
+# html title of web-app
 title=BGERP DEMO LOCAL
+
+# disable JS pooling sometimes is useful for development
+#pooling.enable=0
+
+# quick license check
+license.check.notification.test=1
+license.check.error.test=1
 ----
 
 The running container has unused Java BGERP Server process with disabled <<../kernel/setup.adoc#scheduler, Scheduler>>.

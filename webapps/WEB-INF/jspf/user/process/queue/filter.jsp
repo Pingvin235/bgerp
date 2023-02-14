@@ -302,7 +302,7 @@
 								</c:otherwise>
 							</c:choose>
 						</c:set>
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.type == 'type'}">
@@ -321,7 +321,7 @@
 									prefixText="${l.l('Type')}:" showFilter="1" widthTextValue="10em"/>
 							</u:sc>
 					 	</c:set>
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
 					<c:set var="statusFilterId" value="${u:uiid()}"/>
@@ -352,7 +352,7 @@
 						</c:set>
 
 						<c:set var="id" value="${statusFilterId}"/>
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 						<c:remove var="id"/>
 					</c:if>
 
@@ -379,7 +379,7 @@
 						</c:set>
 
 						<c:set var="id" value="${statusFilterId}"/>
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 						<c:remove var="id"/>
 					</c:if>
 
@@ -398,7 +398,7 @@
 								</c:otherwise>
 							</c:choose>
 						</c:set>
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.type == 'linkedCustomer:title'}">
@@ -408,7 +408,7 @@
 						<c:set var="code">
 							<input type="text" value="${ savedParamsFilters.get( 'linkedCustomer:title' ) }" name="linkedCustomer:title" placeholder="${l.l('Customer')}" size="20" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"/>
 						</c:set>
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.type == 'message:systemId'}">
@@ -418,7 +418,7 @@
 						<c:set var="code">
 							<input type="text" value="${savedParamsFilters.get('message:systemId')}" name="message:systemId" placeholder="${filter.title}" size="6" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
 						</c:set>
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
 					<c:if test="${fn:startsWith(filterFromList.type, 'linkedCustomer:param:')}">
@@ -440,7 +440,7 @@
 								<%@ include file="/WEB-INF/jspf/combo_check.jsp"%>
 							</u:sc>
 						</c:set>
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.type == 'create_date'}">
@@ -480,7 +480,7 @@
 							<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 						</u:sc>
 
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.type == 'close_date' }">
@@ -523,7 +523,7 @@
 							<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 						</u:sc>
 
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.type == 'status_date' }">
@@ -577,7 +577,7 @@
 							<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 						</u:sc>
 
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.type == 'groups'}">
@@ -587,13 +587,13 @@
 						<c:set var="executorParamName" value="executor"/>
 
 						<c:set var="filter" value="${filterFromList}"/>
-						<%@ include file="filter_groups.jsp"%>
+						<%@ include file="filter/group.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.type == 'executors'}">
 						<c:set var="filter" value="${filterFromList}"/>
 
-						<%@ include file="filter_executors.jsp"%>
+						<%@ include file="filter/executor.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.type == 'create_user' or filterFromList.type == 'close_user'}">
@@ -610,11 +610,11 @@
 							<ui:combo-check list="${ctxUser.getUserListWithSameGroups()}" paramName="${filter.type}"
 								prefixText="${title}:" widthTextValue="5em"/>
 						</c:set>
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.type.startsWith('date')}">
-						<%@ include file="filter_display.jsp"%>
+						<%@ include file="filter/display.jsp"%>
 						 <div style="width:${leftFilterColumnWidth}px;">
 							<c:set var="type" value="ymd" />
 							<b>
@@ -634,176 +634,7 @@
 					</c:if>
 
 					<c:if test="${filterFromList.getClass().getName() eq 'ru.bgcrm.model.process.queue.FilterParam'}">
-						<c:choose>
-							<c:when test="${filterFromList.parameter.type.startsWith( 'date' ) }">
-								<c:set var="filter" value="${filterFromList}" />
-								<c:set var="title" value="${not empty filter.title ? filter.title : filter.parameter.title}"/>
-
-								<c:set var="code">
-									${title}
-									<c:choose>
-										<c:when test="${not empty savedParamsFilters.get( 'dateTimeParam'.concat(filter.parameter.id).concat('From') ) }">
-											${l.l('с')} <input type="text" value="${savedParamsFilters.get('dateTimeParam'.concat(filter.parameter.id).concat('From')) }" name="dateTimeParam${filter.parameter.id}From" />
-										</c:when>
-										<c:otherwise>
-											${l.l('с')} <input type="text" name="dateTimeParam${filter.parameter.id}From" />
-										</c:otherwise>
-									</c:choose>
-									<c:choose>
-										<c:when test="${not empty savedParamsFilters.get( 'dateTimeParam'.concat(filter.parameter.id).concat('To') ) }">
-											${l.l('по')} <input type="text" value="${savedParamsFilters.get('dateTimeParam'.concat(filter.parameter.id).concat('To')) }" name="dateTimeParam${filter.parameter.id}To" />
-										</c:when>
-										<c:otherwise>
-											${l.l('по')} <input type="text" name="dateTimeParam${filter.parameter.id}To" />
-										</c:otherwise>
-									</c:choose>
-								</c:set>
-
-								<u:sc>
-									<c:set var="type" value="ymd" />
-									<c:set var="selector">${selectorForm} input[name='dateTimeParam${filter.parameter.id}From']</c:set>
-									<c:set var="editable" value="1"/>
-									<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-									<c:set var="selector">${selectorForm} input[name='dateTimeParam${filter.parameter.id}To']</c:set>
-									<c:set var="editable" value="1"/>
-									<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
-								</u:sc>
-
-								<%@ include file="filter_item.jsp"%>
-							</c:when>
-
-							<c:when test="${filterFromList.parameter.type == 'list' or filterFromList.parameter.type == 'listcount'}">
-								<c:set var="filter" value="${filterFromList}"/>
-									<c:set var="title" value="${not empty filter.title ? filter.title : filter.parameter.title}"/>
-
-									<c:set var="code">
-										<u:sc>
-											<c:set var="id" value="${u:uiid()}"/>
-											<c:set var="paramName" value="param${filter.parameter.id}value"/>
-											<c:set var="list" value="${filter.parameter.listParamValues}"/>
-											<c:set var="values" value="${filter.defaultValues}"/>
-
-											<c:if test="${not empty savedParamsFilters.getSelectedValues( paramName ) }">
-												<c:set var="values" value="${savedParamsFilters.getSelectedValues( paramName ) }"/>
-											</c:if>
-
-											<c:set var="available" value="${filter.availableValues}"/>
-											<c:set var="showFilter" value="1"/>
-											<c:set var="prefixText" value="${title}:"/>
-											<c:set var="widthTextValue" value="150px"/>
-											<%@ include file="/WEB-INF/jspf/combo_check.jsp"%>
-										</u:sc>
-									</c:set>
-
-									<%@ include file="filter_item.jsp"%>
-							</c:when>
-
-							<c:when test="${filterFromList.parameter.type == 'address'}">
-								<c:set var="filter" value="${filterFromList}"/>
-								<c:set var="title" value="${not empty filter.title ? filter.title : filter.parameter.title}"/>
-								<c:set var="cityIds" value="${filter.configMap['cityIds']}"/>
-								<c:set var="fields" value="${filter.configMap['fields']}"/>
-								<c:set var="paramName" value="param${filter.parameter.id}value"/>
-								<c:set var="code">
-									<c:set var="uiid" value="${u:uiid()}"/>
-									<c:set var="buttonId" value="${u:uiid()}"/>
-									<input type="button" id="${buttonId}" class="btn-white" onclick="$('#${uiid}').toggle();" value="${title}"/>
-
-									<div id="${uiid}" style="display:none;position:absolute;background-color:#ffffff;border: 1px solid #aaaaaa;border-radius:5px;padding:5;">
-										<input type="hidden" name="param${filter.parameter.id}valueCityId" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueCityId') )}">
-										<input type="hidden" name="param${filter.parameter.id}valueStreetId" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueStreetId') )}">
-										<input type="hidden" name="param${filter.parameter.id}valueHouseId" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueHouseId') )}">
-										<input type="hidden" name="param${filter.parameter.id}valueQuarterId" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueQuarterId') )}">
-
-										<c:set var="cityFilterId" value="${u:uiid()}"/>
-										<c:set var="quarterFilterId" value="${u:uiid()}"/>
-										<c:set var="streetFilterId" value="${u:uiid()}"/>
-										<c:set var="houseFilterId" value="${u:uiid()}"/>
-										<c:set var="flatFilterId" value="${u:uiid()}"/>
-
-										<script>
-											addCustomCitySearch( '#${cityFilterId}', '#${uiid} > input[name=param${filter.parameter.id}valueCityId]' );
-											addCustomQuarterSearch( '#${quarterFilterId}', '#${uiid} > input[name=param${filter.parameter.id}valueQuarterId]', '${cityIds}' );
-											addCustomStreetSearch( '#${streetFilterId}', '#${uiid} > input[name=param${filter.parameter.id}valueStreetId]' );
-											addCustomHouseSearch( '#${houseFilterId}', '#${uiid} > input[name=param${filter.parameter.id}valueStreetId]', '#${uiid} > input[name=param${filter.parameter.id}valueHouseId]' );
-										</script>
-
-										<table>
-											<c:if test="${empty fields}">
-												<c:set var="fields" value="city;street;house"/>
-											</c:if>
-
-											<%-- город, улица и дом - обязательные поля --%>
-											<c:if test="${!fn:contains(fields, 'house')}">
-												<c:set var="fields" value="house;${fields}"/>
-											</c:if>
-											<c:if test="${!fn:contains(fields, 'street')}">
-												<c:set var="fields" value="street;${fields}"/>
-											</c:if>
-											<c:if test="${!fn:contains(fields, 'city')}">
-												<c:set var="fields" value="city;${fields}"/>
-											</c:if>
-
-											<c:forTokens var="show" delims=";" items="${fields}">
-												<c:if test="${fn:contains(show, 'city')}">
-													<tr><td>Город:</td><td><input id="${cityFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueCity') )}" name="param${filter.parameter.id}valueCity" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueCityId]').val('')"/></td></tr>
-												</c:if>
-												<c:if test="${fn:contains(show, 'quarter')}">
-													<tr><td>${l.l('Квартал')}:</td><td><input id="${quarterFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueQuarter') )}" name="param${filter.parameter.id}valueQuarter" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueQuarterId]').val('')"/></td></tr>
-												</c:if>
-												<c:if test="${fn:contains(show, 'street')}">
-													<tr><td>${l.l('Улица')}:</td><td><input id="${streetFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueStreet') )}" name="param${filter.parameter.id}valueStreet" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueStreetId]').val('')"/></td></tr>
-												</c:if>
-												<c:if test="${fn:contains(show, 'house')}">
-													<tr><td>${l.l('Дом')}:</td><td><input id="${houseFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueHouse') )}" name="param${filter.parameter.id}valueHouse" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueHouseId]').val('')" /></td></tr>
-												</c:if>
-												<c:if test="${fn:contains(show, 'flat')}">
-													<tr><td>${l.l('Квартира')}:</td><td><input id="${flatFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueFlat') )}" name="param${filter.parameter.id}valueFlat" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueFlat]').val('')" /></td></tr>
-												</c:if>
-											</c:forTokens>
-
-											<tr><td colspan="2" align="center" class="in-table-cell pt1">
-												 <div>
-													 <input type="button" class="btn-white" value="${l.l('Очистить')}"
-															 onclick="
-																 $('#${cityFilterId}').val('').keyup();
-																 $('#${streetFilterId}').val('').keyup();
-																 $('#${quarterFilterId}').val('').keyup();
-																 $('#${houseFilterId}').val('').keyup();
-																 $('#${flatFilterId}').val('').keyup();
-																 $('#${uiid} #applyButton').click();
-															 "/>
-												 </div>
-												 <div class="w100p pl1">
-													 <input id="applyButton" type="button" class="btn-grey w100p" value="Применить"
-															 onclick="$('#${uiid}').hide();
-																	  var title = '${title}';
-																	  [$('#${cityFilterId}').val(), $('#${streetFilterId}').val(), $('#${quarterFilterId}').val(),
-																	   $('#${houseFilterId}').val(), $('#${flatFilterId}').val()].forEach(function (token) {
-																		 if (token) {
-																			 title += ', ' + token;
-																		 }
-																	  })
-	 																  $('#${buttonId}').val(title);"/>
- 												 </div>
-											 </td></tr>
-										</table>
-									</div>
-								</c:set>
-								<%@ include file="filter_item.jsp"%>
-							</c:when>
-
-							<c:when test="${filterFromList.parameter.type == 'text' || filterFromList.parameter.type == 'blob'}">
-								<c:set var="filter" value="${filterFromList}" />
-								<c:set var="title" value="${not empty filter.title ? filter.title : filter.parameter.title}"/>
-
-								<c:set var="code">
-									<input type="text" name="param${filter.parameter.id}value" placeholder="${title}" size="20" onkeypress="if( enterPressed( event ) ){ ${sendCommand} }"/>
-								</c:set>
-
-								<%@ include file="filter_item.jsp"%>
-							</c:when>
-						</c:choose>
+						<%@ include file="filter/type/param.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.type == 'grex'}">
@@ -816,10 +647,10 @@
 						<c:set var="executorParamName" value="executor${roleId}"/>
 
 						<c:set var="filter" value="${filterGrEx.groupsFilter}"/>
-						<%@ include file="filter_groups.jsp"%>
+						<%@ include file="filter/group.jsp"%>
 
 						<c:set var="filter" value="${filterGrEx.executorsFilter}"/>
-						<%@ include file="filter_executors.jsp"%>
+						<%@ include file="filter/executor.jsp"%>
 					</c:if>
 
 					<c:if test="${filterFromList.getClass().getName() eq 'ru.bgcrm.model.process.queue.FilterLinkObject'}">
@@ -829,7 +660,7 @@
 						<c:set var="code">
 							<input type="text" name="${filterFromList.paramName}" placeholder="${title}" size="6" style="text-align: center;" onkeypress="if( enterPressed( event ) ){ ${sendCommand}; return false; }"/>
 						</c:set>
-						<%@ include file="filter_item.jsp"%>
+						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
 				</c:forEach>
@@ -870,6 +701,7 @@
 			<%@ include file="/WEB-INF/jspf/combo_check.jsp"%>
 		</u:sc>
 
+		<%-- the variable is concatenated in filter/item.jsp --%>
 		${filters}
 
 		<script style="display: none;">

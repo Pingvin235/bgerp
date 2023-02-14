@@ -30,4 +30,4 @@
 	</u:sc>
 </c:set>
 
-<%@ include file="filter_item.jsp"%>
+<%@ include file="item.jsp"%>

@@ -45,7 +45,7 @@ public class ParamValueSelect {
 
             Parameter param = ParameterCache.getParameter(paramId);
             if (param == null) {
-                selectPart.append("'НЕ НАЙДЕН ПАРАМЕТР:" + paramId + "' ");
+                selectPart.append("'PARAM NOT FOUND:" + paramId + "' ");
             } else {
                 boolean isMultiple = param.getConfigMap().getBoolean(Parameter.PARAM_MULTIPLE_KEY, false);
 
@@ -61,53 +61,7 @@ public class ParamValueSelect {
                     columnValueAlias = " AS param_" + paramId + "_val";
                 }
 
-                // TODO: Для списков с одним значением достаточно делать JOIN, будет быстрее..
-                if (Parameter.TYPE_LIST.equals(type)) {
-                    String tableName = param.getConfigMap().get(Parameter.LIST_PARAM_USE_DIRECTORY_KEY);
-                    if (Utils.notBlankString(tableName)) {
-                        selectPart.append(
-                                "\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment, CONCAT(' [',param.comment,']'), '')) SEPARATOR ', ') ");
-                        selectPart.append("FROM " + TABLE_PARAM_LIST + " AS param LEFT JOIN " + tableName
-                                + " AS val ON param.value=val.id ");
-                        selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
-                                + " GROUP BY param.id");
-                        selectPart.append(") " + columnValueAlias + " ");
-                    } else {
-                        selectPart.append(
-                                "\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment != '', CONCAT(' [',param.comment,']'), '')) SEPARATOR ', ') ");
-                        selectPart.append("FROM " + TABLE_PARAM_LIST + " AS param LEFT JOIN " + TABLE_PARAM_LIST_VALUE
-                                + " AS val ON param.param_id=val.param_id AND param.value=val.id ");
-                        selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
-                                + " GROUP BY param.id");
-                        selectPart.append(") " + columnValueAlias + " ");
-                    }
-                } else if (Parameter.TYPE_LISTCOUNT.equals(type)) {
-                    String tableName = param.getConfigMap().get(Parameter.LIST_PARAM_USE_DIRECTORY_KEY);
-                    if (Utils.notBlankString(tableName)) {
-                        selectPart.append("\n( SELECT GROUP_CONCAT(val.title,val.count SEPARATOR ', ') ");
-                        selectPart.append("FROM " + TABLE_PARAM_LISTCOUNT + " AS param LEFT JOIN " + tableName
-                                + " AS val ON param.value=val.id ");
-                        selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
-                                + " GROUP BY param.id");
-                        selectPart.append(") " + columnValueAlias + " ");
-                    } else {
-                        selectPart.append(
-                                "\n( SELECT GROUP_CONCAT( CONCAT(val.title,':',CAST(param.count AS CHAR)) SEPARATOR ', ') ");
-                        selectPart.append(
-                                "FROM " + TABLE_PARAM_LISTCOUNT + " AS param LEFT JOIN " + TABLE_PARAM_LISTCOUNT_VALUE
-                                        + " AS val ON param.param_id=val.param_id AND param.value=val.id ");
-                        selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
-                                + " GROUP BY param.id");
-                        selectPart.append(") " + columnValueAlias + " ");
-                    }
-                } else if (Parameter.TYPE_TREE.equals(type)) {
-                    selectPart.append("\n( SELECT GROUP_CONCAT(val.title SEPARATOR ', ') ");
-                    selectPart.append("FROM " + TABLE_PARAM_TREE + " AS param LEFT JOIN " + TABLE_PARAM_TREE_VALUE
-                            + " AS val ON param.param_id=val.param_id AND param.value=val.id ");
-                    selectPart.append(
-                            "WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId + " GROUP BY param.id");
-                    selectPart.append(") " + columnValueAlias + " ");
-                } else if (Parameter.TYPE_ADDRESS.equals(type)) {
+                if (Parameter.TYPE_ADDRESS.equals(type)) {
                     if (Utils.notBlankString(afterParamId) && !PARAM_ADDRESS_FIELDS.contains(afterParamId)) {
                         selectPart.append(
                                 "\n( SELECT GROUP_CONCAT( CONCAT( CAST( house_id AS CHAR ), ':', flat, ':', room, ':', CAST( pod AS CHAR ), ':', CAST( floor AS CHAR ), ':', comment ) SEPARATOR '|') ");
@@ -161,6 +115,53 @@ public class ParamValueSelect {
                             }
                         }
                     }
+                }
+                // TODO: Для списков с одним значением достаточно делать JOIN, будет быстрее..
+                else if (Parameter.TYPE_LIST.equals(type)) {
+                    String tableName = param.getConfigMap().get(Parameter.LIST_PARAM_USE_DIRECTORY_KEY);
+                    if (Utils.notBlankString(tableName)) {
+                        selectPart.append(
+                                "\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment, CONCAT(' [',param.comment,']'), '')) SEPARATOR ', ') ");
+                        selectPart.append("FROM " + TABLE_PARAM_LIST + " AS param LEFT JOIN " + tableName
+                                + " AS val ON param.value=val.id ");
+                        selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
+                                + " GROUP BY param.id");
+                        selectPart.append(") " + columnValueAlias + " ");
+                    } else {
+                        selectPart.append(
+                                "\n(SELECT GROUP_CONCAT(CONCAT(val.title, IF(param.comment != '', CONCAT(' [',param.comment,']'), '')) SEPARATOR ', ') ");
+                        selectPart.append("FROM " + TABLE_PARAM_LIST + " AS param LEFT JOIN " + TABLE_PARAM_LIST_VALUE
+                                + " AS val ON param.param_id=val.param_id AND param.value=val.id ");
+                        selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
+                                + " GROUP BY param.id");
+                        selectPart.append(") " + columnValueAlias + " ");
+                    }
+                } else if (Parameter.TYPE_LISTCOUNT.equals(type)) {
+                    String tableName = param.getConfigMap().get(Parameter.LIST_PARAM_USE_DIRECTORY_KEY);
+                    if (Utils.notBlankString(tableName)) {
+                        selectPart.append("\n( SELECT GROUP_CONCAT(val.title,val.count SEPARATOR ', ') ");
+                        selectPart.append("FROM " + TABLE_PARAM_LISTCOUNT + " AS param LEFT JOIN " + tableName
+                                + " AS val ON param.value=val.id ");
+                        selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
+                                + " GROUP BY param.id");
+                        selectPart.append(") " + columnValueAlias + " ");
+                    } else {
+                        selectPart.append(
+                                "\n( SELECT GROUP_CONCAT( CONCAT(val.title,':',CAST(param.count AS CHAR)) SEPARATOR ', ') ");
+                        selectPart.append(
+                                "FROM " + TABLE_PARAM_LISTCOUNT + " AS param LEFT JOIN " + TABLE_PARAM_LISTCOUNT_VALUE
+                                        + " AS val ON param.param_id=val.param_id AND param.value=val.id ");
+                        selectPart.append("WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId
+                                + " GROUP BY param.id");
+                        selectPart.append(") " + columnValueAlias + " ");
+                    }
+                } else if (Parameter.TYPE_TREE.equals(type)) {
+                    selectPart.append("\n( SELECT GROUP_CONCAT(val.title SEPARATOR ', ') ");
+                    selectPart.append("FROM " + TABLE_PARAM_TREE + " AS param LEFT JOIN " + TABLE_PARAM_TREE_VALUE
+                            + " AS val ON param.param_id=val.param_id AND param.value=val.id ");
+                    selectPart.append(
+                            "WHERE param.id=" + linkColumn + " AND param.param_id=" + paramId + " GROUP BY param.id");
+                    selectPart.append(") " + columnValueAlias + " ");
                 } else {
                     // TODO: Унифицировать код с ProcessDAO.addDateTimeParam
                     if ((Parameter.TYPE_DATE.equals(type) || Parameter.TYPE_DATETIME.equals(type))

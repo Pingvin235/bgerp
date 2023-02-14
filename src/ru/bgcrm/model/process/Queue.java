@@ -50,6 +50,9 @@ public class Queue extends IdTitle {
     public static final String MEDIA_PRINT = "print";
     public static final String MEDIA_XLS = "xls";
 
+    private static final Set<String> SUPPORTED_PARAM_TYPES = Set.of(Parameter.TYPE_ADDRESS, Parameter.TYPE_DATETIME, Parameter.TYPE_DATE,
+            Parameter.TYPE_LIST, Parameter.TYPE_LISTCOUNT, Parameter.TYPE_MONEY, Parameter.TYPE_TEXT, Parameter.TYPE_BLOB);
+
     private int id;
     private String title;
     private String config;
@@ -195,7 +198,7 @@ public class Queue extends IdTitle {
 
     public List<ColumnConf> getColumnConfList(List<String> columnIds) {
         // обработка склеиваемых с помощью + колонок
-        List<ColumnConf> result = new ArrayList<ColumnConf>(columnIds.size());
+        List<ColumnConf> result = new ArrayList<>(columnIds.size());
         for (String columnId : columnIds) {
             ColumnConf cc = new ColumnConf();
             for (Integer colId : Utils.toIntegerList(columnId, "+")) {
@@ -516,10 +519,7 @@ public class Queue extends IdTitle {
 
                     String paramType = param.getType();
 
-                    if (Parameter.TYPE_LIST.equals(paramType) || Parameter.TYPE_LISTCOUNT.equals(paramType)
-                            || Parameter.TYPE_DATETIME.equals(paramType) || Parameter.TYPE_DATE.equals(paramType)
-                            || Parameter.TYPE_ADDRESS.equals(paramType) || Parameter.TYPE_TEXT.equals(paramType)
-                            || Parameter.TYPE_BLOB.equals(paramType)) {
+                    if (SUPPORTED_PARAM_TYPES.contains(paramType)) {
                         filterList.add(new FilterParam(id, filter, param));
                     } else {
                         log.error("Queue configuration error " + this.id + " \"" + this.title + "\": in the filter " + id

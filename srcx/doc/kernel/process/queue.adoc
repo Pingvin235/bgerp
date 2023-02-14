@@ -537,7 +537,7 @@ filter.6.type=close_date
 |:nowrap:
 param:<paramId>
 |Параметр процесса с кодом *<paramId>*.
-|Поддерживаются параметры одного из следующих типов: "list", "listcount", "date", "datetime", "address".
+|Поддерживаются параметры одного из следующих типов: "address" , "blob", "date", "datetime", "list", "listcount", "money", "text".
 
 Обязательные параметры:
 [square]
