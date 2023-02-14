@@ -59,6 +59,7 @@ public class License {
     private final LocalDate created = LocalDate.now();
     private final String data;
     private final ParameterMap config;
+    /** Session limit, 0 - no limit. */
     private final int limit;
     private final Date dateTo;
     private final byte[] digest;
@@ -170,7 +171,7 @@ public class License {
      * @return allowance to log in.
      */
     public boolean checkSessionLimit() {
-        if (!isCheckEnabled() || Utils.notBlankString(error))
+        if (!isCheckEnabled() || Utils.notBlankString(error) || limit == 0)
             return true;
 
         return LoginStat.getLoginStat().getLoggedUserList().size() < limit;

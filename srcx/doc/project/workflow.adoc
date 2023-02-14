@@ -218,6 +218,8 @@ Hints:
 
 Place human readable changes description with screens (possible link images from a main article) in <<../changes/00000/index.adoc#, 00000>> changes file.
 
+NOTE: You can postpone the complete work and only store screenshots to the `_res` directory there.
+
 [[doc-release]]
 ==== Release
 Publication of the product manual <<publish-doc, runs>> automatically from <<long-lived-branch, long-lived branch>> *p11862-documentation*.
