@@ -5,7 +5,7 @@ import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.plugin.sec.access.Plugin;
 import org.testng.annotations.Test;
 
-@Test(groups = "access", priority = 100, dependsOnGroups = { "config" })
+@Test(groups = "access", priority = 100, dependsOnGroups = "config")
 public class AccessTest {
     private static final Plugin PLUGIN = new Plugin();
 

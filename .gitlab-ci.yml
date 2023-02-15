@@ -10,6 +10,7 @@ test-and-publish-update:
             - .gradle/caches
     before_script:
         - export TZ="CET" && date
+        - export GRADLE_USER_HOME=`pwd`/.gradle
     script:
         - apt-get update && apt-get install -y openssh-client rsync git-lfs
         - git checkout -B $CI_COMMIT_REF_NAME
@@ -35,6 +36,7 @@ test-and-publish-update-master:
             - .gradle/caches
     before_script:
         - export TZ="CET" && date
+        - export GRADLE_USER_HOME=`pwd`/.gradle
     script:
         - apt-get update && apt-get install -y openssh-client rsync git-lfs
         - git checkout -B p00000-master
@@ -56,11 +58,14 @@ test-integration:
             - .gradle/caches
     before_script:
         - export TZ="CET" && date
+        - export GRADLE_USER_HOME=`pwd`/.gradle
     script:
         # start MySQL, create DB and user, move bgerp.properties to the current directory
         - /usr/local/bin/docker-bgerp-base.sh
+        # for checking custom out
+        - apt-get update && apt-get install -y git
         # integration tests are running by with 'bgerp.properties' configuration
-        - mkdir -p filestorage && sh gradlew itest
+        - mkdir -p filestorage && sh gradlew itest -Pskip.custom=false
 
         ## Activate later with E-to-E tests and markhobson/maven-chrome image: - GRADLE_OPTS=-Xmx1048m sh gradlew --debug -Pdb.host=$DB_ITEST_HOST -Pdb.user=$DB_ITEST_USER -Pdb.pswd="$DB_ITEST_PASSWORD" -Pwebdriver.chrome.driver=/usr/bin/chromedriver integrationTest
         #- sh gradlew -Pdb.host=$DB_ITEST_HOST -Pdb.user=$DB_ITEST_USER -Pdb.pswd="$DB_ITEST_PASSWORD" itest
@@ -77,6 +82,7 @@ test-integration-master:
             - .gradle/caches
     before_script:
         - export TZ="CET" && date
+        - export GRADLE_USER_HOME=`pwd`/.gradle
     script:
         # start MySQL, create DB and user, move bgerp.properties to the current directory
         - /usr/local/bin/docker-bgerp-base.sh
@@ -108,6 +114,7 @@ publish-doc:
             - .gradle/caches
     before_script:
         - export TZ="CET" && date
+        - export GRADLE_USER_HOME=`pwd`/.gradle
     script:
         - sh gradlew jdoc doc
         - apt-get update && apt-get install -y rsync openssh-client

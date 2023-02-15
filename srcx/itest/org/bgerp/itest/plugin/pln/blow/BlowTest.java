@@ -1,4 +1,4 @@
-package org.bgerp.itest.plugin.blow;
+package org.bgerp.itest.plugin.pln.blow;
 
 import java.time.Duration;
 import java.util.Date;

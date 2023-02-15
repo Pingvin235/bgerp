@@ -345,6 +345,8 @@ Build is performed from a *master* branch and can include many <<accept, accepte
 
 CAUTION: Be sure that <<test-integration, Integration tests>> are successfully done on *master* to provide data for <<../kernel/install.adoc#demo, Demo System>>.
 
+CAUTION: Stop all running IDEs with opened project directory.
+
 Perform the following:
 [source, bash]
 ----

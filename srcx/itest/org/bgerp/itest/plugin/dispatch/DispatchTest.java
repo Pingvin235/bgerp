@@ -9,7 +9,7 @@ import ru.bgcrm.plugin.dispatch.Plugin;
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;
 
-@Test(groups = "dispatch", priority = 100, dependsOnGroups = { "config" })
+@Test(groups = "dispatch", priority = 100, dependsOnGroups = "config")
 public class DispatchTest {
     private static final Plugin PLUGIN = new Plugin();
 

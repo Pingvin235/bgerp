@@ -35,7 +35,7 @@ public class Custom {
     private static final File SRC_DIR = new File(CUSTOM_DIR, "src");
     private static final File WEBAPPS_DIR = new File(CUSTOM_DIR, Server.WEBAPPS_DIR_NAME);
 
-    private static final File CUSTOM_JAR_FILE = new File("lib/app/custom.jar");
+    public static final File CUSTOM_JAR_FILE = new File("lib/app/custom.jar");
 
     public static Custom getInstance() {
         return new Custom();

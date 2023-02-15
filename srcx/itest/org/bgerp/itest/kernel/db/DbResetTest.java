@@ -29,8 +29,7 @@ public class DbResetTest {
     // 1. Assumptions for NG, again something with SkipException.
     // 2. Test listeners and so on.
     private boolean conditionalSkip() {
-        String group = this.getClass().getAnnotation(Test.class).groups()[0];
-        boolean result = Utils.parseBoolean(System.getProperty("skip." + group));
+        boolean result = Utils.parseBoolean(System.getProperty("skip.dbReset"));
         if (result)
             log.info("Method is disabled");
         return result;
