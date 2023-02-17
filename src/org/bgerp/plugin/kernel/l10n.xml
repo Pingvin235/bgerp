@@ -551,6 +551,29 @@ Not more available values marked with sign <b>@</b>, example <b>5=@Value</b>.<br
 Заблокированные значения помечаются знаком <b>@</b>, например <b>5=@Значение</b>.<br/></ru>
 	</p>
 	<p>
+		<sys>hint.tree.values</sys>
+		<en>Tree node's values in format <b>&lt;parentNodeIds&gt;.nodeId=nodeTitle</b>,
+where <b>&lt;parentNodeIds&gt;</b> - dot separated parent identifiers (if exist).
+<b>nodeId</b> - numeric positive identificator for the current element
+<b>nodeTitle</b> - node title in tree. Each value from a new line.<br/>
+<b>Example:</b><br/>
+1=Equipment<br/>
+1.1=Copper apmplifier<br/>
+1.1.1=Out of order<br/>
+1.1.2=Wrong setup<br/>
+Not more available values marked with sign <b>@</b>, example <b>1.1.1=@Out of order</b>.<br/></en>
+		<ru>Значения узлов дерева в формате <b>&lt;parentNodeIds&gt;.nodeId=nodeTitle</b>,
+где <b>&lt;parentNodeIds&gt;</b> - разделённые точками числовые идентификаторы предков (если есть).
+<b>nodeId</b> - числовой положительный идентификатор текущего элемента
+<b>nodeTitle</b> - наименование узла в дереве. Новое значение с новой строки.<br/>
+<b>Пример:</b><br/>
+1=Оборудование<br/>
+1.1=Медный усилитель<br/>
+1.1.1=Вышел из строя<br/>
+1.1.2=Неверная настройка<br/>
+Заблокированные значения помечаются знаком <b>@</b>, например <b>1.1.1=@Вышел из строя</b>.<br/></ru>
+	</p>
+	<p>
 		<sys>hint.param.order</sys>
 		<en>Defines parameter' position in common list or in object parameters table,
 if position isn't re-defined in process type or parameter group.</en>

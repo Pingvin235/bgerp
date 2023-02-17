@@ -52,20 +52,8 @@
 					<h2>${l.l('Значения')}</h2>
 
 					<textarea name="listValues" rows="7" style="width: 100%; resize:none;" wrap="off">${parameter.valuesConfig}</textarea>
-
-					<span class="hint tree">
-						Значения списка в формате <b>&lt;parentNodeIds&gt;.nodeId=value</b>,
-						где <b>&lt;parentNodeIds&gt;</b> - разделённые точками числовые идентификаторы предков (если есть).
-						<b>nodeId</b> - числовой положительный идентификатор текущего элемента
-						<b>value</b> значение в дереве. Новое значение с новой строки.<br/>
-						<b>Пример:</b><br/>
-						1=Оборудование<br/>
-						1.1=Медный усилитель<br/>
-						1.1.1=Вышел из строя<br/>
-						1.1.2=Неверная настройка<br/>
-					</span>
-
 					<span class="hint list listcount">${l.l('hint.list.values')}</span>
+					<span class="hint tree">${l.l('hint.tree.values')}</span>
 				</div>
 
 				<h2>${l.l('Порядок')}</h2>
