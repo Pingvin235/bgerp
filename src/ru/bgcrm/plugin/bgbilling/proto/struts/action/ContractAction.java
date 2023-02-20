@@ -94,8 +94,8 @@ public class ContractAction extends BaseAction {
             if ("address".equals(searchBy)) {
                 Set<Integer> addressParamIds = Utils.toIntegerSet(setup.get(Plugin.ID + ":search.contract.param.address.paramIds"));
                 Pageable<ParameterSearchedObject<Contract>> res = new Pageable<>(form);
-                contractDAO.searchContractByAddressParam(res, searchOptions, addressParamIds,
-                        form.getParamInt("streetId"), form.getParam("house"), form.getParam("flat"), form.getParam("room"));
+                contractDAO.searchContractByAddressParam(res, searchOptions, addressParamIds, form.getParamInt("streetId"),
+                        form.getParamInt("houseId"), form.getParam("house"), form.getParam("flat"), form.getParam("room"));
             } else if ("addressObject".equals(searchBy)) {
                 Pageable<ParameterSearchedObject<Contract>> result = new Pageable<>(form);
                 contractDAO.searchContractByObjectAddressParam(result, searchOptions, null,

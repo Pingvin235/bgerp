@@ -14,7 +14,7 @@
 			})
 		</script>
 
-		<html:form action="/user/plugin/bgbilling/proto/contract.do" method="GET"
+		<html:form action="/user/plugin/bgbilling/proto/contract.do"
 			styleId="searchForm-bgbilling-searchContract" styleClass="searchForm in-mb1 mt1 in-w100p">
 			<html:hidden property="action" value="searchContract"/>
 			<html:hidden property="searchBy"/>
@@ -35,13 +35,13 @@
 				<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 			</u:sc>
 
+			<c:set var="loadSearchResult" value="$$.ajax.load(this.form, $('#searchResult'))"/>
+
 			<ui:input-text name="title" placeholder="Номер договора"
-						   onSelect="this.form.elements['searchBy'].value='title';
-									  openUrl( formUrl( this.form ), '#searchResult' )"/>
+							onSelect="this.form.elements['searchBy'].value='title'; ${loadSearchResult}"/>
 
 			<ui:input-text name="comment" placeholder="Комментарий"
-							onSelect="this.form.elements['searchBy'].value='comment';
-										openUrl( formUrl( this.form ), '#searchResult' )"/>
+							onSelect="this.form.elements['searchBy'].value='comment'; ${loadSearchResult}"/>
 
 			<div>
 				Адрес:
@@ -57,15 +57,14 @@
 						<input type="text" name="login_${item.billingId}_${item.moduleId}" placeholder="${item.title}"
 									title="Фрагмент логина либо алиаса минимум 3 символа"
 									onkeypress="if( enterPressed( event ) ){ this.form.billingId.value='${item.billingId}';
-														this.form.elements['searchBy'].value='dialUpLogin_${item.billingId}_${item.moduleId}';
-												   			openUrl( formUrl( this.form ), '#searchResult' ) }"/>
+													this.form.elements['searchBy'].value='dialUpLogin_${item.billingId}_${item.moduleId}';
+													${loadSearchResult} }"/>
 					</c:when>
 				</c:choose>
 			</c:forEach>
 
 			<ui:input-text name="id" placeholder="ID"
-							onSelect="this.form.elements['searchBy'].value='id';
-									  openUrl( formUrl( this.form ), '#searchResult' )"/>
+							onSelect="this.form.elements['searchBy'].value='id'; ${loadSearchResult}"/>
 
 			<c:url var="url" value="/user/plugin/bgbilling/proto/contract.do">
 				<c:param name="action" value="getParamList" />
@@ -80,9 +79,7 @@
 					<li value="9">Телефон</li>
 					<li value="6">Дата</li>
 				</jsp:attribute>
-				<jsp:attribute name="onSelect">
-				openUrl( '${url}'+'&billingId='+$("input[name='billingId']").val()+'&paramType='+$("input[name='paramType']").val(),
-				 '#paramIdsDiv' )</jsp:attribute>
+				<jsp:attribute name="onSelect">$$.ajax.load('${url}'+'&billingId='+$("input[name='billingId']").val()+'&paramType='+$("input[name='paramType']").val(), $('#paramIdsDiv'))</jsp:attribute>
 			</ui:combo-single>
 
 			<div id="paramIdsDiv" class="in-mb05">

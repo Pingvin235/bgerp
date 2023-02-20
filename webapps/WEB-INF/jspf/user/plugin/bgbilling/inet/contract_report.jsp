@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<html:form action="/user/plugin/bgbilling/proto/inet" styleId="${uiid}">
+<html:form action="/user/plugin/bgbilling/proto/inet.do" styleId="${uiid}">
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>
 	<html:hidden property="contractId"/>
@@ -21,23 +21,26 @@
 		<ui:date-month-days/>
 	</div>
 
-	<c:set var="sendForm">openUrlToParent( formUrl( $('#${uiid}') ), $('#${uiid}') );</c:set>
+	<c:set var="sendForm">$$.ajax.load($('#${uiid}'), $('#${uiid}').parent());</c:set>
 
-	<button type="button" class="ml2 btn-grey" onclick="${sendForm}" title="${l.l('Вывести')}">=&gt;</button>
+	<ui:button type="out" styleClass="ml1" onclick="${sendForm}"/>
 
 	<ui:page-control nextCommand=";${sendForm}"/>
 
 	<script>
-		$(function()
-		{
+		$(function () {
 			${onSelect}
 		})
 	</script>
 </html:form>
 
+<c:set var="closeAllowed" value="${ctxUser.checkPerm('ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionClose')}"/>
+<c:set var="finishAllowed" value="${ctxUser.checkPerm('ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionFinish')}"/>
+
 <c:if test="${not empty form.response.data.list}">
-	<table class="data mt1" style="width: 100%;">
+	<table class="data mt1">
 		<tr>
+			<td></td>
 			<td>ConID</td>
 			<td>SessID</td>
 			<td>Устройство</td>
@@ -55,6 +58,47 @@
 		</tr>
 		<c:forEach var="item" items="${form.response.data.list}">
 			<tr>
+				<td>
+					<c:if test="${closeAllowed or finishAllowed}">
+						<u:sc>
+							<c:set var="menuUiid" value="${u:uiid()}"/>
+							<ui:popup-menu id="${menuUiid}">
+								<c:if test="${closeAllowed}">
+									<c:url var="url" value="/user/plugin/bgbilling/proto/inet.do">
+										<c:param name="action" value="connectionClose"/>
+										<c:param name="billingId" value="${form.param.billingId}"/>
+										<c:param name="moduleId" value="${form.param.moduleId}"/>
+										<c:param name="contractId" value="${form.param.contractId}"/>
+										<c:param name="connectionId" value="${item.conId}"/>
+									</c:url>
+									<li>
+										<a href="#" onclick="$$.ajax.post('${url}')" title="Послать PoD, ограничить доступ через CoA, сбросить по SNMP и т.п., в зависимости от обработчика активации сервиса устройства.">
+											<img src="/img/fugue/plug-disconnect.png"/>
+											Сбросить соединение (отключить)
+										</a>
+									</li>
+								</c:if>
+								<c:if test="${finishAllowed}">
+									<c:url var="url" value="/user/plugin/bgbilling/proto/inet.do">
+										<c:param name="action" value="connectionFinish"/>
+										<c:param name="billingId" value="${form.param.billingId}"/>
+										<c:param name="moduleId" value="${form.param.moduleId}"/>
+										<c:param name="contractId" value="${form.param.contractId}"/>
+										<c:param name="connectionId" value="${item.conId}"/>
+									</c:url>
+									<li>
+										<a href="#" onclick="$$.ajax.post('${url}')" title="Завершение соединения в БД, как если бы вышел лимит ожидания RADIUS- или Netflow-пакета (connection.close.timeout).">
+											<img src="/img/fugue/plug--minus.png"/>
+											Завершить (зависшее) соединение
+										</a>
+									</li>
+								</c:if>
+							</ui:popup-menu>
+
+							<ui:button type="more" styleClass="btn-small" onclick="$$.ui.menuInit($(this), $('#${menuUiid}'), 'left', true);"/>
+						</u:sc>
+					</c:if>
+				</td>
 				<td>${item.conId}</td>
 				<td>${item.id}</td>
 				<td>${item.deviceTitle}</td>

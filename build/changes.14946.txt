@@ -1,0 +1,2 @@
+A: Plugin BGBilling. Popup menu to close / finish Inet session.
+C: Plugin BGBilling. Address search logic as in BGBillingClient.

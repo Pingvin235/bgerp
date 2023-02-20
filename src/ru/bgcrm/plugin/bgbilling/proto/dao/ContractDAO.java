@@ -5,9 +5,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import com.fasterxml.jackson.databind.JsonNode;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.Pageable;
@@ -18,13 +24,24 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.model.*;
+import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGMessageException;
+import ru.bgcrm.model.CommonObjectLink;
+import ru.bgcrm.model.IdTitle;
+import ru.bgcrm.model.Page;
+import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.param.*;
+import ru.bgcrm.model.param.Parameter;
+import ru.bgcrm.model.param.ParameterAddressValue;
+import ru.bgcrm.model.param.ParameterEmailValue;
+import ru.bgcrm.model.param.ParameterPhoneValue;
+import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
@@ -198,7 +215,7 @@ public class ContractDAO extends BillingDAO {
             req.setAttribute("type", 14);
         req.setAttribute("street", streetId);
 
-        AddressHouse houseFrac = AddressHouse.extractHouseAndFrac(house);
+        AddressHouse houseFrac = new AddressHouse().withHouseAndFrac(house);
         req.setAttribute("house", houseFrac.getHouse());
         req.setAttribute("frac", houseFrac.getFrac());
         req.setAttribute("flat", flat);
@@ -228,7 +245,7 @@ public class ContractDAO extends BillingDAO {
     }
 
     public void searchContractByAddressParam(Pageable<ParameterSearchedObject<Contract>> result, SearchOptions options, Set<Integer> paramIds,
-            int streetId, String house, String flat, String room) throws BGException {
+            int streetId, int houseId, String house, String flat, String room) throws BGException {
         final Page page = result.getPage();
 
         Request req = new Request();
@@ -244,7 +261,9 @@ public class ContractDAO extends BillingDAO {
             req.setAttribute("type", 2);
         req.setAttribute("street", streetId);
 
-        AddressHouse houseFrac = AddressHouse.extractHouseAndFrac(house);
+        AddressHouse houseFrac = new AddressHouse().withHouseAndFrac(house);
+        if (houseId > 0)
+            req.setAttribute("houseId", houseId);
         req.setAttribute("house", houseFrac.getHouse());
         req.setAttribute("frac", houseFrac.getFrac());
         req.setAttribute("flat", flat);

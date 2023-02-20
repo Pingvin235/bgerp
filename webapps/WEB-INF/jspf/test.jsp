@@ -42,6 +42,7 @@
 					</ul>
 				</li>
 				<li><a href="#" onclick="alert('Item 2 pressed!')"><i class="ti-alarm-clock"></i> Item 2</a></li>
+				<li><a href="#" onclick="alert('Item 3 pressed!')"><img src="/img/fugue/plug-disconnect.png"/> Item 3</a></li>
 			</ui:popup-menu>
 			<ui:button type="more" onclick="$$.ui.menuInit($(this), $('#${menuUiid}'), 'left', true);"/>
 		</div>

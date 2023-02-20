@@ -1,22 +1,5 @@
 package ru.bgcrm.plugin.bgbilling.proto.struts.action;
 
-import org.apache.struts.action.ActionForward;
-import org.bgerp.model.Pageable;
-import ru.bgcrm.model.BGException;
-import ru.bgcrm.plugin.bgbilling.Plugin;
-import ru.bgcrm.plugin.bgbilling.proto.dao.ContractObjectDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.InetDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.InventoryDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.ResourceDAO;
-import ru.bgcrm.plugin.bgbilling.proto.model.inet.*;
-import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
-import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.TimeUtils;
-import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.inet.IpNet;
-import ru.bgcrm.util.sql.ConnectionSet;
-
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,6 +8,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import org.apache.struts.action.ActionForward;
+import org.bgerp.model.Pageable;
+
+import ru.bgcrm.model.BGException;
+import ru.bgcrm.plugin.bgbilling.Plugin;
+import ru.bgcrm.plugin.bgbilling.proto.dao.ContractObjectDAO;
+import ru.bgcrm.plugin.bgbilling.proto.dao.InetDAO;
+import ru.bgcrm.plugin.bgbilling.proto.dao.InventoryDAO;
+import ru.bgcrm.plugin.bgbilling.proto.dao.ResourceDAO;
+import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetDevice;
+import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetDeviceInterface;
+import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetService;
+import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetServiceType;
+import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetSessionLog;
+import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
+import ru.bgcrm.servlet.ActionServlet.Action;
+import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.TimeUtils;
+import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.inet.IpNet;
+import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/plugin/bgbilling/proto/inet")
 public class InetAction extends BaseAction {
@@ -187,6 +192,20 @@ public class InetAction extends BaseAction {
             });
             item.setDeviceTitle(device.getTitle());
         }
+    }
+
+    public ActionForward connectionClose(DynActionForm form, ConnectionSet conSet) throws Exception {
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        inetDao.connectionClose(form.getParamInt("contractId", Utils::isPositive), form.getParamLong("connectionId"));
+
+        return json(conSet, form);
+    }
+
+    public ActionForward connectionFinish(DynActionForm form, ConnectionSet conSet) throws Exception {
+        InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
+        inetDao.connectionFinish(form.getParamInt("contractId", Utils::isPositive), form.getParamLong("connectionId"));
+
+        return json(conSet, form);
     }
 
     public ActionForward serviceMenu(DynActionForm form, ConnectionSet conSet) throws BGException {

@@ -103,13 +103,17 @@ function addCustomStreetSearch( selector, streetIdSelector )
 }
 
 //добавляет контекстный поиск по дому инпуту
-function addHouseSearch( selector )
+function addHouseSearch( formSelector )
 {
-	$( selector + " input[name='house']" ).autocomplete({
+	const form = document.querySelector(formSelector);
+
+	form.house.addEventListener("keyup", () => form.houseId.value = "");
+
+	$(form.house).autocomplete({
 		minLength: 0,
 		source: function( request, response )
 		{
-			var streetId = this.element[0].form.elements['streetId'].value;
+			const streetId = form.streetId.value;
 			if( streetId > 0 )
 			{
 				var ajaxResponse = sendAJAXCommandWithParams( "/user/directory/address.do?", { "action" : "houseSearch", "streetId" : streetId, "house": request.term } );
@@ -124,7 +128,7 @@ function addHouseSearch( selector )
 		},
 		select: function( event, ui )
 		{
-			this.form.elements['houseId'].value = ui.item.id;
+			form.houseId.value = ui.item.id;
 		}
 	});
 }

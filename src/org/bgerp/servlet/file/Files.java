@@ -76,7 +76,7 @@ public class Files {
     }
 
     /**
-     * File download permission action for checking it using ctxUser.permCheck().
+     * File download permission action for checking it using ctxUser.checkPerm().
      * @return
     */
     public String getDownloadPermissionAction() {
@@ -95,7 +95,7 @@ public class Files {
     }
 
     /**
-     * File deletion permission action for checking it using ctxUser.permCheck().
+     * File deletion permission action for checking it using ctxUser.checkPerm().
      * @return
     */
     public String getDeletePermissionAction() {

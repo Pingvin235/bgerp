@@ -253,6 +253,8 @@
 					<item title="Отчёт">
 						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionAliveContractList" title="Активные сессии"/>
 						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:sessionLogContractList" title="Лог сессий"/>
+						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionClose" title="Сбросить соединение (отключить)"/>
+						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.InetAction:connectionFinish" title="Завершить (зависшее) соединение"/>
 					</item>
 				</item>
 				<item title="RSCM">

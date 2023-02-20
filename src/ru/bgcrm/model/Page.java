@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import org.bgerp.util.Dynamic;
-import org.bgerp.util.Log;
 
 /**
  * Pagination data.
@@ -13,8 +12,6 @@ import org.bgerp.util.Log;
  */
 @Dynamic
 public class Page {
-    private static final Log log = Log.getLog();
-
     public static final int DEFAULT_PAGE_SIZE = 25;
 
     public static final String RECORD_COUNT = "recordCount";
@@ -47,12 +44,6 @@ public class Page {
         this.pageIndex = page.pageIndex;
         this.pageCount = page.pageCount;
         this.recordCount = page.recordCount;
-    }
-
-    @Deprecated
-    public boolean isNeedPaging() {
-        log.warn("Call isPaginationEnabled instead of isNeedPaging");
-        return isPaginationEnabled();
     }
 
     /**

@@ -184,8 +184,7 @@ public class InetDAO extends BillingModuleDAO {
     }
 
     public void getSessionAliveContractList(Pageable<InetSessionLog> result, int contractId) throws BGException {
-        RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SESSION_SERVICE,
-                "inetSessionAliveContractList");
+        RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SESSION_SERVICE, "inetSessionAliveContractList");
         req.setParamContractId(contractId);
         req.setParam("trafficTypeIds", new int[] { 0 });
         req.setParam("serviceIds", Collections.emptyList());
@@ -197,8 +196,7 @@ public class InetDAO extends BillingModuleDAO {
 
     public void getSessionLogContractList(Pageable<InetSessionLog> result, int contractId, Date dateFrom, Date dateTo)
             throws BGException {
-        RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SESSION_SERVICE,
-                "inetSessionLogContractList");
+        RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SESSION_SERVICE, "inetSessionLogContractList");
         req.setParamContractId(contractId);
         req.setParam("dateFrom", dateFrom);
         req.setParam("dateTo", dateTo);
@@ -209,12 +207,9 @@ public class InetDAO extends BillingModuleDAO {
         extractSessions(result, req);
     }
 
-    public void getSessionAliveList(Pageable<InetSessionLog> result,
-            Set<Integer> deviceIds, Set<Integer> contractIds,
-            String contract, String login, String ip, String callingStation,
-            Date timeFrom, Date timeTo) throws BGException {
-        RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SESSION_SERVICE,
-                "inetSessionAliveList");
+    public void getSessionAliveList(Pageable<InetSessionLog> result, Set<Integer> deviceIds, Set<Integer> contractIds, String contract, String login,
+            String ip, String callingStation, Date timeFrom, Date timeTo) throws BGException {
+        RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SESSION_SERVICE, "inetSessionAliveList");
         req.setParam("deviceIds", deviceIds);
         req.setParam("contractIds", contractIds);
         req.setParam("contract", contract);
@@ -244,5 +239,19 @@ public class InetDAO extends BillingModuleDAO {
         Set<Integer> methodList = readJsonValue(transferData.postDataReturn(req, user).traverse(),
                 jsonTypeFactory.constructCollectionType(Set.class, Integer.class));
         return methodList;
+    }
+
+    public void connectionClose(int contractId, long connectionId) throws Exception {
+        RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SESSION_SERVICE, "connectionClose");
+        req.setParam("contractId", contractId);
+        req.setParam("connectionId", connectionId);
+        transferData.postData(req, user);
+    }
+
+    public void connectionFinish(int contractId, long connectionId) throws Exception {
+        RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SESSION_SERVICE, "connectionFinish");
+        req.setParam("contractId", contractId);
+        req.setParam("connectionId", connectionId);
+        transferData.postData(req, user);
     }
 }

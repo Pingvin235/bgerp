@@ -108,14 +108,6 @@ public class AddressHouse extends AddressBase {
         return this;
     }
 
-    /**
-     * Use {@link #withHouseAndFrac(String)}.
-     */
-    @Deprecated
-    public static AddressHouse extractHouseAndFrac(String value) {
-        return new AddressHouse().withHouseAndFrac(value);
-    }
-
     public String getPostIndex() {
         return postIndex;
     }
