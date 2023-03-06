@@ -465,8 +465,10 @@ processCreateLink.<n>.processTypeId=<typeId>
 processCreateLink.<n>.linkType=<linkType>
 # необязательные параметры
 #processCreateLink.<n>.checkExpression=<expression>
+#processCreateLink.<n>.checkErrorMessage=<expressionError>
+# copy process parameters
 #processCreateLink.<n>.copyParams=<copyRules>
-# копирование привязок
+# copy process links
 #processCreateLink.<n>.copyLinks=<copyLinks>
 ----
 Где:
@@ -475,7 +477,8 @@ processCreateLink.<n>.linkType=<linkType>
 * *<title>* - наименование для списка;
 * *<linkType>* - тип связи: *processLink* - ссылается, *processMade* - порождён, *processDepend* - зависит;
 * *<typeId>* - код типа создаваемого процесса;
-* *<expression>* - <<../extension.adoc#jexl, JEXL>> выражение, позволяющее показывать пункт списка в зависимости от условий;
+* *<expression>* - <<../extension.adoc#jexl, JEXL>> expression, when returns *false* - the combo-box item is displayed strikethrough;
+* *<exressionError>* - error message shown on attempt to use a disabled item;
 * *<copyRules>* - через запятую коды копирующихся с текущего на создаваемый параметров, либо пары <from>:<to> - кодов однотипных параметров с какого на какой необходимо копировать;
 * *<copyLinks>* - копирование привязок на процесс, 1 - копировать все привязки, возможно ограничение по маске типов объектов, например: contract%, customer%.
 

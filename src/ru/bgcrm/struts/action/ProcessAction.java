@@ -20,7 +20,6 @@ import org.bgerp.model.Pageable;
 import org.bgerp.model.config.IsolationConfig;
 import org.bgerp.model.config.IsolationConfig.IsolationProcess;
 import org.bgerp.model.process.ProcessGroups;
-import org.bgerp.model.process.config.LinkProcessCreateConfig;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -41,7 +40,6 @@ import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.event.process.ProcessRemovedEvent;
-import ru.bgcrm.event.process.ProcessRequestEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
@@ -769,38 +767,6 @@ public class ProcessAction extends BaseAction {
     public static Process linkProcessCreate(Connection con, DynActionForm form, Process linkedProcess, int typeId, String objectType,
             int createTypeId, String description, int groupId) throws Exception {
         return ProcessLinkAction.linkProcessCreate(con, form, linkedProcess, typeId, objectType, createTypeId, description, groupId);
-    }
-
-    public ActionForward processRequest(DynActionForm form, Connection con) throws Exception {
-        int typeId = form.getParamInt("typeId");
-
-        if (typeId == 0) {
-            int createTypeId = form.getParamInt("createTypeId");
-            int parentTypeId = form.getParamInt("parentTypeId");
-
-            if (createTypeId == 0 || parentTypeId == 0) {
-                throw new BGException("Ошибка параметров запроса");
-            }
-
-            typeId = ProcessTypeCache.getProcessType(parentTypeId).getProperties().getConfigMap().getConfig(LinkProcessCreateConfig.class)
-                    .getItem(createTypeId).getProcessTypeId();
-
-            if (typeId == 0) {
-                throw new BGException("Ошибка параметров запроса");
-            }
-        }
-
-        ProcessType type = ProcessTypeCache.getProcessType(typeId);
-
-        ProcessRequestEvent processRequestEvent = new ProcessRequestEvent(form, type);
-
-        EventProcessor.processEvent(processRequestEvent, null, new SingleConnectionSet(con));
-
-        if (Utils.notBlankString(processRequestEvent.getForwardJspName())) {
-            return html(con, form, processRequestEvent.getForwardJspName());
-        } else {
-            return json(con, form);
-        }
     }
 
     public ActionForward messageRelatedProcessList(DynActionForm form, Connection con) throws Exception {

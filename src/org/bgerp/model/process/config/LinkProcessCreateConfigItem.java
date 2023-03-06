@@ -11,6 +11,7 @@ public class LinkProcessCreateConfigItem {
     private final int processTypeId;
     private final String linkType;
     private final String expression;
+    private final String checkErrorMessage;
     private final String copyParamsMapping;
     private final String copyLinks;
 
@@ -20,6 +21,7 @@ public class LinkProcessCreateConfigItem {
         this.processTypeId = setup.getInt("processTypeId", -1);
         this.linkType = setup.get("linkType");
         this.expression = setup.get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
+        this.checkErrorMessage = setup.get(Expression.CHECK_ERROR_MESSAGE_CONFIG_KEY);
         this.copyParamsMapping = setup.get("copyParams");
         this.copyLinks = setup.get("copyLinks");
 
@@ -46,6 +48,10 @@ public class LinkProcessCreateConfigItem {
 
     public String getExpression() {
         return expression;
+    }
+
+    public String getCheckErrorMessage() {
+        return checkErrorMessage;
     }
 
     public String getCopyParamsMapping() {

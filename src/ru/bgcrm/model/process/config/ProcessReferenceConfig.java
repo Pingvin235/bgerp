@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.event.listener.DefaultProcessChangeListener;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -39,8 +38,7 @@ public class ProcessReferenceConfig extends Config {
         MAIN_LOOP: for (ProcessReferenceConfigItem item : itemList) {
             for (String objectType : objectTypes) {
                 if (item.objectTypes.contains(objectType)) {
-                    Map<String, Object> context = DefaultProcessChangeListener
-                            .getProcessJexlContext(new SingleConnectionSet(con), form, null, process);
+                    Map<String, Object> context = Expression.context(new SingleConnectionSet(con), form, null, process);
                     result = new Expression(context).getString(item.macros);
                     break MAIN_LOOP;
                 }

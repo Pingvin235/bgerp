@@ -1,6 +1,5 @@
 package ru.bgcrm.event.listener;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,11 +11,7 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ParamValueFunction;
-import ru.bgcrm.dao.expression.ProcessChangeFunctions;
-import ru.bgcrm.dao.expression.ProcessLinkFunction;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.ParamChangingEvent;
@@ -34,10 +29,7 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.model.user.User;
-import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.action.ProcessCommandExecutor;
-import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
@@ -239,14 +231,13 @@ public class DefaultProcessChangeListener {
                 return;
             }
 
-            if (Utils.notBlankString(ifExpression)
-                    && !initExpression(conSet, e, process).check(ifExpression)) {
+            if (Utils.notBlankString(ifExpression) && !Expression.init(conSet, e, process).check(ifExpression)) {
                 log.debug("Skipping rule by ifExpression.");
                 return;
             }
 
             if (checkRule != null) {
-                checkRule.check(initExpression(conSet, e, process), e);
+                checkRule.check(Expression.init(conSet, e, process), e);
             }
 
             log.debug("Processing commands: {}", commands);
@@ -257,7 +248,7 @@ public class DefaultProcessChangeListener {
                 log.debug("Do expression: {}", doExpression);
 
                 try {
-                    initExpression(conSet, e, process).executeScript(doExpression);
+                    Expression.init(conSet, e, process).executeScript(doExpression);
                 }
                 catch (Exception ex) {
                     if (ex.getCause() instanceof BGMessageException)
@@ -346,38 +337,6 @@ public class DefaultProcessChangeListener {
         }
     }
 
-    public static Expression initExpression(ConnectionSet conSet, UserEvent event, Process process)
-            throws Exception {
-        DynActionForm form = event.getForm();
-        Map<String, Object> context = getProcessJexlContext(conSet, form, event, process);
-        return new Expression(context);
-    }
-
-    // TODO: Перенести функцию, используется повсеместно.
-    public static Map<String, Object> getProcessJexlContext(ConnectionSet conSet, DynActionForm form,
-            UserEvent event, Process process) {
-        Connection con = conSet.getConnection();
-
-        Map<String, Object> context = new HashMap<>(100);
-        context.put(User.OBJECT_TYPE, form.getUser());
-        context.put(User.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX,
-                new ParamValueFunction(con, form.getUserId()));
-        context.put(Process.OBJECT_TYPE, process);
-        context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX,
-                new ParamValueFunction(con, process.getId()));
-        context.put(ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction(con, process.getId()));
-        context.put(ConnectionSet.KEY, conSet);
-        context.put(DynActionForm.KEY, form);
-        if (event != null)
-            context.put(Event.KEY, event);
-
-        context.put(null, new ProcessChangeFunctions(process, form, con));
-
-        context.putAll(SetRequestParamsFilter.getContextVariables(form.getHttpRequest()));
-
-        return context;
-    }
-
     public static class Rule {
         private final String expression;
         private final String checkErrorMessage;
@@ -385,7 +344,7 @@ public class DefaultProcessChangeListener {
 
         public Rule(ParameterMap rule) throws BGException {
             expression = rule.get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
-            checkErrorMessage = rule.get("checkErrorMessage");
+            checkErrorMessage = rule.get(Expression.CHECK_ERROR_MESSAGE_CONFIG_KEY);
             showEvent = rule.getBoolean("checkErrorShowEvent", false);
 
             if (Utils.isBlankString(expression) || Utils.isBlankString(checkErrorMessage)) {

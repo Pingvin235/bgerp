@@ -18,9 +18,6 @@
 		<div id="groupSelect">
 			<%-- сюда динамически грузятся группы решения --%>
 		</div>
-		<div id="additionalParamsSelect">
-			<%-- сюда динамически грузятся доп параметры для данного типа процесса --%>
-		</div>
 		<div id="constPart">
 			<b>${l.l('Description')}:</b><br />
 			<textarea name="description" rows="10" style="width: 100%;"></textarea>

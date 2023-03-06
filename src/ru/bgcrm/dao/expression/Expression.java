@@ -1,5 +1,6 @@
 package ru.bgcrm.dao.expression;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,8 +17,14 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
+import ru.bgcrm.event.UserEvent;
+import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.user.User;
+import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
  * JEXL expression processor.
@@ -29,6 +36,7 @@ public class Expression {
     private static final Log log = Log.getLog();
 
     public static final String CHECK_EXPRESSION_CONFIG_KEY = "checkExpression";
+    public static final String CHECK_ERROR_MESSAGE_CONFIG_KEY = "checkErrorMessage";
     public static final String STRING_MAKE_EXPRESSION_CONFIG_KEY = "stringExpression";
     public static final String DO_EXPRESSION_CONFIG_KEY = "doExpression";
 
@@ -36,12 +44,13 @@ public class Expression {
     private static final TimeUtils PREFIX_tu = new TimeUtils();
     private static final StringUtils PREFIX_su = new StringUtils();
     private static final CollectionUtils PREFIX_cu = new CollectionUtils();
+    @SuppressWarnings("deprecation")
     private static final FileUtils PREFIX_fu = new FileUtils();
 
     private JexlEngine jexl;
 
-    //TODO: Вроде как тут заложена возможность создавать классы по их полному названию,
-    //скорее всего для вызовов статических методов вида ru.bgcrm.Utils.doSomth().
+    // Вроде как тут заложена возможность создавать классы по их полному названию,
+    // скорее всего для вызовов статических методов вида ru.bgcrm.Utils.doSomth().
     private JexlContext context = new MapContext() {
         @Override
         public boolean has(String name) {
@@ -146,5 +155,48 @@ public class Expression {
                 log.error("INCORRECT SCRIPT LINE: " + lines[lineNumber - 1]);
             throw e;
         }
+    }
+
+    /**
+     * Creates initialized expression for a process related expression.
+     * @param conSet DB connection sets.
+     * @param event event.
+     * @param process the process.
+     * @return
+     * @throws Exception
+     */
+    public static Expression init(ConnectionSet conSet, UserEvent event, Process process) throws Exception {
+        DynActionForm form = event.getForm();
+        Map<String, Object> context = context(conSet, form, event, process);
+        return new Expression(context);
+    }
+
+    /**
+     * Creates expressions' context for process related expression.
+     * @param conSet DB connections set.
+     * @param form request form.
+     * @param event event, can be {@code null}.
+     * @param process the process.
+     * @return
+     */
+    public static Map<String, Object> context(ConnectionSet conSet, DynActionForm form, UserEvent event, Process process) {
+        Connection con = conSet.getConnection();
+
+        Map<String, Object> context = new HashMap<>(100);
+        context.put(User.OBJECT_TYPE, form.getUser());
+        context.put(User.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, new ParamValueFunction(con, form.getUserId()));
+        context.put(Process.OBJECT_TYPE, process);
+        context.put(Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX, new ParamValueFunction(con, process.getId()));
+        context.put(ProcessLinkFunction.PROCESS_LINK_FUNCTION, new ProcessLinkFunction(con, process.getId()));
+        context.put(ConnectionSet.KEY, conSet);
+        context.put(DynActionForm.KEY, form);
+        if (event != null)
+            context.put(Event.KEY, event);
+
+        context.put(null, new ProcessChangeFunctions(process, form, con));
+
+        context.putAll(SetRequestParamsFilter.getContextVariables(form.getHttpRequest()));
+
+        return context;
     }
 }

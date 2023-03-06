@@ -17,18 +17,7 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-			<c:url var="requestUrl" value="/user/process.do">
-				<c:param name="action" value="processRequest"/>
-				<c:param name="objectId" value="${form.id}"/>
-				<c:param name="typeId" value="${node.id}"/>
-				<c:param name="billingId" value="${fn:split(form.param.objectType,':')[1]}"/>
-			</c:url>
-
-			<c:if test="${not empty processTypeTree}">
-				<c:set var="afterSelectCommand" value="$$.ajax.load('${requestUrl}', $('#${processTypeTree}').find('div[id=additionalParamsSelect]'));"/>
-			</c:if>
-
-			<span id="${node.id}_title" onclick="processTypeTreeNodeSelected( this, ${node.id}); ${afterSelectCommand}">
+			<span id="${node.id}_title" onclick="processTypeTreeNodeSelected( this, ${node.id});">
 				<img border="0" style="cursor: pointer;" src="/img/page.png" alt="Type"/>&nbsp;${node.title}
 			</span>
 		</c:otherwise>

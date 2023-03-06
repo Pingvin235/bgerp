@@ -239,7 +239,7 @@
 				<item action="ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke" title="Run processor"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:processDoCommands" title="Run macros"/>
 			</item>
-			<item action="ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, ru.bgcrm.struts.action.ProcessAction:processRequest, org.bgerp.action.usermob.ProcessAction:processCreate" title="Create process"/>
+			<item action="ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate" title="Create process"/>
 			<item title="Card">
 				<item action="ru.bgcrm.struts.action.ProcessAction:null, org.bgerp.action.usermob.ProcessAction:null, ru.bgcrm.struts.action.ProcessAction:process" title="View process card"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate" title="Edit status"/>

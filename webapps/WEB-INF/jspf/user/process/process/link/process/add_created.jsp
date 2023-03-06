@@ -16,12 +16,21 @@ Incoming variables:
 
 			<div class="in-table-cell pt1">
 				<div style="width: 100%;">
-					<ui:combo-single list="${createTypeList}" hiddenName="createTypeId" style="width: 100%;" onSelect="
+					<%--
+					onSelect="
 						$$.ajax.load(
 							'/user/process.do?showGroupSelect=1&action=processRequest&parentTypeId=${typeId}&createTypeId=' + this.value,
-							$(this.form).find('#additionalParamsSelect'));">
+							$(this.form).find('#additionalParamsSelect'));"
+					--%>
+					<ui:combo-single hiddenName="createTypeId" style="width: 100%;">
 						<jsp:attribute name="valuesHtml">
 							<li value="0">-- ${l.l('значение не установлено')} --</li>
+							<c:forEach var="item" items="${createTypeList}">
+								<c:set var="style" value="${item.second ? '' : ' style=\"text-decoration: line-through;\"'}"/>
+								<li value="${item.first.id}">
+									<span ${style}>${item.first.title}</span>
+								</li>
+							</c:forEach>
 						</jsp:attribute>
 					</ui:combo-single>
 				</div>
@@ -39,10 +48,6 @@ Incoming variables:
 					</c:set>
 					<button type="button" class="btn-grey" onclick="${command}">${l.l('Создать и привязать')}</button>
 				</div>
-			</div>
-
-			<div id="additionalParamsSelect">
-				<%-- сюда динамически грузятся доп параметры для данного типа процесса --%>
 			</div>
 		</html:form>
 	</c:if>

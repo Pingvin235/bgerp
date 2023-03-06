@@ -13,11 +13,11 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessLinkProcessSearchDAO;
 import org.bgerp.dao.process.ProcessSearchDAO;
+import org.bgerp.l10n.Localizer;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.config.CommonAvailableConfig;
 import org.bgerp.model.process.config.LinkAvailableConfig;
 import org.bgerp.model.process.config.LinkProcessCreateConfig;
-import org.bgerp.model.process.config.LinkProcessCreateConfigItem;
 import org.bgerp.model.process.config.LinkedAvailableConfig;
 
 import ru.bgcrm.dao.IfaceStateDAO;
@@ -107,7 +107,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
 
         var createTypeList = type.getProperties().getConfigMap()
             .getConfig(LinkProcessCreateConfig.class)
-            .getItemList(con, process);
+            .getItemList(form, con, process);
 
         form.setRequestAttribute("createTypeList", createTypeList);
     }
@@ -229,11 +229,16 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
         if (createTypeId > 0) {
             ProcessType linkedType = getProcessType(linkedProcess.getTypeId());
 
-            LinkProcessCreateConfigItem item = linkedType.getProperties().getConfigMap().getConfig(LinkProcessCreateConfig.class)
-                    .getItem(createTypeId);
-            if (item == null) {
+            var itemPair = linkedType.getProperties().getConfigMap()
+                .getConfig(LinkProcessCreateConfig.class)
+                .getItem(form, con, linkedProcess,createTypeId);
+            if (itemPair == null)
                 throw new BGMessageException("Не найдено правило с ID: {}", createTypeId);
-            }
+
+            final var item = itemPair.getFirst();
+
+            if (!itemPair.getSecond())
+                throw new BGMessageException(Localizer.TRANSPARENT, item.getCheckErrorMessage());
 
             linkObjectType = item.getLinkType();
 

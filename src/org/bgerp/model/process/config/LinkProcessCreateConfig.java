@@ -9,17 +9,19 @@ import java.util.Map;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.expression.ParamValueFunction;
+import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class LinkProcessCreateConfig extends Config {
     private static final Log log = Log.getLog();
 
-    private List<LinkProcessCreateConfigItem> itemList = new ArrayList<LinkProcessCreateConfigItem>();
-    private Map<Integer, LinkProcessCreateConfigItem> itemMap = new HashMap<Integer, LinkProcessCreateConfigItem>();
+    private final List<LinkProcessCreateConfigItem> itemList = new ArrayList<>();
+    private final Map<Integer, LinkProcessCreateConfigItem> itemMap = new HashMap<>();
 
     public LinkProcessCreateConfig(ParameterMap config) {
         super(null);
@@ -35,29 +37,43 @@ public class LinkProcessCreateConfig extends Config {
         }
     }
 
-    public List<LinkProcessCreateConfigItem> getItemList(Connection con, Process process) {
-        Map<String, Object> context = new HashMap<String, Object>(3);
-        context.put(Process.OBJECT_TYPE, process);
+    /**
+     * List of pairs with process creation item on first places and item enable state of seconds.
+     * @param form context form.
+     * @param con context connection.
+     * @param process context process.
+     * @return
+     */
+    public List<Pair<LinkProcessCreateConfigItem, Boolean>> getItemList(DynActionForm form, Connection con, Process process) {
+        List<Pair<LinkProcessCreateConfigItem, Boolean>> result = new ArrayList<>();
 
-        final String newKey = Process.OBJECT_TYPE + ParamValueFunction.PARAM_FUNCTION_SUFFIX;
-        context.put(newKey, new ParamValueFunction(con, process.getId()));
-        // TODO: Подумать, может такой способ вызова убрать, т.к. не единообразно
-        // как-то.
-        context.put("param", context.get(newKey));
-        // TODO: Use DefaultProcessChangeListener#initExpression()
-        Expression checker = new Expression(context);
+        var context = Expression.context(new SingleConnectionSet(con), form, null, process);
 
-        List<LinkProcessCreateConfigItem> result = new ArrayList<LinkProcessCreateConfigItem>();
-        for (LinkProcessCreateConfigItem item : itemList) {
-            if (Utils.isBlankString(item.getExpression()) || checker.check(item.getExpression())) {
-                result.add(item);
-            }
-        }
+        for (LinkProcessCreateConfigItem item : itemList)
+            result.add(new Pair<>(item, isEnabled(context, item)));
 
         return result;
     }
 
-    public LinkProcessCreateConfigItem getItem(int id) {
-        return itemMap.get(id);
+    /**
+     * Pair of an process creation item and it's enabling state.
+     * @param form context form.
+     * @param con context connection.
+     * @param process context process.
+     * @param id item ID.
+     * @return
+     */
+    public Pair<LinkProcessCreateConfigItem, Boolean> getItem(DynActionForm form, Connection con, Process process, int id) {
+        var item = itemMap.get(id);
+        if (item == null)
+            return null;
+
+        var context = Expression.context(new SingleConnectionSet(con), form, null, process);
+
+        return new Pair<>(item, isEnabled(context, item));
+    }
+
+    private boolean isEnabled(Map<String, Object> context, LinkProcessCreateConfigItem item) {
+        return Utils.isBlankString(item.getExpression()) || new Expression(context).check(item.getExpression());
     }
 }

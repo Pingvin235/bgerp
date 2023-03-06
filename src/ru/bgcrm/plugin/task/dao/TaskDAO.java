@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bgerp.model.Pageable;
+import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.plugin.task.model.Task;
 import ru.bgcrm.util.Preferences;
-import ru.bgcrm.util.TimeUtils;
 
 public class TaskDAO extends CommonDAO {
 
@@ -81,7 +81,7 @@ public class TaskDAO extends CommonDAO {
            PreparedStatement ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
            ps.setInt(1, task.getProcessId());
            ps.setString(2, task.getTypeId());
-           ps.setTimestamp(3, TimeUtils.convertDateToTimestamp(task.getScheduledTime()));
+           ps.setTimestamp(3, TimeConvert.toTimestamp(task.getScheduledTime()));
            ps.setString(4, task.getConfig().getDataString());
            ps.executeUpdate();
            task.setId(lastInsertId(ps));
@@ -89,7 +89,7 @@ public class TaskDAO extends CommonDAO {
        } else {
            String query = "UPDATE " + TABLE + " SET executed_dt=?, log=? WHERE id=?";
            PreparedStatement ps = con.prepareStatement(query);
-           ps.setTimestamp(1, TimeUtils.convertDateToTimestamp(task.getExecutedTime()));
+           ps.setTimestamp(1, TimeConvert.toTimestamp(task.getExecutedTime()));
            ps.setString(2, task.getLog());
            ps.setInt(3, task.getId());
            ps.executeUpdate();

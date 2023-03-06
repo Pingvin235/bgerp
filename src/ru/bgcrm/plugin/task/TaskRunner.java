@@ -8,7 +8,6 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.event.listener.DefaultProcessChangeListener;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.task.dao.TaskDAO;
 import ru.bgcrm.plugin.task.model.Task;
@@ -58,8 +57,8 @@ public class TaskRunner extends org.bgerp.scheduler.Task {
                         log.warn("Process is not found: {}", task.getProcessId());
                     else
                         try {
-                            Map<String, Object> context = DefaultProcessChangeListener
-                                    .getProcessJexlContext(new SingleConnectionSet(con), DynActionForm.SYSTEM_FORM, null, process);
+                            Map<String, Object> context = Expression.context(new SingleConnectionSet(con), DynActionForm.SYSTEM_FORM,
+                                    null, process);
                             context.put("taskObject", task);
                             context.put("taskType", type);
                             Expression expression = new Expression(context);

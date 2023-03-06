@@ -1,6 +1,7 @@
 package ru.bgcrm.event.listener;
 
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,12 +10,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.util.Log;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
@@ -133,7 +134,7 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
 
                 // режим отладки
                 if (DocumentGenerateEvent.isDebug(event.getForm())) {
-                    response.setContentType("text/plain; charset=" + Utils.UTF8.name());
+                    response.setContentType("text/plain; charset=" + StandardCharsets.UTF_8.name());
 
                     DocumentGenerateEvent docGenEvent = new DocumentGenerateEvent(event.getForm(), pattern,
                             Process.OBJECT_TYPE, event.getProcessIds());
@@ -168,7 +169,7 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
 
                     document.close();
                 } else if (pattern.getType() == Pattern.TYPE_XSLT_HTML || pattern.getType() == Pattern.TYPE_JSP_HTML) {
-                    response.setContentType("text/html; charset=" + Utils.UTF8.name());
+                    response.setContentType("text/html; charset=" + StandardCharsets.UTF_8.name());
 
                     DocumentGenerateEvent docGenEvent = new DocumentGenerateEvent(event.getForm(), pattern,
                             Process.OBJECT_TYPE, event.getProcessIds());
@@ -220,7 +221,7 @@ public class DefaultMarkedProcessor extends DynamicEventListener {
 
                     if (Utils.notBlankString(config.doExpression)) {
                         log.debug("Executing expression: {}", config.doExpression);
-                        DefaultProcessChangeListener.initExpression(conSet, event, process).executeScript(config.doExpression);
+                        Expression.init(conSet, event, process).executeScript(config.doExpression);
                     }
 
                     conSet.commit();

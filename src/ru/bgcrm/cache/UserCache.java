@@ -238,7 +238,7 @@ public class UserCache extends Cache<UserCache> {
             titleWithPath += " (" + group.getId() + ")";
         }
 
-        while (group.getParentId() != 0) {
+        while (group.getParentId() > 0) {
             final int parentId = group.getParentId();
 
             group = groupMap.get(parentId);

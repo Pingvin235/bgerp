@@ -310,8 +310,8 @@ function processTypeTreeNodeSelected(el, nodeId) {
 
 	$$.ajax.load("/user/process.do?action=processCreateGroups&typeId=" + nodeId,
 			$(el).closest("#typeTree").parent().find("#groupSelect"));
-	$$.ajax.load("/user/process.do?action=processRequest&typeId=" + nodeId,
-			$(el).closest("#typeTree").parent().find("#additionalParamsSelect"));
+	/* $$.ajax.load("/user/process.do?action=processRequest&typeId=" + nodeId,
+			$(el).closest("#typeTree").parent().find("#additionalParamsSelect")); */
 }
 
 function statusChangeEditor(selector, selectedStatus, currentStatus,
