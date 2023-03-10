@@ -11,7 +11,7 @@ IMPORTANT: Obtain the suitable license and put it in the application' directory.
 == Syntax Highlighting Config Editors
 Introduced for the rest of existing editors.
 
-image::_res/img-permission-sets.png[width="800px"]
+image::_res/12345_permission_sets.png[width="800px"]
 
 == <<../../kernel/setup.adoc#user-profile, User Profile>> Reset Personalizations
 

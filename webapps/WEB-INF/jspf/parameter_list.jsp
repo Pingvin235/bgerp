@@ -138,7 +138,7 @@
 									<input type="hidden" name="paramId" value="${parameter.id}" />
 
 									<ui:button type="add" styleClass="btn-small" onclick="$$.ajax.triggerUpload('${uploadFormId}');"/>
-									<input type="file" name="file" style="visibility:hidden;width: 1px;"/>
+									<input type="file" name="file" style="visibility:hidden; width: 1px; height: 0;"/>
 								</form>
 							</div>
 
@@ -265,7 +265,7 @@
 							<%-- adding --%>
 							<c:set var="editFormId" value="${u:uiid()}"/>
 
-							<html:form action="/user/parameter" styleId="${editFormId}"  style="display: inline;">
+							<html:form action="/user/parameter" styleId="${editFormId}">
 								<input type="hidden" name="action" value="parameterGet"/>
 								<html:hidden property="objectType"/>
 								<input type="hidden" name="id" value="${id}"/>

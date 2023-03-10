@@ -11,7 +11,8 @@
 
 <html>
 	<head>
-		<%@ include file="style.jsp"%>
+		<%@ include file="style/common.jsp"%>
+		<%@ include file="style/ru.jsp"%>
 	</head>
 	<body>
 		${invoiceCustomer.title}<br/></br>

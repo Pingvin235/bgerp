@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
+import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
@@ -34,7 +35,7 @@ import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Test(groups = "invoice", priority = 100, dependsOnGroups = { "config", "process", "customer", "customerRu" })
+@Test(groups = "invoice", priority = 100, dependsOnGroups = { "config", "process", "customer", "customerRu", "message" })
 public class InvoiceTest {
     private static final Plugin PLUGIN = new Plugin();
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
@@ -63,14 +64,12 @@ public class InvoiceTest {
 
         var processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
 
-        var title = TITLE + " Contract";
-
-        process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, title);
+        process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Contract EU");
         paramDao.updateParamDate(process.getId(), paramContractDateId, Date.from(Instant.now().plus(Duration.ofDays(-60))));
         paramDao.updateParamMoney(process.getId(), paramCostId, "42.51");
         ProcessHelper.addCustomerLink(process.getId(), Customer.OBJECT_TYPE, CustomerTest.customerOrgNs);
 
-        processRu = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, title + " RU");
+        processRu = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Contract RU");
         paramDao.updateParamDate(processRu.getId(), paramContractDateId, Date.from(Instant.now().plus(Duration.ofDays(-31))));
         paramDao.updateParamMoney(processRu.getId(), paramCostId, "42.50");
         ProcessHelper.addCustomerLink(processRu.getId(), Customer.OBJECT_TYPE, CustomerRuTest.customerOrgIvan);
@@ -80,10 +79,18 @@ public class InvoiceTest {
     public void config() throws Exception {
         ConfigHelper.addIncludedConfig(PLUGIN,
             ConfigHelper.generateConstants(
-                "CUSTOMER_ID", CustomerTest.customerOrgNs.getId(),
-                "CUSTOMER_RU_ID", CustomerRuTest.customerOrgIvan.getId(),
                 "PARAM_COST_ID", paramCostId,
                 "PARAM_CONTRACT_DATE_ID", paramContractDateId,
+
+                "CUSTOMER_ID", CustomerTest.customerOrgNs.getId(),
+                "PARAM_CUSTOMER_ADDRESS_ID", CustomerTest.paramAddressId,
+                "PARAM_CUSTOMER_BANK_TITLE_ID", CustomerTest.paramBankTitleId,
+                "PARAM_CUSTOMER_BANK_IBAN_ID", CustomerTest.paramBankIbanId,
+                "PARAM_CUSTOMER_BANK_BIC_ID", CustomerTest.paramBankBicId,
+                "PARAM_CUSTOMER_LOGO_ID", CustomerTest.paramLogoId,
+                "PARAM_CUSTOMER_INVOICE_FOOTER_ID", CustomerTest.paramInvoiceFooterId,
+
+                "CUSTOMER_RU_ID", CustomerRuTest.customerOrgIvan.getId(),
                 "PARAM_CUSTOMER_RU_ADDRESS_ID", CustomerRuTest.paramAddressId,
                 "PARAM_CUSTOMER_RU_INN_ID", CustomerRuTest.paramInnId,
                 "PARAM_CUSTOMER_RU_KPP_ID", CustomerRuTest.paramKppId,
@@ -119,17 +126,19 @@ public class InvoiceTest {
         Assert.assertEquals(invoice.getPositions().size(), 1);
         var pos = invoice.getPositions().get(0);
         Assert.assertEquals(pos.getId(), "consultancy");
-        Assert.assertEquals(pos.getTitle(), "Consultancy");
+        Assert.assertEquals(pos.getTitle(), "Consultancy March 2023");
         Assert.assertEquals(pos.getAmount(), Utils.parseBigDecimal("42.51"));
 
         var dao = new InvoiceDAO(DbTest.conRoot);
         type.getNumberProvider().number(DbTest.conRoot, type, invoice);
 
         Assert.assertEquals(invoice.getNumber(),
-                new DecimalFormat("000000").format(process.getId()) + "-" + TimeUtils.format(invoice.getDateFrom(), "yyyyMM") + "-01");
+                "EU" + new DecimalFormat("000000").format(process.getId()) + "-" + TimeUtils.format(invoice.getDateFrom(), "yyyyMM") + "-01");
 
         dao.update(invoice);
         Assert.assertTrue(invoice.getId() > 0);
+
+        MessageHelper.addHowToTestNoteMessage(process.getId(), this);
     }
 
     @Test(dependsOnMethods = { "process", "config" })

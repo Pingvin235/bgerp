@@ -8,6 +8,7 @@ import static ru.bgcrm.model.param.Parameter.TYPE_FILE;
 import static ru.bgcrm.model.param.Parameter.TYPE_LIST;
 
 import java.io.FileInputStream;
+import java.net.URLConnection;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
@@ -15,7 +16,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.model.FileData;
@@ -89,8 +89,8 @@ public class ParameterValuePair {
             return null;
 
         var result = new StringBuilder(100000)
-            .append("data:image/")
-            .append(StringUtils.substringAfterLast(fileData.getTitle(), "."))
+            .append("data:")
+            .append(URLConnection.guessContentTypeFromName(fileData.getTitle()))
             .append(";base64, ");
 
         try (var fis = new FileInputStream(new FileDataDAO(null).getFile(fileData))) {

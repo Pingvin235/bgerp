@@ -80,6 +80,7 @@ public class PermissionNode {
         var ltitle = node.getAttribute("ltitle");
         if (Utils.notBlankString(ltitle)) {
             title = l.l(ltitle);
+            log.warn("Using ltitle attributes in permission nodes is not recommended");
         }
 
         allowAll = Utils.parseBoolean(node.getAttribute("allowAll"));

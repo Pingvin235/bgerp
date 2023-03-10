@@ -9,8 +9,12 @@ public class ResourceHelper {
     private static final Log log = Log.getLog();
 
     public static String getResource(Object object, String suffix) throws Exception {
+        return new String(getResourceBytes(object, suffix), StandardCharsets.UTF_8);
+    }
+
+    public static byte[] getResourceBytes(Object object, String suffix) throws Exception {
         String name = object.getClass().getSimpleName() + "." + suffix;
-        log.debug("Loading resource: %s", name);
-        return IOUtils.toString(object.getClass().getResourceAsStream(name), StandardCharsets.UTF_8);
+        log.debug("Loading resource: {}", name);
+        return IOUtils.toByteArray(object.getClass().getResourceAsStream(name));
     }
 }

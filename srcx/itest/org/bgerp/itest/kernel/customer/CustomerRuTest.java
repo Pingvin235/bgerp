@@ -5,7 +5,6 @@ import static org.bgerp.itest.kernel.customer.CustomerTest.posParam;
 import java.util.Collections;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 import org.bgerp.itest.helper.CustomerHelper;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ResourceHelper;
@@ -125,8 +124,8 @@ public class CustomerRuTest {
         paramDao.updateParamText(customerId, paramBankAccountId, "40817810099910004312");
 
         paramDao.updateParamText(customerId, paramSignPostId, "Индивидуальный предприниматель");
-        paramDao.updateParamFile(customerId, paramSignId, 0, new FileData("sign.png", IOUtils.toByteArray(this.getClass().getResourceAsStream("CustomerTest.sign.png"))));
+        paramDao.updateParamFile(customerId, paramSignId, 0, new FileData("sign.png", ResourceHelper.getResourceBytes(this, "sign.png")));
         paramDao.updateParamText(customerId, paramSignNameId, "И.И.Образцов");
-        paramDao.updateParamFile(customerId, paramStampId, 0, new FileData("stamp.png", IOUtils.toByteArray( this.getClass().getResourceAsStream("CustomerRuTest.stamp.png"))));
+        paramDao.updateParamFile(customerId, paramStampId, 0, new FileData("stamp.png", ResourceHelper.getResourceBytes(this, "stamp.png")));
     }
 }

@@ -42,7 +42,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
-@Test(groups = "subscription", priority = 100, dependsOnGroups = { "config", "process", "openIface", "message", "user" })
+@Test(groups = "subscription", priority = 100, dependsOnGroups = { "config", "process", "openIface", "message", "user", "customer" })
 public class SubscriptionTest {
     private static final Plugin PLUGIN = new Plugin();
     private static final String TITLE = PLUGIN.getTitleWithPrefix();

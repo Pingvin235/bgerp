@@ -1,19 +1,20 @@
 package ru.bgcrm.model;
 
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.bgerp.util.Log;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.io.Base64;
 
 /**
  * DB table entity with file metadata: ID, title, upload time.
@@ -73,7 +74,7 @@ public class FileData extends IdTitle {
             }
             result.append(data.getId());
             result.append(":");
-            result.append(Base64.encode(data.getTitle()));
+            result.append(Base64.getEncoder().encodeToString(data.getTitle().getBytes(StandardCharsets.UTF_8)));
             result.append(":");
             result.append(data.getSecret());
         }
@@ -94,7 +95,7 @@ public class FileData extends IdTitle {
                 continue;
             }
 
-            result.add(new FileData(Utils.parseInt(tokens[0]), Base64.decode(tokens[1]), tokens[2]));
+            result.add(new FileData(Utils.parseInt(tokens[0]), new String(Base64.getDecoder().decode(tokens[1]), StandardCharsets.UTF_8), tokens[2]));
         }
 
         return result;

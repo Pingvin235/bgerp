@@ -2,6 +2,7 @@ package ru.bgcrm.plugin.bgbilling.proto.dao;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,6 @@ import ru.bgcrm.plugin.bgbilling.ws.helpdesk.param.HelpdeskParamService_Service;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
-import ru.bgcrm.util.io.Base64;
 
 public class HelpDeskDAO extends BillingDAO {
     private static final String MODULE = "ru.bitel.bgbilling.plugins.helpdesk";
@@ -396,7 +396,7 @@ public class HelpDeskDAO extends BillingDAO {
                 Document doc = transferData.postData(req, user);
                 String file = XMLUtils.selectText(doc, "/data/file/filedata/text()");
                 if (file != null) {
-                    result = Base64.decode(file.getBytes("ASCII"));
+                    result = Base64.getDecoder().decode(file.getBytes("ASCII"));
                 }
             } catch (Exception e) {
                 throw new BGException(e);
@@ -430,7 +430,7 @@ public class HelpDeskDAO extends BillingDAO {
                 req.setAttribute("id", messageId);
                 req.setAttribute("filename", title);
                 req.setAttribute("size", data.length);
-                req.setAttribute("filedata", new String(Base64.encode(data), "ASCII"));
+                req.setAttribute("filedata", new String(Base64.getEncoder().encode(data), "ASCII"));
                 req.setAttribute("comment", "");
 
                 transferData.postData(req, user);

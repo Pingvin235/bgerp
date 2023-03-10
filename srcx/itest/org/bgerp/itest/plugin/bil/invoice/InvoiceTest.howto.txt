@@ -1,0 +1,4 @@
+Use built-in user Administrator for the testing.
+1. An invoice is available in "Invoices" tab.
+2. Generated form is shown.
+3. Remove one logo from the link customer, the logo in the form must be changed.

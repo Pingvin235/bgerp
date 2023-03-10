@@ -657,8 +657,6 @@ Actions may be hierarchically organized when some parent action is required for 
 [snippet, from="<item ac", to="em>", remove-leading="	"]
 link:../../../src/org/bgerp/plugin/svc/backup/action.xml#L2-L7[org/bgerp/plugin/svc/backup/action.xml]
 
-In the latest example notice also attribute *ltitle*, which means that the title goes through <<l10n, localization system>>.
-
 Auxillary actions, which have to be permanently allowed, have to be marked with *allowAll="1"* attribute.
 
 [[exception]]

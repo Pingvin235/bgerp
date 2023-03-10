@@ -1,0 +1,3 @@
+A: Plugin Invoice. EUR invoice template. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#setup-config-type
+B: Deleted deprecated methods in ru.bgcrm.util.io.IOUtils.
+C: Deleted deprecated classes for Base64.

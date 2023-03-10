@@ -4,6 +4,7 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.bgerp.plugin.bil.invoice.Plugin;
 import org.bgerp.plugin.bil.invoice.num.NumberProvider;
@@ -17,6 +18,11 @@ import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class InvoiceType extends IdTitle {
+    private final static Map<String, String> TEMPLATE_JSP = Map.of(
+        "eu_en", Plugin.PATH_JSP_USER + "/doc/eu_en.jsp",
+        "ru_ru", Plugin.PATH_JSP_USER + "/doc/ru_ru.jsp"
+    );
+
     private final NumberProvider numberProvider;
     private final int customerId;
     private final List<PositionProvider> providers;
@@ -28,7 +34,7 @@ public class InvoiceType extends IdTitle {
         this.numberProvider = loadNumberProvider(config.sub("number."));
         this.customerId = config.getInt("customer");
         this.providers = loadPositionProviders(config);
-        this.jsp = config.get("jsp", Plugin.PATH_JSP_USER + "/invoice.jsp");
+        this.jsp = loadJsp(config);
     }
 
     private NumberProvider loadNumberProvider(ParameterMap config) throws Exception {
@@ -48,6 +54,10 @@ public class InvoiceType extends IdTitle {
         }
 
         return Collections.unmodifiableList(result);
+    }
+
+    private String loadJsp(ParameterMap config) throws Exception {
+        return config.getSok(TEMPLATE_JSP.get(config.get("template", "eu_en")), false, "template.jsp", "jsp");
     }
 
     public Invoice invoice(ConnectionSet conSet, int processId, YearMonth month) throws Exception {

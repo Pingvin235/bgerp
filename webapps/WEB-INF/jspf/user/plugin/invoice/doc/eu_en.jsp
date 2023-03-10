@@ -2,26 +2,82 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="invoice" value="${form.response.data.invoice}"/>
+<c:set var="invoiceCustomer" value="${form.response.data.invoiceCustomer}"/>
+<c:set var="invoiceCustomerParam" value="${form.response.data.invoiceCustomerParam}"/>
 <c:set var="process" value="${form.response.data.process}"/>
+<c:set var="processParam" value="${form.response.data.processParam}"/>
+<c:set var="customer" value="${form.response.data.customer}"/>
+<c:set var="customerParam" value="${form.response.data.customerParam}"/>
 
 <html>
 	<head>
-		<%@ include file="style.jsp"%>
+		<%@ include file="style/common.jsp"%>
+		<%@ include file="style/eu.jsp"%>
 	</head>
 	<body>
-		<h1>Vova Kutin</h1>
+		<div style="height: 25mm; max-height: 25mm;">
+			<%-- significantly increases file size, think about a public URL --%>
+			<c:set var="logo" value="${invoiceCustomerParam[ctxSetup.getInt('invoice:param.customer.logo')].base64EncodedImgSrc}"/>
+			<c:if test="${not empty logo}">
+				<img src="${logo}" alt="Logo" style="height: 100%; float: right;"/>
+			</c:if>
+		</div>
 
-		Red Place 1<br/>
-		Russia, Mocsow 125009<br/>
-
-		<div class="in-table-cell">
-			<div style="width: 60mm;">
-				<b>Bill To</b><br/>
-				Obama Karak</br>
+		<div class="in-table-cell" style="height: 40mm; margin-top: 25mm;">
+			<div style="width: 100%;">
+				${invoiceCustomer.title} -
+				<c:set var="addr" value="${invoiceCustomerParam[ctxSetup.getInt('invoice:param.customer.address')].valueTitle.replace(',', ' -')}"/>
+				${addr}
+				<br/><br/>
+				${customer.title}<br/>
+				<c:set var="addr" value="${customerParam[ctxSetup.getInt('invoice:param.customer.address')].valueTitle}"/>
+				${addr.replace(",", "<br/>")}
+			</div>
+			<div style="white-space: nowrap;">
+				Date:
+				${tu.format(invoice.createdTime, 'ymd')}
 			</div>
 		</div>
 
-		<b>WORK IN PROGRESS</b>
+		<div class="bold"  style="font-size: 1.5em; margin-top: 10mm;">
+			INVOICE NO. ${invoice.number}
+		</div>
+
+		<table style="margin-top: 10mm;">
+			<tr class="bold">
+				<td>Pos.</td>
+				<td>Description</td>
+				<td class="right">Qty.</td>
+				<td class="right">Price</td>
+				<td class="right">Total</td>
+			</tr>
+			<c:forEach var="item" items="${invoice.positions}" varStatus="status">
+				<tr>
+					<td>${status.count}</td>
+					<td>${item.title}</td>
+					<td class="right">${item.quantity}</td>
+					<td class="right">${item.price}</td>
+					<td class="right">${item.amount} &euro;</td>
+				</tr>
+			</c:forEach>
+			<tr class="bold">
+				<td colspan="4" class="right">Total</td>
+				<td class="right">
+					${invoice.amount} &euro;
+				</td>
+			</tr>
+		</table>
+
+		<div style="flex-grow: 1; margin-top: 15mm;">
+			${u:htmlEncode(invoiceCustomerParam[ctxSetup.getInt('invoice:param.customer.invoice.footer')].valueTitle)}
+		</div>
+
+		<div class="right">
+			${invoiceCustomer.title}<br/>
+			${invoiceCustomerParam[ctxSetup.getInt('invoice:param.customer.bank.title')].valueTitle}<br/>
+			IBAN: ${invoiceCustomerParam[ctxSetup.getInt('invoice:param.customer.bank.iban')].valueTitle}<br/>
+			BIC: ${invoiceCustomerParam[ctxSetup.getInt('invoice:param.customer.bank.bic')].valueTitle}<br/>
+		</div>
 	</body>
 </html>
 

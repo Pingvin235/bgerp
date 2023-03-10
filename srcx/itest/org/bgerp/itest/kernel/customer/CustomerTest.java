@@ -1,7 +1,6 @@
 package org.bgerp.itest.kernel.customer;
 
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
@@ -16,12 +15,14 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.ParamValueDAO;
+import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.io.IOUtils;
 
 @Test(groups = "customer", dependsOnGroups = "param")
 public class CustomerTest {
@@ -36,9 +37,17 @@ public class CustomerTest {
 
     private int paramBirthDateId;
     private int paramBirthPlaceId;
-    private int paramAddressId;
+    public static volatile int paramAddressId;
     private int paramReligionId;
     public static volatile int paramServiceAddressId;
+
+    public static volatile int paramBankTitleId;
+    public static volatile int paramBankBicId;
+    public static volatile int paramBankIbanId;
+
+    public static volatile int paramLogoId;
+
+    public static volatile int paramInvoiceFooterId;
 
     private int paramOrgTitleId;
     private int paramOrgFormId;
@@ -49,9 +58,9 @@ public class CustomerTest {
     private int paramGroupOrgId;
     public static volatile int paramGroupPersonId;
 
-    public static final String CUSTOMER_ORG_NS_DOMAIN = "nicrosoft.com";
-    public static final String CUSTOMER_ORG_NS_TILL_MAIL = "till@" + CUSTOMER_ORG_NS_DOMAIN;
-    public static final String CUSTOMER_ORG_NS_TILL_NAME = "Till Gates";
+    public static final String CUSTOMER_ORG_NS_DOMAIN = "muster.com";
+    public static final String CUSTOMER_ORG_NS_TILL_MAIL = "muster@" + CUSTOMER_ORG_NS_DOMAIN;
+    public static final String CUSTOMER_ORG_NS_TILL_NAME = "Max Mustermann";
     public static volatile Customer customerOrgNs;
 
     public static final String CUSTOMER_PERS_IVAN_MAIL = "ivan@bgerp.org";
@@ -71,11 +80,18 @@ public class CustomerTest {
         paramReligionId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Religion", posParam += 2, ParamTest.ENCRYPTED, "");
         paramServiceAddressId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_ADDRESS, "Service address", posParam += 2, ParamTest.MULTIPLE, "");
 
+        paramBankTitleId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Bank", posParam += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
+        paramBankBicId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Bank BIC", posParam += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
+        paramBankIbanId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "IBAN", posParam += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
+
+        paramLogoId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_FILE, "Logo", posParam += 2, "", "");
+
+        paramInvoiceFooterId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_BLOB, "Invoice Bottom Text", CustomerTest.posParam += 2,
+                "", "");
+
         paramOrgTitleId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_TEXT, "Organization title", posParam += 2, ParamTest.SAVE_ON_FOCUS_LOST, "");
         paramOrgFormId = ParamHelper.addParam(Customer.OBJECT_TYPE, Parameter.TYPE_LIST, "Organization form", posParam += 2, "",
                 ResourceHelper.getResource(this, "orgforms.txt"));
-
-        // IBAN, BIC - with validation
     }
 
     @Test(dependsOnMethods = "param")
@@ -90,8 +106,12 @@ public class CustomerTest {
 
     @Test(dependsOnMethods = "param")
     public void paramGroup() throws Exception {
-        paramGroupOrgId = ParamHelper.addParamGroup(Customer.OBJECT_TYPE, "Organization",
-                Set.of(paramEmailId, paramPhoneId, paramOrgFormId, paramOrgTitleId, paramAddressId, paramServiceAddressId));
+        paramGroupOrgId = ParamHelper.addParamGroup(Customer.OBJECT_TYPE, "Organization", Set.of(
+                paramEmailId, paramPhoneId, paramOrgFormId, paramOrgTitleId, paramAddressId,
+                paramBankTitleId, paramBankIbanId, paramBankBicId,
+                paramServiceAddressId,
+                paramLogoId,
+                paramInvoiceFooterId));
         paramGroupPersonId = ParamHelper.addParamGroup(Customer.OBJECT_TYPE, "Person",
                 Set.of(paramEmailId, paramPhoneId, paramBirthDateId, paramBirthPlaceId, paramReligionId, paramAddressId, paramServiceAddressId));
     }
@@ -109,6 +129,7 @@ public class CustomerTest {
 
         var paramDao = new ParamValueDAO(con);
 
+        // Ivan Drago
         customerPersonIvan = CustomerHelper.addCustomer(0, paramGroupPersonId, CUSTOMER_PERS_IVAN_NAME);
 
         int customerId = customerPersonIvan.getId();
@@ -118,16 +139,28 @@ public class CustomerTest {
         paramDao.updateParamText(customerId, paramBirthPlaceId, "Uzgala village");
         paramDao.updateParamText(customerId, paramAddressId, "Lenina Street 1, 450000, Ufa Russia");
 
+        // Muster Gmbh
         customerOrgNs = CustomerHelper.addCustomer(titlePatternOrgId, paramGroupOrgId, "");
 
-        paramDao.updateParamEmail(customerOrgNs.getId(), paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_TILL_MAIL, CUSTOMER_ORG_NS_TILL_NAME));
-        paramDao.updateParamEmail(customerOrgNs.getId(), paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_DOMAIN, "Domain"));
-        paramDao.updateParamPhone(customerOrgNs.getId(), paramPhoneId, new ParameterPhoneValue(List.of(new ParameterPhoneValueItem("666", "", ""))));
-        paramDao.updateParamText(customerOrgNs.getId(), paramOrgTitleId, "NicroSoft");
-        paramDao.updateParamList(customerOrgNs.getId(), paramOrgFormId, Collections.singleton(5));
+        customerId = customerOrgNs.getId();
+        paramDao.updateParamEmail(customerId, paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_TILL_MAIL, CUSTOMER_ORG_NS_TILL_NAME));
+        paramDao.updateParamEmail(customerId, paramEmailId, 0, new ParameterEmailValue(CUSTOMER_ORG_NS_DOMAIN, "Domain"));
+        paramDao.updateParamPhone(customerId, paramPhoneId, new ParameterPhoneValue(List.of(new ParameterPhoneValueItem("666", "", ""))));
+        paramDao.updateParamText(customerId, paramOrgTitleId, "Muster");
+        paramDao.updateParamList(customerId, paramOrgFormId, Set.of(4));
+        paramDao.updateParamText(customerId, paramAddressId, "Musterstraße 12, 12345 Musterstadt, Germany");
+
+        paramDao.updateParamText(customerId, paramBankTitleId, "Sparkasse Musterstadt");
+        paramDao.updateParamText(customerId, paramBankIbanId, "DE00 0000 0000 0000 0000 00");
+        paramDao.updateParamText(customerId, paramBankBicId, "DEUTDESMXXX");
+
+        paramDao.updateParamFile(customerId, paramLogoId, 0, new FileData("logo.svg", IOUtils.read("webapps/img/favicon.svg")));
+        paramDao.updateParamFile(customerId, paramLogoId, 0, new FileData("logo.png", ResourceHelper.getResourceBytes(this, "logo.png")));
+
+        paramDao.updateParamBlob(customerId, paramInvoiceFooterId, ResourceHelper.getResource(this, "invoice.footer.txt"));
 
         var customerDao = new CustomerDAO(con);
-        customerOrgNs.setTitle(Utils.formatPatternString(Customer.OBJECT_TYPE, customerOrgNs.getId(), paramDao, titlePatternOrgPattern));
+        customerOrgNs.setTitle(Utils.formatPatternString(Customer.OBJECT_TYPE, customerId, paramDao, titlePatternOrgPattern));
         customerDao.updateCustomer(customerOrgNs);
     }
 }
