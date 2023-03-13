@@ -39,9 +39,11 @@ invoice:param.customer.bank.bic={@PARAM_CUSTOMER_BANK_BIC_ID}
 invoice:param.customer.logo={@PARAM_CUSTOMER_LOGO_ID}
 invoice:param.customer.invoice.footer={@PARAM_CUSTOMER_INVOICE_FOOTER_ID}
 
-invoice:param.customer.ru.address={@PARAM_CUSTOMER_RU_ADDRESS_ID}
+invoice:param.customer.ru.jur.address={@PARAM_CUSTOMER_RU_JUR_ADDRESS_ID}
+invoice:param.customer.ru.post.address={@PARAM_CUSTOMER_RU_POST_ADDRESS_ID}
 invoice:param.customer.ru.inn={@PARAM_CUSTOMER_RU_INN_ID}
 invoice:param.customer.ru.kpp={@PARAM_CUSTOMER_RU_KPP_ID}
+invoice:param.customer.ru.ogrn={@PARAM_CUSTOMER_RU_OGRN_ID}
 invoice:param.customer.ru.bank.title={@PARAM_CUSTOMER_RU_BANK_TITLE_ID}
 invoice:param.customer.ru.bank.bic={@PARAM_CUSTOMER_RU_BANK_BIC_ID}
 invoice:param.customer.ru.bank.corr.account={@PARAM_CUSTOMER_RU_BANK_CORR_ACCOUNT_ID}
@@ -50,3 +52,4 @@ invoice:param.customer.ru.sign.post={@PARAM_CUSTOMER_RU_SIGN_POST_ID}
 invoice:param.customer.ru.sign={@PARAM_CUSTOMER_RU_SIGN_ID}
 invoice:param.customer.ru.sign.name={@PARAM_CUSTOMER_RU_SIGN_NAME_ID}
 invoice:param.customer.ru.stamp={@PARAM_CUSTOMER_RU_STAMP_ID}
+invoice:param.customer.ru.invoice.footer={@PARAM_CUSTOMER_RU_INVOICE_FOOTER_ID}

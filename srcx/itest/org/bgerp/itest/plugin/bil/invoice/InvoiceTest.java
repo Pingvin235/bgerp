@@ -91,9 +91,11 @@ public class InvoiceTest {
                 "PARAM_CUSTOMER_INVOICE_FOOTER_ID", CustomerTest.paramInvoiceFooterId,
 
                 "CUSTOMER_RU_ID", CustomerRuTest.customerOrgIvan.getId(),
-                "PARAM_CUSTOMER_RU_ADDRESS_ID", CustomerRuTest.paramAddressId,
+                "PARAM_CUSTOMER_RU_JUR_ADDRESS_ID", CustomerRuTest.paramJurAddressId,
+                "PARAM_CUSTOMER_RU_POST_ADDRESS_ID", CustomerRuTest.paramPostAddressId,
                 "PARAM_CUSTOMER_RU_INN_ID", CustomerRuTest.paramInnId,
                 "PARAM_CUSTOMER_RU_KPP_ID", CustomerRuTest.paramKppId,
+                "PARAM_CUSTOMER_RU_OGRN_ID", CustomerRuTest.paramOgrnId,
                 "PARAM_CUSTOMER_RU_BANK_TITLE_ID", CustomerRuTest.paramBankTitleId,
                 "PARAM_CUSTOMER_RU_BANK_BIC_ID", CustomerRuTest.paramBankBicId,
                 "PARAM_CUSTOMER_RU_BANK_CORR_ACCOUNT_ID", CustomerRuTest.paramBankCorrAccountId,
@@ -101,7 +103,8 @@ public class InvoiceTest {
                 "PARAM_CUSTOMER_RU_SIGN_POST_ID", CustomerRuTest.paramSignPostId,
                 "PARAM_CUSTOMER_RU_SIGN_ID", CustomerRuTest.paramSignId,
                 "PARAM_CUSTOMER_RU_SIGN_NAME_ID", CustomerRuTest.paramSignNameId,
-                "PARAM_CUSTOMER_RU_STAMP_ID", CustomerRuTest.paramStampId
+                "PARAM_CUSTOMER_RU_STAMP_ID", CustomerRuTest.paramStampId,
+                "PARAM_CUSTOMER_RU_INVOICE_FOOTER_ID", CustomerRuTest.paramInvoiceFooterId
             ) +
             ResourceHelper.getResource(this, "config.txt"));
         Config config = Setup.getSetup().getConfig(Config.class);
@@ -120,7 +123,7 @@ public class InvoiceTest {
     }
 
     @Test(dependsOnMethods = { "process", "config" })
-    public void invoice() throws Exception {
+    public void invoiceEu() throws Exception {
         var invoice = type.invoice(new SingleConnectionSet(DbTest.conRoot), process.getId(), YearMonth.now());
         Assert.assertNotNull(invoice);
         Assert.assertEquals(invoice.getPositions().size(), 1);
@@ -138,11 +141,12 @@ public class InvoiceTest {
         dao.update(invoice);
         Assert.assertTrue(invoice.getId() > 0);
 
-        MessageHelper.addHowToTestNoteMessage(process.getId(), this);
+        MessageHelper.addNoteMessage(process.getId(), UserTest.USER_ADMIN_ID, Duration.ofSeconds(0), MessageHelper.HOW_TO_TEST_MESSAGE_SUBJECT,
+                ResourceHelper.getResource(this, "howto.eu.txt"));
     }
 
     @Test(dependsOnMethods = { "process", "config" })
-    public void invoiceRuRu() throws Exception {
+    public void invoiceRu() throws Exception {
         var invoice = typeRu.invoice(new SingleConnectionSet(DbTest.conRoot), processRu.getId(), YearMonth.now());
         Assert.assertNotNull(invoice);
         Assert.assertEquals(invoice.getPositions().size(), 1);
@@ -159,5 +163,8 @@ public class InvoiceTest {
 
         dao.update(invoice);
         Assert.assertTrue(invoice.getId() > 0);
+
+        MessageHelper.addNoteMessage(process.getId(), UserTest.USER_ADMIN_ID, Duration.ofSeconds(0), MessageHelper.HOW_TO_TEST_MESSAGE_SUBJECT,
+                ResourceHelper.getResource(this, "howto.ru.txt"));
     }
 }

@@ -16,7 +16,8 @@
 	</head>
 	<body>
 		${invoiceCustomer.title}<br/></br>
-		${invoiceCustomerParam[ctxSetup.getInt('invoice:param.customer.ru.address')].valueTitle}
+		<c:set var="addr" value="${invoiceCustomerParam[ctxSetup.getInt('invoice:param.customer.ru.post.address')].valueTitle}"/>
+		${empty addr ? invoiceCustomerParam[ctxSetup.getInt('invoice:param.customer.ru.jur.address')].valueTitle : addr}
 		<%-- table width: 185 mm --%>
 		<table style="margin-top: 30mm;">
 			<tr>
@@ -53,14 +54,47 @@
 
 		<div class="in-table-cell">
 			<div style="width: 22mm">Поставщик:</div>
-			<div>${invoiceCustomer.title}</div>
+			<div>
+				${invoiceCustomer.title}
+				<c:set var="ogrn" value="${invoiceCustomerParam[ctxSetup.getInt('invoice:param.customer.ru.ogrn')].valueTitle}"/>
+				<c:if test="${not empty ogrn}">
+					ОГРН${ogrn.length() eq 15 ? 'ИП' : ''}:
+					${ogrn}
+				</c:if>
+			</div>
 		</div>
 		<div class="in-table-cell">
 			<div style="width: 22mm">Покупатель:</div>
 			<div>
-				${customer.title},
-				ИНН ${customerParam[ctxSetup.getInt('invoice:param.customer.ru.inn')].valueTitle},
-				КПП ${customerParam[ctxSetup.getInt('invoice:param.customer.ru.kpp')].valueTitle}
+				${customer.title}
+
+				<c:set var="inn" value="${customerParam[ctxSetup.getInt('invoice:param.customer.ru.inn')].valueTitle}"/>
+				<c:if test="${not empty inn}">
+					ИНН: ${inn}
+				</c:if>
+
+				<c:set var="kpp" value="${customerParam[ctxSetup.getInt('invoice:param.customer.ru.kpp')].valueTitle}"/>
+				<c:if test="${not empty kpp}">
+					КПП: ${kpp}
+				</c:if>
+
+				<c:set var="ogrn" value="${customerParam[ctxSetup.getInt('invoice:param.customer.ru.ogrn')].valueTitle}"/>
+				<c:if test="${not empty ogrn}">
+					ОГРН${ogrn.length() eq 15 ? 'ИП' : ''}:
+					${ogrn}
+				</c:if>
+
+				<c:set var="addr" value="${customerParam[ctxSetup.getInt('invoice:param.customer.ru.jur.address')].valueTitle}"/>
+				<c:if test="${not empty addr}">
+					Адрес&nbsp;юридический:
+					${addr}
+				</c:if>
+
+				<c:set var="addr" value="${customerParam[ctxSetup.getInt('invoice:param.customer.ru.post.address')].valueTitle}"/>
+				<c:if test="${not empty addr}">
+					Адрес&nbsp;почтовый:
+					${addr}
+				</c:if>
 			</div>
 		</div>
 
@@ -98,7 +132,15 @@
 			Всего к оплате: ${invoice.amount} рублей.
 		</div>
 		<div style="margin-top: 11mm;">
-			На основании договора № ${process.id} от ${processParam[ctxSetup.getInt('invoice:param.process.contract.date')].valueTitle}
+			<c:set var="footer" value="${u:htmlEncode(invoiceCustomerParam[ctxSetup.getInt('invoice:param.customer.ru.invoice.footer')].valueTitle)}"/>
+			<c:choose>
+				<c:when test="${not empty footer}">
+					${footer}
+				</c:when>
+				<c:otherwise>
+					На основании договора № ${process.id} от ${processParam[ctxSetup.getInt('invoice:param.process.contract.date')].valueTitle}
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div style="margin-top: 9mm; display: table;">
 			<div class="in-table-cell">

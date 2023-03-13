@@ -12,6 +12,7 @@ import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.model.message.Message;
 
 public class MessageHelper {
+    public static final String HOW_TO_TEST_MESSAGE_SUBJECT = "How to test";
 
     public static void addMessage(Message message) throws Exception {
         new MessageDAO(DbTest.conRoot).updateMessage(message);
@@ -37,7 +38,7 @@ public class MessageHelper {
      * @throws Exception
      */
     public static void addHowToTestNoteMessage(int processId, Object test) throws Exception {
-        addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(0), "How to test", ResourceHelper.getResource(test, "howto.txt"));
+        addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ofSeconds(0), HOW_TO_TEST_MESSAGE_SUBJECT, ResourceHelper.getResource(test, "howto.txt"));
     }
 
     public static Message addCallMessage(int processId, int userId, Duration timeOffset, String fromNumber, String toNumber, String subject, String text) throws Exception {
