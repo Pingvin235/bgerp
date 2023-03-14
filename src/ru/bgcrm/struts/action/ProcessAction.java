@@ -391,6 +391,7 @@ public class ProcessAction extends BaseAction {
             throw new BGMessageException("Переход со статуса {} на статус {} невозможен", process.getStatusId(), change.getStatusId());
 
         changeDao.changeStatus(process, type, change);
+        process.setStatusChange(change);
 
         processDoEvent(form, process, new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_STATUS_CHANGED), con);
     }

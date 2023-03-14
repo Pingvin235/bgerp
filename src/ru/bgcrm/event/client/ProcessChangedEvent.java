@@ -1,14 +1,12 @@
 package ru.bgcrm.event.client;
 
 /**
- * Сообщение о том, что процесс изменился - 
- * необходимо перечитать его вкладку, если открыта.
+ * Process was changed, the UI entity has to be opened or updated if already is open.
+ *
+ * @author Shamil Vakhitov
  */
-public class ProcessChangedEvent
-    extends ClientEventWithId
-{
-	public ProcessChangedEvent( int id )
-	{
-		super( id );
-	}	
+public class ProcessChangedEvent extends ClientEventWithId {
+    public ProcessChangedEvent(int id) {
+        super(id);
+    }
 }
