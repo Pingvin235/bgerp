@@ -112,7 +112,8 @@
 			<button class="btn-white btn-small">M</button>
 			<button class="btn-white btn-small"><i class="ti-settings"></i></button>
 
-			<ui:toggle styleClass="btn-small" inputName="test" value="1"
+			<ui:toggle styleClass="btn-toggle-small" inputName="test" value="1"
+				prefixText="Prefix"
 				textOn="ON" textOff="OFF"
 				onChange="console.log('Is checked: ', this.checked);"/>
 		</div>

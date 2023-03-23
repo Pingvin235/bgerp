@@ -159,7 +159,7 @@ public class Utils {
      * Преобразует строку в boolean.
      * @param str строка.
      * @param defaultValue значение по-умолчанию.
-     * @return true - если str равно "1", "TRUE", "YES", "NO" без учёта регистра; false - если str равно "0", "FALSE", "NO" без учёта регистра; в ином случае - defaultValue.
+     * @return true - если str равно "1", "TRUE", "YES", "ON" без учёта регистра; false - если str равно "0", "FALSE", "NO" без учёта регистра; в ином случае - defaultValue.
      */
     public static Boolean parseBoolean(String str, Boolean defaultValue) {
         Boolean result = defaultValue;

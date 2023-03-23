@@ -11,6 +11,7 @@
 	width: 2.5em;
 }
 
+.date-month #month,
 .date-month-days #month {
 	width: 10em;
 }

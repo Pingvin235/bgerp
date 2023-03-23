@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <li>
-	<label>
+	<label class="ml05">
 		<input type="checkbox" name="type" value="${node.id}" ${u:checkedFromCollection( processTypeIds, node.id )}/> ${node.title} (${node.id})
 	</label>
 

@@ -15,7 +15,7 @@
 				<c:set var="nodeName" value=""/>
 			</c:if>
 
-			<label>
+			<label class="ml05">
 				<c:choose>
 					<c:when test="${empty node.children}">
 						<input name="${nodeName}" type="checkbox" value="${nodeValue}" ${selected}/>

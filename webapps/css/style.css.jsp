@@ -91,10 +91,6 @@ body > #content p {
 	margin: 0.3em 0;
 }
 
-body > #content label {
-	margin-left: 0.5em;
-}
-
 .separator {
 	margin: 0.7em 0;
 	border-bottom: 1px solid #e7e7e7;

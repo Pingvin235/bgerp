@@ -15,10 +15,10 @@
 	<button class="btn-white icon" id="prev" onclick="return false"><i class="ti-angle-left"></i></button>
 	<button class="btn-white" id="month" onclick="return false">&nbsp;</button>
 	<button class="btn-white icon" id="next" onclick="return false"><i class="ti-angle-right"></i></button>
-</div>
 
-<script>
-	$(function () {
-		$$.ui.monthSelectInit($('#${uiid}'));
-	})
-</script>
+	<script>
+		$(function () {
+			$$.ui.monthSelectInit($('#${uiid}'));
+		})
+	</script>
+</div>

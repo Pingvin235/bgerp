@@ -16,7 +16,7 @@
 				</c:if>
 
 				<li class="select_node ${selected}">
-					<label><input name="dataPermissionType" type="checkbox" ${selected} value="${node.action}"/>${node.title}</label>
+					<label class="ml05"><input name="dataPermissionType" type="checkbox" ${selected} value="${node.action}"/>${node.title}</label>
 					<c:if test="${not empty node.description}">
 						<input id="${configParamId}" name="config" type="hidden" value="${node.action}#${permConf.dataString}"/>
 					</c:if>
