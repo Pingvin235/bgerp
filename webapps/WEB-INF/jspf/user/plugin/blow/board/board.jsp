@@ -7,7 +7,7 @@
 	<c:param name="action" value="show"/>
 </c:url>
 
-<c:set var="boardsConf" value="${form.response.data.boardsConf}"/>
+<c:set var="boards" value="${form.response.data.boards}"/>
 
 <!-- search over boardId -->
 <c:set var="boardId" value="${form.id}"/>
@@ -15,14 +15,14 @@
 	<c:set var="boardId" value="${ctxUser.personalizationMap['blowBoardLastSelected']}"/>
 </c:if>
 <c:if test="${not (boardId gt 0)}">
-	<c:set var="boardId" value="${u.getFirst(boardsConf.boards).id}"/>
+	<c:set var="boardId" value="${u.getFirst(boards).id}"/>
 </c:if>
 
 <ui:combo-single id="${uiid}"
 	value="${boardId}"
 	widthTextValue="220px"
 	prefixText="${l.l('План')}:"
-	list="${form.response.data.boardsConf.boards}"
+	list="${form.response.data.boards}"
 	onSelect="$$.ajax.loadContent('${showUrl}&id=' + $hidden.val(), this)"/>
 
 <shell:state moveSelector="#${uiid}"/>

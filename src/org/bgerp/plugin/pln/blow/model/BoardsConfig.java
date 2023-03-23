@@ -3,14 +3,18 @@ package org.bgerp.plugin.pln.blow.model;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-
-import ru.bgcrm.util.ParameterMap;
 import org.bgerp.plugin.pln.blow.Plugin;
+
+import ru.bgcrm.cache.ProcessQueueCache;
+import ru.bgcrm.model.process.Queue;
+import ru.bgcrm.model.user.User;
+import ru.bgcrm.util.ParameterMap;
 
 public class BoardsConfig extends ru.bgcrm.util.Config {
     private SortedMap<Integer, BoardConfig> boardMap = new TreeMap<>();
@@ -23,8 +27,16 @@ public class BoardsConfig extends ru.bgcrm.util.Config {
         }
     }
 
-    public Collection<BoardConfig> getBoards() {
-        return boardMap.values();
+    public Collection<BoardConfig> getBoards(User user) {
+        Set<Integer> queueIds = ProcessQueueCache.getUserQueueList(user)
+            .stream()
+            .map(Queue::getId)
+            .collect(Collectors.toSet());
+
+        return boardMap.values()
+            .stream()
+            .filter(board -> queueIds.contains(board.getQueue().getId()))
+            .collect(Collectors.toList());
     }
 
     public BoardConfig getBoard(int id) {

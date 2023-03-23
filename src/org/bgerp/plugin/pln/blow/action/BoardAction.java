@@ -34,7 +34,7 @@ public class BoardAction extends BaseAction {
 
     public ActionForward board(DynActionForm form, ConnectionSet conSet) throws Exception {
         BoardsConfig boardsConf = setup.getConfig(BoardsConfig.class);
-        form.setResponseData("boardsConf", boardsConf);
+        form.setResponseData("boards", boardsConf.getBoards(form.getUser()));
         return html(conSet, form, PATH_JSP + "/board.jsp");
     }
 

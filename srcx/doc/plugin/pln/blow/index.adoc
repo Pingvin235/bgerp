@@ -20,6 +20,8 @@ NOTE: В браузерах отличных от Firefox некорректно
 и может быть использована для предварительного просмотра процессов из плана.
 Сортировку плана производит сам плагин.
 
+A user sees in boards list only the boards, which queues are allowed for him.
+
 Sample of :
 [source]
 ----
