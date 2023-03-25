@@ -12,73 +12,138 @@ The plugin provides the following functionality:
 
 Using the plugin implemented the BGERP Development Support System, allowing us to drive our product further.
 
-drawio:_res/subscription.drawio[]
+image::_res/subscription.svg[width="800px"]
 
 NOTE: You can see the plugin enabled and sample configurations in <<../../../kernel/install.adoc#demo, Demo System>>.
 
 [[setup]]
 == Setup
-The configuration below shows
 
 [[setup-process-type]]
 === Process Types
-There are needed two process types: for procut
-// TODO
+In configuration participate the following process types.
 
-[[setup-conf]]
+[[setup-process-type-product]]
+==== Product
+Represents information about product, available by subscription.
+Has the following <<../../../kernel/setup.adoc#param>> parameters:
+[square]
+* *Product ID* - unique *text* product identifier, used for <<#usage, license>> generation and <<#usage-price-calculator, calculation>> of price;
+* *Price* - one ore more *listcount* prices, value IDs must be the same as in <<#setup-process-type-subscription, Limit>> parameter of subscription.
+
+[[setup-process-type-subscription]]
+==== Subscription
+Contains information about customer's subscription, parameters:
+[square]
+* *E-Mail* - *email* customer with the subscription's customer;
+* *Subscription* - *list* with values equals to configured <<#setup-config-subscription, subscription's>> IDs;
+* *Limit* - *list* with values of allowed subscription limit, e.g. number of concurrent connections;
+* *Service Cost* - *money* with value of *Consultant'* reward over of product prices;
+* *Discount* - *money* with an optional discount;
+* *Cost* - read-only *money* with month price, calculated as *Products Costs for the Limit* + *Service Cost* - *Discount*;
+* *Date To* - *date* end of license, placed in license file;
+* *License* - read-only *file* with generated license file, updated automatically on changing *Date To*.
+
+Add <<../invoice/index.adoc#setup-process-type, Invoices tab>> in the type properties configuration.
+
+[[setup-config]]
 === Configuration
 Make sure the plugin is enabled in <<../../../kernel/setup.adoc#config, configuration>>.
 
-Place the following configuration:
+Add in the plugin configuration the following block:
 [source]
 ----
-subscription:enable=1
+subscription:sign.key.file=<privateSshKeyPath>
 
-subscription:sign.key.file=/org/bgerp/plugin/bil/subscription/demo.key.id_rsa
-subscription:param.product.id={@PARAM_PRODUCT_ID}
-subscription:param.user.incoming.tax.percent={@PARAM_USER_TAX_PERCENT}
-subscription:param.subscription={@PARAM_SUBSCRIPTION_ID}
-subscription:param.lic={@PARAM_LIC_FILE_ID}
-subscription:param.email={@PARAM_EMAIL_ID}
-subscription:param.limit={@PARAM_LIMIT_ID}
-subscription:param.date.to={@PARAM_DATE_TO_ID}
-subscription:param.cost.service={@PARAM_COST_SERVICE_ID}
-subscription:param.cost.discount={@PARAM_COST_DISCOUNT_ID}
-subscription:param.cost={@PARAM_COST_ID}
+# Product process params
+subscription:param.product.id=<paramProductId>
+# Subscription process params
+subscription:param.email=<paramEmailId>
+subscription:param.subscription=<paramSubscriptionId>
+subscription:param.limit=<paramLimitId>
+subscription:param.cost.service=<paramServiceCostId>
+subscription:param.cost.discount=<paramDiscountId>
+subscription:param.cost=<paramCostId>
+subscription:param.date.to=<paramDateToId>
+subscription:param.lic=<paramLicId>
+# Optional user params
+#subscription:param.user.incoming.tax.percent=<paramIncomingTaxPercentId>
 ----
 
-subscription:subscription.1.title=BGERP RUB
-subscription:subscription.1.process.type={@PROCESS_SUBSCRIPTION_TYPE_ID}
-subscription:subscription.1.param.limit.price={@PARAM_LIMIT_PRICE_RUB_ID}
+Where:
+[square]
+* *<privateSshKeyPath>* - file path with private SSH key, used for signing license files, for example: */home/bitel/.ssh/id_rsa*, the public key has to be introduced in key using App;
+* *<paramProductId>* - ID of <<#setup-process-type-product, Product ID>> parameter;
+* *<paramEmailId>* - ID of <<#setup-process-type-subscription, E-Mail>> parameter;
+* *<paramSubscriptionId>* - ID of <<#setup-process-type-subscription, Subscription>> parameter;
+* *<paramLimitId>* - ID of <<#setup-process-type-subscription, Limit>> parameter;
+* *<paramServiceCostId>* - ID of <<#setup-process-type-subscription, Service Cost>> parameter;
+* *<paramDiscountId>* - ID of <<#setup-process-type-subscription, Discount>> parameter;
+* *<paramCostId>* - ID of <<#setup-process-type-subscription, Cost>> parameter;
+* *<paramDateToId>* - ID of <<#setup-process-type-subscription, Date To>> parameter;
+* *<paramLicId>* - ID of <<#setup-process-type-subscription, License>> parameter.
 
-// TODO
+[[setup-config-subscription]]
+==== Subscriptions
+Add the following configuration block for each of supported subscriptions.
+[source]
+----
+subscription:subscription.<id>.title=<title>
+subscription:subscription.<id>.process.type=<processSubscriptionTypeId>
+subscription:subscription.<id>.param.limit.price=<paramLimitPriceId>
+----
 
-[[setup-invoice]]
-=== Invoicing
+Where:
+[square]
+* *<id>* - unique numeric subscription ID;
+* *<title>* - subscription title;
+* *<paramLimitPriceId>* - ID of <<#setup-process-type-product, Price>> parameter.
 
-// TODO
+[[setup-price-calculator]]
+=== Price Calculator
+The price calculator is implemented as an <<../../../kernel/interface.adoc#open-process-queue, open process queue>> with <<../../../kernel/process/queue.adoc#processor-open, processor>>.
+The queue has to be assigned to <<#setup-process-type-product, Product>> process type, and have following processor in configuration:
+[source]
+----
+processor.1.iface=open
+processor.1.page.url=/open/plugin/subscription/subscription.do
+----
 
 [[usage]]
 == Usage
-On the screen below is shown process card with activated plugin.
-Each customer subscription is presented as a process with <<../../../kernel/process/index.adoc#linked-process, linked>> product processes.
+
+[[usage-product]]
+=== Product
+
+image::_res/process_product.png[width="800px"]
+
+*Product Owner* is a user, becoming <<#usage-report, profit>> from subscriptions, using his product, has to be assigned as an process <<../../../kernel/process/index.adoc#executor, executor>> with *role=1*.
+
+[[usage-subscription]]
+=== Subscription
+Each customer subscription is presented as a process with <<../../../kernel/process/index.adoc#linked-process, linked>> Product processes with type *Depend*.
 
 image::_res/subscription_process.png[width="800px"]
 
+An *Consultant* is a user, taking responsibility for the process and becoming <<#usage-report, profit>> in size of Service Cost parameter value.
+The Consultant has to be assigned as a process <<../../../kernel/process/index.adoc#executor, executor>> with *role=0*.
+
 *Subscription Cost* parameter value is automatically recalculated on changing subscription, limit, linked products, discount or service cost parameters.
 
-After sending an <<setup-invoice, invoice>> and paying that, *Date To* parameter is changed and *License File* is updated.
+After sending an invoice and paying that, *Date To* parameter has to be changed, that update *License File*.
 
 image::_res/subscription_process_license_send.png[width="800px"]
 
 [[usage-report]]
-== Payment Report
+=== Subscription Payments Report
 The plugin provides *Subscription Payments* <<../../report/index.adoc#, Report>>, which shows how much money owns a report generating user to plugin owners.
 
 image::_res/payment_report.png[width="800px"]
 
-User received amount for a month is taken from <<setup-invoice, invoices>>, marked as paid by the user.
+User received amount for a month is taken from invoices, marked as paid by the user.
 
 [[usage-price-calculator]]
 === Price Calculator
-// TODO: Configuration for open interface.
+In open process queue customers can choose interesting subscription, products and limit and get subscription month price.
+
+image::_res/price_calculator.png[width="800px"]

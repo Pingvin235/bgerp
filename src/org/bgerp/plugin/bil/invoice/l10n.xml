@@ -3,15 +3,17 @@
 	<p><ru>Счета</ru><en>Invoices</en></p>
 	<p><ru>Счёт</ru><en>Invoice</en></p>
 	<p><ru>Создание счёта</ru><en>Invoice creation</en></p>
-	<p><ru>Оплачен</ru><en>Paid</en></p>
 	<p><ru>Сумма</ru><en>Amount</en></p>
-	<p><ru>Номер</ru><en>Number</en></p>
+	<p><en>Number</en><ru>Номер</ru></p>
 	<p><ru>Редактирование счёта</ru><en>Invoice editor</en></p>
-	<p><ru>Оплачено</ru><en>Paid</en></p>
-	<p><ru>Не оплачено</ru><en>Unpaid</en></p>
+	<p><en>Paid</en><ru>Оплачен</ru></p>
+	<p><en>Unpaid</en><ru>Не оплачен</ru></p>
 	<p><ru>Кол-во</ru>Qty<en></en></p>
 	<p><ru>Ед.</ru><en>Unit</en></p>
 	<p><ru>шт.</ru><en>pc.</en></p>
+	<p><en>Register</en><ru>Реестр</ru></p>
+	<p><en>Invoice Register</en><ru>Реестр счетов</ru></p>
+	<p><en>paid</en><ru>оплачен</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

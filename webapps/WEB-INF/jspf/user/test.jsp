@@ -18,6 +18,21 @@
 	</div>
 </div>
 
+<div style="display: flex;">
+	<div style="flex: 1 0 50%;">
+		<b>&lt;ui:tree-single&gt;</b>
+		<ui:tree-single rootNode="${form.response.data.treeRootNode}"
+			hiddenName="nodeId" value="3" hiddenNameTitle="nodeTitle" selectableFolder="${false}"
+			styleClass="mt1" style="height: 20em; overflow: auto;" />
+	</div>
+	<div style="flex: 1 0 50%;">
+		<b>&lt;ui:tree-single&gt; (selectableFolder)</b>
+		<ui:tree-single rootNode="${form.response.data.treeRootNode}"
+			hiddenName="nodeId" value="3" hiddenNameTitle="nodeTitle"
+			styleClass="mt1" style="height: 20em; overflow: auto;" />
+	</div>
+</div>
+
 <%@ include file="/WEB-INF/jspf/test.jsp"%>
 
 <shell:title ltext="Тест title"/>

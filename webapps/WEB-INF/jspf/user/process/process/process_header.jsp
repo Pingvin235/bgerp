@@ -78,7 +78,7 @@
 		</div>
 
 		<div class="pb05">
-			${l.l('Создан')}: ${tu.format( process.createTime, 'ymdhms' )}
+			${l.l('Created')}: ${tu.format( process.createTime, 'ymdhms' )}
 			<c:if test="${process.createUserId gt 0}">
 				(<ui:user-link id="${process.createUserId}"/>)
 			</c:if>

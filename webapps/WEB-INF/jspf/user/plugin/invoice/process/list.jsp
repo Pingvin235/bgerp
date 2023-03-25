@@ -3,12 +3,12 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<html:form action="/user/plugin/invoice/invoice">
+<html:form action="${form.httpRequestURI}">
 	<html:hidden property="action"/>
 	<html:hidden property="processId"/>
 
 	<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:create">
-		<c:url var="url" value="/user/plugin/invoice/invoice.do">
+		<c:url var="url" value="${form.httpRequestURI}">
 			<c:param name="action" value="create"/>
 			<c:param name="processId" value="${form.param.processId}"/>
 			<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -30,10 +30,10 @@
 		<td width="1em">&nbsp;</td>
 		<td>ID</td>
 		<td>${l.l('Месяц')}</td>
-		<td>${l.l('Номер')}</td>
+		<td>${l.l('Number')}</td>
 		<td>${l.l('Сумма')}</td>
-		<td>${l.l('Создан')}</td>
-		<td>${l.l('Оплачен')}</td>
+		<td>${l.l('Created')}</td>
+		<td>${l.l('Paid')}</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}" >
 		<tr>
@@ -41,7 +41,7 @@
 				<c:set var="menuUiid" value="${u:uiid()}"/>
 				<ui:popup-menu id="${menuUiid}">
 					<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:get">
-						<c:url var="url" value="/user/plugin/invoice/invoice.do">
+						<c:url var="url" value="${form.httpRequestURI}">
 							<c:param name="action" value="get"/>
 							<c:param name="returnUrl" value="${form.requestUrl}"/>
 							<c:param name="id" value="${item.id}"/>
@@ -56,34 +56,34 @@
 					<c:choose>
 						<c:when test="${not empty item.paymentDate}">
 							<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:unpaid">
-								<c:url var="url" value="/user/plugin/invoice/invoice.do">
+								<c:url var="url" value="${form.httpRequestURI}">
 									<c:param name="action" value="unpaid"/>
 									<c:param name="id" value="${item.id}"/>
 								</c:url>
 								<li><a href="#"
 									onclick="$$.ajax.post('${url}').done(${reloadScript}); return false;">
 									<i class="ti-eraser"></i>
-									${l.l('Не оплачено')}</a>
+									${l.l('Unpaid')}</a>
 								</li>
 							</p:check>
 						</c:when>
 						<c:otherwise>
 							<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:paid">
-								<c:url var="url" value="/user/plugin/invoice/invoice.do">
+								<c:url var="url" value="${form.httpRequestURI}">
 									<c:param name="action" value="paid"/>
 									<c:param name="id" value="${item.id}"/>
 								</c:url>
 								<li><a href="#"
 									onclick="$$.invoice.paid('${hiddenUiid}', '${url}').done(${reloadScript}); return false;">
 									<i class="ti-money"></i>
-									${l.l('Оплачено')}</a>
+									${l.l('Paid')}</a>
 								</li>
 							</p:check>
 						</c:otherwise>
 					</c:choose>
 
 					<p:check action="org.bgerp.plugin.bil.invoice.action.InvoiceAction:delete">
-						<c:url var="url" value="/user/plugin/invoice/invoice.do">
+						<c:url var="url" value="${form.httpRequestURI}">
 							<c:param name="action" value="delete"/>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
@@ -101,7 +101,7 @@
 			<td>
 				<c:choose>
 					<c:when test="${ctxUser.checkPerm('org.bgerp.plugin.bil.invoice.action.InvoiceAction:doc')}">
-						<c:url var="url" value="/user/plugin/invoice/invoice.do">
+						<c:url var="url" value="${form.httpRequestURI}">
 							<c:param name="action" value="doc"/>
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
@@ -114,7 +114,12 @@
 			</td>
 			<td>${item.amount}</td>
 			<td>${tu.format(item.createdTime, 'ymdhm')}</td>
-			<td>${tu.format(item.paymentDate, 'ymd')}</td>
+			<td>
+				<c:if test="${not empty item.paymentDate}">
+					${tu.format(item.paymentDate, 'ymd')}
+					(<ui:user-link id="${item.paymentUserId}"/>)
+				</c:if>
+			</td>
 		</tr>
 	</c:forEach>
 </table>

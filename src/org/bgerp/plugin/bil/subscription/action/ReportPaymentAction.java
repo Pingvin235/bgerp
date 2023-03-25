@@ -42,15 +42,20 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class ReportPaymentAction extends ReportActionBase {
     private static final Columns COLUMNS = new Columns(
         new Column.ColumnInteger("process_id", null, "Subscription Process"),
+        new Column.ColumnInteger("customer_id", null, null),
         new Column.ColumnString("customer_title", null, "Customer"),
         new Column.ColumnDecimal("payment_amount", null, "Amount"),
         new Column.ColumnDecimal("service_cost", null, "Service Cost"),
-        new Column.ColumnString("service_consultant", null, "Service Consultant"),
+        new Column.ColumnInteger("service_consultant_user_id", null, null),
+        new Column.ColumnString("service_consultant_user_title", null, "Service Consultant"),
         new Column.ColumnDecimal("discount", null, "Discount"),
         new Column.ColumnDecimal("owners_amount", null, "Owners Amount"),
+        new Column.ColumnInteger("product_id", null, null),
         new Column.ColumnString("product_description", null, "Product Process"),
-        new Column.ColumnString("product_owner", null, "Owner"),
-        new Column.ColumnDecimal("product_cost", null, "Product Cost")
+        new Column.ColumnInteger("product_owner_user_id", null, null),
+        new Column.ColumnString("product_owner_user_title", null, "Owner"),
+        new Column.ColumnDecimal("product_cost", null, "Product Cost"),
+        new Column.ColumnDecimal("product_cost_part", null, "Product Cost Part")
     );
 
     @Override
@@ -105,26 +110,6 @@ public class ReportPaymentAction extends ReportActionBase {
 
                 form.setResponseData("incomingTaxPercent", incomingTaxPercent);
 
-                final String query = SQL_SELECT_COUNT_ROWS +
-                    "invoice.amount, invoice.process_id, invoice_customer.object_title, discount.value, service_cost.value, service_consulter.user_id, product.description, product_owner.user_id, product_cost.count" +
-                    SQL_FROM +
-                    TABLE_INVOICE + "AS invoice " +
-                    SQL_LEFT_JOIN + TABLE_PROCESS_LINK + "AS invoice_customer ON invoice.process_id=invoice_customer.process_id AND invoice_customer.object_type=?" +
-                    SQL_INNER_JOIN + TABLE_PARAM_LIST + "AS param_subscription ON invoice.process_id=param_subscription.id AND param_subscription.param_id=? AND param_subscription.value=?" +
-                    //
-                    SQL_INNER_JOIN + TABLE_PARAM_LIST + "AS param_limit ON invoice.process_id=param_limit.id AND param_limit.param_id=?" +
-                    SQL_LEFT_JOIN + TABLE_PARAM_MONEY + "AS discount ON invoice.process_id=discount.id AND discount.param_id=?" +
-                    SQL_LEFT_JOIN + TABLE_PARAM_MONEY + "AS service_cost ON invoice.process_id=service_cost.id AND service_cost.param_id=?" +
-                    SQL_LEFT_JOIN + TABLE_PROCESS_EXECUTOR + "AS service_consulter ON invoice.process_id=service_consulter.process_id" +
-                    //
-                    SQL_INNER_JOIN + TABLE_PROCESS_LINK + "AS subscription_product ON subscription_product.object_id=invoice.process_id AND subscription_product.object_type=?" +
-                    SQL_INNER_JOIN + TABLE_PROCESS + "AS product ON subscription_product.process_id=product.id" +
-                    SQL_INNER_JOIN + TABLE_PROCESS_EXECUTOR + "AS product_owner ON product.id=product_owner.process_id" +
-                    SQL_INNER_JOIN + TABLE_PARAM_LISTCOUNT + "AS product_cost ON product.id=product_cost.id AND product_cost.param_id=? AND param_limit.value=product_cost.value" +
-                    //
-                    SQL_WHERE + "invoice.payment_user_id=? AND ?<=invoice.payment_date AND invoice.payment_date<=?" +
-                    SQL_ORDER_BY + "invoice.payment_date";
-
                 // key - user ID, value - amount
                 final Map<Integer, BigDecimal> userAmounts = new TreeMap<>();
                 form.setResponseData("userAmounts", userAmounts);
@@ -133,17 +118,44 @@ public class ReportPaymentAction extends ReportActionBase {
                 final Set<Integer> serviceCostAddedProcessIds = new TreeSet<>();
 
                 // primary data: payed invoices, amounts, subscription costs
-                try (var pq = new PreparedQuery(con, query)) {
+                try (var pq = new PreparedQuery(con)) {
+                    pq.addQuery(
+                        SQL_SELECT_COUNT_ROWS +
+                        "invoice.amount, invoice.process_id, invoice_customer.object_id, invoice_customer.object_title, discount.value, service_cost.value, service_consultant.user_id, product.id, product.description, product_owner.user_id, product_cost.count" +
+                        SQL_FROM +
+                        TABLE_INVOICE + "AS invoice " +
+                        SQL_LEFT_JOIN + TABLE_PROCESS_LINK + "AS invoice_customer ON invoice.process_id=invoice_customer.process_id AND invoice_customer.object_type=?" +
+                        SQL_INNER_JOIN + TABLE_PARAM_LIST + "AS param_subscription ON invoice.process_id=param_subscription.id AND param_subscription.param_id=? AND param_subscription.value=?");
+
                     pq.addString(Customer.OBJECT_TYPE);
                     pq.addInt(config.getParamSubscriptionId());
                     pq.addInt(subscriptionId);
+
+                    pq.addQuery(
+                        SQL_INNER_JOIN + TABLE_PARAM_LIST + "AS param_limit ON invoice.process_id=param_limit.id AND param_limit.param_id=?" +
+                        SQL_LEFT_JOIN + TABLE_PARAM_MONEY + "AS discount ON invoice.process_id=discount.id AND discount.param_id=?" +
+                        SQL_LEFT_JOIN + TABLE_PARAM_MONEY + "AS service_cost ON invoice.process_id=service_cost.id AND service_cost.param_id=?" +
+                        SQL_LEFT_JOIN + TABLE_PROCESS_EXECUTOR + "AS service_consultant ON invoice.process_id=service_consultant.process_id AND service_consultant.role_id=0"
+                    );
 
                     pq.addInt(config.getParamLimitId());
                     pq.addInt(config.getParamDiscountId());
                     pq.addInt(config.getParamServiceCostId());
 
+                    pq.addQuery(
+                        SQL_INNER_JOIN + TABLE_PROCESS_LINK + "AS subscription_product ON subscription_product.object_id=invoice.process_id AND subscription_product.object_type=?" +
+                        SQL_INNER_JOIN + TABLE_PROCESS + "AS product ON subscription_product.process_id=product.id" +
+                        SQL_LEFT_JOIN + TABLE_PROCESS_EXECUTOR + "AS product_owner ON product.id=product_owner.process_id AND product_owner.role_id=1" +
+                        SQL_INNER_JOIN + TABLE_PARAM_LISTCOUNT + "AS product_cost ON product.id=product_cost.id AND product_cost.param_id=? AND param_limit.value=product_cost.value"
+                    );
+
                     pq.addString(Process.LINK_TYPE_DEPEND);
                     pq.addInt(subscription.getParamLimitPriceId());
+
+                    pq.addQuery(
+                        SQL_WHERE + "invoice.payment_user_id=? AND invoice.payment_date IS NOT NULL AND ?<=invoice.date_from AND invoice.date_from<=?" +
+                        SQL_ORDER_BY + "invoice.payment_date"
+                    );
 
                     pq.addInt(userId);
                     pq.addDate(date);
@@ -155,31 +167,35 @@ public class ReportPaymentAction extends ReportActionBase {
                         final int subscriptionProcessId = rs.getInt("invoice.process_id");
                         final var discount = Utils.maskNullDecimal(rs.getBigDecimal("discount.value"));
                         final var serviceCost = Utils.maskNullDecimal(rs.getBigDecimal("service_cost.value"));
-                        final int serviceConsulterId = rs.getInt("service_consulter.user_id");
+                        final int serviceConsultantId = rs.getInt("service_consultant.user_id");
                         final var productCost = Utils.maskNullDecimal(rs.getBigDecimal("product_cost.count"));
                         final int productOwnerId = rs.getInt("product_owner.user_id");
 
                         final var record = data.addRecord();
 
                         record.add(subscriptionProcessId);
+                        record.add(rs.getInt("invoice_customer.object_id"));
                         record.add(rs.getString("invoice_customer.object_title"));
                         record.add(amount);
                         record.add(serviceCost);
-                        record.add(UserCache.getUser(serviceConsulterId).getTitle());
+                        record.add(serviceConsultantId);
+                        record.add(UserCache.getUser(serviceConsultantId).getTitle());
                         record.add(discount);
 
                         // add consulter's part
                         if (serviceCostAddedProcessIds.add(subscriptionProcessId)) {
-                            var serviceCostPart = userAmounts
+                            final var userAmount = userAmounts
                                 .computeIfAbsent(productOwnerId, unused -> BigDecimal.ZERO)
                                 .add(incomingTax(incomingTaxPercent, serviceCost));
-                            userAmounts.put(serviceConsulterId, serviceCostPart);
+                            userAmounts.put(serviceConsultantId, userAmount);
                         }
 
                         var ownersAmount = amount.subtract(serviceCost);
 
                         record.add(ownersAmount);
+                        record.add(rs.getInt("product.id"));
                         record.add(rs.getString("product.description"));
+                        record.add(productOwnerId);
                         record.add(UserCache.getUser(productOwnerId).getTitle());
                         record.add(productCost);
 
@@ -187,16 +203,19 @@ public class ReportPaymentAction extends ReportActionBase {
                         if (productOwnerId != userId) {
                             final var fullCost = ownersAmount.add(discount);
 
-                            var ownerPart = productCost
+                            final var ownerPart = productCost
                                 .divide(fullCost, RoundingMode.HALF_UP)
                                 .multiply(ownersAmount)
                                 .setScale(2, RoundingMode.HALF_UP);
 
-                            ownerPart = userAmounts
+                            final var userAmount = userAmounts
                                 .computeIfAbsent(productOwnerId, unused -> BigDecimal.ZERO)
                                 .add(ownerPart);
-                            userAmounts.put(productOwnerId, incomingTax(incomingTaxPercent, ownerPart));
-                        }
+                            userAmounts.put(productOwnerId, incomingTax(incomingTaxPercent, userAmount));
+
+                            record.add(ownerPart);
+                        } else
+                            record.add(null);
                     }
                 }
             }

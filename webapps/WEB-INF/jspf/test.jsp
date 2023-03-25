@@ -14,21 +14,6 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <div class="p05">
-	<div style="display: flex;">
-		<div style="flex: 1 0 50%;">
-			<b>&lt;ui:tree-single&gt;</b>
-			<ui:tree-single rootNode="${form.response.data.treeRootNode}"
-				hiddenName="nodeId" value="3" hiddenNameTitle="nodeTitle" selectableFolder="${false}"
-				styleClass="mt1" style="height: 20em; overflow: auto;" />
-		</div>
-		<div style="flex: 1 0 50%;">
-			<b>&lt;ui:tree-single&gt; (selectableFolder)</b>
-			<ui:tree-single rootNode="${form.response.data.treeRootNode}"
-				hiddenName="nodeId" value="3" hiddenNameTitle="nodeTitle"
-				styleClass="mt1" style="height: 20em; overflow: auto;" />
-		</div>
-	</div>
-
 	<div class="in-mt1 mt1">
 		<div>
 			<b>&lt;ui:popup-menu&gt;</b><br/>

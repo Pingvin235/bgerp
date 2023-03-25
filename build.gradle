@@ -9,9 +9,7 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven {
-        // com.lowagie:itext:2.1.7.js6
-        url "http://repo.bgerp.org/repository/maven-public"
-        allowInsecureProtocol = true
+        url "https://repo.bgerp.org/repository/maven-public"
         metadataSources { artifact() }
     }
 }

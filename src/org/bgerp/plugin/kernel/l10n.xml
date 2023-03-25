@@ -67,7 +67,7 @@
 	<p><ru>Данный тип процесса был удален</ru><en>This process type was deleted</en></p>
 	<p><ru>Удалить процесс</ru><en>Delete process</en></p>
 	<p><en>Status</en><ru>Статус</ru></p>
-	<p><ru>Создан</ru><en>Created</en></p>
+	<p><en>Created</en><ru>Создан</ru></p>
 	<p><en>log</en><ru>лог</ru></p>
 	<p><en>type</en><ru>тип</ru></p>
 	<p><en>priority</en><ru>приоритет</ru></p>
@@ -111,7 +111,7 @@
 	<p><ru>Приложение</ru><en>App</en></p>
 	<p><ru>Администрирование</ru><en>Administration</en></p>
 	<p><ru>Логирование</ru><en>Logging</en></p>
-	<p><ru>Процесс</ru><en>Process</en></p>
+	<p><en>Process</en><ru>Процесс</ru></p>
 	<p><ru>Искать</ru><en>Search</en></p>
 	<p><ru>Для поиска введите подстороку названия и нажмите Enter</ru><en>For searching input title substring and press Enter</en></p>
 	<p><ru>Для поиска введите код контрагента и нажмите Enter</ru><en>For searching input customer ID and press Enter</en></p>

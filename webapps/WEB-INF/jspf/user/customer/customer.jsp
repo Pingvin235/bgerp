@@ -80,7 +80,7 @@
 		--%>
 
 		<div>
-			${l.l('Создан')}: <b>${tu.format(customer.createdDate, 'ymd')}</b>
+			${l.l('Created')}: <b>${tu.format(customer.createdDate, 'ymd')}</b>
 		</div>
 
 		<div class="in-inline-block">

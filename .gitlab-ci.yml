@@ -30,10 +30,10 @@ test-and-publish-update:
 test-and-publish-update-master:
     # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
     image: openjdk:17-buster
-    cache:
-        paths:
-            - .gradle/wrapper
-            - .gradle/caches
+    # cache:
+    #     paths:
+    #         - .gradle/wrapper
+    #         - .gradle/caches
     before_script:
         - export TZ="CET" && date
         - export GRADLE_USER_HOME=`pwd`/.gradle

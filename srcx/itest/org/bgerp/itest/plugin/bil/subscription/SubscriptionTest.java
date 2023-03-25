@@ -199,8 +199,8 @@ public class SubscriptionTest {
         var processDao = new ProcessDAO(DbTest.conRoot);
 
         var processProduct1Id = ProcessHelper.addProcess(processProductTypeId, User.USER_SYSTEM_ID, TITLE + " Product 1").getId();
-        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupOwnersId)), processProduct1Id);
-        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner1Id, userGroupOwnersId, 0)), processProduct1Id);
+        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupOwnersId, 1)), processProduct1Id);
+        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner1Id, userGroupOwnersId, 1)), processProduct1Id);
         paramDao.updateParamText(processProduct1Id, paramProductId, "product1");
         paramDao.updateParamListCount(processProduct1Id, paramPriceRubId, Map.of(
                 LIMIT_VALUE_10, Utils.parseBigDecimal("200"),
@@ -212,8 +212,8 @@ public class SubscriptionTest {
         ));
 
         var processProduct2Id = ProcessHelper.addProcess(processProductTypeId, User.USER_SYSTEM_ID, TITLE + " Product 2").getId();
-        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupOwnersId)), processProduct2Id);
-        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner2Id, userGroupOwnersId, 0)), processProduct2Id);
+        processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupOwnersId, 1)), processProduct2Id);
+        processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userOwner2Id, userGroupOwnersId, 1)), processProduct2Id);
         paramDao.updateParamText(processProduct2Id, paramProductId, "product2");
         paramDao.updateParamListCount(processProduct2Id, paramPriceRubId, Map.of(
                 LIMIT_VALUE_10, Utils.parseBigDecimal("250"),
@@ -227,7 +227,7 @@ public class SubscriptionTest {
         var processSubscriptionRubId = ProcessHelper.addProcess(processSubscriptionTypeId, User.USER_SYSTEM_ID, TITLE + " Subscription RUB").getId();
         processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupConsultantsId)), processSubscriptionRubId);
         processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userConsultantRuId, userGroupConsultantsId)), processSubscriptionRubId);
-        paramDao.updateParamEmail(processSubscriptionRubId, paramEmailId, 0, new ParameterEmailValue("testclient@bgerp.org"));
+        paramDao.updateParamEmail(processSubscriptionRubId, paramEmailId, 0, new ParameterEmailValue("testclient-ru@bgerp.org"));
         paramDao.updateParamList(processSubscriptionRubId, paramSubscriptionId, Set.of(SUBSCRIPTION_RUB));
         paramDao.updateParamList(processSubscriptionRubId, paramLimitId, Set.of(LIMIT_VALUE_10));
         paramDao.updateParamMoney(processSubscriptionRubId, paramServiceCostId, new BigDecimal("43.43"));
@@ -248,8 +248,11 @@ public class SubscriptionTest {
         var processSubscriptionEurId = ProcessHelper.addProcess(processSubscriptionTypeId, User.USER_SYSTEM_ID, TITLE + " Subscription EUR").getId();
         processDao.updateProcessGroups(Set.of(new ProcessGroup(userGroupConsultantsId)), processSubscriptionEurId);
         processDao.updateProcessExecutors(Set.of(new ProcessExecutor(userConsultantEnId, userGroupConsultantsId)), processSubscriptionEurId);
+        paramDao.updateParamEmail(processSubscriptionEurId, paramEmailId, 0, new ParameterEmailValue("testclient-eu@bgerp.org"));
         paramDao.updateParamList(processSubscriptionEurId, paramSubscriptionId, Set.of(SUBSCRIPTION_EUR));
         paramDao.updateParamList(processSubscriptionEurId, paramLimitId, Set.of(LIMIT_VALUE_UNLIM));
+        paramDao.updateParamMoney(processSubscriptionEurId, paramServiceCostId, new BigDecimal("25.12"));
+        paramDao.updateParamMoney(processSubscriptionEurId, paramDiscountId, new BigDecimal("23.14"));
         ProcessHelper.addCustomerLink(processSubscriptionEurId, Customer.OBJECT_TYPE, customer);
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct1Id, processSubscriptionEurId));
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct2Id, processSubscriptionEurId));
@@ -259,7 +262,7 @@ public class SubscriptionTest {
                                         processSubscriptionEurId, null),
                         new SingleConnectionSet(DbTest.conRoot));
         cost = paramDao.getParamMoney(processSubscriptionEurId, paramSubscriptionCostId);
-        Assert.assertEquals(cost, Utils.parseBigDecimal("6.24"));
+        Assert.assertEquals(cost, Utils.parseBigDecimal("8.22"));
 
         MessageHelper.addHowToTestNoteMessage(processSubscriptionEurId, this);
     }

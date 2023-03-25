@@ -14,7 +14,7 @@
 					<td>${l.l('Тема')}</td>
 					<td>${l.l('От')}</td>
 					<td>${l.l('Время')}</td>
-					<td>${l.l('Процесс')}</td>
+					<td>${l.l('Process')}</td>
 				</tr>
 
 				<c:forEach var="item" items="${form.response.data.list}">

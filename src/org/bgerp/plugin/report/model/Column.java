@@ -61,6 +61,9 @@ public abstract class Column implements Titled {
     }
 
     public Object accept(Object value) {
+        if (value == null)
+            return value;
+
         throw new IllegalArgumentException(Log.format("Incorrect object class: '{}' for column: '{}'",
             value.getClass().getName(), getId()));
     }

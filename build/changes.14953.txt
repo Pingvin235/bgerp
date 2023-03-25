@@ -1,0 +1,3 @@
+C: Plugin Subscription. 'Subscription Payments' report. https://bgerp.org/doc/3.0/manual/plugin/bil/subscription/index.html#usage-report
+A: Plugin Invoice. 'Invoice Register' report. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#usage-report
+C: HTTPS protocol for repo.bgerp.org.

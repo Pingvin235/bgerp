@@ -27,7 +27,7 @@
 						<li value="customer">${l.l('Customer')}</li>
 					</c:if>
 					<c:if test="${empty allowedForms or allowedForms.contains('process')}">
-						<li value="process">${l.l('Процесс')}</li>
+						<li value="process">${l.l('Process')}</li>
 					</c:if>
 
 					<c:set var="mode" value="items" scope="request"/>

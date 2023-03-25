@@ -244,7 +244,7 @@ Where:
 * *<TYPE_IDS>* - comma separated process type IDs to be shown;
 * *<PARAM_IDS>* - comma separated process parameter IDs to be shown, parameter type *file* is not supported;
 * *<MESSAGE_TAG_IDS>* - comma separated <<message/index.adoc#usage-process-tag, message tag>> IDs to be shown, * - show all tags;
-* *<SECRET_EXPRESSION* - <<extension.adoc#jexl, JEXL>> expression for secret handling, e.g using plugin <<../plugin/sec/secret/index.adoc#, secret>>.
+* *<SECRET_EXPRESSION>* - <<extension.adoc#jexl, JEXL>> expression for secret handling, e.g using plugin <<../plugin/sec/secret/index.adoc#, secret>>.
 
 [[open-process-queue]]
 === Process Queue

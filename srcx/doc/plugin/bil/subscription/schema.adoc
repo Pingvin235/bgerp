@@ -1,2 +1,5 @@
-// the file is needed only for generation of the diagram
+IMPORTANT: The generated SVG files are used from Web-sites.
+
+drawio:_res/subscription.drawio[]
+
 drawio:_res/subscription-ru.drawio[]

@@ -89,7 +89,7 @@
 			<table class="data">
 				<tr>
 					<td>ID</td>
-					<td>${l.l('Создан')}</td>
+					<td>${l.l('Created')}</td>
 					<td>${l.l('Закрыт')}</td>
 					<td>${l.l('Роль')}</td>
 					<td>${l.l('Type')}</td>

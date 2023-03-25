@@ -126,3 +126,10 @@ The menu provides also items to mark invoices paid / unpaid or delete them.
 HTML printing forms of invoices are offered to be attached to messages.
 
 image::_res/process_invoice_attachment.png[width="800px"]
+
+[[usage-report]]
+=== Invoice Register Report
+
+The report allows to mark paid invoices and observe already paid for a used in a chosen month.
+
+image::_res/report.png[width="800px"]
