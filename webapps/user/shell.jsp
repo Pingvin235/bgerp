@@ -7,6 +7,7 @@
 <head>
 	<title><%@ include file="/WEB-INF/jspf/title.jsp"%></title>
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
+	<%@ include file="/WEB-INF/jspf/datepicker_l10n.jsp"%>
 </head>
 
 <body>

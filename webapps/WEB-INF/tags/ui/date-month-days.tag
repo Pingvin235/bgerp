@@ -18,12 +18,10 @@
 	<input type="hidden" id="dateTo" name="${dateToHiddenName}" value="${form.param[dateToHiddenName]}"/>
 
 	<button class="btn-white icon" id="prev" onclick="return false"><i class="ti-angle-left"></i></button>
-	<button class="btn-white" id="month" onclick="return false">&nbsp;</button>
+	<button class="btn-white" id="month" onclick="return false"></button>
 	<button class="btn-white icon" id="next" onclick="return false"><i class="ti-angle-right"></i></button>
-	${l.l('с')}
-	<input type="text" id="dayFrom" maxlength="2" name="${dateFromHiddenName}Day" value="${form.param[dateFromHiddenName.concat('Day')]}"/>
-	${l.l('по')}
-	<input type="text" id="dayTo" maxlength="2" name="${dateToHiddenName}Day" value="${form.param[dateToHiddenName.concat('Day')]}"/>
+	<input type="text" id="dayFrom" maxlength="2" name="${dateFromHiddenName}Day" value="${form.param[dateFromHiddenName.concat('Day')]}" placeholder="${l.l('с')}" title="${l.l('Day From')}"/>
+	<input type="text" id="dayTo" maxlength="2" name="${dateToHiddenName}Day" value="${form.param[dateToHiddenName.concat('Day')]}" placeholder="${l.l('по')}" title="${l.l('Day To')}"/>
 </div>
 
 <script>

@@ -593,6 +593,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>or</en><ru>или</ru></p>
 	<p><sys>range.from</sys><en>From</en><ru>От</ru></p>
 	<p><sys>range.to</sys><en>To</en><ru>До</ru></p>
+	<p><en>Day From</en><ru>День С</ru></p>
+	<p><en>Day To</en><ru>День По</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

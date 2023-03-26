@@ -107,5 +107,4 @@
 </script>
 
 <c:set var="type" value=""/>
-<c:set var="editable" value=""/>
 <c:set var="value" value=""/>

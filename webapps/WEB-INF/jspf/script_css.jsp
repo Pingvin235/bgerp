@@ -4,7 +4,6 @@
 <script src="/lib/jquery-3.3.1.js"></script>
 <%-- u:fileNameWithLastModTime has to be used for all of the modified JS and CSS --%>
 <script src="${u:fileNameWithLastModTime('/lib/jquery-ui-1.12.1/jquery-ui.js')}"></script>
-<script src="/lib/jquery-ui-1.12.1/i18n/jquery.ui.datepicker-ru.js"></script>
 <link type="text/css" href="/lib/jquery-ui-1.12.1/jquery-ui-start.css" rel="stylesheet"/>
 
 <script src="/lib/inputmask/jquery.inputmask.js"></script>
@@ -14,7 +13,6 @@
 <script src="/lib/inputmask/jquery.inputmask.extensions.js"></script>
 
 <script src="/lib/timepicker-1.3/jquery-ui-timepicker.js"></script>
-<script src="/lib/timepicker-1.3/i18n/jquery.ui.timepicker-ru.js"></script>
 <link type="text/css" href="/lib/timepicker-1.3/jquery-ui-timepicker.css" rel="stylesheet"/>
 
 <script src="/lib/jquery.serializeanything.js"></script>
