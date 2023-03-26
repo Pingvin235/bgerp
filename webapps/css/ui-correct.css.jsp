@@ -80,17 +80,21 @@
 	height: inherit;
 }
 
+.ui-datepicker .ui-datepicker-header {
+	padding: .35em 0 !important;
+}
+
 .ui-timepicker-div .ui-slider .ui-slider-handle,
 .ui-dialog .ui-dialog-buttonset button {
 	border-color: #c8c8c8;
 	<%@ include file="/WEB-INF/jspf/css/button.white.gradient.jsp"%>
 }
 
-.ui-datepicker .ui-datepicker-buttonpane button.btn-close,
+/*.ui-datepicker .ui-datepicker-buttonpane button.btn-close,
 .ui-dialog .ui-dialog-buttonset button {
 	font-size: 1.1em;
 	color: #000;
-}
+}*/
 
 /* Override re-authorization dialog styles */
 .ui-dialog .ui-widget-header,

@@ -10,12 +10,12 @@
 		<ui:date-time
 			paramName="createDate" value="${form.param.createDate}"
 			placeholder="${l.l('Дата создания')}"
-			styleClass="mr1" editable="true"/>
+			styleClass="mr1"/>
 
 		<ui:date-time
 			paramName="closeDate" value="${form.param.closeDate}"
 			placeholder="${l.l('Дата закрытия')}"
-			styleClass="mr1" editable="true"/>
+			styleClass="mr1"/>
 
 		<ui:combo-single
 			hiddenName="open" value="${form.param.open}" prefixText="${l.l('Закрыт')}:"

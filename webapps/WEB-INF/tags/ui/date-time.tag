@@ -5,7 +5,6 @@
 <%@ attribute name="value" description="current value in dd.MM.yyyy format or '0' - current date, 'first' - first day of the month, 'last' - last day of the month"%>
 <%@ attribute name="type" description="specified 'date' type, ymdhms or shorter; parameter is altered if value was not defined"%>
 <%@ attribute name="selector" description="jQuery element selector"%>
-<%@ attribute name="editable" type="java.lang.Boolean" description="editable"%>
 <%@ attribute name="styleClass" description="CSS-classes for input"%>
 <%@ attribute name="placeholder" description="placeholder for input"%>
 <%@ attribute name="saveCommand" description="command used to save the value upon closure"%>
@@ -89,17 +88,6 @@
 
 	<%-- TODO: Move functions into JS files --%>
 	<%@ include file="/WEB-INF/jspf/datetimepicker_inputmask.jsp"%>
-
-	<%-- removed the mode which was not editable via keyboard
-	<c:choose>
-		<c:when test="${not empty parameter.configMap['editable'] or not empty editable}">
-			<%@ include file="datetimepicker_inputmask.jsp"%>
-		</c:when>
-		<c:otherwise>
-			$("${selector}").attr( "readonly", "true" );
-		</c:otherwise>
-	</c:choose>
-	--%>
 
 	<c:if test="${value eq '0' or value eq 'last' or value eq 'first'}">
 		var date = new Date();

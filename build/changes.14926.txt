@@ -1,0 +1,2 @@
+F: Corrupted browser fragment URL when changing process parameter with type 'date'.
+C: Removed 'editable' attribute from <ui:date-time> tag.
