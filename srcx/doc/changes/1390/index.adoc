@@ -1,6 +1,10 @@
 = CHANGES
 :toc:
 
+== Required <<../../kernel/install.adoc#java, Java 17>> for running the application
+
+IMPORTANT: Check your version and update if needed.
+
 == Enabled <<../../kernel/setup.adoc#config-license, License Check>>
 
 IMPORTANT: Obtain the suitable license and put it in the application' directory.
