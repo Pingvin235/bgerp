@@ -21,7 +21,6 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 <%@ attribute name="placeholder" description="placeholder for an internal input field"%>
 <%@ attribute name="inputAttrs" description="any input field attributes"%>
 <%@ attribute name="onSelect" description="JS, action to be performed on value selection"%>
-<%@ attribute name="additionalSourceFilter" description="JS code to be used for additional source filtering on output"%>
 
 <%@ attribute name="showId" type="java.lang.Boolean"  description="show Id (boolean)"%>
 <%@ attribute name="showComment" type="java.lang.Boolean" description="show comments (boolean)"%>
@@ -48,7 +47,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 	<script>
 		$(function () {
 			const source = ${ui.selectSingleSourceJson(list, availableIdSet, availableIdList, map, showId, showComment)};
-			$$.ui.select.single.init('${uiid}', source, '${value}', (filteredSource) => { ${additionalSourceFilter} return filteredSource }, function ($hidden, $input) { ${onSelect} });
+			$$.ui.select.single.init('${uiid}', source, '${value}', (filteredSource) => { return filteredSource }, function ($hidden, $input) { ${onSelect} });
 		})
 	</script>
 </div>

@@ -1,0 +1,1 @@
+C: Remove 'additionalSourceFilter' attribute from UI tags.

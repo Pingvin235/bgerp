@@ -47,24 +47,6 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 	<div style="display:table; width: 100%;">
 		<div style="display: table-cell; width: 100%;">
 			<u:sc>
-				<c:set var="additionalSourceFilter">
-					var selectedValues = {};
-					$('#${uiid} ul.drop-list li input').each(function()
-					{
-						selectedValues[$(this).val()] = 1;
-					});
-
-					var filteredSourceWithoutSelected = [];
-					for( var i = 0; i < filteredSource.length; i++ )
-					{
-						if( !selectedValues[filteredSource[i].id] )
-						{
-							filteredSourceWithoutSelected.push( filteredSource[i] );
-						}
-					}
-
-					filteredSource = filteredSourceWithoutSelected;
-				</c:set>
 				<c:set var="onSelect">
 					var id = $hidden.val();
 					if( !id )
@@ -94,7 +76,7 @@ Otherwise 'list' and its ordering are used, along with possibility of values fil
 				<c:remove var="id"/>
 				<ui:select-single hiddenName="${uiid}-addingValue" style="width: 100%;"
 					showId="${showId}" showComment="${showComment}"
-					onSelect="${onSelect}" additionalSourceFilter="${additionalSourceFilter}"
+					onSelect="${onSelect}"
 					list="${list}" map="${map}" availableIdList="${availableIdList}" availableIdSet="${availableIdSet}"/>
 			</u:sc>
 		</div>
