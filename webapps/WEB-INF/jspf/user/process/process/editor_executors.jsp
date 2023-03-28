@@ -28,7 +28,7 @@
 	<input type="hidden" name="action" value="processExecutorsUpdate"/>
 
 	<c:set var="uiid" value="${u:uiid()}"/>
-	<c:set var="perm" value="${p:get( form.user.id, 'ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate' )}"/>
+	<c:set var="perm" value="${ctxUserCache.getPerm(form.user.id, 'ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate' )}"/>
 	<c:set var="allowedGroups"  value="${u.toIntegerSet(perm['allowOnlyGroups'])}"/>
 
 	<c:forEach var="role" items="${ctxUserGroupRoleList}">

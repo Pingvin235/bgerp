@@ -24,7 +24,7 @@
 	<c:param name="graphId" value="${form.param.graphId}" />
 </c:url>
 
-<c:set var="perm" value="${p:get( ctxUser.id, 'org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGet')}"/>
+<c:set var="perm" value="${ctxUserCache.getPerm(ctxUser.id, 'org.bgerp.plugin.pln.callboard.action.admin.WorkAction:callboardGet')}"/>
 <c:set var="allowOnlyGroups" value="${u.toIntegerSet(perm['allowOnlyGroups'])}"/>
 
 <div id="${uiid}">
