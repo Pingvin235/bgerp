@@ -16,7 +16,7 @@
 	<input type="text" name="title" style="width: 100%" value="${pattern.title}"/>
 
 	<h2>${l.l('Шаблон')}</h2>
-	<input type="text" name="pattern" style="width: 100%" value="${fn:escapeXml( pattern.pattern )}"/>
+	<input type="text" name="pattern" style="width: 100%" value="${u.escapeXml( pattern.pattern )}"/>
 
 	<ui:form-ok-cancel styleClass="mt1"/>
 </html:form>

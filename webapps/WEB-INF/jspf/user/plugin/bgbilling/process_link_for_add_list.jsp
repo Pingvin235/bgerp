@@ -52,11 +52,11 @@
 <c:forEach var="item" items="${linksForAdd}">
 	<c:remove var="prefix"/>
 	<c:choose>
-		<c:when test="${fn:startsWith( item.linkedObjectType, 'contract:' )}">
+		<c:when test="${item.linkedObjectType.startsWith('contract:' )}">
 			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}"/>
 			<c:set var="title" value="Договор:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
 		</c:when>
-		<c:when test="${fn:startsWith( item.linkedObjectType, 'bgbilling-task:' )}">
+		<c:when test="${item.linkedObjectType.startsWith('bgbilling-task:' )}">
 			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}"/>
 			<c:set var="title" value="Задача:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
 		</c:when>

@@ -14,18 +14,18 @@
 	</td>
 	<td>
 		<input type="button" value=" X " title="Удалить"
-		onclick="${beforeDelCommand};delParameter('${uiid}',${itemId},'${fn:escapeXml( list[itemId] )}', '${paramName}');${afterDelCommand}" />
+		onclick="${beforeDelCommand};delParameter('${uiid}',${itemId},'${u.escapeXml( list[itemId] )}', '${paramName}');${afterDelCommand}" />
 	</td>
-	
+
 	<td nowrap="nowrap" style="width:100%">${list[itemId]}</td>
 	<td align="right">
 		<input type="text" value="${values[itemId].paramDouble}" style="width:45px"
-			 onkeydown="return isNumberKey(event)" 
-			 onkeyup="$('#'+'${uiid}'+'row'+'${itemId}').find('input[type=checkbox]').first().val('${itemId}:'+$(this).val()+':${fn:escapeXml( list[itemId] )}');"/>
+			 onkeydown="return isNumberKey(event)"
+			 onkeyup="$('#'+'${uiid}'+'row'+'${itemId}').find('input[type=checkbox]').first().val('${itemId}:'+$(this).val()+':${u.escapeXml( list[itemId] )}');"/>
 	</td>
-	
+
 	<td	<c:if test="${config['allowComment'] !=1}">style="display:none"</c:if> >
-		<input style="display:none" type="checkbox" name="comment" value="${values[itemId].paramString}" ${u:checkedFromCollection( values.keySet(), itemId )} />		
+		<input style="display:none" type="checkbox" name="comment" value="${values[itemId].paramString}" ${u:checkedFromCollection( values.keySet(), itemId )} />
 		<input type="text" value="${values[itemId].paramString}" style="width: 300px"
 			onkeyup="$(this).prev().val( $(this).val() );" />
 	</td>

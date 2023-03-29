@@ -19,15 +19,15 @@ $(function()
 	}
 
 	<c:set var="dateFormat" value="${tu.getTypeFormat( type )}"/>
-	<c:set var="dateFormat" value="${fn:replace( dateFormat, 'yyyy', 'y')}"/>
-	<c:set var="dateFormat" value="${fn:replace( dateFormat, 'yy', 'y')}"/>
-	<c:set var="dateFormat" value="${fn:replace( dateFormat, 'MM', 'm')}"/>
-	<c:set var="dateFormat" value="${fn:replace( dateFormat, 'dd', 'd')}"/>
-	<c:set var="dateFormat" value="${fn:replace( dateFormat, 'HH', 'h')}"/>
-	<c:set var="dateFormat" value="${fn:replace( dateFormat, 'mm', 's')}"/>
-	<c:set var="dateFormat" value="${fn:replace( dateFormat, 'ss', 's')}"/>
+	<c:set var="dateFormat" value="${dateFormat.replace('yyyy', 'y')}"/>
+	<c:set var="dateFormat" value="${dateFormat.replace('yy', 'y')}"/>
+	<c:set var="dateFormat" value="${dateFormat.replace('MM', 'm')}"/>
+	<c:set var="dateFormat" value="${dateFormat.replace('dd', 'd')}"/>
+	<c:set var="dateFormat" value="${dateFormat.replace('HH', 'h')}"/>
+	<c:set var="dateFormat" value="${dateFormat.replace('mm', 's')}"/>
+	<c:set var="dateFormat" value="${dateFormat.replace('ss', 's')}"/>
 
-	<c:if test="${fn:startsWith( type, 'ymd')}">
+	<c:if test="${type.startsWith('ymd')}">
 		$("${selector}").inputmask("${dateFormat}", { "placeholder": "_" });
 	</c:if>
 

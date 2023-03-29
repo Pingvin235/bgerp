@@ -421,7 +421,7 @@
 						<%@ include file="filter/item.jsp"%>
 					</c:if>
 
-					<c:if test="${fn:startsWith(filterFromList.type, 'linkedCustomer:param:')}">
+					<c:if test="${filterFromList.type.startsWith('linkedCustomer:param:')}">
 						<c:set var="filter" value="${filterFromList}"/>
 						<c:set var="title" value="${not empty filter.title ? filter.title : filter.parameter.title}"/>
 						<c:set var="code">

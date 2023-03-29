@@ -284,11 +284,11 @@
 					</c:when>
 
 					<%-- список, дерево, телефон - редактор нужно вызвать --%>
-					<c:when test="${fn:contains( 'email, text, blob, date, datetime, list, phone, tree, listcount, money', parameter.type ) and empty editorType}">
+					<c:when test="${'email, text, blob, date, datetime, list, phone, tree, listcount, money'.contains(parameter.type ) and empty editorType}">
 						<c:set var="editFormId" value="${u:uiid()}"/>
 						<c:set var="valueTitle" value="${item.valueTitle}"/>
 
-						<c:if test="${fn:contains( 'date, datetime', parameter.type) }">
+						<c:if test="${'date, datetime'.contains(parameter.type) }">
 							<c:set var="type" value="${u:maskEmpty(parameter.configMap.type, 'ymd')}"/>
 							<c:set var="valueTitle" value="${tu.format(item.value, type )}"/>
 						</c:if>
@@ -384,7 +384,7 @@
 											<input type="radio" name="value" value="-1" ${u:checkedFromBool( empty item.value )} onclick="${saveCommand}"/>
 											${radioSelectNotChoosed}
 											<c:forEach var="valueItem" items="${parameter.listParamValues}">
-												<c:if test="${fn:startsWith(valueItem.title, '@')==false}">
+												<c:if test="${valueItem.title.startsWith('@')==false}">
 													<input type="radio" name="value" value="${valueItem.id}" ${u:checkedFromCollection( item.value, valueItem )} onclick="${saveCommand}"/>
 													${valueItem.title}
 												</c:if>
@@ -408,7 +408,7 @@
 													<c:if test="${not empty u:checkedFromCollection( item.value, valueItem )}">
 														<c:set var="isSelected" value="selected"/>
 													</c:if>
-													<c:if test="${not fn:startsWith( valueItem.title, '@' )}">
+													<c:if test="${not valueItem.title.startsWith('@' )}">
 														<option value="${valueItem.id}" ${isSelected}>${valueItem.title}</option>
 													</c:if>
 												</c:forEach>

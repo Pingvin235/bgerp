@@ -6,6 +6,6 @@
 		${process.reference}
 	</c:when>
 	<c:otherwise>
-		#${process.id}&nbsp;${fn:escapeXml(process.description)}
+		#${process.id}&nbsp;${u.escapeXml(process.description)}
 	</c:otherwise>
 </c:choose>

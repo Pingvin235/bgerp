@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:choose>
-	<c:when test="${fn:startsWith( item.linkedObjectType, 'contract:' )}">
+	<c:when test="${item.linkedObjectType.startsWith('contract:' )}">
 		<tr>
 			<td>${delButton}</td>
 			<td>${item.linkedObjectId}</td>
@@ -39,7 +39,7 @@
 			</script>
 		</c:if>
 	</c:when>
-	<c:when test="${fn:startsWith( item.linkedObjectType, 'bgbilling-helpdesk:' )}">
+	<c:when test="${item.linkedObjectType.startsWith('bgbilling-helpdesk:' )}">
 		<tr>
 			<td>${delButton}</td>
 			<td>${item.linkedObjectId}</td>

@@ -10,9 +10,9 @@
 			jump_regexp[index] = new Object;
 
 			<c:choose>
-				<c:when test="${not fn:startsWith(item.regexp, '/')}">
+				<c:when test="${not item.regexp.startsWith('/')}">
 					<c:choose>
-						<c:when test="${not fn:endsWith(item.regexp, '/')}">
+						<c:when test="${!item.regexp.endsWith('/')}">
 							jump_regexp[index].regexp = /${item.regexp}/;
 						</c:when>
 					</c:choose>
@@ -120,7 +120,7 @@
 						<c:set var="checkedParamValue" value=""/>
 					</c:when>
 					<c:otherwise>
-						<c:set var="checkedParamValue" value="${fn:escapeXml( data.value)}"/>
+						<c:set var="checkedParamValue" value="${u.escapeXml( data.value)}"/>
 					</c:otherwise>
 				</c:choose>
 

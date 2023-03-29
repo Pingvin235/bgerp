@@ -11,18 +11,18 @@
 			<c:forEach var="item" items="${form.response.data.list}">
 				<tr>
 					<td>
-						<a href="#" 
-							onclick="if( deleteLinksWithType( 'process', ${processId}, 'customer' ) && addLink( 'process', ${processId}, 'customer', ${item.id}, '${fn:escapeXml( item.title )}' ) ){ ${reopenProcessEditorCode } }; return false;">
+						<a href="#"
+							onclick="if( deleteLinksWithType( 'process', ${processId}, 'customer' ) && addLink( 'process', ${processId}, 'customer', ${item.id}, '${u.escapeXml( item.title )}' ) ){ ${reopenProcessEditorCode } }; return false;">
 							${item.title} (${item.reference})
 						</a>
-					</td>			
+					</td>
 				</tr>
 			</c:forEach>
 		</c:when>
 		<c:otherwise>
 			<tr>
 				<td>${l.l('Контрагентов с таким наименованием не найдено.')}</td>
-			</tr>	
-		</c:otherwise>	
+			</tr>
+		</c:otherwise>
 	</c:choose>
 </table>

@@ -53,8 +53,8 @@
 				<td align="right">${item.id}</td>
 				<td>${item.type}</td>
 				<td>${item.order}</td>
-				<td>${fn:escapeXml( item.title )}</td>
-				<td>${fn:escapeXml( item.comment )}</td>
+				<td>${u.escapeXml( item.title )}</td>
+				<td>${u.escapeXml( item.comment )}</td>
 				<td>
 					<c:set var="maxLength" value="100"/>
 					<c:if test="${maxLength gt 0}">

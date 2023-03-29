@@ -570,7 +570,7 @@
 
 				<c:forEach var="item" items="${groupWithUsersMap}">
 					<%-- подсчёт количества сотрудников, входящих в группу --%>
-					<c:set var="userCount" value="${fn:length(item.value)}"/>
+					<c:set var="userCount" value="${item.value.length()}"/>
 					<c:choose>
 						<c:when test="${userCount >0}"><c:set var="userCount" value="${userCount}"/></c:when>
 						<c:otherwise><c:set var="userCount" value="0"/></c:otherwise>
@@ -590,7 +590,7 @@
 							</b>
 						</td>
 						<td>&nbsp;</td>
-						<c:forEach begin="1" end="${fn:length(dateSet)}">
+						<c:forEach begin="1" end="${dateSet.length()}">
 							<td class="sum">0</td>
 						</c:forEach>
 					</tr>
@@ -625,13 +625,13 @@
 
 											<c:set var="dayShiftTitleCounter" value="${dayShiftTitleCounter+1}"/>
 
-											<c:if test="${fn:length( dayShiftTitle ) >0}">
+											<c:if test="${dayShiftTitle.length() >0}">
 												<c:set var="dayShiftTitle" value="${dayShiftTitle}<br />"/>
 											</c:if>
 
 											<c:set var="dayShiftTitle" value="${dayShiftTitle}${dayShiftTitleCounter}) ${workTypeMap[workTypeTime.workTypeId].title} (c ${workTypeTime.formatedTimeFrom} до ${workTypeTime.formatedTimeTo})" />
 
-											<c:if test="${fn:length( workTypeTime.comment ) > 0}">
+											<c:if test="${workTypeTime.comment.length() > 0}">
 												<c:set var="dayShiftTitle" value="${dayShiftTitle}: ${workTypeTime.comment}"/>
 											</c:if>
 

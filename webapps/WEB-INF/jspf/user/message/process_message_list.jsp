@@ -123,7 +123,7 @@
 								<div class="mt05">
 									<c:choose>
 										<c:when test="${message.direction eq 1}">
-											${l.l('Принят')}: ${tu.format(message.fromTime, 'ymdhm')} (<a href="mailto:${fn:escapeXml(message.from)}">${fn:escapeXml(message.from)}</a>) => ${fn:escapeXml(message.to)}
+											${l.l('Принят')}: ${tu.format(message.fromTime, 'ymdhm')} (<a href="mailto:${u.escapeXml(message.from)}">${u.escapeXml(message.from)}</a>) => ${u.escapeXml(message.to)}
 											<nobr>
 												${l.l('Обработано')}: ${tu.format(message.toTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
 											</nobr>
@@ -131,7 +131,7 @@
 										<c:otherwise>
 											${l.l('Создано')}: ${tu.format(message.fromTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
 											<nobr>
-												${l.l('Отправлено')}: ${tu.format(message.toTime, 'ymdhm')} (<a href="mailto:${fn:escapeXml(message.to)}">${fn:escapeXml(message.to)}</a>)
+												${l.l('Отправлено')}: ${tu.format(message.toTime, 'ymdhm')} (<a href="mailto:${u.escapeXml(message.to)}">${u.escapeXml(message.to)}</a>)
 											</nobr>
 										</c:otherwise>
 									</c:choose>

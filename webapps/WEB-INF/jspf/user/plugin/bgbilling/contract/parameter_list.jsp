@@ -81,10 +81,10 @@
 											<input type="hidden" name="contractId" value="${form.param.contractId}"/>
 											<input type="hidden" name="paramId" value="${contractParameter.paramId}"/>
 											<input type="hidden" name="paramType" value="${contractParameter.paramType}"/>
-											<input type="hidden" name="value" value="${fn:escapeXml( contractParameter.value )}"/>
+											<input type="hidden" name="value" value="${u.escapeXml( contractParameter.value )}"/>
 											<input type="hidden" name="returnUrl" value="${form.requestUrl}" />
 
-											<a href="#" onclick="$$.ajax.load($(this).parent(), $('#${viewEditDivId}') ); return false;">${fn:escapeXml( contractParameter.value )}</a>
+											<a href="#" onclick="$$.ajax.load($(this).parent(), $('#${viewEditDivId}') ); return false;">${u.escapeXml( contractParameter.value )}</a>
 											<c:if test="${empty contractParameter.getValue()}">
 												<a href="#" onclick="$$.ajax.load($(this).parent(), $('#${viewEditDivId}') ); return false;">не указан</a>
 											</c:if>

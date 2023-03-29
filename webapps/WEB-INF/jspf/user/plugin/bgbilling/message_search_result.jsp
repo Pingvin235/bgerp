@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:choose>
-	<c:when test="${fn:startsWith( item.linkedObjectType, 'contract:' )}">
+	<c:when test="${item.linkedObjectType.startsWith('contract:' )}">
 		<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}" scope="request"/>
 		<td>Договор:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 

@@ -33,8 +33,8 @@
 	<c:set var="timeFormat" value="${su.substringAfter(tu.getTypeFormat(type), ' ')}"/>
 </c:if>
 
-<c:set var="dateFormat" value="${fn:replace(dateFormat, 'yyyy', 'yy')}"/>
-<c:set var="dateFormat" value="${fn:replace(dateFormat, 'MM', 'mm')}"/>
+<c:set var="dateFormat" value="${dateFormat.replace('yyyy', 'yy')}"/>
+<c:set var="dateFormat" value="${dateFormat.replace('MM', 'mm')}"/>
 
 <c:set var="size" value="8"/>
 <c:if test="${type eq 'ymdh'}">

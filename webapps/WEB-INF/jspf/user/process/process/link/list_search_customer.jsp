@@ -20,7 +20,7 @@
 					<input type="hidden" name="objectType" value="process"/>
 					<input type="hidden" name="id" value="${form.param.processId}"/>
 					<input type="hidden" name="linkedObjectId" value="${item.id}"/>
-					<input type="hidden" name="linkedObjectTitle" value="${fn:escapeXml(item.title)}"/>
+					<input type="hidden" name="linkedObjectTitle" value="${u.escapeXml(item.title)}"/>
 					<input type="hidden" name="linkedObjectType" value="customer"/>
 					<input type="checkbox" name="check"/>
 				</html:form>

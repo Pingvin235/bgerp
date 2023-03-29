@@ -14,7 +14,7 @@
 	<input type="hidden" name="action" value="contractCreate"/>
 	<input type="hidden" name="date" value="${currentDate}"/>
 	<html:hidden property="customerId"/>
-	<input type="hidden" name="comment" value="${fn:escapeXml(customer.title)}"/>
+	<input type="hidden" name="comment" value="${u.escapeXml(customer.title)}"/>
 
 	<div>
 		Номер:

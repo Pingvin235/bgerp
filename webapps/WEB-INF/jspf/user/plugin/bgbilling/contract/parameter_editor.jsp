@@ -21,7 +21,7 @@
 	<c:choose>
 		<c:when test="${paramType eq 1}"> <!-- text -->
 			<input type="text" style="width:100%;" id="${focusFieldUiid}" class="mb1"
-					name="value" value="${fn:escapeXml( form.param.value )}"
+					name="value" value="${u.escapeXml( form.param.value )}"
 					onkeypress="if( enterPressed( event )){ ${saveCommand} }"
 					onchange="$(this).attr( 'changed', '1')"/>
 		</c:when>

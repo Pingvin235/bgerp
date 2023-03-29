@@ -76,7 +76,7 @@
 				<td class="mb05">
 					<%-- Не используется u:htmlEncode, т.к. иначе сломается поддержка HTML! --%>
 					<% pageContext.setAttribute("newLineChar", "\n"); %>
-					${fn:replace(item.description, newLineChar, "<br/>")}
+					${item.description.replace(newLineChar, "<br/>")}
 				</td>
 			</tr>
 			<tr>

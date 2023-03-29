@@ -4,9 +4,9 @@
 <c:set var="id" value="${u:uiid()}"/>
 <div id="${id}_short">
 	<c:choose>
-		<c:when test="${fn:length(text) gt maxLength}">
+		<c:when test="${text.length() gt maxLength}">
 				${u:truncateHtml(text, maxLength)}...
-				<a href="#" onclick="document.getElementById('${id}_short').style.display = 'none'; document.getElementById('${id}_full').style.display = 'block';">&gt;&gt;&gt;&gt;</a>		
+				<a href="#" onclick="document.getElementById('${id}_short').style.display = 'none'; document.getElementById('${id}_full').style.display = 'block';">&gt;&gt;&gt;&gt;</a>
 		</c:when>
 		<c:otherwise>${text}</c:otherwise>
 	</c:choose>

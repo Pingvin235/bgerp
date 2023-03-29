@@ -38,7 +38,7 @@
 			<td>${item.title}</td>
 		</tr>
 		<tr style="display:none">
-			<td colspan=3>${fn:replace(item.data,'u000A','</br>')}</td>
+			<td colspan=3>${item.data.replace('u000A','</br>')}</td>
 		</tr>
 	</c:forEach>
 </table>

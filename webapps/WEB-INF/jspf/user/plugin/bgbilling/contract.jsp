@@ -59,7 +59,7 @@
 		<u:sc>
 			<c:set var="title">
 				<span class='title'>${contractTitle}</span> <%--
-			--%><span class='comment'>(${fn:escapeXml( contractComment )})</span>
+			--%><span class='comment'>(${u.escapeXml( contractComment )})</span>
 			</c:set>
 			<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
 			<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
@@ -88,7 +88,7 @@
 
 			<button type="button" class="btn-white btn-small mr1"
 					onclick="$('#${showTdId}').hide(); $('#${editTdId}').show();
-							 buildOpenedCustomerList( $('#${editTdId}'), { id : '${customer.id}', title : '${fn:escapeXml( customer.title )}' } );
+							 buildOpenedCustomerList( $('#${editTdId}'), { id : '${customer.id}', title : '${u.escapeXml( customer.title )}' } );
 							 $$.ui.comboSingleInit( $('#${customerSelectUiid}') )"
 					title="Изменить контрагента">*</button>
 

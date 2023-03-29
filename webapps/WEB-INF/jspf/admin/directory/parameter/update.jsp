@@ -36,7 +36,7 @@
 
 			<div id="${selectorSample}">
 				<h2>${l.l('Название')}</h2>
-				<input type="text" name="title" style="width: 100%" value="${fn:escapeXml( parameter.title )}"/>
+				<input type="text" name="title" style="width: 100%" value="${u.escapeXml( parameter.title )}"/>
 
 				<h2>${l.l('Type')}</h2>
 				<c:choose>
@@ -64,7 +64,7 @@
 		</div><%--
 	--%><div style="width: 50%;">
 			<h2>${l.l('Комментарий')}</h2>
-			<input type="text" name="comment" style="width: 100%" value="${fn:escapeXml( parameter.comment )}"/>
+			<input type="text" name="comment" style="width: 100%" value="${u.escapeXml( parameter.comment )}"/>
 
 			<%--
 			<h2>Скрипт</h2>

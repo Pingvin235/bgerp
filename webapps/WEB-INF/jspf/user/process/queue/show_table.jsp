@@ -94,11 +94,11 @@ Incoming variables:
 						<ui:process-link process="${process}"/>
 					</c:when>
 
-					<c:when test="${fn:startsWith(column.value,'linkCustomerLink') or
-									fn:startsWith(column.value,'linkedCustomerLink')}">
-						<c:forEach var="customer" items="${fn:split(col,'$')}" varStatus="status">
-							<c:set var="customerId" value="${fn:split(customer,':')[0]}"/>
-							<c:set var="customerTitle" value="${fn:split(customer,':')[1]}"/>
+					<c:when test="${column.value.startsWith('linkCustomerLink') or
+									column.value.startsWith('linkedCustomerLink')}">
+						<c:forEach var="customer" items="${col.split('$')}" varStatus="status">
+							<c:set var="customerId" value="${customer.split(':')[0]}"/>
+							<c:set var="customerTitle" value="${customer.split(':')[1]}"/>
 							<c:choose>
 								<c:when test="${mob}">${customerTitle}</c:when>
 								<c:otherwise><a href="#" onclick="openCustomer(${customerId}); return false;">${customerTitle}</a></c:otherwise>
@@ -107,8 +107,8 @@ Incoming variables:
 						</c:forEach>
 					</c:when>
 
-					<c:when test="${fn:startsWith(column.value,'linkedObject:process')}">
-						<c:forEach var="processId" items="${fn:split( col, ',' )}">
+					<c:when test="${column.value.startsWith('linkedObject:process')}">
+						<c:forEach var="processId" items="${col.split(',' )}">
 							<c:choose>
 								<c:when test="${mob}">${processId}</c:when>
 								<c:otherwise><ui:process-link id="${processId}"/></c:otherwise>
@@ -117,10 +117,10 @@ Incoming variables:
 					</c:when>
 
 					<%-- TODO: Код этот должен быть по-правильному в плагине BGBilling --%>
-					<c:when test="${fn:startsWith( column.value, 'linkObject:contract' ) or
-									fn:startsWith( column.value, 'linkedObject:contract' )}">
-						<c:forEach var="contractInfo" items="${fn:split( col, ',' )}">
-							<c:set var="info" value="${fn:split( contractInfo, ':' )}"/>
+					<c:when test="${column.value.startsWith('linkObject:contract' ) or
+									column.value.startsWith('linkedObject:contract' )}">
+						<c:forEach var="contractInfo" items="${col.split(',' )}">
+							<c:set var="info" value="${contractInfo.split(':' )}"/>
 							<c:choose>
 								<c:when test="${mob}">${info[2]}</c:when>
 								<c:otherwise><a href="#" onclick="bgbilling_openContract( '${info[0]}', '${info[1]}' ); return false;">${info[2]}</a></c:otherwise>
@@ -151,11 +151,11 @@ Incoming variables:
 						</c:forEach>
 					</c:when>
 
-					<c:when test="${fn:startsWith(column.value,'status')}">
-						${fn:replace(col,'; ','</br>')}
+					<c:when test="${column.value.startsWith('status')}">
+						${column.value.replace('; ','</br>')}
 					</c:when>
 
-					<c:when test="${fn:startsWith(column.value,'linkProcessList') or fn:startsWith(column.value,'linkedProcessList')}">
+					<c:when test="${column.value.startsWith('linkProcessList') or column.value.startsWith('linkedProcessList')}">
 						<div style="display: table">
 							<c:forEach var="lp" items="${col}">
 								<div style="display: table-row" class="in-table-cell in-pb05 in-pl05">
@@ -170,8 +170,8 @@ Incoming variables:
 					<c:otherwise>
 						<c:set var="title" value=""/>
 						<c:if test="${not empty column.titleIfMore and col.length() gt column.titleIfMore}">
-							<c:set var="title">title="${fn:escapeXml( col )}"</c:set>
-							<c:set var="col">${fn:substring(col, 0, column.titleIfMore)}...</c:set>
+							<c:set var="title">title="${u.escapeXml( col )}"</c:set>
+							<c:set var="col">${col.substring(0, column.titleIfMore)}...</c:set>
 						</c:if>
 
 						<c:if test="${not empty column.formatToHtml}">

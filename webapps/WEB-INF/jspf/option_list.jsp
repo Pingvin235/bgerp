@@ -10,7 +10,7 @@ values - набор с этим выбранным значением
 <c:choose>
 	<c:when test="${empty available}">
 		<c:forEach var="item" items="${list}">
-			<c:if test="${fn:startsWith(item.title, '@')==false}">
+			<c:if test="${item.title.startsWith('@')==false}">
 				<c:set var="selected" value=""/>
 				<%-- может быть Set с одним элементом --%>
 				<c:if test="${value eq item.id or values.contains(item.id)}">
@@ -21,14 +21,14 @@ values - набор с этим выбранным значением
 		</c:forEach>
 	</c:when>
 	<c:otherwise>
-		<c:forEach var="availableId" items="${available}">			
+		<c:forEach var="availableId" items="${available}">
 			<c:forEach var="listItem" items="${list}">
 				<c:if test="${availableId == listItem.id}">
 					<c:set var="item" value="${listItem}"/>
 				</c:if>
 			</c:forEach>
 			<c:if test="${not empty item }">
-				<c:if test="${fn:startsWith(item.title, '@')==false}">
+				<c:if test="${item.title.startsWith('@')==false}">
 					<c:set var="selected" value=""/>
 					<%-- может быть Set с одним элементом --%>
 					<c:if test="${value eq item.id or values.contains(item.id)}">

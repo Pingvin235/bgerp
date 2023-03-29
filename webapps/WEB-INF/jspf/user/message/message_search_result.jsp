@@ -17,7 +17,7 @@
 
 			<tr>
 				<td>
-					<input type="checkbox" name="link" value="${item.linkedObjectType}*${item.linkedObjectId}*${fn:escapeXml(item.linkedObjectTitle)}">
+					<input type="checkbox" name="link" value="${item.linkedObjectType}*${item.linkedObjectId}*${u.escapeXml(item.linkedObjectTitle)}">
 				</td>
 				<td>${item.linkedObjectId}</td>
 
@@ -25,7 +25,7 @@
 
 				<c:if test="${not empty customerLinkRole}">
 					<td>${customerLinkRole}</td>
-					<td><a href="#" onclick="openCustomer(${item.linkedObjectId}); return false;">${fn:escapeXml(item.linkedObjectTitle)}</a></td>
+					<td><a href="#" onclick="openCustomer(${item.linkedObjectId}); return false;">${u.escapeXml(item.linkedObjectTitle)}</a></td>
 				</c:if>
 
 				<plugin:include endpoint="user.message.search.result.jsp"/>

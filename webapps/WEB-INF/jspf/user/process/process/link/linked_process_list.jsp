@@ -9,8 +9,8 @@
 		<input type="hidden" name="action" value="linkedProcessCreate" />
 		<input type="hidden" name="id" value="${form.id}" />
 		<input type="hidden" name="objectType" value="${form.param.objectType}" />
-		<input type="hidden" name="objectTitle" value="${fn:escapeXml( form.param.objectTitle )}" />
-		<input type="hidden" name="billingId" value="${fn:split(form.param.objectType,':')[1]}" />
+		<input type="hidden" name="objectTitle" value="${u.escapeXml( form.param.objectTitle )}" />
+		<input type="hidden" name="billingId" value="${form.param.objectType.split(':')[1]}" />
 
 		<div id="typeTree">
 			<jsp:include page="/WEB-INF/jspf/user/process/tree/process_type_tree.jsp" />
@@ -48,7 +48,7 @@
 		<input type="hidden" name="action" value="linkedProcessList" />
 		<input type="hidden" name="objectType" value="${form.param.objectType}" />
 		<input type="hidden" name="id" value="${form.id}" />
-		<input type="hidden" name="objectTitle" value="${fn:escapeXml( form.param.objectTitle )}" />
+		<input type="hidden" name="objectTitle" value="${u.escapeXml( form.param.objectTitle )}" />
 
 		<div class="tableIndent in-mb05-all">
 			<button class="btn-green mr1 icon" type="button"
@@ -98,8 +98,8 @@
 				</tr>
 				<c:forEach var="item" items="${form.response.data.list}">
 					<c:set var="process" value="${item.second}" />
-					<c:if test="${ fn:trim(form.param.createDate) eq tu.format( process.createTime, 'ymd' ) or empty form.param.createDate or
-									(fn:trim(form.param.closeDate) eq tu.format( process.closeTime, 'ymd' ) and not empty form.param.closeDate) }">
+					<c:if test="${ form.param.createDate.trim() eq tu.format( process.createTime, 'ymd' ) or empty form.param.createDate or
+									(form.param.closeDate.trim() eq tu.format( process.closeTime, 'ymd' ) and not empty form.param.closeDate) }">
 						<tr id="${linkedProcessList}-linkedObject-${process.id}">
 							<td nowrap="nowrap"><a href="#" onclick="openProcess(${process.id}); return false;">${process.id}</a></td>
 							<td>${tu.format( process.createTime, 'ymdhms' )}</td>
@@ -107,7 +107,7 @@
 							<td nowrap="nowrap">
 								<c:set var="linkedObjectType" value="${item.first}" scope="request" />
 								<c:choose>
-									<c:when test="${fn:startsWith( linkedObjectType, 'customer' ) }">
+									<c:when test="${linkedObjectType.startsWith('customer' ) }">
 										${customerLinkRoleConfig.modeMap[linkedObjectType]}
 									</c:when>
 									<c:otherwise>

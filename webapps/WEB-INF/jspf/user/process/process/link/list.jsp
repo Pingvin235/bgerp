@@ -7,7 +7,7 @@
 
 <c:set var="linkedObjects" value="['0'"/>
 <c:forEach var="item" items="${form.response.data.list}">
-	<c:set var="linkedObjects">${linkedObjects},'${fn:replace( item.linkedObjectType, ":", "-" )}-${item.linkedObjectId}'</c:set>
+	<c:set var="linkedObjects">${linkedObjects},'${item.linkedObjectType.replace(":", "-" )}-${item.linkedObjectId}'</c:set>
 </c:forEach>
 <c:set var="linkedObjects">${linkedObjects}]</c:set>
 

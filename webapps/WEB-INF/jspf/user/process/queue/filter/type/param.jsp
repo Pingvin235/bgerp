@@ -42,30 +42,30 @@
 						</c:if>
 
 						<%-- город, улица и дом - обязательные поля --%>
-						<c:if test="${!fn:contains(fields, 'house')}">
+						<c:if test="${!fields.contains('house')}">
 							<c:set var="fields" value="house;${fields}"/>
 						</c:if>
-						<c:if test="${!fn:contains(fields, 'street')}">
+						<c:if test="${!fields.contains('street')}">
 							<c:set var="fields" value="street;${fields}"/>
 						</c:if>
-						<c:if test="${!fn:contains(fields, 'city')}">
+						<c:if test="${!fields.contains('city')}">
 							<c:set var="fields" value="city;${fields}"/>
 						</c:if>
 
 						<c:forTokens var="show" delims=";" items="${fields}">
-							<c:if test="${fn:contains(show, 'city')}">
+							<c:if test="${show.contains('city')}">
 								<tr><td>Город:</td><td><input id="${cityFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueCity') )}" name="param${filter.parameter.id}valueCity" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueCityId]').val('')"/></td></tr>
 							</c:if>
-							<c:if test="${fn:contains(show, 'quarter')}">
+							<c:if test="${show.contains('quarter')}">
 								<tr><td>${l.l('Квартал')}:</td><td><input id="${quarterFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueQuarter') )}" name="param${filter.parameter.id}valueQuarter" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueQuarterId]').val('')"/></td></tr>
 							</c:if>
-							<c:if test="${fn:contains(show, 'street')}">
+							<c:if test="${show.contains('street')}">
 								<tr><td>${l.l('Улица')}:</td><td><input id="${streetFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueStreet') )}" name="param${filter.parameter.id}valueStreet" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueStreetId]').val('')"/></td></tr>
 							</c:if>
-							<c:if test="${fn:contains(show, 'house')}">
+							<c:if test="${show.contains('house')}">
 								<tr><td>${l.l('Дом')}:</td><td><input id="${houseFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueHouse') )}" name="param${filter.parameter.id}valueHouse" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueHouseId]').val('')" /></td></tr>
 							</c:if>
-							<c:if test="${fn:contains(show, 'flat')}">
+							<c:if test="${show.contains('flat')}">
 								<tr><td>${l.l('Квартира')}:</td><td><input id="${flatFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueFlat') )}" name="param${filter.parameter.id}valueFlat" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueFlat]').val('')" /></td></tr>
 							</c:if>
 						</c:forTokens>

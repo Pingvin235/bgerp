@@ -10,7 +10,7 @@
 <% pageContext.setAttribute("newLineChar", "\n"); %>
 
 <p><b>${item.title}</b></p>
-<p>${fn:replace(item.description, newLineChar, "<br/>")}</p>
+<p>${item.description.replace(newLineChar, "<br/>")}</p>
 
 <c:if test="${empty hideNewsHeaders}">
 	<p><b>Автор:</b> ${ctxUserMap[item.userId].title}</p>
