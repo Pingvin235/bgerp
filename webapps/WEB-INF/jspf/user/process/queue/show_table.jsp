@@ -152,7 +152,7 @@ Incoming variables:
 					</c:when>
 
 					<c:when test="${column.value.startsWith('status')}">
-						${column.value.replace('; ','</br>')}
+						${col.replace('; ','</br>')}
 					</c:when>
 
 					<c:when test="${column.value.startsWith('linkProcessList') or column.value.startsWith('linkedProcessList')}">
