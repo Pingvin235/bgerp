@@ -4,8 +4,10 @@ import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.YearMonth;
+import java.time.format.TextStyle;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
@@ -129,7 +131,7 @@ public class InvoiceTest {
         Assert.assertEquals(invoice.getPositions().size(), 1);
         var pos = invoice.getPositions().get(0);
         Assert.assertEquals(pos.getId(), "consultancy");
-        Assert.assertEquals(pos.getTitle(), "Consultancy March 2023");
+        Assert.assertEquals(pos.getTitle(), "Consultancy " + YearMonth.now().getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.US) + " " + YearMonth.now().getYear());
         Assert.assertEquals(pos.getAmount(), Utils.parseBigDecimal("42.51"));
 
         var dao = new InvoiceDAO(DbTest.conRoot);
