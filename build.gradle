@@ -102,7 +102,6 @@ dependencies {
     implementation 'org.apache.struts:struts-core:1.3.10'
     implementation 'org.apache.struts:struts-extras:1.3.10'
     implementation 'org.apache.struts:struts-taglib:1.3.10'
-    implementation 'org.apache.struts:struts-tiles:1.3.10'
     runtimeOnly 'commons-chain:commons-chain:1.2'
     runtimeOnly 'commons-digester:commons-digester:2.1'
 

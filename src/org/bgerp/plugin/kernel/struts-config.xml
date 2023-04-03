@@ -1,8 +1,3 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
 <struts-config>
-	<plug-in className="org.apache.struts.tiles.TilesPlugin">
-		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml"/>
-		<set-property property="definitions-parser-validate" value="true"/>
-		<set-property property="moduleAware" value="true"/>
-	</plug-in>
 </struts-config>
