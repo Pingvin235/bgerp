@@ -253,4 +253,9 @@ public class License {
 
         return Collections.unmodifiableSet(result);
     }
+
+    @Override
+    public String toString() {
+        return "License [created=" + created + "]";
+    }
 }

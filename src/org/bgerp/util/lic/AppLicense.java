@@ -16,22 +16,25 @@ import org.bgerp.util.Log;
 public class AppLicense {
     private static final Log log = Log.getLog();
 
-    private static License instance;
+    private static volatile License instance;
 
     /**
      * Inits singleton instance.
      */
     public static void init() {
         var file = new File(License.FILE_NAME);
+
         var data = "";
         if (file.exists() && file.canRead()) {
             log.info("Loading license from: {}", file);
-            try {
-                data = IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
+            try (var fis = new FileInputStream(file)) {
+                data = IOUtils.toString(fis, StandardCharsets.UTF_8);
             } catch (IOException e) {
                 log.error(e);
             }
-        }
+        } else
+            log.error("Empty license was initialized.");
+
         instance = new License(data);
     }
 
@@ -40,8 +43,11 @@ public class AppLicense {
      * @return
      */
     public static License instance() {
-        if (instance == null || !instance.isCreatedToday()) {
-            init();
+        synchronized (log) {
+            if (instance == null || !instance.isCreatedToday()) {
+                log.info("Re-init license, previous instance: {}", instance);
+                init();
+            }
         }
         return instance;
     }
