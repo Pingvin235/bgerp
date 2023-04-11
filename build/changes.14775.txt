@@ -1,0 +1,1 @@
+C: Using ui:combo-check in filter/group.jsp and filter/executor.jsp.

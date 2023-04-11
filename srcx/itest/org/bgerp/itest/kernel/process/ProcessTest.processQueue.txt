@@ -2,6 +2,7 @@
 filter.{@inc:cnt}.type=openClose
 filter.{@cnt}.defaultValue=open
 filter.{@inc:cnt}.type=status
+filter.{@inc:cnt}.type=groups
 filter.{@inc:cnt}.title=Executors
 filter.{@cnt}.type=executors
 filter.{@inc:cnt}.type=code
@@ -12,9 +13,6 @@ filter.{@inc:cnt}.type=description
 filter.{@inc:cnt}.type=create_user
 filter.{@inc:cnt}.type=close_user
 filter.{@inc:cnt}.type=type
-# TODO: make working and fix doc
-#filter.{@inc}.width=10em
-filter.{@inc:cnt}.type=groups
 
 column.1.title=ID
 column.1.value=id
