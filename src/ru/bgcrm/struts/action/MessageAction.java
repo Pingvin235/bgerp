@@ -518,7 +518,6 @@ public class MessageAction extends BaseAction {
         message.setFromTime(new Date());
         message.setProcessId(form.getParamInt("processId"));
         message.setSubject(form.getParam("subject"));
-        message.setTo(form.getParam("to", ""));
         message.setText(form.getParam("text"));
 
         String systemId = form.getParam("systemId");

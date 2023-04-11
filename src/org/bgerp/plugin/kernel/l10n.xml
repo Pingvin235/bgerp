@@ -213,7 +213,7 @@
 	<p><ru>Вкл./выкл. разрывы строк</ru><en>Toggle line breaks</en></p>
 	<p><ru>Удалить сообщение?</ru><en>Delete the message?</en></p>
 	<p><ru>Теги</ru><en>Tags</en></p>
-	<p><ru>Ответить</ru><en>Respond</en></p>
+	<p><ru>Ответить</ru><en>Replay</en></p>
 	<p><ru>Редактировать</ru><en>Edit</en></p>
 	<p><ru>Другой существующий</ru><en>Another existing</en></p>
 	<p><ru>Плагины</ru><en>Plugins</en></p>
@@ -490,7 +490,6 @@
 	<p><ru>Новая конфигурация</ru><en>New config</en></p>
 	<p><ru>Включенные плагины</ru><en>Enabled plugins</en></p>
 	<p><ru>Файлы обновлений</ru><en>Update files</en></p>
-	<p><ru>Используйте запятую либо Enter для разделения значений</ru><en>Use comma or Enter for value separation</en></p>
 	<p><en>Signature is undefined</en><ru>Подпись не определена</ru></p>
 	<p><en>Action '{}' not found.</en><ru>Действие '{}' не найдено.</ru></p>
 	<p><en>Action '{}' is denied.</en><ru>Действие '{}' запрещено.</ru></p>
@@ -595,6 +594,9 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><sys>range.to</sys><en>To</en><ru>До</ru></p>
 	<p><en>Day From</en><ru>День С</ru></p>
 	<p><en>Day To</en><ru>День По</ru></p>
+	<p><en>Undefined recipient address.</en><ru>Не указан адрес получателя.</ru></p>
+	<p><en>Save with the empty subject?</en><ru>Сохранить с пустой темой?</ru></p>
+	<p><en>Save without attachment?</en><ru>Сохранить без вложения?</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

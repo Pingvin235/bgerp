@@ -33,23 +33,21 @@ import org.w3c.dom.NodeList;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.Id;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.ListItem;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.servlet.jsp.JSPFunction;
+import ru.bgcrm.servlet.jsp.NewInstanceTag;
 
 public class Utils {
     /** Use {@link java.nio.charset.StandardCharsets}. */
     @Deprecated
     public static final Charset UTF8 = StandardCharsets.UTF_8;
 
-    /**
-     * Разделитель по-умолчанию: ", "
-     */
-    private static final String DEFAULT_DELIM = ", ";
+    /** Default delimiter: ", " */
+    public static final String DEFAULT_DELIM = ", ";
 
     public static final char[] HEX = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
     public static final char[] HEX_LOWERCASE = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
@@ -1008,11 +1006,21 @@ public class Utils {
     /**
      * Creates an object of a given class.
      * @param className the class name.
+     * @param args optional constructor arguments.
      * @return created object instance.
      * @throws Exception
      */
-    public static Object newInstance(String className) throws Exception {
-        return DynamicClassManager.newInstance(className);
+    public static Object newInstance(String className, Object... args) throws Exception {
+        if (args == null)
+            args = new Object[0];
+
+        for (var constr : Class.forName(className).getDeclaredConstructors()) {
+            Object[] convertedTypes = NewInstanceTag.convertObjectTypes(List.of(args), constr.getParameterTypes());
+            if (convertedTypes != null)
+                return constr.newInstance(convertedTypes);
+        }
+
+        return new IllegalArgumentException(Log.format("Not found constructor for class '{}' with arguments '{}'", className, List.of(args)));
     }
 
     /**

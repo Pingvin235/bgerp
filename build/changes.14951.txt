@@ -1,0 +1,3 @@
+A: Plugin Email. Separated TO and CC recipient fields in editor.
+B: Plugin Email. Do not add 'Re:' prefix to reply messages.
+A: Warning on empty subject and missing attachments when saving messages.

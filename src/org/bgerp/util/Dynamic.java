@@ -12,6 +12,6 @@ import java.lang.annotation.Target;
  *
  * @author Shamil Vakhitov
  */
-@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Dynamic {}

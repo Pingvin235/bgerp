@@ -131,23 +131,7 @@ public abstract class MessageType extends IdTitle {
     }
 
     public Message getAnswerMessage(Message original) {
-        var result = new Message();
-        result.setTypeId(original.getTypeId());
-        result.setProcessId(original.getProcessId());
-
-        var subject = Utils.maskNull(original.getSubject());
-        subject = subject.startsWith("Re:") ? subject : "Re: " + subject;
-        result.setSubject(subject);
-
-        var text = original.getText();
-        text = ">" + text
-            .replace("\r", "")
-            .replace("\n", "\n>");
-        result.setText(text);
-
-        result.setTo(original.getFrom());
-
-        return result;
+        throw new UnsupportedOperationException();
     }
 
     public boolean isEditable(Message message) {
@@ -262,8 +246,7 @@ public abstract class MessageType extends IdTitle {
         return null;
     }
 
-    protected Map<Integer, FileInfo> processMessageAttaches(Connection con, DynActionForm form, Message message)
-            throws Exception {
+    protected Map<Integer, FileInfo> processMessageAttaches(Connection con, DynActionForm form, Message message) throws Exception {
         var fileDao = new FileDataDAO(con);
 
         // attaching of already existing

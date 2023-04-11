@@ -57,8 +57,53 @@ $$.message = new function() {
 			$$.table.select($dataTable, $('#' + selectedId), 'init');
 	}
 
+	/**
+	 * Checks if subject field is empty. Shows confirmation message if it is.
+	 *
+	 * @param {HTMLFormElement} form form element.
+	 * @param {string} message confirmation message.
+	 * @return {boolean} subject is filled out or confirmed to be empty.
+	 */
+	const checkSubject = (form, message) => {
+		let subject = form.subject;
+		if (!subject)
+			return true;
+
+		subject = subject.value;
+
+		return subject || confirm(message);
+	}
+
+	/**
+	 * Checks if attachment exists. Show confirmation message if it isn't and a message text points to existence of it.
+	 *
+	 * @param {HTMLFormElement} form form element.
+	 * @param {string} message confirmation message.
+	 * @return {boolean} attachment exists or no text markers points to existence of it, or it is confirmed to not be presented.
+	 */
+	const checkAttach = (form, message) => {
+		if (form.tmpFileId)
+			return true;
+
+		let text = form.text;
+		if (!text)
+			return true;
+
+		text = text.value.toLowerCase();
+
+		let contains = false;
+		for (const marker of ['attach', 'anhang', 'влож']) {
+			if (contains = text.includes(marker))
+				break;
+		}
+
+		return !contains || confirm(message);
+	}
+
 	// public functions
 	this.editorTypeChanged = editorTypeChanged;
 	this.subjectTableInit = subjectTableInit;
+	this.checkSubject = checkSubject;
+	this.checkAttach = checkAttach;
 }
 

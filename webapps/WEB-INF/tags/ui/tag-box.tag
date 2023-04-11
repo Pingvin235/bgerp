@@ -5,6 +5,7 @@
 <%@ attribute name="inputName" description="name of input element" %>
 <%@ attribute name="value" description="current value of the checkbox input" %>
 <%@ attribute name="placeholder" description="input element placeholder" %>
+<%@ attribute name="title" description="input element title" %>
 <%@ attribute name="style" description="input element CSS style" %>
 <%@ attribute name="choices" description="data to choose from" %>
 <%@ attribute name="showOptions" description="show options on focus" %>
@@ -32,6 +33,7 @@
 <input id="${uiid}" type="text" class="tagator" style="${style}"
 		value="${value}"
 		<c:if test="${not empty placeholder}">placeholder="${placeholder}"</c:if>
+		<c:if test="${not empty title}">title="${title}"</c:if>
 		name="${inputName}">
 
 <script>

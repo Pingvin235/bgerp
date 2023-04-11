@@ -79,7 +79,7 @@
 				$tagator_element.attr('id', self.settings.prefix + $source_element[0].id);
 			}
 			$tagator_element.addClass(self.settings.prefix + 'element options-hidden');
-			// PATCH: removed as it is not needed
+			// PATCH BGERP: removed as it is not needed
 			// $tagator_element.css({
 			// 	padding:     $source_element.css('padding'),
 			// 	'flex-grow': $source_element.css('flex-grow'),
@@ -97,6 +97,12 @@
 			}
 			$source_element.after($tagator_element);
 			$source_element.hide();
+
+			// PATCH BGERP ADDITION: title
+			const title = $source_element.attr('title');
+			if (title)
+				$tagator_element.attr('title', title);
+
 			// textlength element
 			$textlength_element = $(document.createElement('span'));
 			$textlength_element.addClass(self.settings.prefix + 'textlength');

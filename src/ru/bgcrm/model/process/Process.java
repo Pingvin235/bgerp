@@ -79,6 +79,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      * Use {@link #getExecutors()}.
      */
     @Deprecated
+    @JsonIgnore
     public Set<ProcessExecutor> getProcessExecutors() {
         log.warn("Deprecated method 'getProcessExecutors' was called. Use 'getExecutors' instead.");
         return getExecutors();
@@ -195,6 +196,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
      * Use {@link #getGroups()}.
      */
     @Deprecated
+    @JsonIgnore
     public Set<ProcessGroup> getProcessGroups() {
         log.warn("Deprecated method 'getProcessGroups' was called. Use 'setGroups' instead.");
         return getGroups();

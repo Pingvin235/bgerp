@@ -8,23 +8,38 @@
 			<%-- here will be placed type selection --%>
 		</div>
 		<div class="pl1 w100p">
-			<h2>${l.l('Получатель')}</h2>
 			<c:choose>
 				<c:when test="${ctxUser.checkPerm('org.bgerp.plugin.msg.email.action.EMailAction:recipients') and
 					ctxUser.personalizationMap.get('iface.email.message.tag-box.disable') ne '1'}">
+
+					<c:set var="to" value="${not empty message ? message.to : ''}"/>
+					<c:set var="addresses" value="${u.newInstance('org.bgerp.plugin.msg.email.Addresses', to)}"/>
+
+					<h2>${l.l('Получатель')}</h2>
 					<ui:tag-box inputName="to" style="width: 100%;"
 						showOptions="1"
-						value="${message.to}"
+						value="${addresses.serializeTo()}"
 						url="/user/plugin/email/email.do?action=recipients&processId=${form.param.processId}"
-						preload="true"/>
+						preload="true"
+						title="${l.l('email.recipients.input.hint')}"
+					/>
+
+					<h2>${l.l('Recipient (Copy)')}</h2>
+					<ui:tag-box inputName="toCc" style="width: 100%;"
+						showOptions="1"
+						value="${addresses.serializeCc()}"
+						url="/user/plugin/email/email.do?action=recipients&processId=${form.param.processId}"
+						preload="true"
+						title="${l.l('email.recipients.input.hint')}"
+					/>
 				</c:when>
 				<c:otherwise>
+					<h2>${l.l('Получатель')}</h2>
 					<input type="text" name="to" style="width: 100%;"
-						placeholder="EMail: addr1@domain.com, addr2@domain.com; CC: copy1@domain.com, copy2.domain.com"
+						placeholder="addr1@domain.com, addr2@domain.com, CC: copy1@domain.com, copy2.domain.com"
 						value="${message.to}"/>
 				</c:otherwise>
 			</c:choose>
-			<div class="hint">${l.l('Используйте запятую либо Enter для разделения значений')}</div>
 		</div>
 	</div>
 	<div class="in-table-cell pt1">

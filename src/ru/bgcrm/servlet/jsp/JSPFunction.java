@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.ParameterMap;
@@ -265,10 +264,6 @@ public class JSPFunction {
     public static Object getConfig(ParameterMap setup, String className) {
         log.warn("Used deprecated call u:getConfig, should be replaced to paramMapBean.getConfig");
         return setup == null ? null : setup.getConfig(className);
-    }
-
-    public static Object newInstance(String className) throws Exception {
-        return DynamicClassManager.newInstance(className);
     }
 
     public static String fileNameWithLastModTime(String path) {

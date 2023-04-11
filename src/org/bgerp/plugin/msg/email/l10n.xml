@@ -89,10 +89,14 @@ For quick response answer on the E-Mail with preserved ID in subject.</en>
 
 Для быстрого ответа на сообщение ответьте на это письмо сохранив идентификатор в теме.</ru>
 	</p>
+	<p><en>Incoming message #</en><ru>Входящее сообщение #</ru></p>
 	<p>
-		<en>Incoming message #</en>
-		<ru>Входящее сообщение #</ru>
+		<sys>email.recipients.input.hint</sys>
+		<en>Use comma or Enter for address separation.</en>
+		<ru>Используйте запятую или Enter для разделения значений.</ru>
 	</p>
+	<p><en>Recipient (Copy)</en><ru>Получатель (Копия)</ru></p>
+	<p><en>Incorrect email: {}</en><ru>Некорректный email: {}</ru></p>
 	<!--
 		<p><en></en><ru></ru></p>
 	-->

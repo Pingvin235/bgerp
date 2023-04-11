@@ -79,7 +79,7 @@ public class NewInstanceTag extends BodyTagSupport {
      * @param constructorParams типы параметров конструктора.
      * @return
      */
-    private Object[] convertObjectTypes(List<Object> params, Class<?>[] constructorParams) {
+    public static Object[] convertObjectTypes(List<Object> params, Class<?>[] constructorParams) {
         Object[] result = new Object[params.size()];
         for (int i = 0; i < params.size(); i++) {
             Object param = params.get(i);

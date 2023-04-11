@@ -22,7 +22,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**
- * Загрузчик динамического кода. Подгружает скомпилированные классы из каталога dyn. 
+ * Загрузчик динамического кода. Подгружает скомпилированные классы из каталога dyn.
  */
 public class DynamicClassManager {
     private static final Logger log = Logger.getLogger(DynamicClassManager.class);
@@ -199,7 +199,7 @@ public class DynamicClassManager {
 
     /**
      * Возвращает актуальный класс по его имени. Динамический либо обычный.
-     * 
+     *
      * @param className
      * @return
      * @throws BGException
@@ -221,9 +221,9 @@ public class DynamicClassManager {
     }
 
     /**
-     * Возвращает актуальный инстанс имплементации некоего интерфейса. Данный метод всегда
-     * будет возвращать актуальную версию некоего класса.
-     * 
+     * Возвращает актуальный инстанс имплементации некоего интерфейса.
+     * Данный метод всегда будет возвращать актуальную версию некоего класса.
+     *
      * @param implClassName полное имя класса
      * @return объект, реализующий интерфейс
      * @throws BGException, ClassNotFoundException

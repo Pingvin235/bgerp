@@ -1,5 +1,8 @@
 package ru.bgcrm.model;
 
+import java.util.Arrays;
+
+import org.apache.commons.lang3.StringUtils;
 import org.bgerp.l10n.Localizer;
 import org.bgerp.util.Log;
 
@@ -43,7 +46,7 @@ public class BGMessageException extends BGException {
     public String getMessage(Localizer lExternal) {
         if (this.lInternal != null)
             lExternal = this.lInternal;
-        return lExternal.l(getMessage(), args);
+        return lExternal.l(super.getMessage(), args);
     }
 
     @Override
@@ -54,5 +57,23 @@ public class BGMessageException extends BGException {
     @Override
     public String getMessage() {
         return Log.format(super.getMessage(), args);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BGMessageException other = (BGMessageException) obj;
+        // added manually
+        if (StringUtils.compare(getMessage(), other.getMessage()) != 0)
+            return false;
+        // lInternal is skipped as there is no equals method available
+        if (!Arrays.deepEquals(args, other.args))
+            return false;
+        return true;
     }
 }

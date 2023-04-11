@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -62,10 +61,8 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 public class MessageTypeEmail extends MessageType {
     private static final Log log = Log.getLog();
 
-    private static final String AUTOREPLY_SYSTEM_ID = "autoreply";
     public static final String RE_PREFIX = "Re: ";
-
-    private static final RecipientType[] RECIPIENT_TYPES = new RecipientType[] { RecipientType.TO, RecipientType.CC };
+    private static final String AUTOREPLY_SYSTEM_ID = "autoreply";
 
     private final String encoding;
 
@@ -140,6 +137,38 @@ public class MessageTypeEmail extends MessageType {
     @Override
     public boolean isAnswerSupport() {
         return true;
+    }
+
+    @Override
+    public Message getAnswerMessage(Message original) {
+        var result = new Message();
+        result.setTypeId(original.getTypeId());
+        result.setProcessId(original.getProcessId());
+
+        result.setSubject(getAnswerSubject(original.getSubject()));
+
+        var text = original.getText();
+        text = ">" + text
+            .replace("\r", "")
+            .replace("\n", "\n>");
+        result.setText(text);
+
+        var addresses = Addresses.parseSafe(original.getTo())
+            .exclude(getEmail())
+            .addTo(original.getFrom());
+
+        result.setTo(addresses.serialize());
+
+        return result;
+    }
+
+    protected String getAnswerSubject(String subject) {
+        // fallback, remove later 27.03.2023
+        if (Setup.getSetup().getBoolean("email:answer.subject.prepend.with.re")) {
+            subject = Utils.maskNull(subject);
+            return subject.toLowerCase().contains(RE_PREFIX.toLowerCase()) ? subject : RE_PREFIX + subject;
+        }
+        return subject;
     }
 
     @Override
@@ -352,28 +381,17 @@ public class MessageTypeEmail extends MessageType {
                 try {
                     MimeMessage message = new MimeMessage(session);
                     message.setFrom(new InternetAddress(mailConfig.getFrom()));
-                    if (Utils.notBlankString(replayTo)) {
+                    if (Utils.notBlankString(replayTo))
                         message.setReplyTo(InternetAddress.parse(replayTo));
-                    }
 
-                    Map<RecipientType, List<InternetAddress>> addrMap = parseAddresses(msg.getTo(), null, null);
-                    for (RecipientType type : RECIPIENT_TYPES) {
-                        List<InternetAddress> addrList = addrMap.get(type);
-                        if (addrList == null) {
-                            continue;
-                        }
-
-                        for (InternetAddress addr : addrList) {
-                            message.addRecipient(type, addr);
-                        }
-                    }
+                    for (Map.Entry<RecipientType, InternetAddress[]> me : Addresses.parseSafe(msg.getTo()).recipients().entrySet())
+                        message.addRecipients(me.getKey(), me.getValue());
 
                     String subject = msg.getSubject();
 
                     int processId = getProcessId(subject);
-                    if (processId <= 0 && msg.getProcessId() > 0) {
+                    if (processId <= 0 && msg.getProcessId() > 0)
                         subject = getSubjectWithProcessIdSuffix(msg);
-                    }
 
                     message.setSubject(subject, encoding);
                     message.setSentDate(new Date());
@@ -520,9 +538,10 @@ public class MessageTypeEmail extends MessageType {
                     log.error("Message not found: {}", quickAnsweredMessageId);
                 }
                 else {
-                    MessageType quickAnsweredMessageType =
-                            setup.getConfig(MessageTypeConfig.class)
-                            .getTypeMap().get(quickAnsweredMessage.getTypeId());
+                    MessageTypeEmail quickAnsweredMessageType =
+                            (MessageTypeEmail) setup.getConfig(MessageTypeConfig.class)
+                            .getTypeMap()
+                            .get(quickAnsweredMessage.getTypeId());
 
                     // изменение входящего сообщения в исходящее
                     msg.setTypeId(quickAnsweredMessage.getTypeId());
@@ -532,11 +551,7 @@ public class MessageTypeEmail extends MessageType {
                     msg.setFromTime(new Date());
                     msg.setToTime(null);
 
-                    String quickAnswerSubject = quickAnsweredMessage.getSubject();
-                    if (!quickAnswerSubject.startsWith(RE_PREFIX))
-                        quickAnswerSubject = RE_PREFIX + quickAnswerSubject;
-
-                    msg.setSubject(quickAnswerSubject);
+                    msg.setSubject(getAnswerSubject(quickAnsweredMessage.getSubject()));
 
                     // поиск пользователя по E-Mail
                     Pageable<ParameterSearchedObject<User>> searchResult = new Pageable<>();
@@ -545,7 +560,7 @@ public class MessageTypeEmail extends MessageType {
 
                     if (user != null) {
                         log.info("Creating quick answer on message: {}", quickAnsweredMessageId);
-                        quickAnsweredMessageType.updateMessage(con, new DynActionForm(user.getObject()), msg);
+                        quickAnsweredMessageType.updateMessageInt(con, new DynActionForm(user.getObject()), msg);
                         return msg;
                     }
                 }
@@ -634,18 +649,23 @@ public class MessageTypeEmail extends MessageType {
 
     @Override
     public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
+        String to = form.getParam("to", "");
+
+        if (Utils.isBlankString(to))
+            throw new BGMessageException(Localization.getLocalizer(Localization.getSysLang(), Plugin.ID), "Undefined recipient address.");
+
+        // checking recipient addresses
+        var addresses = Addresses.parse(to);
+        addresses.put(RecipientType.CC, Addresses.parse(form.getParam("toCc", "")).get(RecipientType.TO));
+
+        message.setTo(addresses.serialize());
+
+        updateMessageInt(con, form, message);
+    }
+
+    private void updateMessageInt(Connection con, DynActionForm form, Message message) throws Exception {
         message.setSystemId("");
         message.setFrom(mailConfig.getEmail());
-
-        if (Utils.isBlankString(message.getTo())) {
-            throw new BGMessageException("Не указан EMail получателя.");
-        }
-
-        try {
-            parseAddresses(message.getTo(), null, null);
-        } catch (Exception ex) {
-            throw new BGMessageException("Некорректный EMail получателя. " + ex.getMessage());
-        }
 
         Map<Integer, FileInfo> tmpFiles = processMessageAttaches(con, form, message);
 
@@ -668,13 +688,10 @@ public class MessageTypeEmail extends MessageType {
         result.setTypeId(id);
         result.setProcessId(message.getProcessId());
         result.setFrom(mailConfig.getEmail());
-        result.setTo(serializeAddresses(parseAddresses(message.getTo(), message.getFrom(), mailConfig.getEmail())));
+        result.setTo(Addresses.parseSafe(message.getTo()).addTo(message.getFrom()).exclude(mailConfig.getEmail()).serialize());
         result.setFromTime(new Date());
         result.setText(text);
-        result.setSubject(message.getSubject());
-        if (!result.getSubject().startsWith("Re:")) {
-            result.setSubject("Re: " + result.getSubject());
-        }
+        result.setSubject(getAnswerSubject(message.getSubject()));
 
         return result;
     }
@@ -687,81 +704,4 @@ public class MessageTypeEmail extends MessageType {
             }
         }
     }
-
-    private Map<RecipientType, List<InternetAddress>> parseAddresses(String addresses, String addAddress,
-            String excludeAddress) throws BGException {
-        Map<RecipientType, List<InternetAddress>> result = new HashMap<RecipientType, List<InternetAddress>>();
-
-        try {
-            for (String token : addresses.split("\\s*;\\s*")) {
-                int pos = token.indexOf(':');
-
-                String prefix = null;
-                if (pos > 0) {
-                    prefix = token.substring(0, pos);
-                    token = token.substring(pos + 1);
-                }
-
-                try {
-                    RecipientType type = null;
-                    if (Utils.isBlankString(prefix)) {
-                        type = RecipientType.TO;
-                    } else if (prefix.equalsIgnoreCase("CC")) {
-                        type = RecipientType.CC;
-                    } else {
-                        throw new BGMessageException("Не поддерживаемый префикс: " + prefix);
-                    }
-
-                    List<InternetAddress> addressList = new ArrayList<InternetAddress>();
-                    for (InternetAddress addr : InternetAddress.parse(token)) {
-                        if (excludeAddress != null && addr.getAddress().equals(excludeAddress)) {
-                            continue;
-                        }
-                        addressList.add(addr);
-                    }
-
-                    if (addressList.size() > 0) {
-                        result.put(type, addressList);
-                    }
-                } catch (Exception e) {
-                    log.error(e);
-                }
-            }
-
-            if (addAddress != null) {
-                List<InternetAddress> toAddressList = result.get(RecipientType.TO);
-                if (toAddressList == null) {
-                    result.put(RecipientType.TO, toAddressList = new ArrayList<InternetAddress>(1));
-                }
-                toAddressList.add(0, new InternetAddress(addAddress));
-            }
-        } catch (Exception e) {
-        }
-
-        return result;
-    }
-
-    private String serializeAddresses(Map<RecipientType, List<InternetAddress>> addressMap) {
-        StringBuilder result = new StringBuilder();
-
-        for (RecipientType type : RECIPIENT_TYPES) {
-            List<InternetAddress> addressList = addressMap.get(type);
-            if (addressList == null) {
-                continue;
-            }
-
-            StringBuilder part = new StringBuilder();
-            for (InternetAddress addr : addressList) {
-                Utils.addCommaSeparated(part, addr.getAddress());
-            }
-
-            if (type != RecipientType.TO) {
-                part.insert(0, type.toString() + ": ");
-            }
-            Utils.addSeparated(result, "; ", part.toString());
-        }
-
-        return result.toString();
-    }
-
 }

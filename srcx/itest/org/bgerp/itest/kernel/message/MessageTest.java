@@ -46,6 +46,7 @@ public class MessageTest {
 
     public static volatile int configId;
 
+    // TODO: Logically the message type has to be added by EMailTest.
     public static volatile MessageTypeEmail messageTypeEmailDemo;
     public static volatile MessageTypeNote messageTypeNote;
     public static volatile MessageTypeCall messageTypeCall;
