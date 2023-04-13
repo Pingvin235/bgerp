@@ -570,7 +570,7 @@
 
 				<c:forEach var="item" items="${groupWithUsersMap}">
 					<%-- подсчёт количества сотрудников, входящих в группу --%>
-					<c:set var="userCount" value="${item.value.length()}"/>
+					<c:set var="userCount" value="${item.value.size()}"/>
 					<c:choose>
 						<c:when test="${userCount >0}"><c:set var="userCount" value="${userCount}"/></c:when>
 						<c:otherwise><c:set var="userCount" value="0"/></c:otherwise>
@@ -590,7 +590,7 @@
 							</b>
 						</td>
 						<td>&nbsp;</td>
-						<c:forEach begin="1" end="${dateSet.length()}">
+						<c:forEach begin="1" end="${dateSet.size()}">
 							<td class="sum">0</td>
 						</c:forEach>
 					</tr>
