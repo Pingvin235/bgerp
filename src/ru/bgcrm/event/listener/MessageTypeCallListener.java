@@ -22,7 +22,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
  *
  * @author Shamil Vakhitov
  */
-public class MessageTypeCallListener extends DynamicEventListener {
+public class MessageTypeCallListener implements EventListener<Event> {
     private static final Log log = Log.getLog();
 
     private static MessageTypeCallListener instance;

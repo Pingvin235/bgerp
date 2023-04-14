@@ -27,7 +27,7 @@ import ru.bgcrm.util.sql.SQLUtils;
  * Пример URL:<br/>
  * http://[host]:[port]/admin/dynamic.do?action=runDynamicClass&iface=event&class=ru.bgcrm.event.listener.MessageTypeCallRegister&j_username=[user]&j_password=[pswd]&typeId=[typeId]&from=num1&to=num2
  */
-public class MessageTypeCallRegister extends DynamicEventListener {
+public class MessageTypeCallRegister implements EventListener<Event> {
     private static final Log log = Log.getLog();
 
     public MessageTypeCallRegister() {}

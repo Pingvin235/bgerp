@@ -2,12 +2,19 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="moveSelector" description="CSS selector of moved element"%>
-<%@ attribute name="ltext" description="Plain text, previously localized"%>
+<%@ attribute name="error" description="Plain text is shown as red text error when presented"%>
+<%@ attribute name="ltext" description="Plain text, to be localized"%>
 <%@ attribute name="text" description="Text for setting, HTML supported"%>
 <%@ attribute name="help" description="Help link"%>
 
 <c:if test="${not empty ltext}">
 	<c:set var="text" value="${l.l(ltext)}"/>
+</c:if>
+
+<c:if test="${not empty error}">
+	<c:set var="stateUiid" value="${u:uiid()}"/>
+	<h1 class="state" id="${stateUiid}" style="color: red;">${error}</h1>
+	<c:set var="moveSelector" value="#${stateUiid}"/>
 </c:if>
 
 <script>

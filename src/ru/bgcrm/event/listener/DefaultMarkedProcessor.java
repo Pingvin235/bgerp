@@ -32,7 +32,7 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class DefaultMarkedProcessor extends DynamicEventListener {
+public class DefaultMarkedProcessor implements EventListener<Event> {
     private static final Log log = Log.getLog();
 
     private static final String COMMAND_SET_STATUS = ProcessCommandExecutor.COMMAND_SET_STATUS;

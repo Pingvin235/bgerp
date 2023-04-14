@@ -15,8 +15,5 @@ $$.license = new function() {
 		$$.shell.message.show(message.title, text);
 	}
 
-	// public functions
-	this.processEvent = processEvent;
+	addEventProcessor('org.bgerp.event.client.LicenseEvent', processEvent);
 }
-
-addEventProcessor('org.bgerp.event.client.LicenseEvent', $$.license.processEvent);

@@ -113,13 +113,12 @@ function addEventProcessor( eventType, processor )
 function processEvent( event )
 {
 	processors = $$.eventProcessors[event.className];
-	if( processors )
-	{
-		for( var i = 0; i < processors.length; i++ )
-		{
-			processors[i]( event );
+	if (processors) {
+		for (var i = 0; i < processors.length; i++) {
+			processors[i](event);
 		}
-	}
+	} else
+		console.warn('Not found processor for', event);
 }
 
 function toPageId( formId, pageIndex, pageSize, pagePrefix )
@@ -488,69 +487,12 @@ function showPopupMessage( title, message )
 }
 
 //обработка событий
-addEventProcessor('ru.bgcrm.event.client.NewsInfoEvent', processClientEvents);
 addEventProcessor('ru.bgcrm.event.client.MessageOpenEvent', processClientEvents);
 addEventProcessor('ru.bgcrm.event.client.LockEvent', processClientEvents);
 addEventProcessor('ru.bgcrm.event.client.UrlOpenEvent', processClientEvents);
 
 function processClientEvents(event) {
-	if (event.className == 'ru.bgcrm.event.client.NewsInfoEvent') {
-		const messagesCount = event.newsCount + event.messagesCount;
-
-		const $messagesLink = $('#messagesLink');
-		const $messagesMenu = $("#messagesMenu");
-
-		$messagesMenu.html("");
-
-		// новости
-		let itemCode = "<li><a href='/user/news' onclick='$$.shell.followLink(this.href, event)'>Новостей: <span style='font-weight: bold;";
-		if (event.blinkNews)
-			itemCode += "color: orange;"
-		itemCode += "'>" + event.newsCount + "</span></a></li>";
-
-		$messagesMenu.append( itemCode );
-
-		// сообщения
-		if (event.messagesCount > 0) {
-			itemCode = "<li><a href='/user/message/queue' onclick='$$.shell.followLink(this.href, event)'>Сообщений необр.: <span style='font-weight: bold;";
-			if (event.blinkMessages)
-				itemCode += "color: orange;";
-			itemCode += "'>" + event.messagesCount + "</span></a></li>";
-
-			$messagesMenu.append( itemCode );
-		}
-
-		//проверка всплывающих новостей
-		if (event.popupNews) {
-			event.popupNews.forEach(function (id) {
-				showPopupMessage( "Последние новости", getAJAXHtml( "/user/news.do?action=newsGet&newsId=" + id ) );
-			});
-		}
-
-		if (event.blinkNews || event.blinkMessages) {
-			// переменная называется blinkMessages, но мигать может и из-за новостей новых
-			if (!$$.blinkMessages) {
-				$$.blinkMessages = setInterval(function() {
-					if ($messagesLink.attr('style')) {
-						$messagesLink.attr('style', '');
-					} else {
-						$messagesLink.css('color', 'orange');
-					}
-				}, 500)
-			}
-		} else {
-			$messagesLink.attr('style', '');
-			if ($$.blinkMessages) {
-				clearInterval($$.blinkMessages);
-				$$.blinkMessages = undefined;
-			}
-		}
-
-		$messagesMenu.menu("refresh");
-
-		$messagesLink.html(messagesCount);
-	}
-	else if (event.className == 'ru.bgcrm.event.client.MessageOpenEvent') {
+	if (event.className == 'ru.bgcrm.event.client.MessageOpenEvent') {
 		$$.shell.contentLoad("/user/message/queue").done(() => {
 			$$.ajax.load('/user/message.do?typeId=' + event.typeId + '&messageId=' + event.systemId + '&returnUrl=' + encodeURIComponent('/user/message.do?action=messageList'), $$.shell.$content());
 		});

@@ -18,6 +18,7 @@ import ru.bgcrm.util.AdminPortListener;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.distr.Scripts;
 import ru.bgcrm.util.distr.UpdateProcessor;
+import ru.bgcrm.util.distr.VersionCheck;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path="/admin/app")
@@ -38,6 +39,9 @@ public class AppAction extends BaseAction {
             new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
 
     public ActionForward status(DynActionForm form, ConnectionSet conSet) throws Exception {
+        if (VersionCheck.INSTANCE.isUpdateNeeded())
+            form.setResponseData("error", l.l("App update is needed"));
+
         form.setResponseData("status", AdminPortListener.getStatus());
         form.setResponseData("changes", new UpdateProcessor().getChanges());
 

@@ -1,6 +1,7 @@
 package org.bgerp.l10n;
 
 import java.util.List;
+import java.util.Map;
 
 import org.bgerp.util.Log;
 
@@ -51,5 +52,12 @@ public class Localizer {
         log.warn("Missing translation for pattern: '{}', localizations: {}", pattern, List.of(localizations));
 
         return Log.format(pattern, args);
+    }
+
+    /**
+     * @return a map entry with {@code key} and a found translation for it.
+     */
+    public Map.Entry<String, String> entry(String key) {
+        return Map.entry(key, l(key));
     }
 }

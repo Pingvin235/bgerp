@@ -149,7 +149,7 @@ public class License {
                 CHECK_EXPIRATION_DAYS_BEFORE < ChronoUnit.DAYS.between(LocalDate.now(), TimeConvert.toLocalDate(dateTo)))
                 return;
 
-            if (Setup.getSetup().getBoolean("license.check.notification.test") || new Random().nextInt(CHECK_EXPIRATION_NOTIFICATION_RANDOM_BOUND) == 0) {
+            if (Setup.getSetup().getBoolean("test.license.check.notification") || new Random().nextInt(CHECK_EXPIRATION_NOTIFICATION_RANDOM_BOUND) == 0) {
                 form.getResponse().addEvent(
                     new LicenseEvent(new Message(form.l.l("License Will Expire Soon"),
                         form.l.l("Your license will expire at {}", TimeUtils.format(dateTo, TimeUtils.FORMAT_TYPE_YMD))),
@@ -157,7 +157,7 @@ public class License {
             }
         }
         // error
-        else if (Setup.getSetup().getBoolean("license.check.error.test") || new Random().nextInt(CHECK_ERROR_NOTIFICATION_RANDOM_BOUND) == 0) {
+        else if (Setup.getSetup().getBoolean("test.license.check.error") || new Random().nextInt(CHECK_ERROR_NOTIFICATION_RANDOM_BOUND) == 0) {
             form.getResponse().addEvent(
                 new LicenseEvent(new Message(form.l.l("License Check Error"), error),
                     actionAllowed));

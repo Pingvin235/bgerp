@@ -14,18 +14,18 @@ import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.lf5.util.StreamUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
+
 import ru.bgcrm.event.Event;
-import ru.bgcrm.event.listener.DynamicEventListener;
+import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.plugin.document.dao.DocumentDAO;
@@ -38,7 +38,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class CommonDocumentGenerator extends DynamicEventListener {
+public class CommonDocumentGenerator implements EventListener<Event> {
     private static final Logger log = Logger.getLogger(CommonDocumentGenerator.class);
 
     protected ConnectionSet conSet;
@@ -115,19 +115,19 @@ public class CommonDocumentGenerator extends DynamicEventListener {
                 /*// для HTML результата возможен вывод конечного результата
                 if (type == Pattern.TYPE_XSLT_HTML)
                 {
-                	if (Utils.notBlankString( pattern.getExpression())) 
+                	if (Utils.notBlankString( pattern.getExpression()))
                 	{
                 		writer.write( "\n\n" );
                 		writer.write( "Полный XML документ:\n" );
-                		
+
                 		writer.flush();
                 		XMLUtils.serialize( getFullDocument( results ), new StreamResult(result), null, true );
                 	}
-                	
+
                 	writer.write( "\n\n" );
                 	writer.write( "Результат HTML:\n" );
                 	writer.flush();
-                	
+
                 	xmlToHtml( results, pattern, result );
                 }*/
 

@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.event.client.NewsInfoEvent;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.cache.UserNewsCache;
-import ru.bgcrm.event.client.NewsInfoEvent;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig;
@@ -35,7 +35,7 @@ public class UserAction extends BaseAction {
 
         Account account = new MobileDAO(conSet.getConnection()).findAccount(key, User.OBJECT_TYPE);
         if (account == null)
-            throw new BGMessageException("Account isn't registred");
+            throw new BGMessageException("Account isn't registered");
 
         // непрочитанные новости и сообщения
         NewsInfoEvent event = UserNewsCache.getUserEvent(conSet.getConnection(), account.getObjectId());

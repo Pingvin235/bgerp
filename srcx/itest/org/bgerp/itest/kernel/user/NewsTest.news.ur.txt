@@ -1,0 +1,2 @@
+Dear users, today at 10AM our BGERP server will be restarted due an update.
+Please see the <a target='_blank' href='https://bgerp.org/doc/3.0/manual/changes/1390/index.html'>Release Notes</a> for the oncoming version.

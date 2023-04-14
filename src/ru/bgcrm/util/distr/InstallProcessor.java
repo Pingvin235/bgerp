@@ -26,11 +26,12 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class InstallProcessor {
+    private static final Log log = Log.getLog();
+
     private static final String UPDATE_URL = System.getProperty("bgerp.download.url", "https://bgerp.org/download");
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
-    private static final String VERSION_CURRENT = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE).getVersion();
-    /** Explicit version for update. */
+    /** App version for 'update' module. */
     private final String version;
 
     private final Map<String, FileInfo> remoteFileMap = new HashMap<>();
@@ -58,15 +59,13 @@ public class InstallProcessor {
      * Load a list of remote zip-files.
      */
     private void loadRemoteFileList() {
-        System.out.println("Update starting..");
-        System.out.println("Update from " + UPDATE_URL);
-
         try {
             String kernelVersion = getVersion();
 
-            System.out.println("Version is " + kernelVersion);
-
             String updateUrl = Log.format("{}/{}/", UPDATE_URL, kernelVersion);
+
+            log.info("Loading remote file list from: {}", updateUrl);
+
             // connecting via http(s) and parsing the page
             Document doc = getRemoteHtml(updateUrl);
 
@@ -77,14 +76,13 @@ public class InstallProcessor {
                     var m = FileInfo.PATTERN_ZIP.matcher(href);
                     if (m.find()) {
                         var fi = new FileInfo(m.group(1), m.group(2), href, new URL(updateUrl + href));
-                        remoteFileMap.put(fi.name, fi);
+                        remoteFileMap.put(fi.moduleName, fi);
                     }
                 }
             }
         } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
-            e.printStackTrace();
-            System.exit(1);
+            log.error(e);
+            // System.exit(1);
         }
     }
 
@@ -93,21 +91,22 @@ public class InstallProcessor {
         return Jsoup.connect(updateUrl).get();
     }
 
-    @VisibleForTesting
-    protected Map<String, FileInfo> getRemoteFileMap() {
+    public Map<String, FileInfo> getRemoteFileMap() {
         return remoteFileMap;
     }
 
+    /**
+     * @return the running app version from {@link #version}, or if blank from {@link VersionInfo#getVersion()}, module 'update'.
+     */
     private String getVersion() {
         String result = this.version;
 
-        if (Utils.isBlankString(result))
-            result = VERSION_CURRENT;
+        if (Utils.isBlankString(result)) {
+            final var vi = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE);
+            result = vi == null ? null : vi.getVersion();
+        }
 
-        if (Utils.isBlankString(result))
-            throw new IllegalStateException("Can't get the server version");
-
-        return result;
+        return Utils.maskNull(result);
     }
 
     private void installSelected() {
@@ -160,11 +159,11 @@ public class InstallProcessor {
             }
 
             // remote and local builds are identical
-            if (!force && fi.build.equals(buildNumber)) {
+            if (!force && fi.buildNumber.equals(buildNumber)) {
                 continue;
             }
 
-            System.out.println("Found update for '" + name + "' build " + buildNumber + " updating to build " + fi.build);
+            System.out.println("Found update for '" + name + "' build " + buildNumber + " updating to build " + fi.buildNumber);
             listForInstall.add(fi);
         }
     }
@@ -172,22 +171,26 @@ public class InstallProcessor {
     /**
      * Additional bean to store update info per each file.
      */
-    static class FileInfo {
+    public static class FileInfo {
         /**
          * Regexp for parsing zip file names.
          */
         private static final Pattern PATTERN_ZIP = java.util.regex.Pattern.compile("^(\\w+)_[\\d\\.]+_(\\d+)\\.zip$");
 
-        final String name;
-        final String build;
+        final String moduleName;
+        final String buildNumber;
         final String fileName;
         final URL url;
 
-        FileInfo(String name, String build, String fullName, URL url) {
-            this.name = name;
-            this.build = build;
+        FileInfo(String moduleName, String buildNumber, String fullName, URL url) {
+            this.moduleName = moduleName;
+            this.buildNumber = buildNumber;
             this.fileName = fullName;
             this.url = url;
+        }
+
+        public String getBuildNumber() {
+            return buildNumber;
         }
 
         /**

@@ -56,7 +56,7 @@ public class Preferences extends ParameterMap {
         try {
             loadData(data, "\r\n", this.data, null, false);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
     }
 

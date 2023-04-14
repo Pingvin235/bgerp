@@ -123,28 +123,31 @@ public class AdminPortListener implements Runnable {
     public static String getVersionInfo() {
         var result = new StringBuilder(200);
 
-        var vi = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE);
-        var viLib = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE_LIB);
+        final var vi = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE);
+        final var viLib = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE_LIB);
 
-        result
-            .append("BGERP ")
-            .append(vi.getVersion())
-            .append(".")
-            .append(vi.getBuildNumber());
-
-        var changeId = vi.getChangeId();
-        if (Utils.notBlankString(changeId))
+        if (vi != null && viLib != null) {
             result
+                .append("BGERP ")
+                .append(vi.getVersion())
                 .append(".")
-                .append(changeId);
+                .append(vi.getBuildNumber());
 
-        result
-            .append(" from ")
-            .append(vi.getBuildTime())
-            .append("; lib set ")
-            .append(viLib.getBuildNumber())
-            .append(" from ")
-            .append(viLib.getBuildTime());
+            var changeId = vi.getChangeId();
+            if (Utils.notBlankString(changeId))
+                result
+                    .append(".")
+                    .append(changeId);
+
+            result
+                .append(" from ")
+                .append(vi.getBuildTime())
+                .append("; lib set ")
+                .append(viLib.getBuildNumber())
+                .append(" from ")
+                .append(viLib.getBuildTime());
+        } else
+            result.append("BGERP DEV");
 
         return result.toString();
     }

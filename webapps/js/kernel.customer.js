@@ -1,6 +1,5 @@
-/*
- * Customers.
- */
+// "use strict";
+
 $$.customer = new function() {
 	/**
 	 * Open customer tab.

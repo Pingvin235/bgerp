@@ -1,0 +1,3 @@
+F: Close input stream when reading license.
+C: Delete DynamicEventListener class.
+A: Notification about outdated version.

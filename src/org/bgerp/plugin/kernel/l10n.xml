@@ -594,9 +594,11 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><sys>range.to</sys><en>To</en><ru>До</ru></p>
 	<p><en>Day From</en><ru>День С</ru></p>
 	<p><en>Day To</en><ru>День По</ru></p>
+	<p><en>Unprocessed messages</en><ru>Необработанные сообщения</ru></p>
 	<p><en>Undefined recipient address.</en><ru>Не указан адрес получателя.</ru></p>
 	<p><en>Save with the empty subject?</en><ru>Сохранить с пустой темой?</ru></p>
 	<p><en>Save without attachment?</en><ru>Сохранить без вложения?</ru></p>
+	<p><en>App update is needed</en><ru>Необходимо обновление приложения</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

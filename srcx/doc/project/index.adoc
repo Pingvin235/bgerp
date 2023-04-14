@@ -131,8 +131,8 @@ title=BGERP DEMO LOCAL
 #pooling.enable=0
 
 # quick license check
-license.check.notification.test=1
-license.check.error.test=1
+test.license.check.notification=1
+test.license.check.error=1
 ----
 
 The running container has unused Java BGERP Server process with disabled <<../kernel/setup.adoc#scheduler, Scheduler>>.

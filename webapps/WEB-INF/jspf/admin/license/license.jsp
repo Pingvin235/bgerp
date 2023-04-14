@@ -1,22 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="error" value="${license.error}"/>
-<c:set var="stateUiid" value="${u:uiid()}"/>
-
-<c:choose>
-	<c:when test="${empty error}">
-		<c:set var="color" value="green"/>
-		<c:set var="text" value="OK"/>
-	</c:when>
-	<c:otherwise>
-		<c:set var="color" value="red"/>
-		<c:set var="text" value="${error}"/>
-	</c:otherwise>
-</c:choose>
-
-<h1 class="state" id="${stateUiid}" style="color: ${color};">${text}</h1>
-
 <div class="box p05" style="white-space: nowrap; overflow-x: auto; background-color: #e5e5e5;">
 	${u:htmlEncode(license.data)}
 </div>
@@ -37,4 +21,4 @@
 </p:check>
 
 <shell:title ltext="License"/>
-<shell:state moveSelector="#${stateUiid}" help="kernel/setup.html#license"/>
+<shell:state error="${license.error}" help="kernel/setup.html#license"/>

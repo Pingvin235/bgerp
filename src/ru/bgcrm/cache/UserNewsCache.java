@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bgerp.app.event.client.NewsInfoEvent;
+import org.bgerp.l10n.Localization;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
@@ -14,7 +16,6 @@ import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.user.UserDAO;
-import ru.bgcrm.event.client.NewsInfoEvent;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.action.MessageAction;
@@ -94,8 +95,11 @@ public class UserNewsCache extends Cache<UserNewsCache> {
                 new UserDAO(con).updatePersonalization(user, prefs);
             }
 
-            result = new NewsInfoEvent(searchResult.getList().size(), currentUnprocessedMessages, popupNews,
-                    blinkNews, blinkMessages);
+            final var l = Localization.getSysLocalizer();
+
+            result = new NewsInfoEvent(searchResult.getList().size(), currentUnprocessedMessages, popupNews, blinkNews, blinkMessages);
+            result.message(l, "News");
+            result.message(l, "Unprocessed messages");
 
             holder.getInstance().userInfoMap.put(userId, result);
         }

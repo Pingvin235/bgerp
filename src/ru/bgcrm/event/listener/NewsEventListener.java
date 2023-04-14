@@ -1,9 +1,12 @@
 package ru.bgcrm.event.listener;
 
+import org.bgerp.action.admin.AppAction;
+import org.bgerp.app.event.client.NewsInfoEvent;
+
 import ru.bgcrm.cache.UserNewsCache;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
-import ru.bgcrm.event.client.NewsInfoEvent;
+import ru.bgcrm.util.distr.VersionCheck;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class NewsEventListener {
@@ -13,6 +16,12 @@ public class NewsEventListener {
 
     private void processEvent(ConnectionSet conSet, GetPoolTasksEvent e) throws Exception {
         NewsInfoEvent event = UserNewsCache.getUserEvent(conSet.getConnection(), e.getUser().getId());
+
+        if (VersionCheck.INSTANCE.isUpdateNeeded()) {
+            event.version(e.getUser().checkPerm(AppAction.class.getName() + ":status"));
+            event.message(e.getForm().l, "App update is needed");
+        }
+
         e.getForm().getResponse().addEvent(event);
     }
 }

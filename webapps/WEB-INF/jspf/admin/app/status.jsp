@@ -24,12 +24,6 @@
 					<li value="1">${l.l('Yes')}</li>
 				</jsp:attribute>
 			</ui:combo-single>
-			<ui:combo-single hiddenName="restartForce" widthTextValue="5em" prefixText="${l.l('Перезапуск')}:" styleClass="ml05">
-				<jsp:attribute name="valuesHtml">
-					<li value="0">${l.l('Нормальный')}</li>
-					<li value="1">${l.l('Принудительный')}</li>
-				</jsp:attribute>
-			</ui:combo-single>
 			<%@ include file="run_restart_button.jsp"%>
 		</html:form>
 	</p:check>
@@ -45,12 +39,6 @@
 					</c:forEach>
 				</jsp:attribute>
 			</ui:combo-single>
-			<ui:combo-single hiddenName="restartForce" widthTextValue="5em" prefixText="${l.l('Перезапуск')}:" styleClass="ml05">
-				<jsp:attribute name="valuesHtml">
-					<li value="0">${l.l('Нормальный')}</li>
-					<li value="1">${l.l('Принудительный')}</li>
-				</jsp:attribute>
-			</ui:combo-single>
 			<%@ include file="run_restart_button.jsp"%>
 		</html:form>
 	</p:check>
@@ -63,4 +51,4 @@
 </div>
 
 <shell:title ltext="Статус приложения"/>
-<shell:state text=""/>
+<shell:state error="${form.response.data.error}"/>

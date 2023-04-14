@@ -4,14 +4,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.io.IOUtils;
+
+import ru.bgcrm.util.ParameterMap;
+import ru.bgcrm.util.Preferences;
+
 /**
- * Parser of version.properties file, stored in jar.
+ * Installation module's properties, stored in version.properties file.
  *
  * @author Shamil Vakhitov
  */
@@ -24,42 +29,31 @@ public class VersionInfo {
     private static final String LIB_APP_DIR = "lib/app";
     private static final String VERSION_INFO_PACKAGE = "ru/bgcrm/version/";
 
-    private Properties properties;
+    private final ParameterMap properties;
 
-    private VersionInfo() {}
-
-    public void setProperties(Properties properties) {
+    public VersionInfo(ParameterMap properties) {
         this.properties = properties;
     }
 
-    private String getProperty(String name) {
-        String result = "";
-
-        if (properties != null) {
-            result = properties.getProperty(name);
-        }
-
-        return result;
-    }
-
     public String getModuleName() {
-        return getProperty("name");
+        return properties.get("name");
     }
 
     public String getVersion() {
-        return getProperty("version");
+        return properties.get("version");
     }
 
     public String getBuildNumber() {
-        return getProperty("build.number");
+        return properties.get("build.number");
     }
 
     public String getChangeId() {
-        return getProperty("change.id");
+        return properties.get("change.id");
     }
 
     public String getBuildTime() {
-        return getProperty("build.time");
+        // build.time is generated in Java Properties format
+        return properties.get("build.time").replace("\\:", ":");
     }
 
     /**
@@ -68,16 +62,14 @@ public class VersionInfo {
      * @return
      */
     public static final VersionInfo getVersionInfo(String module) {
-        VersionInfo result = new VersionInfo();
+        VersionInfo result = null;
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         if (classLoader != null) {
             InputStream is = classLoader.getResourceAsStream(VERSION_INFO_PACKAGE + module + ".properties");
             if (is != null) {
                 try {
-                    Properties p = new Properties();
-                    p.load(is);
-                    result.setProperties(p);
+                    result = new VersionInfo(new Preferences(IOUtils.toString(is, StandardCharsets.UTF_8)));
                     is.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -89,11 +81,10 @@ public class VersionInfo {
     }
 
     /**
-     * Получение версий текущих установленных модулей.
-     * @return
+     * @return version infos of currently existing in the running app modules.
      */
     public static final List<VersionInfo> getInstalledVersions() {
-        List<VersionInfo> result = new ArrayList<VersionInfo>();
+        List<VersionInfo> result = new ArrayList<>();
 
         try {
             File libExtDir = new File(LIB_APP_DIR);
@@ -106,17 +97,10 @@ public class VersionInfo {
 
                 ZipEntry entry = null;
                 while ((entry = zis.getNextEntry()) != null) {
-                    String entryName = entry.getName();
+                    final String entryName = entry.getName();
 
-                    if (entryName.startsWith(VERSION_INFO_PACKAGE) && entryName.endsWith(".properties")) {
-                        Properties props = new Properties();
-                        props.load(zis);
-
-                        VersionInfo vi = new VersionInfo();
-                        vi.setProperties(props);
-
-                        result.add(vi);
-                    }
+                    if (entryName.startsWith(VERSION_INFO_PACKAGE) && entryName.endsWith(".properties"))
+                        result.add(new VersionInfo(new Preferences(IOUtils.toString(zis, StandardCharsets.UTF_8))));
                 }
 
                 zis.close();

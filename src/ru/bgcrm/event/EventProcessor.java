@@ -1,7 +1,6 @@
 package ru.bgcrm.event;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -17,7 +16,6 @@ import java.util.concurrent.TimeoutException;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
-import ru.bgcrm.event.listener.DynamicEventListener;
 import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
@@ -88,20 +86,6 @@ public class EventProcessor {
         processEvent(e, null, connectionSet);
     }
 
-    /* public static void subscribeDynamicClasses() {
-        Setup setup = Setup.getSetup();
-        for (String className : Utils.toList(setup.get("createOnStart"))) {
-            log.info("Create class on start: " + className);
-
-            try {
-                unsubscribe(className);
-                DynamicClassManager.getClass(className).getDeclaredConstructor().newInstance();
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-            }
-        }
-    } */
-
     /**
      * Обрабатывает событие системными обработчиками а затем классом, если указан.
      * @param event
@@ -151,70 +135,28 @@ public class EventProcessor {
     }
 
     private static boolean isDebugMode() {
-        return java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString()
-                .indexOf("jdwp") >= 0;
+        return java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().indexOf("jdwp") >= 0;
     }
 
-    private static void processingEvent(Event event, EventListener<Event> listener, ConnectionSet conSet)
-            throws Exception {
+    private static void processingEvent(Event event, EventListener<Event> listener, ConnectionSet conSet) throws Exception {
         final Setup setup = Setup.getSetup();
         final var key = "event.process.timeout";
         final long timeout = setup.getSokLong(5000L, key, "event.processTimeout", "dynamicEventListenerTimeOut");
 
-        String resultStatus = "";
-        long timeStart = Calendar.getInstance().getTimeInMillis();
         try {
-            try {
-                if (listener instanceof DynamicEventListener && !isDebugMode()) {
-                    Future<byte[]> future = executor.submit(new RequestTask(listener, event, conSet));
-                    future.get(timeout, TimeUnit.MILLISECONDS);
-                } else {
-                    listener.notify(event, conSet);
-                }
-            } catch (TimeoutException e) {
-                throw new BGMessageException("Время ожидания выполнения скрипта '{}' истекло! ({}={} мс).", listener.getClass().getName(), key, timeout);
-            } catch (InterruptedException | ExecutionException e) {
-                throw new BGMessageException("При выполнении скрипта '{}' возникло исключение '{}'", listener.getClass().getName(), e.getMessage());
+            if (!isDebugMode()) {
+                Future<byte[]> future = executor.submit(new RequestTask(listener, event, conSet));
+                future.get(timeout, TimeUnit.MILLISECONDS);
+            } else {
+                listener.notify(event, conSet);
             }
-
-            resultStatus = "Successful";
-        } finally {
-            long timeEnd = Calendar.getInstance().getTimeInMillis();
-
-            // TODO: Extract to some plugin. Log?
-            /* if (("Successful".equals(resultStatus) && setup.getBoolean("logSuccessfulEventsThrow", false))
-                    || (!"Successful".equals(resultStatus) && setup.getBoolean("logErrorEventsThrow", false))
-                    || setup.getBoolean("logAllEventsThrow", false)) {
-                writeLog(event, listener, resultStatus, conSet.getConnection(), timeEnd - timeStart);
-            } */
+        } catch (TimeoutException e) {
+            log.error("Timeout {} ms was exceeded in listener {}", timeout, listener.getClass().getName());
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("In listener {} occurred an exception: {}", listener.getClass().getName(), e.getMessage());
+            log.error(e);
         }
     }
-
-    /* private static void writeLog(Event event, EventListener<Event> listener, String resultStatus,
-            Connection eventConnection, long duration) throws BGMessageException {
-        Connection connection = null;
-        try {
-            connection = Setup.getSetup().getDBConnectionFromPool();
-
-            EventProcessorLogEntry logEntry = new EventProcessorLogEntry();
-            logEntry.setConnectionId(SQLUtils.getConnectionId(eventConnection));
-            logEntry.setInstanceHostName(System.getProperty("user.name"));
-            logEntry.setEvent(event.getClass().getName());
-            logEntry.setScript(listener.getClass().getName());
-
-            int logEntryId = new EventProcessorLogDAO(connection).insertLogEntry(logEntry);
-
-            EventProcessorLogDAO eventProcessorLogDAO = new EventProcessorLogDAO(connection);
-            eventProcessorLogDAO.updateLogEntryDuration(logEntryId, duration);
-            eventProcessorLogDAO.updateLogEntryResultStatus(logEntryId, resultStatus);
-
-            connection.commit();
-        } catch (SQLException e) {
-            throw new BGMessageException(e.getMessage());
-        } finally {
-            SQLUtils.closeConnection(connection);
-        }
-    } */
 
     /**
      * Обрабатывает событие системными обработчиками а затем классом, если указан.

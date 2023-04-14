@@ -6,7 +6,6 @@ import ru.bgcrm.event.MessageRemovedEvent;
 import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.customer.CustomerChangedEvent;
 import ru.bgcrm.event.customer.CustomerRemovedEvent;
-import ru.bgcrm.event.listener.DynamicEventListener;
 import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.event.process.ProcessRemovedEvent;
@@ -18,8 +17,8 @@ import ru.bgcrm.plugin.fulltext.model.Config;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class EventListener extends DynamicEventListener {
-    
+public class EventListener implements ru.bgcrm.event.listener.EventListener<Event> {
+
     public EventListener() {
         EventProcessor.subscribe(this, ParamChangedEvent.class);
         EventProcessor.subscribe(this, CustomerChangedEvent.class);
@@ -29,15 +28,15 @@ public class EventListener extends DynamicEventListener {
         EventProcessor.subscribe(this, ProcessMessageAddedEvent.class);
         EventProcessor.subscribe(this, MessageRemovedEvent.class);
     }
-    
+
     @Override
     public void notify(Event e, ConnectionSet conSet) throws Exception {
         Config config = Setup.getSetup().getConfig(Config.class);
         if (config.getObjectTypeMap().isEmpty())
             return;
-        
+
         SearchDAO dao = new SearchDAO(conSet.getConnection());
-        
+
         if (e instanceof ParamChangedEvent) {
             ParamChangedEvent event = (ParamChangedEvent) e;
             if (config.isParamConfigured(event.getParameter()))

@@ -4,6 +4,11 @@ import org.bgerp.model.Message;
 
 import ru.bgcrm.event.client.ClientEvent;
 
+/**
+ * License state event.
+ *
+ * @author Shamil Vakhitov
+ */
 public class LicenseEvent extends ClientEvent {
     private final Message message;
     private final boolean linkShown;
