@@ -1,4 +1,4 @@
-package ru.bgcrm.util.distr;
+package org.bgerp.app.dist.inst;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,23 +18,26 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.dist.inst.call.InstallationCall;
+import org.bgerp.util.Log;
+
+import com.google.common.annotations.VisibleForTesting;
 
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.ZipUtils;
-import ru.bgcrm.util.distr.call.InstallationCall;
 
 /**
  * Processor of a ZIP file with updates.
  * All the reports are intentionally written to STDOUT.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class InstallerModule {
+    private static final Log log = Log.getLog();
+
     protected static final String MESSAGE_ERROR = "ERROR";
     protected static final String MESSAGE_OK = "OK";
 
@@ -67,7 +70,7 @@ public class InstallerModule {
     private final List<String> paths = new ArrayList<>(100);
     /** Path prefixes to be cleaned up of not more presented files. */
     private final Set<String> cleanedDirs;
-   
+
     private final Report report = new Report();
 
     @VisibleForTesting
@@ -76,7 +79,7 @@ public class InstallerModule {
         this.cleanedDirs = null;
     }
 
-    InstallerModule(Setup setup, File targetDir, File zip) {
+    public InstallerModule(Setup setup, File targetDir, File zip) {
         this.targetDir = targetDir;
         var mi = getModuleInf(zip);
         if (mi == null || mi.hasErrors())
@@ -93,25 +96,26 @@ public class InstallerModule {
 
         if (result) {
             executeCalls(mi, setup, zip);
-            System.out.println("Execute calls => " + (result ? MESSAGE_OK : MESSAGE_ERROR));
+            log.info("Execute calls => {}", (result ? MESSAGE_OK : MESSAGE_ERROR));
         }
         if (result) {
             result = copyFiles(zip, mi);
-            System.out.println("File copy => " + (result ? MESSAGE_OK : MESSAGE_ERROR));
+            log.info("File copy => {}", (result ? MESSAGE_OK : MESSAGE_ERROR));
         }
         if (!result) {
-            System.out.println("Module was not installed.");
+            log.error("Module was not installed.");
         } else {
-            System.out.println("Module " + mi.getName() + " was successfully installed!");
-            System.out.println("Please, restart BGERP server.");
+            log.info("Module {} was successfully installed!", mi.getName());
+            log.info("Please, restart BGERP server.");
         }
 
         removeExcessFiles();
     }
 
     @VisibleForTesting
-    protected ModuleInf getModuleInf(File zip) {
-        ModuleInf mi = null;
+    protected Module getModuleInf(File zip) {
+        Module mi = null;
+
         try {
             FileInputStream fis = new FileInputStream(zip);
             ZipInputStream zis = new ZipInputStream(fis);
@@ -125,26 +129,26 @@ public class InstallerModule {
             }
             if (infFound) {
                 byte[] infFile = IOUtils.toByteArray(zis);
-                mi = new ModuleInf(new String(infFile, StandardCharsets.UTF_8));
+                mi = new Module(new String(infFile, StandardCharsets.UTF_8));
             } else {
-                System.out.println("Error: module.properties not found in zip");
+                log.error("module.properties was not found in zip");
             }
             fis.close();
         } catch (Exception ex) {
-            System.out.println(ex.getLocalizedMessage());
-            ex.printStackTrace();
+            log.error(ex);
         }
+
         return mi;
     }
 
     @VisibleForTesting
-    protected boolean copyFiles(File zip, ModuleInf mi) {
+    protected boolean copyFiles(File zip, Module mi) {
         boolean result = false;
 
         String name = null;
         try (var fis = new FileInputStream(zip);
              var zis = new ZipInputStream(fis);) {
-            
+
             for (Map.Entry<String, byte[]> me : ZipUtils.getFileEntriesFromZipByPrefix(zis, ENTRY_CONTENT).entrySet()) {
                 name = me.getKey().substring(ENTRY_CONTENT_LENGTH + 1);
 
@@ -163,30 +167,30 @@ public class InstallerModule {
 
             result = true;
         } catch (Exception ex) {
-            System.out.println("File's copy error.. File: " + name);
-            ex.printStackTrace();
+            log.error("File's copy error.. File: {}", name);
+            log.error(ex);
         }
 
         return result;
     }
 
     @VisibleForTesting
-    protected void executeCalls(ModuleInf mi, Setup setup, File zip) {
+    protected void executeCalls(Module mi, Setup setup, File zip) {
         List<String[]> calls = mi.getCalls();
         for (String[] class_param : calls) {
             String callClass = class_param[0];
             String param = class_param[1];
-            System.out.println("Executing call " + callClass + "; param: " + param);
+            log.info("Executing call {}; param: {}", callClass, param);
             boolean result = false;
             try {
-                String fullClassName = "ru.bgcrm.util.distr.call." + callClass;
+                String fullClassName = InstallationCall.class.getPackageName() + "." + callClass;
                 InstallationCall call = (InstallationCall) Class.forName(fullClassName.toString()).getDeclaredConstructor().newInstance();
                 call.call(setup, zip, param);
                 result = true;
             } catch (Exception ex) {
-                System.out.println(ex.getMessage());
+                log.error(ex);
             }
-            System.out.println("Result => " + result);
+            log.info("Result => {}", result);
         }
     }
 
@@ -198,7 +202,7 @@ public class InstallerModule {
             var origFile = new File(targetDir, path + SUFFIX_ORIG);
             if (origFile.exists()) {
                 if (equal(content, origFile)) {
-                    System.out.println("File hasn't changed " + path);
+                    log.info("File hasn't changed: {}", path);
                     return;
                 }
                 file.renameTo(new File(targetDir, path + INFIX_BAK + System.currentTimeMillis()));
@@ -217,19 +221,19 @@ public class InstallerModule {
                 byte[] existingContent = IOUtils.toByteArray(fileInputStream);
                 return Arrays.compare(newContent, existingContent) == 0;
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e);
             }
         }
         return false;
     }
 
     private void removeExcessFiles() {
-        System.out.println("Checking of excess files.");
+        log.info("Checking of excess files.");
         for (String dirPath : cleanedDirs) {
             try {
                 removeExcessFiles(dirPath);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e);
             }
         }
     }
@@ -257,7 +261,7 @@ public class InstallerModule {
                 // checking existence of original
                 if (!innerPaths.contains(path.substring(0, path.length() - SUFFIX_ORIG.length())))
                     delete(path, file);
-            } 
+            }
             // .bak.1234455 files
             else if (path.contains(INFIX_BAK)) {
                 report.removeSoon.add(path);
@@ -276,7 +280,7 @@ public class InstallerModule {
         if (!file.exists())
             return;
 
-        if (path.contains("custom")) {
+        if (path.contains("custom/") || path.contains("/custom")) {
             report.removeSoon.add(path);
         } else {
             report.removed.add(path);

@@ -2,6 +2,7 @@ package org.bgerp.itest.kernel.config;
 
 import java.util.Date;
 
+import org.bgerp.app.dist.DbTimeUpdate;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
@@ -11,7 +12,6 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.util.TimeUtils;
-import ru.bgcrm.util.distr.DbTimeUpdate;
 
 public class ConfigTest {
     // defined in configuration
@@ -26,7 +26,7 @@ public class ConfigTest {
         var con = DbTest.conRoot;
         var dao = new ConfigDAO(con);
 
-        var config = ConfigHelper.createConfig("Main", 
+        var config = ConfigHelper.createConfig("Main",
             "# remove this key case the DB used as production one !!!\n" +
             DbTimeUpdate.SETUP_KEY + "=" + TimeUtils.format(new Date(), TimeUtils.FORMAT_TYPE_YMDHMS) + "\n" +
             ResourceHelper.getResource(this, "config.main.txt"));
@@ -44,7 +44,7 @@ public class ConfigTest {
         var con = DbTest.conRoot;
         var dao = new ConfigDAO(con);
 
-        var config = ConfigHelper.createConfig("Process Notification", 
+        var config = ConfigHelper.createConfig("Process Notification",
             ConfigHelper.generateConstants("PARAM_USER_EMAIL_ID", UserTest.paramEmailId) +
             ResourceHelper.getResource(this, "config.process.notification.txt"));
 

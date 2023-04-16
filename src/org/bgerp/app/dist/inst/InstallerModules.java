@@ -1,4 +1,4 @@
-package ru.bgcrm.util.distr;
+package org.bgerp.app.dist.inst;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
-
-import com.google.common.annotations.VisibleForTesting;
 
 import org.apache.commons.io.FileUtils;
 import org.bgerp.util.Log;
@@ -17,15 +14,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**
- * Installer of update packages.
+ * Installer of update modules.
  *
  * @author Shamil Vakhitov
  */
-public class InstallProcessor {
+public class InstallerModules {
     private static final Log log = Log.getLog();
 
     private static final String UPDATE_URL = System.getProperty("bgerp.download.url", "https://bgerp.org/download");
@@ -34,15 +33,15 @@ public class InstallProcessor {
     /** App version for 'update' module. */
     private final String version;
 
-    private final Map<String, FileInfo> remoteFileMap = new HashMap<>();
-    private final List<FileInfo> listForInstall = new ArrayList<>();
+    private final Map<String, ModuleFile> remoteFileMap = new HashMap<>();
+    private final List<ModuleFile> listForInstall = new ArrayList<>();
 
-    public InstallProcessor(String version) {
+    public InstallerModules(String version) {
         this.version = version;
         loadRemoteFileList();
     }
 
-    public InstallProcessor() {
+    public InstallerModules() {
         this(null);
     }
 
@@ -72,17 +71,16 @@ public class InstallProcessor {
             // iterating over the all hyperlinks
             for (Element link : doc.select("a")) {
                 String href = link.attr("href");
-                if (FileInfo.isValidFileName(href)) {
-                    var m = FileInfo.PATTERN_ZIP.matcher(href);
+                if (ModuleFile.isValidFileName(href)) {
+                    var m = ModuleFile.PATTERN_ZIP.matcher(href);
                     if (m.find()) {
-                        var fi = new FileInfo(m.group(1), m.group(2), href, new URL(updateUrl + href));
+                        var fi = new ModuleFile(m.group(1), m.group(2), href, new URL(updateUrl + href));
                         remoteFileMap.put(fi.moduleName, fi);
                     }
                 }
             }
         } catch (Exception e) {
             log.error(e);
-            // System.exit(1);
         }
     }
 
@@ -91,18 +89,18 @@ public class InstallProcessor {
         return Jsoup.connect(updateUrl).get();
     }
 
-    public Map<String, FileInfo> getRemoteFileMap() {
+    public Map<String, ModuleFile> getRemoteFileMap() {
         return remoteFileMap;
     }
 
     /**
-     * @return the running app version from {@link #version}, or if blank from {@link VersionInfo#getVersion()}, module 'update'.
+     * @return the running app version from {@link #version}, or if blank from {@link InstalledModule#getVersion()}, module 'update'.
      */
     private String getVersion() {
         String result = this.version;
 
         if (Utils.isBlankString(result)) {
-            final var vi = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE);
+            final var vi = InstalledModule.get(InstalledModule.MODULE_UPDATE);
             result = vi == null ? null : vi.getVersion();
         }
 
@@ -112,31 +110,29 @@ public class InstallProcessor {
     private void installSelected() {
         try {
             if (listForInstall.isEmpty()) {
-                System.out.println("Not updates found, press Enter for exit..");
+                log.info("Not updates found, press Enter for exit..");
                 System.in.read();
                 System.exit(0);
             } else {
-                for (FileInfo fi : listForInstall) {
-                    System.out.print("Downloading " + fi.fileName + " to " + TMP_DIR_PATH);
+                for (ModuleFile fi : listForInstall) {
+                    log.info("Downloading {} to {}", fi.fileName, TMP_DIR_PATH);
 
                     FileUtils.copyURLToFile(fi.url, new File(TMP_DIR_PATH + "/" + fi.fileName));
 
-                    System.out.println(" OK!");
+                    log.info(" OK!");
                 }
 
-                System.out.println("Start installing..");
+                log.info("Start installing..");
 
-                for (FileInfo fi : listForInstall) {
+                for (ModuleFile fi : listForInstall) {
                     File file = new File(TMP_DIR_PATH + "/" + fi.fileName);
                     var im = new InstallerModule(Setup.getSetup(), new File("."), file);
-                    System.out.println(im.getReport());
+                    log.info(im.getReport());
                     file.deleteOnExit();
                 }
             }
         } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
-            e.printStackTrace();
-            System.exit(1);
+            log.error(e);
         }
     }
 
@@ -145,15 +141,15 @@ public class InstallProcessor {
      * @param force - version check disable.
      */
     private void selectModulesForUpdate(boolean force) {
-        List<VersionInfo> modules = VersionInfo.getInstalledVersions();
+        List<InstalledModule> modules = InstalledModule.getInstalled();
 
-        for (VersionInfo vi : modules) {
+        for (InstalledModule vi : modules) {
             String name = vi.getModuleName();
             String buildNumber = vi.getBuildNumber();
 
-            System.out.println("Checking update for '" + name + "'..");
+            log.info("Checking update for '{}'..", name);
 
-            FileInfo fi = remoteFileMap.get(name);
+            ModuleFile fi = remoteFileMap.get(name);
             if (fi == null) {
                 continue;
             }
@@ -163,43 +159,8 @@ public class InstallProcessor {
                 continue;
             }
 
-            System.out.println("Found update for '" + name + "' build " + buildNumber + " updating to build " + fi.buildNumber);
+            log.info("Found update for '{}' build {} updating to build {}", name, buildNumber, fi.buildNumber);
             listForInstall.add(fi);
-        }
-    }
-
-    /**
-     * Additional bean to store update info per each file.
-     */
-    public static class FileInfo {
-        /**
-         * Regexp for parsing zip file names.
-         */
-        private static final Pattern PATTERN_ZIP = java.util.regex.Pattern.compile("^(\\w+)_[\\d\\.]+_(\\d+)\\.zip$");
-
-        final String moduleName;
-        final String buildNumber;
-        final String fileName;
-        final URL url;
-
-        FileInfo(String moduleName, String buildNumber, String fullName, URL url) {
-            this.moduleName = moduleName;
-            this.buildNumber = buildNumber;
-            this.fileName = fullName;
-            this.url = url;
-        }
-
-        public String getBuildNumber() {
-            return buildNumber;
-        }
-
-        /**
-         * Check file name starts from 'update_' and ends by '.zip'.
-         * @param name
-         * @return
-         */
-        static boolean isValidFileName(String name) {
-            return name.startsWith("update_") && name.endsWith(".zip");
         }
     }
 }

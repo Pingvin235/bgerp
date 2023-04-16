@@ -1,4 +1,4 @@
-package ru.bgcrm.util.distr.call;
+package org.bgerp.app.dist.inst.call;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,13 +11,13 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.zip.ZipInputStream;
 
+import org.bgerp.util.Log;
+
 import com.google.common.annotations.VisibleForTesting;
 
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.ZipUtils;
-import ru.bgcrm.util.sql.ConnectionPool;
 import ru.bgcrm.util.sql.SQLUtils;
 
 /**
@@ -27,37 +27,35 @@ import ru.bgcrm.util.sql.SQLUtils;
  * @author Shamil Vakhitov
  */
 public class ExecuteSQL implements InstallationCall {
+    private static final Log log = Log.getLog();
+
     /** Table for storing applied SQL updates. */
     private static final String TABLE_DB_UPDATE = "db_update_log";
     /** Column with query hash. */
     private static final String HASH_COLUMN = "query_hash";
 
     @Override
-    public boolean call(Preferences setup, File zip, String param) {
+    public boolean call(Setup setup, File zip, String param) {
         boolean result = false;
 
         try (var fis = new FileInputStream(zip)) {
             Map<String, byte[]> map = ZipUtils.getEntriesFromZip(new ZipInputStream(fis), param);
             if (!map.containsKey(param)) {
-                System.out.println("Can't find " + param + " in module zip!!!");
+                log.error("Can't find {} in module zip", param);
             } else {
-                var pool = new ConnectionPool("exec", setup);
-                try (var con = pool.getDBConnectionFromPool()) {
+                try (var con = setup.getDBConnectionFromPool()) {
                     byte[] file = (byte[]) map.get(param);
 
                     String query = new String(file, StandardCharsets.UTF_8);
 
                     call(con, query);
 
-                    System.out.println("Executing database update...OK");
+                    log.info("Executing database update...OK");
                     result = true;
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-                pool.close();
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex);
         }
 
         return result;
@@ -144,7 +142,7 @@ public class ExecuteSQL implements InstallationCall {
         try {
             long time = System.currentTimeMillis();
             st.executeUpdate(query);
-            System.out.println("OK (" + (System.currentTimeMillis() - time) + " ms.) => [" + hash + "] " + query);
+            log.info("OK ({} ms.) => [{}] {}", (System.currentTimeMillis() - time), hash, query);
             newHashes.add(hash);
         } catch (SQLException ex) {
             throw new SQLException(ex.getMessage() + " => [" + hash + "] " + query, ex);

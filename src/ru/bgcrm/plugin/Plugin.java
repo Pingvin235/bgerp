@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.app.dist.inst.call.ExecuteSQL;
 import org.bgerp.dao.Cleaner;
 import org.bgerp.l10n.Localization;
 import org.bgerp.l10n.Localizer;
@@ -26,7 +27,6 @@ import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
-import ru.bgcrm.util.distr.call.ExecuteSQL;
 
 /**
  * Parent class for all the plugins.

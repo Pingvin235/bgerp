@@ -1,4 +1,4 @@
-package ru.bgcrm.util.distr;
+package org.bgerp.app.dist;
 
 import java.sql.Connection;
 import java.sql.SQLException;

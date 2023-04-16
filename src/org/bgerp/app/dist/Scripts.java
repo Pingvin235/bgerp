@@ -1,8 +1,9 @@
-package ru.bgcrm.util.distr;
+package org.bgerp.app.dist;
 
 import java.io.File;
 import java.util.List;
 
+import org.bgerp.Installer;
 import org.bgerp.util.Log;
 import org.bgerp.util.RuntimeRunner;
 
@@ -49,6 +50,11 @@ public class Scripts {
         for (String file : files) {
             new RuntimeRunner("sh", "-c", INSTALLER + Installer.K_INSTALL + " " + file).run();
         }
+        return this;
+    }
+
+    public Scripts installc(String changeId) throws Exception {
+        new RuntimeRunner("sh", "-c", INSTALLER + Installer.K_INSTALLC + " " + changeId).run();
         return this;
     }
 }

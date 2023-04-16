@@ -1,15 +1,19 @@
-package ru.bgcrm.util.distr;
+package org.bgerp.app.dist.inst;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.bgerp.util.Log;
+
 /**
- * Update module information.
- * 
+ * Installation module information.
+ *
  * @author Shamil Vakhitov
  */
-public class ModuleInf {
+public class Module {
+    private static final Log log = Log.getLog();
+
     private static final String SUPPORTED_MODULE_VERSION = "1.0";
 
     private boolean errors = false;
@@ -18,11 +22,11 @@ public class ModuleInf {
     private String name;
     private List<String[]> calls = new ArrayList<>();
 
-    public ModuleInf(String moduleInf) {
+    public Module(String moduleInf) {
         inf = moduleInf;
         parseInf();
         if (errors) {
-            System.out.println("Error: not all params was found in module.properties");
+            log.error("Not all params were found in module.properties");
         }
     }
 
@@ -44,7 +48,7 @@ public class ModuleInf {
                 }
             } else if (key.equals("module.version")) {
                 if (!value.equals(SUPPORTED_MODULE_VERSION)) {
-                    System.out.println("Error: modules version " + value + " is not supported.");
+                    log.error("Modules version {} are not supported.", value);
                     errors = true;
                 } else {
                     moduleVersion = value;

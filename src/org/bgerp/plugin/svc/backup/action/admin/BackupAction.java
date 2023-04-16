@@ -1,6 +1,7 @@
 package org.bgerp.plugin.svc.backup.action.admin;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.dist.Scripts;
 import org.bgerp.plugin.svc.backup.Config;
 import org.bgerp.plugin.svc.backup.Plugin;
 import org.bgerp.servlet.file.Files;
@@ -11,7 +12,6 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.distr.Scripts;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/admin/plugin/backup/backup")

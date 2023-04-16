@@ -1,4 +1,4 @@
-package ru.bgcrm.util.distr;
+package org.bgerp.app.dist.inst;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,27 +11,31 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 
 /**
- * Installation module's properties, stored in version.properties file.
+ * Installed module's properties, stored in version.properties files in application JAR.
  *
  * @author Shamil Vakhitov
  */
-public class VersionInfo {
+public class InstalledModule {
+    private static final Log log = Log.getLog();
+
     /** The application's classes. */
     public static final String MODULE_UPDATE = "update";
     /** External jars. */
     public static final String MODULE_UPDATE_LIB = "update_lib";
 
     private static final String LIB_APP_DIR = "lib/app";
-    private static final String VERSION_INFO_PACKAGE = "ru/bgcrm/version/";
+    private static final String INSTALLED_MODULE_PACKAGE = InstalledModule.class.getPackageName().replace(".", "/") + "/module/";
+    private static final String INSTALLED_MODULE_PACKAGE_OLD = "ru/bgcrm/version/";
 
     private final ParameterMap properties;
 
-    public VersionInfo(ParameterMap properties) {
+    public InstalledModule(ParameterMap properties) {
         this.properties = properties;
     }
 
@@ -61,18 +65,20 @@ public class VersionInfo {
      * @param module module name, {@link #MODULE_UPDATE} or {@link #MODULE_UPDATE_LIB}.
      * @return
      */
-    public static final VersionInfo getVersionInfo(String module) {
-        VersionInfo result = null;
+    public static final InstalledModule get(String module) {
+        InstalledModule result = null;
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         if (classLoader != null) {
-            InputStream is = classLoader.getResourceAsStream(VERSION_INFO_PACKAGE + module + ".properties");
+            InputStream is = classLoader.getResourceAsStream(INSTALLED_MODULE_PACKAGE + module + ".properties");
+            if (is == null)
+                is = classLoader.getResourceAsStream(INSTALLED_MODULE_PACKAGE_OLD + module + ".properties");
             if (is != null) {
                 try {
-                    result = new VersionInfo(new Preferences(IOUtils.toString(is, StandardCharsets.UTF_8)));
+                    result = new InstalledModule(new Preferences(IOUtils.toString(is, StandardCharsets.UTF_8)));
                     is.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e);
                 }
             }
         }
@@ -83,8 +89,8 @@ public class VersionInfo {
     /**
      * @return version infos of currently existing in the running app modules.
      */
-    public static final List<VersionInfo> getInstalledVersions() {
-        List<VersionInfo> result = new ArrayList<>();
+    public static final List<InstalledModule> getInstalled() {
+        List<InstalledModule> result = new ArrayList<>();
 
         try {
             File libExtDir = new File(LIB_APP_DIR);
@@ -93,20 +99,18 @@ public class VersionInfo {
                     continue;
                 }
 
-                ZipInputStream zis = new ZipInputStream(new FileInputStream(file));
+                try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file))) {
+                    ZipEntry entry = null;
+                    while ((entry = zis.getNextEntry()) != null) {
+                        final String entryName = entry.getName();
 
-                ZipEntry entry = null;
-                while ((entry = zis.getNextEntry()) != null) {
-                    final String entryName = entry.getName();
-
-                    if (entryName.startsWith(VERSION_INFO_PACKAGE) && entryName.endsWith(".properties"))
-                        result.add(new VersionInfo(new Preferences(IOUtils.toString(zis, StandardCharsets.UTF_8))));
+                        if ((entryName.startsWith(INSTALLED_MODULE_PACKAGE) || entryName.startsWith(INSTALLED_MODULE_PACKAGE_OLD))&& entryName.endsWith(".properties"))
+                            result.add(new InstalledModule(new Preferences(IOUtils.toString(zis, StandardCharsets.UTF_8))));
+                    }
                 }
-
-                zis.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e);
         }
 
         return result;

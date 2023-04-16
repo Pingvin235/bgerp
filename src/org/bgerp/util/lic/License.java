@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bgerp.action.admin.LicenseAction;
-import org.bgerp.event.client.LicenseEvent;
+import org.bgerp.app.event.client.LicenseEvent;
 import org.bgerp.model.Message;
 import org.bgerp.servlet.user.LoginStat;
 import org.bgerp.util.TimeConvert;

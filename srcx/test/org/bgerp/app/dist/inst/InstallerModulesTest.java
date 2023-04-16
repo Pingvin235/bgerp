@@ -1,4 +1,4 @@
-package ru.bgcrm.util.distr;
+package org.bgerp.app.dist.inst;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -9,14 +9,14 @@ import org.jsoup.nodes.Document;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class InstallProcessorTest {
+public class InstallerModulesTest {
     @Test
     public void testLoadRemoteFiles() {
-        var p = new InstallProcessor("3.0") {
+        var p = new InstallerModules("3.0") {
             @Override
             protected Document getRemoteHtml(String updateUrl) throws IOException {
                 return Jsoup.parse(IOUtils.toString(
-                        InstallProcessorTest.class.getResourceAsStream("InstallProcessorTest.download.html"),
+                        InstallerModulesTest.class.getResourceAsStream("InstallerModulesTest.download.html"),
                         StandardCharsets.UTF_8));
             }
         };
@@ -24,12 +24,12 @@ public class InstallProcessorTest {
         var map = p.getRemoteFileMap();
         Assert.assertEquals(2, map.size());
 
-        var update = map.get(VersionInfo.MODULE_UPDATE);
+        var update = map.get(InstalledModule.MODULE_UPDATE);
         Assert.assertEquals("https://bgerp.org/download/3.0/update_3.0_1373.zip", update.url.toString());
         Assert.assertEquals("1373", update.buildNumber);
         Assert.assertEquals("update_3.0_1373.zip", update.fileName);
 
-        var updateLib = map.get(VersionInfo.MODULE_UPDATE_LIB);
+        var updateLib = map.get(InstalledModule.MODULE_UPDATE_LIB);
         Assert.assertEquals("https://bgerp.org/download/3.0/update_lib_3.0_77.zip", updateLib.url.toString());
         Assert.assertEquals("77", updateLib.buildNumber);
         Assert.assertEquals("update_lib_3.0_77.zip", updateLib.fileName);

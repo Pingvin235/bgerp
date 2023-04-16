@@ -1,4 +1,4 @@
-package ru.bgcrm.util.distr;
+package org.bgerp.app.dist.inst;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,18 +22,19 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import ru.bgcrm.model.IdStringTitle;
-import ru.bgcrm.util.distr.InstallProcessor.FileInfo;
+import ru.bgcrm.util.Utils;
 
 /**
  * Parse changes info out of NGINX directory listing HTML.
  *
  * @author Shamil Vakhitov
  */
-public class UpdateProcessor {
+public class InstallerChanges {
     private static final Log log = Log.getLog();
 
     private static final String UPDATE_TO_CHANGE_URL = "https://bgerp.org/update/";
     private static final String CHANGE_PRE_RELEASE = "00000";
+    private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
     private final List<Change> changes = new ArrayList<>();
     private final List<String> updateFiles = new ArrayList<>(2);
@@ -44,7 +45,7 @@ public class UpdateProcessor {
      * @throws IOException
      * @throws ParseException
      */
-    public UpdateProcessor() throws IOException, ParseException {
+    public InstallerChanges() throws IOException, ParseException {
         changes();
     }
 
@@ -54,7 +55,7 @@ public class UpdateProcessor {
      * @param changeId string with directory name.
      * @throws IOException
      */
-    public UpdateProcessor(String changeId) throws IOException {
+    public InstallerChanges(String changeId) throws IOException {
         updateFiles(changeId);
     }
 
@@ -81,11 +82,11 @@ public class UpdateProcessor {
         final String url = UPDATE_TO_CHANGE_URL + changeId;
         Document doc = changes(url);
         for (Element link : doc.select("a")) {
-            String href = link.attr("href");
-            if (FileInfo.isValidFileName(href)) {
-                log.info("Downloading: {}", href);
-                download(url, href);
-                updateFiles.add(href);
+            String name = link.attr("href");
+            if (ModuleFile.isValidFileName(name)) {
+                log.info("Downloading {} to {}", name, TMP_DIR_PATH);
+                download(url, name);
+                updateFiles.add(name);
             }
         }
     }
@@ -96,8 +97,8 @@ public class UpdateProcessor {
     }
 
     @VisibleForTesting
-    protected void download(final String url, String href) throws IOException, MalformedURLException {
-        FileUtils.copyURLToFile(new URL(url + "/" + href), new File(href));
+    protected void download(final String url, String name) throws IOException, MalformedURLException {
+        FileUtils.copyURLToFile(new URL(url + "/" + name), new File(TMP_DIR_PATH, name));
     }
 
     /**
@@ -109,7 +110,7 @@ public class UpdateProcessor {
     }
 
     /**
-     * Update ZIP files.
+     * Update ZIP files, stored in {@link Utils#getTmpDir()}
      * @return
      */
     public List<String> getUpdateFiles() {

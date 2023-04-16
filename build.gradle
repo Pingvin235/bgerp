@@ -29,7 +29,7 @@ project.ext {
     updateLibProperties="$updateLibDir/update_lib.properties"
     distDir="$projectDir/build/bgerp"
     classesPath="$buildDir/classes/java/main"
-    versionPackage='ru/bgcrm/version'
+    versionPackage='org/bgerp/app/dist/inst/module'
     appJarName='bgerp.jar'
     libJarName='lib.jar'
     distBuildDir="$buildDir/bgerp"

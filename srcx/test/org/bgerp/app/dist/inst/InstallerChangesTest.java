@@ -1,4 +1,4 @@
-package ru.bgcrm.util.distr;
+package org.bgerp.app.dist.inst;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -11,14 +11,14 @@ import org.jsoup.nodes.Document;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class UpdateProcessorTest {
+public class InstallerChangesTest {
     @Test
     public void testChanges() throws Exception {
-        var processor = new UpdateProcessor() {
+        var processor = new InstallerChanges() {
             @Override
             protected Document changes(String url) throws IOException {
                 return Jsoup.parse(IOUtils.toString(
-                        InstallProcessorTest.class.getResourceAsStream("UpdateProcessorTest.changes.html"),
+                        InstallerModulesTest.class.getResourceAsStream("InstallerChangesTest.changes.html"),
                         StandardCharsets.UTF_8));
             }
         };
@@ -40,13 +40,13 @@ public class UpdateProcessorTest {
     public void testChange() throws IOException {
         var cnt = new AtomicInteger();
 
-        var processor = new UpdateProcessor("14353") {
+        var processor = new InstallerChanges("14353") {
             @Override
             protected Document changes(String url) throws IOException {
                 Assert.assertEquals("https://bgerp.org/update/14353", url);
                 cnt.incrementAndGet();
                 return Jsoup.parse(IOUtils.toString(
-                        InstallProcessorTest.class.getResourceAsStream("UpdateProcessorTest.change.html"),
+                        InstallerModulesTest.class.getResourceAsStream("InstallerChangesTest.change.html"),
                         StandardCharsets.UTF_8));
             }
 

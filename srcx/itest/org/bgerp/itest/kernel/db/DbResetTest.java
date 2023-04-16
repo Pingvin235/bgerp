@@ -11,11 +11,11 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.app.dist.inst.call.ExecuteSQL;
 import org.bgerp.util.Log;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.distr.call.ExecuteSQL;
 
 @Test(groups = "dbReset", dependsOnGroups = "db")
 public class DbResetTest {

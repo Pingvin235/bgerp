@@ -1,4 +1,4 @@
-package ru.bgcrm.util.distr;
+package org.bgerp.app.dist.inst;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -7,7 +7,6 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.distr.InstallProcessor.FileInfo;
 
 /**
  * Version checker caching remote build number.
@@ -24,18 +23,18 @@ public class VersionCheck {
 
     private static final Duration REMOTE_VERSION_CHECK_INTERVAL = Duration.ofHours(2);
     // version of the running app
-    private final VersionInfo currentVersion;
+    private final InstalledModule currentVersion;
 
     private volatile Instant remoteVersionCheckTime;
-    private volatile FileInfo remoteVersion;
+    private volatile ModuleFile remoteVersion;
 
     private VersionCheck() {
         currentVersion = currentVersionInfo();
     }
 
-    private VersionInfo currentVersionInfo() {
+    private InstalledModule currentVersionInfo() {
         final var props = Setup.getSetup().sub("test.version.check.current.");
-        return props.isEmpty() ? VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE) : new VersionInfo(props);
+        return props.isEmpty() ? InstalledModule.get(InstalledModule.MODULE_UPDATE) : new InstalledModule(props);
     }
 
     public boolean isUpdateNeeded() {
@@ -46,7 +45,7 @@ public class VersionCheck {
                 @Override
                 public void run() {
                     log.info("Retrieving remote version");
-                    remoteVersion = new InstallProcessor(currentVersion.getVersion()).getRemoteFileMap().get(VersionInfo.MODULE_UPDATE);
+                    remoteVersion = new InstallerModules(currentVersion.getVersion()).getRemoteFileMap().get(InstalledModule.MODULE_UPDATE);
                     if (remoteVersion == null)
                         log.error("Not found remote version info");
                 }

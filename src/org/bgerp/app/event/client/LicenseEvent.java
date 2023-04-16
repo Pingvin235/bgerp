@@ -1,4 +1,4 @@
-package org.bgerp.event.client;
+package org.bgerp.app.event.client;
 
 import org.bgerp.model.Message;
 

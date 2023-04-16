@@ -2,6 +2,9 @@ package org.bgerp.action.admin;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.dist.Scripts;
+import org.bgerp.app.dist.inst.InstallerChanges;
+import org.bgerp.app.dist.inst.VersionCheck;
 import org.bgerp.servlet.file.Files;
 import org.bgerp.servlet.file.Options;
 import org.bgerp.servlet.file.Order;
@@ -9,16 +12,12 @@ import org.bgerp.servlet.user.LoginStat;
 import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.model.BGIllegalArgumentException;
-import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.servlet.AccessLogValve;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AdminPortListener;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.distr.Scripts;
-import ru.bgcrm.util.distr.UpdateProcessor;
-import ru.bgcrm.util.distr.VersionCheck;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path="/admin/app")
@@ -35,7 +34,7 @@ public class AppAction extends BaseAction {
     public static final Files LOG_UPDATE = new Files(AppAction.class, "logUpdate", "log", "update_*",
             new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
     @Dynamic
-    public static final Files UPDATE_ZIP = new Files(AppAction.class, "updateZip", ".", "update_*.zip",
+    public static final Files UPDATE_ZIP = new Files(AppAction.class, "updateZip", Utils.getTmpDir(), "update_*.zip",
             new Options().withDownloadEnabled().withDeletionEnabled().withOrder(Order.LAST_MODIFIED_DESC));
 
     public ActionForward status(DynActionForm form, ConnectionSet conSet) throws Exception {
@@ -43,7 +42,7 @@ public class AppAction extends BaseAction {
             form.setResponseData("error", l.l("App update is needed"));
 
         form.setResponseData("status", AdminPortListener.getStatus());
-        form.setResponseData("changes", new UpdateProcessor().getChanges());
+        form.setResponseData("changes", new InstallerChanges().getChanges());
 
         return html(conSet, form, PATH_JSP + "/status.jsp");
     }
@@ -85,7 +84,7 @@ public class AppAction extends BaseAction {
     }
 
     public ActionForward restart(DynActionForm form, ConnectionSet conSet) throws Exception {
-        new Scripts().restart(form.getParamBoolean("force"));
+        new Scripts().restart(form.getParamBoolean("restartForce"));
         return json(conSet, form);
     }
 
@@ -99,12 +98,7 @@ public class AppAction extends BaseAction {
         if (Utils.isBlankString(changeId) || !NumberUtils.isDigits(changeId))
             throw new BGIllegalArgumentException();
 
-        var files = new UpdateProcessor(changeId).getUpdateFiles();
-
-        if (files.isEmpty())
-            throw new BGMessageException("Не найдены файлы обновлений.");
-
-        new Scripts().backup(false).install(files).restart(form.getParamBoolean("restartForce"));
+        new Scripts().backup(false).installc(changeId).restart(form.getParamBoolean("restartForce"));
 
         return json(conSet, form);
     }

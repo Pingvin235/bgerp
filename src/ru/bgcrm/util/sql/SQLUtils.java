@@ -12,8 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.bgerp.util.Log;
 
-import ru.bgcrm.util.Utils;
-
 public class SQLUtils {
     private static final Log log = Log.getLog();
 
@@ -116,7 +114,7 @@ public class SQLUtils {
                 }
             }
         } catch (Exception ex) {
-            Utils.log.error(ex);
+            log.error(ex);
         }
 
         return result;
@@ -141,7 +139,7 @@ public class SQLUtils {
                 }
                 ps.close();
             } catch (Exception e) {
-                Utils.log.error(e.getMessage(), e);
+                log.error(e);
             }
 
             if (result) {

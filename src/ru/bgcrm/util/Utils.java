@@ -42,6 +42,8 @@ import ru.bgcrm.servlet.jsp.JSPFunction;
 import ru.bgcrm.servlet.jsp.NewInstanceTag;
 
 public class Utils {
+    private static final Log log = Log.getLog();
+
     /** Use {@link java.nio.charset.StandardCharsets}. */
     @Deprecated
     public static final Charset UTF8 = StandardCharsets.UTF_8;
@@ -52,10 +54,17 @@ public class Utils {
     public static final char[] HEX = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
     public static final char[] HEX_LOWERCASE = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-    public static final Log log = Log.getLog();
-
     public static final String[] STRING_ARRAY = new String[0];
     public static final Integer[] INTEGER_ARRAY = new Integer[0];
+
+    private static final String TMP_DIR = System.getProperty("bgerp.tmpdir", "tmp");
+    static {
+        File tmpDir = new File(TMP_DIR);
+        if (!tmpDir.exists()) {
+            log.info("Creating tmp dir: {}", TMP_DIR);
+            tmpDir.mkdir();
+        }
+    }
 
     /**
      * Преобразует строку в int, в случае ошибки возращает 0.
@@ -872,7 +881,7 @@ public class Utils {
      * @return value of system property 'java.io.tmpdir', or '/tmp' if it is missing.
      */
     public static String getTmpDir() {
-        return System.getProperty("java.io.tmpdir", "/tmp");
+        return TMP_DIR;
     }
 
     /**

@@ -1,4 +1,4 @@
-package ru.bgcrm.util.distr;
+package org.bgerp.app.dist.inst;
 
 import static org.bgerp.util.TestUtils.addDir;
 import static org.bgerp.util.TestUtils.addFile;
@@ -140,7 +140,7 @@ public class InstallerModuleTest extends InstallerModule {
         var removeSoon = report.getRemoveSoon();
 
         Assert.assertEquals(0, replaced.size());
-        
+
         Assert.assertTrue(removeSoon.contains("webapps/js/sub/file3.js.orig"));
         Assert.assertEquals("new", IOUtils.toString(new File(webappsJsSub, "file3.js.orig").toURI(), StandardCharsets.UTF_8));
         Assert.assertEquals("new-changed", IOUtils.toString(new File(webappsJsSub, "file3.js").toURI(), StandardCharsets.UTF_8));

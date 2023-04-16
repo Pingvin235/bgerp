@@ -16,12 +16,12 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.dist.inst.InstalledModule;
 import org.bgerp.scheduler.Scheduler;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.util.distr.VersionInfo;
 
 /**
  * Socket listener for managing running app.
@@ -123,8 +123,8 @@ public class AdminPortListener implements Runnable {
     public static String getVersionInfo() {
         var result = new StringBuilder(200);
 
-        final var vi = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE);
-        final var viLib = VersionInfo.getVersionInfo(VersionInfo.MODULE_UPDATE_LIB);
+        final var vi = InstalledModule.get(InstalledModule.MODULE_UPDATE);
+        final var viLib = InstalledModule.get(InstalledModule.MODULE_UPDATE_LIB);
 
         if (vi != null && viLib != null) {
             result
