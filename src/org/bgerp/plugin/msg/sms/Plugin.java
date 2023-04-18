@@ -7,8 +7,9 @@ import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "sms";
+    public static final Plugin INSTANCE = new Plugin();
 
-    public Plugin() {
+    private Plugin() {
         super(ID);
     }
 

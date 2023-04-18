@@ -388,7 +388,7 @@ Each plugin has a corresponding and unique:
 ===== Init
 Plugin class *init* method is called for all <<../kernel/setup.adoc#config-plugin, enabled>> plugins during the server start.
 [snippet, from="Eve", to="ss);", remove-leading="        "]
-link:../../../src/ru/bgcrm/plugin/slack/Plugin.java#L35-L37[ru.bgcrm.plugin.slack.Plugin]
+link:../../../src/ru/bgcrm/plugin/slack/Plugin.java#L36-L38[ru.bgcrm.plugin.slack.Plugin]
 
 In the particular case shown above, function handler gets included into <<../kernel/extension.adoc#jexl, JEXL>> context.
 First init is done for <<plugin-kernel, Kernel Plugin>>.
@@ -444,7 +444,7 @@ Endpoints used for connecting non-Java plugin parts:
 ===== JavaScript
 Extension points definition within Plugin declaration:
 [snippet, from="Endpoint.JS", to=",", remove-leading="            "]
-link:../../../src/org/bgerp/plugin/pln/blow/Plugin.java#L21-L21[org.bgerp.plugin.pln.blow.Plugin]
+link:../../../src/org/bgerp/plugin/pln/blow/Plugin.java#L22-L22[org.bgerp.plugin.pln.blow.Plugin]
 
 File containing script: link:../../../webapps/js/pl.blow.js[webapps/js/pl.blow.js]
 
@@ -454,7 +454,7 @@ Menu item in <<../kernel/interface.adoc#user, user>> interface.
 
 Extension points definition within <<plugin-class, Plugin class>>:
 [snippet, from="Endpoint.USER_PROCESS_MENU", to=",", remove-leading="            "]
-link:../../../src/org/bgerp/plugin/pln/blow/Plugin.java#L23-L23[org.bgerp.plugin.pln.blow.Plugin]
+link:../../../src/org/bgerp/plugin/pln/blow/Plugin.java#L24-L24[org.bgerp.plugin.pln.blow.Plugin]
 
 Adding a menu item using JSP tag: link:../../../webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp[webapps/WEB-INF/jspf/user/plugin/blow/menu_items.jsp]
 
@@ -854,12 +854,25 @@ $('#loginForm').dialog({
 ----
 
 By doing <<action>> in object *l* the localization context is passed, containing phrases for the core and the plugin being called.
+Localized key string may contain placeholders for some values, marked as *{}*.
 
 [snippet, from="message.setTe", to="());", remove-leading="        "]
 link:../../../src/ru/bgcrm/struts/action/MessageAction.java#L230-L230[ru.bgcrm.struts.action.MessageAction]
 
-Localized key string may contain placeholders for some values, marked as *{}*.
-Such case may be seen for <<exception, BGMessageException sample>>.
+<<exception, BGMessageException>> can contain localized message, translated when shown to a user.
+In the following snippet might be seen, how it can be thrown in a plugin's logic.
+
+[snippet, from="if (", to="x);", remove-leading="                    "]
+link:../../../src/org/bgerp/plugin/msg/email/Addresses.java#L103-L107[org.bgerp.plugin.msg.email.Addresses]
+
+As there is no way to make localization on the Frontend, phrases may be sent there from the Backend.
+Here are two samples for such cases.
+
+[snippet, from="form.g", to="e));", remove-leading="                "]
+link:../../../src/org/bgerp/util/lic/License.java#L153-L156[org.bgerp.util.lic.License]
+
+[snippet, from="final v", to="es\");", remove-leading="            "]
+link:../../../src/ru/bgcrm/cache/UserNewsCache.java#L98-L102[ru.bgcrm.cache.UserNewsCache]
 
 [[l10n-dev]]
 ==== Development

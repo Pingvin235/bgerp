@@ -11,7 +11,7 @@ import javax.mail.Message.RecipientType;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
-import org.bgerp.l10n.Localization;
+import org.bgerp.l10n.Localizer;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -43,7 +43,7 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
     public Addresses(String addresses) {
         super();
         try {
-            parse(addresses, true);
+            parse(null, addresses, true);
         } catch (BGMessageException e) {
             throw new IllegalStateException("The exception must not be thrown here", e);
         }
@@ -58,12 +58,13 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
      * Parses email addresses.
      * Actual format: <pre>to1, to2..,CC: cc1, cc2..,BCC: bcc1, bcc2..</pre>
      * Old one: <pre>to1, to2..,CC: cc1, cc2..,BCC: bcc1, bcc2..</pre>
+     * @param lang language for translating message exceptions.
      * @param addresses email addresses string.
      * @return a created instance.
      * @throws BGMessageException incorrect email was given in {@code addresses} and {@code silent} is {@code false}.
      */
-    static Addresses parse(String addresses) throws BGMessageException {
-        return new Addresses().parse(addresses, false);
+    static Addresses parse(String lang, String addresses) throws BGMessageException {
+        return new Addresses().parse(lang, addresses, false);
     }
 
     /**
@@ -75,13 +76,13 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
      */
     static Addresses parseSafe(String addresses) {
         try {
-            return new Addresses().parse(addresses, true);
+            return new Addresses().parse(null, addresses, true);
         } catch (BGMessageException e) {
             throw new IllegalStateException("The exception must not be thrown here", e);
         }
     }
 
-    private Addresses parse(String addresses, boolean silent) throws BGMessageException {
+    private Addresses parse(String lang, String addresses, boolean silent) throws BGMessageException {
         if (Utils.isEmptyString(addresses))
             return this;
 
@@ -103,7 +104,7 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
                         log.debug("Incorrect prefix: {}", prefix);
                         continue;
                     } else
-                        throw new BGMessageException(Localization.getLocalizer(Localization.getSysLang(), Plugin.ID), "Incorrect prefix: {}", prefix);
+                        throw new BGMessageException(new Localizer(lang, Plugin.INSTANCE.geLocalization()), "Incorrect prefix: {}", prefix);
                 }
             }
 
@@ -116,7 +117,7 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
                 if (silent)
                     log.debug("Incorrect email: {}", token);
                 else
-                    throw new BGMessageException(Localization.getLocalizer(Localization.getSysLang(), Plugin.ID), "Incorrect email: {}", token);
+                    throw new BGMessageException(new Localizer(lang, Plugin.INSTANCE.geLocalization()), "Incorrect email: {}", token);
             }
         }
 

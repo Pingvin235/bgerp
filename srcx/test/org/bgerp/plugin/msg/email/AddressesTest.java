@@ -7,12 +7,15 @@ import java.util.Map;
 import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
 
+import org.bgerp.l10n.Localization;
 import org.junit.Assert;
 import org.junit.Test;
 
 import ru.bgcrm.model.BGMessageException;
 
 public class AddressesTest {
+    private static final String lang = Localization.LANG_EN;
+
     @Test
     public void testParseSafe() throws Exception {
         Addresses expected = new Addresses(Map.of(
@@ -59,17 +62,17 @@ public class AddressesTest {
     @Test
     public void testParse() throws Exception {
         Addresses expected = new Addresses(Map.of());
-        Assert.assertEquals(expected, Addresses.parse(""));
+        Assert.assertEquals(expected, Addresses.parse(lang, ""));
 
         expected = new Addresses(Map.of(
             RecipientType.TO, List.of(new InternetAddress("test@bgerp.org")),
             RecipientType.CC, List.of(new InternetAddress("test1@bgerp.org"))
         ));
-        Assert.assertEquals(expected, Addresses.parse("test@bgerp.org; CC: test1@bgerp.org"));
+        Assert.assertEquals(expected, Addresses.parse(lang, "test@bgerp.org; CC: test1@bgerp.org"));
 
         BGMessageException exception = null;
         try {
-            Addresses.parse("ddd");
+            Addresses.parse(lang, "ddd");
         } catch (BGMessageException e) {
             exception = e;
         }
@@ -77,7 +80,7 @@ public class AddressesTest {
 
         exception = null;
         try {
-            Addresses.parse("test@bgerp.org, ddd");
+            Addresses.parse(lang, "test@bgerp.org, ddd");
         } catch (BGMessageException e) {
             exception = e;
         }
@@ -85,7 +88,7 @@ public class AddressesTest {
 
         exception = null;
         try {
-            Addresses.parse("XX: test@bgerp.org; ddd");
+            Addresses.parse(lang, "XX: test@bgerp.org; ddd");
         } catch (BGMessageException e) {
             exception = e;
         }
@@ -93,7 +96,7 @@ public class AddressesTest {
 
         exception = null;
         try {
-            Addresses.parse("XX: test@bgerp.org, ddd");
+            Addresses.parse(lang, "XX: test@bgerp.org, ddd");
         } catch (BGMessageException e) {
             exception = e;
         }
@@ -106,7 +109,7 @@ public class AddressesTest {
             RecipientType.TO, List.of(new InternetAddress("test@bgerp.org"), new InternetAddress("test4@bgerp.org")),
             RecipientType.CC, List.of(new InternetAddress("test1@bgerp.org"), new InternetAddress("test2@bgerp.org"))
         ));
-        Assert.assertEquals(expected, Addresses.parse("test@bgerp.org; CC: test1@bgerp.org, test2@bgerp.org").addTo("test4@bgerp.org"));
+        Assert.assertEquals(expected, Addresses.parse(lang, "test@bgerp.org; CC: test1@bgerp.org, test2@bgerp.org").addTo("test4@bgerp.org"));
     }
 
     @Test
@@ -115,7 +118,7 @@ public class AddressesTest {
             RecipientType.TO, List.of(),
             RecipientType.CC, List.of(new InternetAddress("test2@bgerp.org"))
         ));
-        Assert.assertEquals(expected, Addresses.parse("test@bgerp.org; CC: test@bgerp.org, test2@bgerp.org").exclude("test@bgerp.org"));
+        Assert.assertEquals(expected, Addresses.parse(lang, "test@bgerp.org; CC: test@bgerp.org, test2@bgerp.org").exclude("test@bgerp.org"));
     }
 
     @Test
@@ -143,11 +146,11 @@ public class AddressesTest {
         expected.put(RecipientType.TO, List.of(new InternetAddress("test@bgerp.org")));
         expected.put(RecipientType.CC, List.of(new InternetAddress("test1@bgerp.org")));
         expected.put(RecipientType.BCC, List.of(new InternetAddress("test2@bgerp.org"), new InternetAddress("test3@bgerp.org")));
-        Assert.assertEquals(expected, Addresses.parse("test@bgerp.org; CC: test1@bgerp.org; BCC: test2@bgerp.org, test3@bgerp.org"));
+        Assert.assertEquals(expected, Addresses.parse(lang, "test@bgerp.org; CC: test1@bgerp.org; BCC: test2@bgerp.org, test3@bgerp.org"));
 
         expected.clear();
         expected.put(RecipientType.TO, List.of(new InternetAddress("test@bgerp.org"), new InternetAddress("test2@bgerp.org")));
         expected.put(RecipientType.BCC, List.of(new InternetAddress("test2@bgerp.org"), new InternetAddress("test3@bgerp.org")));
-        Assert.assertEquals(expected, Addresses.parse("test@bgerp.org, test2@bgerp.org; BCC: test2@bgerp.org, test3@bgerp.org"));
+        Assert.assertEquals(expected, Addresses.parse(lang, "test@bgerp.org, test2@bgerp.org; BCC: test2@bgerp.org, test3@bgerp.org"));
     }
 }

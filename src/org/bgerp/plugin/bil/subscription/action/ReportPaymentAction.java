@@ -65,7 +65,7 @@ public class ReportPaymentAction extends ReportActionBase {
 
     @Override
     public String getTitle() {
-        return Localization.getLocalizer(Localization.getSysLang(), Plugin.ID).l("Subscription Payments");
+        return Localization.getLocalizer(Localization.getLang(), Plugin.ID).l("Subscription Payments");
     }
 
     @Override

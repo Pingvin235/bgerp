@@ -8,6 +8,7 @@
 	<p:check action="org.bgerp.action.admin.AppAction:restart">
 		<h2>${l.l('Перезапуск')}</h2>
 		<html:form action="/admin/app">
+			<input type="hidden" name="action" value="restart"/>
 			<%@ include file="run_restart_button.jsp"%>
 		</html:form>
 	</p:check>

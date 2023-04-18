@@ -36,6 +36,8 @@ import ru.bgcrm.util.XMLUtils;
 public class Localization {
     private static final Log log = Log.getLog();
 
+    public static final String FILE_NAME = "l10n.xml";
+
     public static final String LANG_SYS = "sys";
     public static final String LANG_RU = Lang.RU.getId();
     public static final String LANG_EN = Lang.EN.getId();
@@ -44,7 +46,6 @@ public class Localization {
     /** Custom localizations may be placed in the custom/l10n.xml file in the application's directory. */
     private static final String PLUGIN_CUSTOM = "custom";
 
-    private static final String FILE_NAME = "l10n.xml";
     /** Localizations of plugins. */
     private static volatile Map<String, Localization> localizations;
 
@@ -159,18 +160,28 @@ public class Localization {
 
         // user interface or not defined in session / params
         if (Utils.isBlankString(result))
-            result  = Setup.getSetup().get(langKeyName, LANG_RU);
+            result  = Setup.getSetup().get(langKeyName, LANG_EN);
 
         return result;
     }
 
     /**
-     * Default system language.
+     * Default default UI language.
      * Calls {@link #getLang(HttpServletRequest)} with 'null'.
      * @return
      */
-    public static final String getSysLang() {
+    public static final String getLang() {
         return getLang(null);
+    }
+
+    /**
+     * Old version of {@link #getLang()}.
+     * @return
+     */
+    @Deprecated
+    public static final String getSysLang() {
+        log.warn("Deprecated method getSysLang was called");
+        return getLang();
     }
 
     /**
@@ -218,11 +229,11 @@ public class Localization {
     }
 
     /**
-     * Localizer for kernel only to the language, taken from {@link #getSysLang()}.
+     * Localizer for kernel only to the language, taken from {@link #getLang()}.
      * @return
      */
-    public static Localizer getSysLocalizer() {
-        return getLocalizer(getSysLang(), (String) null);
+    public static Localizer getLocalizer() {
+        return getLocalizer(getLang(), (String) null);
     }
 
     private static void loadLocalizations() {
@@ -235,14 +246,10 @@ public class Localization {
 
                     var customL10n = new File(PLUGIN_CUSTOM, FILE_NAME);
                     if (customL10n.exists())
-                        loadL10n(PLUGIN_CUSTOM, XMLUtils.parseDocument(new FileInputStream(customL10n)));
+                        loadL10n(new Localization(PLUGIN_CUSTOM, XMLUtils.parseDocument(new FileInputStream(customL10n))));
 
-                    for (Plugin p : PluginManager.getInstance().getPluginList()) {
-                        var doc = p.getXml(FILE_NAME, null);
-                        if (doc == null)
-                            continue;
-                        loadL10n(p.getId(), doc);
-                    }
+                    for (Plugin p : PluginManager.getInstance().getFullSortedPluginList())
+                        loadL10n(p.geLocalization());
 
                     localizations = Collections.unmodifiableMap(localizations);
                 } catch (Exception e) {
@@ -252,9 +259,11 @@ public class Localization {
         }
     }
 
-    private static void loadL10n(String pluginId, Document doc) throws Exception {
-        Localization l = new Localization(pluginId, doc);
-        localizations.put(l.pluginId, l);
-        log.debug("Loaded localization for: {}", l.pluginId);
+    private static void loadL10n(Localization localization) throws Exception {
+        if (localization == null)
+            return;
+
+        localizations.put(localization.pluginId, localization);
+        log.debug("Loaded localization for: {}", localization.pluginId);
     }
 }

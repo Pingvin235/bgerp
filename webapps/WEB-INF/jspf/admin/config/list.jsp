@@ -16,7 +16,7 @@
 		onSelect="$$.ajax.loadContent(this); return false;"/>
 </html:form>
 
-<div style="display: inline-block;">
+<div style="display: inline-block;" class="ml2">
 	<%@ include file="../app/app_restart.jsp"%>
 </div>
 

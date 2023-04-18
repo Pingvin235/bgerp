@@ -65,7 +65,7 @@ public class SetRequestParamsFilter implements Filter {
     private Localizer getLocalizer(ServletRequest request) {
         var result = Localization.getLocalizer((HttpServletRequest) request);
         if (result == null)
-            result = Localization.getSysLocalizer();
+            result = Localization.getLocalizer();
         return result;
     }
 

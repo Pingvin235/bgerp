@@ -143,7 +143,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         this.permission = ParameterMap.EMPTY;
         // for tests
         if (PluginManager.getInstance() != null)
-            this.l = Localization.getSysLocalizer();
+            this.l = Localization.getLocalizer();
     }
 
     public HttpServletRequest getHttpRequest() {

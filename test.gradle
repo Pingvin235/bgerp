@@ -5,6 +5,8 @@ test {
         events "passed", "skipped", "failed"
     }
     outputs.upToDateWhen {false}
+
+    systemProperty "bgerp.lang", "en"
 }
 
 /*

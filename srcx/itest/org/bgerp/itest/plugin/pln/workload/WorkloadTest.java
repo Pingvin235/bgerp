@@ -32,7 +32,7 @@ import org.bgerp.plugin.pln.workload.Plugin;
 
 @Test(groups = "workload", priority = 100, dependsOnGroups = { "config", "user", "process", "address" })
 public class WorkloadTest {
-    private static final Plugin PLUGIN = new Plugin();
+    private static final Plugin PLUGIN = Plugin.INSTANCE;
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
     private int userGroupId;

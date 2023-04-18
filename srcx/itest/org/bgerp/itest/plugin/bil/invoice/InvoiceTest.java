@@ -39,7 +39,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Test(groups = "invoice", priority = 100, dependsOnGroups = { "config", "process", "customer", "customerRu", "message" })
 public class InvoiceTest {
-    private static final Plugin PLUGIN = new Plugin();
+    private static final Plugin PLUGIN = Plugin.INSTANCE;
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
     private int paramContractDateId;

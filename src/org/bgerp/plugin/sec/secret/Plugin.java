@@ -12,8 +12,9 @@ import ru.bgcrm.plugin.Table.Type;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "secret";
+    public static final Plugin INSTANCE = new Plugin();
 
-    public Plugin() {
+    private Plugin() {
         super(ID);
     }
 

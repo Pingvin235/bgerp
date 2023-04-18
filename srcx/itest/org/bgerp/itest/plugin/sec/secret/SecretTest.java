@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 @Test(groups = "secret", priority = 100, dependsOnGroups = { "config", "openIface" })
 public class SecretTest {
-    private static final Plugin PLUGIN = new Plugin();
+    private static final Plugin PLUGIN = Plugin.INSTANCE;
 
     @Test
     public void config() throws Exception {

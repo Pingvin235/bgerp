@@ -28,7 +28,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Test(groups = "git", priority = 100, dependsOnGroups = { "config", "process", "user" })
 public class GitTest {
-    private static final Plugin PLUGIN = new Plugin();
+    private static final Plugin PLUGIN = Plugin.INSTANCE;
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
     private int paramBranchId;

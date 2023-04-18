@@ -11,7 +11,7 @@ import ru.bgcrm.plugin.dispatch.model.Dispatch;
 
 @Test(groups = "dispatch", priority = 100, dependsOnGroups = "config")
 public class DispatchTest {
-    private static final Plugin PLUGIN = new Plugin();
+    private static final Plugin PLUGIN = Plugin.INSTANCE;
 
     @Test
     public void config() throws Exception {

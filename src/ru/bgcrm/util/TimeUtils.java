@@ -23,21 +23,10 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.PeriodSet;
 
 public class TimeUtils {
-    public static final String CONF_KEY_FORMAT_YMD = "bgerp.format.ymd";
-    public static final String CONF_KEY_FORMAT_YMDH = "bgerp.format.ymdh";
-    public static final String CONF_KEY_FORMAT_YMDHM = "bgerp.format.ymdhm";
-    public static final String CONF_KEY_FORMAT_YMDHMS = "bgerp.format.ymdhms";
-
-    // TODO: Use Java API.
-    @Deprecated
-    public static final String[] monthNames = { "январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь",
-            "ноябрь", "декабрь" };
-    @Deprecated
-    public static final String[] monthNamesRod = { "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября",
-            "ноября", "декабря" };
-
-    @Deprecated
-    public static final String[] shortDayNames = { "пн", "вт", "ср", "чт", "пт", "сб", "вс" };
+    public static final String CONF_KEY_FORMAT_YMD = "format.ymd";
+    public static final String CONF_KEY_FORMAT_YMDH = "format.ymdh";
+    public static final String CONF_KEY_FORMAT_YMDHM = "format.ymdhm";
+    public static final String CONF_KEY_FORMAT_YMDHMS = "format.ymdhms";
 
     public static final String PATTERN_DDMMYYYY = "dd.MM.yyyy";
     public static final String PATTERN_YYYYMMDD = "yyyy-MM-dd";
@@ -49,6 +38,9 @@ public class TimeUtils {
     public static final String FORMAT_TYPE_YMDHM = "ymdhm";
     public static final String FORMAT_TYPE_YMDHMS = "ymdhms";
 
+    @Deprecated
+    private static final String[] shortDayNames = { "пн", "вт", "ср", "чт", "пт", "сб", "вс" };
+
     /**
      * Date and time format string compatible with {@link SimpleDateFormat}.
      * @param type type of date-time: {@link #FORMAT_TYPE_YMD},{@link #FORMAT_TYPE_YMDH}, {@link #FORMAT_TYPE_YMDHM}, {@link #FORMAT_TYPE_YMDHMS}.
@@ -57,13 +49,13 @@ public class TimeUtils {
     public static String getTypeFormat(String type) {
         switch (type) {
             case FORMAT_TYPE_YMD:
-                return System.getProperty(CONF_KEY_FORMAT_YMD, "dd.MM.yyyy");
+                return Utils.getSystemProperty(CONF_KEY_FORMAT_YMD, "dd.MM.yyyy");
             case FORMAT_TYPE_YMDH:
-                return System.getProperty(CONF_KEY_FORMAT_YMDH, "dd.MM.yyyy HH");
+                return Utils.getSystemProperty(CONF_KEY_FORMAT_YMDH, "dd.MM.yyyy HH");
             case FORMAT_TYPE_YMDHM:
-                return System.getProperty(CONF_KEY_FORMAT_YMDHM, "dd.MM.yyyy HH:mm");
+                return Utils.getSystemProperty(CONF_KEY_FORMAT_YMDHM, "dd.MM.yyyy HH:mm");
             case FORMAT_TYPE_YMDHMS:
-                return System.getProperty(CONF_KEY_FORMAT_YMDHMS, "dd.MM.yyyy HH:mm:ss");
+                return Utils.getSystemProperty(CONF_KEY_FORMAT_YMDHMS, "dd.MM.yyyy HH:mm:ss");
             default:
                 return type;
         }
@@ -848,6 +840,7 @@ public class TimeUtils {
      * @return String сокращенное название дня недели
      */
     public static String getShortDateName(Date date) {
+        // TODO: Use Java API
         return shortDayNames[getDayOfWeekPosition(date) - 1];
     }
 

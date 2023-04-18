@@ -26,7 +26,7 @@ import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "blow", priority = 100, dependsOnGroups = { "process", "user", "message" })
 public class BlowTest {
-    private static final Plugin PLUGIN = new Plugin();
+    private static final Plugin PLUGIN = Plugin.INSTANCE;
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
     private int userGroupId;

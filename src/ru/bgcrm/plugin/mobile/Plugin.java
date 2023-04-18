@@ -6,12 +6,13 @@ import ru.bgcrm.util.Setup;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "mobile";
+    public static final Plugin INSTANCE = new Plugin();
 
     public static String getServerId() {
         return Setup.getSetup().get(Plugin.ID + ":serverId", "");
     }
 
-    public Plugin() {
+    private Plugin() {
         super(ID);
 
         EventProcessor.subscribe((e, conSet) ->

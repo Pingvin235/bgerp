@@ -10,7 +10,7 @@ import org.junit.Test;
 public class PermissionNodeTest {
     @Test
     public void testKernelTree() {
-        var pl = new org.bgerp.plugin.kernel.Plugin();
+        var pl = org.bgerp.plugin.kernel.Plugin.INSTANCE;
         var l = new Localizer(Localization.LANG_EN, Localization.getLocalization(pl));
 
         var node = new PermissionNode(null, l, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
@@ -39,7 +39,7 @@ public class PermissionNodeTest {
 
     @Test
     public void testTaskTree() {
-        var pl = new ru.bgcrm.plugin.task.Plugin();
+        var pl = ru.bgcrm.plugin.task.Plugin.INSTANCE;
         var l = new Localizer(Localization.LANG_EN, Localization.getLocalization(pl));
 
         var node = new PermissionNode(null, l, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());
@@ -50,8 +50,8 @@ public class PermissionNodeTest {
 
     @Test
     public void testBackupTree() {
-        var pl = new org.bgerp.plugin.svc.backup.Plugin();
-        var plk = new org.bgerp.plugin.kernel.Plugin();
+        var pl = org.bgerp.plugin.svc.backup.Plugin.INSTANCE;
+        var plk = org.bgerp.plugin.kernel.Plugin.INSTANCE;
         var l = new Localizer(Localization.LANG_EN, Localization.getLocalization(plk));
 
         var node = new PermissionNode(null, l, pl.getXml(PermissionNode.FILE_NAME, null).getDocumentElement());

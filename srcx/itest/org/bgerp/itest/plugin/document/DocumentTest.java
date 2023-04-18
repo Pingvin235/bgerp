@@ -21,7 +21,7 @@ import ru.bgcrm.plugin.document.Plugin;
 
 @Test(groups = "document", priority = 100, dependsOnGroups = { "config", "customer", "process", "processParam" })
 public class DocumentTest {
-    private static final Plugin PLUGIN = new Plugin();
+    private static final Plugin PLUGIN = Plugin.INSTANCE;
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
     private Customer customer;

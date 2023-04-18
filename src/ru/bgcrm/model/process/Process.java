@@ -457,7 +457,7 @@ public class Process extends Id implements Comparable<Process>, Cloneable {
     }
 
     public String getChangesLog(Process oldProcess) throws SQLException {
-        Localizer l = Localization.getSysLocalizer();
+        Localizer l = Localization.getLocalizer();
 
         StringBuilder result = new StringBuilder();
 

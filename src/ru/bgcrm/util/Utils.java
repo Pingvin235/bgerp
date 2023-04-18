@@ -57,7 +57,7 @@ public class Utils {
     public static final String[] STRING_ARRAY = new String[0];
     public static final Integer[] INTEGER_ARRAY = new Integer[0];
 
-    private static final String TMP_DIR = System.getProperty("bgerp.tmpdir", "tmp");
+    private static final String TMP_DIR = Utils.getSystemProperty("tmpdir", "tmp");
     static {
         File tmpDir = new File(TMP_DIR);
         if (!tmpDir.exists()) {
@@ -816,6 +816,7 @@ public class Utils {
         return result;
     }
 
+    @Deprecated
     public static final List<ListItem> parseList(Element listElement) {
         List<ListItem> list = new ArrayList<ListItem>();
         NodeList nodeList = listElement.getElementsByTagName("item");
@@ -1047,4 +1048,15 @@ public class Utils {
         return false;
     }
 
+    /**
+     * Retrieves a property value from {@link System#getProperty(String)}.
+     * @param key the key is prepended by {@code bgerp.}
+     * @param defaultValue the default value if no property found.
+     * @return
+     */
+    public static String getSystemProperty(String key, String defaultValue) {
+        if (key.startsWith("bgerp"))
+            throw new IllegalArgumentException("Do not use 'bgerp' prefix for a key");
+        return System.getProperty("bgerp." + key, defaultValue);
+    }
 }

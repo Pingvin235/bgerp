@@ -13,11 +13,12 @@ import ru.bgcrm.util.Setup;
  */
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "subscription";
+    public static final Plugin INSTANCE = new Plugin();
 
     public static final String PATH_JSP_OPEN = PATH_JSP_OPEN_PLUGIN + "/" + ID;
     public static final String PATH_JSP_USER = PATH_JSP_USER_PLUGIN + "/" + ID;
 
-    public Plugin() {
+    private Plugin() {
         super(ID);
     }
 

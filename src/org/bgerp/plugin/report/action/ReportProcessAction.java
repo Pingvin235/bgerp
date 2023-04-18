@@ -68,7 +68,7 @@ public class ReportProcessAction extends ReportActionBase {
 
     @Override
     public String getTitle() {
-        return Localization.getLocalizer(Localization.getSysLang(), Plugin.ID).l("Процессы");
+        return Localization.getLocalizer(Localization.getLang(), Plugin.ID).l("Процессы");
     }
 
     @Override

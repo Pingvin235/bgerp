@@ -7,8 +7,9 @@ import ru.bgcrm.plugin.asterisk.event.listener.UserSessionListener;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "asterisk";
+    public static final Plugin INSTANCE = new Plugin();
 
-    public Plugin() {
+    private Plugin() {
         super(ID);
     }
 

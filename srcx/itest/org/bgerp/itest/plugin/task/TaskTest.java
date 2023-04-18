@@ -19,7 +19,7 @@ import ru.bgcrm.plugin.task.Plugin;
 
 @Test(groups = "task", priority = 100, dependsOnGroups = { "config", "process", "message" })
 public class TaskTest {
-    private static final Plugin PLUGIN = new Plugin();
+    private static final Plugin PLUGIN = Plugin.INSTANCE;
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
     @Test

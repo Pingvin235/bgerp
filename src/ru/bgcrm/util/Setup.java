@@ -43,7 +43,7 @@ public class Setup extends Preferences {
     }
 
     public static String getBundleName() {
-        return System.getProperty("bgerp.setup.data", System.getProperty("bgcrm.setup.data", "bgerp"));
+        return Utils.getSystemProperty("setup.data", "bgerp");
     }
 
     public static Setup getSetup(String bundleName, boolean initConfig) {
@@ -86,13 +86,13 @@ public class Setup extends Preferences {
 
     /**
      * Set system properties out of the setup.
-     * @param keys
+     * @param keys the keys to be copied, will be prepended by {@code bgerp.}
      */
     private void setSystemProperties(String... keys) {
         for (String key : keys) {
             var value = get(key);
             if (!Utils.isBlankString(value))
-                System.setProperty(key, value);
+                System.setProperty("bgerp." + key, value);
         }
     }
 

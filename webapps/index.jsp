@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="l" value="<%=org.bgerp.l10n.Localization.getSysLocalizer()%>"/>
+<c:set var="l" value="<%=org.bgerp.l10n.Localization.getLocalizer()%>"/>
 
 <html>
 <head>

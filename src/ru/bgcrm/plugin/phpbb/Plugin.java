@@ -8,13 +8,14 @@ import ru.bgcrm.plugin.phpbb.model.Topic;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "phpbb";
+    public static final Plugin INSTANCE = new Plugin();
 
     public static final String PATH_JSP_USER = PATH_JSP_USER_PLUGIN + "/" + ID;
 
     public static final String ENDPOINT_MESSAGE_HEADER = PATH_JSP_USER + "/process_message_header.jsp";
     public static final String ENDPOINT_MESSAGE_EDITOR = PATH_JSP_USER + "/process_message_editor.jsp";
 
-    public Plugin() {
+    private Plugin() {
         super(ID);
     }
 

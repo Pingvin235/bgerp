@@ -25,7 +25,6 @@ public class PluginManager {
 
     private static PluginManager instance;
 
-
     public static void init() throws Exception {
         instance = new PluginManager();
         instance.initPlugins();
@@ -65,7 +64,20 @@ public class PluginManager {
         for (Class<? extends Plugin> pc : r.getSubTypesOf(Plugin.class)) {
             log.debug("Found plugin: {}", pc);
             try {
-                result.add(pc.getDeclaredConstructor().newInstance());
+                Plugin instance = null;
+
+                try {
+                    instance = (Plugin) pc.getField("INSTANCE").get(null);
+                } catch (NoSuchFieldException e) {
+                    var constructor = pc.getDeclaredConstructor();
+                    constructor.setAccessible(true);
+
+                    log.warn("No INSTANCE found in: {}", pc);
+
+                    instance = constructor.newInstance();
+                }
+
+                result.add(instance);
             } catch (Exception e) {
                 log.error("Error loading of plugin: " + pc, e);
             }

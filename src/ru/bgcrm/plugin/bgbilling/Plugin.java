@@ -21,12 +21,13 @@ import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "bgbilling";
+    public static final Plugin INSTANCE = new Plugin();
 
     public static final String PATH_JSP_USER = PATH_JSP_USER_PLUGIN + "/" + ID;
 
     public static final String ENDPOINT_MESSAGE_HEADER = PATH_JSP_USER + "/helpdesk/process_message_header.jsp";
 
-    public Plugin() {
+    private Plugin() {
         super(ID);
     }
 

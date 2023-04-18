@@ -3,6 +3,7 @@
 
 <%@ attribute name="endpoint" description="Endpoint"%>
 
+<%@tag import="org.bgerp.l10n.Localization"%>
 <%@tag import="ru.bgcrm.plugin.Plugin"%>
 
 <%
@@ -18,7 +19,7 @@
 	<c:if test="${not empty endpoints}">
 		<%
 			Plugin p = (Plugin) request.getAttribute("plugin");
-			request.setAttribute(KEY, p.getLocalizer(org.bgerp.l10n.Localization.getLang(request)));
+			request.setAttribute(KEY, Localization.getLocalizer(Localization.getLang(request), p.getId()));
 		%>
 
 		<c:forEach items="${endpoints}" var="page">

@@ -95,7 +95,7 @@ public class UserNewsCache extends Cache<UserNewsCache> {
                 new UserDAO(con).updatePersonalization(user, prefs);
             }
 
-            final var l = Localization.getSysLocalizer();
+            final var l = Localization.getLocalizer();
 
             result = new NewsInfoEvent(searchResult.getList().size(), currentUnprocessedMessages, popupNews, blinkNews, blinkMessages);
             result.message(l, "News");

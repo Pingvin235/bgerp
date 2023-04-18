@@ -8,7 +8,7 @@ import ru.bgcrm.plugin.mobile.Plugin;
 
 @Test(groups = "mobile", priority = 100, dependsOnGroups = { "config", "usermobIface" })
 public class MobileTest {
-    private static final Plugin PLUGIN = new Plugin();
+    private static final Plugin PLUGIN = Plugin.INSTANCE;
 
     @Test
     public void config() throws Exception {

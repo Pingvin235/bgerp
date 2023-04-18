@@ -273,7 +273,7 @@ public class PermissionNode {
                     continue;
 
                 newPermissionTrees.add(new PermissionNode(null,
-                        Localization.getLocalizer(Localization.getSysLang(), p.getId()),
+                        Localization.getLocalizer(Localization.getLang(), p.getId()),
                         doc.getDocumentElement()));
             }
 

@@ -27,7 +27,7 @@ import ru.bgcrm.util.Utils;
 public class InstallerModules {
     private static final Log log = Log.getLog();
 
-    private static final String UPDATE_URL = System.getProperty("bgerp.download.url", "https://bgerp.org/download");
+    private static final String UPDATE_URL = Utils.getSystemProperty("download.url", "https://bgerp.org/download");
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
     /** App version for 'update' module. */

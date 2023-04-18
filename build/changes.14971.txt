@@ -1,0 +1,4 @@
+B: Default l10n language changed to English.
+C: Plugins instantiating methodology.
+F: Language getting exceptions in 'test' task running.
+F: Missing Configuration tool.

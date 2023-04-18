@@ -59,7 +59,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        final Localizer l = Localization.getSysLocalizer();
+        final Localizer l = Localization.getLocalizer();
 
         User user = authUser(request, response);
         if (user != null && !user.isAdmin() && !AppLicense.instance().checkSessionLimit()) {

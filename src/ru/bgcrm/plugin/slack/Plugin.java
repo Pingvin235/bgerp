@@ -11,6 +11,7 @@ import ru.bgcrm.plugin.Endpoint;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "slack";
+    public static final Plugin INSTANCE = new Plugin();
 
     public static final String LINK_TYPE_CHANNEL = "slack-channel";
 
@@ -19,7 +20,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     public static final String ENDPOINT_MESSAGE_HEADER = PATH_JSP_USER + "/process_link_list.jsp";
 
-    public Plugin() {
+    private Plugin() {
         super(ID);
     }
 

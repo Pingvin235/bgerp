@@ -91,7 +91,7 @@ public class MessageTypeEmail extends MessageType {
     public MessageTypeEmail(Setup setup, int id, ParameterMap config) throws BGException {
         super(setup, id, config.get("title"), config);
 
-        var l = Localization.getLocalizer(Localization.getSysLang(), Plugin.ID);
+        var l = Localization.getLocalizer(Localization.getLang(), Plugin.ID);
 
         encoding = MailMsg.getParamMailEncoding(setup);
 
@@ -396,7 +396,7 @@ public class MessageTypeEmail extends MessageType {
                     message.setSubject(subject, encoding);
                     message.setSentDate(new Date());
 
-                    messageBuilder.create(message, Localization.getSysLang(), msg);
+                    messageBuilder.create(message, Localization.getLang(), msg);
 
                     transport.sendMessage(message, message.getAllRecipients());
 
@@ -652,11 +652,11 @@ public class MessageTypeEmail extends MessageType {
         String to = form.getParam("to", "");
 
         if (Utils.isBlankString(to))
-            throw new BGMessageException(Localization.getLocalizer(Localization.getSysLang(), Plugin.ID), "Undefined recipient address.");
+            throw new BGMessageException(Localization.getLocalizer(Localization.getLang(), Plugin.ID), "Undefined recipient address.");
 
         // checking recipient addresses
-        var addresses = Addresses.parse(to);
-        addresses.put(RecipientType.CC, Addresses.parse(form.getParam("toCc", "")).get(RecipientType.TO));
+        var addresses = Addresses.parse(form.l.getLang(), to);
+        addresses.put(RecipientType.CC, Addresses.parse(form.l.getLang(), form.getParam("toCc", "")).get(RecipientType.TO));
 
         message.setTo(addresses.serialize());
 

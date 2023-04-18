@@ -17,7 +17,7 @@ import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "process", dependsOnGroups = "config")
 public class ProcessTest {
-    private static final String TITLE = "Test";
+    private static final String TITLE = "Kernel Process";
 
     /** Common used statuses and params. */
     public static volatile int statusOpenId;

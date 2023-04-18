@@ -15,7 +15,7 @@ import ru.bgcrm.plugin.asterisk.Plugin;
 
 @Test(groups = "asterisk", priority = 100, dependsOnGroups = {"config", "message", "user"})
 public class AsteriskTest {
-    private static final Plugin PLUGIN = new Plugin();
+    private static final Plugin PLUGIN = Plugin.INSTANCE;
     private static final String TITLE = PLUGIN.getTitleWithPrefix();
 
     private int paramExtensionId;

@@ -106,3 +106,5 @@ processor.{@cnt}.responseType=file
 
 # url ending for open interface
 openUrl=test
+
+media.html.open.columns=1,3,4,8

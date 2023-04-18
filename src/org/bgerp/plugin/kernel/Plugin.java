@@ -29,8 +29,9 @@ import ru.bgcrm.util.ParameterMap;
  */
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "kernel";
+    public static final Plugin INSTANCE = new Plugin();
 
-    public Plugin() {
+    private Plugin() {
         super(ID);
     }
 

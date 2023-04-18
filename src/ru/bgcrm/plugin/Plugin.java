@@ -16,7 +16,6 @@ import org.apache.commons.io.IOUtils;
 import org.bgerp.app.dist.inst.call.ExecuteSQL;
 import org.bgerp.dao.Cleaner;
 import org.bgerp.l10n.Localization;
-import org.bgerp.l10n.Localizer;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.bgerp.util.Log;
 import org.bgerp.util.lic.AppLicense;
@@ -34,9 +33,9 @@ import ru.bgcrm.util.XMLUtils;
  * @author Shamil Vakhitov
  */
 public abstract class Plugin {
-    private static final String ENABLE_KEY_SUFFIX = ":enable";
-
     private static final Log log = Log.getLog();
+
+    private static final String ENABLE_KEY_SUFFIX = ":enable";
 
     protected static final String PATH_JS = "/js";
     protected static final String PATH_LIB = "/lib";
@@ -48,13 +47,16 @@ public abstract class Plugin {
 
     private final String id;
     /** Old way of plugin definition. XML document storing at most only endpoints. */
+    @Deprecated
     private final Document document;
     private final Map<String, List<String>> endpoints;
+    private final Localization localization;
 
     protected Plugin(String id) {
         this.id = id;
         this.document = getXml("plugin.xml", XMLUtils.newDocument());
         this.endpoints = loadEndpoints();
+        this.localization = Localization.getLocalization(this);
     }
 
     /**
@@ -208,12 +210,10 @@ public abstract class Plugin {
     }
 
     /**
-     * Localizer to target language.
-     * @param toLang
-     * @return
+     * @return the plugin's localization from l10n.xml if exists, or {@code null}
      */
-    public Localizer getLocalizer(String toLang) {
-        return Localization.getLocalizer(toLang, getId());
+    public Localization geLocalization() {
+        return localization;
     }
 
     /**
