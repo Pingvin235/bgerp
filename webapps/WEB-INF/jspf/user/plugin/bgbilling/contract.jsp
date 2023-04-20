@@ -69,7 +69,7 @@
 	<c:set var="uiid" value="${u:uiid()}"/>
 
 	<div class="in-table-cell nowrap in-pr1 mb05" id="${uiid}">
-		<div>ID: <b><a title="Открыть договор отдельно" href="#" onclick="bgbilling_openContract( '${billingId}', ${contractId} ); return false;">${contractId}</a></b></div>
+		<div>ID: <b><a title="Открыть договор отдельно" href="#" onclick="$$.bgbilling.contract.open('${billingId}', ${contractId}); return false;">${contractId}</a></b></div>
 
 		<c:set var="customerSelectUiid" value="${u:uiid()}"/>
 
@@ -104,7 +104,7 @@
 						<c:param name="customerId" value="${customerId}"/>
 					</c:url>
 
-					<button type="button" class="btn-white btn-small mr1" onclick="if( confirm('Скопировать параметры контрагента в договор?') && sendAJAXCommand( '${url}' ) ){  bgbilling_openContract( '${billingId}', ${contractId} ) }"
+					<button type="button" class="btn-white btn-small mr1" onclick="if( confirm('Скопировать параметры контрагента в договор?') && sendAJAXCommand( '${url}' ) ){  $$.bgbilling.contract.open( '${billingId}', ${contractId} ) }"
 							title="Скопировать параметры контрагента в договор">
 						Скопировать параметры
 					</button>
@@ -116,7 +116,7 @@
 						<c:param name="billingId" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].id}"/>
 					</c:url>
 
-					<button type="button" class="btn-white btn-small" onclick="if( sendAJAXCommand( '${url}' ) ) { bgbilling_openContract( '${billingId}', ${contractId} )  }"
+					<button type="button" class="btn-white btn-small" onclick="if( sendAJAXCommand( '${url}' ) ) { $$.bgbilling.contract.open( '${billingId}', ${contractId} )  }"
 							title="Импорт в контрагента">Импорт</button>
 				</c:when>
 				<c:otherwise>
@@ -156,7 +156,7 @@
 							<c:otherwise>
 								$$.closeObject = null;
 								$$.shell.removeCommandDiv('contract_${billingId}-${contractId}');
-								bgbilling_openContract( '${billingId}', ${contractId} );
+								$$.bgbilling.contract.open( '${billingId}', ${contractId} );
 							</c:otherwise>
 						</c:choose>
 					}
@@ -165,7 +165,7 @@
 						<%-- для обновления обозначения в буфере --%>
 						$$.closeObject = null;
 						$$.shell.removeCommandDiv('contract_${billingId}-${contractId}');
-						bgbilling_openContract( '${billingId}', ${contractId} );
+						$$.bgbilling.contract.open( '${billingId}', ${contractId} );
 					}
 				}
 			</c:set>

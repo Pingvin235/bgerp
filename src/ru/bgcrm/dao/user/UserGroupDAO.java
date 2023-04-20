@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.model.Pageable;
+import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -48,8 +49,8 @@ public class UserGroupDAO extends CommonDAO {
 
             if (Utils.notBlankString(filter)) {
                 pq.addQuery("(title LIKE ? OR config LIKE ?)");
-                pq.addString(CommonDAO.getLikePatternSub(filter));
-                pq.addString(CommonDAO.getLikePatternSub(filter));
+                pq.addString(LikePattern.SUB.get(filter));
+                pq.addString(LikePattern.SUB.get(filter));
             } else {
                 pq.addQuery("parent_id=?");
                 pq.addInt(parentId);

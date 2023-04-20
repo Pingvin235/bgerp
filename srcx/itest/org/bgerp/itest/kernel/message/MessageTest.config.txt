@@ -27,16 +27,16 @@ messageType.1.mail.smtp.user=demo@bgerp.org
 messageType.1.mail.smtp.host=smtp.yandex.ru
 messageType.1.mail.smtp.pswd=bgdemo
 messageType.1.sign.expression={@SIGN_TEXT}
-messageType.1.search.1.title=Auto by EMail
+messageType.1.search.1.title=By EMail
 messageType.1.search.1.class=ru.bgcrm.dao.message.MessageTypeSearchEmail
-messageType.1.search.2.title=Customer by title
+messageType.1.search.2.title=Customer by Title
 messageType.1.search.2.class=ru.bgcrm.dao.message.MessageTypeSearchCustomerByTitle
 messageType.1.saver.class=ru.bgcrm.dao.message.MessageTypeContactSaverEmail
 messageType.1.saver.paramId={@PARAM_CUSTOMER_EMAIL_ID}
 
 messageType.50.title=Call
 messageType.50.class=ru.bgcrm.dao.message.MessageTypeCall
-messageType.50.search.1.title=Auto by Phone
+messageType.50.search.1.title=By Phone
 messageType.50.search.1.class=ru.bgcrm.dao.message.MessageTypeSearchCall
 messageType.50.search.1.commands=customerByPhoneParam:{@PARAM_CUSTOMER_PHONE_ID}
 

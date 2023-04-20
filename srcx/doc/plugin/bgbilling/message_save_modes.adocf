@@ -1,0 +1,21 @@
+|:hardbreaks:
+*ru.bgcrm.plugin.bgbilling.dao.MessageTypeContactSaverPhone*
+Сохранение телефона в параметр типа "телефон" договора биллинга.
+|:hardbreaks:
+[source]
+----
+messageType.<id>.saver.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeContactSaverPhone
+messageType.<id>.saver.paramId=<paramId>
+messageType.<id>.saver.format=<format>
+----
+Где:
+[square]
+* *<paramId>* - код параметра типа "телефон" в биллинге;
+* *<format>* - <<../setup.adoc#config, формат (param.phone.format)>> номера.
+
+Пример:
+[source]
+----
+messageType.1.saver.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeContactSaverPhone
+messageType.1.saver.paramId=27
+----

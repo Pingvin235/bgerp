@@ -10,13 +10,13 @@
 				<td>Название</td>
 				<td></td>
 			</tr>
-			
+
 			<c:forEach var="subContract" items="${form.response.data.subContractList}" varStatus="status">
 				<tr>
 					<td align="center" >${status.index+1}</td>
 					<td width="100%">${subContract.getTitle() }</td>
 					<td align="center" nowrap="nowrap">
-						<input type="button" value="Открыть" onclick="bgbilling_openContract( '${form.param.billingId}', '${subContract.getId()}' ); return false;"/>
+						<input type="button" value="Открыть" onclick="$$.bgbilling.contract.open( '${form.param.billingId}', '${subContract.getId()}' ); return false;"/>
 					</td>
 				</tr>
 			</c:forEach>
@@ -27,7 +27,7 @@
 <c:set var="supperContract" value="${form.response.data.superContract}"/>
 <c:if test="${not empty supperContract}">
 	<h2>Договор является субдоговором для: </br> ${supperContract.getTitle()} </h2>
-	<input type="button" value="Открыть" onclick="bgbilling_openContract( '${form.param.billingId}', '${supperContract.getId()}' ); return false;"/>
+	<input type="button" value="Открыть" onclick="$$.bgbilling.contract.open( '${form.param.billingId}', '${supperContract.getId()}' ); return false;"/>
 </c:if>
 
 <c:if test="${ empty supperContract and empty form.response.data.subContractList}">

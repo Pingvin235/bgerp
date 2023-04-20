@@ -46,7 +46,7 @@
 					<c:set var="contract" value="${item.object}"/>
 					<tr>
 						<td>${contract.id}</td>
-						<td><a href="#" onclick="bgbilling_openContract( '${billingId}', '${contract.id}' ); return false;">${contract.title} [${contract.comment}]</a></td>
+						<td><a href="#" onclick="$$.bgbilling.contract.open( '${billingId}', '${contract.id}' ); return false;">${contract.title} [${contract.comment}]</a></td>
 						<td>${item.value}</td>
 					</tr>
 				</c:forEach>
@@ -62,7 +62,7 @@
 				<c:forEach var="login" items="${result}">
 					<tr>
 						<td>${login.contractId}</td>
-						<td><a href="#" onclick="bgbilling_openContract( '${billingId}', '${login.contractId}' ); return false;">${login.contractTitle}</a></td>
+						<td><a href="#" onclick="$$.bgbilling.contract.open( '${billingId}', '${login.contractId}' ); return false;">${login.contractTitle}</a></td>
 						<td>${login.login}</td>
 						<td>${login.alias}</td>
 					</tr>
@@ -77,7 +77,7 @@
 				<c:forEach var="contract" items="${result}">
 					<tr>
 						<td>${contract.id}</td>
-						<td><a href="#" onclick="bgbilling_openContract( '${billingId}', '${contract.id}' ); return false;">${contract.title}</a></td>
+						<td><a href="#" onclick="$$.bgbilling.contract.open( '${billingId}', '${contract.id}' ); return false;">${contract.title}</a></td>
 					</tr>
 				</c:forEach>
 			</c:otherwise>

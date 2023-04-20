@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLConnection;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -44,18 +43,11 @@ import ru.bgcrm.servlet.jsp.NewInstanceTag;
 public class Utils {
     private static final Log log = Log.getLog();
 
-    /** Use {@link java.nio.charset.StandardCharsets}. */
-    @Deprecated
-    public static final Charset UTF8 = StandardCharsets.UTF_8;
-
     /** Default delimiter: ", " */
     public static final String DEFAULT_DELIM = ", ";
 
     public static final char[] HEX = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
     public static final char[] HEX_LOWERCASE = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-
-    public static final String[] STRING_ARRAY = new String[0];
-    public static final Integer[] INTEGER_ARRAY = new Integer[0];
 
     private static final String TMP_DIR = Utils.getSystemProperty("tmpdir", "tmp");
     static {
@@ -838,7 +830,7 @@ public class Utils {
      * @return
      */
     public static String getDigest(String value) {
-        return getDigest(value, Utils.UTF8.name());
+        return getDigest(value, StandardCharsets.UTF_8.name());
     }
 
     /**

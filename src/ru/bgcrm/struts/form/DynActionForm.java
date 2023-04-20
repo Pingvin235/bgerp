@@ -621,7 +621,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         for (Object value : values) {
             result.add(String.valueOf(value));
         }
-        param.putArray(name, result.toArray(Utils.STRING_ARRAY));
+        param.putArray(name, result.toArray(new String[0]));
     }
 
     @Override

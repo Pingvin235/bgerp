@@ -18271,42 +18271,36 @@ $.widget( "ui.tabs", {
 	},
 
 	// PATCH ADDITION BGERP, function add
-	add: function( url, label, liAttrs ) {
-
-		var liCode = "<li";
-		if( liAttrs )
-		{
+	add: function (url, label, liAttrs) {
+		let liCode = "<li";
+		if (liAttrs) {
 			liCode += " " + liAttrs;
 		}
 		liCode += ">";
 
-		if( this.options.refreshButton )
-		{
+		if (this.options.refreshButton) {
 			liCode += "<button class='refreshButton-hidden btn-white-hover btn-small'><span class='ti-reload'></span></button>";
 		}
-		liCode += "<a href='" + url.replace( "'", "&#39;" ) + "'>" + label + "</a></li>";
+		liCode += "<a href='" + url.replace("'", "&#39;") + "'>" + label + "</a></li>";
 
-		var $li = $(liCode);
+		let $li = $(liCode);
 
-		this.tablist.append( $li );
+		this.tablist.append($li);
 
-		if( this.options.refreshButton )
-		{
+		if (this.options.refreshButton) {
 			var $tabs = this;
 			var options = this.options;
 
-			$li.find( 'button' ).click( function()
-			{
-				$li.data( "loaded", false );
-				$tabs.load( options.active );
+			$li.find('button').click(function () {
+				$li.data("loaded", false);
+				$tabs.load(options.active);
 			})
 		}
 
 		this.refresh();
 
-		if( !this.options.active )
-		{
-			this._setOption( "active", 0 );
+		if (!this.options.active) {
+			this._setOption("active", 0);
 		}
 	},
 

@@ -1,0 +1,2 @@
+C: Run all searches in message processing. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#setup-type-search
+C: JS cleanup.

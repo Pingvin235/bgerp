@@ -1783,6 +1783,9 @@ public class ProcessDAO extends CommonDAO {
                     .map(link -> String.valueOf(link.getLinkedObjectId()))
                     .collect(Collectors.joining(","));
 
+                if (Utils.isBlankString(customerIds))
+                    customerIds = "0";
+
                 pq.addQuery(SQL_SELECT + "p.*, ? AS type" + SQL_FROM + TABLE_PROCESS + "AS p");
                 pq.addInt(me.getKey());
                 pq.addQuery(SQL_INNER_JOIN + TABLE_PARAM_LIST + "AS pcity ON p.id=pcity.id AND pcity.param_id=?");

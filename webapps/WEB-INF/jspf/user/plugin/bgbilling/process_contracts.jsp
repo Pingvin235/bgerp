@@ -15,7 +15,7 @@
 		<tr>
 			<td>${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 			<td>${link.linkedObjectId}</td>
-			<td width="100%"><a href="#" onclick="bgbilling_openContract( '${billingId}', '${link.linkedObjectId}' ); return false;">${link.linkedObjectTitle}</a></td>
+			<td width="100%"><a href="#" onclick="$$.bgbilling.contract.open( '${billingId}', '${link.linkedObjectId}' ); return false;">${link.linkedObjectTitle}</a></td>
 		</tr>
 	</c:forEach>
 </table>

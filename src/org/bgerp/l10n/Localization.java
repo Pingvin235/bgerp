@@ -224,6 +224,7 @@ public class Localization {
      * @param request used for getting target language.
      * @return
      */
+    @Dynamic
     public static Localizer getLocalizer(String pluginId, HttpServletRequest request) {
         return getLocalizer(getLang(request), pluginId);
     }

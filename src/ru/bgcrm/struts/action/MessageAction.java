@@ -371,15 +371,45 @@ public class MessageAction extends BaseAction {
         var type = getType(form.getParamInt("typeId"));
         var message = type.newMessageGet(conSet, form.getParam("messageId"));
 
-        // automatically search by first search mode
-        // TODO: Use all search modes, and make them given by message type.
-        int searchId = form.getParamInt("searchId", 1);
-        if (CollectionUtils.isNotEmpty(type.getSearchMap().values())) {
-            MessageTypeSearch search = type.getSearchMap().get(searchId);
+        final var searchMap = type.getSearchMap();
 
-            Set<CommonObjectLink> searchedList = new LinkedHashSet<CommonObjectLink>();
-            search.search(form, conSet, message, searchedList);
-            form.setResponseData("searchedList", searchedList);
+        int searchId = form.getParamInt("searchId");
+        // explicitly defined search
+        if (searchId > 0) {
+            if (CollectionUtils.isNotEmpty(searchMap.values())) {
+                MessageTypeSearch search = type.getSearchMap().get(searchId);
+
+                Set<CommonObjectLink> searchedList = new LinkedHashSet<>();
+                search.search(form, conSet, message, searchedList);
+                form.setResponseData("searchedList", searchedList);
+            }
+        }
+        // only searches without JSP
+        else {
+            var searches = searchMap.values().stream()
+                .filter(s -> Utils.isBlankString(s.getJsp()))
+                .collect(Collectors.toList());
+            if (!searches.isEmpty()) {
+                Set<CommonObjectLink> searchedList = Collections.synchronizedSet(new LinkedHashSet<>());
+
+                var executors = Executors.newFixedThreadPool(searches.size());
+
+                for (var search : searches) {
+                    executors.execute(() -> {
+                        try {
+                            search.search(form, conSet, message, searchedList);
+                        } catch (Exception e) {
+                            log.error(e);
+                        }
+                    });
+                }
+
+                executors.shutdown();
+                if (!executors.awaitTermination(2, TimeUnit.MINUTES))
+                    log.error("Timeout waiting threads");
+
+                form.setResponseData("searchedList", searchedList);
+            }
         }
     }
 

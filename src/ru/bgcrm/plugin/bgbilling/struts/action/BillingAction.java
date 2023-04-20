@@ -1,5 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.struts.action;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +56,7 @@ public class BillingAction extends BaseAction {
             request.setAttribute("dataDoc", doc);
             return new ActionForward(form.getForwardFile());
         } else {
-            final String charset = Utils.UTF8.name();
+            final String charset = StandardCharsets.UTF_8.name();
             response.setContentType("text/xml; charset='" + charset + ";");
             response.setHeader("cache-control", "no-cache, no-store");
 

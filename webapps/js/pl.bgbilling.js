@@ -88,32 +88,44 @@ $$.bgbilling = new function () {
 			return def.promise();
 		}
 
+		/**
+		 * Opens contract in tab when checkbox is clicked.
+		 * @param {*} searchTabsId
+		 * @param {*} scriptId
+		 * @param {*} linkedObjectTitle
+		 * @param {*} billingId
+		 * @param {*} contractId
+		 */
+		const onCheckTabOpen = (searchTabsId, scriptId, linkedObjectTitle, billingId, contractId) => {
+			document
+				.getElementById(scriptId).closest('tr').querySelector('input[type=checkbox]')
+				.addEventListener('change', (event) => {
+					if (event.currentTarget.checked) {
+						const url = '/user/plugin/bgbilling/contract.do?billingId='+ billingId + '&id=' + contractId + '&inBuffer=0';
+						const tabId = billingId + '-' + contractId;
+						if (!document.getElementById(searchTabsId).querySelector('#' + tabId))
+							$('#' + searchTabsId).tabs().tabs('add', url, linkedObjectTitle, ' id='+ tabId);
+					}
+				});
+		}
+
 		// public functions
 		this.open = open;
 		this.createTariff = createTariff;
 		this.create = create;
+		this.onCheckTabOpen = onCheckTabOpen;
 	}
+
+	const processContractOpenEvent = (event) => {
+		contract.open(event.billingId, event.contractId);
+	}
+	addEventProcessor('ru.bgcrm.plugin.bgbilling.event.client.ContractOpenEvent', processContractOpenEvent);
 
 	// public objects
 	this.contract = contract;
 }
 
-addEventProcessor( 'ru.bgcrm.plugin.bgbilling.event.client.ContractOpenEvent', contractOpenClientEvent );
-
-function contractOpenClientEvent( event )
-{
-	if( event.className == 'ru.bgcrm.plugin.bgbilling.event.client.ContractOpenEvent' )
-	{
-		$$.bgbilling.contract.open(event.billingId, event.contractId);
-	}
-}
-
-function bgbilling_openContract( billingId, contractId ) {
-	console.warn($$.deprecated);
-	$$.bgbilling.contract.open(billingId, contractId);
-}
-
-// загрзука шаблонов договоров в форму создания
+// загрузка шаблонов договоров в форму создания
 function bgbilling_getPatterns( billingId )
 {
 	var contractPatternList = sendAJAXCommandWithParams('/user/plugin/bgbilling/proto/contract.do?action=bgbillingGetContractPatternList', { 'billingId':billingId  });
@@ -188,228 +200,9 @@ function bgbilling_updateRegisterList( billingId )
 	}
 }
 
-// создание договора
-/*function bgbilling_createContract( form )
-{
-   var customerId = form.customerId.value;
-
-   var billingId = form.billingId.value;
-   var patternId = form.patternId.value;
-   var titlePattern = form.titlePattern.value;
-   var title = form.title.value;
-   var date = form.date.value;
-
-   var url = "/user/plugin/bgbilling/contract.do?action=contractCreate";
-
-   var createResult = sendAJAXCommandWithParams( url, {"billingId" : billingId, "patternId" : patternId, "date" : date, "titlePattern" : titlePattern, "title" : title, "customerId" : customerId } );
-   if( !createResult )
-   {
-	   return;
-   }
-
-   var contractId = createResult.data.contract.id;
-   var contractTitle =  createResult.data.contract.title;
-
-   // имя контрагента в примечание договора
-   if( customerId > 0 )
-   {
-	   var customerTitle = $(form.customerId).find( "option:selected" ).text();
-	   sendAJAXCommandWithParams( "/user/plugin/bgbilling/proto/contract.do?action=UpdateContractTitleAndComment", { 'billingId' : billingId, "contractId" : contractId, "comment" : customerTitle } );
-   }
-
-   bgbilling_openContract( billingId, contractId );
-}*/
-
-/*function bgbilling_setTitlePattern( form )
-{
-	var billingId = $(form.billingId ).find( "option:selected" ).attr( "value" );
-	var patternId = $(form.patternId).find( "option:selected" ).attr( "value" );
-
-	var url = "/user/plugin/bgbilling/contract.do?action=getContractCreatePattern";
-	if( billingId && patternId > 0 )
-	{
-		var result = sendAJAXCommandWithParams( url, { 'billingId' : billingId, 'patternId' : patternId } );
-		if( result )
-		{
-			$(form).find( "input[name=titlePattern]" ).attr( "value", result.data.value ? result.data.value : "" );
-		}
-	}
-}*/
-
-/*function bgbilling_getContractAddress( contractId, billingId, selectedId )
-{
-	var $address = $("#"+ billingId+"-"+contractId+"-contractAddressList");
-	if( $address.length > 0 )
-	{
-		var url = "/user/plugin/bgbilling/proto/contract.do?action=addressList&billingId=" + billingId +"&contractId="+contractId;
-		openUrlTo( url, $address );
-	}
-	if( selectedId != 0 )
-	{
-		$address.find( "option[value=" + selectedId + "]").attr( "selected", "true" );
-	}
-}*/
-
-/*function bgbilling_dateFromDecriment( dec )
-{
-	var now = new Date();
-	$('input[name=dateFrom]:visible').val($.datepicker.formatDate('dd.mm.yy',new Date(now.getFullYear(),(now.getMonth()-dec) ,1)).toString());
-}*/
-
-/*function bgbilling_dateToDecriment( dec )
-{
-	var now = new Date();
-	$('input[name=dateTo]:visible').val($.datepicker.formatDate('dd.mm.yy',new Date(now.getFullYear(),(now.getMonth()-dec+1) ,0)).toString());
-}*/
-
-/*function bgbilling_fillByMonthValues(selectorId)
-{
-	var $select = $("#"+selectorId);
-	var now = new Date();
-	for(var i=0;i<12;i++)
-	{
-		$select.append('<option value="' + i + '">' + $.datepicker.formatDate('за MM yy года',now).toString() + '</option>');
-		now = new Date(now.getFullYear(),now.getMonth()-1 ,1);
-	}
-}*/
-
-/*function bgbilling_getLoginPassword(billingId,contractId,login,moduleId )
-{
-	if($('#'+login+'loginPassword:visible').size() == 0)
-	{
-		var ajaxResponse = sendAJAXCommandWithParams( "/user/plugin/bgbilling/proto/dialup.do?", { "action" : "getLoginPassword","billingId": billingId, "contractId": contractId, "login":login, "moduleId":moduleId } );
-		if( ajaxResponse )
-		{
-			$('#'+login+'loginPassword').html('Пароль доступа:</br>'+ajaxResponse.data.password);
-		}
-	}
-}*/
-
-/*function bgbilling_getContractStatisticPassword(billingId,contractId )
-{
-	if($('#'+contractId+'statisticPassword:visible').size() == 0)
-	{
-		var ajaxResponse = sendAJAXCommandWithParams( "/user/plugin/bgbilling/proto/contract.do?", { "action" : "getContractStatisticPassword","billingId": billingId, "contractId": contractId } );
-		if( ajaxResponse )
-		{
-			$('#'+contractId+'statisticPassword').html('Пароль доступа к статистике:</br>'+ajaxResponse.data.password);
-		}
-	}
-}*/
-
-/*function bgbilling_getSubContractList( billingId, contractId )
-{
-	var result = sendAJAXCommand( "/user/plugin/bgbilling/proto/contract.do?action=getSubContractList&billingId=" + billingId + "&contractId=" + contractId );
-	return result.data.subContractList;
-}*/
-
-/*var cerbercrypt = {};
-
-cerbercrypt.getContractCards = function( billingId, moduleId, contractId, includeSlaveCards )
-{
-	if( includeSlaveCards == undefined )
-	{
-		includeSlaveCards = 1;
-	}
-
-	var result = sendAJAXCommand( "/user/plugin/bgbilling/proto/cerbercrypt.do?action=contractCards&contractId=" + contractId + "&billingId=" + billingId + "&includeSlaveCards=" + includeSlaveCards + "&moduleId=" + moduleId );
-	return result.data.cards;
+/* Remove later.
+function bgbilling_openContract( billingId, contractId ) {
+	console.warn($$.deprecated);
+	$$.bgbilling.contract.open(billingId, contractId);
 }
-
-cerbercrypt.getPackets = function( billingId, moduleId )
-{
-	var result = sendAJAXCommand( "/user/plugin/bgbilling/proto/cerbercrypt.do?action=getPacketList&billingId=" + billingId + "&moduleId=" + moduleId + "&responseType=json" );
-	return result.data.packets;
-}
-
-cerbercrypt.getContractCardPackets = function( billingId, moduleId, contractId, cardId )
-{
-	var result = sendAJAXCommand( "/user/plugin/bgbilling/proto/cerbercrypt.do?action=cardPacketList&contractId=" + contractId + "&cardId=" + cardId + "&billingId=" + billingId + "&moduleId=" + moduleId + "&responseType=json");
-	return result.data.cardPacketList;
-}
-
-cerbercrypt.getCards = function( billingId, moduleId )
-{
-	var result = sendAJAXCommand( "/user/plugin/bgbilling/proto/cerbercrypt.do?action=getFreeCards&billingId=" + billingId + "&moduleId=" + moduleId );
-	return result.data.cards;
-}
-
-cerbercrypt.updateCard = function( billingId, moduleId, contractId, cardNumber, baseCardId, dateFrom, dateTo )
-{
-	var request = "/user/plugin/bgbilling/proto/cerbercrypt.do?action=updateCard&billingId=" + billingId + "&cardNumber=" + cardNumber + "&contractId=" + contractId + "&baseCardId=" + baseCardId + "&moduleId=" + moduleId + "&dateFrom=" + dateFrom;
-	sendAJAXCommand( request );
-}
-
-cerbercrypt.updateCardPacket = function( billingId, moduleId, contractId, cardNumber, packetId  )
-{
-	var request = "/user/plugin/bgbilling/proto/cerbercrypt.do?action=updateCardPacket&billingId=" + billingId + "&cardNumber=" + cardNumber + "&contractId=" + contractId + "&packetId=" + packetId + "&moduleId=" + moduleId;
-	sendAJAXCommand( request );
-}
-
-cerbercrypt.closeCardPacket = function( billingId, moduleId, contractId, cardNumber, id, packetId, closeDate )
-{
-	var request = "/user/plugin/bgbilling/proto/cerbercrypt.do?action=updateCardPacket&billingId=" + billingId + "&cardNumber=" + cardNumber + "&contractId=" + contractId + "&id=" + id + "&moduleId=" + moduleId;
-	request += "&packetId=" + packetId;
-	if( closeDate != undefined )
-	{
-		request += "&date2=" + closeDate;
-	}
-	sendAJAXCommand( request );
-}*/
-
-/*var voip = {};
-
-voip.getLogins = function( billingId, contractId )
-{
-	var result = sendAJAXCommand( "/user/plugin/bgbilling/proto/voip.do?action=getLogins&billingId=" + billingId + "&contractId=" + contractId );
-	return result.data.logins;
-}
-
-voip.getLogin = function( billingId, loginId )
-{
-	var result = sendAJAXCommand( "/user/plugin/bgbilling/proto/voip.do?action=getLogin&billingId=" + billingId + "&loginId=" + loginId );
-	return result.data.login;
-}
-
-voip.generatePassword = function( length )
-{
-	var text = "";
-	var possible = "0123456789";
-
-	for( var i=0; i < length; i++ )
-	{
-		text += possible.charAt( Math.floor(Math.random() * possible.length) );
-	}
-	return text;
-}
-
-voip.updateLogin = function( billingId, contractId, loginId, alias, objectId, comment, type, dateFrom, dateTo, loginPassword, setPassword )
-{
-	var request = "/user/plugin/bgbilling/proto/voip.do?action=updateLogin";
-	request += "&billingId=" + billingId;
-	request += "&loginId=" + loginId;
-	request += "&contractId=" + contractId;
-	request += "&alias=" + alias;
-	request += "&objectId=" + objectId;
-	request += "&comment=" + comment;
-	request += "&type=" + type;
-	request += "&dateFrom=" + dateFrom;
-	request += "&dateTo=" + dateTo;
-
-	if( setPassword == true )
-	{
-		request += "&setPassword=1";
-	}
-
-	if( loginPassword != null )
-	{
-		request += "&loginPassword=" + loginPassword;
-	}
-	else
-	{
-		request += "&loginPassword=" + voip.generatePassword( 10 );
-	}
-
-	var result = sendAJAXCommand( request );
-	return result.data.login;
-}*/
+*/

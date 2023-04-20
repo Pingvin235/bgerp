@@ -8,6 +8,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.svc.log.model.ActionLogEntry;
+import org.bgerp.util.sql.LikePattern;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.PeriodicDAO;
@@ -142,7 +143,7 @@ public class ActionLogDAO extends PeriodicDAO {
             }
 
             if (Utils.notBlankString(parameter)) {
-                pq.addQuery(" AND parameters LIKE '"+ getLikePatternSub(parameter) +"'");
+                pq.addQuery(" AND parameters LIKE '"+ LikePattern.SUB.get(parameter) +"'");
             }
 
             pq.addQuery(SQL_ORDER_BY).addQuery("time");

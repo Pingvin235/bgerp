@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +66,7 @@ public class CommonDocumentGenerator implements EventListener<Event> {
             // документ содержит результат XSLT преобразования, если шаблон есть
             final int type = pattern.getType();
             if (event.isDebug()) {
-                OutputStreamWriter writer = new OutputStreamWriter(result, Utils.UTF8);
+                OutputStreamWriter writer = new OutputStreamWriter(result, StandardCharsets.UTF_8);
                 writer.write("Генерация отчёта в режиме отладки.\n\n");
 
                 writer.write("Событие, переданное в скрипт:\n");
@@ -104,7 +105,7 @@ public class CommonDocumentGenerator implements EventListener<Event> {
                     } catch (Exception ex) {
                         writer.write("Ошибка выполнения:\n");
                         writer.flush();
-                        ex.printStackTrace(new PrintStream(result, true, Utils.UTF8.name()));
+                        ex.printStackTrace(new PrintStream(result, true, StandardCharsets.UTF_8.name()));
 
                         log.error(ex.getMessage(), ex);
                     }
@@ -179,7 +180,7 @@ public class CommonDocumentGenerator implements EventListener<Event> {
                         zos.putNextEntry(new ZipEntry(ze.getName()));
                         StreamUtils.copy(zis, zos, 1024);
                     } else {
-                        String replaced = new String(StreamUtils.getBytes(zis), Utils.UTF8);
+                        String replaced = new String(StreamUtils.getBytes(zis), StandardCharsets.UTF_8);
 
                         //поиск шаблонов вида ${macros}
                         List<String> variables = RegexpStringUtils.findMatchesByTemplate(replaced, "\\$\\{[a-zA-Zа-яА-Я0-9_.]+\\}");
@@ -191,7 +192,7 @@ public class CommonDocumentGenerator implements EventListener<Event> {
                         }
 
                         zos.putNextEntry(new ZipEntry(ze.getName()));
-                        zos.write(replaced.getBytes(Utils.UTF8));
+                        zos.write(replaced.getBytes(StandardCharsets.UTF_8));
                     }
                 }
 
@@ -258,7 +259,7 @@ public class CommonDocumentGenerator implements EventListener<Event> {
             req.getRequestDispatcher(pattern.getJsp()).include(req, resp);
             resp.flush();
 
-            result.setSecond(new String(bos.toByteArray(), Utils.UTF8));
+            result.setSecond(new String(bos.toByteArray(), StandardCharsets.UTF_8));
         } else {
             throw new BGException("JSP for pattern is not defined.");
         }

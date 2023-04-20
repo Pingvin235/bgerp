@@ -18,11 +18,11 @@ import javax.mail.internet.InternetAddress;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
+import org.bgerp.util.sql.LikePattern;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.CustomerLinkDAO;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -237,7 +237,7 @@ public class ServerCustomerCreator {
         }
 
         Pageable<Customer> result = new Pageable<Customer>();
-        customerDao.searchCustomerList(result, CommonDAO.getLikePatternSub(customerTitle));
+        customerDao.searchCustomerList(result, LikePattern.SUB.get(customerTitle));
 
         // строковые представления параметров договоров
         Map<Integer, String> paramValues = getContractParamValues(contractId);
@@ -308,12 +308,11 @@ public class ServerCustomerCreator {
 
     // поиск контрагента по имени с подтверждением по параметрам
     private Customer findCustomerByTitleWithParamsConfirm(String customerTitle, int contractId, Map<Integer, String> paramValues) throws Exception {
-        //
         Pageable<Customer> result = new Pageable<Customer>();
         result.getPage().setPageSize(300);
         result.getPage().setPageIndex(1);
 
-        customerDao.searchCustomerList(result, CommonDAO.getLikePatternSub(customerTitle));
+        customerDao.searchCustomerList(result, LikePattern.SUB.get(customerTitle));
 
         // есть уже контрагенты с таким наименованием
         if (result.getList().size() != 0) {
@@ -428,8 +427,7 @@ public class ServerCustomerCreator {
 
                 } else if (Parameter.TYPE_TEXT.equals(param.getType())) {
                     Pageable<Customer> searchResult = new Pageable<Customer>();
-                    customerDao.searchCustomerListByText(searchResult, Collections.singletonList(param.getId()),
-                            CommonDAO.getLikePatternSub(stringValue));
+                    customerDao.searchCustomerListByText(searchResult, Collections.singletonList(param.getId()), LikePattern.SUB.get(stringValue));
 
                     Customer customer = searchCustomer(searchResult, param.getId(), customerTitle);
                     if (customer != null) {

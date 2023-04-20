@@ -123,7 +123,7 @@ Incoming variables:
 							<c:set var="info" value="${contractInfo.split(':' )}"/>
 							<c:choose>
 								<c:when test="${mob}">${info[2]}</c:when>
-								<c:otherwise><a href="#" onclick="bgbilling_openContract( '${info[0]}', '${info[1]}' ); return false;">${info[2]}</a></c:otherwise>
+								<c:otherwise><a href="#" onclick="$$.bgbilling.contract.open( '${info[0]}', '${info[1]}' ); return false;">${info[2]}</a></c:otherwise>
 							</c:choose>
 						</c:forEach>
 					</c:when>
