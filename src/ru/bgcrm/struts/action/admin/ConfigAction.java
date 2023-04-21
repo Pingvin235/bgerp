@@ -11,6 +11,7 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 
+import javassist.NotFoundException;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
@@ -85,7 +86,7 @@ public class ConfigAction extends BaseAction {
             config = configDAO.getGlobalConfig(form.getId());
 
         if (config == null)
-            throw new BGMessageException("Конфигурация не найдена.");
+            throw new NotFoundException("Not found configuration with ID: " + id);
 
         config.setData(form.getParam("data", ""));
         config.setTitle(form.getParam("title"));

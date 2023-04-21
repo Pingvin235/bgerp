@@ -43,15 +43,15 @@ public class DbTest {
 
         return 0;
     }
-    
+
     /**
      * Creates DB connection pool using JVM arguments, or properties file.
      * @param db
      * @return
      */
     public static ConnectionPool initConnectionPool(String db) {
-        var setup = new Setup(Setup.getBundleName(), false);
-        
+        var setup = new Setup(false);
+
         final var dbUserKey = "db.user";
         final var dbPswdKey = "db.pswd";
         final var dbUrlKey = "db.url";

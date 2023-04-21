@@ -7,31 +7,29 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import com.google.common.annotations.VisibleForTesting;
-
-import org.apache.commons.lang3.StringUtils;
 import org.bgerp.util.Log;
+
+import com.google.common.annotations.VisibleForTesting;
 
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.Config;
 import ru.bgcrm.util.sql.ConnectionPool;
-import ru.bgcrm.util.sql.SQLUtils;
 
 public class Setup extends Preferences {
     private static final Log log = Log.getLog();
 
-    private static volatile Setup setupData;
-
+    private static volatile Setup instance;
     /** ConnectionPool used for initial load. Used in integration tests. */
     private static volatile ConnectionPool connectionPoolInit;
 
     private String bundleName;
     private ConnectionPool connectionPool;
 
-    // глобальные конфигурации, получаемые отдельно по коду
-    private Map<Integer, ParameterMap> globalConfigMap = new HashMap<Integer, ParameterMap>();
+    public static String getBundleName() {
+        return Utils.getSystemProperty("setup.data", "bgerp");
+    }
 
     /**
      * Use this singleton call wisely, because introducing that
@@ -39,37 +37,36 @@ public class Setup extends Preferences {
      * @return
      */
     public static Setup getSetup() {
-        return getSetup(getBundleName(), true);
+        return getSetup(true);
     }
 
-    public static String getBundleName() {
-        return Utils.getSystemProperty("setup.data", "bgerp");
-    }
-
-    public static Setup getSetup(String bundleName, boolean initConfig) {
-        if (setupData == null) {
+    private static Setup getSetup(boolean initConfig) {
+        if (instance == null) {
             if (connectionPoolInit == null)
-                setupData = new Setup(bundleName, initConfig);
+                instance = new Setup(initConfig);
             else
-                setupData = new Setup(connectionPoolInit);
+                instance = new Setup(connectionPoolInit);
         }
-        return setupData;
+        return instance;
     }
 
     @VisibleForTesting
     public static void resetSetup(ConnectionPool pool) {
-        setupData = null;
+        instance = null;
         connectionPoolInit = pool;
     }
 
-    public Setup(String bundleName, boolean initConfigAndPool) {
-        this.bundleName = bundleName;
+    public Setup(boolean initConfigAndPool) {
+        this.bundleName = getBundleName();
 
         loadBundle(bundleName, this.data, false);
         if (initConfigAndPool) {
             connectionPool = new ConnectionPool("MAIN", this);
+
             loadConfigMap(this.data);
+            loadBundle(bundleName, data, false);
             setSystemProperties(TimeUtils.CONF_KEY_FORMAT_YMD, TimeUtils.CONF_KEY_FORMAT_YMDH, TimeUtils.CONF_KEY_FORMAT_YMDHM, TimeUtils.CONF_KEY_FORMAT_YMDHMS);
+
             EventProcessor.subscribe((e, conSet) -> {
                 reloadConfig(conSet.getConnection());
             }, SetupChangedEvent.class);
@@ -126,30 +123,28 @@ public class Setup extends Preferences {
 
     private void reloadConfig(Connection con) {
         try {
-            Map<String, String> data = new HashMap<String, String>();
-            loadBundle(bundleName, data, false);
+            Map<String, String> data = new HashMap<>();
             loadConfigMap(data, con);
+            if (Utils.notBlankString(bundleName))
+                loadBundle(bundleName, data, false);
 
             for (Map.Entry<String, String> me : data.entrySet())
                 this.data.put(me.getKey(), me.getValue());
 
-            // удаление пропавших ключей
+            // remove no more existing keys
             this.data.keySet().retainAll(data.keySet());
 
             configMap = null;
-            globalConfigMap.clear();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
     }
 
     private void loadConfigMap(Map<String, String> data) {
         try (var con = getDBConnectionFromPool()) {
             loadConfigMap(data, con);
-            if (StringUtils.isNotBlank(bundleName))
-                loadBundle(bundleName, data, false);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
     }
 
@@ -199,46 +194,11 @@ public class Setup extends Preferences {
     }
 
     /**
-     * Возвращает глобальную конфигурацию по её коду.
-     *
-     * @param id
-     * @return
-     */
-    public ParameterMap getGlobalConfig(int id) {
-        synchronized (globalConfigMap) {
-            ParameterMap config = (ParameterMap) globalConfigMap.get(id);
-
-            if (config == null) {
-                Connection con = getDBConnectionFromPool();
-                try {
-                    Config conf = new ConfigDAO(con).getGlobalConfig(id);
-                    if (conf != null) {
-                        config = new Preferences(conf.getData());
-                    } else {
-                        config = new Preferences("");
-                    }
-
-                    globalConfigMap.put(id, config);
-                } catch (Exception e) {
-                    log.error(e.getMessage(), e);
-                } finally {
-                    SQLUtils.closeConnection(con);
-                }
-            }
-
-            return config;
-        }
-    }
-
-    /**
-     * Отчет по статусу пулов соединений
-     * @return
+     * @return SQL connection pool report.
      */
     public String getPoolStatus() {
-        StringBuffer sb = new StringBuffer("Connections pool to Master status ");
-        // статус пула
+        var sb = new StringBuilder("Connections pool to Master status ");
         sb.append(connectionPool.getPoolStatus());
-
         return sb.toString();
     }
 }

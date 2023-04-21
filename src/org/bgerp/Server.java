@@ -215,7 +215,7 @@ public class Server extends Tomcat {
     }
 
     public static void main(String[] args) {
-        int adminPort = new Setup(Setup.getBundleName(), false).getInt("server.port.admin", 8005);
+        int adminPort = new Setup(false).getInt("server.port.admin", 8005);
         if (args.length > 0) {
             if (args[0].trim().equals("start")) {
                 new Server();
