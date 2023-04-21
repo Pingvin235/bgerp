@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:if test="${not empty addUrl}">
-	<button type="button" class="btn-white btn-small" onclick="openUrlContent('${addUrl}')" title="Добавить">+</button>
+	<button type="button" class="btn-white btn-small" onclick="$$.ajax.loadContent('${addUrl}')" title="Добавить">+</button>
 	<c:remove var="addUrl"/>
 </c:if>
 
@@ -12,7 +12,7 @@
 </c:if>
 
 <c:if test="${not empty editUrl}">
-	<button type="button" class="btn-white btn-small" onclick="openUrlContent('${editUrl}')" title="Редактировать">*</button>
+	<button type="button" class="btn-white btn-small" onclick="$$.ajax.loadContent('${editUrl}')" title="Редактировать">*</button>
 	<c:remove var="editUrl"/>
 </c:if>
 
@@ -22,7 +22,7 @@
 </c:if>
 
 <c:if test="${not empty deleteUrl}">
-	<button type="button" class="btn-white btn-small" onclick="if( confirm( 'Вы уверены, что хотите удалить?' ) ){ openUrlContent('${deleteUrl}') }" title="${l.l('Удалить')}"><i class="ti-close"></i></button>
+	<button type="button" class="btn-white btn-small" onclick="if( confirm( 'Вы уверены, что хотите удалить?' ) ){ $$.ajax.loadContent('${deleteUrl}') }" title="${l.l('Удалить')}"><i class="ti-close"></i></button>
 	<c:remove var="deleteUrl"/>
 </c:if>
 

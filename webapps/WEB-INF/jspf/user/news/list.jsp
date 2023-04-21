@@ -56,7 +56,7 @@
 						 <c:url var="editUrl" value="${createUrl }">
 							<c:param name="id" value="${item.id}"/>
 						</c:url>
-						[ <a title="Править" href="#" onclick="openUrlContent( '${editUrl}' ); return false;">${item.id}</a> ] --%>
+						[ <a title="Править" href="#" onclick="$$.ajax.loadContent('${editUrl}'); return false;">${item.id}</a> ] --%>
 
 						[ ${item.id} ]
 

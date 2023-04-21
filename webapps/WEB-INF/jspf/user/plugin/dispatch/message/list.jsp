@@ -11,7 +11,7 @@
 </c:url>
 
 <html:form action="/user/plugin/dispatch/dispatch" styleClass="in-mr1 in-mb1" styleId="${uiid}" style="vertical-align: middle;">
-	<button type="button" class="btn-green" onclick="openUrlContent( '${getUrl}' );">+</button>
+	<button type="button" class="btn-green" onclick="$$.ajax.loadContent('${getUrl}');">+</button>
 
 	<input type="hidden" name="action" value="messageList"/>
 

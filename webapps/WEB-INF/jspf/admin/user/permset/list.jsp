@@ -37,7 +37,7 @@
 				<c:param name="action" value="permsetDelete"/>
 				<c:param name="id" value="${permset.id}"/>
 			</c:url>
-			<c:url var="deleteAjaxCommandAfter" value="openUrlContent( '${form.requestUrl}' )"/>
+			<c:url var="deleteAjaxCommandAfter" value="$$.ajax.loadContent('${form.requestUrl}')"/>
 
 			<c:set var="uiid" value="${u:uiid()}"/>
 

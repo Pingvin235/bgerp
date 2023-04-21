@@ -9,9 +9,9 @@
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
 	</c:url>
-	<button type="button" class="btn-green" onclick="openUrlContent('${url}' )">+</button>
+	<button type="button" class="btn-green" onclick="$$.ajax.loadContent('${url}')">+</button>
 
-	<ui:select-single list="${allowOnlyCategories}" hiddenName="categoryId" value="${form.param.categoryId}" onSelect="openUrlContent( formUrl( $hidden[0].form ) )"
+	<ui:select-single list="${allowOnlyCategories}" hiddenName="categoryId" value="${form.param.categoryId}" onSelect="$$.ajax.loadContent($hidden[0].form)"
 		style="width: 200px;" placeholder="Выберите категорию"/>
 
 	<ui:page-control/>
@@ -37,7 +37,7 @@
 				<c:param name="action" value="workTypeDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
-			<c:url var="deleteAjaxCommandAfter" value="openUrlContent( '${form.requestUrl}' )"/>
+			<c:url var="deleteAjaxCommandAfter" value="$$.ajax.loadContent('${form.requestUrl}')"/>
 
 			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
 

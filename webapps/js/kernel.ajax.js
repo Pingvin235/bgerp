@@ -669,8 +669,3 @@ function formUrl(forms, excludeParams) {
 	return $$.ajax.formUrl(forms, excludeParams);
 }
 
-function openUrlContent(url) {
-	console.warn($$.deprecated);
-
-	$$.ajax.load(url, $$.shell.$content());
-}

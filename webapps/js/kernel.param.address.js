@@ -177,7 +177,7 @@ function addressSearchCountry( f, e )
 	{
 		f.form.elements['addressCountryId'].value = '';
 		addressClearCity( f );
-		openUrlContent( formUrl( f.form ) );
+		$$.ajax.loadContent(f.form);
 	}
 	return false;
 }
@@ -189,7 +189,7 @@ function addressSearchCity( f, e )
 	{
 		f.form.elements['addressCityId'].value = '';
 		addressClearItem( f );
-		openUrlContent( formUrl( f.form ) );
+		$$.ajax.loadContent(f.form);
 	}
 	return false;
 }
@@ -204,7 +204,7 @@ function addressSearchItem( f, e )
 		{
 			addressClearHouse( f );
 		};
-		openUrlContent( formUrl( f.form ) );
+		$$.ajax.loadContent(f.form);
 	}
 	return false;
 }
@@ -214,7 +214,7 @@ function addressSearchHouse( f, e )
 	f.form.elements['searchMode'].value = 'house';
 	if ( e == undefined || enterPressed( e ) )
 	{
-		openUrlContent( formUrl( f.form ) );
+		$$.ajax.loadContent(f.form);
 	}
 	return false;
 }

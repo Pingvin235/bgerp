@@ -494,7 +494,7 @@ addEventProcessor('ru.bgcrm.event.client.UrlOpenEvent', processClientEvents);
 function processClientEvents(event) {
 	if (event.className == 'ru.bgcrm.event.client.MessageOpenEvent') {
 		$$.shell.contentLoad("/user/message/queue").done(() => {
-			$$.ajax.load('/user/message.do?typeId=' + event.typeId + '&messageId=' + event.systemId + '&returnUrl=' + encodeURIComponent('/user/message.do?action=messageList'), $$.shell.$content());
+			$$.ajax.loadContent('/user/message.do?typeId=' + event.typeId + '&messageId=' + event.systemId + '&returnUrl=' + encodeURIComponent('/user/message.do?action=messageList'));
 		});
 	}
 	else if (event.className == 'ru.bgcrm.event.client.LockEvent') {

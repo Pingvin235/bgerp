@@ -40,10 +40,10 @@
 		<c:set var="hiddenName" value="year"/>
 		<c:set var="value" value="${year}"/>
 		<c:set var="style" value="width: 5em;"/>
-		<c:set var="onSelect" value="openUrlContent( '${getUrl}&year='+ $hidden.val() );"/>
+		<c:set var="onSelect" value="$$.ajax.loadContent('${getUrl}&year='+ $hidden.val());"/>
 		<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 	</u:sc>
-	<button  type="button" class="ml1 btn-white" onClick="openUrlContent('${form.returnUrl}')" title="Закрыть">&lt;</button>
+	<button  type="button" class="ml1 btn-white" onClick="$$.ajax.loadContent('${form.returnUrl}')" title="Закрыть">&lt;</button>
 </div>
 
 <script>

@@ -30,7 +30,7 @@
 							${l.l('Страна')}:<br>
 							<html:text property="addressCountryTitle" style="width: 180px;" onkeypress="addressSearchCountry( this, event );"/>&nbsp;
 							<ui:button type="clear" onclick="addressClearCountry( this );"/>
-							<ui:button type="add" onclick="openUrlContent('${url}');"/>
+							<ui:button type="add" onclick="$$.ajax.loadContent('${url}');"/>
 							<ui:button type="out" onclick="addressSearchCountry( this );"/>
 						</td></tr>
 
@@ -47,7 +47,7 @@
 							${l.l('Город')}:<br>
 							<html:text property="addressCityTitle" style="width: 180px;" onkeypress="addressSearchCity( this, event );"/>&nbsp;
 							<ui:button type="clear" onclick="addressClearCity( this );"/>
-							<ui:button type="add" onclick="if ( '${form.param['addressCountryId']}' == '' ) { alert('Выберите страну'); } else { openUrlContent('${url}'); }"/>
+							<ui:button type="add" onclick="if ( '${form.param['addressCountryId']}' == '' ) { alert('Выберите страну'); } else { $$.ajax.loadContent('${url}'); }"/>
 							<ui:button type="out" onclick="addressSearchCity( this );"/>
 						</td></tr>
 
@@ -59,13 +59,13 @@
 						<tr><td nowrap="nowrap" style="padding: 0px;">
 							<table class="menu"><tr>
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'street'}"><c:set var="cl" value="sel"/></c:if>
-							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'street' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('УЛИЦА')}</a></td>
+							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'street' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); $$.ajax.loadContent($('#${formUiid}')[0]); return false;">${l.l('УЛИЦА')}</a></td>
 
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'area'}"><c:set var="cl" value="sel"/></c:if>
-							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'area' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('РАЙОН')}</a></td>
+							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'area' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); $$.ajax.loadContent($('#${formUiid}')[0]); return false;">${l.l('РАЙОН')}</a></td>
 
 							<c:set var="cl" value="nosel"/><c:if test="${selectTab eq 'quarter'}"><c:set var="cl" value="sel"/></c:if>
-							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'quarter' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); openUrlContent( formUrl( $('#${formUiid}')[0] ) ); return false;">${l.l('КВАРТАЛ')}</a></td>
+							<td class="${cl}"><a href="#" onclick="$('#${formUiid} #selectTab').attr( 'value', 'quarter' ); $('#${formUiid} input[name=addressItemTitle]').attr( 'value', '' ); $$.ajax.loadContent($('#${formUiid}')[0]); return false;">${l.l('КВАРТАЛ')}</a></td>
 							<td width="90%" style="border: 0px;">&nbsp;</td></tr></table>
 						</td></tr>
 
@@ -82,7 +82,7 @@
 						<tr><td nowrap="nowrap">
 							<html:text property="addressItemTitle" style="width: 180px;" onkeypress="addressSearchItem( this, event );"/>&nbsp;
 							<ui:button type="clear" onclick="addressClearItem( this );"/>
-							<ui:button type="add" onclick="if ( '${form.param['addressCityId']}' == '' ) { alert('Выберите город'); } else { openUrlContent('${url}'); }"/>
+							<ui:button type="add" onclick="if ( '${form.param['addressCityId']}' == '' ) { alert('Выберите город'); } else { $$.ajax.loadContent('${url}'); }"/>
 							<ui:button type="out" onclick="addressSearchItem( this );"/>
 						</td></tr>
 
@@ -102,7 +102,7 @@
 								${l.l('Дом')}:<br>
 								<html:text property="addressHouse" style="width: 180px;" onkeypress="addressSearchHouse( this, event );"/>&nbsp;
 								<ui:button type="clear" onclick="addressClearHouse( this );"/>
-								<ui:button type="add" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('${l.l('Выберите улицу')}'); } else { openUrlContent('${url}'); }"/>
+								<ui:button type="add" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('${l.l('Выберите улицу')}'); } else { $$.ajax.loadContent('${url}'); }"/>
 								<ui:button type="out" onclick="if ( '${form.param['addressItemId']}' == '' ) { alert('${l.l('Выберите улицу')}'); } else { addressSearchHouse( this ); }"/>
 							</td></tr>
 						</c:if>

@@ -25,7 +25,7 @@ $$.customer = new function() {
 				const customerId = result.data.customer.id;
 				open(customerId).done(() => {
 					url = "/user/customer.do?action=customerGet&id=" + customerId + "&returnUrl=" + encodeURIComponent("customer.do?id=" + customerId);
-					$$.ajax.load(url, $$.shell.$content());
+					$$.ajax.loadContent(url);
 				})
 			})
 			.always(() => {
