@@ -241,47 +241,6 @@ function deleteLinksTo( objectType, linkedObjectType, linkedObjectId )
 }
 
 
-// буфер обмена параметров (в данный момент нигде не работает)
-// возможно, стоит сделать вместо него перенос параметров с объекта на объект
-
-// buffer
-$$.buffer = {};
-$$.buffer.objects = [];
-
-$$.buffer.storeParam = function( id, paramId, parameterType )
-{
-	var url = "/user/parameter.do?action=parameterGet";
-	var object = {};
-	object.type = parameterType;
-	object.id = id;
-	object.paramId = paramId;
-	object.value = sendAJAXCommandWithParams( url, { "id" : id, "paramId" : paramId } ).data;
-
-	// TODO: проверять есть ли уже параметр с таким id:paramId и добавлять только в том случае, если он есть
-
-	$$.buffer.objects.push( object );
-}
-
-$$.buffer.fillWithStoredObjects = function( select, type )
-{
-	select.empty();
-
-	switch( type )
-	{
-		case 'phone':
-			{
-				var title = "";
-				for( var i=0; i<$$.buffer.objects.length; i++ )
-				{
-					var obj = $$.buffer.objects[i].value;
-					title += "+" + obj.parts1[0] + " (" + obj.parts1[1] + ") " + obj.parts1[2] + "; ";
-				}
-				select.append("<option value=''>" + title + "</option>");
-			}
-			break;
-	}
-}
-
 //фильтр по исполнителям, в реальном времени обновляет список пользователей
 function checkFilter( executorMaskInput, listId )
 {
