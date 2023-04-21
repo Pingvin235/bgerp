@@ -65,17 +65,6 @@ $$.objectTypeTitles = {
 	"customer" : "Контрагент"
 };
 
-// система блокировки ресурсов при правке, указанные ниже функции lock/unlock помесить в объект ui или что-то подобное
-$$.lock = {};
-
-$$.lock.add = function( name ){
-	return sendAJAXCommand( '/user/lock.do?action=add&lockId=' + name )	;
-};
-
-$$.lock.free = function( name ){
-	return sendAJAXCommand( '/user/lock.do?action=free&lockId=' + name );
-};
-
 $(function(){
 	$("input.hasDatePicker").on('keyup',
 		function(event)
@@ -447,7 +436,6 @@ function showPopupMessage( title, message )
 
 //обработка событий
 addEventProcessor('ru.bgcrm.event.client.MessageOpenEvent', processClientEvents);
-addEventProcessor('ru.bgcrm.event.client.LockEvent', processClientEvents);
 addEventProcessor('ru.bgcrm.event.client.UrlOpenEvent', processClientEvents);
 
 function processClientEvents(event) {
@@ -455,14 +443,6 @@ function processClientEvents(event) {
 		$$.shell.contentLoad("/user/message/queue").done(() => {
 			$$.ajax.loadContent('/user/message.do?typeId=' + event.typeId + '&messageId=' + event.systemId + '&returnUrl=' + encodeURIComponent('/user/message.do?action=messageList'));
 		});
-	}
-	else if (event.className == 'ru.bgcrm.event.client.LockEvent') {
-		var lockId = event.lock.id;
-
-		if ($('#lock-' + lockId).length == 0) {
-			console.log("Free lock: " + event.lock.id);
-			$$.lock.free(event.lock.id);
-		}
 	}
 	else if (event.className == 'ru.bgcrm.event.client.UrlOpenEvent') {
 		$$.shell.contentLoad(event.url);
@@ -490,18 +470,6 @@ function updateLastModify( object, $uiid )
 		$uiid.find("input[name='lastModifyUserId']").val( lastModify.userId );
 		$uiid.find("input[name='lastModifyTime']").val( lastModify.time );
 	}
-}
-
-function RGBMix( colorHex1, colorHex2 )
-{
-	var color1 = Color( colorHex1 );
-	var color2 = Color( colorHex2 );
-
-	var r = (color1.red() + color2.red()) / 2;
-	var g = (color1.green() + color2.green()) / 2;
-	var b = (color1.blue() + color2.blue()) / 2;
-
-	return Color().rgb([r, g, b]).hexString();
 }
 
 function getSelected ()

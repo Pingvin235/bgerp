@@ -56,6 +56,7 @@
 <script src="${u:fileNameWithLastModTime('/js/kernel.ajax.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.customer.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.license.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.lock.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.message.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.news.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.param.js')}"></script>

@@ -274,9 +274,9 @@
 											<c:param name="returnUrl" value="${form.requestUrl}"/>
 										</c:url>
 
-										<li><a href="#" onclick="if ($$.lock.add('${message.lockEdit}')) {
-												$$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(function () {$(window).scrollTop(150)});
-											};
+										<li><a href="#" onclick="$$.lock.add('${message.lockEdit}').done(() => {
+												$$.ajax.load('${editUrl}', $('#${editorContainerUiid}')).done(() => $(window).scrollTop(150));
+											});
 											return false;">${l.l('Редактировать')}</a></li>
 									</c:if>
 
