@@ -12,7 +12,7 @@
 	<c:param name="useFilter" value="1"/>
 </c:url>
 
-<button type="button" class="btn-green mb1" onclick="openUrlToParent('${url}', $('#${uiid}') )">+</button>
+<button type="button" class="btn-green mb1" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
 
 <table class="data" width="100%" id="${uiid}">
 	<tr>
@@ -28,7 +28,7 @@
 			<c:url var="eUrl" value="${url}">
 				<c:param name="id" value="${tariff.getId()}"/>
 			</c:url>
-			<c:set var="editCommand" value="openUrlToParent('${eUrl}', $('#${uiid}') )"/>
+			<c:set var="editCommand" value="$$.ajax.load('${eUrl}', $('#${uiid}').parent())"/>
 
 			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/contractTariff.do">
 				<c:param name="action" value="deleteСontractTariff"/>
@@ -36,7 +36,7 @@
 				<c:param name="billingId" value="${form.param.billingId}"/>
 				<c:param name="id" value="${tariff.id}"/>
 			</c:url>
-			<c:set var="deleteAjaxCommandAfter" value="openUrlToParent('${form.requestUrl}', $('#${uiid}') )"/>
+			<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())"/>
 			<td nowrap="nowrap">
 				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 			</td>

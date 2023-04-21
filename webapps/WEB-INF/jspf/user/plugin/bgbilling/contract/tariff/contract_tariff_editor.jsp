@@ -12,7 +12,7 @@
 	<html:hidden property="billingId"/>
 	<html:hidden property="contractId"/>
 
-	<c:set var="reload" value="openUrlToParent( formUrl( this.form ), $('#${uiid}') )"/>
+	<c:set var="reload" value="$$.ajax.load(this.form, $('#${uiid}').parent())"/>
 	<c:set var="onclick">onclick="$(this).toggleClass( 'btn-blue btn-white' ); this.value = $(this).hasClass( 'btn-blue' ) ? 1 : 0; ${reload}"</c:set>
 
 	<div style="white-space: nowrap;">

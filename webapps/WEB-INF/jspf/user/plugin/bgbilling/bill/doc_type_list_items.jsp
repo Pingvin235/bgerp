@@ -17,7 +17,7 @@
 						<c:param name="contractId" value="${form.param.contractId}"/>
 						<c:param name="billingId" value="${form.param.billingId}"/>
 					</c:url>
-					<c:set var="deleteAjaxCommandAfter" value="openUrlToParent('${form.requestUrl}',$('#${uiid}'))"/>
+					<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())"/>
 					<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 				</u:sc>
 			</td>
@@ -41,6 +41,6 @@
 		</u:sc>
 	</div>
 	<div class="pl1">
-		<button type="button" class="btn-grey" onclick="if( this.form.typeIds.value && sendAJAXCommand( formUrl( this.form ) ) ){ openUrlToParent('${form.requestUrl}',$('#${uiid}')) }">+</button>
+		<button type="button" class="btn-grey" onclick="if( this.form.typeIds.value && sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()) }">+</button>
 	</div>
 </form>

@@ -9,10 +9,10 @@
 	<c:param name="action" value="balanceEditor" />
 	<c:param name="billingId" value="${form.param.billingId}" />
 	<c:param name="contractId" value="${form.param.contractId}" />
-	<c:param name="item" value="contractCharge" />	
+	<c:param name="item" value="contractCharge" />
 	<c:param name="returnUrl" value="${form.requestUrl}" />
-</c:url> 	
-<button class="btn-green" title="Добавить расход" type="button" onclick="openUrlToParent('${createUrl}', $('#${uiid}') )">+</button>
+</c:url>
+<button class="btn-green" title="Добавить расход" type="button" onclick="$$.ajax.load('${createUrl}', $('#${uiid}').parent())">+</button>
 
 <table class="data mt1" width="100%" id="${uiid}">
 	<tr>
@@ -28,21 +28,21 @@
 		<tr>
 			<c:url var="url" value="/user/plugin/bgbilling/proto/balance.do">
 				<c:param name="action" value="balanceEditor"/>
-				<c:param name="item" value="contractCharge" />	
+				<c:param name="item" value="contractCharge" />
 				<c:param name="billingId" value="${form.param.billingId}" />
 				<c:param name="contractId" value="${form.param.contractId}" />
 				<c:param name="id" value="${charge.getId()}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}" />
 			</c:url>
-			<c:set var="editCommand" value="openUrlToParent('${url}', $('#${uiid}') )"/>
-			
+			<c:set var="editCommand" value="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
+
 			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/balance.do">
 				<c:param name="action" value="deleteCharge"/>
 				<c:param name="billingId" value="${form.param.billingId}" />
 				<c:param name="contractId" value="${form.param.contractId}" />
 				<c:param name="chargeId" value="${charge.getId()}"/>
 			</c:url>
-			<c:set var="deleteAjaxCommandAfter" value="openUrlToParent('${form.requestUrl}',$('#${uiid}'))"/>
+			<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}',$('#${uiid}').parent())"/>
 			<td nowrap="nowrap">
 				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 			</td>

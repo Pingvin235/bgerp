@@ -50,7 +50,7 @@
 		<div class="pl1" style="white-space: nowrap;">
 			<button type="button" class="btn-green" id="${saveUiid}"
 				title="Сгенерировать документ с сохранением"
-				onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlToParent( '${form.requestUrl}', $('#${uiid}') ) };"
+				onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()) };"
 				style="display: none;">+</button>
 
 			<c:set var="script">
@@ -116,7 +116,7 @@
 			<c:param name="objectType" value="${form.param['objectType']}"/>
 			<c:param name="objectId" value="${form.param['objectId']}"/>
 		</c:url>
-		<c:set var="deleteAjaxCommandAfter">openUrlToParent( '${form.requestUrl}', $('#${uiid}') )</c:set>
+		<c:set var="deleteAjaxCommandAfter">$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())</c:set>
 
 		<tr>
 			<td>${item.id}</td>

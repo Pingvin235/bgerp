@@ -86,8 +86,8 @@
 	setTimeout( function(){ $('#${uiid} input').focus(); document.getSelection().removeAllRanges(); }, 0 ); return false; }"/>
 </c:if>
 
-<c:set var="saveCommand" value="$('#${uiid} input').attr('onblurstop','1'); ${confirmEncryptedParam} if( sendAJAXCommand( formUrl( $('#${editFormId}') ) ) ){  openUrlToParent( '${form.returnUrl}', $('#${tableId}') );  } else {  $('#${uiid} input').removeAttr('onblurstop'); }"/>
-<c:set var="refreshCommand" value="openUrlToParent( '${form.returnUrl}', $('#${tableId}') );"/>
+<c:set var="saveCommand" value="$('#${uiid} input').attr('onblurstop','1'); ${confirmEncryptedParam} if( sendAJAXCommand( formUrl( $('#${editFormId}') ) ) ){  $$.ajax.load('${form.returnUrl}', $('#${tableId}').parent());  } else {  $('#${uiid} input').removeAttr('onblurstop'); }"/>
+<c:set var="refreshCommand" value="$$.ajax.load('${form.returnUrl}', $('#${tableId}').parent());"/>
 <c:set var="focusFieldUiid" value="${u:uiid()}"/>
 
 <html:form method="GET" action="/user/parameter" styleId="${editFormId}" style="width: 100%;" onsubmit="return false;">

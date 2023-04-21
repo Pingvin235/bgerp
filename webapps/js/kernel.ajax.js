@@ -576,23 +576,6 @@ function openUrlTo(url, $selector, vars) {
 	return result;
 }
 
-//загружает URL на предка элемента, фактически перетирая элемент
-//selector - селектор
-function openUrlToParent(url, $selector) {
-	console.warn($$.deprecated);
-
-	// может быть так, что к данному моменту объекта уже нет
-	if ($selector.length > 0) {
-		var $parent = $($selector[0].parentNode);
-		$parent.html("");
-
-		var result = getAJAXHtml(url);
-		if (result) {
-			$parent.html(result);
-		}
-	}
-}
-
 //отправка AJAX с результатом HTML страница
 function getAJAXHtml(url, toPostNames) {
 	console.warn($$.deprecated);

@@ -14,7 +14,7 @@
 	<c:param name="action" value="serviceEdit"/>
 </c:url>
 
-<button class="btn-green mb1" onclick="openUrlToParent( '${url}', $('#${uiid}') )">+</button>
+<button class="btn-green mb1" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
 
 <table class="data" style="width: 100%;" id="${uiid}">
 	<tr>
@@ -31,19 +31,19 @@
 						<c:param name="action" value="serviceEdit"/>
 						<c:param name="id" value="${item.id}"/>
 					</c:url>
-					<c:set var="editCommand" value="openUrlToParent('${url}',$('#${uiid}'))"/>
-				
+					<c:set var="editCommand" value="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
+
 					<c:url var="deleteAjaxUrl" value="${baseUrl}">
 						<c:param name="action" value="serviceDelete"/>
 						<c:param name="id" value="${item.id}"/>
 					</c:url>
-					<c:set var="deleteAjaxCommandAfter" value="openUrlToParent('${form.requestUrl}',$('#${uiid}'))"/>
+					<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())"/>
 					<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 				</u:sc>
 			</td>
 			<td nowrap="nowrap">${item.serviceTitle}</td>
 			<td nowrap="nowrap">${tu.formatPeriod( item.dateFrom, item.dateTo, 'ymd' )}</td>
 			<td width="100%">${item.comment}</td>
-		</tr>	
+		</tr>
 	</c:forEach>
 </table>

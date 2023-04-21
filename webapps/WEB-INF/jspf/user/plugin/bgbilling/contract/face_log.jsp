@@ -18,7 +18,7 @@
 			<c:set var="value" value="${form.response.data.contractInfo.face}"/>
 			<c:set var="prefixText" value="Лицо (изменить):"/>
 			<c:set var="widthTextValue" value="100px"/>
-			<c:set var="onSelect" value="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ openUrlToParent( '${form.requestUrl}', $('#${uiid}') ); }"/>
+			<c:set var="onSelect" value="if( sendAJAXCommand( formUrl( $hidden.closest('form') ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); }"/>
 			<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 		</u:sc>
 	</form>

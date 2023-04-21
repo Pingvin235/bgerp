@@ -68,7 +68,7 @@
 		 </div>
 
 		<div>
-			<button type="button" class="btn-grey ml05" onclick="openUrlToParent( formUrl( this.form ), $('#${uiid}') )" title="${l.l('Вывести')}">=&gt;</button>
+			<button type="button" class="btn-grey ml05" onclick="$$.ajax.load(this.form, $('#${uiid}').parent())" title="${l.l('Вывести')}">=&gt;</button>
 		</div>
 	</form>
 

@@ -3,7 +3,7 @@
 
 <c:set var="processId" value="${form.param.processId}"/>
 
-<c:set var="reopenProcessEditorCode" value="openUrlToParent( 'process.do?id=${processId}&wizard=1', $('#${form.param.returnChildUiid}') );"/>
+<c:set var="reopenProcessEditorCode" value="$$.ajax.load('process.do?id=${processId}&wizard=1', $('#${form.param.returnChildUiid}').parent());"/>
 
 <table style="width: 100%;" class="oddeven mt05">
 	<c:choose>

@@ -337,10 +337,10 @@
 
 						<c:choose>
 							<c:when test="${parameter.configMap['onErrorChangeParamsReload'] eq '1'}">
-								<c:set var="saveCommand">${confirmEncryptedParam} sendAJAXCommand( formUrl( $('#${editFormId}')[0] ), ['value'] ); openUrlToParent( '${form.requestUrl}', $('#${tableId}') );</c:set>
+								<c:set var="saveCommand">${confirmEncryptedParam} sendAJAXCommand( formUrl( $('#${editFormId}')[0] ), ['value'] ); $$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());</c:set>
 							</c:when>
 							<c:otherwise>
-								<c:set var="saveCommand">${confirmEncryptedParam} if( sendAJAXCommand( formUrl( $('#${editFormId}')[0] ), ['value'] ) ){ openUrlToParent( '${form.requestUrl}', $('#${tableId}') ); return true; }</c:set>
+								<c:set var="saveCommand">${confirmEncryptedParam} if( sendAJAXCommand( formUrl( $('#${editFormId}')[0] ), ['value'] ) ){ $$.ajax.load('${form.requestUrl}', $('#${tableId}').parent()); return true; }</c:set>
 							</c:otherwise>
 						</c:choose>
 

@@ -1,0 +1,1 @@
+C: Replace openUrlToParent JS calls.

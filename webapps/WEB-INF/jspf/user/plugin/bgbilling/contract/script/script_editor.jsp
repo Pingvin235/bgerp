@@ -35,7 +35,7 @@
 	<textarea name="comment" rows="4" cols="10" style="width:100%; resize: vertical;">${script.comment}</textarea>
 
 	<div class="mt1">
-		<button type="button" class="btn-grey" onclick="if(sendAJAXCommand(formUrl(this.form))) { openUrlToParent('${form.returnUrl}',$('#${uiid}')); }">OK</button>
-		<button type="button" class="btn-grey ml1" onclick="openUrlToParent('${form.returnUrl}',$('#${uiid}'));">Oтмена</button>
+		<button type="button" class="btn-grey" onclick="if(sendAJAXCommand(formUrl(this.form))) { $$.ajax.load('${form.returnUrl}', $('#${uiid}').parent()); }">OK</button>
+		<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent());">Oтмена</button>
 	</div>
 </form>

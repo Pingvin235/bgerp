@@ -63,7 +63,7 @@
 			} );
 		</script>
 
-		<button type="button"  class="btn-grey ml1 mt05" onclick="openUrlToParent( formUrl( this.form ), $(this.form) )">Сформировать</button>
+		<button type="button"  class="btn-grey ml1 mt05" onclick="$$.ajax.load(this.form, $(this.form).parent())">Сформировать</button>
 	</html:form>
 
 	<%--

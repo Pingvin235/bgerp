@@ -16,7 +16,7 @@
 		<input type="text" size="12" placeholder="Комментарий" name="comment" class="ml05"/>
 
 		<button type="button" class="btn-grey ml1"
-				onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlToParent( '${form.requestUrl}', $('#${uiid}') ); }">Изменить</button>
+				onclick="if( sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); }">Изменить</button>
 	</html:form>
 
 	<html:form action="/user/plugin/bgbilling/proto/contract" style="width: 100%;">
@@ -69,7 +69,7 @@
 					<c:param name="id" value="${item.id}"/>
 				</c:url>
 				<c:set var="deleteAjaxUrl" value="${url}"/>
-				<c:set var="deleteAjaxCommandAfter" value="openUrlToParent( '${form.requestUrl}', $('#${uiid}') )"/>
+				<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())"/>
 				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 			</td>
 			<td nowrap="nowrap">${tu.format( item.date, 'ymd' )}</td>

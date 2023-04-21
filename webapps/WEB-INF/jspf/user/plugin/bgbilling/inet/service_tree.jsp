@@ -81,7 +81,7 @@
 				// вкл - выкл статуса
 				if ($li.attr('confirm')) {
 					if (confirm($li.attr('confirm')) && sendAJAXCommand(command + $li.attr("command"))) {
-						openUrlToParent('${form.requestUrl}', $('#${uiid}') );
+						$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent());
 					}
 				}
 				// вызов метода

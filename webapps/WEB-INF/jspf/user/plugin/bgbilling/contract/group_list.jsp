@@ -11,8 +11,8 @@
 	<ui:select-mult list="${form.response.data.groupList}" values="${form.response.data.selectedGroupIds}" hiddenName="groupId" style="width: 300px;" showId="${true}"/>
 
 	<div class="mt1">
-		<button type="button" class="btn-grey" onclick="if(sendAJAXCommand(formUrl(this.form))) { openUrlToParent('${form.requestUrl}',$('#${uiid}')); }">OK</button>
-		<button type="button" class="btn-grey ml1" onclick="openUrlToParent('${form.requestUrl}',$('#${uiid}'));">Oтмена</button>
+		<button type="button" class="btn-grey" onclick="if(sendAJAXCommand(formUrl(this.form))) { $$.ajax.load('${form.requestUrl}',$('#${uiid}').parent()); }">OK</button>
+		<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.requestUrl}',$('#${uiid}').parent());">Oтмена</button>
 	</div>
 </form>
 

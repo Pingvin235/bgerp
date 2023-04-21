@@ -12,22 +12,22 @@
 	<html:hidden property="gateId"/>
 	<html:hidden property="gateTypeId"/>
 	<html:hidden property="returnUrl"/>
-	
+
 	<h1>Выберите шлюз</h1>
-	
+
 	<div style="background-color: #ffffff; cursor: pointer; overflow: auto;" class="layout-height-rest">
 		<c:forEach var="node" items="${form.response.data.gateList}">
 			<c:set var="node" value="${node}" scope="request"/>
 			<c:set var="level" value="0" scope="request"/>
-			
+
 			<jsp:include page="gate_select_item.jsp"/>
 		</c:forEach>
-	</div>	
-	
-	<div class="mt1">
-		<button type="button" class="btn-grey" onclick="openUrlToParent( formUrl( this.form ), $('#${uiid}') )">OK</button>
-		<button type="button" class="btn-grey ml1" onclick="openUrlToParent( '${form.returnUrl}', $('#${uiid}') )">${l.l('Отмена')}</button>
 	</div>
-	
-	<%@ include file="/WEB-INF/jspf/layout_process.jsp"%>		
+
+	<div class="mt1">
+		<button type="button" class="btn-grey" onclick="$$.ajax.load(this.form, $('#${uiid}').parent())">OK</button>
+		<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent())">${l.l('Отмена')}</button>
+	</div>
+
+	<%@ include file="/WEB-INF/jspf/layout_process.jsp"%>
 </html:form>

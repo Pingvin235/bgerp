@@ -29,7 +29,7 @@
 		<html:option value="2">Ночная</html:option>
 	</html:select>
 
-	<input type="button" onclick="openUrlToParent( formUrl( this.form ), $(this.form) )" value="Сформировать"/>
+	<input type="button" onclick="$$.ajax.load(this.form, $(this.form).parent())" value="Сформировать"/>
 </html:form>
 
 <c:set var="timeFrom" value="${tu.parse( form.param.dateFrom, 'ymd' ) }"/>

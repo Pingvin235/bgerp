@@ -93,7 +93,7 @@
 									</c:url>
 									[<a href="#"
 										title="${l.l('Удалить меня из исполнителей')}"
-										onclick="if (confirm('${l.l('Удалить вас из исполнителей')}?') && sendAJAXCommand('${url}')) openUrlToParent('${requestUrl}',$('#${tableId}')); return false;">${l.l('-Я')}</a>]
+										onclick="if (confirm('${l.l('Удалить вас из исполнителей')}?') && sendAJAXCommand('${url}')) $$.ajax.load('${requestUrl}', $('#${tableId}').parent()); return false;">${l.l('-Я')}</a>]
 								</c:when>
 								<c:otherwise>
 									<%-- текущий пользователь есть в этой группе --%>
@@ -112,7 +112,7 @@
 										</c:url>
 										[<a href="#"
 											title="${l.l('Добавить меня в исполнители')}"
-											onclick="if (confirm('${l.l('Добавить вас в исполнители')}?') && sendAJAXCommand('${url}')) openUrlToParent('${requestUrl}',$('#${tableId}')); return false;">${l.l('+Я')}</a>]
+											onclick="if (confirm('${l.l('Добавить вас в исполнители')}?') && sendAJAXCommand('${url}')) $$.ajax.load('${requestUrl}', $('#${tableId}').parent()); return false;">${l.l('+Я')}</a>]
 										</c:if>
 								</c:otherwise>
 							</c:choose>

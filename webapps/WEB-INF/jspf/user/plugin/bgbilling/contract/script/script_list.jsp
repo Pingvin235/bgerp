@@ -9,7 +9,7 @@
 	<c:param name="billingId" value="${form.param.billingId}"/>
 	<c:param name="returnUrl" value="${form.requestUrl}"/>
 </c:url>
-<button type="button" class="btn-green mb1" onclick="openUrlToParent('${url}', $('#${uiid}') )">+</button>
+<button type="button" class="btn-green mb1" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
 
 <div id="${uiid}">
 	<table class="data" style="width:100%;">
@@ -19,21 +19,21 @@
 			<td>Период</td>
 			<td width="100%">Комментарий</td>
 		</tr>
-		
+
 		<c:forEach var="script" items="${form.response.data.scriptList}" varStatus="status">
 			<tr>
 				<c:url var="eUrl" value="${url}">
 					<c:param name="scriptId" value="${script.id}"/>
 				</c:url>
-				<c:set var="editCommand" value="openUrlToParent('${eUrl}', $('#${uiid}') )"/>
-				
+				<c:set var="editCommand" value="$$.ajax.load('${eUrl}', $('#${uiid}').parent())"/>
+
 				<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/contract.do">
 					<c:param name="action" value="deleteScript"/>
 					<c:param name="contractId" value="${form.param.conractId}"/>
 					<c:param name="billingId" value="${form.param.billingId}"/>
 					<c:param name="scriptId" value="${script.id}"/>
 				</c:url>
-				<c:set var="deleteAjaxCommandAfter" value="openUrlToParent('${form.requestUrl}',$('#${uiid}'))"/>
+				<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())"/>
 				<td nowrap="nowrap">
 					<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 				</td>
@@ -55,7 +55,7 @@
 	$(function()
 	{
 		var scripts = "";
-		
+
 		<c:forEach var="item" items="${contractInfo.scriptList}" varStatus="status">
 			scripts += "<div>${item.title}";
 			<c:if test="${not status.last}">
@@ -63,7 +63,7 @@
 			</c:if>
 			scripts += "</div> ";
 		</c:forEach>
-		
-		$('#${contractTreeId} #treeTable div#scripts').html( scripts );	
+
+		$('#${contractTreeId} #treeTable div#scripts').html( scripts );
 	})
 </script>

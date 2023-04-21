@@ -14,7 +14,7 @@
 	<input type="hidden" name="paramId" value="${form.param.paramId}"/>
 	<input type="hidden" name="paramType" value="${form.param.paramType}"/>
 
-	<c:set var="saveCommand">if( sendAJAXCommand( formUrl( this.form ) ) ){ openUrlToParent( '${form.returnUrl}',  $('#${parametersInfo}') ) }</c:set>
+	<c:set var="saveCommand">if( sendAJAXCommand( formUrl( this.form ) ) ){ $$.ajax.load('${form.returnUrl}',  $('#${parametersInfo}').parent()) }</c:set>
 	<c:set var="focusFieldUiid" value="${u:uiid()}"/>
 
 	<c:set var="paramType" value="${form.param.paramType}"/>
@@ -193,7 +193,7 @@
 	<c:if test="${empty hideButtons}">
 		<div style="display: inline-block;">
 			<button type="button" class="btn-grey" onclick="${saveCommand}">OK</button>
-			<button type="button" class="btn-grey ml1" onclick="openUrlToParent( '${form.returnUrl}',  $('#${parametersInfo}'))">${l.l('Отмена')}</button>
+			<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())">${l.l('Отмена')}</button>
 		</div>
 	</c:if>
 </form>

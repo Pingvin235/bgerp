@@ -13,7 +13,7 @@
 			placeholder="Выберите действие" style="width: 100%;"/>
 	</div>
 	<div>
-		<button class="btn-grey" type="button" title="Выполнить действие" onClick="openUrlToParent( formUrl( this.form ), $('#${uiid}') )">Выполнить</button>
+		<button class="btn-grey" type="button" title="Выполнить действие" onClick="$$.ajax.load(this.form, $('#${uiid}').parent())">Выполнить</button>
 	</div>
 </form>
 

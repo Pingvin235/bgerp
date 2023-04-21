@@ -9,13 +9,13 @@
 	<c:param name="action" value="balanceEditor" />
 	<c:param name="billingId" value="${form.param.billingId}" />
 	<c:param name="contractId" value="${form.param.contractId}" />
-	<c:param name="item" value="contractPayment" />		
+	<c:param name="item" value="contractPayment" />
 	<c:param name="returnUrl" value="${form.requestUrl}" />
-</c:url> 	
+</c:url>
 
-<button type="button" class="btn-green" title="Добавить платёж" onclick="openUrlToParent('${createUrl}', $('#${uiid}') )">+</button>
+<button type="button" class="btn-green" title="Добавить платёж" onclick="$$.ajax.load('${createUrl}', $('#${uiid}').parent())">+</button>
 <c:set var="cashcheck" value="${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[form.param.billingId].pluginSet.contains( 'ru.bitel.bgbilling.plugins.cashcheck' ) }"/>
-	
+
 <table class="data mt1" width="100%" id="${uiid}">
 	<tr>
 		<td></td>
@@ -27,28 +27,28 @@
 		<td>Пользователь</td>
 		<c:if test="${cashcheck}">
 			<td>Действие</td>
-		</c:if>	
+		</c:if>
 	</tr>
 	<c:forEach var="payment" items="${form.response.data.list}" varStatus="varStatus">
 		<tr>
 			<c:url var="url" value="/user/plugin/bgbilling/proto/balance.do">
 				<c:param name="action" value="balanceEditor"/>
-				<c:param name="item" value="contractPayment" />	
+				<c:param name="item" value="contractPayment" />
 				<c:param name="billingId" value="${form.param.billingId}" />
 				<c:param name="contractId" value="${form.param.contractId}" />
 				<c:param name="id" value="${payment.id}"/>
 				<c:param name="cashcheck" value="${cashcheck}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}" />
 			</c:url>
-			<c:set var="editCommand" value="openUrlToParent('${url}', $('#${uiid}') )"/>
-			
+			<c:set var="editCommand" value="$$.ajax.load('${url}', $('#${uiid}').parent())"/>
+
 			<c:url var="deleteAjaxUrl" value="/user/plugin/bgbilling/proto/balance.do">
 				<c:param name="action" value="deletePayment"/>
 				<c:param name="billingId" value="${form.param.billingId}" />
 				<c:param name="contractId" value="${form.param.contractId}" />
 				<c:param name="paymentId" value="${payment.id}"/>
 			</c:url>
-			<c:set var="deleteAjaxCommandAfter" value="openUrlToParent('${form.requestUrl}',$('#${uiid}'))"/>
+			<c:set var="deleteAjaxCommandAfter" value="$$.ajax.load('${form.requestUrl}',$('#${uiid}').parent())"/>
 			<td nowrap="nowrap">
 				<%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%>
 			</td>
@@ -61,12 +61,12 @@
 			<c:if test="${cashcheck}">
 				<td nowrap="nowrap">
 					<c:set var="printCheckForm" value="${form.param.billingId}-${form.param.contractId}-printCheck-form"/>
-					<button class="btn-white btn-small" type="button" style="width:100%" 
+					<button class="btn-white btn-small" type="button" style="width:100%"
 							onclick="$('#${printCheckForm} input[name=paymentId]').val('${payment.id}');
 									 $('#${printCheckForm} input[name=clientCash]').val('${payment.sum}');
 									 $('#${printCheckForm}' ).dialog( 'open' );">Чек</button>
 				</td>
-			</c:if>	
+			</c:if>
 		</tr>
 	</c:forEach>
 </table>
@@ -74,7 +74,7 @@
 <c:set var="columnTitle" value="Тип платежа"/>
 <%@ include file="sub_item_list.jsp"%>
 
-<%-- диалог печати чека платежа по кнопке "чек" и при закрытии редактора платежа --%> 
+<%-- диалог печати чека платежа по кнопке "чек" и при закрытии редактора платежа --%>
 <c:if test="${cashcheck}">
 	<%@ include file="print_check.jsp"%>
 </c:if>
