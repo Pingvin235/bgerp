@@ -14,7 +14,9 @@ function addCustomCitySearch( selector ,cityIdSelector)
 		minLength: 1,
 		source: function( request, response )
 		{
-			var ajaxResponse = sendAJAXCommandWithParams( "/user/directory/address.do?", { "addressCountryId" : "1", "searchMode": "city","addressCityTitle":request.term } );
+			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "addressCountryId": "1", "searchMode": "city", "addressCityTitle": request.term });
+
+			var ajaxResponse = sendAJAXCommand(url);
 			if( ajaxResponse )
 			{
 				response( $.map( ajaxResponse.data.list, function( item )
@@ -37,7 +39,11 @@ function addCustomQuarterSearch( selector , areaIdSelector ,cityId)
 		minLength: 1,
 		source: function( request, response )
 		{
-			var ajaxResponse = sendAJAXCommandWithParams( "/user/directory/address.do?", {"action":"address", "addressCountryId": "1", "selectTab" : "quarter", "addressCityId" : cityId, "searchMode": "item", "addressItemTitle": request.term} );
+			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({
+				"action": "address", "addressCountryId": "1", "selectTab": "quarter", "addressCityId": cityId, "searchMode": "item", "addressItemTitle": request.term
+			});
+
+			var ajaxResponse = sendAJAXCommand(url);
 			if( ajaxResponse )
 			{
 				response( $.map( ajaxResponse.data.list, function( item )
@@ -62,7 +68,9 @@ function addStreetSearch( selector )
 		minLength: 3,
 		source: function( request, response )
 		{
-			var ajaxResponse = sendAJAXCommandWithParams( "/user/directory/address.do?", { "action" : "streetSearch", "title": request.term, "page.pageIndex": "0" } );
+			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "action": "streetSearch", "title": request.term, "page.pageIndex": "0" });
+
+			var ajaxResponse = sendAJAXCommand(url);
 			if( ajaxResponse )
 			{
 				response( $.map( ajaxResponse.data.list, function( item )
@@ -86,7 +94,9 @@ function addCustomStreetSearch( selector, streetIdSelector )
 		minLength: 3,
 		source: function( request, response )
 		{
-			var ajaxResponse = sendAJAXCommandWithParams( "/user/directory/address.do?", { "action" : "streetSearch", "title": request.term } );
+			const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({ "action": "streetSearch", "title": request.term });
+
+			var ajaxResponse = sendAJAXCommand(url);
 			if( ajaxResponse )
 			{
 				response( $.map( ajaxResponse.data.list, function( item )
@@ -116,7 +126,9 @@ function addHouseSearch( formSelector )
 			const streetId = form.streetId.value;
 			if( streetId > 0 )
 			{
-				var ajaxResponse = sendAJAXCommandWithParams( "/user/directory/address.do?", { "action" : "houseSearch", "streetId" : streetId, "house": request.term } );
+				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({"action": "houseSearch", "streetId": streetId, "house": request.term});
+
+				var ajaxResponse = sendAJAXCommand(url);
 				if( ajaxResponse )
 				{
 					response( $.map( ajaxResponse.data.list, function( item )
@@ -143,7 +155,9 @@ function addCustomHouseSearch( selector, streetIdSelector, houseIdSelector )
 			var streetId = $( streetIdSelector ).val();
 			if( streetId > 0 )
 			{
-				var ajaxResponse = sendAJAXCommandWithParams( "/user/directory/address.do?", { "action" : "houseSearch", "streetId" : streetId, "house": request.term } );
+				const url = "/user/directory/address.do?" + $$.ajax.requestParamsToUrl({"action": "houseSearch", "streetId": streetId, "house": request.term});
+
+				var ajaxResponse = sendAJAXCommand(url);
 				if( ajaxResponse )
 				{
 					response( $.map( ajaxResponse.data.list, function( item )

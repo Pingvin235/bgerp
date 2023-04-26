@@ -49,27 +49,6 @@ function createCustomerAndEdit(sender) {
 	$$.customer.createAndEdit(sender);
 }
 
-function addCustomerSearch( $selector )
-{
-	// контекстный поиск по наименованию
-	$selector.autocomplete({
-		minLength: 5,
-		delay: 1000,
-		source: function( request, response )
-		{
-			var ajaxResponse = sendAJAXCommandWithParams( "/user/customer.do?", { "action" : "customerTitleList", "title": request.term } );
-
-			if( ajaxResponse )
-			{
-				response( $.map( ajaxResponse.data.list, function( item )
-				{
-					return { label: item, value: item, id: item };
-				}));
-			};
-		}
-	});
-}
-
 function buildOpenedCustomerList( $selector, currentCustomer )
 {
 	var $ul = $selector.find( 'ul.drop' );
@@ -122,31 +101,19 @@ function processCustomerClientEvents( event )
 }
 
 // изменяет название контрагента на странице
-function customerChangeTitle( customerId, customerTitle )
-{
- /* 	var $a = $( "a[href=#customerTabs-" + customerId + "]" );
-  	$a.text( truncValue( customerTitle, 20 ) );
-  	$a.attr( "fullTitle", customerTitle );*/
-
-	/*$("button#customer-" + customerId + " span").text( customerTitle );*/
-  	$("#customer_title_" + customerId).text( customerTitle );
+function customerChangeTitle( customerId, customerTitle ) {
+	$("#customer_title_" + customerId).text( customerTitle );
 }
 
 // запросы на сервер
 function addCustomerLink( customerId, linkedObjectType, linkedObjectId, linkedObjectTitle )
 {
-	var url = "/user/link.do?action=addLink&id=" + customerId;
-	return sendAJAXCommandWithParams( url, { "objectType" : "customer", "linkedObjectType" : linkedObjectType, "linkedObjectId" : linkedObjectId, "linkedObjectTitle" : linkedObjectTitle });
-}
-
-function deleteCustomerLink( customerId, linkedObjectType, linkedObjectId )
-{
-	var url = "/user/link.do?action=deleteLink&id=" + customerId;
-	return sendAJAXCommandWithParams( url, { "objectType" : "customer", "linkedObjectType" : linkedObjectType, "linkedObjectId" : linkedObjectId });
+	const url = "/user/link.do?action=addLink&id=" + customerId + '&' + $$.ajax.requestParamsToUrl({ "objectType": "customer", "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId, "linkedObjectTitle": linkedObjectTitle });
+	return sendAJAXCommand(url);
 }
 
 function deleteCustomerLinkTo( linkedObjectType, linkedObjectId )
 {
-	var url = "/user/link.do?action=deleteLinksTo";
-	return sendAJAXCommandWithParams( url, { "objectType" : "customer", "linkedObjectType" : linkedObjectType, "linkedObjectId" : linkedObjectId });
+	const url = "/user/link.do?action=deleteLinksTo&" + $$.ajax.requestParamsToUrl({ "objectType": "customer", "linkedObjectType": linkedObjectType, "linkedObjectId": linkedObjectId });
+	return sendAJAXCommand(url);
 }

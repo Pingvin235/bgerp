@@ -625,13 +625,6 @@ function sendAJAXCommand(url, toPostNames) {
 	return result;
 }
 
-//аналог предыдущей функции, за исключением, что для URL можно указывать параметры из хэша
-function sendAJAXCommandWithParams(url, requestParams) {
-	console.warn($$.deprecated);
-
-	return sendAJAXCommand(url + $$.ajax.requestParamsToUrl(requestParams));
-}
-
 // move to $$.ui
 function onAJAXError(url, jqXHR, textStatus, errorThrown) {
 	if (jqXHR.status == 401) {

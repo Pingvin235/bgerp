@@ -1,0 +1,2 @@
+C: Replace sendAJAXCommandWithParams JS calls.
+C: Delete JS functions: addCustomerSearch, bgbilling_getPatterns.

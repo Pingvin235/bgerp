@@ -443,7 +443,9 @@
 					hideEmptyGroups = "TRUE";
 				}
 			});
-			sendAJAXCommandWithParams("/user/plugin/callboard/work.do?action=callboardUpdateFilters", {"hideEmptyShifts": hideEmptyShifts, "hideEmptyGroups": hideEmptyGroups, "graphId": graphId});
+
+			const url = "/user/plugin/callboard/work.do?action=callboardUpdateFilters&" + $$.ajax.requestParamsToUrl({ "hideEmptyShifts": hideEmptyShifts, "hideEmptyGroups": hideEmptyGroups, "graphId": graphId });
+			$$.ajax.post(url);
 		}
 
 	</script>

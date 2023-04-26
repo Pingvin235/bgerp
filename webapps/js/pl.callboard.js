@@ -94,15 +94,17 @@ function addGroupToUser(userTitle, userId)
 		buttons: {
 			"Ok": function()
 			{
-				sendAJAXCommandWithParams("/admin/plugin/callboard/work.do?action=userChangeGroup",
-						{
-							"graphId":$("#current-graphId").text(),
-							"fromDate":$("#fromDate").val(),
-							"toDate":$("#toDate").val(),
-							"group":$("#selectGroupToAdd").val(),
-							"userId":$("#userId").text()
-						});
-				$("#addGroupToUserPopup").dialog( "destroy" );
+				const url = "/admin/plugin/callboard/work.do?action=userChangeGroup&" + $$.ajax.requestParamsToUrl({
+					"graphId":$("#current-graphId").text(),
+					"fromDate":$("#fromDate").val(),
+					"toDate":$("#toDate").val(),
+					"group":$("#selectGroupToAdd").val(),
+					"userId":$("#userId").text()
+				});
+
+				$$.ajax.post(url).done(() =>
+					$("#addGroupToUserPopup").dialog( "destroy" )
+				);
 			},
 			"Cancel": function() {
 				console.log(this);

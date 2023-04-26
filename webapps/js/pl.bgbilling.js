@@ -125,23 +125,6 @@ $$.bgbilling = new function () {
 	this.contract = contract;
 }
 
-// загрузка шаблонов договоров в форму создания
-function bgbilling_getPatterns( billingId )
-{
-	var contractPatternList = sendAJAXCommandWithParams('/user/plugin/bgbilling/proto/contract.do?action=bgbillingGetContractPatternList', { 'billingId':billingId  });
-	if( contractPatternList.status  == 'ok' )
-	{
-		var $patternList = $( "#bgbilling-createContractForm select[name = 'patternId']" );
-		$patternList.html( "" );
-
-		var options = "";
-		$( contractPatternList.data.patterns).each( function(){
-			options += optionTag( this.id, this.title + " [" + this.id + "]" );
-		});
-		$patternList.html( options );
-	}
-}
-
 function bgbilling_changeContractCustomer( $select, $titleSpan, billingId, contractId, contractTitle )
 {
 	if( deleteCustomerLinkTo( "contract:" + billingId, contractId ) )
@@ -187,9 +170,9 @@ function bgbilling_updateRegisterList( billingId )
 {
 	var select = $('select[name=selectedRegisterId]:visible');
 
-	var ajaxResponse = sendAJAXCommandWithParams( "/user/plugin/bgbilling/proto/cashcheck.do?", { "action" : "registratorList", "billingId": billingId } );
-	if( ajaxResponse )
-	{
+	const url = "/user/plugin/bgbilling/proto/cashcheck.do?" + $$.ajax.requestParamsToUrl({"action": "registratorList", "billingId": billingId});
+
+	$$.ajax.post(url).done((ajaxResponse) => {
 		select.children().remove();
 		var registratorList = ajaxResponse.data.registratorList;
 		for(var i=0; i<registratorList.length ; i++)
@@ -197,7 +180,7 @@ function bgbilling_updateRegisterList( billingId )
 			select.append("<option value="+ registratorList[i].id +">" + registratorList[i].title + "</option>");
 		}
 		bgbilling_selectedRegisterIdChanged();
-	}
+	});
 }
 
 /* Remove later.
