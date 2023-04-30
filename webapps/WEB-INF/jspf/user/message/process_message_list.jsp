@@ -329,16 +329,10 @@
 				<tr>
 					<td style="border-top: none; display: block;">
 						${l.l('Вложения')}:
-						<c:forEach var="item" items="${message.attachList}" varStatus="status">
-							<c:url var="url" value="/user/file.do">
-								<c:param name="id" value="${item.id}"/>
-								<c:param name="title" value="${item.title}"/>
-								<c:param name="secret" value="${item.secret}"/>
-							</c:url>
-							<a href="${url}" class="preview">${item.title}</a><c:if test="${not status.last}">, </c:if>
-						</c:forEach>
-
-						<plugin:include endpoint="user.process.message.attaches.jsp"/>
+						<c:if test="${typeNote}">
+							<%@ include file="process_message_attachments.jsp"%>
+						</c:if>
+						<plugin:include endpoint="user.process.message.attachments.jsp"/>
 					</td>
 				</tr>
 			</c:if>

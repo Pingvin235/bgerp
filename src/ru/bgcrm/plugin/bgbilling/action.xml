@@ -274,6 +274,10 @@
 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CashCheckAction:registratorList" title="Просмотр доступных регистраторов(ККМ)"/>
 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CashCheckAction:printCheck" title="Печать чека"/>
 				</item>
+				<item title="HelpDesk">
+					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.HelpDeskAction:getAttach" title="Получение вложения"/>
+					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.HelpDeskAction:markMessageRead" title="Пометка сообщения прочитанным"/>
+				</item>
 			</item>
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:openContract" title="OpenContract"/>
 			<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getStreetsByCity" title="Получение списка улиц по ID города"/>
