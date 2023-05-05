@@ -1,0 +1,3 @@
+// the file is needed only for generation of the diagrams for external usages
+drawio:_res/subscription-ru.drawio[]
+drawio:_res/subscription-ru-v.drawio[]
