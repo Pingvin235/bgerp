@@ -1,7 +1,7 @@
 = Простая обработка событий
 :toc:
 
-Может использоваться в простых типовых случаях, без необходимости написания динамического кода. 
+Может использоваться в простых типовых случаях, без необходимости написания динамического кода.
 Позволяет гибко ограничивать в конфигурации правила правки процессов и автоматически выполняемые с ними операции.
 
 Реализуется одним или несколькими правилами в конфигурации типа процесса вида:
@@ -122,86 +122,41 @@ onProcessEvent.<n>.checkErrorMessage=<checkErrorMessage>
 
 Правила просматриваются в порядке их номеров. Первое правило выдавшее сообщение прерывает просмотр и отменяет изменение связанное с процессом.
 
-В *<commands>* указывается макрос обработки процесса, состоящий из команд, разделённых точкой с запятой. 
-Все команды макроса выполняются последовательно и в рамках текущей транзакции. Ошибка в любой из команд прерывает текущую транзакцию, 
+В *<commands>* указывается макрос обработки процесса, состоящий из команд, разделённых точкой с запятой.
+Все команды макроса выполняются последовательно и в рамках текущей транзакции. Ошибка в любой из команд прерывает текущую транзакцию,
 откатывая внесённые в БД изменения.
 
 [CAUTION]
 ====
-Более гибким и рекомендуемым способом выполнения команд является использование JEXL выражений с помощью *doExpression*. Обратите внимание на <<samples, примеры>>. 
+Более гибким и рекомендуемым способом выполнения команд является использование JEXL выражений с помощью *doExpression*. Обратите внимание на <<samples, примеры>>.
 Значительная часть команд ядра может быть заменена вызовами функций из javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
-Используйте сложные команды из перечня ниже, например *emailNotifyExecutors*, только если вы не найдёте аналогичной Java функции.
 ====
 
 [[commands-kernel]]
 == Команды в ядре
-
-=== emailNotifyExecutors:<paramId>:<subjectOrJexl>:<msgJexl>
-Уведомить о изменении процесса исполнителей за исключением пользователя, инициировавшего событие, посредством EMail.
-Где:
-[square]
-* *<paramId>* - код параметра пользователя с EMail, обязателен;
-* *<subjectOrJexl>* - начало темы письма (продолжается кодом процесса и первой строкой из описания) либо имя параметра конфигурации с  <<../extension.adoc#jexl, JEXL>> выражением для генерации темы, необязателен;
-* *<msgJexl>* - имя параметра конфигурации с <<../extension.adoc#jexl, JEXL>> выражением для генерации тела письма, необязателен.
-
-В контекст JEXL выражения передаются следующие объекты:
-[square]
-* *process* - объект класса javadoc:ru.bgcrm.model.process.Process[] - процесс;
-* *processParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[] - параметры процесса;
-* *processLink* - объект класса javadoc:ru.bgcrm.dao.expression.ProcessLinkFunction[] для работы с привязками процесса;
-* *lastChangeLogItem* - объект класса javadoc:ru.bgcrm.model.EntityLogItem[] с последним изменением процесса, может быть null;
-* *message* - объект класса javadoc:ru.bgcrm.model.message.Message[] передаётся на события, связанные с добавлением нового сообщения в процесс, в иных случаях - null.
-
-CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
-
-=== emailNotifyUsers:<paramId>:<userIds>:<subjectOrJexl>:<msgJexl>
-Макрос аналогичен предыдущему, но позволяет уведомлять не исполнителей процесса, а произвольных пользователей.
-[square]
-* *<userIds>* - коды пользователей через запятую, обязательный параметр.
-
-Остальные параметры идентичны emailNotifyExecutors.
-
-CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
 
 === newsNotifyExecutors:<subject> либо newsPopupNotifyExecutors:<subject>
 Уведомить о изменение процесса исполнителей, за исключением пользователя, иницировавшего событие, посредством сообщения (простого или всплывающего) в новости.
 [square]
 * *<subject>* - начало темы новости, если не указано - то "Изменился процесс".
 
-Продолжение темы новости генерируется с помощью <<index.adoc#type-config-reference, макроса описаний>>. 
-Первым ищется описание с ключом *newsNotifySubject*, затем *processCard*. 
+Продолжение темы новости генерируется с помощью <<index.adoc#type-config-reference, макроса описаний>>.
+Первым ищется описание с ключом *newsNotifySubject*, затем *processCard*.
 Если описание не найдено то добавляются наименование типа и код процесса.
-
-=== addGroups:<groupIds>
-Добавить в процесс разрешённые для типа процесса группы решения с ролью 0 "Выполнение", коды которых указанны через запятую в *<groupIds>*.
-
-CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
 
 === clearGroups
 Очистить список групп процесса.
 
-=== addExecutors:<executorIds>
-Добавить в процесс исполнителей, коды которых указаны через запятую в *<executorIds>*. 
-Группа для привязки определяется путём пересечения множества текущих групп исполнителя с множеством групп, соотнесённых процессу.
-
-CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
-
-=== addExecutorsInGroups:<groupIds>:<executorIds>
-Добавить исполнителей, коды которых указаны через запятую в *<executorIds>*.
-Исполнители привязываются к одной группе процесса, код которой попадает в перечень указанный в *<groupIds>* через запятую.
-
-CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
-
 === setExecutorsInGroups:<groupIds>:<executorIds>
-Установить в процесс исполнителей, коды которых указаны через запятую в *<executorIds>*. 
+Установить в процесс исполнителей, коды которых указаны через запятую в *<executorIds>*.
 Исполнители привязываются к одной группе процесса, код которой попадает в перечень указанный в *<groupIds>* через запятую, существующие исполнители заменяются.
 
-CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
+// CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
 
 === setExecutorsInGroupsIfNot:<groupIds>:<executorIds>
 Аналогично предыдущему, но исполнители устанавливаются, только если к группе-роли из перечня не приязан исполнитель.
 
-CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
+// CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
 
 === clearExecutors
 Очистить список исполнителей процесса.
@@ -222,27 +177,6 @@ CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expressio
 
 === close
 Закрыть карточку обрабатываемого процесса. Команда на браузер пользователя.
-
-=== decreasePriority:<count>
-Понизить приоритет процесса на *<count>*.
-
-CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
-
-=== increasePriority:<count>
-Повысить приоритет процесса на *<count>*.
-
-CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
-
-=== setRelativeDateParam:<paramId>:<days>
-Установить значение параметра типа "date" либо "datetime" с кодом *<paramId>* в значение на *<days>* больше текущей даты.
-[source]
-----
-cnt=0
-#
-# срок - +10 дней
-onProcessEvent.{@inc:cnt}.events=created
-onProcessEvent.{@cnt}.commands=setRelativeDateParam:47:10
-----
 
 === createProcessLink:<configId>
 Создание привязанного к данному процессу процесса. *<configId>* - код <<index.adoc#linked-process, правила>> создания связанного процесса.

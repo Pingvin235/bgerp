@@ -203,8 +203,11 @@ messageType.5.mail.smtp.host=smtp.gmail.com
 messageType.5.mail.smtp.pswd=****
 ----
 
-[[setup-process-change-notification]]
-=== Process Change Notifications
+[[setup-process-type]]
+=== Process Type
+
+[[setup-process-type-change-notification]]
+==== Process Change Notifications
 Plugin can send E-Mail notifications about process changes to executors, excluding ones, performed the changes.
 EMail subjects contains <<#qa, Quick Answer identifiers>>.
 
@@ -217,6 +220,21 @@ email:change.notification.user.email.param=<paramId>
 Where *<paramId>* can be *0* for selecting first user parameter with type email or point to a definite user param ID.
 
 Links for opening processes are built from <<../../../kernel/setup.adoc#config-app-url, configuration parameters>>.
+
+[[setup-process-type-jexl]]
+==== Sending Mails from JEXL
+Email can be sent using <<../../../kernel/process/processing.adoc#, simple processor>>, here is the sample of configuration.
+
+[source]
+----
+onProcessEvent.1.events=statusChanged
+onProcessEvent.1.doExpression=<<END
+    text = process.getDescription();
+    email.sendMessageToUsers({1}, 0, "Changed process status", text);
+END
+----
+
+Object *email* of class javadoc:org.bgerp.plugin.msg.email.ExpressionObject[] with API methods is provide by the plugin.
 
 [[usage]]
 == Usage

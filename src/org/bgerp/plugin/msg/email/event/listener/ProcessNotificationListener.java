@@ -14,7 +14,6 @@ import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.dao.expression.ProcessChangeFunctions;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
@@ -47,7 +46,8 @@ public class ProcessNotificationListener {
 
             String subject = subject(process, e.getMessage().getId());
 
-            new ProcessChangeFunctions(process, e.getForm(), conSet.getSlaveConnection()).emailNotifyExecutors(config.userEmailParamId(), subject, text.toString());
+            new org.bgerp.plugin.msg.email.ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
+                    .sendMessageToExecutors(config.userEmailParamId(), subject, text.toString());
         } catch (Exception ex) {
             log.error(ex);
         }
@@ -72,7 +72,8 @@ public class ProcessNotificationListener {
             int messageId = messages(conSet, process, l, text);
             String subject = subject(process, messageId);
 
-            new ProcessChangeFunctions(process, e.getForm(), conSet.getSlaveConnection()).emailNotifyExecutors(config.userEmailParamId(), subject, text.toString());
+            new org.bgerp.plugin.msg.email.ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
+                    .sendMessageToExecutors(config.userEmailParamId(), subject, text.toString());
         } catch (Exception ex) {
             log.error(ex);
         }

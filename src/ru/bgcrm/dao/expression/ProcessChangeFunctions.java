@@ -9,14 +9,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.plugin.msg.email.ExpressionObject;
+import org.bgerp.util.Log;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.param.Parameter;
-import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
@@ -26,14 +24,14 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.action.ProcessCommandExecutor;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.MailMsg;
-import ru.bgcrm.util.Setup;
 
 /**
  * Класс выполняет базовые операции над процессом.
  * В перспективе этот набор функций заменит команды по изменению процесса из {@link ProcessCommandExecutor}.
  */
 public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
+    private static final Log log = Log.getLog();
+
     private final Process process;
     private final DynActionForm form;
     private final Connection con;
@@ -145,46 +143,10 @@ public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
         ProcessAction.processExecutorsUpdate(form, con, process, processGroups, executors);
     }
 
-    /**
-     * Отправляет E-Mail с оповещением исполнителям процесса за исключением текущего пользователя.
-     * @param paramId код параметра пользователя с E-Mail.
-     * @param subject тема письма.
-     * @param text текст письма.
-     * @throws Exception
-     */
-    public void emailNotifyExecutors(int paramId, String subject, String text) throws Exception {
-        // исполнители исключая пользователя, совершившего действие
-        Set<Integer> executorIds = new HashSet<Integer>( process.getExecutorIds() );
-        executorIds.remove( form.getUserId() );
-
-        emailNotifyUsers(executorIds, paramId, subject, text);
-    }
 
     /**
-     * Отправляет E-Mail с оповещением произвольным пользователям.
-     * @param userIds коды пользователей.
-     * @param paramId код параметра пользователя с E-Mail.
-     * @param subject тема письма.
-     * @param text текст письма.
-     * @throws Exception
-     */
-    public void emailNotifyUsers(Collection<Integer> userIds, int paramId, String subject, String text) throws Exception {
-        Parameter param = ParameterCache.getParameter(paramId);
-        if (param == null || !Parameter.TYPE_EMAIL.equals(param.getType())) {
-            throw new BGMessageException("Параметр с кодом " + paramId + " не найден или его тип не EMail.");
-        }
-
-        ParamValueDAO paramDao = new ParamValueDAO(con);
-        for (Integer executorId : userIds) {
-            for (ParameterEmailValue value : paramDao.getParamEmail(executorId, paramId).values()) {
-                new MailMsg(Setup.getSetup()).sendMessage(value.getValue(), subject, text);
-            }
-        }
-    }
-
-    /**
-     * Устанавливает приоритет процесса.
-     * @param value
+     * Sets process priority.
+     * @param value the value.
      * @throws Exception
      */
     public void setPriority(int value) throws Exception {
@@ -193,9 +155,9 @@ public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
     }
 
     /**
-     * Устанавливает статус процесса.
-     * @param value
-     * @comment комментарий
+     * Changes process status.
+     * @param value status ID.
+     * @comment comment.
      * @throws Exception
      */
     public void setStatus(int value, String comment) throws Exception {
@@ -208,6 +170,24 @@ public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
 
         ProcessAction.processStatusUpdate(form, con, process, change);
         new ProcessDAO(con).updateProcess(process);
+    }
+
+    @Deprecated
+    public void emailNotifyExecutors(int paramId, String subject, String text) throws Exception {
+        log.warn("Used deprecated call 'emailNotifyExecutors', use 'email.sendMessageToExecutors' instead.");
+
+        var eo = new ExpressionObject();
+        eo.setExpression(expression);
+        eo.sendMessageToExecutors(paramId, subject, text);
+    }
+
+    @Deprecated
+    public void emailNotifyUsers(Collection<Integer> userIds, int paramId, String subject, String text) throws Exception {
+        log.warn("Used deprecated call 'emailNotifyUsers', use 'email.sendMessageToUsers' instead.");
+
+        var eo = new ExpressionObject();
+        eo.setExpression(expression);
+        eo.sendMessageToUsers(userIds, paramId, subject, text);
     }
 
 }

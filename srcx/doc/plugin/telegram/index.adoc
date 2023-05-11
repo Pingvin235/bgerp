@@ -3,7 +3,6 @@
 
 [[about]]
 == О плагине
-
 Плагин предназначен для интеграции BGERP с мессенджером link:https://telegram.org/[Telegram] и предоставляет функционал:
 
 [square]
@@ -18,28 +17,22 @@ NOTE: You can see the plugin enabled in <<../../kernel/install.adoc#demo, Demo S
 == Настройка
 
 [arabic]
-. В BotFather создать своего бота, прописать его название и токен в конфигурации.
-
-. Создать параметры для пользователя и процесса, где будут храниться id чатов и прописать их в конфигурации.
+* В BotFather создать своего бота, прописать его название и токен в конфигурации.
+* Создать параметры для пользователя и процесса, где будут храниться id чатов и прописать их в конфигурации.
 
 После запуска найти в телеграм своего бота.
 И начать с ним диалог.
 
 [square]
-- */getid* - команда получения chat id.
-Его можно вписать в параметр своего пользователя или в параметр процесса.
-
-- */login* - бот запросит логин и пароль от пользователя BGERP, а затем произведет заполнение параметра пользователя chat id.
-
-- */help* - команда вывода текста из конфигурации плагина (MsgUrlHelp).
-
-- */start* - команда вывода текста по умолчанию из конфигурации (msgDefaultAnswer).
+* */getid* - команда получения chat id. Его можно вписать в параметр своего пользователя или в параметр процесса.
+* */login* - бот запросит логин и пароль от пользователя BGERP, а затем произведет заполнение параметра пользователя chat id.
+* */help* - команда вывода текста из конфигурации плагина (MsgUrlHelp).
+* */start* - команда вывода текста по умолчанию из конфигурации (msgDefaultAnswer).
 
 В случае добавления бота в групповой чат (группа, супер группа, канал) - ему будет доступна отправка сообщений (используя JEXL скрипт sendMessageForProcess).
 Но при этом в случае ответа на сообщение бота - ни каких действий не будет происходить.
 
-Пример настройки
-
+Пример настройки:
 [source]
 ----
 telegram:botStart=1
@@ -73,12 +66,10 @@ telegram:msgLinkChange=учетная запись обновлена
 telegram:msgDefaultAnswer=введите /login или /getid
 # тест команды помощи
 telegram:msgUrlHelp=Для получения помощи, обратитесь к разделу справки корпоративного портала (раздел BGERP)
-
 ----
 
 [[setup-process-type]]
 == Настройка типа процесса
-
 В конфигурации типа процесса может быть настроена автоматизация работы с Telegram с помощью скрипта в doExpression <<../../kernel/process/processing.adoc#, простого обработчика событий>>.
 Ниже приведено несколько примеров возможных действий по различным событиям в процессе.
 
@@ -88,7 +79,7 @@ telegram:msgUrlHelp=Для получения помощи, обратитесь
 ----
 onProcessEvent.1.events=statusChanged
 onProcessEvent.1.doExpression=<<END
-	telegram.sendMessage(process, "Изменился статус");
+    telegram.sendMessage(process, "Изменился статус");
 END
 ----
 
@@ -98,7 +89,7 @@ END
 ----
 onProcessEvent.2.events=statusChanged
 onProcessEvent.2.doExpression=<<END
-	telegram.sendMessageForProcess(process, "Изменился статус");
+    telegram.sendMessageForProcess(process, "Изменился статус");
 END
 ----
 
@@ -106,7 +97,7 @@ END
 ----
 onProcessEvent.3.events=statusChanged
 onProcessEvent.3.doExpression=<<END
-	telegram.sendMessage(process, "Изменился статус", "MarkdownV2");
+    telegram.sendMessage(process, "Изменился статус", "MarkdownV2");
 END
 ----
 
@@ -121,23 +112,22 @@ TLG_GROUP_BGERP_ID=-1001285593190
 #
 onProcessEvent.11.events=statusChanged:{@STATUS_DONE_ID}
 onProcessEvent.11.doExpression=<<END
-   // BGERP Task
-   if (process.getTypeId() == 6) {
-   	   executorsList = u.getObjectList(ctxUserList, process.getExecutorIdsWithRole(0));
-       from = u.toString(executorsList);
+    // BGERP Task
+    if (process.getTypeId() == 6) {
+        executorsList = u.getObjectList(ctxUserList, process.getExecutorIdsWithRole(0));
+        from = u.toString(executorsList);
 
-       text = "Принято изменение [" + process.getId() + "](https://team.bgerp.org/open/process/" + process.getId() + ")";
-       text += " от " + from + ":" + NEW_LINE;
-       text += telegram.escapeMarkdown(process.getDescription());
+        text = "Принято изменение [" + process.getId() + "](https://team.bgerp.org/open/process/" + process.getId() + ")";
+        text += " от " + from + ":" + NEW_LINE;
+        text += telegram.escapeMarkdown(process.getDescription());
 
-       telegram.sendMessage("{@TLG_GROUP_BGERP_ID}", text);
+        telegram.sendMessage("{@TLG_GROUP_BGERP_ID}", text);
    }
 END
 ----
 
 [[format-messages]]
 == Форматирование текста сообщений
-
 По умолчанию отправка сообщений происходит без какого либо форматирования.
 В случае желания использовать форматирование - обращаем внимание на экранирование, т.к это частая ошибка приводящая к ошибкам отправки сообщений.
 

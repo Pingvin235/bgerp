@@ -23,9 +23,9 @@ Simple SQL query runner.
 image::../../plugin/svc/dba/_res/sql_query.png[width="800px"]
 
 == Plugin <<../../plugin/msg/email/index.adoc#, E-Mail>>
-Built-in process change <<../../plugin/msg/email/index.adoc#setup-process-change-notification, notifications>>.
+Built-in process change <<../../plugin/msg/email/index.adoc#setup-process-type-change-notification, notifications>>.
 
-Optional mark new process messages read with 'processed.read' property for Message Type <<../../plugin/msg/email/index.adoc#setup-process-change-notification, configuration>>.
+Optional mark new process messages read with 'processed.read' property for Message Type <<../../plugin/msg/email/index.adoc#setup-process-type-change-notification, configuration>>.
 
 == Access Logs
 Renamed, moved to log/access directory and available via UI in *Administration / App / App Status*.

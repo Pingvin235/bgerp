@@ -1,2 +1,9 @@
 # send emails about process modifications to first user parameter with type 'email'
 email:change.notification.user.email.param=0
+
+# send email to an user Administrator changed status
+onProcessEvent.1.events=statusChanged
+onProcessEvent.1.doExpression=<<END
+    text = process.getDescription();
+    email.sendMessageToUsers({1}, 0, "Changed process status", text);
+END

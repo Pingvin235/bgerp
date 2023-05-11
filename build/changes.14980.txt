@@ -1,0 +1,2 @@
+C: Plugin Mobile. Use HTTPS URL for sending messages.
+B: Removed deprecated commands 'emailNotifyExecutors', 'emailNotifyUsers', 'addGroups', 'addExecutors', 'addExecutorsInGroups', 'decreasePriority', 'increasePriority', 'setRelativeDateParam', 'setParam' https://bgerp.org/doc/3.0/manual/kernel/process/processing.html#commands-kernel

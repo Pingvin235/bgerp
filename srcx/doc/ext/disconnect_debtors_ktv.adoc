@@ -7,17 +7,17 @@
 
 Типы процессов:
 
-image::_res/i0151.png[i0151, width=600]
+image::_res/ktv_debt/i0151.png[i0151, width=600]
 
 Процесс "Должник":
 
-image::_res/i0152.png[i0152, width=600]
+image::_res/ktv_debt/i0152.png[i0152, width=600]
 
 Процесс "Отключение должника":
 
-image::_res/i0153.png[i0153, width=600]
+image::_res/ktv_debt/i0153.png[i0153, width=600]
 
-image::_res/i0155.png[i0155, width=600]
+image::_res/ktv_debt/i0155.png[i0155, width=600]
 
 Конфигурация типа "Должник":
 
@@ -28,18 +28,17 @@ processCard.1.components=header,status,description,executors,params,links
 #
 onProcessEvent.1.events=statusChanged:3
 onProcessEvent.1.ifExpression=process.getExecutorIds().size() == 0
-onProcessEvent.1.commands=addExecutors:{@ctxUserId}
+onProcessEvent.1.doExpression=addExecutors({user.getId()})
 #
 onProcessEvent.2.events=linkAdded;createdAsLink
 onProcessEvent.2.commands=bgbilling:getLinkedContractAddressParam:sofit:26:1
 #
 requireFillParamIdsBeforeStatusSet.5=2
- 
+
 show.tab.links.process=1
 ----
 
 Конфигурация типа "Отключение должника":
-
 [source]
 ----
 processCard.1.mode=card
@@ -52,11 +51,11 @@ show.tab.links.process=1
 
 Очередь "Должник":
 
-image::_res/i0154.png[width="600px"]
+image::_res/ktv_debt/i0154.png[width="600px"]
 
 Очередь "Отключение должника":
 
-image::_res/i0155.png[width="600px"]
+image::_res/ktv_debt/i0155.png[width="600px"]
 
 Конфигурация очереди "Должник".
 [source]
@@ -70,7 +69,7 @@ filter.2.show=false
 filter.3.type=executors
 filter.4.type=description
 filter.5.type=code
- 
+
 column.1.title=ID
 column.1.value=id
 column.3.title=Адрес
@@ -84,14 +83,14 @@ column.9.value=executors
 column.12.title=Действия
 column.12.value=actions
 column.12.nowrap=1
- 
+
 sort.combo.count=1
 sort.combo.1.default=1
 sort.mode.1.columnId=3
 sort.mode.1.title=Адрес
- 
+
 media.html.showColumns=1,3,5,7,9,12
- 
+
 actionShowMode=buttons
 action.1.title=Принять и открыть
 action.1.shortcut=ПО
@@ -111,7 +110,7 @@ filter.2.type=groups
 filter.2.defaultValues=3
 filter.2.show=false
 filter.2.type=executors
- 
+
 column.1.title=ID
 column.1.value=id
 column.3.title=Адрес
@@ -125,16 +124,16 @@ column.9.value=executors
 column.12.title=Действия
 column.12.value=actions
 column.12.nowrap=1
- 
+
 media.html.showColumns=1,3,5,7,9,12
- 
+
 actionShowMode=buttons
 action.1.title=Принять и открыть
 action.1.shortcut=ПО
 action.1.statusIds=2
 action.1.style=padding: 0.1em 0.3em;
 action.1.commands=setStatus:3;open
- 
+
 processor.1.title=Назначить
 processor.1.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
 processor.1.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
@@ -161,11 +160,11 @@ document:pattern.101.documentTitle=blank.html
 
 Файлы ktv_blank.xsl - в docpattern; KtvDebtManager.java, KtvDebtWaitRestore.java - в dyn/ru/bgcrm/dyn/sofit
 
-link:_res/ktv_blank.xsl[ktv_blank.xsl]
+link:_res/ktv_debt/ktv_blank.xsl[ktv_blank.xsl]
 
-link:_res/KtvDebtWaitRestore.java[KtvDebtWaitRestore.java]
+link:_res/ktv_debt/KtvDebtWaitRestore.java[KtvDebtWaitRestore.java]
 
-link:_res/KtvDebtManager.java[KtvDebtManager.java]
+link:_res/ktv_debt/KtvDebtManager.java[KtvDebtManager.java]
 
 Динамический класс ru.bgcrm.dyn.sofit.KtvDebtWaitRestore переводит процессы, помеченные на повторный обзвон вновь в открытый статус по истечению даты.
 
@@ -191,9 +190,9 @@ bgbilling:server.1.db.pswd=xxxxxxx
 ----
 // -------------------------------------
 // условия выборки договоров - должников
- 
+
 // базовый - код группы 25 - сумма долга 744 руб
-processContracts( getContracts( conBilling, 1L<<25, null, new BigDecimal( -744 ) ), contractDebtProcesses, con );			
+processContracts( getContracts( conBilling, 1L<<25, null, new BigDecimal( -744 ) ), contractDebtProcesses, con );
 // код тарифа - 26, долг - 720 и выше
 processContracts( getContracts( conBilling, null, 26, new BigDecimal( -720 ) ), contractDebtProcesses, con );
 ----
@@ -204,11 +203,11 @@ processContracts( getContracts( conBilling, null, 26, new BigDecimal( -720 ) ), 
 
 Очередь "Должник"
 
-image::_res/i0156.png[width="600px"]
+image::_res/ktv_debt/i0156.png[width="600px"]
 
 Процес "Должник"
 
-image::_res/i0157.png[width="600px"]
+image::_res/ktv_debt/i0157.png[width="600px"]
 
 Процессы "Должник" обрабатываются диспетчерами. Статус "Принят" означает занятие процесса на обработку. "Ожидание оплаты" - процесс откладывается и после указанной даты переводится в "Открыт". "Отключение" - создаётся связанный процесс "Отключение должника", куда копируется описание.
 
@@ -216,14 +215,14 @@ image::_res/i0157.png[width="600px"]
 
 Очередь "Отключение должников"
 
-image::_res/i0158.png[width="600px"]
+image::_res/ktv_debt/i0158.png[width="600px"]
 
 Доп действия в очереди
 
-image::_res/i0159.png[width="600px"]
+image::_res/ktv_debt/i0159.png[width="600px"]
 
 Вид бланка
 
-image::_res/i0160.png[width="600px"]
+image::_res/ktv_debt/i0160.png[width="600px"]
 
 ФИО и сумма долга для бланка извлекаются из автоматически сгенерированного опаисания процесса. При необходимости в описание процесса возможно добавление примечаний после символа разделителя "----------".

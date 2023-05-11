@@ -97,6 +97,7 @@ For quick response answer on the E-Mail with preserved ID in subject.</en>
 	</p>
 	<p><en>Recipient (Copy)</en><ru>Получатель (Копия)</ru></p>
 	<p><en>Incorrect email: {}</en><ru>Некорректный email: {}</ru></p>
+	<p><en>Parameter with ID {} not found or has no 'email' type.</en><ru>Параметр с ID {} не найден или его тип не 'email'.</ru></p>
 	<!--
 		<p><en></en><ru></ru></p>
 	-->

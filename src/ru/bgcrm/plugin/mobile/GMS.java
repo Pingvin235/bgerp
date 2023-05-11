@@ -15,7 +15,7 @@ import ru.bgcrm.util.ParameterMap;
 public class GMS extends ru.bgcrm.util.Config {
     private static final Log log = Log.getLog();
 
-    private static final String SERVER_URL = "http://mob.bgcrm.ru/cgi/server.py";
+    private static final String SERVER_URL = "https://mob.bgerp.org/cgi/server.py";
     private static final String PARAM_COMMAND = "command";
     private static final String PARAM_TO = "to";
     private static final String PARAM_DATA = "data";
@@ -25,7 +25,7 @@ public class GMS extends ru.bgcrm.util.Config {
         super(setup);
     }
 
-    public void sendMessage(String key, String subject, String text) throws BGException {
+    public void sendMessage(String key, String subject, String text) {
         try {
             Map<String, String> data = new HashMap<>();
             data.put("subject", subject);
@@ -45,7 +45,7 @@ public class GMS extends ru.bgcrm.util.Config {
 
             log.debug("Response: {}", result);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
     }
 

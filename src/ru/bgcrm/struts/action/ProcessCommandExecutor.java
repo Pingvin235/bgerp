@@ -1,10 +1,8 @@
 package ru.bgcrm.struts.action;
 
 import java.sql.Connection;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -15,24 +13,19 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.Pageable;
 
-import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.NewsDAO;
-import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.UserEvent;
-import ru.bgcrm.event.listener.DefaultProcessChangeListener;
 import ru.bgcrm.event.process.ProcessDoActionEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.model.param.Parameter;
-import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
@@ -40,12 +33,8 @@ import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.model.user.Group;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.MailMsg;
 import ru.bgcrm.util.Preferences;
-import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
@@ -104,7 +93,7 @@ public class ProcessCommandExecutor {
                 if (processGroups.addAll(addingProcessGroups)) {
                     ProcessAction.processGroupsUpdate(form, con, process, processGroups);
                 }
-            } else if (command.startsWith(COMMAND_ADD_GROUPS)) {
+            }/*else if (command.startsWith(COMMAND_ADD_GROUPS)) {
                 String param = StringUtils.substringAfter(command, ":");
 
                 Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>(process.getGroups());
@@ -117,7 +106,7 @@ public class ProcessCommandExecutor {
                 if (processGroups.addAll(addingProcessGroups)) {
                     ProcessAction.processGroupsUpdate(form, con, process, processGroups);
                 }
-            } else if (command.startsWith(COMMAND_SET_STATUS)) {
+            }*/ else if (command.startsWith(COMMAND_SET_STATUS)) {
                 int status = Utils.parseInt(StringUtils.substringAfter(command, ":"));
 
                 StatusChange change = new StatusChange();
@@ -158,7 +147,7 @@ public class ProcessCommandExecutor {
 
                 ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
             }
-            // обновление исполнитлей для одной из предложенных групп среди групп процесса
+            /* // обновление исполнитлей для одной из предложенных групп среди групп процесса
             else if (command.startsWith("addExecutorsInGroups")) {
                 Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringBetween(command, ":"));
                 Set<Integer> userIds = Utils.toIntegerSet(StringUtils.substringAfterLast(command, ":"));
@@ -200,7 +189,7 @@ public class ProcessCommandExecutor {
                 executors.addAll(ProcessExecutor.toProcessExecutorSet(addingExecutorIds, processGroup));
 
                 ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
-            } else if (command.startsWith("setExecutorsInGroupsIfNot")) {
+            }*/ else if (command.startsWith("setExecutorsInGroupsIfNot")) {
                 Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringBetween(command, ":"));
                 Set<Integer> userIds = Utils.toIntegerSet(StringUtils.substringAfterLast(command, ":"));
 
@@ -246,7 +235,7 @@ public class ProcessCommandExecutor {
                 form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessOpenEvent(process.getId()));
             } else if (command.equals("close")) {
                 form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessCloseEvent(process.getId()));
-            } else if (command.startsWith("decreasePriority")) {
+            }/*else if (command.startsWith("decreasePriority")) {
                 Integer decPriority = Utils.parseInt(StringUtils.substringAfter(command, ":"));
                 if (decPriority > 0) {
                     Integer newPriority = process.getPriority() - decPriority;
@@ -312,7 +301,7 @@ public class ProcessCommandExecutor {
 
                 emailSend(con, form, event, process, type, subject, exprText, paramId, userIds,
                         "Изменился процесс, на обновления которого вы подписаны.");
-            } else if (command.startsWith("newsNotifyExecutors") || command.startsWith("newsPopupNotifyExecutors")) {
+            }*/ else if (command.startsWith("newsNotifyExecutors") || command.startsWith("newsPopupNotifyExecutors")) {
                 String subject = Utils.maskEmpty(StringUtils.substringAfterLast(command, ":"), "Изменился процесс ");
 
                 String text = "Изменился процесс, в котором вы числитесь исполнителем.\n\n" + "Описание:<br/>" + process.getDescription();
@@ -371,7 +360,7 @@ public class ProcessCommandExecutor {
                 }
 
                 ProcessLinkAction.linkProcessCreate(con, form, process, -1, null, createTypeId, "", -1);
-            } else if (command.startsWith("setRelativeDateParam")) {
+            } /* else if (command.startsWith("setRelativeDateParam")) {
                 int paramId = Utils.parseInt(StringUtils.substringBetween(command, ":"));
                 Parameter param = ParameterCache.getParameter(paramId);
                 if (param == null || (!param.getType().equals(Parameter.TYPE_DATE) && !param.getType().equals(Parameter.TYPE_DATETIME))) {
@@ -415,13 +404,13 @@ public class ProcessCommandExecutor {
                     case TREE:
                         throw new BGException("Unsupported parameter type for macros:" + command);
                 }
-            } else {
+            }*/ else {
                 EventProcessor.processEvent(new ProcessDoActionEvent(form, process, command), new SingleConnectionSet(con));
             }
         }
     }
 
-    private static void emailSend(Connection con, DynActionForm form, UserEvent event, Process process, ProcessType type, String subject,
+    /* private static void emailSend(Connection con, DynActionForm form, UserEvent event, Process process, ProcessType type, String subject,
             String exprText, int paramId, Set<Integer> userIds, String defaultSubject) throws Exception {
         // вычисление subject с помощью JEXL
         String subjectExpr = type.getProperties().getConfigMap().get(subject);
@@ -457,7 +446,7 @@ public class ProcessCommandExecutor {
                 new MailMsg(Setup.getSetup()).sendMessage(value.getValue(), subject, text);
             }
         }
-    }
+    } */
 
     private static ProcessGroup getProcessGroup(Process process, Set<Integer> groupIds) throws BGMessageException {
         return getProcessGroup(process, groupIds, -1);

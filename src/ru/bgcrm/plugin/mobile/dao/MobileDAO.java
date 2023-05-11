@@ -25,7 +25,7 @@ public class MobileDAO extends CommonDAO {
             ps.setInt(2, account.getObjectId());
             ps.executeUpdate();
             ps.close();
-            
+
             query = SQL_INSERT_IGNORE + TABLE_ACCOUNT + "(object_type, object_id, mkey) "
                     + "VALUES (?,?,?)";
             ps = con.prepareStatement(query);
@@ -56,22 +56,20 @@ public class MobileDAO extends CommonDAO {
         }
         return result;
     }
-    
-    public Account findAccount(String objectType, int objectId) throws BGException {
+
+    public Account findAccount(String objectType, int objectId) throws SQLException {
         Account result = null;
-        try {
-            String query = SQL_SELECT_ALL_FROM + TABLE_ACCOUNT + SQL_WHERE + " object_type=? AND object_id=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, objectType);
-            ps.setInt(2, objectId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = getAccountFromRs(rs);
-            }
-            ps.close();
-        } catch (SQLException ex) {
-            throw new BGException(ex);
+
+        String query = SQL_SELECT_ALL_FROM + TABLE_ACCOUNT + SQL_WHERE + " object_type=? AND object_id=?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, objectType);
+        ps.setInt(2, objectId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            result = getAccountFromRs(rs);
         }
+        ps.close();
+
         return result;
     }
 

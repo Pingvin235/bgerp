@@ -6,9 +6,11 @@ import java.util.Map;
 
 import org.bgerp.plugin.msg.email.event.listener.ProcessNotificationListener;
 
+import ru.bgcrm.dao.expression.Expression.ContextInitEvent;
+import ru.bgcrm.event.EventProcessor;
+
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "email";
-
     public static final Plugin INSTANCE = new Plugin();
 
     public static final String PATH_JSP_USER = PATH_JSP_USER_PLUGIN + "/" + ID;
@@ -40,5 +42,9 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     @Override
     public void init(Connection con) throws Exception {
         new ProcessNotificationListener();
+
+        EventProcessor.subscribe((e, conSet) -> {
+            e.getContext().put(ID, new ExpressionObject());
+        }, ContextInitEvent.class);
     }
 }
