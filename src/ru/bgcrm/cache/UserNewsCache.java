@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bgerp.app.event.client.NewsInfoEvent;
-import org.bgerp.l10n.Localization;
+import org.bgerp.app.l10n.Localization;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 

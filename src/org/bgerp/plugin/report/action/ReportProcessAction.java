@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
-import org.bgerp.l10n.Localization;
+import org.bgerp.app.l10n.Localization;
+import org.bgerp.app.l10n.Localizer;
 import org.bgerp.plugin.report.Plugin;
 import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Columns;
@@ -68,7 +69,7 @@ public class ReportProcessAction extends ReportActionBase {
 
     @Override
     public String getTitle() {
-        return Localization.getLocalizer(Localization.getLang(), Plugin.ID).l("Процессы");
+        return new Localizer(Localization.getLang(), Plugin.INSTANCE.geLocalization()).l("Процессы");
     }
 
     @Override

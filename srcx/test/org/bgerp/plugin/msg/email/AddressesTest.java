@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
 
-import org.bgerp.l10n.Localization;
+import org.bgerp.app.l10n.Localization;
 import org.junit.Assert;
 import org.junit.Test;
 

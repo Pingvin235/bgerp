@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.bgerp.l10n.Localization;
+import org.bgerp.app.l10n.Localization;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.ParamValueDAO;

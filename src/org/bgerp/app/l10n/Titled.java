@@ -1,4 +1,4 @@
-package org.bgerp.l10n;
+package org.bgerp.app.l10n;
 
 /**
  * Title, provided with a localizer context.

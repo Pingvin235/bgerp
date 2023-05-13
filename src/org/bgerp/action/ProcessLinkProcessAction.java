@@ -10,10 +10,10 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.l10n.Localizer;
 import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessLinkProcessSearchDAO;
 import org.bgerp.dao.process.ProcessSearchDAO;
-import org.bgerp.l10n.Localizer;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.config.CommonAvailableConfig;
 import org.bgerp.model.process.config.LinkAvailableConfig;

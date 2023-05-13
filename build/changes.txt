@@ -205,7 +205,7 @@ A: [14789] Plugin Callboard. Event on select time.
 C: [14789] Plugin Callboard. Large refactoring.
 A: [14791] Plugin E-Mail process notifications without JEXL. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-process-change-notification
 F: [14791] MySQL start in 'docket/base' image.
-C: [14791] Package ru.bgerp.l10n renamed to org.bgerp.l10n.
+C: [14791] Package ru.bgerp.l10n renamed to org.bgerp.app.l10n.
 F: [14791] Full-width right area in process card when scrolling down.
 A: [14796] itest coverage for 'customer.reference.pattern' config parameter.
 A: [14798] Messages popup menu.

@@ -15,8 +15,8 @@ import javax.mail.internet.MimeUtility;
 import com.google.common.annotations.VisibleForTesting;
 
 import org.bgerp.action.open.ProcessAction.Config;
-import org.bgerp.l10n.Localization;
-import org.bgerp.l10n.Localizer;
+import org.bgerp.app.l10n.Localization;
+import org.bgerp.app.l10n.Localizer;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;

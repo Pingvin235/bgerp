@@ -20,7 +20,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.io.IOUtils;
-import org.bgerp.l10n.Localization;
+import org.bgerp.app.l10n.Localization;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
 import org.bgerp.util.Log;

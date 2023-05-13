@@ -1,5 +1,5 @@
-<%@page import="org.bgerp.l10n.Localizer"%>
-<%@page import="org.bgerp.l10n.Localization"%>
+<%@page import="org.bgerp.app.l10n.Localizer"%>
+<%@page import="org.bgerp.app.l10n.Localization"%>
 <%@page import="ru.bgcrm.struts.form.DynActionForm"%>
 <%@page import="ru.bgcrm.model.user.User"%>
 <%@page import="ru.bgcrm.model.process.Process"%>

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bgerp.l10n.Localizer;
+import org.bgerp.app.l10n.Localizer;
 
 import ru.bgcrm.event.client.ClientEvent;
 

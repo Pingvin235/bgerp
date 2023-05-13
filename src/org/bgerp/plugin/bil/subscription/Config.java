@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.bgerp.l10n.Localization;
+import org.bgerp.app.l10n.Localization;
 import org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO;
 import org.bgerp.plugin.bil.subscription.model.Subscription;
 import org.bgerp.plugin.bil.subscription.model.SubscriptionLicense;

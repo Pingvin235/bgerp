@@ -2,8 +2,8 @@ package ru.bgcrm.model.user;
 
 import java.util.List;
 
-import org.bgerp.l10n.Localization;
-import org.bgerp.l10n.Localizer;
+import org.bgerp.app.l10n.Localization;
+import org.bgerp.app.l10n.Localizer;
 import org.junit.Assert;
 import org.junit.Test;
 

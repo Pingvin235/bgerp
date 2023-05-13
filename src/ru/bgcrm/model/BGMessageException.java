@@ -3,7 +3,7 @@ package ru.bgcrm.model;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.l10n.Localizer;
+import org.bgerp.app.l10n.Localizer;
 import org.bgerp.util.Log;
 
 /**

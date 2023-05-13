@@ -10,8 +10,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.bgerp.l10n.Localization;
-import org.bgerp.l10n.Localizer;
+import org.bgerp.app.l10n.Localization;
+import org.bgerp.app.l10n.Localizer;
 import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.util.Log;
 

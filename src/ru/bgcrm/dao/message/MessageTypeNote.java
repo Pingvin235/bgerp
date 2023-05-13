@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.Date;
 import java.util.Map;
 
-import org.bgerp.l10n.Localization;
+import org.bgerp.app.l10n.Localization;
 import org.bgerp.plugin.kernel.Plugin;
 import org.bgerp.util.Log;
 

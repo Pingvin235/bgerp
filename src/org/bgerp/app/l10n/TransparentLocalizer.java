@@ -1,4 +1,4 @@
-package org.bgerp.l10n;
+package org.bgerp.app.l10n;
 
 /**
  * Localizer, returning a parameter string without modification.

@@ -3,7 +3,7 @@
 
 <%@ attribute name="endpoint" description="Endpoint"%>
 
-<%@tag import="org.bgerp.l10n.Localization"%>
+<%@tag import="org.bgerp.app.l10n.Localization"%>
 <%@tag import="ru.bgcrm.plugin.Plugin"%>
 
 <%

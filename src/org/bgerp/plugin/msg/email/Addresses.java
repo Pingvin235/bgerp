@@ -11,7 +11,7 @@ import javax.mail.Message.RecipientType;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
-import org.bgerp.l10n.Localizer;
+import org.bgerp.app.l10n.Localizer;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 

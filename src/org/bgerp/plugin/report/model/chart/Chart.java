@@ -1,7 +1,7 @@
 package org.bgerp.plugin.report.model.chart;
 
-import org.bgerp.l10n.Localizer;
-import org.bgerp.l10n.Titled;
+import org.bgerp.app.l10n.Localizer;
+import org.bgerp.app.l10n.Titled;
 import org.bgerp.plugin.report.model.Data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,8 +1,8 @@
 package org.bgerp.plugin.bil.invoice.event.listener;
 
+import org.bgerp.app.l10n.Localization;
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.event.ProcessFilesEvent;
-import org.bgerp.l10n.Localization;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.bil.invoice.Plugin;
 import org.bgerp.plugin.bil.invoice.action.InvoiceAction;

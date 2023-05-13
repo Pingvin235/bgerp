@@ -3,10 +3,10 @@ package org.bgerp.plugin.msg.email.event.listener;
 import java.sql.SQLException;
 import java.util.Set;
 
+import org.bgerp.app.l10n.Localization;
+import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.Interface;
 import org.bgerp.dao.message.MessageSearchDAO;
-import org.bgerp.l10n.Localization;
-import org.bgerp.l10n.Localizer;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.msg.email.Plugin;
 import org.bgerp.plugin.msg.email.config.ProcessNotificationConfig;

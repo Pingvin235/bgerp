@@ -14,8 +14,8 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.app.dist.inst.call.ExecuteSQL;
+import org.bgerp.app.l10n.Localization;
 import org.bgerp.dao.Cleaner;
-import org.bgerp.l10n.Localization;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.bgerp.util.Log;
 import org.bgerp.util.lic.AppLicense;

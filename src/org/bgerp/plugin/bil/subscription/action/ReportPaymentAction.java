@@ -17,7 +17,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.l10n.Localization;
+import org.bgerp.app.l10n.Localization;
 import org.bgerp.plugin.bil.subscription.Config;
 import org.bgerp.plugin.bil.subscription.Plugin;
 import org.bgerp.plugin.report.action.ReportActionBase;

@@ -1,6 +1,6 @@
 package org.bgerp.plugin.report.model.chart;
 
-import org.bgerp.l10n.Localizer;
+import org.bgerp.app.l10n.Localizer;
 import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Data;
 

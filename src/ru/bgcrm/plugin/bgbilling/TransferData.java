@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.l10n.Localizer;
+import org.bgerp.app.l10n.Localizer;
 import org.bgerp.util.Log;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
