@@ -1,6 +1,6 @@
 package ru.bgcrm.plugin.asterisk.event.listener;
 
-import org.bgerp.servlet.user.event.UserSessionCreatedEvent;
+import org.bgerp.app.servlet.user.event.UserSessionCreatedEvent;
 import org.bgerp.util.Log;
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;

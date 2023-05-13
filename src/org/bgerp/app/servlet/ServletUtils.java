@@ -1,4 +1,4 @@
-package org.bgerp.servlet;
+package org.bgerp.app.servlet;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -401,7 +401,7 @@ public class Queue extends IdTitle {
 
     /**
      * Processors for interface.
-     * @param iface value from {@link org.bgerp.Interface}.
+     * @param iface value from {@link org.bgerp.app.servlet.Interface}.
      * @return
      */
     public List<Processor> getProcessors(String iface) {

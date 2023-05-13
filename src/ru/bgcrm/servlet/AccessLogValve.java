@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
-import org.bgerp.servlet.filter.AuthFilter;
+import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.user.User;

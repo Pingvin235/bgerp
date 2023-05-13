@@ -1,4 +1,4 @@
-package org.bgerp.servlet.file;
+package org.bgerp.app.servlet.file;
 
 /**
  * Files fluent options.

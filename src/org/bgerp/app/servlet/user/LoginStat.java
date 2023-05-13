@@ -1,4 +1,4 @@
-package org.bgerp.servlet.user;
+package org.bgerp.app.servlet.user;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,8 +10,8 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import org.bgerp.servlet.user.event.UserSessionClosedEvent;
-import org.bgerp.servlet.user.event.UserSessionCreatedEvent;
+import org.bgerp.app.servlet.user.event.UserSessionClosedEvent;
+import org.bgerp.app.servlet.user.event.UserSessionCreatedEvent;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;

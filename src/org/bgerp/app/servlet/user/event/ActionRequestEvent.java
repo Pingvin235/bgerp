@@ -1,4 +1,4 @@
-package org.bgerp.servlet.user.event;
+package org.bgerp.app.servlet.user.event;
 
 import javax.servlet.http.HttpServletRequest;
 

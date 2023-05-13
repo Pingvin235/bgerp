@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.bgerp.Interface;
+import org.bgerp.app.servlet.Interface;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 

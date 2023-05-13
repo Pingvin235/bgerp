@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 import com.google.common.annotations.VisibleForTesting;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.servlet.ServletUtils;
-import org.bgerp.servlet.filter.AuthFilter;
+import org.bgerp.app.servlet.ServletUtils;
+import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 import org.w3c.dom.Document;

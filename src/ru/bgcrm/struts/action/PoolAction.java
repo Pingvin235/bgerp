@@ -3,7 +3,7 @@ package ru.bgcrm.struts.action;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.servlet.user.LoginStat;
+import org.bgerp.app.servlet.user.LoginStat;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;

@@ -1,4 +1,4 @@
-package org.bgerp.servlet.filter;
+package org.bgerp.app.servlet.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,7 +21,7 @@ import org.apache.catalina.authenticator.Constants;
 import org.bgerp.event.AuthEvent;
 import org.bgerp.l10n.Localization;
 import org.bgerp.l10n.Localizer;
-import org.bgerp.servlet.user.LoginStat;
+import org.bgerp.app.servlet.user.LoginStat;
 import org.bgerp.util.Log;
 import org.bgerp.util.lic.AppLicense;
 

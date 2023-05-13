@@ -1,4 +1,4 @@
-package org.bgerp.servlet.user;
+package org.bgerp.app.servlet.user;
 
 import java.util.Date;
 

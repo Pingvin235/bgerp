@@ -1,4 +1,4 @@
-package org.bgerp.servlet.filter;
+package org.bgerp.app.servlet.filter;
 
 import java.io.IOException;
 

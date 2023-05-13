@@ -1,6 +1,6 @@
-package org.bgerp.servlet.user.event;
+package org.bgerp.app.servlet.user.event;
 
-import org.bgerp.servlet.user.UserSession;
+import org.bgerp.app.servlet.user.UserSession;
 
 /**
  * User session closed.

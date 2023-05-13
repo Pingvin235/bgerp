@@ -5,10 +5,10 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.app.dist.Scripts;
 import org.bgerp.app.dist.inst.InstallerChanges;
 import org.bgerp.app.dist.inst.VersionCheck;
-import org.bgerp.servlet.file.Files;
-import org.bgerp.servlet.file.Options;
-import org.bgerp.servlet.file.Order;
-import org.bgerp.servlet.user.LoginStat;
+import org.bgerp.app.servlet.file.Files;
+import org.bgerp.app.servlet.file.Options;
+import org.bgerp.app.servlet.file.Order;
+import org.bgerp.app.servlet.user.LoginStat;
 import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.model.BGIllegalArgumentException;

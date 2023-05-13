@@ -7,7 +7,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.bgerp.Interface;
+import org.bgerp.app.servlet.Interface;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
 

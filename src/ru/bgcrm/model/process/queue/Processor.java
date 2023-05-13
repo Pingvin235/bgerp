@@ -1,6 +1,6 @@
 package ru.bgcrm.model.process.queue;
 
-import org.bgerp.Interface;
+import org.bgerp.app.servlet.Interface;
 
 import ru.bgcrm.model.Id;
 import ru.bgcrm.util.ParameterMap;

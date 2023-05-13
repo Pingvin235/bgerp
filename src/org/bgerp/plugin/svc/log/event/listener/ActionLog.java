@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import org.bgerp.plugin.svc.log.dao.ActionLogDAO;
 import org.bgerp.plugin.svc.log.model.ActionLogEntry;
-import org.bgerp.servlet.user.event.ActionRequestEvent;
+import org.bgerp.app.servlet.user.event.ActionRequestEvent;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.event.EventProcessor;

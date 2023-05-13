@@ -1,9 +1,9 @@
-package org.bgerp;
+package org.bgerp.app.servlet;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.bgerp.servlet.filter.AuthFilter;
-import org.bgerp.servlet.filter.OpenFilter;
+import org.bgerp.app.servlet.filter.AuthFilter;
+import org.bgerp.app.servlet.filter.OpenFilter;
 
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;

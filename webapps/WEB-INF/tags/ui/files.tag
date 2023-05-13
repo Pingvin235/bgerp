@@ -1,7 +1,7 @@
 <%@ tag pageEncoding="UTF-8" description="File list"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="files" required="true" type="org.bgerp.servlet.file.Files" description="Files object"%>
+<%@ attribute name="files" required="true" type="org.bgerp.app.servlet.file.Files" description="Files object"%>
 <%@ attribute name="maxCount" type="java.lang.Integer" description="Maximum count of shown files"%>
 <%@ attribute name="requestUrl" description="Request URL for reloading, required when deletion is enabled"%>
 

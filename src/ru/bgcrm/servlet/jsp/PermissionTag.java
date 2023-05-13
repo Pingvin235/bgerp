@@ -3,7 +3,7 @@ package ru.bgcrm.servlet.jsp;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.core.ConditionalTagSupport;
 
-import org.bgerp.servlet.filter.AuthFilter;
+import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.user.User;

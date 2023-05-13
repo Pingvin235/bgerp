@@ -31,9 +31,9 @@ import org.apache.struts.actions.DispatchAction;
 import org.bgerp.action.LoginAction;
 import org.bgerp.action.util.Invoker;
 import org.bgerp.l10n.Localizer;
-import org.bgerp.servlet.filter.AuthFilter;
-import org.bgerp.servlet.user.LoginStat;
-import org.bgerp.servlet.user.event.ActionRequestEvent;
+import org.bgerp.app.servlet.filter.AuthFilter;
+import org.bgerp.app.servlet.user.LoginStat;
+import org.bgerp.app.servlet.user.event.ActionRequestEvent;
 import org.bgerp.util.Log;
 import org.bgerp.util.lic.AppLicense;
 

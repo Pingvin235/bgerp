@@ -1,4 +1,4 @@
-package org.bgerp.servlet.jsp;
+package org.bgerp.app.servlet.jsp;
 
 import java.util.Collection;
 import java.util.List;

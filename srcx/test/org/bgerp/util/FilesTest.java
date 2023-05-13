@@ -1,9 +1,9 @@
 package org.bgerp.util;
 
 import org.bgerp.plugin.svc.backup.action.admin.BackupAction;
-import org.bgerp.servlet.file.Files;
-import org.bgerp.servlet.file.Options;
-import org.bgerp.servlet.file.Order;
+import org.bgerp.app.servlet.file.Files;
+import org.bgerp.app.servlet.file.Options;
+import org.bgerp.app.servlet.file.Order;
 import org.junit.Assert;
 import org.junit.Test;
 

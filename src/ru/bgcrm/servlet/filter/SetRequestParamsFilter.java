@@ -12,12 +12,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.bgerp.Interface;
+import org.bgerp.app.servlet.Interface;
 import org.bgerp.l10n.Localization;
 import org.bgerp.l10n.Localizer;
-import org.bgerp.servlet.ServletUtils;
-import org.bgerp.servlet.filter.AuthFilter;
-import org.bgerp.servlet.jsp.UiFunction;
+import org.bgerp.app.servlet.ServletUtils;
+import org.bgerp.app.servlet.filter.AuthFilter;
+import org.bgerp.app.servlet.jsp.UiFunction;
 
 import ru.bgcrm.cache.CustomerGroupCache;
 import ru.bgcrm.cache.ParameterCache;

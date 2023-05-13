@@ -3,8 +3,8 @@ package org.bgerp.plugin.svc.log.model;
 import java.util.Date;
 import java.util.Map;
 
-import org.bgerp.servlet.filter.AuthFilter;
-import org.bgerp.servlet.user.event.ActionRequestEvent;
+import org.bgerp.app.servlet.filter.AuthFilter;
+import org.bgerp.app.servlet.user.event.ActionRequestEvent;
 
 import ru.bgcrm.model.Id;
 import ru.bgcrm.model.user.User;
