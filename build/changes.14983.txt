@@ -1,0 +1,2 @@
+C: HTML title of auth page to 'Authorization | BGERP'.
+F: Check missing attachments for provided files.

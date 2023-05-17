@@ -82,7 +82,7 @@
 	<p><ru>Поддерживаемые браузеры: Mozilla Firefox {} и новее, Google Chrome {} и новее, Safari {} и новее.</ru><en>Supported browsers: Mozilla Firefox {} and newer, Google Chrome {} and newer, Safari {} and newer.</en></p>
 	<p><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
 	<p><ru>Войти</ru><en>Login</en></p>
-	<p><ru>Открытый интерфейс</ru><en>Open interface</en></p>
+	<p><en>Open interface</en><ru>Открытый интерфейс</ru></p>
 	<p><en>Title</en><ru>Наименование</ru></p>
 	<p><ru>Вырезать</ru><en>Cut</en></p>
 	<p><ru>Вставить</ru><en>Paste</en></p>
@@ -90,7 +90,7 @@
 	<p><ru>Слить</ru><en>Merge</en></p>
 	<p><ru>Сообщение об ошибке</ru><en>Error message</en></p>
 	<p><ru>Выделить или снять выделение всех</ru><en>Select or deselect all</en></p>
-	<p><ru>Авторизация</ru><en>Authorization</en></p>
+	<p><en>Authorization</en><ru>Авторизация</ru></p>
 	<p><ru>Процессы</ru><en>Processes</en></p>
 	<p><en>Customer</en><ru>Контрагент</ru></p>
 	<p><ru>Создать</ru><en>Create</en></p>
@@ -130,7 +130,7 @@
 	<p><ru>Параметры домов</ru><en>House parameters</en></p>
 	<p><en>Filter</en><ru>Фильтр</ru></p>
 	<p><ru>По наименованию, комментарию, конфигурации</ru><en>By title, comment, configuration</en></p>
-	<p><ru>Интерфейс</ru><en>Interface</en></p>
+	<p><en>Interface</en><ru>Интерфейс</ru></p>
 	<p><ru>Выйти</ru><en>Log off</en></p>
 	<p><ru>Очередь</ru><en>Queue</en></p>
 	<p><ru>Период</ru><en>Period</en></p>

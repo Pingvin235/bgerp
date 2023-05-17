@@ -82,7 +82,7 @@ $$.message = new function() {
 	 * @return {boolean} attachment exists or no text markers points to existence of it, or it is confirmed to not be presented.
 	 */
 	const checkAttach = (form, message) => {
-		if (form.tmpFileId)
+		if (form.fileId || form.tmpFileId || form.announcedFileId)
 			return true;
 
 		let text = form.text;

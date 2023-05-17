@@ -5,7 +5,7 @@
 
 <html>
 <head>
-	<title><%@ include file="/WEB-INF/jspf/title.jsp"%> : ${l.l('Интерфейс')}</title>
+	<title>${l.l('Interface')} | <%@ include file="/WEB-INF/jspf/title.jsp"%></title>
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
 </head>
 <body>
