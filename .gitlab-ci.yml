@@ -19,11 +19,7 @@ test-and-publish-update:
         - mkdir ~/.ssh && echo "$KEY_DOC" > ~/.ssh/id_rsa && chmod -R 600 ~/.ssh
         - sh gradlew updateProperties buildUpdate updateLibProperties buildUpdateLib publishUpdate
     rules:
-        - if: '$CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_REF_NAME == "p11862-documentation"'
-          when: never
-        - if: $CI_PIPELINE_SOURCE == "schedule"
-          when: never
-        - when: always
+        - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME != "master" && $CI_COMMIT_REF_NAME != "p11862-documentation"
 
 test-and-publish-update-master:
     # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
@@ -45,9 +41,7 @@ test-and-publish-update-master:
         - sh gradlew changesFile && mv build/changes.txt build/changes.00000.txt
         - sh gradlew publishUpdate
     rules:
-        - if: $CI_COMMIT_REF_NAME == "master"
-        - if: $CI_PIPELINE_SOURCE == "schedule"
-          when: never
+        - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME == "master"
 
 test-integration:
     image: bgerp/base
@@ -73,11 +67,7 @@ test-integration:
     #     paths:
     #         - target/reports
     rules:
-        - if: '$CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_REF_NAME == "p11862-documentation"'
-          when: never
-        - if: $CI_PIPELINE_SOURCE == "schedule"
-          when: never
-        - when: always
+        - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME != "master" && $CI_COMMIT_REF_NAME != "p11862-documentation"
 
 test-integration-master:
     image: bgerp/base
@@ -108,8 +98,6 @@ test-integration-master:
         - scp -i ./demo.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null build/filestorage.zip demo@bgerp.org:/home/demo
     rules:
         - if: $CI_COMMIT_REF_NAME == "master"
-        - if: $CI_PIPELINE_SOURCE == "schedule"
-          when: always
 
 publish-doc:
     # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
@@ -128,7 +116,7 @@ publish-doc:
         - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/javadoc/ www@bgerp.org:/home/www/www.bgerp.org/doc/3.0/javadoc/
         - rsync --delete -Pav -e "ssh -i ./doc.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" target/doc/ www@bgerp.org:/home/www/www.bgerp.org/doc/3.0/manual/
     rules:
-        - if: $CI_COMMIT_REF_NAME == "p11862-documentation"
+        - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME == "p11862-documentation"
 
 publish-source:
     # think about switching to 'bgerp/base' for unification
@@ -155,6 +143,4 @@ publish-source:
         - git show --summary
         - git push origin master
     rules:
-        - if: $CI_COMMIT_REF_NAME == "master"
-        - if: $CI_PIPELINE_SOURCE == "schedule"
-          when: never
+        - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME == "master"
