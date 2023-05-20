@@ -23,7 +23,7 @@ Incoming variables:
 					<u:sc>
 						<c:set var="itemId" value="${item.id}"/>
 						<c:set var="itemTitle" value="${item.title}"/>
-						<c:set var="itemCount" value="${value.count.stripTrailingZeros()}"/>
+						<c:set var="itemCount" value="${value.count.stripTrailingZeros().toPlainString()}"/>
 						<%@ include file="value_row.jsp"%>
 					</u:sc>
 				</c:if>
