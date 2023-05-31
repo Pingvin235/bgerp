@@ -21,10 +21,10 @@ public class PublishUpdate extends PublishCommon {
     /** Target remote dir, change it to "/home/cdn/www/_update/" when testing. */
     private final static String SSH_DIR = "/home/cdn/www/update/";
 
-    private PublishUpdate(String dir, String version, String changeId) throws Exception {
-        super(version, dir, SSH_DIR + changeId);
+    private PublishUpdate(String targetDistrDir, String version, String changeId) throws Exception {
+        super(version, targetDistrDir, SSH_DIR + changeId);
 
-        log.info("Publishing update: dir: {}, version: {}, processId: {}", dir, version, changeId);
+        log.info("Publishing update: dir: {}, version: {}, processId: {}", targetDistrDir, version, changeId);
 
         log.info("Create dir if not exists");
         ssh("mkdir -p " + sshDir);
@@ -32,7 +32,7 @@ public class PublishUpdate extends PublishCommon {
         var updateFile = publishFile("update");
         var updateLibFile = publishFile("update_lib");
 
-        var docDir = new File(dir + "/../doc");
+        var docDir = new File(targetDistrDir + "/../doc");
         if (docDir.exists() && docDir.isDirectory()) {
             log.info("Sync doc");
             new RuntimeRunner("rsync", "--delete", "-Pav",
@@ -40,7 +40,7 @@ public class PublishUpdate extends PublishCommon {
                 SSH_LOGIN + ":" + sshDir).run();
         }
 
-        var changesName = dir + "/build/changes." + changeId + ".txt";
+        var changesName = targetDistrDir + "/../../build/changes." + changeId + ".txt";
         var changesFile = new File(changesName);
         if (changesFile.exists()) {
             log.info("Copy changes");
@@ -48,11 +48,12 @@ public class PublishUpdate extends PublishCommon {
             var content = IOUtils.toString(new FileInputStream(changesFile), StandardCharsets.UTF_8)
                 .replace("doc/" + version + "/manual", "update/" + changeId + "/doc");
 
-            changesName = dir + "/target/changes.txt";
+            changesName = targetDistrDir + "/../changes.txt";
             IOUtils.write(content, new FileOutputStream(changesName), StandardCharsets.UTF_8);
 
             scp(changesName);
-        }
+        } else
+            log.info("Changes file is missing: {}", changesName);
 
         var updateDir = "https://bgerp.org/update/" + changeId;
         log.info("Update links:");
@@ -93,7 +94,7 @@ public class PublishUpdate extends PublishCommon {
         return null;
     }
 
-     public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         new PublishUpdate(args[0], args[1], args[2]);
     }
 }

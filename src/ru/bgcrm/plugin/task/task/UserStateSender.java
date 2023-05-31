@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.task;
+package ru.bgcrm.plugin.task.task;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,6 +16,7 @@ import ru.bgcrm.event.Event;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.user.User;
+import ru.bgcrm.plugin.task.Plugin;
 import ru.bgcrm.util.MailMsg;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;

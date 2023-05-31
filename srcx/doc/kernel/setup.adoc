@@ -202,7 +202,7 @@ The actual demo license is always awailable on the project's web-site.
 
 [[config-data]]
 === Data
-NOTE: You can skip this section at first reading.
+include::../skip_at_first.adocf[]
 
 The application stores almost all the data in MySQL DB server, access credentials for that are defined in *properties* file.
 There are also stored file's metadata, but file bodies are persisted in `filestorage` directory.
@@ -311,11 +311,11 @@ CAUTION: Для пользователя с кодом 1 конфигураци�
 You may notice such warnings in application logs.
 
 ----
-06-27/19:24:51  WARN [http-nio-9088-exec-1] PermissionNode - Not found action node 'ru.bgcrm.struts.action.admin.WorkAction:shiftList', run 'org.bgerp.scheduler.task.CorrectPermissions' class to fix
-06-27/19:24:51  WARN [http-nio-9088-exec-1] PermissionNode - Not found action node 'ru.bgcrm.struts.action.admin.WorkAction:callboardAvailableShift', run 'org.bgerp.scheduler.task.CorrectPermissions' class to fix
+06-27/19:24:51  WARN [http-nio-9088-exec-1] PermissionNode - Not found action node 'ru.bgcrm.struts.action.admin.WorkAction:shiftList', run 'org.bgerp.task.CorrectPermissions' class to fix
+06-27/19:24:51  WARN [http-nio-9088-exec-1] PermissionNode - Not found action node 'ru.bgcrm.struts.action.admin.WorkAction:callboardAvailableShift', run 'org.bgerp.task.CorrectPermissions' class to fix
 ----
 
-They mean that not primary action IDs were used to store in DB. Nothing critical, but later <<scheduler-run, execute>> the mentioned class *org.bgerp.scheduler.task.CorrectPermissions* to fix it.
+They mean that not primary action IDs were used to store in DB. Nothing critical, but later <<scheduler-run, execute>> the mentioned class *CorrectPermissions* to fix it.
 
 IMPORTANT: That action breaks backward compatibility of DB, so do only when you do not need to roll back.
 
@@ -742,36 +742,46 @@ image::_res/param_tree_table.png[]
 image::_res/param_tree_editor.png[]
 
 [[scheduler]]
-== Планировщик
-NOTE: Вы можете пропустить этот раздел при первом знакомстве с системой.
+== Scheduler
+include::../skip_at_first.adocf[]
 
-Подсистема планировщика позволяет выполнять периодический запуск определённых задач.
-Для запуска задачи в конфигурацию сервера добавляются записи вида:
+Scheduler allows periodically run Java classes, which implement interface *java.lang.Runnable*.
+To configure scheduler tasks add the following blocks to server configuration:
 [source]
 ----
-scheduler.task.<id>.class=<class_name>
+scheduler.task.<id>.class=<name>
+
+# running time in Cron format
+# supported ranges: 1-2; divisible: */3; enums: 1,2
 scheduler.task.<id>.minutes=<minutes>
-# необязательные параметры
 scheduler.task.<id>.hours=<hours>
+scheduler.task.<id>.dm=<dm>
+scheduler.task.<id>.month=<month>
 scheduler.task.<id>.dw=<dw>
+
+# for disabling the task
+#scheduler.task.<id>.enable=0
 ----
 
-Где:
+Where:
 [square]
-* *<id>* - уникальная строка-идентификатор задачи;
-* *<class_name>* - имя класса запускаемой задачи;
-* *<hours>* - часы в которые запускается задача, через запятую от 0 до 23;
-* *<dw>* - дни недели в которые запускается задача, через запятую от 1 до 7, 1 - понедельник.
+* *<id>* - unique string ID;
+* *<name>* - simple of full name of the running class;
+* *<minutes>* - minutes 0 - 59;
+* *<hours>* - hours 0 - 23;
+* *<dm>* - days of month 1 - 31;
+* *<month>* - months 1 - 12;
+* *<dw>* - days of week 1 - 7, 1 is Monday.
 
-Планировщик ежеминутно проверяет задачи и выполняет те из них, чьи ограничения по времени отвечают указанным в конфигурации условиям.
+Configured tasks must be visible in menu *Administration / Run / Scheduler*
 
-В планировщике может быть запущен любой объект Java-класса, реализующий интерфейс *java.lang.Runnable*.
+image::_res/scheduler.png[]
 
-Запуск планировщика определяется <<#config-scheduler, опцией конфигурации>>.
+Scheduler is controlled by <<#config-scheduler, config option>>.
 
 [[scheduler-run]]
 === Run Classes
-In menu *Administration / Run* can be executed any Java class, implementing *java.lang.Runnable*.
+In menu *Administration / Run / Run* can be executed any Java class, implementing *java.lang.Runnable*.
 
 image::_res/run_class.png[]
 

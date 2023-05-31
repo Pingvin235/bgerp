@@ -8,7 +8,8 @@ table {
 	border-spacing: 0;
 }
 
-table.data, table.hdata {
+table.hdata,
+table.data {
 	width: 100%;
 }
 
@@ -42,6 +43,7 @@ table.data > tbody > tr:nth-child(1) > td {
 	background-color: #eaf3f9;
 }
 
+table.hdata.hl > tbody > tr:hover,
 table.data.hl tr:hover,
 table tr.hl {
 	background-color: #A9F5F2;

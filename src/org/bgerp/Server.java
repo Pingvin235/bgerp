@@ -27,8 +27,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.tomcat.util.IntrospectionUtils;
 import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
+import org.bgerp.app.scheduler.Scheduler;
 import org.bgerp.custom.Custom;
-import org.bgerp.scheduler.Scheduler;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
@@ -129,7 +129,7 @@ public class Server extends Tomcat {
         // TODO: Extract to secure.log plugin.
         context.addValve(new AccessLogValve());
 
-        Custom.getInstance().webapps(catalinaHome, context);
+        Custom.INSTANCE.webapps(catalinaHome, context);
     }
 
     /**

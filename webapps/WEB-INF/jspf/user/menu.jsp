@@ -83,9 +83,6 @@
 			command="/admin/process.do?action=queueList" />
 	</ui:menu-group>
 
-	<ui:menu-item ltitle="Выполнить" href="admin/run" icon="ti-rocket"
-		action="org.bgerp.action.admin.RunAction:null"
-		command="/admin/run.do" />
 
 	<ui:menu-item title="Custom" href="admin/custom" icon="ti-hummer"
 		action="org.bgerp.action.admin.CustomAction:null"
@@ -96,6 +93,16 @@
 			action="ru.bgcrm.struts.action.admin.DynamicAction"
 			command="/admin/dynamic.do" />
 	</c:if>
+
+	<ui:menu-group ltitle="Run">
+		<ui:menu-item ltitle="Run" href="admin/run" icon="ti-rocket"
+			action="org.bgerp.action.admin.RunAction:null"
+			command="/admin/run.do" />
+
+		<ui:menu-item ltitle="Scheduler" href="admin/scheduler" icon="ti-alarm-clock"
+			action="org.bgerp.action.admin.RunAction:scheduler"
+			command="/admin/run.do?action=scheduler"/>
+	</ui:menu-group>
 
 	<ui:menu-group ltitle="Приложение" icon="ti-package">
 		<ui:menu-item ltitle="Статус приложения" href="admin/app/status"

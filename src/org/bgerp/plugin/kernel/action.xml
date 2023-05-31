@@ -130,21 +130,24 @@
 		</item>
 
 		<item title="Dynamic code (deprecated)">
-			<item action="ru.bgcrm.struts.action.admin.DynamicAction:null" title="Open" notLogging="1"/>
+			<item action="ru.bgcrm.struts.action.admin.DynamicAction:null" title="View" notLogging="1"/>
 			<item action="ru.bgcrm.struts.action.admin.DynamicAction:recompileAll" title="Recompilation"/>
 			<item action="ru.bgcrm.struts.action.admin.DynamicAction:runDynamicClass" title="Run dynamic class"/>
 		</item>
 
 		<item title="Custom">
-			<item action="org.bgerp.action.admin.CustomAction:null" title="Open"/>
+			<item action="org.bgerp.action.admin.CustomAction:null" title="View"/>
 			<item action="org.bgerp.action.admin.CustomAction:compile" title="Compilation of Java sources"/>
 			<item action="org.bgerp.action.admin.CustomAction:downloadCustom" title="Download custom file"/>
 			<item action="org.bgerp.action.admin.CustomAction:deleteCustomJar" title="Delete custom.jar"/>
 		</item>
 
-		<item title="Run">
-			<item action="org.bgerp.action.admin.RunAction:null" title="Open"/>
-			<item action="org.bgerp.action.admin.RunAction:runClass" title="Running Java class"/>
+		<item title="Execution">
+			<item title="Run">
+				<item action="org.bgerp.action.admin.RunAction:null" title="View"/>
+				<item action="org.bgerp.action.admin.RunAction:runClass" title="Running Java class"/>
+			</item>
+			<item action="org.bgerp.action.admin.RunAction:scheduler" title="Scheduler"/>
 		</item>
 
 		<item title="App">

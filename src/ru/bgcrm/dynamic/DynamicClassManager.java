@@ -10,10 +10,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.custom.java.CompilationResult;
 import org.bgerp.custom.java.CompilerWrapper.CompilationFailedException;
 import org.bgerp.custom.java.CompilerWrapper.CompiledUnit;
+import org.bgerp.util.Log;
 
 import ru.bgcrm.dynamic.model.DynamicClass;
 import ru.bgcrm.model.BGException;
@@ -24,8 +25,9 @@ import ru.bgcrm.util.Utils;
 /**
  * Загрузчик динамического кода. Подгружает скомпилированные классы из каталога dyn.
  */
+@Deprecated
 public class DynamicClassManager {
-    private static final Logger log = Logger.getLogger(DynamicClassManager.class);
+    private static final Log log = Log.getLog();
 
     public static final String DYNAMIC_CLASS_PACKAGE = "ru.bgcrm.dyn.";
     private static final Setup setup = Setup.getSetup();
@@ -209,12 +211,13 @@ public class DynamicClassManager {
         Class<?> clazz = null;
 
         if (className.startsWith(DYNAMIC_CLASS_PACKAGE)) {
+            log.warn("Using deprecated dynamic class: {}", className);
             clazz = (Class<?>) getInstance().loadClass(className);
             if (clazz == null) {
                 throw new ClassNotFoundException();
             }
         } else {
-            clazz = (Class<?>) Class.forName(className);
+            clazz = Bean.getClass(className);
         }
 
         return clazz;

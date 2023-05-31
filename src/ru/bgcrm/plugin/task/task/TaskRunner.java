@@ -1,14 +1,16 @@
-package ru.bgcrm.plugin.task;
+package ru.bgcrm.plugin.task.task;
 
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.plugin.task.Config;
 import ru.bgcrm.plugin.task.dao.TaskDAO;
 import ru.bgcrm.plugin.task.model.Task;
 import ru.bgcrm.plugin.task.model.TaskType;
@@ -21,7 +23,8 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
  *
  * @author Shamil Vakhitov
  */
-public class TaskRunner extends org.bgerp.scheduler.Task {
+@Bean(oldClasses = "ru.bgcrm.plugin.task.TaskRunner")
+public class TaskRunner extends org.bgerp.app.scheduler.Task {
     private static final Log log = Log.getLog();
 
     private static final AtomicBoolean RUNNING = new AtomicBoolean();

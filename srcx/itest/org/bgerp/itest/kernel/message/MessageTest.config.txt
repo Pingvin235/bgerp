@@ -44,5 +44,5 @@ messageType.100.title=Note
 messageType.100.class=ru.bgcrm.dao.message.MessageTypeNote
 
 # scheduler
-scheduler.task.messages.class=ru.bgcrm.worker.MessageExchange
+scheduler.task.messages.class=MessageExchange
 scheduler.task.messages.minutes=*/4

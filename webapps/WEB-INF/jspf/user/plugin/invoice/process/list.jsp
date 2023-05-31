@@ -29,7 +29,7 @@
 	<tr>
 		<td width="1em">&nbsp;</td>
 		<td>ID</td>
-		<td>${l.l('Месяц')}</td>
+		<td>${l.l('Month')}</td>
 		<td>${l.l('Number')}</td>
 		<td>${l.l('Сумма')}</td>
 		<td>${l.l('Created')}</td>

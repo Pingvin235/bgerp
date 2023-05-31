@@ -1,2 +1,3 @@
 C: Plugin Mobile. Use HTTPS URL for sending messages.
 B: Removed deprecated commands 'emailNotifyExecutors', 'emailNotifyUsers', 'addGroups', 'addExecutors', 'addExecutorsInGroups', 'decreasePriority', 'increasePriority', 'setRelativeDateParam', 'setParam' https://bgerp.org/doc/3.0/manual/kernel/process/processing.html#commands-kernel
+A: Plugin E-Mail. JEXL bean for sending messages. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-process-type-jexl

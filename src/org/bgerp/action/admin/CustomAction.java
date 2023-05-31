@@ -38,8 +38,13 @@ public class CustomAction extends BaseAction {
     }
 
     public ActionForward compile(DynActionForm form, ConnectionSet conSet) throws Exception {
-        var result = Custom.getInstance().compileJava();
+        var result = Custom.INSTANCE.compileJava();
         form.setResponseData("result", result);
+
+        if (result.isResult()) {
+            // any key can be used here, the config map has been flushed on a put
+            setup.put("flush.config.map", "");
+        }
 
         return html(conSet, form, JSP_CUSTOM);
     }

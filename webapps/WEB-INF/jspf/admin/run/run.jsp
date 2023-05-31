@@ -7,7 +7,7 @@
 		<input type="hidden" name="action" value="runClass"/>
 		<input type="hidden" name="iface" value="runnable"/>
 
-		<ui:select-single hiddenName="class" list="${runnableClasses}" style="width: 30em;" placeholder="${l.l('Имя класса, реализующего java.lang.Runnable')}"/>
+		<ui:select-single hiddenName="class" list="${taskClasses}" style="width: 30em;" placeholder="${l.l('Имя класса, реализующего java.lang.Runnable')}"/>
 
 		<ui:combo-single
 			hiddenName="sync" value="0" prefixText="${l.l('Ожидание окончания выполнения')}:" styleClass="ml1">

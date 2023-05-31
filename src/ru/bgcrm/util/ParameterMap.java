@@ -28,7 +28,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     private static final Log log = Log.getLog();
 
     /**
-     * Конфигурации, разбираются при первом обращении и кешируются далее.
+     * Parsed configurations.
      */
     protected volatile ConcurrentHashMap<Class<?>, Config> configMap;
 

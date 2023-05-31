@@ -69,7 +69,7 @@ public class ReportProcessAction extends ReportActionBase {
 
     @Override
     public String getTitle() {
-        return new Localizer(Localization.getLang(), Plugin.INSTANCE.geLocalization()).l("Процессы");
+        return new Localizer(Localization.getLang(), org.bgerp.plugin.kernel.Plugin.INSTANCE.geLocalization()).l("Процессы");
     }
 
     @Override

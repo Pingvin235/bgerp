@@ -21,7 +21,7 @@ import ru.bgcrm.util.Setup;
 public class PluginManager {
     private static final Log log = Log.getLog();
 
-    public static final Object[] ERP_PACKAGES = { "org.bgerp", "ru.bgerp", "ru.bgcrm" };
+    public static final String[] ERP_PACKAGES = { "org.bgerp", "ru.bgcrm" };
 
     private static PluginManager instance;
 
@@ -60,7 +60,7 @@ public class PluginManager {
     private List<Plugin> loadFullSortedPluginList() {
         List<Plugin> result = new ArrayList<>();
 
-        var r = new Reflections(ERP_PACKAGES);
+        var r = new Reflections((Object[]) ERP_PACKAGES);
         for (Class<? extends Plugin> pc : r.getSubTypesOf(Plugin.class)) {
             log.debug("Found plugin: {}", pc);
             try {

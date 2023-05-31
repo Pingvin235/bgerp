@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.event.client.NewsInfoEvent;
+import org.bgerp.dao.process.FilterEntryCounter;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.UserCache;
@@ -22,7 +23,6 @@ import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.worker.FilterEntryCounter;
 
 @Action(path = "/open/plugin/mobile/user")
 public class UserAction extends BaseAction {

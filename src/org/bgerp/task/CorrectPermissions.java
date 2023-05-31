@@ -1,10 +1,10 @@
-package org.bgerp.scheduler.task;
+package org.bgerp.task;
 
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import org.bgerp.scheduler.Task;
+import org.bgerp.app.scheduler.Task;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.user.Tables;

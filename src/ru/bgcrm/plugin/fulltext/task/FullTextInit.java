@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.fulltext;
+package ru.bgcrm.plugin.fulltext.task;
 
 import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;

@@ -1,4 +1,4 @@
-package ru.bgcrm.worker;
+package org.bgerp.dao.process;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -166,6 +166,7 @@ dependencies {
     implementation 'org.javassist:javassist:3.29.2-GA'
     implementation 'com.itextpdf:itextpdf:5.5.13' // used in Document plugin for filling out PDF forms
     implementation 'org.json:json:20220924'
+    implementation 'com.cronutils:cron-utils:9.2.1'
 
     // implementation 'commons-el:commons-el:1.0'
     // implementation 'commons-validator:commons-validator:1.6'

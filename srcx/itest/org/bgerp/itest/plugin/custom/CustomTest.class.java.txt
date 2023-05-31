@@ -1,0 +1,10 @@
+package org.bgerp.plugin.custom.demo;
+
+import java.util.function.Supplier;
+
+public class CustomTestClass implements Supplier<String> {
+    @Override
+    public String get() {
+        return "VALUE";
+    }
+}

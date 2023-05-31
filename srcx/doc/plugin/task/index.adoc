@@ -30,7 +30,7 @@ task:type.<id>.doExpression=<jexl>
 * *taskObject* - объект класса javadoc:ru.bgcrm.plugin.task.model.Task[];
 * *taskType* - объект класса javadoc:ru.bgcrm.plugin.task.model.TaskType[].
 
-Проверку и выполнение задач выполняет класс *ru.bgcrm.plugin.task.TaskRunner*.
+Проверку и выполнение задач выполняет класс *ru.bgcrm.plugin.task.task.TaskRunner*.
 Для теста он может быть выполнен в <<../../kernel/extension.adoc#dyn, редакторе динамического кода>>,
 далее запуск настраивается в <<../../kernel/setup.adoc#scheduler, планировщике>>.
 
@@ -114,7 +114,7 @@ task:userStateSender.email.doExpression=<<END
 END
 ----
 
-Проверку и выполнение задач выполняет класс *ru.bgcrm.plugin.task.UserStateSender*.
+Проверку и выполнение задач выполняет класс *ru.bgcrm.plugin.task.task.UserStateSender*.
 Для теста он может быть выполнен в <<../../kernel/extension.adoc#dyn, редакторе динамического кода>>,
 далее запуск настраивается в <<../../kernel/setup.adoc#scheduler, планировщике>>.
 

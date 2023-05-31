@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -17,9 +19,12 @@ import org.apache.catalina.webresources.StandardRoot;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.bgerp.Server;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.custom.java.CompilationResult;
 import org.bgerp.custom.java.CompilerWrapper;
 import org.bgerp.util.Log;
+
+import ru.bgcrm.model.BGMessageException;
 
 /**
  * Customization manager.
@@ -29,54 +34,66 @@ import org.bgerp.util.Log;
 public class Custom {
     private static final Log log = Log.getLog();
 
-    private static final String CUSTOM_DIR_NAME = "custom";
-    private static final File CUSTOM_DIR = new File(CUSTOM_DIR_NAME);
+    public static final Custom INSTANCE = new Custom();
 
-    private static final File SRC_DIR = new File(CUSTOM_DIR, "src");
-    private static final File WEBAPPS_DIR = new File(CUSTOM_DIR, Server.WEBAPPS_DIR_NAME);
+    public static final File JAR = new File("lib/app/custom.jar");
 
-    public static final File CUSTOM_JAR_FILE = new File("lib/app/custom.jar");
+    public static final String PACKAGE = "org.bgerp.plugin.custom";
 
-    public static Custom getInstance() {
-        return new Custom();
-    }
+    private static final String DIR_NAME = "custom";
+    private static final File DIR = new File(DIR_NAME);
 
+    private static final File DIR_SRC = new File(DIR, "src");
+    private static final File DIR_WEBAPPS = new File(DIR, Server.WEBAPPS_DIR_NAME);
+
+    private volatile URLClassLoader classLoader;
+
+    /**
+     * Configures custom webapps directory.
+     * @param catalinaHome
+     * @param context
+     */
     public void webapps(String catalinaHome, StandardContext context) {
-        if (!WEBAPPS_DIR.isDirectory())
+        if (!DIR_WEBAPPS.isDirectory())
             return;
 
-        log.info("Connecting custom webapps: {}", WEBAPPS_DIR);
+        log.info("Connecting custom webapps: {}", DIR_WEBAPPS);
         var webResourceRoot = new StandardRoot(context);
         webResourceRoot.addPreResources(new DirResourceSet(webResourceRoot, "/",
-            catalinaHome + "/" + CUSTOM_DIR_NAME + "/" + Server.WEBAPPS_DIR_NAME, "/"));
+            catalinaHome + "/" + DIR_NAME + "/" + Server.WEBAPPS_DIR_NAME, "/"));
         context.setResources(webResourceRoot);
     }
 
     /**
-     * Compiles all Java sources in {@link #CUSTOM_DIR}/src.
+     * Compiles all Java sources in {@link #DIR}/src.
      * @return null or compilation result.
      */
-    public CompilationResult compileJava() throws IOException {
-        if (!SRC_DIR.isDirectory()) {
-            // TODO: Message about missing src directory.
-            return null;
-        }
+    public CompilationResult compileJava() throws IOException, BGMessageException {
+        if (!DIR_SRC.isDirectory())
+            throw new BGMessageException("src directory is missing");
 
         var srcFiles = new ArrayList<String>(100);
-        traverse(srcFiles, SRC_DIR);
+        traverse(srcFiles, DIR_SRC);
 
-        var compiler = new CompilerWrapper(SRC_DIR);
+        var compiler = new CompilerWrapper(DIR_SRC);
         log.info("Compiling {} java files to {}", srcFiles.size(), compiler.getOutputDir());
 
         CompilationResult result = compiler.compile(srcFiles).getFirst();
         result.addLog(Log.format("Compiling {} java files to {}", srcFiles.size(), compiler.getOutputDir()));
 
         if (result.isResult()) {
-            copyResources(SRC_DIR.toPath(), compiler.getOutputDir().toPath());
+            copyResources(DIR_SRC.toPath(), compiler.getOutputDir().toPath());
             buildCustomJar(compiler, result);
         }
 
         return result;
+    }
+
+    /**
+     * @return classloader for {@link #JAR} if it was built in the instance.
+     */
+    public URLClassLoader getClassLoader() {
+        return classLoader;
     }
 
     private void copyResources(Path srcDir, Path outputDir) throws IOException {
@@ -95,13 +112,16 @@ public class Custom {
     }
 
     private void buildCustomJar(CompilerWrapper compiler, CompilationResult result) throws IOException {
-        CUSTOM_JAR_FILE.getParentFile().mkdirs();
-        try (var zipOut = new ZipOutputStream(new FileOutputStream(CUSTOM_JAR_FILE))) {
+        JAR.getParentFile().mkdirs();
+        try (var zipOut = new ZipOutputStream(new FileOutputStream(JAR))) {
             for (var file : compiler.getOutputDir().listFiles())
                 zipFile(file, file.getName(), zipOut);
         }
 
-        result.addLog(Log.format("Built: {} {} bytes", CUSTOM_JAR_FILE, CUSTOM_JAR_FILE.length()));
+        classLoader = new URLClassLoader(new URL[] { JAR.toURI().toURL() }, ClassLoader.getSystemClassLoader());
+        Bean.loadBeanClasses();
+
+        result.addLog(Log.format("Built: {} {} bytes", JAR, JAR.length()));
     }
 
     private void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {

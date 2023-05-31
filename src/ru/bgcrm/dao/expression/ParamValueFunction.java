@@ -231,42 +231,42 @@ public class ParamValueFunction {
         try {
             Parameter param = ParameterCache.getParameter(paramId);
             switch (Parameter.Type.of(param.getType())) {
-            case TEXT: {
-                result = paramDao.getParamText(objectId, paramId);
-                break;
-            }
-            case DATE: {
-                result = TimeUtils.format(paramDao.getParamDate(objectId, paramId), param.getDateParamFormat());
-                break;
-            }
-            case DATETIME: {
-                result = TimeUtils.format(paramDao.getParamDateTime(objectId, paramId), param.getDateParamFormat());
-                break;
-            }
-            case PHONE: {
-                ParameterPhoneValue value = paramDao.getParamPhone(objectId, paramId);
-                result = value != null ? value.getValue() : "";
-                break;
-            }
-            case FILE: {
-                SortedMap<Integer, FileData> value = paramDao.getParamFile(objectId, paramId);
-                result = Utils.toString(value.keySet());
-                break;
-            }
-            case ADDRESS:
-                break;
-            case BLOB:
-                break;
-            case EMAIL:
-                break;
-            case LIST:
-                break;
-            case LISTCOUNT:
-                break;
-            case TREE:
-                break;
-            default:
-                break;
+                case TEXT: {
+                    result = paramDao.getParamText(objectId, paramId);
+                    break;
+                }
+                case DATE: {
+                    result = TimeUtils.format(paramDao.getParamDate(objectId, paramId), param.getDateParamFormat());
+                    break;
+                }
+                case DATETIME: {
+                    result = TimeUtils.format(paramDao.getParamDateTime(objectId, paramId), param.getDateParamFormat());
+                    break;
+                }
+                case PHONE: {
+                    ParameterPhoneValue value = paramDao.getParamPhone(objectId, paramId);
+                    result = value != null ? value.getValue() : "";
+                    break;
+                }
+                case FILE: {
+                    SortedMap<Integer, FileData> value = paramDao.getParamFile(objectId, paramId);
+                    result = Utils.toString(value.keySet());
+                    break;
+                }
+                case ADDRESS:
+                    break;
+                case BLOB:
+                    break;
+                case EMAIL:
+                    break;
+                case LIST:
+                    break;
+                case LISTCOUNT:
+                    break;
+                case TREE:
+                    break;
+                default:
+                    break;
             }
 
         } catch (SQLException e) {

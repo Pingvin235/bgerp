@@ -183,12 +183,44 @@ image::_res/ext_dyn_log.png[width='600px']
 == Custom
 Custom application code has to be placed `custom` directory in the project root.
 
-drawio:_res/custom.drawio[]
+[[custom-usage]]
+=== Usage
+Inside `custom/src` placed regular Java code, including plugins <<../project/index.adoc#plugin, plugins>>.
+*PLUGIN_ID* for those has to be prefixed by *custom.*, e.g. *custom.bitel*.
+Respectively plugin files have to be stored under paths: *custom/org/bgerp/plugin/custom/<some-name>* .
+
+That code has equal possibilities as the native application's, can use API and connected libraries.
+After compilation *Administration / Custom* this code is persisted to `lib/app/custom.jar`.
+
+image::_res/custom.png[width="800px"]
+
+Custom Java classes are dynamically reloaded after each successfull compilation.
+For that all the Custom Java sources must be located in *org.bgerp.plugin.custom* package or its subpackages.
+
+NOTE: Although there is a *Restart* button available after successful compilation, it is not required.
+
+Subdirectory `custom/webapps` is searched *before* `webapps` from root directory
+and should be used for placing custom JSP and JS files. Both types are applied immediately after change.
+
+CAUTION: Each file from the original `webapps` may be "replaced" for Web server. That can brake built-in functionality.
+
+[[custom-l10n]]
+=== Localization
+In file `custom/l10n.xml` has a special meaning for <<../project/index.adoc#l10n-files, localization>> system,
+it allows to re-define each localized string in the system.
+
+[[javalib]]
+=== Java Libraries
+Additional third-party Java libraries, used in Custom solutions, must be stored in `lib/custom` directory,
+as JAR files in `lib/ext` are overwritten during libraries update.
 
 [[custom-git]]
-=== Custom GIT
+=== GIT
+Storing custom sources in a GIT repository allows you to track all made changes and always have backup copy of your work.
 
-[[custom-github]]
+drawio:_res/custom.drawio[]
+
+[[custom-git-github]]
 ==== Creation on GitHub
 In order to store your custom code you have to create a custom GIT repository and add there permissions of developers, who do you trust.
 We kindly ask you to use open forks of the Custom GIT template repo: https://github.com/Pingvin235/bgerp-custom , hosted on GitHub.
@@ -212,7 +244,7 @@ Go to *Settings / Collaborators* and add your trusted developers using their Git
 
 image::_res/github_collab.png[width='800px']
 
-[[custom-workflow]]
+[[custom-git-workflow]]
 ==== Workflow
 Content of the directory may be stored using GIT and developed in full-featured <<../project/index.adoc#ide, IDE>>.
 
@@ -248,7 +280,7 @@ git fetch && git checkout origin/master
 With *CUSTOM GIT* also can be used the same <<../project/workflow.adoc#change, GIT workflow>>
 as for the main project's code. Any change has to be placed in a separated branch.
 
-[[custom-update-fork]]
+[[custom-git-update-fork]]
 ==== Update Fork
 Use the following commands for updating your fork repo to the actual state of *bgerp-custom* repo.
 [source]
@@ -259,32 +291,6 @@ git checkout master
 git rebase upstream/master
 git push
 ----
-
-[[custom-using]]
-=== Using
-Inside `custom/src` placed regular Java code, including plugins <<../project/index.adoc#plugin, plugins>>.
-*PLUGIN_ID* for those has to be prefixed by *custom.*, e.g. *custom.bitel*.
-Respectively plugin files have to be stored under paths: *custom/org/bgerp/plugin/custom/<some-name>* .
-
-That code has equal possibilities as the native application's, can use API and connected libraries.
-After compilation *Administration - Custom* this code is persisted to `lib/app/custom.jar`.
-
-NOTE: The application must be restarted to reload the `custom.jar`. There is *Restart* button available after successful compilation.
-
-Subdirectory `custom/webapps` is searched *before* `webapps` from root directory
-and should be used for placing custom JSP and JS files. Both types are applied immediately after change.
-
-CAUTION: Each file from the original `webapps` may be "replaced" for Web server. That can brake built-in functionality.
-
-[[custom-l10n]]
-=== Custom localization
-In file `custom/l10n.xml` has a special meaning for <<../project/index.adoc#l10n-files, localization>> system,
-it allows to re-define each localized string in the system.
-
-[[javalib]]
-=== Java библиотеки
-Пользовательские Java библиотеки, используемые в динамическом коде, JEXL выражениях либо JSP страницах должны быть размещены в каталоге *lib/custom*
-JAR файлы из *lib/ext* перетираются при получении обновления библиотек.
 
 [[dyn]]
 === Dynamic code
@@ -312,6 +318,7 @@ image::_res/ext_dyn.png[]
 Синхронный запуск происходит в потоке запроса и позволяет легко изучить <<#log-dyn, логи>>.
 ////
 
+////
 [[custom-jar]]
 === Custom JAR
 CAUTION: This approach is deprecated, use <<custom, Custom>> instead.
@@ -346,6 +353,7 @@ or you may change the marker string in configuration parameter *custom.jar.marke
 ==== Примеры
 В составе поставки доступны примеры динамических классов в *dyn/ru/bgcrm/dyn* поименованные как *Example..* с описанием в комментариях.
 Помимо этого вы можете найти примеры динамического кода <<../ext/dyn_sample.adoc#, здесь>>.
+////
 
 [[run]]
 == Запуск кода

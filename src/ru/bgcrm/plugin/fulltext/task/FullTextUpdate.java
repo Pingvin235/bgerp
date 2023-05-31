@@ -1,20 +1,12 @@
-package ru.bgcrm.plugin.fulltext;
-
-import static ru.bgcrm.model.param.Parameter.TYPE_ADDRESS;
-import static ru.bgcrm.model.param.Parameter.TYPE_BLOB;
-import static ru.bgcrm.model.param.Parameter.TYPE_EMAIL;
-import static ru.bgcrm.model.param.Parameter.TYPE_LIST;
-import static ru.bgcrm.model.param.Parameter.TYPE_LISTCOUNT;
-import static ru.bgcrm.model.param.Parameter.TYPE_PHONE;
-import static ru.bgcrm.model.param.Parameter.TYPE_TEXT;
-import static ru.bgcrm.model.param.Parameter.TYPE_TREE;
+package ru.bgcrm.plugin.fulltext.task;
 
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.bgerp.scheduler.Task;
+import org.bgerp.app.bean.annotation.Bean;
+import org.bgerp.app.scheduler.Task;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -43,12 +35,13 @@ import ru.bgcrm.util.sql.ConnectionPool;
  *
  * @author Shamil Vakhitov
  */
-public class FullTextUpdater extends Task {
+@Bean(oldClasses = "ru.bgcrm.plugin.fulltext.FullTextUpdater")
+public class FullTextUpdate extends Task {
     private static final Log log = Log.getLog();
 
     private final Config config = Setup.getSetup().getConfig(Config.class);
 
-    public FullTextUpdater() {
+    public FullTextUpdate() {
         super(null);
     }
 
@@ -111,14 +104,15 @@ public class FullTextUpdater extends Task {
                         for (ParameterValuePair pair : paramValues) {
                             if (pair.getValue() == null) continue;
 
-                            switch (pair.getParameter().getType()) {
-                                case TYPE_TEXT:
-                                case TYPE_BLOB:
+                            switch (Parameter.Type.of(pair.getParameter().getType())) {
+                                case TEXT:
+                                case BLOB:
                                     text.append(pair.getValue());
                                     text.append('\n');
                                     break;
-                                case TYPE_EMAIL: {
-                                    Map<Integer, String> valueMap = (Map) pair.getValue();
+                                case EMAIL: {
+                                    @SuppressWarnings("unchecked")
+                                    var valueMap = (Map<Integer, String>) pair.getValue();
                                     for (String email : valueMap.values()) {
                                         // комментарий - в квадратных скобках
                                         text.append(email);
@@ -126,10 +120,11 @@ public class FullTextUpdater extends Task {
                                     }
                                     break;
                                 }
-                                case TYPE_LIST:
-                                case TYPE_LISTCOUNT:
-                                case TYPE_TREE: {
-                                    List<IdTitle> values = (List) pair.getValue();
+                                case LIST:
+                                case LISTCOUNT:
+                                case TREE: {
+                                    @SuppressWarnings("unchecked")
+                                    var values = (List<IdTitle>) pair.getValue();
                                     for (IdTitle value : values) {
                                         if (value == null || value.getTitle() == null)
                                             continue;
@@ -139,16 +134,17 @@ public class FullTextUpdater extends Task {
                                     }
                                     break;
                                 }
-                                case TYPE_ADDRESS: {
-                                    Map<Integer, ParameterAddressValue> valueMap = (Map) pair.getValue();
+                                case ADDRESS: {
+                                    @SuppressWarnings("unchecked")
+                                    var valueMap = (Map<Integer, ParameterAddressValue>) pair.getValue();
                                     for (ParameterAddressValue value : valueMap.values()) {
                                         text.append(value.getValue());
                                         text.append('\n');
                                     }
                                     break;
                                 }
-                                case TYPE_PHONE: {
-                                    ParameterPhoneValue value = (ParameterPhoneValue) pair.getValue();
+                                case PHONE: {
+                                    var value = (ParameterPhoneValue) pair.getValue();
                                     for (ParameterPhoneValueItem valueItem : value.getItemList()) {
                                         text.append(valueItem.getPhone());
                                         text.append(' ');

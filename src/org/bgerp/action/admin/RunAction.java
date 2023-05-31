@@ -1,14 +1,17 @@
 package org.bgerp.action.admin;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.scheduler.TasksConfig;
+import org.bgerp.app.scheduler.Scheduler;
+import org.bgerp.app.scheduler.TasksConfig;
 
+import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.RunClassRequestEvent;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/admin/run")
@@ -16,15 +19,16 @@ public class RunAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_ADMIN + "/run";
 
     @Override
-    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet)
-            throws Exception {
-        form.setRequestAttribute("runnableClasses", setup.getConfig(TasksConfig.class).getRunnableClasses());
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        form.setRequestAttribute("taskClasses", setup.getConfig(TasksConfig.class).getTaskClasses());
         return html(conSet, form, PATH_JSP + "/run.jsp");
     }
 
-    public ActionForward runClass(DynActionForm form, ConnectionSet conSet)
-        throws Exception {
+    public ActionForward runClass(DynActionForm form, ConnectionSet conSet) throws Exception {
+        // 'class' is passed when value is choosen from drop-down, 'data' - entered directly
         String className = form.getParam("class");
+        if (Utils.isBlankString(className))
+            className = form.getParam("data");
 
         String ifaceType = form.getParam("iface", "event");
         // running interface EventListener
@@ -32,7 +36,7 @@ public class RunAction extends BaseAction {
             EventProcessor.processEvent(new RunClassRequestEvent(form), className, conSet);
         // running interface Runnable
         else {
-            Class<?> clazz = Class.forName(className);
+            Class<?> clazz = DynamicClassManager.getClass(className);
 
             if (Runnable.class.isAssignableFrom(clazz)) {
                 boolean sync = form.getParamBoolean("sync");
@@ -41,7 +45,7 @@ public class RunAction extends BaseAction {
                 else
                     new Thread((Runnable) clazz.getDeclaredConstructor().newInstance()).start();
             } else {
-                throw new BGMessageException("Класс не реализует java.lang.Runnable: {}", className);
+                throw new BGMessageException("The class does not implement java.lang.Runnable: {}", className);
             }
         }
 
@@ -49,8 +53,10 @@ public class RunAction extends BaseAction {
     }
 
     public ActionForward scheduler(DynActionForm form, ConnectionSet conSet) {
-        // TODO: Finish later.
-        /* var config = setup.getConfig(TasksConfig.class); */
+        form.setResponseData("scheduled", setup.getConfig(TasksConfig.class).getTaskConfigs());
+
+        if (!Scheduler.getInstance().isAlive())
+            form.setResponseData("error", l.l("Not Running"));
 
         return html(conSet, form, PATH_JSP + "/scheduler.jsp");
     }

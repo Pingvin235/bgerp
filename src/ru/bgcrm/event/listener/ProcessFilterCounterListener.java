@@ -3,6 +3,7 @@ package ru.bgcrm.event.listener;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bgerp.dao.process.FilterEntryCounter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessQueueCache;
@@ -16,7 +17,6 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import ru.bgcrm.worker.FilterEntryCounter;
 
 public class ProcessFilterCounterListener {
     private static final Log log = Log.getLog();

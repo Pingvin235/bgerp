@@ -1,6 +1,6 @@
 package org.bgerp.util.file;
 
-import org.bgerp.scheduler.Task;
+import org.bgerp.app.scheduler.Task;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.FileDataDAO;

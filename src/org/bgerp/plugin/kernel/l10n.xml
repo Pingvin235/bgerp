@@ -289,9 +289,9 @@
 	<p><ru>Фильтр не выбран</ru><en>Filter - not selected</en></p>
 	<p><ru>Удалить сохранённый фильтр</ru><en>Delete saved filter</en></p>
 	<p><ru>Выгрузка в Excel</ru><en>Export to Excel</en></p>
-	<p><ru>Класс выполнен, проверьте логи</ru><en>Class was exectuted, check logs</en></p>
-	<p><ru>Класс запущен в отдельном потоке,\nвывод в логах.</ru><en>Class was started in separated thread,\nsee output in logs.</en></p>
-	<p><ru>Выполнить</ru><en>Run</en></p>
+	<p><ru>Класс выполнен, проверьте логи</ru><en>Class was executed, check logs</en></p>
+	<p><ru>Класс запущен в отдельном потоке,\nвывод в логах.</ru><en>Class was started in a separated thread,\nsee output in logs.</en></p>
+	<p><en>Run</en><ru>Выполнение</ru></p>
 	<p><ru>Ожидание окончания выполнения</ru><en>Wait of execution is done</en></p>
 	<p><ru>синхронно</ru><en>synch</en></p>
 	<p><ru>Скомпилировать Java код</ru><en>Compile Java code</en></p>
@@ -299,7 +299,7 @@
 	<p><ru>Custom</ru><en>Custom</en></p>
 	<p><ru>Результат компиляции</ru><en>Compilation result</en></p>
 	<p><ru>Класс не найден: {}</ru><en>Class not found: {}</en></p>
-	<p><ru>Класс не реализует java.lang.Runnable: {}</ru><en>Class does not implement java.lang.Runnable: {}</en></p>
+	<p><en>The class does not implement java.lang.Runnable: {}</en><ru>Класс не реализует java.lang.Runnable: {}</ru></p>
 	<p><ru>Вы уверены, что хотите удалить?</ru><en>Are you sure you want to delete it?</en></p>
 	<p><ru>Такое имя уже существует в данной ветке.</ru><en>Such name already exists here.</en></p>
 	<p><ru>Фильтр по наименованию, конфигурации</ru><en>Filter by title, configuration</en></p>
@@ -467,7 +467,7 @@
 		<en>Use dot as a decimal separator.</en>
 	</p>
 	<p><ru>Выбрать файл</ru><en>Select file</en></p>
-	<p><ru>Месяц</ru><en>Month</en></p>
+	<p><en>Month</en><ru>Месяц</ru></p>
 	<p><ru>Время входа</ru><en>Login time</en></p>
 	<p><ru>Последняя активность</ru><en>Last activity</en></p>
 	<p><ru>Значение должно соответствовать одному из шаблонов: {}</ru><en>Value must match one of regexps: {}</en></p>
@@ -599,6 +599,20 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Save with the empty subject?</en><ru>Сохранить с пустой темой?</ru></p>
 	<p><en>Save without attachment?</en><ru>Сохранить без вложения?</ru></p>
 	<p><en>App update is needed</en><ru>Необходимо обновление приложения</ru></p>
+	<p><en>Scheduler</en><ru>Планировщик</ru></p>
+	<p><en>Scheduled</en><ru>Запланировано</ru></p>
+	<p><en>Class</en><ru>Класс</ru></p>
+	<p><en>Enabled</en><ru>Активно</ru></p>
+	<p><en>Minute</en><ru>Минута</ru></p>
+	<p><en>Hour</en><ru>Час</ru></p>
+	<p><en>Day of Month</en><ru>День месяца</ru></p>
+	<p><en>Day of Week</en><ru>День недели</ru></p>
+	<p><en>Running</en><ru>Выполняется</ru></p>
+	<p><en>Schedule</en><ru>Расписание</ru></p>
+	<p><en>Last Execution</en><ru>Последний запуск</ru></p>
+	<p><en>Start Time</en><ru>Время начала</ru></p>
+	<p><en>Duration (ms)</en><ru>Длительность (ms)</ru></p>
+	<p><en>Not Running</en><ru>Не выполняется</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
