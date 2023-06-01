@@ -1,0 +1,3 @@
+A: Plugin Invoice. Notifications about paid invoices as new incoming messages.
+A: Utils.format method for BigDecimal.
+C: Title 'Authorization' to 'Login'.

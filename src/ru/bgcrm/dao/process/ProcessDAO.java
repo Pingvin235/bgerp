@@ -732,10 +732,10 @@ public class ProcessDAO extends CommonDAO {
                                 wherePart.append(" AND " + tableAlias + ".value IS NULL ");
                             else {
                                 if (from != null)
-                                    joinPart.append(" AND " + from.toPlainString() + "<=" + tableAlias + ".value ");
+                                    joinPart.append(" AND " + Utils.format(from) + "<=" + tableAlias + ".value ");
 
                                 if (to != null)
-                                    joinPart.append(" AND " + tableAlias + ".value<=" + to.toPlainString());
+                                    joinPart.append(" AND " + tableAlias + ".value<=" + Utils.format(to));
                             }
                         }
                     }

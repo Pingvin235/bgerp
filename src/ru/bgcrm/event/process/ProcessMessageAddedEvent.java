@@ -6,7 +6,9 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
- * В процесс добавлено сообщение, автоматически соотнесено процессу.
+ * New message, added to a process.
+ *
+ * @author Shamil Vakhitov
  */
 public class ProcessMessageAddedEvent extends UserEvent {
     private final Message message;

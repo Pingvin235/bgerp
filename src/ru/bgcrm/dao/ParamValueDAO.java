@@ -1655,8 +1655,10 @@ public class ParamValueDAO extends CommonDAO {
                 List<IdTitle> values = (List<IdTitle>) param.getValue();
                 if (values == null)
                     param.setValue(values = new ArrayList<IdTitle>());
-                values.add(new IdTitle(rs.getInt(2),
-                        rs.getString(4) + ":" + rs.getBigDecimal(3).stripTrailingZeros().toPlainString()));
+                values.add(new IdTitle(
+                    rs.getInt(2),
+                    rs.getString(4) + ":" + Utils.format(rs.getBigDecimal(3))
+                ));
             } else if (Parameter.TYPE_TREE.equals(type)) {
                 List<IdStringTitle> values = (List<IdStringTitle>) param.getValue();
                 if (values == null)

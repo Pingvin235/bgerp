@@ -198,7 +198,7 @@ public class BillDAO
     	if( value )
     	{
     		req.setAttribute( "date", TimeUtils.format( date, TimeUtils.PATTERN_DDMMYYYY ) );
-    		req.setAttribute( "summComment", summa.toPlainString() + ":" + Utils.maskNull( comment ) );
+    		req.setAttribute( "summComment", Utils.format(summa) + ":" + Utils.maskNull( comment ) );
     	}
     	transferData.postData( req, user );
 	}

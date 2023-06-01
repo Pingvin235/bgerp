@@ -926,7 +926,7 @@ public class ContractDAO extends BillingDAO {
                 request.setContractId(contractId);
                 request.setAttribute(COMMENT, comment);
                 request.setAction("UpdateContractLimitPeriod");
-                request.setAttribute(LIMIT_ATRIBUTE, limit.toPlainString());
+                request.setAttribute(LIMIT_ATRIBUTE, Utils.format(limit));
                 request.setAttribute("period", days);
                 transferData.postData(request, user);
             }
@@ -936,7 +936,7 @@ public class ContractDAO extends BillingDAO {
             request.setContractId(contractId);
             request.setAttribute(COMMENT, comment);
             request.setAction("UpdateContractLimit");
-            request.setAttribute(VALUE, limit.toPlainString());
+            request.setAttribute(VALUE, Utils.format(limit));
             transferData.postData(request, user);
         }
     }

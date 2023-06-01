@@ -1051,4 +1051,16 @@ public class Utils {
             throw new IllegalArgumentException("Do not use 'bgerp' prefix for a key");
         return System.getProperty("bgerp." + key, defaultValue);
     }
+
+    /**
+     * Formats a decimal value to a regular string without trailing zeros.
+     * @param value the decimal value.
+     * @return empty string for {@code null} value, or formatted string.
+     */
+    public static String format(BigDecimal value) {
+        if (value == null)
+            return "";
+
+        return value.stripTrailingZeros().toPlainString();
+    }
 }

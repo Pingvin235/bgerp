@@ -23,7 +23,7 @@ Incoming variables:
 					<u:sc>
 						<c:set var="itemId" value="${item.id}"/>
 						<c:set var="itemTitle" value="${item.title}"/>
-						<c:set var="itemCount" value="${value.count.stripTrailingZeros().toPlainString()}"/>
+						<c:set var="itemCount" value="${u.format(value.count)}"/>
 						<%@ include file="value_row.jsp"%>
 					</u:sc>
 				</c:if>
@@ -51,7 +51,7 @@ Incoming variables:
 	<c:otherwise>
 		<div style="display: flex;">
 			<ui:select-single hiddenName="itemId" list="${listValues}" value="${u.getFirst(values.keySet())}"  styleClass="w100p"/>
-			<input name="itemCount" value="${u.getFirst(values.entrySet()).value.count.stripTrailingZeros().toPlainString()}" size="2" onkeydown="return isNumberKey(event)" class="ml1"/>
+			<input name="itemCount" value="${u.format(u.getFirst(values.entrySet()).value.count))}" size="2" onkeydown="return isNumberKey(event)" class="ml1"/>
 		</div>
 	</c:otherwise>
 </c:choose>

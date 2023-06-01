@@ -415,7 +415,7 @@ public class MessageTypeHelpDesk extends MessageType {
             paramDao.updateParamList(process.getId(), packageParamId, topic.isInPackage() ? on : empty);
 
         // стоимость
-        paramDao.updateParamText(process.getId(), costParamId, topic.getCost().toPlainString());
+        paramDao.updateParamText(process.getId(), costParamId, Utils.format(topic.getCost()));
 
         boolean firstMessageAddInDescription = addFirstMessageInDescription && messageMap.size() == 0;
 
@@ -450,7 +450,6 @@ public class MessageTypeHelpDesk extends MessageType {
 
                 message.setText(topicMessage.getText());
                 message.setFromTime(topicMessage.getTimeFrom());
-                //message.setToTime( topicMessage.getTimeTo() );
                 message.setFrom("");
                 message.setTo("");
                 for (FileData attach : topicMessage.getAttachList())

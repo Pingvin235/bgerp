@@ -819,7 +819,7 @@ New localization phrases should be added to the end of the list in the file.
 The key of the localizing phrase is the first entry in any language, for example Russian:
 [source, xml]
 ----
-<p><ru>Требуется повторная авторизация</ru><en>Re-authorization is required</en></p>
+<p><ru>Требуется повторный вход</ru><en>Re-login is required</en></p>
 ----
 
 [[l10n-lang-sys]]
@@ -848,7 +848,7 @@ $('#loginForm').dialog({
 	modal: true,
 	draggable: false,
 	resizable: false,
-	title: "${l.l('Требуется повторная авторизация')}",
+	title: "${l.l('Требуется повторный вход')}",
 	position: { my: "center top", at: "center top+100px", of: window }
 });
 ----

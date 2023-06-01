@@ -339,7 +339,7 @@ public class HelpDeskDAO extends BillingDAO {
         req.setAction("ApplyTopicCost");
         req.setContractId(contractId);
         req.setAttribute("topicId", topicId);
-        req.setAttribute("cost", cost.toPlainString());
+        req.setAttribute("cost", Utils.format(cost));
 
         transferData.postData(req, user);
     }

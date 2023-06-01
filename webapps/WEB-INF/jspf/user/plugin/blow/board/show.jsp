@@ -56,7 +56,7 @@
 	<c:if test="${not empty board.config.openUrl}">
 		<shell:title>
 			<jsp:attribute name="text">
-				<a target='_blank' href='/open/blow/${board.config.openUrl}' title='${l.l('Открытый интерфейс')}'>O</a>
+				<a target='_blank' href='/open/blow/${board.config.openUrl}' title='${l.l('Open interface')}'>O</a>
 				${l.l('Blow план')}
 			</jsp:attribute>
 		</shell:title>

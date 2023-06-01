@@ -19,10 +19,14 @@ import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
+import ru.bgcrm.event.EventProcessor;
+import ru.bgcrm.event.process.ProcessMessageAddedEvent;
+import ru.bgcrm.model.message.Message;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;
+import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -33,6 +37,8 @@ public class InvoiceAction extends BaseAction {
     public ActionForward list(DynActionForm form, ConnectionSet conSet) throws Exception {
         new InvoiceSearchDAO(conSet.getSlaveConnection())
             .withProcessId(form.getParamInt("processId"))
+            .orderFromDate()
+            .orderDesc()
             .search(new Pageable<>(form));
 
         form.setRequestAttribute("config", setup.getConfig(Config.class));
@@ -164,6 +170,19 @@ public class InvoiceAction extends BaseAction {
         invoice.setPaymentUserId(form.getUserId());
 
         dao.update(invoice);
+
+        var process = new ProcessDAO(conSet.getSlaveConnection(), form).getProcessOrThrow(invoice.getProcessId());
+        var customer = Utils.getFirst(new ProcessLinkDAO(conSet.getSlaveConnection(), form).getLinkCustomers(process.getId(), null));
+        String customerTitle = customer != null ? customer.getTitle() : "???";
+        var message = new Message()
+            .withDirection(Message.DIRECTION_INCOMING)
+            .withText(l.l("invoice.paid.notification.message",
+                invoice.getNumber(),
+                customerTitle,
+                TimeUtils.format(invoice.getDateFrom(), "yyyy.MM"),
+                Utils.format(invoice.getAmount()),
+                TimeUtils.format(invoice.getCreatedTime(), TimeUtils.FORMAT_TYPE_YMD)));
+        EventProcessor.processEvent(new ProcessMessageAddedEvent(form, message, process), conSet);
 
         return json(conSet, form);
     }

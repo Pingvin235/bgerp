@@ -5,7 +5,7 @@
 
 <html>
 <head>
-	<title>${l.l("Authorization")} | <%@ include file="/WEB-INF/jspf/title.jsp"%></title>
+	<title>${l.l("Login")} | <%@ include file="/WEB-INF/jspf/title.jsp"%></title>
 	<%@ include file="/WEB-INF/jspf/script_css.jsp"%>
 </head>
 <body>
