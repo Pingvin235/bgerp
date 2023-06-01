@@ -51,7 +51,7 @@ Incoming variables:
 	<c:otherwise>
 		<div style="display: flex;">
 			<ui:select-single hiddenName="itemId" list="${listValues}" value="${u.getFirst(values.keySet())}"  styleClass="w100p"/>
-			<input name="itemCount" value="${u.format(u.getFirst(values.entrySet()).value.count))}" size="2" onkeydown="return isNumberKey(event)" class="ml1"/>
+			<input name="itemCount" value="${u.format(u.getFirst(values.entrySet()).value.count)}" size="2" onkeydown="return isNumberKey(event)" class="ml1"/>
 		</div>
 	</c:otherwise>
 </c:choose>

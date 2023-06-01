@@ -483,6 +483,27 @@ public class MessageTypeHelpDesk extends MessageType {
     }
 
     @Override
+    public Message getAnswerMessage(Message original) {
+        var result = new Message();
+        result.setTypeId(original.getTypeId());
+        result.setProcessId(original.getProcessId());
+
+        var subject = Utils.maskNull(original.getSubject());
+        subject = subject.startsWith("Re:") ? subject : "Re: " + subject;
+        result.setSubject(subject);
+
+        var text = original.getText();
+        text = ">" + text
+            .replace("\r", "")
+            .replace("\n", "\n>");
+        result.setText(text);
+
+        result.setTo(original.getFrom());
+
+        return result;
+    }
+
+    @Override
     public boolean isEditable(Message message) {
         // исходящее но не прочитанное ещё сообщение
         return message.getDirection() == Message.DIRECTION_OUTGOING && message.getToTime() == null;
