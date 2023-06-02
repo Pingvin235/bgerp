@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
 
-import org.bgerp.model.base.IdTitleTree;
+import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -244,12 +244,12 @@ public class ContractParamDAO extends BillingDAO {
         return result;
     }
 
-    private List<IdTitleTree> getEmailSubscrTree(Element treeElm) throws BGException {
+    private List<IdStringTitleTreeItem> getEmailSubscrTree(Element treeElm) throws BGException {
         // Рекурсивный сбор элементов дерева
-        List<IdTitleTree> treeValues = new ArrayList<IdTitleTree>();
+        List<IdStringTitleTreeItem> treeValues = new ArrayList<IdStringTitleTreeItem>();
 
         for (Element e : XMLUtils.selectElements(treeElm, "item")) {
-            IdTitleTree cur = new IdTitleTree();
+            IdStringTitleTreeItem cur = new IdStringTitleTreeItem();
             cur.setId(e.getAttribute("id"));
             cur.setTitle(e.getAttribute("title"));
             if (e.getAttribute("type").equals("1")) // Если есть child`ы
@@ -296,7 +296,7 @@ public class ContractParamDAO extends BillingDAO {
             doc = transferData.postData(billingRequest, user);
 
             Element treeElm = XMLUtils.selectElement(doc, "/data/tree");
-            List<IdTitleTree> treeValues = null;
+            List<IdStringTitleTreeItem> treeValues = null;
             if (treeElm != null) {
                 treeValues = getEmailSubscrTree(treeElm);
             }

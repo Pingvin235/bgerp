@@ -1,35 +1,35 @@
-package org.bgerp.model.base;
+package org.bgerp.model.base.tree;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.bgcrm.util.Utils;
 
-public class IdTitleTree {
+public class IdStringTitleTreeItem {
     private String id;
     private List<Integer> ids;
     private String title;
     private String parentId;
-    private List<IdTitleTree> children;
+    private List<IdStringTitleTreeItem> children;
 
-    public IdTitleTree() {
+    public IdStringTitleTreeItem() {
         setId("");
         parentId = "";
-        children = new ArrayList<IdTitleTree>();
+        children = new ArrayList<IdStringTitleTreeItem>();
     }
 
-    public IdTitleTree(String id, String title, String parentId) {
+    public IdStringTitleTreeItem(String id, String title, String parentId) {
         setId(id);
         this.setTitle(title);
         this.parentId = parentId;
         children = new ArrayList<>();
     }
 
-    public List<IdTitleTree> getChildren() {
+    public List<IdStringTitleTreeItem> getChildren() {
         return children;
     }
 
-    public void setChildren(List<IdTitleTree> children) {
+    public void setChildren(List<IdStringTitleTreeItem> children) {
         this.children = children;
     }
 
@@ -41,20 +41,20 @@ public class IdTitleTree {
         this.parentId = parentId;
     }
 
-    public IdTitleTree getChild(String id) {
+    public IdStringTitleTreeItem getChild(String id) {
         return getChild(this, id);
     }
 
-    public void addChild(IdTitleTree child) {
+    public void addChild(IdStringTitleTreeItem child) {
         children.add(child);
     }
 
-    private IdTitleTree getChild(IdTitleTree root, String id) {
-        for (IdTitleTree child : root.getChildren()) {
+    private IdStringTitleTreeItem getChild(IdStringTitleTreeItem root, String id) {
+        for (IdStringTitleTreeItem child : root.getChildren()) {
             if (id.equals(child.getId())) {
                 return child;
             }
-            IdTitleTree ch = getChild(child, id);
+            IdStringTitleTreeItem ch = getChild(child, id);
             if (ch != null) {
                 return ch;
             }

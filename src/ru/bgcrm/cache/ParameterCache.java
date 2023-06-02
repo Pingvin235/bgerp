@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.bgerp.model.base.IdTitleTree;
+import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.ParamDAO;
@@ -215,7 +215,7 @@ public class ParameterCache extends Cache<ParameterCache> {
         return listValues;
     }
 
-    public static IdTitleTree getTreeParamValues(final Parameter param) {
+    public static IdStringTitleTreeItem getTreeParamValues(final Parameter param) {
         return holder.getInstance().treeParamValues.get(param.getId());
     }
 
@@ -233,7 +233,7 @@ public class ParameterCache extends Cache<ParameterCache> {
     private Map<String, List<Parameter>> objectTypeParameters;
     private Map<Integer, Set<Integer>> paramGroupParams;
     private Map<Integer, List<IdTitle>> listParamValues;
-    private Map<Integer, IdTitleTree> treeParamValues;
+    private Map<Integer, IdStringTitleTreeItem> treeParamValues;
     private Map<Integer, List<IdTitle>> listParamValuesFromDir;
 
     @Override

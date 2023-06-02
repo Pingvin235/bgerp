@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.model.Pageable;
-import org.bgerp.model.base.IdTitleTree;
+import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.BGException;
@@ -96,8 +96,8 @@ public class ParamDAO extends CommonDAO {
         return result.toString();
     }
 
-    public Map<Integer, IdTitleTree> getTreeParamValuesMap() throws SQLException {
-        Map<Integer, IdTitleTree> result = new HashMap<Integer, IdTitleTree>();
+    public Map<Integer, IdStringTitleTreeItem> getTreeParamValuesMap() throws SQLException {
+        Map<Integer, IdStringTitleTreeItem> result = new HashMap<Integer, IdStringTitleTreeItem>();
 
         StringBuilder query = new StringBuilder(200);
 
@@ -118,13 +118,13 @@ public class ParamDAO extends CommonDAO {
     }
 
     private String getTreeParamValuesConfig(int paramId) throws SQLException {
-        IdTitleTree root = getTreeParamValues(paramId);
+        IdStringTitleTreeItem root = getTreeParamValues(paramId);
         StringBuilder config = new StringBuilder(getTreeConfig(root, ""));
 
         return config.toString();
     }
 
-    private String getTreeConfig(IdTitleTree root, String prefix) {
+    private String getTreeConfig(IdStringTitleTreeItem root, String prefix) {
         StringBuilder config = new StringBuilder();
 
         if (Utils.notBlankString(root.getId())) {
@@ -132,8 +132,8 @@ public class ParamDAO extends CommonDAO {
             config.append("\n");
         }
 
-        List<IdTitleTree> children = root.getChildren();
-        for (IdTitleTree child : children) {
+        List<IdStringTitleTreeItem> children = root.getChildren();
+        for (IdStringTitleTreeItem child : children) {
             String curPrefix = prefix;
 
             if (Utils.notBlankString(child.getParentId())) {
@@ -148,17 +148,17 @@ public class ParamDAO extends CommonDAO {
         return config.toString();
     }
 
-    private IdTitleTree getTreeParamValues(int paramId) throws SQLException {
-        IdTitleTree root = new IdTitleTree();
+    private IdStringTitleTreeItem getTreeParamValues(int paramId) throws SQLException {
+        IdStringTitleTreeItem root = new IdStringTitleTreeItem();
 
         String query = "SELECT id, parent_id, title FROM " + TABLE_PARAM_TREE_VALUE + " WHERE param_id=? ORDER BY id";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, paramId);
         ResultSet rs = ps.executeQuery();
 
-        List<IdTitleTree> items = new ArrayList<>();
+        List<IdStringTitleTreeItem> items = new ArrayList<>();
         while (rs.next()) {
-            items.add(new IdTitleTree(rs.getString("id"), rs.getString("title"), rs.getString("parent_id")));
+            items.add(new IdStringTitleTreeItem(rs.getString("id"), rs.getString("title"), rs.getString("parent_id")));
         }
         ps.close();
 
@@ -180,7 +180,7 @@ public class ParamDAO extends CommonDAO {
         });
 
         items.forEach((item) -> {
-            IdTitleTree child = root.getChild(item.getParentId());
+            IdStringTitleTreeItem child = root.getChild(item.getParentId());
             if (child != null) {
                 child.addChild(item);
             } else {
@@ -249,7 +249,7 @@ public class ParamDAO extends CommonDAO {
             ps = con.prepareStatement(query);
             ps.setInt(4, parameter.getId());
 
-            for (IdTitleTree node : convertTreeValuesConfigToNodeList(parameter.getValuesConfig())) {
+            for (IdStringTitleTreeItem node : convertTreeValuesConfigToNodeList(parameter.getValuesConfig())) {
                 ps.setString(1, node.getId());
                 ps.setString(2, node.getParentId());
                 ps.setString(3, node.getTitle());
@@ -276,8 +276,8 @@ public class ParamDAO extends CommonDAO {
         }
     }
 
-    private List<IdTitleTree> convertTreeValuesConfigToNodeList(String valuesConfig) {
-        List<IdTitleTree> nodes = new ArrayList<IdTitleTree>();
+    private List<IdStringTitleTreeItem> convertTreeValuesConfigToNodeList(String valuesConfig) {
+        List<IdStringTitleTreeItem> nodes = new ArrayList<IdStringTitleTreeItem>();
         if (valuesConfig == null) {
             return nodes;
         }
@@ -295,7 +295,7 @@ public class ParamDAO extends CommonDAO {
                 parentId = id_value[0].substring(0, lastIndex);
             }
 
-            nodes.add(new IdTitleTree(id, id_value[1], parentId));
+            nodes.add(new IdStringTitleTreeItem(id, id_value[1], parentId));
         }
 
         return nodes;

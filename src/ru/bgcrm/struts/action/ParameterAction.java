@@ -30,7 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.upload.FormFile;
 import org.bgerp.model.Pageable;
-import org.bgerp.model.base.IdTitleTree;
+import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -221,7 +221,7 @@ public class ParameterAction extends BaseAction {
             resp.setData("value", values);
 
             Parameter param = ParameterCache.getParameter(paramId);
-            IdTitleTree treeValues = ParameterCache.getTreeParamValues(param);
+            IdStringTitleTreeItem treeValues = ParameterCache.getTreeParamValues(param);
 
             request.setAttribute("treeValues", treeValues);
             // для сторонних систем - значения спискового параметра
