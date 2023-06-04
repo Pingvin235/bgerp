@@ -1,8 +1,7 @@
-package ru.bgcrm.model;
+package org.bgerp.model.base;
 
 import org.bgerp.app.l10n.Localizer;
-import org.bgerp.app.l10n.Titled;
-import org.bgerp.model.base.Id;
+import org.bgerp.model.base.iface.Titled;
 
 /**
  * Item with localized title.

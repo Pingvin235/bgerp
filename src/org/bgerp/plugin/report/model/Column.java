@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.bgerp.app.l10n.Localizer;
-import org.bgerp.app.l10n.Titled;
+import org.bgerp.model.base.iface.Titled;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.util.TimeUtils;

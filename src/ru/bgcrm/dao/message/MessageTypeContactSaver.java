@@ -3,7 +3,8 @@ package ru.bgcrm.dao.message;
 import java.sql.Connection;
 import java.util.List;
 
-import ru.bgcrm.model.IdTitled;
+import org.bgerp.model.base.IdTitled;
+
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;

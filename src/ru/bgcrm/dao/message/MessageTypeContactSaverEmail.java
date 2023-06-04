@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.SortedMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.model.base.IdTitled;
 
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.IdTitled;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.ParameterEmailValue;
