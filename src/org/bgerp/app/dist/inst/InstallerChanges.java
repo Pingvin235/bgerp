@@ -16,12 +16,12 @@ import com.google.common.annotations.VisibleForTesting;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.util.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.util.Utils;
 
 /**

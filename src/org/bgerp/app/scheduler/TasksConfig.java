@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.bean.Bean;
+import org.bgerp.model.base.IdStringTitle;
 
-import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;

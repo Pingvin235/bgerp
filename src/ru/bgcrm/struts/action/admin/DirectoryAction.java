@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.util.sql.LikePattern;
 
 import com.google.common.collect.Lists;
@@ -20,7 +21,6 @@ import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ParamDAO;
 import ru.bgcrm.dao.ParamGroupDAO;
 import ru.bgcrm.dao.PatternDAO;
-import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterGroup;

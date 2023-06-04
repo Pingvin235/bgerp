@@ -17,9 +17,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.model.base.IdStringTitle;
+
 import com.google.common.collect.Sets;
 
-import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.Parameter;
@@ -35,9 +36,9 @@ public class Config extends ru.bgcrm.util.Config {
 
     private final int indexDelay;
     private final Map<String, ObjectType> objectTypeMap = new HashMap<>();
-    private final List<IdStringTitle> objectTypeList = new ArrayList<>(); 
+    private final List<IdStringTitle> objectTypeList = new ArrayList<>();
     private final Set<Integer> paramIds = new HashSet<>();
-    
+
     public Config(ParameterMap config) {
         super(null);
         this.indexDelay = config.getInt(Plugin.ID + ":index.delay", 60);
@@ -46,7 +47,7 @@ public class Config extends ru.bgcrm.util.Config {
             objectTypeMap.put(type.getObjectType(), type);
             paramIds.addAll(type.paramIds);
         }
-        
+
         // TODO: Завести где-то в системе справочник сущностей с наименованиями?
         if (objectTypeMap.containsKey(Customer.OBJECT_TYPE))
             objectTypeList.add(new IdStringTitle(Customer.OBJECT_TYPE, "Контрагент"));
@@ -55,30 +56,30 @@ public class Config extends ru.bgcrm.util.Config {
         if (objectTypeMap.containsKey(Message.OBJECT_TYPE))
             objectTypeList.add(new IdStringTitle(Message.OBJECT_TYPE, "Сообщения"));
     }
-    
+
     public int getIndexDelay() {
         return indexDelay;
     }
-    
+
     public Map<String, ObjectType> getObjectTypeMap() {
         return objectTypeMap;
     }
-    
+
     public List<IdStringTitle> getObjectTypeList() {
         return objectTypeList;
     }
-    
+
     public boolean isParamConfigured(Parameter p) {
-        return 
+        return
             PARAM_TYPES.contains(p.getType()) &&
             (paramIds.isEmpty() || paramIds.contains(p.getId()));
     }
 
     public static final class ObjectType {
-        
+
         private final String objectType;
         private final Set<Integer> paramIds;
-                
+
         private ObjectType(String objectType, ParameterMap params) {
             this.objectType = objectType;
             this.paramIds = Utils.toIntegerSet(params.get("paramIds"));
@@ -91,7 +92,7 @@ public class Config extends ru.bgcrm.util.Config {
         public Set<Integer> getParamIds() {
             return paramIds;
         }
-        
+
     }
-    
+
 }

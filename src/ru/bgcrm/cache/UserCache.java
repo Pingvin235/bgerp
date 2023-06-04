@@ -13,13 +13,13 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.dao.user.UserGroupDAO;
 import ru.bgcrm.dao.user.UserPermsetDAO;
-import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.Permset;

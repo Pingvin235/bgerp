@@ -4,13 +4,13 @@ import org.bgerp.app.l10n.Localization;
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.plugin.bil.invoice.Plugin;
 import org.bgerp.plugin.bil.invoice.action.InvoiceAction;
 import org.bgerp.plugin.bil.invoice.dao.InvoiceSearchDAO;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.servlet.CustomHttpServletResponse;
 import ru.bgcrm.util.Utils;
 

@@ -1,6 +1,7 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -8,7 +9,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;

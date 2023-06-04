@@ -10,7 +10,7 @@
 <%@page import="java.util.List"%>
 <%@page import="ru.bgcrm.cache.UserCache"%>
 <%@page import="org.bgerp.model.base.IdTitle"%>
-<%@page import="ru.bgcrm.model.IdStringTitle"%>
+<%@page import="org.bgerp.model.base.IdStringTitle"%>
 <%@page import="java.util.ArrayList"%>
 
 <%@ page contentType="text/html; charset=UTF-8"%>

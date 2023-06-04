@@ -6,10 +6,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.plugin.bil.invoice.model.InvoiceType;
 
 import javassist.NotFoundException;
-import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.util.ParameterMap;
 
 public class Config extends ru.bgcrm.util.Config {

@@ -1,4 +1,4 @@
-package ru.bgcrm.model;
+package org.bgerp.model.base;
 
 import org.bgerp.model.base.iface.IdTitle;
 

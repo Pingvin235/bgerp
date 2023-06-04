@@ -2,9 +2,9 @@ package org.bgerp.plugin.bil.invoice.model;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.bgerp.model.base.IdStringTitle;
 
-import ru.bgcrm.model.IdStringTitle;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Position extends IdStringTitle {
     private BigDecimal amount;

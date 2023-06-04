@@ -3,9 +3,10 @@ package org.bgerp.event;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.model.base.IdStringTitle;
+
 import ru.bgcrm.event.UserEvent;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.struts.form.DynActionForm;
 
 /**
