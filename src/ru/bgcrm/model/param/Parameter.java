@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.model.IdTitleComment;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.TimeUtils;

@@ -48,13 +48,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.IdTitleComment;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;

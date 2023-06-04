@@ -1,6 +1,5 @@
-package ru.bgcrm.model;
+package org.bgerp.model.base;
 
-import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.iface.Comment;
 
 public class IdTitleComment extends IdTitle implements Comment {

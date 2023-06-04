@@ -1,6 +1,6 @@
 package ru.bgcrm.plugin.dispatch.model;
 
-import ru.bgcrm.model.IdTitleComment;
+import org.bgerp.model.base.IdTitleComment;
 
 public class Dispatch extends IdTitleComment {
     private int accountCount;
