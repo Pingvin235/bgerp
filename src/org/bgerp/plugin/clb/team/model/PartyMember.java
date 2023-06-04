@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 public class PartyMember extends IdTitle {
     private int partyId;

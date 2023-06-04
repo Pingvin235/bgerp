@@ -13,12 +13,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;

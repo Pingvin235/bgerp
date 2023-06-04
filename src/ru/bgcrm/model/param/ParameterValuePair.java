@@ -16,10 +16,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 

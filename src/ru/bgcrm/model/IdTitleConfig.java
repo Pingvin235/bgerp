@@ -3,6 +3,8 @@ package ru.bgcrm.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bgerp.model.base.IdTitle;
+
 public class IdTitleConfig extends IdTitle {
     private String config;
     private Map<String, String> configMap = new HashMap<String, String>();

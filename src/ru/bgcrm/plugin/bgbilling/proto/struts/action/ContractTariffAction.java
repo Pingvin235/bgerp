@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractTariffDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;

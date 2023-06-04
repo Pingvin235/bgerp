@@ -3,11 +3,11 @@ package ru.bgcrm.plugin.bgbilling.proto.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
@@ -22,7 +22,7 @@ public class ContractServiceDAO
 	extends BillingDAO
 {
 	private static final String CONTRACT_MODULE_ID = "contract";
-	
+
 	public ContractServiceDAO( User user, DBInfo dbInfo )
 		throws BGException
 	{
@@ -34,7 +34,7 @@ public class ContractServiceDAO
 	{
 		super( user, billingId );
 	}
-	
+
 	/*http://127.0.0.1:8080/bgbilling/executer?module=contract&action=ContractServices&mid=33&BGBillingSecret=4qjd9t9DooDWkbJnjWOvYnlP&cid=455&
 	[ length = 362 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="B8174817BC7BF5EB1802AF3DAAEC2CD3" status="ok"><table><data>
 	<row f0="487978" f1="Максимальный IPN" f2="13.01.2009-01.11.2009" f3="sdret" f4="74"/>
@@ -43,7 +43,7 @@ public class ContractServiceDAO
 		throws BGException
 	{
 		List<ContractService> result = new ArrayList<ContractService>();
-		
+
 		Request req = new Request();
 
 		req.setModule( CONTRACT_MODULE_ID );
@@ -55,19 +55,19 @@ public class ContractServiceDAO
 		for( Element el : XMLUtils.selectElements( doc, "/data/table/data/row" ) )
 		{
 			ru.bgcrm.plugin.bgbilling.proto.model.ContractService service = new ru.bgcrm.plugin.bgbilling.proto.model.ContractService();
-			
+
 			service.setId( Utils.parseInt( el.getAttribute( "f0" ) ) );
 			service.setServiceTitle( el.getAttribute( "f1" ) );
 			service.setServiceId( Utils.parseInt( el.getAttribute( "f4" ) ) );
 			TimeUtils.parsePeriod( el.getAttribute( "f2" ), service );
 			service.setComment( el.getAttribute( "f3" ) );
-			
+
 			result.add( service );
 		}
-		
+
 		return result;
 	}
-	
+
 	/*http://127.0.0.1:8080/bgbilling/executer?id=487978&onlyUsing=1&module=contract&action=ContractService&mid=33&BGBillingSecret=vQzeQkX69yctfj0M48E0jb0R&
 	[ length = 538 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="AB685F93A5DE167303ACD8EBBC03B868" status="ok">
 	<service comment="sdret" date1="13.01.2009" date2="01.11.2009" sid="74"/>
@@ -79,7 +79,7 @@ public class ContractServiceDAO
     {
 		ContractService service = null;
 		List<IdTitle> serviceList = new ArrayList<IdTitle>();
-		
+
 		Request req = new Request();
 
 		req.setModule( CONTRACT_MODULE_ID );
@@ -88,9 +88,9 @@ public class ContractServiceDAO
 		req.setContractId( contractId );
 		req.setAttribute( "id", id );
 		req.setAttribute( "onlyUsing", onlyUsing );
-		
+
 		Document doc = transferData.postData( req, user );
-		
+
 		Element serviceEl = XMLUtils.selectElement( doc, "/data/service" );
 		if( serviceEl != null )
 		{
@@ -102,15 +102,15 @@ public class ContractServiceDAO
 			service.setDateTo( TimeUtils.parse( serviceEl.getAttribute( "date2" ), TimeUtils.PATTERN_DDMMYYYY ) );
 			service.setComment( serviceEl.getAttribute( "comment" ) );
 		}
-		
+
 		for( Element item : XMLUtils.selectElements( doc, "/data/tree/module/service" ) )
 		{
 			serviceList.add( new IdTitle( item ) );
 		}
-		
+
 		return new Pair<ContractService, List<IdTitle>>( service, serviceList );
     }
-	
+
 	/*http://127.0.0.1:8080/bgbilling/executer?id=487978&sid=74&module=contract&action=UpdateContractService&date2=01.11.2009&
 	comment=sdret&BGBillingSecret=3h3nUIHTK1GDEruuJW1dl1Lc&cid=455&date1=13.01.2009&
 	[ length = 106 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="4231D5728CFA04386FD2B29B4BABB2FA" status="ok"/>*/
@@ -118,7 +118,7 @@ public class ContractServiceDAO
 		throws BGException
 	{
 		Request req = new Request();
-		
+
 		req.setModule( CONTRACT_MODULE_ID );
 		req.setAction( "UpdateContractService" );
 		req.setAttribute( "id", service.getId() );;
@@ -126,8 +126,8 @@ public class ContractServiceDAO
 		req.setAttribute( "date1", TimeUtils.format( service.getDateFrom(), TimeUtils.PATTERN_DDMMYYYY ) );
 		req.setAttribute( "date2", TimeUtils.format( service.getDateTo(), TimeUtils.PATTERN_DDMMYYYY ) );
 		req.setAttribute( "comment", service.getComment() );
-		
-		transferData.postData( req, user );		
+
+		transferData.postData( req, user );
 	}
 
 	/*http://127.0.0.1:8080/bgbilling/executer?id=488387&module=contract&action=DeleteContractService&BGBillingSecret=NUGHzwVCkqzpJDhzOY2kT5N6&
@@ -136,12 +136,12 @@ public class ContractServiceDAO
 		throws BGException
 	{
 		Request req = new Request();
-		
+
 		req.setModule( CONTRACT_MODULE_ID );
 		req.setAction( "DeleteContractService" );
 		req.setAttribute( "id", id );
 		req.setContractId( contractId );
-		
-		transferData.postData( req, user );		
+
+		transferData.postData( req, user );
 	}
 }

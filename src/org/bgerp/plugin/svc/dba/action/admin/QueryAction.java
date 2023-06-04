@@ -3,6 +3,7 @@ package org.bgerp.plugin.svc.dba.action.admin;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.svc.dba.Plugin;
 import org.bgerp.plugin.svc.dba.dao.QueryDAO;
 import org.bgerp.plugin.svc.dba.dao.QueryHistoryDAO;
@@ -10,7 +11,6 @@ import org.bgerp.plugin.svc.dba.model.QueryTable;
 import org.bgerp.plugin.svc.dba.model.QueryType;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.user.PermissionActionMethodException;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;

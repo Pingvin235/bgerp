@@ -3,11 +3,11 @@ package ru.bgcrm.model.param.address;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 /**
  * Base class for all address related entities.
- * 
+ *
  * @author Shamil Vakhitov
  */
 public class AddressBase extends IdTitle {

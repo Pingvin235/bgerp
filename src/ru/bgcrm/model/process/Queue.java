@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -19,7 +20,6 @@ import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.queue.Action;

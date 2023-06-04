@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.pln.callboard.Plugin;
 import org.bgerp.plugin.pln.callboard.cache.CallboardCache;
 import org.bgerp.plugin.pln.callboard.dao.ShiftDAO;
@@ -23,7 +24,6 @@ import org.bgerp.plugin.pln.callboard.model.config.ShortcutConfig;
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;

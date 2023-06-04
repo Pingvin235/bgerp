@@ -1,11 +1,11 @@
 package ru.bgcrm.model.process.wizard;
 
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.ParameterMap;
 
 public abstract class Step extends IdTitle {

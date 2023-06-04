@@ -1,6 +1,7 @@
 package org.bgerp.plugin.pln.callboard.model;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
+
 import ru.bgcrm.util.ParameterMap;
 
 public class DayType extends IdTitle {

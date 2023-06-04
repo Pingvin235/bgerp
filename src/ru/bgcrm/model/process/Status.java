@@ -1,6 +1,6 @@
 package ru.bgcrm.model.process;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 public class Status extends IdTitle {
     private int pos;

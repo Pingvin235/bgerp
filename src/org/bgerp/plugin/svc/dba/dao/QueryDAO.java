@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.svc.dba.model.QueryTable;
 import org.bgerp.plugin.svc.dba.model.QueryType;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.util.sql.ConnectionSet;
 

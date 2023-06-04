@@ -6,9 +6,9 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Dynamic;
 
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.util.Utils;
 

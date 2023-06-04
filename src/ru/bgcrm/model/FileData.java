@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

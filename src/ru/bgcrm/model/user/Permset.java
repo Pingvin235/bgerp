@@ -1,6 +1,7 @@
 package ru.bgcrm.model.user;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
+
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 

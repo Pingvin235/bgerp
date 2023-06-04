@@ -1,6 +1,6 @@
 package org.bgerp.plugin.clb.team.model;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 public class Party extends IdTitle {
     private String secret;

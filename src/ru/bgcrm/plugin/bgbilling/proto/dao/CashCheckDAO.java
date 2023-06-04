@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -11,7 +12,6 @@ import org.w3c.dom.NodeList;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.Request;
@@ -43,17 +43,17 @@ public class CashCheckDAO
 				RequestJsonRpc req = new RequestJsonRpc( CASHCHECK_MODULE_ID, "CashcheckService", "bindPrinter" );
 				req.setParam( "registratorId", registratorId );
 				req.setParam( "password", pswd );
-				
+
 				transferData.postData( req, user );
-			}			
-			
+			}
+
 			RequestJsonRpc req = new RequestJsonRpc( CASHCHECK_MODULE_ID, "CashcheckService", "printCheck" );
 			req.setParam( "paymentIds", Collections.singleton( paymentId ) );
 			req.setParam( "summa", summa );
-			
+
 			JsonNode result = transferData.postDataReturn( req, user );
-			
-			return new Pair<String, String>( result.path( "summa" ).textValue(), result.path( "submit" ).textValue() );			
+
+			return new Pair<String, String>( result.path( "summa" ).textValue(), result.path( "submit" ).textValue() );
 		}
 		else if( dbInfo.versionCompare( "5.1" ) <= 0 )
 		{
@@ -115,17 +115,17 @@ public class CashCheckDAO
 		throws BGException
 	{
 		List<IdTitle> registratorList = new ArrayList<IdTitle>();
-		
+
 		int selectedRegistratorId = 0;
-		
+
 		if( dbInfo.versionCompare( "6.1" ) >= 0 )
 		{
 			RequestJsonRpc req = new RequestJsonRpc( CASHCHECK_MODULE_ID, "CashcheckService", "registratorList" );
-			
+
 			JsonNode result = transferData.postDataReturn( req, user );
-			
+
 			selectedRegistratorId = result.path( "registratorId" ).intValue();
-			List<IdTitle> list = readJsonValue( result.path( "list" ).traverse(), 
+			List<IdTitle> list = readJsonValue( result.path( "list" ).traverse(),
 			                                    jsonTypeFactory.constructCollectionType( List.class, IdTitle.class ) );
 			for( IdTitle registrator : list )
 			{
@@ -134,24 +134,24 @@ public class CashCheckDAO
 					registratorList.add( 0, registrator );
 				}
 				else
-				{				
+				{
 					registratorList.add( registrator );
 				}
-			}			                       
+			}
 		}
 		else if( dbInfo.versionCompare( "5.1" ) <= 0 )
-		{		
+		{
     		Request request = new Request();
     		request.setModule( CASHCHECK_MODULE_ID );
     		request.setAction( "RegistratorList" );
-    
+
     		Document doc = transferData.postData( request, user );
-    		
+
     		//registratorId="0"
-    		selectedRegistratorId = Utils.parseInt( ((Element)doc.getElementsByTagName( "data" ).item( 0 )).getAttribute( "registratorId" ) );    		
-    
+    		selectedRegistratorId = Utils.parseInt( ((Element)doc.getElementsByTagName( "data" ).item( 0 )).getAttribute( "registratorId" ) );
+
     		NodeList nodeList = doc.getElementsByTagName( "item" );
-    
+
     		for( int i = 0; i < nodeList.getLength(); i++ )
     		{
     			Node node = nodeList.item( i );
@@ -169,32 +169,32 @@ public class CashCheckDAO
     				}
     			}
     		}
-    
-    		
+
+
 		}
 		else
 		{
 			throw new UnsupportedBillingVersion( "5.1 и с 6.1" );
 		}
-		
+
 		if( selectedRegistratorId == 0 )
 		{
 			registratorList.add( 0, new IdTitle( 0, "~ не выбран ~" ) );
 		}
-		
+
 		return registratorList;
 	}
-	
+
 	public IdTitle getCurrentPrinter()
 		throws BGException
 	{
 		if( dbInfo.versionCompare( "6.1" ) >= 0 )
 		{
 			RequestJsonRpc req = new RequestJsonRpc( CASHCHECK_MODULE_ID, "CashcheckService", "getCurrentPrinter" );
-			
+
 			JsonNode result = transferData.postDataReturn( req, user );
-			
-			return new IdTitle( result.path( "registratorId" ).intValue(), result.path( "registratorName" ).textValue() );			
+
+			return new IdTitle( result.path( "registratorId" ).intValue(), result.path( "registratorName" ).textValue() );
 		}
 		else
 		{

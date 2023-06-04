@@ -1,6 +1,6 @@
 package org.bgerp.plugin.pln.callboard.model;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 public class Shortcut extends IdTitle {
     private String value;

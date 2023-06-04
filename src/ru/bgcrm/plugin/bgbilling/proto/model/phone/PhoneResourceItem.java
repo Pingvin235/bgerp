@@ -1,8 +1,8 @@
 package ru.bgcrm.plugin.bgbilling.proto.model.phone;
 
-import ru.bgcrm.model.IdTitle;
-
 import java.util.Date;
+
+import org.bgerp.model.base.IdTitle;
 
 public class PhoneResourceItem
 	extends IdTitle
@@ -52,5 +52,5 @@ public class PhoneResourceItem
 	public void setReserveComment( String reserveComment )
 	{
 		this.reserveComment = reserveComment;
-	}	
+	}
 }

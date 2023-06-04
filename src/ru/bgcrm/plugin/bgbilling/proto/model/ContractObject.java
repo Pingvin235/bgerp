@@ -2,7 +2,7 @@ package ru.bgcrm.plugin.bgbilling.proto.model;
 
 import java.util.Date;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 public class ContractObject
 	extends IdTitle

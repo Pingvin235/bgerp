@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.user.User;

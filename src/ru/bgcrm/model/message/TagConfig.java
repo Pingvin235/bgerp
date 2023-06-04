@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Dynamic;
 
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
 

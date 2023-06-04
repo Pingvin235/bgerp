@@ -3,7 +3,7 @@ package ru.bgcrm.plugin.bgbilling.proto.model.inet;
 import java.util.HashSet;
 import java.util.Set;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 public class InetServiceType extends IdTitle {
     public static final int SESSION_INITIATION_CALL = 0;

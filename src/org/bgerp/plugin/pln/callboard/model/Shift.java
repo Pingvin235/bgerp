@@ -3,7 +3,8 @@ package org.bgerp.plugin.pln.callboard.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
+
 import ru.bgcrm.util.Utils;
 
 public class Shift extends IdTitle {

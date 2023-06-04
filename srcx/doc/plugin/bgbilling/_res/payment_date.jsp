@@ -5,7 +5,7 @@
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="ru.bgcrm.util.Utils"%>
 <%@page import="java.math.BigDecimal"%>
-<%@page import="ru.bgcrm.model.IdTitle"%>
+<%@page import="org.bgerp.model.base.IdTitle"%>
 <%@page import="ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo"%>
 
 <%@ page contentType="text/html; charset=UTF-8"%>

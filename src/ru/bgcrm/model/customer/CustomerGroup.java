@@ -1,6 +1,6 @@
 package ru.bgcrm.model.customer;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 // TODO: Is not really used, check and either activate or delete.
 public class CustomerGroup extends IdTitle {

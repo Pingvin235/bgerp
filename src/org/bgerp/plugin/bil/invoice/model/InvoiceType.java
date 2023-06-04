@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.bil.invoice.Plugin;
 import org.bgerp.plugin.bil.invoice.num.NumberProvider;
 import org.bgerp.plugin.bil.invoice.num.PatternBasedNumberProvider;
@@ -13,7 +14,6 @@ import org.bgerp.plugin.bil.invoice.pos.PositionProvider;
 import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.sql.ConnectionSet;
 

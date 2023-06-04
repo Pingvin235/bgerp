@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
 
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,7 +21,6 @@ import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.ParamList;
 import ru.bgcrm.model.param.Parameter;

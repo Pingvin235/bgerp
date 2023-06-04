@@ -7,8 +7,8 @@
 <%@page import="java.util.TreeMap"%>
 <%@page import="java.util.TreeSet"%>
 
-<%@page import="ru.bgcrm.model.IdTitle"%>
-<%@page import="ru.bgcrm.model.IdTitleComment"%>
+<%@page import="org.bgerp.model.base.IdTitle"%>
+<%@page import="org.bgerp.model.base.IdTitleComment"%>
 
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>

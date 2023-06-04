@@ -1,6 +1,7 @@
 package ru.bgcrm.model.process.queue.config;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
+
 import ru.bgcrm.util.ParameterMap;
 
 /**

@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;

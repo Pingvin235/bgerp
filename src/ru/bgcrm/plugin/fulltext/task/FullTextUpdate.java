@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.scheduler.Task;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -14,7 +15,6 @@ import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.Parameter;

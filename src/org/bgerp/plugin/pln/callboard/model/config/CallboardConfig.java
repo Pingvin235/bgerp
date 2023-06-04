@@ -9,9 +9,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;

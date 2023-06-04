@@ -3,7 +3,7 @@ package ru.bgcrm.plugin.bgbilling.proto.model.ipn;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 public class ResourceCategory
 	extends IdTitle

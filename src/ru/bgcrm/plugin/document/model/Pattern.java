@@ -3,10 +3,10 @@ package ru.bgcrm.plugin.document.model;
 import java.util.Set;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 

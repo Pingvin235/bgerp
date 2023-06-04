@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.base.IdTitle;
 
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;

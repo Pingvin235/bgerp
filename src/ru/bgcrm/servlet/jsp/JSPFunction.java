@@ -12,9 +12,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;

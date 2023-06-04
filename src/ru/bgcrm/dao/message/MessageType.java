@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.event.ProcessFileGetEvent;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.FileDataDAO;
@@ -18,7 +19,6 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.action.FileAction.FileInfo;
 import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;

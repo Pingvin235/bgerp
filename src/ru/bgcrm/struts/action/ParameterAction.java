@@ -30,6 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.upload.FormFile;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -51,7 +52,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.JumpRegexp;
 import ru.bgcrm.model.param.Parameter;

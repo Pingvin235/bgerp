@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdTitle;
 
 import javassist.NotFoundException;
 import ru.bgcrm.dao.CustomerDAO;
@@ -15,7 +16,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;

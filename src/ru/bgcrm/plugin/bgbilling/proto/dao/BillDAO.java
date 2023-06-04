@@ -6,11 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.Request;

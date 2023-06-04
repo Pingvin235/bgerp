@@ -2,7 +2,8 @@ package ru.bgcrm.plugin.bgbilling.proto.model.inet;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
+
 import ru.bgcrm.plugin.bgbilling.proto.model.ServiceUnit;
 
 /**
@@ -29,7 +30,7 @@ public class TrafficType
 	public TrafficType( int id, String title, int unit )
 	{
 		super( id, title );
-		
+
 		this.unit = unit;
 	}
 

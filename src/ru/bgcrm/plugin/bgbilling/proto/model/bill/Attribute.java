@@ -2,7 +2,8 @@ package ru.bgcrm.plugin.bgbilling.proto.model.bill;
 
 import java.util.Date;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
+
 import ru.bgcrm.model.PeriodSet;
 
 public class Attribute

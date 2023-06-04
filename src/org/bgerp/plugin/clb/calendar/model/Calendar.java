@@ -1,6 +1,7 @@
 package org.bgerp.plugin.clb.calendar.model;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
+
 import ru.bgcrm.util.ParameterMap;
 
 /**

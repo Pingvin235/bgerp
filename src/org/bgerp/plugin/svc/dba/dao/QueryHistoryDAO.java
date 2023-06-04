@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
-import ru.bgcrm.model.IdTitle;
 
 public class QueryHistoryDAO extends CommonDAO {
     public QueryHistoryDAO(Connection con) {
@@ -58,7 +58,7 @@ public class QueryHistoryDAO extends CommonDAO {
 
         try (var pq = new PreparedQuery(con, query)) {
             pq.addInt(userId);
-            
+
             var rs = pq.executeQuery();
             while (rs.next())
                 result.add(new IdTitle(rs.getInt("id"), rs.getString("data")));

@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bgerp.model.base.IdTitle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
@@ -51,7 +51,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
 
             return readJsonValue(transferData.postDataReturn(req, user).traverse(),
                     jsonTypeFactory.constructCollectionType(List.class, UserCard.class));
-        } 
+        }
         // TODO: Убрать позже вместе со сгенерированными классами сервисов.
         else {
             List<UserCard> usetCards = new ArrayList<UserCard>();
@@ -103,7 +103,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
                     jsonTypeFactory.constructCollectionType(List.class, CardPacket.class));
         } else {
             List<CardPacket> cardPackets = new ArrayList<CardPacket>();
-    
+
             Request request = new Request();
             request.setModule(CERBERCRYPT_MODULE_ID);
             request.setAction("CardPacketTable");
@@ -111,7 +111,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
             request.setContractId(contractId);
             request.setAttribute("card", cardId);
             request.setAttribute("date", new SimpleDateFormat(TimeUtils.PATTERN_DDMMYYYY).format(date));
-    
+
             Document document = transferData.postData(request, user);
             Element dataElement = document.getDocumentElement();
             NodeList nodeList = dataElement.getElementsByTagName("row");
@@ -129,11 +129,11 @@ public class CerberCryptDAO extends BillingModuleDAO {
                     cardPacket.setPeriod(rowElement.getAttribute("period"));
                     cardPacket.setStatus(rowElement.getAttribute("status"));
                     cardPacket.setPacketId(getPacketTypeId(cardPacket.getId()));
-    
+
                     cardPackets.add(cardPacket);
                 }
             }
-    
+
             return cardPackets;
         }
     }

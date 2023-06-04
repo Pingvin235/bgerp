@@ -21,11 +21,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;

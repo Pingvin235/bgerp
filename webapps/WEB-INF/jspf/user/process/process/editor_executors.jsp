@@ -9,7 +9,7 @@
 <%@page import="java.util.HashSet"%>
 <%@page import="java.util.List"%>
 <%@page import="ru.bgcrm.cache.UserCache"%>
-<%@page import="ru.bgcrm.model.IdTitle"%>
+<%@page import="org.bgerp.model.base.IdTitle"%>
 <%@page import="ru.bgcrm.model.IdStringTitle"%>
 <%@page import="java.util.ArrayList"%>
 

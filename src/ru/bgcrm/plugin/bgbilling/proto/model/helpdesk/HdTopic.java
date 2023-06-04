@@ -3,7 +3,7 @@ package ru.bgcrm.plugin.bgbilling.proto.model.helpdesk;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 public class HdTopic
 	extends IdTitle
@@ -40,7 +40,7 @@ public class HdTopic
 	{
 		this.contractTitle = contractTitle;
 	}
-	
+
 	public boolean isState()
 	{
 		return state;
@@ -60,7 +60,7 @@ public class HdTopic
 	{
 		this.userId = userId;
 	}
-	
+
 	public String getUserTitle()
 	{
 		return userTitle;
@@ -70,7 +70,7 @@ public class HdTopic
 	{
 		this.userTitle = userTitle;
 	}
-	
+
 	public int getMessageCount()
 	{
 		return messageCount;
@@ -110,7 +110,7 @@ public class HdTopic
 	{
 		this.statusId = statusId;
 	}
-	
+
 	public String getContact()
 	{
 		return contact;

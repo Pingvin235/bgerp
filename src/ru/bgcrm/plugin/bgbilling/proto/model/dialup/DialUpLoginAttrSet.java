@@ -1,6 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.proto.model.dialup;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 public class DialUpLoginAttrSet
 	extends IdTitle

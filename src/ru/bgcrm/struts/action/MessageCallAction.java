@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.NewsDAO;
@@ -13,7 +14,6 @@ import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.News;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.user.User;

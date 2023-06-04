@@ -3,7 +3,8 @@ package org.bgerp.plugin.pln.blow.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
+
 import ru.bgcrm.model.process.Process;
 
 /**

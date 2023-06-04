@@ -1,7 +1,7 @@
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="ru.bgcrm.model.IdTitle"%>
+<%@page import="org.bgerp.model.base.IdTitle"%>
 <%@page import="java.util.List"%>
 
 <%@ page contentType="text/html; charset=UTF-8"%>

@@ -1,6 +1,7 @@
 package org.bgerp.plugin.bil.subscription.model;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
+
 import ru.bgcrm.util.ParameterMap;
 
 public class Subscription extends IdTitle {

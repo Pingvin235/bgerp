@@ -17,6 +17,7 @@ import java.util.SortedMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,7 +34,6 @@ import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
-import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.customer.Customer;

@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
-import ru.bgcrm.model.IdTitle;
+import org.bgerp.model.base.IdTitle;
 
 public class DispatchMessage extends IdTitle {
     private Set<Integer> dispatchIds = Collections.emptySet();
