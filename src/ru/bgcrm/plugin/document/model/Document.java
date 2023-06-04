@@ -1,7 +1,8 @@
 package ru.bgcrm.plugin.document.model;
 
+import org.bgerp.model.base.Id;
+
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.Id;
 
 public class Document extends Id {
     private String objectType;

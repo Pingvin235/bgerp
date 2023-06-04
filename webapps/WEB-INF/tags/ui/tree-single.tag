@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <%@ attribute name="id" description="Container ID, if empty - will be generated." type="java.lang.String"%>
-<%@ attribute name="rootNode" description="Tree root node" required="true" type="org.bgerp.model.base.IdTitleTreeItem"%>
+<%@ attribute name="rootNode" description="Tree root node" required="true" type="org.bgerp.model.base.tree.IdTitleTreeItem"%>
 <%@ attribute name="selectableFolder" description="Selectable folder nodes" type="java.lang.Boolean"%>
 <%@ attribute name="hiddenName" description="Input type hidden parameter name" required="true" type="java.lang.String"%>
 <%@ attribute name="hiddenNameTitle" description="Optional hidden parameter name for storing node title" type="java.lang.String"%>

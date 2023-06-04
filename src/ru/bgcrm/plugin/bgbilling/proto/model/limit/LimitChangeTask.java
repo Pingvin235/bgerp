@@ -5,8 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bgerp.model.base.Id;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.bgcrm.model.Id;
 
 public class LimitChangeTask
 		extends Id {

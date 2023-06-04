@@ -1,7 +1,7 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" description="Tree item"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<%@ attribute name="node" description="Tree node" required="true" type="org.bgerp.model.base.IdTitleTreeItem"%>
+<%@ attribute name="node" description="Tree node" required="true" type="org.bgerp.model.base.tree.IdTitleTreeItem"%>
 <%@ attribute name="level" description="Input type hidden parameter name" required="true" type="java.lang.String"%>
 <%@ attribute name="selectableFolder" description="Selectable folder nodes" type="java.lang.Boolean"%>
 

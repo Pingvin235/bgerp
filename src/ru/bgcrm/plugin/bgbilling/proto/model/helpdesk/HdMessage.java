@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bgerp.model.base.Id;
+
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.Id;
 
 public class HdMessage
 	extends Id
@@ -28,7 +29,7 @@ public class HdMessage
 	{
 		this.direction = direction;
 	}
-	
+
 	public int getUserIdFrom()
 	{
 		return userIdFrom;
@@ -76,9 +77,9 @@ public class HdMessage
 
 	public void setText( String text )
 	{
-		this.text = text;		
+		this.text = text;
 	}
-	
+
 	public void addAttach( FileData file )
 	{
 		attachList.add( file );

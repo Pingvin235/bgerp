@@ -2,7 +2,8 @@ package ru.bgcrm.plugin.task.model;
 
 import java.util.Date;
 
-import ru.bgcrm.model.Id;
+import org.bgerp.model.base.Id;
+
 import ru.bgcrm.util.Preferences;
 
 /**

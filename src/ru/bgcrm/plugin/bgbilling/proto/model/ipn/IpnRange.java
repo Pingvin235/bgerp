@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ru.bgcrm.model.Id;
+import org.bgerp.model.base.Id;
+
 import ru.bgcrm.model.PeriodSet;
 import ru.bgcrm.util.TimeUtils;
 

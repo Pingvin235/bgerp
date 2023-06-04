@@ -3,7 +3,7 @@ package ru.bgcrm.plugin.bgbilling.proto.model.bill;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import ru.bgcrm.model.Id;
+import org.bgerp.model.base.Id;
 
 public class Document
 	extends Id

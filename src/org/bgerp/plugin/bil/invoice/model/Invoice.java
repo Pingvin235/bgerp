@@ -7,9 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.bgerp.model.base.Id;
 import org.bgerp.util.TimeConvert;
 
-import ru.bgcrm.model.Id;
 import ru.bgcrm.util.Utils;
 
 public class Invoice extends Id {

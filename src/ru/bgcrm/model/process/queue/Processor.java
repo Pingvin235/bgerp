@@ -1,8 +1,8 @@
 package ru.bgcrm.model.process.queue;
 
 import org.bgerp.app.servlet.Interface;
+import org.bgerp.model.base.Id;
 
-import ru.bgcrm.model.Id;
 import ru.bgcrm.util.ParameterMap;
 
 public class Processor extends Id {

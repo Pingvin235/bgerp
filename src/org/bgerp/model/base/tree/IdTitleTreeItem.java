@@ -1,4 +1,4 @@
-package org.bgerp.model.base;
+package org.bgerp.model.base.tree;
 
 import java.util.ArrayList;
 import java.util.List;

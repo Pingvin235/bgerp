@@ -5,8 +5,8 @@ import ru.bgcrm.util.Utils;
 /**
  * Контакт для отправки сообщений
  */
-public class Contact extends ru.bgcrm.model.Id {
-    
+public class Contact extends org.bgerp.model.base.Id {
+
     private String value;
     private int contactTypeId;
     private int contractId;
@@ -42,7 +42,7 @@ public class Contact extends ru.bgcrm.model.Id {
 
     /**
      * Возвращает значение контакта для отправки просмотра
-     * 
+     *
      * @return
      */
     public String getValueForView() {
@@ -84,7 +84,7 @@ public class Contact extends ru.bgcrm.model.Id {
 
     /**
      * Возвращает значение контакта по умолчанию
-     * 
+     *
      * @return
      */
     public String getDefaultValue() {
@@ -93,11 +93,11 @@ public class Contact extends ru.bgcrm.model.Id {
 
     /**
      * Устанавливает значение контакта по умолчанию
-     * 
+     *
      * @param defaultValue
      */
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
     }
-    
+
 }

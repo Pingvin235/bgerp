@@ -45,13 +45,13 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.model.base.Id;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.model.Id;
 import ru.bgcrm.model.IdStringTitle;
 import ru.bgcrm.model.IdTitle;
 import ru.bgcrm.model.IdTitleComment;

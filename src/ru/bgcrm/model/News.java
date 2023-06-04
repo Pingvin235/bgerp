@@ -3,6 +3,8 @@ package ru.bgcrm.model;
 import java.util.Date;
 import java.util.Set;
 
+import org.bgerp.model.base.Id;
+
 import ru.bgcrm.model.user.User;
 
 public class News extends Id {

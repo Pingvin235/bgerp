@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.bgerp.model.base.IdTitleTreeItem;
+import org.bgerp.model.base.tree.IdTitleTreeItem;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

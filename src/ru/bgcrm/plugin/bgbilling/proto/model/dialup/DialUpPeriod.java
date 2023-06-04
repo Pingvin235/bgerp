@@ -2,7 +2,7 @@ package ru.bgcrm.plugin.bgbilling.proto.model.dialup;
 
 import java.util.Date;
 
-import ru.bgcrm.model.Id;
+import org.bgerp.model.base.Id;
 
 public class DialUpPeriod
 	extends Id

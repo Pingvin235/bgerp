@@ -2,16 +2,17 @@ package ru.bgcrm.plugin.bgbilling.proto.model.dialup;
 
 import java.util.Date;
 
-import ru.bgcrm.model.Id;
+import org.bgerp.model.base.Id;
+
 import ru.bgcrm.model.PeriodSet;
 
 public class DialUpLogin
 	extends Id
 	implements PeriodSet
-{ 
+{
 	public static final int STATUS_ACTIVE = 0;
 	public static final int STATUS_LOCKED = 1;
-	
+
 	private int contractId;
 	private String contractTitle;
 	private int login;
@@ -24,7 +25,7 @@ public class DialUpLogin
 	private int session;
 	private int objectId;
 	private String comment;
-	
+
 	public int getContractId()
 	{
 		return contractId;

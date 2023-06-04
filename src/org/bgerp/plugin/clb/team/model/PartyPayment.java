@@ -2,7 +2,7 @@ package org.bgerp.plugin.clb.team.model;
 
 import java.math.BigDecimal;
 
-import ru.bgcrm.model.Id;
+import org.bgerp.model.base.Id;
 
 public class PartyPayment extends Id {
     private int partyId;

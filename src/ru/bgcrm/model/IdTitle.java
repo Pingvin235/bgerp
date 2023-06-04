@@ -1,5 +1,6 @@
 package ru.bgcrm.model;
 
+import org.bgerp.model.base.Id;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.util.Utils;

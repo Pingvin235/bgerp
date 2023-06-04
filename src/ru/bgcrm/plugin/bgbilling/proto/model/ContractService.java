@@ -2,7 +2,8 @@ package ru.bgcrm.plugin.bgbilling.proto.model;
 
 import java.util.Date;
 
-import ru.bgcrm.model.Id;
+import org.bgerp.model.base.Id;
+
 import ru.bgcrm.model.PeriodSet;
 
 public class ContractService
@@ -15,7 +16,7 @@ public class ContractService
 	private Date dateFrom;
 	private Date dateTo;
 	private String comment;
-	
+
 	public int getContractId()
 	{
 		return contractId;
@@ -50,7 +51,7 @@ public class ContractService
 	{
 		return dateFrom;
 	}
-	
+
 	@Override
 	public void setDateFrom( Date dateFrom )
 	{
@@ -61,7 +62,7 @@ public class ContractService
 	{
 		return dateTo;
 	}
-	
+
 	@Override
 	public void setDateTo( Date dateTo )
 	{

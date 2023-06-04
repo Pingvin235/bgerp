@@ -2,9 +2,10 @@ package ru.bgcrm.plugin.bgbilling.proto.model.tariff;
 
 import java.util.Date;
 
+import org.bgerp.model.base.Id;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import ru.bgcrm.model.Id;
 import ru.bgcrm.model.Period;
 import ru.bgcrm.model.PeriodSet;
 

@@ -2,7 +2,8 @@ package ru.bgcrm.plugin.bgbilling.proto.model.tariff;
 
 import java.util.Date;
 
-import ru.bgcrm.model.Id;
+import org.bgerp.model.base.Id;
+
 import ru.bgcrm.model.PeriodSet;
 
 public class ContractPersonalTariff

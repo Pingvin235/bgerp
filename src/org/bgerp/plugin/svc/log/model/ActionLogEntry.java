@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.app.servlet.user.event.ActionRequestEvent;
+import org.bgerp.model.base.Id;
 
-import ru.bgcrm.model.Id;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 

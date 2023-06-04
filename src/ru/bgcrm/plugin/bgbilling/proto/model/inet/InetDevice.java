@@ -2,7 +2,7 @@ package ru.bgcrm.plugin.bgbilling.proto.model.inet;
 
 import java.util.Date;
 
-import org.bgerp.model.base.IdTitleTreeItem;
+import org.bgerp.model.base.tree.IdTitleTreeItem;
 
 import ru.bgcrm.util.TimeUtils;
 

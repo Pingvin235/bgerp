@@ -3,7 +3,7 @@ package ru.bgcrm.model.process;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bgerp.model.base.IdTitleTreeItem;
+import org.bgerp.model.base.tree.IdTitleTreeItem;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 

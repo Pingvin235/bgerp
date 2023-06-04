@@ -3,7 +3,7 @@ package org.bgerp.action;
 import java.util.List;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.model.base.IdTitleTreeItem;
+import org.bgerp.model.base.tree.IdTitleTreeItem;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
