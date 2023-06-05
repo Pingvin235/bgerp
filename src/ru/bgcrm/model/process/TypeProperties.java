@@ -34,8 +34,6 @@ public class TypeProperties {
     private List<Integer> statusIds = new ArrayList<>();
     /** Parameters. */
     private List<Integer> parameterIds = new ArrayList<>();
-    @Deprecated
-    private String scriptName = "";
     /** String configuration. */
     private String config = "";
     /** Parsed configuration. */
@@ -69,7 +67,6 @@ public class TypeProperties {
             var properties = new TransactionProperties(setup, "transaction." + id + ".");
             transactionPropertiesMap.put(key, properties);
         }
-        scriptName = setup.get("script.name", "");
         createStatus = setup.getInt("create.status", 0);
         closeStatusIds = Utils.toIntegerSet(setup.get("close.status", ""));
         statusIds = Utils.toIntegerList(setup.get("status.ids", ""));
@@ -101,7 +98,6 @@ public class TypeProperties {
             properties.serializeToData(result, pref);
         }
 
-        Utils.addSetupPair(result, "", "script.name", scriptName);
         Utils.addSetupPair(result, "", "create.status", String.valueOf(createStatus));
         Utils.addSetupPair(result, "", "close.status", Utils.toString(closeStatusIds));
         Utils.addSetupPair(result, "", "status.ids", Utils.toString(statusIds));
@@ -203,16 +199,6 @@ public class TypeProperties {
 
     public void setCloseStatusIds(Set<Integer> closeStatusIds) {
         this.closeStatusIds = closeStatusIds;
-    }
-
-    @Deprecated
-    public String getScriptName() {
-        return scriptName;
-    }
-
-    @Deprecated
-    public void setScriptName(String scriptName) {
-        this.scriptName = scriptName;
     }
 
     public String getConfig() {

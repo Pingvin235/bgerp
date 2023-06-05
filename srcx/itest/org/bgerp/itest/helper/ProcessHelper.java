@@ -7,6 +7,7 @@ import org.testng.Assert;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.cache.UserCache;
+import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
@@ -24,6 +25,7 @@ import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.Preferences;
 
 public class ProcessHelper {
 
@@ -49,6 +51,7 @@ public class ProcessHelper {
         Assert.assertTrue(type.getId() > 0);
 
         if (!useParentProperties && props != null) {
+            Preferences.processIncludes(new ConfigDAO(DbTest.conRoot), props.getConfig(), true);
             type.setProperties(props);
             dao.updateTypeProperties(type);
         }

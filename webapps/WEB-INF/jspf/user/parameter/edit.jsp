@@ -351,14 +351,6 @@
 						</tr>
 					</c:forEach>
 				</table>
-				<%--
-				буфер обмена параметров (в данный момент нигде не работает)
-				<div align="right" style="width: 100%;">
-					<select
-						onfocus="bgcrm.buffer.fillWithStoredObjects( $(this), 'phone' )"
-						style="width: 100%;"></select>
-				</div>
-				--%>
 			</c:when>
 			<c:when test="${parameter.type eq 'email'}">
 				<c:set var="id" value="${form.id}" />

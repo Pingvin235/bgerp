@@ -11,6 +11,7 @@ import ru.bgcrm.model.Config;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.Plugin;
+import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Setup;
 
 public class ConfigHelper {
@@ -39,6 +40,8 @@ public class ConfigHelper {
         dao.updateGlobalConfig(config);
 
         Assert.assertTrue(config.getId() > 0);
+
+        Preferences.processIncludes(new ConfigDAO(DbTest.conRoot), content, true);
 
         Setup.resetSetup(DbTest.conPoolRoot);
 

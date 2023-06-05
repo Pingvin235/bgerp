@@ -367,7 +367,6 @@ public class ProcessAction extends BaseAction {
 
             properties.setCreateStatus(Utils.parseInt(form.getParam("create_status")));
             properties.setCloseStatusIds(Utils.toIntegerSet(form.getParam("close_status", "")));
-            properties.setScriptName(Utils.maskNull(form.getParam("script_name", "")));
             properties.setStatusIds(form.getSelectedValuesList("status"));
             properties.setParameterIds(form.getSelectedValuesList("param"));
             properties.setAllowedGroups(ProcessGroups.from(allowedGroupArr));
