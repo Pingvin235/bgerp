@@ -1,3 +1,0 @@
-F: Missing empty work directory in distribution package.
-C: Update MySQL version for Docker image.
-C: Update JDK version for Docker image.

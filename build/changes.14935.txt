@@ -1,3 +1,0 @@
-A: Show not available link process creation items. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process-tab-create-and-link
-B: Removed extending action method ru.bgcrm.struts.action.ProcessAction#processRequest and all related code.
-F: Warning "Not found parent group with id: -1".

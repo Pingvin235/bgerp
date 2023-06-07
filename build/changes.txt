@@ -1,6 +1,91 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+07.06.2023 11:39:58 1391
+C: [14088] Delete struts-tiles library.
+C: [14562] Run all searches in message processing. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#setup-type-search
+C: [14562] JS cleanup.
+C: [14700] Localization for month names.
+A: [14718] Scheduler status page, improved configuration: day of month, month. https://bgerp.org/doc/3.0/manual/kernel/setup.html#scheduler
+A: [14718] Dynamically loaded Custom classes. https://bgerp.org/doc/3.0/manual/kernel/extension.html#custom-usage
+F: [14718] GitLab CI publish changes.txt.
+C: [14773] Replace JSP fn: function calls to Java methods.
+C: [14775] Using ui:combo-check in filter/group.jsp and filter/executor.jsp.
+C: [14849] Improvements in updating and installation procedures: logging, download files to temp dir.
+F: [14849] Extra preserved during update JSP files.
+F: [14849] Duplicated 'Restart' combo in 'App Status' tool.
+A: [14849] Temporary directory 'tmp' in application directory.
+C: [14851] Replace p:get JSP function calls with ctxUserCache.getPerm().
+C: [14858] Replace openUrlContent JS calls.
+C: [14884] Remove 'additionalSourceFilter' attribute from UI tags.
+C: [14899] Movements of entities.
+F: [14926] Corrupted browser fragment URL when changing process parameter with type 'date'.
+C: [14926] Removed 'editable' attribute from <ui:date-time> tag.
+A: [14935] Show not available link process creation items. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#linked-process-tab-create-and-link
+B: [14935] Removed extending action method ru.bgcrm.struts.action.ProcessAction#processRequest and all related code.
+F: [14935] Warning "Not found parent group with id: -1".
+A: [14936] Test custom checkout and compilation.
+C: [14936] Update version of TestNG library.
+A: [14937] Actual StatusChange in ProcessChangedEvent.
+F: [14939] Missing empty work directory in distribution package.
+C: [14939] Update MySQL version for Docker image.
+C: [14939] Update JDK version for Docker image.
+A: [14941] Process queue filter param type 'money'. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#filters
+A: [14942] Archived values for parameter type 'tree'. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-tree
+F: [14944] License session limit check.
+A: [14946] Plugin BGBilling. Popup menu to close / finish Inet session.
+C: [14946] Plugin BGBilling. Address search logic as in BGBillingClient.
+A: [14948] Plugin Invoice. Extra attributes in RU invoices.
+A: [14949] Plugin Invoice. EUR invoice template. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#setup-config-type
+B: [14949] Deleted deprecated methods in ru.bgcrm.util.io.IOUtils.
+C: [14949] Deleted deprecated classes for Base64.
+A: [14951] Plugin Email. Separated TO and CC recipient fields in editor.
+B: [14951] Plugin Email. Do not add 'Re:' prefix to reply message subjects.
+A: [14951] Warning on empty subject and missing attachments when saving messages.
+C: [14953] Plugin Subscription. 'Subscription Payments' report. https://bgerp.org/doc/3.0/manual/plugin/bil/subscription/index.html#usage-report
+A: [14953] Plugin Invoice. 'Invoice Register' report. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#usage-report
+C: [14953] HTTPS protocol for repo.bgerp.org.
+A: [14954] Plugin Blow. Restriction of boards' visibility based on allowed process queues.
+C: [14955] Improved ui:toggle element.
+C: [14955] Remove right margin for labels.
+F: [14957] Close input stream when reading license.
+C: [14957] Delete DynamicEventListener class.
+A: [14957] Notification about outdated version.
+F: [14961] Display of the 'status' column in a process queue.
+F: [14963] InvoiceTest.
+A: [14964] Config validation in integration tests.
+C: [14964] Delete script name from TypeProperties.
+F: [14966] License signature error.
+A: [14966] Error on empty license loaded.
+A: [14968] Plugin Invoice. Notifications about paid invoices as new incoming messages.
+A: [14968] Utils.format method for BigDecimal.
+C: [14968] Title 'Authorization' to 'Login'.
+F: [14970] Callboard error ''Method not found: class java.util.ArrayList.length()".
+B: [14971] Default l10n language changed to English.
+C: [14971] Plugins instantiating methodology.
+F: [14971] Language getting exceptions in 'test' task running.
+F: [14971] Missing Configuration tool.
+F: [14972] Setup load order.
+C: [14972] Monday as the first day of week for English datepicker.
+C: [14972] Setup refactoring and cleanup.
+C: [14974] Replace openUrlToParent JS calls.
+C: [14975] Replace sendAJAXCommandWithParams JS calls.
+C: [14975] Delete JS functions: addCustomerSearch, bgbilling_getPatterns.
+C: [14976] $$.lock JS API.
+F: [14978] BGBilling HelpDesk attachments.
+A: [14979] GitLab CI run job test-integration-master by scheduler.
+C: [14980] Plugin Mobile. Use HTTPS URL for sending messages.
+B: [14980] Removed deprecated commands 'emailNotifyExecutors', 'emailNotifyUsers', 'addGroups', 'addExecutors', 'addExecutorsInGroups', 'decreasePriority', 'increasePriority', 'setRelativeDateParam', 'setParam' https://bgerp.org/doc/3.0/manual/kernel/process/processing.html#commands-kernel
+A: [14980] Plugin E-Mail. JEXL bean for sending messages. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-process-type-jexl
+C: [14981] Move servlet package.
+C: [14982] Move l10n package.
+C: [14983] HTML title of auth page to 'Authorization | BGERP'.
+F: [14983] Check missing attachments for provided files.
+F: [14984] Listcount param values shown with E.
+F: [14989] Parameters editor JSP.
+F: [14989] BGBilling HelpDesk answer.
+F: [14990] Release minor fixes.
+
 07.02.2023 22:17:49 1390
 A: [14362] Plugin Report. More colors and better presentation for Pie and Bar charts in 'Processes' report.
 A: [14601] Integration test for plugin Document.

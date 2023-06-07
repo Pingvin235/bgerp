@@ -1,1 +1,0 @@
-C: Delete struts-tiles library.

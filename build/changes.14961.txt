@@ -1,1 +1,0 @@
-F: Display of the 'status' column in a process queue.

@@ -1,3 +1,0 @@
-A: Scheduler status page, improved configuration: day of month, month. https://bgerp.org/doc/3.0/manual/kernel/setup.html#scheduler
-A: Dynamically loaded Custom classes. https://bgerp.org/doc/3.0/manual/kernel/extension.html#custom-usage
-F: GitLab CI publish changes.txt.

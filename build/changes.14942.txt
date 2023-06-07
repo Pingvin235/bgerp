@@ -1,1 +1,0 @@
-A: Archived values for parameter type 'tree'. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-tree

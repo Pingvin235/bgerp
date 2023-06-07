@@ -1,1 +1,0 @@
-C: Move l10n package.

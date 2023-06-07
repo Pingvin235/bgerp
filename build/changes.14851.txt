@@ -1,1 +1,0 @@
-C: Replace p:get JSP function calls with ctxUserCache.getPerm().

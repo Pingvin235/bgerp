@@ -1,2 +1,0 @@
-F: Parameters editor JSP.
-F: BGBilling HelpDesk answer.

@@ -1,2 +1,0 @@
-F: License signature error.
-A: Error on empty license loaded.

@@ -1,2 +1,0 @@
-A: Test custom checkout and compilation.
-C: Update version of TestNG library.

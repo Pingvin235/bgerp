@@ -1,1 +1,0 @@
-A: Plugin Invoice. Extra attributes in RU invoices.

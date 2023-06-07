@@ -1,1 +1,0 @@
-A: Actual StatusChange in ProcessChangedEvent.

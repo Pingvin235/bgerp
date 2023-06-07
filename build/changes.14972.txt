@@ -1,3 +1,0 @@
-F: Setup load order.
-C: Monday as the first day of week for English datepicker.
-C: Setup refactoring and cleanup.

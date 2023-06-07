@@ -1,2 +1,0 @@
-A: Config validation in integration tests.
-C: Delete script name from TypeProperties.

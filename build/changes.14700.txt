@@ -1,1 +1,0 @@
-C: Localization for month names.

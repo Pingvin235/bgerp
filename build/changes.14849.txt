@@ -1,4 +1,0 @@
-C: Improvements in updating and installation procedures: logging, download files to temp dir.
-F: Extra preserved during update JSP files.
-F: Duplicated 'Restart' combo in 'App Status' tool.
-A: Temporary directory 'tmp' in application directory.
