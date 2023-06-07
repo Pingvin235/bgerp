@@ -38,6 +38,10 @@ public class VersionCheck {
     }
 
     public boolean isUpdateNeeded() {
+        // running in IDE and no test version is defined
+        if (currentVersion == null)
+            return false;
+
         if (remoteVersionCheckTime == null || 0 < Duration.between(remoteVersionCheckTime, Instant.now()).compareTo(REMOTE_VERSION_CHECK_INTERVAL)) {
             remoteVersionCheckTime = Instant.now();
             // running in thread to process event quickly

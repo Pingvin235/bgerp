@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.event.client.NewsInfoEvent;
 import org.bgerp.util.Log;
 
@@ -27,7 +28,8 @@ import ru.bgcrm.util.Setup;
  *
  * @author Shamil Vakhitov
  */
-public class UserStateSender implements Runnable {
+@Bean(oldClasses = "ru.bgcrm.plugin.task.UserStateSender")
+public class UserStateSender extends org.bgerp.app.scheduler.Task {
     private static final Log log = Log.getLog();
 
     public static class Config extends ru.bgcrm.util.Config {
@@ -40,6 +42,10 @@ public class UserStateSender implements Runnable {
             emailParamId = setup.getInt(prefix + "paramId", -1);
             emailExpression = setup.get(prefix + Expression.DO_EXPRESSION_CONFIG_KEY);
         }
+    }
+
+    public UserStateSender() {
+        super(null);
     }
 
     @Override

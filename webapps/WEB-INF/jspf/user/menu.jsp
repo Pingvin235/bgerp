@@ -94,7 +94,7 @@
 			command="/admin/dynamic.do" />
 	</c:if>
 
-	<ui:menu-group ltitle="Run">
+	<ui:menu-group ltitle="Execution" icon="ti-pulse">
 		<ui:menu-item ltitle="Run" href="admin/run" icon="ti-rocket"
 			action="org.bgerp.action.admin.RunAction:null"
 			command="/admin/run.do" />

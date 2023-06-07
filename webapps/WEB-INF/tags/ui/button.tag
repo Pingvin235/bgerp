@@ -35,7 +35,7 @@
 		<button type="button" id="${id}" title="${not empty title ? title : l.l('Вывести')}" class="btn-grey icon ${styleClass}" onclick="${onclick}; return false;"><i class="ti-control-play"></i></button>
 	</c:when>
 	<c:when test="${type eq 'run'}">
-		<button type="button" id="${id}" title="${not empty title ? title : l.l('Выполнить')}" class="btn-grey icon ${styleClass}" onclick="${onclick}; return false;"><i class="ti-control-play"></i></button>
+		<button type="button" id="${id}" title="${not empty title ? title : l.l('Run')}" class="btn-grey icon ${styleClass}" onclick="${onclick}; return false;"><i class="ti-control-play"></i></button>
 	</c:when>
 	<c:when test="${type eq 'more'}">
 		<button type="button" id="${id}" title="${not empty title ? title : l.l('Больше')}" class="btn-white icon ${styleClass}" onclick="${onclick}; return false;"><i class="ti-more"></i></button>

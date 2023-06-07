@@ -2,7 +2,6 @@ package ru.bgcrm.plugin.task.task;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.util.Log;
@@ -27,22 +26,12 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 public class TaskRunner extends org.bgerp.app.scheduler.Task {
     private static final Log log = Log.getLog();
 
-    private static final AtomicBoolean RUNNING = new AtomicBoolean();
-
     public TaskRunner() {
         super(null);
     }
 
     @Override
     public void run() {
-        if (RUNNING.get()) {
-            log.info("Is already running.");
-            return;
-        }
-
-        log.info("Run tasks..");
-        RUNNING.set(true);
-
         try (var con = Setup.getSetup().getDBConnectionFromPool()) {
             Config config = Setup.getSetup().getConfig(Config.class);
             TaskDAO taskDao = new TaskDAO(con);
@@ -77,9 +66,6 @@ public class TaskRunner extends org.bgerp.app.scheduler.Task {
             }
         } catch (Throwable e) {
             log.error(e);
-        } finally {
-            RUNNING.set(false);
         }
     }
-
 }

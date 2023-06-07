@@ -781,7 +781,7 @@ Scheduler is controlled by <<#config-scheduler, config option>>.
 
 [[scheduler-run]]
 === Run Classes
-In menu *Administration / Run / Run* can be executed any Java class, implementing *java.lang.Runnable*.
+In menu *Administration / Execution / Run* can be executed any Java class, implementing *java.lang.Runnable*.
 
 image::_res/run_class.png[]
 

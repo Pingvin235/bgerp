@@ -30,9 +30,8 @@ task:type.<id>.doExpression=<jexl>
 * *taskObject* - объект класса javadoc:ru.bgcrm.plugin.task.model.Task[];
 * *taskType* - объект класса javadoc:ru.bgcrm.plugin.task.model.TaskType[].
 
-Проверку и выполнение задач выполняет класс *ru.bgcrm.plugin.task.task.TaskRunner*.
-Для теста он может быть выполнен в <<../../kernel/extension.adoc#dyn, редакторе динамического кода>>,
-далее запуск настраивается в <<../../kernel/setup.adoc#scheduler, планировщике>>.
+Проверку и выполнение задач выполняет класс *TaskRunner*.
+запуск которого настраивается в <<../../kernel/setup.adoc#scheduler, планировщике>>.
 
 [[example]]
 === Пример
@@ -114,9 +113,8 @@ task:userStateSender.email.doExpression=<<END
 END
 ----
 
-Проверку и выполнение задач выполняет класс *ru.bgcrm.plugin.task.task.UserStateSender*.
-Для теста он может быть выполнен в <<../../kernel/extension.adoc#dyn, редакторе динамического кода>>,
-далее запуск настраивается в <<../../kernel/setup.adoc#scheduler, планировщике>>.
+Проверку и выполнение задач выполняет класс *UserStateSender*.
+его запуск настраивается в <<../../kernel/setup.adoc#scheduler, планировщике>>.
 
 == Отображение в карточке процесса
 Для включения карточки в <<../../kernel/process/index.adoc#type-config, конфигурации типа процесса>> добавить.

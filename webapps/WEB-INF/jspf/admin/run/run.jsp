@@ -33,4 +33,4 @@
 	<c:import url="${url}"/>
 </p:check> --%>
 
-<shell:title ltext="Выполнить"/>
+<shell:title ltext="Run"/>

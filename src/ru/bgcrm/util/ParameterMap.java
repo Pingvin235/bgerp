@@ -27,6 +27,11 @@ import ru.bgcrm.util.Config.InitStopException;
 public abstract class ParameterMap extends AbstractMap<String, String> {
     private static final Log log = Log.getLog();
 
+    private static final Pattern PATTERN_DOT = Pattern.compile("\\.");
+
+    private static final Class<?>[] CONFIG_CONSTR_ARGS_WITH_VALIDATION = new Class[] { ParameterMap.class, boolean.class };
+    private static final Class<?>[] CONFIG_CONSTR_ARGS = new Class[] { ParameterMap.class };
+
     /**
      * Parsed configurations.
      */
@@ -300,8 +305,6 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         return "";
     }
 
-    private static final Pattern patternDot = Pattern.compile("\\.");
-
     /**
      * Creates a new sorted sub-map with integer keys.
      * <pre>
@@ -318,8 +321,8 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
      * @see #subKeyed(String)
      */
     public SortedMap<Integer, ParameterMap> subIndexed(final String... prefixes) {
-        SortedMap<Integer, ParameterMap> result = new TreeMap<Integer, ParameterMap>();
-        Map<Integer, Map<String, String>> resultMap = new HashMap<Integer, Map<String, String>>();
+        SortedMap<Integer, ParameterMap> result = new TreeMap<>();
+        Map<Integer, Map<String, String>> resultMap = new HashMap<>();
 
         for (Entry<String, String> e : entrySet()) {
             String paramKey = e.getKey();
@@ -327,7 +330,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
                 if (paramKey.startsWith(prefix)) {
                     String suffix = paramKey.substring(prefix.length(), paramKey.length());
 
-                    String[] pref = patternDot.split(suffix, 2);
+                    String[] pref = PATTERN_DOT.split(suffix, 2);
                     try {
                         Integer.parseInt(pref[0]);
                     } catch (Exception ex) {
@@ -370,8 +373,8 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
      * @see #subIndexed(String)
      */
     public Map<String, ParameterMap> subKeyed(final String... prefixies) {
-        Map<String, ParameterMap> result = new HashMap<String, ParameterMap>();
-        Map<String, Map<String, String>> resultMap = new HashMap<String, Map<String, String>>();
+        Map<String, ParameterMap> result = new HashMap<>();
+        Map<String, Map<String, String>> resultMap = new HashMap<>();
 
         for (Entry<String, String> e : entrySet()) {
             String paramKey = e.getKey();
@@ -379,7 +382,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
                 if (paramKey.startsWith(prefix)) {
                     String suffix = paramKey.substring(prefix.length(), paramKey.length());
 
-                    String[] pref = patternDot.split(suffix, 2);
+                    String[] pref = PATTERN_DOT.split(suffix, 2);
 
                     Map<String, String> map = resultMap.get(pref[0]);
                     if (map == null) {
@@ -406,7 +409,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
      */
     @Deprecated
     public Map<String, Map<String, String>> parseObjectsNoOrder(String prefix) {
-        Map<String, Map<String, String>> result = new HashMap<String, Map<String, String>>();
+        Map<String, Map<String, String>> result = new HashMap<>();
         for (Map.Entry<String, String> value : sub(prefix).entrySet()) {
             String id = null;
             String key = null;
@@ -499,9 +502,6 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         }
     }
 
-    private static final Class<?>[] getConfigParamsValidate = new Class[] { ParameterMap.class, boolean.class };
-    private static final Class<?>[] getConfigParams = new Class[] { ParameterMap.class };
-
     /**
      * Creates a configuration.
      * @param <K>
@@ -513,14 +513,14 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     private <K extends Config> K createConfig(final Class<K> clazz, boolean validate) throws Exception {
         try {
             try {
-                Constructor<K> constr = clazz.getDeclaredConstructor(getConfigParamsValidate);
+                Constructor<K> constr = clazz.getDeclaredConstructor(CONFIG_CONSTR_ARGS_WITH_VALIDATION);
                 if (constr != null) {
                     constr.setAccessible(true);
                     return constr.newInstance(new Object[] { this, validate });
                 }
             } catch (NoSuchMethodException e) {}
 
-            Constructor<K> constr = clazz.getDeclaredConstructor(getConfigParams);
+            Constructor<K> constr = clazz.getDeclaredConstructor(CONFIG_CONSTR_ARGS);
             if (constr != null) {
                 constr.setAccessible(true);
                 return constr.newInstance(new Object[] { this });

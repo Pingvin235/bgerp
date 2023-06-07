@@ -171,7 +171,8 @@ public class InvoiceAction extends BaseAction {
 
         dao.update(invoice);
 
-        var process = new ProcessDAO(conSet.getSlaveConnection(), form).getProcessOrThrow(invoice.getProcessId());
+        // the process is taken without isolation, as the action method is called from report
+        var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(invoice.getProcessId());
         var customer = Utils.getFirst(new ProcessLinkDAO(conSet.getSlaveConnection(), form).getLinkCustomers(process.getId(), null));
         String customerTitle = customer != null ? customer.getTitle() : "???";
         var message = new Message()

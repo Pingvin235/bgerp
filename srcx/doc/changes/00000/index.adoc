@@ -1,6 +1,8 @@
 = CHANGES
 :toc:
 
+IMPORTANT: <<../../kernel/install.adoc#update-installer-ui, Install>> the update two times, as the installer behaves wrongly prior to 1390 version. Once make a normal update and after force.
+
 == Dynamic <<../../kernel/extension.adoc#custom-usage, Custom>>
 Custom Java code can be updated and applied on-the-fly without application's restart.
 
@@ -43,7 +45,7 @@ image::_res/14951_subject_check.png[width="800px"]
 
 Check of missing message attachment, mentioned in text.
 
-image::_res/14951_attach_check.png[width="800px"]
+image::_res/14951_attach_check.png[]
 
 == Process
 <<../../kernel/process/index.adoc#linked-process-tab-create-and-link, Show>> not available link process creation items.

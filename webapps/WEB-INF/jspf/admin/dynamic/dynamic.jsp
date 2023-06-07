@@ -23,7 +23,7 @@
 		$$.ajax.post(this.form)
 			.done(() => {
 				alert(this.form.sync.checked ? '${l.l('Класс выполнен, проверьте логи')}' : '${l.l('Класс запущен в отдельном потоке,\\nвывод в логах.')}')
-			})">${l.l('Выполнить')}</button>
+			})">${l.l('Run')}</button>
 </html:form>
 
 <c:set var="result" value="${form.response.data.result}"/>
