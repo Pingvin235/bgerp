@@ -14,10 +14,8 @@ BGERP предоставляет сразу несколько уровней д
 
 [[ccc-config]]
 === Config
-Изменение конфигураций продукта согласно документации.
-Полная обратная совместимость, поведение описано документацией.
-Using <<jexl, JEXL>> scripts for more flexibility.
-No error check, no full-functional IDE>
+Very many things in our product can be changed using configurations, which are well-documented and stable after version updates.
+Use <<jexl, JEXL>> scripts for more flexibility.
 
 [[ccc-custom]]
 === Custom
