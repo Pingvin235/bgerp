@@ -66,7 +66,7 @@ public class BlowTest {
     @Test(dependsOnMethods = "processType")
     public void processQueue() throws Exception {
         processQueueId = ProcessHelper.addQueue(TITLE,
-            ResourceHelper.getResource(this, "processQueue.txt"),
+            ResourceHelper.getResource(this, "process.queue.config.txt"),
             Set.of(processTypeTaskId, processTypeIncidentId));
 
         // only admin sees the queue

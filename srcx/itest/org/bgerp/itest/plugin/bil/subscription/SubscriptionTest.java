@@ -128,7 +128,7 @@ public class SubscriptionTest {
             ConfigHelper.generateConstants(
                 "PARAM_COST_ID", paramSubscriptionCostId
             ) +
-            ResourceHelper.getResource(this, "processSubscriptionType.txt"));
+            ResourceHelper.getResource(this, "process.subscription.type.config.txt"));
         props.setParameterIds(List.of(paramEmailId, paramSubscriptionId, paramLimitId, paramServiceCostId,
                 paramDiscountId, paramSubscriptionCostId, paramDateToId, paramLicFileId));
         processSubscriptionTypeId = ProcessHelper.addType(TITLE + " Subscription", ProcessTest.processTypeTestGroupId, false, props).getId();
@@ -137,7 +137,7 @@ public class SubscriptionTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setConfig(ResourceHelper.getResource(this, "processProductType.txt"));
+        props.setConfig(ResourceHelper.getResource(this, "process.product.type.config.txt"));
         props.setParameterIds(List.of(paramProductId, paramPriceRubId, paramPriceEurId));
         processProductTypeId = ProcessHelper.addType(TITLE + " Product", ProcessTest.processTypeTestGroupId, false, props).getId();
     }
@@ -274,7 +274,7 @@ public class SubscriptionTest {
                     "PARAM_PRODUCT_ID", paramProductId,
                     "PARAM_PRICE_RUB_ID", paramPriceRubId,
                     "PARAM_PRICE_EUR_ID", paramPriceEurId) +
-                    ResourceHelper.getResource(this, "processQueue.txt"),
+                    ResourceHelper.getResource(this, "process.queue.config.txt"),
                 Set.of(processProductTypeId));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }

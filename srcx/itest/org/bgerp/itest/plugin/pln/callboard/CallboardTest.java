@@ -74,12 +74,12 @@ public class CallboardTest {
 
     @Test
     public void userGroup() throws Exception {
-        userGroupIdParent = UserHelper.addGroup(TITLE + " Group", 0, UserHelper.GROUP_CONFIG_ISOLATION);
+        userGroupIdParent = UserHelper.addGroup(TITLE + " Group", 0, "");
 
-        userGroupIdSub1 = UserHelper.addGroup(TITLE + " Sub1", userGroupIdParent, UserHelper.GROUP_CONFIG_ISOLATION);
+        userGroupIdSub1 = UserHelper.addGroup(TITLE + " Sub1", userGroupIdParent, "");
         UserHelper.addUserGroups(userKarlId, userGroupIdSub1);
         UserHelper.addUserGroups(userLeonId, userGroupIdSub1);
-        userGroupIdSub2 = UserHelper.addGroup(TITLE + " Sub2", userGroupIdParent, UserHelper.GROUP_CONFIG_ISOLATION);
+        userGroupIdSub2 = UserHelper.addGroup(TITLE + " Sub2", userGroupIdParent, "");
         UserHelper.addUserGroups(userVladimirId, userGroupIdSub2);
         UserHelper.addUserGroups(userVyacheslavId, userGroupIdSub2);
         UserHelper.addUserGroups(userFriedrichId, userGroupIdSub2);
@@ -97,7 +97,7 @@ public class CallboardTest {
                 "PROCESS_PARAM_CONNECTION_TIME_ID", paramConnectionTimeId,
                 "PROCESS_PARAM_ADDRESS_ID", paramAddressId
             ) +
-            ResourceHelper.getResource(this, "processType.config.txt"));
+            ResourceHelper.getResource(this, "process.type.config.txt"));
         processTypeId = ProcessHelper.addType(TITLE + " Connection", ProcessTest.processTypeTestGroupId, false, props).getId();
     }
 
@@ -142,7 +142,7 @@ public class CallboardTest {
             ConfigHelper.generateConstants(
                 "PROCESS_PARAM_SERVICES_ID", paramServicesId
             ) +
-            ResourceHelper.getResource(this, "workType.1.config.txt"));
+            ResourceHelper.getResource(this, "work.type.1.config.txt"));
         dao.updateWorkType(workType);
         Assert.assertTrue(0 < (workTypeInetKtvId = workType.getId()));
 
@@ -154,7 +154,7 @@ public class CallboardTest {
         workType.setComment("Подключение Интернет = 30 минут");
         workType.setTimeSetStep(30);
         workType.setTimeSetMode(WorkType.MODE_TIME_ON_STEP);
-        workType.setRuleConfig(ResourceHelper.getResource(this, "workType.2.config.txt"));
+        workType.setRuleConfig(ResourceHelper.getResource(this, "work.type.2.config.txt"));
         dao.updateWorkType(workType);
         Assert.assertTrue(0 < (workTypeInetId = workType.getId()));
 

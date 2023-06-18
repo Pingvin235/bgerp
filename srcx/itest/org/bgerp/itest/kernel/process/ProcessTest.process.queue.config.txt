@@ -22,7 +22,6 @@ column.2.titleIfMore=100
 # the column isn't visible, but paints rows depending on priority
 column.3.title=Priority
 column.3.value=priority
-
 column.4.title=Description
 column.4.value=descriptionLink
 column.4.titleIfMore=100
@@ -32,17 +31,6 @@ column.6.nowrap=1
 column.8.title=Executors
 column.8.value=executors
 column.8.titleIfMore=15
-
-column.10.title=MIC
-column.10.value=messageInCount
-column.12.title=MIUC
-column.12.value=messageInUnreadCount
-column.14.title=MIL
-column.14.value=messageInLastDt
-column.14.nowrap=1
-column.16.title=NONE
-column.16.value=messageInLastDt:nf
-
 column.18.title=Created
 column.18.value=create_dt
 column.18.nowrap=1
@@ -52,19 +40,13 @@ column.20.value=status_dt:dd.MM.yyyy
 column.22.title=Type
 column.22.value=type_title
 
-media.html.columns=3,1,22,4,6,8,10,12,14,18
+media.html.columns=3,1,22,4,6,8,18
 
 sort.mode.1.columnId=4
 sort.mode.1.title=Description
-sort.mode.2.columnId=12
-sort.mode.2.title=Unread msg desc
-sort.mode.2.desc=1
 sort.mode.3.columnId=1
 sort.mode.3.title=Created desc
 sort.mode.3.desc=1
-sort.mode.4.columnId=16
-sort.mode.4.title=Last in msg desc
-sort.mode.4.desc=1
 sort.mode.5.columnId=3
 sort.mode.5.title=Priority desc
 sort.mode.5.desc=1
@@ -74,7 +56,7 @@ sort.combo.1.default=1
 sort.combo.2.default=2
 
 # Export to Excel
-media.xls.columns=1,22,4,6,8,10,12,14
+media.xls.columns=1,22,4,6,8
 
 # PDF generation
 checkColumn=1

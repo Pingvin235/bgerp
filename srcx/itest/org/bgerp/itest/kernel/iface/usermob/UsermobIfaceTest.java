@@ -36,7 +36,7 @@ public class UsermobIfaceTest {
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(ProcessTest.paramAddressId));
-        props.setConfig(ResourceHelper.getResource(this, "processType.txt"));
+        props.setConfig(ResourceHelper.getResource(this, "process.type.config.txt"));
 
         processType = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
     }
@@ -47,7 +47,7 @@ public class UsermobIfaceTest {
             ConfigHelper.generateConstants(
                 "PROCESS_PARAM_ADDRESS_ID", ProcessTest.paramAddressId,
                 "PROCESS_TYPE_ID", processType.getId()) +
-                ResourceHelper.getResource(this, "processQueue.txt"),
+                ResourceHelper.getResource(this, "process.queue.config.txt"),
             Set.of(processType.getId()));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }

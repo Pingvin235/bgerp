@@ -51,7 +51,7 @@ public class ProcessLinkTest {
             "LINK_AVAILABLE_PROCESS_TYPE_ID", processTypeLinkAvailableId,
             "LINKED_AVAILABLE_PROCESS_STATUS_ID", String.valueOf(ProcessTest.statusOpenId),
             "PROCESS_TYPE_ID", processTypeId
-        ) + ResourceHelper.getResource(this, "processType.txt"));
+        ) + ResourceHelper.getResource(this, "process.type.config.txt"));
         new ProcessTypeDAO(DbTest.conRoot).updateTypeProperties(processType);
 
         ProcessTypeCache.flush(DbTest.conRoot);

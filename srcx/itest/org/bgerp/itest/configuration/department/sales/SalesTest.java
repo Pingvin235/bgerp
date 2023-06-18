@@ -61,7 +61,7 @@ public class SalesTest {
         props.setGroups(ProcessGroup.toProcessGroupSet(Sets.newHashSet(groupId), ROLE_EXECUTION_ID));
         props.setAllowedGroups(ProcessGroup.toProcessGroupSet(Sets.newHashSet(groupId, DevelopmentTest.groupId), ROLE_EXECUTION_ID));
         props.setConfig(ConfigHelper.generateConstants("CONFIG_PROCESS_NOTIFICATIONS_ID", ConfigTest.configProcessNotificationId) +
-                        ResourceHelper.getResource(this, "config.processType.txt"));
+                        ResourceHelper.getResource(this, "process.type.config.txt"));
 
         processTypeSaleId = ProcessHelper.addType("Sale", DevelopmentTest.processTypeProductId, false, props).getId();
 

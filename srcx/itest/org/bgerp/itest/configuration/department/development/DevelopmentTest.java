@@ -68,7 +68,7 @@ public class DevelopmentTest {
         props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(groupId), ROLE_EXECUTION_ID));
         props.setAllowedGroups(ProcessGroup.toProcessGroupSet(Sets.newHashSet(groupId), ROLE_EXECUTION_ID));
         props.setConfig(ConfigHelper.generateConstants("CONFIG_PROCESS_NOTIFICATIONS_ID", configProcessNotificationId) +
-                        ResourceHelper.getResource(this, "config.processType.txt"));
+                        ResourceHelper.getResource(this, "process.type.config.txt"));
 
         //TODO: comment on reject status
 

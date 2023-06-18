@@ -68,7 +68,7 @@ public class SupportTest {
         props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(groupId), ROLE_EXECUTION_ID));
         props.setAllowedGroups(ProcessGroup.toProcessGroupSet(Set.of(groupId, DevelopmentTest.groupId), ROLE_EXECUTION_ID));
         props.setConfig(ConfigHelper.generateConstants("CONFIG_PROCESS_NOTIFICATIONS_ID", ConfigTest.configProcessNotificationId) +
-                        ResourceHelper.getResource(this, "config.processType.txt"));
+                        ResourceHelper.getResource(this, "process.type.config.txt"));
 
         processTypeSupportId = ProcessHelper.addType(TITLE, DevelopmentTest.processTypeProductId, false, props).getId();
     }

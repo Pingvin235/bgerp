@@ -41,7 +41,7 @@ import ru.bgcrm.util.Setup;
 
 @Test(groups = "messageRelatedProcess", dependsOnGroups = { "message", "customer", "process", "address" })
 public class MessageRelatedProcessTest {
-    private static final String TITLE = MessageTest.TITLE + " Related Process";
+    private static final String TITLE = "Kernel Message Related Process";
 
     private static final String CUSTOMER_PHONE_NUMBER = "7347100500";
 

@@ -58,15 +58,15 @@ public class ProcessTest {
 
     @Test(dependsOnMethods = "processStatus")
     public void processType() throws Exception {
-        processTypeTestGroupId = ProcessHelper.addType(TITLE, 0, false, null).getId();
-
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setConfig(ResourceHelper.getResource(this, "processType.txt"));
+        props.setConfig(ResourceHelper.getResource(this, "process.type.config.txt"));
 
-        processTypeTestId = ProcessHelper.addType(TITLE, processTypeTestGroupId, false, props).getId();
+        processTypeTestGroupId = ProcessHelper.addType(TITLE, 0, false, props).getId();
+
+        processTypeTestId = ProcessHelper.addType(TITLE, processTypeTestGroupId, true, null).getId();
     }
 
     @Test(dependsOnMethods = "processType")
@@ -76,7 +76,7 @@ public class ProcessTest {
                     "STATUS_OPEN_ID", ProcessTest.statusOpenId,
                     "STATUS_PROGRESS_ID", ProcessTest.statusProgressId,
                     "STATUS_WAIT_ID", ProcessTest.statusWaitId) +
-                    ResourceHelper.getResource(this, "processQueue.txt"),
+                    ResourceHelper.getResource(this, "process.queue.config.txt"),
                 Set.of(processTypeTestGroupId));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }

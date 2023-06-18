@@ -32,7 +32,7 @@ public class EMailTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setConfig(ResourceHelper.getResource(this, "processType.txt"));
+        props.setConfig(ResourceHelper.getResource(this, "process.type.config.txt"));
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
     }
 

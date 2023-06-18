@@ -60,7 +60,7 @@ public class InvoiceTest {
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(paramContractDateId, paramCostId));
-        props.setConfig(ResourceHelper.getResource(this, "processType.txt"));
+        props.setConfig(ResourceHelper.getResource(this, "process.type.config.txt"));
 
         var paramDao = new ParamValueDAO(DbTest.conRoot);
 

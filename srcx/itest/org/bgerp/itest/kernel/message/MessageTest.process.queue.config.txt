@@ -1,0 +1,27 @@
+column.1.title=ID
+column.1.value=id
+column.4.title=Type
+column.4.value=type_title
+column.6.title=Customer
+column.6.value=linkedCustomerLink
+column.10.title=MIC
+column.10.value=messageInCount
+column.12.title=MIUC
+column.12.value=messageInUnreadCount
+column.14.title=MIL
+column.14.value=messageInLastDt
+column.14.nowrap=1
+column.16.title=NONE
+column.16.value=messageInLastDt:nf
+
+sort.mode.1.columnId=12
+sort.mode.1.title=Unread msg desc
+sort.mode.1.desc=1
+sort.mode.2.columnId=16
+sort.mode.2.title=Last in msg desc
+sort.mode.2.desc=1
+
+sort.combo.count=1
+sort.combo.1.default=1
+
+media.html.columns=1,4,6,10,12,14
