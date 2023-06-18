@@ -6,10 +6,10 @@ import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ProcessQueueCache;
-import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGSecurityException;
 import ru.bgcrm.model.Page;
@@ -74,8 +74,7 @@ public class ProcessQueueAction extends BaseAction {
         Pageable<Object[]> searchResult = new Pageable<Object[]>(form);
         searchResult.getPage().setPageIndex(Page.PAGE_INDEX_NO_PAGING);
 
-        ProcessDAO processDAO = new ProcessDAO(conSet.getSlaveConnection());
-        processDAO.searchProcess(searchResult, null, queue, form);
+        new ProcessQueueDAO(conSet.getSlaveConnection()).searchProcess(searchResult, null, queue, form);
 
         form.setRequestAttribute("columnList", queue.getMediaColumnList(Queue.MEDIA_HTML_OPEN));
         queue.processDataForMedia(form, Queue.MEDIA_HTML_OPEN, searchResult.getList());

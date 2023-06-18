@@ -10,8 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -125,15 +123,15 @@ public class FilterEntryCounter extends Thread {
         DynActionForm filterForm = new DynActionForm(url);
         filterForm.setUser(user);
 
-        String query = new ProcessDAO(null, filterForm).getCountQuery(queue, filterForm);
+        String query = new ProcessQueueDAO(null, filterForm).getCountQuery(queue, filterForm);
         return getCount(query);
     }
 
-    public int parseUrlAndGetCountSync(Queue queue, String url, User user) throws BGException {
+    public int parseUrlAndGetCountSync(Queue queue, String url, User user) throws Exception {
         DynActionForm filterForm = new DynActionForm(url);
         filterForm.setUser(user);
 
-        String query = new ProcessDAO(null).getCountQuery(queue, filterForm);
+        String query = new ProcessQueueDAO(null).getCountQuery(queue, filterForm);
 
         if (queries.containsKey(query)) {
             return getCount(query);

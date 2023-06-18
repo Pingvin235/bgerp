@@ -7,13 +7,13 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.client.ProcessOpenEvent;
@@ -69,8 +69,7 @@ public class ProcessLinkAction extends ProcessAction {
 
             Pageable<Object[]> searchResult = new Pageable<Object[]>(form);
 
-            ProcessDAO processDAO = new ProcessDAO(con, form);
-            processDAO.searchProcess(searchResult, null, queue, form);
+            new ProcessQueueDAO(con, form).searchProcess(searchResult, null, queue, form);
 
             final List<Object[]> list = searchResult.getList();
 

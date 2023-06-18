@@ -464,29 +464,7 @@ public class Queue extends IdTitle {
                     filterList.add(new FilterOpenClose(id, filter));
                 } else if ("grex".equals(type)) {
                     filterList.add(new FilterGrEx(id, filter));
-                }
-                // фильтры временно заблокированы, т.к. непонятны их отношения с фильтром по группам:
-                // закрывающий, создающий, меняющий статус пользователь не обязательно имеет группу, состояющую в составе исполнителей
-                // особенно запутывается всё, если параллельно используется фильтр по исполнителям
-                // и, похоже, что не работало переключение при смене групп, т.к. чекбоксы генерируются со стандартным именем executor
-                /*
-                else if( "status_user".equals( type ) )
-                {
-                	filterSet.statusUserFilter = new Filter( filter );
-                }
-                else if( type.startsWith( "status_user:" ) )
-                {
-                	filterSet.statusUserFilter = new FilterStatusUser( filter, type );
-                }
-                else if( "create_user".equals( type ) )
-                {
-                	filterSet.createUserFilter = new Filter( filter );
-                }
-                else if( "close_user".equals( type ) )
-                {
-                	filterSet.closeUserFilter = new Filter( filter );
-                }*/
-                else if ("quarter".equals(type)) {
+                } else if ("quarter".equals(type)) {
                     int paramId = Utils.parseInt(filter.get("param"));
                     if (paramId > 0) {
                         Parameter parameter = ParameterCache.getParameter(paramId);

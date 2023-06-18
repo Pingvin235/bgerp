@@ -15,11 +15,11 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
-import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.SavedFilterDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;
@@ -301,8 +301,7 @@ public class ProcessQueueAction extends ProcessAction {
             if (noHtmlMedia)
                 searchResult.getPage().setPageIndex(Page.PAGE_INDEX_NO_PAGING);
 
-            ProcessDAO processDAO = new ProcessDAO(connectionSet.getSlaveConnection(), form);
-            processDAO.searchProcess(searchResult, aggregateValues, queue, form);
+            new ProcessQueueDAO(connectionSet.getSlaveConnection(), form).searchProcess(searchResult, aggregateValues, queue, form);
 
             final List<Object[]> list = searchResult.getList();
 

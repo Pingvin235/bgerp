@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.plugin.pln.blow.model.BoardConfig;
 
-import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.QueueSelectParams;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 
-public class BoardDAO extends ProcessDAO {
+public class BoardDAO extends ProcessQueueDAO {
     public BoardDAO(Connection con) {
         super(con);
     }
