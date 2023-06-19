@@ -46,7 +46,10 @@
 	vertical-align: bottom;
 }
 
+#processQueueSelect .drop li {
+	display: flex;
+}
+
 #processQueueSelect .drop li div:not(.icon-add) {
-	display: inline-block;
-	width: 93%;
+	width: 100%;
 }

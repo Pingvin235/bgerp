@@ -1,0 +1,25 @@
+column.1.value=id
+column.2.value=priority
+column.3.value=description
+column.4.value=create_user
+column.5.value=create_dt
+
+CONFIG_HEAD=<<END
+   return "<tr>"
+    + "<td>ID</td>"
+    + "<td>Description</td>"
+    + "<td title='Sample Head Title'>Created [Creator]</td>"
+    + "</tr>";
+END
+
+CONFIG_ROW=<<END
+   return "<tr bgcolor='" + urgColor + "' processId='" + process.getId() + "'>"
+     + "<td>" + col1 + "</td>"
+     + "<td>" + col3 + "</td>"
+     + "<td><b>" + col5 + "</b> [" + col4 + "]" + "</td>"
+     + "</tr>";
+END
+
+rowConfig.1.media=html
+rowConfig.1.stringExpressionHead={@CONFIG_HEAD}
+rowConfig.1.stringExpressionRow={@CONFIG_ROW}
