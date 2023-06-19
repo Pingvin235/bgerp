@@ -8,6 +8,7 @@ import org.bgerp.itest.helper.CustomerHelper;
 import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
+import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.testng.annotations.Test;
@@ -55,6 +56,12 @@ public class ProcessLinkTest {
         new ProcessTypeDAO(DbTest.conRoot).updateTypeProperties(processType);
 
         ProcessTypeCache.flush(DbTest.conRoot);
+    }
+
+    @Test(dependsOnMethods = "processType")
+    public void processQueue() throws Exception {
+        int queueId = ProcessHelper.addQueue(TITLE, ResourceHelper.getResource(this, "process.queue.config.txt"), Set.of(processTypeId));
+        UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }
 
     @Test
