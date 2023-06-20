@@ -1,0 +1,2 @@
+F: Pass BGMessageException thrown in event listeners.
+C: EventProcessor cleanup.

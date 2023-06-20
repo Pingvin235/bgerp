@@ -9,143 +9,69 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dynamic.DynamicClassManager;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
 import ru.bgcrm.event.listener.EventListener;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+/**
+ * Event processor, implementing Singleton and Observable patterns.
+ *
+ * @author Shamil Vakhitov
+ */
 public class EventProcessor {
     private static final Log log = Log.getLog();
 
-    private static final Map<Class<?>, List<EventListener<?>>> subscribers = new ConcurrentHashMap<>();
-
-    private static class NamedThreadFactory implements ThreadFactory {
-        private static ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
-
-        @Override
-        public Thread newThread(Runnable r) {
-            Thread thread = defaultThreadFactory.newThread(r);
-            thread.setName("EventProcessor-" + thread.getName());
-            return thread;
-        }
-    }
-
-    private static final ExecutorService executor = Executors.newCachedThreadPool(new NamedThreadFactory());
+    private static final Map<Class<?>, List<EventListener<?>>> SUBSCRIBERS = new ConcurrentHashMap<>();
+    private static final ExecutorService EXECUTOR = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("EventProcessor-%d").build());
 
     /**
-     * Подписывает слушателя на события определённого класса.
-     * Слушатель должен быть отписан, если он больше не должен получать событие.
-     * @param l
-     * @param clazz
+     * Subscribes a listener to events of defined classes.
+     * @param l the listener.
+     * @param clazz the event class.
      */
     public static <E extends Event> void subscribe(EventListener<? super E> l, Class<E> clazz) {
-        subscribers
+        SUBSCRIBERS
             .computeIfAbsent(clazz, c -> new ArrayList<>())
             .add(l);
     }
 
     /**
-     * Отписывает слушателя ото всех событий.
-     * @param l
+     * Unsubscribes a listener from all events.
+     * @param l the listener.
      */
     public static void unsubscribe(EventListener<?> l) {
-        subscribers.values().remove((Object) l);
+        SUBSCRIBERS.values().remove((Object) l);
     }
 
     /**
-     * Отписывает слушателя по имени его класса ото всех событий.
-     * @param listenerClassName
-     */
-    public static void unsubscribe(String listenerClassName) {
-        for (List<EventListener<?>> listenerList : subscribers.values()) {
-            for (EventListener<?> listener : listenerList) {
-                if (listener.getClass().getName().equals(listenerClassName)) {
-                    listenerList.remove(listener);
-                }
-            }
-        }
-    }
-
-    /**
-     * Обрабатывает событие только системными обработчиками.
-     *
-     * @param e
-     * @param connectionSet
+     * Processes an event with registered listeners.
+     * @param event the event.
+     * @param conSet a DB connections set.
      * @throws BGMessageException
      */
-    public static void processEvent(Event e, ConnectionSet connectionSet) throws Exception {
-        processEvent(e, null, connectionSet);
-    }
-
-    /**
-     * Обрабатывает событие системными обработчиками а затем классом, если указан.
-     * @param event
-     * @param className
-     * @param conSet
-     * @param systemListenerProcessing
-     *
-     * @return
-     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public static boolean processEvent(Event event, String className, ConnectionSet conSet,
-            boolean systemListenerProcessing) throws Exception {
-        log.trace("Processing event: {}, className: {}", event, className);
+    public static void processEvent(Event event, ConnectionSet conSet) throws Exception {
+        log.trace("Processing event: {}", event);
 
-        if (systemListenerProcessing) {
-            // обработка системными зарегестрированными слушателями
-            List<EventListener<?>> listeners = subscribers.get(event.getClass());
-            if (listeners != null) {
-                for (EventListener l : listeners) {
-                    processingEvent(event, l, conSet);
-                }
-            }
-        }
-
-        // обработка объявленным классом-обработчиком (если есть)
-        if (Utils.notBlankString(className)) {
-            //TODO: Сделать алармы.
-            EventListener<Event> listener = null;
-
-            try {
-                listener = DynamicClassManager.newInstance(className);
-            } catch (ClassNotFoundException e) {
-                log.error("Class not found: " + className, e);
-            } catch (Exception e) {
-                throw new BGException(e.getMessage(), e);
-            }
-
-            if (listener == null) {
-                log.error("Not found class: " + className);
-            } else {
-                processingEvent(event, listener, conSet);
-                return true;
-            }
-        }
-
-        return false;
+        List<EventListener<?>> listeners = SUBSCRIBERS.get(event.getClass());
+        if (listeners != null)
+            for (EventListener l : listeners)
+                processEvent(event, l, conSet);
     }
 
-    private static boolean isDebugMode() {
-        return java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().indexOf("jdwp") >= 0;
-    }
-
-    private static void processingEvent(Event event, EventListener<Event> listener, ConnectionSet conSet) throws Exception {
-        final Setup setup = Setup.getSetup();
-        final var key = "event.process.timeout";
-        final long timeout = setup.getSokLong(5000L, key, "event.processTimeout", "dynamicEventListenerTimeOut");
-
+    private static void processEvent(Event event, EventListener<Event> listener, ConnectionSet conSet) throws Exception {
+        final long timeout = Setup.getSetup().getLong("event.process.timeout", 5000L);
         try {
             if (!isDebugMode()) {
-                Future<byte[]> future = executor.submit(new RequestTask(listener, event, conSet));
+                Future<byte[]> future = EXECUTOR.submit(new RequestTask(listener, event, conSet));
                 future.get(timeout, TimeUnit.MILLISECONDS);
             } else {
                 listener.notify(event, conSet);
@@ -153,21 +79,17 @@ public class EventProcessor {
         } catch (TimeoutException e) {
             log.error("Timeout {} ms was exceeded in listener {}", timeout, listener.getClass().getName());
         } catch (InterruptedException | ExecutionException e) {
-            log.error("In listener {} occurred an exception: {}", listener.getClass().getName(), e.getMessage());
-            log.error(e);
+            var cause = e.getCause();
+            if (!(cause instanceof BGMessageException)) {
+                log.error("In listener {} occurred an exception: {}", listener.getClass().getName(), e.getMessage());
+                log.error(e);
+            }
+            throw (Exception) cause;
         }
     }
 
-    /**
-     * Обрабатывает событие системными обработчиками а затем классом, если указан.
-     * @param event
-     * @param className
-     * @param conSet
-     *
-     * @return
-     */
-    public static boolean processEvent(Event event, String className, ConnectionSet conSet) throws Exception {
-        return processEvent(event, className, conSet, true);
+    private static boolean isDebugMode() {
+        return java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().indexOf("jdwp") >= 0;
     }
 
     private static class RequestTask implements Callable<byte[]> {

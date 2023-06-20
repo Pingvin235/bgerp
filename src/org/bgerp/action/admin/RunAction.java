@@ -5,8 +5,9 @@ import org.bgerp.app.scheduler.Scheduler;
 import org.bgerp.app.scheduler.TasksConfig;
 
 import ru.bgcrm.dynamic.DynamicClassManager;
-import ru.bgcrm.event.EventProcessor;
+import ru.bgcrm.event.Event;
 import ru.bgcrm.event.RunClassRequestEvent;
+import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
@@ -24,6 +25,7 @@ public class RunAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/run.jsp");
     }
 
+    @SuppressWarnings("unchecked")
     public ActionForward runClass(DynActionForm form, ConnectionSet conSet) throws Exception {
         // 'class' is passed when value is choosen from drop-down, 'data' - entered directly
         String className = form.getParam("class");
@@ -33,7 +35,7 @@ public class RunAction extends BaseAction {
         String ifaceType = form.getParam("iface", "event");
         // running interface EventListener
         if ("event".equals(ifaceType))
-            EventProcessor.processEvent(new RunClassRequestEvent(form), className, conSet);
+            ((EventListener<Event>) Utils.newInstance(className)).notify(new RunClassRequestEvent(form), conSet);
         // running interface Runnable
         else {
             Class<?> clazz = DynamicClassManager.getClass(className);

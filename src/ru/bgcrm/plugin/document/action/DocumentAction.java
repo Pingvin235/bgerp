@@ -19,7 +19,8 @@ import org.bgerp.model.Pageable;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.FileDataDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.event.EventProcessor;
+import ru.bgcrm.event.Event;
+import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.process.Process;
@@ -87,6 +88,7 @@ public class DocumentAction extends BaseAction {
         return json(con, form);
     }
 
+    @SuppressWarnings("unchecked")
     public ActionForward generateDocument(DynActionForm form, ConnectionSet conSet) throws Exception {
         Config config = setup.getConfig(Config.class);
 
@@ -100,11 +102,8 @@ public class DocumentAction extends BaseAction {
             throw new BGException("Patten not found.");
         }
 
-        DocumentGenerateEvent event = new DocumentGenerateEvent(form, pattern, objectType,
-                Collections.singletonList(objectId));
-        if (!EventProcessor.processEvent(event, pattern.getScript(), conSet)) {
-            throw new BGException("Generator class not found.");
-        }
+        DocumentGenerateEvent event = new DocumentGenerateEvent(form, pattern, objectType, Collections.singletonList(objectId));
+        ((EventListener<Event>) Utils.newInstance(pattern.getScript())).notify(event, conSet);
 
         Document document = event.getResultDocument();
 

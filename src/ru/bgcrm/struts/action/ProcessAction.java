@@ -245,8 +245,7 @@ public class ProcessAction extends BaseAction {
             doCreateWizard(form, con, process, type);
         }
 
-        EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATED), null,
-                new SingleConnectionSet(con));
+        EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATED), new SingleConnectionSet(con));
 
         form.getResponse().setData("process", process);
     }
@@ -303,8 +302,7 @@ public class ProcessAction extends BaseAction {
 
         processDao.processIdInvert(process);
 
-        EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATE_FINISHED),
-                null, new SingleConnectionSet(con));
+        EventProcessor.processEvent(new ProcessChangedEvent(form, process, ProcessChangedEvent.MODE_CREATE_FINISHED), new SingleConnectionSet(con));
 
         TemporaryObjectOpenListener.flushUserData(form.getUserId());
 
@@ -730,7 +728,7 @@ public class ProcessAction extends BaseAction {
     private static void processDoEvent(DynActionForm form, Process process, UserEvent event, Connection con) throws Exception {
         ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
         if (type != null) {
-            EventProcessor.processEvent(event, null, new SingleConnectionSet(con));
+            EventProcessor.processEvent(event, new SingleConnectionSet(con));
         }
     }
 

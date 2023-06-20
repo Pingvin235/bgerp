@@ -81,8 +81,9 @@ public class Bean {
     }
 
     /**
-     * Provides bean' class by a simple of full class name.
-     * @param name the simple of full bean' class name.
+     * Provides class by a simple {@link Bean} of a full class name.
+     * Both {@link Custom} and normal classes are checked.
+     * @param name the simple {@link Bean} of the full class name.
      * @return
      * @throws ClassNotFoundException
      */

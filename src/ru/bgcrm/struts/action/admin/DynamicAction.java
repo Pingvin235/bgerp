@@ -36,7 +36,7 @@ public class DynamicAction extends BaseAction {
         String ifaceType = form.getParam("iface", "event");
         // запуск интерфейса EventListener
         if ("event".equals(ifaceType))
-            EventProcessor.processEvent(new RunClassRequestEvent(form), className, conSet);
+            EventProcessor.processEvent(new RunClassRequestEvent(form), conSet);
         // запуск интерфейса Runnable
         else {
             Class<?> clazz = null;

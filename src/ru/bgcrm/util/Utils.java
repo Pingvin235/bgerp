@@ -24,6 +24,7 @@ import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.taglibs.standard.functions.Functions;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.iface.Title;
@@ -1006,8 +1007,8 @@ public class Utils {
     }
 
     /**
-     * Creates an object of a given class.
-     * @param className the class name.
+     * Creates an object of a given class, loaded with {@link Bean#getClass(String)}.
+     * @param className the full class name or a simple {@link Bean} name.
      * @param args optional constructor arguments.
      * @return created object instance.
      * @throws Exception
@@ -1016,7 +1017,7 @@ public class Utils {
         if (args == null)
             args = new Object[0];
 
-        for (var constr : Class.forName(className).getDeclaredConstructors()) {
+        for (var constr : Bean.getClass(className).getDeclaredConstructors()) {
             Object[] convertedTypes = NewInstanceTag.convertObjectTypes(List.of(args), constr.getParameterTypes());
             if (convertedTypes != null)
                 return constr.newInstance(convertedTypes);
