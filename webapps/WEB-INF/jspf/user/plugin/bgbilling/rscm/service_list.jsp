@@ -30,7 +30,7 @@
 	<ui:page-control nextCommand=";${sendForm}" />
 </html:form>
 
-<table class="data" style="width: 100%;" id="${uiid}">
+<table class="data" id="${uiid}">
 	<tr>
 		<td width="30"></td>
 		<td>Дата</td>

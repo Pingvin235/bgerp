@@ -6,7 +6,7 @@
 <div class="center1020">
 	<h2>${l.l('Авторизовавшиеся пользователи')} [ ${logged.size()} ]</h2>
 
-	<table class="data" style="width: 100%;">
+	<table class="data">
 		<tr>
 			<td>${l.l('User')}</td>
 			<td>${l.l('Время входа')}</td>

@@ -8,7 +8,7 @@
 		<c:set var="uiid" value="${u:uiid()}"/>
 		<%@ include file="/WEB-INF/jspf/user/plugin/blow/board/filters.jsp"%>
 
-		<table id="${uiid}" class="data" style="width: 100%;">
+		<table id="${uiid}" class="data">
 			<tr class="head">
 				<c:forEach var="column" items="${board.executors}">
 					<td>

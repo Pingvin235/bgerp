@@ -9,7 +9,7 @@
 
 	<button class="btn-white mb1" type="button" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent());">${l.l('Close')}</button>
 
-	<table style="width: 100%;" class="data">
+	<table class="data">
 		<tr>
 			<td>${l.l('Status')}</td>
 			<td>${l.l('Комментарий')}</td>

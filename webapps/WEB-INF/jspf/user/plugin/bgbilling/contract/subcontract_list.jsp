@@ -4,7 +4,7 @@
 <c:if test="${not empty form.response.data.subContractList}">
 	<h2>Договор является супердоговором для:</h2>
 	<div style="overflow: auto; width: inherit; height: 610px;">
-		<table class="data" style="width:100%;">
+		<table class="data">
 			<tr class="header">
 				<td>№</td>
 				<td>Название</td>

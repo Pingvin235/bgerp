@@ -12,7 +12,7 @@
 				    Показать незаполненные параметры</br>
 	</form>
 
-	<table class="data" width="100%">
+	<table class="data">
 		<tr class="header">
 			<td width="5%">ID</td>
 			<td width="35%">Параметр</td>

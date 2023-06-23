@@ -6,7 +6,7 @@
 	<div class="pl2 pr2">
 		<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.plugin.dispatch.Config')}"/>
 
-		<table class="data" style="width: 100%;" id="${tableUiid}">
+		<table class="data" id="${tableUiid}">
 			<tr>
 				<td width="40%">${l.l('Title')}</td>
 				<td width="60%">${l.l('Description')}</td>

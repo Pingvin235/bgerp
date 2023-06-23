@@ -12,7 +12,7 @@
 <button type="button" class="btn-green mb1" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
 
 <div id="${uiid}">
-	<table class="data" style="width:100%;">
+	<table class="data">
 		<tr class="header">
 			<td width="30"></td>
 			<td>Скрипт</td>

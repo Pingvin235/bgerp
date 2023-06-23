@@ -12,7 +12,7 @@
 	<button type="button" class="btn-green" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
 
 	<h2>Текущие</h2>
-	<table class="data" width="100%">
+	<table class="data">
 		<tr>
 			<td width="30"></td>
 			<td width="100%">Название</td>
@@ -42,7 +42,7 @@
 	</table>
 
 	<h2>История</h2>
-	<table class="data" width="100%">
+	<table class="data">
 		<tr>
 			<td nowrap="nowrap">Название</td>
 			<td nowrap="nowrap">Время активации</td>

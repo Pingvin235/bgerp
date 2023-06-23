@@ -64,7 +64,7 @@
 
 <h2>История изменения статуса</h2>
 
-<table class="data" style="width:100%;">
+<table class="data">
 	<tr class="header">
 		<td>Период</td>
 		<td>Статус</td>

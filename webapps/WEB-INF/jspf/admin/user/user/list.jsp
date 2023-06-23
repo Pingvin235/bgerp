@@ -50,7 +50,7 @@
 	<ui:page-control/>
 </html:form>
 
-<table style="width: 100%;" class="data">
+<table class="data">
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>

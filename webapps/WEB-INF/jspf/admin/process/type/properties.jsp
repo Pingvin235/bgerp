@@ -63,7 +63,7 @@
 	</div>
 	<div id="${formUiid}-2" style="height: 500px;">
 		<h2>Матрица разрешенных переходов статусов</h2>
-		<table style="width: 100%;" class="data">
+		<table class="data">
 			<tr>
 				<td>
 					<input type="checkbox"

@@ -50,7 +50,7 @@
 
 <h2>Задания на автоматическую смену лимита</h2>
 
-<table class="data" style="width:100%;">
+<table class="data">
 	<tr class="header">
 		<td></td>
 		<td>Дата</td>

@@ -17,7 +17,7 @@
 	<h2>${l.l('Редактор дома')}</h2>
 </c:if>
 
-<table style="width: 100%;" class="data">
+<table class="data">
 	<tr>
 		<td width="150">${l.l('Параметр')}</td>
 		<td>${l.l('Значение')}</td>

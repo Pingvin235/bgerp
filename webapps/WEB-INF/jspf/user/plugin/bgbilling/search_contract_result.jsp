@@ -33,7 +33,7 @@
 
 	<h2>Биллинг: ${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</h2>
 
-	<table style="width: 100%;" class="data">
+	<table class="data">
 		<c:choose>
 			<c:when test="${searchBy eq 'address'}">
 				<tr>

@@ -85,7 +85,7 @@ processor.6.responseType=file
                     Список актов процессв ВЫЗОВ ТЕХНИКА
             </div>
             <div>
-            <table class="data" width=100%>
+            <table class="data">
         <tr><td>&nbsp;</td></tr>
     <c:forEach var="processId" items="${event.getObjectIds()}">
         <c:set var="process" value="${processDao.getProcess(processId)}"/>

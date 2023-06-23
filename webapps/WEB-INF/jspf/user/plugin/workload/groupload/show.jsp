@@ -37,7 +37,7 @@
 
 <br>
 
-<table id="${uiid}" class="data" style="width: 100%;">
+<table id="${uiid}" class="data">
 
 	<tr class="head">
 		<td>Время</td>

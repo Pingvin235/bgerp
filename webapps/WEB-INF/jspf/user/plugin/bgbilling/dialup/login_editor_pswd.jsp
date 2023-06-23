@@ -9,10 +9,10 @@
 	<html:hidden property="billingId"/>
 	<html:hidden property="moduleId"/>
 	<html:hidden property="id"/>
-	
+
 	<h2>Пароль</h2>
-	
-	<table class="data" style="width: 100%;">
+
+	<table class="data">
 		<tr>
 			<td>Дата и время</td>
 			<td>Исполнитель</td>
@@ -20,8 +20,8 @@
 		<c:forEach var="item" items="${form.response.data.pswdLog}">
 			<tr>
 				<td nowrap="nowrap">${tu.format( item.time, 'ymdhms' )}</td>
-				<td>${item.user}</td>												
+				<td>${item.user}</td>
 			</tr>
-		</c:forEach>	
+		</c:forEach>
 	</table>
 </html:form>

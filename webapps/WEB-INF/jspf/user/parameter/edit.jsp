@@ -324,7 +324,7 @@
 				</c:choose>
 			</c:when>
 			<c:when test="${parameter.type eq 'phone'}">
-				<table style="width: 100%;" class="data">
+				<table class="data">
 					<tr>
 						<td>N</td>
 						<td colspan="2">код страны</td>

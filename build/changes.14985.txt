@@ -1,0 +1,1 @@
+C: Delete width 100% for data tables.

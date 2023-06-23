@@ -38,7 +38,7 @@ processor.5.responseType=file
 		<div>
 			Событие: ${event}<br/><br/>
 
-			<table class="data" style="width: 100%;">
+			<table class="data">
 				<tr>
 					<td>ID процесса</td>
 					<td>Исполнители</td>

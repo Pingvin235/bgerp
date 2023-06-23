@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<table style="width: 100%;" class="data">
+<table class="data">
 	<tr>
 		<td width="30">&nbsp;</td>
 		<td width="100%">${l.l('Title')}</td>

@@ -50,7 +50,7 @@
 		<button class="btn-green mb1" onclick="$$.ajax.load('${baseEditUrl}', $('#${uiid}').parent())">+</button>
 
 		<div class="layout-height-rest" style="overflow: auto;">
-			<table class="data" style="width: 100%;">
+			<table class="data">
 				<tr>
 					<td>&nbsp;</td>
 					<td>Шлюз</td>
@@ -108,7 +108,7 @@
 	</div>
 	<div style="width: 100%; overflow: auto;" class="pl1">
 		<h2>Статистика состояния шлюза</h2>
-		<table style="width: 100%;" class="data">
+		<table class="data">
 			<tr>
 				<td nowrap="nowrap">Дата и время</td>
 				<td>Действие</td>

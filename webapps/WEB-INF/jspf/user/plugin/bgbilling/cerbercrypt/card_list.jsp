@@ -14,7 +14,7 @@
 <button type="button" class="btn-green mb1" title="Добавить абонплату" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
 --%>
 
-<table class="data" style="width: 100%;" id="${uiid}">
+<table class="data" id="${uiid}">
 	<tr>
 		<td>Карта</td>
 		<td>Период</td>

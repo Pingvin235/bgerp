@@ -22,7 +22,7 @@
 		</p:check>
 	</div>
 
-	<table id="${uiid}" class="data" style="width: 100%;">
+	<table id="${uiid}" class="data">
 		<tr class="head">
 			<c:forEach var="column" items="${board.executors}">
 				<td>${column.title}<%@ include file="executor_count.jsp"%></td>

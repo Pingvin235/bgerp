@@ -14,7 +14,7 @@
 
 <button type="button" class="btn-green mb1" onclick="$$.ajax.load('${url}', $('#${uiid}').parent())">+</button>
 
-<table class="data" width="100%" id="${uiid}">
+<table class="data" id="${uiid}">
 	<tr>
 		<td width="30"></td>
 		<td>${l.l('Позиция')}</td>

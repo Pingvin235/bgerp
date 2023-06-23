@@ -11,7 +11,7 @@
 <c:set var="dateFrom" value="${form.param.dateFrom}"/>
 <c:set var="dateTo" value="${form.param.dateTo}"/>
 
-<table class="data" width="100%">
+<table class="data">
 	<c:forEach var="item" items='<%= new RecommendedSum().getInstance( String.valueOf( pageContext.getAttribute("billingId")),
 	                                                             Utils.parseInt( String.valueOf(pageContext.getAttribute("contractId"))),
 	                                                             TimeUtils.parse(  String.valueOf(pageContext.getAttribute("dateTo")), TimeUtils.PATTERN_DDMMYYYY )

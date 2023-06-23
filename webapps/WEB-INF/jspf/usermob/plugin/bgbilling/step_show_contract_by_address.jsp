@@ -4,7 +4,7 @@
 <c:set var="result" value="${stepData.contracts}"/>
 
 <c:if test="${not empty result}">
-	<table class="data" width="100%">
+	<table class="data">
 	<tr>
 		<td>ID</td>
 		<td>Договор</td>
