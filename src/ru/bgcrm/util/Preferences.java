@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -270,9 +271,10 @@ public class Preferences extends ParameterMap {
      * @param configDao DAO for getting includes.
      * @param config key-value lines of main configuration.
      * @param validate check existence of includes configurations, variables.
-     * @throws Exception
+     * @throws BGException
+     * @throws SQLException
      */
-    public static ParameterMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws Exception {
+    public static ParameterMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws BGException, SQLException {
         Iterable<ParameterMap> includes = Config.getIncludes(configDao, new Preferences(config), validate);
         return new Preferences(config, includes, validate);
     }

@@ -20,13 +20,16 @@ import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CommonDAO;
+import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.LastModifyDAO;
+import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.queue.QueueProcessStat;
 import ru.bgcrm.model.process.queue.QueueStat;
 import ru.bgcrm.model.process.queue.QueueUserStat;
+import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 public class QueueDAO extends CommonDAO {
@@ -102,9 +105,10 @@ public class QueueDAO extends CommonDAO {
      * Updates process queue entity.
      * @param queue entity data, for insertion {@link Queue#getId()} &lt;= 0.
      * @param userId user ID for checking conflicting updates.
+     * @throws BGException
      * @throws SQLException
      */
-    public void updateQueue(Queue queue, int userId) throws SQLException {
+    public void updateQueue(Queue queue, int userId) throws BGException, SQLException {
         int index = 1;
         PreparedStatement ps = null;
 
@@ -126,6 +130,8 @@ public class QueueDAO extends CommonDAO {
             ps.executeUpdate();
         }
         ps.close();
+
+        Preferences.processIncludes(new ConfigDAO(con), queue.getConfig(), true);
 
         if (queue.getProcessTypeIds() != null) {
             updateIds(TABLE_QUEUE_PROCESS_TYPE, "queue_id", "type_id", queue.getId(), queue.getProcessTypeIds());
