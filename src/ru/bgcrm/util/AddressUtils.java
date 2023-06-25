@@ -13,7 +13,7 @@ import ru.bgcrm.model.param.address.AddressItem;
 import ru.bgcrm.util.PatternFormatter.PatternItemProcessor;
 
 public class AddressUtils {
-    private final static String ADDRESS_FORMAT = "(${index})(, ${city})(, ${area})(, ${quarter})(, ${street})(, д. ${house})(, кв. ${flat})( ${room})(, ${pod} под.)(, ${floor} эт.)( [${comment}])";
+    private final static String ADDRESS_FORMAT_DEFAULT = "(${street})(, ${house})(, apt. ${flat})( ${room})( ${comment})( ${index})( ${city})( [${comment}])";
 
     public static final String buildAddressValue(final ParameterAddressValue value, Connection con) throws SQLException {
         return buildAddressValue(value, con, null);
@@ -34,7 +34,7 @@ public class AddressUtils {
         final AddressItem addressStreet = house.getAddressStreet();
         final AddressCity addressCity = addressStreet.getAddressCity();
 
-        String address = Setup.getSetup().get("address.format", ADDRESS_FORMAT);
+        String address = Setup.getSetup().get("address.format", ADDRESS_FORMAT_DEFAULT);
         if (Utils.notBlankString(formatName)) {
             address = Setup.getSetup().get("address.format." + formatName, address);
         }
@@ -43,7 +43,7 @@ public class AddressUtils {
             @Override
             public String processPatternItem(String variable) {
                 if ("index".equals(variable)) {
-                    return "";
+                    return addressHouse.getPostIndex();
                 } else if ("city".equals(variable)) {
                     return addressCity.getTitle();
                 } else if ("area".equals(variable)) {
