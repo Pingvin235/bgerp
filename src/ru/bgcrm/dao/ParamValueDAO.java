@@ -716,10 +716,8 @@ public class ParamValueDAO extends CommonDAO {
             }
         }
 
-        // Лог изменений.
         if (history) {
-            logParam(id, paramId, userId, ParameterEmailValue
-                    .getEmails(new ArrayList<ParameterEmailValue>(getParamEmail(id, paramId).values())));
+            logParam(id, paramId, userId, ParameterEmailValue.toString(getParamEmail(id, paramId).values()));
         }
     }
 

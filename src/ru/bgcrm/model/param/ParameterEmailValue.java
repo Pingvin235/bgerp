@@ -1,7 +1,5 @@
 package ru.bgcrm.model.param;
 
-import java.util.List;
-
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.util.Utils;
 
@@ -81,18 +79,12 @@ public class ParameterEmailValue {
         return value;
     }
 
-    public static final String getEmails(List<ParameterEmailValue> emails) {
-        StringBuffer result = new StringBuffer();
+    public static final String toString(Iterable<ParameterEmailValue> emails) {
+        var result = new StringBuilder();
         for (ParameterEmailValue val : emails) {
-            if (result.length() > 0) {
-                result.append(" ");
-            }
-            result.append(val.getValue());
-             // TODO: Use standard representation from toString() call.
-            if (!"".equals(val.getComment())) {
-                result.append(" [ " + val.getComment() + " ]");
-            }
-            result.append(";");
+            if (result.length() > 0)
+                result.append("; ");
+            result.append(val.toString());
         }
         return result.toString();
     }

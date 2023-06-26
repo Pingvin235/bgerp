@@ -32,7 +32,7 @@
 				<td nowrap="nowrap">${logItem.getDateFormatted()}</td>
 				<td nowrap="nowrap">${ctxUserMap[logItem.userId].title}</td>
 				<td nowrap="nowrap">${ctxParameterMap[logItem.paramId].title}</td>
-				<td width="100%">${logItem.text}</td>
+				<td width="100%">${u.escapeXml(logItem.text)}</td>
 			</tr>
 		</c:forEach>
 	</table>
