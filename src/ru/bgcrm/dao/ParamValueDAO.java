@@ -965,11 +965,11 @@ public class ParamValueDAO extends CommonDAO {
     }
 
     /**
-     * Обновляет/добавляет/удаляет значения адресного параметра.
-     * @param id - код сущности в БД.
+     * Updates, appends and deletes an address parameter value.
+     * @param id - entity ID.
      * @param paramId - param ID.
-     * @param position - позиция значения, начинается с 1, 0 - добавить новое значение с позицией MAX+1.
-     * @param value - значение, null - удаление параметра на указанной позиции, если position>0; иначе - удаление всех значений.
+     * @param position - starting from 1 value's position, 0 - appends a value with position MAX+1.
+     * @param value - the value, {@code null} - delete value from the position if {@code position} > 0, else delete all the values.
      * @throws SQLException
      */
     public void updateParamAddress(int id, int paramId, int position, ParameterAddressValue value) throws SQLException {
@@ -1039,18 +1039,16 @@ public class ParamValueDAO extends CommonDAO {
             }
         }
 
-        // Лог изменений.
         if (history) {
             StringBuffer result = new StringBuffer();
             SortedMap<Integer, ParameterAddressValue> addresses = getParamAddress(id, paramId);
             Iterator<Integer> it = addresses.keySet().iterator();
             while (it.hasNext()) {
                 if (result.length() > 0) {
-                    result.append(" ");
+                    result.append("; ");
                 }
                 Integer key = it.next();
                 result.append(addresses.get(key).getValue());
-                result.append(";");
             }
             logParam(id, paramId, userId, result.toString());
         }
