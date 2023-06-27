@@ -743,7 +743,6 @@ public class ParamValueDAO extends CommonDAO {
         }
         ps.close();
 
-        // change log
         if (history) {
             logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
         }
@@ -770,45 +769,54 @@ public class ParamValueDAO extends CommonDAO {
         }
         ps.close();
 
-        // change log
         if (history) {
             logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
         }
     }
 
     /**
-     * Устанавливает значения параметра типа 'listcount'.
-     * @param id object ID.
+     * Sets values for parameter with type 'listcount'.
+     * @param id entity ID.
      * @param paramId param ID.
-     * @param values значения, ключ - код значение, значение - количество.
+     * @param values map with key = value ID, and values with possible types: {@link String}, {@link BigDecimal}, {@link ParameterListCountValue}.
      * @throws SQLException
      */
-    public void updateParamListCount(int id, int paramId, Map<Integer, BigDecimal> values) throws SQLException {
-        List<IdTitle> existIdTitles = getParamListCountWithTitles(id, paramId);
+    public void updateParamListCount(int id, int paramId, Map<Integer, ?> values) throws SQLException {
+        if (values == null)
+            values = Map.of();
 
-        PreparedStatement ps = null;
+        deleteFromParamTable(id, paramId, TABLE_PARAM_LISTCOUNT);
 
-        if (existIdTitles.size() > 0) {
-            deleteFromParamTable(id, paramId, TABLE_PARAM_LISTCOUNT);
-        }
+        String query = "INSERT INTO " + TABLE_PARAM_LISTCOUNT + "(id, param_id, value, count, comment) VALUES (?,?,?,?,?)";
 
-        String query = "INSERT INTO " + TABLE_PARAM_LISTCOUNT
-                + "(id, param_id, value, count, comment) VALUES (?,?,?,?,?)";
-
-        ps = con.prepareStatement(query.toString());
+        PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, id);
         ps.setInt(2, paramId);
-        for (Integer value : values.keySet()) {
-            ps.setInt(3, value);
-            ps.setBigDecimal(4, values.get(value));
-            ps.setString(5, /*valuesComments.get( value )*/ "");
+        for (var me : values.entrySet()) {
+            ps.setInt(3, me.getKey());
+            Object value = me.getValue();
+
+            BigDecimal count;
+            String comment = "";
+
+            if (value instanceof BigDecimal)
+                count = (BigDecimal) value;
+            else if (value instanceof ParameterListCountValue) {
+                count = ((ParameterListCountValue) value).getCount();
+                comment = ((ParameterListCountValue) value).getComment();
+            } else if (value instanceof String)
+                count = Utils.parseBigDecimal((String) value);
+            else
+                throw new IllegalArgumentException("Usupported value type: " + value);
+
+            ps.setBigDecimal(4, count);
+            ps.setString(5, comment);
             ps.executeUpdate();
         }
         ps.close();
 
-        // Лог изменений.
         if (history) {
-            logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
+            logParam(id, paramId, userId, Utils.getObjectTitles(getParamListCountWithTitles(id, paramId)));
         }
     }
 
