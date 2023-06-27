@@ -1109,7 +1109,7 @@ public class ParamValueDAO extends CommonDAO {
             deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE);
             deleteFromParamTable(id, paramId, TABLE_PARAM_PHONE_ITEM);
         } else {
-            String newPhones = ParameterPhoneValueItem.getPhones(value.getItemList());
+            String newPhones = ParameterPhoneValueItem.toString(value.getItemList());
 
             updateSimpleParam(id, paramId, newPhones, TABLE_PARAM_PHONE);
 
@@ -1141,7 +1141,7 @@ public class ParamValueDAO extends CommonDAO {
 
             ParameterPhoneValue newPhones = getParamPhone(id, paramId);
             if (newPhones != null) {
-                newValue = ParameterPhoneValueItem.getPhones(newPhones.getItemList());
+                newValue = ParameterPhoneValueItem.toString(newPhones.getItemList());
             }
 
             logParam(id, paramId, userId, newValue);

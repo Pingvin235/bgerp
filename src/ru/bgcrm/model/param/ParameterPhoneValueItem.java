@@ -7,13 +7,14 @@ import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 public class ParameterPhoneValueItem {
+    private final static String FORMAT_DEFAULT = "(${number})( [${comment}])";
+
     private String phone = "";
     private String format;
     private String comment = "";
     private int flags = 0;
 
-    public ParameterPhoneValueItem() {
-    }
+    public ParameterPhoneValueItem() {}
 
     public ParameterPhoneValueItem(String phone, String format, String comment) {
         this.phone = phone;
@@ -75,26 +76,23 @@ public class ParameterPhoneValueItem {
         return result;
     }
 
-    private final static String defaultPattern = "(${number})( [${comment}]);";
-
     /**
      * Builds formatted phones string.
      * @param items phones
      * @return
      */
-    public static final String getPhones(List<ParameterPhoneValueItem> items) {
-        String pattern = Setup.getSetup().get("param.phone.format", defaultPattern);
+    public static final String toString(List<ParameterPhoneValueItem> items) {
+        String format = Setup.getSetup().get("param.phone.format", FORMAT_DEFAULT);
 
         StringBuffer result = new StringBuffer();
 
         for (ParameterPhoneValueItem item : items) {
-            String val = PatternFormatter.insertPatternPart(pattern, "number",
-                    formatPhone(item.getFormat(), item.getPhone()));
+            String val = PatternFormatter.insertPatternPart(format, "number", formatPhone(item.getFormat(), item.getPhone()));
             val = PatternFormatter.insertPatternPart(val, "comment", item.getComment());
 
-            if (result.length() > 0) {
-                result.append(" ");
-            }
+            if (result.length() > 0)
+                result.append(", ");
+
             result.append(val);
         }
 

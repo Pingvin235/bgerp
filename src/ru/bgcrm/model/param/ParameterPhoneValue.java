@@ -1,7 +1,6 @@
 package ru.bgcrm.model.param;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ParameterPhoneValue {
@@ -11,28 +10,19 @@ public class ParameterPhoneValue {
         itemList = new ArrayList<>();
     }
 
-    public ParameterPhoneValue(List<ParameterPhoneValueItem> phoneValues) {
-        itemList = new ArrayList<>(phoneValues);
+    public ParameterPhoneValue(List<ParameterPhoneValueItem> items) {
+        itemList = new ArrayList<>(items);
     }
 
     /**
-     * Возвращает форматированную строку с телефонными номерами.
-     * @return
-     */
-    public String getValue() {
-        return ParameterPhoneValueItem.getPhones(itemList);
-    }
-
-    /**
-     * Возвращает список номеров в параметре.
-     * @return
+     * @return number list.
      */
     public List<ParameterPhoneValueItem> getItemList() {
         return itemList;
     }
 
     /**
-     * Устанавливает список номеров в параметр.
+     * Sets number list.
      * @param itemList
      */
     public void setItemList(List<ParameterPhoneValueItem> itemList) {
@@ -40,7 +30,7 @@ public class ParameterPhoneValue {
     }
 
     /**
-     * Добавляет список номеров в параметр с защитой от повторных. 
+     * Adds numbers to the existing list with duplicates protection.
      * @param itemList
      */
     public void addItems(List<ParameterPhoneValueItem> itemList) {
@@ -49,7 +39,7 @@ public class ParameterPhoneValue {
         }
 
         for (ParameterPhoneValueItem item : itemList) {
-            // защита от повторов
+            // duplicates protection
             if (this.itemList.contains(item)) {
                 continue;
             }
@@ -58,26 +48,55 @@ public class ParameterPhoneValue {
     }
 
     /**
-     * Добавляет номер в параметр.
+     * Adds a single number.
      * @param item
      */
     public void addItem(ParameterPhoneValueItem item) {
-        addItems(Collections.singletonList(item));
+        addItems(List.of(item));
     }
 
-    /**
-     * Добавляет все номера в параметр.
-     * @param parameterPhoneValue
-     */
+    @Deprecated
     public void add(ParameterPhoneValue parameterPhoneValue) {
         if (parameterPhoneValue != null) {
             addItems(parameterPhoneValue.getItemList());
         }
     }
 
-    @Override
-    public String toString() {
-        return getValue();
+    @Deprecated
+    public String getValue() {
+        return toString();
     }
 
+    /**
+     * @return formatted string with phone numbers.
+     */
+    @Override
+    public String toString() {
+        return ParameterPhoneValueItem.toString(itemList);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((itemList == null) ? 0 : itemList.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ParameterPhoneValue other = (ParameterPhoneValue) obj;
+        if (itemList == null) {
+            if (other.itemList != null)
+                return false;
+        } else if (!itemList.equals(other.itemList))
+            return false;
+        return true;
+    }
 }
