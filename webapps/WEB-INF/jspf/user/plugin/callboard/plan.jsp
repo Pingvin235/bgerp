@@ -180,7 +180,7 @@
 				<tr class="header">
 					<td class="shiftUser"></td><%--
 				--%><c:forEach var="time" items="${timeList}"><%--
-					--%><td class="timeHead"><fmt:formatDate value="${time}" pattern="HH:mm"/></td><%--
+					--%><td class="timeHead">${tu.format(time, 'HH:mm')}</td><%--
 				--%></c:forEach>
 				</tr>
 

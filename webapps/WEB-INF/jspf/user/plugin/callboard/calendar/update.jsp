@@ -9,7 +9,7 @@
 <c:set var="year" value="${form.param.year}"/>
 <c:if test="${empty year}">
 	<jsp:useBean id="date" class="java.util.Date" />
-	<c:set var="year"><fmt:formatDate value="${date}" pattern="yyyy"/></c:set>
+	<c:set var="year" value="${tu.format(date, 'yyyy')}"/>
 </c:if>
 
 <c:url var="url" value="/user/plugin/callboard/work.do">

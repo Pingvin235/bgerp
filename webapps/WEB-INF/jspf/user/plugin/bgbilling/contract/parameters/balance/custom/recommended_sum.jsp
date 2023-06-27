@@ -9,15 +9,9 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <jsp:useBean id="curdate" class="java.util.Date"/>
-<fmt:formatDate value="${curdate}" var="dateFrom"/>
+<c:set var="dateFrom" value="${tu.format(curdate, 'dd.MM.yyyy'})"/>
 
-<%	Calendar calendar = Calendar.getInstance();
-	calendar.add( Calendar.MONTH, 1 );
-	int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-    calendar.set(Calendar.DAY_OF_MONTH, lastDay);
-%>
-
-<fmt:formatDate value="<%= calendar.getTime()%>" var="dateTo"/>
+<c:set var="dateTo" value="${tu.format(tu.getEndMonth(curdate), 'dd.MM.yyyy'})"/>
 
 <c:url var="url" value="empty.do">
 	<c:param name="forwardFile" value="/WEB-INF/jspf/user/plugin/bgbilling/contract/parameters/balance/custom/recomended_sum_data.jsp"/>

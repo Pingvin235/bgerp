@@ -28,9 +28,9 @@
         </c:if>
 
         <tr align="center" ${activeSessionStyle}>
-       		<fmt:formatDate value="${dialUpSession['sessionStart']}" var="sessionStart" pattern="dd.MM.yyyy HH:mm:ss"/>
+			<c:set var="sessionStart" value="${tu.format(dialUpSession['sessionStart'], 'dd.MM.yyyy HH:mm:ss')}"/>
     		<td>${sessionStart}</td>
-    		<fmt:formatDate value="${dialUpSession['sessionStop']}" var="sessionStop" pattern="dd.MM.yyyy HH:mm:ss"/>
+			<c:set var="sessionStop" value="${tu.format(dialUpSession['sessionStop'], 'dd.MM.yyyy HH:mm:ss')}"/>
     		<td>${sessionStop}</td>
     		<td>${dialUpSession['sessionTime']}</td>
     		<td>${dialUpSession['ipAddress'].getHostAddress()}</td>
@@ -106,9 +106,9 @@
 
 	<c:forEach var="dialUpSession" items="${form.response.data.sessionList}">
 		<tr align="center">
-			<fmt:formatDate value="${dialUpSession['sessionStart']}" var="sessionStart" pattern="dd.MM.yyyy HH:mm:ss"/>
+			<c:set var="sessionStart" value="${tu.format(dialUpSession['sessionStart'], 'dd.MM.yyyy HH:mm:ss')}"/>
 			<td>${sessionStart}</td>
-			<fmt:formatDate value="${dialUpSession['sessionStop']}" var="sessionStop" pattern="dd.MM.yyyy HH:mm:ss"/>
+			<c:set var="sessionStop" value="${tu.format(dialUpSession['sessionStop'], 'dd.MM.yyyy HH:mm:ss')}"/>
 			<td>${sessionStop}</td>
 			<td>${dialUpSession['sessionTime']}</td>
 			<td>${dialUpSession['ipAddress'].getHostAddress()}</td>

@@ -32,7 +32,7 @@
 	</table>
 
 	<jsp:useBean id="now" class="java.util.Date" scope="page"/>
-	<fmt:formatDate value="${now}" pattern="dd.MM.yyyy" var="currentDate"/>
+	<c:set var="currentDate" value="${tu.format(now, 'dd.MM.yyyy'}"/>
 
 	<html:form action="/user/plugin/bgbilling/contract" style="width: 100%;">
 		<input type="hidden" name="action" value="contractCreate"/>

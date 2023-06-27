@@ -14,14 +14,14 @@
 
 	Период c
 	<c:set var="editable" value="true"/>
-	<fmt:formatDate value="${form.response.data.dateFrom}" var="dateFrom" pattern="dd.MM.yyyy"/>
+	<c:set var="dateFrom" value="${tu.format(form.response.data.dateFrom, 'dd.MM.yyyy')}"/>
 	<input type="text" name="dateFrom" value="${dateFrom}" id="${balanceForm}-dateFrom"/>
 	<c:set var="selector" value="#${balanceForm}-dateFrom"/>
 	<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>
 	по
 	<c:set var="editable" value="true"/>
 
-	<fmt:formatDate value="${form.response.data.dateTo}" var="dateTo" pattern="dd.MM.yyyy"/>
+	<c:set var="dateTo" value="${tu.format(form.response.data.dateTo, 'dd.MM.yyyy')}"/>
 	<input type="text" name="dateTo" value="${dateTo}" id="${balanceForm}-dateTo"/>
 	<c:set var="selector" value="#${balanceForm}-dateTo"/>
 	<%@ include file="/WEB-INF/jspf/datetimepicker.jsp"%>

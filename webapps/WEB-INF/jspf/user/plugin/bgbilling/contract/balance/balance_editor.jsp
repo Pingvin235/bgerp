@@ -24,7 +24,7 @@
 		Дата
 		<c:set var="date" value="${form.response.data.date}"/>
 		<c:if test="${not empty balanceItem.date}">
-			<fmt:formatDate value="${balanceItem.date}" var="date" pattern="dd.MM.yyyy"/>
+			<c:set var="date" value="${tu.format(balanceItem.date, 'dd.MM.yyyy')}"/>
 		</c:if>
 		<c:set var="editable" value="true"/>
 		<input type="text" name="date" value="${date}" id="${uiid}-date" class="mr1"/>

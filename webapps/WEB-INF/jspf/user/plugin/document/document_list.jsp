@@ -121,7 +121,7 @@
 		<tr>
 			<td>${item.id}</td>
 			<td><a href="${url}" target="_blank">${item.fileData.title}</a></td>
-			<td><fmt:formatDate value="${item.fileData.time}" type="both"/></td>
+			<td>${tu.format(item.fileData.time, 'ymdhms')}</td>
 			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
 		</tr>
 	</c:forEach>

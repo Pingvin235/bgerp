@@ -448,7 +448,7 @@
 
 						<c:set var="dateFrom" value="${filter.configMap['defaultValueFrom']}"/>
 						<c:if test="${ dateFrom eq 'currentDate' }">
-							<fmt:formatDate value="${curdate}" var="dateFrom"/>
+							<c:set var="dateFrom" value="${tu.format(curdate, 'dd.MM.yyyy')}"/>
 						</c:if>
 						<c:if test="${not empty savedParamsFilters.get('dateCreateFrom')}">
 							<c:set var="dateFrom" value="${savedParamsFilters.get('dateCreateFrom')}"/>
@@ -456,7 +456,7 @@
 
 						<c:set var="dateTo" value="${filter.configMap['defaultValueTo']}"/>
 						<c:if test="${ dateTo eq 'currentDate' }">
-							<fmt:formatDate value="${curdate}" var="dateFrom"/>
+							<c:set var="dateTo" value="${tu.format(curdate, 'dd.MM.yyyy')}"/>
 						</c:if>
 						<c:if test="${not empty savedParamsFilters.get('dateCreateTo')}">
 							<c:set var="dateTo" value="${savedParamsFilters.get('dateCreateTo')}"/>
@@ -488,7 +488,7 @@
 
 						<c:set var="dateFrom" value="${filter.configMap['defaultValueFrom']}"/>
 						<c:if test="${ dateFrom eq 'currentDate' }">
-							<fmt:formatDate value="${curdate}" var="dateFrom"/>
+							<c:set var="dateFrom" value="${tu.format(curdate, 'dd.MM.yyyy')}"/>
 						</c:if>
 
 						<c:if test="${not empty savedParamsFilters.get('dateCloseFrom')}">
@@ -497,7 +497,7 @@
 
 						<c:set var="dateTo" value="${filter.configMap['defaultValueTo']}"/>
 						<c:if test="${ dateTo eq 'currentDate' }">
-							<fmt:formatDate value="${curdate}" var="dateTo"/>
+							<c:set var="dateTo" value="${tu.format(curdate, 'dd.MM.yyyy')}"/>
 						</c:if>
 
 						<c:if test="${not empty savedParamsFilters.get('dateCloseTo')}">

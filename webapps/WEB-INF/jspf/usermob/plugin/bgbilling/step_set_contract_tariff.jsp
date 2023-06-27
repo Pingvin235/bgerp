@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <jsp:useBean id="now" class="java.util.Date" scope="page"/>
-<fmt:formatDate value="${now}" pattern="dd.MM.yyyy" var="currentDate"/>
+<c:set var="currentDate" value="${tu.format(now, 'dd.MM.yyyy'}"/>
 
 <html:form styleId="${uiid}" action="/user/plugin/bgbilling/proto/contractTariff" style="width: 100%;">
 	<input type="hidden" name="action" value="updateContractTariff"/>
