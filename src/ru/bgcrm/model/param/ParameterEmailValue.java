@@ -83,7 +83,7 @@ public class ParameterEmailValue {
         var result = new StringBuilder();
         for (ParameterEmailValue val : emails) {
             if (result.length() > 0)
-                result.append("; ");
+                result.append(", ");
             result.append(val.toString());
         }
         return result.toString();

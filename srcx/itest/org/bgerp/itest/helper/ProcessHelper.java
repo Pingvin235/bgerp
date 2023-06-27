@@ -69,6 +69,7 @@ public class ProcessHelper {
         queue.setConfig(config);
         if (processTypeIds != null)
             queue.setProcessTypeIds(processTypeIds);
+
         dao.updateQueue(queue, User.USER_SYSTEM_ID);
         Assert.assertTrue(queue.getId() > 0);
 

@@ -45,6 +45,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.l10n.Localization;
 import org.bgerp.model.base.Id;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
@@ -488,6 +489,7 @@ public class ParamValueDAO extends CommonDAO {
      * @return
      * @throws SQLException
      */
+    @Deprecated
     public List<IdTitleComment> getParamListWithTitlesAndComments(int id, int paramId) throws SQLException {
         List<IdTitleComment> result = new ArrayList<IdTitleComment>();
 
@@ -643,7 +645,7 @@ public class ParamValueDAO extends CommonDAO {
         updateSimpleParam(id, paramId, value, TABLE_PARAM_BLOB);
 
         if (history) {
-            logParam(id, paramId, userId, value != null ? "Длина: " + value.length() : null);
+            logParam(id, paramId, userId, value != null ? Localization.getLocalizer().l("Length: {}", value.length()) : null);
         }
     }
 
@@ -756,6 +758,9 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updateParamList(int id, int paramId, Set<Integer> values) throws SQLException {
+        if (values == null)
+            values = Set.of();
+
         deleteFromParamTable(id, paramId, TABLE_PARAM_LIST);
 
         String query = "INSERT INTO " + TABLE_PARAM_LIST + "(id, param_id, value) VALUES (?,?,?)";
@@ -836,7 +841,7 @@ public class ParamValueDAO extends CommonDAO {
      * Updates parameter with type 'money'.
      * @param id object ID.
      * @param paramId param ID.
-     * @param value the value, when {@code null} - remove.
+     * @param value the value, when {@code null} - delete.
      * @throws SQLException
      */
     public void updateParamMoney(int id, int paramId, BigDecimal value) throws SQLException {
@@ -851,10 +856,13 @@ public class ParamValueDAO extends CommonDAO {
      * Updates parameter with type 'money'.
      * @param id object ID.
      * @param paramId param ID.
-     * @param value the value, when {@code null} - remove.
+     * @param value the value, when {@code null} or a blank string - delete.
      * @throws SQLException
      */
     public void updateParamMoney(int id, int paramId, String value) throws SQLException {
+        if (Utils.isBlankString(value))
+            value = null;
+
         updateSimpleParam(id, paramId, Utils.parseBigDecimal(value), TABLE_PARAM_MONEY);
 
         if (history) {
@@ -1966,17 +1974,14 @@ public class ParamValueDAO extends CommonDAO {
      * @throws SQLException
      */
     public void updateParamTree(int id, int paramId, Set<String> values) throws SQLException {
-        List<IdStringTitle> existIdTitles = getParamTreeWithTitles(id, paramId);
+        if (values == null)
+            values = Set.of();
 
-        PreparedStatement ps = null;
-
-        if (existIdTitles.size() > 0) {
-            deleteFromParamTable(id, paramId, TABLE_PARAM_TREE);
-        }
+        deleteFromParamTable(id, paramId, TABLE_PARAM_TREE);
 
         String query = "INSERT INTO " + TABLE_PARAM_TREE + "(id, param_id, value) VALUES (?,?,?)";
 
-        ps = con.prepareStatement(query.toString());
+        PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, id);
         ps.setInt(2, paramId);
         for (String value : values) {
@@ -1985,7 +1990,6 @@ public class ParamValueDAO extends CommonDAO {
         }
         ps.close();
 
-        // Лог изменений.
         if (history) {
             logParam(id, paramId, userId, Utils.getObjectTitles(getParamTreeWithTitles(id, paramId)));
         }
@@ -2001,7 +2005,7 @@ public class ParamValueDAO extends CommonDAO {
     public List<IdStringTitle> getParamTreeWithTitles(int id, int paramId) throws SQLException {
         List<IdStringTitle> result = new ArrayList<>();
 
-        StringBuilder query = new StringBuilder();
+        StringBuilder query = new StringBuilder(200);
 
         query.append(SQL_SELECT);
         query.append("val.value, dir.title");
@@ -2011,6 +2015,7 @@ public class ParamValueDAO extends CommonDAO {
         addTreeParamJoin(query, paramId);
         query.append(SQL_WHERE);
         query.append("val.id=? AND val.param_id=?");
+        query.append(SQL_ORDER_BY).append("val.value");
 
         PreparedStatement ps = con.prepareStatement(query.toString());
         ps.setInt(1, id);

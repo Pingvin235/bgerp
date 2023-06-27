@@ -39,7 +39,6 @@ public class ProcessLinkTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.getParameterIds().addAll(ProcessParamTest.paramIds);
 
         var processType = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
         processTypeId = processType.getId();
@@ -74,7 +73,6 @@ public class ProcessLinkTest {
         var dao = new ProcessLinkDAO(DbTest.conRoot);
 
         int processId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE).getId();
-        ProcessParamTest.paramValues(processId);
         MessageHelper.addHowToTestNoteMessage(processId, this);
         dao.addLink(new ProcessLink(processId, Customer.OBJECT_TYPE, customer.getId(), customer.getTitle()));
 

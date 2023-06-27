@@ -614,6 +614,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Duration (ms)</en><ru>Длительность (ms)</ru></p>
 	<p><en>Not Running</en><ru>Не выполняется</ru></p>
 	<p><en>Execution</en><ru>Выполнение</ru></p>
+	<p><en>Length: {}</en><ru>Длина: {}</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

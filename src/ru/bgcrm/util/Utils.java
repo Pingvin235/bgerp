@@ -124,13 +124,14 @@ public class Utils {
     }
 
     /**
-     * Преобразует строку в BigDecimal, и, в случае ошибки, возвращает 0.0
-     *
-     * @param str строка представляющая BigDecimal-значение.
-     * @return новый объект BigDecimal.
+     * Converts a string to a decimal object.
+     * @param str the string.
+     * @return a decimal object, {@code null} when {@code str} was {@code null}, {@link BigDecimal#ZERO} for any unparsable value.
      */
     public static BigDecimal parseBigDecimal(final String str) {
-        return parseBigDecimal(str, new BigDecimal(0));
+        if (str == null)
+            return null;
+        return parseBigDecimal(str, BigDecimal.ZERO);
     }
 
     /**

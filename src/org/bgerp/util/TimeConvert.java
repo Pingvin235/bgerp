@@ -24,14 +24,26 @@ public class TimeConvert {
     }
 
     /**
-     * Converts month to date of the first day.
-     * @param value
-     * @return {@code null} or date of the first day of month {@code value}.
+     * Converts the first day of a month to date.
+     * @param value the month.
+     * @return {@code null} or date of the first day of the month {@code value}.
      */
     public static final Date toDate(YearMonth value) {
         return
             value != null ?
             Date.from(value.atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant()) :
+            null;
+    }
+
+    /**
+     * Converts beginning of a day to date.
+     * @param value the day.
+     * @return {@code null} or date of the beginning of the day {@code value}.
+     */
+    public static final Date toDate(LocalDate value) {
+        return
+            value != null ?
+            Date.from(value.atStartOfDay(ZoneId.systemDefault()).toInstant()) :
             null;
     }
 
