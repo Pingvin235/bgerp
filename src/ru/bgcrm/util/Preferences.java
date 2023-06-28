@@ -147,6 +147,9 @@ public class Preferences extends ParameterMap {
      * @throws BGException
      */
     private void loadDataEntry(MultilineContext context, Map<String, String> data, String line, Iterable<ParameterMap> includes, boolean validate) throws BGException {
+        // remove terminating non-printable chars
+        line = line.replaceAll("\\p{C}+$", "");
+
         if (line.startsWith("#")) {
             return;
         }

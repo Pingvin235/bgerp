@@ -109,4 +109,16 @@ public class PreferencesTest {
         Assert.assertTrue(exception);
     }
 
+    @Test
+    public void testTerminatingNonPrintableChars() throws Exception {
+        ParameterMap config = new Preferences(
+                IOUtils.toString(this.getClass().getResourceAsStream("PreferencesTest.terminating.non.printable.chars.txt"), StandardCharsets.UTF_8));
+        Assert.assertEquals(4320, config.getInt("sla:close.before.minutes"));
+        Assert.assertEquals(800, config.getInt("sla:color.yellow.when.left.minutes"));
+
+        config = config.sub("sla:");
+        Assert.assertEquals(4320, config.getInt("close.before.minutes"));
+        Assert.assertEquals(800, config.getInt("color.yellow.when.left.minutes"));
+    }
+
 }

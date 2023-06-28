@@ -1,0 +1,2 @@
+sla:close.before.minutes=4320‬
+sla:color.yellow.when.left.minutes=800
