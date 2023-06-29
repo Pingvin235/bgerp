@@ -70,7 +70,7 @@ public class SalesTest {
 
     @Test (dependsOnMethods = "processType")
     public void processQueue() throws Exception {
-        queueId = ProcessHelper.addQueue(TITLE, ResourceHelper.getResource(this, "queue.txt"), Sets.newHashSet(processTypeSaleId));
+        queueId = ProcessHelper.addQueue(TITLE, ResourceHelper.getResource(this, "process.queue.config.txt"), Sets.newHashSet(processTypeSaleId));
         UserHelper.addGroupQueues(groupId, Sets.newHashSet(queueId));
 
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));

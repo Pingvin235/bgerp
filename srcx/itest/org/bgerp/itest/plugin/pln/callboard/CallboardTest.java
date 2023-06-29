@@ -96,8 +96,7 @@ public class CallboardTest {
             ConfigHelper.generateConstants(
                 "PROCESS_PARAM_CONNECTION_TIME_ID", paramConnectionTimeId,
                 "PROCESS_PARAM_ADDRESS_ID", paramAddressId
-            ) +
-            ResourceHelper.getResource(this, "process.type.config.txt"));
+            ) + ResourceHelper.getResource(this, "process.type.config.txt"));
         processTypeId = ProcessHelper.addType(TITLE + " Connection", ProcessTest.processTypeTestGroupId, false, props).getId();
     }
 
@@ -120,8 +119,7 @@ public class CallboardTest {
 
     @Test(dependsOnMethods = { "userGroup", "processType" })
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(PLUGIN,
-            ConfigHelper.generateConstants("USER_GROUP_ID", userGroupIdParent) +
+        ConfigHelper.addIncludedConfig(PLUGIN, ConfigHelper.generateConstants("USER_GROUP_ID", userGroupIdParent) +
             ResourceHelper.getResource(this, "config.txt"));
     }
 
@@ -138,10 +136,7 @@ public class CallboardTest {
                             "Только Интернет = 30 минут");
         workType.setTimeSetStep(30);
         workType.setTimeSetMode(WorkType.MODE_TIME_ON_STEP);
-        workType.setRuleConfig(
-            ConfigHelper.generateConstants(
-                "PROCESS_PARAM_SERVICES_ID", paramServicesId
-            ) +
+        workType.setRuleConfig(ConfigHelper.generateConstants("PROCESS_PARAM_SERVICES_ID", paramServicesId) +
             ResourceHelper.getResource(this, "work.type.1.config.txt"));
         dao.updateWorkType(workType);
         Assert.assertTrue(0 < (workTypeInetKtvId = workType.getId()));

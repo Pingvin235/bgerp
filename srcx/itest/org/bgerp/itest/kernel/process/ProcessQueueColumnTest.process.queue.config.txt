@@ -1,0 +1,41 @@
+column.1.title=ID
+column.1.value=id
+column.3.title=Description cutIfMore 10
+column.3.value=description
+column.3.cutIfMore=10
+column.5.title=Money Amount + SUM
+column.5.value=param:{@PARAM_MONEY_AMOUNT_ID}
+column.5.aggregate=SUM
+column.7.title=Money Amount + AVG
+column.7.value=param:{@PARAM_MONEY_AMOUNT_ID}
+column.7.aggregate=AVG
+column.9.title=Multiline Text
+column.9.value=param:{@PARAM_BLOB_LARGE_TEXT_ID}
+column.9.formatToHtml=1
+column.11.title=Text titleIfMore
+column.11.value=param:{@PARAM_BLOB_LARGE_TEXT_ID}
+column.11.titleIfMore=20
+column.13.title=close_dt format 'MM dd HH-mm-ss'
+column.13.value=close_dt:MM dd HH-mm-ss
+column.15.title=NONE [close_dt value]
+column.15.value=close_dt:value
+column.17.title=Text convert=int
+column.17.value=param:{@PARAM_TEXT_INT_ID}
+column.17.convert=int
+
+media.html.columns=1,3,5,7,9,11,13,17
+
+sort.mode.1.columnId=15
+sort.mode.1.title=1 Closing Time
+sort.mode.2.columnId=15
+sort.mode.2.title=2 Closing Time DESC
+sort.mode.2.desc=1
+sort.mode.3.columnId=17
+sort.mode.3.title=3 Text convert=int
+sort.mode.4.columnId=17
+sort.mode.4.title=4 Text convert=int DESC
+sort.mode.4.desc=1
+
+sort.combo.count=2
+sort.combo.1.default=2
+sort.combo.2.default=3

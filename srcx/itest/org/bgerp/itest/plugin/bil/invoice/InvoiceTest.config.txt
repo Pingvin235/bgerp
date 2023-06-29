@@ -1,4 +1,3 @@
-
 invoice:type.1.title=Consultancy
 invoice:type.1.template=eu_en
 invoice:type.1.provider.{@inc:cnt}.class=org.bgerp.plugin.bil.invoice.pos.ExpressionPositionProvider

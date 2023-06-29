@@ -1,3 +1,2 @@
-
 # by default first user 'email' param ID is used, set 0 to disable notifications
 notification.user.email={@PARAM_USER_EMAIL_ID}

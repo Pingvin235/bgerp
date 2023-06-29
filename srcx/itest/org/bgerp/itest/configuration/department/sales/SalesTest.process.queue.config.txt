@@ -1,11 +1,9 @@
-#
 cnt=0
-#
+
 filter.{@inc:cnt}.type=openClose
 filter.{@cnt}.defaultValue=open
 filter.{@inc:cnt}.type=status
 filter.{@inc:cnt}.type=groups
-filter.{@cnt}.defaultValues={@GROUP_ID}
 filter.{@cnt}.show=0
 filter.{@inc:cnt}.title=Executors
 filter.{@cnt}.type=executors
@@ -14,18 +12,15 @@ filter.{@inc:cnt}.type=create_date
 filter.{@inc:cnt}.type=close_date
 filter.{@inc:cnt}.type=linkedCustomer:title
 filter.{@inc:cnt}.type=description
-filter.{@inc:cnt}.type=create_user
-filter.{@inc:cnt}.type=close_user
-#
+
 column.1.title=ID
 column.1.value=id
 column.2.title=Customer
 column.2.value=linkedCustomerLink
+#column.2.value=linkedCustomer:title
 column.2.titleIfMore=100
-# the column isn't visible, but paints rows depending on priority
 column.3.title=Priority
 column.3.value=priority
-
 column.4.title=Description
 column.4.value=descriptionLink
 column.4.titleIfMore=100
@@ -35,7 +30,6 @@ column.6.nowrap=1
 column.8.title=Executors
 column.8.value=executors
 column.8.titleIfMore=15
-
 column.10.title=MIC
 column.10.value=messageInCount
 column.12.title=MIUC
@@ -45,17 +39,12 @@ column.14.value=messageInLastDt
 column.14.nowrap=1
 column.16.title=NONE
 column.16.value=messageInLastDt:nf
-
 column.18.title=Created
 column.18.value=create_dt
 column.18.nowrap=1
 column.18.style=padding: 2px;
-column.20.title=Status changed
-column.20.value=status_dt:dd.MM.yyyy
-column.22.title=Type
-column.22.value=type_title
 
-media.html.columns=3,1,22,4,6,8,10,12,14,18
+media.html.columns=1,2,4,6,8,10,12,14,18
 
 sort.combo.count=2
 sort.combo.1.default=3
@@ -72,33 +61,3 @@ sort.mode.3.desc=true
 sort.mode.4.columnId=3
 sort.mode.4.title=Priority desc
 sort.mode.4.desc=true
-
-# Export to Excel
-media.xls.columns=1,22,4,6,8,10,12,14
-
-# PDF generation
-checkColumn=1
-media.print.1.title=PDF
-# column to width proportion mapping
-media.print.1.columns=1:2;4:10;18:4
-# can be landscape
-media.print.1.orientation=portrait
-media.print.1.fileName=queue.pdf
-
-# Processors
-cnt=0
-processor.{@inc:cnt}.title=Set status
-processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
-processor.{@cnt}.commands=setStatus:{@STATUS_OPEN_ID},{@STATUS_PROGRESS_ID},{@STATUS_WAIT_ID}
-processor.{@cnt}.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
-#
-processor.{@inc:cnt}.title=Delete process
-processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
-processor.{@cnt}.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
-processor.{@cnt}.doExpression=delete()
-#
-# TODO: setDate, deleteGroups
-
-
-# url ending for open interface
-openUrl=dev

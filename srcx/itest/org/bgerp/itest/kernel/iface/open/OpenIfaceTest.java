@@ -65,15 +65,13 @@ public class OpenIfaceTest {
 
     @Test(dependsOnMethods = { "user", "process" })
     public void config() throws Exception {
-        var config =
-                ConfigHelper.generateConstants(
-                    "USER_ENABLE_PARAM_ID", userOpenParamId,
-                    "USER_SHOW_PARAM_IDS", UserTest.paramEmailId,
-                    "PROCESS_TYPE_IDS", processTypeId,
-                    "PROCESS_SHOW_PARAM_IDS", processOpenParamId,
-                    "MESSAGE_OPEN_TAG_IDS", MessageTest.tagOpen.getId()
-                ) +
-                ResourceHelper.getResource(this, "config.txt");
+        var config = ConfigHelper.generateConstants(
+                "USER_ENABLE_PARAM_ID", userOpenParamId,
+                "USER_SHOW_PARAM_IDS", UserTest.paramEmailId,
+                "PROCESS_TYPE_IDS", processTypeId,
+                "PROCESS_SHOW_PARAM_IDS", processOpenParamId,
+                "MESSAGE_OPEN_TAG_IDS", MessageTest.tagOpen.getId()
+            ) + ResourceHelper.getResource(this, "config.txt");
         ConfigHelper.addIncludedConfig(TITLE, config);
     }
 }

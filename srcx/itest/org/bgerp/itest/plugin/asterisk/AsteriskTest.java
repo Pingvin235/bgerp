@@ -38,7 +38,6 @@ public class AsteriskTest {
             ConfigHelper.generateConstants(
                 "CALL_MESSAGE_TYPE_ID", MessageTest.CALL_MESSAGE_TYPE_ID,
                 "USER_NUMBER_PARAM_ID", paramExtensionId
-            ) +
-            ResourceHelper.getResource(this, "config.txt"));
+            ) + ResourceHelper.getResource(this, "config.txt"));
     }
 }

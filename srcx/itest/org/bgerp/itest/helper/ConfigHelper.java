@@ -62,8 +62,8 @@ public class ConfigHelper {
 
     public static String generateConstants(Object... pairs) {
         var config = new StringBuilder();
+
         config.append("\n# constants\n");
-        //TODO: User ParameterMap.of(pairs)
         for (int i = 0; i < pairs.length; i += 2) {
             config
                 .append(pairs[i])
@@ -71,6 +71,8 @@ public class ConfigHelper {
                 .append(pairs[i + 1])
                 .append("\n");
         }
+        config.append("\n");
+
         return config.toString();
     }
 

@@ -1,4 +1,3 @@
-
 messageType.{@CALL_MESSAGE_TYPE_ID}.offerNumberFromParamId={@USER_NUMBER_PARAM_ID}
 
 asterisk:amiManager.1.messageTypeId={@CALL_MESSAGE_TYPE_ID}

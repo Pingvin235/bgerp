@@ -1,5 +1,5 @@
-
 cnt=0
+
 message.related.process.{@inc:cnt}.type=messageFrom
 message.related.process.{@cnt}.color=#ffbf00
 message.related.process.{@inc:cnt}.type=foundLink

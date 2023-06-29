@@ -107,8 +107,7 @@ public class InvoiceTest {
                 "PARAM_CUSTOMER_RU_SIGN_NAME_ID", CustomerRuTest.paramSignNameId,
                 "PARAM_CUSTOMER_RU_STAMP_ID", CustomerRuTest.paramStampId,
                 "PARAM_CUSTOMER_RU_INVOICE_FOOTER_ID", CustomerRuTest.paramInvoiceFooterId
-            ) +
-            ResourceHelper.getResource(this, "config.txt"));
+            ) + ResourceHelper.getResource(this, "config.txt"));
         Config config = Setup.getSetup().getConfig(Config.class);
         Assert.assertNotNull(type = config.getType(1));
         Assert.assertNotNull(typeRu = config.getType(2));

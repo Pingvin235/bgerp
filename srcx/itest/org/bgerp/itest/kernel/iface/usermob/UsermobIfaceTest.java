@@ -43,11 +43,10 @@ public class UsermobIfaceTest {
 
     @Test(dependsOnMethods = "processType")
     public void processQueue() throws Exception {
-        int queueId = ProcessHelper.addQueue(TITLE,
-            ConfigHelper.generateConstants(
+        int queueId = ProcessHelper.addQueue(TITLE, ConfigHelper.generateConstants(
                 "PROCESS_PARAM_ADDRESS_ID", ProcessTest.paramAddressId,
-                "PROCESS_TYPE_ID", processType.getId()) +
-                ResourceHelper.getResource(this, "process.queue.config.txt"),
+                "PROCESS_TYPE_ID", processType.getId()
+            ) + ResourceHelper.getResource(this, "process.queue.config.txt"),
             Set.of(processType.getId()));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }

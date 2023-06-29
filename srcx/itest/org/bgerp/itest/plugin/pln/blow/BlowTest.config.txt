@@ -1,4 +1,3 @@
-
 blow:board.1.title={@BOARD_TITLE}
 blow:board.1.queueId={@PROCESS_QUEUE_ID}
 blow:board.1.executor.groupIds={@GROUP_ID}

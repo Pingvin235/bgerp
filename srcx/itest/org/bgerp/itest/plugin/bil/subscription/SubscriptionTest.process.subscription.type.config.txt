@@ -1,4 +1,3 @@
-
 processReference.1.objectTypes=processCard
 processReference.1.stringExpression=<<END
     text = "Subscription " + process.getId();

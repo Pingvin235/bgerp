@@ -1,4 +1,3 @@
-
 filter.{@inc:cnt}.type=openClose
 filter.{@cnt}.defaultValue=open
 filter.{@inc:cnt}.type=status

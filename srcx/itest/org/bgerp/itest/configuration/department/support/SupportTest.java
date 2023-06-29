@@ -76,8 +76,8 @@ public class SupportTest {
     @Test(dependsOnMethods = "processType")
     public void processQueue() throws Exception {
         var queueId = ProcessHelper.addQueue(TITLE,
-            ConfigHelper.generateConstants("GROUP_ID", groupId) +
-            ResourceHelper.getResource(this, "queue.txt"), Sets.newHashSet(processTypeSupportId));
+                ConfigHelper.generateConstants("GROUP_ID", groupId) + ResourceHelper.getResource(this, "process.queue.config.txt"),
+                Sets.newHashSet(processTypeSupportId));
         UserHelper.addGroupQueues(groupId, Set.of(queueId));
 
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));

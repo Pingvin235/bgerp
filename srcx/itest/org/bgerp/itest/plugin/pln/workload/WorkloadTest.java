@@ -75,8 +75,7 @@ public class WorkloadTest {
                 "PROCESS_PARAM_DATE_FROM_ID", paramDateTimeFromId,
                 "PROCESS_PARAM_DATE_TO_ID", paramDateTimeToId,
                 "PROCESS_PARAM_ADDRESS_ID", paramAddressId
-            ) +
-            ResourceHelper.getResource(this, "process.type.config.txt"));
+            ) + ResourceHelper.getResource(this, "process.type.config.txt"));
 
         new ProcessTypeDAO(DbTest.conRoot).updateTypeProperties(type);
     }

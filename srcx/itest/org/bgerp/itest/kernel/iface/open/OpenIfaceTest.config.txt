@@ -1,13 +1,13 @@
-#
+
 # absolute open URL root, required for E-Mails
 #url.open=https://demo.bgerp.org/open
-#
+
 user.open.enable.paramId={@USER_ENABLE_PARAM_ID}
 user.open.show.paramIds={@USER_SHOW_PARAM_IDS}
-#
+
 # enable secret plugin and use generated secrets for opening processes
 #process.open.secret.expression=secret.open(key, update)
-#
+
 process.open.typeIds={@PROCESS_TYPE_IDS}
 process.open.show.paramIds={@PROCESS_SHOW_PARAM_IDS}
 process.open.show.message.tagIds={@MESSAGE_OPEN_TAG_IDS}

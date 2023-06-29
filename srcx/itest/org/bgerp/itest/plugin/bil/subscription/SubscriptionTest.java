@@ -124,10 +124,7 @@ public class SubscriptionTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setConfig(
-            ConfigHelper.generateConstants(
-                "PARAM_COST_ID", paramSubscriptionCostId
-            ) +
+        props.setConfig(ConfigHelper.generateConstants("PARAM_COST_ID", paramSubscriptionCostId) +
             ResourceHelper.getResource(this, "process.subscription.type.config.txt"));
         props.setParameterIds(List.of(paramEmailId, paramSubscriptionId, paramLimitId, paramServiceCostId,
                 paramDiscountId, paramSubscriptionCostId, paramDateToId, paramLicFileId));
@@ -160,8 +157,7 @@ public class SubscriptionTest {
                 "PARAM_COST_DISCOUNT_ID", paramDiscountId,
                 "PARAM_COST_ID", paramSubscriptionCostId,
                 "PROCESS_PRODUCT_TYPE_ID", processProductTypeId
-            ) +
-            ResourceHelper.getResource(this, "config.txt"));
+            ) + ResourceHelper.getResource(this, "config.txt"));
 
         var config = Setup.getSetup().getConfig(Config.class);
 
@@ -270,12 +266,12 @@ public class SubscriptionTest {
     @Test(dependsOnMethods = "processType")
     public void processQueue() throws Exception {
         int queueId = ProcessHelper.addQueue(TITLE + " Product",
-                ConfigHelper.generateConstants(
-                    "PARAM_PRODUCT_ID", paramProductId,
-                    "PARAM_PRICE_RUB_ID", paramPriceRubId,
-                    "PARAM_PRICE_EUR_ID", paramPriceEurId) +
-                    ResourceHelper.getResource(this, "process.queue.config.txt"),
-                Set.of(processProductTypeId));
+            ConfigHelper.generateConstants(
+                "PARAM_PRODUCT_ID", paramProductId,
+                "PARAM_PRICE_RUB_ID", paramPriceRubId,
+                "PARAM_PRICE_EUR_ID", paramPriceEurId
+            ) + ResourceHelper.getResource(this, "process.queue.config.txt"),
+            Set.of(processProductTypeId));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }
 }

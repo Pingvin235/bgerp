@@ -58,12 +58,10 @@ public class MessageTest {
 
     @Test
     public void config() throws Exception {
-        var config =
-                ConfigHelper.generateConstants(
-                    "PARAM_CUSTOMER_EMAIL_ID", CustomerTest.paramEmailId,
-                    "PARAM_CUSTOMER_PHONE_ID", CustomerTest.paramPhoneId
-                ) +
-                ResourceHelper.getResource(this, "config.txt");
+        var config = ConfigHelper.generateConstants(
+                "PARAM_CUSTOMER_EMAIL_ID", CustomerTest.paramEmailId,
+                "PARAM_CUSTOMER_PHONE_ID", CustomerTest.paramPhoneId
+            ) + ResourceHelper.getResource(this, "config.txt");
         configId = ConfigHelper.addIncludedConfig(TITLE, config);
 
         var messageTypeConfig = Setup.getSetup().getConfig(MessageTypeConfig.class);

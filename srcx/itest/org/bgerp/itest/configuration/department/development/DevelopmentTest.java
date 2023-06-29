@@ -84,8 +84,8 @@ public class DevelopmentTest {
             ConfigHelper.generateConstants("GROUP_ID", groupId,
                 "STATUS_OPEN_ID", ProcessTest.statusOpenId,
                 "STATUS_PROGRESS_ID", ProcessTest.statusProgressId,
-                "STATUS_WAIT_ID", ProcessTest.statusWaitId) +
-            ResourceHelper.getResource(this, "queue.tasks.txt"), Sets.newHashSet(processTypeProductId));
+                "STATUS_WAIT_ID", ProcessTest.statusWaitId
+            ) + ResourceHelper.getResource(this, "process.queue.config.txt"), Sets.newHashSet(processTypeProductId));
         UserHelper.addGroupQueues(groupId, Sets.newHashSet(queueId));
 
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));

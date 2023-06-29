@@ -59,8 +59,7 @@ public class GitTest {
                 "PARAM_EMAIL_ID", UserTest.paramEmailId,
                 "PROCESS_STATUS_PROGRESS_ID", ProcessTest.statusProgressId,
                 "PROCESS_STATUS_DONE_ID", ProcessTest.statusDoneId
-            ) +
-            ResourceHelper.getResource(this, "config.txt"));
+            ) + ResourceHelper.getResource(this, "config.txt"));
     }
 
     @Test(dependsOnMethods = "processType")

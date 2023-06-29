@@ -86,8 +86,8 @@ public class BlowTest {
                 "PROCESS_STATUS_PROGRESS_ID", ProcessTest.statusProgressId,
                 "PROCESS_STATUS_WAIT_ID", ProcessTest.statusWaitId,
                 "PROCESS_TYPE_INCIDENT_ID", processTypeIncidentId,
-                "GROUP_ID", userGroupId) +
-            ResourceHelper.getResource(this, "config.txt")
+                "GROUP_ID", userGroupId
+            ) + ResourceHelper.getResource(this, "config.txt")
         );
     }
 

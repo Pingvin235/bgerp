@@ -1,4 +1,3 @@
-
 task:processShowTasks=1
 
 onProcessEvent.1.events=paramChanged:{@DEADLINE_PARAM_ID}

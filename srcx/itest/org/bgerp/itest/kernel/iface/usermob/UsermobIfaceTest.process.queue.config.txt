@@ -1,4 +1,3 @@
-
 showIn=usermob
 
 filter.{@inc:cnt}.type=openClose

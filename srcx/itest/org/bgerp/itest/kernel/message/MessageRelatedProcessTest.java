@@ -68,11 +68,7 @@ public class MessageRelatedProcessTest {
 
     @Test(dependsOnMethods = "param")
     public void config() throws Exception {
-        var config =
-                ConfigHelper.generateConstants(
-                    "PROCESS_CITY_PARAM_ID", paramCityId
-                ) +
-                ResourceHelper.getResource(this, "config.txt");
+        var config = ConfigHelper.generateConstants("PROCESS_CITY_PARAM_ID", paramCityId) + ResourceHelper.getResource(this, "config.txt");
         ConfigHelper.addIncludedConfig(TITLE, config);
 
         var messageRelatedProcessConfig = Setup.getSetup().getConfig(MessageRelatedProcessConfig.class);

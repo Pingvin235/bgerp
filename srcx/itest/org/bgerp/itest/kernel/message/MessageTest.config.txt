@@ -1,4 +1,3 @@
-
 # message tags
 tag.1.title=ACCESS
 tag.1.color=red

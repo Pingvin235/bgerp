@@ -1,4 +1,3 @@
-
 subscription:sign.key.file=/org/bgerp/plugin/bil/subscription/demo.key.id_rsa
 
 subscription:param.product.id={@PARAM_PRODUCT_ID}
