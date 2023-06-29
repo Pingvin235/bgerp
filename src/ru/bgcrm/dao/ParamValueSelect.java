@@ -24,18 +24,15 @@ public class ParamValueSelect {
     public static final Set<String> PARAM_ADDRESS_FIELDS = Set.of(PARAM_ADDRESS_FIELD_QUARTER, PARAM_ADDRESS_FIELD_STREET);
 
     /**
-     * Добавляет в запрос выборку параметра.
-     *
-     * @param paramRef
-     * @param selectPart
-     * @param joinPart
-     * @param addColumnValueAlias - добавляет в запрос алиас колонки, например в
-     *                            запросе param_79.value AS param_79_value добавит
-     *                            строку " AS param_79_value"
+     * Adds parameter selection query parts.
+     * @param variable the parameter macros, e.g. {@code param:12}, optionally ended with {@code :value} or date format suffixes.
+     * @param selectPart SELECT part of the query.
+     * @param joinPart JOIN part of the query.
+     * @param addColumnValueAlias adds the column alias in the query, e.g. {@code AS param_79_value}.
      */
-    public static void paramSelectQuery(String paramRef, String linkColumn, StringBuilder selectPart,
+    public static void paramSelectQuery(String variable, String linkColumn, StringBuilder selectPart,
             StringBuilder joinPart, boolean addColumnValueAlias) {
-        String[] tokens = paramRef.split(":");
+        String[] tokens = variable.split(":");
         if (tokens.length >= 2) {
             int paramId = Utils.parseInt(tokens[1].trim());
             String afterParamId = "";
@@ -52,9 +49,6 @@ public class ParamValueSelect {
                 String type = param.getType();
 
                 String tableAlias = "param_" + paramId;
-                if (Utils.notBlankString(afterParamId)) {
-                    tableAlias += "_" + afterParamId;
-                }
 
                 String columnValueAlias = "";
                 if (addColumnValueAlias) {
@@ -184,19 +178,9 @@ public class ParamValueSelect {
         }
     }
 
-    private static void addParamValueJoin(String linkColumn, StringBuilder joinPart, int paramId, String type,
-            String tableAlias) {
-        joinPart.append(" LEFT JOIN param_" + type);
-        joinPart.append(" AS ");
-        joinPart.append(tableAlias);
-        joinPart.append(" ON ");
-        joinPart.append(tableAlias);
-        joinPart.append(".id=");
-        joinPart.append(linkColumn);
-        joinPart.append(" AND ");
-        joinPart.append(tableAlias);
-        joinPart.append(".param_id=");
-        joinPart.append(paramId);
+    private static void addParamValueJoin(String linkColumn, StringBuilder joinPart, int paramId, String type, String tableAlias) {
+        String joinQuery = " LEFT JOIN param_" + type + " AS " + tableAlias + " ON " + tableAlias + ".id=" + linkColumn + " AND " + tableAlias +  ".param_id=" + paramId;
+        addIfNotContains(joinPart, joinQuery);
     }
 
     private static void addIfNotContains(StringBuilder joinPart, String joinQuery) {
