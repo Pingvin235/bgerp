@@ -17,7 +17,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractInfo;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMemo;
 import ru.bgcrm.plugin.bgbilling.proto.model.UserInfo;
-import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -323,5 +322,21 @@ public class ContractDAO8x extends ContractDAO {
             );
             searchResult.getPage().setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
         }
+    }
+
+    @Override
+    public Contract getContractById(int contractId) throws BGException {
+        RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API, "ContractService", "contractList0");
+        req.setParamContractId(contractId);
+        req.setParam("fc", -1);
+        req.setParam("subContracts", true);
+        req.setParam("closed", true);
+        req.setParam("hidden", true);
+        req.setParam("inAllLabels", true);
+
+        JsonNode ret = transferData.postData(req, user);
+        List<Contract> contractList = readJsonValue(ret.findValue("return").traverse(),
+                jsonTypeFactory.constructCollectionType(List.class, Contract.class));
+        return contractList.stream().findFirst().orElse(null);
     }
 }

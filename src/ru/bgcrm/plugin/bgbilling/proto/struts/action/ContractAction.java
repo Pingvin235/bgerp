@@ -102,7 +102,6 @@ public class ContractAction extends BaseAction {
                         form.getParamInt("streetId"), form.getParam("house"), form.getParam("flat"), form.getParam("room"));
             } else if ("id".equals(searchBy)) {
                 Pageable<IdTitle> result = new Pageable<IdTitle>(form);
-
                 Contract contract = contractDAO.getContractById(form.getParamInt("id"));
                 if (contract != null) {
                     result.getList().add(new IdTitle(contract.getId(), contract.getTitle()));

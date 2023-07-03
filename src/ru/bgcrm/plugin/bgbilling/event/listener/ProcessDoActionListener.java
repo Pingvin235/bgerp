@@ -22,6 +22,7 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
+import java.util.Optional;
 
 public class ProcessDoActionListener
 {
@@ -133,8 +134,8 @@ public class ProcessDoActionListener
 				return;
 			}
 
-			Contract contract = ContractDAO.getInstance( e.getForm().getUser(), billingId ).getContractById( link.getLinkedObjectId() );
-			if( contract != null )
+			Contract contract = ContractDAO.getInstance(e.getForm().getUser(), billingId).getContractById(link.getLinkedObjectId());
+			if( contract!=null )
 			{
 				String textForAdd = "";
 				if( Utils.notBlankString( commentPrefix ) )
@@ -167,7 +168,7 @@ public class ProcessDoActionListener
 			}
 
 			Contract contract = ContractDAO.getInstance( e.getForm().getUser(), billingId ).getContractById( link.getLinkedObjectId() );
-			if( contract != null )
+			if( contract !=null )
 			{
 				updateTextParam( conSet, process, crmParamId, contract.getComment() );
 			}
