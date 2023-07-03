@@ -25,7 +25,7 @@ valueId - ID узла с value
 		<tr style="cursor: pointer; color: blue;" clientPackage="${item.clientPackage}" onClick="markOutTr(this); alert('Функционал в разработке.');" ${rowAttrs}>
 	</c:when>
 	<c:when test="${not empty url}">
-		<c:url var="billingActionUrl" value="/user/plugin/bgbilling/proto/${url}">
+		<c:url var="billingActionUrl" value="${url.startsWith('/') ? url : '/user/plugin/bgbilling/proto/'.concat(url)}">
 			<c:param name="billingId" value="${contract.billingId}"/>
 			<c:param name="contractId" value="${contract.id}"/>
 		</c:url>

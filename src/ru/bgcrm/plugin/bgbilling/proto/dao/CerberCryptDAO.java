@@ -17,8 +17,6 @@ import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.proto.model.cerbercrypt.CardPacket;
 import ru.bgcrm.plugin.bgbilling.proto.model.cerbercrypt.UserCard;
-import ru.bgcrm.plugin.bgbilling.ws.cerbercrypt.usercard.WSUserCard;
-import ru.bgcrm.plugin.bgbilling.ws.cerbercrypt.usercard.WSUserCard_Service;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
@@ -206,24 +204,10 @@ public class CerberCryptDAO extends BillingModuleDAO {
     }
 
     public void updateUserCard(UserCard userCard) throws BGException {
-        try {
-            ru.bgcrm.plugin.bgbilling.ws.cerbercrypt.usercard.UserCard wsUserCard = new ru.bgcrm.plugin.bgbilling.ws.cerbercrypt.usercard.UserCard();
-            wsUserCard.setId(userCard.getId());
-            wsUserCard.setContractId(userCard.getContractId());
-            wsUserCard.setNumber(userCard.getNumber());
-            wsUserCard.setSubscrDate(userCard.getSubscrDate());
-            wsUserCard.setComment(userCard.getComment());
-            wsUserCard.setBasecardId(userCard.getBaseCardId());
-            wsUserCard.setUserdeviceId(0);
-            wsUserCard.setNeedSync(false);
-            wsUserCard.setDate1(TimeUtils.format(userCard.getDateFrom(), TimeUtils.PATTERN_YYYYMMDD));
-            wsUserCard.setDate2(TimeUtils.format(userCard.getDateTo(), TimeUtils.PATTERN_YYYYMMDD));
-
-            WSUserCard service = getWebService(WSUserCard_Service.class, WSUserCard.class, moduleId);
-            service.updateUserCard(wsUserCard);
-        } catch (Exception e) {
-            processWebServiceException(e);
-        }
+        //TODO:Проверить работоспособность!
+        RequestJsonRpc req = new RequestJsonRpc(CERBERCRYPT_MODULE, moduleId, "UserCardService", "updateUserCard");
+        req.setParam("uc", userCard);
+        transferData.postData(req, user);
     }
 
     public List<IdTitle> dealerList(Date dateFrom, Date dateTo, String title) throws BGException {
