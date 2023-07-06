@@ -62,7 +62,6 @@ public class ProcessTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setConfig(ResourceHelper.getResource(this, "process.type.config.txt"));
 
         processTypeTestGroupId = ProcessHelper.addType(TITLE, 0, false, props).getId();
 

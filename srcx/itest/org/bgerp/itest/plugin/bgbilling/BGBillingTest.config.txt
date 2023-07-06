@@ -16,3 +16,19 @@ bgbilling:contractType.1.billing=testbill
 bgbilling:contractType.1.patternId=17
 bgbilling:contractType.1.tariffList=133:Test ERP 1,134:Test ERP 2
 #bgbilling:contractType.1.tariffPosition=2
+
+# HelpDesk
+messageType.200.title=HD
+messageType.200.billingId=testbill
+messageType.200.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+messageType.200.user=admin
+messageType.200.pswd=admin
+messageType.200.processTypeId={@PROCESS_TYPE_HD_ID}
+messageType.200.costParamId={@PARAM_HD_COST_ID}
+messageType.200.statusParamId={@PARAM_HD_STATUS_ID}
+messageType.200.autoCloseParamId={@PARAM_HD_AUTO_CLOSE_ID}
+messageType.200.openStatusId={@PROCESS_HD_OPEN_STATUS_ID}
+messageType.200.closeStatusId={@PROCESS_HD_CLOSE_STATUS_ID}
+messageType.200.pageSize=100000
+messageType.200.newMessageEvent=0
+messageType.200.markMessagesReadStatusIds={@PROCESS_HD_READ_STATUS_IDS}
