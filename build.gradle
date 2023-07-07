@@ -69,24 +69,6 @@ configurations {
 }
 
 dependencies {
-    // OpenJDK 11
-    // http://qaru.site/questions/16251978/migration-jaxws-application-from-java-8-to-java-11
-    // https://www.jesperdj.com/2018/09/30/jaxb-on-java-9-10-11-and-beyond/
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'
-    runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.1' // 2.4.0-b180830.0438
-    implementation 'javax.xml.ws:jaxws-api:2.3.1'
-    implementation 'javax.jws:javax.jws-api:1.1'
-    runtimeOnly 'com.sun.xml.ws:jaxws-rt:2.3.1'
-    runtimeOnly 'com.sun.xml.ws:rt:2.3.1'
-    runtimeOnly 'com.sun.istack:istack-commons-runtime:3.0.7'
-    runtimeOnly 'com.sun.xml.stream.buffer:streambuffer:1.5.6'
-    runtimeOnly 'com.sun.xml.ws:policy:2.7.5'
-    runtimeOnly 'org.jvnet.staxex:stax-ex:1.8'
-    implementation 'javax.xml.soap:javax.xml.soap-api:1.4.0'
-    runtimeOnly 'com.sun.xml.messaging.saaj:saaj-impl:1.5.0'
-    runtimeOnly 'org.glassfish.gmbal:gmbal-api-only:3.1.0-b001'
-    runtimeOnly 'org.jvnet.mimepull:mimepull:1.9.10'
-
     // add app libraries below with explicitly required dependencies after each of them
     implementation 'log4j:log4j:1.2.17'
     implementation 'org.apache.logging.log4j:log4j-api:2.11.2'

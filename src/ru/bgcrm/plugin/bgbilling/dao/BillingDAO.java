@@ -1,35 +1,25 @@
 package ru.bgcrm.plugin.bgbilling.dao;
 
-import java.net.URL;
-import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.Service;
-import javax.xml.ws.WebServiceClient;
-
-import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.model.user.UserAccount;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.TransferData;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
-import ru.bgcrm.util.soap.HeaderHandlerResolver;
-
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 
 public class BillingDAO {
     protected static final String TITLE = "title";
@@ -147,52 +137,6 @@ public class BillingDAO {
             }
         }
         return result.toString();
-    }
-
-    protected <K extends Service, S> S getWebService(Class<K> clazz, Class<S> serviceClass) throws BGException {
-        return getWebService(clazz, serviceClass, 0);
-    }
-
-    protected <K extends Service, S> S getWebService(Class<K> clazz, Class<S> serviceClass, int moduleId)
-            throws BGException {
-        S port = null;
-        try {
-            UserAccount account = TransferData.getUserAccount(dbInfo.getId(), user);
-
-            String login = account.getLogin();
-            String pswd = account.getPassword();
-
-            // замена хоста и порта, с которых генерился сервис на нужные
-            WebServiceClient annotation = clazz.getAnnotation(WebServiceClient.class);
-            String wsdlLocation = annotation.wsdlLocation();
-
-            final String delim = "/executer";
-
-            if (moduleId > 0) {
-                wsdlLocation = wsdlLocation.replaceAll("/\\d*/", "/" + String.valueOf(moduleId) + "/");
-            }
-
-            wsdlLocation = dbInfo.getUrl() + StringUtils.substringAfter(wsdlLocation, delim);
-
-            Service webService = Service.create(new URL(wsdlLocation),
-                    new QName(annotation.targetNamespace(), annotation.name()));
-
-            webService.setHandlerResolver(new HeaderHandlerResolver(login, pswd));
-
-            port = webService.getPort(serviceClass);
-
-            final Map<String, Object> requestContext = ((BindingProvider) port).getRequestContext();
-            requestContext.put(BindingProvider.SESSION_MAINTAIN_PROPERTY, true);
-            requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsdlLocation);
-        } catch (Exception e) {
-            throw new BGException(e);
-        }
-        return port;
-    }
-
-    protected void processWebServiceException(Exception e) throws BGException {
-        // TODO: Сделать выделение MessageException
-        throw new BGException(e);
     }
 
     protected <T> T readJsonValue(JsonParser p, JavaType valueType) throws BGException {

@@ -1,42 +1,38 @@
 package ru.bgcrm.dynamic.model;
 
-import javax.xml.bind.annotation.XmlAttribute;
-
 public class DynamicClass
 {
 	private String className;
 	private long lastModified;
 	//private boolean needsRecompile;
-	
+
 	private boolean deprecated;
 	private String description;
-	
+
 	public DynamicClass()
     {}
-	
+
 	public DynamicClass( String className, long lastModified )
 	{
 		this.className = className;
 		this.lastModified = lastModified;
 	}
-	
-	@XmlAttribute
+
 	public String getClassName()
     {
     	return className;
     }
-	
+
 	public void setClassName( String className )
     {
     	this.className = className;
     }
-	
-	@XmlAttribute
+
 	public long getLastModified()
     {
     	return lastModified;
     }
-	
+
 	public void setLastModified( long lastModified )
     {
     	this.lastModified = lastModified;

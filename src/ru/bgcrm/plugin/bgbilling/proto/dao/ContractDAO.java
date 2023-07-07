@@ -725,24 +725,19 @@ public class ContractDAO extends BillingDAO {
 
             transferData.postData(request, user);
         } else {
-            try {
-                RequestJsonRpc req = null;
-                if ("add".equals(command)) {
-                    req = new RequestJsonRpc(KERNEL_CONTRACT_API,
-                            "ContractService", "contractGroupAdd");
+            RequestJsonRpc req = null;
+            if ("add".equals(command)) {
+                req = new RequestJsonRpc(KERNEL_CONTRACT_API,
+                        "ContractService", "contractGroupAdd");
 
-                } else if ("del".equals(command)) {
-                    req = new RequestJsonRpc(KERNEL_CONTRACT_API,
-                            "ContractService", "contractGroupRemove");
-                }
-                if (req != null) {
-                    req.setParamContractId(contractId);
-                    req.setParam("contractGroupId", groupId);
-                    transferData.postDataReturn(req, user);
-                }
-
-            } catch (Exception e) {
-                processWebServiceException(e);
+            } else if ("del".equals(command)) {
+                req = new RequestJsonRpc(KERNEL_CONTRACT_API,
+                        "ContractService", "contractGroupRemove");
+            }
+            if (req != null) {
+                req.setParamContractId(contractId);
+                req.setParam("contractGroupId", groupId);
+                transferData.postDataReturn(req, user);
             }
         }
     }

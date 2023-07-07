@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.jws.WebParam;
-
 import org.bgerp.model.Pageable;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -232,7 +230,7 @@ public class InetDAO extends BillingModuleDAO {
         result.getPage().setData(jsonMapper.convertValue(ret.findValue("page"), Page.class));
     }
 
-    public Set<Integer> vlanResourceCategoryIds( @WebParam(name = "deviceId") int deviceId ) throws BGException {
+    public Set<Integer> vlanResourceCategoryIds(int deviceId) throws BGException {
         RequestJsonRpc req = new RequestJsonRpc(inetModule, moduleId, INET_SERV_SERVICE, "vlanResourceCategoryIds");
         req.setParam("deviceId", deviceId);
 
