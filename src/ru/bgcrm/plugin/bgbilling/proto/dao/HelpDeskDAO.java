@@ -1,17 +1,17 @@
 package ru.bgcrm.plugin.bgbilling.proto.dao;
 
+import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.ws.Holder;
-
-import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.Pageable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.FileData;
@@ -22,13 +22,9 @@ import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.RequestJsonRpc;
 import ru.bgcrm.plugin.bgbilling.dao.BillingDAO;
+import ru.bgcrm.plugin.bgbilling.proto.model.BGServerFile;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdMessage;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdTopic;
-import ru.bgcrm.plugin.bgbilling.ws.helpdesk.BgServerFile;
-import ru.bgcrm.plugin.bgbilling.ws.helpdesk.HelpdeskService;
-import ru.bgcrm.plugin.bgbilling.ws.helpdesk.HelpdeskService_Service;
-import ru.bgcrm.plugin.bgbilling.ws.helpdesk.param.HelpdeskParamService;
-import ru.bgcrm.plugin.bgbilling.ws.helpdesk.param.HelpdeskParamService_Service;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
@@ -44,77 +40,14 @@ public class HelpDeskDAO extends BillingDAO {
         super(user, dbInfo);
     }
 
-    /*http://billing:8081/executer?module=ru.bitel.bgbilling.plugins.helpdesk&status=-1&pageSize=25&userselect=all&onlynew=1&
-    	BGBillingSecret=xiYJbPNwknnkCDWUGBcrLZki&pageIndex=1&message=&title=&action=GetTableAdmin
-    	&date2=&closed=0&tid=&cache_directory=ru.bitel.bgbilling.plugins.helpdesk.directory.status%3A1381143257497%3B&date1=&
-
-    [ length = 12023 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="5634DD7F89879F7710A4AFEB509E5D4E" status="ok"><table pageCount="3" pageIndex="1" pageSize="25" recordCount="74"><data>
-
-    <row category_subcategory="неустановлен ( неустановлен )" cid="1043" comm="E-mail: bulgak@ruscomnet.ru"
-     contract_comment="&lt;html&gt;BS040-09 ( &lt;b&gt;ООО &quot;РусКомНет&quot;&lt;/b&gt; )&lt;/html&gt;" date="28.08.2009 12:45:33" dateClose="" id="992"
-     lastmessage="14.10.2009 15:45:13" messages="9 [1]" statClose="открыт" status="Доработка / открыт" timeFromLastMessage="1461:02:50"
-     topic="Сбор трафика по SNMP"
-     user="Шамиль Вахитов" userId="3"/>*/
-    public void seachTopicList(Pageable<HdTopic> result, Date messagesAfterTime, Boolean closed, Boolean onlyNew, Integer tid)
-            throws BGException {
-        Request req = new Request();
-        req.setModule(MODULE);
-        req.setAction("GetTableAdmin");
-        if (closed != null) {
-            req.setAttribute("closed", Utils.booleanToStringInt(closed));
-        }
-        if (onlyNew != null) {
-            req.setAttribute("onlynew", Utils.booleanToStringInt(onlyNew));
-        }
-        if (tid != null) {
-            req.setAttribute("tid", tid);
-        }
-
-        setPage(req, result.getPage());
-
-        Document doc = transferData.postData(req, user);
-        for (Element topicEl : XMLUtils.selectElements(doc, "/data/table/data/row")) {
-            HdTopic topic = new HdTopic();
-            topic.setId(Utils.parseInt(topicEl.getAttribute("id")));
-            topic.setTitle(topicEl.getAttribute("topic"));
-            topic.setStatusId(Utils.parseInt(topicEl.getAttribute("statusId")));
-            topic.setUserId(Utils.parseInt(topicEl.getAttribute("userId")));
-            topic.setContractId(Utils.parseInt(topicEl.getAttribute("cid")));
-            if (dbInfo.versionCompare("5.2") >= 0) {
-                topic.setContractTitle(StringUtils.substringBefore(topicEl.getAttribute("contract_comment"), "(").trim());
-            } else {
-                topic.setContractTitle(topicEl.getAttribute("contract"));
-            }
-            topic.setLastMessageTime(TimeUtils.parse(topicEl.getAttribute("lastmessage"), TimeUtils.PATTERN_DDMMYYYYHHMMSS));
-            topic.setContact(topicEl.getAttribute("comm"));
-
-            /*topic.setAutoClose( Utils.parseBoolean( topicEl.getAttribute( "auto_close" ) ) );
-            topic.setInPackage( Utils.parseBoolean( topicEl.getAttribute( "package" ) ) );*/
-
-            if (messagesAfterTime != null && messagesAfterTime.after(topic.getLastMessageTime())) {
-                continue;
-            }
-
-            result.getList().add(topic);
-        }
-    }
-
-    /*http://billing:8081/executer?module=ru.bitel.bgbilling.plugins.helpdesk&topicId=3815&pageSize=25&action=GetTopicMessage&onlynew=0&
-     cache_directory=ru.bitel.bgbilling.plugins.helpdesk.directory.status%3A1381143257497%3B&BGBillingSecret=5uuskSliwBthQkRIilHAkM4s&cid=1750&pageIndex=1&
-    [ length = 745 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="74BE90F0DADB791B48FA164FE49DF2FE" status="ok">
-    <table pageCount="1" pageIndex="1" pageSize="25" recordCount="1"><data><row comment="" fromDateTime="29.05.2012 11:19:18" fromName="Клиент" id="45040"
-    includes="false" new="true" toDateTime="" toName="-" type="входящее"/></data></table>
-    <topic autoclose="false" categoryId="0" cost="0.00" id="3815" newMessageCount="1" packageId="-1" state="false" status="5" subcategoryId="0"
-    subject="При удалении договора не удаляются данные в таблицах инвентаризации модуля inet" user="Амир Абзалилов" userMy="notmy"/>
-    <cache_directory><document key="ru.bitel.bgbilling.plugins.helpdesk.directory.status" version="1381143257497"/></cache_directory></data>
-    */
-    public Pair<HdTopic, List<HdMessage>> getTopicMessageList(int topicId) throws BGException {
-        HdTopic topic = new HdTopic();
-        topic.setId(topicId);
-
-        List<HdMessage> list = new ArrayList<HdMessage>();
-
-        Pair<HdTopic, List<HdMessage>> result = new Pair<HdTopic, List<HdMessage>>(topic, list);
+    /**
+     * Requests a single topic with related massages.
+     * @param topicId the topic ID.
+     * @return the topic - messages pair, or {@code null}
+     * @throws BGException
+     */
+    public Pair<HdTopic, List<HdMessage>> getTopicWithMessages(int topicId) throws BGException {
+        Pair<HdTopic, List<HdMessage>> result = null;
 
         Request req = new Request();
         req.setModule(MODULE);
@@ -124,16 +57,21 @@ public class HelpDeskDAO extends BillingDAO {
         Document doc = transferData.postData(req, user);
         Element topicEl = XMLUtils.selectElement(doc, "/data/topic");
         if (topicEl != null) {
-            topic.setState(Utils.parseBoolean(topicEl.getAttribute("state")));
+            HdTopic topic = new HdTopic();
+            topic.setId(topicId);
+            topic.setClosed(Utils.parseBoolean(topicEl.getAttribute("state")));
             topic.setUserId(Utils.parseInt(topicEl.getAttribute("userId")));
             topic.setStatusId(Utils.parseInt(topicEl.getAttribute("status")));
             topic.setCost(Utils.parseBigDecimal(topicEl.getAttribute("cost")));
             topic.setAutoClose(Utils.parseBoolean(topicEl.getAttribute("autoclose")));
             topic.setInPackage(Utils.parseInt(topicEl.getAttribute("packageId")) > 0);
-        }
 
-        for (Element rowEl : XMLUtils.selectElements(doc, "/data/table/data/row"))
-            list.add(parseHdMessage(rowEl));
+            List<HdMessage> list = new ArrayList<>();
+            for (Element rowEl : XMLUtils.selectElements(doc, "/data/table/data/row"))
+                list.add(parseHdMessage(rowEl));
+
+            result = new Pair<>(topic, list);
+        }
 
         return result;
     }
@@ -153,10 +91,6 @@ public class HelpDeskDAO extends BillingDAO {
         return msg;
     }
 
-    /*
-     http://billing:8081/executer?id=new&body=ddddd&module=ru.bitel.bgbilling.plugins.helpdesk&topicId=3353&action=UpdateMessage&BGBillingSecret=qFPCeqp9OWoGIBM7BBs9W9Va&
-     [ length = 160 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="B71B660A81778F3C30F0CC1116D42261" status="ok"><message id="59225" topicId="3353" userMy="my"/></data>
-     */
     public void updateMessage(int topicId, HdMessage msg) throws BGException {
         Request req = new Request();
         req.setModule(MODULE);
@@ -176,12 +110,6 @@ public class HelpDeskDAO extends BillingDAO {
         }
     }
 
-    /*http://billing:8081/executer?id=22109&module=ru.bitel.bgbilling.plugins.helpdesk&topicId=1587&action=GetMessage&BGBillingSecret=fMw3m7F4koBvH9hawOKNAhMW&
-    [ length = 620 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="597838E0794C1587BF9B0F36B7FB3AA2" status="ok">
-    <message comment="" dateFrom="21.09.2010 18:55:42" dateTo="23.09.2010 17:33:12" id="22109" topicId="1587" userFrom="Клиент" userId="3" userIdFrom="0"
-    userIdTo="6" userIdTopic="6" userName="Шамиль Вахитов" userTo="Амир Абзалилов"><body>
-    <row text="Не уверен, т.к. на стороне juniper`а вижу адрес в таком же формате... Счас обновлюсь - отпишусь. Уже достижение: на сессию назначился сервис, переданный через тегированный атрибут. Но пока не удается  через CoA изменить."/></body>
-    </message><files><data><row id="1551" size="68096" title="Отчет о промежуточных результатах АСР BGBilling5-1 и Juniper ERX с SM.doc"/></data></files></data>*/
     public HdMessage getMessage(int topicId, int messageId) throws BGException {
         HdMessage result = null;
 
@@ -214,19 +142,15 @@ public class HelpDeskDAO extends BillingDAO {
         return result;
     }
 
-    /*bgbilling/executer?pageIndex=1&module=ru.bitel.bgbilling.plugins.helpdesk&onlynew=0&action=GetTopics&closed=0&pageSize=100000&
-     * <?xml version="1.0" encoding="UTF-8"?><data status="ok"><topisc pageCount="1" pageIndex="1" pageSize="200000" recordCount="329">
-      <topic autoclose="false" categoryId="0" category_subcategory="неустановлен ( неустановлен )" cid="770" comm="E-mail: semen@dsi.ru" contract_comment="&lt;html&gt;&lt;nobr&gt;BS001-08 ( &lt;b&gt;ОАО &quot;ДЕЛОВАЯ СЕТЬ - ИРКУТСК&quot;&lt;/b&gt; )&lt;/nobr&gt;&lt;/html&gt;" cost="0.00" date="18.11.2009 08:29:21" dateClose="" id="1237" lastmessage="11.08.2010 12:57:47" messages="35 [0]" newMessageCount="0" notificationMode="2" notificationValue="semen@dsi.ru" packageId="-1" statClose="открыт" state="false" status="Доработка / открыт" statusId="1" subcategoryId="0" subject="Тарифные опции" timeFromLastMessage="3168Д" user="Амир Абзалилов" userId="6" userMy="notmy">
-        <message comment="" fromDateTime="18.11.2009 08:29:21" fromName="Клиент" fromUserId="0" id="11606" includes="false" new="false" toDateTime="18.11.2009 12:46:45" toName="Шамиль Вахитов" toUserId="3" type="входящее"/>
-        <message comment="" fromDateTime="18.11.2009 12:46:45" fromName="Шамиль Вахитов" fromUserId="3" id="11626" includes="false" new="false" toDateTime="18.11.2009 13:25:21" toName="Клиент" toUserId="0" type="исходящие"/>
-     * */
-    public void searchTopicMessages(Pageable<Pair<HdTopic, List<HdMessage>>> result) throws BGException {
+    public void searchTopicsWithMessages(Pageable<Pair<HdTopic, List<HdMessage>>> result, int topicId) throws BGException {
         Request req = new Request();
         req.setModule(MODULE);
         req.setAction("GetTopics");
         req.setAttribute("onlynew", 0);
         req.setAttribute("closed", 0);
         req.setAttribute("pageSize", 200000);
+        if (topicId > 0)
+            req.setAttribute("tid", topicId);
 
         Document doc = transferData.postData(req, user);
         for (Element topicEl : XMLUtils.selectElements(doc, "/data//topic")) {
@@ -250,85 +174,123 @@ public class HelpDeskDAO extends BillingDAO {
     }
 
     public void markMessageRead(int messageId) throws BGException {
-        Request req = new Request();
-        req.setModule(MODULE);
-        req.setAction("SetReadMessage");
-        req.setAttribute("id", messageId);
-        req.setAttribute("read", true);
+        if (dbInfo.versionCompare("9.2") >= 0) {
+            var req = new RequestJsonRpc(MODULE, "HelpdeskService", "messageAdminReadSet");
+            req.setParam("messageId", messageId);
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
+            req.setModule(MODULE);
+            req.setAction("SetReadMessage");
+            req.setAttribute("id", messageId);
+            req.setAttribute("read", true);
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        }
     }
 
-    /*http://billing:8081/executer?id=3353&module=ru.bitel.bgbilling.plugins.helpdesk&packetMode=0&state=false&action=SetTopicState&BGBillingSecret=tBuQClpIBxs0tPwRYtV24v5e&cid=448&
-    [ length = 106 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="12CD2AAA49C5B8D67C880D138D899EA6" status="ok"/>*/
     public void setTopicState(int topicId, boolean stateClose) throws BGException {
-        Pair<HdTopic, List<HdMessage>> topic = getTopicMessageList(topicId);
+        Pair<HdTopic, List<HdMessage>> topic = getTopicWithMessages(topicId);
         if (topic.getFirst() == null) {
             throw new BGException("Тема не найдена:" + topicId);
         }
 
         // на случай, если state темы в хелпдеске уже нужный
-        if (topic.getFirst().isState() == stateClose) {
+        if (topic.getFirst().isClosed() == stateClose) {
             return;
         }
 
-        Request req = new Request();
-        req.setModule(MODULE);
-        req.setAction("SetTopicState");
-        req.setAttribute("id", topicId);
-        req.setAttribute("packetMode", 0);
-        req.setAttribute("state", stateClose);
+        if (dbInfo.versionCompare("6.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicStateUpdate");
+            req.setParam("topicId", topicId);
+            req.setParam("state", stateClose);
+            req.setParam("packageMode", false);
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
+            req.setModule(MODULE);
+            req.setAction("SetTopicState");
+            req.setAttribute("id", topicId);
+            req.setAttribute("packetMode", 0);
+            req.setAttribute("state", stateClose);
+
+            transferData.postData(req, user);
+        }
     }
 
-    /*http://billing:8081/executer?module=ru.bitel.bgbilling.plugins.helpdesk&manager=1&topicId=3353&action=ChangeManager&comment=&BGBillingSecret=PFUQKbNfijPEyj568NVbsoX7&
-    [ length = 106 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="62E88149DDBB72BFDB058181C46A36F7" status="ok"/>*/
     public void setTopicExecutor(int topicId, int billingUserId) throws BGException {
-        Request req = new Request();
-        req.setModule(MODULE);
-        req.setAction("ChangeManager");
-        req.setAttribute("topicId", topicId);
-        req.setAttribute("manager", billingUserId);
+        if (dbInfo.versionCompare("6.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicBindSet");
+            req.setParam("topicId", topicId);
+            req.setParam("userId", billingUserId);
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
+            req.setModule(MODULE);
+            req.setAction("ChangeManager");
+            req.setAttribute("topicId", topicId);
+            req.setAttribute("manager", billingUserId);
+
+            transferData.postData(req, user);
+        }
     }
 
-    /*http://192.168.169.25:9000/bgbilling/executer?id=1065&module=ru.bitel.bgbilling.plugins.helpdesk&userId=me&action=SetBindTopic&BGBillingSecret=qP74XTdqIBC8LmKIyFvAMvhd&*/
     public void setTopicExecutorMe(int topicId) throws BGException {
-        Request req = new Request();
-        req.setModule(MODULE);
-        req.setAction("SetBindTopic");
-        req.setAttribute("id", topicId);
-        req.setAttribute("userId", "me");
+        if (dbInfo.versionCompare("6.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicBindSet");
+            req.setParam("topicId", topicId);
+            req.setParam("userId", "me");
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
+            req.setModule(MODULE);
+            req.setAction("SetBindTopic");
+            req.setAttribute("id", topicId);
+            req.setAttribute("userId", "me");
+
+            transferData.postData(req, user);
+        }
     }
 
-    /*http://billing:8081/executer?id=3353&module=ru.bitel.bgbilling.plugins.helpdesk&status=12&action=SetTopicStatus&BGBillingSecret=8vAmLmBrRsVLNEMXo8YeLULW&
-    [ length = 106 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="C6F8ED23DFD9580A8640704B35663EAD" status="ok"/>*/
     public void setTopicStatus(int contractId, int topicId, int status) throws BGException {
-        Request req = new Request();
-        req.setModule(MODULE);
-        req.setAction("SetTopicStatus");
-        req.setContractId(contractId);
-        req.setAttribute("id", topicId);
-        req.setAttribute("status", status);
+        if (dbInfo.versionCompare("6.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicStatusUpdate");
+            req.setParam("topicId", topicId);
+            req.setParam("status", status);
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
+            req.setModule(MODULE);
+            req.setAction("SetTopicStatus");
+            req.setContractId(contractId);
+            req.setAttribute("id", topicId);
+            req.setAttribute("status", status);
+
+            transferData.postData(req, user);
+        }
     }
 
-    /*http://billing:8081/executer?id=3353&module=ru.bitel.bgbilling.plugins.helpdesk&value=true&action=SetTopicAutoclose&BGBillingSecret=gGhhKOBSGXM2elCHF4eVYDq4&cid=448&
-    [ length = 106 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="F7321D0DFD87C5C83962112291002645" status="ok"/>*/
     public void setTopicAutoClose(int contractId, int topicId, boolean value) throws BGException {
-        Request req = new Request();
-        req.setModule(MODULE);
-        req.setAction("SetTopicAutoclose");
-        req.setContractId(contractId);
-        req.setAttribute("id", topicId);
-        req.setAttribute("value", value);
+        if (dbInfo.versionCompare("6.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicAutocloseUpdate");
+            req.setParam("topicId", topicId);
+            req.setParam("autoclose", value);
 
-        transferData.postData(req, user);
+            transferData.postData(req, user);
+        } else {
+            Request req = new Request();
+            req.setModule(MODULE);
+            req.setAction("SetTopicAutoclose");
+            req.setContractId(contractId);
+            req.setAttribute("id", topicId);
+            req.setAttribute("value", value);
+
+            transferData.postData(req, user);
+        }
     }
 
     /*http://billing:8081/executer?module=ru.bitel.bgbilling.plugins.helpdesk&topicId=3353&action=ApplyTopicCost&BGBillingSecret=xetRCA4SyqpIAa65qSD0jWhJ&cost=000&cid=448&
@@ -357,34 +319,16 @@ public class HelpDeskDAO extends BillingDAO {
         transferData.postData(req, user);
     }
 
-    /*http://billing:8081/executer?id=1551&module=ru.bitel.bgbilling.plugins.helpdesk&action=FileDownload&BGBillingSecret=ImcoH6hp3e4VUqGzuI4Fk7UB&cid=917&
-    [ length = 91074 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="EFEF6940E1758774E4573647931E0401" status="ok"><file date="22.09.2010 12:02:37" id="1551" size="68096" title="Отчет о промежуточных результатах АСР BGBilling5-1 и Juniper ERX с SM.doc"><filedata>0M8R4KGxGuEAAAAAAAAAAAAAAAAAAAAAPgADAP7/CQAGAAAAAAAAAAAAAAACAAAAgAAAAAAAAAAAEAAAggAAAAEAAAD+////AAAAAH4AAAB/AAAA///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////spcEAI2AZBAAA8BK/AAAAAAAAEAAAAAAABgAAWoUAAA4AYmpiam2lbaUAAAAAAAAAAAAAAAAAAAAAAAAZBBYANJIAAA/PAAAPzwAAOjcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//w8AAAAAAAAAAAD//w8AAAAAAAAAAAD//w8AAAAAAAAAAAAAAAAAAAAAAKQAAAAAALADAAAAAAAAsAMAALADAAAAAAAAsAMAAAAAAACwAwAAAAAAALADAAAAAAAAsAMAABQAAAAAAAAAAAAAAMQDAAAAAAAALDAAAAAAAAAsMAAAAAAAACwwAAAAAAAALDAAAEwAAAB4MAAAZAAAAMQDAAAAAAAAqEEAAPYAAADoMAAAAAAAAOgwAAAAAAAA6DAAAAAAAADoMAAAAAAAAOgwAAAAAAAA6DAAAAAAAADoMAAAAAAAAOgwAAAAAAAAl0AAAAIAAACZQAAAAAAAAJlAAAAAAAAAmUAAAAAAAACZQAAAAAAAAJlAAAAAAAAAmUAAACQAAACeQgAAaAIAAAZFAAAcAQAAvUAAAKU...*/
-    public byte[] getAttach(int contractId, int id) throws BGException {
+    public byte[] getAttach(int contractId, int id) throws Exception {
         byte[] result = null;
 
-        /* Попытка переписать загрузку файла на JSON-RPC, не поддерживается сериализация на сервере.
-         if( dbInfo.versionCompare( "6.2" ) >= 0 )
-        {
-        	RequestJsonRpc req = new RequestJsonRpc( MODULE, "HelpdeskService", "fileDownload" );
-        	req.setParamContractId( contractId );
-        	req.setParam( "fileId", id );
+        if (dbInfo.versionCompare("6.2") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "fileDownload");
+            req.setParamContractId(contractId);
+            req.setParam("fileId", id);
 
-        	JsonNode node = transferData.postData( req, user );
-        	System.out.println( node );
-        }
-        else */
-        if (dbInfo.getVersion().compareTo("6.1") >= 0) {
-            try {
-                Holder<BgServerFile> serverFileHolder = new Holder<BgServerFile>();
-                Holder<byte[]> fileDataHandler = new Holder<byte[]>();
-
-                HelpdeskService service = getWebService(HelpdeskService_Service.class, HelpdeskService.class);
-                service.fileDownload(id, contractId, serverFileHolder, fileDataHandler);
-
-                result = fileDataHandler.value;
-            } catch (Exception e) {
-                processWebServiceException(e);
-            }
+            JsonNode node = transferData.postData(req, user);
+            result = Base64.getDecoder().decode(node.path("fileData").textValue());
         } else {
             Request req = new Request();
             req.setModule(MODULE);
@@ -392,51 +336,38 @@ public class HelpDeskDAO extends BillingDAO {
             req.setContractId(contractId);
             req.setAttribute("id", id);
 
-            try {
-                Document doc = transferData.postData(req, user);
-                String file = XMLUtils.selectText(doc, "/data/file/filedata/text()");
-                if (file != null) {
-                    result = Base64.getDecoder().decode(file.getBytes("ASCII"));
-                }
-            } catch (Exception e) {
-                throw new BGException(e);
-            }
+            Document doc = transferData.postData(req, user);
+            String file = XMLUtils.selectText(doc, "/data/file/filedata/text()");
+            if (file != null)
+                result = Base64.getDecoder().decode(file.getBytes("ASCII"));
         }
 
         return result;
     }
 
-    /*http://billing:8081/executer?filedata=UEsDBAoAAAgAADdlc0EAAAAAAAAAAAAAAAAJAAQATUVUQS1JTkYv%2FsoAAFBLAwQKAAAICAA2ZXNBFZYs6F4AAABqAAAAFAAAAE1FVEEtSU5GL01BTklGRVNU
-     * action=FileUpload
-     * String comment = getParameter( "comment" );
-        String filename = getParameter( "filename" );
-        String filedata = getParameter( "filedata" );
-        int size = getIntParameter( "size", 0 );
-    [ length = 106 ] xml = <?xml version="1.0" encoding="windows-1251"?><data secret="F2489F1C2B1780DC786C1B2BAD9F7862" status="ok"/>*/
+    public void putAttach(int messageId, String title, byte[] data) throws Exception {
+        if (dbInfo.getVersion().compareTo("8.2") >= 0) {
+            // ru.bitel.bgbilling.plugins.helpdesk/uploadHelpdeskFile {"date":"07.07.2023 10:34:53","size":16976,"contractId":455,"comment":"","id":0,"ownerId":-1,"title":"╥юяыштю фы  ЁръхЄюъ.docx","userId":-1,"uuid":"d35e9a13-a4d0-417c-8fd9-2d24241080d3"} => 200
+            var file = new BGServerFile();
+            file.setDate(new Date());
+            file.setSize(data.length);
+            file.setOwnerId(messageId);
+            file.setTitle(title);
 
-    public void putAttach(int messageId, String title, byte[] data) throws BGException {
-        if (dbInfo.getVersion().compareTo("6.1") >= 0) {
-            try {
-                HelpdeskService service = getWebService(HelpdeskService_Service.class, HelpdeskService.class);
-                service.fileUpload(String.valueOf(messageId), title, data.length, new Holder<byte[]>(data));
-            } catch (Exception e) {
-                processWebServiceException(e);
-            }
-        } else {
-            try {
-                Request req = new Request();
-                req.setModule(MODULE);
-                req.setAction("FileUpload");
-                req.setAttribute("id", messageId);
-                req.setAttribute("filename", title);
-                req.setAttribute("size", data.length);
-                req.setAttribute("filedata", new String(Base64.getEncoder().encode(data), "ASCII"));
-                req.setAttribute("comment", "");
+            transferData.uploadFile(MODULE + "/uploadHelpdeskFile", file, new ByteArrayInputStream(data), user);
+        } else if (dbInfo.getVersion().compareTo("6.2") >= 0)
+            throw new UnsupportedOperationException("Для данной версии биллинга не поддерживается выгрузка вложений.");
+        else {
+            Request req = new Request();
+            req.setModule(MODULE);
+            req.setAction("FileUpload");
+            req.setAttribute("id", messageId);
+            req.setAttribute("filename", title);
+            req.setAttribute("size", data.length);
+            req.setAttribute("filedata", new String(Base64.getEncoder().encode(data), "ASCII"));
+            req.setAttribute("comment", "");
 
-                transferData.postData(req, user);
-            } catch (Exception e) {
-                throw new BGException(e);
-            }
+            transferData.postData(req, user);
         }
     }
 
@@ -446,13 +377,6 @@ public class HelpDeskDAO extends BillingDAO {
             req.setParamContractId(contractId);
 
             return transferData.postDataReturn(req, user).asText();
-        } else if (dbInfo.versionCompare("5.2") >= 0) {
-            try {
-                HelpdeskParamService service = getWebService(HelpdeskParamService_Service.class, HelpdeskParamService.class);
-                return service.getContractCurrentMode(contractId);
-            } catch (Exception e) {
-                processWebServiceException(e);
-            }
         } else {
             /*http://192.168.169.25:9000/bgbilling/executer?module=ru.bitel.bgbilling.plugins.helpdesk&action=GetContractMode&BGBillingSecret=MVBn75Q8zFhwf8ryL2cWqhd1&cid=18335&
             [ length = 258 ] xml = <?xml version="1.0" encoding="windows-1251"?>
@@ -465,7 +389,5 @@ public class HelpDeskDAO extends BillingDAO {
             Document doc = transferData.postData(req, user);
             return XMLUtils.selectText(doc, "/data/modes/@current");
         }
-
-        return null;
     }
 }

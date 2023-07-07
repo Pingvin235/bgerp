@@ -1,12 +1,15 @@
 package ru.bgcrm.plugin.bgbilling;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -54,6 +57,8 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserAccount;
 import ru.bgcrm.plugin.bgbilling.proto.dao.PluginDAO;
+import ru.bgcrm.plugin.bgbilling.proto.model.BGServerFile;
+import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.TimeUtils;
@@ -65,6 +70,11 @@ public class TransferData {
 
     private static final int LOGGING_REQUEST_TRIM_LENGTH = 3000;
     private static final int LOGGING_RESPONSE_TRIM_LENGTH = 5000;
+
+    private static final ExecutorService EXECUTOR = Executors.newCachedThreadPool(new NamedThreadFactory());
+    private static final Pattern PATTERN_CHARSET = Pattern.compile("charset=([\\w\\d\\-]+)[\\s;]*.*$");
+
+    private final ObjectMapper jsonMapper = new ObjectMapper();
 
     private DBInfo dbInfo;
     private URL url;
@@ -112,8 +122,6 @@ public class TransferData {
         }
     }
 
-    private final ObjectMapper jsonMapper = new ObjectMapper();
-
     private static class NamedThreadFactory implements ThreadFactory {
         private static ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
 
@@ -125,10 +133,6 @@ public class TransferData {
             return thread;
         }
     }
-
-    private static final ExecutorService executor = Executors.newCachedThreadPool(new NamedThreadFactory());
-
-    private static final Pattern charsetPattern = Pattern.compile("charset=([\\w\\d\\-]+)[\\s;]*.*$");
 
     public TransferData(DBInfo dbInfo) {
         this.dbInfo = dbInfo;
@@ -324,7 +328,7 @@ public class TransferData {
 
                 String key;
                 for (int n = 1; (key = con.getHeaderFieldKey(n)) != null; n++) {
-                    if (key.equalsIgnoreCase("Set-Cookie")) {
+                    /* if (key.equalsIgnoreCase("Set-Cookie")) {
                         int i;
                         String cookie = con.getHeaderField(n);
                         if (cookie != null && (i = cookie.indexOf(';')) > -1) {
@@ -337,9 +341,10 @@ public class TransferData {
 
                             log.warn(this.hashCode() + " taked cookie: " + name + " => " + value);
                         }
-                    } else if (key.equalsIgnoreCase("Content-Type")) {
+                    } else  */
+                    if (key.equalsIgnoreCase("Content-Type")) {
                         String contentType = con.getHeaderField(n);
-                        Matcher m = charsetPattern.matcher(contentType);
+                        Matcher m = PATTERN_CHARSET.matcher(contentType);
                         if (m.find()) {
                             responseEncoding = m.group(1);
                         }
@@ -365,14 +370,14 @@ public class TransferData {
         str = replaceCharacterEntity(str);
 
         Document doc = XMLUtils.parseDocument(new InputSource(new StringReader(str.toString())));
-        if (doc != null) {
+        /* if (doc != null) {
             Element documentElement = doc.getDocumentElement();
             status = documentElement.getAttribute("status");
             if (status != null && status.equals("error")) {
                 //message = documentElement.getTextContent();
                 //throw new BGException( documentElement.getTextContent() );
             }
-        }
+        } */
 
         return doc;
     }
@@ -405,20 +410,7 @@ public class TransferData {
      *
      * @param request
      * @param user
-     * @return
-     * @throws BGException
-     */
-    public JsonNode postDataReturn(RequestJsonRpc request, User user) throws BGException {
-        return postData(request, user).path("return");
-    }
-
-    /**
-     * Отправляет запрос к Web-сервису в формате JSON-RPC.
-     * Подробности по работе с форматом в документации {@link RequestJsonRpc}.
-     *
-     * @param request
-     * @param user
-     * @return
+     * @return елемент {@code data} из ответа.
      * @throws BGException
      */
     public JsonNode postData(RequestJsonRpc request, User user) throws BGException {
@@ -438,25 +430,85 @@ public class TransferData {
     }
 
     /**
-     * Отправляет запрос в биллинг, в случае ошибки кидает исключение, дожидается ответа от биллинга бесконечно долго
+     * Отправляет запрос к Web-сервису в формате JSON-RPC.
+     * Подробности по работе с форматом в документации {@link RequestJsonRpc}.
+     *
+     * @param request
+     * @param user
+     * @return  елемент {@code return} из ответа.
+     * @throws BGException
+     */
+    public JsonNode postDataReturn(RequestJsonRpc request, User user) throws BGException {
+        return postData(request, user).path("return");
+    }
+
+    /**
+     * Отправляет запрос и возвращает результат в виде массива байтов.
      * @param request
      * @param user
      * @return
      * @throws BGException
      */
-    public Document postDataSync(Request request, User user) throws BGException {
+    public byte[] postDataGetBytes(Request request, User user) throws BGException {
         try {
-            initSession(user);
-
-            Document doc = getDocument(new String(postDataGetBytesSync(request, user), responseEncoding));
-            checkDocumentStatus(doc, user);
-
-            return doc;
-        } catch (BGException e) {
-            throw e;
+            UserAccount userAccount = getUserAccount(dbInfo.getId(), user);
+            return postDataAsync(request, userAccount.getLogin(), userAccount.getPassword());
         } catch (Exception e) {
             throw new BGException(e);
         }
+    }
+
+    /**
+     * Отправляет запрос и возвращает результат в виде строки, раскодированной #responseEncoding.
+     * @param request
+     * @param user
+     * @return
+     * @throws BGException
+     */
+    public String postDataGetString(Request request, User user) throws BGException {
+        try {
+            return new String(postDataGetBytes(request, user), responseEncoding);
+        } catch (UnsupportedEncodingException e) {
+            throw new BGException(e);
+        }
+    }
+
+    /**
+     * Выгружает файл на сервер биллинга.
+     * @param handler - строка вида kernel/0/method, module/id/method, plugin.id/method
+     * @param bgServerFile
+     * @param inputStream
+     * @throws IOException
+     */
+    public int uploadFile(String handler, BGServerFile bgServerFile, InputStream inputStream, User user) throws IOException {
+        UserAccount userAccount = getUserAccount(dbInfo.getId(), user);
+
+        String userAndPswd = userAccount.getLogin() + ":" + userAccount.getPassword();
+        final HttpURLConnection con = (HttpURLConnection) (new URL(url.toString() + "/upload")).openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/octet-stream");
+        con.setRequestProperty("Authorization", "Basic " + Base64.getEncoder().encodeToString(userAndPswd.getBytes(StandardCharsets.UTF_8)));
+        // con.setRequestProperty( "bgbilling-client-version", BGClientInit.getClientVersion() );
+        con.setRequestProperty( "bgbilling-handler", handler );
+        String json = BaseAction.MAPPER.writeValueAsString(bgServerFile);
+        // base64 потому что в хидерах лезет только ascii, а тут запросто русские буквы
+        con.setRequestProperty( "bgbilling-file-info", Base64.getEncoder().encodeToString(json.getBytes(StandardCharsets.UTF_8)));
+        con.setDoOutput(true);
+        con.setDoInput(true);
+
+        OutputStream outputStream = con.getOutputStream();
+        IOUtils.copy(inputStream, outputStream);
+
+        int id = -1;
+        if (con.getResponseCode() == HttpURLConnection.HTTP_OK)
+            id = Utils.parseInt( con.getHeaderField( "bgbilling-file-id" ), -1 );
+
+        outputStream.close();
+        con.disconnect();
+
+        log.debug("{} {} => {}", handler, json, id);
+
+        return id;
     }
 
     private void initSession(User user) throws BGException {
@@ -485,11 +537,6 @@ public class TransferData {
         }
     }
 
-    private byte[] postDataGetBytesSync(Request request, User user) throws Exception {
-        UserAccount userAccount = getUserAccount(dbInfo.getId(), user);
-        return new RequestTask(request, userAccount.getLogin(), userAccount.getPassword()).call();
-    }
-
     private byte[] postDataAsync(Request request, User user)
             throws BGMessageException, InterruptedException, ExecutionException {
         UserAccount userAccount = getUserAccount(dbInfo.getId(), user);
@@ -501,7 +548,7 @@ public class TransferData {
         try {
             // "асинхронность" тут весьма условна, положительно то, что можно установить таймаут
             // + есть ограничение на количество параллельных запросов в биллинги
-            Future<byte[]> future = executor.submit(new RequestTask(request, userName, userPswd));
+            Future<byte[]> future = EXECUTOR.submit(new RequestTask(request, userName, userPswd));
             return future.get(timeOut, TimeUnit.MILLISECONDS);
         } catch (TimeoutException e) {
             throw new BGMessageException(Localizer.TRANSPARENT, Log.format("Время ожидания ответа от биллинга истекло! ({}} мс).", timeOut));
@@ -524,28 +571,11 @@ public class TransferData {
         try {
             // "асинхронность" тут весьма условна, положительно то, что можно установить таймаут
             // + есть ограничение на количество параллельных запросов в биллинги
-            Future<JsonNode> future = executor
+            Future<JsonNode> future = EXECUTOR
                     .submit(new RequestTaskJsonRpc(request, getUserAccount(dbInfo.getId(), user)));
             return future.get(timeOut, TimeUnit.MILLISECONDS);
         } catch (TimeoutException e) {
             throw new BGMessageException("Время ожидания ответа от биллинга истекло! (" + timeOut + "мс).");
-        }
-    }
-
-    public byte[] postDataGetBytes(Request request, User user) throws BGException {
-        try {
-            UserAccount userAccount = getUserAccount(dbInfo.getId(), user);
-            return postDataAsync(request, userAccount.getLogin(), userAccount.getPassword());
-        } catch (Exception e) {
-            throw new BGException(e);
-        }
-    }
-
-    public String postDataGetString(Request request, User user) throws BGException {
-        try {
-            return new String(postDataGetBytes(request, user), responseEncoding);
-        } catch (UnsupportedEncodingException e) {
-            throw new BGException(e);
         }
     }
 

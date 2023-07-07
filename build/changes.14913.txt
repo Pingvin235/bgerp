@@ -1,0 +1,3 @@
+C: BGBilling. Delete HelpDesk SOAP classes.
+A: BGBilling. HelpDesk for version 9.2.
+A: BGBilling. Configuration key 'topicId' for testing HelpDesk synchronization. https://bgerp.org/doc/3.0/manual/plugin/bgbilling/index.html#helpdesk

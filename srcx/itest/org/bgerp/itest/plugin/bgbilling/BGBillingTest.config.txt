@@ -17,7 +17,7 @@ bgbilling:contractType.1.patternId=17
 bgbilling:contractType.1.tariffList=133:Test ERP 1,134:Test ERP 2
 #bgbilling:contractType.1.tariffPosition=2
 
-# HelpDesk
+# HelpDesk Message Type
 messageType.200.title=HD
 messageType.200.billingId=testbill
 messageType.200.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
@@ -32,3 +32,5 @@ messageType.200.closeStatusId={@PROCESS_HD_CLOSE_STATUS_ID}
 messageType.200.pageSize=100000
 messageType.200.newMessageEvent=0
 messageType.200.markMessagesReadStatusIds={@PROCESS_HD_READ_STATUS_IDS}
+# set a single HD topic ID for testing time
+#messageType.200.topicId=

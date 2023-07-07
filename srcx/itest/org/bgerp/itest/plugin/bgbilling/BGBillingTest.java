@@ -12,10 +12,11 @@ import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.TypeProperties;
+import ru.bgcrm.plugin.bgbilling.Plugin;
 
 @Test(groups = "bgbilling", priority = 100, dependsOnGroups = { "process", "message" })
 public class BGBillingTest {
@@ -45,6 +46,7 @@ public class BGBillingTest {
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(paramHdCostId, paramHdStatusId, paramHdAutoCloseId));
+        props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(UserTest.USER_GROUP_ADMIN_ID), 0));
         // props.setConfig(ResourceHelper.getResource(this, "process.type.hd.config.txt"));
 
         processTypeHdId = ProcessHelper.addType(TITLE_HD, ProcessTest.processTypeTestGroupId, false, props).getId();

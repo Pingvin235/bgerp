@@ -19,6 +19,7 @@ import ru.bgcrm.model.user.UserGroup;
 @Test(groups = "user", dependsOnGroups = "dbInit")
 public class UserTest {
     public static final int USER_ADMIN_ID = 1;
+    public static final int USER_GROUP_ADMIN_ID = 1;
 
     public static volatile int paramPhoneId;
     public static volatile int paramCellPhoneId;

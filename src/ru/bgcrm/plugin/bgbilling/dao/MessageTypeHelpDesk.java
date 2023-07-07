@@ -13,9 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.dao.message.MessageSearchDAO;
+import org.bgerp.dao.process.ProcessLinkSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
@@ -54,13 +56,14 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class MessageTypeHelpDesk extends MessageType {
     private static final Log log = Log.getLog();
 
     private final String billingId;
+    // импорт одного топика, для отладки
+    private final int topicId;
 
     private final User user;
     private final int processTypeId;
@@ -82,11 +85,13 @@ public class MessageTypeHelpDesk extends MessageType {
     private final boolean newMessageEvent;
     // при переходе в эти статусы помечать все сообщения прочитанными
     private final Set<Integer> markMessagesReadStatusIds;
+    // количество выбираемых тем
     private final int pageSize;
 
     public MessageTypeHelpDesk(Setup setup, int id, ParameterMap config) throws BGException {
         super(setup, id, config.get("title"), config);
         this.billingId = config.get("billingId");
+        this.topicId = config.getInt("topicId");
 
         String userName = config.get("user", "");
         String userPassword = config.get("pswd", "");
@@ -117,7 +122,6 @@ public class MessageTypeHelpDesk extends MessageType {
 
     @Override
     public String getHeaderJsp() {
-        // <endpoint id="user.process.message.header.jsp" file="/WEB-INF/jspf/user/plugin/bgbilling/helpdesk/process_message_header.jsp"/>
         return Plugin.ENDPOINT_MESSAGE_HEADER;
     }
 
@@ -167,12 +171,12 @@ public class MessageTypeHelpDesk extends MessageType {
 
     @Override
     public void process() {
-        log.info("staring " + MessageTypeHelpDesk.class);
-        Connection con = Setup.getSetup().getDBConnectionFromPool();
-        try {
+        log.info("Starting {}", MessageTypeHelpDesk.class);
+
+        try (Connection con = Setup.getSetup().getDBConnectionFromPool()) {
             ProcessType processType = ProcessTypeCache.getProcessType(processTypeId);
             if (processType == null) {
-                log.error("Not found process type with id:" + processTypeId);
+                log.error("Not found process type with id: {}", processTypeId);
                 return;
             }
 
@@ -183,20 +187,18 @@ public class MessageTypeHelpDesk extends MessageType {
             final String objectType = getObjectType();
 
             // выбрать активные процессы, чтобы закрыть те, что привязаны к неактивным уже топикам
-            Map<Integer, Integer> activeHdProcessTopicIds = new HashMap<Integer, Integer>();
+            Map<Integer, Integer> openHdProcessTopicIds = new TreeMap<>();
 
-            String query = "SELECT p.id, pl.object_id FROM " + TABLE_PROCESS + " AS p " + "INNER JOIN "
-                    + TABLE_PROCESS_LINK + " AS pl ON p.id=pl.process_id AND pl.object_type=? "
+            String query = "SELECT p.id, pl.object_id FROM " + TABLE_PROCESS + " AS p "
+                    + "INNER JOIN " + TABLE_PROCESS_LINK + " AS pl ON p.id=pl.process_id AND pl.object_type=? "
                     + "WHERE p.close_dt IS NULL ";
-            // тема 3353 связана с процессом 3548
-            //"AND p.id=3548";
+
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, objectType);
-            //ps.setInt( 2, processTypeId );
 
             ResultSet rs = ps.executeQuery();
             while (rs.next())
-                activeHdProcessTopicIds.put(rs.getInt(1), rs.getInt(2));
+                openHdProcessTopicIds.put(rs.getInt(1), rs.getInt(2));
             ps.close();
 
             DynActionForm form = new DynActionForm(user);
@@ -207,58 +209,42 @@ public class MessageTypeHelpDesk extends MessageType {
                 result.getPage().setPageIndex(1);
                 result.getPage().setPageSize(pageSize);
 
-                hdDao.searchTopicMessages(result);
+                log.info("topicId: {}", topicId);
+
+                hdDao.searchTopicsWithMessages(result, topicId);
 
                 for (Pair<HdTopic, List<HdMessage>> pair : result.getList()) {
                     HdTopic topic = pair.getFirst();
 
-                    Process process = processTopic(con, activeHdProcessTopicIds, processType, objectType, form, hdDao, topic);
+                    Process process = processTopic(con, openHdProcessTopicIds, processType, objectType, form, hdDao, topic);
 
                     updateProcessFromTopic(con, processType, process, topic, pair.getSecond());
 
                     con.commit();
                 }
-            } else {
-                // выбор активных топиков
-                Pageable<HdTopic> result = new Pageable<HdTopic>();
-                result.getPage().setPageIndex(1);
-                result.getPage().setPageSize(pageSize);
+            } else
+                throw new IllegalStateException("Unsupported BGBilling version");
 
-                //TODO: Нужно сделать, чтобы выбирались только темы с сообщениями после определённого времени.
-                // До сих пор есть проблема, что если во время синхронизации кто-то закрыл процесс - он откроется,
-                // т.к. выборка топиков была до.
-                // тема 3353 связана с процессом 3548
-                hdDao.seachTopicList(result, null, false, false, null /*3353 2025*/ );
-
-                for (HdTopic topic : result.getList()) {
-                    Process process = processTopic(con, activeHdProcessTopicIds, processType, objectType, form, hdDao, topic);
-
-                    updateProcessFromTopic(con, processType, process, topic, null);
-
-                    con.commit();
-                }
-            }
 
             // оставшиеся процессы привязаны к уже закрытым темам хелпдеска - нужно их закрыть
-            for (Integer processId : activeHdProcessTopicIds.keySet()) {
-                log.info("Closing process: " + processId);
+            for (Integer processId : openHdProcessTopicIds.keySet()) {
+                log.info("Closing process: {}", processId);
 
                 Process process = processDao.getProcess(processId);
 
                 CommonObjectLink topicLink = Utils.getFirst(new ProcessLinkDAO(con).getObjectLinksWithType(processId, getObjectType()));
                 if (topicLink == null) {
-                    log.error("Not linked topic to process: " + processId);
+                    log.error("Not linked topic to process: {}", processId);
                     continue;
                 }
 
                 int topicId = topicLink.getLinkedObjectId();
 
-                Pageable<HdTopic> topics = new Pageable<HdTopic>();
-                hdDao.seachTopicList(topics, null, true, false, topicId);
+                var topicWithMessages = hdDao.getTopicWithMessages(topicId);
 
-                HdTopic topic = Utils.getFirst(topics.getList());
+                HdTopic topic = topicWithMessages != null ? topicWithMessages.getFirst() : null;
                 if (topic == null)
-                    log.warn("Topic not found: " + topicId);
+                    log.warn("Topic not found: {}", topicId);
                 else
                     // загрузка параметров
                     updateProcessFromTopic(con, processType, process, topic, null);
@@ -271,30 +257,27 @@ public class MessageTypeHelpDesk extends MessageType {
 
                 // вызов не через ProcessAction, чтобы по событию повторно тема не закрылась
                 new StatusChangeDAO(con).changeStatus(process, processType, status);
-            }
 
-            con.commit();
+                con.commit();
+            }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         } finally {
-            SQLUtils.closeConnection(con);
-            log.info("finished " + MessageTypeHelpDesk.class);
+            log.info("Finished {}", MessageTypeHelpDesk.class);
         }
     }
 
     private Process processTopic(Connection con, Map<Integer, Integer> activeHdProcessTopicIds, ProcessType processType, final String objectType,
-            DynActionForm form, HelpDeskDAO hdDao, HdTopic topic) throws Exception, BGException {
+            DynActionForm form, HelpDeskDAO hdDao, HdTopic topic) throws Exception {
         log.debug("Processing topic: {}", topic.getId());
 
-        Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>();
-        new ProcessLinkDAO(con, form).searchLinkedProcessList(searchResult, objectType, topic.getId(), null, null, null, null, null);
+        Pageable<Process> searchResult = new Pageable<>();
+        new ProcessLinkSearchDAO(con, form).withLinkObjectType(objectType).withLinkObjectId(topic.getId()).search(searchResult);
 
-        Process process = null;
-        if (searchResult.getList().size() > 0)
-            process = Utils.getFirst(searchResult.getList()).getSecond();
+        Process process = Utils.getFirst(searchResult.getList());
 
         if (process == null) {
-            log.info("Creating process for topic: " + billingId + ":" + topic.getId());
+            log.info("Creating process for topic: {}/{}", billingId, topic.getId());
 
             String description = topic.getTitle();
             if (Utils.notBlankString(topic.getContact()))
@@ -317,9 +300,11 @@ public class MessageTypeHelpDesk extends MessageType {
             activeHdProcessTopicIds.remove(process.getId());
 
             if (process.getCloseTime() != null) {
-                //костыль на случай если тему уже закрыли пока работает задача.
-                if (!isTopicClosed(hdDao, topic.getId())) {
-                    log.info("Opening process: " + process.getId());
+                var pair = hdDao.getTopicWithMessages(topic.getId());
+
+                // если тема оказалась закрытой, например её закрыли во время работы этой задачи, то переоткрытие
+                if (pair != null && !pair.getFirst().isClosed()) {
+                    log.info("Opening process: {} for topic: {}", process.getId(), topic.getId());
 
                     StatusChange status = new StatusChange();
                     status.setDate(new Date());
@@ -329,23 +314,25 @@ public class MessageTypeHelpDesk extends MessageType {
 
                     // вызов не через ProcessAction, чтобы по событию повторно тема не открылась
                     new StatusChangeDAO(con).changeStatus(process, processType, status);
+
+                    con.commit();
                 } else
-                    log.info("topic is already closed");
+                    log.info("Topic is already closed or not found: {}", topic.getId());
             }
         }
         return process;
     }
 
-    protected boolean isTopicClosed(HelpDeskDAO hdDao, int topicId) throws BGException {
-        Pageable<HdTopic> result2 = new Pageable<HdTopic>();
-        result2.getPage().setPageIndex(1);
-        result2.getPage().setPageSize(pageSize);
-        hdDao.seachTopicList(result2, null, true, false, topicId);
-        //getTopicMessageListgetTopicMessageList
-        HdTopic topic2 = Utils.getFirst(result2.getList());
-        //если тема закрыта, то список должен вернуться пустым
-        return topic2 != null;
-    }
+    // protected boolean isTopicClosed(HelpDeskDAO hdDao, int topicId) throws BGException {
+    //     Pageable<HdTopic> result2 = new Pageable<HdTopic>();
+    //     result2.getPage().setPageIndex(1);
+    //     result2.getPage().setPageSize(pageSize);
+    //     hdDao.seachTopicList(result2, null, true, false, topicId);
+    //     //getTopicMessageListgetTopicMessageList
+    //     HdTopic topic2 = Utils.getFirst(result2.getList());
+    //     //если тема закрыта, то список должен вернуться пустым
+    //     return topic2 != null;
+    // }
 
     private HdTopic updateProcessFromTopic(Connection con, ProcessType processType, Process process, HdTopic topic, List<HdMessage> hdMessages)
             throws Exception {
@@ -373,9 +360,11 @@ public class MessageTypeHelpDesk extends MessageType {
         // обработка сообщений и точных данных, повторная выборка позволяет получить актуальное состояние
         // т.к. до этого во время синхронизации иногда что-то менялось и синхронизация сбрасывала изменения в BGERP (исполнителя)
         if (hdMessages == null) {
-            Pair<HdTopic, List<HdMessage>> pair = hdDao.getTopicMessageList(topic.getId());
-            topic = pair.getFirst();
-            hdMessages = pair.getSecond();
+            Pair<HdTopic, List<HdMessage>> pair = hdDao.getTopicWithMessages(topic.getId());
+            if (pair != null) {
+                topic = pair.getFirst();
+                hdMessages = pair.getSecond();
+            }
         }
 
         // соотнесение исполнителей
@@ -395,10 +384,8 @@ public class MessageTypeHelpDesk extends MessageType {
                     processDao.updateProcessExecutors(executors, process.getId());
                 }
             }
-        } else {
-            Set<ProcessExecutor> executors = Collections.emptySet();
-            processDao.updateProcessExecutors(executors, process.getId());
-        }
+        } else
+            processDao.updateProcessExecutors(Set.of(), process.getId());
 
         // статус - ошибка, херашибка и т.п.
         if (topic.getStatusId() > 0)

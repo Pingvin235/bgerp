@@ -77,7 +77,7 @@ public class CashCheckDAO
 					request.setAction( "PrintCheck" );
 					request.setAttribute( "id", paymentId );
 					request.setAttribute( "summa", summa );
-					Document doc = transferData.postDataSync( request, user );
+					Document doc = transferData.postData( request, user );
 
 					NodeList nodeList = doc.getElementsByTagName( "data" );
 					if( nodeList.getLength() > 0 )

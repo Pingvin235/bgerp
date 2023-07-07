@@ -629,7 +629,7 @@ extends BillingModuleDAO
 			req.setAttribute( "date", TimeUtils.format( currentDate.getTime(), "dd.MM.yyyy 00:00" ) );
 			req.setPageSize( 999 );
 
-			Document document = transferData.postDataSync( req, user );
+			Document document = transferData.postData( req, user );
 
 			Element dataElement = document.getDocumentElement();
 			NodeList nodeList = dataElement.getElementsByTagName( "row" );

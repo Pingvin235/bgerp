@@ -49,7 +49,7 @@ public class RequestJsonRpc {
     private final String service;
     private final String method;
 
-    private final Map<String, Object> params = new HashMap<String, Object>();
+    private final Map<String, Object> params = new HashMap<>();
 
     public RequestJsonRpc(String module, String service, String method) {
         this(module, 0, service, method);

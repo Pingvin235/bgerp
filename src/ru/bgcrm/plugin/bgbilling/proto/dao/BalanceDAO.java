@@ -33,7 +33,7 @@ public class BalanceDAO
 		super( user, billingId );
 	}
 
-	public BigDecimal getContractPaymentList( int contractId, Date dateFrom, Date dateTo, 
+	public BigDecimal getContractPaymentList( int contractId, Date dateFrom, Date dateTo,
 	                                          List<ContractPayment> paymentList, List<ContractPayment> subPaymentList )
 		throws BGException
 	{
@@ -45,9 +45,9 @@ public class BalanceDAO
 		request.setAttribute( "date2", TimeUtils.format( dateTo, TimeUtils.PATTERN_DDMMYYYY ) );
 
 		BigDecimal summa = BigDecimal.ZERO;
-		
+
 		Document doc = transferData.postData( request, user );
-		
+
 		if( paymentList != null )
 		{
 			for( Element rowElement : XMLUtils.selectElements( doc, "/data/table/data/row" ) )
@@ -63,11 +63,11 @@ public class BalanceDAO
 				payment.setUser( rowElement.getAttribute( "f7" ) );
 
 				paymentList.add( payment );
-				
+
 				summa = summa.add( payment.getSum() );
 			}
 		}
-		
+
 		if( subPaymentList != null )
 		{
 			for( Element rowElement : XMLUtils.selectElements( doc, "/data/sub_table/data/row" ) )
@@ -77,7 +77,7 @@ public class BalanceDAO
 				payment.setDate( TimeUtils.parse( rowElement.getAttribute( "date" ), TimeUtils.PATTERN_DDMMYYYY ) );
 				payment.setSum( Utils.parseBigDecimal( rowElement.getAttribute( "summa" ) ) );
 				payment.setType( rowElement.getAttribute( "type" ) );
-				
+
 				subPaymentList.add( payment );
 			}
 		}
@@ -97,7 +97,7 @@ public class BalanceDAO
 		request.setAttribute( "date2", TimeUtils.format( dateTo, TimeUtils.PATTERN_DDMMYYYY ) );
 
 		Document doc = transferData.postData( request, user );
-		
+
 		if( chargeList != null )
 		{
 			for( Element rowElement : XMLUtils.selectElements( doc, "/data/table/data/row" ) )
@@ -126,14 +126,14 @@ public class BalanceDAO
 				charge.setDate( TimeUtils.parse( rowElement.getAttribute( "date" ), TimeUtils.PATTERN_DDMMYYYY ) );
 				charge.setSum( Utils.parseBigDecimal( rowElement.getAttribute( "summa" ) ) );
 				charge.setType( rowElement.getAttribute( "type" ) );
-				
+
 				subChargeList.add( charge );
 			}
 		}
 
 		return Utils.parseBigDecimal( XMLUtils.selectText( doc, "/data/table/@summa" ) );
 	}
-	
+
 	public BigDecimal getContractAccountList( int contractId, Date dateFrom, Date dateTo,
 	                                          List<ContractAccount> accountList, List<ContractAccount> subAccountList )
 		throws BGException
@@ -146,7 +146,7 @@ public class BalanceDAO
 		request.setAttribute( "date2", TimeUtils.format( dateTo, TimeUtils.PATTERN_DDMMYYYY ) );
 
 		Document doc = transferData.postData( request, user );
-		
+
 		if( accountList != null )
 		{
 			for( Element rowElement : XMLUtils.selectElements( doc, "/data/table/data/row" ) )
@@ -179,7 +179,7 @@ public class BalanceDAO
 
 		return Utils.parseBigDecimal( XMLUtils.selectText( doc, "/data/table/@summa" ) );
 	}
-	
+
 	public BigDecimal[] getContractBalanceList( int contractId, Date dateFrom, Date dateTo, List<ContractBalanceGeneral> list )
     	throws BGException
     {
@@ -189,9 +189,9 @@ public class BalanceDAO
     	request.setContractId( String.valueOf( contractId ) );
     	request.setAttribute( "date1", TimeUtils.format( dateFrom, TimeUtils.PATTERN_DDMMYYYY ) );
     	request.setAttribute( "date2", TimeUtils.format( dateTo, TimeUtils.PATTERN_DDMMYYYY ) );
-    
+
     	Document doc = transferData.postData( request, user );
-    	
+
     	for( Element rowElement : XMLUtils.selectElements( doc, "/data/table/data/row" ) )
     	{
     		ContractBalanceGeneral balanceGeneral = new ContractBalanceGeneral();
@@ -201,10 +201,10 @@ public class BalanceDAO
     		balanceGeneral.setMonth( rowElement.getAttribute( "month" ) );
     		balanceGeneral.setOutputBalance( Utils.parseBigDecimal( rowElement.getAttribute( "output_balance" ) ) );
     		balanceGeneral.setPayment( Utils.parseBigDecimal( rowElement.getAttribute( "payment" ) ) );
-    
+
     		list.add( balanceGeneral );
     	}
-    
+
     	BigDecimal[] summs = new BigDecimal[]
     	{
     		Utils.parseBigDecimal( XMLUtils.selectText( doc, "/data/table/@summa1" ) ),
@@ -213,7 +213,7 @@ public class BalanceDAO
     		Utils.parseBigDecimal( XMLUtils.selectText( doc, "/data/table/@summa4" ) ),
     		Utils.parseBigDecimal( XMLUtils.selectText( doc, "/data/table/@summa5" ) )
     	};
-    	
+
     	return summs;
     }
 
@@ -238,7 +238,7 @@ public class BalanceDAO
     			balanceDetail.setDate( rowElement.getAttribute( "date" ) );
     			balanceDetail.setSumma( Utils.parseBigDecimal( rowElement.getAttribute( "summa" ) ) );
     			balanceDetail.setType( rowElement.getAttribute( "type" ) );
-    
+
     			list.add( balanceDetail );
     		}
     	}
@@ -272,7 +272,7 @@ public class BalanceDAO
 			request.setAttribute( "id", id );
 		}
 
-		Document doc = transferData.postDataSync( request, user );
+		Document doc = transferData.postData( request, user );
 
 		return Utils.parseInt( XMLUtils.getElement( doc, "data" ).getAttribute( "id" ) );
 	}
@@ -303,7 +303,7 @@ public class BalanceDAO
 			request.setAttribute( "id", id );
 		}
 
-		Document doc = transferData.postDataSync( request, user );
+		Document doc = transferData.postData( request, user );
 
 		return Utils.parseInt( XMLUtils.getElement( doc, "data" ).getAttribute( "id" ) );
 	}
@@ -390,7 +390,7 @@ public class BalanceDAO
 
 		transferData.postData( request, user );
 	}
-	
+
 	@Deprecated
 	public List<ContractPayment> getContractPaymentList( int contractId, Date dateFrom, Date dateTo )
 		throws BGException
@@ -399,14 +399,14 @@ public class BalanceDAO
 		getContractPaymentList( contractId, dateFrom, dateTo, result, null );
 		return result;
 	}
-	
+
 	@Deprecated
 	public BigDecimal getContractBalanceSum( int contractId, Date dateFrom, Date dateTo )
 		throws BGException
 	{
 		return ContractDAO.getInstance(user, dbInfo ).getContractInfo( contractId ).getBalanceOut();
 	}
-	
+
 	@Deprecated
 	public BigDecimal getContractAccountSum( int contractId, Date dateFrom, Date dateTo )
 		throws BGException

@@ -82,10 +82,9 @@ public class HelpDeskListener {
         MessageTypeHelpDesk mt = pair.getFirst();
         HelpDeskDAO hdDao = new HelpDeskDAO(e.getUser(), mt.getDbInfo());
 
-        Pageable<HdTopic> topicSearch = new Pageable<HdTopic>();
-        hdDao.seachTopicList(topicSearch, null, null, false, topicId);
+        var topicWithMessages = hdDao.getTopicWithMessages(topicId);
 
-        HdTopic topic = Utils.getFirst(topicSearch.getList());
+        HdTopic topic = topicWithMessages != null ? topicWithMessages.getFirst() : null;
         if (topic == null) {
             throw new BGException("Не найден топик HelpDesk с кодом: " + topicId);
         }

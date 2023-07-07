@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
-import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
@@ -16,7 +15,6 @@ import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
-import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk;
 import ru.bgcrm.plugin.bgbilling.proto.dao.HelpDeskDAO;
@@ -35,34 +33,30 @@ public class HelpDeskAction extends BaseAction {
         int attachId = form.getParamInt("id");
         String title = form.getParam("title");
 
-        MessageTypeHelpDesk mt = null;
-
-        MessageTypeConfig config = setup.getConfig(MessageTypeConfig.class);
-        for (MessageType type : config.getTypeMap().values()) {
-            if (type instanceof MessageTypeHelpDesk && ((MessageTypeHelpDesk) type).getBillingId().equals(billingId)) {
-                mt = (MessageTypeHelpDesk) type;
-                break;
-            }
-        }
+        MessageTypeHelpDesk mt = (MessageTypeHelpDesk) setup.getConfig(MessageTypeConfig.class).getTypeMap().values().stream()
+            .filter(type -> type instanceof MessageTypeHelpDesk && ((MessageTypeHelpDesk) type).getBillingId().equals(billingId))
+            .findFirst().orElse(null);
 
         if (mt != null) {
             HelpDeskDAO hdDao = new HelpDeskDAO(mt.getUser(), mt.getDbInfo());
 
-            CommonObjectLink link = Utils.getFirst(
-                    new ProcessLinkDAO(conSet.getConnection()).getObjectLinksWithType(processId, mt.getObjectType()));
-            if (link == null) {
-                throw new ru.bgcrm.model.BGException("К процессу не привязан топик HelpDesk.");
-            }
+            var links = new ProcessLinkDAO(conSet.getConnection()).getObjectLinksWithType(processId, null);
 
-            Pageable<HdTopic> topicSearch = new Pageable<HdTopic>();
-            hdDao.seachTopicList(topicSearch, null, null, false, link.getLinkedObjectId());
+            var topicLink = links.stream().filter(link -> link.getLinkedObjectType().equals(mt.getObjectType())).findFirst().orElse(null);
+            if (topicLink == null)
+                throw new BGException("К процессу не привязан топик HelpDesk.");
 
-            HdTopic topic = Utils.getFirst(topicSearch.getList());
-            if (topic == null) {
-                throw new BGException("Не найден топик HelpDesk с кодом: " + link.getLinkedObjectId());
-            }
+            var contractLink = links.stream().filter(link -> ("contract:" + billingId).equals(link.getLinkedObjectType())).findFirst().orElse(null);
+            if (contractLink == null)
+                throw new BGException("К процессу не привязан договор BGBilling.");
 
-            byte[] attach = hdDao.getAttach(topic.getContractId(), attachId);
+            var pair = hdDao.getTopicWithMessages(topicLink.getLinkedObjectId());
+
+            HdTopic topic = pair != null ? pair.getFirst() : null;
+            if (topic == null)
+                throw new BGException("Не найдена тема HelpDesk с кодом: " + topicLink.getLinkedObjectId());
+
+            byte[] attach = hdDao.getAttach(contractLink.getLinkedObjectId(), attachId);
 
             HttpServletResponse response = form.getHttpResponse();
 
