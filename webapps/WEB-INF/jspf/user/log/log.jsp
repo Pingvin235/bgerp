@@ -3,12 +3,12 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<div id="${uiid}" style="height: 100%;">
+<div id="${uiid}">
 	<form action="/user/log.do" onsubmit="return false;" style="display: inline-block;">
 		<input type="hidden" name="action" value="log"/>
 		<ui:toggle inputName="enable" value="${form.response.data.state}" onChange="$$.ajax.load(this.form, $('#${uiid}').parent())"/>
 	</form>
-	<textarea style="width: 100%; height: 100%;" wrap="off"> ${form.response.data.log}</textarea>
+	<textarea style="width: 100%; resize: vertical;" rows="50" wrap="off"> ${form.response.data.log}</textarea>
 </div>
 
 <shell:title text="Log"/>
