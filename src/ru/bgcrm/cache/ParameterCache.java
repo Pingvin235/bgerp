@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.db.sql.TableChangeMonitor;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
 import org.bgerp.util.Log;
@@ -22,7 +23,6 @@ import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
-import ru.bgcrm.util.sql.TableChangeMonitor;
 
 public class ParameterCache extends Cache<ParameterCache> {
     private static final Log log = Log.getLog();

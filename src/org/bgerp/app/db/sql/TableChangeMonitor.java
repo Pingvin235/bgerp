@@ -1,4 +1,4 @@
-package ru.bgcrm.util.sql;
+package org.bgerp.app.db.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.util.Setup;
+import ru.bgcrm.util.sql.SQLUtils;
 
 /**
  * Монитор, отслеживает изменения таблиц и оповещает подписавшихся слушателей.
@@ -19,14 +20,14 @@ import ru.bgcrm.util.Setup;
 public class TableChangeMonitor extends Thread {
     private static final Log log = Log.getLog();
 
-    private static TableChangeMonitor instance = new TableChangeMonitor();
+    private static final TableChangeMonitor INSTANCE = new TableChangeMonitor();
 
     private static final long CHECK_PERIOD = 60 * 1000L;
 
     public static void subscribeOnChange(String subscriptionPoint, String tableName, Runnable callback) {
-        Map<String, Runnable> tablesMap = instance.subscriberMap.get(subscriptionPoint);
+        Map<String, Runnable> tablesMap = INSTANCE.subscriberMap.get(subscriptionPoint);
         if (tablesMap == null) {
-            instance.subscriberMap.put(subscriptionPoint, tablesMap = new ConcurrentHashMap<String, Runnable>());
+            INSTANCE.subscriberMap.put(subscriptionPoint, tablesMap = new ConcurrentHashMap<>());
         }
         tablesMap.put(tableName, callback);
     }
@@ -34,8 +35,8 @@ public class TableChangeMonitor extends Thread {
     // конец статической части
 
     // первый ключ - строка, идентифицирующая подписчика, второй - таблица
-    private Map<String, Map<String, Runnable>> subscriberMap = new ConcurrentHashMap<String, Map<String, Runnable>>();
-    private Map<String, String> rowCounts = new HashMap<String, String>();
+    private Map<String, Map<String, Runnable>> subscriberMap = new ConcurrentHashMap<>();
+    private Map<String, String> rowCounts = new HashMap<>();
 
     private TableChangeMonitor() {
         start();
@@ -48,7 +49,7 @@ public class TableChangeMonitor extends Thread {
                 Connection con = Setup.getSetup().getDBConnectionFromPool();
 
                 // ключ - имя таблицы, значение - вызываемые коллбеки
-                Map<String, List<Runnable>> runnableMap = new HashMap<String, List<Runnable>>();
+                Map<String, List<Runnable>> runnableMap = new HashMap<>();
 
                 for (Map.Entry<String, Map<String, Runnable>> me : subscriberMap.entrySet()) {
                     for (Map.Entry<String, Runnable> rme : me.getValue().entrySet()) {
@@ -91,7 +92,7 @@ public class TableChangeMonitor extends Thread {
                 sleep(CHECK_PERIOD);
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e);
         }
     }
 }
