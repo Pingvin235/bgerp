@@ -116,7 +116,7 @@ public class License {
      * @return UTF-8 encoded signed license.
      */
     public byte[] sign(String keyFilePath, String keyFilePswd) throws Exception {
-        var sign = new Sign("key.id", new String(ru.bgcrm.util.io.IOUtils.read(keyFilePath), StandardCharsets.UTF_8), keyFilePswd);
+        var sign = new Sign("key.id", new String(org.bgerp.util.IOUtils.read(keyFilePath), StandardCharsets.UTF_8), keyFilePswd);
 
         var data = new StringBuilder(this.data);
         data.append(KEY_LIC_SIGN + "=")

@@ -11,6 +11,7 @@ import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.ParamTest;
+import org.bgerp.util.IOUtils;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.CustomerDAO;
@@ -22,7 +23,6 @@ import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.io.IOUtils;
 
 @Test(groups = "customer", dependsOnGroups = "param")
 public class CustomerTest {

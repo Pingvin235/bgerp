@@ -1,4 +1,4 @@
-package ru.bgcrm.util.io;
+package org.bgerp.util;
 
 import java.io.File;
 import java.io.IOException;
