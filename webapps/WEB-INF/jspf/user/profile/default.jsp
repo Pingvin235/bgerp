@@ -58,21 +58,6 @@
 
 					<tr>
 						<td nowrap="nowrap">
-							${l.l('Динамический код')}
-						</td>
-						<td>
-							<c:set var="key" value="iface.dyncode"/>
-							<ui:combo-single hiddenName="${key}" value="${ctxUser.personalizationMap.get(key, '')}" widthTextValue="200px">
-								<jsp:attribute name="valuesHtml">
-									<li value="0">${l.l('Скрыть')}</li>
-									<li value="1">${l.l('Отобразить')}</li>
-								</jsp:attribute>
-							</ui:combo-single>
-						</td>
-					</tr>
-
-					<tr>
-						<td nowrap="nowrap">
 							${l.l('Extend right process card area on scroll down')}
 						</td>
 						<td>

@@ -290,77 +290,9 @@ git rebase upstream/master
 git push
 ----
 
-[[dyn]]
-=== Dynamic code
-CAUTION: This approach is deprecated, use <<custom, Custom>> instead.
-
-////
-Динамический код - это Java файлы, которые можно изменять и подгружать без перезапуска приложения.
-С его помощью можно обрабатывать различные события в системе. Файлы с классами динамического кода располагаются в по-умолчанию каталоге *dyn*.
-
-Динамические классы необходимо создавать в пакете *ru.bgcrm.dyn.<дальнейшая иерархия пакетов>* и в соответствующем каталоге.
-
-NOTE: Параметры динамического кода могут быть настроены в <<setup.adoc#config-dyn, конфигурации>>.
-
-// TODO: Write AsciiDoc article.
-Для написания динамического кода возможно использование как простого текстового редактора, так и полноценные IDE для Java разработки.
-Методология при этом аналогична применяемой для link:https://web.archive.org/web/20180209130306/http://wiki.bitel.ru/index.php/%D0%A0%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0_%D0%B4%D0%B8%D0%BD%D0%B0%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%BA%D0%BE%D0%B4%D0%B0_%D0%B2_IDE_Eclipse[разработке в BGBilling].
-
-Компиляция динамического кода осуществляется в оснастке *Администрирование => Динамический код* интерфейса администратора.
-Можно скомпилировать только все классы сразу. При успешной компиляции динамический код применяется также целиком.
-
-image::_res/ext_dyn.png[]
-
-Как видно из снимка экрана, помимо компиляции в оснастке возможно создание и запуск объекта класса реализующего интерфейс *java.lang.Runnable*.
-Кроме данного способа возможны перечисленные в последующих разделах способы создания и применения объектов динамических классов.
-Синхронный запуск происходит в потоке запроса и позволяет легко изучить <<#log-dyn, логи>>.
-////
-
-////
-[[custom-jar]]
-=== Custom JAR
-CAUTION: This approach is deprecated, use <<custom, Custom>> instead.
-
-With custom JAR in the application might be added any wanted Java classes.
-
-[NOTE]
-====
-This sample describes deploing own annotated servlets in `WEB-INF/lib`.
-Future plans about the functionality:
-[square]
-* such servlets have to be added in `META-INF/web-fragment.xml`;
-* the JAR itself assempled out of earlier <<dyn, dynamic code>> in interface and placed in `lib/custom.jar`
-
-Links:
-[square]
-* https://tomcat.apache.org/tomcat-9.0-doc/class-loader-howto.html
-* link:https://github.com/apache/tomcat/blob/master/java/org/apache/tomcat/util/scan/StandardJarScanner.java[StandardJarScanner.java in Tomcat]
-====
-
-For making own servlet write annotated class extending *javax.servlet.http.HttpServlet*.
-[source, java]
-----
-@WebServlet(name="RestApi", urlPatterns = "/restapi")
-----
-
-Compile to **.class*, assemple to a JAR file, place it in previously created directory `webapps/WEB-INF/lib`
-
-To be loaded the JAR file has to be named with *custom* in name,
-or you may change the marker string in configuration parameter *custom.jar.marker*.
-
-==== Примеры
-В составе поставки доступны примеры динамических классов в *dyn/ru/bgcrm/dyn* поименованные как *Example..* с описанием в комментариях.
-Помимо этого вы можете найти примеры динамического кода <<../ext/dyn_sample.adoc#, здесь>>.
-////
-
 [[run]]
 == Запуск кода
 Во всех данных примерах могут использоватся как классы из библиотек системы, так и <<custom, custom>>.
-
-=== Обработчики событий процессов
-Имя класса-обработчика может быть указано в свойствах <<process/index.adoc#type, типа процесса>>.
-Создаваемые динамические классы - обработчики событий должны расширять абстрактный класс javadoc:ru.bgcrm.event.listener.DynamicEventListener[].
-Информацию по типам событий можно получить из API документации к системе в формате JavaDoc.
 
 [[run-on-start]]
 === При старте сервера
@@ -371,7 +303,7 @@ or you may change the marker string in configuration parameter *custom.jar.marke
 === HTTP запросом
 [source]
 ----
-<server>/admin/dynamic.do?action=runDynamicClass&iface=<iface>&class=<className>&j_username=<user>&j_password=<pswd>&param1=value&param2=..
+<server>/admin/run.do?action=runClass&iface=<iface>&class=<className>&j_username=<user>&j_password=<pswd>&param1=value&param2=..
 ----
 
 Где:
@@ -381,7 +313,7 @@ or you may change the marker string in configuration parameter *custom.jar.marke
 * *<user>* и *<pswd>* - логин и пароль пользователя BGERP, подробнее о запросах внешних систем;
 * *<iface>* - тип класса-обработчика, подробнее ниже.
 
-При параметре *<iface>* равным *event* класс должен расширять абстрактный класс javadoc:ru.bgcrm.event.listener.DynamicEventListener[]
+При параметре *<iface>* равным *event* класс должен реализовывать интерфейс javadoc:ru.bgcrm.event.listener.EventListener[]
 в который передаётся событие javadoc:ru.bgcrm.event.RunClassRequestEvent[].
 В противном случае класс может реализовать интерфейс java.lang.Runnable, который просто будет запущен.
 

@@ -1008,12 +1008,12 @@ public class Utils {
     }
 
     /**
-     * Creates an object of a given class, loaded with {@link Bean#getClass(String)}.
-     * @param className the full class name or a simple {@link Bean} name.
-     * @param args optional constructor arguments.
-     * @return created object instance.
-     * @throws Exception
+     * The method does special JSP-specific type converting,
+     * therefore must be moved to {@link JSPFunction} and called as {@code u:newInstance}
+     *
+     * All the Java calls of the method have to be replaced to {@link Bean#newInstance(String)).
      */
+    @Deprecated
     public static Object newInstance(String className, Object... args) throws Exception {
         if (args == null)
             args = new Object[0];
@@ -1024,7 +1024,7 @@ public class Utils {
                 return constr.newInstance(convertedTypes);
         }
 
-        return new IllegalArgumentException(Log.format("Not found constructor for class '{}' with arguments '{}'", className, List.of(args)));
+        throw new IllegalArgumentException(Log.format("Not found constructor for class '{}' with arguments '{}'", className, List.of(args)));
     }
 
     /**

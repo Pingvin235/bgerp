@@ -27,11 +27,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.tomcat.util.IntrospectionUtils;
 import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.app.scheduler.Scheduler;
 import org.bgerp.custom.Custom;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.servlet.AccessLogValve;
 import ru.bgcrm.util.AdminPortListener;
@@ -80,8 +80,8 @@ public class Server extends Tomcat {
 
             new AdminPortListener(setup.getInt("server.port.admin", 8005));
 
-            // TODO: Replace by Custom logic.
-            DynamicClassManager.getInstance().recompileAll();
+            if (new File("dyn").exists())
+                log.warn("Directory 'dyn' is no longer used and must be deleted.");
 
             doOnStart();
 
@@ -164,7 +164,7 @@ public class Server extends Tomcat {
         for (String className : Utils.toSet(setup.get("runOnStart"))) {
             log.info("Run class on start: " + className);
             try {
-                ((Runnable) DynamicClassManager.newInstance(className)).run();
+                ((Runnable) Bean.newInstance(className)).run();
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }

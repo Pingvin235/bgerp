@@ -7,9 +7,9 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
+import org.bgerp.app.bean.Bean;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.util.Utils;
 
 public class NewInstanceTag extends BodyTagSupport {
@@ -56,7 +56,7 @@ public class NewInstanceTag extends BodyTagSupport {
 
     public int doEndTag() throws JspException {
         try {
-            Class<?> clazz = DynamicClassManager.getClass(this.clazz);
+            Class<?> clazz = Bean.getClass(this.clazz);
             for (Constructor<?> constr : clazz.getConstructors()) {
                 if (constr.getParameterTypes().length == params.size()) {
                     Object[] convertedTypes = convertObjectTypes(params, constr.getParameterTypes());

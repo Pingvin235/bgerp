@@ -207,7 +207,7 @@ include::../skip_at_first.adocf[]
 The application stores almost all the data in MySQL DB server, access credentials for that are defined in *properties* file.
 There are also stored file's metadata, but file bodies are persisted in `filestorage` directory.
 
-NOTE: In former versions file bodies were stored as a flat list, that may be changed <<scheduler-run, running>> javadoc:org.bgerp.util.file.MoveToSubDirs[] class.
+NOTE: In former versions file bodies were stored as a flat list, that may be changed <<run, running>> javadoc:org.bgerp.util.file.MoveToSubDirs[] class.
 
 [[user]]
 == Пользователи и права
@@ -315,7 +315,7 @@ You may notice such warnings in application logs.
 06-27/19:24:51  WARN [http-nio-9088-exec-1] PermissionNode - Not found action node 'ru.bgcrm.struts.action.admin.WorkAction:callboardAvailableShift', run 'org.bgerp.task.CorrectPermissions' class to fix
 ----
 
-They mean that not primary action IDs were used to store in DB. Nothing critical, but later <<scheduler-run, execute>> the mentioned class *CorrectPermissions* to fix it.
+They mean that not primary action IDs were used to store in DB. Nothing critical, but later <<run, execute>> the mentioned class *CorrectPermissions* to fix it.
 
 IMPORTANT: That action breaks backward compatibility of DB, so do only when you do not need to roll back.
 
@@ -741,11 +741,20 @@ image::_res/param_tree_table.png[]
 
 image::_res/param_tree_editor.png[]
 
+== Execution
+[[run]]
+=== Run
+In menu *Administration / Execution / Run* can be executed any Java class, implementing *java.lang.Runnable*.
+
+image::_res/run_class.png[]
+
+When *Wait of execution is done* is selected to Yes, execution logs can be obtained from enabled <<extension.adoc#log-dyn, Dynamic Log>>.
+
 [[scheduler]]
-== Scheduler
+=== Scheduler
 include::../skip_at_first.adocf[]
 
-Scheduler allows periodically run Java classes, which implement interface *java.lang.Runnable*.
+Scheduler allows periodically run Java classes, which extend javadoc:org.bgerp.app.scheduler.Task[].
 To configure scheduler tasks add the following blocks to server configuration:
 [source]
 ----
@@ -779,13 +788,6 @@ image::_res/scheduler.png[]
 
 Scheduler is controlled by <<#config-scheduler, config option>>.
 
-[[scheduler-run]]
-=== Run Classes
-In menu *Administration / Execution / Run* can be executed any Java class, implementing *java.lang.Runnable*.
-
-image::_res/run_class.png[]
-
-When *Wait of execution is done* is selected to Yes, execution logs can be obtained from enabled <<extension.adoc#log-dyn, Dynamic Log>>.
 
 [[address]]
 == Адреса

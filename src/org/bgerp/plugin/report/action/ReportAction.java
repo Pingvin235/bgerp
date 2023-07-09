@@ -2,12 +2,12 @@ package org.bgerp.plugin.report.action;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.plugin.report.Plugin;
 import org.bgerp.plugin.report.dao.ReportDAO;
 import org.bgerp.plugin.report.model.Config;
 import org.bgerp.plugin.report.model.Report;
 
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
@@ -31,7 +31,7 @@ public class ReportAction extends BaseAction {
         if (StringUtils.isNotBlank(report.getDaoClass())) {
             log.debug("Creating Java DAO class: {}", report.getDaoClass());
 
-            ReportDAO dao = DynamicClassManager.newInstance(report.getDaoClass());
+            ReportDAO dao = Bean.newInstance(report.getDaoClass());
             dao.get(form);
 
             return html(conSet, form, dao.getJspFile());

@@ -88,12 +88,6 @@
 		action="org.bgerp.action.admin.CustomAction:null"
 		command="/admin/custom.do" />
 
-	<c:if test="${ctxUser.personalizationMap.get('iface.dyncode') eq '1'}">
-		<ui:menu-item ltitle="Динамический код" href="admin/dyncode"
-			action="ru.bgcrm.struts.action.admin.DynamicAction"
-			command="/admin/dynamic.do" />
-	</c:if>
-
 	<ui:menu-group ltitle="Execution" icon="ti-pulse">
 		<ui:menu-item ltitle="Run" href="admin/run" icon="ti-rocket"
 			action="org.bgerp.action.admin.RunAction:null"

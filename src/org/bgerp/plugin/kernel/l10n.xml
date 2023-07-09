@@ -103,8 +103,6 @@
 	<p><ru>Статусы процессов</ru><en>Statuses</en></p>
 	<p><ru>Типы процессов</ru><en>Process Types</en></p>
 	<p><ru>Очереди процессов</ru><en>Process Queues</en></p>
-	<p><ru>Динамический код</ru><en>Dynamic Code</en></p>
-	<p><ru>WEB запросы</ru><en>HTTP Requests</en></p>
 	<p><ru>Конфигурация</ru><en>Configuration</en></p>
 	<p><ru>Статус приложения</ru><en>App Status</en></p>
 	<p><ru>Авторизовавшиеся пользователи</ru><en>Authenticated Users</en></p>

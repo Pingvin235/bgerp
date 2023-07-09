@@ -24,7 +24,6 @@ import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.SavedFilterDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.Event;
-import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
 import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.ArrayHashMap;
@@ -89,7 +88,7 @@ public class ProcessQueueAction extends ProcessAction {
             List<Integer> processIds = Utils.toIntegerList(form.getParam("processIds"));
 
             ProcessMarkedActionEvent event = new ProcessMarkedActionEvent(form, processor, processIds);
-            ((EventListener<Event>) Utils.newInstance(processor.getClassName())).notify(event, conSet);
+            ((EventListener<Event>) Bean.newInstance(processor.getClassName())).notify(event, conSet);
 
             if (event.isStreamResponse()) {
                 return null;

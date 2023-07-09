@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+import org.bgerp.app.bean.Bean;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -14,7 +15,6 @@ import com.cronutils.model.definition.CronDefinitionBuilder;
 import com.cronutils.model.time.ExecutionTime;
 import com.cronutils.parser.CronParser;
 
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.ParameterMap;
 
@@ -41,7 +41,7 @@ public class TaskConfig {
 
         String className = config.get("class");
         try {
-            clazz = (Class<? extends Runnable>) DynamicClassManager.getClass(className);
+            clazz = (Class<? extends Runnable>) Bean.getClass(className);
         } catch (ClassNotFoundException e) {
             throw new BGException("Task class not found: " + className);
         }

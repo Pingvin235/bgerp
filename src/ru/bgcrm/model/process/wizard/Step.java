@@ -1,10 +1,10 @@
 package ru.bgcrm.model.process.wizard;
 
+import org.bgerp.app.bean.Bean;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.ParameterMap;
 
@@ -38,7 +38,7 @@ public abstract class Step extends IdTitle {
 
     public static final Step newInstance(String className, ParameterMap config) {
         try {
-            Class<?> clazz = DynamicClassManager.getClass(className);
+            Class<?> clazz = Bean.getClass(className);
             if (!Step.class.isAssignableFrom(clazz)) {
                 throw new BGException("Incorrect class: " + className);
             }

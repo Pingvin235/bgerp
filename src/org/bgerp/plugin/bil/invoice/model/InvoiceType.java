@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.bean.Bean;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.bil.invoice.Plugin;
 import org.bgerp.plugin.bil.invoice.num.NumberProvider;
@@ -13,7 +14,6 @@ import org.bgerp.plugin.bil.invoice.num.PatternBasedNumberProvider;
 import org.bgerp.plugin.bil.invoice.pos.PositionProvider;
 import org.bgerp.util.TimeConvert;
 
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -39,7 +39,7 @@ public class InvoiceType extends IdTitle {
 
     private NumberProvider loadNumberProvider(ParameterMap config) throws Exception {
         @SuppressWarnings("unchecked")
-        var clazz = (Class<? extends NumberProvider>) DynamicClassManager
+        var clazz = (Class<? extends NumberProvider>) Bean
                 .getClass(config.get("class", PatternBasedNumberProvider.class.getName()));
         return config.getConfig(clazz);
     }
@@ -49,7 +49,7 @@ public class InvoiceType extends IdTitle {
 
         for (var providerConfig : config.subIndexed("provider.").values()) {
             @SuppressWarnings("unchecked")
-            var clazz = (Class<? extends PositionProvider>) DynamicClassManager.getClass(providerConfig.get("class"));
+            var clazz = (Class<? extends PositionProvider>) Bean.getClass(providerConfig.get("class"));
             result.add(providerConfig.getConfig(clazz));
         }
 

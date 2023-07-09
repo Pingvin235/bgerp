@@ -53,7 +53,7 @@ You may notice such warnings in application logs.
 06-27/19:24:51  WARN [http-nio-9088-exec-1] PermissionNode - Not found action node 'ru.bgcrm.struts.action.admin.WorkAction:callboardAvailableShift', run 'org.bgerp.scheduler.task.CorrectPermissions' class to fix
 ----
 
-They mean that not primary action IDs were used to store in DB. Nothing critical, but later <<../../kernel/setup.adoc#scheduler-run, execute>> the mentioned class *org.bgerp.scheduler.task.CorrectPermissions* to fix it.
+They mean that not primary action IDs were used to store in DB. Nothing critical, but later <<../../kernel/setup.adoc#run, execute>> the mentioned class *org.bgerp.scheduler.task.CorrectPermissions* to fix it.
 
 IMPORTANT: That action breaks backward compatibility of DB, so do only when you do not need to roll back.
 

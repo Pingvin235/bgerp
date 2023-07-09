@@ -13,9 +13,9 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
+import org.bgerp.app.bean.Bean;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.util.Config.InitStopException;
 
@@ -470,7 +470,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     @SuppressWarnings("unchecked")
     public final Object getConfig(String className) {
         try {
-            return getConfig((Class<Config>) DynamicClassManager.getClass(className));
+            return getConfig((Class<Config>) Bean.getClass(className));
         } catch (Exception e) {
             log.error(e);
         }

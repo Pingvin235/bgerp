@@ -10,6 +10,7 @@ import org.bgerp.util.Log;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
+import ru.bgcrm.model.BGException;
 import ru.bgcrm.plugin.PluginManager;
 
 public class Bean {
@@ -105,5 +106,27 @@ public class Bean {
         }
 
         return result;
+    }
+
+    /**
+     * Creates an object of a given class, loaded with {@link Bean#getClass(String)}.
+     * @param className the full class name or a simple {@link Bean} name.
+     * @param args optional constructor arguments.
+     * @return created object instance.
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public static final <T> T newInstance(String name) throws BGException, ClassNotFoundException {
+        try {
+            Class<T> clazz = (Class<T>) getClass(name);
+            if (clazz != null) {
+                return clazz.getDeclaredConstructor().newInstance();
+            }
+            return null;
+        } catch (ClassNotFoundException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new BGException(ex);
+        }
     }
 }

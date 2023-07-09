@@ -1,10 +1,10 @@
 package org.bgerp.action.admin;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.app.scheduler.Scheduler;
 import org.bgerp.app.scheduler.TasksConfig;
 
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.RunClassRequestEvent;
 import ru.bgcrm.event.listener.EventListener;
@@ -35,10 +35,10 @@ public class RunAction extends BaseAction {
         String ifaceType = form.getParam("iface", "event");
         // running interface EventListener
         if ("event".equals(ifaceType))
-            ((EventListener<Event>) Utils.newInstance(className)).notify(new RunClassRequestEvent(form), conSet);
+            ((EventListener<Event>) Bean.newInstance(className)).notify(new RunClassRequestEvent(form), conSet);
         // running interface Runnable
         else {
-            Class<?> clazz = DynamicClassManager.getClass(className);
+            Class<?> clazz = Bean.getClass(className);
 
             if (Runnable.class.isAssignableFrom(clazz)) {
                 boolean sync = form.getParamBoolean("sync");

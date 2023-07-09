@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
@@ -61,7 +61,7 @@ public abstract class MessageType extends IdTitle {
             String className = searchConf.get("class");
             if (Utils.notBlankString(className)) {
                 try {
-                    Class<?> clazz = DynamicClassManager.getClass(className);
+                    Class<?> clazz = Bean.getClass(className);
                     if (MessageTypeSearch.class.isAssignableFrom(clazz)) {
                         Constructor<?> constr = clazz.getConstructor(ParameterMap.class);
                         search = (MessageTypeSearch) constr.newInstance(searchConf);
@@ -79,7 +79,7 @@ public abstract class MessageType extends IdTitle {
 
         if (Utils.notBlankString(className)) {
             try {
-                Class<?> clazz = DynamicClassManager.getClass(className);
+                Class<?> clazz = Bean.getClass(className);
                 if (MessageTypeContactSaver.class.isAssignableFrom(clazz)) {
                     Constructor<?> constr = clazz.getConstructor(ParameterMap.class);
                     contactSaver = (MessageTypeContactSaver) constr.newInstance(saver);

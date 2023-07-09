@@ -16,11 +16,11 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.app.dist.inst.InstalledModule;
 import org.bgerp.app.scheduler.Scheduler;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
 
 /**
@@ -90,7 +90,7 @@ public class AdminPortListener implements Runnable {
 
                         Class<?> clazz = null;
                         try {
-                            clazz = DynamicClassManager.getClass(className);
+                            clazz = Bean.getClass(className);
                         } catch (ClassNotFoundException e) {
                             throw new BGException("Class not found: " + className, e);
                         }

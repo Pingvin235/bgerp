@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.upload.FormFile;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -103,7 +104,7 @@ public class DocumentAction extends BaseAction {
         }
 
         DocumentGenerateEvent event = new DocumentGenerateEvent(form, pattern, objectType, Collections.singletonList(objectId));
-        ((EventListener<Event>) Utils.newInstance(pattern.getScript())).notify(event, conSet);
+        ((EventListener<Event>) Bean.newInstance(pattern.getScript())).notify(event, conSet);
 
         Document document = event.getResultDocument();
 

@@ -3,12 +3,12 @@ package ru.bgcrm.plugin.asterisk;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.app.bean.Bean;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.util.ParameterMap;
@@ -64,7 +64,7 @@ public class AMIManager {
                     continue;
                 }
 
-                Class<?> listenerClass = DynamicClassManager.getClass(config.get("listenerClass", "ru.bgcrm.plugin.asterisk.AmiEventListener"));
+                Class<?> listenerClass = Bean.getClass(config.get("listenerClass", "ru.bgcrm.plugin.asterisk.AmiEventListener"));
                 try {
                     AmiEventListener listener = (AmiEventListener) listenerClass.getConstructor(MessageTypeCall.class, ParameterMap.class)
                             .newInstance((MessageTypeCall) messageType, config);

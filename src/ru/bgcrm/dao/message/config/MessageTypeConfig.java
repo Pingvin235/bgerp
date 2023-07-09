@@ -8,12 +8,12 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.bgerp.app.bean.Bean;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
-import ru.bgcrm.dynamic.DynamicClassManager;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -50,9 +50,10 @@ public class MessageTypeConfig extends Config {
 
             try {
                 @SuppressWarnings("unchecked")
-                Class<? extends MessageType> typeClass = (Class<? extends MessageType>) DynamicClassManager.getClass(pm.get("class"));
+                Class<? extends MessageType> typeClass = (Class<? extends MessageType>) Bean.getClass(pm.get("class"));
 
                 MessageType type = typeClass.getConstructor(Setup.class, int.class, ParameterMap.class).newInstance(Setup.getSetup(), id, pm);
+
                 type.setId(id);
 
                 typeMap.put(type.getId(), type);
