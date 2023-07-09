@@ -43,10 +43,10 @@ Incoming variables:
 				<c:if test="${showCheckColumn}">
 					<td width="20">${headData["checkAllLink"]}</td>
 				</c:if>
-				<c:forEach var="column" items="${columnList}" varStatus="status">
-					<c:set var="show" value="${column.columnConf.value ne 'priority'}"/>
+				<c:forEach var="mediaColumn" items="${columnList}" varStatus="status">
+					<c:set var="column" value="${mediaColumn.column}"/>
 
-					<c:if test="${not empty column.title and show}">
+					<c:if test="${not empty column.title and column.value ne 'priority'}">
 						<td>${column.title}
 							<c:if test="${not empty aggregateValues and not empty aggregateValues.get(status.index)}">
 								<br/>[ ${aggregateValues.get(status.index)} ]
@@ -64,7 +64,7 @@ Incoming variables:
 		<c:set target="${rowData}" property="urgColor" value="${''}"/>
 
 		<c:forEach begin="1" var="col" items="${row}" varStatus="status">
-			<c:set var="column" value="${columnList[status.index - 1].columnConf}"/>
+			<c:set var="column" value="${columnList[status.index - 1].column}"/>
 
 			<c:if test="${column.value eq 'priority'}">
 				<c:set var="priority" value="${col}"/>
@@ -77,19 +77,26 @@ Incoming variables:
 		<c:set target="${rowData}" property="process" value="${row[0][0]}"/>
 		<c:set target="${rowData}" property="linkedProcess" value="${row[0][1]}"/>
 
-		<%-- расшифровка HTML значений столбцов --%>
+		<%-- decoding html column values --%>
 		<c:forEach begin="1" var="col" items="${row}" varStatus="status">
-			<c:set var="columnRef" value="${columnList[status.index - 1]}"/>
-			<c:set var="column" value="${columnRef.columnConf}"/>
+			<c:set var="mediaColumn" value="${columnList[status.index - 1]}"/>
+			<c:set var="column" value="${mediaColumn.column}"/>
 
-			<%-- процесс в зависимости от колонки либо основной либо связанный --%>
-			<c:set var="process" value="${columnRef.firstColumn.getProcess(row[0])}"/>
+			<%-- process the main or a linked --%>
+			<c:set var="process" value="${mediaColumn.getProcess(row[0])}"/>
+			<%-- cell html value from a plugin --%>
+			<c:set var="cellHtml" value="${column.cellHtml(process, col)}"/>
 
-			<c:set target="${rowData}" property="col${columnRef.columnId}">
+			<c:set target="${rowData}" property="col${column.id}">
 				<c:choose>
+					<c:when test="${not empty cellHtml}">
+						${cellHtml}
+					</c:when>
+
 					<c:when test="${column.value eq 'N'}">
 						${status_from.count}
 					</c:when>
+
 					<c:when test="${column.value eq 'id' and not mob}">
 						<ui:process-link process="${process}"/>
 					</c:when>
@@ -169,19 +176,19 @@ Incoming variables:
 
 					<c:otherwise>
 						<c:set var="title" value=""/>
-						<c:if test="${not empty column.titleIfMore and col.length() gt column.titleIfMore}">
+						<c:if test="${0 lt column.titleIfMore and column.titleIfMore lt col.length()}">
 							<c:set var="title">title="${u.escapeXml( col )}"</c:set>
 							<c:set var="col">${col.substring(0, column.titleIfMore)}...</c:set>
 						</c:if>
 
-						<c:if test="${not empty column.formatToHtml}">
-							<c:set var="col" value="${u:htmlEncode( col )}"/>
+						<c:if test="${column.formatToHtml}">
+							<c:set var="col" value="${u:htmlEncode(col)}"/>
 						</c:if>
 
 						<span ${title}>
 							<c:choose>
-								<c:when test="${not empty column.cutIfMore}">
-									<c:set var="maxLength" value="${u:int(column.cutIfMore)}"/>
+								<c:when test="${0 lt column.cutIfMore}">
+									<c:set var="maxLength" value="${column.cutIfMore}"/>
 									<c:if test="${maxLength gt 0}">
 										<c:set var="text" value="${col}"/>
 										<%@include file="/WEB-INF/jspf/short_text.jsp"%>
@@ -208,7 +215,7 @@ Incoming variables:
 
 		<c:remove var="rowExpressionHtml"/>
 		<c:if test="${not empty rowExpression}">
-			<c:set var="rowExpressionHtml" value="${rowExpression.getRow( 'html', rowData )}"/>
+			<c:set var="rowExpressionHtml" value="${rowExpression.getRow('html', rowData)}"/>
 		</c:if>
 
 		<c:set var="process" value="${row[0][0]}"/>
@@ -227,8 +234,8 @@ Incoming variables:
 				<tr ${bgcolor} processId="${process.id}" openProcessId="${openProcessId}">
 					<c:set var="onceFlag" value="0"/>
 					<c:forEach begin="1" var="col" items="${row}" varStatus="status">
-						<c:set var="columnRef" value="${columnList[status.index - 1]}"/>
-						<c:set var="column" value="${columnRef.columnConf}"/>
+						<c:set var="mediaColumn" value="${columnList[status.index - 1]}"/>
+						<c:set var="column" value="${mediaColumn.column}"/>
 
 						<c:set var="nowrap" value=""/>
 						<c:set var="align" value=""/>
@@ -236,14 +243,14 @@ Incoming variables:
 						<c:set var="style" value=""/>
 						<c:set var="show" value="${column.value ne 'priority'}"/>
 
-						<c:if test="${column.nowrap eq '1'}">
+						<c:if test="${column.nowrap}">
 							<c:set var="nowrap" value="nowrap='nowrap'"/>
 						</c:if>
 						<c:if test="${not empty column.align}">
 							<c:set var="align" value="align='${column.align}'"/>
 						</c:if>
-						<c:if test="${not empty column['style']}">
-							<c:set var="style">style="${column['style']}"</c:set>
+						<c:if test="${not empty column.style}">
+							<c:set var="style">style="${column.style}"</c:set>
 						</c:if>
 
 						<c:set var="nas" value="${nowrap} ${align} ${style}"/>
@@ -253,7 +260,7 @@ Incoming variables:
 							<td align="center"><input type="checkbox" name="processId" value="${process.id}"/></td>
 						</c:if>
 						<c:if test="${show}">
-							<td ${nas}>${rowData['col'.concat( columnRef.columnId )]}</td>
+							<td ${nas}>${rowData['col'.concat(column.id)]}</td>
 						</c:if>
 					</c:forEach>
 				</tr>

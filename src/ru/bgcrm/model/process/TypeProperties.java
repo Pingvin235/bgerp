@@ -140,11 +140,6 @@ public class TypeProperties {
         transactionPropertiesMap.clear();
     }
 
-    @Deprecated
-    public String getExecutor() {
-        return configMap.get("setExecutor", "");
-    }
-
     public Set<Integer> getAllowedStatusSet(int fromStatus) {
         Set<Integer> result = new HashSet<Integer>();
 

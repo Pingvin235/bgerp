@@ -633,7 +633,7 @@
 						</div>
 					</c:if>
 
-					<c:if test="${filterFromList.getClass().getName() eq 'ru.bgcrm.model.process.queue.FilterParam'}">
+					<c:if test="${filterFromList.getClass().getSimpleName() eq 'FilterParam'}">
 						<%@ include file="filter/type/param.jsp"%>
 					</c:if>
 
@@ -653,7 +653,7 @@
 						<%@ include file="filter/executor.jsp"%>
 					</c:if>
 
-					<c:if test="${filterFromList.getClass().getName() eq 'ru.bgcrm.model.process.queue.FilterLinkObject'}">
+					<c:if test="${filterFromList.getClass().getSimpleName() eq 'FilterLinkObject'}">
 						<c:set var="filter" value="${filterFromList}"/>
 						<c:set var="title" value="${not empty filterFromList.title ? filterFromList.title : 'Код привязки'}"/>
 

@@ -1,6 +1,6 @@
 package ru.bgcrm.dao.process;
 
-import ru.bgcrm.model.process.Queue;
+import ru.bgcrm.model.process.queue.Queue;
 
 public class QueueSelectParams {
     public Queue queue;

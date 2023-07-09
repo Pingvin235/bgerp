@@ -27,6 +27,8 @@ import ru.bgcrm.util.Config.InitStopException;
 public abstract class ParameterMap extends AbstractMap<String, String> {
     private static final Log log = Log.getLog();
 
+    public static ParameterMap EMPTY = new DefaultConfigMap(Collections.emptyMap());
+
     private static final Pattern PATTERN_DOT = Pattern.compile("\\.");
 
     private static final Class<?>[] CONFIG_CONSTR_ARGS_WITH_VALIDATION = new Class[] { ParameterMap.class, boolean.class };
@@ -37,10 +39,10 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
      */
     protected volatile ConcurrentHashMap<Class<?>, Config> configMap;
 
-    private static class DefaultParameterMap extends ParameterMap {
-        protected Map<String, String> data;
+    private static class DefaultConfigMap extends ParameterMap {
+        private Map<String, String> data;
 
-        public DefaultParameterMap(Map<String, String> data) {
+        public DefaultConfigMap(Map<String, String> data) {
             this.data = data;
         }
 
@@ -56,8 +58,6 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         }
     }
 
-    public static ParameterMap EMPTY = new DefaultParameterMap(Collections.emptyMap());
-
     /**
      * Creates ParameterMap object from key values pairs.
      * @param keyValues key1, value1,... String.valueOf() is applied to each argument.
@@ -67,10 +67,8 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
         Map<String, String> map = new HashMap<>(keyValues.length / 2);
         for (int i = 0; i < keyValues.length - 1; i += 2)
             map.put(String.valueOf(keyValues[i]), String.valueOf(keyValues[i + 1]));
-        return new DefaultParameterMap(map);
+        return new DefaultConfigMap(map);
     }
-
-    protected String mapPrint = null;
 
     public abstract String get(String key, String def);
 
@@ -263,7 +261,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
             }
         }
 
-        return new ParameterMap.DefaultParameterMap(result);
+        return new ParameterMap.DefaultConfigMap(result);
     }
 
     /**
@@ -342,7 +340,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
                     Map<String, String> map = resultMap.get(id);
                     if (map == null) {
                         resultMap.put(id, map = new HashMap<String, String>());
-                        result.put(id, new ParameterMap.DefaultParameterMap(map));
+                        result.put(id, new ParameterMap.DefaultConfigMap(map));
                     }
 
                     if (pref.length == 2) {
@@ -372,13 +370,13 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
      * @return never {@code null}.
      * @see #subIndexed(String)
      */
-    public Map<String, ParameterMap> subKeyed(final String... prefixies) {
+    public Map<String, ParameterMap> subKeyed(final String... prefixes) {
         Map<String, ParameterMap> result = new HashMap<>();
         Map<String, Map<String, String>> resultMap = new HashMap<>();
 
         for (Entry<String, String> e : entrySet()) {
             String paramKey = e.getKey();
-            for (String prefix : prefixies) {
+            for (String prefix : prefixes) {
                 if (paramKey.startsWith(prefix)) {
                     String suffix = paramKey.substring(prefix.length(), paramKey.length());
 
@@ -387,7 +385,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
                     Map<String, String> map = resultMap.get(pref[0]);
                     if (map == null) {
                         resultMap.put(pref[0], map = new HashMap<String, String>());
-                        result.put(pref[0], new ParameterMap.DefaultParameterMap(map));
+                        result.put(pref[0], new ParameterMap.DefaultConfigMap(map));
                     }
 
                     if (pref.length == 2) {
@@ -459,6 +457,9 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
                 log.error(e);
             }
         }
+
+        log.trace("getConfig {} => {}", clazz, result);
+
         return result == Config.EMPTY ? null : result;
     }
 

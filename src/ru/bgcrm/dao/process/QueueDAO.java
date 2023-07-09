@@ -25,7 +25,7 @@ import ru.bgcrm.dao.LastModifyDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.process.Queue;
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.process.queue.QueueProcessStat;
 import ru.bgcrm.model.process.queue.QueueStat;
 import ru.bgcrm.model.process.queue.QueueUserStat;

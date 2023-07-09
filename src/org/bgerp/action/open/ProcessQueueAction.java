@@ -13,7 +13,7 @@ import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGSecurityException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.process.Queue;
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
@@ -77,7 +77,7 @@ public class ProcessQueueAction extends BaseAction {
         new ProcessQueueDAO(conSet.getSlaveConnection()).searchProcess(searchResult, null, queue, form);
 
         form.setRequestAttribute("columnList", queue.getMediaColumnList(Queue.MEDIA_HTML_OPEN));
-        queue.processDataForMedia(form, Queue.MEDIA_HTML_OPEN, searchResult.getList());
+        queue.replaceRowsForMedia(form, Queue.MEDIA_HTML_OPEN, searchResult.getList());
         form.setRequestAttribute("queue", queue);
 
         return html(conSet, null, PATH_JSP + "/show.jsp");

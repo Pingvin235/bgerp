@@ -15,7 +15,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.bean.Bean;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 
@@ -32,10 +31,10 @@ import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.Queue;
-import ru.bgcrm.model.process.Queue.ColumnConf;
 import ru.bgcrm.model.process.queue.JasperReport;
+import ru.bgcrm.model.process.queue.MediaColumn;
 import ru.bgcrm.model.process.queue.Processor;
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.process.queue.config.PrintQueueConfig;
 import ru.bgcrm.model.process.queue.config.PrintQueueConfig.PrintType;
 import ru.bgcrm.model.process.queue.config.SavedCommonFiltersConfig;
@@ -296,7 +295,7 @@ public class ProcessQueueAction extends ProcessAction {
 
         Queue queue = ProcessQueueCache.getQueue(form.getId(), form.getUser());
         if (queue != null) {
-            Pageable<Object[]> searchResult = new Pageable<Object[]>(form);
+            Pageable<Object[]> searchResult = new Pageable<>(form);
             List<String> aggregateValues = new ArrayList<>();
 
             var media = getMedia(form);
@@ -315,7 +314,7 @@ public class ProcessQueueAction extends ProcessAction {
 
             HttpServletRequest request = form.getHttpRequest();
             request.setAttribute("columnList", queue.getMediaColumnList(Queue.MEDIA_HTML));
-            queue.processDataForMedia(form, Queue.MEDIA_HTML, list);
+            queue.replaceRowsForMedia(form, Queue.MEDIA_HTML, list);
             request.setAttribute("queue", queue);
             if (aggregateValues.size() > 0)
                 form.setResponseData("aggregateValues", aggregateValues);
@@ -369,26 +368,26 @@ public class ProcessQueueAction extends ProcessAction {
                 PrintQueueConfig config = queue.getConfigMap().getConfig(PrintQueueConfig.class);
                 PrintType printType = config.getPrintType(printTypeId);
 
-                queue.processDataForColumns(form, list, queue.getColumnConfList(printType.getColumnIds()), false);
+                queue.replaceRowsForMediaColumns(form, list, queue.getMediaColumnList(printType.getColumnIds()), false);
                 printQueue(form, list, queue, printType);
             } else {
                 // TODO: В метод необходимо вынести расшифровку всех справочников.
-                queue.processDataForMedia(form, media, list);
+                queue.replaceRowsForMedia(form, media, list);
                 printQueue(form, list, queue, null);
             }
         } else if (Queue.MEDIA_XLS.equals(media)) {
-            queue.processDataForMedia(form, media, list);
+            queue.replaceRowsForMedia(form, media, list);
 
             try (HSSFWorkbook workbook = new HSSFWorkbook()) {
                 HSSFSheet sheet = workbook.createSheet("BGERP processes");
 
-                List<ColumnConf> columnList = queue.getMediaColumnList(media);
+                List<MediaColumn> columnList = queue.getMediaColumnList(media);
 
                 Row titleRow = sheet.createRow(0);
 
                 for (int i = 0; i < columnList.size(); i++) {
                     Cell titleCell = titleRow.createCell(i);
-                    titleCell.setCellValue(columnList.get(i).getTitle());
+                    titleCell.setCellValue(columnList.get(i).getColumn().getTitle());
                 }
 
                 for (int k = 0; k < list.size(); k++) {

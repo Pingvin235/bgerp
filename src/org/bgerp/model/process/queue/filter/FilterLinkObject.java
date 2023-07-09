@@ -1,4 +1,4 @@
-package ru.bgcrm.model.process.queue;
+package org.bgerp.model.process.queue.filter;
 
 import ru.bgcrm.util.ParameterMap;
 

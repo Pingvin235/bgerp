@@ -11,7 +11,13 @@ import ru.bgcrm.model.BGMessageException;
 public abstract class Config {
     protected static final Log log = Log.getLog();
 
-    public static final Config EMPTY = new Config (null) {};
+    public static final Config EMPTY = new Config (null) {
+        @Override
+        public String toString() {
+            return "Config.EMPTY";
+        }
+    };
+
     /**
      * The exception, thrown on empty configuration.
      */

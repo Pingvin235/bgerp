@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.bgerp.util.Log;
 
-import ru.bgcrm.model.process.Queue;
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Setup;

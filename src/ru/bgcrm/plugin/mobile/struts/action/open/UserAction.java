@@ -12,7 +12,7 @@ import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.cache.UserNewsCache;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.process.Queue;
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;
 import ru.bgcrm.model.user.User;

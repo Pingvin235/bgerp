@@ -10,7 +10,7 @@ import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.FilterCounterEvent;
-import ru.bgcrm.model.process.Queue;
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;
 import ru.bgcrm.struts.form.DynActionForm;

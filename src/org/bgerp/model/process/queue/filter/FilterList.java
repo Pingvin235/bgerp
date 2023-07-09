@@ -1,9 +1,9 @@
-package ru.bgcrm.model.process.queue;
+package org.bgerp.model.process.queue.filter;
 
 import java.util.ArrayList;
 
 public class FilterList {
-    private ArrayList<Filter> filterList = new ArrayList<Filter>();
+    private ArrayList<Filter> filterList = new ArrayList<>();
 
     public void add(Filter filter) {
         filterList.add(filter);

@@ -7,16 +7,10 @@ import static ru.bgcrm.dao.Tables.TABLE_PARAM_LISTCOUNT;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_MONEY;
 import static ru.bgcrm.dao.Tables.TABLE_PARAM_TEXT;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
-import static ru.bgcrm.dao.message.Tables.TABLE_PROCESS_MESSAGE_STATE;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;
-import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_STATUS;
-import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_TYPE;
-import static ru.bgcrm.dao.user.Tables.TABLE_USER;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Date;
@@ -25,6 +19,15 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.process.queue.Column;
+import org.bgerp.model.process.queue.filter.Filter;
+import org.bgerp.model.process.queue.filter.FilterCustomerParam;
+import org.bgerp.model.process.queue.filter.FilterGrEx;
+import org.bgerp.model.process.queue.filter.FilterLinkObject;
+import org.bgerp.model.process.queue.filter.FilterList;
+import org.bgerp.model.process.queue.filter.FilterOpenClose;
+import org.bgerp.model.process.queue.filter.FilterParam;
+import org.bgerp.model.process.queue.filter.FilterProcessType;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -32,32 +35,21 @@ import ru.bgcrm.dao.ParamValueSelect;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.QueueSelectParams;
 import ru.bgcrm.dao.process.Tables;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.Queue;
-import ru.bgcrm.model.process.queue.Filter;
-import ru.bgcrm.model.process.queue.FilterCustomerParam;
-import ru.bgcrm.model.process.queue.FilterGrEx;
-import ru.bgcrm.model.process.queue.FilterLinkObject;
-import ru.bgcrm.model.process.queue.FilterList;
-import ru.bgcrm.model.process.queue.FilterOpenClose;
-import ru.bgcrm.model.process.queue.FilterParam;
-import ru.bgcrm.model.process.queue.FilterProcessType;
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.SQLUtils;
 
 public class ProcessQueueDAO extends ProcessDAO {
-    private static final String LINKED_PROCESS_JOIN = " LEFT JOIN " + TABLE_PROCESS_LINK
+    public static final String LINKED_PROCESS_JOIN = " LEFT JOIN " + TABLE_PROCESS_LINK
             + " AS pllp ON pllp.object_id=process.id AND pllp.object_type LIKE 'process%' " + " LEFT JOIN "
             + TABLE_PROCESS + " AS " + LINKED_PROCESS + " ON pllp.process_id=" + LINKED_PROCESS + ".id";
 
@@ -95,13 +87,7 @@ public class ProcessQueueDAO extends ProcessDAO {
 
         Page page = searchResult.getPage();
 
-        List<Object[]> list = searchResult.getList();
-
-        final int columns = params.queue.getColumnList().size();
-
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-        StringBuilder query = new StringBuilder();
+        StringBuilder query = new StringBuilder(1000);
 
         query.append("SELECT DISTINCT SQL_CALC_FOUND_ROWS ");
         query.append(params.selectPart);
@@ -116,29 +102,31 @@ public class ProcessQueueDAO extends ProcessDAO {
 
         log.debug(query);
 
-        ps = con.prepareStatement(query.toString());
+        var ps = con.prepareStatement(query.toString());
 
         final boolean selectLinked = params.joinPart.indexOf(LINKED_PROCESS_JOIN) > 0;
 
-        rs = ps.executeQuery();
+        final List<Object[]> list = searchResult.getList();
+
+        final int columns = params.queue.getColumnList().size();
+
+        var rs = ps.executeQuery();
         while (rs.next()) {
             Process process = getProcessFromRs(rs, "process.");
             Process linkedProcess = selectLinked ? getProcessFromRs(rs, LINKED_PROCESS + ".") : null;
 
             Object[] row = new Object[columns + 1];
 
-            // 0 столбец - под Process
             row[0] = new Process[] { process, linkedProcess };
+            for (int i = 1; i <= columns; i++)
+                row[i] = rs.getObject(i);
 
-            for (int i = 1; i <= columns; i++) {
-                row[i] = rs.getString(i);
-            }
             list.add(row);
         }
 
-        if (page != null) {
+        if (page != null)
             page.setRecordCount(foundRows(ps));
-        }
+
         ps.close();
 
         loadFormattedAddressParamValues(searchResult, queue);
@@ -160,10 +148,10 @@ public class ProcessQueueDAO extends ProcessDAO {
         result.wherePart.append(Utils.toString(queue.getProcessTypeIds(), "-1", ","));
         result.wherePart.append(") AND process.id>0");
 
-        boolean hasAggregateColumns = addColumnList(queue, result.selectPart, result.joinPart, false);
+        boolean hasAggregateColumns = addColumns(queue, result.selectPart, result.joinPart, false);
         if (hasAggregateColumns) {
             result.selectAggregatePart = new StringBuilder();
-            addColumnList(queue, result.selectAggregatePart, new StringBuilder(), true);
+            addColumns(queue, result.selectAggregatePart, new StringBuilder(), true);
             result.selectAggregatePart.append("0");
         }
 
@@ -179,13 +167,13 @@ public class ProcessQueueDAO extends ProcessDAO {
     }
 
     private void loadFormattedAddressParamValues(Pageable<Object[]> searchResult, Queue queue) throws SQLException {
-        final List<ParameterMap> columnList = queue.getColumnList();
+        final var columnList = queue.getColumnList();
         final int length = columnList.size();
 
         for (int i = 0; i < length; i++) {
-            ParameterMap col = columnList.get(i);
+            Column col = columnList.get(i);
 
-            String value = col.get("value");
+            String value = col.getValue();
             if (!value.startsWith("param:")) {
                 continue;
             }
@@ -800,8 +788,7 @@ public class ProcessQueueDAO extends ProcessDAO {
         return values;
     }
 
-    public void addDateTimeFilter(DynActionForm form, StringBuilder wherePart, String paramPrefix, String paramId,
-            FilterParam filter) {
+    public void addDateTimeFilter(DynActionForm form, StringBuilder wherePart, String paramPrefix, String paramId, FilterParam filter) {
         boolean orEmpty = filter.getConfigMap().getBoolean("orEmpty", false);
 
         Date dateFrom = TimeUtils.parse(form.getParam(paramPrefix + "From"), TimeUtils.FORMAT_TYPE_YMD);
@@ -842,16 +829,6 @@ public class ProcessQueueDAO extends ProcessDAO {
         }
     }
 
-    private Pair<String, String> getModifiers(ParameterMap col) {
-        String openTag = "", closeTag = "";
-        String type = col.get("convert");
-        if ("int".equals(type)) {
-            openTag = " CAST((";
-            closeTag = ") AS UNSIGNED) ";
-        }
-        return new Pair<String, String>(openTag, closeTag);
-    }
-
     // TODO: Extract hasAggregateFunctions to a separated method.
     /**
      * Appends column expression in SQL query.
@@ -862,12 +839,12 @@ public class ProcessQueueDAO extends ProcessDAO {
      * @return existence of an aggregating function.
      * @throws Exception
      */
-    private boolean addColumnList(Queue queue, StringBuilder selectPart, StringBuilder joinPart, boolean aggregate) throws Exception {
+    private boolean addColumns(Queue queue, StringBuilder selectPart, StringBuilder joinPart, boolean aggregate) throws Exception {
         StringBuilder selectPartBuffer = new StringBuilder(60);
 
         boolean aggregateFunctions = false;
-        for (ParameterMap col : queue.getColumnList()) {
-            String aggregateFunction = col.get("aggregate");
+        for (Column col : queue.getColumnList()) {
+            String aggregateFunction = col.getAggregate();
             boolean hasAggregateFunction = Utils.notBlankString(aggregateFunction);
 
             aggregateFunctions = aggregateFunctions || hasAggregateFunction;
@@ -882,7 +859,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                     // addColumn не добавляет столбец напрочь
                     int lengthBefore = selectPartBuffer.length();
 
-                    addColumn(col, selectPartBuffer, joinPart);
+                    col.addQuery(selectPartBuffer, joinPart);
 
                     if (selectPartBuffer.length() != lengthBefore) {
                         int pos = selectPartBuffer.lastIndexOf(",");
@@ -894,20 +871,21 @@ public class ProcessQueueDAO extends ProcessDAO {
                     selectPart.append("NULL,");
                 }
             } else {
-                addColumn(col, selectPart, joinPart);
+                col.addQuery(selectPart, joinPart);
             }
         }
+
         return aggregateFunctions;
     }
 
-    private void addColumn(ParameterMap col, StringBuilder selectPart, StringBuilder joinPart) throws Exception {
-        String value = col.get("value");
+    /*private void addColumn(Column col, StringBuilder selectPart, StringBuilder joinPart) throws Exception {
+        String value = col.getValue();
         if (value == null) {
             throw new BGException(".value not defined, column: " + col);
         }
 
         // тут может быть "linked"
-        String target = col.get("process", "process");
+        String target = col.getProcess();
 
         if (LINKED_PROCESS.equals(target) && joinPart.indexOf(LINKED_PROCESS_JOIN) < 0) {
             joinPart.append(LINKED_PROCESS_JOIN);
@@ -994,7 +972,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                             + paramValue + " ");
                 }
             } else {
-                log.warn("Неверное условие: " + value);
+                log.warn("Wrong condition: {}", value);
                 return;
             }
         } else if (value.startsWith("linkCustomerLink") || value.startsWith("linkedCustomerLink")) {
@@ -1162,7 +1140,8 @@ public class ProcessQueueDAO extends ProcessDAO {
         else if (value.startsWith("executors") || value.startsWith("groups") || value.equals("actions")
                 || value.startsWith("linkProcessList") || value.startsWith("linkedProcessList") || value.equals("N")) {
             selectPart.append("'0' ");
-        } else {
+        }
+        else {
             // TODO: This fallback is the correct one, fix everythere.
             log.error("Incorrect column value macros: " + value);
             selectPart.append("'0' ");
@@ -1206,5 +1185,5 @@ public class ProcessQueueDAO extends ProcessDAO {
         }
 
         return alias;
-    }
+    }*/
 }

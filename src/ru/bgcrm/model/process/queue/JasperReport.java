@@ -29,8 +29,6 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import ru.bgcrm.model.process.Queue;
-import ru.bgcrm.model.process.Queue.ColumnConf;
 import ru.bgcrm.model.process.queue.config.PrintQueueConfig.PrintType;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
@@ -113,20 +111,20 @@ public class JasperReport {
             drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
         }
 
-        List<ColumnConf> printColumns = null;
+        List<MediaColumn> printColumns = null;
 
         if (printType != null) {
-            printColumns = queue.getColumnConfList(printType.getColumnIds());
+            printColumns = queue.getMediaColumnList(printType.getColumnIds());
 
             List<Integer> widths = printType.getColumnWidths();
 
             for (int i = 0; i < printColumns.size(); i++) {
-                ColumnConf col = printColumns.get( i );
+                MediaColumn col = printColumns.get( i );
                 Integer width = widths.get( i );
 
                 var column = ColumnBuilder.getNew()
-                        .setColumnProperty(String.valueOf(col.getColumnId()), String.class.getName())
-                        .setTitle(col.getColumnConf().get("title"))
+                        .setColumnProperty(String.valueOf(col.getColumn().getId()), String.class.getName())
+                        .setTitle(col.getColumn().getTitle())
                         .setWidth(width)
                         .setStyle(defaultStyle)
                         .setHeaderStyle(headerStyle).build();
@@ -136,17 +134,17 @@ public class JasperReport {
         } else {
             printColumns = queue.getMediaColumnList("print");
 
-            for (ColumnConf col : printColumns) {
+            for (MediaColumn col : printColumns) {
                 int width = 50;
                 Style style = defaultStyle;
-                if ("description".equals(col.getColumnConf().get("value"))) {
+                if ("description".equals(col.getColumn().getValue())) {
                     width = 300;
                     style = descriptionStyle;
                 }
 
                 AbstractColumn column = ColumnBuilder.getNew()
-                        .setColumnProperty(String.valueOf(col.getColumnId()), String.class.getName())
-                        .setTitle(col.getColumnConf().get("title"))
+                        .setColumnProperty(col.getColumn().getId(), String.class.getName())
+                        .setTitle(col.getColumn().getTitle())
                         .setWidth(width)
                         .setStyle(style)
                         .setHeaderStyle(headerStyle)
@@ -165,8 +163,8 @@ public class JasperReport {
             jdata.add(map);
 
             for (int i = 0; i < size; i++) {
-                ColumnConf col = printColumns.get(i);
-                map.put(String.valueOf(col.getColumnId()), objects[i]);
+                MediaColumn col = printColumns.get(i);
+                map.put(String.valueOf(col.getColumn().getId()), objects[i]);
             }
         }
 

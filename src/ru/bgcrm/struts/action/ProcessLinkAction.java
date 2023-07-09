@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.process.queue.filter.Filter;
+import org.bgerp.model.process.queue.filter.FilterLinkObject;
+import org.bgerp.model.process.queue.filter.FilterList;
+import org.bgerp.model.process.queue.filter.FilterOpenClose;
+import org.bgerp.model.process.queue.filter.FilterProcessType;
 import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.cache.ProcessQueueCache;
@@ -23,13 +28,8 @@ import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.model.process.Queue;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
-import ru.bgcrm.model.process.queue.Filter;
-import ru.bgcrm.model.process.queue.FilterLinkObject;
-import ru.bgcrm.model.process.queue.FilterList;
-import ru.bgcrm.model.process.queue.FilterOpenClose;
-import ru.bgcrm.model.process.queue.FilterProcessType;
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
@@ -75,7 +75,7 @@ public class ProcessLinkAction extends ProcessAction {
 
             HttpServletRequest request = form.getHttpRequest();
             request.setAttribute("columnList", queue.getMediaColumnList(Queue.MEDIA_HTML));
-            queue.processDataForMedia(form, Queue.MEDIA_HTML, list);
+            queue.replaceRowsForMedia(form, Queue.MEDIA_HTML, list);
             request.setAttribute("queue", queue);
         } else {
             Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>(form);

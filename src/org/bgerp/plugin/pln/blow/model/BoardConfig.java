@@ -14,7 +14,7 @@ import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.Queue;
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;

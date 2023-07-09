@@ -9,15 +9,14 @@ import java.util.Map;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.process.QueueDAO;
-import ru.bgcrm.model.process.Queue;
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.sql.SQLUtils;
 
 public class ProcessQueueCache extends Cache<ProcessQueueCache> {
-    private static Log log = Log.getLog();;
+    private static Log log = Log.getLog();
 
-    private static CacheHolder<ProcessQueueCache> holder = new CacheHolder<ProcessQueueCache>(new ProcessQueueCache());
+    private static CacheHolder<ProcessQueueCache> holder = new CacheHolder<>(new ProcessQueueCache());
 
     public static Queue getQueue(int id, User user) {
         Queue result = holder.getInstance().queueMap.get(id);
@@ -65,10 +64,9 @@ public class ProcessQueueCache extends Cache<ProcessQueueCache> {
     protected ProcessQueueCache newInstance() {
         ProcessQueueCache result = new ProcessQueueCache();
 
-        Connection con = Setup.getSetup().getDBConnectionFromPool();
-        try {
-            result.queueMap = new HashMap<Integer, Queue>();
-            result.queueList = new ArrayList<Queue>();
+        try (var con = Setup.getSetup().getDBConnectionFromPool()) {
+            result.queueMap = new HashMap<>();
+            result.queueList = new ArrayList<>();
 
             QueueDAO queueDAO = new QueueDAO(con);
             for (Queue queue : queueDAO.getQueueList()) {
@@ -88,9 +86,7 @@ public class ProcessQueueCache extends Cache<ProcessQueueCache> {
                 result.queueList.add(queue);
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        } finally {
-            SQLUtils.closeConnection(con);
+            log.error(e);
         }
 
         return result;

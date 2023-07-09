@@ -1,0 +1,6 @@
+sla:close.before.minutes=101
+sla:update.before.minutes=11
+
+sla:color.red.when.left.minutes=10
+sla:color.green.when.left.minutes=100
+sla:color.yellow.when.left.minutes=200

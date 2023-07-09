@@ -1,17 +1,17 @@
 package ru.bgcrm.model.process;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.struts.form.DynActionForm;
 
 public class QueueTest {
     @Test
-    public void testExtractSort() throws IOException {
+    public void testExtractSort() throws Exception {
         var q = new Queue();
         q.setConfig(IOUtils.toString(getClass().getResourceAsStream("QueueTest.config.sort.txt"), StandardCharsets.UTF_8));
         q.extractFiltersAndSorts();
@@ -23,7 +23,7 @@ public class QueueTest {
     }
 
     @Test
-    public void testExtractSortDefault() throws IOException {
+    public void testExtractSortDefault() throws Exception {
         var q = new Queue();
         q.setConfig(IOUtils.toString(getClass().getResourceAsStream("QueueTest.config.sort.default.txt"), StandardCharsets.UTF_8));
         q.extractFiltersAndSorts();

@@ -1,6 +1,8 @@
+Rename ParameterMap to ConfigMap
+
 Move to org.bgerp.app.config:
 
-ParameterMap
-DefaultParameterMap (extract from ParameterMap)
+ConfigMap
+DefaultConfigMap (extract from ConfigMap)
 Config
 Preferences

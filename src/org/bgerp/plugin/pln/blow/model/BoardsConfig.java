@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.plugin.pln.blow.Plugin;
 
 import ru.bgcrm.cache.ProcessQueueCache;
-import ru.bgcrm.model.process.Queue;
+import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.ParameterMap;
 

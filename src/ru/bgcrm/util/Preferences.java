@@ -47,10 +47,10 @@ public class Preferences extends ParameterMap {
         super();
     }
 
-    public Preferences(Preferences preferences) {
+    /*public Preferences(Preferences preferences) {
         this.data.putAll(preferences.data);
         this.configMap.putAll(preferences.configMap);
-    }
+    }*/
 
     public Preferences(String data) {
         super();

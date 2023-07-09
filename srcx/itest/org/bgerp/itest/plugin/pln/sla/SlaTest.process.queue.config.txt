@@ -1,0 +1,8 @@
+column.1.title=ID
+column.1.value=id
+column.4.title=Description
+column.4.value=descriptionLink
+column.5.title=Close Before
+column.5.value=sla:closeBefore
+column.6.title=Update Before
+column.6.value=sla:updateBefore
