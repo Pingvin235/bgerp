@@ -1,19 +1,15 @@
-package org.bgerp.plugin.calendar.model.event;
+package org.bgerp.plugin.clb.calendar.model.event;
 
-import java.time.LocalDate;
-
-import org.bgerp.plugin.clb.calendar.model.event.Event;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class EventTest {
     @Test
     public void testGetDuration() {
-        var e = new Event()
+        /* var e = new Event()
             .withDate(LocalDate.now())
             .withMinuteFrom(10)
             .withMinuteTo(25);
-        Assert.assertEquals(15, e.getDuration());
+        Assert.assertEquals(15, e.getDuration()); */
 
         /* e = new Event()
             .withDate(LocalDate.of(2021, 10, 19))

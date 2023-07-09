@@ -1,4 +1,5 @@
-package org.bgerp.plugin.clb.calendar.model.event.processor;
+package org.bgerp.plugin.clb.calendar.model.event.generator;
+/* package org.bgerp.plugin.clb.calendar.model.event.processor;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -39,3 +40,4 @@ public class WorkingWeek40 extends EventProcessor {
         return result;
     }
 }
+ */

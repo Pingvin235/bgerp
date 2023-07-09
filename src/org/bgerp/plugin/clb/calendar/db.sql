@@ -1,9 +1,3 @@
-CREATE TABLE IF NOT EXISTS `calendar_year` (
-  `calendar_id` INT NOT NULL,
-  `year` INT NOT NULL,
-  UNIQUE KEY calendar_id_year (`calendar_id`, `year`)
-);
-
 CREATE TABLE IF NOT EXISTS `calendar_event` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `calendar_id` INT NOT NULL,
