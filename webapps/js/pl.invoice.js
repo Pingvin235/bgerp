@@ -37,9 +37,10 @@ $$.invoice = new function() {
 	const paid = (hiddenId, url) => {
 		const dfd = $.Deferred();
 
-		$(document.getElementById(hiddenId)).datepicker("dialog", "", (dateText) => {
+		$(document.getElementById(hiddenId)).datepicker("dialog", "", (unused, inst) => {
+			const date = new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay);
 			$$.ajax
-				.post(url + "&date=" + dateText)
+				.post(url + "&date=" + date.toLocaleDateString('de-DE'))
 				.done(() => dfd.resolve());
 		});
 
