@@ -15,6 +15,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 
