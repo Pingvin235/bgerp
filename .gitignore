@@ -9,7 +9,6 @@
 /_custom
 /filestorage
 /tmp
-/work
 /bgcrm*.properties
 /bgerp*.properties
 /log4j.properties

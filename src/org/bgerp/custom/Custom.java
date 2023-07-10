@@ -44,7 +44,7 @@ public class Custom {
     private static final File DIR = new File(DIR_NAME);
 
     private static final File DIR_SRC = new File(DIR, "src");
-    private static final File DIR_WEBAPPS = new File(DIR, Server.WEBAPPS_DIR_NAME);
+    private static final File DIR_WEBAPPS = new File(DIR, Server.WEBAPPS_DIR);
 
     private volatile URLClassLoader classLoader;
 
@@ -60,7 +60,7 @@ public class Custom {
         log.info("Connecting custom webapps: {}", DIR_WEBAPPS);
         var webResourceRoot = new StandardRoot(context);
         webResourceRoot.addPreResources(new DirResourceSet(webResourceRoot, "/",
-            catalinaHome + "/" + DIR_NAME + "/" + Server.WEBAPPS_DIR_NAME, "/"));
+            catalinaHome + "/" + DIR_NAME + "/" + Server.WEBAPPS_DIR, "/"));
         context.setResources(webResourceRoot);
     }
 

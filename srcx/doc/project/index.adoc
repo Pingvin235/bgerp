@@ -902,7 +902,7 @@ link:../../../src/org/bgerp/task/MessageExchange.java#L17-L18[org.bgerp.task.Mes
 
 Log message with substitutions:
 [snippet, from="log.debug(", to=");", remove-leading="            "]
-link:../../../src/org/bgerp/Server.java#L125-L125[org.bgerp.Server]
+link:../../../src/org/bgerp/Server.java#L135-L135[org.bgerp.Server]
 
 Exception message output:
 [snippet, from="try", to="}", remove-leading="                "]

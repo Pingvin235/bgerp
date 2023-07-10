@@ -45,8 +45,8 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class Server extends Tomcat {
-    private static final String WORK_DIR_NAME = "work";
-    public static final String WEBAPPS_DIR_NAME = "webapps";
+    private static final String TOMCAT_WORK_DIR = Utils.getTmpDir() + "/tomcat";
+    public static final String WEBAPPS_DIR = "webapps";
 
     private final Log log = Log.getLog();
     private final Setup setup;
@@ -71,8 +71,13 @@ public class Server extends Tomcat {
 
             log.info("catalinaHome: {}; hostname: {}", catalinaHome, hostname);
 
-            log.info("Cleaning up {} directory.", WORK_DIR_NAME);
-            FileUtils.cleanDirectory(new File(WORK_DIR_NAME));
+            File workDir = new File(TOMCAT_WORK_DIR);
+            if (!workDir.exists()) {
+                log.info("Creating missing directory: {}", TOMCAT_WORK_DIR);
+                workDir.mkdir();
+            }
+            log.info("Cleaning up directory: {}", TOMCAT_WORK_DIR);
+            FileUtils.cleanDirectory(workDir);
 
             configureContext(catalinaHome);
 
@@ -80,8 +85,8 @@ public class Server extends Tomcat {
 
             new AdminPortListener(setup.getInt("server.port.admin", 8005));
 
-            if (new File("dyn").exists())
-                log.warn("Directory 'dyn' is no longer used and must be deleted.");
+            warnOnOldPath("dyn");
+            warnOnOldPath("work");
 
             doOnStart();
 
@@ -92,6 +97,11 @@ public class Server extends Tomcat {
             log.error(e);
             System.exit(1);
         }
+    }
+
+    private void warnOnOldPath(String name) {
+        if (new File(name).exists())
+            log.warn("Directory '{}' is no longer used and can be deleted.", name);
     }
 
     private void configureLogging() {
@@ -110,9 +120,9 @@ public class Server extends Tomcat {
     private void configureContext(String catalinaHome) {
         var customJarMarker = setup.get("custom.jar.marker", "custom");
 
-        var context = (StandardContext) addWebapp("", catalinaHome + "/" + WEBAPPS_DIR_NAME);
+        var context = (StandardContext) addWebapp("", catalinaHome + "/" + WEBAPPS_DIR);
         context.setReloadable(false);
-        context.setWorkDir(WORK_DIR_NAME);
+        context.setWorkDir(TOMCAT_WORK_DIR);
         context.setUseNaming(false);
 
         /* Similar to XML configuration: <CookieProcessor sameSiteCookies="strict" /> */
