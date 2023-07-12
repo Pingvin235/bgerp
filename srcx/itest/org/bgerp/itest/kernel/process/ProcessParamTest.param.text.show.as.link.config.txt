@@ -1,0 +1,2 @@
+# 1 - just show, or 'hideProtocol' for hiding protocol prefix
+show.as.link=hideProtocol

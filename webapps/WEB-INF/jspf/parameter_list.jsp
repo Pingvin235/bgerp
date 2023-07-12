@@ -34,6 +34,7 @@
 	<c:forEach var="item" items="${list}">
 		<c:set var="parameter" value="${item.parameter}"/>
 
+		<%-- start of wizard-specific logic 1 --%>
 		<%-- списковый параметр выбором в виде радиокнопок --%>
 		<c:set var="editorTypeParameterName">param.${parameter.id}.editor</c:set>
 		<c:set var="editorType">${paramsConfig[editorTypeParameterName]}</c:set>
@@ -48,9 +49,10 @@
 				<c:set var="radioSelectNotChoosed" value="${paramsConfig[paramName]}"/>
 			</c:if>
 		</c:if>
+		<%-- end of wizard-specific logic 1 --%>
 
 		<%-- TODO: Check permission for parameter update. --%>
-		<c:set var="readonly" value="${parameter.configMap.readonly eq 1 or form.param.readOnly eq '1'}"/>
+		<c:set var="readonly" value="${parameter.readonly or form.param.readOnly eq '1'}"/>
 
 		<c:set var="multiple" value="${parameter.configMap.multiple}" />
 
@@ -63,13 +65,6 @@
 				<c:set var="readonly" value="true"/>
 			</c:if>
 		</c:if>
-
-		<%--
-		<c:set var="hide" value=""/>
-		<c:if test="${parameter.configMap.hide == '1'}">
-			<c:set var="hide" value="style='display:none'"/>
-		</c:if>
-		--%>
 
 		<c:set var="viewDivId" value="${u:uiid()}"/>
 		<c:set var="editDivId" value="${u:uiid()}"/>
@@ -297,7 +292,7 @@
 							<c:set var="valueTitle" value="<pre>${item.valueTitle}</pre>"/>
 						</c:if>
 
-						<c:set var="showAsLink" value="${parameter.configMap.showAsLink eq '1' and not empty item.value}"/>
+						<c:set var="showAsLink" value="${not empty parameter.showAsLink and not empty item.value}"/>
 						<c:choose>
 							<c:when test="${readonly}">
 								<c:if test="${showAsLink}"><a target="_blank" href="${item.value}"></c:if>
@@ -319,7 +314,7 @@
 										${valueTitle}
 										<c:if test="${empty item.valueTitle}">${l.l('не указан')}</c:if>
 										<c:if test="${showAsLink}">
-											[<a target="_blank" href="${item.value}">${l.l('перейти')}</a>]
+											[<a target="_blank" href="${item.value}">${l.l('link.open')}</a>]
 										</c:if>
 									</a>
 								</html:form>
@@ -327,6 +322,7 @@
 						</c:choose>
 					</c:when>
 
+					<%-- start of wizard-specific logic 2 --%>
 					<%-- редактор сразу здесь --%>
 					<c:otherwise>
 						<c:set var="editFormId" value="${u:uiid()}"/>
@@ -424,6 +420,7 @@
 							</div>
 						</c:if>
 					</c:otherwise>
+					<%-- end of wizard-specific logic 2 --%>
 				</c:choose>
 			</td>
 		</tr>

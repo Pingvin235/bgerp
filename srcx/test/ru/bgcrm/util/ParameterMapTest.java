@@ -24,18 +24,6 @@ public class ParameterMapTest {
         assertEquals(IsolationConfig.IsolationProcess.EXECUTOR, isolation.getIsolationProcess());
     }
 
-    @Test
-    public void testValidateConfig() {
-        boolean thrown = false;
-        try {
-            var config = ParameterMap.of("isolation.process", "wrong");
-            config.validateConfig(IsolationConfig.class);
-        } catch (BGMessageException e) {
-            thrown = true;
-        }
-        assertTrue(thrown);
-    }
-
     private static class TestConfigCache extends Config {
         private static final AtomicInteger constructorCalled = new AtomicInteger();
 
@@ -46,18 +34,19 @@ public class ParameterMapTest {
     }
 
     @Test
-    public void testConfigCache() {
-        var params = ParameterMap.EMPTY;
-        var config = params.getConfig(TestConfigCache.class);
+    public void testGetConfigCache() {
+        var configMap = ParameterMap.EMPTY;
+
+        var config = configMap.getConfig(TestConfigCache.class);
         assertNotNull(config);
         assertEquals(1, TestConfigCache.constructorCalled.get());
 
-        config = params.getConfig(TestConfigCache.class);
+        config = configMap.getConfig(TestConfigCache.class);
         assertNotNull(config);
         assertEquals(1, TestConfigCache.constructorCalled.get());
 
-        params.removeConfig(TestConfigCache.class);
-        config = params.getConfig(TestConfigCache.class);
+        configMap.removeConfig(TestConfigCache.class);
+        config = configMap.getConfig(TestConfigCache.class);
         assertNotNull(config);
         assertEquals(2, TestConfigCache.constructorCalled.get());
     }
@@ -73,42 +62,42 @@ public class ParameterMapTest {
     }
 
     @Test
-    public void testValidateConfigGet() {
-        var setup = ParameterMap.EMPTY;
-        var config = setup.getConfig(TestConfigValidate.class);
+    public void testGetConfigValidate() {
+        var configMap = ParameterMap.EMPTY;
+        var config = configMap.getConfig(TestConfigValidate.class);
         assertNull(config);
 
-        setup = ParameterMap.of("key.wrong", "value");
-        config = setup.getConfig(TestConfigValidate.class);
+        configMap = ParameterMap.of("key.wrong", "value");
+        config = configMap.getConfig(TestConfigValidate.class);
         assertNull(config);
 
-        setup = ParameterMap.of("key.old", "value");
-        config = setup.getConfig(TestConfigValidate.class);
+        configMap = ParameterMap.of("key.old", "value");
+        config = configMap.getConfig(TestConfigValidate.class);
         assertNotNull(config);
         assertEquals("value", config.value);
 
         boolean thrown = false;
         try {
-            setup = ParameterMap.of("key.new", "value");
-            setup.validateConfig(TestConfigValidate.class);
+            configMap = ParameterMap.of("key.new", "value");
+            configMap.validateConfig(TestConfigValidate.class);
         } catch (BGMessageException e) {
             thrown = true;
         }
         assertFalse(thrown);
 
         try {
-            setup = ParameterMap.of("key.old", "value");
-            setup.validateConfig(TestConfigValidate.class);
+            configMap = ParameterMap.of("key.old", "value");
+            configMap.validateConfig(TestConfigValidate.class);
         } catch (BGMessageException e) {
             thrown = true;
         }
         assertTrue(thrown);
     }
 
-    private static class TestConfigInit extends Config {
+    private static class TestConfigInitWhenAndValidate extends Config {
         private final String value;
 
-        protected TestConfigInit(ParameterMap config, boolean validate) throws Exception {
+        protected TestConfigInitWhenAndValidate(ParameterMap config, boolean validate) throws Exception {
             super(null, validate);
             initWhen(config.getBoolean("config.init", false));
             if ((value = config.getSok(null, validate, "key.new", "key.old")) == null)
@@ -117,21 +106,20 @@ public class ParameterMapTest {
     }
 
     @Test
-    public void testConfigInit() throws Exception {
-        var setup = ParameterMap.EMPTY;
-        var config = setup.getConfig(TestConfigInit.class);
+    public void testGetConfigInitWhenAndValidate() throws Exception {
+        var config = ParameterMap.EMPTY.getConfig(TestConfigInitWhenAndValidate.class);
         assertNull(config);
 
-        config = ParameterMap.of("config.init", 1, "key.old", "test").getConfig(TestConfigInit.class);
+        config = ParameterMap.of("config.init", 1, "key.old", "test").getConfig(TestConfigInitWhenAndValidate.class);
         assertNotNull(config);
         assertEquals("test", config.value);
 
         // no exception
-        ParameterMap.EMPTY.validateConfig(TestConfigInit.class);
+        ParameterMap.EMPTY.validateConfig(TestConfigInitWhenAndValidate.class);
 
         boolean thrown = false;
         try {
-            ParameterMap.of("config.init", 1).validateConfig(TestConfigInit.class);
+            ParameterMap.of("config.init", 1).validateConfig(TestConfigInitWhenAndValidate.class);
         } catch (BGMessageException e) {
             thrown = true;
         }
@@ -139,7 +127,7 @@ public class ParameterMapTest {
 
         thrown = false;
         try {
-            ParameterMap.of("config.init", 1, "key.wrong", "").validateConfig(TestConfigInit.class);
+            ParameterMap.of("config.init", 1, "key.wrong", "").validateConfig(TestConfigInitWhenAndValidate.class);
         } catch (BGMessageException e) {
             thrown = true;
         }
@@ -157,15 +145,29 @@ public class ParameterMapTest {
     }
 
     @Test
-    public void testConfigInitWhen() {
-        var setup = ParameterMap.of("key.wrong", "value");
-        var config = setup.getConfig(TestConfigInitWhen.class);
+    public void testGetConfigInitWhen() {
+        var configMap = ParameterMap.of("key.wrong", "value");
+        var config = configMap.getConfig(TestConfigInitWhen.class);
         assertNull(config);
 
-        setup = ParameterMap.of("key", "value");
-        config = setup.getConfig(TestConfigInitWhen.class);
+        configMap = ParameterMap.of("key", "value");
+        config = configMap.getConfig(TestConfigInitWhen.class);
         assertNotNull(config);
         assertEquals("value", config.value);
+    }
+
+    private static class TestConfigWithException extends Config {
+        protected TestConfigWithException(ParameterMap config) {
+            super(null);
+            if (Utils.isEmptyString(config.get("correct.key")))
+                throw new ClassCastException("Some exception during a config creation");
+        }
+    }
+
+    @Test
+    public void testGetConfigWithException() {
+        var config = ParameterMap.of().getConfig(TestConfigWithException.class);
+        assertNull(config);
     }
 
     @Test
@@ -177,7 +179,19 @@ public class ParameterMapTest {
     }
 
     @Test
-    public void testSok() throws Exception {
+    public void testValidateConfig() {
+        boolean thrown = false;
+        try {
+            var config = ParameterMap.of("isolation.process", "wrong");
+            config.validateConfig(IsolationConfig.class);
+        } catch (BGMessageException e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+    }
+
+    @Test
+    public void tesGetSok() throws Exception {
         var map = ParameterMap.of("key.old", "1", "key.new", "2");
         var value = map.getSok("key.new", "key.old");
         assertEquals("2", value);
@@ -203,7 +217,7 @@ public class ParameterMapTest {
     }
 
     @Test
-    public void testSokLong() throws Exception {
+    public void testGetSokLong() throws Exception {
         var map = ParameterMap.of("key.old", "1", "key.new", "2");
         var value = map.getSokLong(22, "key.old");
         assertEquals(1, value);
@@ -220,7 +234,7 @@ public class ParameterMapTest {
     }
 
     @Test
-    public void testSokBoolean() throws Exception {
+    public void testGetSokBoolean() throws Exception {
         var map = ParameterMap.of("key.old", "1", "key.new", "2");
         var value = map.getSokBoolean(false, "key.old");
         assertEquals(true, value);

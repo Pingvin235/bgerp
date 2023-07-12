@@ -43,6 +43,16 @@
 <plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_MENU_ITEMS%>"/>
 
 <ui:menu-group ltitle="Администрирование" icon="ti-settings">
+	<ui:menu-group ltitle="Приложение" icon="ti-package">
+		<ui:menu-item ltitle="Статус приложения" href="admin/app/status"
+			action="org.bgerp.action.admin.AppAction:status"
+			command="/admin/app.do?action=status"/>
+
+		<ui:menu-item ltitle="Авторизовавшиеся пользователи" href="admin/app/logged"
+			action="org.bgerp.action.admin.AppAction:userLoggedList"
+			command="/admin/app.do?action=userLoggedList"/>
+	</ui:menu-group>
+
 	<ui:menu-item ltitle="License" href="admin/license" icon="ti-money"
 		action="org.bgerp.action.admin.LicenseAction:null"
 		command="/admin/license.do" />
@@ -96,16 +106,6 @@
 		<ui:menu-item ltitle="Scheduler" href="admin/scheduler" icon="ti-alarm-clock"
 			action="org.bgerp.action.admin.RunAction:scheduler"
 			command="/admin/run.do?action=scheduler"/>
-	</ui:menu-group>
-
-	<ui:menu-group ltitle="Приложение" icon="ti-package">
-		<ui:menu-item ltitle="Статус приложения" href="admin/app/status"
-			action="org.bgerp.action.admin.AppAction:status"
-			command="/admin/app.do?action=status"/>
-
-		<ui:menu-item ltitle="Авторизовавшиеся пользователи" href="admin/app/logged"
-			action="org.bgerp.action.admin.AppAction:userLoggedList"
-			command="/admin/app.do?action=userLoggedList"/>
 	</ui:menu-group>
 
 	<plugin:include endpoint="<%=ru.bgcrm.plugin.Endpoint.USER_ADMIN_MENU_ITEMS%>"/>

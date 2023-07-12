@@ -134,6 +134,13 @@ public abstract class MessageType extends IdTitle {
         throw new UnsupportedOperationException();
     }
 
+    protected String answerText(String text) {
+        text = ">" + text
+            .replace("\r", "")
+            .replace("\n", "\n>");
+        return text;
+    }
+
     public boolean isEditable(Message message) {
         return false;
     }

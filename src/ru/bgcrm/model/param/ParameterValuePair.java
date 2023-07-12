@@ -6,6 +6,7 @@ import static ru.bgcrm.model.param.Parameter.TYPE_DATETIME;
 import static ru.bgcrm.model.param.Parameter.TYPE_EMAIL;
 import static ru.bgcrm.model.param.Parameter.TYPE_FILE;
 import static ru.bgcrm.model.param.Parameter.TYPE_LIST;
+import static ru.bgcrm.model.param.Parameter.TYPE_TEXT;
 
 import java.io.FileInputStream;
 import java.net.URLConnection;
@@ -126,6 +127,11 @@ public class ParameterValuePair {
             result = address.toString();
         } else {
             result = value == null ? "" : String.valueOf(value);
+            if (TYPE_TEXT.equals(type) && "hideProtocol".equals(parameter.getShowAsLink())) {
+                int pos = result.indexOf("//");
+                if (pos > 0)
+                    result = result.substring(pos + 2);
+            }
         }
 
         return result;

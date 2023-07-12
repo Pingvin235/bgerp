@@ -75,6 +75,10 @@ public class Parameter extends IdTitleComment {
         return type;
     }
 
+    public Type getTypeType() {
+        return Type.of(type);
+    }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -145,6 +149,17 @@ public class Parameter extends IdTitleComment {
         }
 
         return format;
+    }
+
+    public boolean isReadonly() {
+        return configMap.getBoolean("readonly", false);
+    }
+
+    /**
+     * @return ''
+     */
+    public String getShowAsLink() {
+        return configMap.getSok("show.as.link", "showAsLink");
     }
 
     @Override

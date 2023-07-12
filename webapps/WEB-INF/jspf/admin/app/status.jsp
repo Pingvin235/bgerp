@@ -5,6 +5,8 @@
 	<h2>${l.l('Status')}</h2>
 	<pre>${form.response.data.status}</pre>
 
+	<c:set var="error" value="${form.response.data.error}"/>
+
 	<p:check action="org.bgerp.action.admin.AppAction:restart">
 		<h2>${l.l('Перезапуск')}</h2>
 		<html:form action="/admin/app">
@@ -44,7 +46,15 @@
 					</c:forEach>
 				</jsp:attribute>
 			</ui:combo-single>
-			<%@ include file="run_restart_button.jsp"%>
+			<c:choose>
+				<c:when test="${empty error}">
+					<%@ include file="run_restart_button.jsp"%>
+				</c:when>
+				<c:otherwise>
+					<b>${l.l('Is not allowed because of:')}&nbsp;${error}</b>
+				</c:otherwise>
+			</c:choose>
+
 		</html:form>
 	</p:check>
 
@@ -56,4 +66,4 @@
 </div>
 
 <shell:title ltext="Статус приложения"/>
-<shell:state error="${form.response.data.error}"/>
+<shell:state error="${error}"/>

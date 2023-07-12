@@ -90,6 +90,21 @@ public class MessageTypeNote extends MessageType {
         return true;
     }
 
+    public Message getAnswerMessage(Message original) {
+        var result = new Message();
+        result.setTypeId(original.getTypeId());
+        result.setProcessId(original.getProcessId());
+
+        var subject = Utils.maskNull(original.getSubject());
+        subject = subject.startsWith("Re:") ? subject : "Re: " + subject;
+        result.setSubject(subject);
+
+        result.setText(answerText(original.getText()));
+        result.setTo(original.getFrom());
+
+        return result;
+    }
+
     @Override
     public boolean isAttachmentSupport() {
         return true;

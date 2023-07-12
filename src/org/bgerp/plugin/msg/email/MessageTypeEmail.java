@@ -61,6 +61,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 public class MessageTypeEmail extends MessageType {
     private static final Log log = Log.getLog();
 
+    @Deprecated
     public static final String RE_PREFIX = "Re: ";
     private static final String AUTOREPLY_SYSTEM_ID = "autoreply";
 
@@ -146,12 +147,7 @@ public class MessageTypeEmail extends MessageType {
         result.setProcessId(original.getProcessId());
 
         result.setSubject(getAnswerSubject(original.getSubject()));
-
-        var text = original.getText();
-        text = ">" + text
-            .replace("\r", "")
-            .replace("\n", "\n>");
-        result.setText(text);
+        result.setText(answerText(original.getText()));
 
         var addresses = Addresses.parseSafe(original.getTo())
             .exclude(getEmail())

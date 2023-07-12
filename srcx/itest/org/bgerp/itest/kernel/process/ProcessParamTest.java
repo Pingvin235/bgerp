@@ -56,6 +56,7 @@ public class ProcessParamTest {
     private int paramMoneyId;
     private int paramTextId;
     private int paramTextRegexpId;
+    private int paramTextShowAsLinkId;
     private int paramPhoneId;
     private int paramTreeId;
 
@@ -105,6 +106,9 @@ public class ProcessParamTest {
         paramTextRegexpId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text' regexp",
                 ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.text.regexp.config.txt"), "");
 
+        paramTextShowAsLinkId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text' show as link",
+                ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.text.show.as.link.config.txt"), "");
+
         paramPhoneId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_PHONE, TITLE + " type 'phone'",
                 ProcessTest.posParam += 2, "", "");
 
@@ -118,8 +122,9 @@ public class ProcessParamTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setParameterIds(List.of(paramAddressId, paramBlobId, paramDateId, paramDateTimeId, paramEmailId, paramFileId, paramListId,
-                paramListDirConfigId, paramListCountId, paramMoneyId, paramTextId, paramTextRegexpId, paramPhoneId, paramTreeId));
+        props.setParameterIds(
+                List.of(paramAddressId, paramBlobId, paramDateId, paramDateTimeId, paramEmailId, paramFileId, paramListId, paramListDirConfigId,
+                        paramListCountId, paramMoneyId, paramTextId, paramTextShowAsLinkId, paramTextRegexpId, paramPhoneId, paramTreeId));
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
     }
@@ -421,6 +426,7 @@ public class ProcessParamTest {
     private void paramValueText(int processId) throws Exception {
         var dao = new ParamValueDAO(DbTest.conRoot, true, User.USER_SYSTEM.getId());
 
+        // paramTextId
         dao.updateParamText(processId, paramTextId, "Value 1");
         Assert.assertEquals(dao.getParamText(processId, paramTextId), "Value 1");
 
@@ -436,6 +442,9 @@ public class ProcessParamTest {
         Assert.assertEquals(log.get(--cnt).getText(), "Value 1");
         Assert.assertEquals(log.get(--cnt).getText(), "");
         Assert.assertEquals(log.get(--cnt).getText(), "Value 2");
+
+        // paramText show as link
+        dao.updateParamText(processId, paramTextShowAsLinkId, "1.1.1.1");
     }
 
     private void paramValuePhone(int processId) throws Exception {
