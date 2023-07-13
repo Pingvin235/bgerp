@@ -1,4 +1,4 @@
-package ru.bgcrm.util.sql;
+package org.bgerp.app.db.sql.pool;
 
 import java.sql.Array;
 import java.sql.Blob;
@@ -18,12 +18,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-import org.apache.commons.dbcp.DelegatingConnection;
+import org.apache.commons.dbcp2.DelegatingConnection;
 
-public class PoolGuardConnectionWrapper implements Connection {
-    private DelegatingConnection delegate;
+class PoolGuardConnectionWrapper implements Connection {
+    private DelegatingConnection<Connection> delegate;
 
-    PoolGuardConnectionWrapper(DelegatingConnection delegate) {
+    PoolGuardConnectionWrapper(DelegatingConnection<Connection> delegate) {
         this.delegate = delegate;
     }
 
@@ -87,7 +87,6 @@ public class PoolGuardConnectionWrapper implements Connection {
         return delegate.getTransactionIsolation();
     }
 
-    @SuppressWarnings("unchecked")
     public Map<String, Class<?>> getTypeMap() throws SQLException {
         checkOpen();
         return (Map<String, Class<?>>) delegate.getTypeMap();
@@ -117,8 +116,7 @@ public class PoolGuardConnectionWrapper implements Connection {
         if (conn == null) {
             return false;
         }
-        if (obj instanceof DelegatingConnection) {
-            DelegatingConnection c = (DelegatingConnection) obj;
+        if (obj instanceof DelegatingConnection c) {
             return c.innermostDelegateEquals(conn);
         } else {
             return conn.equals(obj);

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.util.Log;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -15,7 +16,6 @@ import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.Config;
-import ru.bgcrm.util.sql.ConnectionPool;
 
 public class Setup extends Preferences {
     private static final Log log = Log.getLog();

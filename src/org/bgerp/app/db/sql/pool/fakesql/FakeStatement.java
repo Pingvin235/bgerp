@@ -1,4 +1,4 @@
-package ru.bgcrm.util.sql.fakesql;
+package org.bgerp.app.db.sql.pool.fakesql;
 
 import java.io.InputStream;
 import java.io.Reader;

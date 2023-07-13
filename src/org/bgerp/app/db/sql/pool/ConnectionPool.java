@@ -1,9 +1,9 @@
-package ru.bgcrm.util.sql;
+package org.bgerp.app.db.sql.pool;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -15,22 +15,21 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.ConnectionFactory;
-import org.apache.commons.dbcp.DelegatingConnection;
-import org.apache.commons.dbcp.DriverManagerConnectionFactory;
-import org.apache.commons.dbcp.PoolableConnection;
-import org.apache.commons.dbcp.PoolableConnectionFactory;
-import org.apache.commons.dbcp.PoolingConnection;
-import org.apache.commons.dbcp.PoolingDataSource;
-import org.apache.commons.pool.KeyedObjectPool;
-import org.apache.commons.pool.impl.GenericObjectPool;
+import org.apache.commons.dbcp2.ConnectionFactory;
+import org.apache.commons.dbcp2.DelegatingConnection;
+import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
+import org.apache.commons.dbcp2.PoolableConnection;
+import org.apache.commons.dbcp2.PoolableConnectionFactory;
+import org.apache.commons.dbcp2.PoolingDataSource;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.bgerp.app.db.sql.pool.fakesql.FakeConnection;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.util.AlarmErrorMessage;
 import ru.bgcrm.util.AlarmSender;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.fakesql.FakeConnection;
+import ru.bgcrm.util.sql.ConnectionSet;
 
 public class ConnectionPool {
     private static final Log log = Log.getLog();
@@ -51,20 +50,20 @@ public class ConnectionPool {
      */
     private boolean disablePreventionSlaveOverrun = false;
 
-    private final ConcurrentMap<Object, StackTraceElement[]> trace = new ConcurrentHashMap<Object, StackTraceElement[]>();
+    private final ConcurrentMap<Object, StackTraceElement[]> trace = new ConcurrentHashMap<>();
 
     private GuardSupportedPool connectionPool;
     private DataSource dataSource;
 
     // пулы соединений к Slave - базам
-    private ConcurrentHashMap<String, GuardSupportedPool> slavePools = new ConcurrentHashMap<String, GuardSupportedPool>();
+    private ConcurrentHashMap<String, GuardSupportedPool> slavePools = new ConcurrentHashMap<>();
     // времена, когда из слейв пула была ошибка получения коннекта
     private ConcurrentHashMap<String, Long> slaveErrorTimes = new ConcurrentHashMap<String, Long>();
     // если из слейв пула была ошибка получения коннекта - минимальное время, через которое попытка будет повторена
     private long MIN_TIME_FOR_SLAVE_USE = 10000;
 
     // пулы соединений к "мусорным" базам
-    private ConcurrentHashMap<String, GuardSupportedPool> trashPools = new ConcurrentHashMap<String, GuardSupportedPool>();
+    private ConcurrentHashMap<String, GuardSupportedPool> trashPools = new ConcurrentHashMap<>();
     // селектор нужной "мусорной" базы
     private TrashDatabaseSelector trashSelector;
 
@@ -108,8 +107,6 @@ public class ConnectionPool {
      * @throws Exception
      */
     private GuardSupportedPool initConnectionPool(ParameterMap prefs, String prefix) throws Exception {
-        GenericObjectPool<Connection> connectionPool = null;
-
         final var dbURL = prefs.get(prefix + "url", null);
         log.info("url: " + dbURL);
         if (Utils.notBlankString(dbURL)) {
@@ -126,18 +123,50 @@ public class ConnectionPool {
             properties.setProperty("useLegacyDatetimeCode", "false");
             properties.setProperty("serverTimezone", TimeZone.getDefault().getID());
 
-            int maxIdle = prefs.getInt(prefix + "maxIdle", MAX_IDLE_DEFAULT);
-            int maxActive = prefs.getInt(prefix + "maxActive", MAX_ACTIVE_DEFAULT);
+            final ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(dbURL, properties);
 
-            if (Utils.isBlankString(dbURL)) {
-                return null;
-            }
+            final PoolableConnectionFactory poolableConFactory = new PoolableConnectionFactory(connectionFactory, null);
+            poolableConFactory.setValidationQuery("SELECT 1");
+            poolableConFactory.setValidationQueryTimeout(prefs.getInt(prefix + "validationTimeout", -1));
+
+            /* Previously here was an extension of PoolableConnectionFactory class with such a logic:
+            public Object makeObject() throws Exception {
+                ... copied blocks from PoolableConnectionFactory
+                return new PoolableConnection(conn, _pool, _config) {
+                    @Override
+                    public synchronized void close() throws SQLException {
+                        try {
+                            final List<?> traceList = super.getTrace();
+                            if (traceList != null && traceList.size() > 80) {
+                                StringBuilder sb = new StringBuilder(300);
+                                sb.append("Many statements was open at connection close:\n");
+
+                                int count = 0;
+
+                                for (Object o : traceList) {
+                                    if (++count > 100) {
+                                        break;
+                                    }
+
+                                    sb.append(o).append('\n');
+                                }
+
+                                log.error(name + sb.toString(), new RuntimeException());
+                            }
+                        } finally {
+                            super.close();
+                        }
+                    }
+                };
+            */
+
+            GenericObjectPool<PoolableConnection> connectionPool = null;
 
             if (tracePool) {
-                connectionPool = new GenericObjectPool<Connection>(null) {
+                connectionPool = new GenericObjectPool<>(poolableConFactory) {
                     @Override
-                    public Connection borrowObject() throws Exception {
-                        final Connection result = super.borrowObject();
+                    public PoolableConnection borrowObject() throws Exception {
+                        final PoolableConnection result = super.borrowObject();
 
                         trace.put(result, Thread.currentThread().getStackTrace());
 
@@ -145,77 +174,28 @@ public class ConnectionPool {
                     }
 
                     @Override
-                    public void returnObject(Connection obj) throws Exception {
+                    public void returnObject(PoolableConnection obj) {
                         trace.remove(obj);
 
                         super.returnObject(obj);
                     }
                 };
             } else {
-                connectionPool = new GenericObjectPool<Connection>(null);
+                connectionPool = new GenericObjectPool<PoolableConnection>(poolableConFactory);
             }
 
-            ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(dbURL, properties);
-
-            connectionPool.setMaxIdle(maxIdle);
-            connectionPool.setMaxActive(maxActive);
-
+            connectionPool.setMaxIdle(prefs.getInt(prefix + "maxIdle", MAX_IDLE_DEFAULT));
+            connectionPool.setMaxTotal((int) prefs.getSokLong(MAX_ACTIVE_DEFAULT, prefix + "maxTotal", prefix + "maxActive"));
             connectionPool.setTestOnBorrow(true);
             connectionPool.setTestOnReturn(true);
-
-            connectionPool.setTimeBetweenEvictionRunsMillis(prefs.getLong(prefix + "timeBetweenEvictionRunsMillis", 30 * 1000));
-            connectionPool.setMinEvictableIdleTimeMillis(prefs.getLong(prefix + "minEvictableIdleTimeMillis", 30 * 60 * 1000));
+            connectionPool.setTimeBetweenEvictionRuns(Duration.ofMillis(prefs.getLong(prefix + "timeBetweenEvictionRunsMillis", 30)));
+            connectionPool.setMinEvictableIdle(Duration.ofMinutes(prefs.getLong(prefix + "minEvictableIdleTimeMillis", 30)));
             connectionPool.setTestWhileIdle(prefs.getLong(prefix + "testWhileIdle", 1) > 0);
-            connectionPool.setSoftMinEvictableIdleTimeMillis(prefs.getLong(prefix + "softMinEvictableIdleTimeMillis", -1));
+            connectionPool.setSoftMinEvictableIdle(Duration.ofMillis(prefs.getLong(prefix + "softMinEvictableIdleTimeMillis", -1)));
             connectionPool.setNumTestsPerEvictionRun(prefs.getInt(prefix + "numTestsPerEvictionRun", 3));
+            connectionPool.setLifo(prefs.getBoolean(prefix + "lifo", false));
 
-            connectionPool.setLifo(prefs.getInt(prefix + "lifo", 0) > 0);
-
-            final int validationTimeout = prefs.getInt(prefix + "validationTimeout", -1);
-
-            new PoolableConnectionFactory(connectionFactory, connectionPool, null, "SELECT 1", validationTimeout, false, false) {
-                public Object makeObject() throws Exception {
-                    Connection conn = _connFactory.createConnection();
-                    if (conn == null) {
-                        throw new IllegalStateException("Connection factory returned null from createConnection");
-                    }
-
-                    initializeConnection(conn);
-
-                    if (null != _stmtPoolFactory) {
-                        KeyedObjectPool stmtpool = _stmtPoolFactory.createPool();
-                        conn = new PoolingConnection(conn, stmtpool);
-                        stmtpool.setFactory((PoolingConnection) conn);
-                    }
-
-                    return new PoolableConnection(conn, _pool, _config) {
-                        @Override
-                        public synchronized void close() throws SQLException {
-                            try {
-                                final List<?> traceList = super.getTrace();
-                                if (traceList != null && traceList.size() > 80) {
-                                    StringBuilder sb = new StringBuilder(300);
-                                    sb.append("Many statements was open at connection close:\n");
-
-                                    int count = 0;
-
-                                    for (Object o : traceList) {
-                                        if (++count > 100) {
-                                            break;
-                                        }
-
-                                        sb.append(o).append('\n');
-                                    }
-
-                                    log.error(name + sb.toString(), new RuntimeException());
-                                }
-                            } finally {
-                                super.close();
-                            }
-                        }
-                    };
-                }
-            };
+            poolableConFactory.setPool(connectionPool);
 
             return new GuardSupportedPool(connectionPool);
         } else {
@@ -643,7 +623,7 @@ public class ConnectionPool {
         // статусы Slave пулов
         for (Map.Entry<String, GuardSupportedPool> me : slavePools.entrySet()) {
             String name = me.getKey();
-            GenericObjectPool<Connection> pool = me.getValue().pool;
+            GenericObjectPool<?> pool = me.getValue().pool;
 
             sb.append("\n");
             sb.append("Connections pool to Slave \"" + name + "\" status ");
@@ -652,7 +632,7 @@ public class ConnectionPool {
         // статусы Trash пулов
         for (Map.Entry<String, GuardSupportedPool> me : trashPools.entrySet()) {
             String name = me.getKey();
-            GenericObjectPool<Connection> pool = me.getValue().pool;
+            GenericObjectPool<?> pool = me.getValue().pool;
 
             sb.append("\n");
             sb.append("Connections pool to Trash \"" + name + "\" status ");
@@ -670,14 +650,14 @@ public class ConnectionPool {
         return connectionPool.getLoadRatio();
     }
 
-    private String poolStatus(GenericObjectPool<Connection> connectionPool) {
+    private String poolStatus(GenericObjectPool<?> connectionPool) {
         StringBuilder sb = new StringBuilder();
         sb.append("Idle: ");
         sb.append(connectionPool.getNumIdle());
         sb.append("; Active: ");
         sb.append(connectionPool.getNumActive());
-        sb.append("; maxActive: ");
-        sb.append(connectionPool.getMaxActive());
+        sb.append("; maxTotal: ");
+        sb.append(connectionPool.getMaxTotal());
         sb.append("; maxIdle: ");
         sb.append(connectionPool.getMaxIdle());
         return sb.toString();
@@ -772,16 +752,16 @@ public class ConnectionPool {
     }
 
     private static final class GuardSupportedPool {
-        final GenericObjectPool<Connection> pool;
-        final PoolingDataSource dataSource;
+        final GenericObjectPool<PoolableConnection> pool;
+        final PoolingDataSource<PoolableConnection> dataSource;
 
-        public GuardSupportedPool(GenericObjectPool<Connection> pool) {
+        public GuardSupportedPool(GenericObjectPool<PoolableConnection> pool) {
             this.pool = pool;
-            this.dataSource = new PoolingDataSource(pool) {
+            this.dataSource = new PoolingDataSource<PoolableConnection>(pool) {
                 @Override
                 public Connection getConnection() throws SQLException {
                     try {
-                        Connection conn = (Connection) (_pool.borrowObject());
+                        Connection conn = (Connection) pool.borrowObject();
                         if (conn != null) {
                             conn = new PoolGuardConnectionWrapper((DelegatingConnection) conn);
                         }
@@ -803,14 +783,14 @@ public class ConnectionPool {
          * @return getMaxActive() <= getNumActive()
          */
         public boolean isOverload() {
-            return pool.getMaxActive() <= pool.getNumActive();
+            return pool.getMaxTotal() <= pool.getNumActive();
         }
 
         /**
          * @return pool.getNumActive() / pool.getMaxActive();
          */
         public float getLoadRatio() {
-            return (float) pool.getNumActive() / pool.getMaxActive();
+            return (float) pool.getNumActive() / pool.getMaxTotal();
         }
     }
 }

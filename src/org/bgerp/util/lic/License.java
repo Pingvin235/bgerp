@@ -185,7 +185,7 @@ public class License {
     }
 
     private boolean isCheckEnabled() {
-        return Setup.getSetup().getBoolean("license.check", true);
+        return true;
     }
 
     private byte[] digest() {

@@ -12,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.Interface;
@@ -30,7 +31,6 @@ import ru.bgcrm.model.process.TypeTreeItem;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.util.Setup;
-import ru.bgcrm.util.sql.ConnectionPool;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class SetRequestParamsFilter implements Filter {

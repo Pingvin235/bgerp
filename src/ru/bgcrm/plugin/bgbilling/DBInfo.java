@@ -7,11 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.app.db.sql.pool.ConnectionPool;
+
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.sql.ConnectionPool;
 
 /**
  * Класс с данными для подсоединения к биллингу.
@@ -26,24 +27,24 @@ public class DBInfo
 	private ParameterMap setup;
 	private Set<String> pluginSet;
 	private ConnectionPool connectionPool;
-		
+
 	private Map<Integer, Integer> billingUserIdCrmUserIdMap = new HashMap<>();
 	private ParameterMap guiConfigValues;
 
 	public DBInfo( String id )
 	{
 		this.id = id;
-		
+
 		for( User user : UserCache.getUserMap().values() )
 		{
 			int billingUserId = user.getConfigMap().getInt( "bgbilling:userId." + id, 0 );
 			if( billingUserId > 0 )
 			{
 				billingUserIdCrmUserIdMap.put( billingUserId, user.getId() );
-			}				
+			}
 		}
 	}
-	
+
 	public String getId()
 	{
 		return id;
@@ -92,7 +93,7 @@ public class DBInfo
 	{
 		this.version = version;
 	}
-	
+
 	public int versionCompare( String withVersion )
 	{
 		return new BigDecimal( this.version ).compareTo( new BigDecimal( withVersion ) );
@@ -119,7 +120,7 @@ public class DBInfo
 	{
 		return setup.getInt( "customerIdParam", 0 );
 	}
-	
+
 	public Set<String> getPluginSet()
 	{
 		return pluginSet;
@@ -129,12 +130,12 @@ public class DBInfo
 	{
 		this.pluginSet = pluginSet;
 	}
-	
+
 	public ParameterMap getGuiConfigValues()
 	{
 		return guiConfigValues;
 	}
-	
+
 	public void setGuiConfigValues(ParameterMap config)
 	{
 		guiConfigValues = config;
@@ -152,12 +153,12 @@ public class DBInfo
 
 	public int getBillingUserId( User user )
 	{
-		return user.getConfigMap().getInt( "bgbilling:userId." + id, -1 );		
+		return user.getConfigMap().getInt( "bgbilling:userId." + id, -1 );
 	}
-	
+
 	public int getCrmUserId( int billingUserId )
 	{
-		Integer value = billingUserIdCrmUserIdMap.get( billingUserId );		
-		return value != null ? value : -1;		
+		Integer value = billingUserIdCrmUserIdMap.get( billingUserId );
+		return value != null ? value : -1;
 	}
 }

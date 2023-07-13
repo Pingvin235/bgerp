@@ -1,4 +1,4 @@
-package ru.bgcrm.util.sql;
+package org.bgerp.app.db.sql.pool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import ru.bgcrm.util.ParameterMap;
 
-public class TrashDatabaseSelector {
+class TrashDatabaseSelector {
     private List<TableMapRow> configRowList = new ArrayList<TableMapRow>();
 
     public TrashDatabaseSelector(ParameterMap setup) {

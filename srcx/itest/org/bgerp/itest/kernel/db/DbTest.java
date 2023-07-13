@@ -2,12 +2,12 @@ package org.bgerp.itest.kernel.db;
 
 import java.sql.Connection;
 
+import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.ConnectionPool;
 
 @Test(groups = "db")
 public class DbTest {

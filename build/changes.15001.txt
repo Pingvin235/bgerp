@@ -1,0 +1,2 @@
+C: Java libraries update.
+F: Vertically collapsed log tool viewer.

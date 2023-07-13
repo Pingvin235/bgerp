@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.phpbb.dao;
 import java.sql.Connection;
 import java.util.Date;
 
+import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -26,7 +27,6 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.sql.ConnectionPool;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.SingleConnectionSet;

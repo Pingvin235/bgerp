@@ -1,6 +1,6 @@
 package ru.bgcrm.plugin.phpbb.model;
 
-import ru.bgcrm.util.sql.ConnectionPool;
+import org.bgerp.app.db.sql.pool.ConnectionPool;
 
 public class Forum
 {
