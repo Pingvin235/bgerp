@@ -14,7 +14,7 @@
 				<input type="hidden" name="action" value="update"/>
 				<input type="text" name="title" size="20" placeholder="Party title"/>
 				<ui:button type="add" styleClass="ml1" onclick="
-					$$.ajax.post(this.form).done((result) => {
+					$$.ajax.post(this).done((result) => {
 						window.location = '/open/party/' + result.data.party.secret.toLowerCase();
 					})
 				"/>
@@ -65,7 +65,7 @@
 						<td><input type="text" name="amount" onkeydown="return isNumberKey(event)" class="w100p"/></td>
 						<td>
 							<ui:button type="add" onclick="
-								$$.ajax.post(this.form).done(() => {
+								$$.ajax.post(this).done(() => {
 									$$.ajax.load('${urlParty}', $('#${uiid}').parent());
 								})
 							"/>

@@ -26,7 +26,7 @@
 		</tr>
 	</table>
 
-	<ui:button type="ok" onclick="$$.ajax.post(this.form).done(() => { ${reloadScript} })"/>
+	<ui:button type="ok" onclick="$$.ajax.post(this).done(() => { ${reloadScript} })"/>
 	<ui:button type="cancel" onclick="$('#addGroup${uiid}').hide(); $('#showGroup${uiid}').show();" styleClass="ml1"/>
 </html:form>
 
@@ -89,7 +89,7 @@
 	<ui:date-time paramName="date" value="0"/>
 
 	<div class="in-ml1 ml1">
-		<ui:button type="ok" onclick="if (!confirm('${l.l('Вы уверены, что хотите закрыть период группы?')}')) return; $$.ajax.post(this.form).done(() => { ${reloadScript} })"/>
+		<ui:button type="ok" onclick="if (!confirm('${l.l('Вы уверены, что хотите закрыть период группы?')}')) return; $$.ajax.post(this).done(() => { ${reloadScript} })"/>
 		<ui:button type="cancel" onclick="$('#closeGroup${uiid}').hide(); $('#showGroup${uiid}').show();"/>
 	</div>
 </html:form>

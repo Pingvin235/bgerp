@@ -49,7 +49,7 @@
 	<div class="mt1">
 		<ui:form-ok-cancel/>
 		<button type="button" class="btn-grey"
-			onclick="$$.ajax.post(this.form).done(() => {
+			onclick="$$.ajax.post(this).done(() => {
 				$$.ajax.load('${editUrl}', $('#${formUiid}').parent());
 			})"
 		style="float: right;" title="${l.l('Сохранить без выхода из редактора')}">${l.l('Сохранить')}</button>

@@ -36,7 +36,7 @@
 				</ui:combo-single>
 
 				<ui:button type="ok" styleClass="btn-grey ml1"
-					onclick="$$.ajax.post(this.form).done(() => $$.ajax.loadContent('${form.requestUrl}', this))"/>
+					onclick="$$.ajax.post(this).done(() => $$.ajax.loadContent('${form.requestUrl}', this))"/>
 				<ui:button type="cancel" styleClass="ml1"
 					onclick="const $td = $(this).closest('td'); $td.find('>button').show(); $td.find('>form').hide();"/>
 			</html:form>

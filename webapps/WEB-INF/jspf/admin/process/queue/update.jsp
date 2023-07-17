@@ -47,7 +47,7 @@
 	</div>
 
 	<div class="mt1">
-		<c:set var="saveCommand" value="$$.ajax.post(this.form)"/>
+		<c:set var="saveCommand" value="$$.ajax.post(this)"/>
 		<c:set var="returnCommand" value="$$.ajax.loadContent('${form.returnUrl}', this)"/>
 
 		<button type="button" class="btn-grey mr1"  onclick="${saveCommand}.done(() => ${returnCommand})">OK</button>

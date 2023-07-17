@@ -24,7 +24,7 @@
 
 			<c:set var="returnToShow">$('#${processTypeTree}').hide(); $('#${linkedProcessList}').show();</c:set>
 			<c:set var="saveCommand">
-				$$.ajax.post(this.form).done((result) => {
+				$$.ajax.post(this).done((result) => {
 					if (result.data.wizard) {
 						const url = '/user/process.do?wizard=1&id=' + result.data.process.id + '&returnUrl=${u:urlEncode(form.requestUrl)}';
 						$$.ajax.load(url, $('#${linkedProcessList}').parent());

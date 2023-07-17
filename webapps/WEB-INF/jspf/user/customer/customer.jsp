@@ -134,7 +134,7 @@
 									if (!confirm('${l.l('Вы уверены, что хотите объединить?')}'))
 										return false;
 
-									$$.ajax.post(this.form, {control: this}).done(() => {
+									$$.ajax.post(this).done(() => {
 										alert('${l.l('Слияние прошло успешно')}');
 										$$.shell.removeCommandDiv('customer-'.concat(this.form.mergingCustomerId.value));
 										$$.ajax.loadContent('${form.requestUrl}', this);

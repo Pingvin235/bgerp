@@ -9,5 +9,5 @@
 </c:if>
 
 <ui:button type="ok" styleClass="mr1 ${styleClass}"
-	onclick="$$.ajax.post(this.form).done(() => {${loadReturn}})"/>
+	onclick="$$.ajax.post(this).done(() => {${loadReturn}})"/>
 <ui:button type="cancel" onclick="${loadReturn}" styleClass="${styleClass}"/>

@@ -54,7 +54,7 @@
 			<c:param name="id" value="${customer.id}"/>
 		</c:url>
 
-		<button class="btn-grey" onclick="$$.ajax.post(this.form).done(() => $$.ajax.loadContent('${url}'))">OK</button>
+		<button class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.loadContent('${url}'))">OK</button>
 		<button class="btn-white" onclick="$$.ajax.loadContent('${url}')">${l.l('Отмена')}</button>
 	</div>
 </html:form>

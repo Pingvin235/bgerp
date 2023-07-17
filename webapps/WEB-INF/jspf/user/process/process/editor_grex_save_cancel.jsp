@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:set var="closeEditor">$$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent());</c:set>
-<c:set var="saveCommand">$$.ajax.post(this.form).done(() => { ${closeEditor} })</c:set>
+<c:set var="saveCommand">$$.ajax.post(this).done(() => { ${closeEditor} })</c:set>
 
 <div class="mt1">
 	<button class="btn-grey" type="button" onclick="${saveCommand}">OK</button>

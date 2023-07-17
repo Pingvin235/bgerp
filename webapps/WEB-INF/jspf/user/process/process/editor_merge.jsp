@@ -5,10 +5,10 @@
 <html:form action="/user/process">
 	<html:hidden property="id"/>
 	<input type="hidden" name="action" value="processMerge"/>
-	
+
 	<c:set var="mergeProcessUiid" value="${u:uiid()}"/>
 	<ui:combo-single hiddenName="processId" id="${mergeProcessUiid}" style="width: 100%;"/>
-	
+
 	<script>
 		$(() => {
 			const processList = openedObjectList({'typesInclude' : ['process']});
@@ -21,17 +21,17 @@
 			$$.ui.comboSingleInit($('#${mergeProcessUiid}'));
 		})
 	</script>
-	
+
 	<table style="width: 100%;">
 		<tr>
 			<td valign="top" class="pt1 pb1">
-				<c:set var="saveCommand">$$.ajax.post(this.form).done(() => {
+				<c:set var="saveCommand">$$.ajax.post(this).done(() => {
 					$$.closeObject = null;
 					$$.shell.removeCommandDiv('process-${process.id}');
 					$$.process.open(this.form.processId.value);
 				})</c:set>
-				<c:set var="closeEditor">$$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent());</c:set>	
-			
+				<c:set var="closeEditor">$$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent());</c:set>
+
 				<ui:button type="ok" onclick="${saveCommand}"/>
 				<ui:button type="cancel" styleClass="ml1" onclick="${closeEditor}"/>
 			</td>

@@ -159,7 +159,7 @@
 
 						<c:set var="command">
 							if (confirm('${l.l('Привязать сообщение к указанному процессу?')}'))
-								$$.ajax.post(this.form).done(() => {
+								$$.ajax.post(this).done(() => {
 									$$.ajax.load('${form.requestUrl}', $('#${messagesUiid}').parent());
 								});
 						</c:set>
@@ -188,7 +188,7 @@
 
 						<ui:select-mult list="${tagConfig.tagList}" values="${messageTagIds}" hiddenName="tagId"/>
 
-						<c:set var="command">$$.ajax.post(this.form).done(() => { $$.ajax.load('${form.requestUrl}', $('#${messagesUiid}').parent()) });</c:set>
+						<c:set var="command">$$.ajax.post(this).done(() => { $$.ajax.load('${form.requestUrl}', $('#${messagesUiid}').parent()) });</c:set>
 
 						<%@ include file="process_message_list_editor_buttons.jsp"%>
 					</html:form>

@@ -166,7 +166,7 @@
 										<input type="hidden" name="position" value="${position}"/>
 
 										<ui:button type="del" styleClass="btn-small"
-											onclick="$$.ajax.post(this.form).done(() => { $$.ajax.load('${form.requestUrl}', $('#${tableId}').parent()) })"/>
+											onclick="$$.ajax.post(this).done(() => { $$.ajax.load('${form.requestUrl}', $('#${tableId}').parent()) })"/>
 									</html:form>
 
 									<c:set var="editFormId" value="${u:uiid()}"/>
@@ -221,7 +221,7 @@
 										<input type="hidden" name="position" value="${position}"/>
 
 										<ui:button type="del" styleClass="btn-small" onclick="
-											$$.ajax.post(this.form).done(() => {
+											$$.ajax.post(this).done(() => {
 												$$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());
 											})
 										"/>

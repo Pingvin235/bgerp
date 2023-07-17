@@ -83,11 +83,11 @@
 <div class="mt1 in-mr1">
 	<c:choose>
 		<c:when test="${not empty form.param['hideLeftPanel']}">
-			<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form).done(() => $$.ajax.load('${form.returnUrl}', $('#${uiid}').closest('div')))">OK</button>
+			<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.load('${form.returnUrl}', $('#${uiid}').closest('div')))">OK</button>
 			<button type="button" class="btn-white" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').closest('div'))">${l.l('Отмена')}</button>
 		</c:when>
 		<c:otherwise>
-			<button type="button" class="btn-grey" onclick="$$.ajax.post(this.form).done(() => $$.ajax.loadContent('${form.returnUrl}', this))">OK</button>
+			<button type="button" class="btn-grey" onclick="$$.ajax.post(this).done(() => $$.ajax.loadContent('${form.returnUrl}', this))">OK</button>
 			<button type="button" class="btn-white" onclick="$$.ajax.loadContent('${form.returnUrl}', this)">${l.l('Отмена')}</button>
 		</c:otherwise>
 	</c:choose>

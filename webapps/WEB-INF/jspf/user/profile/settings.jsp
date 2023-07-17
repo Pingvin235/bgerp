@@ -36,5 +36,5 @@
 		</tr>
 	</table>
 
-	<button class="btn-grey mt1" type="button" onclick="$$.ajax.post(this.form).done($$.ajax.loadContent('${url}', this))">${l.l('Сохранить свойства')}</button>
+	<button class="btn-grey mt1" type="button" onclick="$$.ajax.post(this).done($$.ajax.loadContent('${url}', this))">${l.l('Сохранить свойства')}</button>
 </html:form>

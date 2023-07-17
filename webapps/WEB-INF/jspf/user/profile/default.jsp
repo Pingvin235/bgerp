@@ -75,7 +75,7 @@
 				</table>
 
 				<c:set var="configTextUiid" value="${u:uiid()}"/>
-				<c:set var="saveCommand" value="$$.ajax.post(this.form).done(() => { alert('${l.l('Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5')}') })"/>
+				<c:set var="saveCommand" value="$$.ajax.post(this).done(() => { alert('${l.l('Сохранено, для применения изменений перегрузите интерфейс нажатием Ctrl+F5')}') })"/>
 
 				<div class="mt1">
 					<button class="btn-grey" type="button" onclick="${saveCommand}">${l.l('Сохранить опции')}</button>

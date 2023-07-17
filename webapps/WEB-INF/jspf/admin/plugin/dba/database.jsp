@@ -53,7 +53,7 @@
 		<c:if test="${dropEnabled}">
 			<button type="button" class="btn-grey mt1" onclick="
 				if (confirm('Do you really want to drop these tables?'))
-					$$.ajax.post(this, {control: this}).done(() =>
+					$$.ajax.post(this).done(() =>
 						$$.ajax.loadContent('${form.requestUrl}', this)
 					)
 			">Drop selected tables</button>
