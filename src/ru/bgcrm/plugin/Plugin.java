@@ -15,6 +15,7 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.bgerp.app.dist.inst.call.ExecuteSQL;
 import org.bgerp.app.l10n.Localization;
+import org.bgerp.app.l10n.Localizer;
 import org.bgerp.dao.Cleaner;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.bgerp.util.Log;
@@ -212,8 +213,15 @@ public abstract class Plugin {
     /**
      * @return the plugin's localization from l10n.xml if exists, or {@code null}
      */
-    public Localization geLocalization() {
+    public Localization getLocalization() {
         return localization;
+    }
+
+    /**
+     * @return the plugin's only localization for {@link Localization#getLang()} language.
+     */
+    public Localizer getLocalizer() {
+        return new Localizer(Localization.getLang(), getLocalization());
     }
 
     /**

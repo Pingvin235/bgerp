@@ -6,6 +6,8 @@
 		<en>Do you really want to completely rewrite your DB and app files?</en>
 		<ru>Вы действительно хотите полностью перетереть вашу БД и файлы приложения?</ru>
 	</p>
+	<p><en>Backup With DB</en><ru>Backup с БД</ru></p>
+	<p><en>Backup App Only</en><ru>Backup только приложение</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

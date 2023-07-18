@@ -1,9 +1,9 @@
-package org.bgerp.app.scheduler;
+package org.bgerp.app.exec.scheduler;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import org.bgerp.task.MessageExchange;
+import org.bgerp.exec.MessageExchange;
 import org.junit.Assert;
 import org.junit.Test;
 

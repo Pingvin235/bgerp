@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.dispatch;
+package ru.bgcrm.plugin.dispatch.exec;
 
 import java.sql.Connection;
 import java.util.List;
@@ -16,17 +16,21 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.bean.annotation.Bean;
+import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;
+import ru.bgcrm.plugin.dispatch.Plugin;
 import ru.bgcrm.util.MailConfig;
 import ru.bgcrm.util.MailMsg;
 import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
-public class CommandProcessor implements Runnable {
+@Bean(oldClasses = "ru.bgcrm.plugin.dispatch.CommandProcessor")
+public class DispatchCommandProcessor extends Task {
     private static final Log log = Log.getLog();
 
     private static final FetchProfile FETCH_PROFILE = new FetchProfile();
@@ -36,6 +40,15 @@ public class CommandProcessor implements Runnable {
         FETCH_PROFILE.add("CC");
         FETCH_PROFILE.add("Message-ID");
         FETCH_PROFILE.add("Received");
+    }
+
+    public DispatchCommandProcessor() {
+        super(null);
+    }
+
+    @Override
+    public String getTitle() {
+        return Plugin.INSTANCE.getLocalizer().l("Dispatch E-Mail Command Processor");
     }
 
     @Override

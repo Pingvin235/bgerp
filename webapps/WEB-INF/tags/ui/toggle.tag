@@ -6,6 +6,7 @@
 <%@ attribute name="value" type="java.lang.Boolean" description="current value of the checkbox input" %>
 <%@ attribute name="styleClass" description="additional class for the button element" %>
 <%@ attribute name="prefixText" description="label before toggle button" %>
+<%@ attribute name="title" description="Optional outer div's title" %>
 <%@ attribute name="textOn" description="text which appears when toggle button is ON" %>
 <%@ attribute name="textOff" description="text which appears when toggle button is OFF" %>
 <%@ attribute name="onChange" description="javascript, to be executed on change event" %>
@@ -22,7 +23,11 @@
 <c:set var="textOn" value="${u.maskEmpty(textOn, 'ON')}"/>
 <c:set var="textOff" value="${u.maskEmpty(textOff, 'OFF')}"/>
 
-<div id="${uiid}" class="btn-toggle ${styleClass}">
+<c:if test="${not empty title}">
+	<c:set var="title"> title="${title}"</c:set>
+</c:if>
+
+<div id="${uiid}" class="btn-toggle ${styleClass}"${title}>
 	<c:if test="${not empty prefixText}">
 		<div class="text-pref">${prefixText}</div>
 	</c:if>

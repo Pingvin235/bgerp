@@ -4,7 +4,7 @@
 <c:set var="uiid" value="${u:uiid()}"/>
 
 <div id="${uiid}">
-	<form action="/user/log.do" onsubmit="return false;" style="display: inline-block;">
+	<form action="${form.httpRequestURI}" onsubmit="return false;" style="display: inline-block;">
 		<input type="hidden" name="action" value="log"/>
 		<ui:toggle inputName="enable" value="${form.response.data.state}" onChange="$$.ajax.load(this.form, $('#${uiid}').parent())"/>
 	</form>
@@ -16,9 +16,9 @@
 
 <script>
 	$(function () {
-		const $log = $('#${uiid}').parent();
-		$log.data('onShow', function () {
-			$$.ajax.load("/user/log.do", $log);
+		const $content = $('#${uiid}').parent();
+		$content.data('onShow', function () {
+			$$.ajax.load("${form.requestUrl}", $content);
 		});
 	});
 </script>

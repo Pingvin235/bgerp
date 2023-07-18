@@ -18,7 +18,7 @@ import java.text.DecimalFormatSymbols;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.dist.inst.InstalledModule;
-import org.bgerp.app.scheduler.Scheduler;
+import org.bgerp.app.exec.scheduler.Scheduler;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGException;
@@ -74,7 +74,7 @@ public class AdminPortListener implements Runnable {
                     log.info("Executing " + command);
 
                     if (command.equals("stop")) {
-                        if (Scheduler.getInstance().hasRunningTasks()) {
+                        if (Scheduler.getInstance().getRunningTaskCount() > 0) {
                             out.println(RESPONSE_SCHEDULER_HAS_TASKS);
                         } else {
                             out.println("OK stopping..");

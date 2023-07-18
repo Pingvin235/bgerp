@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.fulltext.task;
+package ru.bgcrm.plugin.fulltext.exec;
 
 import static ru.bgcrm.dao.Tables.TABLE_CUSTOMER;
 import static ru.bgcrm.dao.message.Tables.TABLE_MESSAGE;
@@ -6,6 +6,7 @@ import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 
 import java.sql.Connection;
 
+import org.bgerp.app.exec.Runnable;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.customer.Customer;

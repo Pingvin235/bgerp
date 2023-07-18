@@ -135,7 +135,7 @@ link:../../../webapps/WEB-INF/jspf/user/search/search.jsp#L75-L89[webapps/WEB-IN
 
 IMPORTANT: For some reason a class, containing included constant must not contain `config` word in package path.
 
-Snap-in refresh upon moving back to it:
+Snap-in refresh upon moving back to it, *onShow*:
 [snippet, from="<script", to="/script>"]
 link:../../../webapps/WEB-INF/jspf/user/log/log.jsp#L17-L24[webapps/WEB-INF/jspf/user/log/log.jsp]
 

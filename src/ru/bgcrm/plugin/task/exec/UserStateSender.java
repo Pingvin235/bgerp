@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.task.task;
+package ru.bgcrm.plugin.task.exec;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ import ru.bgcrm.util.Setup;
  * @author Shamil Vakhitov
  */
 @Bean(oldClasses = "ru.bgcrm.plugin.task.UserStateSender")
-public class UserStateSender extends org.bgerp.app.scheduler.Task {
+public class UserStateSender extends org.bgerp.app.exec.scheduler.Task {
     private static final Log log = Log.getLog();
 
     public static class Config extends ru.bgcrm.util.Config {
@@ -44,8 +44,13 @@ public class UserStateSender extends org.bgerp.app.scheduler.Task {
         }
     }
 
-    public UserStateSender() {
+    protected UserStateSender() {
         super(null);
+    }
+
+    @Override
+    public String getTitle() {
+        return Plugin.INSTANCE.getLocalizer().l("Task User State Sender");
     }
 
     @Override

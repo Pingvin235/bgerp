@@ -17,7 +17,7 @@ public class FullTextTest {
 
     @Test
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(PLUGIN, ResourceHelper.getResource(this, "config.fulltext.txt"));
+        ConfigHelper.addIncludedConfig(PLUGIN, ResourceHelper.getResource(this, "config.txt"));
 
         Connection con = DbTest.conRoot;
         Assert.assertTrue(SQLUtils.tableExists(con, ru.bgcrm.plugin.fulltext.dao.SearchDAO.TABLE.trim()));

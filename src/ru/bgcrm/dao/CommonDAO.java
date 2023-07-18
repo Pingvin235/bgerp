@@ -91,7 +91,7 @@ public class CommonDAO {
     protected int foundRows(Statement st) throws SQLException {
         int result = -1;
         ResultSet rs = st.executeQuery("SELECT FOUND_ROWS()");
-        if (rs.last()) {
+        if (rs.next()) {
             result = rs.getInt(1);
         }
         return result;

@@ -141,7 +141,10 @@
 				<item action="org.bgerp.action.admin.RunAction:null" title="View"/>
 				<item action="org.bgerp.action.admin.RunAction:runClass, ru.bgcrm.struts.action.admin.DynamicAction:runDynamicClass" title="Running Java class"/>
 			</item>
-			<item action="org.bgerp.action.admin.RunAction:scheduler" title="Scheduler"/>
+			<item title="Scheduler">
+				<item action="org.bgerp.action.admin.RunAction:scheduler" title="View"/>
+				<item action="org.bgerp.action.admin.RunAction:schedulerRun" title="Run Task"/>
+			</item>
 		</item>
 
 		<item title="App">

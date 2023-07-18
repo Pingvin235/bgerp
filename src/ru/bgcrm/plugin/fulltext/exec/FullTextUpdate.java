@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.fulltext.task;
+package ru.bgcrm.plugin.fulltext.exec;
 
 import java.sql.Connection;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
-import org.bgerp.app.scheduler.Task;
+import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
@@ -24,6 +24,7 @@ import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 import ru.bgcrm.model.param.ParameterValuePair;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.plugin.fulltext.Plugin;
 import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.plugin.fulltext.model.Config;
 import ru.bgcrm.plugin.fulltext.model.Config.ObjectType;
@@ -39,14 +40,19 @@ import ru.bgcrm.util.Setup;
 public class FullTextUpdate extends Task {
     private static final Log log = Log.getLog();
 
-    private final Config config = Setup.getSetup().getConfig(Config.class);
-
     public FullTextUpdate() {
         super(null);
     }
 
     @Override
+    public String getTitle() {
+        return Plugin.INSTANCE.getLocalizer().l("FullText Index Update");
+    }
+
+    @Override
     public void run() {
+        Config config = Setup.getSetup().getConfig(Config.class);
+
         ConnectionPool connectionPool = Setup.getSetup().getConnectionPool();
         try (Connection con = connectionPool.getDBConnectionFromPool();
              Connection conSlave = connectionPool.getDBSlaveConnectionFromPool()) {
@@ -59,7 +65,7 @@ public class FullTextUpdate extends Task {
                 for (SearchItem item : forUpdate) {
                     ObjectType typeConfig = config.getObjectTypeMap().get(item.getObjectType());
                     if (typeConfig == null) {
-                        log.warn("Unconfigured object type: " + item.getObjectType());
+                        log.warn("Not configured object type: {}", item.getObjectType());
                         searchDao.delete(item.getObjectType(), item.getObjectId());
                         continue;
                     }

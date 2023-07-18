@@ -28,7 +28,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.apache.tomcat.util.IntrospectionUtils;
 import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
 import org.bgerp.app.bean.Bean;
-import org.bgerp.app.scheduler.Scheduler;
+import org.bgerp.app.exec.scheduler.Scheduler;
 import org.bgerp.custom.Custom;
 import org.bgerp.util.Log;
 

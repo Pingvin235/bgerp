@@ -104,7 +104,7 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
                         log.debug("Incorrect prefix: {}", prefix);
                         continue;
                     } else
-                        throw new BGMessageException(new Localizer(lang, Plugin.INSTANCE.geLocalization()), "Incorrect prefix: {}", prefix);
+                        throw new BGMessageException(new Localizer(lang, Plugin.INSTANCE.getLocalization()), "Incorrect prefix: {}", prefix);
                 }
             }
 
@@ -117,7 +117,7 @@ public class Addresses extends HashMap<RecipientType, List<InternetAddress>> {
                 if (silent)
                     log.debug("Incorrect email: {}", token);
                 else
-                    throw new BGMessageException(new Localizer(lang, Plugin.INSTANCE.geLocalization()), "Incorrect email: {}", token);
+                    throw new BGMessageException(new Localizer(lang, Plugin.INSTANCE.getLocalization()), "Incorrect email: {}", token);
             }
         }
 

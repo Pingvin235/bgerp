@@ -1,10 +1,10 @@
-package org.bgerp.task;
+package org.bgerp.exec;
 
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import org.bgerp.app.scheduler.Task;
+import org.bgerp.app.exec.Runnable;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.user.Tables;
@@ -19,12 +19,8 @@ import ru.bgcrm.util.Utils;
  *
  * @author Shamil Vakhitov
  */
-public class CorrectPermissions extends Task {
+public class CorrectPermissions implements Runnable {
     private static final Log log = Log.getLog();
-
-    public CorrectPermissions() {
-        super(null);
-    }
 
     @Override
     public void run() {

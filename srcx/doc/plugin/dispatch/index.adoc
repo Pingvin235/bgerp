@@ -27,7 +27,7 @@ dispatch:manageEmail.mail.smtp.pswd=*********
 
 IMAP доступ необходим для обработки управляющих EMail команд, SMTP - для отправки писем.
 
-Обработка с EMail команд на управление рассылками производится задачами *ru.bgcrm.plugin.dispatch.CommandProcessor* и *ru.bgcrm.plugin.dispatch.MessageSender*,
+Обработка с EMail команд на управление рассылками производится задачами *DispatchCommandProcessor* и *DispatchMessageSender*,
 периодический запуск которых необходимо настроить в <<../../kernel/setup.adoc#scheduler, планировщике>>.
 
 [[usage]]

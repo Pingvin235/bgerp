@@ -10,10 +10,10 @@ import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.plugin.dispatch.CommandProcessor;
-import ru.bgcrm.plugin.dispatch.Config;
 import ru.bgcrm.plugin.dispatch.Plugin;
 import ru.bgcrm.plugin.dispatch.dao.DispatchDAO;
+import ru.bgcrm.plugin.dispatch.exec.DispatchCommandProcessor;
+import ru.bgcrm.plugin.dispatch.exec.Config;
 import ru.bgcrm.plugin.dispatch.model.Dispatch;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
@@ -44,7 +44,7 @@ public class DispatchAction extends BaseAction {
         dispatchDao.searchDispatch(new Pageable<Dispatch>());
 
         Session session = config.getMailConfig().getSmtpSession(Setup.getSetup());
-        CommandProcessor.sendDispatchStateList(con, config, session, email);
+        DispatchCommandProcessor.sendDispatchStateList(con, config, session, email);
 
         return json(con, form);
     }

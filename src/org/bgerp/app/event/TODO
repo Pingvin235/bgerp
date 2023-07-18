@@ -1,0 +1,2 @@
+Think about renaming the package to org.bgerp.event, as plugin events are also possible.
+For example, a paid invoice.

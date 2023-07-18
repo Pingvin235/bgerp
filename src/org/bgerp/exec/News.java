@@ -1,4 +1,4 @@
-package org.bgerp.task;
+package org.bgerp.exec;
 
 import static ru.bgcrm.dao.user.Tables.TABLE_USER;
 
@@ -7,7 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.bgerp.app.bean.annotation.Bean;
-import org.bgerp.app.scheduler.Task;
+import org.bgerp.app.exec.scheduler.Task;
+import org.bgerp.plugin.kernel.Plugin;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserNewsCache;
@@ -20,6 +21,11 @@ public class News extends Task {
 
     public News() {
         super(null);
+    }
+
+    @Override
+    public String getTitle() {
+        return Plugin.INSTANCE.getLocalizer().l("Kernel News");
     }
 
     @Override

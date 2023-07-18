@@ -1,4 +1,6 @@
-package org.bgerp.app.scheduler;
+package org.bgerp.app.exec.scheduler;
+
+import org.bgerp.model.base.iface.Title;
 
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
@@ -8,8 +10,8 @@ import ru.bgcrm.util.ParameterMap;
  *
  * @author Shamil Vakhitov
  */
-public abstract class Task extends Config implements Runnable {
+public abstract class Task extends Config implements Runnable, Title {
     public Task(ParameterMap config) {
-        super(config);
+        super(null);
     }
 }

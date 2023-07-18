@@ -20,6 +20,12 @@ backup:enable=1
 #backup:cleanup.candidate.db.count.more.than=3
 ----
 
+[[setup-scheduler]]
+=== Scheduler
+Configure a <<../../../kernel/setup.adoc#scheduler, Scheduler task>> with class *Backup* to perform backups automatically. Example:
+[snippet, from="# b", to="s=10", remove-leading=    "]
+link:../../../../itest/org/bgerp/itest/plugin/svc/backup/BackupTest.config.txt#L1-L10[Backup Scheduler Config Sample]
+
 [[setup-remote-ssh]]
 === Setting up remote backup via SSH
 All commands are executed by *root*

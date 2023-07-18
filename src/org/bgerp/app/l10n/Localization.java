@@ -250,7 +250,7 @@ public class Localization {
                         loadL10n(new Localization(PLUGIN_CUSTOM, XMLUtils.parseDocument(new FileInputStream(customL10n))));
 
                     for (Plugin p : PluginManager.getInstance().getFullSortedPluginList())
-                        loadL10n(p.geLocalization());
+                        loadL10n(p.getLocalization());
 
                     localizations = Collections.unmodifiableMap(localizations);
                 } catch (Exception e) {

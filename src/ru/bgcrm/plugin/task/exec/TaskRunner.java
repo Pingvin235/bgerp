@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.task.task;
+package ru.bgcrm.plugin.task.exec;
 
 import java.util.Date;
 import java.util.Map;
@@ -10,6 +10,7 @@ import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.task.Config;
+import ru.bgcrm.plugin.task.Plugin;
 import ru.bgcrm.plugin.task.dao.TaskDAO;
 import ru.bgcrm.plugin.task.model.Task;
 import ru.bgcrm.plugin.task.model.TaskType;
@@ -23,11 +24,16 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
  * @author Shamil Vakhitov
  */
 @Bean(oldClasses = "ru.bgcrm.plugin.task.TaskRunner")
-public class TaskRunner extends org.bgerp.app.scheduler.Task {
+public class TaskRunner extends org.bgerp.app.exec.scheduler.Task {
     private static final Log log = Log.getLog();
 
     public TaskRunner() {
         super(null);
+    }
+
+    @Override
+    public String getTitle() {
+        return Plugin.INSTANCE.getLocalizer().l("Task Runner");
     }
 
     @Override

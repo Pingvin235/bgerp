@@ -1,4 +1,4 @@
-package org.bgerp.app.scheduler;
+package org.bgerp.app.exec.scheduler;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -7,18 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.bgerp.app.bean.Bean;
-import org.bgerp.model.base.IdStringTitle;
-
-import ru.bgcrm.plugin.PluginManager;
+import javassist.NotFoundException;
 import ru.bgcrm.util.Config;
 import ru.bgcrm.util.ParameterMap;
 
 public class TasksConfig extends Config {
     /** Configured to run tasks. */
     private final List<TaskConfig> taskConfigs;
-    /** List of runnable classes, ID and titles are class names. */
-    private volatile List<IdStringTitle> taskClasses;
 
     protected TasksConfig(ParameterMap config) {
         super(null);
@@ -39,6 +34,20 @@ public class TasksConfig extends Config {
             }
         }
 
+        result.sort((tc1, tc2) -> {
+            final String kernelPrefix = "Kernel";
+
+            final String title1 = tc1.getTitle();
+            final String title2 = tc2.getTitle();
+
+            if (title1.startsWith(kernelPrefix) && !title2.startsWith(kernelPrefix))
+                return -1;
+            else if (!title1.startsWith(kernelPrefix) && title2.startsWith(kernelPrefix))
+                return 1;
+            else
+                return title1.compareTo(title2);
+        });
+
         return Collections.unmodifiableList(result);
     }
 
@@ -56,26 +65,15 @@ public class TasksConfig extends Config {
     }
 
     /**
-     * List of class names, extending {@link Task} in application {@link PluginManager#ERP_PACKAGES}.
-     * @return
+     * Gets a task configuration by ID.
+     * @param id the ID.
+     * @return a first found configuration.
+     * @throws NotFoundException
      */
-    public List<IdStringTitle> getTaskClasses() {
-        synchronized (this) {
-            if (this.taskClasses == null) {
-                var taskClasses = new ArrayList<IdStringTitle>(100);
-
-                var r = Bean.classes();
-                for (Class<? extends Task> taskClass : r.getSubTypesOf(Task.class)) {
-                    var name = taskClass.getName();
-                    taskClasses.add(new IdStringTitle(name, name));
-                    log.debug("Found task class: {}", name);
-                }
-
-                Collections.sort(taskClasses, (c1, c2) -> c1.getId().compareTo(c2.getId()));
-
-                this.taskClasses = Collections.unmodifiableList(taskClasses);
-            }
-        }
-        return taskClasses;
+    public TaskConfig getTaskConfigOrThrow(String id) throws NotFoundException {
+        return taskConfigs.stream()
+            .filter(tc -> id.equals(tc.getId()))
+            .findFirst()
+            .orElseThrow(() -> new NotFoundException("Task configuration not found with ID: " + id));
     }
 }

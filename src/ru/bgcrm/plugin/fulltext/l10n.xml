@@ -4,6 +4,7 @@
 	<p><ru>Строка поиска</ru><en>Search string</en></p>
 	<p><ru>Контрагентов с таким наименованием не найдено.</ru><en>No customers with this name were found.</en></p>
 	<p><ru>FullText: Контрагент</ru><en>FullText: Customer</en></p>
+	<p><en>FullText Index Update</en><ru>FullText обновление индекса</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

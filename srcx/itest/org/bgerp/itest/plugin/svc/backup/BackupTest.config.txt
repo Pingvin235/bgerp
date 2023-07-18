@@ -1,1 +1,10 @@
-#
+# backup of app code only
+scheduler.task.backup.class=Backup
+scheduler.task.backup.hours=9,18
+scheduler.task.backup.minutes=30
+
+# full backup, including DB dump
+scheduler.task.backupFull.class=Backup
+scheduler.task.backupFull.db=1
+scheduler.task.backupFull.hours=3
+scheduler.task.backupFull.minutes=10

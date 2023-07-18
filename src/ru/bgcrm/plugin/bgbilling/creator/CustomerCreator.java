@@ -2,6 +2,7 @@ package ru.bgcrm.plugin.bgbilling.creator;
 
 import java.sql.Connection;
 
+import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.util.Setup;
@@ -9,8 +10,17 @@ import ru.bgcrm.util.Setup;
 /**
  * Задача планировщика импорта контрагента с серверов биллингов.
  */
-public class CustomerCreator implements Runnable {
+public class CustomerCreator extends Task {
     private static final Log log = Log.getLog();
+
+    public CustomerCreator() {
+        super(null);
+    }
+
+    @Override
+    public String getTitle() {
+        return "BGBilling импорт контрагентов";
+    }
 
     @Override
     public void run() {

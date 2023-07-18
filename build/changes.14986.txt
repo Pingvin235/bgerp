@@ -1,0 +1,3 @@
+A: Task titles in Scheduler table and possibility to run them manually. https://bgerp.org/doc/3.0/manual/kernel/setup.html#scheduler
+A: Backup scheduled task. https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.adoc#setup-scheduler
+C: Update MySQL driver lib.

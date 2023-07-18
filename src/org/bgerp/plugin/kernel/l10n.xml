@@ -290,7 +290,7 @@
 	<p><ru>Класс выполнен, проверьте логи</ru><en>Class was executed, check logs</en></p>
 	<p><ru>Класс запущен в отдельном потоке,\nвывод в логах.</ru><en>Class was started in a separated thread,\nsee output in logs.</en></p>
 	<p><en>Run</en><ru>Выполнить</ru></p>
-	<p><ru>Ожидание окончания выполнения</ru><en>Wait of execution is done</en></p>
+	<p><en>Wait of execution is done</en><ru>Ожидание окончания выполнения</ru></p>
 	<p><ru>синхронно</ru><en>synch</en></p>
 	<p><ru>Скомпилировать Java код</ru><en>Compile Java code</en></p>
 	<p><ru>Имя класса, реализующего java.lang.Runnable</ru><en>Class name, implementing java.lang.Runnable</en></p>
@@ -598,7 +598,6 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Save without attachment?</en><ru>Сохранить без вложения?</ru></p>
 	<p><en>App update is needed</en><ru>Необходимо обновление приложения</ru></p>
 	<p><en>Scheduler</en><ru>Планировщик</ru></p>
-	<p><en>Scheduled</en><ru>Запланировано</ru></p>
 	<p><en>Class</en><ru>Класс</ru></p>
 	<p><en>Enabled</en><ru>Активно</ru></p>
 	<p><en>Minute</en><ru>Минута</ru></p>
@@ -607,7 +606,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Day of Week</en><ru>День недели</ru></p>
 	<p><en>Running</en><ru>Выполняется</ru></p>
 	<p><en>Schedule</en><ru>Расписание</ru></p>
-	<p><en>Last Execution</en><ru>Последний запуск</ru></p>
+	<p><en>Last Run</en><ru>Последний запуск</ru></p>
 	<p><en>Start Time</en><ru>Время начала</ru></p>
 	<p><en>Duration (ms)</en><ru>Длительность (ms)</ru></p>
 	<p><en>Not Running</en><ru>Не выполняется</ru></p>
@@ -615,6 +614,9 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Length: {}</en><ru>Длина: {}</ru></p>
 	<p><sys>link.open</sys><en>open</en><ru>перейти</ru></p>
 	<p><en>Is not allowed because of:</en><ru>Не разрешён потому, что:</ru></p>
+	<p><en>Kernel Message Exchange</en><ru>Kernel обмен сообщениями</ru></p>
+	<p><en>Kernel Message Exchange for types: {}</en><ru>Kernel обмен сообщениями для типов: {}</ru></p>
+	<p><en>Kernel News</en><ru>Kernel новости</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

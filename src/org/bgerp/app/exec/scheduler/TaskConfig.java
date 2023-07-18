@@ -1,11 +1,16 @@
-package org.bgerp.app.scheduler;
+package org.bgerp.app.exec.scheduler;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bgerp.app.bean.Bean;
+import org.bgerp.model.base.iface.IdTitle;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -15,14 +20,22 @@ import com.cronutils.model.definition.CronDefinitionBuilder;
 import com.cronutils.model.time.ExecutionTime;
 import com.cronutils.parser.CronParser;
 
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.ParameterMap;
 
-public class TaskConfig {
+/**
+ * Scheduler task run configuration.
+ *
+ */
+public class TaskConfig implements IdTitle {
     private static final Log log = Log.getLog();
 
+    private static Set<Class<?>> runningClasses = Collections.newSetFromMap(new ConcurrentHashMap<>());
+
     private final String id;
-    private final Class<? extends Runnable> clazz;
+    private final ParameterMap config;
+
+    private final Class<? extends Task> clazz;
+    private final String title;
 
     private final String minute;
     private final String hour;
@@ -32,19 +45,17 @@ public class TaskConfig {
     private final ExecutionTime executionTime;
     private final boolean enabled;
 
-    private Date lastExecutionStart;
-    private Duration lastExecutionDuration;
+    private AtomicBoolean running = new AtomicBoolean();
+    private Date lastRunStart;
+    private Duration lastRunDuration;
 
     @SuppressWarnings("unchecked")
-    TaskConfig(String id, ParameterMap config) throws BGException {
+    TaskConfig(String id, ParameterMap config) throws Exception {
         this.id = id;
+        this.config = config;
 
-        String className = config.get("class");
-        try {
-            clazz = (Class<? extends Runnable>) Bean.getClass(className);
-        } catch (ClassNotFoundException e) {
-            throw new BGException("Task class not found: " + className);
-        }
+        this.clazz = (Class<? extends Task>) Bean.getClass(config.get("class"));
+        this.title = taskInstance().getTitle();
 
         String expression = new StringBuilder(100)
             .append(minute = config.get("minutes", "*")).append("\t")
@@ -63,13 +74,15 @@ public class TaskConfig {
     }
 
     @Dynamic
+    @Override
     public String getId() {
         return id;
     }
 
     @Dynamic
-    public String getClassName() {
-        return clazz.getName();
+    @Override
+    public String getTitle() {
+        return title;
     }
 
     @Dynamic
@@ -106,27 +119,57 @@ public class TaskConfig {
         return executionTime.isMatch(time);
     }
 
+    Task taskInstance() throws Exception {
+        try {
+            return clazz.getDeclaredConstructor(ParameterMap.class).newInstance(config);
+        } catch (NoSuchMethodException e) {
+            // no constructor with ParameterMap was found
+        } catch (Exception e) {
+            throw e;
+        }
+
+        return clazz.getDeclaredConstructor().newInstance();
+    }
+
+     /**
+     * @return {@code null} if the task can be run, or the state, preventing that.
+     */
+    @Dynamic
+    public String getNotRunnableState() {
+        if (running.get())
+            return "Running task";
+
+        if (runningClasses.contains(clazz))
+            return "Running class";
+
+        return null;
+    }
+
     void taskRun() throws Exception {
-        lastExecutionStart = new Date();
-        clazz.getDeclaredConstructor().newInstance().run();
+        runningClasses.add(clazz);
+        running.set(true);
+        lastRunStart = new Date();
+        taskInstance().run();
     }
 
     void taskDone() {
-        lastExecutionDuration = Duration.between(lastExecutionStart.toInstant(), Instant.now());
+        runningClasses.remove(clazz);
+        running.set(false);
+        lastRunDuration = Duration.between(lastRunStart.toInstant(), Instant.now());
     }
 
     @Dynamic
-    public Date getLastExecutionStart() {
-        return lastExecutionStart;
+    public Date getLastRunStart() {
+        return lastRunStart;
     }
 
     @Dynamic
-    public Duration getLastExecutionDuration() {
-        return lastExecutionDuration;
+    public Duration getLastRunDuration() {
+        return lastRunDuration;
     }
 
     @Override
     public String toString() {
-        return getClassName();
+        return "Task " + clazz.getName();
     }
 }

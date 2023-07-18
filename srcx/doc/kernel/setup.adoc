@@ -207,7 +207,7 @@ include::../skip_at_first.adocf[]
 The application stores almost all the data in MySQL DB server, access credentials for that are defined in *properties* file.
 There are also stored file's metadata, but file bodies are persisted in `filestorage` directory.
 
-NOTE: In former versions file bodies were stored as a flat list, that may be changed <<run, running>> javadoc:org.bgerp.util.file.MoveToSubDirs[] class.
+NOTE: In former versions file bodies were stored as a flat list, that may be changed <<run, running>> javadoc:org.bgerp.task.MoveToSubDirs[] class.
 
 [[user]]
 == Пользователи и права
@@ -783,12 +783,14 @@ Where:
 * *<month>* - months 1 - 12;
 * *<dw>* - days of week 1 - 7, 1 is Monday.
 
-Configured tasks must be visible in menu *Administration / Run / Scheduler*
+Configured tasks must be visible in menu *Administration / Execution / Scheduler*
 
-image::_res/scheduler.png[]
+image::_res/scheduler.png[width="800px"]
 
 Scheduler is controlled by <<#config-scheduler, config option>>.
 
+In the right column table placed buttons, allowing to run a scheduled tasks at any moment of time.
+If a toggle selected, task is running in an request thread, allowing to <<extension.adoc#log-dyn, follow logs>>.
 
 [[address]]
 == Адреса

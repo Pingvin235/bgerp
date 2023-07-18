@@ -1,4 +1,4 @@
-package ru.bgcrm.plugin.dispatch;
+package ru.bgcrm.plugin.dispatch.exec;
 
 import ru.bgcrm.util.MailConfig;
 import ru.bgcrm.util.ParameterMap;
