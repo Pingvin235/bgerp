@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdStringTitle;
 
 import com.google.common.collect.Sets;
@@ -26,10 +27,9 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.Plugin;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
-public class Config extends ru.bgcrm.util.Config {
+public class Config extends org.bgerp.app.cfg.Config {
 
     private static Set<String> PARAM_TYPES = Collections.unmodifiableSet(Sets.newHashSet(
         TYPE_TEXT, TYPE_BLOB, TYPE_LIST, TYPE_LISTCOUNT, TYPE_TREE, TYPE_ADDRESS, TYPE_PHONE));
@@ -39,10 +39,10 @@ public class Config extends ru.bgcrm.util.Config {
     private final List<IdStringTitle> objectTypeList = new ArrayList<>();
     private final Set<Integer> paramIds = new HashSet<>();
 
-    public Config(ParameterMap config) {
+    public Config(ConfigMap config) {
         super(null);
         this.indexDelay = config.getInt(Plugin.ID + ":index.delay", 60);
-        for (Map.Entry<String, ParameterMap> me : config.subKeyed(Plugin.ID + ":entry.").entrySet()) {
+        for (Map.Entry<String, ConfigMap> me : config.subKeyed(Plugin.ID + ":entry.").entrySet()) {
             ObjectType type = new ObjectType(me.getKey(), me.getValue());
             objectTypeMap.put(type.getObjectType(), type);
             paramIds.addAll(type.paramIds);
@@ -80,7 +80,7 @@ public class Config extends ru.bgcrm.util.Config {
         private final String objectType;
         private final Set<Integer> paramIds;
 
-        private ObjectType(String objectType, ParameterMap params) {
+        private ObjectType(String objectType, ConfigMap params) {
             this.objectType = objectType;
             this.paramIds = Utils.toIntegerSet(params.get("paramIds"));
         }

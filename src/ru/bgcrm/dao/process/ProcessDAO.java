@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.config.IsolationConfig;
@@ -63,7 +64,6 @@ import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 public class ProcessDAO extends CommonDAO {

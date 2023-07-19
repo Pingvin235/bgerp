@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
 
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class ContractType extends IdTitle {
@@ -19,7 +19,7 @@ public class ContractType extends IdTitle {
      */
     private final int tariffPosition;
 
-    public ContractType(int id, ParameterMap param) {
+    public ContractType(int id, ConfigMap param) {
         super(id, param.get("title"));
 
         this.billingId = param.get("billing");

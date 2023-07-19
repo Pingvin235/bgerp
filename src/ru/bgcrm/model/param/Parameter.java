@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.IdTitleComment;
 import org.bgerp.util.Dynamic;
 
 import ru.bgcrm.cache.ParameterCache;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.TimeUtils;
 
 public class Parameter extends IdTitleComment {
@@ -67,7 +67,7 @@ public class Parameter extends IdTitleComment {
     private String object;
     private String script = "";
     private String config;
-    private ParameterMap configMap;
+    private ConfigMap configMap;
     private String valuesConfig;
     private int order;
 
@@ -118,7 +118,7 @@ public class Parameter extends IdTitleComment {
         return config;
     }
 
-    public ParameterMap getConfigMap() {
+    public ConfigMap getConfigMap() {
         return configMap;
     }
 

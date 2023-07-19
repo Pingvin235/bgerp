@@ -1,5 +1,7 @@
 package ru.bgcrm.plugin.fulltext;
 
+import org.bgerp.app.cfg.Setup;
+
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.MessageRemovedEvent;
@@ -14,7 +16,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.plugin.fulltext.model.Config;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class EventListener implements ru.bgcrm.event.listener.EventListener<Event> {

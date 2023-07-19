@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGMessageException;
@@ -19,10 +21,10 @@ public class RegexpCheckerConfig extends Config {
     private List<Pattern> regexpList;
     private String regexpTitles = "";
 
-    public RegexpCheckerConfig(ParameterMap config) {
+    public RegexpCheckerConfig(ConfigMap config) {
         super(null);
 
-        for (ParameterMap value : config.subIndexed("regexp.").values()) {
+        for (ConfigMap value : config.subIndexed("regexp.").values()) {
             String title = value.get("title");
             String regexp = value.get("regexp");
 

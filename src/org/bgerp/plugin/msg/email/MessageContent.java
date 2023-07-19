@@ -15,6 +15,8 @@ import javax.mail.internet.MimeUtility;
 import com.google.common.annotations.VisibleForTesting;
 
 import org.bgerp.action.open.ProcessAction.Config;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.util.Log;
@@ -33,8 +35,6 @@ import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.message.TagConfig.Tag;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -51,7 +51,7 @@ public class MessageContent {
     private final String signExpression;
     private final boolean signStandard;
 
-    MessageContent(Setup setup, String encoding, ParameterMap config) throws BGMessageException {
+    MessageContent(Setup setup, String encoding, ConfigMap config) throws BGMessageException {
         this.setup = setup;
         this.encoding = encoding;
         signExpression = config.getSok("sign.expression", "signExpression");

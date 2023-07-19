@@ -4,11 +4,12 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Setup;
+
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangingEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.plugin.Endpoint;
-import ru.bgcrm.util.Setup;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "git";

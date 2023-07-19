@@ -29,6 +29,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.upload.FormFile;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
@@ -69,7 +70,6 @@ import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.struts.form.Response;
 import ru.bgcrm.util.AddressUtils;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -141,7 +141,7 @@ public class ParameterAction extends BaseAction {
             }
 
             // показывает параметры процесса только в том случае, если выполняется JEXL выражение: showParam.<paramId>.checkExpression=<expr>
-            for (Entry<Integer, ParameterMap> entry : type.getProperties().getConfigMap().subIndexed("showParam.").entrySet()) {
+            for (Entry<Integer, ConfigMap> entry : type.getProperties().getConfigMap().subIndexed("showParam.").entrySet()) {
                 String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
 
                 Map<String, Object> context = new HashMap<String, Object>();
@@ -298,10 +298,10 @@ public class ParameterAction extends BaseAction {
             resp.setData("value", paramDAO.getParamBlob(id, paramId));
         }
 
-        Collection<ParameterMap> par = setup.subIndexed("param.phone.part.2.jumpRegexp.").values();
+        Collection<ConfigMap> par = setup.subIndexed("param.phone.part.2.jumpRegexp.").values();
         List<JumpRegexp> regexpList = new ArrayList<JumpRegexp>();
 
-        for (ParameterMap item : par) {
+        for (ConfigMap item : par) {
             regexpList.add(new JumpRegexp(item.get("regexp"), Utils.parseBoolean(item.get("moveLastChars"))));
         }
 

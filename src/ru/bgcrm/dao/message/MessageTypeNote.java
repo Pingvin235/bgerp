@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.util.Date;
 import java.util.Map;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.plugin.kernel.Plugin;
 import org.bgerp.util.Log;
@@ -19,8 +21,6 @@ import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.struts.action.FileAction.FileInfo;
 import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -29,7 +29,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
 public class MessageTypeNote extends MessageType {
     private static final Log log = Log.getLog();
 
-    public MessageTypeNote(Setup setup, int id, ParameterMap config) throws BGException {
+    public MessageTypeNote(Setup setup, int id, ConfigMap config) throws BGException {
         super(setup, id, config.get("title"), config);
     }
 

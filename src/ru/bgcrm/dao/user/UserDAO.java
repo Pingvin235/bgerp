@@ -19,6 +19,8 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
@@ -30,8 +32,6 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.PswdUtil;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
@@ -459,9 +459,9 @@ public class UserDAO extends CommonDAO {
         return sql.toString();
     }
 
-    public Map<Integer, Map<String, ParameterMap>> getAllPermissions(String tableName, String selectColumn)
+    public Map<Integer, Map<String, ConfigMap>> getAllPermissions(String tableName, String selectColumn)
             throws BGException {
-        Map<Integer, Map<String, ParameterMap>> userPerm = new HashMap<Integer, Map<String, ParameterMap>>();
+        Map<Integer, Map<String, ConfigMap>> userPerm = new HashMap<Integer, Map<String, ConfigMap>>();
         try {
             PreparedStatement ps = con.prepareStatement("SELECT " + selectColumn + ",action,config FROM " + tableName);
             ResultSet rs = ps.executeQuery();
@@ -470,9 +470,9 @@ public class UserDAO extends CommonDAO {
                 String action = rs.getString("action");
                 String config = rs.getString("config");
 
-                Map<String, ParameterMap> map = userPerm.get(userId);
+                Map<String, ConfigMap> map = userPerm.get(userId);
                 if (map == null) {
-                    userPerm.put(userId, map = new HashMap<String, ParameterMap>());
+                    userPerm.put(userId, map = new HashMap<String, ConfigMap>());
                 }
 
                 map.put(action, new Preferences(config));
@@ -487,7 +487,7 @@ public class UserDAO extends CommonDAO {
         return userPerm;
     }
 
-    public Map<Integer, Map<String, ParameterMap>> getAllUserPerm() throws BGException {
+    public Map<Integer, Map<String, ConfigMap>> getAllUserPerm() throws BGException {
         return getAllPermissions(Tables.TABLE_USER_PERMISSION, "user_id");
     }
 
@@ -522,7 +522,7 @@ public class UserDAO extends CommonDAO {
         }
     }
 
-    public Map<String, ParameterMap> getPermissions(int userId) throws BGException {
+    public Map<String, ConfigMap> getPermissions(int userId) throws BGException {
         try {
             PreparedStatement ps = null;
 
@@ -531,7 +531,7 @@ public class UserDAO extends CommonDAO {
 
             ResultSet rs = ps.executeQuery();
 
-            Map<String, ParameterMap> perms = new HashMap<String, ParameterMap>();
+            Map<String, ConfigMap> perms = new HashMap<String, ConfigMap>();
 
             while (rs.next()) {
                 String action = rs.getString("action");
@@ -569,7 +569,7 @@ public class UserDAO extends CommonDAO {
         ps.close();
     }
 
-    public void updatePersonalization(User user, ParameterMap newProps) throws SQLException {
+    public void updatePersonalization(User user, ConfigMap newProps) throws SQLException {
         Preferences persMap = user.getPersonalizationMap();
         String configBefore = persMap.getDataString();
 

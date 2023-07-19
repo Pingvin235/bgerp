@@ -2,7 +2,8 @@ package ru.bgcrm.model.process.queue;
 
 import java.util.Set;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.util.Utils;
 
 public class Action {
@@ -12,7 +13,7 @@ public class Action {
     private final Set<Integer> statusIds;
     private final String commands;
 
-    public Action(ParameterMap config) {
+    public Action(ConfigMap config) {
         title = config.get("title", "");
         shortcut = config.get("shortcut", "*");
         style = config.get("style", "");

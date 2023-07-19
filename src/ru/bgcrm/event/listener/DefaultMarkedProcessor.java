@@ -11,6 +11,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import com.itextpdf.text.Document;
@@ -27,8 +29,6 @@ import ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator;
 import ru.bgcrm.plugin.document.event.DocumentGenerateEvent;
 import ru.bgcrm.plugin.document.model.Pattern;
 import ru.bgcrm.struts.action.ProcessCommandExecutor;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -41,11 +41,11 @@ public class DefaultMarkedProcessor implements EventListener<Event> {
     private static final String COMMAND_SET_PARAM = ProcessCommandExecutor.COMMAND_SET_PARAM;
     private static final String COMMAND_PRINT = "print";
 
-    public static class Config extends ru.bgcrm.util.Config {
+    public static class Config extends org.bgerp.app.cfg.Config {
         private final List<Command> commandList = new ArrayList<Command>();
         private final String doExpression;
 
-        public Config(ParameterMap config) {
+        public Config(ConfigMap config) {
             super(null);
             for (String command : config.get("commands", "").split(";")) {
                 commandList.add(new Command(command));

@@ -10,10 +10,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 import org.json.JSONObject;
-
-import ru.bgcrm.util.ParameterMap;
 
 public class SenderTele2 extends Sender {
     private static final Log log = Log.getLog();
@@ -23,7 +22,7 @@ public class SenderTele2 extends Sender {
     private final String password;
     private final String shortcode;
 
-    protected SenderTele2(ParameterMap setup) throws InitStopException {
+    protected SenderTele2(ConfigMap setup) throws InitStopException {
         super(setup);
         url = setup.get("url", "https://newbsms.tele2.ru/api/?operation=send");
         shortcode = setup.get("shortcode", "bgerp.org");

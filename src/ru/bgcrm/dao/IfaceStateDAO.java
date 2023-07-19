@@ -10,13 +10,13 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.IfaceState;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 
 public class IfaceStateDAO extends CommonDAO{
     private static final Log log = Log.getLog();

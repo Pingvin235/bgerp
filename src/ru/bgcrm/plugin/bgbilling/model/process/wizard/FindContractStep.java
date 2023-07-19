@@ -1,14 +1,15 @@
 package ru.bgcrm.plugin.bgbilling.model.process.wizard;
 
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.model.process.wizard.Step;
 import ru.bgcrm.model.process.wizard.StepData;
 import ru.bgcrm.model.process.wizard.WizardData;
-import ru.bgcrm.util.ParameterMap;
 
 public class FindContractStep extends Step {
 	private final String billingId;
 
-	public FindContractStep(ParameterMap config) {
+	public FindContractStep(ConfigMap config) {
 		super(config);
 		billingId = config.get("billingId");
 	}

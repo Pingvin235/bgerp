@@ -4,13 +4,13 @@ package org.bgerp;
 import java.io.File;
 import java.util.List;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.dist.inst.InstallerChanges;
 import org.bgerp.app.dist.inst.InstallerModule;
 import org.bgerp.app.dist.inst.InstallerModules;
 import org.bgerp.app.dist.inst.call.ExecuteSQL;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**

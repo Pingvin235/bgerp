@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
@@ -16,14 +17,13 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class MessageTypeContactSaverPhone extends ru.bgcrm.dao.message.MessageTypeContactSaver {
     private final int paramId;
     private final String format;
 
-    public MessageTypeContactSaverPhone(ParameterMap config) throws Exception {
+    public MessageTypeContactSaverPhone(ConfigMap config) throws Exception {
         super(config);
         this.paramId = config.getInt("paramId", -1);
         this.format = config.get("format", "13");

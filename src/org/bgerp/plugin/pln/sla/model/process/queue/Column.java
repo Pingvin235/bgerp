@@ -7,12 +7,12 @@ import java.time.Instant;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.plugin.pln.sla.config.Config;
 import org.bgerp.plugin.pln.sla.config.ProcessTypeConfig;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.util.Setup;
 
 public class Column extends org.bgerp.model.process.queue.Column {
     private static final Log log = Log.getLog();

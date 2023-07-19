@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -22,7 +23,6 @@ import ru.bgcrm.plugin.bgbilling.Request;
 import ru.bgcrm.plugin.bgbilling.dao.BGBillingDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
@@ -37,7 +37,7 @@ public class ShowContractsByAddrParamStepData
 		super( step, data );
 	}
 
-	private boolean checkAndAppendAttrs( Document doc, Element e, ParameterMap conf )
+	private boolean checkAndAppendAttrs( Document doc, Element e, ConfigMap conf )
 	{
 		int dontDisplayStatementsCount = 0;
 		Element contractElement = XMLUtils.selectElement( doc, "/data/contract" );
@@ -110,7 +110,7 @@ public class ShowContractsByAddrParamStepData
 		return dontDisplayStatementsCount > 1;
 	}
 
-	private void appendBalance( Document doc, ParameterMap conf )
+	private void appendBalance( Document doc, ConfigMap conf )
 		throws BGException
 	{
 		Element dataElement = (Element)doc.getElementsByTagName( "data" ).item( 0 );
@@ -160,9 +160,9 @@ public class ShowContractsByAddrParamStepData
 					{
 						Map<String, Document> result = new HashMap<String, Document>();
 
-						for( Map.Entry<Integer, ParameterMap> entry : step.getBillingConfig().entrySet() )
+						for( Map.Entry<Integer, ConfigMap> entry : step.getBillingConfig().entrySet() )
 						{
-							ParameterMap conf = entry.getValue();
+							ConfigMap conf = entry.getValue();
 							String billingId = conf.get( "id" );
 
 							val = values.values().iterator().next();

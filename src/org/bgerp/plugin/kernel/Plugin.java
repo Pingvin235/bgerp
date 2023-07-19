@@ -3,6 +3,8 @@ package org.bgerp.plugin.kernel;
 import java.sql.Connection;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.Locker;
 import ru.bgcrm.dao.Tables;
@@ -20,7 +22,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.Table;
 import ru.bgcrm.plugin.Table.Type;
-import ru.bgcrm.util.ParameterMap;
 
 /**
  * Special plugin for application's kernel.
@@ -41,7 +42,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     }
 
     @Override
-    public boolean isEnabled(ParameterMap config, String defaultValue) {
+    public boolean isEnabled(ConfigMap config, String defaultValue) {
         return true;
     }
 

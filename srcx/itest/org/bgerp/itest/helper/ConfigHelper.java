@@ -2,6 +2,8 @@ package org.bgerp.itest.helper;
 
 import java.util.Date;
 
+import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.itest.kernel.config.ConfigTest;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.testng.Assert;
@@ -11,8 +13,6 @@ import ru.bgcrm.model.Config;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.Plugin;
-import ru.bgcrm.util.Preferences;
-import ru.bgcrm.util.Setup;
 
 public class ConfigHelper {
 

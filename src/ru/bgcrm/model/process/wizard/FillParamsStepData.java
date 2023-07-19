@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.bgerp.app.cfg.ConfigMap;
+
 import java.util.Set;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -22,7 +25,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class FillParamsStepData extends StepData<FillParamsStep> {
@@ -63,12 +65,12 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
         if (!"linkedCustomer".equals(step.getType())) {
             Process process = data.getProcess();
             ProcessType processType = ProcessTypeCache.getProcessType(process.getTypeId());
-            Set<Entry<Integer, ParameterMap>> showParamSet = processType.getProperties().getConfigMap()
+            Set<Entry<Integer, ConfigMap>> showParamSet = processType.getProperties().getConfigMap()
                     .subIndexed("showParam.").entrySet();
 
             Set<Integer> hideParamIds = new HashSet<Integer>();
             // показывает параметры процесса только в том случае, если выполняется JEXL выражение: showParam.<paramId>.checkExpression=<expr>
-            for (Entry<Integer, ParameterMap> entry : showParamSet) {
+            for (Entry<Integer, ConfigMap> entry : showParamSet) {
                 String expression = entry.getValue().get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
 
                 Map<String, Object> context = new HashMap<String, Object>();

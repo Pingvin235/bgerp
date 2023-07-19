@@ -3,9 +3,8 @@ package org.bgerp.app.dist.inst.call;
 import java.io.File;
 
 import org.apache.commons.io.FileUtils;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.util.Setup;
 
 public class RemoveFile implements InstallationCall {
     private static final Log log = Log.getLog();

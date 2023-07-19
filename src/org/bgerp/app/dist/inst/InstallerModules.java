@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,7 +17,6 @@ import org.jsoup.nodes.Element;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**

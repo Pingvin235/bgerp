@@ -9,9 +9,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
+import org.bgerp.app.cfg.Setup;
 import org.w3c.dom.Document;
-
-import ru.bgcrm.util.Setup;
 
 public class BaseServlet
     extends HttpServlet

@@ -5,6 +5,7 @@ import java.util.Date;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.bgerp.action.open.ProcessAction;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.bgerp.plugin.msg.feedback.Plugin;
@@ -26,7 +27,6 @@ import ru.bgcrm.model.process.ProcessLink;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -35,16 +35,16 @@ public class MessageAction extends BaseAction {
     /**
      * Configuration for open feedback messages.
      */
-    public static class Config extends ru.bgcrm.util.Config {
+    public static class Config extends org.bgerp.app.cfg.Config {
         /** Message type, used for creating incoming messages. */
         private final MessageTypeEmail messageTypeEmail;
 
-        protected Config(ParameterMap setup, boolean validate) throws Exception {
+        protected Config(ConfigMap setup, boolean validate) throws Exception {
             super(null, validate);
             messageTypeEmail = loadMessageTypeEmail(setup);
         }
 
-        private MessageTypeEmail loadMessageTypeEmail(ParameterMap config) throws Exception {
+        private MessageTypeEmail loadMessageTypeEmail(ConfigMap config) throws Exception {
             var messageTypeConfig = config.getConfig(MessageTypeConfig.class);
 
             config = config.sub(Plugin.ID + ":");

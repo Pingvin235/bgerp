@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Set;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.FileHelper;
 import org.bgerp.itest.helper.MessageHelper;
@@ -30,7 +31,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.message.TagConfig.Tag;
 import ru.bgcrm.model.process.ProcessLink;
-import ru.bgcrm.util.Setup;
 
 @Test(groups = "message", dependsOnGroups = { "customer", "user", "process" })
 public class MessageTest {

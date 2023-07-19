@@ -5,11 +5,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.pln.callboard.model.config.DayTypeConfig;
 
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 
 public class WorkDaysCalendar extends IdTitle {

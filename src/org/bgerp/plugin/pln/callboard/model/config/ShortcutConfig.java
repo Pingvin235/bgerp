@@ -4,20 +4,19 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.pln.callboard.model.Shortcut;
-
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 
 public class ShortcutConfig extends Config {
     private final Map<Integer, Shortcut> shortcutMap = new LinkedHashMap<Integer, Shortcut>();
 
-    public ShortcutConfig(ParameterMap setup) {
+    public ShortcutConfig(ConfigMap setup) {
         super(null);
 
-        for (Map.Entry<Integer, ParameterMap> me : setup.subIndexed("callboard.workdays.shortcut.").entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : setup.subIndexed("callboard.workdays.shortcut.").entrySet()) {
             int id = me.getKey();
-            ParameterMap config = me.getValue();
+            ConfigMap config = me.getValue();
 
             shortcutMap.put(id, new Shortcut(id, config.get("title", ""), config.get("value", "")));
         }

@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.ParameterMap;
 
 /**
  * Класс с данными для подсоединения к биллингу.
@@ -24,12 +24,12 @@ public class DBInfo
 	private URL serverUrl;
 	private String title;
 	private String version = "5.1";
-	private ParameterMap setup;
+	private ConfigMap setup;
 	private Set<String> pluginSet;
 	private ConnectionPool connectionPool;
 
 	private Map<Integer, Integer> billingUserIdCrmUserIdMap = new HashMap<>();
-	private ParameterMap guiConfigValues;
+	private ConfigMap guiConfigValues;
 
 	public DBInfo( String id )
 	{
@@ -99,12 +99,12 @@ public class DBInfo
 		return new BigDecimal( this.version ).compareTo( new BigDecimal( withVersion ) );
 	}
 
-	public ParameterMap getSetup()
+	public ConfigMap getSetup()
 	{
 		return setup;
 	}
 
-	public void setSetup( ParameterMap setup )
+	public void setSetup( ConfigMap setup )
 	{
 		this.setup = setup;
 		this.connectionPool = new ConnectionPool( "bgbilling-pool-" + getId(), setup );
@@ -131,12 +131,12 @@ public class DBInfo
 		this.pluginSet = pluginSet;
 	}
 
-	public ParameterMap getGuiConfigValues()
+	public ConfigMap getGuiConfigValues()
 	{
 		return guiConfigValues;
 	}
 
-	public void setGuiConfigValues(ParameterMap config)
+	public void setGuiConfigValues(ConfigMap config)
 	{
 		guiConfigValues = config;
 	}

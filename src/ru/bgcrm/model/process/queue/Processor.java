@@ -1,9 +1,8 @@
 package ru.bgcrm.model.process.queue;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.servlet.Interface;
 import org.bgerp.model.base.Id;
-
-import ru.bgcrm.util.ParameterMap;
 
 public class Processor extends Id {
     private final String title;
@@ -12,9 +11,9 @@ public class Processor extends Id {
     private final String page;
     private final String pageUrl;
     private final String responseType;
-    private final ParameterMap configMap;
+    private final ConfigMap configMap;
 
-    public Processor(int id, ParameterMap config) {
+    public Processor(int id, ConfigMap config) {
         this.id = id;
         this.configMap = config;
 
@@ -62,7 +61,7 @@ public class Processor extends Id {
         return pageUrl;
     }
 
-    public ParameterMap getConfigMap() {
+    public ConfigMap getConfigMap() {
         return configMap;
     }
 }

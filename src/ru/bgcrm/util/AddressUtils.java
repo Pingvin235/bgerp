@@ -5,6 +5,8 @@ import static ru.bgcrm.util.PatternFormatter.processPattern;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.bgerp.app.cfg.Setup;
+
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.address.AddressCity;

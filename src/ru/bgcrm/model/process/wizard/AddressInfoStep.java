@@ -1,11 +1,11 @@
 package ru.bgcrm.model.process.wizard;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
 public class AddressInfoStep extends Step {
     private final int addressParamId;
 
-    public AddressInfoStep(ParameterMap config) {
+    public AddressInfoStep(ConfigMap config) {
         super(config);
 
         addressParamId = config.getInt("addressParamId", 0);

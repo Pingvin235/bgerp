@@ -20,6 +20,8 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.plugin.pln.callboard.Plugin;
 import org.bgerp.plugin.pln.callboard.cache.CallboardCache;
 import org.bgerp.plugin.pln.callboard.dao.ShiftDAO;
@@ -73,8 +75,6 @@ import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.action.admin.UserAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
@@ -88,7 +88,7 @@ public class WorkAction extends BaseAction {
     public ActionForward planGet(DynActionForm form, Connection con) throws Exception {
         int graphId = form.getParamInt("graphId", 0);
 
-        ParameterMap perm = form.getPermission();
+        ConfigMap perm = form.getPermission();
 
         CallboardConfig config = setup.getConfig(CallboardConfig.class);
 
@@ -532,7 +532,7 @@ public class WorkAction extends BaseAction {
 
         int graphId = form.getParamInt("graphId", 0);
 
-        ParameterMap perm = form.getPermission();
+        ConfigMap perm = form.getPermission();
 
         CallboardConfig config = setup.getConfig(CallboardConfig.class);
 
@@ -626,15 +626,15 @@ public class WorkAction extends BaseAction {
         return html(con, form, PATH_JSP + "/callboard/update.jsp");
     }
 
-    protected List<Category> getAvailableCategories(ParameterMap perm) throws Exception {
+    protected List<Category> getAvailableCategories(ConfigMap perm) throws Exception {
         return setup.getConfig(CategoryConfig.class).getCategoryList(Utils.toIntegerSet(perm.get("allowOnlyCategories", "")));
     }
 
-    protected Set<Integer> getAvailableCategoryIds(ParameterMap perm) throws Exception {
+    protected Set<Integer> getAvailableCategoryIds(ConfigMap perm) throws Exception {
         return setup.getConfig(CategoryConfig.class).getCategoryIds(Utils.toIntegerSet(perm.get("allowOnlyCategories", "")));
     }
 
-    private List<WorkType> getAvailableWorkTypeList(Connection con, ParameterMap perm) throws Exception {
+    private List<WorkType> getAvailableWorkTypeList(Connection con, ConfigMap perm) throws Exception {
         List<WorkType> resultList = new ArrayList<WorkType>();
         Set<Integer> availableCategoryIds = getAvailableCategoryIds(perm);
 

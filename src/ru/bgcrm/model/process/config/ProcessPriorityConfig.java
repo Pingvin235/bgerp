@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 
 public class ProcessPriorityConfig extends Config {
     private static final String PREFIX = "process.priority.";
@@ -27,12 +27,12 @@ public class ProcessPriorityConfig extends Config {
     /** Key - priority, value - hex color string. */
     private final SortedMap<Integer, String> priorityColors;
 
-    protected ProcessPriorityConfig(ParameterMap config) {
+    protected ProcessPriorityConfig(ConfigMap config) {
         super(null);
         priorityColors = loadPriorityColors(config);
     }
 
-    private SortedMap<Integer, String> loadPriorityColors(ParameterMap config) {
+    private SortedMap<Integer, String> loadPriorityColors(ConfigMap config) {
         var map = config.subIndexed(PREFIX);
         if (map.isEmpty()) {
             return DEFAULT_COLORS;

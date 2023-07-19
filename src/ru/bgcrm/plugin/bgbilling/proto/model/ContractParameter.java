@@ -1,6 +1,6 @@
 package ru.bgcrm.plugin.bgbilling.proto.model;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
 public class ContractParameter
 {
@@ -9,7 +9,7 @@ public class ContractParameter
 	private String title;
 	private String value;
 
-	private ParameterMap configMap;
+	private ConfigMap configMap;
 
 	public ContractParameter( int paramId, int paramType, String paramTitle, String paramValue )
 	{
@@ -59,12 +59,12 @@ public class ContractParameter
 		this.value = value;
 	}
 
-	public ParameterMap getConfigMap()
+	public ConfigMap getConfigMap()
 	{
 		return configMap;
 	}
 
-	public void setConfigMap( ParameterMap configMap )
+	public void setConfigMap( ConfigMap configMap )
 	{
 		this.configMap = configMap;
 	}

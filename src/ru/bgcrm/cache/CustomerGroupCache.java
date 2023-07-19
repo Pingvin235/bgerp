@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.CustomerGroupDAO;
 import ru.bgcrm.model.customer.CustomerGroup;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.SQLUtils;
 
 public class CustomerGroupCache extends Cache<CustomerGroupCache> {

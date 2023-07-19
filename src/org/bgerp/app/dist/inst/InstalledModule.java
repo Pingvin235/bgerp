@@ -11,10 +11,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 
 /**
  * Installed module's properties, stored in version.properties files in application JAR.
@@ -33,9 +32,9 @@ public class InstalledModule {
     private static final String INSTALLED_MODULE_PACKAGE = InstalledModule.class.getPackageName().replace(".", "/") + "/module/";
     private static final String INSTALLED_MODULE_PACKAGE_OLD = "ru/bgcrm/version/";
 
-    private final ParameterMap properties;
+    private final ConfigMap properties;
 
-    public InstalledModule(ParameterMap properties) {
+    public InstalledModule(ConfigMap properties) {
         this.properties = properties;
     }
 

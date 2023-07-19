@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
@@ -23,10 +23,10 @@ public class LinkProcessCreateConfig extends Config {
     private final List<LinkProcessCreateConfigItem> itemList = new ArrayList<>();
     private final Map<Integer, LinkProcessCreateConfigItem> itemMap = new HashMap<>();
 
-    public LinkProcessCreateConfig(ParameterMap config) {
+    public LinkProcessCreateConfig(ConfigMap config) {
         super(null);
 
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("processCreateLink.").entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("processCreateLink.").entrySet()) {
             try {
                 LinkProcessCreateConfigItem item = new LinkProcessCreateConfigItem(me.getKey(), me.getValue());
                 itemMap.put(item.getId(), item);

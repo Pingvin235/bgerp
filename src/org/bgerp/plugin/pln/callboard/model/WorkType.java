@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.pln.callboard.model.work.ShiftData;
 
@@ -13,8 +15,6 @@ import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ParamValueFunction;
 import ru.bgcrm.dao.expression.ProcessLinkFunction;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 public class WorkType
@@ -125,7 +125,7 @@ public class WorkType
 		return result.toString();
 	}
 
-	public void setConfigMap( ParameterMap configMap )
+	public void setConfigMap( ConfigMap configMap )
 	{
 		color = configMap.get( "color", "#000000" );
 		shortcutList = Utils.toList( configMap.get( "shortcuts", "" ) );
@@ -148,7 +148,7 @@ public class WorkType
 		if( ruleExpressionList == null )
 		{
 			ruleExpressionList = new ArrayList<Rule>();
-			for( ParameterMap pm : new Preferences( ruleConfig ).subIndexed( "rule." ).values() )
+			for( ConfigMap pm : new Preferences( ruleConfig ).subIndexed( "rule." ).values() )
 			{
 				ruleExpressionList.add( new Rule( pm ) );
 			}
@@ -199,7 +199,7 @@ public class WorkType
 		private String checkExpression;
 		private int duration;
 
-		private Rule( ParameterMap config )
+		private Rule( ConfigMap config )
 		{
 			this.checkExpression = config.get( Expression.CHECK_EXPRESSION_CONFIG_KEY, "" );
 			this.duration = config.getInt( "duration", 0 );

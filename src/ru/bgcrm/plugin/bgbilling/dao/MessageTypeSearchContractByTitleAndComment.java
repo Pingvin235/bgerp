@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.bgbilling.dao;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
@@ -16,14 +17,13 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO.SearchOptions;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class MessageTypeSearchContractByTitleAndComment extends MessageTypeSearchBilling {
     private static final Log log = Log.getLog();
 
-    public MessageTypeSearchContractByTitleAndComment(ParameterMap config) throws BGException {
+    public MessageTypeSearchContractByTitleAndComment(ConfigMap config) throws BGException {
         super(config);
     }
 

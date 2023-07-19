@@ -8,14 +8,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.process.TransactionProperties.TransactionKey;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -37,7 +37,7 @@ public class TypeProperties {
     /** String configuration. */
     private String config = "";
     /** Parsed configuration. */
-    private ParameterMap configMap;
+    private ConfigMap configMap;
     /** Initial groups. */
     private ProcessGroups groups = new ProcessGroups();
     /** Allowed groups. */
@@ -204,13 +204,13 @@ public class TypeProperties {
         this.config = config;
     }
 
-    public ParameterMap getConfigMap() {
+    public ConfigMap getConfigMap() {
         if (configMap == null)
             configMap = new Preferences(config);
         return configMap;
     }
 
-    public void setConfigMap(ParameterMap configMap) {
+    public void setConfigMap(ConfigMap configMap) {
         this.configMap = configMap;
     }
 

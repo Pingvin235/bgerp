@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 
@@ -18,7 +19,6 @@ import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 @Action(path = "/user/search")
@@ -34,7 +34,7 @@ public class SearchAction extends BaseAction {
         // areas supported only in bgbilling plugin, contract search
         HashSet<Integer> areaIds = new HashSet<Integer>();
 
-        ParameterMap perm = form.getPermission();
+        ConfigMap perm = form.getPermission();
         Set<Integer> allowedAreaIds = Utils.toIntegerSet(perm.get("allowedAreaIds", ""));
 
         if (!allowedAreaIds.isEmpty())

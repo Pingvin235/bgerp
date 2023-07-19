@@ -6,13 +6,13 @@ import java.util.Map;
 
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.struts.action.BaseAction;
-import ru.bgcrm.util.ParameterMap;
 
-public class GMS extends ru.bgcrm.util.Config {
+public class GMS extends org.bgerp.app.cfg.Config {
     private static final Log log = Log.getLog();
 
     private static final String SERVER_URL = "https://mob.bgerp.org/cgi/server.py";
@@ -21,7 +21,7 @@ public class GMS extends ru.bgcrm.util.Config {
     private static final String PARAM_DATA = "data";
     private static final String MESSAGE_COMMAND = "message";
 
-    public GMS(ParameterMap setup) {
+    public GMS(ConfigMap setup) {
         super(setup);
     }
 

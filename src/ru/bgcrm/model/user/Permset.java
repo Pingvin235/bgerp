@@ -1,15 +1,14 @@
 package ru.bgcrm.model.user;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.base.IdTitle;
-
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 
 public class Permset extends IdTitle {
     private String roles = "";
     private String comment;
     private String config;
-    private ParameterMap configMap = new Preferences();
+    private ConfigMap configMap = new Preferences();
 
     public String getRoles() {
         return roles;
@@ -36,7 +35,7 @@ public class Permset extends IdTitle {
         this.configMap = new Preferences(config);
     }
 
-    public ParameterMap getConfigMap() {
+    public ConfigMap getConfigMap() {
         return configMap;
     }
 }

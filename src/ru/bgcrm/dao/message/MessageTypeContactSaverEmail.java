@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.SortedMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitled;
 
 import ru.bgcrm.dao.ParamValueDAO;
@@ -16,7 +17,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class MessageTypeContactSaverEmail extends MessageTypeContactSaver {
@@ -28,7 +28,7 @@ public class MessageTypeContactSaverEmail extends MessageTypeContactSaver {
 
     private int paramId;
 
-    public MessageTypeContactSaverEmail(ParameterMap config) throws Exception {
+    public MessageTypeContactSaverEmail(ConfigMap config) throws Exception {
         super(config);
 
         this.paramId = config.getInt("paramId", -1);

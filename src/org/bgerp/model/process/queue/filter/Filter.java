@@ -3,9 +3,9 @@ package org.bgerp.model.process.queue.filter;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Dynamic;
 
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 // параметры фильтра в очереди
@@ -13,7 +13,7 @@ public class Filter {
     public static final String VALUES = "values";
     public static final String ON_EMPTY_VALUES = "onEmptyValues";
 
-    private final ParameterMap configMap;
+    private final ConfigMap configMap;
 
     private final int id;
     // произвольное наименование фильтра
@@ -34,7 +34,7 @@ public class Filter {
     private final String type;
     //мап параметров
 
-    public Filter(int id, ParameterMap filter) {
+    public Filter(int id, ConfigMap filter) {
         this.id = id;
         this.type = filter.get("type");
         this.title = filter.get("title");
@@ -47,7 +47,7 @@ public class Filter {
         this.width = filter.get("width");
     }
 
-    public ParameterMap getConfigMap() {
+    public ConfigMap getConfigMap() {
         return configMap;
     }
 

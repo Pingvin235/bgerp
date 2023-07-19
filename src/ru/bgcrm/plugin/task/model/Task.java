@@ -2,9 +2,8 @@ package ru.bgcrm.plugin.task.model;
 
 import java.util.Date;
 
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.base.Id;
-
-import ru.bgcrm.util.Preferences;
 
 /**
  * Process assigned task to be executed right now or in future.

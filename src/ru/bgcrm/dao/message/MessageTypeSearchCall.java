@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
@@ -16,7 +17,6 @@ import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -26,7 +26,7 @@ public class MessageTypeSearchCall extends MessageTypeSearch {
     private String phonePreprocessJexl;
     private List<String> commands;
 
-    public MessageTypeSearchCall(ParameterMap config) throws BGException {
+    public MessageTypeSearchCall(ConfigMap config) throws BGException {
         super(config);
 
         // может добавится customerByTextParam:<paramId>

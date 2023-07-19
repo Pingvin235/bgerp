@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -23,7 +24,6 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 

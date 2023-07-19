@@ -11,6 +11,8 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.process.queue.Column;
 import org.bgerp.model.process.queue.filter.Filter;
@@ -29,8 +31,6 @@ import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 public class Queue extends IdTitle {
@@ -48,7 +48,7 @@ public class Queue extends IdTitle {
     private String title;
     private String config;
     private Set<Integer> processTypeIds = new HashSet<>();
-    private ParameterMap configMap;
+    private ConfigMap configMap;
 
     private List<Column> columnList;
     private Map<Integer, Column> columnMap;
@@ -74,7 +74,7 @@ public class Queue extends IdTitle {
     }
 
     private List<String> getMediaColumns(String media) {
-        ParameterMap configMap = getConfigMap();
+        ConfigMap configMap = getConfigMap();
 
         List<String> result = Utils.toList(configMap.get("media." + media + ".columns"));
 
@@ -163,7 +163,7 @@ public class Queue extends IdTitle {
         }
     }
 
-    public ParameterMap getConfigMap() {
+    public ConfigMap getConfigMap() {
         if (configMap == null) {
             configMap = new Preferences(config);
         }
@@ -250,9 +250,9 @@ public class Queue extends IdTitle {
             columnMap.put(me.getKey(), Column.of(String.valueOf(me.getKey()), me.getValue()));
         columnList = new ArrayList<>(columnMap.values());
 
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("filter.").entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("filter.").entrySet()) {
             int id = me.getKey();
-            ParameterMap filter = me.getValue();
+            ConfigMap filter = me.getValue();
 
             try {
                 String type = filter.get("type", "");
@@ -313,7 +313,7 @@ public class Queue extends IdTitle {
             }
         }
 
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("processor.").entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("processor.").entrySet()) {
             Processor p = new Processor(me.getKey(), me.getValue());
             processorMap.put(p.getId(), p);
         }
@@ -369,7 +369,7 @@ public class Queue extends IdTitle {
             }
         }
 
-        for (ParameterMap actionConfig : config.subIndexed("action.").values()) {
+        for (ConfigMap actionConfig : config.subIndexed("action.").values()) {
             actionList.add(new Action(actionConfig));
         }
 

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -21,7 +22,6 @@ import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.plugin.bgbilling.dao.ContractCustomerDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.struts.action.LinkAction;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -67,7 +67,7 @@ public class LinkChangedListener {
         boolean groupsChanged = false;
 
         // переход до первого подходящего правила и установка групп
-        for (ParameterMap pm : type.getProperties().getConfigMap().subIndexed("bgbilling:processLinkedContract.").values()) {
+        for (ConfigMap pm : type.getProperties().getConfigMap().subIndexed("bgbilling:processLinkedContract.").values()) {
             String titleRegexp = pm.get("titleRegexp");
             Set<String> billingIds = Utils.toSet(pm.get("billingIds"));
 

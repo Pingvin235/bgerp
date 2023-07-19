@@ -9,22 +9,22 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.pln.sla.Plugin;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class ProcessTypeConfig extends ru.bgcrm.util.Config {
+public class ProcessTypeConfig extends org.bgerp.app.cfg.Config {
     private static final Log log = Log.getLog();
 
     private final Duration closeBefore;
     private final Duration updateBefore;
     private final SortedMap<Long, String> leftMinutesColors;
 
-    protected ProcessTypeConfig(ParameterMap config) throws InitStopException {
+    protected ProcessTypeConfig(ConfigMap config) throws InitStopException {
         super(null);
         var subConfig = config.sub(Plugin.ID + ":");
         closeBefore = loadDurationInMin(subConfig, "close.before.minutes");
@@ -34,12 +34,12 @@ public class ProcessTypeConfig extends ru.bgcrm.util.Config {
         initWhen(closeBefore != null || updateBefore != null);
     }
 
-    private Duration loadDurationInMin(ParameterMap config, String key) {
+    private Duration loadDurationInMin(ConfigMap config, String key) {
         int value = config.getInt(key);
         return value > 0 ? Duration.ofMinutes(value) : null;
     }
 
-    private SortedMap<Long, String> loadLeftMinutesColors(ParameterMap config) {
+    private SortedMap<Long, String> loadLeftMinutesColors(ConfigMap config) {
         var result = new TreeMap<Long, String>();
 
         // sla:color.yellow.when.left.minutes=20

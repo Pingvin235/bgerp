@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Dynamic;
@@ -18,8 +20,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -63,7 +63,7 @@ public class MessageTypeCall extends MessageType {
 
     private final String checkExpressionCallStore;
 
-    public MessageTypeCall(Setup setup, int id, ParameterMap config) throws BGException {
+    public MessageTypeCall(Setup setup, int id, ConfigMap config) throws BGException {
         super(setup, id, config.get("title"), config);
         checkExpressionCallStore = config.get(Expression.CHECK_EXPRESSION_CONFIG_KEY + "CallStore");
     }

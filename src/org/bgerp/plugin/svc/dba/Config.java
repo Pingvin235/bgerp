@@ -6,16 +6,15 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.svc.dba.model.TableStatus;
 
-import ru.bgcrm.util.ParameterMap;
-
-public class Config extends ru.bgcrm.util.Config {
+public class Config extends org.bgerp.app.cfg.Config {
     private static final DateTimeFormatter PATTERN_YYYYMM = DateTimeFormatter.ofPattern("yyyyMM");
 
     private final int cleanupMonthTablesOlderThanMonths;
 
-    protected Config(ParameterMap config, boolean validate) {
+    protected Config(ConfigMap config, boolean validate) {
         super(null);
         config = config.sub(Plugin.ID + ":");
         this.cleanupMonthTablesOlderThanMonths = config.getInt("cleanup.month.tables.older.than.months", 12);

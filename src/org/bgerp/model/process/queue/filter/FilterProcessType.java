@@ -1,9 +1,9 @@
 package org.bgerp.model.process.queue.filter;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
 public class FilterProcessType extends Filter {
-    public FilterProcessType(int id, ParameterMap filter) {
+    public FilterProcessType(int id, ConfigMap filter) {
         super(id, filter);
     }
 }

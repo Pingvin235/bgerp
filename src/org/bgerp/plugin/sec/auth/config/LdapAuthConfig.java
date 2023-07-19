@@ -19,14 +19,14 @@ import javax.naming.directory.SearchControls;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.sec.auth.AuthResult;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -46,7 +46,7 @@ public class LdapAuthConfig extends Config {
     private final String groupIdsExpression;
     private final String titleExpression;
 
-    LdapAuthConfig(int id, ParameterMap config) throws InitStopException {
+    LdapAuthConfig(int id, ConfigMap config) throws InitStopException {
         super(null);
         this.title = config.get("title", String.valueOf(id));
         this.url = config.get("url");

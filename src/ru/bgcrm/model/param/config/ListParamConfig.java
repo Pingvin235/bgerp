@@ -4,8 +4,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.util.RangeChecker;
 import ru.bgcrm.util.Utils;
 
@@ -22,7 +23,7 @@ public class ListParamConfig extends Config {
     private Map<Integer, String> needCommentValues = Collections.emptyMap();
     private Map<Integer, String> commentValues = Collections.emptyMap();;
 
-    public ListParamConfig(ParameterMap setup) {
+    public ListParamConfig(ConfigMap setup) {
         super(null);
 
         String values = setup.get(ALLOW_COMMENT_VALUES);

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.cache.ProcessQueueCache;
@@ -16,7 +17,6 @@ import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class BoardConfig extends IdTitle {
@@ -27,11 +27,11 @@ public class BoardConfig extends IdTitle {
     private final List<ItemComparator> comparators;
     private final Set<Integer> executorGroupIds;
 
-    BoardConfig(int id, ParameterMap config) {
+    BoardConfig(int id, ConfigMap config) {
         super(id, config.get("title"));
         this.queueId = config.getInt("queueId");
         this.cellExpression = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "Cell", "process.getDescription()");
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("filter.").entrySet())
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("filter.").entrySet())
             filters.add(new BoardFilter(me.getKey(), me.getValue()));
         this.openUrl = config.get("openUrl");
         this.comparators = parseComparators(config.get("sort",
@@ -96,7 +96,7 @@ public class BoardConfig extends IdTitle {
         private final String stringExpression;
         private final String color;
 
-        private BoardFilter(int id, ParameterMap config) {
+        private BoardFilter(int id, ConfigMap config) {
             super(id, config.get("title", "NONAME"));
             this.stringExpression = config.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY);
             this.color = config.get("color");

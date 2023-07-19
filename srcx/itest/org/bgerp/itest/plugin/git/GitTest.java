@@ -3,6 +3,7 @@ package org.bgerp.itest.plugin.git;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
@@ -23,7 +24,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 @Test(groups = "git", priority = 100, dependsOnGroups = { "config", "process", "user" })

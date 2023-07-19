@@ -1,14 +1,15 @@
 package org.bgerp.plugin.msg.sms;
 
-import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
-public abstract class Sender extends ru.bgcrm.util.Config {
-    protected Sender(ParameterMap setup) {
+import ru.bgcrm.model.BGMessageException;
+
+public abstract class Sender extends org.bgerp.app.cfg.Config {
+    protected Sender(ConfigMap setup) {
         super(setup);
     }
 
-    public static Sender of(ParameterMap setup) throws BGMessageException {
+    public static Sender of(ConfigMap setup) throws BGMessageException {
         setup = setup.sub(Plugin.ID + ":");
         var type = setup.get("type", "");
         switch (type) {

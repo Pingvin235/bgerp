@@ -5,9 +5,8 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.utils.URIBuilder;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.util.ParameterMap;
 
 public class SenderMTS extends Sender {
     private static final Log log = Log.getLog();
@@ -17,7 +16,7 @@ public class SenderMTS extends Sender {
     private final String password;
     private final String shortcode;
 
-    protected SenderMTS(ParameterMap setup) throws InitStopException {
+    protected SenderMTS(ConfigMap setup) throws InitStopException {
         super(setup);
         url = setup.get("url", "http://mcommunicator.ru/M2M/m2m_api.asmx/SendMessage");
         shortcode = setup.get("shortcode", "bgerp.org");

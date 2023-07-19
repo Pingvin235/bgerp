@@ -2,10 +2,9 @@ package ru.bgcrm.plugin.bgbilling.creator;
 
 import java.sql.Connection;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.util.Setup;
 
 /**
  * Задача планировщика импорта контрагента с серверов биллингов.

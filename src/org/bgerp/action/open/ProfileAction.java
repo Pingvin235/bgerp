@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.servlet.Interface;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
@@ -19,8 +21,6 @@ import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -28,17 +28,17 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class ProfileAction extends BaseAction {
     private static final String PATH_JSP =  PATH_JSP_OPEN + "/profile";
 
-    public static class Config extends ru.bgcrm.util.Config implements EventListener<ParamChangedEvent> {
+    public static class Config extends org.bgerp.app.cfg.Config implements EventListener<ParamChangedEvent> {
         private static final Log log = Log.getLog();
 
-        private final ParameterMap config;
+        private final ConfigMap config;
 
         /** Parameter type 'list', enabling opening of user with value=1.  */
         private final Parameter openParam;
         private final List<Integer> showParamIds;
         private final Set<Integer> shownUserIds;
 
-        protected Config(ParameterMap config, boolean validate) throws Exception {
+        protected Config(ConfigMap config, boolean validate) throws Exception {
             super(null);
 
             this.config = config;

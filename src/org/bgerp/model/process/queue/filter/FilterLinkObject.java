@@ -1,6 +1,6 @@
 package org.bgerp.model.process.queue.filter;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
 public class FilterLinkObject extends Filter {
     private final String objectType;
@@ -9,7 +9,7 @@ public class FilterLinkObject extends Filter {
     public static final String WHAT_FILTER_ID = "id";
     public static final String WHAT_FILTER_TITLE = "title";
 
-    public FilterLinkObject(int id, ParameterMap filter, String objectType, String whatFilter) {
+    public FilterLinkObject(int id, ConfigMap filter, String objectType, String whatFilter) {
         super(id, filter);
         this.objectType = objectType;
         this.whatFilter = whatFilter;

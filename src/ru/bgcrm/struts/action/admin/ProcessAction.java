@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.ProcessGroups;
 import org.bgerp.util.sql.LikePattern;
@@ -40,7 +41,6 @@ import ru.bgcrm.model.user.Permset;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 @Action(path = "/admin/process")

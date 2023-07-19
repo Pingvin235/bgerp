@@ -13,6 +13,9 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
@@ -25,9 +28,6 @@ import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.Permset;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 
 public class UserCache extends Cache<UserCache> {
@@ -36,7 +36,7 @@ public class UserCache extends Cache<UserCache> {
     public static final UserCache INSTANCE = new UserCache();
 
     private static final CacheHolder<UserCache> HOLDER = new CacheHolder<>(INSTANCE);
-    private static final ParameterMap EMPTY_PERMISSION = new Preferences();
+    private static final ConfigMap EMPTY_PERMISSION = new Preferences();
 
     public static User getUser(final int id) {
         return HOLDER.getInstance().userMapById.get(id);
@@ -94,7 +94,7 @@ public class UserCache extends Cache<UserCache> {
      * @return allowed permission with options or {@code null}.
      */
     @Dynamic
-    public static ParameterMap getPerm(final int userId, String action) {
+    public static ConfigMap getPerm(final int userId, String action) {
         final User user = getUser(userId);
 
         final String key = "user.permission.check";
@@ -102,7 +102,7 @@ public class UserCache extends Cache<UserCache> {
         final boolean permCheck = Setup.getSetup().getBoolean(key, false);
         final boolean userPermCheck = user.getConfigMap().getBoolean(key, true);
         if (permCheck && userPermCheck && !user.isAdmin()) {
-            final Map<String, ParameterMap> userPerm = HOLDER.getInstance().userPermMap.get(userId);
+            final Map<String, ConfigMap> userPerm = HOLDER.getInstance().userPermMap.get(userId);
             if (userPerm != null) {
                 final PermissionNode node = PermissionNode.getPermissionNode(action);
 
@@ -114,7 +114,7 @@ public class UserCache extends Cache<UserCache> {
                     action = node.getAction();
                 }
 
-                final ParameterMap map = userPerm.get(action);
+                final ConfigMap map = userPerm.get(action);
                 if (map != null) {
                     return map;
                 }
@@ -300,7 +300,7 @@ public class UserCache extends Cache<UserCache> {
     private List<Group> userGroupFullTitledList;
     private Map<Integer, Group> userGroupFullTitledMap;
 
-    private Map<Integer, Map<String, ParameterMap>> userPermMap;
+    private Map<Integer, Map<String, ConfigMap>> userPermMap;
 
     private UserCache result;
 
@@ -385,13 +385,13 @@ public class UserCache extends Cache<UserCache> {
             final Map<Integer, List<Integer>> allGroupPermsetIds = groupDAO.getAllGroupPermsetIds();
             final Map<Integer, Set<Integer>> allGroupQueueIds = groupDAO.getAllGroupQueueIds();
 
-            final Map<Integer, Map<String, ParameterMap>> allUserPermById = primaryActions(userDAO.getAllUserPerm());
-            final Map<Integer, Map<String, ParameterMap>> allPermsetPermById = primaryActions(permsetDAO.getAllPermsets());
+            final Map<Integer, Map<String, ConfigMap>> allUserPermById = primaryActions(userDAO.getAllUserPerm());
+            final Map<Integer, Map<String, ConfigMap>> allPermsetPermById = primaryActions(permsetDAO.getAllPermsets());
 
             result.userPermMap = new HashMap<>();
 
             for (final User user : result.userList) {
-                final Map<String, ParameterMap> perm = new HashMap<>();
+                final Map<String, ConfigMap> perm = new HashMap<>();
                 result.userPermMap.put(user.getId(), perm);
 
                 user.setPermsetIds(allUserPermsetIds.get(user.getId()));
@@ -428,7 +428,7 @@ public class UserCache extends Cache<UserCache> {
 
                 // сбор прав, ролей и конфигураций из действующих наборов пользователя
                 for (final Integer permsetId : userPermsetIds) {
-                    final Map<String, ParameterMap> permsetPermMap = allPermsetPermById.get(permsetId);
+                    final Map<String, ConfigMap> permsetPermMap = allPermsetPermById.get(permsetId);
                     if (permsetPermMap != null) {
                         perm.putAll(permsetPermMap);
                     }
@@ -452,7 +452,7 @@ public class UserCache extends Cache<UserCache> {
                 user.setConfig(fullUserConfig.toString() + groupConfig.toString() + user.getConfig());
 
                 // персональные права
-                final Map<String, ParameterMap> personalPermMap = allUserPermById.get(user.getId());
+                final Map<String, ConfigMap> personalPermMap = allUserPermById.get(user.getId());
                 if (personalPermMap != null) {
                     perm.putAll(personalPermMap);
                 }
@@ -492,7 +492,7 @@ public class UserCache extends Cache<UserCache> {
      * @param permMapById key - some ID, value - permission map with obitary keys.
      * @return modified {@code permMapById}.
      */
-    private Map<Integer, Map<String, ParameterMap>> primaryActions(final Map<Integer, Map<String, ParameterMap>> permMapById) {
+    private Map<Integer, Map<String, ConfigMap>> primaryActions(final Map<Integer, Map<String, ConfigMap>> permMapById) {
         for (final var me : permMapById.entrySet())
             me.setValue(PermissionNode.primaryActions(me.getValue()));
         return permMapById;

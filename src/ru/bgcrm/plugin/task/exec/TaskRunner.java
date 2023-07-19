@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.bgerp.app.bean.annotation.Bean;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.Expression;
@@ -15,7 +16,6 @@ import ru.bgcrm.plugin.task.dao.TaskDAO;
 import ru.bgcrm.plugin.task.model.Task;
 import ru.bgcrm.plugin.task.model.TaskType;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 /**

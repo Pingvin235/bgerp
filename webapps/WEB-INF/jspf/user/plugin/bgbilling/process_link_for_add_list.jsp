@@ -4,7 +4,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="ru.bgcrm.plugin.bgbilling.DBInfoManager"%>
-<%@page import="ru.bgcrm.util.Setup"%>
+<%@page import="org.bgerp.app.cfg.Setup"%>
 <%@page import="ru.bgcrm.util.sql.ConnectionSet"%>
 <%@page import="ru.bgcrm.util.Utils"%>
 <%@page import="ru.bgcrm.dao.process.ProcessLinkDAO"%>

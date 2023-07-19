@@ -2,7 +2,8 @@ package org.bgerp.plugin.pln.callboard.model;
 
 import java.util.List;
 
-import ru.bgcrm.util.Preferences;
+import org.bgerp.app.cfg.Preferences;
+
 import ru.bgcrm.util.Utils;
 
 public class WorkTypeConfig {

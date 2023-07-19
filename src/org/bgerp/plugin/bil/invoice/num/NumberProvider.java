@@ -2,11 +2,10 @@ package org.bgerp.plugin.bil.invoice.num;
 
 import java.sql.Connection;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 import org.bgerp.plugin.bil.invoice.model.InvoiceType;
-
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 
 /**
  * Number generator.
@@ -15,7 +14,7 @@ import ru.bgcrm.util.ParameterMap;
  */
 public abstract class NumberProvider extends Config {
 
-    protected NumberProvider(ParameterMap config) {
+    protected NumberProvider(ConfigMap config) {
         super(config);
     }
 

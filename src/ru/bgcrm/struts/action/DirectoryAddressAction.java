@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 
@@ -25,7 +26,6 @@ import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.param.address.AddressItem;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -40,7 +40,7 @@ public class DirectoryAddressAction extends BaseAction {
     }
 
     public ActionForward address(DynActionForm form, Connection con) throws Exception {
-        ParameterMap permission = form.getPermission();
+        ConfigMap permission = form.getPermission();
         AddressDAO addressDAO = new AddressDAO(con);
 
         String searchMode = form.getParam("searchMode");
@@ -259,7 +259,7 @@ public class DirectoryAddressAction extends BaseAction {
         int addressCityId = Utils.parseInt(form.getParam("addressCityId"), -1);
         int addressCountryId = Utils.parseInt(form.getParam("addressCountryId"), -1);
 
-        ParameterMap permission = form.getPermission();
+        ConfigMap permission = form.getPermission();
         Set<Integer> allowedCityIds = Utils.toIntegerSet(permission.get("cityIds"));
         boolean restrictUpdateMainParameters = Utils.parseBoolean(permission.get("restrictUpdateMainParameters"));
 
@@ -385,7 +385,7 @@ public class DirectoryAddressAction extends BaseAction {
         String itemType = form.getParam("selectTab");
 
         if (addressItemId >= 0) {
-            ParameterMap permission = form.getPermission();
+            ConfigMap permission = form.getPermission();
             Set<Integer> allowedCityIds = Utils.toIntegerSet(permission.get("cityIds"));
 
             checkCityAllow(allowedCityIds, addressCityId);
@@ -412,7 +412,7 @@ public class DirectoryAddressAction extends BaseAction {
     }
 
     public ActionForward addressDelete(DynActionForm form, Connection con) throws Exception {
-        ParameterMap permission = form.getPermission();
+        ConfigMap permission = form.getPermission();
         Set<Integer> allowedCityIds = Utils.toIntegerSet(permission.get("cityIds"));
 
         AddressDAO addressDAO = new AddressDAO(con);
@@ -454,7 +454,7 @@ public class DirectoryAddressAction extends BaseAction {
         String itemType = form.getParam("selectTab");
 
         if (addressItemId >= 0) {
-            ParameterMap permission = form.getPermission();
+            ConfigMap permission = form.getPermission();
             Set<Integer> allowedCityIds = Utils.toIntegerSet(permission.get("cityIds"));
 
             if ("street".equals(itemType)) {

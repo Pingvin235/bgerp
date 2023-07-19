@@ -20,6 +20,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
@@ -51,8 +53,6 @@ import ru.bgcrm.util.AlarmErrorMessage;
 import ru.bgcrm.util.AlarmSender;
 import ru.bgcrm.util.MailConfig;
 import ru.bgcrm.util.MailMsg;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -89,7 +89,7 @@ public class MessageTypeEmail extends MessageType {
 
     private final FolderCache incomingCache = new FolderCache(this);
 
-    public MessageTypeEmail(Setup setup, int id, ParameterMap config) throws BGException {
+    public MessageTypeEmail(Setup setup, int id, ConfigMap config) throws BGException {
         super(setup, id, config.get("title"), config);
 
         var l = Localization.getLocalizer(Localization.getLang(), Plugin.ID);

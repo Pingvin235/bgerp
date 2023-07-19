@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
@@ -23,8 +25,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.action.FileAction.FileInfo;
 import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
@@ -37,12 +37,12 @@ public abstract class MessageType extends IdTitle {
     private MessageTypeContactSaver contactSaver;
 
     protected final Setup setup;
-    protected final ParameterMap configMap;
+    protected final ConfigMap configMap;
 
     protected volatile boolean reading;
     protected volatile Integer unprocessedMessagesCount;
 
-    protected MessageType(Setup setup, int id, String title, ParameterMap config) throws BGException {
+    protected MessageType(Setup setup, int id, String title, ConfigMap config) throws BGException {
         this.setup = setup;
         this.configMap = config;
 
@@ -52,9 +52,9 @@ public abstract class MessageType extends IdTitle {
             throw new BGException("Title of message type is empty.");
         }
 
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("search.").entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("search.").entrySet()) {
             int searchId = me.getKey();
-            ParameterMap searchConf = me.getValue();
+            ConfigMap searchConf = me.getValue();
 
             MessageTypeSearch search = null;
 
@@ -63,7 +63,7 @@ public abstract class MessageType extends IdTitle {
                 try {
                     Class<?> clazz = Bean.getClass(className);
                     if (MessageTypeSearch.class.isAssignableFrom(clazz)) {
-                        Constructor<?> constr = clazz.getConstructor(ParameterMap.class);
+                        Constructor<?> constr = clazz.getConstructor(ConfigMap.class);
                         search = (MessageTypeSearch) constr.newInstance(searchConf);
 
                         searchMap.put(searchId, search);
@@ -74,14 +74,14 @@ public abstract class MessageType extends IdTitle {
             }
         }
 
-        ParameterMap saver = config.sub("saver.");
+        ConfigMap saver = config.sub("saver.");
         String className = saver.get("class");
 
         if (Utils.notBlankString(className)) {
             try {
                 Class<?> clazz = Bean.getClass(className);
                 if (MessageTypeContactSaver.class.isAssignableFrom(clazz)) {
-                    Constructor<?> constr = clazz.getConstructor(ParameterMap.class);
+                    Constructor<?> constr = clazz.getConstructor(ConfigMap.class);
                     contactSaver = (MessageTypeContactSaver) constr.newInstance(saver);
                 }
             } catch (Exception e) {
@@ -90,7 +90,7 @@ public abstract class MessageType extends IdTitle {
         }
     }
 
-    public ParameterMap getConfigMap() {
+    public ConfigMap getConfigMap() {
         return configMap;
     }
 

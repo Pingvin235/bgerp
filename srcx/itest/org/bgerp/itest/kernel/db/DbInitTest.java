@@ -1,10 +1,10 @@
 package org.bgerp.itest.kernel.db;
 
 import org.apache.log4j.PropertyConfigurator;
+import org.bgerp.app.cfg.Setup;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.plugin.PluginManager;
-import ru.bgcrm.util.Setup;
 
 /** For running tests without complete re-creation of DB, change dependsOnGroups to "db" */
 @Test(groups = "dbInit", dependsOnGroups = "dbReset")

@@ -2,9 +2,8 @@ package org.bgerp.plugin.clb.calendar.model;
 
 import java.time.LocalTime;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
-
-import ru.bgcrm.util.ParameterMap;
 
 /**
  * Calendar.
@@ -20,7 +19,7 @@ public class Calendar extends IdTitle {
     private final LocalTime dayTimeFrom;
     private final LocalTime dayTimeTo;
 
-    public Calendar(int id, ParameterMap config) {
+    public Calendar(int id, ConfigMap config) {
         super(id, config.get("title", "???"));
         mode = Mode.WEEK;
         unitMinutes = ConfigParser.parse(config.get("unit.minutes", "60"));

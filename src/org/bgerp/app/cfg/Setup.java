@@ -1,4 +1,4 @@
-package ru.bgcrm.util;
+package org.bgerp.app.cfg;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,6 +16,8 @@ import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.Config;
+import ru.bgcrm.util.TimeUtils;
+import ru.bgcrm.util.Utils;
 
 public class Setup extends Preferences {
     private static final Log log = Log.getLog();
@@ -134,7 +136,7 @@ public class Setup extends Preferences {
             // remove no more existing keys
             this.data.keySet().retainAll(data.keySet());
 
-            configMap = null;
+            clearConfigs();
         } catch (Exception e) {
             log.error(e);
         }
@@ -157,7 +159,7 @@ public class Setup extends Preferences {
             return;
         }
 
-        Map<Integer, ParameterMap> includes = configDAO.getIncludes(config.getId());
+        Map<Integer, ConfigMap> includes = configDAO.getIncludes(config.getId());
         oldIncludes(con, includes, config);
         data.putAll(new Preferences(config.getData(), includes.values(), false));
     }
@@ -169,7 +171,7 @@ public class Setup extends Preferences {
      * @param config config with includes.
      * @throws SQLException
      */
-    private void oldIncludes(Connection con, Map<Integer, ParameterMap> includes, Config config) throws SQLException {
+    private void oldIncludes(Connection con, Map<Integer, ConfigMap> includes, Config config) throws SQLException {
         var configDAO = new ConfigDAO(con);
 
         for (Map.Entry<String, String> me : new Preferences(config.getData()).sub(Config.INCLUDE_PREFIX).entrySet()) {

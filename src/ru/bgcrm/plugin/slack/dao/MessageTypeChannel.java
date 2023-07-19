@@ -9,6 +9,9 @@ import java.util.Set;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.cfg.Config.InitStopException;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
@@ -35,10 +38,7 @@ import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.slack.Plugin;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
-import ru.bgcrm.util.Config.InitStopException;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
@@ -58,7 +58,7 @@ public class MessageTypeChannel extends MessageType {
     private final Parameter accountParam;
     private final String stringExpressionMessageExtract;
 
-    public MessageTypeChannel(Setup setup, int id, ParameterMap config) throws BGException {
+    public MessageTypeChannel(Setup setup, int id, ConfigMap config) throws BGException {
         super(setup, id, config.get("title"), config);
         token = config.get("authToken");
         if (token == null) {

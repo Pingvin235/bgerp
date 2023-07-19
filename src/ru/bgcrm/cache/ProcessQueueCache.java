@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.process.QueueDAO;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.Setup;
 
 public class ProcessQueueCache extends Cache<ProcessQueueCache> {
     private static Log log = Log.getLog();

@@ -1,4 +1,4 @@
-package ru.bgcrm.util;
+package org.bgerp.app.cfg;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -14,61 +14,31 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.Config.InitStopException;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.util.Config.InitStopException;
+import ru.bgcrm.util.Utils;
 
 /**
  * Key - value strings map.
  *
  * @author Shamil Vakhitov
  */
-public abstract class ParameterMap extends AbstractMap<String, String> {
+public abstract class ConfigMap extends AbstractMap<String, String> {
     private static final Log log = Log.getLog();
 
-    public static ParameterMap EMPTY = new DefaultConfigMap(Collections.emptyMap());
+    public static ConfigMap EMPTY = new SimpleConfigMap(Collections.emptyMap());
 
     private static final Pattern PATTERN_DOT = Pattern.compile("\\.");
 
-    private static final Class<?>[] CONFIG_CONSTR_ARGS_WITH_VALIDATION = new Class[] { ParameterMap.class, boolean.class };
-    private static final Class<?>[] CONFIG_CONSTR_ARGS = new Class[] { ParameterMap.class };
+    private static final Class<?>[] CONFIG_CONSTR_ARGS_WITH_VALIDATION = new Class[] { ConfigMap.class, boolean.class };
+    private static final Class<?>[] CONFIG_CONSTR_ARGS = new Class[] { ConfigMap.class };
 
     /**
      * Parsed configurations.
      */
-    protected volatile ConcurrentHashMap<Class<?>, Config> configMap;
-
-    private static class DefaultConfigMap extends ParameterMap {
-        private Map<String, String> data;
-
-        public DefaultConfigMap(Map<String, String> data) {
-            this.data = data;
-        }
-
-        @Override
-        public String get(String key, String def) {
-            final String result = data.get(key);
-            return result != null ? result : def;
-        }
-
-        @Override
-        public Set<Map.Entry<String, String>> entrySet() {
-            return data.entrySet();
-        }
-    }
-
-    /**
-     * Creates ParameterMap object from key values pairs.
-     * @param keyValues key1, value1,... String.valueOf() is applied to each argument.
-     * @return
-     */
-    public static ParameterMap of(Object... keyValues) {
-        Map<String, String> map = new HashMap<>(keyValues.length / 2);
-        for (int i = 0; i < keyValues.length - 1; i += 2)
-            map.put(String.valueOf(keyValues[i]), String.valueOf(keyValues[i + 1]));
-        return new DefaultConfigMap(map);
-    }
+    private volatile ConcurrentHashMap<Class<?>, Config> configMap;
 
     public abstract String get(String key, String def);
 
@@ -248,7 +218,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
      * @param prefixes key prefixes.
      * @return
      */
-    public ParameterMap sub(String... prefixes) {
+    public ConfigMap sub(String... prefixes) {
         Map<String, String> result = new HashMap<String, String>();
 
         for (Entry<String, String> e : entrySet()) {
@@ -261,7 +231,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
             }
         }
 
-        return new ParameterMap.DefaultConfigMap(result);
+        return new SimpleConfigMap(result);
     }
 
     /**
@@ -293,10 +263,10 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
     }
 
     /**
-     * @Use {@link ParameterMap#getDataString()}.
+     * @Use {@link ConfigMap#getDataString()}.
      */
     @Deprecated
-    public static final String getDataString(ParameterMap config) {
+    public static final String getDataString(ConfigMap config) {
         if (config != null) {
             return config.getDataString();
         }
@@ -318,8 +288,8 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
      * @return never {@code null}.
      * @see #subKeyed(String)
      */
-    public SortedMap<Integer, ParameterMap> subIndexed(final String... prefixes) {
-        SortedMap<Integer, ParameterMap> result = new TreeMap<>();
+    public SortedMap<Integer, ConfigMap> subIndexed(final String... prefixes) {
+        SortedMap<Integer, ConfigMap> result = new TreeMap<>();
         Map<Integer, Map<String, String>> resultMap = new HashMap<>();
 
         for (Entry<String, String> e : entrySet()) {
@@ -340,7 +310,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
                     Map<String, String> map = resultMap.get(id);
                     if (map == null) {
                         resultMap.put(id, map = new HashMap<String, String>());
-                        result.put(id, new ParameterMap.DefaultConfigMap(map));
+                        result.put(id, new SimpleConfigMap(map));
                     }
 
                     if (pref.length == 2) {
@@ -370,8 +340,8 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
      * @return never {@code null}.
      * @see #subIndexed(String)
      */
-    public Map<String, ParameterMap> subKeyed(final String... prefixes) {
-        Map<String, ParameterMap> result = new HashMap<>();
+    public Map<String, ConfigMap> subKeyed(final String... prefixes) {
+        Map<String, ConfigMap> result = new HashMap<>();
         Map<String, Map<String, String>> resultMap = new HashMap<>();
 
         for (Entry<String, String> e : entrySet()) {
@@ -385,7 +355,7 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
                     Map<String, String> map = resultMap.get(pref[0]);
                     if (map == null) {
                         resultMap.put(pref[0], map = new HashMap<String, String>());
-                        result.put(pref[0], new ParameterMap.DefaultConfigMap(map));
+                        result.put(pref[0], new SimpleConfigMap(map));
                     }
 
                     if (pref.length == 2) {
@@ -485,6 +455,13 @@ public abstract class ParameterMap extends AbstractMap<String, String> {
      */
     public <K extends Config> void removeConfig(Class<K> clazz) {
         configMap.remove(clazz);
+    }
+
+    /**
+     * Clears all the parsed configurations from {@link #configMap}.
+     */
+    protected void clearConfigs() {
+        configMap = null;
     }
 
     /**

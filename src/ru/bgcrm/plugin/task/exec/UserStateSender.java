@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bgerp.app.bean.annotation.Bean;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.client.NewsInfoEvent;
 import org.bgerp.util.Log;
 
@@ -19,8 +21,6 @@ import ru.bgcrm.model.param.ParameterEmailValue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.task.Plugin;
 import ru.bgcrm.util.MailMsg;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 
 /**
  * Sends to users info about their current states: unread messages, unprocessed news.
@@ -32,11 +32,11 @@ import ru.bgcrm.util.Setup;
 public class UserStateSender extends org.bgerp.app.exec.scheduler.Task {
     private static final Log log = Log.getLog();
 
-    public static class Config extends ru.bgcrm.util.Config {
+    public static class Config extends org.bgerp.app.cfg.Config {
         private final int emailParamId;
         private final String emailExpression;
 
-        public Config(ParameterMap setup) {
+        public Config(ConfigMap setup) {
             super(setup);
             String prefix = Plugin.ID + ":userStateSender.email.";
             emailParamId = setup.getInt(prefix + "paramId", -1);

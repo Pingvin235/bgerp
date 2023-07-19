@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bgerp.app.bean.annotation.Bean;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.model.base.IdTitle;
@@ -29,7 +30,6 @@ import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.plugin.fulltext.model.Config;
 import ru.bgcrm.plugin.fulltext.model.Config.ObjectType;
 import ru.bgcrm.plugin.fulltext.model.SearchItem;
-import ru.bgcrm.util.Setup;
 
 /**
  * Updates full-text indexes.

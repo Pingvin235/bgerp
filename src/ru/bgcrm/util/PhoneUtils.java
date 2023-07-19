@@ -3,6 +3,8 @@ package ru.bgcrm.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bgerp.app.cfg.Setup;
+
 import ru.bgcrm.model.param.ParameterPhoneValue;
 import ru.bgcrm.model.param.ParameterPhoneValueItem;
 

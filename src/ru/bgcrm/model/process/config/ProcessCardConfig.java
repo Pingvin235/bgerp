@@ -3,17 +3,18 @@ package ru.bgcrm.model.process.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class ProcessCardConfig extends Config {
     private List<Item> itemList = new ArrayList<Item>();
 
-    public ProcessCardConfig(ParameterMap config) throws BGException {
+    public ProcessCardConfig(ConfigMap config) throws BGException {
         super(null);
-        for (ParameterMap pm : config.subIndexed("processCard.").values()) {
+        for (ConfigMap pm : config.subIndexed("processCard.").values()) {
             itemList.add(new Item(pm));
         }
     }
@@ -31,7 +32,7 @@ public class ProcessCardConfig extends Config {
         private final String mode;
         private final List<String> componentList;
 
-        public Item(ParameterMap config) {
+        public Item(ConfigMap config) {
             this.mode = config.get("mode");
             this.componentList = Utils.toList(config.get("components"));
         }

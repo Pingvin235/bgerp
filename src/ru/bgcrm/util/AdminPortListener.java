@@ -17,6 +17,7 @@ import java.text.DecimalFormatSymbols;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.dist.inst.InstalledModule;
 import org.bgerp.app.exec.scheduler.Scheduler;
 import org.bgerp.util.Log;

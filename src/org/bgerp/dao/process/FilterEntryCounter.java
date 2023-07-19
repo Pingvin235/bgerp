@@ -8,12 +8,12 @@ import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 
 /**
  * Caching counter of quantity of DB records.

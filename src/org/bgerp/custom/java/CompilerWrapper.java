@@ -15,6 +15,7 @@ import javax.tools.JavaCompiler;
 import javax.tools.JavaCompiler.CompilationTask;
 
 import org.apache.commons.io.FileUtils;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import javax.tools.JavaFileObject;
@@ -23,7 +24,6 @@ import javax.tools.ToolProvider;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Pair;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**

@@ -3,9 +3,10 @@ package org.bgerp.plugin.pln.workload.model;
 import java.util.Collections;
 import java.util.Set;
 
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
+
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.pln.workload.Plugin;
 
 public class GroupLoadConfig extends Config {
@@ -17,7 +18,7 @@ public class GroupLoadConfig extends Config {
     private final int dateToParamId;
     private final int addressParamId;
 
-    protected GroupLoadConfig(ParameterMap config, boolean validate) {
+    protected GroupLoadConfig(ConfigMap config, boolean validate) {
         super(null, validate);
         String prefix = Plugin.ID + ":groupLoad.";
         this.userGroupIds = Collections.unmodifiableSet(Utils.toIntegerSet(config.get(prefix + "userGroupIds")));

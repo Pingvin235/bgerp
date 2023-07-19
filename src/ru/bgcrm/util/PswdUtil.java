@@ -2,11 +2,13 @@ package ru.bgcrm.util;
 
 import java.util.Random;
 
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.model.BGMessageException;
 
 /**
  * Password utilities.
- * 
+ *
  * @author Shamil Vakhitov
  */
 // TODO: Change to Config.
@@ -16,16 +18,16 @@ public class PswdUtil {
 
     private static final String DEFAULT_PSWD_CHARS = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
-    private ParameterMap setup;
+    private ConfigMap setup;
     private String prefix;
 
-    public PswdUtil(ParameterMap config, String prefix) {
+    public PswdUtil(ConfigMap config, String prefix) {
         this.setup = config;
         this.prefix = prefix;
     }
 
     public static class UserPswdUtil extends PswdUtil {
-        public UserPswdUtil(ParameterMap setup) {
+        public UserPswdUtil(ConfigMap setup) {
             super(setup, "user.");
         }
     }

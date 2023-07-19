@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ParamHelper;
@@ -32,7 +33,6 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;

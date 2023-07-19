@@ -3,11 +3,11 @@ package ru.bgcrm.plugin.document.model;
 import java.util.Set;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class Pattern extends IdTitle {
@@ -26,7 +26,7 @@ public class Pattern extends IdTitle {
     public static final int TYPE_XSLX = 6;
     public static final int TYPE_JSP_HTML = 7;
 
-    private final ParameterMap params;
+    private final ConfigMap params;
 
     private final String file;
     private String documentTitle;
@@ -47,9 +47,9 @@ public class Pattern extends IdTitle {
 
     // макросы позиций, устаревший метод
     @Deprecated
-    private ParameterMap positionMap;
+    private ConfigMap positionMap;
 
-    public Pattern(int id, ParameterMap params) throws BGException {
+    public Pattern(int id, ConfigMap params) throws BGException {
         super(id, params.get("title"));
 
         this.params = params;
@@ -105,7 +105,7 @@ public class Pattern extends IdTitle {
         }
     }
 
-    public ParameterMap getParams() {
+    public ConfigMap getParams() {
         return params;
     }
 

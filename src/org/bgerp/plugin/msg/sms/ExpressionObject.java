@@ -1,6 +1,6 @@
 package org.bgerp.plugin.msg.sms;
 
-import ru.bgcrm.util.Setup;
+import org.bgerp.app.cfg.Setup;
 
 public class ExpressionObject {
     /**

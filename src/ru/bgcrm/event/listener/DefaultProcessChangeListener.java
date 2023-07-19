@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -30,8 +32,6 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.struts.action.ProcessCommandExecutor;
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -108,10 +108,10 @@ public class DefaultProcessChangeListener {
 
         private final List<ConfigRule> ruleList = new ArrayList<ConfigRule>();
 
-        public DefaultProcessChangingListenerConfig(ParameterMap config) {
+        public DefaultProcessChangingListenerConfig(ConfigMap config) {
             super(null);
 
-            for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("onProcessEvent.").entrySet()) {
+            for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("onProcessEvent.").entrySet()) {
                 try {
                     ruleList.add(new ConfigRule(me.getValue()));
                 } catch (Exception e) {
@@ -158,7 +158,7 @@ public class DefaultProcessChangeListener {
         private final List<String> commands;
         private Rule checkRule;
 
-        public ConfigRule(ParameterMap config) {
+        public ConfigRule(ConfigMap config) {
             extractEvents(config, Utils.toList(config.get("events", "*"), ";"), eventMap);
             extractEvents(config, Utils.toList(config.get("eventsExclude", ""), ";"), eventExcludeMap);
 
@@ -174,7 +174,7 @@ public class DefaultProcessChangeListener {
             this.commands = Utils.toList(config.get("commands", ""), ";");
         }
 
-        private void extractEvents(ParameterMap config, List<String> eventList, Map<String, Object> eventMap) {
+        private void extractEvents(ConfigMap config, List<String> eventList, Map<String, Object> eventMap) {
             for (String token : eventList) {
                 if (token.startsWith(EVENT_STATUS_CHANGED)) {
                     eventMap.put(EVENT_STATUS_CHANGED, Utils.toIntegerSet(StringUtils.substringAfter(token, ":")));
@@ -342,7 +342,7 @@ public class DefaultProcessChangeListener {
         private final String checkErrorMessage;
         private final boolean showEvent;
 
-        public Rule(ParameterMap rule) throws BGException {
+        public Rule(ConfigMap rule) throws BGException {
             expression = rule.get(Expression.CHECK_EXPRESSION_CONFIG_KEY);
             checkErrorMessage = rule.get(Expression.CHECK_ERROR_MESSAGE_CONFIG_KEY);
             showEvent = rule.getBoolean("checkErrorShowEvent", false);

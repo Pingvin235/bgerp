@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.Pageable;
 import org.bgerp.plugin.bil.invoice.Config;
 import org.bgerp.plugin.bil.invoice.Plugin;
@@ -25,7 +26,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

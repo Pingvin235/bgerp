@@ -12,14 +12,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.param.Parameter;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class Config
-    extends ru.bgcrm.util.Config
+    extends org.bgerp.app.cfg.Config
 {
 	private static final Set<String> ALLOWED_CONFIRM_PARAM_TYPES = new HashSet<String>( Arrays.asList( TYPE_ADDRESS, TYPE_TEXT, TYPE_PHONE, TYPE_DATE ) );
 	private static final Set<String> ALLOWED_SEARCH_PARAM_TYPES = new HashSet<String>( Arrays.asList( TYPE_ADDRESS, TYPE_TEXT, TYPE_PHONE ) );
@@ -41,7 +42,7 @@ public class Config
 
 	// коды биллингов, импортируемые; если не указаны - импортируются все
 	public final Set<String> importBillingIds;
-	
+
 	// подтверждающие контрагента поля для первой фазы поиска
 	public final List<Parameter> confirmParameterList;
 	// поля по которым ищут контрагента, вторая фаза поиска
@@ -55,7 +56,7 @@ public class Config
 	// правила определения группы параметров контрагента из номера договора
 	private final List<ParameterGroupTitlePatternRule> paramGroupRuleList = new ArrayList<Config.ParameterGroupTitlePatternRule>();
 
-	public Config( ParameterMap setup )
+	public Config( ConfigMap setup )
 	    throws BGException
 	{
 		super( setup );
@@ -71,7 +72,7 @@ public class Config
 			}
 			phonePrefixRules.add( pair );
 		}*/
-		
+
 		importBillingIds = Utils.toSet( setup.get( prefix + "importBillingIds", "" ) );
 
 		confirmParameterList = loadFields( setup, prefix + "confirmParameters", ALLOWED_CONFIRM_PARAM_TYPES );
@@ -86,7 +87,7 @@ public class Config
 
 		final String paramGroupPrefix = prefix + "parameterGroupRule.";
 
-		for( Map.Entry<Integer, ParameterMap> me : setup.subIndexed( paramGroupPrefix ).entrySet() )
+		for( Map.Entry<Integer, ConfigMap> me : setup.subIndexed( paramGroupPrefix ).entrySet() )
 		{
 			int paramGroupId = me.getValue().getInt( "paramGroupId", 0 );
 			// -1 - по-умолчанию без шаблона
@@ -111,10 +112,10 @@ public class Config
 
 		log.info( "Loaded " + paramGroupRuleList.size() + " param group rules." );
 
-		for( Map.Entry<Integer, ParameterMap> me : setup.subIndexed( prefix + "server." ).entrySet() )
+		for( Map.Entry<Integer, ConfigMap> me : setup.subIndexed( prefix + "server." ).entrySet() )
 		{
 			int id = me.getKey();
-			ParameterMap params = me.getValue();
+			ConfigMap params = me.getValue();
 			try
 			{
 				serverCreatorList.add( new ServerCustomerCreator( this, params ) );
@@ -137,19 +138,19 @@ public class Config
 		}
 		return null;
 	}
-	
-	private List<Parameter> loadFields( ParameterMap setup, String prefix, Set<String> allowedTypes )
+
+	private List<Parameter> loadFields( ConfigMap setup, String prefix, Set<String> allowedTypes )
 	    throws BGException
 	{
 		List<Parameter> parameters = new ArrayList<Parameter>();
-		
+
 		for( int paramId : Utils.toIntegerList( setup.get( prefix ) ) )
 		{
 			if( paramId <= 0 )
 			{
 				continue;
 			}
-			
+
 			Parameter param = ParameterCache.getParameter( paramId );
 			if( param == null )
 			{
@@ -163,7 +164,7 @@ public class Config
 
 			parameters.add( param );
 		}
-		
+
 		return parameters;
 	}
 
@@ -178,7 +179,7 @@ public class Config
 		}
 		return null;
 	}
-	
+
 	public int getMaxTitleDistance( int paramId )
 	{
 		if( titleDistanceForParam.containsKey( paramId ) )

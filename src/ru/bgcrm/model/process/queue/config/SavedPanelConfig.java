@@ -3,11 +3,11 @@ package ru.bgcrm.model.process.queue.config;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 public class SavedPanelConfig extends Config {
@@ -21,7 +21,7 @@ public class SavedPanelConfig extends Config {
 
     private Integer currentSelected = 0;
 
-    public SavedPanelConfig(ParameterMap config) {
+    public SavedPanelConfig(ConfigMap config) {
         super(null);
 
         savedPanelSet = Utils.toIntegerSet(config.get(QUEUE_SAVED_PANEL_SET_PREFIX, ""));

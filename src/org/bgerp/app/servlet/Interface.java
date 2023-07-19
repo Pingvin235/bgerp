@@ -2,10 +2,10 @@ package org.bgerp.app.servlet;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.app.servlet.filter.OpenFilter;
 
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -39,7 +39,7 @@ public class Interface {
     }
 
     /**
-     * Parameter {@code url.user} from {@link ru.bgcrm.util.Setup}.
+     * Parameter {@code url.user} from {@link org.bgerp.app.cfg.Setup}.
      * @return parameter value or {@code /user}.
      */
     public static String getUrlUser() {
@@ -47,7 +47,7 @@ public class Interface {
     }
 
     /**
-     * Parameter {@code url.open} from {@link ru.bgcrm.util.Setup}.
+     * Parameter {@code url.open} from {@link org.bgerp.app.cfg.Setup}.
      * @return parameter value or {@code /open}.
      */
     public static String getUrlOpen() {

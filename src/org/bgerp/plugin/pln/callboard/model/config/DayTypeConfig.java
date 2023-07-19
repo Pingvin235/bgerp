@@ -4,18 +4,17 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.pln.callboard.model.DayType;
-
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 
 public class DayTypeConfig extends Config {
     private final Map<Integer, DayType> typeMap = new LinkedHashMap<Integer, DayType>();
 
-    public DayTypeConfig(ParameterMap config) {
+    public DayTypeConfig(ConfigMap config) {
         super(null);
 
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("callboard.workdays.type.").entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("callboard.workdays.type.").entrySet()) {
             int id = me.getKey();
             typeMap.put(id, new DayType(id, me.getValue()));
         }

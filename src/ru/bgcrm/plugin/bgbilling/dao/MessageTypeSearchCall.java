@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 
@@ -16,7 +17,6 @@ import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -26,7 +26,7 @@ public class MessageTypeSearchCall extends MessageTypeSearchBilling {
     private final List<String> commands;
     private final String phonePreprocessJexl;
 
-    public MessageTypeSearchCall(ParameterMap config) throws BGException {
+    public MessageTypeSearchCall(ConfigMap config) throws BGException {
         super(config);
 
         // contractByTextParam:<paramId>;contractByComment

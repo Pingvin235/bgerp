@@ -1,4 +1,4 @@
-package ru.bgcrm.util;
+package org.bgerp.app.cfg;
 
 import static org.junit.Assert.assertEquals;
 
@@ -81,7 +81,7 @@ public class PreferencesTest {
             }
         };
 
-        ParameterMap config = Preferences.processIncludes(configDao, data, true);
+        ConfigMap config = Preferences.processIncludes(configDao, data, true);
 
         Assert.assertEquals("val1", config.get("key1"));
         Assert.assertEquals("val1", config.get("key2"));
@@ -111,7 +111,7 @@ public class PreferencesTest {
 
     @Test
     public void testTerminatingNonPrintableChars() throws Exception {
-        ParameterMap config = new Preferences(
+        ConfigMap config = new Preferences(
                 IOUtils.toString(this.getClass().getResourceAsStream("PreferencesTest.terminating.non.printable.chars.txt"), StandardCharsets.UTF_8));
         Assert.assertEquals(4320, config.getInt("sla:close.before.minutes"));
         Assert.assertEquals(800, config.getInt("sla:color.yellow.when.left.minutes"));

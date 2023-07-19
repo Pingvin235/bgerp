@@ -11,11 +11,11 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.zip.ZipInputStream;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.ZipUtils;
 import ru.bgcrm.util.sql.SQLUtils;

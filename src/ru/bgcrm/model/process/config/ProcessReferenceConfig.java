@@ -7,22 +7,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class ProcessReferenceConfig extends Config {
     private List<ProcessReferenceConfigItem> itemList = new ArrayList<>();
 
-    public ProcessReferenceConfig(ParameterMap config) throws BGException {
+    public ProcessReferenceConfig(ConfigMap config) throws BGException {
         super(null);
 
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("processReference.").entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("processReference.").entrySet()) {
             try {
                 itemList.add(new ProcessReferenceConfigItem(me.getValue()));
             } catch (Exception e) {
@@ -52,7 +53,7 @@ public class ProcessReferenceConfig extends Config {
         private Set<String> objectTypes = Collections.emptySet();
         private String macros;
 
-        public ProcessReferenceConfigItem(ParameterMap setup) throws BGException {
+        public ProcessReferenceConfigItem(ConfigMap setup) throws BGException {
             this.objectTypes = Utils.toSet(setup.get("objectTypes"));
             this.macros = setup.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY);
 

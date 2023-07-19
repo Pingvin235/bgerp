@@ -7,13 +7,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.TimeConvert;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.plugin.task.model.Task;
-import ru.bgcrm.util.Preferences;
 
 public class TaskDAO extends CommonDAO {
 

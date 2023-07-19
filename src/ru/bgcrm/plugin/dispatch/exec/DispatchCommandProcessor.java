@@ -17,6 +17,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.bean.annotation.Bean;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.util.Log;
 
@@ -25,7 +26,6 @@ import ru.bgcrm.plugin.dispatch.model.Dispatch;
 import ru.bgcrm.plugin.dispatch.Plugin;
 import ru.bgcrm.util.MailConfig;
 import ru.bgcrm.util.MailMsg;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 

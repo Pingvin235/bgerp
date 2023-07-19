@@ -7,13 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.bgerp.app.bean.annotation.Bean;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.plugin.kernel.Plugin;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserNewsCache;
 import ru.bgcrm.dao.Tables;
-import ru.bgcrm.util.Setup;
 
 @Bean(oldClasses = "org.bgerp.scheduler.task.NewsManager")
 public class News extends Task {

@@ -3,6 +3,8 @@ package org.bgerp.exec;
 import java.util.Set;
 
 import org.bgerp.app.bean.annotation.Bean;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.plugin.kernel.Plugin;
@@ -10,8 +12,6 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 @Bean(oldClasses = "ru.bgcrm.worker.MessageExchange")
@@ -20,7 +20,7 @@ public class MessageExchange extends Task {
 
     private final Set<Integer> types;
 
-    public MessageExchange(ParameterMap config) {
+    public MessageExchange(ConfigMap config) {
         super(null);
         types = Utils.toIntegerSet(config.get("messageTypeIds"));
     }

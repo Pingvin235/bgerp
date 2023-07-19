@@ -2,18 +2,19 @@ package ru.bgcrm.plugin.bgbilling.model.process.wizard;
 
 import java.util.SortedMap;
 
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.model.process.wizard.Step;
 import ru.bgcrm.model.process.wizard.StepData;
 import ru.bgcrm.model.process.wizard.WizardData;
-import ru.bgcrm.util.ParameterMap;
 
 public class ShowContractsByAddrParamStep
     extends Step
 {
 	private final int addressParamId;
-	private final SortedMap<Integer,ParameterMap> billingConfig;
+	private final SortedMap<Integer,ConfigMap> billingConfig;
 
-	public ShowContractsByAddrParamStep( ParameterMap config )
+	public ShowContractsByAddrParamStep( ConfigMap config )
 	{
 		super( config );
 
@@ -38,7 +39,7 @@ public class ShowContractsByAddrParamStep
 		return addressParamId;
 	}
 
-	public SortedMap<Integer, ParameterMap> getBillingConfig()
+	public SortedMap<Integer, ConfigMap> getBillingConfig()
     {
     	return billingConfig;
     }

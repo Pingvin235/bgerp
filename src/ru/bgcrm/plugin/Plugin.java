@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.dist.inst.call.ExecuteSQL;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
@@ -24,7 +25,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import ru.bgcrm.struts.action.BaseAction;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
@@ -193,7 +193,7 @@ public abstract class Plugin {
      * @param defaultValue default value if not explicitly enabled: '1' - enabled, 'lic' - if presented in license.
      * @return true or false.
      */
-    public boolean isEnabled(ParameterMap config, String defaultValue) {
+    public boolean isEnabled(ConfigMap config, String defaultValue) {
         var defaultValueBool =
             "lic".equals(defaultValue) ?
             AppLicense.instance().getPlugins().contains(getId()) :

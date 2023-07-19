@@ -5,13 +5,13 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 public class ExpressionObject {

@@ -2,6 +2,7 @@ package ru.bgcrm.event.listener;
 
 import java.util.Date;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageType;
@@ -13,7 +14,6 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.MessageOpenEvent;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**

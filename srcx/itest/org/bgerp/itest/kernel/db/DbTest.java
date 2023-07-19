@@ -2,11 +2,11 @@ package org.bgerp.itest.kernel.db;
 
 import java.sql.Connection;
 
+import org.bgerp.app.cfg.SimpleConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 @Test(groups = "db")
@@ -62,7 +62,7 @@ public class DbTest {
         final var cfg =
             // if some of parameters defined as VM arguments
             Utils.notBlankString(dbUser) || Utils.notBlankString(dbPswd) ?
-            ParameterMap.of(
+            SimpleConfigMap.of(
                 dbUrlKey, "jdbc:mysql://" + System.getProperty("db.host", "localhost") + ":3306" + db,
                 dbUserKey, dbUser,
                 dbPswdKey, dbPswd

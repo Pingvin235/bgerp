@@ -6,24 +6,24 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.plugin.bil.invoice.model.InvoiceType;
 
 import javassist.NotFoundException;
-import ru.bgcrm.util.ParameterMap;
 
-public class Config extends ru.bgcrm.util.Config {
+public class Config extends org.bgerp.app.cfg.Config {
     private final Map<Integer, InvoiceType> types;
     private final Map<String, IdStringTitle> positions;
 
-    protected Config(ParameterMap config) throws Exception{
+    protected Config(ConfigMap config) throws Exception{
         super(null);
         config = config.sub(Plugin.ID + ":");
         types = loadTypes(config);
         positions = loadPositions(config);
     }
 
-    private Map<Integer, InvoiceType> loadTypes(ParameterMap config) throws Exception {
+    private Map<Integer, InvoiceType> loadTypes(ConfigMap config) throws Exception {
         var result = new TreeMap<Integer, InvoiceType>();
 
         for (var me : config.subIndexed("type.").entrySet()) {
@@ -33,7 +33,7 @@ public class Config extends ru.bgcrm.util.Config {
         return Collections.unmodifiableMap(result);
     }
 
-    private Map<String, IdStringTitle> loadPositions(ParameterMap config) throws Exception {
+    private Map<String, IdStringTitle> loadPositions(ConfigMap config) throws Exception {
         var result = new LinkedHashMap<String, IdStringTitle>();
 
         for (var me : config.subIndexed("position.").entrySet()) {

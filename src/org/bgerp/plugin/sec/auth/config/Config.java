@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.event.AuthEvent;
 import org.bgerp.plugin.sec.auth.AuthResult;
 import org.bgerp.plugin.sec.auth.Plugin;
@@ -12,21 +14,19 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.user.UserDAO;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 
-public class Config extends ru.bgcrm.util.Config {
+public class Config extends org.bgerp.app.cfg.Config {
     private static final Log log = Log.getLog();
 
     private final List<LdapAuthConfig> ldap;
 
-    protected Config(ParameterMap config, boolean validate) throws InitStopException {
+    protected Config(ConfigMap config, boolean validate) throws InitStopException {
         super(config, validate);
         this.ldap = ldap(config, validate);
         initWhen(!ldap.isEmpty());
     }
 
-    private List<LdapAuthConfig> ldap(ParameterMap config, boolean validate) {
+    private List<LdapAuthConfig> ldap(ConfigMap config, boolean validate) {
         var result = new ArrayList<LdapAuthConfig>();
         for (var me : config.subIndexed(Plugin.ID + ":ldap.").entrySet()) {
             try {

@@ -1,9 +1,8 @@
 package org.bgerp.plugin.report.model;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import ru.bgcrm.util.ParameterMap;
 
 /** Old way of reports configuration. */
 @Deprecated
@@ -23,7 +22,7 @@ public class Report {
         title = docEl.getAttribute("title");
     }
 
-    public Report(String id, ParameterMap config) {
+    public Report(String id, ConfigMap config) {
         this.id = id;
         this.daoClass = config.get("daoClass");
         this.jspFile = config.get("jspFile");
@@ -37,7 +36,7 @@ public class Report {
     public String getTitle() {
         return title;
     }
-    
+
     public String getDaoClass() {
         return daoClass;
     }

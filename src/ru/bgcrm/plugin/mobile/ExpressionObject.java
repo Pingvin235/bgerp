@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.expression.ExpressionContextAccessingObject;
@@ -12,7 +13,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.mobile.dao.MobileDAO;
 import ru.bgcrm.plugin.mobile.model.Account;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 
 public class ExpressionObject extends ExpressionContextAccessingObject {
     private static final Log log = Log.getLog();

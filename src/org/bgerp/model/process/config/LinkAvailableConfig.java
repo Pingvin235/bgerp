@@ -1,9 +1,9 @@
 package org.bgerp.model.process.config;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
 public class LinkAvailableConfig extends CommonAvailableConfig {
-    protected LinkAvailableConfig(ParameterMap config) throws InitStopException {
+    protected LinkAvailableConfig(ConfigMap config) throws InitStopException {
         super(config);
     }
 

@@ -1,17 +1,17 @@
 package ru.bgcrm.model.process.wizard;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.param.Parameter;
-import ru.bgcrm.util.ParameterMap;
 
 public class ContinueStep extends Step {
     private static final Log log = Log.getLog();
 
     private final Parameter param;
 
-    public ContinueStep(ParameterMap config) {
+    public ContinueStep(ConfigMap config) {
         super(config);
 
         int paramId = config.getInt("parameterId", 0);

@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.pln.callboard.Plugin;
@@ -26,7 +27,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 @Action(path = "/admin/plugin/callboard/work")

@@ -14,6 +14,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 
 /**
@@ -27,7 +28,7 @@ public class MailMsg {
     private String encoding;
     private MimeMessage msg;
 
-    public MailMsg(ParameterMap paramMap) {
+    public MailMsg(ConfigMap paramMap) {
         String fromAddress = paramMap.get("mail.from.email", null);
         String fromName = paramMap.get("mail.from.name", "BGERP");
 
@@ -46,7 +47,7 @@ public class MailMsg {
         }
     }
 
-    public static String getParamMailEncoding(ParameterMap paramMap) {
+    public static String getParamMailEncoding(ConfigMap paramMap) {
         return paramMap.get("mail.encoding", StandardCharsets.UTF_8.name());
     }
 

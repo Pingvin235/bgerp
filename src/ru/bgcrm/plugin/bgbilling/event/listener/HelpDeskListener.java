@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.UserCache;
@@ -32,7 +33,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk;
 import ru.bgcrm.plugin.bgbilling.proto.dao.HelpDeskDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdTopic;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 

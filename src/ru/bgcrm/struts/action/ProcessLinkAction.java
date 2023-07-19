@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.SimpleConfigMap;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.queue.filter.Filter;
@@ -32,7 +34,6 @@ import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
@@ -57,14 +58,14 @@ public class ProcessLinkAction extends ProcessAction {
             queue = queue.clone();
 
             FilterList filters = queue.getFilterList();
-            filters.add(new FilterLinkObject(0, ParameterMap.of(Filter.VALUES, String.valueOf(id)), objectType, FilterLinkObject.WHAT_FILTER_ID));
+            filters.add(new FilterLinkObject(0, SimpleConfigMap.of(Filter.VALUES, String.valueOf(id)), objectType, FilterLinkObject.WHAT_FILTER_ID));
 
             if (paramOpen != null) {
-                filters.add(new FilterOpenClose(0, ParameterMap.of(Filter.VALUES, paramOpen ? FilterOpenClose.OPEN : FilterOpenClose.CLOSE)));
+                filters.add(new FilterOpenClose(0, SimpleConfigMap.of(Filter.VALUES, paramOpen ? FilterOpenClose.OPEN : FilterOpenClose.CLOSE)));
             }
 
             if (!paramProcessTypeId.isEmpty()) {
-                filters.add(new FilterProcessType(0, ParameterMap.of(Filter.ON_EMPTY_VALUES, Utils.toString(paramProcessTypeId))));
+                filters.add(new FilterProcessType(0, SimpleConfigMap.of(Filter.ON_EMPTY_VALUES, Utils.toString(paramProcessTypeId))));
             }
 
             Pageable<Object[]> searchResult = new Pageable<Object[]>(form);
@@ -117,7 +118,7 @@ public class ProcessLinkAction extends ProcessAction {
 
         // копирование параметров
         ProcessType type = ProcessTypeCache.getProcessType(form.getParamInt("typeId", 0));
-        ParameterMap configMap = type.getProperties().getConfigMap();
+        ConfigMap configMap = type.getProperties().getConfigMap();
 
         new ParamValueDAO(con).copyParams(id, process.getId(), configMap.get("create.in.copyParams"));
 

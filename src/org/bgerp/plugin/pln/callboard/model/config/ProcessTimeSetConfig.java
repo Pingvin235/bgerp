@@ -1,13 +1,13 @@
 package org.bgerp.plugin.pln.callboard.model.config;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.plugin.pln.callboard.model.config.CallboardConfig.Callboard;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.param.Parameter;
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 
 public class ProcessTimeSetConfig extends Config {
     private static final String CONFIG_PREFIX = "callboard.timeset.";
@@ -17,7 +17,7 @@ public class ProcessTimeSetConfig extends Config {
     private final int daysShow;
     private final int changeStatusToId;
 
-    public ProcessTimeSetConfig(ParameterMap config) throws BGException {
+    public ProcessTimeSetConfig(ConfigMap config) throws BGException {
         super(null);
 
         callboard = Setup.getSetup().getConfig(CallboardConfig.class).get(config.getInt(CONFIG_PREFIX + "graphId", 0));

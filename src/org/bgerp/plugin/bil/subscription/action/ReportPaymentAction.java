@@ -17,6 +17,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.plugin.bil.subscription.Config;
 import org.bgerp.plugin.bil.subscription.Plugin;
@@ -33,7 +34,6 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.process.queue.Column;
 import org.bgerp.model.process.queue.filter.Filter;
@@ -44,7 +45,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AddressUtils;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -710,7 +710,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                     wherePart.append(" " + customerAlias + ".title LIKE '%" + customerTitle + "%' ");
                 }
             } else if ("linkedObject".equals(type)) {
-                ParameterMap configMap = f.getConfigMap();
+                ConfigMap configMap = f.getConfigMap();
                 String objectTypeMask = configMap.get("objectTypeMask");
                 String objectTitleRegExp = configMap.get("objectTitleRegExp");
                 boolean notMode = configMap.getBoolean("notMode", false);

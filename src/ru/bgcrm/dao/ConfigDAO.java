@@ -12,13 +12,13 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.Config;
 import ru.bgcrm.model.ConfigRecord;
 import ru.bgcrm.model.Page;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 public class ConfigDAO extends CommonDAO {
@@ -216,8 +216,8 @@ public class ConfigDAO extends CommonDAO {
      * @return map with key {@link Config#getId()}
      * @throws SQLException
      */
-    public Map<Integer, ParameterMap> getIncludes(int parentId) throws SQLException {
-        var result = new TreeMap<Integer, ParameterMap>();
+    public Map<Integer, ConfigMap> getIncludes(int parentId) throws SQLException {
+        var result = new TreeMap<Integer, ConfigMap>();
 
         String query = SQL_SELECT_ALL_FROM + TABLE_CONFIG_GLOBAL + SQL_WHERE + "parent_id=?";
         var ps = con.prepareStatement(query);

@@ -7,11 +7,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**

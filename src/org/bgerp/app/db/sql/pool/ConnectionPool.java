@@ -22,12 +22,12 @@ import org.apache.commons.dbcp2.PoolableConnection;
 import org.apache.commons.dbcp2.PoolableConnectionFactory;
 import org.apache.commons.dbcp2.PoolingDataSource;
 import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.db.sql.pool.fakesql.FakeConnection;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.util.AlarmErrorMessage;
 import ru.bgcrm.util.AlarmSender;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -67,7 +67,7 @@ public class ConnectionPool {
     // селектор нужной "мусорной" базы
     private TrashDatabaseSelector trashSelector;
 
-    public ConnectionPool(String name, ParameterMap prefs) {
+    public ConnectionPool(String name, ConfigMap prefs) {
         if (!name.endsWith(" ")) {
             name += " ";
         }
@@ -106,7 +106,7 @@ public class ConnectionPool {
      * @return
      * @throws Exception
      */
-    private GuardSupportedPool initConnectionPool(ParameterMap prefs, String prefix) throws Exception {
+    private GuardSupportedPool initConnectionPool(ConfigMap prefs, String prefix) throws Exception {
         final var dbURL = prefs.get(prefix + "url", null);
         log.info("url: " + dbURL);
         if (Utils.notBlankString(dbURL)) {

@@ -1,8 +1,7 @@
 package org.bgerp.plugin.bil.subscription.model;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
-
-import ru.bgcrm.util.ParameterMap;
 
 public class Subscription extends IdTitle {
     private static final int TYPE_MONTH_PREPAID = 1;
@@ -20,7 +19,7 @@ public class Subscription extends IdTitle {
     /** Waiting days. */
     private final int paymentWaitDays;
 
-    public Subscription(int id, ParameterMap config) {
+    public Subscription(int id, ConfigMap config) {
         super(id, config.get("title", "?? [" + id + "]"));
 
         processTypeId = config.getInt("process.type");

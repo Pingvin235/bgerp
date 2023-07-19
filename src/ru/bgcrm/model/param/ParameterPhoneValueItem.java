@@ -2,8 +2,9 @@ package ru.bgcrm.model.param;
 
 import java.util.List;
 
+import org.bgerp.app.cfg.Setup;
+
 import ru.bgcrm.util.PatternFormatter;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 public class ParameterPhoneValueItem {

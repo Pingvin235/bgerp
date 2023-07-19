@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 import org.reflections.Reflections;
-
-import ru.bgcrm.util.Setup;
 
 /**
  * Singleton plugin loader and storage.

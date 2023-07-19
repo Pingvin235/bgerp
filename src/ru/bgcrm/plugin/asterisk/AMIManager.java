@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageType;
@@ -11,8 +13,6 @@ import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 
 /**
  * Asterisk event listener.
@@ -55,7 +55,7 @@ public class AMIManager {
 
             MessageTypeConfig mtConfig = setup.getConfig(MessageTypeConfig.class);
 
-            for (ParameterMap config : setup.subIndexed("asterisk:amiManager.").values()) {
+            for (ConfigMap config : setup.subIndexed("asterisk:amiManager.").values()) {
                 int messageTypeId = config.getInt("messageTypeId", 0);
 
                 MessageType messageType = mtConfig.getTypeMap().get(messageTypeId);
@@ -66,7 +66,7 @@ public class AMIManager {
 
                 Class<?> listenerClass = Bean.getClass(config.get("listenerClass", "ru.bgcrm.plugin.asterisk.AmiEventListener"));
                 try {
-                    AmiEventListener listener = (AmiEventListener) listenerClass.getConstructor(MessageTypeCall.class, ParameterMap.class)
+                    AmiEventListener listener = (AmiEventListener) listenerClass.getConstructor(MessageTypeCall.class, ConfigMap.class)
                             .newInstance((MessageTypeCall) messageType, config);
                     threadList.add(listener);
                 } catch (Exception e) {

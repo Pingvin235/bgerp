@@ -1,26 +1,26 @@
 package org.bgerp.plugin.msg.email.config;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.msg.email.Plugin;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.ParameterMap;
 
-public class ProcessNotificationConfig extends ru.bgcrm.util.Config {
+public class ProcessNotificationConfig extends org.bgerp.app.cfg.Config {
     private static final Log log = Log.getLog();
 
     private final int userEmailParamId;
 
-    protected ProcessNotificationConfig(ParameterMap config) throws InitStopException {
+    protected ProcessNotificationConfig(ConfigMap config) throws InitStopException {
         super(null);
         config = config.sub(Plugin.ID + ":");
         this.userEmailParamId = parseEmailParamId(config);
         initWhen(userEmailParamId > 0);
     }
 
-    private int parseEmailParamId(ParameterMap config) {
+    private int parseEmailParamId(ConfigMap config) {
         int result = config.getInt("change.notification.user.email.param", -1);
 
         if (result == 0) {

@@ -7,6 +7,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.servlet.Interface;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
@@ -21,7 +22,6 @@ import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -32,7 +32,7 @@ public class ProcessAction extends BaseAction {
     /**
      * Configuration for open processes.
      */
-    public static class Config extends ru.bgcrm.util.Config {
+    public static class Config extends org.bgerp.app.cfg.Config {
         /**
          * Process types IDs allowed to be shown. Not {@code null} value.
          */
@@ -42,7 +42,7 @@ public class ProcessAction extends BaseAction {
         private final boolean showLinkCustomer;
         private final SecretExpression secret;
 
-        protected Config(ParameterMap config, boolean validate) throws Exception {
+        protected Config(ConfigMap config, boolean validate) throws Exception {
             super(null);
 
             processTypeIds = Utils.toIntegerSet(config.get("process.open.typeIds"));

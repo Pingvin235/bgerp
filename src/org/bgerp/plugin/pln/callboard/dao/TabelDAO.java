@@ -18,6 +18,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.plugin.pln.callboard.cache.CallboardCache;
 import org.bgerp.plugin.pln.callboard.model.DayType;
 import org.bgerp.plugin.pln.callboard.model.WorkDaysCalendar;
@@ -33,7 +34,6 @@ import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 

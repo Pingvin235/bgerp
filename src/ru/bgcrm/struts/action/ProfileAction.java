@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.Preferences;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.user.UserDAO;
@@ -12,7 +13,6 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.PswdUtil.UserPswdUtil;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

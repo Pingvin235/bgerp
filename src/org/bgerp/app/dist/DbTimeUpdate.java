@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.PreparedQuery;
 
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 
 /**

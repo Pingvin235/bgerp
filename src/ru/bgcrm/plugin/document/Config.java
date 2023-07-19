@@ -7,26 +7,27 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import ru.bgcrm.plugin.document.model.Pattern;
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
-public class Config 
-	extends ru.bgcrm.util.Config
+import ru.bgcrm.plugin.document.model.Pattern;
+
+public class Config
+	extends org.bgerp.app.cfg.Config
 {
 	private Map<String, SortedMap<Integer, Pattern>> patterns = new HashMap<String, SortedMap<Integer,Pattern>>();
-	
-	public Config( ParameterMap setup )
+
+	public Config( ConfigMap setup )
     {
 		super( setup );
-		for( Map.Entry<Integer, ParameterMap> me : setup.subIndexed( "document:pattern.", "patterndoc." ).entrySet() )
+		for( Map.Entry<Integer, ConfigMap> me : setup.subIndexed( "document:pattern.", "patterndoc." ).entrySet() )
 		{
 			int id = me.getKey();
-			ParameterMap params = me.getValue();
-			
+			ConfigMap params = me.getValue();
+
 			try
             {
 				Pattern pattern = new Pattern( id, params );
-				
+
 				SortedMap<Integer, Pattern> map = patterns.get( pattern.getScope() );
 				if( map == null )
 				{
@@ -41,11 +42,11 @@ public class Config
             }
 		}
     }
-	
+
 	public List<Pattern> getPatterns( String scope, String objectType, String objectTitle )
 	{
 		List<Pattern> result = new ArrayList<Pattern>();
-		
+
 		SortedMap<Integer, Pattern> patterns = this.patterns.get( scope );
 		if( patterns != null )
 		{
@@ -57,10 +58,10 @@ public class Config
 				}
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	public Pattern getPattern( String scope, int id )
 	{
 		SortedMap<Integer, Pattern> patterns = this.patterns.get( scope );
@@ -68,6 +69,6 @@ public class Config
 		{
 			return patterns.get( id );
 		}
-		return null;	
+		return null;
 	}
 }

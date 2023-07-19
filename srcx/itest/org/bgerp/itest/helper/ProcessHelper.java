@@ -2,6 +2,7 @@ package org.bgerp.itest.helper;
 
 import java.util.Set;
 
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.testng.Assert;
 
@@ -25,7 +26,6 @@ import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Preferences;
 
 public class ProcessHelper {
 

@@ -1,5 +1,5 @@
 <%@page import="ru.bgcrm.dao.message.config.MessageTypeConfig"%>
-<%@page import="ru.bgcrm.util.Setup"%>
+<%@page import="org.bgerp.app.cfg.Setup"%>
 <%@page import="ru.bgcrm.plugin.slack.dao.MessageTypeChannel"%>
 
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -13,12 +13,12 @@
 
 <c:if test="${not empty slackMessageType}">
 	<c:set var="id" value="${u:uiid()}"/>
-	
+
 	<c:set var="linkObjectItems" scope="request">
 		${linkObjectItems}
 		<li value="${id}">Канал Slack</li>
 	</c:set>
-	<c:set var="linkObjectForms" scope="request"> 
+	<c:set var="linkObjectForms" scope="request">
 		${linkObjectForms}
 		<form action="/user/plugin/slack/channel.do" id="${id}" style="display: none;">
 			<input type="checkbox" name="check" style="display: none;" checked="true"/>
@@ -27,4 +27,4 @@
 			<input style="width: 100%;" name="channelTitle" placeholder="Имя канала"/>
 		</form>
 	</c:set>
-</c:if>	
+</c:if>

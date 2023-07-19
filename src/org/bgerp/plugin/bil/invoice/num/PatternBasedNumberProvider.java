@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.text.DecimalFormat;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.bil.invoice.dao.InvoiceNumberDAO;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 import org.bgerp.plugin.bil.invoice.model.InvoiceType;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.PatternFormatter;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
@@ -19,7 +19,7 @@ public class PatternBasedNumberProvider extends NumberProvider {
 
     private final String pattern;
 
-    protected PatternBasedNumberProvider(ParameterMap config) {
+    protected PatternBasedNumberProvider(ConfigMap config) {
         super(null);
         pattern = config.get("pattern", "");
     }

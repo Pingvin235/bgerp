@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 
@@ -28,7 +29,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.PswdUtil.UserPswdUtil;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
@@ -217,7 +217,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
     public ActionForward userList(DynActionForm form, Connection con) throws Exception {
         Date actualDate = form.getParamDate("date", new Date());
 
-        ParameterMap perm = form.getPermission();
+        ConfigMap perm = form.getPermission();
         Set<Integer> groups = form.getSelectedValues("group");
         String allowOnlyGroups = perm.get("allowOnlyGroups", "");
         Set<Integer> permsets = form.getSelectedValues("permset");
@@ -262,7 +262,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             }
         }
 
-        ParameterMap perm = form.getPermission();
+        ConfigMap perm = form.getPermission();
 
         user.setTitle(form.getParam("title", Utils::notBlankString));
         user.setLogin(form.getParam("login", Utils::notBlankString));
@@ -338,7 +338,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
     }
 
     public ActionForward userGroupList(DynActionForm form, Connection con) throws Exception {
-        ParameterMap perm = form.getPermission();
+        ConfigMap perm = form.getPermission();
 
         String allowOnlyGroups = perm.get("allowOnlyGroups", "");
 
@@ -389,7 +389,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             throw new BGMessageException("Группа не найдена!");
         }
 
-        ParameterMap perm = form.getPermission();
+        ConfigMap perm = form.getPermission();
 
         String allowOnlyGroups = perm.get("allowOnlyGroups", "");
 
@@ -413,7 +413,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         Date dateFrom = form.getParamDate("dateFrom");
         Date dateTo = form.getParamDate("dateTo");
 
-        ParameterMap perm = form.getPermission();
+        ConfigMap perm = form.getPermission();
 
         String allowOnlyGroups = perm.get("allowOnlyGroups", "");
 
@@ -449,7 +449,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
             throw new BGException("Дата не должна быть пустой!");
         }
 
-        ParameterMap perm = form.getPermission();
+        ConfigMap perm = form.getPermission();
         String allowOnlyGroups = perm.get("allowOnlyGroups", "");
 
         if (Utils.notBlankString(allowOnlyGroups)) {

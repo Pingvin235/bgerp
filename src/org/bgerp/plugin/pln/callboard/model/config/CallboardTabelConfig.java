@@ -1,7 +1,7 @@
 package org.bgerp.plugin.pln.callboard.model.config;
 
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 
 public class CallboardTabelConfig extends Config {
     private final String templatePath;
@@ -9,7 +9,7 @@ public class CallboardTabelConfig extends Config {
     private final int paramDolznost;
     private final String orgName;
 
-    public CallboardTabelConfig(ParameterMap setup) {
+    public CallboardTabelConfig(ConfigMap setup) {
         super(null);
 
         this.templatePath = setup.get("template");

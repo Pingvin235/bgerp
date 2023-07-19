@@ -2,6 +2,7 @@ package ru.bgcrm.dao.message;
 
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -12,13 +13,12 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 // TODO: Сделать параметры с конфигурацией что искать.
 public class MessageTypeSearchEmail extends MessageTypeSearch {
-    public MessageTypeSearchEmail(ParameterMap config) throws BGException {
+    public MessageTypeSearchEmail(ConfigMap config) throws BGException {
         super(config);
     }
 

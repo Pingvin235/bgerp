@@ -2,9 +2,10 @@ package org.bgerp.plugin.bil.subscription;
 
 import java.sql.Connection;
 
+import org.bgerp.app.cfg.Setup;
+
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
-import ru.bgcrm.util.Setup;
 
 /**
  * Subscription plugin.

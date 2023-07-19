@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.event.ProcessFilesEvent;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -14,7 +15,6 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterValuePair;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**

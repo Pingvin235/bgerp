@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
 class TrashDatabaseSelector {
     private List<TableMapRow> configRowList = new ArrayList<TableMapRow>();
 
-    public TrashDatabaseSelector(ParameterMap setup) {
-        ParameterMap configRows = setup.sub("trash.table.map.");
+    public TrashDatabaseSelector(ConfigMap setup) {
+        ConfigMap configRows = setup.sub("trash.table.map.");
         for (Map.Entry<String, String> me : configRows.entrySet()) {
             String prefix = me.getKey();
             int pos = prefix.indexOf('.');

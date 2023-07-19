@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.bil.invoice.Plugin;
 import org.bgerp.plugin.bil.invoice.num.NumberProvider;
@@ -14,7 +15,6 @@ import org.bgerp.plugin.bil.invoice.num.PatternBasedNumberProvider;
 import org.bgerp.plugin.bil.invoice.pos.PositionProvider;
 import org.bgerp.util.TimeConvert;
 
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class InvoiceType extends IdTitle {
@@ -28,7 +28,7 @@ public class InvoiceType extends IdTitle {
     private final List<PositionProvider> providers;
     private final String jsp;
 
-    public InvoiceType(int id, ParameterMap config) throws Exception {
+    public InvoiceType(int id, ConfigMap config) throws Exception {
         super(id, config.get("title", "??? [" + id + "]"));
 
         this.numberProvider = loadNumberProvider(config.sub("number."));
@@ -37,14 +37,14 @@ public class InvoiceType extends IdTitle {
         this.jsp = loadJsp(config);
     }
 
-    private NumberProvider loadNumberProvider(ParameterMap config) throws Exception {
+    private NumberProvider loadNumberProvider(ConfigMap config) throws Exception {
         @SuppressWarnings("unchecked")
         var clazz = (Class<? extends NumberProvider>) Bean
                 .getClass(config.get("class", PatternBasedNumberProvider.class.getName()));
         return config.getConfig(clazz);
     }
 
-    private List<PositionProvider> loadPositionProviders(ParameterMap config) throws Exception {
+    private List<PositionProvider> loadPositionProviders(ConfigMap config) throws Exception {
         var result = new ArrayList<PositionProvider>();
 
         for (var providerConfig : config.subIndexed("provider.").values()) {
@@ -56,7 +56,7 @@ public class InvoiceType extends IdTitle {
         return Collections.unmodifiableList(result);
     }
 
-    private String loadJsp(ParameterMap config) throws Exception {
+    private String loadJsp(ConfigMap config) throws Exception {
         return config.getSok(TEMPLATE_JSP.get(config.get("template", "eu_en")), false, "template.jsp", "jsp");
     }
 

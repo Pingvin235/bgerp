@@ -1,13 +1,14 @@
 package org.bgerp.plugin.msg.sms;
 
-import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
-public class Config extends ru.bgcrm.util.Config {
+import ru.bgcrm.model.BGMessageException;
+
+public class Config extends org.bgerp.app.cfg.Config {
     // TODO: Later may be supported many senders with routing rules.
     private final Sender sender;
 
-    protected Config(ParameterMap setup) throws BGMessageException {
+    protected Config(ConfigMap setup) throws BGMessageException {
         super(setup);
         this.sender = Sender.of(setup);
     }

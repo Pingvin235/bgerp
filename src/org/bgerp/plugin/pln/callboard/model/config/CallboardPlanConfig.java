@@ -5,8 +5,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.util.TimeUtils;
 
 public class CallboardPlanConfig extends Config {
@@ -17,7 +18,7 @@ public class CallboardPlanConfig extends Config {
     // шаг времени в минутах
     private final int dayMinuteStep;
 
-    public CallboardPlanConfig(ParameterMap setup) {
+    public CallboardPlanConfig(ConfigMap setup) {
         super(null);
 
         this.dayMinuteFrom = setup.getInt("dayMinuteFrom", 0);

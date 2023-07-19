@@ -1,11 +1,12 @@
-package ru.bgcrm.util;
+package org.bgerp.app.cfg;
 
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGMessageException;
 
 /**
- * Configuration, created on demand in {@link ParameterMap#getConfig(Class)} and cached before it has changed.
+ * Configuration, created on demand in {@link ConfigMap#getConfig(Class)} and cached before it has changed.
+ *
  * @author Shamil Vakhitov
  */
 public abstract class Config {
@@ -32,7 +33,7 @@ public abstract class Config {
      * Simple constructor, without deprecated keys validation support.
      * @param config configuration, MUST be {@code null} when calling {@code super}.
      */
-    protected Config(ParameterMap config) {
+    protected Config(ConfigMap config) {
         this(config, false);
     }
 
@@ -41,7 +42,7 @@ public abstract class Config {
      * @param config configuration, MUST be {@code null} when calling {@code super}.
      * @param validate validation old configuration keys.
      */
-    protected Config(ParameterMap config, boolean validate) {
+    protected Config(ConfigMap config, boolean validate) {
         if (config != null)
             log.warn("Used not null 'config' parameter for constructor of {}", this.getClass());
     }

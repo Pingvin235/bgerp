@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.ConfigMap;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
@@ -28,7 +29,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.balance.ContractPayment;
 import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -71,7 +71,7 @@ public class ContractBalanceAction extends BaseAction {
 
     private Set<Integer> getTypePermission(DynActionForm form, String billingId, String key) {
         Set<Integer> allowedTypeIds = new HashSet<Integer>();
-        ParameterMap permission = form.getPermission();
+        ConfigMap permission = form.getPermission();
         if (permission != null) {
             String paymentTypeConfig = permission.get(key);
 

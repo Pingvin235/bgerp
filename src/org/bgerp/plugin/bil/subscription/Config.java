@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO;
 import org.bgerp.plugin.bil.subscription.model.Subscription;
@@ -26,12 +27,11 @@ import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.FileData;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class Config extends ru.bgcrm.util.Config {
+public class Config extends org.bgerp.app.cfg.Config {
     /** Map with all subscriptions. */
     private final SortedMap<Integer, Subscription> subscriptions;
 
@@ -73,7 +73,7 @@ public class Config extends ru.bgcrm.util.Config {
     /** Maximum months from the current date to Date To */
     private final int maxDateToMonths;
 
-    protected Config(ParameterMap config) {
+    protected Config(ConfigMap config) {
         super(null);
         config = config.sub(Plugin.ID + ":");
         subscriptions = loadSubscriptions(config);
@@ -101,7 +101,7 @@ public class Config extends ru.bgcrm.util.Config {
         licFileUpdateParams = Set.of(paramEmailId, paramLimitId, paramDateToId);
     }
 
-    private SortedMap<Integer, Subscription> loadSubscriptions(ParameterMap config) {
+    private SortedMap<Integer, Subscription> loadSubscriptions(ConfigMap config) {
         var result = new TreeMap<Integer, Subscription>();
 
         for (var me : config.subIndexed("subscription.").entrySet()) {

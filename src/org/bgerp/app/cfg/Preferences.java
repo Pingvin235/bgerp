@@ -1,4 +1,4 @@
-package ru.bgcrm.util;
+package org.bgerp.app.cfg;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,13 +24,14 @@ import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Config;
+import ru.bgcrm.util.Utils;
 
 /**
- * {@link ConcurrentHashMap} based implementation of {@link ParameterMap}.
+ * {@link ConcurrentHashMap} based implementation of {@link ConfigMap}.
  *
  * @author Shamil Vakhitov
  */
-public class Preferences extends ParameterMap {
+public class Preferences extends ConfigMap {
     private static final Log log = Log.getLog();
 
     private static final String INC = "inc";
@@ -47,11 +48,6 @@ public class Preferences extends ParameterMap {
         super();
     }
 
-    /*public Preferences(Preferences preferences) {
-        this.data.putAll(preferences.data);
-        this.configMap.putAll(preferences.configMap);
-    }*/
-
     public Preferences(String data) {
         super();
         try {
@@ -61,7 +57,7 @@ public class Preferences extends ParameterMap {
         }
     }
 
-    Preferences(String data, Iterable<ParameterMap> includes, boolean validate) throws BGException {
+    Preferences(String data, Iterable<ConfigMap> includes, boolean validate) throws BGException {
         super();
         loadData(data, "\r\n", this.data, includes, validate);
     }
@@ -79,7 +75,7 @@ public class Preferences extends ParameterMap {
 
     @Override
     public String put(String key, String value) {
-        configMap = null;
+        clearConfigs();
         return data.put(key, value);
     }
 
@@ -98,7 +94,7 @@ public class Preferences extends ParameterMap {
                 data.remove(key);
             }
         }
-        configMap = null;
+        clearConfigs();
     }
 
     private static final class MultilineContext {
@@ -126,14 +122,14 @@ public class Preferences extends ParameterMap {
         }
     }
 
-    protected void loadData(String conf, String delim, Map<String, String> data, Iterable<ParameterMap> includes, boolean validate) throws BGException {
+    protected void loadData(String conf, String delim, Map<String, String> data, Iterable<ConfigMap> includes, boolean validate) throws BGException {
         MultilineContext context = new MultilineContext();
         StringTokenizer st = new StringTokenizer(Utils.maskNull(conf), delim);
         while (st.hasMoreTokens())
             loadDataEntry(context, data, st.nextToken().trim(), includes, validate);
 
         if (includes != null)
-            for (ParameterMap include : includes)
+            for (ConfigMap include : includes)
                 data.putAll(include);
     }
 
@@ -146,7 +142,7 @@ public class Preferences extends ParameterMap {
      * @param validate check variables in values.
      * @throws BGException
      */
-    private void loadDataEntry(MultilineContext context, Map<String, String> data, String line, Iterable<ParameterMap> includes, boolean validate) throws BGException {
+    private void loadDataEntry(MultilineContext context, Map<String, String> data, String line, Iterable<ConfigMap> includes, boolean validate) throws BGException {
         // remove terminating non-printable chars
         line = line.replaceAll("\\p{C}+$", "");
 
@@ -197,7 +193,7 @@ public class Preferences extends ParameterMap {
     }
 
     // TODO: Used in many places and cumbersome.
-    public static String insertVariablesValues(String line, Map<String, String> data, Iterable<ParameterMap> includes, boolean validate) throws BGException {
+    public static String insertVariablesValues(String line, Map<String, String> data, Iterable<ConfigMap> includes, boolean validate) throws BGException {
         StringBuffer result = null;
 
         int pointer = 0;
@@ -230,7 +226,7 @@ public class Preferences extends ParameterMap {
             // считывание параметра с именем переменной
             String value = data.get(variable);
             if (value == null && includes != null)
-                for  (ParameterMap include : includes) {
+                for  (ConfigMap include : includes) {
                     value = include.get(variable);
                     if (value == null)
                         break;
@@ -277,8 +273,8 @@ public class Preferences extends ParameterMap {
      * @throws BGException
      * @throws SQLException
      */
-    public static ParameterMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws BGException, SQLException {
-        Iterable<ParameterMap> includes = Config.getIncludes(configDao, new Preferences(config), validate);
+    public static ConfigMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws BGException, SQLException {
+        Iterable<ConfigMap> includes = Config.getIncludes(configDao, new Preferences(config), validate);
         return new Preferences(config, includes, validate);
     }
 

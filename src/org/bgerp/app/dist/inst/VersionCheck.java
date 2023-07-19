@@ -3,9 +3,9 @@ package org.bgerp.app.dist.inst;
 import java.time.Duration;
 import java.time.Instant;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**

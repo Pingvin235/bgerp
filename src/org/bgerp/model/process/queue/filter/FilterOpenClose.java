@@ -1,6 +1,6 @@
 package org.bgerp.model.process.queue.filter;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
 public class FilterOpenClose extends Filter {
     public static final String OPEN = "open";
@@ -8,7 +8,7 @@ public class FilterOpenClose extends Filter {
 
     private String defaultValue;
 
-    public FilterOpenClose(int id, ParameterMap filter) {
+    public FilterOpenClose(int id, ConfigMap filter) {
         super(id, filter);
         defaultValue = filter.get("defaultValue", OPEN);
     }

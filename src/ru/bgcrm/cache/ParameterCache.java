@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.db.sql.TableChangeMonitor;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.tree.IdStringTitleTreeItem;
@@ -20,7 +21,6 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.ParamDAO;
 import ru.bgcrm.model.param.Parameter;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 

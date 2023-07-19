@@ -5,17 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdStringTitle;
 
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class ProcessLinkModesConfig extends Config {
     private final Map<String, String> modeMap = new HashMap<>();
     private final List<IdStringTitle> modeList = new ArrayList<>();
 
-    public ProcessLinkModesConfig(ParameterMap config) {
+    public ProcessLinkModesConfig(ConfigMap config) {
         super(null);
         for (String token : Utils.toList(config.get("processCustomerLinkRoles", "customer:Контрагент"))) {
             String[] pair = token.trim().split(":");

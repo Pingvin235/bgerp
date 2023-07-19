@@ -1,15 +1,14 @@
 package org.bgerp.plugin.pln.callboard.model;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
-
-import ru.bgcrm.util.ParameterMap;
 
 public class DayType extends IdTitle {
     private final String color;
     private final int workHours;
     private final boolean holiday;
 
-    public DayType(int id, ParameterMap config) {
+    public DayType(int id, ConfigMap config) {
         super(id, config.get("title", ""));
         this.color = config.get("color", "");
         this.workHours = config.getInt("workHours", 0);

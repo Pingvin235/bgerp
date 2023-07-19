@@ -30,6 +30,9 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.bgerp.action.LoginAction;
 import org.bgerp.action.util.Invoker;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.app.servlet.user.LoginStat;
@@ -51,10 +54,7 @@ import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.SessionLogAppender;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -146,7 +146,7 @@ public class BaseAction extends DispatchAction {
 
             // redirect to login.jsp or open interface
             if (user == null) {
-                form.setPermission(ParameterMap.EMPTY);
+                form.setPermission(ConfigMap.EMPTY);
             } else {
                 action = form.actionIdentifier(this.getClass());
                 permissionNode = permissionCheck(form, action);
@@ -234,7 +234,7 @@ public class BaseAction extends DispatchAction {
     protected PermissionNode permissionCheck(DynActionForm form, String action) throws NotFoundException, BGMessageException {
         var permissionNode = PermissionNode.getPermissionNodeOrThrow(action);
 
-        ParameterMap perm = UserCache.getPerm(form.getUserId(), action);
+        ConfigMap perm = UserCache.getPerm(form.getUserId(), action);
         if (perm == null && !permissionNode.isAllowAll())
             throw new BGMessageException("Action '{}' is denied.", permissionNode.getTitlePath());
 

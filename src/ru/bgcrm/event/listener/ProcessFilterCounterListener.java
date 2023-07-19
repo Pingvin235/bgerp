@@ -3,6 +3,7 @@ package ru.bgcrm.event.listener;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.dao.process.FilterEntryCounter;
 import org.bgerp.util.Log;
 
@@ -14,7 +15,6 @@ import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig;
 import ru.bgcrm.model.process.queue.config.SavedFiltersConfig.SavedFilterSet;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 

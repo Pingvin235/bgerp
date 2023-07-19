@@ -1,10 +1,10 @@
 package org.bgerp.exec;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exec.Runnable;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.FileDataDAO;
-import ru.bgcrm.util.Setup;
 
 /**
  * Migrates old files in 'filestorage' to sub-directories yyyy/MM/dd.

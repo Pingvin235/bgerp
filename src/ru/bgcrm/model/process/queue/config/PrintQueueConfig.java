@@ -6,19 +6,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
 
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class PrintQueueConfig extends Config {
     private LinkedHashMap<Integer, PrintType> printTypes = new LinkedHashMap<Integer, PrintType>();
 
-    public PrintQueueConfig(ParameterMap config) {
+    public PrintQueueConfig(ConfigMap config) {
         super(null);
 
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("media.print.").entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("media.print.").entrySet()) {
             PrintType type = new PrintType(me.getKey(), me.getValue());
             printTypes.put(type.getId(), type);
         }
@@ -46,7 +46,7 @@ public class PrintQueueConfig extends Config {
         private final List<String> columnIds = new ArrayList<String>();
         private final List<Integer> columnWidths = new ArrayList<Integer>();
 
-        private PrintType(int id, ParameterMap config) {
+        private PrintType(int id, ConfigMap config) {
             super(id, config.get("title"));
 
             this.type = config.get("type", TYPE_PDF);

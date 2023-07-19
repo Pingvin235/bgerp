@@ -9,12 +9,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.plugin.pln.callboard.cache.CallboardCache;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -100,8 +100,8 @@ public class WorkTypeTime {
         List<WorkTypeTime> result = new ArrayList<WorkTypeTime>();
         Preferences setup = new Preferences(config);
 
-        Map<Integer, ParameterMap> sortedMap = setup.subIndexed("rule.");
-        for (ParameterMap entry : sortedMap.values()) {
+        Map<Integer, ConfigMap> sortedMap = setup.subIndexed("rule.");
+        for (ConfigMap entry : sortedMap.values()) {
             try {
                 WorkTypeTime workTypeTime = new WorkTypeTime();
                 workTypeTime.setWorkTypeId(entry.getInt("workTypeId", 0));

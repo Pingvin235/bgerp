@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bgerp.action.TitledAction;
 import org.bgerp.action.TitledActionFactory;
 import org.bgerp.action.util.Invoker;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.exec.CorrectPermissions;
@@ -25,7 +26,6 @@ import org.w3c.dom.Element;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.action.BaseAction;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 
@@ -286,10 +286,10 @@ public class PermissionNode {
      * @param permMap map with any action as key.
      * @return
      */
-    public static Map<String, ParameterMap> primaryActions(Map<String, ParameterMap> permMap) {
-        Map<String, ParameterMap> result = new HashMap<>(permMap.size());
+    public static Map<String, ConfigMap> primaryActions(Map<String, ConfigMap> permMap) {
+        Map<String, ConfigMap> result = new HashMap<>(permMap.size());
 
-        for (Map.Entry<String, ParameterMap> perm : permMap.entrySet()) {
+        for (Map.Entry<String, ConfigMap> perm : permMap.entrySet()) {
             String action = perm.getKey();
 
             PermissionNode node = PermissionNode.getPermissionNode(action);

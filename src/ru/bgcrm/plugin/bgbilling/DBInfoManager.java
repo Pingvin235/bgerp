@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 
 public class DBInfoManager {
     private static final Log log = Log.getLog();
@@ -26,8 +26,8 @@ public class DBInfoManager {
         final String prefix = "bgbilling:server.";
         final String prefixOld = "bgbilling.";
 
-        for (Map.Entry<Integer, ParameterMap> me : setupData.subIndexed(prefix, prefixOld).entrySet()) {
-            ParameterMap params = me.getValue();
+        for (Map.Entry<Integer, ConfigMap> me : setupData.subIndexed(prefix, prefixOld).entrySet()) {
+            ConfigMap params = me.getValue();
 
             //TODO: Исторически сложилось, что биллинги обозначаются строками
             try {

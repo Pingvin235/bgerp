@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.Response;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.Setup;
 
 public class AccessLogValve extends org.apache.catalina.valves.AccessLogValve {
     private static final Log log = Log.getLog();

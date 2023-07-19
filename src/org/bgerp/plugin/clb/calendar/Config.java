@@ -6,18 +6,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.clb.calendar.model.Calendar;
 import org.bgerp.plugin.clb.calendar.model.event.EventType;
 
-import ru.bgcrm.util.ParameterMap;
-
-public class Config extends ru.bgcrm.util.Config {
+public class Config extends org.bgerp.app.cfg.Config {
     private final List<EventType> eventTypeList;
     private final Map<Integer, EventType> eventTypeMap;
     private final List<Calendar> calendarList;
     private final Map<Integer, Calendar> calendarMap;
 
-    protected Config(ParameterMap config, boolean validate) {
+    protected Config(ConfigMap config, boolean validate) {
         super(null);
 
         config = config.sub(Plugin.ID + ":");
@@ -28,7 +27,7 @@ public class Config extends ru.bgcrm.util.Config {
         this.calendarMap = calendarList.stream().collect(Collectors.toMap(Calendar::getId, c -> c));
     }
 
-    private List<EventType> loadEventTypeList(ParameterMap config) {
+    private List<EventType> loadEventTypeList(ConfigMap config) {
         var result = new ArrayList<EventType>();
 
         for (var me : config.subIndexed("event.type.").entrySet())
@@ -47,7 +46,7 @@ public class Config extends ru.bgcrm.util.Config {
         return Collections.unmodifiableList(result);
     } */
 
-    private List<Calendar> loadCalendarList(ParameterMap config) {
+    private List<Calendar> loadCalendarList(ConfigMap config) {
         var result = new ArrayList<Calendar>();
 
         for (var me : config.subIndexed("calendar.").entrySet())

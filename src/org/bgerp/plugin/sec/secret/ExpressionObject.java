@@ -2,9 +2,8 @@ package org.bgerp.plugin.sec.secret;
 
 import java.sql.SQLException;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.plugin.sec.secret.dao.SecretDAO;
-
-import ru.bgcrm.util.Setup;
 
 public class ExpressionObject {
     /**

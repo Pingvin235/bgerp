@@ -1,9 +1,9 @@
 package ru.bgcrm.model.process.wizard;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
 public class SetDescriptionStep extends Step {
-    public SetDescriptionStep(ParameterMap config) {
+    public SetDescriptionStep(ConfigMap config) {
         super(config);
     }
 

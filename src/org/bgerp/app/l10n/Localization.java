@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.google.common.annotations.VisibleForTesting;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.servlet.ServletUtils;
 import org.bgerp.app.servlet.filter.AuthFilter;
 import org.bgerp.util.Dynamic;
@@ -24,7 +25,6 @@ import org.w3c.dom.Element;
 import ru.bgcrm.plugin.Lang;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
 

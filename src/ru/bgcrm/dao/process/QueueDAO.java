@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CommonDAO;
@@ -29,7 +30,6 @@ import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.process.queue.QueueProcessStat;
 import ru.bgcrm.model.process.queue.QueueStat;
 import ru.bgcrm.model.process.queue.QueueUserStat;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 public class QueueDAO extends CommonDAO {

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.client.NewsInfoEvent;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.model.Pageable;
@@ -20,8 +22,6 @@ import ru.bgcrm.model.News;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.action.MessageAction;
 import ru.bgcrm.struts.action.NewsAction;
-import ru.bgcrm.util.Preferences;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 

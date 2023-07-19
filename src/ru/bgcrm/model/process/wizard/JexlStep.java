@@ -1,16 +1,17 @@
 package ru.bgcrm.model.process.wizard;
 
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.util.ParameterMap;
 
 public class JexlStep extends Step {
     private final String doExpression;
-    
-    public JexlStep(ParameterMap config) {
+
+    public JexlStep(ConfigMap config) {
         super(config);
         doExpression = config.get(Expression.DO_EXPRESSION_CONFIG_KEY, "");
     }
-    
+
     @Override
     public String getJspFile() {
         return "/WEB-INF/jspf/usermob/process/process/wizard/step_jexl.jsp";

@@ -4,12 +4,12 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exec.Runnable;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.user.Tables;
 import ru.bgcrm.model.user.PermissionNode;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**

@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.bgbilling.dao;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGException;
@@ -14,7 +15,6 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.DialUpDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.dialup.DialUpLogin;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -23,7 +23,7 @@ public class MessageTypeSearchContractByDialUpLogin extends MessageTypeSearchBil
 
     private int moduleId;
 
-    public MessageTypeSearchContractByDialUpLogin(ParameterMap config) throws BGException {
+    public MessageTypeSearchContractByDialUpLogin(ConfigMap config) throws BGException {
         super(config);
         this.moduleId = config.getInt("moduleId", 0);
     }

@@ -1,11 +1,11 @@
 package ru.bgcrm.model.process.wizard;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
 public class LinkCustomerStep extends Step {
     private int paramGroupId;
 
-    public LinkCustomerStep(ParameterMap config) {
+    public LinkCustomerStep(ConfigMap config) {
         super(config);
         paramGroupId = config.getInt("paramGroupId", 0);
     }
@@ -23,5 +23,5 @@ public class LinkCustomerStep extends Step {
     public int getParamGroupId() {
         return paramGroupId;
     }
-    
+
 }

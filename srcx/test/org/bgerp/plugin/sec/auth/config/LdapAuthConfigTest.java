@@ -7,31 +7,31 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 
+import org.bgerp.app.cfg.SimpleConfigMap;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javassist.NotFoundException;
-import ru.bgcrm.util.ParameterMap;
 
 public class LdapAuthConfigTest {
     @Test
     public void testAuth() throws Exception {
-        var config = ParameterMap.of(
+        var config = SimpleConfigMap.of(
             "url", "ldap://172.16.0.45:389",
             "login.expression", "login + \"@ozna\"",
             "search.base", "dc=ozna,dc=corp",
             "search.expression", "\"sAMAccountName=\" + login",
-            "group.ids.expression", 
+            "group.ids.expression",
                 "result = {};\n" +
                 "for (memberOf : attrs.values(\"memberOf\")) {\n" +
                 "    memberOfLc = memberOf.toLowerCase();\n" +
-                "    if (memberOfLc.startsWith(\"cn=vpn koronavirus ozna,ou=rdp-limit\")) {\n" + 
+                "    if (memberOfLc.startsWith(\"cn=vpn koronavirus ozna,ou=rdp-limit\")) {\n" +
                 "       result.add(10);\n" +
-                "    } else if (memberOfLc.startsWith(\"cn=пользователи vpn-озна,ou=rdp-limit\")) {\n" + 
+                "    } else if (memberOfLc.startsWith(\"cn=пользователи vpn-озна,ou=rdp-limit\")) {\n" +
                 "       result.add(12);\n" +
                 "    }\n" +
                 "}\n" +
-                "return result;" 
+                "return result;"
         );
 
         boolean[] loginOk = { false };

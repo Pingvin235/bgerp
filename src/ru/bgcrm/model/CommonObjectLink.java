@@ -1,6 +1,6 @@
 package ru.bgcrm.model;
 
-import ru.bgcrm.util.Preferences;
+import org.bgerp.app.cfg.Preferences;
 
 public class CommonObjectLink {
     // object, having the link

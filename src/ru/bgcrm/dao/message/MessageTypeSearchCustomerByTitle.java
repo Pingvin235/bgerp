@@ -2,6 +2,7 @@ package ru.bgcrm.dao.message;
 
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.dao.CustomerDAO;
@@ -10,11 +11,10 @@ import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class MessageTypeSearchCustomerByTitle extends MessageTypeSearch {
-    public MessageTypeSearchCustomerByTitle(ParameterMap config) throws BGException {
+    public MessageTypeSearchCustomerByTitle(ConfigMap config) throws BGException {
         super(config);
     }
 

@@ -1,9 +1,10 @@
 package org.bgerp.plugin.telegram;
 
-import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
-public class Config extends ru.bgcrm.util.Config {
+import ru.bgcrm.model.BGMessageException;
+
+public class Config extends org.bgerp.app.cfg.Config {
 
     private final String token;
     private final String userName;
@@ -21,7 +22,7 @@ public class Config extends ru.bgcrm.util.Config {
     private final String proxyPort;
     private final String proxyType;
 
-    protected Config(ParameterMap config, boolean validate) throws BGMessageException {
+    protected Config(ConfigMap config, boolean validate) throws BGMessageException {
         super(null, validate);
 
         config = config.sub(Plugin.ID + ":");

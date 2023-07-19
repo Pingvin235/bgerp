@@ -9,19 +9,19 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.pln.blow.Plugin;
 
 import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.ParameterMap;
 
-public class BoardsConfig extends ru.bgcrm.util.Config {
+public class BoardsConfig extends org.bgerp.app.cfg.Config {
     private SortedMap<Integer, BoardConfig> boardMap = new TreeMap<>();
 
-    protected BoardsConfig(ParameterMap config, boolean validate) {
+    protected BoardsConfig(ConfigMap config, boolean validate) {
         super(null, validate);
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed(Plugin.ID + ":board.").entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed(Plugin.ID + ":board.").entrySet()) {
             BoardConfig b = new BoardConfig(me.getKey(), me.getValue());
             boardMap.put(b.getId(), b);
         }

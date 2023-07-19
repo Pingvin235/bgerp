@@ -3,10 +3,11 @@ package org.bgerp.plugin.msg.email.config;
 import java.util.Collections;
 import java.util.Set;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.util.Utils;
 
-public class RecipientsConfig extends ru.bgcrm.util.Config {
+public class RecipientsConfig extends org.bgerp.app.cfg.Config {
     /** Process parameters. */
     public static final String AREA_PROCESS = "process";
     /** All not disabled users. */
@@ -18,7 +19,7 @@ public class RecipientsConfig extends ru.bgcrm.util.Config {
 
     private final Set<String> areas;
 
-    protected RecipientsConfig(ParameterMap config) {
+    protected RecipientsConfig(ConfigMap config) {
         super(null);
         areas = Collections.unmodifiableSet(Utils.toSet(config.get("email:recipients.search.area",
                 AREA_PROCESS + "," + AREA_EXECUTORS + "," + AREA_PROCESS_CUSTOMERS)));

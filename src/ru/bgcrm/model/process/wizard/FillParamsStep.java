@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.param.Parameter;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class FillParamsStep extends Step {
@@ -17,7 +17,7 @@ public class FillParamsStep extends Step {
     private final String type;
     private final Set<Integer> checkParamIds;
 
-    public FillParamsStep(ParameterMap config) {
+    public FillParamsStep(ConfigMap config) {
         super(config);
         type = config.get("object");
         checkParamIds = Utils.toIntegerSet(config.get("checkParamIds", ""));

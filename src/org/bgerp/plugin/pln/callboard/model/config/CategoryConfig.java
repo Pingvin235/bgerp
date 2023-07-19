@@ -6,20 +6,20 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
 
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class CategoryConfig extends Config {
     private List<Category> list = new ArrayList<Category>();
 
-    public CategoryConfig(ParameterMap config) {
+    public CategoryConfig(ConfigMap config) {
         super(null);
 
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("callboard.worktype.category.").entrySet()) {
-            ParameterMap params = me.getValue();
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("callboard.worktype.category.").entrySet()) {
+            ConfigMap params = me.getValue();
             list.add(new Category(me.getKey(), params.get("title", ""), params.getBoolean("public", false)));
         }
     }

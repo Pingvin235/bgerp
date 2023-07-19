@@ -5,21 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.report.Plugin;
-import ru.bgcrm.util.ParameterMap;
 
 /**
  * Old way of reports configuration.
  */
 @Deprecated
-public class Config extends ru.bgcrm.util.Config {
+public class Config extends org.bgerp.app.cfg.Config {
     private final List<Report> reportList = new ArrayList<>();
     /** Key - report ID. */
     private final Map<String, Report> reportMap = new HashMap<>();
-    
-    protected Config(ParameterMap config) {
+
+    protected Config(ConfigMap config) {
         super(null);
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed(Plugin.ID + ":report.").entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed(Plugin.ID + ":report.").entrySet()) {
             Report report = new Report(me.getKey().toString(), me.getValue());
             reportList.add(report);
             reportMap.put(report.getId(), report);

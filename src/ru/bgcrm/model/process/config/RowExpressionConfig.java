@@ -3,18 +3,19 @@ package ru.bgcrm.model.process.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class RowExpressionConfig extends Config {
     private Map<String, Expressions> mediaExpressions = new HashMap<String, Expressions>();
 
-    public RowExpressionConfig(ParameterMap config) {
+    public RowExpressionConfig(ConfigMap config) {
         super(null);
 
-        for (ParameterMap conf : config.subIndexed("rowConfig.").values()) {
+        for (ConfigMap conf : config.subIndexed("rowConfig.").values()) {
             String media = conf.get("media");
             Expressions expressions = new Expressions(conf.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "Head"),
                     conf.get(Expression.STRING_MAKE_EXPRESSION_CONFIG_KEY + "Row"));

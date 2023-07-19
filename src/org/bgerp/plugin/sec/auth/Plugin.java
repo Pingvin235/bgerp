@@ -2,11 +2,11 @@ package org.bgerp.plugin.sec.auth;
 
 import java.sql.Connection;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.event.AuthEvent;
 import org.bgerp.plugin.sec.auth.config.Config;
 
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.util.Setup;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     public static final String ID = "auth";

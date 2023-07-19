@@ -6,12 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.expression.ParamValueFunction;
 import ru.bgcrm.model.process.wizard.Step;
 import ru.bgcrm.servlet.filter.SetRequestParamsFilter;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class Wizard {
@@ -25,8 +26,8 @@ public class Wizard {
     private String expression;
 
     public Wizard(TypeProperties props) {
-        ParameterMap configMap = props.getConfigMap();
-        ParameterMap wizardConf = configMap.sub("createWizard.");
+        ConfigMap configMap = props.getConfigMap();
+        ConfigMap wizardConf = configMap.sub("createWizard.");
 
         // TODO: Оставлена возможность указания выражения в параметре конфигурации expression,
         // убрать в далёком будущем 19.09.2014
@@ -36,9 +37,9 @@ public class Wizard {
         loadSteps(wizardConf, "step.", stepList);
     }
 
-    protected void loadSteps(ParameterMap wizardConf, String prefix, List<Step> stepList) {
-        for (Map.Entry<Integer, ParameterMap> me : wizardConf.subIndexed(prefix).entrySet()) {
-            ParameterMap config = me.getValue();
+    protected void loadSteps(ConfigMap wizardConf, String prefix, List<Step> stepList) {
+        for (Map.Entry<Integer, ConfigMap> me : wizardConf.subIndexed(prefix).entrySet()) {
+            ConfigMap config = me.getValue();
 
             String className = config.get("class");
 

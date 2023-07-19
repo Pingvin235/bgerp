@@ -34,6 +34,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.util.Log;
 import org.json.JSONObject;
@@ -59,8 +61,6 @@ import ru.bgcrm.model.user.UserAccount;
 import ru.bgcrm.plugin.bgbilling.proto.dao.PluginDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.BGServerFile;
 import ru.bgcrm.struts.action.BaseAction;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
@@ -185,7 +185,7 @@ public class TransferData {
     }
 
     public static final UserAccount getUserAccount(String billingId, User user) {
-        ParameterMap configMap = user.getConfigMap();
+        ConfigMap configMap = user.getConfigMap();
         return new UserAccount.Default(
                 configMap.get("bgbilling:login." + billingId, configMap.get("bgbilling:login", user.getLogin())),
                 configMap.get("bgbilling:password." + billingId,

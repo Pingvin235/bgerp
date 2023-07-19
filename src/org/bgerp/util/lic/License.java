@@ -14,6 +14,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bgerp.action.admin.LicenseAction;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.client.LicenseEvent;
 import org.bgerp.model.Message;
 import org.bgerp.app.servlet.user.LoginStat;
@@ -23,9 +26,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
@@ -58,7 +58,7 @@ public class License {
 
     private final LocalDate created = LocalDate.now();
     private final String data;
-    private final ParameterMap config;
+    private final ConfigMap config;
     /** Session limit, 0 - no limit. */
     private final int limit;
     private final Date dateTo;

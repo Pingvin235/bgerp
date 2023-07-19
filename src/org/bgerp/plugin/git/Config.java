@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.l10n.Localization;
 
 import ru.bgcrm.cache.UserCache;
@@ -12,11 +13,10 @@ import ru.bgcrm.event.ParamChangingEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class Config extends ru.bgcrm.util.Config {
+public class Config extends org.bgerp.app.cfg.Config {
     /** Branch and commit name prefix. */
     private final String prefix;
     /** Main branch name. */
@@ -28,7 +28,7 @@ public class Config extends ru.bgcrm.util.Config {
     /** Restricted process status IDs when branch values is set. */
     private final Set<Integer> statusWithBranchIds;
 
-    protected Config(ParameterMap config) throws InitStopException {
+    protected Config(ConfigMap config) throws InitStopException {
         super(null);
         config = config.sub(Plugin.ID + ":");
         paramBranchId = config.getInt("param.branch");

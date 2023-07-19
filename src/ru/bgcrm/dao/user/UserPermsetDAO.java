@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.user.Permset;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 public class UserPermsetDAO extends UserDAO {
@@ -157,7 +157,7 @@ public class UserPermsetDAO extends UserDAO {
         }
     }
 
-    public Map<Integer, Map<String, ParameterMap>> getAllPermsets() throws BGException {
+    public Map<Integer, Map<String, ConfigMap>> getAllPermsets() throws BGException {
         return getAllPermissions(Tables.TABLE_PERMSET_PERMISSION, "permset_id");
     }
 
@@ -165,14 +165,14 @@ public class UserPermsetDAO extends UserDAO {
         updatePermissions(action, config, TABLE_PERMSET_PERMISSION, "permset_id", permsetId);
     }
 
-    public Map<String, ParameterMap> getPermissions(int permsetId) throws BGException {
+    public Map<String, ConfigMap> getPermissions(int permsetId) throws BGException {
         try {
             String query = "SELECT * FROM " + TABLE_PERMSET_PERMISSION + " WHERE permset_id=?";
 
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, permsetId);
 
-            Map<String, ParameterMap> perms = new HashMap<String, ParameterMap>();
+            Map<String, ConfigMap> perms = new HashMap<String, ConfigMap>();
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

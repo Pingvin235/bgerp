@@ -1,9 +1,9 @@
 package org.bgerp.plugin.bil.invoice.pos;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
@@ -12,7 +12,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
  * @author Shamil Vakhitov
  */
 public abstract class PositionProvider extends Config {
-    protected PositionProvider(ParameterMap config) {
+    protected PositionProvider(ConfigMap config) {
         super(config);
     }
 

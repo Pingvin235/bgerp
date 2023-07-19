@@ -9,6 +9,10 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
@@ -17,10 +21,6 @@ import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -42,17 +42,17 @@ public class MessageTypeConfig extends Config {
         }
     };
 
-    public MessageTypeConfig(ParameterMap config) {
+    public MessageTypeConfig(ConfigMap config) {
         super(null);
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("messageType.").entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("messageType.").entrySet()) {
             int id = me.getKey();
-            ParameterMap pm = me.getValue();
+            ConfigMap pm = me.getValue();
 
             try {
                 @SuppressWarnings("unchecked")
                 Class<? extends MessageType> typeClass = (Class<? extends MessageType>) Bean.getClass(pm.get("class"));
 
-                MessageType type = typeClass.getConstructor(Setup.class, int.class, ParameterMap.class).newInstance(Setup.getSetup(), id, pm);
+                MessageType type = typeClass.getConstructor(Setup.class, int.class, ConfigMap.class).newInstance(Setup.getSetup(), id, pm);
 
                 type.setId(id);
 

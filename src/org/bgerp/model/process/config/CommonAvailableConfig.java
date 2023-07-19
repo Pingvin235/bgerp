@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.util.Utils;
 
-public abstract class CommonAvailableConfig extends ru.bgcrm.util.Config {
+public abstract class CommonAvailableConfig extends org.bgerp.app.cfg.Config {
     public static class Rule {
         /** For which process link types is the rule valid. Empty or {@code null} - for all types. */
         public Set<String> linkTypes;
@@ -19,7 +20,7 @@ public abstract class CommonAvailableConfig extends ru.bgcrm.util.Config {
         /** Process status IDs filter. Empty or {@code null} - unused. */
         public final Set<Integer> statusIds;
 
-        private Rule(ParameterMap config) {
+        private Rule(ConfigMap config) {
             this(Collections.unmodifiableSet(Utils.toSet(config.get("relation.link.types"))),
                 Collections.unmodifiableSet(Utils.toIntegerSet(config.get("filter.process.types"))),
                 Utils.parseBoolean(config.get("filter.process.open"), null),
@@ -36,7 +37,7 @@ public abstract class CommonAvailableConfig extends ru.bgcrm.util.Config {
 
     private final List<Rule> rules;
 
-    protected CommonAvailableConfig(ParameterMap config) throws InitStopException {
+    protected CommonAvailableConfig(ConfigMap config) throws InitStopException {
         super(null);
         rules = config.subKeyed(prefix() + ".available.").values().stream()
             .map(cfg -> new Rule(cfg))

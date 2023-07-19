@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.iface.IdTitle;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
@@ -19,8 +20,6 @@ import com.cronutils.model.CronType;
 import com.cronutils.model.definition.CronDefinitionBuilder;
 import com.cronutils.model.time.ExecutionTime;
 import com.cronutils.parser.CronParser;
-
-import ru.bgcrm.util.ParameterMap;
 
 /**
  * Scheduler task run configuration.
@@ -32,7 +31,7 @@ public class TaskConfig implements IdTitle {
     private static Set<Class<?>> runningClasses = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     private final String id;
-    private final ParameterMap config;
+    private final ConfigMap config;
 
     private final Class<? extends Task> clazz;
     private final String title;
@@ -50,7 +49,7 @@ public class TaskConfig implements IdTitle {
     private Duration lastRunDuration;
 
     @SuppressWarnings("unchecked")
-    TaskConfig(String id, ParameterMap config) throws Exception {
+    TaskConfig(String id, ConfigMap config) throws Exception {
         this.id = id;
         this.config = config;
 
@@ -121,7 +120,7 @@ public class TaskConfig implements IdTitle {
 
     Task taskInstance() throws Exception {
         try {
-            return clazz.getDeclaredConstructor(ParameterMap.class).newInstance(config);
+            return clazz.getDeclaredConstructor(ConfigMap.class).newInstance(config);
         } catch (NoSuchMethodException e) {
             // no constructor with ParameterMap was found
         } catch (Exception e) {

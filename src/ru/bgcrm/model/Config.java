@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.plugin.Plugin;
 import ru.bgcrm.plugin.PluginManager;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 public class Config implements LastModifySupport {
@@ -35,7 +35,7 @@ public class Config implements LastModifySupport {
     /** List of included configurations. */
     private List<Config> includedList;
     /** Parsed key-value pairs. */
-    private ParameterMap valueMap = new Preferences();
+    private ConfigMap valueMap = new Preferences();
     private LastModify lastModify = new LastModify();
 
     public int getId() {
@@ -122,7 +122,7 @@ public class Config implements LastModifySupport {
         return includedList;
     }
 
-    public ParameterMap getValueMap() {
+    public ConfigMap getValueMap() {
         return valueMap;
     }
 
@@ -157,8 +157,8 @@ public class Config implements LastModifySupport {
      * @throws BGMessageException validation
      * @throws SQLException
      */
-    public static Iterable<ParameterMap> getIncludes(ConfigDAO configDao, ParameterMap data, boolean validate) throws BGMessageException, SQLException {
-        List<ParameterMap> result = new ArrayList<>();
+    public static Iterable<ConfigMap> getIncludes(ConfigDAO configDao, ConfigMap data, boolean validate) throws BGMessageException, SQLException {
+        List<ConfigMap> result = new ArrayList<>();
 
         for (Map.Entry<String, String> me : data.sub(Config.INCLUDE_PREFIX).entrySet()) {
             int configId = Utils.parseInt(me.getKey());

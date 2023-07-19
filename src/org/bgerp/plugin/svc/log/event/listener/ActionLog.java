@@ -4,11 +4,11 @@ import java.sql.SQLException;
 
 import org.bgerp.plugin.svc.log.dao.ActionLogDAO;
 import org.bgerp.plugin.svc.log.model.ActionLogEntry;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.servlet.user.event.ActionRequestEvent;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.util.Setup;
 
 /**
  * Action log listener.

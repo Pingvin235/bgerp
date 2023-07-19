@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.base.IdTitle;
 
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -27,10 +27,10 @@ public class SavedFiltersConfig extends Config {
     public static final String QUEUE_CURRENT_SAVED_FILTER_SET_PREFIX = "queueCurrentSavedFilterSet.";
     private static final String QUEUE_SAVED_FILTER_SET_ORDER = "queueSavedFilterSetOrder.";
 
-    public SavedFiltersConfig(ParameterMap config) {
+    public SavedFiltersConfig(ConfigMap config) {
         super(null);
 
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed(QUEUE_SAVED_FILTER_SET_PREFIX).entrySet()) {
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed(QUEUE_SAVED_FILTER_SET_PREFIX).entrySet()) {
             int id = me.getKey();
 
             SavedFilterSet set = new SavedFilterSet(id, me.getValue());
@@ -163,7 +163,7 @@ public class SavedFiltersConfig extends Config {
         private String color = "";
         private String queueName = "";
 
-        private SavedFilterSet(int id, ParameterMap config) {
+        private SavedFilterSet(int id, ConfigMap config) {
             this.id = id;
             this.queueId = config.getInt("queueId", 0);
             this.queueName = config.get("queueName") == null ? "" : config.get("queueName");

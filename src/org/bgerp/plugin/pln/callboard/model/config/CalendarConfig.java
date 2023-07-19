@@ -5,21 +5,20 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.pln.callboard.model.WorkDaysCalendar;
 import org.bgerp.plugin.pln.callboard.model.WorkDaysCalendarRule;
-
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 
 public class CalendarConfig extends Config {
     private final Map<Integer, WorkDaysCalendar> calendarMap = new LinkedHashMap<Integer, WorkDaysCalendar>();
 
-    public CalendarConfig(ParameterMap config) {
+    public CalendarConfig(ConfigMap config) {
         super(null);
 
-        for (Entry<Integer, ParameterMap> me : config.subIndexed("callboard.workdays.calendar.").entrySet()) {
+        for (Entry<Integer, ConfigMap> me : config.subIndexed("callboard.workdays.calendar.").entrySet()) {
             int id = me.getKey();
-            ParameterMap pm = me.getValue();
+            ConfigMap pm = me.getValue();
 
             calendarMap.put(id, new WorkDaysCalendar(id, pm.get("title", ""), pm.get("comment", ""),
                     WorkDaysCalendarRule.createFromString(pm.get("rule", ""))));

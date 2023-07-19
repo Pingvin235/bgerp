@@ -7,25 +7,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
+
 import javassist.NotFoundException;
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 
 public class TasksConfig extends Config {
     /** Configured to run tasks. */
     private final List<TaskConfig> taskConfigs;
 
-    protected TasksConfig(ParameterMap config) {
+    protected TasksConfig(ConfigMap config) {
         super(null);
         taskConfigs = loadTaskConfigs(config);
     }
 
-    private List<TaskConfig> loadTaskConfigs(ParameterMap config) {
+    private List<TaskConfig> loadTaskConfigs(ConfigMap config) {
         var result = new ArrayList<TaskConfig>();
 
         log.info("Loading tasks config.");
 
-        for (Map.Entry<String, ParameterMap> me : config.subKeyed("scheduler.task.").entrySet()) {
+        for (Map.Entry<String, ConfigMap> me : config.subKeyed("scheduler.task.").entrySet()) {
             String taskId = me.getKey();
             try {
                 result.add(new TaskConfig(taskId, me.getValue()));

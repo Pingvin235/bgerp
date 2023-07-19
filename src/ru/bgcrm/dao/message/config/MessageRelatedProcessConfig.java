@@ -6,25 +6,25 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.model.param.Parameter;
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 
 public class MessageRelatedProcessConfig extends Config {
     private static final Log log = Log.getLog();
 
     private final SortedMap<Integer, Type> types;
 
-    protected MessageRelatedProcessConfig(ParameterMap config) throws InitStopException {
+    protected MessageRelatedProcessConfig(ConfigMap config) throws InitStopException {
         super(null);
         types = parseTypes(config);
         initWhen(!types.isEmpty());
     }
 
-    private SortedMap<Integer, Type> parseTypes(ParameterMap config) throws InitStopException {
+    private SortedMap<Integer, Type> parseTypes(ConfigMap config) throws InitStopException {
         var result = new TreeMap<Integer, Type>();
 
         for (var me : config.subIndexed("message.related.process.").entrySet()) {

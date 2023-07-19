@@ -2,6 +2,7 @@ package ru.bgcrm.plugin.bgbilling.dao;
 
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.BGException;
@@ -10,14 +11,13 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class MessageTypeSearchEmail extends MessageTypeSearchBilling {
     private final Set<Integer> paramIds;
 
-    public MessageTypeSearchEmail(ParameterMap config) throws BGException {
+    public MessageTypeSearchEmail(ConfigMap config) throws BGException {
         super(config);
         paramIds = Utils.toIntegerSet(config.get("paramIds"));
     }

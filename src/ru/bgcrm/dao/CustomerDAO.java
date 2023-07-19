@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
@@ -37,7 +38,6 @@ import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.struts.form.Response;
 import ru.bgcrm.util.PatternFormatter;
 import ru.bgcrm.util.PatternFormatter.PatternItemProcessor;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 public class CustomerDAO extends CommonDAO {

@@ -6,6 +6,7 @@ import javax.mail.Session;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.BGIllegalArgumentException;
@@ -18,7 +19,6 @@ import ru.bgcrm.plugin.dispatch.model.Dispatch;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 
 @Action(path = "/open/plugin/dispatch/dispatch")
 public class DispatchAction extends BaseAction {

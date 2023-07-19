@@ -6,6 +6,7 @@ import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS;
 
 import java.sql.Connection;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exec.Runnable;
 import org.bgerp.util.Log;
 
@@ -14,7 +15,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.plugin.fulltext.model.Config;
-import ru.bgcrm.util.Setup;
 
 /**
  * Fulltext init for doing indexing of tables.

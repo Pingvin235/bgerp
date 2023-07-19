@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.SimpleConfigMap;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
@@ -23,7 +24,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.model.user.UserGroup;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 
 @Test(groups = "processIsolation", dependsOnGroups = "process")
 public class ProcessIsolationTest {
@@ -68,7 +68,7 @@ public class ProcessIsolationTest {
 
     @Test(dependsOnMethods = "user")
     public void testIsolationExecutor() throws Exception {
-        userIsolated.setConfig(ParameterMap.of("isolation.process", "executor").getDataString());
+        userIsolated.setConfig(SimpleConfigMap.of("isolation.process", "executor").getDataString());
 
         var dao = new ProcessDAO(DbTest.conRoot, new DynActionForm(userIsolated));
 
@@ -81,7 +81,7 @@ public class ProcessIsolationTest {
 
     @Test(dependsOnMethods = "user")
     public void testIsolationGroups() throws Exception {
-        userIsolated.setConfig(ParameterMap.of("isolation.process", "group").getDataString());
+        userIsolated.setConfig(SimpleConfigMap.of("isolation.process", "group").getDataString());
 
         var dao = new ProcessDAO(DbTest.conRoot, new DynActionForm(userIsolated));
 
@@ -95,7 +95,7 @@ public class ProcessIsolationTest {
         Assert.assertNotNull(dao.getProcess(p.getId()));
         Assert.assertNull(dao.getProcess(ps.getId()));
 
-        userIsolated.setConfig(ParameterMap.of("isolation.process", "group", "isolation.process.group.executor.typeIds",
+        userIsolated.setConfig(SimpleConfigMap.of("isolation.process", "group", "isolation.process.group.executor.typeIds",
                 processTypeSpecialId + ", 0").getDataString());
         Assert.assertNotNull(dao.getProcess(p.getId()));
         Assert.assertNull(dao.getProcess(ps.getId()));
@@ -115,7 +115,7 @@ public class ProcessIsolationTest {
     public void testCreateProcessTypes() throws Exception {
         userIsolated.setGroupIds(Set.of(userGroupId));
 
-        userIsolated.setConfig(ParameterMap.of("isolation.process", "group").getDataString());
+        userIsolated.setConfig(SimpleConfigMap.of("isolation.process", "group").getDataString());
         var typeList = ProcessTypeCache.getTypeList(
                 Set.of(ProcessTest.processTypeTestGroupId, processTypeId, processTypeSpecialId, processType1Id, processType11Id, processType2Id));
         ProcessAction.applyProcessTypePermission(typeList, new DynActionForm(userIsolated));

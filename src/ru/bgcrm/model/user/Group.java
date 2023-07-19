@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.model.base.iface.TitleWithPath;
 import org.bgerp.util.Dynamic;
@@ -12,8 +14,6 @@ import org.bgerp.util.Dynamic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 
 public class Group extends IdTitle implements TitleWithPath, Cloneable {
     private int archive;
@@ -21,7 +21,7 @@ public class Group extends IdTitle implements TitleWithPath, Cloneable {
     private int childCount;
     private String comment;
     private String config;
-    private ParameterMap configMap = new Preferences();
+    private ConfigMap configMap = new Preferences();
     private Set<Integer> queueIds = new HashSet<Integer>();
     private List<Integer> permsetIds = new ArrayList<Integer>();
 
@@ -34,7 +34,7 @@ public class Group extends IdTitle implements TitleWithPath, Cloneable {
         this.configMap = new Preferences(config);
     }
 
-    public ParameterMap getConfigMap() {
+    public ConfigMap getConfigMap() {
         return configMap;
     }
 

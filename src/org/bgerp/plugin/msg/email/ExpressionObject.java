@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -18,7 +19,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.MailMsg;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
 public class ExpressionObject extends ExpressionContextAccessingObject {

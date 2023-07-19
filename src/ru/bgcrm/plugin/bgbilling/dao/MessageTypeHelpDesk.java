@@ -16,6 +16,8 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.commons.io.IOUtils;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.dao.process.ProcessLinkSearchDAO;
 import org.bgerp.model.Pageable;
@@ -53,8 +55,6 @@ import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;
 import ru.bgcrm.struts.action.LinkAction;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
@@ -88,7 +88,7 @@ public class MessageTypeHelpDesk extends MessageType {
     // количество выбираемых тем
     private final int pageSize;
 
-    public MessageTypeHelpDesk(Setup setup, int id, ParameterMap config) throws BGException {
+    public MessageTypeHelpDesk(Setup setup, int id, ConfigMap config) throws BGException {
         super(setup, id, config.get("title"), config);
         this.billingId = config.get("billingId");
         this.topicId = config.getInt("topicId");

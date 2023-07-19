@@ -1,11 +1,12 @@
 package ru.bgcrm.model.process;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.util.Utils;
 
 /**
  * Properties of process' status change.
- * 
+ *
  * @author Shamil Vakhitova
  */
 public class TransactionProperties {
@@ -20,7 +21,7 @@ public class TransactionProperties {
         this.enable = enabled;
     }
 
-    public TransactionProperties(ParameterMap data, String prefix) {
+    public TransactionProperties(ConfigMap data, String prefix) {
         this.enable = data.getBoolean(prefix + "enable", true);
     }
 

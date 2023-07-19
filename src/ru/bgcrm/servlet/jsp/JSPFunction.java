@@ -12,12 +12,12 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -261,7 +261,7 @@ public class JSPFunction {
     }
 
     @Deprecated
-    public static Object getConfig(ParameterMap setup, String className) {
+    public static Object getConfig(ConfigMap setup, String className) {
         log.warn("Used deprecated call u:getConfig, should be replaced to paramMapBean.getConfig");
         return setup == null ? null : setup.getConfig(className);
     }

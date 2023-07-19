@@ -1,8 +1,9 @@
 package org.bgerp.model.process.config;
 
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.model.BGException;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class LinkProcessCreateConfigItem {
@@ -15,7 +16,7 @@ public class LinkProcessCreateConfigItem {
     private final String copyParamsMapping;
     private final String copyLinks;
 
-    public LinkProcessCreateConfigItem(int id, ParameterMap setup) throws BGException {
+    public LinkProcessCreateConfigItem(int id, ConfigMap setup) throws BGException {
         this.id = id;
         this.title = setup.get("title", "");
         this.processTypeId = setup.getInt("processTypeId", -1);

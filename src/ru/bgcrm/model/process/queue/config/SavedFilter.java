@@ -1,8 +1,7 @@
 package ru.bgcrm.model.process.queue.config;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
-
-import ru.bgcrm.util.ParameterMap;
 
 /**
  * Фильтр очереди, доступный другим пользователям.
@@ -11,7 +10,7 @@ public class SavedFilter extends IdTitle {
     private final int queueId;
     private final String url;
 
-    public SavedFilter(int id, ParameterMap config) {
+    public SavedFilter(int id, ConfigMap config) {
         this.id = id;
         this.queueId = config.getInt("queueId", 0);
         this.title = config.get("title");

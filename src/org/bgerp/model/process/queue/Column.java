@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.event.process.queue.QueueColumnEvent;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
@@ -33,7 +34,6 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 
@@ -41,7 +41,7 @@ import ru.bgcrm.util.sql.SQLUtils;
 public class Column {
     private static final Log log = Log.getLog();
 
-    public static Column of(String id, ParameterMap config) throws Exception {
+    public static Column of(String id, ConfigMap config) throws Exception {
         Column result = new Column(id, config);
 
         var event = new QueueColumnEvent(result);
@@ -53,9 +53,9 @@ public class Column {
     }
 
     private final String id;
-    private final ParameterMap config;
+    private final ConfigMap config;
 
-    protected Column(String id, ParameterMap config) {
+    protected Column(String id, ConfigMap config) {
         this.id = id;
         this.config = config;
     }

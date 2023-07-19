@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
@@ -14,8 +16,6 @@ import org.bgerp.util.Log;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ru.bgcrm.cache.UserCache;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.PswdUtil;
 import ru.bgcrm.util.Utils;
 
@@ -62,7 +62,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     private Set<Integer> queueIds = new HashSet<>();
 
     private String config = "";
-    private ParameterMap configMap = new Preferences();
+    private ConfigMap configMap = new Preferences();
 
     private String personalization = "";
     private Preferences personalizationMap = new Preferences();
@@ -162,7 +162,7 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
     }
 
     @JsonIgnore
-    public ParameterMap getConfigMap() {
+    public ConfigMap getConfigMap() {
         return configMap;
     }
 

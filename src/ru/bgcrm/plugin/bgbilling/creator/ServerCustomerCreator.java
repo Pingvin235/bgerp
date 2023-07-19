@@ -16,6 +16,7 @@ import java.util.SortedMap;
 import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 import org.bgerp.util.sql.LikePattern;
@@ -49,7 +50,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AddressUtils;
 import ru.bgcrm.util.LevenshteinDistance;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.XMLUtils;
@@ -89,7 +89,7 @@ public class ServerCustomerCreator {
         private List<Integer> billingListValues = Collections.emptyList();
     }
 
-    public ServerCustomerCreator(Config config, ParameterMap params) throws BGException {
+    public ServerCustomerCreator(Config config, ConfigMap params) throws BGException {
         this.config = config;
 
         billingId = params.get("billingId");

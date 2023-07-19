@@ -2,12 +2,12 @@ package org.bgerp.plugin.bil.invoice.pos;
 
 import java.util.Map;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**
@@ -18,7 +18,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class ExpressionPositionProvider extends PositionProvider {
     private final String expression;
 
-    protected ExpressionPositionProvider(ParameterMap config) {
+    protected ExpressionPositionProvider(ConfigMap config) {
         super(null);
         expression = config.get("expression", "");
     }

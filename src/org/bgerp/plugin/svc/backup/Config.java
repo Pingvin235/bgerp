@@ -6,12 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.servlet.file.Files;
 import org.bgerp.util.Dynamic;
 
-import ru.bgcrm.util.ParameterMap;
-
-public class Config extends ru.bgcrm.util.Config {
+public class Config extends org.bgerp.app.cfg.Config {
     /**
      * More than that amount of backup files will became cleanup candidate.
      */
@@ -21,7 +20,7 @@ public class Config extends ru.bgcrm.util.Config {
      */
     private final int cleanupCandidateDbCountMoreThan;
 
-    protected Config(ParameterMap config) {
+    protected Config(ConfigMap config) {
         super(null);
         config = config.sub(Plugin.ID + ":");
         cleanupCandidateCountMoreThan = config.getInt("cleanup.candidate.count.more.than", 3);

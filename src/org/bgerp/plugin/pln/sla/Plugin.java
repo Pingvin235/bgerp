@@ -2,6 +2,7 @@ package org.bgerp.plugin.pln.sla;
 
 import java.sql.Connection;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.event.process.queue.QueueColumnEvent;
 import org.bgerp.plugin.pln.sla.config.Config;
 import org.bgerp.plugin.pln.sla.config.ProcessTypeConfig;
@@ -10,7 +11,6 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessChangedEvent;
-import ru.bgcrm.util.Setup;
 
 public class Plugin extends ru.bgcrm.plugin.Plugin {
     private static final Log log = Log.getLog();

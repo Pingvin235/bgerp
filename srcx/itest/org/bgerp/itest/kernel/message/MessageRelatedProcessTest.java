@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.CustomerHelper;
 import org.bgerp.itest.helper.MessageHelper;
@@ -37,7 +38,6 @@ import ru.bgcrm.model.param.address.AddressItem;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessLink;
 import ru.bgcrm.model.process.TypeProperties;
-import ru.bgcrm.util.Setup;
 
 @Test(groups = "messageRelatedProcess", dependsOnGroups = { "message", "customer", "process", "address" })
 public class MessageRelatedProcessTest {

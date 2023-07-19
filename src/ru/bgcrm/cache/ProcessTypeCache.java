@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
@@ -18,9 +21,6 @@ import ru.bgcrm.event.SetupChangedEvent;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.process.TypeTreeItem;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -101,7 +101,7 @@ public class ProcessTypeCache extends Cache<ProcessTypeCache> {
         }
 
         private boolean check(ProcessType type) throws Exception {
-            ParameterMap configMap = type.getProperties().getConfigMap();
+            ConfigMap configMap = type.getProperties().getConfigMap();
             Set<String> createInObjectTypes = Utils.toSet(configMap.get("create.in.objectTypes", "*"));
             if (!createInObjectTypes.contains(objectType) && !createInObjectTypes.contains("*")) {
                 return false;

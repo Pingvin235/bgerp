@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.UserCache;
@@ -34,7 +35,6 @@ import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
 import ru.bgcrm.model.user.Group;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 

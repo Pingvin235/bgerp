@@ -1,9 +1,10 @@
 package ru.bgcrm.plugin.task;
 
+import org.bgerp.app.cfg.Setup;
+
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.plugin.task.dao.TaskDAO;
 import ru.bgcrm.plugin.task.model.Task;
-import ru.bgcrm.util.Setup;
 
 public class ExpressionObject {
 

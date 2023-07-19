@@ -16,6 +16,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.config.IsolationConfig;
 import org.bgerp.model.config.IsolationConfig.IsolationProcess;
@@ -62,7 +63,6 @@ import ru.bgcrm.model.user.Group;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.PatternFormatter;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
@@ -622,7 +622,7 @@ public class ProcessAction extends BaseAction {
     public static void processExecutorsUpdate(DynActionForm form, Connection con, Process process, Set<ProcessGroup> processGroups,
             Set<ProcessExecutor> processExecutors) throws Exception {
         ProcessDAO processDao = new ProcessDAO(con, form);
-        ParameterMap perm = form.getPermission();
+        ConfigMap perm = form.getPermission();
 
         // различные проверки
         Set<Integer> allowOnlyGroupIds = Utils.toIntegerSet(perm.get("allowOnlyGroups"));
@@ -696,8 +696,8 @@ public class ProcessAction extends BaseAction {
         Set<Integer> executorIds = process.getExecutorIds();
 
         ProcessType processType = ProcessTypeCache.getProcessType(process.getTypeId());
-        for (Map.Entry<Integer, ParameterMap> entry : processType.getProperties().getConfigMap().subIndexed("executorRestriction.").entrySet()) {
-            ParameterMap paramMap = entry.getValue();
+        for (Map.Entry<Integer, ConfigMap> entry : processType.getProperties().getConfigMap().subIndexed("executorRestriction.").entrySet()) {
+            ConfigMap paramMap = entry.getValue();
             int groupId = paramMap.getInt("groupId", 0);
             int maxCount = paramMap.getInt("maxCount", 0);
 

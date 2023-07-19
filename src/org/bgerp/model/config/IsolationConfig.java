@@ -1,9 +1,9 @@
 package org.bgerp.model.config;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.cfg.ConfigMap;
 
 import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -11,10 +11,10 @@ import ru.bgcrm.util.Utils;
  *
  * @author Shamil Vakhitov
  */
-public class IsolationConfig extends ru.bgcrm.util.Config {
+public class IsolationConfig extends org.bgerp.app.cfg.Config {
     private final IsolationProcess isolationProcess;
 
-    protected IsolationConfig(ParameterMap config) throws BGMessageException {
+    protected IsolationConfig(ConfigMap config) throws BGMessageException {
         super(null);
         isolationProcess = loadProcessIsolation(config);
     }
@@ -23,7 +23,7 @@ public class IsolationConfig extends ru.bgcrm.util.Config {
         return isolationProcess;
     }
 
-    private IsolationProcess loadProcessIsolation(ParameterMap config) throws BGMessageException {
+    private IsolationProcess loadProcessIsolation(ConfigMap config) throws BGMessageException {
         var isolation = config.get("isolation.process");
         if ("executor".equals(isolation))
             return IsolationProcess.EXECUTOR;

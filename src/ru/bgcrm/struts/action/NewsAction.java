@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.UserCache;
@@ -18,8 +20,6 @@ import ru.bgcrm.model.News;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Preferences;
 import ru.bgcrm.util.Utils;
 
 @Action(path = "/user/news")
@@ -57,7 +57,7 @@ public class NewsAction extends BaseAction {
 
         Set<Integer> groups = form.getSelectedValues("group");
 
-        ParameterMap perm = form.getPermission();
+        ConfigMap perm = form.getPermission();
 
         Set<Integer> allowedGroups = Utils.toIntegerSet(perm.get("allowedGroupIds", ""));
 

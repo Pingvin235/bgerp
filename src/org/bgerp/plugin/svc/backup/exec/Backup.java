@@ -1,12 +1,11 @@
 package org.bgerp.plugin.svc.backup.exec;
 
 import org.bgerp.app.bean.annotation.Bean;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.dist.Scripts;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.plugin.svc.backup.Plugin;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.util.ParameterMap;
 
 @Bean
 public class Backup extends Task {
@@ -14,7 +13,7 @@ public class Backup extends Task {
 
     private final boolean db;
 
-    public Backup(ParameterMap config) {
+    public Backup(ConfigMap config) {
         super(null);
         this.db = config.getBoolean("db", false);
     }

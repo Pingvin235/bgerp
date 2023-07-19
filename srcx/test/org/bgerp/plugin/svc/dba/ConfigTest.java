@@ -3,11 +3,10 @@ package org.bgerp.plugin.svc.dba;
 import java.time.YearMonth;
 import java.util.List;
 
+import org.bgerp.app.cfg.SimpleConfigMap;
 import org.bgerp.plugin.svc.dba.model.TableStatus;
 import org.junit.Assert;
 import org.junit.Test;
-
-import ru.bgcrm.util.ParameterMap;
 
 public class ConfigTest {
     @Test
@@ -30,7 +29,7 @@ public class ConfigTest {
         var tables = List.of(table1, table2, table3, table4, table5);
 
         // default configuration, 12 months
-        ParameterMap.of().getConfig(Config.class).dropCandidates(tables, YearMonth.parse("2022-04"));
+        SimpleConfigMap.of().getConfig(Config.class).dropCandidates(tables, YearMonth.parse("2022-04"));
         Assert.assertTrue(table1.isDropCandidate());
         Assert.assertFalse(table2.isDropCandidate());
         Assert.assertFalse(table3.isDropCandidate());
@@ -38,7 +37,7 @@ public class ConfigTest {
         Assert.assertTrue(table5.isDropCandidate());
 
         // 1 month
-        ParameterMap.of(Plugin.ID + ":cleanup.month.tables.older.than.months", 1).getConfig(Config.class).dropCandidates(tables, YearMonth.parse("2022-04"));
+        SimpleConfigMap.of(Plugin.ID + ":cleanup.month.tables.older.than.months", 1).getConfig(Config.class).dropCandidates(tables, YearMonth.parse("2022-04"));
         Assert.assertTrue(table1.isDropCandidate());
         Assert.assertFalse(table2.isDropCandidate());
         Assert.assertFalse(table3.isDropCandidate());

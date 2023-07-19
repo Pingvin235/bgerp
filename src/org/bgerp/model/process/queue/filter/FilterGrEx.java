@@ -1,13 +1,13 @@
 package org.bgerp.model.process.queue.filter;
 
-import ru.bgcrm.util.ParameterMap;
+import org.bgerp.app.cfg.ConfigMap;
 
 public class FilterGrEx extends Filter {
     private int roleId;
     private Filter groupsFilter;
     private Filter executorsFilter;
 
-    public FilterGrEx(int id, ParameterMap filter) {
+    public FilterGrEx(int id, ConfigMap filter) {
         super(id, filter);
 
         this.roleId = filter.getInt("roleId", 0);

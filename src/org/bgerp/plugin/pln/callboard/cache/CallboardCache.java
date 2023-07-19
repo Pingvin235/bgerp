@@ -3,13 +3,13 @@ package org.bgerp.plugin.pln.callboard.cache;
 import java.sql.Connection;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.plugin.pln.callboard.dao.WorkTypeDAO;
 import org.bgerp.plugin.pln.callboard.model.WorkType;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.Cache;
 import ru.bgcrm.cache.CacheHolder;
-import ru.bgcrm.util.Setup;
 
 public class CallboardCache extends Cache<CallboardCache> {
     private static Log log = Log.getLog();

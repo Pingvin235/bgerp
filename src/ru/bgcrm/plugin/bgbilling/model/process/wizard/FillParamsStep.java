@@ -2,17 +2,18 @@ package ru.bgcrm.plugin.bgbilling.model.process.wizard;
 
 import java.util.List;
 
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.model.process.wizard.Step;
 import ru.bgcrm.model.process.wizard.StepData;
 import ru.bgcrm.model.process.wizard.WizardData;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class FillParamsStep extends Step {
 	private final List<Integer> parameterIds;
 	private final List<Integer> checkParamIds;
 
-	public FillParamsStep(ParameterMap config) {
+	public FillParamsStep(ConfigMap config) {
 		super(config);
 		parameterIds = Utils.toIntegerList(config.get("parameterIds", ""));
 		checkParamIds = Utils.toIntegerList(config.get("checkParamIds", ""));

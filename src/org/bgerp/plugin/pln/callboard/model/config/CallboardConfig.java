@@ -9,21 +9,21 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.model.user.Group;
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 
 public class CallboardConfig extends Config {
     private final Map<Integer, Callboard> itemMap = new LinkedHashMap<Integer, Callboard>();
 
-    public CallboardConfig(ParameterMap config) {
+    public CallboardConfig(ConfigMap config) {
         super(null);
 
-        for (Entry<Integer, ParameterMap> entry : config.subIndexed("callboard.").entrySet()) {
+        for (Entry<Integer, ConfigMap> entry : config.subIndexed("callboard.").entrySet()) {
             itemMap.put(entry.getKey(), new Callboard(entry.getKey(), entry.getValue()));
         }
     }
@@ -47,7 +47,7 @@ public class CallboardConfig extends Config {
     }
 
     public static final class Callboard extends IdTitle {
-        private final ParameterMap configMap;
+        private final ConfigMap configMap;
         private final int groupId;
         private final int calendarId;
         private Boolean hideEmptyGroups = false;
@@ -55,7 +55,7 @@ public class CallboardConfig extends Config {
         private final CallboardTabelConfig tabelConfig;
         private final CallboardPlanConfig planConfig;
 
-        public Callboard(int id, ParameterMap config) {
+        public Callboard(int id, ConfigMap config) {
             super(id, config.get("title"));
 
             this.configMap = config;
@@ -84,7 +84,7 @@ public class CallboardConfig extends Config {
             return calendarId;
         }
 
-        public ParameterMap getConfigMap() {
+        public ConfigMap getConfigMap() {
             return configMap;
         }
 

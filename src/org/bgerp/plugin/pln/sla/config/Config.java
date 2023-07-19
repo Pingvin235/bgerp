@@ -1,14 +1,13 @@
 package org.bgerp.plugin.pln.sla.config;
 
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.plugin.pln.sla.Plugin;
 
-import ru.bgcrm.util.ParameterMap;
-
-public class Config extends ru.bgcrm.util.Config {
+public class Config extends org.bgerp.app.cfg.Config {
     private final int paramCloseBeforeId;
     private final int paramUpdateBeforeId;
 
-    protected Config(ParameterMap config) throws InitStopException {
+    protected Config(ConfigMap config) throws InitStopException {
         super(null);
         config = config.sub(Plugin.ID + ":");
         paramCloseBeforeId = config.getInt("param.close.before");

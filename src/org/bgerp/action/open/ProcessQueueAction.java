@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
 
@@ -17,7 +18,6 @@ import ru.bgcrm.model.process.queue.Queue;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -28,10 +28,10 @@ public class ProcessQueueAction extends BaseAction {
     /**
      * Configuration for open process queues.
      */
-    public static class Config extends ru.bgcrm.util.Config {
+    public static class Config extends org.bgerp.app.cfg.Config {
         private final Map<String, Queue> openQueues;
 
-        protected Config(ParameterMap setup) throws Exception {
+        protected Config(ConfigMap setup) throws Exception {
             super(setup);
             this.openQueues = loadOpenQueues();
         }

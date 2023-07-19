@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bgerp.app.cfg.Config;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Dynamic;
-
-import ru.bgcrm.util.Config;
-import ru.bgcrm.util.ParameterMap;
 
 /**
  * Message tags config.
@@ -21,9 +20,9 @@ public class TagConfig extends Config{
     private final List<Tag> tagList = new ArrayList<>(10);
     private final Map<Integer, Tag> tagMap;
 
-    public TagConfig(ParameterMap config) {
+    public TagConfig(ConfigMap config) {
         super(null);
-        for (Map.Entry<Integer, ParameterMap> me : config.subIndexed("tag.").entrySet())
+        for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("tag.").entrySet())
             tagList.add(new Tag(me.getKey(), me.getValue()));
         tagMap = tagList.stream().collect(Collectors.toMap(Tag::getId, t -> t));
     }
@@ -66,7 +65,7 @@ public class TagConfig extends Config{
             this.color = color;
         }
 
-        private Tag(int id, ParameterMap params) {
+        private Tag(int id, ConfigMap params) {
             super(id, params.get("title", "???"));
             this.color = params.get("color", "ff0000");
         }

@@ -2,20 +2,21 @@ package ru.bgcrm.plugin.bgbilling.model.process.wizard;
 
 import java.util.Map;
 
+import org.bgerp.app.cfg.ConfigMap;
+
 import ru.bgcrm.model.process.wizard.Step;
 import ru.bgcrm.model.process.wizard.StepData;
 import ru.bgcrm.model.process.wizard.WizardData;
 import ru.bgcrm.plugin.bgbilling.ContractTypesConfig;
 import ru.bgcrm.plugin.bgbilling.model.ContractType;
-import ru.bgcrm.util.ParameterMap;
 
-public class CreateContractsStep  
+public class CreateContractsStep
 	extends Step
 {
 	private final ContractTypesConfig typesConfig;
 	private final boolean showContractTitle;
 
-	public CreateContractsStep( ParameterMap config )
+	public CreateContractsStep( ConfigMap config )
     {
 	    super( config );
 	    typesConfig = new ContractTypesConfig( config, "contractType." );
@@ -33,7 +34,7 @@ public class CreateContractsStep
     {
 	    return new CreateContractsStepData( this, data );
     }
-	
+
 	public Map<Integer, ContractType> getTypeMap()
 	{
 		return typesConfig.getTypeMap();

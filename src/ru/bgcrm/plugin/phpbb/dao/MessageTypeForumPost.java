@@ -3,6 +3,8 @@ package ru.bgcrm.plugin.phpbb.dao;
 import java.sql.Connection;
 import java.util.Date;
 
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.util.Log;
 
@@ -24,8 +26,6 @@ import ru.bgcrm.plugin.phpbb.Plugin;
 import ru.bgcrm.plugin.phpbb.model.Forum;
 import ru.bgcrm.plugin.phpbb.model.Topic;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
@@ -42,7 +42,7 @@ public class MessageTypeForumPost extends MessageType {
     private final String topicMarkClosed;
     private final Forum forum;
 
-    public MessageTypeForumPost(Setup setup, int id, ParameterMap config) throws BGException {
+    public MessageTypeForumPost(Setup setup, int id, ConfigMap config) throws BGException {
         super(setup, id, config.get("title"), config);
 
         userNameParam = ParameterCache.getParameter(config.getInt("userNameParamId", 0));

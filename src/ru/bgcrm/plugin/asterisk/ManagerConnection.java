@@ -5,16 +5,15 @@ import java.io.IOException;
 import org.asteriskjava.AsteriskVersion;
 import org.asteriskjava.manager.TimeoutException;
 import org.asteriskjava.manager.internal.ManagerConnectionImpl;
+import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.util.Log;
-
-import ru.bgcrm.util.ParameterMap;
 
 public class ManagerConnection extends ManagerConnectionImpl {
     private static final Log log = Log.getLog();
 
     private final AsteriskVersion version;
 
-    public ManagerConnection(ParameterMap config) {
+    public ManagerConnection(ConfigMap config) {
         super();
 
         String host = config.get("host");

@@ -6,13 +6,15 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 
+import org.bgerp.app.cfg.ConfigMap;
+
 /**
  * E-Mail configuration. Provides IMAP and SMTP sessions.
  *
  * @author Shamil Vakhitov
  */
 public class MailConfig {
-    private final ParameterMap configMap;
+    private final ConfigMap configMap;
     private final String host;
     private final String email;
     private final String from;
@@ -21,7 +23,7 @@ public class MailConfig {
     private final String login;
     private final String pswd;
 
-    public MailConfig(ParameterMap config) {
+    public MailConfig(ConfigMap config) {
         configMap = config;
         host = config.get("host");
         email = config.get("email");
@@ -86,7 +88,7 @@ public class MailConfig {
         return store;
     }
 
-    public Session getSmtpSession(ParameterMap defaultParamMap) {
+    public Session getSmtpSession(ConfigMap defaultParamMap) {
         Session session = null;
 
         String user = getOptionFromConfigs(configMap, defaultParamMap, "mail.smtp.user", null);
@@ -126,7 +128,7 @@ public class MailConfig {
         return session;
     }
 
-    private static final String getOptionFromConfigs(ParameterMap paramMap, ParameterMap defaultParamMap, String paramName, String defaultValue) {
+    private static final String getOptionFromConfigs(ConfigMap paramMap, ConfigMap defaultParamMap, String paramName, String defaultValue) {
         return paramMap.get(paramName, defaultParamMap != null ? defaultParamMap.get(paramName, defaultValue) : defaultValue);
     }
 

@@ -29,6 +29,8 @@ import org.apache.commons.beanutils.DynaClass;
 import org.apache.commons.beanutils.DynaProperty;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
+import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.ServletUtils;
@@ -42,8 +44,6 @@ import ru.bgcrm.model.user.User;
 import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.servlet.AccessLogValve;
 import ru.bgcrm.struts.action.BaseAction;
-import ru.bgcrm.util.ParameterMap;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -90,7 +90,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private User user;
     /** Action identifier, semicolon separated class and method names. */
     private String actionIdentifier = "???";
-    private ParameterMap permission;
+    private ConfigMap permission;
     private Page page = new Page();
     private FormFile file;
 
@@ -140,7 +140,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     public DynActionForm(User user) {
         this.user = user;
-        this.permission = ParameterMap.EMPTY;
+        this.permission = ConfigMap.EMPTY;
         // for tests
         if (PluginManager.getInstance() != null)
             this.l = Localization.getLocalizer();
@@ -246,11 +246,11 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         return user != null ? user.getId() : -1;
     }
 
-    public ParameterMap getPermission() {
+    public ConfigMap getPermission() {
         return permission;
     }
 
-    public void setPermission(ParameterMap permission) {
+    public void setPermission(ConfigMap permission) {
         this.permission = permission;
     }
 

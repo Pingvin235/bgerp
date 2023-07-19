@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bgerp.app.cfg.Setup;
+
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.BGException;
@@ -18,7 +20,6 @@ import ru.bgcrm.plugin.slack.dao.MessageTypeChannel;
 import ru.bgcrm.plugin.slack.dao.SlackProto;
 import ru.bgcrm.struts.action.LinkAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SQLUtils;
 

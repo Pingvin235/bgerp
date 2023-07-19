@@ -28,6 +28,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.apache.tomcat.util.IntrospectionUtils;
 import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
 import org.bgerp.app.bean.Bean;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.exec.scheduler.Scheduler;
 import org.bgerp.custom.Custom;
 import org.bgerp.util.Log;
@@ -36,7 +37,6 @@ import ru.bgcrm.plugin.PluginManager;
 import ru.bgcrm.servlet.AccessLogValve;
 import ru.bgcrm.util.AdminPortListener;
 import ru.bgcrm.util.AlarmSender;
-import ru.bgcrm.util.Setup;
 import ru.bgcrm.util.Utils;
 
 /**
