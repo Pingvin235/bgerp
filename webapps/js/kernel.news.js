@@ -76,5 +76,5 @@ $$.news = new function () {
 		$messagesLink.html(messagesCount);
 	}
 
-	addEventProcessor('org.bgerp.app.event.client.NewsInfoEvent', processNewsEvent);
+	addEventProcessor('org.bgerp.event.client.NewsInfoEvent', processNewsEvent);
 }

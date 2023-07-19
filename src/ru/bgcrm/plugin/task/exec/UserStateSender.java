@@ -7,7 +7,7 @@ import java.util.Map;
 import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.app.event.client.NewsInfoEvent;
+import org.bgerp.event.client.NewsInfoEvent;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;

@@ -9,8 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.app.event.client.NewsInfoEvent;
 import org.bgerp.app.l10n.Localization;
+import org.bgerp.event.client.NewsInfoEvent;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
 

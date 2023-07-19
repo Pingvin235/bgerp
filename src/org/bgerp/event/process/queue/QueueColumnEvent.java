@@ -1,4 +1,4 @@
-package org.bgerp.app.event.process.queue;
+package org.bgerp.event.process.queue;
 
 import org.bgerp.model.process.queue.Column;
 

@@ -1,4 +1,4 @@
-package org.bgerp.app.event.client;
+package org.bgerp.event.client;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -2,7 +2,7 @@ package ru.bgcrm.event.listener;
 
 import org.bgerp.action.admin.AppAction;
 import org.bgerp.app.dist.inst.VersionCheck;
-import org.bgerp.app.event.client.NewsInfoEvent;
+import org.bgerp.event.client.NewsInfoEvent;
 
 import ru.bgcrm.cache.UserNewsCache;
 import ru.bgcrm.event.EventProcessor;

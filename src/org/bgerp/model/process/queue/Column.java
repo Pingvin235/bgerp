@@ -17,7 +17,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.event.process.queue.QueueColumnEvent;
+import org.bgerp.event.process.queue.QueueColumnEvent;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 

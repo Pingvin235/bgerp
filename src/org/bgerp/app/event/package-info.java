@@ -1,5 +1,4 @@
 /**
- * Events are used for kernel to plugins interaction.
+ * Event processing logic.
  */
 package org.bgerp.app.event;
-

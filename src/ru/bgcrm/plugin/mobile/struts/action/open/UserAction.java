@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.event.client.NewsInfoEvent;
+import org.bgerp.event.client.NewsInfoEvent;
 import org.bgerp.dao.process.FilterEntryCounter;
 
 import ru.bgcrm.cache.ProcessQueueCache;
