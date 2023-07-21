@@ -11,16 +11,16 @@
 		<div class="mt05">
 			<c:choose>
 				<c:when test="${message.incoming}">
-					${l.l('Создано')}: ${tu.format(message.fromTime, 'ymdhm')}
+					Создано: ${tu.format(message.fromTime, 'ymdhm')}
 					<c:if test="${not empty message.toTime}">
-						&nbsp;${l.l('Прочитано')}: ${tu.format(message.toTime, 'ymdhm')}
+						&nbsp;Прочитано: ${tu.format(message.toTime, 'ymdhm')}
 						(<ui:user-link id="${message.userId}"/>)
 					</c:if>
 				</c:when>
 				<c:otherwise>
-					${l.l('Создано')}: ${tu.format(message.fromTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
+					Создано: ${tu.format(message.fromTime, 'ymdhm')} (<ui:user-link id="${message.userId}"/>)
 					<c:if test="${not empty message.toTime}">
-						&nbsp;${l.l('Прочитано')}: ${tu.format(message.toTime, 'ymdhm')}
+						&nbsp;Прочитано: ${tu.format(message.toTime, 'ymdhm')}
 					</c:if>
 				</c:otherwise>
 			</c:choose>
@@ -35,7 +35,7 @@
 			</c:url>
 
 			<button class="btn-white" type="button"
-				onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent()) })">${l.l('Прочитано')}</button>
+				onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${form.requestUrl}', $('#${editorContainerUiid}').parent()) })">Прочитано</button>
 		</div>
 	</c:if>
 </c:if>

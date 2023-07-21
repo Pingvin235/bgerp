@@ -56,8 +56,8 @@
 				<tr>
 					<td width="30">ID</td>
 					<td>Договор</td>
-					<td>${l.l('Логин')}</td>
-					<td>${l.l('Алиас(ы)')}</td>
+					<td>Логин</td>
+					<td>Алиас(ы)</td>
 				</tr>
 				<c:forEach var="login" items="${result}">
 					<tr>

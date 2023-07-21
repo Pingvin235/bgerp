@@ -59,11 +59,11 @@
 
 			<table style="width: 100%;" class="mb1">
 				<tr>
-					<td>${l.l('Улица')}: </td>
+					<td>Улица: </td>
 					<td width="70%">
 						<html:text property="street" value="${streetTitle}" style="width: 100%"/>
 					</td>
-					<td nowrap="nowrap">${l.l('Дом')}:</td>
+					<td nowrap="nowrap">Дом:</td>
 					<td width="30%">
 						<html:text property="house" value="${houseTitle}" style="width: 100%"/>
 					</td>
@@ -193,7 +193,7 @@
 	<c:if test="${empty hideButtons}">
 		<div style="display: inline-block;">
 			<button type="button" class="btn-grey" onclick="${saveCommand}">OK</button>
-			<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())">${l.l('Отмена')}</button>
+			<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${parametersInfo}').parent())">Отмена</button>
 		</div>
 	</c:if>
 </form>

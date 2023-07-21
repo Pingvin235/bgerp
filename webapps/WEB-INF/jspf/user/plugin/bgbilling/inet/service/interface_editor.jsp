@@ -27,5 +27,5 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<button class="btn-grey" type="button" onclick="$('#${uiid}').parent().text('')">${l.l('Отмена')}</button>
+	<button class="btn-grey" type="button" onclick="$('#${uiid}').parent().text('')">Отмена</button>
 </div>

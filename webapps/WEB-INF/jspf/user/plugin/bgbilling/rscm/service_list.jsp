@@ -25,7 +25,7 @@
 
 	<c:set var="sendForm">$$.ajax.load($('#${uiid}'), $('#${uiid}').parent());</c:set>
 
-	<button type="button" class="ml2 btn-grey" onclick="${sendForm}" title="${l.l('Вывести')}">=&gt;</button>
+	<button type="button" class="ml2 btn-grey" onclick="${sendForm}" title="Вывести">=&gt;</button>
 
 	<ui:page-control nextCommand=";${sendForm}" />
 </html:form>

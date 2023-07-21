@@ -93,5 +93,5 @@
 				}
 				$$.ajax.load('${form.param.returnUrl}', $(this.form).parent());
 			}">OK</button>
-	<button type="button" class="btn-grey ml1" onClick="$$.ajax.load('${form.param.returnUrl}', $(this.form).parent());">${l.l('Отмена')}</button>
+	<button type="button" class="btn-grey ml1" onClick="$$.ajax.load('${form.param.returnUrl}', $(this.form).parent());">Отмена</button>
 </form>

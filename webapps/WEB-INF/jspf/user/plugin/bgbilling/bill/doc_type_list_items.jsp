@@ -4,7 +4,7 @@
 <table class="data">
 	<tr>
 		<td width="30">&nbsp;</td>
-		<td width="100%">${l.l('Title')}</td>
+		<td width="100%">Наименование</td>
 	</tr>
 	<c:forEach var="item" items="${list.first}">
 		<tr>

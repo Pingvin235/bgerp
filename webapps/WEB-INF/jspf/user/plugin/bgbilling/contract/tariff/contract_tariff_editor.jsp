@@ -48,7 +48,7 @@
 		</div>
 
 		<div style="white-space: nowrap;" class="pl1">
-			${l.l('Позиция')}:
+			Позиция:
 			<input type="text" style="text-align:center; width:50px" name="position" value="${contractTariff.position}"/>
 
 			Период c

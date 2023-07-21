@@ -142,6 +142,6 @@
 	</c:set>
 
 	<button class="btn-grey" onclick="${saveScript}">OK</button>
-	<button class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent())">${l.l('Отмена')}</button>
+	<button class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent())">Отмена</button>
 </div>
 

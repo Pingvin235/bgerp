@@ -172,7 +172,7 @@
 			<button type="button" class="btn-grey ml1"
 						onclick="${changeCustomerScript}">OK</button>
 			<button type="button" class="btn-grey ml05"
-						onclick="$('#${editTdId}').hide(); $('#${showTdId}').show();">${l.l('Отмена')}</button>
+						onclick="$('#${editTdId}').hide(); $('#${showTdId}').show();">Отмена</button>
 		</div>
 
 		<c:if test="${not empty contract.title}">

@@ -232,6 +232,6 @@
 	<div class="mt1 mb1">
 		<c:set var="returnCommand" value="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent())"/>
 		<button class="btn-grey" type="button" onclick="$$.ajax.post(this).done(() => ${returnCommand})">OK</button>
-		<button class="btn-white ml1" type="button" onclick="${returnCommand}">${l.l('Отмена')}</button>
+		<button class="btn-white ml1" type="button" onclick="${returnCommand}">Отмена</button>
 	</div>
 </html:form>

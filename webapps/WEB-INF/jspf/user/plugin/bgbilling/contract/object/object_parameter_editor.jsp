@@ -55,11 +55,11 @@
 
 						<table style="width: 100%;">
 							<tr>
-								<td>${l.l('Улица')}: </td>
+								<td>Улица: </td>
 								<td width="70%">
 									<html:text property="street" value="${streetTitle}" style="width: 100%"/>
 								</td>
-								<td nowrap="nowrap">${l.l('Дом')}:</td>
+								<td nowrap="nowrap">Дом:</td>
 								<td width="30%">
 									<html:text property="house" value="${houseTitle}" style="width: 100%"/>
 								</td>

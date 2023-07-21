@@ -26,7 +26,7 @@
 
 	<div class="mt1">
 		<button type="button" class="btn-grey" onclick="$$.ajax.load(this.form, $('#${uiid}').parent())">OK</button>
-		<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent())">${l.l('Отмена')}</button>
+		<button type="button" class="btn-grey ml1" onclick="$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent())">Отмена</button>
 	</div>
 
 	<%@ include file="/WEB-INF/jspf/layout_process.jsp"%>

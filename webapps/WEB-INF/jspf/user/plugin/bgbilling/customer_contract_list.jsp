@@ -41,7 +41,7 @@
 				.create(this)
 				.done(() => $$.ajax.load('${form.requestUrl}', $('#${createContractUiid}').parent()))
 		">OK</button>
-		<button type="button" class="btn-white ml05" onclick="$('#${createContractUiid}').hide(); $('#${createButtonsUiid}').show();">${l.l('Отмена')}</button>
+		<button type="button" class="btn-white ml05" onclick="$('#${createContractUiid}').hide(); $('#${createButtonsUiid}').show();">Отмена</button>
 	</div>
 </html:form>
 

@@ -101,7 +101,7 @@
 			</div>
 
 			<div>
-				<input type="button" class="btn-white" value="${l.l('Очистить')}"
+				<input type="button" class="btn-white" value="Очистить"
 						onclick="$('#searchForm-bgbilling-searchContract').each (function(){this.reset(); });"/>
 			</div>
 		</html:form>

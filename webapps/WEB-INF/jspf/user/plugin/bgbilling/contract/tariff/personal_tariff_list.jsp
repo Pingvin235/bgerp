@@ -14,9 +14,9 @@
 <table class="data mt1" width="100%" id="${uiid}">
 	<tr>
 		<td width="30"></td>
-		<td nowrap="nowrap">${l.l('Позиция')}</td>
-		<td nowrap="nowrap">${l.l('Период')}</td>
-		<td width="100%">${l.l('Название')}</td>
+		<td nowrap="nowrap">Позиция</td>
+		<td nowrap="nowrap">Период</td>
+		<td width="100%">Название</td>
 	</tr>
 
 	<c:forEach var="personalTariff" items="${form.response.data.personalTariffList}">

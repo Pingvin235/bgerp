@@ -17,10 +17,10 @@
 <table class="data" id="${uiid}">
 	<tr>
 		<td width="30"></td>
-		<td>${l.l('Позиция')}</td>
-		<td>${l.l('Title')}</td>
-		<td nowrap="nowrap">${l.l('Период действия')}</td>
-		<td width="100%">${l.l('Комментарий')}</td>
+		<td>Позиция</td>
+		<td>Название</td>
+		<td nowrap="nowrap">Период действия</td>
+		<td width="100%">Комментарий</td>
 	</tr>
 
 	<c:forEach var="tariff" items="${form.response.data.tariffList}">

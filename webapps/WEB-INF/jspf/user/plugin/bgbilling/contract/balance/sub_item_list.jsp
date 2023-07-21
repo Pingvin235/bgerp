@@ -6,12 +6,12 @@
 	<table class="data mt1" width="100%" id="${uiid}">
 		<tr>
 			<td>Договор</td>
-			<td>${l.l('Дата')}</td>
-			<td>${l.l('Сумма')}</td>
+			<td>Дата</td>
+			<td>Сумма</td>
 			<td nowrap="nowrap">${columnTitle}</td>
-			<td width="100%">${l.l('Комментарий')}</td>
-			<td nowrap="nowrap">${l.l('Время изменения')}</td>
-			<td>${l.l('User')}</td>
+			<td width="100%">Комментарий</td>
+			<td nowrap="nowrap">Время изменения</td>
+			<td>Пользователь</td>
 		</tr>
 		<c:forEach var="item" items="${form.response.data.subList}">
 			<tr>

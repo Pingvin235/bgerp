@@ -23,9 +23,9 @@
 	<table class="data">
 		<tr>
 			<td>Договор</td>
-			<td>${l.l('Дата')}</td>
-			<td width="100%">${l.l('Услуга')}</td>
-			<td>${l.l('Сумма')}</td>
+			<td>Дата</td>
+			<td width="100%">Услуга</td>
+			<td>Сумма</td>
 		</tr>
 		<c:forEach var="account" items="${subList}">
 			<tr>
