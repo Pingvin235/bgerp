@@ -87,13 +87,11 @@ public class UserCache extends Cache<UserCache> {
     }
 
     /**
-     * Gets user permission for action.
-     * The method is used in {@code permission.tld}
-     * @param userId user ID.
+     * Gets user permission for an action.
+     * @param userId the user ID.
      * @param action semicolon separated action class name and method, e.g. {@code org.bgerp.plugin.bil.invoice.action.InvoiceAction:get}.
      * @return allowed permission with options or {@code null}.
      */
-    @Dynamic
     public static ConfigMap getPerm(final int userId, String action) {
         final User user = getUser(userId);
 

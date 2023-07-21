@@ -222,15 +222,25 @@ public class User extends IdTitle implements Comparable<User>, Cloneable, UserAc
 
     /**
      * Checks if {@code action} allowed in user permissions.
-     * @param action semicolon separated action class and method names.
+     * @param action semicolon separated action class and method, e.g. {@code org.bgerp.plugin.bil.invoice.action.InvoiceAction:get}.
      * @return is the action allowed.
      */
     @Dynamic
     public boolean checkPerm(String action) {
+        return getPerm(action) != null;
+    }
+
+    /**
+     * Gets user permission for action.
+     * @param action semicolon separated action class name and method, e.g. {@code org.bgerp.plugin.bil.invoice.action.InvoiceAction:get}.
+     * @return allowed permission with options or {@code null}.
+     */
+    @Dynamic
+    public ConfigMap getPerm(String action) {
         var node = PermissionNode.getPermissionNode(action);
         if (node != null && !node.getAction().equals(action))
             log.warn("Not primary action name '{}' was used for checking of '{}'", action, node.getAction());
 
-        return UserCache.getPerm(id, action) != null;
+        return UserCache.getPerm(id, action);
     }
 }
