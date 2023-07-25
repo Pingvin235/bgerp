@@ -5,10 +5,10 @@
 
 <div class="center1020">
 	<%--
-    Переменная form - объект класса ru.bgcrm.struts.form.DynActionForm, содержащий параметры запроса.
-    --%>
-    <c:set var="date" value="${tu:parse( form.param.date, 'ymd' ) }"/>
-    <c:set var="groups" value="${form.getSelectedValues( 'group' )}"/>
+	Переменная form - объект класса ru.bgcrm.struts.form.DynActionForm, содержащий параметры запроса.
+	--%>
+	<c:set var="date" value="${tu:parse( form.param.date, 'ymd' ) }"/>
+	<c:set var="groups" value="${form.getSelectedValues( 'group' )}"/>
 	<c:set var="executors" value="${form.getSelectedValues( 'executor' )}"/>
 	<c:set var="processTypeIds" value="${form.getSelectedValues('type')}" scope="request"/>
 	<c:set var="listParamIds" value="${form.getSelectedValues('listParam')}"/>
@@ -25,11 +25,11 @@
 		<ui:date-time paramName="date" value="0"/>
 
 		<!-- пример фильтра по параметру типа list, 31 - заменить на код параметра -->
-	    <c:set var="listParam" value="${ctxParameterMap[u:int(31)]}"/>
-	    <ui:combo-check
-		    list="${listParam.listParamValues}" values="${listParamIds}"
-		    prefixText="List:" widthTextValue="150px"
-		    showFilter="1" paramName="listParam"/>
+		<c:set var="listParam" value="${ctxParameterMap[u:int(31)]}"/>
+		<ui:combo-check
+			list="${listParam.listParamValues}" values="${listParamIds}"
+			prefixText="List:" widthTextValue="150px"
+			showFilter="1" paramName="listParam"/>
 
 		<ui:combo-check
 			styleClass="ml05"
@@ -38,7 +38,7 @@
 			showFilter="1" paramName="group"/>
 
 		<%-- фильтр по исполнителям не связан с фильтром по группам, просто весь список пользователей
-		     пример связки можно изучить в user/process/queue/filter_executor.jsp --%>
+			 пример связки можно изучить в user/process/queue/filter_executor.jsp --%>
 		<ui:combo-check
 			styleClass="ml05"
 			list="${ctxUserList}" values="${executors}"
@@ -70,27 +70,6 @@
 	Генерация отчёта, если в запросе пришёл параметр date.
 	--%>
 	<c:if test="${not empty date}">
-	    <%--
-           Пример создания объекта класса объявленного в динамическом коде и вызова произвольного метода из него.
-        --%>
-        <u:newInstance var="data" clazz="ru.bgcrm.dyn.ExampleJSP"/>
-        <b>Данные, полученные из динамического класса ru.bgcrm.dyn.Example, метод getPets:</b><br/>
-
-	    <table style="width: 100%;" class="data mt1">
-            <tr>
-                <td>Кличка</td>
-                <td>Тип</td>
-                <td>Возраст</td>
-            </tr>
-		    <c:forEach var="pet" items="${data.getPets(date)}">
-			    <tr>
-	                <td>${pet[0]}</td>
-	                <td>${pet[1]}</td>
-	                <td>${pet[2]}</td>
-	            </tr>
-		    </c:forEach>
-	    </table>
-
 		<%-- в случае, если Slave база не настроена - будет использована обычная --%>
 		<sql:query var="result" dataSource="${ctxSlaveDataSource}">
 			SELECT process.id, process.description, status.title, DATE_FORMAT(process.create_dt, '%Y-%m-%d %H.%i.%s'), DATE_FORMAT(process.close_dt, '%Y-%m-%d %H.%i.%s')
@@ -103,13 +82,13 @@
 				INNER JOIN process_executor AS pe ON process.id=pe.process_id AND pe.user_id IN(${u:toString( executors )})
 			</c:if>
 			<c:if test="${not empty listParamIds}">
-			    INNER JOIN param_list AS pl ON process.id=pl.id AND pl.param_id=${listParam.id} AND pl.value IN(${u:toString( listParamIds )})
+				INNER JOIN param_list AS pl ON process.id=pl.id AND pl.param_id=${listParam.id} AND pl.value IN(${u:toString( listParamIds )})
 			</c:if>
 			WHERE close_dt>=? AND close_dt<DATE_ADD(?, INTERVAL 1 DAY)
 			<c:if test="${not empty processTypeIds}">
-                 AND type_id IN (${u:toString(processTypeIds)})
-            </c:if>
-            ORDER BY process.id
+				 AND type_id IN (${u:toString(processTypeIds)})
+			</c:if>
+			ORDER BY process.id
 
 			<sql:param value="${date}"/>
 			<sql:param value="${date}"/>
@@ -132,7 +111,7 @@
 				<c:set var="closeTime" value="${row[4]}"/>
 
 				<tr>
-					<td><a href="UNDEF" onclick="openProcess( ${id} ); return false;">${id}</a></td>
+					<td><a href="#" onclick="$$.process.open(${id}); return false;">${id}</a></td>
 					<td>${description}</td>
 					<td>${status}</td>
 					<td>${createTime}</td>
