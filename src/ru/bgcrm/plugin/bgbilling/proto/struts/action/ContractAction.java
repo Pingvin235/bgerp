@@ -14,7 +14,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
@@ -42,11 +41,7 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.ContractParamDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractScriptDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractServiceDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.ContractStatusDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.DialUpDAO;
 import ru.bgcrm.plugin.bgbilling.proto.dao.DirectoryDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.PhoneDAO;
-import ru.bgcrm.plugin.bgbilling.proto.dao.PhoneDAO.FindPhoneMode;
-import ru.bgcrm.plugin.bgbilling.proto.dao.PhoneDAO.FindPhoneSortMode;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractFace;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractMode;
@@ -54,10 +49,8 @@ import ru.bgcrm.plugin.bgbilling.proto.model.ContractParameter;
 import ru.bgcrm.plugin.bgbilling.proto.model.ContractService;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParamAddressValue;
 import ru.bgcrm.plugin.bgbilling.proto.model.ParameterType;
-import ru.bgcrm.plugin.bgbilling.proto.model.dialup.DialUpLogin;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitChangeTask;
 import ru.bgcrm.plugin.bgbilling.proto.model.limit.LimitLogItem;
-import ru.bgcrm.plugin.bgbilling.proto.model.phone.ContractPhoneRecord;
 import ru.bgcrm.plugin.bgbilling.proto.model.script.ContractScriptLogItem;
 import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -110,26 +103,10 @@ public class ContractAction extends BaseAction {
                 Pageable<IdTitle> result = new Pageable<IdTitle>(form);
                 contractDAO.searchContractByTitleComment(result, form.getParam("title"), form.getParam("comment"),
                         searchOptions);
-            } else if (searchBy.startsWith("dialUpLogin_")) {
-                int moduleId = Utils.parseInt(StringUtils.substringAfterLast(searchBy, "_"));
-                String login = form.getParam("login_" + billingId + "_" + moduleId, "");
-                if (login.length() >= 3) {
-                    DialUpDAO dialUpDao = new DialUpDAO(user, billingId, moduleId);
-                    List<DialUpLogin> result = dialUpDao.findLogin(login,
-                            Utils.parseInt(login) > 0 ? DialUpDAO.FIND_MODE_LOGIN : DialUpDAO.FIND_MODE_ALIAS);
-                    form.getResponse().setData("list", result);
-                }
             } else if (searchBy.equals("parameter_text")) {
                 Pageable<Contract> result = new Pageable<Contract>(form);
                 contractDAO.searchContractByTextParam(result, searchOptions,
                         getParasmIdsSet(form), form.getParam("value"));
-            } else if (searchBy.equals("phone")) {
-                PhoneDAO phoneDAO = new PhoneDAO(user, billingId, form.getParamInt("moduleId"));
-
-                phoneDAO.findPhone(new Pageable<ContractPhoneRecord>(form),
-                        FindPhoneMode.fromString(form.getParam("mode")),
-                        FindPhoneSortMode.fromString(form.getParam("sort")), form.getParam("phone"),
-                        form.getParamDate("dateFrom"), form.getParamDate("dateTo"));
             } else if (searchBy.equals("parameter_date")) {
                 Pageable<Contract> result = new Pageable<Contract>(form);
                 contractDAO.searchContractByDateParam(result, searchOptions,

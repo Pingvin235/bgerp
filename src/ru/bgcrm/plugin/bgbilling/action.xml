@@ -143,37 +143,6 @@
 				<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:moduleList" title="Просмотр модулей"/>
 				<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:updateModules" title="Изменение модулей"/>
 
-				<item title="DialUp">
-					<item title="Свойства">
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:contractInfo" title="Логины и периоды" />
-
-						<item title="Логин">
-							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:getLogin" title="Просмотр редактора логина" />
-							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:updateLogin" title="Изменение логина" />
-							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:getLoginPassword" title="Просмотр пароля логина" />
-							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:updateLoginPassword" title="Смена пароля логина" />
-							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:updateStaticIP" title="Изменение cтатического IP" />
-							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:updateLoginRadiusInfo" title="Изменение RADIUS атрибутов" />
-						</item>
-						<item title="Учётный период">
-							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:getPeriod" title="Открытие периода на правку" />
-							<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:updatePeriod" title="Изменение периода" />
-						</item>
-					</item>
-					<item title="Отчёт">
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:sessionList" title="Просмотр сессий по логину" />
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:errorList" title="Просмотр ошибок по логину" />
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:radiusLog" title="Просмотр лога RADIUS" />
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.DialUpAction:terminateSession" title="Сброс сессии" />
-					</item>
-				</item>
-
-				<item title="VoiceIp">
-					<item title="Свойства">
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.VoiceIpAction:contractInfo" title="Логины" />
-					</item>
-				</item>
-
 				<item title="ContractAction">
 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getContractStatisticPassword" title="Просмотр пароля статистики договора" />
  					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.ContractAction:getSubContractList" title="Получение списка субдоговоров" />
@@ -203,37 +172,6 @@
 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:getFreeCards" title="Получение списка свободных карт" />
 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:updateCard" title="Редактирование карт" />
 					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.CerberCryptAction:updateCardPacket" title="Редактирование пакетов на карте" />
-				</item>
-
-				<item title="Phone">
-					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.PhoneAction:updateClientItem" title="Добавиление поинта" />
-					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.PhoneAction:sessionList" title="Просмотр сессий" />
-					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.PhoneAction:getFreeNumberResourceList" title="Выборка свободных номеров" />
-					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.PhoneAction:getPhoneResourceList" title="Выборка ресурсов номеров" />
-				</item>
-
-				<item title="IPN">
-					<item title="Диапазоны адресов">
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction:rangeList" title="Просмотр диапазонов адресов" />
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction:rangeEdit" title="Открытие диапазона для редактирования" />
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction:rangeUpdate" title="Изменение диапазона" />
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction:rangeDelete" title="Удаление диапазона" />
-					</item>
-					<item title="Шлюзы">
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction:gateStatus" title="Статус шлюзов" />
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction:gateStatusUpdate" title="Изменения статуса шлюзов" />
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction:gateRuleGenerate" title="Генерация правила шлюза" />
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction:gateRuleUpdate" title="Изменение правила шлюза" />
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction:gateRuleEdit" title="Открытие редактора шлюза" />
-						<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction:gateRuleDelete" title="Удаление правила шлюза" />
-					</item>
-					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.IpnAction:findAddress" title="Поиск адресов" />
-				</item>
-
-				<item title="IP-телефония">
-					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.VoiceIpAction:contractInfo" title="Получение списка логинов" />
-					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.VoiceIpAction:getLogin" title="Получение логина" />
-					<item action="ru.bgcrm.plugin.bgbilling.proto.struts.action.VoiceIpAction:updateLogin" title="Изменение логина" />
 				</item>
 
 				<item title="Inet">

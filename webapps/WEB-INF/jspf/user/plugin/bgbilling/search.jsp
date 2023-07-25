@@ -51,18 +51,6 @@
 
 			<%@ include file="/WEB-INF/jspf/user/search/search_address_filter.jsp"%>
 
-			<c:forEach var="item" items="${ctxSetup.subIndexed( 'bgbilling:search.contract.' ).values()}">
-				<c:choose>
-					<c:when test="${item.type eq 'dialUpLogin'}">
-						<input type="text" name="login_${item.billingId}_${item.moduleId}" placeholder="${item.title}"
-									title="Фрагмент логина либо алиаса минимум 3 символа"
-									onkeypress="if( enterPressed( event ) ){ this.form.billingId.value='${item.billingId}';
-													this.form.elements['searchBy'].value='dialUpLogin_${item.billingId}_${item.moduleId}';
-													${loadSearchResult} }"/>
-					</c:when>
-				</c:choose>
-			</c:forEach>
-
 			<ui:input-text name="id" placeholder="ID"
 							onSelect="this.form.elements['searchBy'].value='id'; ${loadSearchResult}"/>
 
@@ -96,7 +84,7 @@
 					<input type="checkbox" name="show_closed" class="mr05"/>Закрытые
 				</div>
 				<div>
-					<input type="checkbox" name="show_sub" class="mr05">Субдогвора</input>
+					<input type="checkbox" name="show_sub" class="mr05">Субдоговора</input>
 				</div>
 			</div>
 

@@ -77,28 +77,3 @@ messageType.1.search.2.title=По номеру/примечанию
 messageType.1.search.2.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchContractByTitleAndComment
 messageType.1.search.2.billingId=bg
 ----
-
-|:hardbreaks:
-*ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchContractByDialUpLogin*
-Поиск договора в базе BGBilling по логину либо алиасу DialUp модуля.
-|:hardbreaks:
-[source]
-----
-messageType.<id>.search.<searchModeId>.title=<title>
-messageType.<id>.search.<searchModeId>.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchContractByDialUpLogin
-messageType.<id>.search.<searchModeId>.billingId=<billingId>
-messageType.<id>.search.<searchModeId>.moduleId=<moduleId>
-----
-Где:
-[square]
-* *<billingId>* - идентификатор биллинга;
-* *<moduleId>* - код экземпляра модуля DialUp.
-
-Пример:
-[source]
-----
-messageType.1.search.3.title=По логину DialUp
-messageType.1.search.3.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchContractByDialUpLogin
-messageType.1.search.3.billingId=bg
-messageType.1.search.3.moduleId=1
-----

@@ -176,11 +176,8 @@
 							<c:choose>
 								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.npay' or item.clientPackage eq 'ru.bitel.bgbilling.modules.npay.client'}">npay.do?action=serviceList&moduleId=${item.moduleId}</c:when>
 								<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.rscm.client'}">rscm.do?action=serviceList&moduleId=${item.moduleId}</c:when>
-								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.dialup' or item.clientPackage eq 'ru.bitel.bgbilling.modules.dialup.client'}">dialup.do?action=contractInfo&moduleId=${item.moduleId}</c:when>
-								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.voiceip' or item.clientPackage eq 'ru.bitel.bgbilling.modules.voiceip.client'}">voiceip.do?action=contractInfo&moduleId=${item.moduleId}</c:when>
 								<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.api.client' or item.clientPackage eq 'ru.bitel.bgbilling.modules.inet.client'}">inet.do?action=serviceTree&moduleId=${item.moduleId}</c:when>
 								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.card' or item.clientPackage eq 'ru.bitel.bgbilling.modules.card.client'}">card.do?action=contractInfo&moduleId=${item.moduleId}</c:when>
-								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.ipn' or item.clientPackage eq 'ru.bitel.bgbilling.modules.ipn.client' }">/user/empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/ipn/contract_info.jsp&moduleId=${item.moduleId}</c:when>
 								<c:when test="${item.clientPackage eq 'bitel.billing.module.services.bill' or item.clientPackage eq 'ru.bitel.bgbilling.modules.bill.client'}">/user/empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/bill/contract_info.jsp&moduleId=${item.moduleId}</c:when>
 								<c:when test="${item.clientPackage eq 'ru.bitel.bgbilling.modules.cerbercrypt.client'}">/user/empty.do?forwardFile=/WEB-INF/jspf/user/plugin/bgbilling/cerbercrypt/contract_info.jsp&moduleId=${item.moduleId}</c:when>
 								<c:otherwise>dev</c:otherwise>

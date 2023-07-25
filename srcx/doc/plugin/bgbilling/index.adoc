@@ -37,31 +37,6 @@
 [[config-search]]
 === Поиск
 
-[[config-search-dialup]]
-==== DialUp module
-Возможность <<../../kernel/search.adoc#, поиска>> договоров по логину/алиасу DialUp модуля.
-[source]
-----
-bgbilling:search.contract.<id>.type=dialUpLogin
-bgbilling:search.contract.<id>.title=<title>
-bgbilling:search.contract.<id>.billingId=<billingId>
-bgbilling:search.contract.<id>.moduleId=<moduleId>
-----
-Где:
-[square]
-* *<id>* - уникальный идентификатор режима поиска договора;
-* *<billingId>* - идентификатор биллинга;
-* *<moduleId>* - код экземпляра модуля DialUp.
-
-Пример:
-[source]
-----
-bgbilling:search.contract.1.type=dialUpLogin
-bgbilling:search.contract.1.title=Логин VPN
-bgbilling:search.contract.1.billingId=bg
-bgbilling:search.contract.1.moduleId=1
-----
-
 [[config-search-param-address]]
 ==== Address param
 Specifying which parameters are used by address search:

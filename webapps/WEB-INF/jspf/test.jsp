@@ -382,14 +382,6 @@
 		</script>
 	</div> --%>
 
-	<%-- <br/><b>Что где посмотреть:</b>
-	<ul>
-		<li>1) DatePicker в виде диалога с позиционированием и Dialog с позиционированием.
-		../jspf/plugin/bgbilling/bill/document_list.jsp</li>
-		<li>2) Дерево, использование layout-height-rest
-		../jspf/user/plugin/bgbilling/ipn/range_edit.jsp</li>
-	</ul>
-	--%>
 	<div class="mt05">
 		<br/><b>Font Icons:</b>
 		<ul>
