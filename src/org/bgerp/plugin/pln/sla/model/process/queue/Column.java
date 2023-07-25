@@ -4,13 +4,14 @@ import static ru.bgcrm.dao.Tables.TABLE_PARAM_DATETIME;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.plugin.pln.sla.config.Config;
 import org.bgerp.plugin.pln.sla.config.ProcessTypeConfig;
 import org.bgerp.util.Log;
+import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.model.process.Process;
 
@@ -49,8 +50,8 @@ public class Column extends org.bgerp.model.process.queue.Column {
         }
     }
 
-    private long leftMinutes(Date value) {
-        return Duration.between(Instant.now(), value.toInstant()).toMinutes();
+    private long leftMinutes(LocalDateTime value) {
+        return Duration.between(Instant.now(), TimeConvert.toInstant(value)).toMinutes();
     }
 
     @Override
@@ -64,7 +65,7 @@ public class Column extends org.bgerp.model.process.queue.Column {
             return null;
         }
 
-        Date time = (Date) col;
+        LocalDateTime time = (LocalDateTime) col;
         if (time == null)
             return null;
 

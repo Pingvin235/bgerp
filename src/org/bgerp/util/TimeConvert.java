@@ -1,6 +1,8 @@
 package org.bgerp.util;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.Date;
@@ -68,5 +70,17 @@ public class TimeConvert {
         if (value == null)
             return null;
         return new java.sql.Timestamp(value.getTime());
+    }
+
+    /**
+     * Converts date and time to instant.
+     * @param value
+     * @return {@code null} or converted value.
+     */
+    public static final Instant toInstant(LocalDateTime value) {
+        return
+            value == null ?
+            null :
+            value.atZone(ZoneId.systemDefault()).toInstant();
     }
 }

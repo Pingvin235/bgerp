@@ -13,4 +13,9 @@ public abstract class Task extends Config implements Runnable, Title {
     public Task(ConfigMap config) {
         super(null);
     }
+
+    @Override
+    public String getTitle() {
+        return "??? " + this.getClass().getName();
+    }
 }
