@@ -30,7 +30,7 @@ public class TasksConfig extends Config {
             String taskId = me.getKey();
             try {
                 result.add(new TaskConfig(taskId, me.getValue()));
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 log.error("Load task config: " + taskId + ", error: " + e.getMessage(), e);
             }
         }
