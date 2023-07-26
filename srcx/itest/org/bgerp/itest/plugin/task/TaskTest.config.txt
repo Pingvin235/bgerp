@@ -1,8 +1,7 @@
-#
 task:type.2.id=reminder
 task:type.2.title=Deadline
 task:type.2.doExpression=<<END
-   text =
+    text =
         "Keep your attention to the process.<br></END>" +
         "Description:<br>" + process.getDescription();
         text += "<br/><a href='#UNDEF' onClick='openProcess(" + process.getId() + "); return false;'>Open process</a>";
@@ -11,3 +10,11 @@ task:type.2.doExpression=<<END
         // send to executors
         new("ru.bgcrm.dao.NewsDAO", conSet.getConnection()).updateNewsUsers(news, process.getExecutorIds());
 END
+
+scheduler.task.taskRunner.class=TaskRunner
+
+# TODO: Example config for task:userStateSender
+
+scheduler.task.taskUserState.class=UserStateSender
+scheduler.task.taskUserState.hours=9
+scheduler.task.taskUserState.minutes=10

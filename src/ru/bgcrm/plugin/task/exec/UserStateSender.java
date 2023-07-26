@@ -44,7 +44,7 @@ public class UserStateSender extends org.bgerp.app.exec.scheduler.Task {
         }
     }
 
-    protected UserStateSender() {
+    public UserStateSender() {
         super(null);
     }
 
@@ -78,7 +78,7 @@ public class UserStateSender extends org.bgerp.app.exec.scheduler.Task {
                 }
 
                 NewsInfoEvent event = UserNewsCache.getUserEvent(con, user.getId());
-                log.info("Send email to: " + user.getLogin());
+                log.info("Sending email to: {}", user.getLogin());
 
                 Map<String, Object> context = new HashMap<>(10);
                 context.put("msg", msg);
