@@ -237,30 +237,20 @@ Incoming variables:
 						<c:set var="mediaColumn" value="${columnList[status.index - 1]}"/>
 						<c:set var="column" value="${mediaColumn.column}"/>
 
-						<c:set var="nowrap" value=""/>
-						<c:set var="align" value=""/>
 						<c:set var="bgcolor" value=""/>
 						<c:set var="style" value=""/>
 						<c:set var="show" value="${column.value ne 'priority'}"/>
 
-						<c:if test="${column.nowrap}">
-							<c:set var="nowrap" value="nowrap='nowrap'"/>
-						</c:if>
-						<c:if test="${not empty column.align}">
-							<c:set var="align" value="align='${column.align}'"/>
-						</c:if>
 						<c:if test="${not empty column.style}">
 							<c:set var="style">style="${column.style}"</c:set>
 						</c:if>
-
-						<c:set var="nas" value="${nowrap} ${align} ${style}"/>
 
 						<c:if test="${showCheckColumn and onceFlag ne '1'}">
 							<c:set var="onceFlag" value="1"/>
 							<td align="center"><input type="checkbox" name="processId" value="${process.id}"/></td>
 						</c:if>
 						<c:if test="${show}">
-							<td ${nas}>${rowData['col'.concat(column.id)]}</td>
+							<td ${style}>${rowData['col'.concat(column.id)]}</td>
 						</c:if>
 					</c:forEach>
 				</tr>

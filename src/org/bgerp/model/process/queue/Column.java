@@ -101,16 +101,17 @@ public class Column {
         return config.get("showAsLink");
     }
 
-    public boolean isNowrap() {
-        return config.getBoolean("nowrap");
-    }
-
-    public String getAlign() {
-        return config.get("align");
-    }
-
     public String getStyle() {
-        return config.get("style");
+        var result = new StringBuilder(config.get("style", ""));
+
+        if (config.getBoolean("nowrap"))
+            Utils.addSeparated(result, "; ", "white-space: nowrap");
+
+        final String align = config.get("align");
+        if (Utils.notBlankString(align))
+            Utils.addSeparated(result, "; ",  "text-align: " + align);
+
+        return result.toString();
     }
 
     /**
