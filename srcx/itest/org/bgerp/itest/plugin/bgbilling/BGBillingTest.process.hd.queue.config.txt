@@ -3,9 +3,9 @@ filter.{@cnt}.defaultValue=open
 filter.{@inc:cnt}.type=linkedCustomer:title
 filter.{@inc:cnt}.type=description
 filter.{@inc:cnt}.type=linkObject
-filter.{@cnt}.objectType=bgbilling-helpdesk:bitel
+filter.{@cnt}.objectType=bgbilling-helpdesk:{@BILLING_ID}
 filter.{@cnt}.whatFilter=id
-filter.35.title=Тема HelpDesk
+filter.{@inc:cnt}.title=Тема HelpDesk
 
 column.1.title=ID
 column.1.value=id

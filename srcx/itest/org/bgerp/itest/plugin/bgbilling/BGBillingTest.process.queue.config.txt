@@ -1,0 +1,12 @@
+filter.{@inc:cnt}.type=openClose
+filter.{@cnt}.defaultValue=open
+
+column.1.title=ID
+column.1.value=id
+column.2.title=Приор.
+column.2.value=priority
+column.3.title=Договор
+column.3.value=linkObject:contract:{@BILLING_ID}
+column.4.title=Описание
+column.4.value=description
+
