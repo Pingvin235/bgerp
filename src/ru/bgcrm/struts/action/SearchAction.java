@@ -1,12 +1,11 @@
 package ru.bgcrm.struts.action;
 
 import java.sql.Connection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.process.ProcessParamSearchDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.LikePattern;
 
@@ -15,32 +14,33 @@ import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.customer.Customer;
+import ru.bgcrm.model.param.Parameter.Type;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
+import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/search")
 public class SearchAction extends BaseAction {
     private static final String PATH_JSP = PATH_JSP_USER + "/search";
-
     private static final String JSP_DEFAULT = PATH_JSP + "/search.jsp";
-    private static final String JSP_CUSTOMER_TITLE = PATH_JSP + "/result/customer_title.jsp";
-    private static final String JSP_PROCESS = PATH_JSP + "/result/process.jsp";
+
+    private static final String PATH_JSP_CUSTOMER = PATH_JSP + "/customer";
+    private static final String JSP_CUSTOMER = PATH_JSP_CUSTOMER + "/customer.jsp";
+    private static final String JSP_CUSTOMER_PARAM = PATH_JSP_CUSTOMER + "/param.jsp";
+
+    private static final String PATH_JSP_PROCESS = PATH_JSP + "/process";
+    private static final String JSP_PROCESS = PATH_JSP_PROCESS + "/process.jsp";
+    private static final String JSP_PROCESS_PARAM = PATH_JSP_PROCESS + "/param.jsp";
 
     @Override
     public ActionForward unspecified(DynActionForm form, Connection con) throws Exception {
-        // areas supported only in bgbilling plugin, contract search
-        HashSet<Integer> areaIds = new HashSet<Integer>();
-
-        ConfigMap perm = form.getPermission();
-        Set<Integer> allowedAreaIds = Utils.toIntegerSet(perm.get("allowedAreaIds", ""));
-
-        if (!allowedAreaIds.isEmpty())
-            areaIds.retainAll(allowedAreaIds);
-
-        form.getResponse().setData("areas", areaIds);
+        form.setRequestAttribute("processParamTextList", ParameterCache.getObjectTypeParameterList(Process.OBJECT_TYPE).stream()
+            .filter(p -> p.getTypeType() == Type.TEXT)
+            .collect(Collectors.toList())
+        );
 
         return html(con, form, JSP_DEFAULT);
     }
@@ -51,7 +51,7 @@ public class SearchAction extends BaseAction {
         String searchBy = form.getParam("searchBy");
 
         if ("id".equals(searchBy)) {
-            Pageable<Customer> result = new Pageable<Customer>(form);
+            Pageable<Customer> result = new Pageable<>(form);
 
             int id = Utils.parseInt(form.getParam("id"));
 
@@ -63,9 +63,9 @@ public class SearchAction extends BaseAction {
                 result.getPage().setRecordCount(0);
             }
 
-            return html(con, form, JSP_CUSTOMER_TITLE);
+            return html(con, form, JSP_CUSTOMER);
         } else if ("title".equals(searchBy)) {
-            Pageable<Customer> result = new Pageable<Customer>(form);
+            Pageable<Customer> result = new Pageable<>(form);
 
             String title = form.getParam("title", "");
 
@@ -75,15 +75,15 @@ public class SearchAction extends BaseAction {
 
             customerDao.searchCustomerList(result, LikePattern.SUB.get(title));
 
-            return html(con, form, JSP_CUSTOMER_TITLE);
+            return html(con, form, JSP_CUSTOMER);
         } else if ("group".equals(searchBy)) {
-            Pageable<Customer> result = new Pageable<Customer>(form);
+            Pageable<Customer> result = new Pageable<>(form);
 
             customerDao.searchCustomerList(result, form.getSelectedValues("groupId"));
 
-            return html(con, form, JSP_CUSTOMER_TITLE);
+            return html(con, form, JSP_CUSTOMER);
         } else if ("address".equals(searchBy)) {
-            Pageable<ParameterSearchedObject<Customer>> result = new Pageable<ParameterSearchedObject<Customer>>(form);
+            Pageable<ParameterSearchedObject<Customer>> result = new Pageable<>(form);
 
             int streetId = Utils.parseInt(form.getParam("streetId"));
             String house = form.getParam("house");
@@ -93,18 +93,18 @@ public class SearchAction extends BaseAction {
             customerDao.searchCustomerListByAddress(result, Utils.getObjectIdsList(ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE)),
                     streetId, house, flat, room);
 
-            return html(con, form, PATH_JSP + "/result/customer_address.jsp");
+            return html(con, form, JSP_CUSTOMER_PARAM);
         } else if ("email".equals(searchBy)) {
-            Pageable<ParameterSearchedObject<Customer>> result = new Pageable<ParameterSearchedObject<Customer>>(form);
+            Pageable<ParameterSearchedObject<Customer>> result = new Pageable<>(form);
 
             String email = form.getParam("email");
 
             customerDao.searchCustomerListByEmail(result, Utils.getObjectIdsList(ParameterCache.getObjectTypeParameterList(Customer.OBJECT_TYPE)),
                     email);
 
-            return html(con, form, JSP_CUSTOMER_TITLE);
+            return html(con, form, JSP_CUSTOMER_PARAM);
         } else if ("phone".equals(searchBy)) {
-            Pageable<Customer> result = new Pageable<Customer>(form);
+            Pageable<Customer> result = new Pageable<>(form);
             String phone = form.getParam("phone");
 
             List<Integer> paramIds = Utils.toIntegerList(form.getParam("phoneParamIds"));
@@ -115,23 +115,23 @@ public class SearchAction extends BaseAction {
                         phone);
             }
 
-            return html(con, form, JSP_CUSTOMER_TITLE);
+            return html(con, form, JSP_CUSTOMER_PARAM);
         } else if ("linkedObjectTitle".equals(searchBy)) {
-            Pageable<Customer> result = new Pageable<Customer>(form);
+            Pageable<Customer> result = new Pageable<>(form);
 
             String linkedObjectTitle = form.getParam("linkedObjectTitle");
             String linkedObjectTypeLike = form.getParam("linkedObjectTypeLike");
 
             customerDao.searchCustomerByLinkedObjectTitle(result, linkedObjectTypeLike, linkedObjectTitle);
 
-            return html(con, form, JSP_CUSTOMER_TITLE);
+            return html(con, form, JSP_CUSTOMER);
         }
 
         return html(con, form, JSP_DEFAULT);
     }
 
-    public ActionForward processSearch(DynActionForm form, Connection con) throws Exception {
-        ProcessDAO processDao = new ProcessDAO(con, form);
+    public ActionForward processSearch(DynActionForm form, ConnectionSet conSet) throws Exception {
+        ProcessDAO processDao = new ProcessDAO(conSet.getSlaveConnection(), form);
 
         String searchBy = form.getParam("searchBy");
 
@@ -140,7 +140,7 @@ public class SearchAction extends BaseAction {
 
             processDao.searchProcessListForUser(new Pageable<Process>(form), form.getUserId(), mode);
 
-            return html(con, form, JSP_PROCESS);
+            return html(conSet, form, JSP_PROCESS);
         } else if ("id".equals(searchBy)) {
             Pageable<Process> result = new Pageable<>(form);
 
@@ -150,10 +150,23 @@ public class SearchAction extends BaseAction {
                 result.getPage().setRecordCount(1);
             }
 
-            return html(con, form, JSP_PROCESS);
+            return html(conSet, form, JSP_PROCESS);
+        } else if ("text".equals(searchBy)) {
+            Pageable<ParameterSearchedObject<Process>> result = new Pageable<>(form);
+
+            String text = form.getParam("text");
+
+            if (Utils.notBlankString(text))
+                new ProcessParamSearchDAO(conSet.getSlaveConnection(), form)
+                    .withOpen(form.getParamBoolean("open", null))
+                    .withParamTextValue(LikePattern.of(form.getParam("textLikeMode")).get(text))
+                    .withParamTextIds(form.getSelectedValues("textParam"))
+                    .search(result);
+
+            return html(conSet, form, JSP_PROCESS_PARAM);
         }
 
-        return html(con, form, JSP_DEFAULT);
+        return html(conSet, form, JSP_DEFAULT);
     }
 
 }

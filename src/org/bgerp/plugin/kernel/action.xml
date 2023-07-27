@@ -317,7 +317,6 @@
 		</item>
 		<item title="Search">
 			<item action="ru.bgcrm.struts.action.SearchAction:null" title="Search">
-				<b>allowedAreaIds</b> - comma separated allowed city IDs<br/>
 				<b>allowedForms</b> - comma seaparated allowed search forms, for kernel: customer, process<br/>
 				<b>defaultForm</b> - default search form
 			</item>

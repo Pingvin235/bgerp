@@ -135,11 +135,11 @@
 	<p><en>Group</en><ru>Группа</ru></p>
 	<p><ru>Дата создания</ru><en>Creation date</en></p>
 	<p><ru>Дата закрытия</ru><en>Сlosing date</en></p>
-	<p><ru>Любой</ru><en>Any</en></p>
+	<p><en>Any</en><ru>Любые</ru></p>
 	<p><en>Type</en><ru>Тип</ru></p>
-	<p><ru>Открытые</ru><en>Open</en></p>
-	<p><ru>Закрытые</ru><en>Closed</en></p>
-	<p><ru>Закрыт</ru><en>Closed</en></p>
+	<p><en>Open</en><ru>Открытые</ru></p>
+	<p><en>Closed</en><ru>Закрытые</ru></p>
+	<p><sys>process.closed</sys><en>Closed</en><ru>Закрыт</ru></p>
 	<p><ru>Записей</ru><en>Records</en></p>
 	<p><ru>Стр.</ru><en>Page</en></p>
 	<p><ru>из</ru><en>of</en></p>
@@ -617,6 +617,10 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Kernel Message Exchange</en><ru>Kernel обмен сообщениями</ru></p>
 	<p><en>Kernel Message Exchange for types: {}</en><ru>Kernel обмен сообщениями для типов: {}</ru></p>
 	<p><en>Kernel News</en><ru>Kernel новости</ru></p>
+	<p><sys>search.eq</sys><en>Equal</en><ru>Совпадает</ru></p>
+	<p><sys>search.sub</sys><en>Substring</en><ru>Подстрока</ru></p>
+	<p><sys>search.prefix</sys><en>Prefix</en><ru>Начинается</ru></p>
+	<p><sys>search.suffix</sys><en>Suffix</en><ru>Заканчивается</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
@@ -624,5 +628,6 @@ if position isn't re-defined in process type or parameter group.</en>
 	-->
 	<!--
 	<p><en></en><ru></ru></p>
+	<p><sys></sys><en></en><ru></ru></p>
 	-->
 </data>

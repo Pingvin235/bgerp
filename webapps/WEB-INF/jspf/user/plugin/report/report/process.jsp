@@ -10,7 +10,7 @@
 		<ui:combo-single hiddenName="mode" widthTextValue="5em" value="${form.param.mode}">
 			<jsp:attribute name="valuesHtml">
 				<li value="create">${l.l('Созданные')}</li>
-				<li value="close">${l.l('Закрытые')}</li>
+				<li value="close">${l.l('Closed')}</li>
 			</jsp:attribute>
 		</ui:combo-single>
 		${l.l("с")}:

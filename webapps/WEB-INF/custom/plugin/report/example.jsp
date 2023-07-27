@@ -100,7 +100,7 @@
 				<td>${l.l('Description')}</td>
 				<td>${l.l('Status')}</td>
 				<td>${l.l('Created')}</td>
-				<td>${l.l('Закрыт')}</td>
+				<td>${l.l('process.closed')}</td>
 			</tr>
 
 			<c:forEach var="row" items="${result.rowsByIndex}">

@@ -9,7 +9,7 @@ import ru.bgcrm.util.Utils;
  */
 public enum LikePattern {
     /**
-     * Pattern {@code %substr%}
+     * Pattern {@code %value%}
      */
     SUB {
         @Override
@@ -31,7 +31,7 @@ public enum LikePattern {
         }
     },
     /**
-     * Pattern {@code %substr}
+     * Pattern {@code %value}
      */
     END {
         @Override
@@ -50,7 +50,7 @@ public enum LikePattern {
         }
     },
     /**
-     * Pattern {@code substr%}
+     * Pattern {@code value%}
      */
     START {
         @Override
@@ -67,9 +67,28 @@ public enum LikePattern {
 
             return result.toString();
         }
+    },
+    /**
+     * Pattern {@code value}
+     */
+    EQ {
+        @Override
+        public String get(String substr) {
+            return substr;
+        }
     };
 
     private static final String ANY = "%";
+
+    public static LikePattern of(String type) {
+        return switch (type) {
+            case "sub" -> SUB;
+            case "end" -> END;
+            case "start" -> START;
+            case "eq" -> EQ;
+            default -> throw new IllegalArgumentException("Incorrect type: " + type);
+        };
+    }
 
     /**
      * Generates pattern for a given strategy.

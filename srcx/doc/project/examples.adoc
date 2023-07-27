@@ -131,7 +131,7 @@ link:../../../webapps/WEB-INF/jspf/admin/user/user/update.jsp#L161-L167[webapps/
 
 Flex layout, using constants from Java classes (defined in link:../../../webapps/WEB-INF/jspf/user/search/process_search_constants.jsp[process_search_constants.jsp]), print button close to a field:
 [snippet, from="<div style", to="/div>", remove-leading="				"]
-link:../../../webapps/WEB-INF/jspf/user/search/search.jsp#L75-L89[webapps/WEB-INF/jspf/user/search/search.jsp]
+link:../../../webapps/WEB-INF/jspf/user/search/search.jsp#L65-L79[webapps/WEB-INF/jspf/user/search/search.jsp]
 
 IMPORTANT: For some reason a class, containing included constant must not contain `config` word in package path.
 

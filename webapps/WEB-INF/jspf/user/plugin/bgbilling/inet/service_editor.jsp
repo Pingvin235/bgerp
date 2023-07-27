@@ -82,9 +82,9 @@
 
 				<u:sc>
 					<c:set var="valuesHtml">
-						<li value="0">${l.l('Открыт')}</li>
-						<li value="1">${l.l('Закрыт')}</li>
-						<li value="2">${l.l('Заблокирован')}</li>
+						<li value="0">Открыт</li>
+						<li value="1">Закрыт</li>
+						<li value="2">Заблокирован</li>
 					</c:set>
 					<c:set var="hiddenName" value="status"/>
 					<c:set var="value" value="${service.status}"/>

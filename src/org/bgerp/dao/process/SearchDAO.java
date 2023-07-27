@@ -10,12 +10,12 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
 /**
- * Common process searching fluent DAO.
+ * Basic process searching fluent DAO.
  * Extending that assuming using {@code p} as a synonym of {@link ru.bgcrm.dao.process.Tables#TABLE_PROCESS} table in SQL.
  *
  * @author Shamil Vakhitov
  */
-public class CommonSearchDAO extends CommonDAO {
+abstract class SearchDAO extends CommonDAO {
     /** User request context for isolations. */
     protected final DynActionForm form;
 
@@ -28,7 +28,7 @@ public class CommonSearchDAO extends CommonDAO {
      * Constructor without isolations support.
      * @param con
      */
-    protected CommonSearchDAO(Connection con) {
+    protected SearchDAO(Connection con) {
         super(con);
         this.form = null;
     }
@@ -38,7 +38,7 @@ public class CommonSearchDAO extends CommonDAO {
      * @param con
      * @param form
      */
-    protected CommonSearchDAO(Connection con, DynActionForm form) {
+    protected SearchDAO(Connection con, DynActionForm form) {
         super(con);
         this.form = form;
     }
@@ -48,7 +48,7 @@ public class CommonSearchDAO extends CommonDAO {
      * @param value {@code null} - no filter, or process closing date not null.
      * @return
      */
-    public CommonSearchDAO withOpen(Boolean value) {
+    public SearchDAO withOpen(Boolean value) {
         this.open = value;
         return this;
     }
@@ -58,7 +58,7 @@ public class CommonSearchDAO extends CommonDAO {
      * @param value {@code null} or empty - no filter, or set with type IDs.
      * @return
      */
-    public CommonSearchDAO withType(Set<Integer> value) {
+    public SearchDAO withType(Set<Integer> value) {
         this.typeIds = value;
         return this;
     }
@@ -68,7 +68,7 @@ public class CommonSearchDAO extends CommonDAO {
      * @param value {@code null} or empty - no filter, or set with status IDs.
      * @return
      */
-    public CommonSearchDAO withStatus(Set<Integer> value) {
+    public SearchDAO withStatus(Set<Integer> value) {
         this.statusIds = value;
         return this;
     }
@@ -78,7 +78,7 @@ public class CommonSearchDAO extends CommonDAO {
      * @param value enum value.
      * @return
      */
-    public CommonSearchDAO order(Order value) {
+    public SearchDAO order(Order value) {
         this.order = value;
         return this;
     }

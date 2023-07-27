@@ -344,7 +344,7 @@
 								<c:if test="${not empty savedParamsFilters.get( hiddenName ) }">
 									<c:set var="value" value="${savedParamsFilters.get( hiddenName ) }"/>
 								</c:if>
-								<c:set var="prefixText" value="${l.l('Закрыт')}:"/>
+								<c:set var="prefixText" value="${l.l('Closed')}:"/>
 								<c:set var="widthTextValue" value="40px"/>
 								<c:set var="onSelect" value="${sendCommand}"/>
 								<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>

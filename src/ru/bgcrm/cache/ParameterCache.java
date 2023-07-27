@@ -39,14 +39,7 @@ public class ParameterCache extends Cache<ParameterCache> {
      * @return
      */
     public static List<Parameter> getObjectTypeParameterList(String objectType) {
-        List<Parameter> result = new ArrayList<Parameter>();
-
-        List<Parameter> paramList = holder.getInstance().objectTypeParameters.get(objectType);
-        if (paramList != null) {
-            result.addAll(paramList);
-        }
-
-        return result;
+        return holder.getInstance().objectTypeParameters.getOrDefault(objectType, List.of());
     }
 
 
@@ -56,7 +49,7 @@ public class ParameterCache extends Cache<ParameterCache> {
      * @return
      */
     public static List<Parameter> getObjectTypeParameterList(String objectType, int parameterGroupId) {
-        List<Parameter> result = new ArrayList<Parameter>();
+        List<Parameter> result = new ArrayList<>();
 
         List<Parameter> paramList = holder.getInstance().objectTypeParameters.get(objectType);
         if (paramList != null) {
@@ -96,7 +89,7 @@ public class ParameterCache extends Cache<ParameterCache> {
      * @return
      */
     public static List<Parameter> getParameterList(List<Integer> pids) {
-        List<Parameter> result = new ArrayList<Parameter>();
+        List<Parameter> result = new ArrayList<>();
 
         for (Integer paramId : pids) {
             result.add(holder.getInstance().parameterMap.get(paramId));
@@ -215,7 +208,7 @@ public class ParameterCache extends Cache<ParameterCache> {
         return listValues;
     }
 
-    public static IdStringTitleTreeItem getTreeParamValues(final Parameter param) {
+    public static IdStringTitleTreeItem getTreeParamValues(Parameter param) {
         return holder.getInstance().treeParamValues.get(param.getId());
     }
 

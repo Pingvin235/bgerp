@@ -107,6 +107,7 @@ public class SetRequestParamsFilter implements Filter {
      * <b>ctxProcessQueueList</b>  {@link ProcessTypeCache#getProcessQueueList()} List с очередями процессов<br/>
      *
      * <b>ctxParameterMap</b>  {@link ParameterCache#getParameterMap()} Map с параметрами<br/>
+     *
      * <br/>
      */
     public static Map<String, Object> getContextVariables(HttpServletRequest request) {
@@ -130,8 +131,6 @@ public class SetRequestParamsFilter implements Filter {
         result.put("ctxUserCache", UserCache.INSTANCE);
 
         result.put("ctxUserList", UserCache.getUserList());
-        result.put("userList", UserCache.getUserList());
-
         result.put("ctxUserMap", UserCache.getUserMap());
 
         result.put("ctxUserGroupRoleList", UserGroupRoleCache.getUserGroupRoleList());
@@ -148,10 +147,7 @@ public class SetRequestParamsFilter implements Filter {
         ConnectionPool connectionPool = Setup.getSetup().getConnectionPool();
 
         result.put("ctxDataSource", connectionPool.getDataSource());
-        result.put("dataSource", connectionPool.getDataSource());
-
         result.put("ctxSlaveDataSource", connectionPool.getSlaveDataSource());
-        result.put("slaveDataSource", connectionPool.getSlaveDataSource());
 
         result.put("ctxProcessTypeMap", ProcessTypeCache.getProcessTypeMap());
         result.put("ctxProcessTypeTreeRoot", ProcessTypeCache.getTypeTreeRoot());

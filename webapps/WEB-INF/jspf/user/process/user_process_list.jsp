@@ -18,13 +18,13 @@
 			styleClass="mr1"/>
 
 		<ui:combo-single
-			hiddenName="open" value="${form.param.open}" prefixText="${l.l('Закрыт')}:"
+			hiddenName="open" value="${form.param.open}" prefixText="${l.l('process.closed')}:"
 			styleClass="mr1" widthTextValue="100px"
 			onSelect="$$.ajax.load(this.form, $(this.form).parent());">
 			<jsp:attribute name="valuesHtml">
-				<li value="1">${l.l('Открытые')}</li>
-				<li value="0">${l.l('Закрытые')}</li>
-				<li value="">${l.l('Все')}</li>
+				<li value="1">${l.l('Open')}</li>
+				<li value="0">${l.l('Closed')}</li>
+				<li value="">${l.l('Any')}</li>
 			</jsp:attribute>
 		</ui:combo-single>
 

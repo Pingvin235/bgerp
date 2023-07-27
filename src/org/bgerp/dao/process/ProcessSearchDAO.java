@@ -18,7 +18,7 @@ import ru.bgcrm.struts.form.DynActionForm;
  *
  * @author Shamil Vakhitov
  */
-public class ProcessSearchDAO extends CommonSearchDAO {
+public class ProcessSearchDAO extends SearchDAO {
     /**
      * {@inheritDoc}
      */

@@ -59,7 +59,7 @@
 			<ui:combo-single hiddenName="typeId" value="${form.param.typeId}" onSelect="${reloadCommand}"
 				prefixText="${l.l('Type')}:" showFilter="true" styleClass="mr1" widthTextValue="200px">
 				<jsp:attribute name="valuesHtml">
-					<li value="">${l.l('Любой')}</li>
+					<li value="">${l.l('Any')}</li>
 					<c:forEach var="type" items="${form.response.data.typeList}">
 						<li value="${type}">${ctxProcessTypeMap[type]}</li>
 					</c:forEach>
@@ -90,7 +90,7 @@
 				<tr>
 					<td>ID</td>
 					<td>${l.l('Created')}</td>
-					<td>${l.l('Закрыт')}</td>
+					<td>${l.l('Closed')}</td>
 					<td>${l.l('Роль')}</td>
 					<td>${l.l('Type')}</td>
 					<td>${l.l('Status')}</td>

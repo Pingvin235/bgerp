@@ -19,7 +19,7 @@ import ru.bgcrm.util.Utils;
  *
  * @author Shamil Vakhitov
  */
-public class ProcessLinkSearchDAO extends CommonSearchDAO {
+public class ProcessLinkSearchDAO extends SearchDAO {
     private String linkObjectType;
     private int linkObjectId;
 
