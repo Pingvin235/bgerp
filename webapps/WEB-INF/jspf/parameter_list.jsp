@@ -28,7 +28,7 @@
 				<td width="30">ID</td>
 			</c:if>
 			<td>${l.l('Название')}</td>
-			<td width="100%">${l.l('Значение')}</td>
+			<td width="100%">${l.l('Value')}</td>
 		</tr>
 	</c:if>
 	<c:forEach var="item" items="${list}">

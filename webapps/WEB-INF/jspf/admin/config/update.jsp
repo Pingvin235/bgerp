@@ -19,7 +19,7 @@
 		<%@ include file="/WEB-INF/jspf/last_modify_hiddens.jsp"%>
 	</div>
 
-	<c:set var="perm" value="${ctxUser.getPerm('ru.bgcrm.struts.action.admin.ConfigAction:update')}" />
+	<c:set var="perm" value="${ctxUser.getPerm('ru.bgcrm.struts.action.admin.ConfigAction:get')}" />
 
 	<div class="in-inline-block in-va-top">
 		<div style="width: 30%;">

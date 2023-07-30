@@ -44,12 +44,14 @@
 			</item>
 		</item>
 
+		<!-- uncomment and translate when the feature will be restored
 		<item title="Группы контрагентов">
 			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupList" title="Просмотр групп"/>
 			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupGet" title="Просмотр группы"/>
 			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupUpdate" title="Изменение группы"/>
 			<item action="ru.bgcrm.struts.action.admin.CustomerAction:groupDelete" title="Удаление группы"/>
 		</item>
+		-->
 
 		<item title="Config">
 			<item action="ru.bgcrm.struts.action.admin.ConfigAction:list" title="List">

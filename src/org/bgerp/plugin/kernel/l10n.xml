@@ -37,7 +37,7 @@
 	<p><ru>Прервать создание процесса?</ru><en>Abort process creation?</en></p>
 	<p><ru>Новый процесс</ru><en>New process</en></p>
 	<p><ru>не указан</ru><en>undefined</en></p>
-	<p><ru>Значение</ru><en>Value</en></p>
+	<p><en>Value</en><ru>Значение</ru></p>
 	<p><ru>Название</ru><en>Name</en></p>
 	<p><en>Children</en><ru>Дочерние</ru></p>
 	<p><en>Parents</en><ru>Родительские к</ru></p>
@@ -621,6 +621,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><sys>search.sub</sys><en>Substring</en><ru>Подстрока</ru></p>
 	<p><sys>search.prefix</sys><en>Prefix</en><ru>Начинается</ru></p>
 	<p><sys>search.suffix</sys><en>Suffix</en><ru>Заканчивается</ru></p>
+	<p><en>Param text</en><ru>Параметр text</ru></p>
+	<p><en>To search input a string and press Enter</en><ru>Для поиска введите строку и нажмите Enter</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

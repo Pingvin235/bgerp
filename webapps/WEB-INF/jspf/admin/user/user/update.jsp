@@ -82,7 +82,7 @@
 				<ul id="${permissionTreeId}" class="layout-height-rest" style="overflow: auto;">
 					<c:forEach var="tree" items="${permTrees}">
 						<c:set var="node" value="${tree}" scope="request" />
-						<jsp:include page="../check_tree_item.jsp" />
+						<jsp:include page="../perm_check_tree_item.jsp" />
 					</c:forEach>
 				</ul>
 

@@ -123,7 +123,7 @@ link:../../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L173-L178[w
 
 Recursive include:
 [snippet, from="<c:", to="if>", remove-leading="					"]
-link:../../../webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp#L44-L51[webapps/WEB-INF/jspf/admin/user/check_tree_item.jsp]
+link:../../../webapps/WEB-INF/jspf/admin/user/perm_check_tree_item.jsp#L39-L46[webapps/WEB-INF/jspf/admin/user/perm_check_tree_item.jsp]
 
 Action execution result include:
 [snippet, from="<c:u", to="/>", remove-leading="			"]

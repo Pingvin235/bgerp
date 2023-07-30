@@ -8,7 +8,7 @@
 		<td width="30">ID</td>
 		<td>${l.l('Title')}</td>
 		<td>${l.l('Параметр')}</td>
-		<td>${l.l('Значение')}</td>
+		<td>${l.l('Value')}</td>
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>

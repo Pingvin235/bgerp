@@ -25,7 +25,7 @@
 			<td>${l.l('Дата')}</td>
 			<td>${l.l('User')}</td>
 			<td>${l.l('Параметр')}</td>
-			<td width="100%">${l.l('Значение')}</td>
+			<td width="100%">${l.l('Value')}</td>
 		</tr>
 		<c:forEach var="logItem" items="${log}">
 			<tr>

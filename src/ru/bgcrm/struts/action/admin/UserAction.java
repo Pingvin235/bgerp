@@ -78,8 +78,8 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         permset.setConfig(form.getParam("permsetConfig", ""));
 
         permsetDAO.updatePermset(permset);
-        Set<String> config = form.getSelectedValuesStr("config");
-        permsetDAO.updatePermissions(form.getSelectedValuesStr("dataPermissionType"), config, permset.getId());
+        Set<String> config = form.getSelectedValuesStr("permConfig");
+        permsetDAO.updatePermissions(form.getSelectedValuesStr("permAction"), config, permset.getId());
 
         UserCache.flush(con);
 
@@ -315,8 +315,8 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         userDAO.updateUser(user);
 
         if (!perm.getBoolean("permDisable", false)) {
-            userDAO.updatePermissions(form.getSelectedValuesStr("dataPermissionType"),
-                    form.getSelectedValuesStr("config"), user.getId());
+            userDAO.updatePermissions(form.getSelectedValuesStr("permAction"),
+                    form.getSelectedValuesStr("permConfig"), user.getId());
         }
 
         UserCache.flush(con);

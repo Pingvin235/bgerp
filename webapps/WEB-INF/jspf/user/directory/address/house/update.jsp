@@ -20,7 +20,7 @@
 <table class="data">
 	<tr>
 		<td width="150">${l.l('Параметр')}</td>
-		<td>${l.l('Значение')}</td>
+		<td>${l.l('Value')}</td>
 	</tr>
 	<tr>
 		<td>ID</td>

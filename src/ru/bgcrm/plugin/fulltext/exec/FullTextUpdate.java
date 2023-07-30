@@ -36,7 +36,7 @@ import ru.bgcrm.plugin.fulltext.model.SearchItem;
  *
  * @author Shamil Vakhitov
  */
-@Bean(oldClasses = "ru.bgcrm.plugin.fulltext.FullTextUpdater")
+@Bean(oldClasses = { "ru.bgcrm.plugin.fulltext.FullTextUpdater", "ru.bgcrm.plugin.fulltext.task.FullTextUpdate" })
 public class FullTextUpdate extends Task {
     private static final Log log = Log.getLog();
 

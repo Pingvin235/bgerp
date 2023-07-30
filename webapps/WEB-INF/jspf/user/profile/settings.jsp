@@ -14,7 +14,7 @@
 	<table class="data">
 		<tr>
 			<td>${l.l('Свойство')}</td>
-			<td width="100%">${l.l('Значение')}</td>
+			<td width="100%">${l.l('Value')}</td>
 		</tr>
 		<tr>
 			<td>${l.l('Имя')}</td>
