@@ -200,7 +200,7 @@ public class HelpDeskDAO extends BillingDAO {
             return;
         }
 
-        if (dbInfo.versionCompare("6.2") >= 0) {
+        if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicStateUpdate");
             req.setParam("topicId", topicId);
             req.setParam("state", stateClose);
@@ -220,7 +220,7 @@ public class HelpDeskDAO extends BillingDAO {
     }
 
     public void setTopicExecutor(int topicId, int billingUserId) throws BGException {
-        if (dbInfo.versionCompare("6.2") >= 0) {
+        if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicBindSet");
             req.setParam("topicId", topicId);
             req.setParam("userId", billingUserId);
@@ -238,7 +238,7 @@ public class HelpDeskDAO extends BillingDAO {
     }
 
     public void setTopicExecutorMe(int topicId) throws BGException {
-        if (dbInfo.versionCompare("6.2") >= 0) {
+        if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicBindSet");
             req.setParam("topicId", topicId);
             req.setParam("userId", "me");
@@ -256,7 +256,7 @@ public class HelpDeskDAO extends BillingDAO {
     }
 
     public void setTopicStatus(int contractId, int topicId, int status) throws BGException {
-        if (dbInfo.versionCompare("6.2") >= 0) {
+        if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicStatusUpdate");
             req.setParam("topicId", topicId);
             req.setParam("status", status);
@@ -275,7 +275,7 @@ public class HelpDeskDAO extends BillingDAO {
     }
 
     public void setTopicAutoClose(int contractId, int topicId, boolean value) throws BGException {
-        if (dbInfo.versionCompare("6.2") >= 0) {
+        if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "topicAutocloseUpdate");
             req.setParam("topicId", topicId);
             req.setParam("autoclose", value);
@@ -322,7 +322,7 @@ public class HelpDeskDAO extends BillingDAO {
     public byte[] getAttach(int contractId, int id) throws Exception {
         byte[] result = null;
 
-        if (dbInfo.versionCompare("6.2") >= 0) {
+        if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskService", "fileDownload");
             req.setParamContractId(contractId);
             req.setParam("fileId", id);
@@ -372,7 +372,7 @@ public class HelpDeskDAO extends BillingDAO {
     }
 
     public String getContractMode(int contractId) throws BGException {
-        if (dbInfo.versionCompare("6.2") >= 0) {
+        if (dbInfo.versionCompare("8.2") >= 0) {
             RequestJsonRpc req = new RequestJsonRpc(MODULE, "HelpdeskParamService", "getContractCurrentMode");
             req.setParamContractId(contractId);
 
