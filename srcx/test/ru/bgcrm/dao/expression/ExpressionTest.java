@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.jexl3.JexlException;
 import org.junit.Test;
 
 public class ExpressionTest {
@@ -29,6 +30,40 @@ public class ExpressionTest {
 
         Expression exp = new Expression(ctx);
         exp.executeScript("test1('ddd'); test1('ddd', 'mmm');");
+    }
+
+    @Test
+    public void testMissingMethod() {
+        Map<String, Object> ctx = new HashMap<>();
+        ctx.put(null, new LibraryMain());
+
+        boolean thrown = false;
+
+        Expression exp = new Expression(ctx);
+        try {
+            exp.executeScript("test4('ddd');");
+        } catch (JexlException.Method e) {
+            thrown = true;
+        }
+
+        assertTrue(thrown);
+    }
+
+    @Test
+    public void testWrongSignature() {
+        Map<String, Object> ctx = new HashMap<>();
+        ctx.put(null, new LibraryMain());
+
+        boolean thrown = false;
+
+        Expression exp = new Expression(ctx);
+        try {
+            exp.executeScript("test2(11111, \"TEST\");");
+        } catch (JexlException.Method e) {
+            thrown = true;
+        }
+
+        assertTrue(thrown);
     }
 
     public static class TestExpression {
@@ -102,23 +137,23 @@ public class ExpressionTest {
         String processed = new Expression(map).getString(expr);
         assertEquals("3333333333", processed);
     }
-    
+
     @Test
     public void testStaticMethodCall() {
-        String expr = 
+        String expr =
                 "var u = ru.bgcrm.util.Utils;"
                 + "return u.parseInt('3') + 't';";
-        String value = new Expression(new HashMap<>()).getString(expr);				
+        String value = new Expression(new HashMap<>()).getString(expr);
         assertEquals("3t", value);
     }
-    
+
     @Test
     public void testConcatenationNull() {
         Map<String, Object> map = new HashMap<String, Object>(1);
         map.put("a", "t");
-        String expr = "b = null;" + 
+        String expr = "b = null;" +
                 "return a + b;";
-        String value = new Expression(map).getString(expr);				
+        String value = new Expression(map).getString(expr);
         assertEquals("t", value);
     }
 }
