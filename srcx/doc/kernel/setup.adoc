@@ -749,7 +749,7 @@ In menu *Administration / Execution / Run* can be executed any Java class, imple
 
 image::_res/run_class.png[]
 
-When *Wait of execution is done* is selected to Yes, execution logs can be obtained from enabled <<extension.adoc#log-dyn, Dynamic Log>>.
+When *Wait of execution is done* is selected to Yes, execution logs can be obtained from enabled <<interface.adoc#log-dyn, Dynamic Log>>.
 
 [[scheduler]]
 === Scheduler
@@ -790,7 +790,7 @@ image::_res/scheduler.png[width="800px"]
 Scheduler is controlled by <<#config-scheduler, config option>>.
 
 In the right column table placed buttons, allowing to run a scheduled tasks at any moment of time.
-If a toggle selected, task is running in an request thread, allowing to <<extension.adoc#log-dyn, follow logs>>.
+If a toggle selected, task is running in an request thread, allowing to <<interface.adoc#log-dyn, follow logs>>.
 
 [[address]]
 == Адреса

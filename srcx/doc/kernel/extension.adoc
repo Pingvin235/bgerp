@@ -60,7 +60,7 @@ processCreateLink.1.copyLinks=1
 * *su* - статический контекст объекта link:https://commons.apache.org/proper/commons-lang/javadocs/api-3.8.1/org/apache/commons/lang3/StringUtils.html[org.apache.commons.lang3.StringUtils] - возможность вызова статических функций;
 * *сu* - статический контекст объекта link:https://commons.apache.org/proper/commons-collections/javadocs/api-3.2.2/org/apache/commons/collections/CollectionUtils.html[org.apache.commons.collections.CollectionUtils] - возможность вызова статических функций;
 * *fu* - object of class link:https://commons.apache.org/proper/commons-io/javadocs/api-2.6/org/apache/commons/io/FileUtils.html[org.apache.commons.io.FileUtils] for calling static methods;
-* *log* - объект класса link:https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Logger.html[org.apache.log4j.Logger], позволяет вести <<log-dyn, отладку>> с помощью *log.debug* и других вызовов;
+* *log* - объект класса link:https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Logger.html[org.apache.log4j.Logger], позволяет вести отладку с помощью *log.debug* и других вызовов;
 * *NEW_LINE* - перенос строки;
 * *NEW_LINE2* - два переноса строки.
 
@@ -162,20 +162,11 @@ Samples, how to enable loggers wanted package or classes to *log/bgerp.all.log* 
 
 В конфигурационном файле возможно изменять формат информации в файле, фильтр по классам и другие параметры логирования.
 
+To observe only the logs of the current user session, use <<interface.adoc#log-dyn, Dynamic Log>>.
+
 Ссылки:
 [square]
 * http://artamonov.ru/2007/04/06/vvedenie-v-log4j/ - вводная статья на русском.
-
-[[log-dyn]]
-==== Динамическое логирование
-Для более удобной отладки JEXL скриптов, конфигураций либо динамического кода
-возможно получение логов только текущей сессии с помощью оснастки *Пуск / Логирование*.
-
-image::_res/ext_dyn_log.png[width='600px']
-
-Логирование позволяет отследить вызванную действиями пользователя активность на стороне сервера.
-Количество строк лога ограничено, отображаются только последние 1000 строк.
-Каждый раз при переходе в оснастку поле *Текущий лог* обновляется, то же действие производит повторное нажатие кнопки *Включить*.
 
 [[custom]]
 == Custom

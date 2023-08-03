@@ -355,3 +355,14 @@ Line2
 END
 ----
 Значение value будет *Line1Line2*. Переносы строк не участвуют в склеивании. Вместо *END* можно использовать любую строку.
+
+[[log-dyn]]
+== Dynamic Log
+This tool may is available in *Log* menu and allows collecting session logs, which may be requested by developers.
+
+image::_res/log_dyn.png[width="800px"]
+
+Once enabled the tool is collecting logs starting from *DEBUG* level for the current user session only,
+that allows easier observe possible problems.
+
+The log is refreshed any time when it opened back.
