@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -102,13 +105,20 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     /** Empty constructor for Struts. */
     public DynActionForm() {}
 
-    /** Constructor from string URL. */
+    /**
+     * Constructor from string URL or only query string.
+     * @param url the complete URL or only the query string after {@code ?}.
+    */
     public DynActionForm(String url) {
-        String params[] = url.split("\\?")[1].split("&");
+        int pos = url.indexOf("?");
+        if (pos > 0)
+            url = url.substring(pos + 1);
 
-        HashMap<String, ArrayList<String>> paramsForForm = new HashMap<String, ArrayList<String>>();
+        String params[] = url.split("&");
+
+        Map<String, List<String>> paramsForForm = new TreeMap<>();
         for (String param : params) {
-            int pos = param.indexOf('=');
+            pos = param.indexOf('=');
             if (pos < 0)
                 continue;
 
@@ -117,33 +127,54 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
                 String value = URLDecoder.decode(param.substring(pos + 1), StandardCharsets.UTF_8.name());
 
                 if (paramsForForm.get(key) == null) {
-                    ArrayList<String> arrayValues = new ArrayList<String>();
+                    ArrayList<String> arrayValues = new ArrayList<>();
                     arrayValues.add(value);
                     paramsForForm.put(key, arrayValues);
                 } else {
                     paramsForForm.get(key).add(value);
                 }
-            } catch (Exception e) {
+            } catch (UnsupportedEncodingException e) {
                 log.error(e);
             }
         }
 
-        HashMap<String, String[]> paramsForFormAsArray = new HashMap<String, String[]>();
-        for (String key : paramsForForm.keySet()) {
-            String[] paramsArray = new String[paramsForForm.get(key).size()];
-            paramsArray = paramsForForm.get(key).toArray(paramsArray);
-            paramsForFormAsArray.put(key, paramsArray);
-        }
-
-        this.param.putAll(paramsForFormAsArray);
+        this.param.putAll(paramsForForm.entrySet().stream()
+            .collect(Collectors.toMap(me -> me.getKey(), me -> me.getValue().toArray(new String[0])))
+        );
     }
 
     public DynActionForm(User user) {
-        this.user = user;
+        setUser(user);
         this.permission = ConfigMap.EMPTY;
         // for tests
         if (PluginManager.getInstance() != null)
             this.l = Localization.getLocalizer();
+    }
+
+    /**
+     * @return request params except {@link #PARAM_REQUEST_URL}, serialized to a query string.
+     */
+    public String paramsToQueryString() {
+        var result = new StringBuilder(200);
+
+        for (var me : param.entrySet()) {
+            String key = me.getKey();
+            if (PARAM_REQUEST_URL.equals(key))
+                continue;
+
+            for (String value : (String []) me.getValue()) {
+                if (!result.isEmpty())
+                    result.append("&");
+
+                try {
+                    result.append(key).append("=").append(URLEncoder.encode(value, StandardCharsets.UTF_8.name()));
+                } catch (UnsupportedEncodingException e) {
+                    log.error(e);
+                }
+            }
+        }
+
+        return result.toString();
     }
 
     public HttpServletRequest getHttpRequest() {
@@ -240,6 +271,8 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     public void setUser(User user) {
         this.user = user;
+        if (user != null)
+            param.setLogTrackingId("UID: " + user.getId());
     }
 
     public int getUserId() {

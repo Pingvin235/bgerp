@@ -5,17 +5,25 @@ import java.util.Map;
 
 import org.bgerp.util.Log;
 
-import ru.bgcrm.util.SerialUtils;
-
 /**
- * Map для хранения параметров форм, в т.ч. типа checkbox,
- * когда приходит несколько значений под одним именем.
+ * Map for storing HTTP request parameters,
+ * for a string key may be presented multiple values.
+ *
+ * @author Shamil Vakhitov
  */
 public class ArrayHashMap extends HashMap<String, Object> {
     private static final Log log = Log.getLog();
 
-    // without the field fails in showing process queues
-    private static final long serialVersionUID = SerialUtils.generateSerialVersionUID(ArrayHashMap.class);
+    /* Log tracking ID identifier. */
+    private String logTrackingId;
+
+    /**
+     * Sets log tracking ID identifier.
+     * @param value
+     */
+    public void setLogTrackingId(String value) {
+        this.logTrackingId = value;
+    }
 
     @Override
     public Object put(String arg0, Object arg1) {
@@ -39,7 +47,7 @@ public class ArrayHashMap extends HashMap<String, Object> {
                 return array[0];
             }
 
-            log.warn("Error taking as single param: {}", key);
+            log.warn("Error taking as single param: {}, {}", key, logTrackingId);
 
             return null;
         }

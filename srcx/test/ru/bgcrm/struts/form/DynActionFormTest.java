@@ -1,5 +1,7 @@
 package ru.bgcrm.struts.form;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 
@@ -10,6 +12,28 @@ import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.util.Utils;
 
 public class DynActionFormTest {
+    @Test
+    public void testParamsToQueryString() throws Exception {
+        var form = new DynActionForm("a=1&a=2&b=4");
+        String paramsQuery = form.paramsToQueryString();
+
+        Assert.assertTrue(paramsQuery.contains("a=1"));
+        Assert.assertTrue(paramsQuery.contains("a=2"));
+        Assert.assertTrue(paramsQuery.contains("b=4"));
+        Assert.assertEquals(11, paramsQuery.length());
+
+        form = new DynActionForm();
+        String value = "=+12-";
+        form.setParam("a", value);
+        paramsQuery = form.paramsToQueryString();
+
+        Assert.assertEquals("a=" + URLEncoder.encode(value, StandardCharsets.UTF_8.name()), paramsQuery);
+
+        form = new DynActionForm(paramsQuery);
+
+        Assert.assertEquals(value, form.getParam("a"));
+    }
+
     @Test
     public void testGetParam() {
         var form = new DynActionForm("url?a=1&k=&");

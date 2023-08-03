@@ -2,14 +2,12 @@ package ru.bgcrm.struts.action;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -27,7 +25,6 @@ import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
 import ru.bgcrm.event.listener.EventListener;
-import ru.bgcrm.model.ArrayHashMap;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
@@ -253,10 +250,8 @@ public class ProcessQueueAction extends ProcessAction {
             personalizationMap.put("queueLastSelected", String.valueOf(queue.getId()));
 
             String filtersValues = personalizationMap.get(QUEUE_FULL_FILTER_PARAMS + form.getId());
-            if (!Utils.isEmptyString(filtersValues) || filtersValues != null) {
-                ArrayHashMap ahm = (ArrayHashMap) SerializationUtils.deserialize(Base64.getDecoder().decode(filtersValues));
-                DynActionForm savedParamsFilters = new DynActionForm();
-                savedParamsFilters.setParam(ahm);
+            if (!Utils.isEmptyString(filtersValues)) {
+                DynActionForm savedParamsFilters = new DynActionForm(filtersValues);
                 request.setAttribute("savedParamsFilters", savedParamsFilters);
             }
 
@@ -327,19 +322,7 @@ public class ProcessQueueAction extends ProcessAction {
     }
 
     private void saveFormFilters(int queueId, DynActionForm form, Preferences personalizationMap) {
-        ArrayHashMap ahm = new ArrayHashMap();
-        for (String paramName : form.getParam().keySet()) {
-            if (!paramName.equals("requestUrl") && form.getParamArray(paramName) != null && form.getParamArray(paramName).length > 0) {
-                if (form.getParamArray(paramName).length > 1) {
-                    ahm.put(paramName, form.getParamArray(paramName));
-                } else if (Utils.notBlankString(form.getParam(paramName))) {
-                    ahm.put(paramName, form.getParam(paramName));
-                }
-            }
-        }
-
-        String paramKey = QUEUE_FULL_FILTER_PARAMS + queueId;
-        personalizationMap.put(paramKey, Base64.getEncoder().encodeToString(SerializationUtils.serialize(ahm)));
+        personalizationMap.put(QUEUE_FULL_FILTER_PARAMS + queueId, form.paramsToQueryString());
     }
 
     private String getMedia(DynActionForm form) {
