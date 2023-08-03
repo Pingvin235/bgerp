@@ -10,7 +10,7 @@
 *** <<kernel/mysql_migration.adoc#, Migrate DB to MySQL 8.0>>
 ** <<kernel/interface.adoc#, Interface>>
 ** <<kernel/setup.adoc#, Setup>>
-** <<kernel/search.adoc#, Поиск>>
+** <<kernel/search.adoc#, Search>>
 ** <<kernel/news.adoc#, Новости>>
 ** <<kernel/customer.adoc#, Контрагенты>>
 ** <<kernel/process/index.adoc#, Процессы>>

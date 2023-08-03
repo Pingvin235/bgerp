@@ -1,7 +1,9 @@
 = CHANGES
 :toc:
 
-== Strict Config Check of Process Queues
+== BREAKING CHANGES
+
+=== Strict Config Check of Process Queues
 Some of your queues can disappear with the following error in logs:
 [source]
 ----
@@ -10,15 +12,15 @@ Not found media queue column with ID:
 
 This means that in *media.xxx* keys were used not existing column IDs.
 
-== Dynamic to Custom
+=== Dynamic to Custom
 Old Dynamic code is no longer supported and must be moved to Custom.
 For that move your Java code from *ru.bgcrm.dyn* to *org.bgerp.custom* package,
 and custom JSPs to `custom/webapps`.
 
-=== External HTTP <<../../kernel/extension.adoc#run-http, Requests>>
+==== External HTTP <<../../kernel/extension.adoc#run-http, Requests>>
 Replace *dynamic.do?action=runDynamicClass* to *run.do?action=runClass* calls.
 
-== API
+=== API
 You need to adjust your custom Java code.
 
 Moved classes:
@@ -27,6 +29,12 @@ Moved classes:
 * ru.bgcrm.util.Setup to org.bgerp.app.cfg.Setup
 
 Scheduled tasks have to extend class javadoc:org.bgerp.app.exec.scheduler.Task[]
+
+== FEATURES
+
+=== Search Processes by Parameters
+
+image::_res/14747.png[width="800px"]
 
 ////
 // REMOVE THESE COMMENTED SAMPLES AFTER CREATING A REAL CONTENT

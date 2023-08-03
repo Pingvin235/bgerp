@@ -23,15 +23,32 @@ image::_res/i0095.png[]
 
 [[process]]
 == Process
-Реализован поиск процесса по ID, а также относящихся к текущиму пользователю процессов:
+[[process-id]]
+=== By ID
+Process can be found by ID.
+
+image::_res/search_process_id.png[width="800px"]
+
+[[process-current-user]]
+=== The Current User Related
+The current user related processes may be listed:
 [square]
-* *Созданные мной* - созданные текущим пользователем;
-* *Закрытые мной* - закрытые текущим пользователем;
-* *Статус изменен мной* - последнее изменение статуса произведено текущим пользователем.
+* *Created by me* - created by the current user;
+* *Closed by me* - closed by the current user;
+* *Status changed by me* - the last status change is performed by the current user.
 
-Сортировка осуществляется по убыванию времени создания, закрытия или изменения.
+Sorting has been done by ascending of creation, closing or status changing time respectively.
+Result examples are presented on the screens below.
 
-image::_res/i0096.png[]
+image::_res/search_process_created.png[width="800px"]
+
+image::_res/search_process_status_changed.png[width="800px"]
+
+[[process-param]]
+=== Param
+Supported process search by *text* parameter values.
+
+image::_res/search_process_param.png[width="800px"]
 
 [[form]]
 == Search Forms
