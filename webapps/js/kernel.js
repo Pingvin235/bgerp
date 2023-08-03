@@ -24,6 +24,7 @@ $$.debugAreas = {
 	"shell.message": 0,
 	buffer: 0,
 	datepicker: 0,
+	"process.hideLeftAreaOnScroll": 0,
 	processQueue: 0,
 	doOnClick: 0,
 	uiMonthDaysSelect: 0,

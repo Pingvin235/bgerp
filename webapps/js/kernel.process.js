@@ -16,29 +16,25 @@ $$.process = new function() {
 	 * @param {*} topTolerance how many pixels left area should be scrolled up out of visible area to be hidden, the option prevents flickering.
 	 */
 	const hideLeftAreaOnScroll = ($leftDiv, topTolerance) => {
+		const debug = $$.debug("process.hideLeftAreaOnScroll");
+
 		const $wrap = $leftDiv.find(".wrap");
-
-		// saved params of left block, set on hiding
-		let state = null;
-
-		const hide = function () {
-			state = {
-				minWidth: $leftDiv.css("min-width")
-			};
-			$leftDiv.css("min-width", "5px");
-		}
-
-		const show = function () {
-			$leftDiv.css("min-width", state.minWidth);
-			state = null;
-		}
+		const wrapBottomOffset = $wrap.offset().top + $wrap.height();
 
 		$(window).scroll(function() {
-			if (state) {
-				if ($$.isElementInView($wrap, 0))
-					show();
-			} else if (!$$.isElementInView($wrap, topTolerance))
-				hide();
+			const scrollTop = document.documentElement.scrollTop;
+
+			debug("wrapBottomOffset:", wrapBottomOffset, "topTolerance: ", topTolerance, "scrollTop:", scrollTop);
+
+			if ($leftDiv.is(":visible")) {
+				if (wrapBottomOffset + topTolerance < scrollTop) {
+					debug("hide()");
+					$leftDiv.hide();
+				}
+			} else if (scrollTop < wrapBottomOffset) {
+				debug("show()");
+				$leftDiv.show();
+			}
 		});
 	}
 
