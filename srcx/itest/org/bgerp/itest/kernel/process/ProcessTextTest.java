@@ -15,17 +15,17 @@ public class ProcessTextTest {
     private int processId2;
 
     @Test
-    public void addProcess() throws Exception {
+    public void process() throws Exception {
         processId1 = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + " 1").getId();
-        processId2 = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + "\n" + getText()).getId();
+        processId2 = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + "\n" + text()).getId();
     }
 
-    @Test(dependsOnMethods = { "addProcess" })
-    public void addMessage() throws Exception {
-        MessageHelper.addNoteMessage(processId2, UserTest.USER_ADMIN_ID, Duration.ZERO, "Indents, links", getText());
+    @Test(dependsOnMethods = "process")
+    public void message() throws Exception {
+        MessageHelper.addNoteMessage(processId2, UserTest.USER_ADMIN_ID, Duration.ZERO, "Indents, links", text());
     }
 
-    private String getText() {
+    private String text() {
         return new StringBuilder()
                 .append("The link has to be recognized and clickable: https://bgerp.org\n")
                 .append("The link to an existing process has to be clickable: #" + processId1 + "\n")

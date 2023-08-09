@@ -126,7 +126,7 @@
 			<td nowrap="nowrap">
 				<c:choose>
 					<c:when test="${item.useParentProperties}">
-						[${l.l('унаследованы')}]
+						[${l.l('inherited')}]
 					</c:when>
 					<c:otherwise><a href="#" onclick="$$.ajax.loadContent('${url}', this); return false;">[${l.l('свойства')}]</a></c:otherwise>
 				</c:choose>

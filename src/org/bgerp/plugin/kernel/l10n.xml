@@ -623,6 +623,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><sys>search.suffix</sys><en>Suffix</en><ru>Заканчивается</ru></p>
 	<p><en>Param text</en><ru>Параметр text</ru></p>
 	<p><en>To search input a string and press Enter</en><ru>Для поиска введите строку и нажмите Enter</ru></p>
+	<p><en>inherited</en><ru>унаследованы</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

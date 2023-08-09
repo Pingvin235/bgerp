@@ -42,14 +42,19 @@ public class DefaultMarkedProcessor implements EventListener<Event> {
     private static final String COMMAND_PRINT = "print";
 
     public static class Config extends org.bgerp.app.cfg.Config {
-        private final List<Command> commandList = new ArrayList<Command>();
+        private final List<Command> commandList = new ArrayList<>();
         private final String doExpression;
 
         public Config(ConfigMap config) {
             super(null);
-            for (String command : config.get("commands", "").split(";")) {
+
+            String commands = config.get("commands", "");
+            for (String command : commands.split(";"))
                 commandList.add(new Command(command));
-            }
+
+            if (Utils.notBlankString(commands))
+                log.warn("Used process queue processor commands: {}, qty: {}", commands, commandList.size());
+
             doExpression = config.get(Expression.DO_EXPRESSION_CONFIG_KEY);
         }
 

@@ -20,15 +20,15 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.param.AddressTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.plugin.pln.workload.Plugin;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.process.Process;
-import org.bgerp.plugin.pln.workload.Plugin;
+import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "workload", priority = 100, dependsOnGroups = { "config", "user", "process", "address" })
 public class WorkloadTest {
@@ -59,7 +59,7 @@ public class WorkloadTest {
 
     @Test(dependsOnMethods = { "param", "userGroup" })
     public void processType() throws Exception {
-        var props = ProcessTypeCache.getProcessType(ProcessTest.processTypeTestId).getProperties();
+        var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));

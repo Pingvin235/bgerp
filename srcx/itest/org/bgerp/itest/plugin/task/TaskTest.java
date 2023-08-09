@@ -1,6 +1,7 @@
 package org.bgerp.itest.plugin.task;
 
 import java.util.List;
+import java.util.Set;
 
 import org.bgerp.itest.helper.ConfigHelper;
 import org.bgerp.itest.helper.MessageHelper;
@@ -11,9 +12,9 @@ import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.plugin.task.Plugin;
 
 
@@ -31,7 +32,10 @@ public class TaskTest {
     public void process() throws Exception {
         int paramDeadlineId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, TITLE + " Deadline", 0, "", "");
 
-        var props = ProcessTypeCache.getProcessType(ProcessTest.processTypeTestId).getProperties();
+        var props = new TypeProperties();
+        props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
+        props.setCreateStatus(ProcessTest.statusOpenId);
+        props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(paramDeadlineId));
         props.setConfig(ConfigHelper.generateConstants("DEADLINE_PARAM_ID", paramDeadlineId) +
             ResourceHelper.getResource(this, "process.type.config.txt"));

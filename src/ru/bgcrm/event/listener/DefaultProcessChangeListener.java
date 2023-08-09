@@ -171,7 +171,11 @@ public class DefaultProcessChangeListener {
             this.ifExpression = config.get("ifExpression");
             this.doExpression = config.get(Expression.DO_EXPRESSION_CONFIG_KEY);
 
-            this.commands = Utils.toList(config.get("commands", ""), ";");
+            String commands = config.get("commands", "");
+            this.commands = Utils.toList(commands, ";");
+
+            if (Utils.notBlankString(commands))
+                log.warn("Used process type expression commands: {}, qty: {}", commands, this.commands.size());
         }
 
         private void extractEvents(ConfigMap config, List<String> eventList, Map<String, Object> eventMap) {

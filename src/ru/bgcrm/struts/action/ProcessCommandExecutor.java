@@ -5,35 +5,25 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.bgerp.app.cfg.Preferences;
-import org.bgerp.model.Pageable;
 
-import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.NewsDAO;
-import ru.bgcrm.dao.expression.Expression;
-import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.UserEvent;
 import ru.bgcrm.event.process.ProcessDoActionEvent;
-import ru.bgcrm.event.process.ProcessMessageAddedEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.News;
-import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
-import ru.bgcrm.model.user.Group;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
@@ -44,7 +34,6 @@ public class ProcessCommandExecutor {
     public static final String COMMAND_ADD_EXECUTORS = "addExecutors";
     public static final String COMMAND_SET_PARAM = "setParam";
 
-    @SuppressWarnings("unchecked")
     public static void processDoCommands(Connection con, DynActionForm form, Process process, UserEvent event, List<String> commands)
             throws Exception {
         ProcessType type = ProcessAction.getProcessType(process.getTypeId());
@@ -66,20 +55,19 @@ public class ProcessCommandExecutor {
                 command = StringUtils.substringAfter(command, ":");
             }
 
-            // устаревший формат, убрать в доке
             if ("setCurrentExecutor".equals(command)) {
-                command = "addExecutors:{@ctxUserId}";
+                command = "addExecutors:" + form.getUserId();
             }
 
-            // устаревший формат, убрать в конфигурации типов процессов
+            /* // устаревший формат, убрать в конфигурации типов процессов
             if (command.startsWith(COMMAND_ADD_EXECUTORS)) {
                 command = command.replaceAll("current", "{@ctxUserId}");
-            }
+            } */
 
-            command = Preferences.insertVariablesValues(command, form.getUser().getConfigMap(), null, true);
+            // command = Preferences.insertVariablesValues(command, form.getUser().getConfigMap(), null, true);
 
             //TODO: Поддержка ролей.
-            if (command.startsWith("addGroupsInRole")) {
+            /* if (command.startsWith("addGroupsInRole")) {
                 String groupIds = StringUtils.substringBetween(command, ":");
                 int roleId = Utils.parseInt(StringUtils.substringAfterLast(command, ":"), 0);
 
@@ -93,20 +81,7 @@ public class ProcessCommandExecutor {
                 if (processGroups.addAll(addingProcessGroups)) {
                     ProcessAction.processGroupsUpdate(form, con, process, processGroups);
                 }
-            }/*else if (command.startsWith(COMMAND_ADD_GROUPS)) {
-                String param = StringUtils.substringAfter(command, ":");
-
-                Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>(process.getGroups());
-                Set<ProcessGroup> addingProcessGroups = ProcessGroup.toProcessGroupSet(Utils.toIntegerSet(param));
-                if (type.getProperties().getAllowedGroups().size() > 0) {
-                    addingProcessGroups = new HashSet<ProcessGroup>(
-                            CollectionUtils.intersection(addingProcessGroups, type.getProperties().getAllowedGroups()));
-                }
-
-                if (processGroups.addAll(addingProcessGroups)) {
-                    ProcessAction.processGroupsUpdate(form, con, process, processGroups);
-                }
-            }*/ else if (command.startsWith(COMMAND_SET_STATUS)) {
+            } else */ if (command.startsWith(COMMAND_SET_STATUS)) {
                 int status = Utils.parseInt(StringUtils.substringAfter(command, ":"));
 
                 StatusChange change = new StatusChange();
@@ -117,7 +92,7 @@ public class ProcessCommandExecutor {
                 change.setComment("Автоматическая смена статуса");
 
                 ProcessAction.processStatusUpdate(form, con, process, change);
-            } else if (command.startsWith("checkExecutorsInGroups")) {
+            } /* else if (command.startsWith("checkExecutorsInGroups")) {
                 Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringAfter(command, ":"));
 
                 GROUP_LOOP: for (Integer groupId : groupIds) {
@@ -146,50 +121,7 @@ public class ProcessCommandExecutor {
                 executors.addAll(ProcessExecutor.toProcessExecutorSet(userIds, processGroup));
 
                 ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
-            }
-            /* // обновление исполнитлей для одной из предложенных групп среди групп процесса
-            else if (command.startsWith("addExecutorsInGroups")) {
-                Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringBetween(command, ":"));
-                Set<Integer> userIds = Utils.toIntegerSet(StringUtils.substringAfterLast(command, ":"));
-
-                ProcessGroup processGroup = getProcessGroup(process, groupIds);
-
-                // добавление в текущих исполнителей группороли
-                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(),
-                        Collections.singleton(processGroup));
-                executors.addAll(ProcessExecutor.toProcessExecutorSet(userIds, processGroup));
-
-                ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
-            } else if (command.startsWith(COMMAND_ADD_EXECUTORS)) {
-                String param = StringUtils.substringAfter(command, ":");
-
-                Set<Integer> addingExecutorIds = Utils.toIntegerSet(param);
-
-                // определение единственной группороли в которую добавляются исполнители
-                ProcessGroup processGroup = null;
-                for (ProcessGroup pg : process.getGroups()) {
-                    for (Integer executorId : addingExecutorIds) {
-                        User user = UserCache.getUser(executorId);
-                        if (user.getGroupIds().contains(pg.getGroupId())) {
-                            if (processGroup != null && processGroup.getGroupId() != pg.getGroupId()) {
-                                throw new BGMessageException("Устанавливаемые исполнители относится к нескольким группам процесса.");
-                            }
-                            processGroup = pg;
-                        }
-                    }
-                }
-
-                if (processGroup == null) {
-                    throw new BGMessageException("The set executors are not members of process execution groups.");
-                }
-
-                // добавление в текущих исполнителей группороли
-                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(),
-                        Collections.singleton(processGroup));
-                executors.addAll(ProcessExecutor.toProcessExecutorSet(addingExecutorIds, processGroup));
-
-                ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
-            }*/ else if (command.startsWith("setExecutorsInGroupsIfNot")) {
+            } else if (command.startsWith("setExecutorsInGroupsIfNot")) {
                 Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringBetween(command, ":"));
                 Set<Integer> userIds = Utils.toIntegerSet(StringUtils.substringAfterLast(command, ":"));
 
@@ -225,7 +157,7 @@ public class ProcessCommandExecutor {
                 Set<ProcessExecutor> executors = ProcessExecutor.toProcessExecutorSet(userIds, processGroup);
 
                 ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
-            } else if (command.equals("clearGroups")) {
+            }*/ else if (command.equals("clearGroups")) {
                 ProcessAction.processGroupsUpdate(form, con, process, new HashSet<ProcessGroup>());
             } else if (command.equals("clearExecutors")) {
                 ProcessAction.processExecutorsUpdate(form, con, process, process.getGroups(), new HashSet<ProcessExecutor>());
@@ -235,73 +167,7 @@ public class ProcessCommandExecutor {
                 form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessOpenEvent(process.getId()));
             } else if (command.equals("close")) {
                 form.getResponse().addEvent(new ru.bgcrm.event.client.ProcessCloseEvent(process.getId()));
-            }/*else if (command.startsWith("decreasePriority")) {
-                Integer decPriority = Utils.parseInt(StringUtils.substringAfter(command, ":"));
-                if (decPriority > 0) {
-                    Integer newPriority = process.getPriority() - decPriority;
-                    if (newPriority < 0) {
-                        newPriority = 0;
-                    }
-                    ProcessAction.processPriorityUpdate(form, process, con, newPriority);
-                }
-            } else if (command.startsWith("increasePriority")) {
-                Integer incPriority = Utils.parseInt(StringUtils.substringAfter(command, ":"));
-                if (incPriority > 0) {
-                    Integer newPriority = process.getPriority() + incPriority;
-                    if (newPriority > 9) {
-                        newPriority = 9;
-                    }
-                    ProcessAction.processPriorityUpdate(form, process, con, newPriority);
-                }
-            } else if (command.startsWith("emailNotifyExecutors")) {
-                String[] tokens = command.split(":");
-
-                if (tokens.length < 2) {
-                    throw new BGException("Ошибка параметров " + command);
-                }
-
-                Integer paramId = Utils.parseInt(tokens[1]);
-                String subject = tokens.length > 2 ? tokens[2] : "Изменился процесс";
-
-                // исполнители исключая пользователя, совершившего действие
-                Set<Integer> executorIds = new HashSet<Integer>(process.getExecutorIds());
-                executorIds.remove(event.getForm().getUserId());
-
-                if (executorIds.size() == 0) {
-                    continue;
-                }
-                String exprText = null;
-                if (tokens.length > 3) {
-                    exprText = type.getProperties().getConfigMap().get(tokens[3]);
-                }
-
-                emailSend(con, form, event, process, type, subject, exprText, paramId, executorIds,
-                        "Изменился процесс, в котором вы числитесь исполнителем.");
-            } else if (command.startsWith("emailNotifyUsers")) {
-                String[] tokens = command.split(":");
-
-                if (tokens.length < 4) {
-                    throw new BGException("Ошибка параметров " + command);
-                }
-
-                Integer paramId = Utils.parseInt(tokens[1]);
-                Set<Integer> userIds = Utils.toIntegerSet(tokens[2]);
-                String subject = tokens.length > 3 ? tokens[3] : "Изменился процесс";
-
-                // исключая пользователя, совершившего действие
-                userIds.remove(event.getForm().getUserId());
-
-                if (userIds.size() == 0) {
-                    continue;
-                }
-                String exprText = null;
-                if (tokens.length > 4) {
-                    exprText = type.getProperties().getConfigMap().get(tokens[4]);
-                }
-
-                emailSend(con, form, event, process, type, subject, exprText, paramId, userIds,
-                        "Изменился процесс, на обновления которого вы подписаны.");
-            }*/ else if (command.startsWith("newsNotifyExecutors") || command.startsWith("newsPopupNotifyExecutors")) {
+            } else if (command.startsWith("newsNotifyExecutors") || command.startsWith("newsPopupNotifyExecutors")) {
                 String subject = Utils.maskEmpty(StringUtils.substringAfterLast(command, ":"), "Изменился процесс ");
 
                 String text = "Изменился процесс, в котором вы числитесь исполнителем.\n\n" + "Описание:<br/>" + process.getDescription();
@@ -337,7 +203,7 @@ public class ProcessCommandExecutor {
                 if (userIds.size() > 0 && Utils.notBlankString(news.getTitle())) {
                     newsDao.updateNewsUsers(news, userIds);
                 }
-            } else if (command.startsWith("createProcessLinkForSame")) {
+            }/*  else if (command.startsWith("createProcessLinkForSame")) {
                 int createTypeId = Utils.parseInt(StringUtils.substringAfter(command, ":"));
                 if (createTypeId <= 0) {
                     throw new BGException("Не определён тип для создания");
@@ -353,103 +219,17 @@ public class ProcessCommandExecutor {
                 }
 
                 ProcessLinkAction.linkProcessCreate(con, form, linked.getSecond(), -1, null, createTypeId, "", -1);
-            } else if (command.startsWith("createProcessLink")) {
+            } */ else if (command.startsWith("createProcessLink")) {
                 int createTypeId = Utils.parseInt(StringUtils.substringAfter(command, ":"));
                 if (createTypeId <= 0) {
                     throw new BGException("Не определён тип для создания");
                 }
 
                 ProcessLinkAction.linkProcessCreate(con, form, process, -1, null, createTypeId, "", -1);
-            } /* else if (command.startsWith("setRelativeDateParam")) {
-                int paramId = Utils.parseInt(StringUtils.substringBetween(command, ":"));
-                Parameter param = ParameterCache.getParameter(paramId);
-                if (param == null || (!param.getType().equals(Parameter.TYPE_DATE) && !param.getType().equals(Parameter.TYPE_DATETIME))) {
-                    throw new BGException("Не найден параметр с кодом либо неверен:" + paramId);
-                }
-
-                int days = Utils.parseInt(StringUtils.substringAfterLast(command, ":"), 1);
-
-                Calendar now = new GregorianCalendar();
-                TimeUtils.clear_HOUR_MIN_MIL_SEC(now);
-                now.add(Calendar.DAY_OF_YEAR, days);
-
-                ParamValueDAO paramDao = new ParamValueDAO(con);
-                if (param.getType().equals(Parameter.TYPE_DATE)) {
-                    paramDao.updateParamDate(process.getId(), paramId, now.getTime());
-                } else {
-                    paramDao.updateParamDateTime(process.getId(), paramId, now.getTime());
-                }
-            } else if (command.startsWith(COMMAND_SET_PARAM)) {
-                int paramId = Utils.parseInt(StringUtils.substringBetween(command, ":"));
-                Parameter param = ParameterCache.getParameter(paramId);
-                String value = Utils.substringAfter(command, ":", 2);
-
-                switch (Parameter.Type.of(param.getType())) {
-                    case DATE:
-                        new ParamValueDAO(con).updateParamDate(process.getId(), param.getId(), TimeUtils.parse(value, param.getDateParamFormat(), null));
-                        break;
-                    case DATETIME:
-                        new ParamValueDAO(con).updateParamDateTime(process.getId(), param.getId(),
-                                TimeUtils.parse(value, param.getDateParamFormat(), null));
-                        break;
-                    case ADDRESS:
-                    case BLOB:
-                    case EMAIL:
-                    case FILE:
-                    case LIST:
-                    case LISTCOUNT:
-                    case MONEY:
-                    case PHONE:
-                    case TEXT:
-                    case TREE:
-                        throw new BGException("Unsupported parameter type for macros:" + command);
-                }
-            }*/ else {
+            } else {
                 EventProcessor.processEvent(new ProcessDoActionEvent(form, process, command), new SingleConnectionSet(con));
             }
         }
-    }
-
-    /* private static void emailSend(Connection con, DynActionForm form, UserEvent event, Process process, ProcessType type, String subject,
-            String exprText, int paramId, Set<Integer> userIds, String defaultSubject) throws Exception {
-        // вычисление subject с помощью JEXL
-        String subjectExpr = type.getProperties().getConfigMap().get(subject);
-        if (Utils.notBlankString(subjectExpr)) {
-            subject = getMessageChangeText(con, form, event, process, subjectExpr);
-        } else {
-            subject += " #" + process.getId();
-
-            String description = StringUtils.substringBefore(process.getDescription(), "\n");
-            subject += " [" + description + "]";
-        }
-
-        // вычисление текста сообщения с помощью JEXL
-        String text = null;
-        if (exprText == null) {
-            text = defaultSubject + "\n\n" + "Описание:\n" + process.getDescription();
-
-            if (event != null && event instanceof ProcessMessageAddedEvent && ((ProcessMessageAddedEvent) event).getMessage() != null) {
-                text += "\n\nСообщение:\n" + ((ProcessMessageAddedEvent) event).getMessage().getText();
-            }
-        } else {
-            text = getMessageChangeText(con, form, event, process, exprText);
-        }
-
-        Parameter param = ParameterCache.getParameter(paramId);
-        if (param == null || !Parameter.TYPE_EMAIL.equals(param.getType())) {
-            throw new BGMessageException("Параметр с кодом " + paramId + " не найден или его тип не EMail.");
-        }
-
-        ParamValueDAO paramDao = new ParamValueDAO(con);
-        for (Integer executorId : userIds) {
-            for (ParameterEmailValue value : paramDao.getParamEmail(executorId, paramId).values()) {
-                new MailMsg(Setup.getSetup()).sendMessage(value.getValue(), subject, text);
-            }
-        }
-    } */
-
-    private static ProcessGroup getProcessGroup(Process process, Set<Integer> groupIds) throws BGMessageException {
-        return getProcessGroup(process, groupIds, -1);
     }
 
     public static ProcessGroup getProcessGroup(Process process, Set<Integer> groupIds, int roleId) throws BGMessageException {
@@ -480,7 +260,7 @@ public class ProcessCommandExecutor {
         return processGroup;
     }
 
-    protected static String getMessageChangeText(Connection con, DynActionForm form, UserEvent event, Process process, String exprText)
+    /* protected static String getMessageChangeText(Connection con, DynActionForm form, UserEvent event, Process process, String exprText)
             throws BGException {
         Map<String, Object> context = Expression.context(new SingleConnectionSet(con), form, event, process);
 
@@ -491,5 +271,5 @@ public class ProcessCommandExecutor {
             context.put("message", null);
 
         return new Expression(context).getString(exprText);
-    }
+    } */
 }

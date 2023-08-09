@@ -22,11 +22,11 @@ onProcessEvent.<n>.checkErrorMessage=<checkErrorMessage>
 * *<n>* - ordered int rule's number;
 * *<events>* - обрабатываемые правилом события через точку с запятой, если параметр не указывается - то обрабатываются все события связанные с данным типом процесса;
 * *<eventsExclude>* - исключаемые из обработки правилом события через точку с запятой, если параметр не указывается - то никакие событие не исключаются;
-* *<ifExpression>* - <<../extension.adoc#jexl, JEXL>> выражение проверки условия при котором отрабатывают команды макроса;
-* *<checkExpression>* - <<../extension.adoc#jexl, JEXL>> выражение проверки условия при невыполнении которого генерируется ошибка *<checkErrorMessage>*, используется только с checkErrorMessage;
+* *<ifExpression>* - <<#jexl, JEXL>> выражение проверки условия при котором отрабатывают команды макроса;
+* *<checkExpression>* - <<#jexl, JEXL>> выражение проверки условия при невыполнении которого генерируется ошибка *<checkErrorMessage>*, используется только с checkErrorMessage;
 * *<checkErrorMessage>* - текст ошибки, сообщаемой при невыполнении условия *<checkExpression>*;
-* *<commands>* - команды макроса обработки;
-* *<doExpression>* - выполняемый JEXL скрипт, более гибкий аналог *<commands>*.
+* *<doExpression>* - выполняемый JEXL скрипт;
+* *<commands>* - deprecated way, <<#commands, команды>> макроса обработки;
 
 В *<events>* поддержаны следующие события:
 [cols="2,3,1", options="header"]
@@ -115,27 +115,32 @@ onProcessEvent.<n>.checkErrorMessage=<checkErrorMessage>
 
 События *ing отличаются от *ed событий тем, что они гененрируются до момента записи в БД.
 
+Правила просматриваются в порядке их номеров. Первое правило выдавшее сообщение прерывает просмотр и отменяет изменение связанное с процессом.
+
+[[jexl]]
+== JEXL
 В JEXL процессор передаётся <<../extension.adoc#jexl-process-context, типовой набор объектов для обработки процесса>> плюс:
 [[event-object]]
 [square]
 * *event* - объект события, расширяющий класс javadoc:ru.bgcrm.event.UserEvent[].
 
-Правила просматриваются в порядке их номеров. Первое правило выдавшее сообщение прерывает просмотр и отменяет изменение связанное с процессом.
-
-В *<commands>* указывается макрос обработки процесса, состоящий из команд, разделённых точкой с запятой.
-Все команды макроса выполняются последовательно и в рамках текущей транзакции. Ошибка в любой из команд прерывает текущую транзакцию,
-откатывая внесённые в БД изменения.
-
+[[commands]]
+== Commands (Deprecated)
 [CAUTION]
 ====
 Более гибким и рекомендуемым способом выполнения команд является использование JEXL выражений с помощью *doExpression*. Обратите внимание на <<samples, примеры>>.
 Значительная часть команд ядра может быть заменена вызовами функций из javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
 ====
 
-[[commands-kernel]]
-== Команды в ядре
+В *<commands>* указывается макрос обработки процесса, состоящий из команд, разделённых точкой с запятой.
 
-=== newsNotifyExecutors:<subject> либо newsPopupNotifyExecutors:<subject>
+Все команды макроса выполняются последовательно и в рамках текущей транзакции. Ошибка в любой из команд прерывает текущую транзакцию,
+откатывая внесённые в БД изменения.
+
+[[commands-kernel]]
+=== Команды в ядре
+
+==== newsNotifyExecutors:<subject> либо newsPopupNotifyExecutors:<subject>
 Уведомить о изменение процесса исполнителей, за исключением пользователя, иницировавшего событие, посредством сообщения (простого или всплывающего) в новости.
 [square]
 * *<subject>* - начало темы новости, если не указано - то "Изменился процесс".
@@ -144,50 +149,34 @@ onProcessEvent.<n>.checkErrorMessage=<checkErrorMessage>
 Первым ищется описание с ключом *newsNotifySubject*, затем *processCard*.
 Если описание не найдено то добавляются наименование типа и код процесса.
 
-=== clearGroups
+==== clearGroups
 Очистить список групп процесса.
 
-=== setExecutorsInGroups:<groupIds>:<executorIds>
-Установить в процесс исполнителей, коды которых указаны через запятую в *<executorIds>*.
-Исполнители привязываются к одной группе процесса, код которой попадает в перечень указанный в *<groupIds>* через запятую, существующие исполнители заменяются.
-
-// CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
-
-=== setExecutorsInGroupsIfNot:<groupIds>:<executorIds>
-Аналогично предыдущему, но исполнители устанавливаются, только если к группе-роли из перечня не приязан исполнитель.
-
-// CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
-
-=== clearExecutors
+==== clearExecutors
 Очистить список исполнителей процесса.
 
-=== setStatus:<statusId>
+==== setStatus:<statusId>
 Установить статус процесса, код которого указан в *<statusId>*.
 
 CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expression.ProcessChangeFunctions[].
 
-=== checkExecutorsInGroups:<groupIds>
-Проверить наличие исполнителей с группами, коды которых указаны через запятую в *<groupIds>*.
-
-=== refreshCurrentQueue
+==== refreshCurrentQueue
 Перейти в текущую открытую очередь процессов и обновить её. Команда на браузер пользователя.
 
-=== open
+==== open
 Открыть или обновить карточку обрабатываемого процесса. Команда на браузер пользователя.
 
-=== close
+==== close
 Закрыть карточку обрабатываемого процесса. Команда на браузер пользователя.
 
-=== createProcessLink:<configId>
+==== createProcessLink:<configId>
 Создание привязанного к данному процессу процесса. *<configId>* - код <<index.adoc#linked-process, правила>> создания связанного процесса.
 
 [[commands-bgbilling]]
-== Команды плагина BGBilling
+=== Команды плагина BGBilling
 CAUTION: Устарели, использовать JEXL скрипты по <<processing_samples.adoc#bgbilling-copy-params, образцу>>.
 
 include::../../plugin/bgbilling/processing_commands.adocf[]
-
-В команды могут быть подставлены переменные из <<../setup.adoc#united-user-config, объединённой конфигурации пользователя>>.
 
 [[samples]]
 == Примеры

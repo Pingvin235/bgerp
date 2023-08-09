@@ -30,11 +30,11 @@ import org.bgerp.plugin.pln.callboard.model.WorkTypeTime;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.util.TimeUtils;
 
 @Test(groups = "callboard", priority = 100, dependsOnGroups = { "config", "user", "process", "address" })
@@ -87,7 +87,7 @@ public class CallboardTest {
 
     @Test(dependsOnMethods = { "param", "userGroup" })
     public void processType() throws Exception {
-        var props = ProcessTypeCache.getProcessType(ProcessTest.processTypeTestId).getProperties();
+        var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));

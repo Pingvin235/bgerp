@@ -15,16 +15,16 @@ public class ProcessTextHtmlTest {
     private int processId;
 
     @Test
-    public void addProcess() throws Exception {
-        processId = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + " " + getText()).getId();
+    public void process() throws Exception {
+        processId = ProcessHelper.addProcess(ProcessTest.processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + " " + text()).getId();
     }
 
-    @Test(dependsOnMethods = { "addProcess" })
-    public void addMessage() throws Exception {
-        MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ZERO, TITLE, getText());
+    @Test(dependsOnMethods = { "process" })
+    public void message() throws Exception {
+        MessageHelper.addNoteMessage(processId, UserTest.USER_ADMIN_ID, Duration.ZERO, TITLE, text());
     }
 
-    private String getText() throws Exception {
+    private String text() throws Exception {
         return ResourceHelper.getResource(this, "html.txt");
     }
 }
