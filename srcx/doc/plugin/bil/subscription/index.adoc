@@ -12,7 +12,7 @@ The plugin provides the following functionality:
 
 Using the plugin implemented the BGERP Development Support System, allowing us to drive our product further.
 
-image::_res/subscription.svg[width="800px"]
+image::_res/subscription-en.svg[width="800px"]
 
 NOTE: You can see the plugin enabled and sample configurations in <<../../../kernel/install.adoc#demo, Demo System>>.
 
