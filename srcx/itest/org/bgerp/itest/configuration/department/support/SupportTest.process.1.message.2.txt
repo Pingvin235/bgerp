@@ -1,3 +1,0 @@
-Hello,
-
-please, have a look in the documentation: https://bgerp.org/doc/3.0/manual/kernel/install.html#update
