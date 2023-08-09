@@ -26,7 +26,7 @@ In configuration participate the following process types.
 [[setup-process-type-product]]
 ==== Product
 Represents information about product, available by subscription.
-Has the following <<../../../kernel/setup.adoc#param>> parameters:
+Has the following <<../../../kernel/setup.adoc#param, parameters>>:
 [square]
 * *Product ID* - unique *text* product identifier, used for <<#usage, license>> generation and <<#usage-price-calculator, calculation>> of price;
 * *Price* - one ore more *listcount* prices, value IDs must be the same as in <<#setup-process-type-subscription, Limit>> parameter of subscription.
@@ -105,8 +105,8 @@ The price calculator is implemented as an <<../../../kernel/interface.adoc#open-
 The queue has to be assigned to <<#setup-process-type-product, Product>> process type, and have following processor in configuration:
 [source]
 ----
-processor.1.iface=open
-processor.1.page.url=/open/plugin/subscription/subscription.do
+processor.{@inc:cnt}.iface=open
+processor.{@cnt}.page.url=/open/plugin/subscription/subscription.do
 ----
 
 [[usage]]

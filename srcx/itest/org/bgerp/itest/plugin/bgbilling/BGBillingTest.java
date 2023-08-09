@@ -56,7 +56,7 @@ public class BGBillingTest {
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(List.of(paramHdCostId, paramHdStatusId, paramHdAutoCloseId));
-        props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(UserTest.USER_GROUP_ADMIN_ID), 0));
+        props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(UserTest.groupAdminsId), 0));
 
         processHdTypeId = ProcessHelper.addType(TITLE_HD, processTypeId, false, props).getId();
     }

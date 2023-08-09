@@ -83,7 +83,8 @@ public class MessageTest {
 
     @Test(dependsOnMethods = "processType")
     public void processQueue() throws Exception {
-        int queueId = ProcessHelper.addQueue(TITLE, ResourceHelper.getResource(this, "process.queue.config.txt"), Set.of(processTypeId));
+        // title is not TITLE to be properly sorted in the queues list
+        int queueId = ProcessHelper.addQueue("Kernel Process Message", ResourceHelper.getResource(this, "process.queue.config.txt"), Set.of(processTypeId));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }
 

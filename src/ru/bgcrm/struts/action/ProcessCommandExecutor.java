@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
@@ -24,6 +25,7 @@ import ru.bgcrm.model.process.ProcessGroup;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.config.ProcessReferenceConfig;
+import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
@@ -81,7 +83,8 @@ public class ProcessCommandExecutor {
                 if (processGroups.addAll(addingProcessGroups)) {
                     ProcessAction.processGroupsUpdate(form, con, process, processGroups);
                 }
-            } else */ if (command.startsWith(COMMAND_SET_STATUS)) {
+            } else */
+            if (command.startsWith(COMMAND_SET_STATUS)) {
                 int status = Utils.parseInt(StringUtils.substringAfter(command, ":"));
 
                 StatusChange change = new StatusChange();
@@ -92,6 +95,34 @@ public class ProcessCommandExecutor {
                 change.setComment("Автоматическая смена статуса");
 
                 ProcessAction.processStatusUpdate(form, con, process, change);
+            } else if (command.startsWith(COMMAND_ADD_EXECUTORS)) {
+                String param = StringUtils.substringAfter(command, ":");
+
+                Set<Integer> addingExecutorIds = Utils.toIntegerSet(param);
+
+                // определение единственной группороли в которую добавляются исполнители
+                ProcessGroup processGroup = null;
+                for (ProcessGroup pg : process.getGroups()) {
+                    for (Integer executorId : addingExecutorIds) {
+                        User user = UserCache.getUser(executorId);
+                        if (user.getGroupIds().contains(pg.getGroupId())) {
+                            if (processGroup != null && processGroup.getGroupId() != pg.getGroupId()) {
+                                throw new BGMessageException("Устанавливаемые исполнители относится к нескольким группам процесса.");
+                            }
+                            processGroup = pg;
+                        }
+                    }
+                }
+
+                if (processGroup == null) {
+                    throw new BGMessageException("The set executors are not members of process execution groups.");
+                }
+
+                // добавление в текущих исполнителей группороли
+                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(), Collections.singleton(processGroup));
+                executors.addAll(ProcessExecutor.toProcessExecutorSet(addingExecutorIds, processGroup));
+
+                ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
             } /* else if (command.startsWith("checkExecutorsInGroups")) {
                 Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringAfter(command, ":"));
 

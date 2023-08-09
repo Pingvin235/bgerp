@@ -43,15 +43,15 @@ media.html.columns=3,1,22,4,6,8,18
 
 sort.mode.1.columnId=4
 sort.mode.1.title=Description
-sort.mode.3.columnId=1
-sort.mode.3.title=Created desc
+sort.mode.2.columnId=1
+sort.mode.2.title=Created desc
+sort.mode.2.desc=1
+sort.mode.3.columnId=3
+sort.mode.3.title=Priority desc
 sort.mode.3.desc=1
-sort.mode.5.columnId=3
-sort.mode.5.title=Priority desc
-sort.mode.5.desc=1
 
 sort.combo.count=2
-sort.combo.1.default=1
+sort.combo.1.default=3
 sort.combo.2.default=2
 
 # Export to Excel

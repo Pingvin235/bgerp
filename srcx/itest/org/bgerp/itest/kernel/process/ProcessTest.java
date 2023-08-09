@@ -15,7 +15,7 @@ import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
 
-@Test(groups = "process", dependsOnGroups = "config")
+@Test(groups = "process", dependsOnGroups = { "config", "user" })
 public class ProcessTest {
     private static final String TITLE = "Kernel Process";
 
@@ -78,5 +78,11 @@ public class ProcessTest {
                     ResourceHelper.getResource(this, "process.queue.config.txt"),
                 Set.of(processTypeTestGroupId));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
+    }
+
+    @Test(dependsOnMethods = "processType")
+    public void process() throws Exception {
+        for (int i = 1; i <= 9; i += 2)
+            ProcessHelper.addProcess(processTypeTestId, UserTest.USER_ADMIN_ID, TITLE + " Priority " + i, i);
     }
 }

@@ -25,9 +25,9 @@ public class ProcessQueueActionTest {
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusProgressId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
-        props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(UserTest.USER_GROUP_ADMIN_ID), 0));
+        props.setGroups(ProcessGroup.toProcessGroupSet(Set.of(UserTest.groupAdminsId), 0));
 
-        processTypeId = ProcessHelper.addType(TITLE, 0, false, props).getId();
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
     }
 
     @Test(dependsOnMethods = "processType")
