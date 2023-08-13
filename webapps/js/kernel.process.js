@@ -19,9 +19,9 @@ $$.process = new function() {
 		const debug = $$.debug("process.hideLeftAreaOnScroll");
 
 		const $wrap = $leftDiv.find(".wrap");
-		const wrapBottomOffset = $wrap.offset().top + $wrap.height();
 
 		$(window).scroll(function() {
+			const wrapBottomOffset = $wrap.offset().top + $wrap.height();
 			const scrollTop = document.documentElement.scrollTop;
 
 			debug("wrapBottomOffset:", wrapBottomOffset, "topTolerance: ", topTolerance, "scrollTop:", scrollTop);
