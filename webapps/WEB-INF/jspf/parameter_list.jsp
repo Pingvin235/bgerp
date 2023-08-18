@@ -78,8 +78,8 @@
 				<c:set var="editColspan" value="3"/>
 			</c:if>
 
-			<td nowrap="nowrap">${parameter.title}</td>
-			<td width="100%">
+			<td width="50%">${parameter.title}</td>
+			<td width="50%">
 				<c:choose>
 					<c:when test="${'file' eq parameter.type}">
 						<c:forEach var="file" items="${item.value}" varStatus="status">

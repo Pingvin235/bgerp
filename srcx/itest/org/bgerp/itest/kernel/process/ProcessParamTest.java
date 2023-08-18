@@ -57,6 +57,7 @@ public class ProcessParamTest {
     private int paramTextId;
     private int paramTextRegexpId;
     private int paramTextShowAsLinkId;
+    private int paramTextLongTitleId;
     private int paramPhoneId;
     private int paramTreeId;
 
@@ -109,6 +110,9 @@ public class ProcessParamTest {
         paramTextShowAsLinkId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text' show as link",
                 ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.text.show.as.link.config.txt"), "");
 
+        paramTextLongTitleId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TEXT, TITLE + " type 'text with very long title long title long title long title long title long title long title long title",
+                ProcessTest.posParam += 2, "", "");
+
         paramPhoneId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_PHONE, TITLE + " type 'phone'",
                 ProcessTest.posParam += 2, "", "");
 
@@ -124,7 +128,7 @@ public class ProcessParamTest {
         props.setCloseStatusIds(Set.of(ProcessTest.statusDoneId));
         props.setParameterIds(
                 List.of(paramAddressId, paramBlobId, paramDateId, paramDateTimeId, paramEmailId, paramFileId, paramListId, paramListDirConfigId,
-                        paramListCountId, paramMoneyId, paramTextId, paramTextShowAsLinkId, paramTextRegexpId, paramPhoneId, paramTreeId));
+                        paramListCountId, paramMoneyId, paramTextId, paramTextShowAsLinkId, paramTextLongTitleId, paramTextRegexpId, paramPhoneId, paramTreeId));
 
         processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
     }
