@@ -2,6 +2,7 @@ package ru.bgcrm.plugin.bgbilling.proto.dao.version.v8x;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.model.base.IdTitle;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -154,7 +155,6 @@ public class ContractDAO8x extends ContractDAO {
 
     @Override
     public ContractMemo getMemo(int contractId, int memoId) throws BGException {
-
         ContractMemo8x contractMemo = getContractMemo8x(memoId);
         DirectoryDAO directoryDAO = new DirectoryDAO(user, dbInfo);
         Map<Integer, UserInfo> users = directoryDAO.getUsersInfo();
@@ -209,8 +209,6 @@ public class ContractDAO8x extends ContractDAO {
             req.setParam("id", memoId);
             transferData.postDataReturn(req, user);
         }
-
-
     }
 
 
@@ -338,5 +336,20 @@ public class ContractDAO8x extends ContractDAO {
         List<Contract> contractList = readJsonValue(ret.findValue("return").traverse(),
                 jsonTypeFactory.constructCollectionType(List.class, Contract.class));
         return contractList.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public List<String[]> getContractCardTypes(int contractId) throws BGException {
+        List<String[]> result = new ArrayList<>();
+
+        RequestJsonRpc req = new RequestJsonRpc(RU_BITEL_BGBILLING_KERNEL_CONTRACT_API, "ContractService", "contractCardList");
+        req.setParamContractId(contractId);
+
+        List<IdStringTitle> list = readJsonValue(transferData.postDataReturn(req, user).traverse(),
+                jsonTypeFactory.constructCollectionType(List.class, IdStringTitle.class));
+        for (var item : list)
+            result.add(new String[] { item.getId(), item.getTitle() });
+
+        return result;
     }
 }

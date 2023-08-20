@@ -1039,22 +1039,8 @@ public class ContractDAO extends BillingDAO {
             result.add(new String[] { el.getAttribute("id"), el.getAttribute(TITLE) });
         }
 
-        // TODO: Доделать разбор ответа вида:
-        // <data secret="0D7664EB8CE2FD197C77650D2FE54240"
-        // status="ok"><combo><el id="ufanet.card_inet.xsl"
-        // title="Карта регистрации"
-        // title_enc="0JrQsNGA0YLQsCDRgNC10LPQuNGB0YLRgNCw0YbQuNC4"/></combo></data>
-
         return result;
     }
-
-    /*
-     * public ContractHierarchyInfo getHierarchyInfo( int contractId ) { Request
-     * req = new Request();
-     *
-     * req.setModule( CONTRACT_MODULE_ID ); req.setAction(
-     * "ContractCard2ListTypes" ); req.setContractId( contractId ); }
-     */
 
     public byte[] getContractCard2Pdf(int contractId, String type) throws BGException {
         Request req = new Request();
