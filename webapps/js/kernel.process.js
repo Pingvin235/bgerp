@@ -19,20 +19,19 @@ $$.process = new function() {
 		const debug = $$.debug("process.hideLeftAreaOnScroll");
 
 		const $wrap = $leftDiv.find(".wrap");
+		let wrapBottomOffset = $wrap.offset().top + $wrap.height();
 
 		$(window).scroll(function() {
-			const wrapBottomOffset = $wrap.offset().top + $wrap.height();
 			const scrollTop = document.documentElement.scrollTop;
-
-			debug("wrapBottomOffset:", wrapBottomOffset, "topTolerance: ", topTolerance, "scrollTop:", scrollTop);
-
 			if ($leftDiv.is(":visible")) {
+				// $wrap.height() can be increased when params editing
+				wrapBottomOffset = Math.max(wrapBottomOffset, $wrap.offset().top + $wrap.height());
 				if (wrapBottomOffset + topTolerance < scrollTop) {
-					debug("hide()");
+					debug("hide()", "wrapBottomOffset:", wrapBottomOffset, "topTolerance: ", topTolerance, "scrollTop:", scrollTop);
 					$leftDiv.hide();
 				}
 			} else if (scrollTop < wrapBottomOffset) {
-				debug("show()");
+				debug("show()", "wrapBottomOffset:", wrapBottomOffset, "scrollTop:", scrollTop);
 				$leftDiv.show();
 			}
 		});
