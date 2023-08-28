@@ -166,7 +166,7 @@ public class Localization {
     }
 
     /**
-     * Default default UI language.
+     * Default UI language for open interface and the only one for others.
      * Calls {@link #getLang(HttpServletRequest)} with 'null'.
      * @return
      */
@@ -221,7 +221,7 @@ public class Localization {
     /**
      * Retrieves {@link Localizer} object for a single plugin.
      * @param pluginId plugin ID.
-     * @param request used for getting target language.
+     * @param request used for getting target language in case of open interface.
      * @return
      */
     @Dynamic

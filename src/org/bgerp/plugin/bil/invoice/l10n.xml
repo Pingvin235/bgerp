@@ -14,19 +14,6 @@
 	<p><en>Register</en><ru>Реестр</ru></p>
 	<p><en>Invoice Register</en><ru>Реестр счетов</ru></p>
 	<p><en>paid</en><ru>оплачен</ru></p>
-	<p>
-		<sys>invoice.paid.notification.message</sys>
-		<en>Paid invoice number: {}
-Customer: {}
-Month: {}
-Amount: {}
-Created Date: {}</en>
-		<ru>Оплачен счёт номер: {}
-Контрагент: {}
-Месяц: {}
-Сумма: {}
-Дата создания: {}</ru>
-	</p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

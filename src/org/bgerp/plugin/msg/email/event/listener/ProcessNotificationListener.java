@@ -8,12 +8,15 @@ import org.bgerp.app.l10n.Localizer;
 import org.bgerp.app.servlet.Interface;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.plugin.bil.invoice.event.InvoicePaidEvent;
 import org.bgerp.plugin.msg.email.Plugin;
 import org.bgerp.plugin.msg.email.config.ProcessNotificationConfig;
 import org.bgerp.util.Log;
 
 import javassist.NotFoundException;
 import ru.bgcrm.cache.ProcessTypeCache;
+import ru.bgcrm.dao.process.ProcessDAO;
+import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessChangedEvent;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
@@ -21,6 +24,7 @@ import ru.bgcrm.model.Page;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -29,7 +33,8 @@ public class ProcessNotificationListener {
 
     public ProcessNotificationListener() {
         EventProcessor.subscribe(this::messageAdded, ProcessMessageAddedEvent.class);
-        EventProcessor.subscribe(this::executorsChanged, ProcessChangedEvent.class);
+        EventProcessor.subscribe(this::processChanged, ProcessChangedEvent.class);
+        EventProcessor.subscribe(this::invoicePaid, InvoicePaidEvent.class);
     }
 
     private void messageAdded(ProcessMessageAddedEvent e, ConnectionSet conSet) {
@@ -44,6 +49,7 @@ public class ProcessNotificationListener {
             var text = new StringBuilder(500).append(l.l("email.notification.message", e.getMessage().getText(),
                     Interface.getUrlUser() + "/process#" + process.getId()));
 
+            // may be add here history of incoming messages
             String subject = subject(process, e.getMessage().getId());
 
             new org.bgerp.plugin.msg.email.ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
@@ -53,7 +59,7 @@ public class ProcessNotificationListener {
         }
     }
 
-    private void executorsChanged(ProcessChangedEvent e, ConnectionSet conSet) {
+    private void processChanged(ProcessChangedEvent e, ConnectionSet conSet) {
         if (!e.isExecutors() && !e.isStatus())
             return;
 
@@ -74,6 +80,37 @@ public class ProcessNotificationListener {
 
             new org.bgerp.plugin.msg.email.ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
                     .sendMessageToExecutors(config.userEmailParamId(), subject, text.toString());
+        } catch (Exception ex) {
+            log.error(ex);
+        }
+    }
+
+    private void invoicePaid(InvoicePaidEvent e, ConnectionSet conSet) {
+        try {
+            var invoice = e.getInvoice();
+
+            var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(invoice.getProcessId());
+
+            var config = config(process.getTypeId());
+            if (config == null)
+                return;
+
+            var customer = Utils.getFirst(new ProcessLinkDAO(conSet.getSlaveConnection(), e.getForm()).getLinkCustomers(process.getId(), null));
+            String customerTitle = customer != null ? customer.getTitle() : "???";
+
+            var l = localizer(e.getForm());
+            String text = l.l("email.notification.invoice.paid",
+                invoice.getNumber(),
+                customerTitle,
+                TimeUtils.format(invoice.getDateFrom(), "yyyy.MM"),
+                Utils.format(invoice.getAmount()),
+                TimeUtils.format(invoice.getCreatedTime(), TimeUtils.FORMAT_TYPE_YMD),
+                Interface.getUrlUser() + "/process#" + process.getId());
+
+            String subject = subject(process, -1);
+
+            new org.bgerp.plugin.msg.email.ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
+                    .sendMessageToExecutors(config.userEmailParamId(), subject, text);
         } catch (Exception ex) {
             log.error(ex);
         }

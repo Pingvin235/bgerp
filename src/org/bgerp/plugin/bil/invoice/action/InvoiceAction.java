@@ -12,6 +12,9 @@ import org.bgerp.plugin.bil.invoice.Config;
 import org.bgerp.plugin.bil.invoice.Plugin;
 import org.bgerp.plugin.bil.invoice.dao.InvoiceDAO;
 import org.bgerp.plugin.bil.invoice.dao.InvoiceSearchDAO;
+import org.bgerp.plugin.bil.invoice.event.InvoiceChangedEvent;
+import org.bgerp.plugin.bil.invoice.event.InvoiceChangedEvent.Mode;
+import org.bgerp.plugin.bil.invoice.event.InvoicePaidEvent;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 import org.bgerp.plugin.bil.invoice.model.InvoiceType;
 import org.bgerp.plugin.bil.invoice.model.Position;
@@ -21,12 +24,9 @@ import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.event.process.ProcessMessageAddedEvent;
-import ru.bgcrm.model.message.Message;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -54,7 +54,11 @@ public class InvoiceAction extends BaseAction {
             int processId = form.getParamInt("processId", val -> val > 0);
             var month = form.getParamYearMonth("dateFrom", Objects::nonNull);
 
-            form.setResponseData("invoice", config.getType(typeId).invoice(conSet, processId, month));
+            Invoice invoice = config.getType(typeId).invoice(conSet, processId, month);
+
+            EventProcessor.processEvent(new InvoiceChangedEvent(form, invoice, Mode.CREATED), conSet);
+
+            form.setResponseData("invoice", invoice);
             form.setResponseData("positions", config.getPositions());
 
             return html(conSet, form, PATH_JSP + "/edit.jsp");
@@ -107,6 +111,8 @@ public class InvoiceAction extends BaseAction {
         invoice.amount();
 
         dao.update(invoice);
+
+        EventProcessor.processEvent(new InvoiceChangedEvent(form, invoice, Mode.CHANGED), conSet);
 
         return json(conSet, form);
     }
@@ -171,19 +177,7 @@ public class InvoiceAction extends BaseAction {
 
         dao.update(invoice);
 
-        // the process is taken without isolation, as the action method is called from report
-        var process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(invoice.getProcessId());
-        var customer = Utils.getFirst(new ProcessLinkDAO(conSet.getSlaveConnection(), form).getLinkCustomers(process.getId(), null));
-        String customerTitle = customer != null ? customer.getTitle() : "???";
-        var message = new Message()
-            .withDirection(Message.DIRECTION_INCOMING)
-            .withText(l.l("invoice.paid.notification.message",
-                invoice.getNumber(),
-                customerTitle,
-                TimeUtils.format(invoice.getDateFrom(), "yyyy.MM"),
-                Utils.format(invoice.getAmount()),
-                TimeUtils.format(invoice.getCreatedTime(), TimeUtils.FORMAT_TYPE_YMD)));
-        EventProcessor.processEvent(new ProcessMessageAddedEvent(form, message, process), conSet);
+        EventProcessor.processEvent(new InvoicePaidEvent(form, invoice), conSet);
 
         return json(conSet, form);
     }
