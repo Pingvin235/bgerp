@@ -1,6 +1,5 @@
 package org.bgerp.plugin.bil.invoice.event.listener;
 
-import org.bgerp.app.l10n.Localization;
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.Pageable;
@@ -19,10 +18,10 @@ import ru.bgcrm.util.Utils;
  *
  * @author Shamil Vakhitov
  */
-public class Files {
+public class FilesListener {
     private static final String PREFIX = Plugin.ID + ":";
 
-    public Files() {
+    public FilesListener() {
         EventProcessor.subscribe((e, conSet) -> {
             var result = new Pageable<Invoice>();
             new InvoiceSearchDAO(conSet.getSlaveConnection())
@@ -32,11 +31,10 @@ public class Files {
                 .orderDesc()
                 .search(result);
 
-            var l = Localization.getLocalizer(Plugin.ID, e.getForm().getHttpRequest());
+            var l = Plugin.INSTANCE.getLocalizer();
 
-            for (var invoice : result.getList()) {
+            for (var invoice : result.getList())
                 e.addAnnouncedFile(new IdStringTitle(PREFIX + invoice.getId(), l.l("Счёт") + " " + invoice.getNumber()));
-            }
         }, ProcessFilesEvent.class);
 
         EventProcessor.subscribe((e, conSet) -> {

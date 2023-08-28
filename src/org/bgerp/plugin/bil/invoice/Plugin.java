@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-import org.bgerp.plugin.bil.invoice.event.listener.Files;
+import org.bgerp.plugin.bil.invoice.event.listener.FilesListener;
 
 import ru.bgcrm.plugin.Endpoint;
 
@@ -29,6 +29,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     @Override
     public void init(Connection con) throws Exception {
         super.init(con);
-        new Files();
+        new FilesListener();
     }
 }
