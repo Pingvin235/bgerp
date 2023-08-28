@@ -107,7 +107,13 @@ The queue has to be assigned to <<#setup-process-type-product, Product>> process
 ----
 processor.{@inc:cnt}.iface=open
 processor.{@cnt}.page.url=/open/plugin/subscription/subscription.do
+# optionally predefined subscription value
+#processor.{@cnt}.subscription.value=<id>
 ----
+
+Where:
+[square]
+* *<id>* - unique numeric subscription ID.
 
 [[usage]]
 == Usage

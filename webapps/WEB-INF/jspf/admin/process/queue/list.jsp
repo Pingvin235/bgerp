@@ -1,10 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="/admin/process" styleClass="in-mr1">
+<html:form action="${form.httpRequestURI}" styleClass="in-mr1">
 	<input type="hidden" name="action" value="queueList"/>
 
-	<c:url var="url" value="/admin/process.do">
+	<c:url var="url" value="${form.httpRequestURI}">
 		<c:param name="action" value="queueGet"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -19,7 +19,7 @@
 </html:form>
 
 
-<table style="width: 100%;" class="data mt1">
+<table class="data mt1 hl">
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>
@@ -28,16 +28,16 @@
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
-			<c:url var="editUrl" value="/admin/process.do">
+			<c:url var="editUrl" value="${form.httpRequestURI}">
 				<c:param name="action" value="queueGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
-			<c:url var="deleteUrl" value="/admin/process.do">
+			<c:url var="deleteUrl" value="${form.httpRequestURI}">
 				<c:param name="action" value="queueDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
-			<c:url var="duplicateUrl" value="/admin/process.do">
+			<c:url var="duplicateUrl" value="${form.httpRequestURI}">
 				<c:param name="action" value="queueDuplicate"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>

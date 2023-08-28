@@ -1,0 +1,1 @@
+A: Plugin Subscription. Configurable predefined subscription in 'Price Calculator'. https://bgerp.org/doc/3.0/manual/plugin/bil/subscription/index.html#setup-price-calculator

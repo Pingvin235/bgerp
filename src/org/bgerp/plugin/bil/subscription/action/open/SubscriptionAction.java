@@ -1,26 +1,17 @@
 package org.bgerp.plugin.bil.subscription.action.open;
 
 import java.math.BigDecimal;
-import java.time.Duration;
-import java.util.Set;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.plugin.bil.subscription.Config;
 import org.bgerp.plugin.bil.subscription.Plugin;
 import org.bgerp.plugin.bil.subscription.dao.SubscriptionDAO;
-import org.bgerp.util.AntiSpam;
 
-import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.dao.process.ProcessLinkDAO;
-import ru.bgcrm.model.BGMessageException;
-import ru.bgcrm.model.param.ParameterEmailValue;
-import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessLinkProcess;
+import javassist.NotFoundException;
+import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
-import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -29,14 +20,31 @@ public class SubscriptionAction extends BaseAction {
     private static final String JSP_PATH = Plugin.PATH_JSP_OPEN;
 
     // not more often request from a single IP as one per 10 min.
-    private static final AntiSpam ORDER_ANTI_SPAM = new AntiSpam(Duration.ofMinutes(10));
+    // private static final AntiSpam ORDER_ANTI_SPAM = new AntiSpam(Duration.ofMinutes(10));
 
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+        int queueId = form.getParamInt("queueId");
+        var queue = ProcessQueueCache.getQueue(queueId);
+        if (queue == null)
+            throw new NotFoundException("Not found process queue with ID=" + queueId);
+
+        String uri = form.getHttpRequestURI();
+        var processor = queue.getProcessorByPageUrl(uri);
+        if (processor == null)
+            throw new NotFoundException("Not found processor for page URL: " + uri);
+
         var config = setup.getConfig(Config.class);
-        form.setRequestAttribute("subscriptions", config.getSubscriptions());
+
+        int subscriptionId = processor.getConfigMap().getInt("subscription.value");
+        if (subscriptionId > 0)
+            form.setRequestAttribute("subscriptionId", subscriptionId);
+        else
+            form.setRequestAttribute("subscriptions", config.getSubscriptions());
+
         if (config.getParamLimitId() > 0)
             form.setRequestAttribute("limits", ru.bgcrm.cache.ParameterCache.getListParamValues(config.getParamLimitId()));
+
         return html(conSet, form, JSP_PATH + "/subscription.jsp");
     }
 
@@ -51,7 +59,7 @@ public class SubscriptionAction extends BaseAction {
         return html(conSet, form, JSP_PATH + "/subscription_calc.jsp");
     }
 
-    public ActionForward order(DynActionForm form, ConnectionSet conSet) throws Exception {
+    /* public ActionForward order(DynActionForm form, ConnectionSet conSet) throws Exception {
         orderAntiSpam(form);
 
         var config = setup.getConfig(Config.class);
@@ -85,7 +93,7 @@ public class SubscriptionAction extends BaseAction {
         // email(conSet, email, process, processIds);
 
         return json(con, form);
-    }
+    } */
 
     /* private void email(ConnectionSet conSet, Config config, String email, Process process,
             Set<Integer> processIds) throws Exception {
@@ -104,7 +112,7 @@ public class SubscriptionAction extends BaseAction {
         new MessageDAO(conSet.getConnection()).updateMessage(m);
     } */
 
-    private void orderAntiSpam(DynActionForm form) throws BGMessageException {
+    /* private void orderAntiSpam(DynActionForm form) throws BGMessageException {
         var ip = form.getHttpRequestRemoteAddr();
         if (Utils.isBlankString(ip))
             throw new BGMessageException("IP адрес не определён.");
@@ -113,5 +121,5 @@ public class SubscriptionAction extends BaseAction {
         if (wait > 0)
             throw new BGMessageException("Следующий заказ с этого IP можно сделать через: {}",
                 TimeUtils.formatDeltaTime(wait));
-    }
+    } */
 }

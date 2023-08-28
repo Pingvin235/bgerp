@@ -3,14 +3,21 @@
 
 <c:set var="resultUiid" value="${u:uiid()}"/>
 
-<form action="/open/plugin/subscription/subscription.do">
+<form action="${form.httpRequestURI}">
 	<input type="hidden" name="action" value="calc"/>
 
-	<ui:combo-single hiddenName="subscriptionId" widthTextValue="200px" list="${subscriptions}"/>
+	<c:choose>
+		<c:when test="${subscriptionId gt 0}">
+			<input type="hidden" name="subscriptionId" value="${subscriptionId}"/>
+		</c:when>
+		<c:otherwise>
+			<ui:combo-single hiddenName="subscriptionId" widthTextValue="20em" list="${subscriptions}" styleClass="mr05"/>
+		</c:otherwise>
+	</c:choose>
 
-	<ui:combo-single hiddenName="limitId" prefixText="${l.l('Лимит')}:" styleClass="ml05" list="${limits}"/>
+	<ui:combo-single hiddenName="limitId" prefixText="${l.l('Лимит')}:" styleClass="mr1" list="${limits}"/>
 
-	<button class="btn-grey ml1" type="button" onclick="
+	<button class="btn-grey" type="button" onclick="
 		const processIds = getCheckedProcessIds();
 		if (!processIds) {
 			alert('${l.l('Выберите продукты!')}');

@@ -28,5 +28,7 @@ media.html.open.columns=1,4,7,9,11
 
 openUrl=product
 
-processor.1.iface=open
-processor.1.page.url=/open/plugin/subscription/subscription.do
+processor.{@inc:cnt}.iface=open
+processor.{@cnt}.page.url=/open/plugin/subscription/subscription.do
+# optionally predefined subscription value
+#processor.{@cnt}.subscription.value=2

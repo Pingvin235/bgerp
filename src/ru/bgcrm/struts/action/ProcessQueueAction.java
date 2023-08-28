@@ -81,7 +81,7 @@ public class ProcessQueueAction extends ProcessAction {
     public ActionForward processCustomClassInvoke(DynActionForm form, ConnectionSet conSet) throws Exception {
         Queue queue = ProcessQueueCache.getQueue(form.getParamInt("queueId"), form.getUser());
         if (queue != null) {
-            Processor processor = queue.getProcessorMap().get(form.getParamInt("processorId"));
+            Processor processor = queue.getProcessor(form.getParamInt("processorId"));
             List<Integer> processIds = Utils.toIntegerList(form.getParam("processIds"));
 
             ProcessMarkedActionEvent event = new ProcessMarkedActionEvent(form, processor, processIds);

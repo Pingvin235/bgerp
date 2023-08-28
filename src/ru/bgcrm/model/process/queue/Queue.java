@@ -195,21 +195,35 @@ public class Queue extends IdTitle {
     }
 
     /**
-     * @return queue processors map, key - ID.
+     * Selects a processor by ID.
+     * @param id the ID.
+     * @return the found processor or {@code null}.
      */
-    public Map<Integer, Processor> getProcessorMap() {
-        return processorMap;
+    public Processor getProcessor(int id) {
+        return processorMap.get(id);
     }
 
     /**
      * Processors for interface.
      * @param iface value from {@link org.bgerp.app.servlet.Interface}.
-     * @return
+     * @return list of processors.
      */
     public List<Processor> getProcessors(String iface) {
         return processorMap.values().stream()
             .filter(p -> p.getIface().equals(iface))
             .collect(Collectors.toList());
+    }
+
+    /**
+     * Selects a processor by a page URL.
+     * @param url the page URL.
+     * @return the found processor or {@code null}.
+     */
+    public Processor getProcessorByPageUrl(String url) {
+        return processorMap.values().stream()
+            .filter(p -> url.equals(p.getPageUrl()))
+            .findFirst()
+            .orElse(null);
     }
 
     public SortSet getSortSet() {

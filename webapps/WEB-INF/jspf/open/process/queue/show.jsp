@@ -7,10 +7,9 @@
 		<c:forEach var="processor" items="${queue.getProcessors('open')}">
 			<c:choose>
 				<c:when test="${not empty processor.pageUrl}">
-					<c:import url="${processor.pageUrl}"/>
+					<c:import url="${processor.pageUrl}?queueId=${queue.id}"/>
 				</c:when>
 				<c:when test="${not empty processor.page}">
-					<%-- <c:set var="processor" value="${processor}" scope="request"/> --%>
 					<jsp:include page="${processor.page}"/>
 				</c:when>
 			</c:choose>
