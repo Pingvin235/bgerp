@@ -18,6 +18,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
 
     @Override
     public void init(Connection con) throws Exception {
+        super.init(con);
+
         EventProcessor.subscribe((event, conSet) -> {
             if (event.isProcessed())
                 return;

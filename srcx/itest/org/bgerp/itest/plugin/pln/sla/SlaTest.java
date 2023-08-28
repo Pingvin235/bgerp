@@ -32,18 +32,9 @@ public class SlaTest {
     @Test
     public void param() throws SQLException {
         paramCloseBeforeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " Close Before", ProcessTest.posParam += 2,
-                "type=ymdhm\n", "");
+                "type=ymdhm\nreadonly=1", "");
         paramUpdateBeforeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATETIME, TITLE + " Update Before", ProcessTest.posParam += 2,
-                "type=ymdhm\n", "");
-    }
-
-    @Test(dependsOnMethods = "param")
-    public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(PLUGIN,
-            ConfigHelper.generateConstants(
-                "PARAM_CLOSE_BEFORE_ID", paramCloseBeforeId,
-                "PARAM_UPDATE_BEFORE_ID", paramUpdateBeforeId
-            ) + ResourceHelper.getResource(this, "config.txt"));
+                "type=ymdhm\nreadonly=1", "");
     }
 
     @Test(dependsOnMethods = "param")
@@ -58,12 +49,21 @@ public class SlaTest {
     }
 
     @Test(dependsOnMethods = "processType")
+    public void config() throws Exception {
+        ConfigHelper.addPluginConfig(PLUGIN,
+            ConfigHelper.generateConstants(
+                "PARAM_CLOSE_BEFORE_ID", paramCloseBeforeId,
+                "PARAM_UPDATE_BEFORE_ID", paramUpdateBeforeId
+            ) + ResourceHelper.getResource(this, "config.txt"));
+    }
+
+    @Test(dependsOnMethods = "config")
     public void processQueue() throws Exception {
         int queueId = ProcessHelper.addQueue(TITLE, ResourceHelper.getResource(this, "process.queue.config.txt"), Set.of(processTypeId));
         UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }
 
-    @Test(dependsOnMethods = "processType")
+    @Test(dependsOnMethods = "config")
     public void process() throws Exception {
         ProcessHelper.addProcess(processTypeId, User.USER_SYSTEM_ID, TITLE);
         // TODO: Multiple processes with different times?

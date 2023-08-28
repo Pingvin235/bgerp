@@ -6,12 +6,11 @@ import ru.bgcrm.plugin.Plugin;
 
 public class PluginHelper {
 
-    public static String initPlugin(Plugin p) throws Exception {
+    public static void initPlugin(Plugin p) throws Exception {
         var con = DbTest.conRoot;
         con.setAutoCommit(false);
         p.init(con);
         con.setAutoCommit(true);
-        return p.getId() + ":enable=1\n";
     }
 
 }

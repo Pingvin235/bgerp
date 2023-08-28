@@ -24,8 +24,9 @@ public class ConfigHelper {
         return config;
     }
 
-    public static int addIncludedConfig(Plugin plugin, String config) throws Exception {
-        return ConfigHelper.addIncludedConfig(plugin.getTitleWithPrefix(), PluginHelper.initPlugin(plugin) + config);
+    public static void addPluginConfig(Plugin plugin, String config) throws Exception {
+        ConfigHelper.addIncludedConfig(plugin.getTitleWithPrefix(), plugin.getId() + ":enable=1\n" + config);
+        PluginHelper.initPlugin(plugin);
     }
 
     public static int addIncludedConfig(String title, String content) throws Exception {

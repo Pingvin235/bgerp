@@ -53,7 +53,7 @@ public class GitTest {
 
     @Test(dependsOnMethods = "param")
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(PLUGIN,
+        ConfigHelper.addPluginConfig(PLUGIN,
             ConfigHelper.generateConstants(
                 "PARAM_BRANCH_ID", paramBranchId,
                 "PARAM_EMAIL_ID", UserTest.paramEmailId,

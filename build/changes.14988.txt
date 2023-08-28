@@ -1,0 +1,2 @@
+B: Removed possibilities of column concatenation in process queues.
+A: Plugin SLA. https://bgerp.org/doc/3.0/manual/plugin/pln/sla/

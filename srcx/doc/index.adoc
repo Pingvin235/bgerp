@@ -39,6 +39,7 @@
 ** Planning
 *** <<plugin/pln/blow/index.adoc#, Blow>>
 *** <<plugin/pln/callboard/index.adoc#, CallBoard>>
+*** <<plugin/pln/sla/index.adoc#, SLA>>
 *** <<plugin/pln/workload/index.adoc#, Workload>>
 ** Messaging
 *** <<plugin/msg/email/index.adoc#, E-Mail>>

@@ -79,7 +79,7 @@ public class InvoiceTest {
 
     @Test(dependsOnMethods = "process")
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(PLUGIN,
+        ConfigHelper.addPluginConfig(PLUGIN,
             ConfigHelper.generateConstants(
                 "PARAM_COST_ID", paramCostId,
                 "PARAM_CONTRACT_DATE_ID", paramContractDateId,

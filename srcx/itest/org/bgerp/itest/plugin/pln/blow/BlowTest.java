@@ -76,7 +76,7 @@ public class BlowTest {
     @Test(dependsOnMethods = { "processQueue", "userGroup" })
     public void config() throws Exception {
         // TODO: Highlight processes, staying too long in 'progress' status.
-        ConfigHelper.addIncludedConfig(PLUGIN,
+        ConfigHelper.addPluginConfig(PLUGIN,
             ConfigHelper.generateConstants(
                 "BOARD_TITLE", TITLE,
                 "PROCESS_QUEUE_ID", processQueueId,

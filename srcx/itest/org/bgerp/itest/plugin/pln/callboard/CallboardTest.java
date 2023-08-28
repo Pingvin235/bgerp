@@ -119,7 +119,7 @@ public class CallboardTest {
 
     @Test(dependsOnMethods = { "userGroup", "processType" })
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(PLUGIN, ConfigHelper.generateConstants("USER_GROUP_ID", userGroupIdParent) +
+        ConfigHelper.addPluginConfig(PLUGIN, ConfigHelper.generateConstants("USER_GROUP_ID", userGroupIdParent) +
             ResourceHelper.getResource(this, "config.txt"));
     }
 

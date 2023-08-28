@@ -8,6 +8,6 @@ import org.testng.annotations.Test;
 public class DbaTest {
     @Test
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(org.bgerp.plugin.svc.dba.Plugin.INSTANCE, ResourceHelper.getResource(this, "config.txt"));
+        ConfigHelper.addPluginConfig(org.bgerp.plugin.svc.dba.Plugin.INSTANCE, ResourceHelper.getResource(this, "config.txt"));
     }
 }

@@ -11,6 +11,6 @@ public class ReportTest {
 
     @Test
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(PLUGIN, ResourceHelper.getResource(this, "config.txt"));
+        ConfigHelper.addPluginConfig(PLUGIN, ResourceHelper.getResource(this, "config.txt"));
     }
 }

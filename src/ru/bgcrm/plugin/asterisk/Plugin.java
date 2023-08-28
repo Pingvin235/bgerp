@@ -16,6 +16,7 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
     @Override
     public void init(Connection con) throws Exception {
         super.init(con);
+
         new AMIManager();
         new MessageTypeCallListener();
         new UserSessionListener();

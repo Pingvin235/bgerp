@@ -141,7 +141,7 @@ public class SubscriptionTest {
 
     @Test(dependsOnMethods = "processType")
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(PLUGIN,
+        ConfigHelper.addPluginConfig(PLUGIN,
             ConfigHelper.generateConstants(
                 "PROCESS_SUBSCRIPTION_TYPE_ID", processSubscriptionTypeId,
                 "PARAM_PRODUCT_ID", paramProductId,

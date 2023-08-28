@@ -30,11 +30,19 @@ Moved classes:
 
 Scheduled tasks have to extend class javadoc:org.bgerp.app.exec.scheduler.Task[]
 
+=== Column values concatenation in Process Queues
+The functionality was removed.
+
 == FEATURES
+
+=== New <<../../plugin/pln/sla/index.adoc#, Plugin SLA>>
+
+image::_res/14988.png[width="800px"]
 
 === Search Processes by Parameters
 
 image::_res/14747.png[width="800px"]
+
 
 ////
 // REMOVE THESE COMMENTED SAMPLES AFTER CREATING A REAL CONTENT

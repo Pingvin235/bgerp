@@ -1,0 +1,76 @@
+= Plugin SLA
+:toc:
+
+[[about]]
+== About
+The plugin allows to visualize Service Level Agreements as time left before a process is closed or updated.
+Expiring times are presented as reverse minutes counters with colored background.
+
+image::_res/process_queue.png[width="800px"]
+
+NOTE: You can see an enabled plugin operation in <<../../../kernel/install.adoc#demo, Demo System>>.
+
+[[setup]]
+== Setup
+The plugin tracks maximum process' close and update time in two <<../../../kernel/setup.adoc#param-datetime, parameters with type datetime>>,
+which have to be created depending on SLA you want to control.
+
+After enable the plugin via <<../../../kernel/setup.adoc#config-plugin, server config>> and add the following configuration:
+[source]
+----
+sla:enable=1
+
+sla:param.close.before=<paramCloseBeforeId>
+sla:param.update.before=<paramUpdateBeforeId>
+----
+
+Where:
+[square]
+* *<paramCloseBeforeId>* - parameter ID for maximal closing time;
+* *<paramUpdateBeforeId>* - parameter ID for maximal update time.
+
+[[setup-process-type]]
+=== Process Type
+For every process type, supporting SLA, the created parameters have to be added in properties and in configuration defined initial parameter
+values in minutes from the creation time. Beside that have to be defined background colors for amounts of left minutes.
+
+Example of configuration:
+[source]
+----
+sla:close.before.minutes=101
+sla:update.before.minutes=11
+
+sla:color.red.#f00.left.minutes=10
+sla:color.green.when.left.minutes=100
+sla:color.yellow.when.left.minutes=200
+----
+
+This means that for a created process parameter *Close Before* and *Update Before* values will be initialized as the current time plus 101 and 11 minutes respectively.
+In configured process queue minute values will be presented on *#f00* (red) background if *10* or less minutes are left from the current time till a parameter value.
+*Green* background means *100* or less minutes and yellow - *200* or less. For more than 200 left minutes no background is used.
+In the same way be defined as many colors as needed.
+
+[[setup-process-queue]]
+=== Process Queue
+*Close Before* and *Update Before* process queue columns can be added to a <<../../../kernel/process/queue.adoc#columns, queue columns configuration>>
+with special values *sla:closeBefore* and *sla:updateBefore* respectively, for example:
+[source]
+----
+column.1.title=ID
+column.1.value=id
+column.4.title=Description
+column.4.value=descriptionLink
+column.5.title=Close Before
+column.5.value=sla:closeBefore
+column.6.title=Update Before
+column.6.value=sla:updateBefore
+----
+
+[[usage]]
+== Usage
+Once created processes with SLA become set *Close Before* and *Update Before* parameter values,
+the second of that is moved on every change of process properties (status, description etc) or parameters.
+
+Background color visualization in process queue allows to detect quickly the most "burning" cases.
+
+image::_res/process_queue.png[width="800px"]

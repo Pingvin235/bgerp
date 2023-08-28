@@ -111,6 +111,6 @@ public class WorkloadTest {
 
     @Test(dependsOnMethods = { "userGroup", "processType" })
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(PLUGIN, "");
+        ConfigHelper.addPluginConfig(PLUGIN, "");
     }
 }

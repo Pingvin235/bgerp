@@ -81,7 +81,7 @@ public class BGBillingTest {
 
     @Test(dependsOnMethods = "processType")
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(PLUGIN,
+        ConfigHelper.addPluginConfig(PLUGIN,
             ConfigHelper.generateConstants(
                 "BILLING_ID", BILLING_ID,
                 "PROCESS_HD_TYPE_ID", processHdTypeId,

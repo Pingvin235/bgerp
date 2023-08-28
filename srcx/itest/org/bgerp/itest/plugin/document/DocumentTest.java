@@ -29,7 +29,7 @@ public class DocumentTest {
 
     @Test
     public void config() throws Exception {
-        ConfigHelper.addIncludedConfig(PLUGIN,
+        ConfigHelper.addPluginConfig(PLUGIN,
             ConfigHelper.generateConstants(
                 "PARAM_PROCESS_ADDRESS_ID", ProcessParamTest.paramAddressId
             ) + ResourceHelper.getResource(this, "config.txt"));
