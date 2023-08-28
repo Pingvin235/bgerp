@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.model.config.IsolationConfig;
+import org.junit.Assert;
 import org.junit.Test;
 
 import ru.bgcrm.model.BGMessageException;
@@ -249,5 +250,33 @@ public class ConfigMapTest {
             thrown = true;
         }
         assertTrue(thrown);
+    }
+
+    @Test
+    public void testSubIndexed() {
+        var map = SimpleConfigMap.of("1.key", "1", "1.key2", "2", "key3", "3");
+        var maps = map.subIndexed("");
+
+        Assert.assertEquals(1, maps.size());
+        var subMap = maps.get(1);
+        Assert.assertNotNull(subMap);
+        Assert.assertEquals("1", subMap.get("key"));
+        Assert.assertEquals("2", subMap.get("key2"));
+        Assert.assertNull(subMap.get("key3"));
+
+        map = SimpleConfigMap.of("prefix.1.key1", "11", "prefix.2.key2", "22", "prefix.1.key2", "12", "prefixNew.2.key1", "21", "blabla", "value");
+        maps = map.subIndexed("prefix.", "prefixNew.");
+
+        Assert.assertEquals(2, maps.size());
+        subMap = maps.get(1);
+        Assert.assertNotNull(subMap);
+        Assert.assertEquals("11", subMap.get("key1"));
+        Assert.assertEquals("12", subMap.get("key2"));
+        subMap = maps.get(2);
+        Assert.assertNotNull(subMap);
+        Assert.assertEquals("22", subMap.get("key2"));
+        Assert.assertEquals("21", subMap.get("key1"));
+        subMap = maps.get(3);
+        Assert.assertNull(subMap);
     }
 }

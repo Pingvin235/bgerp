@@ -299,13 +299,12 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
                     String suffix = paramKey.substring(prefix.length(), paramKey.length());
 
                     String[] pref = PATTERN_DOT.split(suffix, 2);
+                    int id = 0;
                     try {
-                        Integer.parseInt(pref[0]);
-                    } catch (Exception ex) {
+                        id = Integer.parseInt(pref[0]);
+                    } catch (NumberFormatException ex) {
                         continue;
                     }
-
-                    Integer id = Utils.parseInt(pref[0]);
 
                     Map<String, String> map = resultMap.get(id);
                     if (map == null) {
