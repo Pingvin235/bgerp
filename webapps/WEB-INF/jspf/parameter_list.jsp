@@ -311,7 +311,7 @@
 									<input type="hidden" name="paramId" value="${parameter.id}"/>
 
 									<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} }); return false;">
-										${valueTitle}
+										${u.escapeXml(valueTitle)}
 										<c:if test="${empty item.valueTitle}">${l.l('не указан')}</c:if>
 										<c:if test="${showAsLink}">
 											[<a target="_blank" href="${item.value}">${l.l('link.open')}</a>]
