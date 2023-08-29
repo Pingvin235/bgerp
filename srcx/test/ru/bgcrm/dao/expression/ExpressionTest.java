@@ -141,7 +141,7 @@ public class ExpressionTest {
     @Test
     public void testStaticMethodCall() {
         String expr =
-                "var u = ru.bgcrm.util.Utils;"
+                "u = ru.bgcrm.util.Utils;"
                 + "return u.parseInt('3') + 't';";
         String value = new Expression(new HashMap<>()).getString(expr);
         assertEquals("3t", value);

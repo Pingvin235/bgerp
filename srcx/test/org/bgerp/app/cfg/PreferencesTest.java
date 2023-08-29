@@ -121,4 +121,12 @@ public class PreferencesTest {
         Assert.assertEquals(800, config.getInt("color.yellow.when.left.minutes"));
     }
 
+    @Test
+    public void testConcatenation() {
+        String data = "CONST=const\n"
+            + "key=value\n"
+            + "key+=,{@CONST}";
+        Preferences prefs = new Preferences(data);
+        Assert.assertEquals("value,const", prefs.get("key"));
+    }
 }
