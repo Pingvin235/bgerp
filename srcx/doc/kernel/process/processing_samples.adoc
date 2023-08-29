@@ -200,7 +200,7 @@ onProcessEvent.2.events=linkAdded
 onProcessEvent.2.commands=bgbilling:linkedContractParamToDescription:bg:27;bgbilling:linkedContractParamToDescription:bg:12
 ----
 
-== Плагин <<../../plugin/sms/index.adoc#, SMS>>
+== Плагин <<../../plugin/msg/sms/index.adoc#, SMS>>
 [[sms-send-sms]]
 === Отправка СМС
 Отправка СМС сообщения по созданию процесса, в случае наличия в значениях спискового параметра с кодом 26 1, 2 или 3.

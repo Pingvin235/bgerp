@@ -43,10 +43,10 @@
 *** <<plugin/pln/workload/index.adoc#, Workload>>
 ** Messaging
 *** <<plugin/msg/email/index.adoc#, E-Mail>>
+*** <<plugin/msg/sms/index.adoc#, SMS>>
 *** <<plugin/phpbb/index.adoc#, PHPBB>>
 *** <<plugin/slack/index.adoc#, Slack>>
 *** <<plugin/telegram/index.adoc#, Telegram>>
-*** <<plugin/sms/index.adoc#, SMS>>
 ** Security
 *** <<plugin/sec/access/index.adoc#, Access>>
 *** <<plugin/sec/auth/index.adoc#, Auth>>

@@ -43,6 +43,9 @@ image::_res/14988.png[width="800px"]
 
 image::_res/14747.png[width="800px"]
 
+=== Multiple Providers in <<../../plugin/msg/sms/index.adoc#, Plugin SMS>>
+
+Additionally to default configuration can be <<../../plugin/msg/sms/index.adoc#setup-mult, defined>> additional messaging providers.
 
 ////
 // REMOVE THESE COMMENTED SAMPLES AFTER CREATING A REAL CONTENT
