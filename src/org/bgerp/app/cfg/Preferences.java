@@ -39,9 +39,6 @@ public class Preferences extends ConfigMap {
 
     private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{@([\\w\\.:]+)\\}");
 
-    private static final String MULTILINE_PREFIX = "<<";
-    private static final int MULTILINE_PREFIX_LENGTH = MULTILINE_PREFIX.length();
-
     protected final ConcurrentHashMap<String, String> data = new ConcurrentHashMap<>();
 
     public Preferences() {
@@ -97,12 +94,6 @@ public class Preferences extends ConfigMap {
         clearConfigs();
     }
 
-    private static final class MultilineContext {
-        public String key;
-        public StringBuilder multiline = new StringBuilder(10);
-        public String endOfLine;
-    }
-
     /**
      * Loads configuration file to map.
      * @param bundleName file name without '.properties' extension.
@@ -122,7 +113,7 @@ public class Preferences extends ConfigMap {
         }
     }
 
-    protected void loadData(String conf, String delim, Map<String, String> data, Iterable<ConfigMap> includes, boolean validate) throws BGException {
+    private void loadData(String conf, String delim, Map<String, String> data, Iterable<ConfigMap> includes, boolean validate) throws BGException {
         MultilineContext context = new MultilineContext();
         StringTokenizer st = new StringTokenizer(Utils.maskNull(conf), delim);
         while (st.hasMoreTokens())
@@ -181,9 +172,9 @@ public class Preferences extends ConfigMap {
                 String value = line.substring(pos + 1);
 
                 // begin of multiline
-                if (value.startsWith(MULTILINE_PREFIX)) {
+                if (value.startsWith(MultilineContext.MULTILINE_PREFIX)) {
                     context.key = key;
-                    context.endOfLine = value.substring(MULTILINE_PREFIX_LENGTH);
+                    context.endOfLine = value.substring(MultilineContext.MULTILINE_PREFIX_LENGTH);
                     return;
                 }
 
