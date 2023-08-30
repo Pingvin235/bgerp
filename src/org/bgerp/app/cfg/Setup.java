@@ -159,7 +159,7 @@ public class Setup extends Preferences {
             return;
         }
 
-        Map<Integer, ConfigMap> includes = configDAO.getIncludes(config.getId());
+        Map<Integer, String> includes = configDAO.getIncludes(config.getId());
         oldIncludes(con, includes, config);
         data.putAll(new Preferences(config.getData(), includes.values(), false));
     }
@@ -171,7 +171,7 @@ public class Setup extends Preferences {
      * @param config config with includes.
      * @throws SQLException
      */
-    private void oldIncludes(Connection con, Map<Integer, ConfigMap> includes, Config config) throws SQLException {
+    private void oldIncludes(Connection con, Map<Integer, String> includes, Config config) throws SQLException {
         var configDAO = new ConfigDAO(con);
 
         for (Map.Entry<String, String> me : new Preferences(config.getData()).sub(Config.INCLUDE_PREFIX).entrySet()) {
@@ -190,7 +190,7 @@ public class Setup extends Preferences {
                 configDAO.updateGlobalConfig(included);
                 con.commit();
 
-                includes.put(included.getId(), new Preferences(included.getData()));
+                includes.put(included.getId(), included.getData());
             }
         }
     }

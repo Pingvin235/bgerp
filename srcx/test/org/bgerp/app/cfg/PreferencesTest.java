@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
@@ -12,11 +14,12 @@ import org.junit.Test;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Config;
+import ru.bgcrm.util.Utils;
 
 public class PreferencesTest {
 
     @Test
-    public void testLoad() {
+    public void testInit() {
         String data = "var1=value1\n"
                 + "var1+=value2\n"
                 + "var2=value4\n"
@@ -42,6 +45,24 @@ public class PreferencesTest {
     }
 
     @Test
+    public void testConcatenation() {
+        String data = "CONST=const\n"
+            + "key=value\n"
+            + "key+=,{@CONST}";
+        Preferences prefs = new Preferences(data);
+        Assert.assertEquals("value,const", prefs.get("key"));
+    }
+
+    @Test
+    public void testIncludes() throws Exception {
+        String includeFirst = "CONST=1\n" + "key+=,{@CONST}";
+        String includeSecond = "key+=,2";
+
+        Preferences prefs = new Preferences("key+=,3", List.of(includeFirst, includeSecond), false);
+        Assert.assertEquals(Set.of(1, 2, 3), Utils.toIntegerSet(prefs.get("key")));
+    }
+
+    @Test
     public void testOverwrite() throws Exception {
         String data = IOUtils.toString(this.getClass().getResourceAsStream("PreferencesTest.testOverwrite"), StandardCharsets.UTF_8);
 
@@ -60,13 +81,13 @@ public class PreferencesTest {
                 + "return a + 1;\n"
                 + "END\n"
                 + "key1=val1\n"
-                + "key2={@key1}";
+                + "key2={@key1}\n"
+                + "key5={@LIB}";
 
         String data =
                 "include.1=1\n"
-                + "key3= {@key2}\n"
-                + "key4=val4\n"
-                + "key5={@LIB}";
+                + "key3=val 3 \n"
+                + "key4={@key3}4\n";
 
         ConfigDAO configDao = new ConfigDAO(null) {
             @Override
@@ -85,8 +106,8 @@ public class PreferencesTest {
 
         Assert.assertEquals("val1", config.get("key1"));
         Assert.assertEquals("val1", config.get("key2"));
-        Assert.assertEquals(" val1", config.get("key3"));
-        Assert.assertEquals("val4", config.get("key4"));
+        Assert.assertEquals("val 3", config.get("key3"));
+        Assert.assertEquals("val 34", config.get("key4"));
         Assert.assertEquals("a = 1;\nreturn a + 1;\n", config.get("key5"));
 
         data =  "include.2=1\n";
@@ -119,14 +140,5 @@ public class PreferencesTest {
         config = config.sub("sla:");
         Assert.assertEquals(4320, config.getInt("close.before.minutes"));
         Assert.assertEquals(800, config.getInt("color.yellow.when.left.minutes"));
-    }
-
-    @Test
-    public void testConcatenation() {
-        String data = "CONST=const\n"
-            + "key=value\n"
-            + "key+=,{@CONST}";
-        Preferences prefs = new Preferences(data);
-        Assert.assertEquals("value,const", prefs.get("key"));
     }
 }

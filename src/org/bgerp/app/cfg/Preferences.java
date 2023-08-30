@@ -34,8 +34,8 @@ import ru.bgcrm.util.Utils;
 public class Preferences extends ConfigMap {
     private static final Log log = Log.getLog();
 
-    private static final String INC = "inc";
     private static final String INSTRUCTION_DELIM = ":";
+    private static final String INSTRUCTION_INC = "inc";
 
     private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{@([\\w\\.:]+)\\}");
 
@@ -48,15 +48,15 @@ public class Preferences extends ConfigMap {
     public Preferences(String data) {
         super();
         try {
-            loadData(data, "\r\n", this.data, null, false);
+            loadData(data, this.data, null, false);
         } catch (Exception e) {
             log.error(e);
         }
     }
 
-    Preferences(String data, Iterable<ConfigMap> includes, boolean validate) throws BGException {
+    Preferences(String data, Iterable<String> includes, boolean validate) throws BGException {
         super();
-        loadData(data, "\r\n", this.data, includes, validate);
+        loadData(data, this.data, includes, validate);
     }
 
     @Override
@@ -107,21 +107,24 @@ public class Preferences extends ConfigMap {
 
             String line = null;
             while ((line = reader.readLine()) != null)
-                loadDataEntry(context, data, line.trim(), null, validate);
+                loadDataEntry(context, data, line.trim(), validate);
         } catch (Exception e) {
             log.error(e);
         }
     }
 
-    private void loadData(String conf, String delim, Map<String, String> data, Iterable<ConfigMap> includes, boolean validate) throws BGException {
+    private void loadData(String conf, Map<String, String> data, Iterable<String> includes, boolean validate) throws BGException {
+        final String delim = "\r\n";
+
         MultilineContext context = new MultilineContext();
+
         StringTokenizer st = new StringTokenizer(Utils.maskNull(conf), delim);
         while (st.hasMoreTokens())
-            loadDataEntry(context, data, st.nextToken().trim(), includes, validate);
+            loadDataEntry(context, data, st.nextToken().trim(), validate);
 
         if (includes != null)
-            for (ConfigMap include : includes)
-                data.putAll(include);
+            for (String include : includes)
+                loadData(include, data, null, validate);
     }
 
     /**
@@ -129,19 +132,17 @@ public class Preferences extends ConfigMap {
      * @param context context for handling multiline values.
      * @param data target map.
      * @param line key-value line.
-     * @param includes includes.
      * @param validate check variables in values.
      * @throws BGException
      */
-    private void loadDataEntry(MultilineContext context, Map<String, String> data, String line, Iterable<ConfigMap> includes, boolean validate) throws BGException {
+    private void loadDataEntry(MultilineContext context, Map<String, String> data, String line, boolean validate) throws BGException {
         // remove terminating non-printable chars
         line = line.replaceAll("\\p{C}+$", "");
 
-        if (line.startsWith("#")) {
+        if (line.startsWith("#"))
             return;
-        }
 
-        line = insertVariablesValues(line, data, includes, validate);
+        line = insertVariablesValues(line, data, validate);
 
         // end of multiline
         if (line.equals(context.endOfLine)) {
@@ -183,8 +184,7 @@ public class Preferences extends ConfigMap {
         }
     }
 
-    // TODO: Used in many places and cumbersome.
-    public static String insertVariablesValues(String line, Map<String, String> data, Iterable<ConfigMap> includes, boolean validate) throws BGException {
+    private String insertVariablesValues(String line, Map<String, String> data, boolean validate) throws BGException {
         StringBuffer result = null;
 
         int pointer = 0;
@@ -199,14 +199,14 @@ public class Preferences extends ConfigMap {
 
             String variable = m.group(1);
 
-            // если строка является инструкцией
+            // instruction like @inc:
             String[] tokens = variable.split(INSTRUCTION_DELIM);
             if (tokens.length == 2) {
-                if (INC.equals(tokens[0])) {
+                if (INSTRUCTION_INC.equals(tokens[0])) {
                     String val = data.get(tokens[1]);
                     if (val != null)
                         data.put(tokens[1], String.valueOf(Utils.parseInt(val) + 1));
-                    // создаём счётчик, если нет
+                    // create counter if doesn't exist
                     else
                         data.put(tokens[1], "1");
                     variable = tokens[1];
@@ -214,14 +214,7 @@ public class Preferences extends ConfigMap {
                     throw new BGMessageException("Unknown operation: " + tokens[0]);
             }
 
-            // считывание параметра с именем переменной
             String value = data.get(variable);
-            if (value == null && includes != null)
-                for  (ConfigMap include : includes) {
-                    value = include.get(variable);
-                    if (value == null)
-                        break;
-                }
 
             if (value != null)
                 result.append(value);
@@ -265,7 +258,7 @@ public class Preferences extends ConfigMap {
      * @throws SQLException
      */
     public static ConfigMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws BGException, SQLException {
-        Iterable<ConfigMap> includes = Config.getIncludes(configDao, new Preferences(config), validate);
+        Iterable<String> includes = Config.getIncludes(configDao, new Preferences(config), validate);
         return new Preferences(config, includes, validate);
     }
 
@@ -323,6 +316,7 @@ public class Preferences extends ConfigMap {
         return res;
     }
 
+    @Deprecated
     public Map<String, Map<String, String>> parseObjectsNoOrder(String prefix) {
         Map<String, Map<String, String>> result = new HashMap<String, Map<String, String>>();
         Map<String, String> values = getHashValuesWithPrefix(prefix);

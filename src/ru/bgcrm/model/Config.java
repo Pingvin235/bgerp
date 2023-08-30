@@ -157,8 +157,8 @@ public class Config implements LastModifySupport {
      * @throws BGMessageException validation
      * @throws SQLException
      */
-    public static Iterable<ConfigMap> getIncludes(ConfigDAO configDao, ConfigMap data, boolean validate) throws BGMessageException, SQLException {
-        List<ConfigMap> result = new ArrayList<>();
+    public static Iterable<String> getIncludes(ConfigDAO configDao, ConfigMap data, boolean validate) throws BGMessageException, SQLException {
+        List<String> result = new ArrayList<>();
 
         for (Map.Entry<String, String> me : data.sub(Config.INCLUDE_PREFIX).entrySet()) {
             int configId = Utils.parseInt(me.getKey());
@@ -172,7 +172,7 @@ public class Config implements LastModifySupport {
                     log.error(message);
                     continue;
                 }
-                result.add(new Preferences(config.getData()));
+                result.add(config.getData());
             }
         }
 

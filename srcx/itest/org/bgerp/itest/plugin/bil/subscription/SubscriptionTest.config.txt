@@ -21,5 +21,5 @@ subscription:subscription.2.title=BGERP EUR
 subscription:subscription.2.process.type={@PROCESS_SUBSCRIPTION_TYPE_ID}
 subscription:subscription.2.param.limit.price={@PARAM_LIMIT_PRICE_EUR_ID}
 
-# open interface, TODO: fix param value concatenation
-#process.open.typeIds+=,{@PROCESS_PRODUCT_TYPE_ID}
+# open interface
+process.open.typeIds+=,{@PROCESS_PRODUCT_TYPE_ID}

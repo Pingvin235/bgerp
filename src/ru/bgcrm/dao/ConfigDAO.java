@@ -12,8 +12,6 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.model.Config;
@@ -216,8 +214,8 @@ public class ConfigDAO extends CommonDAO {
      * @return map with key {@link Config#getId()}
      * @throws SQLException
      */
-    public Map<Integer, ConfigMap> getIncludes(int parentId) throws SQLException {
-        var result = new TreeMap<Integer, ConfigMap>();
+    public Map<Integer, String> getIncludes(int parentId) throws SQLException {
+        var result = new TreeMap<Integer, String>();
 
         String query = SQL_SELECT_ALL_FROM + TABLE_CONFIG_GLOBAL + SQL_WHERE + "parent_id=?";
         var ps = con.prepareStatement(query);
@@ -226,7 +224,7 @@ public class ConfigDAO extends CommonDAO {
         try (var rs = ps.executeQuery()) {
             while (rs.next()) {
                 var config = getGlobalConfigFromRs(rs);
-                result.put(config.getId(), new Preferences(config.getData()));
+                result.put(config.getId(), config.getData());
             }
         }
 
