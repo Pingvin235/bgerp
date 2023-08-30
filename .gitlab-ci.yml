@@ -119,6 +119,7 @@ publish-doc:
         - if: $CI_PIPELINE_SOURCE != "schedule" && $CI_COMMIT_REF_NAME == "p11862-documentation"
 
 publish-source:
+    stage: .post
     # think about switching to 'bgerp/base' for unification
     image: alpine
     before_script:
