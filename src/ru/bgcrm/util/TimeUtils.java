@@ -736,34 +736,12 @@ public class TimeUtils {
     }
 
     /**
-     * Возвращает дату начала месяца, соответствующего входной дате.
-     * @param date дата
-     * @return
-     */
-    public static final Calendar getStartMonth(Calendar date) {
-        Calendar result = (Calendar) date.clone();
-        result.set(Calendar.DAY_OF_MONTH, 1);
-        return result;
-    }
-
-    /**
-     * Возвращает дату конца месяца, соответствующего входной дате.
-     * @param date дата
+     * Last day of a month.
+     * @param date any day of the month.
      * @return
      */
     public static final Date getEndMonth(Date date) {
-        return getEndMonth(convertDateToCalendar(date)).getTime();
-    }
-
-    /**
-     * Возвращает дату конца месяца, соответствующего входной дате
-     * @param date дата
-     * @return
-     */
-    public static final Calendar getEndMonth(Calendar date) {
-        Calendar result = (Calendar) date.clone();
-        result.set(Calendar.DAY_OF_MONTH, date.getActualMaximum(Calendar.DAY_OF_MONTH));
-        return result;
+        return TimeConvert.toDate(TimeConvert.toYearMonth(date).atEndOfMonth());
     }
 
     /**

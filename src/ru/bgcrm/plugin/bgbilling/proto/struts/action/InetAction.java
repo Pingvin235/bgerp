@@ -3,7 +3,6 @@ package ru.bgcrm.plugin.bgbilling.proto.struts.action;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,7 +25,6 @@ import ru.bgcrm.plugin.bgbilling.proto.model.inet.InetSessionLog;
 import ru.bgcrm.plugin.bgbilling.struts.action.BaseAction;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
-import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.inet.IpNet;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -169,11 +167,7 @@ public class InetAction extends BaseAction {
         InetDAO inetDao = InetDAO.getInstance(form.getUser(), form.getParam(BILLING_ID), form.getParamInt(MODULE_ID));
 
         Pageable<InetSessionLog> result = new Pageable<>(form);
-        inetDao.getSessionLogContractList(result, form.getParamInt(CONTRACT_ID),
-                TimeUtils.clear_HOUR_MIN_MIL_SEC(
-                        form.getParamDate(DATE_FROM, TimeUtils.getStartMonth(new GregorianCalendar()).getTime())),
-                TimeUtils.clear_HOUR_MIN_MIL_SEC(
-                        form.getParamDate(DATE_TO, TimeUtils.getEndMonth(new GregorianCalendar()).getTime())));
+        inetDao.getSessionLogContractList(result, form.getParamInt(CONTRACT_ID), form.getParamDate(DATE_FROM), form.getParamDate(DATE_TO));
         setDeviceTitles(inetDao, result);
 
         return html(conSet, form, PATH_JSP + "/contract_report.jsp");

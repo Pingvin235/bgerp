@@ -1,11 +1,11 @@
 package ru.bgcrm.plugin.bgbilling.proto.struts.action;
 
-import java.util.Calendar;
+import java.time.YearMonth;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.Pageable;
+import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.plugin.bgbilling.Plugin;
@@ -26,12 +26,10 @@ public class RscmAction extends BaseAction {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");
-        Calendar curdate = new GregorianCalendar();
-        Date dateFrom = form.getParamDate("dateFrom", TimeUtils.getStartMonth(curdate).getTime());
-        Date dateTo = form.getParamDate("dateTo", TimeUtils.getEndMonth(curdate).getTime());
+        Date dateFrom = form.getParamDate("dateFrom", TimeConvert.toDate(YearMonth.now()));
+        Date dateTo = form.getParamDate("dateTo", TimeUtils.getEndMonth(new Date()));
 
-        new RscmDAO(form.getUser(), billingId, moduleId).getServices(new Pageable<RscmService>(form), contractId,
-                dateFrom, dateTo);
+        new RscmDAO(form.getUser(), billingId, moduleId).getServices(new Pageable<RscmService>(form), contractId, dateFrom, dateTo);
 
         return html(conSet, form, PATH_JSP + "/service_list.jsp");
     }
