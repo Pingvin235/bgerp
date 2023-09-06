@@ -20,7 +20,7 @@ bgbilling:contractType.1.tariffList=133:Test ERP 1,134:Test ERP 2
 # HelpDesk Message Type
 messageType.200.title=HD
 messageType.200.billingId={@BILLING_ID}
-messageType.200.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+messageType.200.class=MessageTypeHelpDesk
 messageType.200.user=admin
 messageType.200.pswd=admin
 messageType.200.processTypeId={@PROCESS_HD_TYPE_ID}

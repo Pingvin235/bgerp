@@ -31,7 +31,7 @@ The plugin has to be enabled in <<../../kernel/setup.adoc#config, configuration>
 [source]
 ----
 messageType.<id>.title=<title>
-messageType.<id>.class=ru.bgcrm.plugin.slack.dao.MessageTypeChannel
+messageType.<id>.class=MessageTypeChannel
 messageType.<id>.authToken=<token>
 # необязательные параметры
 messageType.<id>.accountParamId=<slackLoginParamId>
@@ -49,7 +49,7 @@ messageType.<id>.stringExpressionMessageExtract=<jexl>
 [source]
 ----
 messageType.5.title=Slack
-messageType.5.class=ru.bgcrm.plugin.slack.dao.MessageTypeChannel
+messageType.5.class=MessageTypeChannel
 messageType.5.authToken=xoxp-112244252083-112987389558-112322797394-6aa31425be1725ee6ee0265a2dff1236
 messageType.5.accountParamId=88
 messageType.5.stringExpressionMessageExtract=<<END

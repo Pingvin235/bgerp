@@ -16,9 +16,9 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.NewsDAO;
 import ru.bgcrm.dao.message.MessageType;
-import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.News;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.action.MessageAction;
 import ru.bgcrm.struts.action.NewsAction;

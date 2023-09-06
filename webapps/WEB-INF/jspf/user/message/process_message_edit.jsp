@@ -4,7 +4,7 @@
 <%@ include file="process_message_edit_upload.jsp"%>
 
 <c:set var="message" scope="request" value="${form.response.data.message}"/>
-<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
+<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.model.message.config.MessageTypeConfig')}"/>
 
 <c:set var="editorUiid" value="${u:uiid()}"/>
 <c:set var="typeComboUiid" value="${u:uiid()}"/>

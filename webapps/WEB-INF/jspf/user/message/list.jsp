@@ -31,7 +31,7 @@
 
 	<ui:combo-single
 		hiddenName="processed" value="${form.param.processed}"
-		prefixText="${l.l('Обработаны')}:" widthTextValue="20px"
+		prefixText="${l.l('Обработаны')}:" widthTextValue="3em"
 		onSelect="${script}">
 		<jsp:attribute name="valuesHtml">
 			<li value="0">${l.l('No')}</li>
@@ -39,7 +39,17 @@
 		</jsp:attribute>
 	</ui:combo-single>
 
-	<c:if test="${form.param['processed'] eq 1}">
+	<c:if test="${form.param.processed eq 1}">
+		<ui:combo-single
+			hiddenName="read" value="${form.param.read}"
+			prefixText="${l.l('Прочитанные')}:" widthTextValue="3em"
+			onSelect="${script}">
+			<jsp:attribute name="valuesHtml">
+				<li value="">${l.l('Any')}</li>
+				<li value="0">${l.l('No')}</li>
+				<li value="1">${l.l('Yes')}</li>
+			</jsp:attribute>
+		</ui:combo-single>
 		<ui:date-time type="ymd" paramName="dateFrom" value="${form.param.dateFrom}" placeholder="${l.l('Дата от')}"/>
 		<ui:date-time type="ymd" paramName="dateTo" value="${form.param.dateTo}" placeholder="${l.l('Дата по')}"/>
 		<input type="text" name="from" value="${form.param.from}" placeholder="${l.l('Отправитель')}"/>
@@ -47,7 +57,7 @@
 
 	<ui:combo-single
 		hiddenName="order" value="${form.param.order}" prefixText="${l.l('Сортировка')}:"
-		widthTextValue="20px" onSelect="${script}">
+		widthTextValue="7em" onSelect="${script}">
 		<jsp:attribute name="valuesHtml">
 			<li value="1">${l.l('Обратная')}</li>
 			<li value="0">${l.l('Прямая')}</li>

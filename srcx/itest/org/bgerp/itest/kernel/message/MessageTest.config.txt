@@ -11,7 +11,7 @@ tag.4.color=green
 SIGN_TEXT=NEW_LINE + "Best regards, team BGERP DEMO" + NEW_LINE +  "tel. +7(347)29248xx" + NEW_LINE + "email. demo@bgerp.org" + NEW_LINE
 
 messageType.1.title=demo@bgerp.org
-messageType.1.class=org.bgerp.plugin.msg.email.MessageTypeEmail
+messageType.1.class=MessageTypeEmail
 messageType.1.store=imaps
 messageType.1.email=demo@bgerp.org
 messageType.1.host=imap.yandex.ru
@@ -27,20 +27,22 @@ messageType.1.mail.smtp.host=smtp.yandex.ru
 messageType.1.mail.smtp.pswd=bgdemo
 messageType.1.sign.expression={@SIGN_TEXT}
 messageType.1.search.1.title=By EMail
-messageType.1.search.1.class=ru.bgcrm.dao.message.MessageTypeSearchEmail
+messageType.1.search.1.class=MessageTypeSearchEmail
 messageType.1.search.2.title=Customer by Title
-messageType.1.search.2.class=ru.bgcrm.dao.message.MessageTypeSearchCustomerByTitle
-messageType.1.saver.class=ru.bgcrm.dao.message.MessageTypeContactSaverEmail
+messageType.1.search.2.class=MessageTypeSearchCustomerByTitle
+messageType.1.saver.class=MessageTypeContactSaverEmail
 messageType.1.saver.paramId={@PARAM_CUSTOMER_EMAIL_ID}
 
 messageType.50.title=Call
-messageType.50.class=ru.bgcrm.dao.message.MessageTypeCall
+messageType.50.class=MessageTypeCall
 messageType.50.search.1.title=By Phone
-messageType.50.search.1.class=ru.bgcrm.dao.message.MessageTypeSearchCall
+messageType.50.search.1.class=MessageTypeSearchCall
 messageType.50.search.1.commands=customerByPhoneParam:{@PARAM_CUSTOMER_PHONE_ID}
 
 messageType.100.title=Note
-messageType.100.class=ru.bgcrm.dao.message.MessageTypeNote
+messageType.100.class=MessageTypeNote
+# create messages as unread
+#messageType.100.create.unread=1
 
 # scheduler task
 scheduler.task.messages.class=MessageExchange

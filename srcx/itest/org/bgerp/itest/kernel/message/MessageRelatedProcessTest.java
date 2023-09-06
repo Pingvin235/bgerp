@@ -21,12 +21,12 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.AddressDAO;
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.dao.message.config.MessageRelatedProcessConfig;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.customer.Customer;
+import ru.bgcrm.model.message.config.MessageRelatedProcessConfig;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.param.ParameterAddressValue;
 import ru.bgcrm.model.param.ParameterPhoneValue;

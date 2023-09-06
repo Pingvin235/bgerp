@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.phpbb.dao;
 import java.sql.Connection;
 import java.util.Date;
 
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
@@ -31,6 +32,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
+@Bean
 public class MessageTypeForumPost extends MessageType {
     private static final Log log = Log.getLog();
 

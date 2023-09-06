@@ -408,7 +408,7 @@ NOTE: Создание нового договора возможно тольк
 ----
 messageType.<id>.title=<title>
 messageType.<id>.billingId=<billingId>
-messageType.<id>.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+messageType.<id>.class=MessageTypeHelpDesk
 messageType.<id>.user=<user>
 messageType.<id>.pswd=<pswd>
 messageType.<id>.processTypeId=<processTypeId>
@@ -450,7 +450,7 @@ messageType.<id>.addFirstMessageInDescription=1
 ----
 messageType.2.title=HD
 messageType.2.billingId=bg
-messageType.2.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeHelpDesk
+messageType.2.class=MessageTypeHelpDesk
 messageType.2.user=bgcrm
 messageType.2.pswd=bgcrm
 messageType.2.processTypeId=3

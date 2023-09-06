@@ -12,7 +12,6 @@ import org.bgerp.plugin.msg.feedback.Plugin;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.message.MessageDAO;
-import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
@@ -22,6 +21,7 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.BGSecurityException;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.ProcessLink;
 import ru.bgcrm.servlet.ActionServlet.Action;

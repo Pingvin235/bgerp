@@ -30,7 +30,7 @@ Configuration pattern:
 [source]
 ----
 messageType.<id>.title=<title>
-messageType.<id>.class=org.bgerp.plugin.msg.email.MessageTypeEmail
+messageType.<id>.class=MessageTypeEmail
 messageType.<id>.email=<email>
 messageType.<id>.host=<host>
 messageType.<id>.login=<login>
@@ -90,7 +90,7 @@ messageType.<id>.replayTo=<replayTo>
 [source]
 ----
 messageType.<id>.title=Наименование
-messageType.<id>.class=ru.bgcrm.dao.message.MessageTypeEmail
+messageType.<id>.class=MessageTypeEmail
 ...
 messageType.<id>.quickAnswerEmailParamId=21
 ----
@@ -116,7 +116,7 @@ messageType.<id>.autoCreateProcess.notification.text.message=Dear customer, your
 [source]
 ----
 messageType.1.title=billing@bitel.ru
-messageType.1.class=ru.bgcrm.dao.message.MessageTypeEmail
+messageType.1.class=MessageTypeEmail
 messageType.1.email=billing@bitel.ru
 messageType.1.host=imap.ufamail.ru
 messageType.1.login=billing@bitel.ru
@@ -145,7 +145,7 @@ IMAP и SMTP через SSL, подключены режимы поиска.
 signBms=NEW_LINE + "С уважением, команда Бител" + NEW_LINE +  "email. crm@bitel.ru" + NEW_LINE
 
 messageType.3.title=info@bgcrm.ru
-messageType.3.class=ru.bgcrm.dao.message.MessageTypeEmail
+messageType.3.class=MessageTypeEmail
 messageType.3.store=imaps
 messageType.3.email=info@bgcrm.ru
 messageType.3.host=imap.yandex.com
@@ -159,14 +159,14 @@ messageType.3.folderTrash=trash
 messageType.3.signExpression={@signBms}
 messageType.3.quickAnswerEmailParamId=21
 messageType.3.search.1.title=Авто по EMail
-messageType.3.search.1.class=ru.bgcrm.dao.message.MessageTypeSearchEmail
+messageType.3.search.1.class=MessageTypeSearchEmail
 messageType.3.search.2.title=Контрагент по названию
-messageType.3.search.2.class=ru.bgcrm.dao.message.MessageTypeSearchCustomerByTitle
+messageType.3.search.2.class=MessageTypeSearchCustomerByTitle
 messageType.3.search.3.title=Договор по параметру EMail
-messageType.3.search.3.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchEmail
+messageType.3.search.3.class=BGBillingMessageTypeSearchEmail
 messageType.3.search.3.billingId=bitel
 messageType.3.search.3.paramIds=7
-messageType.3.saver.class=ru.bgcrm.dao.message.MessageTypeContactSaverEmail
+messageType.3.saver.class=MessageTypeContactSaverEmail
 messageType.3.saver.paramId=17
 messageType.3.mail.transport.protocol=smtps
 messageType.3.mail.smtp.user=info@bgcrm.ru
@@ -186,7 +186,7 @@ IMAP и SMTP через SSL.
 [source]
 ----
 messageType.5.title=bgerpp@gmail.com
-messageType.5.class=ru.bgcrm.dao.message.MessageTypeEmail
+messageType.5.class=MessageTypeEmail
 messageType.5.store=imaps
 messageType.5.email=bgerpp@gmail.com
 messageType.5.host=imap.gmail.com

@@ -4,7 +4,7 @@
 <c:set var="message" value="${form.response.data.message}" scope="request"/>
 <c:set var="form" value="${form}"/>
 
-<c:set var="messageType" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig').typeMap[message.typeId]}" scope="request"/>
+<c:set var="messageType" value="${ctxSetup.getConfig('ru.bgcrm.model.message.config.MessageTypeConfig').typeMap[message.typeId]}" scope="request"/>
 
 <c:set var="uiid" value="${u:uiid()}"/>
 

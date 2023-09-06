@@ -24,12 +24,12 @@ import org.testng.annotations.Test;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeNote;
-import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.message.TagConfig.Tag;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.process.ProcessLink;
 
 @Test(groups = "message", dependsOnGroups = { "customer", "user", "process" })

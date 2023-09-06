@@ -11,7 +11,7 @@ import org.bgerp.plugin.kernel.Plugin;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageType;
-import ru.bgcrm.dao.message.config.MessageTypeConfig;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.util.Utils;
 
 @Bean(oldClasses = "ru.bgcrm.worker.MessageExchange")

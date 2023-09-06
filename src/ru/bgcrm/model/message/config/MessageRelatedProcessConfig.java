@@ -1,4 +1,4 @@
-package ru.bgcrm.dao.message.config;
+package ru.bgcrm.model.message.config;
 
 import java.util.Collections;
 import java.util.EnumSet;

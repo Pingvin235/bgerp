@@ -8,12 +8,12 @@ import org.bgerp.util.Log;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
-import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.GetPoolTasksEvent;
 import ru.bgcrm.event.client.MessageOpenEvent;
 import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 /**

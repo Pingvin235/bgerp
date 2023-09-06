@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.SortedMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.base.IdTitled;
 
@@ -19,6 +20,7 @@ import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 
+@Bean
 public class MessageTypeContactSaverEmail extends MessageTypeContactSaver {
     private static final List<IdTitled> MODE_LIST = List.of(
         new IdTitled(0, "Не сохранять"),

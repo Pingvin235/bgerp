@@ -1,4 +1,4 @@
-<%@page import="ru.bgcrm.dao.message.config.MessageTypeConfig"%>
+<%@page import="ru.bgcrm.model.message.config.MessageTypeConfig"%>
 <%@page import="org.bgerp.app.cfg.Setup"%>
 <%@page import="ru.bgcrm.plugin.slack.dao.MessageTypeChannel"%>
 

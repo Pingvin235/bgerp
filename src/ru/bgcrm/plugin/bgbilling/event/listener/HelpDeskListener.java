@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.bgbilling.event.listener;
 import java.math.BigDecimal;
 
 import ru.bgcrm.model.message.Message;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 
@@ -18,7 +19,6 @@ import org.bgerp.model.Pageable;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
-import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;

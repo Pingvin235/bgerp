@@ -4,8 +4,8 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.servlet.user.event.UserSessionCreatedEvent;
 import org.bgerp.util.Log;
 import ru.bgcrm.dao.message.MessageTypeCall;
-import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.event.EventProcessor;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.util.Utils;
 
 public class UserSessionListener {

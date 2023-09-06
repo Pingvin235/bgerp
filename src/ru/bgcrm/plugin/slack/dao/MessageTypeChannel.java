@@ -9,6 +9,7 @@ import java.util.Set;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.cfg.Config.InitStopException;
@@ -23,7 +24,6 @@ import ru.bgcrm.dao.PropertiesDAO;
 import ru.bgcrm.dao.expression.Expression;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
-import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.process.ProcessMessageAddedEvent;
@@ -32,6 +32,7 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.message.Message;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
@@ -47,6 +48,7 @@ import ru.bgcrm.util.sql.SingleConnectionSet;
  *
  * @author Shamil Vakhitov
  */
+@Bean
 public class MessageTypeChannel extends MessageType {
     private static final Log log = Log.getLog();
 

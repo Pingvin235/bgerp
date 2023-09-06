@@ -1,0 +1,2 @@
+C: Short class names in Message Types configuration. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#setup-type
+A: Create MessageTypeNote as unread. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#setup-type-note

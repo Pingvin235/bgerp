@@ -8,11 +8,11 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageTypeCall;
 import ru.bgcrm.dao.message.MessageTypeCall.CallRegistration;
-import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.RunClassRequestEvent;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.message.Message;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SQLUtils;

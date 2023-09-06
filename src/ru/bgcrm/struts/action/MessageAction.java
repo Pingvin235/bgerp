@@ -31,7 +31,6 @@ import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeSearch;
-import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.dao.user.UserDAO;
@@ -44,6 +43,7 @@ import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.TagConfig;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -296,7 +296,9 @@ public class MessageAction extends BaseAction {
 
         if (processed) {
             new MessageSearchDAO(conSet.getConnection())
-                .withTypeId(typeId).withDirection(Message.DIRECTION_INCOMING).withProcessed(true)
+                .withTypeId(typeId).withDirection(Message.DIRECTION_INCOMING)
+                .withProcessed(true)
+                .withRead(form.getParamBoolean("read", null))
                 .withAttach(form.getParamBoolean("attach", null))
                 .withDateFrom(form.getParamDate("dateFrom", null), form.getParamDate("dateTo", null))
                 .withFrom(LikePattern.SUB.get(form.getParam("from")))

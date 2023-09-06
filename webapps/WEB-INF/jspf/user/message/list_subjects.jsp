@@ -6,7 +6,7 @@
 	<c:set var="uiid" value="${u:uiid()}"/>
 
 	<c:choose>
-		<c:when test="${form.param['processed'] eq 1}">
+		<c:when test="${form.param.processed eq 1}">
 			<table class="data hl fixed-header" id="${uiid}">
 				<tr>
 					<td width="30">ID</td>
@@ -28,7 +28,7 @@
 						<td>${item.subject}</td>
 						<td>${item.from}</td>
 						<td>${tu.format(item.fromTime, 'ymdhm')}</td>
-						<td><ui:process-link id="${item.process.id}" text="${ctxProcessTypeMap[item.process.typeId].title}"/></td>
+						<td><ui:process-link id="${item.process.id}" text="${item.process.id}"/></td>
 					</tr>
 				</c:forEach>
 			</table>

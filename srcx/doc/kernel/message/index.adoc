@@ -1,5 +1,6 @@
 = Messages
 :toc:
+:toclevels: 4
 
 [[about]]
 == About
@@ -83,7 +84,7 @@ Search modes, marked as *Auto* are automatically and parallel running when a mes
 |Конфигурация и пример
 
 |:hardbreaks:
-*ru.bgcrm.dao.message.MessageTypeSearchCustomerByTitle*
+*MessageTypeSearchCustomerByTitle*
 Контрагента по наименованию, для любого типа сообщения.
 
 image::_res/i0111.png[]
@@ -93,11 +94,11 @@ image::_res/i0111.png[]
 [source]
 ----
 messageType.1.search.2.title=Customer by Title
-messageType.1.search.2.class=ru.bgcrm.dao.message.MessageTypeSearchCustomerByTitle
+messageType.1.search.2.class=MessageTypeSearchCustomerByTitle
 ----
 
 |:hardbreaks:
-*ru.bgcrm.dao.message.MessageTypeSearchEmail*
+*MessageTypeSearchEmail*
 *Auto*
 Поиск контрагента по Email для типа сообщения Email.
 |:hardbreaks:
@@ -106,18 +107,18 @@ messageType.1.search.2.class=ru.bgcrm.dao.message.MessageTypeSearchCustomerByTit
 [source]
 ----
 messageType.1.search.1.title=Customer by EMail
-messageType.1.search.1.class=ru.bgcrm.dao.message.MessageTypeSearchEmail
+messageType.1.search.1.class=MessageTypeSearchEmail
 ----
 
 |:hardbreaks:
-*ru.bgcrm.dao.message.MessageTypeSearchCall*
+*MessageTypeSearchCall*
 *Auto*
 Поиск контрагента в базе BGERP по номеру телефона звонящего для типа сообщения Call. Поиск производится по точному совпадению.
 |:hardbreaks:
 [source]
 ----
 messageType.<id>.search.<searchModeId>.title=<title>
-messageType.<id>.search.<searchModeId>.class=ru.bgcrm.dao.message.MessageTypeSearchCall
+messageType.<id>.search.<searchModeId>.class=MessageTypeSearchCall
 messageType.<id>.search.<searchModeId>.commands=<commands>
 # необязательный параметр
 messageType.<id>.search.<searchModeId>.stringExpressionNumberPreprocess=<jexl>
@@ -131,7 +132,7 @@ messageType.<id>.search.<searchModeId>.stringExpressionNumberPreprocess=<jexl>
 [source]
 ----
 messageType.1.search.1.title=Customer by Phone
-messageType.1.search.1.class=ru.bgcrm.dao.message.MessageTypeSearchCall
+messageType.1.search.1.class=MessageTypeSearchCall
 messageType.1.search.1.commands=customerByPhoneParam:10
 messageType.1.search.1.stringExpressionNumberPreprocess=if( numberFrom.length() == 11 ){ numberFrom = numberFrom.substring(1)}; return numberFrom;
 ----
@@ -149,12 +150,12 @@ include::../../plugin/bgbilling/message_search_modes.adocf[]
 |Конфигурация и пример
 
 |:hardbreaks:
-*ru.bgcrm.dao.message.MessageTypeContactSaverEmail*
+*MessageTypeContactSaverEmail*
 Сохранение EMail в параметр типа "email" контрагента. Возможно сохранение домена либо только EMail а.
 |:hardbreaks:
 [source]
 ----
-messageType.<id>.saver.class=ru.bgcrm.dao.message.MessageTypeContactSaverEmail
+messageType.<id>.saver.class=MessageTypeContactSaverEmail
 messageType.<id>.saver.paramId=<paramId>
 ----
 Где:
@@ -164,17 +165,17 @@ messageType.<id>.saver.paramId=<paramId>
 Пример:
 [source]
 ----
-messageType.1.saver.class=ru.bgcrm.dao.message.MessageTypeContactSaverEmail
+messageType.1.saver.class=MessageTypeContactSaverEmail
 messageType.1.saver.paramId=27
 ----
 
 |:hardbreaks:
-*ru.bgcrm.dao.message.MessageTypeContactSaverPhone*
+*MessageTypeContactSaverPhone*
 Сохранение телефона в параметр типа "phone" контрагента. Возможно сохранение домена либо только EMail а.
 |:hardbreaks:
 [source]
 ----
-messageType.<id>.saver.class=ru.bgcrm.dao.message.MessageTypeContactSaverPhone
+messageType.<id>.saver.class=MessageTypeContactSaverPhone
 messageType.<id>.saver.paramId=<paramId>
 ----
 Где:
@@ -185,7 +186,7 @@ messageType.<id>.saver.paramId=<paramId>
 Пример:
 [source]
 ----
-messageType.1.saver.class=ru.bgcrm.dao.message.MessageTypeContactSaverPhone
+messageType.1.saver.class=MessageTypeContactSaverPhone
 messageType.1.saver.paramId=37
 messageType.1.saver.format=13
 ----
@@ -196,22 +197,30 @@ include::../../plugin/bgbilling/message_save_modes.adocf[]
 
 [[setup-type-note]]
 ==== Type Note
-*<messageTypeClassName>=ru.bgcrm.dao.message.MessageTypeNote*
+*<messageTypeClassName>=MessageTypeNote*
 
-Используются для добавления заметок (комментариев) по ходу процесса.
+Used for appending process notes.
 
 image::_res/i0102.png[]
-Пример настройки:
+
+Addidtional optional settings:
 [source]
 ----
-#
-messageType.100.title=Заметка (Комментарий)
-messageType.100.class=ru.bgcrm.dao.message.MessageTypeNote
+messageType.<id>.create.unread=1
+----
+
+Allows to create notes as unread.
+
+Example of configuration:
+[source]
+----
+messageType.100.title=Note
+messageType.100.class=MessageTypeNote
 ----
 
 [[setup-type-call]]
 ==== Type Call
-*<messageTypeClassName>=ru.bgcrm.dao.message.MessageTypeCall*
+*<messageTypeClassName>=MessageTypeCall*
 
 Дополнительные необязательные параметры:
 [source]

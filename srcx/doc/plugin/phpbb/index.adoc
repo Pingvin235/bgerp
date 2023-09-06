@@ -10,7 +10,7 @@
 [source]
 ----
 messageType.<id>.title=<title>
-messageType.<id>.class=ru.bgcrm.plugin.phpbb.dao.MessageTypeForumPost
+messageType.<id>.class=MessageTypeForumPost
 messageType.<id>.userNameParamId=<userParamId>
 messageType.<id>.topicMark=<markText>
 messageType.<id>.topicMarkClosed=<markTextClosed>
@@ -33,7 +33,7 @@ messageType.<id>.db.pswd=<jdbcPswd>
 [source]
 ----
 messageType.7.title=Форум BiTel
-messageType.7.class=ru.bgcrm.plugin.phpbb.dao.MessageTypeForumPost
+messageType.7.class=MessageTypeForumPost
 messageType.7.userNameParamId=30
 messageType.7.topicMark= (CRM)
 messageType.7.topicMarkClosed= (CRM:CLOSED)

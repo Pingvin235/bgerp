@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.Date;
 import java.util.Map;
 
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
@@ -26,18 +27,23 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 import ru.bgcrm.util.sql.SingleConnectionSet;
 
+@Bean
 public class MessageTypeNote extends MessageType {
     private static final Log log = Log.getLog();
 
+    private final boolean createUnread;
+
     public MessageTypeNote(Setup setup, int id, ConfigMap config) throws BGException {
         super(setup, id, config.get("title"), config);
+        createUnread = config.getBoolean("create.unread");
     }
 
     @Override
     public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
         message.setSystemId("");
         message.setFrom("");
-        message.setToTime(new Date());
+        if (!createUnread)
+            message.setToTime(new Date());
         message.setDirection(Message.DIRECTION_INCOMING);
 
         Map<Integer, FileInfo> tmpFiles = processMessageAttaches(con, form, message);

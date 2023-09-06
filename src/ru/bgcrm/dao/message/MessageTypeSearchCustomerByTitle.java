@@ -2,6 +2,7 @@ package ru.bgcrm.dao.message;
 
 import java.util.Set;
 
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 
@@ -13,6 +14,7 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
+@Bean
 public class MessageTypeSearchCustomerByTitle extends MessageTypeSearch {
     public MessageTypeSearchCustomerByTitle(ConfigMap config) throws BGException {
         super(config);

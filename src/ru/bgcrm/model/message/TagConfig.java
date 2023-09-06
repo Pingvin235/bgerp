@@ -16,7 +16,8 @@ import org.bgerp.util.Dynamic;
  *
  * @author Shamil Vakhitov
  */
-public class TagConfig extends Config{
+@Dynamic
+public class TagConfig extends Config {
     private final List<Tag> tagList = new ArrayList<>(10);
     private final Map<Integer, Tag> tagMap;
 

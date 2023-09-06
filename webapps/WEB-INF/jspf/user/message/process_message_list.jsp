@@ -59,7 +59,7 @@
 	<div id="${editorContainerUiid}"></div>
 </ui:when>
 
-<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.dao.message.config.MessageTypeConfig')}"/>
+<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.model.message.config.MessageTypeConfig')}"/>
 
 <c:set var="messagesUiid" value="${u:uiid()}"/>
 <div class="mt1" id='${messagesUiid}'>
@@ -77,7 +77,7 @@
 
 			<c:set var="typeNote" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeNote'}"/>
 			<c:set var="typeCall" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.MessageTypeCall'}"/>
-			<c:set var="typeUnknown" value="${messageType.getClass().getName() eq 'ru.bgcrm.dao.message.config.MessageTypeConfig$MessageTypeUnknown'}"/>
+			<c:set var="typeUnknown" value="${messageType.getClass().getName() eq 'ru.bgcrm.model.message.config.MessageTypeConfig$MessageTypeUnknown'}"/>
 
 			<c:set var="color" value="${messageType.getProcessMessageHeaderColor(message)}"/>
 			<c:set var="unreadBold" value="${message.unread ? 'font-weight: bold; ' : ''}"/>

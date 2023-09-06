@@ -1,12 +1,12 @@
 |:hardbreaks:
-*ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchEmail*
+*BGBillingMessageTypeSearchEmail*
 *Auto*
 Поиск договора в базе BGBilling по EMail парамеру для типа сообщения EMail.
 |:hardbreaks:
 [source]
 ----
 messageType.<id>.search.<searchModeId>.title=<title>
-messageType.<id>.search.<searchModeId>.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchEmail
+messageType.<id>.search.<searchModeId>.class=BGBillingMessageTypeSearchEmail
 messageType.<id>.search.<searchModeId>.billingId=<billingId>
 messageType.<id>.search.<searchModeId>.paramIds=<paramIds>
 ----
@@ -19,20 +19,20 @@ messageType.<id>.search.<searchModeId>.paramIds=<paramIds>
 [source]
 ----
 messageType.1.search.3.title=Договор по параметру EMail
-messageType.1.search.3.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchEmail
+messageType.1.search.3.class=BGBillingMessageTypeSearchEmail
 messageType.1.search.3.billingId=bitel
 messageType.1.search.3.paramIds=7
 ----
 
 |:hardbreaks:
-*ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchCall*
+*BGBillingMessageTypeSearchCall*
 *Auto*
 Поиск договора в базе BGBilling по номеру телефона звонящего для типа сообщения Call. Поиск производится по подстроке.
 |:hardbreaks:
 [source]
 ----
 messageType.<id>.search.<searchModeId>.title=<title>
-messageType.<id>.search.<searchModeId>.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchCall
+messageType.<id>.search.<searchModeId>.class=BGBillingMessageTypeSearchCall
 messageType.<id>.search.<searchModeId>.billingId=<billingId>
 messageType.<id>.search.<searchModeId>.commands=<commands>
 # необязательный параметр
@@ -48,14 +48,14 @@ messageType.<id>.search.<searchModeId>.stringExpressionNumberPreprocess=<jexl>
 [source]
 ----
 messageType.1.search.1.title=Договор по номеру
-messageType.1.search.1.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchCall
+messageType.1.search.1.class=BGBillingMessageTypeSearchCall
 messageType.1.search.1.billingId=bg
 messageType.1.search.1.commands=contractByPhoneParam:27
 messageType.1.search.1.stringExpressionNumberPreprocess=if( numberFrom.length() == 11 ){ numberFrom = numberFrom.substring(1)}; return numberFrom;
 ----
 
 |:hardbreaks:
-*ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchContractByTitleAndComment*
+*BGBillingMessageTypeSearchContractByTitleAndComment*
 Поиск договора в базе BGBilling по номеру и комментарию, для любого типа сообщения.
 
 image::_res/i0112.png[]
@@ -63,7 +63,7 @@ image::_res/i0112.png[]
 [source]
 ----
 messageType.<id>.search.<searchModeId>.title=<title>
-messageType.<id>.search.<searchModeId>.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchContractByTitleAndComment
+messageType.<id>.search.<searchModeId>.class=BGBillingMessageTypeSearchContractByTitleAndComment
 messageType.<id>.search.<searchModeId>.billingId=<billingId>
 ----
 Где:
@@ -74,6 +74,6 @@ messageType.<id>.search.<searchModeId>.billingId=<billingId>
 [source]
 ----
 messageType.1.search.2.title=По номеру/примечанию
-messageType.1.search.2.class=ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchContractByTitleAndComment
+messageType.1.search.2.class=BGBillingMessageTypeSearchContractByTitleAndComment
 messageType.1.search.2.billingId=bg
 ----

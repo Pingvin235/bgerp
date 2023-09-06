@@ -32,6 +32,7 @@ public class MessageSearchDAO extends MessageDAO {
     private Set<Integer> typeIds;
     private Integer direction;
     private Boolean processed;
+    private Boolean read;
     private Boolean attach;
     private Period dateFrom;
     private String from;
@@ -114,6 +115,16 @@ public class MessageSearchDAO extends MessageDAO {
     }
 
     /**
+     * Filter by {@link Message#getToTime()} not {@code null}.
+     * @param value
+     * @return
+     */
+    public MessageSearchDAO withRead(Boolean value) {
+        this.read = value;
+        return this;
+    }
+
+    /**
      * Filter by attachment existence.
      * @param value
      * @return
@@ -162,63 +173,67 @@ public class MessageSearchDAO extends MessageDAO {
     public void search(Pageable<Message> result) throws SQLException {
         var page = result.getPage();
 
-        PreparedQuery ps = new PreparedQuery(con);
-        ps.addQuery(SQL_SELECT_COUNT_ROWS + " m.*, p.* FROM " + TABLE_MESSAGE + " AS m "
+        PreparedQuery pq = new PreparedQuery(con);
+        pq.addQuery(SQL_SELECT_COUNT_ROWS + " m.*, p.* FROM " + TABLE_MESSAGE + " AS m "
                 + "LEFT JOIN " + TABLE_PROCESS + " AS p ON m.process_id=p.id ");
         if (CollectionUtils.isNotEmpty(tagIds))
-            ps.addQuery(SQL_INNER_JOIN + TABLE_MESSAGE_TAG + " AS mt ON m.id=mt.message_id AND mt.tag_id IN (" + Utils.toString(tagIds) + ")");
-        ps.addQuery("WHERE 1>0 ");
+            pq.addQuery(SQL_INNER_JOIN + TABLE_MESSAGE_TAG + " AS mt ON m.id=mt.message_id AND mt.tag_id IN (" + Utils.toString(tagIds) + ")");
+        pq.addQuery("WHERE 1>0 ");
         if (processIds != null) {
-            ps.addQuery(" AND m.process_id IN (");
-            ps.addQuery(Utils.toString(processIds));
-            ps.addQuery(")");
+            pq.addQuery(" AND m.process_id IN (");
+            pq.addQuery(Utils.toString(processIds));
+            pq.addQuery(")");
         }
         if (CollectionUtils.isNotEmpty(typeIds)) {
-            ps.addQuery(" AND m.type_id IN (");
-            ps.addQuery(Utils.toString(typeIds));
-            ps.addQuery(")");
+            pq.addQuery(" AND m.type_id IN (");
+            pq.addQuery(Utils.toString(typeIds));
+            pq.addQuery(")");
         }
         if (direction != null) {
-            ps.addQuery(" AND m.direction=?");
-            ps.addInt(direction);
+            pq.addQuery(" AND m.direction=?");
+            pq.addInt(direction);
         }
         if (processed != null) {
-            if (processed) {
-                ps.addQuery(" AND process_id!=0");
-            } else {
-                ps.addQuery(" AND process_id=0");
-            }
+            if (processed)
+                pq.addQuery(" AND process_id!=0");
+            else
+                pq.addQuery(" AND process_id=0");
+        }
+        if (read != null) {
+            pq.addQuery( " AND to_dt IS");
+            if (read)
+                pq.addQuery(" NOT");
+            pq.addQuery(" NULL");
         }
         if (attach != null) {
-            if (attach) {
-                ps.addQuery(" AND attach_data");
-            } else {
-                ps.addQuery(" AND NOT(attach_data)");
-            }
+            if (attach)
+                pq.addQuery(" AND attach_data");
+            else
+                pq.addQuery(" AND NOT(attach_data)");
         }
-
         if (dateFrom != null) {
             if (dateFrom.getDateFrom() != null) {
-                ps.addQuery(" AND ?<m.from_dt");
-                ps.addDate(dateFrom.getDateFrom());
+                pq.addQuery(" AND ?<m.from_dt");
+                pq.addDate(dateFrom.getDateFrom());
             }
             if (dateFrom.getDateTo() != null) {
-                ps.addQuery(" AND m.from_dt<?");
-                ps.addDate(TimeUtils.getNextDay(dateFrom.getDateTo()));
+                pq.addQuery(" AND m.from_dt<?");
+                pq.addDate(TimeUtils.getNextDay(dateFrom.getDateTo()));
             }
         }
-
         if (Utils.notBlankString(from)) {
-            ps.addQuery(" AND m.from LIKE ?");
-            ps.addString(from);
+            pq.addQuery(" AND m.from LIKE ?");
+            pq.addString(from);
         }
-        ps.addQuery(" ORDER BY m.from_dt ");
-        if (fromTimeReverseOrder) {
-            ps.addQuery(" DESC");
-        }
-        ps.addQuery(getPageLimit(page));
 
-        var rs = ps.executeQuery();
+        pq.addQuery(" ORDER BY m.from_dt ");
+        if (fromTimeReverseOrder) {
+            pq.addQuery(" DESC");
+        }
+
+        pq.addQuery(getPageLimit(page));
+
+        var rs = pq.executeQuery();
         while (rs.next()) {
             Message message = getMessageFromRs(rs, "m.");
             result.getList().add(message);
@@ -228,7 +243,7 @@ public class MessageSearchDAO extends MessageDAO {
             }
         }
 
-        setRecordCount(page, ps.getPrepared());
-        ps.close();
+        setRecordCount(page, pq.getPrepared());
+        pq.close();
     }
 }

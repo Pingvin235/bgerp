@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.Log;
@@ -20,13 +21,14 @@ import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class MessageTypeSearchCall extends MessageTypeSearchBilling {
+@Bean(oldClasses = "ru.bgcrm.plugin.bgbilling.dao.MessageTypeSearchCall")
+public class BGBillingMessageTypeSearchCall extends MessageTypeSearchBilling {
     private static final Log log = Log.getLog();
 
     private final List<String> commands;
     private final String phonePreprocessJexl;
 
-    public MessageTypeSearchCall(ConfigMap config) throws BGException {
+    public BGBillingMessageTypeSearchCall(ConfigMap config) throws BGException {
         super(config);
 
         // contractByTextParam:<paramId>;contractByComment

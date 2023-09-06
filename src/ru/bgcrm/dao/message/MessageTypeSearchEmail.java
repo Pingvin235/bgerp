@@ -2,6 +2,7 @@ package ru.bgcrm.dao.message;
 
 import java.util.Set;
 
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 
@@ -17,6 +18,7 @@ import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 // TODO: Сделать параметры с конфигурацией что искать.
+@Bean
 public class MessageTypeSearchEmail extends MessageTypeSearch {
     public MessageTypeSearchEmail(ConfigMap config) throws BGException {
         super(config);

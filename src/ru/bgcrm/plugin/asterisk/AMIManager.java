@@ -10,9 +10,9 @@ import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.message.MessageType;
 import ru.bgcrm.dao.message.MessageTypeCall;
-import ru.bgcrm.dao.message.config.MessageTypeConfig;
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.SetupChangedEvent;
+import ru.bgcrm.model.message.config.MessageTypeConfig;
 
 /**
  * Asterisk event listener.
