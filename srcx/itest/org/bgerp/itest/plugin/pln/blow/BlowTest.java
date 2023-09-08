@@ -102,19 +102,19 @@ public class BlowTest {
     }
 
     private void processUi() throws Exception {
-        var process = ProcessHelper.addProcess(processTypeTaskId, userLeonId, TITLE + " UI");
-        MessageHelper.addNoteMessage(process.getId(), userFelixId, Duration.ofDays(-30), "", "Upload multiple files");
-        MessageHelper.addNoteMessage(process.getId(), userFelixId, Duration.ofDays(-22), "", "Param phone copy values, remove values");
-        MessageHelper.addNoteMessage(process.getId(), userLeonId, Duration.ofDays(-17), "", "User photo");
-        MessageHelper.addNoteMessage(process.getId(), userLeonId, Duration.ofDays(-5), "", "Push notifications");
+        int processUiId = ProcessHelper.addProcess(processTypeTaskId, userLeonId, TITLE + " UI").getId();
+        MessageHelper.addNoteMessage(processUiId, userFelixId, Duration.ofDays(-30), "", "Upload multiple files");
+        MessageHelper.addNoteMessage(processUiId, userFelixId, Duration.ofDays(-22), "", "Param phone copy values, remove values");
+        MessageHelper.addNoteMessage(processUiId, userLeonId, Duration.ofDays(-17), "", "User photo");
+        MessageHelper.addNoteMessage(processUiId, userLeonId, Duration.ofDays(-5), "", "Push notifications");
 
         var statusDao = new StatusChangeDAO(DbTest.conRoot);
 
-        process = addChildTask(process.getId(), userFelixId, TITLE + " Update user name in right top after re-auth", userLeonId);
+        var process = addChildTask(processUiId, userFelixId, TITLE + " Update user name in right top after re-auth", userLeonId);
         statusDao.changeStatus(process, ProcessTypeCache.getProcessType(processTypeTaskId),
                 new StatusChange(process.getId(), new Date(), userLeonId, ProcessTest.statusProgressId, ""));
 
-        addChildTask(process.getId(), userLeonId, TITLE + " Issues with messages scrolling", userFelixId);
+        addChildTask(processUiId, userLeonId, TITLE + " Issues with messages scrolling", userFelixId);
     }
 
     private void processArch() throws Exception {

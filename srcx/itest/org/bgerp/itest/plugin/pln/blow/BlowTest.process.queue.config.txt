@@ -1,11 +1,10 @@
-# queue debugging columns
+# supporting columns
 column.1.title=ID
 column.1.value=id
 column.4.title=Description
 column.4.value=descriptionLink
 column.4.titleIfMore=100
-
-# queue used columns
+# board used columns
 column.10.title=MIC
 column.10.value=messageInCount
 column.12.title=MIUC
