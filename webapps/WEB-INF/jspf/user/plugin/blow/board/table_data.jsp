@@ -10,7 +10,7 @@
 		<c:set var="item" value="${queues[u:int(0)][index]}"/>
 		<c:if test="${empty undistributed and not empty item and empty item.children and empty item.parent.process}">
 			<c:set var="undistributed" value="1"/>
-			<tr><td colspan="${columns}" bg-id="0"><b>${l.l('БЕЗ ГРУППЫ')}</b></td></tr>
+			<tr><td colspan="${columns}" bg-id="0"><b>${l.l('NO GROUP')}</b></td></tr>
 		</c:if>
 		<tr>
 			<c:choose>

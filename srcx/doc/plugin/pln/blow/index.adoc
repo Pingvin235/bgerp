@@ -1,183 +1,162 @@
-=  Плагин Blow
+=  Plugin Blow
 :toc:
-
-Поддержка динамической ниспадающей модели управления проектами.
+:toclevels: 4
 
 [[about]]
-== О плагине
-Плагин позволяет организовать долгосрочное планирование сложных проектов.
-Он дополняет функционал очередей процессов, позволяющих работать только с текущим потоком одноранговых задач.
+== About
+The plugin allows to organize up-to-down planning for complex software and similar projects.
+Unlike Kanban or SCRAM approaches, providing flat list of tasks, a Blow board visualizes task's hierarchy and their distribution over executors.
+The main goal is providing very quick overview of the current project state with clear understanding what should be done next for each of team members.
 
-NOTE: В браузерах отличных от Firefox некорректно отображаются границы групп по причине неверной поддержки CSS.
+NOTE: You can see an enabled plugin operation in <<../../../kernel/install.adoc#demo, Demo System>>.
 
 [[setup]]
-== Настройка
-Все настройки из данного раздела размещаются в <<../../../kernel/setup.adoc#config, конфигурации сервера>>.
-Конфигурацию плагина рекомендуется сделать вложенной конфигурацией, включённой в основную.
+== Setup
 
-Доска отображает данные, полученные из <<../../../kernel/process/queue.adoc#, очереди процессов>>.
-Очередь определяет типы процессов, выбираемые столбцы с дополнительной информацией
-и может быть использована для предварительного просмотра процессов из плана.
-Сортировку плана производит сам плагин.
+[[setup-queue]]
+=== Process Queue
+Each board used as primary data list of processes from a <<../../../kernel/process/queue.adoc#, process queue>>.
+About filtering and sorting the plugin takes care itself.
+Depending on shown data for the queue have to be configured necessary columns, like for examples in the Demo:
 
-A user sees in boards list only the boards, which queues are allowed for him.
+[snippet, from="column.1", to=".yyyy"]
+link:../../../../itest/org/bgerp/itest/plugin/pln/blow/BlowTest.process.queue.config.txt[Plugin Blow process queue config]
 
-Sample of :
+[[setup-board]]
+=== Board
+After enabling the plugin via <<../../../kernel/setup.adoc#config-plugin, server config>> add for any board the following configuration:
+
 [source]
 ----
-# filter for show only opened processes
-filter.1.type=openClose
-filter.1.value=open
-# optionally additional status filter
-#filter.2.type=status
-#filter.2.values=1,2,3
-
-column.1.title=ID
-column.1.value=id
-# optional columns with additional columns, used at board
-column.6.title=Telegram
-column.6.value=param:20
-column.7.title=Incoming messages
-column.7.value=messageInCount
-column.8.title=Unread incoming messages
-column.8.value=messageInUnreadCount
-column.9.title=Status changed
-column.9.value=status_dt:dd.MM.yyyy
-column.10.title=Tags
-column.10.value=param:42
-column.12.title=Customer
-column.12.value=linkedCustomer:title
-column.12.titleIfMore=100
+blow:board.<id>.title=<title>
+blow:board.<id>.queueId=<queueId>
+# optional parameters
+blow:board.<id>.executor.groups=<groupIds>
+blow:board.<id>.executor.roles=<roleIds>
+blow:board.<id>.stringExpressionCell=<stringExpressionCell>
+blow:board.<id>.openUrl=<openUrl>
 ----
 
-The simplest board configuration requires only queue ID, as an example for queue ID *10*.
-[source]
-----
-blow:board.1.title=Test
-blow:board.1.queueId=10
-----
+Where:
+[square]
+* *<id>* - unique numeric board ID;
+* *<queueId>* - primary data <<#setup-queue, process queue>> ID;
+* *<groupIds>* - comma separated process execution groups IDs, by default all groups are taken;
+* *<roleIds>* - comma separated process execution <<../../../kernel/process/index.adoc#executor, roles>> IDs, by default only role *0* is taken;
+* *<openUrl>* - board name for publishing on <<../../../kernel/interface.adoc#open, open interface>> with URL  *../open/blow/<openUrl>*.
 
-В <<../../../kernel/extension.adoc#jexl, JEXL>> процессор для вычисления текста ячейки помимо стандартных переменных и *process*
-передаются значения, выбранные в столбцах очереди процессов как переменные *colX*, где *X* - код столбца.
+*<stringExpression>* contains <<../../../kernel/extension.adoc#jexl, JEXL>> expression for evaluating of cell text.
+In the expression context beside default variables and *process* are passed queue column values as variables *colX*, where *X* is a column ID.
+If not defined in the board cells are shown process descriptions. Here is an example of such configuration, taken from Demo:
 
-Example of showing additional information using additional columns from the queue before.
-[source]
-----
-blow:board.1.title=BGERP
-blow:board.1.queueId=4
-blow:board.1.stringExpressionCell=<<END
-     result = process.getDescription() + " [<b>" + ctxProcessStatusMap[process.getStatusId()];
-     if (process.getExecutorIdsWithRole(0).size() > 0) {
-        result += " " + params.get("col9");
-     }
-     result += "</b>]";
+[snippet, from="blow:board.1.str", to="END"]
+link:../../../../itest/org/bgerp/itest/plugin/pln/blow/BlowTest.config.txt#L4-L27[Plugin Blow board config]
 
-     telegramGroup = params.get("col6");
-     if (telegramGroup)
-          result += " <a target='_blank' href='https://t.me/" + telegramGroup + "'>@" + telegramGroup + "</a>";
+A resulting cell looks like that for process with unread messages.
 
-     msgCnt = params.get("col7");
-     if (msgCnt) {
-         result += " " + msgCnt;
-         unreadCnt = params.get("col8");
-         if (unreadCnt)
-            result += " (<b>" + unreadCnt + "</b>)";
-     }
+image::_res/demo_cell.png[]
 
-     tags = params.get("col10");
-     if (tags) {
-          result += " {" + tags + "}";
-     }
+Or like that for a process with incident type.
 
-     return result;
-END
-----
+image::_res/demo_cell_incident.png[]
 
-[[using]]
-== Работа
-Blow план отображает иерархию, порядок выполнения и исполнителей процессов.
-Форма представления табличная, столбцы таблицы - исполнители либо группы решения.
-По вертикали в ячейках отображаются процессы: код со ссылкой на открытие и текст описания, сгенерированный JEXL выражением.
+[[setup-board-filter]]
+=== Filters
+Filters are buttons with script generated texts, placed over a board and matching some processes on the board.
+Click on the buttons highlights matching processes with the filter's color and scrolls to the hightest of them.
+Here are the filters from Demo:
 
-Все процессы представляются в виде дерева, связанного <<../../../kernel/process/index.adoc#linked-process, типом связи>> *Порождён*.
-Проект, подпроект, задача - всё представляется в виде процессов.
-Некоторые из процессов существуют длительное время, другие выполняются и закрываются.
+image::_res/filters.png[]
+
+And the implementing them configuration.
+
+[snippet, from="blow:board.1.fil", to="END"]
+link:../../../../itest/org/bgerp/itest/plugin/pln/blow/BlowTest.config.txt#L35-L57[Plugin Blow board filters config]
+
+[[usage]]
+== Usage
+Blow plan is presented in a table form where columns are executors and processes
+are shown in cells with <<#setup-board, generated text>> and opening link.
+For displaying are taken only open processes without closing date.
+
+[[usage-process-groups]]
+=== Process Groups
+Process hierarchy is based on <<../../../kernel/process/index.adoc#linked-process, link type>> *Made*.
+Note that all classical planning entities like tasks, projects, sub-projects are implemented only using
+*parent* - *child* processes with only *two levels* of depth. On the screen below you can see two such process groups:
+*56* parent with *57* and *58* children and *53* - *55* - *54*.
 
 image::_res/board.png[width="800px"]
 
-Выбираемые для плана процессы должны быть открытыми (пустая дата завершения).
+Moving mouse over highlights the process group under cursor.
+Using mouse drag-and-drop child processes can be moved to other groups.
+On the screens below the *58* child process is being moved to *53* parent.
 
-Исполнители и группы решения выбираются только в <<../../../kernel/process/index.adoc#executor, роли>> *0 Выполнение*.
-Процесс, не назначенный ни на кого, либо назначенный на более одного исполнителя отображается на всю ширину таблицы.
-Такие процессы считаются *не назначенными*. Если в процессе есть хоть один дочерний не назначенный процесс
-- родительский процесс также считается не назначенным.
+image::_res/move_58.png[width="800px"]
 
-Процессы на каждом уровне сортируются следующим образом:
+After that the planning board has the following view.
+
+image::_res/move_58_after.png[width="800px"]
+
+The same action can be performed used right-click popup menu with
+items *Cut* and *Paste* there. That way is especially good for large boards.
+
+image::_res/move_58_cut.png[width="800px"]
+
+Another possible operation after *Cut* would be *Merge*, allowing to concatenate all messages from a cut process to the target one.
+It can be used for joining processes with same functionality, going to be done at once.
+
+Independent processes are shown under fake *NO GROUP* parent and behave in general like all other groups.
+Child processes can be moved from and to it using drag-and-drop or *Cut* - *Paste* menu items from right click popup menu.
+There is also available separated *Make independent* item, allowing a quick way to make child processes independent, placed in *NO GROUP*.
+
+The last still not described here right-click menu item is *Clone process*, it makes duplicate of a clicked process with same type, description,
+but without messages.
+
+[[usage-executors]]
+=== Executors
+Processes with no or many executers are shown for the full table width.
+Such processes are meant as unassigned, if a parent process has at least one unassigned child process,
+the parent is also treated like unassigned.
+
+[[usage-ordering]]
+=== Ordering
+For process group sorting are used the following criteria, as an example you can use the previous screen:
 [square]
-* назначенные процессы;
-* процессы с дочерними процессами, сортировка обратно приоритету;
-* не назначенные процессы, сортировка обратно приоритету.
+* the more *priority* is higher: processes 60 - 56 - 59 / 53;
+* *unassigned* is higher than assigned;
+* further *status* is higher than earlier;
+* *parent* process is higher than independent or child.
 
-Отображаются только два уровня иерархии: контейнеры и дочерние процессы.
-Возможно создание нескольких планов на разных уровнях, множественные предки.
-Например, у задачи может быть процессы-предки *Компонент* и *Проект* одновременно, отображаемые на разных планах для разработчиков и PSO.
-Процессы разделяются по различным планам с помощью фильтров по типам, группам в очереди процессов а также с использованеим <<../../../kernel/setup.adoc#user-isolation, изоляции>>.
+The idea behind the rules is showing the next doing processes on the board's top.
 
-Процессы-контейнеры выделяются полужирным шрифтом.
-В нижней области таблицы отображается виртуальный родительский процесс *НЕ РАСПРЕДЕЛЁННЫЕ*.
-Ячейки с процессами можно перетаскивать мышью, изменяя предка.
-Для преобразования процесса в независимый в качестве предка использовать *НЕ РАСПРЕДЕЛЁННЫЕ*, либо вызвать <<rc-menu, контекстное меню>>.
+[[usage-messages]]
+=== Messages
+Unlike in other planning tools process is not the smallest unit of work that can be done.
+You shouldn't create a new process for any wish or remark. Instead you may collect them in process messages.
+Number of them is shown for the Demo board configuration, like *4* on the screen.
 
-При наведении мыши на процесс выделяется он сам и все его дочерние процессы.
+image::_res/messages_board_cnt.png[width="800px"]
 
-[[rc-menu]]
-Правым кликом мыши по диаграмме вызывается контекстное меню, позволяющее:
-[square]
-* создавать процесс, идентичный выбранному: c таким же типом и в том же контейнерном процессе;
-* вырезать и вставлять процессы;
-* отделять процессы из контейнерных в независимые.
+And here how do they look inside the process. As you can see, all *Blow UI* related thoughts just written down.
 
-Основная идея Blow диаграммы состоит в постепенном всплывании процессов наверх с распределением их среди исполнителей.
-Контейнерные процессы агрегируют свойства дочерних: бюджеты, затраченное время.
-Процессы создаются и структурируются по исполнителям внизу и поднимаются вверх для исполнения.
+image::_res/messages_process.png[width="800px"]
 
-== Фильтры
-Фильтры представляют из себя программируемые кнопки, отображаемые над таблицей плана.
-Каждая кнопка отображает сгенерированный скриптом текст и при клике по ней включает либо выключает подсветку процессов, подпадающих под фильтр.
+At the board have to be placed only processes which already described to be done at the observable time.
+So, whenever the time is there, any message can be separated to a new process using *...* menu, like shown on the screen.
 
-image::_res/filters.png[width="800px"]
+image::_res/message_to_made_copy.png[width="800px"]
 
-Пример конфигурации фильтра по статусу *In progress [4]* для доски с кодом *1*:
-[source]
-----
-blow:board.1.filter.1.color=green
-blow:board.1.filter.1.stringExpression=<<END
-     count = 0;
-     for (item : items) {
-          if (item.getProcess().getStatusId() =~ [4]) {
-               count += 1;
-               item.addFilterId(filter.getId());
-          }
-     }
-    return "In progress: <b>[" + count + "]</b>";
-END
-----
+After changing of description the newly created process.
 
-Пример вывода кнопки с общим количеством процессов для доски с кодом *1*:
-[source]
-----
-blow:board.1.filter.1.color=#b2b02a
-blow:board.1.filter.1.stringExpression=<<END
-     return "Всего: <b>[" + items.size() + "]</b>";
-END
-----
+image::_res/message_to_made_copy_description.png[width="800px"]
 
-== Открытый интерфейс
-При добавлении в конфигурации плана параметра *openUrl* равным он станет доступным в <<../../../kernel/interface.adoc#open, открытом интерфейсе>>
-с адресом *../open/blow/<openUrl>*. Пример открытого link:http://crm.bitel.ru/open/blow/bgerp[плана] разработки BGERP.
+It is available on our board.
 
-== Дальнейшее развитие
-[square]
-* Отображение параметров: задач по исполнителям, оценочного и затраченного времени, бюджетов с суммированием по уровням.
+image::_res/message_to_made_copy_new.png[width="800px"]
 
+Using *Search* tool on the top of the board existing messages can be quickly checked on already written remarks.
+The messages are found by simple substring match, in resulting drop-down are shown processes with count of matching messages in square braces.
+
+image::_res/messages_search.png[width="800px"]
 

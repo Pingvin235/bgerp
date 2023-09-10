@@ -121,7 +121,7 @@ public class Item {
                 if (board.isUserMode()) {
                     var groupIds = board.getConfig().getExecutorGroupIds();
                     if (groupIds.isEmpty())
-                        executorIds.addAll(process.getExecutorIdsWithRole(0));
+                        executorIds.addAll(process.getExecutorIdsWithRoles(board.getConfig().getExecutorRoleIds()));
                     else
                         executorIds.addAll(process.getExecutors().stream()
                             .filter(pe -> pe.getRoleId() == 0 && groupIds.contains(pe.getGroupId()))

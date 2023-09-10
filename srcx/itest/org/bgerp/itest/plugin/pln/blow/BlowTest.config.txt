@@ -1,6 +1,6 @@
 blow:board.1.title={@BOARD_TITLE}
 blow:board.1.queueId={@PROCESS_QUEUE_ID}
-blow:board.1.executor.groupIds={@GROUP_ID}
+blow:board.1.executor.groups={@GROUP_ID}
 blow:board.1.stringExpressionCell=<<END
      result = "";
 
@@ -25,9 +25,8 @@ blow:board.1.stringExpressionCell=<<END
 
      return result;
 END
-blow:board.1.openUrl=bgerp
 
-cnt=0
+blow:board.1.openUrl=bgerp
 
 blow:board.1.filter.{@inc:cnt}.stringExpression=<<END
      return "All: <b>[" + items.size() + "]</b>";

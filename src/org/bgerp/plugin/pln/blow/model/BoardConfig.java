@@ -26,6 +26,7 @@ public class BoardConfig extends IdTitle {
     private final List<BoardFilter> filters = new ArrayList<>();
     private final List<ItemComparator> comparators;
     private final Set<Integer> executorGroupIds;
+    private final Set<Integer> executorRoleIds;
 
     BoardConfig(int id, ConfigMap config) {
         super(id, config.get("title"));
@@ -36,7 +37,8 @@ public class BoardConfig extends IdTitle {
         this.openUrl = config.get("openUrl");
         this.comparators = parseComparators(config.get("sort",
             Utils.toString(List.of(ItemComparator.PRIORITY, ItemComparator.HAS_EXECUTOR, ItemComparator.STATUS_POS, ItemComparator.HAS_CHILDREN))));
-        this.executorGroupIds = Utils.toIntegerSet(config.get("executor.groupIds"));
+        this.executorGroupIds = Utils.toIntegerSet(config.getSok("executor.groups", "executor.groupIds"));
+        this.executorRoleIds = Utils.toIntegerSet(config.get("executor.roles", "0"));
     }
 
     private List<ItemComparator> parseComparators(String config) {
@@ -90,6 +92,10 @@ public class BoardConfig extends IdTitle {
 
     public Set<Integer> getExecutorGroupIds() {
         return executorGroupIds;
+    }
+
+    public Set<Integer> getExecutorRoleIds() {
+        return executorRoleIds;
     }
 
     public static class BoardFilter extends IdTitle {

@@ -1,0 +1,1 @@
+A: Plugin Blow. Configurable executor roles. https://bgerp.org/doc/3.0/manual/plugin/pln/blow/index.html#setup-board
