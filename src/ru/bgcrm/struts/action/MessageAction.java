@@ -556,7 +556,7 @@ public class MessageAction extends BaseAction {
         if (Utils.notBlankString(systemId))
             message.setSystemId(systemId);
 
-        type.updateMessage(con, form, message, form.getParam("to", ""));
+        type.updateMessage(con, form, message);
 
         if (form.getParamBoolean("updateTags")) {
             form.setParam("id", String.valueOf(message.getId()));

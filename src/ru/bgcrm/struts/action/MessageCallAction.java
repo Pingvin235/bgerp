@@ -82,7 +82,7 @@ public class MessageCallAction extends BaseAction {
         message.setFromTime(new Date());
         message.setSystemId(String.valueOf(System.currentTimeMillis()));
 
-        type.updateMessage(con, form, message, null);
+        type.updateMessage(con, form, message);
 
         reg.setMessageForOpen(message);
 

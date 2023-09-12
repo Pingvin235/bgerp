@@ -504,7 +504,7 @@ public class MessageTypeHelpDesk extends MessageType {
     }
 
     @Override
-    public void updateMessage(Connection con, DynActionForm form, Message message, String to) throws Exception {
+    public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
         ProcessLinkDAO linkDao = new ProcessLinkDAO(con);
 
         int processId = message.getProcessId();

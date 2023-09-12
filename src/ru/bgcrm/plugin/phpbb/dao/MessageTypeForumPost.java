@@ -95,7 +95,7 @@ public class MessageTypeForumPost extends MessageType {
     }
 
     @Override
-    public void updateMessage(Connection con, DynActionForm form, Message message, String to) throws Exception {
+    public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
         int systemId = Utils.parseInt(message.getSystemId());
         if (systemId <= 0)
             throw new BGMessageException("Код темы форума должен быть числовым.");
@@ -181,7 +181,7 @@ public class MessageTypeForumPost extends MessageType {
                     log.info("New message in process: " + process.getId());
 
                     // обновление темы и даты сообщения, установка маркера и т.п.
-                    updateMessage(con, null, message, null);
+                    updateMessage(con, null, message);
 
                     boolean generateEvent = true;
 
