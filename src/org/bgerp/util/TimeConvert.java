@@ -58,7 +58,8 @@ public class TimeConvert {
         if (value == null)
             return null;
 
-        return value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        // new Date() is used for passed java.sql.Date objects, which do not implement toInstant method
+        return new Date(value.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     /**

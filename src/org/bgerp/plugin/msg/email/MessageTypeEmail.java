@@ -646,9 +646,7 @@ public class MessageTypeEmail extends MessageType {
     }
 
     @Override
-    public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
-        String to = form.getParam("to", "");
-
+    public void updateMessage(Connection con, DynActionForm form, Message message, String to) throws Exception {
         if (Utils.isBlankString(to))
             throw new BGMessageException(Localization.getLocalizer(Localization.getLang(), Plugin.ID), "Undefined recipient address.");
 

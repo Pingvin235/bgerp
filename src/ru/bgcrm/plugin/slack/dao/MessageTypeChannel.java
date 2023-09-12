@@ -121,7 +121,7 @@ public class MessageTypeChannel extends MessageType {
     }
 
     @Override
-    public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
+    public void updateMessage(Connection con, DynActionForm form, Message message, String to) throws Exception {
         int processId = message.getProcessId();
         SlackProto proto = new SlackProto(getMessageType().getToken());
 

@@ -39,7 +39,7 @@ public class MessageTypeNote extends MessageType {
     }
 
     @Override
-    public void updateMessage(Connection con, DynActionForm form, Message message) throws Exception {
+    public void updateMessage(Connection con, DynActionForm form, Message message, String to) throws Exception {
         message.setSystemId("");
         message.setFrom("");
         if (!createUnread)

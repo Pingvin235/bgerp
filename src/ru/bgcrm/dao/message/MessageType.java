@@ -233,7 +233,7 @@ public abstract class MessageType extends IdTitle {
         return null;
     }
 
-    public abstract void updateMessage(Connection con, DynActionForm form, Message message) throws Exception;
+    public abstract void updateMessage(Connection con, DynActionForm form, Message message, String to) throws Exception;
 
     /**
      * Generates short message description.

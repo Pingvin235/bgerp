@@ -144,7 +144,7 @@ public class MessageTypeCall extends MessageType {
     }
 
     @Override
-    public void updateMessage(Connection con, DynActionForm form, Message message) throws SQLException {
+    public void updateMessage(Connection con, DynActionForm form, Message message, String to) throws SQLException {
         new MessageDAO(con).updateMessage(message);
     }
 

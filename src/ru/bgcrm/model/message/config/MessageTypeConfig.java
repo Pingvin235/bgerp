@@ -105,7 +105,8 @@ public class MessageTypeConfig extends Config {
         }
 
         @Override
-        public void updateMessage(Connection con, DynActionForm form, Message message) throws BGException {
+        public void updateMessage(Connection con, DynActionForm form, Message message, String to) {
+            throw new UnsupportedOperationException();
         }
 
         @Override

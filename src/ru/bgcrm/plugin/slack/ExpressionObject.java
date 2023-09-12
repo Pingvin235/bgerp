@@ -184,7 +184,7 @@ public class ExpressionObject {
             message.setTo("");
             message.setText(messageText);
 
-            type.updateMessage(con, DynActionForm.SYSTEM_FORM, message);
+            type.updateMessage(con, DynActionForm.SYSTEM_FORM, message, null);
         } catch (Exception ex) {
             throw new BGException(ex);
         } finally {
