@@ -140,6 +140,26 @@ public class SubscriptionTest {
     }
 
     @Test(dependsOnMethods = "processType")
+    public void processQueue() throws Exception {
+        int productQueueId = ProcessHelper.addQueue(TITLE + " Product",
+            ConfigHelper.generateConstants(
+                "PARAM_PRODUCT_ID", paramProductId,
+                "PARAM_PRICE_RUB_ID", paramPriceRubId,
+                "PARAM_PRICE_EUR_ID", paramPriceEurId
+            ) + ResourceHelper.getResource(this, "process.queue.product.config.txt"),
+            Set.of(processProductTypeId));
+
+        int subscriptionQueueId = ProcessHelper.addQueue(TITLE + " Subscription",
+            ConfigHelper.generateConstants(
+                "PARAM_SUBSCRIPTION_ID", paramSubscriptionId,
+                "PARAM_DATE_TO_ID", paramDateToId
+            ) + ResourceHelper.getResource(this, "process.queue.subscription.config.txt"),
+            Set.of(processSubscriptionTypeId));
+
+        UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(productQueueId, subscriptionQueueId));
+    }
+
+    @Test(dependsOnMethods = "processType")
     public void config() throws Exception {
         ConfigHelper.addPluginConfig(PLUGIN,
             ConfigHelper.generateConstants(
@@ -261,17 +281,5 @@ public class SubscriptionTest {
         Assert.assertEquals(cost, Utils.parseBigDecimal("8.22"));
 
         MessageHelper.addHowToTestNoteMessage(processSubscriptionEurId, this);
-    }
-
-    @Test(dependsOnMethods = "processType")
-    public void processQueue() throws Exception {
-        int queueId = ProcessHelper.addQueue(TITLE + " Product",
-            ConfigHelper.generateConstants(
-                "PARAM_PRODUCT_ID", paramProductId,
-                "PARAM_PRICE_RUB_ID", paramPriceRubId,
-                "PARAM_PRICE_EUR_ID", paramPriceEurId
-            ) + ResourceHelper.getResource(this, "process.queue.config.txt"),
-            Set.of(processProductTypeId));
-        UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
     }
 }

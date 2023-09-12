@@ -1,0 +1,16 @@
+filter.{@inc:cnt}.type=openClose
+filter.{@cnt}.defaultValue=open
+filter.{@inc:cnt}.type=param:{@PARAM_SUBSCRIPTION_ID}
+
+column.1.title=ID
+column.1.value=id
+column.3.title=Customer
+column.3.value=linkCustomer:title
+column.5.title=Consulter
+column.5.value=executors:*:0
+column.7.title=Subscription
+column.7.value=param:{@PARAM_SUBSCRIPTION_ID}
+column.9.title=Status
+column.9.value=status_title
+column.11.title=Date To
+column.11.value=param:{@PARAM_DATE_TO_ID}
