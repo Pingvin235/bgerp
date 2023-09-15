@@ -9,6 +9,7 @@ import org.bgerp.model.base.Id;
 
 import ru.bgcrm.model.user.User;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.Utils;
 
 /**
  * Action log record.
@@ -49,7 +50,7 @@ public class ActionLogEntry extends Id {
         this.action = e.getAction();
         this.ipAddress = DynActionForm.getHttpRequestRemoteAddr(request);
         this.duration = e.getDuration();
-        this.error = e.getError();
+        this.error = Utils.maskNull(e.getError());
     }
 
     /**
