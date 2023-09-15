@@ -7,7 +7,7 @@
 
 <div class="report center1020">
 	<html:form action="${form.httpRequestURI}" styleClass="in-ml05">
-		<ui:date-month/>
+		<ui:date-month value="${form.param.dateFrom}"/>
 
 		<ui:combo-single hiddenName="subscriptionId" list="${config.subscriptions}" value="${form.param.subscriptionId}" prefixText="${l.l('Subscription')}:"/>
 

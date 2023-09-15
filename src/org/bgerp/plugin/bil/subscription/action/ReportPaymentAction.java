@@ -92,15 +92,15 @@ public class ReportPaymentAction extends ReportActionBase {
 
                 final var form = data.getForm();
 
-                final int userId = form.getUserId();
+                final var config = Setup.getSetup().getConfig(Config.class);
+                form.setRequestAttribute("config", config);
+
                 final Date date = form.getParamDate("dateFrom");
                 if (date == null)
                     return;
 
+                final int userId = form.getUserId();
                 final int subscriptionId = form.getParamInt("subscriptionId", Utils::isPositive);
-
-                final var config = Setup.getSetup().getConfig(Config.class);
-                form.setRequestAttribute("config", config);
 
                 final var subscription = config.getSubscriptionOrThrow(subscriptionId);
                 if (subscription == null)
