@@ -100,7 +100,9 @@ public class ReportPaymentAction extends ReportActionBase {
                 final int subscriptionId = form.getParamInt("subscriptionId", Utils::isPositive);
 
                 final var config = Setup.getSetup().getConfig(Config.class);
-                final var subscription = config.getSubscription(subscriptionId);
+                form.setRequestAttribute("config", config);
+
+                final var subscription = config.getSubscriptionOrThrow(subscriptionId);
                 if (subscription == null)
                     throw new NotFoundException("Not found subscription with ID: " + subscriptionId);
 

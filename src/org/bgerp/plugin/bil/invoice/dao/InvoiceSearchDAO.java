@@ -16,8 +16,7 @@ import ru.bgcrm.dao.CommonDAO;
 public class InvoiceSearchDAO extends CommonDAO {
     private int processId;
     private Boolean paid;
-    private boolean orderFromDate;
-    private boolean orderDesc;
+    private boolean orderDefault;
 
     public InvoiceSearchDAO(Connection con) {
         super(con);
@@ -33,13 +32,12 @@ public class InvoiceSearchDAO extends CommonDAO {
         return this;
     }
 
-    public InvoiceSearchDAO orderFromDate() {
-        this.orderFromDate = true;
-        return this;
-    }
-
-    public InvoiceSearchDAO orderDesc() {
-        this.orderDesc = true;
+    /**
+     * Reverse order by date from desc, than ID desc.
+     * @return
+     */
+    public InvoiceSearchDAO orderDefault() {
+        this.orderDefault = true;
         return this;
     }
 
@@ -52,11 +50,10 @@ public class InvoiceSearchDAO extends CommonDAO {
             if (paid != null)
                 pq.addQuery(SQL_AND).addQuery("payment_date IS ").addQuery(paid ? "NOT" : "").addQuery("NULL");
 
-            if (orderFromDate) {
-                pq.addQuery(SQL_ORDER_BY).addQuery("date_from");
-                if (orderDesc)
-                    pq.addQuery(SQL_DESC);
-            }
+            if (orderDefault)
+                pq.addQuery(SQL_ORDER_BY)
+                    .addQuery("date_from").addQuery(SQL_DESC)
+                    .addQuery(", id").addQuery(SQL_DESC);
 
             var rs = pq.executeQuery();
             while (rs.next()) {

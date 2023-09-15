@@ -38,7 +38,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     private final String signKeyFile;
     private final String signKeyPswd;
 
-    // user param
+    // user params
 
     /** Param type 'money', incoming tax percentage for a user. */
     private final int paramUserIncomingTaxPercentId;
@@ -71,7 +71,7 @@ public class Config extends org.bgerp.app.cfg.Config {
     private final int paramProductId;
 
     /** Maximum months from the current date to Date To */
-    private final int maxDateToMonths;
+    private final long maxDateToMonths;
 
     protected Config(ConfigMap config) {
         super(null);
@@ -87,14 +87,14 @@ public class Config extends org.bgerp.app.cfg.Config {
         paramLicFileId = config.getInt("param.lic");
         paramEmailId = config.getInt("param.email");
         paramLimitId = config.getInt("param.limit");
-        paramDateToId = config.getInt("param.date.to");
+        paramDateToId = (int) config.getSokLong(0, "param.dateTo", "param.date.to");
         paramServiceCostId = config.getInt("param.cost.service");
         paramDiscountId = config.getInt("param.cost.discount");
         paramCostId = config.getInt("param.cost");
 
-        paramProductId = config.getInt("param.product.id");
+        paramProductId = (int) config.getSokLong(0, "param.productId", "param.product.id");
 
-        maxDateToMonths = config.getInt("max.date.to.months", 3);
+        maxDateToMonths = config.getSokLong(3, "max.dateTo.months", "max.date.to.months");
 
         // explicit new HashSet is used to ignore duplicated 0 values
         costUpdateParams = Set.of(paramLimitId, paramDateToId, paramServiceCostId, paramDiscountId);
@@ -111,7 +111,7 @@ public class Config extends org.bgerp.app.cfg.Config {
         return Collections.unmodifiableSortedMap(result);
     }
 
-    public Subscription getSubscription(int id) throws NotFoundException {
+    public Subscription getSubscriptionOrThrow(int id) throws NotFoundException {
         var result = subscriptions.get(id);
         if (result == null)
             throw new NotFoundException(Log.format("Not found subscription ID: {}", id));
@@ -139,6 +139,10 @@ public class Config extends org.bgerp.app.cfg.Config {
 
     public int getParamLimitId() {
         return paramLimitId;
+    }
+
+    public int getParamDateToId() {
+        return paramDateToId;
     }
 
     public int getParamProductId() {
@@ -201,7 +205,7 @@ public class Config extends org.bgerp.app.cfg.Config {
         new ParamValueDAO(conSet.getConnection()).updateParamMoney(processId, paramCostId, cost);
     }
 
-    private void updateLic(int processId, ConnectionSet conSet) throws Exception {
+    public FileData updateLic(int processId, ConnectionSet conSet) throws Exception {
         var paramDao = new ParamValueDAO(conSet.getConnection());
 
         var limitId = Utils.getFirst(paramDao.getParamList(processId, paramLimitId));
@@ -235,6 +239,8 @@ public class Config extends org.bgerp.app.cfg.Config {
         try (var out = fd.getOutputStream()) {
             out.write(signed);
         }
+
+        return fd;
     }
 
     private Subscription getSubscription(ConnectionSet conSet, int processId) throws Exception {
@@ -242,6 +248,6 @@ public class Config extends org.bgerp.app.cfg.Config {
         Integer subscriptionId = Utils.getFirst(paramValueDao.getParamList(processId, paramSubscriptionId));
         if (subscriptionId == null)
             throw new BGException("Undefined subscription");
-        return getSubscription(subscriptionId);
+        return getSubscriptionOrThrow(subscriptionId);
     }
 }

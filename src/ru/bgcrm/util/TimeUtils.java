@@ -705,6 +705,7 @@ public class TimeUtils {
      * @param time исходный объект.
      * @return
      */
+    @Deprecated
     public static final Calendar clear_MIN_MIL_SEC(Calendar time) {
         time.set(Calendar.MILLISECOND, 0);
         time.set(Calendar.SECOND, 0);
@@ -717,6 +718,7 @@ public class TimeUtils {
      * @param time исходная дата.
      * @return сброшенная дата (часы=минуты=секунды=мсек=0).
      */
+    @Deprecated
     public static final Calendar clear_HOUR_MIN_MIL_SEC(Calendar time) {
         clear_MIN_MIL_SEC(time);
         time.set(Calendar.HOUR_OF_DAY, 0);
@@ -728,6 +730,7 @@ public class TimeUtils {
      * @param time исходная дата.
      * @return сброшенная дата (часы=минуты=секунды=мсек=0).
      */
+    @Deprecated
     public static final Date clear_HOUR_MIN_MIL_SEC(Date time) {
         if (time != null) {
             return clear_HOUR_MIN_MIL_SEC(convertDateToCalendar(time)).getTime();

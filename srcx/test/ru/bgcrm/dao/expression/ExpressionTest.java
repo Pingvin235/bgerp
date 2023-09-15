@@ -133,7 +133,7 @@ public class ExpressionTest {
         Map<String, Object> map = new HashMap<String, Object>(1);
         map.put("numberFrom", "13333333333");
 
-        String expr = "if( numberFrom.length() == 11 ){ numberFrom = numberFrom.substring(1)}; return numberFrom;";
+        String expr = "if (numberFrom.length() == 11) { numberFrom = numberFrom.substring(1) }; return numberFrom;";
         String processed = new Expression(map).getString(expr);
         assertEquals("3333333333", processed);
     }

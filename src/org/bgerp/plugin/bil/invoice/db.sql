@@ -25,3 +25,4 @@ CALL add_column_if_not_exists('invoice', 'number_cnt', 'INT NOT NULL AFTER proce
 CALL drop_key_if_exists('invoice', 'from_date');
 CALL add_key_if_not_exists('invoice', 'date_from', '(date_from)');
 CALL add_unique_key_if_not_exists('invoice', 'number', '(number)');
+ALTER TABLE invoice MODIFY number CHAR(30) NOT NULL;

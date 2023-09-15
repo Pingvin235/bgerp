@@ -2,17 +2,22 @@ package org.bgerp.plugin.bil.invoice.model;
 
 import java.math.BigDecimal;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import org.bgerp.model.base.Id;
+import org.bgerp.util.Log;
 import org.bgerp.util.TimeConvert;
 
+import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 
 public class Invoice extends Id {
+    private static final Log log = Log.getLog();
+
     private int typeId;
     private int typeTitle;
     private int processId;
@@ -90,10 +95,10 @@ public class Invoice extends Id {
     }
 
     public Date getDateTo() {
-        return dateTo;
+        return dateTo == null ? TimeUtils.getEndMonth(dateFrom) : dateTo;
     }
 
-    public void setToDate(Date value) {
+    public void setDateTo(Date value) {
         this.dateTo = value;
     }
 
@@ -102,18 +107,65 @@ public class Invoice extends Id {
      * @param lang language, e.g. 'en', 'ru'.
      * @return
      */
-    public String getDateFromMonthDisplayName(String lang) {
-        var month = TimeConvert.toYearMonth(dateFrom).getMonth();
-        // TextStyle.FULL - января
-        return month.getDisplayName(TextStyle.FULL_STANDALONE, Locale.forLanguageTag(lang));
+    public String dateFromMonthDisplayName(String lang) {
+        return monthDisplayName(lang, dateFrom);
     }
 
     /**
      * Year of {@link #dateFrom}.
      * @return
      */
-    public int getDateFromYear() {
+    public int dateFromYear() {
         return TimeConvert.toYearMonth(dateFrom).getYear();
+    }
+
+    /**
+     * Formatted period of invoice months: {@code MonthFromName YearFromNumber - MonthToName YearToNumber}
+     * with month names for a specified language. If {@link #dateFrom} and {@link #dateTo} are in the same month,
+     * then only it is shown without range.
+     * @param lang the language of months names.
+     * @return
+     */
+    public String monthsPeriod(String lang) {
+        var result = new StringBuilder(40)
+            .append(dateFromMonthDisplayName(lang))
+            .append(" ")
+            .append(dateFromYear());
+
+        Date dateTo = getDateTo();
+        if (!TimeConvert.toYearMonth(dateFrom).equals(TimeConvert.toYearMonth(dateTo)))
+            result
+                .append(" - ")
+                .append(monthDisplayName(lang, dateTo))
+                .append(" ")
+                .append(TimeConvert.toYearMonth(dateTo).getYear());
+
+        return result.toString();
+    }
+
+    private String monthDisplayName(String lang, Date date) {
+        var month = TimeConvert.toYearMonth(date).getMonth();
+        // TextStyle.FULL - января
+        return month.getDisplayName(TextStyle.FULL_STANDALONE, Locale.forLanguageTag(lang));
+    }
+
+    /**
+     * @return count of invoice months, {@code 1} or more.
+     */
+    public long months() {
+        return ChronoUnit.MONTHS.between(TimeConvert.toYearMonth(dateFrom), TimeConvert.toYearMonth(getDateTo())) + 1;
+    }
+
+    @Deprecated
+    public String getDateFromMonthDisplayName(String lang) {
+        log.warn("Used deprecated call 'getDateFromMonthDisplayName', use 'dateFromMonthDisplayName' instead.");
+        return dateFromMonthDisplayName(lang);
+    }
+
+    @Deprecated
+    public int getDateFromYear() {
+        log.warn("Used deprecated call 'getDateFromYear', use 'dateFromYear' instead.");
+        return dateFromYear();
     }
 
     public Date getCreatedTime() {

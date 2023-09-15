@@ -27,8 +27,7 @@ public class FilesListener {
             new InvoiceSearchDAO(conSet.getSlaveConnection())
                 .withProcessId(e.getProcessId())
                 .withPaid(false)
-                .orderFromDate()
-                .orderDesc()
+                .orderDefault()
                 .search(result);
 
             var l = Plugin.INSTANCE.getLocalizer();

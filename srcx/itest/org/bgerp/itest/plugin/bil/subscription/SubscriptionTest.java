@@ -181,11 +181,11 @@ public class SubscriptionTest {
 
         var config = Setup.getSetup().getConfig(Config.class);
 
-        var type = config.getSubscription(1);
+        var type = config.getSubscriptionOrThrow(1);
         Assert.assertNotNull(type);
         Assert.assertEquals(type.getTitle(), "BGERP RUB");
 
-        type = config.getSubscription(2);
+        type = config.getSubscriptionOrThrow(2);
         Assert.assertNotNull(type);
         Assert.assertEquals(type.getTitle(), "BGERP EUR");
     }

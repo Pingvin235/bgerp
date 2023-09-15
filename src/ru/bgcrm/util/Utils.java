@@ -108,30 +108,28 @@ public class Utils {
     }
 
     /**
-     * Преобразует строку в BigDecimal, и, в случае ошибки, возвращает значение
-     * по умолчанию.
-     *
-     * @param str строка представляющая BigDecimal-значение.
-     * @param defaultValue BigDecimal-значение по умолчанию.
-     * @return новый объект BigDecimal.
+     * Converts an object's string representation to a decimal object.
+     * @param obj the object.
+     * @param defaultValue the default value in case of parsing exception.
+     * @return decimal object, {@code defaultValue} for any unparsable value.
      */
-    public static BigDecimal parseBigDecimal(final String str, final BigDecimal defaultValue) {
+    public static BigDecimal parseBigDecimal(final Object obj, final BigDecimal defaultValue) {
         try {
-            return new BigDecimal(str);
+            return new BigDecimal(String.valueOf(obj));
         } catch (Exception ex) {
             return defaultValue;
         }
     }
 
     /**
-     * Converts a string to a decimal object.
-     * @param str the string.
-     * @return a decimal object, {@code null} when {@code str} was {@code null}, {@link BigDecimal#ZERO} for any unparsable value.
+     * Converts an object's string representation to a decimal object.
+     * @param obj the object.
+     * @return decimal object, {@code null} when {@code str} was {@code null}, {@link BigDecimal#ZERO} for any unparsable value.
      */
-    public static BigDecimal parseBigDecimal(final String str) {
-        if (str == null)
+    public static BigDecimal parseBigDecimal(final Object obj) {
+        if (obj == null)
             return null;
-        return parseBigDecimal(str, BigDecimal.ZERO);
+        return parseBigDecimal(obj, BigDecimal.ZERO);
     }
 
     /**

@@ -3,7 +3,7 @@ package org.bgerp.plugin.bil.subscription;
 import java.sql.Connection;
 
 import org.bgerp.app.cfg.Setup;
-import org.bgerp.plugin.bil.subscription.event.listener.PaidInvoicesListener;
+import org.bgerp.plugin.bil.subscription.event.listener.PaidInvoiceListener;
 
 import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.event.ParamChangedEvent;
@@ -34,6 +34,6 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
                 config.paramChanged(e, conSet);
         }, ParamChangedEvent.class);
 
-        new PaidInvoicesListener();
+        new PaidInvoiceListener();
     }
 }

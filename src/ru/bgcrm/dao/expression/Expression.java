@@ -14,6 +14,7 @@ import org.apache.commons.jexl3.JexlException;
 import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang3.StringUtils;
 import org.bgerp.util.Log;
+import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.event.Event;
 import ru.bgcrm.event.EventProcessor;
@@ -35,13 +36,17 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class Expression {
     private static final Log log = Log.getLog();
 
+    public static final String EXPRESSION_CONFIG_KEY = "expression";
+    @Deprecated
+    public static final String STRING_MAKE_EXPRESSION_CONFIG_KEY = "stringExpression";
+    // TODO: Change the keys to: "check.expression", "check.error.message", "do.expression"
     public static final String CHECK_EXPRESSION_CONFIG_KEY = "checkExpression";
     public static final String CHECK_ERROR_MESSAGE_CONFIG_KEY = "checkErrorMessage";
-    public static final String STRING_MAKE_EXPRESSION_CONFIG_KEY = "stringExpression";
     public static final String DO_EXPRESSION_CONFIG_KEY = "doExpression";
 
     private static final Utils PREFIX_u = new Utils();
     private static final TimeUtils PREFIX_tu = new TimeUtils();
+    private static final TimeConvert PREFIX_tc = new TimeConvert();
     private static final StringUtils PREFIX_su = new StringUtils();
     private static final CollectionUtils PREFIX_cu = new CollectionUtils();
     @SuppressWarnings("deprecation")
@@ -106,7 +111,6 @@ public class Expression {
         //TODO: Для совместимости пока объекты декларируются и как объекты и как функции.
         //В будущем оставить только объекты, методы вызывать через точку.
 
-        // стандартные объекты
         setExpressionContextUtils(contextVars);
 
         contextVars.put("log", log);
@@ -126,6 +130,7 @@ public class Expression {
     public static void setExpressionContextUtils(Map<String, Object> contextVars) {
         contextVars.put("u", PREFIX_u);
         contextVars.put("tu", PREFIX_tu);
+        contextVars.put("tc", PREFIX_tc);
         contextVars.put("su", PREFIX_su);
         contextVars.put("cu", PREFIX_cu);
         contextVars.put("fu", PREFIX_fu);

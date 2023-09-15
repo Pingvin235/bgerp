@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.Config.InitStopException;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGMessageException;
@@ -404,7 +405,7 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     /**
      * Creates if needed and gets pre parsed and cached configuration.
      * Cache key - the class object of the configuration.
-     * @param clazz
+     * @param clazz the configuration class.
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -433,11 +434,13 @@ public abstract class ConfigMap extends AbstractMap<String, String> {
     }
 
     /**
-     * Same with {@link #getConfig(Class)}, but with string parameter for calling from JSP and JEXL.
-     * @param className
+     * Same with {@link #getConfig(Class)}, but with string parameter for calling from scripts.
+     * The method is less recommended as {@link #getConfig(Class)}, which is checked by compiler.
+     * @param className the full class name.
      * @return
      */
     @SuppressWarnings("unchecked")
+    @Dynamic
     public final Object getConfig(String className) {
         try {
             return getConfig((Class<Config>) Bean.getClass(className));

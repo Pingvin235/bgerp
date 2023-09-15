@@ -37,10 +37,10 @@ public class InvoiceDAO extends PeriodicDAO {
         } else {
             query = SQL_INSERT + TABLE_INVOICE
                     + "(amount, sent_dt, sent_user_id, payment_date, payment_user_id, positions, "
-                    + "type_id, process_id, date_from, created_dt, created_user_id, number_cnt, number)"
+                    + "type_id, process_id, date_from, date_to, created_dt, created_user_id, number_cnt, number)"
                     + SQL_VALUES
                     + "(?, ?, ?, ?, ?, ?,"
-                    + "?, ?, ?, NOW(), ?, ?, ?)";
+                    + "?, ?, ?, ?, NOW(), ?, ?, ?)";
         }
 
         try (var pq = new PreparedQuery(con, query)) {
@@ -55,6 +55,7 @@ public class InvoiceDAO extends PeriodicDAO {
                 pq.addInt(invoice.getTypeId());
                 pq.addInt(invoice.getProcessId());
                 pq.addDate(invoice.getDateFrom());
+                pq.addDate(invoice.getDateTo());
                 pq.addInt(invoice.getCreatedUserId());
                 pq.addInt(invoice.getNumberCnt());
                 pq.addString(invoice.getNumber());
@@ -146,6 +147,7 @@ public class InvoiceDAO extends PeriodicDAO {
         result.setProcessId(rs.getInt("process_id"));
         result.setNumber(rs.getString("number"));
         result.setDateFrom(rs.getDate("date_from"));
+        result.setDateTo(rs.getDate("date_to"));
         result.setCreatedTime(rs.getTimestamp("created_dt"));
         result.setCreatedUserId(rs.getInt("created_user_id"));
 

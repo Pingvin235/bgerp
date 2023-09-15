@@ -21,7 +21,7 @@ public class TimeConvert {
     public static final YearMonth toYearMonth(Date value) {
         return
             value != null ?
-            YearMonth.from(value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) :
+            YearMonth.from(Instant.ofEpochMilli(value.getTime()).atZone(ZoneId.systemDefault()).toLocalDate()) :
             null;
     }
 
@@ -58,8 +58,7 @@ public class TimeConvert {
         if (value == null)
             return null;
 
-        // new Date() is used for passed java.sql.Date objects, which do not implement toInstant method
-        return new Date(value.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return Instant.ofEpochMilli(value.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     /**

@@ -49,7 +49,7 @@ public class SubscriptionAction extends BaseAction {
     }
 
     public ActionForward calc(DynActionForm form, ConnectionSet conSet) throws Exception {
-        var subscription = setup.getConfig(Config.class).getSubscription(form.getParamInt("subscriptionId"));
+        var subscription = setup.getConfig(Config.class).getSubscriptionOrThrow(form.getParamInt("subscriptionId"));
         int limitId = form.getParamInt("limitId");
         var processIds = Utils.toIntegerSet(form.getParam("processIds"));
 

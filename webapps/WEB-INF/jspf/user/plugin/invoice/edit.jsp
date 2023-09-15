@@ -12,7 +12,8 @@
 	<input type="hidden" name="id" value="${invoice.id}"/>
 	<input type="hidden" name="processId" value="${invoice.processId}"/>
 	<input type="hidden" name="typeId" value="${invoice.typeId}"/>
-	<input type="hidden" name="dateFrom" value="${tu.format(invoice.dateFrom, 'ymd')}"/>
+	<input type="hidden" name="monthFrom" value="${tu.format(invoice.dateFrom, 'ymd')}"/>
+	<input type="hidden" name="monthTo" value="${tu.format(invoice.dateTo, 'ymd')}"/>
 
 	<table class="data mt05">
 		<tr>

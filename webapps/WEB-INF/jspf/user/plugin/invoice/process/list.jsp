@@ -29,7 +29,7 @@
 	<tr>
 		<td width="1em">&nbsp;</td>
 		<td>ID</td>
-		<td>${l.l('Month')}</td>
+		<td>${l.l('Period')}</td>
 		<td>${l.l('Number')}</td>
 		<td>${l.l('Сумма')}</td>
 		<td>${l.l('Created')}</td>
@@ -97,7 +97,7 @@
 				<ui:button type="more" styleClass="btn-small" onclick="$$.ui.menuInit($(this), $('#${menuUiid}'), 'left', true);"/>
 			</td>
 			<td>${item.id}</td>
-			<td>${tu.format(item.dateFrom, 'yyyy.MM')}</td>
+			<td class="nowrap">${tu.format(item.dateFrom, 'ymd')} - ${tu.format(item.dateTo, 'ymd')}</td>
 			<td>
 				<c:choose>
 					<c:when test="${ctxUser.checkPerm('org.bgerp.plugin.bil.invoice.action.InvoiceAction:doc')}">

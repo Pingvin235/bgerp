@@ -91,21 +91,20 @@ For quick response answer on the E-Mail with preserved ID in subject.</en>
 	</p>
 	<p>
 		<sys>email.notification.invoice.paid</sys>
-		<en>Paid invoice number: {}
-Customer: {}
-Month: {}
+		<en>Customer: {}
+Period: {}
 Amount: {}
 Created Date: {}
 
 Open process: {}</en>
-		<ru>Оплачен счёт номер: {}
-Контрагент: {}
-Месяц: {}
+		<ru>Контрагент: {}
+Период: {}
 Сумма: {}
 Дата создания: {}
 
 Открыть процесс: {}</ru>
 	</p>
+	<p><en>Paid invoice {}</en><ru>Оплачен счёт {}</ru></p>
 	<p><en>Incoming message #</en><ru>Входящее сообщение #</ru></p>
 	<p>
 		<sys>email.recipients.input.hint</sys>

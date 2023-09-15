@@ -1,5 +1,6 @@
 package ru.bgcrm.util;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -59,5 +60,12 @@ public class UtilsTest {
         Assert.assertEquals(List.of("a", "b", "c"), Utils.toList("a b  c ", " "));
         Assert.assertEquals(List.of("a", "b", "c"), Utils.toList("a, b,  c"));
         Assert.assertEquals(List.of("a", "b", "c"), Utils.toList("a,b; c"));
+    }
+
+    @Test
+    public void testParseBigDecimal() {
+        Assert.assertEquals(new BigDecimal("2.33"), Utils.parseBigDecimal("2.33"));
+        Assert.assertEquals(BigDecimal.ZERO, Utils.parseBigDecimal("fufu"));
+        Assert.assertEquals(new BigDecimal("1.00"), Utils.parseBigDecimal(1).setScale(2));
     }
 }

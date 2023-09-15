@@ -1,5 +1,6 @@
 = Plugin E-Mail
 :toc:
+:toclevels: 4
 
 [[about]]
 == About
@@ -208,8 +209,13 @@ messageType.5.mail.smtp.pswd=****
 
 [[setup-process-type-change-notification]]
 ==== Process Change Notifications
-Plugin can send E-Mail notifications about process changes to executors, excluding ones, performed the changes.
-EMail subjects contains <<#qa, Quick Answer identifiers>>.
+Plugin can send E-Mail notifications about process related updates:
+[square]
+* changes of process status or executors list;
+* new incoming process messages, notification email subject contains in this case <<#qa, Quick Answer identifier>>;
+* paid process <<../../bil/invoice/index.adoc#usage, invoices>>.
+
+These mails are sent to process executor users, excluding ones, performed the update.
 
 The feature can be enabled in process type <<../../../kernel/process/index.adoc#type-config, configuration>>.
 [source]

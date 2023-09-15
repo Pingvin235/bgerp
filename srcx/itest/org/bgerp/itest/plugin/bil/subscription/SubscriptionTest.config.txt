@@ -1,6 +1,6 @@
 subscription:sign.key.file=/org/bgerp/plugin/bil/subscription/demo.key.id_rsa
 
-subscription:param.product.id={@PARAM_PRODUCT_ID}
+subscription:param.productId={@PARAM_PRODUCT_ID}
 
 subscription:param.email={@PARAM_EMAIL_ID}
 subscription:param.subscription={@PARAM_SUBSCRIPTION_ID}
@@ -8,7 +8,7 @@ subscription:param.limit={@PARAM_LIMIT_ID}
 subscription:param.cost.service={@PARAM_COST_SERVICE_ID}
 subscription:param.cost.discount={@PARAM_COST_DISCOUNT_ID}
 subscription:param.cost={@PARAM_COST_ID}
-subscription:param.date.to={@PARAM_DATE_TO_ID}
+subscription:param.dateTo={@PARAM_DATE_TO_ID}
 subscription:param.lic={@PARAM_LIC_FILE_ID}
 
 subscription:param.user.incoming.tax.percent={@PARAM_USER_TAX_PERCENT}
@@ -20,6 +20,12 @@ subscription:subscription.1.param.limit.price={@PARAM_LIMIT_PRICE_RUB_ID}
 subscription:subscription.2.title=BGERP EUR
 subscription:subscription.2.process.type={@PROCESS_SUBSCRIPTION_TYPE_ID}
 subscription:subscription.2.param.limit.price={@PARAM_LIMIT_PRICE_EUR_ID}
+subscription:subscription.2.paid.invoice.dateTo.expression=tc.toLocalDate(invoice.getDateTo()).plusDays(1).plusMonths(1).plusDays(20)
+subscription:subscription.2.paid.invoice.email.message.type=0
+subscription:subscription.2.paid.invoice.email.subject=BGERP License
+subscription:subscription.2.paid.invoice.email.text.expression=<<END
+    "Dear Customer," + NEW_LINE2 + "as an attachment you will find the prolonged license."
+END
 
 # open interface
 process.open.typeIds+=,{@PROCESS_PRODUCT_TYPE_ID}

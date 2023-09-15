@@ -16,6 +16,7 @@ import org.bgerp.itest.helper.MessageHelper;
 import org.bgerp.itest.helper.ParamHelper;
 import org.bgerp.itest.helper.ProcessHelper;
 import org.bgerp.itest.helper.ResourceHelper;
+import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.customer.CustomerRuTest;
 import org.bgerp.itest.kernel.customer.CustomerTest;
 import org.bgerp.itest.kernel.db.DbTest;
@@ -45,16 +46,21 @@ public class InvoiceTest {
     private int paramContractDateId;
     private int paramCostId;
 
+    private int processTypeId;
+
     private Process process;
     private Process processRu;
     private InvoiceType type;
     private InvoiceType typeRu;
 
     @Test
-    public void process() throws Exception {
+    public void param() throws Exception {
         paramContractDateId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_DATE, "Contract date", ProcessTest.posParam += 2, "", "");
         paramCostId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, "Cost", ProcessTest.posParam += 2, "", "");
+    }
 
+    @Test(dependsOnMethods = "param")
+    public void processType() throws Exception {
         var props = new TypeProperties();
         props.setStatusIds(List.of(ProcessTest.statusOpenId, ProcessTest.statusDoneId));
         props.setCreateStatus(ProcessTest.statusOpenId);
@@ -62,9 +68,20 @@ public class InvoiceTest {
         props.setParameterIds(List.of(paramContractDateId, paramCostId));
         props.setConfig(ResourceHelper.getResource(this, "process.type.config.txt"));
 
-        var paramDao = new ParamValueDAO(DbTest.conRoot);
+        processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+    }
 
-        var processTypeId = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props).getId();
+    @Test(dependsOnMethods = "processType")
+    public void processQueue() throws Exception {
+        int queueId = ProcessHelper.addQueue(TITLE, ConfigHelper.generateConstants(
+            "PARAM_CONTRACT_DATE_ID", paramContractDateId,
+            "PARAM_COST_ID", paramCostId) + ResourceHelper.getResource(this, "process.queue.config.txt"), Set.of(processTypeId));
+        UserHelper.addUserProcessQueues(UserTest.USER_ADMIN_ID, Set.of(queueId));
+    }
+
+    @Test(dependsOnMethods = "processType")
+    public void process() throws Exception {
+        var paramDao = new ParamValueDAO(DbTest.conRoot);
 
         process = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Contract EU");
         paramDao.updateParamDate(process.getId(), paramContractDateId, Date.from(Instant.now().plus(Duration.ofDays(-60))));
@@ -125,19 +142,22 @@ public class InvoiceTest {
 
     @Test(dependsOnMethods = { "process", "config" })
     public void invoiceEu() throws Exception {
-        var invoice = type.invoice(new SingleConnectionSet(DbTest.conRoot), process.getId(), YearMonth.now());
+        YearMonth currentMonth = YearMonth.now();
+
+        var invoice = type.invoice(new SingleConnectionSet(DbTest.conRoot), process.getId(), currentMonth, currentMonth);
         Assert.assertNotNull(invoice);
         Assert.assertEquals(invoice.getPositions().size(), 1);
         var pos = invoice.getPositions().get(0);
         Assert.assertEquals(pos.getId(), "consultancy");
-        Assert.assertEquals(pos.getTitle(), "Consultancy " + YearMonth.now().getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.US) + " " + YearMonth.now().getYear());
+        Assert.assertEquals(pos.getTitle(), "Consultancy " + currentMonth.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.US) + " " + currentMonth.getYear());
         Assert.assertEquals(pos.getAmount(), Utils.parseBigDecimal("42.51"));
 
         var dao = new InvoiceDAO(DbTest.conRoot);
         type.getNumberProvider().number(DbTest.conRoot, type, invoice);
 
         Assert.assertEquals(invoice.getNumber(),
-                "EU" + new DecimalFormat("000000").format(process.getId()) + "-" + TimeUtils.format(invoice.getDateFrom(), "yyyyMM") + "-01");
+                "EU" + new DecimalFormat("000000").format(process.getId()) + "-" +
+                TimeUtils.format(invoice.getDateFrom(), "yyyyMM") + "-" + TimeUtils.format(invoice.getDateTo(), "yyyyMM"));
 
         dao.update(invoice);
         Assert.assertTrue(invoice.getId() > 0);
@@ -148,24 +168,33 @@ public class InvoiceTest {
 
     @Test(dependsOnMethods = { "process", "config" })
     public void invoiceRu() throws Exception {
-        var invoice = typeRu.invoice(new SingleConnectionSet(DbTest.conRoot), processRu.getId(), YearMonth.now());
+        YearMonth currentMonth = YearMonth.now();
+        YearMonth nextMonth = currentMonth.plusMonths(1);
+
+        Locale localeRu = Locale.forLanguageTag("ru");
+
+        var invoice = typeRu.invoice(new SingleConnectionSet(DbTest.conRoot), processRu.getId(), currentMonth, nextMonth);
         Assert.assertNotNull(invoice);
         Assert.assertEquals(invoice.getPositions().size(), 1);
         var pos = invoice.getPositions().get(0);
         Assert.assertEquals(pos.getId(), "consultancy");
-        Assert.assertTrue(pos.getTitle().startsWith("Консультационно-справочное обслуживание"));
-        Assert.assertEquals(pos.getAmount(), Utils.parseBigDecimal("42.50"));
+        Assert.assertEquals(pos.getTitle(), "Консультационно-справочное обслуживание за " +
+            currentMonth.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, localeRu) + " " + currentMonth.getYear() + " - " +
+            nextMonth.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, localeRu) + " " + nextMonth.getYear()
+        );
+        Assert.assertEquals(pos.getAmount(), Utils.parseBigDecimal("85.00"));
 
         var dao = new InvoiceDAO(DbTest.conRoot);
         typeRu.getNumberProvider().number(DbTest.conRoot, typeRu, invoice);
 
         Assert.assertEquals(invoice.getNumber(),
-                "RU" + new DecimalFormat("000000").format(processRu.getId()) + "-" + TimeUtils.format(invoice.getDateFrom(), "yyyyMM") + "-01");
+                "RU" + new DecimalFormat("000000").format(processRu.getId()) + "-" +
+                TimeUtils.format(invoice.getDateFrom(), "yyyyMM") + "-" + TimeUtils.format(invoice.getDateTo(), "yyyyMM"));
 
         dao.update(invoice);
         Assert.assertTrue(invoice.getId() > 0);
 
-        MessageHelper.addNoteMessage(process.getId(), UserTest.USER_ADMIN_ID, Duration.ofSeconds(0), MessageHelper.HOW_TO_TEST_MESSAGE_SUBJECT,
+        MessageHelper.addNoteMessage(processRu.getId(), UserTest.USER_ADMIN_ID, Duration.ofSeconds(0), MessageHelper.HOW_TO_TEST_MESSAGE_SUBJECT,
                 ResourceHelper.getResource(this, "howto.ru.txt"));
     }
 }

@@ -15,6 +15,7 @@ import org.bgerp.plugin.bil.invoice.num.PatternBasedNumberProvider;
 import org.bgerp.plugin.bil.invoice.pos.PositionProvider;
 import org.bgerp.util.TimeConvert;
 
+import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 public class InvoiceType extends IdTitle {
@@ -60,12 +61,13 @@ public class InvoiceType extends IdTitle {
         return config.getSok(TEMPLATE_JSP.get(config.get("template", "eu_en")), false, "template.jsp", "jsp");
     }
 
-    public Invoice invoice(ConnectionSet conSet, int processId, YearMonth month) throws Exception {
+    public Invoice invoice(ConnectionSet conSet, int processId, YearMonth monthFrom, YearMonth monthTo) throws Exception {
         var result = new Invoice();
 
         result.setTypeId(id);
         result.setProcessId(processId);
-        result.setDateFrom(TimeConvert.toDate(month));
+        result.setDateFrom(TimeConvert.toDate(monthFrom));
+        result.setDateTo(TimeUtils.getEndMonth(TimeConvert.toDate(monthTo)));
         for (var provider : providers)
             provider.addPositions(conSet, result);
         result.amount();

@@ -100,14 +100,13 @@ public class ProcessNotificationListener {
 
             var l = localizer(e.getForm());
             String text = l.l("email.notification.invoice.paid",
-                invoice.getNumber(),
                 customerTitle,
-                TimeUtils.format(invoice.getDateFrom(), "yyyy.MM"),
+                invoice.monthsPeriod(Localization.getLang(e.getForm().getHttpRequest())),
                 Utils.format(invoice.getAmount()),
                 TimeUtils.format(invoice.getCreatedTime(), TimeUtils.FORMAT_TYPE_YMD),
                 Interface.getUrlUser() + "/process#" + process.getId());
 
-            String subject = subject(process, -1);
+            String subject = l.l("Paid invoice {}", invoice.getNumber());
 
             new org.bgerp.plugin.msg.email.ExpressionObject(process, e.getForm(), conSet.getSlaveConnection())
                     .sendMessageToExecutors(config.userEmailParamId(), subject, text);

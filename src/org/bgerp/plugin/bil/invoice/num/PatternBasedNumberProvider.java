@@ -31,23 +31,30 @@ public class PatternBasedNumberProvider extends NumberProvider {
         var number = PatternFormatter.processPattern(pattern, var -> {
             try {
                 if (var.startsWith("process_id")) {
-                    var format = StringUtils.substringAfter(var, ":");
+                    String format = StringUtils.substringAfter(var, ":");
                     if (Utils.notBlankString(format))
                         return new DecimalFormat(format).format(invoice.getProcessId());
                     return String.valueOf(invoice.getProcessId());
                 }
 
                 if (var.startsWith("date_from")) {
-                    var format = StringUtils.substringAfter(var, ":");
+                    String format = StringUtils.substringAfter(var, ":");
                     if (Utils.notBlankString(format))
                         return TimeUtils.format(invoice.getDateFrom(), format);
-                    return TimeUtils.format(invoice.getDateFrom(), "ymd");
+                    return TimeUtils.format(invoice.getDateFrom(), TimeUtils.FORMAT_TYPE_YMD);
+                }
+
+                if (var.startsWith("date_to")) {
+                    String format = StringUtils.substringAfter(var, ":");
+                    if (Utils.notBlankString(format))
+                        return TimeUtils.format(invoice.getDateTo(), format);
+                    return TimeUtils.format(invoice.getDateTo(), TimeUtils.FORMAT_TYPE_YMD);
                 }
 
                 if (var.startsWith("number_in_month_for_process")) {
                     invoice.setNumberCnt(cnt.month().process().next());
 
-                    var format = StringUtils.substringAfter(var, ":");
+                    String format = StringUtils.substringAfter(var, ":");
                     if (Utils.notBlankString(format))
                         return new DecimalFormat(format).format(invoice.getNumberCnt());
                     return String.valueOf(invoice.getNumberCnt());

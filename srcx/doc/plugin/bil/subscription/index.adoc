@@ -1,5 +1,6 @@
 = Plugin Subscription
 :toc:
+:toclevels: 4
 
 [[about]]
 == About
@@ -55,19 +56,21 @@ Add in the plugin configuration the following block:
 ----
 subscription:sign.key.file=<privateSshKeyPath>
 
-# Product process params
-subscription:param.product.id=<paramProductId>
-# Subscription process params
+# product process params
+subscription:param.productId=<paramProductId>
+# subscription process params
 subscription:param.email=<paramEmailId>
 subscription:param.subscription=<paramSubscriptionId>
 subscription:param.limit=<paramLimitId>
 subscription:param.cost.service=<paramServiceCostId>
 subscription:param.cost.discount=<paramDiscountId>
 subscription:param.cost=<paramCostId>
-subscription:param.date.to=<paramDateToId>
+subscription:param.dateTo=<paramDateToId>
 subscription:param.lic=<paramLicId>
-# Optional user params
+# optional user params
 #subscription:param.user.incoming.tax.percent=<paramIncomingTaxPercentId>
+# optional keys
+#subscription:max.dateTo.months=<maxDateToMonths>
 ----
 
 Where:
@@ -81,7 +84,9 @@ Where:
 * *<paramDiscountId>* - ID of <<#setup-process-type-subscription, Discount>> parameter;
 * *<paramCostId>* - ID of <<#setup-process-type-subscription, Cost>> parameter;
 * *<paramDateToId>* - ID of <<#setup-process-type-subscription, Date To>> parameter;
-* *<paramLicId>* - ID of <<#setup-process-type-subscription, License>> parameter.
+* *<paramLicId>* - ID of <<#setup-process-type-subscription, License>> parameter;
+* *<paramIncomingTaxPercentId>* - ID of user parameter of type *text* with incoming payments tax, taken on account in <<usage-report, Payments Report>>;
+* *<maxDateToMonths>* - how many months in future from the current one can be set *Date To* parameter value.
 
 [[setup-config-subscription]]
 ==== Subscriptions
@@ -98,6 +103,34 @@ Where:
 * *<id>* - unique numeric subscription ID;
 * *<title>* - subscription title;
 * *<paramLimitPriceId>* - ID of <<#setup-process-type-product, Price>> parameter.
+
+[[setup-config-subscription-paid-invoice]]
+===== Paid Invoice Actions
+The plugin supports several actions on paid <<../invoice/index.adoc#usage, invoices>> in a subscription process.
+To activate them in a subscription configuration should be added the following keys.
+
+[source]
+----
+subscription:subscription.<id>.paid.invoice.dateTo.expression=<dateToExpression>
+# optionally
+#subscription:subscription.<id>.paid.invoice.email.message.type=<emailMessageTypeId>
+#subscription:subscription.<id>.paid.invoice.email.subject=<emailSubject>
+#subscription:subscription.<id>.paid.invoice.email.text.expression=<emailTextExpression>
+----
+
+Where:
+[square]
+* *<dateToExpression>* - <<../../../kernel/extension.adoc#jexl, JEXL>> expression for calculating a new license *Date To* value, with additional context variables:
+** *invoice* object of javadoc:org.bgerp.plugin.bil.invoice.model.Invoice[]
+* *<emailMessageTypeId>* - <<../../msg/email/index.adoc#setup-message-type, message type ID>> of type E-Mail which will be used for creation of a notification mail with a new license file, exact ID value may be replaced to *0* that will take the first message type of type E-Mail from server configuration;
+* *<emailSubject>* - the mail's subject;
+* *<emailTextExpression>* - <<../../../kernel/extension.adoc#jexl, JEXL>> expression for generation the mail's content, with additional context variables:
+** *invoice* object of javadoc:org.bgerp.plugin.bil.invoice.model.Invoice[]
+
+Here a sample of subscription configuration taken from Demo.
+
+[snippet, from="subscription:subscription.2", to="END"]
+link:../../../../itest/org/bgerp/itest/plugin/bil/subscription/SubscriptionTest.config.txt#L20-L28[Plugin Subscription subscription config]
 
 [[setup-price-calculator]]
 === Price Calculator

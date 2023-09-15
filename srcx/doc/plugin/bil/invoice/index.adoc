@@ -1,5 +1,6 @@
 = Plugin Invoice
 :toc:
+:toclevels: 4
 
 [[about]]
 == About
@@ -45,7 +46,7 @@ invoice:position.{@cnt}.title=<posTitle>
 Where:
 [square]
 * *<posId>* - unique lowercase string for position's identification
-* *<posTitle>* -title.
+* *<posTitle>* - title.
 
 [[setup-config-type]]
 ==== Invoice Type
@@ -83,7 +84,8 @@ invoice:type.<id>.number.pattern=<patternNumber>
 * *<numberClass>* - Java class implementing javadoc:org.bgerp.plugin.bil.invoice.num.NumberProvider[], javadoc:org.bgerp.plugin.bil.invoice.num.PatternBasedNumberProvider[] does pattern-based numeration.
 * *<patternNumber>* - numeration pattern for *PatternBasedNumberProvider*, supports the following macros:
 ** *(${process_id:000000})* - process ID zero-padded from left for a needed length, this case to 6 digits;
-** *(${date_from:yyyyMM})* - first date of the invoice month formatted using date format.
+** *(${date_from:yyyyMM})* - first date of the invoice from month formatted using date format;
+** *(${date_to:yyyyMM})* - last date of the invoice to month formatted using date format;
 ** *(${number_in_month_for_process:00})* - sequential invoice number for a given process, also zero-padded from left.
 
 [[setup-type-position]]
@@ -105,7 +107,7 @@ invoice:type.<id>.provider.{@cnt}.expression=<jexlExpression>
 
 [[usage]]
 == Usage
-On the screen below is shown process card with activated plugin.
+On the screen below is shown process card with activated plugin. Invoices are shown in reverse order, the last one is placed on the top of the table.
 
 image::_res/process_invoice_table.png[width="800px"]
 
@@ -113,11 +115,16 @@ Clicking on the invoice's number opens generated HTML printing form.
 
 image::_res/process_invoice_form.png[width="800px"]
 
-To generate a new invoice, press *Add* button, select required month and invoice type.
+To generate a new invoice, press *Add* button, select invoice type and required month's range.
+They are will be suggested automatically based ont the last process' invoice.
 
 image::_res/process_invoice_create_1.png[width="800px"]
 
-After correct generated positions list and create. The positions list may be edited after creation using popup menu.
+On the next step are shown and can be edited invoice positions.
+
+image::_res/process_invoice_create_2.png[]
+
+After correction of generated positions list and create. In existing invoices the position list may be edited after creation using popup menu.
 
 image::_res/process_invoice_popup_menu.png[width="800px"]
 

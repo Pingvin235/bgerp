@@ -1,6 +1,7 @@
 package org.bgerp.plugin.bil.invoice.action;
 
 import java.sql.Connection;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -18,6 +19,7 @@ import org.bgerp.plugin.bil.invoice.event.InvoicePaidEvent;
 import org.bgerp.plugin.bil.invoice.model.Invoice;
 import org.bgerp.plugin.bil.invoice.model.InvoiceType;
 import org.bgerp.plugin.bil.invoice.model.Position;
+import org.bgerp.util.TimeConvert;
 
 import ru.bgcrm.dao.CustomerDAO;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -27,6 +29,7 @@ import ru.bgcrm.event.EventProcessor;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
@@ -37,8 +40,7 @@ public class InvoiceAction extends BaseAction {
     public ActionForward list(DynActionForm form, ConnectionSet conSet) throws Exception {
         new InvoiceSearchDAO(conSet.getSlaveConnection())
             .withProcessId(form.getParamInt("processId"))
-            .orderFromDate()
-            .orderDesc()
+            .orderDefault()
             .search(new Pageable<>(form));
 
         form.setRequestAttribute("config", setup.getConfig(Config.class));
@@ -47,14 +49,16 @@ public class InvoiceAction extends BaseAction {
     }
 
     public ActionForward create(DynActionForm form, ConnectionSet conSet) throws Exception {
+        int processId = form.getParamInt("processId", val -> val > 0);
+
         int typeId = form.getParamInt("typeId");
         if (typeId > 0) {
             var config = setup.getConfig(Config.class);
 
-            int processId = form.getParamInt("processId", val -> val > 0);
-            var month = form.getParamYearMonth("dateFrom", Objects::nonNull);
+            var monthFrom = form.getParamYearMonth("monthFrom", Objects::nonNull);
+            var monthTo = form.getParamYearMonth("monthTo", val -> val != null && !val.isBefore(monthFrom));
 
-            Invoice invoice = config.getType(typeId).invoice(conSet, processId, month);
+            Invoice invoice = config.getType(typeId).invoice(conSet, processId, monthFrom, monthTo);
 
             EventProcessor.processEvent(new InvoiceChangedEvent(form, invoice, Mode.CREATED), conSet);
 
@@ -63,6 +67,29 @@ public class InvoiceAction extends BaseAction {
 
             return html(conSet, form, PATH_JSP + "/edit.jsp");
         } else {
+            var invoices = new Pageable<Invoice>();
+            new InvoiceSearchDAO(conSet.getSlaveConnection())
+                .withProcessId(processId)
+                .orderDefault()
+                .search(invoices);
+
+            var lastInvoice = Utils.getFirst(invoices.getList());
+            if (lastInvoice != null) {
+                form.setRequestAttribute("typeId", lastInvoice.getTypeId());
+
+                var monthFrom = TimeConvert.toYearMonth(lastInvoice.getDateFrom());
+                var monthTo = TimeConvert.toYearMonth(lastInvoice.getDateTo());
+                long delta = ChronoUnit.MONTHS.between(monthFrom, monthTo);
+
+                // the new invoice is created by default from the next month of the last invoice To month
+                monthFrom = monthTo.plusMonths(1);
+                // and with the same quantity of months
+                monthTo = monthFrom.plusMonths(delta);
+
+                form.setRequestAttribute("monthFrom", TimeUtils.format(TimeConvert.toDate(monthFrom), TimeUtils.FORMAT_TYPE_YMD));
+                form.setRequestAttribute("monthTo", TimeUtils.format(TimeConvert.toDate(monthTo), TimeUtils.FORMAT_TYPE_YMD));
+            }
+
             form.setRequestAttribute("types", setup.getConfig(Config.class).getTypes());
             return html(conSet, form, PATH_JSP + "/process/create.jsp");
         }
@@ -82,10 +109,11 @@ public class InvoiceAction extends BaseAction {
         if (form.getId() <= 0) {
             int typeId = form.getParamInt("typeId", val -> val > 0);
             int processId = form.getParamInt("processId", val -> val > 0);
-            var month = form.getParamYearMonth("dateFrom", Objects::nonNull);
+            var monthFrom = form.getParamYearMonth("monthFrom", Objects::nonNull);
+            var monthTo = form.getParamYearMonth("monthTo", val -> val != null && !val.isBefore(monthFrom));
 
             var type = setup.getConfig(Config.class).getType(typeId);
-            invoice =  type.invoice(conSet, processId, month);
+            invoice =  type.invoice(conSet, processId, monthFrom, monthTo);
             type.getNumberProvider().number(conSet.getConnection(), type, invoice);
         } else {
             invoice = dao.get(form.getId());

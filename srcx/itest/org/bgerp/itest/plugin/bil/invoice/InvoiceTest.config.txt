@@ -1,25 +1,27 @@
 invoice:type.1.title=Consultancy
 invoice:type.1.template=eu_en
 invoice:type.1.provider.{@inc:cnt}.class=org.bgerp.plugin.bil.invoice.pos.ExpressionPositionProvider
-invoice:type.1.number.pattern=EU(${process_id:000000})-(${date_from:yyyyMM})-(${number_in_month_for_process:00})
+invoice:type.1.number.pattern=EU(${process_id:000000})-(${date_from:yyyyMM})-(${date_to:yyyyMM})
 invoice:type.1.provider.{@cnt}.expression=<<END
     cost = processParam.get({@PARAM_COST_ID}).getValue();
-    if (cost != null)
-        invoice.addPosition("consultancy", "Consultancy " + invoice.getDateFromMonthDisplayName("en") + " " + invoice.getDateFromYear(), cost, "", 1);
+    if (cost != null) {
+        cost = cost.multiply(u.parseBigDecimal(invoice.months()));
+        invoice.addPosition("consultancy", "Consultancy " + invoice.monthsPeriod("en"), cost, "", 1);
+    }
 END
 invoice:type.1.customer={@CUSTOMER_ID}
 
 invoice:type.2.title=Консультации
 invoice:type.2.template=ru_ru
 invoice:type.2.number.class=org.bgerp.plugin.bil.invoice.num.PatternBasedNumberProvider
-invoice:type.2.number.pattern=RU(${process_id:000000})-(${date_from:yyyyMM})-(${number_in_month_for_process:00})
+invoice:type.2.number.pattern=RU(${process_id:000000})-(${date_from:yyyyMM})-(${date_to:yyyyMM})
 invoice:type.2.provider.{@inc:cnt}.class=org.bgerp.plugin.bil.invoice.pos.ExpressionPositionProvider
 invoice:type.2.provider.{@cnt}.expression=<<END
     cost = processParam.get({@PARAM_COST_ID}).getValue();
-    if (cost != null)
-        invoice.addPosition("consultancy",
-            "Консультационно-справочное обслуживание за " + invoice.getDateFromMonthDisplayName("ru") + " " + invoice.getDateFromYear() + " г.",
-            cost, "шт.", 1);
+    if (cost != null) {
+        cost = cost.multiply(u.parseBigDecimal(invoice.months()));
+        invoice.addPosition("consultancy", "Консультационно-справочное обслуживание за " + invoice.monthsPeriod("ru"), cost, "шт.", 1);
+    }
 END
 invoice:type.2.customer={@CUSTOMER_RU_ID}
 

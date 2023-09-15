@@ -9,7 +9,6 @@
 	<html:form action="${form.httpRequestURI}" styleClass="in-ml05">
 		<ui:date-month/>
 
-		<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.plugin.bil.subscription.Config')}"/>
 		<ui:combo-single hiddenName="subscriptionId" list="${config.subscriptions}" value="${form.param.subscriptionId}" prefixText="${l.l('Subscription')}:"/>
 
 		<ui:toggle inputName="det" value="${form.getParamBoolean('det')}" onChange="$$.ajax.loadContent(this)" prefixText="Details" styleClass="mr05"/>

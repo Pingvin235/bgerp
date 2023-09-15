@@ -1,7 +1,8 @@
 Use built-in user Administrator for the testing.
-1. Check if parameter 'Plugin Subscription Subscription Cost' value is correctly calculated.
-2. In 'Plugin Invoice' configuration set PARAM_COST_ID equal to parameter's 'Plugin Subscription Subscription Cost' ID.
-3. In Invoice tab of the process click Add button and create proposed invoice.
-4. Mark the invoice as a payed.
-5. Open menu 'Reports / Subscription Payments' and generate report for the invoice payment month.
-6. Check the report's data.
+# Check if parameter 'Plugin Subscription Subscription Cost' value is correctly calculated.
+# In 'Plugin Invoice' configuration set PARAM_COST_ID equal to parameter's 'Plugin Subscription Subscription Cost' ID.
+# In Invoice tab of the process click Add button and create proposed invoice.
+# Mark the invoice as a payed.
+# FOR EU ONLY: Check if created an E-Mail message with updated license.
+# Open menu 'Reports / Subscription Payments' and generate report for the invoice payment month.
+# Check the report's data.

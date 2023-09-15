@@ -45,7 +45,7 @@
 	<table style="width: 100%;" class="data mt1">
 		<tr>
 			<td width="100">&nbsp;</td>
-			<td width="100">${l.l('Период')}</td>
+			<td width="100">${l.l('Period')}</td>
 			<td width="100%">${l.l('Group')}</td>
 		</tr>
 

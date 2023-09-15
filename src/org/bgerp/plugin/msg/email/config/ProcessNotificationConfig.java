@@ -16,11 +16,11 @@ public class ProcessNotificationConfig extends org.bgerp.app.cfg.Config {
     protected ProcessNotificationConfig(ConfigMap config) throws InitStopException {
         super(null);
         config = config.sub(Plugin.ID + ":");
-        this.userEmailParamId = parseEmailParamId(config);
+        this.userEmailParamId = loadEmailParamId(config);
         initWhen(userEmailParamId > 0);
     }
 
-    private int parseEmailParamId(ConfigMap config) {
+    private int loadEmailParamId(ConfigMap config) {
         int result = config.getInt("change.notification.user.email.param", -1);
 
         if (result == 0) {
