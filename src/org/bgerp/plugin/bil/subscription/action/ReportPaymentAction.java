@@ -155,7 +155,7 @@ public class ReportPaymentAction extends ReportActionBase {
                     pq.addInt(subscription.getParamLimitPriceId());
 
                     pq.addQuery(
-                        SQL_WHERE + "invoice.payment_user_id=? AND invoice.payment_date IS NOT NULL AND ?<=invoice.date_from AND invoice.date_from<=?" +
+                        SQL_WHERE + "invoice.payment_user_id=? AND ?<=invoice.payment_date AND invoice.payment_date<=?" +
                         SQL_ORDER_BY + "invoice.payment_date"
                     );
 

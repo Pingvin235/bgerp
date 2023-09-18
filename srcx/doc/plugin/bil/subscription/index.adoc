@@ -179,7 +179,8 @@ The plugin provides *Subscription Payments* <<../../report/index.adoc#, Report>>
 
 image::_res/payment_report.png[width="800px"]
 
-User received amount for a month is taken from invoices, marked as paid by the user.
+User received amounts for a month are taken from paid invoices with payment date in the month, marked as paid by the current user.
+Using the report each payment receiver can determinate parts of Consultants and Owners.
 
 [[usage-price-calculator]]
 === Price Calculator
