@@ -9,7 +9,7 @@ import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.app.exec.scheduler.Task;
-import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -130,8 +130,8 @@ public class FullTextUpdate extends Task {
                                 case LISTCOUNT:
                                 case TREE: {
                                     @SuppressWarnings("unchecked")
-                                    var values = (List<IdTitle>) pair.getValue();
-                                    for (IdTitle value : values) {
+                                    var values = (List<IdStringTitle>) pair.getValue();
+                                    for (IdStringTitle value : values) {
                                         if (value == null || value.getTitle() == null)
                                             continue;
                                         // значение идёт после :, комментарий - в квадратных скобках
