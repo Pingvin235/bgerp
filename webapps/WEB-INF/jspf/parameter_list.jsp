@@ -288,8 +288,8 @@
 							<c:set var="valueTitle" value="${tu.format(item.value, type )}"/>
 						</c:if>
 
-						<c:if test="${parameter.type eq 'blob'}">
-							<c:set var="valueTitle" value="<pre>${item.valueTitle}</pre>"/>
+						<c:if test="${parameter.type eq 'blob' and not empty valueTitle}">
+							<c:set var="valueTitle" value="<pre>${u.escapeXml(valueTitle)}</pre>"/>
 						</c:if>
 
 						<c:set var="showAsLink" value="${not empty parameter.showAsLink and not empty item.value}"/>
@@ -311,8 +311,10 @@
 									<input type="hidden" name="paramId" value="${parameter.id}"/>
 
 									<a href="#" onclick="$$.ajax.load($('#${editFormId}'), $('#${editDivId}')).done(() => { ${startEdit} }); return false;">
-										${u.escapeXml(valueTitle)}
-										<c:if test="${empty item.valueTitle}">${l.l('не указан')}</c:if>
+										<c:choose>
+											<c:when test="${empty valueTitle}">${l.l('не указан')}</c:when>
+											<c:otherwise>${valueTitle}</c:otherwise>
+										</c:choose>
 										<c:if test="${showAsLink}">
 											[<a target="_blank" href="${item.value}">${l.l('link.open')}</a>]
 										</c:if>
