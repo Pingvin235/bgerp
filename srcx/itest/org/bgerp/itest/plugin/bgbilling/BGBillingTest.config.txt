@@ -2,19 +2,23 @@
 # https://bgerp.org/doc/3.0/manual/plugin/bgbilling/index.html#config
 bgbilling:server.{@inc:cnt}.id={@BILLING_ID}
 bgbilling:server.{@cnt}.title=BGBilling
-# locally running test server
-bgbilling:server.{@cnt}.url=http://127.0.0.1:8080/bgbilling/executer
 bgbilling:server.{@cnt}.version=9.2
-bgbilling:server.{@cnt}.customerIdParam=100
 bgbilling:server.{@cnt}.requestTimeOut=20000
+# demo.bgbilling.ru
+bgbilling:server.{@cnt}.url=https://demo.bgbilling.ru/executer
+bgbilling:server.{@cnt}.customerIdParam=8
+# locally running test server
+#bgbilling:server.{@cnt}.url=http://127.0.0.1:8080/bgbilling/executer
+#bgbilling:server.{@cnt}.customerIdParam=100
 
-bgbilling:login.{@BILLING_ID}=admin
-bgbilling:password.{@BILLING_ID}=admin
+# common login and password for accessing billing
+#bgbilling:login.{@BILLING_ID}=admin
+#bgbilling:password.{@BILLING_ID}=admin
 
-bgbilling:contractType.1.title=Test ERP
+bgbilling:contractType.1.title=Contract Pattern ID 17
 bgbilling:contractType.1.billing={@BILLING_ID}
 bgbilling:contractType.1.patternId=17
-bgbilling:contractType.1.tariffList=133:Test ERP 1,134:Test ERP 2
+bgbilling:contractType.1.tariffList=133:Tariff ID 133,134:Tariff ID 134
 #bgbilling:contractType.1.tariffPosition=2
 
 # HelpDesk Message Type
