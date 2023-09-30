@@ -641,7 +641,7 @@ image::_res/param/listcount_config.png[width=800]
 
 В таблице параметров.
 
-image::_res/param/listcount_table.png[width=800]
+image::_res/param/listcount_table.png[]
 
 Editor for single value.
 

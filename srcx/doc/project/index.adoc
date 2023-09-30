@@ -74,7 +74,7 @@ git config user.email shamil@bgerp.org
 git config pull.rebase true
 git config core.fileMode false
 git config core.longpaths true
-git config core.autocrlf false
+git config core.autocrlf input
 ----
 
 For Windows and Mac only.

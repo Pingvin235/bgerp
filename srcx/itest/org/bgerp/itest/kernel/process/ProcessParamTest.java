@@ -79,10 +79,10 @@ public class ProcessParamTest {
                 ProcessTest.posParam += 2, "type=ymdhms", "");
 
         paramEmailId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_EMAIL, TITLE + " type 'email'",
-                ProcessTest.posParam += 2, "", "");
+                ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.email.config.txt"), "");
 
         paramFileId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_FILE, TITLE + " type 'file'",
-                ProcessTest.posParam += 2, "", "");
+                ProcessTest.posParam += 2, ResourceHelper.getResource(this, "param.file.config.txt"), "");
 
         paramListId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LIST, TITLE + " type 'list'",
                 ProcessTest.posParam += 2,
@@ -95,8 +95,9 @@ public class ProcessParamTest {
                 "");
 
         paramListCountId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_LISTCOUNT, TITLE + " type 'listcount'",
-                ProcessTest.posParam += 2, "",
-                ResourceHelper.getResource(this, "param.list.values.txt"));
+                ProcessTest.posParam += 2,
+                ResourceHelper.getResource(this, "param.listcount.config.txt"),
+                ResourceHelper.getResource(this, "param.listcount.values.txt"));
 
         paramMoneyId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_MONEY, TITLE + " type 'money'",
                 ProcessTest.posParam += 2, "", "");
@@ -117,7 +118,9 @@ public class ProcessParamTest {
                 ProcessTest.posParam += 2, "", "");
 
         paramTreeId = ParamHelper.addParam(Process.OBJECT_TYPE, Parameter.TYPE_TREE, TITLE + " type 'tree'",
-                ProcessTest.posParam += 2, "", ResourceHelper.getResource(this, "param.tree.values.txt"));
+                ProcessTest.posParam += 2,
+                ResourceHelper.getResource(this, "param.tree.config.txt"),
+                ResourceHelper.getResource(this, "param.tree.values.txt"));
     }
 
     @Test(dependsOnMethods = "param")
