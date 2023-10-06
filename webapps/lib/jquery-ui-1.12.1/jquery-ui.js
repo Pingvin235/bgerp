@@ -17429,7 +17429,7 @@ $.widget( "ui.tabs", {
 
 		this.running = false;
 
-		// PATCH ADDITION BGERP, cache loaded
+		// PATCH ADDITION BGERP, cache loaded, progress indicator, error handling
 		this.options.beforeLoad = function (event, ui) {
 			if (ui.tab.data("loaded")) {
 				event.preventDefault();
@@ -17439,9 +17439,14 @@ $.widget( "ui.tabs", {
 			// progress spinner
 			ui.panel.html('<i class="progress-icon ti-reload"></i> Loading...');
 
-			ui.jqXHR.done(function () {
-				ui.tab.data("loaded", true);
-			});
+			ui.jqXHR
+				.done(function () {
+					ui.tab.data("loaded", true);
+				})
+				.fail(function (jqXHR, textStatus, errorThrown) {
+					const url = ui.tab.find("a").attr("href");
+					ajaxError(url, jqXHR, textStatus, errorThrown);
+				});
 		};
 		// END PATCH
 
