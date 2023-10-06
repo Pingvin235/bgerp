@@ -201,7 +201,10 @@
 					<c:set var="menuUiid" value="${u:uiid()}"/>
 					<div style="height: 0px; max-height: 0px; width: 0px; max-width: 0px; display: inline-block;">
 						<ul id="${menuUiid}" style="display: none;" class="menu">
-							<li><a href="#" onclick="$('#${messageTextUiid} #msgBox pre').toggleClass('nowrap'); return false;">${l.l('Вкл./выкл. разрывы строк')}</a></li>
+							<li><a href="#" onclick="$$.message.lineBreak(this, '${messageTextUiid}'); return false;">
+								<i class="ti-check" style="display: none;"></i>
+								${l.l('Вкл./выкл. разрывы строк')}
+							</a></li>
 							<ui:when type="user">
 								<li><a href="#" onclick="$('#${tagFormUiid}')${actionButtonStartEdit}">${l.l('Теги')}</a></li>
 								<c:if test="${messageType.readable and message.read and ctxUser.checkPerm('ru.bgcrm.struts.action.MessageAction:messageUpdateRead')}">
@@ -321,7 +324,7 @@
 		<table id="${messageTextUiid}" class="hdata" style="width: 100%; table-layout:fixed;">
 			<tr>
 				<td id="msgBox" style="border-top: none; padding-bottom: 0.5em;">
-					<pre style="overflow-x: auto;"><ui:text-prepare text="${message.text}"/></pre>
+					<pre class="pre-wrap" style="overflow-x: auto;"><ui:text-prepare text="${message.text}"/></pre>
 				</td>
 			</tr>
 

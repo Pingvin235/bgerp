@@ -100,10 +100,25 @@ $$.message = new function() {
 		return !contains || confirm(message);
 	}
 
+	/**
+	 * Toggles line brake for long messages.
+	 *
+	 * @param {HTMLAnchorElement} a popup menu item anchor.
+	 * @param {String} messageTextUiid ID of message text area.
+	 */
+	const lineBreak = (a, messageTextUiid) => {
+		const $msgBox = $(document.getElementById(messageTextUiid).querySelector('#msgBox pre'));
+		$msgBox
+			.toggleClass('nowrap')
+			.toggleClass('pre-wrap');
+		$(a.querySelector('i')).toggle($msgBox.hasClass('nowrap'));
+	}
+
 	// public functions
 	this.editorTypeChanged = editorTypeChanged;
 	this.subjectTableInit = subjectTableInit;
 	this.checkSubject = checkSubject;
 	this.checkAttach = checkAttach;
+	this.lineBreak = lineBreak;
 }
 

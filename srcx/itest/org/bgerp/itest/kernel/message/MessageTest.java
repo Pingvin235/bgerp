@@ -103,7 +103,12 @@ public class MessageTest {
 
         MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Full width", "THE MESSAGE MUST BE SHOWN ON FULL-WIDTH SCREEN by hideLeftAreaOnScroll JS function");
 
-        MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Line break", ResourceHelper.getResource(this, "log.txt"));
+        MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Large text", ResourceHelper.getResource(this, "log.txt"));
+
+        MessageHelper.addNoteMessage(process1Id, UserTest.USER_ADMIN_ID, Duration.ofSeconds(i++), "Long text line break",
+            "The message lines must be wrapped. The message lines must be wrapped. The message lines must be wrapped. The message lines must be wrapped. " +
+            "The message lines must be wrapped. The message lines must be wrapped. The message lines must be wrapped. The message lines must be wrapped. \n" +
+            "Use 'Toggle line breaks' menu item to change it and enable scrolling.");
 
         var dao = new MessageDAO(DbTest.conRoot);
 

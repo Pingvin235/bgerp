@@ -139,6 +139,10 @@ body > #content p {
 	white-space: nowrap;
 }
 
+.pre-wrap {
+	white-space: pre-wrap;
+}
+
 .in-table-cell > * {
 	display: table-cell;
 }
