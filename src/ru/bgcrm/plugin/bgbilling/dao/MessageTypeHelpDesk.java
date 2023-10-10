@@ -22,6 +22,8 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.dao.process.ProcessLinkSearchDAO;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.file.FileInfo;
+import org.bgerp.model.file.SessionTemporaryFiles;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -51,8 +53,6 @@ import ru.bgcrm.plugin.bgbilling.proto.dao.HelpDeskDAO;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdMessage;
 import ru.bgcrm.plugin.bgbilling.proto.model.helpdesk.HdTopic;
-import ru.bgcrm.struts.action.FileAction.FileInfo;
-import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;
 import ru.bgcrm.struts.action.LinkAction;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;

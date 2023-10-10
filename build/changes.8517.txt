@@ -1,0 +1,4 @@
+A: Configuration key 'file.upload.max.size.mb' for limiting uploaded files. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config
+A: Upload multiple files at once.
+A: Upload message attachments with mouse Drag & Drop.
+

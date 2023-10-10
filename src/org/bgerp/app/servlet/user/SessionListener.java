@@ -5,9 +5,8 @@ import java.io.File;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import org.bgerp.model.file.SessionTemporaryFiles;
 import org.bgerp.util.Dynamic;
-
-import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;
 
 /**
  * HTTP session listener, configured in web.xml.

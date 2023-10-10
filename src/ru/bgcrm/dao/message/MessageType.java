@@ -14,6 +14,8 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.event.ProcessFileGetEvent;
 import org.bgerp.model.base.IdTitle;
+import org.bgerp.model.file.FileInfo;
+import org.bgerp.model.file.SessionTemporaryFiles;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.FileDataDAO;
@@ -22,8 +24,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.FileData;
 import ru.bgcrm.model.message.Message;
-import ru.bgcrm.struts.action.FileAction.FileInfo;
-import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;

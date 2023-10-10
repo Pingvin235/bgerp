@@ -29,6 +29,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.upload.FormFile;
+import org.bgerp.action.FileAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.base.IdTitle;
@@ -354,7 +355,7 @@ public class ParameterAction extends BaseAction {
         }
 
         // проверка тегов
-        Set<String> tags = Utils.toSet(parameter.getConfigMap().get("tagsUpdate", parameter.getConfigMap().get("tags")));
+        Set<String> tags = Utils.toSet(parameter.getConfigMap().get("tags"));
         if (tags.size() > 0) {
             Set<String> allowedTags = Utils.toSet(form.getPermission().get("tags"));
             if (CollectionUtils.intersection(tags, allowedTags).size() == 0) {
@@ -487,11 +488,13 @@ public class ParameterAction extends BaseAction {
         } else if (Parameter.TYPE_FILE.equals(parameter.getType())) {
             FormFile file = form.getFile();
 
+            FileAction.uploadFileCheck(file);
+
             int position = form.getParamInt("position", 0);
 
             FileData fileData = null;
             if (file != null) {
-                log.debug("Uploading file: {}, type: {}" +  file.getFileName(), file.getContentType());
+                log.debug("Uploading file: {}, type: {}", file.getFileName(), file.getContentType());
 
                 fileData = new FileData();
 

@@ -3,7 +3,7 @@ package org.bgerp.model.file;
 import java.io.File;
 
 /**
- * File statistics.
+ * Files statistic.
  *
  * @author Shamil Vakhitov
  */

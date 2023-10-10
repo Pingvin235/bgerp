@@ -25,6 +25,8 @@ import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.file.FileInfo;
+import org.bgerp.model.file.SessionTemporaryFiles;
 import org.bgerp.plugin.msg.email.MessageParser.MessageAttach;
 import org.bgerp.util.Log;
 
@@ -46,8 +48,6 @@ import ru.bgcrm.model.param.ParameterSearchedObject;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.user.User;
-import ru.bgcrm.struts.action.FileAction.FileInfo;
-import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;
 import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.AlarmErrorMessage;

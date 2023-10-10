@@ -5,7 +5,7 @@
 <c:set var="uploadFormId" value="${u:uiid()}"/>
 
 <div class="in-table-cell" id="${uiid}">
-	<html:form action="/user/plugin/document/document" style="width: 100%;" styleClass="in-table-cell">
+	<html:form action="${form.httpRequestURI}" styleClass="in-table-cell">
 		<html:hidden property="id"/>
 		<html:hidden property="scope"/>
 		<html:hidden property="action" value="generateDocument"/>
@@ -56,7 +56,7 @@
 			<c:set var="script">
 				var debug = '';
 				// Alt нажат
-				if (bgcrm.keys.altPressed()) {
+				if ($$.keys.altPressed()) {
 					debug = '&debug=true';
 				}
 				window.open( formUrl(this.form) + '&responseType=stream' + debug, 'Print', 'menubar=1, scrollbars=1, height=800, width=800' );
@@ -70,30 +70,25 @@
 	</html:form>
 
 	<p:check action="ru.bgcrm.plugin.document.struts.action.DocumentAction:uploadDocument">
-		<form id="${uploadFormId}" action="/user/plugin/document/document.do" method="POST" enctype="multipart/form-data" name="form">
+		<form action="${form.httpRequestURI}" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="action" value="uploadDocument"/>
 			<input type="hidden" name="responseType" value="json"/>
 			<input type="hidden" name="id" value="${id}"/>
 			<input type="hidden" name="objectType" value="${form.param.objectType}"/>
 			<input type="hidden" name="objectId" value="${form.param.objectId}"/>
 			<div style="display: none; max-width: 0; max-height: 0;">
-				<input type="file" name="file" style="visibility:hidden; display: none;"/>
+				<input type="file" name="file" multiple="true" style="visibility:hidden; display: none;"/>
 			</div>
-			<button type="button" class="btn-green ml1" onclick="$$.ajax.triggerUpload('${uploadFormId}');" title="Загрузить документ">+?</button>
+			<button type="button" class="btn-green ml1" onclick="$$.ajax.fileUpload(this.form).done(() => {
+				$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent());
+			});" title="Загрузить документ">+?</button>
 		</form>
 	</p:check>
 </div>
 
-
-<script>
-	$$.ajax.upload('${uploadFormId}', 'document-upload', function () {
-		$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent());
-	});
-</script>
-
 <%@ include file="/WEB-INF/jspf/error_div.jsp"%>
 
-<table style="width: 100%;" class="data mt05">
+<table class="data mt05 hl">
 	<tr>
 		<td width="30">ID</td>
 		<td>${l.l('Название')}</td>
@@ -106,7 +101,7 @@
 			<c:param name="title" value="${item.fileData.title}"/>
 			<c:param name="secret" value="${item.fileData.secret}"/>
 		</c:url>
-		<c:url var="deleteAjaxUrl" value="plugin/document/document.do">
+		<c:url var="deleteUrl" value="${form.httpRequestURI}">
 			<c:param name="action" value="deleteDocument"/>
 			<c:param name="id" value="${item.id}"/>
 			<c:param name="fileId" value="${item.fileData.id}"/>
@@ -116,13 +111,17 @@
 			<c:param name="objectType" value="${form.param['objectType']}"/>
 			<c:param name="objectId" value="${form.param['objectId']}"/>
 		</c:url>
-		<c:set var="deleteAjaxCommandAfter">$$.ajax.load('${form.requestUrl}', $('#${uiid}').parent())</c:set>
 
 		<tr>
 			<td>${item.id}</td>
 			<td><a href="${url}" target="_blank">${item.fileData.title}</a></td>
 			<td>${tu.format(item.fileData.time, 'ymdhms')}</td>
-			<td nowrap="nowrap"><%@ include file="/WEB-INF/jspf/edit_buttons.jsp"%></td>
+			<td>
+				<ui:button type="del" styleClass="btn-small" onclick="
+					$$.ajax
+						.post('${deleteUrl}', {control: this})
+						.done(() => $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()))"/>
+			</td>
 		</tr>
 	</c:forEach>
 </table>

@@ -8,6 +8,8 @@ import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.l10n.Localization;
+import org.bgerp.model.file.FileInfo;
+import org.bgerp.model.file.SessionTemporaryFiles;
 import org.bgerp.plugin.kernel.Plugin;
 import org.bgerp.util.Log;
 
@@ -19,8 +21,6 @@ import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessType;
-import ru.bgcrm.struts.action.FileAction.FileInfo;
-import ru.bgcrm.struts.action.FileAction.SessionTemporaryFiles;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.Utils;

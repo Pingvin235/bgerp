@@ -1,7 +1,7 @@
 = CHANGES
 :toc:
 
-== BREAKING CHANGES
+== BREAKING
 
 === Strict Config Check of Process Queues
 Some of your queues can disappear with the following error in logs:
@@ -35,44 +35,79 @@ The functionality was removed.
 
 == FEATURES
 
-=== New <<../../plugin/pln/sla/index.adoc#, Plugin SLA>>
-
-image::_res/14988.png[width="800px"]
-
 === Search Processes by Parameters
+Filter by 'text' parameter in process search.
 
-image::_res/14747.png[width="800px"]
+image::_res/14747-search-process.png[width="800px"]
 
-=== Multiple Providers in <<../../plugin/msg/sms/index.adoc#, Plugin SMS>>
+=== File Uploads
+Multiple files upload at once. Upload message attachments using mouse Drag & Drop.
 
-Additionally to default configuration can be <<../../plugin/msg/sms/index.adoc#setup-mult, defined>> additional messaging providers.
+image::_res/8517-message-attachments.png[width="800px"]
 
-////
-// REMOVE THESE COMMENTED SAMPLES AFTER CREATING A REAL CONTENT
+<<../../kernel/setup.adoc#config, Limited>> size of uploaded files.
 
-== Enabled <<../../kernel/setup.adoc#config-license, License Check>>
+=== Scheduler Config
+Separated tool with configured Scheduler tasks, with possibility to run them.
 
-IMPORTANT: Obtain the suitable license and put it in the application' directory.
+image::_res/14986-scheduler.png[width="800px"]
 
-== Syntax Highlighting Config Editors
-Introduced for the rest of existing editors.
+=== Short Class Names in Configurations
+In different configurations, like for Scheduler, or <<../../kernel//message/index.adoc#setup-type, Message Types>>,
+class names should be defined used only name without packages. Outdated configuration records are reported in *WARN* log.
 
-image::_res/12345_permission_sets.png[width="800px"]
+=== <<../../plugin/bgbilling/index.adoc#, Plugin BGBilling>>
+HelpDesk testing configuration key <<../../plugin/bgbilling/index.adoc#helpdesk, topicId>>.
 
-== <<../../kernel/setup.adoc#user-profile, User Profile>> Reset Personalizations
+=== <<../../plugin/bil/invoice/index.adoc#, Plugin Invoice>>
 
-image::../../kernel/_res/user/profile_own_personalization.png[width="800px"]
+Time reversed order of invoice table.
 
-== Infrastructure
-[square]
-* Gradle-only build process, no more Ant is used.
-* Java 11 support in JSP pages.
+image::_res/15006-invoice-list.png[width="800px"]
 
-== Plugin <<../../plugin/document/index.adoc#, Document>>
-Configuration for Demo DB.
+Invoices for month ranges, suggestion of the next invoice range and type based on the last one.
 
-== Plugin <<../../plugin/pln/callboard/index.adoc#, Callboard>>
-Show groups and users when <<../../plugin/pln/callboard/index.adoc#usage-set-time, setting>> slot in process.
+image::_res/15006-invoice-create-form-continue.png[width="800px"]
 
-image::../../plugin/pln/callboard/_res/process_set_time.png[width="800px"]
-////
+Numeration macros <<../../plugin/bil/invoice/index.adoc#setup-type-numeration, date_to>>
+
+=== <<../../plugin/msg/email/index.adoc#, Plugin EMail>>
+
+<<../../plugin/msg/email/index.adoc#setup-process-type-change-notification, Notification>> mail about paid invoices.
+
+image::_res/15006-paid-invoice-mail.png[]
+
+=== <<../../plugin/bil/subscription/index.adoc#, Plugin Subscription>>
+
+Update and send by email license on paid invoice event.
+
+image::_res/15006-license-mail.png[]
+
+=== <<../../plugin/pln/sla/index.adoc#, Plugin SLA>>
+
+A *new plugin*, providing colored representation of SLA times.
+
+image::_res/14988-sla.png[width="800px"]
+
+=== <<../../plugin/msg/sms/index.adoc#, Plugin SMS>>
+
+Additionally to default configuration can be <<../../plugin/msg/sms/index.adoc#setup-mult, defined>> multiple messaging providers.
+
+== MINOR
+Blocked change update when app state error.
+
+image::_res/14996-app-update.png[]
+
+Changed the global menu icon.
+
+image::_res/15022-menu-icon.png[]
+
+*Read / Unread* filter in message queue. <<../../kernel/message/index.adoc#setup-type-note, Create>> Note message types as unread.
+
+image::_res/15017-read-messages-filter.png[width="800px"]
+
+<<../../kernel/setup.adoc#param-text, Hide>> protocol for 'text' parameters, shown as link.
+
+image::_res/14966-link-hide-proto.png[]
+
+image::_res/14966-link-hide-proto-edit.png[]

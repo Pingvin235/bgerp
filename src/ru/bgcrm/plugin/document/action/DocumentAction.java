@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.upload.FormFile;
+import org.bgerp.action.FileAction;
 import org.bgerp.app.bean.Bean;
 import org.bgerp.model.Pageable;
 
@@ -73,6 +74,8 @@ public class DocumentAction extends BaseAction {
         String objectType = form.getParam("objectType");
         int objectId = Utils.parseInt(form.getParam("objectId"));
         FormFile file = form.getFile();
+
+        FileAction.uploadFileCheck(file);
 
         new DocumentDAO(con).add(objectType, objectId, file.getFileData(), file.getFileName());
 

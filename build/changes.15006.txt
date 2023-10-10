@@ -1,5 +1,5 @@
-A: Plugin Invoice. Reverse invoices order. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#usage
-A: Plugin Invoice. Invoices for many months, suggestion of the next invoice start based on the last one. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#usage
+A: Plugin Invoice. Time reversed order of invoice table. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#usage
+A: Plugin Invoice. Invoices for month ranges, suggestion of the next invoice range and type based on the last one. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#usage
 A: Plugin Invoice. Numeration macros 'date_to'. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#setup-type-numeration
 A: Plugin Email. Notifications about paid invoices. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-process-type-change-notification
 A: Plugin Subscription. Configurable predefined subscription in 'Price Calculator'. https://bgerp.org/doc/3.0/manual/plugin/bil/subscription/index.html#setup-price-calculator

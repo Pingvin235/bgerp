@@ -54,7 +54,7 @@
 		<%-- TODO: Check permission for parameter update. --%>
 		<c:set var="readonly" value="${parameter.readonly or form.param.readOnly eq '1'}"/>
 
-		<c:set var="multiple" value="${parameter.configMap.multiple}" />
+		<c:set var="multiple" value="${parameter.configMap.multiple eq '1'}" />
 
 		<c:set var="style" value="${parameter.configMap.style}"/>
 
@@ -87,8 +87,7 @@
 
 							<div>
 								<c:if test="${not readonly}">
-									<html:form action="/user/parameter" styleId="${editFormId}"
-										style="display: inline;">
+									<html:form action="/user/parameter" styleId="${editFormId}" style="display: inline;">
 										<input type="hidden" name="action" value="parameterUpdate" />
 										<html:hidden property="objectType" />
 										<input type="hidden" name="id" value="${id}" />
@@ -111,37 +110,31 @@
 							</div>
 						</c:forEach>
 						<script>
-							$(function (){
+							$(function () {
 								$('#${viewDivId} .preview').preview();
 							});
 						</script>
 
-						<c:if test="${(not empty multiple or empty item.value) and not readonly}">
+						<c:if test="${(multiple or empty item.value) and not readonly}">
 							<c:url var="uploadUrl" value="/user/parameter.do">
 								<c:param name="action" value="parameterUpdate" />
 								<c:param name="id" value="${id}" />
 								<c:param name="paramId" value="${parameter.id}" />
 							</c:url>
 
-							<c:set var="uploadFormId" value="${u:uiid()}" />
-
-							<div style="white-space:nowrap">
-								<form id="${uploadFormId}" action="/user/parameter.do" method="POST" enctype="multipart/form-data" name="form">
+							<div style="white-space: nowrap;">
+								<form action="/user/parameter.do" method="POST" enctype="multipart/form-data">
 									<input type="hidden" name="action" value="parameterUpdate" />
 									<input type="hidden" name="responseType" value="json" />
 									<input type="hidden" name="id" value="${id}" />
 									<input type="hidden" name="paramId" value="${parameter.id}" />
 
-									<ui:button type="add" styleClass="btn-small" onclick="$$.ajax.triggerUpload('${uploadFormId}');"/>
-									<input type="file" name="file" style="visibility:hidden; width: 1px; height: 0;"/>
+									<ui:button type="add" styleClass="btn-small" onclick="$$.ajax.fileUpload(this.form).done(() => {
+										$$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());
+									});"/>
+									<input type="file" name="file" ${multiple and empty item.value ? "multiple='true'" : ""} style="visibility: hidden; width: 1px; height: 0;"/>
 								</form>
 							</div>
-
-							<script>
-								$$.ajax.upload('${uploadFormId}', 'param-file-upload', function () {
-									$$.ajax.load('${form.requestUrl}', $('#${tableId}').parent());
-								});
-							</script>
 						</c:if>
 					</c:when>
 
@@ -189,7 +182,7 @@
 							<br/>
 						</c:forEach>
 
-						<c:if test="${(not empty multiple or empty item.value) and not readonly}">
+						<c:if test="${(multiple or empty item.value) and not readonly}">
 							<%-- adding new --%>
 							<html:form action="/user/parameter" style="display: inline;">
 								<input type="hidden" name="action" value="parameterGet"/>
@@ -256,7 +249,7 @@
 							</p:check>
 						</c:forEach>
 
-						<c:if test="${(not empty multiple or empty item.value) and not readonly}">
+						<c:if test="${(multiple or empty item.value) and not readonly}">
 							<%-- adding --%>
 							<c:set var="editFormId" value="${u:uiid()}"/>
 

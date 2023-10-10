@@ -544,67 +544,6 @@ $$.ui = new function () {
 		});
 	}
 
-	/**
-	 * Set listener for paste event for attachment.
-	 * @param mainFormId
-	 * @param uploadFormId
-	 */
-	const setPasteUploadListener = function (mainFormId, uploadFormId) {
-		const mainForm = document.getElementById(mainFormId);
-		if (mainForm) {
-			mainForm.addEventListener('paste', function (e) {
-				if (e && e.clipboardData && e.clipboardData.files && e.clipboardData.files.length) {
-					const form = $('#' + uploadFormId);
-					if (form) {
-						const fileInput = form.find('>input[type="file"]')[0];
-						if (fileInput) {
-							fileInput.files = e.clipboardData.files;
-							form.submit();
-						}
-					}
-				}
-			});
-		}
-	}
-
-	/**
-	 * Add file to upload list.
-	 * @param {*} form
-	 * @param {*} uploadFormId
-	 */
-	const uploadAdd = function (form, uploadFormId) {
-		const uploadList = form.querySelector(".upload-list");
-
-		const input = uploadList.parentNode.querySelector("input[type='hidden'][name='addFileId']");
-		const id = input.value;
-
-		// upload
-		if (id == 0) {
-			$$.ajax.triggerUpload(uploadFormId);
-		}
-		// already uploaded or announce
-		else{
-			const paramName = id > 0 ? "fileId" : "announcedFileId";
-
-			const li = form.querySelector("li[value='" + id + "']");
-
-			const $div = $("<div>" +
-					"<input type='hidden' name='" + paramName + "' value='" + id + "'/>" +
-					"<button type='button' class='btn-white btn-small icon mr1' onclick=''><span class='ti-trash'></span></button>" +
-					li.textContent +
-				"</div>");
-			uploadList.append($div[0]);
-
-			$(li).hide();
-			$(form.querySelector("li[value='0']")).click();
-
-			$div.find("button").click(() => {
-				$div.remove();
-				$(li).show();
-			});
-		}
-	}
-
 	// public functions
 	this.comboSingleInit = comboSingleInit;
 	this.comboSingleFilter = comboSingleFilter;
@@ -624,8 +563,6 @@ $$.ui = new function () {
 	this.inputFocus = inputFocus;
 	this.codeMirror = codeMirror;
 	this.tableRowHl = tableRowHl;
-	this.setPasteUploadListener = setPasteUploadListener;
-	this.uploadAdd = uploadAdd;
 }
 
 function layoutProcess($selector) {

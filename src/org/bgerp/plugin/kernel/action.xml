@@ -199,10 +199,10 @@
 			</item>
 			<item action="ru.bgcrm.struts.action.DirectoryAddressAction:houseSearch" title="Поиск домов в улице"/>
 		</item>
-		<item title="Файлы">
-			<item action="ru.bgcrm.struts.action.FileAction:null" title="Загрузка файла"/>
-			<item action="ru.bgcrm.struts.action.FileAction:temporaryUpload" title="Выгрузка временного файла" allowAll="1"/>
-			<item action="ru.bgcrm.struts.action.FileAction:temporaryDelete" title="Удаление временного файла" allowAll="1"/>
+		<item title="File">
+			<item action="org.bgerp.action.FileAction:null, ru.bgcrm.struts.action.FileAction:null" title="Download"/>
+			<item action="org.bgerp.action.FileAction:temporaryUpload" allowAll="1"/>
+			<item action="org.bgerp.action.FileAction:temporaryDelete" allowAll="1"/>
 		</item>
 		<item title="Привязки">
 			<item action="ru.bgcrm.struts.action.LinkAction:linkList" title="Просмотр привязок"/>

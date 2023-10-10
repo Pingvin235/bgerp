@@ -64,7 +64,7 @@ $$.ajax = new function () {
 		}).fail(function (jqXHR, textStatus, errorThrown) {
 			requestDone();
 			if (options.failAlert !== false)
-				onAJAXError(separated.url, jqXHR, textStatus, errorThrown);
+				ajaxError(separated.url, jqXHR, textStatus, errorThrown);
 			def.reject();
 		}).done((data) => {
 			requestDone();
@@ -480,52 +480,72 @@ $$.ajax = new function () {
 	}
 
 	/**
-	 * File upload.
-	 * @param {*} formId hidden form's CSS ID.
-	 * @param {*} iframeId hidden iframe's CSS ID.
-	 * @param {*} complete callback function on upload is done.
+	 * Executes input type 'file' upload with multiple values support,
+	 * which sent sequentially.
+	 *
+	 * @param {HTMLFormElement} form the upload form.
+	 * @returns jQuery promise, resolved when the last file upload has finished.
 	 */
-	const upload = function (formId, iframeId, complete) {
-		const $form = $('#' + formId);
-		$form.iframePostForm({
-			json: true,
-			iframeID: iframeId,
-			post: function () {
-				if (!$form.find('input[type=file]').val()) {
-					alert("Missing file!");
-					return false;
-				}
-			},
-			complete: function (response) {
-				complete(response);
+	const fileUpload = (form) => {
+		const fileInput = form.querySelectorAll('input[type=file]')[0];
+
+		if (!fileInput) {
+			console.error("No input[type=file] was found in", form);
+			return;
+		}
+
+		fileInput.click();
+
+		const dfd = $.Deferred();
+		// array with uploaded files: id and title
+		const uploadedFiles = [];
+
+		form.addEventListener('change', () => {
+			const files = Array.from(fileInput.files);
+
+			const sendNextFile = (file) => {
+				if (file)
+					fileSend(form, file)
+						.done((response) => {
+							if (response.data && response.data.file)
+								uploadedFiles.push(response.data.file);
+						})
+						.always(() => sendNextFile(files.shift()));
+				else
+					dfd.resolve(uploadedFiles);
 			}
+
+			sendNextFile(files.shift());
 		});
+
+		return dfd;
 	}
 
 	/**
-	 * Manage all necessary events and listeners to make file upload.
-	 * Should be added as CLICK EVENT on the triggering HTML element
+	 * Uploads a single file from a form.
 	 *
-	 * @param formId - ID of the form element
+	 * @param {HTMLFormElement} form the form, used for building URL.
+	 * @param {File} file the sent file.
+	 * @returns jQuery promise.
 	 */
-	const triggerUpload = function (formId) {
-		const form = document.getElementById(formId);
-		const inputFile = form.querySelectorAll('input[name=file]')[0];
+	const fileSend = (form, file) => {
+		const formData = new FormData();
+		formData.set("file", file);
 
-		if (inputFile) {
-			const onChange = function () {
-				if (typeof form.requestSubmit === 'function') {
-					form.requestSubmit();
-				} else {
-					form.submit();
-				}
-				form.reset();
-				inputFile.onchange = function () {};
-			};
-			inputFile.onchange = onChange;
-			inputFile.click();
-		}
-	}
+		const url = formUrl(form);
+
+		return $.ajax({
+			type: "POST",
+			url: url,
+			data: formData,
+			processData: false, // tell jQuery not to process the data
+			contentType: false // tell jQuery not to set contentType
+		}).fail(function (jqXHR, textStatus, errorThrown) {
+			ajaxError(url, jqXHR, textStatus, errorThrown);
+		}).done((data) => {
+			checkResponse(data, form);
+		});
+	};
 
 	// public functions
 	this.debug = debug;
@@ -536,8 +556,8 @@ $$.ajax = new function () {
 	this.checkResponse = checkResponse;
 	this.formUrl = formUrl;
 	this.requestParamsToUrl = requestParamsToUrl;
-	this.upload = upload;
-	this.triggerUpload = triggerUpload;
+	this.fileUpload = fileUpload;
+	this.fileSend = fileSend;
 	// deprecated
 	this.separatePostParamsInt = separatePostParams;
 }
@@ -593,7 +613,7 @@ function getAJAXHtml(url, toPostNames) {
 			result = response;
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
-			onAJAXError(separated.url, jqXHR, textStatus, errorThrown);
+			ajaxError(separated.url, jqXHR, textStatus, errorThrown);
 		}
 	});
 
@@ -618,15 +638,15 @@ function sendAJAXCommand(url, toPostNames) {
 			result = $$.ajax.checkResponse(data);
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
-			onAJAXError(separated.url, jqXHR, textStatus, errorThrown);
+			ajaxError(separated.url, jqXHR, textStatus, errorThrown);
 		}
 	});
 
 	return result;
 }
 
-// move to $$.ui
-function onAJAXError(url, jqXHR, textStatus, errorThrown) {
+// move to $$.ajax after cleaning up all the outside calling functions
+function ajaxError(url, jqXHR, textStatus, errorThrown) {
 	if (jqXHR.status == 401) {
 		$$.shell.login.show();
 	} else {

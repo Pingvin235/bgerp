@@ -129,6 +129,9 @@ event.process.timeout=5000
 # <<#scheduler, планировщик>>, запуск - 1 [[config-scheduler]]
 scheduler.start=1
 
+# maximal size of uploaded file in MB, default is 3
+#file.upload.max.size.mb=3
+
 # remove log/access logs older than days, default is 60
 #log.access.max.days=60
 
@@ -683,7 +686,7 @@ NOTE: Количество записей в параметре и формат 
 [source]
 ----
 saveOn=<saveOn>
-# параметр содержит URL, в просмотре параметров отображение ссылки перехода по ссылке
+# parameter contains URL, shown as a link
 show.as.link=<showAsLink>
 # вместо значение параметра выводится <ЗНАЧЕНИЕ ЗАШИФРОВАНО>, параметр можно только поправить, нельзя просмотреть
 encrypt=encrypted

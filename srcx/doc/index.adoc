@@ -1,10 +1,6 @@
 = BGERP 3.0 CD
 :nofooter:
 
-* <<project/index.adoc#, Project>>
-** <<project/workflow.adoc#, Workflow>>
-** <<project/db.adoc#, Database>>
-** <<project/examples.adoc#, Examples>>
 * Kernel
 ** <<kernel/install.adoc#, Install>>
 *** <<kernel/mysql_migration.adoc#, Migrate DB to MySQL 8.0>>
@@ -61,6 +57,10 @@
 ** <<ext/service_desk.adoc#, Service Desk>>
 // ** <<ext/disconnect_debtors_ktv.adoc#, Организация отключения должников КТВ>>
 ** <<ext/blow_jira.adoc#, Blow JIRA>>
+* <<project/index.adoc#, PROJECT>>
+** <<project/workflow.adoc#, Workflow>>
+** <<project/db.adoc#, Database>>
+** <<project/examples.adoc#, Examples>>
 * CHANGES
 ** <<changes/00000/index.adoc#, 00000 (Master Branch)>>
 // changesDoc

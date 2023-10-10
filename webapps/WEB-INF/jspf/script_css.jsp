@@ -18,8 +18,6 @@
 <script src="/lib/jquery.serializeanything.js"></script>
 <script src="/lib/jquery.base64.js"></script>
 
-<script src="${u:fileNameWithLastModTime('/lib/jquery.iframe-post-form.js')}"></script>
-
 <script src="/lib/tree/jquery.tree.js"></script>
 <link type="text/css" href="/lib/tree/jquery.tree.css" rel="stylesheet"/>
 
@@ -68,6 +66,7 @@
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.select.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.tree.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.ui.upload.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.shell.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.shell.login.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.shell.message.js')}"></script>

@@ -103,8 +103,8 @@ link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L84-L89[org.bge
 [[code-upload-file]]
 === File upload
 JSP page:
-[snippet, from="<c:set", to="script>", remove-leading="				"]
-link:../../../webapps/WEB-INF/jspf/admin/license/license.jsp#L9-L20[webapps/WEB-INF/jspf/admin/license/license.jsp]
+[snippet, from="<form", to="form>", remove-leading="				"]
+link:../../../webapps/WEB-INF/jspf/admin/license/license.jsp#L9-L16[webapps/WEB-INF/jspf/admin/license/license.jsp]
 
 Put an attention to the *${form.httpRequestURI}* expression, which gets action URL of the current action and prevents duplication of code.
 

@@ -13,7 +13,7 @@
 
 		<div>
 			<input type="hidden" name="fileId" value="${item.id}"/>
-			<ui:button styleClass="btn-small mr1" type="del" onclick="$(this.parentNode).remove()"/>
+			<ui:button styleClass="btn-small mr05" type="del" onclick="$(this.parentNode).remove()"/>
 			<a href="${url}">${item.title}</a>
 		</div>
 	</c:forEach>
@@ -32,6 +32,7 @@
 			</c:forEach>
 		</jsp:attribute>
 	</ui:combo-single>
-	<ui:button type="add" styleClass="ml05" onclick="$$.ui.uploadAdd(this.form, '${uploadFormId}');"/>
+
+	<ui:button type="add" styleClass="ml05" onclick="$$.ui.upload.add(this.form, '${uploadFormId}');"/>
 </div>
 

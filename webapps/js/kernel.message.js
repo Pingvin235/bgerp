@@ -24,9 +24,10 @@ $$.message = new function() {
 
 		$('#' + typeComboId).detach().appendTo($activeEditor.find('#typeSelectContainer'));
 
-		const dataKey = "pasteListener";
+		const dataKey = "uploadListener";
 		if (!$activeEditor.data(dataKey)) {
-			$$.ui.setPasteUploadListener($activeEditor.attr("id"), uploadFormId);
+			$$.ui.upload.pasteListener($activeEditor[0], uploadFormId);
+			$$.ui.upload.dropListener($activeEditor[0], uploadFormId);
 			$activeEditor.data(dataKey, true);
 		}
 	}

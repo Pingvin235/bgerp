@@ -382,8 +382,10 @@
 	<p><ru>Для</ru><en>For</en></p>
 	<p>
 		<sys>message.edit.hint</sys>
-		<ru>В тексте распознаются ссылки. Вы можете использовать #ID для ссылок на другие процессы, подобные записи будут автоматически преобразованы в ссылки открытия карточек. Вставленные из буфера обмена файлы добавляются как вложения.</ru>
-		<en>Links are recognized in text. You can use the #ID to link to other processes, such records will be automatically converted to links to open their cards. Pasted files from clipboard are added as attachments.</en>
+		<en>Links are recognized in text. You can use the #ID to link to other processes, such records will be automatically converted to links to open their cards.
+		Attachment files can be pasted from clipboard, for example screenshots, or moved with mouse using Drag &amp; Drop.</en>
+		<ru>В тексте распознаются ссылки. Вы можете использовать #ID для ссылок на другие процессы, подобные записи будут автоматически преобразованы в ссылки открытия карточек.
+		Файлы вложений могут быть вставлены из буфера обмена, например скриншоты, либо перенесены мышью с помощью Drag &amp; Drop.</ru>
 	</p>
 	<p><ru>Вложения</ru><en>Attachments</en></p>
 	<p><ru>Выберите приоритет</ru><en>Select priority</en></p>
@@ -624,6 +626,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Param text</en><ru>Параметр text</ru></p>
 	<p><en>To search input a string and press Enter</en><ru>Для поиска введите строку и нажмите Enter</ru></p>
 	<p><en>inherited</en><ru>унаследованы</ru></p>
+	<p><en>File '{}' is bigger than allowed {} MB</en><ru>Файл '{}' больше чем разрешённые {} MB</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
