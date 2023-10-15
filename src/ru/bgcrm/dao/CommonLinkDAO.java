@@ -94,8 +94,8 @@ public abstract class CommonLinkDAO extends CommonDAO {
             String query = "SELECT COUNT(*) FROM " + getTable() + " WHERE " + getColumnName() + "=? AND object_type=? AND object_id=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, link.getObjectId());
-            ps.setString(2, link.getLinkedObjectType());
-            ps.setInt(3, link.getLinkedObjectId());
+            ps.setString(2, link.getLinkObjectType());
+            ps.setInt(3, link.getLinkObjectId());
 
             ResultSet rs = ps.executeQuery();
             result = rs.next() && rs.getInt(1) > 0;
@@ -176,9 +176,9 @@ public abstract class CommonLinkDAO extends CommonDAO {
                 CommonObjectLink link = new CommonObjectLink();
                 link.setObjectId(objectId);
                 link.setObjectType(getObjectType());
-                link.setLinkedObjectType(rs.getString("object_type"));
-                link.setLinkedObjectId(rs.getInt("object_id"));
-                link.setLinkedObjectTitle(rs.getString("object_title"));
+                link.setLinkObjectType(rs.getString("object_type"));
+                link.setLinkObjectId(rs.getInt("object_id"));
+                link.setLinkObjectTitle(rs.getString("object_title"));
                 link.setConfigMap(new Preferences(rs.getString("config")));
 
                 result.add(link);
@@ -203,9 +203,9 @@ public abstract class CommonLinkDAO extends CommonDAO {
 
             PreparedStatement ps = con.prepareStatement(query.toString());
             ps.setInt(1, link.getObjectId());
-            ps.setString(2, link.getLinkedObjectType());
-            ps.setInt(3, link.getLinkedObjectId());
-            ps.setString(4, link.getLinkedObjectTitle());
+            ps.setString(2, link.getLinkObjectType());
+            ps.setInt(3, link.getLinkObjectId());
+            ps.setString(4, link.getLinkObjectTitle());
             ps.setString(5, link.getConfigMap().getDataString());
             ps.executeUpdate();
 
@@ -282,8 +282,8 @@ public abstract class CommonLinkDAO extends CommonDAO {
 
             PreparedStatement ps = con.prepareStatement(query.toString());
             ps.setInt(1, link.getObjectId());
-            ps.setString(2, link.getLinkedObjectType());
-            ps.setInt(3, link.getLinkedObjectId());
+            ps.setString(2, link.getLinkObjectType());
+            ps.setInt(3, link.getLinkObjectId());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
@@ -301,8 +301,8 @@ public abstract class CommonLinkDAO extends CommonDAO {
             query.append("object_type=? AND object_id=?");
 
             PreparedStatement ps = con.prepareStatement(query.toString());
-            ps.setString(1, link.getLinkedObjectType());
-            ps.setInt(2, link.getLinkedObjectId());
+            ps.setString(1, link.getLinkObjectType());
+            ps.setInt(2, link.getLinkObjectId());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
@@ -319,7 +319,7 @@ public abstract class CommonLinkDAO extends CommonDAO {
             query.append(SQL_WHERE);
             query.append(columnName);
             query.append("=? AND object_type LIKE '");
-            query.append(link.getLinkedObjectType());
+            query.append(link.getLinkObjectType());
             query.append("%'");
 
             PreparedStatement ps = con.prepareStatement(query.toString());

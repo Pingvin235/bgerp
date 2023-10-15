@@ -84,18 +84,25 @@ public class Log {
         log(Level.INFO, pattern, params);
     }
 
-    /**
+    /* TODO: Think about commenting in the similar way methods info, error, debug with a single String parameter.
      * Executes {@link #log(Priority, String)} with {@link Level#WARN}.
-     */
     public void warn(Object message) {
         log(Level.WARN, message);
     }
+    */
 
     /**
      * Executes {@link #log(Priority, String, Object...)} with {@link Level#WARN}.
      */
-    public void warn(String pattern, Object... params) {
-        log(Level.WARN, pattern, params);
+    public void warn(String message, Object... args) {
+        log(Level.WARN, message, args);
+    }
+
+    /**
+     * Special warn call for deprecation messages.
+     */
+    public void warnd(String message, Object... args) {
+        warn(message, args);
     }
 
     /**

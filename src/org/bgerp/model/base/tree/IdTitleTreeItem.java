@@ -112,7 +112,7 @@ public class IdTitleTreeItem<T extends IdTitleTreeItem<T>> extends IdTitle {
     @JsonIgnore
     @Deprecated
     public List<T> getChilds() {
-        log.warn("Called deprecated method 'getChilds', use 'getChildren' instead.");
+        log.warnd("Called deprecated method 'getChilds', use 'getChildren' instead.");
         return children;
     }
 }

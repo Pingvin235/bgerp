@@ -11,14 +11,14 @@ import org.bgerp.itest.helper.ResourceHelper;
 import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.process.link.ProcessLink;
+import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.dao.process.ProcessTypeDAO;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.process.ProcessLink;
-import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "processLink", dependsOnGroups = { "processParam", "message" })

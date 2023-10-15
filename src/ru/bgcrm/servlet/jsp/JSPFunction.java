@@ -262,7 +262,7 @@ public class JSPFunction {
 
     @Deprecated
     public static Object getConfig(ConfigMap setup, String className) {
-        log.warn("Used deprecated call u:getConfig, should be replaced to paramMapBean.getConfig");
+        log.warnd("Used deprecated call u:getConfig, should be replaced to paramMapBean.getConfig");
         return setup == null ? null : setup.getConfig(className);
     }
 

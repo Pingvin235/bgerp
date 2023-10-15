@@ -15,7 +15,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 @Action(path = "/admin/dynamic")
 public class DynamicAction extends BaseAction {
     public ActionForward runDynamicClass(DynActionForm form, ConnectionSet conSet) throws Exception {
-        log.warn("Used deprecated 'runDynamicClass' action call, use 'runClass' instead.");
+        log.warnd("Used deprecated 'runDynamicClass' action call, use 'runClass' instead.");
 
         String className = form.getParam("class");
 

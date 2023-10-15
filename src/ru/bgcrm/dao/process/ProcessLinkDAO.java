@@ -231,8 +231,8 @@ public class ProcessLinkDAO extends CommonLinkDAO {
         while (rs.next()) {
             CommonObjectLink link = new CommonObjectLink();
             link.setObjectId(rs.getInt("process_id"));
-            link.setLinkedObjectType(rs.getString("object_type"));
-            link.setLinkedObjectId(rs.getInt("object_id"));
+            link.setLinkObjectType(rs.getString("object_type"));
+            link.setLinkObjectId(rs.getInt("object_id"));
             result.add(link);
         }
         ps.close();

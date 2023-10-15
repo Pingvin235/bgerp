@@ -240,7 +240,7 @@ public class MessageTypeHelpDesk extends MessageType {
                     continue;
                 }
 
-                int topicId = topicLink.getLinkedObjectId();
+                int topicId = topicLink.getLinkObjectId();
 
                 var topicWithMessages = hdDao.getTopicWithMessages(topicId);
 
@@ -514,7 +514,7 @@ public class MessageTypeHelpDesk extends MessageType {
             throw new BGException("К процессу не привязан топик HelpDesk.");
         }
 
-        int topicId = topicLink.getLinkedObjectId();
+        int topicId = topicLink.getLinkObjectId();
 
         HelpDeskDAO hdDao = new HelpDeskDAO(form.getUser(), getDbInfo());
 

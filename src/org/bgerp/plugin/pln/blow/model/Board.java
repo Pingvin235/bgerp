@@ -60,7 +60,7 @@ public class Board {
             Item parent = root;
             // поиск ссылок на данный процесс
             for (CommonObjectLink link : links)
-                if (item.getProcess().getId() == link.getLinkedObjectId() && link.getLinkedObjectType().equals(Process.LINK_TYPE_MADE)) {
+                if (item.getProcess().getId() == link.getLinkObjectId() && link.getLinkObjectType().equals(Process.LINK_TYPE_MADE)) {
                     parent = itemMap.get(link.getObjectId());
                     break;
                 }

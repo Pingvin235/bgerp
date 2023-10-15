@@ -46,7 +46,7 @@ public class MessageTypeContactSaverPhone extends ru.bgcrm.dao.message.MessageTy
 
         List<ParameterPhoneValueItem> values = new ArrayList<ParameterPhoneValueItem>();
 
-        ParameterPhoneValue currentValue = paramDao.getParamPhone(customerLink.getLinkedObjectId(), paramId);
+        ParameterPhoneValue currentValue = paramDao.getParamPhone(customerLink.getLinkObjectId(), paramId);
         values = currentValue.getItemList();
 
         boolean exists = false;
@@ -63,7 +63,7 @@ public class MessageTypeContactSaverPhone extends ru.bgcrm.dao.message.MessageTy
 
             values.add(item);
 
-            paramDao.updateParamPhone(customerLink.getLinkedObjectId(), paramId, currentValue);
+            paramDao.updateParamPhone(customerLink.getLinkObjectId(), paramId, currentValue);
         }
     }
 }

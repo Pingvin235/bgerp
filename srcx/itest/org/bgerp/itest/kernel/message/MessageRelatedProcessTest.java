@@ -16,6 +16,7 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.process.link.ProcessLink;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -36,7 +37,6 @@ import ru.bgcrm.model.param.address.AddressCountry;
 import ru.bgcrm.model.param.address.AddressHouse;
 import ru.bgcrm.model.param.address.AddressItem;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessLink;
 import ru.bgcrm.model.process.TypeProperties;
 
 @Test(groups = "messageRelatedProcess", dependsOnGroups = { "message", "customer", "process", "address" })

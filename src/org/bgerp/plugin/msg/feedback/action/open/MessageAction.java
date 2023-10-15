@@ -7,6 +7,7 @@ import org.apache.struts.action.ActionMapping;
 import org.bgerp.action.open.ProcessAction;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.bgerp.plugin.msg.feedback.Plugin;
 
@@ -23,7 +24,6 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.param.ParameterSearchedObject;
-import ru.bgcrm.model.process.ProcessLink;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;

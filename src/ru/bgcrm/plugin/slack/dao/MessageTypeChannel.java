@@ -137,7 +137,7 @@ public class MessageTypeChannel extends MessageType {
                 username = slackAccount;
         }
 
-        JsonNode result = proto.chatPostMessage(link.getLinkedObjectTitle(), message.getText(), username, null).get("message");
+        JsonNode result = proto.chatPostMessage(link.getLinkObjectTitle(), message.getText(), username, null).get("message");
         message.setFrom("");
         message.setTo("");
         message.setSystemId(result.get("ts").asText());

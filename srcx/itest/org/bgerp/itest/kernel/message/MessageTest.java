@@ -17,6 +17,7 @@ import org.bgerp.itest.kernel.customer.CustomerTest;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.process.link.ProcessLink;
 import org.bgerp.plugin.msg.email.MessageTypeEmail;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -30,7 +31,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.message.TagConfig.Tag;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
-import ru.bgcrm.model.process.ProcessLink;
 
 @Test(groups = "message", dependsOnGroups = { "customer", "user", "process" })
 public class MessageTest {

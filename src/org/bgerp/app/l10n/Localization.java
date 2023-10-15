@@ -180,7 +180,7 @@ public class Localization {
      */
     @Deprecated
     public static final String getSysLang() {
-        log.warn("Deprecated method getSysLang was called");
+        log.warnd("Deprecated method getSysLang was called");
         return getLang();
     }
 

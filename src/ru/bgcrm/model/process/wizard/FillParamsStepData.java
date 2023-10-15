@@ -138,7 +138,7 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
                 .getObjectLinksWithType(data.getProcess().getId(), Customer.OBJECT_TYPE);
 
         if (processCustomerlinkList.size() > 0) {
-            customerId = processCustomerlinkList.get(0).getLinkedObjectId();
+            customerId = processCustomerlinkList.get(0).getLinkObjectId();
         }
 
         return customerId;

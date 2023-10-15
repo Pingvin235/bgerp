@@ -14,13 +14,13 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
 import org.bgerp.model.process.ProcessGroups;
+import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.bgerp.plugin.pln.blow.Plugin;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.StatusChangeDAO;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.StatusChange;
 import ru.bgcrm.model.process.TypeProperties;
 

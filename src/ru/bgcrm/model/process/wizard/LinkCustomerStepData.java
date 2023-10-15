@@ -23,7 +23,7 @@ public class LinkCustomerStepData extends StepData<LinkCustomerStep> {
         List<CommonObjectLink> linkList = new ProcessLinkDAO(con).getObjectLinksWithType(data.getProcess().getId(),
                 Customer.OBJECT_TYPE);
         if (linkList.size() > 0) {
-            customer = new CustomerDAO(con).getCustomerById(linkList.get(0).getLinkedObjectId());
+            customer = new CustomerDAO(con).getCustomerById(linkList.get(0).getLinkObjectId());
         }
 
         return customer != null;
@@ -36,5 +36,5 @@ public class LinkCustomerStepData extends StepData<LinkCustomerStep> {
     public int getParamGroupId() {
         return step.getParamGroupId();
     }
-    
+
 }

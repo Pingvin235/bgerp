@@ -525,13 +525,13 @@ public class ProcessDAO extends CommonDAO {
                 objectFilter.append("(0>1 ");
 
                 for (CommonObjectLink link : links) {
-                    objectIds.add(link.getLinkedObjectId());
-                    if (Customer.OBJECT_TYPE.equals(link.getLinkedObjectType())) {
+                    objectIds.add(link.getLinkObjectId());
+                    if (Customer.OBJECT_TYPE.equals(link.getLinkObjectType())) {
                         objectFilter.append(" OR (pl.object_type LIKE 'customer%' AND pl.object_id="
-                                + link.getLinkedObjectId() + ")");
+                                + link.getLinkObjectId() + ")");
                     } else {
-                        objectFilter.append(" OR (pl.object_type='" + link.getLinkedObjectType() + "' AND pl.object_id="
-                                + link.getLinkedObjectId() + ")");
+                        objectFilter.append(" OR (pl.object_type='" + link.getLinkObjectType() + "' AND pl.object_id="
+                                + link.getLinkObjectId() + ")");
                     }
                 }
 
@@ -544,8 +544,8 @@ public class ProcessDAO extends CommonDAO {
                 pq.addQuery(objectFilter.toString());
             } else if (me.getValue() == MessageRelatedProcessConfig.Type.FOUND_LINK_CUSTOMER_ADDRESS_CITY) {
                 String customerIds = links.stream()
-                    .filter(link -> link.getLinkedObjectType().startsWith(Customer.OBJECT_TYPE))
-                    .map(link -> String.valueOf(link.getLinkedObjectId()))
+                    .filter(link -> link.getLinkObjectType().startsWith(Customer.OBJECT_TYPE))
+                    .map(link -> String.valueOf(link.getLinkObjectId()))
                     .collect(Collectors.joining(","));
 
                 if (Utils.isBlankString(customerIds))

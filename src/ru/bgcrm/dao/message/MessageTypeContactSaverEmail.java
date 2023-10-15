@@ -57,7 +57,7 @@ public class MessageTypeContactSaverEmail extends MessageTypeContactSaver {
 
         ParamValueDAO paramDao = new ParamValueDAO(con);
 
-        SortedMap<Integer, ParameterEmailValue> currentValue = paramDao.getParamEmail(customerLink.getLinkedObjectId(), paramId);
+        SortedMap<Integer, ParameterEmailValue> currentValue = paramDao.getParamEmail(customerLink.getLinkObjectId(), paramId);
 
         boolean exists = false;
         for (ParameterEmailValue value : currentValue.values()) {
@@ -67,7 +67,7 @@ public class MessageTypeContactSaverEmail extends MessageTypeContactSaver {
         }
 
         if (!exists) {
-            paramDao.updateParamEmail(customerLink.getLinkedObjectId(), paramId, 0, new ParameterEmailValue(saveMode == 1 ? email : domainName));
+            paramDao.updateParamEmail(customerLink.getLinkObjectId(), paramId, 0, new ParameterEmailValue(saveMode == 1 ? email : domainName));
         }
     }
 }

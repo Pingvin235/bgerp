@@ -197,8 +197,8 @@ public class HelpDeskListener {
             Set<MessageTypeHelpDesk> messageTypes = getMessageTypes();
             for (MessageTypeHelpDesk mt : messageTypes) {
                 for (CommonObjectLink link : linkList) {
-                    if (link.getLinkedObjectType().equals(mt.getObjectType())) {
-                        return new Pair<MessageTypeHelpDesk, Integer>(mt, link.getLinkedObjectId());
+                    if (link.getLinkObjectType().equals(mt.getObjectType())) {
+                        return new Pair<MessageTypeHelpDesk, Integer>(mt, link.getLinkObjectId());
                     }
                 }
             }

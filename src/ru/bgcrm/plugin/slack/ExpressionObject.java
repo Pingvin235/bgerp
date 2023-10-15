@@ -86,7 +86,7 @@ public class ExpressionObject {
                 if (link == null)
                     return;
 
-                String channelId = link.getLinkedObjectTitle();
+                String channelId = link.getLinkObjectTitle();
 
                 // ключ - имя аккаунта, значение - должен быть код для использования в API
                 Map<String, String> accountMap = new HashMap<>();
@@ -208,7 +208,7 @@ public class ExpressionObject {
             CommonObjectLink link = Utils
                     .getFirst(linkDao.getObjectLinksWithType(process.getId(), Plugin.LINK_TYPE_CHANNEL));
             if (link != null) {
-                String channelId = link.getLinkedObjectTitle();
+                String channelId = link.getLinkObjectTitle();
                 operation.perform(proto, channelId);
             }
         } catch (Exception ex) {

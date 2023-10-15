@@ -19,8 +19,8 @@ public class ContractCustomerDAO extends CommonDAO {
 
     public Customer getContractCustomer(Contract contract) throws BGException {
         CommonObjectLink link = new CommonObjectLink();
-        link.setLinkedObjectType(Contract.OBJECT_TYPE + ":" + contract.getBillingId());
-        link.setLinkedObjectId(contract.getId());
+        link.setLinkObjectType(Contract.OBJECT_TYPE + ":" + contract.getBillingId());
+        link.setLinkObjectId(contract.getId());
 
         Pageable<Customer> customerSearch = new Pageable<Customer>();
         new CustomerLinkDAO(con).searchCustomerByLink(customerSearch, link);

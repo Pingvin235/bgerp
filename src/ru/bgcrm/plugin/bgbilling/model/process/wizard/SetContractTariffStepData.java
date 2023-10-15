@@ -33,8 +33,8 @@ public class SetContractTariffStepData extends StepData<SetContractTariffStep> {
 		if (contractLink == null)
 			return false;
 
-		contract = new Contract(StringUtils.substringAfter(contractLink.getLinkedObjectType(), ":"),
-				contractLink.getLinkedObjectId());
+		contract = new Contract(StringUtils.substringAfter(contractLink.getLinkObjectType(), ":"),
+				contractLink.getLinkObjectId());
 
 		ContractTariffDAO tariffDao = new ContractTariffDAO(form.getUser(), contract.getBillingId());
 		contractTariff = Utils.getFirst(tariffDao.contractTariffList(contract.getId()));

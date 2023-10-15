@@ -68,7 +68,7 @@ public class ProcessDoActionListener
 			}
 
 			ContractParamDAO paramDAO = new ContractParamDAO( e.getForm().getUser(), billingId );
-			ParamAddressValue billingAddress = paramDAO.getAddressParam( link.getLinkedObjectId(), billingParamId );
+			ParamAddressValue billingAddress = paramDAO.getAddressParam( link.getLinkObjectId(), billingParamId );
 			if( billingAddress == null )
 			{
 				return;
@@ -134,7 +134,7 @@ public class ProcessDoActionListener
 				return;
 			}
 
-			Contract contract = ContractDAO.getInstance(e.getForm().getUser(), billingId).getContractById(link.getLinkedObjectId());
+			Contract contract = ContractDAO.getInstance(e.getForm().getUser(), billingId).getContractById(link.getLinkObjectId());
 			if( contract!=null )
 			{
 				String textForAdd = "";
@@ -167,7 +167,7 @@ public class ProcessDoActionListener
 				return;
 			}
 
-			Contract contract = ContractDAO.getInstance( e.getForm().getUser(), billingId ).getContractById( link.getLinkedObjectId() );
+			Contract contract = ContractDAO.getInstance( e.getForm().getUser(), billingId ).getContractById( link.getLinkObjectId() );
 			if( contract !=null )
 			{
 				updateTextParam( conSet, process, crmParamId, contract.getComment() );
@@ -204,7 +204,7 @@ public class ProcessDoActionListener
 		String textForAdd = null;
 
 		ContractParamDAO paramDAO = new ContractParamDAO( e.getForm().getUser(), billingId );
-		for( ContractParameter param : paramDAO.getParameterList( link.getLinkedObjectId() ) )
+		for( ContractParameter param : paramDAO.getParameterList( link.getLinkObjectId() ) )
 		{
 			if( param.getParamId() == billingParamId )
 			{

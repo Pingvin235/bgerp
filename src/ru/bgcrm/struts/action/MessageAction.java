@@ -21,6 +21,7 @@ import org.bgerp.app.cfg.Preferences;
 import org.bgerp.dao.message.MessageSearchDAO;
 import org.bgerp.event.ProcessFilesEvent;
 import org.bgerp.model.Pageable;
+import org.bgerp.model.process.link.ProcessLinkProcess;
 import org.bgerp.util.Dynamic;
 import org.bgerp.util.sql.LikePattern;
 
@@ -45,7 +46,6 @@ import ru.bgcrm.model.message.Message;
 import ru.bgcrm.model.message.TagConfig;
 import ru.bgcrm.model.message.config.MessageTypeConfig;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
@@ -461,8 +461,8 @@ public class MessageAction extends BaseAction {
         if (!linkProcess.isEmpty()) {
             List<Integer> linkProcessIds = new ProcessLinkDAO(conSet.getSlaveConnection())
                 .getObjectLinksWithType(processId, "process%").stream()
-                .filter(l -> linkProcess.contains(l.getLinkedObjectType()))
-                .map(CommonObjectLink::getLinkedObjectId).collect(Collectors.toList());
+                .filter(l -> linkProcess.contains(l.getLinkObjectType()))
+                .map(CommonObjectLink::getLinkObjectId).collect(Collectors.toList());
             processIds.addAll(linkProcessIds);
         }
 

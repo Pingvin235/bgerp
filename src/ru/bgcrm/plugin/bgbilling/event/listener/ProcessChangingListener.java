@@ -80,7 +80,7 @@ public class ProcessChangingListener
 
 		for( CommonObjectLink link : linkList )
 		{
-			String billingId = StringUtils.substringAfter( link.getLinkedObjectType(), ":" );
+			String billingId = StringUtils.substringAfter( link.getLinkObjectType(), ":" );
 
 			// в данном биллинге нет требования по статусу проблемы
 			Integer needStatusCode = billingStatusMap.get( billingId );
@@ -92,7 +92,7 @@ public class ProcessChangingListener
 			Request req = new Request();
 			req.setModule( "ru.bitel.bgbilling.plugins.crm" );
 			req.setAction( "RegisterProblemTable" );
-			req.setAttribute( "id", link.getLinkedObjectId() );
+			req.setAttribute( "id", link.getLinkObjectId() );
 
 			Document doc = new BillingDAO( e.getUser(), billingId ).doRequest( req );
 			int statusCode = Utils.parseInt( XMLUtils.selectText( doc, "/data/table/data/row/@status_code" ) );

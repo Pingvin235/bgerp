@@ -9,6 +9,7 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 
 import org.bgerp.app.cfg.Preferences;
+import org.bgerp.model.process.link.ProcessLinkProcess.Made;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,7 +17,6 @@ import org.junit.Test;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.ProcessExecutor;
-import ru.bgcrm.model.process.ProcessLinkProcess.Made;
 import ru.bgcrm.model.process.Status;
 
 public class BoardTest {

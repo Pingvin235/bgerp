@@ -38,11 +38,11 @@ public class LinkChangingListener {
 
     private void customerChanging(LinkAddingEvent event, int customerId) throws BGException {
         CommonObjectLink link = event.getLink();
-        if (!Customer.OBJECT_TYPE.equals(link.getObjectType()) || !link.getLinkedObjectType().startsWith("contract:")) {
+        if (!Customer.OBJECT_TYPE.equals(link.getObjectType()) || !link.getLinkObjectType().startsWith("contract:")) {
             return;
         }
 
-        String billingId = StringUtils.substringAfter(link.getLinkedObjectType(), ":");
+        String billingId = StringUtils.substringAfter(link.getLinkObjectType(), ":");
         DBInfo dbInfo = DBInfoManager.getInstance().getDbInfoMap().get(billingId);
 
         if (dbInfo == null) {
@@ -54,7 +54,7 @@ public class LinkChangingListener {
             throw new BGMessageException("Не определён параметр 'customerIdParam' для сервера.");
         }
 
-        int contractId = link.getLinkedObjectId();
+        int contractId = link.getLinkObjectId();
         try {
             ContractParamDAO contractParamDAO = new ContractParamDAO(event.getUser(), dbInfo);
 

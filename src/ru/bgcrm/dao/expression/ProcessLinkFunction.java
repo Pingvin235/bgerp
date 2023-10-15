@@ -30,7 +30,7 @@ public class ProcessLinkFunction {
     public List<String> linkTitles(String typeLike) throws Exception {
         List<String> result = new ArrayList<String>();
         for (CommonObjectLink link : linkDao.getObjectLinksWithType(processId, typeLike)) {
-            result.add(link.getLinkedObjectTitle());
+            result.add(link.getLinkObjectTitle());
         }
         return result;
     }
@@ -41,7 +41,7 @@ public class ProcessLinkFunction {
      */
     public String linkTitle(String typeLike) throws Exception {
         for (CommonObjectLink link : linkDao.getObjectLinksWithType(processId, typeLike)) {
-            return link.getLinkedObjectTitle();
+            return link.getLinkObjectTitle();
         }
         return null;
     }

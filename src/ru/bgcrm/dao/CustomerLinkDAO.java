@@ -48,8 +48,8 @@ public class CustomerLinkDAO extends CommonLinkDAO {
                     + "WHERE link.object_id=? AND link.object_type=? " + getPageLimit(page);
 
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, link.getLinkedObjectId());
-            ps.setString(2, link.getLinkedObjectType());
+            ps.setInt(1, link.getLinkObjectId());
+            ps.setString(2, link.getLinkObjectType());
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

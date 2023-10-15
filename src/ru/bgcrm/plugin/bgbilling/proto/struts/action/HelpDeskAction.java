@@ -42,21 +42,21 @@ public class HelpDeskAction extends BaseAction {
 
             var links = new ProcessLinkDAO(conSet.getConnection()).getObjectLinksWithType(processId, null);
 
-            var topicLink = links.stream().filter(link -> link.getLinkedObjectType().equals(mt.getObjectType())).findFirst().orElse(null);
+            var topicLink = links.stream().filter(link -> link.getLinkObjectType().equals(mt.getObjectType())).findFirst().orElse(null);
             if (topicLink == null)
                 throw new BGException("К процессу не привязан топик HelpDesk.");
 
-            var contractLink = links.stream().filter(link -> ("contract:" + billingId).equals(link.getLinkedObjectType())).findFirst().orElse(null);
+            var contractLink = links.stream().filter(link -> ("contract:" + billingId).equals(link.getLinkObjectType())).findFirst().orElse(null);
             if (contractLink == null)
                 throw new BGException("К процессу не привязан договор BGBilling.");
 
-            var pair = hdDao.getTopicWithMessages(topicLink.getLinkedObjectId());
+            var pair = hdDao.getTopicWithMessages(topicLink.getLinkObjectId());
 
             HdTopic topic = pair != null ? pair.getFirst() : null;
             if (topic == null)
-                throw new BGException("Не найдена тема HelpDesk с кодом: " + topicLink.getLinkedObjectId());
+                throw new BGException("Не найдена тема HelpDesk с кодом: " + topicLink.getLinkObjectId());
 
-            byte[] attach = hdDao.getAttach(contractLink.getLinkedObjectId(), attachId);
+            byte[] attach = hdDao.getAttach(contractLink.getLinkObjectId(), attachId);
 
             HttpServletResponse response = form.getHttpResponse();
 

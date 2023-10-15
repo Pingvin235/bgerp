@@ -49,7 +49,7 @@ public class ProcessType extends IdTitleTreeItem<ProcessType> implements Compara
     @Deprecated
     @JsonIgnore
     public List<ProcessType> getChilds() {
-        log.warn("Called deprecated method getChilds()");
+        log.warnd("Called deprecated method getChilds()");
         return children;
     }
 

@@ -174,7 +174,7 @@ public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
 
     @Deprecated
     public void emailNotifyExecutors(int paramId, String subject, String text) throws Exception {
-        log.warn("Used deprecated call 'emailNotifyExecutors', use 'email.sendMessageToExecutors' instead.");
+        log.warnd("Used deprecated call 'emailNotifyExecutors', use 'email.sendMessageToExecutors' instead.");
 
         var eo = new ExpressionObject();
         eo.setExpression(expression);
@@ -183,7 +183,7 @@ public class ProcessChangeFunctions extends ExpressionContextAccessingObject {
 
     @Deprecated
     public void emailNotifyUsers(Collection<Integer> userIds, int paramId, String subject, String text) throws Exception {
-        log.warn("Used deprecated call 'emailNotifyUsers', use 'email.sendMessageToUsers' instead.");
+        log.warnd("Used deprecated call 'emailNotifyUsers', use 'email.sendMessageToUsers' instead.");
 
         var eo = new ExpressionObject();
         eo.setExpression(expression);

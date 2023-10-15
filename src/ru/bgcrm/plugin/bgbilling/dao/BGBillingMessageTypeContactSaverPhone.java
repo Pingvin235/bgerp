@@ -45,11 +45,11 @@ public class BGBillingMessageTypeContactSaverPhone extends ru.bgcrm.dao.message.
 
         String phone = message.getFrom();
 
-        String billingId = StringUtils.substringAfterLast(contractLink.getLinkedObjectType(), ":");
+        String billingId = StringUtils.substringAfterLast(contractLink.getLinkObjectType(), ":");
 
         ContractParamDAO paramDao = new ContractParamDAO(form.getUser(), billingId);
         List<ParameterPhoneValueItem> values = new ArrayList<ParameterPhoneValueItem>();
-        for (ParameterPhoneValueItem item : paramDao.getPhoneParam(contractLink.getLinkedObjectId(), paramId)) {
+        for (ParameterPhoneValueItem item : paramDao.getPhoneParam(contractLink.getLinkObjectId(), paramId)) {
             values.add(item);
         }
 
@@ -70,7 +70,7 @@ public class BGBillingMessageTypeContactSaverPhone extends ru.bgcrm.dao.message.
             ParameterPhoneValue phoneValue = new ParameterPhoneValue();
             phoneValue.setItemList(values);
 
-            paramDao.updatePhoneParameter(contractLink.getLinkedObjectId(), paramId, phoneValue);
+            paramDao.updatePhoneParameter(contractLink.getLinkObjectId(), paramId, phoneValue);
         }
     }
 }

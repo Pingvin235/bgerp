@@ -41,7 +41,7 @@ public class LinkChangedListener {
         CommonObjectLink link = event.getLink();
 
         // обработка только привязки договора к процессу
-        if (!Process.OBJECT_TYPE.equals(link.getObjectType()) || !link.getLinkedObjectType().startsWith("contract:")) {
+        if (!Process.OBJECT_TYPE.equals(link.getObjectType()) || !link.getLinkObjectType().startsWith("contract:")) {
             return;
         }
 
@@ -61,8 +61,8 @@ public class LinkChangedListener {
             return;
         }
 
-        String contractTitle = link.getLinkedObjectTitle();
-        String billingId = StringUtils.substringAfter(link.getLinkedObjectType(), ":");
+        String contractTitle = link.getLinkObjectTitle();
+        String billingId = StringUtils.substringAfter(link.getLinkObjectType(), ":");
 
         boolean groupsChanged = false;
 
@@ -94,14 +94,14 @@ public class LinkChangedListener {
         if (type.getProperties().getConfigMap().getBoolean("bgbilling:linkCustomerOnContractLink", true)) {
             Connection con = connectionSet.getConnection();
 
-            Customer customer = new ContractCustomerDAO(con).getContractCustomer(new Contract(billingId, link.getLinkedObjectId()));
+            Customer customer = new ContractCustomerDAO(con).getContractCustomer(new Contract(billingId, link.getLinkObjectId()));
             if (customer != null) {
                 CommonObjectLink customerLink = new CommonObjectLink();
                 customerLink.setObjectId(link.getObjectId());
                 customerLink.setObjectType(link.getObjectType());
-                customerLink.setLinkedObjectId(customer.getId());
-                customerLink.setLinkedObjectTitle(customer.getTitle());
-                customerLink.setLinkedObjectType(Customer.OBJECT_TYPE);
+                customerLink.setLinkObjectId(customer.getId());
+                customerLink.setLinkObjectTitle(customer.getTitle());
+                customerLink.setLinkObjectType(Customer.OBJECT_TYPE);
 
                 if (!new ProcessLinkDAO(con).isLinkExists(customerLink)) {
                     LinkAction.addLink(event.getForm(), connectionSet.getConnection(), customerLink);

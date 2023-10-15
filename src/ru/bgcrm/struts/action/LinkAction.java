@@ -33,8 +33,8 @@ public class LinkAction extends BaseAction {
 
     public ActionForward addLink(DynActionForm form, ConnectionSet conSet) throws Exception {
         CommonObjectLink link = getLink(form);
-        if (Utils.isBlankString(link.getObjectType()) || link.getObjectId() == 0 || Utils.isBlankString(link.getLinkedObjectType())
-                || link.getLinkedObjectTitle() == null) { // link.getLinkedObjectId() <= 0 || Убрана проверка, так как в мастере < 0
+        if (Utils.isBlankString(link.getObjectType()) || link.getObjectId() == 0 || Utils.isBlankString(link.getLinkObjectType())
+                || link.getLinkObjectTitle() == null) { // link.getLinkedObjectId() <= 0 || Убрана проверка, так как в мастере < 0
             throw new BGIllegalArgumentException();
         }
 
@@ -53,8 +53,8 @@ public class LinkAction extends BaseAction {
 
     public ActionForward deleteLink(DynActionForm form, ConnectionSet conSet) throws Exception {
         CommonObjectLink link = getLink(form);
-        if (Utils.isBlankString(link.getObjectType()) || link.getObjectId() == 0 || Utils.isBlankString(link.getLinkedObjectType())
-                || link.getLinkedObjectId() <= 0) {
+        if (Utils.isBlankString(link.getObjectType()) || link.getObjectId() == 0 || Utils.isBlankString(link.getLinkObjectType())
+                || link.getLinkObjectId() <= 0) {
             throw new BGIllegalArgumentException();
         }
 
@@ -71,7 +71,7 @@ public class LinkAction extends BaseAction {
 
     public ActionForward deleteLinksWithType(DynActionForm form, ConnectionSet conSet) throws Exception {
         CommonObjectLink link = getLink(form);
-        if (link.getObjectId() == 0 || Utils.isBlankString(link.getObjectType()) || Utils.isBlankString(link.getLinkedObjectType())) {
+        if (link.getObjectId() == 0 || Utils.isBlankString(link.getObjectType()) || Utils.isBlankString(link.getLinkObjectType())) {
             throw new BGIllegalArgumentException();
         }
 
@@ -83,7 +83,7 @@ public class LinkAction extends BaseAction {
 
     public ActionForward deleteLinksTo(DynActionForm form, ConnectionSet conSet) throws Exception {
         CommonObjectLink link = getLink(form);
-        if (Utils.isBlankString(link.getObjectType()) || Utils.isBlankString(link.getLinkedObjectType()) || link.getLinkedObjectId() <= 0) {
+        if (Utils.isBlankString(link.getObjectType()) || Utils.isBlankString(link.getLinkObjectType()) || link.getLinkObjectId() <= 0) {
             throw new BGIllegalArgumentException();
         }
 
@@ -105,7 +105,7 @@ public class LinkAction extends BaseAction {
         Connection con = conSet.getConnection();
 
         List<CommonObjectLink> list = CommonLinkDAO.getLinkDAO(link.getObjectType(), con).getObjectLinksWithType(link.getObjectId(),
-                LikePattern.START.get(link.getLinkedObjectType()));
+                LikePattern.START.get(link.getLinkObjectType()));
         form.getResponse().setData("list", list);
 
         if (Process.OBJECT_TYPE.equals(link.getObjectType())) {
@@ -121,9 +121,9 @@ public class LinkAction extends BaseAction {
 
         link.setObjectId(form.getId());
         link.setObjectType(form.getParam("objectType"));
-        link.setLinkedObjectType(form.getParam("linkedObjectType"));
-        link.setLinkedObjectId(Utils.parseInt(form.getParam("linkedObjectId")));
-        link.setLinkedObjectTitle(form.getParam("linkedObjectTitle"));
+        link.setLinkObjectType(form.getParam("linkedObjectType"));
+        link.setLinkObjectId(Utils.parseInt(form.getParam("linkedObjectId")));
+        link.setLinkObjectTitle(form.getParam("linkedObjectTitle"));
         // store parameters with c: prefix in name to link configuration
         for (Map.Entry<String, Object> me : form.getParam().entrySet()) {
             String key = me.getKey();

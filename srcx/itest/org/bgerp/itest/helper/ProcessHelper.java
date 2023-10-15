@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.itest.kernel.db.DbTest;
+import org.bgerp.model.process.link.ProcessLink;
 import org.testng.Assert;
 
 import ru.bgcrm.cache.ProcessTypeCache;
@@ -18,7 +19,6 @@ import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessExecutor;
 import ru.bgcrm.model.process.ProcessGroup;
-import ru.bgcrm.model.process.ProcessLink;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.model.process.Status;
 import ru.bgcrm.model.process.TypeProperties;

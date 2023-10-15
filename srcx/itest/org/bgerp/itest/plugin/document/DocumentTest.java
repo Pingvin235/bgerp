@@ -11,11 +11,11 @@ import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessParamTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.process.link.ProcessLink;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.customer.Customer;
-import ru.bgcrm.model.process.ProcessLink;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.plugin.document.Plugin;
 

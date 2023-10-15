@@ -20,6 +20,7 @@ import org.bgerp.model.process.config.CommonAvailableConfig;
 import org.bgerp.model.process.config.LinkAvailableConfig;
 import org.bgerp.model.process.config.LinkProcessCreateConfig;
 import org.bgerp.model.process.config.LinkedAvailableConfig;
+import org.bgerp.model.process.link.ProcessLinkProcess;
 
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -35,7 +36,6 @@ import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.IfaceState;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.model.process.Process;
-import ru.bgcrm.model.process.ProcessLinkProcess;
 import ru.bgcrm.model.process.ProcessType;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.action.LinkAction;
@@ -285,10 +285,12 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
     }
 
     public ActionForward linkProcessDelete(DynActionForm form, ConnectionSet conSet) throws Exception {
-        CommonObjectLink link = new CommonObjectLink(Process.OBJECT_TYPE, form.getId(), form.getParam("linkedObjectType"),
-                form.getParamInt("linkedObjectId"), "");
-        if (Utils.isBlankString(link.getObjectType()) || link.getObjectId() == 0 || Utils.isBlankString(link.getLinkedObjectType())
-                || link.getLinkedObjectId() <= 0) {
+        CommonObjectLink link = new CommonObjectLink(Process.OBJECT_TYPE, form.getId(),
+                form.getParam("linkObjectType", form.getParam("linkedObjectType")),
+                form.getParamInt("linkObjectId", form.getParamInt("linkedObjectId")),
+                "");
+        if (Utils.isBlankString(link.getObjectType()) || link.getObjectId() == 0 || Utils.isBlankString(link.getLinkObjectType())
+                || link.getLinkObjectId() <= 0) {
             throw new BGIllegalArgumentException();
         }
 

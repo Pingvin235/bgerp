@@ -33,8 +33,8 @@ public class FillParamsStepData extends StepData<FillParamsStep> {
 		if (contractLink == null)
 			return false;
 
-		contract = new Contract(StringUtils.substringAfter(contractLink.getLinkedObjectType(), ":"),
-				contractLink.getLinkedObjectId());
+		contract = new Contract(StringUtils.substringAfter(contractLink.getLinkObjectType(), ":"),
+				contractLink.getLinkObjectId());
 
 		Set<Integer> checkParamIds = new HashSet<>(step.getCheckParamIds());
 

@@ -11,13 +11,13 @@ import org.bgerp.itest.helper.UserHelper;
 import org.bgerp.itest.kernel.db.DbTest;
 import org.bgerp.itest.kernel.process.ProcessTest;
 import org.bgerp.itest.kernel.user.UserTest;
+import org.bgerp.model.process.link.ProcessLink;
 import org.testng.annotations.Test;
 
 import ru.bgcrm.dao.process.ProcessLinkDAO;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.ProcessGroup;
-import ru.bgcrm.model.process.ProcessLink;
 import ru.bgcrm.model.process.TypeProperties;
 import ru.bgcrm.plugin.bgbilling.Plugin;
 import ru.bgcrm.plugin.bgbilling.proto.model.Contract;
