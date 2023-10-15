@@ -462,11 +462,11 @@ public class ContractDAO extends BillingDAO {
         }
     }
 
-    public Contract createContract(int patternId, String date, String title, String titlePattern) throws BGException {
+    public Contract createContract(int patternId, String date, String title, String titlePattern) throws BGMessageException {
         return createContract(patternId, date, title, titlePattern, 0);
     }
 
-    public Contract createContract(int patternId, String date, String title, String titlePattern, int superId) throws BGException {
+    public Contract createContract(int patternId, String date, String title, String titlePattern, int superId) throws BGMessageException {
         if (dbInfo.getCustomerIdParam() <= 0) {
             throw new BGMessageException("Не указан параметр customerIdParam для сервера биллинга.");
         }
@@ -807,7 +807,7 @@ public class ContractDAO extends BillingDAO {
         return new Pair<>(selectedList, availableList);
     }
 
-    public void updateModule(int contractId, int moduleId, String command) throws BGException {
+    public void updateModule(int contractId, int moduleId, String command) throws BGMessageException {
         Request request = new Request();
         request.setModule(CONTRACT_MODULE_ID);
         request.setContractId(contractId);

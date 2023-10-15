@@ -40,15 +40,14 @@ public class Locker {
         }, GetPoolTasksEvent.class);
     }
 
-    public static void addLock(Lock lock) throws BGException {
+    public static void addLock(Lock lock) throws BGMessageException {
         Lock existLock = locksById.get(lock.getId());
         if (existLock != null) {
             if (existLock.getUserId() != lock.getUserId()) {
                 if (existLock.getToTime() < System.currentTimeMillis()) {
                     freeLock(existLock);
                 } else {
-                    throw new BGMessageException("Ресурс заблокирован пользователем: "
-                            + UserCache.getUser(existLock.getUserId()).getTitle());
+                    throw new BGMessageException("Ресурс заблокирован пользователем: {}", UserCache.getUser(existLock.getUserId()).getTitle());
                 }
             } else {
                 log.debug("Move lock time: {}", lock.getId());

@@ -14,6 +14,7 @@ import org.bgerp.app.cfg.ConfigMap;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
+import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.plugin.bgbilling.DBInfo;
 import ru.bgcrm.plugin.bgbilling.DBInfoManager;
 import ru.bgcrm.plugin.bgbilling.Plugin;
@@ -86,7 +87,7 @@ public class ContractBalanceAction extends BaseAction {
         return allowedTypeIds;
     }
 
-    public ActionForward balance(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward balance(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -105,7 +106,7 @@ public class ContractBalanceAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/balance_list.jsp");
     }
 
-    public ActionForward balanceDetail(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward balanceDetail(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -123,7 +124,7 @@ public class ContractBalanceAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/detail_balance_list.jsp");
     }
 
-    public ActionForward paymentList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward paymentList(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -145,7 +146,7 @@ public class ContractBalanceAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/payment_list.jsp");
     }
 
-    public ActionForward chargeList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward chargeList(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 
@@ -167,7 +168,7 @@ public class ContractBalanceAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/charge_list.jsp");
     }
 
-    public ActionForward accountList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward accountList(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
 

@@ -615,7 +615,7 @@ public class TransferData {
         return doc;
     }
 
-    private void checkDocumentStatus(Document doc, User user) throws BGException {
+    private void checkDocumentStatus(Document doc, User user) throws BGMessageException {
         String status = XMLUtils.selectText(doc, "/data/@status");
         if (!"ok".equals(status)) {
             throw new BGMessageException(Localizer.TRANSPARENT, Log.format(
@@ -624,7 +624,7 @@ public class TransferData {
         }
     }
 
-    private void checkDocumentStatus(JsonNode rootNode, User user) throws BGException {
+    private void checkDocumentStatus(JsonNode rootNode, User user) throws BGMessageException {
         String status = rootNode.path("status").textValue();
         if (!"ok".equals(status)) {
             String exceptionType = rootNode.path("exception").textValue();

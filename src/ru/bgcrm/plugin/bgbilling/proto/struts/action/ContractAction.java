@@ -122,7 +122,7 @@ public class ContractAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/search_contract_result.jsp");
     }
 
-    private Set<Integer> getParasmIdsSet(DynActionForm form) throws BGException {
+    private Set<Integer> getParasmIdsSet(DynActionForm form) throws BGMessageException {
         String[] vals = form.getParamArray("paramIds");
         if (vals == null) {
             return getParamListImpl(form).stream()
@@ -238,7 +238,7 @@ public class ContractAction extends BaseAction {
     }
 
     public ActionForward parameterUpdate(DynActionForm form, ConnectionSet conSet)
-            throws BGException {
+            throws BGMessageException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int paramBillingId = form.getParamInt("paramId");
@@ -464,7 +464,7 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward deleteMemo(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward deleteMemo(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Integer memoId = form.getParamInt("id", 0);
@@ -778,7 +778,7 @@ public class ContractAction extends BaseAction {
         return html(conSet, form, PATH_JSP_CONTRACT + "/module_list.jsp");
     }
 
-    public ActionForward updateModules(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateModules(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
         Set<Integer> moduleIds = form.getSelectedValues("moduleId");
@@ -1036,14 +1036,14 @@ public class ContractAction extends BaseAction {
         return json(conSet, form);
     }
 
-    public ActionForward getParamList(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward getParamList(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         form.getResponse().setData("paramType", form.getParamInt("paramType"));
         List<IdTitle> list = getParamListImpl(form);
         form.getResponse().setData("paramList", list);
         return html(conSet, form, PATH_JSP + "/search_param_list.jsp");
     }
 
-    private List<IdTitle> getParamListImpl(DynActionForm form) throws BGException {
+    private List<IdTitle> getParamListImpl(DynActionForm form) throws BGMessageException {
         int type = form.getParamInt("paramType");
         String billingId = form.getParam("billingId");
         if (billingId == null) {

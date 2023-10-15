@@ -3,6 +3,7 @@ package ru.bgcrm.plugin.bgbilling.proto.struts.action;
 import org.apache.struts.action.ActionForward;
 
 import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Pair;
 import ru.bgcrm.plugin.bgbilling.proto.dao.CashCheckDAO;
 import ru.bgcrm.servlet.ActionServlet.Action;
@@ -20,7 +21,7 @@ public class CashCheckAction extends ContractAction {
         return json(conSet, form);
     }
 
-    public ActionForward printCheck(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward printCheck(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         int paymentId = form.getParamInt("paymentId");
 

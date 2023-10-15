@@ -35,7 +35,7 @@ public class CerberCryptAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/card_packet_list.jsp");
     }
 
-    public ActionForward contractCards(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward contractCards(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         boolean includeSlaveCards = form.getParamBoolean("includeSlaveCards", true);
@@ -53,7 +53,7 @@ public class CerberCryptAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/card_list.jsp");
     }
 
-    public ActionForward updateCardPacket(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward updateCardPacket(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         int id = form.getId();
         int contractId = form.getParamInt("contractId");

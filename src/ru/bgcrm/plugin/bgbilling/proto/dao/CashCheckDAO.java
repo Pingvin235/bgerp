@@ -22,183 +22,139 @@ import ru.bgcrm.util.Utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class CashCheckDAO
-	extends BillingDAO
-{
-	public CashCheckDAO( User user, String billingId )
-		throws BGException
-	{
-		super( user, billingId );
-	}
+public class CashCheckDAO extends BillingDAO {
+    public CashCheckDAO(User user, String billingId) throws BGException {
+        super(user, billingId);
+    }
 
-	public static final String CASHCHECK_MODULE_ID = "ru.bitel.bgbilling.plugins.cashcheck";
+    public static final String CASHCHECK_MODULE_ID = "ru.bitel.bgbilling.plugins.cashcheck";
 
-	public Pair<String, String> printCheck( int registratorId, int paymentId, String summa, String pswd )
-		throws BGException
-	{
-		if( dbInfo.versionCompare( "6.1" ) >= 0 )
-		{
-			if( Utils.notBlankString( pswd ) && registratorId > 0 )
-			{
-				RequestJsonRpc req = new RequestJsonRpc( CASHCHECK_MODULE_ID, "CashcheckService", "bindPrinter" );
-				req.setParam( "registratorId", registratorId );
-				req.setParam( "password", pswd );
+    public Pair<String, String> printCheck(int registratorId, int paymentId, String summa, String pswd) throws BGMessageException {
+        if (dbInfo.versionCompare("6.1") >= 0) {
+            if (Utils.notBlankString(pswd) && registratorId > 0) {
+                RequestJsonRpc req = new RequestJsonRpc(CASHCHECK_MODULE_ID, "CashcheckService", "bindPrinter");
+                req.setParam("registratorId", registratorId);
+                req.setParam("password", pswd);
 
-				transferData.postData( req, user );
-			}
+                transferData.postData(req, user);
+            }
 
-			RequestJsonRpc req = new RequestJsonRpc( CASHCHECK_MODULE_ID, "CashcheckService", "printCheck" );
-			req.setParam( "paymentIds", Collections.singleton( paymentId ) );
-			req.setParam( "summa", summa );
+            RequestJsonRpc req = new RequestJsonRpc(CASHCHECK_MODULE_ID, "CashcheckService", "printCheck");
+            req.setParam("paymentIds", Collections.singleton(paymentId));
+            req.setParam("summa", summa);
 
-			JsonNode result = transferData.postDataReturn( req, user );
+            JsonNode result = transferData.postDataReturn(req, user);
 
-			return new Pair<String, String>( result.path( "summa" ).textValue(), result.path( "submit" ).textValue() );
-		}
-		else if( dbInfo.versionCompare( "5.1" ) <= 0 )
-		{
-			if( paymentId > 0 )
-			{
-				try
-				{
-					Request request;
-					if( Utils.notBlankString( pswd ) && registratorId > 0 )
-					{
-						request = new Request();
-						request.setModule( CASHCHECK_MODULE_ID );
-						request.setAction( "BindPrinter" );
-						request.setAttribute( "registrator", registratorId );
-						request.setAttribute( "password", pswd );
-						transferData.postData( request, user );
-					}
+            return new Pair<String, String>(result.path("summa").textValue(), result.path("submit").textValue());
+        } else if (dbInfo.versionCompare("5.1") <= 0) {
+            if (paymentId > 0) {
+                try {
+                    Request request;
+                    if (Utils.notBlankString(pswd) && registratorId > 0) {
+                        request = new Request();
+                        request.setModule(CASHCHECK_MODULE_ID);
+                        request.setAction("BindPrinter");
+                        request.setAttribute("registrator", registratorId);
+                        request.setAttribute("password", pswd);
+                        transferData.postData(request, user);
+                    }
 
-					request = new Request();
-					request.setModule( CASHCHECK_MODULE_ID );
-					request.setAction( "PrintCheck" );
-					request.setAttribute( "id", paymentId );
-					request.setAttribute( "summa", summa );
-					Document doc = transferData.postData( request, user );
+                    request = new Request();
+                    request.setModule(CASHCHECK_MODULE_ID);
+                    request.setAction("PrintCheck");
+                    request.setAttribute("id", paymentId);
+                    request.setAttribute("summa", summa);
+                    Document doc = transferData.postData(request, user);
 
-					NodeList nodeList = doc.getElementsByTagName( "data" );
-					if( nodeList.getLength() > 0 )
-					{
-						Element element = (Element)nodeList.item( 0 );
+                    NodeList nodeList = doc.getElementsByTagName("data");
+                    if (nodeList.getLength() > 0) {
+                        Element element = (Element) nodeList.item(0);
 
-						return new Pair<String, String>( element.getAttribute( "summa" ), element.getAttribute( "submit" ) );
-					}
+                        return new Pair<String, String>(element.getAttribute("summa"), element.getAttribute("submit"));
+                    }
 
-				}
-				catch( Exception e )
-				{
-					throw new BGMessageException( "Чек не напечатан. " + e.getMessage() );
-				}
-			}
-			else
-			{
-				throw new BGMessageException( "Чек не напечатан.Ошибка." );
-			}
+                } catch (Exception e) {
+                    throw new BGMessageException("Чек не напечатан. " + e.getMessage());
+                }
+            } else {
+                throw new BGMessageException("Чек не напечатан.Ошибка.");
+            }
 
-			return new Pair<String, String>( "", "" );
-		}
-		else
-		{
-			throw new UnsupportedBillingVersion( "5.1 и с 6.1" );
-		}
-	}
+            return new Pair<String, String>("", "");
+        } else {
+            throw new UnsupportedBillingVersion("5.1 и с 6.1");
+        }
+    }
 
-	/**
-	 * Возвращает список регистраторов с выбранным первым.
-	 * @return
-	 * @throws BGException
-	 */
-	public List<IdTitle> getRegistratorList()
-		throws BGException
-	{
-		List<IdTitle> registratorList = new ArrayList<IdTitle>();
+    /**
+     * Возвращает список регистраторов с выбранным первым.
+     * @return
+     * @throws BGException
+     */
+    public List<IdTitle> getRegistratorList() throws BGException {
+        List<IdTitle> registratorList = new ArrayList<IdTitle>();
 
-		int selectedRegistratorId = 0;
+        int selectedRegistratorId = 0;
 
-		if( dbInfo.versionCompare( "6.1" ) >= 0 )
-		{
-			RequestJsonRpc req = new RequestJsonRpc( CASHCHECK_MODULE_ID, "CashcheckService", "registratorList" );
+        if (dbInfo.versionCompare("6.1") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(CASHCHECK_MODULE_ID, "CashcheckService", "registratorList");
 
-			JsonNode result = transferData.postDataReturn( req, user );
+            JsonNode result = transferData.postDataReturn(req, user);
 
-			selectedRegistratorId = result.path( "registratorId" ).intValue();
-			List<IdTitle> list = readJsonValue( result.path( "list" ).traverse(),
-			                                    jsonTypeFactory.constructCollectionType( List.class, IdTitle.class ) );
-			for( IdTitle registrator : list )
-			{
-				if( registrator.getId() == selectedRegistratorId )
-				{
-					registratorList.add( 0, registrator );
-				}
-				else
-				{
-					registratorList.add( registrator );
-				}
-			}
-		}
-		else if( dbInfo.versionCompare( "5.1" ) <= 0 )
-		{
-    		Request request = new Request();
-    		request.setModule( CASHCHECK_MODULE_ID );
-    		request.setAction( "RegistratorList" );
+            selectedRegistratorId = result.path("registratorId").intValue();
+            List<IdTitle> list = readJsonValue(result.path("list").traverse(), jsonTypeFactory.constructCollectionType(List.class, IdTitle.class));
+            for (IdTitle registrator : list) {
+                if (registrator.getId() == selectedRegistratorId) {
+                    registratorList.add(0, registrator);
+                } else {
+                    registratorList.add(registrator);
+                }
+            }
+        } else if (dbInfo.versionCompare("5.1") <= 0) {
+            Request request = new Request();
+            request.setModule(CASHCHECK_MODULE_ID);
+            request.setAction("RegistratorList");
 
-    		Document doc = transferData.postData( request, user );
+            Document doc = transferData.postData(request, user);
 
-    		//registratorId="0"
-    		selectedRegistratorId = Utils.parseInt( ((Element)doc.getElementsByTagName( "data" ).item( 0 )).getAttribute( "registratorId" ) );
+            //registratorId="0"
+            selectedRegistratorId = Utils.parseInt(((Element) doc.getElementsByTagName("data").item(0)).getAttribute("registratorId"));
 
-    		NodeList nodeList = doc.getElementsByTagName( "item" );
+            NodeList nodeList = doc.getElementsByTagName("item");
 
-    		for( int i = 0; i < nodeList.getLength(); i++ )
-    		{
-    			Node node = nodeList.item( i );
-    			if( node.getNodeType() == Node.ELEMENT_NODE )
-    			{
-    				Element element = (Element)node;
-    				int id = Utils.parseInt( element.getAttribute( "id" ) );
-    				if( id == selectedRegistratorId )
-    				{
-    					registratorList.add( 0, new IdTitle( id, element.getAttribute( "title" ) + " подключен" ) );
-    				}
-    				else
-    				{
-    					registratorList.add( new IdTitle( id, element.getAttribute( "title" ) ) );
-    				}
-    			}
-    		}
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    int id = Utils.parseInt(element.getAttribute("id"));
+                    if (id == selectedRegistratorId) {
+                        registratorList.add(0, new IdTitle(id, element.getAttribute("title") + " подключен"));
+                    } else {
+                        registratorList.add(new IdTitle(id, element.getAttribute("title")));
+                    }
+                }
+            }
 
+        } else {
+            throw new UnsupportedBillingVersion("5.1 и с 6.1");
+        }
 
-		}
-		else
-		{
-			throw new UnsupportedBillingVersion( "5.1 и с 6.1" );
-		}
+        if (selectedRegistratorId == 0) {
+            registratorList.add(0, new IdTitle(0, "~ не выбран ~"));
+        }
 
-		if( selectedRegistratorId == 0 )
-		{
-			registratorList.add( 0, new IdTitle( 0, "~ не выбран ~" ) );
-		}
+        return registratorList;
+    }
 
-		return registratorList;
-	}
+    public IdTitle getCurrentPrinter() throws BGException {
+        if (dbInfo.versionCompare("6.1") >= 0) {
+            RequestJsonRpc req = new RequestJsonRpc(CASHCHECK_MODULE_ID, "CashcheckService", "getCurrentPrinter");
 
-	public IdTitle getCurrentPrinter()
-		throws BGException
-	{
-		if( dbInfo.versionCompare( "6.1" ) >= 0 )
-		{
-			RequestJsonRpc req = new RequestJsonRpc( CASHCHECK_MODULE_ID, "CashcheckService", "getCurrentPrinter" );
+            JsonNode result = transferData.postDataReturn(req, user);
 
-			JsonNode result = transferData.postDataReturn( req, user );
-
-			return new IdTitle( result.path( "registratorId" ).intValue(), result.path( "registratorName" ).textValue() );
-		}
-		else
-		{
-			return null;
-		}
-	}
+            return new IdTitle(result.path("registratorId").intValue(), result.path("registratorName").textValue());
+        } else {
+            return null;
+        }
+    }
 }

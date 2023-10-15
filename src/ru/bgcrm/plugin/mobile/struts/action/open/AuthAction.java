@@ -17,7 +17,7 @@ import ru.bgcrm.util.sql.ConnectionSet;
 @Action(path = "/open/plugin/mobile/auth")
 public class AuthAction extends BaseAction {
     @Override
-    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         form.setResponseType(DynActionForm.RESPONSE_TYPE_JSON);
 
         String login = form.getParam("login", "");

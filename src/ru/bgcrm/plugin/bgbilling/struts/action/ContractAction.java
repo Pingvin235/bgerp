@@ -99,7 +99,7 @@ public class ContractAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/contract.jsp");
     }
 
-    public ActionForward createCustomerFromContract(DynActionForm form, Connection con) throws BGException {
+    public ActionForward createCustomerFromContract(DynActionForm form, Connection con) throws BGMessageException {
         Config config = setup.getConfig(Config.class);
         String billingId = form.getParam(BILLING_ID);
 

@@ -7,7 +7,7 @@ import org.bgerp.util.Log;
  *
  * @author Shamil Vakhitov
  */
-public class BGException extends Exception {
+public class BGException extends RuntimeException {
     public BGException() {}
 
     /**

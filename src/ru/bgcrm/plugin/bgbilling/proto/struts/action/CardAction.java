@@ -43,7 +43,7 @@ public class CardAction extends BaseAction {
         return html(conSet, form, PATH_JSP + "/contract.jsp");
     }
 
-    public ActionForward activateCard(DynActionForm form, ConnectionSet conSet) throws BGException {
+    public ActionForward activateCard(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         int contractId = form.getParamInt("contractId");
         int moduleId = form.getParamInt("moduleId");

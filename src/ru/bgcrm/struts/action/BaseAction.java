@@ -400,9 +400,9 @@ public class BaseAction extends DispatchAction {
      * Checks concurrent modifications by different users.
      * @param lastModify initial state of modified item.
      * @param form request with parameters {@code lastModifyUserId} and {@code lastModifyTime} for comparing to {@code lastModify}.
-     * @throws BGException entity was stored by another user in between.
+     * @throws BGMessageException entity was stored by another user in between.
      */
-    protected void checkModified(LastModify lastModify, DynActionForm form) throws BGException {
+    protected void checkModified(LastModify lastModify, DynActionForm form) throws BGMessageException {
         if (lastModify.getTime() != null) {
             int lastModifyUserId = Utils.parseInt(form.getParam("lastModifyUserId"), 0);
             Date lastModifyTime = TimeUtils.parse(form.getParam("lastModifyTime"), TimeUtils.PATTERN_YYYYMMDDHHMMSS);

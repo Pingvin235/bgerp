@@ -48,6 +48,7 @@ import ru.bgcrm.dao.EntityLogDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.message.MessageDAO;
 import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.CommonObjectLink;
 import ru.bgcrm.model.EntityLogItem;
 import ru.bgcrm.model.Page;
@@ -667,9 +668,9 @@ public class ProcessDAO extends CommonDAO {
      * Возвращает последнюю запись лога изменения процесса.
      * @param process
      * @return
-     * @throws BGException
+     * @throws BGMessageException
      */
-    public EntityLogItem getLastProcessChangeLog(Process process) throws BGException {
+    public EntityLogItem getLastProcessChangeLog(Process process) throws BGMessageException {
         Pageable<EntityLogItem> logItems = new Pageable<EntityLogItem>();
         logItems.getPage().setPageIndex( 1 );
         logItems.getPage().setPageSize( 1 );

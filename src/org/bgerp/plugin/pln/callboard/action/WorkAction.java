@@ -278,16 +278,15 @@ public class WorkAction extends BaseAction {
         return json(con, form);
     }
 
-    public ActionForward processTimeLock(DynActionForm form, Connection con) throws BGException {
-
+    public ActionForward processTimeLock(DynActionForm form, Connection con) throws BGMessageException {
         return processTimeLockAction(form, con, true);
     }
 
-    public ActionForward processTimeUnlock(DynActionForm form, Connection con) throws BGException {
+    public ActionForward processTimeUnlock(DynActionForm form, Connection con) throws BGMessageException {
         return processTimeLockAction(form, con, false);
     }
 
-    private ActionForward processTimeLockAction(DynActionForm form, Connection con, boolean lock) throws BGException {
+    private ActionForward processTimeLockAction(DynActionForm form, Connection con, boolean lock) throws BGMessageException {
         int graphId = form.getParamInt("graphId");
         Date date = form.getParamDate("date");
 

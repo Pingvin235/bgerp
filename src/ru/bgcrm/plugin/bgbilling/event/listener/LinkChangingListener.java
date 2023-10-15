@@ -23,20 +23,20 @@ public class LinkChangingListener {
     public LinkChangingListener() {
         EventProcessor.subscribe(new EventListener<LinkAddingEvent>() {
             @Override
-            public void notify(LinkAddingEvent e, ConnectionSet connectionSet) throws BGException {
+            public void notify(LinkAddingEvent e, ConnectionSet connectionSet) throws BGMessageException {
                 customerChanging(e, e.getLink().getObjectId());
             }
         }, LinkAddingEvent.class);
 
         EventProcessor.subscribe(new EventListener<LinksToRemovingEvent>() {
             @Override
-            public void notify(LinksToRemovingEvent e, ConnectionSet connectionSet) throws BGException {
+            public void notify(LinksToRemovingEvent e, ConnectionSet connectionSet) throws BGMessageException {
                 customerChanging(e, 0);
             }
         }, LinksToRemovingEvent.class);
     }
 
-    private void customerChanging(LinkAddingEvent event, int customerId) throws BGException {
+    private void customerChanging(LinkAddingEvent event, int customerId) throws BGMessageException {
         CommonObjectLink link = event.getLink();
         if (!Customer.OBJECT_TYPE.equals(link.getObjectType()) || !link.getLinkObjectType().startsWith("contract:")) {
             return;

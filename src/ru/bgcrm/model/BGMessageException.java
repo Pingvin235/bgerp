@@ -11,7 +11,7 @@ import org.bgerp.util.Log;
  *
  * @author Shamil Vakhitov
  */
-public class BGMessageException extends BGException {
+public class BGMessageException extends Exception {
     /** Internal localizer, has priority. */
     private final Localizer lInternal;
     /** Arguments for localized message. */

@@ -60,7 +60,7 @@ public class MessageTypeChannel extends MessageType {
     private final Parameter accountParam;
     private final String stringExpressionMessageExtract;
 
-    public MessageTypeChannel(Setup setup, int id, ConfigMap config) throws BGException {
+    public MessageTypeChannel(Setup setup, int id, ConfigMap config) throws BGMessageException {
         super(setup, id, config.get("title"), config);
         token = config.get("authToken");
         if (token == null) {

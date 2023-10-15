@@ -50,14 +50,14 @@ public class HelpDeskListener {
 
         EventProcessor.subscribe(new EventListener<ParamChangedEvent>() {
             @Override
-            public void notify(ParamChangedEvent e, ConnectionSet connectionSet) throws BGException {
+            public void notify(ParamChangedEvent e, ConnectionSet connectionSet) throws BGMessageException {
                 paramChanged(e, connectionSet);
             }
         }, ParamChangedEvent.class);
     }
 
     @SuppressWarnings("unchecked")
-    private void paramChanged(ParamChangedEvent e, ConnectionSet conSet) throws BGException {
+    private void paramChanged(ParamChangedEvent e, ConnectionSet conSet) throws BGMessageException {
         // TODO: Предварительно можно сделать отсев по кодам параметров, которые могут
         // быть связаны с хелпдеском.
         if (!Process.OBJECT_TYPE.equals(e.getParameter().getObject())) {

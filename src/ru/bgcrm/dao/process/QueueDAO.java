@@ -24,6 +24,7 @@ import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ConfigDAO;
 import ru.bgcrm.dao.LastModifyDAO;
 import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.LastModify;
 import ru.bgcrm.model.Page;
 import ru.bgcrm.model.process.queue.Queue;
@@ -105,10 +106,10 @@ public class QueueDAO extends CommonDAO {
      * Updates process queue entity.
      * @param queue entity data, for insertion {@link Queue#getId()} &lt;= 0.
      * @param userId user ID for checking conflicting updates.
-     * @throws BGException
+     * @throws BGMessageException
      * @throws SQLException
      */
-    public void updateQueue(Queue queue, int userId) throws BGException, SQLException {
+    public void updateQueue(Queue queue, int userId) throws BGMessageException, SQLException {
         int index = 1;
         PreparedStatement ps = null;
 

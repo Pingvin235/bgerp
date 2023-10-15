@@ -91,7 +91,7 @@ public class MessageTypeEmail extends MessageType {
 
     private final FolderCache incomingCache = new FolderCache(this);
 
-    public MessageTypeEmail(Setup setup, int id, ConfigMap config) throws BGException {
+    public MessageTypeEmail(Setup setup, int id, ConfigMap config) throws BGMessageException {
         super(setup, id, config.get("title"), config);
 
         var l = Localization.getLocalizer(Localization.getLang(), Plugin.ID);

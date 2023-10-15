@@ -21,7 +21,6 @@ import java.util.regex.Pattern;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.dao.ConfigDAO;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.Config;
 import ru.bgcrm.util.Utils;
@@ -54,7 +53,7 @@ public class Preferences extends ConfigMap {
         }
     }
 
-    Preferences(String data, Iterable<String> includes, boolean validate) throws BGException {
+    Preferences(String data, Iterable<String> includes, boolean validate) throws BGMessageException {
         super();
         loadData(data, this.data, includes, validate);
     }
@@ -113,7 +112,7 @@ public class Preferences extends ConfigMap {
         }
     }
 
-    private void loadData(String conf, Map<String, String> data, Iterable<String> includes, boolean validate) throws BGException {
+    private void loadData(String conf, Map<String, String> data, Iterable<String> includes, boolean validate) throws BGMessageException {
         final String delim = "\r\n";
 
         MultilineContext context = new MultilineContext();
@@ -133,9 +132,9 @@ public class Preferences extends ConfigMap {
      * @param data target map.
      * @param line key-value line.
      * @param validate check variables in values.
-     * @throws BGException
+     * @throws BGMessageException
      */
-    private void loadDataEntry(MultilineContext context, Map<String, String> data, String line, boolean validate) throws BGException {
+    private void loadDataEntry(MultilineContext context, Map<String, String> data, String line, boolean validate) throws BGMessageException {
         // remove terminating non-printable chars
         line = line.replaceAll("\\p{C}+$", "");
 
@@ -184,7 +183,7 @@ public class Preferences extends ConfigMap {
         }
     }
 
-    private String insertVariablesValues(String line, Map<String, String> data, boolean validate) throws BGException {
+    private String insertVariablesValues(String line, Map<String, String> data, boolean validate) throws BGMessageException {
         StringBuffer result = null;
 
         int pointer = 0;
@@ -254,10 +253,10 @@ public class Preferences extends ConfigMap {
      * @param configDao DAO for getting includes.
      * @param config key-value lines of main configuration.
      * @param validate check existence of includes configurations, variables.
-     * @throws BGException
+     * @throws BGMessageException
      * @throws SQLException
      */
-    public static ConfigMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws BGException, SQLException {
+    public static ConfigMap processIncludes(ConfigDAO configDao, String config, boolean validate) throws BGMessageException, SQLException {
         Iterable<String> includes = Config.getIncludes(configDao, new Preferences(config), validate);
         return new Preferences(config, includes, validate);
     }

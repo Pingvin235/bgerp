@@ -50,7 +50,7 @@ public class FileAction extends BaseAction {
         return null;
     }
 
-    public ActionForward temporaryUpload(DynActionForm form, Connection con) throws BGException {
+    public ActionForward temporaryUpload(DynActionForm form, Connection con) throws BGMessageException {
         try {
             FormFile file = form.getFile();
 

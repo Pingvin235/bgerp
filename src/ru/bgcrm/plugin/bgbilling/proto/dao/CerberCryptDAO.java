@@ -159,7 +159,7 @@ public class CerberCryptDAO extends BillingModuleDAO {
     }
 
     public void updateCardPacket(int contractId, int id, int cardNumebr, int packetId, String dateFrom, String dateTo)
-            throws BGException {
+            throws BGMessageException {
         Request request = new Request();
         request.setModule(CERBERCRYPT_MODULE_ID);
         request.setAction("UpdateCardPacket");
