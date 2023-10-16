@@ -6,20 +6,19 @@ import org.apache.struts.action.ActionForward;
 import org.bgerp.model.base.tree.IdTitleTreeItem;
 
 import ru.bgcrm.servlet.ActionServlet.Action;
-import ru.bgcrm.struts.action.BaseAction;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
 
 @Action(path = "/user/test")
-public class TestAction extends BaseAction {
+public class TestAction extends org.bgerp.action.open.TestAction {
     @Override
-    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) {
         form.setResponseData("treeRootNode", treeSingleRoot());
-
+        setValues(form);
         return html(conSet, form, PATH_JSP_USER + "/test.jsp");
     }
 
-    private IdTitleTreeItem.Default treeSingleRoot() throws Exception {
+    private IdTitleTreeItem.Default treeSingleRoot() {
         int cnt = 1;
 
         var rootNode = new IdTitleTreeItem.Default(cnt++, "Root Node");
@@ -36,7 +35,7 @@ public class TestAction extends BaseAction {
         return rootNode;
     }
 
-    public ActionForward enumValues(DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward enumValues(DynActionForm form, ConnectionSet conSet) {
         List<String> values = List.of(
                 "mail1@domain.com",
                 "Ivan2 Pupkin <mail2@domain.com>",

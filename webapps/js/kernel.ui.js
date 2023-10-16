@@ -65,7 +65,7 @@ $$.ui = new function () {
 			updateCurrentTitle();
 
 			if (onSelect) {
-				// to make this equals hidden input
+				// to make 'this' equals to the hidden input
 				$hidden[0].onSelect = onSelect;
 				$hidden[0].onSelect(this);
 			}
@@ -93,14 +93,6 @@ $$.ui = new function () {
 
 	const comboInputs = ($div) => {
 		return $div.find("ul.drop li input");
-	}
-
-	const comboCheckUncheck = (object) => {
-		const $parent = $(object).closest("ul");
-		if ($parent.find("input[type=checkbox]:checked").length === 0)
-			$parent.find("input[type=checkbox]").prop("checked", true);
-		else
-			$parent.find("input[type=checkbox]").prop("checked", false);
 	}
 
 	const comboPermTreeCheckInit = ($comboDiv) => {
@@ -548,7 +540,6 @@ $$.ui = new function () {
 	this.comboSingleInit = comboSingleInit;
 	this.comboSingleFilter = comboSingleFilter;
 	this.comboInputs = comboInputs;
-	this.comboCheckUncheck = comboCheckUncheck;
 	this.comboPermTreeCheckInit = comboPermTreeCheckInit;
 	this.dropsHide = dropsHide;
 	this.dropOnClick = dropOnClick;

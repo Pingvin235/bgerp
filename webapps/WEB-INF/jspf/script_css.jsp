@@ -64,6 +64,7 @@
 <script src="${u:fileNameWithLastModTime('/js/kernel.table.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.timer.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.js')}"></script>
+<script src="${u:fileNameWithLastModTime('/js/kernel.ui.comboCheck.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.select.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.tree.js')}"></script>
 <script src="${u:fileNameWithLastModTime('/js/kernel.ui.upload.js')}"></script>

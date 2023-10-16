@@ -94,6 +94,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 				let onSelect = undefined;
 
 				const $comboDiv = $('#${uiid}');
+				// the variable can be used in onSelect function by old code
 				const $hidden = $comboDiv.find('input[type=hidden]');
 
 				<c:if test="${not empty onSelect}">
@@ -102,7 +103,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 					};
 				</c:if>
 
-				$$.ui.comboSingleInit($('#${uiid}'), onSelect);
+				$$.ui.comboSingleInit($comboDiv, onSelect);
 
 				<c:if test="${not empty disable}">
 					$comboDiv.unbind('click');

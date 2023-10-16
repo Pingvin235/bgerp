@@ -163,13 +163,7 @@
 			</ui:combo-single>
 
 			<u:sc>
-				<%
-					List<IdTitle> list = new ArrayList<>();
-					list.add(new IdTitle(1, "First dyn value"));
-					list.add(new IdTitle(2, "Second dyn value with a loooooooooooooooooooong teeeeeeeeeeeeext"));
-					pageContext.setAttribute("list", list);
-				%>
-				<ui:combo-single hiddenName="param" widthTextValue="12em" list="${list}" onSelect="${onSelect}">
+				<ui:combo-single hiddenName="param" widthTextValue="12em" list="${form.response.data.comboSingeList}" onSelect="${onSelect}">
 					<jsp:attribute name="valuesHtml">
 						<li value="-1">-- select --</li>
 					</jsp:attribute>
@@ -188,19 +182,9 @@
 		<div>
 			<b>&lt;ui:combo-check&gt;</b><br/>
 
-			<u:sc>
-				<%
-					List<IdTitle> list = new ArrayList<IdTitle>();
-					list.add(new IdTitle(1, "First value"));
-					list.add(new IdTitle(2, "Second value and a long texttttttttt after it"));
-					pageContext.setAttribute( "list", list );
-
-					Set<Integer> values = new HashSet<Integer>();
-					values.add(2);
-					pageContext.setAttribute("values", values);
-				%>
-				<ui:combo-check prefixText="Статус:" paramName="param" list="${list}" values="${values}" widthTextValue="150px" showFilter="true"/>
-			</u:sc>
+			<ui:combo-check prefixText="Status:" paramName="param" list="${form.response.data.comboCheckList}" values="${form.response.data.comboCheckValues}"
+				onChange="console.log('this=', this); alert('Values are chosen, see console log')"
+				widthTextValue="15em" showFilter="true"/>
 		</div>
 
 		<div>

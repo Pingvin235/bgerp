@@ -68,7 +68,7 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 					});
 				</c:set>
 				<div style="width: 100%;"><input type="text" style="width: 100%;" placeholder="Filter" onkeyup="${filterCode}"/></div>
-				<div class="pl05"><div class="btn-white btn-icon" onclick='$$.ui.comboCheckUncheck(this)' title="${l.l('Select all / remove selection')}"><i class="ti-check"></i></div></div>
+				<div class="pl05"><div class="btn-white btn-icon" onclick='$$.ui.comboCheck.uncheck(this)' title="${l.l('Select all / remove selection')}"><i class="ti-check"></i></div></div>
 			</li>
 		</c:if>
 		<data><%--
@@ -114,66 +114,17 @@ Use styleTextValue / widthTextValue in situations when you expect a long value i
 	</ul>
 
 	<script>
-		$(function()
-		{
-			var $comboDiv = $('#${uiid}');
-			var $drop = $comboDiv.find('ul.drop');
+		$(function () {
+			const $comboDiv = $('#${uiid}');
 
-			var updateCurrentTitle = function()
-			{
-				var checkedCount = 0;
-				var titles = "";
+			let onChange = undefined;
+			<c:if test="${not empty onChange}">
+				onChange = function () {
+					${onChange}
+				}
+			</c:if>
 
-				$comboDiv.find( "ul.drop li input[type=checkbox]" ).each( function()
-				{
-					if( this.checked )
-					{
-						checkedCount++;
-						var title = $(this).next().text();
-						if( titles.length > 0 )
-						{
-							titles += ", ";
-						}
-						titles += title;
-					}
-				});
-
-				$comboDiv.find( '.text-value' ).text( "[" + checkedCount + "] " + titles );
-
-				${onChange}
-			};
-
- 			$comboDiv.find( "ul.drop" ).on( "click", "li input", function( event )
-			{
-				updateCurrentTitle();
-				event.stopPropagation();
-			});
-
-			$comboDiv.find( "ul.drop" ).on( "click", "li", function()
-			{
-				var input = $(this).find( "input" )[0];
-
-				input.checked = !(input.checked);
-
-				updateCurrentTitle();
-
-				return false;
-			})
-
-			$$.ui.dropOnClick($comboDiv, $drop);
-
-			$comboDiv.find( "div.icon" ).click( function( event )
-			{
-				$comboDiv.find( "ul.drop li input" ).each( function()
-				{
-					this.checked = false;
-				});
-				updateCurrentTitle();
-
-				event.stopPropagation();
-			});
-
-			updateCurrentTitle();
+			$$.ui.comboCheck.init($comboDiv, onChange);
 		})
 	</script>
 </div>
