@@ -267,8 +267,8 @@ public class SubscriptionTest {
         paramDao.updateParamEmail(processSubscriptionEurId, paramEmailId, 0, new ParameterEmailValue("testclient-eu@bgerp.org"));
         paramDao.updateParamList(processSubscriptionEurId, paramSubscriptionId, Set.of(SUBSCRIPTION_EUR));
         paramDao.updateParamList(processSubscriptionEurId, paramLimitId, Set.of(LIMIT_VALUE_UNLIM));
-        paramDao.updateParamMoney(processSubscriptionEurId, paramServiceCostId, new BigDecimal("25.12"));
-        paramDao.updateParamMoney(processSubscriptionEurId, paramDiscountId, new BigDecimal("23.14"));
+        paramDao.updateParamMoney(processSubscriptionEurId, paramServiceCostId, new BigDecimal("4.50"));
+        paramDao.updateParamMoney(processSubscriptionEurId, paramDiscountId, new BigDecimal("2.10"));
         ProcessHelper.addCustomerLink(processSubscriptionEurId, Customer.OBJECT_TYPE, customer);
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct1Id, processSubscriptionEurId));
         ProcessHelper.addLink(new ProcessLinkProcess.Depend(processProduct2Id, processSubscriptionEurId));
@@ -278,7 +278,7 @@ public class SubscriptionTest {
                                         processSubscriptionEurId, null),
                         new SingleConnectionSet(DbTest.conRoot));
         cost = paramDao.getParamMoney(processSubscriptionEurId, paramSubscriptionCostId);
-        Assert.assertEquals(cost, Utils.parseBigDecimal("8.22"));
+        Assert.assertEquals(cost, Utils.parseBigDecimal("8.64"));
 
         MessageHelper.addHowToTestNoteMessage(processSubscriptionEurId, this);
     }

@@ -1,30 +1,32 @@
 package org.bgerp.plugin.bil.invoice.action;
 
+import static org.bgerp.plugin.bil.invoice.dao.Tables.TABLE_INVOICE;
+import static ru.bgcrm.dao.process.Tables.TABLE_PROCESS_LINK;
+
 import java.util.Date;
 
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.l10n.Localization;
+import org.bgerp.plugin.bil.invoice.Config;
 import org.bgerp.plugin.bil.invoice.Plugin;
 import org.bgerp.plugin.report.action.ReportActionBase;
 import org.bgerp.plugin.report.model.Column;
 import org.bgerp.plugin.report.model.Columns;
 import org.bgerp.plugin.report.model.Data;
 import org.bgerp.util.sql.PreparedQuery;
-import static org.bgerp.plugin.bil.invoice.dao.Tables.*;
 
 import ru.bgcrm.model.customer.Customer;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.TimeUtils;
-import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
-import static ru.bgcrm.dao.process.Tables.*;
 
 @Action(path = "/user/plugin/report/plugin/invoice/register")
 public class ReportRegisterAction extends ReportActionBase {
     private static final Columns COLUMNS = new Columns(
         new Column.ColumnInteger("process_id", null, "Process"),
         new Column.ColumnInteger("invoice_id", null, null),
+        new Column.ColumnString("invoice_type", null, "Type"),
         new Column.ColumnDecimal("invoice_amount", null, "Amount"),
         new Column.ColumnDateTime("invoice_created_date", null, "Created", TimeUtils.FORMAT_TYPE_YMDHM),
         new Column.ColumnString("invoice_number", null, "Number"),
@@ -69,15 +71,17 @@ public class ReportRegisterAction extends ReportActionBase {
 
                 final int userId = form.getUserId();
                 final Date date = form.getParamDate("dateFrom");
-                if (date == null)
+                if (date == null) {
+                    form.setParam("dateFrom", TimeUtils.format(TimeUtils.getPrevMonth(), TimeUtils.FORMAT_TYPE_YMD));
                     return;
+                }
 
-                final int typeId = form.getParamInt("typeId", Utils::isPositive);
+                var config = setup.getConfig(Config.class);
 
                 try (var pq = new PreparedQuery(con)) {
                     pq.addQuery(
                         SQL_SELECT_COUNT_ROWS +
-                        "invoice.id, invoice.amount, invoice.created_dt, invoice.number, invoice.payment_date, invoice.process_id, invoice_customer.object_id, invoice_customer.object_title" +
+                        "invoice.id, invoice.type_id, invoice.amount, invoice.created_dt, invoice.number, invoice.payment_date, invoice.process_id, invoice_customer.object_id, invoice_customer.object_title" +
                         SQL_FROM +
                         TABLE_INVOICE + "AS invoice" +
                         SQL_LEFT_JOIN + TABLE_PROCESS_LINK + "AS invoice_customer ON invoice.process_id=invoice_customer.process_id AND invoice_customer.object_type=?"
@@ -85,10 +89,9 @@ public class ReportRegisterAction extends ReportActionBase {
                     pq.addString(Customer.OBJECT_TYPE);
 
                     pq.addQuery(
-                        SQL_WHERE + "invoice.type_id=? AND ?<=invoice.date_from AND invoice.date_from<=? AND invoice.payment_user_id IN (0,?)" +
+                        SQL_WHERE + "?<=invoice.date_from AND invoice.date_from<=? AND invoice.payment_user_id IN (0,?)" +
                         SQL_ORDER_BY + "invoice.payment_date"
                     );
-                    pq.addInt(typeId);
                     pq.addDate(date);
                     pq.addDate(TimeUtils.getEndMonth(date));
                     pq.addInt(userId);
@@ -99,6 +102,7 @@ public class ReportRegisterAction extends ReportActionBase {
 
                         record.add(rs.getInt("invoice.process_id"));
                         record.add(rs.getInt("invoice.id"));
+                        record.add(config.getType(rs.getInt("invoice.type_id")).getTitle());
                         record.add(rs.getBigDecimal("invoice.amount"));
                         record.add(rs.getTimestamp("invoice.created_dt"));
                         record.add(rs.getString("invoice.number"));

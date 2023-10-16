@@ -44,8 +44,10 @@
 	<p><en>Product Process</en><ru>Процесс продукта</ru></p>
 	<p><en>Owner</en><ru>Владелец</ru></p>
 	<p><en>Product Cost</en><ru>Стоимость продукта</ru></p>
+	<p><en>Months</en><ru>Месяцев</ru></p>
 	<p><en>Date To is too far in the future.</en><ru>Дата По слишком далеко в будущем.</ru></p>
 	<p><en>Product Cost Part</en><ru>Доля владельца продукта</ru></p>
+	<p><en>Discount can't be more than product's cost: {}</en><ru>Скидка не может быть больше стоимости продуктов: {}</ru></p>
 	<!--
 	<p><en></en><ru></ru></p>
 	-->

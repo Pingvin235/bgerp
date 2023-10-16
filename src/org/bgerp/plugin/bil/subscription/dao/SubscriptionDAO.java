@@ -18,6 +18,7 @@ import org.bgerp.util.sql.PreparedQuery;
 import ru.bgcrm.dao.CommonDAO;
 import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.util.Utils;
 
@@ -57,9 +58,10 @@ public class SubscriptionDAO extends CommonDAO {
      * @param subscription
      * @param subscriptionProcessId
      * @return
-     * @throws Exception
+     * @throws SQLException
+     * @throws BGMessageException
      */
-    public BigDecimal getCost(Config config, Subscription subscription, int subscriptionProcessId) throws Exception {
+    public BigDecimal getCost(Config config, Subscription subscription, int subscriptionProcessId) throws SQLException, BGMessageException {
         var paramValueDAO = new ParamValueDAO(con);
 
         Integer limitId = Utils.getFirst(paramValueDAO.getParamList(subscriptionProcessId, config.getParamLimitId()));
@@ -80,16 +82,19 @@ public class SubscriptionDAO extends CommonDAO {
             }
         }
 
+        if (config.getParamDiscountId() > 0) {
+            var discount = paramValueDAO.getParamMoney(subscriptionProcessId, config.getParamDiscountId());
+            if (discount != null) {
+                if (discount.compareTo(result) > 0)
+                    throw new BGMessageException("Discount can't be more than product's cost: {}", discount.toPlainString());
+                result = result.subtract(discount);
+            }
+        }
+
         if (config.getParamServiceCostId() > 0) {
             var service = paramValueDAO.getParamMoney(subscriptionProcessId, config.getParamServiceCostId());
             if (service != null)
                 result = result.add(service);
-        }
-
-        if (config.getParamDiscountId() > 0) {
-            var discount = paramValueDAO.getParamMoney(subscriptionProcessId, config.getParamDiscountId());
-            if (discount != null)
-                result = result.subtract(discount);
         }
 
         return result;

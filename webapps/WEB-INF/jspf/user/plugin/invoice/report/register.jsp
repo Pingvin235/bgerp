@@ -5,30 +5,28 @@
 <shell:title ltext="Report"/>
 <shell:state ltext="Invoice Register"/>
 
-<div class="report center1020">
-	<html:form action="${form.httpRequestURI}" styleClass="in-ml05">
-		<ui:date-month/>
-
-		<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.plugin.bil.invoice.Config')}"/>
-		<ui:combo-single hiddenName="typeId" list="${config.types}" value="${form.param.typeId}" prefixText="${l.l('Type')}:" styleClass="mr05"/>
+<div class="report">
+	<html:form action="${form.httpRequestURI}">
+		<ui:date-month value="${form.param.dateFrom}"/>
 
 		<c:set var="outId" value="${u:uiid()}"/>
-		<ui:button type="out" id="${outId}" onclick="$$.ajax.loadContent(this)" styleClass="mr1 more out"/>
+		<ui:button type="out" id="${outId}" onclick="$$.ajax.loadContent(this)" styleClass="ml1 more out"/>
 	</html:form>
 
-	<c:if test="${not empty form.param.dateFrom}">
-		<div class="data mt1 w100p" style="overflow: auto;">
-			<h2>${l.l('Register')}</h2>
+	<c:set var="list" value="${form.response.data.list}"/>
 
+	<c:if test="${not empty list}">
+		<div class="data mt1 w100p" style="overflow: auto;">
 			<%-- for payment date dialog --%>
 			<c:set var="hiddenUiid" value="${u:uiid()}"/>
 			<input type='hidden' id="${hiddenUiid}"/>
 
 			<table class="data hl">
 				<report:headers data="${data}"/>
-				<c:forEach var="r" items="${form.response.data.list}">
+				<c:forEach var="r" items="${list}">
 					<tr>
 						<td><ui:process-link id="${r.get('process_id')}"/></td>
+						<td>${r.get('invoice_type')}</td>
 						<td>${r.get('invoice_amount')}</td>
 						<td>${r.getString('invoice_created_date')}</td>
 						<td>${r.getString('invoice_number')}</td>
