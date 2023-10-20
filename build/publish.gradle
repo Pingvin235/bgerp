@@ -4,7 +4,7 @@ task publishUpdate(type: JavaExec, dependsOn: ['compileToolJava', 'touchChanges'
     mustRunAfter 'buildUpdateLib'
     classpath =  sourceSets.tool.runtimeClasspath
     mainClass = 'org.bgerp.tool.PublishUpdate'
-    args "$buildDir/$distsDirName", version, "${->getChangeIdOrThrow()}"
+    args "${->base.distsDirectory.get().asFile.path}", version, "${->getChangeIdOrThrow()}"
 }
 
 task publishRelease(type: JavaExec, dependsOn: 'compileToolJava', description: 'Copies distribution, update and update_lib packages to CDN server') {
@@ -14,7 +14,7 @@ task publishRelease(type: JavaExec, dependsOn: 'compileToolJava', description: '
     mustRunAfter 'changesRss'
     classpath =  sourceSets.tool.runtimeClasspath
     mainClass = 'org.bgerp.tool.PublishRelease'
-    args "$buildDir/$distsDirName", version, "${->getBuild()}"
+    args "${->base.distsDirectory.get().asFile.path}", version, "${->getBuild()}"
 }
 
 task publishCommit(type: Exec, description: 'Commits modifications over build *.properties, changes.* and documentation files to GIT') {

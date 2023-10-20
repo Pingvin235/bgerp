@@ -32,7 +32,7 @@ The program can be developed on any Java-supported platform.
 ==== Windows
 Minimal required set of software:
 [square]
-* link:https://adoptium.net[OpenJDK 17];
+* link:https://adoptium.net[OpenJDK 21];
 * link:https://hub.docker.com/editions/community/docker-ce-desktop-windows[Docker for Windows];
 * link:https://git-scm.com/download/win[GIT].
 
@@ -49,10 +49,21 @@ The best console emulator on Windows with embedded FAR Manager - link:https://co
 ==== Linux
 Install using a package manager:
 [square]
-* <<../kernel/install.adoc#java, OpenJDK 17>>;
+* <<../kernel/install.adoc#java, OpenJDK 21>>;
 * Docker;
 * GIT;
 * GIT-LFS.
+
+[[env-gradle]]
+==== Gradle
+Gradle is a build tool, used for the project.
+It is running using `gradlew` wrapper script, provided in the sources.
+
+To update a Gradle link:https://docs.gradle.org/current/release-notes.html[version] in the wrapper, execute for example for *8.4*:
+[source]
+----
+./gradlew wrapper --gradle-version=8.4
+----
 
 [[checkout]]
 === Checkout
@@ -155,7 +166,7 @@ docker exec -it bgerp-demo /opt/bgerp/mysql.sh
 Execute command:
 [source]
 ----
-gradlew startServer
+./gradlew startServer
 ----
 
 CAUTION: The Gradle tasks ends on 75%.
@@ -295,9 +306,9 @@ We would suggest to gradually add a small set of libraries until getting a "work
 
 In order to speed up project initialization, our default Eclipse IDE configuration does not load source code and documentation.
 [snippet, from="ec", to="}"]
-link:../../../build.gradle#L38-L44[build.gradle]
+link:../../../build.gradle#L40-L46[build.gradle]
 
-After adding new libraries in `build.gradle` create an empty `build/changes.lib.txt` file using `gradlew touchChangesLib` command.
+After adding new libraries in `build.gradle` create an empty `build/changes.lib.txt` file using `./gradlew touchChangesLib` command.
 Existence of the file causes build library update package during <<workflow.adoc#build-release, release build>>.
 
 [[js-lib]]

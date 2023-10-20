@@ -14,8 +14,10 @@ repositories {
     }
 }
 
-sourceCompatibility = '17'
-targetCompatibility = '17'
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 // Eclipse and VS Code use bin
 buildDir = 'target'
@@ -43,6 +45,10 @@ eclipse {
     }
 }
 
+idea {
+    module {}
+}
+
 /* sonarqube {
     properties {
         property "sonar.projectKey", "org.bgerp"
@@ -50,10 +56,6 @@ eclipse {
         property "sonar.host.url", "https://sonarcloud.io"
     }
 } */
-
-idea {
-    module {}
-}
 
 configurations {
     all {

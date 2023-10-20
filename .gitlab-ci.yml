@@ -1,9 +1,9 @@
 # IMAGES
-# openjdk:17-buster    https://github.com/docker-library/openjdk/blob/master/17/jdk/buster/Dockerfile
+# eclipse-temurin:21    https://github.com/adoptium/containers/blob/main/21/jdk/ubuntu/jammy/Dockerfile.releases.full
 
 test-and-publish-update:
     # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
-    image: openjdk:17-buster
+    image: eclipse-temurin:21
     cache:
         paths:
             - .gradle/wrapper
@@ -23,7 +23,7 @@ test-and-publish-update:
 
 test-and-publish-update-master:
     # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
-    image: openjdk:17-buster
+    image: eclipse-temurin:21
     cache:
         paths:
             - .gradle/wrapper
@@ -101,7 +101,7 @@ test-integration-master:
 
 publish-doc:
     # bgerp/base doesn't work here, something about missing 'libfreetype.so.6'
-    image: openjdk:17-buster
+    image: eclipse-temurin:21
     cache:
         paths:
             - .gradle/wrapper

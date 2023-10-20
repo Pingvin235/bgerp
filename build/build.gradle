@@ -51,7 +51,7 @@ task buildUpdate(type: Zip, dependsOn: 'buildAppJar', description: 'Builds distr
         }
     }
     into('content/lib/app') {
-        from("$buildDir/$libsDirName").include(appJarName)
+        from(base.libsDirectory).include(appJarName)
     }
 }
 
@@ -83,7 +83,7 @@ task buildUpdateLib(type: Zip, dependsOn: 'buildLibJar', description: 'Builds li
         include('module.properties')
     }
     into('content/lib/app') {
-        from("$buildDir/$libsDirName").include(libJarName)
+        from(base.libsDirectory).include(libJarName)
     }
     into('content/lib/ext') {
         from(configurations.runtimeClasspath)
@@ -130,7 +130,7 @@ task buildDist(type: Zip, dependsOn: ['buildAppJar', 'buildLibJar'], description
         }
     }
     into('bgerp/lib/app') {
-        from("$buildDir/$libsDirName") {
+        from(base.libsDirectory) {
             include(appJarName)
             include(libJarName)
         }

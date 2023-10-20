@@ -22,7 +22,4 @@ public class SingleConnectionSet extends ConnectionSet {
     public Connection getTrashConnection(String tableName, int defaultType) {
         return getConnection();
     }
-
-    @Override
-    protected void finalize() throws Throwable {}
 }

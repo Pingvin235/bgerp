@@ -37,8 +37,6 @@ public class ConnectionSet {
 
     private Map<String, Connection[]> trashConnections;
 
-    private volatile boolean recycled = false;
-
     private ConnectionPool setup;
 
     protected ConnectionSet(Connection master) {
@@ -75,10 +73,8 @@ public class ConnectionSet {
      * @return
      */
     public Connection getConnection() {
-        if (masterConnection == null) {
-            recycled = false;
+        if (masterConnection == null)
             masterConnection = newMasterConnection();
-        }
 
         return masterConnection;
     }
@@ -119,7 +115,6 @@ public class ConnectionSet {
      */
     public Connection getSlaveConnection() {
         if (slaveConnection == null) {
-            recycled = false;
             slaveConnection = newSlaveConnection();
 
             if (slaveConnection == null) {
@@ -153,7 +148,6 @@ public class ConnectionSet {
 
         Connection connection = connections[0];
         if (connection == null) {
-            recycled = false;
             connection = newTrashConnection(tableName);
 
             if (connection == null) {
@@ -203,8 +197,6 @@ public class ConnectionSet {
     }
 
     public void recycle() {
-        recycled = true;
-
         // закрываем трэш коннекшны, если они есть
         if (trashConnections != null) {
             for (Connection[] connections : trashConnections.values()) {
@@ -324,14 +316,6 @@ public class ConnectionSet {
             } catch (Exception e) {
                 log.error(e);
             }
-        }
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        if (!recycled) {
-            log.warn("Not recycled before finalize.");
-            recycle();
         }
     }
 }
