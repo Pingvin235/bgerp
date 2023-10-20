@@ -61,6 +61,15 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     public static final String KEY = "form";
 
+    public static final String RESPONSE_TYPE_HTML = "html";
+    public static final String RESPONSE_TYPE_JSON = "json";
+    public static final String RESPONSE_TYPE_STREAM = "stream";
+
+    /** System action, not real user request. */
+    public static DynActionForm SYSTEM_FORM = new DynActionForm(User.USER_SYSTEM);
+    @Deprecated
+    public static DynActionForm SERVER_FORM = SYSTEM_FORM;
+
     private static final String PARAM_RESPONSE = "response";
     private static final String PARAM_FILE = "file";
     private static final String PARAM_PAGE = "page";
@@ -71,14 +80,16 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     private static final String PARAM_FORWARD = "forward";
     private static final String PARAM_FORWARD_FILE = "forwardFile";
 
-    public static final String RESPONSE_TYPE_HTML = "html";
-    public static final String RESPONSE_TYPE_JSON = "json";
-    public static final String RESPONSE_TYPE_STREAM = "stream";
+    private static final Map<String, DynaProperty> PROPERTIES = new HashMap<>();
+    static {
+        for (String name : new String[] { "action", PARAM_REQUEST_URL, PARAM_FORWARD, PARAM_FORWARD_FILE, PARAM_RESPONSE_TYPE })
+            PROPERTIES.put(name, new DynaProperty(name, String.class));
+        PROPERTIES.put(PARAM_PAGE, new DynaProperty(PARAM_PAGE, Page.class));
+        PROPERTIES.put(PARAM_RESPONSE, new DynaProperty(PARAM_RESPONSE, Page.class));
+        PROPERTIES.put(PARAM_FILE, new DynaProperty(PARAM_FILE, FormFile.class));
+    }
 
-    /** System action, not real user request. */
-    public static DynActionForm SYSTEM_FORM = new DynActionForm(User.USER_SYSTEM);
-    @Deprecated
-    public static DynActionForm SERVER_FORM = SYSTEM_FORM;
+    private static final String PARAM_OVERWRITE_NAME_PREFIX = "!";
 
     private HttpServletRequest httpRequest;
     private HttpServletResponse httpResponse;
@@ -124,10 +135,13 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
             try {
                 String key = URLDecoder.decode(param.substring(0, pos), StandardCharsets.UTF_8.name());
-                String value = URLDecoder.decode(param.substring(pos + 1), StandardCharsets.UTF_8.name());
+                final boolean overwrite = key.startsWith(PARAM_OVERWRITE_NAME_PREFIX);
+                if (overwrite)
+                    key = key.substring(1);
+                final String value = URLDecoder.decode(param.substring(pos + 1), StandardCharsets.UTF_8.name());
 
-                if (paramsForForm.get(key) == null) {
-                    ArrayList<String> arrayValues = new ArrayList<>();
+                if (overwrite || paramsForForm.get(key) == null) {
+                    ArrayList<String> arrayValues = new ArrayList<>(1);
                     arrayValues.add(value);
                     paramsForForm.put(key, arrayValues);
                 } else {
@@ -447,14 +461,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Возвращает параметр запроса returnScript.
-     * @return
-     */
-    public String getReturnScript() {
-        return getParam("returnScript");
-    }
-
-    /**
      * @return request parameter {@code pageableId} or {@link #actionIdentifier} if it was empty or missing.
      */
     public String getPageableId() {
@@ -659,9 +665,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
 
     @Override
     public Object get(String name) {
-        if (getDynaProperty(name).getType() == String.class) {
-            return getParam(name);
-        } else if (PARAM_PAGE.equals(name)) {
+        if (PARAM_PAGE.equals(name)) {
             return page;
         } else if (PARAM_FILE.equals(name)) {
             return file;
@@ -680,12 +684,16 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         } else if (type == FormFile.class) {
             file = (FormFile) value;
         } else {
-            param.put(name, (String[]) value);
+            String[] values = (String[]) value;
+            if (name.startsWith(PARAM_OVERWRITE_NAME_PREFIX))
+                setParam(name.substring(1), values[values.length - 1]);
+            else
+                param.put(name, values);
         }
     }
 
     /**
-     * Возвращает набор выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>",
+     * Возвращает набор выбранных числовых значений, переданных в форме несколько значений как <name>=<value>,
      * выбираются только целочисленные значения.
      *
      * @return
@@ -817,20 +825,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         throw new UnsupportedOperationException();
     }
 
-    private static final Map<String, DynaProperty> propertyMap = new HashMap<String, DynaProperty>();
-    static {
-        for (String name : new String[] { "action", PARAM_REQUEST_URL, PARAM_FORWARD, PARAM_FORWARD_FILE,
-                PARAM_RESPONSE_TYPE }) {
-            propertyMap.put(name, new DynaProperty(name, String.class));
-        }
-        propertyMap.put(PARAM_PAGE, new DynaProperty(PARAM_PAGE, Page.class));
-        propertyMap.put(PARAM_RESPONSE, new DynaProperty(PARAM_RESPONSE, Page.class));
-        propertyMap.put(PARAM_FILE, new DynaProperty(PARAM_FILE, FormFile.class));
-    }
-
     @Override
     public DynaProperty getDynaProperty(String name) {
-        DynaProperty result = propertyMap.get(name);
+        DynaProperty result = PROPERTIES.get(name);
         if (result == null) {
             result = new DynaProperty(name, String[].class);
         }

@@ -53,6 +53,19 @@ public class DynActionFormTest {
     }
 
     @Test
+    public void testGetOverwrittenParam() {
+        var form = new DynActionForm("url?a=1&!a=2");
+        Assert.assertEquals("2", form.getParam("a"));
+
+        form.set("a", new String[] { "val1" });
+        Assert.assertEquals("val1", form.getParam("a"));
+
+        form.set("!a", new String[] { "val1", "val2" });
+        Assert.assertEquals("val2", form.getParam("a"));
+        Assert.assertNull(form.getParam("!a"));
+    }
+
+    @Test
     public void testGetSelectedValues() {
         var form = new DynActionForm("url?a=1&a=2&");
         checkGetSelectedValues(form);

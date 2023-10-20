@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,13 +17,6 @@ import java.util.function.Consumer;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-
-import javassist.NotFoundException;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -40,11 +34,16 @@ import org.bgerp.app.servlet.user.event.ActionRequestEvent;
 import org.bgerp.util.Log;
 import org.bgerp.util.lic.AppLicense;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+
+import javassist.NotFoundException;
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.Locker;
 import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.LastModify;
@@ -420,7 +419,7 @@ public class BaseAction extends DispatchAction {
 
     /**
      * Saves and restores HTTP request parameters.
-     * As storage used {@link User#getPersonalizationMap()}, key is 'param.' + digest from {@link DynActionForm#getAreaId()}.
+     * As storage used {@link User#getPersonalizationMap()}, key is 'param.' + {@link DynActionForm#getAreaId()}.
      * @param con
      * @param form there params are taken and restored, also contains 'areaId' param.
      * @param get restore
@@ -429,23 +428,35 @@ public class BaseAction extends DispatchAction {
      * @throws SQLException
      */
     protected void restoreRequestParams(Connection con, DynActionForm form, boolean get, boolean set, String... params) throws SQLException {
-        Preferences prefs = form.getUser().getPersonalizationMap();
-        String valueBefore = prefs.getDataString();
+        final Preferences personalizationMap = form.getUser().getPersonalizationMap();
+        final String personalizationMapDataBefore = personalizationMap.getDataString();
+
         for (String param : params) {
-            String key = "param." + form.getAreaId();
+            final String key = "param." + form.getAreaId() + "." + param;
             // param doesn't present in the request - restoring
             if (form.getParamArray(param) == null) {
                 // storing values comma-separated
-                if (get && prefs.containsKey(key)) {
-                    form.setParamArray(param, Utils.toList(prefs.get(key)));
-                    log.debug("Restore param: {}, key: {}", param, key);
+                if (get && personalizationMap.containsKey(key)) {
+                    List<String> values = Utils.toList(personalizationMap.get(key));
+                    if (!values.isEmpty()) {
+                        if (values.size() > 1)
+                            form.setParamArray(param, values);
+                        else if (values.size() == 1)
+                            form.setParam(param, values.get(0));
+
+                        log.debug("Restoring param: {}, key: {}", param, key);
+                    }
                 }
             } else if (set) {
-                prefs.put(key, Utils.toString(form.getSelectedValuesListStr(param)));
-                log.debug("Store param: {}, key: {}", param, key);
+                String values = Utils.toString(form.getSelectedValuesListStr(param));
+                if (Utils.notBlankString(values)) {
+                    personalizationMap.put(key, values);
+                    log.debug("Storing param: {}, key: {}", param, key);
+                }
             }
         }
-        new UserDAO(con).updatePersonalization(valueBefore, form.getUser());
+
+        new UserDAO(con).updatePersonalization(personalizationMapDataBefore, form.getUser());
     }
 
     /**

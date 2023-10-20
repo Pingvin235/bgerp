@@ -30,7 +30,7 @@ public class IfaceState {
 
     public IfaceState(DynActionForm form, String... items) {
         this.ifaceId = form.getParam(REQUEST_PARAM_IFACE_ID);
-        this.state = items != null ? Utils.toString(Arrays.asList(items)) : form.getParam(REQUEST_PARAM_STATE);
+        this.state = items != null && items.length > 0 ? Utils.toString(Arrays.asList(items)) : form.getParam(REQUEST_PARAM_STATE);
     }
 
     public IfaceState(String objectType, int objectId, DynActionForm form, String... items) {
