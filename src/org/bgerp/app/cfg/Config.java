@@ -22,11 +22,7 @@ public abstract class Config {
     /**
      * The exception, thrown on empty configuration.
      */
-    public static class InitStopException extends BGMessageException {
-        public InitStopException() {
-            super("Init stop");
-        }
-    }
+    public static class InitStopException extends Exception {}
 
     /**
      * The constructor has to be overwritten and implement parameters parsing.
