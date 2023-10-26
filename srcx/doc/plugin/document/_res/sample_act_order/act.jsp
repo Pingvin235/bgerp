@@ -11,9 +11,9 @@
 	    	<c:if test="${not empty contractLink}">
 		    	<u:newInstance var="billingDao" clazz="ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO">
 					<u:param value="${ctxUser}"/>
-					<u:param value="${su.substringAfter(contractLink.linkedObjectType, ':')}"/>
+					<u:param value="${su.substringAfter(contractLink.linkObjectType, ':')}"/>
 				</u:newInstance>
-				<c:set var="contractInfo" value="${billingDao.getContractInfo(contractLink.linkedObjectId)}"/>
+				<c:set var="contractInfo" value="${billingDao.getContractInfo(contractLink.linkObjectId)}"/>
 			</c:if>
 
 	    	<h2 ${status.count ne 1 ? 'style="page-break-before: always;"' :''}>ООО «АтелРыбинск»</h2>

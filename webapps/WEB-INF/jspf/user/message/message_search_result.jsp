@@ -17,15 +17,15 @@
 
 			<tr>
 				<td>
-					<input type="checkbox" name="link" value="${item.linkedObjectType}*${item.linkedObjectId}*${u.escapeXml(item.linkedObjectTitle)}">
+					<input type="checkbox" name="link" value="${item.linkObjectType}*${item.linkObjectId}*${u.escapeXml(item.linkedObjectTitle)}">
 				</td>
-				<td>${item.linkedObjectId}</td>
+				<td>${item.linkObjectId}</td>
 
-				<c:set var="customerLinkRole" value="${customerLinkRoleConfig.modeMap[item.linkedObjectType]}"/>
+				<c:set var="customerLinkRole" value="${customerLinkRoleConfig.modeMap[item.linkObjectType]}"/>
 
 				<c:if test="${not empty customerLinkRole}">
 					<td>${customerLinkRole}</td>
-					<td><a href="#" onclick="openCustomer(${item.linkedObjectId}); return false;">${u.escapeXml(item.linkedObjectTitle)}</a></td>
+					<td><a href="#" onclick="openCustomer(${item.linkObjectId}); return false;">${u.escapeXml(item.linkedObjectTitle)}</a></td>
 				</c:if>
 
 				<plugin:include endpoint="user.message.search.result.jsp"/>

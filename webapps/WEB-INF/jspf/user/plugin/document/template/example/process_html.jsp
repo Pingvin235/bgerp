@@ -62,7 +62,7 @@ document:processCreateDocumentsAllowedTemplates+=,101
 				Получение привязанного договора BGBilling.
 
 				<c:set var="contractLink" value="${linkDao.getObjectLinksWithType(processId, 'contract%')[0]}"/>
-				<c:set var="contractId" value="${contractLink.linkedObjectId}"/>
+				<c:set var="contractId" value="${contractLink.linkObjectId}"/>
 				<c:set var="contractTitle" value="${contractLink.linkedObjectTitle}"/>
 
 				Пример выбора услуг в модуле Inet.

@@ -7,7 +7,7 @@
 
 <c:set var="linkedObjects" value="['0'"/>
 <c:forEach var="item" items="${form.response.data.list}">
-	<c:set var="linkedObjects">${linkedObjects},'${item.linkedObjectType.replace(":", "-" )}-${item.linkedObjectId}'</c:set>
+	<c:set var="linkedObjects">${linkedObjects},'${item.linkObjectType.replace(":", "-" )}-${item.linkObjectId}'</c:set>
 </c:forEach>
 <c:set var="linkedObjects">${linkedObjects}]</c:set>
 
@@ -55,8 +55,8 @@
 			<c:param name="action" value="deleteLink"/>
 			<c:param name="objectType" value="process"/>
 			<c:param name="id" value="${form.id}"/>
-			<c:param name="linkedObjectType" value="${item.linkedObjectType}"/>
-			<c:param name="linkedObjectId" value="${item.linkedObjectId}"/>
+			<c:param name="linkedObjectType" value="${item.linkObjectType}"/>
+			<c:param name="linkedObjectId" value="${item.linkObjectId}"/>
 		</c:url>
 
 		<%-- scope="request", for jsp:include --%>
@@ -65,14 +65,14 @@
 						onclick="$$.ajax.post('${deleteAjaxUrl}').done(() =>{ $$.ajax.load('${form.requestUrl}', $('#${uiid}').parent()); })"/>
 		</c:set>
 
-		<c:set var="customerLinkRole" value="${customerLinkRoleConfig.modeMap[item.linkedObjectType]}"/>
+		<c:set var="customerLinkRole" value="${customerLinkRoleConfig.modeMap[item.linkObjectType]}"/>
 
 		<c:if test="${not empty customerLinkRole}">
 			<tr>
 				<td>${delButton}</td>
-				<td>${item.linkedObjectId}</td>
+				<td>${item.linkObjectId}</td>
 				<td>${customerLinkRole}</td>
-				<td><ui:customer-link id="${item.linkedObjectId}" text="${item.linkedObjectTitle}"/></td>
+				<td><ui:customer-link id="${item.linkObjectId}" text="${item.linkedObjectTitle}"/></td>
 			</tr>
 		</c:if>
 

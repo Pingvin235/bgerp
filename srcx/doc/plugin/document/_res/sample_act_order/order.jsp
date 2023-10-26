@@ -50,9 +50,9 @@
 	    	<c:if test="${not empty contractLink}">
 		    	<u:newInstance var="billingDao" clazz="ru.bgcrm.plugin.bgbilling.proto.dao.ContractDAO">
 					<u:param value="${ctxUser}"/>
-					<u:param value="${su.substringAfter(contractLink.linkedObjectType, ':')}"/>
+					<u:param value="${su.substringAfter(contractLink.linkObjectType, ':')}"/>
 				</u:newInstance>
-				<c:set var="contractInfo" value="${billingDao.getContractInfo(contractLink.linkedObjectId)}"/>
+				<c:set var="contractInfo" value="${billingDao.getContractInfo(contractLink.linkObjectId)}"/>
 			</c:if>
 
 			<%-- разрыв страницы, если начался новый исполнитель --%>

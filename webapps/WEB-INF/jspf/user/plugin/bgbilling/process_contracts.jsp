@@ -10,12 +10,12 @@
 	</tr>
 
 	<c:forEach items="${form.response.data.list}" var="link">
-		<c:set var="billingId" value="${su.substringAfter( link.linkedObjectType, ':' )}"/>
+		<c:set var="billingId" value="${su.substringAfter( link.linkObjectType, ':' )}"/>
 		<c:set var="customerId" value="${form.response.data.customerId}" />
 		<tr>
 			<td>${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
-			<td>${link.linkedObjectId}</td>
-			<td width="100%"><a href="#" onclick="$$.bgbilling.contract.open( '${billingId}', '${link.linkedObjectId}' ); return false;">${link.linkedObjectTitle}</a></td>
+			<td>${link.linkObjectId}</td>
+			<td width="100%"><a href="#" onclick="$$.bgbilling.contract.open( '${billingId}', '${link.linkObjectId}' ); return false;">${link.linkedObjectTitle}</a></td>
 		</tr>
 	</c:forEach>
 </table>

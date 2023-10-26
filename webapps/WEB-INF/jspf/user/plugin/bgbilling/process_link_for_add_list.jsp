@@ -52,17 +52,17 @@
 <c:forEach var="item" items="${linksForAdd}">
 	<c:remove var="prefix"/>
 	<c:choose>
-		<c:when test="${item.linkedObjectType.startsWith('contract:' )}">
-			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}"/>
+		<c:when test="${item.linkObjectType.startsWith('contract:' )}">
+			<c:set var="billingId" value="${su.substringAfter( item.linkObjectType, ':')}"/>
 			<c:set var="title" value="Договор:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
 		</c:when>
-		<c:when test="${item.linkedObjectType.startsWith('bgbilling-task:' )}">
-			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}"/>
+		<c:when test="${item.linkObjectType.startsWith('bgbilling-task:' )}">
+			<c:set var="billingId" value="${su.substringAfter( item.linkObjectType, ':')}"/>
 			<c:set var="title" value="Задача:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}"/>
 		</c:when>
 	</c:choose>
 
 	additionalLinksForAdd.push( {
-		objectType: '${item.linkedObjectType}', id: ${item.linkedObjectId},
+		objectType: '${item.linkObjectType}', id: ${item.linkObjectId},
 		title: '${item.linkedObjectTitle.replace("'", "&#8217;").replace("\"", "&#8220;")}', objectTypeTitle: '${title}' } );
 </c:forEach>

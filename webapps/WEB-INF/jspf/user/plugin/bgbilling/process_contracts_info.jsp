@@ -7,13 +7,13 @@
 <c:remove var="form"/>
 
 <c:forEach var="link" items="${linkList}">
-	<c:set var="billingId" value="${su.substringAfter( link.linkedObjectType, ':' )}"/>
+	<c:set var="billingId" value="${su.substringAfter( link.linkObjectType, ':' )}"/>
 	<h1>${link.linkedObjectTitle} [ ${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title} ]</h1>
 
 	<c:url var="url" value="/user/plugin/bgbilling/contract.do">
 		<c:param name="action" value="contractInfo"/>
 		<c:param name="billingId" value="${billingId}"/>
-		<c:param name="contractId" value="${link.linkedObjectId}"/>
+		<c:param name="contractId" value="${link.linkObjectId}"/>
 		<c:param name="whatShow" value="${whatShow}"/>
 	</c:url>
 	<c:import url="${url}"/>

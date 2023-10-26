@@ -2,14 +2,14 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:choose>
-	<c:when test="${item.linkedObjectType.startsWith('contract:' )}">
+	<c:when test="${item.linkObjectType.startsWith('contract:' )}">
 		<tr>
 			<td>${delButton}</td>
-			<td>${item.linkedObjectId}</td>
-			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}" scope="request"/>
+			<td>${item.linkObjectId}</td>
+			<c:set var="billingId" value="${su.substringAfter( item.linkObjectType, ':')}" scope="request"/>
 			<td>Договор:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 
-			<c:set var="contractId" value="${item.linkedObjectId}" scope="request"/>
+			<c:set var="contractId" value="${item.linkObjectId}" scope="request"/>
 			<td><a href="#" onclick="$$.bgbilling.contract.open( '${billingId}', ${contractId} ); return false;">${item.linkedObjectTitle}</a></td>
 		</tr>
 
@@ -27,9 +27,9 @@
 					var $tabs = $("#content > #process-${process.id} #processTabsDiv");
 					<c:url var="url" value="/user/process/link.do">
 						<c:param name="action" value="linkedProcessList"/>
-						<c:param name="objectType" value="${item.linkedObjectType}"/>
+						<c:param name="objectType" value="${item.linkObjectType}"/>
 						<c:param name="objectTitle" value="${item.linkedObjectTitle}"/>
-						<c:param name="id" value="${item.linkedObjectId}"/>
+						<c:param name="id" value="${item.linkObjectId}"/>
 					</c:url>
 
 					<%-- проверка, чтобы добавляло только один раз вкладку --%>
@@ -39,11 +39,11 @@
 			</script>
 		</c:if>
 	</c:when>
-	<c:when test="${item.linkedObjectType.startsWith('bgbilling-helpdesk:' )}">
+	<c:when test="${item.linkObjectType.startsWith('bgbilling-helpdesk:' )}">
 		<tr>
 			<td>${delButton}</td>
-			<td>${item.linkedObjectId}</td>
-			<c:set var="billingId" value="${su.substringAfter( item.linkedObjectType, ':')}"/>
+			<td>${item.linkObjectId}</td>
+			<c:set var="billingId" value="${su.substringAfter( item.linkObjectType, ':')}"/>
 			<td>HelpDesk:${ctxPluginManager.pluginMap['bgbilling'].dbInfoManager.dbInfoMap[billingId].title}</td>
 			<td></td>
 		</tr>

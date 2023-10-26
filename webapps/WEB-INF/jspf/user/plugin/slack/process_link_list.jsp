@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
 <c:choose>
-	<c:when test="${item.linkedObjectType eq 'slack-channel'}">
+	<c:when test="${item.linkObjectType eq 'slack-channel'}">
 		<tr>
 			<td>${delButton}</td>
 			<td>0</td>
@@ -10,4 +10,4 @@
 			<td>${item.linkedObjectTitle}</td>
 		</tr>
 	</c:when>
-</c:choose>	
+</c:choose>

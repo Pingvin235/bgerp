@@ -111,7 +111,7 @@
 						<c:param name="action" value="messageRelatedProcessList"/>
 						<c:param name="from" value="${message.from}"/>
 						<c:forEach var="item" items="${form.response.data.searchedList}">
-							<c:param name="object" value="${item.linkedObjectType}:${item.linkedObjectId}"/>
+							<c:param name="object" value="${item.linkObjectType}:${item.linkObjectId}"/>
 						</c:forEach>
 						<%-- parameters for updating processes --%>
 						<c:param name="messageTypeId" value="${form.param.typeId}"/>
