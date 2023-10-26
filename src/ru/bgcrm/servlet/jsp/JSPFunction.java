@@ -12,12 +12,11 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.dist.inst.InstalledModule;
+import org.bgerp.app.dist.inst.InstallerChanges;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.util.Utils;
 
 /**
@@ -27,6 +26,8 @@ import ru.bgcrm.util.Utils;
  */
 public class JSPFunction {
     private static final Log log = Log.getLog();
+
+    private static final AtomicLong UIID = new AtomicLong(System.currentTimeMillis());
 
     /**
      * Checks if {@link Collection}, {@link Map} or array from {@code collection} contains {@code object}.
@@ -134,11 +135,11 @@ public class JSPFunction {
         return Utils.getObjectTitles(Utils.getObjectList(fullList, selectedIds));
     }
 
-    private static final String uidPrefix = "UIID";
-    private static final AtomicLong uidGen = new AtomicLong(System.currentTimeMillis());
-
+    /**
+     * @return an unique identifier for HTML nodes.
+     */
     public static String uiid() {
-        return uidPrefix + uidGen.incrementAndGet();
+        return "UIID" + UIID.incrementAndGet();
     }
 
     public static String urlEncode(String value) throws UnsupportedEncodingException {
@@ -260,24 +261,19 @@ public class JSPFunction {
         return s.substring(0, okIndex + 1);
     }
 
-    @Deprecated
-    public static Object getConfig(ConfigMap setup, String className) {
-        log.warnd("Used deprecated call u:getConfig, should be replaced to paramMapBean.getConfig");
-        return setup == null ? null : setup.getConfig(className);
-    }
-
     public static String fileNameWithLastModTime(String path) {
         File file = new File("webapps" + path);
         return path + "?version=" + (file.lastModified() / 1000);
     }
 
-    /**
-     * Возвращает значение ключа из Map а с персонализациями, значение по-умолчанию берётся из основной конфигурации.
-     * @param user
-     * @param key
-     * @return
-     */
-    public static String getFromPers(User user, String key, String defaultValue) {
-        return user.getPersonalizationMap().get(key, Setup.getSetup().get(key, defaultValue));
+    public static String docUrl(String url) {
+        if (url.startsWith("http"))
+            return url;
+
+        final var m = InstalledModule.get(InstalledModule.MODULE_UPDATE);
+        return
+            m == null ?
+            InstallerChanges.PRE_RELEASE_URL + "/doc/" + url :
+            "https://bgerp.org/doc/" + m.getVersion() + "/manual/" + url;
     }
 }

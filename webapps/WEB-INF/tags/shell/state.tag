@@ -29,10 +29,7 @@ $(function () {
 		<c:set var="state" value="${text.replaceAll('\\\\n', '')}"/>
 	</c:if>
 	<c:if test="${not empty help}">
-		<c:if test="${not help.startsWith('http')}">
-			<c:set var="help">https://bgerp.org/doc/3.0/manual/${help}</c:set>
-		</c:if>
-		<c:set var="state">${state}&nbsp;<a title='${l.l('Помощь')}' target='_blank' href='${help}'>?</a></c:set>
+		<c:set var="state">${state}&nbsp;<a title='${l.l('Помощь')}' target='_blank' href='${u:docUrl(help)}'>?</a></c:set>
 	</c:if>
 	<c:if test="${not empty state}">
 		$state.append("<h1 class='state'>${state}</h1>");

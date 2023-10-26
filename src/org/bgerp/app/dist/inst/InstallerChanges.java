@@ -34,6 +34,8 @@ public class InstallerChanges {
 
     private static final String UPDATE_TO_CHANGE_URL = "https://bgerp.org/update/";
     private static final String CHANGE_PRE_RELEASE = "00000";
+    public static final String PRE_RELEASE_URL = UPDATE_TO_CHANGE_URL + CHANGE_PRE_RELEASE;
+
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
     private final List<Change> changes = new ArrayList<>();

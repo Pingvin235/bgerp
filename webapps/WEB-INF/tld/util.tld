@@ -180,21 +180,15 @@
 	</function>
 
 	<function>
-		<description>Deprecated, use direct getConfig call from parameter map.</description>
-		<name>getConfig</name>
-		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
-		<function-signature>java.lang.Object getConfig(org.bgerp.app.cfg.ParameterMap, java.lang.String)</function-signature>
-	</function>
-	<function>
 		<description>File name with last motification time suffix.</description>
 		<name>fileNameWithLastModTime</name>
 		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
 		<function-signature>java.lang.String fileNameWithLastModTime(java.lang.String)</function-signature>
 	</function>
 	<function>
-		<description>Takes a value from user personalisations or default one from global setup.</description>
-		<name>getFromPers</name>
+		<description>Provides a complete documentation URL from the end of it after 'manual/'.</description>
+		<name>docUrl</name>
 		<function-class>ru.bgcrm.servlet.jsp.JSPFunction</function-class>
-		<function-signature>java.lang.String getFromPers(ru.bgcrm.model.user.User, java.lang.String, java.lang.String)</function-signature>
+		<function-signature>java.lang.String docUrl(java.lang.String)</function-signature>
 	</function>
 </taglib>

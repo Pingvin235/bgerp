@@ -12,16 +12,14 @@
 		return false;
 	</c:set>
 
-	<c:if test="${u:getFromPers( ctxUser, 'iface.process.editDescriptionOnClick', '1' ) eq 1}">
-		<script>
-			var callback = function()
-			{
-				${editCommand }
-			};
-			doOnClick( $('#${uiid} #show'), '', callback );
-		</script>
-		<c:set var="editStyle">cursor: pointer;</c:set>
-	</c:if>
+	<script>
+		var callback = function()
+		{
+			${editCommand }
+		};
+		doOnClick( $('#${uiid} #show'), '', callback );
+	</script>
+	<c:set var="editStyle">cursor: pointer;</c:set>
 
 	<div class="mt1"id="${uiid}">
 		<div class="mt1 mb05" >
