@@ -22,12 +22,12 @@ public class SenderTele2 extends Sender {
     private final String password;
     private final String shortcode;
 
-    protected SenderTele2(ConfigMap setup) throws InitStopException {
-        super(setup);
-        url = setup.get("url", "https://newbsms.tele2.ru/api/?operation=send");
-        shortcode = setup.get("shortcode", "bgerp.org");
-        login = setup.get("login");
-        password = setup.get("password");
+    protected SenderTele2(ConfigMap config) throws InitStopException {
+        super(null);
+        url = config.get("url", "https://newbsms.tele2.ru/api/?operation=send");
+        shortcode = config.get("shortcode", "bgerp.org");
+        login = config.get("login");
+        password = config.get("password");
         initWhen(StringUtils.isNoneBlank(login, password));
     }
 

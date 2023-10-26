@@ -16,12 +16,12 @@ public class SenderMTS extends Sender {
     private final String password;
     private final String shortcode;
 
-    protected SenderMTS(ConfigMap setup) throws InitStopException {
-        super(setup);
-        url = setup.get("url", "http://mcommunicator.ru/M2M/m2m_api.asmx/SendMessage");
-        shortcode = setup.get("shortcode", "bgerp.org");
-        login = setup.get("login");
-        password = setup.get("password");
+    protected SenderMTS(ConfigMap config) throws InitStopException {
+        super(null);
+        url = config.get("url", "http://mcommunicator.ru/M2M/m2m_api.asmx/SendMessage");
+        shortcode = config.get("shortcode", "bgerp.org");
+        login = config.get("login");
+        password = config.get("password");
         initWhen(StringUtils.isNoneBlank(login, password));
     }
 

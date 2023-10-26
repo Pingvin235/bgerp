@@ -15,11 +15,11 @@ public class SenderSMSC extends Sender {
     private final String login;
     private final String password;
 
-    protected SenderSMSC(ConfigMap setup) throws InitStopException {
-        super(setup);
-        url = setup.get("url", "https://smsc.ru/sys/send.php");
-        login = setup.get("login");
-        password = setup.get("password");
+    protected SenderSMSC(ConfigMap config) throws InitStopException {
+        super(null);
+        url = config.get("url", "https://smsc.ru/sys/send.php");
+        login = config.get("login");
+        password = config.get("password");
         initWhen(StringUtils.isNoneBlank(login, password));
     }
 
