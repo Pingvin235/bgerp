@@ -58,7 +58,7 @@ task:type.1.doExpression=<<END
     text =
         "Необходимо обратить внимание на процесс, в котором вы числитесь исполнителем.<br/>" +
         "Описание:<br>" + process.getDescription();
-    text += "<br/><a href='#UNDEF' onClick='openProcess( " + process.getId() + " ); return false;'>Перейти к процессу</a>";
+    text += "<br/><a href='#' onClick='$$.process.open( " + process.getId() + " ); return false;'>Перейти к процессу</a>";
     news = new("ru.bgcrm.model.News", true, "Напоминание о процессе #" + process.getId(), text);
     news.setUserId(taskObject.getConfig().getInt("userId", 0));
     // отправка исполнителям процесса

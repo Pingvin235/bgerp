@@ -247,7 +247,7 @@
 
 												--%><c:remove var="onClick"/><%--
 												--%><c:if test="${slotRange.task.processId gt 0}"><%--
-													--%><c:set var="onClick">onClick='openProcess( ${slotRange.task.processId} );'</c:set><%--
+													--%><c:set var="onClick">onClick='$$.process.open( ${slotRange.task.processId} );'</c:set><%--
 												--%></c:if><%--
 
 												--%><td colspan="${slotRange.slotCount}" ${titleTag} ${dayMinuteFrom} ${lock} ${onClick}>${slotRange.task.reference}<%--

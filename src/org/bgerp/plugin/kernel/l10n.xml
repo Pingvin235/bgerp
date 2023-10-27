@@ -627,6 +627,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>To search input a string and press Enter</en><ru>Для поиска введите строку и нажмите Enter</ru></p>
 	<p><en>inherited</en><ru>унаследованы</ru></p>
 	<p><en>File '{}' is bigger than allowed {} MB</en><ru>Файл '{}' больше чем разрешённые {} MB</ru></p>
+	<p><en>The user doesn't have allowed queues</en><ru>У пользователя нет разрешённых очередей</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

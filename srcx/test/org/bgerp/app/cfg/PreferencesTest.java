@@ -55,7 +55,8 @@ public class PreferencesTest {
 
     @Test
     public void testIncludes() throws Exception {
-        String includeFirst = "CONST=1\n" + "key+=,{@CONST}";
+        String includeFirst = "CONST=1\n"
+            + "key+=,{@CONST}";
         String includeSecond = "key+=,2";
 
         Preferences prefs = new Preferences("key+=,3", List.of(includeFirst, includeSecond), false);
@@ -77,17 +78,19 @@ public class PreferencesTest {
     public void testProcessIncludes() throws Exception {
         String dataInclude =
                 "LIB=<<END\n"
-                + "a = 1;\n"
-                + "return a + 1;\n"
+                    + "a = 1;\n"
+                    + "return a + 1;\n"
                 + "END\n"
                 + "key1=val1\n"
                 + "key2={@key1}\n"
-                + "key5={@LIB}";
+                + "key5={@LIB}\n"
+                + "key.{@inc:cnt}=valFromInclude";
 
         String data =
                 "include.1=1\n"
                 + "key3=val 3 \n"
-                + "key4={@key3}4\n";
+                + "key4={@key3}4\n"
+                + "key.{@inc:cnt}=valFromMainData";
 
         ConfigDAO configDao = new ConfigDAO(null) {
             @Override
@@ -109,6 +112,8 @@ public class PreferencesTest {
         Assert.assertEquals("val 3", config.get("key3"));
         Assert.assertEquals("val 34", config.get("key4"));
         Assert.assertEquals("a = 1;\nreturn a + 1;\n", config.get("key5"));
+        Assert.assertEquals("valFromMainData", config.get("key.1"));
+        Assert.assertEquals("valFromInclude", config.get("key.2"));
 
         data =  "include.2=1\n";
         boolean exception = false;

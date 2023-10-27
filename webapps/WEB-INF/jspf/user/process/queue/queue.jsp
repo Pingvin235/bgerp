@@ -14,13 +14,9 @@
 					<c:set var="valuesHtml">
 						<c:forEach items="${form.response.data.list}" var="item">
 							<c:if test="${not savedPanelMap.contains(item.id)}">
-								<li value="${item.id}" onclick="updateSelectedQueue('${item.id}'); $$.process.queue.showSelected('${item.id}');"><div>${item.title}</div><div class="icon-add"></div></li>
-								<script>
-									$("li[value="+${item.id}+"]").find(".icon-add").click(function(event){
-										event.stopPropagation();
-										addToPanelScript('${item.id}','${item.title}',true);
-									})
-								</script>
+								<li value="${item.id}">
+									<div>${item.title}</div><div class="icon-add" onclick="event.stopPropagation(); addToPanelScript('${item.id}','${item.title}',true);"></div>
+								</li>
 							</c:if>
 						</c:forEach>
 					</c:set>
@@ -29,10 +25,9 @@
 
 					<ui:combo-single id="${id}"
 						value="${ctxUser.personalizationMap['queueLastSelected']}"
-						widthTextValue="220px"
+						onSelect="$$.process.queue.updateSelected(this.value); $$.process.queue.showSelected(this.value);"
+						widthTextValue="18em"
 						prefixText="${l.l('Очередь')}:"
-						showFilter="1"
-						onSelect="$('.text-value div.icon-add').remove()"
 						valuesHtml="${valuesHtml}"/>
 
 					<c:set var="queueId" value="${form.id}"/>
@@ -50,14 +45,12 @@
 								</c:if>
 							</c:forEach>
 
-							//удаляем иконку добавления на панель из select при загрузке
-							$('#processQueueSelect').find('.text-value div.icon-add').remove();
 							$$.process.queue.showSelected(${queueId});
 						})
 					</script>
 				</c:when>
 				<c:otherwise>
-					У пользователя нет разрешённых очередей.
+					${l.l("The user doesn't have allowed queues")}
 				</c:otherwise>
 			</c:choose>
 		</td>
@@ -88,7 +81,7 @@
 
 		<c:set var="returnToShow">$('#processQueueCreateProcess').hide(); $('#processQueueShow').show();</c:set>
 		<c:set var="saveCommand">
-			var result = sendAJAXCommand( formUrl( this.form ) ); if( result ){ ${returnToShow} openProcess( result.data.process.id ); };
+			var result = sendAJAXCommand( formUrl( this.form ) ); if( result ){ ${returnToShow} $$.process.open( result.data.process.id ); };
 		</c:set>
 
 		<div class="mt1 in-mr1">

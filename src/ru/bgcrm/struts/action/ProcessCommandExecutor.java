@@ -61,29 +61,6 @@ public class ProcessCommandExecutor {
                 command = "addExecutors:" + form.getUserId();
             }
 
-            /* // устаревший формат, убрать в конфигурации типов процессов
-            if (command.startsWith(COMMAND_ADD_EXECUTORS)) {
-                command = command.replaceAll("current", "{@ctxUserId}");
-            } */
-
-            // command = Preferences.insertVariablesValues(command, form.getUser().getConfigMap(), null, true);
-
-            //TODO: Поддержка ролей.
-            /* if (command.startsWith("addGroupsInRole")) {
-                String groupIds = StringUtils.substringBetween(command, ":");
-                int roleId = Utils.parseInt(StringUtils.substringAfterLast(command, ":"), 0);
-
-                Set<ProcessGroup> processGroups = new HashSet<ProcessGroup>(process.getGroups());
-                Set<ProcessGroup> addingProcessGroups = ProcessGroup.toProcessGroupSet(Utils.toIntegerSet(groupIds), roleId);
-                if (type.getProperties().getAllowedGroups().size() > 0) {
-                    addingProcessGroups = new HashSet<ProcessGroup>(
-                            CollectionUtils.intersection(addingProcessGroups, type.getProperties().getAllowedGroups()));
-                }
-
-                if (processGroups.addAll(addingProcessGroups)) {
-                    ProcessAction.processGroupsUpdate(form, con, process, processGroups);
-                }
-            } else */
             if (command.startsWith(COMMAND_SET_STATUS)) {
                 int status = Utils.parseInt(StringUtils.substringAfter(command, ":"));
 
@@ -123,72 +100,7 @@ public class ProcessCommandExecutor {
                 executors.addAll(ProcessExecutor.toProcessExecutorSet(addingExecutorIds, processGroup));
 
                 ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
-            } /* else if (command.startsWith("checkExecutorsInGroups")) {
-                Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringAfter(command, ":"));
-
-                GROUP_LOOP: for (Integer groupId : groupIds) {
-                    for (ProcessExecutor processExecutor : process.getExecutors()) {
-                        if (processExecutor.getGroupId() == groupId) {
-                            continue GROUP_LOOP;
-                        }
-                    }
-
-                    Group group = UserCache.getUserGroup(groupId);
-
-                    throw new BGMessageException("Не установлен исполнитель из группы:\n " + group.getTitle());
-                }
-            } else if (command.startsWith("addExecutorsInGroupsInRole")) {
-                String curCommand = StringUtils.substringAfter(command, ":");
-
-                Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringBefore(curCommand, ":"));
-                Set<Integer> userIds = Utils.toIntegerSet(StringUtils.substringBetween(curCommand, ":"));
-                int roleId = Utils.parseInt(StringUtils.substringAfterLast(curCommand, ":"), -1);
-
-                ProcessGroup processGroup = getProcessGroup(process, groupIds, roleId);
-
-                // добавление в текущих исполнителей группороли
-                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(),
-                        Collections.singleton(processGroup));
-                executors.addAll(ProcessExecutor.toProcessExecutorSet(userIds, processGroup));
-
-                ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
-            } else if (command.startsWith("setExecutorsInGroupsIfNot")) {
-                Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringBetween(command, ":"));
-                Set<Integer> userIds = Utils.toIntegerSet(StringUtils.substringAfterLast(command, ":"));
-
-                ProcessGroup processGroup = getProcessGroup(process, groupIds);
-
-                // добавление в текущих исполнителей группороли
-                Set<ProcessExecutor> executors = ProcessExecutor.getProcessExecutors(process.getExecutors(),
-                        Collections.singleton(processGroup));
-                if (executors.size() == 0) {
-                    executors = ProcessExecutor.toProcessExecutorSet(userIds, processGroup);
-                }
-
-                ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
-            } else if (command.startsWith("setExecutorsInGroupsInRole")) {
-                String curCommand = StringUtils.substringAfter(command, ":");
-
-                Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringBefore(curCommand, ":"));
-                Set<Integer> userIds = Utils.toIntegerSet(StringUtils.substringBetween(curCommand, ":"));
-                int roleId = Utils.parseInt(StringUtils.substringAfterLast(curCommand, ":"), -1);
-
-                ProcessGroup processGroup = getProcessGroup(process, groupIds, roleId);
-                // добавление в текущих исполнителей группороли
-                Set<ProcessExecutor> executors = ProcessExecutor.toProcessExecutorSet(userIds, processGroup);
-
-                ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
-            } else if (command.startsWith("setExecutorsInGroups")) {
-                Set<Integer> groupIds = Utils.toIntegerSet(StringUtils.substringBetween(command, ":"));
-                Set<Integer> userIds = Utils.toIntegerSet(StringUtils.substringAfterLast(command, ":"));
-
-                ProcessGroup processGroup = getProcessGroup(process, groupIds);
-
-                // добавление в текущих исполнителей группороли
-                Set<ProcessExecutor> executors = ProcessExecutor.toProcessExecutorSet(userIds, processGroup);
-
-                ProcessAction.processExecutorsUpdate(form, con, process, Collections.singleton(processGroup), executors);
-            }*/ else if (command.equals("clearGroups")) {
+            } else if (command.equals("clearGroups")) {
                 ProcessAction.processGroupsUpdate(form, con, process, new HashSet<ProcessGroup>());
             } else if (command.equals("clearExecutors")) {
                 ProcessAction.processExecutorsUpdate(form, con, process, process.getGroups(), new HashSet<ProcessExecutor>());
@@ -225,7 +137,7 @@ public class ProcessCommandExecutor {
 
                 news.setTitle(subject);
 
-                text += "<br/><a href='#UNDEF' onClick='openProcess( " + process.getId() + " )'>Перейти к процессу</a>";
+                text += "<br/><a href='#' onClick='$$.process.open( " + process.getId() + " )'>Перейти к процессу</a>";
 
                 news.setDescription(text);
 
@@ -234,23 +146,7 @@ public class ProcessCommandExecutor {
                 if (userIds.size() > 0 && Utils.notBlankString(news.getTitle())) {
                     newsDao.updateNewsUsers(news, userIds);
                 }
-            }/*  else if (command.startsWith("createProcessLinkForSame")) {
-                int createTypeId = Utils.parseInt(StringUtils.substringAfter(command, ":"));
-                if (createTypeId <= 0) {
-                    throw new BGException("Не определён тип для создания");
-                }
-
-                Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>();
-                new ProcessLinkDAO(con).searchLinkedProcessList(searchResult, Process.LINK_TYPE_DEPEND, process.getId(), null, null, null, null,
-                        null);
-
-                Pair<String, Process> linked = Utils.getFirst(searchResult.getList());
-                if (linked == null) {
-                    throw new BGMessageException("Не найден процесс, зависящий от данного.");
-                }
-
-                ProcessLinkAction.linkProcessCreate(con, form, linked.getSecond(), -1, null, createTypeId, "", -1);
-            } */ else if (command.startsWith("createProcessLink")) {
+            } else if (command.startsWith("createProcessLink")) {
                 int createTypeId = Utils.parseInt(StringUtils.substringAfter(command, ":"));
                 if (createTypeId <= 0) {
                     throw new BGException("Не определён тип для создания");
