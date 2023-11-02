@@ -518,7 +518,6 @@
 	<p><en>Modified time</en><ru>Время изменения</ru></p>
 	<p><en>Cохранить</en><ru>Save</ru></p>
 	<p><en>Extend right process card area on scroll down</en><ru>Расширять правую часть карточки процесса при промотке вниз</ru></p>
-	<p><en>Process type does not exist: {}</en><ru>Тип процесса не существует: {}</ru></p>
 	<p><en>set</en><ru>уст.</ru></p>
 	<p><en>License Check Error</en><ru>Ошибка проверки лицензии</ru></p>
 	<p><en>License</en><ru>Лицензия</ru></p>
@@ -628,6 +627,9 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>inherited</en><ru>унаследованы</ru></p>
 	<p><en>File '{}' is bigger than allowed {} MB</en><ru>Файл '{}' больше чем разрешённые {} MB</ru></p>
 	<p><en>The user doesn't have allowed queues</en><ru>У пользователя нет разрешённых очередей</ru></p>
+	<p><en>Choose a process for merging the current to</en><ru>Выберите процесс для слияния текущего</ru></p>
+	<p><en>Process cloned from {}</en><ru>Процесс клонирован из {}</ru></p>
+	<p><en>Clone process</en><ru>Клонировать процесс</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

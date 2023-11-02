@@ -202,6 +202,8 @@ public class ProcessDAO extends CommonDAO {
         return result;
     }
 
+    /** Use {@link org.bgerp.dao.process.ProcessSearchDAO} */
+    @Deprecated
     public List<Process> getProcessList(Collection<Integer> processIds) throws BGException {
         List<Process> processList = new ArrayList<Process>();
         try {
@@ -220,7 +222,7 @@ public class ProcessDAO extends CommonDAO {
         }
     }
 
-    public void updateProcessGroups(Set<ProcessGroup> processGroups, int processId) throws Exception {
+    public void updateProcessGroups(Set<ProcessGroup> processGroups, int processId) throws SQLException {
         if (form != null) {
             Process oldValue = new ProcessDAO(con).getProcess(processId);
             Process newValue = oldValue.clone();
@@ -664,12 +666,8 @@ public class ProcessDAO extends CommonDAO {
         }
     }
 
-    /**
-     * Возвращает последнюю запись лога изменения процесса.
-     * @param process
-     * @return
-     * @throws BGMessageException
-     */
+    /** Is not used. */
+    @Deprecated
     public EntityLogItem getLastProcessChangeLog(Process process) throws BGMessageException {
         Pageable<EntityLogItem> logItems = new Pageable<EntityLogItem>();
         logItems.getPage().setPageIndex( 1 );

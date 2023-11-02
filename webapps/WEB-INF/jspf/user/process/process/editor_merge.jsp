@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<h1>${l.l('Выберите процесс для слияния текущего')}</h1>
+<h1>${l.l('Choose a process for merging the current to')}</h1>
 <html:form action="/user/process">
 	<html:hidden property="id"/>
 	<input type="hidden" name="action" value="processMerge"/>
@@ -13,7 +13,7 @@
 		$(() => {
 			const processList = openedObjectList({'typesInclude' : ['process']});
 			let html = '';
-			$.each(processList, function() {
+			$.each(processList, function () {
 				html += '<li value=\'' + this.id + '\'>' + this.title + '</li>';
 			});
 
@@ -25,15 +25,14 @@
 	<table style="width: 100%;">
 		<tr>
 			<td valign="top" class="pt1 pb1">
-				<c:set var="saveCommand">$$.ajax.post(this).done(() => {
-					$$.closeObject = null;
-					$$.shell.removeCommandDiv('process-${process.id}');
+				<c:set var="okCommand">$$.ajax.post(this).done(() => {
+					$$.process.remove(${process.id});
 					$$.process.open(this.form.processId.value);
 				})</c:set>
-				<c:set var="closeEditor">$$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent());</c:set>
+				<c:set var="cancelCommand">$$.ajax.load('${form.returnUrl}', $('#${form.returnChildUiid}').parent());</c:set>
 
-				<ui:button type="ok" onclick="${saveCommand}"/>
-				<ui:button type="cancel" styleClass="ml1" onclick="${closeEditor}"/>
+				<ui:button type="ok" onclick="${okCommand}"/>
+				<ui:button type="cancel" styleClass="ml1" onclick="${cancelCommand}"/>
 			</td>
 		</tr>
 	</table>

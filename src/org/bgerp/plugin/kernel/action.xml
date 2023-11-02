@@ -244,6 +244,11 @@
 			<item action="ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate" title="Create process"/>
 			<item title="Card">
 				<item action="ru.bgcrm.struts.action.ProcessAction:null, org.bgerp.action.usermob.ProcessAction:null, ru.bgcrm.struts.action.ProcessAction:process" title="View process card"/>
+
+				<item action="ru.bgcrm.struts.action.ProcessAction:processClone" title="Clone"/>
+				<item action="ru.bgcrm.struts.action.ProcessAction:processDelete" title="Delete"/>
+				<item action="ru.bgcrm.struts.action.ProcessAction:processMerge" title="Merge"/>
+
 				<item action="ru.bgcrm.struts.action.ProcessAction:processStatusUpdate" title="Edit status"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:processStatusHistory" title="View status history"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:processPriorityUpdate" title="Edit priority"/>
@@ -258,8 +263,6 @@
 				<item action="ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap" title="Swap executors"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:processTypeEdit, ru.bgcrm.struts.action.ProcessAction:processTypeUpdate" title="Edit type"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:unionLog" title="View change log"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processDelete" title="Delete"/>
-				<item action="ru.bgcrm.struts.action.ProcessAction:processMerge" title="Merge"/>
 
 				<item title="Linked processes">
 					<item action="org.bgerp.action.ProcessLinkProcessAction:null, org.bgerp.action.ProcessLinkProcessAction:linkProcessList, org.bgerp.action.ProcessLinkProcessAction:linkedProcessList, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList"

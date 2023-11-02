@@ -59,6 +59,10 @@ class names should be defined used only name without packages. Outdated configur
 === <<../../plugin/bgbilling/index.adoc#, Plugin BGBilling>>
 HelpDesk testing configuration key <<../../plugin/bgbilling/index.adoc#helpdesk, topicId>>.
 
+=== Cloning Processes
+
+image::_res/14847-process-clone.png[]
+
 === <<../../plugin/bil/invoice/index.adoc#, Plugin Invoice>>
 
 Time reversed order of invoice table.

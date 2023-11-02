@@ -286,8 +286,8 @@ processReference.1.stringExpression="<span class='title'>#" + process.getId() + 
 
 image::_res/conf_title_buffer.png[]
 
-[[card]]
-== Карточка процесса
+[[usage-card]]
+== Process Card
 Карточка процесса открывается в буфере объектов и позволяет редактировать свойства уже созданного процесса.
 
 image::_res/card.png[]
@@ -300,10 +300,17 @@ image::_res/card.png[]
 
 В правой области отображаются связанные с процессом данные, например <<linked-process,связанные процессы>>, либо различные расширения, предоставляемые плагинами.
 
-[[delete]]
-=== Удаление и слияние
-Ссылка *[X]* слева от типа процесса вызывает меню с операциями *Удаление* и *Слияние*.
-Обе операции уничтожают текущий процесс, вторая предварительно переносит все <<../message/index.adoc#, сообщения>> и описание из него в целевой.
+[[usage-card-existance-operation]]
+=== Existance Operations
+The link *[...]* left of process type calls a popup menu.
+
+image::_res/card_existance_operations.png[]
+
+That allows the following operations:
+[square]
+* *Clone* - the process is copied with all its parameter values;
+* *Merge* - the process is deleted, all its <<../message/index.adoc#, messages>> and description are moved to a merging target process;
+* *Delete* - the process is just deleted.
 
 [[executor]]
 === Группы решения и исполнители

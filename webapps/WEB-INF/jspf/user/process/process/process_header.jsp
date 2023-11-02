@@ -14,12 +14,18 @@
 
 					<div style="max-height: 0px;">
 						<ul id="${uiidDelMenu}" style="display: none;">
-							<c:url var="url" value="/user/process.do">
-								<c:param name="action" value="processDelete"/>
+							<c:url var="url" value="${form.httpRequestURI}">
+								<c:param name="action" value="processClone"/>
 								<c:param name="id" value="${process.id}"/>
 							</c:url>
-							<li><a href="#"
-								onclick="if (confirm('${l.l('Удалить процесс')}?')) $$.ajax.post('${url}').done(() => { ${returnBreakCommand} }); return false;">${l.l('Удалить процесс')}</a>
+							<li>
+								<a href="#" onclick="if (confirm('${l.l('Clone process')}?'))
+									$$.ajax.post('${url}').done((response) => {
+										$$.process.open(response.data.process.id);
+									}); return false;">
+									<i class="ti-layers"></i>
+									${l.l('Clone process')}
+								</a>
 							</li>
 
 							<c:url var="url" value="/user/empty.do">
@@ -28,14 +34,28 @@
 								<c:param name="id" value="${process.id}"/>
 								<c:param name="forwardFile" value="/WEB-INF/jspf/user/process/process/editor_merge.jsp"/>
 							</c:url>
-							<li><a href="#"
-								onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">${l.l('Слить в существующий')}</a>
+							<li>
+								<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}')); return false;">
+									<i class="ti-shift-right"></i>
+									${l.l('Слить в существующий')}
+								</a>
+							</li>
+
+							<c:url var="url" value="${form.httpRequestURI}">
+								<c:param name="action" value="processDelete"/>
+								<c:param name="id" value="${process.id}"/>
+							</c:url>
+							<li>
+								<a href="#" onclick="if (confirm('${l.l('Удалить процесс')}?')) $$.ajax.post('${url}').done(() => { ${returnBreakCommand} }); return false;">
+									<i class="ti-trash"></i>
+									${l.l('Удалить процесс')}
+								</a>
 							</li>
 						</ul>
 					</div>
 
 					<c:set var="uiidDelMenuLink" value="${u:uiid()}"/>
-					[<a href="#" id="${uiidDelMenuLink}"> X </a>]
+					[<a href="#" id="${uiidDelMenuLink}">...</a>]
 					<script>
 						$(() => {
 							$$.ui.menuInit($("#${uiidDelMenuLink}"), $("#${uiidDelMenu}"), "left");
@@ -63,7 +83,7 @@
 				</p:check>
 
 				<p:check action="ru.bgcrm.struts.action.ProcessAction:unionLog">
-					<c:url var="logUrl" value="/user/process.do">
+					<c:url var="logUrl" value="${form.httpRequestURI}">
 						<c:param name="action" value="unionLog"></c:param>
 						<c:param name="id" value="${form.id}"></c:param>
 						<c:param name="type" value="process"></c:param>

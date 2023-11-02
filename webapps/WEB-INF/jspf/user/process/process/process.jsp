@@ -13,18 +13,16 @@
 		<c:set var="returnBreakCommand">$$.ajax.load('${form.returnUrl}', $('#${uiid}').parent())</c:set>
 		<c:set var="returnOkCommand">${returnBreakCommand}</c:set>
 	</c:when>
-	<%-- открытие во вкладке вернего уровня --%>
+	<%-- открытие в оснастке вернего уровня --%>
 	<c:otherwise>
-		<%-- просто выход (в т.ч. после удаления временного процесса --%>
+		<%-- просто выход, в т.ч. после удаления временного процесса --%>
 		<c:set var="returnBreakCommand">
-			$$.closeObject = null;
+			$$.process.remove(${process.id});
 			window.history.back();
-			$$.shell.removeCommandDiv('process-${process.id}');
 		</c:set>
-		<%-- выход после преобразования временного процесса в постоянный --%>
+		<%-- выход после преобразования временного процесса в постоянный in wizard --%>
 		<c:set var="returnOkCommand">
-			$$.closeObject = null;
-			$$.shell.removeCommandDiv('process-${process.id}');
+			$$.process.remove(${process.id});
 			window.history.replaceState({href: 'process#${-process.id}'}, null, 'process#${-process.id}');
 			$$.process.open(${-process.id});
 		</c:set>

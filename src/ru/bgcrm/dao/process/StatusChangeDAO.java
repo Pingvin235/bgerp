@@ -35,12 +35,12 @@ public class StatusChangeDAO extends CommonDAO {
         this.form = form;
     }
 
-    public void changeStatus(Process process, ProcessType type, StatusChange change) throws Exception {
+    public void changeStatus(Process process, ProcessType type, StatusChange change) throws SQLException {
         ProcessDAO processDAO = new ProcessDAO(con, form);
         process.setStatusId(change.getStatusId());
         process.setStatusTime(change.getDate());
         process.setStatusUserId(change.getUserId());
-        if (type.getProperties().getCloseStatusIds().contains(change.getStatusId())) {
+        if (type != null && type.getProperties().getCloseStatusIds().contains(change.getStatusId())) {
             process.setCloseTime(change.getDate());
             process.setCloseUserId(change.getUserId());
         } else {

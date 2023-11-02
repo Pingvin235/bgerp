@@ -17,6 +17,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.dao.process.ProcessCloneDAO;
 import org.bgerp.model.Pageable;
 import org.bgerp.model.config.IsolationConfig;
 import org.bgerp.model.config.IsolationConfig.IsolationProcess;
@@ -204,10 +205,7 @@ public class ProcessAction extends BaseAction {
         ProcessDAO processDAO = new ProcessDAO(con);
         StatusChangeDAO changeDao = new StatusChangeDAO(con);
 
-        ProcessType type = ProcessTypeCache.getProcessType(process.getTypeId());
-        if (type == null) {
-            throw new BGMessageException("Process type does not exist: {}", process.getTypeId());
-        }
+        ProcessType type = ProcessTypeCache.getProcessTypeOrThrow(process.getTypeId());
 
         TypeProperties typeProperties = type.getProperties();
 
@@ -265,6 +263,14 @@ public class ProcessAction extends BaseAction {
      */
     public ActionForward processCreate(DynActionForm form, Connection con) throws Exception {
         ProcessAction.processCreateAndGet(form, con);
+
+        return json(con, form);
+    }
+
+    public ActionForward processClone(DynActionForm form, Connection con) throws Exception {
+        var process = new ProcessCloneDAO(con, form).withParams(true).clone(form.getId());
+
+        form.setResponseData("process", process);
 
         return json(con, form);
     }
