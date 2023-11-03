@@ -7,7 +7,7 @@ import java.util.Map;
 import org.bgerp.app.cfg.Setup;
 
 import ru.bgcrm.event.EventProcessor;
-import ru.bgcrm.event.ParamChangingEvent;
+import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.plugin.Endpoint;
 
@@ -33,8 +33,8 @@ public class Plugin extends ru.bgcrm.plugin.Plugin {
         EventProcessor.subscribe((event, conSet) -> {
             var config = Setup.getSetup().getConfig(Config.class);
             if (config != null)
-                config.paramChanging(event, conSet);
-        }, ParamChangingEvent.class);
+                config.paramChanged(event, conSet);
+        }, ParamChangedEvent.class);
 
         EventProcessor.subscribe((event, conSet) -> {
             var config = Setup.getSetup().getConfig(Config.class);

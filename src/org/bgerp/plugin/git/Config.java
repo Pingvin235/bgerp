@@ -9,7 +9,7 @@ import org.bgerp.app.l10n.Localization;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.event.ParamChangingEvent;
+import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.event.process.ProcessChangingEvent;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.process.Process;
@@ -47,7 +47,7 @@ public class Config extends org.bgerp.app.cfg.Config {
      * @param conSet
      * @throws Exception
      */
-    public void paramChanging(ParamChangingEvent e, ConnectionSet conSet) throws Exception {
+    public void paramChanged(ParamChangedEvent e, ConnectionSet conSet) throws Exception {
         if (e.getParameter().getId() != paramBranchId)
             return;
 

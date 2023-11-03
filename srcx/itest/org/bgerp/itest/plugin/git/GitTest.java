@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 
 import ru.bgcrm.cache.ParameterCache;
 import ru.bgcrm.dao.ParamValueDAO;
-import ru.bgcrm.event.ParamChangingEvent;
+import ru.bgcrm.event.ParamChangedEvent;
 import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.model.process.TypeProperties;
@@ -74,9 +74,9 @@ public class GitTest {
 
         int processId = process.getId();
 
-        var event = new ParamChangingEvent(DynActionForm.SYSTEM_FORM, ParameterCache.getParameter(paramBranchId),
+        var event = new ParamChangedEvent(DynActionForm.SYSTEM_FORM, ParameterCache.getParameter(paramBranchId),
                 processId, "branch_name");
-        config.paramChanging(event, new SingleConnectionSet(DbTest.conRoot));
+        config.paramChanged(event, new SingleConnectionSet(DbTest.conRoot));
         Assert.assertEquals(paramDao.getParamText(processId, paramBranchId), "p" + processId + "-branch-name");
     }
 }
