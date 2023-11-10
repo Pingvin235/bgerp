@@ -116,7 +116,7 @@
 	<jsp:attribute name="text">
 		<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.action.open.ProfileAction$Config')}"/>
 		<c:if test="${config.isOpen(requestUserId)}">
-			<a target='_blank' href='${config.url(requestUserId)}' title='${l.l('Open interface')}'>O</a>
+			<a target='_blank' href='${config.url(requestUserId)}' title='${l.l('Open Interface')}'>O</a>
 		</c:if>
 		<span id='user_title_${requestUserId}' class='title'>${ctxUserMap[u:int(requestUserId)].title}</span>
 	</jsp:attribute>

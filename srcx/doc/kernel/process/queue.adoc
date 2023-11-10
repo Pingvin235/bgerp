@@ -897,7 +897,7 @@ processor.6.doExpression=deleteGroups(process.getGroupIds())
 ----
 
 [[processor-open]]
-==== Open interface
+==== Open Interface
 For <<../interface.adoc#open, open>> interface definition of processor is easier, example:
 [source]
 ----

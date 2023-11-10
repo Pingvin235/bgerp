@@ -12,7 +12,7 @@
 			<span class='title' id='process_title_${process.id}'>
 				<c:set var="config" value="${ctxSetup.getConfig('org.bgerp.action.open.ProcessAction$Config')}"/>
 				<c:if test="${config.isOpenForUser(process)}">
-					<a target='_blank' href='${config.url(process)}' title='${l.l('Open interface')}'>O</a>
+					<a target='_blank' href='${config.url(process)}' title='${l.l('Open Interface')}'>O</a>
 				</c:if>
 				${title}
 			</span>

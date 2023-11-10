@@ -187,7 +187,7 @@ createWizard.step.2.class=ru.bgcrm.model.process.wizard.SetDescriptionStep
 image::_res/iface_mob_wizard.png[]
 
 [[open]]
-== Open interface
+== Open Interface
 The interface is <<server, available>> by suffix */user*.
 
 Configuration sample of <<install.adoc#nginx, NGINX>> for accessing it from outside network.
@@ -262,7 +262,7 @@ Where:
 
 [[open-l10n]]
 === Localization
-For <<../project/index.adoc#l10n, localization>> of the Open interface add HTTP request parameter *lang=<LANG>*, where *<LANG>* - shortcut of the wanted language.
+For <<../project/index.adoc#l10n, localization>> of the Open Interface add HTTP request parameter *lang=<LANG>*, where *<LANG>* - shortcut of the wanted language.
 
 [[id]]
 == Коды объектов

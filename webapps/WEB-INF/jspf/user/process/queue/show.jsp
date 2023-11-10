@@ -56,7 +56,7 @@
 <shell:title>
 	<jsp:attribute name="text">
 		<c:if test="${not empty queue.openUrl}">
-			<a target='_blank' href='/open/process/queue/${queue.openUrl}' title='${l.l('Open interface')}'>O</a>
+			<a target='_blank' href='/open/process/queue/${queue.openUrl}' title='${l.l('Open Interface')}'>O</a>
 		</c:if>
 		${l.l('Очереди процессов')}
 	</jsp:attribute>
