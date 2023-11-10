@@ -372,7 +372,7 @@
 
 								<c:set var="available" value="${filter.availableValues}"/>
 
-								<c:set var="prefixText" value="Статус:"/>
+								<c:set var="prefixText" value="${l.l('Status')}:"/>
 								<c:set var="widthTextValue" value="100px"/>
 								<%@ include file="/WEB-INF/jspf/combo_check.jsp"%>
 							</u:sc>
@@ -667,46 +667,22 @@
 			</c:set>
 
 			<c:set var="id" value="${u:uiid()}"/>
-			<c:set var="hiddenName" value="param"/>
-			<c:set var="prefixText" value="${l.l('Фильтры')}:"/>
-			<c:set var="styleClass" value="mr1 filtersSelect"/>
-			<c:set var="widthTextValue" value="50px"/>
-			<c:set var="onChange">
-				var selectedFilters = {};
-				var selectedFilterIds = "";
+			<c:set var="onChange" value="$$.process.queue.filter.showSelected('${id}', '${selectorForm}')"/>
 
-				$$.ui.comboInputs($("#${id}")).each( function() {
-					if( this.checked )
-					{
-						selectedFilters[$(this).attr('id')] = 1;
-						if( selectedFilterIds.length > 0 )
-						{
-							selectedFilterIds += ",";
-						}
-						selectedFilterIds += $(this).attr('value');
-					}
-				});
+			<ui:combo-check id="${id}" valuesHtml="${valuesHtml}" onChange="${onChange}" prefixText="${l.l('Фильтры')}:" styleClass="mr1 filtersSelect" widthTextValue="5em"/>
 
-				$('${selectorForm}')[0].selectedFilters.value = selectedFilterIds;
-
-				// отображение выбранных фильтров
-				$('${selectorForm}').find('.filter-item').each( function()
-				{
-					$(this).toggle(selectedFilters[$(this).attr( 'id' )] !== undefined);
-				});
-
-				processQueueClearHiddenFilters($('${selectorForm}'));
-				processQueueMarkFilledFilters($('${selectorForm}'));
-			</c:set>
-			<%@ include file="/WEB-INF/jspf/combo_check.jsp"%>
+			<script style="display: none;">
+				$(function () {
+					${onChange}
+				})
+			</script>
 		</u:sc>
 
 		<%-- the variable is concatenated in filter/item.jsp --%>
 		${filters}
 
 		<script style="display: none;">
-			$(function()
-			{
+			$(function () {
 				processQueueMarkFilledFilters($('${selectorForm}'));
 			})
 		</script>

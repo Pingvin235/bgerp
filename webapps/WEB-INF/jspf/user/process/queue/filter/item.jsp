@@ -12,7 +12,7 @@
 
 <c:if test="${empty filter.show or filter.show}">
 	<li>
-		<input id="${uiid}" type="checkbox" ${u:checkedFromCollection( selectedFilters, filter.id )} value="${filter.id}"/>
+		<input id="${uiid}" type="checkbox" ${u:checkedFromCollection(selectedFilters, filter.id)} value="${filter.id}"/>
 		<span>${title}</span>
 	</li>
 </c:if>
@@ -22,13 +22,11 @@
 		${code}
 	</div>
 </c:set>
+
+<%-- TODO: Remove later, seems to be not needed.
 <script>
-	<%-- раскрытие фильтра, если в нём установлены текстовые поля --%>
-	var $filterItem = $('div#${uiid}');
-	if( $filterItem.find('input[type=text]').val()
-		<%-- || $filterItem.find('input[type=hidden]').val() --%> ) {
-		$('input#${uiid}')[0].checked = true;
-	}
+	$$.process.queue.filter.checkedIfInputValue('${uiid}');
 </script>
+--%>
 
 <c:remove var="uiid"/>

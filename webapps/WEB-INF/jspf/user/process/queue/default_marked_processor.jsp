@@ -13,7 +13,7 @@
 					<c:set var="map" value="${ctxProcessStatusMap}"/>
 					<c:set var="available" value="${command.allowedIds}"/>
 
-					<c:set var="prefixText" value="Статус:"/>
+					<c:set var="prefixText" value="${l.l('Status')}:"/>
 					<c:set var="widthTextValue" value="100px"/>
 					<%@ include file="/WEB-INF/jspf/combo_single.jsp"%>
 				</u:sc>

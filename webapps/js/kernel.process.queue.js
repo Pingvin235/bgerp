@@ -1,6 +1,6 @@
 // "use strict";
 
-$$.process.queue = new function() {
+$$.process.queue = new function () {
 	const debug = $$.debug("processQueue");
 
 	const changed = (savedSetId) => {
@@ -105,11 +105,56 @@ $$.process.queue = new function() {
 			});
 	}
 
-	// available functions
+	// public functions
 	this.debug = debug;
 	this.changed = changed;
 	this.showSelected = showSelected;
 	this.updateSelected = updateSelected;
+
+	// $$.process.queue.filter
+	this.filter = new function () {
+		/**
+		 * Shows selected filters.
+		 * @param {*} id ID of filter selector.
+		 * @param {*} selectorForm CSS selector of queue show form.
+		 */
+		const showSelected = (id, selectorForm) => {
+			const selectedFilters = {};
+			let selectedFilterIds = "";
+
+			$$.ui.comboInputs($(document.getElementById(id))).each(function () {
+				if (this.checked) {
+					selectedFilters[$(this).attr('id')] = 1;
+
+					if (selectedFilterIds.length)
+						selectedFilterIds += ",";
+
+					selectedFilterIds += $(this).attr('value');
+				}
+			});
+
+			const $selectorForm = $(selectorForm);
+
+			$selectorForm[0].selectedFilters.value = selectedFilterIds;
+			$selectorForm.find('.filter-item').each(function () {
+				$(this).toggle(selectedFilters[$(this).attr('id')] !== undefined);
+			});
+
+			processQueueClearHiddenFilters($selectorForm);
+			processQueueMarkFilledFilters($selectorForm);
+		}
+
+		// TODO: Remove later, not used.
+		const checkedIfInputValue = (id) => {
+			const $filterItem = $('div#' + id);
+			if ($filterItem.find('input[type=text]').val() || $filterItem.find('input[type=hidden]').val())
+				$('input#' + id)[0].checked = true;
+		}
+
+		// public functions
+		this.showSelected = showSelected;
+		this.checkedIfInputValue = checkedIfInputValue;
+	}
 }
 
 function processQueueChanged(savedSetId) {
