@@ -176,7 +176,7 @@ Incoming variables:
 
 					<c:otherwise>
 						<c:set var="title" value=""/>
-						<c:if test="${0 lt column.titleIfMore and column.titleIfMore lt col.length()}">
+						<c:if test="${0 lt column.titleIfMore and column.titleIfMore lt col.toString().length()}">
 							<c:set var="title">title="${u.escapeXml( col )}"</c:set>
 							<c:set var="col">${col.substring(0, column.titleIfMore)}...</c:set>
 						</c:if>
