@@ -1,3 +1,8 @@
+filter.{@inc:cnt}.title=Param type 'address'
+filter.{@cnt}.type=param:{@PARAM_ADDRESS_ID}
+filter.{@inc:cnt}.title=Param type 'list'
+filter.{@cnt}.type=param:{@PARAM_LIST_ID}
+
 column.1.title=ID
 column.1.value=id
 column.3.title=Param type 'address'

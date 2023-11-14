@@ -138,20 +138,13 @@
 		<c:when test="${type == 'list' or type == 'listcount'}">
 			<c:set var="code">
 				<u:sc>
-					<c:set var="id" value="${u:uiid()}"/>
 					<c:set var="paramName" value="param${filter.parameter.id}value"/>
-					<c:set var="list" value="${filter.parameter.listParamValues}"/>
-					<c:set var="values" value="${filter.defaultValues}"/>
+					<c:set var="values" value="${savedParamsFilters.getSelectedValues(paramName)}"/>
 
-					<c:if test="${not empty savedParamsFilters.getSelectedValues( paramName ) }">
-						<c:set var="values" value="${savedParamsFilters.getSelectedValues( paramName ) }"/>
-					</c:if>
-
-					<c:set var="available" value="${filter.availableValues}"/>
-					<c:set var="showFilter" value="1"/>
-					<c:set var="prefixText" value="${title}:"/>
-					<c:set var="widthTextValue" value="150px"/>
-					<%@ include file="/WEB-INF/jspf/combo_check.jsp"%>
+					<ui:combo-check paramName="${paramName}"
+						list="${filter.parameter.listParamValues}" available="${filter.availableValues}"
+						values="${empty values ? filter.defaultValues : values}"
+						showFilter="${true}" prefixText="${title}:" widthTextValue="12em"/>
 				</u:sc>
 			</c:set>
 

@@ -19,18 +19,11 @@
 	<div id="groupFilters" style="display: none;">
 		<c:set var="values" value="${form.getSelectedValues('groupId')}"/>
 
-		<c:forEach var="clb" items="${callboardList}"><%--
-		--%><u:sc><%--
-			--%><c:set var="list" value="${ctxUserGroupList}"/><%--
-			--%><c:set var="prefixText" value="Группы:"/><%--
-			--%><c:set var="id" value="${clb.id}-${uiid}"/><%--
-			--%><c:set var="paramName" value="groupId"/><%--
-			--%><c:set var="showFilter" value="1"/><%--
-			--%><c:set var="available" value="${ctxUserGroupMap[clb.groupId].childSet}"/><%--
-			--%><c:set var="widthTextValue" value="100px"/><%--
-			--%><%@ include file="/WEB-INF/jspf/combo_check.jsp"%><%--
-		--%></u:sc><%--
-	--%></c:forEach>
+		<c:forEach var="clb" items="${callboardList}">
+			<ui:combo-check id="${clb.id}-${uiid}" paramName="groupId"
+				list="${ctxUserGroupList}" available="${ctxUserGroupMap[clb.groupId].childSet}"
+				showFilter="${true}" prefixText="${l.l('Группы')}:" widthTextValue="10em"/>
+	</c:forEach>
 	</div>
 
 	<form id="${groupSelectUiid}" action="/user/plugin/callboard/work.do"  class="in-table-cell in-pr05" style="display: inline-block;">

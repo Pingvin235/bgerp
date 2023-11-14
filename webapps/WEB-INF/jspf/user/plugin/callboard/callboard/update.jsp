@@ -31,26 +31,12 @@
 	<div id="groupFilters" style="display: none;">
 		<c:set var="values" value="${form.getSelectedValues('groupId')}"/>
 
-		<c:forEach var="clb" items="${callboardList}"><%--
-		--%><u:sc><%--
-			--%><c:set var="list" value="${ctxUserGroupList}"/><%--
-			--%><c:set var="prefixText" value="Группы:"/><%--
-			--%><c:set var="id" value="${clb.id}-${uiid}"/><%--
-			--%><c:set var="paramName" value="groupId"/><%--
-			--%><c:set var="showFilter" value="1"/><%--
-			--%><c:set var="available" value="${ctxUserGroupMap[clb.groupId].childSet}"/><%--
-			--%><c:if test="${not empty allowOnlyGroups}"><%--
-				--%><c:set var="inters" value="${cu.intersection( available, allowOnlyGroups )}"/><%--
-					иначе при пустом пересечении получается пустое множество и выводит все группы
-				--%><c:if test="${not empty inters}"><%--
-					--%><c:set var="available" value="${inters}"/><%--
-				--%></c:if><%--
-			--%></c:if><%--
-			<%--
-			--%><c:set var="widthTextValue" value="70px"/><%--
-			--%><%@ include file="/WEB-INF/jspf/combo_check.jsp"%><%--
-		--%></u:sc><%--
-	--%></c:forEach>
+		<c:forEach var="clb" items="${callboardList}">
+			<ui:combo-check id="${clb.id}-${uiid}" paramName="groupId"
+				list="${ctxUserGroupList}"
+				available="${empty allowOnlyGroups ? ctxUserGroupMap[clb.groupId].childSet : cu.intersection(ctxUserGroupMap[clb.groupId].childSet, allowOnlyGroups)}"
+				showFilter="${true}" prefixText="${l.l('Группы')}:" widthTextValue="7em"/>
+		</c:forEach>
 	</div>
 
 	<form id="${groupSelectUiid}" action="/user/plugin/callboard/work.do"  class="in-table-cell in-pr05" style="display: inline-block;">
@@ -467,19 +453,16 @@
 			<div id="controls">
 				<div class="in-table-cell mb1">
 					<div id="hideMenu">
-						<u:sc>
-							<c:set var="onChange" value="hideShifts()"/>
-							<c:set var="prefixText" value="Скрыть" />
-							<c:set var="valuesHtml">
+						<ui:combo-check onChange="hideShifts()" prefixText="Скрыть">
+							<jsp:attribute name="valuesHtml">
 								<li>
 									<input value="shifts" type="checkbox" <c:if test="${callboard.hideEmptyShifts}">checked</c:if> /><span> Пустые смены</span>
 								</li>
 								<li>
 									<input value="groups" type="checkbox" <c:if test="${callboard.hideEmptyGroups}">checked</c:if> /><span> Пустые группы</span>
 								</li>
-							</c:set>
-							<%@ include file="/WEB-INF/jspf/combo_check.jsp"%>
-						</u:sc>
+							</jsp:attribute>
+						</ui:combo-check>
 					</div>
 
 					<div class="pl05">

@@ -362,19 +362,11 @@
 						<c:set var="code">
 							<u:sc>
 								<c:set var="paramName" value="status"/>
-								<c:set var="list" value="${ctxProcessStatusList}"/>
-								<c:set var="map" value="${ctxProcessStatusMap}"/>
-								<c:set var="values" value="${filter.defaultValues}"/>
-
-								<c:if test="${not empty savedParamsFilters.getSelectedValues( paramName ) }">
-									<c:set var="values" value="${savedParamsFilters.getSelectedValues( paramName ) }"/>
-								</c:if>
-
-								<c:set var="available" value="${filter.availableValues}"/>
-
-								<c:set var="prefixText" value="${l.l('Status')}:"/>
-								<c:set var="widthTextValue" value="100px"/>
-								<%@ include file="/WEB-INF/jspf/combo_check.jsp"%>
+								<c:set var="values" value="${savedParamsFilters.getSelectedValues(paramName)}"/>
+								<ui:combo-check paramName="${paramName}"
+									list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}"
+									values="${empty values ? filter.defaultValues : values}"
+									prefixText="${l.l('Status')}:" widthTextValue="8em"/>
 							</u:sc>
 						</c:set>
 
@@ -426,18 +418,13 @@
 						<c:set var="title" value="${not empty filter.title ? filter.title : filter.parameter.title}"/>
 						<c:set var="code">
 							<u:sc>
-								<c:set var="id" value="${u:uiid()}"/>
 								<c:set var="paramName" value="param${filter.parameter.id}value"/>
-								<c:set var="list" value="${filter.parameter.listParamValues}"/>
-								<c:set var="values" value="${filter.defaultValues}"/>
-								<c:if test="${not empty savedParamsFilters.getSelectedValues( paramName ) }">
-									<c:set var="values" value="${savedParamsFilters.getSelectedValues( paramName ) }"/>
-								</c:if>
-								<c:set var="available" value="${filter.availableValues}"/>
-								<c:set var="showFilter" value="1"/>
-								<c:set var="prefixText" value="${title}:"/>
-								<c:set var="widthTextValue" value="150px"/>
-								<%@ include file="/WEB-INF/jspf/combo_check.jsp"%>
+								<c:set var="values" value="${savedParamsFilters.getSelectedValues(paramName)}"/>
+
+								<ui:combo-check paramName="${paramName}"
+									list="${filter.parameter.listParamValues}" available="${filter.availableValues}"
+									values="${empty values ? filter.defaultValues : values}"
+									showFilter="${true}" prefixText="${title}:" widthTextValue="12em"/>
 							</u:sc>
 						</c:set>
 						<%@ include file="filter/item.jsp"%>
