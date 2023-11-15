@@ -3,6 +3,6 @@
 
 <tr>
 	<td colspan="2">
-		<ui:form-ok-cancel/>
+		<ui:form-ok-cancel loadReturn="$$.ajax.loadContent('${form.returnUrl}', this)"/>
 	</td>
 </tr>
