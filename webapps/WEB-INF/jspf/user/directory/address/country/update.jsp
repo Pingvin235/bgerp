@@ -17,12 +17,6 @@
 			<td>${l.l('Название')}</td>
 			<td><html:text property="title" style="width: 100%"/></td>
 		</tr>
-		<%-- вроде нигде не используется
-		<tr valign="top">
-			<td>Конфигурация</td>
-			<td><html:textarea property="config" rows="7" style="width: 100%"/></td>
-		</tr>
-		--%>
 		<%@ include file="../edit_tr.jsp"%>
 	</table>
 </html:form>

@@ -35,22 +35,12 @@
 	</table>
 </html:form>
 
-<%-- <c:set var="state">
-	<span class='title'>
+<shell:state help="kernel/setup.html#address">
+	<jsp:attribute name="text">
 		<c:choose>
 			<c:when test="${itemType eq 'quarter'}">${l.l('Редактор квартала')}</c:when>
 			<c:when test="${itemType eq 'area'}">${l.l('Редактор района')}</c:when>
 			<c:otherwise>${l.l('Редактор улицы')}</c:otherwise>
-		</c:choose>
-	</span>
-</c:set> --%>
-
-<shell:state help="kernel/setup.html#address">
-	<jsp:attribute name="ltext">
-		<c:choose>
-			<c:when test="${itemType eq 'quarter'}">Редактор квартала</c:when>
-			<c:when test="${itemType eq 'area'}">Редактор района</c:when>
-			<c:otherwise>Редактор улицы</c:otherwise>
 		</c:choose>
 	</jsp:attribute>
 </shell:state>
