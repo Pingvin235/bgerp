@@ -104,5 +104,5 @@
 	</c:forEach>
 </table>
 
-<shell:title ltext="Пользователи"/>
-<shell:state text=""/>
+<shell:title text="${l.l('Пользователи')}"/>
+<shell:state/>

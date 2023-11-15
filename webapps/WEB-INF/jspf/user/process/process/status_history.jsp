@@ -28,5 +28,4 @@
 
 </html:form>
 
-<c:set var="state" value="${l.l('История статусов')}"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:state text="${l.l('История статусов')}"/>

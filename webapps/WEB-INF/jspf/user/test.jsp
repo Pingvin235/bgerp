@@ -35,5 +35,5 @@
 
 <%@ include file="/WEB-INF/jspf/test.jsp"%>
 
-<shell:title ltext="Тест title"/>
-<shell:state ltext="Тест state"/>
+<shell:title text="Test Title"/>
+<shell:state text="Test State"/>

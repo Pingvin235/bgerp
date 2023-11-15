@@ -556,6 +556,20 @@ $$.shell = new function () {
 	}
 
 	/**
+	 * @returns Title area selector.
+	 */
+	const $title = () => {
+		return $('#title > .status:visible h1.title');
+	}
+
+	/**
+	 * @returns State area selector.
+	 */
+	const $state = () => {
+		return $('#title > .status:visible > .wrap > .center');
+	}
+
+	/**
 	 * Content block for the UI element.
 	 * @param {*} el
 	 */
@@ -569,7 +583,6 @@ $$.shell = new function () {
 
 		return $('#content > div:visible');
 	}
-
 
 	/**
 	 * Close other tabs except active one
@@ -587,6 +600,8 @@ $$.shell = new function () {
 	}
 
 	// public functions
+	this.$title = $title;
+	this.$state = $state;
 	this.$content = $content;
 	this.debug = debug;
 	this.menuItems = menuItems;

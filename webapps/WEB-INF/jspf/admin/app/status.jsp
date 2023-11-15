@@ -65,5 +65,5 @@
 	<ui:files files="<%=org.bgerp.action.admin.AppAction.UPDATE_ZIP%>" requestUrl="${form.requestUrl}" maxCount="20"/>
 </div>
 
-<shell:title ltext="Статус приложения"/>
+<shell:title text="${l.l('Статус приложения')}"/>
 <shell:state error="${error}"/>

@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="title" value="${l.l('Очереди процессов')}"/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
+<shell:title text="${l.l('Очереди процессов')}"/>
 
 <div id="processQueueShow" >
 	<table style="width: 100%;"><tr>
@@ -37,7 +36,7 @@
 
 					<script>
 						$(function () {
-							$('#${id}').appendTo( $('#title > .status:visible > .wrap > .center') );
+							$('#${id}').appendTo($$.shell.$state());
 
 							<c:forEach items="${form.response.data.list}" var="item">
 								<c:if test="${savedPanelMap.contains(item.id)}">

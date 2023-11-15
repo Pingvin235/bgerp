@@ -114,8 +114,8 @@
 				<c:set var="title">
 					<span class='title'>${l.l('Адресный справочник')}</span>
 				</c:set>
-				<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-				<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+				<shell:title text="${title}"/>
+				<shell:state/>
 			</u:sc>
 
 			<c:set var="paddingLeft" value="pl1"/>

@@ -48,5 +48,4 @@
 	</c:forEach>
 </table>
 
-<shell:title ltext="Рассылки"/>
-<shell:state text=""/>
+<shell:title text="${l.l('Рассылки')}"/>

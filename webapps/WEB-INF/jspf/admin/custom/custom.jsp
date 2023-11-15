@@ -23,5 +23,5 @@
 	<%@ include file="../app/app_restart.jsp"%>
 </div>
 
-<shell:title ltext="Custom"/>
+<shell:title text="${l.l('Custom')}"/>
 <shell:state help="kernel/extension.html#custom"/>

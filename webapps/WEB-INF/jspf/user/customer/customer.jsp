@@ -12,8 +12,8 @@
 		<c:set var="title">
 			<span class='title' id='customer_title_${customer.id}'></span>
 		</c:set>
-		<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-		<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+		<shell:title text="${title}"/>
+		<shell:state/>
 	</u:sc>
 
 	<script>

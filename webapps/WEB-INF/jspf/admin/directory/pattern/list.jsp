@@ -38,5 +38,4 @@
 	</c:forEach>
 </table>
 
-<c:set var="state" value=""/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:state/>

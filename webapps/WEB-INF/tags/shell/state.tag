@@ -3,13 +3,8 @@
 
 <%@ attribute name="moveSelector" description="CSS selector of moved element"%>
 <%@ attribute name="error" description="Plain text is shown as red text error when presented"%>
-<%@ attribute name="ltext" description="Plain text, to be localized"%>
 <%@ attribute name="text" description="Text for setting, HTML supported"%>
 <%@ attribute name="help" description="Help link"%>
-
-<c:if test="${not empty ltext}">
-	<c:set var="text" value="${l.l(ltext)}"/>
-</c:if>
 
 <c:if test="${not empty error}">
 	<c:set var="stateUiid" value="${u:uiid()}"/>
@@ -19,7 +14,7 @@
 
 <script>
 $(function () {
-	const $state = $('#title > .status:visible > .wrap > .center');
+	const $state = $$.shell.$state();
 
 	$state.html("");
 	<c:if test="${not empty moveSelector}">

@@ -94,4 +94,4 @@
 </div>
 </html:form>
 
-<shell:state ltext="Редактор дома" help="kernel/setup.html#address"/>
+<shell:state text="${l.l('Редактор дома')}" help="kernel/setup.html#address"/>

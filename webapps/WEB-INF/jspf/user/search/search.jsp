@@ -130,4 +130,4 @@
 	})
 </script>
 
-<shell:title ltext="Поиск"/>
+<shell:title text="${l.l('Поиск')}"/>

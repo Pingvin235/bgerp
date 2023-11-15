@@ -80,5 +80,5 @@
 	<%-- message is opened here --%>
 </div>
 
-<shell:title ltext="Сообщения"/>
+<shell:title text="${l.l('Сообщения')}"/>
 <shell:state help="kernel/message.html"/>

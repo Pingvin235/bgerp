@@ -64,5 +64,4 @@
 	</c:forEach>
 </table>
 
-<shell:title ltext="Очереди процессов"/>
-<shell:state text=""/>
+<shell:title text="${l.l('Очереди процессов')}"/>

@@ -49,7 +49,7 @@
 <script>
 	$(function()
 	{
-		var $state = $('#title > .status:visible > .wrap > .center');
+		var $state = $$.shell.$state();
 		$state.html( "" );
 
 		$('#${uiid}').appendTo( $state );

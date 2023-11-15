@@ -55,5 +55,5 @@
 	</c:forEach>
 </table>
 
-<shell:title ltext="My Processes"/>
-<shell:state text=""/>
+<shell:title text="${l.l('My Processes')}"/>
+<shell:state/>

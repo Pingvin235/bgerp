@@ -35,5 +35,5 @@
 	</c:forEach>
 </table>
 
-<shell:title ltext="Конфигурация"/>
+<shell:title text="${l.l('Конфигурация')}"/>
 <shell:state help="kernel/setup.html#config"/>

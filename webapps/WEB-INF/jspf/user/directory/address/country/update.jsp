@@ -27,4 +27,4 @@
 	</table>
 </html:form>
 
-<shell:state ltext="Редактор страны" help="kernel/setup.html#address"/>
+<shell:state text="${l.l('Редактор страны')}" help="kernel/setup.html#address"/>

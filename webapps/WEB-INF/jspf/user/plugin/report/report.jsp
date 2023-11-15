@@ -20,5 +20,5 @@
 	</jsp:attribute>
 </ui:combo-single>
 
-<shell:title ltext="Отчёты"/>
+<shell:title text="${l.l('Отчёты')}"/>
 <shell:state moveSelector="#${uiid}"/>

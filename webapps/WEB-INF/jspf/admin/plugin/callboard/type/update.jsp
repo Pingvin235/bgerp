@@ -104,5 +104,4 @@
 	<%@ include file="/WEB-INF/jspf/layout_process.jsp"%>
 </html:form>
 
-<c:set var="state" value="Редактор"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:state text="${l.l('Редактор')}"/>

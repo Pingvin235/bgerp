@@ -67,5 +67,5 @@
 	</c:forEach>
 </table>
 
-<shell:title ltext="Статусы процессов"/>
+<shell:title text="${l.l('Статусы процессов')}"/>
 <shell:state help="kernel/process/index.html#status"/>

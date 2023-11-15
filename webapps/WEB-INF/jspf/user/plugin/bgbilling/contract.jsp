@@ -61,8 +61,8 @@
 				<span class='title'>${contractTitle}</span> <%--
 			--%><span class='comment'>(${u.escapeXml( contractComment )})</span>
 			</c:set>
-			<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-			<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+			<shell:title text="${title}"/>
+			<shell:state/>
 		</u:sc>
 	</c:if>
 

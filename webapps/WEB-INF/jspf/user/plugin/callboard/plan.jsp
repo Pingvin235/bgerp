@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="title" value="${l.l('План работ')}"/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
+<shell:title text="${l.l('План работ')}"/>
 
 <c:set var="callboardList" value="${form.response.data.callboardList}"/>
 
@@ -70,7 +69,7 @@
 		{
 			${onSelectGroupScript}
 
-			var $state = $('#title > .status:visible > .wrap > .center');
+			var $state = $$.shell.$state();
 			$state.html( "" );
 
 			$('#${groupSelectUiid}').appendTo( $state );

@@ -16,5 +16,5 @@
 	</form>
 </p:check>
 
-<shell:title ltext="License"/>
+<shell:title text="${l.l('License')}"/>
 <shell:state error="${license.error}" help="kernel/setup.html#license"/>

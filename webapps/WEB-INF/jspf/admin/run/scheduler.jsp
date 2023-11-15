@@ -65,7 +65,7 @@
 	</tbody>
 </table>
 
-<shell:title ltext="Scheduler"/>
+<shell:title text="${l.l('Scheduler')}"/>
 
 <c:set var="state" value="${form.response.data.error}"/>
 <c:choose>

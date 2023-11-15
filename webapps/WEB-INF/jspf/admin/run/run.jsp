@@ -25,4 +25,4 @@
 	</html:form>
 </p:check>
 
-<shell:title ltext="Run"/>
+<shell:title text="${l.l('Run')}"/>

@@ -39,4 +39,4 @@
 	</div>
 </html:form>
 
-<shell:state ltext="Редактор типа" help="kernel/process/index.html#type"/>
+<shell:state text="${l.l('Редактор типа')}" help="kernel/process/index.html#type"/>

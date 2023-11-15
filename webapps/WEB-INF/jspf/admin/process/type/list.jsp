@@ -162,5 +162,5 @@
 	</c:forEach>
 </table>
 
-<shell:title ltext="Типы процессов"/>
+<shell:title text="${l.l('Типы процессов')}"/>
 <shell:state help="kernel/process/index.html#type"/>

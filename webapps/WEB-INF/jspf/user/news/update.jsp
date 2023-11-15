@@ -53,5 +53,4 @@
 	<ui:form-ok-cancel styleClass="mt1"/>
 </form>
 
-<c:set var="state" value="${l.l('Создание новости')}"/>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:state text="${l.l('Создание новости')}"/>

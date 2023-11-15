@@ -36,4 +36,4 @@
 	</c:if>
 </html:form>
 
-<shell:title ltext="Slack Конфигурация"/>
+<shell:title text="${l.l('Slack Конфигурация')}"/>

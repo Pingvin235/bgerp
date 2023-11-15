@@ -26,7 +26,7 @@
 		</c:forEach>
 	</table>
 
-	<shell:state ltext="Лог изменений"/>
+	<shell:state text="${l.l('Лог изменений')}"/>
 </div>
 
 

@@ -86,4 +86,4 @@
 	$$.ui.codeMirror('${selectorTo}');
 </script>
 
-<shell:state ltext="Редактор" help="kernel/setup.html#param"/>
+<shell:state text="${l.l('Редактор')}" help="kernel/setup.html#param"/>

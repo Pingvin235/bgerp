@@ -75,4 +75,4 @@
 	})
 </script>
 
-<shell:state ltext="Редактор" help="kernel/process/queue.html#setup"/>
+<shell:state text="${l.l('Редактор')}" help="kernel/process/queue.html#setup"/>

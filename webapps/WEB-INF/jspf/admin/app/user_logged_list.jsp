@@ -27,6 +27,5 @@
 	</table>
 </div>
 
-<c:set var="title" value="${l.l('Авторизовавшиеся пользователи')}"/>
-<%@ include file="/WEB-INF/jspf/shell_title.jsp"%>
-<%@ include file="/WEB-INF/jspf/shell_state.jsp"%>
+<shell:title text="${l.l('Авторизовавшиеся пользователи')}"/>
+<shell:state/>

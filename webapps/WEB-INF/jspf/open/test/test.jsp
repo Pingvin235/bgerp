@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<shell:title ltext="Тест title"/>
+<shell:title text="Test Title"/>
 
 <%@ include file="/WEB-INF/jspf/test.jsp"%>

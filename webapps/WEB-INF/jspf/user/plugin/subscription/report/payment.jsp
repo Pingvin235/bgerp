@@ -2,8 +2,8 @@
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 <%@ taglib tagdir="/WEB-INF/tags/plugin/report" prefix="report"%>
 
-<shell:title ltext="Report"/>
-<shell:state ltext="Subscription Payments"/>
+<shell:title text="${l.l('Report')}"/>
+<shell:state text="${l.l('Subscription Payments')}"/>
 
 <div class="report center1020">
 	<html:form action="${form.httpRequestURI}" styleClass="in-ml05">
