@@ -54,7 +54,7 @@
 
 						<c:forTokens var="show" delims=";" items="${fields}">
 							<c:if test="${show.contains('city')}">
-								<tr><td>Город:</td><td><input id="${cityFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueCity') )}" name="param${filter.parameter.id}valueCity" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueCityId]').val('')"/></td></tr>
+								<tr><td>${l.l('Город')}:</td><td><input id="${cityFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueCity') )}" name="param${filter.parameter.id}valueCity" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueCityId]').val('')"/></td></tr>
 							</c:if>
 							<c:if test="${show.contains('quarter')}">
 								<tr><td>${l.l('Квартал')}:</td><td><input id="${quarterFilterId}" value="${savedParamsFilters.get('param'.concat(filter.parameter.id).concat('valueQuarter') )}" name="param${filter.parameter.id}valueQuarter" type="text" onkeyup="$('#${uiid} > input[name=param${filter.parameter.id}valueQuarterId]').val('')"/></td></tr>
@@ -83,16 +83,11 @@
 											"/>
 								</div>
 								<div class="w100p pl1">
-									<input id="applyButton" type="button" class="btn-grey w100p" value="Применить"
-											onclick="$('#${uiid}').hide();
-													var title = '${title}';
-													[$('#${cityFilterId}').val(), $('#${streetFilterId}').val(), $('#${quarterFilterId}').val(),
-													$('#${houseFilterId}').val(), $('#${flatFilterId}').val()].forEach(function (token) {
-														if (token) {
-															title += ', ' + token;
-														}
-													})
-													$('#${buttonId}').val(title);"/>
+									<input id="applyButton" type="button" class="btn-grey w100p" value="${l.l('Применить')}" onclick="
+											$$.process.queue.filter.param.addressApply('${uiid}', '${title.replace("'", "\\'")}',
+												'${cityFilterId}', '${streetFilterId}', '${quarterFilterId}', '${houseFilterId}', '${flatFilterId}',
+												'${buttonId}')"
+									/>
 								</div>
 							</td></tr>
 					</table>
