@@ -1,3 +1,0 @@
-A: Hide protocol for 'text' parameters, shown as a link. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-text
-F: Answer for 'Note' messages.
-A: Blocked change update when app state error. https://bgerp.org/doc/3.0/manual/kernel/install.html#update-installer-ui

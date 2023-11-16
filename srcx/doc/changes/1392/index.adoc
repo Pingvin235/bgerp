@@ -1,0 +1,145 @@
+= CHANGES
+:toc:
+
+== BREAKING
+
+=== Strict Config Check of Process Queues
+Some of your queues can disappear with the following error in logs:
+[source]
+----
+Not found media queue column with ID:
+----
+
+This means that in *media.xxx* keys were used not existing column IDs.
+
+=== Categories of Related Processes
+There are old and new version of Related Processes representation.
+
+image::_res/15020_linked_processes_before.png[width="800px"]
+
+image::_res/15020_linked_processes_new.png[]
+
+Each Category (*Linked (Parent) Made Processes* and *Link (Child) Depend Processes* on the previous screenshot) has to be
+<<../../kernel/process/index.adoc#setup-type-related-process, configured>> in each process type to be shown.
+
+Previously used configuration keys with prefixes *linked.available.* and *link.available.* can be moved to configurations' end with prepending comment and later removed.
+
+image::_res/15020_linked_processes_config_comment.png[]
+
+=== Dynamic to Custom
+Old Dynamic code is no longer supported and must be moved to Custom.
+For that move your Java code from *ru.bgcrm.dyn* to *org.bgerp.custom* package,
+and custom JSPs to `custom/webapps`.
+
+==== External HTTP <<../../kernel/extension.adoc#run-http, Requests>>
+Replace *dynamic.do?action=runDynamicClass* to *run.do?action=runClass* calls.
+
+=== API
+You need to adjust your custom Java code.
+
+Moved classes:
+[square]
+* ru.bgcrm.util.ParameterMap to org.bgerp.app.cfg.ConfigMap
+* ru.bgcrm.util.Setup to org.bgerp.app.cfg.Setup
+
+Scheduled tasks have to extend class javadoc:org.bgerp.app.exec.scheduler.Task[]
+
+=== Column values concatenation in Process Queues
+The functionality was removed.
+
+== FEATURES
+
+=== Search Processes by Parameters
+Filter by 'text' parameter in process search.
+
+image::_res/14747_search_process.png[width="800px"]
+
+=== File Uploads
+Multiple files upload at once. Upload message attachments using mouse Drag & Drop.
+
+image::_res/8517_message_attachments.png[width="800px"]
+
+<<../../kernel/setup.adoc#config, Limited>> size of uploaded files.
+
+=== Scheduler Config
+Separated tool with configured Scheduler tasks, with possibility to run them.
+
+image::_res/14986_scheduler.png[width="800px"]
+
+=== Short Class Names in Configurations
+In different configurations, like for Scheduler, or <<../../kernel//message/index.adoc#setup-type, Message Types>>,
+class names should be defined used only name without packages. Outdated configuration records are reported in *WARN* log.
+
+=== <<../../plugin/bgbilling/index.adoc#, Plugin BGBilling>>
+HelpDesk testing configuration key <<../../plugin/bgbilling/index.adoc#helpdesk, topicId>>.
+
+=== Cloning Processes
+
+image::_res/14847_process_clone.png[]
+
+=== <<../../plugin/bil/invoice/index.adoc#, Plugin Invoice>>
+
+Time reversed order of invoice table.
+
+image::_res/15006_invoice_list.png[width="800px"]
+
+Invoices for month ranges, suggestion of the next invoice range and type based on the last one.
+
+image::_res/15006_invoice_create_form_continue.png[width="800px"]
+
+image::_res/15020_report_invoice_register.png[width="800px"]
+
+Numeration macros <<../../plugin/bil/invoice/index.adoc#setup-type-numeration, date_to>>
+
+=== <<../../plugin/msg/email/index.adoc#, Plugin EMail>>
+
+<<../../plugin/msg/email/index.adoc#setup-process-type-change-notification, Notification>> mail about paid invoices.
+
+image::_res/15006_paid_invoice_mail.png[]
+
+=== <<../../plugin/bil/subscription/index.adoc#, Plugin Subscription>>
+
+Update and send by email license on paid invoice event.
+
+image::_res/15006_license_mail.png[]
+
+Payments report supports invoices for multiple months.
+
+image::_res/15020_report_subscription_payments.png[width="800px"]
+
+=== <<../../plugin/pln/sla/index.adoc#, Plugin SLA>>
+
+A *new plugin*, providing colored representation of SLA times.
+
+image::_res/14988_sla.png[width="800px"]
+
+=== <<../../plugin/msg/sms/index.adoc#, Plugin SMS>>
+
+Additionally to default configuration can be <<../../plugin/msg/sms/index.adoc#setup-mult, defined>> multiple messaging providers.
+
+== MINOR
+Blocked change update when app state error.
+
+image::_res/14996_app_update.png[]
+
+Error message on tab load failure.
+
+image::_res/8517_tab_ajax_error.png[]
+
+Changed the global menu icon.
+
+image::_res/15022_menu_icon.png[]
+
+*Read / Unread* filter in message queue. <<../../kernel/message/index.adoc#setup-type-note, Create>> Note message types as unread.
+
+image::_res/15017_read_messages_filter.png[width="800px"]
+
+<<../../kernel/setup.adoc#param-text, Hide>> protocol for 'text' parameters, shown as link.
+
+image::_res/14966_link_hide_proto.png[]
+
+image::_res/14966_link_hide_proto_edit.png[]
+
+Icon of the actual state breaking long lines in messages.
+
+image::_res/8517_message_line_breaks.png[]

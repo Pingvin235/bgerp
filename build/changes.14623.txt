@@ -1,2 +1,0 @@
-C: Delete Dynamic code related functionality.
-C: Replaced action method 'runDynamicClass' to 'runClass'.

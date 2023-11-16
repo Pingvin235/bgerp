@@ -1,1 +1,0 @@
-A: Plugin SMS multiple providers. https://bgerp.org/doc/3.0/manual/plugin/sms/index.html#setup-mult

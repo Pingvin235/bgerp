@@ -1,1 +1,0 @@
-C: BGBilling delete support of outdated modules.

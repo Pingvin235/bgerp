@@ -1,4 +1,0 @@
-C: Update MySQL 8.0 to 8.0.34 version for Docker image.
-C: Update JDK 17 to 21 version for Docker image.
-C: Update Gradle version to 8.4
-C: Migrate to JDK 21 images in GitLab CI.

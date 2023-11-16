@@ -1,6 +1,54 @@
 Time Build (generated automatically)
 A - ADD NEW, C - CHANGE, B - BREAKING CHANGE, F - FIX
 
+16.11.2023 15:36:48 1392
+C: [14623] Delete Dynamic code related functionality.
+C: [14623] Replaced action method 'runDynamicClass' to 'runClass'.
+A: [14747] Search processes by parameters. https://bgerp.org/doc/3.0/manual/kernel/search.html#process-param
+A: [14847] Cloning processes. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#usage-card-existance-operation
+C: [14913] BGBilling. Delete HelpDesk SOAP classes.
+A: [14913] BGBilling. HelpDesk for version 9.2.
+A: [14913] BGBilling. Configuration key 'topicId' for testing HelpDesk synchronization. https://bgerp.org/doc/3.0/manual/plugin/bgbilling/index.html#helpdesk
+C: [14917] BGBilling. Optimizations of work with CerberCrypt module.
+C: [14958] Replace fmt JSP taglib calls.
+C: [14985] Delete width 100% for data tables.
+A: [14986] Task titles in Scheduler table and possibility to run them manually. https://bgerp.org/doc/3.0/manual/kernel/setup.html#scheduler
+A: [14986] Backup scheduled task. https://bgerp.org/doc/3.0/manual/plugin/svc/backup/index.adoc#setup-scheduler
+C: [14986] Update MySQL driver lib.
+B: [14988] Removed possibilities of column concatenation in process queues.
+A: [14988] Plugin SLA. https://bgerp.org/doc/3.0/manual/plugin/pln/sla/
+F: [14993] 'Invoice Register' report taking payment date.
+F: [14994] Pass BGMessageException thrown in event listeners.
+C: [14994] EventProcessor cleanup.
+A: [14996] Hide protocol for 'text' parameters, shown as a link. https://bgerp.org/doc/3.0/manual/kernel/setup.html#param-text
+F: [14996] Answer for 'Note' messages.
+A: [14996] Blocked change update when app state error. https://bgerp.org/doc/3.0/manual/kernel/install.html#update-installer-ui
+C: [14997] Move Tomcat work directory to tmp/tomcat.
+C: [15001] Java libraries update.
+F: [15001] Vertically collapsed log tool viewer.
+F: [15002] BGBilling. Search contract by ID.
+C: [15004] Delete SOAP related code.
+C: [15005] BGBilling delete support of outdated modules.
+A: [15006] Plugin Invoice. Time reversed order of invoice table. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#usage
+A: [15006] Plugin Invoice. Invoices for month ranges, suggestion of the next invoice range and type based on the last one. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#usage
+A: [15006] Plugin Invoice. Numeration macros 'date_to'. https://bgerp.org/doc/3.0/manual/plugin/bil/invoice/index.html#setup-type-numeration
+A: [15006] Plugin Email. Notifications about paid invoices. https://bgerp.org/doc/3.0/manual/plugin/msg/email/index.html#setup-process-type-change-notification
+A: [15006] Plugin Subscription. Configurable predefined subscription in 'Price Calculator'. https://bgerp.org/doc/3.0/manual/plugin/bil/subscription/index.html#setup-price-calculator
+A: [15006] Plugin Subscription. Update and send by email license on paid invoice event. https://bgerp.org/doc/3.0/manual/plugin/bil/subscription/index.html#setup-config-subscription-paid-invoice
+A: [15011] Plugin SMS multiple providers. https://bgerp.org/doc/3.0/manual/plugin/sms/index.html#setup-mult
+C: [15017] Short class names in Message Types configuration. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#setup-type
+A: [15017] Create MessageTypeNote as unread. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#setup-type-note
+A: [15017] Read / Unread filter in messages queue.
+A: [15018] Plugin Blow. Configurable executor roles. https://bgerp.org/doc/3.0/manual/plugin/pln/blow/index.html#setup-board
+A: [15020] Linked Processes Categories. https://bgerp.org/doc/3.0/manual/kernel/process/index.html#usage-related-process
+C: [15027] Update MySQL 8.0 to 8.0.34 version for Docker image.
+C: [15027] Update JDK 17 to 21 version for Docker image.
+C: [15027] Update Gradle version to 8.4
+C: [15027] Migrate to JDK 21 images in GitLab CI.
+A: [8517] Configuration key 'file.upload.max.size.mb' for limiting uploaded files. https://bgerp.org/doc/3.0/manual/kernel/setup.html#config
+A: [8517] Upload multiple files at once.
+A: [8517] Upload message attachments with mouse Drag & Drop.
+
 07.06.2023 11:39:58 1391
 C: [14088] Delete struts-tiles library.
 C: [14562] Run all searches in message processing. https://bgerp.org/doc/3.0/manual/kernel/message/index.html#setup-type-search
