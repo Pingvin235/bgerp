@@ -324,7 +324,7 @@ public class CustomerDAO extends CommonDAO {
             List<ParameterSearchedObject<Customer>> list = searchResult.getList();
 
             PreparedQuery ps = new PreparedQuery(con);
-            String ids = Utils.toString(addressParamIdList);
+            String ids = Utils.toString(addressParamIdList, "-1", ",");
 
             AddressHouse searchParams = new AddressHouse().withHouseAndFrac(house);
 
