@@ -79,7 +79,7 @@
 	<%-- Генерация отчёта, если в запросе пришёл параметр группа. --%>
 	<c:if test="${not empty groupsF}">
 
-		<table style="width: 100%;" class="data mt1">
+		<table class="data mt1">
 			<tr>
 				<td width="30">${l.l('№')}</td>
 				<td width="70">${l.l('Id')}</td>

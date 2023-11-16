@@ -5,7 +5,7 @@
 
 <c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.model.message.config.MessageTypeConfig')}"/>
 
-<table style="width: 100%;" class="data mt1">
+<table class="data mt1">
 	<tr>
 		<td width="30">ID</td>
 		<td>Тип</td>

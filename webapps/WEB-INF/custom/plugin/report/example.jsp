@@ -94,7 +94,7 @@
 			<sql:param value="${date}"/>
 		</sql:query>
 
-		<table style="width: 100%;" class="data mt1">
+		<table class="data mt1">
 			<tr>
 				<td>ID</td>
 				<td>${l.l('Description')}</td>

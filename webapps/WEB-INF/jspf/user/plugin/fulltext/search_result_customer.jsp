@@ -3,7 +3,7 @@
 
 <%@ include file="search_common.jsp"%>
 
-<table style="width: 100%;" class="data mt1">
+<table class="data mt1">
 	<tr>
 		<td width="30">ID</td>
 		<td>${l.l('Title')}</td>

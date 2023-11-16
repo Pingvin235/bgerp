@@ -5,7 +5,7 @@
 
 <%@ include file="../../create_button.jsp"%>
 
-<table style="width: 100%;" class="data mt1">
+<table class="data mt1">
 	<tr>
 		<td width="30">&#160;</td>
 		<td width="30">ID</td>

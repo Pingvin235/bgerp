@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.plugin.task.Config')}"/> 
+<c:set var="config" value="${ctxSetup.getConfig('ru.bgcrm.plugin.task.Config')}"/>
 
-<table style="width: 100%;" class="data mt05">
+<table class="data mt05">
 	<tr>
 		<td width="30">ID</td>
 		<td>Тип</td>
@@ -19,5 +19,5 @@
 			<td>${tu.format(item.executedTime, 'ymdhms')}</td>
 			<td nowrap="nowrap"></td>
 		</tr>
-	</c:forEach>	
+	</c:forEach>
 </table>

@@ -42,7 +42,7 @@
 		<ui:button type="run" onclick="$$.ajax.load(this.form, $('#showGroup${uiid}').parent())"/>
 	</div>
 
-	<table style="width: 100%;" class="data mt1">
+	<table class="data mt1">
 		<tr>
 			<td width="100">&nbsp;</td>
 			<td width="100">${l.l('Period')}</td>

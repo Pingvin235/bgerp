@@ -21,7 +21,7 @@
 		SELECT id, title, comment FROM contract LIMIT 100
 	</sql:query>
 
-	<table style="width: 100%;" class="data mt1">
+	<table class="data mt1">
 		<tr>
 			<td>ID</td>
 			<td>Номер</td>
