@@ -63,7 +63,7 @@ document:pattern.<id>.flattening=<flattening>
 Возможные значения параметра <scope>, для генерации документов объектов ядра:
 [square]
 * *processQueue* - шаблон используется для генерации <<../../kernel/process/queue.adoc#default-marked-processor, печатной формы в очереди процессов>>;
-* *process* - шаблон для генерации печатной формы процесса, дополнительно вкладка "Документы" должна быть включена в <<../../kernel/process/index.adoc#type-config, конфигурации типа процесса>> следующим образом:
+* *process* - шаблон для генерации печатной формы процесса, дополнительно вкладка "Документы" должна быть включена в <<../../kernel/process/index.adoc#setup-type, конфигурации типа процесса>> следующим образом:
 [source]
 ----
 document:processShowDocuments=1

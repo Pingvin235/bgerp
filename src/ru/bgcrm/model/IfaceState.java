@@ -14,7 +14,7 @@ import ru.bgcrm.util.Utils;
  * @author Shamil Vakhitov
  */
 public class IfaceState {
-    public static final String REQUEST_PARAM_IFACE_ID = "ifaceId";
+    private static final String REQUEST_PARAM_IFACE_ID = "ifaceId";
     public static final String REQUEST_PARAM_STATE = "ifaceState";
 
     private String objectType;
@@ -43,32 +43,16 @@ public class IfaceState {
         return objectType;
     }
 
-    public void setObjectType(String objectType) {
-        this.objectType = objectType;
-    }
-
     public int getObjectId() {
         return objectId;
-    }
-
-    public void setObjectId(int objectId) {
-        this.objectId = objectId;
     }
 
     public String getIfaceId() {
         return ifaceId;
     }
 
-    public void setIfaceId(String ifaceId) {
-        this.ifaceId = ifaceId;
-    }
-
     public String getState() {
         return state;
-    }
-
-    public void setState(String ifaceState) {
-        this.state = ifaceState;
     }
 
     /**

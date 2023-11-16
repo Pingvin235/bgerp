@@ -62,3 +62,23 @@ td.min {
 	width: 1%;
 	white-space: nowrap;
 }
+
+table.data > tbody > tr > td.group-border-b {
+	border-bottom-width: 2px;
+	border-bottom-color: black;
+}
+
+table.data > tbody > tr > td.group-border-t {
+	border-top-width: 2px;
+	border-top-color: black;
+}
+
+table.data > tbody > tr > td.group-border-l {
+	border-left-width: 2px;
+	border-left-color: black;
+}
+
+table.data > tbody > tr > td.group-border-r {
+	border-right-width: 2px;
+	border-right-color: black;
+}

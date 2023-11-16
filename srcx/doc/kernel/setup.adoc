@@ -150,7 +150,7 @@ In main configuration may be included sub-configurations. Included configuration
 
 image::_res/config_include.png[width="800px"]
 
-Top-level main configurations not having includes can be also included in other configurations, like <<process/index.adoc#type-config, process type>> using constructions like:
+Top-level main configurations not having includes can be also included in other configurations, like <<process/index.adoc#setup-type, process type>> using constructions like:
 [source]
 ----
 include.<configId>=1

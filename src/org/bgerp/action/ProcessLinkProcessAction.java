@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForward;
@@ -15,12 +14,10 @@ import org.bgerp.dao.process.Order;
 import org.bgerp.dao.process.ProcessLinkProcessSearchDAO;
 import org.bgerp.dao.process.ProcessSearchDAO;
 import org.bgerp.model.Pageable;
-import org.bgerp.model.base.IdTitle;
-import org.bgerp.model.process.config.CommonAvailableConfig;
-import org.bgerp.model.process.config.LinkAvailableConfig;
-import org.bgerp.model.process.config.LinkProcessCreateConfig;
-import org.bgerp.model.process.config.LinkedAvailableConfig;
 import org.bgerp.model.process.link.ProcessLinkProcess;
+import org.bgerp.model.process.link.config.ProcessCreateLinkConfig;
+import org.bgerp.model.process.link.config.ProcessLinkCategoryConfig;
+import org.bgerp.util.sql.LikePattern;
 
 import ru.bgcrm.dao.IfaceStateDAO;
 import ru.bgcrm.dao.ParamValueDAO;
@@ -53,162 +50,69 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
         restoreRequestParams(conSet.getConnection(), form, true, true, "open");
 
-        if (Utils.notBlankString(form.getParam(IfaceState.REQUEST_PARAM_IFACE_ID))) {
+        IfaceState currentState = new IfaceState(form);
+        if (Utils.notBlankString(currentState.getIfaceId())) {
             Pair<Integer, Integer> counts = new ProcessLinkDAO(conSet.getSlaveConnection()).getLinkedProcessesCounts(form.getId());
 
-            IfaceState currentState = new IfaceState(form);
             IfaceState newState = new IfaceState(Process.OBJECT_TYPE, form.getId(), form,
                     String.valueOf(counts.getFirst()),
                     String.valueOf(counts.getSecond()));
             new IfaceStateDAO(conSet.getConnection()).compareAndUpdateState(currentState, newState, form);
         }
 
+        var processType = getProcessType(getProcess(new ProcessDAO(conSet.getSlaveConnection()), form.getId()).getTypeId());
+
+        form.setRequestAttribute("config", processType.getProperties().getConfigMap().getConfig(ProcessLinkCategoryConfig.class));
+
         return html(conSet, form, PATH_JSP + "/default.jsp");
     }
 
-    public ActionForward linkedProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
-        Pageable<Pair<String, Process>> pageable = new Pageable<>(form);
+    public ActionForward showCategory(DynActionForm form, ConnectionSet conSet) throws Exception {
+        var processType = getProcessType(getProcess(new ProcessDAO(conSet.getSlaveConnection()), form.getId()).getTypeId());
+        int categoryId = form.getParamInt("categoryId", Utils::isPositive);
+        var category = processType.getProperties().getConfigMap().getConfig(ProcessLinkCategoryConfig.class).getCategories().get(categoryId);
 
-        new ProcessLinkProcessSearchDAO(conSet.getConnection(), form)
+        var pageable = new Pageable<Pair<String, Process>>(form);
+
+        ProcessLinkProcessSearchDAO dao = new ProcessLinkProcessSearchDAO(conSet.getConnection(), form)
+            .withType(category.getProcessTypeIds())
             .withOpen(form.getParamBoolean("open", null))
-            .order(Order.DESCRIPTION)
-            .search(pageable, false, form.getId());
+            .withLinkType(Set.of(category.getLinkType()));
+        dao.search(pageable, category.isLink(), form.getId());
 
-        setReferences(form, conSet.getSlaveConnection(), pageable);
-        // TODO: Attributes.
+        setReferences(form, conSet.getSlaveConnection(), pageable, category.isLink() ? "linkProcessList" : "linkedProcessList");
 
-        return html(conSet, form, PATH_JSP + "/linked_list.jsp");
+        form.setRequestAttribute("category", category);
+
+        return html(conSet, form, PATH_JSP + "/show_category.jsp");
     }
 
-    public ActionForward linkProcessList(DynActionForm form, ConnectionSet conSet) throws Exception {
-        Pageable<Pair<String, Process>> pageable = new Pageable<>(form);
-
-        new ProcessLinkProcessSearchDAO(conSet.getConnection(), form)
-            .withOpen(form.getParamBoolean("open", null))
-            .order(Order.DESCRIPTION)
-            .search(pageable, true, form.getId());
-
-        setReferences(form, conSet.getSlaveConnection(), pageable);
-        setRequestAttributes(form, conSet.getSlaveConnection());
-
-        return html(conSet, form, PATH_JSP + "/link_list.jsp");
-    }
-
-    private void setReferences(DynActionForm form, Connection con, Pageable<Pair<String, Process>> pageable) {
+    private void setReferences(DynActionForm form, Connection con, Pageable<Pair<String, Process>> pageable, String area) {
         for (var pair : pageable.getList())
-            setProcessReference(con, form, pair.getSecond(), form.getAction());
+            setProcessReference(con, form, pair.getSecond(), area);
     }
 
-    private void setRequestAttributes(DynActionForm form, Connection con) throws Exception {
-        Process process = getProcess(new ProcessDAO(con), form.getId());
-        ProcessType type = getProcessType(process.getTypeId());
+    public ActionForward addCreated(DynActionForm form, ConnectionSet conSet) throws Exception {
+        Process process = getProcess(new ProcessDAO(conSet.getSlaveConnection()), form.getId());
+        ProcessType processType = getProcessType(process.getTypeId());
 
-        form.setRequestAttribute("processType", type);
-
-        var createTypeList = type.getProperties().getConfigMap()
-            .getConfig(LinkProcessCreateConfig.class)
-            .getItemList(form, con, process);
+        var createTypeList = processType.getProperties().getConfigMap()
+            .getConfig(ProcessCreateLinkConfig.class)
+            .getItemList(form, conSet.getConnection(), process);
 
         form.setRequestAttribute("createTypeList", createTypeList);
-    }
 
-    public ActionForward linkedProcessAvailable(DynActionForm form, Connection con) throws Exception {
-        return linkOrLinkedProcessAvailable(form, con, false);
-    }
-
-    public ActionForward linkProcessAvailable(DynActionForm form, Connection con) throws Exception {
-        return linkOrLinkedProcessAvailable(form, con, true);
-    }
-
-    private ActionForward linkOrLinkedProcessAvailable(DynActionForm form, Connection con, boolean link) throws Exception {
-        String linkObjectType = form.getParam("objectType", Utils::notBlankString);
-
-        Set<Integer> excludedIds = alreadyLinked(form.getId(), con, link, linkObjectType);
-
-        Stream<IdTitle> buffer = form.getSelectedValuesStr("process").stream()
-            .map(idTitle -> new IdTitle(
-                Utils.parseInt(StringUtils.substringBefore(idTitle, ":")),
-                StringUtils.substringAfter(idTitle, ":")
-            ));
-
-        Stream<IdTitle> available = available(form.getId(), con, link, linkObjectType);
-
-        List<IdTitle> list = Stream.concat(buffer, available)
-            .filter(item -> item.getId() != form.getId() && !excludedIds.contains(item.getId()))
-            // .sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle()))
-            .collect(Collectors.toList());
-
-        form.setResponseData("list", list);
-
-        return html(con, form, PATH_JSP + "/add_existing_available.jsp");
-    }
-
-    private Set<Integer> alreadyLinked(int processId, Connection con, boolean link, String linkObjectType) throws SQLException {
-        var excluded = new Pageable<Pair<String, Process>>().withoutPagination();
-        new ProcessLinkProcessSearchDAO(con).search(excluded, link, processId);
-
-        return excluded.getList().stream()
-            .filter(pair -> pair.getFirst().equals(linkObjectType))
-            .map(pair -> pair.getSecond().getId())
-            .collect(Collectors.toSet());
-    }
-
-    private Stream<IdTitle> available(int processId, Connection con, boolean link, String linkObjectType) throws Exception {
-        var processType = getProcess(new ProcessDAO(con), processId).getType();
-        var configMap = processType.getProperties().getConfigMap();
-
-        CommonAvailableConfig config = link ? configMap.getConfig(LinkAvailableConfig.class) : configMap.getConfig(LinkedAvailableConfig.class);
-        if (config == null)
-            return Stream.empty();
-
-        var processes = new Pageable<Process>().withoutPagination();
-
-        for (var rule : config.rules(linkObjectType)) {
-            new ProcessSearchDAO(con)
-                .withOpen(rule.open)
-                .withType(rule.typeIds)
-                .withStatus(rule.statusIds)
-                .order(Order.DESCRIPTION)
-                .search(processes);
-        }
-
-        return processes.getList().stream().map(p -> new IdTitle(p.getId(), p.getDescription()));
-    }
-
-    public ActionForward linkedProcessAdd(DynActionForm form, Connection con) throws Exception {
-        return linkOrLinkedProcessAdd(form, con, false);
-    }
-
-    public ActionForward linkProcessAdd(DynActionForm form, Connection con) throws Exception {
-        return linkOrLinkedProcessAdd(form, con, true);
-    }
-
-    private ActionForward linkOrLinkedProcessAdd(DynActionForm form, Connection con, boolean link) throws Exception {
-        int id = form.getId();
-        String linkObjectType = form.getParam("objectType", Utils::notBlankString);
-
-        ProcessLinkDAO dao = new ProcessLinkDAO(con);
-
-        for (int processId : form.getSelectedValuesList("processId")) {
-            var l = link ? new ProcessLinkProcess(id, linkObjectType, processId) : new ProcessLinkProcess(processId, linkObjectType, id);
-
-            LinkAction.addLink(form, con, l);
-
-            if (dao.checkCycles(l.getObjectId()))
-                throw new BGMessageException(form.l.l("Циклическая зависимость"));
-        }
-
-        return json(con, form);
+        return html(conSet, form, PATH_JSP + "/add_created.jsp");
     }
 
     public ActionForward linkProcessCreate(DynActionForm form, Connection con) throws Exception {
         int id = form.getId();
 
-        // либо тип процесса + тип отношений
+        // process type + link type, the way is not really used
         int typeId = form.getParamInt("typeId", -1);
         String objectType = form.getParam("objectType", "");
 
-        // либо код из конфигурации
+        // ID from configuration
         int createTypeId = form.getParamInt("createTypeId", -1);
 
         String description = Utils.maskNull(form.getParam("description"));
@@ -230,7 +134,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
             ProcessType linkedType = getProcessType(linkedProcess.getTypeId());
 
             var itemPair = linkedType.getProperties().getConfigMap()
-                .getConfig(LinkProcessCreateConfig.class)
+                .getConfig(ProcessCreateLinkConfig.class)
                 .getItem(form, con, linkedProcess,createTypeId);
             if (itemPair == null)
                 throw new BGMessageException("Не найдено правило с ID: {}", createTypeId);
@@ -282,6 +186,72 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
         EventProcessor.processEvent(new ProcessCreatedAsLinkEvent(form, linkedProcess, process), new SingleConnectionSet(con));
 
         return process;
+    }
+
+    public ActionForward addExisting(DynActionForm form, ConnectionSet conSet) throws Exception {
+        var processType = getProcessType(getProcess(new ProcessDAO(conSet.getSlaveConnection()), form.getId()).getTypeId());
+        int categoryId = form.getParamInt("categoryId", Utils::isPositive);
+        var category = processType.getProperties().getConfigMap().getConfig(ProcessLinkCategoryConfig.class).getCategories().get(categoryId);
+        Set<Integer> bufferProcessIds = form.getSelectedValues("bufferProcessId");
+
+        var processes = new Pageable<Process>(form);
+        processes.getPage().setPageSize(100);
+
+        Set<Integer> excludeIds = alreadyLinked(form.getId(), conSet.getSlaveConnection(), category.isLink(), category.getLinkType());
+
+        new ProcessSearchDAO(conSet.getSlaveConnection(), form)
+            .withType(category.getProcessTypeIds())
+            .withOpen(form.getParamBoolean("open", null))
+            .withStatus(category.getAddProcessStatusIds())
+            .withExcludeIds(excludeIds)
+            .withIdOrDescriptionLike(LikePattern.SUB.get(form.getParam("filter")))
+            .order(Order.DESCRIPTION)
+            .search(processes);
+
+        var listBuffer = new ArrayList<>(bufferProcessIds.size());
+        form.setResponseData("listBuffer", listBuffer);
+
+        var listIt = processes.getList().iterator();
+        while (listIt.hasNext()) {
+            var p = listIt.next();
+            if (bufferProcessIds.contains(p.getId())) {
+                listBuffer.add(p);
+                listIt.remove();
+            }
+        }
+
+        return html(conSet, form, PATH_JSP + "/add_existing.jsp");
+    }
+
+    public ActionForward linkProcessExisting(DynActionForm form, ConnectionSet conSet) throws Exception {
+        var processType = getProcessType(getProcess(new ProcessDAO(conSet.getSlaveConnection()), form.getId()).getTypeId());
+        int categoryId = form.getParamInt("categoryId", Utils::isPositive);
+        var category = processType.getProperties().getConfigMap().getConfig(ProcessLinkCategoryConfig.class).getCategories().get(categoryId);
+
+        ProcessLinkDAO dao = new ProcessLinkDAO(conSet.getConnection());
+
+        for (int processId : form.getSelectedValuesList("processId")) {
+            var l = category.isLink() ?
+                new ProcessLinkProcess(form.getId(), category.getLinkType(), processId) :
+                new ProcessLinkProcess(processId, category.getLinkType(), form.getId());
+
+            LinkAction.addLink(form, conSet.getConnection(), l);
+
+            if (dao.checkCycles(l.getObjectId()))
+                throw new BGMessageException(form.l.l("Циклическая зависимость"));
+        }
+
+        return json(conSet, form);
+    }
+
+    private Set<Integer> alreadyLinked(int processId, Connection con, boolean link, String linkObjectType) throws SQLException {
+        var excluded = new Pageable<Pair<String, Process>>().withoutPagination();
+        new ProcessLinkProcessSearchDAO(con).search(excluded, link, processId);
+
+        return excluded.getList().stream()
+            .filter(pair -> pair.getFirst().equals(linkObjectType))
+            .map(pair -> pair.getSecond().getId())
+            .collect(Collectors.toSet());
     }
 
     public ActionForward linkProcessDelete(DynActionForm form, ConnectionSet conSet) throws Exception {

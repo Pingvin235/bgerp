@@ -1,0 +1,4 @@
+process.link.category.{@inc:cnt}.title=Linked (Parent) Depend Processes
+process.link.category.{@cnt}.link=0
+process.link.category.{@cnt}.link.type=processDepend
+process.link.category.{@cnt}.process.types={@PROCESS_TYPE_ID}

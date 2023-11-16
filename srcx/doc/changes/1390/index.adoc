@@ -15,13 +15,13 @@ IMPORTANT: Set property *multiple=1* in configuration of existing *listcount* pa
 
 image::../../kernel/_res/param/listcount_editor_single.png[width=600]
 
-== Redesign of <<../../kernel/process/index.adoc#linked-process,Linked Processes Tab>>
+== Redesign of Linked Processes Tab
 
 IMPORTANT: Removed process type configuration options: 'show.tab.links.process.add.from.buffer', 'show.tab.links.process.up' and 'show.tab.links.process.down'.
 
 IMPORTANT: Removed 'allowProcessLinkDelete' permission option, for enabling process link deletion there is a *separated action* in tree available.
 
-image::../../kernel/process/_res/linked_process/tab.png[width="800"]
+image::_res/linked_process_tab.png[width="800"]
 
 [square]
 * Pagination for parent relations.

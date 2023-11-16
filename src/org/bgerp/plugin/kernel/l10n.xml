@@ -41,7 +41,7 @@
 	<p><ru>Название</ru><en>Name</en></p>
 	<p><en>Children</en><ru>Дочерние</ru></p>
 	<p><en>Parents</en><ru>Родительские к</ru></p>
-	<p><ru>Связанные процессы</ru><en>Linked processes</en></p>
+	<p><en>Related Processes</en><ru>Связанные процессы</ru></p>
 	<p><ru>Параметры</ru><en>Parameters</en></p>
 	<p><ru>История статусов</ru><en>Status history</en></p>
 	<p><en>User</en><ru>Пользователь</ru></p>
@@ -140,7 +140,7 @@
 	<p><en>Open</en><ru>Открытые</ru></p>
 	<p><en>Closed</en><ru>Закрытые</ru></p>
 	<p><sys>process.closed</sys><en>Closed</en><ru>Закрыт</ru></p>
-	<p><ru>Записей</ru><en>Records</en></p>
+	<p><en>Records</en><ru>Записей</ru></p>
 	<p><ru>Стр.</ru><en>Page</en></p>
 	<p><ru>из</ru><en>of</en></p>
 	<p><ru>Новый контрагент</ru><en>New customer</en></p>
@@ -189,7 +189,6 @@
 	<p><ru>Сорт.</ru><en>Order</en></p>
 	<p><ru>Слить в существующий</ru><en>Merge to existing</en></p>
 	<p><ru>Привязки</ru><en>Links</en></p>
-	<!-- <p><ru>привязать</ru><en>add</en></p> -->
 	<p><ru>Привязать объект из буфера</ru><en>Link object from buffer</en></p>
 	<p><ru>Привязать иной объект</ru><en>Link another object</en></p>
 	<p><ru>Строка поиска контрагента</ru><en>Customer search string</en></p>
@@ -325,13 +324,6 @@
 	<p><en>File</en><ru>Файл</ru></p>
 	<p><en>Size</en><ru>Размер</ru></p>
 	<p><ru>Выберите улицу</ru><en>Choose a street</en></p>
-	<!-- <p><ru>Ссылается</ru><en>Linked</en></p>
-	<p><ru>Зависит</ru><en>Depends</en></p>
-	<p><ru>Породил</ru><en>Made</en></p>
-	<p><ru>С</ru><en>L</en></p>
-	<p><ru>З</ru><en>D</en></p>
-	<p><ru>П</ru><en>M</en></p> -->
-	<p><ru>Для привязки доступны процессы, выбранные в буфер</ru><en>The processes selected in the buffer are available for binding</en></p>
 	<p><ru>Шаблон</ru><en>Template</en></p>
 	<p><ru>С даты</ru><en>From date</en></p>
 	<p><ru>По дату</ru><en>To date</en></p>
@@ -630,6 +622,15 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Choose a process for merging the current to</en><ru>Выберите процесс для слияния текущего</ru></p>
 	<p><en>Process cloned from {}</en><ru>Процесс клонирован из {}</ru></p>
 	<p><en>Clone process</en><ru>Клонировать процесс</ru></p>
+	<p><en>Link existing process</en><ru>Привязка существующего процесса</ru></p>
+	<p>
+		<sys>no.link.categories.configured</sys>
+		<en>No link Categories are configured for the process type, ask the Administrator about.</en>
+		<ru>Не сконфигурированы Категории привязок для типа процесса, спросите Администратора об этом.</ru>
+	</p>
+	<p><en>ID or Description part</en><ru>Часть ID или описания</ru></p>
+	<p><en>Shown</en><ru>Показано</ru></p>
+	<p><sys>records.shown.of</sys><en>of</en><ru>из</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

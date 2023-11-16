@@ -321,9 +321,9 @@
 		</div>
 
 		<div>
-			<b>Tabs</b><br/>
+			<b>Tabs static</b><br/>
 
-			<div id="tabsTest">
+			<div id="tabsStatic">
 				<ul>
 					<li><a href="#tabs-1">First tab</a></li><%--
 				--%><li><a href="#tabs-2">Second tab</a></li><%--
@@ -336,9 +336,7 @@
 		</div>
 
 		<script>
-			$(function() {
-				$("#tabsTest").tabs();
-			})
+			$("#tabsStatic").tabs();
 		</script>
 	</div>
 

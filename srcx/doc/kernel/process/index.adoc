@@ -1,7 +1,9 @@
-﻿= Процессы
+﻿= Process
 :toc:
 :toclevels: 4
 
+[[about]]
+== About
 Процесс - сущность, позволяющая учитывать различные протекающие в организации процессы. Процесс обладает встроенными параметрами:
 [square]
 * тип;
@@ -24,8 +26,11 @@
 * как привязанный;
 * при обработке сообщений.
 
-[[status]]
-== Статусы
+[[setup]]
+== Setup
+
+[[setup-status]]
+=== Status
 Правка статусов производится в оснастке *Администрирование / Процессы / Статусы процессов*.
 Статус определяет текущее состояние процесса. Позиция статуса определяет порядок его в списке статусов.
 
@@ -33,8 +38,8 @@ image::_res/proc_status.png[]
 
 Кнопка *Показать* отображает типы процессов, в которых используется статус.
 
-[[type]]
-== Типы процессов
+[[setup-type]]
+=== Type
 Правка выполняется в оснастке *Администрирование / Процессы / Типы процессов*.
 Типы процессов организованы в древовидный список.
 
@@ -55,8 +60,6 @@ image::_res/type_prop.png[]
 
 CAUTION: Не следует без необходимости порождать большое количество типов процессов, наследованных от общего предка и различающихся только наименованием. Тип - главный классифицирующий признак для очереди процессов и в случае их большого количества эффективность фильтрации сильно падает. Пользуйтесь списковым параметром для разделения таких процессов.
 
-[[type-config]]
-=== Конфигурация
 В конфигурацию типа процесса могут быть <<../setup.adoc#config-include, включены>> блоки основной конфигурации.
 
 Параметры конфигурации типа процесса, поддержанные ядром.
@@ -68,9 +71,9 @@ CAUTION: Не следует без необходимости порождат�
 hideDescriptionChange=1
 # 0 - hide, 1 (default) - show on tab <<../message/index.adoc#usage-process, process messages>> [[config-messages]]
 #show.tab.messages=1
-# отображение в процессе сообщений также и дочерних <<linked-process, привязанных процессов>>
+# отображение в процессе сообщений также и дочерних <<usage-related-process, привязанных процессов>>
 #show.messages.link.process=processMade, processDepend
-# empty (default) or 0 - hide, 1 - show on tab <<link, process links>> [[config-link]]
+# empty (default) or 0 - hide, 1 - show on tab <<usage-link, process links>> [[config-link]]
 #show.tab.links=1
 # требования указания обязательного комментария при переводы в статусы
 requireChangeCommentStatusIds=<status_ids>
@@ -86,14 +89,6 @@ descriptionAddPattern.timePattern=dd.MM HH:mm
 # HTML стиль левого и правого блока карточки процесса, по-умолчанию они делятся поровну
 #style.processCardLeftBlock=min-width: 500px;
 #style.processCardRightBlock=width: 100%
-
-# parameters related to <<linked-process, linked processes>> [[config-linked-process]]
-# 0 - hide, 1 (default) - show on tab linked processes
-#show.tab.links.process=0
-
-# при закрытии процесса проверка закрытости связанных дочерних процессов - down, либо родительских - up, 0 - не проверять никаких
-process.close.check.processDepend=up
-process.close.check.processMade=down
 ====
 :hardbreaks!:
 
@@ -102,6 +97,7 @@ process.close.check.processMade=down
 * *<status_ids>* - коды статусов через запятую;
 * *<groupIds>* - коды групп через запятую.
 
+[[setup-type-param-behaviour]]
 ==== Настройки поведения параметров процесса
 [source]
 ----
@@ -140,6 +136,7 @@ showParam.<paramId>.checkExpression=<JEXL_EXPR>
 * *process* - объект класс javadoc:ru.bgcrm.model.process.Process[] - изменяющийся процесс;
 * *processParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[] - параметры изменяющегося процесса.
 
+[[setup-type-executor-restriction]]
 ==== Ограничение количества исполнителей по группам
 Одно или несколько правил вида:
 [source]
@@ -156,7 +153,7 @@ executorRestriction.<n>.maxCount=<maxCount>
 
 Просматриваются все правила в порядке их номеров.
 
-[[type-config-left]]
+[[setup-type-left]]
 ==== Настройка левой области карточки процесса
 Для настройки отображения левой области карточки процесса в конфигурацию типа добавляются одна или несколько конструкций вида:
 [source]
@@ -184,7 +181,7 @@ processCard.1.mode=card
 processCard.1.components=header;jsp:/WEB-INF/jspf/user/process/process/custom/process_stp/contract_process_count.jsp;status;description;executors;params
 ----
 
-[[create-process-with-link]]
+[[setup-type-create-process-with-link]]
 ==== Создание процесса с привязанными объектами
 Переменная в конфигурации типа процесса:
 [source]
@@ -214,7 +211,7 @@ create.in.objectTypes=customer
 create.in.copyParams=1:3;5:6
 ----
 
-[[type-config-reference]]
+[[setup-type-reference]]
 ==== Описание процесса
 Макрос описаний процесса позволяет сгенерировать текст для заголовка вкладки процесса или для перечня процессов.
 Для генерации описаний в конфигурацию типа процесса добавляются записи вида:
@@ -232,7 +229,7 @@ processReference.<n>.stringExpression=<macros>
 
 Перечень областей:
 [square]
-* *customer* - <<link-processes, вкладка>> *Процессы* контрагента;
+* *customer* - <<usage-link-process, вкладка>> *Процессы* контрагента;
 * *processCard* - заголовок вкладки процесса;
 * *linkedProcessList* - список процессов к которым привязан данный процесс;
 * *linkProcessList* - список процессов, привязанных к данному;
@@ -274,7 +271,7 @@ image::_res/conf_title.png[]
 
 image::_res/conf_description.png[]
 
-[[type-config-reference-sample-type]]
+[[setup-type-reference-sample-type]]
 В описании возможно использование HTML разметки, с выделением части описания жирным шрифтом для отображения в буфере. Например:
 [source]
 ----
@@ -286,190 +283,78 @@ processReference.1.stringExpression="<span class='title'>#" + process.getId() + 
 
 image::_res/conf_title_buffer.png[]
 
-[[usage-card]]
-== Process Card
-Карточка процесса открывается в буфере объектов и позволяет редактировать свойства уже созданного процесса.
-
-image::_res/card.png[]
-
-В левой области расположены блоки редактирования свойства процесса и ссылки для их редактирования, настроенные для <<type,типа>> процесса <<../setup.adoc#param, параметры>>.
-Вид левого блока можно <<type-config-left, настроить>> в конфигурации типа процесса.
-
-Строка с описанием процесса (по-умолчанию содержит код процесса и наименование его типа) может быть <<type-config-reference, настроена>> в конфигурации.
-Эта же строка отображается в буфере закрытых объектов, позволяя вернуться на недавно открытый процесс.
-
-В правой области отображаются связанные с процессом данные, например <<linked-process,связанные процессы>>, либо различные расширения, предоставляемые плагинами.
-
-[[usage-card-existance-operation]]
-=== Existance Operations
-The link *[...]* left of process type calls a popup menu.
-
-image::_res/card_existance_operations.png[]
-
-That allows the following operations:
-[square]
-* *Clone* - the process is copied with all its parameter values;
-* *Merge* - the process is deleted, all its <<../message/index.adoc#, messages>> and description are moved to a merging target process;
-* *Delete* - the process is just deleted.
-
-[[executor]]
-=== Группы решения и исполнители
-Каждый процесс может выполняться одним или несколькими подразделениями (группами). При этом группа выступает в процессе в той или иной роли.
-По-умолчанию в системе определена одна роль с кодом 0 - "Выполнение" процесса.
-Список ролей может быть дополнен в [[group-executor-role]] <<../setup.adoc#config-group-executor-role, конфигурации>>.
-Примерами ролей могут быть: "Инициация", "Продажа", "Согласование" и т.п. У каждой роли должен быть свой уникальный код.
-
-На снимке ниже одна группа выполняет процесс в роли "Выполнение", другая "Инициация".
-
-image::_res/card_groups.png[]
-
-Для каждой группы выполнения процесса могут быть установлены исполнители один или несколько.
-
-[[executor-swap]]
-==== Executors Swap
-*eswap* operation performs swapping executors placed with two different groups and roles.
-On the screen below *Kernel Executors* and *Karl Marx* will be exchanged.
-
-image::_res/executor_swap.png[]
-
-[[link]]
-== Привязки
-Отображение привязок в карточке процесса задаётся <<config-link, переменной>> в конфигурации типа процесса.
-К процессу могут быть привязаны различные объекты. Например: контрагенты, договоры.
-
-image::_res/link.png[]
-
-Привязываемый к процессу объект должен бть доступен в буфере интерфейса. Контрагент может быть привязан с несколькими ролями.
-По-умолчанию в системе доступна лишь роль "Контрагент", это изменяется в <<../setup.adoc#config-customer-process-role, конфигурации>>.
-
-[[link-processes]]
-У привязанных объектов процессы к ним относящиеся отображаются на вкладке *Процессы*.
-
-image::_res/object_process.png[]
-
-По-умолчанию отображаются несколько обязательных полей процессов, возможна настройка <<type-config-reference, описания>> в конфигурации типа для области *customer*.
-
-Данный способ, однако, вызывает значительную дополнительную нагрузку на БД при выводе списка и не позволяет гибко настраивать отображаемые столбцы.
-Вместо стандартного списка может быть отображена <<queue.adoc#, очередь процессов>> с фильтром по данному объекту.
-В конфигурации очереди могут быть определены столбцы и <<queue.adoc#sort, сортировки>> с явным значением *value*.
-
-image::_res/linked_process/queue.png[]
-
-Данная функция включается в <<../setup.adoc#config, конфигурации>>:
-[source]
-----
-<objectType>.processes.queue=<queueId>
-----
-
-Где:
-[square]
-* *<objectType>* - тип привязанного объекта, например *customer* или *contract:<billingId>*;
-* *<queueId>* - код очереди процессов.
-
-Например:
-[source]
-----
-customer.processes.queue=12
-contract:bitel.processes.queue=11
-----
-
-=== Создание процесса
-С помощью <<create-process-with-link, настройки>> в конфигурации типа процесса возможно разрешение создания процессов определённого типа прямо из данной вкладки.
-
-[[linked-process]]
-== Linked Processes
-NOTE: You can see the feature enabled and sample configurations in <<../install.adoc#demo, Demo System>>, process description *Kernel Process Link*.
-
-The feature can be configured <<config-linked-process, process type properties configuration>>.
-
-[[linked-process-about]]
-=== About
-Связи между процессами носят всегда *направленный характер*.
+[[setup-type-related-process]]
+==== Related Processes
+Process relatinons are *ordered*.
 
 drawio:_res/linked_process/direction.drawio[]
 
 To distinguish those, we name sometimes a *Parent* process as *Linked* and a *Child* as *Link*.
 
-Relations might have three types.
+Relations might have three *types*.
 
 drawio:_res/linked_process/relation_types.drawio[]
 
 Where:
 [square]
 * *Link* - simple reference from one process to another, no additional logic has been added;
-* *Made* - процессы *B* и *C* является частями процесса *A*, который может быть закрыт только после закрытия *B* и *C*;
-* *Depend* - процесс *C* зависит от процесса *B* и может быть закрыт только после закрытия *B*.
+* *Made* - processes *C* is part of process *A* that can be closed only after *C*;
+* *Depend* - process *C* depends on process *B* and can be closed only ater closing *B*.
 
-[[linked-process-tab]]
-=== Tab
-На скриншоте ниже в верхней таблице указаны процессы, к которым привязан данный (родительские для него),
-в нижней - привязанные к данному процессу (дочерние). Добавление привязок производится только в родительском процессе.
+You can change change this default closing linked processes logic in type configuration.
+[source]
+----
+# on process closing checking of being closed related child processes - 'down', or parents - 'up', 0 - do not check at all
+process.close.check.processDepend=up
+process.close.check.processMade=down
+----
 
-image::_res/linked_process/tab.png[width="800"]
-
-Рассмотрим отображаемые на снимке экрана области В таблице *1* отображаются процессы, которые ссылаются на текущий процесс.
-В таблице *2* - те процессы, на которые ссылается текущий процесс. Краткое описание, выводящееся в таблице привязанных процессов, вид левого блока карточки процесса возможно настроить в <<type-config-left, конфигурации типа>>.
-
-Карточка привязанного процесса может быть открыта прямо на вкладке привязок кликом по строке таблицы.
-При этом открывается только левая часть карточки процесса с основными свойствами.
-
-image::_res/linked_process/open_in.png[width="800"]
-
-Clicking on the *add* link opens adding link editor.
-
-image::_res/linked_process/add.png[width="600"]
-
-[[linked-process-tab-add-existing]]
-==== Add Existing Process Link
-Выпадающий список *3* - позволяет выбрать метод отношейний для привязки к текущему другого процесса, открытого в буфере.
-
-After the relation type choice is taken the table with available processes is shown.
-
-image::_res/linked_process/available.png[width="800"]
-
-On the top area presented processed, opened in buffer. Below those selected so-called available processed, configured in process type using the following blocks.
+Such complex character of relations is hidden from the end-user, operating on <<usage-related-process, Related Processes>> tab.
+The tab is shown by default for any process type, it can be however disabled using properties configuration.
 
 [source]
 ----
-<linkDirection>.available.{@inc:cnt}.link.types=<linkTypes>
-<linkDirection>.available.{@cnt}.filter.process.types=<processTypes>
-<linkDirection>.available.{@cnt}.filter.process.open=<openOrClose>
-<linkDirection>.available.{@cnt}.filter.process.statuses=<statuses>
+# 0 - hide, 1 (default) - show on tab linked processes
+show.tab.links.process=0
+----
+
+Once the tab is shown, any type of linked processes have to be shown in a separated sub-tab, so named *Category*.
+
+[[setup-type-related-process-category]]
+===== Categories
+For every category of linked processes add the following record in process type configuration.
+
+[source]
+----
+process.link.category.<n>=<title>
+# optional keys
+process.link.category.<n>.link=<link>
+process.link.category.<n>.link.type=<relationType>
+process.link.category.<n>.process.types=<processTypes>
+process.link.category.<n>.add=<add>
+process.link.category.<n>.add.process.statuses=<addProcessStatuses>
 ----
 
 Where:
 [square]
-* *<linkDirection>* - *link* for child links, *linked* for parent ones;
-* *<linkTypes>* - optional comma separated list of allowed relation types: *processMade*, *processDepend*, *processLink*;
-* *<processTypes>* - optional comma separated list with allowed process IDs;
-* *<openOrClose>* - optional *1* or *0* for selecting only open or closed processes;
-* *<statuses>* - optional comma separated list of allowed process status IDs.
+* *<n>* - unique record's numeric ID;
+* *<title>* - meaningful title for the category of linked processes;
+* *<link>* - *1* (default) for child relations, or *0* for parent;
+* *<relationType>* - process relation type: *processLink* (default), *processMade*, *processDepend*;
+* *<processTypes>* - comma separted process type IDs of linked processes;
+* *<add>* - *1* for ability to add linked processes in the category;
+* *<addProcessStatuses>* - comma separated process statuses for filtering available for adding.
 
-Example for available parent and child processes:
-[source]
-----
-linked.available.{@inc:cnt}.link.types=processDepend
-linked.available.{@cnt}.filter.process.types=17
-linked.available.{@cnt}.filter.process.open=1
-linked.available.{@cnt}.filter.process.statuses=2,10
+[[setup-type-related-process-create-and-link]]
+===== Create and Link
+For every item in creating and linking process combo box has to be added a record in process type configuration.
 
-link.available.{@inc:cnt}.link.types=processMade,processLink
-link.available.{@cnt}.filter.process.types=19
-----
-
-There are may be many such rules for link and linked available processes. Any of them will be selected sequentially.
-
-IMPORTANT: Не допускаются циклические привязки типов *Link* и *Made*, при попытке добавления такой система возвращает ошибку: "Циклическая зависимость".
-
-[[linked-process-tab-create-and-link]]
-==== Create And Link Child Process
-Выпадающий список *4* - позволяет создать *child* процесс и привязать к данному процессу. Содержимое списка определяется записями в конфигурации типа процесса вида:
 [source]
 ----
 processCreateLink.<n>.title=<title>
 processCreateLink.<n>.processTypeId=<typeId>
 processCreateLink.<n>.linkType=<linkType>
-# необязательные параметры
+# optionally
 #processCreateLink.<n>.checkExpression=<expression>
 #processCreateLink.<n>.checkErrorMessage=<expressionError>
 # copy process parameters
@@ -477,35 +362,26 @@ processCreateLink.<n>.linkType=<linkType>
 # copy process links
 #processCreateLink.<n>.copyLinks=<copyLinks>
 ----
-Где:
+
+Where:
 [square]
-* *<n>* - порядковый номер записи;
-* *<title>* - наименование для списка;
-* *<linkType>* - тип связи: *processLink* - ссылается, *processMade* - порождён, *processDepend* - зависит;
-* *<typeId>* - код типа создаваемого процесса;
+* *<n>* - unique numeric ID;
+* *<title>* - title for the combo;
+* *<linkType>* - process relation type: *processLink*, *processMade*, *processDepend*;
+* *<typeId>* - created process type ID;
 * *<expression>* - <<../extension.adoc#jexl, JEXL>> expression, when returns *false* - the combo-box item is displayed strikethrough;
 * *<exressionError>* - error message shown on attempt to use a disabled item;
-* *<copyRules>* - через запятую коды копирующихся с текущего на создаваемый параметров, либо пары <from>:<to> - кодов однотипных параметров с какого на какой необходимо копировать;
-* *<copyLinks>* - копирование привязок на процесс, 1 - копировать все привязки, возможно ограничение по маске типов объектов, например: contract%, customer%.
+* *<copyRules>* - comma separated parameter IDs to be copied in each newly created process, or mapping pairs *<from_id>:<to_id>* for copying between different parameters but with a same type;
+* *<copyLinks>* - copy links to a created process, *1* - copy all links, but also possible to limit them by type, e.g.: *contract%*, *customer%*.
 
-В JEXL процессор передаются объекты:
+To JEXL processor for *<expression>* are passed objects:
 [square]
-* *processParam* - объект класса javadoc:ru.bgcrm.dao.expression.ParamValueFunction[], параметры процесса.
+* *processParam* - object of class javadoc:ru.bgcrm.dao.expression.ParamValueFunction[], process parameters.
 
-Пример конфигурации. Создаётся ссылаемый процесс с кодом типа 9244, запись отображается в списке только если значение параметра с кодом 227 равно 1.
-[source]
-----
-processCreateLink.1.title=Авария
-processCreateLink.1.processTypeId=9244
-# processLink - ссылается, processMade - порождён
-processCreateLink.1.linkType=processLink
-processCreateLink.1.checkExpression=processParam.getParamValue(227) == 1
-processCreateLink.1.copyParams=48,46,150,151
-processCreateLink.1.copyLinks=1
-----
+NOTE: Only child related processes can be created in a this way.
 
-[[linked-process-howto]]
-=== Рекомендации к применению
+[[setup-linked-process-howto]]
+===== Рекомендации к применению
 Использование связанных процессов рекомендуется в случае, когда существующие иные разделения не позволяют учитывать всю информацию.
 
 Существующие методы организации данных о бизнес-процессах:
@@ -533,4 +409,136 @@ processCreateLink.1.copyLinks=1
 Исполняется несколькими исполнителями или группами - добавить групп решения либо ролей.
 * Исполняется множество на один родительский процесс. Подключения по разным адресам, например.
 В этом случае текущее состояние можно отобразить только множеством статусом.
+
+[[usage]]
+== Usage
+
+[[usage-card]]
+=== Process Card
+Карточка процесса открывается в буфере объектов и позволяет редактировать свойства уже созданного процесса.
+
+image::_res/card.png[]
+
+В левой области расположены блоки редактирования свойства процесса и ссылки для их редактирования, настроенные для <<setup-type, типа>> процесса <<../setup.adoc#param, параметры>>.
+Вид левого блока можно <<setup-type-left, настроить>> в конфигурации типа процесса.
+
+Строка с описанием процесса (по-умолчанию содержит код процесса и наименование его типа) может быть <<setup-type-reference, настроена>> в конфигурации.
+Эта же строка отображается в буфере закрытых объектов, позволяя вернуться на недавно открытый процесс.
+
+В правой области отображаются связанные с процессом данные, например <<usage-related-process,связанные процессы>>, либо различные расширения, предоставляемые плагинами.
+
+[[usage-card-existance-operation]]
+==== Existance Operations
+The link *[...]* left of process type calls a popup menu.
+
+image::_res/card_existance_operations.png[]
+
+That allows the following operations:
+[square]
+* *Clone* - the process is copied with all its parameter values;
+* *Merge* - the process is deleted, all its <<../message/index.adoc#, messages>> and description are moved to a merging target process;
+* *Delete* - the process is just deleted.
+
+[[usage-card-executor]]
+==== Группы решения и исполнители
+Каждый процесс может выполняться одним или несколькими подразделениями (группами). При этом группа выступает в процессе в той или иной роли.
+По-умолчанию в системе определена одна роль с кодом 0 - "Выполнение" процесса.
+Список ролей может быть дополнен в [[group-executor-role]] <<../setup.adoc#config-group-executor-role, конфигурации>>.
+Примерами ролей могут быть: "Инициация", "Продажа", "Согласование" и т.п. У каждой роли должен быть свой уникальный код.
+
+На снимке ниже одна группа выполняет процесс в роли "Выполнение", другая "Инициация".
+
+image::_res/card_groups.png[]
+
+Для каждой группы выполнения процесса могут быть установлены исполнители один или несколько.
+
+[[usage-card-executor-swap]]
+===== Executors Swap
+*eswap* operation performs swapping executors placed with two different groups and roles.
+On the screen below *Kernel Executors* and *Karl Marx* will be exchanged.
+
+image::_res/executor_swap.png[]
+
+[[usage-link]]
+=== Привязки
+Отображение привязок в карточке процесса задаётся <<config-link, переменной>> в конфигурации типа процесса.
+К процессу могут быть привязаны различные объекты. Например: контрагенты, договоры.
+
+image::_res/link.png[]
+
+Привязываемый к процессу объект должен бть доступен в буфере интерфейса. Контрагент может быть привязан с несколькими ролями.
+По-умолчанию в системе доступна лишь роль "Контрагент", это изменяется в <<../setup.adoc#config-customer-process-role, конфигурации>>.
+
+[[usage-link-process]]
+У привязанных объектов процессы к ним относящиеся отображаются на вкладке *Процессы*.
+
+image::_res/object_process.png[]
+
+По-умолчанию отображаются несколько обязательных полей процессов, возможна настройка <<setup-type-reference, описания>> в конфигурации типа для области *customer*.
+
+Данный способ, однако, вызывает значительную дополнительную нагрузку на БД при выводе списка и не позволяет гибко настраивать отображаемые столбцы.
+Вместо стандартного списка может быть отображена <<queue.adoc#, очередь процессов>> с фильтром по данному объекту.
+В конфигурации очереди могут быть определены столбцы и <<queue.adoc#sort, сортировки>> с явным значением *value*.
+
+image::_res/link_process_queue.png[]
+
+Данная функция включается в <<../setup.adoc#config, конфигурации>>:
+[source]
+----
+<objectType>.processes.queue=<queueId>
+----
+
+Где:
+[square]
+* *<objectType>* - тип привязанного объекта, например *customer* или *contract:<billingId>*;
+* *<queueId>* - код очереди процессов.
+
+Например:
+[source]
+----
+customer.processes.queue=12
+contract:bitel.processes.queue=11
+----
+
+[[usage-create]]
+=== Создание процесса
+С помощью <<setup-type-create-process-with-link, настройки>> в конфигурации типа процесса возможно разрешение создания процессов определённого типа прямо из данной вкладки.
+
+[[usage-related-process]]
+=== Related Processes
+NOTE: You can see the feature enabled and sample configurations in <<../install.adoc#demo, Demo System>>, the process description is *Kernel Process Link*.
+
+The *Related Processes* tab shows all the processes, related to the current one.
+Counters in the tab title (*2*) show total counts of parent / child relations for the current process.
+
+IMPORTANT: Normally all of those related processes have to be shown in categories tabs (read after about them).
+
+*Open / Close* filter on the top applied to all the shown below processes, seprated on <<setup-type-related-process-category, configured>> *Categories* tabs.
+The filters' value is also used when adding (button *1*) exising processes inside a tab.
+
+NOTE: The last choosen filters' value is persisted for the current user.
+
+image::_res/linked_process/tab.png[width="800"]
+
+After pressing the *1* button, the Link existing process editor is opened.
+
+image::_res/linked_process/add_existing.png[]
+
+There are suggested to be linked already existing processes, matching to the selected category and not related there yet.
+Prior to horizintal black line are shown processes opened in <<../interface.adoc#user-object, buffer>>.
+Needed processes can be quickly filtered out by description of ID, checked and linked by pressing *OK* button.
+
+IMPORTANT: Is is not allowed to make cyclic relations with type *Link* or *Made*. On attempt to do that you get the *Cyclic dependency* error.
+
+When clicking in a process ID within categories table, a separated process card would be opened.
+Clicking on any other place in a process row except ID opens a left area of the process card direct in the table place.
+
+image::_res/linked_process/open_in.png[width="800"]
+
+For creating and linking processes there is a button placed right from the filter (*3*).
+Pressing it calls an editor with a drop-down list of <<setup-type-related-process-create-and-link, preconfigured>> values.
+
+image::_res/linked_process/create_and_link.png[width="800"]
+
+The strikethrough item in the list mark a blocked item, the blocking reason is shown when you try to use it.
 

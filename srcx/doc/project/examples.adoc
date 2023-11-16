@@ -20,7 +20,7 @@ DrawIO diagrams:
 Other samples:
 [square]
 * <<../kernel/message/index.adoc#, Ditaa Diagram>>
-* <<../kernel/process/index.adoc#type-config, Configuration from links from it>>
+* <<../kernel/process/index.adoc#setup-type, Configuration from links from it>>
 * <<../kernel/process/wizard.adoc#, Complex table and includes>>
 
 [[code]]
@@ -55,15 +55,21 @@ link:../../../webapps/js/kernel.shell.js#L444-L445[webapps/js/kernel.shell.js]
 [[code-tab-element-count]]
 === Depicting element count on a tab
 For example, showing associated processes count. Gets saved on the first call.
-Use javadoc:ru.bgcrm.model.IfaceState[] class
+Use javadoc:ru.bgcrm.model.IfaceState[] class.
 
-Refreshing value:
-[snippet, from="if (U", to="}", remove-leading="        "]
-link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L56-L64[org.bgerp.action.ProcessLinkProcessAction]
+image::_res/example/tab_related_process_counts.png[]
 
-Show in JSP:
+Show on a tab's header:
 [snippet, from="<c:if", to="if>", remove-leading="						"]
 link:../../../webapps/WEB-INF/jspf/user/process/process/process_editor.jsp#L77-L88[webapps/WEB-INF/jspf/user/process/process/process_editor.jsp]
+
+Update value in DB:
+[snippet, from="Iface", to="}", remove-leading="        "]
+link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L53-L61[org.bgerp.action.ProcessLinkProcessAction]
+
+Refresh on a tab's header:
+[snippet, from="<script", to="script>", remove-leading="						"]
+link:../../../webapps/WEB-INF/jspf/user/process/process/link/process/default.jsp#L6-L10[webapps/WEB-INF/jspf/user/process/process/link/process/default.jsp]
 
 [[code-date-format]]
 === Date and time format
@@ -92,13 +98,16 @@ link:../../../webapps/WEB-INF/jspf/user/plugin/task/task_list.jsp#L4-L4[webapps/
 
 [[code-pagination]]
 === Pagination
+
+image::_res/example/process_status_table.png[]
+
 Putting results into JSP and rendering a form:
-[snippet, from="<html:fo", to="rm>", remove-leading="		"]
-link:../../../webapps/WEB-INF/jspf/user/process/process/link/process/pagination.jsp#L12-L29[webapps/WEB-INF/jspf/user/process/process/link/process/pagination.jsp]
+[snippet, from="<html", to="form>"]
+link:../../../webapps/WEB-INF/jspf/admin/process/status/list.jsp#L4-L18[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
 
 Java action:
-[snippet, from="Pag", to="Id());", remove-leading="        "]
-link:../../../src/org/bgerp/action/ProcessLinkProcessAction.java#L84-L89[org.bgerp.action.ProcessLinkProcessAction]
+[snippet, from="public Ac", to="}"]
+link:../../../src/ru/bgcrm/struts/action/admin/ProcessAction.java#L53-L57[ru.bgcrm.struts.action.admin.ProcessAction]
 
 [[code-upload-file]]
 === File upload
@@ -110,14 +119,14 @@ Put an attention to the *${form.httpRequestURI}* expression, which gets action U
 
 Action:
 [snippet, from="public ActionForward u", to="}", remove-leading="    "]
-link:../../../src/org/bgerp/action/admin/LicenseAction.java#L29-L42[src/org/bgerp/action/admin/LicenseAction.java]
+link:../../../src/org/bgerp/action/admin/LicenseAction.java#L29-L42[org.bgerp.action.admin.LicenseAction]
 
 [[code-jsp-ui]]
 === JSP + HTML / CSS + JS
 A simple dictionary with pagination, AJAX editor invocation: link:../../../webapps/WEB-INF/jspf/admin/process/status/list.jsp[webapps/WEB-INF/jspf/admin/process/status/list.jsp]
 
 [[code-jsp-ui-ajax]]
-Sending AJAX for sending, exiting or restoring data in <<../kernel/process/index.adoc#type, process type properties editor>>:
+Sending AJAX for sending, exiting or restoring data in <<../kernel/process/index.adoc#setup-type, process type properties editor>>:
 [snippet, from="<div", to="/div>"]
 link:../../../webapps/WEB-INF/jspf/admin/process/type/properties.jsp#L173-L178[webapps/WEB-INF/jspf/admin/process/type/properties.jsp]
 

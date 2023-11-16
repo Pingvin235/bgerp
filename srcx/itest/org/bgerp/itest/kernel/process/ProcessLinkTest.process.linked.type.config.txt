@@ -1,0 +1,4 @@
+process.link.category.{@inc:cnt}.title=Link (Child) Made Processes
+process.link.category.{@cnt}.link=1
+process.link.category.{@cnt}.link.type=processMade
+process.link.category.{@cnt}.process.types={@PROCESS_TYPE_ID}

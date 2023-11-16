@@ -72,6 +72,7 @@ public class IfaceStateDAO extends CommonDAO{
             try {
                 log.debug("Update iface state to: {}", newState.getState());
 
+                form.setParam(IfaceState.REQUEST_PARAM_STATE, newState.getState());
                 form.setRequestUrl(form.getRequestUrl() +
                         "&!" + IfaceState.REQUEST_PARAM_STATE + "=" +
                         URLEncoder.encode(newState.getState(), StandardCharsets.UTF_8.name()));
@@ -79,5 +80,7 @@ public class IfaceStateDAO extends CommonDAO{
                 throw new SQLException(e);
             }
         }
+
+        form.setRequestAttribute(IfaceState.REQUEST_PARAM_STATE, newState);
     }
 }

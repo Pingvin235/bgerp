@@ -1,12 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<html:form action="/admin/process" styleClass="in-mr1">
+<html:form action="${form.httpRequestURI}" styleClass="in-mr1">
 	<input type="hidden" name="action" value="statusList"/>
 	<input type="hidden" name="id" value="-1"/>
 	<input type="hidden" name="returnUrl" value="${form.requestUrl}"/>
 
-	<c:url var="url" value="/admin/process.do">
+	<c:url var="url" value="${form.httpRequestURI}">
 		<c:param name="action" value="statusGet"/>
 		<c:param name="id" value="-1"/>
 		<c:param name="returnUrl" value="${form.requestUrl}"/>
@@ -27,12 +27,12 @@
 	</tr>
 	<c:forEach var="item" items="${form.response.data.list}">
 		<tr>
-			<c:url var="editUrl" value="/admin/process.do">
+			<c:url var="editUrl" value="${form.httpRequestURI}">
 				<c:param name="action" value="statusGet"/>
 				<c:param name="id" value="${item.id}"/>
 				<c:param name="returnUrl" value="${form.requestUrl}"/>
 			</c:url>
-			<c:url var="deleteUrl" value="/admin/process.do">
+			<c:url var="deleteUrl" value="${form.httpRequestURI}">
 				<c:param name="action" value="statusDelete"/>
 				<c:param name="id" value="${item.id}"/>
 			</c:url>
@@ -50,7 +50,7 @@
 			<c:set var="statusId" value="${item.id}" />
 
 			<td align="center">
-				<c:url var="showUrl" value="/admin/process.do">
+				<c:url var="showUrl" value="${form.httpRequestURI}">
 					<c:param name="action" value="statusUseProcess" />
 					<c:param name="statusId" value="${statusId}" />
 				</c:url>

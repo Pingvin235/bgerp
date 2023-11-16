@@ -217,7 +217,7 @@ Plugin can send E-Mail notifications about process related updates:
 
 These mails are sent to process executor users, excluding ones, performed the update.
 
-The feature can be enabled in process type <<../../../kernel/process/index.adoc#type-config, configuration>>.
+The feature can be enabled in process type <<../../../kernel/process/index.adoc#setup-type, configuration>>.
 [source]
 ----
 email:change.notification.user.email.param=<paramId>

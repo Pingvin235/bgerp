@@ -17,7 +17,7 @@ NOTE: You can see the plugin enabled and sample configurations in <<../../../ker
 
 [[setup-process-type]]
 === Process Type
-The plugin assigns month-based invoices to processes, in <<../../../kernel/process/index.adoc#type-config, type configuration>> of those have to be enabled *Invoices* tab.
+The plugin assigns month-based invoices to processes, in <<../../../kernel/process/index.adoc#setup-type, type configuration>> of those have to be enabled *Invoices* tab.
 [source]
 ----
 invoice:processShowInvoices=1

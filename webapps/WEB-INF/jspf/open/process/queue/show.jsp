@@ -15,7 +15,7 @@
 			</c:choose>
 		</c:forEach>
 	</div>
-	<div>${l.l('Записей')}:&nbsp;${form.response.data.page.recordCount}</div>
+	<div>${l.l('Records')}:&nbsp;<b>${form.response.data.page.recordCount}</b></div>
 </div>
 <div id="processQueueData">
 	<%@ include file="/WEB-INF/jspf/user/process/queue/show_table.jsp"%>

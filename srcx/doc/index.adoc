@@ -8,9 +8,9 @@
 ** <<kernel/setup.adoc#, Setup>>
 ** <<kernel/search.adoc#, Search>>
 ** <<kernel/news.adoc#, Новости>>
-** <<kernel/customer.adoc#, Контрагенты>>
-** <<kernel/process/index.adoc#, Процессы>>
-*** <<kernel/process/queue.adoc#, Очереди>>
+** <<kernel/customer.adoc#, Контрагент>>
+** <<kernel/process/index.adoc#, Process>>
+*** <<kernel/process/queue.adoc#, Очередь>>
 *** <<kernel/process/processing.adoc#, Простая обработка событий>>
 **** <<kernel/process/processing_samples.adoc#, Примеры простой обработки событий>>
 *** <<kernel/process/wizard.adoc#, Мастер>>
@@ -55,7 +55,6 @@
 ** <<ext/bgbilling.adoc#, Интеграция BGBilling>>
 ** <<ext/letter.adoc#, Учёт писем>>
 ** <<ext/service_desk.adoc#, Service Desk>>
-// ** <<ext/disconnect_debtors_ktv.adoc#, Организация отключения должников КТВ>>
 ** <<ext/blow_jira.adoc#, Blow JIRA>>
 * <<project/index.adoc#, PROJECT>>
 ** <<project/workflow.adoc#, Workflow>>

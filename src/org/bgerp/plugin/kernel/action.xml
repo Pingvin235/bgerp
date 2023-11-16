@@ -264,17 +264,22 @@
 				<item action="ru.bgcrm.struts.action.ProcessAction:processTypeEdit, ru.bgcrm.struts.action.ProcessAction:processTypeUpdate" title="Edit type"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:unionLog" title="View change log"/>
 
-				<item title="Linked processes">
-					<item action="org.bgerp.action.ProcessLinkProcessAction:null, org.bgerp.action.ProcessLinkProcessAction:linkProcessList, org.bgerp.action.ProcessLinkProcessAction:linkedProcessList, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList"
-						title="View linked processes"/>
+				<item title="Related Processes">
+					<item action="org.bgerp.action.ProcessLinkProcessAction:null, org.bgerp.action.ProcessLinkProcessAction:showCategory, org.bgerp.action.ProcessLinkProcessAction:linkProcessList, org.bgerp.action.ProcessLinkProcessAction:linkedProcessList, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessList, ru.bgcrm.struts.action.ProcessAction:linkProcessList"
+						title="View"/>
+					<item title="Add">
+						<item action="org.bgerp.action.ProcessLinkProcessAction:addCreated, org.bgerp.action.ProcessLinkProcessAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate"
+							title="Create a process and link it"/>
+						<item action="org.bgerp.action.ProcessLinkProcessAction:addExisting, org.bgerp.action.ProcessLinkProcessAction:linkProcessExisting" title="Link existing process to a Link Category"/>
+					</item>
+					<!--
 					<item title="Parent">
-						<item action="org.bgerp.action.ProcessLinkProcessAction:linkedProcessAdd, org.bgerp.action.ProcessLinkProcessAction:linkedProcessAvailable" title="Add parent process link"/>
+						<item action="org.bgerp.action.ProcessLinkProcessAction:linkedProcessAdd, org.bgerp.action.ProcessLinkProcessAction:linkedProcessAvailable" title="Add parent rocess link"/>
 					</item>
 					<item title="Child">
 						<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessAdd, org.bgerp.action.ProcessLinkProcessAction:linkProcessAvailable" title="Add child process link"/>
-						<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessCreate, ru.bgcrm.struts.action.ProcessAction:linkProcessCreate"
-							title="Create process and add as child link"/>
 					</item>
+					-->
 					<item action="org.bgerp.action.ProcessLinkProcessAction:linkProcessDelete, ru.bgcrm.struts.action.ProcessLinkAction:linkProcessDelete" title="Delete process link"/>
 				</item>
 			</item>

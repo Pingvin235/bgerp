@@ -117,7 +117,7 @@ END
 его запуск настраивается в <<../../kernel/setup.adoc#scheduler, планировщике>>.
 
 == Отображение в карточке процесса
-Для включения карточки в <<../../kernel/process/index.adoc#type-config, конфигурации типа процесса>> добавить.
+Для включения карточки в <<../../kernel/process/index.adoc#setup-type, конфигурации типа процесса>> добавить.
 [source]
 ----
 task:processShowTasks=1

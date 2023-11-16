@@ -117,21 +117,6 @@ function processQueueChanged(savedSetId) {
 	$$.process.queue.changed(savedSetId);
 }
 
-function processQueueClearHiddenFilters($form) {
-	$$.ui.comboInputs($form.find('.filtersSelect')).each( function() {
-		var id = $(this).attr('id');
-		var $filterItem = $('#' + id + '.filter-item');
-
-		// очистка скрытых фильтров
-		if (!this.checked &&
-			$filterItem.find( '.dontResetOnHideFilter' ).length == 0 ) {
-			/* пока простейший сброс хотя бы текстовых фильтров и фильтров по дате, с combo_check и т.п. ещё разобраться */
-			$filterItem.find('input[type=text]').val('');
-			$filterItem.find('input[type=hidden]').val('');
-		}
-	});
-}
-
 function processQueueMarkFilledFilters($form) {
 	$$.ui.comboInputs($form.find('.filtersSelect')).each( function() {
 		var id = $(this).attr('id');

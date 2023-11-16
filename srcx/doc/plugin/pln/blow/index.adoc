@@ -42,7 +42,7 @@ Where:
 * *<id>* - unique numeric board ID;
 * *<queueId>* - primary data <<#setup-queue, process queue>> ID;
 * *<groupIds>* - comma separated process execution groups IDs, by default all groups are taken;
-* *<roleIds>* - comma separated process execution <<../../../kernel/process/index.adoc#executor, roles>> IDs, by default only role *0* is taken;
+* *<roleIds>* - comma separated process execution <<../../../kernel/process/index.adoc#usage-card-executor, roles>> IDs, by default only role *0* is taken;
 * *<openUrl>* - board name for publishing on <<../../../kernel/interface.adoc#open, open interface>> with URL  *../open/blow/<openUrl>*.
 
 *<stringExpression>* contains <<../../../kernel/extension.adoc#jexl, JEXL>> expression for evaluating of cell text.
@@ -81,7 +81,7 @@ For displaying are taken only open processes without closing date.
 
 [[usage-process-groups]]
 === Process Groups
-Process hierarchy is based on <<../../../kernel/process/index.adoc#linked-process, link type>> *Made*.
+Process hierarchy is based on <<../../../kernel/process/index.adoc#usage-related-process, relation type>> *Made*.
 Note that all classical planning entities like tasks, projects, sub-projects are implemented only using
 *parent* - *child* processes with only *two levels* of depth. On the screen below you can see two such process groups:
 *56* parent with *57* and *58* children and *53* - *55* - *54*.

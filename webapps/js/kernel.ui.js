@@ -536,6 +536,17 @@ $$.ui = new function () {
 		});
 	}
 
+	/**
+	 * Updates iface state on an opened tab.
+	 * @param {String} id ID of element inside the tab.
+	 * @param {String} value state string.
+	 */
+	const ifaceStateTabUpdate = (id, value) => {
+		// native JS getAttribute function doesn't get attributes with '-' in name
+		const tabId = $(document.getElementById(id).closest("[role='tabpanel']")).attr('aria-labelledby');
+		document.getElementById(tabId).querySelector('span.iface-state').textContent = value;
+	}
+
 	// public functions
 	this.comboSingleInit = comboSingleInit;
 	this.comboSingleFilter = comboSingleFilter;
@@ -554,6 +565,7 @@ $$.ui = new function () {
 	this.inputFocus = inputFocus;
 	this.codeMirror = codeMirror;
 	this.tableRowHl = tableRowHl;
+	this.ifaceStateTabUpdate = ifaceStateTabUpdate;
 }
 
 function layoutProcess($selector) {

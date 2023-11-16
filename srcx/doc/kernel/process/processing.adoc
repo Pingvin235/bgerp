@@ -145,7 +145,7 @@ onProcessEvent.<n>.checkErrorMessage=<checkErrorMessage>
 [square]
 * *<subject>* - начало темы новости, если не указано - то "Изменился процесс".
 
-Продолжение темы новости генерируется с помощью <<index.adoc#type-config-reference, макроса описаний>>.
+Продолжение темы новости генерируется с помощью <<index.adoc#setup-type-reference, макроса описаний>>.
 Первым ищется описание с ключом *newsNotifySubject*, затем *processCard*.
 Если описание не найдено то добавляются наименование типа и код процесса.
 
@@ -170,7 +170,7 @@ CAUTION: Устарел, использовать javadoc:ru.bgcrm.dao.expressio
 Закрыть карточку обрабатываемого процесса. Команда на браузер пользователя.
 
 ==== createProcessLink:<configId>
-Создание привязанного к данному процессу процесса. *<configId>* - код <<index.adoc#linked-process, правила>> создания связанного процесса.
+Создание привязанного к данному процессу процесса. *<configId>* - код <<index.adoc#usage-related-process, правила>> создания связанного процесса.
 
 [[commands-bgbilling]]
 === Команды плагина BGBilling

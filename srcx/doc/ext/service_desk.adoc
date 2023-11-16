@@ -11,7 +11,7 @@
 
 image::_res/service_desk_process_type.png[]
 
-В системе достроена дополнительная <<../kernel/process/index.adoc#executor, роль>>: *Наблюдение*.
+В системе достроена дополнительная <<../kernel/process/index.adoc#usage-card-executor, роль>>: *Наблюдение*.
 Основная причина - с ролью *Выполнение* может быть только один исполнитель, синхронизирующийся с BGBilling HelpDesk.
 
 Вкладка с группами в редакторе типа.

@@ -91,7 +91,7 @@ WARNING: Использование агрегирующих функций пр
 |Да
 
 |status_pos
-|Position of the current process <<index.adoc#status, status>>.
+|Position of the current process <<index.adoc#setup-status, status>>.
 |Да
 |Да
 |Да
@@ -321,9 +321,9 @@ WARNING: Использование агрегирующих функций пр
 |Отображение привязанных процессов к данному процессу. Отображаются код, тип и статус.
 Необязательные параметры, * - значение по-умолчанию:
 [square]
-* *<linkType>* - <<index.adoc#linked-process, тип связи>>;
+* *<linkType>* - <<index.adoc#usage-related-process, тип связи>>;
 * *<open>* - *open* для вывода только открытых процессов;
-* *<typeIds>* - коды <<index.adoc#type, типов>> процессов через запятую.
+* *<typeIds>* - коды <<index.adoc#setup-type, типов>> процессов через запятую.
 |Да
 |Нет
 |Да

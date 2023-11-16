@@ -48,7 +48,7 @@ Check of missing message attachment, mentioned in text.
 image::_res/14951_attach_check.png[]
 
 == Process
-<<../../kernel/process/index.adoc#linked-process-tab-create-and-link, Show>> not available link process creation items.
+Show crosses out not available link process creation items.
 
 image::_res/14935_process_process_link.png[width="800px"]
 

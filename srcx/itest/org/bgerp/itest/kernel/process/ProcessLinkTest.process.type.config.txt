@@ -1,18 +1,24 @@
-linked.available.{@inc:cnt}.link.types=processDepend
-linked.available.{@cnt}.filter.process.types={@LINKED_AVAILABLE_PROCESS_TYPE_ID}
-linked.available.{@cnt}.filter.process.open=1
-linked.available.{@cnt}.filter.process.statuses={@LINKED_AVAILABLE_PROCESS_STATUS_ID}
+process.link.category.{@inc:cnt}.title=Linked (Parent) Made Processes
+process.link.category.{@cnt}.link=0
+process.link.category.{@cnt}.link.type=processMade
+process.link.category.{@cnt}.process.types={@LINKED_MADE_PROCESS_TYPE_ID}
+process.link.category.{@cnt}.add=0
 
-link.available.{@inc:cnt}.link.types=processMade,processLink
-link.available.{@cnt}.filter.process.types={@LINK_AVAILABLE_PROCESS_TYPE_ID}
+process.link.category.{@inc:cnt}.title=Link (Child) Depend Processes
+process.link.category.{@cnt}.link=1
+process.link.category.{@cnt}.link.type=processDepend
+process.link.category.{@cnt}.process.types={@LINK_DEPEND_PROCESS_TYPE_ID}
+process.link.category.{@cnt}.add=1
+process.link.category.{@cnt}.add.process.statuses={@LINK_DEPEND_PROCESS_STATUS_ID}
 
 processCreateLink.{@inc:cnt}.title=Create and Link Depended Process
-processCreateLink.{@cnt}.processTypeId={@PROCESS_TYPE_ID}
+processCreateLink.{@cnt}.processTypeId={@LINK_DEPEND_PROCESS_TYPE_ID}
 processCreateLink.{@cnt}.linkType=processDepend
 processCreateLink.{@cnt}.copyParams=*
 processCreateLink.{@cnt}.copyLinks=1
+
 processCreateLink.{@inc:cnt}.title=Create and Link Disabled Item Must be Strikethrough
-processCreateLink.{@cnt}.processTypeId={@PROCESS_TYPE_ID}
+processCreateLink.{@cnt}.processTypeId={@LINK_DEPEND_PROCESS_TYPE_ID}
 processCreateLink.{@cnt}.linkType=processDepend
 processCreateLink.{@cnt}.checkExpression=return false;
 processCreateLink.{@cnt}.checkErrorMessage=The item is disabled

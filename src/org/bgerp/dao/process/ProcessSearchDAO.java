@@ -6,12 +6,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.bgerp.model.Pageable;
 import org.bgerp.util.sql.PreparedQuery;
 
 import ru.bgcrm.dao.process.ProcessDAO;
 import ru.bgcrm.model.process.Process;
 import ru.bgcrm.struts.form.DynActionForm;
+import ru.bgcrm.util.Utils;
 
 /**
  * Fluent process search DAO.
@@ -19,6 +21,9 @@ import ru.bgcrm.struts.form.DynActionForm;
  * @author Shamil Vakhitov
  */
 public class ProcessSearchDAO extends SearchDAO {
+    private Set<Integer> excludeIds;
+    private String idOrDescriptionLike;
+
     /**
      * {@inheritDoc}
      */
@@ -58,6 +63,26 @@ public class ProcessSearchDAO extends SearchDAO {
     }
 
     /**
+     * Excluded process IDs.
+     * @param value the process IDs.
+     * @return
+     */
+    public ProcessSearchDAO withExcludeIds(Set<Integer> value) {
+        this.excludeIds = value;
+        return this;
+    }
+
+    /**
+     * SQL LIKE expression for id or description.
+     * @param value the LIKE expression.
+     * @return
+     */
+    public ProcessSearchDAO withIdOrDescriptionLike(String value) {
+        this.idOrDescriptionLike = value;
+        return this;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -78,9 +103,18 @@ public class ProcessSearchDAO extends SearchDAO {
             pq.addQuery(SQL_SELECT_COUNT_ROWS + "p.*" + SQL_FROM + TABLE_PROCESS + "AS p");
 
             pq.addQuery(SQL_WHERE + "1>0 ");
+
             filterOpen(pq);
             filterType(pq);
             filterStatus(pq);
+
+            if (CollectionUtils.isNotEmpty(excludeIds))
+                pq.addQuery(SQL_AND + "p.id NOT IN (" + Utils.toString(excludeIds) + ") ");
+
+            if (Utils.notBlankString(idOrDescriptionLike)) {
+                pq.addQuery(SQL_AND + "(p.id LIKE ? OR p.description LIKE ?)");
+                pq.addString(idOrDescriptionLike).addString(idOrDescriptionLike);
+            }
 
             order(pq);
 

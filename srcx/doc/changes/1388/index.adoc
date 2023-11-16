@@ -32,7 +32,7 @@ Renamed, moved to log/access directory and available via UI in *Administration /
 
 image::_res/access_logs.png[width="800px"]
 
-== <<../../kernel/process/index.adoc#executor-swap, Swap>> Process Executors
+== <<../../kernel/process/index.adoc#usage-card-executor-swap, Swap>> Process Executors
 
 image::../../kernel/process/_res/executor_swap.png[]
 

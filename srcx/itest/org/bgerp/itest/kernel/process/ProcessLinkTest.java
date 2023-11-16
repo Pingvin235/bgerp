@@ -24,12 +24,12 @@ import ru.bgcrm.model.process.TypeProperties;
 @Test(groups = "processLink", dependsOnGroups = { "processParam", "message" })
 public class ProcessLinkTest {
     private static final String TITLE = "Kernel Process Link";
-    private static final String TITLE_LINKED_AVAILABLE = TITLE + " Linked (Parent) Available";
-    private static final String TITLE_LINK_AVAILABLE = TITLE + " Link (Child) Available";
+    private static final String TITLE_LINKED_MADE = TITLE + " Process Linked (Parent) Made";
+    private static final String TITLE_LINK_DEPEND = TITLE + " Process Link (Child) Depend";
 
-    private int processTypeLinkedAvailableId;
-    private int processTypeLinkAvailableId;
     private int processTypeId;
+    private int processTypeLinkedMadeId;
+    private int processTypeLinkDependId;
 
     private Customer customer;
 
@@ -43,14 +43,24 @@ public class ProcessLinkTest {
         var processType = ProcessHelper.addType(TITLE, ProcessTest.processTypeTestGroupId, false, props);
         processTypeId = processType.getId();
 
-        processTypeLinkedAvailableId = ProcessHelper.addType(TITLE_LINKED_AVAILABLE, processTypeId, true, null).getId();
-        processTypeLinkAvailableId = ProcessHelper.addType(TITLE_LINK_AVAILABLE, processTypeId, true, null).getId();
+        var processTypeLinkedMade = ProcessHelper.addType(TITLE_LINKED_MADE, processTypeId, false, props);
+        processTypeLinkedMadeId = processTypeLinkedMade.getId();
+        props.setConfig(ConfigHelper.generateConstants(
+            "PROCESS_TYPE_ID", processTypeId
+        ) + ResourceHelper.getResource(this, "process.linked.type.config.txt"));
+        new ProcessTypeDAO(DbTest.conRoot).updateTypeProperties(processTypeLinkedMade);
+
+        var processTypeLinkDepend = ProcessHelper.addType(TITLE_LINK_DEPEND, processTypeId, false, props);
+        processTypeLinkDependId = processTypeLinkDepend.getId();
+        props.setConfig(ConfigHelper.generateConstants(
+            "PROCESS_TYPE_ID", processTypeId
+        ) + ResourceHelper.getResource(this, "process.link.type.config.txt"));
+        new ProcessTypeDAO(DbTest.conRoot).updateTypeProperties(processTypeLinkDepend);
 
         props.setConfig(ConfigHelper.generateConstants(
-            "LINKED_AVAILABLE_PROCESS_TYPE_ID", processTypeLinkedAvailableId,
-            "LINK_AVAILABLE_PROCESS_TYPE_ID", processTypeLinkAvailableId,
-            "LINKED_AVAILABLE_PROCESS_STATUS_ID", String.valueOf(ProcessTest.statusOpenId),
-            "PROCESS_TYPE_ID", processTypeId
+            "LINKED_MADE_PROCESS_TYPE_ID", processTypeLinkedMadeId,
+            "LINK_DEPEND_PROCESS_TYPE_ID", processTypeLinkDependId,
+            "LINK_DEPEND_PROCESS_STATUS_ID", String.valueOf(ProcessTest.statusOpenId)
         ) + ResourceHelper.getResource(this, "process.type.config.txt"));
         new ProcessTypeDAO(DbTest.conRoot).updateTypeProperties(processType);
 
@@ -78,22 +88,20 @@ public class ProcessLinkTest {
 
         // existing linked processes
         for (int i = 0; i <= 2; i++) {
-            int parentProcessId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Linked (Parent) " + i).getId();
-            dao.addLink(new ProcessLinkProcess.Depend(parentProcessId, processId));
-            dao.addLink(new ProcessLinkProcess.Link(parentProcessId, processId));
+            int parentProcessId = ProcessHelper.addProcess(processTypeLinkedMadeId, UserTest.USER_ADMIN_ID, TITLE_LINKED_MADE + " " + i).getId();
+            dao.addLink(new ProcessLinkProcess.Made(parentProcessId, processId));
         }
 
         for (int i = 0; i <= 2; i++) {
-            int childProcessId = ProcessHelper.addProcess(processTypeId, UserTest.USER_ADMIN_ID, TITLE + " Link (Child) " + i).getId();
-            dao.addLink(new ProcessLinkProcess.Made(processId, childProcessId));
-            dao.addLink(new ProcessLinkProcess.Link(processId, childProcessId));
+            int childProcessId = ProcessHelper.addProcess(processTypeLinkDependId, UserTest.USER_ADMIN_ID, TITLE_LINK_DEPEND + " " + i).getId();
+            dao.addLink(new ProcessLinkProcess.Depend(processId, childProcessId));
         }
 
-        // available linked processes
+        // available to be linked processes
         for (int i = 0; i <= 1; i++)
-            ProcessHelper.addProcess(processTypeLinkedAvailableId, UserTest.USER_ADMIN_ID, TITLE_LINKED_AVAILABLE + " " + i).getId();
+            ProcessHelper.addProcess(processTypeLinkedMadeId, UserTest.USER_ADMIN_ID, TITLE_LINKED_MADE + " a" + i).getId();
 
         for (int i = 0; i <= 1; i++)
-            ProcessHelper.addProcess(processTypeLinkAvailableId, UserTest.USER_ADMIN_ID, TITLE_LINK_AVAILABLE + " " + i).getId();
+            ProcessHelper.addProcess(processTypeLinkDependId, UserTest.USER_ADMIN_ID, TITLE_LINK_DEPEND + " a" + i).getId();
     }
 }

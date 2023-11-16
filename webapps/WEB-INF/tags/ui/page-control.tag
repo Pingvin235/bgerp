@@ -38,7 +38,7 @@
 						<i class="ti-reload"></i>
 					</button>
 				</td>
-				<td nowrap="nowrap">&nbsp;${l.l('Записей')}: <b>${page.recordCount}</b></td>
+				<td nowrap="nowrap">&nbsp;${l.l('Records')}: <b>${page.recordCount}</b></td>
 				<c:if test="${page.recordCount gt 0}">
 					<c:set var="previousPageIndex" value="${page.pageIndex - 1}"/><c:if test="${previousPageIndex < 1}"><c:set var="previousPageIndex" value="1"/></c:if>
 					<td>

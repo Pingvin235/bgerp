@@ -1,3 +1,4 @@
+// "use strict";
 /*
  * Processes and process queues.
  */
@@ -50,41 +51,6 @@ $$.process = new function() {
 	this.open = open;
 	this.remove = remove;
 	this.hideLeftAreaOnScroll = hideLeftAreaOnScroll;
-
-	// sub namespace link
-	this.link = new function() {
-		const showForm = (uiid, id) => {
-			$(`#${uiid} #linkEditor > form`).hide();
-			$(`#${uiid} #linkEditor > form#${id}`).show();
-		}
-
-		/**
-		 * Sends checked request forms for adding links.
-		 * @param {*} uiid parent element with forms.
-		 * @param {*} requestUrl URL to load after adding to parent of uiid.
-		 */
-		const add = (uiid, requestUrl) => {
-			const deferreds = [];
-
-			const forms = $('#' + uiid + ' form:visible');
-			for (var i = 0; i < forms.length; i++) {
-				const form = forms[i];
-				if (form.check && form.check.checked)
-					deferreds.push($$.ajax.post(form));
-			}
-
-			$.when.apply($, deferreds).done(() => { $$.ajax.load(requestUrl, $('#' + uiid).parent()) });
-		}
-
-		const customerRoleChanged = ($hidden) => {
-			$hidden.closest('tr').find('form')[0].linkedObjectType.value = $hidden.val();
-		}
-
-		// available functions
-		this.showForm = showForm;
-		this.add = add;
-		this.customerRoleChanged = customerRoleChanged;
-	}
 };
 
 function updateExecutors($groups, $executors, paramNameGroup, paramNameExecutor, savedExecutors) {

@@ -156,18 +156,18 @@ Where:
 
 image::_res/process_product.png[width="800px"]
 
-*Product Owner* is a user, becoming <<#usage-report, profit>> from subscriptions, using his product, has to be assigned as an process <<../../../kernel/process/index.adoc#executor, executor>> with *role=1*.
+*Product Owner* is a user, becoming <<#usage-report, profit>> from subscriptions, using his product, has to be assigned as an process <<../../../kernel/process/index.adoc#usage-card-executor, executor>> with *role=1*.
 
 [[usage-subscription]]
 === Subscription
-Each customer subscription is presented as a process with <<../../../kernel/process/index.adoc#linked-process, linked>> Product processes with type *Depend*.
+Each customer subscription is presented as a process with <<../../../kernel/process/index.adoc#usage-related-process, related>> Product processes with type *Depend*.
 
 image::_res/subscription_process.png[width="800px"]
 
 An *Consultant* is a user, taking responsibility for the process and becoming <<#usage-report, profit>> in size of Service Cost parameter value.
-The Consultant has to be assigned as a process <<../../../kernel/process/index.adoc#executor, executor>> with *role=0*.
+The Consultant has to be assigned as a process <<../../../kernel/process/index.adoc#usage-card-executor, executor>> with *role=0*.
 
-*Subscription Cost* parameter value is automatically recalculated on changing subscription, limit, linked products, discount or service cost parameters.
+*Subscription Cost* parameter value is automatically recalculated on changing subscription, limit, related products, discount or service cost parameters.
 
 After sending an invoice and paying that, *Date To* parameter has to be changed, that update *License File*.
 

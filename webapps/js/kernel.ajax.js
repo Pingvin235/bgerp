@@ -16,7 +16,7 @@ $$.ajax = new function () {
 
 	/**
 	 * Sends AJAX request and returns a promise.
-	 * input - URL string, or HTMLFormElement, or $(HTMLFormElement), or 'BUTTON' element
+	 * input - URL string or HTMLFormElement or $(HTMLFormElement) or 'BUTTON' element.
 	 * options.toPostNames - array of names of POST body parameters, automatically derived, case not presented
 	 * options.html = true - treat result as HTML
 	 * options.control - button to add there progress spinner, extracted if input is 'BUTTON'
@@ -91,7 +91,7 @@ $$.ajax = new function () {
 
 	/*
 	 * Sends HTTP request and set result HTML on element.
-	 * input - URL string or HTMLFormElement or $(HTMLFormElement).
+	 * input - URL string or HTMLFormElement or $(HTMLFormElement) or 'BUTTON' element.
 	 * $selector - jQuery selector, target area.
 	 * options.dfd - deferred, being resolved after all onLoad JS on chained loads are done.
 	 * options.append  - append HTML into the element, deprecated.

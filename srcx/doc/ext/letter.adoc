@@ -1,6 +1,6 @@
 == Учёт писем
 
-Простой учёт отправляемой корреспонденции. 
+Простой учёт отправляемой корреспонденции.
 Редактор типа процесса:
 
 image::_res/letter_process_type.png[]
@@ -19,10 +19,10 @@ processReference.1.objectTypes=customer
 processReference.1.stringExpression="" + process.getDescription() + " [" + u.maskNull(processParam.getValue(26)) + " отпр. " + u.maskNull(processParam.getValue(28)) + "]"
 ----
 
-Процесс может быть создан в контрагенте, конфигурация <<../kernel/process/index.adoc#type-config-reference, описания>> выводит дату отправки и тип письма в списке.
+Процесс может быть создан в контрагенте, конфигурация <<../kernel/process/index.adoc#setup-type-reference, описания>> выводит дату отправки и тип письма в списке.
 
 image::_res/letter_customer_process.png[]
- 
+
 Вид очереди процессов.
 
 image::_res/letter_queue.png[]

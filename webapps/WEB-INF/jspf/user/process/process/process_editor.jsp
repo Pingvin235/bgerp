@@ -61,7 +61,7 @@
 									<c:param name="processTypeId" value="${process.typeId}"/>
 								</c:url>
 
-								$tabs.tabs( "add", "${url}", "${l.l('Привязки')}" );
+								$tabs.tabs("add", "${url}", "${l.l('Привязки')}");
 							</c:if>
 
 							<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.messages', 'processShowMessages') eq '1'}">
@@ -71,7 +71,7 @@
 									<c:param name="linkProcess" value="${processType.properties.configMap['show.messages.link.process']}"/>
 								</c:url>
 
-								$tabs.tabs( "add", "${url}", "${l.l('Сообщения')}", " id='process-messages'" );
+								$tabs.tabs("add", "${url}", "${l.l('Сообщения')}", " id='process-messages'");
 							</c:if>
 
 							<c:if test="${processType.properties.configMap.getSok('1', false, 'show.tab.links.process', 'processShowProcessLinks') eq '1'}">
@@ -84,7 +84,7 @@
 									<c:param name="ifaceState" value="${ifaceState.state}"/>
 								</c:url>
 
-								$tabs.tabs( "add", "${url}", "${l.l('Связанные процессы')}${ifaceState.getFormattedState()}" );
+								$tabs.tabs("add", "${url}", "${l.l('Related Processes')}<span class='iface-state'>${ifaceState.formattedState}</span>");
 							</c:if>
 
 							<plugin:include endpoint="user.process.tabs.jsp"/>
