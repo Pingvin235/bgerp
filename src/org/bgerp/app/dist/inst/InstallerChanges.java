@@ -12,15 +12,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.dist.App;
 import org.bgerp.model.base.IdStringTitle;
 import org.bgerp.util.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import com.google.common.annotations.VisibleForTesting;
 
 import ru.bgcrm.util.Utils;
 
@@ -32,9 +33,8 @@ import ru.bgcrm.util.Utils;
 public class InstallerChanges {
     private static final Log log = Log.getLog();
 
-    private static final String UPDATE_TO_CHANGE_URL = "https://bgerp.org/update/";
-    private static final String CHANGE_PRE_RELEASE = "00000";
-    public static final String PRE_RELEASE_URL = UPDATE_TO_CHANGE_URL + CHANGE_PRE_RELEASE;
+    public static final String UPDATE_TO_CHANGE_URL = App.URL + "/update";
+    public static final String PRE_RELEASE_CHANGE_ID = "00000";
 
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
@@ -72,16 +72,16 @@ public class InstallerChanges {
 
         // sorting, first 00000, after reverse sorted by modification time
         Collections.sort(changes, (o1, o2) -> {
-            if (CHANGE_PRE_RELEASE.equals(o1.getId()))
+            if (PRE_RELEASE_CHANGE_ID.equals(o1.getId()))
                 return -1;
-            if (CHANGE_PRE_RELEASE.equals(o2.getId()))
+            if (PRE_RELEASE_CHANGE_ID.equals(o2.getId()))
                 return 1;
             return o2.time.compareTo(o1.time);
         });
     }
 
     private void updateFiles(String changeId) throws IOException {
-        final String url = UPDATE_TO_CHANGE_URL + changeId;
+        final String url = UPDATE_TO_CHANGE_URL + "/" + changeId;
         Document doc = changes(url);
         for (Element link : doc.select("a")) {
             String name = link.attr("href");

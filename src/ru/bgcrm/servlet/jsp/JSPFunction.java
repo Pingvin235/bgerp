@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bgerp.app.dist.App;
 import org.bgerp.app.dist.inst.InstalledModule;
 import org.bgerp.app.dist.inst.InstallerChanges;
 import org.bgerp.model.base.IdTitle;
@@ -271,9 +272,11 @@ public class JSPFunction {
             return url;
 
         final var m = InstalledModule.get(InstalledModule.MODULE_UPDATE);
-        return
-            m == null ?
-            InstallerChanges.PRE_RELEASE_URL + "/doc/" + url :
-            "https://bgerp.org/doc/" + m.getVersion() + "/manual/" + url;
+        final String changeId = m == null ? InstallerChanges.PRE_RELEASE_CHANGE_ID : m.getChangeId();
+
+        if (Utils.notBlankString(changeId))
+            return InstallerChanges.UPDATE_TO_CHANGE_URL + "/" + changeId + "/doc/" + url;
+
+        return App.URL + "/doc/" + m.getVersion() + "/manual/" + url;
     }
 }

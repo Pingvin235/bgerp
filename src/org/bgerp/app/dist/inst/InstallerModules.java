@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.app.dist.App;
 import org.bgerp.util.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,7 +28,7 @@ import ru.bgcrm.util.Utils;
 public class InstallerModules {
     private static final Log log = Log.getLog();
 
-    private static final String UPDATE_URL = Utils.getSystemProperty("download.url", "https://bgerp.org/download");
+    private static final String UPDATE_URL = Utils.getSystemProperty("download.url", App.URL + "/download");
     private static final String TMP_DIR_PATH = Utils.getTmpDir();
 
     /** App version for 'update' module. */

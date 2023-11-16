@@ -1,6 +1,7 @@
 package org.bgerp.plugin.telegram;
 
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.dist.App;
 
 import ru.bgcrm.model.BGMessageException;
 
@@ -43,7 +44,7 @@ public class Config extends org.bgerp.app.cfg.Config {
         msgAskPassword = config.get("msgAskPassword", "Введите пароль");
         msgLinkChange = config.get("msgLinkChange", "Теперь вы будете получать уведомления");
         msgDefaultAnswer = config.get("msgDefaultAnswer", "Введите /login для подписки или /getid, чтобы получить свой telegramId");
-        msgUrlHelp = config.get("msgUrlHelp", "https://bgerp.org/doc/3.0/manual/plugin/telegram/index.html");
+        msgUrlHelp = config.get("msgUrlHelp", App.URL + "/doc/3.0/manual/plugin/telegram/index.html");
     }
 
     public String getProxyType() {
