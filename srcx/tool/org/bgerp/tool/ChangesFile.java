@@ -56,7 +56,7 @@ public class ChangesFile {
                     if (m.find())
                         changesLines.add(m.group() + " [" + processId + "] " + line.substring(m.end() + 1));
                     else
-                        changesLines.add(line);
+                        throw new Exception(Log.format("Incorrect line '{}' in changes file '{}'", line, file));
                 }
             }
             file.delete();
