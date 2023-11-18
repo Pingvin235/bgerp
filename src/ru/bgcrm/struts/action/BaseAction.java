@@ -448,7 +448,7 @@ public class BaseAction extends DispatchAction {
                     }
                 }
             } else if (set) {
-                String values = Utils.toString(form.getSelectedValuesListStr(param));
+                String values = Utils.toString(form.getParamValuesListStr(param));
                 if (Utils.notBlankString(values)) {
                     personalizationMap.put(key, values);
                     log.debug("Storing param: {}, key: {}", param, key);

@@ -192,7 +192,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
         var processType = getProcessType(getProcess(new ProcessDAO(conSet.getSlaveConnection()), form.getId()).getTypeId());
         int categoryId = form.getParamInt("categoryId", Utils::isPositive);
         var category = processType.getProperties().getConfigMap().getConfig(ProcessLinkCategoryConfig.class).getCategories().get(categoryId);
-        Set<Integer> bufferProcessIds = form.getSelectedValues("bufferProcessId");
+        Set<Integer> bufferProcessIds = form.getParamValues("bufferProcessId");
 
         var processes = new Pageable<Process>(form);
         processes.getPage().setPageSize(100);
@@ -230,7 +230,7 @@ public class ProcessLinkProcessAction extends ProcessLinkAction {
 
         ProcessLinkDAO dao = new ProcessLinkDAO(conSet.getConnection());
 
-        for (int processId : form.getSelectedValuesList("processId")) {
+        for (int processId : form.getParamValuesList("processId")) {
             var l = category.isLink() ?
                 new ProcessLinkProcess(form.getId(), category.getLinkType(), processId) :
                 new ProcessLinkProcess(processId, category.getLinkType(), form.getId());

@@ -476,7 +476,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Gets HTTP request parameter.
+     * Gets HTTP request parameter value.
      * @param name parameter name.
      * @param defaultValue default value if not presented in request.
      * @param defaultSet set default value back in request for using in JSP.
@@ -503,9 +503,9 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Gets HTTP request parameter.
-     * @param name
-     * @param defaultValue
+     * Gets HTTP request parameter first value.
+     * @param name the parameter's name.
+     * @param defaultValue default value.
      * @return the value of parameter with {@param name} or {@param defaultValue} if not presented.
      */
     public String getParam(String name, String defaultValue) {
@@ -518,20 +518,25 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Gets HTTP request parameter.
-     * @param name
+     * Gets HTTP request parameter first value.
+     * @param name the parameter's name.
      * @return parameter value or null if missing or empty.
      */
     public String getParam(String name) {
         return param.get(name);
     }
 
+    /**
+     * Sets HTTPS request parameter value.
+     * @param name the parameter's name.
+     * @param value the value.
+     */
     public void setParam(String name, String value) {
         param.put(name, value);
     }
 
     /**
-     * Gets HTTP request parameter with type date, format {@link TimeUtils#FORMAT_TYPE_YMD}.
+     * Gets HTTP request parameter first value as type date, format {@link TimeUtils#FORMAT_TYPE_YMD}.
      * @param name parameter name.
      * @param defaultValue default value if not presented in request.
      * @param defaultSet set default value back in request for using in JSP.
@@ -555,7 +560,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Gets HTTP request parameter with type {@link YearMonth}.
+     * Gets HTTP request parameter first value as type {@link YearMonth}.
      * @param name parameter name, storing the first day of month in string format {@link TimeUtils#FORMAT_TYPE_YMD}.
      * @param validator optional value validator.
      * @return parameter value or {@code null}.
@@ -580,7 +585,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Gets HTTP request parameter with type {@link Date} .
+     * Gets HTTP request parameter first value as type {@link Date} .
      * @param name parameter name, storing the first day of month in string format {@link TimeUtils#FORMAT_TYPE_YMDHMS}.
      * @param validator optional value validator.
      * @return parameter value or {@code null}.
@@ -604,7 +609,7 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
     }
 
     /**
-     * Gets HTTP request parameter with type {@code int}.
+     * Gets HTTP request parameter first value as type {@code int}.
      * @param name parameter name.
      * @param validator optional value validator.
      * @return parsed int value or {@code 0}.
@@ -663,6 +668,120 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         param.putArray(name, result.toArray(new String[0]));
     }
 
+    /**
+     * Gets HTTP request parameter values as type int.
+     * @param name the parameter name.
+     * @return not {@code null} set with all the parameter values parsed to integer.
+     */
+    public Set<Integer> getParamValues(String name) {
+        Set<Integer> result = new HashSet<Integer>();
+
+        String[] array = param.getArray(name);
+        if (array != null) {
+            for (String value : array) {
+                try {
+                    result.add(Integer.parseInt(value.trim()));
+                } catch (Exception e) {
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Gets HTTP request parameter values.
+     * @param name the parameter name.
+     * @return not {@code null} set with all the parameter values.
+     */
+    public Set<String> getParamValuesStr(String name) {
+        final String[] array = param.getArray(name);
+        if (array != null)
+            return Stream.of(array).filter(Utils::notBlankString).collect(Collectors.toSet());
+        return Collections.emptySet();
+    }
+
+    /**
+     * Gets HTTP request parameter values as an ordered list of type int.
+     * @param name the parameter name.
+     * @return not {@code null} list with all the parameter values parsed to integer.
+     */
+    public List<Integer> getParamValuesList(String name) {
+        List<Integer> result = new ArrayList<Integer>();
+
+        String[] array = param.getArray(name);
+        if (array != null) {
+            for (String value : array) {
+                int valInt = Utils.parseInt(value);
+                if (valInt == 0) {
+                    continue;
+                }
+                result.add(valInt);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Gets HTTP request parameter values as an ordered list.
+     * @param name the parameter name.
+     * @return not {@code null} list with all the parameter values.
+     */
+    public List<String> getParamValuesListStr(String name) {
+        return getParamValuesListStr(name, null);
+    }
+
+    /**
+     * Gets HTTP request parameter values as an ordered list.
+     * @param name the parameter name.
+     * @param exclude excluded value.
+     * @return not {@code null} list with all the parameter values.
+     */
+    public List<String> getParamValuesListStr(String name, String exclude) {
+        List<String> result = new ArrayList<String>();
+
+        String[] array = param.getArray(name);
+        if (array != null) {
+            for (String value : array) {
+                if (exclude == null || !exclude.equals(value)) {
+                    result.add(value);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    // Deprecated param values getters, remove later. 17.11.2023
+
+    @Deprecated
+    public Set<Integer> getSelectedValues(String name) {
+        log.warnd("Deprecated method 'getSelectedValues' was called. Use 'getParamValues' instead.");
+        return getParamValues(name);
+    }
+
+    @Deprecated
+    public Set<String> getSelectedValuesStr(String name) {
+        log.warnd("Deprecated method 'getSelectedValuesStr' was called. Use 'getParamValuesStr' instead.");
+        return getParamValuesStr(name);
+    }
+
+    @Deprecated
+    public List<Integer> getSelectedValuesList(String name) {
+        log.warnd("Deprecated method 'getSelectedValuesList' was called. Use 'getParamValuesList' instead.");
+        return getParamValuesList(name);
+    }
+
+    @Deprecated
+    public List<String> getSelectedValuesListStr(String name) {
+        log.warnd("Deprecated method 'getSelectedValuesListStr' was called. Use 'getParamValuesListStr' instead.");
+        return getParamValuesListStr(name);
+    }
+
+    // /////////////////////////////////////////////
+    // DynBean
+    // /////////////////////////////////////////////
     @Override
     public Object get(String name) {
         if (PARAM_PAGE.equals(name)) {
@@ -692,94 +811,6 @@ public class DynActionForm extends ActionForm implements DynaBean, DynaClass {
         }
     }
 
-    /**
-     * Возвращает набор выбранных числовых значений, переданных в форме несколько значений как <name>=<value>,
-     * выбираются только целочисленные значения.
-     *
-     * @return
-     */
-    public Set<Integer> getSelectedValues(String name) {
-        Set<Integer> result = new HashSet<Integer>();
-
-        String[] array = param.getArray(name);
-        if (array != null) {
-            for (String value : array) {
-                try {
-                    result.add(Integer.parseInt(value.trim()));
-                } catch (Exception e) {
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Values of HTTP request parameter.
-     * @param name parameter name.
-     * @return set with {@code name} parameter values.
-     */
-    public Set<String> getSelectedValuesStr(String name) {
-        final String[] array = param.getArray(name);
-        if (array != null)
-            return Stream.of(array).filter(Utils::notBlankString).collect(Collectors.toSet());
-        return Collections.emptySet();
-    }
-
-    /**
-     * Возвращает список выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>".
-     * @return
-     */
-    public List<String> getSelectedValuesListStr(String name) {
-        return getSelectedValuesListStr(name, null);
-    }
-
-    /**
-     * Возвращает список выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>",
-     * из списка исключаются значения равные exclude, если != null.
-     * @return
-     */
-    public List<String> getSelectedValuesListStr(String name, String exclude) {
-        List<String> result = new ArrayList<String>();
-
-        String[] array = param.getArray(name);
-        if (array != null) {
-            for (String value : array) {
-                if (exclude == null || !exclude.equals(value)) {
-                    result.add(value);
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Возвращает набор выбранных числовых значений, переданных в форме несколько значений как param(<name>)="<value>",
-     * выбираются только ненулевые значения.
-     *
-     * @return
-     */
-    public List<Integer> getSelectedValuesList(String name) {
-        List<Integer> result = new ArrayList<Integer>();
-
-        String[] array = param.getArray(name);
-        if (array != null) {
-            for (String value : array) {
-                int valInt = Utils.parseInt(value);
-                if (valInt == 0) {
-                    continue;
-                }
-                result.add(valInt);
-            }
-        }
-
-        return result;
-    }
-
-    // /////////////////////////////////////////////
-    // DynBean
-    // /////////////////////////////////////////////
     @Override
     public boolean contains(String name, String key) {
         throw new UnsupportedOperationException();

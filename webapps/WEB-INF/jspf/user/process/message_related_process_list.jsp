@@ -6,7 +6,7 @@
 	<html:hidden property="from"/>
 	<html:hidden property="open"/>
 
-	<c:forEach var="item" items="${form.getSelectedValuesListStr('object')}">
+	<c:forEach var="item" items="${form.getParamValuesListStr('object')}">
 		<input type="hidden" name="object" value="${item}"/>
 	</c:forEach>
 

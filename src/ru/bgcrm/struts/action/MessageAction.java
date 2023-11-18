@@ -162,7 +162,7 @@ public class MessageAction extends BaseAction {
     }
 
     public ActionForward messageUpdateTags(DynActionForm form, Connection con) throws Exception {
-        new MessageDAO(con).updateMessageTags(form.getId(), form.getSelectedValues("tagId"));
+        new MessageDAO(con).updateMessageTags(form.getId(), form.getParamValues("tagId"));
 
         return json(con, form);
     }
@@ -421,7 +421,7 @@ public class MessageAction extends BaseAction {
         var process = ProcessAction.processCreateAndGet(form, con);
 
         var linkDao = new ProcessLinkDAO(con, form);
-        for (String link : form.getSelectedValuesListStr("link")) {
+        for (String link : form.getParamValuesListStr("link")) {
             var tokens = link.split("\\*");
             if (tokens.length != 3) {
                 log.warn("Incorrect link: '{}'", link);

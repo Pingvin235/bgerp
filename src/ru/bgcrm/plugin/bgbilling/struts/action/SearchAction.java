@@ -26,7 +26,7 @@ public class SearchAction extends BaseAction {
     @Deprecated
     public ActionForward contractSearch(DynActionForm form, ConnectionSet conSet) throws Exception {
         String searchBy = form.getParam("searchBy");
-        Set<String> billingIds = form.getSelectedValuesStr("billing");
+        Set<String> billingIds = form.getParamValuesStr("billing");
 
         if (Utils.notBlankString(searchBy)) {
             BGBillingDAO billingDAO = new BGBillingDAO();

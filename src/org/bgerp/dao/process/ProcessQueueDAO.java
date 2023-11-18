@@ -274,7 +274,7 @@ public class ProcessQueueDAO extends ProcessDAO {
             if ("groups".equals(type)) {
                 Filter filter = f;
 
-                String groupIds = Utils.toString(form.getSelectedValues("group"));
+                String groupIds = Utils.toString(form.getParamValues("group"));
                 if (Utils.isBlankString(groupIds) && filter.getOnEmptyValues().size() > 0) {
                     groupIds = Utils.toString(filter.getOnEmptyValues());
                 }
@@ -290,7 +290,7 @@ public class ProcessQueueDAO extends ProcessDAO {
             } else if ("executors".equals(type)) {
                 Filter filter = f;
 
-                Set<String> executorIds = form.getSelectedValuesStr("executor");
+                Set<String> executorIds = form.getParamValuesStr("executor");
                 if (executorIds.contains("current")) {
                     executorIds.remove("current");
                     executorIds.add(String.valueOf(form.getUserId()));
@@ -331,7 +331,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                     }
                 }
             } else if ("create_user".equals(type)) {
-                var userIds = form.getSelectedValues("create_user");
+                var userIds = form.getParamValues("create_user");
                 if (!userIds.isEmpty()) {
                     wherePart
                         .append(" AND process.create_user_id IN (")
@@ -339,7 +339,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                         .append(") ");
                 }
             } else if ("close_user".equals(type)) {
-                var userIds = form.getSelectedValues("close_user");
+                var userIds = form.getParamValues("close_user");
                 if (!userIds.isEmpty()) {
                     wherePart
                         .append(" AND process.close_user_id IN (")
@@ -349,7 +349,7 @@ public class ProcessQueueDAO extends ProcessDAO {
             } else if (f instanceof FilterGrEx) {
                 FilterGrEx filter = (FilterGrEx) f;
 
-                String groupIds = Utils.toString(form.getSelectedValues("group" + filter.getRoleId()));
+                String groupIds = Utils.toString(form.getParamValues("group" + filter.getRoleId()));
                 if (Utils.isBlankString(groupIds) && filter.getOnEmptyValues().size() > 0) {
                     groupIds = Utils.toString(filter.getOnEmptyValues());
                 }
@@ -364,7 +364,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                     joinPart.append(") AND " + tableAlias + ".role_id=" + filter.getRoleId());
                 }
 
-                String executorIds = Utils.toString(form.getSelectedValuesStr("executor" + filter.getRoleId()))
+                String executorIds = Utils.toString(form.getParamValuesStr("executor" + filter.getRoleId()))
                         .replace("current", String.valueOf(form.getUserId()));
 
                 if (Utils.notBlankString(executorIds)) {
@@ -391,7 +391,7 @@ public class ProcessQueueDAO extends ProcessDAO {
             } else if (f instanceof FilterProcessType) {
                 Filter filter = f;
 
-                String typeIds = Utils.toString(form.getSelectedValues("type"));
+                String typeIds = Utils.toString(form.getParamValues("type"));
                 if (Utils.isBlankString(typeIds) && filter.getOnEmptyValues().size() > 0) {
                     typeIds = Utils.toString(filter.getOnEmptyValues());
                 }
@@ -407,7 +407,7 @@ public class ProcessQueueDAO extends ProcessDAO {
                 FilterParam filter = (FilterParam) f;
 
                 int paramId = filter.getParameter().getId();
-                String values = Utils.toString(form.getSelectedValues("quarter"));
+                String values = Utils.toString(form.getParamValues("quarter"));
                 if (Utils.notBlankString(values)) {
 
                     String alias = "param_list_" + paramId;
@@ -435,7 +435,7 @@ public class ProcessQueueDAO extends ProcessDAO {
 
                 int paramId = filter.getParameter().getId();
 
-                String values = Utils.toString(form.getSelectedValues("param" + paramId + "value"));
+                String values = Utils.toString(form.getParamValues("param" + paramId + "value"));
                 if (Utils.isBlankString(values) && filter.getOnEmptyValues().size() > 0) {
                     values = Utils.toString(filter.getOnEmptyValues());
                 }
@@ -778,7 +778,7 @@ public class ProcessQueueDAO extends ProcessDAO {
      * @return
      */
     private String getValues(DynActionForm form, Filter filter, String paramName) {
-        String values = Utils.toString(form.getSelectedValues(paramName));
+        String values = Utils.toString(form.getParamValues(paramName));
         if (Utils.isBlankString(values) && !filter.getOnEmptyValues().isEmpty()) {
             values = Utils.toString(filter.getOnEmptyValues());
         }

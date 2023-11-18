@@ -114,7 +114,7 @@ public class BoardAction extends BaseAction {
         var filter = form.getParam("filter");
 
         var result = new LinkedHashMap<Integer, SearchItem>();
-        for (Message m : dao.getProcessMessageList(form.getSelectedValues("processId"), filter)) {
+        for (Message m : dao.getProcessMessageList(form.getParamValues("processId"), filter)) {
             int processId = m.getProcessId();
             result
                 .computeIfAbsent(processId, key -> new SearchItem(processId, m.getProcess().getDescription()))

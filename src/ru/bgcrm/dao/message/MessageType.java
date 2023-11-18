@@ -259,7 +259,7 @@ public abstract class MessageType extends IdTitle {
         // attaching of already existing
         List<FileData> attachList = message.getAttachList();
         attachList.clear();
-        attachList.addAll(fileDao.list(form.getSelectedValuesList("fileId")));
+        attachList.addAll(fileDao.list(form.getParamValuesList("fileId")));
 
         // newly uploaded files
         Map<Integer, FileInfo> tmpFiles = SessionTemporaryFiles.getFiles(form, "tmpFileId");
@@ -278,7 +278,7 @@ public abstract class MessageType extends IdTitle {
         }
 
         // announced
-        for (String fileId : form.getSelectedValuesListStr("announcedFileId")) {
+        for (String fileId : form.getParamValuesListStr("announcedFileId")) {
             var event = new ProcessFileGetEvent(form, message.getProcessId(), fileId);
             EventProcessor.processEvent(event, new SingleConnectionSet(con));
 

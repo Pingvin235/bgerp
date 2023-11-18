@@ -164,7 +164,7 @@ public class WorkAction extends org.bgerp.plugin.pln.callboard.action.WorkAction
         }
 
         //цвет смены
-        boolean useOwnColor = form.getSelectedValues("useOwnColor").size() > 0;
+        boolean useOwnColor = form.getParamValues("useOwnColor").size() > 0;
         String color = form.getParam("color", "");
 
         //правила

@@ -134,7 +134,7 @@
 			<c:set var="code">
 				<u:sc>
 					<c:set var="paramName" value="param${filter.parameter.id}value"/>
-					<c:set var="values" value="${savedParamsFilters.getSelectedValues(paramName)}"/>
+					<c:set var="values" value="${savedParamsFilters.getParamValues(paramName)}"/>
 
 					<ui:combo-check paramName="${paramName}"
 						list="${filter.parameter.listParamValues}" available="${filter.availableValues}"

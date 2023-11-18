@@ -413,7 +413,7 @@ public class ContractAction extends BaseAction {
     public ActionForward updateGroups(DynActionForm form, ConnectionSet conSet) throws BGException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
-        Set<Integer> groupIds = form.getSelectedValues("groupId");
+        Set<Integer> groupIds = form.getParamValues("groupId");
         // String command = form.getParam( "command" );
 
         ContractDAO contractDao = ContractDAO.getInstance(form.getUser(), billingId);
@@ -781,7 +781,7 @@ public class ContractAction extends BaseAction {
     public ActionForward updateModules(DynActionForm form, ConnectionSet conSet) throws BGMessageException {
         String billingId = form.getParam("billingId");
         Integer contractId = form.getParamInt("contractId");
-        Set<Integer> moduleIds = form.getSelectedValues("moduleId");
+        Set<Integer> moduleIds = form.getParamValues("moduleId");
         String command = form.getParam("command");
 
         if (Utils.notBlankString(command)) {
@@ -910,7 +910,7 @@ public class ContractAction extends BaseAction {
 
         ContractServiceDAO serviceDAO = new ContractServiceDAO(form.getUser(), billingId);
 
-        for (int serviceId : form.getSelectedValuesList("serviceId")) {
+        for (int serviceId : form.getParamValuesList("serviceId")) {
             ContractService service = new ContractService();
             service.setId(form.getId());
             service.setContractId(contractId);

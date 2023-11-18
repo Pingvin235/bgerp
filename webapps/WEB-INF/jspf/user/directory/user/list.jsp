@@ -7,16 +7,16 @@
 </c:if>
 
 <li>
-	<input type="checkbox" name="${paramName}" value="empty" ${u:checkedFromCollection(form.getSelectedValues('executor'), 'empty')}/>
+	<input type="checkbox" name="${paramName}" value="empty" ${u:checkedFromCollection(form.getParamValues('executor'), 'empty')}/>
 	<span>${l.l("** Не указан **")}</span>
 </li>
 <li>
-	<input type="checkbox" name="${paramName}" value="current" ${u:checkedFromCollection(form.getSelectedValues('executor'), 'current')}/>
+	<input type="checkbox" name="${paramName}" value="current" ${u:checkedFromCollection(form.getParamValues('executor'), 'current')}/>
 	<span>${l.l("** Я **")}</span>
 </li>
 <c:forEach var="item" items="${form.response.data.list}">
 	<li>
-		<input type="checkbox" name="${paramName}" value="${item.id}" ${u:checkedFromCollection(form.getSelectedValues('executor'), item.id)}/>
+		<input type="checkbox" name="${paramName}" value="${item.id}" ${u:checkedFromCollection(form.getParamValues('executor'), item.id)}/>
 		<span>${item.title}</span>
 	</li>
 </c:forEach>

@@ -121,11 +121,11 @@ public class InvoiceAction extends BaseAction {
 
         var positions = new ArrayList<Position>();
 
-        var ids = form.getSelectedValuesListStr("pos_id");
-        var titles = form.getSelectedValuesListStr("pos_title");
-        var amounts = form.getSelectedValuesListStr("pos_amount");
-        var units = form.getSelectedValuesListStr("pos_unit");
-        var quantities = form.getSelectedValuesList("pos_quantity");
+        var ids = form.getParamValuesListStr("pos_id");
+        var titles = form.getParamValuesListStr("pos_title");
+        var amounts = form.getParamValuesListStr("pos_amount");
+        var units = form.getParamValuesListStr("pos_unit");
+        var quantities = form.getParamValuesList("pos_quantity");
 
         for (int i = 0; i < ids.size(); i++)
             positions.add(new Position(ids.get(i),

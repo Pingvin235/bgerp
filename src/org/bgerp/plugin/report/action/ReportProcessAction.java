@@ -104,7 +104,7 @@ public class ReportProcessAction extends ReportActionBase {
                 if (!StringUtils.equalsAny(mode, "create", "close"))
                     throw new BGIllegalArgumentException();
 
-                final var typeIds = form.getSelectedValues("type");
+                final var typeIds = form.getParamValues("type");
 
                 final var pq = new PreparedQuery(conSet.getSlaveConnection());
                 pq.addQuery(SQL_SELECT_COUNT_ROWS + " id, type_id, " + mode + "_user_id, " + mode + "_dt, description " + SQL_FROM + Tables.TABLE_PROCESS);

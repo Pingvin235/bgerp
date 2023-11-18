@@ -43,7 +43,7 @@ public class DatabaseAction extends BaseAction {
     }
 
     public ActionForward tableDrop(DynActionForm form, ConnectionSet conSet) throws Exception {
-        var tables = form.getSelectedValuesListStr("table");
+        var tables = form.getParamValuesListStr("table");
 
         try (var st = conSet.getConnection().createStatement()) {
             for (String table : tables)

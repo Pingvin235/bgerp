@@ -117,7 +117,7 @@ public class ParameterAction extends BaseAction {
         int id = form.getId();
         String objectType = form.getParam("objectType");
         int parameterGroupId = form.getParamInt("parameterGroup", -1); // doesn't work with 0!!
-        List<Integer> pids = form.getSelectedValuesList("paramId");
+        List<Integer> pids = form.getParamValuesList("paramId");
 
         List<Parameter> paramList = null;
         if (pids.size() > 0) {
@@ -436,7 +436,7 @@ public class ParameterAction extends BaseAction {
 
             Map<Integer, String> values = new HashMap<Integer, String>();
 
-            for (String value : form.getSelectedValuesStr("value")) {
+            for (String value : form.getParamValuesStr("value")) {
                 int val = Utils.parseInt(StringUtils.substringBefore(value, ":"));
                 String comment = Utils.maskNull(StringUtils.substringAfter(value, ":"));
 
@@ -457,8 +457,8 @@ public class ParameterAction extends BaseAction {
         } else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType())) {
             Map<Integer, BigDecimal> values = new TreeMap<>();
 
-            List<String> itemIds = form.getSelectedValuesListStr("itemId");
-            List<String> itemCounts = form.getSelectedValuesListStr("itemCount");
+            List<String> itemIds = form.getParamValuesListStr("itemId");
+            List<String> itemCounts = form.getParamValuesListStr("itemCount");
 
             for (int i = 0; i < itemIds.size() && i < itemCounts.size(); i++) {
                 Integer itemId = Utils.parseInt(itemIds.get(i));
@@ -478,7 +478,7 @@ public class ParameterAction extends BaseAction {
             paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue));
             paramValueDAO.updateParamMoney(id, paramId, (BigDecimal) paramValue);
         } else if (Parameter.TYPE_TREE.equals(parameter.getType())) {
-            Set<String> values = form.getSelectedValuesStr("value");
+            Set<String> values = form.getParamValuesStr("value");
             // TODO: Попробовать убрать, проверить.
             values.removeAll(Arrays.asList("0", "-1"));
 

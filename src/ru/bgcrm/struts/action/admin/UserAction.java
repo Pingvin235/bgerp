@@ -78,8 +78,8 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         permset.setConfig(form.getParam("permsetConfig", ""));
 
         permsetDAO.updatePermset(permset);
-        Set<String> config = form.getSelectedValuesStr("permConfig");
-        permsetDAO.updatePermissions(form.getSelectedValuesStr("permAction"), config, permset.getId());
+        Set<String> config = form.getParamValuesStr("permConfig");
+        permsetDAO.updatePermissions(form.getParamValuesStr("permAction"), config, permset.getId());
 
         UserCache.flush(con);
 
@@ -156,8 +156,8 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
 
         group.setTitle(form.getParam("title").replace("\"", ""));
         group.setComment(form.getParam("comment"));
-        group.setQueueIds(form.getSelectedValues("queue"));
-        group.setPermsetIds(form.getSelectedValuesList("permset"));
+        group.setQueueIds(form.getParamValues("queue"));
+        group.setPermsetIds(form.getParamValuesList("permset"));
         group.setParentId(Utils.parseInt(form.getParam("parentGroupId")));
         group.setArchive((archive ? 1 : 0));
         group.setConfig(form.getParam("groupConfig"));
@@ -218,9 +218,9 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         Date actualDate = form.getParamDate("date", new Date());
 
         ConfigMap perm = form.getPermission();
-        Set<Integer> groups = form.getSelectedValues("group");
+        Set<Integer> groups = form.getParamValues("group");
         String allowOnlyGroups = perm.get("allowOnlyGroups", "");
-        Set<Integer> permsets = form.getSelectedValues("permset");
+        Set<Integer> permsets = form.getParamValues("permset");
         int status = form.getParamInt("status", 0);
 
         if (!(groups != null && groups.size() > 0) && Utils.notBlankString(allowOnlyGroups)) {
@@ -285,7 +285,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
                 user.setPermsetIds(Utils.toIntegerList(permsetSet));
             }
         } else {
-            user.setPermsetIds(form.getSelectedValuesList("permset"));
+            user.setPermsetIds(form.getParamValuesList("permset"));
         }
 
         String groupSet = perm.get("groupSet", "");
@@ -302,7 +302,7 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
                 user.setQueueIds(Utils.toIntegerSet(queueSet));
             }
         } else {
-            user.setQueueIds(form.getSelectedValues("queue"));
+            user.setQueueIds(form.getParamValues("queue"));
         }
 
         User existingUser = userDAO.getUserByLogin(user.getLogin());
@@ -315,8 +315,8 @@ public class UserAction extends ru.bgcrm.struts.action.BaseAction {
         userDAO.updateUser(user);
 
         if (!perm.getBoolean("permDisable", false)) {
-            userDAO.updatePermissions(form.getSelectedValuesStr("permAction"),
-                    form.getSelectedValuesStr("permConfig"), user.getId());
+            userDAO.updatePermissions(form.getParamValuesStr("permAction"),
+                    form.getParamValuesStr("permConfig"), user.getId());
         }
 
         UserCache.flush(con);

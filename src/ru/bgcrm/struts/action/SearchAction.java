@@ -79,7 +79,7 @@ public class SearchAction extends BaseAction {
         } else if ("group".equals(searchBy)) {
             Pageable<Customer> result = new Pageable<>(form);
 
-            customerDao.searchCustomerList(result, form.getSelectedValues("groupId"));
+            customerDao.searchCustomerList(result, form.getParamValues("groupId"));
 
             return html(con, form, JSP_CUSTOMER);
         } else if ("address".equals(searchBy)) {
@@ -160,7 +160,7 @@ public class SearchAction extends BaseAction {
                 new ProcessParamSearchDAO(conSet.getSlaveConnection(), form)
                     .withOpen(form.getParamBoolean("open", null))
                     .withParamTextValue(LikePattern.of(form.getParam("textLikeMode")).get(text))
-                    .withParamTextIds(form.getSelectedValues("textParam"))
+                    .withParamTextIds(form.getParamValues("textParam"))
                     .search(result);
 
             return html(conSet, form, JSP_PROCESS_PARAM);

@@ -159,7 +159,7 @@ public class Files {
      * @param form form with 'name' parameter values, containing file name.
      */
     public void delete(DynActionForm form) {
-        for (String name : form.getSelectedValuesStr("name"))
+        for (String name : form.getParamValuesStr("name"))
             FileUtils.deleteQuietly(new File(basedir.toFile(), name));
     }
 }

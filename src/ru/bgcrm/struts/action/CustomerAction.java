@@ -92,14 +92,14 @@ public class CustomerAction extends BaseAction {
         customer.setTitlePattern(form.getParam("titlePattern", ""));
         customer.setTitlePatternId(form.getParamInt("titlePatternId", -1));
         customer.setParamGroupId(Utils.parseInt(form.getParam("parameterGroupId")));
-        customer.setGroupIds(form.getSelectedValues("customerGroupId"));
+        customer.setGroupIds(form.getParamValues("customerGroupId"));
 
         if (Utils.isBlankString(customer.getTitle()) && customer.getTitlePatternId() <= 0 && Utils.isBlankString(customer.getTitlePattern())) {
             throw new BGIllegalArgumentException();
         }
 
         customerDAO.updateCustomerTitle(titleBefore, customer, -1, form.getResponse());
-        customerDAO.updateGroupIds(customer.getId(), form.getSelectedValues("customerGroupId"));
+        customerDAO.updateGroupIds(customer.getId(), form.getParamValues("customerGroupId"));
 
         CustomerChangedEvent updateEvent = new CustomerChangedEvent(form, form.getId());
         EventProcessor.processEvent(updateEvent, conSet);

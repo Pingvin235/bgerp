@@ -243,7 +243,7 @@ public class DirectoryAction extends BaseAction {
         parameterGroup.setId(form.getId());
         parameterGroup.setObject(getObjectType(form.getParam("directoryId")));
         parameterGroup.setTitle(form.getParam("title"));
-        parameterGroup.setParameterIds(form.getSelectedValues("param"));
+        parameterGroup.setParameterIds(form.getParamValues("param"));
         paramGroupDAO.updateParameterGroup(parameterGroup);
 
         ParameterCache.flush(con);

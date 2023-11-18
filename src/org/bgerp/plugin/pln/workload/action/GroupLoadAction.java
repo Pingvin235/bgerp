@@ -43,10 +43,10 @@ public class GroupLoadAction extends BaseAction {
 
         form.setResponseData("date", TimeUtils.format(date, TimeUtils.FORMAT_TYPE_YMD));
 
-        Set<Integer> processTypeIds = form.getSelectedValues("processTypeIds");
+        Set<Integer> processTypeIds = form.getParamValues("processTypeIds");
         form.setResponseData("processTypeIds", processTypeIds);
 
-        processTypeIds = allProcessTypeIds(form.getSelectedValues("processTypeIds"));
+        processTypeIds = allProcessTypeIds(form.getParamValues("processTypeIds"));
         if (config.getProcessTypeIds().size() > 0) {
             if (processTypeIds.size() > 0) {
                 processTypeIds.retainAll(allProcessTypeIds(config.getProcessTypeIds()));
@@ -55,7 +55,7 @@ public class GroupLoadAction extends BaseAction {
             }
         }
 
-        Set<Integer> userGroupIds = form.getSelectedValues("userGroupIds");
+        Set<Integer> userGroupIds = form.getParamValues("userGroupIds");
         form.setResponseData("userGroupIds", userGroupIds);
 
         if (config.getUserGroupIds().size() > 0) {

@@ -204,12 +204,12 @@ public class DefaultMarkedProcessor implements EventListener<Event> {
                             if (statusId != process.getStatusId())
                                 commandList.add(COMMAND_SET_STATUS + ":" + statusId);
                         } else if (name.equals(COMMAND_ADD_EXECUTORS)) {
-                            Collection<Integer> groupIds = event.getForm().getSelectedValues("group");
+                            Collection<Integer> groupIds = event.getForm().getParamValues("group");
                             groupIds = CollectionUtils.subtract(groupIds, process.getGroupIds());
                             if (!CollectionUtils.isEmpty(groupIds) )
                                 commandList.add(COMMAND_ADD_GROUPS + ":" + Utils.toString(groupIds));
 
-                            String executorIds = Utils.toString(event.getForm().getSelectedValues("executor"));
+                            String executorIds = Utils.toString(event.getForm().getParamValues("executor"));
                             if (Utils.notBlankString(executorIds)) {
                                 commandList.add(COMMAND_ADD_EXECUTORS + ":" + executorIds);
                             }

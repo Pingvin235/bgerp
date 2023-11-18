@@ -50,7 +50,7 @@ public class CleanupAction extends BaseAction {
     public ActionForward queryRun(DynActionForm form, ConnectionSet conSet) throws Exception {
         int updated = 0;
 
-        for (String query : form.getSelectedValuesListStr("query")) {
+        for (String query : form.getParamValuesListStr("query")) {
             try (var st = conSet.getConnection().createStatement()) {
                 updated += st.executeUpdate(query);
             }

@@ -1034,7 +1034,7 @@ public class WorkAction extends BaseAction {
 
         Set<Integer> groupsFilter = Collections.emptySet();
         if (form != null) {
-            groupsFilter = form.getSelectedValues("groupId");
+            groupsFilter = form.getParamValues("groupId");
         }
 
         Group parentGroup = UserCache.getUserGroup(callboard.getGroupId());

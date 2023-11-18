@@ -11,13 +11,13 @@
 	<h2>Отчет по должникам</h2>
 
 	<%-- Переменная form - объект класса ru.bgcrm.struts.form.DynActionForm, содержащий параметры запроса. --%>
-	<c:set var="groupsF" value="${form.getSelectedValues('selectGroups')}" />
-	<c:set var="statusesF" value="${form.getSelectedValues('selectStatuses')}" />
+	<c:set var="groupsF" value="${form.getParamValues('selectGroups')}" />
+	<c:set var="statusesF" value="${form.getParamValues('selectStatuses')}" />
 	<c:set var="streetF" value="${form.getParamInt('selectStreet')}" />
 	<c:set var="homeF" value="${form.getParam('home')}" />
 	<c:set var="balanceFromF" value="${form.getParam('balanceFrom')}" />
 	<c:set var="balanceToF" value="${form.getParam('balanceTo')}" />
-	<c:set var="sortF" value="${form.getSelectedValuesList('sortParam')}" />
+	<c:set var="sortF" value="${form.getParamValuesList('sortParam')}" />
 
 	<!-- Дин код реализации отчета -->
 	<u:newInstance var="data" clazz="ru.bgcrm.dyn.ReportCustomDebtors"/>

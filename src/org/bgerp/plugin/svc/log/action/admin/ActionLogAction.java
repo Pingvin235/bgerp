@@ -37,7 +37,7 @@ public class ActionLogAction extends BaseAction {
         if (timeTo != null && !YearMonth.from(timeFrom.toInstant()).equals(YearMonth.from(timeTo.toInstant())))
             throw new BGMessageException("Time to must be in the same month as time from.");
 
-        Set<String> actions = form.getSelectedValuesStr("perm");
+        Set<String> actions = form.getParamValuesStr("perm");
         Set<String> allActions = new TreeSet<>(actions);
 
         for (String action : actions)
@@ -48,7 +48,7 @@ public class ActionLogAction extends BaseAction {
             .withTimeTo(timeTo)
             .withIpAddress(form.getParam("ipAddress"))
             .withParameter(form.getParam("parameter"))
-            .withUserIds(form.getSelectedValues("userId"))
+            .withUserIds(form.getParamValues("userId"))
             .withActions(allActions)
             .search(new Pageable<>(form));
 

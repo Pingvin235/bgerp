@@ -78,7 +78,7 @@ public class DispatchAction extends BaseAction {
             message.setTitle(form.getParam("title"));
             message.setText(form.getParam("text"));
             message.setReady(form.getParamBoolean("ready", false));
-            message.setDispatchIds(form.getSelectedValues("dispatchId"));
+            message.setDispatchIds(form.getParamValues("dispatchId"));
 
             new DispatchDAO(con).messageUpdate(message);
         } else {

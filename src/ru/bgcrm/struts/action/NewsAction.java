@@ -55,7 +55,7 @@ public class NewsAction extends BaseAction {
             throw new BGMessageException("Нельзя добавить " + kindOf + " без текста");
         }
 
-        Set<Integer> groups = form.getSelectedValues("group");
+        Set<Integer> groups = form.getParamValues("group");
 
         ConfigMap perm = form.getPermission();
 

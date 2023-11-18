@@ -16,7 +16,7 @@
 
 <div id="${uiid}">
 	<div id="groupFilters" style="display: none;">
-		<c:set var="values" value="${form.getSelectedValues('groupId')}"/>
+		<c:set var="values" value="${form.getParamValues('groupId')}"/>
 
 		<c:forEach var="clb" items="${callboardList}">
 			<ui:combo-check id="${clb.id}-${uiid}" paramName="groupId"

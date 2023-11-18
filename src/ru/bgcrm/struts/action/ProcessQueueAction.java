@@ -138,7 +138,7 @@ public class ProcessQueueAction extends ProcessAction {
             saveFormFilters(queueId, savedFiltersForm, personalizationMap);
             personalizationMap.remove(QUEUE_FULL_FILTER_SELECTED_FILTERS + queueId);
         } else if (command.equals("updateFiltersOrder")) {
-            config.reorderSavedFilterSets(queueId, form.getSelectedValuesList("setId"));
+            config.reorderSavedFilterSets(queueId, form.getParamValuesList("setId"));
         } else if (command.equals("setRareStatus")) {
             int filterId = form.getParamInt("filterId");
             Boolean value = form.getParamBoolean("rare", false);

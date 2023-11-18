@@ -51,7 +51,7 @@ public class ProcessLinkAction extends ProcessAction {
         int id = form.getId();
 
         Boolean paramOpen = form.getParamBoolean("open", null);
-        Set<Integer> paramProcessTypeId = form.getSelectedValues("typeId");
+        Set<Integer> paramProcessTypeId = form.getParamValues("typeId");
 
         Queue queue = ProcessQueueCache.getQueue(setup.getInt(objectType + ".processes.queue"));
         if (queue != null) {
@@ -81,7 +81,7 @@ public class ProcessLinkAction extends ProcessAction {
         } else {
             Pageable<Pair<String, Process>> searchResult = new Pageable<Pair<String, Process>>(form);
             processLinkDAO.searchLinkedProcessList(searchResult, LikePattern.START.get(objectType), id, null,
-                    paramProcessTypeId, form.getSelectedValues("statusId"), form.getParam("paramFilter"),
+                    paramProcessTypeId, form.getParamValues("statusId"), form.getParam("paramFilter"),
                     paramOpen);
 
             // generate references

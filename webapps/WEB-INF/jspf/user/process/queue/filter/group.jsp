@@ -13,11 +13,11 @@
 	<u:sc>
 		<c:set var="values" value="${filter.defaultValues}"/>
 
-		<c:if test="${not empty savedParamsFilters.getSelectedValues(groupParamName)}">
-			<c:set var="values" value="${savedParamsFilters.getSelectedValues(groupParamName)}"/>
+		<c:if test="${not empty savedParamsFilters.getParamValues(groupParamName)}">
+			<c:set var="values" value="${savedParamsFilters.getParamValues(groupParamName)}"/>
 		</c:if>
 
-		<c:set var="savedExecutors" value="${u:toString( savedParamsFilters.getSelectedValuesListStr(executorParamName) )}"/>
+		<c:set var="savedExecutors" value="${u:toString( savedParamsFilters.getParamValuesListStr(executorParamName) )}"/>
 
 		<ui:combo-check id="${groupListId}"
 			paramName="${groupParamName}"

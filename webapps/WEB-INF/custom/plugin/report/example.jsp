@@ -8,10 +8,10 @@
 	Переменная form - объект класса ru.bgcrm.struts.form.DynActionForm, содержащий параметры запроса.
 	--%>
 	<c:set var="date" value="${tu:parse( form.param.date, 'ymd' ) }"/>
-	<c:set var="groups" value="${form.getSelectedValues( 'group' )}"/>
-	<c:set var="executors" value="${form.getSelectedValues( 'executor' )}"/>
-	<c:set var="processTypeIds" value="${form.getSelectedValues('type')}" scope="request"/>
-	<c:set var="listParamIds" value="${form.getSelectedValues('listParam')}"/>
+	<c:set var="groups" value="${form.getParamValues( 'group' )}"/>
+	<c:set var="executors" value="${form.getParamValues( 'executor' )}"/>
+	<c:set var="processTypeIds" value="${form.getParamValues('type')}" scope="request"/>
+	<c:set var="listParamIds" value="${form.getParamValues('listParam')}"/>
 
 	<html:form action="/user/empty">
 		<input type="hidden" name="forwardFile" value="${form.forwardFile}"/>

@@ -280,7 +280,7 @@ public class ProcessAction extends BaseAction {
         queue.setId(form.getId());
         queue.setTitle(form.getParam("title"));
         queue.setConfig(form.getParam("config"));
-        queue.setProcessTypeIds(form.getSelectedValues("type"));
+        queue.setProcessTypeIds(form.getParamValues("type"));
         queue.setLastModify(new LastModify(form.getUserId(), new Date()));
 
         Queue oldQueue = queueDAO.getQueue(form.getId());
@@ -367,8 +367,8 @@ public class ProcessAction extends BaseAction {
 
             properties.setCreateStatus(Utils.parseInt(form.getParam("create_status")));
             properties.setCloseStatusIds(Utils.toIntegerSet(form.getParam("close_status", "")));
-            properties.setStatusIds(form.getSelectedValuesList("status"));
-            properties.setParameterIds(form.getSelectedValuesList("param"));
+            properties.setStatusIds(form.getParamValuesList("status"));
+            properties.setParameterIds(form.getParamValuesList("param"));
             properties.setAllowedGroups(ProcessGroups.from(allowedGroupArr));
             properties.setConfig(form.getParam("config"));
             properties.setGroups(ProcessGroups.from(beginGroupArr));

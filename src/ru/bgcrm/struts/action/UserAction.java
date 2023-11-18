@@ -19,7 +19,7 @@ public class UserAction extends BaseAction {
         Pageable<User> searchResult = new Pageable<User>(form);
         new UserDAO(conSet.getSlaveConnection()).searchUser(searchResult,
                 LikePattern.SUB.get(form.getParam("title")),
-                form.getSelectedValues("group"), null, new Date(), form.getSelectedValues("permset"), 0);
+                form.getParamValues("group"), null, new Date(), form.getParamValues("permset"), 0);
 
         for (User user : searchResult.getList()) {
             user.setPassword("");

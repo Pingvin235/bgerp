@@ -76,15 +76,15 @@ public class DynActionFormTest {
     }
 
     private void checkGetSelectedValues(DynActionForm form) {
-        Assert.assertEquals(Set.of(2, 1), form.getSelectedValues("a"));
-        Assert.assertEquals(List.of(1, 2), form.getSelectedValuesList("a"));
+        Assert.assertEquals(Set.of(2, 1), form.getParamValues("a"));
+        Assert.assertEquals(List.of(1, 2), form.getParamValuesList("a"));
     }
 
     @Test
     public void testGetSelectedValuesStr() {
         var form = new DynActionForm();
         form.set("a", new String[] { "v1", "", "v2", null });
-        Assert.assertEquals(Set.of("v1", "v2"), form.getSelectedValuesStr("a"));
+        Assert.assertEquals(Set.of("v1", "v2"), form.getParamValuesStr("a"));
     }
 
     @Test

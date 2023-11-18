@@ -81,7 +81,7 @@ public class SortSet {
     public String getOrders(DynActionForm form) {
         String orders = getOrders(sortValues);
         if (Utils.isBlankString(orders) && form != null )
-            orders = Utils.toString(form.getSelectedValuesListStr("sort", "0"));
+            orders = Utils.toString(form.getParamValuesListStr("sort", "0"));
         if (Utils.isBlankString(orders))
             orders = getOrders(defaultSortValues);
         return orders;

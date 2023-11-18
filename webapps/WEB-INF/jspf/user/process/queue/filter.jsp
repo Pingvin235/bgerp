@@ -312,8 +312,8 @@
 						<c:set var="code">
 							<u:sc>
 								<c:set var="values" value="${filter.defaultValues}"/>
-								<c:if test="${not empty savedParamsFilters.getSelectedValues(paramName)}">
-									<c:set var="values" value="${savedParamsFilters.getSelectedValues(paramName)}"/>
+								<c:if test="${not empty savedParamsFilters.getParamValues(paramName)}">
+									<c:set var="values" value="${savedParamsFilters.getParamValues(paramName)}"/>
 								</c:if>
 
 								<ui:combo-check paramName="type" values="${values}"
@@ -362,7 +362,7 @@
 						<c:set var="code">
 							<u:sc>
 								<c:set var="paramName" value="status"/>
-								<c:set var="values" value="${savedParamsFilters.getSelectedValues(paramName)}"/>
+								<c:set var="values" value="${savedParamsFilters.getParamValues(paramName)}"/>
 								<ui:combo-check paramName="${paramName}"
 									list="${ctxProcessStatusList}" map="${ctxProcessStatusMap}"
 									values="${empty values ? filter.defaultValues : values}"
@@ -419,7 +419,7 @@
 						<c:set var="code">
 							<u:sc>
 								<c:set var="paramName" value="param${filter.parameter.id}value"/>
-								<c:set var="values" value="${savedParamsFilters.getSelectedValues(paramName)}"/>
+								<c:set var="values" value="${savedParamsFilters.getParamValues(paramName)}"/>
 
 								<ui:combo-check paramName="${paramName}"
 									list="${filter.parameter.listParamValues}" available="${filter.availableValues}"

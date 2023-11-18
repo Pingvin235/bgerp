@@ -401,7 +401,7 @@ public class ProcessAction extends BaseAction {
     }
 
     public ActionForward processStatusHistory(DynActionForm form, Connection con) throws Exception {
-        new StatusChangeDAO(con).searchProcessStatus(new Pageable<StatusChange>(form), form.getId(), form.getSelectedValues("statusId"));
+        new StatusChangeDAO(con).searchProcessStatus(new Pageable<StatusChange>(form), form.getId(), form.getParamValues("statusId"));
         return html(con, form, PATH_JSP + "/process/status_history.jsp");
     }
 
@@ -515,7 +515,7 @@ public class ProcessAction extends BaseAction {
         Process process = getProcess(processDao, form.getId());
         Set<ProcessGroup> allowedGroups = ProcessTypeCache.getProcessType(process.getTypeId()).getProperties().getAllowedGroups();
 
-        Set<String> groupRoleSet = form.getSelectedValuesStr("groupRole");
+        Set<String> groupRoleSet = form.getParamValuesStr("groupRole");
         Set<ProcessGroup> processGroupList = new LinkedHashSet<ProcessGroup>();
 
         for (String item : groupRoleSet) {
@@ -587,8 +587,8 @@ public class ProcessAction extends BaseAction {
         Process process = getProcess(new ProcessDAO(con, form), form.getId());
 
         // группороли в которых обновляются исполнители
-        Set<ProcessGroup> updateGroups = ProcessGroup.parseFromStringSet(form.getSelectedValuesStr("group"));
-        Set<ProcessExecutor> executors = ProcessExecutor.parseUnsafe(form.getSelectedValuesStr("executor"), updateGroups);
+        Set<ProcessGroup> updateGroups = ProcessGroup.parseFromStringSet(form.getParamValuesStr("group"));
+        Set<ProcessExecutor> executors = ProcessExecutor.parseUnsafe(form.getParamValuesStr("executor"), updateGroups);
 
         processExecutorsUpdate(form, con, process, updateGroups, executors);
 
@@ -781,7 +781,7 @@ public class ProcessAction extends BaseAction {
         Boolean open = form.getParamBoolean("open", null);
 
         List<CommonObjectLink> objects = new ArrayList<CommonObjectLink>();
-        for (String object : form.getSelectedValuesListStr("object")) {
+        for (String object : form.getParamValuesListStr("object")) {
             int pos = object.lastIndexOf(':');
             if (pos <= 0) {
                 log.warn("Incorrect object: " + object);
