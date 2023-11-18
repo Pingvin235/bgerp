@@ -453,7 +453,7 @@ public class ParameterAction extends BaseAction {
 
             paramChangingProcess(con, new ParamChangingEvent(form, parameter, id, paramValue = values.keySet()));
 
-            paramValueDAO.updateParamList(id, paramId, values);
+            paramValueDAO.updateParamListWithComments(id, paramId, values);
         } else if (Parameter.TYPE_LISTCOUNT.equals(parameter.getType())) {
             Map<Integer, BigDecimal> values = new TreeMap<>();
 

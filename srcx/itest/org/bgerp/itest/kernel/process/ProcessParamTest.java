@@ -373,7 +373,7 @@ public class ProcessParamTest {
         Assert.assertTrue(dao.getParamList(processId, paramListId).isEmpty());
 
         var valuesSecond = Map.of(2, "", 3, "Comment");
-        dao.updateParamList(processId, paramListId, valuesSecond);
+        dao.updateParamListWithComments(processId, paramListId, valuesSecond);
         Assert.assertEquals(dao.getParamListWithComments(processId, paramListId), valuesSecond);
 
         var log = new ParamLogDAO(DbTest.conRoot).getHistory(processId, ParameterCache.getParameterList(List.of(paramListId)), false, new Pageable<>());

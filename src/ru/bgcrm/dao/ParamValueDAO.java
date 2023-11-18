@@ -730,7 +730,7 @@ public class ParamValueDAO extends CommonDAO {
      * @param values ключ - значение параметра, значение - текстовое примечание.
      * @throws SQLException
      */
-    public void updateParamList(int id, int paramId, Map<Integer, String> values) throws SQLException {
+    public void updateParamListWithComments(int id, int paramId, Map<Integer, String> values) throws SQLException {
         deleteFromParamTable(id, paramId, TABLE_PARAM_LIST);
 
         String query = "INSERT INTO " + TABLE_PARAM_LIST + "(id, param_id, value, comment) VALUES (?,?,?,?)";
@@ -748,6 +748,12 @@ public class ParamValueDAO extends CommonDAO {
         if (history) {
             logParam(id, paramId, userId, Utils.getObjectTitles(getParamListWithTitles(id, paramId)));
         }
+    }
+
+    @Deprecated
+    public void updateParamList(int id, int paramId, Map<Integer, String> values) throws SQLException {
+        log.warnd("Deprecated method 'updateParamList' was called. Use 'updateParamListWithComments' instead.");
+        updateParamListWithComments(id, paramId, values);
     }
 
     /**
