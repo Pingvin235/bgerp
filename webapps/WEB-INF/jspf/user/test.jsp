@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglibs.jsp"%>
 
-<div style="padding: 0.5em;">
+<div class="p05">
 	<div class="in-mt1 mt1">
 		<div>
 			<b>&lt;ui:tag-box&gt;</b><br/>
@@ -18,7 +18,12 @@
 	</div>
 </div>
 
-<div style="display: flex;">
+<div class="p05">
+	<b>&lt;ui:combo-perm-tree-check&gt;</b><br/>
+	<ui:combo-perm-tree-check permTrees="${permTrees}" prefixText="${l.l('Actions')}:" widthTextValue="15em"/>
+</div>
+
+<div class="p05" style="display: flex;">
 	<div style="flex: 1 0 50%;">
 		<b>&lt;ui:tree-single&gt;</b>
 		<ui:tree-single rootNode="${form.response.data.treeRootNode}"

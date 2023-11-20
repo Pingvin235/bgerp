@@ -15,11 +15,11 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class TestAction extends BaseAction {
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) {
-        setValues(form);
+        setComboValues(form);
         return html(conSet, null, PATH_JSP_OPEN + "/test/test.jsp");
     }
 
-    protected void setValues(DynActionForm form) {
+    protected void setComboValues(DynActionForm form) {
         form.setResponseData("comboSingleList", List.of(
             new IdTitle(1, "First dyn value"),
             new IdTitle(2, "Second dyn value with a loooooooooooooooooooong teeeeeeeeeeeeext")

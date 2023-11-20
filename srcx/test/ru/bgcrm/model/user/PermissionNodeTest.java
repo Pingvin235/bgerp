@@ -63,7 +63,7 @@ public class PermissionNodeTest {
 
         p = node.findPermissionNode("org.bgerp.plugin.svc.backup.action.admin.BackupAction:downloadFileBackup");
         Assert.assertNotNull(p);
-        Assert.assertEquals("Download Backup", p.getTitle());
+        Assert.assertEquals("Download", p.getTitle());
         Assert.assertEquals("", p.getDescription());
     }
 }

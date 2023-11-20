@@ -14,8 +14,7 @@ public class LogAction extends BaseAction {
     private static final String JSP = PATH_JSP_USER + "/log/log.jsp";
 
     @Override
-    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) throws Exception {
         HttpSession session = form.getHttpRequest().getSession();
 
         form.setResponseData("state", SessionLogAppender.isSessionTracked(session));
@@ -24,8 +23,7 @@ public class LogAction extends BaseAction {
         return html(conSet, form, JSP);
     }
 
-    public ActionForward log(DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward log(DynActionForm form, ConnectionSet conSet) throws Exception {
         var value = form.getParamBoolean("enable", false);
 
         HttpSession session = form.getHttpRequest().getSession();
@@ -37,8 +35,7 @@ public class LogAction extends BaseAction {
         return unspecified(form, conSet);
     }
 
-    public ActionForward download(DynActionForm form, ConnectionSet conSet)
-            throws Exception {
+    public ActionForward download(DynActionForm form, ConnectionSet conSet) throws Exception {
         boolean value = form.getParamBoolean("enable", false);
 
         HttpSession session = form.getHttpRequest().getSession();

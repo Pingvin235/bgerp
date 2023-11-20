@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.model.base.tree.IdTitleTreeItem;
 
+import ru.bgcrm.model.user.PermissionNode;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.sql.ConnectionSet;
@@ -13,12 +14,17 @@ import ru.bgcrm.util.sql.ConnectionSet;
 public class TestAction extends org.bgerp.action.open.TestAction {
     @Override
     public ActionForward unspecified(DynActionForm form, ConnectionSet conSet) {
-        form.setResponseData("treeRootNode", treeSingleRoot());
-        setValues(form);
+        setPermTreesValues(form);
+        setTreeValues(form);
+        setComboValues(form);
         return html(conSet, form, PATH_JSP_USER + "/test.jsp");
     }
 
-    private IdTitleTreeItem.Default treeSingleRoot() {
+    private void setPermTreesValues(DynActionForm form) {
+        form.setRequestAttribute("permTrees", PermissionNode.getPermissionTrees());
+    }
+
+    private void setTreeValues(DynActionForm form) {
         int cnt = 1;
 
         var rootNode = new IdTitleTreeItem.Default(cnt++, "Root Node");
@@ -32,7 +38,7 @@ public class TestAction extends org.bgerp.action.open.TestAction {
         for (int i = 1; i <= 5; i++)
             node2.addChild(new IdTitleTreeItem.Default(cnt++, "Node 2 "+ i));
 
-        return rootNode;
+        form.setResponseData("treeRootNode", rootNode);
     }
 
     public ActionForward enumValues(DynActionForm form, ConnectionSet conSet) {
