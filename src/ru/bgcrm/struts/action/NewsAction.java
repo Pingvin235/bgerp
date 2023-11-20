@@ -8,16 +8,13 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForward;
 import org.bgerp.app.cfg.ConfigMap;
-import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.Pageable;
 
 import ru.bgcrm.cache.UserCache;
 import ru.bgcrm.cache.UserNewsCache;
 import ru.bgcrm.dao.NewsDAO;
-import ru.bgcrm.dao.user.UserDAO;
 import ru.bgcrm.model.BGMessageException;
 import ru.bgcrm.model.News;
-import ru.bgcrm.model.user.User;
 import ru.bgcrm.servlet.ActionServlet.Action;
 import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
@@ -101,17 +98,8 @@ public class NewsAction extends BaseAction {
 
         new NewsDAO(con).searchNewsList(searchResult, form.getUserId(), read, form.getParam("text"));
 
-        if (read != null && !read) {
-            User user = form.getUser();
-
-            Preferences persMap = user.getPersonalizationMap();
-            String configBefore = persMap.getDataString();
-
-            String newsIds = Utils.getObjectIds(searchResult.getList());
-            persMap.put(UNREAD_NEWS_PERSONAL_KEY, newsIds);
-
-            new UserDAO(con).updatePersonalization(configBefore, user);
-        }
+        if (read != null && !read)
+            updatePersonalization(form, con, map -> map.put(UNREAD_NEWS_PERSONAL_KEY, Utils.getObjectIds(searchResult.getList())));
 
         return html(con, form, PATH_JSP + "/list.jsp");
     }

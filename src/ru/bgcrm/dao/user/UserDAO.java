@@ -549,13 +549,13 @@ public class UserDAO extends CommonDAO {
     }
 
     /**
-     * Обновить персональныую конфигурацию, только если она отличается от configBefore.
-     * @param configBefore null, если нужно безусловное сохранение.
-     * @param user
+     * Updates user personalization map in DB if it changes from {@code mapDataBefore}.
+     * @param mapDataBefore the current state of the map, {@code null} when no comparing is needed.
+     * @param user the user with personalization to be updated.
      * @throws SQLException
      */
-    public void updatePersonalization(String configBefore, User user) throws SQLException {
-        if (user.getPersonalizationMap().getDataString().equals(configBefore)) {
+    public void updatePersonalization(String mapDataBefore, User user) throws SQLException {
+        if (user.getPersonalizationMap().getDataString().equals(mapDataBefore)) {
             return;
         }
 
@@ -569,14 +569,14 @@ public class UserDAO extends CommonDAO {
         ps.close();
     }
 
-    public void updatePersonalization(User user, ConfigMap newProps) throws SQLException {
-        Preferences persMap = user.getPersonalizationMap();
-        String configBefore = persMap.getDataString();
+    public void updatePersonalization(User user, ConfigMap newMap) throws SQLException {
+        Preferences map = user.getPersonalizationMap();
+        String mapDataBefore = map.getDataString();
 
-        for (Map.Entry<String, String> me : newProps.entrySet())
-            persMap.put(me.getKey(), me.getValue());
+        for (Map.Entry<String, String> me : newMap.entrySet())
+            map.put(me.getKey(), me.getValue());
 
-        updatePersonalization(configBefore, user);
+        updatePersonalization(mapDataBefore, user);
     }
 
     public void addUserGroup(int userId, UserGroup group) throws SQLException {

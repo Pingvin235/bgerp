@@ -88,24 +88,24 @@ public class ProfileAction extends BaseAction {
         User user = UserCache.getUser(form.getUserId());
         UserDAO userDAO = new UserDAO(con);
 
-        Preferences personalizationMap = user.getPersonalizationMap();
-        String persConfigBefore = personalizationMap.getDataString();
+        Preferences map = user.getPersonalizationMap();
+        String mapDataBefore = map.getDataString();
 
         if (form.getParamBoolean("overwrite"))
-            personalizationMap.clear();
+            map.clear();
 
         for (Map.Entry<String, String[]> me : form.getHttpRequest().getParameterMap().entrySet()) {
             String key = me.getKey();
             String value = me.getValue()[0];
             if (!key.startsWith("iface."))
                 continue;
-            personalizationMap.put(key.replace('_', '.'), value);
+            map.put(key.replace('_', '.'), value);
         }
 
         if (form.getParamBoolean("reset"))
-            personalizationMap.clear();
+            map.clear();
 
-        userDAO.updatePersonalization(persConfigBefore, user);
+        userDAO.updatePersonalization(mapDataBefore, user);
 
         UserCache.flush(con);
 

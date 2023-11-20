@@ -199,10 +199,10 @@ public class ProcessQueueAction extends ProcessAction {
     }
 
     public ActionForward queueSavedPanelSet(DynActionForm form, Connection con) throws Exception {
-        Preferences personalizationMap = form.getUser().getPersonalizationMap();
-        SavedPanelConfig config = personalizationMap.getConfig(SavedPanelConfig.class);
+        Preferences map = form.getUser().getPersonalizationMap();
+        SavedPanelConfig config = map.getConfig(SavedPanelConfig.class);
 
-        String persConfigBefore = personalizationMap.getDataString();
+        String mapDataBefore = map.getDataString();
 
         String command = form.getParam("command");
         Integer queueId = form.getParamInt("queueId");
@@ -220,8 +220,8 @@ public class ProcessQueueAction extends ProcessAction {
             config.changeCurrentSelected(queueId);
         }
 
-        config.updateConfig(personalizationMap);
-        new UserDAO(con).updatePersonalization(persConfigBefore, form.getUser());
+        config.updateConfig(map);
+        new UserDAO(con).updatePersonalization(mapDataBefore, form.getUser());
 
         return json(con, form);
 

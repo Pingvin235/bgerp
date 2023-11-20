@@ -54,7 +54,7 @@ public class BoardAction extends BaseAction {
             form.setResponseData("board", board);
             form.setResponseData("processIds", processIds);
 
-            updatePersonalization(form, con, persMap -> persMap.put("blowBoardLastSelected", String.valueOf(form.getId())));
+            updatePersonalization(form, con, map -> map.put("blowBoardLastSelected", String.valueOf(form.getId())));
         }
 
         return html(con, form, PATH_JSP + "/show.jsp");

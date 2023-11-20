@@ -420,24 +420,24 @@ public class BaseAction extends DispatchAction {
     /**
      * Saves and restores HTTP request parameters.
      * As storage used {@link User#getPersonalizationMap()}, key is 'param.' + {@link DynActionForm#getAreaId()}.
-     * @param con
+     * @param con DB connection.
      * @param form there params are taken and restored, also contains 'areaId' param.
-     * @param get restore
-     * @param set saves
-     * @param params parameter names
+     * @param get restore values.
+     * @param set save values.
+     * @param params parameter names.
      * @throws SQLException
      */
     protected void restoreRequestParams(Connection con, DynActionForm form, boolean get, boolean set, String... params) throws SQLException {
-        final Preferences personalizationMap = form.getUser().getPersonalizationMap();
-        final String personalizationMapDataBefore = personalizationMap.getDataString();
+        final Preferences map = form.getUser().getPersonalizationMap();
+        final String mapDataBefore = map.getDataString();
 
         for (String param : params) {
             final String key = "param." + form.getAreaId() + "." + param;
             // param doesn't present in the request - restoring
             if (form.getParamArray(param) == null) {
                 // storing values comma-separated
-                if (get && personalizationMap.containsKey(key)) {
-                    List<String> values = Utils.toList(personalizationMap.get(key));
+                if (get && map.containsKey(key)) {
+                    List<String> values = Utils.toList(map.get(key));
                     if (!values.isEmpty()) {
                         if (values.size() > 1)
                             form.setParamArray(param, values);
@@ -450,29 +450,30 @@ public class BaseAction extends DispatchAction {
             } else if (set) {
                 String values = Utils.toString(form.getParamValuesListStr(param));
                 if (Utils.notBlankString(values)) {
-                    personalizationMap.put(key, values);
+                    map.put(key, values);
                     log.debug("Storing param: {}, key: {}", param, key);
                 }
             }
         }
 
-        new UserDAO(con).updatePersonalization(personalizationMapDataBefore, form.getUser());
+        new UserDAO(con).updatePersonalization(mapDataBefore, form.getUser());
     }
 
     /**
      * Stores new values in personalization map and update it if changed.
-     * @param form
-     * @param con
-     * @param setFunction
+     * @param form the form for obtaining the user.
+     * @param con DB connection.
+     * @param setFunction function for setting map parameters.
      * @throws Exception
      */
     protected void updatePersonalization(DynActionForm form, Connection con, Consumer<Preferences> setFunction) throws Exception {
         User user = form.getUser();
-        Preferences personalizationMap = user.getPersonalizationMap();
-        String persConfigBefore = personalizationMap.getDataString();
 
-        setFunction.accept(personalizationMap);
+        Preferences map = user.getPersonalizationMap();
+        String mapDataBefore = map.getDataString();
 
-        new UserDAO(con).updatePersonalization(persConfigBefore, user);
+        setFunction.accept(map);
+
+        new UserDAO(con).updatePersonalization(mapDataBefore, user);
     }
 }
