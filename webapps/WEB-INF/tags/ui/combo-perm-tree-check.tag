@@ -7,7 +7,6 @@
 
 <%@ attribute name="permTrees" required="true" type="java.util.Collection" description="List with root nodes of permission trees"%>
 <%@ attribute name="id" description="CSS ID for external div, if not defined than generated"%>
-<%@ attribute name="paramName" description="name of input checkboxes"%>
 <%@ attribute name="prefixText" description="text prefix"%>
 <%@ attribute name="values" type="java.util.Collection" description="current values"%>
 <%@ attribute name="style" description="CSS style for external div"%>

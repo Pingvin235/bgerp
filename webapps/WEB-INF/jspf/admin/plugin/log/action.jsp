@@ -3,7 +3,7 @@
 
 <c:set var="uiid" value="${u:uiid()}"/>
 
-<form action="/admin/plugin/log/action.do" id="${uiid}" class="in-mr05 in-mb05-all">
+<form action="${form.httpRequestURI}" id="${uiid}" class="in-mr05 in-mb05-all">
 	<input type="hidden" name="action" value="search"/>
 
 	<ui:date-time type="ymdhms" paramName="timeFrom" value="${empty form.param.timeFrom ? 'first' : form.param.timeFrom}" placeholder="From time"/>
@@ -22,8 +22,8 @@
 		id="${executorListId}" list="${ctxUserList}" paramName="userId" values="${form.getParamValues('userId')}"
 		prefixText="${l.l('Users')}:" widthTextValue="10em" styleClass="mr05"/>
 
-	<ui:combo-perm-tree-check permTrees="${permTrees}" paramName="action" values="${form.getParamValues('perm')}"
-		prefixText="Actions:" widthTextValue="15em"/>
+	<ui:combo-perm-tree-check permTrees="${permTrees}" values="${form.getParamValuesStr('perm')}"
+		prefixText="${l.l('Actions')}:" widthTextValue="15em"/>
 
 	<ui:button type="out" onclick="$$.ajax.load(this.form, $('#${uiid}').parent())" styleClass="ml05"/>
 

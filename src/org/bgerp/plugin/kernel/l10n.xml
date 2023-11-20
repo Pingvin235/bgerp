@@ -631,6 +631,7 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>ID or Description part</en><ru>Часть ID или описания</ru></p>
 	<p><en>Shown</en><ru>Показано</ru></p>
 	<p><sys>records.shown.of</sys><en>of</en><ru>из</ru></p>
+	<p><en>Actions</en><ru>Действия</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}
