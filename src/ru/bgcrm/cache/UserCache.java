@@ -327,7 +327,7 @@ public class UserCache extends Cache<UserCache> {
                     if (result == null) {
                         result = new User();
                         result.setId(id);
-                        result.setTitle("Не существует (" + id + ")");
+                        result.setTitle("??? (" + id + ")");
                     }
 
                     return result;
@@ -422,7 +422,7 @@ public class UserCache extends Cache<UserCache> {
                 userPermsetIds.addAll(user.getPermsetIds());
 
                 // склеенная конфигурация наборов прав
-                final StringBuilder fullUserConfig = new StringBuilder(500);
+                final StringBuilder permsetConfig = new StringBuilder(500);
 
                 // сбор прав, ролей и конфигураций из действующих наборов пользователя
                 for (final Integer permsetId : userPermsetIds) {
@@ -433,8 +433,8 @@ public class UserCache extends Cache<UserCache> {
 
                     final Permset permset = result.userPermsetMap.get(permsetId);
                     if (permset != null) {
-                        fullUserConfig.append(permset.getConfig());
-                        fullUserConfig.append("\n");
+                        permsetConfig.append(permset.getConfig());
+                        permsetConfig.append("\n");
                     } else {
                         log.warn("Not existing permset '{}' is set for a user.", permsetId);
                     }
@@ -447,7 +447,7 @@ public class UserCache extends Cache<UserCache> {
                     addGroupConfig(group.getId(), groupConfig);
                 }
 
-                user.setConfig(fullUserConfig.toString() + groupConfig.toString() + user.getConfig());
+                user.setConfig(permsetConfig.toString() + groupConfig.toString() + user.getConfig());
 
                 // персональные права
                 final Map<String, ConfigMap> personalPermMap = allUserPermById.get(user.getId());

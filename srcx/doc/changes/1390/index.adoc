@@ -13,7 +13,7 @@ IMPORTANT: Obtain the suitable license and put it in the application' directory.
 
 IMPORTANT: Set property *multiple=1* in configuration of existing *listcount* parameters with multiple values.
 
-image::../../kernel/_res/param/listcount_editor_single.png[width=600]
+image::../../kernel/_res/setup/param/listcount_editor_single.png[width=600]
 
 == Redesign of Linked Processes Tab
 

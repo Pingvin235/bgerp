@@ -104,7 +104,7 @@
 	<p><ru>Типы процессов</ru><en>Process Types</en></p>
 	<p><ru>Очереди процессов</ru><en>Process Queues</en></p>
 	<p><ru>Конфигурация</ru><en>Configuration</en></p>
-	<p><ru>Статус приложения</ru><en>App Status</en></p>
+	<p><en>App Status</en><ru>Статус приложения</ru></p>
 	<p><ru>Авторизовавшиеся пользователи</ru><en>Authenticated Users</en></p>
 	<p><ru>Приложение</ru><en>App</en></p>
 	<p><ru>Администрирование</ru><en>Administration</en></p>
@@ -632,6 +632,8 @@ if position isn't re-defined in process type or parameter group.</en>
 	<p><en>Shown</en><ru>Показано</ru></p>
 	<p><sys>records.shown.of</sys><en>of</en><ru>из</ru></p>
 	<p><en>Actions</en><ru>Действия</ru></p>
+	<p><en>DB</en><ru>БД</ru></p>
+	<p><en>DB Trace</en><ru>БД Трассировка</ru></p>
 	<!--
 		TODO:
 		Есть незакрытый процесс: {}, привязанный к данному с типом: {}

@@ -194,13 +194,4 @@ public class Setup extends Preferences {
             }
         }
     }
-
-    /**
-     * @return SQL connection pool report.
-     */
-    public String getPoolStatus() {
-        var sb = new StringBuilder("Connections pool to Master status ");
-        sb.append(connectionPool.getPoolStatus());
-        return sb.toString();
-    }
 }

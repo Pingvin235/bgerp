@@ -117,8 +117,8 @@ body > #content p {
 }
 
 .bold {
-	 font-size: 1.1em;
-	 font-weight: bold;
+	/* font-size: 1.1em; */
+	font-weight: bold;
 }
 
 .center1020 {

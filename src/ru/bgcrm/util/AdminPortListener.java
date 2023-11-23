@@ -82,7 +82,8 @@ public class AdminPortListener implements Runnable {
                             System.exit(0);
                         }
                     } else if (command.equals("status")) {
-                        out.println(getStatus().replace('\n', '$'));
+                        String status = statusApp() + "\n" + Setup.getSetup().getConnectionPool().poolStatus();
+                        out.println(status.replace('\n', '$'));
                     } else if (command.equals("gc")) {
                         System.gc();
                         out.println("GC forced..");
@@ -154,9 +155,9 @@ public class AdminPortListener implements Runnable {
     }
 
     /**
-     * @return running application status: version, uptime, memory and connection pools.
+     * @return running application status: version, uptime, memory.
      */
-    public static String getStatus() {
+    public static String statusApp() {
         var result = new StringBuilder(1000);
 
         result
@@ -164,9 +165,7 @@ public class AdminPortListener implements Runnable {
             .append("\n")
             .append(uptimeStatus())
             .append("\n")
-            .append(memoryStatus())
-            .append("\n")
-            .append(Setup.getSetup().getPoolStatus());
+            .append(memoryStatus());
 
         return result.toString();
     }

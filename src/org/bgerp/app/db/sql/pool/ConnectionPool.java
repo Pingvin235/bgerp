@@ -3,12 +3,11 @@ package org.bgerp.app.db.sql.pool;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -16,11 +15,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.ConnectionFactory;
-import org.apache.commons.dbcp2.DelegatingConnection;
 import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp2.PoolableConnection;
 import org.apache.commons.dbcp2.PoolableConnectionFactory;
-import org.apache.commons.dbcp2.PoolingDataSource;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.db.sql.pool.fakesql.FakeConnection;
@@ -41,9 +38,14 @@ public class ConnectionPool {
     private static final String PROPERTY_CHAR_SET = "charSet";
     private static final String PROPERTY_PASSWORD = "password";
 
+    public static final int RETURN_NULL = -1;
+    public static final int RETURN_FAKE = 0;
+    public static final int RETURN_SLAVE = 1;
+    public static final int RETURN_MASTER = 2;
+
     private final String name;
 
-    private boolean tracePool = false;
+    private boolean dbTrace;
     /**
      * предотвращение перерасхода slave-соединений и залипания сервера, если
      * кончаются slave-соединения (например, при подвешивании реплики), берутся master-соединения.
@@ -55,19 +57,31 @@ public class ConnectionPool {
     private GuardSupportedPool connectionPool;
     private DataSource dataSource;
 
+    // последнее время, когда попытка соединения с Мастер БД окончилась ошибкой
+    private final AtomicLong lastMasterErrorTime = new AtomicLong();
+    // через какое количество миллисекунд после ошибки можно попробовать снова установить соединений
+    private static final long MASTER_RETEST_INTERVAL = 5000;
+
     // пулы соединений к Slave - базам
-    private ConcurrentHashMap<String, GuardSupportedPool> slavePools = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, GuardSupportedPool> slavePools = new ConcurrentHashMap<>();
     // времена, когда из слейв пула была ошибка получения коннекта
-    private ConcurrentHashMap<String, Long> slaveErrorTimes = new ConcurrentHashMap<String, Long>();
+    private ConcurrentHashMap<String, Long> slaveErrorTimes = new ConcurrentHashMap<>();
     // если из слейв пула была ошибка получения коннекта - минимальное время, через которое попытка будет повторена
-    private long MIN_TIME_FOR_SLAVE_USE = 10000;
+    private static final long MIN_TIME_FOR_SLAVE_USE = 10000;
 
     // пулы соединений к "мусорным" базам
-    private ConcurrentHashMap<String, GuardSupportedPool> trashPools = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, GuardSupportedPool> trashPools = new ConcurrentHashMap<>();
     // селектор нужной "мусорной" базы
     private TrashDatabaseSelector trashSelector;
 
-    public ConnectionPool(String name, ConfigMap prefs) {
+    // управление репликацией
+    private final Object repMutex = new Object();
+    // флаг отставания слейва от мастера
+    private final Set<String> behindMasterReplications = new TreeSet<>();
+    // флаг отключенных слейвов
+    private final Set<String> notAvailableReplications = new TreeSet<>();
+
+    public ConnectionPool(String name, ConfigMap map) {
         if (!name.endsWith(" ")) {
             name += " ";
         }
@@ -76,21 +90,21 @@ public class ConnectionPool {
         try {
             log.info(name + "Init DB connection pools.");
 
-            tracePool = prefs.getInt("db.trace", 0) > 0;
-            disablePreventionSlaveOverrun = prefs.getInt("db.disable.prevention.slave.overrun", 0) > 0;
+            dbTrace = map.getInt("db.trace", 0) > 0;
+            disablePreventionSlaveOverrun = map.getInt("db.disable.prevention.slave.overrun", 0) > 0;
 
-            connectionPool = initConnectionPool(prefs, "db.");
-            for (String slaveId : prefs.subKeyed("db.slave.").keySet()) {
+            connectionPool = initConnectionPool(map, "db.");
+            for (String slaveId : map.subKeyed("db.slave.").keySet()) {
                 log.info(name + "Init slave pool " + slaveId);
-                slavePools.put(slaveId, initConnectionPool(prefs, "db.slave." + slaveId + "."));
+                slavePools.put(slaveId, initConnectionPool(map, "db.slave." + slaveId + "."));
             }
 
             log.info(name + "Init trash pools..");
-            for (String trashId : prefs.subKeyed("db.trash.").keySet()) {
+            for (String trashId : map.subKeyed("db.trash.").keySet()) {
                 log.info(name + "Init trash pool " + trashId);
-                trashPools.put(trashId, initConnectionPool(prefs, "db.trash." + trashId + "."));
+                trashPools.put(trashId, initConnectionPool(map, "db.trash." + trashId + "."));
             }
-            trashSelector = new TrashDatabaseSelector(prefs);
+            trashSelector = new TrashDatabaseSelector(map);
 
             if (connectionPool != null) {
                 this.dataSource = connectionPool.dataSource;
@@ -162,7 +176,7 @@ public class ConnectionPool {
 
             GenericObjectPool<PoolableConnection> connectionPool = null;
 
-            if (tracePool) {
+            if (dbTrace) {
                 connectionPool = new GenericObjectPool<>(poolableConFactory) {
                     @Override
                     public PoolableConnection borrowObject() throws Exception {
@@ -226,11 +240,6 @@ public class ConnectionPool {
         }
     }
 
-    // последнее время, когда попытка соединения с Мастер БД окончилась ошибкой
-    private AtomicLong lastMasterErrorTime = new AtomicLong();
-    // через какое количество миллисекунд после ошибки можно попробовать снова установить соединений
-    private static final long MASTER_RETEST_INTERVAL = 5000;
-
     /**
      * Возвращает соединение с Master БД из пула.
      * @return соединение с Master БД либо null в случае недоступности.
@@ -263,7 +272,7 @@ public class ConnectionPool {
 
                 if (AlarmSender.needAlarmSend(key, time, 30 * 1000)) {
                     String message = "Это может привести к снижению времени отклика системы."
-                            + "\nНеобходимо предпринять меры по ускорению работы Master базы данных." + "\n\n" + getPoolStatus();
+                            + "\nНеобходимо предпринять меры по ускорению работы Master базы данных." + "\n\n" + poolStatus();
 
                     AlarmErrorMessage alarm = new AlarmErrorMessage(key, "Достигнут лимит одновременных подключений к Master базе", message);
                     AlarmSender.sendAlarm(alarm, time);
@@ -338,7 +347,7 @@ public class ConnectionPool {
 
                             if (AlarmSender.needAlarmSend(key, time, 30 * 1000)) {
                                 String message = "Это может привести к снижению времени отклика системы."
-                                        + "\nНеобходимо предпринять меры по ускорению работы Slave баз данных." + "\n\n" + getPoolStatus();
+                                        + "\nНеобходимо предпринять меры по ускорению работы Slave баз данных." + "\n\n" + poolStatus();
 
                                 AlarmErrorMessage alarm = new AlarmErrorMessage(key, "Достигнут лимит одновременных подключений к Slave базам",
                                         message);
@@ -418,7 +427,7 @@ public class ConnectionPool {
 
         // slave база не выдана
         if (con == null) {
-            log.warn("Не удалось получить подключение к slave базе данных!\n" + getPoolStatus());
+            log.warn("Не удалось получить подключение к slave базе данных!\n" + poolStatus());
 
             if (master == null) {
                 con = getDBConnectionFromPool();
@@ -429,11 +438,6 @@ public class ConnectionPool {
 
         return con;
     }
-
-    public final static int RETURN_NULL = -1;
-    public final static int RETURN_FAKE = 0;
-    public final static int RETURN_SLAVE = 1;
-    public final static int RETURN_MASTER = 2;
 
     /**
      * Возвращает соединение с мусорной БД если она описана для таблицы в конфиге либо в зависимости от retType.
@@ -460,7 +464,7 @@ public class ConnectionPool {
 
                         if (AlarmSender.needAlarmSend(key, time, 30 * 1000)) {
                             String message = "Это может привести к недостоверности получаемых данных."
-                                    + "\nНеобходимо предпринять меры по ускорению работы Trash баз данных." + "\n\n" + getPoolStatus();
+                                    + "\nНеобходимо предпринять меры по ускорению работы Trash баз данных." + "\n\n" + poolStatus();
 
                             AlarmErrorMessage alarm = new AlarmErrorMessage(key, "Достигнут лимит одновременных подключений к Trash базам", message);
                             AlarmSender.sendAlarm(alarm, time);
@@ -568,6 +572,21 @@ public class ConnectionPool {
     }
 
     /**
+     * Установка/Отключение доступности Slave базы
+     * @param slaveId идентификатор Slave базы
+     * @param available true -не доступно; false - доступно
+     */
+    private void setReplicationAvailable(String slaveId, boolean available) {
+        synchronized (repMutex) {
+            if (available) {
+                notAvailableReplications.remove(slaveId);
+            } else {
+                notAvailableReplications.add(slaveId);
+            }
+        }
+    }
+
+    /**
      * Возвращает идентификаторы slave баз.
      * @return
      */
@@ -608,10 +627,9 @@ public class ConnectionPool {
     }
 
     /**
-     * Отчет по статусу пулов соединений
-     * @return
+     * @return status text report for connection pools.
      */
-    public String getPoolStatus() {
+    public String poolStatus() {
         if (connectionPool == null) {
             return "";
         }
@@ -629,6 +647,7 @@ public class ConnectionPool {
             sb.append("Connections pool to Slave \"" + name + "\" status ");
             sb.append(poolStatus(pool));
         }
+
         // статусы Trash пулов
         for (Map.Entry<String, GuardSupportedPool> me : trashPools.entrySet()) {
             String name = me.getKey();
@@ -638,16 +657,8 @@ public class ConnectionPool {
             sb.append("Connections pool to Trash \"" + name + "\" status ");
             sb.append(poolStatus(pool));
         }
-        return sb.toString();
-    }
 
-    /**
-     * Возвращает отношение числа активных соединений к максимально разрешённому
-     * числу соединений Мастер - БД.
-     * @return
-     */
-    public float getMasterPoolLoad() {
-        return connectionPool.getLoadRatio();
+        return sb.toString();
     }
 
     private String poolStatus(GenericObjectPool<?> connectionPool) {
@@ -663,10 +674,13 @@ public class ConnectionPool {
         return sb.toString();
     }
 
-    public String getPoolStackTrace() {
+    /**
+     * @return pool connections borowing stack traces text report.
+     */
+    public String getDbTrace() {
         StringBuilder sb = new StringBuilder(100);
 
-        if (tracePool) {
+        if (dbTrace) {
             for (Map.Entry<Object, StackTraceElement[]> e : trace.entrySet()) {
                 sb.append(e.getKey()).append('\n');
 
@@ -677,33 +691,21 @@ public class ConnectionPool {
 
                 sb.append('\n');
             }
-        } else {
+
+            if (sb.isEmpty())
+                sb.append("No connections to db");
+        } else
             sb.append("Pool trace is off. Check db.trace option");
-        }
 
-        if (sb.length() == 0) {
-            sb.append("No connections to db");
-        }
-
-        String result = sb.toString();
-
-        log.info(result);
-
-        return result;
+        return sb.toString();
     }
-
-    //управление репликацией
-    private static final Object repMutex = new Object();
-    //флаг отставания слейва от мастера
-    private Set<String> behindMasterReplications = new HashSet<String>();
-    //флаг отключенных слейвов
-    private Set<String> notAvailableReplications = new HashSet<String>();
 
     /**
      * Включение/Отключение флага отставания Slave базы
      * @param slaveId идентификатор Slave базы
      * @param isNotBehind true - отставание выключено, false - отставание включено
      */
+    @Deprecated
     public void setReplicationNotBehindMaster(String slaveId, boolean isNotBehind) {
         synchronized (repMutex) {
             if (isNotBehind) {
@@ -719,6 +721,7 @@ public class ConnectionPool {
      * @param slaveId идентификатор Slave базы
      * @return
      */
+    @Deprecated
     public boolean isReplicationNotBehindMaster(String slaveId) {
         synchronized (repMutex) {
             return !behindMasterReplications.contains(slaveId);
@@ -730,67 +733,10 @@ public class ConnectionPool {
      * @param slaveId идентификатор Slave базы
      * @return true - если доступна, false - если не доступна
      */
+    @Deprecated
     public boolean isReplicationAvailable(String slaveId) {
         synchronized (repMutex) {
             return !notAvailableReplications.contains(slaveId);
-        }
-    }
-
-    /**
-     * Установка/Отключение доступности Slave базы
-     * @param slaveId идентификатор Slave базы
-     * @param available true -не доступно; false - доступно
-     */
-    public void setReplicationAvailable(String slaveId, boolean available) {
-        synchronized (repMutex) {
-            if (available) {
-                notAvailableReplications.remove(slaveId);
-            } else {
-                notAvailableReplications.add(slaveId);
-            }
-        }
-    }
-
-    private static final class GuardSupportedPool {
-        final GenericObjectPool<PoolableConnection> pool;
-        final PoolingDataSource<PoolableConnection> dataSource;
-
-        public GuardSupportedPool(GenericObjectPool<PoolableConnection> pool) {
-            this.pool = pool;
-            this.dataSource = new PoolingDataSource<PoolableConnection>(pool) {
-                @Override
-                public Connection getConnection() throws SQLException {
-                    try {
-                        Connection conn = (Connection) pool.borrowObject();
-                        if (conn != null) {
-                            conn = new PoolGuardConnectionWrapper((DelegatingConnection) conn);
-                        }
-                        return conn;
-                    } catch (SQLException e) {
-                        throw e;
-                    } catch (NoSuchElementException e) {
-                        throw new SQLException("Cannot get a connection, pool error " + e.getMessage(), e);
-                    } catch (RuntimeException e) {
-                        throw e;
-                    } catch (Exception e) {
-                        throw new SQLException("Cannot get a connection, general error", e);
-                    }
-                }
-            };
-        }
-
-        /**
-         * @return getMaxActive() <= getNumActive()
-         */
-        public boolean isOverload() {
-            return pool.getMaxTotal() <= pool.getNumActive();
-        }
-
-        /**
-         * @return pool.getNumActive() / pool.getMaxActive();
-         */
-        public float getLoadRatio() {
-            return (float) pool.getNumActive() / pool.getMaxTotal();
         }
     }
 }

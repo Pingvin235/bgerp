@@ -44,7 +44,7 @@
 
 <ui:menu-group ltitle="Администрирование" icon="ti-settings">
 	<ui:menu-group ltitle="Приложение" icon="ti-package">
-		<ui:menu-item ltitle="Статус приложения" href="admin/app/status"
+		<ui:menu-item ltitle="Status" href="admin/app/status"
 			action="org.bgerp.action.admin.AppAction:status"
 			command="/admin/app.do?action=status"/>
 

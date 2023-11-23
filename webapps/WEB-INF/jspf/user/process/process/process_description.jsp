@@ -13,30 +13,32 @@
 	</c:set>
 
 	<script>
-		var callback = function()
-		{
+		const callback = function () {
 			${editCommand }
 		};
-		doOnClick( $('#${uiid} #show'), '', callback );
+		doOnClick($('#${uiid} #show'), '', callback);
 	</script>
 	<c:set var="editStyle">cursor: pointer;</c:set>
 
 	<div class="mt1"id="${uiid}">
 		<div class="mt1 mb05" >
-			<h2 style="display:inline;">${l.l('Description')}</h2>
-			<c:if test="${not empty processType}">
-				<p:check action="ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd">
-					[<a href="#" title="${l.l('Добавить в конец описания текст с именем автора и временем')}"
-						onclick="$('#${uiid} #editorChange').hide(); $('#${uiid} #editorAdd').show(); return false;">${l.l('add')}</a>]
-				</p:check>
+			<h2>${l.l('Description')}
+				<span style="font-weight: normal;">
+					<c:if test="${not empty processType}">
+						<p:check action="ru.bgcrm.struts.action.ProcessAction:processDescriptionAdd">
+							[<a href="#" title="${l.l('Добавить в конец описания текст с именем автора и временем')}"
+								onclick="$('#${uiid} #editorChange').hide(); $('#${uiid} #editorAdd').show(); return false;">${l.l('add')}</a>]
+						</p:check>
 
-				<p:check action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate">
-					<c:if test="${processType.properties.configMap['hideDescriptionChange'] ne 1}">
-						[<a href="#" title="${l.l('Править описание целиком (также можете кликнуть мышью по описанию)')}"
-							onclick="${editCommand}">${l.l('править целиком')}</a>]
+						<p:check action="ru.bgcrm.struts.action.ProcessAction:processDescriptionUpdate">
+							<c:if test="${processType.properties.configMap['hideDescriptionChange'] ne 1}">
+								[<a href="#" title="${l.l('Править описание целиком (также можете кликнуть мышью по описанию)')}"
+									onclick="${editCommand}">${l.l('править целиком')}</a>]
+							</c:if>
+						</p:check>
 					</c:if>
-				</p:check>
-			</c:if>
+				</span>
+			</h2>
 		</div>
 
 		<div class="box" id="show" style="padding: 0.5em; min-height: 2em; overflow: auto; ${editStyle}">

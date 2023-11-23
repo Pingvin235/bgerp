@@ -2,6 +2,7 @@ package org.bgerp.action.admin;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.struts.action.ActionForward;
+import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.dist.Scripts;
 import org.bgerp.app.dist.inst.InstallerChanges;
 import org.bgerp.app.dist.inst.VersionCheck;
@@ -41,7 +42,9 @@ public class AppAction extends BaseAction {
         if (VersionCheck.INSTANCE.isUpdateNeeded())
             form.setResponseData("error", l.l("App update is needed"));
 
-        form.setResponseData("status", AdminPortListener.getStatus());
+        form.setResponseData("statusApp", AdminPortListener.statusApp());
+        form.setResponseData("statusDb", Setup.getSetup().getConnectionPool().poolStatus());
+        form.setResponseData("dbTrace", Setup.getSetup().getConnectionPool().getDbTrace());
         form.setResponseData("changes", new InstallerChanges().getChanges());
 
         return html(conSet, form, PATH_JSP + "/status.jsp");

@@ -5,39 +5,41 @@
 	<div>
 		<c:set var="uiid" value="${u:uiid()}"/>
 		<div class="mt1 mb05" id="${uiid}">
-			<h2 style="display:inline;">${l.l('Группы / исполнители')}</h2>
+			<h2>${l.l('Группы / исполнители')}
+				<span style="font-weight: normal;">
+					<p:check action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate">
+						<c:url var="url" value="/user/process.do">
+							<c:param name="id" value="${process.id}"/>
+							<c:param name="returnUrl" value="${requestUrl}"/>
+							<c:param name="returnChildUiid" value="${tableId}"/>
+							<c:param name="forward" value="processGroupsWithRoles"/>
+						</c:url>
+						<c:if test="${not empty processType}">
+							[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('группы')}</a>]
+						</c:if>
+					</p:check>
 
-			<p:check action="ru.bgcrm.struts.action.ProcessAction:processGroupsUpdate">
-				<c:url var="url" value="/user/process.do">
-					<c:param name="id" value="${process.id}"/>
-					<c:param name="returnUrl" value="${requestUrl}"/>
-					<c:param name="returnChildUiid" value="${tableId}"/>
-					<c:param name="forward" value="processGroupsWithRoles"/>
-				</c:url>
-				<c:if test="${not empty processType}">
-					[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('группы')}</a>]
-				</c:if>
-			</p:check>
+					<p:check action="ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate">
+						<c:url var="url" value="/user/process.do">
+							<c:param name="id" value="${process.id}"/>
+							<c:param name="returnUrl" value="${requestUrl}"/>
+							<c:param name="returnChildUiid" value="${tableId}"/>
+							<c:param name="forward" value="processExecutors"/>
+						</c:url>
+						<c:if test="${not empty processType}">
+							[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('исполнители')}</a>]
+						</c:if>
+					</p:check>
 
-			<p:check action="ru.bgcrm.struts.action.ProcessAction:processExecutorsUpdate">
-				<c:url var="url" value="/user/process.do">
-					<c:param name="id" value="${process.id}"/>
-					<c:param name="returnUrl" value="${requestUrl}"/>
-					<c:param name="returnChildUiid" value="${tableId}"/>
-					<c:param name="forward" value="processExecutors"/>
-				</c:url>
-				<c:if test="${not empty processType}">
-					[<a href="#" onclick="$$.ajax.load('${url}', $('#${uiid}').parent()); return false;">${l.l('исполнители')}</a>]
-				</c:if>
-			</p:check>
-
-			<c:if test="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap') and process.getGroups().size() eq 2}">
-				<c:url var="url" value="/user/process.do">
-					<c:param name="id" value="${process.id}"/>
-					<c:param name="action" value="processExecutorsSwap"/>
-				</c:url>
-				[<a href="#" onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${requestUrl}', $('#${tableId}').parent()) }); return false;">eswap</a>]
-			</c:if>
+					<c:if test="${ctxUser.checkPerm('ru.bgcrm.struts.action.ProcessAction:processExecutorsSwap') and process.getGroups().size() eq 2}">
+						<c:url var="url" value="/user/process.do">
+							<c:param name="id" value="${process.id}"/>
+							<c:param name="action" value="processExecutorsSwap"/>
+						</c:url>
+						[<a href="#" onclick="$$.ajax.post('${url}').done(() => { $$.ajax.load('${requestUrl}', $('#${tableId}').parent()) }); return false;">eswap</a>]
+					</c:if>
+				</span>
+			</h2>
 		</div>
 
 		<c:remove var="emptyExecutors"/>

@@ -31,8 +31,9 @@
 <c:choose>
 	<c:when test="${not empty form.param.header}">
 		<div class="mt1 mb05">
-			<h2 style="display: inline;">${form.param.header}</h2>
-			<span id="${uiid}addButton" style="vertical-align: top;">[<a href="#" onclick="${script}; return false;">${l.l('add')}</a>]</span>
+			<h2>${form.param.header}
+				<span id="${uiid}addButton" style="font-weight: normal;"> [<a href="#" onclick="${script}; return false;">${l.l('add')}</a>]</span>
+			</h2>
 		</div>
 	</c:when>
 	<c:otherwise>

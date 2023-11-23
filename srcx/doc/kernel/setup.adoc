@@ -264,10 +264,9 @@ image::_res/i0088.png[]
 [square]
 * Действующий список групп (ДСГ) - упорядоченный список = список групп в алфавитном порядке (как отображаются в списке групп), из них оставлены только действующие в настоящий момент у пользователя.
 * Действующий список наборов прав (ДСНП) - упорядоченный список = списки всех наборов прав групп ДСГ + список наборов прав пользователя.
-* Действующая конфигурация (ДК) - строка = конфигурации всех наборов прав из ДСНП + конфигурации всех групп из ДСГ (конфигурация каждой группы составлена из конфигурации всех его предков + конфигурация группы) + конфигурация пользователя. Переменная более поздно добавленная в конфигурацию переопределит более раннюю.
+* Действующая конфигурация (ДК) - строка = конфигурации всех наборов прав из ДСНП + конфигурации всех групп из ДСГ (конфигурация каждой группы составлена из конфигурации всех её предков + конфигурация группы) + конфигурация пользователя. Переменная более поздно добавленная в конфигурацию переопределит более раннюю.
 * Очереди процессов = список очередей процессов, из которых оставлены очереди указанные в пользователе либо в одной из групп ДСГ.
 * Разрешения = разрешения из наборов прав ДСНП + разрешения из пользователя.
-* Роли - набор = роли всех наборов прав ДСНП + роли из пользователя.
 
 Схема довольно сложна, однако позволяет очень гибко настраивать права пользователей.
 [[user-action-tree]]
@@ -444,17 +443,17 @@ multiple=1
 
 How does the parameter look like in table and editor.
 
-image::_res/pavam_address_view.png[width="800px"]
+image::_res/setup/param/address_view.png[width="800px"]
 
 NOTE: Format of address string can be <<config-param-address, configured>>.
 
 Street and house can be choosen and filtered from drop-downs.
 
-image::_res/param_address_edit.png[width="800px"]
+image::_res/setup/param/address_edit.png[width="800px"]
 
 The street search may be performed over multiple substrings as well.
 
-image::_res/param_address_edit_1.png[width="800px"]
+image::_res/setup/param/address_edit_1.png[width="800px"]
 
 The street search mode can be changed to simple substring search in <<config-street-search-mode, configuration>>.
 
@@ -609,23 +608,23 @@ availableValuesInnerJoinFilter=customer_group;customer_id;group_id IN (3)
 
 Пример конфигурации параметра.
 
-image::_res/param/list_config.png[width=800]
+image::_res/setup/param/list_config.png[width=800]
 
 In parameters values table.
 
-image::_res/param/list_table.png[]
+image::_res/setup/param/list_table.png[]
 
 Editor for single value.
 
-image::_res/param/list_editor_single.png[width=600]
+image::_res/setup/param/list_editor_single.png[width=600]
 
 Same, using radio buttons.
 
-image::_res/param/list_editor_single_radio.png[]
+image::_res/setup/param/list_editor_single_radio.png[]
 
 Editor for multiple values.
 
-image::_res/param/list_editor_mult.png[]
+image::_res/setup/param/list_editor_mult.png[]
 
 [[param-listcount]]
 === Параметр типа "listcount"
@@ -640,19 +639,19 @@ multiple=1
 
 На снимке экрана ниже - редактор свойств параметра, конфигурирование значений аналогично параметру типа "list".
 
-image::_res/param/listcount_config.png[width=800]
+image::_res/setup/param/listcount_config.png[width=800]
 
 В таблице параметров.
 
-image::_res/param/listcount_table.png[]
+image::_res/setup/param/listcount_table.png[]
 
 Editor for single value.
 
-image::_res/param/listcount_editor_single.png[width=600]
+image::_res/setup/param/listcount_editor_single.png[width=600]
 
 Editor for multiple values.
 
-image::_res/param/listcount_editor_mult.png[width=600]
+image::_res/setup/param/listcount_editor_mult.png[width=600]
 
 [[param-money]]
 === Parameter type "money"
@@ -739,12 +738,33 @@ multiple=1
 
 Как выглядят конфигурация, таблица параметров и редактирование.
 
-image::_res/param_tree.png[]
+image::_res/setup/param/tree.png[]
 
-image::_res/param_tree_table.png[]
+image::_res/setup/param/tree_table.png[]
 
-image::_res/param_tree_editor.png[]
+image::_res/setup/param/tree_editor.png[]
 
+[[status]]
+== App Status
+In menu  *Administation / App / Status* you can see the current status of the running App,
+which includes on the first place the current version and used memory info.
+
+image::_res/setup/status/version_memory.png[]
+
+After has shown DB connections state with a link *trace* for becoming Java stack traces of connection consumers.
+
+image::_res/setup/status/db_trace.png[width="800px"]
+
+Down on the page is placed App restart button and tables with logs.
+
+image::_res/setup/status/restart_logs.png[width="800px"]
+
+[[status-warn]]
+IMPORTANT: Size of *bgerp.warn.log* must be zero, check messages there case and perform required fixes if its not.
+
+In the bottom of the page are placed tools for <<install.adoc#update-installer-ui, updating>>.
+
+[[execution]]
 == Execution
 [[run]]
 === Run

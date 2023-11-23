@@ -99,14 +99,14 @@
 				<c:forEach var="c" items="${components}">
 					<c:choose>
 						<c:when test="${c eq 'header'}">
-							<%@ include file="/WEB-INF/jspf/user/process/process/process_header.jsp"%>
+							<%@ include file="process_header.jsp"%>
 						</c:when>
 						<c:when test="${c eq 'description'}">
-							<%@ include file="/WEB-INF/jspf/user/process/process/process_description.jsp"%>
+							<%@ include file="process_description.jsp"%>
 						</c:when>
 						<c:when test="${c eq 'executors'}">
 							<c:if test="${processType.properties.configMap['hideExecutors'] ne 1}">
-								<%@ include file="/WEB-INF/jspf/user/process/process/process_executors.jsp"%>
+								<%@ include file="process_executors.jsp"%>
 							</c:if>
 						</c:when>
 						<c:when test="${c eq 'links'}">
@@ -127,7 +127,7 @@
 							</c:if>
 						</c:when>
 						<c:when test="${c eq 'params' and not empty processType}">
-							<%@ include file="/WEB-INF/jspf/user/process/process/process_parameters.jsp"%>
+							<%@ include file="process_parameters.jsp"%>
 						</c:when>
 						<%-- TODO: doc --%>
 						<c:when test="${c.startsWith('jsp:')}">

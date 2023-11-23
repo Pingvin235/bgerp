@@ -3,9 +3,17 @@
 
 <div class="center1020">
 	<h2>${l.l('Status')}</h2>
-	<pre>${form.response.data.status}</pre>
+	<pre>${form.response.data.statusApp}</pre>
 
-	<c:set var="error" value="${form.response.data.error}"/>
+	<c:set var="traceUiid" value="${u:uiid()}"/>
+
+	<h2>${l.l('DB')} <span style="font-weight: normal;"> [<a href="#" onclick="$('#${traceUiid}').toggle(); $(this).toggleClass('bold'); return false;">trace</a>]</span></h2>
+	<pre>${form.response.data.statusDb}</pre>
+
+	<div id="${traceUiid}" style="display: none;">
+		<h2>${l.l('DB Trace')}</h2>
+		<pre class="box cmd" style="overflow-x: auto;">${form.response.data.dbTrace}</pre>
+	</div>
 
 	<p:check action="org.bgerp.action.admin.AppAction:restart">
 		<h2>${l.l('Перезапуск')}</h2>
@@ -34,6 +42,8 @@
 			<%@ include file="run_restart_button.jsp"%>
 		</html:form>
 	</p:check>
+
+	<c:set var="error" value="${form.response.data.error}"/>
 
 	<p:check action="org.bgerp.action.admin.AppAction:updateToChange">
 		<h2>${l.l('Обновление на изменение')}</h2>
@@ -65,5 +75,5 @@
 	<ui:files files="<%=org.bgerp.action.admin.AppAction.UPDATE_ZIP%>" requestUrl="${form.requestUrl}" maxCount="20"/>
 </div>
 
-<shell:title text="${l.l('Статус приложения')}"/>
+<shell:title text="${l.l('App Status')}"/>
 <shell:state error="${error}"/>
