@@ -77,11 +77,14 @@ public class DispatchCommandProcessor extends Task {
 
                 for (javax.mail.Message message : messages) {
                     try {
+                        if (!message.getContentType().startsWith("text/plain"))
+                            continue;
+
                         String from = ((InternetAddress) message.getFrom()[0]).getAddress();
                         String subject = message.getSubject();
                         String text = (String) message.getContent();
 
-                        log.info("Processing: " + message.getSubject() + "; from: " + from);
+                        log.info("Processing: {}; from: {}", message.getSubject(), from);
 
                         if ("STATE".equals(subject)) {
                             Connection conSlave = setup.getConnectionPool().getDBSlaveConnectionFromPool();

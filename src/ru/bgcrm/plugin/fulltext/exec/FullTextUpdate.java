@@ -1,6 +1,7 @@
 package ru.bgcrm.plugin.fulltext.exec;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -10,6 +11,7 @@ import org.bgerp.app.cfg.Setup;
 import org.bgerp.app.db.sql.pool.ConnectionPool;
 import org.bgerp.app.exec.scheduler.Task;
 import org.bgerp.model.base.IdStringTitle;
+import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.cache.ParameterCache;
@@ -30,6 +32,7 @@ import ru.bgcrm.plugin.fulltext.dao.SearchDAO;
 import ru.bgcrm.plugin.fulltext.model.Config;
 import ru.bgcrm.plugin.fulltext.model.Config.ObjectType;
 import ru.bgcrm.plugin.fulltext.model.SearchItem;
+import ru.bgcrm.util.TimeUtils;
 
 /**
  * Updates full-text indexes.
@@ -113,28 +116,55 @@ public class FullTextUpdate extends Task {
                             switch (Parameter.Type.of(pair.getParameter().getType())) {
                                 case TEXT:
                                 case BLOB:
-                                    text.append(pair.getValue());
+                                case MONEY: {
+                                    text.append(String.valueOf(pair.getValue()));
                                     text.append('\n');
                                     break;
+                                }
+                                case DATE: {
+                                    text.append(TimeUtils.format((Date) pair.getValue(), TimeUtils.FORMAT_TYPE_YMD));
+                                    text.append('\n');
+                                    break;
+                                }
+                                case DATETIME: {
+                                    text.append(TimeUtils.format((Date) pair.getValue(), TimeUtils.FORMAT_TYPE_YMDHM));
+                                    text.append('\n');
+                                    break;
+                                }
                                 case EMAIL: {
                                     @SuppressWarnings("unchecked")
                                     var valueMap = (Map<Integer, String>) pair.getValue();
                                     for (String email : valueMap.values()) {
-                                        // комментарий - в квадратных скобках
+                                        // a comment - in square braces
                                         text.append(email);
                                         text.append('\n');
                                     }
                                     break;
                                 }
+                                case FILE: {
+                                    // TODO: Handle a file value. pair.getValue();
+                                    break;
+                                }
                                 case LIST:
-                                case LISTCOUNT:
+                                case LISTCOUNT: {
+                                    @SuppressWarnings("unchecked")
+                                    var values = (List<IdTitle>) pair.getValue();
+                                    for (IdTitle value : values) {
+                                        if (value == null || value.getTitle() == null)
+                                            continue;
+                                        // a value goes after ':', a comment - in square braces
+                                        text.append(value.getTitle().replace(':', ' '));
+                                        text.append('\n');
+                                    }
+                                    break;
+                                }
                                 case TREE: {
                                     @SuppressWarnings("unchecked")
                                     var values = (List<IdStringTitle>) pair.getValue();
                                     for (IdStringTitle value : values) {
                                         if (value == null || value.getTitle() == null)
                                             continue;
-                                        // значение идёт после :, комментарий - в квадратных скобках
+                                        // a value goes after ':', a comment - in square braces
                                         text.append(value.getTitle().replace(':', ' '));
                                         text.append('\n');
                                     }

@@ -1459,14 +1459,14 @@ public class ParamValueDAO extends CommonDAO {
     public List<ParameterValuePair> loadParameters(List<Parameter> paramList, int id, boolean offEncryption) throws SQLException {
         Map<String, List<Integer>> paramTypeMap = new HashMap<String, List<Integer>>();
 
-        List<ParameterValuePair> result = new ArrayList<ParameterValuePair>(paramList.size());
-        Map<Integer, ParameterValuePair> paramMap = new HashMap<Integer, ParameterValuePair>(paramList.size());
+        List<ParameterValuePair> result = new ArrayList<>(paramList.size());
+        Map<Integer, ParameterValuePair> paramMap = new HashMap<>(paramList.size());
 
         for (Parameter parameter : paramList) {
             String type = parameter.getType();
             List<Integer> ids = paramTypeMap.get(type);
             if (ids == null) {
-                paramTypeMap.put(type, ids = new ArrayList<Integer>());
+                paramTypeMap.put(type, ids = new ArrayList<>());
             }
             ids.add(parameter.getId());
 

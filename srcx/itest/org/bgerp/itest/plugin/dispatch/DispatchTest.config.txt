@@ -3,6 +3,7 @@
 
 dispatch:manageEmail.email=demo@bgerp.org
 dispatch:manageEmail.login=demo@bgerp.org
+dispatch:manageEmail.store=imaps
 dispatch:manageEmail.host=imap.yandex.ru
 dispatch:manageEmail.pswd=bgdemo
 dispatch:manageEmail.mail.transport.protocol=smtps
