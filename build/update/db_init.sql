@@ -133,8 +133,9 @@ delimiter ;
 
 -- #ENDB#;
 
-CREATE TABLE IF NOT EXISTS `n_config_global` (
+CREATE TABLE IF NOT EXISTS `config_global` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`parent_id` int NOT NULL,
 	`active` tinyint(1) NOT NULL,
 	`title` varchar(255) NOT NULL,
 	`data` longtext,
@@ -145,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `n_config_global` (
 	PRIMARY KEY (`id`)
 );
 
-CALL add_column_if_not_exists('n_config_global', 'last_modify_dt', 'DATETIME NOT NULL');
-CALL add_column_if_not_exists('n_config_global', 'last_modify_user_id', 'INT NOT NULL');
-CALL rename_table('n_config_global', 'config_global');
+CALL add_column_if_not_exists('config_global', 'last_modify_dt', 'DATETIME NOT NULL');
+CALL add_column_if_not_exists('config_global', 'last_modify_user_id', 'INT NOT NULL');
 CALL add_column_if_not_exists('config_global', 'parent_id', 'INT NOT NULL AFTER id');
+CALL rename_table('n_config_global', 'config_global');
