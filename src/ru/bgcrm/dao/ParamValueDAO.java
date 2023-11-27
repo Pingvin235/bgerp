@@ -1698,7 +1698,7 @@ public class ParamValueDAO extends CommonDAO {
                     param.setValue(values = new TreeMap<Integer, String>());
 
                 if (!"".equals(rs.getString(4))) {
-                    values.put(rs.getInt(2), rs.getString(3) + " [ " + rs.getString(4) + " ]");
+                    values.put(rs.getInt(2), rs.getString(3) + " [" + rs.getString(4) + "]");
                 } else {
                     values.put(rs.getInt(2), rs.getString(3));
                 }

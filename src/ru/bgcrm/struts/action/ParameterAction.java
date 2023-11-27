@@ -128,7 +128,7 @@ public class ParameterAction extends BaseAction {
 
         Set<Integer> hideParamIds = Collections.emptySet();
 
-        if ("process".equals(objectType)) {
+        if (Process.OBJECT_TYPE.equals(objectType)) {
             Process process = new ProcessDAO(con).getProcess(id);
             if (process == null) {
                 throw new BGException("Process not found: " + id);
