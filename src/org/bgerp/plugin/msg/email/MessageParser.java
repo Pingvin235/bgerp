@@ -236,10 +236,6 @@ public class MessageParser {
             for (int i = 0; i < content.getCount(); i++) {
                 BodyPart part = content.getBodyPart(i);
 
-                /* if (partIsAttachedFile(part)) {
-                    continue;
-                } */
-
                 String partContentType = part.getContentType().toLowerCase();
                 Object partContent = part.getContent();
 
@@ -262,15 +258,7 @@ public class MessageParser {
         return textContent;
     }
 
-    public static class MessageAttach {
-        public String title;
-        public InputStream inputStream;
-
-        public MessageAttach(String title, InputStream inputStream) {
-            this.title = title;
-            this.inputStream = inputStream;
-        }
-    }
+    public static record MessageAttach(String title, InputStream inputStream) {}
 
     public List<MessageAttach> getAttachContent() throws Exception {
         ArrayList<MessageAttach> attachContent = new ArrayList<>();
@@ -288,8 +276,12 @@ public class MessageParser {
         if (body instanceof Multipart) {
             var multipart = (Multipart) body;
             for (var part : multipart.getBodyParts()) {
-                if (Utils.isBlankString(part.getFilename()))
+                String filename = part.getFilename();
+                log.debug("Possible attachment part, filename: {}", filename);
+                if (Utils.isBlankString(filename)) {
+                    log.debug("Skip");
                     continue;
+                }
                 var attachData = new MessageAttach(part.getFilename(), new ByteArrayInputStream(getContent(part.getBody())));
                 attachContent.add(attachData);
             }

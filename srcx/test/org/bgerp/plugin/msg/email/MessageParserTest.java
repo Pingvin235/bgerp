@@ -46,26 +46,18 @@ public class MessageParserTest {
         List<MessageAttach> attaches = mp.getAttachContent();
         Assert.assertEquals(1, attaches.size());
         MessageAttach attach = attaches.get(0);
-        Assert.assertEquals("Счёт №71 от 20 июля на сумму 41 500 р.pdf", attach.title);
+        Assert.assertEquals("Счёт №71 от 20 июля на сумму 41 500 р.pdf", attach.title());
     }
 
     @Test
     public void testMessageParse4() throws Exception {
         MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail4.eml"));
+        Assert.assertEquals("ООО \"Станция Виртуальная\"_БИЛЛИНГ ООО \"Наука-Связь\"", mp.getMessageSubject());
         Assert.assertTrue(mp.getTextContent().contains("КОРРЕКТНО заполнять поле _Назначение платежа_"));
         List<MessageAttach> attaches = mp.getAttachContent();
         Assert.assertEquals(3, attaches.size());
         MessageAttach attach = attaches.get(0);
-        Assert.assertEquals("3244659_Cчет за Июль 2020.pdf", attach.title);
-    }
-
-    @Test
-    public void testMessageParse5() throws Exception {
-        MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail5.eml"));
-        Assert.assertEquals("Счет для ООО \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" от ООО \"Цифровые системы\"", mp.getMessageSubject());
-        List<MessageAttach> attaches = mp.getAttachContent();
-        Assert.assertEquals(1, attaches.size());
-        Assert.assertEquals("УПД ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" 01-05-21.pdf", attaches.get(0).title);
+        Assert.assertEquals("3244659_Cчет за Июль 2020.pdf", attach.title());
     }
 
     @Test
@@ -76,15 +68,31 @@ public class MessageParserTest {
     }
 
     @Test
+    public void testMessageParse5() throws Exception {
+        MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail5.eml"));
+        Assert.assertEquals("Счет для ООО \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" от ООО \"Цифровые системы\"", mp.getMessageSubject());
+        List<MessageAttach> attaches = mp.getAttachContent();
+        Assert.assertEquals(1, attaches.size());
+        Assert.assertEquals("УПД ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" 01-05-21.pdf", attaches.get(0).title());
+    }
+
+    @Test
     public void testMessageParse5Mime4j() throws Exception {
         final MessageBuilder builder = new DefaultMessageBuilder();
         final Message message = builder.parseMessage(this.getClass().getResourceAsStream("mail5.eml"));
-
         Assert.assertEquals("Счет для ООО \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" от ООО \"Цифровые системы\"", message.getSubject());
-
         Multipart multipart = (Multipart) message.getBody();
         BodyPart attachment = (BodyPart) multipart.getBodyParts().get(0);
-
         Assert.assertEquals("УПД ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"СТАНЦИЯ ВИРТУАЛЬНАЯ\" 01-05-21.pdf", attachment.getFilename());
+    }
+
+    @Test
+    public void testMessageParse6() throws Exception {
+        MessageParser mp = new MessageParser(this.getClass().getResourceAsStream("mail6.eml"));
+        List<MessageAttach> attaches = mp.getAttachContent();
+        Assert.assertEquals(5, attaches.size());
+        Assert.assertEquals("900400880488_awecrfq234er.pdf", attaches.get(2).title());
+        Assert.assertEquals("900600880183_qwefcqaweqqf2e.pdf", attaches.get(3).title());
+        Assert.assertEquals("Ростелеком.xlsx", attaches.get(4).title());
     }
 }

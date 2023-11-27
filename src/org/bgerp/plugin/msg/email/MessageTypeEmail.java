@@ -305,7 +305,7 @@ public class MessageTypeEmail extends MessageType {
     private void addAttaches(MessageParser mp, Message msg) throws Exception {
         for (MessageAttach attach : mp.getAttachContent()) {
             FileData file = new FileData();
-            file.setTitle(attach.title);
+            file.setTitle(attach.title());
             msg.addAttach(file);
         }
     }
@@ -483,10 +483,10 @@ public class MessageTypeEmail extends MessageType {
             FileDataDAO fileDao = new FileDataDAO(con);
             for (MessageAttach attach : mp.getAttachContent()) {
                 FileData file = new FileData();
-                file.setTitle(attach.title);
+                file.setTitle(attach.title());
 
                 OutputStream out = fileDao.add(file);
-                IOUtils.copy(attach.inputStream, out);
+                IOUtils.copy(attach.inputStream(), out);
 
                 msg.addAttach(file);
             }
