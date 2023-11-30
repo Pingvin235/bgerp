@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.servlet.jsp.GetJsp;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.plugin.bil.invoice.Plugin;
 import org.bgerp.plugin.bil.invoice.num.NumberProvider;
@@ -18,7 +19,7 @@ import org.bgerp.util.TimeConvert;
 import ru.bgcrm.util.TimeUtils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class InvoiceType extends IdTitle {
+public class InvoiceType extends IdTitle implements GetJsp {
     private final static Map<String, String> TEMPLATE_JSP = Map.of(
         "eu_en", Plugin.PATH_JSP_USER + "/doc/eu_en.jsp",
         "ru_ru", Plugin.PATH_JSP_USER + "/doc/ru_ru.jsp"
@@ -92,6 +93,7 @@ public class InvoiceType extends IdTitle {
     /**
      * @return JSP template for rendering print form.
      */
+    @Override
     public String getJsp() {
         return jsp;
     }

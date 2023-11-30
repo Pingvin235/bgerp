@@ -4,13 +4,14 @@ import java.util.Set;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bgerp.app.cfg.ConfigMap;
+import org.bgerp.app.servlet.jsp.GetJsp;
 import org.bgerp.model.base.IdTitle;
 import org.bgerp.util.Log;
 
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.util.Utils;
 
-public class Pattern extends IdTitle {
+public class Pattern extends IdTitle implements GetJsp {
     private static final Log log = Log.getLog();
 
     public static final int TYPE_PDF_FORM = 1;
@@ -137,6 +138,7 @@ public class Pattern extends IdTitle {
         return xslt;
     }
 
+    @Override
     public String getJsp() {
         return jsp;
     }
