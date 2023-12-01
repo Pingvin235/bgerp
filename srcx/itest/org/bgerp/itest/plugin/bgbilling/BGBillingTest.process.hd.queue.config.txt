@@ -56,9 +56,3 @@ sort.mode.4.desc=true
 sort.combo.count=2
 sort.combo.1.default=3
 sort.combo.2.default=2
-
-#cnt=0
-#processor.{@inc:cnt}.title=Close Processes
-#processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
-#processor.{@cnt}.commands=setStatus:4
-#processor.{@cnt}.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp

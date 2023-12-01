@@ -66,24 +66,22 @@ media.print.1.columns=1:2;4:10;18:4
 media.print.1.orientation=portrait
 media.print.1.fileName=queue.pdf
 
-# Processors
-processor.{@inc:cnt}.title=Set status
-processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+# processors
+processor.{@inc:cnt}.title=Set Status (P)
+processor.{@cnt}.class=DefaultMarkedProcessor
 processor.{@cnt}.commands=setStatus:{@STATUS_OPEN_ID},{@STATUS_PROGRESS_ID},{@STATUS_WAIT_ID}
-processor.{@cnt}.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
 
-processor.{@inc:cnt}.title=Delete process
-processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
-processor.{@cnt}.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
+processor.{@inc:cnt}.title=Delete Processes (P)
+processor.{@cnt}.class=DefaultMarkedProcessor
 processor.{@cnt}.doExpression=delete()
 
-processor.{@inc:cnt}.title=Example document HTML queue
-processor.{@cnt}.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+processor.{@inc:cnt}.title=Print Report (P)
+processor.{@cnt}.class=DefaultMarkedProcessor
 # ID 100 comes from configuration of plugin Document
 processor.{@cnt}.commands=print:100
 processor.{@cnt}.responseType=file
 
-# TODO: setDate, deleteGroups
+# TODO: deleteGroups
 
 # url ending for open interface
 openUrl=test

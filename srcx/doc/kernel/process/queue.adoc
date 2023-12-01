@@ -845,21 +845,19 @@ processor.2.page=/WEB-INF/jspf/user/process/queue/custom/executor_list.jsp
 image::_res/i0105.png[]
 
 [[default-marked-processor]]
-В системе поставляется обработчик *ru.bgcrm.event.listener.DefaultMarkedProcessor*,
+В системе поставляется обработчик *DefaultMarkedProcessor*,
 позволяющий выполнять некоторые типовые обработки процессов в очереди. Шаблон добавления обработчика:
 
 [source]
 ----
 processor.<id>.title=<title>
-processor.<id>.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+processor.<id>.class=DefaultMarkedProcessor
 processor.<id>.commands=<commands>
 # additional JEXL script, without UI defined params
 processor.<id>.doExpression=<doExpression>
-#
-# если не печать
-processor.<id>.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
+
 # если печать
-processor.<id>.responseType=file
+#processor.<id>.responseType=file
 # если печать - открытие диалога печати браузера
 #processor.<id>.openPrintDialog=1
 ----
@@ -874,7 +872,7 @@ processor.<id>.responseType=file
 [square]
 * *setStatus:<statusIds>* - установка одного из статусов, коды которых через запятую перечислены в <statusIds>;
 * *addExecutors:<groupIds>* - добавление в процесс исполнителей из групп, коды которых перечислены через запятую в <groupIds>;
-* *setParam:<paramId>* - установка параметра процесса с кодом <paramId>, поддержаны типы 'date' и 'datetime';
+* *setParam:<paramId>* - установка параметра процесса с кодом <paramId>, поддержаны типы 'date' и 'datetime', 'list';
 * *print:<patternId>* - команда должна быть единственной в обработчике; генерация <<../../plugin/document/index.adoc#, бланка документа>> типа jspHtml либо pdfForm.
 
 Шаблон документа для команды print должен обладать scope=processQueue, title=<любая строка>. Пример шаблона:
@@ -890,8 +888,7 @@ Sample of processor, set parameter value and delete groups:
 [source]
 ----
 processor.6.title=Set date, delete groups
-processor.6.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
-processor.6.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
+processor.6.class=DefaultMarkedProcessor
 processor.6.commands=setParam:40
 processor.6.doExpression=deleteGroups(process.getGroupIds())
 ----

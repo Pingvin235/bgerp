@@ -44,7 +44,7 @@ document:pattern.104.flattening=1
 2) В конфигурации очереди процессов:
 # обработчик печати
 processor.6.title=Пример документа очередь PDF
-processor.6.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+processor.6.class=DefaultMarkedProcessor
 processor.6.commands=print:104
 processor.6.responseType=file
 

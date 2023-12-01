@@ -1,0 +1,2 @@
+A: Set param type 'list' values in DefaultMarkedProcessor. https://bgerp.org/doc/3.0/manual/kernel/process/queue.html#processor
+C: Show only WARN messages in bgerp.warn.log. https://bgerp.org/doc/3.0/manual/kernel/setup.html#status

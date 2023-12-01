@@ -56,7 +56,6 @@ $$.process.queue.filter = new function () {
 
 	// public functions
 	this.showSelected = showSelected;
-	this.checkedIfInputValue = checkedIfInputValue;
 
 	// $$.process.queue.filter.param
 	this.param = new function () {

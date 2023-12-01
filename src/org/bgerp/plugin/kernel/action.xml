@@ -238,7 +238,7 @@
 				<item action="ru.bgcrm.struts.action.ProcessQueueAction:typeTree, ru.bgcrm.struts.action.ProcessAction:typeTree" title="Process creation editor">
 					<b>onlyPermittedTypes</b> - 1-только типы процессов в разрешенные группы которого входит текущий пользователь, 0-без ограничений
 				</item>
-				<item action="ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke" title="Run processor"/>
+				<item action="ru.bgcrm.struts.action.ProcessQueueAction:processor, ru.bgcrm.struts.action.ProcessQueueAction:processCustomClassInvoke, ru.bgcrm.struts.action.ProcessAction:processCustomClassInvoke" title="Run processor"/>
 				<item action="ru.bgcrm.struts.action.ProcessAction:processDoCommands" title="Run macros"/>
 			</item>
 			<item action="ru.bgcrm.struts.action.ProcessAction:processCreate, ru.bgcrm.struts.action.ProcessAction:processCreateGroups, org.bgerp.action.usermob.ProcessAction:processCreate" title="Create process"/>

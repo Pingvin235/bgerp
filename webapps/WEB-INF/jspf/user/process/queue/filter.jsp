@@ -119,7 +119,7 @@
 				<li>
 					<c:set var="script">
 						<c:choose>
-							<c:when test="${not empty processor.page}">
+							<c:when test="${not empty processor.jsp}">
 								$('div[id*=${addActionFormUiid}]').hide();
 								$('#${addActionFormUiid}-${processor.id}').show().trigger('show');
 							</c:when>
@@ -167,14 +167,14 @@
 	<div style="display: inline-block;">
 		<c:forEach var="processor" items="${queue.getProcessors('user')}">
 			<form action="/user/process/queue.do" id="${addActionFormUiid}-${processor.id}" style="display: none;" class="in-mb1-all">
-				<input type="hidden" name="action" value="processCustomClassInvoke"/>
+				<input type="hidden" name="action" value="processor"/>
 				<input type="hidden" name="queueId" value="${queue.id}"/>
 				<input type="hidden" name="processorId" value="${processor.id}"/>
 				<input type="hidden" name="processIds"/>
 
-				<c:if test="${not empty processor.page}">
+				<c:if test="${not empty processor.jsp}">
 					<c:set var="processor" value="${processor}" scope="request"/>
-					<jsp:include page="${processor.page}"/>
+					<jsp:include page="${processor.jsp}"/>
 				</c:if>
 
 				<c:set var="doScript">
@@ -187,7 +187,7 @@
 					this.form.processIds.value = processIds;
 
 					const debug = $$.keys.altPressed() ? '&debug=true' : '';
-					if ('${processor.responseType}' === 'file') {
+					if (${processor.htmlReport}) {
 						const w = window.open( formUrl(this.form) + '&responseType=stream' + debug, 'Print', 'menubar=1, scrollbars=1, height=800, width=800');
 						<c:if test="${processor.configMap.openPrintDialog eq '1'}">
 							w.addEventListener('load', () => {

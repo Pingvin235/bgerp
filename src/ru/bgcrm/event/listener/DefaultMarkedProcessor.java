@@ -4,39 +4,47 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.bgerp.app.bean.annotation.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Setup;
+import org.bgerp.util.Dynamic;
 import org.bgerp.util.Log;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 
+import ru.bgcrm.cache.ParameterCache;
+import ru.bgcrm.dao.ParamValueDAO;
 import ru.bgcrm.dao.expression.Expression;
+import ru.bgcrm.dao.expression.ProcessChangeFunctions;
 import ru.bgcrm.dao.process.ProcessDAO;
-import ru.bgcrm.event.Event;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
 import ru.bgcrm.model.BGException;
+import ru.bgcrm.model.param.Parameter;
 import ru.bgcrm.model.process.Process;
+import ru.bgcrm.model.process.StatusChange;
+import ru.bgcrm.model.process.queue.Processor;
 import ru.bgcrm.plugin.document.docgen.CommonDocumentGenerator;
 import ru.bgcrm.plugin.document.event.DocumentGenerateEvent;
 import ru.bgcrm.plugin.document.model.Pattern;
+import ru.bgcrm.struts.action.ProcessAction;
 import ru.bgcrm.struts.action.ProcessCommandExecutor;
+import ru.bgcrm.struts.form.DynActionForm;
 import ru.bgcrm.util.Utils;
 import ru.bgcrm.util.sql.ConnectionSet;
 
-public class DefaultMarkedProcessor implements EventListener<Event> {
+@Bean
+public class DefaultMarkedProcessor extends Processor {
     private static final Log log = Log.getLog();
 
     private static final String COMMAND_SET_STATUS = ProcessCommandExecutor.COMMAND_SET_STATUS;
-    private static final String COMMAND_ADD_GROUPS = ProcessCommandExecutor.COMMAND_ADD_GROUPS;
     private static final String COMMAND_ADD_EXECUTORS = ProcessCommandExecutor.COMMAND_ADD_EXECUTORS;
     private static final String COMMAND_SET_PARAM = ProcessCommandExecutor.COMMAND_SET_PARAM;
     private static final String COMMAND_PRINT = "print";
@@ -58,7 +66,7 @@ public class DefaultMarkedProcessor implements EventListener<Event> {
             doExpression = config.get(Expression.DO_EXPRESSION_CONFIG_KEY);
         }
 
-        // called from JSP
+        @Dynamic
         public List<Command> getCommandList() {
             return commandList;
         }
@@ -103,136 +111,129 @@ public class DefaultMarkedProcessor implements EventListener<Event> {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    // end of static part
+
+    private final ConfigMap configMap;
+
+    public DefaultMarkedProcessor(int id, ConfigMap configMap) {
+        super(id, configMap);
+        this.configMap = configMap;
+    }
+
     @Override
-    public void notify(Event e, ConnectionSet conSet) throws BGException {
-        if (!(e instanceof ProcessMarkedActionEvent)) {
-            return;
-        }
+    public String getJsp() {
+        return "/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp";
+    }
 
-        ProcessMarkedActionEvent event = (ProcessMarkedActionEvent) e;
+    @Override
+    public void process(ProcessMarkedActionEvent e, ConnectionSet conSet) throws Exception {
+        DynActionForm form = e.getForm();
 
-        Connection con = conSet.getConnection();
-
-        ProcessDAO processDAO = new ProcessDAO(conSet.getConnection());
-
-        Config config = event.getProcessor().getConfigMap().getConfig(Config.class);
-
+        Config config = configMap.getConfig(Config.class);
         Command firstCommand = Utils.getFirst(config.commandList);
 
-        // команда печати может стоять только одна
+        // print command can be only alone
         if (config.commandList.size() == 1 && firstCommand.getName().equals(COMMAND_PRINT)) {
-            ru.bgcrm.plugin.document.Config documentConfig = Setup.getSetup()
-                    .getConfig(ru.bgcrm.plugin.document.Config.class);
+            ru.bgcrm.plugin.document.Config documentConfig = Setup.getSetup().getConfig(ru.bgcrm.plugin.document.Config.class);
 
             Pattern pattern = documentConfig.getPattern("processQueue", firstCommand.getPatternId());
             if (pattern == null) {
                 throw new BGException("Pattern not found.");
             }
 
-            HttpServletResponse response = event.getForm().getHttpResponse();
+            HttpServletResponse response = e.getForm().getHttpResponse();
 
             CommonDocumentGenerator generator = new CommonDocumentGenerator();
 
-            try {
-                OutputStream out = event.getForm().getHttpResponseOutputStream();
+            OutputStream out = e.getForm().getHttpResponseOutputStream();
 
-                // режим отладки
-                if (DocumentGenerateEvent.isDebug(event.getForm())) {
-                    response.setContentType("text/plain; charset=" + StandardCharsets.UTF_8.name());
+            // debug mode
+            if (DocumentGenerateEvent.isDebug(e.getForm())) {
+                response.setContentType("text/plain; charset=" + StandardCharsets.UTF_8.name());
 
-                    DocumentGenerateEvent docGenEvent = new DocumentGenerateEvent(event.getForm(), pattern,
-                            Process.OBJECT_TYPE, event.getProcessIds());
+                DocumentGenerateEvent docGenEvent = new DocumentGenerateEvent(e.getForm(), pattern, Process.OBJECT_TYPE, e.getProcessIds());
+                generator.notify(docGenEvent, conSet);
+                out.write(docGenEvent.getResultBytes());
+
+                out.flush();
+            } else if (pattern.getType() == Pattern.TYPE_PDF_FORM) {
+                Utils.setFileNameHeaders(response, pattern.getDocumentTitle());
+
+                Document document = new Document();
+                PdfCopy copy = new PdfCopy(document, out);
+                document.open();
+
+                for (Integer processId : e.getProcessIds()) {
+                    DocumentGenerateEvent docGenEvent = new DocumentGenerateEvent(e.getForm(), pattern,
+                            Process.OBJECT_TYPE, Collections.singletonList(processId));
                     generator.notify(docGenEvent, conSet);
-                    out.write(docGenEvent.getResultBytes());
 
-                    out.flush();
-                } else if (pattern.getType() == Pattern.TYPE_PDF_FORM) {
-                    Utils.setFileNameHeaders(response, pattern.getDocumentTitle());
+                    PdfReader reader = new PdfReader(docGenEvent.getResultBytes());
 
-                    Document document = new Document();
-
-                    PdfCopy copy = new PdfCopy(document, out);
-
-                    document.open();
-
-                    for (Integer processId : event.getProcessIds()) {
-                        DocumentGenerateEvent docGenEvent = new DocumentGenerateEvent(event.getForm(), pattern,
-                                Process.OBJECT_TYPE, Collections.singletonList(processId));
-                        generator.notify(docGenEvent, conSet);
-
-                        PdfReader reader = new PdfReader(docGenEvent.getResultBytes());
-
-                        int n = reader.getNumberOfPages();
-                        for (int page = 0; page < n;) {
-                            copy.addPage(copy.getImportedPage(reader, ++page));
-                        }
-
-                        copy.freeReader(reader);
-                        reader.close();
+                    int n = reader.getNumberOfPages();
+                    for (int page = 0; page < n;) {
+                        copy.addPage(copy.getImportedPage(reader, ++page));
                     }
 
-                    document.close();
-                } else if (pattern.getType() == Pattern.TYPE_XSLT_HTML || pattern.getType() == Pattern.TYPE_JSP_HTML) {
-                    response.setContentType("text/html; charset=" + StandardCharsets.UTF_8.name());
-
-                    DocumentGenerateEvent docGenEvent = new DocumentGenerateEvent(event.getForm(), pattern,
-                            Process.OBJECT_TYPE, event.getProcessIds());
-                    generator.notify(docGenEvent, conSet);
-
-                    out.write(docGenEvent.getResultBytes());
-
-                    out.flush();
+                    copy.freeReader(reader);
+                    reader.close();
                 }
 
-                event.setStreamResponse(true);
-            } catch (Exception ex) {
-                throw new BGException(ex);
+                document.close();
+            } else if (pattern.getType() == Pattern.TYPE_XSLT_HTML || pattern.getType() == Pattern.TYPE_JSP_HTML) {
+                response.setContentType("text/html; charset=" + StandardCharsets.UTF_8.name());
+
+                DocumentGenerateEvent docGenEvent = new DocumentGenerateEvent(e.getForm(), pattern, Process.OBJECT_TYPE, e.getProcessIds());
+                generator.notify(docGenEvent, conSet);
+
+                out.write(docGenEvent.getResultBytes());
+
+                out.flush();
             }
+
+            e.setStreamResponse(true);
         } else {
-            try {
-                for (int processId : event.getProcessIds()) {
-                    Process process = processDAO.getProcess(processId);
+            Connection con = conSet.getConnection();
 
-                    // набор стандартных команд по обработке процесса
-                    List<String> commandList = new ArrayList<String>();
+            for (int processId : e.getProcessIds()) {
+                Process process = new ProcessDAO(conSet.getSlaveConnection()).getProcessOrThrow(processId);
 
-                    for (Command command : config.commandList) {
-                        String name = command.getName();
-                        if (name.equals(COMMAND_SET_STATUS)) {
-                            int statusId = event.getForm().getParamInt("statusId");
-                            if (statusId != process.getStatusId())
-                                commandList.add(COMMAND_SET_STATUS + ":" + statusId);
-                        } else if (name.equals(COMMAND_ADD_EXECUTORS)) {
-                            Collection<Integer> groupIds = event.getForm().getParamValues("group");
-                            groupIds = CollectionUtils.subtract(groupIds, process.getGroupIds());
-                            if (!CollectionUtils.isEmpty(groupIds) )
-                                commandList.add(COMMAND_ADD_GROUPS + ":" + Utils.toString(groupIds));
+                for (Command command : config.commandList) {
+                    String name = command.getName();
+                    if (name.equals(COMMAND_SET_STATUS)) {
+                        int statusId = e.getForm().getParamInt("statusId");
+                        if (statusId != process.getStatusId()) {
+                            StatusChange change = new StatusChange();
+                            change.setDate(new Date());
+                            change.setProcessId(process.getId());
+                            change.setUserId(form.getUserId());
+                            change.setStatusId(statusId);
+                            change.setComment(this.getClass().getSimpleName());
 
-                            String executorIds = Utils.toString(event.getForm().getParamValues("executor"));
-                            if (Utils.notBlankString(executorIds)) {
-                                commandList.add(COMMAND_ADD_EXECUTORS + ":" + executorIds);
-                            }
-                        } else if (name.equals(COMMAND_SET_PARAM)) {
-                            String value = event.getForm().getParam("param" + command.paramId);
-                            if (Utils.notBlankString(value)) {
-                                commandList.add(COMMAND_SET_PARAM + ":" + command.paramId + ":" + value);
-                            }
+                            ProcessAction.processStatusUpdate(form, con, process, change);
+                        }
+                    } else if (name.equals(COMMAND_ADD_EXECUTORS)) {
+                        new ProcessChangeFunctions(process, form, con).addExecutors(form.getParamValues("executor"));
+                    } else if (name.equals(COMMAND_SET_PARAM)) {
+                        final String paramType = ParameterCache.getParameter(command.paramId).getType();
+                        final String paramName = "param" + command.paramId;
+                        var dao = new ParamValueDAO(con);
+                        if (Parameter.TYPE_DATE.equals(paramType))
+                            dao.updateParamDate(processId, command.paramId, form.getParamDate(paramName));
+                        else if (Parameter.TYPE_DATETIME.equals(paramType))
+                            dao.updateParamDateTime(processId, command.paramId, form.getParamDateTime(paramName));
+                        else if (Parameter.TYPE_LIST.equals(paramType)) {
+                            dao.updateParamList(processId, command.paramId, form.getParamValues(paramName));
                         }
                     }
-
-
-                    ProcessCommandExecutor.processDoCommands(con, event.getForm(), process, null, commandList);
-
-                    if (Utils.notBlankString(config.doExpression)) {
-                        log.debug("Executing expression: {}", config.doExpression);
-                        Expression.init(conSet, event, process).executeScript(config.doExpression);
-                    }
-
-                    conSet.commit();
                 }
-            } catch (Exception ex) {
-                throw new BGException(ex);
+
+                if (Utils.notBlankString(config.doExpression)) {
+                    log.debug("Executing expression: {}", config.doExpression);
+                    Expression.init(conSet, e, process).executeScript(config.doExpression);
+                }
+
+                conSet.commit();
             }
         }
     }

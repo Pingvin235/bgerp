@@ -13,7 +13,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts.action.ActionForward;
-import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.dao.process.ProcessQueueDAO;
 import org.bgerp.model.Pageable;
@@ -22,9 +21,7 @@ import ru.bgcrm.cache.ProcessQueueCache;
 import ru.bgcrm.cache.ProcessTypeCache;
 import ru.bgcrm.dao.process.SavedFilterDAO;
 import ru.bgcrm.dao.user.UserDAO;
-import ru.bgcrm.event.Event;
 import ru.bgcrm.event.ProcessMarkedActionEvent;
-import ru.bgcrm.event.listener.EventListener;
 import ru.bgcrm.model.BGException;
 import ru.bgcrm.model.BGIllegalArgumentException;
 import ru.bgcrm.model.BGMessageException;
@@ -77,15 +74,14 @@ public class ProcessQueueAction extends ProcessAction {
         return html(con, form, PATH_JSP + "/tree/process_type_tree.jsp");
     }
 
-    @SuppressWarnings("unchecked")
-    public ActionForward processCustomClassInvoke(DynActionForm form, ConnectionSet conSet) throws Exception {
+    public ActionForward processor(DynActionForm form, ConnectionSet conSet) throws Exception {
         Queue queue = ProcessQueueCache.getQueue(form.getParamInt("queueId"), form.getUser());
         if (queue != null) {
             Processor processor = queue.getProcessor(form.getParamInt("processorId"));
             List<Integer> processIds = Utils.toIntegerList(form.getParam("processIds"));
 
             ProcessMarkedActionEvent event = new ProcessMarkedActionEvent(form, processor, processIds);
-            ((EventListener<Event>) Bean.newInstance(processor.getClassName())).notify(event, conSet);
+            processor.process(event, conSet);
 
             if (event.isStreamResponse()) {
                 return null;

@@ -43,13 +43,13 @@ document:pattern.22.jsp=/WEB-INF/custom/plugin/document/order.jsp
 ----
 # печать актов
 processor.5.title=Печать актов
-processor.5.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+processor.5.class=DefaultMarkedProcessor
 processor.5.commands=print:21
 processor.5.responseType=file
 
 # печать заявок
 processor.6.title=Печать заявок
-processor.6.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+processor.6.class=DefaultMarkedProcessor
 processor.6.commands=print:22
 processor.6.responseType=file
 ----

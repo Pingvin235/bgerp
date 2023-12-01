@@ -2,6 +2,10 @@ filter.{@inc:cnt}.title=Param type 'address'
 filter.{@cnt}.type=param:{@PARAM_ADDRESS_ID}
 filter.{@inc:cnt}.title=Param type 'list'
 filter.{@cnt}.type=param:{@PARAM_LIST_ID}
+filter.{@inc:cnt}.title=Param type 'date'
+filter.{@cnt}.type=param:{@PARAM_DATE_ID}
+filter.{@inc:cnt}.title=Param type 'datetime'
+filter.{@cnt}.type=param:{@PARAM_DATETIME_ID}
 
 column.1.title=ID
 column.1.value=id
@@ -31,3 +35,16 @@ column.23.title=Param type 'phone'
 column.23.value=param:{@PARAM_PHONE_ID}
 column.25.title=Param type 'tree'
 column.25.value=param:{@PARAM_TREE_ID}
+
+# processors
+processor.{@inc:cnt}.title=Set param type 'list'
+processor.{@cnt}.class=DefaultMarkedProcessor
+processor.{@cnt}.commands=setParam:{@PARAM_LIST_ID}
+
+processor.{@inc:cnt}.title=Set param type 'date'
+processor.{@cnt}.class=DefaultMarkedProcessor
+processor.{@cnt}.commands=setParam:{@PARAM_DATE_ID}
+
+processor.{@inc:cnt}.title=Set param type 'datetime'
+processor.{@cnt}.class=DefaultMarkedProcessor
+processor.{@cnt}.commands=setParam:{@PARAM_DATETIME_ID}

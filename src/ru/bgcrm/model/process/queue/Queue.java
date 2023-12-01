@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bgerp.app.bean.Bean;
 import org.bgerp.app.cfg.ConfigMap;
 import org.bgerp.app.cfg.Preferences;
 import org.bgerp.model.base.IdTitle;
@@ -329,6 +330,13 @@ public class Queue extends IdTitle {
 
         for (Map.Entry<Integer, ConfigMap> me : config.subIndexed("processor.").entrySet()) {
             Processor p = new Processor(me.getKey(), me.getValue());
+            if (Utils.notBlankString(p.getClassName())) {
+                Class<?> clazz = Bean.getClass(p.getClassName());
+                p = (Processor) clazz.getDeclaredConstructor(int.class, ConfigMap.class).newInstance(me.getKey(), me.getValue());
+            } else if (Utils.isBlankString(p.getPageUrl())) {
+                log.error("For processor {} in process queue {} defined neither 'page.url' or 'className'", me.getKey(), id);
+                continue;
+            }
             processorMap.put(p.getId(), p);
         }
 

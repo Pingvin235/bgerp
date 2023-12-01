@@ -9,8 +9,8 @@
 				<c:when test="${not empty processor.pageUrl}">
 					<c:import url="${processor.pageUrl}?queueId=${queue.id}"/>
 				</c:when>
-				<c:when test="${not empty processor.page}">
-					<jsp:include page="${processor.page}"/>
+				<c:when test="${not empty processor.jsp}">
+					<jsp:include page="${processor.jsp}"/>
 				</c:when>
 			</c:choose>
 		</c:forEach>

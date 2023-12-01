@@ -16,7 +16,7 @@ document:pattern.100.jsp=/WEB-INF/jspf/user/plugin/document/template/example/pro
 2) В конфигурации очереди процессов:
 # обработчик печати
 processor.5.title=Пример документа очередь HTML
-processor.5.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+processor.5.class=DefaultMarkedProcessor
 processor.5.commands=print:100
 processor.5.responseType=file
 

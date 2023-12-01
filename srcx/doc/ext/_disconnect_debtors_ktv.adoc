@@ -135,12 +135,11 @@ action.1.style=padding: 0.1em 0.3em;
 action.1.commands=setStatus:3;open
 
 processor.1.title=Назначить
-processor.1.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
-processor.1.page=/WEB-INF/jspf/user/process/queue/default_marked_processor.jsp
+processor.1.class=DefaultMarkedProcessor
 processor.1.commands=setStatus:2,3;addExecutors:1
-#
+
 processor.2.title=Печать
-processor.2.class=ru.bgcrm.event.listener.DefaultMarkedProcessor
+processor.2.class=DefaultMarkedProcessor
 processor.2.commands=print:100
 processor.2.responseType=file
 ----
